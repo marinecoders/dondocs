@@ -1,0 +1,125 @@
+%=============================================================================
+%
+%                   "MEMORANDUM FOR" FORMAT MODULE (USMC-SPECIFIC)
+%
+%=============================================================================
+%
+% References:
+%   - MCO 5216.20B, Encl 1, Para 13.g(1)(c)
+%
+% What It Is:
+%   A special memo format for CMC, ACMC, and DMCS signature.
+%
+% Key Characteristics:
+%   - NO "From:" or "To:" line — just "MEMORANDUM FOR [addressee]"
+%   - Signature line: 4th line below last line of text, begin at center
+%   - NO complimentary close
+%
+% When Responding:
+%   If CMC receives a "MEMORANDUM FOR" from another office, respond
+%   using the same format on CMC letterhead.
+%
+%=============================================================================
+
+
+%=============================================================================
+%                    MEMORANDUM FOR ADDRESSEE
+%=============================================================================
+% The addressee appears after "MEMORANDUM FOR"
+
+\newcommand{\MemorandumForAddressee}{}
+\newcommand{\setMemorandumForAddressee}[1]{\renewcommand{\MemorandumForAddressee}{#1}}
+
+
+%=============================================================================
+%                    DATE/SSIC BLOCK AND MEMO TITLE
+%=============================================================================
+% Uses letterhead with SSIC block
+% "MEMORANDUM FOR [ADDRESSEE]" instead of From:/To: lines
+
+\newcommand{\printDateAndTitle}{%
+    \vspace*{0.5in}%
+    \hfill
+    \begin{tabular}[t]{@{}l@{}}
+        \ifInReplyEnabled
+            {\fontsize{5pt}{6pt}\selectfont IN REPLY REFER TO}\\
+        \fi
+        \DocumentSSIC\\
+        \DocumentSerial\\
+        \DocumentDate
+    \end{tabular}\\[24pt]
+    \noindent MEMORANDUM FOR \MemorandumForAddressee\\[12pt]
+}
+
+
+%=============================================================================
+%                           SUBJECT BLOCK
+%=============================================================================
+% No From:/To: lines - just Subject
+
+\newcommand{\printAddressBlock}{%
+    \noindent
+    \begin{tabular}[t]{@{}l@{\hspace{1em}}p{5.5in}@{}}
+        Subj: & \SubjectLine\tabularnewline
+    \end{tabular}%
+    %
+    % CUI block
+    \ifCUIEnabled
+        \\[12pt]%
+        \noindent
+        Controlled by: \CUIControlledBy\\
+        CUI Category: \CUICategory\\
+        Limited Dissemination Control: \CUIDissemination\\
+        POC: \href{mailto:\POCEmail}{\POCEmail}%
+        \\[12pt]%
+        \noindent\CUIDistStatement
+    \fi
+    %
+    % Classified block
+    \ifClassifiedEnabled
+        \\[12pt]%
+        \noindent
+        Classified by: \ClassifiedBy\\
+        Derived from: \DerivedFrom\\
+        Reason: \ClassificationReason\\
+        Declassify on: \DeclassifyOn\\
+        POC: \href{mailto:\POCEmail}{\POCEmail}
+    \fi
+}
+
+
+%=============================================================================
+%                SIGNATURE BLOCK ("Memorandum For" Style)
+%=============================================================================
+% Signature line: 4th line below last line of text, begin at center
+% NO complimentary close
+% Per MCO 5216.20B, Encl 1, Para 13.g(1)(c)
+
+\newcommand{\printSignature}{%
+    \vspace{48pt}%  % 4 blank lines (~48pt at 12pt font)
+    \hspace{3.25in}%
+    \begin{minipage}{3in}
+        \raggedright
+        \ifx\SignatureImage\empty\else
+            \IfFileExists{attachments/\SignatureImage}{%
+                \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
+            }{}%
+        \fi
+        \MakeUppercase{\SignatoryName}\\
+        \SignatoryRank\\
+        \SignatoryTitle
+    \end{minipage}
+}
+
+
+%=============================================================================
+%                              PAGE STYLE
+%=============================================================================
+
+\fancypagestyle{documentpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyfoot[C]{\thepage\ of \pageref{LastPage}}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}

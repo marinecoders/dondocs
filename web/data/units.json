@@ -1,0 +1,200 @@
+{
+  "description": "USMC Unit Directory - Common Units and Addresses",
+  "note": "This is a starter list. Full unit data can be imported from MCTFS or unit tracker spreadsheets.",
+  "units": [
+    {
+      "name": "1ST MARINE DIVISION",
+      "higherHQ": "I MARINE EXPEDITIONARY FORCE",
+      "address": "BOX 555300, CAMP PENDLETON, CA 92055",
+      "base": "Camp Pendleton"
+    },
+    {
+      "name": "2ND MARINE DIVISION",
+      "higherHQ": "II MARINE EXPEDITIONARY FORCE",
+      "address": "PSC BOX 20004, CAMP LEJEUNE, NC 28542",
+      "base": "Camp Lejeune"
+    },
+    {
+      "name": "3RD MARINE DIVISION",
+      "higherHQ": "III MARINE EXPEDITIONARY FORCE",
+      "address": "UNIT 35630, FPO AP 96373",
+      "base": "Camp Courtney, Okinawa"
+    },
+    {
+      "name": "1ST MARINE REGIMENT",
+      "higherHQ": "1ST MARINE DIVISION",
+      "address": "BOX 555301, CAMP PENDLETON, CA 92055",
+      "base": "Camp Pendleton"
+    },
+    {
+      "name": "5TH MARINE REGIMENT",
+      "higherHQ": "1ST MARINE DIVISION",
+      "address": "BOX 555305, CAMP PENDLETON, CA 92055",
+      "base": "Camp Pendleton"
+    },
+    {
+      "name": "6TH MARINE REGIMENT",
+      "higherHQ": "2ND MARINE DIVISION",
+      "address": "PSC BOX 20006, CAMP LEJEUNE, NC 28542",
+      "base": "Camp Lejeune"
+    },
+    {
+      "name": "7TH MARINE REGIMENT",
+      "higherHQ": "1ST MARINE DIVISION",
+      "address": "BOX 788100, TWENTYNINE PALMS, CA 92278",
+      "base": "Twentynine Palms"
+    },
+    {
+      "name": "8TH MARINE REGIMENT",
+      "higherHQ": "2ND MARINE DIVISION",
+      "address": "PSC BOX 20008, CAMP LEJEUNE, NC 28542",
+      "base": "Camp Lejeune"
+    },
+    {
+      "name": "1ST BATTALION, 1ST MARINES",
+      "higherHQ": "1ST MARINE REGIMENT",
+      "address": "BOX 555311, CAMP PENDLETON, CA 92055",
+      "base": "Camp Pendleton"
+    },
+    {
+      "name": "1ST BATTALION, 6TH MARINES",
+      "higherHQ": "6TH MARINE REGIMENT",
+      "address": "PSC BOX 20123, CAMP LEJEUNE, NC 28542",
+      "base": "Camp Lejeune"
+    },
+    {
+      "name": "2ND BATTALION, 6TH MARINES",
+      "higherHQ": "6TH MARINE REGIMENT",
+      "address": "PSC BOX 20126, CAMP LEJEUNE, NC 28542",
+      "base": "Camp Lejeune"
+    },
+    {
+      "name": "3RD BATTALION, 6TH MARINES",
+      "higherHQ": "6TH MARINE REGIMENT",
+      "address": "PSC BOX 20136, CAMP LEJEUNE, NC 28542",
+      "base": "Camp Lejeune"
+    },
+    {
+      "name": "1ST MARINE AIRCRAFT WING",
+      "higherHQ": "III MARINE EXPEDITIONARY FORCE",
+      "address": "UNIT 35631, FPO AP 96373",
+      "base": "MCAS Futenma, Okinawa"
+    },
+    {
+      "name": "2ND MARINE AIRCRAFT WING",
+      "higherHQ": "II MARINE EXPEDITIONARY FORCE",
+      "address": "PSC BOX 8050, CHERRY POINT, NC 28533",
+      "base": "MCAS Cherry Point"
+    },
+    {
+      "name": "3RD MARINE AIRCRAFT WING",
+      "higherHQ": "I MARINE EXPEDITIONARY FORCE",
+      "address": "BOX 452001, SAN DIEGO, CA 92145",
+      "base": "MCAS Miramar"
+    },
+    {
+      "name": "1ST MARINE LOGISTICS GROUP",
+      "higherHQ": "I MARINE EXPEDITIONARY FORCE",
+      "address": "BOX 555500, CAMP PENDLETON, CA 92055",
+      "base": "Camp Pendleton"
+    },
+    {
+      "name": "2ND MARINE LOGISTICS GROUP",
+      "higherHQ": "II MARINE EXPEDITIONARY FORCE",
+      "address": "PSC BOX 20080, CAMP LEJEUNE, NC 28542",
+      "base": "Camp Lejeune"
+    },
+    {
+      "name": "3RD MARINE LOGISTICS GROUP",
+      "higherHQ": "III MARINE EXPEDITIONARY FORCE",
+      "address": "UNIT 35640, FPO AP 96373",
+      "base": "Camp Kinser, Okinawa"
+    },
+    {
+      "name": "MARINE FORCES RESERVE",
+      "higherHQ": "HEADQUARTERS MARINE CORPS",
+      "address": "2000 OPELOUSAS AVENUE, NEW ORLEANS, LA 70114",
+      "base": "New Orleans"
+    },
+    {
+      "name": "MARINE CORPS RECRUIT DEPOT SAN DIEGO",
+      "higherHQ": "TRAINING AND EDUCATION COMMAND",
+      "address": "1600 HENDERSON AVENUE, SAN DIEGO, CA 92140",
+      "base": "MCRD San Diego"
+    },
+    {
+      "name": "MARINE CORPS RECRUIT DEPOT PARRIS ISLAND",
+      "higherHQ": "TRAINING AND EDUCATION COMMAND",
+      "address": "283 BLVD DE FRANCE, PARRIS ISLAND, SC 29905",
+      "base": "MCRD Parris Island"
+    },
+    {
+      "name": "THE BASIC SCHOOL",
+      "higherHQ": "TRAINING AND EDUCATION COMMAND",
+      "address": "24164 BELLEAU AVENUE, QUANTICO, VA 22134",
+      "base": "MCB Quantico"
+    },
+    {
+      "name": "OFFICER CANDIDATES SCHOOL",
+      "higherHQ": "TRAINING AND EDUCATION COMMAND",
+      "address": "2189 ELROD AVENUE, QUANTICO, VA 22134",
+      "base": "MCB Quantico"
+    },
+    {
+      "name": "MARINE CORPS COMBAT DEVELOPMENT COMMAND",
+      "higherHQ": "HEADQUARTERS MARINE CORPS",
+      "address": "3300 RUSSELL ROAD, QUANTICO, VA 22134",
+      "base": "MCB Quantico"
+    },
+    {
+      "name": "23RD MARINE REGIMENT",
+      "higherHQ": "4TH MARINE DIVISION",
+      "address": "2000 OPELOUSAS AVENUE, NEW ORLEANS, LA 70114",
+      "base": "New Orleans (Reserve)"
+    },
+    {
+      "name": "4TH MARINE DIVISION",
+      "higherHQ": "MARINE FORCES RESERVE",
+      "address": "2000 OPELOUSAS AVENUE, NEW ORLEANS, LA 70114",
+      "base": "New Orleans (Reserve)"
+    }
+  ],
+  "bases": {
+    "Camp Pendleton": {
+      "location": "Oceanside, CA",
+      "state": "California"
+    },
+    "Camp Lejeune": {
+      "location": "Jacksonville, NC",
+      "state": "North Carolina"
+    },
+    "Twentynine Palms": {
+      "location": "Twentynine Palms, CA",
+      "state": "California"
+    },
+    "MCB Quantico": {
+      "location": "Quantico, VA",
+      "state": "Virginia"
+    },
+    "MCAS Cherry Point": {
+      "location": "Havelock, NC",
+      "state": "North Carolina"
+    },
+    "MCAS Miramar": {
+      "location": "San Diego, CA",
+      "state": "California"
+    },
+    "MCRD San Diego": {
+      "location": "San Diego, CA",
+      "state": "California"
+    },
+    "MCRD Parris Island": {
+      "location": "Parris Island, SC",
+      "state": "South Carolina"
+    },
+    "Camp Courtney, Okinawa": {
+      "location": "Okinawa, Japan",
+      "state": "Japan"
+    }
+  }
+}

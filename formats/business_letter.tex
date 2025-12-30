@@ -1,0 +1,80 @@
+%=============================================================================
+%
+%                     BUSINESS LETTER FORMAT MODULE
+%
+%=============================================================================
+%
+% References:
+%   - SECNAV M-5216.5 (DON Correspondence Manual), Chapter 3
+%   - MCO 5216.20B w/Admin CH-4 (Marine Corps Supplement)
+%
+%=============================================================================
+
+
+%=============================================================================
+%                              DATE BLOCK
+%=============================================================================
+
+\newcommand{\printDateAndTitle}{%
+    \noindent \DocumentDate
+}
+
+
+%=============================================================================
+%                    INSIDE ADDRESS AND SALUTATION
+%=============================================================================
+
+\newcommand{\printAddressBlock}{%
+    \\[12pt]%
+    \noindent
+    \ToLine\\
+    \ifx\ToLineTwo\empty\else\ToLineTwo\\\fi
+    \ifx\ToLineThree\empty\else\ToLineThree\\\fi
+    \ifx\ToLineFour\empty\else\ToLineFour\\\fi
+    \\[12pt]%
+    \noindent \BusinessSalutation
+    %
+    % CUI block
+    \ifCUIEnabled
+        \\[12pt]%
+        \noindent \textbf{CUI//\CUICategory}\\
+        \noindent \CUIDistStatement
+    \fi
+}
+
+
+%=============================================================================
+%                  SIGNATURE BLOCK (Business Letter Style)
+%=============================================================================
+
+\newcommand{\printSignature}{%
+    \vspace{24pt}%
+    \noindent \BusinessClose
+    \vspace{36pt}%
+    
+    \noindent
+    \begin{minipage}{3in}
+        \raggedright
+        \ifx\SignatureImage\empty\else
+            \IfFileExists{attachments/\SignatureImage}{%
+                \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
+            }{}%
+        \fi
+        \MakeUppercase{\SignatoryName}\\
+        \SignatoryRank\\
+        \SignatoryTitle
+    \end{minipage}
+}
+
+
+%=============================================================================
+%                              PAGE STYLE
+%=============================================================================
+
+\fancypagestyle{documentpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyfoot[C]{\thepage\ of \pageref{LastPage}}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}

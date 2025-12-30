@@ -1,0 +1,180 @@
+{
+  "description": "Standard Subject Identification Codes (SSIC) per SECNAV M-5210.2",
+  "source": "SECNAV M-5210.2 (Department of the Navy Standard Subject Identification Codes)",
+  "codes": {
+    "1000": {
+      "title": "Military Personnel",
+      "subcodes": {
+        "1001": "General Military Personnel Matters",
+        "1020": "Officer Personnel",
+        "1040": "Enlisted Personnel",
+        "1050": "Reserve Personnel",
+        "1070": "Casualties",
+        "1080": "Military Personnel Records",
+        "1300": "Assignments and Distributions",
+        "1306": "Assignment and Distribution of Officers",
+        "1320": "Enlisted Transfers and Discharges",
+        "1500": "Recruiting",
+        "1510": "Officer Procurement",
+        "1520": "Enlisted Recruiting",
+        "1600": "Performance",
+        "1610": "Performance Evaluation",
+        "1650": "Morale, Welfare and Recreation"
+      }
+    },
+    "2000": {
+      "title": "Telecommunications",
+      "subcodes": {
+        "2000": "General Telecommunications",
+        "2300": "Telecommunications Security",
+        "2400": "Telecommunications Systems"
+      }
+    },
+    "3000": {
+      "title": "Operations and Readiness",
+      "subcodes": {
+        "3000": "General Operations and Readiness",
+        "3040": "Operations Security (OPSEC)",
+        "3050": "Training",
+        "3070": "Exercises",
+        "3100": "Amphibious Operations",
+        "3120": "Joint Operations",
+        "3140": "Special Operations",
+        "3300": "Mobility",
+        "3400": "Nuclear, Biological, Chemical Defense",
+        "3500": "Training and Education",
+        "3502": "Training Standards",
+        "3510": "Individual Training",
+        "3520": "Unit Training",
+        "3540": "Combat Training",
+        "3570": "Readiness"
+      }
+    },
+    "4000": {
+      "title": "Logistics",
+      "subcodes": {
+        "4000": "General Logistics",
+        "4100": "Logistics Plans and Operations",
+        "4200": "Materiel Management",
+        "4400": "Food Service",
+        "4500": "Transportation",
+        "4600": "Facilities and Real Property",
+        "4700": "General Stores",
+        "4730": "Personal Property",
+        "4790": "Hazardous Material",
+        "4855": "Physical Security Equipment"
+      }
+    },
+    "5000": {
+      "title": "General Administration and Management",
+      "subcodes": {
+        "5000": "General Administrative Matters",
+        "5040": "Equal Opportunity",
+        "5050": "Drug and Alcohol Abuse",
+        "5100": "Safety",
+        "5200": "Security",
+        "5210": "Information Security",
+        "5211": "Classified Material Control",
+        "5212": "Personnel Security",
+        "5215": "Communications Security",
+        "5216": "Correspondence and Directives",
+        "5220": "Industrial Security",
+        "5230": "Physical Security",
+        "5300": "Administrative Investigations",
+        "5354": "Line of Duty/Misconduct",
+        "5370": "Adverse Administrative Actions",
+        "5400": "Public Affairs",
+        "5500": "History",
+        "5510": "Command History",
+        "5600": "Civilian Personnel",
+        "5700": "Visit Requests",
+        "5720": "Public Relations",
+        "5800": "Legal",
+        "5810": "Military Justice",
+        "5813": "Non-Judicial Punishment",
+        "5814": "Courts-Martial",
+        "5820": "Legal Assistance",
+        "5830": "Claims",
+        "5840": "JAG Manual Investigations"
+      }
+    },
+    "6000": {
+      "title": "Medicine and Dentistry",
+      "subcodes": {
+        "6000": "General Medical/Dental",
+        "6100": "Medical Readiness",
+        "6150": "Medical Records",
+        "6200": "Occupational Health",
+        "6300": "Mental Health",
+        "6400": "Dental"
+      }
+    },
+    "7000": {
+      "title": "Financial Management",
+      "subcodes": {
+        "7000": "General Financial Management",
+        "7010": "Budgeting",
+        "7100": "Accounting",
+        "7200": "Pay and Allowances",
+        "7220": "Travel",
+        "7300": "Disbursing",
+        "7400": "Commissary/Exchange",
+        "7500": "Non-Appropriated Funds"
+      }
+    },
+    "8000": {
+      "title": "Ordnance Material",
+      "subcodes": {
+        "8000": "General Ordnance",
+        "8010": "Ordnance Allowances",
+        "8020": "Ordnance Supply",
+        "8030": "Ordnance Maintenance",
+        "8040": "Ordnance Publications",
+        "8050": "Ordnance Safety"
+      }
+    },
+    "9000": {
+      "title": "Ships Design and Material",
+      "subcodes": {
+        "9000": "General Ships",
+        "9080": "Boats and Craft",
+        "9320": "Hull Structures"
+      }
+    },
+    "10000": {
+      "title": "General Material",
+      "subcodes": {
+        "10110": "Clothing and Textiles",
+        "10120": "Subsistence",
+        "10520": "Vehicles",
+        "10570": "Engineering Equipment"
+      }
+    },
+    "11000": {
+      "title": "Facilities and Activities Ashore",
+      "subcodes": {
+        "11000": "General Facilities",
+        "11010": "Real Estate",
+        "11100": "Shore Activities",
+        "11200": "Construction"
+      }
+    },
+    "12000": {
+      "title": "Civilian Personnel",
+      "subcodes": {
+        "12000": "General Civilian Personnel",
+        "12300": "Civilian Training",
+        "12400": "Employee Relations",
+        "12600": "Classification"
+      }
+    },
+    "13000": {
+      "title": "Aeronautical and Astronautical Material",
+      "subcodes": {
+        "13000": "General Aviation",
+        "13020": "Aircraft Allowances",
+        "13040": "Aircraft Maintenance"
+      }
+    }
+  }
+}

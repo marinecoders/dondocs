@@ -1,0 +1,817 @@
+%=============================================================================
+%
+%                 USMC CORRESPONDENCE TEMPLATE (Modular Architecture)
+%
+%=============================================================================
+%
+% References:
+%   - SECNAV M-5216.5 (DON Correspondence Manual)
+%   - MCO 5216.20B w/Admin CH-4 (Marine Corps Supplement)
+%   - DoDI 5200.48 (CUI marking requirements)
+%
+% Supported Document Types:
+%
+%   LETTERS:
+%   - standard_letter           Standard Letter (Ch 2) - plain bond
+%   - naval_letter              Naval Letter (Ch 2) - on letterhead
+%   - business_letter           Business Letter (Ch 11)
+%   - multiple_address_letter   Multiple-Address Letter (Ch 8)
+%   - same_page_endorsement     Same-Page Endorsement (Ch 9)
+%   - new_page_endorsement      New-Page Endorsement (Ch 9)
+%   - joint_letter              Joint Letter (Ch 7)
+%   - joint_memorandum          Joint Memorandum (Ch 7)
+%
+%   MEMORANDUMS:
+%   - mfr                       Memorandum for the Record (Ch 10, Para 1)
+%   - plain_paper_memorandum    Plain-Paper Memorandum (Ch 10, Para 3)
+%   - letterhead_memorandum     Letterhead Memorandum (Ch 10, Para 4)
+%   - decision_memorandum       Decision Memorandum (Ch 10, Para 5)
+%   - moa                       Memorandum of Agreement (Ch 10, Para 6)
+%   - mou                       Memorandum of Understanding (Ch 10, Para 6)
+%   - from_to_memorandum        From-To Memorandum (Ch 10, Para 2) - TODO
+%
+%   EXECUTIVE MEMORANDUMS (HqDON/OSD):
+%   - standard_memorandum       Standard Memorandum (Ch 12)
+%   - action_memorandum         Action Memorandum (Ch 12)
+%   - information_memorandum    Information Memorandum (Ch 12)
+%
+%   USMC-SPECIFIC:
+%   - mf                        "Memorandum For" (MCO 5216.20B)
+%
+% CONFIGURATION:
+%   Edit files in the config/ folder:
+%   - config/document.tex      - Document type, SSIC, Date, From, To, Via, Subject
+%   - config/letterhead.tex    - Unit name and address
+%   - config/classification.tex - CUI markings and distribution
+%   - config/signatory.tex     - Signature block (full and abbreviated)
+%   - config/references.tex    - Reference list
+%   - config/reference-urls.tex - Clickable URLs for references
+%   - config/enclosures.tex    - Enclosure list (PDFs go in enclosures/ folder)
+%   - config/body.tex          - Document body content
+%
+% Format-specific code is in the formats/ folder
+%
+%=============================================================================
+
+
+\documentclass[12pt, letterpaper]{article}
+
+
+%=============================================================================
+%                              PACKAGE IMPORTS
+%=============================================================================
+
+
+%-----------------------------------------------------------------------------
+% PAGE GEOMETRY - SECNAV M-5216.5 COMPLIANT
+%-----------------------------------------------------------------------------
+% Chapter 7-2(1): "Allow 1-inch top, bottom, left, and right margins"
+% Chapter 7-16: "Center page numbers 1/2 inch from the bottom edge"
+%-----------------------------------------------------------------------------
+
+\usepackage[
+    letterpaper,
+    top     = 1in,
+    bottom  = 1in,
+    left    = 1in,
+    right   = 1in,
+    headheight = 14pt,
+    headsep    = 0pt,
+    footskip   = 0.5in
+]{geometry}
+
+
+%-----------------------------------------------------------------------------
+% FONTS AND ENCODING
+%-----------------------------------------------------------------------------
+
+\usepackage[T1]{fontenc}
+\usepackage{courier}
+
+
+%-----------------------------------------------------------------------------
+% HEADERS, FOOTERS, AND PAGE NUMBERING
+%-----------------------------------------------------------------------------
+
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+
+%-----------------------------------------------------------------------------
+% GRAPHICS AND COLORS
+%-----------------------------------------------------------------------------
+
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+
+%-----------------------------------------------------------------------------
+% ABSOLUTE POSITIONING (for CUI markings)
+%-----------------------------------------------------------------------------
+
+\usepackage[absolute, overlay]{textpos}
+\setlength{\TPHorizModule}{1in}
+\setlength{\TPVertModule}{1in}
+
+
+%-----------------------------------------------------------------------------
+% LISTS AND ENUMERATION
+%-----------------------------------------------------------------------------
+
+\usepackage{enumitem}
+
+
+%-----------------------------------------------------------------------------
+% HYPERLINKS
+%-----------------------------------------------------------------------------
+
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks  = true,
+    linkcolor   = blue,
+    urlcolor    = blue,
+    pdfborder   = {0 0 0},
+}
+
+
+%-----------------------------------------------------------------------------
+% SPACING AND PARAGRAPHS
+%-----------------------------------------------------------------------------
+
+\usepackage{setspace}
+\usepackage{parskip}
+
+
+%-----------------------------------------------------------------------------
+% TABLES
+%-----------------------------------------------------------------------------
+
+\usepackage{tabularx}
+\usepackage{array}
+
+
+%-----------------------------------------------------------------------------
+% UTILITIES
+%-----------------------------------------------------------------------------
+
+\usepackage{calc}
+\usepackage{ifthen}
+
+
+%-----------------------------------------------------------------------------
+% PDF INCLUSION (for enclosures)
+%-----------------------------------------------------------------------------
+
+\usepackage{pdfpages}
+
+
+%=============================================================================
+%                           FONT CONFIGURATION
+%=============================================================================
+%
+% SECNAV M-5216.5:
+%   Chapter 2-20: "Courier New 12-point is the preferred font style and size"
+%   Chapter 7-2(1): "Do not right, center, or full justify text"
+%
+%=============================================================================
+
+\renewcommand{\familydefault}{\ttdefault}
+\linespread{1.0}
+\raggedright
+
+% MCO 5216.20B Section 2, para 1.a: PMS 288 blue for letterhead
+\definecolor{navyblue}{RGB}{0, 32, 91}
+
+
+%=============================================================================
+%                         PARAGRAPH FORMATTING
+%=============================================================================
+
+\setlength{\parindent}{0in}
+\setlength{\parskip}{0pt}  % Format modules control their own spacing
+
+
+%=============================================================================
+%                      DOCUMENT TYPE CONFIGURATION
+%=============================================================================
+
+\newcommand{\DocumentType}{}
+\newcommand{\setDocumentType}[1]{\renewcommand{\DocumentType}{#1}}
+
+
+%=============================================================================
+%                       CLASSIFICATION CONFIGURATION
+%=============================================================================
+
+
+%-----------------------------------------------------------------------------
+% Classification Toggles
+%-----------------------------------------------------------------------------
+
+\newif\ifClassificationEnabled
+\ClassificationEnabledfalse
+
+\newif\ifCUIEnabled
+\CUIEnabledfalse
+
+\newif\ifClassifiedEnabled
+\ClassifiedEnabledfalse
+
+
+%-----------------------------------------------------------------------------
+% Classification Marking (shown in header/footer)
+%-----------------------------------------------------------------------------
+
+\newcommand{\ClassificationMarking}{}
+
+
+%-----------------------------------------------------------------------------
+% CUI-Specific Fields
+%-----------------------------------------------------------------------------
+
+\newcommand{\CUIControlledBy}{}
+\newcommand{\CUICategory}{}
+\newcommand{\CUIDissemination}{}
+\newcommand{\CUIDistStatement}{}
+
+
+%-----------------------------------------------------------------------------
+% Classified-Specific Fields
+%-----------------------------------------------------------------------------
+
+\newcommand{\ClassifiedBy}{}
+\newcommand{\DerivedFrom}{}
+\newcommand{\DeclassifyOn}{}
+\newcommand{\ClassificationReason}{}
+
+
+%-----------------------------------------------------------------------------
+% Classification Level Setter
+%-----------------------------------------------------------------------------
+
+\newcommand{\setClassification}[1]{%
+    \renewcommand{\ClassificationMarking}{#1}%
+    \ClassificationEnabledtrue
+    \def\tmpCUI{CUI}%
+    \def\tmpArg{#1}%
+    \ifx\tmpArg\tmpCUI
+        \CUIEnabledtrue
+    \else
+        \ClassifiedEnabledtrue
+    \fi
+}
+
+
+%-----------------------------------------------------------------------------
+% CUI Field Setters
+%-----------------------------------------------------------------------------
+
+\newcommand{\setCUIControlledBy}[1]{\renewcommand{\CUIControlledBy}{#1}}
+\newcommand{\setCUICategory}[1]{\renewcommand{\CUICategory}{#1}}
+\newcommand{\setCUIDissemination}[1]{\renewcommand{\CUIDissemination}{#1}}
+\newcommand{\setCUIDistStatement}[1]{\renewcommand{\CUIDistStatement}{#1}}
+
+
+%-----------------------------------------------------------------------------
+% Classified Field Setters
+%-----------------------------------------------------------------------------
+
+\newcommand{\setClassifiedBy}[1]{\renewcommand{\ClassifiedBy}{#1}}
+\newcommand{\setDerivedFrom}[1]{\renewcommand{\DerivedFrom}{#1}}
+\newcommand{\setDeclassifyOn}[1]{\renewcommand{\DeclassifyOn}{#1}}
+\newcommand{\setClassificationReason}[1]{\renewcommand{\ClassificationReason}{#1}}
+
+
+%=============================================================================
+%                        DOCUMENT METADATA COMMANDS
+%=============================================================================
+
+
+%-----------------------------------------------------------------------------
+% SSIC (Standard Subject Identification Code)
+%-----------------------------------------------------------------------------
+
+\newcommand{\DocumentSSIC}{}
+\newcommand{\setSSIC}[1]{\renewcommand{\DocumentSSIC}{#1}}
+
+
+%-----------------------------------------------------------------------------
+% Serial Number
+%-----------------------------------------------------------------------------
+
+\newcommand{\DocumentSerial}{}
+\newcommand{\setSerial}[1]{\renewcommand{\DocumentSerial}{#1}}
+
+
+%-----------------------------------------------------------------------------
+% In Reply Refer To (Optional)
+%-----------------------------------------------------------------------------
+% SECNAV M-5216.5 App C, Para 1.a: "IN REPLY REFER TO" in small caps
+% Printed above the sender's symbols block (SSIC/Serial/Date)
+
+\newif\ifInReplyEnabled
+\InReplyEnabledfalse
+
+\newcommand{\enableInReplyReferTo}{\InReplyEnabledtrue}
+
+
+%-----------------------------------------------------------------------------
+% Date
+%-----------------------------------------------------------------------------
+
+\newcommand{\DocumentDate}{}
+\newcommand{\setDocumentDate}[1]{\renewcommand{\DocumentDate}{#1}}
+
+
+%-----------------------------------------------------------------------------
+% From Block
+%-----------------------------------------------------------------------------
+% Supports up to 4 lines for detailed sender information:
+%   Line 1: Rank Name EDIPI/MOS Service
+%   Line 2: Unit/Organization
+%   Line 3: Address (City, State ZIP)
+%   Line 4: Phone / Email
+
+\newcommand{\FromLine}{}
+\newcommand{\FromLineTwo}{}
+\newcommand{\FromLineThree}{}
+\newcommand{\FromLineFour}{}
+
+\newcommand{\setFrom}[4]{%
+    \renewcommand{\FromLine}{#1}%
+    \renewcommand{\FromLineTwo}{#2}%
+    \renewcommand{\FromLineThree}{#3}%
+    \renewcommand{\FromLineFour}{#4}%
+}
+
+
+%-----------------------------------------------------------------------------
+% To Block
+%-----------------------------------------------------------------------------
+
+\newcommand{\ToLine}{}
+\newcommand{\ToLineTwo}{}
+\newcommand{\ToLineThree}{}
+\newcommand{\ToLineFour}{}
+
+\newcommand{\setTo}[4]{%
+    \renewcommand{\ToLine}{#1}%
+    \renewcommand{\ToLineTwo}{#2}%
+    \renewcommand{\ToLineThree}{#3}%
+    \renewcommand{\ToLineFour}{#4}%
+}
+
+
+%-----------------------------------------------------------------------------
+% Via Block (Optional)
+%-----------------------------------------------------------------------------
+
+\newif\ifViaEnabled
+\ViaEnabledfalse
+
+\newcommand{\ViaLineOne}{}
+\newcommand{\ViaLineTwo}{}
+\newcommand{\ViaLineThree}{}
+\newcommand{\ViaLineFour}{}
+
+\newcommand{\setVia}[4]{%
+    \ViaEnabledtrue
+    \renewcommand{\ViaLineOne}{#1}%
+    \renewcommand{\ViaLineTwo}{#2}%
+    \renewcommand{\ViaLineThree}{#3}%
+    \renewcommand{\ViaLineFour}{#4}%
+}
+
+
+%-----------------------------------------------------------------------------
+% Subject
+%-----------------------------------------------------------------------------
+
+\newcommand{\SubjectLine}{}
+\newcommand{\setSubject}[1]{\renewcommand{\SubjectLine}{#1}}
+
+
+%-----------------------------------------------------------------------------
+% Business Letter Fields
+%-----------------------------------------------------------------------------
+
+\newcommand{\BusinessSalutation}{}
+\newcommand{\setBusinessSalutation}[1]{\renewcommand{\BusinessSalutation}{#1}}
+
+\newcommand{\BusinessClose}{}
+\newcommand{\setBusinessClose}[1]{\renewcommand{\BusinessClose}{#1}}
+
+
+%-----------------------------------------------------------------------------
+% POC Email
+%-----------------------------------------------------------------------------
+
+\newcommand{\POCEmail}{}
+\newcommand{\setPOC}[1]{\renewcommand{\POCEmail}{#1}}
+
+
+%=============================================================================
+%                        LETTERHEAD CONFIGURATION
+%=============================================================================
+
+\newcommand{\UnitName}{}
+\newcommand{\UnitLineTwo}{}
+\newcommand{\UnitLineThree}{}
+\newcommand{\UnitLineFour}{}
+
+\newcommand{\setLetterhead}[4]{%
+    \renewcommand{\UnitName}{#1}%
+    \renewcommand{\UnitLineTwo}{#2}%
+    \renewcommand{\UnitLineThree}{#3}%
+    \renewcommand{\UnitLineFour}{#4}%
+}
+
+
+%=============================================================================
+%                        SIGNATORY CONFIGURATION
+%=============================================================================
+% SECNAV M-5216.5 Ch 7, Para 14.a.(1):
+%   "The last name appears in all capital letters with the exception
+%    of a last name beginning with a prefix."
+%
+% The template auto-capitalizes the last name in signatures while
+% preserving your From block exactly as typed.
+
+\newcommand{\SignatoryFirstName}{}
+\newcommand{\SignatoryMiddleInitial}{}
+\newcommand{\SignatoryLastName}{}
+\newcommand{\SignatoryRank}{}
+\newcommand{\SignatoryTitle}{}
+\newcommand{\SignatureImage}{}
+
+% Legacy compatibility
+\newcommand{\SignatoryName}{}
+\newcommand{\SignatoryAbbrev}{}
+
+\makeatletter
+\newcommand{\setSignatory}[5]{%
+    % Args: {First}{M.}{Last}{Rank}{Title}
+    \renewcommand{\SignatoryFirstName}{#1}%
+    \renewcommand{\SignatoryMiddleInitial}{#2}%
+    \renewcommand{\SignatoryLastName}{#3}%
+    \renewcommand{\SignatoryRank}{#4}%
+    \renewcommand{\SignatoryTitle}{#5}%
+    % Build full name for MFR/Business (First M. LASTNAME)
+    \renewcommand{\SignatoryName}{#1 #2 \MakeUppercase{#3}}%
+    % Build abbreviated for Naval Letter (F. M. LASTNAME)
+    % Extract first character of first name
+    \def\@tempfirst{#1}%
+    \expandafter\def\expandafter\@firstchar\expandafter{\expandafter\@car\@tempfirst\@nil}%
+    \edef\SignatoryAbbrev{\@firstchar. #2 \MakeUppercase{#3}}%
+}
+\makeatother
+
+\newcommand{\setSignatureImage}[1]{\renewcommand{\SignatureImage}{#1}}
+
+
+%=============================================================================
+%                     CLASSIFICATION MARKING PLACEMENT
+%=============================================================================
+
+\newcommand{\placeClassificationMarkings}{%
+    \ifClassificationEnabled
+        \begin{textblock*}{6.5in}(1in, 0.25in)%
+            \centering\ClassificationMarking
+        \end{textblock*}%
+        \begin{textblock*}{6.5in}(1in, 10.75in)%
+            \centering\ClassificationMarking
+        \end{textblock*}%
+    \fi
+}
+
+
+%=============================================================================
+%                           LETTERHEAD PRINTING
+%=============================================================================
+
+\newcommand{\printLetterhead}{%
+    \begin{textblock*}{1in}(0.5in, 0.5in)%
+        \IfFileExists{attachments/dod-seal.png}{%
+            \includegraphics[width=1in]{attachments/dod-seal.png}%
+        }{%
+            \framebox[1in][c]{%
+                \parbox{0.9in}{\centering\scriptsize DoD Seal\\(add dod-seal.png)}%
+            }%
+        }%
+    \end{textblock*}%
+    \begin{textblock*}{4in}(2.25in, 0.625in)%
+        \centering
+        \fontsize{10pt}{11pt}\selectfont
+        \textcolor{navyblue}{\textbf{UNITED STATES MARINE CORPS}}\\
+        \fontsize{8pt}{9pt}\selectfont
+        \textcolor{navyblue}{\UnitName}\\
+        \textcolor{navyblue}{\UnitLineTwo}\\
+        \fontsize{6pt}{7pt}\selectfont
+        \textcolor{navyblue}{\UnitLineThree}\\
+        \textcolor{navyblue}{\UnitLineFour}
+    \end{textblock*}%
+    \vspace*{0.5in}%
+}
+
+
+%=============================================================================
+%                            REFERENCES BLOCK
+%=============================================================================
+
+\makeatletter
+\newcommand{\setRefURL}[2]{%
+    \expandafter\gdef\csname ref@url@#1\endcsname{#2}%
+}
+\makeatother
+
+\input{config/reference-urls}
+
+\makeatletter
+\newcommand{\refitem}[2]{%
+    \@ifundefined{ref@url@#1}{%
+        (#1) #2\\%
+    }{%
+        (\href{\csname ref@url@#1\endcsname}{\textcolor{blue}{#1}}) #2\\%
+    }%
+}
+\makeatother
+
+% SECNAV M-5216.5 Ch 7, Para 10.c: 4 spaces after "Ref:"
+\newcommand{\printReferences}{%
+    \vspace{12pt}
+    \noindent
+    \begin{tabular}{@{}l@{}p{5.9in}@{}}
+        Ref:\hspace{4\fontdimen2\font} & \begin{minipage}[t]{5.9in}
+                   \input{config/references}
+               \end{minipage}
+    \end{tabular}%
+}
+
+
+%=============================================================================
+%                            ENCLOSURES SYSTEM
+%=============================================================================
+%
+% Per SECNAV M-5216.5 Ch 2, Para 13:
+%   - Marking: "Enclosure (1)" in LOWER RIGHT CORNER
+%   - First page: No page number
+%   - Second+ pages: Number centered, 2 lines below "Enclosure (#)" marking
+%   - Each enclosure numbered INDEPENDENTLY (1, 2, 3... not continuous)
+%
+%=============================================================================
+
+\newcounter{enclmax}
+\setcounter{enclmax}{0}
+
+% Counter for tracking pages within each enclosure
+\newcounter{enclpagenum}
+
+\makeatletter
+\newcommand{\enclosure}[3]{%
+    % Args: {number}{filename.pdf}{Title}
+    \ifnum#1>\value{enclmax}%
+        \setcounter{enclmax}{#1}%
+    \fi
+    \expandafter\gdef\csname encl@file@#1\endcsname{#2}%
+    \expandafter\gdef\csname encl@title@#1\endcsname{#3}%
+    \expandafter\gdef\csname encl@defined@#1\endcsname{1}%
+}
+\makeatother
+
+% SECNAV M-5216.5 Ch 7, Para 11.b: 3 spaces after "Encl:"
+% Numbers in parentheses: (1), (2), (3)... EVEN IF ONLY ONE
+\makeatletter
+\newcommand{\printEnclosureList}{%
+    \ifnum\value{enclmax}>0
+        \vspace{12pt}
+        \noindent
+        \begin{tabular}{@{}l@{}p{5.85in}@{}}
+            Encl:\hspace{3\fontdimen2\font} & \begin{minipage}[t]{5.85in}
+                       \newcounter{encllistcount}%
+                       \setcounter{encllistcount}{0}%
+                       \loop\ifnum\value{encllistcount}<\value{enclmax}%
+                           \stepcounter{encllistcount}%
+                           \@ifundefined{encl@defined@\arabic{encllistcount}}{}{%
+                               (\hyperlink{enclosure\arabic{encllistcount}}{\textcolor{blue}{\arabic{encllistcount}}}) \csname encl@title@\arabic{encllistcount}\endcsname\\%
+                           }%
+                       \repeat
+                   \end{minipage}
+        \end{tabular}%
+    \fi
+}
+\makeatother
+
+\newcommand{\currentenclnum}{0}
+\newcommand{\currentencltitle}{}
+\newcommand{\currentenclpagenum}{1}
+
+% Page style for enclosure first page (no page number)
+% SECNAV M-5216.5 Ch 2, Para 13.b: First page - do NOT number
+\fancypagestyle{enclosurefirstpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\placeClassificationMarkings}%
+    % Lower right corner: "Enclosure (X)" - SECNAV Ch 2, Para 13.a
+    \fancyfoot[R]{Enclosure (\currentenclnum)}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+% Page style for enclosure continuation pages (page number centered below marking)
+% SECNAV M-5216.5 Ch 2, Para 13.a-b: Page number centered, 2 lines below marking
+\fancypagestyle{enclosurepage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\placeClassificationMarkings}%
+    % Lower right corner: "Enclosure (X)" on first line of footer
+    % Page number centered, 2 lines (~24pt) below the enclosure marking
+    \fancyfoot[R]{\raisebox{8pt}{Enclosure (\currentenclnum)}}%
+    \fancyfoot[C]{\currentenclpagenum}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+\makeatletter
+\newcommand{\includeEnclosures}{%
+    \ifnum\value{enclmax}>0
+        \newcounter{inclcount}%
+        \setcounter{inclcount}{0}%
+        \loop\ifnum\value{inclcount}<\value{enclmax}%
+            \stepcounter{inclcount}%
+            \@ifundefined{encl@defined@\arabic{inclcount}}{}{%
+                \edef\currentfile{\csname encl@file@\arabic{inclcount}\endcsname}%
+                \xdef\currentencltitle{\csname encl@title@\arabic{inclcount}\endcsname}%
+                \xdef\currentenclnum{\arabic{inclcount}}%
+                % Reset page counter for this enclosure
+                \setcounter{enclpagenum}{1}%
+                \ifx\currentfile\empty
+                    % No PDF - create placeholder page
+                    \newpage
+                    \hypertarget{enclosure\currentenclnum}{}%
+                    \thispagestyle{enclosurefirstpage}%
+                    \vspace*{2in}%
+                    \begin{center}
+                        \fontsize{16pt}{20pt}\selectfont
+                        \textbf{\currentencltitle}\\[1in]
+                        \fontsize{12pt}{16pt}\selectfont
+                        \textit{(Physical document attached separately)}
+                    \end{center}
+                \else
+                    % Include PDF with proper SECNAV enclosure marking
+                    \includepdf[
+                        pages=-,
+                        scale=0.85,
+                        frame,
+                        pagecommand={%
+                            % Capture current page number for footer before incrementing
+                            \xdef\currentenclpagenum{\arabic{enclpagenum}}%
+                            % Set hyperlink target on first page
+                            \ifnum\value{enclpagenum}=1
+                                \hypertarget{enclosure\currentenclnum}{}%
+                                \thispagestyle{enclosurefirstpage}%
+                            \else
+                                \thispagestyle{enclosurepage}%
+                            \fi
+                            % Increment page counter for next page
+                            \stepcounter{enclpagenum}%
+                        }
+                    ]{enclosures/\currentfile}
+                \fi
+            }%
+        \repeat
+    \fi
+}
+\makeatother
+
+
+%=============================================================================
+%                       ENCLOSURE REFERENCE COMMANDS
+%=============================================================================
+
+\newcommand{\enclref}[1]{%
+    \hyperlink{enclosure#1}{Enclosure~(#1)}%
+}
+
+\newcommand{\encl}[1]{%
+    \hyperlink{enclosure#1}{\textcolor{blue}{#1}}%
+}
+
+
+%=============================================================================
+%                        BODY PARAGRAPH COMMANDS
+%=============================================================================
+
+\newcounter{mainpara}
+\setcounter{mainpara}{0}
+
+\newcommand{\parasection}[1]{%
+    \stepcounter{mainpara}%
+    \vspace{12pt}%
+    \noindent\arabic{mainpara}. \underline{#1}:%
+}
+
+\newlist{subpara}{enumerate}{1}
+\setlist[subpara,1]{
+    label     = \alph*.,
+    leftmargin = 0.4in,
+    labelsep   = 0.1in,
+    itemsep    = 12pt,
+    topsep     = 12pt
+}
+
+\newlist{subsubpara}{enumerate}{1}
+\setlist[subsubpara,1]{
+    label     = (\arabic*),
+    leftmargin = 0.8in,
+    labelsep   = 0.1in,
+    itemsep    = 12pt,
+    topsep     = 12pt
+}
+
+
+%=============================================================================
+%                        LOAD CONFIGURATION FILES
+%=============================================================================
+
+% Load enclosure definitions first (so counter is set before document)
+\input{config/enclosures}
+
+
+%=============================================================================
+%=============================================================================
+%
+%                         DOCUMENT CONTENT BEGINS HERE
+%
+%=============================================================================
+%=============================================================================
+
+
+\begin{document}
+
+
+%=============================================================================
+% LOAD CONFIGURATION FROM EXTERNAL FILES
+%=============================================================================
+
+\input{config/letterhead}
+\input{config/classification}
+\input{config/document}
+\input{config/signatory}
+
+
+%=============================================================================
+% LOAD FORMAT-SPECIFIC MODULE
+%=============================================================================
+% Based on \DocumentType setting in config/document.tex, loads:
+%   - formats/mfr.tex
+%   - formats/naval_letter.tex
+%   - formats/business_letter.tex
+%=============================================================================
+
+\input{formats/\DocumentType}
+
+
+%=============================================================================
+% APPLY PAGE STYLE (defined by format module)
+%=============================================================================
+
+\pagestyle{documentpage}
+% Use firstpage style if defined (naval_letter), otherwise use documentpage
+\makeatletter
+\@ifundefined{ps@firstpage}{\thispagestyle{documentpage}}{\thispagestyle{firstpage}}
+\makeatother
+
+
+%=============================================================================
+% PAGE 1 - LETTERHEAD AND HEADER BLOCKS
+%=============================================================================
+
+\printLetterhead
+\printDateAndTitle
+\printAddressBlock
+\printReferences
+\printEnclosureList
+
+
+%=============================================================================
+% BODY CONTENT - Edit in config/body.tex
+%=============================================================================
+
+\input{config/body}
+
+
+%=============================================================================
+% SIGNATURE BLOCK
+%=============================================================================
+
+\printSignature
+
+
+%=============================================================================
+% ENCLOSURES - Auto-included from enclosures/ folder
+%=============================================================================
+
+\includeEnclosures
+
+
+%=============================================================================
+\end{document}

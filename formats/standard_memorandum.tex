@@ -1,0 +1,151 @@
+%=============================================================================
+%
+%                   STANDARD MEMORANDUM FORMAT MODULE
+%                        (Executive - HqDON/OSD)
+%
+%=============================================================================
+%
+% References:
+%   - SECNAV M-5216.5 (DON Correspondence Manual), Chapter 12, Para 12-4
+%
+% What It's For:
+%   Executive correspondence for HqDON, DoD, and White House.
+%
+% Key Characteristics:
+%   - Font: Times New Roman, 12-point (NOT Courier)
+%   - Margins: 2" top first page, 1" all other sides
+%   - "MEMORANDUM FOR [addressee]" - NO From:/To: lines
+%   - NO salutation, NO complimentary close
+%   - Signature block: 4 blank lines below text, begin at center
+%   - First page NOT numbered
+%
+%=============================================================================
+
+
+%=============================================================================
+%                         FONT OVERRIDE
+%=============================================================================
+% Executive memos use Times New Roman, not Courier
+
+\renewcommand{\familydefault}{\rmdefault}
+\usepackage{times}
+
+
+%=============================================================================
+%                    MEMORANDUM FOR ADDRESSEE
+%=============================================================================
+
+\newcommand{\MemorandumForAddressee}{}
+\newcommand{\setMemorandumForAddressee}[1]{\renewcommand{\MemorandumForAddressee}{#1}}
+
+
+%=============================================================================
+%                    DISTRIBUTION LIST (for 16+ addressees)
+%=============================================================================
+
+\newcommand{\DistributionList}{}
+\newcommand{\setDistribution}[1]{\renewcommand{\DistributionList}{#1}}
+
+\newif\ifDistributionEnabled
+\DistributionEnabledfalse
+\newcommand{\enableDistribution}{\DistributionEnabledtrue}
+
+
+%=============================================================================
+%                    DATE AND MEMO TITLE
+%=============================================================================
+% Date at right, "MEMORANDUM FOR" double space below
+
+\newcommand{\printDateAndTitle}{%
+    \vspace*{1in}%  % 2" top margin (1" from geometry + 1" here)
+    \hfill \DocumentDate\\[24pt]
+    \ifDistributionEnabled
+        \noindent MEMORANDUM FOR: SEE DISTRIBUTION\\[12pt]
+    \else
+        \noindent MEMORANDUM FOR \MemorandumForAddressee\\[12pt]
+    \fi
+}
+
+
+%=============================================================================
+%                           SUBJECT BLOCK
+%=============================================================================
+
+\newcommand{\printAddressBlock}{%
+    \noindent
+    \begin{tabular}[t]{@{}l@{\hspace{1em}}p{5.5in}@{}}
+        SUBJECT: & \SubjectLine\tabularnewline
+    \end{tabular}%
+    %
+    % CUI block
+    \ifCUIEnabled
+        \\[12pt]%
+        \noindent
+        Controlled by: \CUIControlledBy\\
+        CUI Category: \CUICategory\\
+        Limited Dissemination Control: \CUIDissemination\\
+        POC: \href{mailto:\POCEmail}{\POCEmail}%
+        \\[12pt]%
+        \noindent\CUIDistStatement
+    \fi
+}
+
+
+%=============================================================================
+%                SIGNATURE BLOCK (Executive Style)
+%=============================================================================
+% 4 blank lines below text, begin at center
+% NO complimentary close
+
+\newcommand{\printSignature}{%
+    \vspace{48pt}%  % 4 blank lines
+    \hspace{3.25in}%
+    \begin{minipage}{3in}
+        \raggedright
+        \ifx\SignatureImage\empty\else
+            \IfFileExists{attachments/\SignatureImage}{%
+                \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
+            }{}%
+        \fi
+        \MakeUppercase{\SignatoryName}\\
+        \SignatoryTitle
+    \end{minipage}%
+    %
+    % Distribution list (if 16+ addressees)
+    \ifDistributionEnabled
+        \vspace{24pt}%
+
+        \noindent DISTRIBUTION:\\
+        \DistributionList
+    \fi
+}
+
+
+%=============================================================================
+%                         LETTERHEAD OVERRIDE
+%=============================================================================
+% Executive memos may or may not use letterhead
+
+\renewcommand{\printLetterhead}{}
+
+
+%=============================================================================
+%                              PAGE STYLE
+%=============================================================================
+% First page: NOT numbered
+% Succeeding pages: bottom center OR 1" from top at right
+
+\fancypagestyle{firstpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\placeClassificationMarkings}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+\fancypagestyle{documentpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyfoot[C]{\thepage}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}

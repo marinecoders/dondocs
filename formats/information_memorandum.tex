@@ -1,0 +1,142 @@
+%=============================================================================
+%
+%                   INFORMATION MEMORANDUM FORMAT MODULE
+%                        (Executive - HqDON/OSD)
+%
+%=============================================================================
+%
+% References:
+%   - SECNAV M-5216.5 (DON Correspondence Manual), Chapter 12, Para 12-4.4
+%
+% What It's For:
+%   Convey information on developments not requiring action.
+%
+% Key Characteristics:
+%   - Header: "INFO MEMO" centered, bold, all caps
+%   - Address: "FOR:" double space below date
+%   - Sender: "FROM:" double space below FOR (sender signs HERE)
+%   - Subject: "SUBJECT:" double space below FROM
+%   - Body: Succinct bullet statements, double-spaced
+%   - Coordination: "COORDINATION:" double space below recommendation
+%   - Signature block: NONE (sender signs on FROM line)
+%   - Prepared by: "Prepared by:" left margin, double space below final text
+%
+%=============================================================================
+
+
+%=============================================================================
+%                         FONT OVERRIDE
+%=============================================================================
+% Executive memos use Times New Roman, not Courier
+
+\renewcommand{\familydefault}{\rmdefault}
+\usepackage{times}
+
+
+%=============================================================================
+%                    INFO MEMO FIELDS
+%=============================================================================
+
+\newcommand{\InfoMemoFor}{}
+\newcommand{\setInfoMemoFor}[1]{\renewcommand{\InfoMemoFor}{#1}}
+
+\newcommand{\InfoMemoFrom}{}
+\newcommand{\setInfoMemoFrom}[1]{\renewcommand{\InfoMemoFrom}{#1}}
+
+\newcommand{\InfoMemoCoordination}{}
+\newcommand{\setInfoMemoCoordination}[1]{\renewcommand{\InfoMemoCoordination}{#1}}
+
+\newcommand{\InfoMemoPreparedBy}{}
+\newcommand{\setInfoMemoPreparedBy}[1]{\renewcommand{\InfoMemoPreparedBy}{#1}}
+
+
+%=============================================================================
+%                    HEADER AND DATE
+%=============================================================================
+% "INFO MEMO" centered, bold, all caps
+
+\newcommand{\printDateAndTitle}{%
+    \begin{center}
+        \textbf{INFO MEMO}
+    \end{center}
+    \vspace{12pt}%
+    \hfill \DocumentDate\\[24pt]
+}
+
+
+%=============================================================================
+%                    FOR / FROM / SUBJECT BLOCK
+%=============================================================================
+% Sender signs on the FROM line (no separate signature block)
+
+\newcommand{\printAddressBlock}{%
+    \noindent
+    \begin{tabular}[t]{@{}l@{\hspace{1em}}p{5.5in}@{}}
+        FOR: & \InfoMemoFor\tabularnewline
+        & \tabularnewline[-6pt]
+        FROM: & \InfoMemoFrom\tabularnewline
+        & \tabularnewline[-6pt]
+        SUBJECT: & \SubjectLine\tabularnewline
+    \end{tabular}%
+    %
+    % CUI block
+    \ifCUIEnabled
+        \\[12pt]%
+        \noindent
+        Controlled by: \CUIControlledBy\\
+        CUI Category: \CUICategory\\
+        Limited Dissemination Control: \CUIDissemination\\
+        POC: \href{mailto:\POCEmail}{\POCEmail}%
+        \\[12pt]%
+        \noindent\CUIDistStatement
+    \fi
+}
+
+
+%=============================================================================
+%             SIGNATURE BLOCK (Info Memo - Coordination/Prepared By)
+%=============================================================================
+% NO traditional signature block
+% Instead: COORDINATION and Prepared by lines
+
+\newcommand{\printSignature}{%
+    % Coordination line (if provided)
+    \ifdefempty{\InfoMemoCoordination}{}{%
+        \vspace{24pt}%
+        \noindent COORDINATION:\\[6pt]
+        \InfoMemoCoordination
+    }%
+    %
+    % Prepared by line
+    \ifdefempty{\InfoMemoPreparedBy}{}{%
+        \vspace{24pt}%
+        \noindent Prepared by: \InfoMemoPreparedBy
+    }%
+}
+
+
+%=============================================================================
+%                         LETTERHEAD OVERRIDE
+%=============================================================================
+
+\renewcommand{\printLetterhead}{}
+
+
+%=============================================================================
+%                              PAGE STYLE
+%=============================================================================
+
+\fancypagestyle{firstpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\placeClassificationMarkings}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+\fancypagestyle{documentpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyfoot[C]{\thepage}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>libo-secured | USMC Correspondence Generator</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <h1>libo-secured</h1>
+    <p class="subtitle">"Libo isn't secured until the paperwork is done."</p>
+    <div class="security-note">
+        All data stays local in your browser. Nothing is sent to any server.
+    </div>
+
+    <div class="container">
+        <!-- FORM PANEL -->
+        <div class="form-panel">
+            <h2>Document Type</h2>
+            <select id="docType" oninput="updatePreview()">
+                <optgroup label="Letters">
+                    <option value="naval_letter" selected>Naval Letter (on letterhead)</option>
+                    <option value="standard_letter">Standard Letter (plain bond)</option>
+                    <option value="business_letter">Business Letter</option>
+                    <option value="multiple_address_letter">Multiple-Address Letter</option>
+                    <option value="joint_letter">Joint Letter</option>
+                </optgroup>
+                <optgroup label="Endorsements">
+                    <option value="same_page_endorsement">Same-Page Endorsement</option>
+                    <option value="new_page_endorsement">New-Page Endorsement</option>
+                </optgroup>
+                <optgroup label="Memorandums">
+                    <option value="mfr">Memorandum for the Record (MFR)</option>
+                    <option value="plain_paper_memorandum">Plain-Paper Memorandum</option>
+                    <option value="letterhead_memorandum">Letterhead Memorandum</option>
+                    <option value="decision_memorandum">Decision Memorandum</option>
+                    <option value="moa">Memorandum of Agreement (MOA)</option>
+                    <option value="mou">Memorandum of Understanding (MOU)</option>
+                    <option value="joint_memorandum">Joint Memorandum</option>
+                </optgroup>
+                <optgroup label="Executive Memorandums">
+                    <option value="standard_memorandum">Standard Memorandum</option>
+                    <option value="action_memorandum">Action Memorandum</option>
+                    <option value="information_memorandum">Information Memorandum</option>
+                </optgroup>
+                <optgroup label="USMC-Specific">
+                    <option value="mf">"Memorandum For" (CMC/ACMC)</option>
+                </optgroup>
+            </select>
+
+            <h2>Letterhead</h2>
+            <label>Select from Known Units</label>
+            <select id="unitSelect" onchange="selectUnit()">
+                <option value="">-- Select a unit or type below --</option>
+            </select>
+
+            <label>Unit Name (Line 1)</label>
+            <input type="text" id="unitLine1" value="1ST BATTALION, 6TH MARINES" oninput="updatePreview()">
+
+            <label>Higher HQ (Line 2)</label>
+            <input type="text" id="unitLine2" value="6TH MARINE REGIMENT" oninput="updatePreview()">
+
+            <label>Address (Lines 3-4)</label>
+            <input type="text" id="unitAddress" value="PSC BOX 20123, CAMP LEJEUNE, NC 28542" oninput="updatePreview()">
+
+            <h2>Document Info</h2>
+            <div class="checkbox-row">
+                <input type="checkbox" id="inReplyTo" onchange="updatePreview()">
+                <label for="inReplyTo" class="checkbox-label">IN REPLY REFER TO (for replies to previous correspondence)</label>
+            </div>
+            <div class="row">
+                <div>
+                    <label>SSIC</label>
+                    <input type="text" id="ssic" value="5216" oninput="updatePreview()" list="ssic-list">
+                    <datalist id="ssic-list"></datalist>
+                </div>
+                <div>
+                    <label>Serial</label>
+                    <input type="text" id="serial" value="Ser ADM/001" oninput="updatePreview()">
+                </div>
+                <div>
+                    <label>Date</label>
+                    <input type="text" id="date" value="1 Jan 2025" oninput="updatePreview()">
+                </div>
+            </div>
+
+            <h2>Addressing</h2>
+            <label>From</label>
+            <input type="text" id="from" value="Commanding Officer, 1st Battalion, 6th Marines" oninput="updatePreview()">
+
+            <label>To</label>
+            <input type="text" id="to" value="Commanding Officer, 6th Marine Regiment" oninput="updatePreview()">
+
+            <label>Via (optional - one per line)</label>
+            <textarea id="via" class="small" oninput="updatePreview()" placeholder="(1) Company Commander, Alpha Company
+(2) Commanding Officer, 1st Battalion"></textarea>
+
+            <label>Subject</label>
+            <input type="text" id="subject" value="REQUEST FOR ADMINISTRATIVE SUPPORT" oninput="updatePreview()">
+
+            <h2 class="collapsible" onclick="toggleSection(this)">References & Enclosures</h2>
+            <div class="collapsible-content">
+                <label>References (one per line: letter | title)</label>
+                <textarea id="refs" class="small" oninput="updatePreview()" placeholder="a | SECNAV M-5216.5
+b | MCO 5216.20B">a | SECNAV M-5216.5
+b | MCO 5216.20B</textarea>
+                <div class="hint">Format: a | Reference Title</div>
+
+                <label>Enclosures (one per line: number | title)</label>
+                <textarea id="encls" class="small" oninput="updatePreview()" placeholder="1 | Supporting Documentation
+2 | Cost Analysis"></textarea>
+                <div class="hint">Format: 1 | Enclosure Title</div>
+            </div>
+
+            <h2>Body</h2>
+            <textarea id="body" oninput="updatePreview()">1.  Per reference (a), this correspondence serves as an example of the naval letter format.
+
+2.  The purpose of this letter is to demonstrate proper formatting in accordance with SECNAV M-5216.5.
+
+3.  Point of contact for this matter is the undersigned at (910) 555-1234.</textarea>
+
+            <h2>Signature</h2>
+            <div class="row">
+                <div>
+                    <label>First Name</label>
+                    <input type="text" id="sigFirst" value="John" oninput="updatePreview()">
+                </div>
+                <div style="flex: 0.5;">
+                    <label>M.I.</label>
+                    <input type="text" id="sigMiddle" value="A." oninput="updatePreview()">
+                </div>
+                <div>
+                    <label>Last Name</label>
+                    <input type="text" id="sigLast" value="Doe" oninput="updatePreview()">
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>Rank</label>
+                    <input type="text" id="sigRank" value="Sgt, USMC" oninput="updatePreview()">
+                </div>
+                <div>
+                    <label>Title</label>
+                    <input type="text" id="sigTitle" value="Operations NCO" oninput="updatePreview()">
+                </div>
+            </div>
+
+            <div class="btn-row">
+                <button class="primary" onclick="downloadConfigs()">Download LaTeX Configs</button>
+                <button onclick="downloadPDF()">Quick PDF</button>
+            </div>
+            <div class="btn-row">
+                <button class="secondary" onclick="downloadTeX()">Download .tex</button>
+            </div>
+
+            <div id="status" class="status" style="display: none;"></div>
+        </div>
+
+        <!-- LIVE PREVIEW PANEL - Mimics LaTeX letter paper output -->
+        <div class="preview-panel" id="livePreview">
+            <!-- Letterhead -->
+            <div class="letterhead" id="prev-letterhead">
+                <img src="../attachments/dod-seal.png" alt="DoD Seal" class="letterhead-seal" id="prev-seal">
+                <div class="letterhead-title">UNITED STATES MARINE CORPS</div>
+                <div class="letterhead-unit" id="prev-unit1">1ST BATTALION, 6TH MARINES</div>
+                <div class="letterhead-hq" id="prev-unit2">6TH MARINE REGIMENT</div>
+                <div class="letterhead-address" id="prev-address">PSC BOX 20123<br>CAMP LEJEUNE, NC 28542</div>
+            </div>
+
+            <!-- Memo Header (for MFR, MOA, etc) -->
+            <div class="memo-header" id="prev-memo-header" style="display: none;"></div>
+
+            <!-- In Reply Refer To (optional) -->
+            <div class="in-reply-block" id="prev-in-reply" style="display: none;">
+                <span class="in-reply-text">IN REPLY REFER TO</span>
+            </div>
+
+            <!-- SSIC Block - right aligned -->
+            <div class="ssic-block" id="prev-ssic-block">
+                <span id="prev-ssic">5216</span><br>
+                <span id="prev-serial">Ser ADM/001</span><br>
+                <span id="prev-date">1 Jan 2025</span>
+            </div>
+
+            <!-- Date only for memos -->
+            <div class="date-only" id="prev-date-only" style="display: none;"></div>
+
+            <!-- From/To/Via blocks -->
+            <div class="address-block" id="prev-from-block">
+                <span class="label">From:</span><span id="prev-from">Commanding Officer, 1st Battalion, 6th Marines</span>
+            </div>
+            <div class="address-block" id="prev-to-block">
+                <span class="label">To:</span><span id="prev-to">Commanding Officer, 6th Marine Regiment</span>
+            </div>
+            <div class="address-block" id="prev-via-block" style="display: none;">
+                <span class="label">Via:</span><span id="prev-via"></span>
+            </div>
+
+            <!-- Subject -->
+            <div class="subject-block">
+                <span class="label">Subj:</span><span id="prev-subject">REQUEST FOR ADMINISTRATIVE SUPPORT</span>
+            </div>
+
+            <!-- References -->
+            <div class="ref-block" id="prev-ref-block">
+                <span class="label">Ref:</span><span class="content" id="prev-refs">(a) SECNAV M-5216.5<br>(b) MCO 5216.20B</span>
+            </div>
+
+            <!-- Enclosures -->
+            <div class="encl-block" id="prev-encl-block" style="display: none;">
+                <span class="label">Encl:</span><span class="content" id="prev-encls"></span>
+            </div>
+
+            <!-- Body -->
+            <div class="body-content" id="prev-body">1.  Per reference (a), this correspondence serves as an example of the naval letter format.
+
+2.  The purpose of this letter is to demonstrate proper formatting in accordance with SECNAV M-5216.5.
+
+3.  Point of contact for this matter is the undersigned at (910) 555-1234.</div>
+
+            <!-- Signature -->
+            <div class="signature-block">
+                <span id="prev-sig">J. A. DOE</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <!-- Application JavaScript -->
+    <script src="js/app.js"></script>
+</body>
+</html>

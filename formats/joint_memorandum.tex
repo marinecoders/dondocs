@@ -1,0 +1,215 @@
+%=============================================================================
+%
+%                     JOINT MEMORANDUM FORMAT MODULE
+%
+%=============================================================================
+%
+% References:
+%   - SECNAV M-5216.5 (DON Correspondence Manual), Chapter 7
+%   - Ch 7, Para 7-1.2; Figure 7-4
+%
+% What It Is:
+%   Same as Joint Letter, but uses "JOINT MEMORANDUM" designation
+%   instead of "JOINT LETTER" above the From: line.
+%
+% Key Rules:
+%   - Letterhead: Plain bond with typed command titles (senior on top)
+%   - Dual ID blocks: Junior LEFT, Senior RIGHT
+%   - "JOINT MEMORANDUM" typed above From: line
+%   - From line: Senior commander listed FIRST
+%   - Signatures: Junior LEFT (signs first), Senior RIGHT (signs last)
+%
+%=============================================================================
+
+
+%=============================================================================
+%                    JUNIOR COMMAND CONFIGURATION
+%=============================================================================
+% Junior command identification (left side, signs FIRST)
+
+\newcommand{\JuniorCommandName}{}
+\newcommand{\JuniorCommandZip}{}
+\newcommand{\JuniorCommandCode}{}    % e.g., "NAVSUP"
+\newcommand{\JuniorSSIC}{}
+\newcommand{\JuniorSerial}{}
+\newcommand{\JuniorDate}{}
+\newcommand{\JuniorSignatoryName}{}
+\newcommand{\JuniorSignatoryTitle}{}
+\newcommand{\JuniorFromLine}{}       % e.g., "Commander, Naval Supply Systems Command"
+
+\newcommand{\setJuniorCommand}[9]{%
+    \renewcommand{\JuniorCommandName}{#1}%
+    \renewcommand{\JuniorCommandZip}{#2}%
+    \renewcommand{\JuniorCommandCode}{#3}%
+    \renewcommand{\JuniorSSIC}{#4}%
+    \renewcommand{\JuniorSerial}{#5}%
+    \renewcommand{\JuniorDate}{#6}%
+    \renewcommand{\JuniorSignatoryName}{#7}%
+    \renewcommand{\JuniorSignatoryTitle}{#8}%
+    \renewcommand{\JuniorFromLine}{#9}%
+}
+
+
+%=============================================================================
+%                    SENIOR COMMAND CONFIGURATION
+%=============================================================================
+% Senior command identification (right side, signs LAST)
+% Uses standard macros: \DocumentSSIC, \DocumentSerial, \DocumentDate
+% Uses standard signatory: \SignatoryName, etc.
+
+\newcommand{\SeniorCommandName}{}
+\newcommand{\SeniorCommandZip}{}
+\newcommand{\SeniorCommandCode}{}    % e.g., "NAVSEA"
+\newcommand{\SeniorFromLine}{}       % e.g., "Commander, Naval Sea Systems Command"
+
+\newcommand{\setSeniorCommand}[4]{%
+    \renewcommand{\SeniorCommandName}{#1}%
+    \renewcommand{\SeniorCommandZip}{#2}%
+    \renewcommand{\SeniorCommandCode}{#3}%
+    \renewcommand{\SeniorFromLine}{#4}%
+}
+
+
+%=============================================================================
+%                    COMMON LOCATION (if same city)
+%=============================================================================
+
+\newcommand{\CommonLocation}{}
+\newcommand{\setCommonLocation}[1]{\renewcommand{\CommonLocation}{#1}}
+
+
+%=============================================================================
+%                    JOINT MEMORANDUM LETTERHEAD
+%=============================================================================
+% Plain bond with typed command titles
+% Senior command on TOP, Junior below
+% ZIP codes in parentheses
+
+\renewcommand{\printLetterhead}{%
+    \begin{center}
+        {\fontsize{10pt}{11pt}\selectfont\textbf{DEPARTMENT OF THE NAVY}}\\[6pt]
+        {\fontsize{8pt}{9pt}\selectfont
+            \MakeUppercase{\SeniorCommandName} (\SeniorCommandZip)\\
+            \MakeUppercase{\JuniorCommandName} (\JuniorCommandZip)\\
+            \ifdefempty{\CommonLocation}{}{\MakeUppercase{\CommonLocation}}
+        }
+    \end{center}
+    \vspace*{0.25in}%
+}
+
+
+%=============================================================================
+%                    DUAL ID BLOCKS AND DESIGNATION
+%=============================================================================
+% Junior command LEFT (signs first), Senior command RIGHT (signs last)
+% "JOINT MEMORANDUM" typed at left margin above From: line
+
+\newcommand{\printDateAndTitle}{%
+    % Dual ID symbols - side by side
+    \noindent
+    \begin{tabular}[t]{@{}p{3in}@{\hfill}p{3in}@{}}
+        % Junior command (LEFT) - signs FIRST
+        \begin{tabular}[t]{@{}l@{}}
+            \JuniorCommandCode\\
+            \JuniorSSIC\\
+            \JuniorSerial\\
+            \JuniorDate
+        \end{tabular}
+        &
+        % Senior command (RIGHT) - signs LAST
+        \begin{tabular}[t]{@{}l@{}}
+            \SeniorCommandCode\\
+            \DocumentSSIC\\
+            \DocumentSerial\\
+            \DocumentDate
+        \end{tabular}
+    \end{tabular}\\[24pt]
+    %
+    % JOINT MEMORANDUM designation
+    \noindent JOINT MEMORANDUM\\[12pt]
+}
+
+
+%=============================================================================
+%                    FROM / TO / SUBJ BLOCK
+%=============================================================================
+% From: Senior commander listed FIRST, then junior
+% Standard To: and Subj: lines
+
+\newcommand{\printAddressBlock}{%
+    \noindent
+    \begin{tabular}[t]{@{}l@{\hspace{1em}}p{5.5in}@{}}
+        From: & \SeniorFromLine\tabularnewline
+              & \JuniorFromLine\tabularnewline
+        To: & \ToLine\ifdefempty{\ToLineTwo}{}{\tabularnewline & \ToLineTwo}\ifdefempty{\ToLineThree}{}{\tabularnewline & \ToLineThree}\ifdefempty{\ToLineFour}{}{\tabularnewline & \ToLineFour}\tabularnewline
+        \ifViaEnabled
+            Via: & \ViaLineOne\ifdefempty{\ViaLineTwo}{}{\tabularnewline & \ViaLineTwo}\ifdefempty{\ViaLineThree}{}{\tabularnewline & \ViaLineThree}\ifdefempty{\ViaLineFour}{}{\tabularnewline & \ViaLineFour}\tabularnewline
+        \fi
+        & \tabularnewline[-6pt]
+        Subj: & \SubjectLine\tabularnewline
+    \end{tabular}%
+    %
+    % CUI block
+    \ifCUIEnabled
+        \\[12pt]%
+        \noindent
+        Controlled by: \CUIControlledBy\\
+        CUI Category: \CUICategory\\
+        Limited Dissemination Control: \CUIDissemination\\
+        POC: \href{mailto:\POCEmail}{\POCEmail}%
+        \\[12pt]%
+        \noindent\CUIDistStatement
+    \fi
+    %
+    % Classified block
+    \ifClassifiedEnabled
+        \\[12pt]%
+        \noindent
+        Classified by: \ClassifiedBy\\
+        Derived from: \DerivedFrom\\
+        Reason: \ClassificationReason\\
+        Declassify on: \DeclassifyOn\\
+        POC: \href{mailto:\POCEmail}{\POCEmail}
+    \fi
+}
+
+
+%=============================================================================
+%                    DUAL SIGNATURE BLOCK
+%=============================================================================
+% Junior signs on LEFT (signs FIRST)
+% Senior signs on RIGHT (signs LAST)
+% NO overscoring (unlike MOA/MOU)
+
+\newcommand{\printSignature}{%
+    \vspace{48pt}%
+    \noindent
+    \begin{tabular}[t]{@{}p{3in}@{\hfill}p{3in}@{}}
+        % Junior command signature (LEFT) - signs FIRST
+        \begin{minipage}[t]{2.5in}
+            \raggedright
+            \MakeUppercase{\JuniorSignatoryName}\\
+            \JuniorSignatoryTitle
+        \end{minipage}
+        &
+        % Senior command signature (RIGHT) - signs LAST
+        \begin{minipage}[t]{2.5in}
+            \raggedright
+            \MakeUppercase{\SignatoryName}\\
+            \SignatoryTitle
+        \end{minipage}
+    \end{tabular}
+}
+
+
+%=============================================================================
+%                              PAGE STYLE
+%=============================================================================
+
+\fancypagestyle{documentpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyfoot[C]{\thepage\ of \pageref{LastPage}}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}

@@ -1,0 +1,179 @@
+%=============================================================================
+%
+%                   MEMORANDUM OF AGREEMENT (MOA) FORMAT MODULE
+%
+%=============================================================================
+%
+% References:
+%   - SECNAV M-5216.5 (DON Correspondence Manual), Chapter 10, Para 6
+%   - Figure 10-5
+%
+% What It's For:
+%   Document mutual agreements between commands/activities regarding:
+%   - Facts, Intentions, Procedures
+%   - Limits on future actions
+%   - Coordination (present or future)
+%   - Commitments
+%
+% Key Rules:
+%   - Paper: Senior command's letterhead (or plain bond with typed titles)
+%   - Both commands include: SSIC, Serial number, Date
+%   - Layout: Side by side — senior command on LEFT
+%   - Title block: Centered, second line below date
+%   - Signatures: Senior on RIGHT, Junior on LEFT (with overscoring)
+%   - Senior signs AFTER junior
+%
+%=============================================================================
+
+
+%=============================================================================
+%                    JUNIOR COMMAND CONFIGURATION
+%=============================================================================
+% The junior command's identification symbols (right side)
+
+\newcommand{\JuniorCommandName}{}
+\newcommand{\JuniorSSIC}{}
+\newcommand{\JuniorSerial}{}
+\newcommand{\JuniorDate}{}
+\newcommand{\JuniorSignatoryName}{}
+\newcommand{\JuniorSignatoryRank}{}
+\newcommand{\JuniorSignatoryTitle}{}
+
+\newcommand{\setJuniorCommand}[7]{%
+    \renewcommand{\JuniorCommandName}{#1}%
+    \renewcommand{\JuniorSSIC}{#2}%
+    \renewcommand{\JuniorSerial}{#3}%
+    \renewcommand{\JuniorDate}{#4}%
+    \renewcommand{\JuniorSignatoryName}{#5}%
+    \renewcommand{\JuniorSignatoryRank}{#6}%
+    \renewcommand{\JuniorSignatoryTitle}{#7}%
+}
+
+
+%=============================================================================
+%                    SENIOR COMMAND CONFIGURATION
+%=============================================================================
+% The senior command's identification symbols (left side)
+% Note: Senior command uses the standard \setFrom, \setSSIC, etc.
+
+\newcommand{\SeniorCommandName}{}
+\newcommand{\setSeniorCommand}[1]{\renewcommand{\SeniorCommandName}{#1}}
+
+
+%=============================================================================
+%                    DUAL ID SYMBOLS AND TITLE BLOCK
+%=============================================================================
+% Both commands' ID symbols side by side
+% Senior command on LEFT, Junior command on RIGHT
+% Title block centered below
+
+\newcommand{\printDateAndTitle}{%
+    \vspace*{0.5in}%
+    % Dual ID symbols - side by side
+    \noindent
+    \begin{tabular}[t]{@{}p{3in}@{\hfill}p{3in}@{}}
+        % Senior command (LEFT)
+        \begin{tabular}[t]{@{}l@{}}
+            \DocumentSSIC\\
+            \DocumentSerial\\
+            \DocumentDate
+        \end{tabular}
+        &
+        % Junior command (RIGHT)
+        \begin{tabular}[t]{@{}l@{}}
+            \JuniorSSIC\\
+            \JuniorSerial\\
+            \JuniorDate
+        \end{tabular}
+    \end{tabular}\\[24pt]
+    %
+    % Title block - centered
+    \begin{center}
+        MEMORANDUM OF AGREEMENT\\
+        BETWEEN\\
+        \MakeUppercase{\SeniorCommandName}\\
+        AND\\
+        \MakeUppercase{\JuniorCommandName}
+    \end{center}
+    \vspace{12pt}
+}
+
+
+%=============================================================================
+%                           SUBJECT BLOCK
+%=============================================================================
+
+\newcommand{\printAddressBlock}{%
+    \noindent
+    \begin{tabular}[t]{@{}l@{\hspace{1em}}p{5.5in}@{}}
+        Subj: & \SubjectLine\tabularnewline
+    \end{tabular}%
+    %
+    % CUI block
+    \ifCUIEnabled
+        \\[12pt]%
+        \noindent
+        Controlled by: \CUIControlledBy\\
+        CUI Category: \CUICategory\\
+        Limited Dissemination Control: \CUIDissemination\\
+        POC: \href{mailto:\POCEmail}{\POCEmail}%
+        \\[12pt]%
+        \noindent\CUIDistStatement
+    \fi
+    %
+    % Classified block
+    \ifClassifiedEnabled
+        \\[12pt]%
+        \noindent
+        Classified by: \ClassifiedBy\\
+        Derived from: \DerivedFrom\\
+        Reason: \ClassificationReason\\
+        Declassify on: \DeclassifyOn\\
+        POC: \href{mailto:\POCEmail}{\POCEmail}
+    \fi
+}
+
+
+%=============================================================================
+%                    DUAL SIGNATURE BLOCK (MOA Style)
+%=============================================================================
+% Junior signs on LEFT (signs first)
+% Senior signs on RIGHT (signs last)
+% Use overscoring (line above the name)
+
+\newcommand{\printSignature}{%
+    \vspace{48pt}%
+    \noindent
+    \begin{tabular}[t]{@{}p{3in}@{\hfill}p{3in}@{}}
+        % Junior command signature (LEFT) - signs FIRST
+        \begin{minipage}[t]{2.5in}
+            \centering
+            \rule{2in}{0.4pt}\\
+            \MakeUppercase{\JuniorSignatoryName}\\
+            \JuniorSignatoryRank\\
+            \JuniorSignatoryTitle
+        \end{minipage}
+        &
+        % Senior command signature (RIGHT) - signs LAST
+        \begin{minipage}[t]{2.5in}
+            \centering
+            \rule{2in}{0.4pt}\\
+            \MakeUppercase{\SignatoryName}\\
+            \SignatoryRank\\
+            \SignatoryTitle
+        \end{minipage}
+    \end{tabular}
+}
+
+
+%=============================================================================
+%                              PAGE STYLE
+%=============================================================================
+
+\fancypagestyle{documentpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyfoot[C]{\thepage\ of \pageref{LastPage}}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}

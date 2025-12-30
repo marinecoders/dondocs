@@ -1,0 +1,182 @@
+%=============================================================================
+%
+%                 STANDARD LETTER FORMAT MODULE (Plain Bond Paper)
+%
+%=============================================================================
+%
+% References:
+%   - SECNAV M-5216.5 (DON Correspondence Manual), Chapter 2, Para 1.c.(1)
+%   - MCO 5216.20B w/Admin CH-4 (Marine Corps Supplement)
+%
+% Use this format for:
+%   - Personal matters to higher authority (IG complaints, retirement requests)
+%   - Individual correspondence outside your activity
+%   - When command letterhead is NOT authorized
+%
+% Key differences from Naval Letter:
+%   - NO letterhead (plain white bond paper)
+%   - From: line = YOUR name, rank, service (not activity head title)
+%   - Via: typically used for routing through chain of command
+%   - Serial number optional (unless classified)
+%
+% Spacing per SECNAV M-5216.5 Figure 2-1:
+%   - From/To/Via: Single-spaced, NO blank lines between them
+%   - One blank line before Subj, Ref, Encl, and body paragraph 1
+%
+%=============================================================================
+
+
+%=============================================================================
+%                    SSIC / SERIAL / DATE BLOCK (Right-aligned)
+%=============================================================================
+% For personal correspondence:
+%   - SSIC: Optional (include if applicable)
+%   - Serial: Optional (unless classified)
+%   - Date: Required
+
+\newcommand{\printDateAndTitle}{%
+    \begingroup
+    \raggedleft
+    % Optional "IN REPLY REFER TO" line per SECNAV M-5216.5 App C, Para 1.a
+    \ifInReplyEnabled
+        {\fontsize{5pt}{6pt}\selectfont IN REPLY REFER TO}\\
+    \fi
+    \ifx\DocumentSSIC\empty\else
+        \DocumentSSIC\\
+    \fi
+    \ifx\DocumentSerial\empty\else
+        \DocumentSerial\\
+    \fi
+    \DocumentDate\par
+    \endgroup
+}
+
+
+%=============================================================================
+%              NO LETTERHEAD - Override \printLetterhead
+%=============================================================================
+% SECNAV M-5216.5 Ch 2, Para 1.c.(1):
+%   "Use plain bond paper for personal correspondence"
+%
+% This format uses plain white bond paper - no DoD seal, no unit name.
+
+\renewcommand{\printLetterhead}{%
+    % No letterhead - plain bond paper
+    % Just add some top spacing where letterhead would normally be
+    \vspace*{0.5in}%
+}
+
+
+%=============================================================================
+%                    FROM / TO / VIA / SUBJ BLOCK
+%=============================================================================
+% SECNAV M-5216.5 Ch 2, Para 1.c.(1):
+%   From: line = YOUR name, rank, service
+%   May include unit, contact info on continuation lines
+%
+% SECNAV M-5216.5 spacing after colons:
+%   From:  2 spaces    To:    6 spaces    Via:   5 spaces
+%   Subj:  3 spaces    Ref:   4 spaces    Encl:  3 spaces
+%
+% Second column width: 5.75in to respect 1" right margin
+% (textwidth=6.5in minus ~0.75in for labels)
+\makeatletter
+\newcommand{\printAddressBlock}{%
+    \begingroup
+    \singlespacing
+    \noindent
+    % Build Via rows into a macro before the tabular
+    \def\@viarows{}%
+    \ifViaEnabled
+        \def\@viarows{\tabularnewline Via:\hspace{5\fontdimen2\font} & \ViaLineOne}%
+        \ifdefempty{\ViaLineTwo}{}{\appto\@viarows{\tabularnewline & \ViaLineTwo}}%
+        \ifdefempty{\ViaLineThree}{}{\appto\@viarows{\tabularnewline & \ViaLineThree}}%
+        \ifdefempty{\ViaLineFour}{}{\appto\@viarows{\tabularnewline & \ViaLineFour}}%
+    \fi
+    \begin{tabular}[t]{@{}l@{}p{5.75in}@{}}%
+        From:\hspace{2\fontdimen2\font} & \FromLine\ifdefempty{\FromLineTwo}{}{\tabularnewline & \FromLineTwo}\ifdefempty{\FromLineThree}{}{\tabularnewline & \FromLineThree}\ifdefempty{\FromLineFour}{}{\tabularnewline & \FromLineFour}\tabularnewline%
+        To:\hspace{6\fontdimen2\font} & \ToLine\ifdefempty{\ToLineTwo}{}{\tabularnewline & \ToLineTwo}\ifdefempty{\ToLineThree}{}{\tabularnewline & \ToLineThree}\ifdefempty{\ToLineFour}{}{\tabularnewline & \ToLineFour}%
+        \@viarows
+        \tabularnewline[12pt]%
+        Subj:\hspace{3\fontdimen2\font} & \SubjectLine%
+    \end{tabular}%
+    \endgroup
+    %
+    % CUI block
+    \ifCUIEnabled
+        \par\vspace{12pt}
+        \noindent Controlled by: \CUIControlledBy\\
+        CUI Category: \CUICategory\\
+        Limited Dissemination Control: \CUIDissemination\\
+        POC: \href{mailto:\POCEmail}{\POCEmail}%
+        \par\vspace{12pt}
+        \noindent\CUIDistStatement
+    \fi
+    %
+    % Classified block
+    \ifClassifiedEnabled
+        \par\vspace{12pt}
+        \noindent Classified by: \ClassifiedBy\\
+        Derived from: \DerivedFrom\\
+        Reason: \ClassificationReason\\
+        Declassify on: \DeclassifyOn\\
+        POC: \href{mailto:\POCEmail}{\POCEmail}
+    \fi
+}
+\makeatother
+
+
+%=============================================================================
+%                  SIGNATURE BLOCK (Standard Letter Style)
+%=============================================================================
+% SECNAV M-5216.5 Ch 7, Para 14.a:
+%   - Position: Center of page, fourth line below text
+%   - Format: First initial, middle initial, LAST NAME (caps)
+%   - Example: J. A. SMITH
+%   - No rank, no complimentary close
+%
+% Use \setSignatoryAbbrev{J. A. SMITH} in config/signatory.tex
+
+\newcommand{\printSignature}{%
+    \vspace{36pt}%  % ~3 lines, close to "fourth line below"
+    \hspace{3.25in}%
+    \begin{minipage}{3in}
+        \raggedright
+        \ifx\SignatureImage\empty\else
+            \IfFileExists{attachments/\SignatureImage}{%
+                \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
+            }{}%
+        \fi
+        % Use abbreviated format (J. M. LASTNAME) if set, otherwise full name
+        \ifx\SignatoryAbbrev\empty
+            \MakeUppercase{\SignatoryName}%
+        \else
+            \SignatoryAbbrev%
+        \fi
+    \end{minipage}
+}
+
+
+%=============================================================================
+%                              PAGE STYLE
+%=============================================================================
+% SECNAV M-5216.5 Ch 7, Para 17:
+%   - First page: Do NOT number
+%   - Second+ pages: Start with "2", centered, 1/2" from bottom
+%   - No punctuation (just the number)
+
+\fancypagestyle{firstpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyfoot[C]{}%  % No page number on first page
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+\fancypagestyle{documentpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyfoot[C]{\thepage}%  % Just the number, no "of X"
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}

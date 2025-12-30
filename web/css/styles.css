@@ -1,0 +1,411 @@
+/**
+ * libo-secured - USMC Correspondence Generator
+ * Main Stylesheet
+ */
+
+/* =============================================================================
+   BASE STYLES
+   ============================================================================= */
+
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    background: #1a1a2e;
+    color: #eee;
+    min-height: 100vh;
+}
+
+/* =============================================================================
+   LAYOUT
+   ============================================================================= */
+
+.container {
+    display: flex;
+    gap: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.form-panel {
+    flex: 1;
+    background: #16213e;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+
+.row {
+    display: flex;
+    gap: 10px;
+}
+
+.row > div {
+    flex: 1;
+}
+
+/* =============================================================================
+   TYPOGRAPHY
+   ============================================================================= */
+
+h1 {
+    text-align: center;
+    color: #3282b8;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+h2 {
+    color: #3282b8;
+    border-bottom: 1px solid #3282b8;
+    padding-bottom: 8px;
+    margin-top: 18px;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+label {
+    display: block;
+    margin-top: 8px;
+    color: #bbe1fa;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.hint {
+    font-size: 9px;
+    color: #666;
+    margin-top: 2px;
+}
+
+/* =============================================================================
+   FORM ELEMENTS
+   ============================================================================= */
+
+input, textarea, select {
+    width: 100%;
+    padding: 6px 8px;
+    margin-top: 3px;
+    background: #0f3460;
+    border: 1px solid #3282b8;
+    color: #fff;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #bbe1fa;
+    box-shadow: 0 0 0 2px rgba(187, 225, 250, 0.2);
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+textarea.small {
+    min-height: 60px;
+}
+
+/* Checkbox styling */
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0;
+}
+
+.checkbox-row input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+.checkbox-label {
+    display: inline;
+    margin: 0;
+    font-size: 10px;
+    color: #bbe1fa;
+    text-transform: none;
+}
+
+/* =============================================================================
+   BUTTONS
+   ============================================================================= */
+
+.btn-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+button {
+    flex: 1;
+    padding: 10px 12px;
+    background: #3282b8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 600;
+    transition: background 0.2s;
+    min-width: 100px;
+}
+
+button:hover {
+    background: #0f4c75;
+}
+
+button.secondary {
+    background: #0f3460;
+    border: 1px solid #3282b8;
+}
+
+button.secondary:hover {
+    background: #16213e;
+}
+
+button.primary {
+    background: #28a745;
+}
+
+button.primary:hover {
+    background: #218838;
+}
+
+/* =============================================================================
+   STATUS & NOTIFICATIONS
+   ============================================================================= */
+
+.security-note {
+    text-align: center;
+    color: #155724;
+    background: #d4edda;
+    padding: 8px 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 11px;
+}
+
+.status {
+    padding: 6px 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 11px;
+}
+
+.status.success {
+    background: #1b4332;
+    color: #d4edda;
+}
+
+.status.error {
+    background: #5c1a1a;
+    color: #f8d7da;
+}
+
+/* =============================================================================
+   LIVE PREVIEW - DOCUMENT STYLING
+   Mimics LaTeX Courier 12pt output on letter paper (8.5x11)
+   ============================================================================= */
+
+/* Preview container - simulate letter paper */
+.preview-panel {
+    flex: 1.5;
+    background: #fff;
+    border-radius: 8px;
+    padding: 72px;  /* 1 inch margins like LaTeX */
+    min-height: 11in;
+    max-width: 8.5in;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12pt;
+    line-height: 1.2;
+    color: #000;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    overflow-y: auto;
+}
+
+/* Letterhead - centered, navy blue */
+.letterhead {
+    text-align: center;
+    color: #002855;
+    margin-bottom: 24pt;
+}
+
+.letterhead-seal {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 6pt;
+}
+
+.letterhead-title {
+    font-weight: bold;
+    font-size: 10pt;
+    letter-spacing: 0.5px;
+}
+
+.letterhead-unit {
+    font-weight: bold;
+    font-size: 8pt;
+    margin-top: 2pt;
+}
+
+.letterhead-hq {
+    font-size: 8pt;
+}
+
+.letterhead-address {
+    font-size: 7pt;
+    margin-top: 2pt;
+}
+
+/* Memo header for MFR etc */
+.memo-header {
+    text-align: center;
+    font-weight: bold;
+    font-size: 12pt;
+    margin-bottom: 24pt;
+}
+
+/* In Reply Refer To - per SECNAV M-5216.5 App C, Para 1.a */
+.in-reply-block {
+    text-align: right;
+    margin-bottom: 4pt;
+}
+
+.in-reply-text {
+    font-size: 6pt;
+    font-variant: small-caps;
+    letter-spacing: 0.5px;
+}
+
+/* SSIC block - right aligned */
+.ssic-block {
+    text-align: right;
+    margin-bottom: 24pt;
+    line-height: 1.4;
+}
+
+.date-only {
+    text-align: right;
+    margin-bottom: 24pt;
+}
+
+/* Address blocks - From/To/Via with proper spacing */
+.address-block {
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+.address-block .label {
+    display: inline-block;
+    width: 48pt;  /* Fixed width for alignment */
+}
+
+/* Subject block - extra space before */
+.subject-block {
+    margin-top: 12pt;
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+.subject-block .label {
+    display: inline-block;
+    width: 48pt;
+}
+
+/* Reference and Enclosure blocks */
+.ref-block, .encl-block {
+    margin-top: 12pt;
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+.ref-block .label, .encl-block .label {
+    display: inline-block;
+    width: 48pt;
+    vertical-align: top;
+}
+
+.ref-block .content, .encl-block .content {
+    display: inline-block;
+    vertical-align: top;
+}
+
+/* Body content */
+.body-content {
+    white-space: pre-wrap;
+    margin-top: 24pt;
+    margin-bottom: 36pt;
+    line-height: 1.4;
+    text-align: justify;
+}
+
+/* Signature block - right side */
+.signature-block {
+    margin-left: 3.25in;
+    margin-top: 36pt;
+    line-height: 1.4;
+}
+
+/* =============================================================================
+   COLLAPSIBLE SECTIONS
+   ============================================================================= */
+
+.collapsible {
+    cursor: pointer;
+    user-select: none;
+}
+
+.collapsible::before {
+    content: '▼ ';
+    font-size: 10px;
+}
+
+.collapsible.collapsed::before {
+    content: '▶ ';
+}
+
+.collapsible-content {
+    display: block;
+}
+
+.collapsible-content.hidden {
+    display: none;
+}
+
+/* =============================================================================
+   RESPONSIVE
+   ============================================================================= */
+
+@media (max-width: 1200px) {
+    .container {
+        flex-direction: column;
+    }
+    .form-panel {
+        max-width: 100%;
+        max-height: none;
+    }
+    .preview-panel {
+        min-height: 500px;
+    }
+}
