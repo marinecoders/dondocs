@@ -191,6 +191,20 @@ button.primary:hover {
     background: #218838;
 }
 
+.help-text {
+    font-size: 11px;
+    color: #888;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.help-text code {
+    background: #0f3460;
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: #4ade80;
+}
+
 /* =============================================================================
    STATUS & NOTIFICATIONS
    ============================================================================= */
@@ -365,6 +379,315 @@ button.primary:hover {
     margin-left: 3.25in;
     margin-top: 36pt;
     line-height: 1.4;
+}
+
+/* =============================================================================
+   CLASSIFICATION BANNERS & BLOCKS
+   ============================================================================= */
+
+/* Classification banner - centered at top/bottom per DoDI 5200.48 */
+.class-banner {
+    text-align: center;
+    font-weight: bold;
+    font-size: 12pt;
+    padding: 4pt 0;
+    margin-bottom: 12pt;
+}
+
+.class-banner-bottom {
+    margin-top: 24pt;
+    margin-bottom: 0;
+}
+
+/* US Classification Color Codes */
+
+/* CUI - purple */
+.class-banner.cui {
+    color: #502B85;
+}
+
+/* UNCLASSIFIED - green (for reference) */
+.class-banner.unclassified {
+    color: #007A33;
+}
+
+/* CONFIDENTIAL - blue */
+.class-banner.confidential {
+    color: #0033A0;
+}
+
+/* SECRET - red */
+.class-banner.secret {
+    color: #C8102E;
+}
+
+/* TOP SECRET - orange */
+.class-banner.top-secret {
+    color: #FF8C00;
+}
+
+/* TOP SECRET//SCI - yellow (with dark background for visibility) */
+.class-banner.top-secret-sci {
+    color: #000;
+    background-color: #FCE83A;
+}
+
+/* CUI Designation Indicator Block */
+.cui-block {
+    margin-top: 12pt;
+    margin-bottom: 0;
+    font-size: 10pt;
+    line-height: 1.4;
+}
+
+.cui-dist-statement {
+    margin-top: 6pt;
+    font-style: italic;
+}
+
+/* Classified Information Block */
+.classified-block {
+    margin-top: 12pt;
+    margin-bottom: 0;
+    font-size: 10pt;
+    line-height: 1.4;
+}
+
+/* =============================================================================
+   FILE UPLOAD
+   ============================================================================= */
+
+.file-upload-area {
+    position: relative;
+    border: 2px dashed #3282b8;
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 8px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.file-upload-area:hover,
+.file-upload-area.drag-over {
+    border-color: #bbe1fa;
+    background: rgba(50, 130, 184, 0.1);
+}
+
+.file-upload-area input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-upload-text {
+    color: #bbe1fa;
+    font-size: 11px;
+}
+
+.file-upload-icon {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+.uploaded-files-list {
+    margin-top: 8px;
+}
+
+.uploaded-file {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0f3460;
+    padding: 6px 10px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    font-size: 10px;
+}
+
+.uploaded-file-name {
+    color: #bbe1fa;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+}
+
+.uploaded-file-size {
+    color: #666;
+    margin: 0 10px;
+    white-space: nowrap;
+}
+
+.uploaded-file-remove {
+    background: #5c1a1a;
+    color: #f8d7da;
+    border: none;
+    border-radius: 3px;
+    padding: 2px 8px;
+    cursor: pointer;
+    font-size: 10px;
+}
+
+.uploaded-file-remove:hover {
+    background: #721c24;
+}
+
+/* =============================================================================
+   ENCLOSURES LIST
+   ============================================================================= */
+
+.enclosures-header {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.enclosures-header label {
+    margin-top: 0;
+}
+
+.enclosures-hint {
+    font-size: 9px;
+    color: #666;
+    font-style: italic;
+}
+
+.enclosures-list {
+    margin-top: 8px;
+}
+
+.enclosure-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.enclosure-number {
+    color: #666;
+    font-size: 11px;
+    min-width: 24px;
+    text-align: center;
+}
+
+.enclosure-input {
+    flex: 1;
+}
+
+.enclosure-file-indicator {
+    font-size: 9px;
+    color: #3282b8;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.enclosure-file-indicator.has-file {
+    color: #28a745;
+}
+
+.enclosure-attach-btn {
+    background: transparent;
+    border: 1px dashed #3282b8;
+    color: #3282b8;
+    padding: 4px 8px;
+    font-size: 10px;
+    min-width: auto;
+    flex: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.enclosure-attach-btn:hover {
+    background: rgba(50, 130, 184, 0.1);
+    border-color: #bbe1fa;
+}
+
+.enclosure-attach-btn input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.enclosure-remove {
+    background: transparent;
+    border: none;
+    color: #c8102e;
+    font-size: 14px;
+    padding: 2px 6px;
+    min-width: auto;
+    flex: none;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.enclosure-remove:hover {
+    opacity: 1;
+    background: transparent;
+}
+
+.enclosure-add-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.btn-add-enclosure {
+    background: transparent;
+    border: 1px dashed #3282b8;
+    color: #3282b8;
+    padding: 6px 12px;
+    font-size: 10px;
+    min-width: auto;
+    flex: none;
+}
+
+.btn-add-enclosure:hover {
+    background: rgba(50, 130, 184, 0.1);
+    border-color: #bbe1fa;
+}
+
+.enclosure-drop-zone {
+    flex: 1;
+    border: 1px dashed #3282b8;
+    border-radius: 4px;
+    padding: 6px 12px;
+    text-align: center;
+    font-size: 10px;
+    color: #666;
+    position: relative;
+    transition: all 0.2s;
+}
+
+.enclosure-drop-zone:hover,
+.enclosure-drop-zone.drag-over {
+    border-color: #bbe1fa;
+    background: rgba(50, 130, 184, 0.1);
+    color: #bbe1fa;
+}
+
+.enclosure-drop-zone input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
 }
 
 /* =============================================================================

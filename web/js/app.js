@@ -16,6 +16,190 @@ const MARGIN_BOTTOM = 72;
 const CONTENT_WIDTH = PAGE_WIDTH - MARGIN_LEFT - MARGIN_RIGHT;
 
 // =============================================================================
+// SWIFTLATEX ENGINE
+// =============================================================================
+
+let pdfTexEngine = null;
+let engineReady = false;
+let engineLoading = false;
+
+/**
+ * Initialize SwiftLaTeX PdfTeX engine
+ */
+async function initLatexEngine() {
+    if (engineReady || engineLoading) return;
+
+    if (typeof PdfTeXEngine === 'undefined') {
+        console.warn('SwiftLaTeX PdfTeXEngine not loaded');
+        return;
+    }
+
+    engineLoading = true;
+    showStatus('Loading LaTeX engine...', 'success');
+
+    try {
+        pdfTexEngine = new PdfTeXEngine();
+        await pdfTexEngine.loadEngine();
+
+        // Pre-load bundled TeX Live packages into kpathsea cache
+        // This bypasses HTTP fetch and works fully offline
+        if (typeof TEXLIVE_PACKAGES !== 'undefined' && Array.isArray(TEXLIVE_PACKAGES)) {
+            console.log('Preloading TeX Live packages into kpathsea cache...');
+            let packageCount = 0;
+            for (const pkg of TEXLIVE_PACKAGES) {
+                pdfTexEngine.preloadTexliveFile(pkg.format, pkg.filename, pkg.content);
+                packageCount++;
+            }
+            console.log(`Preloaded ${packageCount} TeX Live packages`);
+        }
+
+        // Pre-load bundled font metrics (base64 decoded)
+        if (typeof TEXLIVE_FONTS !== 'undefined' && Array.isArray(TEXLIVE_FONTS)) {
+            console.log('Preloading font metrics...');
+            let fontCount = 0;
+            for (const font of TEXLIVE_FONTS) {
+                // Debug logging for first few fonts
+                if (fontCount < 3) {
+                    console.log(`Font ${fontCount}: ${font.filename}, base64 length: ${font.content.length}`);
+                }
+
+                // Decode base64 to binary
+                const binaryString = atob(font.content);
+                const bytes = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+
+                // Debug decoded size for cmmi8.tfm specifically
+                if (font.filename === 'cmmi8.tfm') {
+                    console.log(`CRITICAL: cmmi8.tfm decoded to ${bytes.length} bytes`);
+                    console.log(`First 10 bytes: ${Array.from(bytes.slice(0, 10)).map(b => b.toString(16).padStart(2, '0')).join(' ')}`);
+                }
+
+                pdfTexEngine.preloadTexliveFile(font.format, font.filename, bytes);
+                fontCount++;
+            }
+            console.log(`Preloaded ${fontCount} font metrics`);
+        }
+
+        // Pre-load Type1 fonts (base64 decoded)
+        if (typeof TEXLIVE_TYPE1_FONTS !== 'undefined' && Array.isArray(TEXLIVE_TYPE1_FONTS)) {
+            console.log('Preloading Type1 fonts...');
+            let type1Count = 0;
+            for (const font of TEXLIVE_TYPE1_FONTS) {
+                // Decode base64 to binary
+                const binaryString = atob(font.content);
+                const bytes = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+                pdfTexEngine.preloadTexliveFile(font.format, font.filename, bytes);
+                type1Count++;
+            }
+            console.log(`Preloaded ${type1Count} Type1 fonts`);
+        }
+
+        // Wait for worker to process all preload messages
+        // postMessage is async, so we need to give the worker time to process
+        // Increased from 200ms to 1000ms to ensure all TFM fonts are preloaded
+        console.log('Waiting for worker to process preload messages...');
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        console.log('Preload wait complete');
+
+        engineReady = true;
+        engineLoading = false;
+        console.log('SwiftLaTeX engine ready with bundled packages');
+    } catch (error) {
+        console.error('Failed to load SwiftLaTeX engine:', error);
+        engineLoading = false;
+    }
+}
+
+/**
+ * Compile LaTeX document using SwiftLaTeX
+ */
+async function compileLatex() {
+    if (!engineReady) {
+        await initLatexEngine();
+        if (!engineReady) {
+            throw new Error('LaTeX engine not available');
+        }
+    }
+
+    const data = collectData();
+
+    // Create virtual filesystem directories
+    pdfTexEngine.makeMemFSFolder('config');
+    pdfTexEngine.makeMemFSFolder('formats');
+    pdfTexEngine.makeMemFSFolder('attachments');
+    pdfTexEngine.makeMemFSFolder('enclosures');
+
+    // Test with minimal document first (for debugging)
+    // Set to true to test basic compilation without complex packages
+    const USE_MINIMAL_TEST = false; // Full template mode
+
+    if (USE_MINIMAL_TEST) {
+        const minimalTex = `\\documentclass{article}
+\\begin{document}
+Hello World!
+\\end{document}`;
+        pdfTexEngine.writeMemFSFile('main.tex', minimalTex);
+    } else {
+        // Write main.tex from templates
+        if (window.LATEX_TEMPLATES && window.LATEX_TEMPLATES['main.tex']) {
+            pdfTexEngine.writeMemFSFile('main.tex', window.LATEX_TEMPLATES['main.tex']);
+        } else {
+            throw new Error('LaTeX templates not loaded');
+        }
+    }
+
+    // Write format files from templates
+    for (const [filename, content] of Object.entries(window.LATEX_TEMPLATES)) {
+        if (filename.startsWith('formats/')) {
+            pdfTexEngine.writeMemFSFile(filename, content);
+        }
+    }
+
+    // Generate and write config files dynamically from form data
+    pdfTexEngine.writeMemFSFile('config/document.tex', generateDocumentTex(data));
+    pdfTexEngine.writeMemFSFile('config/letterhead.tex', generateLetterheadTex(data));
+    pdfTexEngine.writeMemFSFile('config/signatory.tex', generateSignatoryTex(data));
+    pdfTexEngine.writeMemFSFile('config/references.tex', generateReferencesTex(data));
+    pdfTexEngine.writeMemFSFile('config/enclosures.tex', generateEnclosuresTex());
+    pdfTexEngine.writeMemFSFile('config/body.tex', generateBodyTex(data));
+    pdfTexEngine.writeMemFSFile('config/classification.tex', generateClassificationTex(data));
+    pdfTexEngine.writeMemFSFile('config/reference-urls.tex', '% No reference URLs\n');
+
+    // Set main file and compile
+    pdfTexEngine.setEngineMainFile('main.tex');
+
+    showStatus('Compiling LaTeX...', 'success');
+    const result = await pdfTexEngine.compileLaTeX();
+
+    if (result.status === 0 && result.pdf) {
+        return result.pdf;
+    } else {
+        console.error('LaTeX compilation failed:', result.log);
+
+        // Debug: Show log in UI
+        const existingDebug = document.getElementById('latex-debug-log');
+        if (existingDebug) existingDebug.remove();
+
+        const debugDiv = document.createElement('pre');
+        debugDiv.id = 'latex-debug-log';
+        debugDiv.style.whiteSpace = 'pre-wrap';
+        debugDiv.style.border = '1px solid red';
+        debugDiv.style.padding = '10px';
+        debugDiv.style.margin = '10px';
+        debugDiv.style.backgroundColor = '#fff0f0';
+        debugDiv.textContent = result.log;
+        document.querySelector('.container').appendChild(debugDiv);
+
+        throw new Error('LaTeX compilation failed. Check console for details.');
+    }
+}
+
+// =============================================================================
 // DOCUMENT TYPE CONFIGURATIONS
 // =============================================================================
 
@@ -71,6 +255,187 @@ function showStatus(message, type) {
 }
 
 // =============================================================================
+// ENCLOSURES MANAGEMENT
+// =============================================================================
+
+// Store enclosures with optional file attachments
+let enclosures = [];
+
+/**
+ * Add a new enclosure (manual or with file)
+ */
+function addEnclosure(title = '', file = null) {
+    const enclosure = {
+        title: title,
+        file: file ? {
+            name: file.name,
+            size: file.size,
+            data: null
+        } : null
+    };
+
+    // If file provided, read it
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            enclosure.file.data = e.target.result;
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    enclosures.push(enclosure);
+    renderEnclosures();
+    updatePreview();
+}
+
+/**
+ * Remove an enclosure
+ */
+function removeEnclosure(index) {
+    enclosures.splice(index, 1);
+    renderEnclosures();
+    updatePreview();
+}
+
+/**
+ * Update enclosure title
+ */
+function updateEnclosureTitle(index, title) {
+    enclosures[index].title = title;
+    updatePreview();
+}
+
+/**
+ * Attach file to existing enclosure
+ */
+function attachFileToEnclosure(index, file) {
+    if (file.type !== 'application/pdf') {
+        showStatus('Only PDF files are allowed', 'error');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        enclosures[index].file = {
+            name: file.name,
+            size: file.size,
+            data: e.target.result
+        };
+        renderEnclosures();
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+/**
+ * Handle file input change for specific enclosure
+ */
+function handleEnclosureFileChange(event, index) {
+    const file = event.target.files[0];
+    if (file) {
+        attachFileToEnclosure(index, file);
+    }
+    event.target.value = '';
+}
+
+/**
+ * Handle file upload from drop zone (creates new enclosures)
+ */
+function handleEnclFileUpload(event) {
+    const files = event.target.files;
+    for (const file of files) {
+        if (file.type === 'application/pdf') {
+            // Use filename without extension as title
+            const title = file.name.replace(/\.pdf$/i, '').replace(/[-_]/g, ' ');
+            addEnclosure(title, file);
+        } else {
+            showStatus('Only PDF files are allowed', 'error');
+        }
+    }
+    event.target.value = '';
+}
+
+/**
+ * Render the enclosures list
+ */
+function renderEnclosures() {
+    const container = document.getElementById('enclosuresList');
+
+    if (enclosures.length === 0) {
+        container.innerHTML = '';
+        return;
+    }
+
+    container.innerHTML = enclosures.map((encl, index) => `
+        <div class="enclosure-item">
+            <span class="enclosure-number">(${index + 1})</span>
+            <input type="text"
+                   class="enclosure-input"
+                   value="${escapeHtml(encl.title)}"
+                   placeholder="Enclosure title"
+                   oninput="updateEnclosureTitle(${index}, this.value)">
+            ${encl.file
+            ? `<span class="enclosure-file-indicator has-file" title="${escapeHtml(encl.file.name)}">📎 ${escapeHtml(encl.file.name)}</span>`
+            : `<button type="button" class="enclosure-attach-btn">
+                       📎 Attach
+                       <input type="file" accept=".pdf" onchange="handleEnclosureFileChange(event, ${index})">
+                   </button>`
+        }
+            <button type="button" class="enclosure-remove" onclick="removeEnclosure(${index})">×</button>
+        </div>
+    `).join('');
+}
+
+/**
+ * Format file size for display
+ */
+function formatFileSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+/**
+ * Escape HTML for safe display
+ */
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+/**
+ * Initialize drag and drop for enclosure upload
+ */
+function initDragDrop() {
+    const dropZone = document.getElementById('enclDropZone');
+    if (!dropZone) return;
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        });
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+        });
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        const files = e.dataTransfer.files;
+        for (const file of files) {
+            if (file.type === 'application/pdf') {
+                const title = file.name.replace(/\.pdf$/i, '').replace(/[-_]/g, ' ');
+                addEnclosure(title, file);
+            }
+        }
+    });
+}
+
+// =============================================================================
 // DATA COLLECTION
 // =============================================================================
 
@@ -91,8 +456,20 @@ function collectData() {
         to: document.getElementById('to').value,
         via: document.getElementById('via').value,
         subject: document.getElementById('subject').value,
+        // Classification
+        classLevel: document.getElementById('classLevel').value,
+        cuiControlledBy: document.getElementById('cuiControlledBy').value,
+        cuiCategory: document.getElementById('cuiCategory').value,
+        cuiDissemination: document.getElementById('cuiDissemination').value,
+        cuiDistStatement: document.getElementById('cuiDistStatement').value,
+        pocEmail: document.getElementById('pocEmail').value,
+        classifiedBy: document.getElementById('classifiedBy').value,
+        derivedFrom: document.getElementById('derivedFrom').value,
+        classReason: document.getElementById('classReason').value,
+        declassifyOn: document.getElementById('declassifyOn').value,
+        classifiedPocEmail: document.getElementById('classifiedPocEmail').value,
+        // Refs/Body
         refs: document.getElementById('refs').value,
-        encls: document.getElementById('encls').value,
         body: document.getElementById('body').value,
         sigFirst: document.getElementById('sigFirst').value,
         sigMiddle: document.getElementById('sigMiddle').value,
@@ -100,6 +477,26 @@ function collectData() {
         sigRank: document.getElementById('sigRank').value,
         sigTitle: document.getElementById('sigTitle').value
     };
+}
+
+/**
+ * Show/hide classification fields based on selection
+ */
+function updateClassFields() {
+    const classLevel = document.getElementById('classLevel').value;
+    const cuiFields = document.getElementById('cuiFields');
+    const classifiedFields = document.getElementById('classifiedFields');
+
+    // Hide all first
+    cuiFields.style.display = 'none';
+    classifiedFields.style.display = 'none';
+
+    // Show appropriate fields
+    if (classLevel === 'cui') {
+        cuiFields.style.display = 'block';
+    } else if (['confidential', 'secret', 'top_secret', 'top_secret_sci'].includes(classLevel)) {
+        classifiedFields.style.display = 'block';
+    }
 }
 
 // =============================================================================
@@ -140,17 +537,6 @@ function parseRefs(refsText) {
     }).filter(r => r.letter && r.title);
 }
 
-/**
- * Parse enclosures from textarea (format: "1 | Title")
- */
-function parseEncls(enclsText) {
-    if (!enclsText.trim()) return [];
-    return enclsText.trim().split('\n').map(line => {
-        const parts = line.split('|').map(p => p.trim());
-        return { num: parts[0] || '', title: parts[1] || '' };
-    }).filter(e => e.num && e.title);
-}
-
 // =============================================================================
 // LIVE PREVIEW
 // =============================================================================
@@ -161,8 +547,90 @@ function parseEncls(enclsText) {
 function updatePreview() {
     const data = collectData();
     const refs = parseRefs(data.refs);
-    const encls = parseEncls(data.encls);
     const config = docTypeConfig[data.docType] || docTypeConfig.naval_letter;
+
+    // Classification banners (top and bottom)
+    const bannerTop = document.getElementById('prev-class-banner-top');
+    const bannerBottom = document.getElementById('prev-class-banner-bottom');
+    const cuiBlock = document.getElementById('prev-cui-block');
+    const classifiedBlock = document.getElementById('prev-classified-block');
+
+    // Reset all classification elements
+    bannerTop.style.display = 'none';
+    bannerBottom.style.display = 'none';
+    cuiBlock.style.display = 'none';
+    classifiedBlock.style.display = 'none';
+    bannerTop.className = 'class-banner';
+    bannerBottom.className = 'class-banner class-banner-bottom';
+
+    if (data.classLevel === 'cui') {
+        // CUI marking
+        bannerTop.style.display = 'block';
+        bannerBottom.style.display = 'block';
+        bannerTop.textContent = 'CUI';
+        bannerBottom.textContent = 'CUI';
+        bannerTop.classList.add('cui');
+        bannerBottom.classList.add('cui');
+        // CUI designation block
+        cuiBlock.style.display = 'block';
+        document.getElementById('prev-cui-controlled').textContent = data.cuiControlledBy;
+        document.getElementById('prev-cui-category').textContent = data.cuiCategory;
+        document.getElementById('prev-cui-dissem').textContent = data.cuiDissemination;
+        document.getElementById('prev-cui-poc').textContent = data.pocEmail;
+        document.getElementById('prev-cui-dist').textContent = data.cuiDistStatement;
+    } else if (data.classLevel === 'confidential') {
+        bannerTop.style.display = 'block';
+        bannerBottom.style.display = 'block';
+        bannerTop.textContent = 'CONFIDENTIAL';
+        bannerBottom.textContent = 'CONFIDENTIAL';
+        bannerTop.classList.add('confidential');
+        bannerBottom.classList.add('confidential');
+        classifiedBlock.style.display = 'block';
+        document.getElementById('prev-class-by').textContent = data.classifiedBy;
+        document.getElementById('prev-derived-from').textContent = data.derivedFrom;
+        document.getElementById('prev-class-reason').textContent = data.classReason;
+        document.getElementById('prev-declassify-on').textContent = data.declassifyOn;
+        document.getElementById('prev-class-poc').textContent = data.classifiedPocEmail;
+    } else if (data.classLevel === 'secret') {
+        bannerTop.style.display = 'block';
+        bannerBottom.style.display = 'block';
+        bannerTop.textContent = 'SECRET';
+        bannerBottom.textContent = 'SECRET';
+        bannerTop.classList.add('secret');
+        bannerBottom.classList.add('secret');
+        classifiedBlock.style.display = 'block';
+        document.getElementById('prev-class-by').textContent = data.classifiedBy;
+        document.getElementById('prev-derived-from').textContent = data.derivedFrom;
+        document.getElementById('prev-class-reason').textContent = data.classReason;
+        document.getElementById('prev-declassify-on').textContent = data.declassifyOn;
+        document.getElementById('prev-class-poc').textContent = data.classifiedPocEmail;
+    } else if (data.classLevel === 'top_secret') {
+        bannerTop.style.display = 'block';
+        bannerBottom.style.display = 'block';
+        bannerTop.textContent = 'TOP SECRET';
+        bannerBottom.textContent = 'TOP SECRET';
+        bannerTop.classList.add('top-secret');
+        bannerBottom.classList.add('top-secret');
+        classifiedBlock.style.display = 'block';
+        document.getElementById('prev-class-by').textContent = data.classifiedBy;
+        document.getElementById('prev-derived-from').textContent = data.derivedFrom;
+        document.getElementById('prev-class-reason').textContent = data.classReason;
+        document.getElementById('prev-declassify-on').textContent = data.declassifyOn;
+        document.getElementById('prev-class-poc').textContent = data.classifiedPocEmail;
+    } else if (data.classLevel === 'top_secret_sci') {
+        bannerTop.style.display = 'block';
+        bannerBottom.style.display = 'block';
+        bannerTop.textContent = 'TOP SECRET//SCI';
+        bannerBottom.textContent = 'TOP SECRET//SCI';
+        bannerTop.classList.add('top-secret-sci');
+        bannerBottom.classList.add('top-secret-sci');
+        classifiedBlock.style.display = 'block';
+        document.getElementById('prev-class-by').textContent = data.classifiedBy;
+        document.getElementById('prev-derived-from').textContent = data.derivedFrom;
+        document.getElementById('prev-class-reason').textContent = data.classReason;
+        document.getElementById('prev-declassify-on').textContent = data.declassifyOn;
+        document.getElementById('prev-class-poc').textContent = data.classifiedPocEmail;
+    }
 
     // Letterhead
     const letterhead = document.getElementById('prev-letterhead');
@@ -250,11 +718,11 @@ function updatePreview() {
         refBlock.style.display = 'none';
     }
 
-    // Enclosures
+    // Enclosures (using global enclosures array)
     const enclBlock = document.getElementById('prev-encl-block');
-    if (encls.length > 0) {
+    if (enclosures.length > 0) {
         enclBlock.style.display = 'block';
-        document.getElementById('prev-encls').innerHTML = encls.map(e => `(${e.num}) ${e.title}`).join('<br>');
+        document.getElementById('prev-encls').innerHTML = enclosures.map((e, i) => `(${i + 1}) ${e.title || 'Untitled'}`).join('<br>');
     } else {
         enclBlock.style.display = 'none';
     }
@@ -351,6 +819,9 @@ function generateLetterheadTex(data) {
  * Generate config/signatory.tex
  */
 function generateSignatoryTex(data) {
+    const fullName = getFullSignature(data);
+    const abbrevName = getAbbrevSignature(data);
+
     return `%=============================================================================
 % SIGNATURE CONFIGURATION - Generated by libo-secured
 %=============================================================================
@@ -361,6 +832,9 @@ function generateSignatoryTex(data) {
     {${escapeLatex(data.sigLast)}}
     {${escapeLatex(data.sigRank)}}
     {${escapeLatex(data.sigTitle)}}
+
+\\setSignatoryName{${escapeLatex(fullName)}}
+\\setSignatoryAbbrev{${escapeLatex(abbrevName)}}
 
 \\setSignatureImage{}
 `;
@@ -381,16 +855,15 @@ ${refs.map(r => `\\refitem{${r.letter}}{${escapeLatex(r.title)}}`).join('\n')}
 }
 
 /**
- * Generate config/enclosures.tex
+ * Generate config/enclosures.tex (uses global enclosures array)
  */
-function generateEnclosuresTex(data) {
-    const encls = parseEncls(data.encls);
-    if (encls.length === 0) return '% No enclosures\n';
+function generateEnclosuresTex() {
+    if (enclosures.length === 0) return '% No enclosures\n';
     return `%=============================================================================
 % ENCLOSURES - Generated by libo-secured
 %=============================================================================
 
-${encls.map(e => `\\enclosure{${e.num}}{}{${escapeLatex(e.title)}}`).join('\n')}
+${enclosures.map((e, i) => `\\enclosure{${i + 1}}{${e.file ? e.file.name : ''}}{${escapeLatex(e.title || 'Untitled')}}`).join('\n')}
 `;
 }
 
@@ -403,17 +876,67 @@ function generateBodyTex(data) {
 %=============================================================================
 
 ${data.body.split('\n\n').map(para => {
-    const trimmed = para.trim();
-    if (!trimmed) return '';
-    // Check if it starts with a number (paragraph)
-    if (/^\d+\./.test(trimmed)) {
-        const match = trimmed.match(/^(\d+)\.\s*(.*)/s);
-        if (match) {
-            return `\\parasection{}\n${escapeLatex(match[2])}`;
+        const trimmed = para.trim();
+        if (!trimmed) return '';
+        // Check if it starts with a number (paragraph)
+        if (/^\d+\./.test(trimmed)) {
+            const match = trimmed.match(/^(\d+)\.\s*(.*)/s);
+            if (match) {
+                return `\\parasection{}\n${escapeLatex(match[2])}`;
+            }
         }
+        return escapeLatex(trimmed);
+    }).filter(p => p).join('\n\n')}
+`;
+}
+
+/**
+ * Generate config/classification.tex
+ */
+function generateClassificationTex(data) {
+    if (data.classLevel === 'unclassified') {
+        return `%=============================================================================
+% CLASSIFICATION CONFIGURATION - Generated by libo-secured
+%=============================================================================
+% Document is UNCLASSIFIED - no markings required
+`;
     }
-    return escapeLatex(trimmed);
-}).filter(p => p).join('\n\n')}
+
+    if (data.classLevel === 'cui') {
+        return `%=============================================================================
+% CLASSIFICATION CONFIGURATION - Generated by libo-secured
+%=============================================================================
+% CUI Configuration per DoDI 5200.48
+
+\\setClassification{CUI}
+\\setCUIControlledBy{${escapeLatex(data.cuiControlledBy)}}
+\\setCUICategory{${escapeLatex(data.cuiCategory)}}
+\\setCUIDissemination{${escapeLatex(data.cuiDissemination)}}
+\\setCUIDistStatement{${escapeLatex(data.cuiDistStatement)}}
+\\setPOC{${escapeLatex(data.pocEmail)}}
+`;
+    }
+
+    // Classified documents
+    const classLevelMap = {
+        'confidential': 'CONFIDENTIAL',
+        'secret': 'SECRET',
+        'top_secret': 'TOP SECRET',
+        'top_secret_sci': 'TOP SECRET//SCI'
+    };
+
+    return `%=============================================================================
+% CLASSIFICATION CONFIGURATION - Generated by libo-secured
+%=============================================================================
+% WARNING: Only process classified documents on systems authorized
+% for that classification level.
+
+\\setClassification{${classLevelMap[data.classLevel] || 'SECRET'}}
+\\setClassifiedBy{${escapeLatex(data.classifiedBy)}}
+\\setDerivedFrom{${escapeLatex(data.derivedFrom)}}
+\\setDeclassifyOn{${escapeLatex(data.declassifyOn)}}
+\\setClassificationReason{${escapeLatex(data.classReason)}}
+\\setPOC{${escapeLatex(data.classifiedPocEmail)}}
 `;
 }
 
@@ -434,10 +957,19 @@ async function downloadConfigs() {
     configFolder.file('letterhead.tex', generateLetterheadTex(data));
     configFolder.file('signatory.tex', generateSignatoryTex(data));
     configFolder.file('references.tex', generateReferencesTex(data));
-    configFolder.file('enclosures.tex', generateEnclosuresTex(data));
+    configFolder.file('enclosures.tex', generateEnclosuresTex());
     configFolder.file('body.tex', generateBodyTex(data));
-    configFolder.file('classification.tex', '% No classification markings\n');
+    configFolder.file('classification.tex', generateClassificationTex(data));
     configFolder.file('reference-urls.tex', '% No reference URLs\n');
+
+    // Add enclosure PDF files
+    const enclosuresWithFiles = enclosures.filter(e => e.file && e.file.data);
+    if (enclosuresWithFiles.length > 0) {
+        const enclosuresFolder = zip.folder('enclosures');
+        for (const encl of enclosuresWithFiles) {
+            enclosuresFolder.file(encl.file.name, encl.file.data);
+        }
+    }
 
     // Generate and download
     const blob = await zip.generateAsync({ type: 'blob' });
@@ -452,14 +984,14 @@ async function downloadConfigs() {
 }
 
 /**
- * Quick PDF using jsPDF
+ * Quick PDF using jsPDF with pdf-lib for merging enclosures
  */
-function downloadPDF() {
+async function downloadPDF() {
     try {
         const { jsPDF } = window.jspdf;
+        const { PDFDocument } = PDFLib;
         const data = collectData();
         const refs = parseRefs(data.refs);
-        const encls = parseEncls(data.encls);
         const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
 
         let y = MARGIN_TOP;
@@ -519,10 +1051,10 @@ function downloadPDF() {
             });
         }
 
-        // Encls
-        if (encls.length > 0) {
-            encls.forEach((e, i) => {
-                pdf.text((i === 0 ? 'Encl:  ' : '       ') + `(${e.num}) ${e.title}`, MARGIN_LEFT, y);
+        // Encls (using global enclosures array)
+        if (enclosures.length > 0) {
+            enclosures.forEach((e, i) => {
+                pdf.text((i === 0 ? 'Encl:   ' : '        ') + `(${i + 1}) ${e.title || 'Untitled'}`, MARGIN_LEFT, y);
                 y += 14;
             });
         }
@@ -551,10 +1083,120 @@ function downloadPDF() {
         }
         pdf.text(getAbbrevSignature(data), PAGE_WIDTH / 2 + 36, y);
 
-        pdf.save('correspondence.pdf');
-        showStatus('Quick PDF downloaded!', 'success');
+        // Get enclosures with attached PDF files
+        const enclosuresWithFiles = enclosures.filter(e => e.file && e.file.data);
+
+        if (enclosuresWithFiles.length > 0) {
+            // Use pdf-lib to merge main document with enclosure PDFs
+            showStatus('Merging enclosure PDFs...', 'success');
+
+            // Get main document as ArrayBuffer
+            const mainPdfBytes = pdf.output('arraybuffer');
+
+            // Create merged PDF
+            const mergedPdf = await PDFDocument.create();
+
+            // Load and copy main document pages
+            const mainDoc = await PDFDocument.load(mainPdfBytes);
+            const mainPages = await mergedPdf.copyPages(mainDoc, mainDoc.getPageIndices());
+            mainPages.forEach(page => mergedPdf.addPage(page));
+
+            // Append each enclosure PDF
+            for (const encl of enclosuresWithFiles) {
+                try {
+                    const enclDoc = await PDFDocument.load(encl.file.data);
+                    const enclPages = await mergedPdf.copyPages(enclDoc, enclDoc.getPageIndices());
+                    enclPages.forEach(page => mergedPdf.addPage(page));
+                } catch (enclError) {
+                    console.warn(`Could not merge enclosure "${encl.title}":`, enclError);
+                }
+            }
+
+            // Save merged PDF
+            const mergedPdfBytes = await mergedPdf.save();
+            const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'correspondence.pdf';
+            a.click();
+            URL.revokeObjectURL(url);
+
+            showStatus(`PDF downloaded with ${enclosuresWithFiles.length} enclosure(s) attached!`, 'success');
+        } else {
+            // No enclosure PDFs to merge, just save the main document
+            pdf.save('correspondence.pdf');
+            showStatus('Quick PDF downloaded!', 'success');
+        }
     } catch (error) {
         showStatus('Error: ' + error.message, 'error');
+    }
+}
+
+/**
+ * Download PDF compiled using SwiftLaTeX (proper LaTeX formatting)
+ */
+async function downloadLatexPDF() {
+    try {
+        showStatus('Initializing LaTeX engine...', 'success');
+
+        // Compile LaTeX document
+        const pdfBytes = await compileLatex();
+
+        // Get enclosures with attached PDF files
+        const enclosuresWithFiles = enclosures.filter(e => e.file && e.file.data);
+        const { PDFDocument } = PDFLib;
+
+        if (enclosuresWithFiles.length > 0) {
+            // Merge with enclosure PDFs
+            showStatus('Merging enclosure PDFs...', 'success');
+
+            const mergedPdf = await PDFDocument.create();
+
+            // Load and copy main document pages
+            const mainDoc = await PDFDocument.load(pdfBytes);
+            const mainPages = await mergedPdf.copyPages(mainDoc, mainDoc.getPageIndices());
+            mainPages.forEach(page => mergedPdf.addPage(page));
+
+            // Append each enclosure PDF
+            for (const encl of enclosuresWithFiles) {
+                try {
+                    const enclDoc = await PDFDocument.load(encl.file.data);
+                    const enclPages = await mergedPdf.copyPages(enclDoc, enclDoc.getPageIndices());
+                    enclPages.forEach(page => mergedPdf.addPage(page));
+                } catch (enclError) {
+                    console.warn(`Could not merge enclosure "${encl.title}":`, enclError);
+                }
+            }
+
+            // Save merged PDF
+            const mergedPdfBytes = await mergedPdf.save();
+            const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'correspondence.pdf';
+            a.click();
+            URL.revokeObjectURL(url);
+
+            showStatus(`LaTeX PDF downloaded with ${enclosuresWithFiles.length} enclosure(s)!`, 'success');
+        } else {
+            // No enclosures, just download the compiled PDF
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'correspondence.pdf';
+            a.click();
+            URL.revokeObjectURL(url);
+
+            showStatus('LaTeX PDF downloaded!', 'success');
+        }
+    } catch (error) {
+        console.error('LaTeX compilation error:', error);
+        showStatus('LaTeX failed: ' + error.message + '. Using Quick PDF...', 'error');
+        // Fallback to jsPDF
+        setTimeout(() => downloadPDF(), 1500);
     }
 }
 
@@ -730,10 +1372,13 @@ function selectUnit() {
 // =============================================================================
 
 // Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Load data files
     loadSSICData();
     loadUnitData();
+
+    // Initialize drag-drop for PDF uploads
+    initDragDrop();
 
     // Initialize preview
     updatePreview();

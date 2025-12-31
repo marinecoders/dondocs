@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>libo-secured | USMC Correspondence Generator</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
     <h1>libo-secured</h1>
     <p class="subtitle">"Libo isn't secured until the paperwork is done."</p>
@@ -66,7 +68,8 @@
             <h2>Document Info</h2>
             <div class="checkbox-row">
                 <input type="checkbox" id="inReplyTo" onchange="updatePreview()">
-                <label for="inReplyTo" class="checkbox-label">IN REPLY REFER TO (for replies to previous correspondence)</label>
+                <label for="inReplyTo" class="checkbox-label">IN REPLY REFER TO (for replies to previous
+                    correspondence)</label>
             </div>
             <div class="row">
                 <div>
@@ -86,7 +89,8 @@
 
             <h2>Addressing</h2>
             <label>From</label>
-            <input type="text" id="from" value="Commanding Officer, 1st Battalion, 6th Marines" oninput="updatePreview()">
+            <input type="text" id="from" value="Commanding Officer, 1st Battalion, 6th Marines"
+                oninput="updatePreview()">
 
             <label>To</label>
             <input type="text" id="to" value="Commanding Officer, 6th Marine Regiment" oninput="updatePreview()">
@@ -98,6 +102,86 @@
             <label>Subject</label>
             <input type="text" id="subject" value="REQUEST FOR ADMINISTRATIVE SUPPORT" oninput="updatePreview()">
 
+            <h2 class="collapsible collapsed" onclick="toggleSection(this)">Classification / CUI</h2>
+            <div class="collapsible-content hidden">
+                <label>Classification Level</label>
+                <select id="classLevel" onchange="updateClassFields(); updatePreview()">
+                    <option value="unclassified" selected>UNCLASSIFIED</option>
+                    <option value="cui">CUI (Controlled Unclassified Information)</option>
+                    <option value="confidential">CONFIDENTIAL</option>
+                    <option value="secret">SECRET</option>
+                    <option value="top_secret">TOP SECRET</option>
+                    <option value="top_secret_sci">TOP SECRET//SCI</option>
+                </select>
+
+                <!-- CUI Fields (shown when CUI selected) -->
+                <div id="cuiFields" style="display: none;">
+                    <label>Controlled By</label>
+                    <input type="text" id="cuiControlledBy" value="DOD" oninput="updatePreview()">
+
+                    <label>CUI Category</label>
+                    <select id="cuiCategory" onchange="updatePreview()">
+                        <option value="PRVCY">PRVCY - Privacy</option>
+                        <option value="OPSEC">OPSEC - Operations Security</option>
+                        <option value="FOUO">FOUO - For Official Use Only</option>
+                        <option value="LES">LES - Law Enforcement Sensitive</option>
+                        <option value="PROPIN">PROPIN - Proprietary Information</option>
+                        <option value="EXPT">EXPT - Export Controlled</option>
+                    </select>
+
+                    <label>Dissemination Control</label>
+                    <select id="cuiDissemination" onchange="updatePreview()">
+                        <option value="FEDCON">FEDCON - Federal and Contractors</option>
+                        <option value="FED ONLY">FED ONLY - Federal Employees Only</option>
+                        <option value="NOCON">NOCON - No Contractor Access</option>
+                        <option value="NOFORN">NOFORN - No Foreign Nationals</option>
+                        <option value="DL ONLY">DL ONLY - Dissemination List Only</option>
+                    </select>
+
+                    <label>Distribution Statement</label>
+                    <textarea id="cuiDistStatement" class="small"
+                        oninput="updatePreview()">Distribution authorized to DoD and DoD contractors only.</textarea>
+
+                    <label>POC Email</label>
+                    <input type="email" id="pocEmail" value="" placeholder="name@usmc.mil" oninput="updatePreview()">
+                </div>
+
+                <!-- Classified Fields (shown when CONFIDENTIAL/SECRET/TS selected) -->
+                <div id="classifiedFields" style="display: none;">
+                    <div class="security-warning"
+                        style="background: #5c1a1a; color: #f8d7da; padding: 8px; margin: 10px 0; border-radius: 4px; font-size: 10px;">
+                        ⚠️ WARNING: Only process classified documents on systems authorized for that classification
+                        level.
+                    </div>
+
+                    <label>Classified By</label>
+                    <input type="text" id="classifiedBy" value="" placeholder="Original Classification Authority"
+                        oninput="updatePreview()">
+
+                    <label>Derived From</label>
+                    <input type="text" id="derivedFrom" value="Multiple Sources" oninput="updatePreview()">
+
+                    <label>Classification Reason</label>
+                    <select id="classReason" onchange="updatePreview()">
+                        <option value="1.4(a)">1.4(a) - Military plans, operations, or systems</option>
+                        <option value="1.4(b)">1.4(b) - Foreign government information</option>
+                        <option value="1.4(c)">1.4(c) - Intelligence activities, sources, methods</option>
+                        <option value="1.4(d)">1.4(d) - Foreign relations or activities</option>
+                        <option value="1.4(e)">1.4(e) - Scientific, technological, economic matters</option>
+                        <option value="1.4(f)">1.4(f) - U.S. Government programs for nuclear materials</option>
+                        <option value="1.4(g)">1.4(g) - Vulnerabilities or capabilities of systems</option>
+                        <option value="1.4(h)">1.4(h) - Weapons of mass destruction</option>
+                    </select>
+
+                    <label>Declassify On (YYYYMMDD)</label>
+                    <input type="text" id="declassifyOn" value="" placeholder="20350101" oninput="updatePreview()">
+
+                    <label>POC Email</label>
+                    <input type="email" id="classifiedPocEmail" value="" placeholder="name@usmc.mil"
+                        oninput="updatePreview()">
+                </div>
+            </div>
+
             <h2 class="collapsible" onclick="toggleSection(this)">References & Enclosures</h2>
             <div class="collapsible-content">
                 <label>References (one per line: letter | title)</label>
@@ -106,10 +190,19 @@ b | MCO 5216.20B">a | SECNAV M-5216.5
 b | MCO 5216.20B</textarea>
                 <div class="hint">Format: a | Reference Title</div>
 
-                <label>Enclosures (one per line: number | title)</label>
-                <textarea id="encls" class="small" oninput="updatePreview()" placeholder="1 | Supporting Documentation
-2 | Cost Analysis"></textarea>
-                <div class="hint">Format: 1 | Enclosure Title</div>
+                <div class="enclosures-header">
+                    <label>Enclosures</label>
+                    <span class="enclosures-hint">auto-numbers (1), (2), (3)...</span>
+                </div>
+                <div id="enclosuresList" class="enclosures-list"></div>
+                <div class="enclosure-add-row">
+                    <button type="button" class="btn-add-enclosure" onclick="addEnclosure()">+ Add Enclosure</button>
+                    <div class="enclosure-drop-zone" id="enclDropZone">
+                        <input type="file" id="enclFileUpload" accept=".pdf" multiple
+                            onchange="handleEnclFileUpload(event)">
+                        <span>or drop PDF here</span>
+                    </div>
+                </div>
             </div>
 
             <h2>Body</h2>
@@ -146,10 +239,11 @@ b | MCO 5216.20B</textarea>
             </div>
 
             <div class="btn-row">
-                <button class="primary" onclick="downloadConfigs()">Download LaTeX Configs</button>
+                <button class="primary" onclick="downloadLatexPDF()">Download PDF (LaTeX)</button>
                 <button onclick="downloadPDF()">Quick PDF</button>
             </div>
             <div class="btn-row">
+                <button class="secondary" onclick="downloadConfigs()">Download Configs</button>
                 <button class="secondary" onclick="downloadTeX()">Download .tex</button>
             </div>
 
@@ -158,9 +252,12 @@ b | MCO 5216.20B</textarea>
 
         <!-- LIVE PREVIEW PANEL - Mimics LaTeX letter paper output -->
         <div class="preview-panel" id="livePreview">
+            <!-- Classification Banner (top) -->
+            <div class="class-banner" id="prev-class-banner-top" style="display: none;"></div>
+
             <!-- Letterhead -->
             <div class="letterhead" id="prev-letterhead">
-                <img src="../attachments/dod-seal.png" alt="DoD Seal" class="letterhead-seal" id="prev-seal">
+                <img src="attachments/dod-seal.png" alt="DoD Seal" class="letterhead-seal" id="prev-seal">
                 <div class="letterhead-title">UNITED STATES MARINE CORPS</div>
                 <div class="letterhead-unit" id="prev-unit1">1ST BATTALION, 6TH MARINES</div>
                 <div class="letterhead-hq" id="prev-unit2">6TH MARINE REGIMENT</div>
@@ -187,7 +284,8 @@ b | MCO 5216.20B</textarea>
 
             <!-- From/To/Via blocks -->
             <div class="address-block" id="prev-from-block">
-                <span class="label">From:</span><span id="prev-from">Commanding Officer, 1st Battalion, 6th Marines</span>
+                <span class="label">From:</span><span id="prev-from">Commanding Officer, 1st Battalion, 6th
+                    Marines</span>
             </div>
             <div class="address-block" id="prev-to-block">
                 <span class="label">To:</span><span id="prev-to">Commanding Officer, 6th Marine Regiment</span>
@@ -201,9 +299,28 @@ b | MCO 5216.20B</textarea>
                 <span class="label">Subj:</span><span id="prev-subject">REQUEST FOR ADMINISTRATIVE SUPPORT</span>
             </div>
 
+            <!-- CUI Designation Indicator Block (per DoDI 5200.48) -->
+            <div class="cui-block" id="prev-cui-block" style="display: none;">
+                <div>Controlled by: <span id="prev-cui-controlled"></span></div>
+                <div>CUI Category: <span id="prev-cui-category"></span></div>
+                <div>Limited Dissemination Control: <span id="prev-cui-dissem"></span></div>
+                <div>POC: <span id="prev-cui-poc"></span></div>
+                <div class="cui-dist-statement" id="prev-cui-dist"></div>
+            </div>
+
+            <!-- Classified Block -->
+            <div class="classified-block" id="prev-classified-block" style="display: none;">
+                <div>Classified by: <span id="prev-class-by"></span></div>
+                <div>Derived from: <span id="prev-derived-from"></span></div>
+                <div>Reason: <span id="prev-class-reason"></span></div>
+                <div>Declassify on: <span id="prev-declassify-on"></span></div>
+                <div>POC: <span id="prev-class-poc"></span></div>
+            </div>
+
             <!-- References -->
             <div class="ref-block" id="prev-ref-block">
-                <span class="label">Ref:</span><span class="content" id="prev-refs">(a) SECNAV M-5216.5<br>(b) MCO 5216.20B</span>
+                <span class="label">Ref:</span><span class="content" id="prev-refs">(a) SECNAV M-5216.5<br>(b) MCO
+                    5216.20B</span>
             </div>
 
             <!-- Enclosures -->
@@ -212,24 +329,39 @@ b | MCO 5216.20B</textarea>
             </div>
 
             <!-- Body -->
-            <div class="body-content" id="prev-body">1.  Per reference (a), this correspondence serves as an example of the naval letter format.
+            <div class="body-content" id="prev-body">1. Per reference (a), this correspondence serves as an example of
+                the naval letter format.
 
-2.  The purpose of this letter is to demonstrate proper formatting in accordance with SECNAV M-5216.5.
+                2. The purpose of this letter is to demonstrate proper formatting in accordance with SECNAV M-5216.5.
 
-3.  Point of contact for this matter is the undersigned at (910) 555-1234.</div>
+                3. Point of contact for this matter is the undersigned at (910) 555-1234.</div>
 
             <!-- Signature -->
             <div class="signature-block">
                 <span id="prev-sig">J. A. DOE</span>
             </div>
+
+            <!-- Classification Banner (bottom) -->
+            <div class="class-banner class-banner-bottom" id="prev-class-banner-bottom" style="display: none;"></div>
         </div>
     </div>
 
     <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+    <!-- SwiftLaTeX Engine -->
+    <script src="lib/PdfTeXEngine.js?v=5"></script>
+
+    <!-- LaTeX Templates -->
+    <script src="js/latex-templates.js"></script>
+
+    <!-- Bundled TeX Live Packages (avoids HTTP fetch issues) -->
+    <script src="js/texlive-packages.js?v=5"></script>
 
     <!-- Application JavaScript -->
-    <script src="js/app.js"></script>
+    <script src="js/app.js?v=7"></script>
 </body>
+
 </html>

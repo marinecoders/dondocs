@@ -61,6 +61,12 @@
 %                              PACKAGE IMPORTS
 %=============================================================================
 
+%-----------------------------------------------------------------------------
+% SWIFTLATEX COMPATIBILITY - MUST BE LOADED FIRST
+%-----------------------------------------------------------------------------
+% Provides LaTeX 2020-10-01 features for older 2020-02-02 SwiftLaTeX format
+%-----------------------------------------------------------------------------
+\usepackage{swiftlatex-compat}
 
 %-----------------------------------------------------------------------------
 % PAGE GEOMETRY - SECNAV M-5216.5 COMPLIANT
@@ -84,8 +90,9 @@
 %-----------------------------------------------------------------------------
 % FONTS AND ENCODING
 %-----------------------------------------------------------------------------
+% Note: Using default OT1 encoding with Computer Modern fonts for SwiftLaTeX
+% T1 encoding requires EC fonts which are not bundled
 
-\usepackage[T1]{fontenc}
 \usepackage{courier}
 
 
@@ -451,20 +458,12 @@
 
 \makeatletter
 \newcommand{\setSignatory}[5]{%
-    % Args: {First}{M.}{Last}{Rank}{Title}
-    \renewcommand{\SignatoryFirstName}{#1}%
-    \renewcommand{\SignatoryMiddleInitial}{#2}%
-    \renewcommand{\SignatoryLastName}{#3}%
-    \renewcommand{\SignatoryRank}{#4}%
-    \renewcommand{\SignatoryTitle}{#5}%
-    % Build full name for MFR/Business (First M. LASTNAME)
-    \renewcommand{\SignatoryName}{#1 #2 \MakeUppercase{#3}}%
-    % Build abbreviated for Naval Letter (F. M. LASTNAME)
-    % Extract first character of first name
-    \def\@tempfirst{#1}%
-    \expandafter\def\expandafter\@firstchar\expandafter{\expandafter\@car\@tempfirst\@nil}%
-    \edef\SignatoryAbbrev{\@firstchar. #2 \MakeUppercase{#3}}%
+    % Debugging: Empty implementation to test argument parsing
 }
+\makeatother
+
+\newcommand{\setSignatoryName}[1]{\renewcommand{\SignatoryName}{#1}}
+\newcommand{\setSignatoryAbbrev}[1]{\renewcommand{\SignatoryAbbrev}{#1}}
 \makeatother
 
 \newcommand{\setSignatureImage}[1]{\renewcommand{\SignatureImage}{#1}}

@@ -1,0 +1,21 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{pdflscape}[2022/10/28 v0.13 Stub for SwiftLaTeX]
+\RequirePackage{lscape}
+\RequirePackage{iftex}
+
+\ifpdf
+  \def\PLS@AddRotate#1{%
+    \ifnum#1=0 \else
+      \global\pdfpageattr\expandafter{\the\pdfpageattr /Rotate #1}%
+    \fi
+  }
+  \def\PLS@RemoveRotate{%
+    \global\pdfpageattr\expandafter{\expandafter}%
+    \expandafter\PLS@@RemoveRotate\the\pdfpageattr /Rotate\@nil
+  }
+  \def\PLS@@RemoveRotate#1/Rotate#2\@nil{%
+    \global\pdfpageattr\expandafter{\the\pdfpageattr#1}%
+  }
+  \g@addto@macro{\landscape}{\PLS@AddRotate{90}}
+  \g@addto@macro{\endlandscape}{\PLS@RemoveRotate}
+\fi
