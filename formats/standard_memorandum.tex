@@ -102,13 +102,13 @@
     \hspace{3.25in}%
     \begin{minipage}{3in}
         \raggedright
-        \ifx\SignatureImage\empty\else
+        \if\SignatureImageSet true%
             \IfFileExists{attachments/\SignatureImage}{%
                 \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
             }{}%
         \fi
-        \MakeUppercase{\SignatoryName}\\
-        \SignatoryTitle
+        \MakeUppercase{\SignatoryName}%
+        \ifdefempty{\SignatoryTitle}{}{\\\SignatoryTitle}%
     \end{minipage}%
     %
     % Distribution list (if 16+ addressees)

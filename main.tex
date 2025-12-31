@@ -81,7 +81,7 @@
     bottom  = 1in,
     left    = 1in,
     right   = 1in,
-    headheight = 14pt,
+    headheight = 15pt,
     headsep    = 0pt,
     footskip   = 0.5in
 ]{geometry}
@@ -451,6 +451,7 @@
 \newcommand{\SignatoryRank}{}
 \newcommand{\SignatoryTitle}{}
 \newcommand{\SignatureImage}{}
+\newcommand{\SignatureImageSet}{false}
 
 % Legacy compatibility
 \newcommand{\SignatoryName}{}
@@ -466,7 +467,10 @@
 \newcommand{\setSignatoryAbbrev}[1]{\renewcommand{\SignatoryAbbrev}{#1}}
 \makeatother
 
-\newcommand{\setSignatureImage}[1]{\renewcommand{\SignatureImage}{#1}}
+\newcommand{\setSignatureImage}[1]{%
+    \renewcommand{\SignatureImage}{#1}%
+    \ifx#1\empty\else\renewcommand{\SignatureImageSet}{true}\fi
+}
 
 
 %=============================================================================

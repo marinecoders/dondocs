@@ -16,7 +16,7 @@
 \RequirePackage{intcalc}
 \RequirePackage{url}
 \RequirePackage{bitset}
-\RequirePackage{atbegshi}
+%% Note: atbegshi not loaded - causes issues with SwiftLaTeX's older LaTeX format
 
 %% Basic setup
 \newif\ifHy@breaklinks
@@ -28,6 +28,7 @@
 \newif\ifHy@hypertexnames \Hy@hypertexnamestrue
 \newif\ifHy@plainpages
 \newif\ifHy@hidelinks
+\newif\ifHy@pageanchor \Hy@pageanchortrue
 
 %% Color definitions
 \@ifundefined{@linkcolor}{\def\@linkcolor{blue}}{}

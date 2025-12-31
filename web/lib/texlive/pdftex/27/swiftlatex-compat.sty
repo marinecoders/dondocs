@@ -39,4 +39,13 @@
   }%
 }{}
 
+%% Provide pdfTeX 1.50+ running link primitives as no-ops
+%% These are used by newer fancyhdr but not available in SwiftLaTeX's pdfTeX
+\ifx\pdfrunninglinkoff\undefined
+  \let\pdfrunninglinkoff\relax
+\fi
+\ifx\pdfrunninglinkon\undefined
+  \let\pdfrunninglinkon\relax
+\fi
+
 \endinput
