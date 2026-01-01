@@ -74,14 +74,14 @@
     \hspace{3.25in}%
     \begin{minipage}{3in}
         \raggedright
-        \if\SignatureImageSet true%
+        \ifx\SignatureImage\empty\else
             \IfFileExists{attachments/\SignatureImage}{%
                 \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
             }{}%
         \fi
-        \MakeUppercase{\SignatoryName}%
-        \ifdefempty{\SignatoryRank}{}{\\\SignatoryRank}%
-        \ifdefempty{\SignatoryTitle}{}{\\\SignatoryTitle}%
+        \MakeUppercase{\SignatoryName}\\
+        \SignatoryRank\\
+        \SignatoryTitle
     \end{minipage}
 }
 

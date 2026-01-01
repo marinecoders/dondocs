@@ -238,25 +238,119 @@ button.primary:hover {
 }
 
 /* =============================================================================
-   LIVE PREVIEW - DOCUMENT STYLING
-   Mimics LaTeX Courier 12pt output on letter paper (8.5x11)
+   PDF PREVIEW PANEL
+   Displays compiled LaTeX PDF output
    ============================================================================= */
 
-/* Preview container - simulate letter paper */
+/* Preview container */
 .preview-panel {
     flex: 1.5;
-    background: #fff;
+    background: #2a2a2a;
     border-radius: 8px;
-    padding: 72px;  /* 1 inch margins like LaTeX */
+    padding: 0;
     min-height: 11in;
     max-width: 8.5in;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 12pt;
-    line-height: 1.2;
-    color: #000;
+    display: flex;
+    flex-direction: column;
     box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    overflow-y: auto;
+    overflow: hidden;
 }
+
+/* PDF preview header bar */
+.pdf-preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: #1a1a1a;
+    border-bottom: 1px solid #444;
+}
+
+.pdf-preview-title {
+    color: #888;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.pdf-refresh-btn {
+    background: transparent;
+    border: 1px solid #555;
+    color: #aaa;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.pdf-refresh-btn:hover {
+    background: #333;
+    border-color: #666;
+    color: #fff;
+}
+
+.pdf-refresh-btn:active {
+    transform: rotate(180deg);
+}
+
+/* PDF preview status */
+.pdf-preview-status {
+    padding: 12px;
+    text-align: center;
+    color: #888;
+    font-size: 13px;
+}
+
+.pdf-preview-status.hidden {
+    display: none;
+}
+
+.pdf-loading {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pdf-loading::before {
+    content: '';
+    width: 14px;
+    height: 14px;
+    border: 2px solid #444;
+    border-top-color: #888;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.pdf-preview-status.error {
+    color: #ff6b6b;
+}
+
+.pdf-preview-status.success {
+    color: #51cf66;
+}
+
+/* PDF iframe */
+.pdf-preview-frame {
+    flex: 1;
+    width: 100%;
+    border: none;
+    background: #525659;
+    min-height: 800px;
+}
+
+/* =============================================================================
+   LEGACY PREVIEW STYLES (kept for compatibility)
+   ============================================================================= */
 
 /* Letterhead - centered, navy blue */
 .letterhead {

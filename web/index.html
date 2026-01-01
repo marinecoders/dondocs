@@ -50,6 +50,24 @@
                 </optgroup>
             </select>
 
+            <h2>Font Options</h2>
+            <div class="row">
+                <div>
+                    <label>Font Size</label>
+                    <select id="fontSize" onchange="updatePreview()">
+                        <option value="12pt" selected>12pt (Standard)</option>
+                        <option value="10pt">10pt</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Font Family</label>
+                    <select id="fontFamily" onchange="updatePreview()">
+                        <option value="courier" selected>Courier New</option>
+                        <option value="times">Times New Roman</option>
+                    </select>
+                </div>
+            </div>
+
             <h2>Letterhead</h2>
             <label>Select from Known Units</label>
             <select id="unitSelect" onchange="selectUnit()">
@@ -239,8 +257,7 @@ b | MCO 5216.20B</textarea>
             </div>
 
             <div class="btn-row">
-                <button class="primary" onclick="downloadLatexPDF()">Download PDF (LaTeX)</button>
-                <button onclick="downloadPDF()">Quick PDF</button>
+                <button class="primary" onclick="downloadLatexPDF()">Download PDF</button>
             </div>
             <div class="btn-row">
                 <button class="secondary" onclick="downloadConfigs()">Download Configs</button>
@@ -250,71 +267,52 @@ b | MCO 5216.20B</textarea>
             <div id="status" class="status" style="display: none;"></div>
         </div>
 
-        <!-- LIVE PREVIEW PANEL - Mimics LaTeX letter paper output -->
-        <div class="preview-panel" id="livePreview">
-            <!-- Classification Banner (top) -->
-            <div class="class-banner" id="prev-class-banner-top" style="display: none;"></div>
-
-            <!-- Letterhead -->
-            <div class="letterhead" id="prev-letterhead">
-                <img src="attachments/dod-seal.png" alt="DoD Seal" class="letterhead-seal" id="prev-seal">
-                <div class="letterhead-title">UNITED STATES MARINE CORPS</div>
-                <div class="letterhead-unit" id="prev-unit1">1ST BATTALION, 6TH MARINES</div>
-                <div class="letterhead-hq" id="prev-unit2">6TH MARINE REGIMENT</div>
-                <div class="letterhead-address" id="prev-address">PSC BOX 20123<br>CAMP LEJEUNE, NC 28542</div>
+        <!-- PDF PREVIEW PANEL -->
+        <div class="preview-panel" id="pdfPreviewPanel">
+            <div class="pdf-preview-header">
+                <span class="pdf-preview-title">PDF Preview</span>
+                <button class="pdf-refresh-btn" onclick="refreshPdfPreview()" title="Refresh Preview">&#x21bb;</button>
             </div>
-
-            <!-- Memo Header (for MFR, MOA, etc) -->
-            <div class="memo-header" id="prev-memo-header" style="display: none;"></div>
-
-            <!-- In Reply Refer To (optional) -->
-            <div class="in-reply-block" id="prev-in-reply" style="display: none;">
-                <span class="in-reply-text">IN REPLY REFER TO</span>
+            <div class="pdf-preview-status" id="pdfPreviewStatus">
+                <span class="pdf-loading">Initializing LaTeX engine...</span>
             </div>
+            <iframe id="pdfPreviewFrame" class="pdf-preview-frame"></iframe>
+        </div>
 
-            <!-- SSIC Block - right aligned -->
-            <div class="ssic-block" id="prev-ssic-block">
-                <span id="prev-ssic">5216</span><br>
-                <span id="prev-serial">Ser ADM/001</span><br>
-                <span id="prev-date">1 Jan 2025</span>
+        <!-- Hidden HTML preview elements (kept for compatibility but not displayed) -->
+        <div style="display: none;">
+            <div id="prev-class-banner-top"></div>
+            <div id="prev-letterhead">
+                <img id="prev-seal">
+                <div id="prev-unit1"></div>
+                <div id="prev-unit2"></div>
+                <div id="prev-address"></div>
             </div>
-
-            <!-- Date only for memos -->
-            <div class="date-only" id="prev-date-only" style="display: none;"></div>
-
-            <!-- From/To/Via blocks -->
-            <div class="address-block" id="prev-from-block">
-                <span class="label">From:</span><span id="prev-from">Commanding Officer, 1st Battalion, 6th
-                    Marines</span>
+            <div id="prev-memo-header"></div>
+            <div id="prev-in-reply"></div>
+            <div id="prev-ssic-block">
+                <span id="prev-ssic"></span>
+                <span id="prev-serial"></span>
+                <span id="prev-date"></span>
             </div>
-            <div class="address-block" id="prev-to-block">
-                <span class="label">To:</span><span id="prev-to">Commanding Officer, 6th Marine Regiment</span>
+            <div id="prev-date-only"></div>
+            <div id="prev-from-block"><span id="prev-from"></span></div>
+            <div id="prev-to-block"><span id="prev-to"></span></div>
+            <div id="prev-via-block"><span id="prev-via"></span></div>
+            <div><span id="prev-subject"></span></div>
+            <div id="prev-cui-block">
+                <span id="prev-cui-controlled"></span>
+                <span id="prev-cui-category"></span>
+                <span id="prev-cui-dissem"></span>
+                <span id="prev-cui-poc"></span>
+                <div id="prev-cui-dist"></div>
             </div>
-            <div class="address-block" id="prev-via-block" style="display: none;">
-                <span class="label">Via:</span><span id="prev-via"></span>
-            </div>
-
-            <!-- Subject -->
-            <div class="subject-block">
-                <span class="label">Subj:</span><span id="prev-subject">REQUEST FOR ADMINISTRATIVE SUPPORT</span>
-            </div>
-
-            <!-- CUI Designation Indicator Block (per DoDI 5200.48) -->
-            <div class="cui-block" id="prev-cui-block" style="display: none;">
-                <div>Controlled by: <span id="prev-cui-controlled"></span></div>
-                <div>CUI Category: <span id="prev-cui-category"></span></div>
-                <div>Limited Dissemination Control: <span id="prev-cui-dissem"></span></div>
-                <div>POC: <span id="prev-cui-poc"></span></div>
-                <div class="cui-dist-statement" id="prev-cui-dist"></div>
-            </div>
-
-            <!-- Classified Block -->
-            <div class="classified-block" id="prev-classified-block" style="display: none;">
-                <div>Classified by: <span id="prev-class-by"></span></div>
-                <div>Derived from: <span id="prev-derived-from"></span></div>
-                <div>Reason: <span id="prev-class-reason"></span></div>
-                <div>Declassify on: <span id="prev-declassify-on"></span></div>
-                <div>POC: <span id="prev-class-poc"></span></div>
+            <div id="prev-classified-block">
+                <span id="prev-class-by"></span>
+                <span id="prev-derived-from"></span>
+                <span id="prev-class-reason"></span>
+                <span id="prev-declassify-on"></span>
+                <span id="prev-class-poc"></span>
             </div>
 
             <!-- References -->
@@ -361,7 +359,7 @@ b | MCO 5216.20B</textarea>
     <script src="js/texlive-packages.js?v=10"></script>
 
     <!-- Application JavaScript -->
-    <script src="js/app.js?v=7"></script>
+    <script src="js/app.js?v=16"></script>
 </body>
 
 </html>

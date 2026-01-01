@@ -147,18 +147,18 @@
         \begin{minipage}[t]{2.5in}
             \centering
             \rule{2in}{0.4pt}\\
-            \MakeUppercase{\JuniorSignatoryName}%
-            \ifdefempty{\JuniorSignatoryRank}{}{\\\JuniorSignatoryRank}%
-            \ifdefempty{\JuniorSignatoryTitle}{}{\\\JuniorSignatoryTitle}%
+            \MakeUppercase{\JuniorSignatoryName}\\
+            \JuniorSignatoryRank\\
+            \JuniorSignatoryTitle
         \end{minipage}
         &
         % Senior command signature (RIGHT) - signs LAST
         \begin{minipage}[t]{2.5in}
             \centering
             \rule{2in}{0.4pt}\\
-            \MakeUppercase{\SignatoryName}%
-            \ifdefempty{\SignatoryRank}{}{\\\SignatoryRank}%
-            \ifdefempty{\SignatoryTitle}{}{\\\SignatoryTitle}%
+            \MakeUppercase{\SignatoryName}\\
+            \SignatoryRank\\
+            \SignatoryTitle
         \end{minipage}
     \end{tabular}
 }

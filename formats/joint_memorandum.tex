@@ -188,15 +188,15 @@
         % Junior command signature (LEFT) - signs FIRST
         \begin{minipage}[t]{2.5in}
             \raggedright
-            \MakeUppercase{\JuniorSignatoryName}%
-            \ifdefempty{\JuniorSignatoryTitle}{}{\\\JuniorSignatoryTitle}%
+            \MakeUppercase{\JuniorSignatoryName}\\
+            \JuniorSignatoryTitle
         \end{minipage}
         &
         % Senior command signature (RIGHT) - signs LAST
         \begin{minipage}[t]{2.5in}
             \raggedright
-            \MakeUppercase{\SignatoryName}%
-            \ifdefempty{\SignatoryTitle}{}{\\\SignatoryTitle}%
+            \MakeUppercase{\SignatoryName}\\
+            \SignatoryTitle
         \end{minipage}
     \end{tabular}
 }

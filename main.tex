@@ -94,6 +94,7 @@
 % T1 encoding requires EC fonts which are not bundled
 
 \usepackage{courier}
+\usepackage{times}
 
 
 %-----------------------------------------------------------------------------
@@ -183,6 +184,30 @@
 %
 %=============================================================================
 
+% Default font settings (can be overridden by config/document.tex)
+\newcommand{\FontSize}{12pt}
+\newcommand{\FontFamily}{courier}
+
+% Commands to set font options from config
+\newcommand{\setFontSize}[1]{\renewcommand{\FontSize}{#1}}
+\newcommand{\setFontFamily}[1]{\renewcommand{\FontFamily}{#1}}
+
+% Apply font family (called after config is loaded)
+\newcommand{\applyFontSettings}{%
+    \ifthenelse{\equal{\FontFamily}{times}}{%
+        \renewcommand{\familydefault}{\rmdefault}%
+    }{%
+        \renewcommand{\familydefault}{\ttdefault}%
+    }%
+    % Apply font size
+    \ifthenelse{\equal{\FontSize}{10pt}}{%
+        \fontsize{10pt}{12pt}\selectfont%
+    }{%
+        \fontsize{12pt}{14.4pt}\selectfont%
+    }%
+}
+
+% Default to Courier (applied initially, may be overridden)
 \renewcommand{\familydefault}{\ttdefault}
 \linespread{1.0}
 \raggedright
@@ -760,6 +785,8 @@
 \input{config/document}
 \input{config/signatory}
 
+% Apply font settings after config is loaded
+\applyFontSettings
 
 %=============================================================================
 % LOAD FORMAT-SPECIFIC MODULE
