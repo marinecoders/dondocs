@@ -156,15 +156,21 @@ export function ReferencesManager() {
         <AccordionContent>
           <div className="pt-2">
             {/* Hyperlinks toggle */}
-            <div className="flex items-center gap-2 mb-3 pb-3 border-b border-border">
-              <Checkbox
-                id="includeHyperlinks"
-                checked={formData.includeHyperlinks || false}
-                onCheckedChange={(checked) => setField('includeHyperlinks', !!checked)}
-              />
-              <Label htmlFor="includeHyperlinks" className="text-sm font-normal cursor-pointer">
-                Include hyperlinks to references and enclosures in PDF
-              </Label>
+            <div className="mb-3 pb-3 border-b border-border space-y-2">
+              <div className="flex items-center gap-2">
+                <Checkbox
+                  id="includeHyperlinks"
+                  checked={formData.includeHyperlinks || false}
+                  onCheckedChange={(checked) => setField('includeHyperlinks', !!checked)}
+                />
+                <Label htmlFor="includeHyperlinks" className="text-sm font-normal cursor-pointer">
+                  Include hyperlinks to references and enclosures in PDF
+                </Label>
+              </div>
+              <p className="text-xs text-muted-foreground pl-6">
+                When enabled, the URL field below each reference becomes a clickable hyperlink in the generated PDF.
+                Enter the full URL (e.g., https://example.com/document.pdf) to link to external documents or resources.
+              </p>
             </div>
 
             <DndContext
