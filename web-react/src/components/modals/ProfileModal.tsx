@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { X, Building2, BookOpen } from 'lucide-react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { X, Building2, BookOpen, Upload, FileImage } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -35,9 +35,24 @@ import { SSICLookupModal } from '@/components/modals/SSICLookupModal';
 import { useUIStore } from '@/stores/uiStore';
 import { useProfileStore } from '@/stores/profileStore';
 import { useDocumentStore } from '@/stores/documentStore';
-import type { Profile } from '@/types/document';
+import type { Profile, SignatureImage } from '@/types/document';
 import { formatUnitAddress, type UnitInfo } from '@/data/unitDirectory';
 import { ALL_SERVICE_RANKS, formatRank } from '@/data/ranks';
+
+// Convert ArrayBuffer to base64
+function arrayBufferToBase64(buffer: ArrayBuffer): string {
+  const bytes = new Uint8Array(buffer);
+  let binary = '';
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
+
+// Convert base64 to data URL for display
+function base64ToDataUrl(base64: string, mimeType: string): string {
+  return `data:${mimeType};base64,${base64}`;
+}
 
 // Check if a rank value is a standard military rank
 function isStandardMilitaryRank(rank: string): boolean {
@@ -70,6 +85,7 @@ const EMPTY_PROFILE: Profile = {
   byDirectionAuthority: '',
   cuiControlledBy: '',
   pocEmail: '',
+  signatureImage: undefined,
 };
 
 export function ProfileModal() {
@@ -83,6 +99,7 @@ export function ProfileModal() {
   const [showUnitLookup, setShowUnitLookup] = useState(false);
   const [showSSICLookup, setShowSSICLookup] = useState(false);
   const [useCustomRank, setUseCustomRank] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   // Store initial state to compare for changes
   const initialStateRef = useRef<{ name: string; profile: Profile }>({ name: '', profile: EMPTY_PROFILE });
@@ -148,6 +165,7 @@ export function ProfileModal() {
           byDirectionAuthority: formData.byDirectionAuthority || '',
           cuiControlledBy: formData.cuiControlledBy || '',
           pocEmail: formData.pocEmail || '',
+          signatureImage: formData.signatureImage,
         };
         setProfileName('');
         setFormState(newProfile);
@@ -191,9 +209,69 @@ export function ProfileModal() {
     setProfileModalOpen(false);
   };
 
-  const updateField = (field: keyof Profile, value: string | boolean) => {
+  const updateField = (field: keyof Profile, value: string | boolean | SignatureImage | undefined) => {
     setFormState((prev) => ({ ...prev, [field]: value }));
   };
+
+  // Generate preview URL from base64 signature
+  const signaturePreviewUrl = useMemo(() => {
+    if (!formState.signatureImage?.data) return null;
+    return base64ToDataUrl(formState.signatureImage.data, 'image/png');
+  }, [formState.signatureImage?.data]);
+
+  // Handle signature image upload
+  const handleSignatureUpload = useCallback(async (file: File) => {
+    if (!file.type.startsWith('image/')) {
+      console.error('Only image files are supported');
+      return;
+    }
+
+    const buffer = await file.arrayBuffer();
+    const base64 = arrayBufferToBase64(buffer);
+
+    const signatureImage: SignatureImage = {
+      name: file.name,
+      size: file.size,
+      data: base64,
+    };
+
+    updateField('signatureImage', signatureImage);
+  }, []);
+
+  // Handle file input change for signature
+  const handleSignatureFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleSignatureUpload(file);
+    }
+    e.target.value = '';
+  }, [handleSignatureUpload]);
+
+  // Handle drag and drop for signature
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  }, []);
+
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  }, []);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+      handleSignatureUpload(file);
+    }
+  }, [handleSignatureUpload]);
+
+  // Remove signature image
+  const handleRemoveSignature = useCallback(() => {
+    updateField('signatureImage', undefined);
+  }, []);
 
   const handleUnitSelect = (unit: UnitInfo) => {
     setFormState((prev) => ({
@@ -485,6 +563,63 @@ export function ProfileModal() {
                         placeholder="the Commanding Officer"
                       />
                     </div>
+                  )}
+                </div>
+
+                {/* Signature Image Upload */}
+                <div className="space-y-2 mt-4">
+                  <Label>Signature Image (Optional)</Label>
+                  <p className="text-xs text-muted-foreground">
+                    Upload a PNG image of your signature to appear above the typed name.
+                  </p>
+
+                  {formState.signatureImage ? (
+                    <div className="space-y-2">
+                      <div className="relative border rounded-lg p-4 bg-secondary/30">
+                        <img
+                          src={signaturePreviewUrl || ''}
+                          alt="Signature preview"
+                          className="max-h-16 mx-auto"
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          onClick={handleRemoveSignature}
+                          className="absolute top-2 right-2 h-6 w-6"
+                          title="Remove signature"
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <FileImage className="h-3 w-3" />
+                        <span>{formState.signatureImage.name}</span>
+                        <span>({(formState.signatureImage.size / 1024).toFixed(1)} KB)</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <label
+                      onDragOver={handleDragOver}
+                      onDragLeave={handleDragLeave}
+                      onDrop={handleDrop}
+                      className={`flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
+                        isDragging
+                          ? 'border-primary bg-primary/10'
+                          : 'border-muted-foreground/25 hover:border-primary/50 hover:bg-secondary/30'
+                      }`}
+                    >
+                      <Upload className="h-5 w-5 text-muted-foreground" />
+                      <span className="text-xs text-muted-foreground">
+                        Drag & drop or click to upload
+                      </span>
+                      <input
+                        type="file"
+                        accept="image/png,image/jpeg,image/gif"
+                        onChange={handleSignatureFileChange}
+                        className="hidden"
+                      />
+                    </label>
                   )}
                 </div>
               </div>

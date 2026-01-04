@@ -29,6 +29,12 @@ export interface CopyTo {
   text: string;
 }
 
+export interface SignatureImage {
+  name: string;
+  size: number;
+  data: string; // base64 encoded for localStorage compatibility
+}
+
 export interface Profile {
   department?: string;
   unitLine1: string;
@@ -45,6 +51,7 @@ export interface Profile {
   byDirectionAuthority?: string;
   cuiControlledBy?: string;
   pocEmail?: string;
+  signatureImage?: SignatureImage;
 }
 
 export interface DocumentData {
@@ -84,6 +91,7 @@ export interface DocumentData {
   sigTitle: string;
   byDirection: boolean;
   byDirectionAuthority: string;
+  signatureImage?: SignatureImage;
 
   // Classification
   classLevel: string;
@@ -166,11 +174,11 @@ export interface DocTypeConfig {
 export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
   naval_letter: {
     letterhead: true, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
-    regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 2-20' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 2-20' }
   },
   standard_letter: {
     letterhead: false, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
-    regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 2-20' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 2-20' }
   },
   business_letter: {
     letterhead: true, ssic: true, fromTo: false, via: false, memoHeader: false, signature: 'full', uiMode: 'business',
@@ -178,35 +186,35 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
   },
   multiple_address_letter: {
     letterhead: true, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
-    regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 2-20' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 2-20' }
   },
   joint_letter: {
     letterhead: true, ssic: true, fromTo: true, via: false, memoHeader: false, signature: 'dual', uiMode: 'joint',
-    regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 2-20' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 2-20' }
   },
   same_page_endorsement: {
     letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
-    regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 7' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 7' }
   },
   new_page_endorsement: {
     letterhead: true, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
-    regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 7' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 7' }
   },
   mfr: {
     letterhead: true, ssic: true, fromTo: false, via: false, memoHeader: true, signature: 'abbrev', uiMode: 'memo',
-    regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 10' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 10' }
   },
   plain_paper_memorandum: {
     letterhead: false, ssic: false, fromTo: true, via: false, memoHeader: true, signature: 'abbrev', uiMode: 'memo',
-    regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 12' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' }
   },
   letterhead_memorandum: {
     letterhead: true, ssic: true, fromTo: true, via: false, memoHeader: true, signature: 'abbrev', uiMode: 'memo',
-    regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 12' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' }
   },
   decision_memorandum: {
     letterhead: false, ssic: false, fromTo: true, via: false, memoHeader: true, signature: 'abbrev', uiMode: 'memo',
-    regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 12' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' }
   },
   executive_memorandum: {
     letterhead: false, ssic: false, fromTo: true, via: false, memoHeader: true, signature: 'full', uiMode: 'memo',
@@ -214,19 +222,19 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
   },
   moa: {
     letterhead: true, ssic: true, fromTo: false, via: false, memoHeader: false, signature: 'dual', uiMode: 'moa',
-    regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 12' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' }
   },
   mou: {
     letterhead: true, ssic: true, fromTo: false, via: false, memoHeader: false, signature: 'dual', uiMode: 'moa',
-    regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 12' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' }
   },
   joint_memorandum: {
     letterhead: true, ssic: true, fromTo: true, via: false, memoHeader: true, signature: 'dual', uiMode: 'joint',
-    regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 12' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' }
   },
   mf: {
     letterhead: true, ssic: true, fromTo: false, via: false, memoHeader: true, signature: 'abbrev', uiMode: 'memo',
-    regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 10' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 10' }
   },
   executive_correspondence: {
     letterhead: false, ssic: false, fromTo: true, via: false, memoHeader: false, signature: 'full', uiMode: 'standard',

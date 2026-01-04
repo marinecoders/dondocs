@@ -16,9 +16,15 @@ interface UIState {
   profileModalOpen: boolean;
   restoreModalOpen: boolean;
   referenceLibraryOpen: boolean;
+  aboutModalOpen: boolean;
+  nistModalOpen: boolean;
+  batchModalOpen: boolean;
   setProfileModalOpen: (open: boolean) => void;
   setRestoreModalOpen: (open: boolean) => void;
   setReferenceLibraryOpen: (open: boolean) => void;
+  setAboutModalOpen: (open: boolean) => void;
+  setNistModalOpen: (open: boolean) => void;
+  setBatchModalOpen: (open: boolean) => void;
 
   // Mobile
   isMobile: boolean;
@@ -50,9 +56,15 @@ export const useUIStore = create<UIState>()(
       profileModalOpen: false,
       restoreModalOpen: false,
       referenceLibraryOpen: false,
+      aboutModalOpen: false,
+      nistModalOpen: false,
+      batchModalOpen: false,
       setProfileModalOpen: (open) => set({ profileModalOpen: open }),
       setRestoreModalOpen: (open) => set({ restoreModalOpen: open }),
       setReferenceLibraryOpen: (open) => set({ referenceLibraryOpen: open }),
+      setAboutModalOpen: (open) => set({ aboutModalOpen: open }),
+      setNistModalOpen: (open) => set({ nistModalOpen: open }),
+      setBatchModalOpen: (open) => set({ batchModalOpen: open }),
 
       // Mobile
       isMobile: false,

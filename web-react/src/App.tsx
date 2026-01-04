@@ -5,11 +5,15 @@ import { PreviewPanel } from '@/components/layout/PreviewPanel';
 import { ProfileModal } from '@/components/modals/ProfileModal';
 import { ReferenceLibraryModal } from '@/components/modals/ReferenceLibraryModal';
 import { MobilePreviewModal } from '@/components/modals/MobilePreviewModal';
+import { AboutModal } from '@/components/modals/AboutModal';
+import { NISTComplianceModal } from '@/components/modals/NISTComplianceModal';
+import { BatchModal } from '@/components/modals/BatchModal';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useProfileStore } from '@/stores/profileStore';
 import { useLatexEngine } from '@/hooks/useLatexEngine';
 import { generateAllLatexFiles } from '@/services/latex/generator';
+import { generateDocx } from '@/services/docx/generator';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
 import type { ClassificationInfo } from '@/services/pdf/mergeEnclosures';
 
@@ -81,6 +85,7 @@ function App() {
         byDirectionAuthority: profile.byDirectionAuthority,
         cuiControlledBy: profile.cuiControlledBy,
         pocEmail: profile.pocEmail,
+        signatureImage: profile.signatureImage,
       });
     }
     // Only run on initial mount
@@ -98,8 +103,15 @@ function App() {
     setCompileError(null);
 
     try {
-      const { texFiles, enclosures, includeHyperlinks } = generateAllLatexFiles(documentStore);
-      let pdfBytes = await compile(texFiles);
+      const { texFiles, enclosures, includeHyperlinks, signatureImage } = generateAllLatexFiles(documentStore);
+
+      // Build files object including signature image if present
+      const files: Record<string, string | Uint8Array> = { ...texFiles };
+      if (signatureImage) {
+        files['attachments/signature.png'] = signatureImage;
+      }
+
+      let pdfBytes = await compile(files);
 
       if (pdfBytes) {
         // Merge enclosures if any (handles both PDF and text-only)
@@ -166,8 +178,15 @@ function App() {
 
     setIsCompiling(true);
     try {
-      const { texFiles, enclosures, includeHyperlinks } = generateAllLatexFiles(documentStore);
-      let pdfBytes = await compile(texFiles);
+      const { texFiles, enclosures, includeHyperlinks, signatureImage } = generateAllLatexFiles(documentStore);
+
+      // Build files object including signature image if present
+      const files: Record<string, string | Uint8Array> = { ...texFiles };
+      if (signatureImage) {
+        files['attachments/signature.png'] = signatureImage;
+      }
+
+      let pdfBytes = await compile(files);
 
       if (pdfBytes) {
         // Merge enclosures if any (handles both PDF and text-only)
@@ -203,11 +222,34 @@ function App() {
     URL.revokeObjectURL(url);
   }, [documentStore]);
 
+  const handleDownloadDocx = useCallback(async () => {
+    try {
+      const docxBytes = await generateDocx(documentStore);
+      // Convert to ArrayBuffer to avoid TypeScript issues with Uint8Array
+      const arrayBuffer = docxBytes.buffer.slice(
+        docxBytes.byteOffset,
+        docxBytes.byteOffset + docxBytes.byteLength
+      ) as ArrayBuffer;
+      const blob = new Blob([arrayBuffer], {
+        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'correspondence.docx';
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('DOCX generation error:', err);
+    }
+  }, [documentStore]);
+
   return (
     <div className="flex flex-col h-screen bg-background">
       <Header
         onDownloadPdf={handleDownloadPdf}
         onDownloadTex={handleDownloadTex}
+        onDownloadDocx={handleDownloadDocx}
         onRefreshPreview={compilePdf}
         isCompiling={isCompiling}
       />
@@ -232,6 +274,9 @@ function App() {
         isCompiling={isCompiling || !isReady}
         error={compileError || engineError}
       />
+      <AboutModal />
+      <NISTComplianceModal />
+      <BatchModal />
     </div>
   );
 }

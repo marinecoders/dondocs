@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw } from 'lucide-react';
+import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -24,6 +24,7 @@ import { useDocumentStore } from '@/stores/documentStore';
 interface HeaderProps {
   onDownloadPdf?: () => void;
   onDownloadTex?: () => void;
+  onDownloadDocx?: () => void;
   onRefreshPreview?: () => void;
   isCompiling?: boolean;
 }
@@ -35,10 +36,11 @@ const STORAGE_KEY = 'libo-secured-document';
 export function Header({
   onDownloadPdf,
   onDownloadTex,
+  onDownloadDocx,
   onRefreshPreview,
   isCompiling,
 }: HeaderProps) {
-  const { theme, toggleTheme, autoSaveStatus } = useUIStore();
+  const { theme, toggleTheme, autoSaveStatus, setAboutModalOpen, setNistModalOpen, setBatchModalOpen } = useUIStore();
   const documentStore = useDocumentStore();
   const { resetForm } = useDocumentStore();
   const [showResetDialog, setShowResetDialog] = useState(false);
@@ -115,6 +117,16 @@ export function Header({
           <p className="text-sm text-muted-foreground hidden sm:block">
             "Libo isn't secured until the paperwork is done."
           </p>
+          {/* NIST 800-171 Compliance Badge */}
+          <button
+            onClick={() => setNistModalOpen(true)}
+            className="hidden md:flex items-center gap-1.5 px-2 py-1 rounded-md bg-green-500/10 border border-green-500/30 text-green-600 dark:text-green-400 text-xs cursor-pointer hover:bg-green-500/20 transition-colors"
+            title="Click to learn about NIST 800-171 compliance"
+          >
+            <Shield className="h-3 w-3" />
+            <span>NIST 800-171</span>
+            <HelpCircle className="h-3 w-3 opacity-60" />
+          </button>
         </div>
 
         <div className="flex items-center gap-2">
@@ -172,12 +184,27 @@ export function Header({
                 <FileText className="h-4 w-4 mr-2" />
                 Download PDF
               </DropdownMenuItem>
+              <DropdownMenuItem onClick={onDownloadDocx}>
+                <FileText className="h-4 w-4 mr-2" />
+                Download DOCX
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={onDownloadTex}>
                 <FileText className="h-4 w-4 mr-2" />
                 Download LaTeX
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+
+          {/* Batch Generation */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setBatchModalOpen(true)}
+            title="Generate multiple documents with placeholders"
+          >
+            <Layers className="h-4 w-4 mr-2" />
+            Batch
+          </Button>
 
           {/* GitHub links */}
           <Button
@@ -196,6 +223,15 @@ export function Header({
             title="Report a Bug"
           >
             <Bug className="h-4 w-4" />
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setAboutModalOpen(true)}
+            title="About libo-secured"
+          >
+            <Info className="h-4 w-4" />
           </Button>
 
           <Button variant="ghost" size="icon" onClick={toggleTheme} title="Toggle theme">

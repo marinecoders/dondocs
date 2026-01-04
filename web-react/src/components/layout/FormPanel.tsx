@@ -9,6 +9,7 @@ import { EnclosuresManager } from '@/components/editor/EnclosuresManager';
 import { ParagraphsEditor } from '@/components/editor/ParagraphsEditor';
 import { CopyToManager } from '@/components/editor/CopyToManager';
 import { ProfileBar } from '@/components/editor/ProfileBar';
+import { DocumentStats } from '@/components/editor/DocumentStats';
 import { useDocumentStore } from '@/stores/documentStore';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 
@@ -40,6 +41,8 @@ export function FormPanel() {
           <CopyToManager />
 
           <SignatureSection config={config} />
+
+          <DocumentStats />
           </div>
         </ScrollArea>
       </div>

@@ -1,4 +1,4 @@
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useMemo } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -39,6 +39,14 @@ const LEVEL_COLORS = [
   'bg-pink-500',
   'bg-cyan-500',
 ];
+
+// Count words in text (handles empty strings gracefully)
+function countWords(text: string): number {
+  if (!text || !text.trim()) return 0;
+  // Remove LaTeX formatting commands and count remaining words
+  const cleanText = text.replace(/\\(textbf|textit|underline)\{([^}]*)\}/g, '$2');
+  return cleanText.trim().split(/\s+/).length;
+}
 
 // Level labels reference (used by getParagraphLabel)
 // ['1.', 'a.', '(1)', '(a)', '1.', 'a.', '(1)', '(a)']
@@ -84,6 +92,8 @@ function SortableParagraph({
     transition,
     isDragging,
   } = useSortable({ id: `para-${index}` });
+
+  const wordCount = useMemo(() => countWords(paragraph.text), [paragraph.text]);
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -177,6 +187,9 @@ function SortableParagraph({
               <Plus className="h-3 w-3" />
             </Button>
             <div className="flex-1" />
+            <span className="text-xs text-muted-foreground mr-2">
+              {wordCount} {wordCount === 1 ? 'word' : 'words'}
+            </span>
             <Button
               variant="ghost"
               size="sm"
@@ -214,6 +227,11 @@ export function ParagraphsEditor() {
   // Calculate labels for each paragraph
   const labels = calculateLabels(paragraphs);
 
+  // Calculate total word count
+  const totalWords = useMemo(() => {
+    return paragraphs.reduce((sum, para) => sum + countWords(para.text), 0);
+  }, [paragraphs]);
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (over && active.id !== over.id) {
@@ -226,7 +244,14 @@ export function ParagraphsEditor() {
   return (
     <Accordion type="single" collapsible defaultValue="paragraphs">
       <AccordionItem value="paragraphs">
-        <AccordionTrigger>Body Paragraphs</AccordionTrigger>
+        <AccordionTrigger>
+          <div className="flex items-center gap-2">
+            <span>Body Paragraphs</span>
+            <span className="text-xs text-muted-foreground font-normal">
+              ({totalWords} {totalWords === 1 ? 'word' : 'words'})
+            </span>
+          </div>
+        </AccordionTrigger>
         <AccordionContent>
           <div className="pt-2">
             <DndContext

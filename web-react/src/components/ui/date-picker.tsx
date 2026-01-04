@@ -12,8 +12,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-// Military date format: "1 January 2025"
-const MILITARY_DATE_FORMAT = "d MMMM yyyy"
+// SECNAV M-5216.5 date format: "15 Dec 24" (abbreviated month, 2-digit year)
+// Per Ch 7, Para 3.a.(3) - Date is in abbreviated format
+const MILITARY_DATE_FORMAT = "d MMM yy"
 
 // Try to parse various date formats and return a Date object
 function parseFlexibleDate(dateString: string): Date | null {
@@ -23,10 +24,12 @@ function parseFlexibleDate(dateString: string): Date | null {
 
   // Common formats to try
   const formats = [
-    "d MMMM yyyy",      // 1 January 2025
-    "dd MMMM yyyy",     // 01 January 2025
+    "d MMM yy",         // 15 Dec 24 (SECNAV standard)
+    "dd MMM yy",        // 15 Dec 24
     "d MMM yyyy",       // 1 Jan 2025
     "dd MMM yyyy",      // 01 Jan 2025
+    "d MMMM yyyy",      // 1 January 2025
+    "dd MMMM yyyy",     // 01 January 2025
     "MMMM d, yyyy",     // January 1, 2025
     "MMM d, yyyy",      // Jan 1, 2025
     "MM/dd/yyyy",       // 01/01/2025
@@ -56,7 +59,7 @@ function parseFlexibleDate(dateString: string): Date | null {
   return null
 }
 
-// Format a Date to military format
+// Format a Date to SECNAV abbreviated format (15 Dec 24)
 function formatToMilitary(date: Date): string {
   return format(date, MILITARY_DATE_FORMAT)
 }
@@ -72,7 +75,7 @@ interface DatePickerProps {
 export function DatePicker({
   value,
   onChange,
-  placeholder = "1 January 2025",
+  placeholder = "15 Dec 24",
   className,
   id,
 }: DatePickerProps) {

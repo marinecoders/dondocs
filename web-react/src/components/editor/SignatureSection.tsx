@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -18,9 +18,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Upload, X, FileImage } from 'lucide-react';
 import { useDocumentStore } from '@/stores/documentStore';
-import type { DocTypeConfig } from '@/types/document';
+import type { DocTypeConfig, SignatureImage } from '@/types/document';
 import { ALL_SERVICE_RANKS, formatRank } from '@/data/ranks';
+
+// Convert ArrayBuffer to base64
+function arrayBufferToBase64(buffer: ArrayBuffer): string {
+  const bytes = new Uint8Array(buffer);
+  let binary = '';
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
+
+// Convert base64 to data URL for display
+function base64ToDataUrl(base64: string, mimeType: string): string {
+  return `data:${mimeType};base64,${base64}`;
+}
 
 // Check if a rank value is a standard military rank
 function isStandardMilitaryRank(rank: string): boolean {
@@ -46,11 +62,73 @@ export function SignatureSection({ config: _config }: SignatureSectionProps) {
   void _config;
   const { formData, setField } = useDocumentStore();
   const [useCustomRank, setUseCustomRank] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   // Initialize useCustomRank based on current sigRank value
   useEffect(() => {
     setUseCustomRank(!isStandardMilitaryRank(formData.sigRank || ''));
   }, [formData.sigRank]);
+
+  // Generate preview URL from base64 signature
+  const signaturePreviewUrl = useMemo(() => {
+    if (!formData.signatureImage?.data) return null;
+    return base64ToDataUrl(formData.signatureImage.data, 'image/png');
+  }, [formData.signatureImage?.data]);
+
+  // Handle signature image upload
+  const handleSignatureUpload = useCallback(async (file: File) => {
+    if (!file.type.startsWith('image/')) {
+      console.error('Only image files are supported');
+      return;
+    }
+
+    const buffer = await file.arrayBuffer();
+    const base64 = arrayBufferToBase64(buffer);
+
+    const signatureImage: SignatureImage = {
+      name: file.name,
+      size: file.size,
+      data: base64,
+    };
+
+    setField('signatureImage', signatureImage);
+  }, [setField]);
+
+  // Handle file input change
+  const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleSignatureUpload(file);
+    }
+    // Reset input so same file can be re-selected
+    e.target.value = '';
+  }, [handleSignatureUpload]);
+
+  // Handle drag and drop
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  }, []);
+
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  }, []);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+      handleSignatureUpload(file);
+    }
+  }, [handleSignatureUpload]);
+
+  // Remove signature image
+  const handleRemoveSignature = useCallback(() => {
+    setField('signatureImage', undefined);
+  }, [setField]);
 
   return (
     <Accordion type="single" collapsible defaultValue="signature">
@@ -219,6 +297,65 @@ export function SignatureSection({ config: _config }: SignatureSectionProps) {
                 onChange={(e) => setField('pocEmail', e.target.value)}
                 placeholder="john.doe@usmc.mil"
               />
+            </div>
+
+            {/* Signature Image Upload */}
+            <div className="space-y-2">
+              <Label>Signature Image (Optional)</Label>
+              <p className="text-xs text-muted-foreground">
+                Upload a PNG image of your signature to appear above your typed name.
+              </p>
+
+              {formData.signatureImage ? (
+                <div className="space-y-2">
+                  <div className="relative border rounded-lg p-4 bg-secondary/30">
+                    <img
+                      src={signaturePreviewUrl || ''}
+                      alt="Signature preview"
+                      className="max-h-20 mx-auto"
+                    />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={handleRemoveSignature}
+                      className="absolute top-2 right-2 h-6 w-6"
+                      title="Remove signature"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <FileImage className="h-3 w-3" />
+                    <span>{formData.signatureImage.name}</span>
+                    <span>({(formData.signatureImage.size / 1024).toFixed(1)} KB)</span>
+                  </div>
+                </div>
+              ) : (
+                <label
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  className={`flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
+                    isDragging
+                      ? 'border-primary bg-primary/10'
+                      : 'border-muted-foreground/25 hover:border-primary/50 hover:bg-secondary/30'
+                  }`}
+                >
+                  <Upload className="h-6 w-6 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">
+                    Drag & drop or click to upload
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    PNG, JPG, or GIF (max 500KB recommended)
+                  </span>
+                  <input
+                    type="file"
+                    accept="image/png,image/jpeg,image/gif"
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
+                </label>
+              )}
             </div>
           </div>
         </AccordionContent>

@@ -108,7 +108,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                     id="date"
                     value={formData.date || ''}
                     onChange={(value) => setField('date', value)}
-                    placeholder="1 January 2025"
+                    placeholder="15 Dec 24"
                   />
                 </div>
               </div>
