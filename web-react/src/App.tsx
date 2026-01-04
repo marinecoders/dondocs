@@ -11,6 +11,27 @@ import { useProfileStore } from '@/stores/profileStore';
 import { useLatexEngine } from '@/hooks/useLatexEngine';
 import { generateAllLatexFiles } from '@/services/latex/generator';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
+import type { ClassificationInfo } from '@/services/pdf/mergeEnclosures';
+
+// Helper to get classification marking for enclosures
+function getClassificationInfo(classLevel: string | undefined): ClassificationInfo | undefined {
+  if (!classLevel || classLevel === 'unclassified') {
+    return undefined;
+  }
+
+  const markingMap: Record<string, string> = {
+    cui: 'CUI',
+    confidential: 'CONFIDENTIAL',
+    secret: 'SECRET',
+    top_secret: 'TOP SECRET',
+    top_secret_sci: 'TOP SECRET//SCI',
+  };
+
+  const marking = markingMap[classLevel];
+  if (!marking) return undefined;
+
+  return { level: classLevel, marking };
+}
 
 function App() {
   const { theme, setIsMobile } = useUIStore();
@@ -79,7 +100,8 @@ function App() {
       if (pdfBytes) {
         // Merge enclosures if any (handles both PDF and text-only)
         if (enclosures.length > 0) {
-          pdfBytes = await mergeEnclosures(pdfBytes, enclosures);
+          const classification = getClassificationInfo(documentStore.formData.classLevel);
+          pdfBytes = await mergeEnclosures(pdfBytes, enclosures, classification);
         }
 
         // Revoke old URL
@@ -137,7 +159,8 @@ function App() {
       if (pdfBytes) {
         // Merge enclosures if any (handles both PDF and text-only)
         if (enclosures.length > 0) {
-          pdfBytes = await mergeEnclosures(pdfBytes, enclosures);
+          const classification = getClassificationInfo(documentStore.formData.classLevel);
+          pdfBytes = await mergeEnclosures(pdfBytes, enclosures, classification);
         }
 
         const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });

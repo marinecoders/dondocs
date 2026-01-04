@@ -7,6 +7,11 @@ export interface EnclosureData {
   pageStyle?: 'border' | 'fullpage' | 'fit';
 }
 
+export interface ClassificationInfo {
+  level: string; // 'unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci'
+  marking?: string; // The actual marking text to display (e.g., 'CUI', 'SECRET', 'TOP SECRET//SCI')
+}
+
 // Standard letter page dimensions (8.5" x 11" at 72 DPI)
 const PAGE_WIDTH = 612;
 const PAGE_HEIGHT = 792;
@@ -19,7 +24,8 @@ const MARGIN = 72; // 1 inch margins
  */
 export async function mergeEnclosures(
   mainPdfBytes: Uint8Array,
-  enclosures: EnclosureData[]
+  enclosures: EnclosureData[],
+  classification?: ClassificationInfo
 ): Promise<Uint8Array> {
   if (enclosures.length === 0) {
     return mainPdfBytes;
@@ -35,15 +41,15 @@ export async function mergeEnclosures(
     try {
       if (enclosure.data) {
         // PDF enclosure - load and add pages
-        await addPdfEnclosure(mainPdf, enclosure, helveticaBold);
+        await addPdfEnclosure(mainPdf, enclosure, helveticaBold, classification);
       } else {
         // Text-only enclosure - create placeholder page
-        addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica);
+        addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, false, classification);
       }
     } catch (err) {
       console.error(`Failed to add enclosure ${enclosure.number}:`, err);
       // Create a placeholder page on error
-      addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true);
+      addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification);
     }
   }
 
@@ -56,7 +62,8 @@ export async function mergeEnclosures(
 async function addPdfEnclosure(
   mainPdf: PDFDocument,
   enclosure: EnclosureData,
-  helveticaBold: Awaited<ReturnType<typeof mainPdf.embedFont>>
+  helveticaBold: Awaited<ReturnType<typeof mainPdf.embedFont>>,
+  classification?: ClassificationInfo
 ): Promise<void> {
   if (!enclosure.data) return;
 
@@ -71,6 +78,11 @@ async function addPdfEnclosure(
 
     // Create a new page in the main document
     const page = mainPdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
+
+    // Add classification marking at top (before content)
+    if (classification?.marking) {
+      addClassificationMarking(page, classification.marking, helveticaBold, 'top');
+    }
 
     // Embed the source page
     const embeddedPage = await mainPdf.embedPage(srcPage);
@@ -104,12 +116,17 @@ async function addPdfEnclosure(
       });
     }
 
-    // Add enclosure header at top center
-    addEnclosureHeader(page, enclosure.number, helveticaBold);
+    // Add enclosure label at bottom right
+    addEnclosureLabel(page, enclosure.number, helveticaBold);
 
-    // Add page number for multi-page enclosures
+    // Add page number for multi-page enclosures (bottom center)
     if (pageCount > 1) {
       addPageNumber(page, i + 1, helveticaBold);
+    }
+
+    // Add classification marking at bottom
+    if (classification?.marking) {
+      addClassificationMarking(page, classification.marking, helveticaBold, 'bottom');
     }
   }
 }
@@ -183,12 +200,15 @@ function addPlaceholderPage(
   enclosure: EnclosureData,
   helveticaBold: Awaited<ReturnType<typeof mainPdf.embedFont>>,
   helvetica: Awaited<ReturnType<typeof mainPdf.embedFont>>,
-  isError = false
+  isError = false,
+  classification?: ClassificationInfo
 ): void {
   const page = mainPdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 
-  // Add enclosure header
-  addEnclosureHeader(page, enclosure.number, helveticaBold);
+  // Add classification marking at top
+  if (classification?.marking) {
+    addClassificationMarking(page, classification.marking, helveticaBold, 'top');
+  }
 
   // Add title in center
   const titleFontSize = 16;
@@ -217,23 +237,31 @@ function addPlaceholderPage(
     font: helvetica,
     color: rgb(0.4, 0.4, 0.4),
   });
+
+  // Add enclosure label at bottom right
+  addEnclosureLabel(page, enclosure.number, helveticaBold);
+
+  // Add classification marking at bottom
+  if (classification?.marking) {
+    addClassificationMarking(page, classification.marking, helveticaBold, 'bottom');
+  }
 }
 
 /**
- * Adds enclosure header at top center of page
+ * Adds enclosure label at bottom right of page
  */
-function addEnclosureHeader(
+function addEnclosureLabel(
   page: PDFPage,
   enclosureNumber: number,
   font: Awaited<ReturnType<PDFDocument['embedFont']>>
 ): void {
-  const headerText = `Enclosure (${enclosureNumber})`;
+  const labelText = `Enclosure (${enclosureNumber})`;
   const fontSize = 10;
-  const textWidth = font.widthOfTextAtSize(headerText, fontSize);
+  const textWidth = font.widthOfTextAtSize(labelText, fontSize);
 
-  page.drawText(headerText, {
-    x: (PAGE_WIDTH - textWidth) / 2,
-    y: PAGE_HEIGHT - 36, // 0.5 inch from top
+  page.drawText(labelText, {
+    x: PAGE_WIDTH - MARGIN - textWidth, // Right-aligned with 1 inch margin
+    y: MARGIN - 18, // Below the 1 inch margin (0.25 inch from bottom margin)
     size: fontSize,
     font,
     color: rgb(0, 0, 0),
@@ -258,5 +286,43 @@ function addPageNumber(
     size: fontSize,
     font,
     color: rgb(0, 0, 0),
+  });
+}
+
+/**
+ * Adds classification marking at top or bottom center of page
+ */
+function addClassificationMarking(
+  page: PDFPage,
+  marking: string,
+  font: Awaited<ReturnType<PDFDocument['embedFont']>>,
+  position: 'top' | 'bottom'
+): void {
+  const fontSize = 12;
+  const textWidth = font.widthOfTextAtSize(marking, fontSize);
+
+  // Determine color based on classification level
+  let color = rgb(0, 0, 0); // Default black
+  const upperMarking = marking.toUpperCase();
+  if (upperMarking.includes('TOP SECRET')) {
+    color = rgb(1, 0.5, 0); // Orange
+  } else if (upperMarking.includes('SECRET')) {
+    color = rgb(1, 0, 0); // Red
+  } else if (upperMarking.includes('CONFIDENTIAL')) {
+    color = rgb(0, 0, 1); // Blue
+  } else if (upperMarking.includes('CUI')) {
+    color = rgb(0.5, 0, 0.5); // Purple
+  }
+
+  const y = position === 'top'
+    ? PAGE_HEIGHT - 24  // 1/3 inch from top
+    : 18;               // 1/4 inch from bottom
+
+  page.drawText(marking, {
+    x: (PAGE_WIDTH - textWidth) / 2,
+    y,
+    size: fontSize,
+    font,
+    color,
   });
 }
