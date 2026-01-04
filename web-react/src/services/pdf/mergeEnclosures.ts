@@ -90,7 +90,8 @@ function addNamedDestination(
 export async function mergeEnclosures(
   mainPdfBytes: Uint8Array,
   enclosures: EnclosureData[],
-  classification?: ClassificationInfo
+  classification?: ClassificationInfo,
+  includeHyperlinks = false
 ): Promise<Uint8Array> {
   if (enclosures.length === 0) {
     return mainPdfBytes;
@@ -106,21 +107,21 @@ export async function mergeEnclosures(
     try {
       // Add optional cover page before the enclosure content
       if (enclosure.hasCoverPage) {
-        addCoverPage(mainPdf, enclosure, helveticaBold, helvetica, classification);
+        addCoverPage(mainPdf, enclosure, helveticaBold, helvetica, classification, includeHyperlinks);
       }
 
       if (enclosure.data) {
         // PDF enclosure - load and add pages
-        await addPdfEnclosure(mainPdf, enclosure, helveticaBold, helvetica, classification);
+        await addPdfEnclosure(mainPdf, enclosure, helveticaBold, helvetica, classification, includeHyperlinks);
       } else if (!enclosure.hasCoverPage) {
         // Text-only enclosure without cover page - create placeholder page
         // (If there's a cover page, it already serves as the placeholder)
-        addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, false, classification);
+        addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, false, classification, includeHyperlinks);
       }
     } catch (err) {
       console.error(`Failed to add enclosure ${enclosure.number}:`, err);
       // Create a placeholder page on error
-      addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification);
+      addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, includeHyperlinks);
     }
   }
 
@@ -135,7 +136,8 @@ async function addPdfEnclosure(
   enclosure: EnclosureData,
   helveticaBold: Awaited<ReturnType<typeof mainPdf.embedFont>>,
   _helvetica: Awaited<ReturnType<typeof mainPdf.embedFont>>,
-  classification?: ClassificationInfo
+  classification?: ClassificationInfo,
+  includeHyperlinks = false
 ): Promise<void> {
   if (!enclosure.data) return;
 
@@ -151,9 +153,9 @@ async function addPdfEnclosure(
     // Create a new page in the main document
     const page = mainPdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 
-    // Add named destination on first page for hyperlink navigation
+    // Add named destination on first page for hyperlink navigation (only if hyperlinks enabled)
     // (Skip if there's a cover page - the cover page has the destination)
-    if (i === 0 && !enclosure.hasCoverPage) {
+    if (includeHyperlinks && i === 0 && !enclosure.hasCoverPage) {
       addNamedDestination(mainPdf, page, `enclosure${enclosure.number}`);
     }
 
@@ -279,12 +281,15 @@ function addPlaceholderPage(
   helveticaBold: Awaited<ReturnType<typeof mainPdf.embedFont>>,
   helvetica: Awaited<ReturnType<typeof mainPdf.embedFont>>,
   isError = false,
-  classification?: ClassificationInfo
+  classification?: ClassificationInfo,
+  includeHyperlinks = false
 ): void {
   const page = mainPdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 
-  // Add named destination for hyperlink navigation
-  addNamedDestination(mainPdf, page, `enclosure${enclosure.number}`);
+  // Add named destination for hyperlink navigation (only if hyperlinks enabled)
+  if (includeHyperlinks) {
+    addNamedDestination(mainPdf, page, `enclosure${enclosure.number}`);
+  }
 
   // Add classification marking at top
   if (classification?.marking) {
@@ -336,12 +341,15 @@ function addCoverPage(
   enclosure: EnclosureData,
   helveticaBold: Awaited<ReturnType<typeof mainPdf.embedFont>>,
   helvetica: Awaited<ReturnType<typeof mainPdf.embedFont>>,
-  classification?: ClassificationInfo
+  classification?: ClassificationInfo,
+  includeHyperlinks = false
 ): void {
   const page = mainPdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 
-  // Add named destination for hyperlink navigation (cover page is the target)
-  addNamedDestination(mainPdf, page, `enclosure${enclosure.number}`);
+  // Add named destination for hyperlink navigation (cover page is the target, only if hyperlinks enabled)
+  if (includeHyperlinks) {
+    addNamedDestination(mainPdf, page, `enclosure${enclosure.number}`);
+  }
 
   // Add classification marking at top
   if (classification?.marking) {

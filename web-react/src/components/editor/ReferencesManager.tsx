@@ -18,6 +18,8 @@ import { GripVertical, Plus, Trash2, Library, Link } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 import {
   Accordion,
   AccordionContent,
@@ -115,6 +117,8 @@ function SortableReference({
 export function ReferencesManager() {
   const {
     references,
+    formData,
+    setField,
     addReference,
     updateReference,
     removeReference,
@@ -151,6 +155,18 @@ export function ReferencesManager() {
         </AccordionTrigger>
         <AccordionContent>
           <div className="pt-2">
+            {/* Hyperlinks toggle */}
+            <div className="flex items-center gap-2 mb-3 pb-3 border-b border-border">
+              <Checkbox
+                id="includeHyperlinks"
+                checked={formData.includeHyperlinks || false}
+                onCheckedChange={(checked) => setField('includeHyperlinks', !!checked)}
+              />
+              <Label htmlFor="includeHyperlinks" className="text-sm font-normal cursor-pointer">
+                Include hyperlinks to references and enclosures in PDF
+              </Label>
+            </div>
+
             <DndContext
               sensors={sensors}
               collisionDetection={closestCenter}

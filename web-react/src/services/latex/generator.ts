@@ -183,6 +183,9 @@ export function generateFlagsTex(store: DocumentStore): string {
   if (store.enclosures.length > 0) {
     flags += '\\setHasEnclosures\n';
   }
+  if (store.formData.includeHyperlinks) {
+    flags += '\\setHyperlinksEnabled\n';
+  }
   return flags;
 }
 
@@ -367,6 +370,7 @@ export interface EnclosureData {
 export interface GeneratedFiles {
   texFiles: Record<string, string>;
   enclosures: EnclosureData[];
+  includeHyperlinks: boolean;
 }
 
 export function generateAllLatexFiles(store: DocumentStore): GeneratedFiles {
@@ -394,5 +398,5 @@ export function generateAllLatexFiles(store: DocumentStore): GeneratedFiles {
     coverPageDescription: encl.coverPageDescription,
   }));
 
-  return { texFiles, enclosures };
+  return { texFiles, enclosures, includeHyperlinks: !!store.formData.includeHyperlinks };
 }

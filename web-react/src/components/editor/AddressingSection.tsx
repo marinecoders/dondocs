@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
+import { DatePicker } from '@/components/ui/date-picker';
 import {
   Accordion,
   AccordionContent,
@@ -103,10 +104,10 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="date">Date</Label>
-                  <Input
+                  <DatePicker
                     id="date"
                     value={formData.date || ''}
-                    onChange={(e) => setField('date', e.target.value)}
+                    onChange={(value) => setField('date', value)}
                     placeholder="1 January 2025"
                   />
                 </div>

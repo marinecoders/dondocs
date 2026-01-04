@@ -755,6 +755,11 @@ const LATEX_TEMPLATES = {
 \\hasenclsfalse
 \\newcommand{\\setHasEnclosures}{\\global\\hasenclstrue}
 
+% Hyperlinks flag - controls whether references/enclosures are clickable
+\\newif\\ifhyperlinks
+\\hyperlinksfalse
+\\newcommand{\\setHyperlinksEnabled}{\\global\\hyperlinkstrue}
+
 % Load flags file (sets hasrefs and hasencls if content exists)
 \\input{flags}
 
@@ -768,11 +773,15 @@ const LATEX_TEMPLATES = {
 
 \\makeatletter
 \\newcommand{\\refitem}[2]{%
-    \\@ifundefined{ref@url@#1}{%
+    \\ifhyperlinks
+        \\@ifundefined{ref@url@#1}{%
+            (#1) #2\\\\%
+        }{%
+            (\\href{\\csname ref@url@#1\\endcsname}{\\textcolor{blue}{#1}}) #2\\\\%
+        }%
+    \\else
         (#1) #2\\\\%
-    }{%
-        (\\href{\\csname ref@url@#1\\endcsname}{\\textcolor{blue}{#1}}) #2\\\\%
-    }%
+    \\fi
 }
 \\makeatother
 
@@ -835,7 +844,11 @@ const LATEX_TEMPLATES = {
                        \\loop\\ifnum\\value{encllistcount}<\\value{enclmax}%
                            \\stepcounter{encllistcount}%
                            \\@ifundefined{encl@defined@\\arabic{encllistcount}}{}{%
-                               (\\hyperlink{enclosure\\arabic{encllistcount}}{\\textcolor{blue}{\\arabic{encllistcount}}}) \\csname encl@title@\\arabic{encllistcount}\\endcsname\\\\%
+                               \\ifhyperlinks
+                                   (\\hyperlink{enclosure\\arabic{encllistcount}}{\\textcolor{blue}{\\arabic{encllistcount}}}) \\csname encl@title@\\arabic{encllistcount}\\endcsname\\\\%
+                               \\else
+                                   (\\arabic{encllistcount}) \\csname encl@title@\\arabic{encllistcount}\\endcsname\\\\%
+                               \\fi
                            }%
                        \\repeat
                    \\end{minipage}
@@ -890,7 +903,7 @@ const LATEX_TEMPLATES = {
                 \\ifx\\currentfile\\empty
                     % No PDF - create placeholder page for text-only enclosure
                     \\newpage
-                    \\hypertarget{enclosure\\currentenclnum}{}%
+                    \\ifhyperlinks\\hypertarget{enclosure\\currentenclnum}{}\\fi%
                     \\thispagestyle{enclosurefirstpage}%
                     \\vspace*{2in}%
                     \\begin{center}
@@ -915,9 +928,9 @@ const LATEX_TEMPLATES = {
                             pagecommand={%
                                 % Capture current page number for footer before incrementing
                                 \\xdef\\currentenclpagenum{\\arabic{enclpagenum}}%
-                                % Set hyperlink target on first page
+                                % Set hyperlink target on first page (only if hyperlinks enabled)
                                 \\ifnum\\value{enclpagenum}=1
-                                    \\hypertarget{enclosure\\currentenclnum}{}%
+                                    \\ifhyperlinks\\hypertarget{enclosure\\currentenclnum}{}\\fi%
                                     \\thispagestyle{enclosurefirstpage}%
                                 \\else
                                     \\thispagestyle{enclosurepage}%
@@ -940,11 +953,19 @@ const LATEX_TEMPLATES = {
 %=============================================================================
 
 \\newcommand{\\enclref}[1]{%
-    \\hyperlink{enclosure#1}{Enclosure~(#1)}%
+    \\ifhyperlinks
+        \\hyperlink{enclosure#1}{Enclosure~(#1)}%
+    \\else
+        Enclosure~(#1)%
+    \\fi
 }
 
 \\newcommand{\\encl}[1]{%
-    \\hyperlink{enclosure#1}{\\textcolor{blue}{#1}}%
+    \\ifhyperlinks
+        \\hyperlink{enclosure#1}{\\textcolor{blue}{#1}}%
+    \\else
+        #1%
+    \\fi
 }
 
 

@@ -88,6 +88,8 @@ const DEFAULT_FORM_DATA: Partial<DocumentData> = {
   // Classification
   classLevel: 'unclassified',
   pocEmail: 'john.doe@usmc.mil',
+  // Hyperlinks - default to OFF (no hyperlinks)
+  includeHyperlinks: false,
 };
 
 export const useDocumentStore = create<DocumentState>((set) => ({

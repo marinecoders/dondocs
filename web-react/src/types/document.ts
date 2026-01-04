@@ -143,6 +143,9 @@ export interface DocumentData {
   // In reply to
   inReplyTo: boolean;
   inReplyToText: string;
+
+  // Hyperlinks
+  includeHyperlinks: boolean;
 }
 
 export interface DocTypeConfig {
