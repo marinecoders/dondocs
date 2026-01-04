@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Rocket, FileText, Shield, Zap, Users, X } from 'lucide-react';
+import { Rocket, FileText, Shield, Zap, Users } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -80,17 +80,9 @@ export function WelcomeModal() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-lg p-0 gap-0 overflow-hidden">
+      <DialogContent className="sm:max-w-lg p-0 gap-0 overflow-hidden" showCloseButton={false}>
         {/* Header with gradient */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-8 text-white relative">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute top-2 right-2 text-white/80 hover:text-white hover:bg-white/20"
-            onClick={handleClose}
-          >
-            <X className="h-4 w-4" />
-          </Button>
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-8 text-white">
           <div className="flex items-center gap-3 mb-2">
             <Rocket className="h-8 w-8" />
             <DialogTitle className="text-2xl font-bold text-white">
