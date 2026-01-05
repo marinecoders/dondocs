@@ -114,6 +114,10 @@
     \begin{center}
         \begin{minipage}{3in}
             \centering
+            % Digital signature field (empty box for CAC signing)
+        \ifHasDigitalSigField
+            \DigitalSignatureBox
+        \else
             % Optional: Signature image
             \ifNotEmpty{\SignatureImage}{%
                 \IfFileExists{attachments/\SignatureImage}{%

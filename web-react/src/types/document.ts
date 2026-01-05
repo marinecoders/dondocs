@@ -38,6 +38,9 @@ export interface SignatureImage {
   data: string; // base64 encoded for localStorage compatibility
 }
 
+// Signature type: 'none' = just typed name, 'image' = uploaded signature image, 'digital' = empty field for CAC/digital signing
+export type SignatureType = 'none' | 'image' | 'digital';
+
 export interface Profile {
   department?: string;
   unitLine1: string;
@@ -55,6 +58,7 @@ export interface Profile {
   cuiControlledBy?: string;
   pocEmail?: string;
   signatureImage?: SignatureImage;
+  signatureType?: SignatureType;
 }
 
 export interface DocumentData {
@@ -95,6 +99,7 @@ export interface DocumentData {
   byDirection: boolean;
   byDirectionAuthority: string;
   signatureImage?: SignatureImage;
+  signatureType?: SignatureType;
 
   // Classification
   classLevel: string;

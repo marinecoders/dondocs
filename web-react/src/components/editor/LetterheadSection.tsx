@@ -25,9 +25,12 @@ export function LetterheadSection() {
   const [unitModalOpen, setUnitModalOpen] = useState(false);
 
   const handleUnitSelect = (unit: UnitInfo) => {
-    setField('unitLine1', unit.fullName);
-    setField('unitLine2', unit.parentCommand || '');
-    setField('unitAddress', formatUnitAddress(unit));
+    // Use full name for line 1
+    setField('unitLine1', unit.name);
+    // Use abbreviation for line 2 if available
+    setField('unitLine2', unit.abbrev || '');
+    // Format the full address (replaces newlines with comma-space)
+    setField('unitAddress', unit.address.replace(/\n/g, ', '));
   };
 
   return (

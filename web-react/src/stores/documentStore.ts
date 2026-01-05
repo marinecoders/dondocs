@@ -1,8 +1,14 @@
 import { create } from 'zustand';
+import { format } from 'date-fns';
 import type { Reference, Enclosure, Paragraph, CopyTo, DocumentData, DocumentMode } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { useHistoryStore } from './historyStore';
 import type { DocumentSnapshot } from './historyStore';
+import { debug } from '@/lib/debug';
+import { TIMING } from '@/lib/constants';
+
+// Military date format per SECNAV M-5216.5: "4 Jan 26" (day month 2-digit year)
+const formatMilitaryDate = (date: Date): string => format(date, 'd MMM yy');
 
 interface DocumentState {
   // Document data
@@ -46,6 +52,20 @@ interface DocumentState {
   updateCopyTo: (index: number, text: string) => void;
   removeCopyTo: (index: number) => void;
 
+  // Bulk Actions
+  clearParagraphs: () => void;
+  clearReferences: () => void;
+  clearEnclosures: () => void;
+  clearCopyTos: () => void;
+  clearAll: () => void;
+  loadTemplate: (data: {
+    paragraphs?: Paragraph[];
+    references?: Reference[];
+    enclosures?: Enclosure[];
+    copyTos?: CopyTo[];
+    formData?: Partial<DocumentData>;
+  }) => void;
+
   // History (Undo/Redo)
   applySnapshot: (snapshot: DocumentSnapshot) => void;
   getSnapshot: () => DocumentSnapshot;
@@ -77,7 +97,7 @@ const DEFAULT_FORM_DATA: Partial<DocumentData> = {
   // Document identification
   ssic: '5216',
   serial: '001',
-  date: new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' }),
+  date: formatMilitaryDate(new Date()),
   // Addressing
   from: 'Commanding Officer, 1st Battalion, 6th Marines',
   to: 'Commanding General, 2d Marine Division',
@@ -254,6 +274,53 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     copyTos: state.copyTos.filter((_, i) => i !== index),
   })),
 
+  // Bulk Actions
+  clearParagraphs: () => {
+    debug.log('Store', 'Clearing all paragraphs');
+    set({ paragraphs: [{ text: '', level: 0 }] });
+  },
+
+  clearReferences: () => {
+    debug.log('Store', 'Clearing all references');
+    set({ references: [] });
+  },
+
+  clearEnclosures: () => {
+    debug.log('Store', 'Clearing all enclosures');
+    set({ enclosures: [] });
+  },
+
+  clearCopyTos: () => {
+    debug.log('Store', 'Clearing all copy-tos');
+    set({ copyTos: [] });
+  },
+
+  clearAll: () => {
+    debug.log('Store', 'Clearing all document content');
+    set({
+      paragraphs: [{ text: '', level: 0 }],
+      references: [],
+      enclosures: [],
+      copyTos: [],
+    });
+  },
+
+  loadTemplate: (data) => {
+    debug.log('Store', 'Loading template', {
+      paragraphs: data.paragraphs?.length,
+      references: data.references?.length,
+      enclosures: data.enclosures?.length,
+      copyTos: data.copyTos?.length,
+    });
+    set((state) => ({
+      paragraphs: data.paragraphs ?? state.paragraphs,
+      references: data.references ? reLetterReferences(data.references) : state.references,
+      enclosures: data.enclosures ?? state.enclosures,
+      copyTos: data.copyTos ?? state.copyTos,
+      formData: data.formData ? { ...state.formData, ...data.formData } : state.formData,
+    }));
+  },
+
   // History (Undo/Redo)
   applySnapshot: (snapshot) => set({
     documentMode: snapshot.documentMode,
@@ -290,15 +357,20 @@ useDocumentStore.subscribe((state: DocumentState) => {
   }
 
   saveTimeout = setTimeout(() => {
-    const snapshot: DocumentSnapshot = {
-      documentMode: state.documentMode,
-      docType: state.docType,
-      formData: state.formData,
-      references: state.references,
-      enclosures: state.enclosures,
-      paragraphs: state.paragraphs,
-      copyTos: state.copyTos,
-    };
-    useHistoryStore.getState().saveSnapshot(snapshot);
-  }, 500); // Save snapshot 500ms after last change
+    try {
+      const snapshot: DocumentSnapshot = {
+        documentMode: state.documentMode,
+        docType: state.docType,
+        formData: state.formData,
+        references: state.references,
+        enclosures: state.enclosures,
+        paragraphs: state.paragraphs,
+        copyTos: state.copyTos,
+      };
+      useHistoryStore.getState().saveSnapshot(snapshot);
+      debug.log('Store', 'Snapshot saved to history');
+    } catch (err) {
+      debug.error('Store', 'Failed to save snapshot to history', err);
+    }
+  }, TIMING.HISTORY_SNAPSHOT_DEBOUNCE);
 });

@@ -189,8 +189,27 @@ export function ProfileModal() {
       updateProfile(selectedProfile, formState);
     } else {
       addProfile(trimmedName, formState);
-      // Auto-select the newly created profile
+      // Auto-select the newly created profile and load its data
       selectProfile(trimmedName);
+      // Load the profile data into the form
+      useDocumentStore.getState().setFormData({
+        department: formState.department,
+        unitLine1: formState.unitLine1,
+        unitLine2: formState.unitLine2,
+        unitAddress: formState.unitAddress,
+        ssic: formState.ssic,
+        from: formState.from,
+        sigFirst: formState.sigFirst,
+        sigMiddle: formState.sigMiddle,
+        sigLast: formState.sigLast,
+        sigRank: formState.sigRank,
+        sigTitle: formState.sigTitle,
+        byDirection: formState.byDirection,
+        byDirectionAuthority: formState.byDirectionAuthority,
+        cuiControlledBy: formState.cuiControlledBy,
+        pocEmail: formState.pocEmail,
+        signatureImage: formState.signatureImage,
+      });
     }
 
     setProfileModalOpen(false);
@@ -277,8 +296,8 @@ export function ProfileModal() {
     setFormState((prev) => ({
       ...prev,
       unitLine1: unit.name.toUpperCase(),
-      unitLine2: unit.parentCommand?.toUpperCase() || '',
-      unitAddress: formatUnitAddress(unit),
+      unitLine2: unit.abbrev?.toUpperCase() || '',
+      unitAddress: unit.address.replace(/\n/g, ', '),
     }));
   };
 

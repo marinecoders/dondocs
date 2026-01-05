@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from 'react';
-import { Plus, Trash2, Download, AlertCircle, FileText, Variable } from 'lucide-react';
+import { Plus, Trash2, Download, AlertCircle, FileText, Variable, CheckCircle, XCircle } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -16,6 +16,8 @@ import { Badge } from '@/components/ui/badge';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { generateAllLatexFiles } from '@/services/latex/generator';
+import { debug } from '@/lib/debug';
+import { TIMING } from '@/lib/constants';
 
 interface PlaceholderValue {
   [key: string]: string;
@@ -24,6 +26,15 @@ interface PlaceholderValue {
 interface BatchRow {
   id: string;
   values: PlaceholderValue;
+  status?: 'pending' | 'success' | 'error';
+  error?: string;
+}
+
+interface BatchResults {
+  succeeded: number;
+  failed: number;
+  total: number;
+  errors: Array<{ index: number; error: string }>;
 }
 
 // Detect placeholders in text (format: {{PLACEHOLDER_NAME}})
@@ -49,9 +60,10 @@ export function BatchModal() {
   const documentStore = useDocumentStore();
 
   const [rows, setRows] = useState<BatchRow[]>([
-    { id: '1', values: {} },
+    { id: '1', values: {}, status: 'pending' },
   ]);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [lastResults, setLastResults] = useState<BatchResults | null>(null);
 
   // Detect all placeholders from current document
   const detectedPlaceholders = useMemo(() => {
@@ -108,11 +120,27 @@ export function BatchModal() {
     if (rows.length === 0) return;
 
     setIsGenerating(true);
+    setLastResults(null);
 
-    try {
-      // For each row, generate a separate document
-      for (let i = 0; i < rows.length; i++) {
-        const row = rows[i];
+    const results: BatchResults = {
+      succeeded: 0,
+      failed: 0,
+      total: rows.length,
+      errors: [],
+    };
+
+    debug.log('Batch', 'Starting batch generation', { rowCount: rows.length });
+    debug.time('BatchGeneration');
+
+    // Reset all row statuses
+    setRows((prev) => prev.map((row) => ({ ...row, status: 'pending' as const, error: undefined })));
+
+    // For each row, generate a separate document
+    for (let i = 0; i < rows.length; i++) {
+      const row = rows[i];
+
+      try {
+        debug.log('Batch', `Generating document ${i + 1}/${rows.length}`, row.values);
 
         // Create a modified version of the document store with placeholder replacements
         const modifiedStore = {
@@ -147,6 +175,10 @@ export function BatchModal() {
         const { texFiles } = generateAllLatexFiles(modifiedStore);
         const mainTex = texFiles['main.tex'] || '';
 
+        if (!mainTex) {
+          throw new Error('LaTeX generation returned empty content');
+        }
+
         // Download the LaTeX file
         const blob = new Blob([mainTex], { type: 'text/plain' });
         const url = URL.createObjectURL(blob);
@@ -160,14 +192,32 @@ export function BatchModal() {
         a.click();
         URL.revokeObjectURL(url);
 
+        // Mark row as successful
+        setRows((prev) =>
+          prev.map((r) => (r.id === row.id ? { ...r, status: 'success' as const } : r))
+        );
+        results.succeeded++;
+        debug.log('Batch', `Document ${i + 1} generated successfully`);
+
         // Small delay between downloads
-        await new Promise((resolve) => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, TIMING.BATCH_DOWNLOAD_DELAY));
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+        debug.error('Batch', `Failed to generate document ${i + 1}`, err);
+
+        // Mark row as failed
+        setRows((prev) =>
+          prev.map((r) => (r.id === row.id ? { ...r, status: 'error' as const, error: errorMessage } : r))
+        );
+        results.failed++;
+        results.errors.push({ index: i + 1, error: errorMessage });
       }
-    } catch (err) {
-      console.error('Batch generation error:', err);
-    } finally {
-      setIsGenerating(false);
     }
+
+    debug.timeEnd('BatchGeneration');
+    debug.log('Batch', 'Batch generation complete', results);
+    setLastResults(results);
+    setIsGenerating(false);
   }, [rows, documentStore, detectedPlaceholders]);
 
   const handlePasteData = useCallback((e: React.ClipboardEvent<HTMLTextAreaElement>) => {
@@ -274,8 +324,14 @@ export function BatchModal() {
                         </thead>
                         <tbody>
                           {rows.map((row, idx) => (
-                            <tr key={row.id} className="border-t">
-                              <td className="p-2 text-muted-foreground">{idx + 1}</td>
+                            <tr key={row.id} className={`border-t ${row.status === 'error' ? 'bg-destructive/10' : row.status === 'success' ? 'bg-green-500/10' : ''}`}>
+                              <td className="p-2 text-muted-foreground">
+                                <div className="flex items-center gap-1">
+                                  {row.status === 'success' && <CheckCircle className="h-4 w-4 text-green-500" />}
+                                  {row.status === 'error' && <XCircle className="h-4 w-4 text-destructive" />}
+                                  {(!row.status || row.status === 'pending') && <span>{idx + 1}</span>}
+                                </div>
+                              </td>
                               {detectedPlaceholders.map((placeholder) => (
                                 <td key={placeholder} className="p-2">
                                   <Input
@@ -285,6 +341,7 @@ export function BatchModal() {
                                     }
                                     placeholder={placeholder}
                                     className="h-8"
+                                    disabled={isGenerating}
                                   />
                                 </td>
                               ))}
@@ -294,7 +351,7 @@ export function BatchModal() {
                                   size="icon"
                                   className="h-8 w-8 text-destructive"
                                   onClick={() => removeRow(row.id)}
-                                  disabled={rows.length === 1}
+                                  disabled={rows.length === 1 || isGenerating}
                                 >
                                   <Trash2 className="h-4 w-4" />
                                 </Button>
@@ -305,6 +362,32 @@ export function BatchModal() {
                       </table>
                     </div>
                   </div>
+
+                  {/* Results Summary */}
+                  {lastResults && (
+                    <div className={`p-4 rounded-lg border ${lastResults.failed > 0 ? 'border-amber-500/30 bg-amber-500/10' : 'border-green-500/30 bg-green-500/10'}`}>
+                      <div className="flex items-center gap-2 mb-2">
+                        {lastResults.failed === 0 ? (
+                          <CheckCircle className="h-5 w-5 text-green-500" />
+                        ) : (
+                          <AlertCircle className="h-5 w-5 text-amber-500" />
+                        )}
+                        <span className="font-medium">
+                          Generation Complete: {lastResults.succeeded}/{lastResults.total} succeeded
+                        </span>
+                      </div>
+                      {lastResults.errors.length > 0 && (
+                        <div className="text-sm space-y-1 mt-2">
+                          <p className="text-destructive font-medium">Errors:</p>
+                          {lastResults.errors.map((err) => (
+                            <p key={err.index} className="text-muted-foreground">
+                              Document #{err.index}: {err.error}
+                            </p>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               </>
             )}

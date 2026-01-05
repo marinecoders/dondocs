@@ -11,6 +11,8 @@ import { Separator } from '@/components/ui/separator';
 import { useProfileStore } from '@/stores/profileStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
+import { debug } from '@/lib/debug';
+import { readFileAsText, triggerDownload } from '@/lib/encoding';
 
 export function ProfileBar() {
   const { profiles, selectedProfile, selectProfile, deleteProfile, importProfiles } = useProfileStore();
@@ -55,34 +57,36 @@ export function ProfileBar() {
   };
 
   const handleExport = () => {
+    debug.log('Profile', 'Exporting profiles', { count: Object.keys(profiles).length });
     const data = JSON.stringify({ version: '1.0', profiles }, null, 2);
-    const blob = new Blob([data], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `libo-profiles-${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
+    const filename = `libo-profiles-${new Date().toISOString().split('T')[0]}.json`;
+    triggerDownload(new TextEncoder().encode(data), filename, 'application/json');
+    debug.log('Profile', 'Export complete', { filename });
   };
 
-  const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      try {
-        const data = JSON.parse(event.target?.result as string);
-        if (data.profiles) {
-          importProfiles(data.profiles);
-        }
-      } catch (err) {
-        console.error('Failed to import profiles:', err);
-        alert('Failed to import profiles. Invalid file format.');
+    debug.log('Profile', 'Importing profiles', { filename: file.name, size: file.size });
+
+    try {
+      const text = await readFileAsText(file);
+      const data = JSON.parse(text);
+
+      if (!data.profiles || typeof data.profiles !== 'object') {
+        throw new Error('Invalid profile file format: missing profiles object');
       }
-    };
-    reader.readAsText(file);
-    e.target.value = '';
+
+      const profileCount = Object.keys(data.profiles).length;
+      importProfiles(data.profiles);
+      debug.log('Profile', 'Import successful', { count: profileCount });
+    } catch (err) {
+      debug.error('Profile', 'Failed to import profiles', err);
+      alert(`Failed to import profiles: ${err instanceof Error ? err.message : 'Unknown error'}`);
+    } finally {
+      e.target.value = '';
+    }
   };
 
   return (

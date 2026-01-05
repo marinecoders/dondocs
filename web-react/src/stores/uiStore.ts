@@ -21,6 +21,7 @@ interface UIState {
   batchModalOpen: boolean;
   findReplaceOpen: boolean;
   templateLoaderOpen: boolean;
+  piiWarningOpen: boolean;
   setProfileModalOpen: (open: boolean) => void;
   setRestoreModalOpen: (open: boolean) => void;
   setReferenceLibraryOpen: (open: boolean) => void;
@@ -29,6 +30,7 @@ interface UIState {
   setBatchModalOpen: (open: boolean) => void;
   setFindReplaceOpen: (open: boolean) => void;
   setTemplateLoaderOpen: (open: boolean) => void;
+  setPiiWarningOpen: (open: boolean) => void;
 
   // Mobile
   isMobile: boolean;
@@ -39,6 +41,9 @@ interface UIState {
   // Auto-save status
   autoSaveStatus: string;
   setAutoSaveStatus: (status: string) => void;
+
+  // Close all modals (for Escape key)
+  closeAllModals: () => void;
 }
 
 export const useUIStore = create<UIState>()(
@@ -65,6 +70,7 @@ export const useUIStore = create<UIState>()(
       batchModalOpen: false,
       findReplaceOpen: false,
       templateLoaderOpen: false,
+      piiWarningOpen: false,
       setProfileModalOpen: (open) => set({ profileModalOpen: open }),
       setRestoreModalOpen: (open) => set({ restoreModalOpen: open }),
       setReferenceLibraryOpen: (open) => set({ referenceLibraryOpen: open }),
@@ -73,6 +79,7 @@ export const useUIStore = create<UIState>()(
       setBatchModalOpen: (open) => set({ batchModalOpen: open }),
       setFindReplaceOpen: (open) => set({ findReplaceOpen: open }),
       setTemplateLoaderOpen: (open) => set({ templateLoaderOpen: open }),
+      setPiiWarningOpen: (open) => set({ piiWarningOpen: open }),
 
       // Mobile
       isMobile: false,
@@ -83,6 +90,21 @@ export const useUIStore = create<UIState>()(
       // Auto-save
       autoSaveStatus: '',
       setAutoSaveStatus: (status) => set({ autoSaveStatus: status }),
+
+      // Close all modals
+      closeAllModals: () => set({
+        profileModalOpen: false,
+        restoreModalOpen: false,
+        referenceLibraryOpen: false,
+        aboutModalOpen: false,
+        nistModalOpen: false,
+        batchModalOpen: false,
+        findReplaceOpen: false,
+        templateLoaderOpen: false,
+        mobilePreviewOpen: false,
+        // Note: piiWarningOpen is intentionally not closed by Escape
+        // to prevent accidental dismissal of security warnings
+      }),
     }),
     {
       name: 'libo_ui',

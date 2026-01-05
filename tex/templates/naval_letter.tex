@@ -109,12 +109,17 @@
     \hspace{3.25in}%
     \begin{minipage}{3in}
         \raggedright
-        % Optional: Signature image
-        \ifNotEmpty{\SignatureImage}{%
-            \IfFileExists{attachments/\SignatureImage}{%
-                \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
-            }{}%
-        }%
+        % Digital signature field (empty box for CAC signing)
+        \ifHasDigitalSigField
+            \DigitalSignatureBox
+        \else
+            % Optional: Signature image
+            \ifNotEmpty{\SignatureImage}{%
+                \IfFileExists{attachments/\SignatureImage}{%
+                    \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
+                }{}%
+            }%
+        \fi
         % Required: Use abbreviated format (J. M. LASTNAME) if set, otherwise full name
         \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev\\}{\MakeUppercase{\SignatoryName}\\}%
         % Optional: By direction authority line (e.g., "By direction")

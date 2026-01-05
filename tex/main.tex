@@ -530,6 +530,15 @@
     \fi
 }
 
+%=============================================================================
+%                       DEPARTMENT CONFIGURATION
+%=============================================================================
+% Options: usmc, navy, dod (for future service-specific customization)
+%=============================================================================
+
+\newcommand{\Department}{usmc}
+\newcommand{\setDepartment}[1]{\renewcommand{\Department}{#1}}
+
 
 %=============================================================================
 %                    CONDITIONAL/OPTIONAL FIELD HELPERS
@@ -634,6 +643,21 @@
 \newcommand{\setSignatureImage}[1]{%
     \def\temp{#1}%
     \ifx\temp\empty\else\def\SignatureImage{#1}\fi
+}
+
+% Digital signature field flag - set when user wants an empty signature field for CAC/PKI signing
+\newif\ifHasDigitalSigField
+\HasDigitalSigFieldfalse
+\newcommand{\setDigitalSignatureField}{\HasDigitalSigFieldtrue}
+
+% Command to render digital signature field placeholder
+% Creates an invisible marker for pdf-lib to detect position
+% The actual AcroForm signature field is added by pdf-lib post-processing
+\newcommand{\DigitalSignatureBox}{%
+    % Create a PDF destination marker for pdf-lib to detect position
+    \hypertarget{DIGSIG_FIELD_MARKER}{}%
+    % Reserve vertical space for the signature field (0.5 inches)
+    \vspace{0.5in}%
 }
 
 

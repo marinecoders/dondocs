@@ -1,40 +1,380 @@
 {
   "source": "SECNAV M-5210.2 (August 2018) with supplementary codes",
-  "version": "3.0",
-  "lastUpdated": "2024-12-12",
-  "notes": "Contains 2152 codes from August 2018 manual plus 88 supplementary codes from previous versions",
+  "version": "4.0",
+  "lastUpdated": "2026-01-04",
+  "notes": "Contains codes from SECNAV M-5210.2, naval-letter-formatter, and competitor databases",
   "codes": [
     {
       "code": "1000",
       "title": "General (include Marine Corps Standard Operating Procedures (SOPs))"
     },
     {
+      "code": "10000",
+      "title": "General (including Marine Corps SOPs)"
+    },
+    {
       "code": "1001",
       "title": "Reserve Policies and Programs"
+    },
+    {
+      "code": "10010",
+      "title": "Technical Information and Modification (Marine Corps only)"
     },
     {
       "code": "1010",
       "title": "Inspections"
     },
     {
+      "code": "10100",
+      "title": "General"
+    },
+    {
+      "code": "10110",
+      "title": "Provisions and Rations"
+    },
+    {
+      "code": "10120",
+      "title": "Clothing and Uniforms"
+    },
+    {
+      "code": "10121",
+      "title": "Naval and Marine Corps Reserve Clothing"
+    },
+    {
+      "code": "10122",
+      "title": "Officer Clothing and Uniforms"
+    },
+    {
+      "code": "10123",
+      "title": "Officer Candidate Clothing and Uniforms"
+    },
+    {
+      "code": "10124",
+      "title": "Organizational Clothing"
+    },
+    {
+      "code": "10125",
+      "title": "Special Clothing Cold Weather Clothing"
+    },
+    {
+      "code": "10126",
+      "title": "Flight Clothing"
+    },
+    {
+      "code": "10127",
+      "title": "Atomic, Biological and Chemical Warfare Protective Clothing"
+    },
+    {
+      "code": "10128",
+      "title": "Retail Clothing Store Items"
+    },
+    {
+      "code": "10130",
+      "title": "Ships Store Items"
+    },
+    {
+      "code": "10140",
+      "title": "Exchange Matters"
+    },
+    {
+      "code": "10150",
+      "title": "Personal Service Equipment"
+    },
+    {
+      "code": "10151",
+      "title": "Mess"
+    },
+    {
+      "code": "10152",
+      "title": "Laundry"
+    },
+    {
+      "code": "10160",
+      "title": "Furniture and Furnishings (Non-office)"
+    },
+    {
+      "code": "10170",
+      "title": "Training Material"
+    },
+    {
       "code": "1020",
       "title": "Uniforms"
+    },
+    {
+      "code": "10200",
+      "title": "General"
+    },
+    {
+      "code": "10210",
+      "title": "Agricultural Machinery"
+    },
+    {
+      "code": "10220",
+      "title": "Air Compressors and Pump"
+    },
+    {
+      "code": "10230",
+      "title": "Air Conditioning and Ventilating Equipment"
+    },
+    {
+      "code": "10250",
+      "title": "Conveying and Hoisting Equipment"
+    },
+    {
+      "code": "10260",
+      "title": "Electric Motors and Generator"
+    },
+    {
+      "code": "10270",
+      "title": "Engines (except Ships and Aircraft)"
+    },
+    {
+      "code": "10290",
+      "title": "Tool"
     },
     {
       "code": "1030",
       "title": "OFFICER PERSONNEL DATA"
     },
     {
+      "code": "10300",
+      "title": "General"
+    },
+    {
+      "code": "10310",
+      "title": "Metals"
+    },
+    {
+      "code": "10320",
+      "title": "Nonmetallic Materials (see also 4110)"
+    },
+    {
+      "code": "10330",
+      "title": "Chemicals and Gases (except Warfare)"
+    },
+    {
+      "code": "10340",
+      "title": "Fuel"
+    },
+    {
+      "code": "10341",
+      "title": "Gasoline and Jet Fuel"
+    },
+    {
+      "code": "10342",
+      "title": "Propellants and Oxidizers"
+    },
+    {
+      "code": "10343",
+      "title": "Fuel Oils"
+    },
+    {
+      "code": "10345",
+      "title": "Fueling and Fuel Storage Equipment"
+    },
+    {
+      "code": "10350",
+      "title": "Lubricants"
+    },
+    {
+      "code": "10360",
+      "title": "Protective and Preservative Coatings and Compounds (includes paints, dopes and related"
+    },
+    {
+      "code": "10370",
+      "title": "Building Materials"
+    },
+    {
+      "code": "10380",
+      "title": "Electrical and Electronic Components"
+    },
+    {
+      "code": "10390",
+      "title": "Electric Distribution Equipment"
+    },
+    {
       "code": "1040",
       "title": "Retention/Career Planning"
+    },
+    {
+      "code": "10400",
+      "title": "Molds, Dies, Jigs (General)"
+    },
+    {
+      "code": "10410",
+      "title": "Hardware"
+    },
+    {
+      "code": "10420",
+      "title": "Bearing"
+    },
+    {
+      "code": "10430",
+      "title": "Plumbing Fixtures and Piping"
+    },
+    {
+      "code": "10440",
+      "title": "Hose, Gaskets, Packing"
+    },
+    {
+      "code": "10450",
+      "title": "Cordage and Wire Rope"
+    },
+    {
+      "code": "10460",
+      "title": "Office Equipment and Supplies (General)"
+    },
+    {
+      "code": "10461",
+      "title": "Records Production Equipment"
+    },
+    {
+      "code": "10462",
+      "title": "Records Handling and Utilization Equipment"
+    },
+    {
+      "code": "10463",
+      "title": "Records Filing, Storage and Retrieval Equipment"
+    },
+    {
+      "code": "10464",
+      "title": "Records Destruction Equipment"
+    },
+    {
+      "code": "10465",
+      "title": "Other Office Procedures Equipment"
+    },
+    {
+      "code": "10466",
+      "title": "Office Supplies"
+    },
+    {
+      "code": "10467",
+      "title": "Office Furniture and Furnishings"
+    },
+    {
+      "code": "10470",
+      "title": "Safety and Survival Equipment and Devices"
+    },
+    {
+      "code": "10480",
+      "title": "Sanitary and Cleaning Equipment"
+    },
+    {
+      "code": "10490",
+      "title": "Materials Handling Equipment"
     },
     {
       "code": "1050",
       "title": "Leave and Liberty"
     },
     {
+      "code": "10500",
+      "title": "Navigational and Mooring Aids (General)"
+    },
+    {
+      "code": "10510",
+      "title": "Test Measurement and Diagnostic Equipment (MARINE CORPS)"
+    },
+    {
+      "code": "10520",
+      "title": "Flags and Pennants"
+    },
+    {
+      "code": "10530",
+      "title": "ANTI-TANK GUIDED MISSILES"
+    },
+    {
+      "code": "10550",
+      "title": "Electronics (see also 9420 series, 3320 and 13290)"
+    },
+    {
+      "code": "10551",
+      "title": "Radar (see also 9451 and 13290)"
+    },
+    {
+      "code": "10552",
+      "title": "Sonar"
+    },
+    {
+      "code": "10553",
+      "title": "Loran, Racon (see also 13220)"
+    },
+    {
+      "code": "10554",
+      "title": "Electrostatic Discharge (ESD)"
+    },
+    {
+      "code": "10560",
+      "title": "Diving Equipment"
+    },
+    {
+      "code": "10561",
+      "title": "Surface Supplied Air Diving Systems"
+    },
+    {
+      "code": "10562",
+      "title": "Surface Supplied Mixed-Gas Diving System"
+    },
+    {
+      "code": "10563",
+      "title": "Saturation Diving Systems"
+    },
+    {
+      "code": "10564",
+      "title": "SCUBA Equipment"
+    },
+    {
+      "code": "10565",
+      "title": "Recompression Chambers and Equipment"
+    },
+    {
+      "code": "10566",
+      "title": "Diver Tools"
+    },
+    {
+      "code": "10567",
+      "title": "Diver Accessories"
+    },
+    {
+      "code": "10570",
+      "title": "Animals, Domestic and Wild"
+    },
+    {
+      "code": "10580",
+      "title": "Container(s) (as used in Containerization)"
+    },
+    {
       "code": "1070",
       "title": "Personnel Records"
+    },
+    {
+      "code": "10700",
+      "title": "General"
+    },
+    {
+      "code": "10710",
+      "title": "Motion Picture Equipment and Accessories"
+    },
+    {
+      "code": "10720",
+      "title": "Still Picture Acquisition Equipment and Accessories"
+    },
+    {
+      "code": "10750",
+      "title": "Video Acquisition Equipment"
+    },
+    {
+      "code": "10760",
+      "title": "Audio Acquisition Equipment"
+    },
+    {
+      "code": "10761",
+      "title": "Sound Gathering Systems"
+    },
+    {
+      "code": "10770",
+      "title": "Graphic Arts Equipment"
     },
     {
       "code": "1080",
@@ -45,80 +385,392 @@
       "title": "General"
     },
     {
+      "code": "11000",
+      "title": "General (include Marine Corps SOP\u2019s)"
+    },
+    {
+      "code": "11010",
+      "title": "Shore Station Development"
+    },
+    {
+      "code": "11011",
+      "title": "Real Estate"
+    },
+    {
+      "code": "11012",
+      "title": "Shore Station Design Criteria"
+    },
+    {
+      "code": "11013",
+      "title": "Shore Station Construction"
+    },
+    {
+      "code": "11014",
+      "title": "Shore Station Maintenance"
+    },
+    {
+      "code": "11015",
+      "title": "Agriculture, Fish and Wildlife"
+    },
+    {
+      "code": "11016",
+      "title": "Plant Property"
+    },
+    {
+      "code": "11017",
+      "title": "Grounds or Unpaved Areas (Land)"
+    },
+    {
+      "code": "11018",
+      "title": "Testing Areas and Facilities"
+    },
+    {
+      "code": "11019",
+      "title": "Shore Station Special Projects"
+    },
+    {
+      "code": "11080",
+      "title": "Nuclear, Biological and Chemical Defense"
+    },
+    {
+      "code": "11090",
+      "title": "Damage Control"
+    },
+    {
       "code": "1110",
       "title": "Administration and Logistics"
+    },
+    {
+      "code": "11100",
+      "title": "General"
+    },
+    {
+      "code": "11101",
+      "title": "Family Housing"
+    },
+    {
+      "code": "11102",
+      "title": "Training Structures and Facilities"
+    },
+    {
+      "code": "11103",
+      "title": "Housing, Other"
+    },
+    {
+      "code": "11104",
+      "title": "Community Facilities"
+    },
+    {
+      "code": "11107",
+      "title": "Resale Activities"
     },
     {
       "code": "1111",
       "title": "Manpower"
     },
     {
+      "code": "11110",
+      "title": "Medical and Dental"
+    },
+    {
+      "code": "11111",
+      "title": "Medical Center"
+    },
+    {
+      "code": "11112",
+      "title": "Hospital"
+    },
+    {
+      "code": "11113",
+      "title": "Medical Clinic"
+    },
+    {
+      "code": "11114",
+      "title": "Other Medical Facility Activity"
+    },
+    {
+      "code": "11115",
+      "title": "Dental Center"
+    },
+    {
+      "code": "11116",
+      "title": "Dental Clinic"
+    },
+    {
+      "code": "11117",
+      "title": "Other Dental Facility Activity"
+    },
+    {
+      "code": "11120",
+      "title": "Communications"
+    },
+    {
+      "code": "11130",
+      "title": "Aviation Facilities"
+    },
+    {
+      "code": "11131",
+      "title": "Hangars"
+    },
+    {
+      "code": "11132",
+      "title": "Runways"
+    },
+    {
+      "code": "11133",
+      "title": "Lighting"
+    },
+    {
+      "code": "11135",
+      "title": "Crash, Salvage and Rescue"
+    },
+    {
+      "code": "11137",
+      "title": "Service and Repair"
+    },
+    {
+      "code": "11140",
+      "title": "Ordnance Facilities"
+    },
+    {
+      "code": "11143",
+      "title": "Guided Missile Assembly and Test"
+    },
+    {
+      "code": "11150",
+      "title": "Research and Development Facilities"
+    },
+    {
+      "code": "11151",
+      "title": "Harbor Defense"
+    },
+    {
+      "code": "11152",
+      "title": "Drill and Parade Grounds"
+    },
+    {
+      "code": "11153",
+      "title": "Mooring and Navigation"
+    },
+    {
+      "code": "11154",
+      "title": "Observatories"
+    },
+    {
+      "code": "11155",
+      "title": "Hyperbaric Facilities"
+    },
+    {
+      "code": "11160",
+      "title": "Storage"
+    },
+    {
+      "code": "11161",
+      "title": "Storehouses"
+    },
+    {
+      "code": "11162",
+      "title": "Fuel Storage Facilities"
+    },
+    {
+      "code": "11163",
+      "title": "Magazines"
+    },
+    {
+      "code": "11170",
+      "title": "Cemeteries"
+    },
+    {
+      "code": "11180",
+      "title": "Chapels"
+    },
+    {
       "code": "1120",
       "title": "Plans and Policy"
+    },
+    {
+      "code": "11200",
+      "title": "General"
     },
     {
       "code": "1121",
       "title": "Policy"
     },
     {
+      "code": "11210",
+      "title": "Highways and Roads"
+    },
+    {
       "code": "1122",
       "title": "Research"
+    },
+    {
+      "code": "11220",
+      "title": "Bridges, Trestles, Overpasses"
     },
     {
       "code": "1123",
       "title": "Program Analysis"
     },
     {
+      "code": "11230",
+      "title": "Railways and Rolling Stock"
+    },
+    {
+      "code": "11240",
+      "title": "Automotive"
+    },
+    {
+      "code": "11250",
+      "title": "Boat or Water Transportation"
+    },
+    {
+      "code": "11260",
+      "title": "Heavy Equipment"
+    },
+    {
+      "code": "11261",
+      "title": "Construction-Type"
+    },
+    {
+      "code": "11262",
+      "title": "Heavy Weight Lifting"
+    },
+    {
+      "code": "11270",
+      "title": "Engineer Supplies and Construction Equipment"
+    },
+    {
       "code": "1130",
       "title": "Operations"
+    },
+    {
+      "code": "11300",
+      "title": "General"
     },
     {
       "code": "1131",
       "title": "Officer Recruiting"
     },
     {
+      "code": "11310",
+      "title": "Power Plant"
+    },
+    {
       "code": "1132",
       "title": "Officer Recall"
+    },
+    {
+      "code": "11320",
+      "title": "Fire Protection and Fire Fighting"
     },
     {
       "code": "1133",
       "title": "Enlisted Recruiting"
     },
     {
+      "code": "11330",
+      "title": "Water Supply"
+    },
+    {
       "code": "1134",
       "title": "Enlisted Recall"
+    },
+    {
+      "code": "11340",
+      "title": "Drainage"
+    },
+    {
+      "code": "11345",
+      "title": "Sewers and Sewerage"
+    },
+    {
+      "code": "11350",
+      "title": "Refuse Collection and Disposal"
     },
     {
       "code": "1136",
       "title": "Recruiter Training"
     },
     {
+      "code": "11360",
+      "title": "Lighting"
+    },
+    {
       "code": "1137",
       "title": "Recruiting Irregularities"
+    },
+    {
+      "code": "11370",
+      "title": "Heating"
+    },
+    {
+      "code": "11380",
+      "title": "Refrigeration and Air Conditioning"
+    },
+    {
+      "code": "11390",
+      "title": "Cable Television Franchise Management"
     },
     {
       "code": "1140",
       "title": "Advertising"
     },
     {
+      "code": "11400",
+      "title": "General"
+    },
+    {
       "code": "1141",
       "title": "Material Control"
+    },
+    {
+      "code": "11410",
+      "title": "Waterfront"
     },
     {
       "code": "1142",
       "title": "Recruiting Aids"
     },
     {
+      "code": "11420",
+      "title": "Drydock"
+    },
+    {
       "code": "1143",
       "title": "Systems"
+    },
+    {
+      "code": "11430",
+      "title": "Marine Railways"
     },
     {
       "code": "1144",
       "title": "Operations"
     },
     {
+      "code": "11440",
+      "title": "Shipways"
+    },
+    {
+      "code": "11450",
+      "title": "Weight Handing"
+    },
+    {
+      "code": "11460",
+      "title": "Dredging"
+    },
+    {
+      "code": "11470",
+      "title": "Pontoons"
+    },
+    {
       "code": "1150",
       "title": "Support"
+    },
+    {
+      "code": "11500",
+      "title": "CRYPTOGRAPHIC EQUIPMENT"
     },
     {
       "code": "1152",
@@ -145,16 +797,32 @@
       "title": "Reenlistments and Extensions"
     },
     {
+      "code": "11600",
+      "title": "NAVIGATION EQUIPMENT"
+    },
+    {
       "code": "1170",
       "title": "Selective Service, Conscription and Deferment"
+    },
+    {
+      "code": "11700",
+      "title": "COMPUTERS"
     },
     {
       "code": "1200",
       "title": "General"
     },
     {
+      "code": "12000",
+      "title": "INTELLIGENCE (GENERAL)"
+    },
+    {
       "code": "1210",
       "title": "Officer"
+    },
+    {
+      "code": "12100",
+      "title": "INTELLIGENCE POLICIES"
     },
     {
       "code": "1211",
@@ -173,35 +841,563 @@
       "title": "Sub-Specialty Codes"
     },
     {
+      "code": "12171",
+      "title": "Office of Personnel Management Issuance System Records"
+    },
+    {
       "code": "1220",
       "title": "Enlisted"
+    },
+    {
+      "code": "12200",
+      "title": "General"
     },
     {
       "code": "1221",
       "title": "Classification Codes and Billet Descriptions"
     },
     {
+      "code": "12210",
+      "title": "Basic Concepts and Definitions (General)"
+    },
+    {
+      "code": "12211",
+      "title": "Veterans Preference"
+    },
+    {
+      "code": "12212",
+      "title": "Competitive Service and Competitive Status"
+    },
+    {
+      "code": "12213",
+      "title": "Excepted Service"
+    },
+    {
+      "code": "12220",
+      "title": "SIGNALS INTELLIGENCE"
+    },
+    {
       "code": "1223",
       "title": "Rank, Rate, or Rating Structure"
+    },
+    {
+      "code": "12230",
+      "title": "Organizations of the Government for Personnel Management"
+    },
+    {
+      "code": "12240",
+      "title": "MEASUREMENT AND SIGNATURE INTELLIGENCE"
+    },
+    {
+      "code": "12250",
+      "title": "Personnel Management in Agencies"
+    },
+    {
+      "code": "12251",
+      "title": "Intra-Management Communications and Consultations"
+    },
+    {
+      "code": "12252",
+      "title": "Professional or Other Associations"
+    },
+    {
+      "code": "12270",
+      "title": "Personnel Controls and Direction"
+    },
+    {
+      "code": "12271",
+      "title": "Developing Policies, Procedures, Programs and Standards"
+    },
+    {
+      "code": "12272",
+      "title": "Personnel Policy Formulation and Personnel Issuances"
+    },
+    {
+      "code": "12273",
+      "title": "Personnel Management Evaluation"
+    },
+    {
+      "code": "12274",
+      "title": "Corrective Actions"
+    },
+    {
+      "code": "12275",
+      "title": "Evaluation and Assessment of Personnel Programs"
+    },
+    {
+      "code": "12290",
+      "title": "Personnel Information (General)"
+    },
+    {
+      "code": "12291",
+      "title": "Personnel Reports"
+    },
+    {
+      "code": "12292",
+      "title": "Personnel Data Standardization"
+    },
+    {
+      "code": "12293",
+      "title": "Personnel Records and Files"
+    },
+    {
+      "code": "12294",
+      "title": "Availability of Official Information"
+    },
+    {
+      "code": "12295",
+      "title": "Forms and Documents, Personnel"
+    },
+    {
+      "code": "12296",
+      "title": "Processing Personnel Action and Data"
+    },
+    {
+      "code": "12297",
+      "title": "Protection of Privacy and Personnel Records"
+    },
+    {
+      "code": "12298",
+      "title": "Federal Workforce Information System"
     },
     {
       "code": "1230",
       "title": "Testing and Interviewing"
     },
     {
+      "code": "12300",
+      "title": "Employment (General)"
+    },
+    {
+      "code": "12301",
+      "title": "Overseas Employment"
+    },
+    {
+      "code": "12302",
+      "title": "Employment in the Excepted Service"
+    },
+    {
+      "code": "12304",
+      "title": "Employment of Experts and Consultants"
+    },
+    {
+      "code": "12305",
+      "title": "Employment under the Executive Assignment System"
+    },
+    {
+      "code": "12306",
+      "title": "Selective Placement Programs"
+    },
+    {
+      "code": "12307",
+      "title": "Transitional and Veterans Readjustment Appointment"
+    },
+    {
+      "code": "12308",
+      "title": "Youth and Student Employment Program"
+    },
+    {
+      "code": "12309",
+      "title": "Hosting Enrollees of Federal Grant Programs"
+    },
+    {
       "code": "1231",
       "title": "Officer"
+    },
+    {
+      "code": "12310",
+      "title": "Employment of Relatives"
+    },
+    {
+      "code": "12311",
+      "title": "Power of Appointment and Removal"
+    },
+    {
+      "code": "12312",
+      "title": "Position Management"
+    },
+    {
+      "code": "12315",
+      "title": "Career and Career-Conditional Employment"
+    },
+    {
+      "code": "12316",
+      "title": "Temporary Employment"
+    },
+    {
+      "code": "12330",
+      "title": "Recruitment, Selection and Placement (General)"
+    },
+    {
+      "code": "12331",
+      "title": "Organization for Recruitment and Examining"
+    },
+    {
+      "code": "12332",
+      "title": "Recruitment and Selection through Competitive Examination"
+    },
+    {
+      "code": "12333",
+      "title": "Recruitment and Selection for Temporary and Term Appointment Outside the"
+    },
+    {
+      "code": "12334",
+      "title": "Temporary Assignment of Employees between Executive Agencies and States, Local"
+    },
+    {
+      "code": "12335",
+      "title": "Promotion and Internal Placement"
+    },
+    {
+      "code": "12337",
+      "title": "Examining System"
+    },
+    {
+      "code": "12338",
+      "title": "Qualification Requirements (General)"
+    },
+    {
+      "code": "12339",
+      "title": "Qualification Requirements (Medical)"
+    },
+    {
+      "code": "12340",
+      "title": "Part-time Employment"
+    },
+    {
+      "code": "12351",
+      "title": "Reduction in Force"
+    },
+    {
+      "code": "12352",
+      "title": "Reemployment Rights"
+    },
+    {
+      "code": "12353",
+      "title": "Restoration to Duty"
     },
     {
       "code": "1236",
       "title": "Enlisted"
     },
     {
+      "code": "12361",
+      "title": "Career Intern Programs"
+    },
+    {
+      "code": "12362",
+      "title": "Presidential Management Intern Program"
+    },
+    {
       "code": "1240",
       "title": "OFFICER DISCHARGE"
     },
     {
+      "code": "12400",
+      "title": "General"
+    },
+    {
+      "code": "12410",
+      "title": "Training"
+    },
+    {
+      "code": "12411",
+      "title": "Supervisor Training and Development"
+    },
+    {
+      "code": "12412",
+      "title": "Executive Development/Supervisory Training and Development"
+    },
+    {
+      "code": "12430",
+      "title": "Performance Management"
+    },
+    {
+      "code": "12431",
+      "title": "Withholding of Within-Grade Increases"
+    },
+    {
+      "code": "12432",
+      "title": "Unacceptable Performance Action"
+    },
+    {
+      "code": "12450",
+      "title": "Recognition and Incentives, General Employees"
+    },
+    {
+      "code": "12451",
+      "title": "Incentive Awards"
+    },
+    {
+      "code": "12452",
+      "title": "Suggestion System Records"
+    },
+    {
+      "code": "12470",
+      "title": "Personnel Research Programs and Demonstration Projects"
+    },
+    {
+      "code": "12500",
+      "title": "General"
+    },
+    {
+      "code": "12510",
+      "title": "Classification and Placement Plan for Employees under Grade Retention"
+    },
+    {
+      "code": "12511",
+      "title": "Classification under the General Schedule"
+    },
+    {
+      "code": "12512",
+      "title": "Job Evaluation under Federal Wage System"
+    },
+    {
+      "code": "12515",
+      "title": "Classification under Other Pay Systems"
+    },
+    {
+      "code": "12530",
+      "title": "Pay Rates and Systems (General)"
+    },
+    {
+      "code": "12531",
+      "title": "Pay under the General Schedule"
+    },
+    {
+      "code": "12532",
+      "title": "Federal Wage System"
+    },
+    {
+      "code": "12534",
+      "title": "Pay under Other Systems"
+    },
+    {
+      "code": "12536",
+      "title": "Grade and Pay Retention"
+    },
+    {
+      "code": "12540",
+      "title": "Performance Management and Recognition System (PMRS)"
+    },
+    {
+      "code": "12550",
+      "title": "Pay Administration (General)"
+    },
+    {
+      "code": "12551",
+      "title": "Fair Labor Standards Act"
+    },
+    {
+      "code": "12553",
+      "title": "Deductions from Civilian Pay for Increases in Uniformed Service Retired or Retainer"
+    },
+    {
+      "code": "12570",
+      "title": "Travel and Transportation (General)"
+    },
+    {
+      "code": "12571",
+      "title": "Travel and Transportation for Pre-Employment Interviews and Recruitment"
+    },
+    {
+      "code": "12591",
+      "title": "Allowances and Differentials Payable in Non-Foreign Areas"
+    },
+    {
+      "code": "12592",
+      "title": "Overseas Allowances and Post Differentials"
+    },
+    {
+      "code": "12593",
+      "title": "Subsistence, Quarters, and Laundry"
+    },
+    {
+      "code": "12594",
+      "title": "Allowances for Uniforms"
+    },
+    {
+      "code": "12595",
+      "title": "Physician\u2019s Comparability Allowance"
+    },
+    {
+      "code": "12600",
+      "title": "General"
+    },
+    {
+      "code": "12610",
+      "title": "Hours of Duty"
+    },
+    {
+      "code": "12620",
+      "title": "Alternative Work Schedules"
+    },
+    {
+      "code": "12630",
+      "title": "Absence and Leave"
+    },
+    {
+      "code": "12700",
+      "title": "General"
+    },
+    {
+      "code": "12710",
+      "title": "Personnel Relations (General)"
+    },
+    {
+      "code": "12711",
+      "title": "Labor Relations"
+    },
+    {
+      "code": "12712",
+      "title": "Employee Organizations and Activities"
+    },
+    {
+      "code": "12713",
+      "title": "Equal Employment Opportunity"
+    },
+    {
+      "code": "12715",
+      "title": "Voluntary Separations and Reductions in Grade or Pay"
+    },
+    {
+      "code": "12720",
+      "title": "Affirmative Employment Program"
+    },
+    {
+      "code": "12731",
+      "title": "Suitability"
+    },
+    {
+      "code": "12732",
+      "title": "Personnel Security Program"
+    },
+    {
+      "code": "12733",
+      "title": "Political Activity of Federal Employees"
+    },
+    {
+      "code": "12734",
+      "title": "Holding State or Local Office"
+    },
+    {
+      "code": "12735",
+      "title": "Employee Responsibilities and Conduct"
+    },
+    {
+      "code": "12736",
+      "title": "Investigations"
+    },
+    {
+      "code": "12751",
+      "title": "Discipline"
+    },
+    {
+      "code": "12752",
+      "title": "Adverse Actions by Agencies"
+    },
+    {
+      "code": "12754",
+      "title": "Suitability Disqualification Actions"
+    },
+    {
+      "code": "12771",
+      "title": "Grievance System"
+    },
+    {
+      "code": "12772",
+      "title": "Appeals to the Merit Systems Protection Board (MSPB)"
+    },
+    {
+      "code": "12790",
+      "title": "Services to Employees (see also 5380)"
+    },
+    {
+      "code": "12792",
+      "title": "Federal Employees Occupational Health and Counseling Program"
+    },
+    {
+      "code": "12800",
+      "title": "General"
+    },
+    {
+      "code": "12810",
+      "title": "Injury Compensation"
+    },
+    {
+      "code": "12831",
+      "title": "Civil Service Retirement System (CSRS)"
+    },
+    {
+      "code": "12832",
+      "title": "Social Security Retirement, Survivors Insurance, Disability Insurance and Medicare"
+    },
+    {
+      "code": "12841",
+      "title": "Federal Employees' Retirement System (FERS)"
+    },
+    {
+      "code": "12850",
+      "title": "Unemployment Benefits"
+    },
+    {
+      "code": "12870",
+      "title": "Life Insurance"
+    },
+    {
+      "code": "12890",
+      "title": "Health Insurance"
+    },
+    {
+      "code": "12900",
+      "title": "General"
+    },
+    {
+      "code": "12910",
+      "title": "Mobilization Readiness"
+    },
+    {
+      "code": "12915",
+      "title": "Military Service Obligation"
+    },
+    {
+      "code": "12920",
+      "title": "Senior Executive Service (SES)"
+    },
+    {
+      "code": "12930",
+      "title": "Programs for Specific Positions and Examinations (Miscellaneous)"
+    },
+    {
+      "code": "12933",
+      "title": "Qualification Requirements for Specific Positions"
+    },
+    {
+      "code": "12938",
+      "title": "Classification and Pay of Specific Positions"
+    },
+    {
+      "code": "12950",
+      "title": "Solicitation of Federal Civilian and Uniformed Services Personnel for Contributions to"
+    },
+    {
+      "code": "12971",
+      "title": "Training, Promotion and Executive Development Agreements with Specific"
+    },
+    {
+      "code": "12981",
+      "title": "Delegation of Personnel Authorities"
+    },
+    {
+      "code": "12990",
+      "title": "General and Miscellaneous"
+    },
+    {
       "code": "1300",
+      "title": "General"
+    },
+    {
+      "code": "13000",
       "title": "General"
     },
     {
@@ -209,32 +1405,280 @@
       "title": "Officer"
     },
     {
+      "code": "13010",
+      "title": "Aircraft Characteristics"
+    },
+    {
+      "code": "13011",
+      "title": "Performance"
+    },
+    {
+      "code": "13012",
+      "title": "Flying Qualities, Stability and Control"
+    },
+    {
+      "code": "13013",
+      "title": "Aerodynamics and Hydrodynamics (Aircraft Characteristics)"
+    },
+    {
+      "code": "13014",
+      "title": "Structural (Loads)"
+    },
+    {
+      "code": "13020",
+      "title": "Aircraft Maintenance"
+    },
+    {
+      "code": "13021",
+      "title": "Organizational"
+    },
+    {
+      "code": "13022",
+      "title": "Intermediate"
+    },
+    {
+      "code": "13023",
+      "title": "Overhaul, Rework"
+    },
+    {
+      "code": "13024",
+      "title": "Aircraft Battle Damage Repair (ABDR)"
+    },
+    {
+      "code": "13030",
+      "title": "Airworthiness and Service Suitability"
+    },
+    {
+      "code": "13031",
+      "title": "Test and Evaluation"
+    },
+    {
+      "code": "13032",
+      "title": "Navy Preliminary Evaluation (NPE)"
+    },
+    {
+      "code": "13033",
+      "title": "Service Suitability Trials"
+    },
+    {
+      "code": "13034",
+      "title": "Aircraft Restrictions/Limitations"
+    },
+    {
+      "code": "13035",
+      "title": "Aircraft/Stores Compatibility"
+    },
+    {
+      "code": "13040",
+      "title": "Aircraft Survivability/Vulnerability"
+    },
+    {
+      "code": "13050",
+      "title": "Configuration Control"
+    },
+    {
+      "code": "13051",
+      "title": "Engineering Change Proposals"
+    },
+    {
+      "code": "13052",
+      "title": "Changes and Bulletins"
+    },
+    {
+      "code": "13053",
+      "title": "Change Kits"
+    },
+    {
+      "code": "13054",
+      "title": "Fleet Proposals for Aircraft Modification"
+    },
+    {
       "code": "1306",
       "title": "Enlisted"
+    },
+    {
+      "code": "13060",
+      "title": "Weight and Balance"
+    },
+    {
+      "code": "13070",
+      "title": "Reliability and Maintenance"
+    },
+    {
+      "code": "13080",
+      "title": "Exterior/Interior Finish, Marking and Lighting"
+    },
+    {
+      "code": "13090",
+      "title": "Logs and Records"
     },
     {
       "code": "1310",
       "title": "OFFICER ASSIGNMENTS"
     },
     {
+      "code": "13100",
+      "title": "General (Use for more than one model of aircraft and for both aircraft and guided"
+    },
+    {
+      "code": "13110",
+      "title": "FLIGHT OPERATIONS"
+    },
+    {
+      "code": "13120",
+      "title": "Fixed Wing Aircraft"
+    },
+    {
+      "code": "13121",
+      "title": "Antisubmarine"
+    },
+    {
+      "code": "13122",
+      "title": "Attack Aircraft"
+    },
+    {
+      "code": "13123",
+      "title": "Cargo Transport Aircraft"
+    },
+    {
+      "code": "13124",
+      "title": "Fighter Aircraft"
+    },
+    {
+      "code": "13125",
+      "title": "Special Electronics"
+    },
+    {
+      "code": "13126",
+      "title": "Patrol Aircraft"
+    },
+    {
+      "code": "13127",
+      "title": "Trainer Aircraft"
+    },
+    {
+      "code": "13128",
+      "title": "Utility Aircraft"
+    },
+    {
+      "code": "13130",
+      "title": "Vertical Flight Aircraft (Helicopters, V/STOL)"
+    },
+    {
+      "code": "13140",
+      "title": "WEATHER SERVICES"
+    },
+    {
+      "code": "13150",
+      "title": "Research"
+    },
+    {
+      "code": "13160",
+      "title": "Aircraft Targets"
+    },
+    {
       "code": "1320",
       "title": "Orders to Personnel"
+    },
+    {
+      "code": "13200",
+      "title": "General"
+    },
+    {
+      "code": "13205",
+      "title": "Automatic Carrier Landing System"
     },
     {
       "code": "1321",
       "title": "Officer"
     },
     {
+      "code": "13210",
+      "title": "Electrical Power Distribution Components and Systems"
+    },
+    {
+      "code": "13220",
+      "title": "Airborne Navigation, Automatic Flight Control and Instrument Systems"
+    },
+    {
+      "code": "13221",
+      "title": "Navigational and Fuel Consumption Instruments and Computers"
+    },
+    {
+      "code": "13222",
+      "title": "Flight Instruments"
+    },
+    {
+      "code": "13223",
+      "title": "Automatic Pilot Mechanisms and Airborne Gyro Components (Use 10170 for"
+    },
+    {
+      "code": "13224",
+      "title": "Engine Instruments"
+    },
+    {
+      "code": "13230",
+      "title": "Communication and Identification (CNI) Systems"
+    },
+    {
+      "code": "13240",
+      "title": "Airborne Weapon (Fire Controls) Systems and Airborne Missile Guidance Systems (Gun"
+    },
+    {
+      "code": "13250",
+      "title": "General Purpose Computers"
+    },
+    {
       "code": "1326",
       "title": "Enlisted"
+    },
+    {
+      "code": "13260",
+      "title": "Antisubmarine Warfare (ASW) Systems"
+    },
+    {
+      "code": "13270",
+      "title": "Electronic Warfare (EW) Systems"
+    },
+    {
+      "code": "13280",
+      "title": "Electric Power Generator, Inverter, Converter and Battery Systems and Components"
+    },
+    {
+      "code": "13290",
+      "title": "Airborne Radar"
     },
     {
       "code": "1330",
       "title": "Personnel Requests"
     },
     {
+      "code": "13300",
+      "title": "General"
+    },
+    {
+      "code": "13301",
+      "title": "Satellites"
+    },
+    {
+      "code": "13302",
+      "title": "Space Shuttle"
+    },
+    {
       "code": "1331",
       "title": "Officer"
+    },
+    {
+      "code": "13310",
+      "title": "ORGANIZATIONAL LEVEL MAINTENANCE"
+    },
+    {
+      "code": "13320",
+      "title": "INTERMEDIATE LEVEL MAINTENANCE"
+    },
+    {
+      "code": "13330",
+      "title": "DEPOT LEVEL MAINTENANCE"
     },
     {
       "code": "1336",
@@ -245,16 +1689,320 @@
       "title": "INTER-SERVICE TRANSFERS"
     },
     {
+      "code": "13400",
+      "title": "General"
+    },
+    {
+      "code": "13410",
+      "title": "Structural (includes Materials)"
+    },
+    {
+      "code": "13411",
+      "title": "Fuselage"
+    },
+    {
+      "code": "13412",
+      "title": "Wing, Tail, Control Surfaces, Flaps, etc."
+    },
+    {
+      "code": "13413",
+      "title": "Windows, Windshields, Canopies"
+    },
+    {
+      "code": "13414",
+      "title": "Doors, Hatches, Removable Panels"
+    },
+    {
+      "code": "13415",
+      "title": "Nacelles, Radomes"
+    },
+    {
+      "code": "13416",
+      "title": "Nuts, Bolts, Rivets, Fasteners"
+    },
+    {
+      "code": "13420",
+      "title": "Landing Gear, Wheels and Brakes"
+    },
+    {
+      "code": "13421",
+      "title": "Tires and Tubes"
+    },
+    {
+      "code": "13430",
+      "title": "Arresting and Launching, Aircraft Components for Launching"
+    },
+    {
+      "code": "13440",
+      "title": "Hydraulic, Pneumatic and Lubrication Systems"
+    },
+    {
+      "code": "13441",
+      "title": "Pumps and Motors"
+    },
+    {
+      "code": "13442",
+      "title": "Valves and Lines"
+    },
+    {
+      "code": "13443",
+      "title": "Actuators"
+    },
+    {
+      "code": "13444",
+      "title": "Fluidic Devices"
+    },
+    {
+      "code": "13445",
+      "title": "Lubrication (excluding Engine)"
+    },
+    {
+      "code": "13446",
+      "title": "Pilot-Static System (excluding Instruments)"
+    },
+    {
+      "code": "13450",
+      "title": "De-Icing, Anti-Icing and Anti-Fogging"
+    },
+    {
+      "code": "13451",
+      "title": "Airframe De-Icing"
+    },
+    {
+      "code": "13452",
+      "title": "Windshield De-Icing, Defogging and Rain Removal"
+    },
+    {
+      "code": "13460",
+      "title": "Environmental Control and Life Support"
+    },
+    {
+      "code": "13461",
+      "title": "Heating and Air Conditioning"
+    },
+    {
+      "code": "13462",
+      "title": "Oxygen"
+    },
+    {
+      "code": "13463",
+      "title": "Pressurization"
+    },
+    {
+      "code": "13470",
+      "title": "Fuel System (excluding Engine)"
+    },
+    {
+      "code": "13471",
+      "title": "Fuel Tanks, Internal"
+    },
+    {
+      "code": "13472",
+      "title": "Fuel Tanks, External"
+    },
+    {
+      "code": "13473",
+      "title": "In-Flight Refueling"
+    },
+    {
+      "code": "13480",
+      "title": "Special Mission Systems"
+    },
+    {
+      "code": "13481",
+      "title": "Internal Cargo"
+    },
+    {
+      "code": "13482",
+      "title": "External Cargo (includes Helicopter Pickup and Delivery Systems)"
+    },
+    {
+      "code": "13483",
+      "title": "Airdropped Cargo Systems"
+    },
+    {
+      "code": "13484",
+      "title": "Airborne Mine Countermeasures Systems"
+    },
+    {
+      "code": "13485",
+      "title": "Aerial Towing (Targets, Gliders)"
+    },
+    {
+      "code": "13490",
+      "title": "Fire Detection and Protection"
+    },
+    {
       "code": "1350",
       "title": "HUMANITARIAN ASSIGNMENTS"
+    },
+    {
+      "code": "13500",
+      "title": "Escape and Crew Systems (General)"
+    },
+    {
+      "code": "13510",
+      "title": "Escape Systems"
+    },
+    {
+      "code": "13511",
+      "title": "Ejection Seats"
+    },
+    {
+      "code": "13512",
+      "title": "Parachutes"
+    },
+    {
+      "code": "13520",
+      "title": "Crew Systems"
+    },
+    {
+      "code": "13521",
+      "title": "Crew Station Design and Human Factors"
+    },
+    {
+      "code": "13522",
+      "title": "Comfort (Galleys, Bunks, Lavatories)"
+    },
+    {
+      "code": "13523",
+      "title": "Emergency Equipment (Life Rafts, Mae Wests, Survival Kits)"
+    },
+    {
+      "code": "13524",
+      "title": "Personal Flying Equipment"
     },
     {
       "code": "1360",
       "title": "DEPENDENT RESTRICTED TOURS"
     },
     {
+      "code": "13600",
+      "title": "General"
+    },
+    {
+      "code": "13610",
+      "title": "Common Ground Support Equipment"
+    },
+    {
+      "code": "13620",
+      "title": "Peculiar Ground Support Equipment"
+    },
+    {
+      "code": "13630",
+      "title": "Automatic Test Equipment"
+    },
+    {
+      "code": "13640",
+      "title": "Calibration Ground Support Equipment"
+    },
+    {
+      "code": "13650",
+      "title": "Aircraft Maintenance Material Readiness List (AMMRL) Program"
+    },
+    {
+      "code": "13660",
+      "title": "Repair Parts (Shortages)"
+    },
+    {
+      "code": "13670",
+      "title": "Mobile Facility Program"
+    },
+    {
+      "code": "13680",
+      "title": "Rework, Maintenance and Checkout"
+    },
+    {
+      "code": "13690",
+      "title": "Avionics Support Equipment"
+    },
+    {
+      "code": "13700",
+      "title": "General"
+    },
+    {
+      "code": "13710",
+      "title": "Reciprocating Engines"
+    },
+    {
+      "code": "13720",
+      "title": "Turboshaft and Jet"
+    },
+    {
+      "code": "13730",
+      "title": "Rocket"
+    },
+    {
+      "code": "13740",
+      "title": "Nuclear"
+    },
+    {
+      "code": "13750",
+      "title": "Engine Diagnostics"
+    },
+    {
+      "code": "13760",
+      "title": "Engine Fuel Systems"
+    },
+    {
+      "code": "13770",
+      "title": "Engine Electrical Systems"
+    },
+    {
+      "code": "13780",
+      "title": "Engine Cooling Systems"
+    },
+    {
+      "code": "13790",
+      "title": "Engine Systems Components"
+    },
+    {
+      "code": "13800",
+      "title": "General"
+    },
+    {
+      "code": "13810",
+      "title": "Arresting, Barrier and Barricade Recovery Equipment"
+    },
+    {
+      "code": "13820",
+      "title": "Launching (Shipboard and Landbased)"
+    },
+    {
+      "code": "13830",
+      "title": "Visual Landing Aids"
+    },
+    {
+      "code": "13840",
+      "title": "Dynamic Interface Tests (DI Tests)"
+    },
+    {
+      "code": "13850",
+      "title": "Ship Helicopter Operating Limits (SHOL)"
+    },
+    {
+      "code": "13900",
+      "title": "General"
+    },
+    {
+      "code": "13950",
+      "title": "Meteorological Instruments and Equipment (Aeronautical)"
+    },
+    {
+      "code": "13980",
+      "title": "Aircraft Alarm and Signal Systems (include Oxygen, Pressure Signals and Warning"
+    },
+    {
+      "code": "13990",
+      "title": "Combination and Miscellaneous Instruments (Aeronautical)"
+    },
+    {
       "code": "1400",
       "title": "General"
+    },
+    {
+      "code": "14000",
+      "title": "SHIPS (GENERAL)"
     },
     {
       "code": "1401",
@@ -267,6 +2015,10 @@
     {
       "code": "1410",
       "title": "Requirements and Qualifications"
+    },
+    {
+      "code": "14100",
+      "title": "SURFACE SHIPS"
     },
     {
       "code": "1412",
@@ -289,6 +2041,10 @@
       "title": "Promotions"
     },
     {
+      "code": "14200",
+      "title": "SUBMARINES"
+    },
+    {
       "code": "1421",
       "title": "Temporary Promotions"
     },
@@ -305,20 +2061,48 @@
       "title": "Advancements in Rate or Rating"
     },
     {
+      "code": "14300",
+      "title": "AMPHIBIOUS SHIPS"
+    },
+    {
       "code": "1440",
       "title": "Changes in Rank, Rate or Rating"
+    },
+    {
+      "code": "14400",
+      "title": "AUXILIARY SHIPS"
     },
     {
       "code": "1450",
       "title": "Reductions in Rate, Rank or Rating"
     },
     {
+      "code": "14500",
+      "title": "SERVICE CRAFT"
+    },
+    {
+      "code": "14600",
+      "title": "SHIP MAINTENANCE"
+    },
+    {
+      "code": "14700",
+      "title": "SHIPYARD OPERATIONS"
+    },
+    {
       "code": "1500",
       "title": "General"
     },
     {
+      "code": "15000",
+      "title": "COMBAT SERVICE SUPPORT (GENERAL)"
+    },
+    {
       "code": "1510",
       "title": "Enlisted Training"
+    },
+    {
+      "code": "15100",
+      "title": "ENGINEER SUPPORT"
     },
     {
       "code": "1511",
@@ -341,6 +2125,10 @@
       "title": "Officer Training"
     },
     {
+      "code": "15200",
+      "title": "MOTOR TRANSPORT SUPPORT"
+    },
+    {
       "code": "1521",
       "title": "Joint and Advanced Training"
     },
@@ -359,6 +2147,10 @@
     {
       "code": "1530",
       "title": "Officer Candidate Training"
+    },
+    {
+      "code": "15300",
+      "title": "SUPPLY SUPPORT"
     },
     {
       "code": "1531",
@@ -381,6 +2173,10 @@
       "title": "Functional Training"
     },
     {
+      "code": "15400",
+      "title": "MAINTENANCE SUPPORT"
+    },
+    {
       "code": "1541",
       "title": "Fleet Training"
     },
@@ -399,6 +2195,10 @@
     {
       "code": "1550",
       "title": "Instruction Courses and Training Materials (see also 10170)"
+    },
+    {
+      "code": "15500",
+      "title": "HEALTH SERVICES SUPPORT"
     },
     {
       "code": "1551",
@@ -421,6 +2221,10 @@
       "title": "Voluntary Education"
     },
     {
+      "code": "15600",
+      "title": "LANDING SUPPORT"
+    },
+    {
       "code": "1562",
       "title": "GRADUATE EDUCATION PROGRAMS"
     },
@@ -441,12 +2245,20 @@
       "title": "General"
     },
     {
+      "code": "16000",
+      "title": "CIVIL AFFAIRS (GENERAL)"
+    },
+    {
       "code": "1601",
       "title": "Duties and Watches"
     },
     {
       "code": "1610",
       "title": "Performance and Conduct"
+    },
+    {
+      "code": "16100",
+      "title": "CIVIL-MILITARY OPERATIONS"
     },
     {
       "code": "1611",
@@ -461,6 +2273,10 @@
       "title": "Discipline"
     },
     {
+      "code": "16200",
+      "title": "FOREIGN HUMANITARIAN ASSISTANCE"
+    },
+    {
       "code": "1621",
       "title": "Officer"
     },
@@ -473,8 +2289,16 @@
       "title": "Navy Base Security and Military Police"
     },
     {
+      "code": "16300",
+      "title": "NATION ASSISTANCE"
+    },
+    {
       "code": "1640",
       "title": "Confinement"
+    },
+    {
+      "code": "16400",
+      "title": "POPULATION AND RESOURCES CONTROL"
     },
     {
       "code": "1650",
@@ -7139,1830 +8963,6 @@
     {
       "code": "9997",
       "title": "Drydocking"
-    },
-    {
-      "code": "10000",
-      "title": "General (including Marine Corps SOPs)"
-    },
-    {
-      "code": "10010",
-      "title": "Technical Information and Modification (Marine Corps only)"
-    },
-    {
-      "code": "10100",
-      "title": "General"
-    },
-    {
-      "code": "10110",
-      "title": "Provisions and Rations"
-    },
-    {
-      "code": "10120",
-      "title": "Clothing and Uniforms"
-    },
-    {
-      "code": "10121",
-      "title": "Naval and Marine Corps Reserve Clothing"
-    },
-    {
-      "code": "10122",
-      "title": "Officer Clothing and Uniforms"
-    },
-    {
-      "code": "10123",
-      "title": "Officer Candidate Clothing and Uniforms"
-    },
-    {
-      "code": "10124",
-      "title": "Organizational Clothing"
-    },
-    {
-      "code": "10125",
-      "title": "Special Clothing Cold Weather Clothing"
-    },
-    {
-      "code": "10126",
-      "title": "Flight Clothing"
-    },
-    {
-      "code": "10127",
-      "title": "Atomic, Biological and Chemical Warfare Protective Clothing"
-    },
-    {
-      "code": "10128",
-      "title": "Retail Clothing Store Items"
-    },
-    {
-      "code": "10130",
-      "title": "Ships Store Items"
-    },
-    {
-      "code": "10140",
-      "title": "Exchange Matters"
-    },
-    {
-      "code": "10150",
-      "title": "Personal Service Equipment"
-    },
-    {
-      "code": "10151",
-      "title": "Mess"
-    },
-    {
-      "code": "10152",
-      "title": "Laundry"
-    },
-    {
-      "code": "10160",
-      "title": "Furniture and Furnishings (Non-office)"
-    },
-    {
-      "code": "10170",
-      "title": "Training Material"
-    },
-    {
-      "code": "10200",
-      "title": "General"
-    },
-    {
-      "code": "10210",
-      "title": "Agricultural Machinery"
-    },
-    {
-      "code": "10220",
-      "title": "Air Compressors and Pump"
-    },
-    {
-      "code": "10230",
-      "title": "Air Conditioning and Ventilating Equipment"
-    },
-    {
-      "code": "10250",
-      "title": "Conveying and Hoisting Equipment"
-    },
-    {
-      "code": "10260",
-      "title": "Electric Motors and Generator"
-    },
-    {
-      "code": "10270",
-      "title": "Engines (except Ships and Aircraft)"
-    },
-    {
-      "code": "10290",
-      "title": "Tool"
-    },
-    {
-      "code": "10300",
-      "title": "General"
-    },
-    {
-      "code": "10310",
-      "title": "Metals"
-    },
-    {
-      "code": "10320",
-      "title": "Nonmetallic Materials (see also 4110)"
-    },
-    {
-      "code": "10330",
-      "title": "Chemicals and Gases (except Warfare)"
-    },
-    {
-      "code": "10340",
-      "title": "Fuel"
-    },
-    {
-      "code": "10341",
-      "title": "Gasoline and Jet Fuel"
-    },
-    {
-      "code": "10342",
-      "title": "Propellants and Oxidizers"
-    },
-    {
-      "code": "10343",
-      "title": "Fuel Oils"
-    },
-    {
-      "code": "10345",
-      "title": "Fueling and Fuel Storage Equipment"
-    },
-    {
-      "code": "10350",
-      "title": "Lubricants"
-    },
-    {
-      "code": "10360",
-      "title": "Protective and Preservative Coatings and Compounds (includes paints, dopes and related"
-    },
-    {
-      "code": "10370",
-      "title": "Building Materials"
-    },
-    {
-      "code": "10380",
-      "title": "Electrical and Electronic Components"
-    },
-    {
-      "code": "10390",
-      "title": "Electric Distribution Equipment"
-    },
-    {
-      "code": "10400",
-      "title": "Molds, Dies, Jigs (General)"
-    },
-    {
-      "code": "10410",
-      "title": "Hardware"
-    },
-    {
-      "code": "10420",
-      "title": "Bearing"
-    },
-    {
-      "code": "10430",
-      "title": "Plumbing Fixtures and Piping"
-    },
-    {
-      "code": "10440",
-      "title": "Hose, Gaskets, Packing"
-    },
-    {
-      "code": "10450",
-      "title": "Cordage and Wire Rope"
-    },
-    {
-      "code": "10460",
-      "title": "Office Equipment and Supplies (General)"
-    },
-    {
-      "code": "10461",
-      "title": "Records Production Equipment"
-    },
-    {
-      "code": "10462",
-      "title": "Records Handling and Utilization Equipment"
-    },
-    {
-      "code": "10463",
-      "title": "Records Filing, Storage and Retrieval Equipment"
-    },
-    {
-      "code": "10464",
-      "title": "Records Destruction Equipment"
-    },
-    {
-      "code": "10465",
-      "title": "Other Office Procedures Equipment"
-    },
-    {
-      "code": "10466",
-      "title": "Office Supplies"
-    },
-    {
-      "code": "10467",
-      "title": "Office Furniture and Furnishings"
-    },
-    {
-      "code": "10470",
-      "title": "Safety and Survival Equipment and Devices"
-    },
-    {
-      "code": "10480",
-      "title": "Sanitary and Cleaning Equipment"
-    },
-    {
-      "code": "10490",
-      "title": "Materials Handling Equipment"
-    },
-    {
-      "code": "10500",
-      "title": "Navigational and Mooring Aids (General)"
-    },
-    {
-      "code": "10510",
-      "title": "Test Measurement and Diagnostic Equipment (MARINE CORPS)"
-    },
-    {
-      "code": "10520",
-      "title": "Flags and Pennants"
-    },
-    {
-      "code": "10530",
-      "title": "ANTI-TANK GUIDED MISSILES"
-    },
-    {
-      "code": "10550",
-      "title": "Electronics (see also 9420 series, 3320 and 13290)"
-    },
-    {
-      "code": "10551",
-      "title": "Radar (see also 9451 and 13290)"
-    },
-    {
-      "code": "10552",
-      "title": "Sonar"
-    },
-    {
-      "code": "10553",
-      "title": "Loran, Racon (see also 13220)"
-    },
-    {
-      "code": "10554",
-      "title": "Electrostatic Discharge (ESD)"
-    },
-    {
-      "code": "10560",
-      "title": "Diving Equipment"
-    },
-    {
-      "code": "10561",
-      "title": "Surface Supplied Air Diving Systems"
-    },
-    {
-      "code": "10562",
-      "title": "Surface Supplied Mixed-Gas Diving System"
-    },
-    {
-      "code": "10563",
-      "title": "Saturation Diving Systems"
-    },
-    {
-      "code": "10564",
-      "title": "SCUBA Equipment"
-    },
-    {
-      "code": "10565",
-      "title": "Recompression Chambers and Equipment"
-    },
-    {
-      "code": "10566",
-      "title": "Diver Tools"
-    },
-    {
-      "code": "10567",
-      "title": "Diver Accessories"
-    },
-    {
-      "code": "10570",
-      "title": "Animals, Domestic and Wild"
-    },
-    {
-      "code": "10580",
-      "title": "Container(s) (as used in Containerization)"
-    },
-    {
-      "code": "10700",
-      "title": "General"
-    },
-    {
-      "code": "10710",
-      "title": "Motion Picture Equipment and Accessories"
-    },
-    {
-      "code": "10720",
-      "title": "Still Picture Acquisition Equipment and Accessories"
-    },
-    {
-      "code": "10750",
-      "title": "Video Acquisition Equipment"
-    },
-    {
-      "code": "10760",
-      "title": "Audio Acquisition Equipment"
-    },
-    {
-      "code": "10761",
-      "title": "Sound Gathering Systems"
-    },
-    {
-      "code": "10770",
-      "title": "Graphic Arts Equipment"
-    },
-    {
-      "code": "11000",
-      "title": "General (include Marine Corps SOP\u2019s)"
-    },
-    {
-      "code": "11010",
-      "title": "Shore Station Development"
-    },
-    {
-      "code": "11011",
-      "title": "Real Estate"
-    },
-    {
-      "code": "11012",
-      "title": "Shore Station Design Criteria"
-    },
-    {
-      "code": "11013",
-      "title": "Shore Station Construction"
-    },
-    {
-      "code": "11014",
-      "title": "Shore Station Maintenance"
-    },
-    {
-      "code": "11015",
-      "title": "Agriculture, Fish and Wildlife"
-    },
-    {
-      "code": "11016",
-      "title": "Plant Property"
-    },
-    {
-      "code": "11017",
-      "title": "Grounds or Unpaved Areas (Land)"
-    },
-    {
-      "code": "11018",
-      "title": "Testing Areas and Facilities"
-    },
-    {
-      "code": "11019",
-      "title": "Shore Station Special Projects"
-    },
-    {
-      "code": "11080",
-      "title": "Nuclear, Biological and Chemical Defense"
-    },
-    {
-      "code": "11090",
-      "title": "Damage Control"
-    },
-    {
-      "code": "11100",
-      "title": "General"
-    },
-    {
-      "code": "11101",
-      "title": "Family Housing"
-    },
-    {
-      "code": "11102",
-      "title": "Training Structures and Facilities"
-    },
-    {
-      "code": "11103",
-      "title": "Housing, Other"
-    },
-    {
-      "code": "11104",
-      "title": "Community Facilities"
-    },
-    {
-      "code": "11107",
-      "title": "Resale Activities"
-    },
-    {
-      "code": "11110",
-      "title": "Medical and Dental"
-    },
-    {
-      "code": "11111",
-      "title": "Medical Center"
-    },
-    {
-      "code": "11112",
-      "title": "Hospital"
-    },
-    {
-      "code": "11113",
-      "title": "Medical Clinic"
-    },
-    {
-      "code": "11114",
-      "title": "Other Medical Facility Activity"
-    },
-    {
-      "code": "11115",
-      "title": "Dental Center"
-    },
-    {
-      "code": "11116",
-      "title": "Dental Clinic"
-    },
-    {
-      "code": "11117",
-      "title": "Other Dental Facility Activity"
-    },
-    {
-      "code": "11120",
-      "title": "Communications"
-    },
-    {
-      "code": "11130",
-      "title": "Aviation Facilities"
-    },
-    {
-      "code": "11131",
-      "title": "Hangars"
-    },
-    {
-      "code": "11132",
-      "title": "Runways"
-    },
-    {
-      "code": "11133",
-      "title": "Lighting"
-    },
-    {
-      "code": "11135",
-      "title": "Crash, Salvage and Rescue"
-    },
-    {
-      "code": "11137",
-      "title": "Service and Repair"
-    },
-    {
-      "code": "11140",
-      "title": "Ordnance Facilities"
-    },
-    {
-      "code": "11143",
-      "title": "Guided Missile Assembly and Test"
-    },
-    {
-      "code": "11150",
-      "title": "Research and Development Facilities"
-    },
-    {
-      "code": "11151",
-      "title": "Harbor Defense"
-    },
-    {
-      "code": "11152",
-      "title": "Drill and Parade Grounds"
-    },
-    {
-      "code": "11153",
-      "title": "Mooring and Navigation"
-    },
-    {
-      "code": "11154",
-      "title": "Observatories"
-    },
-    {
-      "code": "11155",
-      "title": "Hyperbaric Facilities"
-    },
-    {
-      "code": "11160",
-      "title": "Storage"
-    },
-    {
-      "code": "11161",
-      "title": "Storehouses"
-    },
-    {
-      "code": "11162",
-      "title": "Fuel Storage Facilities"
-    },
-    {
-      "code": "11163",
-      "title": "Magazines"
-    },
-    {
-      "code": "11170",
-      "title": "Cemeteries"
-    },
-    {
-      "code": "11180",
-      "title": "Chapels"
-    },
-    {
-      "code": "11200",
-      "title": "General"
-    },
-    {
-      "code": "11210",
-      "title": "Highways and Roads"
-    },
-    {
-      "code": "11220",
-      "title": "Bridges, Trestles, Overpasses"
-    },
-    {
-      "code": "11230",
-      "title": "Railways and Rolling Stock"
-    },
-    {
-      "code": "11240",
-      "title": "Automotive"
-    },
-    {
-      "code": "11250",
-      "title": "Boat or Water Transportation"
-    },
-    {
-      "code": "11260",
-      "title": "Heavy Equipment"
-    },
-    {
-      "code": "11261",
-      "title": "Construction-Type"
-    },
-    {
-      "code": "11262",
-      "title": "Heavy Weight Lifting"
-    },
-    {
-      "code": "11270",
-      "title": "Engineer Supplies and Construction Equipment"
-    },
-    {
-      "code": "11300",
-      "title": "General"
-    },
-    {
-      "code": "11310",
-      "title": "Power Plant"
-    },
-    {
-      "code": "11320",
-      "title": "Fire Protection and Fire Fighting"
-    },
-    {
-      "code": "11330",
-      "title": "Water Supply"
-    },
-    {
-      "code": "11340",
-      "title": "Drainage"
-    },
-    {
-      "code": "11345",
-      "title": "Sewers and Sewerage"
-    },
-    {
-      "code": "11350",
-      "title": "Refuse Collection and Disposal"
-    },
-    {
-      "code": "11360",
-      "title": "Lighting"
-    },
-    {
-      "code": "11370",
-      "title": "Heating"
-    },
-    {
-      "code": "11380",
-      "title": "Refrigeration and Air Conditioning"
-    },
-    {
-      "code": "11390",
-      "title": "Cable Television Franchise Management"
-    },
-    {
-      "code": "11400",
-      "title": "General"
-    },
-    {
-      "code": "11410",
-      "title": "Waterfront"
-    },
-    {
-      "code": "11420",
-      "title": "Drydock"
-    },
-    {
-      "code": "11430",
-      "title": "Marine Railways"
-    },
-    {
-      "code": "11440",
-      "title": "Shipways"
-    },
-    {
-      "code": "11450",
-      "title": "Weight Handing"
-    },
-    {
-      "code": "11460",
-      "title": "Dredging"
-    },
-    {
-      "code": "11470",
-      "title": "Pontoons"
-    },
-    {
-      "code": "11500",
-      "title": "CRYPTOGRAPHIC EQUIPMENT"
-    },
-    {
-      "code": "11600",
-      "title": "NAVIGATION EQUIPMENT"
-    },
-    {
-      "code": "11700",
-      "title": "COMPUTERS"
-    },
-    {
-      "code": "12000",
-      "title": "INTELLIGENCE (GENERAL)"
-    },
-    {
-      "code": "12100",
-      "title": "INTELLIGENCE POLICIES"
-    },
-    {
-      "code": "12171",
-      "title": "Office of Personnel Management Issuance System Records"
-    },
-    {
-      "code": "12200",
-      "title": "General"
-    },
-    {
-      "code": "12210",
-      "title": "Basic Concepts and Definitions (General)"
-    },
-    {
-      "code": "12211",
-      "title": "Veterans Preference"
-    },
-    {
-      "code": "12212",
-      "title": "Competitive Service and Competitive Status"
-    },
-    {
-      "code": "12213",
-      "title": "Excepted Service"
-    },
-    {
-      "code": "12220",
-      "title": "SIGNALS INTELLIGENCE"
-    },
-    {
-      "code": "12230",
-      "title": "Organizations of the Government for Personnel Management"
-    },
-    {
-      "code": "12240",
-      "title": "MEASUREMENT AND SIGNATURE INTELLIGENCE"
-    },
-    {
-      "code": "12250",
-      "title": "Personnel Management in Agencies"
-    },
-    {
-      "code": "12251",
-      "title": "Intra-Management Communications and Consultations"
-    },
-    {
-      "code": "12252",
-      "title": "Professional or Other Associations"
-    },
-    {
-      "code": "12270",
-      "title": "Personnel Controls and Direction"
-    },
-    {
-      "code": "12271",
-      "title": "Developing Policies, Procedures, Programs and Standards"
-    },
-    {
-      "code": "12272",
-      "title": "Personnel Policy Formulation and Personnel Issuances"
-    },
-    {
-      "code": "12273",
-      "title": "Personnel Management Evaluation"
-    },
-    {
-      "code": "12274",
-      "title": "Corrective Actions"
-    },
-    {
-      "code": "12275",
-      "title": "Evaluation and Assessment of Personnel Programs"
-    },
-    {
-      "code": "12290",
-      "title": "Personnel Information (General)"
-    },
-    {
-      "code": "12291",
-      "title": "Personnel Reports"
-    },
-    {
-      "code": "12292",
-      "title": "Personnel Data Standardization"
-    },
-    {
-      "code": "12293",
-      "title": "Personnel Records and Files"
-    },
-    {
-      "code": "12294",
-      "title": "Availability of Official Information"
-    },
-    {
-      "code": "12295",
-      "title": "Forms and Documents, Personnel"
-    },
-    {
-      "code": "12296",
-      "title": "Processing Personnel Action and Data"
-    },
-    {
-      "code": "12297",
-      "title": "Protection of Privacy and Personnel Records"
-    },
-    {
-      "code": "12298",
-      "title": "Federal Workforce Information System"
-    },
-    {
-      "code": "12300",
-      "title": "Employment (General)"
-    },
-    {
-      "code": "12301",
-      "title": "Overseas Employment"
-    },
-    {
-      "code": "12302",
-      "title": "Employment in the Excepted Service"
-    },
-    {
-      "code": "12304",
-      "title": "Employment of Experts and Consultants"
-    },
-    {
-      "code": "12305",
-      "title": "Employment under the Executive Assignment System"
-    },
-    {
-      "code": "12306",
-      "title": "Selective Placement Programs"
-    },
-    {
-      "code": "12307",
-      "title": "Transitional and Veterans Readjustment Appointment"
-    },
-    {
-      "code": "12308",
-      "title": "Youth and Student Employment Program"
-    },
-    {
-      "code": "12309",
-      "title": "Hosting Enrollees of Federal Grant Programs"
-    },
-    {
-      "code": "12310",
-      "title": "Employment of Relatives"
-    },
-    {
-      "code": "12311",
-      "title": "Power of Appointment and Removal"
-    },
-    {
-      "code": "12312",
-      "title": "Position Management"
-    },
-    {
-      "code": "12315",
-      "title": "Career and Career-Conditional Employment"
-    },
-    {
-      "code": "12316",
-      "title": "Temporary Employment"
-    },
-    {
-      "code": "12330",
-      "title": "Recruitment, Selection and Placement (General)"
-    },
-    {
-      "code": "12331",
-      "title": "Organization for Recruitment and Examining"
-    },
-    {
-      "code": "12332",
-      "title": "Recruitment and Selection through Competitive Examination"
-    },
-    {
-      "code": "12333",
-      "title": "Recruitment and Selection for Temporary and Term Appointment Outside the"
-    },
-    {
-      "code": "12334",
-      "title": "Temporary Assignment of Employees between Executive Agencies and States, Local"
-    },
-    {
-      "code": "12335",
-      "title": "Promotion and Internal Placement"
-    },
-    {
-      "code": "12337",
-      "title": "Examining System"
-    },
-    {
-      "code": "12338",
-      "title": "Qualification Requirements (General)"
-    },
-    {
-      "code": "12339",
-      "title": "Qualification Requirements (Medical)"
-    },
-    {
-      "code": "12340",
-      "title": "Part-time Employment"
-    },
-    {
-      "code": "12351",
-      "title": "Reduction in Force"
-    },
-    {
-      "code": "12352",
-      "title": "Reemployment Rights"
-    },
-    {
-      "code": "12353",
-      "title": "Restoration to Duty"
-    },
-    {
-      "code": "12361",
-      "title": "Career Intern Programs"
-    },
-    {
-      "code": "12362",
-      "title": "Presidential Management Intern Program"
-    },
-    {
-      "code": "12400",
-      "title": "General"
-    },
-    {
-      "code": "12410",
-      "title": "Training"
-    },
-    {
-      "code": "12411",
-      "title": "Supervisor Training and Development"
-    },
-    {
-      "code": "12412",
-      "title": "Executive Development/Supervisory Training and Development"
-    },
-    {
-      "code": "12430",
-      "title": "Performance Management"
-    },
-    {
-      "code": "12431",
-      "title": "Withholding of Within-Grade Increases"
-    },
-    {
-      "code": "12432",
-      "title": "Unacceptable Performance Action"
-    },
-    {
-      "code": "12450",
-      "title": "Recognition and Incentives, General Employees"
-    },
-    {
-      "code": "12451",
-      "title": "Incentive Awards"
-    },
-    {
-      "code": "12452",
-      "title": "Suggestion System Records"
-    },
-    {
-      "code": "12470",
-      "title": "Personnel Research Programs and Demonstration Projects"
-    },
-    {
-      "code": "12500",
-      "title": "General"
-    },
-    {
-      "code": "12510",
-      "title": "Classification and Placement Plan for Employees under Grade Retention"
-    },
-    {
-      "code": "12511",
-      "title": "Classification under the General Schedule"
-    },
-    {
-      "code": "12512",
-      "title": "Job Evaluation under Federal Wage System"
-    },
-    {
-      "code": "12515",
-      "title": "Classification under Other Pay Systems"
-    },
-    {
-      "code": "12530",
-      "title": "Pay Rates and Systems (General)"
-    },
-    {
-      "code": "12531",
-      "title": "Pay under the General Schedule"
-    },
-    {
-      "code": "12532",
-      "title": "Federal Wage System"
-    },
-    {
-      "code": "12534",
-      "title": "Pay under Other Systems"
-    },
-    {
-      "code": "12536",
-      "title": "Grade and Pay Retention"
-    },
-    {
-      "code": "12540",
-      "title": "Performance Management and Recognition System (PMRS)"
-    },
-    {
-      "code": "12550",
-      "title": "Pay Administration (General)"
-    },
-    {
-      "code": "12551",
-      "title": "Fair Labor Standards Act"
-    },
-    {
-      "code": "12553",
-      "title": "Deductions from Civilian Pay for Increases in Uniformed Service Retired or Retainer"
-    },
-    {
-      "code": "12570",
-      "title": "Travel and Transportation (General)"
-    },
-    {
-      "code": "12571",
-      "title": "Travel and Transportation for Pre-Employment Interviews and Recruitment"
-    },
-    {
-      "code": "12591",
-      "title": "Allowances and Differentials Payable in Non-Foreign Areas"
-    },
-    {
-      "code": "12592",
-      "title": "Overseas Allowances and Post Differentials"
-    },
-    {
-      "code": "12593",
-      "title": "Subsistence, Quarters, and Laundry"
-    },
-    {
-      "code": "12594",
-      "title": "Allowances for Uniforms"
-    },
-    {
-      "code": "12595",
-      "title": "Physician\u2019s Comparability Allowance"
-    },
-    {
-      "code": "12600",
-      "title": "General"
-    },
-    {
-      "code": "12610",
-      "title": "Hours of Duty"
-    },
-    {
-      "code": "12620",
-      "title": "Alternative Work Schedules"
-    },
-    {
-      "code": "12630",
-      "title": "Absence and Leave"
-    },
-    {
-      "code": "12700",
-      "title": "General"
-    },
-    {
-      "code": "12710",
-      "title": "Personnel Relations (General)"
-    },
-    {
-      "code": "12711",
-      "title": "Labor Relations"
-    },
-    {
-      "code": "12712",
-      "title": "Employee Organizations and Activities"
-    },
-    {
-      "code": "12713",
-      "title": "Equal Employment Opportunity"
-    },
-    {
-      "code": "12715",
-      "title": "Voluntary Separations and Reductions in Grade or Pay"
-    },
-    {
-      "code": "12720",
-      "title": "Affirmative Employment Program"
-    },
-    {
-      "code": "12731",
-      "title": "Suitability"
-    },
-    {
-      "code": "12732",
-      "title": "Personnel Security Program"
-    },
-    {
-      "code": "12733",
-      "title": "Political Activity of Federal Employees"
-    },
-    {
-      "code": "12734",
-      "title": "Holding State or Local Office"
-    },
-    {
-      "code": "12735",
-      "title": "Employee Responsibilities and Conduct"
-    },
-    {
-      "code": "12736",
-      "title": "Investigations"
-    },
-    {
-      "code": "12751",
-      "title": "Discipline"
-    },
-    {
-      "code": "12752",
-      "title": "Adverse Actions by Agencies"
-    },
-    {
-      "code": "12754",
-      "title": "Suitability Disqualification Actions"
-    },
-    {
-      "code": "12771",
-      "title": "Grievance System"
-    },
-    {
-      "code": "12772",
-      "title": "Appeals to the Merit Systems Protection Board (MSPB)"
-    },
-    {
-      "code": "12790",
-      "title": "Services to Employees (see also 5380)"
-    },
-    {
-      "code": "12792",
-      "title": "Federal Employees Occupational Health and Counseling Program"
-    },
-    {
-      "code": "12800",
-      "title": "General"
-    },
-    {
-      "code": "12810",
-      "title": "Injury Compensation"
-    },
-    {
-      "code": "12831",
-      "title": "Civil Service Retirement System (CSRS)"
-    },
-    {
-      "code": "12832",
-      "title": "Social Security Retirement, Survivors Insurance, Disability Insurance and Medicare"
-    },
-    {
-      "code": "12841",
-      "title": "Federal Employees' Retirement System (FERS)"
-    },
-    {
-      "code": "12850",
-      "title": "Unemployment Benefits"
-    },
-    {
-      "code": "12870",
-      "title": "Life Insurance"
-    },
-    {
-      "code": "12890",
-      "title": "Health Insurance"
-    },
-    {
-      "code": "12900",
-      "title": "General"
-    },
-    {
-      "code": "12910",
-      "title": "Mobilization Readiness"
-    },
-    {
-      "code": "12915",
-      "title": "Military Service Obligation"
-    },
-    {
-      "code": "12920",
-      "title": "Senior Executive Service (SES)"
-    },
-    {
-      "code": "12930",
-      "title": "Programs for Specific Positions and Examinations (Miscellaneous)"
-    },
-    {
-      "code": "12933",
-      "title": "Qualification Requirements for Specific Positions"
-    },
-    {
-      "code": "12938",
-      "title": "Classification and Pay of Specific Positions"
-    },
-    {
-      "code": "12950",
-      "title": "Solicitation of Federal Civilian and Uniformed Services Personnel for Contributions to"
-    },
-    {
-      "code": "12971",
-      "title": "Training, Promotion and Executive Development Agreements with Specific"
-    },
-    {
-      "code": "12981",
-      "title": "Delegation of Personnel Authorities"
-    },
-    {
-      "code": "12990",
-      "title": "General and Miscellaneous"
-    },
-    {
-      "code": "13000",
-      "title": "General"
-    },
-    {
-      "code": "13010",
-      "title": "Aircraft Characteristics"
-    },
-    {
-      "code": "13011",
-      "title": "Performance"
-    },
-    {
-      "code": "13012",
-      "title": "Flying Qualities, Stability and Control"
-    },
-    {
-      "code": "13013",
-      "title": "Aerodynamics and Hydrodynamics (Aircraft Characteristics)"
-    },
-    {
-      "code": "13014",
-      "title": "Structural (Loads)"
-    },
-    {
-      "code": "13020",
-      "title": "Aircraft Maintenance"
-    },
-    {
-      "code": "13021",
-      "title": "Organizational"
-    },
-    {
-      "code": "13022",
-      "title": "Intermediate"
-    },
-    {
-      "code": "13023",
-      "title": "Overhaul, Rework"
-    },
-    {
-      "code": "13024",
-      "title": "Aircraft Battle Damage Repair (ABDR)"
-    },
-    {
-      "code": "13030",
-      "title": "Airworthiness and Service Suitability"
-    },
-    {
-      "code": "13031",
-      "title": "Test and Evaluation"
-    },
-    {
-      "code": "13032",
-      "title": "Navy Preliminary Evaluation (NPE)"
-    },
-    {
-      "code": "13033",
-      "title": "Service Suitability Trials"
-    },
-    {
-      "code": "13034",
-      "title": "Aircraft Restrictions/Limitations"
-    },
-    {
-      "code": "13035",
-      "title": "Aircraft/Stores Compatibility"
-    },
-    {
-      "code": "13040",
-      "title": "Aircraft Survivability/Vulnerability"
-    },
-    {
-      "code": "13050",
-      "title": "Configuration Control"
-    },
-    {
-      "code": "13051",
-      "title": "Engineering Change Proposals"
-    },
-    {
-      "code": "13052",
-      "title": "Changes and Bulletins"
-    },
-    {
-      "code": "13053",
-      "title": "Change Kits"
-    },
-    {
-      "code": "13054",
-      "title": "Fleet Proposals for Aircraft Modification"
-    },
-    {
-      "code": "13060",
-      "title": "Weight and Balance"
-    },
-    {
-      "code": "13070",
-      "title": "Reliability and Maintenance"
-    },
-    {
-      "code": "13080",
-      "title": "Exterior/Interior Finish, Marking and Lighting"
-    },
-    {
-      "code": "13090",
-      "title": "Logs and Records"
-    },
-    {
-      "code": "13100",
-      "title": "General (Use for more than one model of aircraft and for both aircraft and guided"
-    },
-    {
-      "code": "13110",
-      "title": "FLIGHT OPERATIONS"
-    },
-    {
-      "code": "13120",
-      "title": "Fixed Wing Aircraft"
-    },
-    {
-      "code": "13121",
-      "title": "Antisubmarine"
-    },
-    {
-      "code": "13122",
-      "title": "Attack Aircraft"
-    },
-    {
-      "code": "13123",
-      "title": "Cargo Transport Aircraft"
-    },
-    {
-      "code": "13124",
-      "title": "Fighter Aircraft"
-    },
-    {
-      "code": "13125",
-      "title": "Special Electronics"
-    },
-    {
-      "code": "13126",
-      "title": "Patrol Aircraft"
-    },
-    {
-      "code": "13127",
-      "title": "Trainer Aircraft"
-    },
-    {
-      "code": "13128",
-      "title": "Utility Aircraft"
-    },
-    {
-      "code": "13130",
-      "title": "Vertical Flight Aircraft (Helicopters, V/STOL)"
-    },
-    {
-      "code": "13140",
-      "title": "WEATHER SERVICES"
-    },
-    {
-      "code": "13150",
-      "title": "Research"
-    },
-    {
-      "code": "13160",
-      "title": "Aircraft Targets"
-    },
-    {
-      "code": "13200",
-      "title": "General"
-    },
-    {
-      "code": "13205",
-      "title": "Automatic Carrier Landing System"
-    },
-    {
-      "code": "13210",
-      "title": "Electrical Power Distribution Components and Systems"
-    },
-    {
-      "code": "13220",
-      "title": "Airborne Navigation, Automatic Flight Control and Instrument Systems"
-    },
-    {
-      "code": "13221",
-      "title": "Navigational and Fuel Consumption Instruments and Computers"
-    },
-    {
-      "code": "13222",
-      "title": "Flight Instruments"
-    },
-    {
-      "code": "13223",
-      "title": "Automatic Pilot Mechanisms and Airborne Gyro Components (Use 10170 for"
-    },
-    {
-      "code": "13224",
-      "title": "Engine Instruments"
-    },
-    {
-      "code": "13230",
-      "title": "Communication and Identification (CNI) Systems"
-    },
-    {
-      "code": "13240",
-      "title": "Airborne Weapon (Fire Controls) Systems and Airborne Missile Guidance Systems (Gun"
-    },
-    {
-      "code": "13250",
-      "title": "General Purpose Computers"
-    },
-    {
-      "code": "13260",
-      "title": "Antisubmarine Warfare (ASW) Systems"
-    },
-    {
-      "code": "13270",
-      "title": "Electronic Warfare (EW) Systems"
-    },
-    {
-      "code": "13280",
-      "title": "Electric Power Generator, Inverter, Converter and Battery Systems and Components"
-    },
-    {
-      "code": "13290",
-      "title": "Airborne Radar"
-    },
-    {
-      "code": "13300",
-      "title": "General"
-    },
-    {
-      "code": "13301",
-      "title": "Satellites"
-    },
-    {
-      "code": "13302",
-      "title": "Space Shuttle"
-    },
-    {
-      "code": "13310",
-      "title": "ORGANIZATIONAL LEVEL MAINTENANCE"
-    },
-    {
-      "code": "13320",
-      "title": "INTERMEDIATE LEVEL MAINTENANCE"
-    },
-    {
-      "code": "13330",
-      "title": "DEPOT LEVEL MAINTENANCE"
-    },
-    {
-      "code": "13400",
-      "title": "General"
-    },
-    {
-      "code": "13410",
-      "title": "Structural (includes Materials)"
-    },
-    {
-      "code": "13411",
-      "title": "Fuselage"
-    },
-    {
-      "code": "13412",
-      "title": "Wing, Tail, Control Surfaces, Flaps, etc."
-    },
-    {
-      "code": "13413",
-      "title": "Windows, Windshields, Canopies"
-    },
-    {
-      "code": "13414",
-      "title": "Doors, Hatches, Removable Panels"
-    },
-    {
-      "code": "13415",
-      "title": "Nacelles, Radomes"
-    },
-    {
-      "code": "13416",
-      "title": "Nuts, Bolts, Rivets, Fasteners"
-    },
-    {
-      "code": "13420",
-      "title": "Landing Gear, Wheels and Brakes"
-    },
-    {
-      "code": "13421",
-      "title": "Tires and Tubes"
-    },
-    {
-      "code": "13430",
-      "title": "Arresting and Launching, Aircraft Components for Launching"
-    },
-    {
-      "code": "13440",
-      "title": "Hydraulic, Pneumatic and Lubrication Systems"
-    },
-    {
-      "code": "13441",
-      "title": "Pumps and Motors"
-    },
-    {
-      "code": "13442",
-      "title": "Valves and Lines"
-    },
-    {
-      "code": "13443",
-      "title": "Actuators"
-    },
-    {
-      "code": "13444",
-      "title": "Fluidic Devices"
-    },
-    {
-      "code": "13445",
-      "title": "Lubrication (excluding Engine)"
-    },
-    {
-      "code": "13446",
-      "title": "Pilot-Static System (excluding Instruments)"
-    },
-    {
-      "code": "13450",
-      "title": "De-Icing, Anti-Icing and Anti-Fogging"
-    },
-    {
-      "code": "13451",
-      "title": "Airframe De-Icing"
-    },
-    {
-      "code": "13452",
-      "title": "Windshield De-Icing, Defogging and Rain Removal"
-    },
-    {
-      "code": "13460",
-      "title": "Environmental Control and Life Support"
-    },
-    {
-      "code": "13461",
-      "title": "Heating and Air Conditioning"
-    },
-    {
-      "code": "13462",
-      "title": "Oxygen"
-    },
-    {
-      "code": "13463",
-      "title": "Pressurization"
-    },
-    {
-      "code": "13470",
-      "title": "Fuel System (excluding Engine)"
-    },
-    {
-      "code": "13471",
-      "title": "Fuel Tanks, Internal"
-    },
-    {
-      "code": "13472",
-      "title": "Fuel Tanks, External"
-    },
-    {
-      "code": "13473",
-      "title": "In-Flight Refueling"
-    },
-    {
-      "code": "13480",
-      "title": "Special Mission Systems"
-    },
-    {
-      "code": "13481",
-      "title": "Internal Cargo"
-    },
-    {
-      "code": "13482",
-      "title": "External Cargo (includes Helicopter Pickup and Delivery Systems)"
-    },
-    {
-      "code": "13483",
-      "title": "Airdropped Cargo Systems"
-    },
-    {
-      "code": "13484",
-      "title": "Airborne Mine Countermeasures Systems"
-    },
-    {
-      "code": "13485",
-      "title": "Aerial Towing (Targets, Gliders)"
-    },
-    {
-      "code": "13490",
-      "title": "Fire Detection and Protection"
-    },
-    {
-      "code": "13500",
-      "title": "Escape and Crew Systems (General)"
-    },
-    {
-      "code": "13510",
-      "title": "Escape Systems"
-    },
-    {
-      "code": "13511",
-      "title": "Ejection Seats"
-    },
-    {
-      "code": "13512",
-      "title": "Parachutes"
-    },
-    {
-      "code": "13520",
-      "title": "Crew Systems"
-    },
-    {
-      "code": "13521",
-      "title": "Crew Station Design and Human Factors"
-    },
-    {
-      "code": "13522",
-      "title": "Comfort (Galleys, Bunks, Lavatories)"
-    },
-    {
-      "code": "13523",
-      "title": "Emergency Equipment (Life Rafts, Mae Wests, Survival Kits)"
-    },
-    {
-      "code": "13524",
-      "title": "Personal Flying Equipment"
-    },
-    {
-      "code": "13600",
-      "title": "General"
-    },
-    {
-      "code": "13610",
-      "title": "Common Ground Support Equipment"
-    },
-    {
-      "code": "13620",
-      "title": "Peculiar Ground Support Equipment"
-    },
-    {
-      "code": "13630",
-      "title": "Automatic Test Equipment"
-    },
-    {
-      "code": "13640",
-      "title": "Calibration Ground Support Equipment"
-    },
-    {
-      "code": "13650",
-      "title": "Aircraft Maintenance Material Readiness List (AMMRL) Program"
-    },
-    {
-      "code": "13660",
-      "title": "Repair Parts (Shortages)"
-    },
-    {
-      "code": "13670",
-      "title": "Mobile Facility Program"
-    },
-    {
-      "code": "13680",
-      "title": "Rework, Maintenance and Checkout"
-    },
-    {
-      "code": "13690",
-      "title": "Avionics Support Equipment"
-    },
-    {
-      "code": "13700",
-      "title": "General"
-    },
-    {
-      "code": "13710",
-      "title": "Reciprocating Engines"
-    },
-    {
-      "code": "13720",
-      "title": "Turboshaft and Jet"
-    },
-    {
-      "code": "13730",
-      "title": "Rocket"
-    },
-    {
-      "code": "13740",
-      "title": "Nuclear"
-    },
-    {
-      "code": "13750",
-      "title": "Engine Diagnostics"
-    },
-    {
-      "code": "13760",
-      "title": "Engine Fuel Systems"
-    },
-    {
-      "code": "13770",
-      "title": "Engine Electrical Systems"
-    },
-    {
-      "code": "13780",
-      "title": "Engine Cooling Systems"
-    },
-    {
-      "code": "13790",
-      "title": "Engine Systems Components"
-    },
-    {
-      "code": "13800",
-      "title": "General"
-    },
-    {
-      "code": "13810",
-      "title": "Arresting, Barrier and Barricade Recovery Equipment"
-    },
-    {
-      "code": "13820",
-      "title": "Launching (Shipboard and Landbased)"
-    },
-    {
-      "code": "13830",
-      "title": "Visual Landing Aids"
-    },
-    {
-      "code": "13840",
-      "title": "Dynamic Interface Tests (DI Tests)"
-    },
-    {
-      "code": "13850",
-      "title": "Ship Helicopter Operating Limits (SHOL)"
-    },
-    {
-      "code": "13900",
-      "title": "General"
-    },
-    {
-      "code": "13950",
-      "title": "Meteorological Instruments and Equipment (Aeronautical)"
-    },
-    {
-      "code": "13980",
-      "title": "Aircraft Alarm and Signal Systems (include Oxygen, Pressure Signals and Warning"
-    },
-    {
-      "code": "13990",
-      "title": "Combination and Miscellaneous Instruments (Aeronautical)"
-    },
-    {
-      "code": "14000",
-      "title": "SHIPS (GENERAL)"
-    },
-    {
-      "code": "14100",
-      "title": "SURFACE SHIPS"
-    },
-    {
-      "code": "14200",
-      "title": "SUBMARINES"
-    },
-    {
-      "code": "14300",
-      "title": "AMPHIBIOUS SHIPS"
-    },
-    {
-      "code": "14400",
-      "title": "AUXILIARY SHIPS"
-    },
-    {
-      "code": "14500",
-      "title": "SERVICE CRAFT"
-    },
-    {
-      "code": "14600",
-      "title": "SHIP MAINTENANCE"
-    },
-    {
-      "code": "14700",
-      "title": "SHIPYARD OPERATIONS"
-    },
-    {
-      "code": "15000",
-      "title": "COMBAT SERVICE SUPPORT (GENERAL)"
-    },
-    {
-      "code": "15100",
-      "title": "ENGINEER SUPPORT"
-    },
-    {
-      "code": "15200",
-      "title": "MOTOR TRANSPORT SUPPORT"
-    },
-    {
-      "code": "15300",
-      "title": "SUPPLY SUPPORT"
-    },
-    {
-      "code": "15400",
-      "title": "MAINTENANCE SUPPORT"
-    },
-    {
-      "code": "15500",
-      "title": "HEALTH SERVICES SUPPORT"
-    },
-    {
-      "code": "15600",
-      "title": "LANDING SUPPORT"
-    },
-    {
-      "code": "16000",
-      "title": "CIVIL AFFAIRS (GENERAL)"
-    },
-    {
-      "code": "16100",
-      "title": "CIVIL-MILITARY OPERATIONS"
-    },
-    {
-      "code": "16200",
-      "title": "FOREIGN HUMANITARIAN ASSISTANCE"
-    },
-    {
-      "code": "16300",
-      "title": "NATION ASSISTANCE"
-    },
-    {
-      "code": "16400",
-      "title": "POPULATION AND RESOURCES CONTROL"
     }
   ]
 }

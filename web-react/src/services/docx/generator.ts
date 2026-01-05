@@ -451,8 +451,10 @@ export async function generateDocx(store: DocumentStore): Promise<Uint8Array> {
   });
 
   // Generate and return the document as Uint8Array
-  const buffer = await Packer.toBuffer(doc);
-  return new Uint8Array(buffer);
+  // Use toBlob() for browser compatibility (toBuffer() is Node.js only)
+  const blob = await Packer.toBlob(doc);
+  const arrayBuffer = await blob.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
 }
 
 function getDepartmentName(dept: string | undefined): string {

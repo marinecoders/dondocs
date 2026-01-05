@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, FolderOpen, Search } from 'lucide-react';
+import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, FolderOpen, Search, Keyboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -18,6 +18,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 
@@ -245,6 +250,45 @@ export function Header({
           >
             <Bug className="h-4 w-4" />
           </Button>
+
+          {/* Keyboard Shortcuts */}
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="ghost" size="icon" title="Keyboard Shortcuts">
+                <Keyboard className="h-4 w-4" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-72" align="end">
+              <div className="space-y-2">
+                <h4 className="font-medium text-sm mb-3">Keyboard Shortcuts</h4>
+                <div className="grid grid-cols-2 gap-1 text-xs">
+                  <div className="text-muted-foreground">Download PDF</div>
+                  <div className="font-mono text-right">Ctrl+D</div>
+                  <div className="text-muted-foreground">Print</div>
+                  <div className="font-mono text-right">Ctrl+P</div>
+                  <div className="text-muted-foreground">Save Draft</div>
+                  <div className="font-mono text-right">Ctrl+S</div>
+                  <div className="text-muted-foreground">Find & Replace</div>
+                  <div className="font-mono text-right">Ctrl+H</div>
+                  <div className="text-muted-foreground">Toggle Preview</div>
+                  <div className="font-mono text-right">Ctrl+E</div>
+                  <div className="text-muted-foreground">Templates</div>
+                  <div className="font-mono text-right">Ctrl+Shift+T</div>
+                  <div className="text-muted-foreground">References</div>
+                  <div className="font-mono text-right">Ctrl+Shift+R</div>
+                  <div className="text-muted-foreground">Undo</div>
+                  <div className="font-mono text-right">Ctrl+Z</div>
+                  <div className="text-muted-foreground">Redo</div>
+                  <div className="font-mono text-right">Ctrl+Y</div>
+                  <div className="text-muted-foreground">Close Modal</div>
+                  <div className="font-mono text-right">Escape</div>
+                </div>
+                <p className="text-xs text-muted-foreground mt-3 pt-2 border-t">
+                  Mac users: Use Cmd instead of Ctrl
+                </p>
+              </div>
+            </PopoverContent>
+          </Popover>
 
           <Button
             variant="ghost"

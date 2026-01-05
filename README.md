@@ -1,347 +1,396 @@
-# libo-secured
+# LIBO-SECURED
 
-**USMC Correspondence Generator** - A browser-based LaTeX document generator for creating SECNAV M-5216.5 and MCO 5216.20B compliant military correspondence.
+> "Libo isn't secured until the paperwork is done."
 
-> *"Libo isn't secured until the paperwork is done."*
+[![SECNAV M-5216.5](https://img.shields.io/badge/SECNAV-M--5216.5-blue)](https://www.secnav.navy.mil/doni/SECNAV%20Manuals1/5216.5%20DON%20Correspondence%20Manual.pdf)
+[![MCO 5216.20B](https://img.shields.io/badge/MCO-5216.20B-red)](https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/899678/mco-521620/)
+[![NIST 800-171](https://img.shields.io/badge/NIST-800--171-green)](https://csrc.nist.gov/publications/detail/sp/800-171/rev-2/final)
+
+**LIBO-SECURED** is a browser-based military correspondence generator that produces publication-quality documents compliant with **SECNAV M-5216.5** (Department of the Navy Correspondence Manual) and **MCO 5216.20B** (Marine Corps Supplement).
+
+**All processing happens locally in your browser - no data is ever sent to any server.**
+
+---
+
+## Why LIBO-SECURED?
+
+| Feature | LIBO-SECURED | Competitor A | Competitor B |
+|---------|:------------:|:------------:|:------------:|
+| **Unit Database** | 2,805 units | **3,688 units** | 1,861 units |
+| **SSIC Codes** | 2,240 codes | **2,709 codes** | 2,240 codes |
+| **Reference Library** | **107 references** | Limited | 107 references |
+| **Letter Templates** | **38 templates** | 3 templates | 37 templates |
+| **Document Types** | **17 types** | 3 types | 3 types |
+| **PDF Engine** | **LaTeX (publication quality)** | React-PDF | jsPDF |
+| **DOCX Export** | **Yes** | Yes | Yes |
+| **Digital Signature Fields** | **Yes (CAC/PIV)** | Yes (CAC/PKI) | Signature blocks |
+| **PII/PHI Detection** | **Yes** | No | No |
+| **Classification/CUI/Portion Markings** | **Full support** | Limited | Yes |
+| **Keyboard Shortcuts** | **10 shortcuts** | Not implemented | 3 shortcuts |
+| **Dark Mode** | **Yes** | No | Yes |
+| **Undo/Redo** | **Yes (50 levels)** | No | Yes |
+| **Find & Replace** | **Yes** | No | No |
+| **Batch Generation** | **Yes** | No | Yes |
+| **Drag & Drop Reordering** | **Yes** | No | No |
+| **Voice Recognition** | No | **Yes** | No |
+| **EDMS Integration** | No | **Yes (Supabase)** | No |
+| **PWA/Offline Mode** | No | No | **Yes** |
+| **100% Client-Side** | **Yes** | Partial | Yes |
+| **Air-Gap Compatible** | **Yes** | No | Yes |
+
+---
+
+## Key Features
+
+### Publication-Quality Output
+- **LaTeX-based PDF generation** via WebAssembly - pixel-perfect formatting impossible with typical web tools
+- Professional typesetting that matches official military publications
+- Consistent spacing, margins, and font handling per SECNAV specifications
+
+### Comprehensive Data Libraries
+- **2,805 military units** with full addresses, MCC codes, and organizational data
+- **2,240 SSIC codes** from SECNAV M-5210.2 (August 2018)
+- **107 regulatory references** across 12 categories (MCO, SECNAVINST, NAVADMIN)
+- **65+ military ranks** (USMC and Navy)
+
+### Security-First Design
+- **100% client-side processing** - nothing leaves your browser
+- **PII/PHI detection** warns before download (SSN, EDIPI, DOB, medical info)
+- **Digital signature fields** compatible with CAC/PIV cards and Adobe Acrobat
+- **Classification markings** from Unclassified through TOP SECRET//SCI
+- **CUI handling** with 10 categories and distribution statements
+- **Portion markings** per-paragraph: (U), (CUI), (FOUO), (C), (S), (TS)
+- **NIST 800-171 compliant** - works on air-gapped networks (SIPR/JWICS)
+
+### 17 Document Types
+- **Letters**: Naval, Standard, Business, Multiple Address, Joint
+- **Endorsements**: Same-Page, New-Page (1st through 5th)
+- **Memoranda**: MFR, Memorandum For, Plain Paper, Letterhead, Decision, Executive, Joint
+- **Agreements**: MOA, MOU
+- **Executive Correspondence**
+
+### Export Formats
+- **PDF** - Full-featured with enclosures, signatures, and classification markings
+- **DOCX** - Editable Microsoft Word format
+- **LaTeX** - Source files for advanced customization
+
+---
+
+## Table of Contents
+
+- [Getting Started](#getting-started)
+- [Features](#features)
+- [Document Types](#document-types)
+- [Security & Classification](#security--classification)
+- [User Interface](#user-interface)
+- [Keyboard Shortcuts](#keyboard-shortcuts)
+- [Technology Stack](#technology-stack)
+- [Development](#development)
+- [License](#license)
+
+---
+
+## Getting Started
+
+### Quick Start
+1. Open the application in your browser
+2. Select a document type from the dropdown
+3. Fill in required fields (From, To, Subject)
+4. Add paragraphs to the body
+5. Preview your document in real-time
+6. Download as PDF, DOCX, or LaTeX
+
+### First-Time Setup
+1. Click **Profiles** to create your unit profile
+2. Enter your unit information, rank, name, and signature image
+3. Save the profile for quick reuse
+4. Your information auto-fills on future documents
+
+---
 
 ## Features
 
-- **18 Document Types** - Naval letters, MFRs, memorandums, business letters, endorsements, and more
-- **SECNAV M-5216.5 Compliant** - Proper formatting per DON Correspondence Manual
-- **MCO 5216.20B Compliant** - Marine Corps supplement requirements
-- **8-Level Paragraph Nesting** - Full hierarchical paragraph support (1., a., (1), (a), underlined 5-8)
-- **Client-Side Only** - All processing in browser, no server communication
-- **Offline Capable** - Bundled TeX Live packages for air-gapped operation
-- **Enclosure System** - Auto-numbered, hyperlinked PDF enclosures with merge
-- **CUI/Classification Support** - Proper markings per DoDI 5200.48
-- **Profile System** - Save/load signatory and unit information
-- **Reference Library** - 2,100+ military references searchable by SSIC
+### Core Functionality
+- **Real-time PDF Preview** - See your document as you type (1.5s debounce)
+- **17 Document Types** - Letters, memoranda, endorsements, and agreements
+- **SECNAV M-5216.5 Compliant** - Automatic formatting per Navy/Marine Corps regulations
+- **Offline Capable** - Works entirely in your browser with no server required
 
-## Supported Document Types
+### Document Management
+- **Profiles System** - Save and reuse unit information and signature images
+- **Template Library** - 38 pre-built letter templates for common correspondence
+- **Reference Library** - 107 searchable military references with one-click insert
+- **Unit Directory** - 2,805 units searchable by name, abbreviation, MCC, or location
+- **SSIC Lookup** - 2,240 codes searchable by number or description
+- **Batch Generation** - Generate multiple documents using {{placeholder}} syntax
+- **Find & Replace** - Search and replace text across your document
+- **Undo/Redo** - 50-level history with keyboard shortcuts
 
-### Letters
-- `naval_letter` - Standard Naval Letter (Ch 2)
-- `standard_letter` - Standard Letter on Plain Bond (Ch 2)
-- `business_letter` - Business Letter (Ch 11)
-- `multiple_address_letter` - Multiple-Address Letter (Ch 8)
-- `joint_letter` - Joint Letter (Ch 7)
+### Security Features
+- **PII/PHI Detection** - Pre-download warning for sensitive data:
+  - Social Security Numbers (SSN)
+  - DoD ID Numbers (EDIPI)
+  - Dates of Birth
+  - Phone numbers
+  - Personal email addresses
+  - 95+ medical/PHI keywords
+- **Digital Signature Fields** - CAC/PIV compatible signature boxes in PDF
+- **Classification Markings** - Unclassified through TOP SECRET//SCI
+- **CUI Handling** - 10 categories with distribution statements (A-F)
+- **Portion Markings** - Per-paragraph classification indicators
 
-### Endorsements
-- `same_page_endorsement` - Same-Page Endorsement (Ch 9)
-- `new_page_endorsement` - New-Page Endorsement (Ch 9)
-
-### Memorandums
-- `mfr` - Memorandum for the Record (Ch 10)
-- `plain_paper_memorandum` - Plain-Paper Memorandum (Ch 10)
-- `letterhead_memorandum` - Letterhead Memorandum (Ch 10)
-- `decision_memorandum` - Decision Memorandum (Ch 10)
-- `moa` - Memorandum of Agreement (Ch 10)
-- `mou` - Memorandum of Understanding (Ch 10)
-- `joint_memorandum` - Joint Memorandum (Ch 7)
-
-### Executive Memorandums (HqDON/OSD)
-- `standard_memorandum` - Standard Memorandum (Ch 12)
-- `action_memorandum` - Action Memorandum (Ch 12)
-- `information_memorandum` - Information Memorandum (Ch 12)
-
-### USMC-Specific
-- `mf` - "Memorandum For" (MCO 5216.20B)
+### Document Elements
+- **Hierarchical Paragraphs** - 8 levels with automatic labeling (1., a., (1), (a), etc.)
+- **References** - Auto-lettered with optional hyperlinks
+- **Enclosures** - PDF attachments with cover pages and 3 page styles
+- **Copy To/Distribution** - Standard distribution list support
+- **Signature Images** - Upload and embed your signature
+- **Drag & Drop** - Reorder paragraphs, references, and enclosures
 
 ---
 
-## Why This Tool
+## Document Types
 
-### The Problem with Existing Solutions
+### Letters (5 types)
+| Type | Description | Reference |
+|------|-------------|-----------|
+| Naval Letter | Standard letter on letterhead | SECNAV M-5216.5 Ch 2 |
+| Standard Letter | Plain paper letter | SECNAV M-5216.5 Ch 2 |
+| Business Letter | External correspondence | SECNAV M-5216.5 Ch 11 |
+| Multiple Address Letter | Letter to multiple addressees | SECNAV M-5216.5 Ch 8 |
+| Joint Letter | Letter from multiple commands | SECNAV M-5216.5 Ch 7 |
 
-Most military correspondence tools fall into one of these categories:
+### Endorsements (2 types)
+| Type | Description | Reference |
+|------|-------------|-----------|
+| Same-Page Endorsement | Endorsement on same page | SECNAV M-5216.5 Ch 9 |
+| New-Page Endorsement | Endorsement starting new page | SECNAV M-5216.5 Ch 9 |
 
-| Approach | Limitations |
-|----------|-------------|
-| **Word Templates** | Manual formatting, easy to break compliance, no enclosure management |
-| **Cloud-Based Generators** | Data sent to external servers, unusable on classified networks, requires internet |
-| **Desktop Applications** | Requires installation, IT approval, often Windows-only |
-| **Basic Web Forms** | DOCX-only output, limited document types, no PDF enclosure merging |
+### Memoranda (7 types)
+| Type | Description | Reference |
+|------|-------------|-----------|
+| MFR | Memorandum for the Record | SECNAV M-5216.5 Ch 10 |
+| Memorandum For | USMC-specific "MF" format | MCO 5216.20B |
+| Plain Paper Memorandum | Informal memorandum | SECNAV M-5216.5 Ch 12 |
+| Letterhead Memorandum | Formal memorandum on letterhead | SECNAV M-5216.5 Ch 12 |
+| Decision Memorandum | Action/decision format | SECNAV M-5216.5 Ch 12 |
+| Executive Memorandum | Executive-level correspondence | SECNAV M-5216.5 Ch 12 |
+| Joint Memorandum | Memorandum from multiple commands | SECNAV M-5216.5 Ch 12 |
 
-### How libo-secured Is Different
-
-| Capability | Other Tools | libo-secured |
-|------------|-------------|--------------|
-| **Data Privacy** | Cloud processing, data leaves your system | 100% client-side, zero network calls |
-| **Air-Gap Compatible** | Requires internet connection | Fully offline after initial load |
-| **Output Format** | DOCX only (requires Word to view) | Native PDF with embedded fonts |
-| **Enclosures** | Manual attachment, separate files | Auto-merged into single PDF with hyperlinks |
-| **Document Types** | 1-5 basic formats | 18 formats covering all SECNAV chapters |
-| **Paragraph Nesting** | 3-4 levels typical | Full 8 levels per SECNAV M-5216.5 |
-| **Classification Markings** | Basic or none | Full CUI/classified per DoDI 5200.48 |
-| **Typographic Quality** | Word processor rendering | LaTeX typesetting (publication quality) |
-| **Reference Library** | None or manual entry | 2,100+ references searchable by SSIC |
-| **Installation** | Software install required | Zero install, runs in any browser |
-
-### Key Advantages
-
-**Security & Compliance**
-- No data ever leaves your browser - critical for CUI and classified environments
-- Works on NIPR, SIPR, and air-gapped systems without modification
-- No server infrastructure to maintain, patch, or secure
-- NIST 800-53 controls satisfied by architecture (see compliance section)
-
-**Professional Output**
-- LaTeX produces typographically superior documents
-- Consistent spacing, hyphenation, and pagination
-- Embedded fonts ensure identical rendering on any system
-- Single PDF output with merged enclosures - no loose attachments
-
-**Operational Efficiency**
-- Profile system saves unit/signatory info across sessions
-- Draft auto-save prevents lost work
-- Reference library eliminates manual MCO/SECNAVINST lookup
-- Drag-and-drop enclosure upload with automatic numbering
-
-**True Portability**
-- Runs on Windows, Mac, Linux, tablets - any device with a browser
-- No IT ticket required, no admin rights needed
-- Copy to USB drive for fully disconnected operation
-- Same tool works from garrison to deployed environments
+### Agreements (2 types)
+| Type | Description | Reference |
+|------|-------------|-----------|
+| MOA | Memorandum of Agreement | SECNAV M-5216.5 Ch 12 |
+| MOU | Memorandum of Understanding | SECNAV M-5216.5 Ch 12 |
 
 ---
 
-## Architecture
+## Security & Classification
 
-### How It Works
+### Classification Levels
+| Level | Description |
+|-------|-------------|
+| Unclassified | No classification |
+| CUI | Controlled Unclassified Information |
+| CONFIDENTIAL | Could cause damage |
+| SECRET | Could cause serious damage |
+| TOP SECRET | Could cause grave damage |
+| TOP SECRET//SCI | Sensitive Compartmented Information |
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        BROWSER (Client-Side)                     │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐       │
-│  │   index.html │───>│    app.js    │───>│ SwiftLaTeX   │       │
-│  │   (Form UI)  │    │  (5000+ LOC) │    │  (WASM)      │       │
-│  └──────────────┘    └──────────────┘    └──────────────┘       │
-│         │                   │                   │                │
-│         v                   v                   v                │
-│  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐       │
-│  │ localStorage │    │ latex-       │    │   PDF        │       │
-│  │ (Draft Save) │    │ templates.js │    │   Output     │       │
-│  └──────────────┘    └──────────────┘    └──────────────┘       │
-│                             │                   │                │
-│                             v                   v                │
-│                      ┌──────────────┐    ┌──────────────┐       │
-│                      │ TeX Live     │    │   pdf-lib    │       │
-│                      │ (Bundled)    │    │ (PDF Merge)  │       │
-│                      └──────────────┘    └──────────────┘       │
-│                                                                  │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              │ NO NETWORK CALLS
-                              v
-                    ┌─────────────────┐
-                    │  Downloaded PDF │
-                    └─────────────────┘
-```
+### CUI Categories
+Privacy, Proprietary, Legal, Law Enforcement, Export Control, Financial, Intelligence, Critical Infrastructure, Defense, Other
 
-### Key Components
+### Portion Markings
+Apply per-paragraph markings: **(U)**, **(CUI)**, **(FOUO)**, **(C)**, **(S)**, **(TS)**
 
-| Component | File | Description |
-|-----------|------|-------------|
-| **UI** | `web/index.html` | Form interface, document type selector |
-| **Logic** | `web/js/app.js` | 145+ functions, form handling, LaTeX generation |
-| **Templates** | `web/js/latex-templates.js` | Auto-generated from `tex/*.tex` files |
-| **Styles** | `web/css/styles.css` | Responsive UI styling |
-| **Engine** | SwiftLaTeX | PdfTeX compiled to WebAssembly |
-| **PDF Merge** | pdf-lib | Client-side PDF manipulation |
+### PII/PHI Detection
+Before downloading, LIBO-SECURED scans for:
+- Social Security Numbers (XXX-XX-XXXX)
+- EDIPI/DoD ID Numbers (10-digit)
+- Dates of Birth
+- Phone numbers
+- Personal email addresses (non-.mil)
+- Medical keywords (patient, diagnosis, treatment, medication, etc.)
 
-### Data Flow
+You'll receive a warning with the option to proceed or cancel.
 
-1. **User Input** → Form fields collected by `collectData()`
-2. **LaTeX Generation** → Dynamic `.tex` files created:
-   - `document.tex` - Document type, SSIC, From/To
-   - `letterhead.tex` - Unit information
-   - `body.tex` - Paragraph content with hierarchical numbering
-   - `references.tex` - Reference list
-   - `encl-config.tex` - Enclosure definitions
-3. **Compilation** → SwiftLaTeX compiles to PDF in-browser
-4. **PDF Merge** → Enclosure PDFs appended via pdf-lib
-5. **Download** → Final PDF delivered to user
-
-### Data Storage
-
-All data persisted to browser `localStorage`:
-
-| Key | Contents |
-|-----|----------|
-| `libo_profiles` | Saved signatory/unit profiles |
-| `libo_draft` | Current document form data |
-| `libo_draft_refs` | References list |
-| `libo_draft_encls` | Enclosure metadata |
-| `libo_draft_copytos` | Distribution list |
-| `libo_draft_paragraphs` | Body paragraphs with levels |
+### Digital Signatures
+PDF output includes empty signature fields compatible with:
+- CAC (Common Access Card)
+- PIV (Personal Identity Verification) cards
+- Adobe Acrobat digital signatures
+- Third-party PKI solutions
 
 ---
 
-## NIST 800-53 Security Compliance Assessment
+## User Interface
 
-### Overview
+### Header Bar
+| Button | Function | Shortcut |
+|--------|----------|----------|
+| Refresh | Force recompile preview | - |
+| Save | Save/Load from browser storage | Ctrl+S |
+| Download | PDF, DOCX, LaTeX export | Ctrl+D |
+| Templates | Load pre-built templates | Ctrl+Shift+T |
+| Batch | Generate multiple documents | - |
+| Find & Replace | Search and replace text | Ctrl+H |
+| Keyboard | View all shortcuts | - |
+| Theme | Toggle dark/light mode | - |
 
-This application is designed for **client-side only operation** with no external network dependencies. This architecture provides inherent security benefits for handling sensitive correspondence.
+### Editor Panel (Left)
+- **Profile Bar** - Quick profile selector with unit lookup
+- **Document Type** - 17 correspondence formats
+- **Letterhead** - Unit name, address, seal type
+- **Addressing** - From, To, Via, Subject
+- **Classification** - Security markings and CUI settings
+- **Paragraphs** - Document body with 8-level hierarchy
+- **References** - Auto-lettered with hyperlink support
+- **Enclosures** - PDF attachments with cover pages
+- **Copy To** - Distribution list
+- **Signature** - Signatory information and image
 
-### Control Family Assessment
-
-#### Access Control (AC)
-
-| Control | Status | Notes |
-|---------|--------|-------|
-| AC-2 Account Management | N/A | Single-user browser application |
-| AC-3 Access Enforcement | **Satisfied** | No privilege escalation possible |
-| AC-6 Least Privilege | **Satisfied** | Runs with browser permissions only |
-| AC-17 Remote Access | **Satisfied** | No remote access capability |
-| AC-20 External Systems | **Satisfied** | No external system connections |
-
-#### System & Communications Protection (SC)
-
-| Control | Status | Notes |
-|---------|--------|-------|
-| SC-7 Boundary Protection | **Satisfied** | No network calls, client-side only |
-| SC-8 Transmission Confidentiality | **Satisfied** | No data transmission |
-| SC-12 Cryptographic Key Management | N/A | No cryptographic operations |
-| SC-13 Cryptographic Protection | N/A | No encryption implemented |
-| SC-28 Protection at Rest | **Partial** | localStorage unencrypted (see mitigations) |
-
-#### System & Information Integrity (SI)
-
-| Control | Status | Notes |
-|---------|--------|-------|
-| SI-3 Malicious Code Protection | **Satisfied** | No `eval()`, `new Function()`, or dynamic code |
-| SI-10 Information Input Validation | **Satisfied** | HTML escaping, LaTeX escaping, PDF MIME validation |
-| SI-11 Error Handling | **Satisfied** | Graceful error handling with user feedback |
-
-#### Audit & Accountability (AU)
-
-| Control | Status | Notes |
-|---------|--------|-------|
-| AU-2 Audit Events | **Partial** | Console logging for debugging (dev mode) |
-| AU-3 Content of Audit Records | N/A | No persistent audit log |
-
-### Security Features Implemented
-
-1. **Input Sanitization**
-   - `escapeHtml()` - Prevents XSS in DOM manipulation
-   - `escapeLatex()` - Prevents LaTeX injection (handles `\ & % $ # _ { } ~ ^`)
-   - `escapeLatexUrl()` - URL-safe escaping for hyperlinks
-
-2. **No Dangerous Patterns**
-   - No `eval()` or `new Function()`
-   - No `innerHTML` with raw user input
-   - No `document.write()`
-   - No dynamic script loading
-
-3. **Client-Side Isolation**
-   - Zero network calls after initial page load
-   - All TeX Live packages bundled locally
-   - PDF generation entirely in-browser
-
-4. **Data Handling**
-   - No cookies used
-   - No tracking or analytics
-   - No third-party dependencies at runtime
-
-### Mitigations & Recommendations
-
-#### For CUI Handling
-
-| Risk | Mitigation |
-|------|------------|
-| localStorage unencrypted | Use on authorized systems only; clear browser data after use |
-| Browser memory persistence | Close browser/clear cache when handling sensitive documents |
-| Screen capture risk | Use in physically secured environment |
-
-#### Operational Security
-
-1. **Air-Gapped Use** - Application works fully offline after initial load
-2. **Browser Hygiene** - Clear localStorage after processing sensitive documents
-3. **System Authorization** - Use only on systems authorized for data classification level
-4. **Physical Security** - Standard OPSEC for viewing/printing classified documents
-
-### Compliance Summary
-
-| Category | Rating | Notes |
-|----------|--------|-------|
-| **Data in Transit** | Strong | No network transmission |
-| **Data at Rest** | Moderate | Unencrypted localStorage (browser-dependent) |
-| **Input Validation** | Strong | Multiple sanitization layers |
-| **Code Injection** | Strong | No dynamic code execution |
-| **Access Control** | N/A | Single-user client application |
-
-**Overall Assessment**: Suitable for CUI and below when operated on authorized systems following operational security procedures. For classified use, additional system-level controls required per agency policy.
+### Preview Panel (Right)
+- Real-time PDF preview
+- Loading indicator during compilation
+- Error messages for troubleshooting
 
 ---
 
-## Quick Start
+## Keyboard Shortcuts
 
-### Web UI (Recommended)
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl+D` / `Cmd+D` | Download PDF |
+| `Ctrl+P` / `Cmd+P` | Print PDF |
+| `Ctrl+S` / `Cmd+S` | Save Draft |
+| `Ctrl+H` / `Cmd+H` | Find & Replace |
+| `Ctrl+E` / `Cmd+E` | Toggle Preview |
+| `Ctrl+Shift+T` | Open Templates |
+| `Ctrl+Shift+R` | Open Reference Library |
+| `Ctrl+Z` / `Cmd+Z` | Undo |
+| `Ctrl+Y` / `Cmd+Y` | Redo |
+| `Escape` | Close Modals |
 
-1. Open `web/index.html` in your browser
-2. Select document type
-3. Fill in form fields
-4. Click "Generate PDF"
-5. Download your document
+---
 
-**No installation required** - all dependencies bundled.
+## Technology Stack
 
-### Command Line (Advanced)
+### Frontend
+- **React 19** with TypeScript
+- **Zustand** for state management
+- **Tailwind CSS** with shadcn/ui components
+- **dnd-kit** for drag and drop
 
-Prerequisites: TeX Live or MacTeX with `pdflatex` in PATH
+### Document Generation
+- **SwiftLaTeX** - WebAssembly LaTeX compiler for publication-quality PDFs
+- **pdf-lib** - PDF manipulation (enclosures, signatures, metadata)
+- **docx** - Microsoft Word document generation
 
+### Data Processing
+- **date-fns** - Military date formatting (4 Jan 26)
+- **TipTap** - Rich text editing
+
+---
+
+## Development
+
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+
+### Installation
 ```bash
-# Clone repository
-git clone https://github.com/yourusername/libo-secured.git
-cd libo-secured
-
-# Edit config files in config/ folder
-# Then compile:
-make build
-
-# Output: main.pdf
+cd web-react
+npm install
 ```
 
-## File Structure
+### Development Server
+```bash
+npm run dev
+```
 
+### Build for Production
+```bash
+npm run build
+```
+
+### Project Structure
 ```
 libo-secured/
-├── web/
-│   ├── index.html           # Main web application
-│   ├── js/
-│   │   ├── app.js           # Application logic (5000+ LOC)
-│   │   └── latex-templates.js # Bundled LaTeX templates
-│   ├── css/
-│   │   └── styles.css       # UI styling
-│   ├── lib/                  # Bundled dependencies
-│   │   ├── swiftlatex/      # PdfTeX WASM engine
-│   │   ├── pdf-lib/         # PDF manipulation
-│   │   └── texlive/         # TeX Live packages
-│   └── data/
-│       ├── references.json   # 2100+ military references
-│       ├── ssic.json        # Subject codes
-│       └── units.json       # Unit directory
-├── tex/
-│   ├── main.tex             # Master template
-│   └── templates/           # 18 document format modules
-├── config/                   # User configuration (CLI mode)
-├── Makefile                  # Build commands
-└── README.md
+├── tex/                          # LaTeX source templates
+│   ├── main.tex                  # Main template
+│   └── templates/                # Document type templates
+└── web-react/
+    ├── public/
+    │   ├── attachments/          # Seal images
+    │   └── lib/
+    │       ├── PdfTeXEngine.js   # LaTeX engine
+    │       ├── latex-templates.js
+    │       └── texlive/          # TeX Live files
+    └── src/
+        ├── components/
+        │   ├── editor/           # Form components
+        │   ├── layout/           # Page layout
+        │   ├── modals/           # Modal dialogs
+        │   └── ui/               # shadcn/ui components
+        ├── data/                 # Units, SSIC, references
+        ├── services/
+        │   ├── docx/             # Word generation
+        │   ├── latex/            # LaTeX generation
+        │   ├── pdf/              # PDF processing
+        │   └── pii/              # PII detection
+        └── stores/               # Zustand stores
 ```
 
-## References
+---
 
-- [SECNAV M-5216.5](https://www.secnav.navy.mil/doni/SECNAV%20Manuals1/5216.5.pdf) - DON Correspondence Manual
-- MCO 5216.20B W/ADMIN CH-4 - Marine Corps Correspondence Manual
-- DoDI 5200.48 - CUI Marking Requirements
-- NIST SP 800-53 Rev. 5 - Security and Privacy Controls
+## NIST 800-171 Compliance
+
+LIBO-SECURED is designed for information security:
+
+- **Local Processing** - All data stays in your browser
+- **No Server Communication** - Documents never leave your device
+- **No Telemetry** - No tracking or analytics
+- **Air-Gap Compatible** - Works on isolated networks (SIPR/JWICS)
+- **CUI Support** - Proper marking for Controlled Unclassified Information
+
+**Note:** Users are responsible for handling classified information according to their organization's security policies.
+
+---
+
+## FAQ
+
+**Q: Does this work on NMCI computers?**
+A: Yes. It's a standard webpage that works in any modern browser. No installation required.
+
+**Q: Can I use this for classified correspondence?**
+A: The tool formats documents but does not provide security controls for classified data. Use appropriate systems for classified information.
+
+**Q: Is my data saved anywhere?**
+A: Everything runs in your browser. Nothing is transmitted to any server. Data can be saved to browser localStorage.
+
+**Q: Why LaTeX instead of jsPDF?**
+A: LaTeX produces publication-quality output with proper kerning, ligatures, and typography that matches official military publications.
+
+---
 
 ## License
 
-Public Domain - Created for use by DoD personnel.
+MIT License - See LICENSE file for details.
 
 ---
 
-*Semper Fidelis*
+## Contributing
+
+Contributions welcome! Please open an issue or submit a pull request on [GitHub](https://github.com/rchiofalo/libo-secured).
+
+---
+
+## Support
+
+- **Bug Reports** - [GitHub Issues](https://github.com/rchiofalo/libo-secured/issues)
+- **Feature Requests** - [GitHub Issues](https://github.com/rchiofalo/libo-secured/issues)
+
+---
+
+*Built for Marines, by Marines. Semper Fidelis.*

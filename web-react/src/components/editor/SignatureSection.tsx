@@ -18,9 +18,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Upload, X, FileImage } from 'lucide-react';
+import { Upload, X, FileImage, PenLine, Shield, Type } from 'lucide-react';
 import { useDocumentStore } from '@/stores/documentStore';
-import type { DocTypeConfig, SignatureImage } from '@/types/document';
+import type { DocTypeConfig, SignatureImage, SignatureType } from '@/types/document';
 import { ALL_SERVICE_RANKS, formatRank } from '@/data/ranks';
 
 // Convert ArrayBuffer to base64
@@ -299,62 +299,136 @@ export function SignatureSection({ config: _config }: SignatureSectionProps) {
               />
             </div>
 
-            {/* Signature Image Upload */}
-            <div className="space-y-2">
-              <Label>Signature Image (Optional)</Label>
+            {/* Signature Type Selection */}
+            <div className="space-y-3">
+              <Label>Signature Style</Label>
+              <div className="grid grid-cols-3 gap-2">
+                <Button
+                  type="button"
+                  variant={(formData.signatureType || 'none') === 'none' ? 'default' : 'outline'}
+                  size="sm"
+                  className="flex flex-col items-center gap-1 h-auto py-3"
+                  onClick={() => {
+                    setField('signatureType', 'none' as SignatureType);
+                    if (formData.signatureImage) {
+                      setField('signatureImage', undefined);
+                    }
+                  }}
+                >
+                  <Type className="h-5 w-5" />
+                  <span className="text-xs">Typed Only</span>
+                </Button>
+                <Button
+                  type="button"
+                  variant={formData.signatureType === 'image' ? 'default' : 'outline'}
+                  size="sm"
+                  className="flex flex-col items-center gap-1 h-auto py-3"
+                  onClick={() => setField('signatureType', 'image' as SignatureType)}
+                >
+                  <PenLine className="h-5 w-5" />
+                  <span className="text-xs">Upload Image</span>
+                </Button>
+                <Button
+                  type="button"
+                  variant={formData.signatureType === 'digital' ? 'default' : 'outline'}
+                  size="sm"
+                  className="flex flex-col items-center gap-1 h-auto py-3"
+                  onClick={() => {
+                    setField('signatureType', 'digital' as SignatureType);
+                    if (formData.signatureImage) {
+                      setField('signatureImage', undefined);
+                    }
+                  }}
+                >
+                  <Shield className="h-5 w-5" />
+                  <span className="text-xs">Digital Field</span>
+                </Button>
+              </div>
+
+              {/* Description based on selection */}
               <p className="text-xs text-muted-foreground">
-                Upload a PNG image of your signature to appear above your typed name.
+                {(formData.signatureType || 'none') === 'none' && 'Just your typed name and rank.'}
+                {formData.signatureType === 'image' && 'Upload an image of your handwritten signature.'}
+                {formData.signatureType === 'digital' && 'Creates an empty signature field for CAC/PKI digital signing.'}
               </p>
 
-              {formData.signatureImage ? (
-                <div className="space-y-2">
-                  <div className="relative border rounded-lg p-4 bg-secondary/30">
-                    <img
-                      src={signaturePreviewUrl || ''}
-                      alt="Signature preview"
-                      className="max-h-20 mx-auto"
-                    />
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={handleRemoveSignature}
-                      className="absolute top-2 right-2 h-6 w-6"
-                      title="Remove signature"
+              {/* Image Upload - only show when 'image' is selected */}
+              {formData.signatureType === 'image' && (
+                <>
+                  {formData.signatureImage ? (
+                    <div className="space-y-2">
+                      <div className="relative border rounded-lg p-4 bg-secondary/30">
+                        <img
+                          src={signaturePreviewUrl || ''}
+                          alt="Signature preview"
+                          className="max-h-20 mx-auto"
+                        />
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={handleRemoveSignature}
+                          className="absolute top-2 right-2 h-6 w-6"
+                          title="Remove signature"
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <FileImage className="h-3 w-3" />
+                        <span>{formData.signatureImage.name}</span>
+                        <span>({(formData.signatureImage.size / 1024).toFixed(1)} KB)</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <label
+                      onDragOver={handleDragOver}
+                      onDragLeave={handleDragLeave}
+                      onDrop={handleDrop}
+                      className={`flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
+                        isDragging
+                          ? 'border-primary bg-primary/10'
+                          : 'border-muted-foreground/25 hover:border-primary/50 hover:bg-secondary/30'
+                      }`}
                     >
-                      <X className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <FileImage className="h-3 w-3" />
-                    <span>{formData.signatureImage.name}</span>
-                    <span>({(formData.signatureImage.size / 1024).toFixed(1)} KB)</span>
+                      <Upload className="h-6 w-6 text-muted-foreground" />
+                      <span className="text-sm text-muted-foreground">
+                        Drag & drop or click to upload
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        PNG, JPG, or GIF (max 500KB recommended)
+                      </span>
+                      <input
+                        type="file"
+                        accept="image/png,image/jpeg,image/gif"
+                        onChange={handleFileChange}
+                        className="hidden"
+                      />
+                    </label>
+                  )}
+                </>
+              )}
+
+              {/* Digital Signature Info - only show when 'digital' is selected */}
+              {formData.signatureType === 'digital' && (
+                <div className="border rounded-lg p-4 bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800">
+                  <div className="flex items-start gap-3">
+                    <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5" />
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium text-blue-900 dark:text-blue-200">
+                        Digital Signature Field
+                      </p>
+                      <p className="text-xs text-blue-700 dark:text-blue-300">
+                        An empty signature field will be placed above your typed name.
+                        After downloading, you can digitally sign using:
+                      </p>
+                      <ul className="text-xs text-blue-700 dark:text-blue-300 list-disc list-inside mt-2 space-y-1">
+                        <li>Adobe Acrobat with CAC/PIV</li>
+                        <li>DoD PKI certificate</li>
+                        <li>Other digital signature tools</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              ) : (
-                <label
-                  onDragOver={handleDragOver}
-                  onDragLeave={handleDragLeave}
-                  onDrop={handleDrop}
-                  className={`flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
-                    isDragging
-                      ? 'border-primary bg-primary/10'
-                      : 'border-muted-foreground/25 hover:border-primary/50 hover:bg-secondary/30'
-                  }`}
-                >
-                  <Upload className="h-6 w-6 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">
-                    Drag & drop or click to upload
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    PNG, JPG, or GIF (max 500KB recommended)
-                  </span>
-                  <input
-                    type="file"
-                    accept="image/png,image/jpeg,image/gif"
-                    onChange={handleFileChange}
-                    className="hidden"
-                  />
-                </label>
               )}
             </div>
           </div>
