@@ -102,13 +102,16 @@
     \hspace{3.25in}%
     \begin{minipage}{3in}
         \raggedright
-        \ifx\SignatureImage\empty\else
+        % Optional: Signature image
+        \ifNotEmpty{\SignatureImage}{%
             \IfFileExists{attachments/\SignatureImage}{%
                 \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
             }{}%
-        \fi
-        \MakeUppercase{\SignatoryName}\\
-        \SignatoryTitle
+        }%
+        % Required: Name (use abbreviated if available, else full name uppercased)
+        \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev\\}{\MakeUppercase{\SignatoryName}\\}%
+        % Optional: Title
+        \optionalField{\SignatoryTitle}%
     \end{minipage}%
     %
     % Distribution list (if 16+ addressees)

@@ -27,37 +27,17 @@
 
 
 %=============================================================================
-%                    JUNIOR COMMAND CONFIGURATION
+%                    COMMAND CONFIGURATION
 %=============================================================================
-% The junior command's identification symbols (right side)
-
-\newcommand{\JuniorCommandName}{}
-\newcommand{\JuniorSSIC}{}
-\newcommand{\JuniorSerial}{}
-\newcommand{\JuniorDate}{}
-\newcommand{\JuniorSignatoryName}{}
-\newcommand{\JuniorSignatoryRank}{}
-\newcommand{\JuniorSignatoryTitle}{}
-
-\newcommand{\setJuniorCommand}[7]{%
-    \renewcommand{\JuniorCommandName}{#1}%
-    \renewcommand{\JuniorSSIC}{#2}%
-    \renewcommand{\JuniorSerial}{#3}%
-    \renewcommand{\JuniorDate}{#4}%
-    \renewcommand{\JuniorSignatoryName}{#5}%
-    \renewcommand{\JuniorSignatoryRank}{#6}%
-    \renewcommand{\JuniorSignatoryTitle}{#7}%
-}
-
-
-%=============================================================================
-%                    SENIOR COMMAND CONFIGURATION
-%=============================================================================
-% The senior command's identification symbols (left side)
-% Note: Senior command uses the standard \setFrom, \setSSIC, etc.
-
-\newcommand{\SeniorCommandName}{}
-\newcommand{\setSeniorCommand}[1]{\renewcommand{\SeniorCommandName}{#1}}
+% Commands are pre-defined in main.tex, format file just uses them.
+% Junior command: left side, signs FIRST
+% Senior command: right side, signs LAST
+%
+% For MOA/MOU, uses a subset of the Joint Letter fields:
+%   - JuniorCommandName, JuniorSSIC, JuniorSerial, JuniorDate
+%   - JuniorSignatoryName, JuniorSignatoryRank (from main.tex stubs)
+%   - JuniorSignatoryTitle
+%   - SeniorCommandName
 
 
 %=============================================================================
@@ -74,26 +54,27 @@
     \begin{tabular}[t]{@{}p{3in}@{\hfill}p{3in}@{}}
         % Senior command (LEFT)
         \begin{tabular}[t]{@{}l@{}}
-            \DocumentSSIC\\
-            \DocumentSerial\\
-            \DocumentDate
+            \optionalLine{\DocumentSSIC}%
+            \optionalLine{\DocumentSerial}%
+            \optionalField{\DocumentDate}%
         \end{tabular}
         &
         % Junior command (RIGHT)
         \begin{tabular}[t]{@{}l@{}}
-            \JuniorSSIC\\
-            \JuniorSerial\\
-            \JuniorDate
+            \optionalLine{\JuniorSSIC}%
+            \optionalLine{\JuniorSerial}%
+            \optionalField{\JuniorDate}%
         \end{tabular}
-    \end{tabular}\\[24pt]
+    \end{tabular}
+    \par\vspace{24pt}%
     %
     % Title block - centered
     \begin{center}
         MEMORANDUM OF AGREEMENT\\
         BETWEEN\\
-        \MakeUppercase{\SeniorCommandName}\\
+        \ifNotEmptyElse{\SeniorCommandName}{\MakeUppercase{\SeniorCommandName}\\}{[SENIOR COMMAND]\\}%
         AND\\
-        \MakeUppercase{\JuniorCommandName}
+        \ifNotEmptyElse{\JuniorCommandName}{\MakeUppercase{\JuniorCommandName}}{[JUNIOR COMMAND]}%
     \end{center}
     \vspace{12pt}
 }
@@ -150,17 +131,17 @@
             \centering
             \rule{2in}{0.4pt}\\
             \MakeUppercase{\JuniorSignatoryName}\\
-            \JuniorSignatoryRank\\
-            \JuniorSignatoryTitle
+            \optionalLine{\JuniorSignatoryRank}%
+            \optionalField{\JuniorSignatoryTitle}%
         \end{minipage}
         &
         % Senior command signature (RIGHT) - signs LAST
         \begin{minipage}[t]{2.5in}
             \centering
             \rule{2in}{0.4pt}\\
-            \MakeUppercase{\SignatoryName}\\
-            \SignatoryRank\\
-            \SignatoryTitle
+            \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev\\}{\MakeUppercase{\SignatoryName}\\}%
+            \optionalLine{\SignatoryRank}%
+            \optionalField{\SignatoryTitle}%
         \end{minipage}
     \end{tabular}
 }
@@ -173,7 +154,7 @@
 \fancypagestyle{documentpage}{%
     \fancyhf{}%
     \fancyhead[C]{\placeClassificationMarkings}%
-    \fancyfoot[C]{\thepage\ of \pageref{LastPage}}%
+    \fancyfoot[C]{\smartPageNumber}%
     \renewcommand{\headrulewidth}{0pt}%
     \renewcommand{\footrulewidth}{0pt}%
 }

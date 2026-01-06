@@ -117,12 +117,14 @@
     \hspace{3.25in}%
     \begin{minipage}{3in}
         \raggedright
-        \ifx\SignatureImage\empty\else
+        % Optional: Signature image
+        \ifNotEmpty{\SignatureImage}{%
             \IfFileExists{attachments/\SignatureImage}{%
                 \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
             }{}%
-        \fi
-        \SignatoryAbbrev
+        }%
+        % Required: Name only (abbreviated format preferred)
+        \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev}{\MakeUppercase{\SignatoryName}}%
     \end{minipage}
 }
 

@@ -104,6 +104,43 @@
 \usepackage{fancyhdr}
 \usepackage{lastpage}
 
+%-----------------------------------------------------------------------------
+% Page Numbering Style Configuration
+%-----------------------------------------------------------------------------
+% Options:
+%   simple  - No number on page 1, then "2", "3", "4"...
+%   xofy    - "1 of X", "2 of X", "3 of X"... (default)
+%   none    - No page numbers at all
+%-----------------------------------------------------------------------------
+
+\newcommand{\PageNumberStyle}{xofy}
+\newcommand{\setPageNumberStyle}[1]{\renewcommand{\PageNumberStyle}{#1}}
+
+% Smart page numbering based on style setting
+\makeatletter
+\newcommand{\smartPageNumber}{%
+    \ifthenelse{\equal{\PageNumberStyle}{none}}{%
+        % No page numbers
+    }{%
+        \ifthenelse{\equal{\PageNumberStyle}{simple}}{%
+            % Simple style: no number on page 1, then 2, 3, 4...
+            \ifnum\value{page}>1
+                \thepage
+            \fi
+        }{%
+            % X of Y style (default)
+            \@ifundefined{r@LastPage}{%
+                % LastPage not defined yet (first pass) - show just page number
+                \thepage
+            }{%
+                % LastPage defined - show "X of Y"
+                \thepage\ of \pageref{LastPage}%
+            }%
+        }%
+    }%
+}
+\makeatother
+
 
 %-----------------------------------------------------------------------------
 % GRAPHICS AND COLORS
@@ -461,6 +498,66 @@
 
 
 %=============================================================================
+%                    CONDITIONAL/OPTIONAL FIELD HELPERS
+%=============================================================================
+% These macros allow format templates to conditionally print fields.
+% Use these for OPTIONAL fields that may or may not be provided.
+% REQUIRED fields per SECNAV compliance should be printed directly.
+%
+% Available helpers:
+%   \optionalLine{macro}        - Prints macro\\ if non-empty
+%   \optionalField{macro}       - Prints macro if non-empty (no newline)
+%   \optionalWithLabel{Label}{macro} - Prints "Label: macro\\" if non-empty
+%   \ifNotEmpty{macro}{content} - Executes content if macro is non-empty
+%   \ifNotEmptyElse{macro}{if-set}{if-empty} - Branch based on macro value
+%
+% Usage examples:
+%   \optionalLine{\SignatoryRank}     % Prints "Major\\" or nothing
+%   \optionalField{\SignatoryTitle}   % Prints title or nothing
+%   \ifNotEmpty{\SignatureImage}{...} % Conditional block
+%=============================================================================
+
+% Print field followed by \\ if non-empty, nothing if empty
+% Usage: \optionalLine{\SignatoryRank}
+\newcommand{\optionalLine}[1]{%
+    \ifx#1\empty\else#1\\\fi
+}
+
+% Print field without trailing newline if non-empty
+% Usage: \optionalField{\SignatoryTitle}
+\newcommand{\optionalField}[1]{%
+    \ifx#1\empty\else#1\fi
+}
+
+% Print "Label: value\\" if value is non-empty
+% Usage: \optionalWithLabel{POC}{\POCEmail}
+\newcommand{\optionalWithLabel}[2]{%
+    \ifx#2\empty\else#1: #2\\\fi
+}
+
+% Execute content if macro is non-empty
+% Usage: \ifNotEmpty{\SignatoryRank}{Rank: \SignatoryRank\\}
+\newcommand{\ifNotEmpty}[2]{%
+    \ifx#1\empty\else#2\fi
+}
+
+% Execute first content if non-empty, else execute second content
+% Usage: \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev}{\MakeUppercase{\SignatoryName}}
+\newcommand{\ifNotEmptyElse}[3]{%
+    \ifx#1\empty#3\else#2\fi
+}
+
+% Legacy compatibility - string-based field name version
+\newcommand{\ifHasValue}[2]{%
+    \expandafter\ifx\csname #1\endcsname\empty\else#2\fi
+}
+
+\newcommand{\ifHasValueElse}[3]{%
+    \expandafter\ifx\csname #1\endcsname\empty#3\else#2\fi
+}
+
+
+%=============================================================================
 %                        SIGNATORY CONFIGURATION
 %=============================================================================
 % SECNAV M-5216.5 Ch 7, Para 14.a.(1):
@@ -475,27 +572,77 @@
 \newcommand{\SignatoryLastName}{}
 \newcommand{\SignatoryRank}{}
 \newcommand{\SignatoryTitle}{}
-\newcommand{\SignatureImage}{}
-\newcommand{\SignatureImageSet}{false}
+
+% SignatureImage: Set to \empty by default so \ifx\SignatureImage\empty works
+\let\SignatureImage\empty
 
 % Legacy compatibility
 \newcommand{\SignatoryName}{}
 \newcommand{\SignatoryAbbrev}{}
 
-\makeatletter
 \newcommand{\setSignatory}[5]{%
-    % Debugging: Empty implementation to test argument parsing
+    \renewcommand{\SignatoryFirstName}{#1}%
+    \renewcommand{\SignatoryMiddleInitial}{#2}%
+    \renewcommand{\SignatoryLastName}{#3}%
+    \renewcommand{\SignatoryRank}{#4}%
+    \renewcommand{\SignatoryTitle}{#5}%
 }
-\makeatother
 
 \newcommand{\setSignatoryName}[1]{\renewcommand{\SignatoryName}{#1}}
 \newcommand{\setSignatoryAbbrev}[1]{\renewcommand{\SignatoryAbbrev}{#1}}
-\makeatother
 
+% setSignatureImage: If non-empty, redefine SignatureImage so \ifx check works
 \newcommand{\setSignatureImage}[1]{%
-    \renewcommand{\SignatureImage}{#1}%
-    \ifx#1\empty\else\renewcommand{\SignatureImageSet}{true}\fi
+    \def\temp{#1}%
+    \ifx\temp\empty\else\def\SignatureImage{#1}\fi
 }
+
+
+%=============================================================================
+%               JOINT LETTER / JOINT MEMORANDUM COMMAND STUBS
+%=============================================================================
+% These are placeholder definitions so config/document.tex can call them
+% before the format file is loaded. The actual format file will redefine.
+
+\newcommand{\SeniorCommandName}{}
+\newcommand{\SeniorCommandZip}{}
+\newcommand{\SeniorCommandCode}{}
+\newcommand{\SeniorFromLine}{}
+
+\newcommand{\JuniorCommandName}{}
+\newcommand{\JuniorCommandZip}{}
+\newcommand{\JuniorCommandCode}{}
+\newcommand{\JuniorSSIC}{}
+\newcommand{\JuniorSerial}{}
+\newcommand{\JuniorDate}{}
+\newcommand{\JuniorSignatoryName}{}
+\newcommand{\JuniorSignatoryRank}{}
+\newcommand{\JuniorSignatoryTitle}{}
+\newcommand{\JuniorFromLine}{}
+
+\newcommand{\CommonLocation}{}
+
+% Stub setters - format files will redefine these if they have different signatures
+\newcommand{\setSeniorCommand}[4]{%
+    \renewcommand{\SeniorCommandName}{#1}%
+    \renewcommand{\SeniorCommandZip}{#2}%
+    \renewcommand{\SeniorCommandCode}{#3}%
+    \renewcommand{\SeniorFromLine}{#4}%
+}
+
+\newcommand{\setJuniorCommand}[9]{%
+    \renewcommand{\JuniorCommandName}{#1}%
+    \renewcommand{\JuniorCommandZip}{#2}%
+    \renewcommand{\JuniorCommandCode}{#3}%
+    \renewcommand{\JuniorSSIC}{#4}%
+    \renewcommand{\JuniorSerial}{#5}%
+    \renewcommand{\JuniorDate}{#6}%
+    \renewcommand{\JuniorSignatoryName}{#7}%
+    \renewcommand{\JuniorSignatoryTitle}{#8}%
+    \renewcommand{\JuniorFromLine}{#9}%
+}
+
+\newcommand{\setCommonLocation}[1]{\renewcommand{\CommonLocation}{#1}}
 
 
 %=============================================================================

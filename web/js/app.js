@@ -209,11 +209,11 @@ Hello World!
     pdfTexEngine.writeMemFSFile('config/document.tex', generateDocumentTex(data));
     pdfTexEngine.writeMemFSFile('config/letterhead.tex', generateLetterheadTex(data));
     pdfTexEngine.writeMemFSFile('config/signatory.tex', generateSignatoryTex(data));
-    pdfTexEngine.writeMemFSFile('config/references.tex', generateReferencesTex(data));
+    pdfTexEngine.writeMemFSFile('config/references.tex', generateReferencesTex());
+    pdfTexEngine.writeMemFSFile('config/reference-urls.tex', generateReferenceUrlsTex());
     pdfTexEngine.writeMemFSFile('config/enclosures.tex', generateEnclosuresTex());
     pdfTexEngine.writeMemFSFile('config/body.tex', generateBodyTex(data));
     pdfTexEngine.writeMemFSFile('config/classification.tex', generateClassificationTex(data));
-    pdfTexEngine.writeMemFSFile('config/reference-urls.tex', '% No reference URLs\n');
 
     // Set main file and compile
     pdfTexEngine.setEngineMainFile('main.tex');
@@ -256,29 +256,179 @@ Hello World!
 
 const docTypeConfig = {
     // Letters - have letterhead, SSIC, From/To
-    naval_letter: { letterhead: true, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev' },
-    standard_letter: { letterhead: false, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev' },
-    business_letter: { letterhead: true, ssic: false, fromTo: false, via: false, memoHeader: false, signature: 'full', business: true },
-    multiple_address_letter: { letterhead: true, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev' },
-    joint_letter: { letterhead: true, ssic: true, fromTo: true, via: false, memoHeader: false, signature: 'abbrev' },
+    // regulations: { fontSize, fontFamily } - what's compliant per SECNAV M-5216.5
+    naval_letter: {
+        letterhead: true, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
+        regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 2-20' }
+    },
+    standard_letter: {
+        letterhead: false, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
+        regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 2-20' }
+    },
+    business_letter: {
+        letterhead: true, ssic: false, fromTo: false, via: false, memoHeader: false, signature: 'full', business: true, uiMode: 'standard',
+        regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 3' }
+    },
+    multiple_address_letter: {
+        letterhead: true, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
+        regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 8' }
+    },
+    joint_letter: {
+        letterhead: true, ssic: true, fromTo: true, via: false, memoHeader: false, signature: 'abbrev', uiMode: 'joint',
+        regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 7' }
+    },
     // Endorsements
-    same_page_endorsement: { letterhead: false, ssic: false, fromTo: true, via: false, memoHeader: false, signature: 'abbrev', endorsement: true },
-    new_page_endorsement: { letterhead: true, ssic: true, fromTo: true, via: false, memoHeader: false, signature: 'abbrev', endorsement: true },
+    same_page_endorsement: {
+        letterhead: false, ssic: false, fromTo: true, via: false, memoHeader: false, signature: 'abbrev', endorsement: true, uiMode: 'standard',
+        regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 9' }
+    },
+    new_page_endorsement: {
+        letterhead: true, ssic: true, fromTo: true, via: false, memoHeader: false, signature: 'abbrev', endorsement: true, uiMode: 'standard',
+        regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 9' }
+    },
     // Memorandums
-    mfr: { letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: 'MEMORANDUM FOR THE RECORD', signature: 'full' },
-    plain_paper_memorandum: { letterhead: false, ssic: false, fromTo: true, via: false, memoHeader: 'MEMORANDUM', signature: 'full' },
-    letterhead_memorandum: { letterhead: true, ssic: false, fromTo: true, via: false, memoHeader: 'MEMORANDUM', signature: 'full' },
-    decision_memorandum: { letterhead: true, ssic: false, fromTo: true, via: false, memoHeader: 'DECISION MEMORANDUM', signature: 'full' },
-    moa: { letterhead: true, ssic: false, fromTo: false, via: false, memoHeader: 'MEMORANDUM OF AGREEMENT', signature: 'full' },
-    mou: { letterhead: true, ssic: false, fromTo: false, via: false, memoHeader: 'MEMORANDUM OF UNDERSTANDING', signature: 'full' },
-    joint_memorandum: { letterhead: true, ssic: true, fromTo: true, via: false, memoHeader: 'JOINT MEMORANDUM', signature: 'full' },
+    mfr: {
+        letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: 'MEMORANDUM FOR THE RECORD', signature: 'full', uiMode: 'standard',
+        regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 10-1' }
+    },
+    plain_paper_memorandum: {
+        letterhead: false, ssic: false, fromTo: true, via: false, memoHeader: 'MEMORANDUM', signature: 'full', uiMode: 'standard',
+        regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 10-3' }
+    },
+    letterhead_memorandum: {
+        letterhead: true, ssic: false, fromTo: true, via: false, memoHeader: 'MEMORANDUM', signature: 'full', uiMode: 'standard',
+        regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 10-4' }
+    },
+    decision_memorandum: {
+        letterhead: true, ssic: false, fromTo: true, via: false, memoHeader: 'DECISION MEMORANDUM', signature: 'full', uiMode: 'standard',
+        regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 10-5' }
+    },
+    moa: {
+        letterhead: true, ssic: false, fromTo: false, via: false, memoHeader: 'MEMORANDUM OF AGREEMENT', signature: 'full', uiMode: 'moa',
+        regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 10-6' }
+    },
+    mou: {
+        letterhead: true, ssic: false, fromTo: false, via: false, memoHeader: 'MEMORANDUM OF UNDERSTANDING', signature: 'full', uiMode: 'moa',
+        regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 10-6' }
+    },
+    joint_memorandum: {
+        letterhead: true, ssic: true, fromTo: true, via: false, memoHeader: 'JOINT MEMORANDUM', signature: 'full', uiMode: 'joint',
+        regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'Ch 7' }
+    },
     // Executive
-    standard_memorandum: { letterhead: true, ssic: false, fromTo: true, via: false, memoHeader: 'MEMORANDUM', signature: 'full' },
-    action_memorandum: { letterhead: true, ssic: false, fromTo: true, via: false, memoHeader: 'ACTION MEMORANDUM', signature: 'full' },
-    information_memorandum: { letterhead: true, ssic: false, fromTo: true, via: false, memoHeader: 'INFORMATION MEMORANDUM', signature: 'full' },
+    standard_memorandum: {
+        letterhead: true, ssic: false, fromTo: true, via: false, memoHeader: 'MEMORANDUM', signature: 'full', uiMode: 'standard',
+        regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' }
+    },
+    action_memorandum: {
+        letterhead: true, ssic: false, fromTo: true, via: false, memoHeader: 'ACTION MEMORANDUM', signature: 'full', uiMode: 'standard',
+        regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' }
+    },
+    information_memorandum: {
+        letterhead: true, ssic: false, fromTo: true, via: false, memoHeader: 'INFORMATION MEMORANDUM', signature: 'full', uiMode: 'standard',
+        regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' }
+    },
     // USMC-Specific
-    mf: { letterhead: true, ssic: false, fromTo: false, via: false, memoHeader: 'MEMORANDUM FOR', signature: 'full', memoFor: true }
+    mf: {
+        letterhead: true, ssic: false, fromTo: false, via: false, memoHeader: 'MEMORANDUM FOR', signature: 'full', memoFor: true, uiMode: 'standard',
+        regulations: { fontSize: '12pt', fontFamily: 'courier', ref: 'MCO 5216.20B' }
+    }
 };
+
+/**
+ * Update UI fields visibility based on document type
+ */
+function updateDocTypeFields() {
+    const docType = document.getElementById('docType').value;
+    const config = docTypeConfig[docType] || docTypeConfig.naval_letter;
+    const uiMode = config.uiMode || 'standard';
+
+    // Hide all mode-specific sections
+    document.getElementById('standardAddressing').style.display = 'none';
+    document.getElementById('moaFields').style.display = 'none';
+    document.getElementById('jointFields').style.display = 'none';
+    document.getElementById('standardSignature').style.display = 'none';
+    document.getElementById('moaSignatures').style.display = 'none';
+    document.getElementById('jointSignatures').style.display = 'none';
+
+    // Show appropriate sections based on uiMode
+    if (uiMode === 'moa') {
+        document.getElementById('moaFields').style.display = 'block';
+        document.getElementById('moaSignatures').style.display = 'block';
+    } else if (uiMode === 'joint') {
+        document.getElementById('jointFields').style.display = 'block';
+        document.getElementById('jointSignatures').style.display = 'block';
+    } else {
+        document.getElementById('standardAddressing').style.display = 'block';
+        document.getElementById('standardSignature').style.display = 'block';
+    }
+
+    // Update regulation hints
+    updateRegulationHighlights();
+
+    // Update preview
+    updatePreview();
+}
+
+/**
+ * Update regulation compliance hints based on current selections
+ */
+function updateRegulationHighlights() {
+    const docType = document.getElementById('docType').value;
+    const config = docTypeConfig[docType] || docTypeConfig.naval_letter;
+    const regs = config.regulations || {};
+
+    const currentFontSize = document.getElementById('fontSize').value;
+    const currentFontFamily = document.getElementById('fontFamily').value;
+
+    const fontSizeHint = document.getElementById('fontSizeHint');
+    const fontFamilyHint = document.getElementById('fontFamilyHint');
+    const regPanel = document.getElementById('regulationHints');
+    const regContent = document.getElementById('regulationContent');
+
+    // Check font size compliance
+    if (regs.fontSize) {
+        if (currentFontSize === regs.fontSize) {
+            fontSizeHint.textContent = '✓';
+            fontSizeHint.className = 'reg-hint compliant';
+        } else {
+            fontSizeHint.textContent = regs.fontSize + ' recommended';
+            fontSizeHint.className = 'reg-hint non-compliant';
+        }
+    } else {
+        fontSizeHint.textContent = '';
+        fontSizeHint.className = 'reg-hint';
+    }
+
+    // Check font family compliance
+    if (regs.fontFamily) {
+        const regFontName = regs.fontFamily === 'courier' ? 'Courier New' : 'Times New Roman';
+        if (currentFontFamily === regs.fontFamily) {
+            fontFamilyHint.textContent = '✓';
+            fontFamilyHint.className = 'reg-hint compliant';
+        } else {
+            fontFamilyHint.textContent = regFontName + ' recommended';
+            fontFamilyHint.className = 'reg-hint non-compliant';
+        }
+    } else {
+        fontFamilyHint.textContent = '';
+        fontFamilyHint.className = 'reg-hint';
+    }
+
+    // Show regulation panel with details
+    if (regs.ref) {
+        const regFontName = regs.fontFamily === 'courier' ? 'Courier New' : 'Times New Roman';
+        regContent.innerHTML = `
+            <ul>
+                <li>Font: ${regFontName} ${regs.fontSize}</li>
+                <li>Reference: SECNAV M-5216.5 ${regs.ref}</li>
+            </ul>
+        `;
+        regPanel.style.display = 'block';
+    } else {
+        regPanel.style.display = 'none';
+    }
+}
 
 // =============================================================================
 // UI HELPERS
@@ -414,7 +564,7 @@ function handleEnclFileUpload(event) {
 }
 
 /**
- * Render the enclosures list
+ * Render the enclosures list with drag-and-drop support
  */
 function renderEnclosures() {
     const container = document.getElementById('enclosuresList');
@@ -425,7 +575,8 @@ function renderEnclosures() {
     }
 
     container.innerHTML = enclosures.map((encl, index) => `
-        <div class="enclosure-item">
+        <div class="enclosure-item" draggable="true" data-index="${index}">
+            <span class="enclosure-drag-handle" title="Drag to reorder">⋮⋮</span>
             <span class="enclosure-number">(${index + 1})</span>
             <input type="text"
                    class="enclosure-input"
@@ -442,6 +593,273 @@ function renderEnclosures() {
             <button type="button" class="enclosure-remove" onclick="removeEnclosure(${index})">×</button>
         </div>
     `).join('');
+
+    // Add drag-and-drop event listeners
+    initEnclosureDragDrop();
+}
+
+/**
+ * Initialize drag-and-drop for enclosure reordering
+ */
+function initEnclosureDragDrop() {
+    const container = document.getElementById('enclosuresList');
+    const items = container.querySelectorAll('.enclosure-item');
+
+    let draggedItem = null;
+    let draggedIndex = null;
+
+    items.forEach(item => {
+        item.addEventListener('dragstart', (e) => {
+            draggedItem = item;
+            draggedIndex = parseInt(item.dataset.index);
+            item.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', draggedIndex);
+        });
+
+        item.addEventListener('dragend', () => {
+            item.classList.remove('dragging');
+            draggedItem = null;
+            draggedIndex = null;
+            // Remove all drag-over states
+            items.forEach(i => i.classList.remove('drag-over-above', 'drag-over-below'));
+        });
+
+        item.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+
+            if (item === draggedItem) return;
+
+            const rect = item.getBoundingClientRect();
+            const midY = rect.top + rect.height / 2;
+
+            // Remove previous indicators
+            items.forEach(i => i.classList.remove('drag-over-above', 'drag-over-below'));
+
+            // Add indicator based on mouse position
+            if (e.clientY < midY) {
+                item.classList.add('drag-over-above');
+            } else {
+                item.classList.add('drag-over-below');
+            }
+        });
+
+        item.addEventListener('dragleave', () => {
+            item.classList.remove('drag-over-above', 'drag-over-below');
+        });
+
+        item.addEventListener('drop', (e) => {
+            e.preventDefault();
+
+            if (item === draggedItem) return;
+
+            const targetIndex = parseInt(item.dataset.index);
+            const rect = item.getBoundingClientRect();
+            const midY = rect.top + rect.height / 2;
+
+            // Determine insert position
+            let newIndex = e.clientY < midY ? targetIndex : targetIndex + 1;
+
+            // Adjust for removal of original item
+            if (draggedIndex < newIndex) {
+                newIndex--;
+            }
+
+            // Reorder the array
+            reorderEnclosure(draggedIndex, newIndex);
+
+            // Remove indicators
+            items.forEach(i => i.classList.remove('drag-over-above', 'drag-over-below'));
+        });
+    });
+}
+
+/**
+ * Reorder enclosure from one index to another
+ */
+function reorderEnclosure(fromIndex, toIndex) {
+    if (fromIndex === toIndex) return;
+
+    const item = enclosures.splice(fromIndex, 1)[0];
+    enclosures.splice(toIndex, 0, item);
+    renderEnclosures();
+    updatePreview();
+}
+
+// =============================================================================
+// REFERENCES MANAGEMENT
+// =============================================================================
+
+// Store references with optional URLs
+let references = [
+    { letter: 'a', title: 'SECNAV M-5216.5', url: '' },
+    { letter: 'b', title: 'MCO 5216.20B', url: '' }
+];
+
+/**
+ * Add a new reference
+ */
+function addReference(title = '', url = '') {
+    // Auto-generate next letter
+    const nextLetter = String.fromCharCode(97 + references.length); // 'a' = 97
+    references.push({
+        letter: nextLetter,
+        title: title,
+        url: url
+    });
+    renderReferences();
+    updatePreview();
+}
+
+/**
+ * Remove a reference
+ */
+function removeReference(index) {
+    references.splice(index, 1);
+    // Re-letter remaining references
+    references.forEach((ref, i) => {
+        ref.letter = String.fromCharCode(97 + i);
+    });
+    renderReferences();
+    updatePreview();
+}
+
+/**
+ * Update reference title
+ */
+function updateReferenceTitle(index, title) {
+    references[index].title = title;
+    updatePreview();
+}
+
+/**
+ * Update reference URL
+ */
+function updateReferenceUrl(index, url) {
+    references[index].url = url;
+    updatePreview();
+}
+
+/**
+ * Render the references list with drag-and-drop support
+ */
+function renderReferences() {
+    const container = document.getElementById('referencesList');
+
+    if (references.length === 0) {
+        container.innerHTML = '';
+        return;
+    }
+
+    container.innerHTML = references.map((ref, index) => `
+        <div class="reference-item" draggable="true" data-index="${index}">
+            <span class="reference-drag-handle" title="Drag to reorder">⋮⋮</span>
+            <span class="reference-letter">(${ref.letter})</span>
+            <input type="text"
+                   class="reference-title-input"
+                   value="${escapeHtml(ref.title)}"
+                   placeholder="Reference title"
+                   oninput="updateReferenceTitle(${index}, this.value)">
+            <input type="text"
+                   class="reference-url-input"
+                   value="${escapeHtml(ref.url || '')}"
+                   placeholder="URL (optional)"
+                   oninput="updateReferenceUrl(${index}, this.value)">
+            <button type="button" class="reference-remove" onclick="removeReference(${index})">×</button>
+        </div>
+    `).join('');
+
+    // Add drag-and-drop event listeners
+    initReferenceDragDrop();
+}
+
+/**
+ * Initialize drag-and-drop for reference reordering
+ */
+function initReferenceDragDrop() {
+    const container = document.getElementById('referencesList');
+    const items = container.querySelectorAll('.reference-item');
+
+    let draggedItem = null;
+    let draggedIndex = null;
+
+    items.forEach(item => {
+        item.addEventListener('dragstart', (e) => {
+            draggedItem = item;
+            draggedIndex = parseInt(item.dataset.index);
+            item.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', draggedIndex);
+        });
+
+        item.addEventListener('dragend', () => {
+            item.classList.remove('dragging');
+            draggedItem = null;
+            draggedIndex = null;
+            items.forEach(i => i.classList.remove('drag-over-above', 'drag-over-below'));
+        });
+
+        item.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+
+            if (item === draggedItem) return;
+
+            const rect = item.getBoundingClientRect();
+            const midY = rect.top + rect.height / 2;
+
+            items.forEach(i => i.classList.remove('drag-over-above', 'drag-over-below'));
+
+            if (e.clientY < midY) {
+                item.classList.add('drag-over-above');
+            } else {
+                item.classList.add('drag-over-below');
+            }
+        });
+
+        item.addEventListener('dragleave', () => {
+            item.classList.remove('drag-over-above', 'drag-over-below');
+        });
+
+        item.addEventListener('drop', (e) => {
+            e.preventDefault();
+
+            if (item === draggedItem) return;
+
+            const targetIndex = parseInt(item.dataset.index);
+            const rect = item.getBoundingClientRect();
+            const midY = rect.top + rect.height / 2;
+
+            let newIndex = e.clientY < midY ? targetIndex : targetIndex + 1;
+
+            if (draggedIndex < newIndex) {
+                newIndex--;
+            }
+
+            reorderReference(draggedIndex, newIndex);
+
+            items.forEach(i => i.classList.remove('drag-over-above', 'drag-over-below'));
+        });
+    });
+}
+
+/**
+ * Reorder reference from one index to another
+ */
+function reorderReference(fromIndex, toIndex) {
+    if (fromIndex === toIndex) return;
+
+    const item = references.splice(fromIndex, 1)[0];
+    references.splice(toIndex, 0, item);
+
+    // Re-letter references based on new order
+    references.forEach((ref, i) => {
+        ref.letter = String.fromCharCode(97 + i);
+    });
+
+    renderReferences();
+    updatePreview();
 }
 
 /**
@@ -507,6 +925,7 @@ function collectData() {
         // Font options
         fontSize: document.getElementById('fontSize').value,
         fontFamily: document.getElementById('fontFamily').value,
+        pageNumberStyle: document.getElementById('pageNumberStyle').value,
         // Letterhead
         unitLine1: document.getElementById('unitLine1').value,
         unitLine2: document.getElementById('unitLine2').value,
@@ -531,14 +950,49 @@ function collectData() {
         classReason: document.getElementById('classReason').value,
         declassifyOn: document.getElementById('declassifyOn').value,
         classifiedPocEmail: document.getElementById('classifiedPocEmail').value,
-        // Refs/Body
-        refs: document.getElementById('refs').value,
+        // Body
         body: document.getElementById('body').value,
+        // Standard signature
         sigFirst: document.getElementById('sigFirst').value,
         sigMiddle: document.getElementById('sigMiddle').value,
         sigLast: document.getElementById('sigLast').value,
         sigRank: document.getElementById('sigRank').value,
-        sigTitle: document.getElementById('sigTitle').value
+        sigTitle: document.getElementById('sigTitle').value,
+        // MOA/MOU fields
+        seniorCommandName: document.getElementById('seniorCommandName').value,
+        seniorSSIC: document.getElementById('seniorSSIC').value,
+        seniorSerial: document.getElementById('seniorSerial').value,
+        seniorDate: document.getElementById('seniorDate').value,
+        juniorCommandName: document.getElementById('juniorCommandName').value,
+        juniorSSIC: document.getElementById('juniorSSIC').value,
+        juniorSerial: document.getElementById('juniorSerial').value,
+        juniorDate: document.getElementById('juniorDate').value,
+        moaSubject: document.getElementById('moaSubject').value,
+        seniorSigName: document.getElementById('seniorSigName').value,
+        seniorSigRank: document.getElementById('seniorSigRank').value,
+        seniorSigTitle: document.getElementById('seniorSigTitle').value,
+        juniorSigName: document.getElementById('juniorSigName').value,
+        juniorSigRank: document.getElementById('juniorSigRank').value,
+        juniorSigTitle: document.getElementById('juniorSigTitle').value,
+        // Joint Letter/Memo fields
+        jointSeniorName: document.getElementById('jointSeniorName').value,
+        jointSeniorCode: document.getElementById('jointSeniorCode').value,
+        jointSeniorZip: document.getElementById('jointSeniorZip').value,
+        jointSeniorFrom: document.getElementById('jointSeniorFrom').value,
+        jointJuniorName: document.getElementById('jointJuniorName').value,
+        jointJuniorCode: document.getElementById('jointJuniorCode').value,
+        jointJuniorZip: document.getElementById('jointJuniorZip').value,
+        jointJuniorSSIC: document.getElementById('jointJuniorSSIC').value,
+        jointJuniorSerial: document.getElementById('jointJuniorSerial').value,
+        jointJuniorDate: document.getElementById('jointJuniorDate').value,
+        jointJuniorFrom: document.getElementById('jointJuniorFrom').value,
+        jointCommonLocation: document.getElementById('jointCommonLocation').value,
+        jointTo: document.getElementById('jointTo').value,
+        jointSubject: document.getElementById('jointSubject').value,
+        jointSeniorSigName: document.getElementById('jointSeniorSigName').value,
+        jointSeniorSigTitle: document.getElementById('jointSeniorSigTitle').value,
+        jointJuniorSigName: document.getElementById('jointJuniorSigName').value,
+        jointJuniorSigTitle: document.getElementById('jointJuniorSigTitle').value
     };
 }
 
@@ -609,7 +1063,6 @@ function parseRefs(refsText) {
  */
 function updatePreview() {
     const data = collectData();
-    const refs = parseRefs(data.refs);
     const config = docTypeConfig[data.docType] || docTypeConfig.naval_letter;
 
     // Classification banners (top and bottom)
@@ -772,11 +1225,11 @@ function updatePreview() {
     // Subject
     document.getElementById('prev-subject').textContent = data.subject.toUpperCase();
 
-    // References
+    // References (using global references array)
     const refBlock = document.getElementById('prev-ref-block');
-    if (refs.length > 0) {
+    if (references.length > 0) {
         refBlock.style.display = 'block';
-        document.getElementById('prev-refs').innerHTML = refs.map(r => `(${r.letter}) ${r.title}`).join('<br>');
+        document.getElementById('prev-refs').innerHTML = references.map(r => `(${r.letter}) ${r.title}`).join('<br>');
     } else {
         refBlock.style.display = 'none';
     }
@@ -832,19 +1285,90 @@ function escapeLatex(str) {
  * Generate config/document.tex
  */
 function generateDocumentTex(data) {
-    return `%=============================================================================
+    const config = docTypeConfig[data.docType] || docTypeConfig.naval_letter;
+    const uiMode = config.uiMode || 'standard';
+
+    let tex = `%=============================================================================
 % DOCUMENT CONFIGURATION - Generated by libo-secured
 %=============================================================================
 
 \\setDocumentType{${data.docType}}
 
-% Font options
+% Font and page options
 \\setFontSize{${data.fontSize || '12pt'}}
 \\setFontFamily{${data.fontFamily || 'courier'}}
+\\setPageNumberStyle{${data.pageNumberStyle || 'xofy'}}
 
 ${data.inReplyTo ? '\\enableInReplyReferTo' : '% \\enableInReplyReferTo'}
 
+`;
+
+    // MOA/MOU specific configuration
+    if (uiMode === 'moa') {
+        tex += `% MOA/MOU Configuration
+\\setSeniorCommand{${escapeLatex(data.seniorCommandName)}}
+\\setSSIC{${escapeLatex(data.seniorSSIC)}}
+\\setSerial{${escapeLatex(data.seniorSerial)}}
+\\setDocumentDate{${escapeLatex(data.seniorDate)}}
+
+\\setJuniorCommand
+    {${escapeLatex(data.juniorCommandName)}}
+    {${escapeLatex(data.juniorSSIC)}}
+    {${escapeLatex(data.juniorSerial)}}
+    {${escapeLatex(data.juniorDate)}}
+    {${escapeLatex(data.juniorSigName)}}
+    {${escapeLatex(data.juniorSigRank)}}
+    {${escapeLatex(data.juniorSigTitle)}}
+
+\\setSubject{${escapeLatex(data.moaSubject)}}
+
+\\setBusinessSalutation{Dear Sir or Madam:}
+\\setBusinessClose{Very respectfully,}
+
+\\setPOC{${escapeLatex(data.pocEmail)}}
+`;
+    }
+    // Joint Letter/Memo specific configuration
+    else if (uiMode === 'joint') {
+        tex += `% Joint Letter/Memo Configuration
+\\setSeniorCommand
+    {${escapeLatex(data.jointSeniorName)}}
+    {${escapeLatex(data.jointSeniorZip)}}
+    {${escapeLatex(data.jointSeniorCode)}}
+    {${escapeLatex(data.jointSeniorFrom)}}
+
 \\setSSIC{${escapeLatex(data.ssic)}}
+\\setSerial{${escapeLatex(data.serial)}}
+\\setDocumentDate{${escapeLatex(data.date)}}
+
+\\setJuniorCommand
+    {${escapeLatex(data.jointJuniorName)}}
+    {${escapeLatex(data.jointJuniorZip)}}
+    {${escapeLatex(data.jointJuniorCode)}}
+    {${escapeLatex(data.jointJuniorSSIC)}}
+    {${escapeLatex(data.jointJuniorSerial)}}
+    {${escapeLatex(data.jointJuniorDate)}}
+    {${escapeLatex(data.jointJuniorSigName)}}
+    {${escapeLatex(data.jointJuniorSigTitle)}}
+    {${escapeLatex(data.jointJuniorFrom)}}
+
+\\setCommonLocation{${escapeLatex(data.jointCommonLocation)}}
+
+\\setTo
+    {${escapeLatex(data.jointTo)}}
+    {}{}{}
+
+\\setSubject{${escapeLatex(data.jointSubject)}}
+
+\\setBusinessSalutation{Dear Sir or Madam:}
+\\setBusinessClose{Very respectfully,}
+
+\\setPOC{${escapeLatex(data.pocEmail)}}
+`;
+    }
+    // Standard configuration
+    else {
+        tex += `\\setSSIC{${escapeLatex(data.ssic)}}
 \\setSerial{${escapeLatex(data.serial)}}
 \\setDocumentDate{${escapeLatex(data.date)}}
 
@@ -867,8 +1391,11 @@ ${data.via.trim() ? `\\setVia
 \\setBusinessSalutation{Dear Sir or Madam:}
 \\setBusinessClose{Very respectfully,}
 
-\\setPOC{example@usmc.mil}
+\\setPOC{${escapeLatex(data.pocEmail)}}
 `;
+    }
+
+    return tex;
 }
 
 /**
@@ -891,6 +1418,41 @@ function generateLetterheadTex(data) {
  * Generate config/signatory.tex
  */
 function generateSignatoryTex(data) {
+    const config = docTypeConfig[data.docType] || docTypeConfig.naval_letter;
+    const uiMode = config.uiMode || 'standard';
+
+    // For MOA/MOU, use the senior signatory fields
+    if (uiMode === 'moa') {
+        return `%=============================================================================
+% SIGNATURE CONFIGURATION - Generated by libo-secured (MOA/MOU)
+%=============================================================================
+
+% Senior command signatory (signs last)
+\\setSignatoryName{${escapeLatex(data.seniorSigName)}}
+\\setSignatoryAbbrev{${escapeLatex(data.seniorSigName.toUpperCase())}}
+\\renewcommand{\\SignatoryRank}{${escapeLatex(data.seniorSigRank)}}
+\\renewcommand{\\SignatoryTitle}{${escapeLatex(data.seniorSigTitle)}}
+
+\\setSignatureImage{}
+`;
+    }
+
+    // For Joint Letter/Memo, use joint signatory fields
+    if (uiMode === 'joint') {
+        return `%=============================================================================
+% SIGNATURE CONFIGURATION - Generated by libo-secured (Joint)
+%=============================================================================
+
+% Senior command signatory (signs last)
+\\setSignatoryName{${escapeLatex(data.jointSeniorSigName)}}
+\\setSignatoryAbbrev{${escapeLatex(data.jointSeniorSigName.toUpperCase())}}
+\\renewcommand{\\SignatoryTitle}{${escapeLatex(data.jointSeniorSigTitle)}}
+
+\\setSignatureImage{}
+`;
+    }
+
+    // Standard signature
     const fullName = getFullSignature(data);
     const abbrevName = getAbbrevSignature(data);
 
@@ -913,17 +1475,41 @@ function generateSignatoryTex(data) {
 }
 
 /**
- * Generate config/references.tex
+ * Generate config/references.tex (uses global references array)
  */
-function generateReferencesTex(data) {
-    const refs = parseRefs(data.refs);
-    if (refs.length === 0) return '% No references\n';
+function generateReferencesTex() {
+    if (references.length === 0) return '% No references\n';
     return `%=============================================================================
 % REFERENCES - Generated by libo-secured
 %=============================================================================
 
-${refs.map(r => `\\refitem{${r.letter}}{${escapeLatex(r.title)}}`).join('\n')}
+${references.map(r => `\\refitem{${r.letter}}{${escapeLatex(r.title)}}`).join('\n')}
 `;
+}
+
+/**
+ * Generate config/reference-urls.tex (uses global references array)
+ */
+function generateReferenceUrlsTex() {
+    const refsWithUrls = references.filter(r => r.url && r.url.trim());
+    if (refsWithUrls.length === 0) return '% No reference URLs\n';
+    return `%=============================================================================
+% REFERENCE URLS - Generated by libo-secured
+%=============================================================================
+
+${refsWithUrls.map(r => `\\setRefURL{${r.letter}}{${escapeLatexUrl(r.url)}}`).join('\n')}
+`;
+}
+
+/**
+ * Escape URL for LaTeX (handle % and other special chars)
+ */
+function escapeLatexUrl(url) {
+    if (!url) return '';
+    return url
+        .replace(/%/g, '\\%')
+        .replace(/#/g, '\\#')
+        .replace(/&/g, '\\&');
 }
 
 /**
@@ -1036,11 +1622,11 @@ async function downloadConfigs() {
     configFolder.file('document.tex', generateDocumentTex(data));
     configFolder.file('letterhead.tex', generateLetterheadTex(data));
     configFolder.file('signatory.tex', generateSignatoryTex(data));
-    configFolder.file('references.tex', generateReferencesTex(data));
+    configFolder.file('references.tex', generateReferencesTex());
+    configFolder.file('reference-urls.tex', generateReferenceUrlsTex());
     configFolder.file('enclosures.tex', generateEnclosuresTex());
     configFolder.file('body.tex', generateBodyTex(data));
     configFolder.file('classification.tex', generateClassificationTex(data));
-    configFolder.file('reference-urls.tex', '% No reference URLs\n');
 
     // Add enclosure PDF files
     const enclosuresWithFiles = enclosures.filter(e => e.file && e.file.data);
@@ -1071,7 +1657,6 @@ async function downloadPDF() {
         const { jsPDF } = window.jspdf;
         const { PDFDocument } = PDFLib;
         const data = collectData();
-        const refs = parseRefs(data.refs);
         const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
 
         let y = MARGIN_TOP;
@@ -1123,9 +1708,9 @@ async function downloadPDF() {
         pdf.text('Subj:  ' + data.subject.toUpperCase(), MARGIN_LEFT, y);
         y += 14;
 
-        // Refs
-        if (refs.length > 0) {
-            refs.forEach((r, i) => {
+        // Refs (using global references array)
+        if (references.length > 0) {
+            references.forEach((r, i) => {
                 pdf.text((i === 0 ? 'Ref:   ' : '       ') + `(${r.letter}) ${r.title}`, MARGIN_LEFT, y);
                 y += 14;
             });
@@ -1263,7 +1848,6 @@ async function downloadLatexPDF(retryAfterReset = false) {
  */
 function downloadTeX() {
     const data = collectData();
-    const refs = parseRefs(data.refs);
     const sig = getAbbrevSignature(data);
 
     const tex = `\\documentclass[12pt, letterpaper]{article}
@@ -1305,7 +1889,7 @@ ${data.via.trim() ? '\\\\Via:   ' + data.via.split('\n').map(l => escapeLatex(l.
 
 Subj:  ${escapeLatex(data.subject.toUpperCase())}
 
-${refs.length > 0 ? '\\vspace{0.1in}\n\nRef:   ' + refs.map(r => `(${r.letter}) ${escapeLatex(r.title)}`).join('\\\\\n       ') : ''}
+${references.length > 0 ? '\\vspace{0.1in}\n\nRef:   ' + references.map(r => `(${r.letter}) ${escapeLatex(r.title)}`).join('\\\\\n       ') : ''}
 
 \\vspace{0.25in}
 
@@ -1688,6 +2272,123 @@ async function initPdfPreview() {
 }
 
 // =============================================================================
+// MOBILE DETECTION & RESPONSIVE FEATURES
+// =============================================================================
+
+/**
+ * Check if device is mobile based on viewport width only
+ * Uses 768px breakpoint - avoids touch detection which causes false positives
+ * on touchscreen laptops
+ */
+function isMobileDevice() {
+    return window.innerWidth <= 768;
+}
+
+/**
+ * Track mobile state for responsive UI updates
+ */
+let currentMobileState = false;
+
+/**
+ * Update UI based on mobile/desktop state
+ */
+function updateMobileUI() {
+    const isMobile = isMobileDevice();
+
+    // Only update if state changed
+    if (isMobile === currentMobileState) return;
+    currentMobileState = isMobile;
+
+    const previewPanel = document.getElementById('pdfPreviewPanel');
+    const mobilePreviewBtn = document.getElementById('mobilePreviewBtn');
+    const previewModal = document.getElementById('pdfPreviewModal');
+
+    if (isMobile) {
+        // Mobile: hide inline preview, show toggle button
+        if (previewPanel) previewPanel.style.display = 'none';
+        if (mobilePreviewBtn) mobilePreviewBtn.style.display = 'flex';
+    } else {
+        // Desktop: show inline preview, hide toggle button and modal
+        if (previewPanel) previewPanel.style.display = 'flex';
+        if (mobilePreviewBtn) mobilePreviewBtn.style.display = 'none';
+        if (previewModal) previewModal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    }
+}
+
+/**
+ * Open fullscreen PDF preview modal (mobile)
+ */
+function openMobilePreview() {
+    const modal = document.getElementById('pdfPreviewModal');
+    const modalFrame = document.getElementById('modalPdfFrame');
+    const mainFrame = document.getElementById('pdfPreviewFrame');
+
+    if (modal && modalFrame && mainFrame) {
+        // Copy the current PDF to modal frame
+        modalFrame.src = mainFrame.src;
+        modal.classList.add('active');
+        document.body.classList.add('modal-open');
+    }
+}
+
+/**
+ * Close fullscreen PDF preview modal
+ */
+function closeMobilePreview() {
+    const modal = document.getElementById('pdfPreviewModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    }
+}
+
+/**
+ * Initialize mobile preview button and modal
+ */
+function initMobilePreview() {
+    // Create mobile preview button if it doesn't exist
+    if (!document.getElementById('mobilePreviewBtn')) {
+        const btn = document.createElement('button');
+        btn.id = 'mobilePreviewBtn';
+        btn.className = 'mobile-preview-btn';
+        btn.innerHTML = '<span class="mobile-preview-icon">📄</span><span>View PDF</span>';
+        btn.onclick = openMobilePreview;
+        btn.style.display = 'none'; // Initially hidden, shown by updateMobileUI
+        document.body.appendChild(btn);
+    }
+
+    // Create modal if it doesn't exist
+    if (!document.getElementById('pdfPreviewModal')) {
+        const modal = document.createElement('div');
+        modal.id = 'pdfPreviewModal';
+        modal.className = 'pdf-preview-modal';
+        modal.innerHTML = `
+            <div class="modal-header">
+                <span class="modal-title">PDF Preview</span>
+                <button class="modal-close-btn" onclick="closeMobilePreview()">×</button>
+            </div>
+            <div class="modal-body">
+                <iframe id="modalPdfFrame" class="modal-pdf-frame"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-download-btn" onclick="downloadLatexPDF(); closeMobilePreview();">
+                    Download PDF
+                </button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+
+    // Set initial state
+    currentMobileState = !isMobileDevice(); // Force update on first call
+    updateMobileUI();
+
+    // Listen for window resize
+    window.addEventListener('resize', updateMobileUI);
+}
+
+// =============================================================================
 // INITIALIZATION
 // =============================================================================
 
@@ -1699,6 +2400,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Initialize drag-drop for PDF uploads
     initDragDrop();
+
+    // Initialize references and enclosures lists
+    renderReferences();
+    renderEnclosures();
+
+    // Initialize regulation hints on load
+    updateRegulationHighlights();
+
+    // Initialize mobile responsive features
+    initMobilePreview();
 
     // Initialize PDF preview (this replaces updatePreview for initial load)
     initPdfPreview();

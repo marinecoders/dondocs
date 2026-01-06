@@ -23,59 +23,11 @@
 
 
 %=============================================================================
-%                    JUNIOR COMMAND CONFIGURATION
+%                    COMMAND CONFIGURATION
 %=============================================================================
-% Junior command identification (left side, signs FIRST)
-
-\newcommand{\JuniorCommandName}{}
-\newcommand{\JuniorCommandZip}{}
-\newcommand{\JuniorCommandCode}{}    % e.g., "NAVSUP"
-\newcommand{\JuniorSSIC}{}
-\newcommand{\JuniorSerial}{}
-\newcommand{\JuniorDate}{}
-\newcommand{\JuniorSignatoryName}{}
-\newcommand{\JuniorSignatoryTitle}{}
-\newcommand{\JuniorFromLine}{}       % e.g., "Commander, Naval Supply Systems Command"
-
-\newcommand{\setJuniorCommand}[9]{%
-    \renewcommand{\JuniorCommandName}{#1}%
-    \renewcommand{\JuniorCommandZip}{#2}%
-    \renewcommand{\JuniorCommandCode}{#3}%
-    \renewcommand{\JuniorSSIC}{#4}%
-    \renewcommand{\JuniorSerial}{#5}%
-    \renewcommand{\JuniorDate}{#6}%
-    \renewcommand{\JuniorSignatoryName}{#7}%
-    \renewcommand{\JuniorSignatoryTitle}{#8}%
-    \renewcommand{\JuniorFromLine}{#9}%
-}
-
-
-%=============================================================================
-%                    SENIOR COMMAND CONFIGURATION
-%=============================================================================
-% Senior command identification (right side, signs LAST)
-% Uses standard macros: \DocumentSSIC, \DocumentSerial, \DocumentDate
-% Uses standard signatory: \SignatoryName, etc.
-
-\newcommand{\SeniorCommandName}{}
-\newcommand{\SeniorCommandZip}{}
-\newcommand{\SeniorCommandCode}{}    % e.g., "NAVSEA"
-\newcommand{\SeniorFromLine}{}       % e.g., "Commander, Naval Sea Systems Command"
-
-\newcommand{\setSeniorCommand}[4]{%
-    \renewcommand{\SeniorCommandName}{#1}%
-    \renewcommand{\SeniorCommandZip}{#2}%
-    \renewcommand{\SeniorCommandCode}{#3}%
-    \renewcommand{\SeniorFromLine}{#4}%
-}
-
-
-%=============================================================================
-%                    COMMON LOCATION (if same city)
-%=============================================================================
-
-\newcommand{\CommonLocation}{}
-\newcommand{\setCommonLocation}[1]{\renewcommand{\CommonLocation}{#1}}
+% Commands are pre-defined in main.tex, format file just uses them.
+% Junior command: left side, signs FIRST
+% Senior command: right side, signs LAST
 
 
 %=============================================================================
@@ -110,20 +62,21 @@
     \begin{tabular}[t]{@{}p{3in}@{\hfill}p{3in}@{}}
         % Junior command (LEFT) - signs FIRST
         \begin{tabular}[t]{@{}l@{}}
-            \JuniorCommandCode\\
-            \JuniorSSIC\\
-            \JuniorSerial\\
-            \JuniorDate
+            \optionalLine{\JuniorCommandCode}%
+            \optionalLine{\JuniorSSIC}%
+            \optionalLine{\JuniorSerial}%
+            \optionalField{\JuniorDate}%
         \end{tabular}
         &
         % Senior command (RIGHT) - signs LAST
         \begin{tabular}[t]{@{}l@{}}
-            \SeniorCommandCode\\
-            \DocumentSSIC\\
-            \DocumentSerial\\
-            \DocumentDate
+            \optionalLine{\SeniorCommandCode}%
+            \optionalLine{\DocumentSSIC}%
+            \optionalLine{\DocumentSerial}%
+            \optionalField{\DocumentDate}%
         \end{tabular}
-    \end{tabular}\\[24pt]
+    \end{tabular}
+    \par\vspace{24pt}%
     %
     % JOINT MEMORANDUM designation
     \noindent JOINT MEMORANDUM\\[12pt]
@@ -189,14 +142,14 @@
         \begin{minipage}[t]{2.5in}
             \raggedright
             \MakeUppercase{\JuniorSignatoryName}\\
-            \JuniorSignatoryTitle
+            \optionalField{\JuniorSignatoryTitle}%
         \end{minipage}
         &
         % Senior command signature (RIGHT) - signs LAST
         \begin{minipage}[t]{2.5in}
             \raggedright
-            \MakeUppercase{\SignatoryName}\\
-            \SignatoryTitle
+            \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev\\}{\MakeUppercase{\SignatoryName}\\}%
+            \optionalField{\SignatoryTitle}%
         \end{minipage}
     \end{tabular}
 }
@@ -209,7 +162,7 @@
 \fancypagestyle{documentpage}{%
     \fancyhf{}%
     \fancyhead[C]{\placeClassificationMarkings}%
-    \fancyfoot[C]{\thepage\ of \pageref{LastPage}}%
+    \fancyfoot[C]{\smartPageNumber}%
     \renewcommand{\headrulewidth}{0pt}%
     \renewcommand{\footrulewidth}{0pt}%
 }

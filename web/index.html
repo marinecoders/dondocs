@@ -19,7 +19,7 @@
         <!-- FORM PANEL -->
         <div class="form-panel">
             <h2>Document Type</h2>
-            <select id="docType" oninput="updatePreview()">
+            <select id="docType" onchange="updateDocTypeFields()">
                 <optgroup label="Letters">
                     <option value="naval_letter" selected>Naval Letter (on letterhead)</option>
                     <option value="standard_letter">Standard Letter (plain bond)</option>
@@ -50,20 +50,37 @@
                 </optgroup>
             </select>
 
-            <h2>Font Options</h2>
+            <h2>Format Options</h2>
+            <!-- Regulation hints panel -->
+            <div id="regulationHints" class="regulation-hints" style="display: none;">
+                <div class="regulation-header">SECNAV M-5216.5 Recommended:</div>
+                <div id="regulationContent"></div>
+            </div>
             <div class="row">
                 <div>
                     <label>Font Size</label>
-                    <select id="fontSize" onchange="updatePreview()">
-                        <option value="12pt" selected>12pt (Standard)</option>
+                    <select id="fontSize" onchange="updatePreview(); updateRegulationHighlights()">
+                        <option value="12pt" selected>12pt</option>
                         <option value="10pt">10pt</option>
                     </select>
+                    <span id="fontSizeHint" class="reg-hint"></span>
                 </div>
                 <div>
                     <label>Font Family</label>
-                    <select id="fontFamily" onchange="updatePreview()">
+                    <select id="fontFamily" onchange="updatePreview(); updateRegulationHighlights()">
                         <option value="courier" selected>Courier New</option>
                         <option value="times">Times New Roman</option>
+                    </select>
+                    <span id="fontFamilyHint" class="reg-hint"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>Page Numbers</label>
+                    <select id="pageNumberStyle" onchange="updatePreview()">
+                        <option value="xofy" selected>1 of X, 2 of X...</option>
+                        <option value="simple">2, 3, 4... (no first page)</option>
+                        <option value="none">No page numbers</option>
                     </select>
                 </div>
             </div>
@@ -105,20 +122,112 @@
                 </div>
             </div>
 
-            <h2>Addressing</h2>
-            <label>From</label>
-            <input type="text" id="from" value="Commanding Officer, 1st Battalion, 6th Marines"
-                oninput="updatePreview()">
+            <!-- Standard Addressing (shown for most doc types) -->
+            <div id="standardAddressing">
+                <h2>Addressing</h2>
+                <label>From</label>
+                <input type="text" id="from" value="Commanding Officer, 1st Battalion, 6th Marines"
+                    oninput="updatePreview()">
 
-            <label>To</label>
-            <input type="text" id="to" value="Commanding Officer, 6th Marine Regiment" oninput="updatePreview()">
+                <label>To</label>
+                <input type="text" id="to" value="Commanding Officer, 6th Marine Regiment" oninput="updatePreview()">
 
-            <label>Via (optional - one per line)</label>
-            <textarea id="via" class="small" oninput="updatePreview()" placeholder="(1) Company Commander, Alpha Company
+                <label>Via (optional - one per line)</label>
+                <textarea id="via" class="small" oninput="updatePreview()" placeholder="(1) Company Commander, Alpha Company
 (2) Commanding Officer, 1st Battalion"></textarea>
 
-            <label>Subject</label>
-            <input type="text" id="subject" value="REQUEST FOR ADMINISTRATIVE SUPPORT" oninput="updatePreview()">
+                <label>Subject</label>
+                <input type="text" id="subject" value="REQUEST FOR ADMINISTRATIVE SUPPORT" oninput="updatePreview()">
+            </div>
+
+            <!-- MOA/MOU Dual Command Fields -->
+            <div id="moaFields" style="display: none;">
+                <h2>Senior Command (Signs Last)</h2>
+                <label>Command Name</label>
+                <input type="text" id="seniorCommandName" value="" placeholder="HEADQUARTERS, U.S. MARINE CORPS" oninput="updatePreview()">
+                <div class="row">
+                    <div>
+                        <label>SSIC</label>
+                        <input type="text" id="seniorSSIC" value="" oninput="updatePreview()">
+                    </div>
+                    <div>
+                        <label>Serial</label>
+                        <input type="text" id="seniorSerial" value="" oninput="updatePreview()">
+                    </div>
+                    <div>
+                        <label>Date</label>
+                        <input type="text" id="seniorDate" value="" oninput="updatePreview()">
+                    </div>
+                </div>
+
+                <h2>Junior Command (Signs First)</h2>
+                <label>Command Name</label>
+                <input type="text" id="juniorCommandName" value="" placeholder="1ST MARINE DIVISION" oninput="updatePreview()">
+                <div class="row">
+                    <div>
+                        <label>SSIC</label>
+                        <input type="text" id="juniorSSIC" value="" oninput="updatePreview()">
+                    </div>
+                    <div>
+                        <label>Serial</label>
+                        <input type="text" id="juniorSerial" value="" oninput="updatePreview()">
+                    </div>
+                    <div>
+                        <label>Date</label>
+                        <input type="text" id="juniorDate" value="" oninput="updatePreview()">
+                    </div>
+                </div>
+
+                <h2>Subject</h2>
+                <label>Subject</label>
+                <input type="text" id="moaSubject" value="" placeholder="AGREEMENT REGARDING..." oninput="updatePreview()">
+            </div>
+
+            <!-- Joint Letter/Memo Dual Command Fields -->
+            <div id="jointFields" style="display: none;">
+                <h2>Senior Command (Right Side, Signs Last)</h2>
+                <label>Command Name</label>
+                <input type="text" id="jointSeniorName" value="" placeholder="NAVAL SEA SYSTEMS COMMAND" oninput="updatePreview()">
+                <label>Command Code</label>
+                <input type="text" id="jointSeniorCode" value="" placeholder="NAVSEA" oninput="updatePreview()">
+                <label>ZIP Code</label>
+                <input type="text" id="jointSeniorZip" value="" placeholder="20362" oninput="updatePreview()">
+                <label>From Line</label>
+                <input type="text" id="jointSeniorFrom" value="" placeholder="Commander, Naval Sea Systems Command" oninput="updatePreview()">
+
+                <h2>Junior Command (Left Side, Signs First)</h2>
+                <label>Command Name</label>
+                <input type="text" id="jointJuniorName" value="" placeholder="NAVAL SUPPLY SYSTEMS COMMAND" oninput="updatePreview()">
+                <label>Command Code</label>
+                <input type="text" id="jointJuniorCode" value="" placeholder="NAVSUP" oninput="updatePreview()">
+                <label>ZIP Code</label>
+                <input type="text" id="jointJuniorZip" value="" placeholder="17050" oninput="updatePreview()">
+                <div class="row">
+                    <div>
+                        <label>SSIC</label>
+                        <input type="text" id="jointJuniorSSIC" value="" oninput="updatePreview()">
+                    </div>
+                    <div>
+                        <label>Serial</label>
+                        <input type="text" id="jointJuniorSerial" value="" oninput="updatePreview()">
+                    </div>
+                    <div>
+                        <label>Date</label>
+                        <input type="text" id="jointJuniorDate" value="" oninput="updatePreview()">
+                    </div>
+                </div>
+                <label>From Line</label>
+                <input type="text" id="jointJuniorFrom" value="" placeholder="Commander, Naval Supply Systems Command" oninput="updatePreview()">
+
+                <h2>Common Location (if same city)</h2>
+                <input type="text" id="jointCommonLocation" value="" placeholder="WASHINGTON, DC" oninput="updatePreview()">
+
+                <h2>Addressing</h2>
+                <label>To</label>
+                <input type="text" id="jointTo" value="" oninput="updatePreview()">
+                <label>Subject</label>
+                <input type="text" id="jointSubject" value="" oninput="updatePreview()">
+            </div>
 
             <h2 class="collapsible collapsed" onclick="toggleSection(this)">Classification / CUI</h2>
             <div class="collapsible-content hidden">
@@ -202,15 +311,18 @@
 
             <h2 class="collapsible" onclick="toggleSection(this)">References & Enclosures</h2>
             <div class="collapsible-content">
-                <label>References (one per line: letter | title)</label>
-                <textarea id="refs" class="small" oninput="updatePreview()" placeholder="a | SECNAV M-5216.5
-b | MCO 5216.20B">a | SECNAV M-5216.5
-b | MCO 5216.20B</textarea>
-                <div class="hint">Format: a | Reference Title</div>
+                <div class="references-header">
+                    <label>References</label>
+                    <span class="references-hint">auto-letters (a), (b), (c)... - drag to reorder</span>
+                </div>
+                <div id="referencesList" class="references-list"></div>
+                <div class="reference-add-row">
+                    <button type="button" class="btn-add-reference" onclick="addReference()">+ Add Reference</button>
+                </div>
 
                 <div class="enclosures-header">
                     <label>Enclosures</label>
-                    <span class="enclosures-hint">auto-numbers (1), (2), (3)...</span>
+                    <span class="enclosures-hint">auto-numbers (1), (2), (3)... - drag to reorder</span>
                 </div>
                 <div id="enclosuresList" class="enclosures-list"></div>
                 <div class="enclosure-add-row">
@@ -230,29 +342,94 @@ b | MCO 5216.20B</textarea>
 
 3.  Point of contact for this matter is the undersigned at (910) 555-1234.</textarea>
 
-            <h2>Signature</h2>
-            <div class="row">
-                <div>
-                    <label>First Name</label>
-                    <input type="text" id="sigFirst" value="John" oninput="updatePreview()">
+            <!-- Standard Signature (for most doc types) -->
+            <div id="standardSignature">
+                <h2>Signature</h2>
+                <div class="row">
+                    <div>
+                        <label>First Name</label>
+                        <input type="text" id="sigFirst" value="John" oninput="updatePreview()">
+                    </div>
+                    <div style="flex: 0.5;">
+                        <label>M.I.</label>
+                        <input type="text" id="sigMiddle" value="A." oninput="updatePreview()">
+                    </div>
+                    <div>
+                        <label>Last Name</label>
+                        <input type="text" id="sigLast" value="Doe" oninput="updatePreview()">
+                    </div>
                 </div>
-                <div style="flex: 0.5;">
-                    <label>M.I.</label>
-                    <input type="text" id="sigMiddle" value="A." oninput="updatePreview()">
-                </div>
-                <div>
-                    <label>Last Name</label>
-                    <input type="text" id="sigLast" value="Doe" oninput="updatePreview()">
+                <div class="row">
+                    <div>
+                        <label>Rank</label>
+                        <input type="text" id="sigRank" value="Sgt, USMC" oninput="updatePreview()">
+                    </div>
+                    <div>
+                        <label>Title</label>
+                        <input type="text" id="sigTitle" value="Operations NCO" oninput="updatePreview()">
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div>
-                    <label>Rank</label>
-                    <input type="text" id="sigRank" value="Sgt, USMC" oninput="updatePreview()">
+
+            <!-- MOA/MOU Dual Signatures -->
+            <div id="moaSignatures" style="display: none;">
+                <h2>Senior Command Signatory (Signs Last)</h2>
+                <div class="row">
+                    <div>
+                        <label>Name</label>
+                        <input type="text" id="seniorSigName" value="" oninput="updatePreview()">
+                    </div>
+                    <div>
+                        <label>Rank</label>
+                        <input type="text" id="seniorSigRank" value="" oninput="updatePreview()">
+                    </div>
+                    <div>
+                        <label>Title</label>
+                        <input type="text" id="seniorSigTitle" value="" oninput="updatePreview()">
+                    </div>
                 </div>
-                <div>
-                    <label>Title</label>
-                    <input type="text" id="sigTitle" value="Operations NCO" oninput="updatePreview()">
+
+                <h2>Junior Command Signatory (Signs First)</h2>
+                <div class="row">
+                    <div>
+                        <label>Name</label>
+                        <input type="text" id="juniorSigName" value="" oninput="updatePreview()">
+                    </div>
+                    <div>
+                        <label>Rank</label>
+                        <input type="text" id="juniorSigRank" value="" oninput="updatePreview()">
+                    </div>
+                    <div>
+                        <label>Title</label>
+                        <input type="text" id="juniorSigTitle" value="" oninput="updatePreview()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Joint Letter/Memo Dual Signatures -->
+            <div id="jointSignatures" style="display: none;">
+                <h2>Senior Command Signatory (Signs Last)</h2>
+                <div class="row">
+                    <div>
+                        <label>Name</label>
+                        <input type="text" id="jointSeniorSigName" value="" oninput="updatePreview()">
+                    </div>
+                    <div>
+                        <label>Title</label>
+                        <input type="text" id="jointSeniorSigTitle" value="" oninput="updatePreview()">
+                    </div>
+                </div>
+
+                <h2>Junior Command Signatory (Signs First)</h2>
+                <div class="row">
+                    <div>
+                        <label>Name</label>
+                        <input type="text" id="jointJuniorSigName" value="" oninput="updatePreview()">
+                    </div>
+                    <div>
+                        <label>Title</label>
+                        <input type="text" id="jointJuniorSigTitle" value="" oninput="updatePreview()">
+                    </div>
                 </div>
             </div>
 
@@ -359,7 +536,7 @@ b | MCO 5216.20B</textarea>
     <script src="js/texlive-packages.js?v=10"></script>
 
     <!-- Application JavaScript -->
-    <script src="js/app.js?v=16"></script>
+    <script src="js/app.js?v=18"></script>
 </body>
 
 </html>

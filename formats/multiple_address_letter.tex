@@ -115,14 +115,17 @@
     \hspace{3.25in}%
     \begin{minipage}{3in}
         \raggedright
-        \ifx\SignatureImage\empty\else
+        % Optional: Signature image
+        \ifNotEmpty{\SignatureImage}{%
             \IfFileExists{attachments/\SignatureImage}{%
                 \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
             }{}%
-        \fi
-        \MakeUppercase{\SignatoryName}\\
-        \SignatoryRank\\
-        \SignatoryTitle
+        }%
+        % Required: Name (use abbreviated if available, else full name uppercased)
+        \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev\\}{\MakeUppercase{\SignatoryName}\\}%
+        % Optional: Rank and Title
+        \optionalLine{\SignatoryRank}%
+        \optionalField{\SignatoryTitle}%
     \end{minipage}%
     %
     % Distribution line (for Method 2 and 3)
@@ -142,7 +145,7 @@
 \fancypagestyle{documentpage}{%
     \fancyhf{}%
     \fancyhead[C]{\placeClassificationMarkings}%
-    \fancyfoot[C]{\thepage\ of \pageref{LastPage}}%
+    \fancyfoot[C]{\smartPageNumber}%
     \renewcommand{\headrulewidth}{0pt}%
     \renewcommand{\footrulewidth}{0pt}%
 }

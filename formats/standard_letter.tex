@@ -142,17 +142,14 @@
     \hspace{3.25in}%
     \begin{minipage}{3in}
         \raggedright
-        \ifx\SignatureImage\empty\else
+        % Optional: Signature image
+        \ifNotEmpty{\SignatureImage}{%
             \IfFileExists{attachments/\SignatureImage}{%
                 \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
             }{}%
-        \fi
-        % Use abbreviated format (J. M. LASTNAME) if set, otherwise full name
-        \ifx\SignatoryAbbrev\empty
-            \MakeUppercase{\SignatoryName}%
-        \else
-            \SignatoryAbbrev%
-        \fi
+        }%
+        % Required: Use abbreviated format (J. M. LASTNAME) if set, otherwise full name
+        \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev}{\MakeUppercase{\SignatoryName}}%
     \end{minipage}
 }
 

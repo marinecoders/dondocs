@@ -25,20 +25,20 @@
 %=============================================================================
 
 \newcommand{\printAddressBlock}{%
-    \\[12pt]%
+    \par\vspace{12pt}%
     \noindent
-    \ToLine\\
-    \ifx\ToLineTwo\empty\else\ToLineTwo\\\fi
-    \ifx\ToLineThree\empty\else\ToLineThree\\\fi
-    \ifx\ToLineFour\empty\else\ToLineFour\\\fi
-    \\[12pt]%
+    \optionalLine{\ToLine}%
+    \optionalLine{\ToLineTwo}%
+    \optionalLine{\ToLineThree}%
+    \optionalField{\ToLineFour}%
+    \par\vspace{12pt}%
     \noindent \BusinessSalutation
     %
     % CUI block
     \ifCUIEnabled
-        \\[12pt]%
-        \noindent \textbf{CUI//\CUICategory}\\
-        \noindent \CUIDistStatement
+        \par\vspace{12pt}%
+        \noindent \textbf{CUI//\CUICategory}%
+        \par\noindent \CUIDistStatement
     \fi
 }
 
@@ -51,18 +51,21 @@
     \vspace{24pt}%
     \noindent \BusinessClose
     \vspace{36pt}%
-    
+
     \noindent
     \begin{minipage}{3in}
         \raggedright
-        \ifx\SignatureImage\empty\else
+        % Optional: Signature image
+        \ifNotEmpty{\SignatureImage}{%
             \IfFileExists{attachments/\SignatureImage}{%
                 \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
             }{}%
-        \fi
-        \MakeUppercase{\SignatoryName}\\
-        \SignatoryRank\\
-        \SignatoryTitle
+        }%
+        % Required: Name (use abbreviated if available, else full name uppercased)
+        \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev\\}{\MakeUppercase{\SignatoryName}\\}%
+        % Optional: Rank and Title
+        \optionalLine{\SignatoryRank}%
+        \optionalField{\SignatoryTitle}%
     \end{minipage}
 }
 
@@ -74,7 +77,7 @@
 \fancypagestyle{documentpage}{%
     \fancyhf{}%
     \fancyhead[C]{\placeClassificationMarkings}%
-    \fancyfoot[C]{\thepage\ of \pageref{LastPage}}%
+    \fancyfoot[C]{\smartPageNumber}%
     \renewcommand{\headrulewidth}{0pt}%
     \renewcommand{\footrulewidth}{0pt}%
 }
