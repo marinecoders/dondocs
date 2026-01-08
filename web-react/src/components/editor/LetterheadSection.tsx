@@ -18,19 +18,24 @@ import {
 } from '@/components/ui/accordion';
 import { useDocumentStore } from '@/stores/documentStore';
 import { UnitLookupModal } from '@/components/modals/UnitLookupModal';
-import { formatUnitAddress, type UnitInfo } from '@/data/unitDirectory';
+import { formatLetterhead, type UnitInfo } from '@/data/unitDirectory';
 
 export function LetterheadSection() {
   const { formData, setField } = useDocumentStore();
   const [unitModalOpen, setUnitModalOpen] = useState(false);
 
   const handleUnitSelect = (unit: UnitInfo) => {
-    // Use full name for line 1
-    setField('unitLine1', unit.name);
-    // Use abbreviation for line 2 if available
-    setField('unitLine2', unit.abbrev || '');
-    // Format the full address (replaces newlines with comma-space)
-    setField('unitAddress', unit.address.replace(/\n/g, ', '));
+    // Use SECNAV M-5216.5 compliant letterhead formatting
+    const letterhead = formatLetterhead(unit);
+    // Line 1: Unit name (expanded abbreviations)
+    setField('unitLine1', letterhead.line1);
+    // Line 2: Empty (reserved for long names needing continuation)
+    setField('unitLine2', letterhead.line2);
+    // Address: Street/Box, City State ZIP (comma-separated for generator to split)
+    const address = [letterhead.addressLine1, letterhead.addressLine2]
+      .filter(Boolean)
+      .join(', ');
+    setField('unitAddress', address);
   };
 
   return (
@@ -77,22 +82,22 @@ export function LetterheadSection() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="unitLine1">Command Name (Line 1)</Label>
+                <Label htmlFor="unitLine1">Unit Name</Label>
                 <Input
                   id="unitLine1"
                   value={formData.unitLine1 || ''}
                   onChange={(e) => setField('unitLine1', e.target.value)}
-                  placeholder="e.g., 1ST BATTALION, 6TH MARINES"
+                  placeholder="e.g., HEADQUARTERS UNITED STATES MARINE CORPS"
                 />
               </div>
 
             <div className="space-y-2">
-              <Label htmlFor="unitLine2">Command Name (Line 2)</Label>
+              <Label htmlFor="unitLine2">Unit Name (Line 2, if needed)</Label>
               <Input
                 id="unitLine2"
                 value={formData.unitLine2 || ''}
                 onChange={(e) => setField('unitLine2', e.target.value)}
-                placeholder="e.g., 6TH MARINE REGIMENT"
+                placeholder="Only for very long unit names"
               />
             </div>
 
@@ -102,7 +107,7 @@ export function LetterheadSection() {
                 id="unitAddress"
                 value={formData.unitAddress || ''}
                 onChange={(e) => setField('unitAddress', e.target.value)}
-                placeholder="e.g., PSC BOX 20123, CAMP LEJEUNE, NC 28542"
+                placeholder="e.g., 3000 MARINE CORPS PENTAGON, WASHINGTON DC 20350"
               />
             </div>
 

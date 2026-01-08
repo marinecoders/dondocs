@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, FolderOpen, Search, Keyboard } from 'lucide-react';
+import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, FolderOpen, Search, Keyboard, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -115,17 +115,17 @@ export function Header({
   }, [resetForm]);
 
   return (
-    <header className="border-b border-border bg-card px-4 py-3">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <h1 className="text-xl font-bold text-foreground">libo-secured</h1>
-          <p className="text-sm text-muted-foreground hidden sm:block">
+    <header className="border-b border-border bg-card px-2 sm:px-4 py-2 sm:py-3">
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+          <h1 className="text-base sm:text-xl font-bold text-foreground whitespace-nowrap">libo-secured</h1>
+          <p className="text-sm text-muted-foreground hidden lg:block">
             "Libo isn't secured until the paperwork is done."
           </p>
           {/* NIST 800-171 Compliance Badge */}
           <button
             onClick={() => setNistModalOpen(true)}
-            className="hidden md:flex items-center gap-1.5 px-2 py-1 rounded-md bg-green-500/10 border border-green-500/30 text-green-600 dark:text-green-400 text-xs cursor-pointer hover:bg-green-500/20 transition-colors"
+            className="hidden lg:flex items-center gap-1.5 px-2 py-1 rounded-md bg-green-500/10 border border-green-500/30 text-green-600 dark:text-green-400 text-xs cursor-pointer hover:bg-green-500/20 transition-colors"
             title="Click to learn about NIST 800-171 compliance"
           >
             <Shield className="h-3 w-3" />
@@ -134,29 +134,31 @@ export function Header({
           </button>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
           {(autoSaveStatus || saveStatus) && (
-            <span className="text-xs text-muted-foreground animate-pulse">
+            <span className="text-xs text-muted-foreground animate-pulse hidden sm:inline">
               {saveStatus || autoSaveStatus}
             </span>
           )}
 
+          {/* Always visible: Refresh */}
           <Button
             variant="ghost"
             size="icon"
             onClick={onRefreshPreview}
             disabled={isCompiling}
             title="Refresh Preview"
+            className="h-8 w-8 sm:h-9 sm:w-9"
           >
             <RefreshCw className={`h-4 w-4 ${isCompiling ? 'animate-spin' : ''}`} />
           </Button>
 
-          {/* Save/Load dropdown */}
+          {/* Save/Load dropdown - always visible but compact on mobile */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
-                <Save className="h-4 w-4 mr-2" />
-                Save
+              <Button variant="outline" size="sm" className="h-8 px-2 sm:px-3">
+                <Save className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Save</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -176,12 +178,12 @@ export function Header({
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Download dropdown */}
+          {/* Download dropdown - always visible but compact on mobile */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
-                <Download className="h-4 w-4 mr-2" />
-                Download
+              <Button variant="outline" size="sm" className="h-8 px-2 sm:px-3">
+                <Download className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Download</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -200,116 +202,167 @@ export function Header({
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Templates */}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setTemplateLoaderOpen(true)}
-            title="Load a pre-built letter template"
-          >
-            <FolderOpen className="h-4 w-4 mr-2" />
-            Templates
-          </Button>
+          {/* Desktop-only buttons */}
+          <div className="hidden md:flex items-center gap-2">
+            {/* Templates */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setTemplateLoaderOpen(true)}
+              title="Load a pre-built letter template"
+              className="h-8"
+            >
+              <FolderOpen className="h-4 w-4 mr-2" />
+              Templates
+            </Button>
 
-          {/* Batch Generation */}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setBatchModalOpen(true)}
-            title="Generate multiple documents with placeholders"
-          >
-            <Layers className="h-4 w-4 mr-2" />
-            Batch
-          </Button>
+            {/* Batch Generation */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setBatchModalOpen(true)}
+              title="Generate multiple documents with placeholders"
+              className="h-8"
+            >
+              <Layers className="h-4 w-4 mr-2" />
+              Batch
+            </Button>
 
-          {/* Find & Replace */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setFindReplaceOpen(true)}
-            title="Find & Replace (Ctrl+H)"
-          >
-            <Search className="h-4 w-4" />
-          </Button>
+            {/* Find & Replace */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setFindReplaceOpen(true)}
+              title="Find & Replace (Ctrl+H)"
+              className="h-8 w-8"
+            >
+              <Search className="h-4 w-4" />
+            </Button>
 
-          {/* GitHub links */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => window.open(GITHUB_REPO_URL, '_blank')}
-            title="View on GitHub"
-          >
-            <Github className="h-4 w-4" />
-          </Button>
+            {/* GitHub links */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => window.open(GITHUB_REPO_URL, '_blank')}
+              title="View on GitHub"
+              className="h-8 w-8"
+            >
+              <Github className="h-4 w-4" />
+            </Button>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => window.open(GITHUB_ISSUES_URL, '_blank')}
-            title="Report a Bug"
-          >
-            <Bug className="h-4 w-4" />
-          </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => window.open(GITHUB_ISSUES_URL, '_blank')}
+              title="Report a Bug"
+              className="h-8 w-8"
+            >
+              <Bug className="h-4 w-4" />
+            </Button>
 
-          {/* Keyboard Shortcuts */}
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="ghost" size="icon" title="Keyboard Shortcuts">
-                <Keyboard className="h-4 w-4" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-72" align="end">
-              <div className="space-y-2">
-                <h4 className="font-medium text-sm mb-3">Keyboard Shortcuts</h4>
-                <div className="grid grid-cols-2 gap-1 text-xs">
-                  <div className="text-muted-foreground">Download PDF</div>
-                  <div className="font-mono text-right">Ctrl+D</div>
-                  <div className="text-muted-foreground">Print</div>
-                  <div className="font-mono text-right">Ctrl+P</div>
-                  <div className="text-muted-foreground">Save Draft</div>
-                  <div className="font-mono text-right">Ctrl+S</div>
-                  <div className="text-muted-foreground">Find & Replace</div>
-                  <div className="font-mono text-right">Ctrl+H</div>
-                  <div className="text-muted-foreground">Toggle Preview</div>
-                  <div className="font-mono text-right">Ctrl+E</div>
-                  <div className="text-muted-foreground">Templates</div>
-                  <div className="font-mono text-right">Ctrl+Shift+T</div>
-                  <div className="text-muted-foreground">References</div>
-                  <div className="font-mono text-right">Ctrl+Shift+R</div>
-                  <div className="text-muted-foreground">Undo</div>
-                  <div className="font-mono text-right">Ctrl+Z</div>
-                  <div className="text-muted-foreground">Redo</div>
-                  <div className="font-mono text-right">Ctrl+Y</div>
-                  <div className="text-muted-foreground">Close Modal</div>
-                  <div className="font-mono text-right">Escape</div>
+            {/* Keyboard Shortcuts */}
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="icon" title="Keyboard Shortcuts" className="h-8 w-8">
+                  <Keyboard className="h-4 w-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-72" align="end">
+                <div className="space-y-2">
+                  <h4 className="font-medium text-sm mb-3">Keyboard Shortcuts</h4>
+                  <div className="grid grid-cols-2 gap-1 text-xs">
+                    <div className="text-muted-foreground">Download PDF</div>
+                    <div className="font-mono text-right">Ctrl+D</div>
+                    <div className="text-muted-foreground">Print</div>
+                    <div className="font-mono text-right">Ctrl+P</div>
+                    <div className="text-muted-foreground">Save Draft</div>
+                    <div className="font-mono text-right">Ctrl+S</div>
+                    <div className="text-muted-foreground">Find & Replace</div>
+                    <div className="font-mono text-right">Ctrl+H</div>
+                    <div className="text-muted-foreground">Toggle Preview</div>
+                    <div className="font-mono text-right">Ctrl+E</div>
+                    <div className="text-muted-foreground">Templates</div>
+                    <div className="font-mono text-right">Ctrl+Shift+T</div>
+                    <div className="text-muted-foreground">References</div>
+                    <div className="font-mono text-right">Ctrl+Shift+R</div>
+                    <div className="text-muted-foreground">Undo</div>
+                    <div className="font-mono text-right">Ctrl+Z</div>
+                    <div className="text-muted-foreground">Redo</div>
+                    <div className="font-mono text-right">Ctrl+Y</div>
+                    <div className="text-muted-foreground">Close Modal</div>
+                    <div className="font-mono text-right">Escape</div>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-3 pt-2 border-t">
+                    Mac users: Use Cmd instead of Ctrl
+                  </p>
                 </div>
-                <p className="text-xs text-muted-foreground mt-3 pt-2 border-t">
-                  Mac users: Use Cmd instead of Ctrl
-                </p>
-              </div>
-            </PopoverContent>
-          </Popover>
+              </PopoverContent>
+            </Popover>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setAboutModalOpen(true)}
-            title="About libo-secured"
-          >
-            <Info className="h-4 w-4" />
-          </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setAboutModalOpen(true)}
+              title="About libo-secured"
+              className="h-8 w-8"
+            >
+              <Info className="h-4 w-4" />
+            </Button>
+          </div>
 
-          <Button variant="ghost" size="icon" onClick={toggleTheme} title="Toggle theme">
+          {/* Theme toggle - always visible */}
+          <Button variant="ghost" size="icon" onClick={toggleTheme} title="Toggle theme" className="h-8 w-8 sm:h-9 sm:w-9">
             {theme === 'dark' ? (
               <Sun className="h-4 w-4" />
             ) : (
               <Moon className="h-4 w-4" />
             )}
           </Button>
+
+          {/* Mobile menu - only visible on mobile */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-8 w-8 md:hidden">
+                <Menu className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuItem onClick={() => setTemplateLoaderOpen(true)}>
+                <FolderOpen className="h-4 w-4 mr-2" />
+                Templates
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setBatchModalOpen(true)}>
+                <Layers className="h-4 w-4 mr-2" />
+                Batch Generation
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFindReplaceOpen(true)}>
+                <Search className="h-4 w-4 mr-2" />
+                Find & Replace
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => setNistModalOpen(true)}>
+                <Shield className="h-4 w-4 mr-2" />
+                NIST 800-171 Info
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setAboutModalOpen(true)}>
+                <Info className="h-4 w-4 mr-2" />
+                About
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => window.open(GITHUB_REPO_URL, '_blank')}>
+                <Github className="h-4 w-4 mr-2" />
+                View on GitHub
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => window.open(GITHUB_ISSUES_URL, '_blank')}>
+                <Bug className="h-4 w-4 mr-2" />
+                Report a Bug
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 
-      <div className="mt-2 text-xs text-muted-foreground bg-secondary/50 px-2 py-1 rounded inline-block">
+      <div className="mt-2 text-xs text-muted-foreground bg-secondary/50 px-2 py-1 rounded inline-block hidden sm:inline-block">
         All data stays local in your browser. Nothing is sent to any server.
       </div>
 

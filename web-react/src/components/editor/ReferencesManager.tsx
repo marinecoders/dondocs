@@ -14,7 +14,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, Plus, Trash2, Library, Link } from 'lucide-react';
+import { GripVertical, Plus, Trash2, Library, Link, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -29,6 +29,7 @@ import {
 import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
 import type { Reference } from '@/types/document';
+import { DOC_TYPE_CONFIG } from '@/types/document';
 
 interface SortableReferenceProps {
   reference: Reference;
@@ -116,6 +117,8 @@ function SortableReference({
 
 export function ReferencesManager() {
   const {
+    documentMode,
+    docType,
     references,
     formData,
     setField,
@@ -125,6 +128,11 @@ export function ReferencesManager() {
     reorderReferences,
   } = useDocumentStore();
   const { setReferenceLibraryOpen } = useUIStore();
+
+  // Get compliance settings
+  const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
+  const isCompliantMode = documentMode === 'compliant';
+  const referencesNotAllowed = isCompliantMode && !config.compliance.allowReferences;
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -155,6 +163,16 @@ export function ReferencesManager() {
         </AccordionTrigger>
         <AccordionContent>
           <div className="pt-2">
+            {/* Compliance warning for business letters */}
+            {referencesNotAllowed && (
+              <div className="flex items-start gap-2 p-3 mb-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg text-sm">
+                <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+                <div className="text-amber-800 dark:text-amber-200">
+                  <span className="font-medium">Per {config.regulations.ref}:</span>{' '}
+                  Business letters do not include formal reference lines. References should be mentioned within the body text instead.
+                </div>
+              </div>
+            )}
             {/* Hyperlinks toggle */}
             <div className="mb-3 pb-3 border-b border-border space-y-2">
               <div className="flex items-center gap-2">

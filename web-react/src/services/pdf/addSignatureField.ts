@@ -33,6 +33,20 @@ const FALLBACK_POSITION = {
   y: 350, // ~4.8" from bottom - typical signature block position
 };
 
+// Dual signature positions for MOA/MOU
+// Junior (LEFT) signs first, Senior (RIGHT) signs last
+// Y=280 positions fields ~3.9" from bottom (typical for signature blocks)
+const DUAL_SIGNATURE_POSITIONS = {
+  junior: {
+    x: 72,  // 1" margin from left edge
+    y: 280, // ~3.9" from bottom
+  },
+  senior: {
+    x: 396, // ~5.5" from left (positions right-side signature)
+    y: 280, // Same height as junior
+  },
+};
+
 /**
  * Finds the signature field marker destination in the PDF.
  * The marker is created by LaTeX using \hypertarget{DIGSIG_FIELD_MARKER}{}
@@ -286,4 +300,112 @@ function createEmptySignatureAppearance(
   );
 
   return pdfDoc.context.register(stream);
+}
+
+/**
+ * Adds dual digital signature fields for MOA/MOU documents.
+ * Junior signs on LEFT (first), Senior signs on RIGHT (last).
+ *
+ * @param pdfBytes - The PDF document as a Uint8Array
+ * @param config - Optional configuration for the signature fields
+ * @returns The modified PDF as a Uint8Array
+ */
+export async function addDualSignatureFields(
+  pdfBytes: Uint8Array,
+  config: SignatureFieldConfig = {}
+): Promise<Uint8Array> {
+  const pdfDoc = await PDFDocument.load(pdfBytes);
+
+  const {
+    width = DEFAULT_CONFIG.width,
+    height = DEFAULT_CONFIG.height,
+  } = config;
+
+  // Get the last page (where signatures typically are)
+  const pages = pdfDoc.getPages();
+  const targetPageIndex = pages.length - 1;
+  const page = pages[targetPageIndex];
+  const pageRef = page.ref;
+
+  // Get or create the AcroForm
+  const catalog = pdfDoc.catalog;
+  let acroForm = catalog.lookup(PDFName.of('AcroForm')) as PDFDict | undefined;
+
+  if (!acroForm) {
+    acroForm = pdfDoc.context.obj({
+      Fields: [],
+      SigFlags: 3, // SignaturesExist | AppendOnly
+    }) as PDFDict;
+    catalog.set(PDFName.of('AcroForm'), acroForm);
+  } else {
+    acroForm.set(PDFName.of('SigFlags'), PDFNumber.of(3));
+  }
+
+  // Get or create the Fields array
+  let fields = acroForm.lookup(PDFName.of('Fields')) as PDFArray | undefined;
+  if (!fields) {
+    fields = pdfDoc.context.obj([]) as PDFArray;
+    acroForm.set(PDFName.of('Fields'), fields);
+  }
+
+  // Get or create page Annots array
+  let annots = page.node.lookup(PDFName.of('Annots')) as PDFArray | undefined;
+  if (!annots) {
+    annots = pdfDoc.context.obj([]) as PDFArray;
+    page.node.set(PDFName.of('Annots'), annots);
+  }
+
+  // Create Junior signature field (LEFT - signs FIRST)
+  const juniorField = pdfDoc.context.obj({
+    Type: PDFName.of('Annot'),
+    Subtype: PDFName.of('Widget'),
+    FT: PDFName.of('Sig'),
+    T: PDFString.of('JuniorSignature'),
+    Rect: [
+      DUAL_SIGNATURE_POSITIONS.junior.x,
+      DUAL_SIGNATURE_POSITIONS.junior.y,
+      DUAL_SIGNATURE_POSITIONS.junior.x + width,
+      DUAL_SIGNATURE_POSITIONS.junior.y + height,
+    ],
+    F: 4,
+    P: pageRef,
+    Border: [0, 0, 0],
+  }) as PDFDict;
+
+  const juniorAppearance = createEmptySignatureAppearance(pdfDoc, width, height);
+  juniorField.set(PDFName.of('AP'), pdfDoc.context.obj({ N: juniorAppearance }) as PDFDict);
+
+  const juniorFieldRef = pdfDoc.context.register(juniorField);
+  fields.push(juniorFieldRef);
+  annots.push(juniorFieldRef);
+
+  // Create Senior signature field (RIGHT - signs LAST)
+  const seniorField = pdfDoc.context.obj({
+    Type: PDFName.of('Annot'),
+    Subtype: PDFName.of('Widget'),
+    FT: PDFName.of('Sig'),
+    T: PDFString.of('SeniorSignature'),
+    Rect: [
+      DUAL_SIGNATURE_POSITIONS.senior.x,
+      DUAL_SIGNATURE_POSITIONS.senior.y,
+      DUAL_SIGNATURE_POSITIONS.senior.x + width,
+      DUAL_SIGNATURE_POSITIONS.senior.y + height,
+    ],
+    F: 4,
+    P: pageRef,
+    Border: [0, 0, 0],
+  }) as PDFDict;
+
+  const seniorAppearance = createEmptySignatureAppearance(pdfDoc, width, height);
+  seniorField.set(PDFName.of('AP'), pdfDoc.context.obj({ N: seniorAppearance }) as PDFDict);
+
+  const seniorFieldRef = pdfDoc.context.register(seniorField);
+  fields.push(seniorFieldRef);
+  annots.push(seniorFieldRef);
+
+  console.log(`Added dual signature fields on page ${targetPageIndex + 1}`);
+  console.log(`  Junior: x=${DUAL_SIGNATURE_POSITIONS.junior.x}, y=${DUAL_SIGNATURE_POSITIONS.junior.y}`);
+  console.log(`  Senior: x=${DUAL_SIGNATURE_POSITIONS.senior.x}, y=${DUAL_SIGNATURE_POSITIONS.senior.y}`);
+
+  return await pdfDoc.save();
 }

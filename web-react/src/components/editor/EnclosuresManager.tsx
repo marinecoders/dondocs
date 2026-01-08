@@ -15,7 +15,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, Plus, Trash2, Upload, FileText, X } from 'lucide-react';
+import { GripVertical, Plus, Trash2, Upload, FileText, X, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -37,6 +37,7 @@ import {
 } from '@/components/ui/accordion';
 import { useDocumentStore } from '@/stores/documentStore';
 import type { Enclosure, EnclosurePageStyle } from '@/types/document';
+import { DOC_TYPE_CONFIG } from '@/types/document';
 
 interface SortableEnclosureProps {
   enclosure: Enclosure;
@@ -196,12 +197,19 @@ function SortableEnclosure({
 
 export function EnclosuresManager() {
   const {
+    documentMode,
+    docType,
     enclosures,
     addEnclosure,
     updateEnclosure,
     removeEnclosure,
     reorderEnclosures,
   } = useDocumentStore();
+
+  // Get compliance settings
+  const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
+  const isCompliantMode = documentMode === 'compliant';
+  const enclosuresNotAllowed = isCompliantMode && !config.compliance.allowEnclosures;
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -284,6 +292,16 @@ export function EnclosuresManager() {
         </AccordionTrigger>
         <AccordionContent>
           <div className="pt-2">
+            {/* Compliance warning for business letters */}
+            {enclosuresNotAllowed && (
+              <div className="flex items-start gap-2 p-3 mb-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg text-sm">
+                <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+                <div className="text-amber-800 dark:text-amber-200">
+                  <span className="font-medium">Per {config.regulations.ref}:</span>{' '}
+                  Business letters do not include formal enclosure listings. Enclosures should be mentioned within the body text instead.
+                </div>
+              </div>
+            )}
             <DndContext
               sensors={sensors}
               collisionDetection={closestCenter}

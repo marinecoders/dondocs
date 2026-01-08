@@ -16,28 +16,31 @@
 
 | Feature | LIBO-SECURED | Competitor A | Competitor B |
 |---------|:------------:|:------------:|:------------:|
-| **Unit Database** | **3,129 units** | 3,688 units | 1,861 units |
-| **SSIC Codes** | **2,240 codes** | 2,144 codes | 2,240 codes |
-| **Reference Library** | **107 references** | Limited | 107 references |
+| **Unit Database** | **3,139 units** | 3,688 entries* | 230 units |
+| **SSIC Codes** | **2,240 unique** | 2,710 entries* | 2,240 codes |
+| **Reference Library** | **107 references** | None | 107 references |
 | **Letter Templates** | **38 templates** | 3 templates | 37 templates |
 | **Office Codes** | **74 codes** | No | 74 codes |
-| **Document Types** | **17 types** | 3 types | 3 types |
+| **Document Types** | **17 types** | 2 types | 3 types |
 | **PDF Engine** | **LaTeX (publication quality)** | React-PDF | jsPDF |
 | **DOCX Export** | **Yes** | Yes | Yes |
-| **Digital Signature Fields** | **Yes (CAC/PIV)** | Yes (CAC/PKI) | Signature blocks |
+| **Digital Signature Fields** | **Yes (CAC/PIV)** | Yes (CAC/PKI) | No |
 | **PII/PHI Detection** | **Yes** | No | No |
-| **Classification/CUI/Portion Markings** | **Full support** | Limited | Yes |
-| **Keyboard Shortcuts** | **10 shortcuts** | Not implemented | 3 shortcuts |
+| **Classification/CUI/Portion Markings** | **Full support (6 levels)** | None | Limited (U/CUI/FOUO) |
+| **Keyboard Shortcuts** | **10 shortcuts** | None | 8 shortcuts |
 | **Dark Mode** | **Yes** | No | Yes |
-| **Undo/Redo** | **Yes (50 levels)** | No | Yes |
+| **Undo/Redo** | **Yes (50 levels)** | No | Yes (50 levels) |
 | **Find & Replace** | **Yes** | No | No |
 | **Batch Generation** | **Yes** | No | Yes |
-| **Drag & Drop Reordering** | **Yes** | No | No |
+| **Drag & Drop Reordering** | **Yes** | No | Yes |
 | **Voice Recognition** | No | **Yes** | No |
 | **EDMS Integration** | No | **Yes (Supabase)** | No |
 | **PWA/Offline Mode** | No | No | **Yes** |
 | **100% Client-Side** | **Yes** | Partial | Yes |
 | **Air-Gap Compatible** | **Yes** | No | Yes |
+| **Mobile Responsive** | **Yes** | Yes | Partial |
+
+*\*Competitor A counts include duplicates. Actual unique data: 2,874 units, 2,144 SSIC codes. LIBO contains all unique Competitor A data plus 171 additional units.*
 
 ---
 
@@ -49,11 +52,11 @@
 - Consistent spacing, margins, and font handling per SECNAV specifications
 
 ### Comprehensive Data Libraries
-- **3,129 military units** with full addresses, MCC codes, and organizational data
+- **3,139 military units** with full addresses, MCC codes, and organizational data
 - **2,240 SSIC codes** from SECNAV M-5210.2 (August 2018)
 - **107 regulatory references** across 12 categories (MCO, SECNAVINST, NAVADMIN)
 - **74 office codes** (S-1, G-3, CO, XO, etc.) for signature blocks
-- **65+ military ranks** (USMC and Navy)
+- **50+ military ranks** (USMC and Navy, all grades E1-O10 plus Warrant Officers)
 
 ### Security-First Design
 - **100% client-side processing** - nothing leaves your browser
@@ -122,7 +125,7 @@
 - **Profiles System** - Save and reuse unit information and signature images
 - **Template Library** - 38 pre-built letter templates for common correspondence
 - **Reference Library** - 107 searchable military references with one-click insert
-- **Unit Directory** - 3,129 units searchable by name, abbreviation, MCC, or location
+- **Unit Directory** - 3,139 units searchable by name, abbreviation, MCC, or location
 - **Office Codes** - 74 standard military position codes for signature blocks
 - **SSIC Lookup** - 2,240 codes searchable by number or description
 - **Batch Generation** - Generate multiple documents using {{placeholder}} syntax
@@ -256,6 +259,12 @@ PDF output includes empty signature fields compatible with:
 - Real-time PDF preview
 - Loading indicator during compilation
 - Error messages for troubleshooting
+
+### Mobile Support
+- Responsive header with hamburger menu
+- Compact button layouts for small screens
+- Full-screen preview modal on mobile devices
+- Touch-friendly controls and spacing
 
 ---
 

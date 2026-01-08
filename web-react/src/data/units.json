@@ -1,6 +1,6 @@
 {
   "source": "Merged MCC/RUC List, SNDL, naval-letter-formatter, and navalletterformat",
-  "version": "5.0",
+  "version": "6.0",
   "lastUpdated": "2026-01-05",
   "units": [
     {
@@ -30184,6 +30184,106 @@
       "address": "27211 GARAND RD\nQUANTICO VA 22134-5036",
       "type": "unit",
       "service": "usmc"
+    },
+    {
+      "name": "1ST RECRUIT TRNG BN RTR MCRD PISC",
+      "abbrev": "1ST RECRUIT TRNG BN RTR MCRD PISC",
+      "mcc": "040",
+      "address": "PO BOX 18001\nPARRIS ISLAND SC 29905-8001",
+      "type": "other",
+      "service": "USMC",
+      "ruc": "32100",
+      "uic": "M32004"
+    },
+    {
+      "name": "1ST RECRUIT TRNG BN RTR MCRD SDCA",
+      "abbrev": "1ST RECRUIT TRNG BN RTR MCRD SDCA",
+      "mcc": "017",
+      "address": "MCRD 4000 HOCHMUTH AVE\nSAN DIEGO CA 92140-5296",
+      "type": "other",
+      "service": "USMC",
+      "ruc": "34100",
+      "uic": "M10204"
+    },
+    {
+      "name": "2D RECRUIT TRNG BN RTR MCRD PISC",
+      "abbrev": "2D RECRUIT TRNG BN RTR MCRD PISC",
+      "mcc": "040",
+      "address": "PO BOX 12001\nPARRIS ISLAND SC 29905-2001",
+      "type": "other",
+      "service": "USMC",
+      "ruc": "32111",
+      "uic": "M32005"
+    },
+    {
+      "name": "2D RECRUIT TRNG BN RTR MCRD SDCA",
+      "abbrev": "2D RECRUIT TRNG BN RTR MCRD SDCA",
+      "mcc": "041",
+      "address": "MCRD 3900 HOCHMUTH AVE\nSAN DIEGO CA 92140-5297",
+      "type": "other",
+      "service": "USMC",
+      "ruc": "88721",
+      "uic": "M10205"
+    },
+    {
+      "name": "3D RECRUIT TRNG BN RTR MCRD PISC",
+      "abbrev": "3D RECRUIT TRNG BN RTR MCRD PISC",
+      "mcc": "040",
+      "address": "PO BOX 13001\nPARRIS ISLAND SC 29905-3001",
+      "type": "other",
+      "service": "USMC",
+      "ruc": "32121",
+      "uic": "M32006"
+    },
+    {
+      "name": "3D RECRUIT TRNG BN RTR MCRD SDCA",
+      "abbrev": "3D RECRUIT TRNG BN RTR MCRD SDCA",
+      "mcc": "017",
+      "address": "MCRD 3802 HOCHMUTH AVE\nSAN DIEGO CA 92140-5187",
+      "type": "other",
+      "service": "USMC",
+      "ruc": "34120",
+      "uic": "M10206"
+    },
+    {
+      "name": "H&S BN MCRD SDCA",
+      "abbrev": "H&S BN MCRD SDCA",
+      "mcc": "017",
+      "address": "MCRD 3800 BELLEAU WOOD\nSAN DIEGO CA 92140-5199",
+      "type": "other",
+      "service": "USMC",
+      "ruc": "34001",
+      "uic": "M10201"
+    },
+    {
+      "name": "HQTRS RTR MCRD PISC",
+      "abbrev": "HQTRS RTR MCRD PISC",
+      "mcc": "040",
+      "address": "PO BOX 18001\nPARRIS ISLAND SC 29905-6001",
+      "type": "other",
+      "service": "USMC",
+      "ruc": "32090",
+      "uic": "M32003"
+    },
+    {
+      "name": "HQTRS RTR MCRD SDCA",
+      "abbrev": "HQTRS RTR MCRD SDCA",
+      "mcc": "041",
+      "address": "MCRD 3800 BELLEAU WOOD\nSAN DIEGO CA 92140-5293",
+      "type": "other",
+      "service": "USMC",
+      "ruc": "34028",
+      "uic": "M10203"
+    },
+    {
+      "name": "SITE SPT (CAMP WILLIAMS UT) 2/23 4TH MARDIV",
+      "abbrev": "SITE SPT (CAMP WILLIAMS UT) 2/23 4TH MARDIV",
+      "mcc": "BAD",
+      "address": "17800 S REDWOOD RD\nBLUFFDALE UT 84065-4905",
+      "type": "other",
+      "service": "USMC",
+      "ruc": "88606",
+      "uic": "M85240"
     }
   ]
 }

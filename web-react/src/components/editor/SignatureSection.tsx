@@ -58,10 +58,11 @@ interface SignatureSectionProps {
   config: DocTypeConfig;
 }
 
-export function SignatureSection({ config: _config }: SignatureSectionProps) {
-  // config will be used for signature type variations (abbrev, full, dual)
-  void _config;
-  const { formData, setField } = useDocumentStore();
+export function SignatureSection({ config }: SignatureSectionProps) {
+  const { documentMode, formData, setField } = useDocumentStore();
+  const isDualSignature = config.signature === 'dual';
+  const isCompliantMode = documentMode === 'compliant';
+  const hasDualDigitalSignature = isDualSignature && formData.signatureType === 'digital';
   const [useCustomRank, setUseCustomRank] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -450,17 +451,24 @@ export function SignatureSection({ config: _config }: SignatureSectionProps) {
                     <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5" />
                     <div className="space-y-1">
                       <p className="text-sm font-medium text-blue-900 dark:text-blue-200">
-                        Digital Signature Field
+                        {hasDualDigitalSignature ? 'Dual Digital Signature Fields' : 'Digital Signature Field'}
                       </p>
                       <p className="text-xs text-blue-700 dark:text-blue-300">
-                        An empty signature field will be placed above your typed name.
-                        After downloading, you can digitally sign using:
+                        {hasDualDigitalSignature
+                          ? 'Empty signature fields will be placed above BOTH signatory blocks (Junior and Senior). Per SECNAV M-5216.5, the junior signs first (left), then the senior (right).'
+                          : 'An empty signature field will be placed above your typed name.'}
+                        {' '}After downloading, you can digitally sign using:
                       </p>
                       <ul className="text-xs text-blue-700 dark:text-blue-300 list-disc list-inside mt-2 space-y-1">
                         <li>Adobe Acrobat with CAC/PIV</li>
                         <li>DoD PKI certificate</li>
                         <li>Other digital signature tools</li>
                       </ul>
+                      {hasDualDigitalSignature && (
+                        <p className="text-xs text-blue-700 dark:text-blue-300 mt-2 pt-2 border-t border-blue-200 dark:border-blue-700">
+                          <strong>Signing Order:</strong> Junior signatory signs first, then Senior signatory.
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>

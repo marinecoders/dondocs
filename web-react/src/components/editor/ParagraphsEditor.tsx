@@ -35,6 +35,8 @@ import {
 import { RichTextToolbar, applyFormat } from './RichTextToolbar';
 import { useDocumentStore } from '@/stores/documentStore';
 import type { Paragraph, PortionMarking } from '@/types/document';
+import { DOC_TYPE_CONFIG } from '@/types/document';
+import { AlertTriangle } from 'lucide-react';
 
 const PORTION_MARKING_OPTIONS: { value: PortionMarking; label: string; color: string }[] = [
   { value: 'U', label: '(U)', color: 'text-green-600' },
@@ -83,6 +85,7 @@ interface SortableParagraphProps {
   index: number;
   label: string;
   showPortionMarking: boolean;
+  disableIndent: boolean;  // True when numbered paragraphs are disabled (business letters, endorsements)
   onUpdate: (text: string) => void;
   onUpdatePortionMarking: (marking: PortionMarking | undefined) => void;
   onRemove: () => void;
@@ -96,6 +99,7 @@ function SortableParagraph({
   index,
   label,
   showPortionMarking,
+  disableIndent,
   onUpdate,
   onUpdatePortionMarking,
   onRemove,
@@ -128,7 +132,7 @@ function SortableParagraph({
   }, [onUpdate]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Tab') {
+    if (e.key === 'Tab' && !disableIndent) {
       e.preventDefault();
       if (e.shiftKey) {
         onOutdent();
@@ -179,24 +183,28 @@ function SortableParagraph({
 
           {/* Actions */}
           <div className="flex items-center gap-1 mt-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onOutdent}
-              disabled={paragraph.level === 0}
-              title="Outdent (Shift+Tab)"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onIndent}
-              disabled={paragraph.level >= 7}
-              title="Indent (Tab)"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
+            {!disableIndent && (
+              <>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={onOutdent}
+                  disabled={paragraph.level === 0}
+                  title="Outdent (Shift+Tab)"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={onIndent}
+                  disabled={paragraph.level >= 7}
+                  title="Indent (Tab)"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </>
+            )}
             <Button
               variant="ghost"
               size="sm"
@@ -248,6 +256,8 @@ function SortableParagraph({
 
 export function ParagraphsEditor() {
   const {
+    documentMode,
+    docType,
     formData,
     paragraphs,
     addParagraph,
@@ -260,6 +270,11 @@ export function ParagraphsEditor() {
 
   // Show portion marking when document has classification
   const showPortionMarking = formData.classLevel && formData.classLevel !== 'unclassified';
+
+  // Get compliance settings for the current document type
+  const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
+  const isCompliantMode = documentMode === 'compliant';
+  const disableNumberedParagraphs = isCompliantMode && !config.compliance.numberedParagraphs;
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -298,6 +313,18 @@ export function ParagraphsEditor() {
         </AccordionTrigger>
         <AccordionContent>
           <div className="pt-2">
+            {/* Compliance warning for document types that don't use numbered paragraphs */}
+            {disableNumberedParagraphs && (
+              <div className="flex items-start gap-2 p-3 mb-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg text-sm">
+                <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+                <div className="text-amber-800 dark:text-amber-200">
+                  <span className="font-medium">Per {config.regulations.ref}:</span>{' '}
+                  {docType === 'business_letter'
+                    ? 'Business letters do not use numbered paragraphs. Use 0.5" paragraph indentation instead.'
+                    : 'Endorsements continue the basic letter\'s paragraph sequence and do not restart numbering.'}
+                </div>
+              </div>
+            )}
             <DndContext
               sensors={sensors}
               collisionDetection={closestCenter}
@@ -312,8 +339,9 @@ export function ParagraphsEditor() {
                     key={`para-${index}`}
                     paragraph={para}
                     index={index}
-                    label={labels[index]}
+                    label={disableNumberedParagraphs ? '' : labels[index]}
                     showPortionMarking={!!showPortionMarking}
+                    disableIndent={disableNumberedParagraphs}
                     onUpdate={(text) => updateParagraph(index, { text })}
                     onUpdatePortionMarking={(marking) => updateParagraph(index, { portionMarking: marking })}
                     onRemove={() => removeParagraph(index)}

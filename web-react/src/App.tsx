@@ -21,7 +21,8 @@ import { generateAllLatexFiles } from '@/services/latex/generator';
 import { generateDocx } from '@/services/docx/generator';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
 import type { ClassificationInfo } from '@/services/pdf/mergeEnclosures';
-import { addSignatureField } from '@/services/pdf/addSignatureField';
+import { addSignatureField, addDualSignatureFields } from '@/services/pdf/addSignatureField';
+import { DOC_TYPE_CONFIG } from '@/types/document';
 import { detectPII, type PIIDetectionResult } from '@/services/pii/detector';
 
 // Helper to get classification marking for enclosures
@@ -148,7 +149,13 @@ function App() {
 
         // Add digital signature field if requested
         if (documentStore.formData.signatureType === 'digital') {
-          pdfBytes = await addSignatureField(new Uint8Array(pdfBytes));
+          const config = DOC_TYPE_CONFIG[documentStore.docType];
+          const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
+          if (isDualSignature) {
+            pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes));
+          } else {
+            pdfBytes = await addSignatureField(new Uint8Array(pdfBytes));
+          }
         }
 
         // Revoke old URL
@@ -230,7 +237,13 @@ function App() {
 
         // Add digital signature field if requested
         if (documentStore.formData.signatureType === 'digital') {
-          pdfBytes = await addSignatureField(new Uint8Array(pdfBytes));
+          const config = DOC_TYPE_CONFIG[documentStore.docType];
+          const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
+          if (isDualSignature) {
+            pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes));
+          } else {
+            pdfBytes = await addSignatureField(new Uint8Array(pdfBytes));
+          }
         }
 
         const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
@@ -296,7 +309,13 @@ function App() {
 
         // Add digital signature field if requested
         if (documentStore.formData.signatureType === 'digital') {
-          pdfBytes = await addSignatureField(new Uint8Array(pdfBytes));
+          const config = DOC_TYPE_CONFIG[documentStore.docType];
+          const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
+          if (isDualSignature) {
+            pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes));
+          } else {
+            pdfBytes = await addSignatureField(new Uint8Array(pdfBytes));
+          }
         }
 
         const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });

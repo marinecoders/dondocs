@@ -657,6 +657,13 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\SeniorCommandName}{}
 \\newcommand{\\SeniorCommandZip}{}
 \\newcommand{\\SeniorCommandCode}{}
+\\newcommand{\\SeniorSSIC}{}
+\\newcommand{\\SeniorSerial}{}
+\\newcommand{\\SeniorDate}{}
+\\newcommand{\\SeniorSignatoryName}{}
+\\newcommand{\\SeniorSignatoryRank}{}
+\\newcommand{\\SeniorSignatoryTitle}{}
+\\newcommand{\\SeniorByDirection}{}
 \\newcommand{\\SeniorFromLine}{}
 
 \\newcommand{\\JuniorCommandName}{}
@@ -673,25 +680,32 @@ const LATEX_TEMPLATES = {
 
 \\newcommand{\\CommonLocation}{}
 
-% Stub setters - format files will redefine these if they have different signatures
-\\newcommand{\\setSeniorCommand}[4]{%
-    \\renewcommand{\\SeniorCommandName}{#1}%
-    \\renewcommand{\\SeniorCommandZip}{#2}%
-    \\renewcommand{\\SeniorCommandCode}{#3}%
-    \\renewcommand{\\SeniorFromLine}{#4}%
+% Individual setter commands for MOA/MOU dual-command documents
+% Senior Command setters (signs LAST - right side)
+\\newcommand{\\setSeniorCommand}[1]{\\renewcommand{\\SeniorCommandName}{#1}}
+\\newcommand{\\setSeniorSSIC}[1]{\\renewcommand{\\SeniorSSIC}{#1}}
+\\newcommand{\\setSeniorSerial}[1]{\\renewcommand{\\SeniorSerial}{#1}}
+\\newcommand{\\setSeniorDate}[1]{\\renewcommand{\\SeniorDate}{#1}}
+\\newcommand{\\setSeniorSignatory}[3]{%
+    \\renewcommand{\\SeniorSignatoryName}{#1}%
+    \\renewcommand{\\SeniorSignatoryRank}{#2}%
+    \\renewcommand{\\SeniorSignatoryTitle}{#3}%
 }
 
-\\newcommand{\\setJuniorCommand}[9]{%
-    \\renewcommand{\\JuniorCommandName}{#1}%
-    \\renewcommand{\\JuniorCommandZip}{#2}%
-    \\renewcommand{\\JuniorCommandCode}{#3}%
-    \\renewcommand{\\JuniorSSIC}{#4}%
-    \\renewcommand{\\JuniorSerial}{#5}%
-    \\renewcommand{\\JuniorDate}{#6}%
-    \\renewcommand{\\JuniorSignatoryName}{#7}%
-    \\renewcommand{\\JuniorSignatoryTitle}{#8}%
-    \\renewcommand{\\JuniorFromLine}{#9}%
+% Junior Command setters (signs FIRST - left side)
+\\newcommand{\\setJuniorCommand}[1]{\\renewcommand{\\JuniorCommandName}{#1}}
+\\newcommand{\\setJuniorSSIC}[1]{\\renewcommand{\\JuniorSSIC}{#1}}
+\\newcommand{\\setJuniorSerial}[1]{\\renewcommand{\\JuniorSerial}{#1}}
+\\newcommand{\\setJuniorDate}[1]{\\renewcommand{\\JuniorDate}{#1}}
+\\newcommand{\\setJuniorSignatory}[3]{%
+    \\renewcommand{\\JuniorSignatoryName}{#1}%
+    \\renewcommand{\\JuniorSignatoryRank}{#2}%
+    \\renewcommand{\\JuniorSignatoryTitle}{#3}%
 }
+
+% MOA/MOU Subject line
+\\newcommand{\\MOASubject}{}
+\\newcommand{\\setMOASubject}[1]{\\renewcommand{\\MOASubject}{#1}}
 
 \\newcommand{\\setCommonLocation}[1]{\\renewcommand{\\CommonLocation}{#1}}
 
@@ -729,14 +743,13 @@ const LATEX_TEMPLATES = {
     \\begin{textblock*}{4in}(2.25in, 0.625in)%
         \\centering
         \\usefont{\\encodingdefault}{\\familydefault}{\\seriesdefault}{\\shapedefault}%
-        \\fontsize{10pt}{11pt}\\selectfont
-        \\textcolor{navyblue}{\\textbf{UNITED STATES MARINE CORPS}}\\\\
-        \\fontsize{8pt}{9pt}\\selectfont
-        \\textcolor{navyblue}{\\UnitName}\\\\
-        \\textcolor{navyblue}{\\UnitLineTwo}\\\\
-        \\fontsize{6pt}{7pt}\\selectfont
-        \\textcolor{navyblue}{\\UnitLineThree}\\\\
-        \\textcolor{navyblue}{\\UnitLineFour}
+        \\fontsize{10pt}{12pt}\\selectfont
+        \\textcolor{navyblue}{\\textbf{UNITED STATES MARINE CORPS}}\\\\%
+        \\fontsize{7pt}{8pt}\\selectfont
+        \\textcolor{navyblue}{\\UnitName}\\\\%
+        \\textcolor{navyblue}{\\UnitLineTwo}\\\\%
+        \\textcolor{navyblue}{\\UnitLineThree}\\\\%
+        \\textcolor{navyblue}{\\UnitLineFour}%
     \\end{textblock*}%
     \\vspace*{0.5in}%
 }
@@ -1954,9 +1967,9 @@ const LATEX_TEMPLATES = {
         % Senior command (RIGHT) - signs LAST
         \\begin{tabular}[t]{@{}l@{}}
             \\optionalLine{\\SeniorCommandCode}%
-            \\optionalLine{\\DocumentSSIC}%
-            \\optionalLine{\\DocumentSerial}%
-            \\optionalField{\\DocumentDate}%
+            \\optionalLine{\\SeniorSSIC}%
+            \\optionalLine{\\SeniorSerial}%
+            \\optionalField{\\SeniorDate}%
         \\end{tabular}
     \\end{tabular}
     \\par\\vspace{24pt}%
@@ -2032,9 +2045,10 @@ const LATEX_TEMPLATES = {
         % Senior command signature (RIGHT) - signs LAST
         \\begin{minipage}[t]{2.5in}
             \\raggedright
-            \\ifdefempty{\\SignatoryAbbrev}{\\MakeUppercase{\\SignatoryName}}{\\SignatoryAbbrev}\\par
-            \\SignatoryTitle\\par
-            \\ByDirection
+            \\MakeUppercase{\\SeniorSignatoryName}\\par
+            \\SeniorSignatoryRank\\par
+            \\SeniorSignatoryTitle\\par
+            \\SeniorByDirection
         \\end{minipage}
     \\end{tabular}
 }
@@ -2138,9 +2152,9 @@ const LATEX_TEMPLATES = {
         % Senior command (RIGHT) - signs LAST
         \\begin{tabular}[t]{@{}l@{}}
             \\optionalLine{\\SeniorCommandCode}%
-            \\optionalLine{\\DocumentSSIC}%
-            \\optionalLine{\\DocumentSerial}%
-            \\optionalField{\\DocumentDate}%
+            \\optionalLine{\\SeniorSSIC}%
+            \\optionalLine{\\SeniorSerial}%
+            \\optionalField{\\SeniorDate}%
         \\end{tabular}
     \\end{tabular}
     \\par\\vspace{24pt}%
@@ -2216,9 +2230,10 @@ const LATEX_TEMPLATES = {
         % Senior command signature (RIGHT) - signs LAST
         \\begin{minipage}[t]{2.5in}
             \\raggedright
-            \\ifdefempty{\\SignatoryAbbrev}{\\MakeUppercase{\\SignatoryName}}{\\SignatoryAbbrev}\\par
-            \\SignatoryTitle\\par
-            \\ByDirection
+            \\MakeUppercase{\\SeniorSignatoryName}\\par
+            \\SeniorSignatoryRank\\par
+            \\SeniorSignatoryTitle\\par
+            \\SeniorByDirection
         \\end{minipage}
     \\end{tabular}
 }
@@ -2709,9 +2724,9 @@ const LATEX_TEMPLATES = {
     \\begin{tabular}[t]{@{}p{3in}@{\\hfill}p{3in}@{}}
         % Senior command (LEFT)
         \\begin{tabular}[t]{@{}l@{}}
-            \\optionalLine{\\DocumentSSIC}%
-            \\optionalLine{\\DocumentSerial}%
-            \\optionalField{\\DocumentDate}%
+            \\optionalLine{\\SeniorSSIC}%
+            \\optionalLine{\\SeniorSerial}%
+            \\optionalField{\\SeniorDate}%
         \\end{tabular}
         &
         % Junior command (RIGHT)
@@ -2795,10 +2810,10 @@ const LATEX_TEMPLATES = {
         \\begin{minipage}[t]{2.5in}
             \\centering
             \\rule{2in}{0.4pt}\\par
-            \\ifdefempty{\\SignatoryAbbrev}{\\MakeUppercase{\\SignatoryName}}{\\SignatoryAbbrev}\\par
-            \\SignatoryRank\\par
-            \\SignatoryTitle\\par
-            \\ByDirection
+            \\MakeUppercase{\\SeniorSignatoryName}\\par
+            \\SeniorSignatoryRank\\par
+            \\SeniorSignatoryTitle\\par
+            \\SeniorByDirection
         \\end{minipage}
     \\end{tabular}
 }
@@ -2881,9 +2896,9 @@ const LATEX_TEMPLATES = {
     \\begin{tabular}[t]{@{}p{3in}@{\\hfill}p{3in}@{}}
         % Senior command (LEFT)
         \\begin{tabular}[t]{@{}l@{}}
-            \\optionalLine{\\DocumentSSIC}%
-            \\optionalLine{\\DocumentSerial}%
-            \\optionalField{\\DocumentDate}%
+            \\optionalLine{\\SeniorSSIC}%
+            \\optionalLine{\\SeniorSerial}%
+            \\optionalField{\\SeniorDate}%
         \\end{tabular}
         &
         % Junior command (RIGHT)
@@ -2967,10 +2982,10 @@ const LATEX_TEMPLATES = {
         \\begin{minipage}[t]{2.5in}
             \\centering
             \\rule{2in}{0.4pt}\\par
-            \\ifdefempty{\\SignatoryAbbrev}{\\MakeUppercase{\\SignatoryName}}{\\SignatoryAbbrev}\\par
-            \\SignatoryRank\\par
-            \\SignatoryTitle\\par
-            \\ByDirection
+            \\MakeUppercase{\\SeniorSignatoryName}\\par
+            \\SeniorSignatoryRank\\par
+            \\SeniorSignatoryTitle\\par
+            \\SeniorByDirection
         \\end{minipage}
     \\end{tabular}
 }

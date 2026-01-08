@@ -10,12 +10,15 @@ import { ParagraphsEditor } from '@/components/editor/ParagraphsEditor';
 import { CopyToManager } from '@/components/editor/CopyToManager';
 import { ProfileBar } from '@/components/editor/ProfileBar';
 import { DocumentStats } from '@/components/editor/DocumentStats';
+import { MOASection } from '@/components/editor/MOASection';
 import { useDocumentStore } from '@/stores/documentStore';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 
 export function FormPanel() {
   const { docType } = useDocumentStore();
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
+
+  const isMOAMode = config.uiMode === 'moa';
 
   return (
     <div className="flex flex-col h-full border-r border-border bg-card overflow-hidden">
@@ -26,23 +29,45 @@ export function FormPanel() {
           <div className="p-4 space-y-6">
           <DocumentTypeSelector />
 
-          {config.letterhead && <LetterheadSection />}
+          {isMOAMode ? (
+            <>
+              {/* MOA/MOU specific UI - handles dual commands and signatures */}
+              <MOASection />
 
-          <AddressingSection config={config} />
+              <ClassificationSection />
 
-          <ClassificationSection />
+              <ParagraphsEditor />
 
-          <ParagraphsEditor />
+              <ReferencesManager />
 
-          <ReferencesManager />
+              <EnclosuresManager />
 
-          <EnclosuresManager />
+              <CopyToManager />
 
-          <CopyToManager />
+              <DocumentStats />
+            </>
+          ) : (
+            <>
+              {/* Standard document UI */}
+              {config.letterhead && <LetterheadSection />}
 
-          <SignatureSection config={config} />
+              <AddressingSection config={config} />
 
-          <DocumentStats />
+              <ClassificationSection />
+
+              <ParagraphsEditor />
+
+              <ReferencesManager />
+
+              <EnclosuresManager />
+
+              <CopyToManager />
+
+              <SignatureSection config={config} />
+
+              <DocumentStats />
+            </>
+          )}
           </div>
         </ScrollArea>
       </div>

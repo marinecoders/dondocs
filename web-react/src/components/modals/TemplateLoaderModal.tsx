@@ -51,8 +51,8 @@ const LETTER_TEMPLATES: LetterTemplate[] = [
       { text: 'Request. Per reference (a), I request annual leave for the period of [START DATE] to [END DATE], for a total of [NUMBER] days of chargeable leave.', level: 0 },
       { text: 'Purpose. [State the purpose of leave - e.g., family vacation, wedding, personal matters, etc.]', level: 0 },
       { text: 'Leave Balance. My current leave balance is [NUMBER] days. Upon completion of this leave, my balance will be [NUMBER] days.', level: 0 },
-      { text: 'Contact Information. While on leave, I can be reached at [PHONE NUMBER]. My leave address will be [FULL ADDRESS INCLUDING CITY, STATE, ZIP].', level: 0 },
-      { text: 'Point of Contact. Point of contact for this request is the undersigned at [DSN/COMMERCIAL PHONE] or [EMAIL].', level: 0 },
+      { text: 'Contact Information. While on leave, I can be reached at (415) 555-1849. My leave address will be 1 Lincoln Blvd, Presidio of San Francisco, CA 94129.', level: 0 },
+      { text: 'Point of Contact. Point of contact for this request is the undersigned at DSN 570-1776 / (415) 555-1776 or j.doe@usmc.mil.', level: 0 },
     ],
     references: [
       { letter: 'a', title: 'MCO 1050.3J' },
@@ -69,8 +69,8 @@ const LETTER_TEMPLATES: LetterTemplate[] = [
     paragraphs: [
       { text: 'Request. Per reference (a), I request [72/96] hour special liberty for the period of [START DATE/TIME] to [END DATE/TIME].', level: 0 },
       { text: 'Purpose. [Provide justification for the special liberty request - e.g., family event, personal matter requiring travel, etc.]', level: 0 },
-      { text: 'Travel. I [will/will not] be traveling outside the local liberty area. [If traveling: destination is (CITY, STATE), approximately (X) miles from base.]', level: 0 },
-      { text: 'Contact Information. I can be reached at [PHONE NUMBER] during the liberty period.', level: 0 },
+      { text: 'Travel. I [will/will not] be traveling outside the local liberty area. If traveling: destination is San Francisco, CA, approximately 30 miles from base.', level: 0 },
+      { text: 'Contact Information. I can be reached at (415) 555-1906 during the liberty period.', level: 0 },
     ],
     references: [
       { letter: 'a', title: 'MCO 1050.3J' },
@@ -159,7 +159,7 @@ const LETTER_TEMPLATES: LetterTemplate[] = [
       { text: 'Requested Modification. [Clearly state the specific modification requested: change of report date, change of duty station, deletion of dependent travel, etc.]', level: 0 },
       { text: 'Justification. [Provide detailed justification for the modification request. Include any extenuating circumstances or hardship factors.]', level: 0 },
       { text: 'Impact. [Address how this modification will or will not impact the gaining unit or Marine Corps manning requirements.]', level: 0 },
-      { text: 'Point of Contact. Point of contact is the undersigned at [PHONE/EMAIL].', level: 0 },
+      { text: 'Point of Contact. Point of contact is the undersigned at (415) 555-1776 / j.doe@usmc.mil.', level: 0 },
     ],
     references: [
       { letter: 'a', title: 'MCO 1320.11' },
@@ -178,9 +178,9 @@ const LETTER_TEMPLATES: LetterTemplate[] = [
       { text: 'Current Assignment. I am currently assigned to [UNIT] as [BILLET]. My PRD is [DATE]. I have served at this duty station since [DATE].', level: 0 },
       { text: 'Hardship Circumstances. [Provide detailed explanation of the hardship situation. Include specific circumstances, timeline of events, and why your presence is required.]', level: 0 },
       { text: 'Family Member Information. [Provide information about the affected family member: relationship, location, nature of condition/situation, prognosis if medical, and why other family members cannot provide necessary support.]', level: 0 },
-      { text: 'Requested Location. I request assignment to the [GEOGRAPHIC AREA] area to be within [REASONABLE DISTANCE] of [AFFECTED FAMILY MEMBER]. [Identify specific units in the area that could utilize your MOS if known.]', level: 0 },
+      { text: 'Requested Location. I request assignment to the San Francisco Bay Area to be within reasonable driving distance of affected family member. Units in the area that could utilize my MOS include those at the Presidio of San Francisco or Travis AFB.', level: 0 },
       { text: 'Supporting Documentation. Enclosures provide supporting documentation including [LIST: medical documentation, dependency letters, Red Cross message, etc.].', level: 0 },
-      { text: 'Point of Contact. Point of contact is the undersigned at [PHONE/EMAIL].', level: 0 },
+      { text: 'Point of Contact. Point of contact is the undersigned at (415) 555-1776 / j.doe@usmc.mil.', level: 0 },
     ],
     references: [
       { letter: 'a', title: 'MCO 1040.40B' },
@@ -200,7 +200,7 @@ const LETTER_TEMPLATES: LetterTemplate[] = [
       { text: 'Career Intentions. [State your career intentions and reasons for requesting career designation. Demonstrate your commitment to the Marine Corps and your plans for continued professional development.]', level: 0 },
       { text: 'Qualifications. Current PFT: [SCORE]. Current CFT: [SCORE]. Rifle qualification: [QUAL/DATE]. [List any additional qualifications, certifications, or achievements relevant to career designation.]', level: 0 },
       { text: 'Recommendation. I respectfully request favorable consideration of this career designation package.', level: 0 },
-      { text: 'Point of Contact. Point of contact is the undersigned at [PHONE/EMAIL].', level: 0 },
+      { text: 'Point of Contact. Point of contact is the undersigned at (415) 555-1776 / j.doe@usmc.mil.', level: 0 },
     ],
     references: [
       { letter: 'a', title: 'MCO 1040.31' },
@@ -220,7 +220,7 @@ const LETTER_TEMPLATES: LetterTemplate[] = [
       { text: 'Justification. [EXPLAIN WHY THIS TAD IS NECESSARY. How does it support mission requirements or Marine\'s professional development? Why was this Marine selected?]', level: 0 },
       { text: 'Funding. Funding source: [SPECIFY - e.g., unit OPTAR, TECOM funded, gaining command funded, etc.]. Estimated cost: [AMOUNT] for travel, [AMOUNT] for per diem, [AMOUNT] total.', level: 0 },
       { text: 'Impact. [ADDRESS IMPACT ON UNIT. How will billet/duties be covered during absence? Any mission degradation concerns?]', level: 0 },
-      { text: 'Point of Contact. Point of contact is [NAME/RANK] at [PHONE/EMAIL].', level: 0 },
+      { text: 'Point of Contact. Point of contact is SSgt J. Doe at (415) 555-1776 / j.doe@usmc.mil.', level: 0 },
     ],
     references: [
       { letter: 'a', title: 'JTR' },
@@ -241,7 +241,7 @@ const LETTER_TEMPLATES: LetterTemplate[] = [
       { text: 'Background. [Provide context about the Marine\'s duties and responsibilities during the award period.]', level: 0 },
       { text: 'Justification. [Describe specific achievements that warrant recognition. Use quantifiable metrics where possible. Focus on actions that exceeded normal expectations. Examples: led X Marines, trained X personnel, saved $X, improved readiness by X%, etc.]', level: 0 },
       { text: 'Impact. [Explain the positive impact these achievements had on unit readiness, mission accomplishment, or Marine Corps operations.]', level: 0 },
-      { text: 'Point of Contact. Point of contact for this matter is the undersigned at [PHONE/EMAIL].', level: 0 },
+      { text: 'Point of Contact. Point of contact for this matter is the undersigned at (415) 555-1776 / j.doe@usmc.mil.', level: 0 },
     ],
     references: [
       { letter: 'a', title: 'SECNAVINST 1650.1H' },
@@ -277,7 +277,7 @@ const LETTER_TEMPLATES: LetterTemplate[] = [
       { text: 'Leadership. [Describe leadership qualities demonstrated. Include examples of leading Marines, training subordinates, and influencing peers.]', level: 0 },
       { text: 'PME and Self-Improvement. [List completed PME, off-duty education, certifications, and other self-improvement efforts.]', level: 0 },
       { text: 'Physical Fitness. Current PFT score: [SCORE] ([CLASS]). Current CFT score: [SCORE] ([CLASS]). Height/Weight: [COMPLIANT/BCP STATUS].', level: 0 },
-      { text: 'Point of Contact. Point of contact is the undersigned at [PHONE/EMAIL].', level: 0 },
+      { text: 'Point of Contact. Point of contact is the undersigned at (415) 555-1776 / j.doe@usmc.mil.', level: 0 },
     ],
     references: [
       { letter: 'a', title: 'MCO 1001.62A' },
@@ -408,7 +408,7 @@ const LETTER_TEMPLATES: LetterTemplate[] = [
       { text: 'Instructions. [Provide detailed, numbered instructions. Be specific about who, what, when, where, and how. Include specific tasks, responsibilities, and deadlines.]', level: 0 },
       { text: 'Coordination. [Identify coordination requirements, reporting chains, and key personnel involved.]', level: 0 },
       { text: 'Resources. [Identify resources available, funding sources, equipment, or personnel support.]', level: 0 },
-      { text: 'Point of Contact. Point of contact for this matter is [NAME] at [PHONE/EMAIL].', level: 0 },
+      { text: 'Point of Contact. Point of contact for this matter is SSgt J. Doe at (415) 555-1776 / j.doe@usmc.mil.', level: 0 },
     ],
   },
 
@@ -476,11 +476,11 @@ const LETTER_TEMPLATES: LetterTemplate[] = [
     ssic: '1500',
     subject: 'REQUEST FOR TRAINING',
     paragraphs: [
-      { text: 'Request. Per reference (a), I request authorization to attend [COURSE NAME] ([COURSE NUMBER if applicable]) conducted at [LOCATION] from [START DATE] to [END DATE].', level: 0 },
+      { text: 'Request. Per reference (a), I request authorization to attend [COURSE NAME] ([COURSE NUMBER if applicable]) conducted at the Presidio of San Francisco, CA from [START DATE] to [END DATE].', level: 0 },
       { text: 'Justification. [Explain how this training supports your current billet, MOS requirements, or career development. Describe how the unit will benefit from this training.]', level: 0 },
       { text: 'Funding. [Address funding requirements: TDY costs, course fees, etc. Identify source of funding if known.]', level: 0 },
       { text: 'Impact. My absence during this training period [will/will not] impact unit operations. [If applicable: explain how duties will be covered.]', level: 0 },
-      { text: 'Point of Contact. Point of contact for this request is the undersigned at [PHONE/EMAIL].', level: 0 },
+      { text: 'Point of Contact. Point of contact for this request is the undersigned at (415) 555-1776 / j.doe@usmc.mil.', level: 0 },
     ],
     references: [
       { letter: 'a', title: 'MCO 1500.52' },
@@ -498,7 +498,7 @@ const LETTER_TEMPLATES: LetterTemplate[] = [
     subject: 'REQUEST FOR GOVERNMENT TRAVEL CHARGE CARD',
     paragraphs: [
       { text: 'Request. Per reference (a), I request issuance of a Government Travel Charge Card (GTCC) for official travel purposes.', level: 0 },
-      { text: 'Justification. A GTCC is required to support upcoming [TAD/TDY/PCS] orders to [LOCATION] scheduled for [DATE]. [Or: My duties require frequent official travel that necessitates a GTCC.]', level: 0 },
+      { text: 'Justification. A GTCC is required to support upcoming TAD orders to the Presidio of San Francisco, CA scheduled for [DATE]. My duties require frequent official travel that necessitates a GTCC.', level: 0 },
       { text: 'Acknowledgment. I acknowledge that I have completed the required GTCC training and understand my responsibilities as a cardholder per reference (a).', level: 0 },
     ],
     references: [
@@ -517,8 +517,8 @@ const LETTER_TEMPLATES: LetterTemplate[] = [
       { text: 'Purpose. This memorandum provides checkout instructions in preparation for your transfer to [GAINING UNIT] per orders dated [DATE].', level: 0 },
       { text: 'Checkout Requirements. Complete the attached checkout sheet and obtain all required signatures NLT [DATE]. Ensure all gear is turned in to the armory and supply. Clear all financial obligations with disbursing.', level: 0 },
       { text: 'Records. Report to Admin to verify your service record book is complete and accurate. Ensure all awards, training, and qualifications are properly documented.', level: 0 },
-      { text: 'Final Inspection. Report to [LOCATION] on [DATE] at [TIME] for final checkout inspection with the [FIRST SERGEANT/SERGEANT MAJOR].', level: 0 },
-      { text: 'Point of Contact. For questions, contact the Admin Chief at [PHONE/EMAIL].', level: 0 },
+      { text: 'Final Inspection. Report to Building 35, Lincoln Blvd, Presidio of San Francisco on [DATE] at 0800 for final checkout inspection with the First Sergeant.', level: 0 },
+      { text: 'Point of Contact. For questions, contact the Admin Chief at (415) 555-1776 / admin.chief@usmc.mil.', level: 0 },
     ],
   },
   {
@@ -565,7 +565,7 @@ const LETTER_TEMPLATES: LetterTemplate[] = [
     ssic: '5216',
     subject: 'APPOINTMENT TO [BOARD/COMMITTEE NAME]',
     paragraphs: [
-      { text: 'Appointment. Per reference (a), you are hereby appointed as a [VOTING MEMBER/RECORDER/PRESIDENT] of the [BOARD/COMMITTEE NAME] convening on [DATE] at [TIME] in [LOCATION].', level: 0 },
+      { text: 'Appointment. Per reference (a), you are hereby appointed as a [VOTING MEMBER/RECORDER/PRESIDENT] of the [BOARD/COMMITTEE NAME] convening on [DATE] at 0900 in Building 35, Presidio of San Francisco.', level: 0 },
       { text: 'Purpose. The purpose of this board is to [STATE PURPOSE - e.g., review candidates for meritorious promotion, evaluate administrative separation, select personnel for special duty assignment, etc.].', level: 0 },
       { text: 'Composition. The board will consist of: President: [RANK/NAME]; Members: [LIST MEMBERS]; Recorder: [RANK/NAME]. [Additional personnel as required].', level: 0 },
       { text: 'Procedures. Conduct all proceedings in accordance with reference (a). The recorder will maintain accurate minutes and all documentation. All deliberations are confidential and will not be disclosed outside official channels.', level: 0 },
@@ -588,7 +588,7 @@ const LETTER_TEMPLATES: LetterTemplate[] = [
       { text: 'Status Change. Previous Status: [PRESENT FOR DUTY/TAD/LEAVE/LIMDU/etc.]. New Status: [NEW STATUS]. Effective Date: [DATE].', level: 0 },
       { text: 'Details. [PROVIDE RELEVANT DETAILS. For LIMDU: diagnosis category, estimated return date, duty limitations. For UA: last known location, circumstances, actions taken. For confinement: location, charges, court-martial date if known.]', level: 0 },
       { text: 'Actions Taken. [DESCRIBE COMMAND ACTIONS - e.g., administrative processing initiated, legal hold placed, notification to next of kin, etc.]', level: 0 },
-      { text: 'Point of Contact. Point of contact for this matter is [RANK/NAME] at [PHONE/EMAIL].', level: 0 },
+      { text: 'Point of Contact. Point of contact for this matter is SSgt J. Doe at (415) 555-1776 / j.doe@usmc.mil.', level: 0 },
     ],
     references: [
       { letter: 'a', title: 'MCO 1001.59A' },
@@ -672,7 +672,7 @@ const LETTER_TEMPLATES: LetterTemplate[] = [
       { text: 'Preservation Requirements. You must immediately: (1) Suspend any routine destruction of relevant documents; (2) Preserve all relevant electronic communications including emails, texts, and voicemails; (3) Preserve all relevant physical documents; (4) Preserve any relevant evidence in your possession or control.', level: 0 },
       { text: 'Prohibition. Do NOT delete, destroy, alter, or dispose of any potentially relevant documents or information. Failure to comply with this hold may result in adverse legal consequences and potential disciplinary action.', level: 0 },
       { text: 'Duration. This litigation hold will remain in effect until you receive written notice of its release. Do not assume the hold has been lifted unless you receive official notification.', level: 0 },
-      { text: 'Questions. Direct any questions regarding this hold to the Staff Judge Advocate at [PHONE/EMAIL].', level: 0 },
+      { text: 'Questions. Direct any questions regarding this hold to the Staff Judge Advocate at (415) 555-1849 / sja@usmc.mil.', level: 0 },
     ],
     references: [
       { letter: 'a', title: 'JAGMAN' },
@@ -737,7 +737,7 @@ const LETTER_TEMPLATES: LetterTemplate[] = [
       { text: 'Timeline: [KEY DATES/TIMES]', level: 2 },
       { text: 'Uniform: [IF APPLICABLE]', level: 2 },
       { text: 'Admin/Logistics. [DESCRIBE SUPPORT REQUIREMENTS]', level: 0 },
-      { text: 'Command/Signal. POC is [NAME] at [EMAIL/PHONE].', level: 0 },
+      { text: 'Command/Signal. POC is SSgt J. Doe at j.doe@usmc.mil / (415) 555-1776.', level: 0 },
     ],
   },
 ];

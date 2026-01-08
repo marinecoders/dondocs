@@ -179,76 +179,137 @@ export interface DocTypeConfig {
     fontFamily: string;
     ref: string;
   };
+  // Compliance restrictions (used in compliant mode)
+  compliance: {
+    numberedParagraphs: boolean;     // false = no numbered paragraphs (business letters)
+    allowReferences: boolean;        // false = no formal references section (business letters)
+    allowEnclosures: boolean;        // false = no formal enclosures section (business letters)
+    requiresSalutation: boolean;     // true = needs "Dear Mr./Ms.:" (business letters)
+    requiresComplimentaryClose: boolean; // true = needs "Sincerely," (business letters)
+    dualSignature: boolean;          // true = two signature blocks (MOA/MOU/Joint)
+    dateFormat: 'military' | 'spelled'; // 'military' = "4 Jan 26", 'spelled' = "January 4, 2026"
+  };
 }
+
+// Default compliance settings for most document types
+const DEFAULT_COMPLIANCE = {
+  numberedParagraphs: true,
+  allowReferences: true,
+  allowEnclosures: true,
+  requiresSalutation: false,
+  requiresComplimentaryClose: false,
+  dualSignature: false,
+  dateFormat: 'military' as const,
+};
+
+// Business letter compliance (Ch 11) - NO numbered paragraphs, NO formal refs/enclosures
+const BUSINESS_COMPLIANCE = {
+  numberedParagraphs: false,
+  allowReferences: false,  // Mentioned in body only
+  allowEnclosures: false,  // Mentioned in body only
+  requiresSalutation: true,
+  requiresComplimentaryClose: true,
+  dualSignature: false,
+  dateFormat: 'spelled' as const,  // "January 4, 2026" format
+};
+
+// Endorsement compliance - NO numbered paragraphs (continues basic letter sequence)
+const ENDORSEMENT_COMPLIANCE = {
+  ...DEFAULT_COMPLIANCE,
+  numberedParagraphs: false,
+};
+
+// Dual signature compliance (MOA/MOU/Joint)
+const DUAL_SIGNATURE_COMPLIANCE = {
+  ...DEFAULT_COMPLIANCE,
+  dualSignature: true,
+};
 
 export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
   naval_letter: {
     letterhead: true, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 2-20' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 2-20' },
+    compliance: DEFAULT_COMPLIANCE,
   },
   standard_letter: {
     letterhead: false, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 2-20' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 2-20' },
+    compliance: DEFAULT_COMPLIANCE,
   },
   business_letter: {
     letterhead: true, ssic: true, fromTo: false, via: false, memoHeader: false, signature: 'full', uiMode: 'business',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 11' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 11' },
+    compliance: BUSINESS_COMPLIANCE,
   },
   multiple_address_letter: {
     letterhead: true, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 2-20' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 2-20' },
+    compliance: DEFAULT_COMPLIANCE,
   },
   joint_letter: {
     letterhead: true, ssic: true, fromTo: true, via: false, memoHeader: false, signature: 'dual', uiMode: 'joint',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 2-20' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 2-20' },
+    compliance: DUAL_SIGNATURE_COMPLIANCE,
   },
   same_page_endorsement: {
     letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 7' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 7' },
+    compliance: ENDORSEMENT_COMPLIANCE,
   },
   new_page_endorsement: {
     letterhead: true, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 7' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 7' },
+    compliance: ENDORSEMENT_COMPLIANCE,
   },
   mfr: {
     letterhead: true, ssic: true, fromTo: false, via: false, memoHeader: true, signature: 'abbrev', uiMode: 'memo',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 10' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 10' },
+    compliance: DEFAULT_COMPLIANCE,
   },
   plain_paper_memorandum: {
     letterhead: false, ssic: false, fromTo: true, via: false, memoHeader: true, signature: 'abbrev', uiMode: 'memo',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' },
+    compliance: DEFAULT_COMPLIANCE,
   },
   letterhead_memorandum: {
     letterhead: true, ssic: true, fromTo: true, via: false, memoHeader: true, signature: 'abbrev', uiMode: 'memo',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' },
+    compliance: DEFAULT_COMPLIANCE,
   },
   decision_memorandum: {
     letterhead: false, ssic: false, fromTo: true, via: false, memoHeader: true, signature: 'abbrev', uiMode: 'memo',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' },
+    compliance: DEFAULT_COMPLIANCE,
   },
   executive_memorandum: {
     letterhead: false, ssic: false, fromTo: true, via: false, memoHeader: true, signature: 'full', uiMode: 'memo',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' },
+    compliance: DEFAULT_COMPLIANCE,
   },
   moa: {
     letterhead: true, ssic: true, fromTo: false, via: false, memoHeader: false, signature: 'dual', uiMode: 'moa',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' },
+    compliance: DUAL_SIGNATURE_COMPLIANCE,
   },
   mou: {
     letterhead: true, ssic: true, fromTo: false, via: false, memoHeader: false, signature: 'dual', uiMode: 'moa',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' },
+    compliance: DUAL_SIGNATURE_COMPLIANCE,
   },
   joint_memorandum: {
     letterhead: true, ssic: true, fromTo: true, via: false, memoHeader: true, signature: 'dual', uiMode: 'joint',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' },
+    compliance: DUAL_SIGNATURE_COMPLIANCE,
   },
   mf: {
     letterhead: true, ssic: true, fromTo: false, via: false, memoHeader: true, signature: 'abbrev', uiMode: 'memo',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 10' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 10' },
+    compliance: DEFAULT_COMPLIANCE,
   },
   executive_correspondence: {
     letterhead: false, ssic: false, fromTo: true, via: false, memoHeader: false, signature: 'full', uiMode: 'standard',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' }
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' },
+    compliance: DEFAULT_COMPLIANCE,
   },
 };
 
