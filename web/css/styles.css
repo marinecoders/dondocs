@@ -692,6 +692,8 @@ button.primary:hover {
     padding: 2px 4px;
     user-select: none;
     letter-spacing: 1px;
+    -webkit-user-drag: element;
+    -webkit-touch-callout: none;
 }
 
 .reference-drag-handle:hover {
@@ -813,6 +815,13 @@ button.primary:hover {
     border-bottom: 2px solid #3282b8;
 }
 
+/* Touch drag clone styling */
+.touch-dragging-clone {
+    background: #16213e !important;
+    border: 2px solid #3282b8 !important;
+    border-radius: 4px;
+}
+
 .enclosure-drag-handle {
     cursor: grab;
     color: #666;
@@ -820,6 +829,8 @@ button.primary:hover {
     padding: 2px 4px;
     user-select: none;
     letter-spacing: 1px;
+    -webkit-user-drag: element;
+    -webkit-touch-callout: none;
 }
 
 .enclosure-drag-handle:hover {

@@ -599,7 +599,7 @@ function renderEnclosures() {
 }
 
 /**
- * Initialize drag-and-drop for enclosure reordering
+ * Initialize drag-and-drop for enclosure reordering (mouse + touch)
  */
 function initEnclosureDragDrop() {
     const container = document.getElementById('enclosuresList');
@@ -608,25 +608,37 @@ function initEnclosureDragDrop() {
     let draggedItem = null;
     let draggedIndex = null;
 
+    // Mouse/HTML5 drag events (also works on iOS Safari with proper setup)
     items.forEach(item => {
+        // Make handle the drag initiator
+        const handle = item.querySelector('.enclosure-drag-handle');
+        if (handle) {
+            handle.style.webkitUserDrag = 'element';
+        }
+
         item.addEventListener('dragstart', (e) => {
             draggedItem = item;
             draggedIndex = parseInt(item.dataset.index);
             item.classList.add('dragging');
+            // iOS Safari requires setData to be called
             e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/plain', draggedIndex);
+            e.dataTransfer.setData('text/plain', String(draggedIndex));
+            // Set drag image if supported
+            if (e.dataTransfer.setDragImage) {
+                e.dataTransfer.setDragImage(item, 10, 10);
+            }
         });
 
-        item.addEventListener('dragend', () => {
+        item.addEventListener('dragend', (e) => {
             item.classList.remove('dragging');
             draggedItem = null;
             draggedIndex = null;
-            // Remove all drag-over states
             items.forEach(i => i.classList.remove('drag-over-above', 'drag-over-below'));
         });
 
         item.addEventListener('dragover', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             e.dataTransfer.dropEffect = 'move';
 
             if (item === draggedItem) return;
@@ -634,10 +646,8 @@ function initEnclosureDragDrop() {
             const rect = item.getBoundingClientRect();
             const midY = rect.top + rect.height / 2;
 
-            // Remove previous indicators
             items.forEach(i => i.classList.remove('drag-over-above', 'drag-over-below'));
 
-            // Add indicator based on mouse position
             if (e.clientY < midY) {
                 item.classList.add('drag-over-above');
             } else {
@@ -645,12 +655,13 @@ function initEnclosureDragDrop() {
             }
         });
 
-        item.addEventListener('dragleave', () => {
+        item.addEventListener('dragleave', (e) => {
             item.classList.remove('drag-over-above', 'drag-over-below');
         });
 
         item.addEventListener('drop', (e) => {
             e.preventDefault();
+            e.stopPropagation();
 
             if (item === draggedItem) return;
 
@@ -658,20 +669,203 @@ function initEnclosureDragDrop() {
             const rect = item.getBoundingClientRect();
             const midY = rect.top + rect.height / 2;
 
-            // Determine insert position
             let newIndex = e.clientY < midY ? targetIndex : targetIndex + 1;
 
-            // Adjust for removal of original item
             if (draggedIndex < newIndex) {
                 newIndex--;
             }
 
-            // Reorder the array
             reorderEnclosure(draggedIndex, newIndex);
 
-            // Remove indicators
             items.forEach(i => i.classList.remove('drag-over-above', 'drag-over-below'));
         });
+    });
+
+    // Touch drag events for mobile (fallback for devices where HTML5 drag doesn't work)
+    initTouchDragForList(container, 'enclosure-item', 'enclosure-drag-handle', reorderEnclosure);
+}
+
+/**
+ * Generic touch drag handler for sortable lists
+ * @param {HTMLElement} container - The list container
+ * @param {string} itemClass - CSS class of draggable items
+ * @param {string} handleClass - CSS class of drag handle
+ * @param {Function} reorderFn - Function to call with (fromIndex, toIndex)
+ */
+function initTouchDragForList(container, itemClass, handleClass, reorderFn) {
+    let touchDraggedItem = null;
+    let touchDraggedIndex = null;
+    let touchClone = null;
+    let scrollInterval = null;
+    let lastTargetIndex = null;
+
+    container.addEventListener('touchstart', (e) => {
+        const handle = e.target.closest('.' + handleClass);
+        if (!handle) return;
+
+        const item = handle.closest('.' + itemClass);
+        if (!item) return;
+
+        e.preventDefault();
+        touchDraggedItem = item;
+        touchDraggedIndex = parseInt(item.dataset.index);
+        lastTargetIndex = null;
+
+        // Create a clone for visual feedback
+        touchClone = item.cloneNode(true);
+        touchClone.classList.add('touch-dragging-clone');
+        touchClone.style.position = 'fixed';
+        touchClone.style.left = item.getBoundingClientRect().left + 'px';
+        touchClone.style.top = e.touches[0].clientY - 20 + 'px';
+        touchClone.style.width = item.offsetWidth + 'px';
+        touchClone.style.zIndex = '9999';
+        touchClone.style.opacity = '0.9';
+        touchClone.style.pointerEvents = 'none';
+        touchClone.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+        document.body.appendChild(touchClone);
+
+        item.classList.add('dragging');
+    }, { passive: false });
+
+    container.addEventListener('touchmove', (e) => {
+        if (!touchDraggedItem || !touchClone) return;
+
+        e.preventDefault();
+        const touchY = e.touches[0].clientY;
+
+        // Move the clone
+        touchClone.style.top = touchY - 20 + 'px';
+
+        // Auto-scroll if near edges
+        const scrollThreshold = 50;
+        if (touchY < scrollThreshold) {
+            if (!scrollInterval) {
+                scrollInterval = setInterval(() => window.scrollBy(0, -10), 16);
+            }
+        } else if (touchY > window.innerHeight - scrollThreshold) {
+            if (!scrollInterval) {
+                scrollInterval = setInterval(() => window.scrollBy(0, 10), 16);
+            }
+        } else {
+            if (scrollInterval) {
+                clearInterval(scrollInterval);
+                scrollInterval = null;
+            }
+        }
+
+        // Find the closest item and determine drop position
+        const items = Array.from(container.querySelectorAll('.' + itemClass));
+        items.forEach(item => item.classList.remove('drag-over-above', 'drag-over-below'));
+
+        // Build list of item centers (excluding dragged item)
+        const otherItems = items.filter(item => item !== touchDraggedItem);
+        if (otherItems.length === 0) return;
+
+        // Find which gap/position the touch is closest to
+        let closestItem = null;
+        let insertBefore = true;
+        let minDistance = Infinity;
+
+        for (const item of otherItems) {
+            const rect = item.getBoundingClientRect();
+            const itemCenter = rect.top + rect.height / 2;
+
+            // Distance to top edge (insert before)
+            const distToTop = Math.abs(touchY - rect.top);
+            // Distance to bottom edge (insert after)
+            const distToBottom = Math.abs(touchY - rect.bottom);
+
+            if (distToTop < minDistance) {
+                minDistance = distToTop;
+                closestItem = item;
+                insertBefore = true;
+            }
+            if (distToBottom < minDistance) {
+                minDistance = distToBottom;
+                closestItem = item;
+                insertBefore = false;
+            }
+        }
+
+        // Show indicator on closest item
+        if (closestItem) {
+            if (insertBefore) {
+                closestItem.classList.add('drag-over-above');
+            } else {
+                closestItem.classList.add('drag-over-below');
+            }
+        }
+    }, { passive: false });
+
+    container.addEventListener('touchend', (e) => {
+        if (!touchDraggedItem) return;
+
+        // Clear auto-scroll
+        if (scrollInterval) {
+            clearInterval(scrollInterval);
+            scrollInterval = null;
+        }
+
+        // Remove clone
+        if (touchClone) {
+            touchClone.remove();
+            touchClone = null;
+        }
+
+        // Find drop target based on visual indicators
+        const items = Array.from(container.querySelectorAll('.' + itemClass));
+        let targetIndex = touchDraggedIndex;
+
+        for (const item of items) {
+            const itemIndex = parseInt(item.dataset.index);
+            if (item.classList.contains('drag-over-above')) {
+                // Insert before this item
+                targetIndex = itemIndex;
+                if (touchDraggedIndex < itemIndex) {
+                    targetIndex--; // Adjust because we're removing from before
+                }
+                break;
+            }
+            if (item.classList.contains('drag-over-below')) {
+                // Insert after this item
+                targetIndex = itemIndex + 1;
+                if (touchDraggedIndex < itemIndex + 1) {
+                    targetIndex--; // Adjust because we're removing from before
+                }
+                break;
+            }
+        }
+
+        // Clean up
+        touchDraggedItem.classList.remove('dragging');
+        items.forEach(item => item.classList.remove('drag-over-above', 'drag-over-below'));
+
+        // Reorder if position changed
+        if (targetIndex !== touchDraggedIndex && targetIndex >= 0) {
+            reorderFn(touchDraggedIndex, targetIndex);
+        }
+
+        touchDraggedItem = null;
+        touchDraggedIndex = null;
+    });
+
+    // Handle touch cancel
+    container.addEventListener('touchcancel', () => {
+        if (scrollInterval) {
+            clearInterval(scrollInterval);
+            scrollInterval = null;
+        }
+        if (touchClone) {
+            touchClone.remove();
+            touchClone = null;
+        }
+        if (touchDraggedItem) {
+            touchDraggedItem.classList.remove('dragging');
+        }
+        const items = container.querySelectorAll('.' + itemClass);
+        items.forEach(item => item.classList.remove('drag-over-above', 'drag-over-below'));
+        touchDraggedItem = null;
+        touchDraggedIndex = null;
     });
 }
 
@@ -775,7 +969,7 @@ function renderReferences() {
 }
 
 /**
- * Initialize drag-and-drop for reference reordering
+ * Initialize drag-and-drop for reference reordering (mouse + touch)
  */
 function initReferenceDragDrop() {
     const container = document.getElementById('referencesList');
@@ -784,16 +978,28 @@ function initReferenceDragDrop() {
     let draggedItem = null;
     let draggedIndex = null;
 
+    // Mouse/HTML5 drag events (also works on iOS Safari with proper setup)
     items.forEach(item => {
+        // Make handle the drag initiator
+        const handle = item.querySelector('.reference-drag-handle');
+        if (handle) {
+            handle.style.webkitUserDrag = 'element';
+        }
+
         item.addEventListener('dragstart', (e) => {
             draggedItem = item;
             draggedIndex = parseInt(item.dataset.index);
             item.classList.add('dragging');
+            // iOS Safari requires setData to be called
             e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/plain', draggedIndex);
+            e.dataTransfer.setData('text/plain', String(draggedIndex));
+            // Set drag image if supported
+            if (e.dataTransfer.setDragImage) {
+                e.dataTransfer.setDragImage(item, 10, 10);
+            }
         });
 
-        item.addEventListener('dragend', () => {
+        item.addEventListener('dragend', (e) => {
             item.classList.remove('dragging');
             draggedItem = null;
             draggedIndex = null;
@@ -802,6 +1008,7 @@ function initReferenceDragDrop() {
 
         item.addEventListener('dragover', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             e.dataTransfer.dropEffect = 'move';
 
             if (item === draggedItem) return;
@@ -818,12 +1025,13 @@ function initReferenceDragDrop() {
             }
         });
 
-        item.addEventListener('dragleave', () => {
+        item.addEventListener('dragleave', (e) => {
             item.classList.remove('drag-over-above', 'drag-over-below');
         });
 
         item.addEventListener('drop', (e) => {
             e.preventDefault();
+            e.stopPropagation();
 
             if (item === draggedItem) return;
 
@@ -842,6 +1050,9 @@ function initReferenceDragDrop() {
             items.forEach(i => i.classList.remove('drag-over-above', 'drag-over-below'));
         });
     });
+
+    // Touch drag events for mobile (fallback for devices where HTML5 drag doesn't work)
+    initTouchDragForList(container, 'reference-item', 'reference-drag-handle', reorderReference);
 }
 
 /**
@@ -2155,6 +2366,7 @@ async function mergeEnclosurePdfs(mainPdfBytes) {
 // Debounce timer for PDF preview
 let pdfPreviewTimer = null;
 let currentPdfUrl = null;
+let currentPdfBytes = null; // Store raw bytes for iOS compatibility
 
 /**
  * Update the PDF preview status message
@@ -2181,6 +2393,14 @@ function hidePdfPreviewStatus() {
 }
 
 /**
+ * Check if running on iOS
+ */
+function isIOS() {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+
+/**
  * Compile and display PDF in the preview iframe
  * Note: Enclosure PDFs are now embedded by LaTeX via \includepdf, not merged by JS.
  */
@@ -2197,6 +2417,9 @@ async function updatePdfPreview(retryAfterReset = false) {
         // Merge enclosure PDFs if any
         const finalPdfBytes = await mergeEnclosurePdfs(pdfBytes);
 
+        // Store raw bytes for iOS compatibility
+        currentPdfBytes = finalPdfBytes;
+
         // Revoke previous blob URL to free memory
         if (currentPdfUrl) {
             URL.revokeObjectURL(currentPdfUrl);
@@ -2206,7 +2429,7 @@ async function updatePdfPreview(retryAfterReset = false) {
         const blob = new Blob([finalPdfBytes], { type: 'application/pdf' });
         currentPdfUrl = URL.createObjectURL(blob);
 
-        // Display in iframe
+        // Display in iframe (even if hidden on mobile, keep it updated)
         frame.src = currentPdfUrl;
 
         // Hide status after successful compilation
@@ -2291,17 +2514,20 @@ let currentMobileState = false;
 
 /**
  * Update UI based on mobile/desktop state
+ * @param {boolean} force - Force update even if state hasn't changed
  */
-function updateMobileUI() {
+function updateMobileUI(force = false) {
     const isMobile = isMobileDevice();
 
-    // Only update if state changed
-    if (isMobile === currentMobileState) return;
+    // Only update if state changed (unless forced)
+    if (!force && isMobile === currentMobileState) return;
     currentMobileState = isMobile;
 
     const previewPanel = document.getElementById('pdfPreviewPanel');
     const mobilePreviewBtn = document.getElementById('mobilePreviewBtn');
     const previewModal = document.getElementById('pdfPreviewModal');
+
+    console.log('updateMobileUI:', { isMobile, width: window.innerWidth });
 
     if (isMobile) {
         // Mobile: hide inline preview, show toggle button
@@ -2318,18 +2544,35 @@ function updateMobileUI() {
 
 /**
  * Open fullscreen PDF preview modal (mobile)
+ * Uses data URL on iOS for better compatibility
  */
 function openMobilePreview() {
     const modal = document.getElementById('pdfPreviewModal');
     const modalFrame = document.getElementById('modalPdfFrame');
-    const mainFrame = document.getElementById('pdfPreviewFrame');
 
-    if (modal && modalFrame && mainFrame) {
-        // Copy the current PDF to modal frame
-        modalFrame.src = mainFrame.src;
-        modal.classList.add('active');
-        document.body.classList.add('modal-open');
+    if (!modal || !modalFrame) return;
+
+    // On iOS, use data URL for better blob handling
+    // On other platforms, use the blob URL directly
+    if (isIOS() && currentPdfBytes) {
+        // Convert bytes to base64 data URL for iOS
+        const base64 = btoa(
+            new Uint8Array(currentPdfBytes).reduce((data, byte) => data + String.fromCharCode(byte), '')
+        );
+        modalFrame.src = 'data:application/pdf;base64,' + base64;
+    } else if (currentPdfUrl) {
+        // Use blob URL on other platforms
+        modalFrame.src = currentPdfUrl;
+    } else {
+        // Fallback: try main frame src
+        const mainFrame = document.getElementById('pdfPreviewFrame');
+        if (mainFrame && mainFrame.src) {
+            modalFrame.src = mainFrame.src;
+        }
     }
+
+    modal.classList.add('active');
+    document.body.classList.add('modal-open');
 }
 
 /**
@@ -2380,12 +2623,16 @@ function initMobilePreview() {
         document.body.appendChild(modal);
     }
 
-    // Set initial state
-    currentMobileState = !isMobileDevice(); // Force update on first call
-    updateMobileUI();
+    // Set initial state - force update on first call
+    currentMobileState = null; // Reset to force initial update
+    updateMobileUI(true);
 
-    // Listen for window resize
-    window.addEventListener('resize', updateMobileUI);
+    // Listen for window resize and orientation change
+    window.addEventListener('resize', () => updateMobileUI(false));
+    window.addEventListener('orientationchange', () => {
+        // Delay to let orientation settle
+        setTimeout(() => updateMobileUI(true), 100);
+    });
 }
 
 // =============================================================================
