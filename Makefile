@@ -136,7 +136,20 @@ WEB_DIR = web-react
 .PHONY: dev
 dev:
 	@echo "Pulling latest changes..."
-	git pull
+	@if git diff --quiet && git diff --cached --quiet; then \
+		git pull; \
+	else \
+		echo "Local changes detected, stashing before pull..."; \
+		git stash push -m "auto-stash before make dev"; \
+		if git pull; then \
+			echo "Pull successful, restoring stashed changes..."; \
+			git stash pop || echo "Note: Could not restore stash (may have conflicts)"; \
+		else \
+			echo "Pull failed, restoring stashed changes..."; \
+			git stash pop; \
+			exit 1; \
+		fi; \
+	fi
 	@echo "Building web application..."
 	$(MAKE) web-build
 	@echo "Starting development server..."
