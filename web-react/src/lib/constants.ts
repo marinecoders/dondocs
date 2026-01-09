@@ -231,32 +231,38 @@ export const APP_INFO = {
  * Common placeholders for S-1/Admin use cases
  */
 export const BATCH_PLACEHOLDERS = [
-  // Personal Info
-  { name: 'NAME', label: 'Full Name', category: 'Personal', example: 'John A. Smith' },
-  { name: 'LAST_NAME', label: 'Last Name', category: 'Personal', example: 'Smith' },
-  { name: 'FIRST_NAME', label: 'First Name', category: 'Personal', example: 'John' },
-  { name: 'MI', label: 'Middle Initial', category: 'Personal', example: 'A.' },
-  { name: 'RANK', label: 'Rank', category: 'Personal', example: 'Cpl' },
-  { name: 'RANK_NAME', label: 'Rank + Name', category: 'Personal', example: 'Cpl Smith' },
-  { name: 'FULL_RANK', label: 'Full Rank', category: 'Personal', example: 'Corporal' },
+  // Primary Person (Subject of document)
+  { name: 'NAME', label: 'Full Name', category: 'Subject', example: 'John A. Smith' },
+  { name: 'LAST_NAME', label: 'Last Name', category: 'Subject', example: 'Smith' },
+  { name: 'FIRST_NAME', label: 'First Name', category: 'Subject', example: 'John' },
+  { name: 'MI', label: 'Middle Initial', category: 'Subject', example: 'A.' },
+  { name: 'RANK', label: 'Rank', category: 'Subject', example: 'Cpl' },
+  { name: 'RANK_NAME', label: 'Rank + Name', category: 'Subject', example: 'Cpl Smith' },
+  { name: 'EDIPI', label: 'EDIPI/DoD ID', category: 'Subject', example: '1234567890' },
+  { name: 'MOS', label: 'MOS', category: 'Subject', example: '0311' },
 
-  // Contact Info
+  // Second Person (Witness, Reporting Senior, etc.)
+  { name: 'NAME_2', label: 'Name (2nd Person)', category: '2nd Person', example: 'Jane B. Doe' },
+  { name: 'RANK_2', label: 'Rank (2nd Person)', category: '2nd Person', example: 'SSgt' },
+  { name: 'RANK_NAME_2', label: 'Rank + Name (2nd)', category: '2nd Person', example: 'SSgt Doe' },
+  { name: 'BILLET_2', label: 'Billet (2nd Person)', category: '2nd Person', example: 'Squad Leader' },
+
+  // Third Person (Reviewer, Commander, etc.)
+  { name: 'NAME_3', label: 'Name (3rd Person)', category: '3rd Person', example: 'Michael C. Jones' },
+  { name: 'RANK_3', label: 'Rank (3rd Person)', category: '3rd Person', example: 'Capt' },
+  { name: 'RANK_NAME_3', label: 'Rank + Name (3rd)', category: '3rd Person', example: 'Capt Jones' },
+  { name: 'BILLET_3', label: 'Billet (3rd Person)', category: '3rd Person', example: 'Company Commander' },
+
+  // Contact & Location
   { name: 'EMAIL', label: 'Email Address', category: 'Contact', example: 'john.smith@usmc.mil' },
   { name: 'PHONE', label: 'Phone Number', category: 'Contact', example: '(760) 555-1234' },
   { name: 'ADDRESS', label: 'Full Address', category: 'Contact', example: '123 Main St, City, ST 12345' },
-
-  // Military Info
-  { name: 'EDIPI', label: 'EDIPI/DoD ID', category: 'Military', example: '1234567890' },
-  { name: 'MOS', label: 'MOS', category: 'Military', example: '0311' },
-  { name: 'UNIT', label: 'Unit', category: 'Military', example: '1st Bn, 6th Marines' },
-  { name: 'BILLET', label: 'Billet/Position', category: 'Military', example: 'Team Leader' },
-  { name: 'EAS', label: 'EAS Date', category: 'Military', example: '20261015' },
-  { name: 'PEBD', label: 'PEBD', category: 'Military', example: '20220115' },
+  { name: 'UNIT', label: 'Unit', category: 'Contact', example: '1st Bn, 6th Marines' },
 
   // Document Info
   { name: 'DATE', label: 'Date', category: 'Document', example: '15 Jan 25' },
+  { name: 'DATE_2', label: 'Date (Secondary)', category: 'Document', example: '1 Jan 25' },
   { name: 'SERIAL', label: 'Serial Number', category: 'Document', example: '001' },
-  { name: 'SUBJECT', label: 'Subject', category: 'Document', example: 'Request for Leave' },
 ] as const;
 
 export type BatchPlaceholder = typeof BATCH_PLACEHOLDERS[number];
