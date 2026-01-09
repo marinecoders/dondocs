@@ -45,14 +45,19 @@ function updateHyperlinkDestinations(pdfDoc: PDFDocument): void {
   }
 
   console.log('[hyperlinks] Updating hyperlink destinations for', enclosurePageMap.size, 'enclosures');
+  console.log('[hyperlinks] Looking for destinations:', Array.from(enclosurePageMap.keys()).map(n => `enclosure${n}`));
 
   const pages = pdfDoc.getPages();
   let updatedCount = 0;
+  let linkCount = 0;
 
   // Iterate through all pages to find link annotations
-  for (const page of pages) {
+  for (let pageIdx = 0; pageIdx < pages.length; pageIdx++) {
+    const page = pages[pageIdx];
     const annots = page.node.lookup(PDFName.of('Annots'));
     if (!annots || !(annots instanceof PDFArray)) continue;
+
+    console.log(`[hyperlinks] Page ${pageIdx + 1} has ${annots.size()} annotations`);
 
     // Check each annotation
     for (let i = 0; i < annots.size(); i++) {
@@ -66,14 +71,19 @@ function updateHyperlinkDestinations(pdfDoc: PDFDocument): void {
       const subtype = annot.get(PDFName.of('Subtype'));
       if (!subtype || subtype.toString() !== '/Link') continue;
 
+      linkCount++;
+
       // Check for /A (action) with /GoTo and /D (destination name)
       const action = annot.get(PDFName.of('A'));
       if (action instanceof PDFDict) {
         const actionType = action.get(PDFName.of('S'));
+        const dest = action.get(PDFName.of('D'));
+        console.log(`[hyperlinks] Link annotation: action type=${actionType}, dest=${dest}, dest type=${dest?.constructor?.name}`);
+
         if (actionType && actionType.toString() === '/GoTo') {
-          const dest = action.get(PDFName.of('D'));
           if (dest) {
             const destName = extractDestinationName(dest);
+            console.log(`[hyperlinks] Extracted dest name: "${destName}"`);
             if (destName && destName.startsWith('enclosure')) {
               const encNum = parseInt(destName.replace('enclosure', ''), 10);
               const targetPage = enclosurePageMap.get(encNum);
@@ -89,16 +99,21 @@ function updateHyperlinkDestinations(pdfDoc: PDFDocument): void {
                 action.set(PDFName.of('D'), newDest);
                 updatedCount++;
                 console.log(`[hyperlinks] Updated link to ${destName}`);
+              } else {
+                console.log(`[hyperlinks] No page recorded for enclosure ${encNum}`);
               }
             }
           }
         }
+      } else {
+        console.log(`[hyperlinks] Link annotation has no /A action, checking /Dest`);
       }
 
       // Also check for direct /Dest on the annotation
       const directDest = annot.get(PDFName.of('Dest'));
       if (directDest) {
         const destName = extractDestinationName(directDest);
+        console.log(`[hyperlinks] Direct dest: "${destName}"`);
         if (destName && destName.startsWith('enclosure')) {
           const encNum = parseInt(destName.replace('enclosure', ''), 10);
           const targetPage = enclosurePageMap.get(encNum);
@@ -120,7 +135,7 @@ function updateHyperlinkDestinations(pdfDoc: PDFDocument): void {
     }
   }
 
-  console.log(`[hyperlinks] Updated ${updatedCount} hyperlink annotations`);
+  console.log(`[hyperlinks] Found ${linkCount} link annotations, updated ${updatedCount}`);
 
   // Clear for next use
   enclosurePageMap.clear();
