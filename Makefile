@@ -131,9 +131,22 @@ WEB_DIR = web-react
 
 #-----------------------------------------------------------------------------
 # Start development server (default: http://localhost:5173)
+# Pulls latest, builds, then starts dev server
 #-----------------------------------------------------------------------------
 .PHONY: dev
-dev: web-install
+dev:
+	@echo "Pulling latest changes..."
+	git pull
+	@echo "Building web application..."
+	$(MAKE) web-build
+	@echo "Starting development server..."
+	cd $(WEB_DIR) && npm run dev
+
+#-----------------------------------------------------------------------------
+# Quick dev - just start dev server without pull/build
+#-----------------------------------------------------------------------------
+.PHONY: dev-quick
+dev-quick: web-install
 	@echo "Starting development server..."
 	cd $(WEB_DIR) && npm run dev
 
@@ -215,7 +228,8 @@ help:
 	@echo "  rebuild            Clean and rebuild"
 	@echo ""
 	@echo "Web Targets:"
-	@echo "  dev                Start dev server (http://localhost:5173)"
+	@echo "  dev                Pull, build, then start dev server"
+	@echo "  dev-quick          Start dev server without pull/build"
 	@echo "  web-build          Build for production"
 	@echo "  web-install        Install npm dependencies"
 	@echo "  lint               Run ESLint"
