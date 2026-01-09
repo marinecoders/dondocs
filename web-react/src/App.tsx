@@ -74,6 +74,7 @@ function App() {
   // PII detection state
   const [piiDetectionResult, setPiiDetectionResult] = useState<PIIDetectionResult | null>(null);
   const pendingDownloadRef = useRef<GeneratedFiles | null>(null);
+  const pendingPiiRetryRef = useRef(false);
 
   // Apply theme to document
   useEffect(() => {
@@ -339,13 +340,38 @@ function App() {
     } catch (err) {
       console.error('Download error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Download failed';
+
+      // If engine reset was needed, schedule retry for when engine is ready again
+      if (errorMessage === 'ENGINE_RESET_NEEDED') {
+        pendingPiiRetryRef.current = true;
+        // Don't clear pendingDownloadRef - we need it for retry
+        // Don't show error, will retry automatically
+        setIsCompiling(false);
+        return;
+      }
+
       setCompileError(`PDF download failed: ${errorMessage}`);
     } finally {
       setIsCompiling(false);
-      pendingDownloadRef.current = null;
-      setPiiDetectionResult(null);
+      // Only clear if not retrying
+      if (!pendingPiiRetryRef.current) {
+        pendingDownloadRef.current = null;
+        setPiiDetectionResult(null);
+      }
     }
   }, [compile, documentStore]);
+
+  // Effect to retry PII-acknowledged download after engine becomes ready again
+  useEffect(() => {
+    if (isReady && pendingPiiRetryRef.current && pendingDownloadRef.current) {
+      pendingPiiRetryRef.current = false;
+      // Small delay to ensure engine is fully ready
+      setTimeout(() => {
+        // Re-run the PII-acknowledged download
+        handleProceedWithPII();
+      }, 100);
+    }
+  }, [isReady, handleProceedWithPII]);
 
   // Handle canceling download after PII warning
   const handleCancelPIIDownload = useCallback(() => {
