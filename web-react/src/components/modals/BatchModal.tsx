@@ -180,14 +180,21 @@ export function BatchModal() {
 
         // Generate LaTeX
         const { texFiles } = generateAllLatexFiles(modifiedStore);
-        const mainTex = texFiles['main.tex'] || '';
 
-        if (!mainTex) {
-          throw new Error('LaTeX generation returned empty content');
+        // Check that body content was generated (main.tex is a static template)
+        const bodyTex = texFiles['body.tex'] || '';
+        if (!bodyTex && documentStore.paragraphs.length > 0) {
+          throw new Error('LaTeX generation returned empty body content');
         }
 
-        // Download the LaTeX file
-        const blob = new Blob([mainTex], { type: 'text/plain' });
+        // Combine all generated files into a single downloadable document
+        // This creates a standalone file with all the generated content
+        const combinedContent = Object.entries(texFiles)
+          .map(([filename, content]) => `%% ========== ${filename} ==========\n${content}`)
+          .join('\n\n');
+
+        // Download the combined LaTeX file
+        const blob = new Blob([combinedContent], { type: 'text/plain' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;

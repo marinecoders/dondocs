@@ -29,10 +29,10 @@ export function AddressingSection({ config }: AddressingSectionProps) {
     setField('ssic', code);
   };
 
-  // Parse via string into array (split by newlines, filter empty)
+  // Parse via string into array (split by newlines, keep empty for editing)
   const viaLines = useMemo(() => {
     if (!formData.via) return [''];
-    const lines = formData.via.split('\n').filter((line) => line.trim() !== '');
+    const lines = formData.via.split('\n');
     return lines.length > 0 ? lines : [''];
   }, [formData.via]);
 

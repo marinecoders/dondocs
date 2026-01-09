@@ -5,10 +5,11 @@ export function escapeLatex(str: string | undefined | null): string {
   if (!str) return '';
 
   // First, extract and protect placeholders before escaping
+  // Use keys without special chars (no underscores - they conflict with underline pattern)
   const placeholderMap: Record<string, string> = {};
   let placeholderIndex = 0;
   let protectedStr = str.replace(/\{\{([A-Za-z0-9_]+)\}\}/g, (_match, name) => {
-    const key = `__PLACEHOLDER_${placeholderIndex++}__`;
+    const key = `ZZZVARPLACEHOLDER${placeholderIndex++}ZZZ`;
     placeholderMap[key] = name;
     return key;
   });
@@ -83,10 +84,11 @@ export function highlightPlaceholders(text: string): string {
  */
 export function processBodyText(text: string): string {
   // First, extract and protect placeholders before escaping
+  // Use keys without special chars (no underscores - they conflict with underline pattern)
   const placeholderMap: Record<string, string> = {};
   let placeholderIndex = 0;
   let protectedText = text.replace(/\{\{([A-Za-z0-9_]+)\}\}/g, (_match, name) => {
-    const key = `__PLACEHOLDER_${placeholderIndex++}__`;
+    const key = `ZZZVARPLACEHOLDER${placeholderIndex++}ZZZ`;
     placeholderMap[key] = name;
     return key;
   });
