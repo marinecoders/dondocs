@@ -612,7 +612,7 @@ ${texFiles['body.tex'] || '% No body content'}
       />
       <AboutModal />
       <NISTComplianceModal />
-      <BatchModal />
+      <BatchModal compile={compile} isEngineReady={isReady} />
       <FindReplaceModal />
       <TemplateLoaderModal />
       <WelcomeModal />

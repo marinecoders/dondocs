@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from 'react';
-import { Plus, Trash2, Download, AlertCircle, FileText, Variable, CheckCircle, XCircle, Copy, Lightbulb } from 'lucide-react';
+import { Plus, Trash2, Download, AlertCircle, FileText, Variable, CheckCircle, XCircle, Copy, Lightbulb, Eye, Loader2 } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -26,7 +26,7 @@ interface PlaceholderValue {
 interface BatchRow {
   id: string;
   values: PlaceholderValue;
-  status?: 'pending' | 'success' | 'error';
+  status?: 'pending' | 'generating' | 'success' | 'error';
   error?: string;
 }
 
@@ -35,6 +35,11 @@ interface BatchResults {
   failed: number;
   total: number;
   errors: Array<{ index: number; error: string }>;
+}
+
+interface BatchModalProps {
+  compile: (files: Record<string, string | Uint8Array>) => Promise<Uint8Array | null>;
+  isEngineReady: boolean;
 }
 
 // Detect placeholders in text (format: {{PLACEHOLDER_NAME}} - case insensitive)
@@ -62,7 +67,7 @@ function copyToClipboard(text: string) {
   navigator.clipboard.writeText(text);
 }
 
-export function BatchModal() {
+export function BatchModal({ compile, isEngineReady }: BatchModalProps) {
   const { batchModalOpen, setBatchModalOpen } = useUIStore();
   const documentStore = useDocumentStore();
 
@@ -71,6 +76,8 @@ export function BatchModal() {
   ]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [lastResults, setLastResults] = useState<BatchResults | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewingRow, setPreviewingRow] = useState<string | null>(null);
 
   // Detect all placeholders from current document
   const detectedPlaceholders = useMemo(() => {
@@ -105,7 +112,7 @@ export function BatchModal() {
   const addRow = useCallback(() => {
     setRows((prev) => [
       ...prev,
-      { id: Date.now().toString(), values: {} },
+      { id: Date.now().toString(), values: {}, status: 'pending' },
     ]);
   }, []);
 
@@ -123,8 +130,83 @@ export function BatchModal() {
     );
   }, []);
 
+  // Create modified store with placeholder replacements
+  const createModifiedStore = useCallback((values: PlaceholderValue) => {
+    return {
+      docType: documentStore.docType,
+      formData: {
+        ...documentStore.formData,
+        to: replacePlaceholders(documentStore.formData.to || '', values),
+        from: replacePlaceholders(documentStore.formData.from || '', values),
+        via: replacePlaceholders(documentStore.formData.via || '', values),
+        subject: replacePlaceholders(documentStore.formData.subject || '', values),
+        serial: replacePlaceholders(documentStore.formData.serial || '', values),
+      },
+      references: documentStore.references.map((ref) => ({
+        ...ref,
+        title: replacePlaceholders(ref.title, values),
+      })),
+      enclosures: documentStore.enclosures.map((encl) => ({
+        ...encl,
+        title: replacePlaceholders(encl.title, values),
+      })),
+      paragraphs: documentStore.paragraphs.map((para) => ({
+        ...para,
+        text: replacePlaceholders(para.text, values),
+      })),
+      copyTos: documentStore.copyTos.map((ct) => ({
+        ...ct,
+        text: replacePlaceholders(ct.text, values),
+      })),
+    };
+  }, [documentStore]);
+
+  // Generate PDF for a single row
+  const generatePdfForRow = useCallback(async (values: PlaceholderValue): Promise<Uint8Array> => {
+    const modifiedStore = createModifiedStore(values);
+    const { texFiles } = generateAllLatexFiles(modifiedStore);
+
+    // Compile LaTeX to PDF
+    const pdf = await compile(texFiles);
+    if (!pdf) {
+      throw new Error('PDF compilation failed');
+    }
+    return pdf;
+  }, [createModifiedStore, compile]);
+
+  // Preview a single row
+  const handlePreview = useCallback(async (row: BatchRow) => {
+    if (!isEngineReady) return;
+
+    setPreviewingRow(row.id);
+    try {
+      const pdf = await generatePdfForRow(row.values);
+      const blob = new Blob([new Uint8Array(pdf)], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+
+      // Clean up old preview URL
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+
+      setPreviewUrl(url);
+    } catch (err) {
+      debug.error('Batch', 'Preview failed', err);
+    } finally {
+      setPreviewingRow(null);
+    }
+  }, [isEngineReady, generatePdfForRow, previewUrl]);
+
+  // Close preview
+  const closePreview = useCallback(() => {
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+    setPreviewUrl(null);
+  }, [previewUrl]);
+
   const handleGenerateBatch = useCallback(async () => {
-    if (rows.length === 0) return;
+    if (rows.length === 0 || !isEngineReady) return;
 
     setIsGenerating(true);
     setLastResults(null);
@@ -142,59 +224,22 @@ export function BatchModal() {
     // Reset all row statuses
     setRows((prev) => prev.map((row) => ({ ...row, status: 'pending' as const, error: undefined })));
 
-    // For each row, generate a separate document
+    // For each row, generate a separate PDF
     for (let i = 0; i < rows.length; i++) {
       const row = rows[i];
 
+      // Mark as generating
+      setRows((prev) =>
+        prev.map((r) => (r.id === row.id ? { ...r, status: 'generating' as const } : r))
+      );
+
       try {
-        debug.log('Batch', `Generating document ${i + 1}/${rows.length}`, row.values);
+        debug.log('Batch', `Generating PDF ${i + 1}/${rows.length}`, row.values);
 
-        // Create a modified version of the document store with placeholder replacements
-        const modifiedStore = {
-          docType: documentStore.docType,
-          formData: {
-            ...documentStore.formData,
-            to: replacePlaceholders(documentStore.formData.to || '', row.values),
-            from: replacePlaceholders(documentStore.formData.from || '', row.values),
-            via: replacePlaceholders(documentStore.formData.via || '', row.values),
-            subject: replacePlaceholders(documentStore.formData.subject || '', row.values),
-            serial: replacePlaceholders(documentStore.formData.serial || '', row.values),
-          },
-          references: documentStore.references.map((ref) => ({
-            ...ref,
-            title: replacePlaceholders(ref.title, row.values),
-          })),
-          enclosures: documentStore.enclosures.map((encl) => ({
-            ...encl,
-            title: replacePlaceholders(encl.title, row.values),
-          })),
-          paragraphs: documentStore.paragraphs.map((para) => ({
-            ...para,
-            text: replacePlaceholders(para.text, row.values),
-          })),
-          copyTos: documentStore.copyTos.map((ct) => ({
-            ...ct,
-            text: replacePlaceholders(ct.text, row.values),
-          })),
-        };
+        const pdf = await generatePdfForRow(row.values);
 
-        // Generate LaTeX
-        const { texFiles } = generateAllLatexFiles(modifiedStore);
-
-        // Check that body content was generated (main.tex is a static template)
-        const bodyTex = texFiles['body.tex'] || '';
-        if (!bodyTex && documentStore.paragraphs.length > 0) {
-          throw new Error('LaTeX generation returned empty body content');
-        }
-
-        // Combine all generated files into a single downloadable document
-        // This creates a standalone file with all the generated content
-        const combinedContent = Object.entries(texFiles)
-          .map(([filename, content]) => `%% ========== ${filename} ==========\n${content}`)
-          .join('\n\n');
-
-        // Download the combined LaTeX file
-        const blob = new Blob([combinedContent], { type: 'text/plain' });
+        // Download the PDF
+        const blob = new Blob([new Uint8Array(pdf)], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -202,7 +247,7 @@ export function BatchModal() {
         // Generate filename from row values or index
         const filenameHint = row.values[detectedPlaceholders[0]] || `document_${i + 1}`;
         const sanitizedFilename = filenameHint.replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 50);
-        a.download = `${sanitizedFilename}.tex`;
+        a.download = `${sanitizedFilename}.pdf`;
         a.click();
         URL.revokeObjectURL(url);
 
@@ -232,7 +277,7 @@ export function BatchModal() {
     debug.log('Batch', 'Batch generation complete', results);
     setLastResults(results);
     setIsGenerating(false);
-  }, [rows, documentStore, detectedPlaceholders]);
+  }, [rows, isEngineReady, generatePdfForRow, detectedPlaceholders]);
 
   const handlePasteData = useCallback((e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
@@ -253,7 +298,7 @@ export function BatchModal() {
         }
       });
 
-      return { id: Date.now().toString() + idx, values };
+      return { id: Date.now().toString() + idx, values, status: 'pending' };
     });
 
     if (newRows.length > 0) {
@@ -264,189 +309,249 @@ export function BatchModal() {
   const hasNoPlaceholders = detectedPlaceholders.length === 0;
 
   return (
-    <Dialog open={batchModalOpen} onOpenChange={setBatchModalOpen}>
-      <DialogContent className="sm:max-w-3xl max-h-[85vh] flex flex-col p-0 gap-0 overflow-hidden">
-        <DialogHeader className="bg-background px-6 py-4 border-b shrink-0">
-          <DialogTitle className="flex items-center gap-2">
-            <FileText className="h-5 w-5" />
-            Batch Generation
-          </DialogTitle>
-        </DialogHeader>
+    <>
+      <Dialog open={batchModalOpen} onOpenChange={setBatchModalOpen}>
+        <DialogContent className="sm:max-w-3xl max-h-[85vh] flex flex-col p-0 gap-0 overflow-hidden">
+          <DialogHeader className="bg-background px-6 py-4 border-b shrink-0">
+            <DialogTitle className="flex items-center gap-2">
+              <FileText className="h-5 w-5" />
+              Batch Generation
+              {!isEngineReady && (
+                <Badge variant="secondary" className="ml-2">
+                  <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                  Engine loading...
+                </Badge>
+              )}
+            </DialogTitle>
+          </DialogHeader>
 
-        <ScrollArea className="flex-1 min-h-0">
-          <div className="p-6 space-y-4">
-            {hasNoPlaceholders ? (
-              <div className="space-y-4">
-                <div className="flex items-start gap-3 p-4 rounded-lg border border-amber-500/30 bg-amber-500/10">
-                  <Lightbulb className="h-5 w-5 text-amber-500 mt-0.5 shrink-0" />
-                  <div className="text-sm">
-                    <p className="font-medium mb-1">No placeholders detected yet</p>
-                    <p className="text-muted-foreground">
-                      Use the <Variable className="h-3 w-3 inline mx-1" /> Variable button next to input fields to insert placeholders,
-                      or type them manually using <code className="bg-muted px-1 rounded">{'{{NAME}}'}</code> format.
+          <ScrollArea className="flex-1 min-h-0">
+            <div className="p-6 space-y-4">
+              {hasNoPlaceholders ? (
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3 p-4 rounded-lg border border-amber-500/30 bg-amber-500/10">
+                    <Lightbulb className="h-5 w-5 text-amber-500 mt-0.5 shrink-0" />
+                    <div className="text-sm">
+                      <p className="font-medium mb-1">No placeholders detected yet</p>
+                      <p className="text-muted-foreground">
+                        Type <code className="bg-muted px-1 rounded">{'{{'}</code> in any text field to insert placeholders,
+                        or type them manually using <code className="bg-muted px-1 rounded">{'{{NAME}}'}</code> format.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-sm">Common Variables (click to copy)</Label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {BATCH_PLACEHOLDERS.slice(0, 8).map((p) => (
+                        <button
+                          key={p.name}
+                          onClick={() => copyToClipboard(`{{${p.name}}}`)}
+                          className="flex items-center justify-between p-2 text-left text-sm rounded border hover:bg-secondary/50 transition-colors group"
+                        >
+                          <div>
+                            <span className="font-medium">{p.label}</span>
+                            <span className="text-xs text-muted-foreground ml-2">{p.example}</span>
+                          </div>
+                          <Copy className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </button>
+                      ))}
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Tip: Add a variable to your Subject line like "PROMOTION OF <code className="bg-muted px-0.5 rounded">{'{{NAME}}'}</code> TO <code className="bg-muted px-0.5 rounded">{'{{RANK}}'}</code>"
                     </p>
                   </div>
                 </div>
-
-                <div className="space-y-2">
-                  <Label className="text-sm">Common Variables (click to copy)</Label>
-                  <div className="grid grid-cols-2 gap-2">
-                    {BATCH_PLACEHOLDERS.slice(0, 8).map((p) => (
-                      <button
-                        key={p.name}
-                        onClick={() => copyToClipboard(`{{${p.name}}}`)}
-                        className="flex items-center justify-between p-2 text-left text-sm rounded border hover:bg-secondary/50 transition-colors group"
-                      >
-                        <div>
-                          <span className="font-medium">{p.label}</span>
-                          <span className="text-xs text-muted-foreground ml-2">{p.example}</span>
-                        </div>
-                        <Copy className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </button>
-                    ))}
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Tip: Add a variable to your Subject line like "PROMOTION OF <code className="bg-muted px-0.5 rounded">{'{{NAME}}'}</code> TO <code className="bg-muted px-0.5 rounded">{'{{RANK}}'}</code>"
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <Variable className="h-4 w-4 text-primary" />
-                    <Label>Detected Placeholders</Label>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {detectedPlaceholders.map((placeholder) => (
-                      <Badge key={placeholder} variant="secondary">
-                        {`{{${placeholder}}}`}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Paste Data (Tab-separated)</Label>
-                  <Textarea
-                    placeholder={`Paste tab-separated data here. Each row becomes a document.\nColumns should match: ${detectedPlaceholders.join(', ')}`}
-                    rows={3}
-                    onPaste={handlePasteData}
-                    className="font-mono text-xs"
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    Tip: Copy data from Excel or a spreadsheet and paste here.
-                  </p>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <Label>Documents to Generate ({rows.length})</Label>
-                    <Button variant="outline" size="sm" onClick={addRow}>
-                      <Plus className="h-4 w-4 mr-1" />
-                      Add Row
-                    </Button>
+              ) : (
+                <>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Variable className="h-4 w-4 text-primary" />
+                      <Label>Detected Placeholders</Label>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {detectedPlaceholders.map((placeholder) => (
+                        <Badge key={placeholder} variant="secondary">
+                          {`{{${placeholder}}}`}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
 
-                  <div className="border rounded-lg overflow-hidden">
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-sm">
-                        <thead className="bg-muted/50">
-                          <tr>
-                            <th className="p-2 text-left font-medium w-10">#</th>
-                            {detectedPlaceholders.map((placeholder) => (
-                              <th key={placeholder} className="p-2 text-left font-medium min-w-[150px]">
-                                {placeholder}
-                              </th>
-                            ))}
-                            <th className="p-2 text-left font-medium w-10"></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {rows.map((row, idx) => (
-                            <tr key={row.id} className={`border-t ${row.status === 'error' ? 'bg-destructive/10' : row.status === 'success' ? 'bg-green-500/10' : ''}`}>
-                              <td className="p-2 text-muted-foreground">
-                                <div className="flex items-center gap-1">
-                                  {row.status === 'success' && <CheckCircle className="h-4 w-4 text-green-500" />}
-                                  {row.status === 'error' && <XCircle className="h-4 w-4 text-destructive" />}
-                                  {(!row.status || row.status === 'pending') && <span>{idx + 1}</span>}
-                                </div>
-                              </td>
+                  <div className="space-y-2">
+                    <Label>Paste Data (Tab-separated)</Label>
+                    <Textarea
+                      placeholder={`Paste tab-separated data here. Each row becomes a document.\nColumns should match: ${detectedPlaceholders.join(', ')}`}
+                      rows={3}
+                      onPaste={handlePasteData}
+                      className="font-mono text-xs"
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Tip: Copy data from Excel or a spreadsheet and paste here.
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <Label>Documents to Generate ({rows.length})</Label>
+                      <Button variant="outline" size="sm" onClick={addRow}>
+                        <Plus className="h-4 w-4 mr-1" />
+                        Add Row
+                      </Button>
+                    </div>
+
+                    <div className="border rounded-lg overflow-hidden">
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead className="bg-muted/50">
+                            <tr>
+                              <th className="p-2 text-left font-medium w-10">#</th>
                               {detectedPlaceholders.map((placeholder) => (
-                                <td key={placeholder} className="p-2">
-                                  <Input
-                                    value={row.values[placeholder] || ''}
-                                    onChange={(e) =>
-                                      updateRowValue(row.id, placeholder, e.target.value)
-                                    }
-                                    placeholder={placeholder}
-                                    className="h-8"
-                                    disabled={isGenerating}
-                                  />
-                                </td>
+                                <th key={placeholder} className="p-2 text-left font-medium min-w-[150px]">
+                                  {placeholder}
+                                </th>
                               ))}
-                              <td className="p-2">
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className="h-8 w-8 text-destructive"
-                                  onClick={() => removeRow(row.id)}
-                                  disabled={rows.length === 1 || isGenerating}
-                                >
-                                  <Trash2 className="h-4 w-4" />
-                                </Button>
-                              </td>
+                              <th className="p-2 text-left font-medium w-20"></th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-
-                  {/* Results Summary */}
-                  {lastResults && (
-                    <div className={`p-4 rounded-lg border ${lastResults.failed > 0 ? 'border-amber-500/30 bg-amber-500/10' : 'border-green-500/30 bg-green-500/10'}`}>
-                      <div className="flex items-center gap-2 mb-2">
-                        {lastResults.failed === 0 ? (
-                          <CheckCircle className="h-5 w-5 text-green-500" />
-                        ) : (
-                          <AlertCircle className="h-5 w-5 text-amber-500" />
-                        )}
-                        <span className="font-medium">
-                          Generation Complete: {lastResults.succeeded}/{lastResults.total} succeeded
-                        </span>
+                          </thead>
+                          <tbody>
+                            {rows.map((row, idx) => (
+                              <tr key={row.id} className={`border-t ${row.status === 'error' ? 'bg-destructive/10' : row.status === 'success' ? 'bg-green-500/10' : ''}`}>
+                                <td className="p-2 text-muted-foreground">
+                                  <div className="flex items-center gap-1">
+                                    {row.status === 'success' && <CheckCircle className="h-4 w-4 text-green-500" />}
+                                    {row.status === 'error' && <XCircle className="h-4 w-4 text-destructive" />}
+                                    {row.status === 'generating' && <Loader2 className="h-4 w-4 animate-spin" />}
+                                    {(!row.status || row.status === 'pending') && <span>{idx + 1}</span>}
+                                  </div>
+                                </td>
+                                {detectedPlaceholders.map((placeholder) => (
+                                  <td key={placeholder} className="p-2">
+                                    <Input
+                                      value={row.values[placeholder] || ''}
+                                      onChange={(e) =>
+                                        updateRowValue(row.id, placeholder, e.target.value)
+                                      }
+                                      placeholder={placeholder}
+                                      className="h-8"
+                                      disabled={isGenerating}
+                                    />
+                                  </td>
+                                ))}
+                                <td className="p-2">
+                                  <div className="flex items-center gap-1">
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      className="h-8 w-8"
+                                      onClick={() => handlePreview(row)}
+                                      disabled={!isEngineReady || isGenerating || previewingRow === row.id}
+                                      title="Preview document"
+                                    >
+                                      {previewingRow === row.id ? (
+                                        <Loader2 className="h-4 w-4 animate-spin" />
+                                      ) : (
+                                        <Eye className="h-4 w-4" />
+                                      )}
+                                    </Button>
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      className="h-8 w-8 text-destructive"
+                                      onClick={() => removeRow(row.id)}
+                                      disabled={rows.length === 1 || isGenerating}
+                                    >
+                                      <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
-                      {lastResults.errors.length > 0 && (
-                        <div className="text-sm space-y-1 mt-2">
-                          <p className="text-destructive font-medium">Errors:</p>
-                          {lastResults.errors.map((err) => (
-                            <p key={err.index} className="text-muted-foreground">
-                              Document #{err.index}: {err.error}
-                            </p>
-                          ))}
-                        </div>
-                      )}
                     </div>
-                  )}
-                </div>
-              </>
+
+                    {/* Results Summary */}
+                    {lastResults && (
+                      <div className={`p-4 rounded-lg border ${lastResults.failed > 0 ? 'border-amber-500/30 bg-amber-500/10' : 'border-green-500/30 bg-green-500/10'}`}>
+                        <div className="flex items-center gap-2 mb-2">
+                          {lastResults.failed === 0 ? (
+                            <CheckCircle className="h-5 w-5 text-green-500" />
+                          ) : (
+                            <AlertCircle className="h-5 w-5 text-amber-500" />
+                          )}
+                          <span className="font-medium">
+                            Generation Complete: {lastResults.succeeded}/{lastResults.total} succeeded
+                          </span>
+                        </div>
+                        {lastResults.errors.length > 0 && (
+                          <div className="text-sm space-y-1 mt-2">
+                            <p className="text-destructive font-medium">Errors:</p>
+                            {lastResults.errors.map((err) => (
+                              <p key={err.index} className="text-muted-foreground">
+                                Document #{err.index}: {err.error}
+                              </p>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
+          </ScrollArea>
+
+          <DialogFooter className="bg-background px-6 py-4 border-t shrink-0">
+            <Button variant="outline" onClick={() => setBatchModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              onClick={handleGenerateBatch}
+              disabled={hasNoPlaceholders || isGenerating || rows.length === 0 || !isEngineReady}
+            >
+              {isGenerating ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Download className="h-4 w-4 mr-2" />
+                  Generate {rows.length} PDFs
+                </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Preview Dialog */}
+      <Dialog open={!!previewUrl} onOpenChange={(open) => !open && closePreview()}>
+        <DialogContent className="sm:max-w-4xl h-[85vh] flex flex-col p-0 gap-0">
+          <DialogHeader className="bg-background px-6 py-4 border-b shrink-0">
+            <DialogTitle className="flex items-center gap-2">
+              <Eye className="h-5 w-5" />
+              Document Preview
+            </DialogTitle>
+          </DialogHeader>
+          <div className="flex-1 min-h-0">
+            {previewUrl && (
+              <iframe
+                src={previewUrl}
+                className="w-full h-full border-0"
+                title="Document Preview"
+              />
             )}
           </div>
-        </ScrollArea>
-
-        <DialogFooter className="bg-background px-6 py-4 border-t shrink-0">
-          <Button variant="outline" onClick={() => setBatchModalOpen(false)}>
-            Cancel
-          </Button>
-          <Button
-            onClick={handleGenerateBatch}
-            disabled={hasNoPlaceholders || isGenerating || rows.length === 0}
-          >
-            <Download className="h-4 w-4 mr-2" />
-            {isGenerating ? 'Generating...' : `Generate ${rows.length} Documents`}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          <DialogFooter className="bg-background px-6 py-4 border-t shrink-0">
+            <Button variant="outline" onClick={closePreview}>
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
