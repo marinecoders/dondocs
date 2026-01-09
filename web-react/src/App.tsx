@@ -345,7 +345,7 @@ function App() {
       pendingDownloadRef.current = null;
       setPiiDetectionResult(null);
     }
-  }, [compile, documentStore.formData.classLevel]);
+  }, [compile, documentStore]);
 
   // Handle canceling download after PII warning
   const handleCancelPIIDownload = useCallback(() => {
