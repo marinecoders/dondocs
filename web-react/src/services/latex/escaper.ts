@@ -28,8 +28,10 @@ export function escapeLatex(str: string | undefined | null): string {
     .replace(/\^/g, '\\textasciicircum{}');
 
   // Restore placeholders with highlighted LaTeX rendering
+  // Escape underscores in the placeholder name for LaTeX text mode
   for (const [key, name] of Object.entries(placeholderMap)) {
-    result = result.replace(key, `\\fcolorbox{orange}{yellow!30}{\\textsf{\\small ${name}}}`);
+    const escapedName = name.replace(/_/g, '\\_');
+    result = result.replace(key, `\\fcolorbox{orange}{yellow!30}{\\textsf{\\small ${escapedName}}}`);
   }
 
   return result;
@@ -74,8 +76,10 @@ export function convertRichTextToLatex(text: string): string {
 export function highlightPlaceholders(text: string): string {
   // Match {{PLACEHOLDER_NAME}} pattern (case insensitive)
   return text.replace(/\{\{([A-Za-z0-9_]+)\}\}/g, (_match, name) => {
+    // Escape underscores in the placeholder name for LaTeX text mode
+    const escapedName = name.replace(/_/g, '\\_');
     // Render as highlighted box with the placeholder name
-    return `\\fcolorbox{orange}{yellow!30}{\\textsf{\\small ${name}}}`;
+    return `\\fcolorbox{orange}{yellow!30}{\\textsf{\\small ${escapedName}}}`;
   });
 }
 
@@ -112,8 +116,10 @@ export function processBodyText(text: string): string {
   result = convertRichTextToLatex(result);
 
   // Restore placeholders with highlighted LaTeX rendering
+  // Escape underscores in the placeholder name for LaTeX text mode
   for (const [key, name] of Object.entries(placeholderMap)) {
-    result = result.replace(key, `\\fcolorbox{orange}{yellow!30}{\\textsf{\\small ${name}}}`);
+    const escapedName = name.replace(/_/g, '\\_');
+    result = result.replace(key, `\\fcolorbox{orange}{yellow!30}{\\textsf{\\small ${escapedName}}}`);
   }
 
   return result;
