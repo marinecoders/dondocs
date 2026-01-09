@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, type ChangeEvent } from 'react';
-import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, FolderOpen, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check } from 'lucide-react';
+import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, FolderOpen, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Palette, Anchor, Medal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -47,7 +47,7 @@ export function Header({
   onRefreshPreview,
   isCompiling,
 }: HeaderProps) {
-  const { theme, toggleTheme, density, setDensity, autoSaveStatus, setAboutModalOpen, setNistModalOpen, setBatchModalOpen, setTemplateLoaderOpen, setFindReplaceOpen } = useUIStore();
+  const { theme, toggleTheme, colorScheme, setColorScheme, density, setDensity, autoSaveStatus, setAboutModalOpen, setNistModalOpen, setBatchModalOpen, setTemplateLoaderOpen, setFindReplaceOpen } = useUIStore();
   const documentStore = useDocumentStore();
   const { resetForm } = useDocumentStore();
   const [showResetDialog, setShowResetDialog] = useState(false);
@@ -462,6 +462,38 @@ export function Header({
             </Button>
           </div>
 
+          {/* Color scheme toggle */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" title="Color scheme" className="h-8 w-8 sm:h-9 sm:w-9">
+                <Palette className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setColorScheme('default')} className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <Palette className="h-4 w-4 mr-2" />
+                  Default
+                </div>
+                {colorScheme === 'default' && <Check className="h-4 w-4 ml-2" />}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setColorScheme('navy')} className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <Anchor className="h-4 w-4 mr-2" />
+                  Navy
+                </div>
+                {colorScheme === 'navy' && <Check className="h-4 w-4 ml-2" />}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setColorScheme('usmc')} className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <Medal className="h-4 w-4 mr-2" />
+                  USMC
+                </div>
+                {colorScheme === 'usmc' && <Check className="h-4 w-4 ml-2" />}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           {/* Density toggle */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -544,6 +576,28 @@ export function Header({
               <DropdownMenuItem onClick={() => useLogStore.getState().setOpen(true)}>
                 <ScrollText className="h-4 w-4 mr-2" />
                 View Logs
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => setColorScheme('default')} className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <Palette className="h-4 w-4 mr-2" />
+                  Default Theme
+                </div>
+                {colorScheme === 'default' && <Check className="h-4 w-4" />}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setColorScheme('navy')} className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <Anchor className="h-4 w-4 mr-2" />
+                  Navy Theme
+                </div>
+                {colorScheme === 'navy' && <Check className="h-4 w-4" />}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setColorScheme('usmc')} className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <Medal className="h-4 w-4 mr-2" />
+                  USMC Theme
+                </div>
+                {colorScheme === 'usmc' && <Check className="h-4 w-4" />}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => setDensity('compact')} className="flex items-center justify-between">

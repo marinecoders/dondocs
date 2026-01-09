@@ -49,6 +49,7 @@ function getClassificationInfo(classLevel: string | undefined): ClassificationIn
 function App() {
   const {
     theme,
+    colorScheme,
     density,
     setIsMobile,
     setFindReplaceOpen,
@@ -83,6 +84,11 @@ function App() {
   useEffect(() => {
     document.documentElement.dataset.density = density;
   }, [density]);
+
+  // Apply color scheme to document
+  useEffect(() => {
+    document.documentElement.dataset.scheme = colorScheme;
+  }, [colorScheme]);
 
   // Detect mobile
   useEffect(() => {

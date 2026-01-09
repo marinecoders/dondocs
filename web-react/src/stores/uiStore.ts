@@ -2,12 +2,17 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 export type DensityMode = 'compact' | 'comfortable' | 'spacious';
+export type ColorScheme = 'default' | 'navy' | 'usmc';
 
 interface UIState {
   // Theme
   theme: 'dark' | 'light';
   toggleTheme: () => void;
   setTheme: (theme: 'dark' | 'light') => void;
+
+  // Color Scheme
+  colorScheme: ColorScheme;
+  setColorScheme: (scheme: ColorScheme) => void;
 
   // Density
   density: DensityMode;
@@ -61,6 +66,10 @@ export const useUIStore = create<UIState>()(
         theme: state.theme === 'dark' ? 'light' : 'dark',
       })),
       setTheme: (theme) => set({ theme }),
+
+      // Color Scheme - default
+      colorScheme: 'default',
+      setColorScheme: (colorScheme) => set({ colorScheme }),
 
       // Density - default comfortable
       density: 'comfortable',
@@ -120,6 +129,7 @@ export const useUIStore = create<UIState>()(
       name: 'libo_ui',
       partialize: (state) => ({
         theme: state.theme,
+        colorScheme: state.colorScheme,
         density: state.density,
         previewVisible: state.previewVisible,
       }),
