@@ -342,6 +342,18 @@ export function Header({
             </DropdownMenuContent>
           </DropdownMenu>
 
+          {/* Templates button - desktop only */}
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 px-2 sm:px-3 hidden md:flex"
+            onClick={() => setTemplateLoaderOpen(true)}
+            title="Load document templates"
+          >
+            <FolderOpen className="h-4 w-4 sm:mr-2" />
+            <span className="hidden sm:inline">Templates</span>
+          </Button>
+
           {/* Batch Generation button - desktop only */}
           <Button
             variant="outline"
@@ -363,10 +375,6 @@ export function Header({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setTemplateLoaderOpen(true)}>
-                <FolderOpen className="h-4 w-4 mr-2" />
-                Templates
-              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setFindReplaceOpen(true)}>
                 <Search className="h-4 w-4 mr-2" />
                 Find & Replace

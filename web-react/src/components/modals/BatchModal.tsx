@@ -425,7 +425,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                   </div>
 
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between sticky top-0 bg-background z-10 py-1">
                       <Label>Documents to Generate ({rows.length})</Label>
                       <Button variant="outline" size="sm" onClick={addRow}>
                         <Plus className="h-4 w-4 mr-1" />
@@ -433,9 +433,8 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                       </Button>
                     </div>
 
-                    <div className="border rounded-lg overflow-hidden">
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
+                    <div className="border rounded-lg overflow-x-auto max-w-full">
+                      <table className="text-sm min-w-max">
                           <thead className="bg-muted/50">
                             <tr>
                               <th className="px-2 py-2 text-left font-medium w-8">#</th>
@@ -502,7 +501,6 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                             ))}
                           </tbody>
                         </table>
-                      </div>
                     </div>
 
                     {/* Results Summary */}
