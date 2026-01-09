@@ -213,23 +213,30 @@
 }
 
 [data-scheme="navy"]:not(.dark) {
-  --background: oklch(0.98 0.005 85);  /* Off-white with warm tint */
+  --background: oklch(0.97 0.01 250);  /* Very light navy-tinted white */
   --foreground: oklch(0.20 0.05 250);  /* Dark navy #002B5C */
-  --card: oklch(1 0 0);  /* White */
+  --card: oklch(0.99 0.005 250);  /* Near-white with navy hint */
   --card-foreground: oklch(0.20 0.05 250);
-  --popover: oklch(1 0 0);
+  --popover: oklch(0.99 0.005 250);
   --popover-foreground: oklch(0.20 0.05 250);
-  --primary: oklch(0.50 0.12 85);  /* Darker gold for light mode */
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.95 0.02 85);  /* Light gold tint */
+  --primary: oklch(0.30 0.08 250);  /* Navy Blue as primary */
+  --primary-foreground: oklch(0.95 0.02 85);  /* Light gold text */
+  --secondary: oklch(0.92 0.03 250);  /* Light navy tint */
   --secondary-foreground: oklch(0.20 0.05 250);
-  --muted: oklch(0.95 0.02 250);
-  --muted-foreground: oklch(0.40 0.05 250);
-  --accent: oklch(0.92 0.04 85);
+  --muted: oklch(0.94 0.02 250);  /* Light navy muted */
+  --muted-foreground: oklch(0.40 0.05 250);  /* Medium navy */
+  --accent: oklch(0.58 0.12 85);  /* Gold #A77C29 for accents */
   --accent-foreground: oklch(0.20 0.05 250);
-  --border: oklch(0.88 0.02 85);
-  --input: oklch(0.92 0.01 85);
-  --ring: oklch(0.50 0.12 85);
+  --border: oklch(0.85 0.04 250);  /* Navy-tinted border */
+  --input: oklch(0.95 0.02 250);
+  --ring: oklch(0.30 0.08 250);  /* Navy ring */
+  --sidebar: oklch(0.95 0.02 250);
+  --sidebar-foreground: oklch(0.20 0.05 250);
+  --sidebar-primary: oklch(0.30 0.08 250);
+  --sidebar-primary-foreground: oklch(0.95 0.02 85);
+  --sidebar-accent: oklch(0.90 0.03 250);
+  --sidebar-accent-foreground: oklch(0.20 0.05 250);
+  --sidebar-border: oklch(0.85 0.04 250);
 }
 
 /* USMC Color Scheme - Official Scarlet (#CC0000) + Gold (#A77C29) */
@@ -270,23 +277,30 @@
 }
 
 [data-scheme="usmc"]:not(.dark) {
-  --background: oklch(0.98 0.005 85);  /* Off-white */
+  --background: oklch(0.98 0.01 85);  /* Cream/off-white with gold warmth */
   --foreground: oklch(0.25 0.08 27);  /* Dark with scarlet tint */
-  --card: oklch(1 0 0);  /* White */
+  --card: oklch(0.99 0.005 85);  /* Near-white with warm tint */
   --card-foreground: oklch(0.25 0.08 27);
-  --popover: oklch(1 0 0);
+  --popover: oklch(0.99 0.005 85);
   --popover-foreground: oklch(0.25 0.08 27);
-  --primary: oklch(0.48 0.22 27);  /* Scarlet #CC0000 for light mode */
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.95 0.02 85);  /* Light gold tint */
+  --primary: oklch(0.52 0.22 27);  /* Scarlet #CC0000 */
+  --primary-foreground: oklch(0.98 0.01 85);  /* Off-white text */
+  --secondary: oklch(0.94 0.03 85);  /* Light gold tint */
   --secondary-foreground: oklch(0.25 0.08 27);
-  --muted: oklch(0.95 0.01 27);
-  --muted-foreground: oklch(0.45 0.10 27);
-  --accent: oklch(0.92 0.04 85);  /* Light gold */
+  --muted: oklch(0.95 0.02 85);  /* Light gold muted */
+  --muted-foreground: oklch(0.45 0.08 27);  /* Medium scarlet */
+  --accent: oklch(0.58 0.12 85);  /* Gold #A77C29 for accents */
   --accent-foreground: oklch(0.25 0.08 27);
-  --border: oklch(0.88 0.02 27);
-  --input: oklch(0.92 0.01 27);
-  --ring: oklch(0.48 0.22 27);
+  --border: oklch(0.88 0.04 85);  /* Gold-tinted border */
+  --input: oklch(0.96 0.02 85);
+  --ring: oklch(0.52 0.22 27);  /* Scarlet ring */
+  --sidebar: oklch(0.96 0.02 85);
+  --sidebar-foreground: oklch(0.25 0.08 27);
+  --sidebar-primary: oklch(0.52 0.22 27);
+  --sidebar-primary-foreground: oklch(0.98 0.01 85);
+  --sidebar-accent: oklch(0.92 0.04 85);
+  --sidebar-accent-foreground: oklch(0.25 0.08 27);
+  --sidebar-border: oklch(0.88 0.04 85);
 }
 
 .dark {

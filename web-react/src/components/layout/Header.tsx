@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, type ChangeEvent } from 'react';
-import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, FolderOpen, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Palette, Anchor, Medal } from 'lucide-react';
+import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, FolderOpen, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Palette, Anchor, Medal, Wrench, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -18,11 +18,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { uint8ArrayToBase64, base64ToUint8Array, arrayBufferToUint8Array } from '@/lib/encoding';
@@ -343,206 +338,15 @@ export function Header({
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Desktop-only buttons */}
-          <div className="hidden md:flex items-center gap-2">
-            {/* Templates */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setTemplateLoaderOpen(true)}
-              title="Load a pre-built letter template"
-              className="h-8"
-            >
-              <FolderOpen className="h-4 w-4 mr-2" />
-              Templates
-            </Button>
-
-            {/* Batch Generation */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setBatchModalOpen(true)}
-              title="Generate multiple documents with placeholders"
-              className="h-8"
-            >
-              <Layers className="h-4 w-4 mr-2" />
-              Batch
-            </Button>
-
-            {/* Find & Replace */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setFindReplaceOpen(true)}
-              title="Find & Replace (Ctrl+H)"
-              className="h-8 w-8"
-            >
-              <Search className="h-4 w-4" />
-            </Button>
-
-            {/* GitHub links */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => window.open(GITHUB_REPO_URL, '_blank')}
-              title="View on GitHub"
-              className="h-8 w-8"
-            >
-              <Github className="h-4 w-4" />
-            </Button>
-
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => window.open(GITHUB_ISSUES_URL, '_blank')}
-              title="Report a Bug"
-              className="h-8 w-8"
-            >
-              <Bug className="h-4 w-4" />
-            </Button>
-
-            {/* Log Viewer */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => useLogStore.getState().setOpen(true)}
-              title="View Logs"
-              className="h-8 w-8"
-            >
-              <ScrollText className="h-4 w-4" />
-            </Button>
-
-            {/* Keyboard Shortcuts */}
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="ghost" size="icon" title="Keyboard Shortcuts" className="h-8 w-8">
-                  <Keyboard className="h-4 w-4" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-72" align="end">
-                <div className="space-y-2">
-                  <h4 className="font-medium text-sm mb-3">Keyboard Shortcuts</h4>
-                  <div className="grid grid-cols-2 gap-1 text-xs">
-                    <div className="text-muted-foreground">Download PDF</div>
-                    <div className="font-mono text-right">Ctrl+D</div>
-                    <div className="text-muted-foreground">Print</div>
-                    <div className="font-mono text-right">Ctrl+P</div>
-                    <div className="text-muted-foreground">Save Draft</div>
-                    <div className="font-mono text-right">Ctrl+S</div>
-                    <div className="text-muted-foreground">Find & Replace</div>
-                    <div className="font-mono text-right">Ctrl+H</div>
-                    <div className="text-muted-foreground">Toggle Preview</div>
-                    <div className="font-mono text-right">Ctrl+E</div>
-                    <div className="text-muted-foreground">Templates</div>
-                    <div className="font-mono text-right">Ctrl+Shift+T</div>
-                    <div className="text-muted-foreground">References</div>
-                    <div className="font-mono text-right">Ctrl+Shift+R</div>
-                    <div className="text-muted-foreground">Undo</div>
-                    <div className="font-mono text-right">Ctrl+Z</div>
-                    <div className="text-muted-foreground">Redo</div>
-                    <div className="font-mono text-right">Ctrl+Y</div>
-                    <div className="text-muted-foreground">Close Modal</div>
-                    <div className="font-mono text-right">Escape</div>
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-3 pt-2 border-t">
-                    Mac users: Use Cmd instead of Ctrl
-                  </p>
-                </div>
-              </PopoverContent>
-            </Popover>
-
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setAboutModalOpen(true)}
-              title="About libo-secured"
-              className="h-8 w-8"
-            >
-              <Info className="h-4 w-4" />
-            </Button>
-          </div>
-
-          {/* Color scheme toggle */}
+          {/* Tools dropdown - desktop only */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" title="Color scheme" className="h-8 w-8 sm:h-9 sm:w-9">
-                <Palette className="h-4 w-4" />
+              <Button variant="outline" size="sm" className="h-8 px-2 sm:px-3 hidden md:flex">
+                <Wrench className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Tools</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setColorScheme('default')} className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <Palette className="h-4 w-4 mr-2" />
-                  Default
-                </div>
-                {colorScheme === 'default' && <Check className="h-4 w-4 ml-2" />}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setColorScheme('navy')} className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <Anchor className="h-4 w-4 mr-2" />
-                  Navy
-                </div>
-                {colorScheme === 'navy' && <Check className="h-4 w-4 ml-2" />}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setColorScheme('usmc')} className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <Medal className="h-4 w-4 mr-2" />
-                  USMC
-                </div>
-                {colorScheme === 'usmc' && <Check className="h-4 w-4 ml-2" />}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          {/* Density toggle */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" title="Display density" className="h-8 w-8 sm:h-9 sm:w-9">
-                <SlidersHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setDensity('compact')} className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <Minimize2 className="h-4 w-4 mr-2" />
-                  Compact
-                </div>
-                {density === 'compact' && <Check className="h-4 w-4 ml-2" />}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setDensity('comfortable')} className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <SlidersHorizontal className="h-4 w-4 mr-2" />
-                  Comfortable
-                </div>
-                {density === 'comfortable' && <Check className="h-4 w-4 ml-2" />}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setDensity('spacious')} className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <Maximize2 className="h-4 w-4 mr-2" />
-                  Spacious
-                </div>
-                {density === 'spacious' && <Check className="h-4 w-4 ml-2" />}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          {/* Theme toggle - always visible */}
-          <Button variant="ghost" size="icon" onClick={toggleTheme} title="Toggle theme" className="h-8 w-8 sm:h-9 sm:w-9">
-            {theme === 'dark' ? (
-              <Sun className="h-4 w-4" />
-            ) : (
-              <Moon className="h-4 w-4" />
-            )}
-          </Button>
-
-          {/* Mobile menu - only visible on mobile */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 md:hidden">
-                <Menu className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuItem onClick={() => setTemplateLoaderOpen(true)}>
                 <FolderOpen className="h-4 w-4 mr-2" />
                 Templates
@@ -555,14 +359,24 @@ export function Header({
                 <Search className="h-4 w-4 mr-2" />
                 Find & Replace
               </DropdownMenuItem>
-              <DropdownMenuSeparator />
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* Help dropdown - desktop only */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" title="Help & Info" className="h-8 w-8 hidden md:flex">
+                <HelpCircle className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-72">
               <DropdownMenuItem onClick={() => setNistModalOpen(true)}>
                 <Shield className="h-4 w-4 mr-2" />
-                NIST 800-171 Info
+                NIST 800-171 Compliance
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setAboutModalOpen(true)}>
                 <Info className="h-4 w-4 mr-2" />
-                About
+                About libo-secured
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => window.open(GITHUB_REPO_URL, '_blank')}>
@@ -578,28 +392,72 @@ export function Header({
                 View Logs
               </DropdownMenuItem>
               <DropdownMenuSeparator />
+              <div className="px-2 py-1.5">
+                <h4 className="font-medium text-sm mb-2 flex items-center">
+                  <Keyboard className="h-4 w-4 mr-2" />
+                  Keyboard Shortcuts
+                </h4>
+                <div className="grid grid-cols-2 gap-1 text-xs">
+                  <div className="text-muted-foreground">Download PDF</div>
+                  <div className="font-mono text-right">Ctrl+D</div>
+                  <div className="text-muted-foreground">Save Draft</div>
+                  <div className="font-mono text-right">Ctrl+S</div>
+                  <div className="text-muted-foreground">Find & Replace</div>
+                  <div className="font-mono text-right">Ctrl+H</div>
+                  <div className="text-muted-foreground">Toggle Preview</div>
+                  <div className="font-mono text-right">Ctrl+E</div>
+                  <div className="text-muted-foreground">Undo / Redo</div>
+                  <div className="font-mono text-right">Ctrl+Z/Y</div>
+                </div>
+                <p className="text-xs text-muted-foreground mt-2 pt-1 border-t">
+                  Mac: Use Cmd instead of Ctrl
+                </p>
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* Appearance dropdown - combines theme, color scheme, density */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" title="Appearance" className="h-8 w-8 sm:h-9 sm:w-9">
+                <Settings className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              {/* Theme */}
+              <DropdownMenuItem onClick={toggleTheme} className="flex items-center justify-between">
+                <div className="flex items-center">
+                  {theme === 'dark' ? <Sun className="h-4 w-4 mr-2" /> : <Moon className="h-4 w-4 mr-2" />}
+                  {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              {/* Color schemes */}
+              <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Color Scheme</div>
               <DropdownMenuItem onClick={() => setColorScheme('default')} className="flex items-center justify-between">
                 <div className="flex items-center">
                   <Palette className="h-4 w-4 mr-2" />
-                  Default Theme
+                  Default
                 </div>
                 {colorScheme === 'default' && <Check className="h-4 w-4" />}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setColorScheme('navy')} className="flex items-center justify-between">
                 <div className="flex items-center">
                   <Anchor className="h-4 w-4 mr-2" />
-                  Navy Theme
+                  Navy
                 </div>
                 {colorScheme === 'navy' && <Check className="h-4 w-4" />}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setColorScheme('usmc')} className="flex items-center justify-between">
                 <div className="flex items-center">
                   <Medal className="h-4 w-4 mr-2" />
-                  USMC Theme
+                  USMC
                 </div>
                 {colorScheme === 'usmc' && <Check className="h-4 w-4" />}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
+              {/* Density */}
+              <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Density</div>
               <DropdownMenuItem onClick={() => setDensity('compact')} className="flex items-center justify-between">
                 <div className="flex items-center">
                   <Minimize2 className="h-4 w-4 mr-2" />
@@ -620,6 +478,50 @@ export function Header({
                   Spacious
                 </div>
                 {density === 'spacious' && <Check className="h-4 w-4" />}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* Mobile menu - only visible on mobile */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-8 w-8 md:hidden">
+                <Menu className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-52">
+              {/* Tools section */}
+              <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Tools</div>
+              <DropdownMenuItem onClick={() => setTemplateLoaderOpen(true)}>
+                <FolderOpen className="h-4 w-4 mr-2" />
+                Templates
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setBatchModalOpen(true)}>
+                <Layers className="h-4 w-4 mr-2" />
+                Batch Generation
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFindReplaceOpen(true)}>
+                <Search className="h-4 w-4 mr-2" />
+                Find & Replace
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              {/* Help section */}
+              <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Help</div>
+              <DropdownMenuItem onClick={() => setNistModalOpen(true)}>
+                <Shield className="h-4 w-4 mr-2" />
+                NIST 800-171
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setAboutModalOpen(true)}>
+                <Info className="h-4 w-4 mr-2" />
+                About
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => window.open(GITHUB_REPO_URL, '_blank')}>
+                <Github className="h-4 w-4 mr-2" />
+                GitHub
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => window.open(GITHUB_ISSUES_URL, '_blank')}>
+                <Bug className="h-4 w-4 mr-2" />
+                Report Bug
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
