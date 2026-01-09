@@ -30,7 +30,7 @@ export function escapeLatex(str: string | undefined | null): string {
   // Restore placeholders with highlighted LaTeX rendering
   // Escape underscores in the placeholder name for LaTeX text mode
   for (const [key, name] of Object.entries(placeholderMap)) {
-    const escapedName = name.replace(/_/g, '\\\\_');
+    const escapedName = name.replace(/_/g, '\\_');
     result = result.replace(key, `\\fcolorbox{orange}{yellow!30}{\\textsf{\\small ${escapedName}}}`);
   }
 
@@ -77,7 +77,7 @@ export function highlightPlaceholders(text: string): string {
   // Match {{PLACEHOLDER_NAME}} pattern (case insensitive)
   return text.replace(/\{\{([A-Za-z0-9_]+)\}\}/g, (_match, name) => {
     // Escape underscores in the placeholder name for LaTeX text mode
-    const escapedName = name.replace(/_/g, '\\\\_');
+    const escapedName = name.replace(/_/g, '\\_');
     // Render as highlighted box with the placeholder name
     return `\\fcolorbox{orange}{yellow!30}{\\textsf{\\small ${escapedName}}}`;
   });
@@ -118,7 +118,7 @@ export function processBodyText(text: string): string {
   // Restore placeholders with highlighted LaTeX rendering
   // Escape underscores in the placeholder name for LaTeX text mode
   for (const [key, name] of Object.entries(placeholderMap)) {
-    const escapedName = name.replace(/_/g, '\\\\_');
+    const escapedName = name.replace(/_/g, '\\_');
     result = result.replace(key, `\\fcolorbox{orange}{yellow!30}{\\textsf{\\small ${escapedName}}}`);
   }
 
