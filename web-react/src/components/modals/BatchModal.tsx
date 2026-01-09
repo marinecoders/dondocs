@@ -12,7 +12,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
@@ -358,8 +357,8 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
             </div>
           )}
 
-          <ScrollArea className="flex-1 min-h-0">
-            <div className="p-6 space-y-4">
+          <div className="flex-1 min-h-0 overflow-auto">
+            <div className="p-6 space-y-4 min-w-0">
               {hasNoPlaceholders ? (
                 <div className="space-y-4">
                   <div className="flex items-start gap-3 p-4 rounded-lg border border-amber-500/30 bg-amber-500/10">
@@ -433,23 +432,23 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                       </Button>
                     </div>
 
-                    <div className="border rounded-lg overflow-x-auto max-w-full">
-                      <table className="text-sm min-w-max">
+                    <div className="border rounded-lg overflow-x-auto">
+                      <table className="text-sm w-full">
                           <thead className="bg-muted/50">
                             <tr>
-                              <th className="px-2 py-2 text-left font-medium w-8">#</th>
+                              <th className="px-2 py-2 text-left font-medium w-8 whitespace-nowrap">#</th>
                               {detectedPlaceholders.map((placeholder) => (
-                                <th key={placeholder} className="px-2 py-2 text-left font-medium min-w-[120px]">
+                                <th key={placeholder} className="px-1 py-2 text-left font-medium whitespace-nowrap text-xs">
                                   {placeholder}
                                 </th>
                               ))}
-                              <th className="px-1 py-2 text-left font-medium w-16"></th>
+                              <th className="px-1 py-2 text-left font-medium w-14"></th>
                             </tr>
                           </thead>
                           <tbody>
                             {rows.map((row, idx) => (
                               <tr key={row.id} className={`border-t ${row.status === 'error' ? 'bg-destructive/10' : row.status === 'success' ? 'bg-green-500/10' : ''}`}>
-                                <td className="px-2 py-2 text-muted-foreground">
+                                <td className="px-2 py-1 text-muted-foreground">
                                   <div className="flex items-center gap-1">
                                     {row.status === 'success' && <CheckCircle className="h-4 w-4 text-green-500" />}
                                     {row.status === 'error' && <XCircle className="h-4 w-4 text-destructive" />}
@@ -458,14 +457,14 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                                   </div>
                                 </td>
                                 {detectedPlaceholders.map((placeholder) => (
-                                  <td key={placeholder} className="px-2 py-2">
+                                  <td key={placeholder} className="px-1 py-1">
                                     <Input
                                       value={row.values[placeholder] || ''}
                                       onChange={(e) =>
                                         updateRowValue(row.id, placeholder, e.target.value)
                                       }
-                                      placeholder={placeholder}
-                                      className="h-8"
+                                      placeholder={placeholder.substring(0, 8)}
+                                      className="h-7 w-24 text-xs"
                                       disabled={isGenerating}
                                     />
                                   </td>
@@ -532,7 +531,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                 </>
               )}
             </div>
-          </ScrollArea>
+          </div>
 
           <DialogFooter className="bg-background px-6 py-4 border-t shrink-0">
             <Button variant="outline" onClick={() => setBatchModalOpen(false)}>
