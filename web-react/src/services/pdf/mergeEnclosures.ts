@@ -62,41 +62,65 @@ function findEnclosureReferences(pdfDoc: PDFDocument, mainPageCount: number): Te
   // Only scan the main document pages (before enclosures were added)
   for (let pageIdx = 0; pageIdx < Math.min(mainPageCount, pages.length); pageIdx++) {
     const page = pages[pageIdx];
-    const contentStreamRefs = page.node.Contents();
 
-    if (!contentStreamRefs) continue;
+    try {
+      // Access content stream through the page node
+      const contentsEntry = page.node.get(PDFName.of('Contents'));
+      console.log(`[hyperlinks] Page ${pageIdx + 1} Contents type: ${contentsEntry?.constructor?.name || 'undefined'}`);
 
-    // Get the raw content stream bytes
-    let contentBytes: Uint8Array | undefined;
-
-    if (contentStreamRefs instanceof PDFRef) {
-      const stream = pdfDoc.context.lookup(contentStreamRefs);
-      if (stream && 'getContents' in stream) {
-        contentBytes = (stream as { getContents(): Uint8Array }).getContents();
+      if (!contentsEntry) {
+        console.log(`[hyperlinks] Page ${pageIdx + 1} has no Contents entry`);
+        continue;
       }
-    } else if (contentStreamRefs instanceof PDFArray) {
-      // Multiple content streams - concatenate them
-      const allBytes: number[] = [];
-      for (let i = 0; i < contentStreamRefs.size(); i++) {
-        const ref = contentStreamRefs.get(i);
-        if (ref instanceof PDFRef) {
-          const stream = pdfDoc.context.lookup(ref);
-          if (stream && 'getContents' in stream) {
-            const bytes = (stream as { getContents(): Uint8Array }).getContents();
-            allBytes.push(...bytes);
+
+      // Get the raw content stream bytes
+      let contentBytes: Uint8Array | undefined;
+
+      // Resolve the reference to get the actual stream
+      const resolvedContents = page.node.lookup(PDFName.of('Contents'));
+      console.log(`[hyperlinks] Page ${pageIdx + 1} resolved Contents type: ${resolvedContents?.constructor?.name || 'undefined'}`);
+
+      if (resolvedContents instanceof PDFRef) {
+        const stream = pdfDoc.context.lookup(resolvedContents);
+        console.log(`[hyperlinks] Page ${pageIdx + 1} stream type: ${stream?.constructor?.name}`);
+        if (stream && 'getContents' in stream) {
+          contentBytes = (stream as { getContents(): Uint8Array }).getContents();
+        }
+      } else if (resolvedContents && 'getContents' in resolvedContents) {
+        // Direct stream object
+        contentBytes = (resolvedContents as { getContents(): Uint8Array }).getContents();
+      } else if (resolvedContents instanceof PDFArray) {
+        // Multiple content streams - concatenate them
+        console.log(`[hyperlinks] Page ${pageIdx + 1} has ${resolvedContents.size()} content streams`);
+        const allBytes: number[] = [];
+        for (let i = 0; i < resolvedContents.size(); i++) {
+          const ref = resolvedContents.get(i);
+          if (ref instanceof PDFRef) {
+            const stream = pdfDoc.context.lookup(ref);
+            if (stream && 'getContents' in stream) {
+              const bytes = (stream as { getContents(): Uint8Array }).getContents();
+              allBytes.push(...bytes);
+            }
           }
         }
+        if (allBytes.length > 0) {
+          contentBytes = new Uint8Array(allBytes);
+        }
       }
-      if (allBytes.length > 0) {
-        contentBytes = new Uint8Array(allBytes);
+
+      if (!contentBytes) {
+        console.log(`[hyperlinks] Page ${pageIdx + 1} could not get content bytes`);
+        continue;
       }
+
+      console.log(`[hyperlinks] Page ${pageIdx + 1} content stream size: ${contentBytes.length} bytes`);
+
+      // Parse the content stream to find text positions
+      const pagePositions = parseContentStreamForEnclosures(contentBytes, pageIdx);
+      positions.push(...pagePositions);
+    } catch (error) {
+      console.error(`[hyperlinks] Error processing page ${pageIdx + 1}:`, error);
     }
-
-    if (!contentBytes) continue;
-
-    // Parse the content stream to find text positions
-    const pagePositions = parseContentStreamForEnclosures(contentBytes, pageIdx);
-    positions.push(...pagePositions);
   }
 
   console.log(`[hyperlinks] Found ${positions.length} enclosure references in content`);

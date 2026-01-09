@@ -1,19 +1,21 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { Trash2, Download, Copy } from 'lucide-react';
+import { Trash2, Download, Copy, Check } from 'lucide-react';
 import { useLogStore, enableConsoleCapture, disableConsoleCapture } from '@/stores/logStore';
 
 export function LogViewerModal() {
   const { logs, isOpen, isEnabled, setOpen, setEnabled, clearLogs } = useLogStore();
   const logsEndRef = useRef<HTMLDivElement>(null);
+  const [copied, setCopied] = useState(false);
 
   // Auto-scroll to bottom when new logs arrive
   useEffect(() => {
@@ -31,11 +33,32 @@ export function LogViewerModal() {
     }
   }, [isEnabled]);
 
-  const handleCopyLogs = () => {
+  const handleCopyLogs = async () => {
     const text = logs
       .map((log) => `[${log.timestamp.toISOString()}] [${log.level.toUpperCase()}] ${log.message}`)
       .join('\n');
-    navigator.clipboard.writeText(text);
+
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      // Fallback for browsers without clipboard API or in non-secure contexts
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-9999px';
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch {
+        console.error('Failed to copy logs');
+      }
+      document.body.removeChild(textArea);
+    }
   };
 
   const handleDownloadLogs = () => {
@@ -87,12 +110,15 @@ export function LogViewerModal() {
               </div>
             </div>
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            View and manage application console logs
+          </DialogDescription>
         </DialogHeader>
 
         <div className="flex gap-2 mb-2">
           <Button variant="outline" size="sm" onClick={handleCopyLogs} disabled={logs.length === 0}>
-            <Copy className="h-4 w-4 mr-2" />
-            Copy
+            {copied ? <Check className="h-4 w-4 mr-2 text-green-500" /> : <Copy className="h-4 w-4 mr-2" />}
+            {copied ? 'Copied!' : 'Copy'}
           </Button>
           <Button variant="outline" size="sm" onClick={handleDownloadLogs} disabled={logs.length === 0}>
             <Download className="h-4 w-4 mr-2" />
