@@ -352,9 +352,22 @@ export function useLatexEngine() {
     initEngine();
   }, [initEngine]);
 
+  // Wait for engine to be ready (useful after ENGINE_RESET_NEEDED)
+  const waitForReady = useCallback(async (timeoutMs = 5000): Promise<boolean> => {
+    const start = Date.now();
+    while (Date.now() - start < timeoutMs) {
+      if (engineRef.current?.isReady()) {
+        return true;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+    return false;
+  }, []);
+
   return {
     ...state,
     compile,
     resetEngine,
+    waitForReady,
   };
 }

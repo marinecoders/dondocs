@@ -63,7 +63,7 @@ function App() {
   const { setFormData, applySnapshot } = useDocumentStore();
   const { undo, redo } = useHistoryStore();
   const { selectedProfile, profiles } = useProfileStore();
-  const { isReady, compile, error: engineError } = useLatexEngine();
+  const { isReady, compile, waitForReady, error: engineError } = useLatexEngine();
 
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [isCompiling, setIsCompiling] = useState(false);
@@ -612,7 +612,7 @@ ${texFiles['body.tex'] || '% No body content'}
       />
       <AboutModal />
       <NISTComplianceModal />
-      <BatchModal compile={compile} isEngineReady={isReady} />
+      <BatchModal compile={compile} isEngineReady={isReady} waitForReady={waitForReady} />
       <FindReplaceModal />
       <TemplateLoaderModal />
       <WelcomeModal />

@@ -3,6 +3,7 @@ import { Plus, Trash2, Download, AlertCircle, FileText, Variable, CheckCircle, X
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogFooter,
@@ -40,7 +41,11 @@ interface BatchResults {
 interface BatchModalProps {
   compile: (files: Record<string, string | Uint8Array>) => Promise<Uint8Array | null>;
   isEngineReady: boolean;
+  waitForReady: (timeoutMs?: number) => Promise<boolean>;
 }
+
+// Max retries for ENGINE_RESET_NEEDED
+const MAX_RETRIES = 2;
 
 // Detect placeholders in text (format: {{PLACEHOLDER_NAME}} - case insensitive)
 function detectPlaceholders(text: string): string[] {
@@ -67,7 +72,7 @@ function copyToClipboard(text: string) {
   navigator.clipboard.writeText(text);
 }
 
-export function BatchModal({ compile, isEngineReady }: BatchModalProps) {
+export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalProps) {
   const { batchModalOpen, setBatchModalOpen } = useUIStore();
   const documentStore = useDocumentStore();
 
@@ -78,6 +83,7 @@ export function BatchModal({ compile, isEngineReady }: BatchModalProps) {
   const [lastResults, setLastResults] = useState<BatchResults | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewingRow, setPreviewingRow] = useState<string | null>(null);
+  const [previewError, setPreviewError] = useState<string | null>(null);
 
   // Detect all placeholders from current document
   const detectedPlaceholders = useMemo(() => {
@@ -161,24 +167,38 @@ export function BatchModal({ compile, isEngineReady }: BatchModalProps) {
     };
   }, [documentStore]);
 
-  // Generate PDF for a single row
-  const generatePdfForRow = useCallback(async (values: PlaceholderValue): Promise<Uint8Array> => {
+  // Generate PDF for a single row with retry logic for ENGINE_RESET_NEEDED
+  const generatePdfForRow = useCallback(async (values: PlaceholderValue, retryCount = 0): Promise<Uint8Array> => {
     const modifiedStore = createModifiedStore(values);
     const { texFiles } = generateAllLatexFiles(modifiedStore);
 
-    // Compile LaTeX to PDF
-    const pdf = await compile(texFiles);
-    if (!pdf) {
-      throw new Error('PDF compilation failed');
+    try {
+      // Compile LaTeX to PDF
+      const pdf = await compile(texFiles);
+      if (!pdf) {
+        throw new Error('PDF compilation failed');
+      }
+      return pdf;
+    } catch (err) {
+      // Handle ENGINE_RESET_NEEDED with retry
+      if (err instanceof Error && err.message === 'ENGINE_RESET_NEEDED' && retryCount < MAX_RETRIES) {
+        debug.log('Batch', `Engine reset detected, waiting for ready and retrying (attempt ${retryCount + 1}/${MAX_RETRIES})...`);
+        const ready = await waitForReady(5000);
+        if (ready) {
+          return generatePdfForRow(values, retryCount + 1);
+        }
+        throw new Error('Engine failed to recover after reset');
+      }
+      throw err;
     }
-    return pdf;
-  }, [createModifiedStore, compile]);
+  }, [createModifiedStore, compile, waitForReady]);
 
   // Preview a single row
   const handlePreview = useCallback(async (row: BatchRow) => {
     if (!isEngineReady) return;
 
     setPreviewingRow(row.id);
+    setPreviewError(null);
     try {
       const pdf = await generatePdfForRow(row.values);
       const blob = new Blob([new Uint8Array(pdf)], { type: 'application/pdf' });
@@ -191,7 +211,9 @@ export function BatchModal({ compile, isEngineReady }: BatchModalProps) {
 
       setPreviewUrl(url);
     } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Unknown error';
       debug.error('Batch', 'Preview failed', err);
+      setPreviewError(`Preview failed: ${errorMsg}`);
     } finally {
       setPreviewingRow(null);
     }
@@ -323,7 +345,18 @@ export function BatchModal({ compile, isEngineReady }: BatchModalProps) {
                 </Badge>
               )}
             </DialogTitle>
+            <DialogDescription className="sr-only">
+              Generate multiple documents with different placeholder values
+            </DialogDescription>
           </DialogHeader>
+
+          {/* Preview Error Alert */}
+          {previewError && (
+            <div className="mx-6 mt-4 p-3 rounded-lg border border-destructive/30 bg-destructive/10 text-sm text-destructive flex items-start gap-2">
+              <AlertCircle className="h-4 w-4 mt-0.5 shrink-0" />
+              {previewError}
+            </div>
+          )}
 
           <ScrollArea className="flex-1 min-h-0">
             <div className="p-6 space-y-4">
@@ -535,6 +568,9 @@ export function BatchModal({ compile, isEngineReady }: BatchModalProps) {
               <Eye className="h-5 w-5" />
               Document Preview
             </DialogTitle>
+            <DialogDescription className="sr-only">
+              Preview of the generated PDF document
+            </DialogDescription>
           </DialogHeader>
           <div className="flex-1 min-h-0">
             {previewUrl && (
