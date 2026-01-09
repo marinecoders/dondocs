@@ -1,4 +1,4 @@
-import { PDFDocument, rgb, StandardFonts, PDFPage, PDFName, PDFArray, PDFDict, PDFNumber, PDFString } from 'pdf-lib';
+import { PDFDocument, rgb, StandardFonts, PDFPage, PDFName, PDFDict, PDFNumber } from 'pdf-lib';
 
 export interface EnclosureData {
   number: number;
