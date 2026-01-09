@@ -46,7 +46,12 @@ function addNamedDestination(
  * We use the /Dests dictionary in the catalog (simpler than name trees).
  */
 function finalizeNamedDestinations(pdfDoc: PDFDocument): void {
-  if (pendingDestinations.size === 0) return;
+  if (pendingDestinations.size === 0) {
+    console.log('[hyperlinks] No destinations to add');
+    return;
+  }
+
+  console.log('[hyperlinks] Adding', pendingDestinations.size, 'named destinations');
 
   const catalog = pdfDoc.catalog;
 
@@ -54,12 +59,17 @@ function finalizeNamedDestinations(pdfDoc: PDFDocument): void {
   // This is the "old style" named destinations that hyperref understands
   let destsDict = catalog.lookup(PDFName.of('Dests'));
   if (!destsDict || !(destsDict instanceof PDFDict)) {
+    console.log('[hyperlinks] Creating new /Dests dictionary');
     destsDict = pdfDoc.context.obj({});
     catalog.set(PDFName.of('Dests'), destsDict);
+  } else {
+    console.log('[hyperlinks] Found existing /Dests dictionary');
   }
 
   // Add each destination
   for (const [name, page] of pendingDestinations) {
+    console.log('[hyperlinks] Adding destination:', name, '-> page ref:', page.ref.toString());
+
     // Create destination array: [pageRef /XYZ left top zoom]
     const destArray = pdfDoc.context.obj([
       page.ref,
@@ -72,6 +82,8 @@ function finalizeNamedDestinations(pdfDoc: PDFDocument): void {
     // Add to Dests dict with the name as key
     (destsDict as PDFDict).set(PDFName.of(name), destArray);
   }
+
+  console.log('[hyperlinks] Destinations added successfully');
 
   // Clear for next use
   pendingDestinations.clear();
@@ -88,6 +100,8 @@ export async function mergeEnclosures(
   classification?: ClassificationInfo,
   includeHyperlinks = false
 ): Promise<Uint8Array> {
+  console.log('[mergeEnclosures] Called with', enclosures.length, 'enclosures, includeHyperlinks:', includeHyperlinks);
+
   if (enclosures.length === 0) {
     return mainPdfBytes;
   }
