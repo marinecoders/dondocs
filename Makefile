@@ -170,6 +170,21 @@ preview: web-build
 	cd $(WEB_DIR) && npm run preview
 
 #-----------------------------------------------------------------------------
+# Expose dev server via ngrok (for mobile/external testing)
+# Usage: make ngrok
+#        make ngrok NGROK_DOMAIN=your-domain.ngrok-free.dev
+#-----------------------------------------------------------------------------
+.PHONY: ngrok
+ngrok:
+	@echo "Starting ngrok tunnel to localhost:5173..."
+	@echo "Make sure 'make dev' is running in another terminal!"
+ifdef NGROK_DOMAIN
+	ngrok http --url=$(NGROK_DOMAIN) 5173
+else
+	ngrok http 5173
+endif
+
+#-----------------------------------------------------------------------------
 # Clean web build artifacts
 #-----------------------------------------------------------------------------
 .PHONY: web-clean
@@ -205,6 +220,7 @@ help:
 	@echo "  web-install        Install npm dependencies"
 	@echo "  lint               Run ESLint"
 	@echo "  preview            Preview production build"
+	@echo "  ngrok              Expose dev server via ngrok tunnel"
 	@echo "  web-clean          Remove web build artifacts"
 	@echo ""
 	@echo "  help               Show this help message"
