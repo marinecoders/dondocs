@@ -224,6 +224,10 @@ function App() {
   const pendingDownloadRetryRef = useRef(false);
   // Track if download is in progress to prevent double downloads
   const downloadInProgressRef = useRef(false);
+  // Track scheduled retry timeout so we can cancel it if user clicks again
+  const downloadRetryTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Generation counter to detect stale retries (increments on each manual click)
+  const downloadGenerationRef = useRef(0);
 
   const handleDownloadPdfInternal = useCallback(async () => {
     // Prevent multiple simultaneous downloads
@@ -296,9 +300,18 @@ function App() {
   useEffect(() => {
     if (isReady && pendingDownloadRetryRef.current) {
       pendingDownloadRetryRef.current = false;
+      // Capture current generation - if user clicks before this runs, generation will change
+      const capturedGeneration = downloadGenerationRef.current;
       // Small delay to ensure engine is fully ready
-      setTimeout(() => {
-        handleDownloadPdfInternal();
+      // Store timeout ID so we can cancel if user clicks manually
+      downloadRetryTimeoutRef.current = setTimeout(() => {
+        downloadRetryTimeoutRef.current = null;
+        // Only proceed if no manual click has happened since we scheduled this retry
+        if (capturedGeneration === downloadGenerationRef.current) {
+          handleDownloadPdfInternal();
+        } else {
+          console.log('Skipping stale retry - user clicked manually');
+        }
       }, 100);
     }
   }, [isReady, handleDownloadPdfInternal]);
@@ -395,8 +408,17 @@ function App() {
       return;
     }
 
+    // Increment generation counter - this invalidates any pending automatic retries
+    downloadGenerationRef.current += 1;
+    console.log('Manual download click - generation:', downloadGenerationRef.current);
+
     // Cancel any pending automatic retry - user is manually triggering
     pendingDownloadRetryRef.current = false;
+    // Also cancel any scheduled retry timeout to prevent double downloads
+    if (downloadRetryTimeoutRef.current) {
+      clearTimeout(downloadRetryTimeoutRef.current);
+      downloadRetryTimeoutRef.current = null;
+    }
 
     // Check for PII before downloading
     const piiResult = detectPII(documentStore);

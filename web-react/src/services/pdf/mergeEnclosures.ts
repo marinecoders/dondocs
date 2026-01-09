@@ -164,7 +164,7 @@ function findEnclosureReferences(pdfDoc: PDFDocument, mainPageCount: number): Te
  * - BT: Begin text block
  * - ET: End text block
  * - Tm: Set text matrix (6 values, last 2 are x,y position)
- * - Td/TD: Move text position
+ * - Td/TD: Move text position (relative offset)
  * - Tf: Set font and size
  * - Tj: Show text (string)
  * - TJ: Show text (array with spacing adjustments)
@@ -201,21 +201,69 @@ function parseContentStreamForEnclosures(bytes: Uint8Array, pageIdx: number): Te
 
   console.log(`[hyperlinks] Found ${colorRanges.length} color changes, ${colorRanges.filter(c => c.isBlue).length} blue`);
 
+  // Track all position-changing operations in sequence
+  // We need to handle both absolute (Tm) and relative (Td/TD) positioning
+  interface PositionOp {
+    type: 'Tm' | 'Td' | 'BT';
+    x: number;
+    y: number;
+    pos: number;
+  }
+  const positionOps: PositionOp[] = [];
+
+  // Find BT (begin text) operations - resets text position
+  const btRegex = /\bBT\b/g;
+  let btMatch;
+  while ((btMatch = btRegex.exec(content)) !== null) {
+    positionOps.push({ type: 'BT', x: 0, y: 0, pos: btMatch.index });
+  }
+
   // Find Tm (text matrix) operations to track positions
   // Format: a b c d e f Tm (e and f are x,y)
   const tmRegex = /(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)\s+Tm/g;
   let tmMatch;
-  const textMatrices: { x: number; y: number; pos: number }[] = [];
 
   while ((tmMatch = tmRegex.exec(content)) !== null) {
-    textMatrices.push({
+    positionOps.push({
+      type: 'Tm',
       x: parseFloat(tmMatch[5]),
       y: parseFloat(tmMatch[6]),
       pos: tmMatch.index
     });
   }
 
-  console.log(`[hyperlinks] Found ${textMatrices.length} text matrix operations`);
+  // Find Td (text displacement) operations - relative positioning
+  // Format: tx ty Td
+  const tdRegex = /(-?[\d.]+)\s+(-?[\d.]+)\s+Td\b/g;
+  let tdMatch;
+
+  while ((tdMatch = tdRegex.exec(content)) !== null) {
+    positionOps.push({
+      type: 'Td',
+      x: parseFloat(tdMatch[1]),
+      y: parseFloat(tdMatch[2]),
+      pos: tdMatch.index
+    });
+  }
+
+  // Find TD (text displacement + set leading) operations - relative positioning
+  // Format: tx ty TD
+  const tdUpperRegex = /(-?[\d.]+)\s+(-?[\d.]+)\s+TD\b/g;
+  let tdUpperMatch;
+
+  while ((tdUpperMatch = tdUpperRegex.exec(content)) !== null) {
+    positionOps.push({
+      type: 'Td', // Treat same as Td for position tracking
+      x: parseFloat(tdUpperMatch[1]),
+      y: parseFloat(tdUpperMatch[2]),
+      pos: tdUpperMatch.index
+    });
+  }
+
+  // Sort position operations by their position in the stream
+  positionOps.sort((a, b) => a.pos - b.pos);
+
+  console.log(`[hyperlinks] Found ${positionOps.filter(p => p.type === 'Tm').length} Tm, ${positionOps.filter(p => p.type === 'Td').length} Td/TD operations`);
 
   // Find Tf (font size) operations
   // Format: /FontName size Tf
@@ -268,14 +316,32 @@ function parseContentStreamForEnclosures(bytes: Uint8Array, pageIdx: number): Te
     return currentBlue;
   }
 
-  // Helper to find nearest Tm position
-  function getNearestTm(pos: number): { x: number; y: number } {
-    let result = { x: 0, y: 0 };
-    for (const tm of textMatrices) {
-      if (tm.pos > pos) break;
-      result = { x: tm.x, y: tm.y };
+  // Helper to calculate absolute position at a given stream position
+  // Handles both Tm (absolute) and Td (relative) operations
+  function getPositionAt(pos: number): { x: number; y: number } {
+    let currentX = 0;
+    let currentY = 0;
+
+    for (const op of positionOps) {
+      if (op.pos > pos) break;
+
+      if (op.type === 'BT') {
+        // BT resets text matrix to identity (but keeps current position for subsequent Td)
+        // In practice, the position is set by the first Tm or Td after BT
+        currentX = 0;
+        currentY = 0;
+      } else if (op.type === 'Tm') {
+        // Tm sets absolute position
+        currentX = op.x;
+        currentY = op.y;
+      } else if (op.type === 'Td') {
+        // Td adds to current position (relative offset)
+        currentX += op.x;
+        currentY += op.y;
+      }
     }
-    return result;
+
+    return { x: currentX, y: currentY };
   }
 
   // Helper to find nearest font size
@@ -308,16 +374,16 @@ function parseContentStreamForEnclosures(bytes: Uint8Array, pageIdx: number): Te
     if (foundEnclosures.has(encNum)) continue;
 
     // Get position and font size
-    const tm = getNearestTm(textOp.pos);
+    const position = getPositionAt(textOp.pos);
     const fontSize = getNearestFontSize(textOp.pos);
 
-    console.log(`[hyperlinks] Found blue digit ${encNum} at (${tm.x}, ${tm.y}), fontSize=${fontSize}`);
+    console.log(`[hyperlinks] Found blue digit ${encNum} at (${position.x}, ${position.y}), fontSize=${fontSize}`);
 
     foundEnclosures.add(encNum);
     positions.push({
       pageIndex: pageIdx,
-      x: tm.x,
-      y: tm.y,
+      x: position.x,
+      y: position.y,
       width: fontSize * 0.6,
       height: fontSize,
       text: String(encNum),
