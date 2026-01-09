@@ -26,7 +26,7 @@ const groupedPlaceholders = BATCH_PLACEHOLDERS.reduce((acc, placeholder) => {
   return acc;
 }, {} as Record<string, typeof BATCH_PLACEHOLDERS[number][]>);
 
-const categoryOrder = ['Subject', '2nd Person', '3rd Person', 'Contact', 'Document'];
+const categoryOrder = ['Subject', '2nd Person', '3rd Person', 'Dates', 'Contact', 'Document'];
 
 export function InsertVariableButton({ onInsert, disabled, size = 'icon', showLabel }: InsertVariableButtonProps) {
   const handleSelect = (name: string) => {

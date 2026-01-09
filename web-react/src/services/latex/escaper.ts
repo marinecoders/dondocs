@@ -1,9 +1,20 @@
 /**
- * Escape special LaTeX characters
+ * Escape special LaTeX characters (with placeholder support)
  */
 export function escapeLatex(str: string | undefined | null): string {
   if (!str) return '';
-  return str
+
+  // First, extract and protect placeholders before escaping
+  const placeholderMap: Record<string, string> = {};
+  let placeholderIndex = 0;
+  let protectedStr = str.replace(/\{\{([A-Za-z0-9_]+)\}\}/g, (_match, name) => {
+    const key = `__PLACEHOLDER_${placeholderIndex++}__`;
+    placeholderMap[key] = name;
+    return key;
+  });
+
+  // Escape LaTeX special chars
+  let result = protectedStr
     .replace(/\\/g, '\\textbackslash{}')
     .replace(/&/g, '\\&')
     .replace(/%/g, '\\%')
@@ -14,6 +25,13 @@ export function escapeLatex(str: string | undefined | null): string {
     .replace(/\}/g, '\\}')
     .replace(/~/g, '\\textasciitilde{}')
     .replace(/\^/g, '\\textasciicircum{}');
+
+  // Restore placeholders with highlighted LaTeX rendering
+  for (const [key, name] of Object.entries(placeholderMap)) {
+    result = result.replace(key, `\\fcolorbox{orange}{yellow!30}{\\textsf{\\small ${name}}}`);
+  }
+
+  return result;
 }
 
 /**
@@ -49,11 +67,32 @@ export function convertRichTextToLatex(text: string): string {
 }
 
 /**
+ * Convert batch placeholders {{NAME}} to highlighted LaTeX display
+ * Shows placeholders with yellow background so they're visible in preview
+ */
+export function highlightPlaceholders(text: string): string {
+  // Match {{PLACEHOLDER_NAME}} pattern (case insensitive)
+  return text.replace(/\{\{([A-Za-z0-9_]+)\}\}/g, (_match, name) => {
+    // Render as highlighted box with the placeholder name
+    return `\\fcolorbox{orange}{yellow!30}{\\textsf{\\small ${name}}}`;
+  });
+}
+
+/**
  * Escape LaTeX and convert rich text markers
  */
 export function processBodyText(text: string): string {
-  // First escape LaTeX special chars (but not our markers)
-  let result = text
+  // First, extract and protect placeholders before escaping
+  const placeholderMap: Record<string, string> = {};
+  let placeholderIndex = 0;
+  let protectedText = text.replace(/\{\{([A-Za-z0-9_]+)\}\}/g, (_match, name) => {
+    const key = `__PLACEHOLDER_${placeholderIndex++}__`;
+    placeholderMap[key] = name;
+    return key;
+  });
+
+  // Now escape LaTeX special chars (but not our markers)
+  let result = protectedText
     .replace(/\\/g, '\\textbackslash{}')
     .replace(/&/g, '\\&')
     .replace(/%/g, '\\%')
@@ -70,9 +109,10 @@ export function processBodyText(text: string): string {
   // Then convert rich text markers
   result = convertRichTextToLatex(result);
 
-  // Now escape any remaining underscores that weren't part of __text__
-  // This is tricky - for now, just leave underscores as-is in body text
-  // since they're likely intentional formatting
+  // Restore placeholders with highlighted LaTeX rendering
+  for (const [key, name] of Object.entries(placeholderMap)) {
+    result = result.replace(key, `\\fcolorbox{orange}{yellow!30}{\\textsf{\\small ${name}}}`);
+  }
 
   return result;
 }

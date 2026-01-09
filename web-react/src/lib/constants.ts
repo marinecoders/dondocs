@@ -240,6 +240,7 @@ export const BATCH_PLACEHOLDERS = [
   { name: 'RANK_NAME', label: 'Rank + Name', category: 'Subject', example: 'Cpl Smith' },
   { name: 'EDIPI', label: 'EDIPI/DoD ID', category: 'Subject', example: '1234567890' },
   { name: 'MOS', label: 'MOS', category: 'Subject', example: '0311' },
+  { name: 'BILLET', label: 'Billet/Position', category: 'Subject', example: 'Team Leader' },
 
   // Second Person (Witness, Reporting Senior, etc.)
   { name: 'NAME_2', label: 'Name (2nd Person)', category: '2nd Person', example: 'Jane B. Doe' },
@@ -253,16 +254,28 @@ export const BATCH_PLACEHOLDERS = [
   { name: 'RANK_NAME_3', label: 'Rank + Name (3rd)', category: '3rd Person', example: 'Capt Jones' },
   { name: 'BILLET_3', label: 'Billet (3rd Person)', category: '3rd Person', example: 'Company Commander' },
 
-  // Contact & Location
+  // Dates & Times
+  { name: 'DATE', label: 'Document Date', category: 'Dates', example: '15 Jan 25' },
+  { name: 'EVENT_DATE', label: 'Event/Incident Date', category: 'Dates', example: '10 Jan 25' },
+  { name: 'START_DATE', label: 'Start Date', category: 'Dates', example: '1 Jan 25' },
+  { name: 'END_DATE', label: 'End Date', category: 'Dates', example: '31 Jan 25' },
+  { name: 'TIME', label: 'Time', category: 'Dates', example: '0800' },
+
+  // Location & Contact
   { name: 'EMAIL', label: 'Email Address', category: 'Contact', example: 'john.smith@usmc.mil' },
   { name: 'PHONE', label: 'Phone Number', category: 'Contact', example: '(760) 555-1234' },
   { name: 'ADDRESS', label: 'Full Address', category: 'Contact', example: '123 Main St, City, ST 12345' },
   { name: 'UNIT', label: 'Unit', category: 'Contact', example: '1st Bn, 6th Marines' },
+  { name: 'LOCATION', label: 'Location', category: 'Contact', example: 'Camp Pendleton, CA' },
 
-  // Document Info
-  { name: 'DATE', label: 'Date', category: 'Document', example: '15 Jan 25' },
-  { name: 'DATE_2', label: 'Date (Secondary)', category: 'Document', example: '1 Jan 25' },
+  // Document & Admin
   { name: 'SERIAL', label: 'Serial Number', category: 'Document', example: '001' },
+  { name: 'CASE_NUM', label: 'Case/Reference #', category: 'Document', example: '2025-00123' },
+  { name: 'AMOUNT', label: 'Amount/Value', category: 'Document', example: '$500.00' },
+  { name: 'REASON', label: 'Reason/Justification', category: 'Document', example: 'Outstanding performance' },
+  { name: 'AWARD', label: 'Award Type', category: 'Document', example: 'Navy Achievement Medal' },
+  { name: 'COURSE', label: 'Course/Training', category: 'Document', example: 'Corporals Course' },
+  { name: 'CHARGE', label: 'Charge/Violation', category: 'Document', example: 'Article 92, UCMJ' },
 ] as const;
 
 export type BatchPlaceholder = typeof BATCH_PLACEHOLDERS[number];
