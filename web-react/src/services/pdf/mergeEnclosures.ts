@@ -1,4 +1,4 @@
-import { PDFDocument, rgb, StandardFonts, PDFPage, PDFName, PDFDict, PDFArray, PDFNumber, PDFString, PDFRef } from 'pdf-lib';
+import { PDFDocument, rgb, StandardFonts, PDFPage, PDFName, PDFArray, PDFNumber, PDFRef } from 'pdf-lib';
 
 export interface EnclosureData {
   number: number;
@@ -19,167 +19,341 @@ const PAGE_WIDTH = 612;
 const PAGE_HEIGHT = 792;
 const MARGIN = 72; // 1 inch margins
 
-// Track which page each enclosure starts on (enclosure number -> page ref)
-const enclosurePageMap: Map<number, PDFPage> = new Map();
+// Track which page each enclosure starts on (enclosure number -> page index)
+const enclosurePageMap: Map<number, number> = new Map();
 
 /**
- * Records that an enclosure starts on a given page.
+ * Represents a found text position in the PDF
  */
-function recordEnclosurePage(enclosureNumber: number, page: PDFPage): void {
+interface TextPosition {
+  pageIndex: number;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  text: string;
+  enclosureNumber: number;
+}
+
+/**
+ * Records that an enclosure starts on a given page index.
+ */
+function recordEnclosurePage(enclosureNumber: number, pageIndex: number): void {
   // Only record the first page for each enclosure
   if (!enclosurePageMap.has(enclosureNumber)) {
-    enclosurePageMap.set(enclosureNumber, page);
-    console.log(`[hyperlinks] Recorded enclosure ${enclosureNumber} -> page`);
+    enclosurePageMap.set(enclosureNumber, pageIndex);
+    console.log(`[hyperlinks] Recorded enclosure ${enclosureNumber} -> page index ${pageIndex}`);
   }
 }
 
 /**
- * Updates all hyperlink annotations in the PDF to point to the correct enclosure pages.
- * This finds link annotations created by LaTeX's \hyperlink{enclosureN} and updates
- * their destinations to point to the actual enclosure pages we added.
+ * Finds enclosure reference text patterns in the PDF content streams.
+ * Looks for patterns like "(1)", "(2)", "(3)" that appear as blue text in the enclosure list.
+ *
+ * Since SwiftLaTeX doesn't create PDF link annotations for \hyperlink commands,
+ * we need to find where the text is rendered and create annotations ourselves.
  */
-function updateHyperlinkDestinations(pdfDoc: PDFDocument): void {
-  if (enclosurePageMap.size === 0) {
-    console.log('[hyperlinks] No enclosure pages recorded');
+function findEnclosureReferences(pdfDoc: PDFDocument, mainPageCount: number): TextPosition[] {
+  const positions: TextPosition[] = [];
+  const pages = pdfDoc.getPages();
+
+  console.log(`[hyperlinks] Scanning ${mainPageCount} main pages for enclosure references`);
+
+  // Only scan the main document pages (before enclosures were added)
+  for (let pageIdx = 0; pageIdx < Math.min(mainPageCount, pages.length); pageIdx++) {
+    const page = pages[pageIdx];
+    const contentStreamRefs = page.node.Contents();
+
+    if (!contentStreamRefs) continue;
+
+    // Get the raw content stream bytes
+    let contentBytes: Uint8Array | undefined;
+
+    if (contentStreamRefs instanceof PDFRef) {
+      const stream = pdfDoc.context.lookup(contentStreamRefs);
+      if (stream && 'getContents' in stream) {
+        contentBytes = (stream as { getContents(): Uint8Array }).getContents();
+      }
+    } else if (contentStreamRefs instanceof PDFArray) {
+      // Multiple content streams - concatenate them
+      const allBytes: number[] = [];
+      for (let i = 0; i < contentStreamRefs.size(); i++) {
+        const ref = contentStreamRefs.get(i);
+        if (ref instanceof PDFRef) {
+          const stream = pdfDoc.context.lookup(ref);
+          if (stream && 'getContents' in stream) {
+            const bytes = (stream as { getContents(): Uint8Array }).getContents();
+            allBytes.push(...bytes);
+          }
+        }
+      }
+      if (allBytes.length > 0) {
+        contentBytes = new Uint8Array(allBytes);
+      }
+    }
+
+    if (!contentBytes) continue;
+
+    // Parse the content stream to find text positions
+    const pagePositions = parseContentStreamForEnclosures(contentBytes, pageIdx);
+    positions.push(...pagePositions);
+  }
+
+  console.log(`[hyperlinks] Found ${positions.length} enclosure references in content`);
+  return positions;
+}
+
+/**
+ * Parses a PDF content stream to find text that matches enclosure reference patterns.
+ *
+ * PDF text rendering uses operators like:
+ * - BT: Begin text block
+ * - ET: End text block
+ * - Tm: Set text matrix (6 values, last 2 are x,y position)
+ * - Td/TD: Move text position
+ * - Tf: Set font and size
+ * - Tj: Show text (string)
+ * - TJ: Show text (array with spacing adjustments)
+ * - ': Move to next line and show text
+ * - ": Set spacing, move to next line, and show text
+ */
+function parseContentStreamForEnclosures(bytes: Uint8Array, pageIdx: number): TextPosition[] {
+  const positions: TextPosition[] = [];
+  const content = new TextDecoder('latin1').decode(bytes);
+
+  console.log(`[hyperlinks] Parsing page ${pageIdx + 1}, content length: ${content.length}`);
+
+  // Track color changes and text positions
+  // We're looking for blue text (0 0 1 rg) followed by a digit
+  interface ColorRange {
+    startPos: number;
+    isBlue: boolean;
+  }
+
+  // Find all color settings (rg = non-stroke color)
+  const colorRanges: ColorRange[] = [];
+  // Match patterns like "0 0 1 rg" (blue) or other colors
+  const colorRegex = /([\d.]+)\s+([\d.]+)\s+([\d.]+)\s+rg/g;
+  let colorMatch;
+
+  while ((colorMatch = colorRegex.exec(content)) !== null) {
+    const r = parseFloat(colorMatch[1]);
+    const g = parseFloat(colorMatch[2]);
+    const b = parseFloat(colorMatch[3]);
+    // Blue is approximately (0, 0, 1) or close to it
+    const isBlue = r < 0.2 && g < 0.2 && b > 0.7;
+    colorRanges.push({ startPos: colorMatch.index, isBlue });
+  }
+
+  console.log(`[hyperlinks] Found ${colorRanges.length} color changes, ${colorRanges.filter(c => c.isBlue).length} blue`);
+
+  // Find Tm (text matrix) operations to track positions
+  // Format: a b c d e f Tm (e and f are x,y)
+  const tmRegex = /(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)\s+Tm/g;
+  let tmMatch;
+  const textMatrices: { x: number; y: number; pos: number }[] = [];
+
+  while ((tmMatch = tmRegex.exec(content)) !== null) {
+    textMatrices.push({
+      x: parseFloat(tmMatch[5]),
+      y: parseFloat(tmMatch[6]),
+      pos: tmMatch.index
+    });
+  }
+
+  console.log(`[hyperlinks] Found ${textMatrices.length} text matrix operations`);
+
+  // Find Tf (font size) operations
+  // Format: /FontName size Tf
+  const tfRegex = /\/\w+\s+([\d.]+)\s+Tf/g;
+  let tfMatch;
+  const fontSizes: { size: number; pos: number }[] = [];
+
+  while ((tfMatch = tfRegex.exec(content)) !== null) {
+    fontSizes.push({
+      size: parseFloat(tfMatch[1]),
+      pos: tfMatch.index
+    });
+  }
+
+  // Find all text operations - both Tj and TJ
+  // Tj: (text) Tj - show text
+  // TJ: [(text1) num (text2) ...] TJ - show text with spacing adjustments
+  const allTextOps: { text: string; pos: number }[] = [];
+
+  // Match Tj operations: (content) Tj
+  const tjRegex = /\(([^)]*)\)\s*Tj/g;
+  let tjMatch;
+  while ((tjMatch = tjRegex.exec(content)) !== null) {
+    allTextOps.push({ text: tjMatch[1], pos: tjMatch.index });
+  }
+
+  // Match TJ operations - extract text content from the array
+  const tjArrayRegex = /\[([^\]]*)\]\s*TJ/g;
+  let tjArrayMatch;
+  while ((tjArrayMatch = tjArrayRegex.exec(content)) !== null) {
+    // Extract text from the TJ array (strings are in parentheses)
+    const arrayContent = tjArrayMatch[1];
+    const stringMatches = arrayContent.matchAll(/\(([^)]*)\)/g);
+    for (const strMatch of stringMatches) {
+      if (strMatch[1]) {
+        allTextOps.push({ text: strMatch[1], pos: tjArrayMatch.index });
+      }
+    }
+  }
+
+  console.log(`[hyperlinks] Found ${allTextOps.length} text operations`);
+
+  // Helper to check if a position is in a blue color range
+  function isBlueAtPosition(pos: number): boolean {
+    let currentBlue = false;
+    for (const range of colorRanges) {
+      if (range.startPos > pos) break;
+      currentBlue = range.isBlue;
+    }
+    return currentBlue;
+  }
+
+  // Helper to find nearest Tm position
+  function getNearestTm(pos: number): { x: number; y: number } {
+    let result = { x: 0, y: 0 };
+    for (const tm of textMatrices) {
+      if (tm.pos > pos) break;
+      result = { x: tm.x, y: tm.y };
+    }
+    return result;
+  }
+
+  // Helper to find nearest font size
+  function getNearestFontSize(pos: number): number {
+    let result = 12;
+    for (const tf of fontSizes) {
+      if (tf.pos > pos) break;
+      result = tf.size;
+    }
+    return result;
+  }
+
+  // Track which enclosure numbers we've found (to avoid duplicates)
+  const foundEnclosures = new Set<number>();
+
+  // Look for single digit text that appears in blue color context
+  for (const textOp of allTextOps) {
+    // Check if text is a single digit (1-9)
+    const digitMatch = textOp.text.match(/^(\d)$/);
+    if (!digitMatch) continue;
+
+    const encNum = parseInt(digitMatch[1], 10);
+    if (encNum < 1 || encNum > 9) continue;
+
+    // Check if this digit is rendered in blue
+    const isBlue = isBlueAtPosition(textOp.pos);
+    if (!isBlue) continue;
+
+    // Skip if we already found this enclosure number
+    if (foundEnclosures.has(encNum)) continue;
+
+    // Get position and font size
+    const tm = getNearestTm(textOp.pos);
+    const fontSize = getNearestFontSize(textOp.pos);
+
+    console.log(`[hyperlinks] Found blue digit ${encNum} at (${tm.x}, ${tm.y}), fontSize=${fontSize}`);
+
+    foundEnclosures.add(encNum);
+    positions.push({
+      pageIndex: pageIdx,
+      x: tm.x,
+      y: tm.y,
+      width: fontSize * 0.6,
+      height: fontSize,
+      text: String(encNum),
+      enclosureNumber: encNum
+    });
+  }
+
+  console.log(`[hyperlinks] Page ${pageIdx + 1}: found ${positions.length} enclosure references`);
+  return positions;
+}
+
+/**
+ * Creates link annotations at the specified text positions.
+ * These annotations will link to the corresponding enclosure pages.
+ */
+function createLinkAnnotations(pdfDoc: PDFDocument, positions: TextPosition[]): void {
+  if (positions.length === 0 || enclosurePageMap.size === 0) {
+    console.log('[hyperlinks] No positions or enclosure pages to link');
     return;
   }
 
-  console.log('[hyperlinks] Updating hyperlink destinations for', enclosurePageMap.size, 'enclosures');
-  console.log('[hyperlinks] Looking for destinations:', Array.from(enclosurePageMap.keys()).map(n => `enclosure${n}`));
-
   const pages = pdfDoc.getPages();
-  let updatedCount = 0;
-  let linkCount = 0;
-  let totalAnnots = 0;
+  let createdCount = 0;
 
-  console.log(`[hyperlinks] PDF has ${pages.length} pages`);
-
-  // Iterate through all pages to find link annotations
-  for (let pageIdx = 0; pageIdx < pages.length; pageIdx++) {
-    const page = pages[pageIdx];
-    const annotsRaw = page.node.get(PDFName.of('Annots'));
-    const annots = page.node.lookup(PDFName.of('Annots'));
-
-    if (annotsRaw) {
-      console.log(`[hyperlinks] Page ${pageIdx + 1} has Annots (raw): ${annotsRaw.constructor.name}`);
-    }
-
-    if (!annots) {
+  for (const pos of positions) {
+    const targetPageIndex = enclosurePageMap.get(pos.enclosureNumber);
+    if (targetPageIndex === undefined) {
+      console.log(`[hyperlinks] No target page for enclosure ${pos.enclosureNumber}`);
       continue;
     }
 
-    if (!(annots instanceof PDFArray)) {
-      console.log(`[hyperlinks] Page ${pageIdx + 1} Annots is not PDFArray: ${annots.constructor.name}`);
+    if (pos.pageIndex >= pages.length || targetPageIndex >= pages.length) {
+      console.log(`[hyperlinks] Page index out of bounds: source=${pos.pageIndex}, target=${targetPageIndex}`);
       continue;
     }
 
-    console.log(`[hyperlinks] Page ${pageIdx + 1} has ${annots.size()} annotations`);
-    totalAnnots += annots.size();
+    const sourcePage = pages[pos.pageIndex];
+    const targetPage = pages[targetPageIndex];
 
-    // Check each annotation
-    for (let i = 0; i < annots.size(); i++) {
-      const annotRef = annots.get(i);
-      if (!(annotRef instanceof PDFRef)) continue;
+    // Create the link annotation rectangle
+    // Add some padding around the text
+    const padding = 2;
+    const rect = pdfDoc.context.obj([
+      PDFNumber.of(pos.x - padding),
+      PDFNumber.of(pos.y - padding),
+      PDFNumber.of(pos.x + pos.width + padding * 2),
+      PDFNumber.of(pos.y + pos.height + padding)
+    ]);
 
-      const annot = pdfDoc.context.lookup(annotRef);
-      if (!(annot instanceof PDFDict)) continue;
+    // Create a GoTo action pointing to the target page
+    const action = pdfDoc.context.obj({
+      Type: PDFName.of('Action'),
+      S: PDFName.of('GoTo'),
+      D: pdfDoc.context.obj([
+        targetPage.ref,
+        PDFName.of('XYZ'),
+        PDFNumber.of(0),
+        PDFNumber.of(PAGE_HEIGHT),
+        PDFNumber.of(0)
+      ])
+    });
 
-      // Check if it's a link annotation
-      const subtype = annot.get(PDFName.of('Subtype'));
-      if (!subtype || subtype.toString() !== '/Link') continue;
+    // Create the link annotation
+    const linkAnnotation = pdfDoc.context.obj({
+      Type: PDFName.of('Annot'),
+      Subtype: PDFName.of('Link'),
+      Rect: rect,
+      Border: pdfDoc.context.obj([PDFNumber.of(0), PDFNumber.of(0), PDFNumber.of(0)]),
+      A: action,
+      // No highlighting (optional)
+      H: PDFName.of('N')
+    });
 
-      linkCount++;
+    // Get or create the Annots array for the page
+    const linkRef = pdfDoc.context.register(linkAnnotation);
+    let annots = sourcePage.node.lookup(PDFName.of('Annots'));
 
-      // Check for /A (action) with /GoTo and /D (destination name)
-      const action = annot.get(PDFName.of('A'));
-      if (action instanceof PDFDict) {
-        const actionType = action.get(PDFName.of('S'));
-        const dest = action.get(PDFName.of('D'));
-        console.log(`[hyperlinks] Link annotation: action type=${actionType}, dest=${dest}, dest type=${dest?.constructor?.name}`);
-
-        if (actionType && actionType.toString() === '/GoTo') {
-          if (dest) {
-            const destName = extractDestinationName(dest);
-            console.log(`[hyperlinks] Extracted dest name: "${destName}"`);
-            if (destName && destName.startsWith('enclosure')) {
-              const encNum = parseInt(destName.replace('enclosure', ''), 10);
-              const targetPage = enclosurePageMap.get(encNum);
-              if (targetPage) {
-                // Update the action to point directly to the page
-                const newDest = pdfDoc.context.obj([
-                  targetPage.ref,
-                  PDFName.of('XYZ'),
-                  PDFNumber.of(0),
-                  PDFNumber.of(PAGE_HEIGHT),
-                  PDFNumber.of(0),
-                ]);
-                action.set(PDFName.of('D'), newDest);
-                updatedCount++;
-                console.log(`[hyperlinks] Updated link to ${destName}`);
-              } else {
-                console.log(`[hyperlinks] No page recorded for enclosure ${encNum}`);
-              }
-            }
-          }
-        }
-      } else {
-        console.log(`[hyperlinks] Link annotation has no /A action, checking /Dest`);
-      }
-
-      // Also check for direct /Dest on the annotation
-      const directDest = annot.get(PDFName.of('Dest'));
-      if (directDest) {
-        const destName = extractDestinationName(directDest);
-        console.log(`[hyperlinks] Direct dest: "${destName}"`);
-        if (destName && destName.startsWith('enclosure')) {
-          const encNum = parseInt(destName.replace('enclosure', ''), 10);
-          const targetPage = enclosurePageMap.get(encNum);
-          if (targetPage) {
-            // Update the destination to point directly to the page
-            const newDest = pdfDoc.context.obj([
-              targetPage.ref,
-              PDFName.of('XYZ'),
-              PDFNumber.of(0),
-              PDFNumber.of(PAGE_HEIGHT),
-              PDFNumber.of(0),
-            ]);
-            annot.set(PDFName.of('Dest'), newDest);
-            updatedCount++;
-            console.log(`[hyperlinks] Updated direct dest to ${destName}`);
-          }
-        }
-      }
+    if (annots instanceof PDFArray) {
+      annots.push(linkRef);
+    } else {
+      // Create new Annots array
+      const newAnnots = pdfDoc.context.obj([linkRef]);
+      sourcePage.node.set(PDFName.of('Annots'), newAnnots);
     }
+
+    createdCount++;
+    console.log(`[hyperlinks] Created link for enclosure ${pos.enclosureNumber} at (${pos.x}, ${pos.y}) -> page ${targetPageIndex + 1}`);
   }
 
-  console.log(`[hyperlinks] Total annotations: ${totalAnnots}, link annotations: ${linkCount}, updated: ${updatedCount}`);
-
-  // Clear for next use
-  enclosurePageMap.clear();
-}
-
-/**
- * Extracts the destination name from various PDF destination formats.
- */
-function extractDestinationName(dest: unknown): string | null {
-  if (dest instanceof PDFString) {
-    return dest.decodeText();
-  }
-  if (dest instanceof PDFName) {
-    return dest.decodeText();
-  }
-  if (typeof dest === 'object' && dest !== null && 'toString' in dest) {
-    const str = dest.toString();
-    // Handle formats like (enclosure1) or /enclosure1
-    if (str.startsWith('(') && str.endsWith(')')) {
-      return str.slice(1, -1);
-    }
-    if (str.startsWith('/')) {
-      return str.slice(1);
-    }
-    return str;
-  }
-  return null;
+  console.log(`[hyperlinks] Created ${createdCount} link annotations`);
 }
 
 /**
@@ -191,18 +365,25 @@ export async function mergeEnclosures(
   mainPdfBytes: Uint8Array,
   enclosures: EnclosureData[],
   classification?: ClassificationInfo,
-  _includeHyperlinks = false
+  includeHyperlinks = false
 ): Promise<Uint8Array> {
-  console.log('[mergeEnclosures] Called with', enclosures.length, 'enclosures');
+  console.log('[mergeEnclosures] Called with', enclosures.length, 'enclosures, hyperlinks:', includeHyperlinks);
 
   if (enclosures.length === 0) {
     return mainPdfBytes;
   }
 
+  // Clear enclosure page map for fresh run
+  enclosurePageMap.clear();
+
   // Load the main document
   const mainPdf = await PDFDocument.load(mainPdfBytes);
   const helveticaBold = await mainPdf.embedFont(StandardFonts.HelveticaBold);
   const helvetica = await mainPdf.embedFont(StandardFonts.Helvetica);
+
+  // Record the number of pages in the main document BEFORE adding enclosures
+  const mainPageCount = mainPdf.getPageCount();
+  console.log(`[mergeEnclosures] Main document has ${mainPageCount} pages before adding enclosures`);
 
   // Process each enclosure in order
   for (const enclosure of enclosures) {
@@ -227,8 +408,15 @@ export async function mergeEnclosures(
     }
   }
 
-  // Update hyperlink destinations to point to the enclosure pages we just added
-  updateHyperlinkDestinations(mainPdf);
+  // Create hyperlink annotations if enabled
+  if (includeHyperlinks && enclosurePageMap.size > 0) {
+    console.log('[mergeEnclosures] Creating hyperlink annotations...');
+    const positions = findEnclosureReferences(mainPdf, mainPageCount);
+    createLinkAnnotations(mainPdf, positions);
+  }
+
+  // Clear for next use
+  enclosurePageMap.clear();
 
   return mainPdf.save();
 }
@@ -260,7 +448,7 @@ async function addPdfEnclosure(
     // Record first page for hyperlink navigation
     // (Skip if there's a cover page - the cover page is the target)
     if (i === 0 && !enclosure.hasCoverPage) {
-      recordEnclosurePage(enclosure.number, page);
+      recordEnclosurePage(enclosure.number, mainPdf.getPageCount() - 1);
     }
 
     // Add classification marking at top (before content)
@@ -390,7 +578,7 @@ function addPlaceholderPage(
   const page = mainPdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 
   // Record page for hyperlink navigation
-  recordEnclosurePage(enclosure.number, page);
+  recordEnclosurePage(enclosure.number, mainPdf.getPageCount() - 1);
 
   // Add classification marking at top
   if (classification?.marking) {
@@ -447,7 +635,7 @@ function addCoverPage(
   const page = mainPdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 
   // Record cover page as the hyperlink target for this enclosure
-  recordEnclosurePage(enclosure.number, page);
+  recordEnclosurePage(enclosure.number, mainPdf.getPageCount() - 1);
 
   // Add classification marking at top
   if (classification?.marking) {
