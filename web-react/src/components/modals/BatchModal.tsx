@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from 'react';
-import { Plus, Trash2, Download, AlertCircle, FileText, Variable, CheckCircle, XCircle } from 'lucide-react';
+import { Plus, Trash2, Download, AlertCircle, FileText, Variable, CheckCircle, XCircle, Copy, Lightbulb } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -17,7 +17,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { generateAllLatexFiles } from '@/services/latex/generator';
 import { debug } from '@/lib/debug';
-import { TIMING } from '@/lib/constants';
+import { TIMING, BATCH_PLACEHOLDERS } from '@/lib/constants';
 
 interface PlaceholderValue {
   [key: string]: string;
@@ -37,22 +37,29 @@ interface BatchResults {
   errors: Array<{ index: number; error: string }>;
 }
 
-// Detect placeholders in text (format: {{PLACEHOLDER_NAME}})
+// Detect placeholders in text (format: {{PLACEHOLDER_NAME}} - case insensitive)
 function detectPlaceholders(text: string): string[] {
-  const regex = /\{\{([A-Z0-9_]+)\}\}/g;
+  const regex = /\{\{([A-Za-z0-9_]+)\}\}/g;
   const placeholders = new Set<string>();
   let match;
   while ((match = regex.exec(text)) !== null) {
-    placeholders.add(match[1]);
+    // Normalize to uppercase for consistency
+    placeholders.add(match[1].toUpperCase());
   }
   return Array.from(placeholders);
 }
 
-// Replace placeholders in text
+// Replace placeholders in text (case insensitive)
 function replacePlaceholders(text: string, values: PlaceholderValue): string {
-  return text.replace(/\{\{([A-Z0-9_]+)\}\}/g, (match, key) => {
-    return values[key] !== undefined ? values[key] : match;
+  return text.replace(/\{\{([A-Za-z0-9_]+)\}\}/gi, (match, key) => {
+    const upperKey = key.toUpperCase();
+    return values[upperKey] !== undefined ? values[upperKey] : match;
   });
+}
+
+// Copy text to clipboard
+function copyToClipboard(text: string) {
+  navigator.clipboard.writeText(text);
 }
 
 export function BatchModal() {
@@ -262,12 +269,38 @@ export function BatchModal() {
         <ScrollArea className="flex-1 min-h-0">
           <div className="p-6 space-y-4">
             {hasNoPlaceholders ? (
-              <div className="flex items-start gap-3 p-4 rounded-lg border border-amber-500/30 bg-amber-500/10">
-                <AlertCircle className="h-5 w-5 text-amber-500 mt-0.5 shrink-0" />
-                <div className="text-sm">
-                  No placeholders detected in your document. Add placeholders using the format{' '}
-                  <code className="bg-muted px-1 rounded">{'{{PLACEHOLDER_NAME}}'}</code> in any
-                  text field (subject, body, references, etc.) to enable batch generation.
+              <div className="space-y-4">
+                <div className="flex items-start gap-3 p-4 rounded-lg border border-amber-500/30 bg-amber-500/10">
+                  <Lightbulb className="h-5 w-5 text-amber-500 mt-0.5 shrink-0" />
+                  <div className="text-sm">
+                    <p className="font-medium mb-1">No placeholders detected yet</p>
+                    <p className="text-muted-foreground">
+                      Use the <Variable className="h-3 w-3 inline mx-1" /> Variable button next to input fields to insert placeholders,
+                      or type them manually using <code className="bg-muted px-1 rounded">{'{{NAME}}'}</code> format.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-sm">Common Variables (click to copy)</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {BATCH_PLACEHOLDERS.slice(0, 8).map((p) => (
+                      <button
+                        key={p.name}
+                        onClick={() => copyToClipboard(`{{${p.name}}}`)}
+                        className="flex items-center justify-between p-2 text-left text-sm rounded border hover:bg-secondary/50 transition-colors group"
+                      >
+                        <div>
+                          <span className="font-medium">{p.label}</span>
+                          <span className="text-xs text-muted-foreground ml-2">{p.example}</span>
+                        </div>
+                        <Copy className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </button>
+                    ))}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Tip: Add a variable to your Subject line like "PROMOTION OF <code className="bg-muted px-0.5 rounded">{'{{NAME}}'}</code> TO <code className="bg-muted px-0.5 rounded">{'{{RANK}}'}</code>"
+                  </p>
                 </div>
               </div>
             ) : (

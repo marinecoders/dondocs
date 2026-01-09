@@ -33,6 +33,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { RichTextToolbar, applyFormat } from './RichTextToolbar';
+import { InsertVariableButton } from '@/components/ui/insert-variable-button';
 import { useDocumentStore } from '@/stores/documentStore';
 import type { Paragraph, PortionMarking } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
@@ -170,7 +171,13 @@ function SortableParagraph({
 
         {/* Content */}
         <div className="flex-1">
-          <RichTextToolbar onFormat={handleFormat} />
+          <div className="flex items-center gap-2 mb-1">
+            <RichTextToolbar onFormat={handleFormat} />
+            <InsertVariableButton
+              onInsert={(v) => onUpdate(paragraph.text + v)}
+              size="sm"
+            />
+          </div>
           <Textarea
             ref={textareaRef}
             value={paragraph.text}
