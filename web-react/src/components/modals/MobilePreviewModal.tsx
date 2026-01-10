@@ -213,6 +213,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
               <Button
                 className="w-full h-12 text-base"
                 onClick={() => {
+                  // Open PDF in new tab - user can view and use Safari's share
                   const link = document.createElement('a');
                   link.href = pdfUrl;
                   link.target = '_blank';
@@ -224,15 +225,10 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
                 <FileText className="h-5 w-5 mr-2" />
                 Open PDF
               </Button>
-              <Button
-                variant="outline"
-                className="w-full h-12 text-base"
-                onClick={handleSavePdf}
-              >
-                <Share className="h-5 w-5 mr-2" />
-                Share / Save
-              </Button>
             </div>
+            <p className="text-xs text-muted-foreground text-center mt-2">
+              Tap "Open PDF", then use Safari's share button to save
+            </p>
           </div>
         )}
 
