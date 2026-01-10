@@ -825,6 +825,19 @@ function parseContentStreamForReferences(bytes: Uint8Array, pageIdx: number, url
     }
   }
 
+  // Debug: Log all blue text operations to understand what patterns exist
+  const blueTextOps = allTextOps.filter(op => isBlueAtPosition(op.pos));
+  if (blueTextOps.length > 0) {
+    console.log(`[hyperlinks] Page ${pageIdx + 1}: Found ${blueTextOps.length} blue text operations:`);
+    blueTextOps.slice(0, 20).forEach((op, i) => {
+      const pos = getPositionAt(op.pos);
+      console.log(`  [${i}] "${op.text}" at (${pos.x.toFixed(1)}, ${pos.y.toFixed(1)})`);
+    });
+    if (blueTextOps.length > 20) {
+      console.log(`  ... and ${blueTextOps.length - 20} more`);
+    }
+  }
+
   // Look for blue text that might be a reference letter in parentheses
   // The pattern "reference (a)" could be split across multiple text operations
   // So we look for single letter patterns like "a", "b", etc. in blue near "reference" text
@@ -877,6 +890,31 @@ function parseContentStreamForReferences(bytes: Uint8Array, pageIdx: number, url
           letter,
           url
         });
+      }
+    }
+
+    // Also check if text contains a letter that has a URL (more lenient matching)
+    // This handles cases where the letter might be in a longer string
+    if (isBlueAtPosition(textOp.pos)) {
+      for (const [letter, url] of urlMap.entries()) {
+        if (!foundLetters.has(letter) && textOp.text.toLowerCase().includes(letter)) {
+          const position = getPositionAt(textOp.pos);
+          const fontSize = getNearestFontSize(textOp.pos);
+
+          console.log(`[hyperlinks] Found blue text containing '${letter}': "${textOp.text}" at (${position.x}, ${position.y})`);
+
+          foundLetters.add(letter);
+          positions.push({
+            pageIndex: pageIdx,
+            x: position.x,
+            y: position.y,
+            width: Math.max(fontSize * textOp.text.length * 0.6, fontSize * 5),
+            height: fontSize,
+            letter,
+            url
+          });
+          break; // Only add once per text operation
+        }
       }
     }
   }
