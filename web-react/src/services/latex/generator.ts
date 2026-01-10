@@ -463,11 +463,17 @@ export interface EnclosureData {
   coverPageDescription?: string;
 }
 
+export interface ReferenceUrlData {
+  letter: string;
+  url: string;
+}
+
 export interface GeneratedFiles {
   texFiles: Record<string, string>;
   enclosures: EnclosureData[];
   includeHyperlinks: boolean;
   signatureImage?: Uint8Array; // PNG data for signature image
+  referenceUrls: ReferenceUrlData[]; // URLs for reference hyperlinks
 }
 
 // Helper to convert base64 to Uint8Array
@@ -510,5 +516,10 @@ export function generateAllLatexFiles(store: DocumentStore): GeneratedFiles {
     ? base64ToUint8Array(store.formData.signatureImage.data)
     : undefined;
 
-  return { texFiles, enclosures, includeHyperlinks: !!store.formData.includeHyperlinks, signatureImage };
+  // Collect reference URLs for hyperlink creation
+  const referenceUrls: ReferenceUrlData[] = store.references
+    .filter((r) => r.url?.trim())
+    .map((r) => ({ letter: r.letter, url: r.url! }));
+
+  return { texFiles, enclosures, includeHyperlinks: !!store.formData.includeHyperlinks, signatureImage, referenceUrls };
 }

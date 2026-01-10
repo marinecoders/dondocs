@@ -10,6 +10,11 @@ export interface EnclosureData {
   coverPageDescription?: string; // Optional description text for the cover page
 }
 
+export interface ReferenceUrlData {
+  letter: string; // e.g., "a", "b", "c"
+  url: string;    // The external URL to link to
+}
+
 export interface ClassificationInfo {
   level: string; // 'unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci'
   marking?: string; // The actual marking text to display (e.g., 'CUI', 'SECRET', 'TOP SECRET//SCI')
@@ -34,6 +39,19 @@ interface TextPosition {
   height: number;
   text: string;
   enclosureNumber: number;
+}
+
+/**
+ * Represents a found reference link position in the PDF
+ */
+interface ReferencePosition {
+  pageIndex: number;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  letter: string;
+  url: string;
 }
 
 /**
@@ -587,6 +605,357 @@ function createNamedDestinations(pdfDoc: PDFDocument): void {
 }
 
 /**
+ * Finds reference link text patterns in the PDF content streams.
+ * Looks for patterns like "reference (a)", "reference (b)" that appear as blue text.
+ *
+ * The LaTeX template uses \reflink{letter} which produces "reference (letter)" in blue.
+ * SwiftLaTeX doesn't create proper URI link annotations, so we need to find the text
+ * and create the annotations ourselves.
+ */
+function findReferenceLinks(pdfDoc: PDFDocument, mainPageCount: number, references: ReferenceUrlData[]): ReferencePosition[] {
+  const positions: ReferencePosition[] = [];
+  const pages = pdfDoc.getPages();
+
+  if (references.length === 0) {
+    console.log('[hyperlinks] No reference URLs to search for');
+    return positions;
+  }
+
+  // Create a map for quick URL lookup by letter
+  const urlMap = new Map<string, string>();
+  for (const ref of references) {
+    urlMap.set(ref.letter.toLowerCase(), ref.url);
+  }
+
+  console.log(`[hyperlinks] Scanning ${mainPageCount} pages for reference links (${references.length} references with URLs)`);
+
+  // Scan main document pages for reference links
+  for (let pageIdx = 0; pageIdx < Math.min(mainPageCount, pages.length); pageIdx++) {
+    const page = pages[pageIdx];
+
+    try {
+      const contentsEntry = page.node.get(PDFName.of('Contents'));
+      if (!contentsEntry) continue;
+
+      let contentBytes: Uint8Array | undefined;
+      const resolvedContents = page.node.lookup(PDFName.of('Contents'));
+
+      if (resolvedContents instanceof PDFRawStream) {
+        contentBytes = decompressContentStream(resolvedContents);
+      } else if (resolvedContents instanceof PDFArray) {
+        const allBytes: number[] = [];
+        for (let i = 0; i < resolvedContents.size(); i++) {
+          const ref = resolvedContents.get(i);
+          if (ref instanceof PDFRef) {
+            const stream = pdfDoc.context.lookup(ref);
+            if (stream instanceof PDFRawStream) {
+              const bytes = decompressContentStream(stream);
+              allBytes.push(...bytes);
+            }
+          }
+        }
+        if (allBytes.length > 0) {
+          contentBytes = new Uint8Array(allBytes);
+        }
+      }
+
+      if (!contentBytes) continue;
+
+      // Parse content stream for reference text
+      const pagePositions = parseContentStreamForReferences(contentBytes, pageIdx, urlMap);
+      positions.push(...pagePositions);
+    } catch (error) {
+      console.error(`[hyperlinks] Error processing page ${pageIdx + 1} for references:`, error);
+    }
+  }
+
+  console.log(`[hyperlinks] Found ${positions.length} reference links`);
+  return positions;
+}
+
+/**
+ * Parses a PDF content stream to find reference link text patterns.
+ * Looks for blue text containing "reference" followed by "(letter)".
+ */
+function parseContentStreamForReferences(bytes: Uint8Array, pageIdx: number, urlMap: Map<string, string>): ReferencePosition[] {
+  const positions: ReferencePosition[] = [];
+  const content = new TextDecoder('latin1').decode(bytes);
+
+  // Track color changes (looking for blue text: 0 0 1 rg)
+  interface ColorRange {
+    startPos: number;
+    isBlue: boolean;
+  }
+  const colorRanges: ColorRange[] = [];
+  const colorRegex = /([\d.]+)\s+([\d.]+)\s+([\d.]+)\s+rg/g;
+  let colorMatch;
+
+  while ((colorMatch = colorRegex.exec(content)) !== null) {
+    const r = parseFloat(colorMatch[1]);
+    const g = parseFloat(colorMatch[2]);
+    const b = parseFloat(colorMatch[3]);
+    const isBlue = r < 0.2 && g < 0.2 && b > 0.7;
+    colorRanges.push({ startPos: colorMatch.index, isBlue });
+  }
+
+  // Track position operations
+  interface PositionOp {
+    type: 'Tm' | 'Td' | 'BT';
+    x: number;
+    y: number;
+    pos: number;
+  }
+  const positionOps: PositionOp[] = [];
+
+  // Find BT operations
+  const btRegex = /\bBT\b/g;
+  let btMatch;
+  while ((btMatch = btRegex.exec(content)) !== null) {
+    positionOps.push({ type: 'BT', x: 0, y: 0, pos: btMatch.index });
+  }
+
+  // Find Tm operations
+  const tmRegex = /(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)\s+Tm/g;
+  let tmMatch;
+  while ((tmMatch = tmRegex.exec(content)) !== null) {
+    positionOps.push({
+      type: 'Tm',
+      x: parseFloat(tmMatch[5]),
+      y: parseFloat(tmMatch[6]),
+      pos: tmMatch.index
+    });
+  }
+
+  // Find Td operations
+  const tdRegex = /(-?[\d.]+)\s+(-?[\d.]+)\s+Td\b/g;
+  let tdMatch;
+  while ((tdMatch = tdRegex.exec(content)) !== null) {
+    positionOps.push({
+      type: 'Td',
+      x: parseFloat(tdMatch[1]),
+      y: parseFloat(tdMatch[2]),
+      pos: tdMatch.index
+    });
+  }
+
+  // Find TD operations
+  const tdUpperRegex = /(-?[\d.]+)\s+(-?[\d.]+)\s+TD\b/g;
+  let tdUpperMatch;
+  while ((tdUpperMatch = tdUpperRegex.exec(content)) !== null) {
+    positionOps.push({
+      type: 'Td',
+      x: parseFloat(tdUpperMatch[1]),
+      y: parseFloat(tdUpperMatch[2]),
+      pos: tdUpperMatch.index
+    });
+  }
+
+  positionOps.sort((a, b) => a.pos - b.pos);
+
+  // Find font sizes
+  const tfRegex = /\/\w+\s+([\d.]+)\s+Tf/g;
+  let tfMatch;
+  const fontSizes: { size: number; pos: number }[] = [];
+  while ((tfMatch = tfRegex.exec(content)) !== null) {
+    fontSizes.push({ size: parseFloat(tfMatch[1]), pos: tfMatch.index });
+  }
+
+  // Helper functions
+  function isBlueAtPosition(pos: number): boolean {
+    let currentBlue = false;
+    for (const range of colorRanges) {
+      if (range.startPos > pos) break;
+      currentBlue = range.isBlue;
+    }
+    return currentBlue;
+  }
+
+  function getPositionAt(pos: number): { x: number; y: number } {
+    let currentX = 0;
+    let currentY = 0;
+    for (const op of positionOps) {
+      if (op.pos > pos) break;
+      if (op.type === 'BT') {
+        currentX = 0;
+        currentY = 0;
+      } else if (op.type === 'Tm') {
+        currentX = op.x;
+        currentY = op.y;
+      } else if (op.type === 'Td') {
+        currentX += op.x;
+        currentY += op.y;
+      }
+    }
+    return { x: currentX, y: currentY };
+  }
+
+  function getNearestFontSize(pos: number): number {
+    let result = 12;
+    for (const tf of fontSizes) {
+      if (tf.pos > pos) break;
+      result = tf.size;
+    }
+    return result;
+  }
+
+  // Track found reference letters to avoid duplicates
+  const foundLetters = new Set<string>();
+
+  // Method 1: Look for blue text containing "reference" or "ref"
+  // Then look for nearby "(letter)" patterns
+  const allTextOps: { text: string; pos: number }[] = [];
+
+  // Match Tj operations
+  const tjRegex = /\(([^)]*)\)\s*Tj/g;
+  let tjMatch;
+  while ((tjMatch = tjRegex.exec(content)) !== null) {
+    allTextOps.push({ text: tjMatch[1], pos: tjMatch.index });
+  }
+
+  // Match TJ operations
+  const tjArrayRegex = /\[([^\]]*)\]\s*TJ/g;
+  let tjArrayMatch;
+  while ((tjArrayMatch = tjArrayRegex.exec(content)) !== null) {
+    const arrayContent = tjArrayMatch[1];
+    const stringMatches = arrayContent.matchAll(/\(([^)]*)\)/g);
+    for (const strMatch of stringMatches) {
+      if (strMatch[1]) {
+        allTextOps.push({ text: strMatch[1], pos: tjArrayMatch.index });
+      }
+    }
+  }
+
+  // Look for blue text that might be a reference letter in parentheses
+  // The pattern "reference (a)" could be split across multiple text operations
+  // So we look for single letter patterns like "a", "b", etc. in blue near "reference" text
+  for (const textOp of allTextOps) {
+    // Check for single lowercase letter (reference letter)
+    const letterMatch = textOp.text.match(/^([a-z])$/i);
+    if (letterMatch) {
+      const letter = letterMatch[1].toLowerCase();
+      const url = urlMap.get(letter);
+
+      if (url && !foundLetters.has(letter) && isBlueAtPosition(textOp.pos)) {
+        const position = getPositionAt(textOp.pos);
+        const fontSize = getNearestFontSize(textOp.pos);
+
+        console.log(`[hyperlinks] Found blue reference letter '${letter}' at (${position.x}, ${position.y})`);
+
+        foundLetters.add(letter);
+        positions.push({
+          pageIndex: pageIdx,
+          x: position.x,
+          y: position.y,
+          width: fontSize * 0.6,
+          height: fontSize,
+          letter,
+          url
+        });
+      }
+    }
+
+    // Also check for full "reference (x)" patterns in case they're in one string
+    const refMatch = textOp.text.match(/reference\s*\(([a-z])\)/i);
+    if (refMatch) {
+      const letter = refMatch[1].toLowerCase();
+      const url = urlMap.get(letter);
+
+      if (url && !foundLetters.has(letter) && isBlueAtPosition(textOp.pos)) {
+        const position = getPositionAt(textOp.pos);
+        const fontSize = getNearestFontSize(textOp.pos);
+
+        console.log(`[hyperlinks] Found blue 'reference (${letter})' at (${position.x}, ${position.y})`);
+
+        foundLetters.add(letter);
+        // Width should cover "reference (x)" - approximately 12 characters
+        positions.push({
+          pageIndex: pageIdx,
+          x: position.x,
+          y: position.y,
+          width: fontSize * 7, // Cover ~12 chars
+          height: fontSize,
+          letter,
+          url
+        });
+      }
+    }
+  }
+
+  if (positions.length > 0) {
+    console.log(`[hyperlinks] Page ${pageIdx + 1}: found ${positions.length} reference links`);
+  }
+
+  return positions;
+}
+
+/**
+ * Creates URI link annotations for reference hyperlinks.
+ * These annotations open external URLs when clicked.
+ */
+function createUriLinkAnnotations(pdfDoc: PDFDocument, positions: ReferencePosition[]): void {
+  if (positions.length === 0) {
+    console.log('[hyperlinks] No reference positions to create URI links for');
+    return;
+  }
+
+  const pages = pdfDoc.getPages();
+  let createdCount = 0;
+
+  for (const pos of positions) {
+    if (pos.pageIndex >= pages.length) {
+      console.log(`[hyperlinks] Page index ${pos.pageIndex} out of bounds for reference ${pos.letter}`);
+      continue;
+    }
+
+    const page = pages[pos.pageIndex];
+
+    // Create the link annotation rectangle with padding
+    const padding = 2;
+    const rect = pdfDoc.context.obj([
+      PDFNumber.of(pos.x - padding),
+      PDFNumber.of(pos.y - padding),
+      PDFNumber.of(pos.x + pos.width + padding * 2),
+      PDFNumber.of(pos.y + pos.height + padding)
+    ]);
+
+    // Create a URI action for external link
+    const action = pdfDoc.context.obj({
+      Type: PDFName.of('Action'),
+      S: PDFName.of('URI'),
+      URI: PDFString.of(pos.url)
+    });
+
+    // Create the link annotation
+    const linkAnnotation = pdfDoc.context.obj({
+      Type: PDFName.of('Annot'),
+      Subtype: PDFName.of('Link'),
+      Rect: rect,
+      Border: pdfDoc.context.obj([PDFNumber.of(0), PDFNumber.of(0), PDFNumber.of(0)]),
+      A: action,
+      H: PDFName.of('I'),
+      P: page.ref,
+      F: PDFNumber.of(4)
+    });
+
+    // Add to page's Annots array
+    const linkRef = pdfDoc.context.register(linkAnnotation);
+    let annots = page.node.lookup(PDFName.of('Annots'));
+
+    if (annots instanceof PDFArray) {
+      annots.push(linkRef);
+    } else {
+      const newAnnots = pdfDoc.context.obj([linkRef]);
+      page.node.set(PDFName.of('Annots'), newAnnots);
+    }
+
+    createdCount++;
+    console.log(`[hyperlinks] Created URI link for reference (${pos.letter}) -> ${pos.url}`);
+  }
+
+  console.log(`[hyperlinks] Created ${createdCount} URI link annotations for references`);
+}
+
+/**
  * Merges enclosure pages into the main document.
  * Handles both PDF enclosures and text-only placeholder pages.
  * Maintains correct enclosure ordering.
@@ -595,11 +964,13 @@ export async function mergeEnclosures(
   mainPdfBytes: Uint8Array,
   enclosures: EnclosureData[],
   classification?: ClassificationInfo,
-  includeHyperlinks = false
+  includeHyperlinks = false,
+  referenceUrls: ReferenceUrlData[] = []
 ): Promise<Uint8Array> {
-  console.log('[mergeEnclosures] Called with', enclosures.length, 'enclosures, hyperlinks:', includeHyperlinks);
+  console.log('[mergeEnclosures] Called with', enclosures.length, 'enclosures, hyperlinks:', includeHyperlinks, 'references:', referenceUrls.length);
 
-  if (enclosures.length === 0) {
+  // If no enclosures but we have reference hyperlinks to process, still load and modify the PDF
+  if (enclosures.length === 0 && (!includeHyperlinks || referenceUrls.length === 0)) {
     return mainPdfBytes;
   }
 
@@ -650,6 +1021,15 @@ export async function mergeEnclosures(
     console.log('[mergeEnclosures] Creating link annotations as fallback...');
     const positions = findEnclosureReferences(mainPdf, mainPageCount);
     createLinkAnnotations(mainPdf, positions);
+  }
+
+  // Create URI link annotations for reference hyperlinks
+  // The LaTeX template uses \reflink{letter} which produces "reference (letter)" in blue
+  // SwiftLaTeX doesn't create proper URI annotations, so we create them ourselves
+  if (includeHyperlinks && referenceUrls.length > 0) {
+    console.log('[mergeEnclosures] Processing reference hyperlinks...');
+    const refPositions = findReferenceLinks(mainPdf, mainPageCount, referenceUrls);
+    createUriLinkAnnotations(mainPdf, refPositions);
   }
 
   // Clear for next use

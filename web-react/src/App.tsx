@@ -138,7 +138,7 @@ function App() {
     setCompileError(null);
 
     try {
-      const { texFiles, enclosures, includeHyperlinks, signatureImage } = generateAllLatexFiles(documentStore);
+      const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls } = generateAllLatexFiles(documentStore);
 
       // Build files object including signature image if present
       const files: Record<string, string | Uint8Array> = { ...texFiles };
@@ -149,10 +149,10 @@ function App() {
       let pdfBytes = await compile(files);
 
       if (pdfBytes) {
-        // Merge enclosures if any (handles both PDF and text-only)
-        if (enclosures.length > 0) {
+        // Merge enclosures and/or create hyperlinks (handles both PDF and text-only enclosures, and reference URLs)
+        if (enclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
           const classification = getClassificationInfo(documentStore.formData.classLevel);
-          pdfBytes = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks);
+          pdfBytes = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls);
         }
 
         // Add digital signature field if requested
@@ -224,7 +224,7 @@ function App() {
 
   // Core download function - can be called for retry
   const executeDownload = useCallback(async (): Promise<boolean> => {
-    const { texFiles, enclosures, includeHyperlinks, signatureImage } = generateAllLatexFiles(documentStore);
+    const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls } = generateAllLatexFiles(documentStore);
 
     // Build files object including signature image if present
     const files: Record<string, string | Uint8Array> = { ...texFiles };
@@ -235,10 +235,10 @@ function App() {
     let pdfBytes = await compile(files);
 
     if (pdfBytes) {
-      // Merge enclosures if any (handles both PDF and text-only)
-      if (enclosures.length > 0) {
+      // Merge enclosures and/or create hyperlinks (handles both PDF and text-only enclosures, and reference URLs)
+      if (enclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
         const classification = getClassificationInfo(documentStore.formData.classLevel);
-        pdfBytes = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks);
+        pdfBytes = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls);
       }
 
       // Add digital signature field if requested
@@ -316,7 +316,7 @@ function App() {
   const executePIIDownload = useCallback(async (): Promise<boolean> => {
     if (!pendingDownloadRef.current) return false;
 
-    const { texFiles, enclosures, includeHyperlinks, signatureImage } = pendingDownloadRef.current;
+    const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls } = pendingDownloadRef.current;
 
     const files: Record<string, string | Uint8Array> = { ...texFiles };
     if (signatureImage) {
@@ -326,9 +326,9 @@ function App() {
     let pdfBytes = await compile(files);
 
     if (pdfBytes) {
-      if (enclosures.length > 0) {
+      if (enclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
         const classification = getClassificationInfo(documentStore.formData.classLevel);
-        pdfBytes = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks);
+        pdfBytes = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls);
       }
 
       // Add digital signature field if requested
@@ -431,8 +431,8 @@ function App() {
     const piiResult = detectPII(documentStore);
     if (piiResult.found) {
       // Store the generated files for later use
-      const { texFiles, enclosures, includeHyperlinks, signatureImage } = generateAllLatexFiles(documentStore);
-      pendingDownloadRef.current = { texFiles, enclosures, includeHyperlinks, signatureImage };
+      const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls } = generateAllLatexFiles(documentStore);
+      pendingDownloadRef.current = { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls };
       setPiiDetectionResult(piiResult);
       setPiiWarningOpen(true);
       return;
