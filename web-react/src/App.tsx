@@ -272,6 +272,48 @@ function App() {
       }
 
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
+
+      // iOS-compatible download handling
+      const isIPad = /iPad/i.test(navigator.userAgent) ||
+        (/Macintosh/i.test(navigator.userAgent) && 'ontouchstart' in window);
+      const isIOS = /iPhone|iPod/i.test(navigator.userAgent) || isIPad;
+      const isSafari = /Safari/i.test(navigator.userAgent) && !/Chrome|CriOS/i.test(navigator.userAgent);
+
+      // Try Web Share API first (works best on iOS)
+      if (isIOS && navigator.share && navigator.canShare) {
+        const file = new File([blob], 'correspondence.pdf', { type: 'application/pdf' });
+        if (navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({ files: [file] });
+            return true;
+          } catch (shareErr) {
+            if ((shareErr as Error).name === 'AbortError') return true;
+            console.log('Share API failed, using fallback:', shareErr);
+          }
+        }
+      }
+
+      // iOS Safari: open in new tab
+      if (isIOS && isSafari) {
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+        setTimeout(() => URL.revokeObjectURL(url), 10000);
+        return true;
+      }
+
+      // iOS Chrome: use data URL
+      if (isIOS && !isSafari) {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            window.open(reader.result as string, '_blank');
+            resolve(true);
+          };
+          reader.readAsDataURL(blob);
+        });
+      }
+
+      // Desktop: standard download
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -362,6 +404,48 @@ function App() {
       }
 
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
+
+      // iOS-compatible download handling
+      const isIPad = /iPad/i.test(navigator.userAgent) ||
+        (/Macintosh/i.test(navigator.userAgent) && 'ontouchstart' in window);
+      const isIOS = /iPhone|iPod/i.test(navigator.userAgent) || isIPad;
+      const isSafari = /Safari/i.test(navigator.userAgent) && !/Chrome|CriOS/i.test(navigator.userAgent);
+
+      // Try Web Share API first (works best on iOS)
+      if (isIOS && navigator.share && navigator.canShare) {
+        const file = new File([blob], 'correspondence.pdf', { type: 'application/pdf' });
+        if (navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({ files: [file] });
+            return true;
+          } catch (shareErr) {
+            if ((shareErr as Error).name === 'AbortError') return true;
+            console.log('Share API failed, using fallback:', shareErr);
+          }
+        }
+      }
+
+      // iOS Safari: open in new tab
+      if (isIOS && isSafari) {
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+        setTimeout(() => URL.revokeObjectURL(url), 10000);
+        return true;
+      }
+
+      // iOS Chrome: use data URL
+      if (isIOS && !isSafari) {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            window.open(reader.result as string, '_blank');
+            resolve(true);
+          };
+          reader.readAsDataURL(blob);
+        });
+      }
+
+      // Desktop: standard download
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;

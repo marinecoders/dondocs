@@ -231,10 +231,10 @@ function IPadPdfViewer({ pdfUrl, onClose, onDownload }: {
         </div>
       </div>
 
-      {/* PDF Viewer */}
-      <div className="flex-1">
+      {/* PDF Viewer - flex-1 with overflow for proper scrolling */}
+      <div className="flex-1 overflow-hidden">
         <Worker workerUrl={PDFJS_WORKER_URL}>
-          <div className="h-full" style={{ minHeight: 'calc(100vh - 100px)' }}>
+          <div style={{ height: 'calc(100vh - 52px)' }}>
             <Viewer
               fileUrl={pdfUrl}
               plugins={[defaultLayoutPluginInstance]}

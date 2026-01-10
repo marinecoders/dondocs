@@ -315,14 +315,14 @@ export function Header({
             <Redo2 className="h-4 w-4" />
           </Button>
 
-          {/* Always visible: Refresh */}
+          {/* Refresh - hidden on mobile, in hamburger menu */}
           <Button
             variant="ghost"
             size="icon"
             onClick={onRefreshPreview}
             disabled={isCompiling}
             title="Refresh Preview"
-            className="h-8 w-8 sm:h-9 sm:w-9"
+            className="h-8 w-8 sm:h-9 sm:w-9 hidden md:flex"
           >
             <RefreshCw className={`h-4 w-4 ${isCompiling ? 'animate-spin' : ''}`} />
           </Button>
@@ -479,10 +479,10 @@ export function Header({
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Appearance dropdown - combines theme, color scheme, density */}
+          {/* Appearance dropdown - hidden on mobile, in hamburger menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" title="Appearance" className="h-8 w-8 sm:h-9 sm:w-9">
+              <Button variant="ghost" size="icon" title="Appearance" className="h-8 w-8 sm:h-9 sm:w-9 hidden md:flex">
                 <Settings className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -553,6 +553,12 @@ export function Header({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-52">
+              {/* Quick actions */}
+              <DropdownMenuItem onClick={onRefreshPreview} disabled={isCompiling}>
+                <RefreshCw className={`h-4 w-4 mr-2 ${isCompiling ? 'animate-spin' : ''}`} />
+                Refresh Preview
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
               {/* Tools section */}
               <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Tools</div>
               <DropdownMenuItem onClick={() => setTemplateLoaderOpen(true)}>
@@ -568,6 +574,17 @@ export function Header({
                 Find & Replace
               </DropdownMenuItem>
               <DropdownMenuSeparator />
+              {/* Appearance section */}
+              <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Appearance</div>
+              <DropdownMenuItem onClick={toggleTheme}>
+                {theme === 'dark' ? <Sun className="h-4 w-4 mr-2" /> : <Moon className="h-4 w-4 mr-2" />}
+                {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setColorScheme(colorScheme === 'navy' ? 'default' : 'navy')}>
+                <Anchor className="h-4 w-4 mr-2" />
+                {colorScheme === 'navy' ? 'Default Theme' : 'Navy Theme'}
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
               {/* Help section */}
               <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Help</div>
               <DropdownMenuItem onClick={() => setNistModalOpen(true)}>
@@ -577,6 +594,10 @@ export function Header({
               <DropdownMenuItem onClick={() => setAboutModalOpen(true)}>
                 <Info className="h-4 w-4 mr-2" />
                 About
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => useLogStore.getState().setOpen(true)}>
+                <ScrollText className="h-4 w-4 mr-2" />
+                View Logs
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => window.open(GITHUB_REPO_URL, '_blank')}>
                 <Github className="h-4 w-4 mr-2" />
