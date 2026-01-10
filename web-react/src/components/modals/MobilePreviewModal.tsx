@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/button';
 import { useUIStore } from '@/stores/uiStore';
 import { useLogStore } from '@/stores/logStore';
 
-// Configure pdf.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+// Configure pdf.js worker - use cdnjs which has better compatibility
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 interface MobilePreviewModalProps {
   pdfUrl: string | null;
@@ -23,7 +23,17 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
   const [numPages, setNumPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pdfLoading, setPdfLoading] = useState<boolean>(true);
+  const [pdfError, setPdfError] = useState<string | null>(null);
   const [shareStatus, setShareStatus] = useState<string | null>(null);
+
+  // Reset state when modal opens or pdfUrl changes
+  useEffect(() => {
+    if (mobilePreviewOpen && pdfUrl) {
+      setPdfLoading(true);
+      setPdfError(null);
+      setCurrentPage(1);
+    }
+  }, [mobilePreviewOpen, pdfUrl]);
 
   // Filter out engine reset message - it's not a user-facing error
   const displayError = error === 'ENGINE_RESET_NEEDED' ? null : error;
@@ -37,10 +47,13 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
     setNumPages(numPages);
     setCurrentPage(1);
     setPdfLoading(false);
+    setPdfError(null);
   }, []);
 
-  const onDocumentLoadError = useCallback(() => {
+  const onDocumentLoadError = useCallback((err: Error) => {
+    console.error('PDF load error:', err);
     setPdfLoading(false);
+    setPdfError('Failed to load PDF preview');
   }, []);
 
   const goToPrevPage = () => {
@@ -173,29 +186,60 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
         {/* PDF Viewer */}
         {pdfUrl && !isCompiling && (
           <div className="flex flex-col items-center p-2">
-            {pdfLoading && (
+            {pdfLoading && !pdfError && (
               <div className="flex items-center justify-center py-8">
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
               </div>
             )}
-            <Document
-              file={pdfUrl}
-              onLoadSuccess={onDocumentLoadSuccess}
-              onLoadError={onDocumentLoadError}
-              loading={null}
-              className="flex flex-col items-center"
-            >
-              <Page
-                pageNumber={currentPage}
-                width={Math.min(window.innerWidth - 16, 400)}
-                className="shadow-lg"
-                loading={
-                  <div className="flex items-center justify-center py-8">
-                    <Loader2 className="h-6 w-6 animate-spin text-primary" />
+            {pdfError ? (
+              <div className="flex flex-col items-center justify-center py-8 gap-4">
+                <AlertCircle className="h-12 w-12 text-destructive/70" />
+                <p className="text-sm text-muted-foreground">{pdfError}</p>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    const link = document.createElement('a');
+                    link.href = pdfUrl;
+                    link.target = '_blank';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                  }}
+                >
+                  Open in Browser Instead
+                </Button>
+              </div>
+            ) : (
+              <Document
+                file={pdfUrl}
+                onLoadSuccess={onDocumentLoadSuccess}
+                onLoadError={onDocumentLoadError}
+                loading={null}
+                className="flex flex-col items-center"
+                error={
+                  <div className="flex flex-col items-center justify-center py-8 gap-4">
+                    <AlertCircle className="h-12 w-12 text-destructive/70" />
+                    <p className="text-sm text-muted-foreground">Failed to render PDF</p>
                   </div>
                 }
-              />
-            </Document>
+              >
+                <Page
+                  pageNumber={currentPage}
+                  width={Math.min(window.innerWidth - 16, 400)}
+                  className="shadow-lg"
+                  loading={
+                    <div className="flex items-center justify-center py-8">
+                      <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                    </div>
+                  }
+                  error={
+                    <div className="flex items-center justify-center py-8">
+                      <p className="text-sm text-muted-foreground">Error rendering page</p>
+                    </div>
+                  }
+                />
+              </Document>
+            )}
           </div>
         )}
 
@@ -212,7 +256,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
       </div>
 
       {/* Page Navigation Footer */}
-      {pdfUrl && !isCompiling && numPages > 0 && (
+      {pdfUrl && !isCompiling && numPages > 0 && !pdfError && (
         <div className="flex items-center justify-between px-4 py-2 border-t border-border bg-card shrink-0">
           <Button
             variant="outline"
