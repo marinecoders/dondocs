@@ -199,20 +199,35 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
         {/* iPad - use iframe for preview (react-pdf crashes) */}
         {pdfUrl && !isCompiling && deviceInfo.isIPad && (
           <div className="flex flex-col h-full">
-            {/* Embedded PDF Preview */}
-            <div className="flex-1 relative">
-              <iframe
-                src={pdfUrl}
-                className="absolute inset-0 w-full h-full border-0"
-                title="PDF Preview"
-              />
+            {/* Embedded PDF Preview - centered with proper aspect ratio */}
+            <div className="flex-1 overflow-auto bg-muted/50 p-4">
+              <div
+                className="mx-auto bg-white shadow-lg rounded-sm overflow-hidden"
+                style={{
+                  // Letter size aspect ratio (8.5 x 11)
+                  width: '100%',
+                  maxWidth: '600px',
+                  // Maintain aspect ratio with min-height
+                  minHeight: 'calc(100% - 1rem)',
+                }}
+              >
+                <iframe
+                  src={pdfUrl}
+                  className="w-full border-0"
+                  style={{
+                    height: 'calc(100vh - 180px)', // Full height minus header/footer
+                    minHeight: '500px',
+                  }}
+                  title="PDF Preview"
+                />
+              </div>
             </div>
 
             {/* Safari: Show download instructions */}
             {deviceInfo.isSafari && (
-              <div className="shrink-0 p-3 border-t border-border bg-card flex items-center justify-between gap-3">
+              <div className="shrink-0 px-4 py-3 border-t border-border bg-card flex items-center justify-between gap-3">
                 <p className="text-xs text-muted-foreground">
-                  Use Safari's share button (↑) to save
+                  Scroll to see all pages • Use share (↑) to save
                 </p>
                 <Button
                   size="sm"
@@ -226,17 +241,14 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
 
             {/* Chrome: iframe might not work, show fallback */}
             {!deviceInfo.isSafari && (
-              <div className="shrink-0 p-3 border-t border-border bg-card text-center">
+              <div className="shrink-0 px-4 py-3 border-t border-border bg-card text-center">
                 <p className="text-xs text-muted-foreground mb-2">
                   Chrome on iPad has limited PDF support
                 </p>
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={() => {
-                    // Try opening blob URL directly
-                    window.open(pdfUrl, '_blank');
-                  }}
+                  onClick={() => window.open(pdfUrl, '_blank')}
                 >
                   <FileText className="h-4 w-4 mr-1.5" />
                   Open in New Tab
