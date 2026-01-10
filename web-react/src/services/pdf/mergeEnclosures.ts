@@ -453,8 +453,12 @@ function createLinkAnnotations(pdfDoc: PDFDocument, positions: TextPosition[]): 
       Rect: rect,
       Border: pdfDoc.context.obj([PDFNumber.of(0), PDFNumber.of(0), PDFNumber.of(0)]),
       A: action,
-      // No highlighting (optional)
-      H: PDFName.of('N')
+      // Invert highlighting on click for visual feedback
+      H: PDFName.of('I'),
+      // Page reference (required by some viewers)
+      P: sourcePage.ref,
+      // Flags: Print (4) - annotation should print
+      F: PDFNumber.of(4)
     });
 
     // Get or create the Annots array for the page
