@@ -74,7 +74,6 @@ function App() {
   // PII detection state
   const [piiDetectionResult, setPiiDetectionResult] = useState<PIIDetectionResult | null>(null);
   const pendingDownloadRef = useRef<GeneratedFiles | null>(null);
-  const pendingPiiRetryRef = useRef(false);
 
   // Apply theme to document
   useEffect(() => {
@@ -220,14 +219,50 @@ function App() {
     documentStore.copyTos,
   ]);
 
-  // Track pending retry for download after engine reset
-  const pendingDownloadRetryRef = useRef(false);
   // Track if download is in progress to prevent double downloads
   const downloadInProgressRef = useRef(false);
-  // Track scheduled retry timeout so we can cancel it if user clicks again
-  const downloadRetryTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // Generation counter to detect stale retries (increments on each manual click)
-  const downloadGenerationRef = useRef(0);
+
+  // Core download function - can be called for retry
+  const executeDownload = useCallback(async (): Promise<boolean> => {
+    const { texFiles, enclosures, includeHyperlinks, signatureImage } = generateAllLatexFiles(documentStore);
+
+    // Build files object including signature image if present
+    const files: Record<string, string | Uint8Array> = { ...texFiles };
+    if (signatureImage) {
+      files['attachments/signature.png'] = signatureImage;
+    }
+
+    let pdfBytes = await compile(files);
+
+    if (pdfBytes) {
+      // Merge enclosures if any (handles both PDF and text-only)
+      if (enclosures.length > 0) {
+        const classification = getClassificationInfo(documentStore.formData.classLevel);
+        pdfBytes = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks);
+      }
+
+      // Add digital signature field if requested
+      if (documentStore.formData.signatureType === 'digital') {
+        const config = DOC_TYPE_CONFIG[documentStore.docType];
+        const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
+        if (isDualSignature) {
+          pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes));
+        } else {
+          pdfBytes = await addSignatureField(new Uint8Array(pdfBytes));
+        }
+      }
+
+      const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'correspondence.pdf';
+      a.click();
+      URL.revokeObjectURL(url);
+      return true;
+    }
+    return false;
+  }, [compile, documentStore]);
 
   const handleDownloadPdfInternal = useCallback(async () => {
     // Prevent multiple simultaneous downloads
@@ -240,52 +275,33 @@ function App() {
     setIsCompiling(true);
     setCompileError(null);
     try {
-      const { texFiles, enclosures, includeHyperlinks, signatureImage } = generateAllLatexFiles(documentStore);
-
-      // Build files object including signature image if present
-      const files: Record<string, string | Uint8Array> = { ...texFiles };
-      if (signatureImage) {
-        files['attachments/signature.png'] = signatureImage;
-      }
-
-      let pdfBytes = await compile(files);
-
-      if (pdfBytes) {
-        // Merge enclosures if any (handles both PDF and text-only)
-        if (enclosures.length > 0) {
-          const classification = getClassificationInfo(documentStore.formData.classLevel);
-          pdfBytes = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks);
-        }
-
-        // Add digital signature field if requested
-        if (documentStore.formData.signatureType === 'digital') {
-          const config = DOC_TYPE_CONFIG[documentStore.docType];
-          const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
-          if (isDualSignature) {
-            pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes));
-          } else {
-            pdfBytes = await addSignatureField(new Uint8Array(pdfBytes));
-          }
-        }
-
-        const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'correspondence.pdf';
-        a.click();
-        URL.revokeObjectURL(url);
-      } else {
+      const success = await executeDownload();
+      if (!success) {
         setCompileError('PDF generation failed - no output produced');
       }
     } catch (err) {
       console.error('Download error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Download failed';
 
-      // If engine reset was needed, schedule retry for when engine is ready again
+      // If engine reset was needed, wait for it and retry once
       if (errorMessage === 'ENGINE_RESET_NEEDED') {
-        pendingDownloadRetryRef.current = true;
-        // Don't show error, will retry automatically
+        console.log('Engine reset needed, waiting for engine to be ready...');
+        // Keep downloadInProgressRef true to block user clicks during retry
+        try {
+          const ready = await waitForReady(10000); // 10 second timeout
+          if (ready) {
+            console.log('Engine ready, retrying download...');
+            const success = await executeDownload();
+            if (!success) {
+              setCompileError('PDF generation failed after retry - no output produced');
+            }
+          } else {
+            setCompileError('Engine failed to recover. Please try again.');
+          }
+        } catch (retryErr) {
+          console.error('Retry failed:', retryErr);
+          setCompileError('PDF download failed after retry. Please try again.');
+        }
         return;
       }
 
@@ -294,107 +310,102 @@ function App() {
       setIsCompiling(false);
       downloadInProgressRef.current = false;
     }
-  }, [compile, documentStore]);
+  }, [executeDownload, waitForReady]);
 
-  // Effect to retry download after engine becomes ready again
-  useEffect(() => {
-    if (isReady && pendingDownloadRetryRef.current) {
-      pendingDownloadRetryRef.current = false;
-      // Capture current generation - if user clicks before this runs, generation will change
-      const capturedGeneration = downloadGenerationRef.current;
-      // Small delay to ensure engine is fully ready
-      // Store timeout ID so we can cancel if user clicks manually
-      downloadRetryTimeoutRef.current = setTimeout(() => {
-        downloadRetryTimeoutRef.current = null;
-        // Only proceed if no manual click has happened since we scheduled this retry
-        if (capturedGeneration === downloadGenerationRef.current) {
-          handleDownloadPdfInternal();
-        } else {
-          console.log('Skipping stale retry - user clicked manually');
-        }
-      }, 100);
+  // Core PII download function - can be called for retry
+  const executePIIDownload = useCallback(async (): Promise<boolean> => {
+    if (!pendingDownloadRef.current) return false;
+
+    const { texFiles, enclosures, includeHyperlinks, signatureImage } = pendingDownloadRef.current;
+
+    const files: Record<string, string | Uint8Array> = { ...texFiles };
+    if (signatureImage) {
+      files['attachments/signature.png'] = signatureImage;
     }
-  }, [isReady, handleDownloadPdfInternal]);
+
+    let pdfBytes = await compile(files);
+
+    if (pdfBytes) {
+      if (enclosures.length > 0) {
+        const classification = getClassificationInfo(documentStore.formData.classLevel);
+        pdfBytes = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks);
+      }
+
+      // Add digital signature field if requested
+      if (documentStore.formData.signatureType === 'digital') {
+        const config = DOC_TYPE_CONFIG[documentStore.docType];
+        const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
+        if (isDualSignature) {
+          pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes));
+        } else {
+          pdfBytes = await addSignatureField(new Uint8Array(pdfBytes));
+        }
+      }
+
+      const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'correspondence.pdf';
+      a.click();
+      URL.revokeObjectURL(url);
+      return true;
+    }
+    return false;
+  }, [compile, documentStore]);
 
   // Handle proceeding with download after PII warning is acknowledged
   const handleProceedWithPII = useCallback(async () => {
     if (!pendingDownloadRef.current) return;
 
+    // Prevent clicks while download is in progress
+    if (downloadInProgressRef.current) {
+      console.log('Download already in progress, ignoring PII proceed');
+      return;
+    }
+    downloadInProgressRef.current = true;
+
     setIsCompiling(true);
     setCompileError(null);
 
     try {
-      const { texFiles, enclosures, includeHyperlinks, signatureImage } = pendingDownloadRef.current;
-
-      const files: Record<string, string | Uint8Array> = { ...texFiles };
-      if (signatureImage) {
-        files['attachments/signature.png'] = signatureImage;
-      }
-
-      let pdfBytes = await compile(files);
-
-      if (pdfBytes) {
-        if (enclosures.length > 0) {
-          const classification = getClassificationInfo(documentStore.formData.classLevel);
-          pdfBytes = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks);
-        }
-
-        // Add digital signature field if requested
-        if (documentStore.formData.signatureType === 'digital') {
-          const config = DOC_TYPE_CONFIG[documentStore.docType];
-          const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
-          if (isDualSignature) {
-            pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes));
-          } else {
-            pdfBytes = await addSignatureField(new Uint8Array(pdfBytes));
-          }
-        }
-
-        const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'correspondence.pdf';
-        a.click();
-        URL.revokeObjectURL(url);
-      } else {
+      const success = await executePIIDownload();
+      if (!success) {
         setCompileError('PDF generation failed - no output produced');
       }
     } catch (err) {
       console.error('Download error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Download failed';
 
-      // If engine reset was needed, schedule retry for when engine is ready again
+      // If engine reset was needed, wait for it and retry once
       if (errorMessage === 'ENGINE_RESET_NEEDED') {
-        pendingPiiRetryRef.current = true;
-        // Don't clear pendingDownloadRef - we need it for retry
-        // Don't show error, will retry automatically
-        setIsCompiling(false);
+        console.log('Engine reset needed for PII download, waiting for engine to be ready...');
+        try {
+          const ready = await waitForReady(10000);
+          if (ready) {
+            console.log('Engine ready, retrying PII download...');
+            const success = await executePIIDownload();
+            if (!success) {
+              setCompileError('PDF generation failed after retry - no output produced');
+            }
+          } else {
+            setCompileError('Engine failed to recover. Please try again.');
+          }
+        } catch (retryErr) {
+          console.error('PII download retry failed:', retryErr);
+          setCompileError('PDF download failed after retry. Please try again.');
+        }
         return;
       }
 
       setCompileError(`PDF download failed: ${errorMessage}`);
     } finally {
       setIsCompiling(false);
-      // Only clear if not retrying
-      if (!pendingPiiRetryRef.current) {
-        pendingDownloadRef.current = null;
-        setPiiDetectionResult(null);
-      }
+      downloadInProgressRef.current = false;
+      pendingDownloadRef.current = null;
+      setPiiDetectionResult(null);
     }
-  }, [compile, documentStore]);
-
-  // Effect to retry PII-acknowledged download after engine becomes ready again
-  useEffect(() => {
-    if (isReady && pendingPiiRetryRef.current && pendingDownloadRef.current) {
-      pendingPiiRetryRef.current = false;
-      // Small delay to ensure engine is fully ready
-      setTimeout(() => {
-        // Re-run the PII-acknowledged download
-        handleProceedWithPII();
-      }, 100);
-    }
-  }, [isReady, handleProceedWithPII]);
+  }, [executePIIDownload, waitForReady]);
 
   // Handle canceling download after PII warning
   const handleCancelPIIDownload = useCallback(() => {
@@ -408,17 +419,13 @@ function App() {
       return;
     }
 
-    // Increment generation counter - this invalidates any pending automatic retries
-    downloadGenerationRef.current += 1;
-    console.log('Manual download click - generation:', downloadGenerationRef.current);
-
-    // Cancel any pending automatic retry - user is manually triggering
-    pendingDownloadRetryRef.current = false;
-    // Also cancel any scheduled retry timeout to prevent double downloads
-    if (downloadRetryTimeoutRef.current) {
-      clearTimeout(downloadRetryTimeoutRef.current);
-      downloadRetryTimeoutRef.current = null;
+    // Prevent clicks while download is in progress (including during retry)
+    if (downloadInProgressRef.current) {
+      console.log('Download already in progress, ignoring click');
+      return;
     }
+
+    console.log('Manual download click');
 
     // Check for PII before downloading
     const piiResult = detectPII(documentStore);
