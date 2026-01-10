@@ -120,9 +120,10 @@ interface MobilePreviewModalProps {
 
 // iPad PDF Viewer Component using react-pdf-viewer with full features
 // This provides: zoom controls (+/-), page thumbnails sidebar, page navigation
-function IPadPdfViewer({ pdfUrl, onClose }: {
+function IPadPdfViewer({ pdfUrl, onClose, onDownload }: {
   pdfUrl: string;
   onClose: () => void;
+  onDownload: () => void;
 }) {
   // Inject custom styles on mount
   useEffect(() => {
@@ -205,16 +206,43 @@ function IPadPdfViewer({ pdfUrl, onClose }: {
   });
 
   return (
-    <div className="flex-1 h-full">
-      <Worker workerUrl={PDFJS_WORKER_URL}>
-        <div className="h-full" style={{ minHeight: 'calc(100vh - 60px)' }}>
-          <Viewer
-            fileUrl={pdfUrl}
-            plugins={[defaultLayoutPluginInstance]}
-            defaultScale={1}
-          />
+    <div className="flex flex-col h-full">
+      {/* Modal Header with Download and Close */}
+      <div className="flex items-center justify-between px-3 py-2 border-b border-border bg-card shrink-0">
+        <span className="font-semibold text-sm">PDF Preview</span>
+        <div className="flex items-center gap-1">
+          <Button
+            variant="default"
+            size="sm"
+            onClick={onDownload}
+            className="h-8 px-3"
+          >
+            <Download className="h-4 w-4 mr-1.5" />
+            Download
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8"
+            onClick={onClose}
+          >
+            <X className="h-4 w-4" />
+          </Button>
         </div>
-      </Worker>
+      </div>
+
+      {/* PDF Viewer */}
+      <div className="flex-1">
+        <Worker workerUrl={PDFJS_WORKER_URL}>
+          <div className="h-full" style={{ minHeight: 'calc(100vh - 100px)' }}>
+            <Viewer
+              fileUrl={pdfUrl}
+              plugins={[defaultLayoutPluginInstance]}
+              defaultScale={1}
+            />
+          </div>
+        </Worker>
+      </div>
     </div>
   );
 }
@@ -343,6 +371,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
         <IPadPdfViewer
           pdfUrl={pdfUrl}
           onClose={() => setMobilePreviewOpen(false)}
+          onDownload={handleDownload}
         />
       </div>
     );
