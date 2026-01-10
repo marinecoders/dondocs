@@ -315,6 +315,13 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
   const handleDownload = async () => {
     if (!pdfUrl) return;
 
+    // For iOS Safari: open window FIRST (synchronously) to avoid popup blocker
+    // Safari blocks window.open() after async operations
+    let newWindow: Window | null = null;
+    if (isIOS && deviceInfo.isSafari) {
+      newWindow = window.open('about:blank', '_blank');
+    }
+
     try {
       const response = await fetch(pdfUrl);
       const blob = await response.blob();
@@ -327,19 +334,24 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
         if (navigator.canShare({ files: [file] })) {
           try {
             await navigator.share({ files: [file] }); // Only files, no other properties
+            // Close the pre-opened window if share succeeded
+            if (newWindow) newWindow.close();
             return;
           } catch (shareErr) {
             // User cancelled or share failed, continue to fallback
-            if ((shareErr as Error).name === 'AbortError') return;
+            if ((shareErr as Error).name === 'AbortError') {
+              if (newWindow) newWindow.close();
+              return;
+            }
             console.log('Share API failed, using fallback:', shareErr);
           }
         }
       }
 
-      // iOS Safari: open blob URL in new tab (user taps share button there)
-      if (isIOS && deviceInfo.isSafari) {
+      // iOS Safari: update the pre-opened window with blob URL
+      if (isIOS && deviceInfo.isSafari && newWindow) {
         const url = URL.createObjectURL(blob);
-        window.open(url, '_blank');
+        newWindow.location.href = url;
         setTimeout(() => URL.revokeObjectURL(url), 10000);
         // Show instruction alert for Safari users
         setTimeout(() => {
@@ -365,7 +377,12 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
       setTimeout(() => URL.revokeObjectURL(url), 10000);
     } catch (err) {
       console.error('Download failed:', err);
-      window.open(pdfUrl, '_blank');
+      // Use pre-opened window if available, otherwise try to open new one
+      if (newWindow) {
+        newWindow.location.href = pdfUrl;
+      } else {
+        window.open(pdfUrl, '_blank');
+      }
     }
   };
 
