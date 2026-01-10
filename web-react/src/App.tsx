@@ -354,7 +354,7 @@ function App() {
     <div class="steps">
       <div class="step">
         <span class="step-num">1</span>
-        <span class="step-text">Tap the <strong>Share button</strong> (↑) in Safari's toolbar</span>
+        <span class="step-text">Tap the <strong>Share button</strong> (↑) in the toolbar</span>
       </div>
       <div class="step">
         <span class="step-num">2</span>
@@ -556,7 +556,7 @@ function App() {
     <div class="steps">
       <div class="step">
         <span class="step-num">1</span>
-        <span class="step-text">Tap the <strong>Share button</strong> (↑) in Safari's toolbar</span>
+        <span class="step-text">Tap the <strong>Share button</strong> (↑) in the toolbar</span>
       </div>
       <div class="step">
         <span class="step-num">2</span>
