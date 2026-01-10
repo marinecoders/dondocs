@@ -25,42 +25,62 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
   };
 
   const handleOpenInBrowser = () => {
-    if (pdfUrl) {
-      window.open(pdfUrl, '_blank');
-    }
+    if (!pdfUrl) return;
+
+    // Use link click instead of window.open for better iOS compatibility
+    const link = document.createElement('a');
+    link.href = pdfUrl;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
-  // Use native share API for iOS/mobile - this triggers the share sheet
-  // where users can "Save to Files", AirDrop, etc.
+  // Save PDF - on iOS we need to open it and let user use native share
   const handleSavePdf = async () => {
     if (!pdfUrl) return;
 
     try {
-      // Fetch the blob from the URL
+      // Fetch the blob and create a fresh blob URL
       const response = await fetch(pdfUrl);
       const blob = await response.blob();
-      const file = new File([blob], 'correspondence.pdf', { type: 'application/pdf' });
 
-      // Check if Web Share API with files is supported
-      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          files: [file],
-          title: 'Naval Correspondence',
-        });
-        setShareStatus('Shared!');
-        setTimeout(() => setShareStatus(null), 2000);
-      } else {
-        // Fallback: open in new tab where user can use browser's share/save
-        window.open(pdfUrl, '_blank');
-        setShareStatus('Opened - use share button to save');
-        setTimeout(() => setShareStatus(null), 3000);
+      // Try Web Share API first (iOS 15+)
+      if (navigator.share && navigator.canShare) {
+        const file = new File([blob], 'correspondence.pdf', { type: 'application/pdf' });
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: 'Naval Correspondence',
+          });
+          setShareStatus('Saved!');
+          setTimeout(() => setShareStatus(null), 2000);
+          return;
+        }
       }
+
+      // Fallback: Create a link and simulate click
+      // This works better than window.open on some browsers
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Don't revoke immediately - give browser time to open
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+
+      setShareStatus('Opened - tap share icon to save');
+      setTimeout(() => setShareStatus(null), 4000);
     } catch (err) {
-      // User cancelled share or error occurred
       if ((err as Error).name !== 'AbortError') {
-        console.error('Share failed:', err);
-        // Fallback to opening in browser
-        window.open(pdfUrl, '_blank');
+        console.error('Save failed:', err);
+        setShareStatus('Error - try "Open in Browser"');
+        setTimeout(() => setShareStatus(null), 3000);
       }
     }
   };
