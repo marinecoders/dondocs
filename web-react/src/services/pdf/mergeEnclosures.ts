@@ -392,6 +392,27 @@ function parseContentStreamForEnclosures(bytes: Uint8Array, pageIdx: number): Te
   }
 
   console.log(`[hyperlinks] Page ${pageIdx + 1}: found ${positions.length} enclosure references`);
+
+  // Fix potential x-coordinate misalignment for enclosure 1
+  // In military correspondence, enclosure numbers (1), (2), (3) should be vertically aligned
+  // Sometimes the first "1" detected might be from a different context (page number, reference, etc.)
+  // If enclosure 1's x is significantly different from the others, align it to match
+  if (positions.length >= 2) {
+    const enc1 = positions.find(p => p.enclosureNumber === 1);
+    const otherEncs = positions.filter(p => p.enclosureNumber !== 1);
+
+    if (enc1 && otherEncs.length > 0) {
+      // Calculate average x of other enclosures
+      const avgX = otherEncs.reduce((sum, p) => sum + p.x, 0) / otherEncs.length;
+
+      // If enclosure 1's x is more than 30 points away from the average, it's probably wrong
+      if (Math.abs(enc1.x - avgX) > 30) {
+        console.log(`[hyperlinks] Correcting enclosure 1 x-position: ${enc1.x} -> ${avgX} (was misaligned)`);
+        enc1.x = avgX;
+      }
+    }
+  }
+
   return positions;
 }
 
