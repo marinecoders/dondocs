@@ -90,10 +90,21 @@ function App() {
     document.documentElement.dataset.scheme = colorScheme;
   }, [colorScheme]);
 
-  // Detect mobile
+  // Detect mobile/tablet devices
+  // iPads and tablets should use mobile UI since embedded PDF preview doesn't work well
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      const width = window.innerWidth;
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+      // Consider mobile if:
+      // 1. Width < 768px (phones)
+      // 2. Width < 1024px AND touch device (tablets like iPad)
+      // 3. User agent indicates iPad (for cases where touch detection fails)
+      const isIPad = /iPad|Macintosh/i.test(navigator.userAgent) && isTouchDevice;
+      const isMobileOrTablet = width < 768 || (width < 1024 && isTouchDevice) || isIPad;
+
+      setIsMobile(isMobileOrTablet);
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
