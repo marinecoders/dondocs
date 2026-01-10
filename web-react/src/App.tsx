@@ -97,13 +97,21 @@ function App() {
       const width = window.innerWidth;
       const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
+      // Detect iPad specifically (works for iPadOS which reports as Macintosh)
+      const isIPad = /iPad/i.test(navigator.userAgent) ||
+        (/Macintosh/i.test(navigator.userAgent) && isTouchDevice);
+
       // Consider mobile if:
       // 1. Width < 768px (phones)
-      // 2. Width < 1024px AND touch device (tablets like iPad)
-      // 3. User agent indicates iPad (for cases where touch detection fails)
-      const isIPad = /iPad|Macintosh/i.test(navigator.userAgent) && isTouchDevice;
-      const isMobileOrTablet = width < 768 || (width < 1024 && isTouchDevice) || isIPad;
+      // 2. Width < 1024px AND touch device (small tablets)
+      // 3. Any iPad (regardless of screen size - they have PDF issues)
+      // 4. Any touch device under 1366px (covers most tablets)
+      const isMobileOrTablet = width < 768 ||
+        (width < 1024 && isTouchDevice) ||
+        isIPad ||
+        (width < 1366 && isTouchDevice);
 
+      console.log('[device] width:', width, 'touch:', isTouchDevice, 'iPad:', isIPad, 'mobile:', isMobileOrTablet);
       setIsMobile(isMobileOrTablet);
     };
     checkMobile();
