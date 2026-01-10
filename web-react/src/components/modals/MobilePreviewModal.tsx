@@ -196,64 +196,91 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
           </div>
         )}
 
-        {/* iPad - use iframe for preview (react-pdf crashes) */}
-        {pdfUrl && !isCompiling && deviceInfo.isIPad && (
+        {/* iPad Chrome - use iframe fallback (react-pdf doesn't work) */}
+        {pdfUrl && !isCompiling && deviceInfo.isIPad && !deviceInfo.isSafari && (
           <div className="flex flex-col h-full">
-            {/* Embedded PDF Preview - centered with proper aspect ratio */}
             <div className="flex-1 overflow-auto bg-muted/50 p-4">
               <div
                 className="mx-auto bg-white shadow-lg rounded-sm overflow-hidden"
-                style={{
-                  // Letter size aspect ratio (8.5 x 11)
-                  width: '100%',
-                  maxWidth: '600px',
-                  // Maintain aspect ratio with min-height
-                  minHeight: 'calc(100% - 1rem)',
-                }}
+                style={{ width: '100%', maxWidth: '600px' }}
               >
                 <iframe
                   src={pdfUrl}
                   className="w-full border-0"
-                  style={{
-                    height: 'calc(100vh - 180px)', // Full height minus header/footer
-                    minHeight: '500px',
-                  }}
+                  style={{ height: 'calc(100vh - 180px)', minHeight: '500px' }}
                   title="PDF Preview"
                 />
               </div>
             </div>
+            <div className="shrink-0 px-4 py-3 border-t border-border bg-card text-center">
+              <p className="text-xs text-muted-foreground mb-2">
+                Chrome on iPad has limited PDF support
+              </p>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => window.open(pdfUrl, '_blank')}
+              >
+                <FileText className="h-4 w-4 mr-1.5" />
+                Open in New Tab
+              </Button>
+            </div>
+          </div>
+        )}
 
-            {/* Safari: Show download instructions */}
-            {deviceInfo.isSafari && (
-              <div className="shrink-0 px-4 py-3 border-t border-border bg-card flex items-center justify-between gap-3">
-                <p className="text-xs text-muted-foreground">
-                  Scroll to see all pages • Use share (↑) to save
-                </p>
-                <Button
-                  size="sm"
-                  onClick={() => window.open(pdfUrl, '_blank')}
-                >
-                  <FileText className="h-4 w-4 mr-1.5" />
-                  Open Full
-                </Button>
+        {/* iPad Safari - use react-pdf with reduced quality for page navigation */}
+        {pdfUrl && !isCompiling && deviceInfo.isIPad && deviceInfo.isSafari && (
+          <div className="flex flex-col items-center p-4 min-h-full">
+            {pdfLoading && !pdfError && (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
               </div>
             )}
-
-            {/* Chrome: iframe might not work, show fallback */}
-            {!deviceInfo.isSafari && (
-              <div className="shrink-0 px-4 py-3 border-t border-border bg-card text-center">
-                <p className="text-xs text-muted-foreground mb-2">
-                  Chrome on iPad has limited PDF support
-                </p>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => window.open(pdfUrl, '_blank')}
-                >
-                  <FileText className="h-4 w-4 mr-1.5" />
-                  Open in New Tab
+            {pdfError ? (
+              <div className="flex flex-col items-center justify-center py-12 gap-4">
+                <AlertCircle className="h-12 w-12 text-destructive/70" />
+                <p className="text-sm text-muted-foreground">{pdfError}</p>
+                <Button variant="outline" onClick={() => window.open(pdfUrl, '_blank')}>
+                  <FileText className="h-4 w-4 mr-2" />
+                  Open in Safari
                 </Button>
               </div>
+            ) : (
+              <Document
+                file={pdfUrl}
+                onLoadSuccess={onDocumentLoadSuccess}
+                onLoadError={onDocumentLoadError}
+                loading={null}
+                className="flex flex-col items-center"
+                error={
+                  <div className="flex flex-col items-center justify-center py-12 gap-4">
+                    <AlertCircle className="h-12 w-12 text-destructive/70" />
+                    <p className="text-sm text-muted-foreground">Failed to render PDF</p>
+                    <Button variant="outline" onClick={() => window.open(pdfUrl, '_blank')}>
+                      <FileText className="h-4 w-4 mr-2" />
+                      Open in Safari
+                    </Button>
+                  </div>
+                }
+              >
+                <Page
+                  pageNumber={currentPage}
+                  width={Math.min(window.innerWidth - 32, 550)}
+                  className="shadow-lg bg-white"
+                  renderTextLayer={false}
+                  renderAnnotationLayer={false}
+                  loading={
+                    <div className="flex items-center justify-center py-12">
+                      <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                    </div>
+                  }
+                  error={
+                    <div className="flex items-center justify-center py-12">
+                      <p className="text-sm text-muted-foreground">Error rendering page</p>
+                    </div>
+                  }
+                />
+              </Document>
             )}
           </div>
         )}
@@ -327,8 +354,8 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
         )}
       </div>
 
-      {/* Page Navigation Footer - only for iPhone (iPad uses fallback) */}
-      {pdfUrl && !isCompiling && numPages > 0 && !pdfError && !deviceInfo.isIPad && (
+      {/* Page Navigation Footer - for iPhone and iPad Safari (iPad Chrome uses iframe) */}
+      {pdfUrl && !isCompiling && numPages > 0 && !pdfError && (!deviceInfo.isIPad || deviceInfo.isSafari) && (
         <div className="flex items-center justify-between px-4 py-2 border-t border-border bg-card shrink-0">
           <Button
             variant="outline"
