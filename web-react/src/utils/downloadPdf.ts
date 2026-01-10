@@ -48,8 +48,25 @@ export async function downloadPdfBlob(
   const { isIOS, isSafari } = getDeviceInfo();
   const file = new File([blob], filename, { type: 'application/pdf' });
 
-  // Try Web Share API first (best for iOS - shows native share sheet)
-  if (isIOS && navigator.share && navigator.canShare) {
+  // iOS Safari: use anchor download with octet-stream (skip Web Share API - anchor works better)
+  if (isIOS && isSafari) {
+    if (preOpenedWindow) preOpenedWindow.close();
+
+    // Re-create blob with octet-stream MIME type to force download
+    const downloadBlob = new Blob([blob], { type: 'application/octet-stream' });
+    const downloadUrl = URL.createObjectURL(downloadBlob);
+
+    const a = document.createElement('a');
+    a.href = downloadUrl;
+    a.download = filename;
+    a.click();
+
+    setTimeout(() => URL.revokeObjectURL(downloadUrl), 10000);
+    return true;
+  }
+
+  // iOS non-Safari (Chrome, Firefox, Edge): try Web Share API first, then data URL
+  if (isIOS && !isSafari && navigator.share && navigator.canShare) {
     if (navigator.canShare({ files: [file] })) {
       try {
         await navigator.share({ files: [file] });
@@ -87,28 +104,8 @@ export async function downloadPdfBlob(
     });
   }
 
-  // iOS Safari: use octet-stream MIME type to force download instead of display
-  // Safari displays PDFs inline but downloads octet-stream as files
-  if (isIOS && isSafari) {
-    // Close pre-opened window - not needed for anchor download
-    if (preOpenedWindow) preOpenedWindow.close();
-
-    // Re-create blob with octet-stream MIME type to force download
-    const downloadBlob = new Blob([blob], { type: 'application/octet-stream' });
-    const downloadUrl = URL.createObjectURL(downloadBlob);
-
-    const a = document.createElement('a');
-    a.href = downloadUrl;
-    a.download = filename;
-    a.click();
-
-    // Don't revoke immediately - give Safari time to process
-    setTimeout(() => URL.revokeObjectURL(downloadUrl), 10000);
-    return true;
-  }
-
-  // Fallback for iOS Safari if anchor download doesn't work (keeping for reference)
   /*
+  // Old fallback for iOS Safari - keeping for reference
   if (isIOS && isSafari && preOpenedWindow) {
     const pdfBlobUrl = URL.createObjectURL(blob);
     const htmlContent = `
