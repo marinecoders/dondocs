@@ -613,6 +613,7 @@ function createNamedDestinations(pdfDoc: PDFDocument): void {
  * and create the annotations ourselves.
  */
 function findReferenceLinks(pdfDoc: PDFDocument, mainPageCount: number, references: ReferenceUrlData[]): ReferencePosition[] {
+  console.log('[hyperlinks] findReferenceLinks called with', references.length, 'references');
   const positions: ReferencePosition[] = [];
   const pages = pdfDoc.getPages();
 
@@ -624,6 +625,7 @@ function findReferenceLinks(pdfDoc: PDFDocument, mainPageCount: number, referenc
   // Create a map for quick URL lookup by letter
   const urlMap = new Map<string, string>();
   for (const ref of references) {
+    console.log(`[hyperlinks] Reference '${ref.letter}' -> ${ref.url}`);
     urlMap.set(ref.letter.toLowerCase(), ref.url);
   }
 
@@ -678,6 +680,7 @@ function findReferenceLinks(pdfDoc: PDFDocument, mainPageCount: number, referenc
  * Looks for blue text containing "reference" followed by "(letter)".
  */
 function parseContentStreamForReferences(bytes: Uint8Array, pageIdx: number, urlMap: Map<string, string>): ReferencePosition[] {
+  console.log(`[hyperlinks] Parsing page ${pageIdx + 1} content stream (${bytes.length} bytes)`);
   const positions: ReferencePosition[] = [];
   const content = new TextDecoder('latin1').decode(bytes);
 
