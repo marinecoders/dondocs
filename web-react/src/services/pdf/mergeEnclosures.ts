@@ -625,8 +625,13 @@ function findReferenceLinks(pdfDoc: PDFDocument, mainPageCount: number, referenc
   // Create a map for quick URL lookup by letter
   const urlMap = new Map<string, string>();
   for (const ref of references) {
-    console.log(`[hyperlinks] Reference '${ref.letter}' -> ${ref.url}`);
-    urlMap.set(ref.letter.toLowerCase(), ref.url);
+    // Ensure URL has a protocol prefix (required for PDF URI annotations)
+    let url = ref.url;
+    if (url && !url.match(/^https?:\/\//i)) {
+      url = 'https://' + url;
+    }
+    console.log(`[hyperlinks] Reference '${ref.letter}' -> ${url}`);
+    urlMap.set(ref.letter.toLowerCase(), url);
   }
 
   console.log(`[hyperlinks] Scanning ${mainPageCount} pages for reference links (${references.length} references with URLs)`);
@@ -855,14 +860,15 @@ function parseContentStreamForReferences(bytes: Uint8Array, pageIdx: number, url
         const position = getPositionAt(textOp.pos);
         const fontSize = getNearestFontSize(textOp.pos);
 
-        console.log(`[hyperlinks] Found blue reference letter '${letter}' at (${position.x}, ${position.y})`);
+        console.log(`[hyperlinks] Found blue reference letter '${letter}' at (${position.x}, ${position.y}), fontSize=${fontSize}`);
 
         foundLetters.add(letter);
+        // Width should cover the letter comfortably - use full character width
         positions.push({
           pageIndex: pageIdx,
           x: position.x,
           y: position.y,
-          width: fontSize * 0.6,
+          width: fontSize * 0.8, // Slightly wider than character for easier clicking
           height: fontSize,
           letter,
           url
