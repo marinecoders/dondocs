@@ -304,10 +304,12 @@ function App() {
         }
       }
 
-      // iOS: open PDF directly in pre-opened window
+      // iOS: write redirect page to pre-opened window (location.href doesn't work reliably)
       if (isIOS && iosWindow) {
         const pdfBlobUrl = URL.createObjectURL(blob);
-        iosWindow.location.href = pdfBlobUrl;
+        iosWindow.document.open();
+        iosWindow.document.write(`<!DOCTYPE html><html><head><script>window.location.replace("${pdfBlobUrl}");</script></head><body></body></html>`);
+        iosWindow.document.close();
         return true;
       }
 
@@ -434,10 +436,12 @@ function App() {
         }
       }
 
-      // iOS: open PDF directly in pre-opened window
+      // iOS: write redirect page to pre-opened window (location.href doesn't work reliably)
       if (isIOS && iosWindow) {
         const pdfBlobUrl = URL.createObjectURL(blob);
-        iosWindow.location.href = pdfBlobUrl;
+        iosWindow.document.open();
+        iosWindow.document.write(`<!DOCTYPE html><html><head><script>window.location.replace("${pdfBlobUrl}");</script></head><body></body></html>`);
+        iosWindow.document.close();
         return true;
       }
 
