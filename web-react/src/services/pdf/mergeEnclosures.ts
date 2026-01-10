@@ -863,13 +863,16 @@ function parseContentStreamForReferences(bytes: Uint8Array, pageIdx: number, url
         console.log(`[hyperlinks] Found blue reference letter '${letter}' at (${position.x}, ${position.y}), fontSize=${fontSize}`);
 
         foundLetters.add(letter);
-        // Width should cover the letter comfortably - use full character width
+        // Use a very large clickable area since position parsing can be imprecise
+        // The position might be off by 50+ points, so cover the entire likely region
+        // Start from left margin and extend well past where "reference (x)" would appear
+        const startX = Math.min(position.x, MARGIN); // Use left margin or found position, whichever is smaller
         positions.push({
           pageIndex: pageIdx,
-          x: position.x,
-          y: position.y,
-          width: fontSize * 0.8, // Slightly wider than character for easier clicking
-          height: fontSize,
+          x: startX,
+          y: position.y - fontSize * 0.2, // Slightly lower to catch descenders
+          width: 200, // Cover ~3 inches from left margin - should catch any reference text
+          height: fontSize * 1.4,
           letter,
           url
         });
@@ -889,13 +892,13 @@ function parseContentStreamForReferences(bytes: Uint8Array, pageIdx: number, url
         console.log(`[hyperlinks] Found blue 'reference (${letter})' at (${position.x}, ${position.y})`);
 
         foundLetters.add(letter);
-        // Width should cover "reference (x)" - approximately 12 characters
+        const startX = Math.min(position.x, MARGIN);
         positions.push({
           pageIndex: pageIdx,
-          x: position.x,
-          y: position.y,
-          width: fontSize * 7, // Cover ~12 chars
-          height: fontSize,
+          x: startX,
+          y: position.y - fontSize * 0.2,
+          width: 200,
+          height: fontSize * 1.4,
           letter,
           url
         });
@@ -913,12 +916,13 @@ function parseContentStreamForReferences(bytes: Uint8Array, pageIdx: number, url
           console.log(`[hyperlinks] Found blue text containing '${letter}': "${textOp.text}" at (${position.x}, ${position.y})`);
 
           foundLetters.add(letter);
+          const startX = Math.min(position.x, MARGIN);
           positions.push({
             pageIndex: pageIdx,
-            x: position.x,
-            y: position.y,
-            width: Math.max(fontSize * textOp.text.length * 0.6, fontSize * 5),
-            height: fontSize,
+            x: startX,
+            y: position.y - fontSize * 0.2,
+            width: 200,
+            height: fontSize * 1.4,
             letter,
             url
           });
@@ -958,11 +962,18 @@ function createUriLinkAnnotations(pdfDoc: PDFDocument, positions: ReferencePosit
 
     // Create the link annotation rectangle with padding
     const padding = 2;
+    const rectLLX = pos.x - padding;
+    const rectLLY = pos.y - padding;
+    const rectURX = pos.x + pos.width + padding * 2;
+    const rectURY = pos.y + pos.height + padding;
+
+    console.log(`[hyperlinks] Creating URI rect for '${pos.letter}': [${rectLLX.toFixed(1)}, ${rectLLY.toFixed(1)}, ${rectURX.toFixed(1)}, ${rectURY.toFixed(1)}] (${(rectURX - rectLLX).toFixed(1)} x ${(rectURY - rectLLY).toFixed(1)} points)`);
+
     const rect = pdfDoc.context.obj([
-      PDFNumber.of(pos.x - padding),
-      PDFNumber.of(pos.y - padding),
-      PDFNumber.of(pos.x + pos.width + padding * 2),
-      PDFNumber.of(pos.y + pos.height + padding)
+      PDFNumber.of(rectLLX),
+      PDFNumber.of(rectLLY),
+      PDFNumber.of(rectURX),
+      PDFNumber.of(rectURY)
     ]);
 
     // Create a URI action for external link
