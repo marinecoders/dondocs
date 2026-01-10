@@ -196,48 +196,53 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
           </div>
         )}
 
-        {/* iPad Fallback - react-pdf crashes on iPad, so show simple UI */}
+        {/* iPad - use iframe for preview (react-pdf crashes) */}
         {pdfUrl && !isCompiling && deviceInfo.isIPad && (
-          <div className="flex flex-col items-center justify-center h-full gap-6 p-6">
-            <div className="relative">
-              <FileText className="h-20 w-20 text-primary/80" />
-              <div className="absolute -bottom-1 -right-1 bg-green-500 rounded-full p-1">
-                <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                </svg>
+          <div className="flex flex-col h-full">
+            {/* Embedded PDF Preview */}
+            <div className="flex-1 relative">
+              <iframe
+                src={pdfUrl}
+                className="absolute inset-0 w-full h-full border-0"
+                title="PDF Preview"
+              />
+            </div>
+
+            {/* Safari: Show download instructions */}
+            {deviceInfo.isSafari && (
+              <div className="shrink-0 p-3 border-t border-border bg-card flex items-center justify-between gap-3">
+                <p className="text-xs text-muted-foreground">
+                  Use Safari's share button (↑) to save
+                </p>
+                <Button
+                  size="sm"
+                  onClick={() => window.open(pdfUrl, '_blank')}
+                >
+                  <FileText className="h-4 w-4 mr-1.5" />
+                  Open Full
+                </Button>
               </div>
-            </div>
-            <div className="text-center">
-              <p className="font-medium text-lg">PDF Ready</p>
-              <p className="text-sm text-muted-foreground mt-1">Your document has been generated</p>
-            </div>
-            <Button
-              className="h-12 px-6 text-base"
-              onClick={() => {
-                if (deviceInfo.isSafari) {
-                  // Safari: open blob URL directly
-                  window.open(pdfUrl, '_blank');
-                } else {
-                  // Chrome: use data URL workaround
-                  fetch(pdfUrl)
-                    .then(r => r.blob())
-                    .then(blob => {
-                      const reader = new FileReader();
-                      reader.onload = () => window.open(reader.result as string, '_blank');
-                      reader.readAsDataURL(blob);
-                    });
-                }
-              }}
-            >
-              <FileText className="h-5 w-5 mr-2" />
-              Open PDF
-            </Button>
-            <p className="text-xs text-muted-foreground text-center">
-              {deviceInfo.isSafari
-                ? "Use Safari's share button (↑) to save"
-                : "Long-press the PDF to save (Chrome limitation)"
-              }
-            </p>
+            )}
+
+            {/* Chrome: iframe might not work, show fallback */}
+            {!deviceInfo.isSafari && (
+              <div className="shrink-0 p-3 border-t border-border bg-card text-center">
+                <p className="text-xs text-muted-foreground mb-2">
+                  Chrome on iPad has limited PDF support
+                </p>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => {
+                    // Try opening blob URL directly
+                    window.open(pdfUrl, '_blank');
+                  }}
+                >
+                  <FileText className="h-4 w-4 mr-1.5" />
+                  Open in New Tab
+                </Button>
+              </div>
+            )}
           </div>
         )}
 
