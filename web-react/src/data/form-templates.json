@@ -1,0 +1,188 @@
+{
+  "version": "1.0",
+  "templates": [
+    {
+      "id": "navmc-118-11",
+      "name": "NAVMC 118(11) - Page 11 Entry",
+      "shortName": "Page 11",
+      "category": "Administrative",
+      "description": "Administrative Remarks - Service Record Book entry",
+      "formNumber": "NAVMC 118(11)",
+      "revision": "REV. 05-2014",
+      "fields": [
+        {
+          "id": "marineName",
+          "label": "Marine's Name",
+          "type": "text",
+          "placeholder": "LAST, FIRST MIDDLE",
+          "required": true,
+          "helpText": "Enter name in LAST, FIRST MIDDLE format"
+        },
+        {
+          "id": "edipi",
+          "label": "EDIPI",
+          "type": "text",
+          "placeholder": "0000000000",
+          "required": true,
+          "pattern": "^[0-9]{10}$",
+          "helpText": "10-digit DoD ID number"
+        },
+        {
+          "id": "entryDate",
+          "label": "Entry Date",
+          "type": "date",
+          "required": true
+        },
+        {
+          "id": "entryText",
+          "label": "Entry Text",
+          "type": "textarea",
+          "placeholder": "Enter administrative remarks...",
+          "required": true,
+          "rows": 12,
+          "helpText": "The actual page 11 entry content"
+        },
+        {
+          "id": "ucmjDate",
+          "label": "UCMJ Art. 137 Date (optional)",
+          "type": "date",
+          "required": false,
+          "helpText": "Date UCMJ articles were explained"
+        },
+        {
+          "id": "sbpDate",
+          "label": "SBP Counseling Date (optional)",
+          "type": "date",
+          "required": false,
+          "helpText": "Date SBP was explained"
+        }
+      ],
+      "signatures": [
+        {
+          "id": "marineSig",
+          "label": "Marine's Signature",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "navmc-10274",
+      "name": "NAVMC 10274 - Administrative Action",
+      "shortName": "6105 Counseling",
+      "category": "Administrative",
+      "description": "Administrative Action / Counseling form",
+      "formNumber": "NAVMC 10274",
+      "revision": "REV. 07-20",
+      "fields": [
+        {
+          "id": "actionNo",
+          "label": "Action Number",
+          "type": "text",
+          "placeholder": "001-24",
+          "required": false
+        },
+        {
+          "id": "ssicFileNo",
+          "label": "SSIC/File Number",
+          "type": "text",
+          "placeholder": "5216",
+          "required": false
+        },
+        {
+          "id": "date",
+          "label": "Date",
+          "type": "date",
+          "required": true
+        },
+        {
+          "id": "from",
+          "label": "From",
+          "type": "text",
+          "placeholder": "Grade, Name, EDIPI, MOS or CO, Pers. O., etc.",
+          "required": true,
+          "helpText": "Person originating the action"
+        },
+        {
+          "id": "organization",
+          "label": "Organization and Station",
+          "type": "textarea",
+          "placeholder": "Unit Name\nComplete Address",
+          "required": true,
+          "rows": 3
+        },
+        {
+          "id": "via",
+          "label": "Via (if required)",
+          "type": "text",
+          "required": false
+        },
+        {
+          "id": "to",
+          "label": "To",
+          "type": "text",
+          "placeholder": "Marine being counseled",
+          "required": true
+        },
+        {
+          "id": "natureOfAction",
+          "label": "Nature of Action/Subject",
+          "type": "textarea",
+          "placeholder": "Counseling regarding...",
+          "required": true,
+          "rows": 4
+        },
+        {
+          "id": "copyTo",
+          "label": "Copy To (if required)",
+          "type": "text",
+          "required": false
+        },
+        {
+          "id": "reference",
+          "label": "Reference or Authority",
+          "type": "textarea",
+          "placeholder": "MCO P1900.16F, etc.",
+          "required": false,
+          "rows": 3
+        },
+        {
+          "id": "enclosures",
+          "label": "Enclosures",
+          "type": "textarea",
+          "placeholder": "(1) Supporting document",
+          "required": false,
+          "rows": 3
+        },
+        {
+          "id": "supplementalInfo",
+          "label": "Supplemental Information",
+          "type": "textarea",
+          "placeholder": "Detailed counseling statement...",
+          "required": true,
+          "rows": 15,
+          "helpText": "Main counseling content. Type name of originator and sign 3 lines below text."
+        }
+      ],
+      "signatures": [
+        {
+          "id": "originatorSig",
+          "label": "Originator Signature",
+          "required": true
+        },
+        {
+          "id": "marineSig",
+          "label": "Marine's Signature",
+          "required": false,
+          "helpText": "Marine acknowledges receipt"
+        }
+      ]
+    }
+  ],
+  "categories": [
+    "Administrative",
+    "Personnel",
+    "Training",
+    "Awards",
+    "Legal"
+  ]
+}

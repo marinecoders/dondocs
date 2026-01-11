@@ -1,4 +1,10 @@
-# LaTeX build files
+# =============================================================================
+# LIBO-SECURED .gitignore
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# LaTeX Build Artifacts
+# -----------------------------------------------------------------------------
 *.aux
 *.log
 *.out
@@ -18,25 +24,61 @@
 # Generated PDF (compile locally)
 main.pdf
 
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
+# -----------------------------------------------------------------------------
+# User Data & Sensitive Files (do not commit)
+# -----------------------------------------------------------------------------
 
-# Enclosures (add your own PDFs locally - do not commit)
+# Enclosures - add your own PDFs locally
 enclosures/*.pdf
 
-# Attachments (signatures, seals - do not commit)
+# Forms - working PDFs
+forms/*.pdf
+
+# Attachments - signatures, seals
 attachments/signature.png
 attachments/signature.jpg
 attachments/signature.pdf
 
-# Editor files
+# -----------------------------------------------------------------------------
+# Operating System
+# -----------------------------------------------------------------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Desktop.ini
+
+# -----------------------------------------------------------------------------
+# Editors & IDEs
+# -----------------------------------------------------------------------------
 *.swp
 *.swo
 *~
 .vscode/
 .idea/
+*.sublime-project
+*.sublime-workspace
+
+# -----------------------------------------------------------------------------
+# Development Tools
+# -----------------------------------------------------------------------------
 
 # Claude Code
 .claude/
+
+# Node (if ever added)
+node_modules/
+npm-debug.log
+
+# Python (if ever added)
+__pycache__/
+*.pyc
+.env
+venv/
+
+# -----------------------------------------------------------------------------
+# Test & Debug Files
+# -----------------------------------------------------------------------------
+test-*.js
+*.test.js
+debug-*.log

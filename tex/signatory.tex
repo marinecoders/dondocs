@@ -1,0 +1,84 @@
+%=============================================================================
+%                           SIGNATURE BLOCK
+%=============================================================================
+%
+% Per SECNAV M-5216.5 Chapter 7, Para 14.a.(1):
+%   "The last name appears in all capital letters with the exception
+%    of a last name beginning with a prefix."
+%
+% The template automatically:
+%   - Capitalizes your last name in signatures
+%   - Generates abbreviated format (J. A. DOE) for Naval Letters
+%   - Generates full format (John A. DOE) for MFR/Business Letters
+%
+% Your From block remains exactly as you typed it.
+%
+%=============================================================================
+
+
+%=============================================================================
+%                         SIGNATORY INFORMATION
+%=============================================================================
+%
+% Format: \setSignatory{First}{M.}{Last}{Rank}{Title}
+%
+% The last name will be AUTO-CAPITALIZED in signature blocks.
+% Enter it in any case you prefer (the template handles capitalization).
+%
+% Examples:
+%   \setSignatory{John}{A.}{Doe}{Sgt, USMC}{Operations NCO}
+%   \setSignatory{Jane}{M.}{Smith}{SSgt, USMC}{Admin Chief}
+%   \setSignatory{Maria}{}{Garcia}{LCpl, USMC}{Admin Clerk}  % No middle initial
+%
+% Output in signature block:
+%   MFR/Business:     John A. DOE
+%                     Sgt, USMC
+%                     Operations NCO
+%
+%   Naval Letter:     J. A. DOE
+%
+%=============================================================================
+
+\setSignatory
+    {John}                  % First name
+    {A.}                    % Middle initial (include the period, or leave empty {})
+    {Doe}                   % Last name (auto-capitalized in signature)
+    {Sgt, USMC}             % Rank and Service
+    {Operations NCO}        % Title/Position
+
+
+%=============================================================================
+%                         SIGNATURE IMAGE (Optional)
+%=============================================================================
+%
+% Place your signature image in the "attachments/" folder.
+% Supported formats: PNG, JPG, PDF
+%
+% The image will be scaled to fit within 1.5" wide x 0.5" tall
+% while maintaining aspect ratio.
+%
+% Leave empty {} for no signature image (for unsigned drafts or
+% documents that will be wet-signed after printing).
+%
+%=============================================================================
+
+\setSignatureImage{}
+
+
+%=============================================================================
+%                    DIGITAL SIGNATURE (CAC Signing)
+%=============================================================================
+%
+% After compiling the PDF, you can digitally sign with your CAC:
+%
+%   1. Open the PDF in Adobe Acrobat (Reader or Pro)
+%   2. Go to Tools → Certificates → Digitally Sign
+%   3. Draw a signature box over your signature image
+%   4. Select your CAC certificate when prompted
+%   5. Enter your PIN
+%   6. Save the signed document
+%
+% Note: The signature image serves as a placeholder showing where
+% the digital signature will appear.
+%
+%=============================================================================

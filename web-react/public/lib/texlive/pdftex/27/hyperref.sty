@@ -1,0 +1,146 @@
+%%
+%% hyperref.sty - Minimal stub for SwiftLaTeX
+%% Provides basic hyperref functionality without expl3/xparse dependencies
+%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{hyperref}[2020/01/01 v7.00 Hypertext links for LaTeX (SwiftLaTeX stub)]
+
+%% Load dependencies
+\RequirePackage{kvsetkeys}
+\RequirePackage{kvdefinekeys}
+\RequirePackage{pdfescape}
+\RequirePackage{hycolor}
+\RequirePackage{nameref}
+\RequirePackage{etoolbox}
+\RequirePackage{stringenc}
+\RequirePackage{intcalc}
+\RequirePackage{url}
+\RequirePackage{bitset}
+%% Note: atbegshi not loaded - causes issues with SwiftLaTeX's older LaTeX format
+
+%% Basic setup
+\newif\ifHy@breaklinks
+\newif\ifHy@colorlinks \Hy@colorlinkstrue
+\newif\ifHy@pdfusetitle
+\newif\ifHy@bookmarks \Hy@bookmarkstrue
+\newif\ifHy@unicode
+\newif\ifHy@naturalnames
+\newif\ifHy@hypertexnames \Hy@hypertexnamestrue
+\newif\ifHy@plainpages
+\newif\ifHy@hidelinks
+\newif\ifHy@pageanchor \Hy@pageanchortrue
+
+%% Color definitions
+\@ifundefined{@linkcolor}{\def\@linkcolor{blue}}{}
+\@ifundefined{@anchorcolor}{\def\@anchorcolor{black}}{}
+\@ifundefined{@citecolor}{\def\@citecolor{green}}{}
+\@ifundefined{@filecolor}{\def\@filecolor{cyan}}{}
+\@ifundefined{@urlcolor}{\def\@urlcolor{magenta}}{}
+\@ifundefined{@menucolor}{\def\@menucolor{red}}{}
+\@ifundefined{@runcolor}{\def\@runcolor{filecolor}}{}
+
+%% Provide \@currentHref
+\providecommand*{\@currentHref}{}
+\providecommand*{\@currentHlabel}{}
+
+%% Process options - ignore most of them
+\DeclareOption*{}
+\ProcessOptions\relax
+
+%% Basic hyperref commands
+
+%% \href{URL}{text} - create a hyperlink
+\newcommand{\href}[2]{%
+  \leavevmode
+  \special{html:<a href="#1">}%
+  #2%
+  \special{html:</a>}%
+}
+
+%% \url{URL} - typeset a URL
+\providecommand{\url}[1]{%
+  \leavevmode
+  \texttt{#1}%
+}
+
+%% \hyperref[label]{text} - reference to a label
+\newcommand{\hyperref}[2][]{%
+  \ifx\\#1\\%
+    #2%
+  \else
+    #2%
+  \fi
+}
+
+%% \hyperlink{name}{text} and \hypertarget{name}{text}
+\newcommand{\hyperlink}[2]{#2}
+\newcommand{\hypertarget}[2]{#2}
+
+%% \hypersetup{options} - configure hyperref (mostly ignored in this stub)
+\newcommand{\hypersetup}[1]{}
+
+%% \hyperbaseurl{url}
+\newcommand{\hyperbaseurl}[1]{}
+
+%% \phantomsection - for table of contents
+\providecommand{\phantomsection}{}
+
+%% \autoref{label} - automatic reference with type name
+\newcommand{\autoref}[1]{\ref{#1}}
+
+%% \texorpdfstring{TeX string}{PDF string}
+\newcommand{\texorpdfstring}[2]{#1}
+
+%% \pdfstringdef - define PDF string
+\newcommand{\pdfstringdef}[2]{\def#1{#2}}
+
+%% \pdfbookmark[level]{text}{name}
+\newcommand{\pdfbookmark}[3][]{}
+
+%% \currentpdfbookmark
+\newcommand{\currentpdfbookmark}[2]{}
+
+%% \subpdfbookmark
+\newcommand{\subpdfbookmark}[2]{}
+
+%% \belowpdfbookmark
+\newcommand{\belowpdfbookmark}[2]{}
+
+%% Provide Hy@VersionCheck to prevent errors from .def files
+\newcommand{\Hy@VersionCheck}[1]{}
+
+%% PDF info commands (no-ops in this stub)
+\providecommand{\pdfinfo}[1]{}
+\newcommand{\hypersetup@setkeys}[1]{}
+
+%% Bookmark support (minimal)
+\newcommand{\bookmark}[2][]{}
+
+%% For hpdftex.def compatibility
+\def\Hy@driver{hpdftex}
+\def\Hy@setpdfborder{}
+\def\Hy@colorlink#1{\begingroup\color{#1}}
+\def\Hy@endcolorlink{\endgroup}
+
+%% End link color
+\let\close@pdflink\relax
+\let\hyper@anchor\@gobble
+\let\hyper@anchorstart\@gobble
+\let\hyper@anchorend\relax
+\let\hyper@linkstart\@gobbletwo
+\let\hyper@linkend\relax
+\let\hyper@link\@gobblethree
+\let\Hy@raisedlink\@firstofone
+
+%% PDF string handling
+\let\pdfstringdefDisableCommands\@gobble
+\newcommand{\HyperDestNameFilter}[1]{#1}
+
+%% At begin document setup
+\AtBeginDocument{%
+  \@ifpackageloaded{color}{}{%
+    \@ifpackageloaded{xcolor}{}{}%
+  }%
+}
+
+\endinput

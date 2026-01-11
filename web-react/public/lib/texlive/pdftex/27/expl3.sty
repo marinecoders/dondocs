@@ -1,0 +1,30 @@
+%%
+%% expl3.sty - Stub for SwiftLaTeX
+%% The L3 programming layer is already preloaded in the format
+%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{expl3}[2020/02/14 L3 programming layer (loader)]
+
+%% SwiftLaTeX format (2020-02-02) already has L3 preloaded
+%% Check if expl3 is already available
+\begingroup\expandafter\expandafter\expandafter\endgroup
+\expandafter\ifx\csname ExplSyntaxOn\endcsname\relax
+  %% L3 not available - this shouldn't happen with SwiftLaTeX
+  \PackageError{expl3}{L3 programming layer not available}{}
+\fi
+
+%% Provide compatibility macros
+\providecommand\ProvidesExplPackage[4]{%
+  \ProvidesPackage{#1}[#2 #3 #4]%
+  \ExplSyntaxOn
+}
+\providecommand\ProvidesExplClass[4]{%
+  \ProvidesClass{#1}[#2 #3 #4]%
+  \ExplSyntaxOn
+}
+\providecommand\ProvidesExplFile[4]{%
+  \ProvidesFile{#1}[#2 #3 #4]%
+  \ExplSyntaxOn
+}
+
+\endinput

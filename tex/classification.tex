@@ -1,0 +1,60 @@
+%=============================================================================
+%                       CLASSIFICATION CONFIGURATION
+%=============================================================================
+%
+% Per DoDI 5200.48 and SECNAV M-5510.36:
+%
+% For UNCLASSIFIED documents:
+%   - Leave all settings commented out (default)
+%
+% For CUI (Controlled Unclassified Information):
+%   - Uncomment and configure the CUI section below
+%
+% For CLASSIFIED documents (CONFIDENTIAL/SECRET/TOP SECRET):
+%   - Uncomment and configure the Classified section below
+%   - NOTE: Do not process classified documents on unclassified systems
+%
+%=============================================================================
+
+
+%=============================================================================
+%                    CUI CONFIGURATION (Uncomment to enable)
+%=============================================================================
+%
+% CUI Banner Marking: "CUI" centered at top and bottom of each page
+%
+% CUI Designation Indicator Block (required on first page):
+%   - Controlled By: Organization responsible for the CUI
+%   - CUI Category: The specific CUI category (e.g., PRVCY, OPSEC)
+%   - Dissemination: Distribution limitations
+%   - POC: Point of contact email
+%
+%=============================================================================
+
+% \setClassification{CUI}
+% \setCUIControlledBy{DOD}
+% \setCUICategory{PRVCY}
+% \setCUIDissemination{FEDCON}
+% \setCUIDistStatement{Distribution authorized to DoD and DoD contractors only.}
+
+
+%=============================================================================
+%               CLASSIFIED CONFIGURATION (Uncomment to enable)
+%=============================================================================
+%
+% WARNING: Only process classified documents on systems authorized
+% for that classification level.
+%
+% Classification Levels:
+%   CONFIDENTIAL
+%   SECRET
+%   TOP SECRET
+%   TOP SECRET//SCI
+%
+%=============================================================================
+
+% \setClassification{SECRET}
+% \setClassifiedBy{Original Classification Authority Name}
+% \setDerivedFrom{Multiple Sources}
+% \setDeclassifyOn{20350101}
+% \setClassificationReason{1.4(a)}

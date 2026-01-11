@@ -1,0 +1,13 @@
+%D SwiftLaTeX minimal stub for supp-pdf.mkii
+%D MetaPost to PDF conversion is not supported in browser environment
+
+\immediate\write16{[Loading MPS to PDF converter (version 2006.09.02).]}
+
+%D Provide empty \convertMPtoPDF command
+\ifx\convertMPtoPDF\undefined
+  \gdef\convertMPtoPDF#1#2#3{%
+    \PackageWarning{supp-pdf}{MetaPost conversion not supported in SwiftLaTeX}%
+  }%
+\fi
+
+\endinput

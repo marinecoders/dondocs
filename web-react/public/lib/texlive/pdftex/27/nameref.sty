@@ -1,0 +1,55 @@
+%%
+%% nameref.sty - Simplified version for SwiftLaTeX
+%% Compatible with LaTeX 2020-02-02 format
+%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{nameref}[2020/01/01 v2.45 Cross-referencing by name of section (SwiftLaTeX)]
+
+\RequirePackage{refcount}[2006/02/12]
+\RequirePackage{gettitlestring}[2009/12/18]
+
+%% Basic implementation without hooks
+\def\NR@strip@period#1.\@empty#2\@nil{#1}
+\def\strip@period#1.\relax#2\@@@{#1}
+
+\def\NR@sanitize@labelname{%
+  \@onelevel@sanitize\@currentlabelname
+  \edef\@currentlabelname{%
+    \expandafter\NR@strip@period\@currentlabelname
+    \@empty.\@empty\@nil
+  }%
+}
+
+\newif\ifNR@showkeys
+\NR@showkeysfalse
+
+\providecommand*{\label@hook}{}
+
+%% Define \@currentlabelname
+\providecommand*{\@currentlabelname}{}
+
+%% Nameref commands
+\newcommand*{\nameref}[1]{%
+  \@ifundefined{r@#1}%
+    {\textbf{??}}%
+    {\expandafter\expandafter\expandafter\NR@name
+      \csname r@#1\endcsname\@nil}%
+}
+
+\newcommand*{\Nameref}[1]{\nameref{#1}}
+
+\def\NR@name#1#2#3#4#5\@nil{#3}
+
+%% For compatibility - use providecommand to avoid redefinition error
+\providecommand*{\GetTitleStringSetup}[1]{}
+
+%% Label name extraction
+\let\NR@gettitle\@firstofone
+
+\AtBeginDocument{%
+  \@ifpackageloaded{hyperref}{%
+    \providecommand*{\@currentHref}{}%
+  }{}%
+}
+
+\endinput

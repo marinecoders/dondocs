@@ -1,0 +1,13 @@
+%% mathcolor.ltx - Stub for SwiftLaTeX
+%% Provides \mathcolor command for older LaTeX formats
+%% The full implementation requires expl3/xparse which isn't fully compatible
+\ProvidesFile{mathcolor.ltx}[2020/01/01 v1.0 mathcolor support (stub)]
+
+%% Check if already defined
+\ifcsname mathcolor\endcsname \endinput \fi
+
+%% Simple implementation without xparse
+%% Usage: \mathcolor{color}{math content}
+\def\mathcolor#1#2{{\color{#1}#2}}
+
+\endinput

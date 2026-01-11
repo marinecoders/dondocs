@@ -1,0 +1,12 @@
+
+		<!DOCTYPE html>
+		<html lang="en">
+		<meta charset="UTF-8">
+		<title>Too Many Requests</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+		<meta name="color-scheme" content="light dark">
+		<h1>Too Many Requests</h1>
+		<p>You can only make 10 requests per minute. Please wait a little bit
+		and try again.
+		<p><a href="https://tug.org">Return to the main site.</a>
+		

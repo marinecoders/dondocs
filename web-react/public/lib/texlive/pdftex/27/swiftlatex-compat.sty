@@ -1,0 +1,51 @@
+%%
+%% swiftlatex-compat.sty - Compatibility layer for SwiftLaTeX
+%% Provides LaTeX 2020-10-01 features for older 2020-02-02 format
+%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{swiftlatex-compat}[2020/02/02 v1.0 SwiftLaTeX Compatibility]
+
+%% Provide \AddToHook if not available (introduced in 2020-10-01)
+\@ifundefined{AddToHook}{%
+  %% Simple implementation of hook system for compatibility
+  \newcommand\AddToHook[2]{%
+    \expandafter\g@addto@macro\csname swiftlatex@hook@#1\endcsname{#2}%
+  }%
+  %% Initialize common hooks
+  \@ifundefined{swiftlatex@hook@begindocument}{%
+    \global\let\swiftlatex@hook@begindocument\@empty
+  }{}%
+  \@ifundefined{swiftlatex@hook@enddocument}{%
+    \global\let\swiftlatex@hook@enddocument\@empty
+  }{}%
+  %% Execute begindocument hook at begin document
+  \AtBeginDocument{\swiftlatex@hook@begindocument}%
+  \AtEndDocument{\swiftlatex@hook@enddocument}%
+}{}
+
+%% Provide \AddToHookWithArguments if not available
+\@ifundefined{AddToHookWithArguments}{%
+  \newcommand\AddToHookWithArguments[2]{%
+    %% Simplified: just add to hook, ignore argument handling
+    \AddToHook{#1}{#2}%
+  }%
+}{}
+
+%% Provide \IfFormatAtLeastTF if not available
+\@ifundefined{IfFormatAtLeastTF}{%
+  \newcommand\IfFormatAtLeastTF[3]{%
+    %% SwiftLaTeX format is 2020-02-02, so most checks will fail
+    \@ifl@t@r\fmtversion{#1}{#2}{#3}%
+  }%
+}{}
+
+%% Provide pdfTeX 1.50+ running link primitives as no-ops
+%% These are used by newer fancyhdr but not available in SwiftLaTeX's pdfTeX
+\ifx\pdfrunninglinkoff\undefined
+  \let\pdfrunninglinkoff\relax
+\fi
+\ifx\pdfrunninglinkon\undefined
+  \let\pdfrunninglinkon\relax
+\fi
+
+\endinput

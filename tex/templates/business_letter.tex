@@ -1,0 +1,191 @@
+%=============================================================================
+%
+%                     BUSINESS LETTER FORMAT MODULE
+%
+%=============================================================================
+%
+% References:
+%   - SECNAV M-5216.5 (DON Correspondence Manual), Chapter 11
+%   - MCO 5216.20B w/Admin CH-4 (Marine Corps Supplement)
+%
+% Key differences from Standard Naval Letter:
+%   - ID symbols in upper LEFT corner (not right)
+%   - Date format: Month spelled out (January 5, 2015)
+%   - Has salutation (Dear Mr./Ms.) and complimentary close (Sincerely,)
+%   - Paragraphs NOT numbered, indented 4 spaces (0.5")
+%   - References/Enclosures mentioned in body only, not formal lines
+%   - Inside address 2-8 lines below date
+%
+%=============================================================================
+
+
+%=============================================================================
+%                         ID SYMBOLS BLOCK (Upper LEFT)
+%=============================================================================
+% SECNAV Ch 11: ID symbols in upper LEFT corner, blocked one below the other
+% Date format: Month spelled out, day in numerals, comma, full year
+
+\newcommand{\printDateAndTitle}{%
+    \noindent
+    \begin{tabular}[t]{@{}l@{}}
+        \DocumentSSIC\\
+        \optionalField{\DocumentSerial}%
+        \BusinessDate% Use civilian date format (January 5, 2015)
+    \end{tabular}
+}
+
+
+%=============================================================================
+%                    INSIDE ADDRESS AND SALUTATION
+%=============================================================================
+% SECNAV Ch 11, Para 11-4: Inside address 2-8 lines below date
+% SECNAV Ch 11, Para 11-6: Salutation with colon (Dear Mr. Jones:)
+
+\newcommand{\printAddressBlock}{%
+    \par\vspace{24pt}% 2 lines below date (adjustable 2-8 lines)
+    \noindent
+    \optionalLine{\ToLine}%
+    \optionalLine{\ToLineTwo}%
+    \optionalLine{\ToLineThree}%
+    \optionalLine{\ToLineFour}%
+    %
+    % Attention line (optional) - SECNAV Ch 11, Para 11-5
+    \ifNotEmpty{\AttentionLine}{%
+        \par\vspace{12pt}%
+        \noindent Attention: \AttentionLine
+    }%
+    %
+    % Salutation with colon - SECNAV Ch 11, Para 11-6
+    \vspace{12pt}%
+    \noindent \BusinessSalutation
+    %
+    % Subject line (optional) - SECNAV Ch 11, Para 11-7
+    \ifNotEmpty{\SubjectLine}{%
+        \par\vspace{12pt}%
+        \noindent SUBJECT: \MakeUppercase{\SubjectLine}%
+    }%
+    %
+    % CUI block (if enabled)
+    \ifCUIEnabled
+        \par\vspace{12pt}%
+        \noindent \textbf{CUI//\CUICategory}%
+        \par\noindent \CUIDistStatement
+    \fi
+}
+
+
+%=============================================================================
+%                         BODY TEXT FORMATTING
+%=============================================================================
+% SECNAV Ch 11, Para 11-8:
+%   - Single-space within paragraphs
+%   - Double-space between paragraphs
+%   - Main paragraphs indented 4 spaces (0.5")
+%   - Subparagraphs indented additional 8 spaces
+%   - DO NOT number main paragraphs
+
+\newcommand{\businessLetterParIndent}{0.5in}
+
+% Apply paragraph indentation for business letter body
+\newcommand{\setupBusinessLetterBody}{%
+    \setlength{\parindent}{\businessLetterParIndent}%
+    \setlength{\parskip}{12pt}% Double-space between paragraphs
+}
+
+
+%=============================================================================
+%                  SIGNATURE BLOCK (Business Letter Style)
+%=============================================================================
+% SECNAV Ch 11, Para 11-10-12:
+%   - Complimentary close "Sincerely," CENTERED, 2 lines below text
+%   - Signature block CENTERED, 4 lines below "Sincerely,"
+%   - Name in ALL CAPS
+%   - Optional: Rank, Title, "By direction of the Commander"
+
+\newcommand{\printSignature}{%
+    % Complimentary close - CENTERED, 2 lines below text
+    \par\vspace{24pt}%
+    \begin{center}
+        \BusinessClose
+    \end{center}
+    %
+    % Signature block - CENTERED, 4 lines below complimentary close
+    \vspace{36pt}%
+    \begin{center}
+        \begin{minipage}{3in}
+            \centering
+            % Digital signature field (empty box for CAC signing)
+        \ifHasDigitalSigField
+            \DigitalSignatureBox
+        \else
+            % Optional: Signature image
+            \ifNotEmpty{\SignatureImage}{%
+                \IfFileExists{attachments/\SignatureImage}{%
+                    \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
+                }{}%
+            }%
+            % Required: Name in ALL CAPS
+            \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev\\}{\MakeUppercase{\SignatoryName}\\}%
+            % Optional: Rank
+            \optionalLine{\SignatoryRank}%
+            % Optional: Title
+            \optionalLine{\SignatoryTitle}%
+            % Optional: By direction authority line
+            \optionalField{\ByDirection}%
+        \end{minipage}
+    \end{center}
+}
+
+
+%=============================================================================
+%                         ENCLOSURE LINE
+%=============================================================================
+% SECNAV Ch 11, Para 11-13:
+%   - Position: 2nd line below signature block, flush left
+%   - Format with descriptions: "Enclosures: 1. GPO Style Manual"
+%   - Format without descriptions: "Enclosures (2)"
+
+\newcommand{\printBusinessEnclosures}{%
+    \ifNotEmpty{\BusinessEnclosures}{%
+        \par\vspace{24pt}%
+        \noindent Enclosures: \BusinessEnclosures
+    }%
+}
+
+
+%=============================================================================
+%                         COPY TO LINE
+%=============================================================================
+% SECNAV Ch 11, Para 11-15:
+%   - Position: Left margin, 2nd line below enclosure (or signature if no encl)
+
+\newcommand{\printBusinessCopyTo}{%
+    \ifNotEmpty{\CopyToList}{%
+        \par\vspace{24pt}%
+        \noindent Copy to: \CopyToList
+    }%
+}
+
+
+%=============================================================================
+%                              PAGE STYLE
+%=============================================================================
+% SECNAV Ch 11, Para 11-16:
+%   - First page: NOT numbered
+%   - Second+ pages: Centered, 1/2 inch from bottom, starting with "2"
+
+\fancypagestyle{firstpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyfoot[C]{}% No page number on first page
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+\fancypagestyle{documentpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyfoot[C]{\thepage}% Page number centered
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}

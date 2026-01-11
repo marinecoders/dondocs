@@ -1,0 +1,253 @@
+%=============================================================================
+%                         DOCUMENT CONFIGURATION
+%=============================================================================
+%
+% This file controls all document metadata and format settings.
+% Edit the values below for your specific correspondence.
+%
+%=============================================================================
+
+
+%=============================================================================
+%                         DOCUMENT TYPE SELECTION
+%=============================================================================
+%
+% This setting controls which format module is loaded from the formats/ folder.
+%
+% Options:
+%   mfr             - Memorandum For The Record (Chapter 10)
+%                     Internal document to record information not elsewhere recorded.
+%                     No SSIC/Serial. Full signature block.
+%
+%   naval_letter    - Standard Naval Letter (Chapter 2)
+%                     Primary format for official correspondence ON LETTERHEAD.
+%                     From: line = activity head title (not individual name).
+%                     Includes SSIC/Serial. Optional Via: line. Abbreviated signature.
+%
+%   standard_letter - Standard Letter on Plain Bond (Chapter 2, Para 1.c)
+%                     For personal matters to higher authority (IG, retirement, etc).
+%                     NO letterhead - uses plain white bond paper.
+%                     From: line = YOUR name, rank, service.
+%                     Via: typically used for routing through chain of command.
+%                     Serial optional unless classified. Abbreviated signature.
+%
+%   business_letter - Business Letter (Chapter 3)
+%                     Correspondence with civilians, businesses, non-DoD entities.
+%                     Inside address, salutation, complimentary close.
+%
+%=============================================================================
+
+\setDocumentType{naval_letter}
+
+
+%=============================================================================
+%                    IN REPLY REFER TO (Optional)
+%=============================================================================
+%
+% SECNAV M-5216.5 Appendix C, Para 1.a:
+%   "IN REPLY REFER TO" appears in small capital letters above the
+%   sender's symbols block (SSIC/Serial/Date).
+%
+% Used when correspondence is a reply to previous correspondence,
+% directing the recipient to reference the sender's symbols when replying.
+%
+% Uncomment the line below to enable:
+%
+%=============================================================================
+
+% \enableInReplyReferTo
+
+
+%=============================================================================
+%                    SSIC AND SERIAL NUMBER (Naval Letter only)
+%=============================================================================
+%
+% SSIC: Standard Subject Identification Code
+%   Common codes:
+%     1000 - Military Personnel
+%     3000 - Operations and Readiness
+%     4000 - Logistics
+%     5000 - General Administration and Management
+%     5216 - Correspondence
+%     5800 - Legal
+%     7000 - Financial Management
+%
+% Serial: Correspondence tracking number
+%   Format: Ser [Office Code]/[Sequence Number]
+%   Example: Ser HQ/001, Ser 00/123
+%
+% Leave empty {} if not applicable (e.g., for MFR documents)
+%
+%=============================================================================
+
+\setSSIC{5216}
+\setSerial{Ser ADM/001}
+
+
+%=============================================================================
+%                                  DATE
+%=============================================================================
+%
+% Format: day month year (per MCO 5216.20B Section 1, para 5.f)
+%
+% Rules:
+%   - No leading zero on day (use "1" not "01")
+%   - Three-letter month abbreviations: Jan, Feb, Mar, Apr, May, Jun,
+%                                        Jul, Aug, Sep, Oct, Nov, Dec
+%   - Four-digit year
+%
+% Examples:
+%   1 Jan 2025
+%   15 Mar 2025
+%   31 Dec 2025
+%
+%=============================================================================
+
+\setDocumentDate{1 Jan 2025}
+
+
+%=============================================================================
+%                               FROM BLOCK
+%=============================================================================
+%
+% The From block appears EXACTLY as you type it (no auto-formatting).
+% Your signature block is configured separately in config/signatory.tex
+% and auto-capitalizes the last name per SECNAV M-5216.5.
+%
+% Standard Letter (plain bond) - Full identification:
+%   Line 1: Rank First M. Last EDIPI/MOS Service
+%   Line 2: Unit/Organization
+%   Line 3: Address (City, State ZIP)
+%   Line 4: Phone / Email
+%
+%   Example:
+%     \setFrom
+%         {Sergeant John A. Smith 1234567890/0311 USMC}
+%         {1st Battalion, 6th Marines}
+%         {Camp Lejeune, NC 28542}
+%         {(910) 555-1234 / john.a.smith@usmc.mil}
+%
+% Naval Letter (on letterhead) - Brief format:
+%   Line 1: Rank First M. Last, Service (or Commanding Officer, Unit)
+%   Lines 2-4: Leave empty {}
+%
+%   Example:
+%     \setFrom
+%         {Sergeant John A. Doe, USMC}
+%         {}{}{}
+%
+% MFR format:
+%   Line 1: Name, Rank, Title
+%   Line 2: Organization
+%   Lines 3-4: Optional contact info
+%
+%=============================================================================
+
+\setFrom
+    {Sergeant John A. Doe 1234567890/0311 USMC}  % Line 1: Rank, Name, EDIPI/MOS, Service
+    {1st Battalion, 6th Marines}                  % Line 2: Unit
+    {Camp Lejeune, NC 28542}                      % Line 3: Address
+    {(910) 555-1234 / john.a.doe@usmc.mil}        % Line 4: Phone/Email
+
+
+%=============================================================================
+%                                TO BLOCK
+%=============================================================================
+%
+% Naval Letter: Title/position of addressee
+%   \setTo{Commanding General, II Marine Expeditionary Force}{}{}{}
+%
+% Business Letter: Full inside address
+%   \setTo{Mr. John Smith}
+%         {Director of Operations}
+%         {ABC Corporation}
+%         {123 Main Street, Suite 100, City, ST 12345}
+%
+% Leave unused lines empty {}
+%
+%=============================================================================
+
+\setTo
+    {Commanding Officer, 6th Marine Regiment}   % Line 1
+    {}                                           % Line 2 (optional)
+    {}                                           % Line 3 (optional)
+    {}                                           % Line 4 (optional)
+
+
+%=============================================================================
+%                          VIA BLOCK (Optional)
+%=============================================================================
+%
+% Use for routing correspondence through chain of command.
+% Leave commented out for direct correspondence.
+%
+% Per SECNAV M-5216.5 Chapter 2:
+%   Via addressees are listed in order from originator to action addressee.
+%   Number multiple Via addressees: (1), (2), (3), etc.
+%
+% Example:
+%   \setVia
+%       {(1) Company Commander, Alpha Company, 1st Battalion, 6th Marines}
+%       {(2) Commanding Officer, 1st Battalion, 6th Marines}
+%       {}
+%       {}
+%
+%=============================================================================
+
+% Uncomment the lines below to enable Via: routing
+% \setVia
+%     {(1) Company Commander, Alpha Company}
+%     {(2) Commanding Officer, 1st Battalion, 6th Marines}
+%     {}
+%     {}
+
+
+%=============================================================================
+%                              SUBJECT LINE
+%=============================================================================
+%
+% Naval Letter: Use ALL CAPITALS, semicolons separate elements
+%   Example: REQUEST FOR TRANSFER; VOLUNTARY REASSIGNMENT
+%
+% MFR: Mixed case acceptable
+%   Example: Training Readiness Assessment for FY25
+%
+% Note: Use \# for the # symbol in LaTeX
+%
+%=============================================================================
+
+\setSubject{REQUEST FOR EQUIPMENT; ADMINISTRATIVE SUPPORT}
+
+
+%=============================================================================
+%                    BUSINESS LETTER FIELDS (Optional)
+%=============================================================================
+%
+% These fields are only used when \setDocumentType{business_letter}
+%
+% Salutation options:
+%   Dear Mr. Smith:
+%   Dear Ms. Johnson:
+%   Dear Dr. Williams:
+%   Dear Sir or Madam:
+%
+% Complimentary close options:
+%   Sincerely,              (standard)
+%   Very respectfully,      (to seniors/officials)
+%   Respectfully,           (formal)
+%
+%=============================================================================
+
+\setBusinessSalutation{Dear Sir or Madam:}
+\setBusinessClose{Very respectfully,}
+
+
+%=============================================================================
+%                           POINT OF CONTACT
+%=============================================================================
+%
+% Email address for the POC (appears in CUI block and can be used elsewhere)
+%
+%=============================================================================
+
+\setPOC{john.a.doe@usmc.mil}

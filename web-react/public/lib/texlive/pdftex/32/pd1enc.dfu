@@ -1,0 +1,4 @@
+%% pd1enc.dfu - Empty stub for SwiftLaTeX
+%% Unicode definitions for PD1 encoding (not needed for basic functionality)
+\ProvidesFile{pd1enc.dfu}[2020/01/01 v1.0 UTF-8 support for PD1 (stub)]
+\endinput

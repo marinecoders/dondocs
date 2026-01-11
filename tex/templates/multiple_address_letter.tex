@@ -1,0 +1,182 @@
+%=============================================================================
+%
+%                   MULTIPLE-ADDRESS LETTER FORMAT MODULE
+%
+%=============================================================================
+%
+% References:
+%   - SECNAV M-5216.5 (DON Correspondence Manual), Chapter 8
+%   - Figures 8-1 through 8-4
+%
+% What It's For:
+%   Use when you have MORE THAN ONE action addressee.
+%   Same as standard letter except for how addresses are handled.
+%
+% Three Methods:
+%   1. "To:" Line Only (≤4 addressees) - list all in To: line
+%   2. "Distribution:" Line Only (>4 addressees) - omit To:, use Distribution:
+%   3. Both "To:" and "Distribution:" - group title in To:, members in Distribution:
+%
+% Critical Rule:
+%   Every action addressee must receive a letter with:
+%   1. A letterhead (printed, typed, stamped, or photocopied)
+%   2. A signature (original or photocopied)
+%
+%=============================================================================
+
+
+%=============================================================================
+%                    DISTRIBUTION LIST CONFIGURATION
+%=============================================================================
+% SECNAV Ch 8 distinguishes between:
+%   - Distribution: = ACTION addressees (who must take action)
+%   - Copy to: = INFO addressees (for information only)
+
+% Distribution list (action addressees) - for Method 2 and 3
+\newcommand{\DistributionList}{}
+\newcommand{\setDistribution}[1]{\renewcommand{\DistributionList}{#1}}
+
+% Toggle for using Distribution line (Method 2 or 3)
+\newif\ifDistributionEnabled
+\DistributionEnabledfalse
+
+\newcommand{\enableDistribution}{\DistributionEnabledtrue}
+
+% Copy to list (info addressees) - separate from Distribution
+\newcommand{\CopyToList}{}
+\newcommand{\setCopyTo}[1]{\renewcommand{\CopyToList}{#1}}
+
+
+%=============================================================================
+%                    DATE/SSIC BLOCK
+%=============================================================================
+
+\newcommand{\printDateAndTitle}{%
+    \hfill
+    \begin{tabular}[t]{@{}l@{}}
+        \ifInReplyEnabled
+            {\fontsize{5pt}{6pt}\selectfont IN REPLY REFER TO}\\
+        \fi
+        \DocumentSSIC\\
+        \DocumentSerial\\
+        \DocumentDate
+    \end{tabular}\\[24pt]
+}
+
+
+%=============================================================================
+%                    FROM / TO / VIA / SUBJ BLOCK
+%=============================================================================
+% Method 1: To: line with ≤4 addressees stacked
+% Method 2: No To: line (omit), use Distribution: after signature
+% Method 3: To: line with group title, Distribution: lists members
+
+\newcommand{\printAddressBlock}{%
+    \noindent
+    \begin{tabular}[t]{@{}l@{\hspace{1em}}p{5.5in}@{}}
+        From: & \FromLine\ifdefempty{\FromLineTwo}{}{\tabularnewline & \FromLineTwo}\ifdefempty{\FromLineThree}{}{\tabularnewline & \FromLineThree}\ifdefempty{\FromLineFour}{}{\tabularnewline & \FromLineFour}\tabularnewline
+        % To: line - may be omitted for Method 2
+        \ifdefempty{\ToLine}{}{%
+            To: & \ToLine\ifdefempty{\ToLineTwo}{}{\tabularnewline & \ToLineTwo}\ifdefempty{\ToLineThree}{}{\tabularnewline & \ToLineThree}\ifdefempty{\ToLineFour}{}{\tabularnewline & \ToLineFour}\tabularnewline
+        }%
+        \ifViaEnabled
+            Via: & \ViaLineOne\ifdefempty{\ViaLineTwo}{}{\tabularnewline & \ViaLineTwo}\ifdefempty{\ViaLineThree}{}{\tabularnewline & \ViaLineThree}\ifdefempty{\ViaLineFour}{}{\tabularnewline & \ViaLineFour}\tabularnewline
+        \fi
+        & \tabularnewline[-6pt]
+        Subj: & \SubjectLine\tabularnewline
+    \end{tabular}%
+    %
+    % CUI block
+    \ifCUIEnabled
+        \par\vspace{12pt}%
+        \noindent
+        Controlled by: \CUIControlledBy\\
+        CUI Category: \CUICategory\\
+        Limited Dissemination Control: \CUIDissemination\\
+        POC: \href{mailto:\POCEmail}{\POCEmail}%
+        \par\vspace{12pt}%
+        \noindent\CUIDistStatement
+    \fi
+    %
+    % Classified block
+    \ifClassifiedEnabled
+        \par\vspace{12pt}%
+        \noindent
+        Classified by: \ClassifiedBy\\
+        Derived from: \DerivedFrom\\
+        Reason: \ClassificationReason\\
+        Declassify on: \DeclassifyOn\\
+        POC: \href{mailto:\POCEmail}{\POCEmail}
+    \fi
+}
+
+
+%=============================================================================
+%                    SIGNATURE BLOCK WITH DISTRIBUTION
+%=============================================================================
+% Signature followed by Distribution: line (if enabled)
+
+\newcommand{\printSignature}{%
+    \par\vspace{36pt}%
+    \hspace{3.25in}%
+    \begin{minipage}{3in}
+        \raggedright
+        % Digital signature field (empty box for CAC signing)
+        \ifHasDigitalSigField
+            \DigitalSignatureBox
+        \else
+            % Optional: Signature image
+            \ifNotEmpty{\SignatureImage}{%
+            \IfFileExists{attachments/\SignatureImage}{%
+                \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
+            }{}%
+            }%
+        \fi
+        % Required: Name (use abbreviated if available, else full name uppercased)
+        \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev\\}{\MakeUppercase{\SignatoryName}\\}%
+        % Optional: Rank
+        \optionalLine{\SignatoryRank}%
+        % Optional: Title
+        \optionalLine{\SignatoryTitle}%
+        % Optional: By direction authority line
+        \optionalField{\ByDirection}%
+    \end{minipage}%
+    %
+    % Distribution line (for Method 2 and 3) - ACTION addressees
+    \ifDistributionEnabled
+        \par\vspace{24pt}%
+        \noindent Distribution:\\
+        \DistributionList
+    \fi
+    %
+    % Copy to line - INFO addressees (separate from Distribution)
+    \ifNotEmpty{\CopyToList}{%
+        \par\vspace{24pt}%
+        \noindent Copy to:\\
+        \CopyToList
+    }%
+}
+
+
+%=============================================================================
+%                              PAGE STYLE
+%=============================================================================
+% SECNAV M-5216.5:
+%   - First page: Do NOT number
+%   - Second+ pages: Centered, 1/2" from bottom
+
+\fancypagestyle{firstpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyfoot[C]{}%  % No page number on first page
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+\fancypagestyle{documentpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyfoot[C]{\thepage}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}
