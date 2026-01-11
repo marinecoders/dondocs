@@ -1,0 +1,157 @@
+% NAVMC 118(11) - Administrative Remarks (Page 11)
+% LaTeX recreation of the official form
+% For use with libo-secured template system
+
+\documentclass[12pt,letterpaper]{article}
+\usepackage[margin=0.5in,top=0.4in,bottom=0.5in]{geometry}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{helvet}
+\usepackage{parskip}
+
+% Use Helvetica-like font
+\renewcommand{\familydefault}{\sfdefault}
+
+% Colors matching the form
+\definecolor{formblue}{RGB}{204,221,238}
+\definecolor{formborder}{RGB}{0,0,0}
+
+% Remove page numbers (form has its own)
+\pagestyle{empty}
+
+% Variables - these will be set by the generator
+\newcommand{\MarineName}{LAST, FIRST MIDDLE}
+\newcommand{\MarineEDIPI}{0000000000}
+\newcommand{\PageNumber}{1}
+
+% Entry storage - up to 10 entries
+\newcommand{\EntryDateA}{}
+\newcommand{\EntryTextA}{}
+\newcommand{\EntryDateB}{}
+\newcommand{\EntryTextB}{}
+\newcommand{\EntryDateC}{}
+\newcommand{\EntryTextC}{}
+
+% UCMJ Article 137 acknowledgments
+\newcommand{\UCMJDateA}{}
+\newcommand{\UCMJDateB}{}
+\newcommand{\SBPDate}{}
+
+\begin{document}
+
+% Large G in top right
+\begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=north east,font=\fontsize{72}{72}\selectfont\bfseries]
+        at ([xshift=-0.5in,yshift=-0.3in]current page.north east) {G};
+\end{tikzpicture}
+
+% Title
+\begin{center}
+    \textbf{\large ADMINISTRATIVE REMARKS (1070)}
+\end{center}
+
+\vspace{6pt}
+
+% Top section with 3 columns for UCMJ/SBP acknowledgments
+\noindent
+\begin{tabularx}{\textwidth}{|X|X|X|}
+\hline
+\cellcolor{formblue}
+\textbf{DATE} \rule{1.2in}{0.4pt}
+
+\vspace{4pt}
+\small Articles UCMJ explained to me this date as required by Article 137, UCMJ.
+
+\vspace{8pt}
+\colorbox{red!80!black}{\tiny\color{white}SIGN HERE}
+
+\vspace{4pt}
+\hfill\textit{(Signature)}\hfill\mbox{}
+&
+\cellcolor{formblue}
+\textbf{DATE} \rule{1.2in}{0.4pt}
+
+\vspace{4pt}
+\small Articles UCMJ explained to me this date as required by Article 137, UCMJ.
+
+\vspace{8pt}
+\colorbox{red!80!black}{\tiny\color{white}SIGN HERE}
+
+\vspace{4pt}
+\hfill\textit{(Signature)}\hfill\mbox{}
+&
+\cellcolor{formblue}
+\textbf{DATE} \rule{1.2in}{0.4pt}
+
+\vspace{4pt}
+\small I have been counseled concerning SBP and fully understand the automatic enrollment and future enrollment provisions on the Plan.
+
+\vspace{8pt}
+\colorbox{red!80!black}{\tiny\color{white}SIGN HERE}
+
+\vspace{4pt}
+\hfill\textit{(Signature)}\hfill\mbox{}
+\\
+\hline
+\end{tabularx}
+
+\vspace{0pt}
+
+% Main remarks area - two columns
+\noindent
+\begin{tabularx}{\textwidth}{|X|X|}
+\hline
+\multicolumn{2}{|c|}{\cellcolor{formblue}\rule{0pt}{0.65\textheight}} \\
+\multicolumn{2}{|c|}{
+\begin{minipage}[t][0.62\textheight]{\dimexpr\textwidth-8pt}
+\vspace{4pt}
+% Entry content will go here
+\EntryTextA
+\end{minipage}
+} \\
+\hline
+\end{tabularx}
+
+\vspace{0pt}
+
+% Footer with name and EDIPI
+\noindent
+\begin{tabularx}{\textwidth}{|X|X|}
+\hline
+\centering NAME (last, first, middle)
+
+\textbf{\MarineName}
+&
+\centering EDIPI
+
+\textbf{\MarineEDIPI}
+\\
+\hline
+\end{tabularx}
+
+% Form number and page
+\vspace{4pt}
+\noindent
+\begin{tabularx}{\textwidth}{X c X}
+\small NAVMC 118(11) (REV. 05-2014) (EF)
+
+\tiny PREVIOUS EDITIONS ARE OBSOLETE
+&
+11. \fbox{\PageNumber}
+&
+\hfill
+\\
+\end{tabularx}
+
+\vspace{2pt}
+\begin{center}
+\small\textbf{FOUO - Privacy sensitive when filled in}
+\end{center}
+
+\end{document}

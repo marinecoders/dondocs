@@ -215,8 +215,108 @@ button.primary:hover {
     background: #d4edda;
     padding: 8px 15px;
     border-radius: 4px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     font-size: 11px;
+}
+
+/* =============================================================================
+   MODE SWITCHER
+   ============================================================================= */
+
+.mode-switcher {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 20px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mode-btn {
+    flex: 1;
+    padding: 12px 24px;
+    background: #0f3460;
+    border: 1px solid #3282b8;
+    color: #888;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mode-btn:first-child {
+    border-radius: 4px 0 0 4px;
+    border-right: none;
+}
+
+.mode-btn:last-child {
+    border-radius: 0 4px 4px 0;
+}
+
+.mode-btn:hover {
+    background: #16213e;
+    color: #bbe1fa;
+}
+
+.mode-btn.active {
+    background: #3282b8;
+    color: white;
+    border-color: #3282b8;
+}
+
+.mode-btn.disabled {
+    background: #1a1a2e;
+    color: #555;
+    cursor: not-allowed;
+    border-color: #2a2a3e;
+}
+
+.mode-btn.disabled:hover {
+    background: #1a1a2e;
+    color: #555;
+}
+
+.coming-soon {
+    font-size: 10px;
+    background: #e94560;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+    font-weight: 600;
+}
+
+/* =============================================================================
+   SIGNATURE PAD
+   ============================================================================= */
+
+.signature-pad-container {
+    background: white;
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 8px;
+}
+
+#signaturePad {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: crosshair;
+    width: 100%;
+    max-width: 400px;
+    height: 150px;
+    touch-action: none;
+}
+
+.signature-controls {
+    margin-top: 8px;
+    display: flex;
+    gap: 8px;
+}
+
+.signature-controls button {
+    flex: none;
+    min-width: 80px;
 }
 
 .status {

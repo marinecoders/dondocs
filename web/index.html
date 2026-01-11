@@ -15,9 +15,54 @@
         All data stays local in your browser. Nothing is sent to any server.
     </div>
 
+    <!-- Mode Switcher -->
+    <div class="mode-switcher">
+        <button id="modeCorrespondence" class="mode-btn active" onclick="switchMode('correspondence')">
+            Correspondence
+        </button>
+        <button id="modeForms" class="mode-btn disabled" disabled title="Coming soon: Fill out official USMC forms (Page 11, 6105, etc.)">
+            Forms <span class="coming-soon">Coming Soon</span>
+        </button>
+    </div>
+
     <div class="container">
-        <!-- FORM PANEL -->
-        <div class="form-panel">
+        <!-- FORMS PANEL (hidden by default) -->
+        <div id="formsPanel" class="form-panel" style="display: none;">
+            <h2>Select Form</h2>
+            <select id="formTemplateSelect" onchange="selectFormTemplate()">
+                <option value="">-- Select a form --</option>
+                <optgroup label="Administrative">
+                    <option value="navmc-118-11">NAVMC 118(11) - Page 11 Entry</option>
+                    <option value="navmc-10274">NAVMC 10274 - Administrative Action (6105)</option>
+                </optgroup>
+            </select>
+
+            <!-- Dynamic form fields will be inserted here -->
+            <div id="formFields"></div>
+
+            <!-- Signature Pad -->
+            <div id="signatureSection" style="display: none;">
+                <h2>Signature</h2>
+                <div class="signature-pad-container">
+                    <canvas id="signaturePad" width="400" height="150"></canvas>
+                    <div class="signature-controls">
+                        <button type="button" class="secondary" onclick="clearSignature()">Clear</button>
+                    </div>
+                </div>
+                <p class="hint">Draw your signature above (touch or mouse)</p>
+            </div>
+
+            <!-- Form Actions -->
+            <div id="formActions" style="display: none;">
+                <div class="btn-row">
+                    <button type="button" class="primary" onclick="generateFormPDF()">Generate PDF</button>
+                    <button type="button" class="secondary" onclick="clearFormFields()">Clear Form</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CORRESPONDENCE PANEL -->
+        <div id="correspondencePanel" class="form-panel">
             <h2>Document Type</h2>
             <select id="docType" onchange="updateDocTypeFields()">
                 <optgroup label="Letters">

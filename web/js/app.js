@@ -2636,6 +2636,559 @@ function initMobilePreview() {
 }
 
 // =============================================================================
+// FORMS MODE - Pre-formatted USMC Forms
+// =============================================================================
+
+// Current mode: 'correspondence' or 'forms'
+let currentMode = 'correspondence';
+
+// Form templates data
+let formTemplates = {};
+
+// Signature pad state
+let signatureCtx = null;
+let isDrawing = false;
+let lastX = 0;
+let lastY = 0;
+
+/**
+ * Switch between correspondence and forms mode
+ * Note: Forms mode is currently disabled (coming soon)
+ */
+function switchMode(mode) {
+    // Forms mode is currently disabled
+    if (mode === 'forms') {
+        return;
+    }
+
+    currentMode = mode;
+
+    // Update button states
+    document.getElementById('modeCorrespondence').classList.toggle('active', mode === 'correspondence');
+    document.getElementById('modeForms').classList.toggle('active', mode === 'forms');
+
+    // Show/hide panels
+    document.getElementById('correspondencePanel').style.display = mode === 'correspondence' ? 'block' : 'none';
+    document.getElementById('formsPanel').style.display = mode === 'forms' ? 'block' : 'none';
+
+    // If switching to forms, initialize signature pad
+    if (mode === 'forms') {
+        initSignaturePad();
+    }
+}
+
+/**
+ * Load form templates from JSON
+ */
+async function loadFormTemplates() {
+    try {
+        const response = await fetch('data/form-templates.json');
+        const data = await response.json();
+        formTemplates = {};
+        data.templates.forEach(t => {
+            formTemplates[t.id] = t;
+        });
+        console.log('Loaded form templates:', Object.keys(formTemplates));
+    } catch (error) {
+        console.error('Failed to load form templates:', error);
+    }
+}
+
+/**
+ * Handle form template selection
+ */
+function selectFormTemplate() {
+    const templateId = document.getElementById('formTemplateSelect').value;
+    const formFields = document.getElementById('formFields');
+    const signatureSection = document.getElementById('signatureSection');
+    const formActions = document.getElementById('formActions');
+
+    if (!templateId) {
+        formFields.innerHTML = '';
+        signatureSection.style.display = 'none';
+        formActions.style.display = 'none';
+        return;
+    }
+
+    const template = formTemplates[templateId];
+    if (!template) {
+        console.error('Template not found:', templateId);
+        return;
+    }
+
+    // Build form fields
+    let html = `<h2>${template.name}</h2>`;
+    html += `<p class="hint">${template.description}</p>`;
+
+    template.fields.forEach(field => {
+        html += `<label>${field.label}${field.required ? ' *' : ''}</label>`;
+
+        if (field.type === 'textarea') {
+            html += `<textarea id="form_${field.id}"
+                        placeholder="${field.placeholder || ''}"
+                        rows="${field.rows || 4}"
+                        ${field.required ? 'required' : ''}></textarea>`;
+        } else if (field.type === 'date') {
+            html += `<input type="date" id="form_${field.id}" ${field.required ? 'required' : ''}>`;
+        } else {
+            html += `<input type="text" id="form_${field.id}"
+                        placeholder="${field.placeholder || ''}"
+                        ${field.pattern ? `pattern="${field.pattern}"` : ''}
+                        ${field.required ? 'required' : ''}>`;
+        }
+
+        if (field.helpText) {
+            html += `<p class="hint">${field.helpText}</p>`;
+        }
+    });
+
+    formFields.innerHTML = html;
+
+    // Show signature section if template has signatures
+    if (template.signatures && template.signatures.length > 0) {
+        signatureSection.style.display = 'block';
+        initSignaturePad();
+    } else {
+        signatureSection.style.display = 'none';
+    }
+
+    // Show form actions
+    formActions.style.display = 'block';
+}
+
+/**
+ * Initialize signature pad canvas
+ */
+function initSignaturePad() {
+    const canvas = document.getElementById('signaturePad');
+    if (!canvas) return;
+
+    signatureCtx = canvas.getContext('2d');
+
+    // Set up canvas for high DPI
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    signatureCtx.scale(dpr, dpr);
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+
+    // Clear and set up
+    signatureCtx.fillStyle = 'white';
+    signatureCtx.fillRect(0, 0, canvas.width, canvas.height);
+    signatureCtx.strokeStyle = '#000';
+    signatureCtx.lineWidth = 2;
+    signatureCtx.lineCap = 'round';
+    signatureCtx.lineJoin = 'round';
+
+    // Mouse events
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseout', stopDrawing);
+
+    // Touch events
+    canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+    canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+    canvas.addEventListener('touchend', stopDrawing);
+}
+
+function startDrawing(e) {
+    isDrawing = true;
+    const rect = e.target.getBoundingClientRect();
+    lastX = e.clientX - rect.left;
+    lastY = e.clientY - rect.top;
+}
+
+function draw(e) {
+    if (!isDrawing) return;
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    signatureCtx.beginPath();
+    signatureCtx.moveTo(lastX, lastY);
+    signatureCtx.lineTo(x, y);
+    signatureCtx.stroke();
+
+    lastX = x;
+    lastY = y;
+}
+
+function stopDrawing() {
+    isDrawing = false;
+}
+
+function handleTouchStart(e) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const rect = e.target.getBoundingClientRect();
+    isDrawing = true;
+    lastX = touch.clientX - rect.left;
+    lastY = touch.clientY - rect.top;
+}
+
+function handleTouchMove(e) {
+    if (!isDrawing) return;
+    e.preventDefault();
+    const touch = e.touches[0];
+    const rect = e.target.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+
+    signatureCtx.beginPath();
+    signatureCtx.moveTo(lastX, lastY);
+    signatureCtx.lineTo(x, y);
+    signatureCtx.stroke();
+
+    lastX = x;
+    lastY = y;
+}
+
+/**
+ * Clear the signature pad
+ */
+function clearSignature() {
+    const canvas = document.getElementById('signaturePad');
+    if (canvas && signatureCtx) {
+        signatureCtx.fillStyle = 'white';
+        signatureCtx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+}
+
+/**
+ * Get signature as base64 PNG
+ */
+function getSignatureData() {
+    const canvas = document.getElementById('signaturePad');
+    if (!canvas) return null;
+    return canvas.toDataURL('image/png');
+}
+
+/**
+ * Clear all form fields
+ */
+function clearFormFields() {
+    const templateId = document.getElementById('formTemplateSelect').value;
+    if (!templateId) return;
+
+    const template = formTemplates[templateId];
+    if (!template) return;
+
+    template.fields.forEach(field => {
+        const el = document.getElementById('form_' + field.id);
+        if (el) el.value = '';
+    });
+
+    clearSignature();
+}
+
+/**
+ * Collect form data from fields
+ */
+function collectFormData() {
+    const templateId = document.getElementById('formTemplateSelect').value;
+    if (!templateId) return null;
+
+    const template = formTemplates[templateId];
+    if (!template) return null;
+
+    const data = {
+        templateId: templateId,
+        templateName: template.name,
+        fields: {}
+    };
+
+    template.fields.forEach(field => {
+        const el = document.getElementById('form_' + field.id);
+        data.fields[field.id] = el ? el.value : '';
+    });
+
+    // Get signature
+    data.signature = getSignatureData();
+
+    return data;
+}
+
+/**
+ * Generate PDF for the selected form
+ */
+async function generateFormPDF() {
+    const data = collectFormData();
+    if (!data) {
+        alert('Please select a form first');
+        return;
+    }
+
+    // Validate required fields
+    const template = formTemplates[data.templateId];
+    for (const field of template.fields) {
+        if (field.required && !data.fields[field.id]) {
+            alert(`Please fill in: ${field.label}`);
+            document.getElementById('form_' + field.id)?.focus();
+            return;
+        }
+    }
+
+    try {
+        // For now, generate using pdf-lib directly (LaTeX form templates can come later)
+        const pdfBytes = await generateFormPDFWithPdfLib(data);
+
+        // Download
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+
+        // Update preview if visible
+        const frame = document.getElementById('pdfPreviewFrame');
+        if (frame) {
+            frame.src = url;
+        }
+
+        // Auto-download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${data.templateId}_${new Date().toISOString().split('T')[0]}.pdf`;
+        a.click();
+
+    } catch (error) {
+        console.error('Form PDF generation error:', error);
+        alert('Failed to generate PDF: ' + error.message);
+    }
+}
+
+/**
+ * Generate form PDF using pdf-lib
+ * This creates a filled version of the official form layout
+ */
+async function generateFormPDFWithPdfLib(data) {
+    const { PDFDocument, rgb, StandardFonts } = PDFLib;
+
+    const doc = await PDFDocument.create();
+    const helvetica = await doc.embedFont(StandardFonts.Helvetica);
+    const helveticaBold = await doc.embedFont(StandardFonts.HelveticaBold);
+    const courier = await doc.embedFont(StandardFonts.Courier);
+
+    // Letter size
+    const pageWidth = 612;
+    const pageHeight = 792;
+
+    if (data.templateId === 'navmc-118-11') {
+        // NAVMC 118(11) - Page 11
+        const page = doc.addPage([pageWidth, pageHeight]);
+
+        // Draw form structure
+        const margin = 36; // 0.5 inch
+
+        // Title
+        page.drawText('ADMINISTRATIVE REMARKS (1070)', {
+            x: pageWidth / 2 - 120,
+            y: pageHeight - 50,
+            size: 14,
+            font: helveticaBold,
+        });
+
+        // Large G
+        page.drawText('G', {
+            x: pageWidth - 60,
+            y: pageHeight - 70,
+            size: 60,
+            font: helveticaBold,
+        });
+
+        // Top boxes (UCMJ/SBP) - simplified version
+        const boxTop = pageHeight - 100;
+        const boxHeight = 80;
+        const boxWidth = (pageWidth - margin * 2) / 3;
+
+        // Draw three top boxes
+        for (let i = 0; i < 3; i++) {
+            page.drawRectangle({
+                x: margin + i * boxWidth,
+                y: boxTop - boxHeight,
+                width: boxWidth,
+                height: boxHeight,
+                borderColor: rgb(0, 0, 0),
+                borderWidth: 0.5,
+                color: rgb(0.8, 0.87, 0.93),
+            });
+        }
+
+        // Main remarks area
+        const remarksTop = boxTop - boxHeight - 10;
+        const remarksHeight = 480;
+
+        page.drawRectangle({
+            x: margin,
+            y: remarksTop - remarksHeight,
+            width: pageWidth - margin * 2,
+            height: remarksHeight,
+            borderColor: rgb(0, 0, 0),
+            borderWidth: 0.5,
+            color: rgb(0.8, 0.87, 0.93),
+        });
+
+        // Draw vertical line in middle
+        page.drawLine({
+            start: { x: pageWidth / 2, y: remarksTop },
+            end: { x: pageWidth / 2, y: remarksTop - remarksHeight },
+            thickness: 0.5,
+            color: rgb(0, 0, 0),
+        });
+
+        // Entry text
+        if (data.fields.entryText) {
+            const entryLines = data.fields.entryText.split('\n');
+            let yPos = remarksTop - 20;
+            const lineHeight = 12;
+
+            // Add date prefix
+            if (data.fields.entryDate) {
+                const dateStr = new Date(data.fields.entryDate).toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'short', day: 'numeric'
+                }).toUpperCase();
+                page.drawText(dateStr + ':', {
+                    x: margin + 10,
+                    y: yPos,
+                    size: 10,
+                    font: courier,
+                });
+                yPos -= lineHeight * 1.5;
+            }
+
+            // Word wrap and draw entry text
+            const maxWidth = (pageWidth - margin * 2) / 2 - 20;
+            for (const line of entryLines) {
+                const words = line.split(' ');
+                let currentLine = '';
+
+                for (const word of words) {
+                    const testLine = currentLine + (currentLine ? ' ' : '') + word;
+                    const width = courier.widthOfTextAtSize(testLine, 10);
+
+                    if (width > maxWidth && currentLine) {
+                        page.drawText(currentLine, {
+                            x: margin + 10,
+                            y: yPos,
+                            size: 10,
+                            font: courier,
+                        });
+                        yPos -= lineHeight;
+                        currentLine = word;
+                    } else {
+                        currentLine = testLine;
+                    }
+                }
+
+                if (currentLine) {
+                    page.drawText(currentLine, {
+                        x: margin + 10,
+                        y: yPos,
+                        size: 10,
+                        font: courier,
+                    });
+                    yPos -= lineHeight;
+                }
+            }
+        }
+
+        // Footer boxes
+        const footerTop = remarksTop - remarksHeight - 10;
+        const footerHeight = 30;
+
+        // Name box
+        page.drawRectangle({
+            x: margin,
+            y: footerTop - footerHeight,
+            width: (pageWidth - margin * 2) * 0.7,
+            height: footerHeight,
+            borderColor: rgb(0, 0, 0),
+            borderWidth: 0.5,
+        });
+
+        page.drawText('NAME (last, first, middle)', {
+            x: margin + 5,
+            y: footerTop - 10,
+            size: 8,
+            font: helvetica,
+        });
+
+        page.drawText(data.fields.marineName || '', {
+            x: margin + 5,
+            y: footerTop - 22,
+            size: 10,
+            font: helveticaBold,
+        });
+
+        // EDIPI box
+        page.drawRectangle({
+            x: margin + (pageWidth - margin * 2) * 0.7,
+            y: footerTop - footerHeight,
+            width: (pageWidth - margin * 2) * 0.3,
+            height: footerHeight,
+            borderColor: rgb(0, 0, 0),
+            borderWidth: 0.5,
+        });
+
+        page.drawText('EDIPI', {
+            x: margin + (pageWidth - margin * 2) * 0.7 + 5,
+            y: footerTop - 10,
+            size: 8,
+            font: helvetica,
+        });
+
+        page.drawText(data.fields.edipi || '', {
+            x: margin + (pageWidth - margin * 2) * 0.7 + 5,
+            y: footerTop - 22,
+            size: 10,
+            font: helveticaBold,
+        });
+
+        // Form number footer
+        page.drawText('NAVMC 118(11) (REV. 05-2014) (EF)', {
+            x: margin,
+            y: 40,
+            size: 8,
+            font: helvetica,
+        });
+
+        page.drawText('PREVIOUS EDITIONS ARE OBSOLETE', {
+            x: margin,
+            y: 30,
+            size: 6,
+            font: helvetica,
+        });
+
+        page.drawText('11.', {
+            x: pageWidth / 2 - 10,
+            y: 35,
+            size: 10,
+            font: helvetica,
+        });
+
+        page.drawText('FOUO - Privacy sensitive when filled in', {
+            x: pageWidth / 2 - 80,
+            y: 15,
+            size: 8,
+            font: helveticaBold,
+        });
+
+    } else if (data.templateId === 'navmc-10274') {
+        // NAVMC 10274 - Administrative Action (6105)
+        // TODO: Implement this form
+        const page = doc.addPage([pageWidth, pageHeight]);
+        page.drawText('NAVMC 10274 - Coming Soon', {
+            x: 200,
+            y: 400,
+            size: 20,
+            font: helveticaBold,
+        });
+    }
+
+    return await doc.save();
+}
+
+// =============================================================================
 // INITIALIZATION
 // =============================================================================
 
@@ -2644,6 +3197,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Load data files
     loadSSICData();
     loadUnitData();
+    loadFormTemplates();
 
     // Initialize drag-drop for PDF uploads
     initDragDrop();
