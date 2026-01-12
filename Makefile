@@ -126,9 +126,6 @@ rebuild: clean pdf
 # WEB APPLICATION (React)
 #=============================================================================
 
-# Web directory
-WEB_DIR = web-react
-
 #-----------------------------------------------------------------------------
 # Start development server (default: http://localhost:5173)
 # Pulls latest, builds, then starts dev server
@@ -153,7 +150,7 @@ dev:
 	@echo "Building web application..."
 	$(MAKE) web-build
 	@echo "Starting development server..."
-	cd $(WEB_DIR) && npm run dev
+	npm run dev
 
 #-----------------------------------------------------------------------------
 # Quick dev - just start dev server without pull/build
@@ -161,7 +158,7 @@ dev:
 .PHONY: dev-quick
 dev-quick: web-install
 	@echo "Starting development server..."
-	cd $(WEB_DIR) && npm run dev
+	npm run dev
 
 #-----------------------------------------------------------------------------
 # Build web app for production
@@ -169,8 +166,8 @@ dev-quick: web-install
 .PHONY: web-build
 web-build: web-install
 	@echo "Building web application..."
-	cd $(WEB_DIR) && npm run build
-	@echo "Build complete! Output in $(WEB_DIR)/dist/"
+	npm run build
+	@echo "Build complete! Output in dist/"
 
 #-----------------------------------------------------------------------------
 # Install web dependencies
@@ -178,7 +175,7 @@ web-build: web-install
 .PHONY: web-install
 web-install:
 	@echo "Installing web dependencies..."
-	cd $(WEB_DIR) && npm install
+	npm install
 	@echo "Dependencies installed."
 
 #-----------------------------------------------------------------------------
@@ -186,14 +183,14 @@ web-install:
 #-----------------------------------------------------------------------------
 .PHONY: lint
 lint: web-install
-	cd $(WEB_DIR) && npm run lint
+	npm run lint
 
 #-----------------------------------------------------------------------------
 # Preview production build locally
 #-----------------------------------------------------------------------------
 .PHONY: preview
 preview: web-build
-	cd $(WEB_DIR) && npm run preview
+	npm run preview
 
 #-----------------------------------------------------------------------------
 # Expose dev server via ngrok (for mobile/external testing)
@@ -216,7 +213,7 @@ endif
 .PHONY: web-clean
 web-clean:
 	@echo "Cleaning web build artifacts..."
-	rm -rf $(WEB_DIR)/dist
+	rm -rf dist
 	@echo "Web clean complete."
 
 #-----------------------------------------------------------------------------
@@ -224,7 +221,7 @@ web-clean:
 #-----------------------------------------------------------------------------
 .PHONY: help
 help:
-	@echo "USMC Correspondence Template - Makefile"
+	@echo "Naval Correspondence Generator - Makefile"
 	@echo ""
 	@echo "Usage: make [target]"
 	@echo ""

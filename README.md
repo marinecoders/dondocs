@@ -366,7 +366,6 @@ PDF output includes empty signature fields compatible with:
 
 ### Installation
 ```bash
-cd web-react
 npm install
 ```
 
@@ -383,29 +382,35 @@ npm run build
 ### Project Structure
 ```
 libo-secured/
-├── tex/                          # LaTeX source templates
+├── tex/                          # LaTeX source templates (standalone)
 │   ├── main.tex                  # Main template
 │   └── templates/                # Document type templates
-└── web-react/
-    ├── public/
-    │   ├── attachments/          # Seal images
-    │   └── lib/
-    │       ├── PdfTeXEngine.js   # LaTeX engine
-    │       ├── latex-templates.js
-    │       └── texlive/          # TeX Live files
-    └── src/
-        ├── components/
-        │   ├── editor/           # Form components
-        │   ├── layout/           # Page layout
-        │   ├── modals/           # Modal dialogs
-        │   └── ui/               # shadcn/ui components
-        ├── data/                 # Units, SSIC, references
-        ├── services/
-        │   ├── docx/             # Word generation
-        │   ├── latex/            # LaTeX generation
-        │   ├── pdf/              # PDF processing
-        │   └── pii/              # PII detection
-        └── stores/               # Zustand stores
+├── public/
+│   ├── attachments/              # Seal images
+│   └── lib/
+│       ├── PdfTeXEngine.js       # LaTeX engine
+│       ├── latex-templates.js
+│       └── texlive/              # TeX Live files
+├── src/
+│   ├── components/
+│   │   ├── editor/               # Form components
+│   │   ├── layout/               # Page layout
+│   │   ├── modals/               # Modal dialogs
+│   │   └── ui/                   # shadcn/ui components
+│   ├── data/                     # Units, SSIC, references
+│   ├── hooks/                    # Custom React hooks
+│   ├── lib/                      # Utility libraries
+│   ├── services/
+│   │   ├── docx/                 # Word generation
+│   │   ├── latex/                # LaTeX generation
+│   │   ├── pdf/                  # PDF processing
+│   │   └── pii/                  # PII detection
+│   ├── stores/                   # Zustand stores
+│   └── types/                    # TypeScript types
+├── index.html                    # Entry point
+├── package.json                  # Dependencies
+├── vite.config.ts                # Vite config
+└── Makefile                      # Build commands
 ```
 
 ---
