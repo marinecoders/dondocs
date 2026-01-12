@@ -11,8 +11,9 @@
  * JavaScript-only fix for this - it requires native app code changes.
  * See: https://bugs.webkit.org/show_bug.cgi?id=216918
  * 
- * NOTE: This notice waits for the WelcomeModal to be dismissed before showing,
- * to avoid overlapping modals.
+ * NOTE: This notice waits for the WelcomeModal to be dismissed before showing.
+ * It polls for the welcome modal's localStorage key to detect when user has
+ * dismissed it.
  */
 
 import { useEffect, useState, useCallback } from 'react';
@@ -20,7 +21,7 @@ import { AlertTriangle, X, ExternalLink } from 'lucide-react';
 import { getDeviceInfo, type DeviceInfo } from '@/utils/device';
 
 const NOTICE_DISMISSED_KEY = 'incompatible-browser-notice-dismissed';
-const WELCOME_STORAGE_KEY = 'libo-secured-welcome-shown'; // Must match WelcomeModal
+const WELCOME_STORAGE_KEY = 'libo-secured-welcome-shown';
 
 // Browser icons as simple SVG components
 function SafariIcon({ className }: { className?: string }) {
@@ -93,6 +94,17 @@ function getInAppBrowserName(device: DeviceInfo): string {
   return 'this app';
 }
 
+/**
+ * Check if the WelcomeModal has been dismissed
+ */
+function isWelcomeModalDismissed(): boolean {
+  try {
+    return localStorage.getItem(WELCOME_STORAGE_KEY) !== null;
+  } catch {
+    return true; // If localStorage fails, assume welcome is done
+  }
+}
+
 export function BrowserCompatibilityNotice() {
   const [isVisible, setIsVisible] = useState(false);
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null);
@@ -103,6 +115,7 @@ export function BrowserCompatibilityNotice() {
 
     // Only show for in-app browsers
     if (!device.isInAppBrowser) {
+      console.log('[BrowserNotice] Not an in-app browser, skipping');
       return;
     }
 
@@ -110,31 +123,39 @@ export function BrowserCompatibilityNotice() {
     try {
       const dismissed = localStorage.getItem(NOTICE_DISMISSED_KEY);
       if (dismissed) {
+        console.log('[BrowserNotice] Already dismissed');
         return;
       }
     } catch {
       // localStorage might not be available
     }
 
-    // Check if welcome modal is still showing - if so, wait for it to be dismissed
+    // If WelcomeModal hasn't been shown yet, wait for it to be dismissed
+    // Poll every 500ms until the welcome modal is dismissed
     const checkAndShow = () => {
-      try {
-        const welcomeShown = localStorage.getItem(WELCOME_STORAGE_KEY);
-        if (welcomeShown) {
-          // Welcome has been dismissed, show our notice
-          setIsVisible(true);
-        } else {
-          // Welcome modal is still showing, check again in 500ms
-          setTimeout(checkAndShow, 500);
-        }
-      } catch {
-        // If localStorage fails, just show the notice after a delay
-        setTimeout(() => setIsVisible(true), 1000);
+      if (isWelcomeModalDismissed()) {
+        console.log('[BrowserNotice] Welcome dismissed, showing notice');
+        setIsVisible(true);
+        return true;
       }
+      return false;
     };
 
-    // Start checking after a short delay
-    setTimeout(checkAndShow, 100);
+    // Try immediately first
+    if (checkAndShow()) {
+      return;
+    }
+
+    // Otherwise poll until welcome is dismissed
+    console.log('[BrowserNotice] Waiting for welcome modal to be dismissed...');
+    const interval = setInterval(() => {
+      if (checkAndShow()) {
+        clearInterval(interval);
+      }
+    }, 500);
+
+    // Cleanup interval on unmount
+    return () => clearInterval(interval);
   }, []);
 
   const handleDismiss = useCallback(() => {
