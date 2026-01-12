@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { FileText, Shield, Zap, Users, ChevronLeft, ChevronRight } from 'lucide-react';
+import { getDeviceInfo } from '@/utils/device';
 import {
   Dialog,
   DialogContent,
@@ -59,6 +60,13 @@ export function WelcomeModal() {
   const autoScrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    // Don't show welcome modal on incompatible browsers - they get the browser notice instead
+    const device = getDeviceInfo();
+    if (device.isInAppBrowser) {
+      console.log('[WelcomeModal] Skipping - in-app browser detected');
+      return;
+    }
+
     const stored = localStorage.getItem(WELCOME_STORAGE_KEY);
     if (!stored || stored !== WELCOME_VERSION) {
       setOpen(true);

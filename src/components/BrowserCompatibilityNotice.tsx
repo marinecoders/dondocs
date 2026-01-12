@@ -107,14 +107,9 @@ export function BrowserCompatibilityNotice() {
       return;
     }
 
-    // Show notice after 2 seconds (to let welcome modal appear first)
-    console.log('[BrowserNotice] In-app browser detected, will show after 2 second delay...');
-    const timeout = setTimeout(() => {
-      console.log('[BrowserNotice] Showing notice now');
-      setIsVisible(true);
-    }, 2000);
-
-    return () => clearTimeout(timeout);
+    // Show notice immediately - welcome modal is skipped for in-app browsers
+    console.log('[BrowserNotice] In-app browser detected, showing notice immediately');
+    setIsVisible(true);
   }, []);
 
   const handleDismiss = useCallback(() => {
