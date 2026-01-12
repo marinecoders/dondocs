@@ -1,15 +1,28 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
-// Note: Text/Annotation layer CSS removed - layers disabled for iOS stability
-// Reference: https://github.com/wojtekmaj/react-pdf/issues/1655
 import { X, Loader2, AlertCircle, ScrollText, Download, ChevronLeft, ChevronRight, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useUIStore } from '@/stores/uiStore';
 import { useLogStore } from '@/stores/logStore';
 import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
+import { useDeviceInfo, getPdfPreviewStrategy } from '@/utils/device';
 
-// iPad: Use react-pdf-viewer with full features (zoom, thumbnails, navigation)
-// This library has better memory management than react-pdf on iOS
+/**
+ * PDF Preview Strategies:
+ * 
+ * 1. iframe (Desktop, iPad): Native browser PDF viewer
+ *    - Best quality, built-in zoom/scroll
+ *    - Safari has excellent PDF support
+ * 
+ * 2. react-pdf-viewer (iPhone, Android phones): Custom viewer with toolbar
+ *    - Better UX on small screens
+ *    - Custom zoom controls
+ *    - Page thumbnails
+ * 
+ * See /utils/device/strategies.ts for detailed reasoning.
+ */
+
+// Phone viewer: react-pdf-viewer with full features
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import type { ToolbarSlot } from '@react-pdf-viewer/default-layout';
@@ -18,98 +31,42 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
 // Custom CSS to theme react-pdf-viewer to match app theme
 const pdfViewerStyles = `
-  /* Theme react-pdf-viewer to match app */
   .rpv-core__viewer {
     --rpv-color-primary: hsl(var(--primary));
-    --rpv-color-primary-foreground: hsl(var(--primary-foreground));
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
   }
-
-  /* Toolbar styling */
   .rpv-default-layout__toolbar {
     background-color: hsl(var(--card)) !important;
     border-bottom: 1px solid hsl(var(--border)) !important;
   }
-
   .rpv-core__minimal-button {
     color: hsl(var(--foreground)) !important;
   }
-
   .rpv-core__minimal-button:hover {
     background-color: hsl(var(--accent)) !important;
   }
-
-  /* Sidebar styling */
   .rpv-default-layout__sidebar {
     background-color: hsl(var(--card)) !important;
     border-right: 1px solid hsl(var(--border)) !important;
   }
-
-  .rpv-default-layout__sidebar-headers {
-    background-color: hsl(var(--muted)) !important;
-  }
-
-  .rpv-default-layout__sidebar-tab {
-    color: hsl(var(--muted-foreground)) !important;
-  }
-
-  .rpv-default-layout__sidebar-tab--selected {
-    color: hsl(var(--primary)) !important;
-    border-color: hsl(var(--primary)) !important;
-  }
-
-  /* Thumbnail styling */
-  .rpv-thumbnail__container {
-    background-color: hsl(var(--card)) !important;
-  }
-
-  .rpv-thumbnail__item--selected .rpv-thumbnail__cover::after {
-    border-color: hsl(var(--primary)) !important;
-  }
-
-  /* Body/main area styling */
   .rpv-default-layout__body {
     background-color: hsl(var(--muted) / 0.3) !important;
   }
-
-  .rpv-core__inner-pages {
-    background-color: transparent !important;
-  }
-
-  /* Popover/dropdown styling */
   .rpv-core__popover-body {
     background-color: hsl(var(--popover)) !important;
     border: 1px solid hsl(var(--border)) !important;
     color: hsl(var(--popover-foreground)) !important;
   }
-
-  .rpv-core__menu-item:hover {
-    background-color: hsl(var(--accent)) !important;
-  }
-
-  /* Scrollbar styling */
-  .rpv-core__inner-pages::-webkit-scrollbar-thumb {
-    background-color: hsl(var(--muted-foreground) / 0.3) !important;
-  }
-
-  /* Page number input */
   .rpv-core__textbox {
     background-color: hsl(var(--input)) !important;
     border-color: hsl(var(--border)) !important;
     color: hsl(var(--foreground)) !important;
   }
-
-  /* Zoom dropdown */
-  .rpv-zoom__popover-target-scale {
-    color: hsl(var(--foreground)) !important;
-  }
 `;
 
-// Configure pdf.js worker for react-pdf (iPhone)
+// Configure pdf.js workers
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
-
-// Worker URL for react-pdf-viewer (iPad)
 const PDFJS_WORKER_URL = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
 
 interface MobilePreviewModalProps {
@@ -119,70 +76,48 @@ interface MobilePreviewModalProps {
   onDownloadPdf?: () => void;
 }
 
-// iPad PDF Viewer Component using react-pdf-viewer with full features
-// This provides: zoom controls (+/-), page thumbnails sidebar, page navigation
-function IPadPdfViewer({ pdfUrl, onClose, onDownload, isPhone }: {
+/**
+ * Phone PDF Viewer Component
+ * 
+ * Uses react-pdf-viewer with custom toolbar for optimal phone experience.
+ * Features: zoom controls, page navigation, search, fullscreen
+ */
+function PhonePdfViewer({ pdfUrl, onClose, onDownload }: {
   pdfUrl: string;
   onClose: () => void;
   onDownload: () => void;
-  isPhone?: boolean;
 }) {
-  // Inject custom styles on mount
   useEffect(() => {
     const styleEl = document.createElement('style');
     styleEl.textContent = pdfViewerStyles;
     document.head.appendChild(styleEl);
-    return () => {
-      document.head.removeChild(styleEl);
-    };
+    return () => { document.head.removeChild(styleEl); };
   }, []);
 
-  // Create the default layout plugin which includes all features
   const defaultLayoutPluginInstance = defaultLayoutPlugin({
-    sidebarTabs: (defaultTabs) => [
-      // Only show thumbnails tab for cleaner mobile UI
-      defaultTabs[0], // Thumbnails
-    ],
+    sidebarTabs: (defaultTabs) => [defaultTabs[0]], // Only thumbnails
     renderToolbar: (Toolbar) => (
       <Toolbar>
         {(slots: ToolbarSlot) => {
           const {
-            CurrentPageInput,
-            GoToNextPage,
-            GoToPreviousPage,
-            NumberOfPages,
-            ShowSearchPopover,
-            Zoom,
-            ZoomIn,
-            ZoomOut,
-            EnterFullScreen,
+            CurrentPageInput, GoToNextPage, GoToPreviousPage, NumberOfPages,
+            ShowSearchPopover, Zoom, ZoomIn, ZoomOut, EnterFullScreen,
           } = slots;
           return (
             <div className="rpv-toolbar" style={{
-              display: 'flex',
-              alignItems: 'center',
-              width: '100%',
-              padding: '4px 8px',
-              gap: '4px'
+              display: 'flex', alignItems: 'center', width: '100%',
+              padding: '4px 8px', gap: '4px'
             }}>
-              {/* Left: Navigation */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
                 <GoToPreviousPage />
                 <CurrentPageInput /> / <NumberOfPages />
                 <GoToNextPage />
               </div>
-
-              {/* Center: Zoom */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '2px', marginLeft: 'auto' }}>
-                <ZoomOut />
-                <Zoom />
-                <ZoomIn />
+                <ZoomOut /><Zoom /><ZoomIn />
               </div>
-
-              {/* Right: Actions */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '2px', marginLeft: 'auto' }}>
-                <ShowSearchPopover />
-                <EnterFullScreen />
+                <ShowSearchPopover /><EnterFullScreen />
               </div>
             </div>
           );
@@ -193,39 +128,21 @@ function IPadPdfViewer({ pdfUrl, onClose, onDownload, isPhone }: {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Modal Header with Download and Close */}
       <div className="flex items-center justify-between px-3 py-2 border-b border-border bg-card shrink-0">
         <span className="font-semibold text-sm">PDF Preview</span>
         <div className="flex items-center gap-1">
-          <Button
-            variant="default"
-            size="sm"
-            onClick={onDownload}
-            className="h-8 px-3"
-          >
-            <Download className="h-4 w-4 mr-1.5" />
-            Download
+          <Button variant="default" size="sm" onClick={onDownload} className="h-8 px-3">
+            <Download className="h-4 w-4 mr-1.5" />Download
           </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8"
-            onClick={onClose}
-          >
+          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onClose}>
             <X className="h-4 w-4" />
           </Button>
         </div>
       </div>
-
-      {/* PDF Viewer - flex-1 with overflow for proper scrolling */}
       <div className="flex-1 overflow-hidden">
         <Worker workerUrl={PDFJS_WORKER_URL}>
           <div style={{ height: 'calc(100vh - 52px)' }}>
-            <Viewer
-              fileUrl={pdfUrl}
-              plugins={[defaultLayoutPluginInstance]}
-              defaultScale={isPhone ? 0.5 : 1}
-            />
+            <Viewer fileUrl={pdfUrl} plugins={[defaultLayoutPluginInstance]} defaultScale={0.5} />
           </div>
         </Worker>
       </div>
@@ -233,6 +150,13 @@ function IPadPdfViewer({ pdfUrl, onClose, onDownload, isPhone }: {
   );
 }
 
+/**
+ * Main Mobile Preview Modal
+ * 
+ * Renders different viewers based on device:
+ * - Phones: react-pdf-viewer with custom UI
+ * - Tablets: Native iframe (Safari handles PDFs excellently)
+ */
 export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreviewModalProps) {
   const { mobilePreviewOpen, setMobilePreviewOpen } = useUIStore();
   const { setOpen: setLogViewerOpen, setEnabled: setLogEnabled } = useLogStore();
@@ -241,32 +165,17 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
   const [pdfLoading, setPdfLoading] = useState<boolean>(true);
   const [pdfError, setPdfError] = useState<string | null>(null);
 
-  // Detect device/browser for download method and rendering approach
-  // Mobile devices use react-pdf-viewer - react-pdf has issues on mobile (canvas memory limits, rendering bugs)
-  // Reference: https://github.com/wojtekmaj/react-pdf/issues/1601
-  const [deviceInfo, setDeviceInfo] = useState<{
-    isIOS: boolean;
-    isIPad: boolean;
-    isSafari: boolean;
-    isMobile: boolean;
-  }>({ isIOS: false, isIPad: false, isSafari: false, isMobile: false });
+  // Use centralized device detection
+  const deviceInfo = useDeviceInfo();
+  const previewStrategy = getPdfPreviewStrategy(deviceInfo);
 
   useEffect(() => {
-    const isIPad = /iPad/i.test(navigator.userAgent) ||
-      (/Macintosh/i.test(navigator.userAgent) && 'ontouchstart' in window);
-    const isIOS = /iPhone|iPod/i.test(navigator.userAgent) || isIPad;
-    const isSafari = /Safari/i.test(navigator.userAgent) && !/Chrome|CriOS/i.test(navigator.userAgent);
-    // Detect any mobile device (iOS, Android, etc.)
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-      ('ontouchstart' in window && window.innerWidth < 1024);
-    setDeviceInfo({ isIOS, isIPad, isSafari, isMobile });
-
-    if (isMobile) {
-      console.log('[MobilePreview] Mobile device detected - using react-pdf-viewer');
+    if (deviceInfo.isMobile) {
+      console.log('[MobilePreview] Device:', deviceInfo);
+      console.log('[MobilePreview] Preview strategy:', previewStrategy);
     }
-  }, []);
+  }, [deviceInfo, previewStrategy]);
 
-  // Reset state when modal opens or pdfUrl changes
   useEffect(() => {
     if (mobilePreviewOpen && pdfUrl) {
       setPdfLoading(true);
@@ -275,7 +184,6 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
     }
   }, [mobilePreviewOpen, pdfUrl]);
 
-  // Filter out engine reset message
   const displayError = error === 'ENGINE_RESET_NEEDED' ? null : error;
 
   const handleOpenLogs = () => {
@@ -299,87 +207,60 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
   const goToPrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
   const goToNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, numPages));
 
-  // Universal download handler - optimized for iOS
-  // Reference: https://web.dev/patterns/files/share-files
   const handleDownload = async () => {
     if (!pdfUrl) return;
-
-    // Pre-open window for iOS BEFORE any async work
     const preOpenedWindow = preOpenWindowForIOS();
-
     try {
       const response = await fetch(pdfUrl);
       const blob = await response.blob();
       await downloadPdfBlob(blob, 'correspondence.pdf', preOpenedWindow);
     } catch (err) {
       console.error('Download failed:', err);
-      // Use pre-opened window if available, otherwise try to open new one
-      if (preOpenedWindow) {
-        preOpenedWindow.location.href = pdfUrl;
-      } else {
-        window.open(pdfUrl, '_blank');
-      }
+      if (preOpenedWindow) preOpenedWindow.location.href = pdfUrl;
+      else window.open(pdfUrl, '_blank');
     }
   };
 
   if (!mobilePreviewOpen) return null;
 
-  // For phones (not tablets) with PDF loaded, use full-screen viewer with integrated toolbar
-  // react-pdf has issues on phones (canvas memory limits, rendering bugs), so we use react-pdf-viewer instead
-  // iPads/tablets work better with react-pdf which has more reliable rendering
+  // Phone with PDF ready: Use react-pdf-viewer
   const isPhone = deviceInfo.isMobile && !deviceInfo.isIPad;
-  if (isPhone && pdfUrl && !isCompiling && !displayError) {
+  if (previewStrategy === 'react-pdf-viewer' && isPhone && pdfUrl && !isCompiling && !displayError) {
     return (
       <div className="fixed inset-0 z-50 bg-background flex flex-col">
-        <IPadPdfViewer
+        <PhonePdfViewer
           pdfUrl={pdfUrl}
           onClose={() => setMobilePreviewOpen(false)}
           onDownload={handleDownload}
-          isPhone={true}
         />
       </div>
     );
   }
 
+  // Default modal structure (iPad iframe, loading states, errors)
   return (
     <div className="fixed inset-0 z-50 bg-background flex flex-col">
-      {/* Header - shown for iPhone or when loading/error on iPad */}
+      {/* Header */}
       <div className="flex items-center justify-between px-3 py-2 border-b border-border bg-card shrink-0">
         <span className="font-semibold text-sm">PDF Preview</span>
         <div className="flex items-center gap-1">
           {pdfUrl && !isCompiling && (
-            <Button
-              variant="default"
-              size="sm"
-              onClick={handleDownload}
-              className="h-8 px-3"
-            >
-              <Download className="h-4 w-4 mr-1.5" />
-              Download
+            <Button variant="default" size="sm" onClick={handleDownload} className="h-8 px-3">
+              <Download className="h-4 w-4 mr-1.5" />Download
             </Button>
           )}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8"
-            onClick={handleOpenLogs}
-          >
+          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleOpenLogs}>
             <ScrollText className="h-4 w-4" />
           </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8"
-            onClick={() => setMobilePreviewOpen(false)}
-          >
+          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setMobilePreviewOpen(false)}>
             <X className="h-4 w-4" />
           </Button>
         </div>
       </div>
 
-      {/* PDF Content */}
+      {/* Content */}
       <div className="flex-1 overflow-auto bg-muted/30">
-        {/* Loading State */}
+        {/* Loading */}
         {isCompiling && (
           <div className="flex flex-col items-center justify-center h-full gap-4">
             <div className="relative">
@@ -393,7 +274,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
           </div>
         )}
 
-        {/* Compilation Error State */}
+        {/* Error */}
         {displayError && !pdfUrl && !isCompiling && (
           <div className="flex flex-col items-center justify-center h-full gap-4 p-4">
             <AlertCircle className="h-16 w-16 text-destructive/70" />
@@ -402,24 +283,21 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
               <p className="text-sm text-muted-foreground mt-1 max-w-xs">{displayError}</p>
             </div>
             <Button variant="outline" size="sm" onClick={handleOpenLogs}>
-              <ScrollText className="h-4 w-4 mr-2" />
-              View Logs
+              <ScrollText className="h-4 w-4 mr-2" />View Logs
             </Button>
           </div>
         )}
 
-        {/* PDF Viewer - for iPad using native iframe (Safari handles PDFs natively) */}
+        {/* iPad: Native iframe (Safari handles PDFs excellently) */}
         {pdfUrl && !isCompiling && deviceInfo.isIPad && (
-          <div className="flex-1 w-full h-full">
-            <iframe
-              src={pdfUrl}
-              className="w-full h-full border-0"
-              title="PDF Preview"
-            />
-          </div>
+          <iframe
+            src={pdfUrl}
+            className="w-full h-full border-0"
+            title="PDF Preview"
+          />
         )}
 
-        {/* PDF Viewer - for non-iPad mobile (uses react-pdf-viewer above, this is fallback) */}
+        {/* Fallback for other cases (shouldn't normally hit this) */}
         {pdfUrl && !isCompiling && !deviceInfo.isIPad && !isPhone && (
           <div className="flex flex-col items-center p-2 min-h-full">
             {pdfLoading && !pdfError && (
@@ -432,8 +310,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
                 <AlertCircle className="h-12 w-12 text-destructive/70" />
                 <p className="text-sm text-muted-foreground">{pdfError}</p>
                 <Button variant="outline" onClick={handleDownload}>
-                  <Download className="h-4 w-4 mr-2" />
-                  Download Instead
+                  <Download className="h-4 w-4 mr-2" />Download Instead
                 </Button>
               </div>
             ) : (
@@ -448,8 +325,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
                     <AlertCircle className="h-12 w-12 text-destructive/70" />
                     <p className="text-sm text-muted-foreground">Failed to render PDF</p>
                     <Button variant="outline" onClick={handleDownload}>
-                      <Download className="h-4 w-4 mr-2" />
-                      Download Instead
+                      <Download className="h-4 w-4 mr-2" />Download Instead
                     </Button>
                   </div>
                 }
@@ -465,18 +341,13 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
                       <Loader2 className="h-6 w-6 animate-spin text-primary" />
                     </div>
                   }
-                  error={
-                    <div className="flex items-center justify-center py-12">
-                      <p className="text-sm text-muted-foreground">Error rendering page</p>
-                    </div>
-                  }
                 />
               </Document>
             )}
           </div>
         )}
 
-        {/* Initial State */}
+        {/* Initial state */}
         {!pdfUrl && !displayError && !isCompiling && (
           <div className="flex flex-col items-center justify-center h-full gap-4">
             <FileText className="h-16 w-16 text-muted-foreground/30" />
@@ -488,33 +359,15 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
         )}
       </div>
 
-      {/* Page Navigation Footer - for iPhone only (iPad uses native viewer) */}
-      {pdfUrl && !isCompiling && numPages > 0 && !pdfError && !deviceInfo.isIPad && (
+      {/* Page navigation footer (only for fallback viewer) */}
+      {pdfUrl && !isCompiling && numPages > 0 && !pdfError && !deviceInfo.isIPad && !isPhone && (
         <div className="flex items-center justify-between px-4 py-2 border-t border-border bg-card shrink-0">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={goToPrevPage}
-            disabled={currentPage <= 1}
-            className="h-9 px-3"
-          >
-            <ChevronLeft className="h-4 w-4 mr-1" />
-            Prev
+          <Button variant="outline" size="sm" onClick={goToPrevPage} disabled={currentPage <= 1} className="h-9 px-3">
+            <ChevronLeft className="h-4 w-4 mr-1" />Prev
           </Button>
-
-          <span className="text-sm font-medium">
-            Page {currentPage} of {numPages}
-          </span>
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={goToNextPage}
-            disabled={currentPage >= numPages}
-            className="h-9 px-3"
-          >
-            Next
-            <ChevronRight className="h-4 w-4 ml-1" />
+          <span className="text-sm font-medium">Page {currentPage} of {numPages}</span>
+          <Button variant="outline" size="sm" onClick={goToNextPage} disabled={currentPage >= numPages} className="h-9 px-3">
+            Next<ChevronRight className="h-4 w-4 ml-1" />
           </Button>
         </div>
       )}
