@@ -17,6 +17,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useHistoryStore } from '@/stores/historyStore';
 import { useProfileStore } from '@/stores/profileStore';
+import { useLogStore } from '@/stores/logStore';
 import { useLatexEngine } from '@/hooks/useLatexEngine';
 import { generateAllLatexFiles, type GeneratedFiles } from '@/services/latex/generator';
 import { generateDocx } from '@/services/docx/generator';
@@ -64,7 +65,8 @@ function App() {
   const { setFormData, applySnapshot } = useDocumentStore();
   const { undo, redo } = useHistoryStore();
   const { selectedProfile, profiles } = useProfileStore();
-  const { isReady, compile, waitForReady, error: engineError } = useLatexEngine();
+  const { addLogDirect } = useLogStore();
+  const { isReady, compile, waitForReady, error: engineError, lastCompileLog } = useLatexEngine();
 
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [isCompiling, setIsCompiling] = useState(false);
@@ -206,11 +208,16 @@ function App() {
         isResettingRef.current = true;
       } else {
         setCompileError(errorMessage);
+        // Add error and full log to log store directly so it's available when user opens log viewer
+        addLogDirect('error', `Compilation failed: ${errorMessage}`);
+        if (lastCompileLog) {
+          addLogDirect('error', lastCompileLog);
+        }
       }
     } finally {
       setIsCompiling(false);
     }
-  }, [isReady, compile, documentStore, pdfUrl]);
+  }, [isReady, compile, documentStore, pdfUrl, addLogDirect, lastCompileLog]);
 
   // Debounced compilation on document changes
   useEffect(() => {

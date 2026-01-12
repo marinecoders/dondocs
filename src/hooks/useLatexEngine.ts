@@ -32,6 +32,7 @@ interface LatexEngineState {
   isReady: boolean;
   isLoading: boolean;
   error: string | null;
+  lastCompileLog: string | null;
 }
 
 // Get base path from Vite (handles /libo-secured/ in production)
@@ -63,6 +64,7 @@ export function useLatexEngine() {
     isReady: false,
     isLoading: true,
     error: null,
+    lastCompileLog: null,
   });
 
   const engineRef = useRef<PdfTeXEngine | null>(null);
@@ -228,6 +230,7 @@ export function useLatexEngine() {
         isReady: true,
         isLoading: false,
         error: null,
+        lastCompileLog: null,
       });
     } catch (err) {
       debug.error('Engine', 'Failed to initialize LaTeX engine', err);
@@ -238,6 +241,7 @@ export function useLatexEngine() {
         isReady: false,
         isLoading: false,
         error: err instanceof Error ? err.message : 'Unknown error',
+        lastCompileLog: null,
       });
     }
   }, []);
@@ -297,6 +301,7 @@ export function useLatexEngine() {
       debug.error('Compile', '========== COMPILATION FAILED ==========');
 
       const logLines = result.log?.split('\n') || [];
+      const errorDetails: string[] = [];
 
       // Find the file that caused the error
       const fileLoadPattern = /\(([^()]+)\)/g;
@@ -316,6 +321,7 @@ export function useLatexEngine() {
         const context = result.log?.substring(contextStart, contextEnd);
         debug.error('Compile', '⚠️ HTML CONTENT DETECTED IN LATEX LOG');
         debug.error('Compile', 'Context around HTML:', context);
+        errorDetails.push('HTML content detected in LaTeX log (possible missing package)');
 
         // Find which file was being loaded when HTML appeared
         const beforeHtml = result.log?.substring(0, htmlIndex !== -1 ? htmlIndex : htmlLineIndex) || '';
@@ -330,18 +336,33 @@ export function useLatexEngine() {
       );
       if (errorLines.length > 0) {
         debug.error('Compile', 'LaTeX Errors:', errorLines);
+        errorDetails.push(...errorLines);
       }
 
       // Find the line that caused the error
       const lineErrorMatch = result.log?.match(/l\.(\d+)\s+(.+)/);
       if (lineErrorMatch) {
         debug.error('Compile', `Error at line ${lineErrorMatch[1]}:`, lineErrorMatch[2]);
+        errorDetails.push(`Error at line ${lineErrorMatch[1]}: ${lineErrorMatch[2]}`);
       }
 
       // Show last 20 lines of log for context
       debug.log('Compile', 'Last 20 lines of log:', logLines.slice(-20).join('\n'));
 
       debug.error('Compile', '========================================');
+
+      // Store the formatted error log for display
+      const formattedLog = [
+        '========== COMPILATION FAILED ==========',
+        '',
+        ...errorDetails,
+        '',
+        '--- Last 30 lines of LaTeX log ---',
+        ...logLines.slice(-30),
+        '========================================'
+      ].join('\n');
+
+      setState(s => ({ ...s, lastCompileLog: formattedLog }));
 
       throw new Error('Compilation failed');
     },

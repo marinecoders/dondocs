@@ -16,6 +16,7 @@ interface LogState {
 
   // Actions
   addLog: (level: LogEntry['level'], message: string, data?: unknown) => void;
+  addLogDirect: (level: LogEntry['level'], message: string, data?: unknown) => void; // Bypasses isEnabled check
   clearLogs: () => void;
   setEnabled: (enabled: boolean) => void;
   setOpen: (open: boolean) => void;
@@ -32,6 +33,22 @@ export const useLogStore = create<LogState>((set, get) => ({
   addLog: (level, message, data) => {
     if (!get().isEnabled) return;
 
+    const entry: LogEntry = {
+      id: logId++,
+      timestamp: new Date(),
+      level,
+      message,
+      data,
+    };
+
+    set((state) => ({
+      logs: [...state.logs.slice(-(state.maxLogs - 1)), entry],
+    }));
+  },
+
+  // Add log entry directly, bypassing the isEnabled check
+  // Use this for critical errors that should always be captured
+  addLogDirect: (level, message, data) => {
     const entry: LogEntry = {
       id: logId++,
       timestamp: new Date(),
