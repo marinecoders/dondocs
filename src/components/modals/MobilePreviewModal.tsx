@@ -242,23 +242,27 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
   const [pdfError, setPdfError] = useState<string | null>(null);
 
   // Detect device/browser for download method and rendering approach
-  // iOS uses react-pdf-viewer - react-pdf crashes due to iOS canvas memory limits (384MB)
+  // Mobile devices use react-pdf-viewer - react-pdf has issues on mobile (canvas memory limits, rendering bugs)
   // Reference: https://github.com/wojtekmaj/react-pdf/issues/1601
   const [deviceInfo, setDeviceInfo] = useState<{
     isIOS: boolean;
     isIPad: boolean;
     isSafari: boolean;
-  }>({ isIOS: false, isIPad: false, isSafari: false });
+    isMobile: boolean;
+  }>({ isIOS: false, isIPad: false, isSafari: false, isMobile: false });
 
   useEffect(() => {
     const isIPad = /iPad/i.test(navigator.userAgent) ||
       (/Macintosh/i.test(navigator.userAgent) && 'ontouchstart' in window);
     const isIOS = /iPhone|iPod/i.test(navigator.userAgent) || isIPad;
     const isSafari = /Safari/i.test(navigator.userAgent) && !/Chrome|CriOS/i.test(navigator.userAgent);
-    setDeviceInfo({ isIOS, isIPad, isSafari });
+    // Detect any mobile device (iOS, Android, etc.)
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+      ('ontouchstart' in window && window.innerWidth < 1024);
+    setDeviceInfo({ isIOS, isIPad, isSafari, isMobile });
 
-    if (isIOS) {
-      console.log('[MobilePreview] iOS detected - using react-pdf-viewer (react-pdf crashes on iOS)');
+    if (isMobile) {
+      console.log('[MobilePreview] Mobile device detected - using react-pdf-viewer');
     }
   }, []);
 
@@ -320,10 +324,10 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
 
   if (!mobilePreviewOpen) return null;
 
-  // For iOS (iPhone/iPad) with PDF loaded, use full-screen viewer with integrated toolbar
-  // react-pdf crashes on iOS due to canvas memory limits, so we use react-pdf-viewer instead
-  if (deviceInfo.isIOS && pdfUrl && !isCompiling && !displayError) {
-    const isPhone = !deviceInfo.isIPad; // iPhone/iPod = phone, iPad = tablet
+  // For mobile devices with PDF loaded, use full-screen viewer with integrated toolbar
+  // react-pdf has issues on mobile (canvas memory limits, rendering bugs), so we use react-pdf-viewer instead
+  if (deviceInfo.isMobile && pdfUrl && !isCompiling && !displayError) {
+    const isPhone = !deviceInfo.isIPad; // phones get smaller default zoom
     return (
       <div className="fixed inset-0 z-50 bg-background flex flex-col">
         <IPadPdfViewer
