@@ -196,11 +196,33 @@ export default defineConfig({
             urlPattern: /\/lib\/texlive\/.*/,
             handler: 'CacheFirst',
             options: {
-              cacheName: 'texlive-cache-v2', // v2: invalidate old cache that may have HTML responses
+              cacheName: 'texlive-cache-v3', // v3: with HTML rejection plugin
               expiration: {
                 maxEntries: 500,
                 maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
               },
+              plugins: [
+                {
+                  // Reject HTML responses (Cloudflare SPA returns HTML for 404s)
+                  cacheWillUpdate: async ({ response }) => {
+                    const contentType = response.headers.get('content-type') || '';
+                    if (contentType.includes('text/html')) {
+                      console.warn('[SW] Rejecting HTML response for texlive file');
+                      return null; // Don't cache HTML
+                    }
+                    return response;
+                  },
+                  // Return 404 for HTML responses instead of passing them through
+                  fetchDidSucceed: async ({ response }) => {
+                    const contentType = response.headers.get('content-type') || '';
+                    if (contentType.includes('text/html')) {
+                      console.warn('[SW] Returning 404 for HTML texlive response');
+                      return new Response('', { status: 404, statusText: 'Not Found' });
+                    }
+                    return response;
+                  },
+                },
+              ],
             },
           },
         ],
