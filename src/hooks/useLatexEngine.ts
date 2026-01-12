@@ -330,20 +330,55 @@ export function useLatexEngine() {
         debug.error('Compile', '🔴 FILE THAT RETURNED HTML:', lastFile.substring(0, 100));
       }
 
-      // Extract actual LaTeX errors
-      const errorLines = logLines.filter(
-        (line) => line.startsWith('!') || line.includes('LaTeX Error') || line.includes('Fatal error')
-      );
+      // Extract ALL error-related lines from the log
+      // This catches: ! errors, Undefined control sequence, Missing X, LaTeX Error, etc.
+      const errorPatterns = [
+        /^!/,                           // LaTeX errors start with !
+        /Undefined control sequence/i,  // Common error
+        /Missing .* inserted/i,         // Missing $ inserted, etc.
+        /LaTeX Error/i,                 // LaTeX package errors
+        /Fatal error/i,                 // Fatal errors
+        /Emergency stop/i,              // Emergency stop
+        /Too many/i,                    // Too many errors
+        /Runaway/i,                     // Runaway argument
+        /File .* not found/i,           // Missing file
+        /Package .* Error/i,            // Package errors
+      ];
+
+      const errorLines: string[] = [];
+      for (let i = 0; i < logLines.length; i++) {
+        const line = logLines[i];
+        const isErrorLine = errorPatterns.some(pattern => pattern.test(line));
+        if (isErrorLine) {
+          errorLines.push(line);
+          // Also grab the next few lines for context (often contains the actual error location)
+          for (let j = 1; j <= 3 && i + j < logLines.length; j++) {
+            const nextLine = logLines[i + j];
+            // Stop if we hit another error or empty line
+            if (nextLine.trim() === '' || nextLine.startsWith('!')) break;
+            // Include lines that look like context (l.XX, indented lines, etc.)
+            if (nextLine.match(/^l\.\d+/) || nextLine.startsWith(' ') || nextLine.startsWith('\t')) {
+              errorLines.push(nextLine);
+            }
+          }
+        }
+      }
+
       if (errorLines.length > 0) {
         debug.error('Compile', 'LaTeX Errors:', errorLines);
         errorDetails.push(...errorLines);
       }
 
-      // Find the line that caused the error
-      const lineErrorMatch = result.log?.match(/l\.(\d+)\s+(.+)/);
-      if (lineErrorMatch) {
-        debug.error('Compile', `Error at line ${lineErrorMatch[1]}:`, lineErrorMatch[2]);
-        errorDetails.push(`Error at line ${lineErrorMatch[1]}: ${lineErrorMatch[2]}`);
+      // Find ALL line error matches (l.XX format)
+      const lineErrorMatches = result.log?.matchAll(/l\.(\d+)\s+(.+)/g);
+      if (lineErrorMatches) {
+        for (const lineMatch of lineErrorMatches) {
+          const errorLine = `Error at line ${lineMatch[1]}: ${lineMatch[2]}`;
+          if (!errorDetails.includes(errorLine)) {
+            debug.error('Compile', errorLine);
+            errorDetails.push(errorLine);
+          }
+        }
       }
 
       // Show last 20 lines of log for context
@@ -355,7 +390,8 @@ export function useLatexEngine() {
       const formattedLog = [
         '========== COMPILATION FAILED ==========',
         '',
-        ...errorDetails,
+        'ERRORS FOUND:',
+        ...errorDetails.map(e => `  ${e}`),
         '',
         '--- Last 30 lines of LaTeX log ---',
         ...logLines.slice(-30),
