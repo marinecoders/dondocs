@@ -386,7 +386,7 @@ export function useLatexEngine() {
 
       debug.error('Compile', '========================================');
 
-      // Store the formatted error log for display
+      // Build formatted error log for display
       const formattedLog = [
         '========== COMPILATION FAILED ==========',
         '',
@@ -400,7 +400,10 @@ export function useLatexEngine() {
 
       setState(s => ({ ...s, lastCompileLog: formattedLog }));
 
-      throw new Error('Compilation failed');
+      // Create error with details attached so it's immediately available
+      const error = new Error('Compilation failed') as Error & { compileLog?: string };
+      error.compileLog = formattedLog;
+      throw error;
     },
     [resetEngine]
   );

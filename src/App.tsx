@@ -66,7 +66,7 @@ function App() {
   const { undo, redo } = useHistoryStore();
   const { selectedProfile, profiles } = useProfileStore();
   const { addLogDirect } = useLogStore();
-  const { isReady, compile, waitForReady, error: engineError, lastCompileLog } = useLatexEngine();
+  const { isReady, compile, waitForReady, error: engineError } = useLatexEngine();
 
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [isCompiling, setIsCompiling] = useState(false);
@@ -202,6 +202,8 @@ function App() {
     } catch (err) {
       console.error('Compilation error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Compilation failed';
+      // Get compile log directly from error if available (for immediate access)
+      const compileLog = (err as Error & { compileLog?: string })?.compileLog;
 
       // If engine reset is needed, mark that we're resetting so next compile doesn't flash
       if (errorMessage === 'ENGINE_RESET_NEEDED') {
@@ -210,14 +212,14 @@ function App() {
         setCompileError(errorMessage);
         // Add error and full log to log store directly so it's available when user opens log viewer
         addLogDirect('error', `Compilation failed: ${errorMessage}`);
-        if (lastCompileLog) {
-          addLogDirect('error', lastCompileLog);
+        if (compileLog) {
+          addLogDirect('error', compileLog);
         }
       }
     } finally {
       setIsCompiling(false);
     }
-  }, [isReady, compile, documentStore, pdfUrl, addLogDirect, lastCompileLog]);
+  }, [isReady, compile, documentStore, pdfUrl, addLogDirect]);
 
   // Debounced compilation on document changes
   useEffect(() => {
