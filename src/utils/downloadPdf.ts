@@ -3,8 +3,9 @@
  * Handles iOS Safari, iOS Chrome, Android Chrome, and desktop browsers
  *
  * References:
- * - https://github.com/nicolo-ribaudo/nicolo-nicolo-ribaudo.github.io-patch-98281/issues/330 (Android Chrome issues)
- * - https://proandroiddev.com/blob-downloads-not-working-in-android-web-view-heres-the-real-fix-243144a2a426
+ * - https://github.com/eligrey/FileSaver.js/pull/612 (Chrome iOS FileReader fix)
+ * - https://github.com/eligrey/FileSaver.js/issues/686 (Chrome iOS blob issues)
+ * - https://copyprogramming.com/howto/how-to-open-blob-url-on-chrome-ios
  */
 
 interface DeviceInfo {
@@ -13,6 +14,8 @@ interface DeviceInfo {
   isSafari: boolean;
   isAndroid: boolean;
   isChrome: boolean;
+  isChromeIOS: boolean;
+  isFirefoxIOS: boolean;
 }
 
 function getDeviceInfo(): DeviceInfo {
@@ -24,7 +27,9 @@ function getDeviceInfo(): DeviceInfo {
 
   // Chrome on iOS uses "CriOS", Chrome desktop/Android uses "Chrome"
   // Edge uses "Edg", Firefox uses "FxiOS" on iOS
+  const isChromeIOS = /CriOS/i.test(ua);
   const isChrome = /Chrome|CriOS/i.test(ua) && !/Edg/i.test(ua);
+  const isFirefoxIOS = /FxiOS/i.test(ua);
   const isFirefox = /Firefox|FxiOS/i.test(ua);
   const isEdge = /Edg/i.test(ua);
 
@@ -32,9 +37,9 @@ function getDeviceInfo(): DeviceInfo {
   const isSafari = /Safari/i.test(ua) && !isChrome && !isFirefox && !isEdge;
 
   console.log('[downloadPdf] UA:', ua);
-  console.log('[downloadPdf] isIOS:', isIOS, 'isAndroid:', isAndroid, 'isSafari:', isSafari, 'isChrome:', isChrome);
+  console.log('[downloadPdf] isIOS:', isIOS, 'isAndroid:', isAndroid, 'isSafari:', isSafari, 'isChrome:', isChrome, 'isChromeIOS:', isChromeIOS);
 
-  return { isIOS, isIPad, isSafari, isAndroid, isChrome };
+  return { isIOS, isIPad, isSafari, isAndroid, isChrome, isChromeIOS, isFirefoxIOS };
 }
 
 /**
@@ -63,9 +68,39 @@ function downloadViaDataUrl(blob: Blob, filename: string): Promise<boolean> {
 }
 
 /**
+ * Chrome iOS specific: open PDF in new window using FileReader -> Data URL
+ * Chrome iOS doesn't support blob URL downloads, but can open data URLs
+ * User will see the PDF and can use share button to save
+ */
+function openViaDataUrlInNewWindow(blob: Blob, filename: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onloadend = function() {
+      const dataUrl = reader.result as string;
+      // Open the data URL in a new window - Chrome iOS will show the PDF
+      // User can then use the share button to save
+      const newWindow = window.open(dataUrl, '_blank');
+      if (newWindow) {
+        resolve(true);
+      } else {
+        // Popup blocked - try location.href as fallback
+        console.log('[downloadPdf] Popup blocked, trying location.href');
+        window.location.href = dataUrl;
+        resolve(true);
+      }
+    };
+    reader.onerror = function() {
+      console.error('[downloadPdf] FileReader failed for Chrome iOS');
+      resolve(false);
+    };
+    reader.readAsDataURL(blob);
+  });
+}
+
+/**
  * Downloads a PDF blob with platform-specific handling
  * For iOS Safari: uses anchor download with octet-stream
- * For iOS Chrome: uses anchor download with octet-stream
+ * For iOS Chrome: uses FileReader -> Data URL -> window.open (blob URLs don't work)
  * For Android Chrome: uses FileReader -> Data URL (more reliable)
  * For Desktop: triggers standard download
  *
@@ -78,7 +113,46 @@ export async function downloadPdfBlob(
   filename: string = 'correspondence.pdf',
   preOpenedWindow?: Window | null
 ): Promise<boolean> {
-  const { isIOS, isSafari, isAndroid, isChrome } = getDeviceInfo();
+  const { isIOS, isSafari, isAndroid, isChrome, isChromeIOS, isFirefoxIOS } = getDeviceInfo();
+
+  // iOS Chrome: Use FileReader -> Data URL -> window.open
+  // Chrome iOS does NOT support blob URL downloads - this is a known long-standing issue
+  // The download attribute on anchor tags doesn't work with blob URLs in Chrome iOS
+  // We must convert to a data URL and open in a new window
+  if (isIOS && isChromeIOS) {
+    console.log('[downloadPdf] iOS Chrome detected - using FileReader + window.open approach');
+    if (preOpenedWindow) preOpenedWindow.close();
+
+    // Keep as PDF type so Chrome iOS renders it properly
+    const pdfBlob = new Blob([blob], { type: 'application/pdf' });
+    const success = await openViaDataUrlInNewWindow(pdfBlob, filename);
+    
+    if (!success) {
+      // Ultimate fallback: try the anchor method anyway
+      console.log('[downloadPdf] Data URL window.open failed, trying anchor fallback');
+      const downloadBlob = new Blob([blob], { type: 'application/octet-stream' });
+      const downloadUrl = URL.createObjectURL(downloadBlob);
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      a.download = filename;
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(downloadUrl), 10000);
+    }
+    return true;
+  }
+
+  // iOS Firefox: Similar issues to Chrome iOS - use data URL approach
+  if (isIOS && isFirefoxIOS) {
+    console.log('[downloadPdf] iOS Firefox detected - using FileReader + window.open approach');
+    if (preOpenedWindow) preOpenedWindow.close();
+
+    const pdfBlob = new Blob([blob], { type: 'application/pdf' });
+    await openViaDataUrlInNewWindow(pdfBlob, filename);
+    return true;
+  }
 
   // Android Chrome: use FileReader -> Data URL approach (blob URLs can fail on Android)
   // This triggers Chrome's native "Download" or "Save to Drive" UI
@@ -104,6 +178,7 @@ export async function downloadPdfBlob(
 
   // iOS Safari: use anchor download with octet-stream
   if (isIOS && isSafari) {
+    console.log('[downloadPdf] iOS Safari detected - using octet-stream anchor download');
     if (preOpenedWindow) preOpenedWindow.close();
 
     // Re-create blob with octet-stream MIME type to force download
@@ -119,20 +194,24 @@ export async function downloadPdfBlob(
     return true;
   }
 
-  // iOS non-Safari (Chrome, Firefox, Edge): try octet-stream anchor download
+  // iOS other browsers (Edge, etc.): try data URL approach
   if (isIOS && !isSafari) {
-    console.log('[downloadPdf] iOS non-Safari - using octet-stream anchor download');
+    console.log('[downloadPdf] iOS other browser - using FileReader + window.open approach');
     if (preOpenedWindow) preOpenedWindow.close();
 
-    const downloadBlob = new Blob([blob], { type: 'application/octet-stream' });
-    const downloadUrl = URL.createObjectURL(downloadBlob);
-
-    const a = document.createElement('a');
-    a.href = downloadUrl;
-    a.download = filename;
-    a.click();
-
-    setTimeout(() => URL.revokeObjectURL(downloadUrl), 10000);
+    const pdfBlob = new Blob([blob], { type: 'application/pdf' });
+    const success = await openViaDataUrlInNewWindow(pdfBlob, filename);
+    
+    if (!success) {
+      // Fallback to anchor
+      const downloadBlob = new Blob([blob], { type: 'application/octet-stream' });
+      const downloadUrl = URL.createObjectURL(downloadBlob);
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      a.download = filename;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(downloadUrl), 10000);
+    }
     return true;
   }
 
@@ -155,75 +234,8 @@ export async function downloadPdfBlob(
     return true;
   }
 
-  /*
-  // Old fallback for iOS Safari - keeping for reference
-  if (isIOS && isSafari && preOpenedWindow) {
-    const pdfBlobUrl = URL.createObjectURL(blob);
-    const htmlContent = `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Save PDF</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body {
-      height: 100%; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-      display: flex; align-items: center; justify-content: center; padding: 20px;
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-    .card {
-      background: #fff; border-radius: 20px; padding: 32px 24px;
-      max-width: 340px; width: 100%; text-align: center;
-      box-shadow: 0 25px 80px rgba(0,0,0,0.4);
-    }
-    .icon { font-size: 56px; margin-bottom: 20px; }
-    h1 { font-size: 22px; margin-bottom: 8px; color: #1a1a1a; font-weight: 700; }
-    .subtitle { font-size: 14px; color: #666; margin-bottom: 24px; }
-    .steps { text-align: left; margin-bottom: 28px; }
-    .step { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
-    .step-num {
-      width: 28px; height: 28px; background: #007AFF; color: white;
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-size: 14px; font-weight: 600; flex-shrink: 0;
-    }
-    .step-text { font-size: 15px; color: #333; line-height: 1.4; padding-top: 3px; }
-    .step-text strong { color: #007AFF; }
-    button {
-      width: 100%; padding: 16px; background: #007AFF; color: white;
-      border: none; border-radius: 12px; font-size: 17px; font-weight: 600;
-      cursor: pointer; transition: background 0.2s;
-    }
-    button:active { background: #0056b3; }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <div class="icon">📄</div>
-    <h1>Ready to Save</h1>
-    <p class="subtitle">After viewing the PDF, save it using these steps:</p>
-    <div class="steps">
-      <div class="step">
-        <span class="step-num">1</span>
-        <span class="step-text">Tap the <strong>Share button</strong> (↑) in the toolbar</span>
-      </div>
-      <div class="step">
-        <span class="step-num">2</span>
-        <span class="step-text">Select <strong>"Save to Files"</strong> or <strong>"Save PDF"</strong></span>
-      </div>
-    </div>
-    <button onclick="window.location.href='${pdfBlobUrl}'">View PDF</button>
-  </div>
-</body>
-</html>`;
-    preOpenedWindow.document.open();
-    preOpenedWindow.document.write(htmlContent);
-    preOpenedWindow.document.close();
-    return true;
-  }
-  */
-
   // Desktop: standard download
+  console.log('[downloadPdf] Desktop browser - using standard blob URL download');
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
