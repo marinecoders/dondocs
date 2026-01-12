@@ -361,10 +361,34 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       return {
         formData: {
           ...preservedFields,
-          pageNumbering: 'none',
+          // Document identification - set empty strings for LaTeX compatibility
+          ssic: '',
+          serial: '',
           date: formatMilitaryDate(new Date()),
+          // Addressing - empty strings
+          from: '',
+          to: '',
+          via: '',
+          subject: '',
+          // Signature - empty strings
+          sigFirst: '',
+          sigMiddle: '',
+          sigLast: '',
+          sigRank: '',
+          sigTitle: '',
+          officeCode: '',
+          byDirection: false,
+          byDirectionAuthority: '',
+          signatureType: 'none',
+          signatureImage: undefined,
+          // Classification
           classLevel: 'unclassified',
+          pocEmail: '',
+          // Other settings
+          pageNumbering: 'none',
           includeHyperlinks: false,
+          inReplyTo: false,
+          inReplyToText: '',
         },
         paragraphs: [{ text: '', level: 0 }],
         references: [],
