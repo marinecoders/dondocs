@@ -573,6 +573,24 @@ const LATEX_TEMPLATES = {
 
 
 %=============================================================================
+%                    LETTERHEAD COLOR CONFIGURATION
+%=============================================================================
+% Options: blue (default, PMS 288 navy blue) or black
+%=============================================================================
+
+\\newcommand{\\LetterheadColor}{navyblue}
+\\newcommand{\\setLetterheadColor}[1]{%
+    \\def\\temp{#1}%
+    \\def\\blacktype{black}%
+    \\ifx\\temp\\blacktype
+        \\renewcommand{\\LetterheadColor}{black}%
+    \\else
+        \\renewcommand{\\LetterheadColor}{navyblue}%
+    \\fi
+}
+
+
+%=============================================================================
 %                    CONDITIONAL/OPTIONAL FIELD HELPERS
 %=============================================================================
 % These macros allow format templates to conditionally print fields.
@@ -773,13 +791,16 @@ const LATEX_TEMPLATES = {
     \\begin{textblock*}{4in}(2.25in, 0.625in)%
         \\centering
         \\usefont{\\encodingdefault}{\\familydefault}{\\seriesdefault}{\\shapedefault}%
-        \\fontsize{10pt}{12pt}\\selectfont
-        \\textcolor{navyblue}{\\textbf{\\DepartmentText}}\\\\%
-        \\fontsize{7pt}{8pt}\\selectfont
-        \\textcolor{navyblue}{\\UnitName}\\\\%
-        \\textcolor{navyblue}{\\UnitLineTwo}\\\\%
-        \\textcolor{navyblue}{\\UnitLineThree}\\\\%
-        \\textcolor{navyblue}{\\UnitLineFour}%
+        % Per SECNAV M-5216.5 App C S2a (Computer Generated Letterhead):
+        % First line: 10pt bold, Address lines: 8pt
+        % Color: \\LetterheadColor (blue or black)
+        \\fontsize{10pt}{11pt}\\selectfont
+        \\textcolor{\\LetterheadColor}{\\textbf{\\DepartmentText}}\\\\%
+        \\fontsize{8pt}{9pt}\\selectfont
+        \\textcolor{\\LetterheadColor}{\\UnitName}\\\\%
+        \\textcolor{\\LetterheadColor}{\\UnitLineTwo}\\\\%
+        \\textcolor{\\LetterheadColor}{\\UnitLineThree}\\\\%
+        \\textcolor{\\LetterheadColor}{\\UnitLineFour}%
     \\end{textblock*}%
     \\vspace*{0.5in}%
 }
