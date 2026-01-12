@@ -17,6 +17,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical, Plus, Trash2, ChevronRight, ChevronLeft, ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -88,6 +89,7 @@ interface SortableParagraphProps {
   showPortionMarking: boolean;
   disableIndent: boolean;  // True when numbered paragraphs are disabled (business letters, endorsements)
   onUpdate: (text: string) => void;
+  onUpdateHeader: (header: string) => void;
   onUpdatePortionMarking: (marking: PortionMarking | undefined) => void;
   onRemove: () => void;
   onIndent: () => void;
@@ -102,6 +104,7 @@ function SortableParagraph({
   showPortionMarking,
   disableIndent,
   onUpdate,
+  onUpdateHeader,
   onUpdatePortionMarking,
   onRemove,
   onIndent,
@@ -186,6 +189,22 @@ function SortableParagraph({
 
         {/* Content */}
         <div className="flex-1">
+          {/* Header input - optional paragraph heading per SECNAV Ch 7 ¶13d */}
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-xs text-muted-foreground whitespace-nowrap">Header:</span>
+            <Input
+              value={paragraph.header || ''}
+              onChange={(e) => onUpdateHeader(e.target.value)}
+              placeholder="Optional heading (auto-underlined)"
+              className="h-7 text-sm flex-1"
+            />
+            {paragraph.header && (
+              <span className="text-xs text-muted-foreground italic whitespace-nowrap">
+                → <span className="underline">{paragraph.header}</span>
+              </span>
+            )}
+          </div>
+
           <div className="flex items-center gap-2 mb-1">
             <RichTextToolbar onFormat={handleFormat} />
             <span className="text-xs text-muted-foreground ml-auto">
@@ -373,6 +392,7 @@ export function ParagraphsEditor() {
                     showPortionMarking={!!showPortionMarking}
                     disableIndent={disableNumberedParagraphs}
                     onUpdate={(text) => updateParagraph(index, { text })}
+                    onUpdateHeader={(header) => updateParagraph(index, { header })}
                     onUpdatePortionMarking={(marking) => updateParagraph(index, { portionMarking: marking })}
                     onRemove={() => removeParagraph(index)}
                     onIndent={() => indentParagraph(index)}

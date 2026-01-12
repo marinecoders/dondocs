@@ -346,6 +346,21 @@ ${store.copyTos.map((ct, i) => `\\copytoentry{${i + 1}}{${escapeLatex(ct.text)}}
 `;
 }
 
+// Convert header to Title Case per SECNAV M-5216.5 Ch 7 ¶13d
+function toTitleCase(str: string): string {
+  // Words that should remain lowercase (unless first word)
+  const lowercaseWords = ['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'in', 'nor', 'of', 'on', 'or', 'so', 'the', 'to', 'up', 'yet'];
+  
+  return str.split(' ').map((word, index) => {
+    const lower = word.toLowerCase();
+    // Always capitalize first word, otherwise check if it's a lowercase word
+    if (index === 0 || !lowercaseWords.includes(lower)) {
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }
+    return lower;
+  }).join(' ');
+}
+
 export function generateBodyTex(store: DocumentStore): string {
   const labels = calculateLabels(store.paragraphs);
 
@@ -360,6 +375,7 @@ export function generateBodyTex(store: DocumentStore): string {
   for (let i = 0; i < store.paragraphs.length; i++) {
     const para = store.paragraphs[i];
     const label = labels[i];
+    const headerText = para.header?.trim();
 
     // Close environments if level changes
     if (openLevels.length > 0 && openLevels[openLevels.length - 1] !== para.level) {
@@ -368,13 +384,26 @@ export function generateBodyTex(store: DocumentStore): string {
     }
 
     if (para.level === 0) {
-      latex += `\\vspace{12pt}\n\\noindent ${label}  ${processBodyText(para.text)}\n\n`;
+      // Level 0: Main paragraph with optional underlined header
+      // Per SECNAV M-5216.5 Ch 7 ¶13d: "Underline any heading and capitalize its key words"
+      if (headerText) {
+        const formattedHeader = toTitleCase(headerText);
+        latex += `\\vspace{12pt}\n\\noindent ${label} \\underline{${escapeLatex(formattedHeader)}}:  ${processBodyText(para.text)}\n\n`;
+      } else {
+        latex += `\\vspace{12pt}\n\\noindent ${label}  ${processBodyText(para.text)}\n\n`;
+      }
     } else {
       if (openLevels.length === 0) {
         latex += getOpenEnvironment(para.level) + '\n';
         openLevels.push(para.level);
       }
-      latex += `\\item ${processBodyText(para.text)}\n\n`;
+      // Nested paragraphs: Optional underlined header
+      if (headerText) {
+        const formattedHeader = toTitleCase(headerText);
+        latex += `\\item \\underline{${escapeLatex(formattedHeader)}.} ${processBodyText(para.text)}\n\n`;
+      } else {
+        latex += `\\item ${processBodyText(para.text)}\n\n`;
+      }
     }
   }
 

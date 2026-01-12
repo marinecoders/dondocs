@@ -25,6 +25,7 @@ export type PortionMarking = 'U' | 'CUI' | 'FOUO' | 'C' | 'S' | 'TS';
 export interface Paragraph {
   text: string;
   level: number;
+  header?: string; // Optional paragraph heading (underlined per Ch 7 ¶13d)
   portionMarking?: PortionMarking;
 }
 
