@@ -118,10 +118,18 @@ export function BrowserCompatibilityNotice() {
     setIsVisible(false);
   }, []);
 
-  const handleOpenInSafari = useCallback(() => {
+  const handleOpenInSafari = useCallback(async () => {
     console.log('[BrowserNotice] Open in Safari clicked');
-    // Show instructions - the window.open usually doesn't work from in-app browsers
-    alert('To open in Safari:\n\n1. Tap the ⋮ or share button at the top/bottom of your screen\n2. Select "Open in Safari" or "Open in Browser"');
+    
+    // Copy URL to clipboard so user can paste in Safari
+    const currentUrl = window.location.href;
+    try {
+      await navigator.clipboard.writeText(currentUrl);
+      alert('URL copied to clipboard!\n\nTo open in Safari:\n1. Open Safari app\n2. Paste the URL in the address bar\n\nOr:\n1. Tap the ⋮ or share button in this browser\n2. Select "Open in Safari"');
+    } catch {
+      // Clipboard API might not work, just show instructions
+      alert('To open in Safari:\n\n1. Tap the ⋮ or share button at the top/bottom of your screen\n2. Select "Open in Safari" or "Open in Browser"');
+    }
   }, []);
 
   const handleBackdropClick = useCallback((e: React.MouseEvent) => {
@@ -215,7 +223,7 @@ export function BrowserCompatibilityNotice() {
             onClick={handleOpenInSafari}
           >
             <ExternalLink className="h-4 w-4" />
-            Open in Safari
+            Copy Link & Instructions
           </button>
         </div>
       </div>
