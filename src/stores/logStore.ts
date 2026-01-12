@@ -26,7 +26,7 @@ let logId = 0;
 
 export const useLogStore = create<LogState>((set, get) => ({
   logs: [],
-  isEnabled: false, // Disabled by default
+  isEnabled: true, // Enabled by default for debugging
   isOpen: false,
   maxLogs: 500,
 
