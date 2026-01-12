@@ -1,0 +1,14 @@
+# Static assets - serve directly, 404 if not found (no SPA fallback)
+/lib/*  200!
+/tex/*  200!
+/assets/*  200!
+/attachments/*  200!
+/*.js  200!
+/*.css  200!
+/*.wasm  200!
+/*.json  200!
+/*.svg  200!
+/*.png  200!
+
+# Everything else goes to index.html (SPA)
+/*  /index.html  200
