@@ -13,6 +13,7 @@ import { TemplateLoaderModal } from '@/components/modals/TemplateLoaderModal';
 import { WelcomeModal } from '@/components/modals/WelcomeModal';
 import { PIIWarningModal } from '@/components/modals/PIIWarningModal';
 import { LogViewerModal } from '@/components/modals/LogViewerModal';
+import { BrowserCompatibilityNotice } from '@/components/BrowserCompatibilityNotice';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useHistoryStore } from '@/stores/historyStore';
@@ -724,6 +725,7 @@ ${texFiles['body.tex'] || '% No body content'}
         onProceed={handleProceedWithPII}
       />
       <LogViewerModal />
+      <BrowserCompatibilityNotice />
     </div>
   );
 }

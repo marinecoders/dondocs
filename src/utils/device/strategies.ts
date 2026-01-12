@@ -171,5 +171,5 @@ export function getDownloadUnsupportedMessage(device?: DeviceInfo): string {
                   info.isTwitterApp ? 'Twitter' :
                   info.isLinkedInApp ? 'LinkedIn' : 'this app';
   
-  return `PDF downloads don't work in ${appName}'s browser.\n\nTo download your PDF:\n1. Tap the ⋮ or share button\n2. Select "Open in Safari"`;
+  return `PDF downloads don't work in ${appName}'s browser.\n\nCompatible browsers:\n• Safari\n• Chrome\n• Firefox\n• Edge\n\nTap ⋮ or the share button and select "Open in Safari" to download.`;
 }
