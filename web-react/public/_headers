@@ -1,0 +1,13 @@
+# Cloudflare Pages custom headers
+
+# WASM files need correct MIME type
+/*.wasm
+  Content-Type: application/wasm
+
+# TeX/LaTeX files
+/lib/texlive/*
+  Access-Control-Allow-Origin: *
+
+# Enable CORS for all assets (needed for service worker)
+/*
+  Access-Control-Allow-Origin: *

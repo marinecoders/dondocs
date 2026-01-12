@@ -1,0 +1,3 @@
+# Cloudflare Pages SPA redirect
+# All routes that don't match static files go to index.html
+/* /index.html 200

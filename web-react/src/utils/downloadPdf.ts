@@ -46,7 +46,6 @@ export async function downloadPdfBlob(
   preOpenedWindow?: Window | null
 ): Promise<boolean> {
   const { isIOS, isSafari } = getDeviceInfo();
-  const file = new File([blob], filename, { type: 'application/pdf' });
 
   // iOS Safari: use anchor download with octet-stream (skip Web Share API - anchor works better)
   if (isIOS && isSafari) {
@@ -65,43 +64,23 @@ export async function downloadPdfBlob(
     return true;
   }
 
-  // iOS non-Safari (Chrome, Firefox, Edge): try Web Share API first, then data URL
-  if (isIOS && !isSafari && navigator.share && navigator.canShare) {
-    if (navigator.canShare({ files: [file] })) {
-      try {
-        await navigator.share({ files: [file] });
-        if (preOpenedWindow) preOpenedWindow.close();
-        return true;
-      } catch (shareErr) {
-        if ((shareErr as Error).name === 'AbortError') {
-          if (preOpenedWindow) preOpenedWindow.close();
-          return true;
-        }
-        console.log('Share API failed, using fallback:', shareErr);
-      }
-    }
-  }
-
-  // iOS non-Safari (Chrome, Firefox, Edge): use data URL approach
-  // This must come BEFORE Safari check since blob URLs don't work in Chrome iOS
-  // Reference: https://github.com/nicbarker/pdf-viewer/issues/629
+  // iOS non-Safari (Chrome, Firefox, Edge): try octet-stream anchor download first (like Safari)
+  // This approach may trigger Chrome's native download UI
   if (isIOS && !isSafari) {
-    console.log('[downloadPdf] Using data URL approach for non-Safari iOS browser');
+    console.log('[downloadPdf] Trying octet-stream anchor download for Chrome iOS');
     if (preOpenedWindow) preOpenedWindow.close();
 
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const dataUrl = reader.result as string;
-        window.open(dataUrl, '_blank');
-        resolve(true);
-      };
-      reader.onerror = () => {
-        console.error('Failed to read PDF as data URL');
-        resolve(false);
-      };
-      reader.readAsDataURL(blob);
-    });
+    // Try octet-stream approach first (works for Safari, might work for Chrome)
+    const downloadBlob = new Blob([blob], { type: 'application/octet-stream' });
+    const downloadUrl = URL.createObjectURL(downloadBlob);
+
+    const a = document.createElement('a');
+    a.href = downloadUrl;
+    a.download = filename;
+    a.click();
+
+    setTimeout(() => URL.revokeObjectURL(downloadUrl), 10000);
+    return true;
   }
 
   /*
@@ -183,16 +162,13 @@ export async function downloadPdfBlob(
 }
 
 /**
- * Pre-opens a window for iOS Chrome to avoid popup blocker
- * Safari doesn't need this - it uses anchor download method
+ * Pre-opens a window for iOS browsers to avoid popup blocker
+ * Currently not needed - both Safari and Chrome use anchor download method
+ * Keeping for potential future fallback needs
  * Must be called synchronously from a user gesture (click handler)
  */
 export function preOpenWindowForIOS(): Window | null {
-  const { isIOS, isSafari } = getDeviceInfo();
-  // Only pre-open for iOS non-Safari browsers (Chrome needs it for data URL approach)
-  if (isIOS && !isSafari) {
-    return window.open('about:blank', '_blank');
-  }
+  // Both Safari and Chrome iOS now use anchor download - no pre-opened window needed
   return null;
 }
 

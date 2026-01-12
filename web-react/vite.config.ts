@@ -40,8 +40,7 @@ function texliveMiddleware(): Plugin {
         const url = req.url || '';
 
         // Handle texlive pdftex requests
-        const texliveMatch = url.match(/\/lib\/texlive\/pdftex\/(\d+)\/(.+)$/) ||
-                            url.match(/\/libo-secured\/lib\/texlive\/pdftex\/(\d+)\/(.+)$/);
+        const texliveMatch = url.match(/\/lib\/texlive\/pdftex\/(\d+)\/(.+)$/);
 
         if (texliveMatch) {
           const format = texliveMatch[1];
@@ -88,8 +87,7 @@ function texliveMiddleware(): Plugin {
         }
 
         // Handle enc directory
-        const encMatch = url.match(/\/lib\/texlive\/pdftex\/enc\/(.+)$/) ||
-                        url.match(/\/libo-secured\/lib\/texlive\/pdftex\/enc\/(.+)$/);
+        const encMatch = url.match(/\/lib\/texlive\/pdftex\/enc\/(.+)$/);
         if (encMatch) {
           const filename = encMatch[1];
           const fileKey = `enc/${filename}`;
@@ -106,8 +104,7 @@ function texliveMiddleware(): Plugin {
         }
 
         // Handle pfb directory
-        const pfbMatch = url.match(/\/lib\/texlive\/pdftex\/pfb\/(.+)$/) ||
-                        url.match(/\/libo-secured\/lib\/texlive\/pdftex\/pfb\/(.+)$/);
+        const pfbMatch = url.match(/\/lib\/texlive\/pdftex\/pfb\/(.+)$/);
         if (pfbMatch) {
           const filename = pfbMatch[1];
           const fileKey = `pfb/${filename}`;
@@ -124,9 +121,7 @@ function texliveMiddleware(): Plugin {
         }
 
         // Catch /tex/null requests (internal TeX paths)
-        if (url === '/tex/null' ||
-            url === '/libo-secured/tex/null' ||
-            url.endsWith('/tex/null')) {
+        if (url === '/tex/null' || url.endsWith('/tex/null')) {
           console.log(`[texlive] ✓ STUB   /tex/null → null stub`);
           res.setHeader('Content-Type', 'text/plain');
           res.end('% null stub file\n\\endinput\n');
@@ -171,8 +166,8 @@ export default defineConfig({
         background_color: '#ffffff',
         display: 'standalone',
         orientation: 'portrait',
-        scope: '/libo-secured/',
-        start_url: '/libo-secured/',
+        scope: '/',
+        start_url: '/',
         icons: [
           {
             src: 'icon.svg',
@@ -212,7 +207,7 @@ export default defineConfig({
       },
     }),
   ],
-  base: '/libo-secured/',
+  base: '/',
   server: {
     // Allow ngrok and other tunnel services
     host: true,
