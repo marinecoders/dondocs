@@ -152,7 +152,10 @@
             }%
         \fi
         % Required: Use abbreviated format (J. M. LASTNAME) if set, otherwise full name
-        \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev\\}{\MakeUppercase{\SignatoryName}\\}%
+        % Only print name line if there's actually a name
+        \ifdefempty{\SignatoryAbbrev}{%
+            \ifdefempty{\SignatoryName}{}{\MakeUppercase{\SignatoryName}\\}%
+        }{\SignatoryAbbrev\\}%
         % Optional: By direction authority line
         \optionalField{\ByDirection}%
     \end{minipage}
