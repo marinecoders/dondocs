@@ -13,6 +13,7 @@ import { TemplateLoaderModal } from '@/components/modals/TemplateLoaderModal';
 import { WelcomeModal } from '@/components/modals/WelcomeModal';
 import { PIIWarningModal } from '@/components/modals/PIIWarningModal';
 import { LogViewerModal } from '@/components/modals/LogViewerModal';
+import { EnclosureErrorModal } from '@/components/modals/EnclosureErrorModal';
 import { BrowserCompatibilityNotice } from '@/components/BrowserCompatibilityNotice';
 import { UpdateBanner } from '@/components/UpdateBanner';
 import { useUIStore } from '@/stores/uiStore';
@@ -24,7 +25,7 @@ import { useLatexEngine, useServiceWorker } from '@/hooks';
 import { generateAllLatexFiles, type GeneratedFiles } from '@/services/latex/generator';
 import { generateDocx } from '@/services/docx/generator';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
-import type { ClassificationInfo } from '@/services/pdf/mergeEnclosures';
+import type { ClassificationInfo, EnclosureError } from '@/services/pdf/mergeEnclosures';
 import { addSignatureField, addDualSignatureFields } from '@/services/pdf/addSignatureField';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { detectPII, type PIIDetectionResult } from '@/services/pii/detector';
@@ -80,6 +81,10 @@ function App() {
   // PII detection state
   const [piiDetectionResult, setPiiDetectionResult] = useState<PIIDetectionResult | null>(null);
   const pendingDownloadRef = useRef<GeneratedFiles | null>(null);
+
+  // Enclosure error state
+  const [enclosureErrors, setEnclosureErrors] = useState<EnclosureError[]>([]);
+  const [showEnclosureErrors, setShowEnclosureErrors] = useState(false);
 
   // Apply theme to document
   useEffect(() => {
@@ -177,7 +182,14 @@ function App() {
         // Merge enclosures and/or create hyperlinks (handles both PDF and text-only enclosures, and reference URLs)
         if (enclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
           const classification = getClassificationInfo(documentStore.formData.classLevel);
-          pdfBytes = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls);
+          const mergeResult = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls);
+          pdfBytes = mergeResult.pdfBytes;
+
+          // Track enclosure errors for user notification
+          if (mergeResult.hasErrors) {
+            setEnclosureErrors(mergeResult.errors);
+            setShowEnclosureErrors(true);
+          }
         }
 
         // Add digital signature field if requested
@@ -270,7 +282,14 @@ function App() {
       // Merge enclosures and/or create hyperlinks (handles both PDF and text-only enclosures, and reference URLs)
       if (enclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
         const classification = getClassificationInfo(documentStore.formData.classLevel);
-        pdfBytes = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls);
+        const mergeResult = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls);
+        pdfBytes = mergeResult.pdfBytes;
+
+        // Track enclosure errors for user notification (download context)
+        if (mergeResult.hasErrors) {
+          setEnclosureErrors(mergeResult.errors);
+          setShowEnclosureErrors(true);
+        }
       }
 
       // Add digital signature field if requested
@@ -362,7 +381,14 @@ function App() {
     if (pdfBytes) {
       if (enclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
         const classification = getClassificationInfo(documentStore.formData.classLevel);
-        pdfBytes = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls);
+        const mergeResult = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls);
+        pdfBytes = mergeResult.pdfBytes;
+
+        // Track enclosure errors for user notification (PII download context)
+        if (mergeResult.hasErrors) {
+          setEnclosureErrors(mergeResult.errors);
+          setShowEnclosureErrors(true);
+        }
       }
 
       // Add digital signature field if requested
@@ -727,6 +753,14 @@ ${texFiles['body.tex'] || '% No body content'}
         onProceed={handleProceedWithPII}
       />
       <LogViewerModal />
+      <EnclosureErrorModal
+        errors={enclosureErrors}
+        open={showEnclosureErrors}
+        onClose={() => {
+          setShowEnclosureErrors(false);
+          setEnclosureErrors([]);
+        }}
+      />
       <BrowserCompatibilityNotice />
       <UpdateBanner show={showUpdateBanner} onDismiss={dismissBanner} />
     </div>

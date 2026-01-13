@@ -10,6 +10,20 @@ export interface EnclosureData {
   coverPageDescription?: string; // Optional description text for the cover page
 }
 
+export interface EnclosureError {
+  enclosureNumber: number;
+  title: string;
+  error: string;
+  pagesFailed?: number; // Number of pages that failed (if partial failure)
+  pagesSucceeded?: number; // Number of pages that succeeded
+}
+
+export interface MergeResult {
+  pdfBytes: Uint8Array;
+  errors: EnclosureError[];
+  hasErrors: boolean;
+}
+
 export interface ReferenceUrlData {
   letter: string; // e.g., "a", "b", "c"
   url: string;    // The external URL to link to
@@ -1014,9 +1028,41 @@ function createUriLinkAnnotations(pdfDoc: PDFDocument, positions: ReferencePosit
 }
 
 /**
+ * Validates a PDF buffer to check if it can be loaded and has valid pages.
+ * Returns an error message if invalid, null if valid.
+ */
+async function validatePdf(data: ArrayBuffer, enclosureNumber: number): Promise<string | null> {
+  try {
+    const pdf = await PDFDocument.load(data, { ignoreEncryption: true });
+    const pageCount = pdf.getPageCount();
+
+    if (pageCount === 0) {
+      return 'PDF has no pages';
+    }
+
+    // Try to access each page to detect corruption
+    for (let i = 0; i < pageCount; i++) {
+      const page = pdf.getPage(i);
+      // Check if page has contents (required for embedding)
+      const contents = page.node.get(PDFName.of('Contents'));
+      if (!contents) {
+        return `Page ${i + 1} is missing content stream (corrupted or empty page)`;
+      }
+    }
+
+    return null; // Valid
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    console.error(`[validatePdf] Enclosure ${enclosureNumber} validation failed:`, message);
+    return message;
+  }
+}
+
+/**
  * Merges enclosure pages into the main document.
  * Handles both PDF enclosures and text-only placeholder pages.
  * Maintains correct enclosure ordering.
+ * Returns both the PDF bytes and any errors encountered.
  */
 export async function mergeEnclosures(
   mainPdfBytes: Uint8Array,
@@ -1024,12 +1070,14 @@ export async function mergeEnclosures(
   classification?: ClassificationInfo,
   includeHyperlinks = false,
   referenceUrls: ReferenceUrlData[] = []
-): Promise<Uint8Array> {
+): Promise<MergeResult> {
   console.log('[mergeEnclosures] Called with', enclosures.length, 'enclosures, hyperlinks:', includeHyperlinks, 'references:', referenceUrls.length);
+
+  const errors: EnclosureError[] = [];
 
   // If no enclosures but we have reference hyperlinks to process, still load and modify the PDF
   if (enclosures.length === 0 && (!includeHyperlinks || referenceUrls.length === 0)) {
-    return mainPdfBytes;
+    return { pdfBytes: mainPdfBytes, errors: [], hasErrors: false };
   }
 
   // Clear enclosure page map for fresh run
@@ -1053,16 +1101,39 @@ export async function mergeEnclosures(
       }
 
       if (enclosure.data) {
+        // Validate PDF before attempting to merge
+        const validationError = await validatePdf(enclosure.data, enclosure.number);
+        if (validationError) {
+          console.error(`[mergeEnclosures] Enclosure ${enclosure.number} "${enclosure.title}" failed validation: ${validationError}`);
+          errors.push({
+            enclosureNumber: enclosure.number,
+            title: enclosure.title,
+            error: validationError
+          });
+          // Create an error placeholder page
+          addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, validationError);
+          continue;
+        }
+
         // PDF enclosure - load and add pages
-        await addPdfEnclosure(mainPdf, enclosure, helveticaBold, helvetica, classification);
+        const result = await addPdfEnclosure(mainPdf, enclosure, helveticaBold, helvetica, classification);
+        if (result.error) {
+          errors.push(result.error);
+        }
       }
       // Note: Text-only enclosures without hasCoverPage just appear in the enclosure list
       // No placeholder page is created unless explicitly requested via hasCoverPage
     } catch (err) {
-      console.error(`Failed to add enclosure ${enclosure.number}:`, err);
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      console.error(`[mergeEnclosures] Failed to add enclosure ${enclosure.number}:`, err);
+      errors.push({
+        enclosureNumber: enclosure.number,
+        title: enclosure.title,
+        error: errorMessage
+      });
       // Create an error placeholder page only if there was supposed to be PDF content
       if (enclosure.data) {
-        addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification);
+        addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, errorMessage);
       }
     }
   }
@@ -1093,89 +1164,159 @@ export async function mergeEnclosures(
   // Clear for next use
   enclosurePageMap.clear();
 
-  return mainPdf.save();
+  const pdfBytes = await mainPdf.save();
+
+  if (errors.length > 0) {
+    console.warn(`[mergeEnclosures] Completed with ${errors.length} enclosure error(s):`, errors);
+  }
+
+  return { pdfBytes, errors, hasErrors: errors.length > 0 };
 }
 
 /**
- * Adds a PDF enclosure to the document with the specified page style
+ * Result of adding a PDF enclosure
+ */
+interface AddEnclosureResult {
+  pagesAdded: number;
+  pagesFailed: number;
+  error?: EnclosureError;
+}
+
+/**
+ * Adds a PDF enclosure to the document with the specified page style.
+ * Handles page-level errors gracefully, continuing with valid pages.
  */
 async function addPdfEnclosure(
   mainPdf: PDFDocument,
   enclosure: EnclosureData,
   helveticaBold: Awaited<ReturnType<typeof mainPdf.embedFont>>,
-  _helvetica: Awaited<ReturnType<typeof mainPdf.embedFont>>,
+  helvetica: Awaited<ReturnType<typeof mainPdf.embedFont>>,
   classification?: ClassificationInfo
-): Promise<void> {
-  if (!enclosure.data) return;
+): Promise<AddEnclosureResult> {
+  if (!enclosure.data) return { pagesAdded: 0, pagesFailed: 0 };
 
-  const enclosurePdf = await PDFDocument.load(enclosure.data);
+  const enclosurePdf = await PDFDocument.load(enclosure.data, { ignoreEncryption: true });
   const pageCount = enclosurePdf.getPageCount();
   const style = enclosure.pageStyle || 'border';
 
+  let pagesAdded = 0;
+  let pagesFailed = 0;
+  const failedPageErrors: string[] = [];
+
   // Process each page
   for (let i = 0; i < pageCount; i++) {
-    const srcPage = enclosurePdf.getPage(i);
-    const { width: srcWidth, height: srcHeight } = srcPage.getSize();
+    try {
+      const srcPage = enclosurePdf.getPage(i);
+      const { width: srcWidth, height: srcHeight } = srcPage.getSize();
 
-    // Create a new page in the main document
-    const page = mainPdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
+      // Check if page has content before trying to embed
+      const contents = srcPage.node.get(PDFName.of('Contents'));
+      if (!contents) {
+        throw new Error(`Page ${i + 1} has no content stream (empty or malformed page)`);
+      }
 
-    // Record first page for hyperlink navigation
-    // (Skip if there's a cover page - the cover page is the target)
-    if (i === 0 && !enclosure.hasCoverPage) {
-      recordEnclosurePage(enclosure.number, mainPdf.getPageCount() - 1);
-    }
+      // Create a new page in the main document
+      const page = mainPdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 
-    // Add classification marking at top (before content)
-    if (classification?.marking) {
-      addClassificationMarking(page, classification.marking, helveticaBold, 'top');
-    }
+      // Record first page for hyperlink navigation
+      // (Skip if there's a cover page - the cover page is the target)
+      if (pagesAdded === 0 && !enclosure.hasCoverPage) {
+        recordEnclosurePage(enclosure.number, mainPdf.getPageCount() - 1);
+      }
 
-    // Embed the source page
-    const embeddedPage = await mainPdf.embedPage(srcPage);
+      // Add classification marking at top (before content)
+      if (classification?.marking) {
+        addClassificationMarking(page, classification.marking, helveticaBold, 'top');
+      }
 
-    // Calculate scaling and positioning based on page style
-    const { scale, x, y, drawBorder } = calculatePageLayout(
-      srcWidth,
-      srcHeight,
-      style
-    );
+      // Embed the source page
+      const embeddedPage = await mainPdf.embedPage(srcPage);
 
-    // Draw the embedded page with calculated position and scale
-    page.drawPage(embeddedPage, {
-      x,
-      y,
-      xScale: scale,
-      yScale: scale,
-    });
+      // Calculate scaling and positioning based on page style
+      const { scale, x, y, drawBorder } = calculatePageLayout(
+        srcWidth,
+        srcHeight,
+        style
+      );
 
-    // Draw border if required
-    if (drawBorder) {
-      const scaledWidth = srcWidth * scale;
-      const scaledHeight = srcHeight * scale;
-      page.drawRectangle({
-        x: x,
-        y: y,
-        width: scaledWidth,
-        height: scaledHeight,
-        borderColor: rgb(0, 0, 0),
-        borderWidth: 0.5,
+      // Draw the embedded page with calculated position and scale
+      page.drawPage(embeddedPage, {
+        x,
+        y,
+        xScale: scale,
+        yScale: scale,
       });
-    }
 
-    // Add enclosure label at bottom right
-    addEnclosureLabel(page, enclosure.number, helveticaBold);
+      // Draw border if required
+      if (drawBorder) {
+        const scaledWidth = srcWidth * scale;
+        const scaledHeight = srcHeight * scale;
+        page.drawRectangle({
+          x: x,
+          y: y,
+          width: scaledWidth,
+          height: scaledHeight,
+          borderColor: rgb(0, 0, 0),
+          borderWidth: 0.5,
+        });
+      }
 
-    // Add page number for multi-page enclosures (bottom center)
-    if (pageCount > 1) {
-      addPageNumber(page, i + 1, helveticaBold);
-    }
+      // Add enclosure label at bottom right
+      addEnclosureLabel(page, enclosure.number, helveticaBold);
 
-    // Add classification marking at bottom
-    if (classification?.marking) {
-      addClassificationMarking(page, classification.marking, helveticaBold, 'bottom');
+      // Add page number for multi-page enclosures (bottom center)
+      if (pageCount > 1) {
+        addPageNumber(page, i + 1, helveticaBold);
+      }
+
+      // Add classification marking at bottom
+      if (classification?.marking) {
+        addClassificationMarking(page, classification.marking, helveticaBold, 'bottom');
+      }
+
+      pagesAdded++;
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Unknown error';
+      console.error(`[addPdfEnclosure] Failed to add page ${i + 1} of enclosure ${enclosure.number}:`, errorMsg);
+      failedPageErrors.push(`Page ${i + 1}: ${errorMsg}`);
+      pagesFailed++;
     }
   }
+
+  // If all pages failed, create a placeholder page
+  if (pagesAdded === 0 && pagesFailed > 0) {
+    const errorMessage = failedPageErrors.join('; ');
+    addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, errorMessage);
+
+    return {
+      pagesAdded: 0,
+      pagesFailed,
+      error: {
+        enclosureNumber: enclosure.number,
+        title: enclosure.title,
+        error: `All ${pagesFailed} page(s) failed to load: ${errorMessage}`,
+        pagesFailed,
+        pagesSucceeded: 0
+      }
+    };
+  }
+
+  // If some pages failed, return partial error info
+  if (pagesFailed > 0) {
+    return {
+      pagesAdded,
+      pagesFailed,
+      error: {
+        enclosureNumber: enclosure.number,
+        title: enclosure.title,
+        error: `${pagesFailed} of ${pageCount} page(s) failed: ${failedPageErrors.join('; ')}`,
+        pagesFailed,
+        pagesSucceeded: pagesAdded
+      }
+    };
+  }
+
+  return { pagesAdded, pagesFailed: 0 };
 }
 
 /**
@@ -1240,7 +1381,7 @@ function calculatePageLayout(
 }
 
 /**
- * Adds a placeholder page for text-only enclosures
+ * Adds a placeholder page for text-only enclosures or failed PDF loads
  */
 function addPlaceholderPage(
   mainPdf: PDFDocument,
@@ -1248,7 +1389,8 @@ function addPlaceholderPage(
   helveticaBold: Awaited<ReturnType<typeof mainPdf.embedFont>>,
   helvetica: Awaited<ReturnType<typeof mainPdf.embedFont>>,
   isError = false,
-  classification?: ClassificationInfo
+  classification?: ClassificationInfo,
+  errorDetails?: string
 ): void {
   const page = mainPdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 
@@ -1276,7 +1418,7 @@ function addPlaceholderPage(
   // Add subtitle
   const subtitleFontSize = 12;
   const subtitle = isError
-    ? '(Error loading PDF - document attached separately)'
+    ? '(Error loading PDF - document may be corrupted)'
     : '(Physical document attached separately)';
   const subtitleWidth = helvetica.widthOfTextAtSize(subtitle, subtitleFontSize);
 
@@ -1285,8 +1427,61 @@ function addPlaceholderPage(
     y: PAGE_HEIGHT / 2 - 20,
     size: subtitleFontSize,
     font: helvetica,
-    color: rgb(0.4, 0.4, 0.4),
+    color: isError ? rgb(0.7, 0.2, 0.2) : rgb(0.4, 0.4, 0.4),
   });
+
+  // Add error details if provided (wrapped to fit page width)
+  if (errorDetails) {
+    const detailFontSize = 9;
+    const maxWidth = PAGE_WIDTH - 2 * MARGIN;
+    const lineHeight = 12;
+
+    // Simple word wrapping for error message
+    const words = errorDetails.split(' ');
+    const lines: string[] = [];
+    let currentLine = '';
+
+    for (const word of words) {
+      const testLine = currentLine ? `${currentLine} ${word}` : word;
+      const testWidth = helvetica.widthOfTextAtSize(testLine, detailFontSize);
+
+      if (testWidth > maxWidth && currentLine) {
+        lines.push(currentLine);
+        currentLine = word;
+      } else {
+        currentLine = testLine;
+      }
+    }
+    if (currentLine) {
+      lines.push(currentLine);
+    }
+
+    // Draw error details (max 4 lines to avoid overflow)
+    let y = PAGE_HEIGHT / 2 - 50;
+    for (const line of lines.slice(0, 4)) {
+      const lineWidth = helvetica.widthOfTextAtSize(line, detailFontSize);
+      page.drawText(line, {
+        x: (PAGE_WIDTH - lineWidth) / 2,
+        y,
+        size: detailFontSize,
+        font: helvetica,
+        color: rgb(0.5, 0.5, 0.5),
+      });
+      y -= lineHeight;
+    }
+
+    if (lines.length > 4) {
+      const truncated = '...';
+      const truncWidth = helvetica.widthOfTextAtSize(truncated, detailFontSize);
+      page.drawText(truncated, {
+        x: (PAGE_WIDTH - truncWidth) / 2,
+        y,
+        size: detailFontSize,
+        font: helvetica,
+        color: rgb(0.5, 0.5, 0.5),
+      });
+    }
+  }
 
   // Add enclosure label at bottom right
   addEnclosureLabel(page, enclosure.number, helveticaBold);
