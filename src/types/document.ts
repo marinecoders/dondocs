@@ -157,6 +157,14 @@ export interface DocumentData {
   jointTo: string;
   jointSubject: string;
 
+  // Joint Memorandum fields
+  jointMemoSeniorFrom: string;
+  jointMemoSeniorSigName: string;
+  jointMemoSeniorSigTitle: string;
+  jointMemoJuniorFrom: string;
+  jointMemoJuniorSigName: string;
+  jointMemoJuniorSigTitle: string;
+
   // Body
   body: string;
 
@@ -166,6 +174,10 @@ export interface DocumentData {
 
   // Hyperlinks
   includeHyperlinks: boolean;
+
+  // Business letter fields (compliance-driven)
+  salutation: string;
+  complimentaryClose: string;
 }
 
 export interface DocTypeConfig {
@@ -175,7 +187,10 @@ export interface DocTypeConfig {
   via: boolean;
   memoHeader: boolean;
   signature: 'abbrev' | 'full' | 'dual';
-  uiMode: 'standard' | 'moa' | 'joint' | 'memo' | 'business';
+  uiMode: 'standard' | 'moa' | 'joint' | 'joint_memo' | 'memo' | 'business';
+  // Optional flags for special document types
+  dateOnly?: boolean;           // Show only date field (no SSIC/Serial) - for business letters
+  recipientAddress?: boolean;   // Show multi-line "To" address (no "From") - for business letters
   regulations: {
     fontSize: string;
     fontFamily: string;
@@ -239,7 +254,8 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
     compliance: DEFAULT_COMPLIANCE,
   },
   business_letter: {
-    letterhead: true, ssic: true, fromTo: false, via: false, memoHeader: false, signature: 'full', uiMode: 'business',
+    letterhead: true, ssic: false, fromTo: false, via: false, memoHeader: false, signature: 'full', uiMode: 'business',
+    dateOnly: true, recipientAddress: true,
     regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 11' },
     compliance: BUSINESS_COMPLIANCE,
   },
@@ -299,7 +315,7 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
     compliance: DUAL_SIGNATURE_COMPLIANCE,
   },
   joint_memorandum: {
-    letterhead: true, ssic: true, fromTo: true, via: false, memoHeader: true, signature: 'dual', uiMode: 'joint',
+    letterhead: true, ssic: true, fromTo: true, via: false, memoHeader: true, signature: 'dual', uiMode: 'joint_memo',
     regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' },
     compliance: DUAL_SIGNATURE_COMPLIANCE,
   },
@@ -309,9 +325,10 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
     compliance: DEFAULT_COMPLIANCE,
   },
   executive_correspondence: {
-    letterhead: false, ssic: false, fromTo: true, via: false, memoHeader: false, signature: 'full', uiMode: 'standard',
+    letterhead: true, ssic: false, fromTo: false, via: false, memoHeader: false, signature: 'full', uiMode: 'business',
+    dateOnly: true, recipientAddress: true,
     regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' },
-    compliance: DEFAULT_COMPLIANCE,
+    compliance: BUSINESS_COMPLIANCE,
   },
 };
 

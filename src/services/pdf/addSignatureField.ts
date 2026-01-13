@@ -1,7 +1,4 @@
-import { PDFDocument, PDFName, PDFDict, PDFArray, PDFString, PDFNumber } from 'pdf-lib';
-
-// Signature field marker name (must match LaTeX \hypertarget name)
-const SIGNATURE_MARKER_NAME = 'DIGSIG_FIELD_MARKER';
+import { PDFDocument, PDFName, PDFDict, PDFArray, PDFString, PDFNumber, PDFRawStream, decodePDFRawStream } from 'pdf-lib';
 
 /**
  * Signature field configuration
@@ -13,6 +10,18 @@ export interface SignatureFieldConfig {
   width?: number;
   /** Height of signature field in points */
   height?: number;
+  /** Signatory name to search for (for text-based positioning) */
+  signatoryName?: string;
+}
+
+/**
+ * Dual signature field configuration
+ */
+export interface DualSignatureFieldConfig extends SignatureFieldConfig {
+  /** Junior signatory name to search for */
+  juniorSignatoryName?: string;
+  /** Senior signatory name to search for */
+  seniorSignatoryName?: string;
 }
 
 // Default signature field dimensions
@@ -22,16 +31,15 @@ const DEFAULT_CONFIG = {
   height: 36, // 0.5 inches
 };
 
-// Fallback position if marker not found
+// Fallback position if text not found
 // For typical single-page naval letters, signature is usually around 4-5" from bottom
 const FALLBACK_POSITION = {
   x: 306, // 72pt margin + 234pt (3.25") = 306pt from page left edge
   y: 350, // ~4.8" from bottom - typical signature block position
 };
 
-// Dual signature positions for MOA/MOU
+// Dual signature fallback positions for MOA/MOU
 // Junior (LEFT) signs first, Senior (RIGHT) signs last
-// Y=280 positions fields ~3.9" from bottom (typical for signature blocks)
 const DUAL_SIGNATURE_POSITIONS = {
   junior: {
     x: 72,  // 1" margin from left edge
@@ -43,129 +51,172 @@ const DUAL_SIGNATURE_POSITIONS = {
   },
 };
 
+// Height of the signature field plus padding above the name
+const SIGNATURE_FIELD_OFFSET = 42; // 36pt height + 6pt padding
+
 /**
- * Finds the signature field marker destination in the PDF.
- * The marker is created by LaTeX using \hypertarget{DIGSIG_FIELD_MARKER}{}
+ * Searches for text in a PDF page's content stream and returns its position.
+ * This parses PDF operators to track the text matrix and find specific text.
  *
- * @returns Position info or null if not found
+ * @param page - The PDF page to search
+ * @param searchText - The text to search for (case-insensitive partial match)
+ * @returns Position {x, y} if found, null otherwise
  */
-function findSignatureMarker(pdfDoc: PDFDocument): { pageIndex: number; x: number; y: number } | null {
+function findTextInPage(
+  page: ReturnType<PDFDocument['getPage']>,
+  searchText: string
+): { x: number; y: number } | null {
   try {
-    const catalog = pdfDoc.catalog;
-
-    // Get the Names dictionary
-    const namesDict = catalog.lookup(PDFName.of('Names')) as PDFDict | undefined;
-    if (!namesDict) {
-      console.log('No Names dictionary found in PDF');
+    // Get the content streams from the page
+    const contents = page.node.Contents();
+    if (!contents) {
+      console.log('No content stream found in page');
       return null;
     }
 
-    // Get the Dests (destinations) name tree
-    const destsDict = namesDict.lookup(PDFName.of('Dests')) as PDFDict | undefined;
-    if (!destsDict) {
-      console.log('No Dests dictionary found in Names');
-      return null;
-    }
+    // Normalize search text for matching
+    const searchUpper = searchText.toUpperCase().trim();
+    if (!searchUpper) return null;
 
-    // The name tree can have Names array directly or Kids for larger trees
-    const namesArray = destsDict.lookup(PDFName.of('Names')) as PDFArray | undefined;
-    if (!namesArray) {
-      console.log('No Names array found in Dests');
-      return null;
-    }
+    // Collect all content stream data
+    let contentData: Uint8Array;
 
-    // Names array is [name1, dest1, name2, dest2, ...]
-    // Search for our marker
-    for (let i = 0; i < namesArray.size(); i += 2) {
-      const nameObj = namesArray.lookup(i);
-      let nameStr: string | null = null;
-
-      if (nameObj instanceof PDFString) {
-        nameStr = nameObj.decodeText();
-      } else if (nameObj instanceof PDFName) {
-        nameStr = nameObj.decodeText();
-      }
-
-      if (nameStr === SIGNATURE_MARKER_NAME) {
-        // Found our marker! Get the destination
-        const destObj = namesArray.lookup(i + 1);
-
-        if (destObj instanceof PDFArray) {
-          // Destination format: [page_ref /XYZ left top zoom] or [page_ref /FitH top]
-          const pageRef = destObj.get(0);
-
-          // Find page index from reference
-          let pageIndex = -1;
-          const pages = pdfDoc.getPages();
-          for (let p = 0; p < pages.length; p++) {
-            if (pages[p].ref === pageRef) {
-              pageIndex = p;
-              break;
-            }
-          }
-
-          if (pageIndex === -1) {
-            console.log('Could not find page for destination');
-            return null;
-          }
-
-          // Get coordinates based on destination type
-          const destType = destObj.lookup(1);
-          if (destType instanceof PDFName) {
-            const destTypeName = destType.decodeText();
-
-            if (destTypeName === 'XYZ') {
-              // [page /XYZ left top zoom]
-              const leftObj = destObj.lookup(2);
-              const topObj = destObj.lookup(3);
-
-              const left = leftObj instanceof PDFNumber ? leftObj.asNumber() : FALLBACK_POSITION.x;
-              const top = topObj instanceof PDFNumber ? topObj.asNumber() : FALLBACK_POSITION.y;
-
-              // hyperref XYZ uses top coordinate directly
-              const y = top;
-
-              console.log(`Found signature marker at page ${pageIndex + 1}, x=${left}, y=${y}`);
-              return { pageIndex, x: left, y };
-            } else if (destTypeName === 'FitH' || destTypeName === 'FitBH') {
-              // [page /FitH top] or [page /FitBH top]
-              const topObj = destObj.lookup(2);
-              const top = topObj instanceof PDFNumber ? topObj.asNumber() : FALLBACK_POSITION.y;
-
-              console.log(`Found signature marker (FitH) at page ${pageIndex + 1}, y=${top}`);
-              return { pageIndex, x: FALLBACK_POSITION.x, y: top };
-            }
-          }
-        } else if (destObj instanceof PDFDict) {
-          // Could be an indirect destination dictionary
-          const d = destObj.lookup(PDFName.of('D')) as PDFArray | undefined;
-          if (d) {
-            // Recursively handle the destination array
-            // For simplicity, just use fallback
-            console.log('Found destination dict, using fallback position');
-          }
+    if (contents instanceof PDFRawStream) {
+      contentData = decodePDFRawStream(contents).decode();
+    } else if (contents instanceof PDFArray) {
+      // Multiple content streams - concatenate them
+      const chunks: Uint8Array[] = [];
+      for (let i = 0; i < contents.size(); i++) {
+        const stream = contents.lookup(i);
+        if (stream instanceof PDFRawStream) {
+          chunks.push(decodePDFRawStream(stream).decode());
         }
-
-        // Found marker but couldn't parse destination fully
-        console.log('Found marker but could not parse destination format');
-        return null;
       }
+      const totalLength = chunks.reduce((sum, chunk) => sum + chunk.length, 0);
+      contentData = new Uint8Array(totalLength);
+      let offset = 0;
+      for (const chunk of chunks) {
+        contentData.set(chunk, offset);
+        offset += chunk.length;
+      }
+    } else {
+      console.log('Unexpected content type');
+      return null;
     }
 
-    console.log('Signature marker not found in PDF');
-    return null;
+    // Parse the content stream as text
+    const contentStr = new TextDecoder('latin1').decode(contentData);
+
+    // Track found position
+    let foundPosition: { x: number; y: number } | null = null;
+
+    // Simple regex-based parser for PDF operators
+    // This handles common text positioning patterns
+
+    // Pattern for Tm (text matrix): a b c d e f Tm
+    // e = x translation, f = y translation
+    const tmPattern = /[\d.\-]+\s+[\d.\-]+\s+[\d.\-]+\s+[\d.\-]+\s+([\d.\-]+)\s+([\d.\-]+)\s+Tm/g;
+
+    // Pattern for Td (text position delta): tx ty Td
+    const tdPattern = /([\d.\-]+)\s+([\d.\-]+)\s+Td/g;
+
+    // Pattern for text show operators with strings
+    // Handles both (text) Tj and [(text)] TJ
+    const textPattern = /\(([^)]*)\)\s*Tj|<([^>]+)>\s*Tj|\[\s*\(([^)]*)\)|<([^>]+)>/g;
+
+    // First pass: find all Tm positions and their associated text
+    let lastTmY = 0;
+    let lastTmX = 0;
+
+    // Split into lines/blocks for better parsing
+    const lines = contentStr.split(/\n|BT|ET/);
+
+    for (const block of lines) {
+      // Look for Tm operator (text matrix)
+      let tmMatch;
+      while ((tmMatch = tmPattern.exec(block)) !== null) {
+        lastTmX = parseFloat(tmMatch[1]);
+        lastTmY = parseFloat(tmMatch[2]);
+      }
+
+      // Look for Td operator (relative move)
+      let tdMatch;
+      while ((tdMatch = tdPattern.exec(block)) !== null) {
+        lastTmX += parseFloat(tdMatch[1]);
+        lastTmY += parseFloat(tdMatch[2]);
+      }
+
+      // Look for text content
+      let textMatch;
+      while ((textMatch = textPattern.exec(block)) !== null) {
+        // Get the text from whichever group matched
+        const text = textMatch[1] || textMatch[3] || '';
+
+        // Check if this text contains our search string
+        if (text && text.toUpperCase().includes(searchUpper)) {
+          console.log(`Found "${searchText}" at position x=${lastTmX}, y=${lastTmY}`);
+          foundPosition = { x: lastTmX, y: lastTmY };
+          // Continue searching to find the LAST occurrence (closest to bottom of page)
+        }
+      }
+
+      // Reset pattern lastIndex for next block
+      tmPattern.lastIndex = 0;
+      tdPattern.lastIndex = 0;
+      textPattern.lastIndex = 0;
+    }
+
+    return foundPosition;
   } catch (error) {
-    console.error('Error finding signature marker:', error);
+    console.error('Error finding text in page:', error);
     return null;
   }
 }
 
 /**
+ * Finds a signatory name in the PDF and returns position for the signature field.
+ * Searches through all pages for the text.
+ *
+ * @param pdfDoc - The PDF document
+ * @param signatoryName - The signatory name to search for
+ * @returns Position info, or null if not found
+ */
+function findSignatoryPosition(
+  pdfDoc: PDFDocument,
+  signatoryName: string
+): { pageIndex: number; x: number; y: number } | null {
+  if (!signatoryName || !signatoryName.trim()) {
+    return null;
+  }
+
+  const pages = pdfDoc.getPages();
+
+  // Search each page (typically signature is on last page, so search backwards)
+  for (let i = pages.length - 1; i >= 0; i--) {
+    const page = pages[i];
+    const position = findTextInPage(page, signatoryName);
+
+    if (position) {
+      // Position the signature field ABOVE the name
+      // y coordinate is the baseline of the text, so add offset
+      return {
+        pageIndex: i,
+        x: position.x,
+        y: position.y + SIGNATURE_FIELD_OFFSET,
+      };
+    }
+  }
+
+  console.log(`Signatory name "${signatoryName}" not found in PDF`);
+  return null;
+}
+
+/**
  * Adds an empty digital signature field to a PDF document.
  *
- * This function looks for a marker created by LaTeX (\hypertarget{DIGSIG_FIELD_MARKER}{})
- * to determine the exact position for the signature field. If the marker is not found,
- * it falls back to a default position suitable for military correspondence.
+ * This function searches for the signatory name in the PDF content stream
+ * to determine the exact position for the signature field. If the name is
+ * not found, it falls back to a default position.
  *
  * The signature field is a proper AcroForm widget that can be signed with
  * Adobe Acrobat, CAC/PIV cards, or other PKI tools.
@@ -184,40 +235,37 @@ export async function addSignatureField(
     name = DEFAULT_CONFIG.name,
     width = DEFAULT_CONFIG.width,
     height = DEFAULT_CONFIG.height,
+    signatoryName,
   } = config;
-
-  // Try to find the signature marker from LaTeX
-  const markerPosition = findSignatureMarker(pdfDoc);
 
   let targetPageIndex: number;
   let x: number;
   let y: number;
 
-  if (markerPosition) {
-    // Use marker position - the marker is at the TOP of the signature area
-    // So the signature field should be placed starting from that Y position going DOWN
-    targetPageIndex = markerPosition.pageIndex;
-    x = markerPosition.x;
-    // The marker Y is at the top of the sig area, field goes downward
-    // Subtract height to position field below the marker point
-    y = markerPosition.y - height;
-    console.log(`Using marker position: page ${targetPageIndex + 1}, x=${x}, y=${y}`);
+  // Try to find the signatory name in the PDF content
+  const textPosition = signatoryName ? findSignatoryPosition(pdfDoc, signatoryName) : null;
+
+  const catalog = pdfDoc.catalog;
+  let acroForm = catalog.lookup(PDFName.of('AcroForm')) as PDFDict | undefined;
+
+  if (textPosition) {
+    // Use text-based position - found signatory name in PDF
+    targetPageIndex = textPosition.pageIndex;
+    x = textPosition.x;
+    y = textPosition.y;
+    console.log(`Using text-based position for "${signatoryName}": page ${targetPageIndex + 1}, x=${x}, y=${y}`);
   } else {
     // Fallback to last page with default position
     const pages = pdfDoc.getPages();
     targetPageIndex = pages.length - 1;
     x = FALLBACK_POSITION.x;
     y = FALLBACK_POSITION.y;
-    console.log(`Using fallback position: page ${targetPageIndex + 1}, x=${x}, y=${y}`);
+    console.log(`Signatory name not provided or not found, using fallback position: page ${targetPageIndex + 1}, x=${x}, y=${y}`);
   }
 
   const pages = pdfDoc.getPages();
   const page = pages[targetPageIndex];
   const pageRef = page.ref;
-
-  // Get or create the AcroForm
-  const catalog = pdfDoc.catalog;
-  let acroForm = catalog.lookup(PDFName.of('AcroForm')) as PDFDict | undefined;
 
   if (!acroForm) {
     acroForm = pdfDoc.context.obj({
@@ -298,8 +346,11 @@ function createEmptySignatureAppearance(
 }
 
 /**
- * Adds dual digital signature fields for MOA/MOU documents.
+ * Adds dual digital signature fields for joint letters, MOA/MOU documents.
  * Junior signs on LEFT (first), Senior signs on RIGHT (last).
+ *
+ * Searches for the signatory names in the PDF content stream to determine
+ * exact positions. Falls back to hardcoded positions if names are not found.
  *
  * @param pdfBytes - The PDF document as a Uint8Array
  * @param config - Optional configuration for the signature fields
@@ -307,24 +358,60 @@ function createEmptySignatureAppearance(
  */
 export async function addDualSignatureFields(
   pdfBytes: Uint8Array,
-  config: SignatureFieldConfig = {}
+  config: DualSignatureFieldConfig = {}
 ): Promise<Uint8Array> {
   const pdfDoc = await PDFDocument.load(pdfBytes);
 
   const {
     width = DEFAULT_CONFIG.width,
     height = DEFAULT_CONFIG.height,
+    juniorSignatoryName,
+    seniorSignatoryName,
   } = config;
 
-  // Get the last page (where signatures typically are)
-  const pages = pdfDoc.getPages();
-  const targetPageIndex = pages.length - 1;
-  const page = pages[targetPageIndex];
-  const pageRef = page.ref;
-
-  // Get or create the AcroForm
   const catalog = pdfDoc.catalog;
   let acroForm = catalog.lookup(PDFName.of('AcroForm')) as PDFDict | undefined;
+
+  // Try to find the signatory names in the PDF content
+  const juniorPosition = juniorSignatoryName ? findSignatoryPosition(pdfDoc, juniorSignatoryName) : null;
+  const seniorPosition = seniorSignatoryName ? findSignatoryPosition(pdfDoc, seniorSignatoryName) : null;
+
+  // Determine positions - use text-based positions if found, otherwise fall back to hardcoded
+  let juniorPageIndex: number;
+  let juniorX: number;
+  let juniorY: number;
+
+  if (juniorPosition) {
+    juniorPageIndex = juniorPosition.pageIndex;
+    juniorX = juniorPosition.x;
+    juniorY = juniorPosition.y;
+    console.log(`Found junior signatory "${juniorSignatoryName}": page ${juniorPageIndex + 1}, x=${juniorX}, y=${juniorY}`);
+  } else {
+    const pages = pdfDoc.getPages();
+    juniorPageIndex = pages.length - 1;
+    juniorX = DUAL_SIGNATURE_POSITIONS.junior.x;
+    juniorY = DUAL_SIGNATURE_POSITIONS.junior.y;
+    console.log(`Junior signatory not found, using fallback: page ${juniorPageIndex + 1}, x=${juniorX}, y=${juniorY}`);
+  }
+
+  let seniorPageIndex: number;
+  let seniorX: number;
+  let seniorY: number;
+
+  if (seniorPosition) {
+    seniorPageIndex = seniorPosition.pageIndex;
+    seniorX = seniorPosition.x;
+    seniorY = seniorPosition.y;
+    console.log(`Found senior signatory "${seniorSignatoryName}": page ${seniorPageIndex + 1}, x=${seniorX}, y=${seniorY}`);
+  } else {
+    const pages = pdfDoc.getPages();
+    seniorPageIndex = pages.length - 1;
+    seniorX = DUAL_SIGNATURE_POSITIONS.senior.x;
+    seniorY = DUAL_SIGNATURE_POSITIONS.senior.y;
+    console.log(`Senior signatory not found, using fallback: page ${seniorPageIndex + 1}, x=${seniorX}, y=${seniorY}`);
+  }
+
+  const pages = pdfDoc.getPages();
 
   if (!acroForm) {
     acroForm = pdfDoc.context.obj({
@@ -343,27 +430,24 @@ export async function addDualSignatureFields(
     acroForm.set(PDFName.of('Fields'), fields);
   }
 
-  // Get or create page Annots array
-  let annots = page.node.lookup(PDFName.of('Annots')) as PDFArray | undefined;
-  if (!annots) {
-    annots = pdfDoc.context.obj([]) as PDFArray;
-    page.node.set(PDFName.of('Annots'), annots);
+  // Create Junior signature field (LEFT - signs FIRST)
+  const juniorPage = pages[juniorPageIndex];
+  const juniorPageRef = juniorPage.ref;
+
+  let juniorAnnots = juniorPage.node.lookup(PDFName.of('Annots')) as PDFArray | undefined;
+  if (!juniorAnnots) {
+    juniorAnnots = pdfDoc.context.obj([]) as PDFArray;
+    juniorPage.node.set(PDFName.of('Annots'), juniorAnnots);
   }
 
-  // Create Junior signature field (LEFT - signs FIRST)
   const juniorField = pdfDoc.context.obj({
     Type: PDFName.of('Annot'),
     Subtype: PDFName.of('Widget'),
     FT: PDFName.of('Sig'),
     T: PDFString.of('JuniorSignature'),
-    Rect: [
-      DUAL_SIGNATURE_POSITIONS.junior.x,
-      DUAL_SIGNATURE_POSITIONS.junior.y,
-      DUAL_SIGNATURE_POSITIONS.junior.x + width,
-      DUAL_SIGNATURE_POSITIONS.junior.y + height,
-    ],
+    Rect: [juniorX, juniorY, juniorX + width, juniorY + height],
     F: 4,
-    P: pageRef,
+    P: juniorPageRef,
     Border: [0, 0, 0],
   }) as PDFDict;
 
@@ -372,22 +456,26 @@ export async function addDualSignatureFields(
 
   const juniorFieldRef = pdfDoc.context.register(juniorField);
   fields.push(juniorFieldRef);
-  annots.push(juniorFieldRef);
+  juniorAnnots.push(juniorFieldRef);
 
   // Create Senior signature field (RIGHT - signs LAST)
+  const seniorPage = pages[seniorPageIndex];
+  const seniorPageRef = seniorPage.ref;
+
+  let seniorAnnots = seniorPage.node.lookup(PDFName.of('Annots')) as PDFArray | undefined;
+  if (!seniorAnnots) {
+    seniorAnnots = pdfDoc.context.obj([]) as PDFArray;
+    seniorPage.node.set(PDFName.of('Annots'), seniorAnnots);
+  }
+
   const seniorField = pdfDoc.context.obj({
     Type: PDFName.of('Annot'),
     Subtype: PDFName.of('Widget'),
     FT: PDFName.of('Sig'),
     T: PDFString.of('SeniorSignature'),
-    Rect: [
-      DUAL_SIGNATURE_POSITIONS.senior.x,
-      DUAL_SIGNATURE_POSITIONS.senior.y,
-      DUAL_SIGNATURE_POSITIONS.senior.x + width,
-      DUAL_SIGNATURE_POSITIONS.senior.y + height,
-    ],
+    Rect: [seniorX, seniorY, seniorX + width, seniorY + height],
     F: 4,
-    P: pageRef,
+    P: seniorPageRef,
     Border: [0, 0, 0],
   }) as PDFDict;
 
@@ -396,11 +484,11 @@ export async function addDualSignatureFields(
 
   const seniorFieldRef = pdfDoc.context.register(seniorField);
   fields.push(seniorFieldRef);
-  annots.push(seniorFieldRef);
+  seniorAnnots.push(seniorFieldRef);
 
-  console.log(`Added dual signature fields on page ${targetPageIndex + 1}`);
-  console.log(`  Junior: x=${DUAL_SIGNATURE_POSITIONS.junior.x}, y=${DUAL_SIGNATURE_POSITIONS.junior.y}`);
-  console.log(`  Senior: x=${DUAL_SIGNATURE_POSITIONS.senior.x}, y=${DUAL_SIGNATURE_POSITIONS.senior.y}`);
+  console.log(`Added dual signature fields:`);
+  console.log(`  Junior: page ${juniorPageIndex + 1}, x=${juniorX}, y=${juniorY}`);
+  console.log(`  Senior: page ${seniorPageIndex + 1}, x=${seniorX}, y=${seniorY}`);
 
   return await pdfDoc.save();
 }

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { format } from 'date-fns';
+import { format, parse, isValid } from 'date-fns';
 import type { Reference, Enclosure, Paragraph, CopyTo, DocumentData, DocumentMode } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { useHistoryStore } from './historyStore';
@@ -26,6 +26,49 @@ export interface SerializedSession {
 
 // Military date format per SECNAV M-5216.5: "4 Jan 26" (day month 2-digit year)
 const formatMilitaryDate = (date: Date): string => format(date, 'd MMM yy');
+
+// Spelled date format for business letters: "January 4, 2026"
+const formatSpelledDate = (date: Date): string => format(date, 'MMMM d, yyyy');
+
+// Parse a date string that could be in either format
+const parseDateString = (dateString: string): Date | null => {
+  if (!dateString?.trim()) return null;
+
+  const formats = [
+    'd MMM yy',         // Military: 4 Jan 26
+    'dd MMM yy',        // Military: 04 Jan 26
+    'MMMM d, yyyy',     // Spelled: January 4, 2026
+    'd MMMM yyyy',      // Alternate: 4 January 2026
+    'MM/dd/yyyy',       // US: 01/04/2026
+    'yyyy-MM-dd',       // ISO: 2026-01-04
+  ];
+
+  for (const fmt of formats) {
+    try {
+      const parsed = parse(dateString.trim(), fmt, new Date());
+      if (isValid(parsed) && parsed.getFullYear() > 1900 && parsed.getFullYear() < 2100) {
+        return parsed;
+      }
+    } catch {
+      // Continue to next format
+    }
+  }
+
+  // Try native Date as fallback
+  const native = new Date(dateString);
+  if (isValid(native) && native.getFullYear() > 1900 && native.getFullYear() < 2100) {
+    return native;
+  }
+
+  return null;
+};
+
+// Convert date string to the specified format
+const convertDateFormat = (dateString: string, targetFormat: 'military' | 'spelled'): string => {
+  const date = parseDateString(dateString);
+  if (!date) return dateString; // Return original if can't parse
+  return targetFormat === 'spelled' ? formatSpelledDate(date) : formatMilitaryDate(date);
+};
 
 interface DocumentState {
   // Document data
@@ -136,6 +179,9 @@ const DEFAULT_FORM_DATA: Partial<DocumentData> = {
   pocEmail: 'john.doe@usmc.mil',
   // Hyperlinks - default to OFF (no hyperlinks)
   includeHyperlinks: false,
+  // Business letter fields
+  salutation: 'Dear Sir or Madam:',
+  complimentaryClose: 'Very respectfully,',
 };
 
 // Default references for example document
@@ -199,8 +245,14 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
 
   setDocType: (type) => set((state) => {
     const config = DOC_TYPE_CONFIG[type] || DOC_TYPE_CONFIG.naval_letter;
-    // In compliant mode, always apply the regulation fonts
+    // In compliant mode, always apply the regulation fonts and date format
     if (state.documentMode === 'compliant') {
+      // Convert date to the appropriate format for this document type
+      const newDateFormat = config.compliance.dateFormat;
+      const convertedDate = state.formData.date
+        ? convertDateFormat(state.formData.date, newDateFormat)
+        : formatMilitaryDate(new Date());
+
       return {
         docType: type,
         formData: {
@@ -208,6 +260,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
           docType: type,
           fontSize: config.regulations.fontSize,
           fontFamily: config.regulations.fontFamily,
+          date: convertedDate,
         },
       };
     }
@@ -406,6 +459,9 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
           includeHyperlinks: false,
           inReplyTo: false,
           inReplyToText: '',
+          // Business letter fields
+          salutation: 'Dear Sir or Madam:',
+          complimentaryClose: 'Very respectfully,',
         },
         paragraphs: [{ text: '', level: 0 }],
         references: [],

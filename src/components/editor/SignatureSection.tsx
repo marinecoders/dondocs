@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Upload, X, FileImage, PenLine, Shield, Type, Search } from 'lucide-react';
+import { Upload, X, FileImage, PenLine, Shield, Type, Search, AlertCircle } from 'lucide-react';
 import { useDocumentStore } from '@/stores/documentStore';
 import type { DocTypeConfig, SignatureImage, SignatureType } from '@/types/document';
 import { ALL_SERVICE_RANKS, formatRank } from '@/data/ranks';
@@ -66,9 +66,13 @@ interface SignatureSectionProps {
 }
 
 export function SignatureSection({ config }: SignatureSectionProps) {
-  const { formData, setField } = useDocumentStore();
+  const { formData, setField, documentMode } = useDocumentStore();
   const isDualSignature = config.signature === 'dual';
   const hasDualDigitalSignature = isDualSignature && formData.signatureType === 'digital';
+
+  // Check if complimentary close is required (business letters in compliant mode)
+  const isCompliantMode = documentMode === 'compliant';
+  const requiresComplimentaryClose = isCompliantMode && config.compliance.requiresComplimentaryClose;
   const [useCustomRank, setUseCustomRank] = useState(false);
   const [useCustomOfficeCode, setUseCustomOfficeCode] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -159,6 +163,29 @@ export function SignatureSection({ config }: SignatureSectionProps) {
         <AccordionTrigger>Signature Block</AccordionTrigger>
         <AccordionContent>
           <div className="space-y-4 pt-2">
+            {/* Complimentary Close - Required for business letters in compliant mode */}
+            {requiresComplimentaryClose && (
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="complimentaryClose">Complimentary Close</Label>
+                  <span className="text-xs text-destructive">* Required</span>
+                </div>
+                <Input
+                  id="complimentaryClose"
+                  value={formData.complimentaryClose || ''}
+                  onChange={(e) => setField('complimentaryClose', e.target.value)}
+                  placeholder="Very respectfully,"
+                  className={!formData.complimentaryClose?.trim() ? 'border-destructive' : ''}
+                />
+                {!formData.complimentaryClose?.trim() && (
+                  <p className="text-xs text-destructive flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    Per SECNAV M-5216.5 Ch 11: Business letters require a complimentary close
+                  </p>
+                )}
+              </div>
+            )}
+
             {/* Name fields */}
             <div className="grid grid-cols-3 gap-2 sm:gap-4">
               <div className="space-y-2 col-span-2 sm:col-span-1">

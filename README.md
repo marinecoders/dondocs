@@ -107,6 +107,7 @@
 - [Getting Started](#getting-started)
 - [Features](#features)
 - [Document Types](#document-types)
+- [Compliance Mode](#compliance-mode)
 - [Security & Classification](#security--classification)
 - [User Interface](#user-interface)
 - [Keyboard Shortcuts](#keyboard-shortcuts)
@@ -141,7 +142,7 @@
 - **17 Document Types** - Letters, memoranda, endorsements, and agreements
 - **SECNAV M-5216.5 Compliant** - Automatic formatting per Navy/Marine Corps regulations
 - **PWA/Offline Mode** - Install as an app and work offline with cached TeX Live packages
-- **Compliant vs Custom Modes** - Strict regulation mode or customizable fonts and formatting
+- **Compliant vs Custom Modes** - Strict regulation mode or customizable fonts and formatting (see [Compliance Mode](#compliance-mode) for details)
 
 ### Document Management
 - **Profiles System** - Save and reuse unit information and signature images
@@ -246,6 +247,56 @@ Generate multiple personalized documents from a single template using the **Inse
 
 ---
 
+## Compliance Mode
+
+Naval Correspondence Generator offers two modes for each document type:
+
+### Compliant Mode (Default)
+Enforces strict SECNAV M-5216.5 formatting rules. Certain features are locked or restricted based on the document type to ensure regulation compliance.
+
+### Custom Mode
+Unlocks all features for non-official use, drafting, or situations where deviation from regulations is acceptable. Custom mode allows:
+- Any font size (10pt, 11pt, 12pt, 14pt)
+- Any font family (Times New Roman, Arial, Courier)
+- Flexible formatting options
+
+### Compliance Restrictions by Document Type
+
+| Document Type | Numbered Paragraphs | References Section | Enclosures Section | Salutation | Complimentary Close | Date Format |
+|---------------|:-------------------:|:------------------:|:------------------:|:----------:|:-------------------:|:-----------:|
+| **Naval Letter** | Yes | Yes | Yes | No | No | Military (4 Jan 26) |
+| **Standard Letter** | Yes | Yes | Yes | No | No | Military |
+| **Business Letter** | No | No* | No* | Required | Required | Spelled (January 4, 2026) |
+| **Multiple Address Letter** | Yes | Yes | Yes | No | No | Military |
+| **Joint Letter** | Yes | Yes | Yes | No | No | Military |
+| **Endorsements** | No | Yes | Yes | No | No | Military |
+| **All Memoranda** | Yes | Yes | Yes | No | No | Military |
+| **MOA/MOU** | Yes | Yes | Yes | No | No | Military |
+| **Executive Correspondence** | Yes | Yes | Yes | No | No | Military |
+
+*Business Letters: References and enclosures must be mentioned in the body text rather than in formal sections (per SECNAV M-5216.5 Ch 11).
+
+### What Each Restriction Means
+
+| Restriction | Description |
+|-------------|-------------|
+| **Numbered Paragraphs** | When enabled, paragraphs use hierarchical numbering (1., a., (1), (a), etc.). When disabled, paragraphs have no numbering. |
+| **References Section** | When enabled, formal "Ref:" section appears. When disabled, references can only be mentioned in body text. |
+| **Enclosures Section** | When enabled, formal "Encl:" section with attachments. When disabled, enclosures mentioned in body only. |
+| **Salutation** | When required, document must include "Dear Mr./Ms./Dr.:" line per business letter format. |
+| **Complimentary Close** | When required, document must include "Sincerely," or similar closing per business letter format. |
+| **Date Format** | Military format "4 Jan 26" vs spelled format "January 4, 2026". |
+
+### Dual Signature Documents
+
+The following document types require two signature blocks (one for each command/party):
+- Joint Letter
+- Joint Memorandum
+- Memorandum of Agreement (MOA)
+- Memorandum of Understanding (MOU)
+
+---
+
 ## Security & Classification
 
 ### Classification Levels
@@ -302,7 +353,7 @@ PDF output includes empty signature fields compatible with:
 
 ### Editor Panel (Left)
 - **Profile Bar** - Quick profile selector with unit lookup
-- **Mode Toggle** - Switch between Compliant (strict SECNAV) and Custom (flexible) modes
+- **Mode Toggle** - Switch between Compliant (strict SECNAV) and Custom (flexible) modes (see [Compliance Mode](#compliance-mode))
 - **Document Type** - 17 correspondence formats with **Clear Fields** button to reset content while preserving letterhead
 - **Letterhead** - Unit name, address, seal type
 - **Addressing** - From, To, Via, Subject

@@ -16,6 +16,12 @@ import {
 // Per Ch 7, Para 3.a.(3) - Date is in abbreviated format
 const MILITARY_DATE_FORMAT = "d MMM yy"
 
+// Business letter date format: "January 4, 2026" (spelled out month, 4-digit year)
+// Per SECNAV M-5216.5 Ch 11 - Business letters use spelled format
+const SPELLED_DATE_FORMAT = "MMMM d, yyyy"
+
+export type DateFormatType = 'military' | 'spelled'
+
 // Try to parse various date formats and return a Date object
 function parseFlexibleDate(dateString: string): Date | null {
   if (!dateString || !dateString.trim()) return null
@@ -59,9 +65,14 @@ function parseFlexibleDate(dateString: string): Date | null {
   return null
 }
 
-// Format a Date to SECNAV abbreviated format (15 Dec 24)
-function formatToMilitary(date: Date): string {
-  return format(date, MILITARY_DATE_FORMAT)
+// Format a Date to the specified format
+function formatDate(date: Date, dateFormat: DateFormatType): string {
+  return format(date, dateFormat === 'spelled' ? SPELLED_DATE_FORMAT : MILITARY_DATE_FORMAT)
+}
+
+// Get placeholder for date format
+function getPlaceholder(dateFormat: DateFormatType): string {
+  return dateFormat === 'spelled' ? 'January 4, 2026' : '15 Dec 24'
 }
 
 interface DatePickerProps {
@@ -70,15 +81,19 @@ interface DatePickerProps {
   placeholder?: string
   className?: string
   id?: string
+  dateFormat?: DateFormatType
 }
 
 export function DatePicker({
   value,
   onChange,
-  placeholder = "15 Dec 24",
+  placeholder,
   className,
   id,
+  dateFormat = 'military',
 }: DatePickerProps) {
+  // Use format-appropriate placeholder if not provided
+  const displayPlaceholder = placeholder || getPlaceholder(dateFormat)
   const [open, setOpen] = React.useState(false)
   const [inputValue, setInputValue] = React.useState(value || "")
 
@@ -106,8 +121,8 @@ export function DatePicker({
 
     const parsed = parseFlexibleDate(inputValue)
     if (parsed) {
-      // Format to military format
-      const formatted = formatToMilitary(parsed)
+      // Format to the appropriate date format
+      const formatted = formatDate(parsed, dateFormat)
       setInputValue(formatted)
       onChange?.(formatted)
     } else {
@@ -119,7 +134,7 @@ export function DatePicker({
   // Handle calendar selection
   const handleSelect = (date: Date | undefined) => {
     if (date) {
-      const formatted = formatToMilitary(date)
+      const formatted = formatDate(date, dateFormat)
       setInputValue(formatted)
       onChange?.(formatted)
     }
@@ -142,7 +157,7 @@ export function DatePicker({
           onChange={handleInputChange}
           onBlur={handleInputBlur}
           onKeyDown={handleKeyDown}
-          placeholder={placeholder}
+          placeholder={displayPlaceholder}
           className="pr-10"
         />
         <PopoverTrigger asChild>

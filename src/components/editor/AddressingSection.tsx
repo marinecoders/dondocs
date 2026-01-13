@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import { BookOpen, Plus, Trash2 } from 'lucide-react';
+import { BookOpen, Plus, Trash2, AlertCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -22,8 +22,13 @@ interface AddressingSectionProps {
 }
 
 export function AddressingSection({ config }: AddressingSectionProps) {
-  const { formData, setField } = useDocumentStore();
+  const { formData, setField, documentMode } = useDocumentStore();
   const [ssicModalOpen, setSSICModalOpen] = useState(false);
+
+  // Check compliance requirements for business letters
+  const isCompliantMode = documentMode === 'compliant';
+  const requiresSalutation = isCompliantMode && config.compliance.requiresSalutation;
+  const dateFormat = isCompliantMode ? config.compliance.dateFormat : 'military';
 
   const handleSSICSelect = (code: string) => {
     setField('ssic', code);
@@ -69,8 +74,21 @@ export function AddressingSection({ config }: AddressingSectionProps) {
           <AccordionTrigger>Document Information</AccordionTrigger>
           <AccordionContent>
             <div className="space-y-4 pt-2">
-              {/* SSIC / Serial / Date */}
-              {config.ssic && (
+              {/* Date Only - for business letters (no SSIC/Serial) */}
+              {config.dateOnly && (
+                <div className="space-y-2">
+                  <Label htmlFor="date">Date</Label>
+                  <DatePicker
+                    id="date"
+                    value={formData.date || ''}
+                    onChange={(value) => setField('date', value)}
+                    dateFormat={dateFormat}
+                  />
+                </div>
+              )}
+
+              {/* SSIC / Serial / Date - for standard documents */}
+              {config.ssic && !config.dateOnly && (
                 <>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                   <div className="space-y-2">
@@ -109,7 +127,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                     id="date"
                     value={formData.date || ''}
                     onChange={(value) => setField('date', value)}
-                    placeholder="15 Dec 24"
+                    dateFormat={dateFormat}
                   />
                 </div>
               </div>
@@ -135,6 +153,21 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                 )}
               </div>
               </>
+            )}
+
+            {/* Recipient Address - for business letters (multi-line address block) */}
+            {config.recipientAddress && (
+              <div className="space-y-2">
+                <Label htmlFor="to">Recipient Address</Label>
+                <textarea
+                  id="to"
+                  value={formData.to || ''}
+                  onChange={(e) => setField('to', e.target.value)}
+                  placeholder="Mr. John Smith&#10;Director of Operations&#10;ABC Company&#10;123 Main Street&#10;City, State ZIP"
+                  className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  rows={5}
+                />
+              </div>
             )}
 
             {/* From / To */}
@@ -201,6 +234,29 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                     </div>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* Salutation - Required for business letters in compliant mode */}
+            {requiresSalutation && (
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="salutation">Salutation</Label>
+                  <span className="text-xs text-destructive">* Required</span>
+                </div>
+                <Input
+                  id="salutation"
+                  value={formData.salutation || ''}
+                  onChange={(e) => setField('salutation', e.target.value)}
+                  placeholder="Dear Sir or Madam:"
+                  className={!formData.salutation?.trim() ? 'border-destructive' : ''}
+                />
+                {!formData.salutation?.trim() && (
+                  <p className="text-xs text-destructive flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    Per SECNAV M-5216.5 Ch 11: Business letters require a salutation
+                  </p>
+                )}
               </div>
             )}
 

@@ -10,6 +10,7 @@ import { NISTComplianceModal } from '@/components/modals/NISTComplianceModal';
 import { BatchModal } from '@/components/modals/BatchModal';
 import { FindReplaceModal } from '@/components/modals/FindReplaceModal';
 import { TemplateLoaderModal } from '@/components/modals/TemplateLoaderModal';
+import { DocumentGuideModal } from '@/components/modals/DocumentGuideModal';
 import { WelcomeModal } from '@/components/modals/WelcomeModal';
 import { PIIWarningModal } from '@/components/modals/PIIWarningModal';
 import { LogViewerModal } from '@/components/modals/LogViewerModal';
@@ -17,7 +18,6 @@ import { EnclosureErrorModal } from '@/components/modals/EnclosureErrorModal';
 import { RestoreSessionModal } from '@/components/modals/RestoreSessionModal';
 import { UpdatePromptModal } from '@/components/modals/UpdatePromptModal';
 import { BrowserCompatibilityNotice } from '@/components/BrowserCompatibilityNotice';
-import { UpdateBanner } from '@/components/UpdateBanner';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useHistoryStore } from '@/stores/historyStore';
@@ -28,8 +28,8 @@ import { generateAllLatexFiles, type GeneratedFiles } from '@/services/latex/gen
 import { generateDocx } from '@/services/docx/generator';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
 import type { ClassificationInfo, EnclosureError } from '@/services/pdf/mergeEnclosures';
-import { addSignatureField, addDualSignatureFields } from '@/services/pdf/addSignatureField';
-import { DOC_TYPE_CONFIG } from '@/types/document';
+import { addSignatureField, addDualSignatureFields, type DualSignatureFieldConfig, type SignatureFieldConfig } from '@/services/pdf/addSignatureField';
+import { DOC_TYPE_CONFIG, type DocumentData } from '@/types/document';
 import { detectPII, type PIIDetectionResult } from '@/services/pii/detector';
 import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
 
@@ -53,6 +53,57 @@ function getClassificationInfo(classLevel: string | undefined): ClassificationIn
   return { level: classLevel, marking };
 }
 
+/**
+ * Build signatory name configuration for signature field positioning.
+ * Returns the abbreviated name format (e.g., "J. M. SMITH") used in signature blocks.
+ */
+function getSignatoryConfig(formData: Partial<DocumentData>): SignatureFieldConfig {
+  // Build abbreviated name for single signatures: F. M. LASTNAME
+  const firstName = formData.sigFirst?.trim() || '';
+  const middleName = formData.sigMiddle?.trim() || '';
+  const lastName = formData.sigLast?.toUpperCase()?.trim() || '';
+
+  const abbrevName = [
+    firstName ? `${firstName[0].toUpperCase()}.` : '',
+    middleName ? `${middleName[0].toUpperCase()}.` : '',
+    lastName,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  return {
+    signatoryName: abbrevName || undefined,
+  };
+}
+
+/**
+ * Build dual signatory name configuration for joint letter/MOA/MOU signature field positioning.
+ * Returns junior and senior signatory names.
+ */
+function getDualSignatoryConfig(formData: Partial<DocumentData>, uiMode: string | undefined): DualSignatureFieldConfig {
+  let juniorName: string | undefined;
+  let seniorName: string | undefined;
+
+  if (uiMode === 'moa') {
+    // MOA/MOU uses juniorSigName and seniorSigName
+    juniorName = formData.juniorSigName?.toUpperCase()?.trim() || undefined;
+    seniorName = formData.seniorSigName?.toUpperCase()?.trim() || undefined;
+  } else if (uiMode === 'joint') {
+    // Joint letter uses jointJuniorSigName and jointSeniorSigName
+    juniorName = formData.jointJuniorSigName?.toUpperCase()?.trim() || undefined;
+    seniorName = formData.jointSeniorSigName?.toUpperCase()?.trim() || undefined;
+  } else if (uiMode === 'joint_memo') {
+    // Joint memo uses jointMemoJuniorSigName and jointMemoSeniorSigName
+    juniorName = formData.jointMemoJuniorSigName?.toUpperCase()?.trim() || undefined;
+    seniorName = formData.jointMemoSeniorSigName?.toUpperCase()?.trim() || undefined;
+  }
+
+  return {
+    juniorSignatoryName: juniorName,
+    seniorSignatoryName: seniorName,
+  };
+}
+
 function App() {
   const {
     theme,
@@ -72,7 +123,7 @@ function App() {
   const { selectedProfile, profiles } = useProfileStore();
   const { addLogDirect } = useLogStore();
   const { isReady, compile, waitForReady, error: engineError } = useLatexEngine();
-  const { showUpdateBanner, showUpdatePrompt, dismissBanner, confirmUpdate, dismissUpdatePrompt } = useServiceWorker();
+  const { showUpdatePrompt, confirmUpdate, dismissUpdatePrompt } = useServiceWorker();
 
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [isCompiling, setIsCompiling] = useState(false);
@@ -199,9 +250,11 @@ function App() {
           const config = DOC_TYPE_CONFIG[documentStore.docType];
           const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
           if (isDualSignature) {
-            pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes));
+            const sigConfig = getDualSignatoryConfig(documentStore.formData, config?.uiMode);
+            pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes), sigConfig);
           } else {
-            pdfBytes = await addSignatureField(new Uint8Array(pdfBytes));
+            const sigConfig = getSignatoryConfig(documentStore.formData);
+            pdfBytes = await addSignatureField(new Uint8Array(pdfBytes), sigConfig);
           }
         }
 
@@ -299,9 +352,11 @@ function App() {
         const config = DOC_TYPE_CONFIG[documentStore.docType];
         const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
         if (isDualSignature) {
-          pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes));
+          const sigConfig = getDualSignatoryConfig(documentStore.formData, config?.uiMode);
+          pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes), sigConfig);
         } else {
-          pdfBytes = await addSignatureField(new Uint8Array(pdfBytes));
+          const sigConfig = getSignatoryConfig(documentStore.formData);
+          pdfBytes = await addSignatureField(new Uint8Array(pdfBytes), sigConfig);
         }
       }
 
@@ -398,9 +453,11 @@ function App() {
         const config = DOC_TYPE_CONFIG[documentStore.docType];
         const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
         if (isDualSignature) {
-          pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes));
+          const sigConfig = getDualSignatoryConfig(documentStore.formData, config?.uiMode);
+          pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes), sigConfig);
         } else {
-          pdfBytes = await addSignatureField(new Uint8Array(pdfBytes));
+          const sigConfig = getSignatoryConfig(documentStore.formData);
+          pdfBytes = await addSignatureField(new Uint8Array(pdfBytes), sigConfig);
         }
       }
 
@@ -748,6 +805,7 @@ ${texFiles['body.tex'] || '% No body content'}
       <BatchModal compile={compile} isEngineReady={isReady} waitForReady={waitForReady} />
       <FindReplaceModal />
       <TemplateLoaderModal />
+      <DocumentGuideModal />
       <WelcomeModal />
       <PIIWarningModal
         detectionResult={piiDetectionResult}
@@ -770,7 +828,6 @@ ${texFiles['body.tex'] || '% No body content'}
         onDismiss={dismissUpdatePrompt}
       />
       <BrowserCompatibilityNotice />
-      <UpdateBanner show={showUpdateBanner} onDismiss={dismissBanner} />
     </div>
   );
 }

@@ -11,6 +11,8 @@ import { CopyToManager } from '@/components/editor/CopyToManager';
 import { ProfileBar } from '@/components/editor/ProfileBar';
 import { DocumentStats } from '@/components/editor/DocumentStats';
 import { MOASection } from '@/components/editor/MOASection';
+import { JointLetterSection } from '@/components/editor/JointLetterSection';
+import { JointMemoSection } from '@/components/editor/JointMemoSection';
 import { useDocumentStore } from '@/stores/documentStore';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 
@@ -19,6 +21,8 @@ export function FormPanel() {
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
 
   const isMOAMode = config.uiMode === 'moa';
+  const isJointLetterMode = config.uiMode === 'joint';
+  const isJointMemoMode = config.uiMode === 'joint_memo';
 
   return (
     <div className="flex flex-col h-full border-r border-border bg-card overflow-hidden w-full">
@@ -33,6 +37,42 @@ export function FormPanel() {
             <>
               {/* MOA/MOU specific UI - handles dual commands and signatures */}
               <MOASection />
+
+              <ClassificationSection />
+
+              <ParagraphsEditor />
+
+              <ReferencesManager />
+
+              <EnclosuresManager />
+
+              <CopyToManager />
+
+              <DocumentStats />
+            </>
+          ) : isJointLetterMode ? (
+            <>
+              {/* Joint Letter UI - dual letterheads and signatures */}
+              <JointLetterSection />
+
+              <ClassificationSection />
+
+              <ParagraphsEditor />
+
+              <ReferencesManager />
+
+              <EnclosuresManager />
+
+              <CopyToManager />
+
+              <DocumentStats />
+            </>
+          ) : isJointMemoMode ? (
+            <>
+              {/* Joint Memorandum UI - dual signatures */}
+              {config.letterhead && <LetterheadSection />}
+
+              <JointMemoSection />
 
               <ClassificationSection />
 

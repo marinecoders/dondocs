@@ -1514,7 +1514,7 @@ const LATEX_TEMPLATES = {
     \\noindent
     \\begin{tabular}[t]{@{}l@{}}
         \\DocumentSSIC\\\\
-        \\optionalField{\\DocumentSerial}%
+        \\optionalLine{\\DocumentSerial}%
         \\BusinessDate% Use civilian date format (January 5, 2015)
     \\end{tabular}
 }
