@@ -122,16 +122,110 @@ view:
 .PHONY: rebuild
 rebuild: clean pdf
 
+#=============================================================================
+# WEB APPLICATION (React)
+#=============================================================================
+
+#-----------------------------------------------------------------------------
+# Start development server (default: http://localhost:5173)
+# Pulls latest, builds, then starts dev server
+#-----------------------------------------------------------------------------
+.PHONY: dev
+dev:
+	@echo "Pulling latest changes..."
+	@if git diff --quiet && git diff --cached --quiet; then \
+		git pull; \
+	else \
+		echo "Local changes detected, stashing before pull..."; \
+		git stash push -m "auto-stash before make dev"; \
+		if git pull; then \
+			echo "Pull successful, restoring stashed changes..."; \
+			git stash pop || echo "Note: Could not restore stash (may have conflicts)"; \
+		else \
+			echo "Pull failed, restoring stashed changes..."; \
+			git stash pop; \
+			exit 1; \
+		fi; \
+	fi
+	@echo "Building web application..."
+	$(MAKE) web-build
+	@echo "Starting development server..."
+	npm run dev
+
+#-----------------------------------------------------------------------------
+# Quick dev - just start dev server without pull/build
+#-----------------------------------------------------------------------------
+.PHONY: dev-quick
+dev-quick: web-install
+	@echo "Starting development server..."
+	npm run dev
+
+#-----------------------------------------------------------------------------
+# Build web app for production
+#-----------------------------------------------------------------------------
+.PHONY: web-build
+web-build: web-install
+	@echo "Building web application..."
+	npm run build
+	@echo "Build complete! Output in dist/"
+
+#-----------------------------------------------------------------------------
+# Install web dependencies
+#-----------------------------------------------------------------------------
+.PHONY: web-install
+web-install:
+	@echo "Installing web dependencies..."
+	npm install
+	@echo "Dependencies installed."
+
+#-----------------------------------------------------------------------------
+# Run linter
+#-----------------------------------------------------------------------------
+.PHONY: lint
+lint: web-install
+	npm run lint
+
+#-----------------------------------------------------------------------------
+# Preview production build locally
+#-----------------------------------------------------------------------------
+.PHONY: preview
+preview: web-build
+	npm run preview
+
+#-----------------------------------------------------------------------------
+# Expose dev server via ngrok (for mobile/external testing)
+# Usage: make ngrok
+#        make ngrok NGROK_DOMAIN=your-domain.ngrok-free.dev
+#-----------------------------------------------------------------------------
+.PHONY: ngrok
+ngrok:
+	@echo "Starting ngrok tunnel to localhost:5173..."
+	@echo "Make sure 'make dev' is running in another terminal!"
+ifdef NGROK_DOMAIN
+	ngrok http --url=$(NGROK_DOMAIN) 5173
+else
+	ngrok http 5173
+endif
+
+#-----------------------------------------------------------------------------
+# Clean web build artifacts
+#-----------------------------------------------------------------------------
+.PHONY: web-clean
+web-clean:
+	@echo "Cleaning web build artifacts..."
+	rm -rf dist
+	@echo "Web clean complete."
+
 #-----------------------------------------------------------------------------
 # Help
 #-----------------------------------------------------------------------------
 .PHONY: help
 help:
-	@echo "USMC Correspondence Template - Makefile"
+	@echo "Naval Correspondence Generator - Makefile"
 	@echo ""
 	@echo "Usage: make [target]"
 	@echo ""
-	@echo "Targets:"
+	@echo "LaTeX Targets:"
 	@echo "  install            Install all required LaTeX packages"
 	@echo "  install-signatures Install only AcroTeX (for digital signatures)"
 	@echo "  pdf                Compile PDF (2 passes, correct page numbers)"
@@ -142,5 +236,16 @@ help:
 	@echo "  clean              Remove auxiliary files (keep PDF)"
 	@echo "  distclean          Remove all generated files including PDF"
 	@echo "  rebuild            Clean and rebuild"
+	@echo ""
+	@echo "Web Targets:"
+	@echo "  dev                Pull, build, then start dev server"
+	@echo "  dev-quick          Start dev server without pull/build"
+	@echo "  web-build          Build for production"
+	@echo "  web-install        Install npm dependencies"
+	@echo "  lint               Run ESLint"
+	@echo "  preview            Preview production build"
+	@echo "  ngrok              Expose dev server via ngrok tunnel"
+	@echo "  web-clean          Remove web build artifacts"
+	@echo ""
 	@echo "  help               Show this help message"
 

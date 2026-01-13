@@ -1,0 +1,458 @@
+{
+  "categories": [
+    "Command",
+    "Staff (Battalion/Squadron)",
+    "Staff (Regiment/Group)",
+    "Staff (Division/MEF/Wing)",
+    "Staff (Joint)",
+    "Special Staff",
+    "Company/Battery/Platoon",
+    "Administrative"
+  ],
+  "codes": [
+    {
+      "code": "CO",
+      "title": "Commanding Officer",
+      "category": "Command",
+      "description": "Unit commander"
+    },
+    {
+      "code": "XO",
+      "title": "Executive Officer",
+      "category": "Command",
+      "description": "Second in command"
+    },
+    {
+      "code": "SgtMaj",
+      "title": "Sergeant Major",
+      "category": "Command",
+      "description": "Senior enlisted advisor"
+    },
+    {
+      "code": "1stSgt",
+      "title": "First Sergeant",
+      "category": "Company/Battery/Platoon",
+      "description": "Company senior enlisted"
+    },
+    {
+      "code": "GySgt",
+      "title": "Gunnery Sergeant",
+      "category": "Company/Battery/Platoon",
+      "description": "Operations chief / Platoon sergeant"
+    },
+    {
+      "code": "S-1",
+      "title": "Personnel/Administration",
+      "category": "Staff (Battalion/Squadron)",
+      "description": "Manpower, personnel, admin actions"
+    },
+    {
+      "code": "S-2",
+      "title": "Intelligence",
+      "category": "Staff (Battalion/Squadron)",
+      "description": "Intelligence and security"
+    },
+    {
+      "code": "S-3",
+      "title": "Operations & Training",
+      "category": "Staff (Battalion/Squadron)",
+      "description": "Operations, training, plans"
+    },
+    {
+      "code": "S-4",
+      "title": "Logistics",
+      "category": "Staff (Battalion/Squadron)",
+      "description": "Supply, maintenance, transportation"
+    },
+    {
+      "code": "S-6",
+      "title": "Communications",
+      "category": "Staff (Battalion/Squadron)",
+      "description": "Communications and IT"
+    },
+    {
+      "code": "S-7",
+      "title": "Training",
+      "category": "Staff (Battalion/Squadron)",
+      "description": "Training management (when separate from S-3)"
+    },
+    {
+      "code": "G-1",
+      "title": "Personnel/Administration",
+      "category": "Staff (Division/MEF/Wing)",
+      "description": "Division/MEF level manpower and admin"
+    },
+    {
+      "code": "G-2",
+      "title": "Intelligence",
+      "category": "Staff (Division/MEF/Wing)",
+      "description": "Division/MEF level intelligence"
+    },
+    {
+      "code": "G-3",
+      "title": "Operations & Training",
+      "category": "Staff (Division/MEF/Wing)",
+      "description": "Division/MEF level operations"
+    },
+    {
+      "code": "G-4",
+      "title": "Logistics",
+      "category": "Staff (Division/MEF/Wing)",
+      "description": "Division/MEF level logistics"
+    },
+    {
+      "code": "G-6",
+      "title": "Communications",
+      "category": "Staff (Division/MEF/Wing)",
+      "description": "Division/MEF level comms and IT"
+    },
+    {
+      "code": "G-7",
+      "title": "Training",
+      "category": "Staff (Division/MEF/Wing)",
+      "description": "Division/MEF level training"
+    },
+    {
+      "code": "G-8",
+      "title": "Resource Management",
+      "category": "Staff (Division/MEF/Wing)",
+      "description": "Budget and financial management"
+    },
+    {
+      "code": "AC/S G-1",
+      "title": "Assistant Chief of Staff G-1",
+      "category": "Staff (Division/MEF/Wing)",
+      "description": "Principal staff officer for personnel"
+    },
+    {
+      "code": "AC/S G-3",
+      "title": "Assistant Chief of Staff G-3",
+      "category": "Staff (Division/MEF/Wing)",
+      "description": "Principal staff officer for operations"
+    },
+    {
+      "code": "J-1",
+      "title": "Personnel/Administration",
+      "category": "Staff (Joint)",
+      "description": "Joint staff manpower and personnel"
+    },
+    {
+      "code": "J-2",
+      "title": "Intelligence",
+      "category": "Staff (Joint)",
+      "description": "Joint staff intelligence"
+    },
+    {
+      "code": "J-3",
+      "title": "Operations",
+      "category": "Staff (Joint)",
+      "description": "Joint staff operations"
+    },
+    {
+      "code": "J-4",
+      "title": "Logistics",
+      "category": "Staff (Joint)",
+      "description": "Joint staff logistics"
+    },
+    {
+      "code": "J-5",
+      "title": "Plans",
+      "category": "Staff (Joint)",
+      "description": "Joint staff strategic plans and policy"
+    },
+    {
+      "code": "J-6",
+      "title": "Communications",
+      "category": "Staff (Joint)",
+      "description": "Joint staff C4/cyber"
+    },
+    {
+      "code": "Adj",
+      "title": "Adjutant",
+      "category": "Administrative",
+      "description": "Unit administrative officer"
+    },
+    {
+      "code": "Admin",
+      "title": "Administration",
+      "category": "Administrative",
+      "description": "Administrative section"
+    },
+    {
+      "code": "PerO",
+      "title": "Personnel Officer",
+      "category": "Administrative",
+      "description": "Personnel/manpower officer"
+    },
+    {
+      "code": "AdjO",
+      "title": "Adjutant Officer",
+      "category": "Administrative",
+      "description": "Adjutant (officer)"
+    },
+    {
+      "code": "AdminO",
+      "title": "Administrative Officer",
+      "category": "Administrative",
+      "description": "Admin officer"
+    },
+    {
+      "code": "SJA",
+      "title": "Staff Judge Advocate",
+      "category": "Special Staff",
+      "description": "Legal officer"
+    },
+    {
+      "code": "Chap",
+      "title": "Chaplain",
+      "category": "Special Staff",
+      "description": "Religious ministry"
+    },
+    {
+      "code": "PAO",
+      "title": "Public Affairs Officer",
+      "category": "Special Staff",
+      "description": "Public affairs and media"
+    },
+    {
+      "code": "FSO",
+      "title": "Fire Support Officer",
+      "category": "Special Staff",
+      "description": "Fire support coordination"
+    },
+    {
+      "code": "WpnsO",
+      "title": "Weapons Officer",
+      "category": "Special Staff",
+      "description": "Weapons and tactics"
+    },
+    {
+      "code": "MO",
+      "title": "Maintenance Officer",
+      "category": "Special Staff",
+      "description": "Equipment maintenance"
+    },
+    {
+      "code": "SupO",
+      "title": "Supply Officer",
+      "category": "Special Staff",
+      "description": "Supply and logistics"
+    },
+    {
+      "code": "MotO",
+      "title": "Motor Transport Officer",
+      "category": "Special Staff",
+      "description": "Vehicle transportation"
+    },
+    {
+      "code": "CommO",
+      "title": "Communications Officer",
+      "category": "Special Staff",
+      "description": "Communications"
+    },
+    {
+      "code": "MedO",
+      "title": "Medical Officer",
+      "category": "Special Staff",
+      "description": "Medical services"
+    },
+    {
+      "code": "DentO",
+      "title": "Dental Officer",
+      "category": "Special Staff",
+      "description": "Dental services"
+    },
+    {
+      "code": "SafO",
+      "title": "Safety Officer",
+      "category": "Special Staff",
+      "description": "Safety programs"
+    },
+    {
+      "code": "TrainO",
+      "title": "Training Officer",
+      "category": "Special Staff",
+      "description": "Training management"
+    },
+    {
+      "code": "NBC",
+      "title": "NBC Officer",
+      "category": "Special Staff",
+      "description": "Nuclear, biological, chemical defense"
+    },
+    {
+      "code": "CBRN",
+      "title": "CBRN Officer",
+      "category": "Special Staff",
+      "description": "Chemical, biological, radiological, nuclear"
+    },
+    {
+      "code": "IO",
+      "title": "Intelligence Officer",
+      "category": "Special Staff",
+      "description": "Intelligence"
+    },
+    {
+      "code": "OpO",
+      "title": "Operations Officer",
+      "category": "Special Staff",
+      "description": "Operations"
+    },
+    {
+      "code": "LogO",
+      "title": "Logistics Officer",
+      "category": "Special Staff",
+      "description": "Logistics"
+    },
+    {
+      "code": "Compt",
+      "title": "Comptroller",
+      "category": "Special Staff",
+      "description": "Financial management"
+    },
+    {
+      "code": "IG",
+      "title": "Inspector General",
+      "category": "Special Staff",
+      "description": "Inspections and investigations"
+    },
+    {
+      "code": "PMO",
+      "title": "Provost Marshal Office",
+      "category": "Special Staff",
+      "description": "Military police and law enforcement"
+    },
+    {
+      "code": "EO",
+      "title": "Equal Opportunity",
+      "category": "Special Staff",
+      "description": "Equal opportunity programs"
+    },
+    {
+      "code": "SAPR",
+      "title": "SAPR",
+      "category": "Special Staff",
+      "description": "Sexual Assault Prevention and Response"
+    },
+    {
+      "code": "FAP",
+      "title": "Family Advocacy Program",
+      "category": "Special Staff",
+      "description": "Family support and advocacy"
+    },
+    {
+      "code": "SACO",
+      "title": "Substance Abuse Control Officer",
+      "category": "Special Staff",
+      "description": "Substance abuse prevention"
+    },
+    {
+      "code": "Plt Cdr",
+      "title": "Platoon Commander",
+      "category": "Company/Battery/Platoon",
+      "description": "Platoon leader"
+    },
+    {
+      "code": "Plt Sgt",
+      "title": "Platoon Sergeant",
+      "category": "Company/Battery/Platoon",
+      "description": "Platoon SNCO"
+    },
+    {
+      "code": "Co Cdr",
+      "title": "Company Commander",
+      "category": "Company/Battery/Platoon",
+      "description": "Company commanding officer"
+    },
+    {
+      "code": "Co XO",
+      "title": "Company Executive Officer",
+      "category": "Company/Battery/Platoon",
+      "description": "Company second in command"
+    },
+    {
+      "code": "Btry Cdr",
+      "title": "Battery Commander",
+      "category": "Company/Battery/Platoon",
+      "description": "Artillery battery commander"
+    },
+    {
+      "code": "OpsChf",
+      "title": "Operations Chief",
+      "category": "Administrative",
+      "description": "Operations SNCO"
+    },
+    {
+      "code": "AdminChf",
+      "title": "Admin Chief",
+      "category": "Administrative",
+      "description": "Administrative SNCO"
+    },
+    {
+      "code": "SupChf",
+      "title": "Supply Chief",
+      "category": "Administrative",
+      "description": "Supply SNCO"
+    },
+    {
+      "code": "SNCOIC",
+      "title": "Staff NCO In Charge",
+      "category": "Administrative",
+      "description": "Section SNCO in charge"
+    },
+    {
+      "code": "NCOIC",
+      "title": "NCO In Charge",
+      "category": "Administrative",
+      "description": "Section NCO in charge"
+    },
+    {
+      "code": "OIC",
+      "title": "Officer In Charge",
+      "category": "Administrative",
+      "description": "Officer in charge of section/detail"
+    },
+    {
+      "code": "CG",
+      "title": "Commanding General",
+      "category": "Command",
+      "description": "General officer in command"
+    },
+    {
+      "code": "DCG",
+      "title": "Deputy Commanding General",
+      "category": "Command",
+      "description": "Deputy to commanding general"
+    },
+    {
+      "code": "CoS",
+      "title": "Chief of Staff",
+      "category": "Command",
+      "description": "Principal staff coordinator"
+    },
+    {
+      "code": "DCoS",
+      "title": "Deputy Chief of Staff",
+      "category": "Command",
+      "description": "Deputy to chief of staff"
+    },
+    {
+      "code": "CMC",
+      "title": "Commandant of the Marine Corps",
+      "category": "Command",
+      "description": "Senior Marine Corps officer"
+    },
+    {
+      "code": "ACMC",
+      "title": "Assistant Commandant",
+      "category": "Command",
+      "description": "Assistant Commandant of the Marine Corps"
+    },
+    {
+      "code": "SMMC",
+      "title": "Sergeant Major of the Marine Corps",
+      "category": "Command",
+      "description": "Senior enlisted Marine"
+    }
+  ]
+}

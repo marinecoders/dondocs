@@ -1,0 +1,15 @@
+%%
+%% xparse.sty - Stub for SwiftLaTeX
+%% xparse is preloaded in the SwiftLaTeX format (L3 programming layer)
+%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{xparse}[2020/02/14 L3 Experimental document command parser]
+
+%% xparse functionality is part of L3 layer preloaded in the format
+%% Just ensure the commands exist
+\begingroup\expandafter\expandafter\expandafter\endgroup
+\expandafter\ifx\csname NewDocumentCommand\endcsname\relax
+  \PackageError{xparse}{xparse functionality not available in format}{}
+\fi
+
+\endinput

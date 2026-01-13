@@ -36,6 +36,45 @@ Per Ch 7 ¶13d:
 
 ---
 
+## Body Text Rules
+
+Per Ch 7 ¶12-13:
+
+### Text Content
+| Rule | Requirement | Source |
+|------|-------------|--------|
+| **Start position** | Second line below previous entry | Ch 7 ¶12 |
+| **Justification** | LEFT ONLY (no right/center/full justify) | Ch 7 ¶12 |
+| **Language** | Plain English, no slang or jargon | Ch 7 ¶12 |
+| **Acronyms** | Spell out first use, then use acronym throughout | Ch 7 ¶12 |
+
+### Paragraph Spacing
+| Element | Requirement | Source |
+|---------|-------------|--------|
+| **Within paragraphs** | Single spaced | Ch 7 ¶13 |
+| **Between paragraphs** | Double spaced (one blank line) | Ch 7 ¶13 |
+
+### Subparagraph Indentation and Continuation Lines
+Per Ch 7 ¶13:
+
+> "When using a subparagraph, the first line is always indented the appropriate number of spaces depending on the level of subparagraphing. **All other lines of a subparagraph continue at the left margin. Do not indent the continuation lines of a subparagraph.**"
+
+**Example (correct):**
+```
+    a. This is a subparagraph that continues to the next line.
+    The continuation line returns to the left margin, not indented.
+```
+
+**Implementation:** The LaTeX template uses `itemindent` to push the first line (with label) right while keeping `leftmargin` at the continuation position. This ensures continuation lines automatically return to the label position per SECNAV requirements.
+
+### Page Break Rules
+Per Ch 7 ¶13:
+- Do NOT start a paragraph at bottom of page unless **at least 2 lines** fit
+- Carry over **at least 2 lines** to the next page
+- **Signature page must have at least 2 lines of text** preceding signature
+
+---
+
 ## Ink Color
 
 ### Signature Ink

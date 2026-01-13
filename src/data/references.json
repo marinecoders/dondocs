@@ -1,0 +1,975 @@
+{
+  "version": "2.0",
+  "lastUpdated": "2024-12-14",
+  "categories": [
+    "Personnel",
+    "Awards",
+    "Fitness",
+    "Training",
+    "Admin",
+    "Legal",
+    "Supply",
+    "Operations",
+    "Safety",
+    "Medical",
+    "Intelligence",
+    "Communications"
+  ],
+  "references": [
+    {
+      "id": "mco-1050-3",
+      "type": "MCO",
+      "number": "1050.3J",
+      "title": "Regulations for Leave, Liberty, and Administrative Absence",
+      "shortTitle": "Leave Order",
+      "category": "Personnel",
+      "keywords": ["leave", "liberty", "absence", "vacation", "special liberty", "emergency leave", "convalescent", "terminal"]
+    },
+    {
+      "id": "mco-1610-7",
+      "type": "MCO",
+      "number": "1610.7A",
+      "title": "Performance Evaluation System",
+      "shortTitle": "FITREP/PRO-CON Order",
+      "category": "Personnel",
+      "keywords": ["fitrep", "fitness report", "procon", "evaluation", "performance", "adverse", "observed"]    },
+    {
+      "id": "mco-1650-19",
+      "type": "MCO",
+      "number": "1650.19J",
+      "title": "Marine Corps Awards Manual",
+      "shortTitle": "Awards Manual",
+      "category": "Awards",
+      "keywords": ["award", "medal", "nam", "commendation", "achievement", "meritorious", "certificate", "muc"]    },
+    {
+      "id": "secnavinst-1650-1",
+      "type": "SECNAVINST",
+      "number": "1650.1H",
+      "title": "Navy and Marine Corps Awards Manual",
+      "shortTitle": "DON Awards Manual",
+      "category": "Awards",
+      "keywords": ["award", "medal", "navy", "decoration", "commendation", "purple heart", "bronze star"]    },
+    {
+      "id": "mco-6100-13",
+      "type": "MCO",
+      "number": "6100.13A",
+      "title": "Marine Corps Physical Fitness and Combat Fitness Tests",
+      "shortTitle": "PFT/CFT Order",
+      "category": "Fitness",
+      "keywords": ["pft", "cft", "physical fitness", "combat fitness", "run", "pullups", "crunches", "ammo can", "mtc"]
+    },
+    {
+      "id": "mco-6110-3",
+      "type": "MCO",
+      "number": "6110.3A",
+      "title": "Marine Corps Body Composition and Military Appearance Program",
+      "shortTitle": "BCP Order",
+      "category": "Fitness",
+      "keywords": ["bcp", "body composition", "weight", "height", "tape", "assignment", "map"]
+    },
+    {
+      "id": "mco-1070-12",
+      "type": "MCO",
+      "number": "1070.12K",
+      "title": "Individual Records Administration Manual (IRAM)",
+      "shortTitle": "IRAM",
+      "category": "Admin",
+      "keywords": ["page 11", "service record", "srb", "ompf", "admin remarks", "iram", "6105", "page 13"]    },
+    {
+      "id": "mco-1500-52",
+      "type": "MCO",
+      "number": "1500.52F",
+      "title": "Marine Corps Formal Schools Program",
+      "shortTitle": "Schools Order",
+      "category": "Training",
+      "keywords": ["school", "training", "mos", "formal school", "maradmin", "quotas"]
+    },
+    {
+      "id": "mco-1553-4",
+      "type": "MCO",
+      "number": "1553.4B",
+      "title": "Professional Military Education",
+      "shortTitle": "PME Order",
+      "category": "Training",
+      "keywords": ["pme", "corporals course", "sergeants course", "career course", "enlisted pme", "snco"]
+    },
+    {
+      "id": "mco-1320-11",
+      "type": "MCO",
+      "number": "1320.11G",
+      "title": "Permanent Change of Station Order",
+      "shortTitle": "PCS Order",
+      "category": "Personnel",
+      "keywords": ["pcs", "orders", "transfer", "duty station", "move", "dity", "hhg"]
+    },
+    {
+      "id": "mco-1900-16",
+      "type": "MCO",
+      "number": "1900.16",
+      "title": "Marine Corps Separation and Retirement Manual",
+      "shortTitle": "MARCORSEPMAN",
+      "category": "Personnel",
+      "keywords": ["separation", "discharge", "eas", "retirement", "adsep", "chapter", "honorable", "oth"]    },
+    {
+      "id": "mco-1752-5",
+      "type": "MCO",
+      "number": "1752.5C",
+      "title": "Sexual Assault Prevention and Response Program",
+      "shortTitle": "SAPR Order",
+      "category": "Legal",
+      "keywords": ["sapr", "sexual assault", "victim advocate", "unrestricted", "restricted", "sarc"]
+    },
+    {
+      "id": "mco-5800-16",
+      "type": "MCO",
+      "number": "5800.16A",
+      "title": "Marine Corps Manual for Legal Administration",
+      "shortTitle": "LEGADMINMAN",
+      "category": "Legal",
+      "keywords": ["legal", "njp", "court martial", "article 15", "ucmj", "6105", "adverse action"]    },
+    {
+      "id": "mco-1040-31",
+      "type": "MCO",
+      "number": "1040.31",
+      "title": "Marine Corps Enlisted Retention and Career Development Program",
+      "shortTitle": "Reenlistment Order",
+      "category": "Personnel",
+      "keywords": ["reenlistment", "srb", "bonus", "career", "retention", "extension", "broken service"]
+    },
+    {
+      "id": "mco-1001-62",
+      "type": "MCO",
+      "number": "1001.62A",
+      "title": "Marine Corps Promotion Manual, Volume 2, Enlisted Promotions",
+      "shortTitle": "Enlisted Promo Manual",
+      "category": "Personnel",
+      "keywords": ["promotion", "meritorious", "cutting score", "composite score", "sergeant", "corporal", "lance corporal"]
+    },
+    {
+      "id": "mco-1001-64",
+      "type": "MCO",
+      "number": "1001.64F",
+      "title": "Marine Corps Promotion Manual, Volume 3, Officer Promotions",
+      "shortTitle": "Officer Promo Manual",
+      "category": "Personnel",
+      "keywords": ["promotion", "officer", "captain", "major", "selection board", "lieutenant"]
+    },
+    {
+      "id": "secnav-m-5216-5",
+      "type": "SECNAV M",
+      "number": "5216.5",
+      "title": "Department of the Navy Correspondence Manual",
+      "shortTitle": "Correspondence Manual",
+      "category": "Admin",
+      "keywords": ["naval letter", "correspondence", "format", "memorandum", "endorsement", "standard letter"]    },
+    {
+      "id": "mco-5216-20",
+      "type": "MCO",
+      "number": "5216.20",
+      "title": "Marine Corps Correspondence Manual",
+      "shortTitle": "MC Correspondence",
+      "category": "Admin",
+      "keywords": ["correspondence", "letter", "format", "writing", "memo", "endorsement"]
+    },
+    {
+      "id": "dod-7000-14r",
+      "type": "DoD",
+      "number": "7000.14-R",
+      "title": "Department of Defense Financial Management Regulations",
+      "shortTitle": "FMR",
+      "category": "Supply",
+      "keywords": ["gtcc", "travel", "per diem", "voucher", "dts", "government travel", "finance"]
+    },
+    {
+      "id": "jtr",
+      "type": "DoD",
+      "number": "JTR",
+      "title": "Joint Travel Regulations",
+      "shortTitle": "JTR",
+      "category": "Supply",
+      "keywords": ["travel", "per diem", "pcs", "tdy", "tad", "mileage", "lodging", "dts"]
+    },
+    {
+      "id": "navyregs-1150",
+      "type": "U.S. Navy Regulations",
+      "number": "Article 1150",
+      "title": "Redress of Wrong Committed by Superior",
+      "shortTitle": "Request Mast",
+      "category": "Legal",
+      "keywords": ["request mast", "complaint", "redress", "grievance", "chain of command"]
+    },
+    {
+      "id": "mco-1700-23",
+      "type": "MCO",
+      "number": "1700.23G",
+      "title": "Marine Corps Community Services Policy Manual",
+      "shortTitle": "MCCS Order",
+      "category": "Personnel",
+      "keywords": ["mccs", "family", "services", "recreation", "fitness center", "mwr"]
+    },
+    {
+      "id": "mco-1306-9",
+      "type": "MCO",
+      "number": "1306.9E",
+      "title": "Interservice and Intraservice Transfers of Members",
+      "shortTitle": "Transfer Order",
+      "category": "Personnel",
+      "keywords": ["transfer", "lat move", "mos change", "interservice", "lateral move"]
+    },
+    {
+      "id": "mco-1040-40",
+      "type": "MCO",
+      "number": "1040.40B",
+      "title": "Humanitarian and Hardship Transfer/Discharge Program",
+      "shortTitle": "Humanitarian Order",
+      "category": "Personnel",
+      "keywords": ["humanitarian", "hardship", "dependency", "family emergency", "compassionate"]
+    },
+    {
+      "id": "ucmj",
+      "type": "Manual",
+      "number": "UCMJ",
+      "title": "Uniform Code of Military Justice",
+      "shortTitle": "UCMJ",
+      "category": "Legal",
+      "keywords": ["ucmj", "court martial", "article", "punishment", "military justice", "offense"]
+    },
+    {
+      "id": "mcm",
+      "type": "Manual",
+      "number": "MCM",
+      "title": "Manual for Courts-Martial",
+      "shortTitle": "MCM",
+      "category": "Legal",
+      "keywords": ["courts martial", "mcm", "military justice", "trial", "conviction"]
+    },
+    {
+      "id": "mco-1500-58",
+      "type": "MCO",
+      "number": "1500.58A",
+      "title": "Marine Corps Martial Arts Program",
+      "shortTitle": "MCMAP Order",
+      "category": "Training",
+      "keywords": ["mcmap", "martial arts", "belt", "tan", "gray", "green", "brown", "black"]
+    },
+    {
+      "id": "mco-1500-55",
+      "type": "MCO",
+      "number": "1500.55",
+      "title": "Marine Corps Water Survival Training Program",
+      "shortTitle": "Swim Qual Order",
+      "category": "Training",
+      "keywords": ["swim", "water survival", "wsi", "qualification", "intermediate", "advanced"]
+    },
+    {
+      "id": "mco-1510-118",
+      "type": "MCO",
+      "number": "1510.118A",
+      "title": "Marine Corps Common Skills Program",
+      "shortTitle": "Common Skills Order",
+      "category": "Training",
+      "keywords": ["common skills", "annual training", "rifle", "pistol", "gas mask"]
+    },
+    {
+      "id": "mco-3500-27",
+      "type": "MCO",
+      "number": "3500.27C",
+      "title": "Operational Risk Management",
+      "shortTitle": "ORM Order",
+      "category": "Safety",
+      "keywords": ["orm", "risk management", "safety", "deliberate", "time critical"]
+    },
+    {
+      "id": "mco-5100-8",
+      "type": "MCO",
+      "number": "5100.8",
+      "title": "Marine Corps Occupational Safety and Health Program",
+      "shortTitle": "OSH Order",
+      "category": "Safety",
+      "keywords": ["osh", "osha", "safety", "occupational", "hazard", "ppe"]
+    },
+    {
+      "id": "mco-5100-29",
+      "type": "MCO",
+      "number": "5100.29C",
+      "title": "Marine Corps Safety Program",
+      "shortTitle": "Safety Program Order",
+      "category": "Safety",
+      "keywords": ["safety", "mishap", "accident", "investigation", "class a", "class b"]
+    },
+    {
+      "id": "mco-5104-3",
+      "type": "MCO",
+      "number": "5104.3C",
+      "title": "Marine Corps Motorcycle and All-Terrain Vehicle Safety Program",
+      "shortTitle": "Motorcycle Safety Order",
+      "category": "Safety",
+      "keywords": ["motorcycle", "atv", "safety", "training", "ppe", "level 1"]
+    },
+    {
+      "id": "mco-1500-12",
+      "type": "MCO",
+      "number": "1500.12L",
+      "title": "Marine Corps Ground Combat Skills Sustainment Training",
+      "shortTitle": "Combat Skills Order",
+      "category": "Training",
+      "keywords": ["rifle", "marksmanship", "qualification", "table", "annual"]
+    },
+    {
+      "id": "mco-3574-2",
+      "type": "MCO",
+      "number": "3574.2L",
+      "title": "Marine Corps Combat Marksmanship Programs",
+      "shortTitle": "Marksmanship Order",
+      "category": "Training",
+      "keywords": ["rifle", "pistol", "marksmanship", "qualification", "expert", "sharpshooter", "marksman"]
+    },
+    {
+      "id": "mco-5510-18",
+      "type": "MCO",
+      "number": "5510.18A",
+      "title": "Personnel Security Program",
+      "shortTitle": "Personnel Security Order",
+      "category": "Intelligence",
+      "keywords": ["clearance", "secret", "top secret", "sci", "investigation", "suitability"]
+    },
+    {
+      "id": "mco-5510-21",
+      "type": "MCO",
+      "number": "5510.21",
+      "title": "Sensitive Compartmented Information Program",
+      "shortTitle": "SCI Program Order",
+      "category": "Intelligence",
+      "keywords": ["sci", "compartmented", "intelligence", "classification", "indoctrination"]
+    },
+    {
+      "id": "mco-5239-2",
+      "type": "MCO",
+      "number": "5239.2B",
+      "title": "Marine Corps Cybersecurity Program",
+      "shortTitle": "Cybersecurity Order",
+      "category": "Communications",
+      "keywords": ["cybersecurity", "ia", "information assurance", "network", "computer", "nmci"]
+    },
+    {
+      "id": "mco-3000-13",
+      "type": "MCO",
+      "number": "3000.13A",
+      "title": "Marine Corps Readiness Reporting",
+      "shortTitle": "Readiness Order",
+      "category": "Operations",
+      "keywords": ["readiness", "drrs", "status", "t-rating", "deployment"]
+    },
+    {
+      "id": "mco-3401-3",
+      "type": "MCO",
+      "number": "3401.3C",
+      "title": "Nuclear, Biological, and Chemical Defense Training Program",
+      "shortTitle": "NBC/CBRN Order",
+      "category": "Training",
+      "keywords": ["nbc", "cbrn", "gas mask", "mopp", "chemical", "biological", "nuclear"]
+    },
+    {
+      "id": "mco-1750-1",
+      "type": "MCO",
+      "number": "1750.1C",
+      "title": "Family Advocacy Program",
+      "shortTitle": "FAP Order",
+      "category": "Personnel",
+      "keywords": ["fap", "family advocacy", "domestic violence", "child abuse", "counseling"]
+    },
+    {
+      "id": "mco-1754-9",
+      "type": "MCO",
+      "number": "1754.9A",
+      "title": "Exceptional Family Member Program",
+      "shortTitle": "EFMP Order",
+      "category": "Personnel",
+      "keywords": ["efmp", "exceptional family", "special needs", "medical", "enrollment"]
+    },
+    {
+      "id": "mco-1740-13",
+      "type": "MCO",
+      "number": "1740.13C",
+      "title": "Marine Corps Family Team Building",
+      "shortTitle": "MCFTB Order",
+      "category": "Personnel",
+      "keywords": ["mcftb", "family readiness", "family team building", "deployment support"]
+    },
+    {
+      "id": "mco-6000-16",
+      "type": "MCO",
+      "number": "6000.16",
+      "title": "Marine Corps Health Promotion Program",
+      "shortTitle": "Health Promotion Order",
+      "category": "Medical",
+      "keywords": ["health", "promotion", "fitness", "tobacco", "nutrition", "wellness"]
+    },
+    {
+      "id": "mco-6310-1",
+      "type": "MCO",
+      "number": "6310.1D",
+      "title": "Marine Corps Substance Abuse Program",
+      "shortTitle": "Substance Abuse Order",
+      "category": "Medical",
+      "keywords": ["saco", "substance abuse", "drug", "alcohol", "urinalysis", "treatment"]
+    },
+    {
+      "id": "mco-5354-1",
+      "type": "MCO",
+      "number": "5354.1E",
+      "title": "Marine Corps Equal Opportunity Program",
+      "shortTitle": "EO Order",
+      "category": "Personnel",
+      "keywords": ["eo", "equal opportunity", "discrimination", "harassment", "complaint"]
+    },
+    {
+      "id": "mco-1001-45",
+      "type": "MCO",
+      "number": "1001.45K",
+      "title": "Marine Corps Officer Classification Manual",
+      "shortTitle": "Officer Classification",
+      "category": "Personnel",
+      "keywords": ["mos", "officer", "classification", "designation", "pmos", "amos"]
+    },
+    {
+      "id": "mco-1200-17",
+      "type": "MCO",
+      "number": "1200.17E",
+      "title": "Military Occupational Specialties Manual",
+      "shortTitle": "MOS Manual",
+      "category": "Personnel",
+      "keywords": ["mos", "occupational", "specialty", "enlisted", "classification", "pmos"]
+    },
+    {
+      "id": "mco-1020-34",
+      "type": "MCO",
+      "number": "1020.34H",
+      "title": "Marine Corps Uniform Regulations",
+      "shortTitle": "Uniform Order",
+      "category": "Admin",
+      "keywords": ["uniform", "dress", "service", "utility", "cammies", "blues", "charlies"]    },
+    {
+      "id": "mco-1100-4",
+      "type": "MCO",
+      "number": "1100.4",
+      "title": "Marine Corps Recruiting Manual",
+      "shortTitle": "Recruiting Order",
+      "category": "Personnel",
+      "keywords": ["recruiting", "enlistment", "waiver", "dep", "recruit"]
+    },
+    {
+      "id": "mco-1130-80",
+      "type": "MCO",
+      "number": "1130.80A",
+      "title": "Prior Service Enlistment Program",
+      "shortTitle": "PSEP Order",
+      "category": "Personnel",
+      "keywords": ["prior service", "psep", "reenlistment", "broken service", "return"]
+    },
+    {
+      "id": "mco-1560-25",
+      "type": "MCO",
+      "number": "1560.25B",
+      "title": "Marine Corps Tuition Assistance Program",
+      "shortTitle": "TA Order",
+      "category": "Training",
+      "keywords": ["tuition assistance", "ta", "college", "education", "degree", "clep"]
+    },
+    {
+      "id": "mco-1560-21",
+      "type": "MCO",
+      "number": "1560.21B",
+      "title": "Marine Corps Enlisted Education Program",
+      "shortTitle": "MCI Order",
+      "category": "Training",
+      "keywords": ["mci", "correspondence", "distance learning", "enlisted education", "marinenet"]
+    },
+    {
+      "id": "mco-1001-59",
+      "type": "MCO",
+      "number": "1001.59A",
+      "title": "Marine Corps Enlisted Commissioning Programs",
+      "shortTitle": "Commissioning Order",
+      "category": "Personnel",
+      "keywords": ["ecp", "mecep", "commissioning", "officer", "ocs", "nrotc"]
+    },
+    {
+      "id": "mco-1001-52",
+      "type": "MCO",
+      "number": "1001.52J",
+      "title": "Marine Corps Career Retention Specialist Program",
+      "shortTitle": "Career Planner Order",
+      "category": "Personnel",
+      "keywords": ["career planner", "retention specialist", "crs", "8421"]
+    },
+    {
+      "id": "mco-4400-150",
+      "type": "MCO",
+      "number": "4400.150F",
+      "title": "Consumer-Level Supply Policy Manual",
+      "shortTitle": "Supply Manual",
+      "category": "Supply",
+      "keywords": ["supply", "inventory", "property", "stock", "requisition", "gcss"]
+    },
+    {
+      "id": "mco-4400-16",
+      "type": "MCO",
+      "number": "4400.16H",
+      "title": "Management of Property in the Possession of the Marine Corps",
+      "shortTitle": "Property Management Order",
+      "category": "Supply",
+      "keywords": ["property", "cmr", "tir", "inventory", "shortage", "survey"]
+    },
+    {
+      "id": "mco-4450-14",
+      "type": "MCO",
+      "number": "4450.14A",
+      "title": "Marine Corps Table of Authorized Materiel Control Numbers",
+      "shortTitle": "TAMCN Order",
+      "category": "Supply",
+      "keywords": ["tamcn", "table of equipment", "t/e", "allowance", "authorization"]
+    },
+    {
+      "id": "mco-4855-10",
+      "type": "MCO",
+      "number": "4855.10C",
+      "title": "Marine Corps Quality Program",
+      "shortTitle": "Quality Program Order",
+      "category": "Supply",
+      "keywords": ["quality", "deficiency", "report", "qdr", "inspection"]
+    },
+    {
+      "id": "mco-5000-18",
+      "type": "MCO",
+      "number": "5000.18B",
+      "title": "Marine Corps Staff Organization and Tactics",
+      "shortTitle": "Staff Organization Order",
+      "category": "Operations",
+      "keywords": ["staff", "organization", "s-1", "s-2", "s-3", "s-4", "billet"]
+    },
+    {
+      "id": "mco-5000-12",
+      "type": "MCO",
+      "number": "5000.12F",
+      "title": "Marine Corps Planning Process",
+      "shortTitle": "MCPP Order",
+      "category": "Operations",
+      "keywords": ["mcpp", "planning", "operations", "mission analysis", "coa"]
+    },
+    {
+      "id": "mco-5211-2",
+      "type": "MCO",
+      "number": "5211.2B",
+      "title": "Privacy and Personally Identifiable Information Program",
+      "shortTitle": "PII Order",
+      "category": "Admin",
+      "keywords": ["pii", "privacy", "personal information", "ssn", "phi", "breach"]
+    },
+    {
+      "id": "mco-5210-11",
+      "type": "MCO",
+      "number": "5210.11F",
+      "title": "Marine Corps Records Management Program",
+      "shortTitle": "Records Management Order",
+      "category": "Admin",
+      "keywords": ["records", "management", "retention", "disposition", "filing"]
+    },
+    {
+      "id": "mco-5530-14",
+      "type": "MCO",
+      "number": "5530.14A",
+      "title": "Marine Corps Physical Security Program",
+      "shortTitle": "Physical Security Order",
+      "category": "Operations",
+      "keywords": ["physical security", "access control", "badge", "locks", "intrusion"]
+    },
+    {
+      "id": "mco-5580-2",
+      "type": "MCO",
+      "number": "5580.2B",
+      "title": "Law Enforcement Manual",
+      "shortTitle": "PMO Manual",
+      "category": "Legal",
+      "keywords": ["pmo", "military police", "law enforcement", "apprehension", "incident"]
+    },
+    {
+      "id": "mco-5585-5",
+      "type": "MCO",
+      "number": "5585.5",
+      "title": "Marine Corps Corrections Manual",
+      "shortTitle": "Corrections Manual",
+      "category": "Legal",
+      "keywords": ["brig", "corrections", "confinement", "prisoner", "detention"]
+    },
+    {
+      "id": "mco-11240-106",
+      "type": "MCO",
+      "number": "11240.106B",
+      "title": "Marine Corps Motor Transport Operations",
+      "shortTitle": "Motor-T Order",
+      "category": "Operations",
+      "keywords": ["motor-t", "vehicle", "dispatch", "license", "driver", "transportation"]
+    },
+    {
+      "id": "mco-11240-66",
+      "type": "MCO",
+      "number": "11240.66D",
+      "title": "Marine Corps Driver Improvement Program",
+      "shortTitle": "Driver Program Order",
+      "category": "Safety",
+      "keywords": ["driver", "improvement", "license", "accident", "citation"]
+    },
+    {
+      "id": "mco-3400-3",
+      "type": "MCO",
+      "number": "3400.3G",
+      "title": "Individual Training Standards",
+      "shortTitle": "ITS Order",
+      "category": "Training",
+      "keywords": ["its", "individual training", "standards", "mos", "task"]
+    },
+    {
+      "id": "mco-3500-72",
+      "type": "MCO",
+      "number": "3500.72B",
+      "title": "Marine Corps Combat Hunter Program",
+      "shortTitle": "Combat Hunter Order",
+      "category": "Training",
+      "keywords": ["combat hunter", "tracking", "observation", "profiling"]
+    },
+    {
+      "id": "mco-3570-1",
+      "type": "MCO",
+      "number": "3570.1C",
+      "title": "Range Safety",
+      "shortTitle": "Range Safety Order",
+      "category": "Safety",
+      "keywords": ["range", "safety", "live fire", "qualification", "oic", "rso"]
+    },
+    {
+      "id": "mco-3100-4",
+      "type": "MCO",
+      "number": "3100.4A",
+      "title": "Marine Corps Deployment Planning",
+      "shortTitle": "Deployment Order",
+      "category": "Operations",
+      "keywords": ["deployment", "oplan", "udp", "mef", "sda"]
+    },
+    {
+      "id": "secnavinst-1752-4",
+      "type": "SECNAVINST",
+      "number": "1752.4C",
+      "title": "Sexual Assault Prevention and Response",
+      "shortTitle": "DON SAPR",
+      "category": "Legal",
+      "keywords": ["sapr", "sexual assault", "response", "prevention", "dod"]
+    },
+    {
+      "id": "secnavinst-5300-28",
+      "type": "SECNAVINST",
+      "number": "5300.28F",
+      "title": "Military Equal Opportunity Program",
+      "shortTitle": "DON MEO",
+      "category": "Personnel",
+      "keywords": ["meo", "equal opportunity", "discrimination", "harassment"]
+    },
+    {
+      "id": "secnavinst-5510-30",
+      "type": "SECNAVINST",
+      "number": "5510.30C",
+      "title": "DON Personnel Security Program",
+      "shortTitle": "DON Personnel Security",
+      "category": "Intelligence",
+      "keywords": ["personnel security", "clearance", "investigation", "adjudication"]
+    },
+    {
+      "id": "secnavinst-5510-36",
+      "type": "SECNAVINST",
+      "number": "5510.36B",
+      "title": "DON Information Security Program",
+      "shortTitle": "DON Info Security",
+      "category": "Intelligence",
+      "keywords": ["information security", "classification", "marking", "handling", "spillage"]
+    },
+    {
+      "id": "secnavinst-1920-6",
+      "type": "SECNAVINST",
+      "number": "1920.6D",
+      "title": "Administrative Separation of Officers",
+      "shortTitle": "Officer Separation",
+      "category": "Personnel",
+      "keywords": ["officer", "separation", "resignation", "discharge", "board"]
+    },
+    {
+      "id": "secnavinst-1850-4",
+      "type": "SECNAVINST",
+      "number": "1850.4F",
+      "title": "Department of the Navy Disability Evaluation System",
+      "shortTitle": "DES Order",
+      "category": "Medical",
+      "keywords": ["des", "disability", "peb", "meb", "medical board", "evaluation"]
+    },
+    {
+      "id": "secnavinst-1412-6",
+      "type": "SECNAVINST",
+      "number": "1412.6M",
+      "title": "Officer Promotion Reports and Reports Fitness",
+      "shortTitle": "FITREP Instruction",
+      "category": "Personnel",
+      "keywords": ["fitrep", "fitness report", "officer", "evaluation", "promotion"]
+    },
+    {
+      "id": "secnavinst-5720-44",
+      "type": "SECNAVINST",
+      "number": "5720.44C",
+      "title": "DON Public Affairs Policy",
+      "shortTitle": "Public Affairs",
+      "category": "Admin",
+      "keywords": ["public affairs", "media", "release", "interview", "social media"]
+    },
+    {
+      "id": "secnavinst-1770-3",
+      "type": "SECNAVINST",
+      "number": "1770.3E",
+      "title": "Casualty Assistance Calls Program",
+      "shortTitle": "CACO Program",
+      "category": "Personnel",
+      "keywords": ["caco", "casualty", "notification", "assistance", "nok"]
+    },
+    {
+      "id": "dod-5500-7r",
+      "type": "DoD",
+      "number": "5500.07-R",
+      "title": "Joint Ethics Regulation",
+      "shortTitle": "JER",
+      "category": "Legal",
+      "keywords": ["ethics", "gift", "conflict of interest", "financial disclosure", "post employment"]
+    },
+    {
+      "id": "dod-5200-01",
+      "type": "DoD",
+      "number": "5200.01",
+      "title": "DoD Information Security Program",
+      "shortTitle": "Info Security Program",
+      "category": "Intelligence",
+      "keywords": ["classification", "marking", "handling", "cui", "secret", "confidential"]
+    },
+    {
+      "id": "dod-5200-02",
+      "type": "DoD",
+      "number": "5200.02",
+      "title": "DoD Personnel Security Program",
+      "shortTitle": "Personnel Security Program",
+      "category": "Intelligence",
+      "keywords": ["clearance", "investigation", "adjudication", "suitability", "national security"]
+    },
+    {
+      "id": "dod-8570-01m",
+      "type": "DoD",
+      "number": "8570.01-M",
+      "title": "Information Assurance Workforce Improvement Program",
+      "shortTitle": "IA Workforce",
+      "category": "Communications",
+      "keywords": ["ia", "certification", "security+", "comptia", "cissp", "cyber"]
+    },
+    {
+      "id": "dod-1327-06",
+      "type": "DoD",
+      "number": "1327.06",
+      "title": "Leave and Liberty Policy",
+      "shortTitle": "DoD Leave Policy",
+      "category": "Personnel",
+      "keywords": ["leave", "liberty", "absence", "sellback", "terminal"]
+    },
+    {
+      "id": "dod-1400-25",
+      "type": "DoD",
+      "number": "1400.25",
+      "title": "DoD Civilian Personnel Management",
+      "shortTitle": "Civilian Personnel",
+      "category": "Admin",
+      "keywords": ["civilian", "gs", "wg", "personnel", "hiring", "hr"]
+    },
+    {
+      "id": "navyregs-1137",
+      "type": "U.S. Navy Regulations",
+      "number": "Article 1137",
+      "title": "Fraternization",
+      "shortTitle": "Fraternization",
+      "category": "Legal",
+      "keywords": ["fraternization", "relationship", "officer", "enlisted", "prohibited"]
+    },
+    {
+      "id": "navyregs-1104",
+      "type": "U.S. Navy Regulations",
+      "number": "Article 1104",
+      "title": "Responsibility of Seniors",
+      "shortTitle": "Senior Responsibility",
+      "category": "Legal",
+      "keywords": ["senior", "responsibility", "authority", "supervision", "command"]
+    },
+    {
+      "id": "navyregs-1109",
+      "type": "U.S. Navy Regulations",
+      "number": "Article 1109",
+      "title": "Authority in a Boat",
+      "shortTitle": "Boat Authority",
+      "category": "Operations",
+      "keywords": ["boat", "coxswain", "authority", "naval vessel"]
+    },
+    {
+      "id": "navyregs-0802",
+      "type": "U.S. Navy Regulations",
+      "number": "Article 0802",
+      "title": "Authority of a Commanding Officer",
+      "shortTitle": "CO Authority",
+      "category": "Legal",
+      "keywords": ["commanding officer", "authority", "command", "responsibility"]
+    },
+    {
+      "id": "navmc-2691",
+      "type": "NAVMC",
+      "number": "2691",
+      "title": "USMC Fitness Report",
+      "shortTitle": "FITREP Form",
+      "category": "Personnel",
+      "keywords": ["fitrep", "fitness report", "form", "evaluation", "navmc"]
+    },
+    {
+      "id": "navmc-10274",
+      "type": "NAVMC",
+      "number": "10274",
+      "title": "Counseling Record",
+      "shortTitle": "Counseling Form",
+      "category": "Personnel",
+      "keywords": ["counseling", "6105", "page 11", "adverse", "form"]
+    },
+    {
+      "id": "navmc-118",
+      "type": "NAVMC",
+      "number": "118",
+      "title": "Chronological Record",
+      "shortTitle": "Unit Diary",
+      "category": "Admin",
+      "keywords": ["unit diary", "diary", "muster", "gains", "losses", "118"]
+    },
+    {
+      "id": "mco-5000-14",
+      "type": "MCO",
+      "number": "5000.14B",
+      "title": "Marine Corps Values-Based Leadership Program",
+      "shortTitle": "Ethics Order",
+      "category": "Training",
+      "keywords": ["ethics", "values", "leadership", "integrity", "honor"]
+    },
+    {
+      "id": "mco-1700-27",
+      "type": "MCO",
+      "number": "1700.27B",
+      "title": "Suicide Prevention Program",
+      "shortTitle": "Suicide Prevention",
+      "category": "Medical",
+      "keywords": ["suicide", "prevention", "mental health", "intervention", "awareness"]
+    },
+    {
+      "id": "mco-1700-28",
+      "type": "MCO",
+      "number": "1700.28B",
+      "title": "Transition Readiness Program",
+      "shortTitle": "TRS Order",
+      "category": "Personnel",
+      "keywords": ["trs", "transition", "tap", "separation", "employment", "va"]
+    },
+    {
+      "id": "mco-1700-29",
+      "type": "MCO",
+      "number": "1700.29E",
+      "title": "Marine Corps Personal and Professional Development Program",
+      "shortTitle": "PPD Order",
+      "category": "Training",
+      "keywords": ["ppd", "personal development", "professional development", "mentoring"]
+    },
+    {
+      "id": "mco-1800-1",
+      "type": "MCO",
+      "number": "1800.1A",
+      "title": "Marine Corps Reserve Administrative Management Manual",
+      "shortTitle": "MCRAMM",
+      "category": "Personnel",
+      "keywords": ["reserve", "iir", "smcr", "drill", "at", "mobilization"]
+    },
+    {
+      "id": "mco-3502-6",
+      "type": "MCO",
+      "number": "3502.6A",
+      "title": "Marine Corps Force-on-Force Training",
+      "shortTitle": "Force-on-Force Order",
+      "category": "Training",
+      "keywords": ["force on force", "simunition", "blank", "miles", "training"]
+    },
+    {
+      "id": "mco-3504-1",
+      "type": "MCO",
+      "number": "3504.1A",
+      "title": "Marine Corps Pre-deployment Training Program",
+      "shortTitle": "PTP Order",
+      "category": "Training",
+      "keywords": ["ptp", "pre-deployment", "workup", "deployment", "itx", "mojave viper"]
+    },
+    {
+      "id": "mco-6200-1",
+      "type": "MCO",
+      "number": "6200.1E",
+      "title": "Marine Corps Veterinary Services",
+      "shortTitle": "Veterinary Order",
+      "category": "Medical",
+      "keywords": ["veterinary", "mwd", "military working dog", "k9", "food inspection"]
+    },
+    {
+      "id": "mco-6320-6",
+      "type": "MCO",
+      "number": "6320.6",
+      "title": "Marine Corps Medical Readiness Program",
+      "shortTitle": "Medical Readiness",
+      "category": "Medical",
+      "keywords": ["medical readiness", "deployment health", "physical", "dental", "immunization"]
+    },
+    {
+      "id": "mco-1520-11",
+      "type": "MCO",
+      "number": "1520.11G",
+      "title": "Marine Corps Officer Professional Development",
+      "shortTitle": "Officer PME Order",
+      "category": "Training",
+      "keywords": ["officer pme", "tbs", "ioc", "eac", "war college", "amphibious"]
+    },
+    {
+      "id": "opnavinst-1160-8",
+      "type": "OPNAVINST",
+      "number": "1160.8B",
+      "title": "Selective Reenlistment Bonus Program",
+      "shortTitle": "SRB Program",
+      "category": "Personnel",
+      "keywords": ["srb", "bonus", "reenlistment", "selective", "zone"]
+    },
+    {
+      "id": "opnavinst-5350-4",
+      "type": "OPNAVINST",
+      "number": "5350.4D",
+      "title": "Navy Alcohol and Drug Abuse Prevention",
+      "shortTitle": "Navy DAPA",
+      "category": "Medical",
+      "keywords": ["dapa", "drug", "alcohol", "substance abuse", "urinalysis"]
+    },
+    {
+      "id": "opnavinst-6110-1",
+      "type": "OPNAVINST",
+      "number": "6110.1J",
+      "title": "Physical Readiness Program",
+      "shortTitle": "Navy PRT",
+      "category": "Fitness",
+      "keywords": ["prt", "physical readiness", "navy fitness", "bca", "body composition"]
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-# LIBO-SECURED
+# Naval Correspondence Generator
 
 > "Libo isn't secured until the paperwork is done."
 
@@ -6,15 +6,15 @@
 [![MCO 5216.20B](https://img.shields.io/badge/MCO-5216.20B-red)](https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/899678/mco-521620/)
 [![NIST 800-171](https://img.shields.io/badge/NIST-800--171-green)](https://csrc.nist.gov/publications/detail/sp/800-171/rev-2/final)
 
-**LIBO-SECURED** is a browser-based military correspondence generator that produces publication-quality documents compliant with **SECNAV M-5216.5** (Department of the Navy Correspondence Manual) and **MCO 5216.20B** (Marine Corps Supplement).
+**Naval Correspondence Generator** is a browser-based military correspondence generator that produces publication-quality documents compliant with **SECNAV M-5216.5** (Department of the Navy Correspondence Manual) and **MCO 5216.20B** (Marine Corps Supplement).
 
 **All processing happens locally in your browser - no data is ever sent to any server.**
 
 ---
 
-## Why LIBO-SECURED?
+## Why Naval Correspondence Generator?
 
-| Feature | LIBO-SECURED | Competitor A | Competitor B |
+| Feature | Naval Corr Gen | navalletterformat.com | naval-letter-formatter |
 |---------|:------------:|:------------:|:------------:|
 | **Unit Database** | **3,139 units** | 3,688 entries* | 230 units |
 | **SSIC Codes** | **2,240 unique** | 2,710 entries* | 2,240 codes |
@@ -22,25 +22,46 @@
 | **Letter Templates** | **38 templates** | 3 templates | 37 templates |
 | **Office Codes** | **74 codes** | No | 74 codes |
 | **Document Types** | **17 types** | 2 types | 3 types |
-| **PDF Engine** | **LaTeX (publication quality)** | React-PDF | jsPDF |
+| **PDF Engine** | **LaTeX (publication quality)** | jsPDF | @react-pdf/renderer |
+| **Live PDF Preview** | **Yes (1.5s debounce)** | Yes (750ms debounce) | No (export only) |
 | **DOCX Export** | **Yes** | Yes | Yes |
 | **Digital Signature Fields** | **Yes (CAC/PIV)** | Yes (CAC/PKI) | No |
 | **PII/PHI Detection** | **Yes** | No | No |
 | **Classification/CUI/Portion Markings** | **Full support (6 levels)** | None | Limited (U/CUI/FOUO) |
+| **Batch Generation with Variables** | **Yes (28 placeholders)** | No | Yes (basic) |
 | **Keyboard Shortcuts** | **10 shortcuts** | None | 8 shortcuts |
 | **Dark Mode** | **Yes** | No | Yes |
+| **UI Density Modes** | **Yes (3 modes)** | No | No |
+| **Color Schemes** | **Yes (3 schemes)** | No | No |
 | **Undo/Redo** | **Yes (50 levels)** | No | Yes (50 levels) |
 | **Find & Replace** | **Yes** | No | No |
-| **Batch Generation** | **Yes** | No | Yes |
 | **Drag & Drop Reordering** | **Yes** | No | Yes |
 | **Voice Recognition** | No | **Yes** | No |
 | **EDMS Integration** | No | **Yes (Supabase)** | No |
-| **PWA/Offline Mode** | No | No | **Yes** |
-| **100% Client-Side** | **Yes** | Partial | Yes |
+| **PWA/Offline Mode** | **Yes** | No | Yes |
+| **100% Client-Side** | **Yes** | Partial (cloud storage) | Yes |
 | **Air-Gap Compatible** | **Yes** | No | Yes |
 | **Mobile Responsive** | **Yes** | Yes | Partial |
 
-*\*Competitor A counts include duplicates. Actual unique data: 2,874 units, 2,144 SSIC codes. LIBO contains all unique Competitor A data plus 171 additional units.*
+*\*navalletterformat.com counts include duplicates. Actual unique data: 2,874 units, 2,144 SSIC codes. Naval Correspondence Generator contains all unique competitor data plus 171 additional units.*
+
+### Competitor Analysis
+
+| Aspect | Naval Corr Gen | navalletterformat.com | naval-letter-formatter |
+|--------|----------------|----------------------|------------------------|
+| **PDF Quality** | Publication-quality (LaTeX) | Basic (jsPDF) | Good (@react-pdf) |
+| **Preview Speed** | ~1.5s (WebAssembly LaTeX) | Instant (jsPDF) | None (export only) |
+| **Typography** | Professional kerning, ligatures | Basic font rendering | Standard rendering |
+| **Enclosures** | Full PDF merging | Basic attachment | Limited support |
+| **Architecture** | React + Zustand + WebAssembly | React + Supabase | React + Context |
+
+**Why we chose LaTeX over jsPDF:**
+- Publication-quality typography matching official military publications
+- Proper kerning, ligatures, and spacing per SECNAV specifications
+- Complex document layouts (endorsements, multiple signatures)
+- Pixel-perfect reproduction of official formats
+
+**Trade-off:** LaTeX compilation takes ~1.5s vs instant jsPDF, but produces significantly higher quality output suitable for official correspondence.
 
 ---
 
@@ -119,18 +140,21 @@
 - **Real-time PDF Preview** - See your document as you type (1.5s debounce)
 - **17 Document Types** - Letters, memoranda, endorsements, and agreements
 - **SECNAV M-5216.5 Compliant** - Automatic formatting per Navy/Marine Corps regulations
-- **Offline Capable** - Works entirely in your browser with no server required
+- **PWA/Offline Mode** - Install as an app and work offline with cached TeX Live packages
+- **Compliant vs Custom Modes** - Strict regulation mode or customizable fonts and formatting
 
 ### Document Management
 - **Profiles System** - Save and reuse unit information and signature images
 - **Template Library** - 38 pre-built letter templates for common correspondence
+- **Clear Fields** - Reset all content while preserving letterhead for quick new document creation
 - **Reference Library** - 107 searchable military references with one-click insert
 - **Unit Directory** - 3,139 units searchable by name, abbreviation, MCC, or location
 - **Office Codes** - 74 standard military position codes for signature blocks
 - **SSIC Lookup** - 2,240 codes searchable by number or description
-- **Batch Generation** - Generate multiple documents using {{placeholder}} syntax
+- **Batch Generation** - Generate multiple documents with 28 built-in placeholders and Insert Variable button
 - **Find & Replace** - Search and replace text across your document
 - **Undo/Redo** - 50-level history with keyboard shortcuts
+- **Document Statistics** - Real-time word count, character count, paragraph count
 
 ### Security Features
 - **PII/PHI Detection** - Pre-download warning for sensitive data:
@@ -152,6 +176,37 @@
 - **Copy To/Distribution** - Standard distribution list support
 - **Signature Images** - Upload and embed your signature
 - **Drag & Drop** - Reorder paragraphs, references, and enclosures
+
+### User Experience
+- **Welcome Modal** - Interactive onboarding with feature highlights and rotating tips
+- **Browser Compatibility Detection** - Warns users in in-app browsers (Google, Facebook, Instagram, Twitter, LinkedIn) about limited functionality
+- **Mobile Responsive** - Hamburger menu, touch-friendly controls, full-screen preview on mobile
+- **Installable PWA** - Add to home screen for native app-like experience
+
+### Batch Generation
+Generate multiple personalized documents from a single template using the **Insert Variable** button or `{{PLACEHOLDER}}` syntax.
+
+**28 Built-in Placeholders across 6 categories:**
+
+| Category | Placeholders |
+|----------|-------------|
+| **Subject** | NAME, LAST_NAME, FIRST_NAME, MI, RANK, RANK_NAME, EDIPI, MOS, BILLET |
+| **2nd Person** | NAME_2, RANK_2, RANK_NAME_2, BILLET_2 |
+| **3rd Person** | NAME_3, RANK_3, RANK_NAME_3, BILLET_3 |
+| **Dates** | DATE, EVENT_DATE, START_DATE, END_DATE, TIME |
+| **Contact** | EMAIL, PHONE, ADDRESS, UNIT, LOCATION |
+| **Document** | SERIAL, CASE_NUM, AMOUNT, REASON, AWARD, COURSE, CHARGE |
+
+**Use Cases for S-1/Admin:**
+- Awards packages (NAME, RANK, AWARD, REASON)
+- Counseling/disciplinary (NAME, CHARGE, EVENT_DATE, NAME_2 for witness)
+- Training requests (NAME, COURSE, START_DATE, END_DATE)
+- Mass notifications (NAME, RANK_NAME, EMAIL, UNIT)
+- Multi-party documents (subject, witness, reviewing officer)
+
+**Preview Support:** Placeholders display as highlighted yellow boxes in the PDF preview so you can see where variables will be inserted.
+
+**Excel/CSV Import:** Upload a spreadsheet with columns matching placeholder names to generate documents for each row.
 
 ---
 
@@ -210,7 +265,7 @@ Privacy, Proprietary, Legal, Law Enforcement, Export Control, Financial, Intelli
 Apply per-paragraph markings: **(U)**, **(CUI)**, **(FOUO)**, **(C)**, **(S)**, **(TS)**
 
 ### PII/PHI Detection
-Before downloading, LIBO-SECURED scans for:
+Before downloading, Naval Correspondence Generator scans for:
 - Social Security Numbers (XXX-XX-XXXX)
 - EDIPI/DoD ID Numbers (10-digit)
 - Dates of Birth
@@ -241,11 +296,14 @@ PDF output includes empty signature fields compatible with:
 | Batch | Generate multiple documents | - |
 | Find & Replace | Search and replace text | Ctrl+H |
 | Keyboard | View all shortcuts | - |
+| Density | Compact / Comfortable / Spacious | - |
+| Color | Default / Navy / USMC schemes | - |
 | Theme | Toggle dark/light mode | - |
 
 ### Editor Panel (Left)
 - **Profile Bar** - Quick profile selector with unit lookup
-- **Document Type** - 17 correspondence formats
+- **Mode Toggle** - Switch between Compliant (strict SECNAV) and Custom (flexible) modes
+- **Document Type** - 17 correspondence formats with **Clear Fields** button to reset content while preserving letterhead
 - **Letterhead** - Unit name, address, seal type
 - **Addressing** - From, To, Via, Subject
 - **Classification** - Security markings and CUI settings
@@ -254,11 +312,18 @@ PDF output includes empty signature fields compatible with:
 - **Enclosures** - PDF attachments with cover pages
 - **Copy To** - Distribution list
 - **Signature** - Signatory information and image
+- **Document Statistics** - Word/character/paragraph counts
 
 ### Preview Panel (Right)
 - Real-time PDF preview
 - Loading indicator during compilation
 - Error messages for troubleshooting
+
+### UI Customization
+- **3 Density Modes** - Compact (power users), Comfortable (default), Spacious (touch/accessibility)
+- **3 Color Schemes** - Default (neutral), Navy (blue tones), USMC (red/gold accents)
+- **Dark/Light Mode** - System-aware with manual toggle
+- **Persistent Preferences** - Settings saved to browser localStorage
 
 ### Mobile Support
 - Responsive header with hamburger menu
@@ -289,18 +354,25 @@ PDF output includes empty signature fields compatible with:
 
 ### Frontend
 - **React 19** with TypeScript
-- **Zustand** for state management
-- **Tailwind CSS** with shadcn/ui components
+- **Zustand 5** for state management
+- **Tailwind CSS 4** with shadcn/ui components
 - **dnd-kit** for drag and drop
+- **Vite 7** for build tooling
 
 ### Document Generation
 - **SwiftLaTeX** - WebAssembly LaTeX compiler for publication-quality PDFs
 - **pdf-lib** - PDF manipulation (enclosures, signatures, metadata)
 - **docx** - Microsoft Word document generation
+- **react-pdf-viewer** - In-browser PDF preview
 
 ### Data Processing
 - **date-fns** - Military date formatting (4 Jan 26)
 - **TipTap** - Rich text editing
+- **react-day-picker** - Date selection
+
+### Progressive Web App
+- **vite-plugin-pwa** - Service worker for offline support
+- **Workbox** - Intelligent caching for TeX Live packages
 
 ---
 
@@ -312,7 +384,6 @@ PDF output includes empty signature fields compatible with:
 
 ### Installation
 ```bash
-cd web-react
 npm install
 ```
 
@@ -329,42 +400,49 @@ npm run build
 ### Project Structure
 ```
 libo-secured/
-├── tex/                          # LaTeX source templates
+├── tex/                          # LaTeX source templates (standalone)
 │   ├── main.tex                  # Main template
 │   └── templates/                # Document type templates
-└── web-react/
-    ├── public/
-    │   ├── attachments/          # Seal images
-    │   └── lib/
-    │       ├── PdfTeXEngine.js   # LaTeX engine
-    │       ├── latex-templates.js
-    │       └── texlive/          # TeX Live files
-    └── src/
-        ├── components/
-        │   ├── editor/           # Form components
-        │   ├── layout/           # Page layout
-        │   ├── modals/           # Modal dialogs
-        │   └── ui/               # shadcn/ui components
-        ├── data/                 # Units, SSIC, references
-        ├── services/
-        │   ├── docx/             # Word generation
-        │   ├── latex/            # LaTeX generation
-        │   ├── pdf/              # PDF processing
-        │   └── pii/              # PII detection
-        └── stores/               # Zustand stores
+├── public/
+│   ├── attachments/              # Seal images
+│   └── lib/
+│       ├── PdfTeXEngine.js       # LaTeX engine
+│       ├── latex-templates.js
+│       └── texlive/              # TeX Live files
+├── src/
+│   ├── components/
+│   │   ├── editor/               # Form components
+│   │   ├── layout/               # Page layout
+│   │   ├── modals/               # Modal dialogs
+│   │   └── ui/                   # shadcn/ui components
+│   ├── data/                     # Units, SSIC, references
+│   ├── hooks/                    # Custom React hooks
+│   ├── lib/                      # Utility libraries
+│   ├── services/
+│   │   ├── docx/                 # Word generation
+│   │   ├── latex/                # LaTeX generation
+│   │   ├── pdf/                  # PDF processing
+│   │   └── pii/                  # PII detection
+│   ├── stores/                   # Zustand stores
+│   └── types/                    # TypeScript types
+├── index.html                    # Entry point
+├── package.json                  # Dependencies
+├── vite.config.ts                # Vite config
+└── Makefile                      # Build commands
 ```
 
 ---
 
 ## NIST 800-171 Compliance
 
-LIBO-SECURED is designed for information security:
+Naval Correspondence Generator is designed for information security:
 
 - **Local Processing** - All data stays in your browser
 - **No Server Communication** - Documents never leave your device
 - **No Telemetry** - No tracking or analytics
 - **Air-Gap Compatible** - Works on isolated networks (SIPR/JWICS)
 - **CUI Support** - Proper marking for Controlled Unclassified Information
+- **PWA Offline Mode** - Install as an app; TeX Live packages cached locally for offline use
 
 **Note:** Users are responsible for handling classified information according to their organization's security policies.
 
@@ -375,6 +453,12 @@ LIBO-SECURED is designed for information security:
 **Q: Does this work on NMCI computers?**
 A: Yes. It's a standard webpage that works in any modern browser. No installation required.
 
+**Q: Can I install this as an app?**
+A: Yes. Naval Correspondence Generator is a Progressive Web App (PWA). Click "Install" in your browser or use "Add to Home Screen" on mobile. Once installed, it works offline.
+
+**Q: Does it work offline?**
+A: Yes. After the first visit, the app caches all necessary files including the TeX Live packages. You can generate documents without an internet connection.
+
 **Q: Can I use this for classified correspondence?**
 A: The tool formats documents but does not provide security controls for classified data. Use appropriate systems for classified information.
 
@@ -383,6 +467,9 @@ A: Everything runs in your browser. Nothing is transmitted to any server. Data c
 
 **Q: Why LaTeX instead of jsPDF?**
 A: LaTeX produces publication-quality output with proper kerning, ligatures, and typography that matches official military publications.
+
+**Q: Why does it warn me about my browser?**
+A: If you're viewing in an in-app browser (Google App, Facebook, Instagram, etc.), some features like PDF downloads may not work. Open in Safari, Chrome, Firefox, or Edge for full functionality.
 
 ---
 

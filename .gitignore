@@ -66,9 +66,15 @@ Desktop.ini
 # Claude Code
 .claude/
 
-# Node (if ever added)
+# Node / Vite
 node_modules/
+dist/
+dist-ssr/
+*.local
 npm-debug.log
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
 # Python (if ever added)
 __pycache__/

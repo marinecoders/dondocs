@@ -21,17 +21,14 @@
 
 \newcommand{\printDateAndTitle}{%
     \begingroup
+    \applyDocumentFontSize
     \raggedleft
     % Optional "IN REPLY REFER TO" line per SECNAV M-5216.5 App C, Para 1.a
     \ifInReplyEnabled
         {\fontsize{5pt}{6pt}\selectfont IN REPLY REFER TO}\\
     \fi
-    \ifx\DocumentSSIC\empty\else
-        \DocumentSSIC\\
-    \fi
-    \ifx\DocumentSerial\empty\else
-        \DocumentSerial\\
-    \fi
+    \ifdefempty{\DocumentSSIC}{}{\DocumentSSIC\\}%
+    \ifdefempty{\DocumentSerial}{}{\DocumentSerial\\}%
     \DocumentDate\par
     \endgroup
 }
@@ -51,6 +48,7 @@
 \newcommand{\printAddressBlock}{%
     \begingroup
     \singlespacing
+    \applyDocumentFontSize
     \noindent
     % Build Via rows into a macro before the tabular
     \def\@viarows{}%
@@ -121,7 +119,10 @@
             }%
         \fi
         % Required: Use abbreviated format (J. M. LASTNAME) if set, otherwise full name
-        \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev\\}{\MakeUppercase{\SignatoryName}\\}%
+        % Only print name line if there's actually a name
+        \ifdefempty{\SignatoryAbbrev}{%
+            \ifdefempty{\SignatoryName}{}{\MakeUppercase{\SignatoryName}\\}%
+        }{\SignatoryAbbrev\\}%
         % Optional: By direction authority line (e.g., "By direction")
         \optionalField{\ByDirection}%
     \end{minipage}

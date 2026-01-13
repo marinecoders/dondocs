@@ -216,7 +216,9 @@
 %=============================================================================
 %
 % SECNAV M-5216.5:
-%   Chapter 2-20: "Courier New 12-point is the preferred font style and size"
+%   Chapter 2-20: "Times New Roman 12-point is the preferred font style and size
+%                 for official correspondence, but Courier New may be used for
+%                 informal correspondence."
 %   Chapter 7-2(1): "Do not right, center, or full justify text"
 %
 %=============================================================================
@@ -236,7 +238,18 @@
     }{%
         \renewcommand{\familydefault}{\ttdefault}%
     }%
-    % Apply font size
+    % Apply font size by redefining \normalsize
+    % This ensures the size persists in tabular environments and after groups
+    \ifthenelse{\equal{\FontSize}{10pt}}{%
+        \renewcommand{\normalsize}{\fontsize{10pt}{12pt}\selectfont}%
+    }{%
+        \renewcommand{\normalsize}{\fontsize{12pt}{14.4pt}\selectfont}%
+    }%
+    \normalsize
+}
+
+% Direct font size application - use when \normalsize might be overridden
+\newcommand{\applyDocumentFontSize}{%
     \ifthenelse{\equal{\FontSize}{10pt}}{%
         \fontsize{10pt}{12pt}\selectfont%
     }{%
@@ -515,19 +528,24 @@
 % Options:
 %   dod - Department of Defense seal (current, default)
 %   dow - Department of War seal (historical, pre-1947)
+% Seal file is automatically selected based on letterhead color:
+%   blue (navyblue) -> color seal (dod-seal.png / dow-seal.png)
+%   black -> B&W seal (dod-seal-bw.png / dow-seal-bw.png)
 %=============================================================================
 
 \newcommand{\SealFile}{dod-seal.png}
+\newcommand{\SealType}{dod}
+\newcommand{\SealColorSuffix}{}
 
-% Set seal type - converts type name to filename
+% Set seal type (dod or dow)
 \newcommand{\setSealType}[1]{%
-    \def\temp{#1}%
-    \def\dowtype{dow}%
-    \ifx\temp\dowtype
-        \renewcommand{\SealFile}{dow-seal.png}%
-    \else
-        \renewcommand{\SealFile}{dod-seal.png}%
-    \fi
+    \renewcommand{\SealType}{#1}%
+    \updateSealFile
+}
+
+% Update seal file based on seal type and color suffix
+\newcommand{\updateSealFile}{%
+    \edef\SealFile{\SealType-seal\SealColorSuffix.png}%
 }
 
 %=============================================================================
@@ -538,6 +556,27 @@
 
 \newcommand{\Department}{usmc}
 \newcommand{\setDepartment}[1]{\renewcommand{\Department}{#1}}
+
+
+%=============================================================================
+%                    LETTERHEAD COLOR CONFIGURATION
+%=============================================================================
+% Options: blue (default, PMS 288 navy blue) or black
+%=============================================================================
+
+\newcommand{\LetterheadColor}{navyblue}
+\newcommand{\setLetterheadColor}[1]{%
+    \def\temp{#1}%
+    \def\blacktype{black}%
+    \ifx\temp\blacktype
+        \renewcommand{\LetterheadColor}{black}%
+        \renewcommand{\SealColorSuffix}{-bw}%
+    \else
+        \renewcommand{\LetterheadColor}{navyblue}%
+        \renewcommand{\SealColorSuffix}{}%
+    \fi
+    \updateSealFile
+}
 
 
 %=============================================================================
@@ -741,15 +780,18 @@
     \end{textblock*}%
     \begin{textblock*}{4in}(2.25in, 0.625in)%
         \centering
+        % Per SECNAV M-5216.5 App C \S2a (Computer Generated Letterhead):
+        % First line: 10pt bold in document font
+        % Address lines: 8pt in document font
+        % Color: \LetterheadColor (blue or black)
         \usefont{\encodingdefault}{\familydefault}{\seriesdefault}{\shapedefault}%
         \fontsize{10pt}{11pt}\selectfont
-        \textcolor{navyblue}{\textbf{UNITED STATES MARINE CORPS}}\\
+        \textcolor{\LetterheadColor}{\textbf{UNITED STATES MARINE CORPS}}\\
         \fontsize{8pt}{9pt}\selectfont
-        \textcolor{navyblue}{\UnitName}\\
-        \textcolor{navyblue}{\UnitLineTwo}\\
-        \fontsize{6pt}{7pt}\selectfont
-        \textcolor{navyblue}{\UnitLineThree}\\
-        \textcolor{navyblue}{\UnitLineFour}
+        \textcolor{\LetterheadColor}{\UnitName}\\
+        \textcolor{\LetterheadColor}{\UnitLineTwo}\\
+        \textcolor{\LetterheadColor}{\UnitLineThree}\\
+        \textcolor{\LetterheadColor}{\UnitLineFour}
     \end{textblock*}%
     \vspace*{0.5in}%
 }
@@ -794,6 +836,21 @@
         }%
     \else
         (#1) #2\\%
+    \fi
+}
+\makeatother
+
+% Reference link for body text: "reference (a)" becomes clickable when hyperlinks enabled
+\makeatletter
+\newcommand{\reflink}[1]{%
+    \ifhyperlinks
+        \@ifundefined{ref@url@#1}{%
+            reference~(#1)%
+        }{%
+            \href{\csname ref@url@#1\endcsname}{\textcolor{blue}{reference~(#1)}}%
+        }%
+    \else
+        reference~(#1)%
     \fi
 }
 \makeatother
@@ -929,8 +986,8 @@
                     % Check if this is JSPDF marker (JS will append actual PDF)
                     % Using \pdfstrcmp for reliable string comparison (returns 0 if equal)
                     \ifnum\pdfstrcmp{\currentfile}{JSPDF}=0
-                        % JSPDF marker: JavaScript will append this PDF
-                        % Do NOT create placeholder - JS handles it
+                        % JSPDF marker: JavaScript handles this enclosure
+                        % JS will update hyperlink destinations to point to appended pages
                     \else
                         % Include PDF with proper SECNAV enclosure marking
                         % (Note: SwiftLaTeX doesn't support \includepdf)
@@ -1048,7 +1105,7 @@
 }
 
 % =============================================================================
-% PARAGRAPH LEVELS PER SECNAV M-5216.5
+% PARAGRAPH LEVELS PER SECNAV M-5216.5 Ch 7 ¶13
 % Each level indents 0.25" from the previous
 % Level 1: 1. at 0", text at 0.25" (handled by body.tex directly)
 % Level 2: a. at 0.25", text at 0.5"
@@ -1056,15 +1113,20 @@
 % Level 4: (a) at 0.75", text at 1.0"
 % Levels 5-8: Same pattern with UNDERLINED numbers/letters
 %
+% SECNAV Ch 7 ¶13: "Do not indent the continuation lines of a subparagraph."
+% Implementation: Set leftmargin to continuation position, use itemindent
+% to push first line (with label) to proper text start position.
+%
 % NOTE: leftmargin is RELATIVE when nested. Since our JS generates flat
 % environments (not nested), we use absolute positions from page margin.
 % =============================================================================
 
-% Level 2 (JS level 1): a. at 0.25", text at 0.5"
+% Level 2 (JS level 1): a. at 0.25", text at 0.5", continuation at 0.25"
 \newlist{subpara}{enumerate}{1}
 \setlist[subpara,1]{
-    label     = \alph*.,
-    leftmargin = 0.5in,
+    label      = \alph*.,
+    leftmargin = 0.25in,
+    itemindent = 0.25in,
     labelwidth = 0.2in,
     labelsep   = 0.05in,
     itemsep    = 0pt,
@@ -1072,11 +1134,12 @@
     parsep     = 0pt
 }
 
-% Level 3 (JS level 2): (1) at 0.5", text at 0.75"
+% Level 3 (JS level 2): (1) at 0.5", text at 0.75", continuation at 0.5"
 \newlist{subsubpara}{enumerate}{1}
 \setlist[subsubpara,1]{
-    label     = (\arabic*),
-    leftmargin = 0.75in,
+    label      = (\arabic*),
+    leftmargin = 0.5in,
+    itemindent = 0.25in,
     labelwidth = 0.2in,
     labelsep   = 0.05in,
     itemsep    = 0pt,
@@ -1084,11 +1147,12 @@
     parsep     = 0pt
 }
 
-% Level 4 (JS level 3): (a) at 0.75", text at 1.0"
+% Level 4 (JS level 3): (a) at 0.75", text at 1.0", continuation at 0.75"
 \newlist{subsubsubpara}{enumerate}{1}
 \setlist[subsubsubpara,1]{
-    label     = (\alph*),
-    leftmargin = 1.0in,
+    label      = (\alph*),
+    leftmargin = 0.75in,
+    itemindent = 0.25in,
     labelwidth = 0.2in,
     labelsep   = 0.05in,
     itemsep    = 0pt,
@@ -1096,11 +1160,12 @@
     parsep     = 0pt
 }
 
-% Level 5 (JS level 4): underlined 1. at 1.0", text at 1.25"
+% Level 5 (JS level 4): underlined 1. at 1.0", text at 1.25", continuation at 1.0"
 \newlist{subsubsubsubpara}{enumerate}{1}
 \setlist[subsubsubsubpara,1]{
-    label     = \underline{\arabic*}.,
-    leftmargin = 1.25in,
+    label      = \underline{\arabic*}.,
+    leftmargin = 1.0in,
+    itemindent = 0.25in,
     labelwidth = 0.2in,
     labelsep   = 0.05in,
     itemsep    = 0pt,
@@ -1108,11 +1173,12 @@
     parsep     = 0pt
 }
 
-% Level 6 (JS level 5): underlined a. at 1.25", text at 1.5"
+% Level 6 (JS level 5): underlined a. at 1.25", text at 1.5", continuation at 1.25"
 \newlist{subsubsubsubsubpara}{enumerate}{1}
 \setlist[subsubsubsubsubpara,1]{
-    label     = \underline{\alph*}.,
-    leftmargin = 1.5in,
+    label      = \underline{\alph*}.,
+    leftmargin = 1.25in,
+    itemindent = 0.25in,
     labelwidth = 0.2in,
     labelsep   = 0.05in,
     itemsep    = 0pt,
@@ -1120,11 +1186,12 @@
     parsep     = 0pt
 }
 
-% Level 7 (JS level 6): underlined (1) at 1.5", text at 1.75"
+% Level 7 (JS level 6): underlined (1) at 1.5", text at 1.75", continuation at 1.5"
 \newlist{subsubsubsubsubsubpara}{enumerate}{1}
 \setlist[subsubsubsubsubsubpara,1]{
-    label     = \underline{(\arabic*)},
-    leftmargin = 1.75in,
+    label      = \underline{(\arabic*)},
+    leftmargin = 1.5in,
+    itemindent = 0.25in,
     labelwidth = 0.25in,
     labelsep   = 0.05in,
     itemsep    = 0pt,
@@ -1132,11 +1199,12 @@
     parsep     = 0pt
 }
 
-% Level 8 (JS level 7): underlined (a) at 1.75", text at 2.0"
+% Level 8 (JS level 7): underlined (a) at 1.75", text at 2.0", continuation at 1.75"
 \newlist{subsubsubsubsubsubsubpara}{enumerate}{1}
 \setlist[subsubsubsubsubsubsubpara,1]{
-    label     = \underline{(\alph*)},
-    leftmargin = 2.0in,
+    label      = \underline{(\alph*)},
+    leftmargin = 1.75in,
+    itemindent = 0.25in,
     labelwidth = 0.25in,
     labelsep   = 0.05in,
     itemsep    = 0pt,
@@ -1209,6 +1277,8 @@
 %=============================================================================
 
 \printLetterhead
+% Ensure font size is applied before address blocks
+\applyDocumentFontSize
 \printDateAndTitle
 \printAddressBlock
 \printReferences

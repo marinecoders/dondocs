@@ -1,0 +1,62 @@
+%%
+%% atbegshi.sty - Minimal stub for SwiftLaTeX
+%% Provides basic shipout hooks without complex picture environment handling
+%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{atbegshi}[2020/01/01 v1.0 SwiftLaTeX stub for atbegshi]
+
+%% Load required packages
+\RequirePackage{ltxcmds}
+
+%% Create the shipout box
+\newsavebox\AtBeginShipoutBox
+
+%% Simple hook storage
+\let\AtBegShi@HookFirst\@empty
+\let\AtBegShi@Hook\@empty
+
+%% No-op initialization
+\newcommand*{\AtBeginShipoutInit}{}
+
+%% Add to shipout hook (simplified - just stores for later)
+\newcommand{\AtBeginShipout}[1]{%
+  \g@addto@macro\AtBegShi@Hook{#1}%
+}
+
+%% First shipout hook
+\newcommand{\AtBeginShipoutFirst}[1]{%
+  \g@addto@macro\AtBegShi@HookFirst{#1}%
+}
+
+%% Next shipout only
+\newcommand{\AtBeginShipoutNext}[1]{%
+  \AtBeginShipout{#1}%
+}
+
+%% Discard shipout - no-op in this stub
+\newcommand{\AtBeginShipoutDiscard}{}
+
+%% Add content to shipout box - simplified versions
+\newcommand{\AtBeginShipoutAddToBox}[1]{}
+\newcommand{\AtBeginShipoutAddToBoxForeground}[1]{}
+
+%% Upper left positioning - simplified to no-op
+%% These would normally add content at absolute positions
+\newcommand{\AtBeginShipoutUpperLeft}[1]{}
+\newcommand{\AtBeginShipoutUpperLeftForeground}[1]{}
+
+%% Origin settings (not used in stub but defined for compatibility)
+\newdimen\AtBegShi@horigin
+\newdimen\AtBegShi@vorigin
+\AtBegShi@horigin=1in
+\AtBegShi@vorigin=1in
+
+%% Box dimensions
+\newcommand*{\AtBeginShipoutBoxHeight}{\the\ht\AtBeginShipoutBox}
+\newcommand*{\AtBeginShipoutBoxDepth}{\the\dp\AtBeginShipoutBox}
+\newcommand*{\AtBeginShipoutBoxWidth}{\the\wd\AtBeginShipoutBox}
+
+%% Original shipout
+\let\AtBeginShipoutOriginalShipout\shipout
+
+\endinput

@@ -1,0 +1,20 @@
+# Cloudflare Pages custom headers
+
+# WASM files need correct MIME type
+/*.wasm
+  Content-Type: application/wasm
+
+# TeX/LaTeX files - serve with correct MIME type and no caching to prevent stale responses
+/lib/texlive/*
+  Access-Control-Allow-Origin: *
+  Content-Type: text/plain
+
+# TeX internal files (like /tex/null) - force plain text and no caching
+/tex/*
+  Access-Control-Allow-Origin: *
+  Content-Type: text/plain
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# Enable CORS for all assets (needed for service worker)
+/*
+  Access-Control-Allow-Origin: *
