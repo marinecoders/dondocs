@@ -2,10 +2,12 @@
  * Service Worker Registration Hook
  *
  * Handles PWA service worker registration and update notifications.
- * Uses vite-plugin-pwa's useRegisterSW hook for automatic updates.
+ * Uses vite-plugin-pwa's useRegisterSW hook with prompt mode.
  *
  * When an update is detected, prompts the user before reloading.
  * After reload, automatically restores their work without prompting.
+ *
+ * @version 1.1.0
  */
 
 import { useEffect, useState, useCallback } from 'react';
