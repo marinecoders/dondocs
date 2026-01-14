@@ -44,7 +44,7 @@ export function UpdateBanner({ show, onDismiss }: UpdateBannerProps) {
     >
       <div className="flex items-center gap-3 px-4 py-3 bg-primary text-primary-foreground rounded-lg shadow-lg border border-primary/20">
         <RefreshCw className="h-4 w-4 animate-spin-slow" />
-        <span className="text-sm font-medium">App updated to latest version</span>
+        <span className="text-sm font-medium">App updated to v1.2.0</span>
         <button
           onClick={onDismiss}
           className="ml-2 p-1 rounded-md hover:bg-primary-foreground/10 transition-colors"
