@@ -460,6 +460,14 @@ export async function addDualSignatureFields(
   const juniorPosition = findSignatoryPosition(pdfDoc, juniorSignatoryName, 'junior');
   const seniorPosition = findSignatoryPosition(pdfDoc, seniorSignatoryName, 'senior');
 
+  // Align both signatures to the same Y coordinate (use the average)
+  // This ensures both signature fields appear at the same height
+  const alignedY = (juniorPosition.y + seniorPosition.y) / 2;
+  juniorPosition.y = alignedY;
+  seniorPosition.y = alignedY;
+
+  console.log(`[addDualSignatureFields] Aligned Y position: ${alignedY.toFixed(1)}`);
+
   const pages = pdfDoc.getPages();
 
   // Setup AcroForm
