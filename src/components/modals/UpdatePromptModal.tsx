@@ -45,9 +45,9 @@ export function UpdatePromptModal({ open, onConfirm, onDismiss }: UpdatePromptMo
 
           <DialogFooter className="flex-col sm:flex-row gap-2 flex-shrink-0">
             <Button
-              variant="outline"
+              variant="ghost"
               onClick={onDismiss}
-              className="flex items-center justify-center gap-2 w-full sm:w-auto"
+              className="flex items-center justify-center gap-2 w-full sm:w-auto text-muted-foreground"
             >
               <Clock className="h-4 w-4 flex-shrink-0" />
               <span>Later</span>

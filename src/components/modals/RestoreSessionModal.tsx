@@ -143,9 +143,9 @@ export function RestoreSessionModal() {
 
           <DialogFooter className="flex-col sm:flex-row gap-2 flex-shrink-0">
             <Button
-              variant="outline"
+              variant="ghost"
               onClick={handleStartFresh}
-              className="flex items-center justify-center gap-2 w-full sm:w-auto"
+              className="flex items-center justify-center gap-2 w-full sm:w-auto text-muted-foreground hover:text-destructive hover:bg-destructive/10"
             >
               <Trash2 className="h-4 w-4 flex-shrink-0" />
               <span>Start Fresh</span>
