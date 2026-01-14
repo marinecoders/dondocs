@@ -99,7 +99,7 @@ export const EXAMPLE_DOCUMENTS: ExampleDocument[] = [
     ],
     paragraphs: [
       { text: 'Request approval for reimbursement exception for Cpl J. D. Martinez, per reference (a).', level: 0 },
-      { text: 'The service member submitted receipts totaling $347.82 for lodging expenses during TAD to NAS Pensacola. Original receipts were lost during return travel; however, certified copies from the hotel have been obtained and are attached.', level: 0 },
+      { text: 'The service member submitted receipts totaling \\$347.82 for lodging expenses during TAD to NAS Pensacola. Original receipts were lost during return travel; however, certified copies from the hotel have been obtained and are attached.', level: 0 },
       { text: 'Recommend approval of this exception to allow processing of the travel claim.', level: 0 },
     ],
     copyTos: [],
@@ -215,9 +215,9 @@ export const EXAMPLE_DOCUMENTS: ExampleDocument[] = [
     paragraphs: [
       { text: 'Issue. Determination of optimal fitness center operating hours to meet patron demand while managing staffing costs.', level: 0 },
       { text: 'Options.', level: 0 },
-      { text: 'Option 1 (Recommended): Extended hours 0500-2200 daily. Increases access by 3 hours. Requires one additional staff member at $38,000 annually.', level: 1 },
+      { text: 'Option 1 (Recommended): Extended hours 0500-2200 daily. Increases access by 3 hours. Requires one additional staff member at \\$38,000 annually.', level: 1 },
       { text: 'Option 2: Current hours 0600-2100 daily. No additional cost. Patron surveys indicate dissatisfaction with early morning closure.', level: 1 },
-      { text: 'Option 3: 24-hour unmanned access with card entry. Requires $15,000 security system upgrade plus ongoing maintenance.', level: 1 },
+      { text: 'Option 3: 24-hour unmanned access with card entry. Requires \\$15,000 security system upgrade plus ongoing maintenance.', level: 1 },
       { text: 'Recommendation. Approve Option 1 based on patron demand and reasonable cost increase.', level: 0 },
     ],
     copyTos: [],
@@ -244,9 +244,9 @@ export const EXAMPLE_DOCUMENTS: ExampleDocument[] = [
     references: [],
     paragraphs: [
       { text: 'The first quarter FY26 office supply budget has been allocated as follows:', level: 0 },
-      { text: 'Operations: $4,200', level: 1 },
-      { text: 'Administration: $3,800', level: 1 },
-      { text: 'Public Affairs: $1,500', level: 1 },
+      { text: 'Operations: \\$4,200', level: 1 },
+      { text: 'Administration: \\$3,800', level: 1 },
+      { text: 'Public Affairs: \\$1,500', level: 1 },
       { text: 'Orders should be submitted to the supply office by the 15th of each month. Unused allocations do not roll over to subsequent quarters.', level: 0 },
     ],
     copyTos: [],
@@ -326,8 +326,8 @@ export const EXAMPLE_DOCUMENTS: ExampleDocument[] = [
     paragraphs: [
       { text: 'Purpose. This memorandum presents joint recommendations from the Facilities and Environmental offices to reduce energy consumption per reference (a).', level: 0 },
       { text: 'Recommendations:', level: 0 },
-      { text: 'Install motion-sensor lighting in low-traffic areas (estimated savings: $12,000/year).', level: 1 },
-      { text: 'Adjust HVAC schedules for unoccupied weekend periods (estimated savings: $8,500/year).', level: 1 },
+      { text: 'Install motion-sensor lighting in low-traffic areas (estimated savings: \\$12,000/year).', level: 1 },
+      { text: 'Adjust HVAC schedules for unoccupied weekend periods (estimated savings: \\$8,500/year).', level: 1 },
       { text: 'Implementation can begin in February 2026 pending approval.', level: 0 },
     ],
     copyTos: [],
@@ -397,7 +397,7 @@ export const EXAMPLE_DOCUMENTS: ExampleDocument[] = [
     paragraphs: [
       { text: 'Purpose. This MOA establishes the allocation of Range 400 complex for 1st Marine Division units during FY26.', level: 0 },
       { text: 'MCAGCC agrees to reserve Range 400 for 1st MarDiv use during the periods 1-15 March and 1-15 September 2026.', level: 0 },
-      { text: '1st MarDiv agrees to fund range preparation costs estimated at $75,000 per iteration and provide life support for participating units.', level: 0 },
+      { text: '1st MarDiv agrees to fund range preparation costs estimated at \\$75,000 per iteration and provide life support for participating units.', level: 0 },
       { text: 'Cancellation requires 60-day advance notice with forfeiture of preparation costs already expended.', level: 0 },
     ],
     copyTos: [
