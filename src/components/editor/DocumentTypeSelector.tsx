@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Shield, Settings2, Eraser, FileText } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { Shield, Settings2, Eraser, FileText, AlertTriangle } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import {
@@ -33,15 +33,44 @@ import { Badge } from '@/components/ui/badge';
 import { getExampleByDocType } from '@/data/exampleDocuments';
 
 export function DocumentTypeSelector() {
-  const { docType, setDocType, formData, setField, documentMode, setDocumentMode, clearFieldsExceptLetterhead, loadTemplate } = useDocumentStore();
+  const { docType, setDocType, formData, setField, documentMode, setDocumentMode, clearFieldsExceptLetterhead, loadTemplate, paragraphs, references, enclosures } = useDocumentStore();
   const [showClearDialog, setShowClearDialog] = useState(false);
-  const [showExampleDialog, setShowExampleDialog] = useState(false);
+  const [showSwitchDialog, setShowSwitchDialog] = useState(false);
+  const [pendingDocType, setPendingDocType] = useState<string | null>(null);
   const config = DOC_TYPE_CONFIG[docType];
   const isCompliant = documentMode === 'compliant';
-  const example = getExampleByDocType(docType);
 
-  const handleLoadExample = () => {
-    if (!example) return;
+  /**
+   * Check if the user has meaningful content that would be lost
+   */
+  const hasUserContent = useCallback(() => {
+    // Check if paragraphs have custom content (not empty)
+    const hasCustomParagraphs = paragraphs.some(p => p.text && p.text.trim().length > 0);
+
+    // Check if there are references beyond the first empty one
+    const hasCustomReferences = references.length > 0 && references.some(r => r.title && r.title.trim().length > 0);
+
+    // Check if there are enclosures
+    const hasEnclosures = enclosures.length > 0;
+
+    // Check if key form fields have been customized from defaults
+    const hasCustomSubject = formData.subject && formData.subject.trim().length > 0 &&
+      formData.subject !== 'AFTER ACTION REPORT FOR EXERCISE STEEL KNIGHT 25-1';
+    const hasCustomBody = formData.body && formData.body.trim().length > 0;
+
+    return hasCustomParagraphs || hasCustomReferences || hasEnclosures || hasCustomSubject || hasCustomBody;
+  }, [paragraphs, references, enclosures, formData]);
+
+  /**
+   * Load example data for a specific document type
+   */
+  const loadExampleForDocType = useCallback((targetDocType: string) => {
+    const example = getExampleByDocType(targetDocType);
+    if (!example) {
+      // No example available, just switch type
+      setDocType(targetDocType);
+      return;
+    }
 
     // Load the example data
     Object.entries(example.formData).forEach(([key, value]) => {
@@ -55,8 +84,46 @@ export function DocumentTypeSelector() {
       copyTos: example.copyTos,
     });
 
-    setShowExampleDialog(false);
-  };
+    setDocType(targetDocType);
+  }, [setDocType, setField, loadTemplate]);
+
+  /**
+   * Handle document type change with smart detection
+   */
+  const handleDocTypeChange = useCallback((newDocType: string) => {
+    if (newDocType === docType) return;
+
+    if (hasUserContent()) {
+      // User has content - show dialog
+      setPendingDocType(newDocType);
+      setShowSwitchDialog(true);
+    } else {
+      // No meaningful content - auto-load example
+      loadExampleForDocType(newDocType);
+    }
+  }, [docType, hasUserContent, loadExampleForDocType]);
+
+  /**
+   * Switch type and keep user's current content
+   */
+  const handleKeepContent = useCallback(() => {
+    if (pendingDocType) {
+      setDocType(pendingDocType);
+    }
+    setShowSwitchDialog(false);
+    setPendingDocType(null);
+  }, [pendingDocType, setDocType]);
+
+  /**
+   * Switch type and load example (replace content)
+   */
+  const handleLoadExample = useCallback(() => {
+    if (pendingDocType) {
+      loadExampleForDocType(pendingDocType);
+    }
+    setShowSwitchDialog(false);
+    setPendingDocType(null);
+  }, [pendingDocType, loadExampleForDocType]);
 
   return (
     <div className="space-y-density-4">
@@ -113,7 +180,7 @@ export function DocumentTypeSelector() {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <Select value={docType} onValueChange={setDocType}>
+        <Select value={docType} onValueChange={handleDocTypeChange}>
           <SelectTrigger>
             <SelectValue placeholder="Select document type" />
           </SelectTrigger>
@@ -130,19 +197,6 @@ export function DocumentTypeSelector() {
             ))}
           </SelectContent>
         </Select>
-
-        {/* Load Example button */}
-        {example && (
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-full mt-2"
-            onClick={() => setShowExampleDialog(true)}
-          >
-            <FileText className="h-4 w-4 mr-2" />
-            Load Example {DOC_TYPE_LABELS[docType]}
-          </Button>
-        )}
       </div>
 
       {/* Regulation hints - always show in compliant mode, show as "recommended" in custom */}
@@ -224,29 +278,45 @@ export function DocumentTypeSelector() {
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Load example confirmation dialog */}
-      <AlertDialog open={showExampleDialog} onOpenChange={setShowExampleDialog}>
+      {/* Switch document type dialog - shown when user has content */}
+      <AlertDialog open={showSwitchDialog} onOpenChange={(open) => {
+        if (!open) {
+          setShowSwitchDialog(false);
+          setPendingDocType(null);
+        }
+      }}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Load Example Document?</AlertDialogTitle>
-            <AlertDialogDescription>
-              {example && (
-                <>
-                  This will load an example <strong>{example.name}</strong> document.
-                  <br /><br />
-                  <em>{example.description}</em>
-                  <br /><br />
-                  Your current document content will be replaced. Your letterhead information
-                  will be preserved unless the example includes letterhead data.
-                </>
-              )}
+            <AlertDialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-amber-500" />
+              Switch to {pendingDocType ? DOC_TYPE_LABELS[pendingDocType] : ''}?
+            </AlertDialogTitle>
+            <AlertDialogDescription asChild>
+              <div className="space-y-3">
+                <p>You have content in your current document. What would you like to do?</p>
+
+                {pendingDocType && getExampleByDocType(pendingDocType) && (
+                  <div className="bg-muted/50 rounded-md p-3 text-sm">
+                    <strong>Example available:</strong> {getExampleByDocType(pendingDocType)?.description}
+                  </div>
+                )}
+              </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleLoadExample}>
-              Load Example
-            </AlertDialogAction>
+          <AlertDialogFooter className="flex-col sm:flex-row gap-2">
+            <AlertDialogCancel className="sm:mr-auto">Cancel</AlertDialogCancel>
+            <Button
+              variant="outline"
+              onClick={handleKeepContent}
+            >
+              Keep My Work
+            </Button>
+            {pendingDocType && getExampleByDocType(pendingDocType) && (
+              <AlertDialogAction onClick={handleLoadExample}>
+                <FileText className="h-4 w-4 mr-2" />
+                Load Example
+              </AlertDialogAction>
+            )}
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
