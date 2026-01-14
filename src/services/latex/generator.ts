@@ -74,9 +74,13 @@ export function generateDocumentTex(store: DocumentStore): string {
   const serial = isMOAMode ? data.seniorSerial : data.serial;
   const docDate = isMOAMode ? data.seniorDate : data.date;
 
+  // For business letters, also set the BusinessDate command
+  const isBusinessLetter = store.docType === 'business_letter';
+
   tex += `\\setSSIC{${escapeLatex(ssic)}}
 \\setSerial{${escapeLatex(serial)}}
 \\setDocumentDate{${escapeLatex(docDate)}}
+${isBusinessLetter ? `\\setBusinessDate{${escapeLatex(docDate)}}` : '% Not a business letter'}
 
 ${data.inReplyTo ? `\\enableInReplyReferTo
 \\setInReplyReferTo{${escapeLatex(data.inReplyToText)}}` : '% No In Reply Refer To'}
