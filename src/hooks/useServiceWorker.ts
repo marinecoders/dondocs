@@ -83,10 +83,10 @@ export function useServiceWorker() {
         sessionStorage.setItem(SW_UPDATE_SHOWN_KEY, 'true');
         localStorage.removeItem(SW_UPDATE_KEY);
 
-        // Auto-hide after 4 seconds
+        // Auto-hide after 10 seconds
         setTimeout(() => {
           setShowUpdateBanner(false);
-        }, 4000);
+        }, 10000);
       } else {
         // Old update marker, clean it up
         localStorage.removeItem(SW_UPDATE_KEY);
