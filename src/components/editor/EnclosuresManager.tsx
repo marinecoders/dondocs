@@ -296,106 +296,105 @@ export function EnclosuresManager() {
         </AccordionTrigger>
         <AccordionContent>
           <div className="pt-2">
-            {/* Compliance warning for business letters */}
-            {enclosuresNotAllowed && (
-              <div className="flex items-start gap-2 p-3 mb-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg text-sm">
+            {/* Compliance restriction - hide everything when not allowed */}
+            {enclosuresNotAllowed ? (
+              <div className="flex items-start gap-2 p-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg text-sm">
                 <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
                 <div className="text-amber-800 dark:text-amber-200">
                   <span className="font-medium">Per {config.regulations.ref}:</span>{' '}
                   Business letters do not include formal enclosure listings. Enclosures should be mentioned within the body text instead.
                 </div>
               </div>
-            )}
+            ) : (
+              <>
+                {/* Hyperlinks toggle - only show when there are enclosures */}
+                {enclosures.length > 0 && (
+                  <div className="mb-3 pb-3 border-b border-border space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Checkbox
+                        id="includeEnclosureHyperlinks"
+                        checked={formData.includeHyperlinks || false}
+                        onCheckedChange={(checked) => setField('includeHyperlinks', !!checked)}
+                      />
+                      <Label htmlFor="includeEnclosureHyperlinks" className="text-sm font-normal cursor-pointer">
+                        Include hyperlinks in PDF
+                      </Label>
+                    </div>
+                    <p className="text-xs text-muted-foreground pl-6">
+                      When enabled, clicking "Encl (1)" in the letter jumps directly to that enclosure's pages. Great for lengthy annexes or SOPs.
+                    </p>
+                  </div>
+                )}
 
-            {/* Hyperlinks toggle - only show when there are enclosures */}
-            {enclosures.length > 0 && (
-              <div className="mb-3 pb-3 border-b border-border space-y-2">
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="includeEnclosureHyperlinks"
-                    checked={formData.includeHyperlinks || false}
-                    onCheckedChange={(checked) => setField('includeHyperlinks', !!checked)}
-                  />
-                  <Label htmlFor="includeEnclosureHyperlinks" className="text-sm font-normal cursor-pointer">
-                    Include hyperlinks in PDF
-                  </Label>
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={handleDragEnd}
+                >
+                  <SortableContext
+                    items={enclosures.map((_, i) => `encl-${i}`)}
+                    strategy={verticalListSortingStrategy}
+                  >
+                    {enclosures.map((encl, index) => (
+                      <SortableEnclosure
+                        key={`encl-${index}`}
+                        enclosure={encl}
+                        index={index}
+                        onUpdateTitle={(title) => updateEnclosure(index, { title })}
+                        onAttachFile={(file) => handleAttachFile(index, file)}
+                        onRemoveFile={() => updateEnclosure(index, { file: undefined })}
+                        onRemove={() => removeEnclosure(index)}
+                        onUpdatePageStyle={(pageStyle) => updateEnclosure(index, { pageStyle })}
+                        onUpdateCoverPage={(hasCoverPage) => updateEnclosure(index, { hasCoverPage })}
+                        onUpdateCoverDescription={(coverPageDescription) => updateEnclosure(index, { coverPageDescription })}
+                      />
+                    ))}
+                  </SortableContext>
+                </DndContext>
+
+                <div className="space-y-2 mt-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => addEnclosure('')}
+                    className="w-full"
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Enclosure
+                  </Button>
+
+                  {/* Drop zone for PDFs */}
+                  <label
+                    className={`flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
+                      isDraggingOver
+                        ? 'border-primary bg-primary/10'
+                        : 'border-border hover:border-primary/50 hover:bg-secondary/30'
+                    }`}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                  >
+                    <Upload className={`h-6 w-6 ${isDraggingOver ? 'text-primary' : 'text-muted-foreground'}`} />
+                    <span className={`text-sm ${isDraggingOver ? 'text-primary font-medium' : 'text-muted-foreground'}`}>
+                      {isDraggingOver ? 'Drop PDF here' : 'Drag & drop PDF or click to browse'}
+                    </span>
+                    <input
+                      type="file"
+                      accept=".pdf"
+                      multiple
+                      onChange={(e) => {
+                        const files = Array.from(e.target.files || []);
+                        files.forEach((file) => {
+                          if (file.type === 'application/pdf') {
+                            handleUploadNewEnclosure(file);
+                          }
+                        });
+                        e.target.value = '';
+                      }}
+                      className="hidden"
+                    />
+                  </label>
                 </div>
-                <p className="text-xs text-muted-foreground pl-6">
-                  When enabled, clicking "Encl (1)" in the letter jumps directly to that enclosure's pages. Great for lengthy annexes or SOPs.
-                </p>
-              </div>
-            )}
-
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragEnd={handleDragEnd}
-            >
-              <SortableContext
-                items={enclosures.map((_, i) => `encl-${i}`)}
-                strategy={verticalListSortingStrategy}
-              >
-                {enclosures.map((encl, index) => (
-                  <SortableEnclosure
-                    key={`encl-${index}`}
-                    enclosure={encl}
-                    index={index}
-                    onUpdateTitle={(title) => updateEnclosure(index, { title })}
-                    onAttachFile={(file) => handleAttachFile(index, file)}
-                    onRemoveFile={() => updateEnclosure(index, { file: undefined })}
-                    onRemove={() => removeEnclosure(index)}
-                    onUpdatePageStyle={(pageStyle) => updateEnclosure(index, { pageStyle })}
-                    onUpdateCoverPage={(hasCoverPage) => updateEnclosure(index, { hasCoverPage })}
-                    onUpdateCoverDescription={(coverPageDescription) => updateEnclosure(index, { coverPageDescription })}
-                  />
-                ))}
-              </SortableContext>
-            </DndContext>
-
-            {/* Hide add buttons when enclosures not allowed in compliant mode */}
-            {!enclosuresNotAllowed && (
-              <div className="space-y-2 mt-2">
-                <Button
-                  variant="outline"
-                  onClick={() => addEnclosure('')}
-                  className="w-full"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Enclosure
-                </Button>
-
-                {/* Drop zone for PDFs */}
-                <label
-                  className={`flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
-                    isDraggingOver
-                      ? 'border-primary bg-primary/10'
-                      : 'border-border hover:border-primary/50 hover:bg-secondary/30'
-                  }`}
-                  onDragOver={handleDragOver}
-                  onDragLeave={handleDragLeave}
-                  onDrop={handleDrop}
-                >
-                  <Upload className={`h-6 w-6 ${isDraggingOver ? 'text-primary' : 'text-muted-foreground'}`} />
-                  <span className={`text-sm ${isDraggingOver ? 'text-primary font-medium' : 'text-muted-foreground'}`}>
-                    {isDraggingOver ? 'Drop PDF here' : 'Drag & drop PDF or click to browse'}
-                  </span>
-                  <input
-                    type="file"
-                    accept=".pdf"
-                    multiple
-                    onChange={(e) => {
-                      const files = Array.from(e.target.files || []);
-                      files.forEach((file) => {
-                        if (file.type === 'application/pdf') {
-                          handleUploadNewEnclosure(file);
-                        }
-                      });
-                      e.target.value = '';
-                    }}
-                    className="hidden"
-                  />
-                </label>
-              </div>
+              </>
             )}
           </div>
         </AccordionContent>

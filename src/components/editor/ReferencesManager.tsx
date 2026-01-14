@@ -163,76 +163,76 @@ export function ReferencesManager() {
         </AccordionTrigger>
         <AccordionContent>
           <div className="pt-2">
-            {/* Compliance warning for business letters */}
-            {referencesNotAllowed && (
-              <div className="flex items-start gap-2 p-3 mb-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg text-sm">
+            {/* Compliance restriction - hide everything when not allowed */}
+            {referencesNotAllowed ? (
+              <div className="flex items-start gap-2 p-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg text-sm">
                 <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
                 <div className="text-amber-800 dark:text-amber-200">
                   <span className="font-medium">Per {config.regulations.ref}:</span>{' '}
                   Business letters do not include formal reference lines. References should be mentioned within the body text instead.
                 </div>
               </div>
-            )}
-            {/* Hyperlinks toggle - only show when there are references */}
-            {references.length > 0 && (
-              <div className="mb-3 pb-3 border-b border-border space-y-2">
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="includeHyperlinks"
-                    checked={formData.includeHyperlinks || false}
-                    onCheckedChange={(checked) => setField('includeHyperlinks', !!checked)}
-                  />
-                  <Label htmlFor="includeHyperlinks" className="text-sm font-normal cursor-pointer">
-                    Include hyperlinks in PDF
-                  </Label>
+            ) : (
+              <>
+                {/* Hyperlinks toggle - only show when there are references */}
+                {references.length > 0 && (
+                  <div className="mb-3 pb-3 border-b border-border space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Checkbox
+                        id="includeHyperlinks"
+                        checked={formData.includeHyperlinks || false}
+                        onCheckedChange={(checked) => setField('includeHyperlinks', !!checked)}
+                      />
+                      <Label htmlFor="includeHyperlinks" className="text-sm font-normal cursor-pointer">
+                        Include hyperlinks in PDF
+                      </Label>
+                    </div>
+                    <p className="text-xs text-muted-foreground pl-6">
+                      When enabled, references with URLs become clickable hyperlinks in the PDF. Example: Link "MCO 1500.52" directly to marines.mil/directives.
+                    </p>
+                  </div>
+                )}
+
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={handleDragEnd}
+                >
+                  <SortableContext
+                    items={references.map((_, i) => `ref-${i}`)}
+                    strategy={verticalListSortingStrategy}
+                  >
+                    {references.map((ref, index) => (
+                      <SortableReference
+                        key={`ref-${index}`}
+                        reference={ref}
+                        index={index}
+                        onUpdateTitle={(title) => updateReference(index, { title })}
+                        onUpdateUrl={(url) => updateReference(index, { url })}
+                        onRemove={() => removeReference(index)}
+                      />
+                    ))}
+                  </SortableContext>
+                </DndContext>
+
+                <div className="flex gap-2 mt-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => addReference('')}
+                    className="flex-1"
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Reference
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setReferenceLibraryOpen(true)}
+                  >
+                    <Library className="h-4 w-4 mr-2" />
+                    Library
+                  </Button>
                 </div>
-                <p className="text-xs text-muted-foreground pl-6">
-                  When enabled, references with URLs become clickable hyperlinks in the PDF. Example: Link "MCO 1500.52" directly to marines.mil/directives.
-                </p>
-              </div>
-            )}
-
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragEnd={handleDragEnd}
-            >
-              <SortableContext
-                items={references.map((_, i) => `ref-${i}`)}
-                strategy={verticalListSortingStrategy}
-              >
-                {references.map((ref, index) => (
-                  <SortableReference
-                    key={`ref-${index}`}
-                    reference={ref}
-                    index={index}
-                    onUpdateTitle={(title) => updateReference(index, { title })}
-                    onUpdateUrl={(url) => updateReference(index, { url })}
-                    onRemove={() => removeReference(index)}
-                  />
-                ))}
-              </SortableContext>
-            </DndContext>
-
-            {/* Hide add buttons when references not allowed in compliant mode */}
-            {!referencesNotAllowed && (
-              <div className="flex gap-2 mt-2">
-                <Button
-                  variant="outline"
-                  onClick={() => addReference('')}
-                  className="flex-1"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Reference
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => setReferenceLibraryOpen(true)}
-                >
-                  <Library className="h-4 w-4 mr-2" />
-                  Library
-                </Button>
-              </div>
+              </>
             )}
           </div>
         </AccordionContent>
