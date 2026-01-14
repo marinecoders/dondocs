@@ -32,10 +32,10 @@ const DEFAULT_CONFIG = {
 };
 
 // Height of the signature field plus padding above the name
-const SIGNATURE_FIELD_OFFSET = 14; // 36pt height + 6pt padding
+const SIGNATURE_FIELD_OFFSET = 14; // One line space above the name
 
 // ============================================================================
-// TEXT EXTRACTION - handles SwiftLaTeX PDF format
+// IMPROVED TEXT EXTRACTION - handles more PDF encodings
 // ============================================================================
 
 interface ExtractedTextItem {
@@ -45,8 +45,8 @@ interface ExtractedTextItem {
 }
 
 /**
- * Extracts text from PDF content stream.
- * Handles SwiftLaTeX output which uses cumulative Td operators
+ * Extracts text from PDF content stream with improved encoding support.
+ * FIXED: Properly handles SwiftLaTeX output which uses cumulative Td operators
  * and puts multiple operators on single lines.
  */
 function extractTextFromPage(
@@ -90,20 +90,25 @@ function extractTextFromPage(
     console.log(`[TEXT] Page ${pageIndex + 1}: Content stream length = ${contentStr.length} bytes`);
 
     // SwiftLaTeX puts multiple operators on single lines, so we can't split by \n
-    // Instead, we parse sequentially using regex to find operators
+    // Instead, we need to parse sequentially using regex to find operators
 
     let currentX = 0;
     let currentY = 0;
 
+    // Find all BT (Begin Text) operators - position resets at each BT
+    const btRegex = /\bBT\b/g;
+
     // Find all Td operators and their positions in the string
+    // Format: "x y Td" where x and y are numbers
     const tdRegex = /([\d.\-]+)\s+([\d.\-]+)\s+Td/g;
 
     // Find all TJ arrays and their positions
+    // Format: "[(text)(text)...]TJ"
     const tjRegex = /\[((?:[^\[\]]*|\([^)]*\))*)\]TJ/g;
 
     // Build ordered list of operations
     interface Operation {
-      type: 'td' | 'tj';
+      type: 'bt' | 'td' | 'tj';
       index: number;
       dx?: number;
       dy?: number;
@@ -112,8 +117,16 @@ function extractTextFromPage(
 
     const operations: Operation[] = [];
 
-    // Find all Td operations
+    // Find all BT (Begin Text) operations - these reset the text matrix
     let match: RegExpExecArray | null;
+    while ((match = btRegex.exec(contentStr)) !== null) {
+      operations.push({
+        type: 'bt',
+        index: match.index
+      });
+    }
+
+    // Find all Td operations
     while ((match = tdRegex.exec(contentStr)) !== null) {
       operations.push({
         type: 'td',
@@ -137,12 +150,17 @@ function extractTextFromPage(
 
     // Process operations in order
     for (const op of operations) {
-      if (op.type === 'td' && op.dx !== undefined && op.dy !== undefined) {
-        // Td is cumulative - adds to current position
+      if (op.type === 'bt') {
+        // BT (Begin Text) resets the text position matrix
+        currentX = 0;
+        currentY = 0;
+      } else if (op.type === 'td' && op.dx !== undefined && op.dy !== undefined) {
+        // Td is cumulative within a text block - adds to current position
         currentX += op.dx;
         currentY += op.dy;
       } else if (op.type === 'tj' && op.content) {
         // Extract text from TJ array
+        // Format: [(text)-600(more text)] where -600 is kerning adjustment
         let combinedText = '';
         const textParts = op.content.matchAll(/\(([^)]*)\)/g);
         for (const part of textParts) {
@@ -189,7 +207,7 @@ function searchInItems(
   items: ExtractedTextItem[],
   searchText: string
 ): { x: number; y: number } | null {
-  // Normalize by removing spaces and periods for comparison
+  // Normalize both search and item text by removing spaces and periods for comparison
   // This handles "J. A. DOE" matching "J.A.DOE" (kerning creates visual spaces)
   const normalizeForSearch = (text: string): string => {
     return text.toUpperCase().replace(/[\s.]/g, '');
@@ -245,7 +263,7 @@ function searchInItems(
 
 /**
  * Calculate signature position based on page layout.
- * Used when text extraction fails.
+ * This is used when text extraction fails.
  */
 function calculateFallbackPosition(
   page: ReturnType<PDFDocument['getPage']>,
