@@ -33,6 +33,7 @@ interface UIState {
   findReplaceOpen: boolean;
   templateLoaderOpen: boolean;
   piiWarningOpen: boolean;
+  examplesModalOpen: boolean;
   setProfileModalOpen: (open: boolean) => void;
   setRestoreModalOpen: (open: boolean) => void;
   setReferenceLibraryOpen: (open: boolean) => void;
@@ -42,6 +43,7 @@ interface UIState {
   setFindReplaceOpen: (open: boolean) => void;
   setTemplateLoaderOpen: (open: boolean) => void;
   setPiiWarningOpen: (open: boolean) => void;
+  setExamplesModalOpen: (open: boolean) => void;
 
   // Mobile
   isMobile: boolean;
@@ -90,6 +92,7 @@ export const useUIStore = create<UIState>()(
       findReplaceOpen: false,
       templateLoaderOpen: false,
       piiWarningOpen: false,
+      examplesModalOpen: false,
       setProfileModalOpen: (open) => set({ profileModalOpen: open }),
       setRestoreModalOpen: (open) => set({ restoreModalOpen: open }),
       setReferenceLibraryOpen: (open) => set({ referenceLibraryOpen: open }),
@@ -99,6 +102,7 @@ export const useUIStore = create<UIState>()(
       setFindReplaceOpen: (open) => set({ findReplaceOpen: open }),
       setTemplateLoaderOpen: (open) => set({ templateLoaderOpen: open }),
       setPiiWarningOpen: (open) => set({ piiWarningOpen: open }),
+      setExamplesModalOpen: (open) => set({ examplesModalOpen: open }),
 
       // Mobile
       isMobile: false,
@@ -120,6 +124,7 @@ export const useUIStore = create<UIState>()(
         batchModalOpen: false,
         findReplaceOpen: false,
         templateLoaderOpen: false,
+        examplesModalOpen: false,
         mobilePreviewOpen: false,
         // Note: piiWarningOpen is intentionally not closed by Escape
         // to prevent accidental dismissal of security warnings

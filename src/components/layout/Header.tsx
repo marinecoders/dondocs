@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, type ChangeEvent } from 'react';
-import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, FolderOpen, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Palette, Anchor, Medal, Wrench, Settings, Undo2, Redo2, Eraser } from 'lucide-react';
+import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, FolderOpen, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Palette, Anchor, Medal, Wrench, Settings, Undo2, Redo2, Eraser, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -43,7 +43,7 @@ export function Header({
   onRefreshPreview,
   isCompiling,
 }: HeaderProps) {
-  const { theme, toggleTheme, colorScheme, setColorScheme, density, setDensity, autoSaveStatus, setAboutModalOpen, setNistModalOpen, setBatchModalOpen, setTemplateLoaderOpen, setFindReplaceOpen, isMobile } = useUIStore();
+  const { theme, toggleTheme, colorScheme, setColorScheme, density, setDensity, autoSaveStatus, setAboutModalOpen, setNistModalOpen, setBatchModalOpen, setTemplateLoaderOpen, setExamplesModalOpen, setFindReplaceOpen, isMobile } = useUIStore();
   const documentStore = useDocumentStore();
   const { resetForm, applySnapshot, clearFieldsExceptLetterhead } = useDocumentStore();
   const { undo, redo, canUndo, canRedo } = useHistoryStore();
@@ -411,6 +411,20 @@ export function Header({
             </Button>
           )}
 
+          {/* Examples button - desktop only */}
+          {!isMobile && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 px-2 sm:px-3"
+              onClick={() => setExamplesModalOpen(true)}
+              title="View example documents"
+            >
+              <BookOpen className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Examples</span>
+            </Button>
+          )}
+
           {/* Batch Generation button - desktop only */}
           {!isMobile && (
             <Button
@@ -587,6 +601,10 @@ export function Header({
               <DropdownMenuItem onClick={() => setTemplateLoaderOpen(true)}>
                 <FolderOpen className="h-4 w-4 mr-2" />
                 Templates
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setExamplesModalOpen(true)}>
+                <BookOpen className="h-4 w-4 mr-2" />
+                Examples
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setBatchModalOpen(true)}>
                 <Layers className="h-4 w-4 mr-2" />
