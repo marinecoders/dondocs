@@ -323,7 +323,7 @@ function findSignatoryPosition(
         return {
           pageIndex: i,
           x: position.x - 12, // Shift left to center over signature block
-          y: position.y + SIGNATURE_FIELD_OFFSET + 4,
+          y: position.y + SIGNATURE_FIELD_OFFSET + 1,
         };
       }
     }
