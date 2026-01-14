@@ -184,8 +184,9 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // Don't auto-activate - wait for user to confirm update
-        // skipWaiting and clientsClaim are handled by updateServiceWorker(true)
+        // skipWaiting allows the new SW to activate when updateServiceWorker(true) is called
+        // We do NOT use clientsClaim - that would cause auto-reload before user confirms
+        skipWaiting: true,
         // Increase limit for large JS bundles (SwiftLaTeX is ~9MB)
         maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10MB
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
