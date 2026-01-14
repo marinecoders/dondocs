@@ -10,7 +10,7 @@
  * @version 1.1.0
  */
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 
 const SW_UPDATE_KEY = 'libo-sw-updated';
@@ -21,6 +21,8 @@ export const SW_AUTO_RESTORE_KEY = 'libo-sw-auto-restore';
 export function useServiceWorker() {
   const [showUpdateBanner, setShowUpdateBanner] = useState(false);
   const [showUpdatePrompt, setShowUpdatePrompt] = useState(false);
+  const [isActiveSession, setIsActiveSession] = useState(false);
+  const updateServiceWorkerRef = useRef<((reloadPage?: boolean) => Promise<void>) | null>(null);
 
   const {
     needRefresh: [needRefresh],
@@ -42,13 +44,34 @@ export function useServiceWorker() {
     },
   });
 
-  // When needRefresh is true, show prompt instead of auto-reloading
+  // Store updateServiceWorker in ref for use in effects
+  updateServiceWorkerRef.current = updateServiceWorker;
+
+  // Mark session as active after 5 seconds of being on the page
+  // This means: fresh visit = auto-update, active session = prompt
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log('[SW] Session now active - updates will prompt');
+      setIsActiveSession(true);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // When needRefresh is true, either auto-update or show prompt
   useEffect(() => {
     if (needRefresh) {
-      console.log('[SW] Update available, prompting user');
-      setShowUpdatePrompt(true);
+      if (isActiveSession) {
+        // User is actively working - show prompt
+        console.log('[SW] Update available, prompting user (active session)');
+        setShowUpdatePrompt(true);
+      } else {
+        // Fresh visit - auto-update silently
+        console.log('[SW] Update available, auto-updating (fresh visit)');
+        localStorage.setItem(SW_UPDATE_KEY, Date.now().toString());
+        updateServiceWorkerRef.current?.(true);
+      }
     }
-  }, [needRefresh]);
+  }, [needRefresh, isActiveSession]);
 
   // User confirms update - save state and reload
   const confirmUpdate = useCallback(() => {
