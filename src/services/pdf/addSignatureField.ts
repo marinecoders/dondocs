@@ -32,7 +32,7 @@ const DEFAULT_CONFIG = {
 };
 
 // Height of the signature field plus padding above the name
-const SIGNATURE_FIELD_OFFSET = 42; // 36pt height + 6pt padding
+const SIGNATURE_FIELD_OFFSET = 14; // 36pt height + 6pt padding
 
 // ============================================================================
 // TEXT EXTRACTION - handles SwiftLaTeX PDF format
