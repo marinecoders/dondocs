@@ -698,37 +698,24 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\setDigitalSignatureField}{\\HasDigitalSigFieldtrue}
 
 % Command to render digital signature field placeholder
-% Creates an invisible PDF annotation marker for pdf-lib to detect position
+% Creates a PDF named destination for pdf-lib to detect position
 % The actual AcroForm signature field is added by pdf-lib post-processing
-% NOTE: Using depth (not height) so annotation extends BELOW baseline where sig field goes
-% The depth=0.5in already reserves vertical space, no additional vspace needed
+% Uses \\pdfdest which creates an XYZ destination at current position
 \\newcommand{\\DigitalSignatureBox}{%
-    \\pdfannot width 2in height 0pt depth 0.5in {%
-        /Subtype /Text
-        /Contents (DIGSIG_FIELD_MARKER)
-        /Open false
-        /F 6
-    }%
+    \\pdfdest name {DIGSIG_FIELD_MARKER} xyz%
+    \\vspace{0.5in}%
 }
 
 % Separate markers for dual signature documents (joint letter, MOA, MOU)
 % Junior signs on LEFT (first), Senior signs on RIGHT (last)
 \\newcommand{\\DigitalSignatureBoxJunior}{%
-    \\pdfannot width 2in height 0pt depth 0.5in {%
-        /Subtype /Text
-        /Contents (DIGSIG_FIELD_MARKER_JUNIOR)
-        /Open false
-        /F 6
-    }%
+    \\pdfdest name {DIGSIG_FIELD_MARKER_JUNIOR} xyz%
+    \\vspace{0.5in}%
 }
 
 \\newcommand{\\DigitalSignatureBoxSenior}{%
-    \\pdfannot width 2in height 0pt depth 0.5in {%
-        /Subtype /Text
-        /Contents (DIGSIG_FIELD_MARKER_SENIOR)
-        /Open false
-        /F 6
-    }%
+    \\pdfdest name {DIGSIG_FIELD_MARKER_SENIOR} xyz%
+    \\vspace{0.5in}%
 }
 
 
