@@ -257,6 +257,11 @@ function generateMOASignatoryTex(store: DocumentStore): string {
   const seniorFullName = data.seniorSigName || '';
   const seniorAbbrev = seniorFirstName ? `${seniorFirstName[0]}. ${seniorLastName}` : seniorLastName;
 
+  // Junior signatory name formatting (abbreviated like senior: "R. CHIOFALO")
+  const juniorFirstName = capitalizeWord(data.juniorSigName?.split(' ')[0]);
+  const juniorLastName = data.juniorSigName?.split(' ').slice(-1)[0]?.toUpperCase() || '';
+  const juniorAbbrev = juniorFirstName ? `${juniorFirstName[0]}. ${juniorLastName}` : juniorLastName;
+
   // Use EXISTING commands only - Senior uses document-level fields + standard signatory
   // Junior uses Junior-prefixed fields (which already exist)
   return `%=============================================================================
@@ -282,7 +287,7 @@ function generateMOASignatoryTex(store: DocumentStore): string {
 \\renewcommand{\\JuniorSSIC}{${escapeLatex(data.juniorSSIC)}}
 \\renewcommand{\\JuniorSerial}{${escapeLatex(data.juniorSerial)}}
 \\renewcommand{\\JuniorDate}{${escapeLatex(data.juniorDate)}}
-\\renewcommand{\\JuniorSignatoryName}{${escapeLatex(data.juniorSigName)}}
+\\renewcommand{\\JuniorSignatoryName}{${escapeLatex(juniorAbbrev)}}
 \\renewcommand{\\JuniorSignatoryRank}{${escapeLatex(data.juniorSigRank)}}
 \\renewcommand{\\JuniorSignatoryTitle}{${escapeLatex(data.juniorSigTitle)}}
 
