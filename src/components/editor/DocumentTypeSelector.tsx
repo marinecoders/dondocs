@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Shield, Settings2, Eraser } from 'lucide-react';
+import { Shield, Settings2, Eraser, FileText } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import {
@@ -28,14 +28,35 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useDocumentStore } from '@/stores/documentStore';
-import { DOC_TYPE_LABELS, DOC_TYPE_CONFIG, DOC_TYPE_CATEGORIES } from '@/types/document';
+import { DOC_TYPE_LABELS, DOC_TYPE_CONFIG, DOC_TYPE_CATEGORIES, type DocumentData } from '@/types/document';
 import { Badge } from '@/components/ui/badge';
+import { getExampleByDocType } from '@/data/exampleDocuments';
 
 export function DocumentTypeSelector() {
-  const { docType, setDocType, formData, setField, documentMode, setDocumentMode, clearFieldsExceptLetterhead } = useDocumentStore();
+  const { docType, setDocType, formData, setField, documentMode, setDocumentMode, clearFieldsExceptLetterhead, loadTemplate } = useDocumentStore();
   const [showClearDialog, setShowClearDialog] = useState(false);
+  const [showExampleDialog, setShowExampleDialog] = useState(false);
   const config = DOC_TYPE_CONFIG[docType];
   const isCompliant = documentMode === 'compliant';
+  const example = getExampleByDocType(docType);
+
+  const handleLoadExample = () => {
+    if (!example) return;
+
+    // Load the example data
+    Object.entries(example.formData).forEach(([key, value]) => {
+      setField(key as keyof DocumentData, value);
+    });
+
+    loadTemplate({
+      references: example.references,
+      enclosures: [],
+      paragraphs: example.paragraphs,
+      copyTos: example.copyTos,
+    });
+
+    setShowExampleDialog(false);
+  };
 
   return (
     <div className="space-y-density-4">
@@ -109,6 +130,19 @@ export function DocumentTypeSelector() {
             ))}
           </SelectContent>
         </Select>
+
+        {/* Load Example button */}
+        {example && (
+          <Button
+            variant="outline"
+            size="sm"
+            className="w-full mt-2"
+            onClick={() => setShowExampleDialog(true)}
+          >
+            <FileText className="h-4 w-4 mr-2" />
+            Load Example {DOC_TYPE_LABELS[docType]}
+          </Button>
+        )}
       </div>
 
       {/* Regulation hints - always show in compliant mode, show as "recommended" in custom */}
@@ -185,6 +219,33 @@ export function DocumentTypeSelector() {
               className="bg-orange-600 text-white hover:bg-orange-700"
             >
               Clear Fields
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Load example confirmation dialog */}
+      <AlertDialog open={showExampleDialog} onOpenChange={setShowExampleDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Load Example Document?</AlertDialogTitle>
+            <AlertDialogDescription>
+              {example && (
+                <>
+                  This will load an example <strong>{example.name}</strong> document.
+                  <br /><br />
+                  <em>{example.description}</em>
+                  <br /><br />
+                  Your current document content will be replaced. Your letterhead information
+                  will be preserved unless the example includes letterhead data.
+                </>
+              )}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleLoadExample}>
+              Load Example
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
