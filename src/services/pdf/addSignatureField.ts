@@ -46,120 +46,75 @@ const DUAL_SIGNATURE_POSITIONS = {
 };
 
 /**
- * Finds a signature field marker destination in the PDF.
- * The marker is created by LaTeX using \hypertarget{markerName}{}
+ * Finds a signature field marker annotation in the PDF.
+ * The marker is created by LaTeX using \pdfannot with /Contents containing the marker name.
  *
  * @param pdfDoc - The PDF document
  * @param markerName - The marker name to search for (default: DIGSIG_FIELD_MARKER)
- * @returns Position info or null if not found
+ * @returns Position info and annotation reference, or null if not found
  */
 function findSignatureMarker(
   pdfDoc: PDFDocument,
   markerName: string = SIGNATURE_MARKER_NAME
-): { pageIndex: number; x: number; y: number } | null {
+): { pageIndex: number; x: number; y: number; annotRef?: ReturnType<typeof pdfDoc.context.register> } | null {
   try {
-    const catalog = pdfDoc.catalog;
+    const pages = pdfDoc.getPages();
 
-    // Get the Names dictionary
-    const namesDict = catalog.lookup(PDFName.of('Names')) as PDFDict | undefined;
-    if (!namesDict) {
-      console.log('No Names dictionary found in PDF');
-      return null;
-    }
+    // Search through each page's annotations
+    for (let pageIndex = 0; pageIndex < pages.length; pageIndex++) {
+      const page = pages[pageIndex];
+      const annotsObj = page.node.lookup(PDFName.of('Annots'));
 
-    // Get the Dests (destinations) name tree
-    const destsDict = namesDict.lookup(PDFName.of('Dests')) as PDFDict | undefined;
-    if (!destsDict) {
-      console.log('No Dests dictionary found in Names');
-      return null;
-    }
-
-    // The name tree can have Names array directly or Kids for larger trees
-    const namesArray = destsDict.lookup(PDFName.of('Names')) as PDFArray | undefined;
-    if (!namesArray) {
-      console.log('No Names array found in Dests');
-      return null;
-    }
-
-    // Names array is [name1, dest1, name2, dest2, ...]
-    // Search for our marker
-    for (let i = 0; i < namesArray.size(); i += 2) {
-      const nameObj = namesArray.lookup(i);
-      let nameStr: string | null = null;
-
-      if (nameObj instanceof PDFString) {
-        nameStr = nameObj.decodeText();
-      } else if (nameObj instanceof PDFName) {
-        nameStr = nameObj.decodeText();
+      if (!annotsObj || !(annotsObj instanceof PDFArray)) {
+        continue;
       }
 
-      if (nameStr === markerName) {
-        // Found our marker! Get the destination
-        const destObj = namesArray.lookup(i + 1);
+      // Search through annotations on this page
+      for (let i = 0; i < annotsObj.size(); i++) {
+        const annotRef = annotsObj.get(i);
+        const annot = annotsObj.lookup(i);
 
-        if (destObj instanceof PDFArray) {
-          // Destination format: [page_ref /XYZ left top zoom] or [page_ref /FitH top]
-          const pageRef = destObj.get(0);
-
-          // Find page index from reference
-          let pageIndex = -1;
-          const pages = pdfDoc.getPages();
-          for (let p = 0; p < pages.length; p++) {
-            if (pages[p].ref === pageRef) {
-              pageIndex = p;
-              break;
-            }
-          }
-
-          if (pageIndex === -1) {
-            console.log('Could not find page for destination');
-            return null;
-          }
-
-          // Get coordinates based on destination type
-          const destType = destObj.lookup(1);
-          if (destType instanceof PDFName) {
-            const destTypeName = destType.decodeText();
-
-            if (destTypeName === 'XYZ') {
-              // [page /XYZ left top zoom]
-              const leftObj = destObj.lookup(2);
-              const topObj = destObj.lookup(3);
-
-              const left = leftObj instanceof PDFNumber ? leftObj.asNumber() : FALLBACK_POSITION.x;
-              const top = topObj instanceof PDFNumber ? topObj.asNumber() : FALLBACK_POSITION.y;
-
-              // hyperref XYZ uses top coordinate directly
-              const y = top;
-
-              console.log(`Found signature marker at page ${pageIndex + 1}, x=${left}, y=${y}`);
-              return { pageIndex, x: left, y };
-            } else if (destTypeName === 'FitH' || destTypeName === 'FitBH') {
-              // [page /FitH top] or [page /FitBH top]
-              const topObj = destObj.lookup(2);
-              const top = topObj instanceof PDFNumber ? topObj.asNumber() : FALLBACK_POSITION.y;
-
-              console.log(`Found signature marker (FitH) at page ${pageIndex + 1}, y=${top}`);
-              return { pageIndex, x: FALLBACK_POSITION.x, y: top };
-            }
-          }
-        } else if (destObj instanceof PDFDict) {
-          // Could be an indirect destination dictionary
-          const d = destObj.lookup(PDFName.of('D')) as PDFArray | undefined;
-          if (d) {
-            // Recursively handle the destination array
-            // For simplicity, just use fallback
-            console.log('Found destination dict, using fallback position');
-          }
+        if (!(annot instanceof PDFDict)) {
+          continue;
         }
 
-        // Found marker but couldn't parse destination fully
-        console.log('Found marker but could not parse destination format');
-        return null;
+        // Check if this is a Text annotation with our marker content
+        const subtype = annot.lookup(PDFName.of('Subtype'));
+        if (!(subtype instanceof PDFName) || subtype.decodeText() !== 'Text') {
+          continue;
+        }
+
+        const contents = annot.lookup(PDFName.of('Contents'));
+        if (!contents) {
+          continue;
+        }
+
+        let contentsStr: string | null = null;
+        if (contents instanceof PDFString) {
+          contentsStr = contents.decodeText();
+        }
+
+        if (contentsStr === markerName) {
+          // Found our marker! Get the position from Rect
+          const rect = annot.lookup(PDFName.of('Rect'));
+          if (rect instanceof PDFArray && rect.size() >= 4) {
+            const x1 = rect.lookup(0);
+            const y1 = rect.lookup(1);
+            const x2 = rect.lookup(2);
+            const y2 = rect.lookup(3);
+
+            // Get the coordinates (use lower-left corner as position)
+            const x = x1 instanceof PDFNumber ? x1.asNumber() : FALLBACK_POSITION.x;
+            const y = y2 instanceof PDFNumber ? y2.asNumber() : FALLBACK_POSITION.y; // Use top of rect
+
+            console.log(`Found marker annotation '${markerName}' at page ${pageIndex + 1}, x=${x}, y=${y}`);
+            return { pageIndex, x, y, annotRef: annotRef as ReturnType<typeof pdfDoc.context.register> };
+          }
+        }
       }
     }
 
-    console.log('Signature marker not found in PDF');
+    console.log(`Marker annotation '${markerName}' not found in PDF`);
     return null;
   } catch (error) {
     console.error('Error finding signature marker:', error);
@@ -168,11 +123,35 @@ function findSignatureMarker(
 }
 
 /**
+ * Removes a marker annotation from a page's Annots array.
+ */
+function removeMarkerAnnotation(
+  page: ReturnType<PDFDocument['getPage']>,
+  annotRef: ReturnType<PDFDocument['context']['register']>
+): void {
+  try {
+    const annotsObj = page.node.lookup(PDFName.of('Annots'));
+    if (annotsObj instanceof PDFArray) {
+      // Find and remove the annotation reference
+      for (let i = 0; i < annotsObj.size(); i++) {
+        if (annotsObj.get(i) === annotRef) {
+          annotsObj.remove(i);
+          console.log('Removed marker annotation from page');
+          break;
+        }
+      }
+    }
+  } catch (error) {
+    console.warn('Could not remove marker annotation:', error);
+  }
+}
+
+/**
  * Adds an empty digital signature field to a PDF document.
  *
- * This function looks for a marker created by LaTeX (\hypertarget{DIGSIG_FIELD_MARKER}{})
- * to determine the exact position for the signature field. If the marker is not found,
- * it falls back to a default position suitable for military correspondence.
+ * This function looks for a marker annotation created by LaTeX (\pdfannot with
+ * DIGSIG_FIELD_MARKER content) to determine the exact position for the signature
+ * field. If the marker is not found, it falls back to a default position.
  *
  * The signature field is a proper AcroForm widget that can be signed with
  * Adobe Acrobat, CAC/PIV cards, or other PKI tools.
@@ -193,7 +172,7 @@ export async function addSignatureField(
     height = DEFAULT_CONFIG.height,
   } = config;
 
-  // Try to find the signature marker from LaTeX
+  // Try to find the signature marker annotation from LaTeX
   const markerPosition = findSignatureMarker(pdfDoc);
 
   let targetPageIndex: number;
@@ -201,14 +180,18 @@ export async function addSignatureField(
   let y: number;
 
   if (markerPosition) {
-    // Use marker position - the marker is at the TOP of the signature area
-    // So the signature field should be placed starting from that Y position going DOWN
+    // Use marker position - the marker rect's top Y is our reference
     targetPageIndex = markerPosition.pageIndex;
     x = markerPosition.x;
-    // The marker Y is at the top of the sig area, field goes downward
-    // Subtract height to position field below the marker point
+    // Position field at the marker's location
     y = markerPosition.y - height;
     console.log(`Using marker position: page ${targetPageIndex + 1}, x=${x}, y=${y}`);
+
+    // Remove the marker annotation so it doesn't show in the final PDF
+    if (markerPosition.annotRef) {
+      const pages = pdfDoc.getPages();
+      removeMarkerAnnotation(pages[targetPageIndex], markerPosition.annotRef);
+    }
   } else {
     // Fallback to last page with default position
     const pages = pdfDoc.getPages();
@@ -369,6 +352,14 @@ export async function addDualSignatureFields(
   }
 
   const pages = pdfDoc.getPages();
+
+  // Remove the marker annotations so they don't show in the final PDF
+  if (juniorMarker?.annotRef) {
+    removeMarkerAnnotation(pages[juniorPageIndex], juniorMarker.annotRef);
+  }
+  if (seniorMarker?.annotRef) {
+    removeMarkerAnnotation(pages[seniorPageIndex], seniorMarker.annotRef);
+  }
 
   // Get or create the AcroForm
   const catalog = pdfDoc.catalog;
