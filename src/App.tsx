@@ -10,7 +10,6 @@ import { NISTComplianceModal } from '@/components/modals/NISTComplianceModal';
 import { BatchModal } from '@/components/modals/BatchModal';
 import { FindReplaceModal } from '@/components/modals/FindReplaceModal';
 import { TemplateLoaderModal } from '@/components/modals/TemplateLoaderModal';
-import { ExamplesModal } from '@/components/modals/ExamplesModal';
 import { DocumentGuideModal } from '@/components/modals/DocumentGuideModal';
 import { WelcomeModal } from '@/components/modals/WelcomeModal';
 import { PIIWarningModal } from '@/components/modals/PIIWarningModal';
@@ -749,7 +748,6 @@ ${texFiles['body.tex'] || '% No body content'}
       <BatchModal compile={compile} isEngineReady={isReady} waitForReady={waitForReady} />
       <FindReplaceModal />
       <TemplateLoaderModal />
-      <ExamplesModal />
       <DocumentGuideModal />
       <WelcomeModal />
       <PIIWarningModal

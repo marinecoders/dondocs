@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { HelpCircle, ChevronDown, ChevronRight, FileText, CheckCircle2, Lightbulb, BookOpen, Sparkles, ArrowRight, RotateCcw, Search } from 'lucide-react';
+import { HelpCircle, ChevronDown, ChevronRight, FileText, CheckCircle2, Lightbulb, BookOpen, Sparkles, ArrowRight, RotateCcw, Search, Eye, Check } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -8,8 +8,12 @@ import {
 } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { useUIStore } from '@/stores/uiStore';
+import { useDocumentStore } from '@/stores/documentStore';
 import { DOCUMENT_TYPE_GUIDES, GUIDE_CATEGORIES, type DocumentTypeGuide } from '@/data/documentGuide';
+import { EXAMPLE_DOCUMENTS, EXAMPLE_CATEGORIES, type ExampleDocument } from '@/data/exampleDocuments';
+import { DOC_TYPE_LABELS, type DocumentData } from '@/types/document';
 
 // Document Finder Questions and Logic
 interface Question {
@@ -559,9 +563,191 @@ function GuideCard({ guide, isExpanded, onToggle }: {
   );
 }
 
+// Examples Tab Component
+function ExamplesTab({ onClose }: { onClose: () => void }) {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedExample, setSelectedExample] = useState<ExampleDocument | null>(null);
+
+  const filteredExamples = useMemo(() => {
+    return EXAMPLE_DOCUMENTS.filter((example) => {
+      const matchesSearch = !searchQuery ||
+        example.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        example.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        example.docType.toLowerCase().includes(searchQuery.toLowerCase());
+
+      const matchesCategory = !selectedCategory || example.category === selectedCategory;
+
+      return matchesSearch && matchesCategory;
+    });
+  }, [searchQuery, selectedCategory]);
+
+  const handleLoadExample = () => {
+    if (!selectedExample) return;
+
+    const store = useDocumentStore.getState();
+
+    // Set document type
+    store.setDocType(selectedExample.docType);
+
+    // Set form data fields
+    Object.entries(selectedExample.formData).forEach(([key, value]) => {
+      store.setField(key as keyof DocumentData, value);
+    });
+
+    // Clear existing paragraphs by removing from the end
+    const currentParagraphCount = store.paragraphs.length;
+    for (let i = currentParagraphCount - 1; i >= 0; i--) {
+      store.removeParagraph(i);
+    }
+
+    // Add example paragraphs
+    selectedExample.paragraphs.forEach((para) => {
+      store.addParagraph(para.text, para.level);
+    });
+
+    // Clear existing references by removing from the end
+    const currentRefCount = store.references.length;
+    for (let i = currentRefCount - 1; i >= 0; i--) {
+      store.removeReference(i);
+    }
+
+    // Add example references
+    if (selectedExample.references) {
+      selectedExample.references.forEach((ref) => {
+        store.addReference(ref.title, ref.url);
+      });
+    }
+
+    // Clear existing enclosures
+    const currentEnclCount = store.enclosures.length;
+    for (let i = currentEnclCount - 1; i >= 0; i--) {
+      store.removeEnclosure(i);
+    }
+
+    // Clear existing copy-tos
+    const currentCopyToCount = store.copyTos.length;
+    for (let i = currentCopyToCount - 1; i >= 0; i--) {
+      store.removeCopyTo(i);
+    }
+
+    // Add example copy-tos
+    if (selectedExample.copyTos) {
+      selectedExample.copyTos.forEach((copyTo) => {
+        store.addCopyTo(copyTo.text);
+      });
+    }
+
+    // Close modal
+    onClose();
+  };
+
+  return (
+    <div className="flex flex-col h-full">
+      <div className="p-4 border-b shrink-0 space-y-3 bg-background">
+        {/* Search */}
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search examples..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-9"
+          />
+        </div>
+
+        {/* Category filters */}
+        <div className="flex flex-wrap gap-2">
+          <Badge
+            variant={selectedCategory === null ? 'default' : 'outline'}
+            className="cursor-pointer hover:bg-primary/80"
+            onClick={() => setSelectedCategory(null)}
+          >
+            All ({EXAMPLE_DOCUMENTS.length})
+          </Badge>
+          {EXAMPLE_CATEGORIES.map(({ category }) => {
+            const count = EXAMPLE_DOCUMENTS.filter(e => e.category === category).length;
+            return (
+              <Badge
+                key={category}
+                variant={selectedCategory === category ? 'default' : 'outline'}
+                className="cursor-pointer hover:bg-primary/80"
+                onClick={() => setSelectedCategory(category)}
+              >
+                {category} ({count})
+              </Badge>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="flex-1 min-h-0 overflow-y-auto">
+        <div className="p-4 grid gap-2">
+          {filteredExamples.length === 0 ? (
+            <div className="text-center text-muted-foreground py-8">
+              No examples found matching your search.
+            </div>
+          ) : (
+            filteredExamples.map((example) => (
+              <button
+                key={example.id}
+                onClick={() => setSelectedExample(example)}
+                className={`w-full text-left p-4 rounded-lg border transition-colors ${
+                  selectedExample?.id === example.id
+                    ? 'border-primary bg-primary/5'
+                    : 'border-border hover:border-primary/50 hover:bg-accent/50'
+                }`}
+              >
+                <div className="flex items-start gap-3">
+                  <FileText className="h-5 w-5 text-muted-foreground mt-0.5 shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">{example.name}</span>
+                      {selectedExample?.id === example.id && (
+                        <Check className="h-4 w-4 text-primary" />
+                      )}
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-0.5">
+                      {example.description}
+                    </p>
+                    <div className="flex items-center gap-2 mt-2 flex-wrap">
+                      <Badge variant="secondary" className="text-xs">
+                        {example.category}
+                      </Badge>
+                      <Badge variant="outline" className="text-xs">
+                        {DOC_TYPE_LABELS[example.docType] || example.docType}
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+              </button>
+            ))
+          )}
+        </div>
+      </div>
+
+      {selectedExample && (
+        <div className="p-4 border-t bg-muted/50 shrink-0 space-y-3">
+          <div className="text-sm">
+            <span className="font-medium">Selected:</span>{' '}
+            <span className="text-muted-foreground">{selectedExample.name}</span>
+          </div>
+          <Button onClick={handleLoadExample} className="w-full">
+            <Eye className="h-4 w-4 mr-2" />
+            Load This Example
+          </Button>
+          <p className="text-xs text-muted-foreground text-center">
+            This will replace your current document with the example content.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function DocumentGuideModal() {
   const { documentGuideOpen, setDocumentGuideOpen } = useUIStore();
-  const [activeTab, setActiveTab] = useState<'finder' | 'browse'>('finder');
+  const [activeTab, setActiveTab] = useState<'finder' | 'browse' | 'examples'>('finder');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [expandedGuide, setExpandedGuide] = useState<string | null>(null);
 
@@ -591,10 +777,10 @@ export function DocumentGuideModal() {
         <DialogHeader className="bg-background px-6 py-4 border-b shrink-0">
           <DialogTitle className="flex items-center gap-2">
             <HelpCircle className="h-5 w-5 text-primary" />
-            Document Type Guide
+            Document Guide
           </DialogTitle>
           <p className="text-sm text-muted-foreground mt-1">
-            Find the right document type or browse all options
+            Find the right document type, learn about formats, or load an example
           </p>
         </DialogHeader>
 
@@ -603,34 +789,50 @@ export function DocumentGuideModal() {
           <div className="flex gap-1 p-1 bg-muted rounded-lg">
             <button
               onClick={() => setActiveTab('finder')}
-              className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+              className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                 activeTab === 'finder'
                   ? 'bg-background text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               <Sparkles className="h-4 w-4" />
-              Find My Document
+              <span className="hidden sm:inline">Find My Doc</span>
+              <span className="sm:hidden">Find</span>
             </button>
             <button
               onClick={() => setActiveTab('browse')}
-              className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+              className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                 activeTab === 'browse'
                   ? 'bg-background text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               <Search className="h-4 w-4" />
-              Browse All Types
+              <span className="hidden sm:inline">Browse Types</span>
+              <span className="sm:hidden">Browse</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('examples')}
+              className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                activeTab === 'examples'
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <Eye className="h-4 w-4" />
+              <span className="hidden sm:inline">Examples</span>
+              <span className="sm:hidden">Examples</span>
             </button>
           </div>
         </div>
 
-        {activeTab === 'finder' ? (
+        {activeTab === 'finder' && (
           <div className="flex-1 min-h-0 overflow-y-auto">
             <DocumentFinder onSelectGuide={handleSelectFromFinder} />
           </div>
-        ) : (
+        )}
+
+        {activeTab === 'browse' && (
           <>
             {/* Category filters */}
             <div className="px-4 py-3 border-b bg-muted/30 shrink-0">
@@ -713,15 +915,21 @@ export function DocumentGuideModal() {
           </>
         )}
 
-        {/* Footer with tip */}
-        <div className="px-4 py-3 border-t bg-muted/30 shrink-0">
-          <div className="flex items-start gap-2 text-xs text-muted-foreground">
-            <Lightbulb className="h-4 w-4 text-amber-500 shrink-0 mt-0.5" />
-            <span>
-              <strong className="text-foreground">Tip:</strong> When in doubt, the Naval Letter format is appropriate for most official correspondence. Use Business Letter format only for external civilian recipients.
-            </span>
+        {activeTab === 'examples' && (
+          <ExamplesTab onClose={() => setDocumentGuideOpen(false)} />
+        )}
+
+        {/* Footer with tip - only show on finder and browse tabs */}
+        {activeTab !== 'examples' && (
+          <div className="px-4 py-3 border-t bg-muted/30 shrink-0">
+            <div className="flex items-start gap-2 text-xs text-muted-foreground">
+              <Lightbulb className="h-4 w-4 text-amber-500 shrink-0 mt-0.5" />
+              <span>
+                <strong className="text-foreground">Tip:</strong> When in doubt, the Naval Letter format is appropriate for most official correspondence. Use Business Letter format only for external civilian recipients.
+              </span>
+            </div>
           </div>
-        </div>
+        )}
       </DialogContent>
     </Dialog>
   );
