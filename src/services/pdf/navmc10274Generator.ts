@@ -52,7 +52,7 @@ function drawPageHeader(page: PDFPage, font: PDFFont) {
   const mcoWidth = font.widthOfTextAtSize(mcoText, 9);
   page.drawText(mcoText, {
     x: FORM_LEFT + FORM_WIDTH - mcoWidth,
-    y: FORM_TOP + 15,
+    y: FORM_TOP + 8,
     size: 9,
     font,
     color: BLACK,
