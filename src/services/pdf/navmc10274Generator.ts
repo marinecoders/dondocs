@@ -22,7 +22,7 @@ const FROM_ROW_HEIGHT = 36;
 const VIA_ROW_HEIGHT = 36;
 const TO_ROW_HEIGHT = 54 + 45; // TO spans 2 rows (54 + 45 = 99pt)
 const REF_ROW_HEIGHT = 91;
-const SUPP_INFO_HEIGHT = 368;
+const SUPP_INFO_HEIGHT = 331; // Reduced from 368 to avoid footer overlap
 const PROC_LABEL_HEIGHT = 18;
 
 // Column widths from HTML
