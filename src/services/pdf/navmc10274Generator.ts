@@ -8,7 +8,7 @@ const PAGE_HEIGHT = 792; // 11 inches = 792pt
 // Form positioning from HTML: margin-left: 6.0955pt, width: 558pt
 const FORM_LEFT = 27; // Centered on page: (612 - 558) / 2
 const FORM_WIDTH = 558;
-const FORM_TOP = PAGE_HEIGHT - 27; // Top margin
+const FORM_TOP = PAGE_HEIGHT - 45; // Top margin (adjusted for MCO text above)
 
 // Border and colors
 const BORDER_WIDTH = 1;
@@ -39,6 +39,108 @@ const NAT_COL_WIDTH = 234; // NATURE OF ACTION + COPY TO (right side)
 
 const REF_WIDTH = 280;
 const ENCL_WIDTH = 278;
+
+// Footer positioning
+const FOOTER_Y = 45; // Y position for footer area
+
+/**
+ * Draw page header (MCO reference above form)
+ */
+function drawPageHeader(page: PDFPage, font: PDFFont) {
+  // MCO 5216.19A in top right, above the form border
+  const mcoText = 'MCO 5216.19A';
+  const mcoWidth = font.widthOfTextAtSize(mcoText, 9);
+  page.drawText(mcoText, {
+    x: FORM_LEFT + FORM_WIDTH - mcoWidth,
+    y: FORM_TOP + 15,
+    size: 9,
+    font,
+    color: BLACK,
+  });
+}
+
+/**
+ * Draw page footer (form number, official use notice, page number)
+ */
+function drawPageFooter(
+  page: PDFPage, 
+  font: PDFFont, 
+  fontBold: PDFFont, 
+  pageNum: number, 
+  totalPages: number
+) {
+  const footerY = FOOTER_Y;
+  
+  // Left side: Form number and edition notice
+  page.drawText('NAVMC 10274 (REV. 07-20) (EF)', {
+    x: FORM_LEFT,
+    y: footerY,
+    size: 8,
+    font: fontBold,
+    color: BLACK,
+  });
+  page.drawText('Previous editions will not be used', {
+    x: FORM_LEFT,
+    y: footerY - 10,
+    size: 7,
+    font,
+    color: BLACK,
+  });
+  
+  // Center: FOR OFFICIAL USE ONLY notice
+  const officialText = 'FOR OFFICIAL USE ONLY';
+  const officialWidth = fontBold.widthOfTextAtSize(officialText, 8);
+  const centerX = PAGE_WIDTH / 2;
+  page.drawText(officialText, {
+    x: centerX - officialWidth / 2,
+    y: footerY,
+    size: 8,
+    font: fontBold,
+    color: BLACK,
+  });
+  
+  const privacyText = 'PRIVACY SENSITIVE - Any misuse or unauthorized';
+  const privacyWidth = font.widthOfTextAtSize(privacyText, 7);
+  page.drawText(privacyText, {
+    x: centerX - privacyWidth / 2,
+    y: footerY - 10,
+    size: 7,
+    font,
+    color: BLACK,
+  });
+  
+  const disclosureText = 'disclosure can result in both civil and criminal penalties.';
+  const disclosureWidth = font.widthOfTextAtSize(disclosureText, 7);
+  page.drawText(disclosureText, {
+    x: centerX - disclosureWidth / 2,
+    y: footerY - 18,
+    size: 7,
+    font,
+    color: BLACK,
+  });
+  
+  // Right side: Page number
+  const pageText = `Page ${pageNum} of ${totalPages}`;
+  const pageWidth = font.widthOfTextAtSize(pageText, 9);
+  page.drawText(pageText, {
+    x: FORM_LEFT + FORM_WIDTH - pageWidth,
+    y: footerY,
+    size: 9,
+    font,
+    color: BLACK,
+  });
+  
+  // AEM Designer text (smaller, below page number)
+  const aemText = 'AEM Designer 6.5';
+  const aemWidth = font.widthOfTextAtSize(aemText, 7);
+  page.drawText(aemText, {
+    x: FORM_LEFT + FORM_WIDTH - aemWidth,
+    y: footerY - 10,
+    size: 7,
+    font,
+    color: BLACK,
+  });
+}
 
 /**
  * Draw a cell with border and optional text
@@ -152,8 +254,14 @@ export async function generateNavmc10274Pdf(data: NavmcForm10274Data): Promise<U
   const arialBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
   const times = await pdfDoc.embedFont(StandardFonts.TimesRoman);
 
-  // ==================== PAGE 1 (Form Page) ====================
+  const totalPages = 3; // Total pages in the form (page 1 is separate, we generate pages 2 and 3)
+
+  // ==================== PAGE 1 (Form Page - Page 2 of 3) ====================
   const page1 = pdfDoc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
+  
+  // Draw header (MCO 5216.19A)
+  drawPageHeader(page1, arial);
+  
   let y = FORM_TOP;
 
   // ----- TITLE ROW: "ADMINISTRATIVE ACTION (5216)" - height: 28pt -----
@@ -283,24 +391,32 @@ export async function generateNavmc10274Pdf(data: NavmcForm10274Data): Promise<U
     color: BLACK,
   });
 
-  // ==================== PAGE 2 (Continuation Page) ====================
+  // Draw footer for page 1 (Page 2 of 3)
+  drawPageFooter(page1, arial, arialBold, 2, totalPages);
+
+  // ==================== PAGE 2 (Continuation Page - Page 3 of 3) ====================
   const page2 = pdfDoc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
+  
+  // Draw header (MCO 5216.19A)
+  drawPageHeader(page2, arial);
+  
   y = FORM_TOP;
 
-  // Title (centered, no border box)
+  // Title row with border box
+  drawCell(page2, FORM_LEFT, y, FORM_WIDTH, TITLE_HEIGHT);
   const title2Text = 'ADMINISTRATIVE ACTION (5216)';
   const title2Width = arialBold.widthOfTextAtSize(title2Text, 10);
   page2.drawText(title2Text, {
     x: FORM_LEFT + (FORM_WIDTH - title2Width) / 2,
-    y: y - 15,
+    y: y - 14,
     size: 10,
     font: arialBold,
     color: BLACK,
   });
-  y -= 36;
+  y -= TITLE_HEIGHT;
 
-  // Processing Action continuation area - full page
-  const procActHeight = PAGE_HEIGHT - 72 - 36; // Leave margins
+  // Processing Action continuation area - large box for the rest of the page
+  const procActHeight = y - FOOTER_Y - 10; // From below title to above footer
   drawCell(page2, FORM_LEFT, y, FORM_WIDTH, procActHeight);
 
   // Draw proposed action text
@@ -313,6 +429,9 @@ export async function generateNavmc10274Pdf(data: NavmcForm10274Data): Promise<U
       procY -= 12;
     }
   }
+
+  // Draw footer for page 2 (Page 3 of 3)
+  drawPageFooter(page2, arial, arialBold, 3, totalPages);
 
   return pdfDoc.save();
 }
