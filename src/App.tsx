@@ -346,14 +346,16 @@ function App() {
       try {
         const pdfBytes = await generateNavmc10274Pdf(formStore.navmc10274);
 
-        // Revoke old URL
-        if (formPdfUrl) {
-          URL.revokeObjectURL(formPdfUrl);
-        }
-
         const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
-        setFormPdfUrl(url);
+
+        // Revoke old URL after creating new one
+        setFormPdfUrl((prevUrl) => {
+          if (prevUrl) {
+            URL.revokeObjectURL(prevUrl);
+          }
+          return url;
+        });
       } catch (err) {
         console.error('Form PDF generation error:', err);
       }
@@ -364,7 +366,7 @@ function App() {
         clearTimeout(formCompileTimeoutRef.current);
       }
     };
-  }, [documentCategory, formStore.navmc10274, formPdfUrl]);
+  }, [documentCategory, formStore.navmc10274]);
 
   // Track if download is in progress to prevent double downloads
   const downloadInProgressRef = useRef(false);
