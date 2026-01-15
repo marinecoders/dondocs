@@ -1,43 +1,49 @@
 import { PDFDocument, StandardFonts, rgb, PDFPage, PDFFont } from 'pdf-lib';
 import type { NavmcForm10274Data } from '@/stores/formStore';
 
-// Conversion: 1mm = 2.834645669 points
-const MM_TO_PT = 2.834645669;
-
 // Page dimensions (Letter size)
-const PAGE_WIDTH = 612; // 8.5 inches
-const PAGE_HEIGHT = 792; // 11 inches
+const PAGE_WIDTH = 612; // 8.5 inches = 612pt
+const PAGE_HEIGHT = 792; // 11 inches = 792pt
 
-// Content area from XFA: x=9.525mm, y=9.525mm, w=196.85mm, h=257.175mm
-const CONTENT_X = 9.525 * MM_TO_PT; // ~27pt
-const CONTENT_Y = 9.525 * MM_TO_PT;
+// Form positioning from HTML: margin-left: 6.0955pt, width: 558pt
+const FORM_LEFT = 27; // Centered on page: (612 - 558) / 2
+const FORM_WIDTH = 558;
+const FORM_TOP = PAGE_HEIGHT - 27; // Top margin
 
-// Border thickness from XFA: 0.1753mm = ~0.5pt
-const BORDER_WIDTH = 0.5;
-
-// Colors
+// Border and colors
+const BORDER_WIDTH = 1;
 const BLACK = rgb(0, 0, 0);
 
+// Row heights from HTML (in points)
+const TITLE_HEIGHT = 28;
+const ACTION_ROW_HEIGHT = 27;
+const DATE_ROW_HEIGHT = 26;
+const FROM_ROW_HEIGHT = 36;
+const VIA_ROW_HEIGHT = 36;
+const TO_ROW_HEIGHT = 54 + 45; // TO spans 2 rows (54 + 45 = 99pt)
+const REF_ROW_HEIGHT = 91;
+const SUPP_INFO_HEIGHT = 368;
+const PROC_LABEL_HEIGHT = 18;
+
+// Column widths from HTML
+const FROM_COL_WIDTH = 378; // Left column for FROM (spans down to include date area)
+const ACTION_NO_WIDTH = 81;
+const SSIC_WIDTH = 99;
+const DATE_WIDTH = 180; // ACTION_NO + SSIC = 180
+
+const FIELD4_WIDTH = 280; // FROM field
+const FIELD5_WIDTH = 278; // ORG/STATION
+
+const TO_COL_WIDTH = 324; // TO field (left side)
+const NAT_COL_WIDTH = 234; // NATURE OF ACTION + COPY TO (right side)
+
+const REF_WIDTH = 280;
+const ENCL_WIDTH = 278;
+
 /**
- * Convert mm to points, with Y coordinate flipped for PDF (origin at bottom-left)
+ * Draw a cell with border and optional text
  */
-function mmToX(mm: number): number {
-  return CONTENT_X + (mm * MM_TO_PT);
-}
-
-function mmToY(mm: number): number {
-  // XFA Y is from top, PDF Y is from bottom
-  return PAGE_HEIGHT - CONTENT_Y - (mm * MM_TO_PT);
-}
-
-function mmToPt(mm: number): number {
-  return mm * MM_TO_PT;
-}
-
-/**
- * Draw a box with border
- */
-function drawBox(
+function drawCell(
   page: PDFPage,
   x: number,
   y: number,
@@ -53,60 +59,28 @@ function drawBox(
   const { topBorder = true, bottomBorder = true, leftBorder = true, rightBorder = true } = options || {};
 
   if (topBorder) {
-    page.drawLine({
-      start: { x, y },
-      end: { x: x + width, y },
-      thickness: BORDER_WIDTH,
-      color: BLACK,
-    });
+    page.drawLine({ start: { x, y }, end: { x: x + width, y }, thickness: BORDER_WIDTH, color: BLACK });
   }
   if (bottomBorder) {
-    page.drawLine({
-      start: { x, y: y - height },
-      end: { x: x + width, y: y - height },
-      thickness: BORDER_WIDTH,
-      color: BLACK,
-    });
+    page.drawLine({ start: { x, y: y - height }, end: { x: x + width, y: y - height }, thickness: BORDER_WIDTH, color: BLACK });
   }
   if (leftBorder) {
-    page.drawLine({
-      start: { x, y },
-      end: { x, y: y - height },
-      thickness: BORDER_WIDTH,
-      color: BLACK,
-    });
+    page.drawLine({ start: { x, y }, end: { x, y: y - height }, thickness: BORDER_WIDTH, color: BLACK });
   }
   if (rightBorder) {
-    page.drawLine({
-      start: { x: x + width, y },
-      end: { x: x + width, y: y - height },
-      thickness: BORDER_WIDTH,
-      color: BLACK,
-    });
+    page.drawLine({ start: { x: x + width, y }, end: { x: x + width, y: y - height }, thickness: BORDER_WIDTH, color: BLACK });
   }
 }
 
 /**
- * Draw field label (Arial 8pt)
+ * Draw label text (Arial 8pt)
  */
-function drawLabel(
-  page: PDFPage,
-  font: PDFFont,
-  text: string,
-  x: number,
-  y: number
-) {
-  page.drawText(text, {
-    x: x + 3,
-    y: y - 8,
-    size: 8,
-    font,
-    color: BLACK,
-  });
+function drawLabel(page: PDFPage, font: PDFFont, text: string, x: number, y: number) {
+  page.drawText(text, { x: x + 2, y: y - 10, size: 8, font, color: BLACK });
 }
 
 /**
- * Draw field value with word wrapping (Times New Roman)
+ * Draw value text with wrapping
  */
 function drawValue(
   page: PDFPage,
@@ -116,27 +90,20 @@ function drawValue(
   y: number,
   maxWidth: number,
   maxHeight: number,
-  fontSize: number = 10
-): number {
-  if (!text) return y;
+  fontSize: number = 9,
+  startOffset: number = 20
+): void {
+  if (!text) return;
 
   const lineHeight = fontSize + 2;
   const lines = wrapText(text, maxWidth - 6, font, fontSize);
-  let currentY = y - 11 - lineHeight; // Start below label
+  let currentY = y - startOffset;
 
   for (const line of lines) {
     if (currentY < y - maxHeight + 4) break;
-    page.drawText(line, {
-      x: x + 3,
-      y: currentY,
-      size: fontSize,
-      font,
-      color: BLACK,
-    });
+    page.drawText(line, { x: x + 3, y: currentY, size: fontSize, font, color: BLACK });
     currentY -= lineHeight;
   }
-
-  return currentY;
 }
 
 /**
@@ -176,265 +143,174 @@ function wrapText(text: string, maxWidth: number, font: PDFFont, fontSize: numbe
 }
 
 /**
- * Generates a pixel-perfect NAVMC 10274 PDF (pages 2-3 of original)
+ * Generates a pixel-perfect NAVMC 10274 PDF (pages 2-3)
  */
 export async function generateNavmc10274Pdf(data: NavmcForm10274Data): Promise<Uint8Array> {
   const pdfDoc = await PDFDocument.create();
 
-  // Embed fonts
   const arial = await pdfDoc.embedFont(StandardFonts.Helvetica);
   const arialBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
   const times = await pdfDoc.embedFont(StandardFonts.TimesRoman);
 
-  // ==================== PAGE 2 ====================
-  const page2 = pdfDoc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
+  // ==================== PAGE 1 (Form Page) ====================
+  const page1 = pdfDoc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
+  let y = FORM_TOP;
 
-  // Outer border for entire form
-  const formTop = mmToY(0);
-  const formHeight = mmToPt(257.175);
-  drawBox(page2, mmToX(0), formTop, mmToPt(196.85), formHeight);
-
-  // ----- Title: "ADMINISTRATIVE ACTION (5216)" -----
-  const titleY = mmToY(0);
-  const titleHeight = mmToPt(9.948);
-  drawBox(page2, mmToX(0), titleY, mmToPt(197.06), titleHeight);
-
+  // ----- TITLE ROW: "ADMINISTRATIVE ACTION (5216)" - height: 28pt -----
+  drawCell(page1, FORM_LEFT, y, FORM_WIDTH, TITLE_HEIGHT);
   const titleText = 'ADMINISTRATIVE ACTION (5216)';
   const titleWidth = arialBold.widthOfTextAtSize(titleText, 10);
-  page2.drawText(titleText, {
-    x: mmToX(0) + (mmToPt(197.06) - titleWidth) / 2,
-    y: titleY - titleHeight + 3,
+  page1.drawText(titleText, {
+    x: FORM_LEFT + (FORM_WIDTH - titleWidth) / 2,
+    y: y - TITLE_HEIGHT + 10,
     size: 10,
     font: arialBold,
     color: BLACK,
   });
+  y -= TITLE_HEIGHT;
 
-  // ----- Row: Action No (1), SSIC/File No (2), Date (3) -----
-  // These are in the right portion of the form, above FROM
+  // ----- ROW 2: FROM (left, rowspan 2) | ACTION NO (top-right) | SSIC (top-right) -----
+  // FROM cell: 378pt wide, spans 2 rows (27 + 26 = 53pt)
+  const fromCellHeight = ACTION_ROW_HEIGHT + DATE_ROW_HEIGHT;
+  drawCell(page1, FORM_LEFT, y, FROM_COL_WIDTH, fromCellHeight);
+  drawLabel(page1, arial, '4.  FROM (Grade, Name, EDIPI, MOS or CO, Pers. O., etc.)', FORM_LEFT, y);
+  drawValue(page1, times, data.from, FORM_LEFT, y, FROM_COL_WIDTH, fromCellHeight, 9, 20);
 
-  // Field 1: ACTION NO. - x=133.35mm, y=9.948mm, w=28.575mm, h=9.525mm
-  const actionNoX = mmToX(133.35);
-  const actionNoY = mmToY(9.948);
-  const actionNoW = mmToPt(28.575);
-  const actionNoH = mmToPt(9.525);
-  drawBox(page2, actionNoX, actionNoY, actionNoW, actionNoH);
-  drawLabel(page2, arial, '1.  ACTION NO.', actionNoX, actionNoY);
+  // ACTION NO cell: 81pt wide, 27pt tall
+  const actionX = FORM_LEFT + FROM_COL_WIDTH;
+  drawCell(page1, actionX, y, ACTION_NO_WIDTH, ACTION_ROW_HEIGHT);
+  drawLabel(page1, arial, '1.  ACTION NO.', actionX, y);
   if (data.actionNo) {
-    page2.drawText(data.actionNo, {
-      x: actionNoX + 3,
-      y: actionNoY - actionNoH + 3,
-      size: 9,
-      font: times,
-      color: BLACK,
-    });
+    page1.drawText(data.actionNo, { x: actionX + 3, y: y - ACTION_ROW_HEIGHT + 5, size: 9, font: times, color: BLACK });
   }
 
-  // Field 2: SSIC/FILE NO. - x=161.925mm, y=9.948mm, w=34.925mm, h=9.525mm
-  const ssicX = mmToX(161.925);
-  const ssicY = mmToY(9.948);
-  const ssicW = mmToPt(34.925);
-  const ssicH = mmToPt(9.525);
-  drawBox(page2, ssicX, ssicY, ssicW, ssicH, { leftBorder: false });
-  drawLabel(page2, arial, '2.  SSIC/FILE NO.', ssicX, ssicY);
+  // SSIC cell: 99pt wide, 27pt tall
+  const ssicX = actionX + ACTION_NO_WIDTH;
+  drawCell(page1, ssicX, y, SSIC_WIDTH, ACTION_ROW_HEIGHT);
+  drawLabel(page1, arial, '2.  SSIC/FILE NO.', ssicX, y);
   if (data.ssicFileNo) {
-    page2.drawText(data.ssicFileNo, {
-      x: ssicX + 3,
-      y: ssicY - ssicH + 3,
-      size: 9,
-      font: times,
-      color: BLACK,
-    });
+    page1.drawText(data.ssicFileNo, { x: ssicX + 3, y: y - ACTION_ROW_HEIGHT + 5, size: 9, font: times, color: BLACK });
   }
+  y -= ACTION_ROW_HEIGHT;
 
-  // Field 3: DATE - x=133.35mm, y=19.473mm, w=63.5mm, h=9.102mm
-  const dateX = mmToX(133.35);
-  const dateY = mmToY(19.473);
-  const dateW = mmToPt(63.5);
-  const dateH = mmToPt(9.102);
-  drawBox(page2, dateX, dateY, dateW, dateH, { topBorder: false });
-  drawLabel(page2, arial, '3.  DATE', dateX, dateY);
+  // DATE cell: 180pt wide (colspan 2), 26pt tall
+  drawCell(page1, actionX, y, DATE_WIDTH, DATE_ROW_HEIGHT);
+  drawLabel(page1, arial, '3.  DATE', actionX, y);
   if (data.date) {
-    page2.drawText(data.date, {
-      x: dateX + dateW / 2 - times.widthOfTextAtSize(data.date, 9) / 2,
-      y: dateY - dateH + 3,
-      size: 9,
-      font: times,
-      color: BLACK,
-    });
+    page1.drawText(data.date, { x: actionX + 3, y: y - DATE_ROW_HEIGHT + 5, size: 9, font: times, color: BLACK });
   }
+  y -= DATE_ROW_HEIGHT;
 
-  // ----- Field 4: FROM - x=0.298mm, y=28.759mm (after date row), w=98.549mm, h=12.7mm -----
-  // Actually positioned at y=9.948mm in the left side, extending down
-  const fromX = mmToX(0);
-  const fromY = mmToY(9.948);
-  const fromW = mmToPt(133.35); // Left side up to Action No
-  const fromH = mmToPt(18.811); // Down to y=28.759mm
-  drawBox(page2, fromX, fromY, fromW, fromH, { rightBorder: false });
-  drawLabel(page2, arial, '4.  FROM (Grade, Name, EDIPI, MOS or CO, Pers. O., etc.)', fromX, fromY);
-  drawValue(page2, times, data.from, fromX, fromY, fromW, fromH, 9);
+  // ----- ROW 3: FROM (280pt) | ORG/STATION (278pt, rowspan 2) -----
+  // Actually FROM and VIA are stacked on left, ORG/STATION spans both on right
+  const orgStationHeight = FROM_ROW_HEIGHT + VIA_ROW_HEIGHT;
 
-  // ----- Field 5: ORGANIZATION AND STATION - x=98.847mm, y=28.575mm, w=98.113mm, h=25.4mm -----
-  const orgX = mmToX(98.535);
-  const orgY = mmToY(28.575);
-  const orgW = mmToPt(98.425);
-  const orgH = mmToPt(25.4);
-  drawBox(page2, orgX, orgY, orgW, orgH, { leftBorder: false, topBorder: false });
-  drawLabel(page2, arial, '5.  ORGANIZATION AND STATION (Complete address)', orgX, orgY);
-  drawValue(page2, times, data.orgStation, orgX, orgY, orgW, orgH, 9);
+  // FROM field 4: 280pt wide, 36pt tall
+  drawCell(page1, FORM_LEFT, y, FIELD4_WIDTH, FROM_ROW_HEIGHT);
+  // Label already at top, this is continuation - skip label, just draw value area
 
-  // ----- Field 6: VIA - x=0.11mm, y=28.575mm, w=98.737mm, h=25.4mm -----
-  const viaX = mmToX(0);
-  const viaY = mmToY(28.575);
-  const viaW = mmToPt(98.535);
-  const viaH = mmToPt(25.4);
-  drawBox(page2, viaX, viaY, viaW, viaH, { topBorder: false, rightBorder: false });
-  drawLabel(page2, arial, '6.  VIA (As required)', viaX, viaY);
-  drawValue(page2, times, data.via, viaX, viaY, viaW, viaH, 9);
+  // ORG/STATION field 5: 278pt wide, spans 2 rows (72pt)
+  const orgX = FORM_LEFT + FIELD4_WIDTH;
+  drawCell(page1, orgX, y, FIELD5_WIDTH, orgStationHeight);
+  drawLabel(page1, arial, '5.  ORGANIZATION AND STATION (Complete address)', orgX, y);
+  drawValue(page1, times, data.orgStation, orgX, y, FIELD5_WIDTH, orgStationHeight, 9, 20);
+  y -= FROM_ROW_HEIGHT;
 
-  // ----- Field 7: TO - The "7. TO:" box with diagonal corners -----
-  const toBoxX = mmToX(0);
-  const toBoxY = mmToY(53.975);
-  const toBoxW = mmToPt(114.3);
-  const toBoxH = mmToPt(34.925);
+  // VIA field 6: 280pt wide, 36pt tall
+  drawCell(page1, FORM_LEFT, y, FIELD4_WIDTH, VIA_ROW_HEIGHT, { rightBorder: false });
+  drawLabel(page1, arial, '6.  VIA (As required)', FORM_LEFT, y);
+  drawValue(page1, times, data.via, FORM_LEFT, y, FIELD4_WIDTH, VIA_ROW_HEIGHT, 9, 20);
+  y -= VIA_ROW_HEIGHT;
 
-  // Draw "7." and "TO:" labels
-  page2.drawText('7.', {
-    x: toBoxX + 3,
-    y: toBoxY - 10,
-    size: 8,
-    font: arial,
-    color: BLACK,
-  });
-  page2.drawText('TO:', {
-    x: toBoxX + 15,
-    y: toBoxY - toBoxH + 14,
-    size: 8,
-    font: arial,
-    color: BLACK,
-  });
+  // ----- ROW 4-5: TO (324pt, rowspan 2) | NATURE OF ACTION (234pt) / COPY TO (234pt) -----
+  const natHeight = 54;
+  const copyHeight = 45;
 
-  // Draw box borders
-  drawBox(page2, toBoxX, toBoxY, toBoxW, toBoxH, { rightBorder: false });
-
-  // Draw TO address value
+  // TO field 7: 324pt wide, 99pt tall (rowspan 2)
+  drawCell(page1, FORM_LEFT, y, TO_COL_WIDTH, TO_ROW_HEIGHT);
+  page1.drawText('7.', { x: FORM_LEFT + 3, y: y - 12, size: 8, font: arial, color: BLACK });
+  page1.drawText('TO:', { x: FORM_LEFT + 11, y: y - TO_ROW_HEIGHT + 18, size: 8, font: arial, color: BLACK });
+  // Draw TO value
   if (data.to) {
-    const toLines = wrapText(data.to, mmToPt(95), times, 10);
-    let toTextY = toBoxY - 24;
+    const toLines = wrapText(data.to, TO_COL_WIDTH - 50, times, 10);
+    let toY = y - 45;
     for (const line of toLines) {
-      if (toTextY < toBoxY - toBoxH + 8) break;
-      page2.drawText(line, {
-        x: toBoxX + mmToPt(15),
-        y: toTextY,
-        size: 10,
-        font: times,
-        color: BLACK,
-      });
-      toTextY -= 12;
+      if (toY < y - TO_ROW_HEIGHT + 10) break;
+      page1.drawText(line, { x: FORM_LEFT + 35, y: toY, size: 10, font: times, color: BLACK });
+      toY -= 12;
     }
   }
 
-  // ----- Field 8: NATURE OF ACTION - x=114.41mm, y=53.975mm, w=82.55mm, h=19.05mm -----
-  const natX = mmToX(114.3);
-  const natY = mmToY(53.975);
-  const natW = mmToPt(82.55);
-  const natH = mmToPt(19.05);
-  drawBox(page2, natX, natY, natW, natH, { leftBorder: false });
-  drawLabel(page2, arial, '8.  NATURE OF ACTION/SUBJECT', natX, natY);
-  drawValue(page2, times, data.natureOfAction, natX, natY, natW, natH, 9);
+  // NATURE OF ACTION field 8: 234pt wide, 54pt tall
+  const natX = FORM_LEFT + TO_COL_WIDTH;
+  drawCell(page1, natX, y, NAT_COL_WIDTH, natHeight);
+  drawLabel(page1, arial, '8.  NATURE OF ACTION/SUBJECT', natX, y);
+  drawValue(page1, times, data.natureOfAction, natX, y, NAT_COL_WIDTH, natHeight, 9, 20);
 
-  // ----- Field 9: COPY TO - x=114.41mm, y=73.025mm, w=82.55mm, h=15.875mm -----
-  const copyX = mmToX(114.3);
-  const copyY = mmToY(73.025);
-  const copyW = mmToPt(82.55);
-  const copyH = mmToPt(15.875);
-  drawBox(page2, copyX, copyY, copyW, copyH, { leftBorder: false, topBorder: false });
-  drawLabel(page2, arial, '9.  COPY TO (As required)', copyX, copyY);
-  drawValue(page2, times, data.copyTo, copyX, copyY, copyW, copyH, 9);
+  // COPY TO field 9: 234pt wide, 45pt tall
+  drawCell(page1, natX, y - natHeight, NAT_COL_WIDTH, copyHeight);
+  drawLabel(page1, arial, '9.  COPY TO (As required)', natX, y - natHeight);
+  drawValue(page1, times, data.copyTo, natX, y - natHeight, NAT_COL_WIDTH, copyHeight, 9, 20);
+  y -= TO_ROW_HEIGHT;
 
-  // ----- Field 10: REFERENCE OR AUTHORITY - x=0.11mm, y=88.9mm, w=98.425mm, h=31.75mm -----
-  const refX = mmToX(0);
-  const refY = mmToY(88.9);
-  const refW = mmToPt(98.425);
-  const refH = mmToPt(31.75);
-  drawBox(page2, refX, refY, refW, refH, { topBorder: false, rightBorder: false });
-  drawLabel(page2, arial, '10.  REFERENCE OR AUTHORITY (if applicable)', refX, refY);
-  drawValue(page2, times, data.references, refX, refY, refW, refH, 9);
+  // ----- ROW 6: REFERENCE (280pt) | ENCLOSURES (278pt) - height: 91pt -----
+  // REFERENCE field 10
+  drawCell(page1, FORM_LEFT, y, REF_WIDTH, REF_ROW_HEIGHT);
+  drawLabel(page1, arial, '10.  REFERENCE OR AUTHORITY (if applicable)', FORM_LEFT, y);
+  drawValue(page1, times, data.references, FORM_LEFT, y, REF_WIDTH, REF_ROW_HEIGHT, 9, 20);
 
-  // ----- Field 11: ENCLOSURES - x=98.535mm, y=88.9mm, w=98.425mm, h=31.75mm -----
-  const enclX = mmToX(98.535);
-  const enclY = mmToY(88.9);
-  const enclW = mmToPt(98.425);
-  const enclH = mmToPt(31.75);
-  drawBox(page2, enclX, enclY, enclW, enclH, { topBorder: false, leftBorder: false });
-  drawLabel(page2, arial, '11.  ENCLOSURES (if any)', enclX, enclY);
-  drawValue(page2, times, data.enclosures, enclX, enclY, enclW, enclH, 9);
+  // ENCLOSURES field 11
+  const enclX = FORM_LEFT + REF_WIDTH;
+  drawCell(page1, enclX, y, ENCL_WIDTH, REF_ROW_HEIGHT);
+  drawLabel(page1, arial, '11.  ENCLOSURES (if any)', enclX, y);
+  drawValue(page1, times, data.enclosures, enclX, y, ENCL_WIDTH, REF_ROW_HEIGHT, 9, 20);
+  y -= REF_ROW_HEIGHT;
 
-  // ----- Field 12: SUPPLEMENTAL INFORMATION - y=120.86mm, w=196.96mm, h=129.965mm -----
-  const suppX = mmToX(0);
-  const suppY = mmToY(120.65);
-  const suppW = mmToPt(196.96);
-  const suppH = mmToPt(129.965);
-  drawBox(page2, suppX, suppY, suppW, suppH, { topBorder: false });
-  drawLabel(page2, arial, '12.  SUPPLEMENTAL INFORMATION (Reduce to minimum wording - type name of originator and sign 3 lines below text)', suppX, suppY);
-  drawValue(page2, times, data.supplementalInfo, suppX, suppY, suppW, suppH, 10);
+  // ----- ROW 7: SUPPLEMENTAL INFORMATION - full width, height: 368pt -----
+  drawCell(page1, FORM_LEFT, y, FORM_WIDTH, SUPP_INFO_HEIGHT);
+  drawLabel(page1, arial, '12.  SUPPLEMENTAL INFORMATION (Reduce to minimum wording - type name of originator and sign 3 lines below text)', FORM_LEFT, y);
+  drawValue(page1, times, data.supplementalInfo, FORM_LEFT, y, FORM_WIDTH, SUPP_INFO_HEIGHT, 10, 20);
+  y -= SUPP_INFO_HEIGHT;
 
-  // ----- Label 13: PROCESSING ACTION -----
-  const procLabelX = mmToX(0);
-  const procLabelY = mmToY(250.825);
-  const procLabelW = mmToPt(196.85);
-  const procLabelH = mmToPt(6.35);
-  drawBox(page2, procLabelX, procLabelY, procLabelW, procLabelH, { topBorder: false });
-
+  // ----- ROW 8: PROCESSING ACTION label - full width, height: 18pt -----
+  drawCell(page1, FORM_LEFT, y, FORM_WIDTH, PROC_LABEL_HEIGHT);
   const procText = '13.  PROCESSING ACTION.  (Complete processing action in item 12 or on reverse.  Endorse by rubber stamp where practicable.)';
-  const procTextWidth = arial.widthOfTextAtSize(procText, 8);
-  page2.drawText(procText, {
-    x: procLabelX + (procLabelW - procTextWidth) / 2,
-    y: procLabelY - procLabelH + 2,
+  page1.drawText(procText, {
+    x: FORM_LEFT + 48,
+    y: y - PROC_LABEL_HEIGHT + 5,
     size: 8,
     font: arial,
     color: BLACK,
   });
 
-  // ==================== PAGE 3 ====================
-  const page3 = pdfDoc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
+  // ==================== PAGE 2 (Continuation Page) ====================
+  const page2 = pdfDoc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
+  y = FORM_TOP;
 
-  // Outer border
-  drawBox(page3, mmToX(0), mmToY(0), mmToPt(196.85), mmToPt(257.175));
-
-  // Title (no border, centered)
-  const title3Y = mmToY(0);
-  const title3Height = mmToPt(12.7);
-  const title3Text = 'ADMINISTRATIVE ACTION (5216)';
-  const title3Width = arialBold.widthOfTextAtSize(title3Text, 10);
-  page3.drawText(title3Text, {
-    x: mmToX(0) + (mmToPt(197.06) - title3Width) / 2,
-    y: title3Y - title3Height / 2 - 3,
+  // Title (centered, no border box)
+  const title2Text = 'ADMINISTRATIVE ACTION (5216)';
+  const title2Width = arialBold.widthOfTextAtSize(title2Text, 10);
+  page2.drawText(title2Text, {
+    x: FORM_LEFT + (FORM_WIDTH - title2Width) / 2,
+    y: y - 15,
     size: 10,
     font: arialBold,
     color: BLACK,
   });
+  y -= 36;
 
-  // Processing Action field - y=12.7mm, w=196.85mm, h=244.475mm
-  const procActX = mmToX(0);
-  const procActY = mmToY(12.7);
-  const procActW = mmToPt(196.85);
-  const procActH = mmToPt(244.475);
-  drawBox(page3, procActX, procActY, procActW, procActH, { topBorder: false });
+  // Processing Action continuation area - full page
+  const procActHeight = PAGE_HEIGHT - 72 - 36; // Leave margins
+  drawCell(page2, FORM_LEFT, y, FORM_WIDTH, procActHeight);
 
   // Draw proposed action text
   if (data.proposedAction) {
-    const procLines = wrapText(data.proposedAction, procActW - 10, times, 10);
-    let procTextY = procActY - 14;
+    const procLines = wrapText(data.proposedAction, FORM_WIDTH - 10, times, 10);
+    let procY = y - 14;
     for (const line of procLines) {
-      if (procTextY < procActY - procActH + 10) break;
-      page3.drawText(line, {
-        x: procActX + 5,
-        y: procTextY,
-        size: 10,
-        font: times,
-        color: BLACK,
-      });
-      procTextY -= 12;
+      if (procY < y - procActHeight + 10) break;
+      page2.drawText(line, { x: FORM_LEFT + 5, y: procY, size: 10, font: times, color: BLACK });
+      procY -= 12;
     }
   }
 
