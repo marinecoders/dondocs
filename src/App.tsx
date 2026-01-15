@@ -78,18 +78,28 @@ function getSignatoryConfig(formData: Partial<DocumentData>): SignatureFieldConf
 
 /**
  * Build dual signatory name configuration for joint letter/MOA/MOU signature field positioning.
- * Returns junior and senior signatory names.
+ * Returns junior and senior signatory names as they appear in the PDF.
  */
 function getDualSignatoryConfig(formData: Partial<DocumentData>, uiMode: string | undefined): DualSignatureFieldConfig {
   let juniorName: string | undefined;
   let seniorName: string | undefined;
 
   if (uiMode === 'moa') {
-    // MOA/MOU uses juniorSigName and seniorSigName
+    // MOA/MOU: Junior uses full name uppercased, Senior uses abbreviated form "F. LASTNAME"
+    // This matches how the LaTeX generator renders them (see generator.ts lines 255-278)
     juniorName = formData.juniorSigName?.toUpperCase()?.trim() || undefined;
-    seniorName = formData.seniorSigName?.toUpperCase()?.trim() || undefined;
+
+    // Senior signatory in MOA/MOU uses abbreviated form: "F. LASTNAME"
+    // e.g., "David Foster" -> "D. FOSTER"
+    const seniorFullName = formData.seniorSigName?.trim() || '';
+    if (seniorFullName) {
+      const parts = seniorFullName.split(' ');
+      const firstName = parts[0] || '';
+      const lastName = parts[parts.length - 1]?.toUpperCase() || '';
+      seniorName = firstName ? `${firstName[0].toUpperCase()}. ${lastName}` : lastName;
+    }
   } else if (uiMode === 'joint') {
-    // Joint letter uses jointJuniorSigName and jointSeniorSigName
+    // Joint letter uses jointJuniorSigName and jointSeniorSigName (both uppercased)
     juniorName = formData.jointJuniorSigName?.toUpperCase()?.trim() || undefined;
     seniorName = formData.jointSeniorSigName?.toUpperCase()?.trim() || undefined;
   } else if (uiMode === 'joint_memo') {

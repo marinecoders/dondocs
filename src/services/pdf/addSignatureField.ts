@@ -31,60 +31,42 @@ const DEFAULT_CONFIG = {
   height: 36, // 0.5 inches
 };
 
-// Fallback position if text not found
-// For typical single-page naval letters, signature is usually around 4-5" from bottom
-const FALLBACK_POSITION = {
-  x: 306, // 72pt margin + 234pt (3.25") = 306pt from page left edge
-  y: 350, // ~4.8" from bottom - typical signature block position
-};
-
-// Dual signature fallback positions for MOA/MOU
-// Junior (LEFT) signs first, Senior (RIGHT) signs last
-const DUAL_SIGNATURE_POSITIONS = {
-  junior: {
-    x: 72,  // 1" margin from left edge
-    y: 280, // ~3.9" from bottom
-  },
-  senior: {
-    x: 396, // ~5.5" from left (positions right-side signature)
-    y: 280, // Same height as junior
-  },
-};
-
 // Height of the signature field plus padding above the name
-const SIGNATURE_FIELD_OFFSET = 42; // 36pt height + 6pt padding
+const SIGNATURE_FIELD_OFFSET = 14; // One line space above the name
+
+// ============================================================================
+// IMPROVED TEXT EXTRACTION - handles more PDF encodings
+// ============================================================================
+
+interface ExtractedTextItem {
+  text: string;
+  x: number;
+  y: number;
+}
 
 /**
- * Searches for text in a PDF page's content stream and returns its position.
- * This parses PDF operators to track the text matrix and find specific text.
- *
- * @param page - The PDF page to search
- * @param searchText - The text to search for (case-insensitive partial match)
- * @returns Position {x, y} if found, null otherwise
+ * Extracts text from PDF content stream with improved encoding support.
+ * FIXED: Properly handles SwiftLaTeX output which uses cumulative Td operators
+ * and puts multiple operators on single lines.
  */
-function findTextInPage(
+function extractTextFromPage(
   page: ReturnType<PDFDocument['getPage']>,
-  searchText: string
-): { x: number; y: number } | null {
+  pageIndex: number
+): ExtractedTextItem[] {
+  const items: ExtractedTextItem[] = [];
+
   try {
-    // Get the content streams from the page
     const contents = page.node.Contents();
     if (!contents) {
-      console.log('No content stream found in page');
-      return null;
+      console.log(`[TEXT] Page ${pageIndex + 1}: No content stream`);
+      return items;
     }
 
-    // Normalize search text for matching
-    const searchUpper = searchText.toUpperCase().trim();
-    if (!searchUpper) return null;
-
-    // Collect all content stream data
     let contentData: Uint8Array;
 
     if (contents instanceof PDFRawStream) {
       contentData = decodePDFRawStream(contents).decode();
     } else if (contents instanceof PDFArray) {
-      // Multiple content streams - concatenate them
       const chunks: Uint8Array[] = [];
       for (let i = 0; i < contents.size(); i++) {
         const stream = contents.lookup(i);
@@ -100,135 +82,293 @@ function findTextInPage(
         offset += chunk.length;
       }
     } else {
-      console.log('Unexpected content type');
-      return null;
+      return items;
     }
 
-    // Parse the content stream as text
     const contentStr = new TextDecoder('latin1').decode(contentData);
 
-    // Track found position
-    let foundPosition: { x: number; y: number } | null = null;
+    console.log(`[TEXT] Page ${pageIndex + 1}: Content stream length = ${contentStr.length} bytes`);
 
-    // Simple regex-based parser for PDF operators
-    // This handles common text positioning patterns
+    // SwiftLaTeX puts multiple operators on single lines, so we can't split by \n
+    // Instead, we need to parse sequentially using regex to find operators
 
-    // Pattern for Tm (text matrix): a b c d e f Tm
-    // e = x translation, f = y translation
-    const tmPattern = /[\d.\-]+\s+[\d.\-]+\s+[\d.\-]+\s+[\d.\-]+\s+([\d.\-]+)\s+([\d.\-]+)\s+Tm/g;
+    let currentX = 0;
+    let currentY = 0;
 
-    // Pattern for Td (text position delta): tx ty Td
-    const tdPattern = /([\d.\-]+)\s+([\d.\-]+)\s+Td/g;
+    // Find all BT (Begin Text) operators - position resets at each BT
+    const btRegex = /\bBT\b/g;
 
-    // Pattern for text show operators with strings
-    // Handles both (text) Tj and [(text)] TJ
-    const textPattern = /\(([^)]*)\)\s*Tj|<([^>]+)>\s*Tj|\[\s*\(([^)]*)\)|<([^>]+)>/g;
+    // Find all Td operators and their positions in the string
+    // Format: "x y Td" where x and y are numbers
+    const tdRegex = /([\d.\-]+)\s+([\d.\-]+)\s+Td/g;
 
-    // First pass: find all Tm positions and their associated text
-    let lastTmY = 0;
-    let lastTmX = 0;
+    // Find all TJ arrays and their positions
+    // Format: "[(text)(text)...]TJ"
+    const tjRegex = /\[((?:[^\[\]]*|\([^)]*\))*)\]TJ/g;
 
-    // Split into lines/blocks for better parsing
-    const lines = contentStr.split(/\n|BT|ET/);
-
-    for (const block of lines) {
-      // Look for Tm operator (text matrix)
-      let tmMatch;
-      while ((tmMatch = tmPattern.exec(block)) !== null) {
-        lastTmX = parseFloat(tmMatch[1]);
-        lastTmY = parseFloat(tmMatch[2]);
-      }
-
-      // Look for Td operator (relative move)
-      let tdMatch;
-      while ((tdMatch = tdPattern.exec(block)) !== null) {
-        lastTmX += parseFloat(tdMatch[1]);
-        lastTmY += parseFloat(tdMatch[2]);
-      }
-
-      // Look for text content
-      let textMatch;
-      while ((textMatch = textPattern.exec(block)) !== null) {
-        // Get the text from whichever group matched
-        const text = textMatch[1] || textMatch[3] || '';
-
-        // Check if this text contains our search string
-        if (text && text.toUpperCase().includes(searchUpper)) {
-          console.log(`Found "${searchText}" at position x=${lastTmX}, y=${lastTmY}`);
-          foundPosition = { x: lastTmX, y: lastTmY };
-          // Continue searching to find the LAST occurrence (closest to bottom of page)
-        }
-      }
-
-      // Reset pattern lastIndex for next block
-      tmPattern.lastIndex = 0;
-      tdPattern.lastIndex = 0;
-      textPattern.lastIndex = 0;
+    // Build ordered list of operations
+    interface Operation {
+      type: 'bt' | 'td' | 'tj';
+      index: number;
+      dx?: number;
+      dy?: number;
+      content?: string;
     }
 
-    return foundPosition;
+    const operations: Operation[] = [];
+
+    // Find all BT (Begin Text) operations - these reset the text matrix
+    let match: RegExpExecArray | null;
+    while ((match = btRegex.exec(contentStr)) !== null) {
+      operations.push({
+        type: 'bt',
+        index: match.index
+      });
+    }
+
+    // Find all Td operations
+    while ((match = tdRegex.exec(contentStr)) !== null) {
+      operations.push({
+        type: 'td',
+        index: match.index,
+        dx: parseFloat(match[1]),
+        dy: parseFloat(match[2])
+      });
+    }
+
+    // Find all TJ operations
+    while ((match = tjRegex.exec(contentStr)) !== null) {
+      operations.push({
+        type: 'tj',
+        index: match.index,
+        content: match[1]
+      });
+    }
+
+    // Sort by position in string (this gives us the correct order of operations)
+    operations.sort((a, b) => a.index - b.index);
+
+    // Process operations in order
+    for (const op of operations) {
+      if (op.type === 'bt') {
+        // BT (Begin Text) resets the text position matrix
+        currentX = 0;
+        currentY = 0;
+      } else if (op.type === 'td' && op.dx !== undefined && op.dy !== undefined) {
+        // Td is cumulative within a text block - adds to current position
+        currentX += op.dx;
+        currentY += op.dy;
+      } else if (op.type === 'tj' && op.content) {
+        // Extract text from TJ array
+        // Format: [(text)-600(more text)] where -600 is kerning adjustment
+        let combinedText = '';
+        const textParts = op.content.matchAll(/\(([^)]*)\)/g);
+        for (const part of textParts) {
+          combinedText += decodePdfLiteralString(part[1]);
+        }
+
+        if (combinedText.trim()) {
+          items.push({ text: combinedText, x: currentX, y: currentY });
+          console.log(`[TEXT] Found: "${combinedText}" at x=${currentX.toFixed(1)}, y=${currentY.toFixed(1)}`);
+        }
+      }
+    }
+
+    console.log(`[TEXT] Page ${pageIndex + 1}: Extracted ${items.length} text items total`);
+    return items;
+
   } catch (error) {
-    console.error('Error finding text in page:', error);
-    return null;
+    console.error(`[TEXT] Page ${pageIndex + 1}: Error:`, error);
+    return items;
   }
 }
 
 /**
- * Finds a signatory name in the PDF and returns position for the signature field.
- * Searches through all pages for the text.
- *
- * @param pdfDoc - The PDF document
- * @param signatoryName - The signatory name to search for
- * @returns Position info, or null if not found
+ * Decode PDF literal string (handles escape sequences)
  */
-function findSignatoryPosition(
-  pdfDoc: PDFDocument,
-  signatoryName: string
-): { pageIndex: number; x: number; y: number } | null {
-  if (!signatoryName || !signatoryName.trim()) {
-    return null;
-  }
+function decodePdfLiteralString(str: string): string {
+  return str
+    .replace(/\\n/g, '\n')
+    .replace(/\\r/g, '\r')
+    .replace(/\\t/g, '\t')
+    .replace(/\\b/g, '\b')
+    .replace(/\\f/g, '\f')
+    .replace(/\\\(/g, '(')
+    .replace(/\\\)/g, ')')
+    .replace(/\\\\/g, '\\')
+    .replace(/\\(\d{1,3})/g, (_, octal) => String.fromCharCode(parseInt(octal, 8)));
+}
 
-  const pages = pdfDoc.getPages();
+/**
+ * Search for text in extracted items.
+ * Handles text where spaces are visual (kerning) rather than actual characters.
+ */
+function searchInItems(
+  items: ExtractedTextItem[],
+  searchText: string
+): { x: number; y: number } | null {
+  // Normalize both search and item text by removing spaces and periods for comparison
+  // This handles "J. A. DOE" matching "J.A.DOE" (kerning creates visual spaces)
+  const normalizeForSearch = (text: string): string => {
+    return text.toUpperCase().replace(/[\s.]/g, '');
+  };
 
-  // Search each page (typically signature is on last page, so search backwards)
-  for (let i = pages.length - 1; i >= 0; i--) {
-    const page = pages[i];
-    const position = findTextInPage(page, signatoryName);
+  const searchNormalized = normalizeForSearch(searchText);
+  console.log(`[SEARCH] Looking for "${searchText}" (normalized: "${searchNormalized}")`);
 
-    if (position) {
-      // Position the signature field ABOVE the name
-      // y coordinate is the baseline of the text, so add offset
-      return {
-        pageIndex: i,
-        x: position.x,
-        y: position.y + SIGNATURE_FIELD_OFFSET,
-      };
+  // Strategy 1: Direct match (normalized)
+  for (const item of items) {
+    const itemNormalized = normalizeForSearch(item.text);
+    if (itemNormalized.includes(searchNormalized)) {
+      console.log(`[SEARCH] ✓ Found "${searchText}" in "${item.text}" at x=${item.x.toFixed(1)}, y=${item.y.toFixed(1)}`);
+      return { x: item.x, y: item.y };
     }
   }
 
-  console.log(`Signatory name "${signatoryName}" not found in PDF`);
+  // Strategy 2: Try with just removing spaces (keep periods)
+  const searchNoSpaces = searchText.toUpperCase().replace(/\s/g, '');
+  for (const item of items) {
+    const itemUpper = item.text.toUpperCase();
+    if (itemUpper.includes(searchNoSpaces)) {
+      console.log(`[SEARCH] ✓ Found "${searchText}" (no spaces) in "${item.text}" at x=${item.x.toFixed(1)}, y=${item.y.toFixed(1)}`);
+      return { x: item.x, y: item.y };
+    }
+  }
+
+  // Strategy 3: Match across items on same line (within 3pt Y tolerance)
+  const lineGroups = new Map<number, ExtractedTextItem[]>();
+  for (const item of items) {
+    const roundedY = Math.round(item.y);
+    if (!lineGroups.has(roundedY)) {
+      lineGroups.set(roundedY, []);
+    }
+    lineGroups.get(roundedY)!.push(item);
+  }
+
+  for (const [y, lineItems] of lineGroups) {
+    lineItems.sort((a, b) => a.x - b.x);
+    const lineText = lineItems.map(i => i.text).join('');
+    const lineNormalized = normalizeForSearch(lineText);
+
+    if (lineNormalized.includes(searchNormalized)) {
+      const firstItem = lineItems[0];
+      console.log(`[SEARCH] ✓ Found "${searchText}" in combined line at x=${firstItem.x.toFixed(1)}, y=${y.toFixed(1)}`);
+      return { x: firstItem.x, y };
+    }
+  }
+
+  console.log(`[SEARCH] ✗ "${searchText}" not found in ${items.length} items`);
   return null;
 }
 
 /**
+ * Calculate signature position based on page layout.
+ * This is used when text extraction fails.
+ */
+function calculateFallbackPosition(
+  page: ReturnType<PDFDocument['getPage']>,
+  signatureType: 'single' | 'junior' | 'senior' = 'single'
+): { x: number; y: number } {
+  const { width, height } = page.getSize();
+
+  console.log(`[FALLBACK] Page size: ${width} x ${height} points`);
+
+  const leftMargin = 72; // 1 inch
+
+  let x: number;
+  let y: number;
+
+  switch (signatureType) {
+    case 'junior':
+      x = leftMargin;
+      y = height * 0.35;
+      break;
+    case 'senior':
+      x = width * 0.50;
+      y = height * 0.35;
+      break;
+    case 'single':
+    default:
+      x = 306;
+      y = 279;
+      break;
+  }
+
+  console.log(`[FALLBACK] Calculated position for ${signatureType}: x=${x}, y=${y}`);
+  return { x, y };
+}
+
+/**
+ * Find signatory position - tries text search first, then falls back to calculated position
+ */
+function findSignatoryPosition(
+  pdfDoc: PDFDocument,
+  signatoryName: string | undefined,
+  signatureType: 'single' | 'junior' | 'senior' = 'single'
+): { pageIndex: number; x: number; y: number } {
+  const pages = pdfDoc.getPages();
+  const lastPageIndex = pages.length - 1;
+  const lastPage = pages[lastPageIndex];
+
+  // Try text-based search if signatory name provided
+  if (signatoryName?.trim()) {
+    console.log(`[POSITION] Searching for "${signatoryName}"...`);
+
+    // Search from last page (where signatures usually are)
+    for (let i = lastPageIndex; i >= 0; i--) {
+      const items = extractTextFromPage(pages[i], i);
+      const position = searchInItems(items, signatoryName);
+
+      if (position) {
+        return {
+          pageIndex: i,
+          x: position.x - 16, // Shift left to center over signature block
+          y: position.y + SIGNATURE_FIELD_OFFSET + 2,
+        };
+      }
+    }
+
+    console.log(`[POSITION] Text search failed, using calculated fallback`);
+  }
+
+  // Fallback to calculated position
+  const fallback = calculateFallbackPosition(lastPage, signatureType);
+  return {
+    pageIndex: lastPageIndex,
+    x: fallback.x,
+    y: fallback.y + SIGNATURE_FIELD_OFFSET,
+  };
+}
+
+/**
+ * Creates an appearance stream for an empty signature field.
+ */
+function createEmptySignatureAppearance(
+  pdfDoc: PDFDocument,
+  width: number,
+  height: number
+) {
+  const stream = pdfDoc.context.stream(
+    `q Q`,
+    {
+      Type: PDFName.of('XObject'),
+      Subtype: PDFName.of('Form'),
+      FormType: 1,
+      BBox: [0, 0, width, height],
+    }
+  );
+  return pdfDoc.context.register(stream);
+}
+
+/**
  * Adds an empty digital signature field to a PDF document.
- *
- * This function searches for the signatory name in the PDF content stream
- * to determine the exact position for the signature field. If the name is
- * not found, it falls back to a default position.
- *
- * The signature field is a proper AcroForm widget that can be signed with
- * Adobe Acrobat, CAC/PIV cards, or other PKI tools.
- *
- * @param pdfBytes - The PDF document as a Uint8Array
- * @param config - Optional configuration for the signature field
- * @returns The modified PDF as a Uint8Array
  */
 export async function addSignatureField(
   pdfBytes: Uint8Array,
   config: SignatureFieldConfig = {}
 ): Promise<Uint8Array> {
+  console.log('[addSignatureField] Starting with config:', config);
+
   const pdfDoc = await PDFDocument.load(pdfBytes);
 
   const {
@@ -238,79 +378,54 @@ export async function addSignatureField(
     signatoryName,
   } = config;
 
-  let targetPageIndex: number;
-  let x: number;
-  let y: number;
+  // Find position (text-based or calculated fallback)
+  const position = findSignatoryPosition(pdfDoc, signatoryName, 'single');
 
-  // Try to find the signatory name in the PDF content
-  const textPosition = signatoryName ? findSignatoryPosition(pdfDoc, signatoryName) : null;
-
-  const catalog = pdfDoc.catalog;
-  let acroForm = catalog.lookup(PDFName.of('AcroForm')) as PDFDict | undefined;
-
-  if (textPosition) {
-    // Use text-based position - found signatory name in PDF
-    targetPageIndex = textPosition.pageIndex;
-    x = textPosition.x;
-    y = textPosition.y;
-    console.log(`Using text-based position for "${signatoryName}": page ${targetPageIndex + 1}, x=${x}, y=${y}`);
-  } else {
-    // Fallback to last page with default position
-    const pages = pdfDoc.getPages();
-    targetPageIndex = pages.length - 1;
-    x = FALLBACK_POSITION.x;
-    y = FALLBACK_POSITION.y;
-    console.log(`Signatory name not provided or not found, using fallback position: page ${targetPageIndex + 1}, x=${x}, y=${y}`);
-  }
+  console.log(`[addSignatureField] Using position: page ${position.pageIndex + 1}, x=${position.x}, y=${position.y}`);
 
   const pages = pdfDoc.getPages();
-  const page = pages[targetPageIndex];
+  const page = pages[position.pageIndex];
   const pageRef = page.ref;
+
+  // Setup AcroForm
+  const catalog = pdfDoc.catalog;
+  let acroForm = catalog.lookup(PDFName.of('AcroForm')) as PDFDict | undefined;
 
   if (!acroForm) {
     acroForm = pdfDoc.context.obj({
       Fields: [],
-      SigFlags: 3, // SignaturesExist | AppendOnly
+      SigFlags: 3,
     }) as PDFDict;
     catalog.set(PDFName.of('AcroForm'), acroForm);
   } else {
-    // Ensure SigFlags is set
     acroForm.set(PDFName.of('SigFlags'), PDFNumber.of(3));
   }
 
-  // Get or create the Fields array
   let fields = acroForm.lookup(PDFName.of('Fields')) as PDFArray | undefined;
   if (!fields) {
     fields = pdfDoc.context.obj([]) as PDFArray;
     acroForm.set(PDFName.of('Fields'), fields);
   }
 
-  // Create the signature field widget annotation
+  // Create signature field
   const sigField = pdfDoc.context.obj({
     Type: PDFName.of('Annot'),
     Subtype: PDFName.of('Widget'),
-    FT: PDFName.of('Sig'), // Field Type: Signature
-    T: PDFString.of(name), // Field name
-    Rect: [x, y, x + width, y + height], // Position and size
-    F: 4, // Print flag
-    P: pageRef, // Parent page reference
-    Border: [0, 0, 0], // No visible border
+    FT: PDFName.of('Sig'),
+    T: PDFString.of(name),
+    Rect: [position.x, position.y, position.x + width, position.y + height],
+    F: 4,
+    P: pageRef,
+    Border: [0, 0, 0],
   }) as PDFDict;
 
-  // Create appearance stream for the empty signature field
   const appearanceStream = createEmptySignatureAppearance(pdfDoc, width, height);
-
-  // Set the normal appearance
-  const apDict = pdfDoc.context.obj({
-    N: appearanceStream,
-  }) as PDFDict;
+  const apDict = pdfDoc.context.obj({ N: appearanceStream }) as PDFDict;
   sigField.set(PDFName.of('AP'), apDict);
 
-  // Add the field to the AcroForm's Fields array
   const sigFieldRef = pdfDoc.context.register(sigField);
   fields.push(sigFieldRef);
 
-  // Add the annotation to the page's Annots array
   let annots = page.node.lookup(PDFName.of('Annots')) as PDFArray | undefined;
   if (!annots) {
     annots = pdfDoc.context.obj([]) as PDFArray;
@@ -318,48 +433,20 @@ export async function addSignatureField(
   }
   annots.push(sigFieldRef);
 
-  // Save and return
+  console.log(`[addSignatureField] ✓ Signature field "${name}" added at Rect=[${position.x}, ${position.y}, ${position.x + width}, ${position.y + height}]`);
+
   return await pdfDoc.save();
 }
 
 /**
- * Creates an appearance stream for an empty signature field.
- * Invisible - no border or text, just defines the clickable area.
- */
-function createEmptySignatureAppearance(
-  pdfDoc: PDFDocument,
-  width: number,
-  height: number
-) {
-  // Create an empty/invisible appearance - just the bounding box
-  const stream = pdfDoc.context.stream(
-    `q Q`, // Empty graphics state - nothing drawn
-    {
-      Type: PDFName.of('XObject'),
-      Subtype: PDFName.of('Form'),
-      FormType: 1,
-      BBox: [0, 0, width, height],
-    }
-  );
-
-  return pdfDoc.context.register(stream);
-}
-
-/**
  * Adds dual digital signature fields for joint letters, MOA/MOU documents.
- * Junior signs on LEFT (first), Senior signs on RIGHT (last).
- *
- * Searches for the signatory names in the PDF content stream to determine
- * exact positions. Falls back to hardcoded positions if names are not found.
- *
- * @param pdfBytes - The PDF document as a Uint8Array
- * @param config - Optional configuration for the signature fields
- * @returns The modified PDF as a Uint8Array
  */
 export async function addDualSignatureFields(
   pdfBytes: Uint8Array,
   config: DualSignatureFieldConfig = {}
 ): Promise<Uint8Array> {
+  console.log('[addDualSignatureFields] Starting with config:', config);
+
   const pdfDoc = await PDFDocument.load(pdfBytes);
 
   const {
@@ -369,69 +456,42 @@ export async function addDualSignatureFields(
     seniorSignatoryName,
   } = config;
 
-  const catalog = pdfDoc.catalog;
-  let acroForm = catalog.lookup(PDFName.of('AcroForm')) as PDFDict | undefined;
+  // Find positions
+  const juniorPosition = findSignatoryPosition(pdfDoc, juniorSignatoryName, 'junior');
+  const seniorPosition = findSignatoryPosition(pdfDoc, seniorSignatoryName, 'senior');
 
-  // Try to find the signatory names in the PDF content
-  const juniorPosition = juniorSignatoryName ? findSignatoryPosition(pdfDoc, juniorSignatoryName) : null;
-  const seniorPosition = seniorSignatoryName ? findSignatoryPosition(pdfDoc, seniorSignatoryName) : null;
+  // Align both signatures to the same Y coordinate (use the average)
+  // This ensures both signature fields appear at the same height
+  const alignedY = (juniorPosition.y + seniorPosition.y) / 2;
+  juniorPosition.y = alignedY;
+  seniorPosition.y = alignedY;
 
-  // Determine positions - use text-based positions if found, otherwise fall back to hardcoded
-  let juniorPageIndex: number;
-  let juniorX: number;
-  let juniorY: number;
-
-  if (juniorPosition) {
-    juniorPageIndex = juniorPosition.pageIndex;
-    juniorX = juniorPosition.x;
-    juniorY = juniorPosition.y;
-    console.log(`Found junior signatory "${juniorSignatoryName}": page ${juniorPageIndex + 1}, x=${juniorX}, y=${juniorY}`);
-  } else {
-    const pages = pdfDoc.getPages();
-    juniorPageIndex = pages.length - 1;
-    juniorX = DUAL_SIGNATURE_POSITIONS.junior.x;
-    juniorY = DUAL_SIGNATURE_POSITIONS.junior.y;
-    console.log(`Junior signatory not found, using fallback: page ${juniorPageIndex + 1}, x=${juniorX}, y=${juniorY}`);
-  }
-
-  let seniorPageIndex: number;
-  let seniorX: number;
-  let seniorY: number;
-
-  if (seniorPosition) {
-    seniorPageIndex = seniorPosition.pageIndex;
-    seniorX = seniorPosition.x;
-    seniorY = seniorPosition.y;
-    console.log(`Found senior signatory "${seniorSignatoryName}": page ${seniorPageIndex + 1}, x=${seniorX}, y=${seniorY}`);
-  } else {
-    const pages = pdfDoc.getPages();
-    seniorPageIndex = pages.length - 1;
-    seniorX = DUAL_SIGNATURE_POSITIONS.senior.x;
-    seniorY = DUAL_SIGNATURE_POSITIONS.senior.y;
-    console.log(`Senior signatory not found, using fallback: page ${seniorPageIndex + 1}, x=${seniorX}, y=${seniorY}`);
-  }
+  console.log(`[addDualSignatureFields] Aligned Y position: ${alignedY.toFixed(1)}`);
 
   const pages = pdfDoc.getPages();
+
+  // Setup AcroForm
+  const catalog = pdfDoc.catalog;
+  let acroForm = catalog.lookup(PDFName.of('AcroForm')) as PDFDict | undefined;
 
   if (!acroForm) {
     acroForm = pdfDoc.context.obj({
       Fields: [],
-      SigFlags: 3, // SignaturesExist | AppendOnly
+      SigFlags: 3,
     }) as PDFDict;
     catalog.set(PDFName.of('AcroForm'), acroForm);
   } else {
     acroForm.set(PDFName.of('SigFlags'), PDFNumber.of(3));
   }
 
-  // Get or create the Fields array
   let fields = acroForm.lookup(PDFName.of('Fields')) as PDFArray | undefined;
   if (!fields) {
     fields = pdfDoc.context.obj([]) as PDFArray;
     acroForm.set(PDFName.of('Fields'), fields);
   }
 
-  // Create Junior signature field (LEFT - signs FIRST)
-  const juniorPage = pages[juniorPageIndex];
+  // Junior signature (LEFT)
+  const juniorPage = pages[juniorPosition.pageIndex];
   const juniorPageRef = juniorPage.ref;
 
   let juniorAnnots = juniorPage.node.lookup(PDFName.of('Annots')) as PDFArray | undefined;
@@ -445,7 +505,7 @@ export async function addDualSignatureFields(
     Subtype: PDFName.of('Widget'),
     FT: PDFName.of('Sig'),
     T: PDFString.of('JuniorSignature'),
-    Rect: [juniorX, juniorY, juniorX + width, juniorY + height],
+    Rect: [juniorPosition.x, juniorPosition.y, juniorPosition.x + width, juniorPosition.y + height],
     F: 4,
     P: juniorPageRef,
     Border: [0, 0, 0],
@@ -458,8 +518,8 @@ export async function addDualSignatureFields(
   fields.push(juniorFieldRef);
   juniorAnnots.push(juniorFieldRef);
 
-  // Create Senior signature field (RIGHT - signs LAST)
-  const seniorPage = pages[seniorPageIndex];
+  // Senior signature (RIGHT)
+  const seniorPage = pages[seniorPosition.pageIndex];
   const seniorPageRef = seniorPage.ref;
 
   let seniorAnnots = seniorPage.node.lookup(PDFName.of('Annots')) as PDFArray | undefined;
@@ -473,7 +533,7 @@ export async function addDualSignatureFields(
     Subtype: PDFName.of('Widget'),
     FT: PDFName.of('Sig'),
     T: PDFString.of('SeniorSignature'),
-    Rect: [seniorX, seniorY, seniorX + width, seniorY + height],
+    Rect: [seniorPosition.x, seniorPosition.y, seniorPosition.x + width, seniorPosition.y + height],
     F: 4,
     P: seniorPageRef,
     Border: [0, 0, 0],
@@ -486,9 +546,9 @@ export async function addDualSignatureFields(
   fields.push(seniorFieldRef);
   seniorAnnots.push(seniorFieldRef);
 
-  console.log(`Added dual signature fields:`);
-  console.log(`  Junior: page ${juniorPageIndex + 1}, x=${juniorX}, y=${juniorY}`);
-  console.log(`  Senior: page ${seniorPageIndex + 1}, x=${seniorX}, y=${seniorY}`);
+  console.log(`[addDualSignatureFields] ✓ Added:`);
+  console.log(`  Junior: page ${juniorPosition.pageIndex + 1}, Rect=[${juniorPosition.x}, ${juniorPosition.y}, ${juniorPosition.x + width}, ${juniorPosition.y + height}]`);
+  console.log(`  Senior: page ${seniorPosition.pageIndex + 1}, Rect=[${seniorPosition.x}, ${seniorPosition.y}, ${seniorPosition.x + width}, ${seniorPosition.y + height}]`);
 
   return await pdfDoc.save();
 }
