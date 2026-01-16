@@ -10,14 +10,39 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { useFormStore } from '@/stores/formStore';
-import { generateNavmc10274Pdf } from '@/services/pdf/navmc10274Generator';
+import { generateNavmc10274Pdf, loadNavmc10274Templates } from '@/services/pdf/navmc10274Generator';
 
 export function Form6105Section() {
   const { navmc10274, setNavmc10274Field, resetNavmc10274 } = useFormStore();
 
   const handleDownload = async () => {
     try {
-      const pdfBytes = await generateNavmc10274Pdf(navmc10274);
+      // Load the template PDFs
+      const templates = await loadNavmc10274Templates();
+      
+      // Generate the filled PDF
+      const pdfBytes = await generateNavmc10274Pdf(
+        {
+          actionNo: navmc10274.actionNo,
+          ssicFileNo: navmc10274.ssicFileNo,
+          date: navmc10274.date,
+          from: navmc10274.from,
+          orgStation: navmc10274.orgStation,
+          via: navmc10274.via,
+          to: navmc10274.to,
+          natureOfAction: navmc10274.natureOfAction,
+          copyTo: navmc10274.copyTo,
+          references: navmc10274.references,
+          enclosures: navmc10274.enclosures,
+          supplementalInfo: navmc10274.supplementalInfo,
+          proposedAction: navmc10274.proposedAction,
+        },
+        templates.page1,
+        templates.page2,
+        templates.page3
+      );
+      
+      // Download
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -29,6 +54,7 @@ export function Form6105Section() {
       URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Failed to generate PDF:', error);
+      alert('Failed to generate PDF. Make sure the template files exist in /templates/');
     }
   };
 
@@ -103,7 +129,7 @@ export function Form6105Section() {
           <AccordionContent className="space-y-4 pt-2">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="from">4. From</Label>
+                <Label htmlFor="from">4. From (Grade, Name, EDIPI, MOS, etc.)</Label>
                 <Textarea
                   id="from"
                   value={navmc10274.from}
@@ -113,7 +139,7 @@ export function Form6105Section() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="orgStation">6. Organization/Station</Label>
+                <Label htmlFor="orgStation">5. Organization/Station</Label>
                 <Textarea
                   id="orgStation"
                   value={navmc10274.orgStation}
@@ -125,7 +151,7 @@ export function Form6105Section() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="via">5. Via</Label>
+              <Label htmlFor="via">6. Via (As required)</Label>
               <Input
                 id="via"
                 value={navmc10274.via}
@@ -154,7 +180,7 @@ export function Form6105Section() {
           </AccordionTrigger>
           <AccordionContent className="space-y-4 pt-2">
             <div className="space-y-2">
-              <Label htmlFor="natureOfAction">8. Nature of Action</Label>
+              <Label htmlFor="natureOfAction">8. Nature of Action/Subject</Label>
               <Textarea
                 id="natureOfAction"
                 value={navmc10274.natureOfAction}
@@ -213,7 +239,7 @@ export function Form6105Section() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="enclosures">11. Enclosures</Label>
+              <Label htmlFor="enclosures">11. Enclosures (if any)</Label>
               <Input
                 id="enclosures"
                 value={navmc10274.enclosures}
@@ -223,7 +249,7 @@ export function Form6105Section() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="copyTo">9. Copy To</Label>
+              <Label htmlFor="copyTo">9. Copy To (As required)</Label>
               <Input
                 id="copyTo"
                 value={navmc10274.copyTo}
@@ -234,6 +260,16 @@ export function Form6105Section() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+
+      {/* Info box */}
+      <div className="border rounded-md p-3 text-xs bg-amber-50 border-amber-200 dark:bg-amber-950/30 dark:border-amber-800">
+        <div className="text-amber-700 dark:text-amber-400 font-medium mb-1">
+          FOR OFFICIAL USE ONLY - Privacy Sensitive
+        </div>
+        <p className="text-amber-600 dark:text-amber-500">
+          Any misuse or unauthorized disclosure can result in both civil and criminal penalties.
+        </p>
+      </div>
     </div>
   );
 }

@@ -1,217 +1,103 @@
-import { PDFDocument, StandardFonts, rgb, PDFPage, PDFFont } from 'pdf-lib';
-import type { NavmcForm10274Data } from '@/stores/formStore';
+import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 
-// Page dimensions (Letter size)
-const PAGE_WIDTH = 612; // 8.5 inches = 612pt
-const PAGE_HEIGHT = 792; // 11 inches = 792pt
+// NAVMC 10274 - Administrative Action
+// This generator loads the official form templates and overlays text
 
-// Form positioning from HTML: margin-left: 6.0955pt, width: 558pt
-const FORM_LEFT = 27; // Centered on page: (612 - 558) / 2
-const FORM_WIDTH = 558;
-const FORM_TOP = PAGE_HEIGHT - 45; // Top margin (adjusted for MCO text above)
-
-// Border and colors
-const BORDER_WIDTH = 0.5; // Thinner lines for cleaner look
-const BLACK = rgb(0, 0, 0);
-
-// Row heights from HTML (in points)
-const TITLE_HEIGHT = 28;
-const ACTION_ROW_HEIGHT = 27;
-const DATE_ROW_HEIGHT = 26;
-const FROM_ROW_HEIGHT = 36;
-const VIA_ROW_HEIGHT = 36;
-const TO_ROW_HEIGHT = 54 + 45; // TO spans 2 rows (54 + 45 = 99pt)
-const REF_ROW_HEIGHT = 91;
-const SUPP_INFO_HEIGHT = 331; // Reduced from 368 to avoid footer overlap
-const PROC_LABEL_HEIGHT = 18;
-
-// Column widths from HTML
-const FROM_COL_WIDTH = 378; // Left column for FROM (spans down to include date area)
-const ACTION_NO_WIDTH = 81;
-const SSIC_WIDTH = 99;
-const DATE_WIDTH = 180; // ACTION_NO + SSIC = 180
-
-const FIELD4_WIDTH = 280; // FROM field
-const FIELD5_WIDTH = 278; // ORG/STATION
-
-const TO_COL_WIDTH = 324; // TO field (left side)
-const NAT_COL_WIDTH = 234; // NATURE OF ACTION + COPY TO (right side)
-
-const REF_WIDTH = 280;
-const ENCL_WIDTH = 278;
-
-// Footer positioning
-const FOOTER_Y = 45; // Y position for footer area
-
-/**
- * Draw page header (MCO reference above form)
- */
-function drawPageHeader(page: PDFPage, font: PDFFont) {
-  // MCO 5216.19A in top right, above the form border
-  const mcoText = 'MCO 5216.19A';
-  const mcoWidth = font.widthOfTextAtSize(mcoText, 9);
-  page.drawText(mcoText, {
-    x: FORM_LEFT + FORM_WIDTH - mcoWidth,
-    y: FORM_TOP + 8,
-    size: 9,
-    font,
-    color: BLACK,
-  });
+export interface Navmc10274Data {
+  // Field 1: Action Number
+  actionNo: string;
+  // Field 2: SSIC/File Number
+  ssicFileNo: string;
+  // Field 3: Date
+  date: string;
+  // Field 4: From (Grade, Name, EDIPI, MOS or CO, Pers. O., etc.)
+  from: string;
+  // Field 5: Organization and Station
+  orgStation: string;
+  // Field 6: Via (As required)
+  via: string;
+  // Field 7: To
+  to: string;
+  // Field 8: Nature of Action/Subject
+  natureOfAction: string;
+  // Field 9: Copy To (As required)
+  copyTo: string;
+  // Field 10: Reference or Authority (if applicable)
+  references: string;
+  // Field 11: Enclosures (if any)
+  enclosures: string;
+  // Field 12: Supplemental Information
+  supplementalInfo: string;
+  // Field 13: Proposed/Recommended Action
+  proposedAction: string;
 }
 
-/**
- * Draw page footer (form number, official use notice, page number)
- */
-function drawPageFooter(
-  page: PDFPage, 
-  font: PDFFont, 
-  fontBold: PDFFont, 
-  pageNum: number, 
-  totalPages: number
-) {
-  const footerY = FOOTER_Y;
+// Field coordinates for Page 2 (measured from bottom-left in points)
+// Letter size: 612 x 792 points
+const PAGE2_FIELDS = {
+  // Row 1: Action No, SSIC/File No
+  actionNo: { x: 475, y: 720 },
+  ssicFileNo: { x: 545, y: 720 },
   
-  // Left side: Form number and edition notice
-  page.drawText('NAVMC 10274 (REV. 07-20) (EF)', {
-    x: FORM_LEFT,
-    y: footerY,
-    size: 8,
-    font: fontBold,
-    color: BLACK,
-  });
-  page.drawText('Previous editions will not be used', {
-    x: FORM_LEFT,
-    y: footerY - 10,
-    size: 7,
-    font,
-    color: BLACK,
-  });
+  // Row 2: Date
+  date: { x: 475, y: 698 },
   
-  // Center: FOR OFFICIAL USE ONLY notice
-  const officialText = 'FOR OFFICIAL USE ONLY';
-  const officialWidth = fontBold.widthOfTextAtSize(officialText, 8);
-  const centerX = PAGE_WIDTH / 2;
-  page.drawText(officialText, {
-    x: centerX - officialWidth / 2,
-    y: footerY,
-    size: 8,
-    font: fontBold,
-    color: BLACK,
-  });
+  // Field 4: From
+  from: { x: 32, y: 660, maxWidth: 280 },
   
-  const privacyText = 'PRIVACY SENSITIVE - Any misuse or unauthorized';
-  const privacyWidth = font.widthOfTextAtSize(privacyText, 7);
-  page.drawText(privacyText, {
-    x: centerX - privacyWidth / 2,
-    y: footerY - 10,
-    size: 7,
-    font,
-    color: BLACK,
-  });
+  // Field 5: Organization and Station  
+  orgStation: { x: 320, y: 660, maxWidth: 265 },
   
-  const disclosureText = 'disclosure can result in both civil and criminal penalties.';
-  const disclosureWidth = font.widthOfTextAtSize(disclosureText, 7);
-  page.drawText(disclosureText, {
-    x: centerX - disclosureWidth / 2,
-    y: footerY - 18,
-    size: 7,
-    font,
-    color: BLACK,
-  });
+  // Field 6: Via
+  via: { x: 32, y: 615, maxWidth: 550 },
   
-  // Right side: Page number
-  const pageText = `Page ${pageNum} of ${totalPages}`;
-  const pageWidth = font.widthOfTextAtSize(pageText, 9);
-  page.drawText(pageText, {
-    x: FORM_LEFT + FORM_WIDTH - pageWidth,
-    y: footerY,
-    size: 9,
-    font,
-    color: BLACK,
-  });
+  // Field 7: To (has a bracket structure)
+  to: { x: 70, y: 545, maxWidth: 210 },
   
-  // AEM Designer text (smaller, below page number)
-  const aemText = 'AEM Designer 6.5';
-  const aemWidth = font.widthOfTextAtSize(aemText, 7);
-  page.drawText(aemText, {
-    x: FORM_LEFT + FORM_WIDTH - aemWidth,
-    y: footerY - 10,
-    size: 7,
-    font,
-    color: BLACK,
-  });
-}
+  // Field 8: Nature of Action/Subject
+  natureOfAction: { x: 320, y: 570, maxWidth: 265 },
+  
+  // Field 9: Copy To
+  copyTo: { x: 320, y: 515, maxWidth: 265 },
+  
+  // Field 10: Reference or Authority
+  references: { x: 32, y: 445, maxWidth: 265, lineHeight: 12 },
+  
+  // Field 11: Enclosures
+  enclosures: { x: 320, y: 445, maxWidth: 265, lineHeight: 12 },
+  
+  // Field 12: Supplemental Information (large text area)
+  supplementalInfo: {
+    x: 32,
+    y: 355,
+    maxWidth: 548,
+    lineHeight: 12,
+    maxLines: 24, // Lines that fit on page 2
+  },
+};
+
+// Field coordinates for Page 3 (continuation)
+const PAGE3_FIELDS = {
+  supplementalInfo: {
+    x: 32,
+    y: 735,
+    maxWidth: 548,
+    lineHeight: 12,
+    maxLines: 52, // More lines available on page 3
+  },
+};
+
+const FONT_SIZE = 10;
 
 /**
- * Draw a cell with border and optional text
+ * Wrap text to fit within a max width
  */
-function drawCell(
-  page: PDFPage,
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  options?: {
-    topBorder?: boolean;
-    bottomBorder?: boolean;
-    leftBorder?: boolean;
-    rightBorder?: boolean;
-  }
-) {
-  const { topBorder = true, bottomBorder = true, leftBorder = true, rightBorder = true } = options || {};
-
-  if (topBorder) {
-    page.drawLine({ start: { x, y }, end: { x: x + width, y }, thickness: BORDER_WIDTH, color: BLACK });
-  }
-  if (bottomBorder) {
-    page.drawLine({ start: { x, y: y - height }, end: { x: x + width, y: y - height }, thickness: BORDER_WIDTH, color: BLACK });
-  }
-  if (leftBorder) {
-    page.drawLine({ start: { x, y }, end: { x, y: y - height }, thickness: BORDER_WIDTH, color: BLACK });
-  }
-  if (rightBorder) {
-    page.drawLine({ start: { x: x + width, y }, end: { x: x + width, y: y - height }, thickness: BORDER_WIDTH, color: BLACK });
-  }
-}
-
-/**
- * Draw label text (Arial 8pt)
- */
-function drawLabel(page: PDFPage, font: PDFFont, text: string, x: number, y: number) {
-  page.drawText(text, { x: x + 2, y: y - 10, size: 8, font, color: BLACK });
-}
-
-/**
- * Draw value text with wrapping
- */
-function drawValue(
-  page: PDFPage,
-  font: PDFFont,
+function wrapText(
   text: string,
-  x: number,
-  y: number,
   maxWidth: number,
-  maxHeight: number,
-  fontSize: number = 9,
-  startOffset: number = 20
-): void {
-  if (!text) return;
-
-  const lineHeight = fontSize + 2;
-  const lines = wrapText(text, maxWidth - 6, font, fontSize);
-  let currentY = y - startOffset;
-
-  for (const line of lines) {
-    if (currentY < y - maxHeight + 4) break;
-    page.drawText(line, { x: x + 3, y: currentY, size: fontSize, font, color: BLACK });
-    currentY -= lineHeight;
-  }
-}
-
-/**
- * Wrap text to fit within width
- */
-function wrapText(text: string, maxWidth: number, font: PDFFont, fontSize: number): string[] {
+  font: Awaited<ReturnType<typeof PDFDocument.prototype.embedFont>>,
+  fontSize: number
+): string[] {
   const lines: string[] = [];
   const paragraphs = text.split('\n');
 
@@ -245,193 +131,208 @@ function wrapText(text: string, maxWidth: number, font: PDFFont, fontSize: numbe
 }
 
 /**
- * Generates a pixel-perfect NAVMC 10274 PDF (pages 2-3)
+ * Draw multi-line text on a page
  */
-export async function generateNavmc10274Pdf(data: NavmcForm10274Data): Promise<Uint8Array> {
+function drawMultilineText(
+  page: ReturnType<typeof PDFDocument.prototype.getPage>,
+  lines: string[],
+  x: number,
+  startY: number,
+  lineHeight: number,
+  font: Awaited<ReturnType<typeof PDFDocument.prototype.embedFont>>,
+  fontSize: number,
+  maxLines?: number
+): { linesDrawn: number; remainingLines: string[] } {
+  const BLACK = rgb(0, 0, 0);
+  const linesToDraw = maxLines ? lines.slice(0, maxLines) : lines;
+  let y = startY;
+
+  for (const line of linesToDraw) {
+    page.drawText(line, {
+      x,
+      y,
+      size: fontSize,
+      font,
+      color: BLACK,
+    });
+    y -= lineHeight;
+  }
+
+  return {
+    linesDrawn: linesToDraw.length,
+    remainingLines: maxLines ? lines.slice(maxLines) : [],
+  };
+}
+
+/**
+ * Generate a filled NAVMC 10274 form
+ * @param data - Form data to fill in
+ * @param page1Bytes - Template page 1 (Privacy Act)
+ * @param page2Bytes - Template page 2 (Main form)
+ * @param page3Bytes - Template page 3 (Continuation)
+ */
+export async function generateNavmc10274Pdf(
+  data: Navmc10274Data,
+  page1Bytes: ArrayBuffer | Uint8Array,
+  page2Bytes: ArrayBuffer | Uint8Array,
+  page3Bytes: ArrayBuffer | Uint8Array
+): Promise<Uint8Array> {
+  // Load all three template pages
+  const [pdfPage1, pdfPage2, pdfPage3] = await Promise.all([
+    PDFDocument.load(page1Bytes),
+    PDFDocument.load(page2Bytes),
+    PDFDocument.load(page3Bytes),
+  ]);
+
+  // Create a new document and copy all pages
   const pdfDoc = await PDFDocument.create();
-
-  const arial = await pdfDoc.embedFont(StandardFonts.Helvetica);
-  const arialBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-  const times = await pdfDoc.embedFont(StandardFonts.TimesRoman);
-
-  const totalPages = 3; // Total pages in the form (page 1 is separate, we generate pages 2 and 3)
-
-  // ==================== PAGE 1 (Form Page - Page 2 of 3) ====================
-  const page1 = pdfDoc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
   
-  // Draw header (MCO 5216.19A)
-  drawPageHeader(page1, arial);
+  const [copiedPage1] = await pdfDoc.copyPages(pdfPage1, [0]);
+  const [copiedPage2] = await pdfDoc.copyPages(pdfPage2, [0]);
+  const [copiedPage3] = await pdfDoc.copyPages(pdfPage3, [0]);
   
-  let y = FORM_TOP;
+  pdfDoc.addPage(copiedPage1);
+  pdfDoc.addPage(copiedPage2);
+  pdfDoc.addPage(copiedPage3);
 
-  // ----- TITLE ROW: "ADMINISTRATIVE ACTION (5216)" - height: 28pt -----
-  drawCell(page1, FORM_LEFT, y, FORM_WIDTH, TITLE_HEIGHT);
-  const titleText = 'ADMINISTRATIVE ACTION (5216)';
-  const titleWidth = arialBold.widthOfTextAtSize(titleText, 10);
-  page1.drawText(titleText, {
-    x: FORM_LEFT + (FORM_WIDTH - titleWidth) / 2,
-    y: y - 14, // Flush to top of box
-    size: 10,
-    font: arialBold,
-    color: BLACK,
-  });
-  y -= TITLE_HEIGHT;
+  // Get references to the pages
+  const page2 = pdfDoc.getPage(1); // Main form
+  const page3 = pdfDoc.getPage(2); // Continuation
 
-  // ----- ROW 2: FROM (left, rowspan 2) | ACTION NO (top-right) | SSIC (top-right) -----
-  // FROM cell: 378pt wide, spans 2 rows (27 + 26 = 53pt)
-  const fromCellHeight = ACTION_ROW_HEIGHT + DATE_ROW_HEIGHT;
-  drawCell(page1, FORM_LEFT, y, FROM_COL_WIDTH, fromCellHeight);
-  drawLabel(page1, arial, '4.  FROM (Grade, Name, EDIPI, MOS or CO, Pers. O., etc.)', FORM_LEFT, y);
-  drawValue(page1, times, data.from, FORM_LEFT, y, FROM_COL_WIDTH, fromCellHeight, 9, 20);
+  // Embed font
+  const font = await pdfDoc.embedFont(StandardFonts.Courier);
+  const BLACK = rgb(0, 0, 0);
 
-  // ACTION NO cell: 81pt wide, 27pt tall
-  const actionX = FORM_LEFT + FROM_COL_WIDTH;
-  drawCell(page1, actionX, y, ACTION_NO_WIDTH, ACTION_ROW_HEIGHT);
-  drawLabel(page1, arial, '1.  ACTION NO.', actionX, y);
+  // Fill Page 2 fields
+  
+  // Field 1: Action No
   if (data.actionNo) {
-    page1.drawText(data.actionNo, { x: actionX + 3, y: y - ACTION_ROW_HEIGHT + 5, size: 9, font: times, color: BLACK });
+    page2.drawText(data.actionNo, {
+      x: PAGE2_FIELDS.actionNo.x,
+      y: PAGE2_FIELDS.actionNo.y,
+      size: FONT_SIZE,
+      font,
+      color: BLACK,
+    });
   }
 
-  // SSIC cell: 99pt wide, 27pt tall
-  const ssicX = actionX + ACTION_NO_WIDTH;
-  drawCell(page1, ssicX, y, SSIC_WIDTH, ACTION_ROW_HEIGHT);
-  drawLabel(page1, arial, '2.  SSIC/FILE NO.', ssicX, y);
+  // Field 2: SSIC/File No
   if (data.ssicFileNo) {
-    page1.drawText(data.ssicFileNo, { x: ssicX + 3, y: y - ACTION_ROW_HEIGHT + 5, size: 9, font: times, color: BLACK });
+    page2.drawText(data.ssicFileNo, {
+      x: PAGE2_FIELDS.ssicFileNo.x,
+      y: PAGE2_FIELDS.ssicFileNo.y,
+      size: FONT_SIZE,
+      font,
+      color: BLACK,
+    });
   }
-  y -= ACTION_ROW_HEIGHT;
 
-  // DATE cell: 180pt wide (colspan 2), 26pt tall
-  drawCell(page1, actionX, y, DATE_WIDTH, DATE_ROW_HEIGHT);
-  drawLabel(page1, arial, '3.  DATE', actionX, y);
+  // Field 3: Date
   if (data.date) {
-    page1.drawText(data.date, { x: actionX + 3, y: y - DATE_ROW_HEIGHT + 5, size: 9, font: times, color: BLACK });
+    page2.drawText(data.date, {
+      x: PAGE2_FIELDS.date.x,
+      y: PAGE2_FIELDS.date.y,
+      size: FONT_SIZE,
+      font,
+      color: BLACK,
+    });
   }
-  y -= DATE_ROW_HEIGHT;
 
-  // ----- ROW 3: FROM (280pt) | ORG/STATION (278pt, rowspan 2) -----
-  // Actually FROM and VIA are stacked on left, ORG/STATION spans both on right
-  const orgStationHeight = FROM_ROW_HEIGHT + VIA_ROW_HEIGHT;
+  // Field 4: From
+  if (data.from) {
+    const lines = wrapText(data.from, PAGE2_FIELDS.from.maxWidth, font, FONT_SIZE);
+    drawMultilineText(page2, lines, PAGE2_FIELDS.from.x, PAGE2_FIELDS.from.y, 12, font, FONT_SIZE);
+  }
 
-  // FROM field 4: 280pt wide, 36pt tall
-  drawCell(page1, FORM_LEFT, y, FIELD4_WIDTH, FROM_ROW_HEIGHT);
-  // Label already at top, this is continuation - skip label, just draw value area
+  // Field 5: Organization and Station
+  if (data.orgStation) {
+    const lines = wrapText(data.orgStation, PAGE2_FIELDS.orgStation.maxWidth, font, FONT_SIZE);
+    drawMultilineText(page2, lines, PAGE2_FIELDS.orgStation.x, PAGE2_FIELDS.orgStation.y, 12, font, FONT_SIZE);
+  }
 
-  // ORG/STATION field 5: 278pt wide, spans 2 rows (72pt)
-  const orgX = FORM_LEFT + FIELD4_WIDTH;
-  drawCell(page1, orgX, y, FIELD5_WIDTH, orgStationHeight);
-  drawLabel(page1, arial, '5.  ORGANIZATION AND STATION (Complete address)', orgX, y);
-  drawValue(page1, times, data.orgStation, orgX, y, FIELD5_WIDTH, orgStationHeight, 9, 20);
-  y -= FROM_ROW_HEIGHT;
+  // Field 6: Via
+  if (data.via) {
+    const lines = wrapText(data.via, PAGE2_FIELDS.via.maxWidth, font, FONT_SIZE);
+    drawMultilineText(page2, lines, PAGE2_FIELDS.via.x, PAGE2_FIELDS.via.y, 12, font, FONT_SIZE);
+  }
 
-  // VIA field 6: 280pt wide, 36pt tall
-  drawCell(page1, FORM_LEFT, y, FIELD4_WIDTH, VIA_ROW_HEIGHT, { rightBorder: false });
-  drawLabel(page1, arial, '6.  VIA (As required)', FORM_LEFT, y);
-  drawValue(page1, times, data.via, FORM_LEFT, y, FIELD4_WIDTH, VIA_ROW_HEIGHT, 9, 20);
-  y -= VIA_ROW_HEIGHT;
-
-  // ----- ROW 4-5: TO (324pt, rowspan 2) | NATURE OF ACTION (234pt) / COPY TO (234pt) -----
-  const natHeight = 54;
-  const copyHeight = 45;
-
-  // TO field 7: 324pt wide, 99pt tall (rowspan 2)
-  drawCell(page1, FORM_LEFT, y, TO_COL_WIDTH, TO_ROW_HEIGHT);
-  page1.drawText('7.', { x: FORM_LEFT + 3, y: y - 12, size: 8, font: arial, color: BLACK });
-  page1.drawText('TO:', { x: FORM_LEFT + 11, y: y - (TO_ROW_HEIGHT / 2) - 4, size: 8, font: arial, color: BLACK }); // Vertically centered
-  // Draw TO value
+  // Field 7: To
   if (data.to) {
-    const toLines = wrapText(data.to, TO_COL_WIDTH - 50, times, 10);
-    let toY = y - 45;
-    for (const line of toLines) {
-      if (toY < y - TO_ROW_HEIGHT + 10) break;
-      page1.drawText(line, { x: FORM_LEFT + 35, y: toY, size: 10, font: times, color: BLACK });
-      toY -= 12;
-    }
+    const lines = wrapText(data.to, PAGE2_FIELDS.to.maxWidth, font, FONT_SIZE);
+    drawMultilineText(page2, lines, PAGE2_FIELDS.to.x, PAGE2_FIELDS.to.y, 12, font, FONT_SIZE);
   }
 
-  // NATURE OF ACTION field 8: 234pt wide, 54pt tall
-  const natX = FORM_LEFT + TO_COL_WIDTH;
-  drawCell(page1, natX, y, NAT_COL_WIDTH, natHeight);
-  drawLabel(page1, arial, '8.  NATURE OF ACTION/SUBJECT', natX, y);
-  drawValue(page1, times, data.natureOfAction, natX, y, NAT_COL_WIDTH, natHeight, 9, 20);
-
-  // COPY TO field 9: 234pt wide, 45pt tall
-  drawCell(page1, natX, y - natHeight, NAT_COL_WIDTH, copyHeight);
-  drawLabel(page1, arial, '9.  COPY TO (As required)', natX, y - natHeight);
-  drawValue(page1, times, data.copyTo, natX, y - natHeight, NAT_COL_WIDTH, copyHeight, 9, 20);
-  y -= TO_ROW_HEIGHT;
-
-  // ----- ROW 6: REFERENCE (280pt) | ENCLOSURES (278pt) - height: 91pt -----
-  // REFERENCE field 10
-  drawCell(page1, FORM_LEFT, y, REF_WIDTH, REF_ROW_HEIGHT);
-  drawLabel(page1, arial, '10.  REFERENCE OR AUTHORITY (if applicable)', FORM_LEFT, y);
-  drawValue(page1, times, data.references, FORM_LEFT, y, REF_WIDTH, REF_ROW_HEIGHT, 9, 20);
-
-  // ENCLOSURES field 11
-  const enclX = FORM_LEFT + REF_WIDTH;
-  drawCell(page1, enclX, y, ENCL_WIDTH, REF_ROW_HEIGHT);
-  drawLabel(page1, arial, '11.  ENCLOSURES (if any)', enclX, y);
-  drawValue(page1, times, data.enclosures, enclX, y, ENCL_WIDTH, REF_ROW_HEIGHT, 9, 20);
-  y -= REF_ROW_HEIGHT;
-
-  // ----- ROW 7: SUPPLEMENTAL INFORMATION - full width, height: 368pt -----
-  drawCell(page1, FORM_LEFT, y, FORM_WIDTH, SUPP_INFO_HEIGHT);
-  drawLabel(page1, arial, '12.  SUPPLEMENTAL INFORMATION (Reduce to minimum wording - type name of originator and sign 3 lines below text)', FORM_LEFT, y);
-  drawValue(page1, times, data.supplementalInfo, FORM_LEFT, y, FORM_WIDTH, SUPP_INFO_HEIGHT, 10, 20);
-  y -= SUPP_INFO_HEIGHT;
-
-  // ----- ROW 8: PROCESSING ACTION label - full width, height: 18pt -----
-  drawCell(page1, FORM_LEFT, y, FORM_WIDTH, PROC_LABEL_HEIGHT);
-  const procText = '13.  PROCESSING ACTION.  (Complete processing action in item 12 or on reverse.  Endorse by rubber stamp where practicable.)';
-  page1.drawText(procText, {
-    x: FORM_LEFT + 48,
-    y: y - PROC_LABEL_HEIGHT + 5,
-    size: 8,
-    font: arial,
-    color: BLACK,
-  });
-
-  // Draw footer for page 1 (Page 2 of 3)
-  drawPageFooter(page1, arial, arialBold, 2, totalPages);
-
-  // ==================== PAGE 2 (Continuation Page - Page 3 of 3) ====================
-  const page2 = pdfDoc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
-  
-  // Draw header (MCO 5216.19A)
-  drawPageHeader(page2, arial);
-  
-  y = FORM_TOP;
-
-  // Title row with border box
-  drawCell(page2, FORM_LEFT, y, FORM_WIDTH, TITLE_HEIGHT);
-  const title2Text = 'ADMINISTRATIVE ACTION (5216)';
-  const title2Width = arialBold.widthOfTextAtSize(title2Text, 10);
-  page2.drawText(title2Text, {
-    x: FORM_LEFT + (FORM_WIDTH - title2Width) / 2,
-    y: y - 14,
-    size: 10,
-    font: arialBold,
-    color: BLACK,
-  });
-  y -= TITLE_HEIGHT;
-
-  // Processing Action continuation area - large box for the rest of the page
-  const procActHeight = y - FOOTER_Y - 10; // From below title to above footer
-  drawCell(page2, FORM_LEFT, y, FORM_WIDTH, procActHeight);
-
-  // Draw proposed action text
-  if (data.proposedAction) {
-    const procLines = wrapText(data.proposedAction, FORM_WIDTH - 10, times, 10);
-    let procY = y - 14;
-    for (const line of procLines) {
-      if (procY < y - procActHeight + 10) break;
-      page2.drawText(line, { x: FORM_LEFT + 5, y: procY, size: 10, font: times, color: BLACK });
-      procY -= 12;
-    }
+  // Field 8: Nature of Action/Subject
+  if (data.natureOfAction) {
+    const lines = wrapText(data.natureOfAction, PAGE2_FIELDS.natureOfAction.maxWidth, font, FONT_SIZE);
+    drawMultilineText(page2, lines, PAGE2_FIELDS.natureOfAction.x, PAGE2_FIELDS.natureOfAction.y, 12, font, FONT_SIZE);
   }
 
-  // Draw footer for page 2 (Page 3 of 3)
-  drawPageFooter(page2, arial, arialBold, 3, totalPages);
+  // Field 9: Copy To
+  if (data.copyTo) {
+    const lines = wrapText(data.copyTo, PAGE2_FIELDS.copyTo.maxWidth, font, FONT_SIZE);
+    drawMultilineText(page2, lines, PAGE2_FIELDS.copyTo.x, PAGE2_FIELDS.copyTo.y, 12, font, FONT_SIZE);
+  }
+
+  // Field 10: References
+  if (data.references) {
+    const lines = wrapText(data.references, PAGE2_FIELDS.references.maxWidth, font, FONT_SIZE);
+    drawMultilineText(page2, lines, PAGE2_FIELDS.references.x, PAGE2_FIELDS.references.y, PAGE2_FIELDS.references.lineHeight, font, FONT_SIZE);
+  }
+
+  // Field 11: Enclosures
+  if (data.enclosures) {
+    const lines = wrapText(data.enclosures, PAGE2_FIELDS.enclosures.maxWidth, font, FONT_SIZE);
+    drawMultilineText(page2, lines, PAGE2_FIELDS.enclosures.x, PAGE2_FIELDS.enclosures.y, PAGE2_FIELDS.enclosures.lineHeight, font, FONT_SIZE);
+  }
+
+  // Field 12: Supplemental Information (may span pages)
+  if (data.supplementalInfo) {
+    const allLines = wrapText(data.supplementalInfo, PAGE2_FIELDS.supplementalInfo.maxWidth, font, FONT_SIZE);
+    
+    // Draw on page 2
+    const { remainingLines } = drawMultilineText(
+      page2,
+      allLines,
+      PAGE2_FIELDS.supplementalInfo.x,
+      PAGE2_FIELDS.supplementalInfo.y,
+      PAGE2_FIELDS.supplementalInfo.lineHeight,
+      font,
+      FONT_SIZE,
+      PAGE2_FIELDS.supplementalInfo.maxLines
+    );
+
+    // Continue on page 3 if needed
+    if (remainingLines.length > 0) {
+      drawMultilineText(
+        page3,
+        remainingLines,
+        PAGE3_FIELDS.supplementalInfo.x,
+        PAGE3_FIELDS.supplementalInfo.y,
+        PAGE3_FIELDS.supplementalInfo.lineHeight,
+        font,
+        FONT_SIZE,
+        PAGE3_FIELDS.supplementalInfo.maxLines
+      );
+    }
+  }
 
   return pdfDoc.save();
+}
+
+/**
+ * Load the NAVMC 10274 template pages from the public folder
+ */
+export async function loadNavmc10274Templates(): Promise<{
+  page1: ArrayBuffer;
+  page2: ArrayBuffer;
+  page3: ArrayBuffer;
+}> {
+  const [page1, page2, page3] = await Promise.all([
+    fetch('/templates/NAVMC10274_page1.pdf').then(r => r.arrayBuffer()),
+    fetch('/templates/NAVMC10274_page2.pdf').then(r => r.arrayBuffer()),
+    fetch('/templates/NAVMC10274_page3.pdf').then(r => r.arrayBuffer()),
+  ]);
+
+  return { page1, page2, page3 };
 }
