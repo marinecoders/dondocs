@@ -20,10 +20,6 @@ export interface Navmc11811Data {
   signatureName?: string;
 }
 
-// Page dimensions (Letter size in points)
-const PAGE_WIDTH = 612;
-const PAGE_HEIGHT = 792;
-
 // Field coordinates (measured from bottom-left in points)
 // These are approximate - adjust as needed after testing
 const FIELDS = {
