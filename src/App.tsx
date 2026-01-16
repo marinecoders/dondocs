@@ -28,6 +28,7 @@ import { useLatexEngine, useServiceWorker } from '@/hooks';
 import { generateAllLatexFiles, type GeneratedFiles } from '@/services/latex/generator';
 import { generateDocx } from '@/services/docx/generator';
 import { generateNavmc10274Pdf, loadNavmc10274Templates } from '@/services/pdf/navmc10274Generator';
+import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/navmc11811Generator';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
 import type { ClassificationInfo, EnclosureError } from '@/services/pdf/mergeEnclosures';
 import { addSignatureField, addDualSignatureFields, type DualSignatureFieldConfig, type SignatureFieldConfig } from '@/services/pdf/addSignatureField';
@@ -130,7 +131,7 @@ function App() {
     closeAllModals,
   } = useUIStore();
   const documentStore = useDocumentStore();
-  const { documentCategory } = useDocumentStore();
+  const { documentCategory, formType } = useDocumentStore();
   const { setFormData, applySnapshot } = useDocumentStore();
   const formStore = useFormStore();
   const { undo, redo } = useHistoryStore();
@@ -336,23 +337,34 @@ function App() {
 
   // Generate form PDF preview when in forms mode
   // Note: Templates need to be loaded async, so we cache them
-  const [formTemplates, setFormTemplates] = useState<{
+  const [navmc10274Templates, setNavmc10274Templates] = useState<{
     page1: ArrayBuffer;
     page2: ArrayBuffer;
     page3: ArrayBuffer;
   } | null>(null);
+  const [navmc11811Template, setNavmc11811Template] = useState<ArrayBuffer | null>(null);
 
   // Load form templates when entering forms mode
   useEffect(() => {
-    if (documentCategory === 'forms' && !formTemplates) {
-      loadNavmc10274Templates()
-        .then(setFormTemplates)
-        .catch(err => console.error('Failed to load form templates:', err));
+    if (documentCategory === 'forms') {
+      // Load NAVMC 10274 templates (3 pages)
+      if (!navmc10274Templates) {
+        loadNavmc10274Templates()
+          .then(setNavmc10274Templates)
+          .catch(err => console.error('Failed to load NAVMC 10274 templates:', err));
+      }
+      // Load NAVMC 118(11) template (1 page)
+      if (!navmc11811Template) {
+        loadNavmc11811Template()
+          .then(setNavmc11811Template)
+          .catch(err => console.error('Failed to load NAVMC 118(11) template:', err));
+      }
     }
-  }, [documentCategory, formTemplates]);
+  }, [documentCategory, navmc10274Templates, navmc11811Template]);
 
+  // Generate form preview based on selected form type
   useEffect(() => {
-    if (documentCategory !== 'forms' || !formTemplates) return;
+    if (documentCategory !== 'forms') return;
 
     if (formCompileTimeoutRef.current) {
       clearTimeout(formCompileTimeoutRef.current);
@@ -360,23 +372,34 @@ function App() {
 
     formCompileTimeoutRef.current = setTimeout(async () => {
       try {
-        const pdfBytes = await generateNavmc10274Pdf(
-          formStore.navmc10274,
-          formTemplates.page1,
-          formTemplates.page2,
-          formTemplates.page3
-        );
+        let pdfBytes: Uint8Array | null = null;
 
-        const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
+        if (formType === 'navmc_10274' && navmc10274Templates) {
+          pdfBytes = await generateNavmc10274Pdf(
+            formStore.navmc10274,
+            navmc10274Templates.page1,
+            navmc10274Templates.page2,
+            navmc10274Templates.page3
+          );
+        } else if (formType === 'navmc_118_11' && navmc11811Template) {
+          pdfBytes = await generateNavmc11811Pdf(
+            formStore.navmc11811,
+            navmc11811Template
+          );
+        }
 
-        // Revoke old URL after creating new one
-        setFormPdfUrl((prevUrl) => {
-          if (prevUrl) {
-            URL.revokeObjectURL(prevUrl);
-          }
-          return url;
-        });
+        if (pdfBytes) {
+          const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
+          const url = URL.createObjectURL(blob);
+
+          // Revoke old URL after creating new one
+          setFormPdfUrl((prevUrl) => {
+            if (prevUrl) {
+              URL.revokeObjectURL(prevUrl);
+            }
+            return url;
+          });
+        }
       } catch (err) {
         console.error('Form PDF generation error:', err);
       }
@@ -387,7 +410,7 @@ function App() {
         clearTimeout(formCompileTimeoutRef.current);
       }
     };
-  }, [documentCategory, formStore.navmc10274, formTemplates]);
+  }, [documentCategory, formType, formStore.navmc10274, formStore.navmc11811, navmc10274Templates, navmc11811Template]);
 
   // Track if download is in progress to prevent double downloads
   const downloadInProgressRef = useRef(false);
