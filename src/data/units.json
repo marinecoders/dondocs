@@ -1244,6 +1244,13 @@
       "service": "USMC"
     },
     {
+      "name": "23D MARINE REGIMENT",
+      "abbrev": "23D MAR",
+      "address": "4TH MARINE DIVISION\n900 COMMODORE DRIVE\nSAN BRUNO, CA 94066-0095",
+      "type": "regiment",
+      "service": "USMC"
+    },
+    {
       "name": "2D AA BN 2D MARDIV",
       "abbrev": "2D AA BN 2D MARDIV",
       "mcc": "19G",

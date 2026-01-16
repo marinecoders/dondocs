@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Shield, Settings2, Eraser, FileText, AlertTriangle } from 'lucide-react';
+import { Shield, Settings2, Eraser, FileText, AlertTriangle, FileStack, ClipboardList } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import {
@@ -27,18 +27,28 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useDocumentStore } from '@/stores/documentStore';
-import { DOC_TYPE_LABELS, DOC_TYPE_CONFIG, DOC_TYPE_CATEGORIES, type DocumentData } from '@/types/document';
+import { DOC_TYPE_LABELS, DOC_TYPE_CONFIG, DOC_TYPE_CATEGORIES, FORM_TYPE_LABELS, FORM_TYPE_CATEGORIES, type DocumentData, type DocumentCategory, type FormType } from '@/types/document';
 import { Badge } from '@/components/ui/badge';
 import { getExampleByDocType } from '@/data/exampleDocuments';
 
 export function DocumentTypeSelector() {
-  const { docType, setDocType, formData, setField, documentMode, setDocumentMode, clearFieldsExceptLetterhead, loadTemplate, paragraphs, references, enclosures } = useDocumentStore();
+  const {
+    docType, setDocType,
+    formType, setFormType,
+    documentCategory, setDocumentCategory,
+    formData, setField,
+    documentMode, setDocumentMode,
+    clearFieldsExceptLetterhead, loadTemplate,
+    paragraphs, references, enclosures
+  } = useDocumentStore();
   const [showClearDialog, setShowClearDialog] = useState(false);
   const [showSwitchDialog, setShowSwitchDialog] = useState(false);
   const [pendingDocType, setPendingDocType] = useState<string | null>(null);
   const config = DOC_TYPE_CONFIG[docType];
   const isCompliant = documentMode === 'compliant';
+  const isCorrespondence = documentCategory === 'correspondence';
 
   /**
    * Check if the user has meaningful content that would be lost
@@ -158,6 +168,26 @@ export function DocumentTypeSelector() {
         )}
       </div>
 
+      {/* Category Tabs - Correspondence vs Forms */}
+      <div className="space-y-2">
+        <Label>Category</Label>
+        <Tabs value={documentCategory} onValueChange={(v) => setDocumentCategory(v as DocumentCategory)}>
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="correspondence" className="flex items-center gap-2">
+              <FileStack className="h-4 w-4" />
+              Correspondence
+            </TabsTrigger>
+            <TabsTrigger value="forms" className="flex items-center gap-2">
+              <ClipboardList className="h-4 w-4" />
+              Forms
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
+      {/* Correspondence Document Type Selector */}
+      {isCorrespondence && (
+        <>
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <Label>Document Type</Label>
@@ -213,7 +243,7 @@ export function DocumentTypeSelector() {
         </div>
       )}
 
-      {/* Font settings - only show in custom mode */}
+      {/* Font settings - only show in custom mode and correspondence */}
       {!isCompliant && (
         <div className="grid grid-cols-2 gap-density-4">
           <div className="space-y-2">
@@ -250,6 +280,40 @@ export function DocumentTypeSelector() {
             </Select>
           </div>
         </div>
+      )}
+      </>
+      )}
+
+      {/* Forms Selector */}
+      {!isCorrespondence && (
+        <>
+        <div className="space-y-2">
+          <Label>Form Type</Label>
+          <Select value={formType} onValueChange={(v) => setFormType(v as FormType)}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select form type" />
+            </SelectTrigger>
+            <SelectContent>
+              {FORM_TYPE_CATEGORIES.map((cat) => (
+                <SelectGroup key={cat.category}>
+                  <SelectLabel>{cat.category}</SelectLabel>
+                  {cat.types.map((type) => (
+                    <SelectItem key={type} value={type}>
+                      {FORM_TYPE_LABELS[type]}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="border rounded-md p-3 text-xs bg-blue-50 border-blue-200 dark:bg-blue-950/30 dark:border-blue-800">
+          <div className="text-blue-700 dark:text-blue-400">
+            Select a form type above to edit. The form editor will appear below.
+          </div>
+        </div>
+        </>
       )}
 
       {/* Clear fields confirmation dialog */}

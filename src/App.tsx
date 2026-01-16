@@ -20,12 +20,15 @@ import { UpdatePromptModal } from '@/components/modals/UpdatePromptModal';
 import { BrowserCompatibilityNotice } from '@/components/BrowserCompatibilityNotice';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
+import { useFormStore } from '@/stores/formStore';
 import { useHistoryStore } from '@/stores/historyStore';
 import { useProfileStore } from '@/stores/profileStore';
 import { useLogStore } from '@/stores/logStore';
 import { useLatexEngine, useServiceWorker } from '@/hooks';
 import { generateAllLatexFiles, type GeneratedFiles } from '@/services/latex/generator';
 import { generateDocx } from '@/services/docx/generator';
+import { generateNavmc10274Pdf, loadNavmc10274Templates } from '@/services/pdf/navmc10274Generator';
+import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/navmc11811Generator';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
 import type { ClassificationInfo, EnclosureError } from '@/services/pdf/mergeEnclosures';
 import { addSignatureField, addDualSignatureFields, type DualSignatureFieldConfig, type SignatureFieldConfig } from '@/services/pdf/addSignatureField';
@@ -128,7 +131,9 @@ function App() {
     closeAllModals,
   } = useUIStore();
   const documentStore = useDocumentStore();
+  const { documentCategory, formType } = useDocumentStore();
   const { setFormData, applySnapshot } = useDocumentStore();
+  const formStore = useFormStore();
   const { undo, redo } = useHistoryStore();
   const { selectedProfile, profiles } = useProfileStore();
   const { addLogDirect } = useLogStore();
@@ -136,9 +141,11 @@ function App() {
   const { showUpdatePrompt, confirmUpdate, dismissUpdatePrompt } = useServiceWorker();
 
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [formPdfUrl, setFormPdfUrl] = useState<string | null>(null);
   const [isCompiling, setIsCompiling] = useState(false);
   const [compileError, setCompileError] = useState<string | null>(null);
   const compileTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const formCompileTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isResettingRef = useRef(false);
 
   // PII detection state
@@ -327,6 +334,83 @@ function App() {
     documentStore.paragraphs,
     documentStore.copyTos,
   ]);
+
+  // Generate form PDF preview when in forms mode
+  // Note: Templates need to be loaded async, so we cache them
+  const [navmc10274Templates, setNavmc10274Templates] = useState<{
+    page1: ArrayBuffer;
+    page2: ArrayBuffer;
+    page3: ArrayBuffer;
+  } | null>(null);
+  const [navmc11811Template, setNavmc11811Template] = useState<ArrayBuffer | null>(null);
+
+  // Load form templates when entering forms mode
+  useEffect(() => {
+    if (documentCategory === 'forms') {
+      // Load NAVMC 10274 templates (3 pages)
+      if (!navmc10274Templates) {
+        loadNavmc10274Templates()
+          .then(setNavmc10274Templates)
+          .catch(err => console.error('Failed to load NAVMC 10274 templates:', err));
+      }
+      // Load NAVMC 118(11) template (1 page)
+      if (!navmc11811Template) {
+        loadNavmc11811Template()
+          .then(setNavmc11811Template)
+          .catch(err => console.error('Failed to load NAVMC 118(11) template:', err));
+      }
+    }
+  }, [documentCategory, navmc10274Templates, navmc11811Template]);
+
+  // Generate form preview based on selected form type
+  useEffect(() => {
+    if (documentCategory !== 'forms') return;
+
+    if (formCompileTimeoutRef.current) {
+      clearTimeout(formCompileTimeoutRef.current);
+    }
+
+    formCompileTimeoutRef.current = setTimeout(async () => {
+      try {
+        let pdfBytes: Uint8Array | null = null;
+
+        if (formType === 'navmc_10274' && navmc10274Templates) {
+          pdfBytes = await generateNavmc10274Pdf(
+            formStore.navmc10274,
+            navmc10274Templates.page1,
+            navmc10274Templates.page2,
+            navmc10274Templates.page3
+          );
+        } else if (formType === 'navmc_118_11' && navmc11811Template) {
+          pdfBytes = await generateNavmc11811Pdf(
+            formStore.navmc11811,
+            navmc11811Template
+          );
+        }
+
+        if (pdfBytes) {
+          const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
+          const url = URL.createObjectURL(blob);
+
+          // Revoke old URL after creating new one
+          setFormPdfUrl((prevUrl) => {
+            if (prevUrl) {
+              URL.revokeObjectURL(prevUrl);
+            }
+            return url;
+          });
+        }
+      } catch (err) {
+        console.error('Form PDF generation error:', err);
+      }
+    }, 500); // Faster debounce for forms since no LaTeX compilation
+
+    return () => {
+      if (formCompileTimeoutRef.current) {
+        clearTimeout(formCompileTimeoutRef.current);
+      }
+    };
+  }, [documentCategory, formType, formStore.navmc10274, formStore.navmc11811, navmc10274Templates, navmc11811Template]);
 
   // Track if download is in progress to prevent double downloads
   const downloadInProgressRef = useRef(false);
@@ -795,9 +879,9 @@ ${texFiles['body.tex'] || '% No body content'}
         </div>
 
         <PreviewPanel
-          pdfUrl={pdfUrl}
-          isCompiling={isCompiling || !isReady}
-          error={compileError || engineError}
+          pdfUrl={documentCategory === 'forms' ? formPdfUrl : pdfUrl}
+          isCompiling={documentCategory === 'forms' ? false : (isCompiling || !isReady)}
+          error={documentCategory === 'forms' ? null : (compileError || engineError)}
         />
       </main>
 
@@ -805,9 +889,9 @@ ${texFiles['body.tex'] || '% No body content'}
       <ProfileModal />
       <ReferenceLibraryModal />
       <MobilePreviewModal
-        pdfUrl={pdfUrl}
-        isCompiling={isCompiling || !isReady}
-        error={compileError || engineError}
+        pdfUrl={documentCategory === 'forms' ? formPdfUrl : pdfUrl}
+        isCompiling={documentCategory === 'forms' ? false : (isCompiling || !isReady)}
+        error={documentCategory === 'forms' ? null : (compileError || engineError)}
         onDownloadPdf={handleDownloadPdf}
       />
       <AboutModal />

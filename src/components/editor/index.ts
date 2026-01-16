@@ -18,3 +18,5 @@ export { ProfileBar } from './ProfileBar';
 export { ReferencesManager } from './ReferencesManager';
 export { RichTextToolbar } from './RichTextToolbar';
 export { SignatureSection } from './SignatureSection';
+export { Form6105Section } from './Form6105Section';
+export { Form11811Section } from './Form11811Section';

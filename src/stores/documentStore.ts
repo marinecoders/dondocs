@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { format, parse, isValid } from 'date-fns';
-import type { Reference, Enclosure, Paragraph, CopyTo, DocumentData, DocumentMode } from '@/types/document';
+import type { Reference, Enclosure, Paragraph, CopyTo, DocumentData, DocumentMode, DocumentCategory, FormType } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { useHistoryStore } from './historyStore';
 import type { DocumentSnapshot } from './historyStore';
@@ -15,7 +15,9 @@ const SESSION_MAX_AGE = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 // Serializable session data (excludes file ArrayBuffers)
 export interface SerializedSession {
   documentMode: DocumentMode;
+  documentCategory: DocumentCategory;
   docType: string;
+  formType: FormType;
   formData: Partial<DocumentData>;
   references: Reference[];
   enclosures: Array<Omit<Enclosure, 'file'> & { hasFile?: boolean }>;
@@ -73,7 +75,9 @@ const convertDateFormat = (dateString: string, targetFormat: 'military' | 'spell
 interface DocumentState {
   // Document data
   documentMode: DocumentMode;
+  documentCategory: DocumentCategory;
   docType: string;
+  formType: FormType;
   formData: Partial<DocumentData>;
   references: Reference[];
   enclosures: Enclosure[];
@@ -82,7 +86,9 @@ interface DocumentState {
 
   // Actions - Form
   setDocumentMode: (mode: DocumentMode) => void;
+  setDocumentCategory: (category: DocumentCategory) => void;
   setDocType: (type: string) => void;
+  setFormType: (type: FormType) => void;
   setField: <K extends keyof DocumentData>(key: K, value: DocumentData[K]) => void;
   setFormData: (data: Partial<DocumentData>) => void;
   resetForm: () => void;
@@ -216,7 +222,9 @@ const DEFAULT_PARAGRAPHS: Paragraph[] = [
 
 export const useDocumentStore = create<DocumentState>((set, get) => ({
   documentMode: 'compliant',
+  documentCategory: 'correspondence',
   docType: 'naval_letter',
+  formType: 'navmc_10274',
   formData: { ...DEFAULT_FORM_DATA },
   references: [...DEFAULT_REFERENCES],
   enclosures: [...DEFAULT_ENCLOSURES],
@@ -226,6 +234,10 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     { text: 'G-4' },
     { text: 'Regimental S-3' },
   ],
+
+  setDocumentCategory: (category) => set({ documentCategory: category }),
+
+  setFormType: (type) => set({ formType: type }),
 
   setDocumentMode: (mode) => set((state) => {
     if (mode === 'compliant') {
@@ -560,7 +572,9 @@ function saveSessionToStorage(state: DocumentState): void {
     // Create serializable session (excluding file data)
     const session: SerializedSession = {
       documentMode: state.documentMode,
+      documentCategory: state.documentCategory,
       docType: state.docType,
+      formType: state.formType,
       formData: {
         ...state.formData,
         // Exclude signature image from session storage
@@ -645,7 +659,9 @@ export function restoreSession(): boolean {
 
     useDocumentStore.setState({
       documentMode: session.documentMode,
+      documentCategory: session.documentCategory || 'correspondence',
       docType: session.docType,
+      formType: session.formType || 'navmc_10274',
       formData: session.formData,
       references: session.references,
       enclosures: session.enclosures.map(enc => ({
