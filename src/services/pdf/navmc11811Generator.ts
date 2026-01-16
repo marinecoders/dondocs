@@ -21,21 +21,22 @@ export interface Navmc11811Data {
 }
 
 // Field coordinates (measured from bottom-left in points)
-// These are approximate - adjust as needed after testing
+// Letter size: 612 x 792 points
+// Adjust these values to match your official template
 const FIELDS = {
-  // NAME field at bottom left
-  name: { x: 120, y: 62, maxWidth: 350 },
-  
-  // EDIPI field at bottom right
-  edipi: { x: 520, y: 62, maxWidth: 80 },
-  
-  // Main remarks area
+  // NAME field at top left (LAST, FIRST MIDDLE format)
+  name: { x: 120, y: 755, maxWidth: 350 },
+
+  // EDIPI/DOD ID NUMBER field at top right
+  edipi: { x: 520, y: 755, maxWidth: 80 },
+
+  // Main remarks area (below the header)
   remarks: {
     x: 36,
-    y: 645,  // Start from top of remarks box
+    y: 705,  // Start from top of remarks box
     maxWidth: 540,
     lineHeight: 12,
-    maxLines: 42,  // Approximate lines that fit
+    maxLines: 50,  // Approximate lines that fit
   },
 };
 

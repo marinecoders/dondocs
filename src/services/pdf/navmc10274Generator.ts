@@ -69,10 +69,10 @@ const PAGE2_FIELDS = {
   // Field 12: Supplemental Information (large text area)
   supplementalInfo: {
     x: 32,
-    y: 355,
+    y: 415,
     maxWidth: 548,
     lineHeight: 12,
-    maxLines: 24, // Lines that fit on page 2
+    maxLines: 29, // Lines that fit on page 2
   },
 };
 
