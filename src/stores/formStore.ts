@@ -57,7 +57,7 @@ const DEFAULT_NAVMC_10274: NavmcForm10274Data = {
   actionNo: '001-25',
   ssicFileNo: '1610',
   date: new Date().toISOString().split('T')[0],
-  from: 'SSgt Smith, John A.\n1234567890\n0311',
+  from: 'SSgt Smith, John A., 1234567890, 0311',
   via: 'Platoon Commander, 1st Platoon',
   orgStation: 'Alpha Company, 1st Battalion\n1st Marine Regiment\nCamp Pendleton, CA',
   to: 'LCpl Doe, John M.\n0987654321\n0311',
