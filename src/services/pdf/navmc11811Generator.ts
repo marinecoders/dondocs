@@ -34,7 +34,7 @@ const FIELDS = {
   edipi: { x: 468, y: 129, maxWidth: 100 },
 
   // Box 11 - short field (initials, 5 chars max)
-  box11: { x: 280, y: 129, maxWidth: 50 },
+  box11: { x: 298, y: 41, maxWidth: 50 },
 
   // Left remarks box (main entry area)
   remarks: {
