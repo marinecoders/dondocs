@@ -259,7 +259,7 @@ export function Header({
     <header className="border-b border-border bg-card">
       {/* Beta release banner */}
       <div className="bg-amber-500/90 text-amber-950 text-xs font-medium py-1 text-center">
-        BETA RELEASE - Features may change. Report issues on GitHub.
+        Not an official DoW website. Beta release - report issues on GitHub.
       </div>
       <div className="px-density-2 sm:px-density-4 py-density-2 sm:py-density-3">
       {/* Hidden file input for importing drafts */}
