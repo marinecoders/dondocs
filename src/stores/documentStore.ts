@@ -151,39 +151,40 @@ const reLetterReferences = (refs: Reference[]): Reference[] => {
   }));
 };
 
-const DEFAULT_FORM_DATA: Partial<DocumentData> = {
+// Example form data for first-time visitors (one-time mode / no profile selected)
+const EXAMPLE_FORM_DATA: Partial<DocumentData> = {
   docType: 'naval_letter',
   fontSize: '12pt',
   fontFamily: 'courier',
   pageNumbering: 'none',
-  // Letterhead - 23d Marine Regiment (default profile)
+  // Letterhead - Example unit info for demo
   department: 'usmc',
-  unitLine1: '23D MARINE REGIMENT',
-  unitLine2: '4TH MARINE DIVISION',
-  unitAddress: '900 COMMODORE DRIVE, SAN BRUNO, CA 94066-0095',
+  unitLine1: '1ST BATTALION, 6TH MARINES',
+  unitLine2: '2D MARINE DIVISION, II MEF',
+  unitAddress: 'PSC BOX 20123, CAMP LEJEUNE, NC 28542-0123',
   sealType: 'dod',
   letterheadColor: 'blue',
   // Document identification
-  ssic: '5216',
-  serial: '',
+  ssic: '3502',
+  serial: '0847',
   date: formatMilitaryDate(new Date()),
   // Addressing
-  from: 'Commanding Officer, 23d Marine Regiment',
-  to: '[RECIPIENT]',
-  via: '',
-  subject: '[SUBJECT]',
+  from: 'Commanding Officer, 1st Battalion, 6th Marines',
+  to: 'Commanding General, 2d Marine Division',
+  via: 'Commanding Officer, 6th Marine Regiment',
+  subject: 'AFTER ACTION REPORT FOR EXERCISE STEEL KNIGHT 25-1',
   // Signature
-  sigFirst: '',
-  sigMiddle: '',
-  sigLast: '',
-  sigRank: '',
-  sigTitle: '',
-  officeCode: '',
+  sigFirst: 'John',
+  sigMiddle: 'A',
+  sigLast: 'DOE',
+  sigRank: 'Lieutenant Colonel',
+  sigTitle: 'Commanding Officer',
+  officeCode: 'S-3',
   byDirection: false,
   byDirectionAuthority: '',
   // Classification
   classLevel: 'unclassified',
-  pocEmail: '',
+  pocEmail: 'john.doe@usmc.mil',
   // Hyperlinks - default to OFF (no hyperlinks)
   includeHyperlinks: false,
   // Business letter fields
@@ -191,16 +192,32 @@ const DEFAULT_FORM_DATA: Partial<DocumentData> = {
   complimentaryClose: 'Very respectfully,',
 };
 
-// Default references (empty - user adds as needed)
-const DEFAULT_REFERENCES: Reference[] = [];
+// Example references for demo document
+const EXAMPLE_REFERENCES: Reference[] = [
+  { letter: 'a', title: 'MCO 3502.6A', url: '' },
+  { letter: 'b', title: 'MCRP 3-30B.1 Ground Combat Operations', url: '' },
+  { letter: 'c', title: '2d MarDiv FRAGO 25-0147 dtd 15 Nov 25', url: '' },
+];
+
+// Example paragraphs for demo document
+const EXAMPLE_PARAGRAPHS: Paragraph[] = [
+  { header: 'Purpose', text: 'Per reference (a), this letter provides the after action report for Exercise Steel Knight 25-1, conducted 3-17 December 2025 at Camp Lejeune.', level: 0 },
+  { header: 'Background', text: 'Exercise Steel Knight 25-1 was a battalion-level combined arms exercise to validate combat readiness of 1st Battalion, 6th Marines per reference (b).', level: 0 },
+  { header: 'Execution Summary', text: 'The exercise was executed in three phases:', level: 0 },
+  { text: 'Phase I (3-6 Dec): Pre-deployment preparation and certifications.', level: 1 },
+  { text: 'Phase II (7-12 Dec): Force-on-force operations against 2d LAR Battalion.', level: 1 },
+  { text: 'Phase III (13-17 Dec): Live-fire combined arms training.', level: 1 },
+  { header: 'Recommendation', text: '1st Battalion, 6th Marines is assessed combat ready. Recommend certification for deployment.', level: 0 },
+  { header: 'Point of Contact', text: 'POC is the undersigned or Major J.Q. Smith, S-3, at (910) 451-0001.', level: 0 },
+];
 
 // Default enclosures (empty - user adds as needed)
 const DEFAULT_ENCLOSURES: Enclosure[] = [];
 
-// Default paragraphs - simple placeholder for new documents
-const DEFAULT_PARAGRAPHS: Paragraph[] = [
-  { text: '[Enter your first paragraph here. Use the Templates button to load a pre-built template.]', level: 0 },
-];
+// Use example data as initial defaults (will be overwritten if profile is selected)
+const DEFAULT_FORM_DATA = EXAMPLE_FORM_DATA;
+const DEFAULT_REFERENCES = EXAMPLE_REFERENCES;
+const DEFAULT_PARAGRAPHS = EXAMPLE_PARAGRAPHS;
 
 export const useDocumentStore = create<DocumentState>((set, get) => ({
   documentMode: 'compliant',
