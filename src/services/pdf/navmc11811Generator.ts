@@ -10,8 +10,10 @@ export interface Navmc11811Data {
   middleName: string;
   edipi: string;
 
-  // The main 6105 entry content
+  // The main 6105 entry content (left column)
   remarksText: string;
+  // Right column entry content
+  remarksTextRight?: string;
 
   // Entry date (appears at end of entry)
   entryDate: string;
@@ -25,7 +27,7 @@ export interface Navmc11811Data {
 
 // Field coordinates (measured from bottom-left in points)
 // Letter size: 612 x 792 points
-// NAVMC 118(11) has: left box for remarks, right box (unused), name/edipi at bottom
+// NAVMC 118(11) has: left box for remarks, right box for continuation, name/edipi at bottom
 const FIELDS = {
   // NAME field at bottom left
   name: { x: 151, y: 129, maxWidth: 200 },
@@ -43,6 +45,15 @@ const FIELDS = {
     maxWidth: 255,  // Left box width only
     lineHeight: 11,
     maxLines: 40,  // Lines that fit in left box
+  },
+
+  // Right remarks box (continuation area)
+  remarksRight: {
+    x: 318,  // Right column starts after the middle divider
+    y: 545,  // Same starting Y as left box
+    maxWidth: 255,  // Same width as left box
+    lineHeight: 11,
+    maxLines: 40,  // Same max lines
   },
 };
 
@@ -142,11 +153,11 @@ export async function generateNavmc11811Pdf(
     });
   }
 
-  // Fill in remarks area
+  // Fill in left remarks area
   if (data.remarksText) {
     const lines = wrapText(data.remarksText, FIELDS.remarks.maxWidth, font, FONT_SIZE);
     let y = FIELDS.remarks.y;
-    
+
     for (let i = 0; i < Math.min(lines.length, FIELDS.remarks.maxLines); i++) {
       page.drawText(lines[i], {
         x: FIELDS.remarks.x,
@@ -168,6 +179,23 @@ export async function generateNavmc11811Pdf(
         font,
         color: BLACK,
       });
+    }
+  }
+
+  // Fill in right remarks area (continuation)
+  if (data.remarksTextRight) {
+    const lines = wrapText(data.remarksTextRight, FIELDS.remarksRight.maxWidth, font, FONT_SIZE);
+    let y = FIELDS.remarksRight.y;
+
+    for (let i = 0; i < Math.min(lines.length, FIELDS.remarksRight.maxLines); i++) {
+      page.drawText(lines[i], {
+        x: FIELDS.remarksRight.x,
+        y,
+        size: FONT_SIZE,
+        font,
+        color: BLACK,
+      });
+      y -= FIELDS.remarksRight.lineHeight;
     }
   }
 
