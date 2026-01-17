@@ -315,7 +315,7 @@ export function ProfileModal() {
     setFormState((prev) => ({
       ...prev,
       unitLine1: unit.name.toUpperCase(),
-      unitLine2: unit.abbrev?.toUpperCase() || '',
+      unitLine2: unit.parentUnit?.toUpperCase() || '',
       unitAddress: unit.address.replace(/\n/g, ', '),
     }));
   };

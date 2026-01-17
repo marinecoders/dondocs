@@ -6,6 +6,7 @@ import unitsData from './units.json';
 export interface UnitInfo {
   name: string;
   abbrev?: string;
+  parentUnit?: string;  // Higher command for letterhead line 2 (e.g., "1ST MARINE DIVISION")
   mcc?: string;
   address: string;
   type?: string;
@@ -54,6 +55,7 @@ const allUnits: UnitInfo[] = (unitsData.units as any[]).map((unit) => {
   return {
     name: unit.name,
     abbrev: unit.abbrev,
+    parentUnit: unit.parentUnit,
     mcc: unit.mcc,
     address: unit.address || '',
     type: unit.type,
@@ -185,17 +187,13 @@ export function expandUnitName(name: string): string {
 
 // Format for letterhead (SECNAV M-5216.5 compliant)
 // Line 1: Unit name (full, expanded)
-// Line 2: Empty (reserved for very long names that need continuation)
-// Address Line 1: Street/Box/PSC
-// Address Line 2: City, State ZIP
-export function formatLetterhead(unit: UnitInfo): { line1: string; line2: string; addressLine1: string; addressLine2: string } {
-  const addressLines = unit.address.split('\n');
-
+// Line 2: Parent/higher command (e.g., "1ST MARINE DIVISION")
+// Line 3: Address (Street/Box/PSC, City, State ZIP)
+export function formatLetterhead(unit: UnitInfo): { line1: string; line2: string; address: string } {
   return {
     line1: expandUnitName(unit.name),
-    line2: '', // Only used manually for very long unit names
-    addressLine1: addressLines[0] || '',
-    addressLine2: addressLines.slice(1).join(', ') || '',
+    line2: unit.parentUnit ? expandUnitName(unit.parentUnit) : '',
+    address: unit.address.replace(/\n/g, ', '),
   };
 }
 
