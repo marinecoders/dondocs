@@ -170,9 +170,9 @@ const EXAMPLE_FORM_DATA: Partial<DocumentData> = {
   date: formatMilitaryDate(new Date()),
   // Addressing
   from: 'Commanding Officer, 1st Battalion, 6th Marines',
-  to: 'Commanding General, 2d Marine Division',
+  to: '[RECIPIENT]',
   via: '',
-  subject: 'REQUEST FOR ADDITIONAL COMMUNICATIONS PERSONNEL',
+  subject: '[SUBJECT]',
   // Signature
   sigFirst: 'John',
   sigMiddle: 'A',
@@ -192,16 +192,12 @@ const EXAMPLE_FORM_DATA: Partial<DocumentData> = {
   complimentaryClose: 'Very respectfully,',
 };
 
-// Example references for demo document
-const EXAMPLE_REFERENCES: Reference[] = [
-  { letter: 'a', title: 'MCO 5311.1E', url: '' },
-];
+// Example references for demo document (empty for clean start)
+const EXAMPLE_REFERENCES: Reference[] = [];
 
 // Example paragraphs for demo document (short and simple)
 const EXAMPLE_PARAGRAPHS: Paragraph[] = [
-  { text: 'Per reference (a), this command requests two additional 0621 billets to support increased operational requirements.', level: 0 },
-  { text: 'Current communications personnel are operating at maximum capacity. Additional billets will ensure adequate support for garrison and field operations.', level: 0 },
-  { text: 'Point of contact is the undersigned at (910) 451-0001.', level: 0 },
+  { text: '[Your content here. Click "Templates" to load a pre-built letter format.]', level: 0 },
 ];
 
 // Default enclosures (empty - user adds as needed)

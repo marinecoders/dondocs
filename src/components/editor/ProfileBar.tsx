@@ -118,7 +118,7 @@ export function ProfileBar() {
           <SelectValue placeholder="Select Profile" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="__none__">One-time Mode (Example)</SelectItem>
+          <SelectItem value="__none__">No Profile</SelectItem>
           {profileNames.map((name) => (
             <SelectItem key={name} value={name}>
               {name}
