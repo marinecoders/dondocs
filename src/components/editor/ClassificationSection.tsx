@@ -241,63 +241,6 @@ export function ClassificationSection() {
               </div>
             )}
 
-            {/* Classified Document Fields */}
-            {isClassified && (
-              <div className="space-y-4 p-3 rounded-md border bg-muted/30">
-                <p className="text-sm font-medium text-red-600">Classification Details</p>
-
-                <div className="space-y-2">
-                  <Label htmlFor="classifiedBy">Classified By</Label>
-                  <Input
-                    id="classifiedBy"
-                    value={formData.classifiedBy || ''}
-                    onChange={(e) => setField('classifiedBy', e.target.value)}
-                    placeholder="Name of original classification authority"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="derivedFrom">Derived From</Label>
-                  <Input
-                    id="derivedFrom"
-                    value={formData.derivedFrom || ''}
-                    onChange={(e) => setField('derivedFrom', e.target.value)}
-                    placeholder="Source document or classification guide"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="declassifyOn">Declassify On</Label>
-                  <Input
-                    id="declassifyOn"
-                    value={formData.declassifyOn || ''}
-                    onChange={(e) => setField('declassifyOn', e.target.value)}
-                    placeholder="e.g., 20351231 or 25X1"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="classReason">Reason for Classification</Label>
-                  <Input
-                    id="classReason"
-                    value={formData.classReason || ''}
-                    onChange={(e) => setField('classReason', e.target.value)}
-                    placeholder="e.g., 1.4(a), 1.4(c)"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="classifiedPocEmail">Classification POC Email</Label>
-                  <Input
-                    id="classifiedPocEmail"
-                    type="email"
-                    value={formData.classifiedPocEmail || ''}
-                    onChange={(e) => setField('classifiedPocEmail', e.target.value)}
-                    placeholder="security.officer@usmc.mil"
-                  />
-                </div>
-              </div>
-            )}
           </div>
         </AccordionContent>
       </AccordionItem>
