@@ -14,15 +14,11 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { useDocumentStore } from '@/stores/documentStore';
-import { Shield, AlertTriangle } from 'lucide-react';
+import { Shield } from 'lucide-react';
 
 const CLASSIFICATION_LEVELS = [
   { value: 'unclassified', label: 'Unclassified', color: 'text-green-600' },
   { value: 'cui', label: 'CUI (Controlled Unclassified Information)', color: 'text-purple-600' },
-  { value: 'confidential', label: 'CONFIDENTIAL', color: 'text-blue-600' },
-  { value: 'secret', label: 'SECRET', color: 'text-red-600' },
-  { value: 'top_secret', label: 'TOP SECRET', color: 'text-orange-600' },
-  { value: 'top_secret_sci', label: 'TOP SECRET//SCI', color: 'text-orange-700' },
 ];
 
 const CUI_CATEGORIES = [
@@ -52,7 +48,6 @@ export function ClassificationSection() {
   const classLevel = formData.classLevel || 'unclassified';
 
   const currentLevel = CLASSIFICATION_LEVELS.find((l) => l.value === classLevel);
-  const isClassified = ['confidential', 'secret', 'top_secret', 'top_secret_sci'].includes(classLevel);
   const isCUI = classLevel === 'cui';
 
   return (
@@ -90,20 +85,6 @@ export function ClassificationSection() {
                 </SelectContent>
               </Select>
             </div>
-
-            {/* Warning for classified documents */}
-            {isClassified && (
-              <div className="flex items-start gap-2 p-3 rounded-md bg-destructive/10 border border-destructive/20">
-                <AlertTriangle className="h-4 w-4 text-destructive mt-0.5 shrink-0" />
-                <div className="text-sm text-destructive">
-                  <p className="font-medium">Classified Document Warning</p>
-                  <p className="text-xs mt-1">
-                    This document will contain classified markings. Ensure proper handling
-                    procedures are followed per applicable security regulations.
-                  </p>
-                </div>
-              </div>
-            )}
 
             {/* CUI Fields */}
             {isCUI && (
@@ -166,63 +147,6 @@ export function ClassificationSection() {
               </div>
             )}
 
-            {/* Classified Document Fields */}
-            {isClassified && (
-              <div className="space-y-4 p-3 rounded-md border bg-muted/30">
-                <p className="text-sm font-medium text-red-600">Classification Details</p>
-
-                <div className="space-y-2">
-                  <Label htmlFor="classifiedBy">Classified By</Label>
-                  <Input
-                    id="classifiedBy"
-                    value={formData.classifiedBy || ''}
-                    onChange={(e) => setField('classifiedBy', e.target.value)}
-                    placeholder="Name of original classification authority"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="derivedFrom">Derived From</Label>
-                  <Input
-                    id="derivedFrom"
-                    value={formData.derivedFrom || ''}
-                    onChange={(e) => setField('derivedFrom', e.target.value)}
-                    placeholder="Source document or classification guide"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="declassifyOn">Declassify On</Label>
-                  <Input
-                    id="declassifyOn"
-                    value={formData.declassifyOn || ''}
-                    onChange={(e) => setField('declassifyOn', e.target.value)}
-                    placeholder="e.g., 20351231 or 25X1"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="classReason">Reason for Classification</Label>
-                  <Input
-                    id="classReason"
-                    value={formData.classReason || ''}
-                    onChange={(e) => setField('classReason', e.target.value)}
-                    placeholder="e.g., 1.4(a), 1.4(c)"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="classifiedPocEmail">Classification POC Email</Label>
-                  <Input
-                    id="classifiedPocEmail"
-                    type="email"
-                    value={formData.classifiedPocEmail || ''}
-                    onChange={(e) => setField('classifiedPocEmail', e.target.value)}
-                    placeholder="security.officer@usmc.mil"
-                  />
-                </div>
-              </div>
-            )}
           </div>
         </AccordionContent>
       </AccordionItem>
