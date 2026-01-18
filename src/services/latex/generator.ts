@@ -82,7 +82,9 @@ export function generateDocumentTex(store: DocumentStore): string {
   // For joint letters, use joint-specific fields
   const fromLine = isJointLetterMode ? data.jointSeniorFrom : data.from;
   const toLine = isJointLetterMode ? data.jointTo : data.to;
-  const subjectLine = isJointLetterMode ? data.jointSubject : (isMOAMode ? data.moaSubject : data.subject);
+  // Subject line must be in ALL CAPS per SECNAV M-5216.5
+  const rawSubject = isJointLetterMode ? data.jointSubject : (isMOAMode ? data.moaSubject : data.subject);
+  const subjectLine = rawSubject?.toUpperCase() || '';
 
   tex += `\\setSSIC{${escapeLatex(ssic)}}
 \\setSerial{${escapeLatex(serial)}}

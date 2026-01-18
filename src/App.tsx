@@ -123,6 +123,7 @@ function App() {
     colorScheme,
     density,
     setIsMobile,
+    setPreviewVisible,
     setFindReplaceOpen,
     setPiiWarningOpen,
     setTemplateLoaderOpen,
@@ -194,11 +195,15 @@ function App() {
 
       console.log('[device] width:', width, 'touch:', isTouchDevice, 'iPad:', isIPad, 'mobile:', isMobileOrTablet);
       setIsMobile(isMobileOrTablet);
+      // Hide preview on mobile/tablet devices
+      if (isMobileOrTablet) {
+        setPreviewVisible(false);
+      }
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
-  }, [setIsMobile]);
+  }, [setIsMobile, setPreviewVisible]);
 
   // Sync selected profile with form data on initial load
   useEffect(() => {

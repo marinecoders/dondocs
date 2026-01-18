@@ -7,8 +7,10 @@ export interface Navmc11811Data {
   middleName: string;
   edipi: string;
 
-  // The main 6105 entry content
+  // The main 6105 entry content (left column)
   remarksText: string;
+  // Right column entry content
+  remarksTextRight?: string;
 
   // Entry date
   entryDate: string;
@@ -81,6 +83,7 @@ const EMPTY_NAVMC_11811: Navmc11811Data = {
   middleName: '',
   edipi: '',
   remarksText: '',
+  remarksTextRight: '',
   entryDate: '',
   box11: '',
 };
@@ -161,6 +164,7 @@ Acknowledged receipt of NAVMC 10274 dtd 15 Jan 25.
 
 //S//
 J. A. SMITH, SSgt, USMC`,
+  remarksTextRight: '',
   entryDate: new Date().toISOString().split('T')[0],
   box11: 'JAS',
 };

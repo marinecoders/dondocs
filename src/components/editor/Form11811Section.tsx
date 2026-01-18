@@ -25,7 +25,7 @@ export function Form11811Section() {
     try {
       // Load the template PDF
       const templateBytes = await loadNavmc11811Template();
-      
+
       // Generate the filled PDF
       const pdfBytes = await generateNavmc11811Pdf({
         lastName: navmc11811.lastName,
@@ -33,6 +33,7 @@ export function Form11811Section() {
         middleName: navmc11811.middleName,
         edipi: navmc11811.edipi,
         remarksText: navmc11811.remarksText,
+        remarksTextRight: navmc11811.remarksTextRight,
         entryDate: navmc11811.entryDate,
         box11: navmc11811.box11,
       }, templateBytes);
@@ -171,13 +172,14 @@ export function Form11811Section() {
             <span className="font-medium">6105 Entry Content</span>
           </AccordionTrigger>
           <AccordionContent className="space-y-4 pt-2">
-            <div className="space-y-2">
-              <Label htmlFor="remarksText">Administrative Remarks</Label>
-              <Textarea
-                id="remarksText"
-                value={navmc11811.remarksText}
-                onChange={(e) => setNavmc11811Field('remarksText', e.target.value)}
-                placeholder={`On [DATE], you [describe the incident/deficiency].
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="remarksText">Administrative Remarks (Left)</Label>
+                <Textarea
+                  id="remarksText"
+                  value={navmc11811.remarksText}
+                  onChange={(e) => setNavmc11811Field('remarksText', e.target.value)}
+                  placeholder={`On [DATE], you [describe the incident/deficiency].
 
 This conduct is in violation of [cite applicable orders/regulations].
 
@@ -188,14 +190,26 @@ You are hereby advised that [expected corrective actions].
 Failure to [expected standard] may result in [potential consequences including adverse administrative or disciplinary action].
 
 Your signature below acknowledges receipt of this counseling and does not constitute agreement with its contents.`}
-                rows={16}
-                className="font-mono text-sm"
-              />
-              <p className="text-xs text-muted-foreground">
-                Include: incident description, date/location, standards violated, prior counseling (if any), 
-                expected corrective actions, and consequences of continued deficiency.
-              </p>
+                  rows={16}
+                  className="font-mono text-sm"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="remarksTextRight">Administrative Remarks (Right)</Label>
+                <Textarea
+                  id="remarksTextRight"
+                  value={navmc11811.remarksTextRight || ''}
+                  onChange={(e) => setNavmc11811Field('remarksTextRight', e.target.value)}
+                  placeholder={`[Continuation or additional entry...]`}
+                  rows={16}
+                  className="font-mono text-sm"
+                />
+              </div>
             </div>
+            <p className="text-xs text-muted-foreground">
+              Include: incident description, date/location, standards violated, prior counseling (if any),
+              expected corrective actions, and consequences of continued deficiency.
+            </p>
           </AccordionContent>
         </AccordionItem>
       </Accordion>

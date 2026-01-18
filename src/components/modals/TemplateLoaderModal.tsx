@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
+import { useProfileStore } from '@/stores/profileStore';
 
 interface TemplateParagraph {
   text: string;
@@ -816,6 +817,31 @@ export function TemplateLoaderModal() {
     const currentCopyToCount = store.copyTos.length;
     for (let i = currentCopyToCount - 1; i >= 0; i--) {
       store.removeCopyTo(i);
+    }
+
+    // Apply selected profile on top of template (profile always wins)
+    const profileStore = useProfileStore.getState();
+    const { selectedProfile, profiles } = profileStore;
+    if (selectedProfile && profiles[selectedProfile]) {
+      const profile = profiles[selectedProfile];
+      store.setFormData({
+        department: profile.department,
+        unitLine1: profile.unitLine1,
+        unitLine2: profile.unitLine2,
+        unitAddress: profile.unitAddress,
+        ssic: profile.ssic,
+        from: profile.from,
+        sigFirst: profile.sigFirst,
+        sigMiddle: profile.sigMiddle,
+        sigLast: profile.sigLast,
+        sigRank: profile.sigRank,
+        sigTitle: profile.sigTitle,
+        byDirection: profile.byDirection,
+        byDirectionAuthority: profile.byDirectionAuthority,
+        cuiControlledBy: profile.cuiControlledBy,
+        pocEmail: profile.pocEmail,
+        signatureImage: profile.signatureImage,
+      });
     }
 
     // Close modal and reset state

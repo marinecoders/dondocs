@@ -62,8 +62,8 @@ interface UIState {
 export const useUIStore = create<UIState>()(
   persist(
     (set) => ({
-      // Theme - default dark
-      theme: 'dark',
+      // Theme - default light
+      theme: 'light',
       toggleTheme: () => set((state) => ({
         theme: state.theme === 'dark' ? 'light' : 'dark',
       })),
@@ -77,8 +77,8 @@ export const useUIStore = create<UIState>()(
       density: 'comfortable',
       setDensity: (density) => set({ density }),
 
-      // Preview - hidden by default
-      previewVisible: false,
+      // Preview - visible by default on desktop (width >= 1024px)
+      previewVisible: typeof window !== 'undefined' && window.innerWidth >= 1024,
       togglePreview: () => set((state) => ({ previewVisible: !state.previewVisible })),
       setPreviewVisible: (visible) => set({ previewVisible: visible }),
 

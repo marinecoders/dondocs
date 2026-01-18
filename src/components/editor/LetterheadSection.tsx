@@ -29,13 +29,10 @@ export function LetterheadSection() {
     const letterhead = formatLetterhead(unit);
     // Line 1: Unit name (expanded abbreviations)
     setField('unitLine1', letterhead.line1);
-    // Line 2: Empty (reserved for long names needing continuation)
+    // Line 2: Parent/higher command (e.g., "1ST MARINE DIVISION")
     setField('unitLine2', letterhead.line2);
-    // Address: Street/Box, City State ZIP (comma-separated for generator to split)
-    const address = [letterhead.addressLine1, letterhead.addressLine2]
-      .filter(Boolean)
-      .join(', ');
-    setField('unitAddress', address);
+    // Line 3: Address
+    setField('unitAddress', letterhead.address);
   };
 
   return (

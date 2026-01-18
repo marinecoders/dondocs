@@ -14,6 +14,25 @@ import { useUIStore } from '@/stores/uiStore';
 import { debug } from '@/lib/debug';
 import { readFileAsText, triggerDownload } from '@/lib/encoding';
 
+// Example form data for one-time mode (no profile)
+const EXAMPLE_FORM_DATA = {
+  department: 'usmc',
+  unitLine1: '1ST BATTALION, 6TH MARINES',
+  unitLine2: '2D MARINE DIVISION, II MEF',
+  unitAddress: 'PSC BOX 20123, CAMP LEJEUNE, NC 28542-0123',
+  ssic: '1000',
+  from: 'Commanding Officer, 1st Battalion, 6th Marines',
+  sigFirst: 'John',
+  sigMiddle: 'A',
+  sigLast: 'DOE',
+  sigRank: 'Lieutenant Colonel',
+  sigTitle: 'Commanding Officer',
+  byDirection: false,
+  byDirectionAuthority: '',
+  cuiControlledBy: '',
+  pocEmail: 'john.doe@usmc.mil',
+};
+
 export function ProfileBar() {
   const { profiles, selectedProfile, selectProfile, deleteProfile, importProfiles } = useProfileStore();
   const { setFormData } = useDocumentStore();
@@ -24,6 +43,8 @@ export function ProfileBar() {
   const handleProfileChange = (name: string) => {
     if (name === '__none__') {
       selectProfile(null);
+      // Load example data for one-time mode
+      setFormData(EXAMPLE_FORM_DATA);
       return;
     }
     selectProfile(name);
@@ -45,6 +66,7 @@ export function ProfileBar() {
         byDirectionAuthority: profile.byDirectionAuthority,
         cuiControlledBy: profile.cuiControlledBy,
         pocEmail: profile.pocEmail,
+        signatureImage: profile.signatureImage,
       });
     }
   };
@@ -96,7 +118,7 @@ export function ProfileBar() {
           <SelectValue placeholder="Select Profile" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="__none__">-- Select Profile --</SelectItem>
+          <SelectItem value="__none__">No Profile</SelectItem>
           {profileNames.map((name) => (
             <SelectItem key={name} value={name}>
               {name}

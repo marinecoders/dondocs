@@ -38,6 +38,7 @@ export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModa
       (unit) =>
         unit.name.toLowerCase().includes(searchLower) ||
         unit.abbrev?.toLowerCase().includes(searchLower) ||
+        unit.parentUnit?.toLowerCase().includes(searchLower) ||
         unit.mcc?.includes(search) ||
         unit.address.toLowerCase().includes(searchLower) ||
         unit.city?.toLowerCase().includes(searchLower) ||
@@ -214,6 +215,11 @@ function UnitCard({
           <p className={`text-foreground truncate ${compact ? 'text-sm' : 'text-sm mt-1'}`}>
             {unit.name}
           </p>
+          {unit.parentUnit && (
+            <p className="text-xs text-muted-foreground truncate">
+              {unit.parentUnit}
+            </p>
+          )}
         </div>
       </div>
       <div className="flex items-center gap-1.5 mt-1.5 text-xs text-muted-foreground">
