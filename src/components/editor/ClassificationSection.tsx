@@ -14,11 +14,23 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { useDocumentStore } from '@/stores/documentStore';
-import { Shield } from 'lucide-react';
+import { Shield, AlertTriangle, Info } from 'lucide-react';
+import { 
+  getDomainClassificationRestriction, 
+  getDomainRestrictionMessage,
+  isClassificationAllowed,
+  type ClassificationLevel 
+} from '@/lib/domainClassification';
+import { useEffect, useState } from 'react';
+import { getClassificationConfig } from '@/config/classification';
 
 const CLASSIFICATION_LEVELS = [
   { value: 'unclassified', label: 'Unclassified', color: 'text-green-600' },
   { value: 'cui', label: 'CUI (Controlled Unclassified Information)', color: 'text-purple-600' },
+  { value: 'confidential', label: 'CONFIDENTIAL', color: 'text-blue-600' },
+  { value: 'secret', label: 'SECRET', color: 'text-red-600' },
+  { value: 'top_secret', label: 'TOP SECRET', color: 'text-orange-600' },
+  { value: 'top_secret_sci', label: 'TOP SECRET//SCI', color: 'text-orange-700' },
 ];
 
 const CUI_CATEGORIES = [
@@ -46,9 +58,49 @@ const DISTRIBUTION_STATEMENTS = [
 export function ClassificationSection() {
   const { formData, setField } = useDocumentStore();
   const classLevel = formData.classLevel || 'unclassified';
+  const [configOverride, setConfigOverride] = useState<{ restriction?: any; message?: string } | null>(null);
+
+  // Load config file override if available (async)
+  useEffect(() => {
+    getClassificationConfig().then((config) => {
+      if (config) {
+        setConfigOverride({
+          restriction: {
+            maxLevel: config.maxLevel,
+            allowedLevels: config.allowedLevels,
+          },
+          message: config.overrideMessage,
+        });
+      }
+    });
+  }, []);
+
+  // Get domain-based restrictions (will use config override if available)
+  const domainRestriction = configOverride?.restriction || getDomainClassificationRestriction();
+  const restrictionMessage = configOverride?.message || getDomainRestrictionMessage();
+  
+  // Filter available classification levels based on domain
+  const allowedLevels = CLASSIFICATION_LEVELS.filter((level) =>
+    domainRestriction.allowedLevels.includes(level.value as ClassificationLevel)
+  );
+
+  // Check if current selection is allowed (custom is always allowed)
+  const isCurrentLevelAllowed = classLevel === 'custom' || isClassificationAllowed(classLevel as ClassificationLevel);
+  
+  // If current level is not allowed, reset to highest allowed level
+  // (but don't reset if it's 'custom' or 'unclassified')
+  useEffect(() => {
+    if (!isCurrentLevelAllowed && classLevel !== 'unclassified' && classLevel !== 'custom') {
+      const highestAllowed = domainRestriction.allowedLevels[domainRestriction.allowedLevels.length - 1];
+      setField('classLevel', highestAllowed);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCurrentLevelAllowed, classLevel]);
 
   const currentLevel = CLASSIFICATION_LEVELS.find((l) => l.value === classLevel);
+  const isClassified = ['confidential', 'secret', 'top_secret', 'top_secret_sci'].includes(classLevel);
   const isCUI = classLevel === 'cui';
+  const isCustom = classLevel === 'custom';
 
   return (
     <Accordion type="single" collapsible defaultValue="classification">
@@ -58,14 +110,23 @@ export function ClassificationSection() {
             <Shield className="h-4 w-4" />
             Classification
             {classLevel !== 'unclassified' && (
-              <span className={`text-xs font-medium ${currentLevel?.color}`}>
-                ({currentLevel?.label})
+              <span className={`text-xs font-medium ${classLevel === 'custom' ? 'text-gray-600' : currentLevel?.color}`}>
+                ({classLevel === 'custom' ? 'Custom' : currentLevel?.label})
               </span>
             )}
           </div>
         </AccordionTrigger>
         <AccordionContent>
           <div className="space-y-4 pt-2">
+            {/* Domain Restriction Info */}
+            <div className="flex items-start gap-2 p-3 rounded-md bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800">
+              <Info className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
+              <div className="text-sm text-blue-800 dark:text-blue-300">
+                <p className="font-medium">Domain Restrictions</p>
+                <p className="text-xs mt-1">{restrictionMessage}</p>
+              </div>
+            </div>
+
             {/* Classification Level */}
             <div className="space-y-2">
               <Label htmlFor="classLevel">Classification Level</Label>
@@ -77,14 +138,47 @@ export function ClassificationSection() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {CLASSIFICATION_LEVELS.map((level) => (
+                  {allowedLevels.map((level) => (
                     <SelectItem key={level.value} value={level.value}>
                       <span className={level.color}>{level.label}</span>
                     </SelectItem>
                   ))}
+                  <SelectItem value="custom">
+                    <span className="text-gray-600">Custom Classification</span>
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
+
+            {/* Custom Classification Field */}
+            {isCustom && (
+              <div className="space-y-2">
+                <Label htmlFor="customClassification">Custom Classification</Label>
+                <Input
+                  id="customClassification"
+                  value={formData.customClassification || ''}
+                  onChange={(e) => setField('customClassification', e.target.value)}
+                  placeholder="e.g., FOR OFFICIAL USE ONLY, LIMITED DISTRIBUTION"
+                />
+                <p className="text-xs text-muted-foreground">
+                  Enter a custom classification marking that will appear in the document header and footer.
+                </p>
+              </div>
+            )}
+
+            {/* Warning for classified documents */}
+            {isClassified && (
+              <div className="flex items-start gap-2 p-3 rounded-md bg-destructive/10 border border-destructive/20">
+                <AlertTriangle className="h-4 w-4 text-destructive mt-0.5 shrink-0" />
+                <div className="text-sm text-destructive">
+                  <p className="font-medium">Classified Document Warning</p>
+                  <p className="text-xs mt-1">
+                    This document will contain classified markings. Ensure proper handling
+                    procedures are followed per applicable security regulations.
+                  </p>
+                </div>
+              </div>
+            )}
 
             {/* CUI Fields */}
             {isCUI && (
@@ -147,6 +241,63 @@ export function ClassificationSection() {
               </div>
             )}
 
+            {/* Classified Document Fields */}
+            {isClassified && (
+              <div className="space-y-4 p-3 rounded-md border bg-muted/30">
+                <p className="text-sm font-medium text-red-600">Classification Details</p>
+
+                <div className="space-y-2">
+                  <Label htmlFor="classifiedBy">Classified By</Label>
+                  <Input
+                    id="classifiedBy"
+                    value={formData.classifiedBy || ''}
+                    onChange={(e) => setField('classifiedBy', e.target.value)}
+                    placeholder="Name of original classification authority"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="derivedFrom">Derived From</Label>
+                  <Input
+                    id="derivedFrom"
+                    value={formData.derivedFrom || ''}
+                    onChange={(e) => setField('derivedFrom', e.target.value)}
+                    placeholder="Source document or classification guide"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="declassifyOn">Declassify On</Label>
+                  <Input
+                    id="declassifyOn"
+                    value={formData.declassifyOn || ''}
+                    onChange={(e) => setField('declassifyOn', e.target.value)}
+                    placeholder="e.g., 20351231 or 25X1"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="classReason">Reason for Classification</Label>
+                  <Input
+                    id="classReason"
+                    value={formData.classReason || ''}
+                    onChange={(e) => setField('classReason', e.target.value)}
+                    placeholder="e.g., 1.4(a), 1.4(c)"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="classifiedPocEmail">Classification POC Email</Label>
+                  <Input
+                    id="classifiedPocEmail"
+                    type="email"
+                    value={formData.classifiedPocEmail || ''}
+                    onChange={(e) => setField('classifiedPocEmail', e.target.value)}
+                    placeholder="security.officer@usmc.mil"
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </AccordionContent>
       </AccordionItem>

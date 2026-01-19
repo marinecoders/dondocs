@@ -82,6 +82,9 @@ __pycache__/
 .env
 venv/
 
+# Classification configuration (keep example, ignore actual config)
+public/classification.config.json
+
 # -----------------------------------------------------------------------------
 # Test & Debug Files
 # -----------------------------------------------------------------------------
