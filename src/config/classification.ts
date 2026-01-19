@@ -24,7 +24,7 @@
  * }
  */
 
-import type { ClassificationLevel, ClassificationRestriction } from '@/lib/domainClassification';
+import type { ClassificationLevel } from '@/lib/domainClassification';
 
 export interface ClassificationConfig {
   maxLevel: ClassificationLevel;
