@@ -1,0 +1,51 @@
+:80
+
+# Root directory
+root * /usr/share/caddy
+
+# Enable file server
+file_server
+
+# WASM files - correct MIME type
+@wasm {
+    path *.wasm
+}
+header @wasm Content-Type application/wasm
+
+# TeX/LaTeX files in lib/texlive - correct MIME type and CORS
+@tex_lib {
+    path /lib/texlive/*
+}
+header @tex_lib {
+    Content-Type text/plain
+    Access-Control-Allow-Origin *
+}
+
+# TeX internal files (like /tex/null) - plain text, no cache, CORS
+@tex_internal {
+    path /tex/*
+}
+header @tex_internal {
+    Content-Type text/plain
+    Cache-Control "no-cache, no-store, must-revalidate"
+    Access-Control-Allow-Origin *
+}
+
+# Static assets - serve directly (no SPA fallback)
+# These paths should return 200 if file exists, 404 if not (no fallback to index.html)
+@static {
+    path /lib/* /tex/* /assets/* /attachments/* *.js *.css *.wasm *.json *.svg *.png *.ico
+}
+handle @static {
+    try_files {path}
+}
+
+# Enable CORS for all assets (needed for service worker)
+header {
+    Access-Control-Allow-Origin *
+}
+
+# SPA fallback - everything else goes to index.html
+handle {
+    try_files {path} /index.html
+}
