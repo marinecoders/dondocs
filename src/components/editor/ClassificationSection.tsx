@@ -14,7 +14,15 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { useDocumentStore } from '@/stores/documentStore';
-import { Shield, AlertTriangle } from 'lucide-react';
+import { Shield, AlertTriangle, Info } from 'lucide-react';
+import { 
+  getDomainClassificationRestriction, 
+  getDomainRestrictionMessage,
+  isClassificationAllowed,
+  type ClassificationLevel 
+} from '@/lib/domainClassification';
+import { useEffect, useState } from 'react';
+import { getClassificationConfig } from '@/config/classification';
 
 const CLASSIFICATION_LEVELS = [
   { value: 'unclassified', label: 'Unclassified', color: 'text-green-600' },
@@ -50,10 +58,49 @@ const DISTRIBUTION_STATEMENTS = [
 export function ClassificationSection() {
   const { formData, setField } = useDocumentStore();
   const classLevel = formData.classLevel || 'unclassified';
+  const [configOverride, setConfigOverride] = useState<{ restriction?: any; message?: string } | null>(null);
+
+  // Load config file override if available (async)
+  useEffect(() => {
+    getClassificationConfig().then((config) => {
+      if (config) {
+        setConfigOverride({
+          restriction: {
+            maxLevel: config.maxLevel,
+            allowedLevels: config.allowedLevels,
+          },
+          message: config.overrideMessage,
+        });
+      }
+    });
+  }, []);
+
+  // Get domain-based restrictions (will use config override if available)
+  const domainRestriction = configOverride?.restriction || getDomainClassificationRestriction();
+  const restrictionMessage = configOverride?.message || getDomainRestrictionMessage();
+  
+  // Filter available classification levels based on domain
+  const allowedLevels = CLASSIFICATION_LEVELS.filter((level) =>
+    domainRestriction.allowedLevels.includes(level.value as ClassificationLevel)
+  );
+
+  // Check if current selection is allowed (custom is always allowed)
+  const isCurrentLevelAllowed = classLevel === 'custom' || isClassificationAllowed(classLevel as ClassificationLevel);
+  
+  // If current level is not allowed, reset to highest allowed level
+  // (but don't reset if it's 'custom' or 'unclassified')
+  useEffect(() => {
+    if (!isCurrentLevelAllowed && classLevel !== 'unclassified' && classLevel !== 'custom') {
+      const highestAllowed = domainRestriction.allowedLevels[domainRestriction.allowedLevels.length - 1];
+      setField('classLevel', highestAllowed);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCurrentLevelAllowed, classLevel]);
 
   const currentLevel = CLASSIFICATION_LEVELS.find((l) => l.value === classLevel);
   const isClassified = ['confidential', 'secret', 'top_secret', 'top_secret_sci'].includes(classLevel);
   const isCUI = classLevel === 'cui';
+  const isCustom = classLevel === 'custom';
 
   return (
     <Accordion type="single" collapsible defaultValue="classification">
@@ -63,14 +110,23 @@ export function ClassificationSection() {
             <Shield className="h-4 w-4" />
             Classification
             {classLevel !== 'unclassified' && (
-              <span className={`text-xs font-medium ${currentLevel?.color}`}>
-                ({currentLevel?.label})
+              <span className={`text-xs font-medium ${classLevel === 'custom' ? 'text-gray-600' : currentLevel?.color}`}>
+                ({classLevel === 'custom' ? 'Custom' : currentLevel?.label})
               </span>
             )}
           </div>
         </AccordionTrigger>
         <AccordionContent>
           <div className="space-y-4 pt-2">
+            {/* Domain Restriction Info */}
+            <div className="flex items-start gap-2 p-3 rounded-md bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800">
+              <Info className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
+              <div className="text-sm text-blue-800 dark:text-blue-300">
+                <p className="font-medium">Domain Restrictions</p>
+                <p className="text-xs mt-1">{restrictionMessage}</p>
+              </div>
+            </div>
+
             {/* Classification Level */}
             <div className="space-y-2">
               <Label htmlFor="classLevel">Classification Level</Label>
@@ -82,14 +138,33 @@ export function ClassificationSection() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {CLASSIFICATION_LEVELS.map((level) => (
+                  {allowedLevels.map((level) => (
                     <SelectItem key={level.value} value={level.value}>
                       <span className={level.color}>{level.label}</span>
                     </SelectItem>
                   ))}
+                  <SelectItem value="custom">
+                    <span className="text-gray-600">Custom Classification</span>
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
+
+            {/* Custom Classification Field */}
+            {isCustom && (
+              <div className="space-y-2">
+                <Label htmlFor="customClassification">Custom Classification</Label>
+                <Input
+                  id="customClassification"
+                  value={formData.customClassification || ''}
+                  onChange={(e) => setField('customClassification', e.target.value)}
+                  placeholder="e.g., FOR OFFICIAL USE ONLY, LIMITED DISTRIBUTION"
+                />
+                <p className="text-xs text-muted-foreground">
+                  Enter a custom classification marking that will appear in the document header and footer.
+                </p>
+              </div>
+            )}
 
             {/* Warning for classified documents */}
             {isClassified && (

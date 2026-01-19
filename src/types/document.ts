@@ -125,6 +125,7 @@ export interface DocumentData {
 
   // Classification
   classLevel: string;
+  customClassification: string;
   classifiedBy: string;
   derivedFrom: string;
   declassifyOn: string;

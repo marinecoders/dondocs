@@ -81,8 +81,16 @@ function calculateLabels(paragraphs: Paragraph[]): string[] {
 }
 
 // Get classification marking for header/footer
-function getClassificationMarking(classLevel: string | undefined): string | undefined {
+function getClassificationMarking(
+  classLevel: string | undefined,
+  customClassification?: string
+): string | undefined {
   if (!classLevel || classLevel === 'unclassified') return undefined;
+
+  // Handle custom classification
+  if (classLevel === 'custom' && customClassification) {
+    return customClassification;
+  }
 
   const markingMap: Record<string, string> = {
     cui: 'CUI',
@@ -98,7 +106,7 @@ function getClassificationMarking(classLevel: string | undefined): string | unde
 export async function generateDocx(store: DocumentStore): Promise<Uint8Array> {
   const data = store.formData;
   const labels = calculateLabels(store.paragraphs);
-  const classMarking = getClassificationMarking(data.classLevel);
+  const classMarking = getClassificationMarking(data.classLevel, data.customClassification);
 
   // Build document sections
   const sections: DocxParagraph[] = [];
