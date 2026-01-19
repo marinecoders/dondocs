@@ -77,8 +77,8 @@ export const useUIStore = create<UIState>()(
       density: 'comfortable',
       setDensity: (density) => set({ density }),
 
-      // Preview - visible by default on desktop (width >= 1024px)
-      previewVisible: typeof window !== 'undefined' && window.innerWidth >= 1024,
+      // Preview - default to false, will be set on first load if no persisted value
+      previewVisible: false,
       togglePreview: () => set((state) => ({ previewVisible: !state.previewVisible })),
       setPreviewVisible: (visible) => set({ previewVisible: visible }),
 

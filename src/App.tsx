@@ -180,6 +180,9 @@ function App() {
     document.documentElement.dataset.scheme = colorScheme;
   }, [colorScheme]);
 
+  // Track if initial setup has been done
+  const initialSetupDoneRef = useRef(false);
+
   // Detect mobile/tablet devices
   // iPads and tablets should use mobile UI since embedded PDF preview doesn't work well
   useEffect(() => {
@@ -203,9 +206,18 @@ function App() {
 
       console.log('[device] width:', width, 'touch:', isTouchDevice, 'iPad:', isIPad, 'mobile:', isMobileOrTablet);
       setIsMobile(isMobileOrTablet);
-      // Hide preview on mobile/tablet devices
-      if (isMobileOrTablet) {
-        setPreviewVisible(false);
+
+      // Only set preview visibility on initial setup, not on every resize
+      if (!initialSetupDoneRef.current) {
+        initialSetupDoneRef.current = true;
+        // Check if user has a persisted preference (localStorage)
+        const stored = localStorage.getItem('libo_ui');
+        const hasPersistedPreference = stored && JSON.parse(stored)?.state?.previewVisible !== undefined;
+
+        if (!hasPersistedPreference) {
+          // First-time user: show preview on desktop, hide on mobile
+          setPreviewVisible(!isMobileOrTablet && width >= 1024);
+        }
       }
     };
     checkMobile();
