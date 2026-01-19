@@ -184,6 +184,7 @@ const EXAMPLE_FORM_DATA: Partial<DocumentData> = {
   byDirectionAuthority: '',
   // Classification
   classLevel: 'unclassified',
+  customClassification: '',
   pocEmail: 'john.doe@usmc.mil',
   // Hyperlinks - default to OFF (no hyperlinks)
   includeHyperlinks: false,
@@ -453,6 +454,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
           signatureImage: undefined,
           // Classification
           classLevel: 'unclassified',
+          customClassification: '',
           pocEmail: '',
           // Other settings
           pageNumbering: 'none',

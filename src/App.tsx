@@ -37,9 +37,17 @@ import { detectPII, type PIIDetectionResult } from '@/services/pii/detector';
 import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
 
 // Helper to get classification marking for enclosures
-function getClassificationInfo(classLevel: string | undefined): ClassificationInfo | undefined {
+function getClassificationInfo(
+  classLevel: string | undefined,
+  customClassification?: string
+): ClassificationInfo | undefined {
   if (!classLevel || classLevel === 'unclassified') {
     return undefined;
+  }
+
+  // Handle custom classification
+  if (classLevel === 'custom' && customClassification) {
+    return { level: classLevel, marking: customClassification };
   }
 
   const markingMap: Record<string, string> = {
@@ -256,7 +264,10 @@ function App() {
       if (pdfBytes) {
         // Merge enclosures and/or create hyperlinks (handles both PDF and text-only enclosures, and reference URLs)
         if (enclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
-          const classification = getClassificationInfo(documentStore.formData.classLevel);
+          const classification = getClassificationInfo(
+            documentStore.formData.classLevel,
+            documentStore.formData.customClassification
+          );
           const mergeResult = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls);
           pdfBytes = mergeResult.pdfBytes;
 
