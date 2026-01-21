@@ -59,6 +59,7 @@ export function ClassificationSection() {
   const { formData, setField } = useDocumentStore();
   const classLevel = formData.classLevel || 'unclassified';
   const [configOverride, setConfigOverride] = useState<{ restriction?: any; message?: string } | null>(null);
+  const [configLoaded, setConfigLoaded] = useState(false);
 
   // Load config file override if available (async)
   useEffect(() => {
@@ -72,34 +73,39 @@ export function ClassificationSection() {
           message: config.overrideMessage,
         });
       }
+      setConfigLoaded(true);
     });
   }, []);
 
   // Get domain-based restrictions (will use config override if available)
   const domainRestriction = configOverride?.restriction || getDomainClassificationRestriction();
   const restrictionMessage = configOverride?.message || getDomainRestrictionMessage();
-  
+
   // Filter available classification levels based on domain
   const allowedLevels = CLASSIFICATION_LEVELS.filter((level) =>
     domainRestriction.allowedLevels.includes(level.value as ClassificationLevel)
   );
 
   // Check if current selection is allowed (custom is always allowed)
-  const isCurrentLevelAllowed = classLevel === 'custom' || isClassificationAllowed(classLevel as ClassificationLevel);
-  
+  const isCurrentLevelAllowed = classLevel === 'custom' ||
+    domainRestriction.allowedLevels.includes(classLevel as ClassificationLevel);
+
   // If current level is not allowed, reset to highest allowed level
-  // (but don't reset if it's 'custom' or 'unclassified')
+  // Wait for config to load first to avoid race condition
   useEffect(() => {
+    if (!configLoaded) return;
     if (!isCurrentLevelAllowed && classLevel !== 'unclassified' && classLevel !== 'custom') {
       const highestAllowed = domainRestriction.allowedLevels[domainRestriction.allowedLevels.length - 1];
       setField('classLevel', highestAllowed);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isCurrentLevelAllowed, classLevel]);
+  }, [configLoaded, isCurrentLevelAllowed, classLevel]);
 
   const currentLevel = CLASSIFICATION_LEVELS.find((l) => l.value === classLevel);
   const isClassified = ['confidential', 'secret', 'top_secret', 'top_secret_sci'].includes(classLevel);
-  const isCUI = classLevel === 'cui';
+  // Show CUI fields if classLevel is 'cui' OR if custom classification contains 'CUI'
+  const isCUI = classLevel === 'cui' ||
+    (classLevel === 'custom' && formData.customClassification?.toUpperCase().includes('CUI'));
   const isCustom = classLevel === 'custom';
 
   return (

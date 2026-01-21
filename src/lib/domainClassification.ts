@@ -95,10 +95,10 @@ export function getDomainClassificationRestriction(domain?: string): Classificat
     };
   }
 
-  // Default: Unclassified and CUI only
+  // Default: Unclassified and CUI only (CUI is allowed on any domain)
   return {
-    maxLevel: 'unclassified',
-    allowedLevels: ['unclassified'],
+    maxLevel: 'cui',
+    allowedLevels: ['unclassified', 'cui'],
   };
 }
 
