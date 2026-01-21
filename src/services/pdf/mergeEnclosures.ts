@@ -1209,85 +1209,78 @@ async function addPdfEnclosure(
       const srcPage = enclosurePdf.getPage(i);
       const { width: srcWidth, height: srcHeight } = srcPage.getSize();
 
-      // Get the page's rotation metadata (tells PDF viewers how to display it)
+      // PDF pages can have rotation metadata (90, 180, 270)
+      // This tells viewers to rotate content for display
+      // When we embed, rotation is lost - we must reapply it
       const rotation = srcPage.getRotation().angle;
-      const hasRotation = rotation !== 0;
       const isRotated90or270 = rotation === 90 || rotation === 270;
 
-      // Visual dimensions are what the user sees after rotation is applied
-      // For 90° or 270° rotation, width and height appear swapped
+      // Visual dimensions = what user sees after rotation
+      // 90°/270° rotation swaps width and height
       const visualWidth = isRotated90or270 ? srcHeight : srcWidth;
       const visualHeight = isRotated90or270 ? srcWidth : srcHeight;
 
-      // Check if page has content before trying to embed
+      // Check if page has content
       const contents = srcPage.node.get(PDFName.of('Contents'));
       if (!contents) {
         throw new Error(`Page ${i + 1} has no content stream (empty or malformed page)`);
       }
 
-      // Create a new page in the main document
       const page = mainPdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 
       // Record first page for hyperlink navigation
-      // (Skip if there's a cover page - the cover page is the target)
       if (pagesAdded === 0 && !enclosure.hasCoverPage) {
         recordEnclosurePage(enclosure.number, mainPdf.getPageCount() - 1);
       }
 
-      // Add classification marking at top (before content)
       if (classification?.marking) {
         addClassificationMarking(page, classification.marking, helveticaBold, 'top');
       }
 
-      // Embed the source page
       const embeddedPage = await mainPdf.embedPage(srcPage);
 
-      // Calculate scaling and positioning based on VISUAL dimensions
-      // This ensures rotated content is properly sized for the output page
+      // Layout uses visual dimensions so rotated content fits properly
       const { scale, x, y, drawBorder } = calculatePageLayout(
         visualWidth,
         visualHeight,
         style
       );
 
-      // Calculate draw position accounting for rotation
-      // pdf-lib rotates counter-clockwise around the anchor point (drawX, drawY)
-      // We need to offset the anchor so the rotated result lands at (x, y)
+      // Rotation shifts where content lands, so we offset the anchor point
+      // pdf-lib uses negative rotation to match PDF spec direction
       let drawX = x;
       let drawY = y;
 
       if (rotation === 90) {
-        // 90° CCW: content shifts left, so anchor must be right of target
-        drawX = x + srcHeight * scale;
+        // Content rotates right, anchor goes to bottom-right of target area
+        drawX = x + visualWidth * scale;
         drawY = y;
       } else if (rotation === 180) {
-        // 180°: content shifts left and down, anchor at top-right of target
-        drawX = x + srcWidth * scale;
-        drawY = y + srcHeight * scale;
+        // Content flips, anchor goes to top-right
+        drawX = x + visualWidth * scale;
+        drawY = y + visualHeight * scale;
       } else if (rotation === 270) {
-        // 270° CCW (90° CW): content shifts down, anchor must be above target
+        // Content rotates left, anchor goes to top-left of target area
         drawX = x;
-        drawY = y + srcWidth * scale;
+        drawY = y + visualHeight * scale;
       }
 
-      // Draw the embedded page with rotation to match how PDF viewers display it
+      // Draw with negative rotation to correct the page orientation
       page.drawPage(embeddedPage, {
         x: drawX,
         y: drawY,
         xScale: scale,
         yScale: scale,
-        rotate: hasRotation ? degrees(rotation) : undefined,
+        rotate: rotation !== 0 ? degrees(-rotation) : undefined,
       });
 
-      // Draw border if required (at visual position with visual dimensions)
+      // Border at visual position with visual dimensions
       if (drawBorder) {
-        const scaledWidth = visualWidth * scale;
-        const scaledHeight = visualHeight * scale;
         page.drawRectangle({
           x: x,
           y: y,
-          width: scaledWidth,
-          height: scaledHeight,
+          width: visualWidth * scale,
+          height: visualHeight * scale,
           borderColor: rgb(0, 0, 0),
           borderWidth: 0.5,
         });
