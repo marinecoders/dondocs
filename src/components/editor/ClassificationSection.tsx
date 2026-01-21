@@ -15,11 +15,10 @@ import {
 } from '@/components/ui/accordion';
 import { useDocumentStore } from '@/stores/documentStore';
 import { Shield, AlertTriangle, Info } from 'lucide-react';
-import { 
-  getDomainClassificationRestriction, 
+import {
+  getDomainClassificationRestriction,
   getDomainRestrictionMessage,
-  isClassificationAllowed,
-  type ClassificationLevel 
+  type ClassificationLevel
 } from '@/lib/domainClassification';
 import { useEffect, useState } from 'react';
 import { getClassificationConfig } from '@/config/classification';
