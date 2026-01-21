@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { Loader2, AlertCircle, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useUIStore } from '@/stores/uiStore';
@@ -12,14 +12,63 @@ interface PreviewPanelProps {
 export function PreviewPanel({ pdfUrl, isCompiling, error }: PreviewPanelProps) {
   const { previewVisible, togglePreview, isMobile, setMobilePreviewOpen } = useUIStore();
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [iframeKey, setIframeKey] = useState(0);
+  const savedScrollRef = useRef<{ scrollTop: number; scrollLeft: number } | null>(null);
+  const previousUrlRef = useRef<string | null>(null);
 
-  // Force iframe refresh when PDF URL changes
-  useEffect(() => {
-    if (pdfUrl) {
-      setIframeKey((k) => k + 1);
+  // Save scroll position before PDF URL changes
+  const saveScrollPosition = useCallback(() => {
+    try {
+      const iframe = iframeRef.current;
+      if (iframe?.contentWindow?.document?.scrollingElement) {
+        const scrollEl = iframe.contentWindow.document.scrollingElement;
+        savedScrollRef.current = {
+          scrollTop: scrollEl.scrollTop,
+          scrollLeft: scrollEl.scrollLeft,
+        };
+      }
+    } catch {
+      // Cross-origin restrictions may prevent access - silently ignore
     }
-  }, [pdfUrl]);
+  }, []);
+
+  // Restore scroll position after PDF loads
+  const restoreScrollPosition = useCallback(() => {
+    const saved = savedScrollRef.current;
+    if (!saved) return;
+
+    // Try multiple times as PDF viewer may take time to initialize
+    const attempts = [100, 300, 600, 1000];
+    attempts.forEach((delay) => {
+      setTimeout(() => {
+        try {
+          const iframe = iframeRef.current;
+          if (iframe?.contentWindow?.document?.scrollingElement) {
+            const scrollEl = iframe.contentWindow.document.scrollingElement;
+            scrollEl.scrollTop = saved.scrollTop;
+            scrollEl.scrollLeft = saved.scrollLeft;
+          }
+        } catch {
+          // Cross-origin restrictions may prevent access - silently ignore
+        }
+      }, delay);
+    });
+  }, []);
+
+  // Handle PDF URL changes - save position before, restore after
+  useEffect(() => {
+    if (pdfUrl && previousUrlRef.current && pdfUrl !== previousUrlRef.current) {
+      // URL is changing, save current scroll position
+      saveScrollPosition();
+    }
+    previousUrlRef.current = pdfUrl;
+  }, [pdfUrl, saveScrollPosition]);
+
+  // Handle iframe load event to restore scroll position
+  const handleIframeLoad = useCallback(() => {
+    if (savedScrollRef.current) {
+      restoreScrollPosition();
+    }
+  }, [restoreScrollPosition]);
 
   // Filter out engine reset message - it's not a user-facing error
   const displayError = error === 'ENGINE_RESET_NEEDED' ? null : error;
@@ -78,11 +127,11 @@ export function PreviewPanel({ pdfUrl, isCompiling, error }: PreviewPanelProps) 
         {pdfUrl && (
           <>
             <iframe
-              key={iframeKey}
               ref={iframeRef}
               src={pdfUrl}
               className="absolute inset-0 w-full h-full border-0"
               title="PDF Preview"
+              onLoad={handleIframeLoad}
             />
             {/* Loading overlay on top of existing PDF */}
             {isCompiling && (

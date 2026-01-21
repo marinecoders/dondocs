@@ -95,7 +95,8 @@ export function getDomainClassificationRestriction(domain?: string): Classificat
     };
   }
 
-  // Default: Unclassified and CUI only
+  // Default: Unclassified only for non-government domains
+  // Users can still use custom classification to type CUI/CONFIDENTIAL
   return {
     maxLevel: 'unclassified',
     allowedLevels: ['unclassified'],

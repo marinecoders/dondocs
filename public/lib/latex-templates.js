@@ -352,6 +352,12 @@ const LATEX_TEMPLATES = {
     \\fi
 }
 
+% Custom classification: just shows verbatim text as banner, no classified info block
+\\newcommand{\\setCustomClassification}[1]{%
+    \\renewcommand{\\ClassificationMarking}{#1}%
+    \\ClassificationEnabledtrue
+}
+
 
 %-----------------------------------------------------------------------------
 % CUI Field Setters

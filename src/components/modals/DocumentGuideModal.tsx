@@ -643,7 +643,7 @@ function ExamplesTab({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col flex-1 min-h-0">
       <div className="p-4 border-b shrink-0 space-y-3 bg-background">
         {/* Search */}
         <div className="relative">
@@ -916,7 +916,9 @@ export function DocumentGuideModal() {
         )}
 
         {activeTab === 'examples' && (
-          <ExamplesTab onClose={() => setDocumentGuideOpen(false)} />
+          <div className="flex-1 min-h-0 flex flex-col">
+            <ExamplesTab onClose={() => setDocumentGuideOpen(false)} />
+          </div>
         )}
 
         {/* Footer with tip - only show on finder and browse tabs */}

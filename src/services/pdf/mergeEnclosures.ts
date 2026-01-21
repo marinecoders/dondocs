@@ -1,4 +1,4 @@
-import { PDFDocument, rgb, StandardFonts, PDFPage, PDFName, PDFArray, PDFNumber, PDFRef, PDFRawStream, PDFDict, PDFString } from 'pdf-lib';
+import { PDFDocument, rgb, StandardFonts, PDFPage, PDFName, PDFArray, PDFNumber, PDFRef, PDFRawStream, PDFDict, PDFString, degrees } from 'pdf-lib';
 import pako from 'pako';
 
 export interface EnclosureData {
@@ -1209,53 +1209,100 @@ async function addPdfEnclosure(
       const srcPage = enclosurePdf.getPage(i);
       const { width: srcWidth, height: srcHeight } = srcPage.getSize();
 
-      // Check if page has content before trying to embed
+      // ============================================================
+      // ROTATION HANDLING
+      // ============================================================
+      // Problem: PDFs can have rotation metadata (90, 180, 270 degrees).
+      // PDF viewers read this and rotate the display automatically.
+      // But pdf-lib's embedPage() loses this metadata, so pages that
+      // should appear rotated end up sideways or upside down.
+      //
+      // Solution: Read the rotation, then manually apply it when drawing.
+      // We use NEGATIVE rotation because pdf-lib's rotation direction
+      // is opposite to what the PDF spec intends.
+      // ============================================================
+      const rotation = srcPage.getRotation().angle;
+      const isRotated90or270 = rotation === 90 || rotation === 270;
+
+      // When a page is rotated 90° or 270°, its visual width/height are swapped.
+      // A portrait PDF (612x792) with 90° rotation appears as landscape (792x612).
+      // We need these visual dimensions for proper layout calculations.
+      const visualWidth = isRotated90or270 ? srcHeight : srcWidth;
+      const visualHeight = isRotated90or270 ? srcWidth : srcHeight;
+
+      // Check if page has content
       const contents = srcPage.node.get(PDFName.of('Contents'));
       if (!contents) {
         throw new Error(`Page ${i + 1} has no content stream (empty or malformed page)`);
       }
 
-      // Create a new page in the main document
       const page = mainPdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 
       // Record first page for hyperlink navigation
-      // (Skip if there's a cover page - the cover page is the target)
       if (pagesAdded === 0 && !enclosure.hasCoverPage) {
         recordEnclosurePage(enclosure.number, mainPdf.getPageCount() - 1);
       }
 
-      // Add classification marking at top (before content)
       if (classification?.marking) {
         addClassificationMarking(page, classification.marking, helveticaBold, 'top');
       }
 
-      // Embed the source page
       const embeddedPage = await mainPdf.embedPage(srcPage);
 
-      // Calculate scaling and positioning based on page style
+      // Calculate layout using VISUAL dimensions (after rotation)
+      // This ensures the rotated content is sized correctly for our output page
       const { scale, x, y, drawBorder } = calculatePageLayout(
-        srcWidth,
-        srcHeight,
+        visualWidth,
+        visualHeight,
         style
       );
 
-      // Draw the embedded page with calculated position and scale
+      // ============================================================
+      // ANCHOR POINT CALCULATION
+      // ============================================================
+      // pdf-lib rotates content around the anchor point (drawX, drawY).
+      // After rotation, the content shifts position. We must offset the
+      // anchor so the final rotated content lands at our target (x, y).
+      //
+      // These offsets were determined by calculating where the bottom-left
+      // corner of the content ends up after each rotation amount.
+      // ============================================================
+      let drawX = x;
+      let drawY = y;
+
+      if (rotation === 90) {
+        // Applying -90° rotates content clockwise
+        // Content's bottom-left shifts down, so place anchor above target
+        drawX = x;
+        drawY = y + visualHeight * scale;
+      } else if (rotation === 180) {
+        // Applying -180° flips content
+        // Content's bottom-left shifts left and down, anchor at top-right
+        drawX = x + visualWidth * scale;
+        drawY = y + visualHeight * scale;
+      } else if (rotation === 270) {
+        // Applying -270° (same as +90°) rotates counter-clockwise
+        // Content's bottom-left shifts left, so place anchor to the right
+        drawX = x + visualWidth * scale;
+        drawY = y;
+      }
+
+      // Apply negative rotation to display page upright
       page.drawPage(embeddedPage, {
-        x,
-        y,
+        x: drawX,
+        y: drawY,
         xScale: scale,
         yScale: scale,
+        rotate: rotation !== 0 ? degrees(-rotation) : undefined,
       });
 
-      // Draw border if required
+      // Border at visual position with visual dimensions
       if (drawBorder) {
-        const scaledWidth = srcWidth * scale;
-        const scaledHeight = srcHeight * scale;
         page.drawRectangle({
           x: x,
           y: y,
-          width: scaledWidth,
-          height: scaledHeight,
+          width: visualWidth * scale,
+          height: visualHeight * scale,
           borderColor: rgb(0, 0, 0),
           borderWidth: 0.5,
         });
