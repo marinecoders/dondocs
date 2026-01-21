@@ -1209,14 +1209,24 @@ async function addPdfEnclosure(
       const srcPage = enclosurePdf.getPage(i);
       const { width: srcWidth, height: srcHeight } = srcPage.getSize();
 
-      // PDF pages can have rotation metadata (90, 180, 270)
-      // Viewers apply this rotation when displaying
-      // embedPage loses this metadata, so we reapply it manually
+      // ============================================================
+      // ROTATION HANDLING
+      // ============================================================
+      // Problem: PDFs can have rotation metadata (90, 180, 270 degrees).
+      // PDF viewers read this and rotate the display automatically.
+      // But pdf-lib's embedPage() loses this metadata, so pages that
+      // should appear rotated end up sideways or upside down.
+      //
+      // Solution: Read the rotation, then manually apply it when drawing.
+      // We use NEGATIVE rotation because pdf-lib's rotation direction
+      // is opposite to what the PDF spec intends.
+      // ============================================================
       const rotation = srcPage.getRotation().angle;
       const isRotated90or270 = rotation === 90 || rotation === 270;
 
-      // Visual dimensions = what user sees after rotation
-      // 90°/270° swaps width and height
+      // When a page is rotated 90° or 270°, its visual width/height are swapped.
+      // A portrait PDF (612x792) with 90° rotation appears as landscape (792x612).
+      // We need these visual dimensions for proper layout calculations.
       const visualWidth = isRotated90or270 ? srcHeight : srcWidth;
       const visualHeight = isRotated90or270 ? srcWidth : srcHeight;
 
@@ -1239,34 +1249,45 @@ async function addPdfEnclosure(
 
       const embeddedPage = await mainPdf.embedPage(srcPage);
 
-      // Layout uses visual dimensions so rotated content fits properly
+      // Calculate layout using VISUAL dimensions (after rotation)
+      // This ensures the rotated content is sized correctly for our output page
       const { scale, x, y, drawBorder } = calculatePageLayout(
         visualWidth,
         visualHeight,
         style
       );
 
-      // pdf-lib rotates around anchor point, shifting where content lands
-      // We use NEGATIVE rotation to correct orientation
-      // Anchor offsets calculated for where content ends up after negative rotation
+      // ============================================================
+      // ANCHOR POINT CALCULATION
+      // ============================================================
+      // pdf-lib rotates content around the anchor point (drawX, drawY).
+      // After rotation, the content shifts position. We must offset the
+      // anchor so the final rotated content lands at our target (x, y).
+      //
+      // These offsets were determined by calculating where the bottom-left
+      // corner of the content ends up after each rotation amount.
+      // ============================================================
       let drawX = x;
       let drawY = y;
 
       if (rotation === 90) {
-        // -90° (clockwise): content shifts down, anchor above target
+        // Applying -90° rotates content clockwise
+        // Content's bottom-left shifts down, so place anchor above target
         drawX = x;
         drawY = y + visualHeight * scale;
       } else if (rotation === 180) {
-        // -180°: content shifts left and down, anchor at top-right
+        // Applying -180° flips content
+        // Content's bottom-left shifts left and down, anchor at top-right
         drawX = x + visualWidth * scale;
         drawY = y + visualHeight * scale;
       } else if (rotation === 270) {
-        // -270° (= +90° CCW): content shifts left, anchor right of target
+        // Applying -270° (same as +90°) rotates counter-clockwise
+        // Content's bottom-left shifts left, so place anchor to the right
         drawX = x + visualWidth * scale;
         drawY = y;
       }
 
-      // Draw with negative rotation to display page upright
+      // Apply negative rotation to display page upright
       page.drawPage(embeddedPage, {
         x: drawX,
         y: drawY,
