@@ -17,9 +17,7 @@ import { PIIWarningModal } from '@/components/modals/PIIWarningModal';
 import { LogViewerModal } from '@/components/modals/LogViewerModal';
 import { EnclosureErrorModal } from '@/components/modals/EnclosureErrorModal';
 import { RestoreSessionModal } from '@/components/modals/RestoreSessionModal';
-import { ShareModal } from '@/components/modals/ShareModal';
 import { UpdatePromptModal } from '@/components/modals/UpdatePromptModal';
-import { parseShareUrl } from '@/lib/shareCrypto';
 import { BrowserCompatibilityNotice } from '@/components/BrowserCompatibilityNotice';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
@@ -143,8 +141,6 @@ function App() {
     setPiiWarningOpen,
     setTemplateLoaderOpen,
     setReferenceLibraryOpen,
-    setShareModal,
-    shareModal,
     togglePreview,
     closeAllModals,
   } = useUIStore();
@@ -174,18 +170,6 @@ function App() {
   // Enclosure error state
   const [enclosureErrors, setEnclosureErrors] = useState<EnclosureError[]>([]);
   const [showEnclosureErrors, setShowEnclosureErrors] = useState(false);
-
-  // Share link payload when opened from URL hash (#s=...)
-  const [sharePayloadFromHash, setSharePayloadFromHash] = useState<string | null>(null);
-
-  // On mount, if URL has a share hash, open import modal with that payload
-  useEffect(() => {
-    const payload = parseShareUrl(window.location.href);
-    if (payload) {
-      setSharePayloadFromHash(payload);
-      setShareModal('import');
-    }
-  }, [setShareModal]);
 
   // Apply theme to document
   useEffect(() => {
@@ -1055,22 +1039,6 @@ ${texFiles['body.tex'] || '% No body content'}
         }}
       />
       <RestoreSessionModal />
-      <ShareModal
-        open={shareModal !== null}
-        onOpenChange={(open) => {
-          if (!open) {
-            setShareModal(null);
-            setSharePayloadFromHash(null);
-          }
-        }}
-        mode={shareModal ?? 'share'}
-        initialPayload={shareModal === 'import' ? sharePayloadFromHash : undefined}
-        onImportComplete={() => {
-          setSharePayloadFromHash(null);
-          const u = window.location;
-          window.history.replaceState(null, '', u.pathname + u.search);
-        }}
-      />
       <UpdatePromptModal
         open={showUpdatePrompt}
         onConfirm={confirmUpdate}

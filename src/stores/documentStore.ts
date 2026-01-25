@@ -675,60 +675,6 @@ export function restoreSession(): boolean {
 }
 
 /**
- * Returns the current document state as a serializable session for sharing.
- * Excludes file data and signature images.
- */
-export function getSerializedSessionForShare(): SerializedSession {
-  const state = useDocumentStore.getState();
-  return {
-    documentMode: state.documentMode,
-    documentCategory: state.documentCategory,
-    docType: state.docType,
-    formType: state.formType,
-    formData: {
-      ...state.formData,
-      signatureImage: undefined,
-    },
-    references: state.references,
-    enclosures: state.enclosures.map(enc => ({
-      title: enc.title,
-      pageStyle: enc.pageStyle,
-      hasCoverPage: enc.hasCoverPage,
-      coverPageDescription: enc.coverPageDescription,
-      hasFile: !!enc.file,
-    })),
-    paragraphs: state.paragraphs,
-    copyTos: state.copyTos,
-    timestamp: Date.now(),
-  };
-}
-
-/**
- * Applies a shared-session payload (e.g. from a decrypted share link) to the document store.
- * Enclosure file data is not included in shares; titles and metadata are restored.
- */
-export function loadSharedSession(session: SerializedSession): void {
-  useDocumentStore.setState({
-    documentMode: session.documentMode,
-    documentCategory: session.documentCategory ?? 'correspondence',
-    docType: session.docType,
-    formType: session.formType ?? 'navmc_10274',
-    formData: session.formData ?? {},
-    references: session.references ?? [],
-    enclosures: (session.enclosures ?? []).map(enc => ({
-      title: enc.title,
-      pageStyle: enc.pageStyle,
-      hasCoverPage: enc.hasCoverPage,
-      coverPageDescription: enc.coverPageDescription,
-      file: undefined,
-    })),
-    paragraphs: session.paragraphs ?? [],
-    copyTos: session.copyTos ?? [],
-  });
-  debug.log('Store', 'Shared session applied');
-}
-
-/**
  * Clears the saved session from localStorage.
  */
 export function clearSavedSession(): void {

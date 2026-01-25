@@ -44,9 +44,9 @@ export async function extractFormFieldBoundaries(
   const fields = form.getFields();
   const boxes: BoxBoundary[] = [];
 
-  // Get page height for coordinate conversion (PDF Y is from bottom)
+  // Get page for field extraction
   const page = pdfDoc.getPage(0);
-  const { height: pageHeight } = page.getSize();
+  page.getSize(); // Ensure page is loaded
 
   for (const field of fields) {
     const name = field.getName();

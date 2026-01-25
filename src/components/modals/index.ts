@@ -15,7 +15,6 @@ export { OfficeCodeLookupModal } from './OfficeCodeLookupModal';
 export { PIIWarningModal } from './PIIWarningModal';
 export { ProfileModal } from './ProfileModal';
 export { ReferenceLibraryModal } from './ReferenceLibraryModal';
-export { ShareModal, type ShareModalMode } from './ShareModal';
 export { SSICLookupModal } from './SSICLookupModal';
 export { TemplateLoaderModal } from './TemplateLoaderModal';
 export { UnitLookupModal } from './UnitLookupModal';
