@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF Box Editor - DonDocs</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1a1a2e;
+      color: #eee;
+      min-height: 100vh;
+    }
+    .container { display: flex; height: 100vh; }
+    .sidebar {
+      width: 420px;
+      background: #16213e;
+      padding: 20px;
+      overflow-y: auto;
+      border-right: 1px solid #0f3460;
+    }
+    .main {
+      flex: 1;
+      padding: 20px;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 { font-size: 1.5rem; margin-bottom: 20px; color: #e94560; }
+    h2 {
+      font-size: 1rem;
+      margin: 20px 0 10px;
+      color: #0f3460;
+      background: #e94560;
+      padding: 8px 12px;
+      border-radius: 4px;
+    }
+    h3 { font-size: 0.9rem; margin: 15px 0 8px; color: #e94560; }
+    #pageNavContainer {
+      background: #0f3460;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    .template-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .template-btn {
+      background: #0f3460;
+      border: 1px solid #16213e;
+      color: #eee;
+      padding: 12px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+    }
+    .template-btn:hover { background: #1a3a6e; border-color: #e94560; }
+    .template-btn.active { background: #e94560; border-color: #e94560; }
+    .template-btn .name { font-weight: bold; display: block; }
+    .template-btn .desc { font-size: 11px; color: #aaa; margin-top: 4px; }
+    .template-btn.active .desc { color: #fcc; }
+    .page-nav { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+    .page-btn {
+      padding: 10px 14px;
+      border: 1px solid #0f3460;
+      background: #0f3460;
+      color: #eee;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      min-width: 120px;
+    }
+    .page-btn:hover { background: #1a3a6e; }
+    .page-btn.active { background: #e94560; border-color: #e94560; }
+    .page-btn .page-num { font-weight: bold; }
+    .page-btn .page-subtitle { font-size: 10px; color: #aaa; }
+    .page-btn.active .page-subtitle { color: #fcc; }
+    .page-btn .box-count {
+      background: rgba(0,0,0,0.3);
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-size: 10px;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    }
+    .page-btn {
+      position: relative;
+    }
+    .upload-area {
+      border: 2px dashed #0f3460;
+      padding: 20px;
+      text-align: center;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      font-size: 13px;
+    }
+    .upload-area:hover { border-color: #e94560; }
+    .upload-area input { display: none; }
+    .canvas-wrapper {
+      position: relative;
+      display: inline-block;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    canvas { display: block; }
+    .overlay { position: absolute; top: 0; left: 0; pointer-events: none; }
+    .overlay.drawing { pointer-events: auto; cursor: crosshair; }
+    .box {
+      position: absolute;
+      border: 2px solid #e94560;
+      background: rgba(233, 69, 96, 0.2);
+      cursor: move;
+      font-size: 11px;
+      color: #fff;
+      padding: 2px 4px;
+      font-weight: bold;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+      overflow: visible;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .box:hover { background: rgba(233, 69, 96, 0.4); }
+    .box.dragging {
+      opacity: 0.8;
+      z-index: 1000;
+    }
+    .box .box-label {
+      background: rgba(233, 69, 96, 0.9);
+      padding: 1px 4px;
+      border-radius: 2px;
+      font-size: 10px;
+      pointer-events: none;
+    }
+    .box .resize-handle {
+      position: absolute;
+      background: #e94560;
+      border: 1px solid #fff;
+    }
+    /* Corner handles */
+    .box .resize-handle.se {
+      width: 10px;
+      height: 10px;
+      bottom: -5px;
+      right: -5px;
+      cursor: se-resize;
+    }
+    .box .resize-handle.sw {
+      width: 10px;
+      height: 10px;
+      bottom: -5px;
+      left: -5px;
+      cursor: sw-resize;
+    }
+    .box .resize-handle.ne {
+      width: 10px;
+      height: 10px;
+      top: -5px;
+      right: -5px;
+      cursor: ne-resize;
+    }
+    .box .resize-handle.nw {
+      width: 10px;
+      height: 10px;
+      top: -5px;
+      left: -5px;
+      cursor: nw-resize;
+    }
+    /* Edge handles */
+    .box .resize-handle.n {
+      height: 8px;
+      width: 20px;
+      top: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: n-resize;
+    }
+    .box .resize-handle.s {
+      height: 8px;
+      width: 20px;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: s-resize;
+    }
+    .box .resize-handle.e {
+      width: 8px;
+      height: 20px;
+      right: -4px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: e-resize;
+    }
+    .box .resize-handle.w {
+      width: 8px;
+      height: 20px;
+      left: -4px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: w-resize;
+    }
+    .box-item {
+      background: #0f3460;
+      padding: 10px;
+      margin-bottom: 8px;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .box-item-header { display: flex; align-items: center; gap: 8px; }
+    .box-item-number {
+      background: #e94560;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    .box-item input[type="text"] {
+      flex: 1;
+      padding: 6px 10px;
+      border: 1px solid #16213e;
+      border-radius: 4px;
+      background: #1a1a2e;
+      color: #eee;
+      font-family: monospace;
+    }
+    .box-item .coords {
+      font-size: 11px;
+      color: #888;
+      font-family: monospace;
+      margin-left: 32px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+    }
+    .box-item .coords label {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .box-item .coords label span {
+      font-size: 9px;
+      color: #666;
+    }
+    .box-item .coords input {
+      width: 100%;
+      padding: 4px;
+      border: 1px solid #16213e;
+      border-radius: 3px;
+      background: #1a1a2e;
+      color: #eee;
+      font-family: monospace;
+      font-size: 11px;
+    }
+    .snap-controls {
+      background: #0f3460;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+    }
+    .snap-controls label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+    .snap-controls input[type="checkbox"] {
+      cursor: pointer;
+    }
+    .snap-controls input[type="number"] {
+      width: 50px;
+      padding: 4px;
+      border: 1px solid #16213e;
+      border-radius: 3px;
+      background: #1a1a2e;
+      color: #eee;
+      font-size: 11px;
+    }
+    .text-preview-controls {
+      background: #0f3460;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      font-size: 12px;
+    }
+    .text-preview-controls .row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .text-preview-controls .row:last-child {
+      margin-bottom: 0;
+    }
+    .text-preview-controls input[type="text"] {
+      flex: 1;
+      padding: 4px 8px;
+      border: 1px solid #16213e;
+      border-radius: 3px;
+      background: #1a1a2e;
+      color: #eee;
+      font-size: 11px;
+    }
+    .text-preview-controls select {
+      padding: 4px 8px;
+      border: 1px solid #16213e;
+      border-radius: 3px;
+      background: #1a1a2e;
+      color: #eee;
+      font-size: 11px;
+    }
+    .box .text-preview {
+      position: absolute;
+      font-family: 'Courier New', monospace;
+      color: #000;
+      background: rgba(255, 255, 200, 0.9);
+      padding: 1px 2px;
+      pointer-events: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: calc(100% - 6px);
+    }
+    .box .padding-indicator {
+      position: absolute;
+      border: 1px dashed rgba(0, 255, 0, 0.5);
+      pointer-events: none;
+    }
+    .box-item button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .btn-delete { background: #e94560; color: white; }
+    .btn-primary {
+      background: #e94560;
+      color: white;
+      padding: 10px 20px;
+      font-size: 14px;
+      width: 100%;
+      margin-top: 10px;
+    }
+    .btn-secondary {
+      background: #0f3460;
+      color: white;
+      padding: 10px 20px;
+      font-size: 14px;
+      width: 100%;
+      margin-top: 10px;
+    }
+    .instructions {
+      background: #0f3460;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .instructions ol { margin-left: 20px; }
+    .output {
+      background: #1a1a2e;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 11px;
+      white-space: pre-wrap;
+      max-height: 250px;
+      overflow-y: auto;
+      border: 1px solid #0f3460;
+    }
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .toolbar button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background: #0f3460;
+      color: white;
+    }
+    .toolbar button.active { background: #e94560; }
+    .mode-indicator {
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      background: #e94560;
+    }
+    .zoom-controls { display: flex; align-items: center; gap: 5px; }
+    .zoom-controls button {
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .divider { border-top: 1px solid #0f3460; margin: 15px 0; }
+    .status {
+      background: #0f3460;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-bottom: 15px;
+    }
+    .status .label { color: #888; }
+    .status .value { color: #e94560; font-weight: bold; }
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #888;
+    }
+    .error {
+      background: #4a1a1a;
+      border: 1px solid #e94560;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <h1>PDF Box Editor</h1>
+
+      <div class="instructions">
+        <strong>Quick Start:</strong>
+        <ol>
+          <li>Select a template below</li>
+          <li>Click "Draw Mode" and drag to create boxes</li>
+          <li>Name each box, then copy output</li>
+        </ol>
+        <p style="margin-top:10px;font-size:11px;color:#888;">
+          Add new templates by creating a folder in <code>public/templates/</code> and updating <code>index.json</code>
+        </p>
+      </div>
+
+      <h2>Form Templates</h2>
+      <div class="template-list" id="templateList">
+        <div class="loading">Loading templates...</div>
+      </div>
+
+      <div class="upload-area" onclick="document.getElementById('pdfInput').click()">
+        <input type="file" id="pdfInput" accept=".pdf">
+        <p>Or upload custom PDF...</p>
+      </div>
+
+      <div class="status" id="status" style="display:none">
+        <span class="label">Current:</span>
+        <span class="value" id="currentTemplate">-</span>
+      </div>
+
+      <div id="pageNavContainer" style="display:none">
+        <h3>Pages</h3>
+        <div class="page-nav" id="pageNav"></div>
+      </div>
+
+      <div class="snap-controls">
+        <label>
+          <input type="checkbox" id="snapEnabled" checked>
+          Snap to grid
+        </label>
+        <label>
+          Size:
+          <input type="number" id="snapSize" value="5" min="1" max="50">
+        </label>
+      </div>
+
+      <div class="text-preview-controls">
+        <div class="row">
+          <label>
+            <input type="checkbox" id="showTextPreview" onchange="renderBoxes()">
+            Show text preview
+          </label>
+          <label>
+            <input type="checkbox" id="showPadding" onchange="renderBoxes()">
+            Show padding
+          </label>
+        </div>
+        <div class="row">
+          <label>Sample:</label>
+          <input type="text" id="sampleText" value="Sample Text 123" oninput="renderBoxes()">
+        </div>
+        <div class="row">
+          <label>Font:</label>
+          <select id="previewFontSize" onchange="renderBoxes()">
+            <option value="8">8pt</option>
+            <option value="10" selected>10pt</option>
+            <option value="12">12pt</option>
+          </select>
+          <label>Padding:</label>
+          <select id="previewPadding" onchange="renderBoxes()">
+            <option value="2">2pt</option>
+            <option value="3" selected>3pt (default)</option>
+            <option value="5">5pt</option>
+          </select>
+        </div>
+        <div style="font-size: 10px; color: #888; margin-top: 6px;">
+          Text position: X = left + padding, Y = top - padding - fontSize
+        </div>
+      </div>
+
+      <div class="text-preview-controls" style="background: #1a3a6e;">
+        <div style="font-size: 11px; font-weight: bold; margin-bottom: 6px; color: #e94560;">⌨️ Keyboard Shortcuts</div>
+        <div style="font-size: 10px; color: #aaa; line-height: 1.6;">
+          <div><kbd style="background:#0f3460;padding:1px 4px;border-radius:2px;">↑↓←→</kbd> Move box (1pt or snap size)</div>
+          <div><kbd style="background:#0f3460;padding:1px 4px;border-radius:2px;">Shift</kbd> + arrows = 10pt move</div>
+          <div><kbd style="background:#0f3460;padding:1px 4px;border-radius:2px;">Ctrl</kbd> + arrows = 0.5pt move</div>
+          <div><kbd style="background:#0f3460;padding:1px 4px;border-radius:2px;">Alt</kbd> + arrows = resize</div>
+          <div style="margin-top: 4px; color: #6a9;">Click a box to select it first</div>
+        </div>
+      </div>
+
+      <h2>Boxes - Page <span id="currentPageNum">1</span> (<span id="boxCount">0</span>)</h2>
+      <div id="boxList"></div>
+
+      <div class="divider"></div>
+
+      <button class="btn-primary" onclick="copyTypeScript()">Copy TypeScript (Current Page)</button>
+      <button class="btn-secondary" onclick="copyAllTypeScript()">Copy TypeScript (All Pages)</button>
+      <button class="btn-secondary" onclick="saveBoxesJson()">Save boxes.json</button>
+      <button class="btn-secondary" onclick="exportJSON()">Download JSON</button>
+
+      <h2>Output Preview</h2>
+      <div class="output" id="output">// Select a template to begin</div>
+    </div>
+
+    <div class="main">
+      <div class="toolbar">
+        <button id="selectMode" class="active" onclick="setMode('select')">Select Mode</button>
+        <button id="drawMode" onclick="setMode('draw')">Draw Mode</button>
+        <span class="mode-indicator" id="modeIndicator">SELECT</span>
+        <div class="zoom-controls">
+          <button onclick="zoom(-0.25)">−</button>
+          <span id="zoomLevel">100%</span>
+          <button onclick="zoom(0.25)">+</button>
+        </div>
+      </div>
+      <div class="canvas-wrapper" id="canvasWrapper">
+        <canvas id="pdfCanvas"></canvas>
+        <canvas id="overlayCanvas" class="overlay"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    // =========================================================================
+    // STATE
+    // =========================================================================
+    let templates = [];
+    let currentTemplate = null;
+    let pdfDocs = [];
+    let currentPageIndex = 0;
+    let scale = 1;
+    let boxesByPage = {};
+    let mode = 'select';
+    let isDrawing = false;
+    let startX, startY;
+    let pdfWidth, pdfHeight;
+
+    // Drag state
+    let draggedBox = null;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+    let resizing = false;
+    let resizeHandle = null;
+
+    // Selected box for keyboard navigation
+    let selectedBoxIndex = null;
+
+    const canvas = document.getElementById('pdfCanvas');
+    const ctx = canvas.getContext('2d');
+    const overlay = document.getElementById('overlayCanvas');
+    const overlayCtx = overlay.getContext('2d');
+
+    // =========================================================================
+    // INITIALIZATION - Auto-discover templates
+    // =========================================================================
+    async function init() {
+      setupEventListeners();
+      await loadTemplateIndex();
+    }
+
+    async function loadTemplateIndex() {
+      const list = document.getElementById('templateList');
+
+      try {
+        const response = await fetch('/templates/index.json');
+        if (!response.ok) throw new Error('Failed to load template index');
+
+        const data = await response.json();
+        templates = data.templates || [];
+
+        if (templates.length === 0) {
+          list.innerHTML = '<div class="error">No templates found in index.json</div>';
+          return;
+        }
+
+        renderTemplateList();
+      } catch (err) {
+        console.error('Failed to load templates:', err);
+        list.innerHTML = `
+          <div class="error">
+            Failed to load templates. Make sure:<br>
+            • Dev server is running (npm run dev)<br>
+            • /templates/index.json exists
+          </div>
+        `;
+      }
+    }
+
+    function renderTemplateList() {
+      const list = document.getElementById('templateList');
+      list.innerHTML = templates.map(t => `
+        <button class="template-btn" data-id="${t.id}" onclick="loadTemplate('${t.id}')">
+          <span class="name">${t.name}</span>
+          <span class="desc">${t.pages.length} page(s) • ${t.description}</span>
+        </button>
+      `).join('');
+    }
+
+    function setupEventListeners() {
+      document.getElementById('pdfInput').addEventListener('change', handleCustomUpload);
+
+      const uploadArea = document.querySelector('.upload-area');
+      uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.style.borderColor = '#e94560';
+      });
+      uploadArea.addEventListener('dragleave', () => {
+        uploadArea.style.borderColor = '#0f3460';
+      });
+      uploadArea.addEventListener('drop', handleDrop);
+
+      overlay.addEventListener('mousedown', handleMouseDown);
+      overlay.addEventListener('mousemove', handleMouseMove);
+      overlay.addEventListener('mouseup', handleMouseUp);
+
+      // Global drag/resize handlers
+      document.addEventListener('mousemove', handleBoxDrag);
+      document.addEventListener('mouseup', handleBoxDragEnd);
+
+      // Keyboard navigation for precise adjustments
+      document.addEventListener('keydown', handleKeyDown);
+
+      // Deselect when clicking outside boxes
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.box') && !e.target.closest('.box-item')) {
+          selectedBoxIndex = null;
+          document.querySelectorAll('.box').forEach(el => el.style.outline = '');
+          document.querySelectorAll('.box-item').forEach(el => el.style.background = '');
+        }
+      });
+    }
+
+    function handleBoxDrag(e) {
+      if (!draggedBox) return;
+
+      const wrapper = document.getElementById('canvasWrapper');
+      const wrapperRect = wrapper.getBoundingClientRect();
+
+      if (resizing) {
+        // Handle resize
+        const deltaX = (e.clientX - dragOffsetX) / scale;
+        const deltaY = (e.clientY - dragOffsetY) / scale;
+        const box = boxesByPage[currentPageIndex][draggedBox.index];
+        const startBox = draggedBox.startBox;
+
+        switch (resizeHandle) {
+          // Corner handles (diagonal resize)
+          case 'se':
+            box.width = Math.max(1, startBox.width + deltaX);
+            box.height = Math.max(1, startBox.height + deltaY);
+            break;
+          case 'sw':
+            box.left = startBox.left + deltaX;
+            box.width = Math.max(1, startBox.width - deltaX);
+            box.height = Math.max(1, startBox.height + deltaY);
+            break;
+          case 'ne':
+            box.top = startBox.top - deltaY;
+            box.width = Math.max(1, startBox.width + deltaX);
+            box.height = Math.max(1, startBox.height - deltaY);
+            break;
+          case 'nw':
+            box.left = startBox.left + deltaX;
+            box.top = startBox.top - deltaY;
+            box.width = Math.max(1, startBox.width - deltaX);
+            box.height = Math.max(1, startBox.height - deltaY);
+            break;
+          // Edge handles (single-axis resize)
+          case 'n':
+            box.top = startBox.top - deltaY;
+            box.height = Math.max(1, startBox.height - deltaY);
+            break;
+          case 's':
+            box.height = Math.max(1, startBox.height + deltaY);
+            break;
+          case 'e':
+            box.width = Math.max(1, startBox.width + deltaX);
+            break;
+          case 'w':
+            box.left = startBox.left + deltaX;
+            box.width = Math.max(1, startBox.width - deltaX);
+            break;
+        }
+
+        // Snap values
+        box.left = snapToGrid(box.left);
+        box.top = snapToGrid(box.top);
+        box.width = snapToGrid(box.width);
+        box.height = snapToGrid(box.height);
+
+        // Update visual position
+        const screenX = box.left * scale;
+        const screenY = (pdfHeight - box.top) * scale;
+        draggedBox.element.style.left = screenX + 'px';
+        draggedBox.element.style.top = screenY + 'px';
+        draggedBox.element.style.width = (box.width * scale) + 'px';
+        draggedBox.element.style.height = (box.height * scale) + 'px';
+      } else {
+        // Handle drag/move
+        const newScreenX = e.clientX - wrapperRect.left - dragOffsetX;
+        const newScreenY = e.clientY - wrapperRect.top - dragOffsetY;
+
+        // Convert to PDF coordinates
+        const pdfX = newScreenX / scale;
+        const pdfTop = pdfHeight - (newScreenY / scale);
+
+        // Update box position with snap
+        const box = boxesByPage[currentPageIndex][draggedBox.index];
+        box.left = snapToGrid(pdfX);
+        box.top = snapToGrid(pdfTop);
+
+        // Update visual position (use snapped values)
+        const snappedScreenX = box.left * scale;
+        const snappedScreenY = (pdfHeight - box.top) * scale;
+        draggedBox.element.style.left = snappedScreenX + 'px';
+        draggedBox.element.style.top = snappedScreenY + 'px';
+      }
+
+      updateBoxList();
+      updateOutput();
+    }
+
+    function handleBoxDragEnd(e) {
+      if (draggedBox) {
+        draggedBox.element.classList.remove('dragging');
+        draggedBox = null;
+        resizing = false;
+        resizeHandle = null;
+        renderPageNav(); // Update box counts
+      }
+    }
+
+    // =========================================================================
+    // TEMPLATE LOADING
+    // =========================================================================
+    async function loadTemplate(templateId) {
+      const template = templates.find(t => t.id === templateId);
+      if (!template) return;
+
+      currentTemplate = template;
+      pdfDocs = [];
+      boxesByPage = {};
+      currentPageIndex = 0;
+
+      // Update UI
+      document.querySelectorAll('.template-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.id === templateId);
+      });
+
+      document.getElementById('status').style.display = 'block';
+      document.getElementById('currentTemplate').textContent = template.name;
+
+      // Load all PDF pages from the template directory
+      // Use encodeURI for the full path (preserves slashes, encodes spaces)
+      const baseUrl = `/templates/${template.directory}`;
+
+      console.log(`Loading template: ${template.name}`);
+      console.log(`Pages to load: ${template.pages.length}`);
+
+      for (let i = 0; i < template.pages.length; i++) {
+        try {
+          const url = encodeURI(`${baseUrl}/${template.pages[i]}`);
+          console.log(`Loading page ${i + 1}: ${url}`);
+
+          const response = await fetch(url);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+          const arrayBuffer = await response.arrayBuffer();
+          const pdfDoc = await pdfjsLib.getDocument(arrayBuffer).promise;
+          pdfDocs.push(pdfDoc);
+          boxesByPage[i] = [];
+          console.log(`Page ${i + 1} loaded successfully`);
+        } catch (err) {
+          console.error(`Failed to load ${template.pages[i]}:`, err);
+          alert(`Failed to load ${template.pages[i]}. Check console for details.`);
+          return;
+        }
+      }
+
+      console.log(`All ${pdfDocs.length} pages loaded`);
+      console.log(`boxesByPage keys: ${Object.keys(boxesByPage).join(', ')}`);
+      console.log(`Page labels: ${template.pageLabels?.join(', ')}`);
+      console.log(`Pages array length: ${template.pages.length}`);
+
+      // Try to load existing boxes.json
+      try {
+        const configResponse = await fetch(`${baseUrl}/boxes.json`);
+        if (configResponse.ok) {
+          const config = await configResponse.json();
+          loadBoxesFromConfig(config);
+        }
+      } catch (err) {
+        console.log('No existing boxes.json found, starting fresh');
+      }
+
+      renderPageNav();
+      await renderCurrentPage();
+      updateOutput();
+    }
+
+    function loadBoxesFromConfig(config) {
+      // Handle flat structure (single page) - load to main form page
+      if (config.boxes && !config.pages) {
+        const mainPageIndex = currentTemplate.pages.length > 1 ? 1 : 0;
+        boxesByPage[mainPageIndex] = [];
+        for (const [name, coords] of Object.entries(config.boxes)) {
+          boxesByPage[mainPageIndex].push({
+            name,
+            left: coords.left,
+            top: coords.top,
+            width: coords.width,
+            height: coords.height
+          });
+        }
+      }
+
+      // Handle per-page structure
+      if (config.pages) {
+        for (const [pageKey, pageBoxes] of Object.entries(config.pages)) {
+          const pageIndex = parseInt(pageKey.replace('page', '')) - 1;
+          if (!isNaN(pageIndex) && pageIndex < currentTemplate.pages.length) {
+            boxesByPage[pageIndex] = [];
+            for (const [name, coords] of Object.entries(pageBoxes)) {
+              boxesByPage[pageIndex].push({
+                name,
+                left: coords.left,
+                top: coords.top,
+                width: coords.width,
+                height: coords.height
+              });
+            }
+          }
+        }
+      }
+    }
+
+    async function handleCustomUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      await loadCustomPDF(file);
+    }
+
+    async function handleDrop(e) {
+      e.preventDefault();
+      document.querySelector('.upload-area').style.borderColor = '#0f3460';
+      const file = e.dataTransfer.files[0];
+      if (file && file.type === 'application/pdf') {
+        await loadCustomPDF(file);
+      }
+    }
+
+    async function loadCustomPDF(file) {
+      currentTemplate = {
+        id: 'custom',
+        name: file.name,
+        directory: null,
+        pages: ['custom'],
+        pageLabels: ['Page 1']
+      };
+
+      pdfDocs = [];
+      boxesByPage = { 0: [] };
+      currentPageIndex = 0;
+
+      const arrayBuffer = await file.arrayBuffer();
+      const pdfDoc = await pdfjsLib.getDocument(arrayBuffer).promise;
+
+      const numPages = pdfDoc.numPages;
+      for (let i = 0; i < numPages; i++) {
+        pdfDocs.push(pdfDoc);
+        boxesByPage[i] = [];
+        if (i > 0) {
+          currentTemplate.pages.push('custom');
+          currentTemplate.pageLabels.push(`Page ${i + 1}`);
+        }
+      }
+
+      document.querySelectorAll('.template-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('status').style.display = 'block';
+      document.getElementById('currentTemplate').textContent = file.name;
+
+      renderPageNav();
+      await renderCurrentPage();
+      updateOutput();
+    }
+
+    // =========================================================================
+    // PAGE NAVIGATION
+    // =========================================================================
+    function renderPageNav() {
+      const container = document.getElementById('pageNavContainer');
+      const nav = document.getElementById('pageNav');
+
+      console.log('renderPageNav called');
+      console.log('currentTemplate.pages.length:', currentTemplate?.pages?.length);
+      console.log('pdfDocs.length:', pdfDocs.length);
+
+      if (!currentTemplate || currentTemplate.pages.length <= 1) {
+        container.style.display = 'none';
+        console.log('Hiding page nav (single page or no template)');
+        return;
+      }
+
+      container.style.display = 'block';
+      const buttons = currentTemplate.pages.map((page, i) => {
+        const boxCount = (boxesByPage[i] || []).length;
+        const subtitle = currentTemplate.pageLabels?.[i] || '';
+        return `
+          <button class="page-btn ${i === currentPageIndex ? 'active' : ''}" onclick="switchPage(${i})">
+            <span class="page-num">Page ${i + 1}</span>
+            ${subtitle ? `<span class="page-subtitle">${subtitle}</span>` : ''}
+            <span class="box-count">${boxCount}</span>
+          </button>
+        `;
+      }).join('');
+
+      console.log('Page nav buttons:', buttons);
+      nav.innerHTML = buttons;
+    }
+
+    async function switchPage(pageIndex) {
+      currentPageIndex = pageIndex;
+      renderPageNav();
+      await renderCurrentPage();
+      updateOutput();
+    }
+
+    // =========================================================================
+    // RENDERING
+    // =========================================================================
+    async function renderCurrentPage() {
+      console.log('renderCurrentPage called');
+      console.log('pdfDocs.length:', pdfDocs.length);
+      console.log('currentPageIndex:', currentPageIndex);
+
+      if (pdfDocs.length === 0) {
+        console.log('No PDFs loaded, returning');
+        return;
+      }
+
+      const docIndex = Math.min(currentPageIndex, pdfDocs.length - 1);
+      const pdfDoc = pdfDocs[docIndex];
+      const pageNum = currentTemplate.id === 'custom' ? currentPageIndex + 1 : 1;
+
+      console.log(`Rendering doc index ${docIndex}, page ${pageNum}`);
+
+      const page = await pdfDoc.getPage(pageNum);
+      const viewport = page.getViewport({ scale });
+
+      pdfWidth = page.getViewport({ scale: 1 }).width;
+      pdfHeight = page.getViewport({ scale: 1 }).height;
+      console.log(`Page size: ${pdfWidth} x ${pdfHeight}`);
+
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      overlay.width = viewport.width;
+      overlay.height = viewport.height;
+
+      await page.render({
+        canvasContext: ctx,
+        viewport: viewport
+      }).promise;
+
+      renderBoxes();
+      document.getElementById('currentPageNum').textContent = currentPageIndex + 1;
+    }
+
+    function renderBoxes() {
+      document.querySelectorAll('.box').forEach(el => el.remove());
+
+      const wrapper = document.getElementById('canvasWrapper');
+      const boxes = boxesByPage[currentPageIndex] || [];
+
+      // Get preview settings
+      const showTextPreview = document.getElementById('showTextPreview')?.checked || false;
+      const showPadding = document.getElementById('showPadding')?.checked || false;
+      const sampleText = document.getElementById('sampleText')?.value || 'Sample Text';
+      const fontSize = parseInt(document.getElementById('previewFontSize')?.value) || 10;
+      const padding = parseInt(document.getElementById('previewPadding')?.value) || 3;
+
+      boxes.forEach((box, i) => {
+        const div = document.createElement('div');
+        div.className = 'box';
+        div.dataset.index = i;
+
+        const screenX = box.left * scale;
+        const screenY = (pdfHeight - box.top) * scale;
+        const screenW = box.width * scale;
+        const screenH = box.height * scale;
+
+        div.style.left = screenX + 'px';
+        div.style.top = screenY + 'px';
+        div.style.width = screenW + 'px';
+        div.style.height = screenH + 'px';
+
+        // Build inner HTML - corner + edge resize handles
+        let innerHtml = `
+          <span class="box-label">${i + 1}. ${box.name}</span>
+          <div class="resize-handle se" data-handle="se"></div>
+          <div class="resize-handle sw" data-handle="sw"></div>
+          <div class="resize-handle ne" data-handle="ne"></div>
+          <div class="resize-handle nw" data-handle="nw"></div>
+          <div class="resize-handle n" data-handle="n"></div>
+          <div class="resize-handle s" data-handle="s"></div>
+          <div class="resize-handle e" data-handle="e"></div>
+          <div class="resize-handle w" data-handle="w"></div>
+        `;
+
+        // Add padding indicator (dashed green border showing text area)
+        if (showPadding) {
+          const paddingPx = padding * scale;
+          const fontPx = fontSize * scale;
+          innerHtml += `
+            <div class="padding-indicator" style="
+              left: ${paddingPx}px;
+              top: ${paddingPx}px;
+              right: ${paddingPx}px;
+              bottom: ${paddingPx}px;
+            "></div>
+          `;
+        }
+
+        // Add text preview
+        if (showTextPreview) {
+          const paddingPx = padding * scale;
+          const fontPx = fontSize * scale;
+          // Text Y position: padding from top + adjustment for baseline
+          // In screen coords, this is: paddingPx + a bit for the baseline
+          const textTopPx = paddingPx;
+          innerHtml += `
+            <div class="text-preview" style="
+              left: ${paddingPx}px;
+              top: ${textTopPx}px;
+              font-size: ${fontPx}px;
+              line-height: ${fontPx}px;
+            ">${sampleText}</div>
+          `;
+        }
+
+        div.innerHTML = innerHtml;
+
+        // Drag start
+        div.addEventListener('mousedown', (e) => {
+          if (e.target.classList.contains('resize-handle')) {
+            // Start resizing
+            resizing = true;
+            resizeHandle = e.target.dataset.handle;
+            draggedBox = { element: div, index: i, startBox: { ...box } };
+            dragOffsetX = e.clientX;
+            dragOffsetY = e.clientY;
+          } else if (!e.target.classList.contains('text-preview') && !e.target.classList.contains('padding-indicator')) {
+            // Start dragging (but not when clicking on preview elements)
+            draggedBox = { element: div, index: i, startBox: { ...box } };
+            const rect = div.getBoundingClientRect();
+            dragOffsetX = e.clientX - rect.left;
+            dragOffsetY = e.clientY - rect.top;
+            div.classList.add('dragging');
+          }
+          e.preventDefault();
+          e.stopPropagation();
+          highlightBoxInList(i);
+        });
+
+        wrapper.appendChild(div);
+      });
+
+      updateBoxList();
+      document.getElementById('boxCount').textContent = boxes.length;
+    }
+
+    function updateBoxList() {
+      const list = document.getElementById('boxList');
+      const boxes = boxesByPage[currentPageIndex] || [];
+
+      // Get current preview settings for text position calculation
+      const fontSize = parseInt(document.getElementById('previewFontSize')?.value) || 10;
+      const padding = parseInt(document.getElementById('previewPadding')?.value) || 3;
+
+      list.innerHTML = boxes.map((box, i) => {
+        // Calculate where text will actually appear
+        const textX = box.left + padding;
+        const textY = box.top - padding - fontSize;
+        const maxWidth = box.width - (padding * 2);
+
+        return `
+          <div class="box-item" id="box-item-${i}">
+            <div class="box-item-header">
+              <span class="box-item-number">${i + 1}</span>
+              <input type="text" value="${box.name}" onchange="renameBox(${i}, this.value)" placeholder="Field name">
+              <button class="btn-delete" onclick="deleteBox(${i})">×</button>
+            </div>
+            <div class="coords">
+              <label><span>X (left)</span><input type="number" value="${box.left}" step="0.1" onchange="updateBoxCoord(${i}, 'left', this.value)"></label>
+              <label><span>Y (top)</span><input type="number" value="${box.top}" step="0.1" onchange="updateBoxCoord(${i}, 'top', this.value)"></label>
+              <label><span>Width</span><input type="number" value="${box.width}" step="0.1" onchange="updateBoxCoord(${i}, 'width', this.value)"></label>
+              <label><span>Height</span><input type="number" value="${box.height}" step="0.1" onchange="updateBoxCoord(${i}, 'height', this.value)"></label>
+            </div>
+            <div style="font-size: 10px; color: #6a9; margin-left: 32px; margin-top: 4px;">
+              Text → x: ${textX.toFixed(1)}, y: ${textY.toFixed(1)}, maxWidth: ${maxWidth.toFixed(1)}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateBoxCoord(index, prop, value) {
+      const box = boxesByPage[currentPageIndex][index];
+      box[prop] = parseFloat(value) || 0;
+      renderBoxes();
+      updateOutput();
+    }
+
+    function snapToGrid(value) {
+      const snapEnabled = document.getElementById('snapEnabled')?.checked;
+      const snapSize = parseFloat(document.getElementById('snapSize')?.value) || 5;
+
+      if (snapEnabled) {
+        return Math.round(value / snapSize) * snapSize;
+      }
+      return Math.round(value * 10) / 10;
+    }
+
+    function highlightBoxInList(index) {
+      selectedBoxIndex = index;
+      document.querySelectorAll('.box-item').forEach(el => el.style.background = '');
+      document.querySelectorAll('.box').forEach(el => el.style.outline = '');
+
+      const item = document.getElementById(`box-item-${index}`);
+      if (item) {
+        item.style.background = '#1a3a6e';
+        item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Highlight the box on canvas
+      const boxEl = document.querySelector(`.box[data-index="${index}"]`);
+      if (boxEl) {
+        boxEl.style.outline = '3px solid #00ff00';
+      }
+    }
+
+    // Keyboard navigation for selected box
+    function handleKeyDown(e) {
+      if (selectedBoxIndex === null) return;
+      if (!boxesByPage[currentPageIndex] || !boxesByPage[currentPageIndex][selectedBoxIndex]) return;
+
+      const box = boxesByPage[currentPageIndex][selectedBoxIndex];
+      const shift = e.shiftKey;
+      const ctrl = e.ctrlKey || e.metaKey;
+
+      // Amount to move: Shift = 10, Ctrl = 0.5, normal = 1 (or snap size)
+      let amount = 1;
+      if (shift) amount = 10;
+      else if (ctrl) amount = 0.5;
+      else if (document.getElementById('snapEnabled')?.checked) {
+        amount = parseFloat(document.getElementById('snapSize')?.value) || 5;
+      }
+
+      let handled = false;
+
+      switch (e.key) {
+        case 'ArrowLeft':
+          box.left -= amount;
+          handled = true;
+          break;
+        case 'ArrowRight':
+          box.left += amount;
+          handled = true;
+          break;
+        case 'ArrowUp':
+          box.top += amount; // PDF Y increases upward
+          handled = true;
+          break;
+        case 'ArrowDown':
+          box.top -= amount;
+          handled = true;
+          break;
+        // Resize with Alt+Arrow
+        case 'ArrowLeft':
+        case 'ArrowRight':
+        case 'ArrowUp':
+        case 'ArrowDown':
+          if (e.altKey) {
+            handled = false; // Let the switch fall through to resize
+          }
+          break;
+      }
+
+      // Alt+Arrow for resizing
+      if (e.altKey) {
+        switch (e.key) {
+          case 'ArrowLeft':
+            box.width = Math.max(1, box.width - amount);
+            handled = true;
+            break;
+          case 'ArrowRight':
+            box.width += amount;
+            handled = true;
+            break;
+          case 'ArrowUp':
+            box.height += amount;
+            handled = true;
+            break;
+          case 'ArrowDown':
+            box.height = Math.max(1, box.height - amount);
+            handled = true;
+            break;
+        }
+      }
+
+      if (handled) {
+        e.preventDefault();
+        renderBoxes();
+        updateOutput();
+        highlightBoxInList(selectedBoxIndex);
+      }
+    }
+
+    // =========================================================================
+    // DRAWING
+    // =========================================================================
+    function setMode(newMode) {
+      mode = newMode;
+      document.getElementById('selectMode').classList.toggle('active', mode === 'select');
+      document.getElementById('drawMode').classList.toggle('active', mode === 'draw');
+      document.getElementById('modeIndicator').textContent = mode.toUpperCase();
+      overlay.classList.toggle('drawing', mode === 'draw');
+    }
+
+    function zoom(delta) {
+      scale = Math.max(0.5, Math.min(3, scale + delta));
+      document.getElementById('zoomLevel').textContent = Math.round(scale * 100) + '%';
+      if (pdfDocs.length > 0) renderCurrentPage();
+    }
+
+    function handleMouseDown(e) {
+      if (mode !== 'draw') return;
+      isDrawing = true;
+      const rect = overlay.getBoundingClientRect();
+      startX = e.clientX - rect.left;
+      startY = e.clientY - rect.top;
+    }
+
+    function handleMouseMove(e) {
+      if (!isDrawing) return;
+      const rect = overlay.getBoundingClientRect();
+      const currentX = e.clientX - rect.left;
+      const currentY = e.clientY - rect.top;
+
+      overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
+      overlayCtx.strokeStyle = '#e94560';
+      overlayCtx.lineWidth = 2;
+      overlayCtx.setLineDash([5, 5]);
+      overlayCtx.strokeRect(startX, startY, currentX - startX, currentY - startY);
+    }
+
+    function handleMouseUp(e) {
+      if (!isDrawing) return;
+      isDrawing = false;
+      overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
+
+      const rect = overlay.getBoundingClientRect();
+      const endX = e.clientX - rect.left;
+      const endY = e.clientY - rect.top;
+
+      const x1 = Math.min(startX, endX) / scale;
+      const y1 = Math.min(startY, endY) / scale;
+      const x2 = Math.max(startX, endX) / scale;
+      const y2 = Math.max(startY, endY) / scale;
+
+      const width = x2 - x1;
+      const height = y2 - y1;
+
+      if (width > 5 && height > 5) {
+        const pdfTop = pdfHeight - y1;
+        const boxes = boxesByPage[currentPageIndex] || [];
+
+        boxes.push({
+          name: 'field' + (boxes.length + 1),
+          left: snapToGrid(x1),
+          top: snapToGrid(pdfTop),
+          width: snapToGrid(width),
+          height: snapToGrid(height),
+        });
+
+        boxesByPage[currentPageIndex] = boxes;
+        renderBoxes();
+        renderPageNav();
+        updateOutput();
+      }
+    }
+
+    // =========================================================================
+    // BOX MANAGEMENT
+    // =========================================================================
+    function renameBox(index, name) {
+      boxesByPage[currentPageIndex][index].name = name;
+      renderBoxes();
+      updateOutput();
+    }
+
+    function deleteBox(index) {
+      boxesByPage[currentPageIndex].splice(index, 1);
+      renderBoxes();
+      renderPageNav();
+      updateOutput();
+    }
+
+    // =========================================================================
+    // OUTPUT GENERATION
+    // =========================================================================
+    function updateOutput() {
+      const ts = generateTypeScriptForPage(currentPageIndex);
+      document.getElementById('output').textContent = ts;
+    }
+
+    function generateTypeScriptForPage(pageIndex) {
+      const boxes = boxesByPage[pageIndex] || [];
+      if (boxes.length === 0) return '// No boxes defined for this page';
+
+      let code = `const PAGE${pageIndex + 1}_BOXES: Record<string, BoxBoundary> = {\n`;
+      boxes.forEach((box, i) => {
+        const padding = ' '.repeat(Math.max(0, 16 - box.name.length));
+        code += `  ${box.name}:${padding}{ name: '${box.name}', left: ${box.left}, top: ${box.top}, width: ${box.width}, height: ${box.height} },  // ${i + 1}\n`;
+      });
+      code += '};';
+      return code;
+    }
+
+    function generateAllTypeScript() {
+      let code = '';
+      for (let i = 0; i < currentTemplate.pages.length; i++) {
+        const boxes = boxesByPage[i] || [];
+        if (boxes.length > 0) {
+          if (code) code += '\n\n';
+          const label = currentTemplate.pageLabels?.[i] || `Page ${i + 1}`;
+          code += `// ${label}\n`;
+          code += generateTypeScriptForPage(i);
+        }
+      }
+      return code || '// No boxes defined';
+    }
+
+    function generateJSON() {
+      const config = {
+        template: currentTemplate.name,
+        description: currentTemplate.description || "TODO: Add description",
+        pageSize: { width: Math.round(pdfWidth), height: Math.round(pdfHeight) },
+      };
+
+      // Count total pages with boxes
+      const pagesWithBoxes = Object.values(boxesByPage).filter(b => b.length > 0).length;
+
+      if (pagesWithBoxes <= 1) {
+        // Single page - use flat structure
+        const pageIndex = Object.keys(boxesByPage).find(k => (boxesByPage[k] || []).length > 0) || 0;
+        config.boxes = {};
+        (boxesByPage[pageIndex] || []).forEach((box, i) => {
+          config.boxes[box.name] = {
+            left: box.left,
+            top: box.top,
+            width: box.width,
+            height: box.height,
+            _index: i + 1
+          };
+        });
+      } else {
+        // Multi-page
+        config.pages = {};
+        for (let i = 0; i < currentTemplate.pages.length; i++) {
+          const boxes = boxesByPage[i] || [];
+          if (boxes.length > 0) {
+            config.pages[`page${i + 1}`] = {};
+            boxes.forEach((box, j) => {
+              config.pages[`page${i + 1}`][box.name] = {
+                left: box.left,
+                top: box.top,
+                width: box.width,
+                height: box.height,
+                _index: j + 1
+              };
+            });
+          }
+        }
+      }
+
+      return JSON.stringify(config, null, 2);
+    }
+
+    function copyTypeScript() {
+      navigator.clipboard.writeText(generateTypeScriptForPage(currentPageIndex));
+      alert('TypeScript code for current page copied!');
+    }
+
+    function copyAllTypeScript() {
+      navigator.clipboard.writeText(generateAllTypeScript());
+      alert('TypeScript code for all pages copied!');
+    }
+
+    function saveBoxesJson() {
+      if (!currentTemplate || !currentTemplate.directory) {
+        alert('Save is only available for templates (not custom uploads).\nUse "Download JSON" instead.');
+        return;
+      }
+
+      // Can't actually save from browser - show instructions
+      const json = generateJSON();
+      navigator.clipboard.writeText(json);
+      alert(`boxes.json content copied to clipboard!\n\nSave it to:\npublic/templates/${currentTemplate.directory}/boxes.json`);
+    }
+
+    function exportJSON() {
+      const blob = new Blob([generateJSON()], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'boxes.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // Initialize
+    init();
+  </script>
+</body>
+</html>

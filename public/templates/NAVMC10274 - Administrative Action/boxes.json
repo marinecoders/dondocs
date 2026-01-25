@@ -1,0 +1,109 @@
+{
+  "template": "page2.pdf",
+  "description": "NAVMC 10274 - Administrative Action",
+  "pageSize": { "width": 612, "height": 792 },
+  "notes": [
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page",
+    "Top is the Y coordinate of the TOP edge of the box",
+    "Defined using tools/box-editor.html"
+  ],
+  "pages": {
+    "page2": {
+      "actionNo": {
+        "left": 406,
+        "top": 728,
+        "width": 79,
+        "height": 18,
+        "description": "Field 1: Action Number"
+      },
+      "ssicFileNo": {
+        "left": 487,
+        "top": 728,
+        "width": 97,
+        "height": 18,
+        "description": "Field 2: SSIC/File Number"
+      },
+      "date": {
+        "left": 406,
+        "top": 701,
+        "width": 178,
+        "height": 16,
+        "align": "center",
+        "description": "Field 3: Date"
+      },
+      "from": {
+        "left": 29,
+        "top": 674,
+        "width": 276,
+        "height": 25,
+        "description": "Field 4: From (Grade, Name, EDIPI, MOS)"
+      },
+      "orgStation": {
+        "left": 309,
+        "top": 674,
+        "width": 274,
+        "height": 61,
+        "description": "Field 5: Organization and Station"
+      },
+      "via": {
+        "left": 29,
+        "top": 638,
+        "width": 276,
+        "height": 25,
+        "description": "Field 6: Via (As required)"
+      },
+      "to": {
+        "left": 65,
+        "top": 601,
+        "width": 265,
+        "height": 77,
+        "description": "Field 7: To"
+      },
+      "natureOfAction": {
+        "left": 353,
+        "top": 602,
+        "width": 230,
+        "height": 42,
+        "description": "Field 8: Nature of Action/Subject"
+      },
+      "copyTo": {
+        "left": 353,
+        "top": 547,
+        "width": 230,
+        "height": 32,
+        "description": "Field 9: Copy To (As required)"
+      },
+      "references": {
+        "left": 30,
+        "top": 500,
+        "width": 275,
+        "height": 75,
+        "description": "Field 10: Reference or Authority"
+      },
+      "enclosures": {
+        "left": 309,
+        "top": 500,
+        "width": 274,
+        "height": 75,
+        "description": "Field 11: Enclosures (if any)"
+      },
+      "supplementalInfo": {
+        "left": 30,
+        "top": 410,
+        "width": 553,
+        "height": 355,
+        "description": "Field 12: Supplemental Information"
+      }
+    },
+    "page3": {
+      "supplementalInfo": {
+        "left": 31,
+        "top": 725,
+        "width": 550,
+        "height": 686,
+        "description": "Supplemental Information (continuation)"
+      }
+    }
+  }
+}

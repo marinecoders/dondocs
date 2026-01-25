@@ -4,6 +4,17 @@ import { persist } from 'zustand/middleware';
 export type DensityMode = 'compact' | 'comfortable' | 'spacious';
 export type ColorScheme = 'default' | 'navy' | 'usmc';
 
+/**
+ * Get the system's preferred color scheme
+ * Used for first-time users who haven't set a preference yet
+ */
+function getSystemTheme(): 'dark' | 'light' {
+  if (typeof window !== 'undefined' && window.matchMedia) {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  return 'light'; // Fallback for SSR or unsupported browsers
+}
+
 interface UIState {
   // Theme
   theme: 'dark' | 'light';
@@ -64,8 +75,8 @@ interface UIState {
 export const useUIStore = create<UIState>()(
   persist(
     (set) => ({
-      // Theme - default light
-      theme: 'light',
+      // Theme - detect system preference for first-time users
+      theme: getSystemTheme(),
       toggleTheme: () => set((state) => ({
         theme: state.theme === 'dark' ? 'light' : 'dark',
       })),

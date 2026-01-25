@@ -1,0 +1,20 @@
+{
+  "templates": [
+    {
+      "id": "navmc10274",
+      "name": "NAVMC10274 - Administrative Action",
+      "directory": "NAVMC10274 - Administrative Action",
+      "description": "Administrative action form for personnel matters",
+      "pages": ["page1.pdf", "page2.pdf", "page3.pdf"],
+      "pageLabels": ["Privacy Act Statement", "Main Form", "Continuation"]
+    },
+    {
+      "id": "navmc11811",
+      "name": "NAVMC11811 - Administrative Remarks",
+      "directory": "NAVMC11811 - Administrative Remarks",
+      "description": "Page 11 / 6105 counseling entry form",
+      "pages": ["page1.pdf"],
+      "pageLabels": ["Main Form"]
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import { useRef, useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -18,7 +18,6 @@ import { CSS } from '@dnd-kit/utilities';
 import { GripVertical, Plus, Trash2, ChevronRight, ChevronLeft, ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import {
   Accordion,
@@ -33,8 +32,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { RichTextToolbar, applyFormat } from './RichTextToolbar';
-import { useVariableAutocomplete, VariableAutocompletePopup } from '@/components/ui/variable-autocomplete';
+import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
 import { useDocumentStore } from '@/stores/documentStore';
 import type { Paragraph, PortionMarking } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
@@ -111,7 +109,6 @@ function SortableParagraph({
   onOutdent,
   onAddAfter,
 }: SortableParagraphProps) {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const {
     attributes,
     listeners,
@@ -121,44 +118,12 @@ function SortableParagraph({
     isDragging,
   } = useSortable({ id: `para-${index}` });
 
-  // Variable autocomplete
-  const autocomplete = useVariableAutocomplete({
-    inputRef: textareaRef,
-    value: paragraph.text,
-    onChange: onUpdate,
-  });
-
   const wordCount = useMemo(() => countWords(paragraph.text), [paragraph.text]);
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
     marginLeft: `${paragraph.level * 24}px`,
-  };
-
-  const handleFormat = useCallback((format: 'bold' | 'italic' | 'underline') => {
-    if (!textareaRef.current) return;
-    const newText = applyFormat(textareaRef.current, format);
-    onUpdate(newText);
-  }, [onUpdate]);
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // Let autocomplete handle keys when open
-    if (autocomplete.isOpen) {
-      autocomplete.handleKeyDown(e);
-      if (['ArrowUp', 'ArrowDown', 'Enter', 'Tab', 'Escape'].includes(e.key)) {
-        return;
-      }
-    }
-
-    if (e.key === 'Tab' && !disableIndent) {
-      e.preventDefault();
-      if (e.shiftKey) {
-        onOutdent();
-      } else {
-        onIndent();
-      }
-    }
   };
 
   return (
@@ -205,29 +170,11 @@ function SortableParagraph({
             )}
           </div>
 
-          <div className="flex items-center gap-2 mb-1">
-            <RichTextToolbar onFormat={handleFormat} />
-            <span className="text-xs text-muted-foreground ml-auto">
-              Type <code className="bg-muted px-1 rounded">{'{{'}</code> for variables
-            </span>
-          </div>
-          <Textarea
-            ref={textareaRef}
+          <VariableChipEditor
             value={paragraph.text}
-            onChange={(e) => onUpdate(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Enter paragraph content... (type {{ for variables)"
+            onChange={onUpdate}
+            placeholder="Enter paragraph content... (type @ for variables)"
             rows={3}
-            className="resize-none"
-          />
-          <VariableAutocompletePopup
-            isOpen={autocomplete.isOpen}
-            position={autocomplete.triggerPosition}
-            filteredItems={autocomplete.filteredItems}
-            selectedIndex={autocomplete.selectedIndex}
-            searchQuery={autocomplete.searchQuery}
-            onSelect={autocomplete.insertVariable}
-            onHover={autocomplete.setSelectedIndex}
           />
 
           {/* Actions */}
@@ -361,57 +308,69 @@ export function ParagraphsEditor() {
           </div>
         </AccordionTrigger>
         <AccordionContent>
-          <div className="pt-2">
-            {/* Compliance warning for document types that don't use numbered paragraphs */}
-            {disableNumberedParagraphs && (
-              <div className="flex items-start gap-2 p-3 mb-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg text-sm">
-                <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
-                <div className="text-amber-800 dark:text-amber-200">
-                  <span className="font-medium">Per {config.regulations.ref}:</span>{' '}
-                  {docType === 'business_letter'
-                    ? 'Business letters do not use numbered paragraphs. Use 0.5" paragraph indentation instead.'
-                    : 'Endorsements continue the basic letter\'s paragraph sequence and do not restart numbering.'}
-                </div>
+          {/* Variable hint banner */}
+          <div className="px-3 py-2.5 rounded-md bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-sm mb-3">
+            <div className="flex items-start gap-2">
+              <span className="text-blue-600 dark:text-blue-400 text-lg leading-none mt-0.5">@</span>
+              <div className="flex-1">
+                <p className="font-medium text-blue-700 dark:text-blue-300">Variables for Batch Documents</p>
+                <p className="text-blue-600 dark:text-blue-400 text-xs mt-0.5">
+                  Type <code className="bg-blue-100 dark:bg-blue-900 px-1 py-0.5 rounded font-mono">@</code> followed by any name to create variables. Custom variables auto-suggest once created.
+                  Use <strong>B</strong>/<strong>I</strong>/<strong>U</strong> for formatting.
+                </p>
               </div>
-            )}
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragEnd={handleDragEnd}
-            >
-              <SortableContext
-                items={paragraphs.map((_, i) => `para-${i}`)}
-                strategy={verticalListSortingStrategy}
-              >
-                {paragraphs.map((para, index) => (
-                  <SortableParagraph
-                    key={`para-${index}`}
-                    paragraph={para}
-                    index={index}
-                    label={disableNumberedParagraphs ? '' : labels[index]}
-                    showPortionMarking={!!showPortionMarking}
-                    disableIndent={disableNumberedParagraphs}
-                    onUpdate={(text) => updateParagraph(index, { text })}
-                    onUpdateHeader={(header) => updateParagraph(index, { header })}
-                    onUpdatePortionMarking={(marking) => updateParagraph(index, { portionMarking: marking })}
-                    onRemove={() => removeParagraph(index)}
-                    onIndent={() => indentParagraph(index)}
-                    onOutdent={() => outdentParagraph(index)}
-                    onAddAfter={() => addParagraph('', para.level, index)}
-                  />
-                ))}
-              </SortableContext>
-            </DndContext>
-
-            <Button
-              variant="outline"
-              onClick={() => addParagraph('', 0)}
-              className="w-full mt-2"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Add Paragraph
-            </Button>
+            </div>
           </div>
+
+          {/* Compliance warning for document types that don't use numbered paragraphs */}
+          {disableNumberedParagraphs && (
+            <div className="flex items-start gap-2 p-3 mb-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg text-sm">
+              <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+              <div className="text-amber-800 dark:text-amber-200">
+                <span className="font-medium">Per {config.regulations.ref}:</span>{' '}
+                {docType === 'business_letter'
+                  ? 'Business letters do not use numbered paragraphs. Use 0.5" paragraph indentation instead.'
+                  : 'Endorsements continue the basic letter\'s paragraph sequence and do not restart numbering.'}
+              </div>
+            </div>
+          )}
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext
+              items={paragraphs.map((_, i) => `para-${i}`)}
+              strategy={verticalListSortingStrategy}
+            >
+              {paragraphs.map((para, index) => (
+                <SortableParagraph
+                  key={`para-${index}`}
+                  paragraph={para}
+                  index={index}
+                  label={disableNumberedParagraphs ? '' : labels[index]}
+                  showPortionMarking={!!showPortionMarking}
+                  disableIndent={disableNumberedParagraphs}
+                  onUpdate={(text) => updateParagraph(index, { text })}
+                  onUpdateHeader={(header) => updateParagraph(index, { header })}
+                  onUpdatePortionMarking={(marking) => updateParagraph(index, { portionMarking: marking })}
+                  onRemove={() => removeParagraph(index)}
+                  onIndent={() => indentParagraph(index)}
+                  onOutdent={() => outdentParagraph(index)}
+                  onAddAfter={() => addParagraph('', para.level, index)}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
+
+          <Button
+            variant="outline"
+            onClick={() => addParagraph('', 0)}
+            className="w-full mt-2"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Add Paragraph
+          </Button>
         </AccordionContent>
       </AccordionItem>
     </Accordion>

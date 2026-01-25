@@ -52,6 +52,40 @@ export function Header({
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Check if document contains any {{VARIABLE}} placeholders
+  const hasVariables = useCallback(() => {
+    const variablePattern = /\{\{[A-Z0-9_]+\}\}/;
+    const { formData, paragraphs } = documentStore;
+
+    // Check common text fields
+    const fieldsToCheck = [
+      formData.subject,
+      formData.from,
+      formData.to,
+      formData.via,
+    ];
+
+    for (const field of fieldsToCheck) {
+      if (field && variablePattern.test(field)) return true;
+    }
+
+    // Check paragraphs
+    for (const para of paragraphs) {
+      if (variablePattern.test(para.text)) return true;
+    }
+
+    return false;
+  }, [documentStore]);
+
+  // Handle download PDF - redirect to batch mode if variables detected
+  const handleDownloadPdf = useCallback(() => {
+    if (hasVariables()) {
+      setBatchModalOpen(true);
+    } else if (onDownloadPdf) {
+      onDownloadPdf();
+    }
+  }, [hasVariables, setBatchModalOpen, onDownloadPdf]);
+
   const handleSaveProgress = useCallback(() => {
     try {
       const dataToSave = {
@@ -408,7 +442,7 @@ export function Header({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={onDownloadPdf}>
+              <DropdownMenuItem onClick={handleDownloadPdf}>
                 <FileText className="h-4 w-4 mr-2" />
                 Download PDF
               </DropdownMenuItem>

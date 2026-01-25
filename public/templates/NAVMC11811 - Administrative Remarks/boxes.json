@@ -1,0 +1,53 @@
+{
+  "template": "page1.pdf",
+  "description": "NAVMC 118(11) Administrative Remarks (Page 11 / 6105)",
+  "pageSize": { "width": 612, "height": 792 },
+  "notes": [
+    "Coordinates are in PDF points (72 points = 1 inch)",
+    "Origin is at bottom-left of page",
+    "Top is the Y coordinate of the TOP edge of the box",
+    "Defined using tools/box-editor.html"
+  ],
+  "pages": {
+    "page1": {
+      "name": {
+        "left": 35,
+        "top": 141,
+        "width": 395,
+        "height": 19,
+        "align": "left",
+        "description": "Marine's name (LAST, FIRST MI)"
+      },
+      "edipi": {
+        "left": 434,
+        "top": 141,
+        "width": 142,
+        "height": 19,
+        "align": "center",
+        "description": "DOD ID Number / EDIPI"
+      },
+      "box11": {
+        "left": 336,
+        "top": 90,
+        "width": 51,
+        "height": 16,
+        "align": "center",
+        "description": "Box 11 - initials field (5 chars max)"
+      },
+      "remarks": {
+        "left": 35,
+        "top": 558,
+        "width": 261,
+        "height": 400,
+        "description": "Left remarks column (main entry area)"
+      },
+      "remarksRight": {
+        "left": 315,
+        "top": 558,
+        "width": 261,
+        "height": 400,
+        "description": "Right remarks column (continuation area)"
+      }
+    }
+  }
+}
