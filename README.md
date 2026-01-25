@@ -2,6 +2,7 @@
 
 > "The docs are done when the docs are done."
 
+[![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![SECNAV M-5216.5](https://img.shields.io/badge/SECNAV-M--5216.5-blue)](https://www.secnav.navy.mil/doni/SECNAV%20Manuals1/5216.5%20DON%20Correspondence%20Manual.pdf)
 [![MCO 5216.20B](https://img.shields.io/badge/MCO-5216.20B-red)](https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/899678/mco-521620/)
 [![NIST 800-171](https://img.shields.io/badge/NIST-800--171-green)](https://csrc.nist.gov/publications/detail/sp/800-171/rev-2/final)
@@ -580,7 +581,7 @@ A: If you're viewing in an in-app browser (Google App, Facebook, Instagram, etc.
 
 ## License
 
-MIT License - See LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
