@@ -111,7 +111,7 @@ export function ClassificationSection() {
   const isCustom = classLevel === 'custom';
 
   return (
-    <Accordion type="single" collapsible defaultValue="classification">
+    <Accordion type="single" collapsible>
       <AccordionItem value="classification">
         <AccordionTrigger>
           <div className="flex items-center gap-2">

@@ -8,7 +8,7 @@ export function escapeLatex(str: string | undefined | null): string {
   // Use keys without special chars (no underscores - they conflict with underline pattern)
   const placeholderMap: Record<string, string> = {};
   let placeholderIndex = 0;
-  let protectedStr = str.replace(/\{\{([A-Za-z0-9_]+)\}\}/g, (_match, name) => {
+  const protectedStr = str.replace(/\{\{([A-Za-z0-9_]+)\}\}/g, (_match, name) => {
     const key = `ZZZVARPLACEHOLDER${placeholderIndex++}ZZZ`;
     placeholderMap[key] = name;
     return key;
@@ -35,6 +35,76 @@ export function escapeLatex(str: string | undefined | null): string {
   }
 
   return result;
+}
+
+/**
+ * Wrap subject line at specified character limit without breaking words
+ * Per SECNAV M-5216.5: Subject lines should wrap at approximately 57 characters
+ * Returns array of lines that can be joined with LaTeX line breaks
+ */
+export function wrapSubjectLine(str: string | undefined | null, maxLength: number = 57): string[] {
+  if (!str) return [];
+
+  const lines: string[] = [];
+  let i = 0;
+
+  while (i < str.length) {
+    let chunk = str.substring(i, i + maxLength);
+
+    // Don't break words - find last space if we're not at the end
+    if (i + maxLength < str.length && str[i + maxLength] !== ' ' && chunk.includes(' ')) {
+      const lastSpaceIndex = chunk.lastIndexOf(' ');
+      if (lastSpaceIndex > -1) {
+        chunk = chunk.substring(0, lastSpaceIndex);
+        i += chunk.length + 1; // +1 to skip the space
+      } else {
+        i += maxLength;
+      }
+    } else {
+      i += maxLength;
+    }
+
+    lines.push(chunk.trim());
+  }
+
+  return lines;
+}
+
+/**
+ * Format subject line for LaTeX with proper wrapping and escaping
+ * Wraps at 57 characters and joins with LaTeX line breaks
+ * Each line is escaped for LaTeX special characters
+ * Uses \newline for breaks within tabular p{} columns (not \\ which creates new rows)
+ */
+export function formatSubjectForLatex(subject: string | undefined | null): string {
+  const lines = wrapSubjectLine(subject, 57);
+  if (lines.length === 0) return '';
+
+  // Escape each line for LaTeX special characters
+  const escapedLines = lines.map(line => escapeLatex(line));
+
+  if (escapedLines.length === 1) return escapedLines[0];
+
+  // Join with \newline for line breaks within tabular p{} column
+  // \newline works within paragraph columns, while \\ would create new table rows
+  return escapedLines.join('\\newline ');
+}
+
+/**
+ * Format address line (From/To) for LaTeX with proper wrapping and escaping
+ * Uses same wrapping logic as subject but for address fields
+ */
+export function formatAddressForLatex(address: string | undefined | null, maxLength: number = 57): string {
+  const lines = wrapSubjectLine(address, maxLength);
+  if (lines.length === 0) return '';
+
+  // Escape each line for LaTeX special characters
+  const escapedLines = lines.map(line => escapeLatex(line));
+
+  if (escapedLines.length === 1) return escapedLines[0];
+
+  // Join with \newline for line breaks within tabular p{} column
+  return escapedLines.join('\\newline ');
 }
 
 /**
@@ -104,7 +174,7 @@ export function processBodyText(text: string): string {
   // Use keys without special chars (no underscores - they conflict with underline pattern)
   const placeholderMap: Record<string, string> = {};
   let placeholderIndex = 0;
-  let protectedText = text.replace(/\{\{([A-Za-z0-9_]+)\}\}/g, (_match, name) => {
+  const protectedText = text.replace(/\{\{([A-Za-z0-9_]+)\}\}/g, (_match, name) => {
     const key = `ZZZVARPLACEHOLDER${placeholderIndex++}ZZZ`;
     placeholderMap[key] = name;
     return key;

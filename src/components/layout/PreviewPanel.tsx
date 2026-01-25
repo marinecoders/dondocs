@@ -1,6 +1,5 @@
 import { useEffect, useRef, useCallback } from 'react';
-import { Loader2, AlertCircle, Eye, EyeOff } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Loader2, AlertCircle, Eye } from 'lucide-react';
 import { useUIStore } from '@/stores/uiStore';
 
 interface PreviewPanelProps {
@@ -10,7 +9,7 @@ interface PreviewPanelProps {
 }
 
 export function PreviewPanel({ pdfUrl, isCompiling, error }: PreviewPanelProps) {
-  const { previewVisible, togglePreview, isMobile, setMobilePreviewOpen } = useUIStore();
+  const { previewVisible, isMobile, setMobilePreviewOpen } = useUIStore();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const savedScrollRef = useRef<{ scrollTop: number; scrollLeft: number } | null>(null);
   const previousUrlRef = useRef<string | null>(null);
@@ -73,52 +72,42 @@ export function PreviewPanel({ pdfUrl, isCompiling, error }: PreviewPanelProps) 
   // Filter out engine reset message - it's not a user-facing error
   const displayError = error === 'ENGINE_RESET_NEEDED' ? null : error;
 
+  // Mobile: show floating button
   if (isMobile) {
     return (
-      <Button
-        className="fixed bottom-4 right-4 z-50 shadow-lg"
+      <button
+        className="fixed bottom-4 right-4 z-50 shadow-lg bg-primary text-primary-foreground px-4 py-2 rounded-md flex items-center gap-2 hover:bg-primary/90 transition-colors"
         onClick={() => setMobilePreviewOpen(true)}
+        aria-label="Preview PDF"
       >
-        <Eye className="h-4 w-4 mr-2" />
+        <Eye className="h-4 w-4" aria-hidden="true" />
         Preview PDF
-      </Button>
+      </button>
     );
   }
 
+  // Desktop: if preview is hidden, render nothing (toggle is in Header now)
   if (!previewVisible) {
-    return (
-      <div className="w-14 bg-card border-l border-border flex flex-col items-center py-4 gap-2">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={togglePreview}
-          title="Show Preview"
-          className="writing-mode-vertical h-auto py-4 px-2"
-          style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
-        >
-          <Eye className="h-4 w-4 mb-2" />
-          Show Preview
-        </Button>
-      </div>
-    );
+    return null;
   }
 
   return (
-    <div className="flex-1 flex flex-col bg-background min-w-0">
+    <div className="flex flex-col bg-background h-full">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-card">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-card flex-shrink-0">
         <div className="flex items-center gap-2">
           <span className="text-sm font-medium">PDF Preview</span>
+          {/* Aria-live region for compilation status - WCAG 4.1.3 */}
+          <div aria-live="polite" aria-atomic="true" className="sr-only">
+            {isCompiling ? 'Compiling document...' : 'Compilation complete'}
+          </div>
           {isCompiling && (
-            <div className="flex items-center gap-1.5 text-xs text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+            <div className="flex items-center gap-1.5 text-xs text-primary bg-primary/10 px-2 py-0.5 rounded-full" aria-hidden="true">
               <Loader2 className="h-3 w-3 animate-spin" />
               <span>Compiling...</span>
             </div>
           )}
         </div>
-        <Button variant="ghost" size="icon" onClick={togglePreview} title="Hide Preview">
-          <EyeOff className="h-4 w-4" />
-        </Button>
       </div>
 
       {/* Content */}

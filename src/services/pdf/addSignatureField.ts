@@ -31,8 +31,11 @@ const DEFAULT_CONFIG = {
   height: 36, // 0.5 inches
 };
 
-// Height of the signature field plus padding above the name
-const SIGNATURE_FIELD_OFFSET = 14; // One line space above the name
+// Vertical offset for signature field positioning (higher = further above name)
+const SIGNATURE_FIELD_OFFSET = 9; // Middle ground positioning
+
+// Horizontal offset for signature field positioning (negative = left, positive = right)
+const SIGNATURE_FIELD_X_OFFSET = -2; // Slight left shift to align with signature block
 
 // ============================================================================
 // IMPROVED TEXT EXTRACTION - handles more PDF encodings
@@ -100,7 +103,7 @@ function extractTextFromPage(
 
     // Find all Td operators and their positions in the string
     // Format: "x y Td" where x and y are numbers
-    const tdRegex = /([\d.\-]+)\s+([\d.\-]+)\s+Td/g;
+    const tdRegex = /([\d.-]+)\s+([\d.-]+)\s+Td/g;
 
     // Find all TJ arrays and their positions
     // Format: "[(text)(text)...]TJ"
@@ -322,8 +325,8 @@ function findSignatoryPosition(
       if (position) {
         return {
           pageIndex: i,
-          x: position.x - 16, // Shift left to center over signature block
-          y: position.y + SIGNATURE_FIELD_OFFSET + 2,
+          x: position.x + SIGNATURE_FIELD_X_OFFSET, // Shift right ~2 spaces
+          y: position.y + SIGNATURE_FIELD_OFFSET, // Minimal offset above name
         };
       }
     }
@@ -335,7 +338,7 @@ function findSignatoryPosition(
   const fallback = calculateFallbackPosition(lastPage, signatureType);
   return {
     pageIndex: lastPageIndex,
-    x: fallback.x,
+    x: fallback.x + SIGNATURE_FIELD_X_OFFSET,
     y: fallback.y + SIGNATURE_FIELD_OFFSET,
   };
 }

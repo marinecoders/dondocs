@@ -289,8 +289,8 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
     compliance: DUAL_SIGNATURE_COMPLIANCE,
   },
   same_page_endorsement: {
-    letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 7' },
+    letterhead: false, ssic: false, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
+    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 9' },
     compliance: ENDORSEMENT_COMPLIANCE,
   },
   new_page_endorsement: {

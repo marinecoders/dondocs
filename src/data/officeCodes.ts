@@ -1,5 +1,4 @@
 // Office Codes Database
-// Source: navalletterformat
 
 import officeCodesData from './office-codes.json';
 
@@ -64,6 +63,6 @@ export function getOfficeCode(code: string): OfficeCode | undefined {
 export const OFFICE_CODES_INFO = {
   totalCodes: OFFICE_CODES.length,
   categories: OFFICE_CODE_CATEGORIES.length,
-  source: 'navalletterformat',
+  source: 'Standard military office codes',
   lastUpdated: '2026-01-05'
 };

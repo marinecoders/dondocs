@@ -158,7 +158,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
 
   return (
     <>
-    <Accordion type="single" collapsible defaultValue="signature">
+    <Accordion type="single" collapsible>
       <AccordionItem value="signature">
         <AccordionTrigger>Signature Block</AccordionTrigger>
         <AccordionContent>

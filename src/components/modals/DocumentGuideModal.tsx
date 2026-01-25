@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
-import { DOCUMENT_TYPE_GUIDES, GUIDE_CATEGORIES, type DocumentTypeGuide } from '@/data/documentGuide';
+import { DOCUMENT_TYPE_GUIDES, GUIDE_CATEGORIES, GUIDE_GROUPS, type DocumentTypeGuide } from '@/data/documentGuide';
 import { EXAMPLE_DOCUMENTS, EXAMPLE_CATEGORIES, type ExampleDocument } from '@/data/exampleDocuments';
 import { DOC_TYPE_LABELS, type DocumentData } from '@/types/document';
 
@@ -748,19 +748,39 @@ function ExamplesTab({ onClose }: { onClose: () => void }) {
 export function DocumentGuideModal() {
   const { documentGuideOpen, setDocumentGuideOpen } = useUIStore();
   const [activeTab, setActiveTab] = useState<'finder' | 'browse' | 'examples'>('finder');
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [expandedGuide, setExpandedGuide] = useState<string | null>(null);
 
+  // Get categories for selected group
+  const groupCategories = useMemo(() => {
+    if (!selectedGroup) return [];
+    return GUIDE_CATEGORIES.filter(cat => cat.group === selectedGroup);
+  }, [selectedGroup]);
+
   const filteredGuides = useMemo(() => {
-    if (!selectedCategory) return DOCUMENT_TYPE_GUIDES;
+    if (!selectedGroup) return [];
+    if (!selectedCategory) {
+      // Show all guides for the selected group
+      const groupCategoryIds = groupCategories.map(c => c.id);
+      return DOCUMENT_TYPE_GUIDES.filter(guide => groupCategoryIds.includes(guide.category));
+    }
     return DOCUMENT_TYPE_GUIDES.filter(guide => guide.category === selectedCategory);
-  }, [selectedCategory]);
+  }, [selectedGroup, selectedCategory, groupCategories]);
 
   const handleToggleGuide = (guideId: string) => {
     setExpandedGuide(expandedGuide === guideId ? null : guideId);
   };
 
   const handleSelectFromFinder = (guideId: string) => {
+    // Find the guide and its category/group
+    const guide = DOCUMENT_TYPE_GUIDES.find(g => g.id === guideId);
+    if (guide) {
+      const category = GUIDE_CATEGORIES.find(c => c.id === guide.category);
+      if (category) {
+        setSelectedGroup(category.group);
+      }
+    }
     setActiveTab('browse');
     setSelectedCategory(null);
     setExpandedGuide(guideId);
@@ -834,84 +854,150 @@ export function DocumentGuideModal() {
 
         {activeTab === 'browse' && (
           <>
-            {/* Category filters */}
-            <div className="px-4 py-3 border-b bg-muted/30 shrink-0">
-              <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={() => {
-                    setSelectedCategory(null);
-                    setExpandedGuide(null);
-                  }}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                    selectedCategory === null
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-background border hover:bg-accent'
-                  }`}
-                >
-                  All Types
-                  <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-xs">
-                    {DOCUMENT_TYPE_GUIDES.length}
-                  </Badge>
-                </button>
-                {GUIDE_CATEGORIES.map((cat) => {
-                  const count = DOCUMENT_TYPE_GUIDES.filter(g => g.category === cat.id).length;
-                  return (
+            {/* Group selection - show first if no group selected */}
+            {!selectedGroup ? (
+              <div className="flex-1 min-h-0 overflow-y-auto">
+                <div className="p-6 space-y-4">
+                  <div className="text-center pb-4">
+                    <h3 className="font-semibold text-lg">What are you looking for?</h3>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Choose a category to browse available types
+                    </p>
+                  </div>
+                  <div className="grid gap-4">
+                    {GUIDE_GROUPS.map((group) => {
+                      const groupCats = GUIDE_CATEGORIES.filter(c => c.group === group.id);
+                      const count = DOCUMENT_TYPE_GUIDES.filter(g =>
+                        groupCats.some(c => c.id === g.category)
+                      ).length;
+                      return (
+                        <button
+                          key={group.id}
+                          onClick={() => {
+                            setSelectedGroup(group.id);
+                            setSelectedCategory(null);
+                            setExpandedGuide(null);
+                          }}
+                          className="w-full text-left p-6 rounded-lg border-2 hover:border-primary hover:bg-accent/50 transition-all group"
+                        >
+                          <div className="flex items-center gap-4">
+                            <span className="text-4xl">{group.icon}</span>
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2">
+                                <span className="text-xl font-semibold">{group.name}</span>
+                                <Badge variant="secondary">{count} types</Badge>
+                              </div>
+                              <p className="text-sm text-muted-foreground mt-1">
+                                {group.description}
+                              </p>
+                            </div>
+                            <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <>
+                {/* Back button and category filters */}
+                <div className="px-4 py-3 border-b bg-muted/30 shrink-0 space-y-3">
+                  <button
+                    onClick={() => {
+                      setSelectedGroup(null);
+                      setSelectedCategory(null);
+                      setExpandedGuide(null);
+                    }}
+                    className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <ChevronRight className="h-4 w-4 rotate-180" />
+                    Back to categories
+                  </button>
+                  <div className="flex flex-wrap gap-2">
                     <button
-                      key={cat.id}
                       onClick={() => {
-                        setSelectedCategory(cat.id);
+                        setSelectedCategory(null);
                         setExpandedGuide(null);
                       }}
                       className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                        selectedCategory === cat.id
+                        selectedCategory === null
                           ? 'bg-primary text-primary-foreground'
                           : 'bg-background border hover:bg-accent'
                       }`}
                     >
-                      <span>{cat.icon}</span>
-                      {cat.name}
-                      <Badge
-                        variant={selectedCategory === cat.id ? 'outline' : 'secondary'}
-                        className={`ml-1 h-5 px-1.5 text-xs ${selectedCategory === cat.id ? 'border-primary-foreground/30' : ''}`}
-                      >
-                        {count}
+                      All {GUIDE_GROUPS.find(g => g.id === selectedGroup)?.name}
+                      <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-xs">
+                        {filteredGuides.length}
                       </Badge>
                     </button>
-                  );
-                })}
-              </div>
-            </div>
+                    {groupCategories.map((cat) => {
+                      const count = DOCUMENT_TYPE_GUIDES.filter(g => g.category === cat.id).length;
+                      return (
+                        <button
+                          key={cat.id}
+                          onClick={() => {
+                            setSelectedCategory(cat.id);
+                            setExpandedGuide(null);
+                          }}
+                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                            selectedCategory === cat.id
+                              ? 'bg-primary text-primary-foreground'
+                              : 'bg-background border hover:bg-accent'
+                          }`}
+                        >
+                          <span>{cat.icon}</span>
+                          {cat.name}
+                          <Badge
+                            variant={selectedCategory === cat.id ? 'outline' : 'secondary'}
+                            className={`ml-1 h-5 px-1.5 text-xs ${selectedCategory === cat.id ? 'border-primary-foreground/30' : ''}`}
+                          >
+                            {count}
+                          </Badge>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
 
-            {/* Guide list */}
-            <div className="flex-1 min-h-0 overflow-y-auto">
-              <div className="p-4 space-y-3">
-                {selectedCategory && (
-                  <div className="pb-2 mb-2 border-b">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xl">
-                        {GUIDE_CATEGORIES.find(c => c.id === selectedCategory)?.icon}
-                      </span>
-                      <div>
-                        <h3 className="font-semibold">{selectedCategory}</h3>
-                        <p className="text-sm text-muted-foreground">
-                          {GUIDE_CATEGORIES.find(c => c.id === selectedCategory)?.description}
-                        </p>
+                {/* Guide list */}
+                <div className="flex-1 min-h-0 overflow-y-auto">
+                  <div className="p-4 space-y-3">
+                    {selectedCategory && (
+                      <div className="pb-2 mb-2 border-b">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl">
+                            {GUIDE_CATEGORIES.find(c => c.id === selectedCategory)?.icon}
+                          </span>
+                          <div>
+                            <h3 className="font-semibold">{GUIDE_CATEGORIES.find(c => c.id === selectedCategory)?.name}</h3>
+                            <p className="text-sm text-muted-foreground">
+                              {GUIDE_CATEGORIES.find(c => c.id === selectedCategory)?.description}
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                )}
+                    )}
 
-                {filteredGuides.map((guide) => (
-                  <div key={guide.id} id={`guide-${guide.id}`}>
-                    <GuideCard
-                      guide={guide}
-                      isExpanded={expandedGuide === guide.id}
-                      onToggle={() => handleToggleGuide(guide.id)}
-                    />
+                    {filteredGuides.length === 0 ? (
+                      <div className="text-center py-8 text-muted-foreground">
+                        No document types found in this category.
+                      </div>
+                    ) : (
+                      filteredGuides.map((guide) => (
+                        <div key={guide.id} id={`guide-${guide.id}`}>
+                          <GuideCard
+                            guide={guide}
+                            isExpanded={expandedGuide === guide.id}
+                            onToggle={() => handleToggleGuide(guide.id)}
+                          />
+                        </div>
+                      ))
+                    )}
                   </div>
-                ))}
-              </div>
-            </div>
+                </div>
+              </>
+            )}
           </>
         )}
 

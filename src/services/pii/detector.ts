@@ -1,5 +1,5 @@
 /**
- * PII/PHI Detection Service for LIBO-SECURED
+ * PII/PHI Detection Service for DONDOCS
  * Detects potentially sensitive information before PDF generation
  */
 
@@ -36,9 +36,9 @@ const EDIPI_PATTERN = /\b\d{10}\b/g;
 
 // DOB patterns: Various date formats
 const DOB_PATTERNS = [
-  /\b(0[1-9]|1[0-2])[\/\-](0[1-9]|[12]\d|3[01])[\/\-](19|20)\d{2}\b/g, // MM/DD/YYYY or MM-DD-YYYY
-  /\b(0[1-9]|[12]\d|3[01])[\/\-](0[1-9]|1[0-2])[\/\-](19|20)\d{2}\b/g, // DD/MM/YYYY or DD-MM-YYYY
-  /\b(19|20)\d{2}[\/\-](0[1-9]|1[0-2])[\/\-](0[1-9]|[12]\d|3[01])\b/g, // YYYY-MM-DD
+  /\b(0[1-9]|1[0-2])[/\-](0[1-9]|[12]\d|3[01])[/\-](19|20)\d{2}\b/g, // MM/DD/YYYY or MM-DD-YYYY
+  /\b(0[1-9]|[12]\d|3[01])[/\-](0[1-9]|1[0-2])[/\-](19|20)\d{2}\b/g, // DD/MM/YYYY or DD-MM-YYYY
+  /\b(19|20)\d{2}[/\-](0[1-9]|1[0-2])[/\-](0[1-9]|[12]\d|3[01])\b/g, // YYYY-MM-DD
 ];
 
 // Phone patterns: Various US phone formats

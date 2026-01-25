@@ -17,12 +17,12 @@ export function CopyToManager() {
     <Accordion type="single" collapsible>
       <AccordionItem value="copyto">
         <AccordionTrigger>
-          Copy To (Distribution)
-          {copyTos.length > 0 && (
-            <Badge variant="secondary" className="ml-2">
+          <span className="flex items-center gap-2">
+            Copy To (Distribution)
+            <Badge variant="secondary" className="min-w-[28px] justify-center">
               {copyTos.length}
             </Badge>
-          )}
+          </span>
         </AccordionTrigger>
         <AccordionContent>
           <div className="pt-2 space-y-2">

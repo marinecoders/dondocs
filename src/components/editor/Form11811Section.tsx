@@ -1,7 +1,6 @@
-import { ClipboardList, Download, RotateCcw, ChevronDown, Trash2, FileText } from 'lucide-react';
+import { ClipboardList, RotateCcw, ChevronDown, Trash2, FileText } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -15,45 +14,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { InputWithVariables, TextareaWithVariables } from '@/components/ui/variable-autocomplete';
 import { useFormStore } from '@/stores/formStore';
-import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/navmc11811Generator';
+import { NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
+
+// Common variables to show first in autocomplete
+const COMMON_FORM_VARS = ['LAST_NAME', 'FIRST_NAME', 'NAME', 'EDIPI', 'ENTRY_DATE'];
 
 export function Form11811Section() {
   const { navmc11811, setNavmc11811Field, resetNavmc11811, clearNavmc11811 } = useFormStore();
-
-  const handleDownload = async () => {
-    try {
-      // Load the template PDF
-      const templateBytes = await loadNavmc11811Template();
-
-      // Generate the filled PDF
-      const pdfBytes = await generateNavmc11811Pdf({
-        lastName: navmc11811.lastName,
-        firstName: navmc11811.firstName,
-        middleName: navmc11811.middleName,
-        edipi: navmc11811.edipi,
-        remarksText: navmc11811.remarksText,
-        remarksTextRight: navmc11811.remarksTextRight,
-        entryDate: navmc11811.entryDate,
-        box11: navmc11811.box11,
-      }, templateBytes);
-      
-      // Download
-      const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      const lastName = navmc11811.lastName || 'Marine';
-      a.download = `NAVMC-118-11-${lastName}-${navmc11811.entryDate || 'entry'}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Failed to generate PDF:', error);
-      alert('Failed to generate PDF. Make sure the template file exists at /templates/NAVMC118_template.pdf');
-    }
-  };
 
   return (
     <div className="space-y-4">
@@ -83,17 +52,21 @@ export function Form11811Section() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button size="sm" onClick={handleDownload}>
-            <Download className="h-4 w-4 mr-1" />
-            Download PDF
-          </Button>
         </div>
       </div>
 
       <p className="text-sm text-muted-foreground">
-        Page 11 Entry (6105 Counseling) per MCO 1610.7A. Used for documenting formal counseling, 
+        Page 11 Entry (6105 Counseling) per MCO 1610.7A. Used for documenting formal counseling,
         adverse administrative remarks, and other official entries.
       </p>
+
+      {/* Variable hint banner */}
+      <div className="flex items-center gap-2 px-3 py-2 rounded-md bg-muted/50 border text-sm text-muted-foreground">
+        <span>💡</span>
+        <span>
+          Type <code className="bg-background px-1.5 py-0.5 rounded font-mono text-xs">{'{{'}</code> in any field for batch variables
+        </span>
+      </div>
 
       <Accordion type="multiple" defaultValue={['marine', 'content']} className="space-y-2">
         {/* Marine Identification */}
@@ -105,42 +78,50 @@ export function Form11811Section() {
             <div className="grid grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="lastName">Last Name</Label>
-                <Input
+                <InputWithVariables
                   id="lastName"
                   value={navmc11811.lastName}
-                  onChange={(e) => setNavmc11811Field('lastName', e.target.value)}
-                  placeholder="DOE"
+                  onValueChange={(v) => setNavmc11811Field('lastName', v)}
+                  placeholder="DOE (type {{ for variables)"
+                  placeholders={NAVMC_118_11_PLACEHOLDERS}
+                  commonVariables={COMMON_FORM_VARS}
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="firstName">First Name</Label>
-                <Input
+                <InputWithVariables
                   id="firstName"
                   value={navmc11811.firstName}
-                  onChange={(e) => setNavmc11811Field('firstName', e.target.value)}
-                  placeholder="JOHN"
+                  onValueChange={(v) => setNavmc11811Field('firstName', v)}
+                  placeholder="JOHN (type {{ for variables)"
+                  placeholders={NAVMC_118_11_PLACEHOLDERS}
+                  commonVariables={COMMON_FORM_VARS}
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="middleName">Middle Name</Label>
-                <Input
+                <InputWithVariables
                   id="middleName"
                   value={navmc11811.middleName}
-                  onChange={(e) => setNavmc11811Field('middleName', e.target.value)}
-                  placeholder="ADAM"
+                  onValueChange={(v) => setNavmc11811Field('middleName', v)}
+                  placeholder="ADAM (type {{ for variables)"
+                  placeholders={NAVMC_118_11_PLACEHOLDERS}
+                  commonVariables={COMMON_FORM_VARS}
                 />
               </div>
             </div>
-            
+
             <div className="grid grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="edipi">EDIPI</Label>
-                <Input
+                <InputWithVariables
                   id="edipi"
                   value={navmc11811.edipi}
-                  onChange={(e) => setNavmc11811Field('edipi', e.target.value)}
-                  placeholder="1234567890"
+                  onValueChange={(v) => setNavmc11811Field('edipi', v)}
+                  placeholder="1234567890 (type {{ for variables)"
                   maxLength={10}
+                  placeholders={NAVMC_118_11_PLACEHOLDERS}
+                  commonVariables={COMMON_FORM_VARS}
                 />
               </div>
               <div className="space-y-2">
@@ -154,12 +135,14 @@ export function Form11811Section() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="box11">Box 11</Label>
-                <Input
+                <InputWithVariables
                   id="box11"
                   value={navmc11811.box11}
-                  onChange={(e) => setNavmc11811Field('box11', e.target.value)}
-                  placeholder="Initials"
+                  onValueChange={(v) => setNavmc11811Field('box11', v)}
+                  placeholder="Initials (type {{)"
                   maxLength={5}
+                  placeholders={NAVMC_118_11_PLACEHOLDERS}
+                  commonVariables={COMMON_FORM_VARS}
                 />
               </div>
             </div>
@@ -175,34 +158,32 @@ export function Form11811Section() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="remarksText">Administrative Remarks (Left)</Label>
-                <Textarea
+                <TextareaWithVariables
                   id="remarksText"
                   value={navmc11811.remarksText}
-                  onChange={(e) => setNavmc11811Field('remarksText', e.target.value)}
-                  placeholder={`On [DATE], you [describe the incident/deficiency].
+                  onValueChange={(v) => setNavmc11811Field('remarksText', v)}
+                  placeholder={`Type {{ for variables. Example:
 
-This conduct is in violation of [cite applicable orders/regulations].
+On {{ENTRY_DATE}}, {{NAME}} [describe the incident/deficiency].
 
-[If applicable: Previous counseling was provided on [DATE] regarding similar issues.]
-
-You are hereby advised that [expected corrective actions].
-
-Failure to [expected standard] may result in [potential consequences including adverse administrative or disciplinary action].
-
-Your signature below acknowledges receipt of this counseling and does not constitute agreement with its contents.`}
+This conduct is in violation of [cite applicable orders/regulations].`}
                   rows={16}
                   className="font-mono text-sm"
+                  placeholders={NAVMC_118_11_PLACEHOLDERS}
+                  commonVariables={COMMON_FORM_VARS}
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="remarksTextRight">Administrative Remarks (Right)</Label>
-                <Textarea
+                <TextareaWithVariables
                   id="remarksTextRight"
                   value={navmc11811.remarksTextRight || ''}
-                  onChange={(e) => setNavmc11811Field('remarksTextRight', e.target.value)}
-                  placeholder={`[Continuation or additional entry...]`}
+                  onValueChange={(v) => setNavmc11811Field('remarksTextRight', v)}
+                  placeholder={`[Continuation or additional entry...] (type {{ for variables)`}
                   rows={16}
                   className="font-mono text-sm"
+                  placeholders={NAVMC_118_11_PLACEHOLDERS}
+                  commonVariables={COMMON_FORM_VARS}
                 />
               </div>
             </div>

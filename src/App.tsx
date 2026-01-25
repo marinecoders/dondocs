@@ -2,6 +2,7 @@ import { useEffect, useCallback, useState, useRef } from 'react';
 import { Header } from '@/components/layout/Header';
 import { FormPanel } from '@/components/layout/FormPanel';
 import { PreviewPanel } from '@/components/layout/PreviewPanel';
+import { ResizableDivider } from '@/components/layout/ResizableDivider';
 import { ProfileModal } from '@/components/modals/ProfileModal';
 import { ReferenceLibraryModal } from '@/components/modals/ReferenceLibraryModal';
 import { MobilePreviewModal } from '@/components/modals/MobilePreviewModal';
@@ -26,7 +27,7 @@ import { useProfileStore } from '@/stores/profileStore';
 import { useLogStore } from '@/stores/logStore';
 import { useLatexEngine, useServiceWorker } from '@/hooks';
 import { generateAllLatexFiles, type GeneratedFiles } from '@/services/latex/generator';
-import { generateDocx } from '@/services/docx/generator';
+// import { generateDocx } from '@/services/docx/generator'; // DOCX temporarily disabled
 import { generateNavmc10274Pdf, loadNavmc10274Templates } from '@/services/pdf/navmc10274Generator';
 import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/navmc11811Generator';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
@@ -130,8 +131,12 @@ function App() {
     theme,
     colorScheme,
     density,
+    isMobile,
     setIsMobile,
+    previewVisible,
+    previewWidth,
     setPreviewVisible,
+    setPreviewWidth,
     setFindReplaceOpen,
     setPiiWarningOpen,
     setTemplateLoaderOpen,
@@ -139,6 +144,7 @@ function App() {
     togglePreview,
     closeAllModals,
   } = useUIStore();
+  const mainContainerRef = useRef<HTMLElement>(null);
   const documentStore = useDocumentStore();
   const { documentCategory, formType } = useDocumentStore();
   const { setFormData, applySnapshot } = useDocumentStore();
@@ -211,7 +217,7 @@ function App() {
       if (!initialSetupDoneRef.current) {
         initialSetupDoneRef.current = true;
         // Check if user has a persisted preference (localStorage)
-        const stored = localStorage.getItem('libo_ui');
+        const stored = localStorage.getItem('dondocs_ui');
         const hasPersistedPreference = stored && JSON.parse(stored)?.state?.previewVisible !== undefined;
 
         if (!hasPersistedPreference) {
@@ -656,7 +662,64 @@ function App() {
     setPiiDetectionResult(null);
   }, []);
 
+  // Form-specific PDF download handler
+  const handleDownloadFormPdf = useCallback(async () => {
+    if (downloadInProgressRef.current) {
+      console.log('Download already in progress, ignoring click');
+      return;
+    }
+    downloadInProgressRef.current = true;
+
+    try {
+      let pdfBytes: Uint8Array | null = null;
+      let filename = 'form.pdf';
+
+      if (formType === 'navmc_10274' && navmc10274Templates) {
+        pdfBytes = await generateNavmc10274Pdf(
+          formStore.navmc10274,
+          navmc10274Templates.page1,
+          navmc10274Templates.page2,
+          navmc10274Templates.page3,
+          { includeCoverPage: formStore.includeCoverPage }
+        );
+        filename = `NAVMC-10274-${formStore.navmc10274.date || 'form'}.pdf`;
+      } else if (formType === 'navmc_118_11' && navmc11811Template) {
+        pdfBytes = await generateNavmc11811Pdf(
+          formStore.navmc11811,
+          navmc11811Template
+        );
+        const lastName = formStore.navmc11811.lastName || 'Marine';
+        filename = `NAVMC-118-11-${lastName}-${formStore.navmc11811.entryDate || 'entry'}.pdf`;
+      }
+
+      if (pdfBytes) {
+        const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } else {
+        console.error('No PDF generated - missing templates or unsupported form type');
+      }
+    } catch (err) {
+      console.error('Form PDF download error:', err);
+    } finally {
+      downloadInProgressRef.current = false;
+    }
+  }, [formType, formStore.navmc10274, formStore.navmc11811, formStore.includeCoverPage, navmc10274Templates, navmc11811Template]);
+
   const handleDownloadPdf = useCallback(() => {
+    // Handle forms mode separately
+    if (documentCategory === 'forms') {
+      handleDownloadFormPdf();
+      return;
+    }
+
+    // Correspondence mode - check engine ready
     if (!isReady) {
       setCompileError('PDF engine not ready. Please wait for initialization.');
       return;
@@ -683,7 +746,7 @@ function App() {
 
     // No PII found, proceed with download
     handleDownloadPdfInternal();
-  }, [isReady, handleDownloadPdfInternal, documentStore, setPiiWarningOpen]);
+  }, [documentCategory, isReady, handleDownloadPdfInternal, handleDownloadFormPdf, documentStore, setPiiWarningOpen]);
 
   const handleDownloadTex = useCallback(() => {
     const { texFiles } = generateAllLatexFiles(documentStore);
@@ -693,12 +756,12 @@ function App() {
     // references.tex, reference-urls.tex, encl-config.tex, copyto-config.tex,
     // body.tex, classification.tex
     const combinedTex = `%=============================================================================
-% LIBO-SECURED CORRESPONDENCE EXPORT
+% DONDOCS CORRESPONDENCE EXPORT
 % Generated: ${new Date().toISOString()}
 %
 % This file contains all the configuration for your document.
 % The main.tex template (not included) uses \\input{} to load these files.
-% To compile: Use the libo-secured web app or a LaTeX distribution with
+% To compile: Use the dondocs web app or a LaTeX distribution with
 % the main.tex template.
 %=============================================================================
 
@@ -762,27 +825,27 @@ ${texFiles['body.tex'] || '% No body content'}
     URL.revokeObjectURL(url);
   }, [documentStore]);
 
-  const handleDownloadDocx = useCallback(async () => {
-    try {
-      const docxBytes = await generateDocx(documentStore);
-      // Convert to ArrayBuffer to avoid TypeScript issues with Uint8Array
-      const arrayBuffer = docxBytes.buffer.slice(
-        docxBytes.byteOffset,
-        docxBytes.byteOffset + docxBytes.byteLength
-      ) as ArrayBuffer;
-      const blob = new Blob([arrayBuffer], {
-        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'correspondence.docx';
-      a.click();
-      URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error('DOCX generation error:', err);
-    }
-  }, [documentStore]);
+  // DOCX download temporarily disabled - keeping code for potential future use
+  // const handleDownloadDocx = useCallback(async () => {
+  //   try {
+  //     const docxBytes = await generateDocx(documentStore);
+  //     const arrayBuffer = docxBytes.buffer.slice(
+  //       docxBytes.byteOffset,
+  //       docxBytes.byteOffset + docxBytes.byteLength
+  //     ) as ArrayBuffer;
+  //     const blob = new Blob([arrayBuffer], {
+  //       type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  //     });
+  //     const url = URL.createObjectURL(blob);
+  //     const a = document.createElement('a');
+  //     a.href = url;
+  //     a.download = 'correspondence.docx';
+  //     a.click();
+  //     URL.revokeObjectURL(url);
+  //   } catch (err) {
+  //     console.error('DOCX generation error:', err);
+  //   }
+  // }, [documentStore]);
 
   // Global keyboard shortcuts
   useEffect(() => {
@@ -893,24 +956,56 @@ ${texFiles['body.tex'] || '% No body content'}
 
   return (
     <div className="flex flex-col h-screen bg-background">
+      {/* Skip link for keyboard navigation - WCAG 2.4.1 */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
+      >
+        Skip to main content
+      </a>
+
       <Header
         onDownloadPdf={handleDownloadPdf}
         onDownloadTex={handleDownloadTex}
-        onDownloadDocx={handleDownloadDocx}
         onRefreshPreview={compilePdf}
         isCompiling={isCompiling}
+        isFormsMode={documentCategory === 'forms'}
       />
 
-      <main className="flex flex-1 overflow-hidden">
-        <div className="flex-1 min-w-0">
+      <main id="main-content" ref={mainContainerRef} className="flex flex-1 overflow-hidden">
+        {/* Form Panel - takes remaining space when preview is visible */}
+        <div
+          className="min-w-0 overflow-hidden"
+          style={{
+            flex: previewVisible && !isMobile ? `0 0 ${100 - previewWidth}%` : '1 1 100%',
+          }}
+        >
           <FormPanel />
         </div>
 
-        <PreviewPanel
-          pdfUrl={documentCategory === 'forms' ? formPdfUrl : pdfUrl}
-          isCompiling={documentCategory === 'forms' ? false : (isCompiling || !isReady)}
-          error={documentCategory === 'forms' ? null : (compileError || engineError)}
-        />
+        {/* Resizable divider - only show on desktop when preview is visible */}
+        {previewVisible && !isMobile && (
+          <ResizableDivider
+            onResize={setPreviewWidth}
+            containerRef={mainContainerRef}
+            currentWidth={previewWidth}
+          />
+        )}
+
+        {/* Preview Panel - width controlled by previewWidth */}
+        <div
+          className="min-w-0 overflow-hidden"
+          style={{
+            flex: previewVisible && !isMobile ? `0 0 ${previewWidth}%` : undefined,
+            display: previewVisible || isMobile ? 'block' : 'none',
+          }}
+        >
+          <PreviewPanel
+            pdfUrl={documentCategory === 'forms' ? formPdfUrl : pdfUrl}
+            isCompiling={documentCategory === 'forms' ? false : (isCompiling || !isReady)}
+            error={documentCategory === 'forms' ? null : (compileError || engineError)}
+          />
+        </div>
       </main>
 
       {/* Modals */}

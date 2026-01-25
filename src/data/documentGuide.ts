@@ -485,14 +485,78 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     ],
     reference: 'SECNAV M-5216.5, Chapter 12',
   },
+
+  // NAVMC FORMS (Marine Corps)
+  {
+    id: 'navmc_10274',
+    name: 'NAVMC 10274 - Administrative Action',
+    category: 'Forms',
+    icon: '📋',
+    summary: 'Used to document and process administrative actions for Marine Corps personnel. Records formal administrative decisions and their disposition.',
+    whenToUse: [
+      'Documenting administrative actions',
+      'Recording command decisions',
+      'Processing personnel actions',
+      'Formal administrative proceedings',
+    ],
+    keyFeatures: [
+      'Administrative action documentation',
+      'Command endorsement section',
+      'Disposition tracking',
+      'Official record for SRB',
+    ],
+    commonExamples: [
+      'Page 11 counseling follow-up',
+      'Administrative separation processing',
+      'NJP documentation',
+      'Command administrative decisions',
+    ],
+    reference: 'MCO P1070.12K',
+  },
+  {
+    id: 'navmc_118_11',
+    name: 'NAVMC 118 (11) - Administrative Remarks',
+    category: 'Forms',
+    icon: '📝',
+    summary: 'The "Page 11" entry for Marine Corps service record books. Documents counselings, commendations, and significant administrative events.',
+    whenToUse: [
+      'Counseling documentation (positive or negative)',
+      'Recording significant events',
+      'Documenting commendations and achievements',
+      'Administrative notifications to Marines',
+    ],
+    keyFeatures: [
+      'Chronological service record entry',
+      'Marine acknowledgment signature',
+      'Permanent record documentation',
+      'Used for counseling and commendations',
+    ],
+    commonExamples: [
+      'Initial counseling entry',
+      'Meritorious performance recognition',
+      'Adverse counseling documentation',
+      'Assignment of duties notification',
+    ],
+    reference: 'MCO P1070.12K',
+  },
 ];
 
+// Top-level guide groups (Correspondence vs Forms)
+export const GUIDE_GROUPS = [
+  { id: 'correspondence', name: 'Correspondence', icon: '📄', description: 'Letters, memos, and official documents' },
+  { id: 'forms', name: 'Forms', icon: '📋', description: 'Military forms (NAVMC, DD, SF)' },
+];
+
+// Categories within each group
 export const GUIDE_CATEGORIES = [
-  { id: 'Letters', name: 'Letters', icon: '📄', description: 'Official correspondence formats' },
-  { id: 'Endorsements', name: 'Endorsements', icon: '✅', description: 'Routing and recommendations' },
-  { id: 'Memoranda', name: 'Memoranda', icon: '📝', description: 'Internal communication formats' },
-  { id: 'Agreements', name: 'Agreements', icon: '🤝', description: 'Formal agreements between parties' },
-  { id: 'Executive', name: 'Executive', icon: '⭐', description: 'Senior-level correspondence' },
+  // Correspondence categories
+  { id: 'Letters', name: 'Letters', icon: '📄', description: 'Official correspondence formats', group: 'correspondence' },
+  { id: 'Endorsements', name: 'Endorsements', icon: '✅', description: 'Routing and recommendations', group: 'correspondence' },
+  { id: 'Memoranda', name: 'Memoranda', icon: '📝', description: 'Internal communication formats', group: 'correspondence' },
+  { id: 'Agreements', name: 'Agreements', icon: '🤝', description: 'Formal agreements between parties', group: 'correspondence' },
+  { id: 'Executive', name: 'Executive', icon: '⭐', description: 'Senior-level correspondence', group: 'correspondence' },
+  // Forms categories
+  { id: 'Forms', name: 'NAVMC Forms', icon: '⚓', description: 'Marine Corps forms', group: 'forms' },
 ];
 
 export function getGuidesByCategory(category: string): DocumentTypeGuide[] {

@@ -210,6 +210,7 @@ const LATEX_TEMPLATES = {
 
 \\usepackage{calc}
 \\usepackage{ifthen}
+\\usepackage{etoolbox}  % Required for \\ifdefempty, \\ifdefstring macros
 
 
 %-----------------------------------------------------------------------------
@@ -238,6 +239,10 @@ const LATEX_TEMPLATES = {
 % Commands to set font options from config
 \\newcommand{\\setFontSize}[1]{\\renewcommand{\\FontSize}{#1}}
 \\newcommand{\\setFontFamily}[1]{\\renewcommand{\\FontFamily}{#1}}
+
+% Use uniform spacing after periods (no extra inter-sentence space)
+% This prevents extra space after "Mr.", "Ms.", "Dr.", etc.
+\\frenchspacing
 
 % Apply font family (called after config is loaded)
 \\newcommand{\\applyFontSettings}{%
@@ -450,12 +455,14 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\ToLineTwo}{}
 \\newcommand{\\ToLineThree}{}
 \\newcommand{\\ToLineFour}{}
+\\newcommand{\\ToLineFive}{}
 
-\\newcommand{\\setTo}[4]{%
+\\newcommand{\\setTo}[5]{%
     \\renewcommand{\\ToLine}{#1}%
     \\renewcommand{\\ToLineTwo}{#2}%
     \\renewcommand{\\ToLineThree}{#3}%
     \\renewcommand{\\ToLineFour}{#4}%
+    \\renewcommand{\\ToLineFive}{#5}%
 }
 
 
@@ -497,6 +504,10 @@ const LATEX_TEMPLATES = {
 
 \\newcommand{\\BusinessClose}{}
 \\newcommand{\\setBusinessClose}[1]{\\renewcommand{\\BusinessClose}{#1}}
+
+% Business letter recipient address (unlimited lines, pre-formatted with \\\\ line breaks)
+\\newcommand{\\BusinessRecipientAddress}{}
+\\newcommand{\\setBusinessRecipientAddress}[1]{\\renewcommand{\\BusinessRecipientAddress}{#1}}
 
 % Business letter date format: Month spelled out (January 5, 2015)
 \\newcommand{\\BusinessDate}{}
@@ -808,7 +819,12 @@ const LATEX_TEMPLATES = {
         % Color: \\LetterheadColor (blue or black)
         \\usefont{\\encodingdefault}{\\familydefault}{\\seriesdefault}{\\shapedefault}%
         \\fontsize{10pt}{11pt}\\selectfont
-        \\textcolor{\\LetterheadColor}{\\textbf{UNITED STATES MARINE CORPS}}\\\\
+        \\textcolor{\\LetterheadColor}{\\textbf{%
+            \\ifdefstring{\\Department}{navy}{DEPARTMENT OF THE NAVY}{%
+            \\ifdefstring{\\Department}{usmc}{UNITED STATES MARINE CORPS}{%
+            \\ifdefstring{\\Department}{dod}{DEPARTMENT OF DEFENSE}{%
+            DEPARTMENT OF THE NAVY}}}%
+        }}\\\\
         \\fontsize{8pt}{9pt}\\selectfont
         \\textcolor{\\LetterheadColor}{\\UnitName}\\\\
         \\textcolor{\\LetterheadColor}{\\UnitLineTwo}\\\\
@@ -1257,7 +1273,6 @@ const LATEX_TEMPLATES = {
 
 
 \\begin{document}
-\\begin{Form}
 
 %=============================================================================
 % LOAD CONFIGURATION FROM EXTERNAL FILES
@@ -1334,7 +1349,6 @@ const LATEX_TEMPLATES = {
 
 \\includeEnclosures
 
-\\end{Form}
 %=============================================================================
 \\end{document}
 `,
@@ -1469,10 +1483,10 @@ const LATEX_TEMPLATES = {
 
 
 %=============================================================================
-%                         LETTERHEAD OVERRIDE
+%                         LETTERHEAD
 %=============================================================================
-
-\\renewcommand{\\printLetterhead}{}
+% Business letters per SECNAV M-5216.5 Ch 11 use official letterhead
+% (uses default \\printLetterhead from main template - no override needed)
 
 
 %=============================================================================
@@ -1527,8 +1541,8 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\printDateAndTitle}{%
     \\noindent
     \\begin{tabular}[t]{@{}l@{}}
-        \\DocumentSSIC\\\\
-        \\optionalField{\\DocumentSerial}%
+        \\optionalLine{\\DocumentSSIC}%
+        \\optionalLine{\\DocumentSerial}%
         \\BusinessDate% Use civilian date format (January 5, 2015)
     \\end{tabular}
 }
@@ -1543,20 +1557,13 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\printAddressBlock}{%
     \\par\\vspace{24pt}% 2 lines below date (adjustable 2-8 lines)
     \\noindent
-    \\optionalLine{\\ToLine}%
-    \\optionalLine{\\ToLineTwo}%
-    \\optionalLine{\\ToLineThree}%
-    \\optionalLine{\\ToLineFour}%
-    %
-    % Attention line (optional) - SECNAV Ch 11, Para 11-5
-    \\ifNotEmpty{\\AttentionLine}{%
-        \\par\\vspace{12pt}%
-        \\noindent Attention: \\AttentionLine
-    }%
+    % Print recipient address block (pre-formatted with line breaks)
+    % Uses \\BusinessRecipientAddress which contains the full address with \\\\ separators
+    \\BusinessRecipientAddress%
     %
     % Salutation with colon - SECNAV Ch 11, Para 11-6
-    \\vspace{12pt}%
-    \\noindent \\BusinessSalutation
+    \\par\\vspace{12pt}%
+    \\noindent\\BusinessSalutation%
     %
     % Subject line (optional) - SECNAV Ch 11, Para 11-7
     \\ifNotEmpty{\\SubjectLine}{%
@@ -1672,6 +1679,146 @@ const LATEX_TEMPLATES = {
 % SECNAV Ch 11, Para 11-16:
 %   - First page: NOT numbered
 %   - Second+ pages: Centered, 1/2 inch from bottom, starting with "2"
+
+\\fancypagestyle{firstpage}{%
+    \\fancyhf{}%
+    \\fancyhead[C]{\\placeClassificationMarkings}%
+    \\fancyfoot[C]{}% No page number on first page
+    \\renewcommand{\\headrulewidth}{0pt}%
+    \\renewcommand{\\footrulewidth}{0pt}%
+}
+
+\\fancypagestyle{documentpage}{%
+    \\fancyhf{}%
+    \\fancyhead[C]{\\placeClassificationMarkings}%
+    \\fancyfoot[C]{\\thepage}% Page number centered
+    \\renewcommand{\\headrulewidth}{0pt}%
+    \\renewcommand{\\footrulewidth}{0pt}%
+}
+`,
+  'tex/templates/executive_correspondence.tex': `
+%=============================================================================
+%
+%                  EXECUTIVE CORRESPONDENCE FORMAT MODULE
+%
+%=============================================================================
+%
+% References:
+%   - SECNAV M-5216.5 (DON Correspondence Manual), Chapter 12
+%   - Used for external correspondence from HqDON/OSD officials
+%
+% Key characteristics:
+%   - 12pt Times New Roman REQUIRED
+%   - Date format: Month spelled out (January 5, 2015)
+%   - Has salutation and complimentary close
+%   - Paragraphs NOT numbered, indented 0.5"
+%   - Similar to Business Letter but for executive-level correspondence
+%
+%=============================================================================
+
+
+%=============================================================================
+%                         DATE BLOCK (Upper LEFT)
+%=============================================================================
+% Date format: Month spelled out, day in numerals, comma, full year
+
+\\newcommand{\\printDateAndTitle}{%
+    \\noindent
+    \\begin{tabular}[t]{@{}l@{}}
+        \\BusinessDate% Use civilian date format (January 5, 2015)
+    \\end{tabular}
+}
+
+
+%=============================================================================
+%                    INSIDE ADDRESS AND SALUTATION
+%=============================================================================
+% Similar to business letter format
+
+\\newcommand{\\printAddressBlock}{%
+    \\par\\vspace{24pt}% 2 lines below date
+    \\noindent
+    % Print recipient address block (pre-formatted with line breaks)
+    \\BusinessRecipientAddress%
+    %
+    % Salutation with colon
+    \\par\\vspace{12pt}%
+    \\noindent\\BusinessSalutation%
+    %
+    % Subject line (optional)
+    \\ifNotEmpty{\\SubjectLine}{%
+        \\par\\vspace{12pt}%
+        \\noindent SUBJECT: \\MakeUppercase{\\SubjectLine}%
+    }%
+    %
+    % CUI block (if enabled)
+    \\ifCUIEnabled
+        \\par\\vspace{12pt}%
+        \\noindent \\textbf{CUI//\\CUICategory}%
+        \\par\\noindent \\CUIDistStatement
+    \\fi
+}
+
+
+%=============================================================================
+%                         BODY TEXT FORMATTING
+%=============================================================================
+% Ch 12 Para 2e: Paragraphs indented 0.5" from left margin
+
+\\newcommand{\\businessLetterParIndent}{0.5in}
+
+\\newcommand{\\setupBusinessLetterBody}{%
+    \\setlength{\\parindent}{\\businessLetterParIndent}%
+    \\setlength{\\parskip}{12pt}% Double-space between paragraphs
+}
+
+
+%=============================================================================
+%                  SIGNATURE BLOCK (Executive Style)
+%=============================================================================
+% Ch 12 Para 2q: Signature block varies by signer level
+%   - Complimentary close centered, 2 lines below text
+%   - Signature block centered, 4 lines below close
+
+\\newcommand{\\printSignature}{%
+    % Complimentary close - CENTERED, 2 lines below text
+    \\par\\vspace{24pt}%
+    \\begin{center}
+        \\BusinessClose
+    \\end{center}
+    %
+    % Signature block - CENTERED, 4 lines below complimentary close
+    \\vspace{36pt}%
+    \\begin{center}
+        \\begin{minipage}{3in}
+            \\centering
+            % Digital signature field
+        \\ifHasDigitalSigField
+            \\DigitalSignatureBox
+        \\else
+            % Optional: Signature image
+            \\ifNotEmpty{\\SignatureImage}{%
+                \\IfFileExists{attachments/\\SignatureImage}{%
+                    \\includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\\SignatureImage}\\\\[6pt]%
+                }{}%
+            }%
+            % Required: Name in ALL CAPS
+            \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\MakeUppercase{\\SignatoryName}\\\\}%
+            % Optional: Rank
+            \\optionalLine{\\SignatoryRank}%
+            % Optional: Title
+            \\optionalLine{\\SignatoryTitle}%
+            % Optional: By direction authority line
+            \\optionalField{\\ByDirection}%
+        \\end{minipage}
+    \\end{center}
+}
+
+
+%=============================================================================
+%                              PAGE STYLE
+%=============================================================================
+% Ch 12 Para 2g: Page numbers either top right or bottom center
 
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
@@ -3342,18 +3489,25 @@ const LATEX_TEMPLATES = {
 %=============================================================================
 %                    SSIC / SERIAL / DATE BLOCK (Right-aligned)
 %=============================================================================
+% Per SECNAV M-5216.5: SSIC block positioned at 5.5" from left margin
+% This aligns it properly with the right side of the letterhead
 
 \\newcommand{\\printDateAndTitle}{%
     \\begingroup
     \\applyDocumentFontSize
-    \\raggedleft
-    % Optional "IN REPLY REFER TO" line per SECNAV M-5216.5 App C, Para 1.a
-    \\ifInReplyEnabled
-        {\\fontsize{5pt}{6pt}\\selectfont IN REPLY REFER TO}\\\\
-    \\fi
-    \\ifdefempty{\\DocumentSSIC}{}{\\DocumentSSIC\\\\}%
-    \\ifdefempty{\\DocumentSerial}{}{\\DocumentSerial\\\\}%
-    \\DocumentDate\\par
+    \\noindent
+    \\hspace*{4.5in}% Position at 5.5" from page left (4.5" from content left)
+    \\begin{minipage}[t]{2in}%
+        \\raggedleft
+        % Optional "IN REPLY REFER TO" line per SECNAV M-5216.5 App C, Para 1.a
+        \\ifInReplyEnabled
+            {\\fontsize{5pt}{6pt}\\selectfont IN REPLY REFER TO}\\\\
+        \\fi
+        \\ifdefempty{\\DocumentSSIC}{}{\\DocumentSSIC\\\\}%
+        \\ifdefempty{\\DocumentSerial}{}{\\DocumentSerial\\\\}%
+        \\DocumentDate%
+    \\end{minipage}%
+    \\par
     \\endgroup
 }
 
@@ -3853,8 +4007,8 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\printAddressBlock}{%
     \\noindent
     \\begin{tabular}[t]{@{}l@{\\hspace{1em}}p{5.5in}@{}}
-        From: & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline
-        To: & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}\\tabularnewline
+        \\ifdefempty{\\FromLine}{}{From: & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline}%
+        \\ifdefempty{\\ToLine}{}{To: & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}\\tabularnewline}%
         \\ifViaEnabled
             Via: & \\ViaLineOne\\ifdefempty{\\ViaLineTwo}{}{\\tabularnewline & \\ViaLineTwo}\\ifdefempty{\\ViaLineThree}{}{\\tabularnewline & \\ViaLineThree}\\ifdefempty{\\ViaLineFour}{}{\\tabularnewline & \\ViaLineFour}\\tabularnewline
         \\fi
@@ -3983,14 +4137,19 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\printDateAndTitle}{%
     \\begingroup
     \\applyDocumentFontSize
-    \\raggedleft
-    % Optional "IN REPLY REFER TO" line per SECNAV M-5216.5 App C, Para 1.a
-    \\ifInReplyEnabled
-        {\\fontsize{5pt}{6pt}\\selectfont IN REPLY REFER TO}\\\\
-    \\fi
-    \\ifdefempty{\\DocumentSSIC}{}{\\DocumentSSIC\\\\}%
-    \\ifdefempty{\\DocumentSerial}{}{\\DocumentSerial\\\\}%
-    \\DocumentDate\\par
+    \\noindent
+    \\hspace*{4.5in}% Position at 5.5" from page left (4.5" from content left)
+    \\begin{minipage}[t]{2in}%
+        \\raggedleft
+        % Optional "IN REPLY REFER TO" line per SECNAV M-5216.5 App C, Para 1.a
+        \\ifInReplyEnabled
+            {\\fontsize{5pt}{6pt}\\selectfont IN REPLY REFER TO}\\\\
+        \\fi
+        \\ifdefempty{\\DocumentSSIC}{}{\\DocumentSSIC\\\\}%
+        \\ifdefempty{\\DocumentSerial}{}{\\DocumentSerial\\\\}%
+        \\DocumentDate%
+    \\end{minipage}%
+    \\par
     \\endgroup
 }
 

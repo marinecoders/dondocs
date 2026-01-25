@@ -34,7 +34,7 @@ function texliveMiddleware(): Plugin {
       // Log summary on server start
       console.log('\n[texlive] TeX Live middleware active');
       console.log('[texlive] Missing files will return 301 (not found)');
-      console.log('[texlive] Use LIBO.texlive.summary() in browser console to see request summary\n');
+      console.log('[texlive] Use DONDOCS.texlive.summary() in browser console to see request summary\n');
 
       server.middlewares.use((req, res, next) => {
         const url = req.url || '';

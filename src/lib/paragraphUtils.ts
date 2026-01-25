@@ -1,5 +1,5 @@
 /**
- * Paragraph Utilities for LIBO-SECURED
+ * Paragraph Utilities for DONDOCS
  *
  * Consolidates paragraph labeling, counting, and word counting logic
  * used across LaTeX generation, DOCX generation, and the editor.

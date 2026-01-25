@@ -458,7 +458,7 @@ export const EXAMPLE_DOCUMENTS: ExampleDocument[] = [
     references: [],
     paragraphs: [
       { text: 'Thank you for your continued support of our Navy installations in Florida. In response to your inquiry, I am pleased to provide information on Naval Station Key West\'s economic impact.', level: 0 },
-      { text: 'The installation employs 1,847 military and civilian personnel and contributes approximately $245 million annually to the local economy. Our service members and families are proud to be part of the Key West community.', level: 0 },
+      { text: 'The installation employs 1,847 military and civilian personnel and contributes approximately 245 million dollars annually to the local economy. Our service members and families are proud to be part of the Key West community.', level: 0 },
       { text: 'I would welcome the opportunity to host you for a visit to discuss the installation\'s mission and community partnerships. My staff will coordinate with your office.', level: 0 },
     ],
     copyTos: [],

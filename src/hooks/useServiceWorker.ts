@@ -13,7 +13,7 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 
 // Key to signal auto-restore after update reload
-export const SW_AUTO_RESTORE_KEY = 'libo-sw-auto-restore';
+export const SW_AUTO_RESTORE_KEY = 'dondocs-sw-auto-restore';
 
 export function useServiceWorker() {
   const [showUpdatePrompt, setShowUpdatePrompt] = useState(false);

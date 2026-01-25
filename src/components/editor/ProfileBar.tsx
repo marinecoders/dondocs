@@ -81,7 +81,7 @@ export function ProfileBar() {
   const handleExport = () => {
     debug.log('Profile', 'Exporting profiles', { count: Object.keys(profiles).length });
     const data = JSON.stringify({ version: '1.0', profiles }, null, 2);
-    const filename = `libo-profiles-${new Date().toISOString().split('T')[0]}.json`;
+    const filename = `dondocs-profiles-${new Date().toISOString().split('T')[0]}.json`;
     triggerDownload(new TextEncoder().encode(data), filename, 'application/json');
     debug.log('Profile', 'Export complete', { filename });
   };

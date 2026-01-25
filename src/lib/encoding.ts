@@ -1,5 +1,5 @@
 /**
- * Encoding Utilities for LIBO-SECURED
+ * Encoding Utilities for DONDOCS
  *
  * Provides consistent encoding/decoding functions for binary data,
  * text, and file operations.

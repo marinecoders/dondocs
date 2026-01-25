@@ -1,5 +1,22 @@
 import { useState, useMemo, useCallback } from 'react';
-import { BookOpen, Plus, Trash2, AlertCircle } from 'lucide-react';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+  arrayMove,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { BookOpen, Plus, Trash2, AlertCircle, GripVertical } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -19,6 +36,67 @@ import type { DocTypeConfig } from '@/types/document';
 
 interface AddressingSectionProps {
   config: DocTypeConfig;
+}
+
+interface SortableViaItemProps {
+  id: string;
+  index: number;
+  value: string;
+  onChange: (value: string) => void;
+  onRemove: () => void;
+  canRemove: boolean;
+}
+
+function SortableViaItem({ id, index, value, onChange, onRemove, canRemove }: SortableViaItemProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`flex items-center gap-2 ${isDragging ? 'opacity-50' : ''}`}
+    >
+      <button
+        {...attributes}
+        {...listeners}
+        className="cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground"
+        type="button"
+      >
+        <GripVertical className="h-4 w-4" />
+      </button>
+      <Badge variant="secondary" className="shrink-0 min-w-[36px] justify-center">
+        ({index + 1})
+      </Badge>
+      <Input
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder="Commanding Officer, 6th Marine Regiment"
+        className="flex-1"
+      />
+      <Button
+        type="button"
+        variant="ghost"
+        size="icon"
+        onClick={onRemove}
+        disabled={!canRemove}
+        className="shrink-0 text-destructive hover:text-destructive"
+      >
+        <Trash2 className="h-4 w-4" />
+      </Button>
+    </div>
+  );
 }
 
 export function AddressingSection({ config }: AddressingSectionProps) {
@@ -59,6 +137,24 @@ export function AddressingSection({ config }: AddressingSectionProps) {
     const newLines = [...viaLines];
     newLines[index] = value;
     updateViaLines(newLines);
+  }, [viaLines, updateViaLines]);
+
+  // Drag and drop sensors for via reordering
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleViaDragEnd = useCallback((event: DragEndEvent) => {
+    const { active, over } = event;
+    if (over && active.id !== over.id) {
+      const oldIndex = parseInt(String(active.id).replace('via-', ''));
+      const newIndex = parseInt(String(over.id).replace('via-', ''));
+      const reordered = arrayMove(viaLines, oldIndex, newIndex);
+      updateViaLines(reordered);
+    }
   }, [viaLines, updateViaLines]);
 
   return (
@@ -167,6 +263,10 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                   className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   rows={5}
                 />
+                <p className="text-xs text-muted-foreground flex items-center gap-1">
+                  <AlertCircle className="h-3 w-3" />
+                  Each line in this field will appear on a separate line in the PDF
+                </p>
               </div>
             )}
 
@@ -204,36 +304,42 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                     variant="outline"
                     size="sm"
                     onClick={addViaLine}
+                    disabled={viaLines.length >= 4}
                   >
                     <Plus className="h-4 w-4 mr-1" />
                     Add Via
                   </Button>
                 </div>
-                <div className="space-y-2">
-                  {viaLines.map((line, index) => (
-                    <div key={index} className="flex items-center gap-2">
-                      <Badge variant="secondary" className="shrink-0 min-w-[36px] justify-center">
-                        ({index + 1})
-                      </Badge>
-                      <Input
-                        value={line}
-                        onChange={(e) => updateViaLine(index, e.target.value)}
-                        placeholder="Commanding Officer, 6th Marine Regiment"
-                        className="flex-1"
-                      />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => removeViaLine(index)}
-                        disabled={viaLines.length === 1 && !line}
-                        className="shrink-0 text-destructive hover:text-destructive"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={handleViaDragEnd}
+                >
+                  <SortableContext
+                    items={viaLines.map((_, i) => `via-${i}`)}
+                    strategy={verticalListSortingStrategy}
+                  >
+                    <div className="space-y-2">
+                      {viaLines.map((line, index) => (
+                        <SortableViaItem
+                          key={`via-${index}`}
+                          id={`via-${index}`}
+                          index={index}
+                          value={line}
+                          onChange={(value) => updateViaLine(index, value)}
+                          onRemove={() => removeViaLine(index)}
+                          canRemove={viaLines.length > 1 || !!line}
+                        />
+                      ))}
                     </div>
-                  ))}
-                </div>
+                  </SortableContext>
+                </DndContext>
+                {viaLines.length >= 4 && (
+                  <p className="text-xs text-muted-foreground flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    Maximum of 4 via addressees supported
+                  </p>
+                )}
               </div>
             )}
 

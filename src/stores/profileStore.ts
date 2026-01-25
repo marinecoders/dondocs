@@ -63,7 +63,7 @@ export const useProfileStore = create<ProfileState>()(
       })),
 
       deleteProfile: (name) => set((state) => {
-        const { [name]: _, ...rest } = state.profiles;
+        const { [name]: _deleted, ...rest } = state.profiles;
         return {
           profiles: rest,
           selectedProfile: state.selectedProfile === name ? null : state.selectedProfile,
@@ -74,7 +74,7 @@ export const useProfileStore = create<ProfileState>()(
         if (oldName === newName) return state;
         const profile = state.profiles[oldName];
         if (!profile) return state;
-        const { [oldName]: _, ...rest } = state.profiles;
+        const { [oldName]: _removed, ...rest } = state.profiles;
         return {
           profiles: { ...rest, [newName]: profile },
           selectedProfile: state.selectedProfile === oldName ? newName : state.selectedProfile,
@@ -90,7 +90,7 @@ export const useProfileStore = create<ProfileState>()(
       getProfile: (name) => get().profiles[name],
     }),
     {
-      name: 'libo_profiles',
+      name: 'dondocs_profiles',
       // Merge persisted profiles with default profiles (defaults can be overwritten by user)
       merge: (persistedState, currentState) => ({
         ...currentState,

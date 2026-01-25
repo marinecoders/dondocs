@@ -4,14 +4,24 @@ import { Search } from 'lucide-react';
 import { BATCH_PLACEHOLDERS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
+// Placeholder type that works with any placeholder list
+export interface PlaceholderItem {
+  name: string;
+  label: string;
+  category: string;
+  example: string;
+}
+
 interface VariableAutocompleteProps {
   inputRef: React.RefObject<HTMLTextAreaElement | HTMLInputElement | null>;
   value: string;
   onChange: (value: string) => void;
+  placeholders?: readonly PlaceholderItem[];  // Custom placeholders (defaults to BATCH_PLACEHOLDERS)
+  commonVariables?: string[];  // Custom common variables to show first
 }
 
-// Group placeholders with common items first
-const COMMON_VARIABLES = ['NAME_1', 'RANK_1', 'RANK_NAME_1', 'DATE', 'UNIT'];
+// Default common variables for correspondence
+const DEFAULT_COMMON_VARIABLES = ['NAME_1', 'RANK_1', 'RANK_NAME_1', 'DATE', 'UNIT'];
 
 const categoryIcons: Record<string, string> = {
   '1st Person': '👤',
@@ -20,9 +30,20 @@ const categoryIcons: Record<string, string> = {
   'Dates': '📅',
   'Contact': '📍',
   'Document': '📄',
+  // Form-specific categories
+  'Marine': '🎖️',
+  'Action': '📋',
+  'Unit': '🏢',
+  'Entry': '📝',
 };
 
-export function useVariableAutocomplete({ inputRef, value, onChange }: VariableAutocompleteProps) {
+export function useVariableAutocomplete({
+  inputRef,
+  value,
+  onChange,
+  placeholders = BATCH_PLACEHOLDERS,
+  commonVariables = DEFAULT_COMMON_VARIABLES,
+}: VariableAutocompleteProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -34,7 +55,7 @@ export function useVariableAutocomplete({ inputRef, value, onChange }: VariableA
     const query = searchQuery.toLowerCase();
 
     // Get all matching items
-    const allMatches = BATCH_PLACEHOLDERS.filter(p =>
+    const allMatches = placeholders.filter(p =>
       p.name.toLowerCase().includes(query) ||
       p.label.toLowerCase().includes(query) ||
       p.category.toLowerCase().includes(query)
@@ -42,13 +63,13 @@ export function useVariableAutocomplete({ inputRef, value, onChange }: VariableA
 
     if (!query) {
       // No search - show common first, then by category
-      const common = allMatches.filter(p => COMMON_VARIABLES.includes(p.name));
-      const others = allMatches.filter(p => !COMMON_VARIABLES.includes(p.name));
+      const common = allMatches.filter(p => commonVariables.includes(p.name));
+      const others = allMatches.filter(p => !commonVariables.includes(p.name));
       return { common, others, all: allMatches };
     }
 
     return { common: [], others: allMatches, all: allMatches };
-  }, [searchQuery]);
+  }, [searchQuery, placeholders, commonVariables]);
 
   // Get caret coordinates in textarea
   const getCaretCoordinates = useCallback(() => {
@@ -219,9 +240,9 @@ interface VariableAutocompletePopupProps {
   isOpen: boolean;
   position: { top: number; left: number } | null;
   filteredItems: {
-    common: typeof BATCH_PLACEHOLDERS[number][];
-    others: typeof BATCH_PLACEHOLDERS[number][];
-    all: typeof BATCH_PLACEHOLDERS[number][];
+    common: PlaceholderItem[];
+    others: PlaceholderItem[];
+    all: PlaceholderItem[];
   };
   selectedIndex: number;
   searchQuery: string;
@@ -256,7 +277,7 @@ export function VariableAutocompletePopup({
     if (!acc[item.category]) acc[item.category] = [];
     acc[item.category].push(item);
     return acc;
-  }, {} as Record<string, typeof BATCH_PLACEHOLDERS[number][]>);
+  }, {} as Record<string, PlaceholderItem[]>);
 
   let globalIndex = 0;
 
@@ -352,7 +373,7 @@ export function VariableAutocompletePopup({
 }
 
 interface VariableItemProps {
-  item: typeof BATCH_PLACEHOLDERS[number];
+  item: PlaceholderItem;
   isSelected: boolean;
   onSelect: () => void;
   onHover: () => void;
@@ -384,17 +405,29 @@ function VariableItem({ item, isSelected, onSelect, onHover }: VariableItemProps
 interface InputWithVariablesProps extends React.InputHTMLAttributes<HTMLInputElement> {
   value: string;
   onValueChange: (value: string) => void;
+  placeholders?: readonly PlaceholderItem[];
+  commonVariables?: string[];
 }
 
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
-export function InputWithVariables({ value, onValueChange, className, ...props }: InputWithVariablesProps) {
+export function InputWithVariables({
+  value,
+  onValueChange,
+  className,
+  placeholders,
+  commonVariables,
+  ...props
+}: InputWithVariablesProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const autocomplete = useVariableAutocomplete({
     inputRef,
     value,
     onChange: onValueChange,
+    placeholders,
+    commonVariables,
   });
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -410,6 +443,64 @@ export function InputWithVariables({ value, onValueChange, className, ...props }
     <div className="relative flex-1">
       <Input
         ref={inputRef}
+        value={value}
+        onChange={(e) => onValueChange(e.target.value)}
+        onKeyDown={handleKeyDown}
+        className={className}
+        {...props}
+      />
+      <VariableAutocompletePopup
+        isOpen={autocomplete.isOpen}
+        position={autocomplete.triggerPosition}
+        filteredItems={autocomplete.filteredItems}
+        selectedIndex={autocomplete.selectedIndex}
+        searchQuery={autocomplete.searchQuery}
+        onSelect={autocomplete.insertVariable}
+        onHover={autocomplete.setSelectedIndex}
+      />
+    </div>
+  );
+}
+
+// Wrapper component for Textarea with variable autocomplete
+interface TextareaWithVariablesProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  value: string;
+  onValueChange: (value: string) => void;
+  placeholders?: readonly PlaceholderItem[];
+  commonVariables?: string[];
+}
+
+export function TextareaWithVariables({
+  value,
+  onValueChange,
+  className,
+  placeholders,
+  commonVariables,
+  ...props
+}: TextareaWithVariablesProps) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const autocomplete = useVariableAutocomplete({
+    inputRef: textareaRef,
+    value,
+    onChange: onValueChange,
+    placeholders,
+    commonVariables,
+  });
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (autocomplete.isOpen) {
+      autocomplete.handleKeyDown(e);
+      if (['ArrowUp', 'ArrowDown', 'Enter', 'Tab', 'Escape'].includes(e.key)) {
+        e.preventDefault();
+      }
+    }
+  };
+
+  return (
+    <div className="relative">
+      <Textarea
+        ref={textareaRef}
         value={value}
         onChange={(e) => onValueChange(e.target.value)}
         onKeyDown={handleKeyDown}

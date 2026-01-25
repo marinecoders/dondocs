@@ -287,12 +287,12 @@ export function EnclosuresManager() {
     <Accordion type="single" collapsible>
       <AccordionItem value="enclosures">
         <AccordionTrigger>
-          Enclosures
-          {enclosures.length > 0 && (
-            <Badge variant="secondary" className="ml-2">
+          <span className="flex items-center gap-2">
+            Enclosures
+            <Badge variant="secondary" className="min-w-[28px] justify-center">
               {enclosures.length}
             </Badge>
-          )}
+          </span>
         </AccordionTrigger>
         <AccordionContent>
           <div className="pt-2">

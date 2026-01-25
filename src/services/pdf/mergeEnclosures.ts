@@ -516,7 +516,7 @@ function createLinkAnnotations(pdfDoc: PDFDocument, positions: TextPosition[]): 
 
     // Get or create the Annots array for the page
     const linkRef = pdfDoc.context.register(linkAnnotation);
-    let annots = sourcePage.node.lookup(PDFName.of('Annots'));
+    const annots = sourcePage.node.lookup(PDFName.of('Annots'));
 
     if (annots instanceof PDFArray) {
       annots.push(linkRef);
@@ -600,7 +600,7 @@ function createNamedDestinations(pdfDoc: PDFDocument): void {
 
   // Get or create the Names dictionary in the catalog
   const catalog = pdfDoc.catalog;
-  let namesDict = catalog.lookup(PDFName.of('Names'));
+  const namesDict = catalog.lookup(PDFName.of('Names'));
 
   if (namesDict instanceof PDFDict) {
     // Names dictionary exists - add or replace Dests entry

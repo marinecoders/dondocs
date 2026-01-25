@@ -20,8 +20,10 @@ interface UIState {
 
   // Preview panel
   previewVisible: boolean;
+  previewWidth: number; // percentage (0-100)
   togglePreview: () => void;
   setPreviewVisible: (visible: boolean) => void;
+  setPreviewWidth: (width: number) => void;
 
   // Modals
   profileModalOpen: boolean;
@@ -77,10 +79,12 @@ export const useUIStore = create<UIState>()(
       density: 'comfortable',
       setDensity: (density) => set({ density }),
 
-      // Preview - default to false, will be set on first load if no persisted value
-      previewVisible: false,
+      // Preview - default visible at 50% width
+      previewVisible: true,
+      previewWidth: 50,
       togglePreview: () => set((state) => ({ previewVisible: !state.previewVisible })),
       setPreviewVisible: (visible) => set({ previewVisible: visible }),
+      setPreviewWidth: (width) => set({ previewWidth: Math.max(20, Math.min(80, width)) }),
 
       // Modals
       profileModalOpen: false,
@@ -131,12 +135,13 @@ export const useUIStore = create<UIState>()(
       }),
     }),
     {
-      name: 'libo_ui',
+      name: 'dondocs_ui',
       partialize: (state) => ({
         theme: state.theme,
         colorScheme: state.colorScheme,
         density: state.density,
         previewVisible: state.previewVisible,
+        previewWidth: state.previewWidth,
       }),
     }
   )

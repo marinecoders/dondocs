@@ -8,8 +8,8 @@ import { debug } from '@/lib/debug';
 import { TIMING } from '@/lib/constants';
 
 // Session persistence keys
-const SESSION_STORAGE_KEY = 'libo-document-session';
-const SESSION_TIMESTAMP_KEY = 'libo-session-timestamp';
+const SESSION_STORAGE_KEY = 'dondocs-document-session';
+const SESSION_TIMESTAMP_KEY = 'dondocs-session-timestamp';
 const SESSION_MAX_AGE = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 
 // Serializable session data (excludes file ArrayBuffers)

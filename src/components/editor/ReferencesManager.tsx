@@ -154,12 +154,12 @@ export function ReferencesManager() {
     <Accordion type="single" collapsible>
       <AccordionItem value="references">
         <AccordionTrigger>
-          References
-          {references.length > 0 && (
-            <Badge variant="secondary" className="ml-2">
+          <span className="flex items-center gap-2">
+            References
+            <Badge variant="secondary" className="min-w-[28px] justify-center">
               {references.length}
             </Badge>
-          )}
+          </span>
         </AccordionTrigger>
         <AccordionContent>
           <div className="pt-2">

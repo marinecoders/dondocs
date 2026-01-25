@@ -12,8 +12,8 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 
-const WELCOME_STORAGE_KEY = 'libo-secured-welcome-shown';
-const WELCOME_VERSION = '1.0'; // Increment to show welcome again after major updates
+const WELCOME_STORAGE_KEY = 'dondocs-welcome-shown';
+const WELCOME_VERSION = '2.0'; // Increment to show welcome again after major updates
 
 interface Feature {
   icon: React.ReactNode;
@@ -24,32 +24,33 @@ interface Feature {
 const FEATURES: Feature[] = [
   {
     icon: <FileText className="h-5 w-5 text-blue-500" />,
-    title: '18 Document Types',
-    description: 'Naval letters, memoranda, endorsements, and more - all SECNAV M-5216.5 compliant.',
+    title: 'Correspondence & Forms',
+    description: 'Naval letters, memos, endorsements, NAVMC forms, and more - all SECNAV M-5216.5 compliant.',
   },
   {
     icon: <Shield className="h-5 w-5 text-green-500" />,
-    title: 'NIST 800-171 Compliant',
-    description: 'All processing happens locally in your browser. No data is sent to any server.',
+    title: '100% Browser-Based',
+    description: 'All processing happens locally. No servers, no uploads, no data leaves your device.',
   },
   {
     icon: <Zap className="h-5 w-5 text-yellow-500" />,
-    title: 'LaTeX-Quality Output',
-    description: 'Professional typesetting using SwiftLaTeX WebAssembly for pixel-perfect PDFs.',
+    title: 'Professional Output',
+    description: 'LaTeX-quality typesetting via WebAssembly. Attach enclosures and add digital signature fields.',
   },
   {
     icon: <Users className="h-5 w-5 text-purple-500" />,
     title: 'Profiles & Templates',
-    description: 'Save your unit info as profiles and use pre-built templates for common documents.',
+    description: 'Save your unit info as reusable profiles. Load templates for common document types.',
   },
 ];
 
 const TIPS = [
-  'Use Ctrl+S to save your progress, Ctrl+Z to undo, Ctrl+Y to redo',
-  'Click the NIST badge in the header to learn about our security features',
-  'Use {{PLACEHOLDER}} syntax in your document for batch generation',
-  'Drag and drop PDF enclosures to include them in your final document',
-  'Your signature image can be saved with your profile for quick reuse',
+  'Your work auto-saves locally. Use Ctrl+Z to undo, Ctrl+Y to redo.',
+  'Click the NIST badge in the header to learn about security compliance.',
+  'Use {{PLACEHOLDER}} syntax for batch generating multiple documents.',
+  'Drag and drop PDF enclosures - they get merged into your final document.',
+  'Save your signature image with your profile for quick reuse across documents.',
+  'Use the resizable divider to adjust the preview panel width to your preference.',
 ];
 
 export function WelcomeModal() {
@@ -163,11 +164,11 @@ export function WelcomeModal() {
           <div className="flex items-center gap-3 mb-2">
             <FileText className="h-8 w-8" />
             <DialogTitle className="text-2xl font-bold text-white">
-              Naval Correspondence Generator
+              Welcome to DonDocs
             </DialogTitle>
           </div>
           <p className="text-white/90 text-sm">
-            Professional document generation for Marines, by Marines. SECNAV M-5216.5 compliant.
+            DoN correspondence and forms, made simple. 100% browser-based, SECNAV M-5216.5 compliant.
           </p>
         </div>
 

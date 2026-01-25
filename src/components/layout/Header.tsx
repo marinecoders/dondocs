@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, type ChangeEvent } from 'react';
-import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, FolderOpen, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Palette, Anchor, Medal, Wrench, Settings, Undo2, Redo2, Eraser, Compass } from 'lucide-react';
+import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Palette, Anchor, Medal, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -27,23 +27,23 @@ import { useLogStore } from '@/stores/logStore';
 interface HeaderProps {
   onDownloadPdf?: () => void;
   onDownloadTex?: () => void;
-  onDownloadDocx?: () => void;
   onRefreshPreview?: () => void;
   isCompiling?: boolean;
+  isFormsMode?: boolean;  // Whether we're in forms mode (hides LaTeX options)
 }
 
-const GITHUB_REPO_URL = 'https://github.com/rchiofalo/libo-secured';
-const GITHUB_ISSUES_URL = 'https://github.com/rchiofalo/libo-secured/issues';
-const STORAGE_KEY = 'libo-secured-document';
+const GITHUB_REPO_URL = 'https://github.com/marinecoders/dondocs';
+const GITHUB_ISSUES_URL = 'https://github.com/marinecoders/dondocs/issues';
+const STORAGE_KEY = 'dondocs-document';
 
 export function Header({
   onDownloadPdf,
   onDownloadTex,
-  onDownloadDocx,
   onRefreshPreview,
   isCompiling,
+  isFormsMode = false,
 }: HeaderProps) {
-  const { theme, toggleTheme, colorScheme, setColorScheme, density, setDensity, autoSaveStatus, setAboutModalOpen, setNistModalOpen, setBatchModalOpen, setTemplateLoaderOpen, setDocumentGuideOpen, setFindReplaceOpen, isMobile } = useUIStore();
+  const { theme, toggleTheme, colorScheme, setColorScheme, density, setDensity, autoSaveStatus, setAboutModalOpen, setNistModalOpen, setBatchModalOpen, setDocumentGuideOpen, setFindReplaceOpen, isMobile, previewVisible, togglePreview } = useUIStore();
   const documentStore = useDocumentStore();
   const { resetForm, applySnapshot, clearFieldsExceptLetterhead } = useDocumentStore();
   const { undo, redo, canUndo, canRedo } = useHistoryStore();
@@ -166,7 +166,7 @@ export function Header({
       const a = document.createElement('a');
       a.href = url;
       const date = new Date().toISOString().split('T')[0];
-      a.download = `libo-draft-${date}.json`;
+      a.download = `dondocs-draft-${date}.json`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -192,7 +192,7 @@ export function Header({
         const content = e.target?.result as string;
         const data = JSON.parse(content);
 
-        // Validate it's a libo draft file
+        // Validate it's a dondocs draft file
         if (!data.version || !data.docType) {
           throw new Error('Invalid draft file format');
         }
@@ -293,8 +293,12 @@ export function Header({
         </div>
 
         <div className="flex items-center gap-1 sm:gap-2">
+          {/* Aria-live region for status announcements - WCAG 4.1.3 */}
+          <div aria-live="polite" aria-atomic="true" className="sr-only">
+            {saveStatus || autoSaveStatus}
+          </div>
           {(autoSaveStatus || saveStatus) && (
-            <span className="text-xs text-muted-foreground animate-pulse hidden sm:inline">
+            <span className="text-xs text-muted-foreground animate-pulse hidden sm:inline" aria-hidden="true">
               {saveStatus || autoSaveStatus}
             </span>
           )}
@@ -305,20 +309,22 @@ export function Header({
             size="icon"
             onClick={handleUndo}
             disabled={!canUndo()}
+            aria-label="Undo (Ctrl+Z)"
             title="Undo (Ctrl+Z)"
             className="h-8 w-8 sm:h-9 sm:w-9"
           >
-            <Undo2 className="h-4 w-4" />
+            <Undo2 className="h-4 w-4" aria-hidden="true" />
           </Button>
           <Button
             variant="ghost"
             size="icon"
             onClick={handleRedo}
             disabled={!canRedo()}
+            aria-label="Redo (Ctrl+Y)"
             title="Redo (Ctrl+Y)"
             className="h-8 w-8 sm:h-9 sm:w-9"
           >
-            <Redo2 className="h-4 w-4" />
+            <Redo2 className="h-4 w-4" aria-hidden="true" />
           </Button>
 
           {/* Refresh - hidden on mobile/tablet, in hamburger menu */}
@@ -328,10 +334,30 @@ export function Header({
               size="icon"
               onClick={onRefreshPreview}
               disabled={isCompiling}
+              aria-label="Refresh Preview"
               title="Refresh Preview"
               className="h-8 w-8 sm:h-9 sm:w-9"
             >
-              <RefreshCw className={`h-4 w-4 ${isCompiling ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`h-4 w-4 ${isCompiling ? 'animate-spin' : ''}`} aria-hidden="true" />
+            </Button>
+          )}
+
+          {/* Preview toggle - desktop only */}
+          {!isMobile && (
+            <Button
+              variant={previewVisible ? "default" : "outline"}
+              size="sm"
+              onClick={togglePreview}
+              aria-label={previewVisible ? "Hide Preview (Ctrl+E)" : "Show Preview (Ctrl+E)"}
+              title={previewVisible ? "Hide Preview (Ctrl+E)" : "Show Preview (Ctrl+E)"}
+              className="h-8 px-2 sm:px-3"
+            >
+              {previewVisible ? (
+                <PanelRightClose className="h-4 w-4 sm:mr-2" aria-hidden="true" />
+              ) : (
+                <PanelRight className="h-4 w-4 sm:mr-2" aria-hidden="true" />
+              )}
+              <span className="hidden sm:inline">Preview</span>
             </Button>
           )}
 
@@ -386,30 +412,15 @@ export function Header({
                 <FileText className="h-4 w-4 mr-2" />
                 Download PDF
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={onDownloadDocx}>
-                <FileText className="h-4 w-4 mr-2" />
-                Download DOCX
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={onDownloadTex}>
-                <FileText className="h-4 w-4 mr-2" />
-                Download LaTeX
-              </DropdownMenuItem>
+              {/* LaTeX only available for correspondence */}
+              {!isFormsMode && (
+                <DropdownMenuItem onClick={onDownloadTex}>
+                  <FileText className="h-4 w-4 mr-2" />
+                  Download LaTeX
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
-
-          {/* Templates button - desktop only */}
-          {!isMobile && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-8 px-2 sm:px-3"
-              onClick={() => setTemplateLoaderOpen(true)}
-              title="Load document templates"
-            >
-              <FolderOpen className="h-4 w-4 sm:mr-2" />
-              <span className="hidden sm:inline">Templates</span>
-            </Button>
-          )}
 
           {/* Guide button - desktop only */}
           {!isMobile && (
@@ -422,6 +433,20 @@ export function Header({
             >
               <Compass className="h-4 w-4 sm:mr-2" />
               <span className="hidden sm:inline">Guide</span>
+            </Button>
+          )}
+
+          {/* Find & Replace button - desktop only */}
+          {!isMobile && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 px-2 sm:px-3"
+              onClick={() => setFindReplaceOpen(true)}
+              title="Find & Replace (Ctrl+H)"
+            >
+              <Search className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Find</span>
             </Button>
           )}
 
@@ -439,30 +464,12 @@ export function Header({
             </Button>
           )}
 
-          {/* Tools dropdown - desktop only */}
-          {!isMobile && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="h-8 px-2 sm:px-3">
-                  <Wrench className="h-4 w-4 sm:mr-2" />
-                  <span className="hidden sm:inline">Tools</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setFindReplaceOpen(true)}>
-                  <Search className="h-4 w-4 mr-2" />
-                  Find & Replace
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
-
           {/* Help dropdown - desktop only */}
           {!isMobile && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" title="Help & Info" className="h-8 w-8">
-                  <HelpCircle className="h-4 w-4" />
+                <Button variant="ghost" size="icon" aria-label="Help & Info" title="Help & Info" className="h-8 w-8">
+                  <HelpCircle className="h-4 w-4" aria-hidden="true" />
                 </Button>
               </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-72">
@@ -517,8 +524,8 @@ export function Header({
           {!isMobile && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" title="Appearance" className="h-8 w-8 sm:h-9 sm:w-9">
-                  <Settings className="h-4 w-4" />
+                <Button variant="ghost" size="icon" aria-label="Appearance settings" title="Appearance" className="h-8 w-8 sm:h-9 sm:w-9">
+                  <Settings className="h-4 w-4" aria-hidden="true" />
                 </Button>
               </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
@@ -585,8 +592,8 @@ export function Header({
           {isMobile && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8">
-                  <Menu className="h-4 w-4" />
+                <Button variant="ghost" size="icon" aria-label="Open menu" className="h-8 w-8">
+                  <Menu className="h-4 w-4" aria-hidden="true" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-52">
@@ -598,10 +605,6 @@ export function Header({
               <DropdownMenuSeparator />
               {/* Tools section */}
               <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Tools</div>
-              <DropdownMenuItem onClick={() => setTemplateLoaderOpen(true)}>
-                <FolderOpen className="h-4 w-4 mr-2" />
-                Templates
-              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setDocumentGuideOpen(true)}>
                 <Compass className="h-4 w-4 mr-2" />
                 Document Guide

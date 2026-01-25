@@ -1,0 +1,138 @@
+%=============================================================================
+%
+%                  EXECUTIVE CORRESPONDENCE FORMAT MODULE
+%
+%=============================================================================
+%
+% References:
+%   - SECNAV M-5216.5 (DON Correspondence Manual), Chapter 12
+%   - Used for external correspondence from HqDON/OSD officials
+%
+% Key characteristics:
+%   - 12pt Times New Roman REQUIRED
+%   - Date format: Month spelled out (January 5, 2015)
+%   - Has salutation and complimentary close
+%   - Paragraphs NOT numbered, indented 0.5"
+%   - Similar to Business Letter but for executive-level correspondence
+%
+%=============================================================================
+
+
+%=============================================================================
+%                         DATE BLOCK (Upper LEFT)
+%=============================================================================
+% Date format: Month spelled out, day in numerals, comma, full year
+
+\newcommand{\printDateAndTitle}{%
+    \noindent
+    \begin{tabular}[t]{@{}l@{}}
+        \BusinessDate% Use civilian date format (January 5, 2015)
+    \end{tabular}
+}
+
+
+%=============================================================================
+%                    INSIDE ADDRESS AND SALUTATION
+%=============================================================================
+% Similar to business letter format
+
+\newcommand{\printAddressBlock}{%
+    \par\vspace{24pt}% 2 lines below date
+    \noindent
+    % Print recipient address block (pre-formatted with line breaks)
+    \BusinessRecipientAddress%
+    %
+    % Salutation with colon
+    \par\vspace{12pt}%
+    \noindent\BusinessSalutation%
+    %
+    % Subject line (optional)
+    \ifNotEmpty{\SubjectLine}{%
+        \par\vspace{12pt}%
+        \noindent SUBJECT: \MakeUppercase{\SubjectLine}%
+    }%
+    %
+    % CUI block (if enabled)
+    \ifCUIEnabled
+        \par\vspace{12pt}%
+        \noindent \textbf{CUI//\CUICategory}%
+        \par\noindent \CUIDistStatement
+    \fi
+}
+
+
+%=============================================================================
+%                         BODY TEXT FORMATTING
+%=============================================================================
+% Ch 12 Para 2e: Paragraphs indented 0.5" from left margin
+
+\newcommand{\businessLetterParIndent}{0.5in}
+
+\newcommand{\setupBusinessLetterBody}{%
+    \setlength{\parindent}{\businessLetterParIndent}%
+    \setlength{\parskip}{12pt}% Double-space between paragraphs
+}
+
+
+%=============================================================================
+%                  SIGNATURE BLOCK (Executive Style)
+%=============================================================================
+% Ch 12 Para 2q: Signature block varies by signer level
+%   - Complimentary close centered, 2 lines below text
+%   - Signature block centered, 4 lines below close
+
+\newcommand{\printSignature}{%
+    % Complimentary close - CENTERED, 2 lines below text
+    \par\vspace{24pt}%
+    \begin{center}
+        \BusinessClose
+    \end{center}
+    %
+    % Signature block - CENTERED, 4 lines below complimentary close
+    \vspace{36pt}%
+    \begin{center}
+        \begin{minipage}{3in}
+            \centering
+            % Digital signature field
+        \ifHasDigitalSigField
+            \DigitalSignatureBox
+        \else
+            % Optional: Signature image
+            \ifNotEmpty{\SignatureImage}{%
+                \IfFileExists{attachments/\SignatureImage}{%
+                    \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
+                }{}%
+            }%
+            % Required: Name in ALL CAPS
+            \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev\\}{\MakeUppercase{\SignatoryName}\\}%
+            % Optional: Rank
+            \optionalLine{\SignatoryRank}%
+            % Optional: Title
+            \optionalLine{\SignatoryTitle}%
+            % Optional: By direction authority line
+            \optionalField{\ByDirection}%
+        \end{minipage}
+    \end{center}
+}
+
+
+%=============================================================================
+%                              PAGE STYLE
+%=============================================================================
+% Ch 12 Para 2g: Page numbers either top right or bottom center
+
+\fancypagestyle{firstpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyfoot[C]{}% No page number on first page
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+\fancypagestyle{documentpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyfoot[C]{\thepage}% Page number centered
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}

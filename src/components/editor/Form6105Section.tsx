@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { ClipboardList, Download, RotateCcw, ChevronDown, Trash2, FileText } from 'lucide-react';
+import { ClipboardList, RotateCcw, ChevronDown, Trash2, FileText } from 'lucide-react';
 import { BookOpen, Building2, Library } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,63 +17,24 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { InputWithVariables, TextareaWithVariables } from '@/components/ui/variable-autocomplete';
 import { useFormStore } from '@/stores/formStore';
-import { generateNavmc10274Pdf, loadNavmc10274Templates } from '@/services/pdf/navmc10274Generator';
 import { SSICLookupModal } from '@/components/modals/SSICLookupModal';
 import { UnitLookupModal } from '@/components/modals/UnitLookupModal';
 import { FormReferenceLibraryModal } from '@/components/modals/FormReferenceLibraryModal';
+import { NAVMC_10274_PLACEHOLDERS } from '@/lib/constants';
 import type { UnitInfo } from '@/data/unitDirectory';
 
+// Common variables to show first in autocomplete
+const COMMON_FORM_VARS = ['LAST_NAME', 'FIRST_NAME', 'NAME', 'EDIPI', 'RANK', 'DATE'];
+
 export function Form6105Section() {
-  const { navmc10274, setNavmc10274Field, resetNavmc10274, clearNavmc10274 } = useFormStore();
+  const { navmc10274, setNavmc10274Field, resetNavmc10274, clearNavmc10274, includeCoverPage, setIncludeCoverPage } = useFormStore();
 
   // Modal states
   const [ssicModalOpen, setSSICModalOpen] = useState(false);
   const [unitModalOpen, setUnitModalOpen] = useState(false);
   const [referenceModalOpen, setReferenceModalOpen] = useState(false);
-
-  const handleDownload = async () => {
-    try {
-      // Load the template PDFs
-      const templates = await loadNavmc10274Templates();
-
-      // Generate the filled PDF
-      const pdfBytes = await generateNavmc10274Pdf(
-        {
-          actionNo: navmc10274.actionNo,
-          ssicFileNo: navmc10274.ssicFileNo,
-          date: navmc10274.date,
-          from: navmc10274.from,
-          orgStation: navmc10274.orgStation,
-          via: navmc10274.via,
-          to: navmc10274.to,
-          natureOfAction: navmc10274.natureOfAction,
-          copyTo: navmc10274.copyTo,
-          references: navmc10274.references,
-          enclosures: navmc10274.enclosures,
-          supplementalInfo: navmc10274.supplementalInfo,
-          proposedAction: navmc10274.proposedAction,
-        },
-        templates.page1,
-        templates.page2,
-        templates.page3
-      );
-
-      // Download
-      const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `NAVMC-10274-${navmc10274.date || 'form'}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Failed to generate PDF:', error);
-      alert('Failed to generate PDF. Make sure the template files exist in /templates/');
-    }
-  };
 
   const handleSSICSelect = (code: string) => {
     setNavmc10274Field('ssicFileNo', code);
@@ -129,16 +90,32 @@ export function Form6105Section() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button size="sm" onClick={handleDownload}>
-            <Download className="h-4 w-4 mr-1" />
-            Download PDF
-          </Button>
         </div>
       </div>
 
       <p className="text-sm text-muted-foreground">
         Administrative Action Form per MCO 5216.19A. Used for counseling, requests, and other administrative actions.
       </p>
+
+      {/* Variable hint banner and options */}
+      <div className="flex items-center justify-between gap-4 px-3 py-2 rounded-md bg-muted/50 border text-sm">
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <span>💡</span>
+          <span>
+            Type <code className="bg-background px-1.5 py-0.5 rounded font-mono text-xs">{'{{'}</code> in any field for batch variables
+          </span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Checkbox
+            id="includeCoverPage"
+            checked={includeCoverPage}
+            onCheckedChange={(checked) => setIncludeCoverPage(checked === true)}
+          />
+          <Label htmlFor="includeCoverPage" className="text-xs cursor-pointer">
+            Include Privacy Act cover page
+          </Label>
+        </div>
+      </div>
 
       <Accordion type="multiple" defaultValue={['header', 'addressing', 'content']} className="space-y-2">
         {/* Header Section */}
@@ -198,24 +175,28 @@ export function Form6105Section() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="from">4. From (Grade, Name, EDIPI, MOS, etc.)</Label>
-                <Textarea
+                <TextareaWithVariables
                   id="from"
                   value={navmc10274.from}
-                  onChange={(e) => setNavmc10274Field('from', e.target.value)}
-                  placeholder="Originator name and title"
+                  onValueChange={(v) => setNavmc10274Field('from', v)}
+                  placeholder="Originator name and title (type {{ for variables)"
                   rows={2}
+                  placeholders={NAVMC_10274_PLACEHOLDERS}
+                  commonVariables={COMMON_FORM_VARS}
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="orgStation">5. Organization/Station</Label>
                 <div className="flex gap-1">
-                  <Textarea
+                  <TextareaWithVariables
                     id="orgStation"
                     value={navmc10274.orgStation}
-                    onChange={(e) => setNavmc10274Field('orgStation', e.target.value)}
-                    placeholder="Unit and location"
+                    onValueChange={(v) => setNavmc10274Field('orgStation', v)}
+                    placeholder="Unit and location (type {{ for variables)"
                     rows={2}
                     className="flex-1"
+                    placeholders={NAVMC_10274_PLACEHOLDERS}
+                    commonVariables={COMMON_FORM_VARS}
                   />
                   <Button
                     variant="outline"
@@ -232,22 +213,26 @@ export function Form6105Section() {
 
             <div className="space-y-2">
               <Label htmlFor="via">6. Via (As required)</Label>
-              <Input
+              <InputWithVariables
                 id="via"
                 value={navmc10274.via}
-                onChange={(e) => setNavmc10274Field('via', e.target.value)}
-                placeholder="Chain of command (if applicable)"
+                onValueChange={(v) => setNavmc10274Field('via', v)}
+                placeholder="Chain of command (type {{ for variables)"
+                placeholders={NAVMC_10274_PLACEHOLDERS}
+                commonVariables={COMMON_FORM_VARS}
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="to">7. To</Label>
-              <Textarea
+              <TextareaWithVariables
                 id="to"
                 value={navmc10274.to}
-                onChange={(e) => setNavmc10274Field('to', e.target.value)}
-                placeholder="Marine's full name, rank, and MOS"
+                onValueChange={(v) => setNavmc10274Field('to', v)}
+                placeholder="Marine's full name, rank, and MOS (type {{ for variables)"
                 rows={2}
+                placeholders={NAVMC_10274_PLACEHOLDERS}
+                commonVariables={COMMON_FORM_VARS}
               />
             </div>
           </AccordionContent>
@@ -261,41 +246,41 @@ export function Form6105Section() {
           <AccordionContent className="space-y-4 pt-2">
             <div className="space-y-2">
               <Label htmlFor="natureOfAction">8. Nature of Action/Subject</Label>
-              <Textarea
+              <TextareaWithVariables
                 id="natureOfAction"
                 value={navmc10274.natureOfAction}
-                onChange={(e) => setNavmc10274Field('natureOfAction', e.target.value)}
-                placeholder="Brief description of the counseling topic (e.g., 'Formal Counseling - Performance Deficiency')"
+                onValueChange={(v) => setNavmc10274Field('natureOfAction', v)}
+                placeholder="Brief description (type {{ for variables)"
                 rows={2}
+                placeholders={NAVMC_10274_PLACEHOLDERS}
+                commonVariables={COMMON_FORM_VARS}
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="supplementalInfo">12. Supplemental Information</Label>
-              <Textarea
+              <TextareaWithVariables
                 id="supplementalInfo"
                 value={navmc10274.supplementalInfo}
-                onChange={(e) => setNavmc10274Field('supplementalInfo', e.target.value)}
-                placeholder="Full counseling statement including:
-- Specific incident/deficiency description
-- Date(s) and location(s)
-- Standards violated (cite applicable orders/regulations)
-- Prior counseling efforts
-- Expected corrective actions
-- Consequences of continued deficiency"
+                onValueChange={(v) => setNavmc10274Field('supplementalInfo', v)}
+                placeholder="Full counseling statement (type {{ for variables)..."
                 rows={12}
                 className="font-mono text-sm"
+                placeholders={NAVMC_10274_PLACEHOLDERS}
+                commonVariables={COMMON_FORM_VARS}
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="proposedAction">13. Proposed/Recommended Action</Label>
-              <Textarea
+              <TextareaWithVariables
                 id="proposedAction"
                 value={navmc10274.proposedAction}
-                onChange={(e) => setNavmc10274Field('proposedAction', e.target.value)}
-                placeholder="e.g., 'Request entry of adverse Page 11 (6105) entry per MCO 1610.7A'"
+                onValueChange={(v) => setNavmc10274Field('proposedAction', v)}
+                placeholder="e.g., 'Request entry of adverse Page 11 (6105) entry per MCO 1610.7A' (type {{ for variables)"
                 rows={3}
+                placeholders={NAVMC_10274_PLACEHOLDERS}
+                commonVariables={COMMON_FORM_VARS}
               />
             </div>
           </AccordionContent>
@@ -310,13 +295,15 @@ export function Form6105Section() {
             <div className="space-y-2">
               <Label htmlFor="references">10. References/Authority</Label>
               <div className="flex gap-1">
-                <Textarea
+                <TextareaWithVariables
                   id="references"
                   value={navmc10274.references}
-                  onChange={(e) => setNavmc10274Field('references', e.target.value)}
-                  placeholder="e.g., MCO 1610.7A, MCO 1070.12K"
+                  onValueChange={(v) => setNavmc10274Field('references', v)}
+                  placeholder="e.g., MCO 1610.7A, MCO 1070.12K (type {{ for variables)"
                   rows={2}
                   className="flex-1"
+                  placeholders={NAVMC_10274_PLACEHOLDERS}
+                  commonVariables={COMMON_FORM_VARS}
                 />
                 <Button
                   variant="outline"
@@ -332,21 +319,25 @@ export function Form6105Section() {
 
             <div className="space-y-2">
               <Label htmlFor="enclosures">11. Enclosures (if any)</Label>
-              <Input
+              <InputWithVariables
                 id="enclosures"
                 value={navmc10274.enclosures}
-                onChange={(e) => setNavmc10274Field('enclosures', e.target.value)}
-                placeholder="e.g., (1) Previous counseling dated..."
+                onValueChange={(v) => setNavmc10274Field('enclosures', v)}
+                placeholder="e.g., (1) Previous counseling dated... (type {{ for variables)"
+                placeholders={NAVMC_10274_PLACEHOLDERS}
+                commonVariables={COMMON_FORM_VARS}
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="copyTo">9. Copy To (As required)</Label>
-              <Input
+              <InputWithVariables
                 id="copyTo"
                 value={navmc10274.copyTo}
-                onChange={(e) => setNavmc10274Field('copyTo', e.target.value)}
-                placeholder="e.g., Marine's SRB, Company Office"
+                onValueChange={(v) => setNavmc10274Field('copyTo', v)}
+                placeholder="e.g., Marine's SRB, Company Office (type {{ for variables)"
+                placeholders={NAVMC_10274_PLACEHOLDERS}
+                commonVariables={COMMON_FORM_VARS}
               />
             </div>
           </AccordionContent>

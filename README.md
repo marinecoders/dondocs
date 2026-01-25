@@ -1,7 +1,8 @@
 # Naval Correspondence Generator
 
-> "Libo isn't secured until the paperwork is done."
+> "The docs are done when the docs are done."
 
+[![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![SECNAV M-5216.5](https://img.shields.io/badge/SECNAV-M--5216.5-blue)](https://www.secnav.navy.mil/doni/SECNAV%20Manuals1/5216.5%20DON%20Correspondence%20Manual.pdf)
 [![MCO 5216.20B](https://img.shields.io/badge/MCO-5216.20B-red)](https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/899678/mco-521620/)
 [![NIST 800-171](https://img.shields.io/badge/NIST-800--171-green)](https://csrc.nist.gov/publications/detail/sp/800-171/rev-2/final)
@@ -9,59 +10,6 @@
 **Naval Correspondence Generator** is a browser-based military correspondence generator that produces publication-quality documents compliant with **SECNAV M-5216.5** (Department of the Navy Correspondence Manual) and **MCO 5216.20B** (Marine Corps Supplement).
 
 **All processing happens locally in your browser - no data is ever sent to any server.**
-
----
-
-## Why Naval Correspondence Generator?
-
-| Feature | Naval Corr Gen | navalletterformat.com | naval-letter-formatter |
-|---------|:------------:|:------------:|:------------:|
-| **Unit Database** | **3,139 units** | 3,688 entries* | 230 units |
-| **SSIC Codes** | **2,240 unique** | 2,710 entries* | 2,240 codes |
-| **Reference Library** | **107 references** | None | 107 references |
-| **Letter Templates** | **38 templates** | 3 templates | 37 templates |
-| **Office Codes** | **74 codes** | No | 74 codes |
-| **Document Types** | **17 types** | 2 types | 3 types |
-| **PDF Engine** | **LaTeX (publication quality)** | jsPDF | @react-pdf/renderer |
-| **Live PDF Preview** | **Yes (1.5s debounce)** | Yes (750ms debounce) | No (export only) |
-| **DOCX Export** | **Yes** | Yes | Yes |
-| **Digital Signature Fields** | **Yes (CAC/PIV)** | Yes (CAC/PKI) | No |
-| **PII/PHI Detection** | **Yes** | No | No |
-| **Classification/CUI/Portion Markings** | **Full support (6 levels)** | None | Limited (U/CUI/FOUO) |
-| **Batch Generation with Variables** | **Yes (28 placeholders)** | No | Yes (basic) |
-| **Keyboard Shortcuts** | **10 shortcuts** | None | 8 shortcuts |
-| **Dark Mode** | **Yes** | No | Yes |
-| **UI Density Modes** | **Yes (3 modes)** | No | No |
-| **Color Schemes** | **Yes (3 schemes)** | No | No |
-| **Undo/Redo** | **Yes (50 levels)** | No | Yes (50 levels) |
-| **Find & Replace** | **Yes** | No | No |
-| **Drag & Drop Reordering** | **Yes** | No | Yes |
-| **Voice Recognition** | No | **Yes** | No |
-| **EDMS Integration** | No | **Yes (Supabase)** | No |
-| **PWA/Offline Mode** | **Yes** | No | Yes |
-| **100% Client-Side** | **Yes** | Partial (cloud storage) | Yes |
-| **Air-Gap Compatible** | **Yes** | No | Yes |
-| **Mobile Responsive** | **Yes** | Yes | Partial |
-
-*\*navalletterformat.com counts include duplicates. Actual unique data: 2,874 units, 2,144 SSIC codes. Naval Correspondence Generator contains all unique competitor data plus 171 additional units.*
-
-### Competitor Analysis
-
-| Aspect | Naval Corr Gen | navalletterformat.com | naval-letter-formatter |
-|--------|----------------|----------------------|------------------------|
-| **PDF Quality** | Publication-quality (LaTeX) | Basic (jsPDF) | Good (@react-pdf) |
-| **Preview Speed** | ~1.5s (WebAssembly LaTeX) | Instant (jsPDF) | None (export only) |
-| **Typography** | Professional kerning, ligatures | Basic font rendering | Standard rendering |
-| **Enclosures** | Full PDF merging | Basic attachment | Limited support |
-| **Architecture** | React + Zustand + WebAssembly | React + Supabase | React + Context |
-
-**Why we chose LaTeX over jsPDF:**
-- Publication-quality typography matching official military publications
-- Proper kerning, ligatures, and spacing per SECNAV specifications
-- Complex document layouts (endorsements, multiple signatures)
-- Pixel-perfect reproduction of official formats
-
-**Trade-off:** LaTeX compilation takes ~1.5s vs instant jsPDF, but produces significantly higher quality output suitable for official correspondence.
 
 ---
 
@@ -450,10 +398,10 @@ npm run build
 
 ### Project Structure
 ```
-libo-secured/
-├── tex/                          # LaTeX source templates (standalone)
+dondocs/
+├── tex/                          # LaTeX format templates (advanced)
 │   ├── main.tex                  # Main template
-│   └── templates/                # Document type templates
+│   └── templates/                # Document format templates (naval_letter, mfr, etc.)
 ├── public/
 │   ├── attachments/              # Seal images
 │   └── lib/
@@ -466,7 +414,11 @@ libo-secured/
 │   │   ├── layout/               # Page layout
 │   │   ├── modals/               # Modal dialogs
 │   │   └── ui/                   # shadcn/ui components
-│   ├── data/                     # Units, SSIC, references
+│   ├── data/
+│   │   ├── templates/            # Content templates (TypeScript) - add new templates here
+│   │   ├── units/                # Unit directory
+│   │   ├── ssic/                 # SSIC codes
+│   │   └── references/           # Reference library
 │   ├── hooks/                    # Custom React hooks
 │   ├── lib/                      # Utility libraries
 │   ├── services/
@@ -481,6 +433,109 @@ libo-secured/
 ├── vite.config.ts                # Vite config
 └── Makefile                      # Build commands
 ```
+
+### LaTeX Generation Flow
+
+The application generates PDFs through a multi-stage pipeline from UI input to final PDF output:
+
+```
+┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│   React UI      │ --> │   Zustand Store  │ --> │   Generator     │ --> │  SwiftLaTeX     │
+│   (Components)  │     │   (documentStore)│     │  (generator.ts) │     │  (WebAssembly)  │
+└─────────────────┘     └──────────────────┘     └─────────────────┘     └─────────────────┘
+                                                          │                       │
+                                                          v                       v
+                                                 ┌─────────────────┐     ┌─────────────────┐
+                                                 │  .tex Files     │ --> │   Raw PDF       │
+                                                 │  (Virtual FS)   │     │                 │
+                                                 └─────────────────┘     └─────────────────┘
+                                                                                  │
+                                                                                  v
+                                                                         ┌─────────────────┐
+                                                                         │  Post-Process   │
+                                                                         │  (pdf-lib)      │
+                                                                         └─────────────────┘
+                                                                                  │
+                                                                                  v
+                                                                         ┌─────────────────┐
+                                                                         │  Final PDF      │
+                                                                         │  (with encl,    │
+                                                                         │   hyperlinks,   │
+                                                                         │   signatures)   │
+                                                                         └─────────────────┘
+```
+
+**1. React UI → Zustand Store**
+- User inputs data through form components in `src/components/editor/`
+- Data is stored in `documentStore` (Zustand) with fields like `formData`, `paragraphs`, `references`, etc.
+
+**2. Zustand Store → Generator**
+- `src/services/latex/generator.ts` reads from the store
+- Generates multiple `.tex` files:
+  - `document.tex` - Document type, SSIC, date, from/to, subject
+  - `letterhead.tex` - Unit name, address, seal configuration
+  - `classification.tex` - CUI/classification markings
+  - `signatory.tex` - Signature block information
+  - `references.tex` - Reference list
+  - `reference-urls.tex` - Reference URL mappings for hyperlinks
+  - `encl-config.tex` - Enclosure list configuration
+  - `copyto-config.tex` - Copy To/distribution list
+  - `body.tex` - Document body paragraphs
+  - `flags.tex` - Boolean flags for conditional sections
+
+**3. Template System**
+
+There are two types of templates:
+
+**Content Templates** (`src/data/templates/`) - TypeScript files defining pre-filled document content:
+- Award recommendations, personnel requests, administrative forms, etc.
+- Define subject lines, paragraphs, references, and SSIC codes
+- No LaTeX knowledge required - see `docs/CREATING_TEMPLATES.md`
+
+**Format Templates** (LaTeX) - Define document layouts:
+- `src/lib/latex-templates.js` contains all LaTeX templates as a JavaScript object
+- `tex/main.tex` - Main document structure, package imports, base commands
+- `tex/templates/*.tex` - Document format templates (17 types: naval_letter, mfr, etc.)
+- Each format defines:
+  - `\printDateAndTitle` - How date/SSIC block is formatted
+  - `\printAddressBlock` - How From/To/Via/Subject appears
+  - `\printSignature` - How signature block is rendered
+  - `\printLetterhead` - Whether/how letterhead appears
+
+**4. Virtual Filesystem → SwiftLaTeX**
+- `useLatexEngine.ts` hook manages the WebAssembly LaTeX engine
+- Templates are written to a virtual filesystem (stripping `tex/` and `templates/` prefixes)
+- Generated `.tex` files are written to the virtual FS
+- `main.tex` loads the appropriate template via `\input{\DocumentType}`
+
+**5. Compilation**
+- SwiftLaTeX (WebAssembly) compiles `main.tex`
+- Fetches missing TeX Live packages from `/lib/texlive/` as needed
+- Returns compiled PDF as `Uint8Array`
+
+**6. Post-Processing (pdf-lib)**
+- `src/services/pdf/` handles PDF post-processing:
+  - Merge enclosure PDFs with cover pages and page scaling
+  - Add clickable hyperlinks for references and enclosures
+  - Insert digital signature fields (CAC/PIV compatible)
+  - Apply classification markings to enclosure pages (main letter markings handled by LaTeX)
+
+**Key Files:**
+| File | Purpose |
+|------|---------|
+| `src/App.tsx` | Main app component, debounced preview (1.5s LaTeX, 500ms forms) |
+| `src/services/latex/generator.ts` | Generates `.tex` files from store data |
+| `src/services/latex/escaper.ts` | Escapes special LaTeX characters, wraps text |
+| `src/lib/latex-templates.js` | All LaTeX templates (main + 17 document types) |
+| `src/hooks/useLatexEngine.ts` | Manages SwiftLaTeX WebAssembly engine |
+| `src/services/pdf/mergeEnclosures.ts` | Merges enclosures, adds hyperlinks and markings |
+| `src/services/pdf/addSignatureField.ts` | Adds CAC/PIV digital signature fields |
+
+**Debugging Tips:**
+- Check browser console for LaTeX compilation errors
+- Use `DONDOCS.texlive.summary()` in console to see TeX Live file requests
+- Template loading issues: Verify file paths in virtual filesystem
+- Content issues: Check `escapeLatex()` output for special characters
 
 ---
 
@@ -526,20 +581,22 @@ A: If you're viewing in an in-app browser (Google App, Facebook, Instagram, etc.
 
 ## License
 
-MIT License - See LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
 ## Contributing
 
-Contributions welcome! Please open an issue or submit a pull request on [GitHub](https://github.com/rchiofalo/libo-secured).
+Contributions welcome! Please open an issue or submit a pull request on the [Marine Coders GitHub](https://github.com/marinecoders/dondocs).
+
+See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for detailed guidelines.
 
 ---
 
 ## Support
 
-- **Bug Reports** - [GitHub Issues](https://github.com/rchiofalo/libo-secured/issues)
-- **Feature Requests** - [GitHub Issues](https://github.com/rchiofalo/libo-secured/issues)
+- **Bug Reports** - [GitHub Issues](https://github.com/marinecoders/dondocs/issues)
+- **Feature Requests** - [GitHub Issues](https://github.com/marinecoders/dondocs/issues)
 
 ---
 

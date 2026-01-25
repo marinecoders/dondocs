@@ -1,5 +1,5 @@
 // Marine Corps and Navy Unit Directory Reference Data
-// Merged from MCC/RUC List, SNDL, naval-letter-formatter, and competitor databases
+// Merged from MCC/RUC List and SNDL
 
 import unitsData from './units.json';
 

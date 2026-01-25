@@ -58,6 +58,10 @@ interface FormStore {
   setNavmc11811Field: <K extends keyof Navmc11811Data>(key: K, value: Navmc11811Data[K]) => void;
   resetNavmc11811: () => void;
   clearNavmc11811: () => void;
+
+  // PDF generation options
+  includeCoverPage: boolean;
+  setIncludeCoverPage: (value: boolean) => void;
 }
 
 // Empty defaults for "Clear All" functionality
@@ -197,4 +201,8 @@ export const useFormStore = create<FormStore>((set) => ({
   clearNavmc11811: () => set({
     navmc11811: { ...EMPTY_NAVMC_11811 },
   }),
+
+  // PDF generation options
+  includeCoverPage: false,
+  setIncludeCoverPage: (value) => set({ includeCoverPage: value }),
 }));

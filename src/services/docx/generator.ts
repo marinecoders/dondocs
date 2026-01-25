@@ -6,8 +6,11 @@ import {
   AlignmentType,
   Header as DocxHeader,
   Footer as DocxFooter,
+  TabStopType,
+  convertInchesToTwip,
 } from 'docx';
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo } from '@/types/document';
+import { wrapSubjectLine } from '@/services/latex/escaper';
 
 interface DocumentStore {
   docType: string;
@@ -16,6 +19,46 @@ interface DocumentStore {
   enclosures: Enclosure[];
   paragraphs: Paragraph[];
   copyTos: CopyTo[];
+}
+
+// Font type for spacing calculations
+type FontType = 'times' | 'courier';
+
+// SECNAV M-5216.5 spacing requirements (in spaces)
+// Courier: fixed-width, use exact space counts
+// Times: use tab stops for proportional alignment
+const SPACING = {
+  courier: {
+    from: 2,   // "From:  " - 2 spaces after colon
+    to: 4,     // "To:    " - 4 spaces (aligns with From text)
+    via: 3,    // "Via:   " - 3 spaces
+    subj: 2,   // "Subj:  " - 2 spaces
+    ref: 3,    // "Ref:   " - 3 spaces
+    encl: 2,   // "Encl:  " - 2 spaces
+  },
+  times: {
+    // Tab positions in inches for Times New Roman (proportional font)
+    labelTab: 0.75, // Tab stop after labels (From:/To:/etc.)
+  },
+};
+
+// Get spacing string for Courier font
+function getCourierSpacing(element: keyof typeof SPACING.courier): string {
+  return ' '.repeat(SPACING.courier[element]);
+}
+
+// Create tab stop for Times font alignment
+function getTimesTabStop(): { type: typeof TabStopType.LEFT; position: number } {
+  return {
+    type: TabStopType.LEFT,
+    position: convertInchesToTwip(SPACING.times.labelTab),
+  };
+}
+
+// Wrap text at specified character limit without breaking words
+function wrapText(text: string | undefined, maxLength: number = 57): string[] {
+  if (!text) return [];
+  return wrapSubjectLine(text, maxLength);
 }
 
 // Parse LaTeX-style formatting to TextRun array
@@ -107,6 +150,8 @@ export async function generateDocx(store: DocumentStore): Promise<Uint8Array> {
   const data = store.formData;
   const labels = calculateLabels(store.paragraphs);
   const classMarking = getClassificationMarking(data.classLevel, data.customClassification);
+  const fontType: FontType = (data.fontFamily as FontType) || 'courier';
+  const isCourier = fontType === 'courier';
 
   // Build document sections
   const sections: DocxParagraph[] = [];
@@ -175,19 +220,24 @@ export async function generateDocx(store: DocumentStore): Promise<Uint8Array> {
     );
   }
 
-  // Document identification (right-aligned block)
-  sections.push(
-    new DocxParagraph({
-      children: [new TextRun({ text: `${data.ssic || '5216'}` })],
-      alignment: AlignmentType.RIGHT,
-    })
-  );
+  // Document identification (SSIC block) - positioned at 5.5" from left margin per SECNAV
+  // Using indent to push content to the right side
+  const ssicIndent = convertInchesToTwip(4.5); // 4.5" from content left = 5.5" from page left
+
+  if (data.ssic) {
+    sections.push(
+      new DocxParagraph({
+        children: [new TextRun({ text: data.ssic })],
+        indent: { left: ssicIndent },
+      })
+    );
+  }
 
   if (data.serial) {
     sections.push(
       new DocxParagraph({
         children: [new TextRun({ text: data.serial })],
-        alignment: AlignmentType.RIGHT,
+        indent: { left: ssicIndent },
       })
     );
   }
@@ -195,68 +245,173 @@ export async function generateDocx(store: DocumentStore): Promise<Uint8Array> {
   sections.push(
     new DocxParagraph({
       children: [new TextRun({ text: data.date || '' })],
-      alignment: AlignmentType.RIGHT,
+      indent: { left: ssicIndent },
       spacing: { after: 400 },
     })
   );
 
-  // From line
-  sections.push(
-    new DocxParagraph({
-      children: [
-        new TextRun({ text: 'From:\t', bold: true }),
-        new TextRun({ text: data.from || '' }),
-      ],
-    })
-  );
-
-  // To line
-  sections.push(
-    new DocxParagraph({
-      children: [
-        new TextRun({ text: 'To:\t', bold: true }),
-        new TextRun({ text: data.to || '' }),
-      ],
-    })
-  );
-
-  // Via line (if present)
-  if (data.via?.trim()) {
+  // From line with font-specific spacing and wrapping
+  const fromLines = wrapText(data.from, 57);
+  if (fromLines.length > 0) {
+    // First line with label
     sections.push(
       new DocxParagraph({
         children: [
-          new TextRun({ text: 'Via:\t', bold: true }),
-          new TextRun({ text: data.via }),
+          new TextRun({ text: 'From:' }),
+          new TextRun({ text: isCourier ? getCourierSpacing('from') : '\t' }),
+          new TextRun({ text: fromLines[0] }),
         ],
+        tabStops: isCourier ? undefined : [getTimesTabStop()],
       })
     );
-  }
-
-  // Subject line
-  sections.push(
-    new DocxParagraph({
-      children: [
-        new TextRun({ text: 'Subj:\t', bold: true }),
-        new TextRun({ text: data.subject || '', bold: true }),
-      ],
-      spacing: { after: 200 },
-    })
-  );
-
-  // References (if any)
-  if (store.references.length > 0) {
-    sections.push(
-      new DocxParagraph({
-        children: [new TextRun({ text: 'Ref:', bold: true })],
-      })
-    );
-
-    store.references.forEach((ref) => {
+    // Continuation lines (indented to align with text)
+    for (let i = 1; i < fromLines.length; i++) {
       sections.push(
         new DocxParagraph({
-          children: [new TextRun({ text: `\t(${ref.letter}) ${ref.title}` })],
+          children: [
+            new TextRun({ text: isCourier ? ' '.repeat(8) : '\t' }),
+            new TextRun({ text: fromLines[i] }),
+          ],
+          tabStops: isCourier ? undefined : [getTimesTabStop()],
         })
       );
+    }
+  }
+
+  // To line with font-specific spacing and wrapping
+  const toLines = wrapText(data.to, 57);
+  if (toLines.length > 0) {
+    // First line with label
+    sections.push(
+      new DocxParagraph({
+        children: [
+          new TextRun({ text: 'To:' }),
+          new TextRun({ text: isCourier ? getCourierSpacing('to') : '\t' }),
+          new TextRun({ text: toLines[0] }),
+        ],
+        tabStops: isCourier ? undefined : [getTimesTabStop()],
+      })
+    );
+    // Continuation lines
+    for (let i = 1; i < toLines.length; i++) {
+      sections.push(
+        new DocxParagraph({
+          children: [
+            new TextRun({ text: isCourier ? ' '.repeat(8) : '\t' }),
+            new TextRun({ text: toLines[i] }),
+          ],
+          tabStops: isCourier ? undefined : [getTimesTabStop()],
+        })
+      );
+    }
+  }
+
+  // Via lines (if present) with font-specific spacing
+  if (data.via?.trim()) {
+    const viaEntries = data.via.split('\n').filter(v => v.trim());
+    viaEntries.forEach((via, index) => {
+      const viaLines = wrapText(via, 57);
+      viaLines.forEach((line, lineIndex) => {
+        const isFirstLineOfEntry = lineIndex === 0;
+        const isFirstEntry = index === 0;
+        sections.push(
+          new DocxParagraph({
+            children: [
+              new TextRun({
+                text: isFirstLineOfEntry && isFirstEntry ? 'Via:' : ''
+              }),
+              new TextRun({
+                text: isFirstLineOfEntry
+                  ? (isCourier ? getCourierSpacing('via') : '\t') + `(${index + 1}) `
+                  : (isCourier ? ' '.repeat(12) : '\t\t')
+              }),
+              new TextRun({ text: line }),
+            ],
+            tabStops: isCourier ? undefined : [getTimesTabStop()],
+          })
+        );
+      });
+    });
+  }
+
+  // Subject line with font-specific spacing and wrapping (ALL CAPS per SECNAV)
+  const subjectText = (data.subject || '').toUpperCase();
+  const subjLines = wrapText(subjectText, 57);
+  if (subjLines.length > 0) {
+    // First line with label
+    sections.push(
+      new DocxParagraph({
+        children: [
+          new TextRun({ text: 'Subj:' }),
+          new TextRun({ text: isCourier ? getCourierSpacing('subj') : '\t' }),
+          new TextRun({ text: subjLines[0] }),
+        ],
+        tabStops: isCourier ? undefined : [getTimesTabStop()],
+      })
+    );
+    // Continuation lines
+    for (let i = 1; i < subjLines.length; i++) {
+      sections.push(
+        new DocxParagraph({
+          children: [
+            new TextRun({ text: isCourier ? ' '.repeat(8) : '\t' }),
+            new TextRun({ text: subjLines[i] }),
+          ],
+          tabStops: isCourier ? undefined : [getTimesTabStop()],
+          spacing: i === subjLines.length - 1 ? { after: 200 } : undefined,
+        })
+      );
+    }
+    // Add spacing after subject if only one line
+    if (subjLines.length === 1) {
+      sections[sections.length - 1] = new DocxParagraph({
+        children: [
+          new TextRun({ text: 'Subj:' }),
+          new TextRun({ text: isCourier ? getCourierSpacing('subj') : '\t' }),
+          new TextRun({ text: subjLines[0] }),
+        ],
+        tabStops: isCourier ? undefined : [getTimesTabStop()],
+        spacing: { after: 200 },
+      });
+    }
+  }
+
+  // References (if any) with font-specific spacing
+  if (store.references.length > 0) {
+    store.references.forEach((ref, index) => {
+      const refLines = wrapText(ref.title, 50); // Shorter wrap for ref content
+      refLines.forEach((line, lineIndex) => {
+        const isFirstLine = lineIndex === 0;
+        const isFirstRef = index === 0;
+
+        if (isFirstLine) {
+          sections.push(
+            new DocxParagraph({
+              children: [
+                new TextRun({ text: isFirstRef ? 'Ref:' : '' }),
+                new TextRun({
+                  text: isCourier
+                    ? (isFirstRef ? getCourierSpacing('ref') : ' '.repeat(7))
+                    : '\t'
+                }),
+                new TextRun({ text: `(${ref.letter}) ${line}` }),
+              ],
+              tabStops: isCourier ? undefined : [getTimesTabStop()],
+            })
+          );
+        } else {
+          // Continuation lines for long references
+          sections.push(
+            new DocxParagraph({
+              children: [
+                new TextRun({ text: isCourier ? ' '.repeat(12) : '\t\t' }),
+                new TextRun({ text: line }),
+              ],
+              tabStops: isCourier ? undefined : [getTimesTabStop()],
+            })
+          );
+        }
+      });
     });
 
     sections.push(
@@ -267,20 +422,42 @@ export async function generateDocx(store: DocumentStore): Promise<Uint8Array> {
     );
   }
 
-  // Enclosures (if any)
+  // Enclosures (if any) with font-specific spacing
   if (store.enclosures.length > 0) {
-    sections.push(
-      new DocxParagraph({
-        children: [new TextRun({ text: 'Encl:', bold: true })],
-      })
-    );
+    store.enclosures.forEach((encl, index) => {
+      const enclLines = wrapText(encl.title, 50); // Shorter wrap for encl content
+      enclLines.forEach((line, lineIndex) => {
+        const isFirstLine = lineIndex === 0;
+        const isFirstEncl = index === 0;
 
-    store.enclosures.forEach((encl, idx) => {
-      sections.push(
-        new DocxParagraph({
-          children: [new TextRun({ text: `\t(${idx + 1}) ${encl.title}` })],
-        })
-      );
+        if (isFirstLine) {
+          sections.push(
+            new DocxParagraph({
+              children: [
+                new TextRun({ text: isFirstEncl ? 'Encl:' : '' }),
+                new TextRun({
+                  text: isCourier
+                    ? (isFirstEncl ? getCourierSpacing('encl') : ' '.repeat(7))
+                    : '\t'
+                }),
+                new TextRun({ text: `(${index + 1}) ${line}` }),
+              ],
+              tabStops: isCourier ? undefined : [getTimesTabStop()],
+            })
+          );
+        } else {
+          // Continuation lines for long enclosure titles
+          sections.push(
+            new DocxParagraph({
+              children: [
+                new TextRun({ text: isCourier ? ' '.repeat(12) : '\t\t' }),
+                new TextRun({ text: line }),
+              ],
+              tabStops: isCourier ? undefined : [getTimesTabStop()],
+            })
+          );
+        }
+      });
     });
 
     sections.push(

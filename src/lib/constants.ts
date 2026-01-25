@@ -1,5 +1,5 @@
 /**
- * Application Constants for LIBO-SECURED
+ * Application Constants for DONDOCS
  *
  * Centralizes all magic numbers, timing values, and configuration constants.
  * Update values here instead of scattered throughout the codebase.
@@ -198,11 +198,11 @@ export type ErrorCode = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
  * Local storage keys
  */
 export const STORAGE_KEYS = {
-  DEBUG: 'LIBO_DEBUG',
-  PROFILES: 'libo-secured-profiles',
-  SELECTED_PROFILE: 'libo-secured-selected-profile',
-  THEME: 'libo-secured-theme',
-  LAST_DOC_TYPE: 'libo-secured-last-doc-type',
+  DEBUG: 'DONDOCS_DEBUG',
+  PROFILES: 'dondocs-profiles',
+  SELECTED_PROFILE: 'dondocs-selected-profile',
+  THEME: 'dondocs-theme',
+  LAST_DOC_TYPE: 'dondocs-last-doc-type',
 } as const;
 
 /**
@@ -220,10 +220,10 @@ export const SHORTCUTS = {
  * Application info
  */
 export const APP_INFO = {
-  NAME: 'LIBO-SECURED',
-  FULL_NAME: 'USMC Correspondence Generator',
+  NAME: 'DONDOCS',
+  FULL_NAME: 'DoN Correspondence Generator',
   VERSION: '1.0.0',
-  GITHUB_URL: 'https://github.com/rchiofalo/libo-secured',
+  GITHUB_URL: 'https://github.com/marinecoders/dondocs',
 } as const;
 
 /**
@@ -285,3 +285,43 @@ export const BATCH_PLACEHOLDERS = [
 ] as const;
 
 export type BatchPlaceholder = typeof BATCH_PLACEHOLDERS[number];
+
+/**
+ * Form-specific batch placeholders for NAVMC 10274
+ */
+export const NAVMC_10274_PLACEHOLDERS = [
+  // Marine Info
+  { name: 'LAST_NAME', label: 'Last Name', category: 'Marine', example: 'DOE' },
+  { name: 'FIRST_NAME', label: 'First Name', category: 'Marine', example: 'JOHN' },
+  { name: 'MIDDLE_NAME', label: 'Middle Name', category: 'Marine', example: 'MICHAEL' },
+  { name: 'NAME', label: 'Full Name', category: 'Marine', example: 'DOE, JOHN M.' },
+  { name: 'EDIPI', label: 'EDIPI/DoD ID', category: 'Marine', example: '1234567890' },
+  { name: 'RANK', label: 'Rank', category: 'Marine', example: 'LCpl' },
+  { name: 'MOS', label: 'MOS', category: 'Marine', example: '0311' },
+
+  // Action Info
+  { name: 'ACTION_NO', label: 'Action Number', category: 'Action', example: '001-25' },
+  { name: 'DATE', label: 'Date', category: 'Action', example: '2025-01-25' },
+  { name: 'NATURE', label: 'Nature of Action', category: 'Action', example: 'Formal Counseling' },
+
+  // Unit Info
+  { name: 'UNIT', label: 'Unit Name', category: 'Unit', example: 'Alpha Company, 1st Bn' },
+  { name: 'STATION', label: 'Station', category: 'Unit', example: 'Camp Pendleton, CA' },
+] as const;
+
+/**
+ * Form-specific batch placeholders for NAVMC 118(11) / 6105
+ */
+export const NAVMC_118_11_PLACEHOLDERS = [
+  // Marine Info
+  { name: 'LAST_NAME', label: 'Last Name', category: 'Marine', example: 'DOE' },
+  { name: 'FIRST_NAME', label: 'First Name', category: 'Marine', example: 'JOHN' },
+  { name: 'MIDDLE_NAME', label: 'Middle Name', category: 'Marine', example: 'MICHAEL' },
+  { name: 'NAME', label: 'Full Name', category: 'Marine', example: 'DOE, JOHN MICHAEL' },
+  { name: 'EDIPI', label: 'EDIPI/DoD ID', category: 'Marine', example: '1234567890' },
+
+  // Entry Info
+  { name: 'ENTRY_DATE', label: 'Entry Date', category: 'Entry', example: '2025-01-25' },
+  { name: 'INITIALS', label: 'Box 11 Initials', category: 'Entry', example: 'JAS' },
+  { name: 'REASON', label: 'Reason', category: 'Entry', example: 'PFT Failure' },
+] as const;

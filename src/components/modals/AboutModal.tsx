@@ -75,7 +75,7 @@ export function AboutModal() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => window.open('https://github.com/rchiofalo/libo-secured', '_blank')}
+              onClick={() => window.open('https://github.com/marinecoders/dondocs', '_blank')}
             >
               <Github className="h-4 w-4 mr-2" />
               View on GitHub

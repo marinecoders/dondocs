@@ -161,6 +161,18 @@ dev-quick: web-install
 	npm run dev
 
 #-----------------------------------------------------------------------------
+# Local run - fastest option, just starts dev server (no install/pull/build)
+# Use this for rapid local development when dependencies are already installed
+#-----------------------------------------------------------------------------
+.PHONY: local
+local:
+	@echo "Starting local dev server..."
+	npm run dev
+
+.PHONY: run
+run: local
+
+#-----------------------------------------------------------------------------
 # Build web app for production
 #-----------------------------------------------------------------------------
 .PHONY: web-build
@@ -238,6 +250,7 @@ help:
 	@echo "  rebuild            Clean and rebuild"
 	@echo ""
 	@echo "Web Targets:"
+	@echo "  local / run        Start dev server only (fastest, for local dev)"
 	@echo "  dev                Pull, build, then start dev server"
 	@echo "  dev-quick          Start dev server without pull/build"
 	@echo "  web-build          Build for production"

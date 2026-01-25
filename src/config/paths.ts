@@ -6,7 +6,7 @@
  *
  * Project Structure:
  * ==================
- * libo-secured/
+ * dondocs/
  * ├── .github/                           # GitHub Actions workflows
  * ├── tex/                               # LaTeX source templates (standalone)
  * │   ├── main.tex                       # Main template

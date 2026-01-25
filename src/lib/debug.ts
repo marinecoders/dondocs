@@ -1,11 +1,11 @@
 /**
- * Debug Utility for LIBO-SECURED
+ * Debug Utility for DONDOCS-SECURED
  *
  * Easy access methods:
  * - Keyboard: Ctrl+Shift+D to toggle debug mode
- * - Console: LIBO.debug.enable() / LIBO.debug.disable() / LIBO.debug.status()
+ * - Console: DONDOCS.debug.enable() / DONDOCS.debug.disable() / DONDOCS.debug.status()
  * - URL: Add ?debug=true to enable for session
- * - Persistent: localStorage.setItem('LIBO_DEBUG', 'true')
+ * - Persistent: localStorage.setItem('DONDOCS_DEBUG', 'true')
  *
  * Usage in code:
  *   import { debug } from '@/lib/debug';
@@ -37,7 +37,7 @@ function getInitialDebugState(): boolean {
 
   // 2. Check localStorage (persistent)
   if (typeof localStorage !== 'undefined') {
-    if (localStorage.getItem('LIBO_DEBUG') === 'true') {
+    if (localStorage.getItem('DONDOCS_DEBUG') === 'true') {
       return true;
     }
   }
@@ -185,15 +185,15 @@ export const debug = {
   // Configuration methods
   enable(): void {
     config.enabled = true;
-    localStorage.setItem('LIBO_DEBUG', 'true');
-    console.log('%c🔧 LIBO Debug Mode ENABLED', 'color: #10b981; font-weight: bold; font-size: 14px;');
-    console.log('Use LIBO.debug.help() for available commands');
+    localStorage.setItem('DONDOCS_DEBUG', 'true');
+    console.log('%c🔧 DONDOCS Debug Mode ENABLED', 'color: #10b981; font-weight: bold; font-size: 14px;');
+    console.log('Use DONDOCS.debug.help() for available commands');
   },
 
   disable(): void {
     config.enabled = false;
-    localStorage.removeItem('LIBO_DEBUG');
-    console.log('%c🔧 LIBO Debug Mode DISABLED', 'color: #6b7280; font-weight: bold;');
+    localStorage.removeItem('DONDOCS_DEBUG');
+    console.log('%c🔧 DONDOCS Debug Mode DISABLED', 'color: #6b7280; font-weight: bold;');
   },
 
   toggle(): void {
@@ -205,7 +205,7 @@ export const debug = {
   },
 
   status(): void {
-    console.log('%c📊 LIBO Debug Status', 'color: #8b5cf6; font-weight: bold; font-size: 14px;');
+    console.log('%c📊 DONDOCS Debug Status', 'color: #8b5cf6; font-weight: bold; font-size: 14px;');
     console.table({
       enabled: config.enabled,
       categories: config.categories.size === 0 ? 'All' : [...config.categories].join(', '),
@@ -260,22 +260,22 @@ export const debug = {
   // Help
   help(): void {
     console.log(`
-%c🔧 LIBO Debug Commands
+%c🔧 DONDOCS Debug Commands
 %c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 %cToggle Debug Mode:%c
-  LIBO.debug.enable()     - Enable debug logging
-  LIBO.debug.disable()    - Disable debug logging
-  LIBO.debug.toggle()     - Toggle debug mode
-  LIBO.debug.status()     - Show current status
+  DONDOCS.debug.enable()     - Enable debug logging
+  DONDOCS.debug.disable()    - Disable debug logging
+  DONDOCS.debug.toggle()     - Toggle debug mode
+  DONDOCS.debug.status()     - Show current status
 
 %cFilter Categories:%c
-  LIBO.debug.only('LaTeX', 'Store')  - Only show specific categories
-  LIBO.debug.all()                    - Show all categories
+  DONDOCS.debug.only('LaTeX', 'Store')  - Only show specific categories
+  DONDOCS.debug.all()                    - Show all categories
 
 %cPerformance:%c
-  LIBO.debug.metrics()      - Show performance metrics
-  LIBO.debug.clearMetrics() - Clear recorded metrics
+  DONDOCS.debug.metrics()      - Show performance metrics
+  DONDOCS.debug.clearMetrics() - Clear recorded metrics
 
 %cKeyboard Shortcut:%c
   Ctrl+Shift+D - Toggle debug mode
@@ -344,8 +344,8 @@ const texlive = {
     console.log(`
 %c📦 TeX Live Debug Commands%c
 
-  LIBO.texlive.summary()  - Show all requested files and which are missing
-  LIBO.texlive.help()     - Show this help
+  DONDOCS.texlive.summary()  - Show all requested files and which are missing
+  DONDOCS.texlive.help()     - Show this help
 
 %cVite Terminal shows real-time logs:%c
   ✓ 200  file → served     (file exists)
@@ -372,7 +372,7 @@ const texlive = {
 // Expose to window for console access
 declare global {
   interface Window {
-    LIBO: {
+    DONDOCS: {
       debug: typeof debug;
       texlive: typeof texlive;
       version: string;
@@ -381,7 +381,7 @@ declare global {
 }
 
 if (typeof window !== 'undefined') {
-  window.LIBO = {
+  window.DONDOCS = {
     debug,
     texlive,
     version: '1.0.0',
@@ -398,12 +398,12 @@ if (typeof window !== 'undefined') {
   // Show startup message if debug is enabled
   if (config.enabled) {
     console.log(
-      '%c🔧 LIBO Debug Mode Active %c(Ctrl+Shift+D to toggle)',
+      '%c🔧 DONDOCS Debug Mode Active %c(Ctrl+Shift+D to toggle)',
       'color: #10b981; font-weight: bold; font-size: 12px;',
       'color: #6b7280; font-size: 10px;'
     );
     console.log(
-      '%c📦 TeX Live debugging: %cLIBO.texlive.help()',
+      '%c📦 TeX Live debugging: %cDONDOCS.texlive.help()',
       'color: #3b82f6; font-size: 11px;',
       'color: #6b7280; font-size: 11px;'
     );

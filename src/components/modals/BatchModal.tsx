@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { Plus, Trash2, Download, AlertCircle, FileText, Variable, CheckCircle, XCircle, Copy, Lightbulb, Eye, Loader2 } from 'lucide-react';
 import {
   Dialog,
@@ -15,9 +15,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
+import { useFormStore, type NavmcForm10274Data, type Navmc11811Data } from '@/stores/formStore';
 import { generateAllLatexFiles } from '@/services/latex/generator';
+import { generateNavmc10274Pdf, loadNavmc10274Templates } from '@/services/pdf/navmc10274Generator';
+import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/navmc11811Generator';
 import { debug } from '@/lib/debug';
-import { TIMING, BATCH_PLACEHOLDERS } from '@/lib/constants';
+import { TIMING, BATCH_PLACEHOLDERS, NAVMC_10274_PLACEHOLDERS, NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
 
 interface PlaceholderValue {
   [key: string]: string;
@@ -74,6 +77,8 @@ function copyToClipboard(text: string) {
 export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalProps) {
   const { batchModalOpen, setBatchModalOpen } = useUIStore();
   const documentStore = useDocumentStore();
+  const formStore = useFormStore();
+  const { documentCategory, formType } = useDocumentStore();
 
   const [rows, setRows] = useState<BatchRow[]>([
     { id: '1', values: {}, status: 'pending' },
@@ -84,35 +89,99 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   const [previewingRow, setPreviewingRow] = useState<string | null>(null);
   const [previewError, setPreviewError] = useState<string | null>(null);
 
-  // Detect all placeholders from current document
+  // Form templates (loaded on demand when in forms mode)
+  const [navmc10274Templates, setNavmc10274Templates] = useState<{
+    page1: ArrayBuffer;
+    page2: ArrayBuffer;
+    page3: ArrayBuffer;
+  } | null>(null);
+  const [navmc11811Template, setNavmc11811Template] = useState<ArrayBuffer | null>(null);
+  const [_templatesLoading, setTemplatesLoading] = useState(false);
+
+  // Load form templates when in forms mode
+  useEffect(() => {
+    if (documentCategory === 'forms' && batchModalOpen) {
+      setTemplatesLoading(true);
+      const loadTemplates = async () => {
+        try {
+          if (formType === 'navmc_10274' && !navmc10274Templates) {
+            const templates = await loadNavmc10274Templates();
+            setNavmc10274Templates(templates);
+          } else if (formType === 'navmc_118_11' && !navmc11811Template) {
+            const template = await loadNavmc11811Template();
+            setNavmc11811Template(template);
+          }
+        } catch (err) {
+          debug.error('Batch', 'Failed to load form templates', err);
+        } finally {
+          setTemplatesLoading(false);
+        }
+      };
+      loadTemplates();
+    }
+  }, [documentCategory, formType, batchModalOpen, navmc10274Templates, navmc11811Template]);
+
+  const isFormsMode = documentCategory === 'forms';
+
+  // Detect all placeholders from current document (correspondence) or form (forms mode)
   const detectedPlaceholders = useMemo(() => {
     const allText: string[] = [];
 
-    // Check all text fields for placeholders
-    const { formData, paragraphs, references, enclosures, copyTos } = documentStore;
+    if (isFormsMode) {
+      // Forms mode: scan form fields for placeholders
+      if (formType === 'navmc_10274') {
+        const data = formStore.navmc10274;
+        if (data.actionNo) allText.push(data.actionNo);
+        if (data.ssicFileNo) allText.push(data.ssicFileNo);
+        if (data.date) allText.push(data.date);
+        if (data.from) allText.push(data.from);
+        if (data.via) allText.push(data.via);
+        if (data.orgStation) allText.push(data.orgStation);
+        if (data.to) allText.push(data.to);
+        if (data.natureOfAction) allText.push(data.natureOfAction);
+        if (data.copyTo) allText.push(data.copyTo);
+        if (data.references) allText.push(data.references);
+        if (data.enclosures) allText.push(data.enclosures);
+        if (data.supplementalInfo) allText.push(data.supplementalInfo);
+        if (data.proposedAction) allText.push(data.proposedAction);
+      } else if (formType === 'navmc_118_11') {
+        const data = formStore.navmc11811;
+        if (data.lastName) allText.push(data.lastName);
+        if (data.firstName) allText.push(data.firstName);
+        if (data.middleName) allText.push(data.middleName);
+        if (data.edipi) allText.push(data.edipi);
+        if (data.remarksText) allText.push(data.remarksText);
+        if (data.remarksTextRight) allText.push(data.remarksTextRight);
+        if (data.entryDate) allText.push(data.entryDate);
+        if (data.box11) allText.push(data.box11);
+      }
+    } else {
+      // Correspondence mode: scan document store fields
+      const { formData, paragraphs, references, enclosures, copyTos } = documentStore;
 
-    // Form fields
-    if (formData.to) allText.push(formData.to);
-    if (formData.from) allText.push(formData.from);
-    if (formData.via) allText.push(formData.via);
-    if (formData.subject) allText.push(formData.subject);
-    if (formData.serial) allText.push(formData.serial);
+      // Form fields
+      if (formData.to) allText.push(formData.to);
+      if (formData.from) allText.push(formData.from);
+      if (formData.via) allText.push(formData.via);
+      if (formData.subject) allText.push(formData.subject);
+      if (formData.serial) allText.push(formData.serial);
 
-    // Paragraphs
-    paragraphs.forEach((p) => allText.push(p.text));
+      // Paragraphs
+      paragraphs.forEach((p) => allText.push(p.text));
 
-    // References
-    references.forEach((r) => allText.push(r.title));
+      // References
+      references.forEach((r) => allText.push(r.title));
 
-    // Enclosures
-    enclosures.forEach((e) => allText.push(e.title));
+      // Enclosures
+      enclosures.forEach((e) => allText.push(e.title));
 
-    // Copy-tos
-    copyTos.forEach((c) => allText.push(c.text));
+      // Copy-tos
+      copyTos.forEach((c) => allText.push(c.text));
+    }
 
     const allPlaceholders = allText.flatMap((text) => detectPlaceholders(text));
     return [...new Set(allPlaceholders)];
-  }, [documentStore]);
+  }, [documentStore, formStore.navmc10274, formStore.navmc11811, isFormsMode, formType]);
 
   const addRow = useCallback(() => {
     setRows((prev) => [
@@ -135,7 +204,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     );
   }, []);
 
-  // Create modified store with placeholder replacements
+  // Create modified store with placeholder replacements (for correspondence)
   const createModifiedStore = useCallback((values: PlaceholderValue) => {
     return {
       docType: documentStore.docType,
@@ -166,8 +235,67 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     };
   }, [documentStore]);
 
+  // Create modified NAVMC 10274 form data with placeholder replacements
+  const createModifiedNavmc10274 = useCallback((values: PlaceholderValue): NavmcForm10274Data => {
+    const data = formStore.navmc10274;
+    return {
+      actionNo: replacePlaceholders(data.actionNo, values),
+      ssicFileNo: replacePlaceholders(data.ssicFileNo, values),
+      date: replacePlaceholders(data.date, values),
+      from: replacePlaceholders(data.from, values),
+      via: replacePlaceholders(data.via, values),
+      orgStation: replacePlaceholders(data.orgStation, values),
+      to: replacePlaceholders(data.to, values),
+      natureOfAction: replacePlaceholders(data.natureOfAction, values),
+      copyTo: replacePlaceholders(data.copyTo, values),
+      references: replacePlaceholders(data.references, values),
+      enclosures: replacePlaceholders(data.enclosures, values),
+      supplementalInfo: replacePlaceholders(data.supplementalInfo, values),
+      proposedAction: replacePlaceholders(data.proposedAction, values),
+    };
+  }, [formStore.navmc10274]);
+
+  // Create modified NAVMC 118(11) form data with placeholder replacements
+  const createModifiedNavmc11811 = useCallback((values: PlaceholderValue): Navmc11811Data => {
+    const data = formStore.navmc11811;
+    return {
+      lastName: replacePlaceholders(data.lastName, values),
+      firstName: replacePlaceholders(data.firstName, values),
+      middleName: replacePlaceholders(data.middleName, values),
+      edipi: replacePlaceholders(data.edipi, values),
+      remarksText: replacePlaceholders(data.remarksText, values),
+      remarksTextRight: replacePlaceholders(data.remarksTextRight || '', values),
+      entryDate: replacePlaceholders(data.entryDate, values),
+      box11: replacePlaceholders(data.box11, values),
+    };
+  }, [formStore.navmc11811]);
+
   // Generate PDF for a single row with retry logic for ENGINE_RESET_NEEDED
   const generatePdfForRow = useCallback(async (values: PlaceholderValue, retryCount = 0): Promise<Uint8Array> => {
+    // Forms mode: use pdf-lib form generators
+    if (isFormsMode) {
+      if (formType === 'navmc_10274') {
+        if (!navmc10274Templates) {
+          throw new Error('NAVMC 10274 templates not loaded');
+        }
+        const modifiedData = createModifiedNavmc10274(values);
+        return generateNavmc10274Pdf(
+          modifiedData,
+          navmc10274Templates.page1,
+          navmc10274Templates.page2,
+          navmc10274Templates.page3
+        );
+      } else if (formType === 'navmc_118_11') {
+        if (!navmc11811Template) {
+          throw new Error('NAVMC 118(11) template not loaded');
+        }
+        const modifiedData = createModifiedNavmc11811(values);
+        return generateNavmc11811Pdf(modifiedData, navmc11811Template);
+      }
+      throw new Error(`Unknown form type: ${formType}`);
+    }
+
+    // Correspondence mode: use LaTeX compilation
     const modifiedStore = createModifiedStore(values);
     const { texFiles } = generateAllLatexFiles(modifiedStore);
 
@@ -190,11 +318,23 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
       }
       throw err;
     }
-  }, [createModifiedStore, compile, waitForReady]);
+  }, [createModifiedStore, createModifiedNavmc10274, createModifiedNavmc11811, compile, waitForReady, isFormsMode, formType, navmc10274Templates, navmc11811Template]);
+
+  // Check if we're ready to generate (depends on mode)
+  const isReadyToGenerate = useMemo(() => {
+    if (isFormsMode) {
+      // Forms mode: check if templates are loaded
+      if (formType === 'navmc_10274') return !!navmc10274Templates;
+      if (formType === 'navmc_118_11') return !!navmc11811Template;
+      return false;
+    }
+    // Correspondence mode: check if LaTeX engine is ready
+    return isEngineReady;
+  }, [isFormsMode, formType, navmc10274Templates, navmc11811Template, isEngineReady]);
 
   // Preview a single row
   const handlePreview = useCallback(async (row: BatchRow) => {
-    if (!isEngineReady) return;
+    if (!isReadyToGenerate) return;
 
     setPreviewingRow(row.id);
     setPreviewError(null);
@@ -216,7 +356,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     } finally {
       setPreviewingRow(null);
     }
-  }, [isEngineReady, generatePdfForRow, previewUrl]);
+  }, [isReadyToGenerate, generatePdfForRow, previewUrl]);
 
   // Close preview
   const closePreview = useCallback(() => {
@@ -227,7 +367,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   }, [previewUrl]);
 
   const handleGenerateBatch = useCallback(async () => {
-    if (rows.length === 0 || !isEngineReady) return;
+    if (rows.length === 0 || !isReadyToGenerate) return;
 
     setIsGenerating(true);
     setLastResults(null);
@@ -298,7 +438,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     debug.log('Batch', 'Batch generation complete', results);
     setLastResults(results);
     setIsGenerating(false);
-  }, [rows, isEngineReady, generatePdfForRow, detectedPlaceholders]);
+  }, [rows, isReadyToGenerate, generatePdfForRow, detectedPlaceholders]);
 
   const handlePasteData = useCallback((e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
@@ -329,6 +469,28 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
   const hasNoPlaceholders = detectedPlaceholders.length === 0;
 
+  // Get the appropriate placeholder suggestions based on mode
+  const suggestedPlaceholders = useMemo(() => {
+    if (isFormsMode) {
+      if (formType === 'navmc_10274') return NAVMC_10274_PLACEHOLDERS;
+      if (formType === 'navmc_118_11') return NAVMC_118_11_PLACEHOLDERS;
+    }
+    return BATCH_PLACEHOLDERS;
+  }, [isFormsMode, formType]);
+
+  // Get the tip text based on mode
+  const tipText = useMemo(() => {
+    if (isFormsMode) {
+      if (formType === 'navmc_10274') {
+        return 'Tip: Add variables to the "To" field like "LCpl {{LAST_NAME}}, {{FIRST_NAME}} {{MI}}\\n{{EDIPI}}\\n{{MOS}}"';
+      }
+      if (formType === 'navmc_118_11') {
+        return 'Tip: Add variables to the remarks like "On {{ENTRY_DATE}}, {{NAME}} failed to meet PFT standards..."';
+      }
+    }
+    return 'Tip: Add a variable to your Subject line like "PROMOTION OF {{NAME}} TO {{RANK}}"';
+  }, [isFormsMode, formType]);
+
   return (
     <>
       <Dialog open={batchModalOpen} onOpenChange={setBatchModalOpen}>
@@ -336,11 +498,11 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
           <DialogHeader className="bg-background px-6 py-4 border-b shrink-0">
             <DialogTitle className="flex items-center gap-2">
               <FileText className="h-5 w-5" />
-              Batch Generation
-              {!isEngineReady && (
+              Batch Generation {isFormsMode && '(Forms)'}
+              {!isReadyToGenerate && (
                 <Badge variant="secondary" className="ml-2">
                   <Loader2 className="h-3 w-3 mr-1 animate-spin" />
-                  Engine loading...
+                  {isFormsMode ? 'Loading templates...' : 'Engine loading...'}
                 </Badge>
               )}
             </DialogTitle>
@@ -373,9 +535,13 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-sm">Common Variables (click to copy)</Label>
+                    <Label className="text-sm">
+                      {isFormsMode
+                        ? `${formType === 'navmc_10274' ? 'NAVMC 10274' : 'NAVMC 118(11)'} Variables (click to copy)`
+                        : 'Common Variables (click to copy)'}
+                    </Label>
                     <div className="grid grid-cols-2 gap-2">
-                      {BATCH_PLACEHOLDERS.slice(0, 8).map((p) => (
+                      {suggestedPlaceholders.slice(0, 8).map((p) => (
                         <button
                           key={p.name}
                           onClick={() => copyToClipboard(`{{${p.name}}}`)}
@@ -389,9 +555,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                         </button>
                       ))}
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                      Tip: Add a variable to your Subject line like "PROMOTION OF <code className="bg-muted px-0.5 rounded">{'{{NAME}}'}</code> TO <code className="bg-muted px-0.5 rounded">{'{{RANK}}'}</code>"
-                    </p>
+                    <p className="text-xs text-muted-foreground">{tipText}</p>
                   </div>
                 </div>
               ) : (
@@ -476,7 +640,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                                       size="icon"
                                       className="h-7 w-7"
                                       onClick={() => handlePreview(row)}
-                                      disabled={!isEngineReady || isGenerating || previewingRow === row.id}
+                                      disabled={!isReadyToGenerate || isGenerating || previewingRow === row.id}
                                       title="Preview document"
                                     >
                                       {previewingRow === row.id ? (
@@ -539,7 +703,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
             </Button>
             <Button
               onClick={handleGenerateBatch}
-              disabled={hasNoPlaceholders || isGenerating || rows.length === 0 || !isEngineReady}
+              disabled={hasNoPlaceholders || isGenerating || rows.length === 0 || !isReadyToGenerate}
             >
               {isGenerating ? (
                 <>

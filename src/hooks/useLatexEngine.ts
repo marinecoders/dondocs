@@ -35,7 +35,7 @@ interface LatexEngineState {
   lastCompileLog: string | null;
 }
 
-// Get base path from Vite (handles /libo-secured/ in production)
+// Get base path from Vite (handles /dondocs/ in production)
 const BASE_PATH = import.meta.env.BASE_URL || '/';
 
 // Helper to dynamically load a script
@@ -164,12 +164,9 @@ export function useLatexEngine() {
 
       // Preload null stub file - must happen with other preloads (before wait)
       // This prevents 404 errors when LaTeX packages try to \input{null}
+      // Only 'null' and 'null.tex' work - tex/ prefixed paths cause FS errors
       const nullStubContent = '% null stub file - prevents 404 errors\n\\endinput\n';
-      const nullPaths = [
-        'null', 'null.tex',
-        'tex/null', 'tex/null.tex',
-        '/tex/null', '/tex/null.tex',  // With leading slash (as engine requests)
-      ];
+      const nullPaths = ['null', 'null.tex'];
       const nullFormats = [0, 10, 26, 27, 32, 39];
       for (const format of nullFormats) {
         for (const nullPath of nullPaths) {

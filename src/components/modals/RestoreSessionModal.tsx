@@ -27,7 +27,7 @@ import { getDeviceInfo } from '@/utils/device';
 import { SW_AUTO_RESTORE_KEY } from '@/hooks/useServiceWorker';
 
 // Storage key to prevent showing modal in same session
-const RESTORE_SHOWN_KEY = 'libo-restore-shown-session';
+const RESTORE_SHOWN_KEY = 'dondocs-restore-shown-session';
 
 export function RestoreSessionModal() {
   const [open, setOpen] = useState(false);
@@ -105,21 +105,21 @@ export function RestoreSessionModal() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-md w-[calc(100vw-2rem)] max-h-[90vh] overflow-hidden">
-        <div className="flex flex-col gap-4 overflow-hidden">
-          <DialogHeader className="min-w-0">
-            <DialogTitle className="flex items-center gap-2 min-w-0">
-              <History className="h-5 w-5 text-primary flex-shrink-0" />
-              <span className="truncate">Restore Previous Session?</span>
-            </DialogTitle>
-            <DialogDescription className="break-words">
-              You have unsaved work from a previous session ({sessionAge}).
-              Would you like to restore it?
-            </DialogDescription>
-          </DialogHeader>
+      <DialogContent className="sm:max-w-md w-[calc(100vw-2rem)] max-h-[90vh] flex flex-col">
+        <DialogHeader className="min-w-0 flex-shrink-0">
+          <DialogTitle className="flex items-center gap-2 min-w-0">
+            <History className="h-5 w-5 text-primary flex-shrink-0" />
+            <span className="truncate">Restore Previous Session?</span>
+          </DialogTitle>
+          <DialogDescription className="break-words">
+            You have unsaved work from a previous session ({sessionAge}).
+            Would you like to restore it?
+          </DialogDescription>
+        </DialogHeader>
 
+        <div className="flex flex-col gap-4 overflow-y-auto flex-1 min-h-0">
           {sessionPreview && (
-            <div className="bg-muted/50 border rounded-lg p-4 space-y-2 min-w-0 overflow-hidden">
+            <div className="bg-muted/50 border rounded-lg p-4 space-y-2 min-w-0">
               <div className="flex items-center gap-2 text-sm min-w-0">
                 <FileText className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                 <span className="font-medium truncate">{formatDocType(sessionPreview.docType)}</span>
@@ -140,25 +140,25 @@ export function RestoreSessionModal() {
             <strong>Note:</strong> PDF enclosure files and signature images are not preserved
             and will need to be re-attached.
           </div>
-
-          <DialogFooter className="flex-col sm:flex-row gap-2 flex-shrink-0">
-            <Button
-              variant="ghost"
-              onClick={handleStartFresh}
-              className="flex items-center justify-center gap-2 w-full sm:w-auto text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-            >
-              <Trash2 className="h-4 w-4 flex-shrink-0" />
-              <span>Start Fresh</span>
-            </Button>
-            <Button
-              onClick={handleRestore}
-              className="flex items-center justify-center gap-2 w-full sm:w-auto"
-            >
-              <RotateCcw className="h-4 w-4 flex-shrink-0" />
-              <span>Restore Session</span>
-            </Button>
-          </DialogFooter>
         </div>
+
+        <DialogFooter className="flex-col sm:flex-row gap-2 flex-shrink-0 pt-4">
+          <Button
+            variant="ghost"
+            onClick={handleStartFresh}
+            className="flex items-center justify-center gap-2 w-full sm:w-auto text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+          >
+            <Trash2 className="h-4 w-4 flex-shrink-0" />
+            <span>Start Fresh</span>
+          </Button>
+          <Button
+            onClick={handleRestore}
+            className="flex items-center justify-center gap-2 w-full sm:w-auto"
+          >
+            <RotateCcw className="h-4 w-4 flex-shrink-0" />
+            <span>Restore Session</span>
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

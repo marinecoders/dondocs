@@ -164,44 +164,53 @@ function drawMultilineText(
   };
 }
 
+export interface Navmc10274Options {
+  includeCoverPage?: boolean;  // Include Privacy Act cover page (default: false)
+}
+
 /**
  * Generate a filled NAVMC 10274 form
  * @param data - Form data to fill in
- * @param page1Bytes - Template page 1 (Privacy Act)
+ * @param page1Bytes - Template page 1 (Privacy Act) - only included if options.includeCoverPage is true
  * @param page2Bytes - Template page 2 (Main form)
- * @param page3Bytes - Template page 3 (Continuation)
+ * @param page3Bytes - Template page 3 (Continuation) - only if content overflows
+ * @param options - Generation options
  */
 export async function generateNavmc10274Pdf(
   data: Navmc10274Data,
   page1Bytes: ArrayBuffer | Uint8Array,
   page2Bytes: ArrayBuffer | Uint8Array,
-  page3Bytes: ArrayBuffer | Uint8Array
+  page3Bytes: ArrayBuffer | Uint8Array,
+  options: Navmc10274Options = {}
 ): Promise<Uint8Array> {
-  // Load all three template pages
-  const [pdfPage1, pdfPage2, pdfPage3] = await Promise.all([
-    PDFDocument.load(page1Bytes),
-    PDFDocument.load(page2Bytes),
-    PDFDocument.load(page3Bytes),
-  ]);
+  const { includeCoverPage = false } = options;
 
-  // Create a new document and copy all pages
+  // Create a new document
   const pdfDoc = await PDFDocument.create();
-  
-  const [copiedPage1] = await pdfDoc.copyPages(pdfPage1, [0]);
-  const [copiedPage2] = await pdfDoc.copyPages(pdfPage2, [0]);
-  const [copiedPage3] = await pdfDoc.copyPages(pdfPage3, [0]);
-  
-  pdfDoc.addPage(copiedPage1);
-  pdfDoc.addPage(copiedPage2);
-  pdfDoc.addPage(copiedPage3);
 
-  // Get references to the pages
-  const page2 = pdfDoc.getPage(1); // Main form
-  const page3 = pdfDoc.getPage(2); // Continuation
+  // Optionally include page 1 (Privacy Act cover page)
+  if (includeCoverPage) {
+    const pdfPage1 = await PDFDocument.load(page1Bytes);
+    const [copiedPage1] = await pdfDoc.copyPages(pdfPage1, [0]);
+    pdfDoc.addPage(copiedPage1);
+  }
+
+  // Load and add page 2 (main form)
+  const pdfPage2 = await PDFDocument.load(page2Bytes);
+  const [copiedPage2] = await pdfDoc.copyPages(pdfPage2, [0]);
+  pdfDoc.addPage(copiedPage2);
+
+  // Get reference to page 2 (index depends on whether cover page is included)
+  const page2Index = includeCoverPage ? 1 : 0;
+  const page2 = pdfDoc.getPage(page2Index);
 
   // Embed font
   const font = await pdfDoc.embedFont(StandardFonts.Courier);
   const BLACK = rgb(0, 0, 0);
+
+  // Track if we need page 3 for overflow
+  let needsPage3 = false;
+  let remainingSupplementalLines: string[] = [];
 
   // Fill Page 2 fields
   
@@ -289,7 +298,7 @@ export async function generateNavmc10274Pdf(
   // Field 12: Supplemental Information (may span pages)
   if (data.supplementalInfo) {
     const allLines = wrapText(data.supplementalInfo, PAGE2_FIELDS.supplementalInfo.maxWidth, font, FONT_SIZE);
-    
+
     // Draw on page 2
     const { remainingLines } = drawMultilineText(
       page2,
@@ -302,19 +311,34 @@ export async function generateNavmc10274Pdf(
       PAGE2_FIELDS.supplementalInfo.maxLines
     );
 
-    // Continue on page 3 if needed
+    // Track if we need page 3
     if (remainingLines.length > 0) {
-      drawMultilineText(
-        page3,
-        remainingLines,
-        PAGE3_FIELDS.supplementalInfo.x,
-        PAGE3_FIELDS.supplementalInfo.y,
-        PAGE3_FIELDS.supplementalInfo.lineHeight,
-        font,
-        FONT_SIZE,
-        PAGE3_FIELDS.supplementalInfo.maxLines
-      );
+      needsPage3 = true;
+      remainingSupplementalLines = remainingLines;
     }
+  }
+
+  // Only add page 3 if content overflows
+  if (needsPage3) {
+    const pdfPage3 = await PDFDocument.load(page3Bytes);
+    const [copiedPage3] = await pdfDoc.copyPages(pdfPage3, [0]);
+    pdfDoc.addPage(copiedPage3);
+
+    // Page 3 index depends on whether cover page is included
+    const page3Index = includeCoverPage ? 2 : 1;
+    const page3 = pdfDoc.getPage(page3Index);
+
+    // Draw remaining supplemental info on page 3
+    drawMultilineText(
+      page3,
+      remainingSupplementalLines,
+      PAGE3_FIELDS.supplementalInfo.x,
+      PAGE3_FIELDS.supplementalInfo.y,
+      PAGE3_FIELDS.supplementalInfo.lineHeight,
+      font,
+      FONT_SIZE,
+      PAGE3_FIELDS.supplementalInfo.maxLines
+    );
   }
 
   return pdfDoc.save();

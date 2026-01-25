@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Shield, Settings2, Eraser, FileText, AlertTriangle, FileStack, ClipboardList } from 'lucide-react';
+import { Shield, Settings2, Eraser, FileText, AlertTriangle, FileStack, ClipboardList, File, LayoutTemplate, FolderOpen } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import {
@@ -29,6 +29,7 @@ import {
 } from '@/components/ui/tooltip';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useDocumentStore } from '@/stores/documentStore';
+import { useUIStore } from '@/stores/uiStore';
 import { DOC_TYPE_LABELS, DOC_TYPE_CONFIG, DOC_TYPE_CATEGORIES, FORM_TYPE_LABELS, FORM_TYPE_CATEGORIES, type DocumentData, type DocumentCategory, type FormType } from '@/types/document';
 import { Badge } from '@/components/ui/badge';
 import { getExampleByDocType } from '@/data/exampleDocuments';
@@ -43,6 +44,7 @@ export function DocumentTypeSelector() {
     clearFieldsExceptLetterhead, loadTemplate,
     paragraphs, references, enclosures
   } = useDocumentStore();
+  const { setTemplateLoaderOpen } = useUIStore();
   const [showClearDialog, setShowClearDialog] = useState(false);
   const [showSwitchDialog, setShowSwitchDialog] = useState(false);
   const [pendingDocType, setPendingDocType] = useState<string | null>(null);
@@ -51,25 +53,81 @@ export function DocumentTypeSelector() {
   const isCorrespondence = documentCategory === 'correspondence';
 
   /**
-   * Check if the user has meaningful content that would be lost
+   * Check if the user has meaningful content that would be lost.
+   * Returns false for:
+   * - Empty/placeholder content
+   * - Auto-loaded example data that matches the current doc type
+   * - Profile/letterhead fields (these are preserved on switch anyway)
    */
   const hasUserContent = useCallback(() => {
-    // Check if paragraphs have custom content (not empty)
-    const hasCustomParagraphs = paragraphs.some(p => p.text && p.text.trim().length > 0);
+    // Helper: Check if a string is just a placeholder
+    const isPlaceholder = (str: string | undefined | null): boolean => {
+      if (!str || !str.trim()) return true;
+      const trimmed = str.trim();
+      // Common placeholders
+      return trimmed.startsWith('[') && trimmed.endsWith(']') ||
+             trimmed === '[SUBJECT]' ||
+             trimmed === '[RECIPIENT]' ||
+             trimmed.includes('[Your content here');
+    };
 
-    // Check if there are references beyond the first empty one
-    const hasCustomReferences = references.length > 0 && references.some(r => r.title && r.title.trim().length > 0);
+    // Get the auto-loaded example for the current doc type
+    const currentExample = getExampleByDocType(docType);
 
-    // Check if there are enclosures
-    const hasEnclosures = enclosures.length > 0;
+    // Helper: Check if content matches the example exactly
+    const matchesExample = (field: string, value: string | undefined | null): boolean => {
+      if (!currentExample || !value) return false;
+      const exampleValue = currentExample.formData[field];
+      return exampleValue === value;
+    };
 
-    // Check if key form fields have been customized from defaults
-    const hasCustomSubject = formData.subject && formData.subject.trim().length > 0 &&
-      formData.subject !== 'AFTER ACTION REPORT FOR EXERCISE STEEL KNIGHT 25-1';
-    const hasCustomBody = formData.body && formData.body.trim().length > 0;
+    // Check paragraphs: ignore if empty, placeholder, or matches example exactly
+    const hasCustomParagraphs = paragraphs.some((p, index) => {
+      if (!p.text || !p.text.trim()) return false;
+      if (isPlaceholder(p.text)) return false;
+      // Check if it matches example paragraph at same index
+      if (currentExample?.paragraphs[index]?.text === p.text) return false;
+      return true;
+    });
+
+    // Check if ALL paragraphs match example (user loaded example, didn't modify)
+    const paragraphsMatchExample = currentExample &&
+      paragraphs.length === currentExample.paragraphs.length &&
+      paragraphs.every((p, i) => p.text === currentExample.paragraphs[i]?.text);
+
+    // Check references: ignore if empty or matches example
+    const hasCustomReferences = references.some((r, index) => {
+      if (!r.title || !r.title.trim()) return false;
+      if (currentExample?.references[index]?.title === r.title) return false;
+      return true;
+    });
+
+    const refsMatchExample = currentExample &&
+      references.length === currentExample.references.length &&
+      references.every((r, i) => r.title === currentExample.references[i]?.title);
+
+    // Check enclosures (examples typically don't have enclosures, so any = user added)
+    const hasEnclosures = enclosures.length > 0 && enclosures.some(e => e.title && e.title.trim().length > 0);
+
+    // Check subject: ignore if empty, placeholder, or matches example
+    const hasCustomSubject = formData.subject &&
+      formData.subject.trim().length > 0 &&
+      !isPlaceholder(formData.subject) &&
+      !matchesExample('subject', formData.subject);
+
+    // Check body field (used by some memo types)
+    const hasCustomBody = formData.body &&
+      formData.body.trim().length > 0 &&
+      !isPlaceholder(formData.body);
+
+    // If everything matches the example exactly, no user content
+    if (paragraphsMatchExample && refsMatchExample && !hasEnclosures &&
+        matchesExample('subject', formData.subject)) {
+      return false;
+    }
 
     return hasCustomParagraphs || hasCustomReferences || hasEnclosures || hasCustomSubject || hasCustomBody;
-  }, [paragraphs, references, enclosures, formData]);
+  }, [paragraphs, references, enclosures, formData, docType]);
 
   /**
    * Load example data for a specific document type
@@ -82,7 +140,11 @@ export function DocumentTypeSelector() {
       return;
     }
 
-    // Load the example data
+    // IMPORTANT: Set doc type FIRST (this resets formData to defaults)
+    // Then set the example fields AFTER
+    setDocType(targetDocType);
+
+    // Load the example data after type is set
     Object.entries(example.formData).forEach(([key, value]) => {
       setField(key as keyof DocumentData, value);
     });
@@ -93,8 +155,6 @@ export function DocumentTypeSelector() {
       paragraphs: example.paragraphs,
       copyTos: example.copyTos,
     });
-
-    setDocType(targetDocType);
   }, [setDocType, setField, loadTemplate]);
 
   /**
@@ -125,50 +185,32 @@ export function DocumentTypeSelector() {
   }, [pendingDocType, setDocType]);
 
   /**
-   * Switch type and load example (replace content)
+   * Switch type with blank document (just reset to defaults)
    */
-  const handleLoadExample = useCallback(() => {
+  const handleBlankDocument = useCallback(() => {
     if (pendingDocType) {
-      loadExampleForDocType(pendingDocType);
+      setDocType(pendingDocType); // This resets formData to defaults
     }
     setShowSwitchDialog(false);
     setPendingDocType(null);
-  }, [pendingDocType, loadExampleForDocType]);
+  }, [pendingDocType, setDocType]);
+
+  /**
+   * Open template picker after switching type
+   */
+  const handleOpenTemplates = useCallback(() => {
+    if (pendingDocType) {
+      setDocType(pendingDocType);
+    }
+    setShowSwitchDialog(false);
+    setPendingDocType(null);
+    // Open the template loader modal
+    setTemplateLoaderOpen(true);
+  }, [pendingDocType, setDocType, setTemplateLoaderOpen]);
 
   return (
     <div className="space-y-density-4">
-      {/* Mode Toggle */}
-      <div className="flex gap-density-2">
-        <Button
-          variant={isCompliant ? 'default' : 'outline'}
-          size="sm"
-          className="flex-1"
-          onClick={() => setDocumentMode('compliant')}
-        >
-          <Shield className="h-4 w-4 mr-2" />
-          Compliant
-        </Button>
-        <Button
-          variant={!isCompliant ? 'default' : 'outline'}
-          size="sm"
-          className="flex-1"
-          onClick={() => setDocumentMode('custom')}
-        >
-          <Settings2 className="h-4 w-4 mr-2" />
-          Custom
-        </Button>
-      </div>
-
-      {/* Mode description */}
-      <div className={`text-density-sm p-density-2 rounded-md border ${isCompliant ? 'bg-primary/5 border-primary/20 text-primary' : 'bg-secondary/30 border-border text-muted-foreground'}`}>
-        {isCompliant ? (
-          <>Strictly adheres to SECNAV M-5216.5 formatting requirements.</>
-        ) : (
-          <>Customize fonts and formatting to your preferences.</>
-        )}
-      </div>
-
-      {/* Category Tabs - Correspondence vs Forms */}
+      {/* Category Tabs - Correspondence vs Forms (at the top) */}
       <div className="space-y-2">
         <Label>Category</Label>
         <Tabs value={documentCategory} onValueChange={(v) => setDocumentCategory(v as DocumentCategory)}>
@@ -185,30 +227,85 @@ export function DocumentTypeSelector() {
         </Tabs>
       </div>
 
+      {/* Mode Toggle - Only show for Correspondence (Forms have fixed format) */}
+      {isCorrespondence && (
+        <>
+          <div className="flex gap-density-2">
+            <Button
+              variant={isCompliant ? 'default' : 'outline'}
+              size="sm"
+              className="flex-1"
+              onClick={() => setDocumentMode('compliant')}
+            >
+              <Shield className="h-4 w-4 mr-2" />
+              Compliant
+            </Button>
+            <Button
+              variant={!isCompliant ? 'default' : 'outline'}
+              size="sm"
+              className="flex-1"
+              onClick={() => setDocumentMode('custom')}
+            >
+              <Settings2 className="h-4 w-4 mr-2" />
+              Custom
+            </Button>
+          </div>
+
+          {/* Mode description */}
+          <div className={`text-density-sm p-density-2 rounded-md border ${isCompliant ? 'bg-primary/5 border-primary/20 text-primary' : 'bg-secondary/30 border-border text-muted-foreground'}`}>
+            {isCompliant ? (
+              <>Strictly adheres to SECNAV M-5216.5 formatting requirements.</>
+            ) : (
+              <>Customize fonts and formatting to your preferences.</>
+            )}
+          </div>
+        </>
+      )}
+
       {/* Correspondence Document Type Selector */}
       {isCorrespondence && (
         <>
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <Label>Document Type</Label>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-6 px-2 text-orange-600 hover:text-orange-700 hover:bg-orange-100 dark:text-orange-400 dark:hover:text-orange-300 dark:hover:bg-orange-900/30"
-                  onClick={() => setShowClearDialog(true)}
-                >
-                  <Eraser className="h-3.5 w-3.5 mr-1" />
-                  <span className="text-xs">Clear</span>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Clear all fields except letterhead</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <div className="flex items-center gap-1">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 px-2 text-primary hover:text-primary/80 hover:bg-primary/10"
+                    onClick={() => setTemplateLoaderOpen(true)}
+                  >
+                    <FolderOpen className="h-3.5 w-3.5 mr-1" />
+                    <span className="text-xs">Templates</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Load a saved template</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 px-2 text-orange-600 hover:text-orange-700 hover:bg-orange-100 dark:text-orange-400 dark:hover:text-orange-300 dark:hover:bg-orange-900/30"
+                    onClick={() => setShowClearDialog(true)}
+                  >
+                    <Eraser className="h-3.5 w-3.5 mr-1" />
+                    <span className="text-xs">Clear</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Clear all fields except letterhead</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         </div>
         <Select value={docType} onValueChange={handleDocTypeChange}>
           <SelectTrigger>
@@ -349,38 +446,36 @@ export function DocumentTypeSelector() {
           setPendingDocType(null);
         }
       }}>
-        <AlertDialogContent>
+        <AlertDialogContent className="max-w-lg">
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center gap-2">
               <AlertTriangle className="h-5 w-5 text-amber-500" />
               Switch to {pendingDocType ? DOC_TYPE_LABELS[pendingDocType] : ''}?
             </AlertDialogTitle>
-            <AlertDialogDescription asChild>
-              <div className="space-y-3">
-                <p>You have content in your current document. What would you like to do?</p>
-
-                {pendingDocType && getExampleByDocType(pendingDocType) && (
-                  <div className="bg-muted/50 rounded-md p-3 text-sm">
-                    <strong>Example available:</strong> {getExampleByDocType(pendingDocType)?.description}
-                  </div>
-                )}
-              </div>
+            <AlertDialogDescription>
+              You have content in your current document. What would you like to do?
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter className="flex-col sm:flex-row gap-2">
+          <AlertDialogFooter className="flex-col gap-2 sm:flex-row sm:flex-wrap sm:justify-end">
             <AlertDialogCancel className="sm:mr-auto">Cancel</AlertDialogCancel>
             <Button
               variant="outline"
-              onClick={handleKeepContent}
+              onClick={handleBlankDocument}
             >
-              Keep My Work
+              <File className="h-4 w-4 mr-2" />
+              Blank
             </Button>
-            {pendingDocType && getExampleByDocType(pendingDocType) && (
-              <AlertDialogAction onClick={handleLoadExample}>
-                <FileText className="h-4 w-4 mr-2" />
-                Load Example
-              </AlertDialogAction>
-            )}
+            <Button
+              variant="outline"
+              onClick={handleOpenTemplates}
+            >
+              <LayoutTemplate className="h-4 w-4 mr-2" />
+              Template
+            </Button>
+            <AlertDialogAction onClick={handleKeepContent}>
+              <FileText className="h-4 w-4 mr-2" />
+              Keep Content
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
