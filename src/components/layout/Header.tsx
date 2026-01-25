@@ -52,6 +52,40 @@ export function Header({
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Check if document contains any {{VARIABLE}} placeholders
+  const hasVariables = useCallback(() => {
+    const variablePattern = /\{\{[A-Z0-9_]+\}\}/;
+    const { formData, paragraphs } = documentStore;
+
+    // Check common text fields
+    const fieldsToCheck = [
+      formData.subject,
+      formData.from,
+      formData.to,
+      formData.via,
+    ];
+
+    for (const field of fieldsToCheck) {
+      if (field && variablePattern.test(field)) return true;
+    }
+
+    // Check paragraphs
+    for (const para of paragraphs) {
+      if (variablePattern.test(para.text)) return true;
+    }
+
+    return false;
+  }, [documentStore]);
+
+  // Handle download PDF - redirect to batch mode if variables detected
+  const handleDownloadPdf = useCallback(() => {
+    if (hasVariables()) {
+      setBatchModalOpen(true);
+    } else if (onDownloadPdf) {
+      onDownloadPdf();
+    }
+  }, [hasVariables, setBatchModalOpen, onDownloadPdf]);
+
   const handleSaveProgress = useCallback(() => {
     try {
       const dataToSave = {
@@ -271,24 +305,25 @@ export function Header({
         className="hidden"
       />
       <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+        <div className="flex items-center gap-2 lg:gap-3 min-w-0">
           <div className="flex items-center gap-2">
-            <FileText className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
-            <div className="flex flex-col">
-              <h1 className="text-sm sm:text-lg font-bold text-foreground whitespace-nowrap leading-tight">
-                Naval Correspondence
+            <FileText className="h-5 w-5 lg:h-6 lg:w-6 text-primary shrink-0" />
+            <div className="flex flex-col min-w-0">
+              <h1 className="text-sm lg:text-lg font-bold text-foreground leading-tight truncate">
+                <span className="hidden sm:inline">Naval Correspondence</span>
+                <span className="sm:hidden">Naval Corr.</span>
               </h1>
-              <span className="text-xs text-muted-foreground hidden sm:block leading-tight">Generator</span>
+              <span className="text-xs text-muted-foreground hidden lg:block leading-tight">Generator</span>
             </div>
           </div>
-          {/* NIST 800-171 Compliance Badge - icon on mobile/tablet, full badge on desktop */}
+          {/* NIST 800-171 Compliance Badge - icon only below lg, full badge on lg+ */}
           <button
             onClick={() => setNistModalOpen(true)}
-            className={`flex items-center justify-center gap-1.5 rounded-md bg-green-500/10 border border-green-500/30 text-green-600 dark:text-green-400 text-xs cursor-pointer hover:bg-green-500/20 transition-colors ${isMobile ? 'p-1.5' : 'px-2 py-1'}`}
+            className="flex items-center justify-center gap-1.5 rounded-md bg-green-500/10 border border-green-500/30 text-green-600 dark:text-green-400 text-xs cursor-pointer hover:bg-green-500/20 transition-colors p-1.5 lg:px-2 lg:py-1 shrink-0"
             title="Click to learn about NIST 800-171 compliance"
           >
-            <Shield className={isMobile ? 'h-4 w-4' : 'h-3 w-3'} />
-            {!isMobile && <span>NIST 800-171</span>}
+            <Shield className="h-4 w-4 lg:h-3 lg:w-3" />
+            <span className="hidden lg:inline">NIST 800-171</span>
           </button>
         </div>
 
@@ -298,12 +333,12 @@ export function Header({
             {saveStatus || autoSaveStatus}
           </div>
           {(autoSaveStatus || saveStatus) && (
-            <span className="text-xs text-muted-foreground animate-pulse hidden sm:inline" aria-hidden="true">
+            <span className="text-xs text-muted-foreground animate-pulse hidden lg:inline" aria-hidden="true">
               {saveStatus || autoSaveStatus}
             </span>
           )}
 
-          {/* Undo/Redo buttons */}
+          {/* Undo/Redo buttons - always visible */}
           <Button
             variant="ghost"
             size="icon"
@@ -327,22 +362,20 @@ export function Header({
             <Redo2 className="h-4 w-4" aria-hidden="true" />
           </Button>
 
-          {/* Refresh - hidden on mobile/tablet, in hamburger menu */}
-          {!isMobile && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onRefreshPreview}
-              disabled={isCompiling}
-              aria-label="Refresh Preview"
-              title="Refresh Preview"
-              className="h-8 w-8 sm:h-9 sm:w-9"
-            >
-              <RefreshCw className={`h-4 w-4 ${isCompiling ? 'animate-spin' : ''}`} aria-hidden="true" />
-            </Button>
-          )}
+          {/* Refresh - hidden below xl, in hamburger menu */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onRefreshPreview}
+            disabled={isCompiling}
+            aria-label="Refresh Preview"
+            title="Refresh Preview"
+            className="h-8 w-8 sm:h-9 sm:w-9 hidden xl:flex"
+          >
+            <RefreshCw className={`h-4 w-4 ${isCompiling ? 'animate-spin' : ''}`} aria-hidden="true" />
+          </Button>
 
-          {/* Preview toggle - desktop only */}
+          {/* Preview toggle - hidden below xl and on mobile devices */}
           {!isMobile && (
             <Button
               variant={previewVisible ? "default" : "outline"}
@@ -350,23 +383,23 @@ export function Header({
               onClick={togglePreview}
               aria-label={previewVisible ? "Hide Preview (Ctrl+E)" : "Show Preview (Ctrl+E)"}
               title={previewVisible ? "Hide Preview (Ctrl+E)" : "Show Preview (Ctrl+E)"}
-              className="h-8 px-2 sm:px-3"
+              className="h-8 px-2 sm:px-3 hidden xl:flex"
             >
               {previewVisible ? (
-                <PanelRightClose className="h-4 w-4 sm:mr-2" aria-hidden="true" />
+                <PanelRightClose className="h-4 w-4 xl:mr-2" aria-hidden="true" />
               ) : (
-                <PanelRight className="h-4 w-4 sm:mr-2" aria-hidden="true" />
+                <PanelRight className="h-4 w-4 xl:mr-2" aria-hidden="true" />
               )}
-              <span className="hidden sm:inline">Preview</span>
+              <span className="hidden 2xl:inline">Preview</span>
             </Button>
           )}
 
-          {/* Save/Load dropdown - always visible but compact on mobile */}
+          {/* Save/Load dropdown - always visible but compact on smaller screens */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-8 px-2 sm:px-3">
-                <Save className="h-4 w-4 sm:mr-2" />
-                <span className="hidden sm:inline">Save</span>
+              <Button variant="outline" size="sm" className="h-8 px-2 lg:px-3">
+                <Save className="h-4 w-4 lg:mr-2" />
+                <span className="hidden lg:inline">Save</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -408,16 +441,16 @@ export function Header({
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Download dropdown - always visible but compact on mobile */}
+          {/* Download dropdown - always visible but compact on smaller screens */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-8 px-2 sm:px-3">
-                <Download className="h-4 w-4 sm:mr-2" />
-                <span className="hidden sm:inline">Download</span>
+              <Button variant="outline" size="sm" className="h-8 px-2 lg:px-3">
+                <Download className="h-4 w-4 lg:mr-2" />
+                <span className="hidden lg:inline">Download</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={onDownloadPdf}>
+              <DropdownMenuItem onClick={handleDownloadPdf}>
                 <FileText className="h-4 w-4 mr-2" />
                 Download PDF
               </DropdownMenuItem>
@@ -431,56 +464,49 @@ export function Header({
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Guide button - desktop only */}
-          {!isMobile && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-8 px-2 sm:px-3"
-              onClick={() => setDocumentGuideOpen(true)}
-              title="When to use each document type"
-            >
-              <Compass className="h-4 w-4 sm:mr-2" />
-              <span className="hidden sm:inline">Guide</span>
-            </Button>
-          )}
+          {/* Guide button - hidden below xl */}
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 px-2 xl:px-3 hidden xl:flex"
+            onClick={() => setDocumentGuideOpen(true)}
+            title="When to use each document type"
+          >
+            <Compass className="h-4 w-4 xl:mr-2" />
+            <span className="hidden 2xl:inline">Guide</span>
+          </Button>
 
-          {/* Find & Replace button - desktop only */}
-          {!isMobile && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-8 px-2 sm:px-3"
-              onClick={() => setFindReplaceOpen(true)}
-              title="Find & Replace (Ctrl+H)"
-            >
-              <Search className="h-4 w-4 sm:mr-2" />
-              <span className="hidden sm:inline">Find</span>
-            </Button>
-          )}
+          {/* Find & Replace button - hidden below xl */}
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 px-2 xl:px-3 hidden xl:flex"
+            onClick={() => setFindReplaceOpen(true)}
+            title="Find & Replace (Ctrl+H)"
+          >
+            <Search className="h-4 w-4 xl:mr-2" />
+            <span className="hidden 2xl:inline">Find</span>
+          </Button>
 
-          {/* Batch Generation button - desktop only */}
-          {!isMobile && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-8 px-2 sm:px-3"
-              onClick={() => setBatchModalOpen(true)}
-              title="Generate multiple documents with variables"
-            >
-              <Layers className="h-4 w-4 sm:mr-2" />
-              <span className="hidden sm:inline">Batch</span>
-            </Button>
-          )}
+          {/* Batch Generation button - hidden below xl */}
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 px-2 xl:px-3 hidden xl:flex"
+            onClick={() => setBatchModalOpen(true)}
+            title="Generate multiple documents with variables"
+          >
+            <Layers className="h-4 w-4 xl:mr-2" />
+            <span className="hidden 2xl:inline">Batch</span>
+          </Button>
 
-          {/* Help dropdown - desktop only */}
-          {!isMobile && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" aria-label="Help & Info" title="Help & Info" className="h-8 w-8">
-                  <HelpCircle className="h-4 w-4" aria-hidden="true" />
-                </Button>
-              </DropdownMenuTrigger>
+          {/* Help dropdown - hidden below xl */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" aria-label="Help & Info" title="Help & Info" className="h-8 w-8 hidden xl:flex">
+                <HelpCircle className="h-4 w-4" aria-hidden="true" />
+              </Button>
+            </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-72">
               <DropdownMenuItem onClick={() => setNistModalOpen(true)}>
                 <Shield className="h-4 w-4 mr-2" />
@@ -526,17 +552,15 @@ export function Header({
                 </p>
               </div>
             </DropdownMenuContent>
-            </DropdownMenu>
-          )}
+          </DropdownMenu>
 
-          {/* Appearance dropdown - hidden on mobile/tablet, in hamburger menu */}
-          {!isMobile && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" aria-label="Appearance settings" title="Appearance" className="h-8 w-8 sm:h-9 sm:w-9">
-                  <Settings className="h-4 w-4" aria-hidden="true" />
-                </Button>
-              </DropdownMenuTrigger>
+          {/* Appearance dropdown - hidden below xl */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" aria-label="Appearance settings" title="Appearance" className="h-8 w-8 sm:h-9 sm:w-9 hidden xl:flex">
+                <Settings className="h-4 w-4" aria-hidden="true" />
+              </Button>
+            </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
               {/* Theme */}
               <DropdownMenuItem onClick={toggleTheme} className="flex items-center justify-between">
@@ -594,23 +618,27 @@ export function Header({
                 {density === 'spacious' && <Check className="h-4 w-4" />}
               </DropdownMenuItem>
             </DropdownMenuContent>
-            </DropdownMenu>
-          )}
+          </DropdownMenu>
 
-          {/* Mobile menu - visible on mobile/tablet */}
-          {isMobile && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" aria-label="Open menu" className="h-8 w-8">
-                  <Menu className="h-4 w-4" aria-hidden="true" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-52">
+          {/* Hamburger menu - visible below xl breakpoint (1280px) */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" aria-label="Open menu" className="h-8 w-8 xl:hidden">
+                <Menu className="h-4 w-4" aria-hidden="true" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-52">
               {/* Quick actions */}
               <DropdownMenuItem onClick={onRefreshPreview} disabled={isCompiling}>
                 <RefreshCw className={`h-4 w-4 mr-2 ${isCompiling ? 'animate-spin' : ''}`} />
                 Refresh Preview
               </DropdownMenuItem>
+              {!isMobile && (
+                <DropdownMenuItem onClick={togglePreview}>
+                  {previewVisible ? <PanelRightClose className="h-4 w-4 mr-2" /> : <PanelRight className="h-4 w-4 mr-2" />}
+                  {previewVisible ? 'Hide Preview' : 'Show Preview'}
+                </DropdownMenuItem>
+              )}
               <DropdownMenuSeparator />
               {/* Tools section */}
               <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Tools</div>
@@ -660,13 +688,12 @@ export function Header({
                 <Bug className="h-4 w-4 mr-2" />
                 Report Bug
               </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 
-      <div className="mt-2 text-xs text-muted-foreground bg-secondary/50 px-2 py-1 rounded inline-block hidden sm:inline-block">
+      <div className="mt-2 text-xs text-muted-foreground bg-secondary/50 px-2 py-1 rounded inline-block hidden lg:inline-block">
         All data stays in your browser session. Nothing is sent to any server.
       </div>
       </div>

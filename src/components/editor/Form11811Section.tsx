@@ -14,7 +14,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { InputWithVariables, TextareaWithVariables } from '@/components/ui/variable-autocomplete';
+import { InputWithVariables } from '@/components/ui/variable-autocomplete';
+import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
 import { useFormStore } from '@/stores/formStore';
 import { NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
 
@@ -61,11 +62,17 @@ export function Form11811Section() {
       </p>
 
       {/* Variable hint banner */}
-      <div className="flex items-center gap-2 px-3 py-2 rounded-md bg-muted/50 border text-sm text-muted-foreground">
-        <span>💡</span>
-        <span>
-          Type <code className="bg-background px-1.5 py-0.5 rounded font-mono text-xs">{'{{'}</code> in any field for batch variables
-        </span>
+      <div className="px-3 py-2.5 rounded-md bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-sm">
+        <div className="flex items-start gap-2">
+          <span className="text-blue-600 dark:text-blue-400 text-lg leading-none mt-0.5">@</span>
+          <div className="flex-1">
+            <p className="font-medium text-blue-700 dark:text-blue-300">Variables for Batch Documents</p>
+            <p className="text-blue-600 dark:text-blue-400 text-xs mt-0.5">
+              Type <code className="bg-blue-100 dark:bg-blue-900 px-1 py-0.5 rounded font-mono">@</code> followed by any name (e.g., <code className="bg-blue-100 dark:bg-blue-900 px-1 py-0.5 rounded font-mono">@NAME</code>, <code className="bg-blue-100 dark:bg-blue-900 px-1 py-0.5 rounded font-mono">@CUSTOM</code>) to create variables.
+              Once created, they'll auto-suggest throughout the document.
+            </p>
+          </div>
+        </div>
       </div>
 
       <Accordion type="multiple" defaultValue={['marine', 'content']} className="space-y-2">
@@ -82,7 +89,7 @@ export function Form11811Section() {
                   id="lastName"
                   value={navmc11811.lastName}
                   onValueChange={(v) => setNavmc11811Field('lastName', v)}
-                  placeholder="DOE (type {{ for variables)"
+                  placeholder="DOE (type @ for variables)"
                   placeholders={NAVMC_118_11_PLACEHOLDERS}
                   commonVariables={COMMON_FORM_VARS}
                 />
@@ -93,7 +100,7 @@ export function Form11811Section() {
                   id="firstName"
                   value={navmc11811.firstName}
                   onValueChange={(v) => setNavmc11811Field('firstName', v)}
-                  placeholder="JOHN (type {{ for variables)"
+                  placeholder="JOHN (type @ for variables)"
                   placeholders={NAVMC_118_11_PLACEHOLDERS}
                   commonVariables={COMMON_FORM_VARS}
                 />
@@ -104,7 +111,7 @@ export function Form11811Section() {
                   id="middleName"
                   value={navmc11811.middleName}
                   onValueChange={(v) => setNavmc11811Field('middleName', v)}
-                  placeholder="ADAM (type {{ for variables)"
+                  placeholder="ADAM (type @ for variables)"
                   placeholders={NAVMC_118_11_PLACEHOLDERS}
                   commonVariables={COMMON_FORM_VARS}
                 />
@@ -118,7 +125,7 @@ export function Form11811Section() {
                   id="edipi"
                   value={navmc11811.edipi}
                   onValueChange={(v) => setNavmc11811Field('edipi', v)}
-                  placeholder="1234567890 (type {{ for variables)"
+                  placeholder="1234567890 (type @ for variables)"
                   maxLength={10}
                   placeholders={NAVMC_118_11_PLACEHOLDERS}
                   commonVariables={COMMON_FORM_VARS}
@@ -139,7 +146,7 @@ export function Form11811Section() {
                   id="box11"
                   value={navmc11811.box11}
                   onValueChange={(v) => setNavmc11811Field('box11', v)}
-                  placeholder="Initials (type {{)"
+                  placeholder="Initials (type @)"
                   maxLength={5}
                   placeholders={NAVMC_118_11_PLACEHOLDERS}
                   commonVariables={COMMON_FORM_VARS}
@@ -158,32 +165,20 @@ export function Form11811Section() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="remarksText">Administrative Remarks (Left)</Label>
-                <TextareaWithVariables
-                  id="remarksText"
+                <VariableChipEditor
                   value={navmc11811.remarksText}
-                  onValueChange={(v) => setNavmc11811Field('remarksText', v)}
-                  placeholder={`Type {{ for variables. Example:
-
-On {{ENTRY_DATE}}, {{NAME}} [describe the incident/deficiency].
-
-This conduct is in violation of [cite applicable orders/regulations].`}
+                  onChange={(v) => setNavmc11811Field('remarksText', v)}
+                  placeholder="Type @ or click + for variables. Example: On {{ENTRY_DATE}}, {{NAME}} [describe the incident]..."
                   rows={16}
-                  className="font-mono text-sm"
-                  placeholders={NAVMC_118_11_PLACEHOLDERS}
-                  commonVariables={COMMON_FORM_VARS}
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="remarksTextRight">Administrative Remarks (Right)</Label>
-                <TextareaWithVariables
-                  id="remarksTextRight"
+                <VariableChipEditor
                   value={navmc11811.remarksTextRight || ''}
-                  onValueChange={(v) => setNavmc11811Field('remarksTextRight', v)}
-                  placeholder={`[Continuation or additional entry...] (type {{ for variables)`}
+                  onChange={(v) => setNavmc11811Field('remarksTextRight', v)}
+                  placeholder="[Continuation or additional entry...] (type @ or click + for variables)"
                   rows={16}
-                  className="font-mono text-sm"
-                  placeholders={NAVMC_118_11_PLACEHOLDERS}
-                  commonVariables={COMMON_FORM_VARS}
                 />
               </div>
             </div>
