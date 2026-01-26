@@ -36,8 +36,11 @@ interface UIState {
   templateLoaderOpen: boolean;
   piiWarningOpen: boolean;
   documentGuideOpen: boolean;
+  /** 'share' | 'import' when open, null when closed */
+  shareModal: 'share' | 'import' | null;
   setProfileModalOpen: (open: boolean) => void;
   setRestoreModalOpen: (open: boolean) => void;
+  setShareModal: (mode: 'share' | 'import' | null) => void;
   setReferenceLibraryOpen: (open: boolean) => void;
   setAboutModalOpen: (open: boolean) => void;
   setNistModalOpen: (open: boolean) => void;
@@ -97,8 +100,10 @@ export const useUIStore = create<UIState>()(
       templateLoaderOpen: false,
       piiWarningOpen: false,
       documentGuideOpen: false,
+      shareModal: null,
       setProfileModalOpen: (open) => set({ profileModalOpen: open }),
       setRestoreModalOpen: (open) => set({ restoreModalOpen: open }),
+      setShareModal: (mode) => set({ shareModal: mode }),
       setReferenceLibraryOpen: (open) => set({ referenceLibraryOpen: open }),
       setAboutModalOpen: (open) => set({ aboutModalOpen: open }),
       setNistModalOpen: (open) => set({ nistModalOpen: open }),
@@ -130,6 +135,7 @@ export const useUIStore = create<UIState>()(
         templateLoaderOpen: false,
         documentGuideOpen: false,
         mobilePreviewOpen: false,
+        shareModal: null,
         // Note: piiWarningOpen is intentionally not closed by Escape
         // to prevent accidental dismissal of security warnings
       }),
