@@ -18,7 +18,6 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { InputWithVariables, TextareaWithVariables } from '@/components/ui/variable-autocomplete';
-import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
 import { useFormStore } from '@/stores/formStore';
 import { SSICLookupModal } from '@/components/modals/SSICLookupModal';
 import { UnitLookupModal } from '@/components/modals/UnitLookupModal';
@@ -98,30 +97,24 @@ export function Form6105Section() {
         Administrative Action Form per MCO 5216.19A. Used for counseling, requests, and other administrative actions.
       </p>
 
-      {/* Variable hint banner */}
-      <div className="px-3 py-2.5 rounded-md bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-sm">
-        <div className="flex items-start gap-2">
-          <span className="text-blue-600 dark:text-blue-400 text-lg leading-none mt-0.5">@</span>
-          <div className="flex-1">
-            <p className="font-medium text-blue-700 dark:text-blue-300">Variables for Batch Documents</p>
-            <p className="text-blue-600 dark:text-blue-400 text-xs mt-0.5">
-              Type <code className="bg-blue-100 dark:bg-blue-900 px-1 py-0.5 rounded font-mono">@</code> followed by any name (e.g., <code className="bg-blue-100 dark:bg-blue-900 px-1 py-0.5 rounded font-mono">@NAME</code>, <code className="bg-blue-100 dark:bg-blue-900 px-1 py-0.5 rounded font-mono">@CUSTOM</code>) to create variables.
-              Once created, they'll auto-suggest throughout the document.
-            </p>
-          </div>
+      {/* Variable hint banner and options */}
+      <div className="flex items-center justify-between gap-4 px-3 py-2 rounded-md bg-muted/50 border text-sm">
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <span>💡</span>
+          <span>
+            Type <code className="bg-background px-1.5 py-0.5 rounded font-mono text-xs">{'{{'}</code> in any field for batch variables
+          </span>
         </div>
-      </div>
-
-      {/* Options */}
-      <div className="flex items-center gap-2 px-1">
-        <Checkbox
-          id="includeCoverPage"
-          checked={includeCoverPage}
-          onCheckedChange={(checked) => setIncludeCoverPage(checked === true)}
-        />
-        <Label htmlFor="includeCoverPage" className="text-sm cursor-pointer">
-          Include Privacy Act cover page
-        </Label>
+        <div className="flex items-center gap-2">
+          <Checkbox
+            id="includeCoverPage"
+            checked={includeCoverPage}
+            onCheckedChange={(checked) => setIncludeCoverPage(checked === true)}
+          />
+          <Label htmlFor="includeCoverPage" className="text-xs cursor-pointer">
+            Include Privacy Act cover page
+          </Label>
+        </div>
       </div>
 
       <Accordion type="multiple" defaultValue={['header', 'addressing', 'content']} className="space-y-2">
@@ -186,7 +179,7 @@ export function Form6105Section() {
                   id="from"
                   value={navmc10274.from}
                   onValueChange={(v) => setNavmc10274Field('from', v)}
-                  placeholder="Originator name and title (type @ for variables)"
+                  placeholder="Originator name and title (type {{ for variables)"
                   rows={2}
                   placeholders={NAVMC_10274_PLACEHOLDERS}
                   commonVariables={COMMON_FORM_VARS}
@@ -199,7 +192,7 @@ export function Form6105Section() {
                     id="orgStation"
                     value={navmc10274.orgStation}
                     onValueChange={(v) => setNavmc10274Field('orgStation', v)}
-                    placeholder="Unit and location (type @ for variables)"
+                    placeholder="Unit and location (type {{ for variables)"
                     rows={2}
                     className="flex-1"
                     placeholders={NAVMC_10274_PLACEHOLDERS}
@@ -224,7 +217,7 @@ export function Form6105Section() {
                 id="via"
                 value={navmc10274.via}
                 onValueChange={(v) => setNavmc10274Field('via', v)}
-                placeholder="Chain of command (type @ for variables)"
+                placeholder="Chain of command (type {{ for variables)"
                 placeholders={NAVMC_10274_PLACEHOLDERS}
                 commonVariables={COMMON_FORM_VARS}
               />
@@ -236,7 +229,7 @@ export function Form6105Section() {
                 id="to"
                 value={navmc10274.to}
                 onValueChange={(v) => setNavmc10274Field('to', v)}
-                placeholder="Marine's full name, rank, and MOS (type @ for variables)"
+                placeholder="Marine's full name, rank, and MOS (type {{ for variables)"
                 rows={2}
                 placeholders={NAVMC_10274_PLACEHOLDERS}
                 commonVariables={COMMON_FORM_VARS}
@@ -257,7 +250,7 @@ export function Form6105Section() {
                 id="natureOfAction"
                 value={navmc10274.natureOfAction}
                 onValueChange={(v) => setNavmc10274Field('natureOfAction', v)}
-                placeholder="Brief description (type @ for variables)"
+                placeholder="Brief description (type {{ for variables)"
                 rows={2}
                 placeholders={NAVMC_10274_PLACEHOLDERS}
                 commonVariables={COMMON_FORM_VARS}
@@ -266,21 +259,28 @@ export function Form6105Section() {
 
             <div className="space-y-2">
               <Label htmlFor="supplementalInfo">12. Supplemental Information</Label>
-              <VariableChipEditor
+              <TextareaWithVariables
+                id="supplementalInfo"
                 value={navmc10274.supplementalInfo}
-                onChange={(v) => setNavmc10274Field('supplementalInfo', v)}
-                placeholder="Full counseling statement (type @ or click + for variables)..."
+                onValueChange={(v) => setNavmc10274Field('supplementalInfo', v)}
+                placeholder="Full counseling statement (type {{ for variables)..."
                 rows={12}
+                className="font-mono text-sm"
+                placeholders={NAVMC_10274_PLACEHOLDERS}
+                commonVariables={COMMON_FORM_VARS}
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="proposedAction">13. Proposed/Recommended Action</Label>
-              <VariableChipEditor
+              <TextareaWithVariables
+                id="proposedAction"
                 value={navmc10274.proposedAction}
-                onChange={(v) => setNavmc10274Field('proposedAction', v)}
-                placeholder="e.g., 'Request entry of adverse Page 11 (6105) entry per MCO 1610.7A' (type @ or click + for variables)"
+                onValueChange={(v) => setNavmc10274Field('proposedAction', v)}
+                placeholder="e.g., 'Request entry of adverse Page 11 (6105) entry per MCO 1610.7A' (type {{ for variables)"
                 rows={3}
+                placeholders={NAVMC_10274_PLACEHOLDERS}
+                commonVariables={COMMON_FORM_VARS}
               />
             </div>
           </AccordionContent>
@@ -299,7 +299,7 @@ export function Form6105Section() {
                   id="references"
                   value={navmc10274.references}
                   onValueChange={(v) => setNavmc10274Field('references', v)}
-                  placeholder="e.g., MCO 1610.7A, MCO 1070.12K (type @ for variables)"
+                  placeholder="e.g., MCO 1610.7A, MCO 1070.12K (type {{ for variables)"
                   rows={2}
                   className="flex-1"
                   placeholders={NAVMC_10274_PLACEHOLDERS}
@@ -323,7 +323,7 @@ export function Form6105Section() {
                 id="enclosures"
                 value={navmc10274.enclosures}
                 onValueChange={(v) => setNavmc10274Field('enclosures', v)}
-                placeholder="e.g., (1) Previous counseling dated... (type @ for variables)"
+                placeholder="e.g., (1) Previous counseling dated... (type {{ for variables)"
                 placeholders={NAVMC_10274_PLACEHOLDERS}
                 commonVariables={COMMON_FORM_VARS}
               />
@@ -335,7 +335,7 @@ export function Form6105Section() {
                 id="copyTo"
                 value={navmc10274.copyTo}
                 onValueChange={(v) => setNavmc10274Field('copyTo', v)}
-                placeholder="e.g., Marine's SRB, Company Office (type @ for variables)"
+                placeholder="e.g., Marine's SRB, Company Office (type {{ for variables)"
                 placeholders={NAVMC_10274_PLACEHOLDERS}
                 commonVariables={COMMON_FORM_VARS}
               />

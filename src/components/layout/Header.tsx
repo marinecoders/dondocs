@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, type ChangeEvent } from 'react';
-import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Palette, Anchor, Medal, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose } from 'lucide-react';
+import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Palette, Anchor, Medal, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -43,7 +43,7 @@ export function Header({
   isCompiling,
   isFormsMode = false,
 }: HeaderProps) {
-  const { theme, toggleTheme, colorScheme, setColorScheme, density, setDensity, autoSaveStatus, setAboutModalOpen, setNistModalOpen, setBatchModalOpen, setDocumentGuideOpen, setFindReplaceOpen, isMobile, previewVisible, togglePreview } = useUIStore();
+  const { theme, toggleTheme, colorScheme, setColorScheme, density, setDensity, autoSaveStatus, setAboutModalOpen, setNistModalOpen, setBatchModalOpen, setDocumentGuideOpen, setFindReplaceOpen, setShareModal, isMobile, previewVisible, togglePreview } = useUIStore();
   const documentStore = useDocumentStore();
   const { resetForm, applySnapshot, clearFieldsExceptLetterhead } = useDocumentStore();
   const { undo, redo, canUndo, canRedo } = useHistoryStore();
@@ -51,40 +51,6 @@ export function Header({
   const [showClearFieldsDialog, setShowClearFieldsDialog] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Check if document contains any {{VARIABLE}} placeholders
-  const hasVariables = useCallback(() => {
-    const variablePattern = /\{\{[A-Z0-9_]+\}\}/;
-    const { formData, paragraphs } = documentStore;
-
-    // Check common text fields
-    const fieldsToCheck = [
-      formData.subject,
-      formData.from,
-      formData.to,
-      formData.via,
-    ];
-
-    for (const field of fieldsToCheck) {
-      if (field && variablePattern.test(field)) return true;
-    }
-
-    // Check paragraphs
-    for (const para of paragraphs) {
-      if (variablePattern.test(para.text)) return true;
-    }
-
-    return false;
-  }, [documentStore]);
-
-  // Handle download PDF - redirect to batch mode if variables detected
-  const handleDownloadPdf = useCallback(() => {
-    if (hasVariables()) {
-      setBatchModalOpen(true);
-    } else if (onDownloadPdf) {
-      onDownloadPdf();
-    }
-  }, [hasVariables, setBatchModalOpen, onDownloadPdf]);
 
   const handleSaveProgress = useCallback(() => {
     try {
@@ -413,6 +379,15 @@ export function Header({
                 Load Saved
               </DropdownMenuItem>
               <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => setShareModal('share')}>
+                <Link2 className="h-4 w-4 mr-2" />
+                Share link…
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setShareModal('import')}>
+                <FileInput className="h-4 w-4 mr-2" />
+                Import from link
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleExportDraft}>
                 <FileDown className="h-4 w-4 mr-2" />
                 Export Draft to File
@@ -442,7 +417,7 @@ export function Header({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={handleDownloadPdf}>
+              <DropdownMenuItem onClick={onDownloadPdf}>
                 <FileText className="h-4 w-4 mr-2" />
                 Download PDF
               </DropdownMenuItem>

@@ -228,36 +228,100 @@ export const APP_INFO = {
 
 /**
  * Batch generation placeholder variables
- * Just 2 examples to get started - users can create custom variables by typing @ANYTHING
+ * Common placeholders for S-1/Admin use cases
  */
 export const BATCH_PLACEHOLDERS = [
-  { name: 'NAME', label: 'Name', category: 'Examples', example: 'John Smith' },
-  { name: 'DATE', label: 'Date', category: 'Examples', example: '15 Jan 25' },
+  // 1st Person (Primary subject of document)
+  { name: 'NAME_1', label: 'Full Name (1st)', category: '1st Person', example: 'John A. Smith' },
+  { name: 'LAST_NAME_1', label: 'Last Name (1st)', category: '1st Person', example: 'Smith' },
+  { name: 'FIRST_NAME_1', label: 'First Name (1st)', category: '1st Person', example: 'John' },
+  { name: 'MI_1', label: 'Middle Initial (1st)', category: '1st Person', example: 'A.' },
+  { name: 'RANK_1', label: 'Rank (1st)', category: '1st Person', example: 'Cpl' },
+  { name: 'RANK_NAME_1', label: 'Rank + Name (1st)', category: '1st Person', example: 'Cpl Smith' },
+  { name: 'EDIPI_1', label: 'EDIPI/DoD ID (1st)', category: '1st Person', example: '1234567890' },
+  { name: 'MOS_1', label: 'MOS (1st)', category: '1st Person', example: '0311' },
+  { name: 'BILLET_1', label: 'Billet/Position (1st)', category: '1st Person', example: 'Team Leader' },
+
+  // 2nd Person (Witness, Reporting Senior, etc.)
+  { name: 'NAME_2', label: 'Full Name (2nd)', category: '2nd Person', example: 'Jane B. Doe' },
+  { name: 'LAST_NAME_2', label: 'Last Name (2nd)', category: '2nd Person', example: 'Doe' },
+  { name: 'FIRST_NAME_2', label: 'First Name (2nd)', category: '2nd Person', example: 'Jane' },
+  { name: 'MI_2', label: 'Middle Initial (2nd)', category: '2nd Person', example: 'B.' },
+  { name: 'RANK_2', label: 'Rank (2nd)', category: '2nd Person', example: 'SSgt' },
+  { name: 'RANK_NAME_2', label: 'Rank + Name (2nd)', category: '2nd Person', example: 'SSgt Doe' },
+  { name: 'BILLET_2', label: 'Billet/Position (2nd)', category: '2nd Person', example: 'Squad Leader' },
+
+  // 3rd Person (Reviewer, Commander, etc.)
+  { name: 'NAME_3', label: 'Full Name (3rd)', category: '3rd Person', example: 'Michael C. Jones' },
+  { name: 'LAST_NAME_3', label: 'Last Name (3rd)', category: '3rd Person', example: 'Jones' },
+  { name: 'FIRST_NAME_3', label: 'First Name (3rd)', category: '3rd Person', example: 'Michael' },
+  { name: 'MI_3', label: 'Middle Initial (3rd)', category: '3rd Person', example: 'C.' },
+  { name: 'RANK_3', label: 'Rank (3rd)', category: '3rd Person', example: 'Capt' },
+  { name: 'RANK_NAME_3', label: 'Rank + Name (3rd)', category: '3rd Person', example: 'Capt Jones' },
+  { name: 'BILLET_3', label: 'Billet/Position (3rd)', category: '3rd Person', example: 'Company Commander' },
+
+  // Dates & Times
+  { name: 'DATE', label: 'Document Date', category: 'Dates', example: '15 Jan 25' },
+  { name: 'EVENT_DATE', label: 'Event/Incident Date', category: 'Dates', example: '10 Jan 25' },
+  { name: 'START_DATE', label: 'Start Date', category: 'Dates', example: '1 Jan 25' },
+  { name: 'END_DATE', label: 'End Date', category: 'Dates', example: '31 Jan 25' },
+  { name: 'TIME', label: 'Time', category: 'Dates', example: '0800' },
+
+  // Location & Contact
+  { name: 'EMAIL', label: 'Email Address', category: 'Contact', example: 'john.smith@usmc.mil' },
+  { name: 'PHONE', label: 'Phone Number', category: 'Contact', example: '(760) 555-1234' },
+  { name: 'ADDRESS', label: 'Full Address', category: 'Contact', example: '123 Main St, City, ST 12345' },
+  { name: 'UNIT', label: 'Unit', category: 'Contact', example: '1st Bn, 6th Marines' },
+  { name: 'LOCATION', label: 'Location', category: 'Contact', example: 'Camp Pendleton, CA' },
+
+  // Document & Admin
+  { name: 'SERIAL', label: 'Serial Number', category: 'Document', example: '001' },
+  { name: 'CASE_NUM', label: 'Case/Reference #', category: 'Document', example: '2025-00123' },
+  { name: 'AMOUNT', label: 'Amount/Value', category: 'Document', example: '$500.00' },
+  { name: 'REASON', label: 'Reason/Justification', category: 'Document', example: 'Outstanding performance' },
+  { name: 'AWARD', label: 'Award Type', category: 'Document', example: 'Navy Achievement Medal' },
+  { name: 'COURSE', label: 'Course/Training', category: 'Document', example: 'Corporals Course' },
+  { name: 'CHARGE', label: 'Charge/Violation', category: 'Document', example: 'Article 92, UCMJ' },
 ] as const;
 
 export type BatchPlaceholder = typeof BATCH_PLACEHOLDERS[number];
 
-export interface CustomVariable {
-  name: string;
-  label: string;
-  category: string;
-  example: string;
-}
-
 /**
  * Form-specific batch placeholders for NAVMC 10274
- * Just examples - users can create custom variables by typing @ANYTHING
  */
 export const NAVMC_10274_PLACEHOLDERS = [
-  { name: 'NAME', label: 'Name', category: 'Examples', example: 'DOE, JOHN M.' },
-  { name: 'DATE', label: 'Date', category: 'Examples', example: '2025-01-25' },
+  // Marine Info
+  { name: 'LAST_NAME', label: 'Last Name', category: 'Marine', example: 'DOE' },
+  { name: 'FIRST_NAME', label: 'First Name', category: 'Marine', example: 'JOHN' },
+  { name: 'MIDDLE_NAME', label: 'Middle Name', category: 'Marine', example: 'MICHAEL' },
+  { name: 'NAME', label: 'Full Name', category: 'Marine', example: 'DOE, JOHN M.' },
+  { name: 'EDIPI', label: 'EDIPI/DoD ID', category: 'Marine', example: '1234567890' },
+  { name: 'RANK', label: 'Rank', category: 'Marine', example: 'LCpl' },
+  { name: 'MOS', label: 'MOS', category: 'Marine', example: '0311' },
+
+  // Action Info
+  { name: 'ACTION_NO', label: 'Action Number', category: 'Action', example: '001-25' },
+  { name: 'DATE', label: 'Date', category: 'Action', example: '2025-01-25' },
+  { name: 'NATURE', label: 'Nature of Action', category: 'Action', example: 'Formal Counseling' },
+
+  // Unit Info
+  { name: 'UNIT', label: 'Unit Name', category: 'Unit', example: 'Alpha Company, 1st Bn' },
+  { name: 'STATION', label: 'Station', category: 'Unit', example: 'Camp Pendleton, CA' },
 ] as const;
 
 /**
  * Form-specific batch placeholders for NAVMC 118(11) / 6105
- * Just examples - users can create custom variables by typing @ANYTHING
  */
 export const NAVMC_118_11_PLACEHOLDERS = [
-  { name: 'NAME', label: 'Name', category: 'Examples', example: 'DOE, JOHN MICHAEL' },
-  { name: 'DATE', label: 'Date', category: 'Examples', example: '2025-01-25' },
+  // Marine Info
+  { name: 'LAST_NAME', label: 'Last Name', category: 'Marine', example: 'DOE' },
+  { name: 'FIRST_NAME', label: 'First Name', category: 'Marine', example: 'JOHN' },
+  { name: 'MIDDLE_NAME', label: 'Middle Name', category: 'Marine', example: 'MICHAEL' },
+  { name: 'NAME', label: 'Full Name', category: 'Marine', example: 'DOE, JOHN MICHAEL' },
+  { name: 'EDIPI', label: 'EDIPI/DoD ID', category: 'Marine', example: '1234567890' },
+
+  // Entry Info
+  { name: 'ENTRY_DATE', label: 'Entry Date', category: 'Entry', example: '2025-01-25' },
+  { name: 'INITIALS', label: 'Box 11 Initials', category: 'Entry', example: 'JAS' },
+  { name: 'REASON', label: 'Reason', category: 'Entry', example: 'PFT Failure' },
 ] as const;

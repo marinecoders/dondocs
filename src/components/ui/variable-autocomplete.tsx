@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
+import { Search } from 'lucide-react';
 import { BATCH_PLACEHOLDERS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
-import { registerDocumentScanner, rescanDocumentVariables } from './variable-chip-editor';
 
 // Placeholder type that works with any placeholder list
 export interface PlaceholderItem {
@@ -21,11 +21,9 @@ interface VariableAutocompleteProps {
 }
 
 // Default common variables for correspondence
-const DEFAULT_COMMON_VARIABLES = ['NAME', 'DATE'];
+const DEFAULT_COMMON_VARIABLES = ['NAME_1', 'RANK_1', 'RANK_NAME_1', 'DATE', 'UNIT'];
 
 const categoryIcons: Record<string, string> = {
-  'Custom': '✨',
-  'Examples': '💡',
   '1st Person': '👤',
   '2nd Person': '👥',
   '3rd Person': '👥',
@@ -123,7 +121,7 @@ export function useVariableAutocomplete({
     };
   }, [inputRef, value]);
 
-  // Check for trigger pattern @ (smart chip style)
+  // Check for trigger pattern {{
   useEffect(() => {
     const input = inputRef.current;
     if (!input) return;
@@ -133,29 +131,28 @@ export function useVariableAutocomplete({
 
     const textBeforeCursor = value.substring(0, selectionStart);
 
-    // Find the last @ that starts a variable mention
-    // @ must be at start of input OR preceded by whitespace/punctuation
-    const atMatches = [...textBeforeCursor.matchAll(/(^|[\s\n([\-])@([A-Za-z0-9_]*)$/g)];
+    // Find the last {{ that doesn't have a closing }}
+    const lastTrigger = textBeforeCursor.lastIndexOf('{{');
 
-    if (atMatches.length > 0) {
-      const match = atMatches[atMatches.length - 1];
-      const prefix = match[1]; // The character before @ (or empty if start)
-      const searchText = match[2]; // Text after @
-      const triggerPos = match.index! + prefix.length; // Position of @
+    if (lastTrigger !== -1) {
+      const textAfterTrigger = textBeforeCursor.substring(lastTrigger + 2);
+      const hasClosing = textAfterTrigger.includes('}}');
 
-      // We're in a trigger - extract search query
-      setSearchQuery(searchText.toUpperCase());
-      setTriggerStart(triggerPos);
-      setSelectedIndex(0);
+      if (!hasClosing) {
+        // We're in a trigger - extract search query
+        setSearchQuery(textAfterTrigger.toUpperCase());
+        setTriggerStart(lastTrigger);
+        setSelectedIndex(0);
 
-      if (!isOpen) {
-        const coords = getCaretCoordinates();
-        if (coords) {
-          setTriggerPosition(coords);
-          setIsOpen(true);
+        if (!isOpen) {
+          const coords = getCaretCoordinates();
+          if (coords) {
+            setTriggerPosition(coords);
+            setIsOpen(true);
+          }
         }
+        return;
       }
-      return;
     }
 
     // No active trigger
@@ -172,7 +169,6 @@ export function useVariableAutocomplete({
     const { selectionStart } = input;
     if (selectionStart === null) return;
 
-    // Remove the @searchText and insert {{VARIABLE}}
     const before = value.substring(0, triggerStart);
     const after = value.substring(selectionStart);
     const newValue = `${before}{{${variableName}}}${after}`;
@@ -299,12 +295,12 @@ export function VariableAutocompletePopup({
       {/* Search indicator */}
       <div className="px-3 py-2 border-b border-border bg-muted/50">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <span className="text-base">@</span>
+          <Search className="h-3.5 w-3.5" />
           <span>
             {searchQuery ? (
               <>Searching: <code className="bg-muted px-1 rounded">{searchQuery}</code></>
             ) : (
-              'Insert variable...'
+              'Type to search variables...'
             )}
           </span>
         </div>
@@ -425,27 +421,11 @@ export function InputWithVariables({
   ...props
 }: InputWithVariablesProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const currentValue = useRef(value);
-
-  // Keep current value ref updated
-  useEffect(() => {
-    currentValue.current = value;
-  }, [value]);
-
-  // Register this field as a document scanner
-  useEffect(() => {
-    const unregister = registerDocumentScanner(() => [currentValue.current]);
-    return unregister;
-  }, []);
 
   const autocomplete = useVariableAutocomplete({
     inputRef,
     value,
-    onChange: (newValue) => {
-      onValueChange(newValue);
-      // Rescan document to update custom variables
-      rescanDocumentVariables();
-    },
+    onChange: onValueChange,
     placeholders,
     commonVariables,
   });
@@ -464,11 +444,7 @@ export function InputWithVariables({
       <Input
         ref={inputRef}
         value={value}
-        onChange={(e) => {
-          onValueChange(e.target.value);
-          // Rescan document to update custom variables
-          rescanDocumentVariables();
-        }}
+        onChange={(e) => onValueChange(e.target.value)}
         onKeyDown={handleKeyDown}
         className={className}
         {...props}
@@ -503,27 +479,11 @@ export function TextareaWithVariables({
   ...props
 }: TextareaWithVariablesProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const currentValue = useRef(value);
-
-  // Keep current value ref updated
-  useEffect(() => {
-    currentValue.current = value;
-  }, [value]);
-
-  // Register this field as a document scanner
-  useEffect(() => {
-    const unregister = registerDocumentScanner(() => [currentValue.current]);
-    return unregister;
-  }, []);
 
   const autocomplete = useVariableAutocomplete({
     inputRef: textareaRef,
     value,
-    onChange: (newValue) => {
-      onValueChange(newValue);
-      // Rescan document to update custom variables
-      rescanDocumentVariables();
-    },
+    onChange: onValueChange,
     placeholders,
     commonVariables,
   });
@@ -542,11 +502,7 @@ export function TextareaWithVariables({
       <Textarea
         ref={textareaRef}
         value={value}
-        onChange={(e) => {
-          onValueChange(e.target.value);
-          // Rescan document to update custom variables
-          rescanDocumentVariables();
-        }}
+        onChange={(e) => onValueChange(e.target.value)}
         onKeyDown={handleKeyDown}
         className={className}
         {...props}

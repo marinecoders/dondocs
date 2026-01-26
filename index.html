@@ -1,36 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/attachments/dod-seal.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Naval Correspondence Generator | SECNAV M-5216.5</title>
-    <!-- Prevent theme flash by applying correct theme before first paint -->
-    <script>
-      (function() {
-        try {
-          // Check for saved theme in localStorage (Zustand persist storage)
-          var stored = localStorage.getItem('dondocs_ui');
-          if (stored) {
-            var parsed = JSON.parse(stored);
-            var savedTheme = parsed && parsed.state && parsed.state.theme;
-            if (savedTheme === 'dark' || savedTheme === 'light') {
-              document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-              return;
-            }
-          }
-          // No saved preference - use system preference
-          if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.classList.add('dark');
-          }
-        } catch (e) {
-          // Fallback: check system preference
-          if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.classList.add('dark');
-          }
-        }
-      })();
-    </script>
   </head>
   <body>
     <div id="root"></div>

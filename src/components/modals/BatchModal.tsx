@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
-import { Plus, Trash2, Download, AlertCircle, FileText, Variable, CheckCircle, XCircle, Copy, Lightbulb, Eye, Loader2, Settings, ArrowRight } from 'lucide-react';
+import { Plus, Trash2, Download, AlertCircle, FileText, Variable, CheckCircle, XCircle, Copy, Lightbulb, Eye, Loader2 } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -13,13 +13,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore, type NavmcForm10274Data, type Navmc11811Data } from '@/stores/formStore';
@@ -95,16 +88,6 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewingRow, setPreviewingRow] = useState<string | null>(null);
   const [previewError, setPreviewError] = useState<string | null>(null);
-
-  // Column mapping state
-  const [columnHeaders, setColumnHeaders] = useState<string[]>([]);
-  const [columnMappings, setColumnMappings] = useState<Record<number, string>>({});
-  const [showColumnMapping, setShowColumnMapping] = useState(false);
-  const [rawPastedData, setRawPastedData] = useState<string[][]>([]);
-
-  // Variable insertion state
-  const [selectedVariable, setSelectedVariable] = useState<string>('');
-  const [targetField, setTargetField] = useState<string>('');
 
   // Form templates (loaded on demand when in forms mode)
   const [navmc10274Templates, setNavmc10274Templates] = useState<{
@@ -457,45 +440,22 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     setIsGenerating(false);
   }, [rows, isReadyToGenerate, generatePdfForRow, detectedPlaceholders]);
 
-  // Detect if a row looks like headers (all non-numeric, reasonable length)
-  const looksLikeHeaders = useCallback((columns: string[]): boolean => {
-    if (columns.length === 0) return false;
-    // Headers typically: short strings, no numbers, uppercase or title case
-    return columns.every((col) => {
-      const trimmed = col.trim();
-      if (!trimmed) return true; // Empty cells are OK
-      // Check if it's all letters/underscores/spaces (typical header format)
-      const isAlphaOnly = /^[A-Za-z_\s]+$/.test(trimmed);
-      // Check if it looks like a placeholder name
-      const isPlaceholderLike = /^[A-Z][A-Z0-9_]*$/.test(trimmed);
-      return isAlphaOnly || isPlaceholderLike;
-    });
-  }, []);
+  const handlePasteData = useCallback((e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    e.preventDefault();
+    const pastedText = e.clipboardData.getData('text');
+    const lines = pastedText.split('\n').filter((line) => line.trim());
 
-  // Update a single column mapping
-  const updateColumnMapping = useCallback((colIdx: number, placeholder: string) => {
-    setColumnMappings((prev) => ({
-      ...prev,
-      [colIdx]: placeholder,
-    }));
-  }, []);
+    if (lines.length === 0) return;
 
-  // Apply the current column mappings to create rows
-  const applyColumnMappings = useCallback(() => {
-    if (rawPastedData.length === 0) return;
-
-    // Skip header row if we detected headers
-    const dataRows = columnHeaders.length > 0 ? rawPastedData.slice(1) : rawPastedData;
-
-    const newRows: BatchRow[] = dataRows.map((columns, idx) => {
+    // Assume first line might be headers, or just data
+    // If we have placeholders, try to match columns
+    const newRows: BatchRow[] = lines.map((line, idx) => {
+      const columns = line.split('\t');
       const values: PlaceholderValue = {};
 
-      Object.entries(columnMappings).forEach(([colIdxStr, placeholder]) => {
-        if (placeholder) {
-          const colIdx = parseInt(colIdxStr);
-          if (columns[colIdx] !== undefined) {
-            values[placeholder] = columns[colIdx].trim();
-          }
+      detectedPlaceholders.forEach((placeholder, colIdx) => {
+        if (columns[colIdx] !== undefined) {
+          values[placeholder] = columns[colIdx].trim();
         }
       });
 
@@ -505,111 +465,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     if (newRows.length > 0) {
       setRows(newRows);
     }
-    setShowColumnMapping(false);
-  }, [rawPastedData, columnHeaders, columnMappings]);
-
-  const handlePasteData = useCallback((e: React.ClipboardEvent<HTMLTextAreaElement>) => {
-    e.preventDefault();
-    const pastedText = e.clipboardData.getData('text');
-    const lines = pastedText.split('\n').filter((line) => line.trim());
-
-    if (lines.length === 0) return;
-
-    // Parse all lines into columns
-    const allData = lines.map((line) => line.split('\t'));
-    setRawPastedData(allData);
-
-    // Check if first row looks like headers
-    const firstRow = allData[0];
-    const hasHeaders = looksLikeHeaders(firstRow);
-
-    if (hasHeaders) {
-      // Set up column headers and show mapping UI
-      setColumnHeaders(firstRow.map((h) => h.trim()));
-
-      // Auto-map columns by matching header names to placeholders
-      const autoMappings: Record<number, string> = {};
-      firstRow.forEach((header, idx) => {
-        const normalizedHeader = header.trim().toUpperCase().replace(/\s+/g, '_');
-        // Try to find a matching placeholder
-        const matchedPlaceholder = detectedPlaceholders.find(
-          (p) => p === normalizedHeader || p.includes(normalizedHeader) || normalizedHeader.includes(p)
-        );
-        if (matchedPlaceholder) {
-          autoMappings[idx] = matchedPlaceholder;
-        }
-      });
-      setColumnMappings(autoMappings);
-      setShowColumnMapping(true);
-    } else {
-      // No headers detected, auto-map columns to placeholders in order
-      setColumnHeaders([]);
-      const newRows: BatchRow[] = allData.map((columns, idx) => {
-        const values: PlaceholderValue = {};
-
-        detectedPlaceholders.forEach((placeholder, colIdx) => {
-          if (columns[colIdx] !== undefined) {
-            values[placeholder] = columns[colIdx].trim();
-          }
-        });
-
-        return { id: Date.now().toString() + idx, values, status: 'pending' };
-      });
-
-      if (newRows.length > 0) {
-        setRows(newRows);
-      }
-    }
-  }, [detectedPlaceholders, looksLikeHeaders]);
-
-  // Handle adding a variable to the document
-  const handleAddVariable = useCallback(() => {
-    if (!selectedVariable || !targetField) return;
-
-    const variableText = `{{${selectedVariable}}}`;
-
-    if (isFormsMode) {
-      // Forms mode: Add to specific form fields
-      if (formType === 'navmc_10274') {
-        const currentData = formStore.navmc10274;
-        if (targetField === 'to') {
-          formStore.setNavmc10274Field('to', currentData.to ? `${currentData.to} ${variableText}` : variableText);
-        } else if (targetField === 'from') {
-          formStore.setNavmc10274Field('from', currentData.from ? `${currentData.from} ${variableText}` : variableText);
-        } else if (targetField === 'natureOfAction') {
-          formStore.setNavmc10274Field('natureOfAction', currentData.natureOfAction ? `${currentData.natureOfAction} ${variableText}` : variableText);
-        }
-      } else if (formType === 'navmc_118_11') {
-        const currentData = formStore.navmc11811;
-        if (targetField === 'lastName') {
-          formStore.setNavmc11811Field('lastName', currentData.lastName ? `${currentData.lastName} ${variableText}` : variableText);
-        } else if (targetField === 'firstName') {
-          formStore.setNavmc11811Field('firstName', currentData.firstName ? `${currentData.firstName} ${variableText}` : variableText);
-        } else if (targetField === 'remarksText') {
-          formStore.setNavmc11811Field('remarksText', currentData.remarksText ? `${currentData.remarksText} ${variableText}` : variableText);
-        }
-      }
-    } else {
-      // Correspondence mode: Add to document fields
-      if (targetField === 'subject') {
-        const currentSubject = documentStore.formData.subject || '';
-        documentStore.setFormField('subject', currentSubject ? `${currentSubject} ${variableText}` : variableText);
-      } else if (targetField === 'to') {
-        const currentTo = documentStore.formData.to || '';
-        documentStore.setFormField('to', currentTo ? `${currentTo} ${variableText}` : variableText);
-      } else if (targetField === 'from') {
-        const currentFrom = documentStore.formData.from || '';
-        documentStore.setFormField('from', currentFrom ? `${currentFrom} ${variableText}` : variableText);
-      } else if (targetField === 'paragraph') {
-        // Add a new paragraph with the variable
-        documentStore.addParagraph(variableText, 0);
-      }
-    }
-
-    // Reset selection
-    setSelectedVariable('');
-    setTargetField('');
-  }, [selectedVariable, targetField, isFormsMode, formType, formStore, documentStore]);
+  }, [detectedPlaceholders]);
 
   const hasNoPlaceholders = detectedPlaceholders.length === 0;
 
@@ -672,8 +528,8 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                     <div className="text-sm">
                       <p className="font-medium mb-1">No placeholders detected yet</p>
                       <p className="text-muted-foreground">
-                        Type <code className="bg-muted px-1 rounded">@</code> in any text field to insert variables,
-                        which will appear as <code className="bg-muted px-1 rounded">{'{{NAME}}'}</code> format.
+                        Type <code className="bg-muted px-1 rounded">{'{{'}</code> in any text field to insert placeholders,
+                        or type them manually using <code className="bg-muted px-1 rounded">{'{{NAME}}'}</code> format.
                       </p>
                     </div>
                   </div>
@@ -700,68 +556,6 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                       ))}
                     </div>
                     <p className="text-xs text-muted-foreground">{tipText}</p>
-                  </div>
-
-                  {/* Add Variable to Document */}
-                  <div className="space-y-3 border-t pt-4 mt-4">
-                    <div className="flex items-center gap-2">
-                      <Plus className="h-4 w-4 text-primary" />
-                      <Label>Add Variable to Document</Label>
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      Quickly insert a variable into your document without leaving this modal.
-                    </p>
-                    <div className="flex gap-2 flex-wrap">
-                      <Select value={selectedVariable} onValueChange={setSelectedVariable}>
-                        <SelectTrigger className="w-[180px]">
-                          <SelectValue placeholder="Select variable..." />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {suggestedPlaceholders.map((p) => (
-                            <SelectItem key={p.name} value={p.name}>
-                              {p.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <Select value={targetField} onValueChange={setTargetField}>
-                        <SelectTrigger className="w-[160px]">
-                          <SelectValue placeholder="Add to field..." />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {isFormsMode ? (
-                            formType === 'navmc_10274' ? (
-                              <>
-                                <SelectItem value="to">To Field</SelectItem>
-                                <SelectItem value="from">From Field</SelectItem>
-                                <SelectItem value="natureOfAction">Nature of Action</SelectItem>
-                              </>
-                            ) : (
-                              <>
-                                <SelectItem value="lastName">Last Name</SelectItem>
-                                <SelectItem value="firstName">First Name</SelectItem>
-                                <SelectItem value="remarksText">Remarks</SelectItem>
-                              </>
-                            )
-                          ) : (
-                            <>
-                              <SelectItem value="subject">Subject Line</SelectItem>
-                              <SelectItem value="to">To Field</SelectItem>
-                              <SelectItem value="from">From Field</SelectItem>
-                              <SelectItem value="paragraph">New Paragraph</SelectItem>
-                            </>
-                          )}
-                        </SelectContent>
-                      </Select>
-                      <Button
-                        onClick={handleAddVariable}
-                        disabled={!selectedVariable || !targetField}
-                        size="sm"
-                      >
-                        <Plus className="h-4 w-4 mr-1" />
-                        Add
-                      </Button>
-                    </div>
                   </div>
                 </div>
               ) : (
@@ -792,58 +586,6 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                       Tip: Copy data from Excel or a spreadsheet and paste here.
                     </p>
                   </div>
-
-                  {/* Column Mapping UI */}
-                  {showColumnMapping && columnHeaders.length > 0 && (
-                    <div className="space-y-3 border rounded-lg p-4 bg-muted/20">
-                      <div className="flex items-center gap-2">
-                        <Settings className="h-4 w-4 text-primary" />
-                        <Label>Column Mapping</Label>
-                        <span className="text-xs text-muted-foreground">
-                          (Detected {rawPastedData.length - 1} data rows)
-                        </span>
-                      </div>
-                      <p className="text-xs text-muted-foreground">
-                        Headers detected in your pasted data. Map each column to a variable:
-                      </p>
-                      <div className="grid gap-2">
-                        {columnHeaders.map((header, idx) => (
-                          <div key={idx} className="flex items-center gap-2">
-                            <span className="text-sm font-mono bg-muted px-2 py-1 rounded min-w-[100px] truncate">
-                              {header || `Column ${idx + 1}`}
-                            </span>
-                            <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0" />
-                            <Select
-                              value={columnMappings[idx] || ''}
-                              onValueChange={(v) => updateColumnMapping(idx, v)}
-                            >
-                              <SelectTrigger className="h-8 flex-1">
-                                <SelectValue placeholder="Select variable..." />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="">— Skip —</SelectItem>
-                                {detectedPlaceholders.map((p) => (
-                                  <SelectItem key={p} value={p}>{`{{${p}}}`}</SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="flex gap-2 pt-2">
-                        <Button size="sm" onClick={applyColumnMappings}>
-                          Apply Mapping
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          onClick={() => setShowColumnMapping(false)}
-                        >
-                          Cancel
-                        </Button>
-                      </div>
-                    </div>
-                  )}
 
                   <div className="space-y-2">
                     <div className="flex items-center justify-between sticky top-0 bg-background z-10 py-1">
