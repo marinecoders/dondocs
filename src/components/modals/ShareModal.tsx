@@ -6,7 +6,7 @@
  */
 
 import { useState, useCallback } from 'react';
-import { Link2, KeyRound, Check, Loader2 } from 'lucide-react';
+import { Link2, KeyRound, Check, Loader2, ShieldAlert } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -135,6 +135,22 @@ export function ShareModal({
               : 'Set a password and generate a link. Anyone with the link and password can open this document. Enclosure files are not included.'}
           </DialogDescription>
         </DialogHeader>
+
+        <div
+          className="flex gap-3 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2.5 text-sm text-amber-800 dark:border-amber-400/30 dark:bg-amber-500/10 dark:text-amber-200"
+          role="status"
+          aria-live="polite"
+        >
+          <ShieldAlert className="h-5 w-5 flex-shrink-0 mt-0.5 text-amber-600 dark:text-amber-400" />
+          <div>
+            <p className="font-medium mb-0.5">How encryption works</p>
+            <p className="text-muted-foreground dark:text-amber-200/90">
+              Encryption is done in your browser only. Your password is never sent to any server.
+              The link contains data encrypted with AES-GCM using a key derived from your password (PBKDF2).
+              Share the link and the password separately; anyone with both can decrypt and open the document.
+            </p>
+          </div>
+        </div>
 
         <div className="flex flex-col gap-4 py-2">
           {isImport && !initialPayload && (

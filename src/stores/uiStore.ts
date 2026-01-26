@@ -4,17 +4,6 @@ import { persist } from 'zustand/middleware';
 export type DensityMode = 'compact' | 'comfortable' | 'spacious';
 export type ColorScheme = 'default' | 'navy' | 'usmc';
 
-/**
- * Get the system's preferred color scheme
- * Used for first-time users who haven't set a preference yet
- */
-function getSystemTheme(): 'dark' | 'light' {
-  if (typeof window !== 'undefined' && window.matchMedia) {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  }
-  return 'light'; // Fallback for SSR or unsupported browsers
-}
-
 interface UIState {
   // Theme
   theme: 'dark' | 'light';
@@ -47,8 +36,11 @@ interface UIState {
   templateLoaderOpen: boolean;
   piiWarningOpen: boolean;
   documentGuideOpen: boolean;
+  /** 'share' | 'import' when open, null when closed */
+  shareModal: 'share' | 'import' | null;
   setProfileModalOpen: (open: boolean) => void;
   setRestoreModalOpen: (open: boolean) => void;
+  setShareModal: (mode: 'share' | 'import' | null) => void;
   setReferenceLibraryOpen: (open: boolean) => void;
   setAboutModalOpen: (open: boolean) => void;
   setNistModalOpen: (open: boolean) => void;
@@ -75,8 +67,8 @@ interface UIState {
 export const useUIStore = create<UIState>()(
   persist(
     (set) => ({
-      // Theme - detect system preference for first-time users
-      theme: getSystemTheme(),
+      // Theme - default light
+      theme: 'light',
       toggleTheme: () => set((state) => ({
         theme: state.theme === 'dark' ? 'light' : 'dark',
       })),
@@ -108,8 +100,10 @@ export const useUIStore = create<UIState>()(
       templateLoaderOpen: false,
       piiWarningOpen: false,
       documentGuideOpen: false,
+      shareModal: null,
       setProfileModalOpen: (open) => set({ profileModalOpen: open }),
       setRestoreModalOpen: (open) => set({ restoreModalOpen: open }),
+      setShareModal: (mode) => set({ shareModal: mode }),
       setReferenceLibraryOpen: (open) => set({ referenceLibraryOpen: open }),
       setAboutModalOpen: (open) => set({ aboutModalOpen: open }),
       setNistModalOpen: (open) => set({ nistModalOpen: open }),
@@ -141,6 +135,7 @@ export const useUIStore = create<UIState>()(
         templateLoaderOpen: false,
         documentGuideOpen: false,
         mobilePreviewOpen: false,
+        shareModal: null,
         // Note: piiWarningOpen is intentionally not closed by Escape
         // to prevent accidental dismissal of security warnings
       }),
