@@ -22,14 +22,19 @@
 \newcommand{\printDateAndTitle}{%
     \begingroup
     \applyDocumentFontSize
-    \raggedleft
+    % SSIC block starts at horizontal center per SECNAV M-5216.5
+    % 3.25in offset positions the block to start at page center
+    \noindent\hspace{3.25in}%
+    \begin{minipage}[t]{3.25in}
+    \raggedright
     % Optional "IN REPLY REFER TO" line per SECNAV M-5216.5 App C, Para 1.a
     \ifInReplyEnabled
         {\fontsize{5pt}{6pt}\selectfont IN REPLY REFER TO}\\
     \fi
     \ifdefempty{\DocumentSSIC}{}{\DocumentSSIC\\}%
     \ifdefempty{\DocumentSerial}{}{\DocumentSerial\\}%
-    \DocumentDate\par
+    \DocumentDate
+    \end{minipage}\par
     \endgroup
 }
 

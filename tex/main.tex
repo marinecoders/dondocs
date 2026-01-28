@@ -793,7 +793,11 @@
         \textcolor{\LetterheadColor}{\UnitLineThree}\\
         \textcolor{\LetterheadColor}{\UnitLineFour}
     \end{textblock*}%
-    \vspace*{0.5in}%
+    % Spacing: Letterhead ends ~1.16in from top (0.625in start + ~0.53in content)
+    % SSIC should start exactly ONE LINE below letterhead per SECNAV M-5216.5
+    % With 1in top margin and 12pt baselineskip (~0.2in), position at ~0.36in below margin
+    \vspace*{0.16in}%  % Clear letterhead area
+    \vspace{\baselineskip}%  % Add exactly one line of space
 }
 
 

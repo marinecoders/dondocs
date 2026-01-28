@@ -309,8 +309,8 @@ export async function generateNavmc10274Pdf(
   const page2Index = includeCoverPage ? 1 : 0;
   const page2 = pdfDoc.getPage(page2Index);
 
-  // Embed font
-  const font = await pdfDoc.embedFont(StandardFonts.Courier);
+  // Embed font - Use Times Roman to match official government forms
+  const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
 
   // Track if we need page 3 for overflow
   let needsPage3 = false;

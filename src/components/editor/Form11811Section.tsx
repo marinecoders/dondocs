@@ -141,12 +141,12 @@ export function Form11811Section() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="box11">Box 11</Label>
+                <Label htmlFor="box11">SRB Pg #</Label>
                 <InputWithVariables
                   id="box11"
                   value={navmc11811.box11}
                   onValueChange={(v) => setNavmc11811Field('box11', v)}
-                  placeholder="Initials (type @)"
+                  placeholder="Page # (type @)"
                   maxLength={5}
                   placeholders={NAVMC_118_11_PLACEHOLDERS}
                   commonVariables={COMMON_FORM_VARS}

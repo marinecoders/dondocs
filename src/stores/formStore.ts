@@ -15,7 +15,7 @@ export interface Navmc11811Data {
   // Entry date
   entryDate: string;
 
-  // Box 11 - short field (initials, 5 chars max)
+  // Box 11 - SRB (Service Record Book) page number, 5 chars max
   box11: string;
 }
 
@@ -170,7 +170,7 @@ Acknowledged receipt of NAVMC 10274 dtd 15 Jan 25.
 J. A. SMITH, SSgt, USMC`,
   remarksTextRight: '',
   entryDate: new Date().toISOString().split('T')[0],
-  box11: 'JAS',
+  box11: '01',
 };
 
 export const useFormStore = create<FormStore>((set) => ({
