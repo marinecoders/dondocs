@@ -371,8 +371,7 @@ export function DocumentTypeSelector() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="courier">Courier</SelectItem>
-                <SelectItem value="times">Times New Roman</SelectItem>
-                <SelectItem value="arial">Arial</SelectItem>
+                <SelectItem value="times">Times</SelectItem>
               </SelectContent>
             </Select>
           </div>

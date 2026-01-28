@@ -15,7 +15,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, Plus, Trash2, Upload, FileText, X, AlertTriangle } from 'lucide-react';
+import { GripVertical, Plus, Trash2, Upload, FileText, X, AlertTriangle, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -35,6 +35,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useDocumentStore } from '@/stores/documentStore';
 import type { Enclosure, EnclosurePageStyle } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
@@ -292,6 +298,25 @@ export function EnclosuresManager() {
             <Badge variant="secondary" className="min-w-[28px] justify-center">
               {enclosures.length}
             </Badge>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild onClick={(e) => e.stopPropagation()}>
+                  <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-foreground" />
+                </TooltipTrigger>
+                <TooltipContent side="right" className="max-w-xs">
+                  <p className="font-medium mb-1">PDF Attachment Feature</p>
+                  <p className="text-xs">
+                    Attach PDF files to enclosures to merge them into your final document.
+                    Each attached PDF will be appended after the main letter in order.
+                  </p>
+                  <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
+                    <li><strong>Page Style:</strong> Control how PDFs appear (bordered, full page, or fit to margins)</li>
+                    <li><strong>Cover Page:</strong> Add a title/placeholder page before the PDF</li>
+                    <li><strong>Hyperlinks:</strong> Enable clickable links from "Encl (1)" to jump directly to that enclosure</li>
+                  </ul>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </span>
         </AccordionTrigger>
         <AccordionContent>

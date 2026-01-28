@@ -101,7 +101,7 @@ export interface Navmc11811Data {
   // Entry date (appears at end of entry)
   entryDate: string;
 
-  // Box 11 - short field (initials or similar, 5 chars max)
+  // Box 11 - SRB (Service Record Book) page number, 5 chars max
   box11: string;
 
   // Signature info (for the counseling signature line)
@@ -222,8 +222,8 @@ export async function generateNavmc11811Pdf(
   const pdfDoc = await PDFDocument.load(templatePdfBytes);
   const page = pdfDoc.getPage(0);
 
-  // Embed fonts
-  const font = await pdfDoc.embedFont(StandardFonts.Courier);
+  // Embed fonts - Use Times Roman to match official government forms
+  const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
   const FONT_SIZE = 10;
 
   // Fill in NAME field (left-aligned, with placeholder highlighting)

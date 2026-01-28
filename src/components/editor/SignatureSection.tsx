@@ -88,6 +88,16 @@ export function SignatureSection({ config }: SignatureSectionProps) {
     setUseCustomOfficeCode(!isStandardOfficeCode(formData.officeCode || ''));
   }, [formData.officeCode]);
 
+  // In compliant mode, force digital signature type (PKI only)
+  useEffect(() => {
+    if (isCompliantMode && formData.signatureType !== 'digital') {
+      setField('signatureType', 'digital' as SignatureType);
+      if (formData.signatureImage) {
+        setField('signatureImage', undefined);
+      }
+    }
+  }, [isCompliantMode, formData.signatureType, formData.signatureImage, setField]);
+
   // Generate preview URL from base64 signature
   const signaturePreviewUrl = useMemo(() => {
     if (!formData.signatureImage?.data) return null;
@@ -430,55 +440,73 @@ export function SignatureSection({ config }: SignatureSectionProps) {
             {/* Signature Type Selection */}
             <div className="space-y-3">
               <Label>Signature Style</Label>
-              <div className="grid grid-cols-3 gap-2">
-                <Button
-                  type="button"
-                  variant={(formData.signatureType || 'none') === 'none' ? 'default' : 'outline'}
-                  size="sm"
-                  className="flex flex-col items-center gap-1 h-auto py-3"
-                  onClick={() => {
-                    setField('signatureType', 'none' as SignatureType);
-                    if (formData.signatureImage) {
-                      setField('signatureImage', undefined);
-                    }
-                  }}
-                >
-                  <Type className="h-5 w-5" />
-                  <span className="text-xs">Typed Only</span>
-                </Button>
-                <Button
-                  type="button"
-                  variant={formData.signatureType === 'image' ? 'default' : 'outline'}
-                  size="sm"
-                  className="flex flex-col items-center gap-1 h-auto py-3"
-                  onClick={() => setField('signatureType', 'image' as SignatureType)}
-                >
-                  <PenLine className="h-5 w-5" />
-                  <span className="text-xs">Upload Image</span>
-                </Button>
-                <Button
-                  type="button"
-                  variant={formData.signatureType === 'digital' ? 'default' : 'outline'}
-                  size="sm"
-                  className="flex flex-col items-center gap-1 h-auto py-3"
-                  onClick={() => {
-                    setField('signatureType', 'digital' as SignatureType);
-                    if (formData.signatureImage) {
-                      setField('signatureImage', undefined);
-                    }
-                  }}
-                >
-                  <Shield className="h-5 w-5" />
-                  <span className="text-xs">Digital Field</span>
-                </Button>
-              </div>
+              {isCompliantMode ? (
+                <>
+                  {/* Compliant mode: Only PKI digital signature allowed */}
+                  <div className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg">
+                    <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                    <div>
+                      <p className="text-sm font-medium text-blue-900 dark:text-blue-200">PKI Digital Signature</p>
+                      <p className="text-xs text-blue-700 dark:text-blue-300">
+                        Per regulations, only PKI digital signatures are authorized for official correspondence.
+                      </p>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* Custom mode: All signature options available */}
+                  <div className="grid grid-cols-3 gap-2">
+                    <Button
+                      type="button"
+                      variant={(formData.signatureType || 'none') === 'none' ? 'default' : 'outline'}
+                      size="sm"
+                      className="flex flex-col items-center gap-1 h-auto py-3"
+                      onClick={() => {
+                        setField('signatureType', 'none' as SignatureType);
+                        if (formData.signatureImage) {
+                          setField('signatureImage', undefined);
+                        }
+                      }}
+                    >
+                      <Type className="h-5 w-5" />
+                      <span className="text-xs">Typed Only</span>
+                    </Button>
+                    <Button
+                      type="button"
+                      variant={formData.signatureType === 'image' ? 'default' : 'outline'}
+                      size="sm"
+                      className="flex flex-col items-center gap-1 h-auto py-3"
+                      onClick={() => setField('signatureType', 'image' as SignatureType)}
+                    >
+                      <PenLine className="h-5 w-5" />
+                      <span className="text-xs">Upload Image</span>
+                    </Button>
+                    <Button
+                      type="button"
+                      variant={formData.signatureType === 'digital' ? 'default' : 'outline'}
+                      size="sm"
+                      className="flex flex-col items-center gap-1 h-auto py-3"
+                      onClick={() => {
+                        setField('signatureType', 'digital' as SignatureType);
+                        if (formData.signatureImage) {
+                          setField('signatureImage', undefined);
+                        }
+                      }}
+                    >
+                      <Shield className="h-5 w-5" />
+                      <span className="text-xs">Digital Field</span>
+                    </Button>
+                  </div>
 
-              {/* Description based on selection */}
-              <p className="text-xs text-muted-foreground">
-                {(formData.signatureType || 'none') === 'none' && 'Just your typed name and rank.'}
-                {formData.signatureType === 'image' && 'Upload an image of your handwritten signature.'}
-                {formData.signatureType === 'digital' && 'Creates an empty signature field for CAC/PKI digital signing.'}
-              </p>
+                  {/* Description based on selection */}
+                  <p className="text-xs text-muted-foreground">
+                    {(formData.signatureType || 'none') === 'none' && 'Just your typed name and rank.'}
+                    {formData.signatureType === 'image' && 'Upload an image of your handwritten signature.'}
+                    {formData.signatureType === 'digital' && 'Creates an empty signature field for CAC/PKI digital signing.'}
+                  </p>
+                </>
+              )}
 
               {/* Image Upload - only show when 'image' is selected */}
               {formData.signatureType === 'image' && (

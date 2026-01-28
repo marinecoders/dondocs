@@ -31,8 +31,12 @@ export function AboutModal() {
           </p>
 
           <div className="space-y-2">
-            <h4 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide">Author</h4>
-            <p className="font-medium">Roberto Chiofalo</p>
+            <h4 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide">Authors</h4>
+            <ul className="space-y-1">
+              <li className="font-medium">Roberto Chiofalo</li>
+              <li className="font-medium">William Crum</li>
+              <li className="font-medium">"jeranaias"</li>
+            </ul>
           </div>
 
           <div className="space-y-3">

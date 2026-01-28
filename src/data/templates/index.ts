@@ -2,11 +2,8 @@ import type { LetterTemplate } from './types';
 
 // Personnel
 import {
-  leaveRequest,
-  specialLiberty,
   requestMast,
   page11Request,
-  fitrepCover,
   pftWaiver,
   ordersModification,
   humanitarianTransfer,
@@ -20,7 +17,6 @@ import {
   awardLoa,
   meritoriousPromo,
   meritoriousMast,
-  personalAwardRecommendation,
 } from './awards';
 
 // Leadership
@@ -28,7 +24,6 @@ import {
   counselingPositive,
   counselingNegative,
   commandInterest,
-  entry6105,
   loi,
 } from './leadership';
 
@@ -40,14 +35,9 @@ import {
   extensionEndorsement,
 } from './endorsements';
 
-// Training
-import { trainingRequest } from './training';
-
 // Administrative
 import {
-  gtccRequest,
   checkoutLetter,
-  sgliUpdate,
   appointmentCollateralDuty,
   appointmentBoardMember,
   dutyStatusChange,
@@ -71,11 +61,8 @@ import { letterOfInstructionOps } from './operations';
 
 export const LETTER_TEMPLATES: LetterTemplate[] = [
   // Personnel
-  leaveRequest,
-  specialLiberty,
   requestMast,
   page11Request,
-  fitrepCover,
   pftWaiver,
   ordersModification,
   humanitarianTransfer,
@@ -86,24 +73,18 @@ export const LETTER_TEMPLATES: LetterTemplate[] = [
   awardLoa,
   meritoriousPromo,
   meritoriousMast,
-  personalAwardRecommendation,
   // Leadership
   counselingPositive,
   counselingNegative,
   commandInterest,
-  entry6105,
   loi,
   // Endorsements
   endorsementApprove,
   endorsementDisapprove,
   endorsementInfo,
   extensionEndorsement,
-  // Training
-  trainingRequest,
   // Administrative
-  gtccRequest,
   checkoutLetter,
-  sgliUpdate,
   appointmentCollateralDuty,
   appointmentBoardMember,
   dutyStatusChange,

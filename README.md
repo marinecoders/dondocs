@@ -205,7 +205,7 @@ Enforces strict SECNAV M-5216.5 formatting rules. Certain features are locked or
 ### Custom Mode
 Unlocks all features for non-official use, drafting, or situations where deviation from regulations is acceptable. Custom mode allows:
 - Any font size (10pt, 11pt, 12pt, 14pt)
-- Any font family (Times New Roman, Arial, Courier)
+- Any font family (Times, Courier)
 - Flexible formatting options
 
 ### Compliance Restrictions by Document Type
