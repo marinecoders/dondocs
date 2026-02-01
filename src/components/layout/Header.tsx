@@ -305,7 +305,7 @@ export function Header({
       {/* Dismissable beta release banner */}
       {!bannerDismissed && (
         <div className="bg-amber-500/90 text-amber-950 text-xs font-medium py-1 text-center tracking-wide relative">
-          Not an official DoN website. Beta release - report issues on GitHub.
+          Not an official DoW website. Beta release - report issues on GitHub.
           <button
             onClick={dismissBanner}
             className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-amber-600/30 transition-colors"
