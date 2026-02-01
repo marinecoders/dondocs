@@ -1,5 +1,5 @@
-import { useState, useCallback, useRef, type ChangeEvent } from 'react';
-import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Palette, Anchor, Medal, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput } from 'lucide-react';
+import { useState, useCallback, useRef, useEffect, type ChangeEvent } from 'react';
+import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Palette, Anchor, Medal, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -50,7 +50,18 @@ export function Header({
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [showClearFieldsDialog, setShowClearFieldsDialog] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
+  const [bannerDismissed, setBannerDismissed] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const dismissed = localStorage.getItem('dondocs-banner-dismissed');
+    if (dismissed === 'true') setBannerDismissed(true);
+  }, []);
+
+  const dismissBanner = useCallback(() => {
+    setBannerDismissed(true);
+    localStorage.setItem('dondocs-banner-dismissed', 'true');
+  }, []);
 
   // Check if document contains any {{VARIABLE}} placeholders
   const hasVariables = useCallback(() => {
@@ -290,11 +301,20 @@ export function Header({
   }, [documentStore]);
 
   return (
-    <header className="border-b border-border bg-card">
-      {/* Beta release banner */}
-      <div className="bg-amber-500/90 text-amber-950 text-xs font-medium py-1 text-center">
-        Not an official DoW website. Beta release - report issues on GitHub.
-      </div>
+    <header className="border-b-2 border-primary/40 bg-gradient-to-r from-card via-card to-secondary/30 shadow-card">
+      {/* Dismissable beta release banner */}
+      {!bannerDismissed && (
+        <div className="bg-amber-500/90 text-amber-950 text-xs font-medium py-1 text-center tracking-wide relative">
+          Not an official DoW website. Beta release - report issues on GitHub.
+          <button
+            onClick={dismissBanner}
+            className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-amber-600/30 transition-colors"
+            aria-label="Dismiss banner"
+          >
+            <X className="h-3 w-3" />
+          </button>
+        </div>
+      )}
       <div className="px-density-2 sm:px-density-4 py-density-2 sm:py-density-3">
       {/* Hidden file input for importing drafts */}
       <input
@@ -309,11 +329,11 @@ export function Header({
           <div className="flex items-center gap-2">
             <FileText className="h-5 w-5 lg:h-6 lg:w-6 text-primary shrink-0" />
             <div className="flex flex-col min-w-0">
-              <h1 className="text-sm lg:text-lg font-bold text-foreground leading-tight truncate">
+              <h1 className="text-sm lg:text-lg font-bold text-foreground leading-tight truncate tracking-wide">
                 <span className="hidden sm:inline">Naval Correspondence</span>
                 <span className="sm:hidden">Naval Corr.</span>
               </h1>
-              <span className="text-xs text-muted-foreground hidden lg:block leading-tight">Generator</span>
+              <span className="text-xs text-muted-foreground hidden lg:block leading-tight tracking-wider uppercase">Generator</span>
             </div>
           </div>
           {/* NIST 800-171 Compliance Badge - icon only below lg, full badge on lg+ */}
@@ -693,9 +713,6 @@ export function Header({
         </div>
       </div>
 
-      <div className="mt-2 text-xs text-muted-foreground bg-secondary/50 px-2 py-1 rounded inline-block hidden lg:inline-block">
-        All data stays in your browser session. Nothing is sent to any server.
-      </div>
       </div>
 
       {/* Reset confirmation dialog */}

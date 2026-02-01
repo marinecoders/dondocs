@@ -21,6 +21,7 @@ import { ShareModal } from '@/components/modals/ShareModal';
 import { UpdatePromptModal } from '@/components/modals/UpdatePromptModal';
 import { parseShareUrl } from '@/lib/shareCrypto';
 import { BrowserCompatibilityNotice } from '@/components/BrowserCompatibilityNotice';
+import { BackgroundBeams } from '@/components/effects/BackgroundBeams';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
@@ -913,13 +914,6 @@ ${texFiles['body.tex'] || '% No body content'}
         return;
       }
 
-      // Ctrl/Cmd + Shift + R - Open Reference Library
-      if (isMod && e.shiftKey && (e.key === 'r' || e.key === 'R')) {
-        e.preventDefault();
-        setReferenceLibraryOpen(true);
-        return;
-      }
-
       // Ctrl/Cmd + H - Find & Replace
       if (isMod && e.key === 'h') {
         e.preventDefault();
@@ -971,7 +965,18 @@ ${texFiles['body.tex'] || '% No body content'}
   ]);
 
   return (
-    <div className="flex flex-col h-screen bg-background">
+    <div className="flex flex-col h-screen bg-background relative overflow-hidden">
+      {/* Marine Coders EGA watermark - behind beams */}
+      <div className="fixed inset-0 z-0 flex items-center justify-center pointer-events-none mt-16">
+        <img
+          src="/attachments/marine-coders-logo.svg"
+          alt=""
+          className="w-full max-w-[1200px] opacity-[0.07] dark:opacity-[0.10] invert dark:invert-0"
+          aria-hidden="true"
+        />
+      </div>
+      {/* Animated background beams - ported from Marines.dev */}
+      <BackgroundBeams className="fixed inset-0 z-0 opacity-60 dark:opacity-100" />
       {/* Skip link for keyboard navigation - WCAG 2.4.1 */}
       <a
         href="#main-content"

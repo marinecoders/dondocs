@@ -88,16 +88,6 @@ export function SignatureSection({ config }: SignatureSectionProps) {
     setUseCustomOfficeCode(!isStandardOfficeCode(formData.officeCode || ''));
   }, [formData.officeCode]);
 
-  // In compliant mode, force digital signature type (PKI only)
-  useEffect(() => {
-    if (isCompliantMode && formData.signatureType !== 'digital') {
-      setField('signatureType', 'digital' as SignatureType);
-      if (formData.signatureImage) {
-        setField('signatureImage', undefined);
-      }
-    }
-  }, [isCompliantMode, formData.signatureType, formData.signatureImage, setField]);
-
   // Generate preview URL from base64 signature
   const signaturePreviewUrl = useMemo(() => {
     if (!formData.signatureImage?.data) return null;
@@ -440,23 +430,8 @@ export function SignatureSection({ config }: SignatureSectionProps) {
             {/* Signature Type Selection */}
             <div className="space-y-3">
               <Label>Signature Style</Label>
-              {isCompliantMode ? (
-                <>
-                  {/* Compliant mode: Only PKI digital signature allowed */}
-                  <div className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg">
-                    <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                    <div>
-                      <p className="text-sm font-medium text-blue-900 dark:text-blue-200">PKI Digital Signature</p>
-                      <p className="text-xs text-blue-700 dark:text-blue-300">
-                        Per regulations, only PKI digital signatures are authorized for official correspondence.
-                      </p>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <>
-                  {/* Custom mode: All signature options available */}
-                  <div className="grid grid-cols-3 gap-2">
+              {/* All signature options available */}
+                <div className="grid grid-cols-3 gap-2">
                     <Button
                       type="button"
                       variant={(formData.signatureType || 'none') === 'none' ? 'default' : 'outline'}
@@ -505,8 +480,6 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                     {formData.signatureType === 'image' && 'Upload an image of your handwritten signature.'}
                     {formData.signatureType === 'digital' && 'Creates an empty signature field for CAC/PKI digital signing.'}
                   </p>
-                </>
-              )}
 
               {/* Image Upload - only show when 'image' is selected */}
               {formData.signatureType === 'image' && (
@@ -566,26 +539,26 @@ export function SignatureSection({ config }: SignatureSectionProps) {
 
               {/* Digital Signature Info - only show when 'digital' is selected */}
               {formData.signatureType === 'digital' && (
-                <div className="border rounded-lg p-4 bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800">
+                <div className="border rounded-lg p-4 bg-primary/5 border-primary/20">
                   <div className="flex items-start gap-3">
-                    <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5" />
+                    <Shield className="h-5 w-5 text-primary mt-0.5" />
                     <div className="space-y-1">
-                      <p className="text-sm font-medium text-blue-900 dark:text-blue-200">
+                      <p className="text-sm font-medium text-foreground">
                         {hasDualDigitalSignature ? 'Dual Digital Signature Fields' : 'Digital Signature Field'}
                       </p>
-                      <p className="text-xs text-blue-700 dark:text-blue-300">
+                      <p className="text-xs text-muted-foreground">
                         {hasDualDigitalSignature
                           ? 'Empty signature fields will be placed above BOTH signatory blocks (Junior and Senior). Per SECNAV M-5216.5, the junior signs first (left), then the senior (right).'
                           : 'An empty signature field will be placed above your typed name.'}
                         {' '}After downloading, you can digitally sign using:
                       </p>
-                      <ul className="text-xs text-blue-700 dark:text-blue-300 list-disc list-inside mt-2 space-y-1">
+                      <ul className="text-xs text-muted-foreground list-disc list-inside mt-2 space-y-1">
                         <li>Adobe Acrobat with CAC/PIV</li>
                         <li>DoD PKI certificate</li>
                         <li>Other digital signature tools</li>
                       </ul>
                       {hasDualDigitalSignature && (
-                        <p className="text-xs text-blue-700 dark:text-blue-300 mt-2 pt-2 border-t border-blue-200 dark:border-blue-700">
+                        <p className="text-xs text-muted-foreground mt-2 pt-2 border-t border-primary/20">
                           <strong>Signing Order:</strong> Junior signatory signs first, then Senior signatory.
                         </p>
                       )}

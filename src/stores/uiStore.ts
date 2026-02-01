@@ -85,7 +85,7 @@ export const useUIStore = create<UIState>()(
       })),
       setTheme: (theme) => set({ theme }),
 
-      // Color Scheme - default
+      // Color Scheme - Default (Marines.dev branded: USMC Red primary, navy backgrounds)
       colorScheme: 'default',
       setColorScheme: (colorScheme) => set({ colorScheme }),
 
@@ -93,9 +93,9 @@ export const useUIStore = create<UIState>()(
       density: 'comfortable',
       setDensity: (density) => set({ density }),
 
-      // Preview - default visible at 50% width
-      previewVisible: true,
-      previewWidth: 50,
+      // Preview - hidden by default, form gets full width
+      previewVisible: false,
+      previewWidth: 35,
       togglePreview: () => set((state) => ({ previewVisible: !state.previewVisible })),
       setPreviewVisible: (visible) => set({ previewVisible: visible }),
       setPreviewWidth: (width) => set({ previewWidth: Math.max(20, Math.min(80, width)) }),

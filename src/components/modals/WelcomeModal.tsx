@@ -11,6 +11,9 @@ import {
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import { AnimatedGradientBG } from '@/components/effects/AnimatedGradientBG';
+import { TextReveal } from '@/components/effects/TextReveal';
+import { MouseGlowCard } from '@/components/effects/MouseGlowCard';
 
 const WELCOME_STORAGE_KEY = 'dondocs-welcome-shown';
 const WELCOME_VERSION = '2.0'; // Increment to show welcome again after major updates
@@ -23,22 +26,22 @@ interface Feature {
 
 const FEATURES: Feature[] = [
   {
-    icon: <FileText className="h-5 w-5 text-blue-500" />,
+    icon: <FileText className="h-5 w-5 text-primary" />,
     title: 'Correspondence & Forms',
     description: 'Naval letters, memos, endorsements, NAVMC forms, and more - all SECNAV M-5216.5 compliant.',
   },
   {
-    icon: <Shield className="h-5 w-5 text-green-500" />,
+    icon: <Shield className="h-5 w-5 text-primary" />,
     title: '100% Browser-Based',
     description: 'All processing happens locally. No servers, no uploads, no data leaves your device.',
   },
   {
-    icon: <Zap className="h-5 w-5 text-yellow-500" />,
+    icon: <Zap className="h-5 w-5 text-primary" />,
     title: 'Professional Output',
     description: 'LaTeX-quality typesetting via WebAssembly. Attach enclosures and add digital signature fields.',
   },
   {
-    icon: <Users className="h-5 w-5 text-purple-500" />,
+    icon: <Users className="h-5 w-5 text-primary" />,
     title: 'Profiles & Templates',
     description: 'Save your unit info as reusable profiles. Load templates for common document types.',
   },
@@ -159,33 +162,35 @@ export function WelcomeModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-lg p-0 gap-0 overflow-hidden" showCloseButton={false}>
-        {/* Header with gradient */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-8 text-white">
+        {/* Header with animated gradient */}
+        <AnimatedGradientBG className="px-6 py-8 text-white">
           <div className="flex items-center gap-3 mb-2">
             <FileText className="h-8 w-8" />
-            <DialogTitle className="text-2xl font-bold text-white">
-              Welcome to DonDocs
+            <DialogTitle className="text-2xl font-bold text-white text-glow">
+              <TextReveal text="Welcome to DonDocs" />
             </DialogTitle>
           </div>
           <p className="text-white/90 text-sm">
             DoN correspondence and forms, made simple. 100% browser-based, SECNAV M-5216.5 compliant.
           </p>
-        </div>
+        </AnimatedGradientBG>
 
         {/* Features */}
         <div className="p-6 space-y-4">
           <div className="grid grid-cols-2 gap-3">
             {FEATURES.map((feature, idx) => (
-              <div
+              <MouseGlowCard
                 key={idx}
-                className="flex items-start gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors"
+                className="rounded-lg bg-secondary/50 hover:bg-secondary border border-transparent hover:border-primary/10 transition-all duration-300"
               >
-                <div className="shrink-0 mt-0.5">{feature.icon}</div>
-                <div>
-                  <h4 className="font-medium text-sm">{feature.title}</h4>
-                  <p className="text-xs text-muted-foreground">{feature.description}</p>
+                <div className="flex items-start gap-3 p-3">
+                  <div className="shrink-0 mt-0.5">{feature.icon}</div>
+                  <div>
+                    <h4 className="font-medium text-sm">{feature.title}</h4>
+                    <p className="text-xs text-muted-foreground">{feature.description}</p>
+                  </div>
                 </div>
-              </div>
+              </MouseGlowCard>
             ))}
           </div>
 

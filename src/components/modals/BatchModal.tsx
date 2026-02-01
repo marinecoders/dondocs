@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { MouseGlowCard } from '@/components/effects/MouseGlowCard';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore, type NavmcForm10274Data, type Navmc11811Data } from '@/stores/formStore';
@@ -639,9 +640,9 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     <>
       <Dialog open={batchModalOpen} onOpenChange={setBatchModalOpen}>
         <DialogContent className="sm:max-w-3xl max-h-[85vh] flex flex-col p-0 gap-0 overflow-hidden">
-          <DialogHeader className="bg-background px-6 py-4 border-b shrink-0">
-            <DialogTitle className="flex items-center gap-2">
-              <FileText className="h-5 w-5" />
+          <DialogHeader className="bg-card px-6 py-4 border-b border-border/50 shrink-0">
+            <DialogTitle className="flex items-center gap-2 tracking-wide text-glow">
+              <FileText className="h-5 w-5 text-primary" />
               Batch Generation {isFormsMode && '(Forms)'}
               {!isReadyToGenerate && (
                 <Badge variant="secondary" className="ml-2">
@@ -667,7 +668,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
             <div className="p-6 space-y-4 min-w-0">
               {hasNoPlaceholders ? (
                 <div className="space-y-4">
-                  <div className="flex items-start gap-3 p-4 rounded-lg border border-amber-500/30 bg-amber-500/10">
+                  <div className="flex items-start gap-3 p-4 rounded-lg border border-amber-500/30 bg-amber-500/10 transition-colors duration-300">
                     <Lightbulb className="h-5 w-5 text-amber-500 mt-0.5 shrink-0" />
                     <div className="text-sm">
                       <p className="font-medium mb-1">No placeholders detected yet</p>
@@ -686,17 +687,21 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                     </Label>
                     <div className="grid grid-cols-2 gap-2">
                       {suggestedPlaceholders.slice(0, 8).map((p) => (
-                        <button
+                        <MouseGlowCard
                           key={p.name}
-                          onClick={() => copyToClipboard(`{{${p.name}}}`)}
-                          className="flex items-center justify-between p-2 text-left text-sm rounded border hover:bg-secondary/50 transition-colors group"
+                          className="rounded-lg border border-border/50 hover:border-primary/30 transition-all duration-300"
                         >
-                          <div>
-                            <span className="font-medium">{p.label}</span>
-                            <span className="text-xs text-muted-foreground ml-2">{p.example}</span>
-                          </div>
-                          <Copy className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </button>
+                          <button
+                            onClick={() => copyToClipboard(`{{${p.name}}}`)}
+                            className="flex items-center justify-between p-2 text-left text-sm w-full hover:bg-secondary/50 hover:scale-[1.01] transition-all duration-300 group rounded-lg"
+                          >
+                            <div>
+                              <span className="font-medium">{p.label}</span>
+                              <span className="text-xs text-muted-foreground ml-2">{p.example}</span>
+                            </div>
+                            <Copy className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                          </button>
+                        </MouseGlowCard>
                       ))}
                     </div>
                     <p className="text-xs text-muted-foreground">{tipText}</p>
@@ -795,7 +800,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
                   {/* Column Mapping UI */}
                   {showColumnMapping && columnHeaders.length > 0 && (
-                    <div className="space-y-3 border rounded-lg p-4 bg-muted/20">
+                    <div className="space-y-3 border border-border/50 rounded-lg p-4 bg-muted/20 shadow-sm">
                       <div className="flex items-center gap-2">
                         <Settings className="h-4 w-4 text-primary" />
                         <Label>Column Mapping</Label>
@@ -854,9 +859,9 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                       </Button>
                     </div>
 
-                    <div className="border rounded-lg overflow-x-auto">
+                    <div className="border border-border/50 rounded-lg overflow-x-auto shadow-sm">
                       <table className="text-sm w-full">
-                          <thead className="bg-muted/50">
+                          <thead className="bg-muted/50 border-b border-border/30">
                             <tr>
                               <th className="px-2 py-2 text-left font-medium w-8 whitespace-nowrap">#</th>
                               {detectedPlaceholders.map((placeholder) => (
@@ -926,7 +931,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
                     {/* Results Summary */}
                     {lastResults && (
-                      <div className={`p-4 rounded-lg border ${lastResults.failed > 0 ? 'border-amber-500/30 bg-amber-500/10' : 'border-green-500/30 bg-green-500/10'}`}>
+                      <div className={`p-4 rounded-lg border shadow-sm transition-colors duration-300 ${lastResults.failed > 0 ? 'border-amber-500/30 bg-amber-500/10' : 'border-green-500/30 bg-green-500/10'}`}>
                         <div className="flex items-center gap-2 mb-2">
                           {lastResults.failed === 0 ? (
                             <CheckCircle className="h-5 w-5 text-green-500" />
@@ -955,13 +960,14 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
             </div>
           </div>
 
-          <DialogFooter className="bg-background px-6 py-4 border-t shrink-0">
+          <DialogFooter className="bg-card px-6 py-4 border-t border-border/50 shrink-0">
             <Button variant="outline" onClick={() => setBatchModalOpen(false)}>
               Cancel
             </Button>
             <Button
               onClick={handleGenerateBatch}
               disabled={hasNoPlaceholders || isGenerating || rows.length === 0 || !isReadyToGenerate}
+              className="tracking-wide"
             >
               {isGenerating ? (
                 <>
@@ -982,9 +988,9 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
       {/* Preview Dialog */}
       <Dialog open={!!previewUrl} onOpenChange={(open) => !open && closePreview()}>
         <DialogContent className="sm:max-w-4xl h-[85vh] flex flex-col p-0 gap-0">
-          <DialogHeader className="bg-background px-6 py-4 border-b shrink-0">
-            <DialogTitle className="flex items-center gap-2">
-              <Eye className="h-5 w-5" />
+          <DialogHeader className="bg-card px-6 py-4 border-b border-border/50 shrink-0">
+            <DialogTitle className="flex items-center gap-2 tracking-wide">
+              <Eye className="h-5 w-5 text-primary" />
               Document Preview
             </DialogTitle>
             <DialogDescription className="sr-only">
@@ -1000,7 +1006,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
               />
             )}
           </div>
-          <DialogFooter className="bg-background px-6 py-4 border-t shrink-0">
+          <DialogFooter className="bg-card px-6 py-4 border-t border-border/50 shrink-0">
             <Button variant="outline" onClick={closePreview}>
               Close
             </Button>
