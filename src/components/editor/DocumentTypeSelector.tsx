@@ -252,7 +252,7 @@ export function DocumentTypeSelector() {
           </div>
 
           {/* Mode description */}
-          <div className={`text-density-sm p-density-2 rounded-md border ${isCompliant ? 'bg-primary/5 border-primary/20 text-primary' : 'bg-secondary/30 border-border text-muted-foreground'}`}>
+          <div className={`text-density-sm p-density-2 rounded-md border ${isCompliant ? 'bg-primary/5 border-primary/20 text-foreground' : 'bg-secondary/30 border-border text-muted-foreground'}`}>
             {isCompliant ? (
               <>Strictly adheres to SECNAV M-5216.5 formatting requirements.</>
             ) : (
@@ -334,9 +334,11 @@ export function DocumentTypeSelector() {
               SECNAV M-5216.5 {config.regulations.ref}
             </Badge>
           </div>
-          <div className={isCompliant ? 'text-primary' : 'text-muted-foreground'}>
-            {isCompliant ? 'Applied' : 'Recommended'}: {config.regulations.fontSize} {config.regulations.fontFamily}
-          </div>
+          {!isCompliant && (
+            <div className="text-muted-foreground">
+              Recommended: {config.regulations.fontSize} {config.regulations.fontFamily}
+            </div>
+          )}
         </div>
       )}
 
@@ -404,8 +406,8 @@ export function DocumentTypeSelector() {
           </Select>
         </div>
 
-        <div className="border rounded-md p-3 text-xs bg-blue-50 border-blue-200 dark:bg-blue-950/30 dark:border-blue-800">
-          <div className="text-blue-700 dark:text-blue-400">
+        <div className="border rounded-md p-3 text-xs bg-primary/5 border-primary/20">
+          <div className="text-muted-foreground">
             Select a form type above to edit. The form editor will appear below.
           </div>
         </div>

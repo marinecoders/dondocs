@@ -9,17 +9,18 @@ import { EnclosuresManager } from '@/components/editor/EnclosuresManager';
 import { ParagraphsEditor } from '@/components/editor/ParagraphsEditor';
 import { CopyToManager } from '@/components/editor/CopyToManager';
 import { ProfileBar } from '@/components/editor/ProfileBar';
-import { DocumentStats } from '@/components/editor/DocumentStats';
 import { MOASection } from '@/components/editor/MOASection';
 import { JointLetterSection } from '@/components/editor/JointLetterSection';
 import { JointMemoSection } from '@/components/editor/JointMemoSection';
 import { Form6105Section } from '@/components/editor/Form6105Section';
 import { Form11811Section } from '@/components/editor/Form11811Section';
 import { useDocumentStore } from '@/stores/documentStore';
+import { useUIStore } from '@/stores/uiStore';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 
 export function FormPanel() {
   const { docType, documentCategory, formType } = useDocumentStore();
+  const { previewVisible } = useUIStore();
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
 
   const isFormsMode = documentCategory === 'forms';
@@ -33,7 +34,7 @@ export function FormPanel() {
 
       <div className="flex-1 min-h-0 overflow-hidden">
         <ScrollArea className="h-full">
-          <div className="p-3 sm:p-density-4 space-y-density-6 max-w-full overflow-x-hidden">
+          <div className={`p-3 sm:p-density-4 space-y-density-6 overflow-x-hidden ${!previewVisible ? 'max-w-4xl mx-auto' : 'max-w-full'}`}>
           <DocumentTypeSelector />
 
           {isFormsMode ? (
@@ -56,8 +57,6 @@ export function FormPanel() {
               <EnclosuresManager />
 
               <CopyToManager />
-
-              <DocumentStats />
             </>
           ) : isJointLetterMode ? (
             <>
@@ -73,8 +72,6 @@ export function FormPanel() {
               <EnclosuresManager />
 
               <CopyToManager />
-
-              <DocumentStats />
             </>
           ) : isJointMemoMode ? (
             <>
@@ -92,8 +89,6 @@ export function FormPanel() {
               <EnclosuresManager />
 
               <CopyToManager />
-
-              <DocumentStats />
             </>
           ) : (
             <>
@@ -113,8 +108,6 @@ export function FormPanel() {
               <CopyToManager />
 
               <SignatureSection config={config} />
-
-              <DocumentStats />
             </>
           )}
           </div>

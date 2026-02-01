@@ -308,25 +308,11 @@ export function ParagraphsEditor() {
           </div>
         </AccordionTrigger>
         <AccordionContent>
-          {/* Variable hint banner */}
-          <div className="px-3 py-2.5 rounded-md bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-sm mb-3">
-            <div className="flex items-start gap-2">
-              <span className="text-blue-600 dark:text-blue-400 text-lg leading-none mt-0.5">@</span>
-              <div className="flex-1">
-                <p className="font-medium text-blue-700 dark:text-blue-300">Variables for Batch Documents</p>
-                <p className="text-blue-600 dark:text-blue-400 text-xs mt-0.5">
-                  Type <code className="bg-blue-100 dark:bg-blue-900 px-1 py-0.5 rounded font-mono">@</code> followed by any name to create variables. Custom variables auto-suggest once created.
-                  Use <strong>B</strong>/<strong>I</strong>/<strong>U</strong> for formatting.
-                </p>
-              </div>
-            </div>
-          </div>
-
           {/* Compliance warning for document types that don't use numbered paragraphs */}
           {disableNumberedParagraphs && (
-            <div className="flex items-start gap-2 p-3 mb-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg text-sm">
-              <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
-              <div className="text-amber-800 dark:text-amber-200">
+            <div className="flex items-start gap-2 p-3 mb-3 bg-destructive/5 border border-destructive/20 rounded-lg text-sm">
+              <AlertTriangle className="h-4 w-4 text-destructive mt-0.5 flex-shrink-0" />
+              <div className="text-foreground">
                 <span className="font-medium">Per {config.regulations.ref}:</span>{' '}
                 {docType === 'business_letter'
                   ? 'Business letters do not use numbered paragraphs. Use 0.5" paragraph indentation instead.'

@@ -153,8 +153,8 @@ export function generateLetterheadTex(store: DocumentStore): string {
 % Per SECNAV M-5216.5: Unit name, address
 %=============================================================================
 
-% Seal type: dod (current) or dow (historical Department of War)
-\\setSealType{${data.sealType || 'dod'}}
+% Seal type: dow (Department of War) or dod (Department of Defense)
+\\setSealType{${data.sealType || 'dow'}}
 
 % Department/Service: usmc, navy, or dod
 \\setDepartment{${data.department || 'usmc'}}

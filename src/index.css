@@ -63,7 +63,8 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Roboto', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-feature-settings: 'kern' 1, 'liga' 1;
     margin: 0;
     position: fixed;
     width: 100%;
@@ -87,12 +88,12 @@
 
   *::-webkit-scrollbar-track {
     background: transparent;
-    border-radius: 4px;
+    border-radius: 6px;
   }
 
   *::-webkit-scrollbar-thumb {
     background: hsl(var(--muted-foreground) / 0.3);
-    border-radius: 4px;
+    border-radius: 6px;
     border: 2px solid transparent;
     background-clip: content-box;
   }
@@ -150,37 +151,38 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* Marines.dev branded default — navy tint + USMC Red primary */
+  --background: oklch(0.97 0.008 250);     /* #dee4e7 light bg with navy tint */
+  --foreground: oklch(0.17 0.015 260);     /* #1a1d24 dark text */
+  --card: oklch(0.99 0.004 250);           /* Near-white with hint */
+  --card-foreground: oklch(0.17 0.015 260);
+  --popover: oklch(0.99 0.004 250);
+  --popover-foreground: oklch(0.17 0.015 260);
+  --primary: oklch(0.43 0.17 25);          /* #a6192e USMC Red */
+  --primary-foreground: oklch(0.99 0 0);   /* White on red */
+  --secondary: oklch(0.92 0.02 250);       /* Light navy tint */
+  --secondary-foreground: oklch(0.17 0.015 260);
+  --muted: oklch(0.94 0.01 250);
+  --muted-foreground: oklch(0.45 0.03 250);
+  --accent: oklch(0.32 0.06 230);          /* #07405B navy blue */
+  --accent-foreground: oklch(0.99 0 0);
+  --destructive: oklch(0.33 0.14 25);      /* #7A131B battle red */
+  --border: oklch(0.88 0.02 250);          /* Navy-tinted border */
+  --input: oklch(0.95 0.01 250);
+  --ring: oklch(0.43 0.17 25);             /* USMC Red ring */
+  --chart-1: oklch(0.43 0.17 25);          /* USMC Red */
+  --chart-2: oklch(0.32 0.06 230);         /* MCSWF Blue */
+  --chart-3: oklch(0.80 0.15 85);          /* USMC Yellow */
+  --chart-4: oklch(0.40 0.16 25);          /* MCSWF Red */
+  --chart-5: oklch(0.85 0.14 85);          /* MCSWF Gold */
+  --sidebar: oklch(0.95 0.01 250);
+  --sidebar-foreground: oklch(0.17 0.015 260);
+  --sidebar-primary: oklch(0.43 0.17 25);  /* USMC Red */
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.92 0.02 250);
+  --sidebar-accent-foreground: oklch(0.17 0.015 260);
+  --sidebar-border: oklch(0.88 0.02 250);
+  --sidebar-ring: oklch(0.43 0.17 25);
 
   /* Density spacing - Default: Comfortable */
   --density-space-1: 4px;
@@ -221,67 +223,69 @@
    COLOR SCHEMES
    ============================================================================= */
 
-/* Navy Color Scheme - marines.dev colors: Blue (#07405B) + Gold (#FFC755) */
+/* Navy Color Scheme - marines.dev: USMC Red primary, navy blue + gold accents */
 [data-scheme="navy"] {
-  --primary: oklch(0.32 0.06 230);  /* mcswf-blue #07405B */
-  --primary-foreground: oklch(0.98 0 0);  /* White */
-  --accent: oklch(0.80 0.14 85);  /* mcswf-gold #FFC755 */
-  --accent-foreground: oklch(0.15 0.025 260);
-  --ring: oklch(0.32 0.06 230);  /* mcswf-blue */
+  --primary: oklch(0.43 0.17 25);   /* #a6192e USMC Red */
+  --primary-foreground: oklch(0.99 0 0);
+  --accent: oklch(0.32 0.06 230);   /* #07405B mcswf-blue */
+  --accent-foreground: oklch(0.99 0 0);
+  --ring: oklch(0.43 0.17 25);      /* USMC Red */
 }
 
-/* Navy dark mode - inspired by marines.dev */
+/* Navy dark mode - marines.dev: USMC Red primary, gold as accent only */
 [data-scheme="navy"].dark {
-  --background: oklch(0.15 0.025 260);  /* mcswf-dark-blue #101728 */
-  --foreground: oklch(0.98 0 0);  /* Pure white */
-  --card: oklch(0.22 0.02 250);  /* Slightly lighter #252a34 */
+  --background: oklch(0.14 0.03 260);   /* #101728 mcswf-dark-blue */
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.22 0.02 260);         /* #252a34 */
   --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.22 0.02 250);
+  --popover: oklch(0.22 0.02 260);
   --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.80 0.14 85);  /* mcswf-gold #FFC755 - bright for visibility */
-  --primary-foreground: oklch(0.15 0.025 260);  /* Dark text on gold buttons */
-  --secondary: oklch(0.32 0.06 230);  /* mcswf-blue #07405B */
+  --primary: oklch(0.43 0.17 25);       /* #a6192e USMC Red */
+  --primary-foreground: oklch(0.98 0 0); /* White on red */
+  --secondary: oklch(0.32 0.06 230);    /* #07405B mcswf-blue */
   --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.25 0.02 250);
-  --muted-foreground: oklch(0.70 0.02 250);  /* Brighter muted text */
-  --accent: oklch(0.32 0.06 230);  /* mcswf-blue for accents */
-  --accent-foreground: oklch(0.98 0 0);
-  --border: oklch(0.30 0.02 250);
-  --input: oklch(0.25 0.02 250);
-  --ring: oklch(0.80 0.14 85);  /* Gold ring */
-  --sidebar: oklch(0.17 0.02 260);  /* header-bg #1a1d24 */
+  --muted: oklch(0.25 0.02 260);
+  --muted-foreground: oklch(0.70 0.02 250);
+  --accent: oklch(0.80 0.15 85);        /* #f1b434 gold — accent only */
+  --accent-foreground: oklch(0.14 0.03 260);
+  --destructive: oklch(0.33 0.14 25);   /* #7A131B battle red */
+  --border: oklch(0.30 0.02 260);
+  --input: oklch(0.25 0.02 260);
+  --ring: oklch(0.43 0.17 25);          /* USMC Red ring */
+  --sidebar: oklch(0.17 0.015 260);     /* #1a1d24 header-bg */
   --sidebar-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.80 0.14 85);  /* Gold */
-  --sidebar-primary-foreground: oklch(0.15 0.025 260);
-  --sidebar-accent: oklch(0.25 0.02 250);
+  --sidebar-primary: oklch(0.43 0.17 25); /* USMC Red */
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.25 0.02 260);
   --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(0.30 0.02 250);
+  --sidebar-border: oklch(0.30 0.02 260);
 }
 
 [data-scheme="navy"]:not(.dark) {
-  --background: oklch(0.97 0.01 250);  /* Very light navy-tinted white */
-  --foreground: oklch(0.20 0.05 250);  /* Dark navy #002B5C */
-  --card: oklch(0.99 0.005 250);  /* Near-white with navy hint */
-  --card-foreground: oklch(0.20 0.05 250);
+  --background: oklch(0.92 0.01 230);   /* #dee4e7 marines.dev light bg */
+  --foreground: oklch(0.17 0.015 260);  /* #1a1d24 */
+  --card: oklch(0.99 0.005 250);
+  --card-foreground: oklch(0.17 0.015 260);
   --popover: oklch(0.99 0.005 250);
-  --popover-foreground: oklch(0.20 0.05 250);
-  --primary: oklch(0.30 0.08 250);  /* Navy Blue as primary */
-  --primary-foreground: oklch(0.95 0.02 85);  /* Light gold text */
-  --secondary: oklch(0.92 0.03 250);  /* Light navy tint */
-  --secondary-foreground: oklch(0.20 0.05 250);
-  --muted: oklch(0.94 0.02 250);  /* Light navy muted */
-  --muted-foreground: oklch(0.40 0.05 250);  /* Medium navy */
-  --accent: oklch(0.58 0.12 85);  /* Gold #A77C29 for accents */
-  --accent-foreground: oklch(0.20 0.05 250);
-  --border: oklch(0.85 0.04 250);  /* Navy-tinted border */
+  --popover-foreground: oklch(0.17 0.015 260);
+  --primary: oklch(0.43 0.17 25);       /* #a6192e USMC Red */
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.92 0.03 250);
+  --secondary-foreground: oklch(0.17 0.015 260);
+  --muted: oklch(0.94 0.02 250);
+  --muted-foreground: oklch(0.40 0.05 250);
+  --accent: oklch(0.58 0.12 85);        /* Gold accent */
+  --accent-foreground: oklch(0.17 0.015 260);
+  --destructive: oklch(0.33 0.14 25);   /* #7A131B battle red */
+  --border: oklch(0.85 0.04 250);
   --input: oklch(0.95 0.02 250);
-  --ring: oklch(0.30 0.08 250);  /* Navy ring */
+  --ring: oklch(0.43 0.17 25);          /* USMC Red */
   --sidebar: oklch(0.95 0.02 250);
-  --sidebar-foreground: oklch(0.20 0.05 250);
-  --sidebar-primary: oklch(0.30 0.08 250);
-  --sidebar-primary-foreground: oklch(0.95 0.02 85);
+  --sidebar-foreground: oklch(0.17 0.015 260);
+  --sidebar-primary: oklch(0.43 0.17 25);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
   --sidebar-accent: oklch(0.90 0.03 250);
-  --sidebar-accent-foreground: oklch(0.20 0.05 250);
+  --sidebar-accent-foreground: oklch(0.17 0.015 260);
   --sidebar-border: oklch(0.85 0.04 250);
 }
 
@@ -297,12 +301,13 @@
 
 /* USMC dark mode - Dress Blues: Dark Navy + Blood Stripe Red */
 [data-scheme="usmc"].dark {
-  --background: oklch(0.15 0.03 250);  /* Dark navy blue */
-  --foreground: oklch(0.98 0 0);  /* Pure white */
-  --card: oklch(0.20 0.03 250);  /* Slightly lighter navy */
+  --background: oklch(0.14 0.03 260);  /* #101728 mcswf-dark-blue */
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.22 0.02 260);        /* #252a34 */
   --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.20 0.03 250);
+  --popover: oklch(0.22 0.02 260);
   --popover-foreground: oklch(0.98 0 0);
+  --destructive: oklch(0.33 0.14 25);  /* #7A131B battle red */
   --primary: oklch(0.58 0.22 25);  /* Bright blood stripe red - visible on dark */
   --primary-foreground: oklch(0.98 0 0);  /* White text on red */
   --secondary: oklch(0.25 0.04 250);  /* Medium navy */
@@ -325,7 +330,7 @@
 
 /* USMC light mode - Dress Blues inspired: Navy accents + Blood Stripe Red */
 [data-scheme="usmc"]:not(.dark) {
-  --background: oklch(0.98 0.005 250);  /* Very light with slight blue tint */
+  --background: oklch(0.97 0.008 250);  /* #dee4e7 light bg */
   --foreground: oklch(0.20 0.04 250);  /* Dark navy text */
   --card: oklch(0.99 0.003 250);  /* Near-white */
   --card-foreground: oklch(0.20 0.04 250);
@@ -351,38 +356,39 @@
   --sidebar-border: oklch(0.88 0.02 250);
 }
 
+/* Dark mode default — Marines.dev branded */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: oklch(0.14 0.03 260);      /* #101728 deepest dark */
+  --foreground: oklch(0.98 0 0);           /* White */
+  --card: oklch(0.22 0.02 260);            /* #252a34 */
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.22 0.02 260);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.43 0.17 25);          /* #a6192e USMC Red */
+  --primary-foreground: oklch(0.98 0 0);   /* White on red */
+  --secondary: oklch(0.25 0.02 260);       /* Dark navy */
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.25 0.02 260);
+  --muted-foreground: oklch(0.70 0.02 250);
+  --accent: oklch(0.80 0.15 85);           /* #f1b434 gold accent */
+  --accent-foreground: oklch(0.14 0.03 260);
+  --destructive: oklch(0.40 0.16 25);      /* #991B20 mcswf red */
+  --border: oklch(0.30 0.02 260);          /* Navy border */
+  --input: oklch(0.25 0.02 260);
+  --ring: oklch(0.43 0.17 25);             /* USMC Red ring */
+  --chart-1: oklch(0.58 0.22 25);          /* Bright red */
+  --chart-2: oklch(0.45 0.08 230);         /* Brighter blue */
+  --chart-3: oklch(0.85 0.14 85);          /* Gold */
+  --chart-4: oklch(0.50 0.18 25);          /* Mid red */
+  --chart-5: oklch(0.80 0.15 85);          /* Yellow */
+  --sidebar: oklch(0.17 0.015 260);        /* #1a1d24 header-bg */
+  --sidebar-foreground: oklch(0.98 0 0);
+  --sidebar-primary: oklch(0.43 0.17 25);  /* USMC Red */
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.25 0.02 260);
+  --sidebar-accent-foreground: oklch(0.98 0 0);
+  --sidebar-border: oklch(0.30 0.02 260);
+  --sidebar-ring: oklch(0.43 0.17 25);
 }
 
 @layer base {
@@ -417,5 +423,83 @@
   /* Slow spin animation for update banner */
   .animate-spin-slow {
     animation: spin 3s linear infinite;
+  }
+
+  /* Marines.dev-inspired hover interactions */
+  .hover-lift {
+    transition: transform 300ms ease-in-out, box-shadow 300ms ease-in-out;
+  }
+  .hover-lift:hover {
+    transform: scale(1.02);
+  }
+
+  .hover-glow {
+    transition: border-color 300ms ease-in-out, box-shadow 300ms ease-in-out;
+  }
+  .hover-glow:hover {
+    box-shadow: 0 0 20px oklch(0.80 0.14 85 / 0.15);
+  }
+
+  /* Shadow depth system */
+  .shadow-card {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.2), 0 2px 4px -2px rgb(0 0 0 / 0.15);
+  }
+  .shadow-card-hover {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.25), 0 4px 6px -4px rgb(0 0 0 / 0.15);
+  }
+  .shadow-elevated {
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2), 0 8px 10px -6px rgb(0 0 0 / 0.15);
+  }
+
+  /* Text glow effects */
+  .text-glow {
+    text-shadow: 0 2px 8px rgb(255 255 255 / 0.15);
+  }
+  .text-glow-gold {
+    text-shadow: 0 2px 12px oklch(0.80 0.14 85 / 0.3);
+  }
+
+  /* Animated gradient background */
+  @keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .animated-gradient-bg {
+    background-size: 200% 200%;
+    animation: gradient-shift 5s ease infinite;
+  }
+
+  /* Text reveal animation */
+  @keyframes text-reveal-word {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .text-reveal-word {
+    opacity: 0;
+    animation: text-reveal-word 600ms ease forwards;
+  }
+
+  /* Accordion section left accent border */
+  [data-slot="accordion-item"] {
+    border-left: 3px solid transparent;
+    transition: border-color 300ms ease, box-shadow 300ms ease;
+  }
+  [data-slot="accordion-item"][data-state="open"] {
+    border-left-color: var(--primary);
+  }
+}
+
+/* Section card styling for form panels */
+@layer components {
+  .section-card {
+    border-radius: 0.5rem;
+    border: 1px solid var(--border);
+    background: var(--card);
+    padding: 1rem;
+    transition: box-shadow 300ms ease, border-color 300ms ease;
+  }
+  .section-card:hover {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.15), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   }
 }
