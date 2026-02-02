@@ -5,24 +5,24 @@
 
 @layer base {
   :root {
-    --background: 222 47% 11%;
+    --background: 220 14% 10%;
     --foreground: 210 40% 98%;
-    --card: 222 47% 11%;
+    --card: 220 10% 14%;
     --card-foreground: 210 40% 98%;
-    --popover: 222 47% 11%;
+    --popover: 220 10% 14%;
     --popover-foreground: 210 40% 98%;
     --primary: 210 100% 50%;
-    --primary-foreground: 222 47% 11%;
-    --secondary: 217 33% 17%;
+    --primary-foreground: 220 14% 10%;
+    --secondary: 220 10% 16%;
     --secondary-foreground: 210 40% 98%;
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 217 33% 17%;
+    --muted: 220 10% 16%;
+    --muted-foreground: 215 15% 75%;
+    --accent: 220 10% 16%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217 33% 25%;
-    --input: 217 33% 25%;
+    --border: 220 10% 20%;
+    --input: 220 10% 20%;
     --ring: 210 100% 50%;
     --radius: 0.5rem;
   }
@@ -39,7 +39,7 @@
     --secondary: 210 40% 96%;
     --secondary-foreground: 222 47% 11%;
     --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted-foreground: 215 25% 35%;
     --accent: 210 40% 96%;
     --accent-foreground: 222 47% 11%;
     --destructive: 0 84% 60%;
@@ -78,7 +78,7 @@
   /* Custom scrollbar styling */
   * {
     scrollbar-width: auto;
-    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+    scrollbar-color: hsl(var(--muted-foreground) / 0.4) transparent;
   }
 
   *::-webkit-scrollbar {
@@ -92,7 +92,7 @@
   }
 
   *::-webkit-scrollbar-thumb {
-    background: hsl(var(--muted-foreground) / 0.3);
+    background: hsl(var(--muted-foreground) / 0.4);
     border-radius: 6px;
     border: 2px solid transparent;
     background-clip: content-box;
@@ -163,7 +163,7 @@
   --secondary: oklch(0.92 0.02 250);       /* Light navy tint */
   --secondary-foreground: oklch(0.17 0.015 260);
   --muted: oklch(0.94 0.01 250);
-  --muted-foreground: oklch(0.45 0.03 250);
+  --muted-foreground: oklch(0.37 0.03 250);
   --accent: oklch(0.32 0.06 230);          /* #07405B navy blue */
   --accent-foreground: oklch(0.99 0 0);
   --destructive: oklch(0.33 0.14 25);      /* #7A131B battle red */
@@ -234,31 +234,31 @@
 
 /* Navy dark mode - marines.dev: USMC Red primary, gold as accent only */
 [data-scheme="navy"].dark {
-  --background: oklch(0.14 0.03 260);   /* #101728 mcswf-dark-blue */
+  --background: oklch(0.14 0.008 260);  /* Dark slate */
   --foreground: oklch(0.98 0 0);
-  --card: oklch(0.22 0.02 260);         /* #252a34 */
+  --card: oklch(0.20 0.008 260);        /* Slate card */
   --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.22 0.02 260);
+  --popover: oklch(0.20 0.008 260);
   --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.43 0.17 25);       /* #a6192e USMC Red */
+  --primary: oklch(0.55 0.20 25);       /* Bright USMC Red — WCAG AA on dark */
   --primary-foreground: oklch(0.98 0 0); /* White on red */
-  --secondary: oklch(0.32 0.06 230);    /* #07405B mcswf-blue */
+  --secondary: oklch(0.23 0.008 260);   /* Slate */
   --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.25 0.02 260);
-  --muted-foreground: oklch(0.70 0.02 250);
+  --muted: oklch(0.23 0.008 260);
+  --muted-foreground: oklch(0.78 0.01 250);
   --accent: oklch(0.80 0.15 85);        /* #f1b434 gold — accent only */
-  --accent-foreground: oklch(0.14 0.03 260);
-  --destructive: oklch(0.33 0.14 25);   /* #7A131B battle red */
-  --border: oklch(0.30 0.02 260);
-  --input: oklch(0.25 0.02 260);
-  --ring: oklch(0.43 0.17 25);          /* USMC Red ring */
-  --sidebar: oklch(0.17 0.015 260);     /* #1a1d24 header-bg */
+  --accent-foreground: oklch(0.14 0.008 260);
+  --destructive: oklch(0.50 0.18 25);   /* Brighter battle red — WCAG AA */
+  --border: oklch(0.28 0.008 260);
+  --input: oklch(0.23 0.008 260);
+  --ring: oklch(0.55 0.20 25);          /* Bright USMC Red ring */
+  --sidebar: oklch(0.16 0.008 260);     /* Slate sidebar */
   --sidebar-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.43 0.17 25); /* USMC Red */
+  --sidebar-primary: oklch(0.55 0.20 25); /* Bright USMC Red */
   --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.25 0.02 260);
+  --sidebar-accent: oklch(0.23 0.008 260);
   --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(0.30 0.02 260);
+  --sidebar-border: oklch(0.28 0.008 260);
 }
 
 [data-scheme="navy"]:not(.dark) {
@@ -273,7 +273,7 @@
   --secondary: oklch(0.92 0.03 250);
   --secondary-foreground: oklch(0.17 0.015 260);
   --muted: oklch(0.94 0.02 250);
-  --muted-foreground: oklch(0.40 0.05 250);
+  --muted-foreground: oklch(0.33 0.05 250);
   --accent: oklch(0.58 0.12 85);        /* Gold accent */
   --accent-foreground: oklch(0.17 0.015 260);
   --destructive: oklch(0.33 0.14 25);   /* #7A131B battle red */
@@ -301,31 +301,31 @@
 
 /* USMC dark mode - Dress Blues: Dark Navy + Blood Stripe Red */
 [data-scheme="usmc"].dark {
-  --background: oklch(0.14 0.03 260);  /* #101728 mcswf-dark-blue */
+  --background: oklch(0.14 0.008 260);  /* Dark slate */
   --foreground: oklch(0.98 0 0);
-  --card: oklch(0.22 0.02 260);        /* #252a34 */
+  --card: oklch(0.20 0.008 260);        /* Slate card */
   --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.22 0.02 260);
+  --popover: oklch(0.20 0.008 260);
   --popover-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.33 0.14 25);  /* #7A131B battle red */
+  --destructive: oklch(0.50 0.18 25);   /* Brighter battle red — WCAG AA */
   --primary: oklch(0.58 0.22 25);  /* Bright blood stripe red - visible on dark */
   --primary-foreground: oklch(0.98 0 0);  /* White text on red */
-  --secondary: oklch(0.25 0.04 250);  /* Medium navy */
+  --secondary: oklch(0.23 0.008 260);  /* Slate */
   --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.22 0.03 250);
-  --muted-foreground: oklch(0.70 0.02 250);  /* Light blue-gray */
+  --muted: oklch(0.23 0.008 260);
+  --muted-foreground: oklch(0.78 0.01 250);  /* Light slate — WCAG AA */
   --accent: oklch(0.58 0.22 25);  /* Blood stripe red */
   --accent-foreground: oklch(0.98 0 0);
-  --border: oklch(0.28 0.03 250);  /* Navy border */
-  --input: oklch(0.22 0.03 250);
+  --border: oklch(0.28 0.008 260);  /* Slate border */
+  --input: oklch(0.23 0.008 260);
   --ring: oklch(0.58 0.22 25);  /* Red ring */
-  --sidebar: oklch(0.17 0.03 250);
+  --sidebar: oklch(0.16 0.008 260);
   --sidebar-foreground: oklch(0.98 0 0);
   --sidebar-primary: oklch(0.58 0.22 25);  /* Blood stripe red */
   --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.25 0.04 250);
+  --sidebar-accent: oklch(0.23 0.008 260);
   --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(0.28 0.03 250);
+  --sidebar-border: oklch(0.28 0.008 260);
 }
 
 /* USMC light mode - Dress Blues inspired: Navy accents + Blood Stripe Red */
@@ -341,7 +341,7 @@
   --secondary: oklch(0.25 0.05 250);  /* Navy blue */
   --secondary-foreground: oklch(0.98 0 0);
   --muted: oklch(0.94 0.01 250);  /* Light blue-gray */
-  --muted-foreground: oklch(0.45 0.03 250);  /* Medium navy */
+  --muted-foreground: oklch(0.37 0.03 250);  /* Medium navy — WCAG AA */
   --accent: oklch(0.25 0.05 250);  /* Navy accent */
   --accent-foreground: oklch(0.98 0 0);
   --border: oklch(0.88 0.02 250);  /* Light navy border */
@@ -358,37 +358,37 @@
 
 /* Dark mode default — Marines.dev branded */
 .dark {
-  --background: oklch(0.14 0.03 260);      /* #101728 deepest dark */
+  --background: oklch(0.14 0.008 260);     /* Dark slate */
   --foreground: oklch(0.98 0 0);           /* White */
-  --card: oklch(0.22 0.02 260);            /* #252a34 */
+  --card: oklch(0.20 0.008 260);           /* Slate card */
   --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.22 0.02 260);
+  --popover: oklch(0.20 0.008 260);
   --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.43 0.17 25);          /* #a6192e USMC Red */
+  --primary: oklch(0.55 0.20 25);          /* Bright USMC Red — WCAG AA on dark */
   --primary-foreground: oklch(0.98 0 0);   /* White on red */
-  --secondary: oklch(0.25 0.02 260);       /* Dark navy */
+  --secondary: oklch(0.23 0.008 260);      /* Dark slate */
   --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.25 0.02 260);
-  --muted-foreground: oklch(0.70 0.02 250);
+  --muted: oklch(0.23 0.008 260);
+  --muted-foreground: oklch(0.78 0.01 250);
   --accent: oklch(0.80 0.15 85);           /* #f1b434 gold accent */
-  --accent-foreground: oklch(0.14 0.03 260);
-  --destructive: oklch(0.40 0.16 25);      /* #991B20 mcswf red */
-  --border: oklch(0.30 0.02 260);          /* Navy border */
-  --input: oklch(0.25 0.02 260);
-  --ring: oklch(0.43 0.17 25);             /* USMC Red ring */
+  --accent-foreground: oklch(0.14 0.008 260);
+  --destructive: oklch(0.50 0.18 25);      /* Brighter red — WCAG AA */
+  --border: oklch(0.28 0.008 260);         /* Slate border */
+  --input: oklch(0.23 0.008 260);
+  --ring: oklch(0.55 0.20 25);             /* Bright USMC Red ring */
   --chart-1: oklch(0.58 0.22 25);          /* Bright red */
   --chart-2: oklch(0.45 0.08 230);         /* Brighter blue */
   --chart-3: oklch(0.85 0.14 85);          /* Gold */
   --chart-4: oklch(0.50 0.18 25);          /* Mid red */
   --chart-5: oklch(0.80 0.15 85);          /* Yellow */
-  --sidebar: oklch(0.17 0.015 260);        /* #1a1d24 header-bg */
+  --sidebar: oklch(0.16 0.008 260);        /* Slate sidebar */
   --sidebar-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.43 0.17 25);  /* USMC Red */
+  --sidebar-primary: oklch(0.55 0.20 25);  /* Bright USMC Red */
   --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.25 0.02 260);
+  --sidebar-accent: oklch(0.23 0.008 260);
   --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(0.30 0.02 260);
-  --sidebar-ring: oklch(0.43 0.17 25);
+  --sidebar-border: oklch(0.28 0.008 260);
+  --sidebar-ring: oklch(0.55 0.20 25);
 }
 
 @layer base {
@@ -487,6 +487,16 @@
   }
   [data-slot="accordion-item"][data-state="open"] {
     border-left-color: var(--primary);
+  }
+}
+
+/* Respect prefers-reduced-motion — WCAG 2.3.3 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

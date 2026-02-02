@@ -308,7 +308,7 @@ export function Header({
           Not an official DoW website. Beta release - report issues on GitHub.
           <button
             onClick={dismissBanner}
-            className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-amber-600/30 transition-colors"
+            className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-amber-700/50 transition-colors"
             aria-label="Dismiss banner"
           >
             <X className="h-3 w-3" />
@@ -353,7 +353,7 @@ export function Header({
             {saveStatus || autoSaveStatus}
           </div>
           {(autoSaveStatus || saveStatus) && (
-            <span className="text-xs text-muted-foreground animate-pulse hidden lg:inline" aria-hidden="true">
+            <span className="text-xs text-muted-foreground hidden lg:inline" aria-hidden="true">
               {saveStatus || autoSaveStatus}
             </span>
           )}

@@ -1,6 +1,6 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
-import { X, Loader2, AlertCircle, ScrollText, Download, ChevronLeft, ChevronRight, FileText } from 'lucide-react';
+import { X, Loader2, AlertCircle, ScrollText, Download, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useUIStore } from '@/stores/uiStore';
 import { useLogStore } from '@/stores/logStore';
@@ -261,6 +261,8 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pdfLoading, setPdfLoading] = useState<boolean>(true);
   const [pdfError, setPdfError] = useState<string | null>(null);
+  const pageRefs = useRef<Map<number, HTMLDivElement>>(new Map());
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Use centralized device detection
   const deviceInfo = useDeviceInfo();
@@ -297,13 +299,30 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
   }, []);
 
   const onDocumentLoadError = useCallback((err: Error) => {
-    console.error('PDF load error:', err);
+    console.error('PDF load error:', err?.message || err);
     setPdfLoading(false);
-    setPdfError('Failed to load PDF preview');
+    setPdfError(`Failed to load PDF preview: ${err?.message || 'Unknown error'}`);
   }, []);
 
-  const goToPrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
-  const goToNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, numPages));
+  // Track visible page via IntersectionObserver
+  useEffect(() => {
+    if (!mobilePreviewOpen || numPages === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const pageNum = Number(entry.target.getAttribute('data-page'));
+            if (pageNum) setCurrentPage(pageNum);
+          }
+        }
+      },
+      { root: scrollContainerRef.current, threshold: 0.5 }
+    );
+
+    pageRefs.current.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [mobilePreviewOpen, numPages]);
 
   // Download handler using centralized download utility
   const handleDownload = async () => {
@@ -413,59 +432,68 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
           </div>
         )}
 
-        {/* PDF Viewer - non-iOS uses react-pdf */}
+        {/* PDF Viewer - non-iOS: iframe with built-in PDF viewer, react-pdf fallback */}
         {pdfUrl && !isCompiling && (
-          <div className="flex flex-col items-center p-2 min-h-full">
-            {pdfLoading && !pdfError && (
-              <div className="flex items-center justify-center py-12">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-              </div>
-            )}
-            {pdfError ? (
-              <div className="flex flex-col items-center justify-center py-12 gap-4">
-                <AlertCircle className="h-12 w-12 text-destructive/70" />
-                <p className="text-sm text-muted-foreground">{pdfError}</p>
-                <Button variant="outline" onClick={handleDownload}>
-                  <Download className="h-4 w-4 mr-2" />
-                  Download Instead
-                </Button>
-              </div>
+          <div className="flex-1 h-full">
+            {!pdfError ? (
+              <iframe
+                src={pdfUrl}
+                className="w-full h-full border-0"
+                title="PDF Preview"
+                onError={() => setPdfError('Browser PDF viewer failed')}
+                onLoad={() => setPdfLoading(false)}
+              />
             ) : (
-              <Document
-                file={pdfUrl}
-                onLoadSuccess={onDocumentLoadSuccess}
-                onLoadError={onDocumentLoadError}
-                loading={null}
-                className="flex flex-col items-center"
-                error={
-                  <div className="flex flex-col items-center justify-center py-12 gap-4">
-                    <AlertCircle className="h-12 w-12 text-destructive/70" />
-                    <p className="text-sm text-muted-foreground">Failed to render PDF</p>
-                    <Button variant="outline" onClick={handleDownload}>
-                      <Download className="h-4 w-4 mr-2" />
-                      Download Instead
-                    </Button>
-                  </div>
-                }
-              >
-                <Page
-                  pageNumber={currentPage}
-                  width={Math.min(window.innerWidth - 16, 450)}
-                  className="shadow-lg"
-                  renderTextLayer={false}
-                  renderAnnotationLayer={false}
+              /* Fallback: react-pdf canvas renderer if iframe fails */
+              <div className="flex flex-col items-center p-2 gap-4 min-h-full overflow-auto" style={{ touchAction: 'pan-y pinch-zoom' }}>
+                <Document
+                  file={pdfUrl}
+                  onLoadSuccess={onDocumentLoadSuccess}
+                  onLoadError={onDocumentLoadError}
                   loading={
                     <div className="flex items-center justify-center py-12">
-                      <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
                     </div>
                   }
+                  className="flex flex-col items-center gap-4"
                   error={
-                    <div className="flex items-center justify-center py-12">
-                      <p className="text-sm text-muted-foreground">Error rendering page</p>
+                    <div className="flex flex-col items-center justify-center py-12 gap-4">
+                      <AlertCircle className="h-12 w-12 text-destructive/70" />
+                      <p className="text-sm text-muted-foreground">Failed to render PDF</p>
+                      <Button variant="outline" onClick={handleDownload}>
+                        <Download className="h-4 w-4 mr-2" />
+                        Download Instead
+                      </Button>
                     </div>
                   }
-                />
-              </Document>
+                >
+                  {Array.from(new Array(numPages), (_, index) => (
+                    <div
+                      key={index}
+                      ref={(el) => { if (el) pageRefs.current.set(index + 1, el); }}
+                      data-page={index + 1}
+                    >
+                      <Page
+                        pageNumber={index + 1}
+                        width={window.innerWidth - 16}
+                        className="shadow-lg"
+                        renderTextLayer={false}
+                        renderAnnotationLayer={false}
+                        loading={
+                          <div className="flex items-center justify-center py-12">
+                            <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                          </div>
+                        }
+                        error={
+                          <div className="flex items-center justify-center py-12">
+                            <p className="text-sm text-muted-foreground">Error rendering page {index + 1}</p>
+                          </div>
+                        }
+                      />
+                    </div>
+                  ))}
+                </Document>
+              </div>
             )}
           </div>
         )}
@@ -482,36 +510,6 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
         )}
       </div>
 
-      {/* Page Navigation Footer - for non-iOS only */}
-      {pdfUrl && !isCompiling && numPages > 0 && !pdfError && (
-        <div className="flex items-center justify-between px-4 py-2 border-t border-border bg-card shrink-0">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={goToPrevPage}
-            disabled={currentPage <= 1}
-            className="h-9 px-3"
-          >
-            <ChevronLeft className="h-4 w-4 mr-1" />
-            Prev
-          </Button>
-
-          <span className="text-sm font-medium">
-            Page {currentPage} of {numPages}
-          </span>
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={goToNextPage}
-            disabled={currentPage >= numPages}
-            className="h-9 px-3"
-          >
-            Next
-            <ChevronRight className="h-4 w-4 ml-1" />
-          </Button>
-        </div>
-      )}
     </div>
   );
 }

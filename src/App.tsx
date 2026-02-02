@@ -22,6 +22,7 @@ import { UpdatePromptModal } from '@/components/modals/UpdatePromptModal';
 import { parseShareUrl } from '@/lib/shareCrypto';
 import { BrowserCompatibilityNotice } from '@/components/BrowserCompatibilityNotice';
 import { BackgroundBeams } from '@/components/effects/BackgroundBeams';
+import marineCodersLogo from '/attachments/marine-coders-logo.svg';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
@@ -969,14 +970,14 @@ ${texFiles['body.tex'] || '% No body content'}
       {/* Marine Coders EGA watermark - behind beams */}
       <div className="fixed inset-0 z-0 flex items-center justify-center pointer-events-none mt-16">
         <img
-          src="/attachments/marine-coders-logo.svg"
+          src={marineCodersLogo}
           alt=""
-          className="w-full max-w-[1200px] opacity-[0.07] dark:opacity-[0.10] invert dark:invert-0"
+          className="w-full max-w-[90vw] sm:max-w-[1200px] opacity-[0.08] sm:opacity-[0.07] dark:opacity-[0.12] dark:sm:opacity-[0.10] invert dark:invert-0"
           aria-hidden="true"
         />
       </div>
       {/* Animated background beams - ported from Marines.dev */}
-      <BackgroundBeams className="fixed inset-0 z-0 opacity-60 dark:opacity-100" />
+      <BackgroundBeams className="fixed inset-0 z-0 opacity-60 dark:opacity-100" reducedMotion={isMobile} />
       {/* Skip link for keyboard navigation - WCAG 2.4.1 */}
       <a
         href="#main-content"

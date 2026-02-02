@@ -76,11 +76,12 @@ export function PreviewPanel({ pdfUrl, isCompiling, error }: PreviewPanelProps) 
   if (isMobile) {
     return (
       <button
-        className="fixed bottom-4 right-4 z-50 shadow-lg bg-primary text-primary-foreground px-4 py-2 rounded-md flex items-center gap-2 hover:bg-primary/90 transition-colors"
+        className="fixed bottom-6 right-4 z-50 shadow-xl bg-primary text-primary-foreground px-5 py-3 rounded-full flex items-center gap-2 hover:bg-primary/90 transition-colors text-sm font-medium"
+        style={{ marginBottom: 'env(safe-area-inset-bottom, 0px)' }}
         onClick={() => setMobilePreviewOpen(true)}
         aria-label="Preview PDF"
       >
-        <Eye className="h-4 w-4" aria-hidden="true" />
+        <Eye className="h-5 w-5" aria-hidden="true" />
         Preview PDF
       </button>
     );

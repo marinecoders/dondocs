@@ -211,7 +211,7 @@ export function DocumentTypeSelector() {
   return (
     <div className="space-y-density-4">
       {/* Category Tabs - Correspondence vs Forms (at the top) */}
-      <div className="space-y-2">
+      <div className="space-y-2 border border-border rounded-lg bg-card/60 backdrop-blur-sm px-3 py-3 shadow-sm">
         <Label>Category</Label>
         <Tabs value={documentCategory} onValueChange={(v) => setDocumentCategory(v as DocumentCategory)}>
           <TabsList className="grid w-full grid-cols-2">
@@ -229,7 +229,7 @@ export function DocumentTypeSelector() {
 
       {/* Mode Toggle - Only show for Correspondence (Forms have fixed format) */}
       {isCorrespondence && (
-        <>
+        <div className="border border-border rounded-lg bg-card/60 backdrop-blur-sm px-3 py-3 shadow-sm space-y-density-4">
           <div className="flex gap-density-2">
             <Button
               variant={isCompliant ? 'default' : 'outline'}
@@ -259,7 +259,7 @@ export function DocumentTypeSelector() {
               <>Customize fonts and formatting to your preferences.</>
             )}
           </div>
-        </>
+        </div>
       )}
 
       {/* Correspondence Document Type Selector */}
