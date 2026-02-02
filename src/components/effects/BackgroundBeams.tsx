@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { cn } from '@/lib/utils';
 
 function generateBeamPaths(count: number): string[] {

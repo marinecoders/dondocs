@@ -120,7 +120,8 @@ const pdfViewerStyles = `
 `;
 
 // Configure pdf.js worker for react-pdf (non-iOS)
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+// react-pdf v10 uses pdfjs-dist v5 — worker copied to public/lib/
+pdfjs.GlobalWorkerOptions.workerSrc = `${import.meta.env.BASE_URL}lib/pdf.worker.min.mjs`;
 
 // Worker URL for react-pdf-viewer (iOS)
 const PDFJS_WORKER_URL = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
@@ -259,8 +260,6 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
   const { setOpen: setLogViewerOpen, setEnabled: setLogEnabled } = useLogStore();
   const [numPages, setNumPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pdfLoading, setPdfLoading] = useState<boolean>(true);
-  const [pdfError, setPdfError] = useState<string | null>(null);
   const pageRefs = useRef<Map<number, HTMLDivElement>>(new Map());
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -277,8 +276,6 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
   // Reset state when modal opens or pdfUrl changes
   useEffect(() => {
     if (mobilePreviewOpen && pdfUrl) {
-      setPdfLoading(true);
-      setPdfError(null);
       setCurrentPage(1);
     }
   }, [mobilePreviewOpen, pdfUrl]);
@@ -294,14 +291,10 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
   const onDocumentLoadSuccess = useCallback(({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
     setCurrentPage(1);
-    setPdfLoading(false);
-    setPdfError(null);
   }, []);
 
   const onDocumentLoadError = useCallback((err: Error) => {
     console.error('PDF load error:', err?.message || err);
-    setPdfLoading(false);
-    setPdfError(`Failed to load PDF preview: ${err?.message || 'Unknown error'}`);
   }, []);
 
   // Track visible page via IntersectionObserver
