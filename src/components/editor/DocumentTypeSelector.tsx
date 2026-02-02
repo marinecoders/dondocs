@@ -234,7 +234,7 @@ export function DocumentTypeSelector() {
             <Button
               variant={isCompliant ? 'default' : 'outline'}
               size="sm"
-              className="flex-1"
+              className={`flex-1 ${!isCompliant ? 'border-border hover:border-primary/40' : ''}`}
               onClick={() => setDocumentMode('compliant')}
             >
               <Shield className="h-4 w-4 mr-2" />
@@ -243,7 +243,7 @@ export function DocumentTypeSelector() {
             <Button
               variant={!isCompliant ? 'default' : 'outline'}
               size="sm"
-              className="flex-1"
+              className={`flex-1 ${isCompliant ? 'border-border hover:border-primary/40' : ''}`}
               onClick={() => setDocumentMode('custom')}
             >
               <Settings2 className="h-4 w-4 mr-2" />
