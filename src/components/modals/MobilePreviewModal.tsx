@@ -432,67 +432,66 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
           </div>
         )}
 
-        {/* PDF Viewer - non-iOS: iframe with built-in PDF viewer, react-pdf fallback */}
+        {/* PDF Viewer - non-iOS: react-pdf scrollable all-pages view */}
+        {/* Note: iframe doesn't work on mobile — browsers can't render blob URLs inline */}
         {pdfUrl && !isCompiling && (
-          <div className="flex-1 h-full">
-            {!pdfError ? (
-              <iframe
-                src={pdfUrl}
-                className="w-full h-full border-0"
-                title="PDF Preview"
-                onError={() => setPdfError('Browser PDF viewer failed')}
-                onLoad={() => setPdfLoading(false)}
-              />
-            ) : (
-              /* Fallback: react-pdf canvas renderer if iframe fails */
-              <div className="flex flex-col items-center p-2 gap-4 min-h-full overflow-auto" style={{ touchAction: 'pan-y pinch-zoom' }}>
-                <Document
-                  file={pdfUrl}
-                  onLoadSuccess={onDocumentLoadSuccess}
-                  onLoadError={onDocumentLoadError}
-                  loading={
-                    <div className="flex items-center justify-center py-12">
-                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                    </div>
-                  }
-                  className="flex flex-col items-center gap-4"
-                  error={
-                    <div className="flex flex-col items-center justify-center py-12 gap-4">
-                      <AlertCircle className="h-12 w-12 text-destructive/70" />
-                      <p className="text-sm text-muted-foreground">Failed to render PDF</p>
-                      <Button variant="outline" onClick={handleDownload}>
-                        <Download className="h-4 w-4 mr-2" />
-                        Download Instead
-                      </Button>
-                    </div>
-                  }
+          <div
+            ref={scrollContainerRef}
+            className="flex flex-col items-center p-2 gap-4 min-h-full overflow-auto"
+            style={{ touchAction: 'pan-y pinch-zoom' }}
+          >
+            <Document
+              file={pdfUrl}
+              onLoadSuccess={onDocumentLoadSuccess}
+              onLoadError={onDocumentLoadError}
+              loading={
+                <div className="flex items-center justify-center py-12">
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                </div>
+              }
+              className="flex flex-col items-center gap-4"
+              error={
+                <div className="flex flex-col items-center justify-center py-12 gap-4">
+                  <AlertCircle className="h-12 w-12 text-destructive/70" />
+                  <p className="text-sm text-muted-foreground">Failed to render PDF</p>
+                  <Button variant="outline" onClick={handleDownload}>
+                    <Download className="h-4 w-4 mr-2" />
+                    Download Instead
+                  </Button>
+                </div>
+              }
+            >
+              {Array.from(new Array(numPages), (_, index) => (
+                <div
+                  key={index}
+                  ref={(el) => { if (el) pageRefs.current.set(index + 1, el); }}
+                  data-page={index + 1}
                 >
-                  {Array.from(new Array(numPages), (_, index) => (
-                    <div
-                      key={index}
-                      ref={(el) => { if (el) pageRefs.current.set(index + 1, el); }}
-                      data-page={index + 1}
-                    >
-                      <Page
-                        pageNumber={index + 1}
-                        width={window.innerWidth - 16}
-                        className="shadow-lg"
-                        renderTextLayer={false}
-                        renderAnnotationLayer={false}
-                        loading={
-                          <div className="flex items-center justify-center py-12">
-                            <Loader2 className="h-6 w-6 animate-spin text-primary" />
-                          </div>
-                        }
-                        error={
-                          <div className="flex items-center justify-center py-12">
-                            <p className="text-sm text-muted-foreground">Error rendering page {index + 1}</p>
-                          </div>
-                        }
-                      />
-                    </div>
-                  ))}
-                </Document>
+                  <Page
+                    pageNumber={index + 1}
+                    width={window.innerWidth - 16}
+                    className="shadow-lg"
+                    renderTextLayer={false}
+                    renderAnnotationLayer={false}
+                    loading={
+                      <div className="flex items-center justify-center py-12">
+                        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                      </div>
+                    }
+                    error={
+                      <div className="flex items-center justify-center py-12">
+                        <p className="text-sm text-muted-foreground">Error rendering page {index + 1}</p>
+                      </div>
+                    }
+                  />
+                </div>
+              ))}
+            </Document>
+
+            {/* Floating page indicator */}
+            {numPages > 1 && (
+              <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-card/90 backdrop-blur-sm border border-border rounded-full px-3 py-1 text-xs font-medium shadow-lg">
+                Page {currentPage} of {numPages}
               </div>
             )}
           </div>
