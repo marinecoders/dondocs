@@ -275,7 +275,7 @@ export function DocumentTypeSelector() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="h-6 px-2 text-primary hover:text-primary/80 hover:bg-primary/10"
+                    className="h-6 px-2 bg-primary/10 border border-primary/30 text-primary hover:text-primary/80 hover:bg-primary/20"
                     onClick={() => setTemplateLoaderOpen(true)}
                   >
                     <FolderOpen className="h-3.5 w-3.5 mr-1" />
@@ -293,7 +293,7 @@ export function DocumentTypeSelector() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="h-6 px-2 text-orange-600 hover:text-orange-700 hover:bg-orange-100 dark:text-orange-400 dark:hover:text-orange-300 dark:hover:bg-orange-900/30"
+                    className="h-6 px-2 bg-orange-500/10 border border-orange-500/30 text-orange-600 hover:text-orange-700 hover:bg-orange-500/20 dark:text-orange-400 dark:hover:text-orange-300 dark:hover:bg-orange-500/20"
                     onClick={() => setShowClearDialog(true)}
                   >
                     <Eraser className="h-3.5 w-3.5 mr-1" />
