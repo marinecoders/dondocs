@@ -6,7 +6,7 @@ import type { FontType, FontProps } from './styles';
 import { styledRun } from './utils';
 
 // Module imports
-import { buildLetterhead } from './letterhead';
+import { buildLetterhead, getSealFilename } from './letterhead';
 import {
   buildSSICBlock,
   buildInReplyTo,
@@ -49,11 +49,46 @@ export interface DocumentStore {
   copyTos: CopyTo[];
 }
 
+// Context passed to all layout builders
+interface LayoutContext {
+  store: DocumentStore;
+  config: DocTypeConfig;
+  fp: FontProps;
+  fontType: FontType;
+  sealImageData?: Uint8Array;
+  includeHyperlinks: boolean;
+}
+
+// Fetch seal image from public/attachments/
+async function fetchSealImage(sealType: string | undefined, letterheadColor: string | undefined): Promise<Uint8Array | undefined> {
+  try {
+    const filename = getSealFilename(sealType, letterheadColor);
+    const url = `${import.meta.env.BASE_URL}attachments/${filename}`;
+    const response = await fetch(url);
+    if (!response.ok) return undefined;
+    const buffer = await response.arrayBuffer();
+    return new Uint8Array(buffer);
+  } catch {
+    return undefined;
+  }
+}
+
 export async function generateDocx(store: DocumentStore): Promise<Uint8Array> {
   const data = store.formData;
   const config = DOC_TYPE_CONFIG[store.docType] || DOC_TYPE_CONFIG.naval_letter;
   const fontType: FontType = (data.fontFamily as FontType) || 'courier';
   const fp = getFontProps(fontType, data.fontSize);
+
+  // Fetch seal image if letterhead is used
+  let sealImageData: Uint8Array | undefined;
+  if (config.letterhead) {
+    sealImageData = await fetchSealImage(data.sealType, data.letterheadColor);
+  }
+
+  const ctx: LayoutContext = {
+    store, config, fp, fontType, sealImageData,
+    includeHyperlinks: !!data.includeHyperlinks,
+  };
 
   // Collect all section children (paragraphs and tables)
   const children: (DocxParagraph | Table)[] = [];
@@ -61,22 +96,22 @@ export async function generateDocx(store: DocumentStore): Promise<Uint8Array> {
   // Dispatch on uiMode
   switch (config.uiMode) {
     case 'standard':
-      buildStandardLayout(children, store, config, fp, fontType);
+      buildStandardLayout(children, ctx);
       break;
     case 'business':
-      buildBusinessLayout(children, store, config, fp, fontType);
+      buildBusinessLayout(children, ctx);
       break;
     case 'memo':
-      buildMemoLayout(children, store, config, fp, fontType);
+      buildMemoLayout(children, ctx);
       break;
     case 'moa':
-      buildMOALayout(children, store, config, fp, fontType);
+      buildMOALayout(children, ctx);
       break;
     case 'joint':
-      buildJointLayout(children, store, config, fp, fontType);
+      buildJointLayout(children, ctx);
       break;
     case 'joint_memo':
-      buildJointMemoLayout(children, store, config, fp, fontType);
+      buildJointMemoLayout(children, ctx);
       break;
   }
 
@@ -106,273 +141,147 @@ export async function generateDocx(store: DocumentStore): Promise<Uint8Array> {
 }
 
 // Standard layout: naval letter, standard letter, multiple address letter, endorsements
-function buildStandardLayout(
-  children: (DocxParagraph | Table)[],
-  store: DocumentStore,
-  config: DocTypeConfig,
-  fp: FontProps,
-  fontType: FontType
-) {
+function buildStandardLayout(children: (DocxParagraph | Table)[], ctx: LayoutContext) {
+  const { store, config, fp, fontType, sealImageData, includeHyperlinks } = ctx;
   const data = store.formData;
 
-  // Endorsement headers
   if (store.docType === 'same_page_endorsement') {
     children.push(...buildSamePageEndorsementHeader(1, fp));
   } else if (store.docType === 'new_page_endorsement') {
     children.push(...buildNewPageEndorsementHeader(1, fp));
   }
 
-  // Letterhead (if applicable)
-  if (config.letterhead) {
-    children.push(...buildLetterhead(data, fp));
-  }
-
-  // SSIC block
-  if (config.ssic) {
-    children.push(...buildSSICBlock(data, fp));
-  }
-
-  // In Reply To
+  if (config.letterhead) children.push(...buildLetterhead(data, fp, sealImageData));
+  if (config.ssic) children.push(...buildSSICBlock(data, fp));
   children.push(...buildInReplyTo(data, fp));
 
-  // From/To/Via
   if (config.fromTo) {
     children.push(...buildFromLine(data, fp, fontType));
     children.push(...buildToLine(data, fp, fontType));
   }
-  if (config.via) {
-    children.push(...buildViaLines(data, fp, fontType));
-  }
+  if (config.via) children.push(...buildViaLines(data, fp, fontType));
 
-  // Subject
   children.push(...buildSubjectLine(data, fp, fontType));
-
-  // References and Enclosures
-  children.push(...buildReferences(store.references, fp, fontType));
+  children.push(...buildReferences(store.references, fp, fontType, includeHyperlinks));
   children.push(...buildEnclosures(store.enclosures, fp, fontType));
 
-  // Body paragraphs
   children.push(...buildBody(store.paragraphs, fp, {
     numberedParagraphs: config.compliance.numberedParagraphs,
     isBusinessLetter: false,
   }));
 
-  // Signature
   children.push(...buildSignature(data, config, fp));
-
-  // Copy-to
   children.push(...buildCopyTo(store.copyTos, fp));
 }
 
 // Business letter layout
-function buildBusinessLayout(
-  children: (DocxParagraph | Table)[],
-  store: DocumentStore,
-  config: DocTypeConfig,
-  fp: FontProps,
-  _fontType: FontType
-) {
+function buildBusinessLayout(children: (DocxParagraph | Table)[], ctx: LayoutContext) {
+  const { store, config, fp, sealImageData } = ctx;
   const data = store.formData;
 
-  // Letterhead
-  if (config.letterhead) {
-    children.push(...buildLetterhead(data, fp));
-  }
-
-  // Date only (no SSIC/Serial)
+  if (config.letterhead) children.push(...buildLetterhead(data, fp, sealImageData));
   children.push(...buildSSICBlock({ date: data.date }, fp));
-
-  // Recipient address
   children.push(...buildRecipientAddress(data, fp));
-
-  // Salutation
   children.push(...buildSalutation(data, fp));
 
-  // Body (no numbered paragraphs, 0.5" first-line indent)
   children.push(...buildBody(store.paragraphs, fp, {
     numberedParagraphs: false,
     isBusinessLetter: true,
   }));
 
-  // Complimentary close + signature
   children.push(...buildBusinessSignature(data, fp));
-
-  // Copy-to
   children.push(...buildCopyTo(store.copyTos, fp));
 }
 
 // Memo layout (MFR, MF, plain paper, letterhead, decision, executive)
-function buildMemoLayout(
-  children: (DocxParagraph | Table)[],
-  store: DocumentStore,
-  config: DocTypeConfig,
-  fp: FontProps,
-  fontType: FontType
-) {
+function buildMemoLayout(children: (DocxParagraph | Table)[], ctx: LayoutContext) {
+  const { store, config, fp, fontType, sealImageData, includeHyperlinks } = ctx;
   const data = store.formData;
 
-  // Letterhead (if applicable)
-  if (config.letterhead) {
-    children.push(...buildLetterhead(data, fp));
-  }
+  if (config.letterhead) children.push(...buildLetterhead(data, fp, sealImageData));
+  if (config.ssic) children.push(...buildSSICBlock(data, fp));
+  if (config.memoHeader) children.push(...buildMemoHeader(store.docType, fp));
 
-  // SSIC block (if applicable)
-  if (config.ssic) {
-    children.push(...buildSSICBlock(data, fp));
-  }
-
-  // Memo header (centered title variant)
-  if (config.memoHeader) {
-    children.push(...buildMemoHeader(store.docType, fp));
-  }
-
-  // From/To (some memos have them, some don't)
   if (config.fromTo) {
     children.push(...buildFromLine(data, fp, fontType));
     children.push(...buildToLine(data, fp, fontType));
   }
 
-  // Subject
   children.push(...buildSubjectLine(data, fp, fontType));
-
-  // References and Enclosures
-  children.push(...buildReferences(store.references, fp, fontType));
+  children.push(...buildReferences(store.references, fp, fontType, includeHyperlinks));
   children.push(...buildEnclosures(store.enclosures, fp, fontType));
 
-  // Body
   children.push(...buildBody(store.paragraphs, fp, {
     numberedParagraphs: config.compliance.numberedParagraphs,
     isBusinessLetter: false,
   }));
 
-  // Decision block (for decision_memorandum)
-  if (store.docType === 'decision_memorandum') {
-    children.push(...buildDecisionBlock(fp));
-  }
-
-  // Signature
+  if (store.docType === 'decision_memorandum') children.push(...buildDecisionBlock(fp));
   children.push(...buildSignature(data, config, fp));
-
-  // Copy-to
   children.push(...buildCopyTo(store.copyTos, fp));
 }
 
 // MOA/MOU layout
-function buildMOALayout(
-  children: (DocxParagraph | Table)[],
-  store: DocumentStore,
-  config: DocTypeConfig,
-  fp: FontProps,
-  fontType: FontType
-) {
+function buildMOALayout(children: (DocxParagraph | Table)[], ctx: LayoutContext) {
+  const { store, config, fp, fontType, sealImageData, includeHyperlinks } = ctx;
   const data = store.formData;
 
-  // Letterhead
-  if (config.letterhead) {
-    children.push(...buildLetterhead(data, fp));
-  }
-
-  // Dual SSIC blocks
+  if (config.letterhead) children.push(...buildLetterhead(data, fp, sealImageData));
   children.push(...buildMOASSICBlock(data, fp));
-
-  // Centered title ("MEMORANDUM OF AGREEMENT BETWEEN X AND Y")
   children.push(...buildMOATitle(data, store.docType, fp));
 
-  // Subject (MOA uses moaSubject)
   if (data.moaSubject) {
     const tempData = { ...data, subject: data.moaSubject };
     children.push(...buildSubjectLine(tempData, fp, fontType));
   }
 
-  // References and Enclosures
-  children.push(...buildReferences(store.references, fp, fontType));
+  children.push(...buildReferences(store.references, fp, fontType, includeHyperlinks));
   children.push(...buildEnclosures(store.enclosures, fp, fontType));
 
-  // Body
   children.push(...buildBody(store.paragraphs, fp, {
     numberedParagraphs: config.compliance.numberedParagraphs,
     isBusinessLetter: false,
   }));
 
-  // Dual signature (overscore style)
   children.push(...buildMOADualSignature(data, fp));
-
-  // Copy-to
   children.push(...buildCopyTo(store.copyTos, fp));
 }
 
 // Joint letter layout
-function buildJointLayout(
-  children: (DocxParagraph | Table)[],
-  store: DocumentStore,
-  config: DocTypeConfig,
-  fp: FontProps,
-  fontType: FontType
-) {
+function buildJointLayout(children: (DocxParagraph | Table)[], ctx: LayoutContext) {
+  const { store, config, fp, fontType, includeHyperlinks } = ctx;
   const data = store.formData;
 
-  // Joint letterhead (both commands centered)
   children.push(...buildJointLetterhead(data, fp));
-
-  // Joint SSIC block
   children.push(...buildJointSSICBlock(data, fp));
-
-  // Dual From lines
   children.push(...buildJointFromLines(data, fp, fontType));
-
-  // To
   children.push(...buildJointToLine(data, fp, fontType));
-
-  // Subject
   children.push(...buildJointSubjectLine(data, fp, fontType));
-
-  // References and Enclosures
-  children.push(...buildReferences(store.references, fp, fontType));
+  children.push(...buildReferences(store.references, fp, fontType, includeHyperlinks));
   children.push(...buildEnclosures(store.enclosures, fp, fontType));
 
-  // Body
   children.push(...buildBody(store.paragraphs, fp, {
     numberedParagraphs: config.compliance.numberedParagraphs,
     isBusinessLetter: false,
   }));
 
-  // Dual signature (no overscore)
   children.push(...buildJointDualSignature(data, fp));
-
-  // Copy-to
   children.push(...buildCopyTo(store.copyTos, fp));
 }
 
 // Joint memorandum layout
-function buildJointMemoLayout(
-  children: (DocxParagraph | Table)[],
-  store: DocumentStore,
-  config: DocTypeConfig,
-  fp: FontProps,
-  fontType: FontType
-) {
+function buildJointMemoLayout(children: (DocxParagraph | Table)[], ctx: LayoutContext) {
+  const { store, config, fp, fontType, sealImageData, includeHyperlinks } = ctx;
   const data = store.formData;
 
-  // Letterhead
-  if (config.letterhead) {
-    children.push(...buildLetterhead(data, fp));
-  }
-
-  // SSIC block
-  if (config.ssic) {
-    children.push(...buildSSICBlock(data, fp));
-  }
-
-  // Memo header
+  if (config.letterhead) children.push(...buildLetterhead(data, fp, sealImageData));
+  if (config.ssic) children.push(...buildSSICBlock(data, fp));
   children.push(...buildMemoHeader('joint_memorandum', fp));
 
-  // From/To
   if (config.fromTo) {
-    // Joint memo uses specific from fields
     const fromData = { ...data, from: data.jointMemoSeniorFrom };
     children.push(...buildFromLine(fromData, fp, fontType));
 
-    // Junior from as continuation
     if (data.jointMemoJuniorFrom) {
       const isCourier = fontType === 'courier';
       children.push(
@@ -390,22 +299,15 @@ function buildJointMemoLayout(
     children.push(...buildToLine(data, fp, fontType));
   }
 
-  // Subject
   children.push(...buildSubjectLine(data, fp, fontType));
-
-  // References and Enclosures
-  children.push(...buildReferences(store.references, fp, fontType));
+  children.push(...buildReferences(store.references, fp, fontType, includeHyperlinks));
   children.push(...buildEnclosures(store.enclosures, fp, fontType));
 
-  // Body
   children.push(...buildBody(store.paragraphs, fp, {
     numberedParagraphs: config.compliance.numberedParagraphs,
     isBusinessLetter: false,
   }));
 
-  // Dual signature
   children.push(...buildJointMemoDualSignature(data, fp));
-
-  // Copy-to
   children.push(...buildCopyTo(store.copyTos, fp));
 }

@@ -1,23 +1,52 @@
-import { Paragraph as DocxParagraph, AlignmentType } from 'docx';
+import {
+  Paragraph as DocxParagraph,
+  AlignmentType,
+  Table,
+  TableRow,
+  TableCell,
+  WidthType,
+  BorderStyle,
+  ImageRun,
+  convertInchesToTwip,
+} from 'docx';
 import type { DocumentData } from '@/types/document';
 import type { FontProps } from './styles';
 import { SPACING } from './styles';
 import { getDepartmentName, styledRun } from './utils';
 
-export function buildLetterhead(data: Partial<DocumentData>, fp: FontProps): DocxParagraph[] {
-  const paragraphs: DocxParagraph[] = [];
+const NO_BORDERS = {
+  top: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+  bottom: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+  left: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+  right: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+};
 
-  // Department name (centered, bold, all caps)
-  paragraphs.push(
+// Resolve seal filename from sealType and letterheadColor
+function getSealFilename(sealType: string | undefined, letterheadColor: string | undefined): string {
+  const type = sealType || 'dow';
+  const isBlack = letterheadColor === 'black';
+  return isBlack ? `${type}-seal-bw.png` : `${type}-seal.png`;
+}
+
+export function buildLetterhead(
+  data: Partial<DocumentData>,
+  fp: FontProps,
+  sealImageData?: Uint8Array
+): (DocxParagraph | Table)[] {
+  const result: (DocxParagraph | Table)[] = [];
+
+  // Build the text paragraphs for the letterhead
+  const textParagraphs: DocxParagraph[] = [];
+
+  textParagraphs.push(
     new DocxParagraph({
       children: [styledRun(getDepartmentName(data.department), fp, { bold: true, allCaps: true })],
       alignment: AlignmentType.CENTER,
     })
   );
 
-  // Unit line 1 (centered, bold)
   if (data.unitLine1) {
-    paragraphs.push(
+    textParagraphs.push(
       new DocxParagraph({
         children: [styledRun(data.unitLine1.toUpperCase(), fp, { bold: true })],
         alignment: AlignmentType.CENTER,
@@ -25,9 +54,8 @@ export function buildLetterhead(data: Partial<DocumentData>, fp: FontProps): Doc
     );
   }
 
-  // Unit line 2 (centered)
   if (data.unitLine2) {
-    paragraphs.push(
+    textParagraphs.push(
       new DocxParagraph({
         children: [styledRun(data.unitLine2.toUpperCase(), fp)],
         alignment: AlignmentType.CENTER,
@@ -35,16 +63,68 @@ export function buildLetterhead(data: Partial<DocumentData>, fp: FontProps): Doc
     );
   }
 
-  // Unit address (centered, extra spacing after)
   if (data.unitAddress) {
-    paragraphs.push(
+    textParagraphs.push(
       new DocxParagraph({
         children: [styledRun(data.unitAddress.toUpperCase(), fp)],
         alignment: AlignmentType.CENTER,
-        spacing: { after: SPACING.large },
       })
     );
   }
 
-  return paragraphs;
+  // If seal image data is available, use a 2-column table layout
+  if (sealImageData) {
+    const sealWidth = convertInchesToTwip(0.75);
+    const textWidth = convertInchesToTwip(5.5);
+
+    const sealTable = new Table({
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      rows: [
+        new TableRow({
+          children: [
+            // Seal column
+            new TableCell({
+              children: [
+                new DocxParagraph({
+                  children: [
+                    new ImageRun({
+                      data: sealImageData,
+                      transformation: { width: 54, height: 54 }, // ~0.75 inch
+                      type: 'png',
+                    }),
+                  ],
+                  alignment: AlignmentType.CENTER,
+                }),
+              ],
+              width: { size: sealWidth, type: WidthType.DXA },
+              borders: NO_BORDERS,
+            }),
+            // Text column
+            new TableCell({
+              children: textParagraphs,
+              width: { size: textWidth, type: WidthType.DXA },
+              borders: NO_BORDERS,
+            }),
+          ],
+        }),
+      ],
+    });
+
+    result.push(sealTable);
+  } else {
+    // No seal — just use centered text
+    result.push(...textParagraphs);
+  }
+
+  // Add spacing after letterhead
+  result.push(
+    new DocxParagraph({
+      children: [],
+      spacing: { after: SPACING.large },
+    })
+  );
+
+  return result;
 }
+
+export { getSealFilename };

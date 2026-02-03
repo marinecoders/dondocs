@@ -7,11 +7,12 @@ import {
   WidthType,
   BorderStyle,
   convertInchesToTwip,
+  ImageRun,
 } from 'docx';
 import type { DocumentData, DocTypeConfig } from '@/types/document';
 import type { FontProps } from './styles';
 import { SPACING } from './styles';
-import { abbreviateName, buildFullName, capitalizeWord, styledRun } from './utils';
+import { abbreviateName, buildFullName, capitalizeWord, styledRun, base64ToUint8Array } from './utils';
 
 const NO_BORDERS = {
   top: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
@@ -47,13 +48,29 @@ export function buildSignature(
     );
   }
 
-  // Space for handwritten signature
-  result.push(
-    new DocxParagraph({
-      children: [],
-      spacing: { before: data.byDirection ? SPACING.normal : SPACING.large, after: SPACING.sigGap },
-    })
-  );
+  // Signature image or space for handwritten signature
+  if (data.signatureType === 'image' && data.signatureImage?.data) {
+    const imgData = base64ToUint8Array(data.signatureImage.data);
+    result.push(
+      new DocxParagraph({
+        children: [
+          new ImageRun({
+            data: imgData,
+            transformation: { width: 200, height: 80 },
+            type: 'png',
+          }),
+        ],
+        spacing: { before: data.byDirection ? SPACING.normal : SPACING.large },
+      })
+    );
+  } else {
+    result.push(
+      new DocxParagraph({
+        children: [],
+        spacing: { before: data.byDirection ? SPACING.normal : SPACING.large, after: SPACING.sigGap },
+      })
+    );
+  }
 
   // Signature name (abbreviated for 'abbrev', full for 'full')
   const sigName = config.signature === 'abbrev'
@@ -100,13 +117,28 @@ export function buildBusinessSignature(data: Partial<DocumentData>, fp: FontProp
     })
   );
 
-  // Space for handwritten signature
-  result.push(
-    new DocxParagraph({
-      children: [],
-      spacing: { after: SPACING.sigGap },
-    })
-  );
+  // Signature image or space for handwritten signature
+  if (data.signatureType === 'image' && data.signatureImage?.data) {
+    const imgData = base64ToUint8Array(data.signatureImage.data);
+    result.push(
+      new DocxParagraph({
+        children: [
+          new ImageRun({
+            data: imgData,
+            transformation: { width: 200, height: 80 },
+            type: 'png',
+          }),
+        ],
+      })
+    );
+  } else {
+    result.push(
+      new DocxParagraph({
+        children: [],
+        spacing: { after: SPACING.sigGap },
+      })
+    );
+  }
 
   // Full name
   const fullName = buildFullName(data.sigFirst, data.sigMiddle, data.sigLast);

@@ -1,4 +1,4 @@
-import { Paragraph as DocxParagraph } from 'docx';
+import { Paragraph as DocxParagraph, ExternalHyperlink } from 'docx';
 import type { DocumentData, Reference, Enclosure } from '@/types/document';
 import type { FontProps, FontType } from './styles';
 import { SSIC_INDENT, SPACING, getCourierSpacing, getTimesTabStop, COURIER_CONTINUATION_INDENT } from './styles';
@@ -162,8 +162,13 @@ export function buildSubjectLine(data: Partial<DocumentData>, fp: FontProps, fon
   return buildLabeledLine('Subj:', 'subj', subjectText, fp, fontType, { spacingAfter: SPACING.normal });
 }
 
-// References section
-export function buildReferences(references: Reference[], fp: FontProps, fontType: FontType): DocxParagraph[] {
+// References section (with optional hyperlinks)
+export function buildReferences(
+  references: Reference[],
+  fp: FontProps,
+  fontType: FontType,
+  includeHyperlinks: boolean = false
+): DocxParagraph[] {
   if (references.length === 0) return [];
 
   const isCourier = fontType === 'courier';
@@ -176,18 +181,29 @@ export function buildReferences(references: Reference[], fp: FontProps, fontType
       const isFirstRef = index === 0;
 
       if (isFirstLine) {
+        // Build the reference text, optionally as a hyperlink
+        const refText = `(${ref.letter}) ${line}`;
+        const hasUrl = includeHyperlinks && ref.url?.trim();
+
+        const children = [
+          styledRun(isFirstRef ? 'Ref:' : '', fp),
+          styledRun(
+            isCourier
+              ? (isFirstRef ? getCourierSpacing('ref') : ' '.repeat(7))
+              : '\t',
+            fp
+          ),
+          ...(hasUrl
+            ? [new ExternalHyperlink({
+                children: [styledRun(refText, fp, { color: '0563C1', underline: {} })],
+                link: ref.url!,
+              })]
+            : [styledRun(refText, fp)]),
+        ];
+
         paragraphs.push(
           new DocxParagraph({
-            children: [
-              styledRun(isFirstRef ? 'Ref:' : '', fp),
-              styledRun(
-                isCourier
-                  ? (isFirstRef ? getCourierSpacing('ref') : ' '.repeat(7))
-                  : '\t',
-                fp
-              ),
-              styledRun(`(${ref.letter}) ${line}`, fp),
-            ],
+            children,
             tabStops: isCourier ? undefined : [getTimesTabStop()],
           })
         );

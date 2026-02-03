@@ -568,6 +568,26 @@ function App() {
     }
   }, [executeDownload, waitForReady]);
 
+  // DOCX download helpers (must be before handleProceedWithPII)
+  const pendingDocxRef = useRef<boolean>(false);
+
+  const executeDocxDownload = useCallback(async () => {
+    const docxBytes = await generateDocx(documentStore);
+    const arrayBuffer = docxBytes.buffer.slice(
+      docxBytes.byteOffset,
+      docxBytes.byteOffset + docxBytes.byteLength
+    ) as ArrayBuffer;
+    const blob = new Blob([arrayBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'correspondence.docx';
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [documentStore]);
+
   // Core PII download function - can be called for retry
   const executePIIDownload = useCallback(async (preOpenedWindow?: Window | null): Promise<boolean> => {
     if (!pendingDownloadRef.current) return false;
@@ -615,6 +635,18 @@ function App() {
 
   // Handle proceeding with download after PII warning is acknowledged
   const handleProceedWithPII = useCallback(async () => {
+    // Check if this was a DOCX download
+    if (pendingDocxRef.current) {
+      pendingDocxRef.current = false;
+      setPiiDetectionResult(null);
+      try {
+        await executeDocxDownload();
+      } catch (err) {
+        console.error('DOCX generation error:', err);
+      }
+      return;
+    }
+
     if (!pendingDownloadRef.current) return;
 
     // Prevent clicks while download is in progress
@@ -672,11 +704,12 @@ function App() {
       pendingDownloadRef.current = null;
       setPiiDetectionResult(null);
     }
-  }, [executePIIDownload, waitForReady]);
+  }, [executePIIDownload, executeDocxDownload, waitForReady]);
 
   // Handle canceling download after PII warning
   const handleCancelPIIDownload = useCallback(() => {
     pendingDownloadRef.current = null;
+    pendingDocxRef.current = false;
     setPiiDetectionResult(null);
   }, []);
 
@@ -844,25 +877,21 @@ ${texFiles['body.tex'] || '% No body content'}
   }, [documentStore]);
 
   const handleDownloadDocx = useCallback(async () => {
+    // Check for PII before downloading
+    const piiResult = detectPII(documentStore);
+    if (piiResult.found) {
+      pendingDocxRef.current = true;
+      setPiiDetectionResult(piiResult);
+      setPiiWarningOpen(true);
+      return;
+    }
+
     try {
-      const docxBytes = await generateDocx(documentStore);
-      const arrayBuffer = docxBytes.buffer.slice(
-        docxBytes.byteOffset,
-        docxBytes.byteOffset + docxBytes.byteLength
-      ) as ArrayBuffer;
-      const blob = new Blob([arrayBuffer], {
-        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'correspondence.docx';
-      a.click();
-      URL.revokeObjectURL(url);
+      await executeDocxDownload();
     } catch (err) {
       console.error('DOCX generation error:', err);
     }
-  }, [documentStore]);
+  }, [documentStore, executeDocxDownload, setPiiWarningOpen]);
 
   // Global keyboard shortcuts
   useEffect(() => {
