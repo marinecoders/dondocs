@@ -1,0 +1,75 @@
+{
+  "version": "1.0",
+  "exportedAt": "2026-01-22T00:00:00.000Z",
+  "documentMode": "compliant",
+  "docType": "business_letter",
+  "formData": {
+    "docType": "business_letter",
+    "fontSize": "12pt",
+    "fontFamily": "times",
+    "pageNumbering": "none",
+    "department": "usmc",
+    "unitLine1": "MARINE CORPS INSTALLATIONS EAST",
+    "unitLine2": "MARINE CORPS BASE CAMP LEJEUNE",
+    "unitAddress": "PSC BOX 20004, CAMP LEJEUNE NC 28542-0004",
+    "sealType": "dow",
+    "letterheadColor": "blue",
+    "ssic": "",
+    "serial": "",
+    "date": "22 Jan 26",
+    "from": "Commanding General, Marine Corps Installations East - Marine Corps Base Camp Lejeune",
+    "to": "The Honorable Jane A. Richardson\nUnited States House of Representatives\n2400 Rayburn House Office Building\nWashington, DC 20515",
+    "via": "",
+    "subject": "",
+    "sigFirst": "William",
+    "sigMiddle": "Thomas",
+    "sigLast": "PARKER",
+    "sigRank": "Brigadier General, U.S. Marine Corps",
+    "sigTitle": "Commanding General",
+    "officeCode": "",
+    "byDirection": false,
+    "byDirectionAuthority": "",
+    "classLevel": "unclassified",
+    "customClassification": "",
+    "classifiedBy": "",
+    "derivedFrom": "",
+    "declassifyOn": "",
+    "classReason": "",
+    "classifiedPocEmail": "",
+    "cuiControlledBy": "",
+    "cuiCategory": "",
+    "cuiDissemination": "",
+    "cuiDistStatement": "",
+    "pocEmail": "",
+    "inReplyTo": false,
+    "inReplyToText": "",
+    "includeHyperlinks": false,
+    "salutation": "Dear Representative Richardson:",
+    "complimentaryClose": "Very respectfully,"
+  },
+  "references": [],
+  "enclosures": [],
+  "paragraphs": [
+    {
+      "text": "Thank you for your letter of January 10, 2026, regarding the proposed infrastructure improvements at Marine Corps Base Camp Lejeune. I appreciate your continued support for our Marines, Sailors, and their families.",
+      "level": 0
+    },
+    {
+      "text": "The military construction projects you referenced are critical to our ability to maintain readiness and provide quality of life for our service members. The new barracks complex planned for the II Marine Expeditionary Force area will replace facilities built in the 1970s that no longer meet current standards for habitability and energy efficiency.",
+      "level": 0
+    },
+    {
+      "text": "We anticipate the environmental impact assessment for the project will be completed by March 2026, with construction scheduled to begin in the fourth quarter of Fiscal Year 2026. The project will create approximately 350 construction jobs and is expected to be completed within 24 months.",
+      "level": 0
+    },
+    {
+      "text": "I would welcome the opportunity to provide your office with a briefing on the full scope of planned improvements at Camp Lejeune. My legislative affairs officer, Lieutenant Colonel Sarah Mitchell, can be reached at (910) 451-5555 to coordinate a convenient time.",
+      "level": 0
+    },
+    {
+      "text": "Thank you again for your steadfast advocacy on behalf of our military community. Your engagement makes a meaningful difference in the lives of those who serve.",
+      "level": 0
+    }
+  ],
+  "copyTos": []
+}

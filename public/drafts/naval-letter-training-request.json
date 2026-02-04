@@ -1,0 +1,103 @@
+{
+  "version": "1.0",
+  "exportedAt": "2026-01-15T00:00:00.000Z",
+  "documentMode": "compliant",
+  "docType": "naval_letter",
+  "formData": {
+    "docType": "naval_letter",
+    "fontSize": "12pt",
+    "fontFamily": "courier",
+    "pageNumbering": "none",
+    "department": "usmc",
+    "unitLine1": "MARINE CORPS BASE CAMP PENDLETON",
+    "unitLine2": "TRAINING AND EDUCATION COMMAND",
+    "unitAddress": "BOX 555020, CAMP PENDLETON CA 92055-5020",
+    "sealType": "dow",
+    "letterheadColor": "blue",
+    "ssic": "1500",
+    "serial": "001/26",
+    "date": "15 Jan 26",
+    "from": "Commanding General, Training and Education Command",
+    "to": "Distribution List",
+    "via": "",
+    "subject": "ANNUAL TRAINING REQUIREMENTS FOR FISCAL YEAR 2026",
+    "sigFirst": "James",
+    "sigMiddle": "Robert",
+    "sigLast": "MARTINEZ",
+    "sigRank": "Major General, U.S. Marine Corps",
+    "sigTitle": "Commanding General",
+    "officeCode": "",
+    "byDirection": false,
+    "byDirectionAuthority": "",
+    "classLevel": "unclassified",
+    "customClassification": "",
+    "classifiedBy": "",
+    "derivedFrom": "",
+    "declassifyOn": "",
+    "classReason": "",
+    "classifiedPocEmail": "",
+    "cuiControlledBy": "",
+    "cuiCategory": "",
+    "cuiDissemination": "",
+    "cuiDistStatement": "",
+    "pocEmail": "",
+    "inReplyTo": false,
+    "inReplyToText": "",
+    "includeHyperlinks": false,
+    "salutation": "",
+    "complimentaryClose": ""
+  },
+  "references": [
+    { "letter": "a", "title": "MCO 1553.3B" },
+    { "letter": "b", "title": "MARADMIN 045/26" },
+    { "letter": "c", "title": "TECOM Training Directive 1-26" }
+  ],
+  "enclosures": [
+    { "title": "FY26 Annual Training Plan", "file": null },
+    { "title": "Training Resource Allocation Matrix", "file": null }
+  ],
+  "paragraphs": [
+    {
+      "text": "Per reference (a), all commands shall ensure completion of annual training requirements as outlined in enclosure (1). This letter establishes the training priorities and reporting procedures for FY26.",
+      "level": 0
+    },
+    {
+      "text": "**Background.** The Marine Corps Training and Readiness Program requires all units to maintain proficiency in core competencies. Reference (b) directed commands to submit updated training plans by 1 March 2026.",
+      "level": 0,
+      "header": "Background"
+    },
+    {
+      "text": "All active duty and reserve component units shall complete the following mandatory training events not later than 30 September 2026:",
+      "level": 0,
+      "header": "Requirements"
+    },
+    {
+      "text": "Cyber Awareness Training (CAT) for all personnel with network access.",
+      "level": 1
+    },
+    {
+      "text": "Annual combat marksmanship qualification per reference (a), Chapter 3.",
+      "level": 1
+    },
+    {
+      "text": "Physical fitness testing in accordance with current Marine Corps Order on Physical Fitness.",
+      "level": 1
+    },
+    {
+      "text": "Commanders shall submit training completion reports via the Training Information Management System (TIMS) on a quarterly basis. Units failing to meet the 90% completion threshold by end of third quarter will be required to submit a corrective action plan.",
+      "level": 0,
+      "header": "Reporting"
+    },
+    {
+      "text": "Resource allocation for this training plan is detailed in enclosure (2). Commands requiring additional funding shall submit requests through the chain of command not later than 1 February 2026.",
+      "level": 0,
+      "header": "Resources"
+    }
+  ],
+  "copyTos": [
+    { "text": "CMC (C 469)" },
+    { "text": "CG, MCCDC" },
+    { "text": "CG, MARFORCOM" },
+    { "text": "CG, MARFORPAC" }
+  ]
+}
