@@ -10,7 +10,7 @@ import {
 } from 'docx';
 import type { DocumentData } from '@/types/document';
 import type { FontProps } from './styles';
-import { SPACING } from './styles';
+import { SPACING, SINGLE_SPACING } from './styles';
 import { styledRun } from './utils';
 
 const NO_BORDERS = {
@@ -27,46 +27,43 @@ export function buildMOASSICBlock(data: Partial<DocumentData>, fp: FontProps): T
   const ssicTable = new Table({
     width: { size: 100, type: WidthType.PERCENTAGE },
     rows: [
-      // SSIC row
       new TableRow({
         children: [
           new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(data.juniorSSIC || '', fp)] })],
+            children: [new DocxParagraph({ children: [styledRun(data.juniorSSIC || '', fp)], spacing: { ...SINGLE_SPACING } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
           new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(data.seniorSSIC || '', fp)] })],
+            children: [new DocxParagraph({ children: [styledRun(data.seniorSSIC || '', fp)], spacing: { ...SINGLE_SPACING } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
         ],
       }),
-      // Serial row
       new TableRow({
         children: [
           new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(data.juniorSerial || '', fp)] })],
+            children: [new DocxParagraph({ children: [styledRun(data.juniorSerial || '', fp)], spacing: { ...SINGLE_SPACING } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
           new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(data.seniorSerial || '', fp)] })],
+            children: [new DocxParagraph({ children: [styledRun(data.seniorSerial || '', fp)], spacing: { ...SINGLE_SPACING } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
         ],
       }),
-      // Date row
       new TableRow({
         children: [
           new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(data.juniorDate || '', fp)] })],
+            children: [new DocxParagraph({ children: [styledRun(data.juniorDate || '', fp)], spacing: { ...SINGLE_SPACING } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
           new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(data.seniorDate || '', fp)] })],
+            children: [new DocxParagraph({ children: [styledRun(data.seniorDate || '', fp)], spacing: { ...SINGLE_SPACING } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
@@ -86,24 +83,27 @@ export function buildMOATitle(data: Partial<DocumentData>, docType: string, fp: 
     new DocxParagraph({
       children: [styledRun(title, fp, { bold: true })],
       alignment: AlignmentType.CENTER,
-      spacing: { before: SPACING.large },
+      spacing: { ...SINGLE_SPACING, before: SPACING.line },
     }),
     new DocxParagraph({
       children: [styledRun('BETWEEN', fp, { bold: true })],
       alignment: AlignmentType.CENTER,
+      spacing: { ...SINGLE_SPACING },
     }),
     new DocxParagraph({
       children: [styledRun(data.seniorCommandName || '', fp, { bold: true })],
       alignment: AlignmentType.CENTER,
+      spacing: { ...SINGLE_SPACING },
     }),
     new DocxParagraph({
       children: [styledRun('AND', fp, { bold: true })],
       alignment: AlignmentType.CENTER,
+      spacing: { ...SINGLE_SPACING },
     }),
     new DocxParagraph({
       children: [styledRun(data.juniorCommandName || '', fp, { bold: true })],
       alignment: AlignmentType.CENTER,
-      spacing: { after: SPACING.large },
+      spacing: { ...SINGLE_SPACING, after: SPACING.line },
     }),
   ];
 }

@@ -11,7 +11,7 @@ import {
 } from 'docx';
 import type { DocumentData } from '@/types/document';
 import type { FontProps } from './styles';
-import { SPACING } from './styles';
+import { SINGLE_SPACING } from './styles';
 import { getDepartmentName, styledRun } from './utils';
 
 const NO_BORDERS = {
@@ -42,6 +42,7 @@ export function buildLetterhead(
     new DocxParagraph({
       children: [styledRun(getDepartmentName(data.department), fp, { bold: true, allCaps: true })],
       alignment: AlignmentType.CENTER,
+      spacing: { ...SINGLE_SPACING },
     })
   );
 
@@ -50,6 +51,7 @@ export function buildLetterhead(
       new DocxParagraph({
         children: [styledRun(data.unitLine1.toUpperCase(), fp, { bold: true })],
         alignment: AlignmentType.CENTER,
+        spacing: { ...SINGLE_SPACING },
       })
     );
   }
@@ -59,6 +61,7 @@ export function buildLetterhead(
       new DocxParagraph({
         children: [styledRun(data.unitLine2.toUpperCase(), fp)],
         alignment: AlignmentType.CENTER,
+        spacing: { ...SINGLE_SPACING },
       })
     );
   }
@@ -68,14 +71,15 @@ export function buildLetterhead(
       new DocxParagraph({
         children: [styledRun(data.unitAddress.toUpperCase(), fp)],
         alignment: AlignmentType.CENTER,
+        spacing: { ...SINGLE_SPACING },
       })
     );
   }
 
   // If seal image data is available, use a 2-column table layout
   if (sealImageData) {
-    const sealWidth = convertInchesToTwip(0.75);
-    const textWidth = convertInchesToTwip(5.5);
+    const sealWidth = convertInchesToTwip(0.85);
+    const textWidth = convertInchesToTwip(5.65);
 
     const sealTable = new Table({
       width: { size: 100, type: WidthType.PERCENTAGE },
@@ -89,7 +93,7 @@ export function buildLetterhead(
                   children: [
                     new ImageRun({
                       data: sealImageData,
-                      transformation: { width: 54, height: 54 }, // ~0.75 inch
+                      transformation: { width: 60, height: 60 },
                       type: 'png',
                     }),
                   ],
@@ -116,11 +120,11 @@ export function buildLetterhead(
     result.push(...textParagraphs);
   }
 
-  // Add spacing after letterhead
+  // Blank line after letterhead
   result.push(
     new DocxParagraph({
       children: [],
-      spacing: { after: SPACING.large },
+      spacing: { ...SINGLE_SPACING },
     })
   );
 

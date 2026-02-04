@@ -1,4 +1,4 @@
-import { convertInchesToTwip, TabStopType } from 'docx';
+import { convertInchesToTwip, TabStopType, LineRuleType } from 'docx';
 
 // Font type for spacing calculations
 export type FontType = 'times' | 'courier';
@@ -32,14 +32,19 @@ export const PAGE_MARGINS = {
 // SSIC block indent (pushed to 5.5" from left edge = 4.5" from content left)
 export const SSIC_INDENT = convertInchesToTwip(4.5);
 
-// Paragraph spacing in twips
+// Single-line spacing for all paragraphs (prevents Word's default 1.15 line spacing)
+// 240 twips = exactly 12pt = single spaced at 12pt font
+export const SINGLE_SPACING = {
+  line: 240,
+  lineRule: LineRuleType.EXACT,
+} as const;
+
+// Paragraph spacing in twips — matched to LaTeX \vspace{} values
 export const SPACING = {
   none: 0,
-  small: 120,     // ~6pt
-  normal: 200,    // ~10pt
-  large: 400,     // ~20pt
-  sigGap: 600,    // space for handwritten signature
-  lineSpacing: 240, // single line spacing (12pt)
+  line: 240,      // 12pt — one blank line (matches \vspace{12pt})
+  half: 120,      // 6pt — half line (matches \vspace{6pt})
+  sigGap: 480,    // ~4 lines for handwritten signature space
 } as const;
 
 // Per-level indent for subparagraphs (0.25" per level for standard, 0.5" for business)

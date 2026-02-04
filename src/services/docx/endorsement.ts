@@ -1,6 +1,6 @@
 import { Paragraph as DocxParagraph, AlignmentType } from 'docx';
 import type { FontProps } from './styles';
-import { SPACING } from './styles';
+import { SPACING, SINGLE_SPACING } from './styles';
 import { styledRun } from './utils';
 
 // Ordinal suffix for endorsement numbering (1st, 2nd, 3rd, etc.)
@@ -13,27 +13,25 @@ function getOrdinal(n: number): string {
 // Same-page endorsement: horizontal rule separator + ordinal endorsement header
 export function buildSamePageEndorsementHeader(endorsementNumber: number, fp: FontProps): DocxParagraph[] {
   return [
-    // Horizontal rule (using underscores as separator)
     new DocxParagraph({
       children: [styledRun('_'.repeat(72), fp)],
-      spacing: { before: SPACING.large },
+      spacing: { ...SINGLE_SPACING, before: SPACING.line },
     }),
-    // Endorsement header
     new DocxParagraph({
       children: [styledRun(`${getOrdinal(endorsementNumber).toUpperCase()} ENDORSEMENT`, fp, { bold: true })],
       alignment: AlignmentType.CENTER,
-      spacing: { before: SPACING.normal, after: SPACING.large },
+      spacing: { ...SINGLE_SPACING, before: SPACING.half, after: SPACING.line },
     }),
   ];
 }
 
-// New-page endorsement header (letterhead is handled separately, this is just the designation)
+// New-page endorsement header
 export function buildNewPageEndorsementHeader(endorsementNumber: number, fp: FontProps): DocxParagraph[] {
   return [
     new DocxParagraph({
       children: [styledRun(`${getOrdinal(endorsementNumber).toUpperCase()} ENDORSEMENT`, fp, { bold: true })],
       alignment: AlignmentType.CENTER,
-      spacing: { after: SPACING.large },
+      spacing: { ...SINGLE_SPACING, after: SPACING.line },
     }),
   ];
 }

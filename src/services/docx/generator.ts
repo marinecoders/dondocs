@@ -1,7 +1,7 @@
 import { Document, Packer, Paragraph as DocxParagraph, Table } from 'docx';
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, DocTypeConfig } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
-import { getFontProps, PAGE_MARGINS, getTimesTabStop } from './styles';
+import { getFontProps, PAGE_MARGINS, SINGLE_SPACING, getTimesTabStop } from './styles';
 import type { FontType, FontProps } from './styles';
 import { styledRun } from './utils';
 
@@ -292,6 +292,7 @@ function buildJointMemoLayout(children: (DocxParagraph | Table)[], ctx: LayoutCo
             styledRun(data.jointMemoJuniorFrom, fp),
           ],
           tabStops: isCourier ? undefined : [getTimesTabStop()],
+          spacing: { ...SINGLE_SPACING },
         })
       );
     }

@@ -1,7 +1,7 @@
 import { Paragraph as DocxParagraph, convertInchesToTwip } from 'docx';
 import type { Paragraph } from '@/types/document';
 import type { FontProps } from './styles';
-import { SPACING, getIndentTwips } from './styles';
+import { SPACING, SINGLE_SPACING, getIndentTwips } from './styles';
 import { calculateLabels, parseRichText, toTitleCase, styledRun } from './utils';
 
 export function buildBody(
@@ -36,12 +36,12 @@ export function buildBody(
         new DocxParagraph({
           children,
           indent: { firstLine: convertInchesToTwip(0.5) },
-          spacing: { before: para.level === 0 ? SPACING.small : 0, after: SPACING.normal },
+          // \vspace{12pt} before each level-0 paragraph
+          spacing: { ...SINGLE_SPACING, before: SPACING.line },
         })
       );
     } else {
       // Standard paragraph with label
-      // Portion marking prefix
       const portionPrefix = para.portionMarking ? `(${para.portionMarking}) ` : '';
 
       if (headerText) {
@@ -61,9 +61,10 @@ export function buildBody(
         new DocxParagraph({
           children,
           indent: indent > 0 ? { left: indent } : undefined,
+          // Level 0 = \vspace{12pt}, subparagraphs = \vspace{6pt}
           spacing: {
-            before: para.level === 0 ? SPACING.small : 60,
-            after: SPACING.normal,
+            ...SINGLE_SPACING,
+            before: para.level === 0 ? SPACING.line : SPACING.half,
           },
         })
       );

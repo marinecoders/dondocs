@@ -11,7 +11,7 @@ import {
 } from 'docx';
 import type { DocumentData, DocTypeConfig } from '@/types/document';
 import type { FontProps } from './styles';
-import { SPACING } from './styles';
+import { SPACING, SINGLE_SPACING } from './styles';
 import { abbreviateName, buildFullName, capitalizeWord, styledRun, base64ToUint8Array } from './utils';
 
 const NO_BORDERS = {
@@ -29,6 +29,9 @@ const OVERSCORE_BORDERS = {
   right: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
 };
 
+// Signature indent — pushes signature block to right half of page
+const SIG_INDENT = convertInchesToTwip(3.5);
+
 // Build standard single signature block
 export function buildSignature(
   data: Partial<DocumentData>,
@@ -43,7 +46,7 @@ export function buildSignature(
       new DocxParagraph({
         children: [styledRun(`By direction of ${data.byDirectionAuthority}`, fp)],
         alignment: AlignmentType.CENTER,
-        spacing: { before: SPACING.large },
+        spacing: { ...SINGLE_SPACING, before: SPACING.line },
       })
     );
   }
@@ -56,18 +59,20 @@ export function buildSignature(
         children: [
           new ImageRun({
             data: imgData,
-            transformation: { width: 200, height: 80 },
+            transformation: { width: 150, height: 60 },
             type: 'png',
           }),
         ],
-        spacing: { before: data.byDirection ? SPACING.normal : SPACING.large },
+        indent: { left: SIG_INDENT },
+        spacing: { ...SINGLE_SPACING, before: data.byDirection ? SPACING.half : SPACING.line },
       })
     );
   } else {
+    // Empty space for handwritten signature (~4 blank lines)
     result.push(
       new DocxParagraph({
         children: [],
-        spacing: { before: data.byDirection ? SPACING.normal : SPACING.large, after: SPACING.sigGap },
+        spacing: { ...SINGLE_SPACING, before: data.byDirection ? SPACING.half : SPACING.line, after: SPACING.sigGap },
       })
     );
   }
@@ -80,6 +85,8 @@ export function buildSignature(
   result.push(
     new DocxParagraph({
       children: [styledRun(sigName, fp)],
+      indent: { left: SIG_INDENT },
+      spacing: { ...SINGLE_SPACING },
     })
   );
 
@@ -88,6 +95,8 @@ export function buildSignature(
     result.push(
       new DocxParagraph({
         children: [styledRun(data.sigRank, fp)],
+        indent: { left: SIG_INDENT },
+        spacing: { ...SINGLE_SPACING },
       })
     );
   }
@@ -97,6 +106,8 @@ export function buildSignature(
     result.push(
       new DocxParagraph({
         children: [styledRun(data.sigTitle, fp)],
+        indent: { left: SIG_INDENT },
+        spacing: { ...SINGLE_SPACING },
       })
     );
   }
@@ -113,7 +124,8 @@ export function buildBusinessSignature(data: Partial<DocumentData>, fp: FontProp
   result.push(
     new DocxParagraph({
       children: [styledRun(close, fp)],
-      spacing: { before: SPACING.large },
+      indent: { left: SIG_INDENT },
+      spacing: { ...SINGLE_SPACING, before: SPACING.line },
     })
   );
 
@@ -125,17 +137,19 @@ export function buildBusinessSignature(data: Partial<DocumentData>, fp: FontProp
         children: [
           new ImageRun({
             data: imgData,
-            transformation: { width: 200, height: 80 },
+            transformation: { width: 150, height: 60 },
             type: 'png',
           }),
         ],
+        indent: { left: SIG_INDENT },
+        spacing: { ...SINGLE_SPACING },
       })
     );
   } else {
     result.push(
       new DocxParagraph({
         children: [],
-        spacing: { after: SPACING.sigGap },
+        spacing: { ...SINGLE_SPACING, after: SPACING.sigGap },
       })
     );
   }
@@ -145,14 +159,24 @@ export function buildBusinessSignature(data: Partial<DocumentData>, fp: FontProp
   result.push(
     new DocxParagraph({
       children: [styledRun(fullName, fp)],
+      indent: { left: SIG_INDENT },
+      spacing: { ...SINGLE_SPACING },
     })
   );
 
   if (data.sigRank) {
-    result.push(new DocxParagraph({ children: [styledRun(data.sigRank, fp)] }));
+    result.push(new DocxParagraph({
+      children: [styledRun(data.sigRank, fp)],
+      indent: { left: SIG_INDENT },
+      spacing: { ...SINGLE_SPACING },
+    }));
   }
   if (data.sigTitle) {
-    result.push(new DocxParagraph({ children: [styledRun(data.sigTitle, fp)] }));
+    result.push(new DocxParagraph({
+      children: [styledRun(data.sigTitle, fp)],
+      indent: { left: SIG_INDENT },
+      spacing: { ...SINGLE_SPACING },
+    }));
   }
 
   return result;
@@ -179,12 +203,12 @@ export function buildMOADualSignature(data: Partial<DocumentData>, fp: FontProps
       new TableRow({
         children: [
           new TableCell({
-            children: [new DocxParagraph({ children: [], spacing: { after: SPACING.sigGap } })],
+            children: [new DocxParagraph({ children: [], spacing: { ...SINGLE_SPACING, after: SPACING.sigGap } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
           new TableCell({
-            children: [new DocxParagraph({ children: [], spacing: { after: SPACING.sigGap } })],
+            children: [new DocxParagraph({ children: [], spacing: { ...SINGLE_SPACING, after: SPACING.sigGap } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
@@ -194,12 +218,12 @@ export function buildMOADualSignature(data: Partial<DocumentData>, fp: FontProps
       new TableRow({
         children: [
           new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(juniorAbbrev, fp)] })],
+            children: [new DocxParagraph({ children: [styledRun(juniorAbbrev, fp)], spacing: { ...SINGLE_SPACING } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: OVERSCORE_BORDERS,
           }),
           new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(seniorAbbrev, fp)] })],
+            children: [new DocxParagraph({ children: [styledRun(seniorAbbrev, fp)], spacing: { ...SINGLE_SPACING } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: OVERSCORE_BORDERS,
           }),
@@ -209,12 +233,12 @@ export function buildMOADualSignature(data: Partial<DocumentData>, fp: FontProps
       new TableRow({
         children: [
           new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(data.juniorSigRank || '', fp)] })],
+            children: [new DocxParagraph({ children: [styledRun(data.juniorSigRank || '', fp)], spacing: { ...SINGLE_SPACING } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
           new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(data.seniorSigRank || '', fp)] })],
+            children: [new DocxParagraph({ children: [styledRun(data.seniorSigRank || '', fp)], spacing: { ...SINGLE_SPACING } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
@@ -224,12 +248,12 @@ export function buildMOADualSignature(data: Partial<DocumentData>, fp: FontProps
       new TableRow({
         children: [
           new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(data.juniorSigTitle || '', fp)] })],
+            children: [new DocxParagraph({ children: [styledRun(data.juniorSigTitle || '', fp)], spacing: { ...SINGLE_SPACING } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
           new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(data.seniorSigTitle || '', fp)] })],
+            children: [new DocxParagraph({ children: [styledRun(data.seniorSigTitle || '', fp)], spacing: { ...SINGLE_SPACING } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
@@ -250,46 +274,43 @@ export function buildJointDualSignature(data: Partial<DocumentData>, fp: FontPro
   const sigTable = new Table({
     width: { size: 100, type: WidthType.PERCENTAGE },
     rows: [
-      // Empty row for signature space
       new TableRow({
         children: [
           new TableCell({
-            children: [new DocxParagraph({ children: [], spacing: { after: SPACING.sigGap } })],
+            children: [new DocxParagraph({ children: [], spacing: { ...SINGLE_SPACING, after: SPACING.sigGap } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
           new TableCell({
-            children: [new DocxParagraph({ children: [], spacing: { after: SPACING.sigGap } })],
+            children: [new DocxParagraph({ children: [], spacing: { ...SINGLE_SPACING, after: SPACING.sigGap } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
         ],
       }),
-      // Name row
       new TableRow({
         children: [
           new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(juniorName, fp)] })],
+            children: [new DocxParagraph({ children: [styledRun(juniorName, fp)], spacing: { ...SINGLE_SPACING } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
           new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(seniorName, fp)] })],
+            children: [new DocxParagraph({ children: [styledRun(seniorName, fp)], spacing: { ...SINGLE_SPACING } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
         ],
       }),
-      // Title row
       new TableRow({
         children: [
           new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(data.jointJuniorSigTitle || '', fp)] })],
+            children: [new DocxParagraph({ children: [styledRun(data.jointJuniorSigTitle || '', fp)], spacing: { ...SINGLE_SPACING } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
           new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(data.jointSeniorSigTitle || '', fp)] })],
+            children: [new DocxParagraph({ children: [styledRun(data.jointSeniorSigTitle || '', fp)], spacing: { ...SINGLE_SPACING } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
@@ -313,26 +334,12 @@ export function buildJointMemoDualSignature(data: Partial<DocumentData>, fp: Fon
       new TableRow({
         children: [
           new TableCell({
-            children: [new DocxParagraph({ children: [], spacing: { after: SPACING.sigGap } })],
+            children: [new DocxParagraph({ children: [], spacing: { ...SINGLE_SPACING, after: SPACING.sigGap } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
           new TableCell({
-            children: [new DocxParagraph({ children: [], spacing: { after: SPACING.sigGap } })],
-            width: { size: halfWidth, type: WidthType.DXA },
-            borders: NO_BORDERS,
-          }),
-        ],
-      }),
-      new TableRow({
-        children: [
-          new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(juniorName, fp)] })],
-            width: { size: halfWidth, type: WidthType.DXA },
-            borders: NO_BORDERS,
-          }),
-          new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(seniorName, fp)] })],
+            children: [new DocxParagraph({ children: [], spacing: { ...SINGLE_SPACING, after: SPACING.sigGap } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
@@ -341,12 +348,26 @@ export function buildJointMemoDualSignature(data: Partial<DocumentData>, fp: Fon
       new TableRow({
         children: [
           new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(data.jointMemoJuniorSigTitle || '', fp)] })],
+            children: [new DocxParagraph({ children: [styledRun(juniorName, fp)], spacing: { ...SINGLE_SPACING } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),
           new TableCell({
-            children: [new DocxParagraph({ children: [styledRun(data.jointMemoSeniorSigTitle || '', fp)] })],
+            children: [new DocxParagraph({ children: [styledRun(seniorName, fp)], spacing: { ...SINGLE_SPACING } })],
+            width: { size: halfWidth, type: WidthType.DXA },
+            borders: NO_BORDERS,
+          }),
+        ],
+      }),
+      new TableRow({
+        children: [
+          new TableCell({
+            children: [new DocxParagraph({ children: [styledRun(data.jointMemoJuniorSigTitle || '', fp)], spacing: { ...SINGLE_SPACING } })],
+            width: { size: halfWidth, type: WidthType.DXA },
+            borders: NO_BORDERS,
+          }),
+          new TableCell({
+            children: [new DocxParagraph({ children: [styledRun(data.jointMemoSeniorSigTitle || '', fp)], spacing: { ...SINGLE_SPACING } })],
             width: { size: halfWidth, type: WidthType.DXA },
             borders: NO_BORDERS,
           }),

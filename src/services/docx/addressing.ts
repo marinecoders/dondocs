@@ -1,7 +1,7 @@
 import { Paragraph as DocxParagraph, ExternalHyperlink } from 'docx';
 import type { DocumentData, Reference, Enclosure } from '@/types/document';
 import type { FontProps, FontType } from './styles';
-import { SSIC_INDENT, SPACING, getCourierSpacing, getTimesTabStop, COURIER_CONTINUATION_INDENT } from './styles';
+import { SSIC_INDENT, SPACING, SINGLE_SPACING, getCourierSpacing, getTimesTabStop, COURIER_CONTINUATION_INDENT } from './styles';
 import { wrapText, styledRun } from './utils';
 
 // SSIC / Serial / Date block (right-aligned via indent)
@@ -13,6 +13,7 @@ export function buildSSICBlock(data: Partial<DocumentData>, fp: FontProps): Docx
       new DocxParagraph({
         children: [styledRun(data.ssic, fp)],
         indent: { left: SSIC_INDENT },
+        spacing: { ...SINGLE_SPACING },
       })
     );
   }
@@ -22,6 +23,7 @@ export function buildSSICBlock(data: Partial<DocumentData>, fp: FontProps): Docx
       new DocxParagraph({
         children: [styledRun(data.serial, fp)],
         indent: { left: SSIC_INDENT },
+        spacing: { ...SINGLE_SPACING },
       })
     );
   }
@@ -30,7 +32,7 @@ export function buildSSICBlock(data: Partial<DocumentData>, fp: FontProps): Docx
     new DocxParagraph({
       children: [styledRun(data.date || '', fp)],
       indent: { left: SSIC_INDENT },
-      spacing: { after: SPACING.large },
+      spacing: { ...SINGLE_SPACING, after: SPACING.line },
     })
   );
 
@@ -48,6 +50,7 @@ export function buildInReplyTo(data: Partial<DocumentData>, fp: FontProps): Docx
         styledRun(data.inReplyToText, fp),
       ],
       indent: { left: SSIC_INDENT },
+      spacing: { ...SINGLE_SPACING },
     }),
   ];
 }
@@ -70,6 +73,10 @@ function buildLabeledLine(
 
   // First line with label
   const showLabel = opts?.isFirstEntry !== false;
+  const firstSpacing = (lines.length === 1 && opts?.spacingAfter)
+    ? { ...SINGLE_SPACING, after: opts.spacingAfter }
+    : { ...SINGLE_SPACING };
+
   paragraphs.push(
     new DocxParagraph({
       children: [
@@ -78,6 +85,7 @@ function buildLabeledLine(
         styledRun((opts?.prefix || '') + lines[0], fp),
       ],
       tabStops: isCourier ? undefined : [getTimesTabStop()],
+      spacing: firstSpacing,
     })
   );
 
@@ -91,22 +99,11 @@ function buildLabeledLine(
           styledRun(lines[i], fp),
         ],
         tabStops: isCourier ? undefined : [getTimesTabStop()],
-        spacing: isLast && opts?.spacingAfter ? { after: opts.spacingAfter } : undefined,
+        spacing: isLast && opts?.spacingAfter
+          ? { ...SINGLE_SPACING, after: opts.spacingAfter }
+          : { ...SINGLE_SPACING },
       })
     );
-  }
-
-  // If only one line and spacing requested
-  if (lines.length === 1 && opts?.spacingAfter) {
-    paragraphs[0] = new DocxParagraph({
-      children: [
-        styledRun(showLabel ? label : '', fp),
-        styledRun(isCourier ? getCourierSpacing(element) : '\t', fp),
-        styledRun((opts?.prefix || '') + lines[0], fp),
-      ],
-      tabStops: isCourier ? undefined : [getTimesTabStop()],
-      spacing: { after: opts.spacingAfter },
-    });
   }
 
   return paragraphs;
@@ -148,6 +145,7 @@ export function buildViaLines(data: Partial<DocumentData>, fp: FontProps, fontTy
             styledRun(line, fp),
           ],
           tabStops: isCourier ? undefined : [getTimesTabStop()],
+          spacing: { ...SINGLE_SPACING },
         })
       );
     });
@@ -159,7 +157,7 @@ export function buildViaLines(data: Partial<DocumentData>, fp: FontProps, fontTy
 // Subject line (ALL CAPS per SECNAV M-5216.5)
 export function buildSubjectLine(data: Partial<DocumentData>, fp: FontProps, fontType: FontType): DocxParagraph[] {
   const subjectText = (data.subject || '').toUpperCase();
-  return buildLabeledLine('Subj:', 'subj', subjectText, fp, fontType, { spacingAfter: SPACING.normal });
+  return buildLabeledLine('Subj:', 'subj', subjectText, fp, fontType, { spacingAfter: SPACING.line });
 }
 
 // References section (with optional hyperlinks)
@@ -181,7 +179,6 @@ export function buildReferences(
       const isFirstRef = index === 0;
 
       if (isFirstLine) {
-        // Build the reference text, optionally as a hyperlink
         const refText = `(${ref.letter}) ${line}`;
         const hasUrl = includeHyperlinks && ref.url?.trim();
 
@@ -205,6 +202,7 @@ export function buildReferences(
           new DocxParagraph({
             children,
             tabStops: isCourier ? undefined : [getTimesTabStop()],
+            spacing: { ...SINGLE_SPACING },
           })
         );
       } else {
@@ -215,13 +213,13 @@ export function buildReferences(
               styledRun(line, fp),
             ],
             tabStops: isCourier ? undefined : [getTimesTabStop()],
+            spacing: { ...SINGLE_SPACING },
           })
         );
       }
     });
   });
 
-  paragraphs.push(new DocxParagraph({ children: [], spacing: { after: SPACING.normal } }));
   return paragraphs;
 }
 
@@ -237,6 +235,8 @@ export function buildEnclosures(enclosures: Enclosure[], fp: FontProps, fontType
     enclLines.forEach((line, lineIndex) => {
       const isFirstLine = lineIndex === 0;
       const isFirstEncl = index === 0;
+      const isLastEncl = index === enclosures.length - 1;
+      const isLastLine = lineIndex === enclLines.length - 1;
 
       if (isFirstLine) {
         paragraphs.push(
@@ -252,6 +252,9 @@ export function buildEnclosures(enclosures: Enclosure[], fp: FontProps, fontType
               styledRun(`(${index + 1}) ${line}`, fp),
             ],
             tabStops: isCourier ? undefined : [getTimesTabStop()],
+            spacing: isLastEncl && isLastLine
+              ? { ...SINGLE_SPACING, after: SPACING.line }
+              : { ...SINGLE_SPACING },
           })
         );
       } else {
@@ -262,13 +265,15 @@ export function buildEnclosures(enclosures: Enclosure[], fp: FontProps, fontType
               styledRun(line, fp),
             ],
             tabStops: isCourier ? undefined : [getTimesTabStop()],
+            spacing: isLastEncl && isLastLine
+              ? { ...SINGLE_SPACING, after: SPACING.line }
+              : { ...SINGLE_SPACING },
           })
         );
       }
     });
   });
 
-  paragraphs.push(new DocxParagraph({ children: [], spacing: { after: SPACING.large } }));
   return paragraphs;
 }
 
@@ -283,7 +288,9 @@ export function buildRecipientAddress(data: Partial<DocumentData>, fp: FontProps
     paragraphs.push(
       new DocxParagraph({
         children: [styledRun(line.trim(), fp)],
-        spacing: i === lines.length - 1 ? { after: SPACING.normal } : undefined,
+        spacing: i === lines.length - 1
+          ? { ...SINGLE_SPACING, after: SPACING.line }
+          : { ...SINGLE_SPACING },
       })
     );
   });
@@ -297,7 +304,7 @@ export function buildSalutation(data: Partial<DocumentData>, fp: FontProps): Doc
   return [
     new DocxParagraph({
       children: [styledRun(salutation, fp)],
-      spacing: { after: SPACING.normal },
+      spacing: { ...SINGLE_SPACING, after: SPACING.line },
     }),
   ];
 }

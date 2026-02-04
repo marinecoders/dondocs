@@ -1,19 +1,19 @@
 import { Paragraph as DocxParagraph, AlignmentType } from 'docx';
 import type { DocumentData } from '@/types/document';
 import type { FontProps, FontType } from './styles';
-import { SSIC_INDENT, SPACING, getCourierSpacing, getTimesTabStop } from './styles';
+import { SSIC_INDENT, SPACING, SINGLE_SPACING, getCourierSpacing, getTimesTabStop } from './styles';
 import { styledRun, wrapText } from './utils';
 
 // Joint letter: centered header with both commands and ZIP codes
 export function buildJointLetterhead(data: Partial<DocumentData>, fp: FontProps): DocxParagraph[] {
   const result: DocxParagraph[] = [];
 
-  // Senior command
   if (data.jointSeniorName) {
     result.push(
       new DocxParagraph({
         children: [styledRun(data.jointSeniorName.toUpperCase(), fp, { bold: true })],
         alignment: AlignmentType.CENTER,
+        spacing: { ...SINGLE_SPACING },
       })
     );
   }
@@ -22,16 +22,17 @@ export function buildJointLetterhead(data: Partial<DocumentData>, fp: FontProps)
       new DocxParagraph({
         children: [styledRun(data.jointSeniorZip, fp)],
         alignment: AlignmentType.CENTER,
+        spacing: { ...SINGLE_SPACING },
       })
     );
   }
 
-  // Junior command
   if (data.jointJuniorName) {
     result.push(
       new DocxParagraph({
         children: [styledRun(data.jointJuniorName.toUpperCase(), fp, { bold: true })],
         alignment: AlignmentType.CENTER,
+        spacing: { ...SINGLE_SPACING },
       })
     );
   }
@@ -40,17 +41,17 @@ export function buildJointLetterhead(data: Partial<DocumentData>, fp: FontProps)
       new DocxParagraph({
         children: [styledRun(data.jointJuniorZip, fp)],
         alignment: AlignmentType.CENTER,
+        spacing: { ...SINGLE_SPACING },
       })
     );
   }
 
-  // Common location
   if (data.jointCommonLocation) {
     result.push(
       new DocxParagraph({
         children: [styledRun(data.jointCommonLocation, fp)],
         alignment: AlignmentType.CENTER,
-        spacing: { after: SPACING.large },
+        spacing: { ...SINGLE_SPACING, after: SPACING.line },
       })
     );
   }
@@ -60,7 +61,7 @@ export function buildJointLetterhead(data: Partial<DocumentData>, fp: FontProps)
     new DocxParagraph({
       children: [styledRun('JOINT LETTER', fp, { bold: true })],
       alignment: AlignmentType.CENTER,
-      spacing: { after: SPACING.normal },
+      spacing: { ...SINGLE_SPACING, after: SPACING.line },
     })
   );
 
@@ -76,6 +77,7 @@ export function buildJointSSICBlock(data: Partial<DocumentData>, fp: FontProps):
       new DocxParagraph({
         children: [styledRun(data.jointJuniorSSIC, fp)],
         indent: { left: SSIC_INDENT },
+        spacing: { ...SINGLE_SPACING },
       })
     );
   }
@@ -85,6 +87,7 @@ export function buildJointSSICBlock(data: Partial<DocumentData>, fp: FontProps):
       new DocxParagraph({
         children: [styledRun(data.jointJuniorSerial, fp)],
         indent: { left: SSIC_INDENT },
+        spacing: { ...SINGLE_SPACING },
       })
     );
   }
@@ -93,7 +96,7 @@ export function buildJointSSICBlock(data: Partial<DocumentData>, fp: FontProps):
     new DocxParagraph({
       children: [styledRun(data.jointJuniorDate || '', fp)],
       indent: { left: SSIC_INDENT },
-      spacing: { after: SPACING.large },
+      spacing: { ...SINGLE_SPACING, after: SPACING.line },
     })
   );
 
@@ -105,7 +108,6 @@ export function buildJointFromLines(data: Partial<DocumentData>, fp: FontProps, 
   const isCourier = fontType === 'courier';
   const result: DocxParagraph[] = [];
 
-  // Senior From
   if (data.jointSeniorFrom) {
     const lines = wrapText(data.jointSeniorFrom, 57);
     lines.forEach((line, i) => {
@@ -117,12 +119,12 @@ export function buildJointFromLines(data: Partial<DocumentData>, fp: FontProps, 
             styledRun(line, fp),
           ],
           tabStops: isCourier ? undefined : [getTimesTabStop()],
+          spacing: { ...SINGLE_SPACING },
         })
       );
     });
   }
 
-  // Junior From (continuation)
   if (data.jointJuniorFrom) {
     const lines = wrapText(data.jointJuniorFrom, 57);
     lines.forEach((line) => {
@@ -134,6 +136,7 @@ export function buildJointFromLines(data: Partial<DocumentData>, fp: FontProps, 
             styledRun(line, fp),
           ],
           tabStops: isCourier ? undefined : [getTimesTabStop()],
+          spacing: { ...SINGLE_SPACING },
         })
       );
     });
@@ -142,7 +145,7 @@ export function buildJointFromLines(data: Partial<DocumentData>, fp: FontProps, 
   return result;
 }
 
-// Joint letter: To and Subject using joint-specific fields
+// Joint letter: To line
 export function buildJointToLine(data: Partial<DocumentData>, fp: FontProps, fontType: FontType): DocxParagraph[] {
   const isCourier = fontType === 'courier';
   const toLines = wrapText(data.jointTo, 57);
@@ -158,12 +161,14 @@ export function buildJointToLine(data: Partial<DocumentData>, fp: FontProps, fon
           styledRun(line, fp),
         ],
         tabStops: isCourier ? undefined : [getTimesTabStop()],
+        spacing: { ...SINGLE_SPACING },
       })
     );
   });
   return result;
 }
 
+// Joint letter: Subject line
 export function buildJointSubjectLine(data: Partial<DocumentData>, fp: FontProps, fontType: FontType): DocxParagraph[] {
   const isCourier = fontType === 'courier';
   const subjectText = (data.jointSubject || '').toUpperCase();
@@ -181,7 +186,7 @@ export function buildJointSubjectLine(data: Partial<DocumentData>, fp: FontProps
           styledRun(line, fp),
         ],
         tabStops: isCourier ? undefined : [getTimesTabStop()],
-        spacing: isLast ? { after: SPACING.normal } : undefined,
+        spacing: isLast ? { ...SINGLE_SPACING, after: SPACING.line } : { ...SINGLE_SPACING },
       })
     );
   });

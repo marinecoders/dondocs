@@ -8,7 +8,7 @@ import {
 } from 'docx';
 import type { DocumentData } from '@/types/document';
 import type { FontProps } from './styles';
-import { SPACING } from './styles';
+import { SPACING, SINGLE_SPACING } from './styles';
 import { getClassificationMarking, styledRun } from './utils';
 
 // Build classification header/footer for the document section
@@ -27,6 +27,7 @@ export function buildClassificationHeaders(
       new DocxParagraph({
         children: [styledRun(classMarking, fp, { bold: true })],
         alignment: AlignmentType.CENTER,
+        spacing: { ...SINGLE_SPACING },
       })
     );
   }
@@ -50,6 +51,7 @@ export function buildClassificationHeaders(
       new DocxParagraph({
         children: pageNumChildren,
         alignment: AlignmentType.CENTER,
+        spacing: { ...SINGLE_SPACING },
       })
     );
   }
@@ -61,6 +63,7 @@ export function buildClassificationHeaders(
             new DocxParagraph({
               children: [styledRun(classMarking, fp, { bold: true })],
               alignment: AlignmentType.CENTER,
+              spacing: { ...SINGLE_SPACING },
             }),
           ],
         }),
@@ -83,7 +86,7 @@ export function buildCUIBlock(data: Partial<DocumentData>, fp: FontProps): DocxP
   result.push(
     new DocxParagraph({
       children: [],
-      spacing: { before: SPACING.large },
+      spacing: { ...SINGLE_SPACING, before: SPACING.line },
     })
   );
 
@@ -97,7 +100,8 @@ export function buildCUIBlock(data: Partial<DocumentData>, fp: FontProps): DocxP
   for (const line of lines) {
     result.push(
       new DocxParagraph({
-        children: [styledRun(line, fp, { size: fp.size - 4 })], // slightly smaller
+        children: [styledRun(line, fp, { size: fp.size - 4 })],
+        spacing: { ...SINGLE_SPACING },
       })
     );
   }
@@ -115,7 +119,7 @@ export function buildClassifiedBlock(data: Partial<DocumentData>, fp: FontProps)
   result.push(
     new DocxParagraph({
       children: [],
-      spacing: { before: SPACING.large },
+      spacing: { ...SINGLE_SPACING, before: SPACING.line },
     })
   );
 
@@ -131,6 +135,7 @@ export function buildClassifiedBlock(data: Partial<DocumentData>, fp: FontProps)
     result.push(
       new DocxParagraph({
         children: [styledRun(line, fp, { size: fp.size - 4 })],
+        spacing: { ...SINGLE_SPACING },
       })
     );
   }
