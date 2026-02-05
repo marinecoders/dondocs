@@ -1,0 +1,120 @@
+{
+  "version": "1.0",
+  "exportedAt": "2026-01-25T00:00:00.000Z",
+  "documentMode": "compliant",
+  "docType": "moa",
+  "formData": {
+    "docType": "moa",
+    "fontSize": "12pt",
+    "fontFamily": "courier",
+    "pageNumbering": "arabic",
+    "department": "usmc",
+    "unitLine1": "MARINE CORPS LOGISTICS BASE ALBANY",
+    "unitLine2": "",
+    "unitAddress": "814 RADFORD BLVD, ALBANY GA 31704-1128",
+    "sealType": "dow",
+    "letterheadColor": "blue",
+    "ssic": "",
+    "serial": "",
+    "date": "",
+    "from": "",
+    "to": "",
+    "via": "",
+    "subject": "",
+    "sigFirst": "",
+    "sigMiddle": "",
+    "sigLast": "",
+    "sigRank": "",
+    "sigTitle": "",
+    "officeCode": "",
+    "byDirection": false,
+    "byDirectionAuthority": "",
+    "classLevel": "unclassified",
+    "customClassification": "",
+    "classifiedBy": "",
+    "derivedFrom": "",
+    "declassifyOn": "",
+    "classReason": "",
+    "classifiedPocEmail": "",
+    "cuiControlledBy": "",
+    "cuiCategory": "",
+    "cuiDissemination": "",
+    "cuiDistStatement": "",
+    "pocEmail": "",
+    "seniorCommandName": "Marine Corps Logistics Base Albany",
+    "seniorSSIC": "4000",
+    "seniorSerial": "002/26",
+    "seniorDate": "25 Jan 26",
+    "seniorSigName": "Robert A. Harrison",
+    "seniorSigRank": "Colonel, U.S. Marine Corps",
+    "seniorSigTitle": "Commanding Officer",
+    "juniorCommandName": "Marine Corps Logistics Command",
+    "juniorSSIC": "4000",
+    "juniorSerial": "015/26",
+    "juniorDate": "25 Jan 26",
+    "juniorSigName": "Michael T. Rodriguez",
+    "juniorSigRank": "Colonel, U.S. Marine Corps",
+    "juniorSigTitle": "Commanding Officer",
+    "moaSubject": "SHARED USE OF MAINTENANCE FACILITIES AND EQUIPMENT",
+    "inReplyTo": false,
+    "inReplyToText": "",
+    "includeHyperlinks": false,
+    "salutation": "",
+    "complimentaryClose": ""
+  },
+  "references": [
+    { "letter": "a", "title": "MCO 11000.25B" },
+    { "letter": "b", "title": "NAVFAC P-300, Management of Civil Engineering Support Equipment" }
+  ],
+  "enclosures": [
+    { "title": "Facility Sharing Schedule", "file": null },
+    { "title": "Equipment Inventory List", "file": null }
+  ],
+  "paragraphs": [
+    {
+      "text": "This Memorandum of Agreement establishes the terms and conditions for shared use of maintenance facilities and equipment between Marine Corps Logistics Base Albany and Marine Corps Logistics Command.",
+      "level": 0,
+      "header": "Purpose"
+    },
+    {
+      "text": "Both commands operate maintenance facilities within the Albany installation complex. Consolidation of certain maintenance operations and shared use of specialized equipment will reduce operational costs and improve efficiency without degrading mission capability.",
+      "level": 0,
+      "header": "Background"
+    },
+    {
+      "text": "Marine Corps Logistics Base Albany agrees to:",
+      "level": 0,
+      "header": "Responsibilities of MCLB Albany"
+    },
+    {
+      "text": "Provide access to Building 3400 heavy equipment maintenance bay during non-duty hours (1800-0600) Monday through Friday and all day Saturday-Sunday.",
+      "level": 1
+    },
+    {
+      "text": "Maintain all shared equipment per reference (b) maintenance schedules and provide usage logs on a monthly basis.",
+      "level": 1
+    },
+    {
+      "text": "Marine Corps Logistics Command agrees to:",
+      "level": 0,
+      "header": "Responsibilities of MARCORLOGCOM"
+    },
+    {
+      "text": "Share proportional costs (40%) for utilities, consumables, and equipment maintenance associated with shared facility use.",
+      "level": 1
+    },
+    {
+      "text": "Provide qualified personnel to operate shared equipment and ensure all operators possess current certifications.",
+      "level": 1
+    },
+    {
+      "text": "This agreement shall remain in effect for a period of two years from the date of the last signature. Either party may terminate this agreement with 90 days written notice. This agreement may be renewed by mutual written consent of both parties.",
+      "level": 0,
+      "header": "Duration"
+    }
+  ],
+  "copyTos": [
+    { "text": "CMC (LF)" },
+    { "text": "CG, MARCORSYSCOM" }
+  ]
+}

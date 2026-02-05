@@ -1,0 +1,94 @@
+{
+  "version": "1.0",
+  "exportedAt": "2026-01-28T00:00:00.000Z",
+  "documentMode": "compliant",
+  "docType": "decision_memorandum",
+  "formData": {
+    "docType": "decision_memorandum",
+    "fontSize": "12pt",
+    "fontFamily": "courier",
+    "pageNumbering": "none",
+    "department": "usmc",
+    "unitLine1": "",
+    "unitLine2": "",
+    "unitAddress": "",
+    "sealType": "dow",
+    "letterheadColor": "blue",
+    "ssic": "",
+    "serial": "",
+    "date": "28 Jan 26",
+    "from": "Assistant Chief of Staff, G-4",
+    "to": "Commanding General",
+    "via": "Chief of Staff",
+    "subject": "PROCUREMENT OF REPLACEMENT MOTOR TRANSPORT VEHICLES",
+    "sigFirst": "Patricia",
+    "sigMiddle": "Lynn",
+    "sigLast": "WRIGHT",
+    "sigRank": "Colonel, U.S. Marine Corps",
+    "sigTitle": "AC/S G-4, Logistics",
+    "officeCode": "",
+    "byDirection": false,
+    "byDirectionAuthority": "",
+    "classLevel": "unclassified",
+    "customClassification": "",
+    "classifiedBy": "",
+    "derivedFrom": "",
+    "declassifyOn": "",
+    "classReason": "",
+    "classifiedPocEmail": "",
+    "cuiControlledBy": "",
+    "cuiCategory": "",
+    "cuiDissemination": "",
+    "cuiDistStatement": "",
+    "pocEmail": "",
+    "inReplyTo": false,
+    "inReplyToText": "",
+    "includeHyperlinks": false,
+    "salutation": "",
+    "complimentaryClose": ""
+  },
+  "references": [
+    { "letter": "a", "title": "MCO 11240.106B" },
+    { "letter": "b", "title": "MARCORSYSCOM Motor Transport Readiness Report dtd 15 Dec 25" }
+  ],
+  "enclosures": [
+    { "title": "Cost-Benefit Analysis", "file": null },
+    { "title": "Vehicle Condition Assessment Summary", "file": null }
+  ],
+  "paragraphs": [
+    {
+      "text": "Request your decision on the procurement of 24 replacement Medium Tactical Vehicle Replacement (MTVR) trucks to address critical motor transport readiness shortfalls.",
+      "level": 0,
+      "header": "Issue"
+    },
+    {
+      "text": "Per reference (b), the Division's MTVR fleet is currently at 67% readiness, well below the 85% threshold established in reference (a). Twelve vehicles have been classified as beyond economical repair, and an additional twelve are in Condition Code H status with estimated repair costs exceeding 65% of replacement value.",
+      "level": 0,
+      "header": "Background"
+    },
+    {
+      "text": "**Option 1 (Recommended):** Procure 24 new MTVRs through the MARCORSYSCOM vehicle replacement program at a total cost of $7.2M. Delivery timeline: 8-10 months. This option restores fleet readiness to 91% and provides vehicles with full warranty coverage.",
+      "level": 0,
+      "header": "Options"
+    },
+    {
+      "text": "**Option 2:** Procure 12 new MTVRs ($3.6M) and overhaul 12 existing vehicles ($1.8M) for a total of $5.4M. This achieves 82% readiness but the overhauled vehicles will have a shorter service life.",
+      "level": 1
+    },
+    {
+      "text": "**Option 3:** Defer procurement to FY27 and redistribute vehicles from lower-priority units. This option has no additional cost but will degrade readiness across multiple commands and is not recommended.",
+      "level": 1
+    },
+    {
+      "text": "Option 1 provides the most cost-effective long-term solution. The cost-benefit analysis at enclosure (1) demonstrates a 23% lower total lifecycle cost compared to Option 2 over a 10-year period. Enclosure (2) provides detailed condition assessments for all affected vehicles.",
+      "level": 0,
+      "header": "Analysis"
+    },
+    {
+      "text": "Recommend approval of Option 1 to procure 24 new MTVRs. Funding is available in the FY26 Operations and Maintenance, Marine Corps (O&M,MC) account.",
+      "level": 0,
+      "header": "Recommendation"
+    }
+  ],
+  "copyTos": []
+}

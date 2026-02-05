@@ -1,0 +1,100 @@
+{
+  "version": "1.0",
+  "exportedAt": "2026-02-01T00:00:00.000Z",
+  "documentMode": "compliant",
+  "docType": "letterhead_memorandum",
+  "formData": {
+    "docType": "letterhead_memorandum",
+    "fontSize": "12pt",
+    "fontFamily": "courier",
+    "pageNumbering": "none",
+    "department": "usmc",
+    "unitLine1": "MARINE CORPS AIR STATION MIRAMAR",
+    "unitLine2": "",
+    "unitAddress": "PO BOX 452001, SAN DIEGO CA 92145-2001",
+    "sealType": "dow",
+    "letterheadColor": "blue",
+    "ssic": "5100",
+    "serial": "003/26",
+    "date": "1 Feb 26",
+    "from": "Commanding Officer, Marine Corps Air Station Miramar",
+    "to": "All Hands",
+    "via": "",
+    "subject": "UPDATED BASE ACCESS AND VISITOR CONTROL PROCEDURES",
+    "sigFirst": "Michael",
+    "sigMiddle": "James",
+    "sigLast": "THORNTON",
+    "sigRank": "Colonel, U.S. Marine Corps",
+    "sigTitle": "Commanding Officer",
+    "officeCode": "",
+    "byDirection": false,
+    "byDirectionAuthority": "",
+    "classLevel": "unclassified",
+    "customClassification": "",
+    "classifiedBy": "",
+    "derivedFrom": "",
+    "declassifyOn": "",
+    "classReason": "",
+    "classifiedPocEmail": "",
+    "cuiControlledBy": "",
+    "cuiCategory": "",
+    "cuiDissemination": "",
+    "cuiDistStatement": "",
+    "pocEmail": "",
+    "inReplyTo": false,
+    "inReplyToText": "",
+    "includeHyperlinks": false,
+    "salutation": "",
+    "complimentaryClose": ""
+  },
+  "references": [
+    { "letter": "a", "title": "MCO 5530.14B" },
+    { "letter": "b", "title": "MCAS Miramar Base Order 5530.1D" }
+  ],
+  "enclosures": [
+    { "title": "Revised Gate Operating Hours", "file": null }
+  ],
+  "paragraphs": [
+    {
+      "text": "Effective 15 February 2026, MCAS Miramar will implement updated base access and visitor control procedures in accordance with reference (a). These changes are necessary to enhance installation security while maintaining efficient access for authorized personnel.",
+      "level": 0,
+      "header": "Purpose"
+    },
+    {
+      "text": "All active duty military, dependents, DoD civilians, and contractors with valid credentials shall continue to access the installation via any open gate. Common Access Card (CAC) or authorized base access credential must be presented at all entry control points.",
+      "level": 0,
+      "header": "Authorized Personnel"
+    },
+    {
+      "text": "The visitor sponsorship process has been updated as follows:",
+      "level": 0,
+      "header": "Visitor Access"
+    },
+    {
+      "text": "Sponsors must submit visitor requests through the Defense Biometric Identification System (DBIDS) at least 24 hours in advance for unescorted access.",
+      "level": 1
+    },
+    {
+      "text": "Walk-up visitors without prior registration will be processed at the Visitor Control Center (Building 6101) during normal business hours only.",
+      "level": 1
+    },
+    {
+      "text": "Commercial vehicle access requires advance coordination with the Provost Marshal's Office at (858) 577-4600.",
+      "level": 1
+    },
+    {
+      "text": "Revised gate operating hours are provided at enclosure (1). The Main Gate (Kearny Villa Road) will remain open 24/7. All other gates will operate on modified schedules to optimize security force manning.",
+      "level": 0,
+      "header": "Gate Operations"
+    },
+    {
+      "text": "Questions regarding these procedures should be directed to the Provost Marshal's Office. Reference (b) will be updated to reflect these changes.",
+      "level": 0,
+      "header": "Point of Contact"
+    }
+  ],
+  "copyTos": [
+    { "text": "MCAS Miramar Tenant Commands" },
+    { "text": "PMO" }
+  ]
+}

@@ -54,7 +54,7 @@ export function LetterheadSection() {
                   <div className="space-y-2 sm:w-28">
                     <Label>Seal</Label>
                     <Select
-                      value={formData.sealType || 'dod'}
+                      value={formData.sealType || 'dow'}
                       onValueChange={(v) => setField('sealType', v)}
                     >
                       <SelectTrigger>

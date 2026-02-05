@@ -155,14 +155,14 @@ const reLetterReferences = (refs: Reference[]): Reference[] => {
 const EXAMPLE_FORM_DATA: Partial<DocumentData> = {
   docType: 'naval_letter',
   fontSize: '12pt',
-  fontFamily: 'courier',
+  fontFamily: 'times',
   pageNumbering: 'none',
   // Letterhead - Example unit info for demo
   department: 'usmc',
   unitLine1: '1ST BATTALION, 6TH MARINES',
   unitLine2: '2D MARINE DIVISION, II MEF',
   unitAddress: 'PSC BOX 20123, CAMP LEJEUNE, NC 28542-0123',
-  sealType: 'dod',
+  sealType: 'dow',
   letterheadColor: 'blue',
   // Document identification
   ssic: '1000',

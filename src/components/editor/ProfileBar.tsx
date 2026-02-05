@@ -1,4 +1,4 @@
-import { Plus, Pencil, Trash2, Upload, Download } from 'lucide-react';
+import { Plus, Pencil, Trash2, Upload, Download, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -7,7 +7,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Separator } from '@/components/ui/separator';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { useProfileStore } from '@/stores/profileStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
@@ -112,9 +117,9 @@ export function ProfileBar() {
   };
 
   return (
-    <div className="flex items-center gap-2 px-4 py-2 border-b border-border bg-secondary/30">
+    <div className="flex items-center gap-1.5 px-3 py-1.5 border-b border-border bg-secondary/20">
       <Select value={selectedProfile || '__none__'} onValueChange={handleProfileChange}>
-        <SelectTrigger className="w-48">
+        <SelectTrigger className="w-40 h-7 text-xs">
           <SelectValue placeholder="Select Profile" />
         </SelectTrigger>
         <SelectContent>
@@ -130,55 +135,60 @@ export function ProfileBar() {
       <Button
         variant="ghost"
         size="icon"
+        className="h-7 w-7"
         onClick={() => {
-          selectProfile(null); // Clear selection to create new
+          selectProfile(null);
           setProfileModalOpen(true);
         }}
         title="Create New Profile"
       >
-        <Plus className="h-4 w-4" />
+        <Plus className="h-3.5 w-3.5" />
       </Button>
 
       <Button
         variant="ghost"
         size="icon"
+        className="h-7 w-7"
         onClick={() => setProfileModalOpen(true)}
         disabled={!selectedProfile}
         title="Edit Profile"
       >
-        <Pencil className="h-4 w-4" />
+        <Pencil className="h-3.5 w-3.5" />
       </Button>
 
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={handleDelete}
-        disabled={!selectedProfile}
-        title="Delete Profile"
-        className="text-destructive hover:text-destructive"
-      >
-        <Trash2 className="h-4 w-4" />
-      </Button>
-
-      <Separator orientation="vertical" className="h-6" />
-
-      <Button variant="ghost" size="icon" onClick={handleExport} title="Export Profiles">
-        <Download className="h-4 w-4" />
-      </Button>
-
-      <label>
-        <Button variant="ghost" size="icon" asChild title="Import Profiles">
-          <span>
-            <Upload className="h-4 w-4" />
-          </span>
-        </Button>
-        <input
-          type="file"
-          accept=".json"
-          onChange={handleImport}
-          className="hidden"
-        />
-      </label>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" size="icon" className="h-7 w-7" title="More profile options">
+            <MoreHorizontal className="h-3.5 w-3.5" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start">
+          <DropdownMenuItem
+            onClick={handleDelete}
+            disabled={!selectedProfile}
+            className="text-destructive focus:text-destructive"
+          >
+            <Trash2 className="h-4 w-4 mr-2" />
+            Delete Profile
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleExport}>
+            <Download className="h-4 w-4 mr-2" />
+            Export Profiles
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <label className="cursor-pointer">
+              <Upload className="h-4 w-4 mr-2" />
+              Import Profiles
+              <input
+                type="file"
+                accept=".json"
+                onChange={handleImport}
+                className="hidden"
+              />
+            </label>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
       <div className="flex-1" />
 

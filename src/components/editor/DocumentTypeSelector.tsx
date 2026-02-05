@@ -211,7 +211,7 @@ export function DocumentTypeSelector() {
   return (
     <div className="space-y-density-4">
       {/* Category Tabs - Correspondence vs Forms (at the top) */}
-      <div className="space-y-2">
+      <div className="space-y-2 border border-border rounded-lg bg-card/60 backdrop-blur-sm px-3 py-3 shadow-sm">
         <Label>Category</Label>
         <Tabs value={documentCategory} onValueChange={(v) => setDocumentCategory(v as DocumentCategory)}>
           <TabsList className="grid w-full grid-cols-2">
@@ -229,12 +229,12 @@ export function DocumentTypeSelector() {
 
       {/* Mode Toggle - Only show for Correspondence (Forms have fixed format) */}
       {isCorrespondence && (
-        <>
+        <div className="border border-border rounded-lg bg-card/60 backdrop-blur-sm px-3 py-3 shadow-sm space-y-density-4">
           <div className="flex gap-density-2">
             <Button
               variant={isCompliant ? 'default' : 'outline'}
               size="sm"
-              className="flex-1"
+              className={`flex-1 ${!isCompliant ? 'border-border hover:border-primary/40' : ''}`}
               onClick={() => setDocumentMode('compliant')}
             >
               <Shield className="h-4 w-4 mr-2" />
@@ -243,7 +243,7 @@ export function DocumentTypeSelector() {
             <Button
               variant={!isCompliant ? 'default' : 'outline'}
               size="sm"
-              className="flex-1"
+              className={`flex-1 ${isCompliant ? 'border-border hover:border-primary/40' : ''}`}
               onClick={() => setDocumentMode('custom')}
             >
               <Settings2 className="h-4 w-4 mr-2" />
@@ -252,110 +252,117 @@ export function DocumentTypeSelector() {
           </div>
 
           {/* Mode description */}
-          <div className={`text-density-sm p-density-2 rounded-md border ${isCompliant ? 'bg-primary/5 border-primary/20 text-primary' : 'bg-secondary/30 border-border text-muted-foreground'}`}>
+          <div className={`text-density-sm p-density-2 rounded-md border ${isCompliant ? 'bg-primary/5 border-primary/20 text-foreground' : 'bg-secondary/30 border-border text-muted-foreground'}`}>
             {isCompliant ? (
               <>Strictly adheres to SECNAV M-5216.5 formatting requirements.</>
             ) : (
               <>Customize fonts and formatting to your preferences.</>
             )}
           </div>
-        </>
+        </div>
       )}
 
       {/* Correspondence Document Type Selector */}
       {isCorrespondence && (
-        <>
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <Label>Document Type</Label>
-          <div className="flex items-center gap-1">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-6 px-2 text-primary hover:text-primary/80 hover:bg-primary/10"
-                    onClick={() => setTemplateLoaderOpen(true)}
-                  >
-                    <FolderOpen className="h-3.5 w-3.5 mr-1" />
-                    <span className="text-xs">Templates</span>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Load a saved template</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-6 px-2 text-orange-600 hover:text-orange-700 hover:bg-orange-100 dark:text-orange-400 dark:hover:text-orange-300 dark:hover:bg-orange-900/30"
-                    onClick={() => setShowClearDialog(true)}
-                  >
-                    <Eraser className="h-3.5 w-3.5 mr-1" />
-                    <span className="text-xs">Clear</span>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Clear all fields except letterhead</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+      <div className="space-y-density-4 border border-border rounded-lg bg-card/60 backdrop-blur-sm px-3 py-3 shadow-sm">
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <Label>Document Type</Label>
+            <div className="flex items-center gap-1">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 px-2 bg-primary/10 border border-primary/30 text-primary hover:text-primary/80 hover:bg-primary/20"
+                      onClick={() => setTemplateLoaderOpen(true)}
+                    >
+                      <FolderOpen className="h-3.5 w-3.5 mr-1" />
+                      <span className="text-xs">Templates</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Load a saved template</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 px-2 bg-orange-500/10 border border-orange-500/30 text-orange-600 hover:text-orange-700 hover:bg-orange-500/20 dark:text-orange-400 dark:hover:text-orange-300 dark:hover:bg-orange-500/20"
+                      onClick={() => setShowClearDialog(true)}
+                    >
+                      <Eraser className="h-3.5 w-3.5 mr-1" />
+                      <span className="text-xs">Clear</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Clear all fields except letterhead</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
           </div>
+          <Select value={docType} onValueChange={handleDocTypeChange}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select document type" />
+            </SelectTrigger>
+            <SelectContent>
+              {DOC_TYPE_CATEGORIES.map((cat) => (
+                <SelectGroup key={cat.category}>
+                  <SelectLabel>{cat.category}</SelectLabel>
+                  {cat.types.map((type) => (
+                    <SelectItem key={type} value={type}>
+                      {DOC_TYPE_LABELS[type]}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
-        <Select value={docType} onValueChange={handleDocTypeChange}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select document type" />
-          </SelectTrigger>
-          <SelectContent>
-            {DOC_TYPE_CATEGORIES.map((cat) => (
-              <SelectGroup key={cat.category}>
-                <SelectLabel>{cat.category}</SelectLabel>
-                {cat.types.map((type) => (
-                  <SelectItem key={type} value={type}>
-                    {DOC_TYPE_LABELS[type]}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
 
-      {/* Regulation hints - always show in compliant mode, show as "recommended" in custom */}
-      {config && (
-        <div className={`border rounded-md p-3 text-xs ${isCompliant ? 'bg-primary/5 border-primary/20' : 'bg-secondary/30 border-border'}`}>
-          <div className="flex items-center gap-2 mb-2">
-            <Badge variant={isCompliant ? 'default' : 'outline'} className="text-xs">
-              SECNAV M-5216.5 {config.regulations.ref}
-            </Badge>
+        {/* Regulation hints - always show in compliant mode, show as "recommended" in custom */}
+        {config && (
+          <div className={`border rounded-md p-3 text-xs ${isCompliant ? 'bg-primary/5 border-primary/20' : 'bg-secondary/30 border-border'}`}>
+            <div className="flex items-center gap-2 mb-2">
+              <Badge variant={isCompliant ? 'default' : 'outline'} className="text-xs">
+                SECNAV M-5216.5 {config.regulations.ref}
+              </Badge>
+            </div>
+            {!isCompliant && (
+              <div className="text-muted-foreground">
+                Recommended: {config.regulations.fontSize} {config.regulations.fontFamily}
+              </div>
+            )}
           </div>
-          <div className={isCompliant ? 'text-primary' : 'text-muted-foreground'}>
-            {isCompliant ? 'Applied' : 'Recommended'}: {config.regulations.fontSize} {config.regulations.fontFamily}
-          </div>
-        </div>
-      )}
+        )}
 
-      {/* Font settings - only show in custom mode and correspondence */}
-      {!isCompliant && (
+        {/* Font settings - available in both compliant and custom mode */}
         <div className="grid grid-cols-2 gap-density-4">
           <div className="space-y-2">
             <Label>Font Size</Label>
             <Select
-              value={formData.fontSize || '12pt'}
+              value={isCompliant ? '12pt' : (formData.fontSize || '12pt')}
               onValueChange={(v) => setField('fontSize', v)}
             >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="10pt">10pt</SelectItem>
-                <SelectItem value="11pt">11pt</SelectItem>
-                <SelectItem value="12pt">12pt</SelectItem>
+                {isCompliant ? (
+                  <SelectItem value="12pt">12pt</SelectItem>
+                ) : (
+                  <>
+                    <SelectItem value="10pt">10pt</SelectItem>
+                    <SelectItem value="11pt">11pt</SelectItem>
+                    <SelectItem value="12pt">12pt</SelectItem>
+                  </>
+                )}
               </SelectContent>
             </Select>
           </div>
@@ -363,21 +370,20 @@ export function DocumentTypeSelector() {
           <div className="space-y-2">
             <Label>Font Family</Label>
             <Select
-              value={formData.fontFamily || 'courier'}
+              value={formData.fontFamily || 'times'}
               onValueChange={(v) => setField('fontFamily', v)}
             >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="times">Times New Roman</SelectItem>
                 <SelectItem value="courier">Courier</SelectItem>
-                <SelectItem value="times">Times</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
-      )}
-      </>
+      </div>
       )}
 
       {/* Forms Selector */}
@@ -404,8 +410,8 @@ export function DocumentTypeSelector() {
           </Select>
         </div>
 
-        <div className="border rounded-md p-3 text-xs bg-blue-50 border-blue-200 dark:bg-blue-950/30 dark:border-blue-800">
-          <div className="text-blue-700 dark:text-blue-400">
+        <div className="border rounded-md p-3 text-xs bg-primary/5 border-primary/20">
+          <div className="text-muted-foreground">
             Select a form type above to edit. The form editor will appear below.
           </div>
         </div>
