@@ -265,85 +265,85 @@ export function DocumentTypeSelector() {
       {/* Correspondence Document Type Selector */}
       {isCorrespondence && (
         <>
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <Label>Document Type</Label>
-          <div className="flex items-center gap-1">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-6 px-2 bg-primary/10 border border-primary/30 text-primary hover:text-primary/80 hover:bg-primary/20"
-                    onClick={() => setTemplateLoaderOpen(true)}
-                  >
-                    <FolderOpen className="h-3.5 w-3.5 mr-1" />
-                    <span className="text-xs">Templates</span>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Load a saved template</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-6 px-2 bg-orange-500/10 border border-orange-500/30 text-orange-600 hover:text-orange-700 hover:bg-orange-500/20 dark:text-orange-400 dark:hover:text-orange-300 dark:hover:bg-orange-500/20"
-                    onClick={() => setShowClearDialog(true)}
-                  >
-                    <Eraser className="h-3.5 w-3.5 mr-1" />
-                    <span className="text-xs">Clear</span>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Clear all fields except letterhead</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
-        </div>
-        <Select value={docType} onValueChange={handleDocTypeChange}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select document type" />
-          </SelectTrigger>
-          <SelectContent>
-            {DOC_TYPE_CATEGORIES.map((cat) => (
-              <SelectGroup key={cat.category}>
-                <SelectLabel>{cat.category}</SelectLabel>
-                {cat.types.map((type) => (
-                  <SelectItem key={type} value={type}>
-                    {DOC_TYPE_LABELS[type]}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Regulation hints - always show in compliant mode, show as "recommended" in custom */}
-      {config && (
-        <div className={`border rounded-md p-3 text-xs ${isCompliant ? 'bg-primary/5 border-primary/20' : 'bg-secondary/30 border-border'}`}>
-          <div className="flex items-center gap-2 mb-2">
-            <Badge variant={isCompliant ? 'default' : 'outline'} className="text-xs">
-              SECNAV M-5216.5 {config.regulations.ref}
-            </Badge>
-          </div>
-          {!isCompliant && (
-            <div className="text-muted-foreground">
-              Recommended: {config.regulations.fontSize} {config.regulations.fontFamily}
+      <div className="space-y-density-4 border border-border rounded-lg bg-card/60 backdrop-blur-sm px-3 py-3 shadow-sm">
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <Label>Document Type</Label>
+            <div className="flex items-center gap-1">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 px-2 bg-primary/10 border border-primary/30 text-primary hover:text-primary/80 hover:bg-primary/20"
+                      onClick={() => setTemplateLoaderOpen(true)}
+                    >
+                      <FolderOpen className="h-3.5 w-3.5 mr-1" />
+                      <span className="text-xs">Templates</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Load a saved template</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 px-2 bg-orange-500/10 border border-orange-500/30 text-orange-600 hover:text-orange-700 hover:bg-orange-500/20 dark:text-orange-400 dark:hover:text-orange-300 dark:hover:bg-orange-500/20"
+                      onClick={() => setShowClearDialog(true)}
+                    >
+                      <Eraser className="h-3.5 w-3.5 mr-1" />
+                      <span className="text-xs">Clear</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Clear all fields except letterhead</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
-          )}
+          </div>
+          <Select value={docType} onValueChange={handleDocTypeChange}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select document type" />
+            </SelectTrigger>
+            <SelectContent>
+              {DOC_TYPE_CATEGORIES.map((cat) => (
+                <SelectGroup key={cat.category}>
+                  <SelectLabel>{cat.category}</SelectLabel>
+                  {cat.types.map((type) => (
+                    <SelectItem key={type} value={type}>
+                      {DOC_TYPE_LABELS[type]}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
-      )}
 
-      {/* Font settings - only show in custom mode and correspondence */}
-      {!isCompliant && (
+        {/* Regulation hints - always show in compliant mode, show as "recommended" in custom */}
+        {config && (
+          <div className={`border rounded-md p-3 text-xs ${isCompliant ? 'bg-primary/5 border-primary/20' : 'bg-secondary/30 border-border'}`}>
+            <div className="flex items-center gap-2 mb-2">
+              <Badge variant={isCompliant ? 'default' : 'outline'} className="text-xs">
+                SECNAV M-5216.5 {config.regulations.ref}
+              </Badge>
+            </div>
+            {!isCompliant && (
+              <div className="text-muted-foreground">
+                Recommended: {config.regulations.fontSize} {config.regulations.fontFamily}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Font settings - available in both compliant and custom mode */}
         <div className="grid grid-cols-2 gap-density-4">
           <div className="space-y-2">
             <Label>Font Size</Label>
@@ -355,9 +355,15 @@ export function DocumentTypeSelector() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="10pt">10pt</SelectItem>
-                <SelectItem value="11pt">11pt</SelectItem>
-                <SelectItem value="12pt">12pt</SelectItem>
+                {isCompliant ? (
+                  <SelectItem value="12pt">12pt</SelectItem>
+                ) : (
+                  <>
+                    <SelectItem value="10pt">10pt</SelectItem>
+                    <SelectItem value="11pt">11pt</SelectItem>
+                    <SelectItem value="12pt">12pt</SelectItem>
+                  </>
+                )}
               </SelectContent>
             </Select>
           </div>
@@ -365,20 +371,20 @@ export function DocumentTypeSelector() {
           <div className="space-y-2">
             <Label>Font Family</Label>
             <Select
-              value={formData.fontFamily || 'courier'}
+              value={formData.fontFamily || 'times'}
               onValueChange={(v) => setField('fontFamily', v)}
             >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="times">Times New Roman</SelectItem>
                 <SelectItem value="courier">Courier</SelectItem>
-                <SelectItem value="times">Times</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
-      )}
+      </div>
       </>
       )}
 

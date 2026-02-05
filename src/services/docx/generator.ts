@@ -77,7 +77,7 @@ async function fetchSealImage(sealType: string | undefined, letterheadColor: str
 export async function generateDocx(store: DocumentStore): Promise<Blob> {
   const data = store.formData;
   const config = DOC_TYPE_CONFIG[store.docType] || DOC_TYPE_CONFIG.naval_letter;
-  const fontType: FontType = (data.fontFamily as FontType) || 'courier';
+  const fontType: FontType = (data.fontFamily as FontType) || 'times';
   const fp = getFontProps(fontType, data.fontSize);
 
   // Fetch seal image if letterhead is used
