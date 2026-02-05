@@ -403,57 +403,69 @@ const VariableExtension = VariableNode.extend({
 });
 
 // Convert editor content to {{VARIABLE}} text format with LaTeX formatting
+// Each ProseMirror paragraph becomes a line separated by \n
 function editorToText(editor: ReturnType<typeof useEditor>): string {
   if (!editor) return '';
-  let result = '';
+  const paragraphs: string[] = [];
 
-  editor.state.doc.descendants((node) => {
-    if (node.type.name === 'variable') {
-      result += `{{${node.attrs.name}}}`;
-    } else if (node.isText && node.text) {
-      let text = node.text;
-      // Apply LaTeX formatting based on marks
-      const marks = node.marks;
-      const hasBold = marks.some(m => m.type.name === 'bold');
-      const hasItalic = marks.some(m => m.type.name === 'italic');
-      const hasUnderline = marks.some(m => m.type.name === 'underline');
+  editor.state.doc.forEach((node) => {
+    if (node.type.name === 'paragraph') {
+      let paraText = '';
+      node.forEach((child) => {
+        if (child.type.name === 'variable') {
+          paraText += `{{${child.attrs.name}}}`;
+        } else if (child.isText && child.text) {
+          let text = child.text;
+          // Apply LaTeX formatting based on marks
+          const marks = child.marks;
+          const hasBold = marks.some(m => m.type.name === 'bold');
+          const hasItalic = marks.some(m => m.type.name === 'italic');
+          const hasUnderline = marks.some(m => m.type.name === 'underline');
 
-      if (hasBold) text = `\\textbf{${text}}`;
-      if (hasItalic) text = `\\textit{${text}}`;
-      if (hasUnderline) text = `\\underline{${text}}`;
+          if (hasBold) text = `\\textbf{${text}}`;
+          if (hasItalic) text = `\\textit{${text}}`;
+          if (hasUnderline) text = `\\underline{${text}}`;
 
-      result += text;
+          paraText += text;
+        }
+      });
+      paragraphs.push(paraText);
     }
-    return true;
   });
-  return result.trim();
+
+  return paragraphs.join('\n').trim();
 }
 
 // Convert {{VARIABLE}} text with LaTeX formatting to editor HTML content
+// Each line becomes a separate <p> element so Tiptap preserves paragraph breaks
 function textToEditorHtml(text: string): string {
-  let html = text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+  const lines = text.split('\n');
 
-  // Convert LaTeX formatting to HTML
-  // Handle nested formatting by doing multiple passes
-  html = html.replace(/\\textbf\{([^{}]*)\}/g, '<strong>$1</strong>');
-  html = html.replace(/\\textit\{([^{}]*)\}/g, '<em>$1</em>');
-  html = html.replace(/\\underline\{([^{}]*)\}/g, '<u>$1</u>');
+  return lines.map(line => {
+    let html = line
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
 
-  // Convert variables to spans - check both default and custom variables
-  html = html.replace(/\{\{([A-Z0-9_]+)\}\}/g, (_, name) => {
-    const placeholder = BATCH_PLACEHOLDERS.find(p => p.name === name);
-    const customVars = getCustomVariables();
-    const customVar = customVars.find(p => p.name === name);
-    const label = placeholder?.label || customVar?.label || name;
-    // Register the variable in case it's new
-    addCustomVariable(name);
-    return `<span data-type="variable" data-name="${name}" data-label="${label}">@${label}</span>`;
-  });
+    // Convert LaTeX formatting to HTML
+    // Handle nested formatting by doing multiple passes
+    html = html.replace(/\\textbf\{([^{}]*)\}/g, '<strong>$1</strong>');
+    html = html.replace(/\\textit\{([^{}]*)\}/g, '<em>$1</em>');
+    html = html.replace(/\\underline\{([^{}]*)\}/g, '<u>$1</u>');
 
-  return `<p>${html || '<br>'}</p>`;
+    // Convert variables to spans - check both default and custom variables
+    html = html.replace(/\{\{([A-Z0-9_]+)\}\}/g, (_, name) => {
+      const placeholder = BATCH_PLACEHOLDERS.find(p => p.name === name);
+      const customVars = getCustomVariables();
+      const customVar = customVars.find(p => p.name === name);
+      const label = placeholder?.label || customVar?.label || name;
+      // Register the variable in case it's new
+      addCustomVariable(name);
+      return `<span data-type="variable" data-name="${name}" data-label="${label}">@${label}</span>`;
+    });
+
+    return `<p>${html || '<br>'}</p>`;
+  }).join('');
 }
 
 // Formatting toolbar for the editor
