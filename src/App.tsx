@@ -22,7 +22,7 @@ import { UpdatePromptModal } from '@/components/modals/UpdatePromptModal';
 import { parseShareUrl } from '@/lib/shareCrypto';
 import { BrowserCompatibilityNotice } from '@/components/BrowserCompatibilityNotice';
 import { BackgroundBeams } from '@/components/effects/BackgroundBeams';
-import marineCodersLogo from '/attachments/marine-coders-logo.svg';
+const marineCodersLogo = `${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`;
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
@@ -572,20 +572,13 @@ function App() {
   const pendingDocxRef = useRef<boolean>(false);
 
   const executeDocxDownload = useCallback(async () => {
-    const docxBytes = await generateDocx(documentStore);
-    const arrayBuffer = docxBytes.buffer.slice(
-      docxBytes.byteOffset,
-      docxBytes.byteOffset + docxBytes.byteLength
-    ) as ArrayBuffer;
-    const blob = new Blob([arrayBuffer], {
-      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    });
+    const blob = await generateDocx(documentStore);
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
     a.download = 'correspondence.docx';
     a.click();
-    URL.revokeObjectURL(url);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   }, [documentStore]);
 
   // Core PII download function - can be called for retry
@@ -643,6 +636,7 @@ function App() {
         await executeDocxDownload();
       } catch (err) {
         console.error('DOCX generation error:', err);
+        setCompileError(`DOCX generation failed: ${err instanceof Error ? err.message : 'Unknown error'}`);
       }
       return;
     }
@@ -890,6 +884,7 @@ ${texFiles['body.tex'] || '% No body content'}
       await executeDocxDownload();
     } catch (err) {
       console.error('DOCX generation error:', err);
+      setCompileError(`DOCX generation failed: ${err instanceof Error ? err.message : 'Unknown error'}`);
     }
   }, [documentStore, executeDocxDownload, setPiiWarningOpen]);
 

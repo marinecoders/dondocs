@@ -260,8 +260,16 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
   const { setOpen: setLogViewerOpen, setEnabled: setLogEnabled } = useLogStore();
   const [numPages, setNumPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [viewportWidth, setViewportWidth] = useState<number>(window.innerWidth);
   const pageRefs = useRef<Map<number, HTMLDivElement>>(new Map());
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Track viewport width reactively for device rotation
+  useEffect(() => {
+    const handleResize = () => setViewportWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Use centralized device detection
   const deviceInfo = useDeviceInfo();
@@ -301,20 +309,29 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
   useEffect(() => {
     if (!mobilePreviewOpen || numPages === 0) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            const pageNum = Number(entry.target.getAttribute('data-page'));
-            if (pageNum) setCurrentPage(pageNum);
+    // Defer observer setup to ensure page refs are populated after async render
+    const rafId = requestAnimationFrame(() => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              const pageNum = Number(entry.target.getAttribute('data-page'));
+              if (pageNum) setCurrentPage(pageNum);
+            }
           }
-        }
-      },
-      { root: scrollContainerRef.current, threshold: 0.5 }
-    );
+        },
+        { root: scrollContainerRef.current, threshold: 0.5 }
+      );
 
-    pageRefs.current.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+      pageRefs.current.forEach((el) => observer.observe(el));
+      observerRef.current = observer;
+    });
+
+    const observerRef = { current: null as IntersectionObserver | null };
+    return () => {
+      cancelAnimationFrame(rafId);
+      observerRef.current?.disconnect();
+    };
   }, [mobilePreviewOpen, numPages]);
 
   // Download handler using centralized download utility
@@ -462,7 +479,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
                 >
                   <Page
                     pageNumber={index + 1}
-                    width={window.innerWidth - 16}
+                    width={Math.min(viewportWidth - 16, 960)}
                     className="shadow-lg"
                     renderTextLayer={false}
                     renderAnnotationLayer={false}

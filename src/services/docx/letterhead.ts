@@ -5,21 +5,13 @@ import {
   TableRow,
   TableCell,
   WidthType,
-  BorderStyle,
   ImageRun,
   convertInchesToTwip,
 } from 'docx';
 import type { DocumentData } from '@/types/document';
 import type { FontProps } from './styles';
-import { SINGLE_SPACING } from './styles';
+import { SINGLE_SPACING, NO_BORDERS } from './styles';
 import { getDepartmentName, styledRun } from './utils';
-
-const NO_BORDERS = {
-  top: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-  bottom: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-  left: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-  right: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-};
 
 // Resolve seal filename from sealType and letterheadColor
 function getSealFilename(sealType: string | undefined, letterheadColor: string | undefined): string {

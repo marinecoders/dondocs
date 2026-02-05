@@ -69,11 +69,12 @@ async function fetchSealImage(sealType: string | undefined, letterheadColor: str
     const buffer = await response.arrayBuffer();
     return new Uint8Array(buffer);
   } catch {
+    console.warn('Failed to fetch seal image — DOCX will be generated without seal');
     return undefined;
   }
 }
 
-export async function generateDocx(store: DocumentStore): Promise<Uint8Array> {
+export async function generateDocx(store: DocumentStore): Promise<Blob> {
   const data = store.formData;
   const config = DOC_TYPE_CONFIG[store.docType] || DOC_TYPE_CONFIG.naval_letter;
   const fontType: FontType = (data.fontFamily as FontType) || 'courier';
@@ -113,6 +114,9 @@ export async function generateDocx(store: DocumentStore): Promise<Uint8Array> {
     case 'joint_memo':
       buildJointMemoLayout(children, ctx);
       break;
+    default:
+      buildStandardLayout(children, ctx);
+      break;
   }
 
   // Classification info blocks (CUI or classified) — appended to all types
@@ -135,9 +139,7 @@ export async function generateDocx(store: DocumentStore): Promise<Uint8Array> {
     ],
   });
 
-  const blob = await Packer.toBlob(doc);
-  const arrayBuffer = await blob.arrayBuffer();
-  return new Uint8Array(arrayBuffer);
+  return await Packer.toBlob(doc);
 }
 
 // Standard layout: naval letter, standard letter, multiple address letter, endorsements

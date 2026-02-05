@@ -186,10 +186,15 @@ export function styledRun(text: string, fp: FontProps, overrides?: Record<string
 
 // Convert base64 to Uint8Array (for signature images)
 export function base64ToUint8Array(base64: string): Uint8Array {
-  const binaryString = atob(base64);
-  const bytes = new Uint8Array(binaryString.length);
-  for (let i = 0; i < binaryString.length; i++) {
-    bytes[i] = binaryString.charCodeAt(i);
+  try {
+    const binaryString = atob(base64);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes;
+  } catch {
+    console.warn('Invalid base64 string for signature image');
+    return new Uint8Array(0);
   }
-  return bytes;
 }

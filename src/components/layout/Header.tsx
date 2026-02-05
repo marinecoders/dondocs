@@ -56,13 +56,17 @@ export function Header({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const dismissed = localStorage.getItem('dondocs-banner-dismissed');
-    if (dismissed === 'true') setBannerDismissed(true);
+    try {
+      const dismissed = localStorage.getItem('dondocs-banner-dismissed');
+      if (dismissed === 'true') setBannerDismissed(true);
+    } catch { /* localStorage unavailable (private browsing) */ }
   }, []);
 
   const dismissBanner = useCallback(() => {
     setBannerDismissed(true);
-    localStorage.setItem('dondocs-banner-dismissed', 'true');
+    try {
+      localStorage.setItem('dondocs-banner-dismissed', 'true');
+    } catch { /* localStorage unavailable */ }
   }, []);
 
   // Check if document contains any {{VARIABLE}} placeholders
@@ -310,7 +314,7 @@ export function Header({
           Not an official DoW website. Beta release - report issues on GitHub.
           <button
             onClick={dismissBanner}
-            className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-amber-700/50 transition-colors"
+            className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-amber-700/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-900 transition-colors"
             aria-label="Dismiss banner"
           >
             <X className="h-3 w-3" />

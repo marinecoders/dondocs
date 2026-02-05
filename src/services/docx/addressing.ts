@@ -182,7 +182,10 @@ export function buildReferences(
         const refText = `(${ref.letter}) ${line}`;
         const hasUrl = includeHyperlinks && ref.url?.trim();
 
-        const children = [
+        // Validate URL scheme — only allow http(s) to prevent javascript:/file:// injection
+      const safeUrl = hasUrl && /^https?:\/\//i.test(ref.url!.trim()) ? ref.url!.trim() : null;
+
+      const children = [
           styledRun(isFirstRef ? 'Ref:' : '', fp),
           styledRun(
             isCourier
@@ -190,10 +193,10 @@ export function buildReferences(
               : '\t',
             fp
           ),
-          ...(hasUrl
+          ...(safeUrl
             ? [new ExternalHyperlink({
                 children: [styledRun(refText, fp, { color: '0563C1', underline: {} })],
-                link: ref.url!,
+                link: safeUrl,
               })]
             : [styledRun(refText, fp)]),
         ];

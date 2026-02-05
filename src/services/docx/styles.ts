@@ -1,4 +1,4 @@
-import { convertInchesToTwip, TabStopType, LineRuleType } from 'docx';
+import { convertInchesToTwip, TabStopType, LineRuleType, BorderStyle } from 'docx';
 
 // Font type for spacing calculations
 export type FontType = 'times' | 'courier';
@@ -81,3 +81,11 @@ export function getTimesTabStop() {
 
 // Continuation line indent (aligns with text after label)
 export const COURIER_CONTINUATION_INDENT = 8; // spaces
+
+// Invisible table borders (reused across letterhead, signature, MOA modules)
+export const NO_BORDERS = {
+  top: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+  bottom: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+  left: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+  right: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
+} as const;

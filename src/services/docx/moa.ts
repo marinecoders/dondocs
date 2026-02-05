@@ -5,20 +5,12 @@ import {
   TableRow,
   TableCell,
   WidthType,
-  BorderStyle,
   convertInchesToTwip,
 } from 'docx';
 import type { DocumentData } from '@/types/document';
 import type { FontProps } from './styles';
-import { SPACING, SINGLE_SPACING } from './styles';
+import { SPACING, SINGLE_SPACING, NO_BORDERS } from './styles';
 import { styledRun } from './utils';
-
-const NO_BORDERS = {
-  top: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-  bottom: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-  left: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-  right: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-};
 
 // MOA/MOU: Dual SSIC blocks side-by-side (2-column invisible-border Table)
 export function buildMOASSICBlock(data: Partial<DocumentData>, fp: FontProps): Table[] {

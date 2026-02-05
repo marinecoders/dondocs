@@ -11,15 +11,8 @@ import {
 } from 'docx';
 import type { DocumentData, DocTypeConfig } from '@/types/document';
 import type { FontProps } from './styles';
-import { SPACING, SINGLE_SPACING } from './styles';
+import { SPACING, SINGLE_SPACING, NO_BORDERS } from './styles';
 import { abbreviateName, buildFullName, capitalizeWord, styledRun, base64ToUint8Array } from './utils';
-
-const NO_BORDERS = {
-  top: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-  bottom: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-  left: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-  right: { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' },
-};
 
 // Overscore border (top line only, for MOA signatures)
 const OVERSCORE_BORDERS = {
