@@ -123,14 +123,22 @@ export async function generateDocx(store: DocumentStore): Promise<Blob> {
   children.push(...buildCUIBlock(data, fp));
   children.push(...buildClassifiedBlock(data, fp));
 
-  // Build headers/footers for classification markings and page numbers
-  const { headers, footers } = buildClassificationHeaders(data, fp, data.pageNumbering || 'none');
+  // Build headers/footers for classification markings, subject on page 2+, and page numbers
+  const startingPageNumber = data.startingPageNumber || 1;
+  const { headers, footers } = buildClassificationHeaders(data, fp, data.pageNumbering || 'none', {
+    subject: data.subject,
+    startingPageNumber,
+  });
 
   const doc = new Document({
     sections: [
       {
         properties: {
-          page: { margin: PAGE_MARGINS },
+          page: {
+            margin: PAGE_MARGINS,
+            pageNumbers: { start: startingPageNumber },
+          },
+          titlePage: true, // Distinct first-page header (no subject) vs subsequent (with subject)
         },
         headers,
         footers,
@@ -170,6 +178,7 @@ function buildStandardLayout(children: (DocxParagraph | Table)[], ctx: LayoutCon
   children.push(...buildBody(store.paragraphs, fp, {
     numberedParagraphs: config.compliance.numberedParagraphs,
     isBusinessLetter: false,
+    fontType,
   }));
 
   children.push(...buildSignature(data, config, fp));
@@ -178,7 +187,7 @@ function buildStandardLayout(children: (DocxParagraph | Table)[], ctx: LayoutCon
 
 // Business letter layout
 function buildBusinessLayout(children: (DocxParagraph | Table)[], ctx: LayoutContext) {
-  const { store, config, fp, sealImageData } = ctx;
+  const { store, config, fp, fontType, sealImageData } = ctx;
   const data = store.formData;
 
   if (config.letterhead) children.push(...buildLetterhead(data, fp, sealImageData));
@@ -189,6 +198,7 @@ function buildBusinessLayout(children: (DocxParagraph | Table)[], ctx: LayoutCon
   children.push(...buildBody(store.paragraphs, fp, {
     numberedParagraphs: false,
     isBusinessLetter: true,
+    fontType,
   }));
 
   children.push(...buildBusinessSignature(data, fp));
@@ -216,6 +226,7 @@ function buildMemoLayout(children: (DocxParagraph | Table)[], ctx: LayoutContext
   children.push(...buildBody(store.paragraphs, fp, {
     numberedParagraphs: config.compliance.numberedParagraphs,
     isBusinessLetter: false,
+    fontType,
   }));
 
   if (store.docType === 'decision_memorandum') children.push(...buildDecisionBlock(fp));
@@ -243,6 +254,7 @@ function buildMOALayout(children: (DocxParagraph | Table)[], ctx: LayoutContext)
   children.push(...buildBody(store.paragraphs, fp, {
     numberedParagraphs: config.compliance.numberedParagraphs,
     isBusinessLetter: false,
+    fontType,
   }));
 
   children.push(...buildMOADualSignature(data, fp));
@@ -265,6 +277,7 @@ function buildJointLayout(children: (DocxParagraph | Table)[], ctx: LayoutContex
   children.push(...buildBody(store.paragraphs, fp, {
     numberedParagraphs: config.compliance.numberedParagraphs,
     isBusinessLetter: false,
+    fontType,
   }));
 
   children.push(...buildJointDualSignature(data, fp));
@@ -309,6 +322,7 @@ function buildJointMemoLayout(children: (DocxParagraph | Table)[], ctx: LayoutCo
   children.push(...buildBody(store.paragraphs, fp, {
     numberedParagraphs: config.compliance.numberedParagraphs,
     isBusinessLetter: false,
+    fontType,
   }));
 
   children.push(...buildJointMemoDualSignature(data, fp));

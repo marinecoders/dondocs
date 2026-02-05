@@ -53,6 +53,20 @@ export function getIndentTwips(level: number, isBusinessLetter: boolean): number
   return level * perLevel;
 }
 
+// SECNAV M-5216.5 paragraph tab stops per nesting level (0-based)
+// citation = where the label sits, text = where paragraph text begins
+// Each level is offset by 0.25" (360 twips)
+export const NAVAL_TAB_STOPS: Record<number, { citation: number; text: number }> = {
+  0: { citation: 0,    text: 360 },   // "1." at 0",     text at 0.25"
+  1: { citation: 360,  text: 720 },   // "a." at 0.25",  text at 0.5"
+  2: { citation: 720,  text: 1080 },  // "(1)" at 0.5",  text at 0.75"
+  3: { citation: 1080, text: 1440 },  // "(a)" at 0.75", text at 1.0"
+  4: { citation: 1440, text: 1800 },  // "1." at 1.0",   text at 1.25"
+  5: { citation: 1800, text: 2160 },  // "a." at 1.25",  text at 1.5"
+  6: { citation: 2160, text: 2520 },  // "(1)" at 1.5",  text at 1.75"
+  7: { citation: 2520, text: 2880 },  // "(a)" at 1.75", text at 2.0"
+};
+
 // SECNAV M-5216.5 spacing requirements for label alignment
 // Courier: fixed-width, use exact space counts
 // Times: use tab stops for proportional alignment

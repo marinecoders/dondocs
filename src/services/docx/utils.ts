@@ -102,6 +102,33 @@ export function calculateLabels(paragraphs: Paragraph[]): string[] {
   return labels;
 }
 
+// Build citation TextRuns with SECNAV M-5216.5 level 4-7 underline handling
+// Levels 0-3: plain text citation
+// Levels 4-7: underline the number/letter only, NOT the punctuation
+export function buildCitationRuns(label: string, level: number, fp: FontProps): TextRun[] {
+  if (level < 4) {
+    return [new TextRun({ text: label, font: fp.font, size: fp.size })];
+  }
+
+  // Levels 4-7 use underlined numbers/letters per SECNAV M-5216.5
+  if (label.startsWith('(')) {
+    // Parenthesized: "(1)" or "(a)" — underline only the inner character
+    const inner = label.replace(/[()]/g, '');
+    return [
+      new TextRun({ text: '(', font: fp.font, size: fp.size }),
+      new TextRun({ text: inner, font: fp.font, size: fp.size, underline: {} }),
+      new TextRun({ text: ')', font: fp.font, size: fp.size }),
+    ];
+  }
+
+  // Dotted: "1." or "a." — underline the number/letter, not the period
+  const numberOrLetter = label.slice(0, -1);
+  return [
+    new TextRun({ text: numberOrLetter, font: fp.font, size: fp.size, underline: {} }),
+    new TextRun({ text: '.', font: fp.font, size: fp.size }),
+  ];
+}
+
 // Get classification marking text for header/footer
 export function getClassificationMarking(
   classLevel: string | undefined,
