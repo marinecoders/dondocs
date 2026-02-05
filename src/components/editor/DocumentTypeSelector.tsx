@@ -264,7 +264,6 @@ export function DocumentTypeSelector() {
 
       {/* Correspondence Document Type Selector */}
       {isCorrespondence && (
-        <>
       <div className="space-y-density-4 border border-border rounded-lg bg-card/60 backdrop-blur-sm px-3 py-3 shadow-sm">
         <div className="space-y-2">
           <div className="flex items-center justify-between">
@@ -348,7 +347,7 @@ export function DocumentTypeSelector() {
           <div className="space-y-2">
             <Label>Font Size</Label>
             <Select
-              value={formData.fontSize || '12pt'}
+              value={isCompliant ? '12pt' : (formData.fontSize || '12pt')}
               onValueChange={(v) => setField('fontSize', v)}
             >
               <SelectTrigger>
@@ -385,7 +384,6 @@ export function DocumentTypeSelector() {
           </div>
         </div>
       </div>
-      </>
       )}
 
       {/* Forms Selector */}
