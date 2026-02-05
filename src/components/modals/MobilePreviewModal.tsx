@@ -1,6 +1,6 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
-import { X, Loader2, AlertCircle, ScrollText, Download, ChevronLeft, ChevronRight, FileText } from 'lucide-react';
+import { X, Loader2, AlertCircle, ScrollText, Download, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useUIStore } from '@/stores/uiStore';
 import { useLogStore } from '@/stores/logStore';
@@ -120,7 +120,8 @@ const pdfViewerStyles = `
 `;
 
 // Configure pdf.js worker for react-pdf (non-iOS)
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+// react-pdf v10 uses pdfjs-dist v5 — worker copied to public/lib/
+pdfjs.GlobalWorkerOptions.workerSrc = `${import.meta.env.BASE_URL}lib/pdf.worker.min.mjs`;
 
 // Worker URL for react-pdf-viewer (iOS)
 const PDFJS_WORKER_URL = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
@@ -259,8 +260,16 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
   const { setOpen: setLogViewerOpen, setEnabled: setLogEnabled } = useLogStore();
   const [numPages, setNumPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pdfLoading, setPdfLoading] = useState<boolean>(true);
-  const [pdfError, setPdfError] = useState<string | null>(null);
+  const [viewportWidth, setViewportWidth] = useState<number>(window.innerWidth);
+  const pageRefs = useRef<Map<number, HTMLDivElement>>(new Map());
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Track viewport width reactively for device rotation
+  useEffect(() => {
+    const handleResize = () => setViewportWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Use centralized device detection
   const deviceInfo = useDeviceInfo();
@@ -275,8 +284,6 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
   // Reset state when modal opens or pdfUrl changes
   useEffect(() => {
     if (mobilePreviewOpen && pdfUrl) {
-      setPdfLoading(true);
-      setPdfError(null);
       setCurrentPage(1);
     }
   }, [mobilePreviewOpen, pdfUrl]);
@@ -292,18 +299,40 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
   const onDocumentLoadSuccess = useCallback(({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
     setCurrentPage(1);
-    setPdfLoading(false);
-    setPdfError(null);
   }, []);
 
   const onDocumentLoadError = useCallback((err: Error) => {
-    console.error('PDF load error:', err);
-    setPdfLoading(false);
-    setPdfError('Failed to load PDF preview');
+    console.error('PDF load error:', err?.message || err);
   }, []);
 
-  const goToPrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
-  const goToNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, numPages));
+  // Track visible page via IntersectionObserver
+  useEffect(() => {
+    if (!mobilePreviewOpen || numPages === 0) return;
+
+    // Defer observer setup to ensure page refs are populated after async render
+    const rafId = requestAnimationFrame(() => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              const pageNum = Number(entry.target.getAttribute('data-page'));
+              if (pageNum) setCurrentPage(pageNum);
+            }
+          }
+        },
+        { root: scrollContainerRef.current, threshold: 0.5 }
+      );
+
+      pageRefs.current.forEach((el) => observer.observe(el));
+      observerRef.current = observer;
+    });
+
+    const observerRef = { current: null as IntersectionObserver | null };
+    return () => {
+      cancelAnimationFrame(rafId);
+      observerRef.current?.disconnect();
+    };
+  }, [mobilePreviewOpen, numPages]);
 
   // Download handler using centralized download utility
   const handleDownload = async () => {
@@ -413,59 +442,67 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
           </div>
         )}
 
-        {/* PDF Viewer - non-iOS uses react-pdf */}
+        {/* PDF Viewer - non-iOS: react-pdf scrollable all-pages view */}
+        {/* Note: iframe doesn't work on mobile — browsers can't render blob URLs inline */}
         {pdfUrl && !isCompiling && (
-          <div className="flex flex-col items-center p-2 min-h-full">
-            {pdfLoading && !pdfError && (
-              <div className="flex items-center justify-center py-12">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <div
+            ref={scrollContainerRef}
+            className="flex flex-col items-center p-2 gap-4 min-h-full overflow-auto"
+            style={{ touchAction: 'pan-y pinch-zoom' }}
+          >
+            <Document
+              file={pdfUrl}
+              onLoadSuccess={onDocumentLoadSuccess}
+              onLoadError={onDocumentLoadError}
+              loading={
+                <div className="flex items-center justify-center py-12">
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                </div>
+              }
+              className="flex flex-col items-center gap-4"
+              error={
+                <div className="flex flex-col items-center justify-center py-12 gap-4">
+                  <AlertCircle className="h-12 w-12 text-destructive/70" />
+                  <p className="text-sm text-muted-foreground">Failed to render PDF</p>
+                  <Button variant="outline" onClick={handleDownload}>
+                    <Download className="h-4 w-4 mr-2" />
+                    Download Instead
+                  </Button>
+                </div>
+              }
+            >
+              {Array.from(new Array(numPages), (_, index) => (
+                <div
+                  key={index}
+                  ref={(el) => { if (el) pageRefs.current.set(index + 1, el); }}
+                  data-page={index + 1}
+                >
+                  <Page
+                    pageNumber={index + 1}
+                    width={Math.min(viewportWidth - 16, 960)}
+                    className="shadow-lg"
+                    renderTextLayer={false}
+                    renderAnnotationLayer={false}
+                    loading={
+                      <div className="flex items-center justify-center py-12">
+                        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                      </div>
+                    }
+                    error={
+                      <div className="flex items-center justify-center py-12">
+                        <p className="text-sm text-muted-foreground">Error rendering page {index + 1}</p>
+                      </div>
+                    }
+                  />
+                </div>
+              ))}
+            </Document>
+
+            {/* Floating page indicator */}
+            {numPages > 1 && (
+              <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-card/90 backdrop-blur-sm border border-border rounded-full px-3 py-1 text-xs font-medium shadow-lg">
+                Page {currentPage} of {numPages}
               </div>
-            )}
-            {pdfError ? (
-              <div className="flex flex-col items-center justify-center py-12 gap-4">
-                <AlertCircle className="h-12 w-12 text-destructive/70" />
-                <p className="text-sm text-muted-foreground">{pdfError}</p>
-                <Button variant="outline" onClick={handleDownload}>
-                  <Download className="h-4 w-4 mr-2" />
-                  Download Instead
-                </Button>
-              </div>
-            ) : (
-              <Document
-                file={pdfUrl}
-                onLoadSuccess={onDocumentLoadSuccess}
-                onLoadError={onDocumentLoadError}
-                loading={null}
-                className="flex flex-col items-center"
-                error={
-                  <div className="flex flex-col items-center justify-center py-12 gap-4">
-                    <AlertCircle className="h-12 w-12 text-destructive/70" />
-                    <p className="text-sm text-muted-foreground">Failed to render PDF</p>
-                    <Button variant="outline" onClick={handleDownload}>
-                      <Download className="h-4 w-4 mr-2" />
-                      Download Instead
-                    </Button>
-                  </div>
-                }
-              >
-                <Page
-                  pageNumber={currentPage}
-                  width={Math.min(window.innerWidth - 16, 450)}
-                  className="shadow-lg"
-                  renderTextLayer={false}
-                  renderAnnotationLayer={false}
-                  loading={
-                    <div className="flex items-center justify-center py-12">
-                      <Loader2 className="h-6 w-6 animate-spin text-primary" />
-                    </div>
-                  }
-                  error={
-                    <div className="flex items-center justify-center py-12">
-                      <p className="text-sm text-muted-foreground">Error rendering page</p>
-                    </div>
-                  }
-                />
-              </Document>
             )}
           </div>
         )}
@@ -482,36 +519,6 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
         )}
       </div>
 
-      {/* Page Navigation Footer - for non-iOS only */}
-      {pdfUrl && !isCompiling && numPages > 0 && !pdfError && (
-        <div className="flex items-center justify-between px-4 py-2 border-t border-border bg-card shrink-0">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={goToPrevPage}
-            disabled={currentPage <= 1}
-            className="h-9 px-3"
-          >
-            <ChevronLeft className="h-4 w-4 mr-1" />
-            Prev
-          </Button>
-
-          <span className="text-sm font-medium">
-            Page {currentPage} of {numPages}
-          </span>
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={goToNextPage}
-            disabled={currentPage >= numPages}
-            className="h-9 px-3"
-          >
-            Next
-            <ChevronRight className="h-4 w-4 ml-1" />
-          </Button>
-        </div>
-      )}
     </div>
   );
 }

@@ -22,6 +22,7 @@ import { UpdatePromptModal } from '@/components/modals/UpdatePromptModal';
 import { parseShareUrl } from '@/lib/shareCrypto';
 import { BrowserCompatibilityNotice } from '@/components/BrowserCompatibilityNotice';
 import { BackgroundBeams } from '@/components/effects/BackgroundBeams';
+const marineCodersLogo = `${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`;
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
@@ -30,7 +31,7 @@ import { useProfileStore } from '@/stores/profileStore';
 import { useLogStore } from '@/stores/logStore';
 import { useLatexEngine, useServiceWorker } from '@/hooks';
 import { generateAllLatexFiles, type GeneratedFiles } from '@/services/latex/generator';
-// import { generateDocx } from '@/services/docx/generator'; // DOCX temporarily disabled
+import { generateDocx } from '@/services/docx/generator';
 import { generateNavmc10274Pdf, loadNavmc10274Templates } from '@/services/pdf/navmc10274Generator';
 import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/navmc11811Generator';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
@@ -567,6 +568,19 @@ function App() {
     }
   }, [executeDownload, waitForReady]);
 
+  // DOCX download helpers (must be before handleProceedWithPII)
+  const pendingDocxRef = useRef<boolean>(false);
+
+  const executeDocxDownload = useCallback(async () => {
+    const blob = await generateDocx(documentStore);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'correspondence.docx';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }, [documentStore]);
+
   // Core PII download function - can be called for retry
   const executePIIDownload = useCallback(async (preOpenedWindow?: Window | null): Promise<boolean> => {
     if (!pendingDownloadRef.current) return false;
@@ -614,6 +628,19 @@ function App() {
 
   // Handle proceeding with download after PII warning is acknowledged
   const handleProceedWithPII = useCallback(async () => {
+    // Check if this was a DOCX download
+    if (pendingDocxRef.current) {
+      pendingDocxRef.current = false;
+      setPiiDetectionResult(null);
+      try {
+        await executeDocxDownload();
+      } catch (err) {
+        console.error('DOCX generation error:', err);
+        setCompileError(`DOCX generation failed: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      }
+      return;
+    }
+
     if (!pendingDownloadRef.current) return;
 
     // Prevent clicks while download is in progress
@@ -671,11 +698,12 @@ function App() {
       pendingDownloadRef.current = null;
       setPiiDetectionResult(null);
     }
-  }, [executePIIDownload, waitForReady]);
+  }, [executePIIDownload, executeDocxDownload, waitForReady]);
 
   // Handle canceling download after PII warning
   const handleCancelPIIDownload = useCallback(() => {
     pendingDownloadRef.current = null;
+    pendingDocxRef.current = false;
     setPiiDetectionResult(null);
   }, []);
 
@@ -842,27 +870,23 @@ ${texFiles['body.tex'] || '% No body content'}
     URL.revokeObjectURL(url);
   }, [documentStore]);
 
-  // DOCX download temporarily disabled - keeping code for potential future use
-  // const handleDownloadDocx = useCallback(async () => {
-  //   try {
-  //     const docxBytes = await generateDocx(documentStore);
-  //     const arrayBuffer = docxBytes.buffer.slice(
-  //       docxBytes.byteOffset,
-  //       docxBytes.byteOffset + docxBytes.byteLength
-  //     ) as ArrayBuffer;
-  //     const blob = new Blob([arrayBuffer], {
-  //       type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  //     });
-  //     const url = URL.createObjectURL(blob);
-  //     const a = document.createElement('a');
-  //     a.href = url;
-  //     a.download = 'correspondence.docx';
-  //     a.click();
-  //     URL.revokeObjectURL(url);
-  //   } catch (err) {
-  //     console.error('DOCX generation error:', err);
-  //   }
-  // }, [documentStore]);
+  const handleDownloadDocx = useCallback(async () => {
+    // Check for PII before downloading
+    const piiResult = detectPII(documentStore);
+    if (piiResult.found) {
+      pendingDocxRef.current = true;
+      setPiiDetectionResult(piiResult);
+      setPiiWarningOpen(true);
+      return;
+    }
+
+    try {
+      await executeDocxDownload();
+    } catch (err) {
+      console.error('DOCX generation error:', err);
+      setCompileError(`DOCX generation failed: ${err instanceof Error ? err.message : 'Unknown error'}`);
+    }
+  }, [documentStore, executeDocxDownload, setPiiWarningOpen]);
 
   // Global keyboard shortcuts
   useEffect(() => {
@@ -969,14 +993,14 @@ ${texFiles['body.tex'] || '% No body content'}
       {/* Marine Coders EGA watermark - behind beams */}
       <div className="fixed inset-0 z-0 flex items-center justify-center pointer-events-none mt-16">
         <img
-          src="/attachments/marine-coders-logo.svg"
+          src={marineCodersLogo}
           alt=""
-          className="w-full max-w-[1200px] opacity-[0.07] dark:opacity-[0.10] invert dark:invert-0"
+          className="w-full max-w-[90vw] sm:max-w-[1200px] opacity-[0.08] sm:opacity-[0.07] dark:opacity-[0.12] dark:sm:opacity-[0.10] invert dark:invert-0"
           aria-hidden="true"
         />
       </div>
       {/* Animated background beams - ported from Marines.dev */}
-      <BackgroundBeams className="fixed inset-0 z-0 opacity-60 dark:opacity-100" />
+      <BackgroundBeams className="fixed inset-0 z-0 opacity-60 dark:opacity-100" reducedMotion={isMobile} />
       {/* Skip link for keyboard navigation - WCAG 2.4.1 */}
       <a
         href="#main-content"
@@ -988,6 +1012,7 @@ ${texFiles['body.tex'] || '% No body content'}
       <Header
         onDownloadPdf={handleDownloadPdf}
         onDownloadTex={handleDownloadTex}
+        onDownloadDocx={handleDownloadDocx}
         onRefreshPreview={compilePdf}
         isCompiling={isCompiling}
         isFormsMode={documentCategory === 'forms'}

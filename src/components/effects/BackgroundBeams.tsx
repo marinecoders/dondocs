@@ -1,23 +1,20 @@
 import { cn } from '@/lib/utils';
 
-// Beam paths — single smooth cubic bezier each (no midpoint kink).
-// ViewBox is 1600×900. Each path is one C command from left edge to right edge
-// with control points that create a gentle downward arc (~8° overall slope).
-const BEAM_PATHS: string[] = [];
-for (let i = 0; i < 22; i++) {
-  const y = -120 + i * 28; // 28px apart
-  // Single cubic bezier: control points push the curve gently downward
-  // cp1 at ~30% x, cp2 at ~70% x, both nudged down from the straight line
-  const cp1y = y + 30;
-  const cp2y = y + 90;
-  const yEnd = y + 120;
-  BEAM_PATHS.push(`M-200 ${y}C400 ${cp1y} 1200 ${cp2y} 1800 ${yEnd}`);
+function generateBeamPaths(count: number): string[] {
+  const paths: string[] = [];
+  for (let i = 0; i < count; i++) {
+    const y = -120 + i * 28;
+    const cp1y = y + 30;
+    const cp2y = y + 90;
+    const yEnd = y + 120;
+    paths.push(`M-200 ${y}C400 ${cp1y} 1200 ${cp2y} 1800 ${yEnd}`);
+  }
+  return paths;
 }
 
-// Static grid — every 14px for dense mesh, same smooth curve shape
-function generateGridPaths(): string {
+function generateGridPaths(spacing: number): string {
   const paths: string[] = [];
-  for (let y = -160; y <= 950; y += 14) {
+  for (let y = -160; y <= 950; y += spacing) {
     const cp1y = y + 30;
     const cp2y = y + 90;
     const yEnd = y + 120;
@@ -26,13 +23,20 @@ function generateGridPaths(): string {
   return paths.join('');
 }
 
-const ALL_PATHS = generateGridPaths();
+// Pre-generate desktop versions (static — no need to recompute)
+const DESKTOP_BEAMS = generateBeamPaths(22);
+const DESKTOP_GRID = generateGridPaths(14);
+const MOBILE_BEAMS = generateBeamPaths(8);
+const MOBILE_GRID = generateGridPaths(28);
 
 interface BackgroundBeamsProps {
   className?: string;
+  reducedMotion?: boolean;
 }
 
-export function BackgroundBeams({ className }: BackgroundBeamsProps) {
+export function BackgroundBeams({ className, reducedMotion = false }: BackgroundBeamsProps) {
+  const beamPaths = reducedMotion ? MOBILE_BEAMS : DESKTOP_BEAMS;
+  const gridPaths = reducedMotion ? MOBILE_GRID : DESKTOP_GRID;
   return (
     <div className={cn('absolute inset-0 flex h-full w-full items-center justify-center pointer-events-none', className)}>
       <svg
@@ -45,14 +49,14 @@ export function BackgroundBeams({ className }: BackgroundBeamsProps) {
       >
         {/* Static grid of all paths - very faint */}
         <path
-          d={ALL_PATHS}
+          d={gridPaths}
           stroke="url(#beams-radial)"
           strokeOpacity="0.05"
           strokeWidth="0.5"
         />
 
         {/* Animated beams with staggered CSS animations */}
-        {BEAM_PATHS.map((path, i) => (
+        {beamPaths.map((path, i) => (
           <path
             key={i}
             d={path}
@@ -64,7 +68,7 @@ export function BackgroundBeams({ className }: BackgroundBeamsProps) {
 
         <defs>
           {/* Animated gradients for each beam */}
-          {BEAM_PATHS.map((_, i) => (
+          {beamPaths.map((_, i) => (
             <linearGradient
               key={i}
               id={`beam-grad-${i}`}

@@ -91,6 +91,7 @@ export interface DocumentData {
 
   // Page settings
   pageNumbering: string;
+  startingPageNumber: number;
 
   // Letterhead
   department: string;

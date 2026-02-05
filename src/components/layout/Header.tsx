@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect, type ChangeEvent } from 'react';
-import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Palette, Anchor, Medal, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X } from 'lucide-react';
+import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -27,6 +27,7 @@ import { useLogStore } from '@/stores/logStore';
 interface HeaderProps {
   onDownloadPdf?: () => void;
   onDownloadTex?: () => void;
+  onDownloadDocx?: () => void;
   onRefreshPreview?: () => void;
   isCompiling?: boolean;
   isFormsMode?: boolean;  // Whether we're in forms mode (hides LaTeX options)
@@ -39,11 +40,12 @@ const STORAGE_KEY = 'dondocs-document';
 export function Header({
   onDownloadPdf,
   onDownloadTex,
+  onDownloadDocx,
   onRefreshPreview,
   isCompiling,
   isFormsMode = false,
 }: HeaderProps) {
-  const { theme, toggleTheme, colorScheme, setColorScheme, density, setDensity, autoSaveStatus, setAboutModalOpen, setNistModalOpen, setBatchModalOpen, setDocumentGuideOpen, setFindReplaceOpen, setShareModal, isMobile, previewVisible, togglePreview } = useUIStore();
+  const { theme, toggleTheme, density, setDensity, autoSaveStatus, setAboutModalOpen, setNistModalOpen, setBatchModalOpen, setDocumentGuideOpen, setFindReplaceOpen, setShareModal, isMobile, previewVisible, togglePreview } = useUIStore();
   const documentStore = useDocumentStore();
   const { resetForm, applySnapshot, clearFieldsExceptLetterhead } = useDocumentStore();
   const { undo, redo, canUndo, canRedo } = useHistoryStore();
@@ -54,13 +56,17 @@ export function Header({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const dismissed = localStorage.getItem('dondocs-banner-dismissed');
-    if (dismissed === 'true') setBannerDismissed(true);
+    try {
+      const dismissed = localStorage.getItem('dondocs-banner-dismissed');
+      if (dismissed === 'true') setBannerDismissed(true);
+    } catch { /* localStorage unavailable (private browsing) */ }
   }, []);
 
   const dismissBanner = useCallback(() => {
     setBannerDismissed(true);
-    localStorage.setItem('dondocs-banner-dismissed', 'true');
+    try {
+      localStorage.setItem('dondocs-banner-dismissed', 'true');
+    } catch { /* localStorage unavailable */ }
   }, []);
 
   // Check if document contains any {{VARIABLE}} placeholders
@@ -308,7 +314,7 @@ export function Header({
           Not an official DoW website. Beta release - report issues on GitHub.
           <button
             onClick={dismissBanner}
-            className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-amber-600/30 transition-colors"
+            className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-amber-700/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-900 transition-colors"
             aria-label="Dismiss banner"
           >
             <X className="h-3 w-3" />
@@ -353,7 +359,7 @@ export function Header({
             {saveStatus || autoSaveStatus}
           </div>
           {(autoSaveStatus || saveStatus) && (
-            <span className="text-xs text-muted-foreground animate-pulse hidden lg:inline" aria-hidden="true">
+            <span className="text-xs text-muted-foreground hidden lg:inline" aria-hidden="true">
               {saveStatus || autoSaveStatus}
             </span>
           )}
@@ -474,12 +480,18 @@ export function Header({
                 <FileText className="h-4 w-4 mr-2" />
                 Download PDF
               </DropdownMenuItem>
-              {/* LaTeX only available for correspondence */}
+              {/* LaTeX and DOCX only available for correspondence */}
               {!isFormsMode && (
-                <DropdownMenuItem onClick={onDownloadTex}>
-                  <FileText className="h-4 w-4 mr-2" />
-                  Download LaTeX
-                </DropdownMenuItem>
+                <>
+                  <DropdownMenuItem onClick={onDownloadDocx}>
+                    <FileText className="h-4 w-4 mr-2" />
+                    Download DOCX
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={onDownloadTex}>
+                    <FileText className="h-4 w-4 mr-2" />
+                    Download LaTeX
+                  </DropdownMenuItem>
+                </>
               )}
             </DropdownMenuContent>
           </DropdownMenu>
@@ -590,30 +602,6 @@ export function Header({
                 </div>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              {/* Color schemes */}
-              <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Color Scheme</div>
-              <DropdownMenuItem onClick={() => setColorScheme('default')} className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <Palette className="h-4 w-4 mr-2" />
-                  Default
-                </div>
-                {colorScheme === 'default' && <Check className="h-4 w-4" />}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setColorScheme('navy')} className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <Anchor className="h-4 w-4 mr-2" />
-                  Navy
-                </div>
-                {colorScheme === 'navy' && <Check className="h-4 w-4" />}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setColorScheme('usmc')} className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <Medal className="h-4 w-4 mr-2" />
-                  USMC
-                </div>
-                {colorScheme === 'usmc' && <Check className="h-4 w-4" />}
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
               {/* Density */}
               <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Density</div>
               <DropdownMenuItem onClick={() => setDensity('compact')} className="flex items-center justify-between">
@@ -680,10 +668,6 @@ export function Header({
               <DropdownMenuItem onClick={toggleTheme}>
                 {theme === 'dark' ? <Sun className="h-4 w-4 mr-2" /> : <Moon className="h-4 w-4 mr-2" />}
                 {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setColorScheme(colorScheme === 'navy' ? 'default' : 'navy')}>
-                <Anchor className="h-4 w-4 mr-2" />
-                {colorScheme === 'navy' ? 'Default Theme' : 'Navy Theme'}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               {/* Help section */}

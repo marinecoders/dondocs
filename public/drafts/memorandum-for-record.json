@@ -1,0 +1,98 @@
+{
+  "version": "1.0",
+  "exportedAt": "2026-01-20T00:00:00.000Z",
+  "documentMode": "compliant",
+  "docType": "mfr",
+  "formData": {
+    "docType": "mfr",
+    "fontSize": "12pt",
+    "fontFamily": "courier",
+    "pageNumbering": "none",
+    "department": "usmc",
+    "unitLine1": "1ST MARINE DIVISION",
+    "unitLine2": "G-3 OPERATIONS",
+    "unitAddress": "BOX 555300, CAMP PENDLETON CA 92055-5300",
+    "sealType": "dow",
+    "letterheadColor": "blue",
+    "ssic": "3000",
+    "serial": "",
+    "date": "20 Jan 26",
+    "from": "",
+    "to": "",
+    "via": "",
+    "subject": "AFTER ACTION REPORT - EXERCISE STEEL KNIGHT 26.1",
+    "sigFirst": "David",
+    "sigMiddle": "Allen",
+    "sigLast": "CHEN",
+    "sigRank": "Colonel, U.S. Marine Corps",
+    "sigTitle": "Assistant Chief of Staff, G-3",
+    "officeCode": "",
+    "byDirection": true,
+    "byDirectionAuthority": "the Commanding General",
+    "classLevel": "unclassified",
+    "customClassification": "",
+    "classifiedBy": "",
+    "derivedFrom": "",
+    "declassifyOn": "",
+    "classReason": "",
+    "classifiedPocEmail": "",
+    "cuiControlledBy": "",
+    "cuiCategory": "",
+    "cuiDissemination": "",
+    "cuiDistStatement": "",
+    "pocEmail": "",
+    "inReplyTo": false,
+    "inReplyToText": "",
+    "includeHyperlinks": false,
+    "salutation": "",
+    "complimentaryClose": ""
+  },
+  "references": [
+    { "letter": "a", "title": "1st MarDiv OPORD 01-26 (Exercise Steel Knight 26.1)" },
+    { "letter": "b", "title": "MCO 3500.27C" }
+  ],
+  "enclosures": [],
+  "paragraphs": [
+    {
+      "text": "This memorandum documents the key observations and lessons learned from Exercise Steel Knight 26.1, conducted 6-18 January 2026 at Marine Corps Air Ground Combat Center, Twentynine Palms, CA.",
+      "level": 0,
+      "header": "Purpose"
+    },
+    {
+      "text": "Exercise Steel Knight 26.1 was a Division-level combined arms exercise involving approximately 8,500 Marines and Sailors. The exercise validated the Division's ability to conduct large-scale combat operations in a contested environment per reference (a).",
+      "level": 0,
+      "header": "Summary"
+    },
+    {
+      "text": "Communications connectivity between regimental combat teams was maintained at 94% uptime, exceeding the 90% threshold established in reference (b).",
+      "level": 1
+    },
+    {
+      "text": "Logistics sustainment operations demonstrated improved efficiency with a 15% reduction in turnaround time for Class V resupply compared to Steel Knight 25.2.",
+      "level": 1
+    },
+    {
+      "text": "Integration of unmanned aerial systems (UAS) for reconnaissance significantly enhanced situational awareness at the battalion level.",
+      "level": 1
+    },
+    {
+      "text": "The following areas require additional training emphasis prior to the next scheduled exercise:",
+      "level": 0,
+      "header": "Areas for Improvement"
+    },
+    {
+      "text": "Night operations coordination between ground and aviation elements needs improvement. Three instances of delayed close air support requests were identified during nighttime phases.",
+      "level": 1
+    },
+    {
+      "text": "Electronic warfare defensive measures require enhanced training. Simulated enemy jamming operations degraded communications for periods exceeding acceptable thresholds during two phases.",
+      "level": 1
+    },
+    {
+      "text": "Subordinate commands shall incorporate identified lessons learned into their unit training plans not later than 1 March 2026. The G-3 will track implementation through quarterly training reviews.",
+      "level": 0,
+      "header": "Recommendation"
+    }
+  ],
+  "copyTos": []
+}

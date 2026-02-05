@@ -20,7 +20,7 @@ import { DOC_TYPE_CONFIG } from '@/types/document';
 
 export function FormPanel() {
   const { docType, documentCategory, formType } = useDocumentStore();
-  const { previewVisible } = useUIStore();
+  const { previewVisible, isMobile } = useUIStore();
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
 
   const isFormsMode = documentCategory === 'forms';
@@ -29,12 +29,12 @@ export function FormPanel() {
   const isJointMemoMode = config.uiMode === 'joint_memo';
 
   return (
-    <div className="flex flex-col h-full border-r border-border bg-card overflow-hidden w-full">
+    <div className={`flex flex-col h-full bg-card overflow-hidden w-full ${!isMobile ? 'border-r border-border' : ''}`}>
       <ProfileBar />
 
       <div className="flex-1 min-h-0 overflow-hidden">
         <ScrollArea className="h-full">
-          <div className={`p-3 sm:p-density-4 space-y-density-6 overflow-x-hidden ${!previewVisible ? 'max-w-4xl mx-auto' : 'max-w-full'}`}>
+          <div className={`p-3 sm:p-density-4 space-y-density-6 overflow-x-hidden ${isMobile ? 'pb-24' : ''} ${!previewVisible ? 'max-w-4xl mx-auto' : 'max-w-full'}`}>
           <DocumentTypeSelector />
 
           {isFormsMode ? (
