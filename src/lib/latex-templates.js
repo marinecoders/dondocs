@@ -251,6 +251,9 @@ const LATEX_TEMPLATES = {
     }{%
         \\renewcommand{\\familydefault}{\\ttdefault}%
     }%
+    % Activate the font family — \\familydefault only stores the value,
+    % \\fontfamily actually switches the active font for subsequent text
+    \\fontfamily{\\familydefault}%
     % Apply font size by redefining \\normalsize
     % This ensures the size persists in tabular environments and after groups
     \\ifthenelse{\\equal{\\FontSize}{10pt}}{%
@@ -263,6 +266,7 @@ const LATEX_TEMPLATES = {
 
 % Direct font size application - use when \\normalsize might be overridden
 \\newcommand{\\applyDocumentFontSize}{%
+    \\fontfamily{\\familydefault}%
     \\ifthenelse{\\equal{\\FontSize}{10pt}}{%
         \\fontsize{10pt}{12pt}\\selectfont%
     }{%
