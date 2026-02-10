@@ -262,6 +262,18 @@ export default defineConfig({
               ],
             },
           },
+          {
+            // Cache pandoc WASM files for offline DOCX generation
+            urlPattern: /\/lib\/pandoc\/.*/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'pandoc-wasm-cache-v1',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 90, // 90 days
+              },
+            },
+          },
         ],
       },
     }),

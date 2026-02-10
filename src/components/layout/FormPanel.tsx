@@ -11,7 +11,7 @@ import { CopyToManager } from '@/components/editor/CopyToManager';
 import { ProfileBar } from '@/components/editor/ProfileBar';
 import { MOASection } from '@/components/editor/MOASection';
 import { JointLetterSection } from '@/components/editor/JointLetterSection';
-import { JointMemoSection } from '@/components/editor/JointMemoSection';
+import { ExecutiveMemoSection } from '@/components/editor/ExecutiveMemoSection';
 import { Form6105Section } from '@/components/editor/Form6105Section';
 import { Form11811Section } from '@/components/editor/Form11811Section';
 import { useDocumentStore } from '@/stores/documentStore';
@@ -27,6 +27,7 @@ export function FormPanel() {
   const isMOAMode = config.uiMode === 'moa';
   const isJointLetterMode = config.uiMode === 'joint';
   const isJointMemoMode = config.uiMode === 'joint_memo';
+  const isExecutiveMode = config.uiMode === 'executive';
 
   return (
     <div className={`flex flex-col h-full bg-card overflow-hidden w-full ${!isMobile ? 'border-r border-border' : ''}`}>
@@ -75,10 +76,8 @@ export function FormPanel() {
             </>
           ) : isJointMemoMode ? (
             <>
-              {/* Joint Memorandum UI - dual signatures */}
-              {config.letterhead && <LetterheadSection />}
-
-              <JointMemoSection />
+              {/* Joint Memorandum UI - same as Joint Letter (only designation differs) */}
+              <JointLetterSection />
 
               <ClassificationSection />
 
@@ -89,6 +88,18 @@ export function FormPanel() {
               <EnclosuresManager />
 
               <CopyToManager />
+            </>
+          ) : isExecutiveMode ? (
+            <>
+              {/* Executive Memo UI — Standard/Action/Info Memorandum per Ch 12 */}
+              <ExecutiveMemoSection />
+
+              <ClassificationSection />
+
+              <ParagraphsEditor />
+
+              {/* Info memos have no signature block — sender signs on FROM line per Ch 12 ¶4a(3) */}
+              {docType !== 'information_memorandum' && <SignatureSection config={config} />}
             </>
           ) : (
             <>

@@ -14,7 +14,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, Plus, Trash2, Library, Link, AlertTriangle } from 'lucide-react';
+import { GripVertical, Plus, Trash2, Library, Link, AlertTriangle, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -26,6 +26,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
 import type { Reference } from '@/types/document';
@@ -159,6 +165,24 @@ export function ReferencesManager() {
             <Badge variant="secondary" className="min-w-[28px] justify-center">
               {references.length}
             </Badge>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild onClick={(e) => e.stopPropagation()}>
+                  <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-foreground" />
+                </TooltipTrigger>
+                <TooltipContent side="right" className="max-w-xs">
+                  <p className="font-medium mb-1">References</p>
+                  <p className="text-xs">
+                    Cite directives, orders, or prior correspondence that authorize or relate to this document. References appear as lettered items — (a), (b), (c) — before the body.
+                  </p>
+                  <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
+                    <li><strong>Drag to reorder:</strong> References auto-letter based on position</li>
+                    <li><strong>URLs:</strong> Add a link to make the reference clickable in PDF</li>
+                    <li><strong>Library:</strong> Browse 107 common military references to insert</li>
+                  </ul>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </span>
         </AccordionTrigger>
         <AccordionContent>

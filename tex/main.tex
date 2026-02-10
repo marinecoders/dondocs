@@ -273,6 +273,11 @@
 \setlength{\parindent}{0in}
 \setlength{\parskip}{0pt}  % Format modules control their own spacing
 
+% Prevent widow/orphan lines per SECNAV M-5216.5 Ch 7 ¶13:
+% "At least two lines of a paragraph must appear on any page"
+\widowpenalty=10000
+\clubpenalty=10000
+
 
 %=============================================================================
 %                      DOCUMENT TYPE CONFIGURATION
@@ -280,6 +285,46 @@
 
 \newcommand{\DocumentType}{}
 \newcommand{\setDocumentType}[1]{\renewcommand{\DocumentType}{#1}}
+
+
+%=============================================================================
+%                       ENDORSEMENT CONFIGURATION
+%=============================================================================
+% Variables defined here (before \input{document}) so document.tex can
+% set them via \renewcommand. The format templates use these variables
+% in their \printDateAndTitle commands.
+
+\newcommand{\EndorsementOrdinal}{}      % FIRST, SECOND, THIRD, etc.
+\newcommand{\EndorsementSerial}{}       % Ser XXX/### (same-page only)
+\newcommand{\EndorsementDate}{}         % Date of endorsement (same-page only)
+\newcommand{\BasicLetterID}{}           % e.g., "NAS Meridian ltr 5216 Ser 11/273 of 22 Apr 15"
+
+
+%=============================================================================
+%                    EXECUTIVE MEMO CONFIGURATION
+%=============================================================================
+% Variables defined here (before \input{document}) so document.tex can
+% set them. The executive format templates use these in their print commands.
+
+% Standard Memorandum + Action Memorandum
+\newcommand{\MemorandumForAddressee}{}
+\newcommand{\setMemorandumForAddressee}[1]{\renewcommand{\MemorandumForAddressee}{#1}}
+
+% Action Memorandum
+\newcommand{\ActionFrom}{}
+\newcommand{\setActionFrom}[1]{\renewcommand{\ActionFrom}{#1}}
+\newcommand{\ActionSubject}{}
+\newcommand{\setActionSubject}[1]{\renewcommand{\ActionSubject}{#1}}
+
+% Information Memorandum
+\newcommand{\InfoMemoFor}{}
+\newcommand{\setInfoMemoFor}[1]{\renewcommand{\InfoMemoFor}{#1}}
+\newcommand{\InfoMemoFrom}{}
+\newcommand{\setInfoMemoFrom}[1]{\renewcommand{\InfoMemoFrom}{#1}}
+\newcommand{\InfoMemoCoordination}{}
+\newcommand{\setInfoMemoCoordination}[1]{\renewcommand{\InfoMemoCoordination}{#1}}
+\newcommand{\InfoMemoPreparedBy}{}
+\newcommand{\setInfoMemoPreparedBy}[1]{\renewcommand{\InfoMemoPreparedBy}{#1}}
 
 
 %=============================================================================
@@ -483,6 +528,10 @@
 
 \newcommand{\BusinessClose}{}
 \newcommand{\setBusinessClose}[1]{\renewcommand{\BusinessClose}{#1}}
+
+% Business/executive recipient address (pre-formatted with line breaks)
+\newcommand{\BusinessRecipientAddress}{}
+\newcommand{\setBusinessRecipientAddress}[1]{\renewcommand{\BusinessRecipientAddress}{#1}}
 
 % Business letter date format: Month spelled out (January 5, 2015)
 \newcommand{\BusinessDate}{}
@@ -786,7 +835,16 @@
         % Color: \LetterheadColor (blue or black)
         \usefont{\encodingdefault}{\familydefault}{\seriesdefault}{\shapedefault}%
         \fontsize{10pt}{11pt}\selectfont
-        \textcolor{\LetterheadColor}{\textbf{UNITED STATES MARINE CORPS}}\\
+        % Department name conditional on \Department setting
+        \ifthenelse{\equal{\Department}{navy}}{%
+            \textcolor{\LetterheadColor}{\textbf{DEPARTMENT OF THE NAVY}}%
+        }{%
+            \ifthenelse{\equal{\Department}{dod}}{%
+                \textcolor{\LetterheadColor}{\textbf{DEPARTMENT OF DEFENSE}}%
+            }{%
+                \textcolor{\LetterheadColor}{\textbf{UNITED STATES MARINE CORPS}}%
+            }%
+        }\\
         \fontsize{8pt}{9pt}\selectfont
         \textcolor{\LetterheadColor}{\UnitName}\\
         \textcolor{\LetterheadColor}{\UnitLineTwo}\\

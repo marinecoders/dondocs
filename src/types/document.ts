@@ -198,6 +198,13 @@ export interface DocumentData {
   // Business letter fields (compliance-driven)
   salutation: string;
   complimentaryClose: string;
+
+  // Executive memo fields (Ch 12)
+  memorandumFor: string;       // "MEMORANDUM FOR" addressee
+  attnLine: string;            // Optional ATTN: line
+  throughLine: string;         // Optional THROUGH: line
+  coordination: string;        // COORDINATION: section (Action/Info memos)
+  preparedBy: string;          // Prepared By: line (Action/Info memos)
 }
 
 export interface DocTypeConfig {
@@ -207,15 +214,30 @@ export interface DocTypeConfig {
   via: boolean;
   memoHeader: boolean;
   signature: 'abbrev' | 'full' | 'dual';
-  uiMode: 'standard' | 'moa' | 'joint' | 'joint_memo' | 'memo' | 'business';
+  uiMode: 'standard' | 'moa' | 'joint' | 'joint_memo' | 'memo' | 'business' | 'executive';
   // Optional flags for special document types
   dateOnly?: boolean;           // Show only date field (no SSIC/Serial) - for business letters
   recipientAddress?: boolean;   // Show multi-line "To" address (no "From") - for business letters
   regulations: {
     fontSize: string;
+    fontSizeOptions?: string[];    // Allowed sizes in compliant mode (e.g., ['10pt', '11pt', '12pt'])
+                                   // When absent, defaults to [fontSize] (locked to one value)
     fontFamily: string;
+    fontFamilyRequired?: boolean;  // true = lock to fontFamily in compliant mode (Ch 12 exec docs)
+                                   // When absent/false = font family is RECOMMENDED, not required
     ref: string;
   };
+  // Layout fields — single source of truth for both PDF and DOCX generators
+  showSignatureRankTitle?: boolean;    // default true — false for name-only signatures
+  signatureSpacing?: '36pt' | '48pt'; // default '48pt' — '36pt' for memos
+  memoTitle?: string;                  // centered memo header text (e.g., 'MEMORANDUM')
+  skipSubject?: boolean;               // default false — true omits Subj: row in address block
+  topSpacing?: string;                 // extra top spacing (e.g., '1in') for non-letterhead docs
+  subjectPrefix?: string;              // prefix before subject in body (e.g., 'SUBJECT: ')
+  hasDecisionBlock?: boolean;          // default false — true adds APPROVE/DISAPPROVE block
+  // Optional field indicators — shown in compliant mode to note "not required" per SECNAV
+  optionalLetterhead?: boolean;        // true = letterhead shown but marked "(optional)" in compliant mode
+  optionalSSIC?: boolean;              // true = SSIC shown but marked "(optional)" in compliant mode
   // Compliance restrictions (used in compliant mode)
   compliance: {
     numberedParagraphs: boolean;     // false = no numbered paragraphs (business letters)
@@ -262,93 +284,142 @@ const DUAL_SIGNATURE_COMPLIANCE = {
   dualSignature: true,
 };
 
+// Executive correspondence compliance (Ch 12) - bullets not numbered paragraphs, uses "Attachments:" not "Encl:"
+const EXECUTIVE_COMPLIANCE = {
+  numberedParagraphs: false,     // Uses bullets per Ch 12 ¶3a(2)
+  allowReferences: false,        // Avoided for principal signatures per Ch 12 ¶2m
+  allowEnclosures: false,        // Uses "Attachments:" not "Encl:" per Ch 12 ¶3
+  requiresSalutation: false,
+  requiresComplimentaryClose: false,
+  dualSignature: false,
+  dateFormat: 'spelled' as const,  // Executive uses spelled date
+};
+
 export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
   naval_letter: {
     letterhead: true, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 2-20' },
+    showSignatureRankTitle: false, // Per SECNAV Ch 7 ¶14a(2): abbreviated name only, NO rank, NO title
+    regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 7' },
     compliance: DEFAULT_COMPLIANCE,
   },
   standard_letter: {
     letterhead: false, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 2-20' },
+    showSignatureRankTitle: false,
+    regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 7' },
     compliance: DEFAULT_COMPLIANCE,
   },
   business_letter: {
     letterhead: true, ssic: false, fromTo: false, via: false, memoHeader: false, signature: 'full', uiMode: 'business',
     dateOnly: true, recipientAddress: true,
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 11' },
+    subjectPrefix: 'SUBJECT: ',
+    regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 11' },
     compliance: BUSINESS_COMPLIANCE,
   },
   multiple_address_letter: {
     letterhead: true, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 2-20' },
+    showSignatureRankTitle: true, // PDF template uses \optionalLine for rank/title
+    regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 8' },
     compliance: DEFAULT_COMPLIANCE,
   },
   joint_letter: {
     letterhead: true, ssic: true, fromTo: true, via: false, memoHeader: false, signature: 'dual', uiMode: 'joint',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 2-20' },
+    regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 7' },
     compliance: DUAL_SIGNATURE_COMPLIANCE,
   },
   same_page_endorsement: {
     letterhead: false, ssic: false, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 9' },
+    showSignatureRankTitle: false, // Endorsements use abbreviated name only per Ch 9
+    skipSubject: true,
+    regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 9' },
     compliance: ENDORSEMENT_COMPLIANCE,
   },
   new_page_endorsement: {
     letterhead: true, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 7' },
+    showSignatureRankTitle: false, // Endorsements use abbreviated name only per Ch 9
+    regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 9' },
     compliance: ENDORSEMENT_COMPLIANCE,
   },
   mfr: {
     letterhead: true, ssic: true, fromTo: false, via: false, memoHeader: true, signature: 'abbrev', uiMode: 'memo',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 10' },
+    signatureSpacing: '36pt', memoTitle: 'MEMORANDUM FOR THE RECORD',
+    optionalLetterhead: true,  // Ch 10 ¶1: "plain paper acceptable", letterhead NOT required
+    optionalSSIC: true,        // Ch 10 ¶1: "identification symbols are not required"
+    regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 10' },
     compliance: DEFAULT_COMPLIANCE,
   },
   plain_paper_memorandum: {
     letterhead: false, ssic: false, fromTo: true, via: false, memoHeader: true, signature: 'abbrev', uiMode: 'memo',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' },
+    showSignatureRankTitle: false, signatureSpacing: '36pt', memoTitle: 'MEMORANDUM', topSpacing: '1in',
+    regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 10 ¶3' },
     compliance: DEFAULT_COMPLIANCE,
   },
   letterhead_memorandum: {
     letterhead: true, ssic: true, fromTo: true, via: false, memoHeader: true, signature: 'abbrev', uiMode: 'memo',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' },
+    showSignatureRankTitle: false, signatureSpacing: '36pt', memoTitle: 'MEMORANDUM',
+    regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 10 ¶4' },
     compliance: DEFAULT_COMPLIANCE,
   },
   decision_memorandum: {
     letterhead: false, ssic: false, fromTo: true, via: false, memoHeader: true, signature: 'abbrev', uiMode: 'memo',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' },
+    showSignatureRankTitle: false, signatureSpacing: '36pt', memoTitle: 'DECISION MEMORANDUM', topSpacing: '1in', hasDecisionBlock: true,
+    regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 10 ¶5' },
     compliance: DEFAULT_COMPLIANCE,
   },
   executive_memorandum: {
     letterhead: false, ssic: false, fromTo: true, via: false, memoHeader: true, signature: 'full', uiMode: 'memo',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' },
+    signatureSpacing: '36pt', memoTitle: 'MEMORANDUM',
+    regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 12' },
     compliance: DEFAULT_COMPLIANCE,
   },
   moa: {
     letterhead: true, ssic: true, fromTo: false, via: false, memoHeader: false, signature: 'dual', uiMode: 'moa',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' },
+    optionalLetterhead: true,  // Ch 10 ¶6c: "Both commands or plain bond" — letterhead not required
+    regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 10 ¶6' },
     compliance: DUAL_SIGNATURE_COMPLIANCE,
   },
   mou: {
     letterhead: true, ssic: true, fromTo: false, via: false, memoHeader: false, signature: 'dual', uiMode: 'moa',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' },
+    optionalLetterhead: true,  // Ch 10 ¶6c: "Both commands or plain bond" — letterhead not required
+    regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 10 ¶6' },
     compliance: DUAL_SIGNATURE_COMPLIANCE,
   },
   joint_memorandum: {
     letterhead: true, ssic: true, fromTo: true, via: false, memoHeader: true, signature: 'dual', uiMode: 'joint_memo',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' },
+    memoTitle: 'JOINT MEMORANDUM',
+    regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 12' },
     compliance: DUAL_SIGNATURE_COMPLIANCE,
   },
   mf: {
     letterhead: true, ssic: true, fromTo: false, via: false, memoHeader: true, signature: 'abbrev', uiMode: 'memo',
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 10' },
+    memoTitle: 'MEMORANDUM FOR',
+    optionalLetterhead: true,  // Ch 10 ¶2: Form-based (OPNAV 5215/144A/B), letterhead not required
+    regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 10' },
     compliance: DEFAULT_COMPLIANCE,
   },
   executive_correspondence: {
     letterhead: true, ssic: false, fromTo: false, via: false, memoHeader: false, signature: 'full', uiMode: 'business',
-    dateOnly: true, recipientAddress: true,
-    regulations: { fontSize: '12pt', fontFamily: 'times', ref: 'Ch 12' },
+    dateOnly: true, recipientAddress: true, topSpacing: '1in',
+    subjectPrefix: 'SUBJECT: ',
+    regulations: { fontSize: '12pt', fontFamily: 'times', fontFamilyRequired: true, ref: 'Ch 12' },
     compliance: BUSINESS_COMPLIANCE,
+  },
+  standard_memorandum: {
+    letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false, signature: 'full', uiMode: 'executive',
+    topSpacing: '1in', // Achieves 2" top margin (1" geometry + 1" extra) per Ch 12 ¶2b
+    regulations: { fontSize: '12pt', fontFamily: 'times', fontFamilyRequired: true, ref: 'Ch 12 ¶2' },
+    compliance: EXECUTIVE_COMPLIANCE,
+  },
+  action_memorandum: {
+    letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false, signature: 'full', uiMode: 'executive',
+    topSpacing: '1in',
+    regulations: { fontSize: '12pt', fontFamily: 'times', fontFamilyRequired: true, ref: 'Ch 12 ¶3' },
+    compliance: EXECUTIVE_COMPLIANCE,
+  },
+  information_memorandum: {
+    letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false, signature: 'abbrev', uiMode: 'executive',
+    topSpacing: '1in',
+    regulations: { fontSize: '12pt', fontFamily: 'times', fontFamilyRequired: true, ref: 'Ch 12 ¶4' },
+    compliance: EXECUTIVE_COMPLIANCE,
   },
 };
 
@@ -370,6 +441,9 @@ export const DOC_TYPE_LABELS: Record<string, string> = {
   joint_memorandum: 'Joint Memorandum',
   mf: 'Memorandum For',
   executive_correspondence: 'Executive Correspondence',
+  standard_memorandum: 'Standard Memorandum (HqDON)',
+  action_memorandum: 'Action Memorandum',
+  information_memorandum: 'Information Memorandum',
 };
 
 // Categorized document types for the selector UI
@@ -392,6 +466,6 @@ export const DOC_TYPE_CATEGORIES: { category: string; types: string[] }[] = [
   },
   {
     category: 'Executive',
-    types: ['executive_correspondence'],
+    types: ['executive_correspondence', 'standard_memorandum', 'action_memorandum', 'information_memorandum'],
   },
 ];

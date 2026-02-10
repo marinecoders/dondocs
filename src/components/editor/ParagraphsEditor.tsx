@@ -15,7 +15,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, Plus, Trash2, ChevronRight, ChevronLeft, ArrowDown } from 'lucide-react';
+import { GripVertical, Plus, Trash2, ChevronRight, ChevronLeft, ArrowDown, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -37,6 +37,12 @@ import { useDocumentStore } from '@/stores/documentStore';
 import type { Paragraph, PortionMarking } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { AlertTriangle } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 const PORTION_MARKING_OPTIONS: { value: PortionMarking; label: string; color: string }[] = [
   { value: 'U', label: '(U)', color: 'text-green-600' },
@@ -305,6 +311,25 @@ export function ParagraphsEditor() {
             <span className="text-xs text-muted-foreground font-normal">
               ({totalWords} {totalWords === 1 ? 'word' : 'words'})
             </span>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild onClick={(e) => e.stopPropagation()}>
+                  <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-foreground" />
+                </TooltipTrigger>
+                <TooltipContent side="right" className="max-w-xs">
+                  <p className="font-medium mb-1">Body Paragraphs</p>
+                  <p className="text-xs">
+                    The main content of your correspondence. Paragraphs are auto-numbered per SECNAV M-5216.5 (1., 2., 3. at level 0; a., b., c. at level 1; etc.).
+                  </p>
+                  <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
+                    <li><strong>Indent/Outdent:</strong> Use arrows to create sub-paragraphs (up to 4 levels)</li>
+                    <li><strong>Drag to reorder:</strong> Numbering updates automatically</li>
+                    <li><strong>Rich text:</strong> Supports bold, italic, and underline formatting</li>
+                    <li><strong>Variables:</strong> Type {"{"} to insert dynamic fields like date or unit name</li>
+                  </ul>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </AccordionTrigger>
         <AccordionContent>

@@ -51,12 +51,12 @@
 - **Portion markings** per-paragraph: (U), (CUI), (FOUO), (C), (S), (TS)
 - **NIST 800-171 compliant** - works on air-gapped networks (SIPR/JWICS)
 
-### 17 Document Types
+### 20 Document Types
 - **Letters**: Naval, Standard, Business, Multiple Address, Joint
 - **Endorsements**: Same-Page, New-Page (1st through 5th)
 - **Memoranda**: MFR, Memorandum For, Plain Paper, Letterhead, Decision, Executive, Joint
 - **Agreements**: MOA, MOU
-- **Executive Correspondence**
+- **Executive**: Executive Correspondence, Standard Memorandum, Action Memorandum, Information Memorandum
 
 ### Export Formats
 - **PDF** - Full-featured with enclosures, signatures, and classification markings
@@ -87,7 +87,7 @@
 
 ### Core Functionality
 - **Real-time PDF Preview** - See your document as you type (1.5s debounce)
-- **17 Document Types** - Letters, memoranda, endorsements, and agreements
+- **20 Document Types** - Letters, memoranda, endorsements, agreements, and executive memos
 - **SECNAV M-5216.5 Compliant** - Automatic formatting per Navy/Marine Corps regulations
 - **PWA/Offline Mode** - Install as an app and work offline with cached TeX Live packages
 - **Compliant vs Custom Modes** - Strict regulation mode or customizable fonts and formatting (see [Compliance Mode](#compliance-mode) for details)
@@ -193,6 +193,14 @@ Generate multiple personalized documents from a single template using the **Inse
 | MOA | Memorandum of Agreement | SECNAV M-5216.5 Ch 12 |
 | MOU | Memorandum of Understanding | SECNAV M-5216.5 Ch 12 |
 
+### Executive (4 types)
+| Type | Description | Reference |
+|------|-------------|-----------|
+| Executive Correspondence | Senior leader external letters | SECNAV M-5216.5 Ch 12 |
+| Standard Memorandum | HqDON/OSD MEMORANDUM FOR format | SECNAV M-5216.5 Ch 12 ¶2 |
+| Action Memorandum | Forwards material requiring approval | SECNAV M-5216.5 Ch 12 ¶3 |
+| Information Memorandum | Conveys info not requiring action | SECNAV M-5216.5 Ch 12 ¶4 |
+
 ---
 
 ## Compliance Mode
@@ -221,6 +229,9 @@ Unlocks all features for non-official use, drafting, or situations where deviati
 | **All Memoranda** | Yes | Yes | Yes | No | No | Military |
 | **MOA/MOU** | Yes | Yes | Yes | No | No | Military |
 | **Executive Correspondence** | Yes | Yes | Yes | No | No | Military |
+| **Standard Memorandum** | No | No | No | No | No | Spelled |
+| **Action Memorandum** | No | No | No | No | No | Spelled |
+| **Information Memorandum** | No | No | No | No | No | Spelled |
 
 *Business Letters: References and enclosures must be mentioned in the body text rather than in formal sections (per SECNAV M-5216.5 Ch 11).
 
@@ -360,8 +371,9 @@ PDF output includes empty signature fields compatible with:
 
 ### Document Generation
 - **SwiftLaTeX** - WebAssembly LaTeX compiler for publication-quality PDFs
+- **Pandoc WASM** - In-browser LaTeX-to-DOCX conversion via WebAssembly (~58MB, cached by service worker)
 - **pdf-lib** - PDF manipulation (enclosures, signatures, metadata)
-- **docx** - Microsoft Word document generation
+- **JSZip** - DOCX post-processing (table widths, fonts, letterhead colors)
 - **react-pdf-viewer** - In-browser PDF preview
 
 ### Data Processing
@@ -572,8 +584,13 @@ dondocs/
 │   ├── attachments/              # Seal images
 │   └── lib/
 │       ├── PdfTeXEngine.js       # LaTeX engine
-│       ├── latex-templates.js
-│       └── texlive/              # TeX Live files
+│       ├── latex-templates.js    # Bundled LaTeX templates for SwiftLaTeX
+│       ├── texlive/              # TeX Live files
+│       └── pandoc/               # Pandoc WASM files for DOCX generation
+│           ├── pandoc.js         # WASM module loader
+│           ├── pandoc.wasm       # Pandoc binary (~58MB, cached by SW)
+│           ├── dondocs.lua       # Four-pass Lua filter for DOCX formatting
+│           └── reference.docx    # DOCX template with base styles
 ├── src/
 │   ├── components/
 │   │   ├── editor/               # Form components
@@ -588,8 +605,13 @@ dondocs/
 │   ├── hooks/                    # Custom React hooks
 │   ├── lib/                      # Utility libraries
 │   ├── services/
-│   │   ├── docx/                 # Word generation
+│   │   ├── docx/                 # DOCX generation (pandoc WASM pipeline)
+│   │   │   ├── pandoc-converter.ts  # Pandoc WASM conversion + OOXML post-processing
+│   │   │   └── layout-config.ts     # Shared layout proportions (letterhead, columns)
 │   │   ├── latex/                # LaTeX generation
+│   │   │   ├── generator.ts         # PDF LaTeX generator (multi-file, SwiftLaTeX)
+│   │   │   ├── flat-generator.ts    # DOCX flat LaTeX generator (single-file, pandoc)
+│   │   │   └── escaper.ts           # LaTeX character escaping utilities
 │   │   ├── pdf/                  # PDF processing
 │   │   └── pii/                  # PII detection
 │   ├── stores/                   # Zustand stores
@@ -702,6 +724,90 @@ There are two types of templates:
 - Use `DONDOCS.texlive.summary()` in console to see TeX Live file requests
 - Template loading issues: Verify file paths in virtual filesystem
 - Content issues: Check `escapeLatex()` output for special characters
+
+### DOCX Generation Flow
+
+DOCX export uses a completely separate pipeline from the PDF path. Instead of the multi-file SwiftLaTeX approach, it generates a single flat LaTeX file and converts it to DOCX via pandoc WASM running entirely in the browser.
+
+```
+┌─────────────────┐     ┌──────────────────┐     ┌──────────────────┐     ┌─────────────────┐
+│   React UI      │ --> │   Zustand Store  │ --> │  Flat Generator  │ --> │  Pandoc WASM    │
+│   (Components)  │     │   (documentStore)│     │ (flat-generator) │     │  (pandoc.js)    │
+└─────────────────┘     └──────────────────┘     └──────────────────┘     └─────────────────┘
+                                                          │                       │
+                                                          v                       v
+                                                 ┌──────────────────┐    ┌─────────────────┐
+                                                 │  Single .tex     │    │  Lua Filter     │
+                                                 │  (pandoc-safe    │    │  (dondocs.lua)  │
+                                                 │   LaTeX only)    │    │                 │
+                                                 └──────────────────┘    └─────────────────┘
+                                                                                  │
+                                                                                  v
+                                                                         ┌─────────────────┐
+                                                                         │  Post-Process   │
+                                                                         │  (JSZip/OOXML)  │
+                                                                         └─────────────────┘
+                                                                                  │
+                                                                                  v
+                                                                         ┌─────────────────┐
+                                                                         │  Final DOCX     │
+                                                                         │  (fonts, colors,│
+                                                                         │   page layout)  │
+                                                                         └─────────────────┘
+```
+
+**1. Zustand Store → Flat Generator**
+- `src/services/latex/flat-generator.ts` reads the same store data as the PDF generator
+- Produces a single self-contained `.tex` file with no `\input{}` calls or custom macros
+- Uses only pandoc-compatible LaTeX constructs:
+  - `tabularx` for centered/right-aligned layouts (pandoc ignores `\begin{center}`)
+  - `\mbox{}` to protect numbered labels from pandoc's list detection
+  - `\vspace{}` for precise spacing (converted to OOXML `w:before` by the Lua filter)
+  - `\includegraphics{}` for seal images
+
+**2. Pandoc WASM Conversion**
+- `src/services/docx/pandoc-converter.ts` lazy-loads pandoc 3.9+ as a WASM module (~58MB, cached by service worker)
+- Conversion runs entirely in-browser with `+raw_tex` extension enabled
+- Input files provided to pandoc: flat `.tex`, `reference.docx` (template), `dondocs.lua` (filter), seal image
+- Layout metadata (column proportions) passed via pandoc `--metadata`
+
+**3. Lua Filter (dondocs.lua)**
+
+The Lua filter (`public/lib/pandoc/dondocs.lua`) runs a four-pass architecture inside pandoc:
+- **Meta pass** — reads layout metadata (column widths, seal proportions)
+- **Table pass** — classifies tables by structure (letterhead, SSIC, address, dual-signature, centered title) and applies precise column widths
+- **RawBlock pass** — converts LaTeX spacing commands (`\vspace`, `\medskip`, `\rule`) into OOXML spacing paragraphs
+- **RawInline pass** — converts inline commands (`\mbox`, `\textbf`, `\underline`, `\textcolor`, `\fcolorbox`) into native pandoc elements
+
+**4. OOXML Post-Processing (JSZip)**
+
+After pandoc produces the DOCX, `pandoc-converter.ts` opens it with JSZip and fixes known pandoc writer limitations:
+- Zeros out table cell margins (pandoc adds ~0.08in padding by default)
+- Rescales `gridCol` widths from pandoc's hardcoded 7920 twips (5.5in) to our 9360 twips (6.5in)
+- Forces exact symmetric letterhead column widths and vertical centering
+- Removes unwanted empty paragraphs between tables
+- Injects page geometry (US Letter, 1in margins) into `sectPr`
+- Applies letterhead color (PMS 288 navy blue or black) and font sizes (10pt/8pt)
+- Sets document-wide font family and size in `styles.xml`
+
+**Key Files:**
+| File | Purpose |
+|------|---------|
+| `src/services/latex/flat-generator.ts` | Generates pandoc-compatible flat LaTeX from store data |
+| `src/services/docx/pandoc-converter.ts` | Pandoc WASM loading, conversion, and OOXML post-processing |
+| `src/services/docx/layout-config.ts` | Shared layout proportions (used by both flat-generator and converter) |
+| `public/lib/pandoc/pandoc.js` | Pandoc 3.9+ WASM module loader |
+| `public/lib/pandoc/pandoc.wasm` | Pandoc WASM binary (~58MB) |
+| `public/lib/pandoc/dondocs.lua` | Four-pass Lua filter for DOCX formatting |
+| `public/lib/pandoc/reference.docx` | DOCX template with base styles |
+
+**Why Two LaTeX Generators?**
+
+The PDF and DOCX pipelines require fundamentally different LaTeX:
+- **PDF** (`generator.ts`) produces multiple `.tex` files with custom macros, `\input{}` chains, and a `main.tex` entry point — compiled by SwiftLaTeX into a pixel-perfect PDF
+- **DOCX** (`flat-generator.ts`) produces a single flat file using only standard LaTeX that pandoc's reader can parse — no custom commands, no file includes, no format-specific macros
+
+Both generators read from the same Zustand store and produce equivalent output, but through completely different LaTeX dialects.
 
 ---
 

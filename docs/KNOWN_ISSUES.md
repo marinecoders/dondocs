@@ -1,47 +1,53 @@
 # Known Issues
 
-## SwiftLaTeX Dollar Sign (`$`) Rendering
+## Resolved
 
-**Status:** Open
-**Affected:** Standard Letter example (temporarily removed)
-**Date Identified:** January 2026
+### SwiftLaTeX Dollar Sign (`$`) Rendering
 
-### Problem
+**Resolved:** February 2026
 
-SwiftLaTeX fails to compile documents containing dollar signs (`$`) with the error:
+SwiftLaTeX lacks TS1 encoding fonts, so `\$` fails with a missing `tcrm1200` TFM error. Fixed by using `{\char36}` (OT1 position 36 in Computer Modern). The escape chain uses placeholder tokens (`ZZZDOLLARZZZ`, etc.) so that `{`/`}` escaping doesn't re-escape the braces introduced by the replacement.
 
-```
-Font TS1/cmr/m/n/12=tcrm1200 at 12.0pt not loadable: Metric (TFM) file not found
-```
+**Files:** `src/services/latex/escaper.ts`, `src/services/latex/flat-generator.ts`
 
-The `\$` command in LaTeX requires the Text Companion (TS1) encoding font metrics (`tcrm1200`), which are not included in SwiftLaTeX's bundled fonts.
+### DOCX Classification Header/Footer Markings
 
-### Symptoms
+**Resolved:** February 2026
 
-- Compilation fails with "Font TS1/cmr/m/n/12 not loadable"
-- Error occurs at any `\$` in the document body
-- The `escapeLatex()` function correctly converts `$` to `\$`, but SwiftLaTeX cannot render it
+Pandoc ignores `\fancyhead`/`\fancyfoot` LaTeX commands, so classification markings didn't appear in DOCX output. Fixed by post-processing the DOCX with JSZip to inject `word/header1.xml` and `word/footer1.xml` with centered bold marking text, wired via `[Content_Types].xml`, `document.xml.rels`, and `sectPr` references.
 
-### Attempted Solutions
+**Files:** `src/services/docx/pandoc-converter.ts`, `src/App.tsx`
 
-1. Pre-escaping `\$` in source data - caused double-escaping (`\textbackslash{}\$`)
-2. Using plain `$` (letting escaper handle it) - still triggers TS1 font error
-3. Using "USD" format instead - still fails (may be caching issue)
+---
 
-### Potential Fixes
+## Open
 
-1. **Add TS1 font metrics to SwiftLaTeX** - Would require modifying the SwiftLaTeX bundle to include `tcrm*.tfm` files
-2. **Use math mode for dollar signs** - Replace `\$` with `\text{\$}` wrapped in math mode, but this may have its own issues
-3. **Custom macro** - Define a custom `\dollar` command that uses a different approach
-4. **Avoid dollar signs** - Use "USD" or spell out currency (workaround, not ideal)
+### DOCX: Page Numbering Position Not Controllable
 
-### Workaround
+Pandoc ignores `\fancyfoot[R]{\thepage}`, so page number position is determined by `reference.docx`. Suppressing page numbers (`\pagenumbering{gobble}`) works, but position (right/center/left) and custom start page (`\setcounter{page}{N}`) cannot be controlled.
 
-For now, avoid using dollar signs in document content. Use formats like:
-- "347.82 USD" instead of "$347.82"
-- "three hundred dollars" instead of "$300"
+**Potential fix:** Post-process `word/footer1.xml` to position the page number field code.
 
-### Files Affected
+**Files:** `src/services/latex/flat-generator.ts`, `public/lib/pandoc/dondocs.lua`
 
-- `src/data/exampleDocuments.ts` - Standard Letter example removed
-- `src/services/latex/escaper.ts` - Contains the `$` to `\$` escaping logic
+---
+
+## Open (By Design)
+
+These are inherent limitations of the LaTeX-to-DOCX pipeline via pandoc and cannot be fixed without significant architectural changes.
+
+### DOCX: Signature Images
+
+Pandoc cannot reliably position `\includegraphics` within signature table cells. Users must manually insert signature images after downloading.
+
+### DOCX: Digital Signature Fields
+
+PDF AcroForm signature fields have no DOCX equivalent via pandoc. Users should sign using Word's built-in digital signature feature (File > Info > Protect Document > Add a Digital Signature).
+
+### DOCX: Reference URL Hyperlinks
+
+`\href` inside `tabular` environments is unreliable in pandoc's DOCX writer. Users can manually add hyperlinks to reference titles after downloading.
+
+### DOCX: Enclosure File Merging
+
+PDF-to-PDF merging is straightforward, but appending PDF pages to a DOCX is not possible in-browser. Users must attach enclosure files separately.

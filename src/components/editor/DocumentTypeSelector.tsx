@@ -335,8 +335,17 @@ export function DocumentTypeSelector() {
               </Badge>
             </div>
             {!isCompliant && (
-              <div className="text-muted-foreground">
-                Recommended: {config.regulations.fontSize} {config.regulations.fontFamily}
+              <div className="text-muted-foreground space-y-0.5">
+                <div>
+                  <span className="font-medium">Required:</span>{' '}
+                  {config.regulations.fontSizeOptions
+                    ? `${config.regulations.fontSizeOptions[0]}–${config.regulations.fontSizeOptions[config.regulations.fontSizeOptions.length - 1]} font size`
+                    : `${config.regulations.fontSize} font size`}
+                </div>
+                <div>
+                  <span className="font-medium">{config.regulations.fontFamilyRequired ? 'Required' : 'Recommended'}:</span>{' '}
+                  Times New Roman
+                </div>
               </div>
             )}
           </div>
@@ -347,22 +356,21 @@ export function DocumentTypeSelector() {
           <div className="space-y-2">
             <Label>Font Size</Label>
             <Select
-              value={isCompliant ? '12pt' : (formData.fontSize || '12pt')}
+              value={formData.fontSize || '12pt'}
               onValueChange={(v) => setField('fontSize', v)}
             >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {isCompliant ? (
-                  <SelectItem value="12pt">12pt</SelectItem>
-                ) : (
-                  <>
-                    <SelectItem value="10pt">10pt</SelectItem>
-                    <SelectItem value="11pt">11pt</SelectItem>
-                    <SelectItem value="12pt">12pt</SelectItem>
-                  </>
-                )}
+                {(() => {
+                  const sizes = isCompliant && config
+                    ? (config.regulations.fontSizeOptions || [config.regulations.fontSize])
+                    : ['10pt', '11pt', '12pt'];
+                  return sizes.map(size => (
+                    <SelectItem key={size} value={size}>{size}</SelectItem>
+                  ));
+                })()}
               </SelectContent>
             </Select>
           </div>
@@ -372,17 +380,30 @@ export function DocumentTypeSelector() {
             <Select
               value={formData.fontFamily || 'times'}
               onValueChange={(v) => setField('fontFamily', v)}
+              disabled={isCompliant && !!config?.regulations.fontFamilyRequired}
             >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="times">Times New Roman</SelectItem>
-                <SelectItem value="courier">Courier New</SelectItem>
+                {isCompliant && config?.regulations.fontFamilyRequired ? (
+                  <SelectItem value="times">Times New Roman</SelectItem>
+                ) : (
+                  <>
+                    <SelectItem value="times">Times New Roman</SelectItem>
+                    <SelectItem value="courier">Courier New</SelectItem>
+                  </>
+                )}
               </SelectContent>
             </Select>
           </div>
         </div>
+        {/* Courier New informational note for general correspondence */}
+        {isCompliant && config && !config.regulations.fontFamilyRequired && formData.fontFamily === 'courier' && (
+          <p className="text-xs text-amber-600 dark:text-amber-400 -mt-1">
+            Courier New is permitted for informal correspondence only (Ch 2 ¶20).
+          </p>
+        )}
       </div>
       )}
 

@@ -19,10 +19,14 @@ import {
 import { useDocumentStore } from '@/stores/documentStore';
 import { UnitLookupModal } from '@/components/modals/UnitLookupModal';
 import { formatLetterhead, type UnitInfo } from '@/data/unitDirectory';
+import { DOC_TYPE_CONFIG } from '@/types/document';
 
 export function LetterheadSection() {
-  const { formData, setField } = useDocumentStore();
+  const { formData, setField, docType, documentMode } = useDocumentStore();
   const [unitModalOpen, setUnitModalOpen] = useState(false);
+  const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
+  const isCompliant = documentMode === 'compliant';
+  const isOptional = isCompliant && config.optionalLetterhead;
 
   const handleUnitSelect = (unit: UnitInfo) => {
     // Use SECNAV M-5216.5 compliant letterhead formatting
@@ -45,7 +49,14 @@ export function LetterheadSection() {
 
       <Accordion type="single" collapsible defaultValue="letterhead">
         <AccordionItem value="letterhead">
-          <AccordionTrigger>Letterhead</AccordionTrigger>
+          <AccordionTrigger>
+            <span className="flex items-center gap-2">
+              Letterhead
+              {isOptional && (
+                <span className="text-xs font-normal text-muted-foreground">(optional)</span>
+              )}
+            </span>
+          </AccordionTrigger>
           <AccordionContent>
             <div className="space-y-4 pt-2">
               {/* Seal Type + Color + Department/Service + Browse Units - responsive layout */}

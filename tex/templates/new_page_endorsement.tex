@@ -32,14 +32,9 @@
 %=============================================================================
 %                    ENDORSEMENT CONFIGURATION
 %=============================================================================
-
-\newcommand{\EndorsementOrdinal}{}      % FIRST, SECOND, THIRD, etc.
-\newcommand{\BasicLetterID}{}           % e.g., "NAS Meridian ltr 5216 Ser 11/273 of 22 Apr 15"
-
-\newcommand{\setEndorsement}[2]{%
-    \renewcommand{\EndorsementOrdinal}{#1}%
-    \renewcommand{\BasicLetterID}{#2}%
-}
+% Variables (\EndorsementOrdinal, \BasicLetterID, etc.) are defined in
+% main.tex and set directly via \renewcommand in document.tex.
+% New-page endorsement uses \EndorsementOrdinal and \BasicLetterID.
 
 
 %=============================================================================

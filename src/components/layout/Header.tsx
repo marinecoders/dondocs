@@ -28,6 +28,7 @@ interface HeaderProps {
   onDownloadPdf?: () => void;
   onDownloadTex?: () => void;
   onDownloadDocx?: () => void;
+  onDownloadFlatTex?: () => void;
   onRefreshPreview?: () => void;
   isCompiling?: boolean;
   isFormsMode?: boolean;  // Whether we're in forms mode (hides LaTeX options)
@@ -41,6 +42,7 @@ export function Header({
   onDownloadPdf,
   onDownloadTex,
   onDownloadDocx,
+  onDownloadFlatTex,
   onRefreshPreview,
   isCompiling,
   isFormsMode = false,
@@ -192,7 +194,9 @@ export function Header({
         version: '1.0',
         exportedAt: new Date().toISOString(),
         documentMode: documentStore.documentMode,
+        documentCategory: documentStore.documentCategory,
         docType: documentStore.docType,
+        formType: documentStore.formType,
         formData: documentStore.formData,
         references: documentStore.references,
         // Include enclosure file data as base64 for full restoration
@@ -253,9 +257,19 @@ export function Header({
           documentStore.setDocumentMode?.(data.documentMode);
         }
 
+        // Apply document category
+        if (data.documentCategory) {
+          documentStore.setDocumentCategory(data.documentCategory);
+        }
+
         // Apply document type
         if (data.docType) {
           documentStore.setDocType(data.docType);
+        }
+
+        // Apply form type
+        if (data.formType) {
+          documentStore.setFormType(data.formType);
         }
 
         // Apply form data
@@ -284,9 +298,10 @@ export function Header({
               data: base64ToUint8Array(encl.file.data).buffer as ArrayBuffer,
             } : undefined,
           })) || [],
-          paragraphs: data.paragraphs?.map((para: { text: string; level?: number; portionMarking?: string }) => ({
+          paragraphs: data.paragraphs?.map((para: { text: string; level?: number; header?: string; portionMarking?: string }) => ({
             text: para.text,
             level: para.level || 0,
+            header: para.header,
             portionMarking: para.portionMarking,
           })) || [],
           copyTos: data.copyTos || [],
@@ -490,6 +505,10 @@ export function Header({
                   <DropdownMenuItem onClick={onDownloadTex}>
                     <FileText className="h-4 w-4 mr-2" />
                     Download LaTeX
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={onDownloadFlatTex}>
+                    <FileText className="h-4 w-4 mr-2" />
+                    Download Flat LaTeX (Pandoc)
                   </DropdownMenuItem>
                 </>
               )}

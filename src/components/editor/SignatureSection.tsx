@@ -18,7 +18,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Upload, X, FileImage, PenLine, Shield, Type, Search, AlertCircle } from 'lucide-react';
+import { Upload, X, FileImage, PenLine, Shield, Type, Search, AlertCircle, HelpCircle } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useDocumentStore } from '@/stores/documentStore';
 import type { DocTypeConfig, SignatureImage, SignatureType } from '@/types/document';
 import { ALL_SERVICE_RANKS, formatRank } from '@/data/ranks';
@@ -160,7 +166,30 @@ export function SignatureSection({ config }: SignatureSectionProps) {
     <>
     <Accordion type="single" collapsible>
       <AccordionItem value="signature">
-        <AccordionTrigger>Signature Block</AccordionTrigger>
+        <AccordionTrigger>
+          <span className="flex items-center gap-2">
+            Signature Block
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild onClick={(e) => e.stopPropagation()}>
+                  <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-foreground" />
+                </TooltipTrigger>
+                <TooltipContent side="right" className="max-w-xs">
+                  <p className="font-medium mb-1">Signature Block</p>
+                  <p className="text-xs">
+                    Configure who signs the document. The signature block appears 4 lines below the last paragraph per SECNAV M-5216.5.
+                  </p>
+                  <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
+                    <li><strong>Typed Only:</strong> Name, rank, and title printed below signature line</li>
+                    <li><strong>Upload Image:</strong> Overlay a scanned signature above the typed block</li>
+                    <li><strong>Digital Field:</strong> Creates an empty field for CAC/PIV signing in Adobe</li>
+                    <li><strong>By Direction:</strong> Sign on behalf of a senior authority</li>
+                  </ul>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </span>
+        </AccordionTrigger>
         <AccordionContent>
           <div className="space-y-4 pt-2">
             {/* Complimentary Close - Required for business letters in compliant mode */}
@@ -174,7 +203,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                   id="complimentaryClose"
                   value={formData.complimentaryClose || ''}
                   onChange={(e) => setField('complimentaryClose', e.target.value)}
-                  placeholder="Very respectfully,"
+                  placeholder="Sincerely,"
                   className={!formData.complimentaryClose?.trim() ? 'border-destructive' : ''}
                 />
                 {!formData.complimentaryClose?.trim() && (
@@ -218,7 +247,8 @@ export function SignatureSection({ config }: SignatureSectionProps) {
               </div>
             </div>
 
-            {/* Rank and Title */}
+            {/* Rank and Title — hidden when config says name-only (e.g., standard_letter, plain_paper_memorandum) */}
+            {config.showSignatureRankTitle !== false && (
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <Button
@@ -310,6 +340,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                 </div>
               </div>
             </div>
+            )}
 
             {/* Office Code + POC Email */}
             <div className="space-y-3">

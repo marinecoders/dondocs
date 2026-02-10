@@ -15,17 +15,27 @@ export function escapeLatex(str: string | undefined | null): string {
   });
 
   // Escape LaTeX special chars
+  // ORDER MATTERS: Replacements that introduce { } (like {\char36}, \textbackslash{})
+  // must come AFTER the { and } escaping, or their braces get re-escaped.
+  // Phase 1: Escape \ first (must be first to avoid double-escaping)
+  // Phase 2: Escape simple chars that don't introduce braces
+  // Phase 3: Escape { and } from the original text
+  // Phase 4: Replacements that introduce new { } (safe now — won't be re-escaped)
   let result = protectedStr
-    .replace(/\\/g, '\\textbackslash{}')
+    .replace(/\\/g, 'ZZZTEXTBACKSLASHZZZ')
     .replace(/&/g, '\\&')
     .replace(/%/g, '\\%')
-    .replace(/\$/g, '\\$')
     .replace(/#/g, '\\#')
     .replace(/_/g, '\\_')
+    .replace(/\$/g, 'ZZZDOLLARZZZ')
+    .replace(/~/g, 'ZZZTILDEZZZ')
+    .replace(/\^/g, 'ZZZCARETZZZ')
     .replace(/\{/g, '\\{')
     .replace(/\}/g, '\\}')
-    .replace(/~/g, '\\textasciitilde{}')
-    .replace(/\^/g, '\\textasciicircum{}');
+    .replace(/ZZZTEXTBACKSLASHZZZ/g, '\\textbackslash{}')
+    .replace(/ZZZDOLLARZZZ/g, '{\\char36}')
+    .replace(/ZZZTILDEZZZ/g, '\\textasciitilde{}')
+    .replace(/ZZZCARETZZZ/g, '\\textasciicircum{}');
 
   // Restore placeholders with highlighted LaTeX rendering
   // Escape underscores in the placeholder name for LaTeX text mode
@@ -181,16 +191,22 @@ export function processBodyText(text: string): string {
   });
 
   // Now escape LaTeX special chars (but not our markers)
+  // ORDER MATTERS: Use placeholders for replacements that introduce { }
+  // so they don't get re-escaped by the { } escaping step.
   let result = protectedText
-    .replace(/\\/g, '\\textbackslash{}')
+    .replace(/\\/g, 'ZZZTEXTBACKSLASHZZZ')
     .replace(/&/g, '\\&')
     .replace(/%/g, '\\%')
-    .replace(/\$/g, '\\$')
     .replace(/#/g, '\\#')
+    .replace(/\$/g, 'ZZZDOLLARZZZ')
+    .replace(/~/g, 'ZZZTILDEZZZ')
+    .replace(/\^/g, 'ZZZCARETZZZ')
     .replace(/\{/g, '\\{')
     .replace(/\}/g, '\\}')
-    .replace(/~/g, '\\textasciitilde{}')
-    .replace(/\^/g, '\\textasciicircum{}');
+    .replace(/ZZZTEXTBACKSLASHZZZ/g, '\\textbackslash{}')
+    .replace(/ZZZDOLLARZZZ/g, '{\\char36}')
+    .replace(/ZZZTILDEZZZ/g, '\\textasciitilde{}')
+    .replace(/ZZZCARETZZZ/g, '\\textasciicircum{}');
 
   // Note: Don't escape _ or * as they're used for formatting
   // The rich text conversion will handle them

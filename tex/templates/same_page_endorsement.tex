@@ -30,20 +30,10 @@
 %=============================================================================
 %                    ENDORSEMENT CONFIGURATION
 %=============================================================================
-
-\newcommand{\EndorsementOrdinal}{}      % FIRST, SECOND, THIRD, etc.
-\newcommand{\EndorsementSerial}{}       % Ser XXX/### (for same-page, often omitted)
-\newcommand{\EndorsementDate}{}         % Date of endorsement
-\newcommand{\BasicLetterID}{}           % Basic letter identification (optional for same-page)
-
-\newcommand{\setEndorsement}[3]{%
-    \renewcommand{\EndorsementOrdinal}{#1}%
-    \renewcommand{\EndorsementSerial}{#2}%
-    \renewcommand{\EndorsementDate}{#3}%
-}
-
-% Set basic letter ID (e.g., "USS SCRANTON ltr 3000 Ser SSN 756/001 of 5 May 96")
-\newcommand{\setBasicLetterID}[1]{\renewcommand{\BasicLetterID}{#1}}
+% Variables (\EndorsementOrdinal, \EndorsementSerial, \EndorsementDate,
+% \BasicLetterID) and setter commands (\setEndorsement, \setBasicLetterID)
+% are defined in main.tex so document.tex can call them before this
+% template is loaded. Same-page uses the default 3-arg \setEndorsement.
 
 
 %=============================================================================

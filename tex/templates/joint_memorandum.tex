@@ -43,8 +43,9 @@
         \fontsize{10pt}{11pt}\selectfont\textbf{DEPARTMENT OF THE NAVY}}\\[6pt]
         {\fontsize{8pt}{9pt}\selectfont
             \MakeUppercase{\SeniorCommandName} (\SeniorCommandZip)\\
-            \MakeUppercase{\JuniorCommandName} (\JuniorCommandZip)\\
-            \ifdefempty{\CommonLocation}{}{\MakeUppercase{\CommonLocation}}
+            \MakeUppercase{\JuniorCommandName} (\JuniorCommandZip)%
+            \ifdefempty{\CommonLocation}{}{\\
+            \MakeUppercase{\CommonLocation}}%
         }
     \end{center}
     % Exactly one line of space below letterhead per SECNAV M-5216.5

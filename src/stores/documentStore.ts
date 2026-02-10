@@ -190,7 +190,7 @@ const EXAMPLE_FORM_DATA: Partial<DocumentData> = {
   includeHyperlinks: false,
   // Business letter fields
   salutation: 'Dear Sir or Madam:',
-  complimentaryClose: 'Very respectfully,',
+  complimentaryClose: 'Sincerely,',
 };
 
 // Example references for demo document (empty for clean start)
@@ -232,12 +232,20 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     if (mode === 'compliant') {
       // Apply compliant formatting from doc type config
       const config = DOC_TYPE_CONFIG[state.docType] || DOC_TYPE_CONFIG.naval_letter;
+      // Font size: keep current if within allowed range, otherwise snap to default
+      const allowedSizes = config.regulations.fontSizeOptions || [config.regulations.fontSize];
+      const currentSize = state.formData.fontSize || '12pt';
+      const newFontSize = allowedSizes.includes(currentSize) ? currentSize : config.regulations.fontSize;
+      // Font family: enforce if required (Ch 12 exec docs), otherwise keep user's choice
+      const newFontFamily = config.regulations.fontFamilyRequired
+        ? config.regulations.fontFamily
+        : (state.formData.fontFamily || config.regulations.fontFamily);
       return {
         documentMode: mode,
         formData: {
           ...state.formData,
-          fontSize: config.regulations.fontSize,
-          fontFamily: config.regulations.fontFamily,
+          fontSize: newFontSize,
+          fontFamily: newFontFamily,
         },
       };
     }
@@ -253,14 +261,22 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       const convertedDate = state.formData.date
         ? convertDateFormat(state.formData.date, newDateFormat)
         : formatMilitaryDate(new Date());
+      // Font size: keep current if within allowed range, otherwise snap to default
+      const allowedSizes = config.regulations.fontSizeOptions || [config.regulations.fontSize];
+      const currentSize = state.formData.fontSize || '12pt';
+      const newFontSize = allowedSizes.includes(currentSize) ? currentSize : config.regulations.fontSize;
+      // Font family: enforce if required (Ch 12 exec docs), otherwise keep user's choice
+      const newFontFamily = config.regulations.fontFamilyRequired
+        ? config.regulations.fontFamily
+        : (state.formData.fontFamily || config.regulations.fontFamily);
 
       return {
         docType: type,
         formData: {
           ...DEFAULT_FORM_DATA,
           docType: type,
-          fontSize: config.regulations.fontSize,
-          fontFamily: config.regulations.fontFamily,
+          fontSize: newFontSize,
+          fontFamily: newFontFamily,
           date: convertedDate,
         },
       };
@@ -463,7 +479,13 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
           inReplyToText: '',
           // Business letter fields
           salutation: 'Dear Sir or Madam:',
-          complimentaryClose: 'Very respectfully,',
+          complimentaryClose: 'Sincerely,',
+          // Executive memo fields
+          memorandumFor: '',
+          attnLine: '',
+          throughLine: '',
+          coordination: '',
+          preparedBy: '',
         },
         paragraphs: [{ text: '', level: 0 }],
         references: [],

@@ -66,6 +66,9 @@ Desktop.ini
 # Claude Code
 .claude/
 
+# Pandoc WASM binary (56MB, too large for git)
+public/lib/pandoc/pandoc.wasm
+
 # Node / Vite
 node_modules/
 dist/

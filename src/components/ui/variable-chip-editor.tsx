@@ -408,64 +408,73 @@ function editorToText(editor: ReturnType<typeof useEditor>): string {
   if (!editor) return '';
   const paragraphs: string[] = [];
 
-  editor.state.doc.forEach((node) => {
-    if (node.type.name === 'paragraph') {
-      let paraText = '';
-      node.forEach((child) => {
-        if (child.type.name === 'variable') {
-          paraText += `{{${child.attrs.name}}}`;
-        } else if (child.isText && child.text) {
-          let text = child.text;
-          // Apply LaTeX formatting based on marks
-          const marks = child.marks;
-          const hasBold = marks.some(m => m.type.name === 'bold');
-          const hasItalic = marks.some(m => m.type.name === 'italic');
-          const hasUnderline = marks.some(m => m.type.name === 'underline');
+  // Iterate over top-level paragraph nodes
+  editor.state.doc.forEach((paragraphNode) => {
+    let paraText = '';
 
-          if (hasBold) text = `\\textbf{${text}}`;
-          if (hasItalic) text = `\\textit{${text}}`;
-          if (hasUnderline) text = `\\underline{${text}}`;
+    paragraphNode.forEach((child) => {
+      if (child.type.name === 'variable') {
+        paraText += `{{${child.attrs.name}}}`;
+      } else if (child.type.name === 'hardBreak') {
+        paraText += '\n';
+      } else if (child.isText && child.text) {
+        let text = child.text;
+        // Apply LaTeX formatting based on marks
+        const marks = child.marks;
+        const hasBold = marks.some(m => m.type.name === 'bold');
+        const hasItalic = marks.some(m => m.type.name === 'italic');
+        const hasUnderline = marks.some(m => m.type.name === 'underline');
 
-          paraText += text;
-        }
-      });
-      paragraphs.push(paraText);
-    }
+        if (hasBold) text = `\\textbf{${text}}`;
+        if (hasItalic) text = `\\textit{${text}}`;
+        if (hasUnderline) text = `\\underline{${text}}`;
+
+        paraText += text;
+      }
+    });
+
+    paragraphs.push(paraText);
   });
 
   return paragraphs.join('\n').trim();
 }
 
+// Convert a single line of text to HTML (escaping, LaTeX formatting, variables)
+function lineToHtml(line: string): string {
+  let html = line
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  // Convert LaTeX formatting to HTML
+  // Handle nested formatting by doing multiple passes
+  html = html.replace(/\\textbf\{([^{}]*)\}/g, '<strong>$1</strong>');
+  html = html.replace(/\\textit\{([^{}]*)\}/g, '<em>$1</em>');
+  html = html.replace(/\\underline\{([^{}]*)\}/g, '<u>$1</u>');
+
+  // Convert variables to spans - check both default and custom variables
+  html = html.replace(/\{\{([A-Z0-9_]+)\}\}/g, (_, name) => {
+    const placeholder = BATCH_PLACEHOLDERS.find(p => p.name === name);
+    const customVars = getCustomVariables();
+    const customVar = customVars.find(p => p.name === name);
+    const label = placeholder?.label || customVar?.label || name;
+    // Register the variable in case it's new
+    addCustomVariable(name);
+    return `<span data-type="variable" data-name="${name}" data-label="${label}">@${label}</span>`;
+  });
+
+  return html;
+}
+
 // Convert {{VARIABLE}} text with LaTeX formatting to editor HTML content
-// Each line becomes a separate <p> element so Tiptap preserves paragraph breaks
+// Each \n in the text becomes a separate <p> tag so Tiptap preserves line structure
 function textToEditorHtml(text: string): string {
+  if (!text) return '<p><br></p>';
+
   const lines = text.split('\n');
-
-  return lines.map(line => {
-    let html = line
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-
-    // Convert LaTeX formatting to HTML
-    // Handle nested formatting by doing multiple passes
-    html = html.replace(/\\textbf\{([^{}]*)\}/g, '<strong>$1</strong>');
-    html = html.replace(/\\textit\{([^{}]*)\}/g, '<em>$1</em>');
-    html = html.replace(/\\underline\{([^{}]*)\}/g, '<u>$1</u>');
-
-    // Convert variables to spans - check both default and custom variables
-    html = html.replace(/\{\{([A-Z0-9_]+)\}\}/g, (_, name) => {
-      const placeholder = BATCH_PLACEHOLDERS.find(p => p.name === name);
-      const customVars = getCustomVariables();
-      const customVar = customVars.find(p => p.name === name);
-      const label = placeholder?.label || customVar?.label || name;
-      // Register the variable in case it's new
-      addCustomVariable(name);
-      return `<span data-type="variable" data-name="${name}" data-label="${label}">@${label}</span>`;
-    });
-
-    return `<p>${html || '<br>'}</p>`;
-  }).join('');
+  return lines
+    .map(line => `<p>${lineToHtml(line) || '<br>'}</p>`)
+    .join('');
 }
 
 // Formatting toolbar for the editor
