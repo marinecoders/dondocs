@@ -468,7 +468,7 @@ export function generateReferencesTex(store: DocumentStore): string {
 % Count: ${store.references.length} references
 %=============================================================================
 
-${store.references.map((r) => `\\refitem{${r.letter}}{${escapeLatex(r.title)}}`).join('\\\\\n')}
+${store.references.map((r) => `\\refitem{${r.letter}}{${escapeLatex(r.title)}}`).join('\n')}
 `;
 }
 
