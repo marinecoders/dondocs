@@ -912,6 +912,18 @@ const LATEX_TEMPLATES = {
         (#1) #2\\\\%
     \\fi
 }
+% Same as \\refitem but without trailing \\\\ — used for the last reference
+\\newcommand{\\lastrefitem}[2]{%
+    \\ifhyperlinks
+        \\@ifundefined{ref@url@#1}{%
+            (#1) #2%
+        }{%
+            (\\href{\\csname ref@url@#1\\endcsname}{\\textcolor{blue}{#1}}) #2%
+        }%
+    \\else
+        (#1) #2%
+    \\fi
+}
 \\makeatother
 
 % Reference link for body text: "reference (a)" becomes clickable when hyperlinks enabled
@@ -936,7 +948,7 @@ const LATEX_TEMPLATES = {
         \\vspace{12pt}
         \\noindent
         \\begin{tabular}{@{}l@{}p{5.9in}@{}}
-            Ref:\\hspace{4\\fontdimen2\\font} & \\begin{minipage}[t]{5.9in}
+            Ref:\\ifthenelse{\\equal{\\FontFamily}{times}}{\\hspace{4.2\\fontdimen2\\font}}{\\hspace{4\\fontdimen2\\font}} & \\begin{minipage}[t]{5.9in}
                        \\input{references}
                    \\end{minipage}
         \\end{tabular}%
@@ -989,9 +1001,11 @@ const LATEX_TEMPLATES = {
                            \\stepcounter{encllistcount}%
                            \\@ifundefined{encl@defined@\\arabic{encllistcount}}{}{%
                                \\ifhyperlinks
-                                   (\\hyperlink{enclosure\\arabic{encllistcount}}{\\textcolor{blue}{\\arabic{encllistcount}}}) \\csname encl@title@\\arabic{encllistcount}\\endcsname\\\\%
+                                   (\\hyperlink{enclosure\\arabic{encllistcount}}{\\textcolor{blue}{\\arabic{encllistcount}}}) \\csname encl@title@\\arabic{encllistcount}\\endcsname%
                                \\else
-                                   (\\arabic{encllistcount}) \\csname encl@title@\\arabic{encllistcount}\\endcsname\\\\%
+                                   (\\arabic{encllistcount}) \\csname encl@title@\\arabic{encllistcount}\\endcsname%
+                               \\fi
+                               \\ifnum\\value{encllistcount}<\\value{enclmax}\\\\%
                                \\fi
                            }%
                        \\repeat

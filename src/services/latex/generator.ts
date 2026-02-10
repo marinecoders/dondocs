@@ -468,7 +468,10 @@ export function generateReferencesTex(store: DocumentStore): string {
 % Count: ${store.references.length} references
 %=============================================================================
 
-${store.references.map((r) => `\\refitem{${r.letter}}{${escapeLatex(r.title)}}`).join('\n')}
+${store.references.map((r, i) => {
+    const cmd = i === store.references.length - 1 ? '\\lastrefitem' : '\\refitem';
+    return `${cmd}{${r.letter}}{${escapeLatex(r.title)}}`;
+  }).join('\n')}
 `;
 }
 
