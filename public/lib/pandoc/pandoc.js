@@ -57,7 +57,7 @@ const wasi = new WASI(args, env, fds, options);
 // server serves application/wasm correctly.
 let wasmUrl;
 try {
-  wasmUrl = new URL("./pandoc.wasm", import.meta.url).href;
+  wasmUrl = new URL("https://raw.githubusercontent.com/marinecoders/dondocs/refs/heads/POC/public/lib/pandoc/pandoc.wasm", import.meta.url).href;
 } catch {
   wasmUrl = "/lib/pandoc/pandoc.wasm";
 }
