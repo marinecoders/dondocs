@@ -246,6 +246,10 @@ const LATEX_TEMPLATES = {
     }{%
         \\renewcommand{\\familydefault}{\\ttdefault}%
     }%
+    % Switch the active font to the new family - \\renewcommand{\\familydefault}
+    % only sets the default for future \\normalfont calls, it doesn't change the
+    % currently active font. Without this, body text stays in the old family.
+    \\fontfamily{\\familydefault}\\selectfont
     % Apply font size by redefining \\normalsize
     % This ensures the size persists in tabular environments and after groups
     \\ifthenelse{\\equal{\\FontSize}{10pt}}{%
