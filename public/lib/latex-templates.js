@@ -937,7 +937,8 @@ const LATEX_TEMPLATES = {
         \\noindent
         \\begin{tabular}{@{}l@{}p{5.9in}@{}}
             Ref:\\hspace{4\\fontdimen2\\font} & \\begin{minipage}[t]{5.9in}
-                       \\input{references}
+                       \\input{references}%
+                       \\vspace{-\\baselineskip}% cancel trailing \\\\ from last \\refitem
                    \\end{minipage}
         \\end{tabular}%
     \\fi
@@ -995,6 +996,7 @@ const LATEX_TEMPLATES = {
                                \\fi
                            }%
                        \\repeat
+                       \\vspace{-\\baselineskip}% cancel trailing \\\\ from last enclosure item
                    \\end{minipage}
         \\end{tabular}%
     \\fi
