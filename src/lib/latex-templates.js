@@ -904,12 +904,12 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\refitem}[2]{%
     \\ifhyperlinks
         \\@ifundefined{ref@url@#1}{%
-            (#1) #2\\\\%
+            (#1) #2%
         }{%
-            (\\href{\\csname ref@url@#1\\endcsname}{\\textcolor{blue}{#1}}) #2\\\\%
+            (\\href{\\csname ref@url@#1\\endcsname}{\\textcolor{blue}{#1}}) #2%
         }%
     \\else
-        (#1) #2\\\\%
+        (#1) #2%
     \\fi
 }
 \\makeatother
@@ -937,8 +937,7 @@ const LATEX_TEMPLATES = {
         \\noindent
         \\begin{tabular}{@{}l@{}p{5.9in}@{}}
             Ref:\\hspace{4\\fontdimen2\\font} & \\begin{minipage}[t]{5.9in}
-                       \\input{references}%
-                       \\vspace{-\\baselineskip}% cancel trailing \\\\ from last \\refitem
+                       \\input{references}
                    \\end{minipage}
         \\end{tabular}%
     \\fi
@@ -990,13 +989,14 @@ const LATEX_TEMPLATES = {
                            \\stepcounter{encllistcount}%
                            \\@ifundefined{encl@defined@\\arabic{encllistcount}}{}{%
                                \\ifhyperlinks
-                                   (\\hyperlink{enclosure\\arabic{encllistcount}}{\\textcolor{blue}{\\arabic{encllistcount}}}) \\csname encl@title@\\arabic{encllistcount}\\endcsname\\\\%
+                                   (\\hyperlink{enclosure\\arabic{encllistcount}}{\\textcolor{blue}{\\arabic{encllistcount}}}) \\csname encl@title@\\arabic{encllistcount}\\endcsname%
                                \\else
-                                   (\\arabic{encllistcount}) \\csname encl@title@\\arabic{encllistcount}\\endcsname\\\\%
+                                   (\\arabic{encllistcount}) \\csname encl@title@\\arabic{encllistcount}\\endcsname%
+                               \\fi
+                               \\ifnum\\value{encllistcount}<\\value{enclmax}\\\\%  line break only between items
                                \\fi
                            }%
                        \\repeat
-                       \\vspace{-\\baselineskip}% cancel trailing \\\\ from last enclosure item
                    \\end{minipage}
         \\end{tabular}%
     \\fi
