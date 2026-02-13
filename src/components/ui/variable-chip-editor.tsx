@@ -419,15 +419,16 @@ function editorToText(editor: ReturnType<typeof useEditor>): string {
         paraText += '\n';
       } else if (child.isText && child.text) {
         let text = child.text;
-        // Apply LaTeX formatting based on marks
+        // Apply markdown-style formatting markers
+        // processBodyText() expects these markers and converts them to LaTeX
         const marks = child.marks;
         const hasBold = marks.some(m => m.type.name === 'bold');
         const hasItalic = marks.some(m => m.type.name === 'italic');
         const hasUnderline = marks.some(m => m.type.name === 'underline');
 
-        if (hasBold) text = `\\textbf{${text}}`;
-        if (hasItalic) text = `\\textit{${text}}`;
-        if (hasUnderline) text = `\\underline{${text}}`;
+        if (hasBold) text = `**${text}**`;
+        if (hasItalic) text = `*${text}*`;
+        if (hasUnderline) text = `__${text}__`;
 
         paraText += text;
       }
@@ -446,8 +447,12 @@ function lineToHtml(line: string): string {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 
-  // Convert LaTeX formatting to HTML
-  // Handle nested formatting by doing multiple passes
+  // Convert markdown formatting to HTML
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
+  html = html.replace(/__(.+?)__/g, '<u>$1</u>');
+
+  // Also support legacy LaTeX formatting for backward compatibility
   html = html.replace(/\\textbf\{([^{}]*)\}/g, '<strong>$1</strong>');
   html = html.replace(/\\textit\{([^{}]*)\}/g, '<em>$1</em>');
   html = html.replace(/\\underline\{([^{}]*)\}/g, '<u>$1</u>');

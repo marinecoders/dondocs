@@ -537,11 +537,9 @@ function toTitleCase(str: string): string {
   }).join(' ');
 }
 
-/** Breakable underline: wraps each word in \underline{} so LaTeX can break between words.
- *  \underline{} creates an unbreakable box — a long header would overflow the line.
- *  Per-word underlining looks identical but allows natural line breaks. */
+/** Underline entire header text using ulem's \uline for proper positioning. */
 function underlineWords(text: string): string {
-  return text.split(/\s+/).filter(Boolean).map(w => `\\underline{${w}}`).join('\\ ');
+  return `\\uline{${text}}`;
 }
 
 export function generateBodyTex(store: DocumentStore): string {

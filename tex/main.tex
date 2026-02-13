@@ -210,6 +210,16 @@
 
 \usepackage{pdfpages}
 
+% Custom \uline: underline at fixed depth so descenders cross through the line
+% (like Word), instead of \underline which pushes the line below descenders
+\makeatletter
+\newcommand{\uline}[1]{%
+  \leavevmode
+  \setbox\@tempboxa\hbox{#1}%
+  \rlap{\raisebox{-1.5pt}{\rule{\wd\@tempboxa}{0.4pt}}}%
+  \usebox\@tempboxa
+}
+\makeatother
 
 %=============================================================================
 %                           FONT CONFIGURATION
@@ -1181,7 +1191,7 @@
 \newcommand{\parasection}[1]{%
     \stepcounter{mainpara}%
     \vspace{12pt}%
-    \noindent\arabic{mainpara}. \underline{#1}:%
+    \noindent\arabic{mainpara}. \uline{#1}:%
 }
 
 % =============================================================================
@@ -1243,7 +1253,7 @@
 % Level 5 (JS level 4): underlined 1. at 1.0", text at 1.25", continuation at 1.0"
 \newlist{subsubsubsubpara}{enumerate}{1}
 \setlist[subsubsubsubpara,1]{
-    label      = \underline{\arabic*}.,
+    label      = \uline{\arabic*}.,
     leftmargin = 1.0in,
     itemindent = 0.25in,
     labelwidth = 0.2in,
@@ -1256,7 +1266,7 @@
 % Level 6 (JS level 5): underlined a. at 1.25", text at 1.5", continuation at 1.25"
 \newlist{subsubsubsubsubpara}{enumerate}{1}
 \setlist[subsubsubsubsubpara,1]{
-    label      = \underline{\alph*}.,
+    label      = \uline{\alph*}.,
     leftmargin = 1.25in,
     itemindent = 0.25in,
     labelwidth = 0.2in,
@@ -1269,7 +1279,7 @@
 % Level 7 (JS level 6): underlined (1) at 1.5", text at 1.75", continuation at 1.5"
 \newlist{subsubsubsubsubsubpara}{enumerate}{1}
 \setlist[subsubsubsubsubsubpara,1]{
-    label      = \underline{(\arabic*)},
+    label      = \uline{(\arabic*)},
     leftmargin = 1.5in,
     itemindent = 0.25in,
     labelwidth = 0.25in,
@@ -1282,7 +1292,7 @@
 % Level 8 (JS level 7): underlined (a) at 1.75", text at 2.0", continuation at 1.75"
 \newlist{subsubsubsubsubsubsubpara}{enumerate}{1}
 \setlist[subsubsubsubsubsubsubpara,1]{
-    label      = \underline{(\alph*)},
+    label      = \uline{(\alph*)},
     leftmargin = 1.75in,
     itemindent = 0.25in,
     labelwidth = 0.25in,

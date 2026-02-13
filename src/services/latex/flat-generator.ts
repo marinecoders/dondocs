@@ -78,7 +78,7 @@ function convertRichText(text: string): string {
   let result = text;
   result = result.replace(/\*\*(.+?)\*\*/g, '\\textbf{$1}');
   result = result.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '\\textit{$1}');
-  result = result.replace(/__(.+?)__/g, '\\underline{$1}');
+  result = result.replace(/__(.+?)__/g, '\\uline{$1}');
 
   // Enclosure references: "Enclosure (1)", "enclosure (1)", "Encl (1)" → \enclref{1}
   result = result.replace(/[Ee]nclosure\s*\((\d+)\)/g, '\\enclref{$1}');
@@ -132,11 +132,9 @@ function capitalizeWord(word: string | undefined): string {
   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
 
-/** Breakable underline: wraps each word in \underline{} so LaTeX/pandoc can break between words.
- *  A single \underline{} creates an unbreakable box — long headers overflow the line.
- *  Per-word underlining looks identical but allows natural line breaks. */
+/** Underline entire header text using ulem's \uline for proper positioning. */
 function underlineWords(text: string): string {
-  return text.split(/\s+/).filter(Boolean).map(w => `\\underline{${w}}`).join('\\ ');
+  return `\\uline{${text}}`;
 }
 
 function toTitleCase(str: string): string {
@@ -173,7 +171,7 @@ function getParagraphLabel(level: number, count: number): string {
     (n: number) => `(${String.fromCharCode(96 + n)})`,
   ];
   const label = patterns[level % 4](count);
-  return level >= 4 ? `\\underline{${label}}` : label;
+  return level >= 4 ? `\\uline{${label}}` : label;
 }
 
 function calculateLabels(paragraphs: Paragraph[]): string[] {
