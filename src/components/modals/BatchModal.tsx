@@ -250,6 +250,10 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
         ...ct,
         text: replacePlaceholders(ct.text, values),
       })),
+      distributions: documentStore.distributions.map((d) => ({
+        ...d,
+        text: replacePlaceholders(d.text, values),
+      })),
     };
   }, [documentStore]);
 

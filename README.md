@@ -1,4 +1,4 @@
-# Naval Correspondence Generator
+# DonDocs — Naval Correspondence & Form Generator
 
 > "The docs are done when the docs are done."
 
@@ -7,7 +7,7 @@
 [![MCO 5216.20B](https://img.shields.io/badge/MCO-5216.20B-red)](https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/899678/mco-521620/)
 [![NIST 800-171](https://img.shields.io/badge/NIST-800--171-green)](https://csrc.nist.gov/publications/detail/sp/800-171/rev-2/final)
 
-**Naval Correspondence Generator** is a browser-based military correspondence generator that produces publication-quality documents compliant with **SECNAV M-5216.5** (Department of the Navy Correspondence Manual) and **MCO 5216.20B** (Marine Corps Supplement).
+**DonDocs** is a browser-based naval correspondence and form generator that produces publication-quality documents compliant with **SECNAV M-5216.5** (Department of the Navy Correspondence Manual) and **MCO 5216.20B** (Marine Corps Supplement).
 
 **All processing happens locally in your browser - no data is ever sent to any server.**
 
@@ -51,12 +51,13 @@
 - **Portion markings** per-paragraph: (U), (CUI), (FOUO), (C), (S), (TS)
 - **NIST 800-171 compliant** - works on air-gapped networks (SIPR/JWICS)
 
-### 20 Document Types
-- **Letters**: Naval, Standard, Business, Multiple Address, Joint
-- **Endorsements**: Same-Page, New-Page (1st through 5th)
-- **Memoranda**: MFR, Memorandum For, Plain Paper, Letterhead, Decision, Executive, Joint
-- **Agreements**: MOA, MOU
-- **Executive**: Executive Correspondence, Standard Memorandum, Action Memorandum, Information Memorandum
+### Comprehensive Document Support
+- **20 document types** across letters, endorsements, memoranda, agreements, and executive formats
+- **Dynamic form adaptation** — the editor automatically shows/hides and reconfigures sections based on document type (e.g., dual-command fields for MOA/MOU, executive memo layouts, business letter salutations)
+- **11 pre-built templates** for common correspondence (awards, appointments, investigations, personnel)
+- **Distribution lists** and **Copy To** support per SECNAV Ch 8
+- **Continuation subject line** toggle for page 2+ headers
+- **Custom classification markings** for non-standard banners
 
 ### Export Formats
 - **PDF** - Full-featured with enclosures, signatures, and classification markings
@@ -69,7 +70,7 @@
 
 ### Quick Start
 1. Open the application in your browser
-2. Select a document type from the dropdown
+2. Set up your letterhead and addressing
 3. Fill in required fields (From, To, Subject)
 4. Add paragraphs to the body
 5. Preview your document in real-time
@@ -87,14 +88,17 @@
 
 ### Core Functionality
 - **Real-time PDF Preview** - See your document as you type (1.5s debounce)
-- **20 Document Types** - Letters, memoranda, endorsements, agreements, and executive memos
+- **20 Document Types** - All selectable from the document type dropdown with full SECNAV M-5216.5 compliance
+- **Dynamic UI Sections** - Form panels adapt per document type: sections gray out with "Not used by this document type" indicators when inapplicable, and specialized panels appear for dual-command formats (MOA/MOU, Joint, Executive)
 - **SECNAV M-5216.5 Compliant** - Automatic formatting per Navy/Marine Corps regulations
+- **PDF/DOCX Parity** - Both export formats produce matching layouts with identical SECNAV-standard spacing
 - **PWA/Offline Mode** - Install as an app and work offline with cached TeX Live packages
 - **Compliant vs Custom Modes** - Strict regulation mode or customizable fonts and formatting (see [Compliance Mode](#compliance-mode) for details)
+- **Full Quality Preview** - Optional toggle to include enclosures, hyperlinks, and signatures in the live preview (Settings > Preview)
 
 ### Document Management
 - **Profiles System** - Save and reuse unit information and signature images
-- **Template Library** - 38 pre-built letter templates for common correspondence
+- **Template Library** - 11 auditor-approved letter templates for common correspondence
 - **Clear Fields** - Reset all content while preserving letterhead for quick new document creation
 - **Reference Library** - 107 searchable military references with one-click insert
 - **Unit Directory** - 3,139 units searchable by name, abbreviation, MCC, or location
@@ -122,7 +126,9 @@
 - **Hierarchical Paragraphs** - 8 levels with automatic labeling (1., a., (1), (a), etc.)
 - **References** - Auto-lettered with optional hyperlinks
 - **Enclosures** - PDF attachments with cover pages and 3 page styles
-- **Copy To/Distribution** - Standard distribution list support
+- **Copy To** - Distribution list for information recipients
+- **Distribution** - Action addressee list per SECNAV Ch 8
+- **Continuation Subject** - Optional subject line on page 2+ headers
 - **Signature Images** - Upload and embed your signature
 - **Drag & Drop** - Reorder paragraphs, references, and enclosures
 
@@ -161,51 +167,38 @@ Generate multiple personalized documents from a single template using the **Inse
 
 ## Document Types
 
-### Letters (5 types)
-| Type | Description | Reference |
-|------|-------------|-----------|
-| Naval Letter | Standard letter on letterhead | SECNAV M-5216.5 Ch 2 |
-| Standard Letter | Plain paper letter | SECNAV M-5216.5 Ch 2 |
-| Business Letter | External correspondence | SECNAV M-5216.5 Ch 11 |
-| Multiple Address Letter | Letter to multiple addressees | SECNAV M-5216.5 Ch 8 |
-| Joint Letter | Letter from multiple commands | SECNAV M-5216.5 Ch 7 |
+### 20 Format Definitions
 
-### Endorsements (2 types)
-| Type | Description | Reference |
-|------|-------------|-----------|
-| Same-Page Endorsement | Endorsement on same page | SECNAV M-5216.5 Ch 9 |
-| New-Page Endorsement | Endorsement starting new page | SECNAV M-5216.5 Ch 9 |
+| Category | Types |
+|----------|-------|
+| Letters | Naval Letter, Standard Letter, Business Letter, Multiple Address Letter, Joint Letter |
+| Endorsements | Same-Page Endorsement, New-Page Endorsement |
+| Memoranda | MFR, Memorandum For, Plain Paper, Letterhead, Decision, Executive, Joint Memorandum |
+| Agreements | MOA, MOU |
+| Executive | Executive Correspondence, Standard Memorandum, Action Memorandum, Information Memorandum |
 
-### Memoranda (7 types)
-| Type | Description | Reference |
-|------|-------------|-----------|
-| MFR | Memorandum for the Record | SECNAV M-5216.5 Ch 10 |
-| Memorandum For | USMC-specific "MF" format | MCO 5216.20B |
-| Plain Paper Memorandum | Informal memorandum | SECNAV M-5216.5 Ch 12 |
-| Letterhead Memorandum | Formal memorandum on letterhead | SECNAV M-5216.5 Ch 12 |
-| Decision Memorandum | Action/decision format | SECNAV M-5216.5 Ch 12 |
-| Executive Memorandum | Executive-level correspondence | SECNAV M-5216.5 Ch 12 |
-| Joint Memorandum | Memorandum from multiple commands | SECNAV M-5216.5 Ch 12 |
+All 20 types are selectable in the document type dropdown with full SECNAV M-5216.5 compliance.
 
-### Agreements (2 types)
-| Type | Description | Reference |
-|------|-------------|-----------|
-| MOA | Memorandum of Agreement | SECNAV M-5216.5 Ch 12 |
-| MOU | Memorandum of Understanding | SECNAV M-5216.5 Ch 12 |
-
-### Executive (4 types)
-| Type | Description | Reference |
-|------|-------------|-----------|
-| Executive Correspondence | Senior leader external letters | SECNAV M-5216.5 Ch 12 |
-| Standard Memorandum | HqDON/OSD MEMORANDUM FOR format | SECNAV M-5216.5 Ch 12 ¶2 |
-| Action Memorandum | Forwards material requiring approval | SECNAV M-5216.5 Ch 12 ¶3 |
-| Information Memorandum | Conveys info not requiring action | SECNAV M-5216.5 Ch 12 ¶4 |
+### Pre-Built Templates (11)
+| Template | Category |
+|----------|----------|
+| PFT Waiver | Personnel |
+| Humanitarian Transfer | Personnel |
+| NAM Award | Awards |
+| Letter of Appreciation | Awards |
+| Command Interest | Leadership |
+| Appointment: Collateral Duty | Administrative |
+| Appointment: Board Member | Administrative |
+| Appointment: Safety Officer | Administrative |
+| Report of Findings | Investigations |
+| Appointment: Investigating Officer | Investigations |
+| Letter of Instruction | Operations |
 
 ---
 
 ## Compliance Mode
 
-Naval Correspondence Generator offers two modes for each document type:
+DonDocs offers two modes for each document type:
 
 ### Compliant Mode (Default)
 Enforces strict SECNAV M-5216.5 formatting rules. Certain features are locked or restricted based on the document type to ensure regulation compliance.
@@ -254,6 +247,8 @@ The following document types require two signature blocks (one for each command/
 - Memorandum of Agreement (MOA)
 - Memorandum of Understanding (MOU)
 
+Per SECNAV M-5216.5, dual-command documents position the **Junior command on the LEFT** (signs first) and the **Senior command on the RIGHT** (signs last). This convention applies consistently to both the ID symbols block (SSIC/Serial/Date) and the signature block in both PDF and DOCX output.
+
 ---
 
 ## Security & Classification
@@ -267,6 +262,7 @@ The following document types require two signature blocks (one for each command/
 | SECRET | Could cause serious damage |
 | TOP SECRET | Could cause grave damage |
 | TOP SECRET//SCI | Sensitive Compartmented Information |
+| Custom | User-defined classification banner text |
 
 ### CUI Categories
 Privacy, Proprietary, Legal, Law Enforcement, Export Control, Financial, Intelligence, Critical Infrastructure, Defense, Other
@@ -275,7 +271,7 @@ Privacy, Proprietary, Legal, Law Enforcement, Export Control, Financial, Intelli
 Apply per-paragraph markings: **(U)**, **(CUI)**, **(FOUO)**, **(C)**, **(S)**, **(TS)**
 
 ### PII/PHI Detection
-Before downloading, Naval Correspondence Generator scans for:
+Before downloading, DonDocs scans for:
 - Social Security Numbers (XXX-XX-XXXX)
 - EDIPI/DoD ID Numbers (10-digit)
 - Dates of Birth
@@ -309,19 +305,22 @@ PDF output includes empty signature fields compatible with:
 | Density | Compact / Comfortable / Spacious | - |
 | Color | Default / Navy / USMC schemes | - |
 | Theme | Toggle dark/light mode | - |
+| Full Quality | Include enclosures/hyperlinks/signatures in preview | - |
 
 ### Editor Panel (Left)
 - **Profile Bar** - Quick profile selector with unit lookup
 - **Mode Toggle** - Switch between Compliant (strict SECNAV) and Custom (flexible) modes (see [Compliance Mode](#compliance-mode))
-- **Document Type** - 17 correspondence formats with **Clear Fields** button to reset content while preserving letterhead
-- **Letterhead** - Unit name, address, seal type
-- **Addressing** - From, To, Via, Subject
-- **Classification** - Security markings and CUI settings
+- **Document Type** - Select from 20 document types; the entire form dynamically reconfigures per selection. **Clear Fields** resets content while preserving letterhead
+- **Letterhead** - Unit name, address, seal type; shows "Not used" indicator for types without letterhead (e.g., MFR, Plain Paper)
+- **Addressing** - From, To, Via, Subject, SSIC, Serial, Date — fields auto-show/hide per doc type (e.g., business letters show recipient address block instead of From/To, executive formats skip SSIC)
+- **Dual-Command Sections** - MOA/MOU show Junior/Senior SSIC and signature fields; Joint Letter/Memo show dual From/To/Via
+- **Classification** - Security markings, CUI settings, and custom classification text
 - **Paragraphs** - Document body with 8-level hierarchy
-- **References** - Auto-lettered with hyperlink support
-- **Enclosures** - PDF attachments with cover pages
-- **Copy To** - Distribution list
-- **Signature** - Signatory information and image
+- **References** - Auto-lettered with hyperlink support; grayed out with indicator for doc types that don't use formal references
+- **Enclosures** - PDF attachments with cover pages; grayed out with indicator for doc types that don't use formal enclosures
+- **Copy To** - Information distribution list
+- **Distribution** - Action addressee list per SECNAV Ch 8
+- **Signature** - Signatory information and image; dual signature blocks for MOA/MOU/Joint formats
 - **Document Statistics** - Word/character/paragraph counts
 
 ### Preview Panel (Right)
@@ -667,7 +666,8 @@ The application generates PDFs through a multi-stage pipeline from UI input to f
   - `references.tex` - Reference list
   - `reference-urls.tex` - Reference URL mappings for hyperlinks
   - `encl-config.tex` - Enclosure list configuration
-  - `copyto-config.tex` - Copy To/distribution list
+  - `copyto-config.tex` - Copy To list (information recipients)
+  - `distribution-config.tex` - Distribution list (action addressees)
   - `body.tex` - Document body paragraphs
   - `flags.tex` - Boolean flags for conditional sections
 
@@ -714,7 +714,7 @@ There are two types of templates:
 | `src/App.tsx` | Main app component, debounced preview (1.5s LaTeX, 500ms forms) |
 | `src/services/latex/generator.ts` | Generates `.tex` files from store data |
 | `src/services/latex/escaper.ts` | Escapes special LaTeX characters, wraps text |
-| `src/lib/latex-templates.js` | All LaTeX templates (main + 17 document types) |
+| `src/lib/latex-templates.js` | All LaTeX templates (main + 20 document types) |
 | `src/hooks/useLatexEngine.ts` | Manages SwiftLaTeX WebAssembly engine |
 | `src/services/pdf/mergeEnclosures.ts` | Merges enclosures, adds hyperlinks and markings |
 | `src/services/pdf/addSignatureField.ts` | Adds CAC/PIV digital signature fields |
@@ -785,6 +785,7 @@ After pandoc produces the DOCX, `pandoc-converter.ts` opens it with JSZip and fi
 - Zeros out table cell margins (pandoc adds ~0.08in padding by default)
 - Rescales `gridCol` widths from pandoc's hardcoded 7920 twips (5.5in) to our 9360 twips (6.5in)
 - Forces exact symmetric letterhead column widths and vertical centering
+- Constrains empty spacer rows to 12pt height (pandoc ignores `\\[12pt]` row spacing in tabular environments, so explicit empty rows are emitted by the flat generator and fixed to exact SECNAV-standard height here)
 - Removes unwanted empty paragraphs between tables
 - Injects page geometry (US Letter, 1in margins) into `sectPr`
 - Applies letterhead color (PMS 288 navy blue or black) and font sizes (10pt/8pt)
@@ -813,7 +814,7 @@ Both generators read from the same Zustand store and produce equivalent output, 
 
 ## NIST 800-171 Compliance
 
-Naval Correspondence Generator is designed for information security:
+DonDocs is designed for information security:
 
 - **Local Processing** - All data stays in your browser
 - **No Server Communication** - Documents never leave your device
@@ -832,7 +833,7 @@ Naval Correspondence Generator is designed for information security:
 A: Yes. It's a standard webpage that works in any modern browser. No installation required.
 
 **Q: Can I install this as an app?**
-A: Yes. Naval Correspondence Generator is a Progressive Web App (PWA). Click "Install" in your browser or use "Add to Home Screen" on mobile. Once installed, it works offline.
+A: Yes. DonDocs is a Progressive Web App (PWA). Click "Install" in your browser or use "Add to Home Screen" on mobile. Once installed, it works offline.
 
 **Q: Does it work offline?**
 A: Yes. After the first visit, the app caches all necessary files including the TeX Live packages. You can generate documents without an internet connection.

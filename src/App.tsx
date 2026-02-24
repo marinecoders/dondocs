@@ -146,6 +146,7 @@ function App() {
     shareModal,
     togglePreview,
     closeAllModals,
+    fullQualityPreview,
   } = useUIStore();
   const mainContainerRef = useRef<HTMLElement>(null);
   const documentStore = useDocumentStore();
@@ -295,32 +296,27 @@ function App() {
       let pdfBytes = await compile(files);
 
       if (pdfBytes) {
-        // Merge enclosures and/or create hyperlinks (handles both PDF and text-only enclosures, and reference URLs)
-        if (enclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
-          const classification = getClassificationInfo(
-            documentStore.formData.classLevel,
-            documentStore.formData.customClassification
-          );
-          const mergeResult = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls);
-          pdfBytes = mergeResult.pdfBytes;
-
-          // Track enclosure errors for user notification
-          if (mergeResult.hasErrors) {
-            setEnclosureErrors(mergeResult.errors);
-            setShowEnclosureErrors(true);
+        // When fullQualityPreview is enabled, run the full pipeline in preview
+        // (enclosure merging, hyperlink annotation, digital signature fields).
+        // When disabled (default), these are deferred to the download/export path
+        // for better responsiveness on slower machines.
+        if (fullQualityPreview) {
+          if (enclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
+            const classification = getClassificationInfo(documentStore.formData.classLevel);
+            const mergeResult = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls);
+            pdfBytes = mergeResult.pdfBytes;
           }
-        }
 
-        // Add digital signature field if requested
-        if (documentStore.formData.signatureType === 'digital') {
-          const config = DOC_TYPE_CONFIG[documentStore.docType];
-          const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
-          if (isDualSignature) {
-            const sigConfig = getDualSignatoryConfig(documentStore.formData, config?.uiMode);
-            pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes), sigConfig);
-          } else {
-            const sigConfig = getSignatoryConfig(documentStore.formData);
-            pdfBytes = await addSignatureField(new Uint8Array(pdfBytes), sigConfig);
+          if (documentStore.formData.signatureType === 'digital') {
+            const config = DOC_TYPE_CONFIG[documentStore.docType];
+            const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
+            if (isDualSignature) {
+              const sigConfig = getDualSignatoryConfig(documentStore.formData, config?.uiMode);
+              pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes), sigConfig);
+            } else {
+              const sigConfig = getSignatoryConfig(documentStore.formData);
+              pdfBytes = await addSignatureField(new Uint8Array(pdfBytes), sigConfig);
+            }
           }
         }
 
@@ -355,7 +351,7 @@ function App() {
     } finally {
       setIsCompiling(false);
     }
-  }, [isReady, compile, documentStore, pdfUrl, addLogDirect]);
+  }, [isReady, compile, documentStore, pdfUrl, addLogDirect, fullQualityPreview]);
 
   // Debounced compilation on document changes
   useEffect(() => {
@@ -382,6 +378,8 @@ function App() {
     documentStore.enclosures,
     documentStore.paragraphs,
     documentStore.copyTos,
+    documentStore.distributions,
+    fullQualityPreview,
   ]);
 
   // Generate form PDF preview when in forms mode

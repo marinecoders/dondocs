@@ -51,6 +51,10 @@ export interface CopyTo {
   text: string;
 }
 
+export interface Distribution {
+  text: string;
+}
+
 export interface SignatureImage {
   name: string;
   size: number;
@@ -194,6 +198,9 @@ export interface DocumentData {
 
   // Hyperlinks
   includeHyperlinks: boolean;
+
+  // Continuation subject on page 2+
+  showSubjectOnContinuation: boolean;
 
   // Business letter fields (compliance-driven)
   salutation: string;
@@ -423,6 +430,7 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
   },
 };
 
+// Labels for document types visible in the UI
 export const DOC_TYPE_LABELS: Record<string, string> = {
   naval_letter: 'Naval Letter (on letterhead)',
   standard_letter: 'Standard Letter (plain paper)',

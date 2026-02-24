@@ -82,7 +82,7 @@
     left    = 1in,
     right   = 1in,
     headheight = 15pt,
-    headsep    = 0pt,
+    headsep    = 12pt,
     footskip   = 0.5in
 ]{geometry}
 
@@ -403,6 +403,12 @@
     \fi
 }
 
+% Custom classification: sets banner markings only (no CUI/Classified info block)
+\newcommand{\setCustomClassification}[1]{%
+    \renewcommand{\ClassificationMarking}{#1}%
+    \ClassificationEnabledtrue
+}
+
 
 %-----------------------------------------------------------------------------
 % CUI Field Setters
@@ -530,7 +536,11 @@
 %-----------------------------------------------------------------------------
 
 \newcommand{\SubjectLine}{}
-\newcommand{\setSubject}[1]{\renewcommand{\SubjectLine}{#1}}
+\newcommand{\setSubject}[1]{\renewcommand{\SubjectLine}{\uline{#1}}}
+
+% Continuation page subject line (shown on page 2+ when enabled)
+\newcommand{\ContinuationSubject}{}
+\newcommand{\setContinuationSubject}[1]{\renewcommand{\ContinuationSubject}{\uline{#1}}}
 
 
 %-----------------------------------------------------------------------------
@@ -865,11 +875,10 @@
         \textcolor{\LetterheadColor}{\UnitLineThree}\\
         \textcolor{\LetterheadColor}{\UnitLineFour}
     \end{textblock*}%
-    % Spacing: Letterhead ends ~1.16in from top (0.625in start + ~0.53in content)
-    % SSIC should start exactly ONE LINE below letterhead per SECNAV M-5216.5
-    % With 1in top margin and 12pt baselineskip (~0.2in), position at ~0.36in below margin
-    \vspace*{0.16in}%  % Clear letterhead area
-    \vspace{\baselineskip}%  % Add exactly one line of space
+    % Spacing: Letterhead ends ~0.975in from top (0.625in start + ~0.35in content)
+    % Text area starts at ~1.02in (top=1in + headheight=15pt + headsep=12pt)
+    % 0.16in ≈ 12pt ≈ one line gap from letterhead bottom to SSIC block
+    \vspace*{0.16in}%  % One line below letterhead area
 }
 
 
@@ -906,24 +915,24 @@
 \newcommand{\refitem}[2]{%
     \ifhyperlinks
         \@ifundefined{ref@url@#1}{%
-            (#1) #2\\%
+            (#1)~~#2\\%
         }{%
-            (\href{\csname ref@url@#1\endcsname}{\textcolor{blue}{#1}}) #2\\%
+            (\href{\csname ref@url@#1\endcsname}{\textcolor{blue}{#1}})~~#2\\%
         }%
     \else
-        (#1) #2\\%
+        (#1)~~#2\\%
     \fi
 }
 % Same as \refitem but without trailing \\ — used for the last reference
 \newcommand{\lastrefitem}[2]{%
     \ifhyperlinks
         \@ifundefined{ref@url@#1}{%
-            (#1) #2%
+            (#1)~~#2%
         }{%
-            (\href{\csname ref@url@#1\endcsname}{\textcolor{blue}{#1}}) #2%
+            (\href{\csname ref@url@#1\endcsname}{\textcolor{blue}{#1}})~~#2%
         }%
     \else
-        (#1) #2%
+        (#1)~~#2%
     \fi
 }
 \makeatother
@@ -1003,9 +1012,9 @@
                            \stepcounter{encllistcount}%
                            \@ifundefined{encl@defined@\arabic{encllistcount}}{}{%
                                \ifhyperlinks
-                                   (\hyperlink{enclosure\arabic{encllistcount}}{\textcolor{blue}{\arabic{encllistcount}}}) \csname encl@title@\arabic{encllistcount}\endcsname%
+                                   (\hyperlink{enclosure\arabic{encllistcount}}{\textcolor{blue}{\arabic{encllistcount}}})~~\csname encl@title@\arabic{encllistcount}\endcsname%
                                \else
-                                   (\arabic{encllistcount}) \csname encl@title@\arabic{encllistcount}\endcsname%
+                                   (\arabic{encllistcount})~~\csname encl@title@\arabic{encllistcount}\endcsname%
                                \fi
                                \ifnum\value{encllistcount}<\value{enclmax}\\%
                                \fi
@@ -1068,7 +1077,8 @@
                     \vspace*{2in}%
                     \begin{center}
                         \fontsize{16pt}{20pt}\selectfont
-                        \textbf{\currentencltitle}\\[1in]
+                        \textbf{\currentencltitle}\\
+                        \vspace{1in}
                         \fontsize{12pt}{16pt}\selectfont
                         \textit{(Physical document attached separately)}
                     \end{center}
@@ -1130,55 +1140,47 @@
 
 
 %=============================================================================
-%                        COPY TO (DISTRIBUTION) COMMANDS
+%                        DISTRIBUTION COMMANDS
 %=============================================================================
+% Per SECNAV M-5216.5 Ch 8: Distribution = action addressees
+% The generator emits \setHasDistribution and \DistributionRows{...}.
 
-% Flag for whether we have copy-tos
+\newif\ifhasdistribution
+\hasdistributionfalse
+\newcommand{\setHasDistribution}{\global\hasdistributiontrue}
+
+% Print distribution list
+\newcommand{\printDistribution}{%
+    \ifhasdistribution
+        \vspace{12pt}
+        \noindent
+        \begin{tabular}{@{}l@{}p{5.85in}@{}}
+            \DistributionRows
+        \end{tabular}%
+    \fi
+}
+
+
+%=============================================================================
+%                        COPY TO COMMANDS
+%=============================================================================
+% Per SECNAV M-5216.5 Ch 7, Para 15: Copy to = information addressees
+% The generator emits \setHasCopyTo and \CopyToRows{...}.
+
 \newif\ifhascopyto
 \hascopytofalse
-
-% Counter for copy-to entries
-\newcounter{copytomax}
-\setcounter{copytomax}{0}
-
-% Set flag when copy-tos exist
 \newcommand{\setHasCopyTo}{\global\hascopytotrue}
 
-% Define a copy-to entry: \copyto{1}{CO, 1st Bn, 1st Mar}
-\makeatletter
-\newcommand{\copytoentry}[2]{%
-    \ifnum#1>\value{copytomax}%
-        \setcounter{copytomax}{#1}%
-    \fi
-    \expandafter\gdef\csname copyto@text@#1\endcsname{#2}%
-    \expandafter\gdef\csname copyto@defined@#1\endcsname{1}%
-}
-\makeatother
-
-% Print copy-to list after signature block
-% Per SECNAV M-5216.5 Ch 7, Para 15: Copy to notation
-\makeatletter
+% Print copy-to list
 \newcommand{\printCopyTo}{%
     \ifhascopyto
-        \ifnum\value{copytomax}>0
-            \vspace{12pt}
-            \noindent
-            \begin{tabular}{@{}l@{}p{5.85in}@{}}
-                Copy to:\hspace{2\fontdimen2\font} & \begin{minipage}[t]{5.85in}
-                           \newcounter{copytolistcount}%
-                           \setcounter{copytolistcount}{0}%
-                           \loop\ifnum\value{copytolistcount}<\value{copytomax}%
-                               \stepcounter{copytolistcount}%
-                               \@ifundefined{copyto@defined@\arabic{copytolistcount}}{}{%
-                                   \csname copyto@text@\arabic{copytolistcount}\endcsname\\%
-                               }%
-                           \repeat
-                       \end{minipage}
-            \end{tabular}%
-        \fi
+        \vspace{12pt}
+        \noindent
+        \begin{tabular}{@{}l@{}p{5.85in}@{}}
+            \CopyToRows
+        \end{tabular}%
     \fi
 }
-\makeatother
 
 
 %=============================================================================
@@ -1311,6 +1313,9 @@
 % Note: Using encl-config.tex to avoid conflict with enclosures/ directory
 \input{encl-config}
 
+% Load distribution definitions
+\input{distribution-config}
+
 % Load copy-to definitions
 \input{copyto-config}
 
@@ -1390,7 +1395,14 @@
 
 
 %=============================================================================
-% COPY TO (DISTRIBUTION) - Shows after signature if any recipients defined
+% DISTRIBUTION - Action addressees (shows after signature if any defined)
+%=============================================================================
+
+\printDistribution
+
+
+%=============================================================================
+% COPY TO - Information addressees (shows after distribution if any defined)
 %=============================================================================
 
 \printCopyTo

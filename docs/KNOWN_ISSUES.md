@@ -51,3 +51,9 @@ PDF AcroForm signature fields have no DOCX equivalent via pandoc. Users should s
 ### DOCX: Enclosure File Merging
 
 PDF-to-PDF merging is straightforward, but appending PDF pages to a DOCX is not possible in-browser. Users must attach enclosure files separately.
+
+### PDF: Copy-To / Distribution Page-Breaking
+
+SwiftLaTeX does not include `longtable.sty`, so Copy-To and Distribution lists use `tabular` which cannot break across pages. For typical military correspondence, these lists are short enough to fit on one page. If a list exceeds one page, content will overflow off the bottom.
+
+**Potential fix:** Preload `longtable.sty` into SwiftLaTeX, or implement a manual page-break splitting approach in the generator.

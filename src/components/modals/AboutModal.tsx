@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Github, Shield, Zap, FileText, Lock, Plane, ExternalLink } from 'lucide-react';
 import { useUIStore } from '@/stores/uiStore';
 
-const VERSION = '1.0.0';
+const VERSION = '1.1.0';
 
 export function AboutModal() {
   const { aboutModalOpen, setAboutModalOpen } = useUIStore();
@@ -57,7 +57,7 @@ export function AboutModal() {
               <li className="flex items-start gap-3">
                 <Zap className="h-4 w-4 text-primary mt-0.5 shrink-0" />
                 <span className="text-sm">
-                  <strong>20 document types</strong> — Letters, memoranda, endorsements, MOA/MOU, executive memos, and more
+                  <strong>20 document types and 11 templates</strong> with distribution lists, classification markings, and batch generation
                 </span>
               </li>
               <li className="flex items-start gap-3">

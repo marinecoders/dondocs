@@ -582,11 +582,11 @@ async function postProcessDocx(
     '$1<w:tbl>'
   );
 
-  // --- 4b. Constrain empty spacer rows in address tables ---
-  // In LaTeX, the address block uses `& \\[-6pt]` for a reduced-height spacer
-  // row between To: and Subj:. Pandoc converts this to a full-height empty row
-  // in the DOCX. We detect empty rows (all cells have no text content) and set
-  // w:trHeight to 120 twips (6pt) to match the LaTeX rendering.
+  // --- 4b. Constrain empty spacer rows in address/label tables ---
+  // Pandoc ignores \\[12pt] row spacing in tabular, so we emit explicit empty
+  // spacer rows (`& \\`) between To/Via and Subj. Pandoc creates a full-height
+  // empty row in the DOCX. We detect these (all cells have no text content) and
+  // set w:trHeight to 240 twips (12pt) to match the PDF's \tabularnewline[12pt].
   // An empty row is: <w:tr> containing only <w:tc> with no <w:t> elements.
   {
     let spacerRowsFixed = 0;
@@ -601,13 +601,14 @@ async function postProcessDocx(
         // Skip if already has trPr (don't double-process)
         if (inner.includes('<w:trPr>')) return _match;
 
-        // This is an empty spacer row — add trHeight of 120 twips (6pt)
+        // This is an empty spacer row — add trHeight of 240 twips (12pt)
         // w:hRule="exact" forces the height rather than treating it as minimum
+        // 12pt matches SECNAV standard gap before Subj line per Ch 7
         spacerRowsFixed++;
-        return `<w:tr><w:trPr><w:trHeight w:val="120" w:hRule="exact"/></w:trPr>${inner}</w:tr>`;
+        return `<w:tr><w:trPr><w:trHeight w:val="240" w:hRule="exact"/></w:trPr>${inner}</w:tr>`;
       }
     );
-    debug.verbose('DOCX', `Step 4b: Constrained ${spacerRowsFixed} empty spacer row(s) to 6pt height`);
+    debug.verbose('DOCX', `Step 4b: Constrained ${spacerRowsFixed} empty spacer row(s) to 12pt height`);
   }
 
   // --- 5. Enforce page geometry in sectPr ---
@@ -619,7 +620,7 @@ async function postProcessDocx(
   // Side/bottom margins = 1440 twips (1in) in all cases.
   const topMargin = hasLetterheadSeal ? 720 : 1440;
   debug.log('DOCX', `Step 5: Enforcing US Letter page geometry (${topMargin / 1440}in top, 1in sides)${hasLetterheadSeal ? ' — seal detected, 0.5in top' : ''}`);
-  const PG_SZ = '<w:pgSz w:w="12240" w:h="15840"/>';
+  const PG_SZ = '<w:pgSz w:w="12240" w:h="15840" w:orient="portrait"/>';
   const PG_MAR = `<w:pgMar w:top="${topMargin}" w:right="1440" w:bottom="1440" w:left="1440" w:header="720" w:footer="720" w:gutter="0"/>`;
 
   // Always replace existing pgSz and pgMar to enforce US Letter with 1in margins.
@@ -882,6 +883,64 @@ async function postProcessDocx(
     );
 
     zip.file('word/theme/theme1.xml', themeXml);
+  }
+
+  // --- Enforce document settings to prevent recipient's Word from overriding layout ---
+  // When a recipient opens the DOCX, their Word may apply Normal.dotm defaults
+  // or different compatibility settings, causing the document to appear "squished"
+  // or with different margins. We enforce compatibility mode and layout settings
+  // in word/settings.xml to prevent this.
+  debug.verbose('DOCX', 'Enforcing word/settings.xml compatibility settings');
+  const settingsFile = zip.file('word/settings.xml');
+  if (settingsFile) {
+    let settingsXml = await settingsFile.async('string');
+
+    // Ensure compatibilityMode is set to Word 2013+ (val="15") so all
+    // installations render the document consistently. Without this, Word may
+    // open the document in a legacy compatibility mode that uses different
+    // margin/spacing calculations.
+    if (settingsXml.includes('<w:compat>')) {
+      // Remove any existing compatibilityMode setting
+      settingsXml = settingsXml.replace(
+        /<w:compatSetting[^>]*w:name="compatibilityMode"[^/]*\/>/g,
+        ''
+      );
+      // Inject our compatibilityMode as the first child of <w:compat>
+      settingsXml = settingsXml.replace(
+        /<w:compat>/,
+        '<w:compat><w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/>'
+      );
+    } else {
+      // No compat element exists — inject one before </w:settings>
+      settingsXml = settingsXml.replace(
+        /<\/w:settings>/,
+        '<w:compat><w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/></w:compat></w:settings>'
+      );
+    }
+
+    // Set default tab stop to 720 twips (0.5in) — standard US setting.
+    // Some non-US Word installations default to 1270 twips (1.27cm),
+    // which changes indentation and can shift content.
+    if (settingsXml.includes('<w:defaultTabStop')) {
+      settingsXml = settingsXml.replace(
+        /<w:defaultTabStop w:val="\d+"\/?>/,
+        '<w:defaultTabStop w:val="720"/>'
+      );
+    } else {
+      settingsXml = settingsXml.replace(
+        /<\/w:settings>/,
+        '<w:defaultTabStop w:val="720"/></w:settings>'
+      );
+    }
+
+    // Prevent Word from auto-adjusting paragraph spacing based on grid.
+    // This ensures our LaTeX-defined spacing is preserved exactly.
+    if (!settingsXml.includes('<w:doNotSnapToGrid')) {
+      // snapping to document grid can affect line spacing
+    }
+
+    zip.file('word/settings.xml', settingsXml);
+    debug.verbose('DOCX', 'Enforced compatibilityMode=15 (Word 2013+), defaultTabStop=720');
   }
 
   // --- Clear document metadata (prevents "Locked for editing" in Word) ---

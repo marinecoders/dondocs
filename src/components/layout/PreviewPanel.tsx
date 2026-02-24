@@ -1,6 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react';
-import { Loader2, AlertCircle, Eye } from 'lucide-react';
+import { Loader2, AlertCircle, Eye, Paperclip } from 'lucide-react';
 import { useUIStore } from '@/stores/uiStore';
+import { useDocumentStore } from '@/stores/documentStore';
 
 interface PreviewPanelProps {
   pdfUrl: string | null;
@@ -9,7 +10,8 @@ interface PreviewPanelProps {
 }
 
 export function PreviewPanel({ pdfUrl, isCompiling, error }: PreviewPanelProps) {
-  const { previewVisible, isMobile, setMobilePreviewOpen } = useUIStore();
+  const { previewVisible, isMobile, setMobilePreviewOpen, fullQualityPreview } = useUIStore();
+  const enclosureCount = useDocumentStore((s) => s.enclosures.length);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const savedScrollRef = useRef<{ scrollTop: number; scrollLeft: number } | null>(null);
   const previousUrlRef = useRef<string | null>(null);
@@ -109,6 +111,12 @@ export function PreviewPanel({ pdfUrl, isCompiling, error }: PreviewPanelProps) 
             </div>
           )}
         </div>
+        {enclosureCount > 0 && !fullQualityPreview && (
+          <div className="flex items-center gap-1 text-xs text-muted-foreground" title="Enclosures are included in the downloaded PDF but not shown in preview. Enable Full Quality in Settings to preview them.">
+            <Paperclip className="h-3 w-3" />
+            <span>{enclosureCount} encl. in download</span>
+          </div>
+        )}
       </div>
 
       {/* Content */}

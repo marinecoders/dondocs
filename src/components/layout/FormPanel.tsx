@@ -8,10 +8,12 @@ import { ReferencesManager } from '@/components/editor/ReferencesManager';
 import { EnclosuresManager } from '@/components/editor/EnclosuresManager';
 import { ParagraphsEditor } from '@/components/editor/ParagraphsEditor';
 import { CopyToManager } from '@/components/editor/CopyToManager';
-import { ProfileBar } from '@/components/editor/ProfileBar';
+import { DistributionManager } from '@/components/editor/DistributionManager';
 import { MOASection } from '@/components/editor/MOASection';
 import { JointLetterSection } from '@/components/editor/JointLetterSection';
+import { JointMemoSection } from '@/components/editor/JointMemoSection';
 import { ExecutiveMemoSection } from '@/components/editor/ExecutiveMemoSection';
+import { ProfileBar } from '@/components/editor/ProfileBar';
 import { Form6105Section } from '@/components/editor/Form6105Section';
 import { Form11811Section } from '@/components/editor/Form11811Section';
 import { useDocumentStore } from '@/stores/documentStore';
@@ -19,15 +21,11 @@ import { useUIStore } from '@/stores/uiStore';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 
 export function FormPanel() {
-  const { docType, documentCategory, formType } = useDocumentStore();
+  const { documentCategory, formType, docType } = useDocumentStore();
   const { previewVisible, isMobile } = useUIStore();
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
 
   const isFormsMode = documentCategory === 'forms';
-  const isMOAMode = config.uiMode === 'moa';
-  const isJointLetterMode = config.uiMode === 'joint';
-  const isJointMemoMode = config.uiMode === 'joint_memo';
-  const isExecutiveMode = config.uiMode === 'executive';
 
   return (
     <div className={`flex flex-col h-full bg-card overflow-hidden w-full ${!isMobile ? 'border-r border-border' : ''}`}>
@@ -44,67 +42,53 @@ export function FormPanel() {
               {formType === 'navmc_10274' && <Form6105Section />}
               {formType === 'navmc_118_11' && <Form11811Section />}
             </>
-          ) : isMOAMode ? (
+          ) : config.uiMode === 'moa' ? (
             <>
-              {/* MOA/MOU specific UI - handles dual commands and signatures */}
+              {/* MOA / MOU - dual command sections */}
               <MOASection />
-
               <ClassificationSection />
-
               <ParagraphsEditor />
-
               <ReferencesManager />
-
               <EnclosuresManager />
-
               <CopyToManager />
+              <DistributionManager />
             </>
-          ) : isJointLetterMode ? (
+          ) : config.uiMode === 'joint' ? (
             <>
-              {/* Joint Letter UI - dual letterheads and signatures */}
+              {/* Joint Letter - dual letterhead */}
               <JointLetterSection />
-
               <ClassificationSection />
-
               <ParagraphsEditor />
-
               <ReferencesManager />
-
               <EnclosuresManager />
-
               <CopyToManager />
+              <DistributionManager />
             </>
-          ) : isJointMemoMode ? (
+          ) : config.uiMode === 'joint_memo' ? (
             <>
-              {/* Joint Memorandum UI - same as Joint Letter (only designation differs) */}
-              <JointLetterSection />
-
+              {/* Joint Memorandum - dual signatory */}
+              <JointMemoSection />
               <ClassificationSection />
-
               <ParagraphsEditor />
-
               <ReferencesManager />
-
               <EnclosuresManager />
-
               <CopyToManager />
+              <DistributionManager />
             </>
-          ) : isExecutiveMode ? (
+          ) : config.uiMode === 'executive' ? (
             <>
-              {/* Executive Memo UI — Standard/Action/Info Memorandum per Ch 12 */}
+              {/* Executive Memos - standard_memorandum, action_memorandum, information_memorandum */}
               <ExecutiveMemoSection />
-
               <ClassificationSection />
-
               <ParagraphsEditor />
-
-              {/* Info memos have no signature block — sender signs on FROM line per Ch 12 ¶4a(3) */}
-              {docType !== 'information_memorandum' && <SignatureSection config={config} />}
+              <CopyToManager />
+              <DistributionManager />
+              <SignatureSection config={config} />
             </>
           ) : (
             <>
-              {/* Standard document UI */}
-              {config.letterhead && <LetterheadSection />}
+              {/* Standard / Memo / Business */}
+              <LetterheadSection />
 
               <AddressingSection config={config} />
 
@@ -117,6 +101,8 @@ export function FormPanel() {
               <EnclosuresManager />
 
               <CopyToManager />
+
+              <DistributionManager />
 
               <SignatureSection config={config} />
             </>

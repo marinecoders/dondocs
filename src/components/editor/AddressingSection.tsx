@@ -214,12 +214,15 @@ export function AddressingSection({ config }: AddressingSectionProps) {
               )}
 
               {/* SSIC / Serial / Date - for standard documents */}
-              {config.ssic && !config.dateOnly && (
+              {/* Always show when not dateOnly; gray out SSIC/Serial when config.ssic is false */}
+              {!config.dateOnly && (
                 <>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
-                  <div className="space-y-2">
+                  <div className={`space-y-2 ${!config.ssic ? 'opacity-50 pointer-events-none select-none' : ''}`}>
                     <Label htmlFor="ssic">
-                      SSIC{isSSICOptional && <span className="text-xs font-normal text-muted-foreground ml-1">(optional)</span>}
+                      SSIC
+                      {!config.ssic && <span className="text-xs font-normal text-muted-foreground ml-1">(N/A)</span>}
+                      {config.ssic && isSSICOptional && <span className="text-xs font-normal text-muted-foreground ml-1">(optional)</span>}
                     </Label>
                     <div className="flex gap-1">
                       <Input
@@ -240,9 +243,11 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                       </Button>
                     </div>
                   </div>
-                <div className="space-y-2">
+                <div className={`space-y-2 ${!config.ssic ? 'opacity-50 pointer-events-none select-none' : ''}`}>
                   <Label htmlFor="serial">
-                    Serial{isCompliantMode && <span className="text-xs font-normal text-muted-foreground ml-1">(optional)</span>}
+                    Serial
+                    {!config.ssic && <span className="text-xs font-normal text-muted-foreground ml-1">(N/A)</span>}
+                    {config.ssic && isCompliantMode && <span className="text-xs font-normal text-muted-foreground ml-1">(optional)</span>}
                   </Label>
                   <Input
                     id="serial"
@@ -263,7 +268,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
               </div>
 
               {/* In Reply Refer To */}
-              <div className="space-y-2">
+              <div className={`space-y-2 ${!config.ssic ? 'opacity-50 pointer-events-none select-none' : ''}`}>
                 <div className="flex items-center gap-2">
                   <Checkbox
                     id="inReplyTo"
@@ -411,6 +416,20 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                 className="uppercase"
               />
             </div>
+
+            {/* Continuation page subject - only show for doc types with subject */}
+            {!config?.skipSubject && (
+              <div className="flex items-center space-x-2 pt-1">
+                <Checkbox
+                  id="showSubjectOnContinuation"
+                  checked={formData.showSubjectOnContinuation || false}
+                  onCheckedChange={(checked) => setField('showSubjectOnContinuation', !!checked)}
+                />
+                <Label htmlFor="showSubjectOnContinuation" className="text-sm font-normal cursor-pointer">
+                  Show subject line on continuation pages
+                </Label>
+              </div>
+            )}
           </div>
         </AccordionContent>
       </AccordionItem>

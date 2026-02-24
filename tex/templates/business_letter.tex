@@ -32,6 +32,7 @@
         \optionalField{\DocumentSerial}%
         \BusinessDate% Use civilian date format (January 5, 2015)
     \end{tabular}
+    \par\vspace{12pt}%
 }
 
 
@@ -42,21 +43,24 @@
 % SECNAV Ch 11, Para 11-6: Salutation with colon (Dear Mr. Jones:)
 
 \newcommand{\printAddressBlock}{%
-    \par\vspace{24pt}% 2 lines below date (adjustable 2-8 lines)
-    \noindent
-    \optionalLine{\ToLine}%
-    \optionalLine{\ToLineTwo}%
-    \optionalLine{\ToLineThree}%
-    \optionalLine{\ToLineFour}%
+    % Inside address block - spacing AFTER each element avoids stacking
+    % with the 12pt from \printDateAndTitle
+    \ifNotEmpty{\ToLine}{%
+        \noindent
+        \optionalLine{\ToLine}%
+        \optionalLine{\ToLineTwo}%
+        \optionalLine{\ToLineThree}%
+        \optionalLine{\ToLineFour}%
+        \par\vspace{12pt}%
+    }%
     %
     % Attention line (optional) - SECNAV Ch 11, Para 11-5
     \ifNotEmpty{\AttentionLine}{%
-        \par\vspace{12pt}%
         \noindent Attention: \AttentionLine
+        \par\vspace{12pt}%
     }%
     %
     % Salutation with colon - SECNAV Ch 11, Para 11-6
-    \vspace{12pt}%
     \noindent \BusinessSalutation
     %
     % Subject line (optional) - SECNAV Ch 11, Para 11-7
@@ -110,7 +114,7 @@
     \end{center}
     %
     % Signature block - CENTERED, 4 lines below complimentary close
-    \vspace{36pt}%
+    \vspace{48pt}%
     \begin{center}
         \begin{minipage}{3in}
             \centering
@@ -121,7 +125,8 @@
             % Optional: Signature image
             \ifNotEmpty{\SignatureImage}{%
                 \IfFileExists{attachments/\SignatureImage}{%
-                    \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
+                    \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\
+                    \vspace{6pt}%
                 }{}%
             }%
             % Required: Name in ALL CAPS
@@ -185,6 +190,7 @@
 \fancypagestyle{documentpage}{%
     \fancyhf{}%
     \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyhead[L]{\ifdefempty{\ContinuationSubject}{}{\applyDocumentFontSize SUBJECT:~~\ContinuationSubject}}%
     \fancyfoot[C]{\thepage}% Page number centered
     \renewcommand{\headrulewidth}{0pt}%
     \renewcommand{\footrulewidth}{0pt}%

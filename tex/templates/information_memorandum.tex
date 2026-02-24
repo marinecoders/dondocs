@@ -53,7 +53,8 @@
         \textbf{INFO MEMO}
     \end{center}
     \vspace{12pt}%
-    \hfill \DocumentDate\\[24pt]
+    \hfill \DocumentDate\par
+    \vspace{12pt}%
 }
 
 
@@ -69,7 +70,7 @@
         & \tabularnewline[-6pt]
         FROM: & \InfoMemoFrom\tabularnewline
         & \tabularnewline[-6pt]
-        SUBJECT: & \SubjectLine\tabularnewline
+        SUBJECT: & \SubjectLine%
     \end{tabular}%
     %
     % CUI block
@@ -96,7 +97,8 @@
     % Coordination line (if provided)
     \ifdefempty{\InfoMemoCoordination}{}{%
         \par\vspace{24pt}%
-        \noindent COORDINATION:\\[6pt]
+        \noindent COORDINATION:
+        \vspace{6pt}
         \noindent\InfoMemoCoordination
     }%
     %
@@ -129,6 +131,7 @@
 \fancypagestyle{documentpage}{%
     \fancyhf{}%
     \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyhead[L]{\ifdefempty{\ContinuationSubject}{}{\applyDocumentFontSize SUBJECT:~~\ContinuationSubject}}%
     \fancyfoot[C]{\thepage}%
     \renewcommand{\headrulewidth}{0pt}%
     \renewcommand{\footrulewidth}{0pt}%

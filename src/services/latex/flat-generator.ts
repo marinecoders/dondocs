@@ -10,11 +10,11 @@
  * - tabular for address/ref/encl blocks with proper column alignment
  * - \mbox{label} to protect numbered labels from pandoc's list detection
  * - Blank lines between paragraphs (pandoc ignores \\[Xpt])
- * - \bigskip/\medskip for vertical spacing
+ * - \vspace{Xpt} for vertical spacing (12pt/6pt/24pt/48pt)
  * - \newline for line breaks within a paragraph
  */
 
-import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, DocTypeConfig } from '@/types/document';
+import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, DocTypeConfig } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
 
@@ -25,6 +25,7 @@ interface DocumentStore {
   enclosures: Enclosure[];
   paragraphs: Paragraph[];
   copyTos: CopyTo[];
+  distributions: Distribution[];
 }
 
 // --- Utility functions ---
@@ -130,6 +131,12 @@ function processText(text: string): string {
 function capitalizeWord(word: string | undefined): string {
   if (!word) return '';
   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+}
+
+/** Strip punctuation from paragraph headers per SECNAV formatting rules.
+ * Dashes (-, –, —) are preserved; all other punctuation is removed. */
+function stripHeaderPunctuation(text: string): string {
+  return text.replace(/[(),.;:!?'"\/\\]/g, '').replace(/\s+/g, ' ').trim();
 }
 
 /** Underline entire header text using ulem's \uline for proper positioning. */
@@ -324,7 +331,7 @@ function buildLetterhead(data: Partial<DocumentData>): string {
 \\includegraphics[width=1.09in]{${sealFile}} & ${centerContent} & \\\\
 \\end{tabularx}
 
-\\vspace{1\\baselineskip}
+\\vspace{12pt}
 `;
 }
 
@@ -340,7 +347,7 @@ function buildSSICBlock(data: Partial<DocumentData>, alignRight = true): string 
   if (alignRight) {
     const rows = items.map(item => ` & ${item} \\\\`).join('\n');
     return `\\noindent
-\\begin{tabularx}{\\textwidth}{@{}Xr@{}}
+\\begin{tabularx}{\\textwidth}{@{}X@{}l@{}}
 ${rows}
 \\end{tabularx}
 
@@ -401,6 +408,16 @@ function escapeTabularWrapped(str: string | undefined | null, maxLength: number 
   return wrapped.map(l => escapeTabular(l)).join(' \\newline\n');
 }
 
+/** Strip trailing \\\\ (with optional spacing param) from the last row of a tabular
+ * to avoid creating an empty row at the bottom. Matches the PDF template fix
+ * where trailing \tabularnewline was removed before \end{tabular}. */
+function trimLastRow(rows: string[]): string {
+  if (rows.length === 0) return '';
+  const result = [...rows];
+  result[result.length - 1] = result[result.length - 1].replace(/ \\\\(\[-?\d+pt\])?$/, '');
+  return result.join('\n');
+}
+
 /** Address block (From/To/Via/Subj) using tabular for proper alignment.
  * Colon spacing per SECNAV Ch 7: From=2sp, To=6sp, Via=5sp, Subj=3sp */
 function buildAddressBlock(data: Partial<DocumentData>, config: DocTypeConfig): string {
@@ -426,16 +443,19 @@ function buildAddressBlock(data: Partial<DocumentData>, config: DocTypeConfig): 
   }
 
   if (data.subject && !config.skipSubject) {
-    // Blank spacer row before Subj (matches PDF's \tabularnewline[-6pt] empty row)
-    rows.push(`& \\\\[-6pt]`);
-    rows.push(`Subj:\\hspace{3\\fontdimen2\\font} & ${escapeTabularWrapped(data.subject?.toUpperCase())} \\\\`);
+    // 12pt space before Subj (matches PDF's \tabularnewline[12pt] in templates)
+    // Use explicit empty spacer row because pandoc ignores \\[12pt] row spacing
+    if (rows.length > 0) {
+      rows.push(`& \\\\`);
+    }
+    rows.push(`Subj:\\hspace{3\\fontdimen2\\font} & \\uline{${escapeTabularWrapped(data.subject?.toUpperCase())}} \\\\`);
   }
 
   if (rows.length === 0) return '';
 
   return `\\noindent
 \\begin{tabular}{@{}l@{}p{5.75in}@{}}
-${rows.join('\n')}
+${trimLastRow(rows)}
 \\end{tabular}
 
 `;
@@ -450,9 +470,9 @@ function buildReferences(references: Reference[]): string {
   for (let i = 0; i < references.length; i++) {
     const ref = references[i];
     if (i === 0) {
-      rows.push(`Ref:\\hspace{4\\fontdimen2\\font} & (${ref.letter}) ${escapeTabular(ref.title)} \\\\`);
+      rows.push(`Ref:\\hspace{4\\fontdimen2\\font} & (${ref.letter})~~${escapeTabular(ref.title)} \\\\`);
     } else {
-      rows.push(` & (${ref.letter}) ${escapeTabular(ref.title)} \\\\`);
+      rows.push(` & (${ref.letter})~~${escapeTabular(ref.title)} \\\\`);
     }
   }
 
@@ -460,7 +480,7 @@ function buildReferences(references: Reference[]): string {
   return `\\vspace{12pt}
 \\noindent
 \\begin{tabular}{@{}l@{}p{5.75in}@{}}
-${rows.join('\n')}
+${trimLastRow(rows)}
 \\end{tabular}
 
 `;
@@ -475,9 +495,9 @@ function buildEnclosures(enclosures: Enclosure[]): string {
   for (let i = 0; i < enclosures.length; i++) {
     const encl = enclosures[i];
     if (i === 0) {
-      rows.push(`Encl:\\hspace{3\\fontdimen2\\font} & (${i + 1}) ${escapeTabular(encl.title)} \\\\`);
+      rows.push(`Encl:\\hspace{3\\fontdimen2\\font} & (${i + 1})~~${escapeTabular(encl.title)} \\\\`);
     } else {
-      rows.push(` & (${i + 1}) ${escapeTabular(encl.title)} \\\\`);
+      rows.push(` & (${i + 1})~~${escapeTabular(encl.title)} \\\\`);
     }
   }
 
@@ -485,7 +505,7 @@ function buildEnclosures(enclosures: Enclosure[]): string {
   return `\\vspace{12pt}
 \\noindent
 \\begin{tabular}{@{}l@{}p{5.75in}@{}}
-${rows.join('\n')}
+${trimLastRow(rows)}
 \\end{tabular}
 
 `;
@@ -509,8 +529,8 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig): string {
     const label = useNumbered ? labels[i] : '';
     const headerText = para.header?.trim();
     const portionPrefix = para.portionMarking ? `(${para.portionMarking}) ` : '';
-    // 12pt for level 0 (matches PDF's \vspace{12pt}), \medskip for sub-paragraphs
-    const spacing = para.level === 0 ? '\\vspace{12pt}' : '\\medskip';
+    // 12pt for level 0 paragraphs, 6pt for sub-paragraphs
+    const spacing = para.level === 0 ? '\\vspace{12pt}' : '\\vspace{6pt}';
 
     let paraText = '';
 
@@ -519,7 +539,7 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig): string {
 
     // Optional underlined header
     if (headerText) {
-      paraText += `${underlineWords(escapeFlat(toTitleCase(headerText)))}. `;
+      paraText += `${underlineWords(escapeFlat(toTitleCase(stripHeaderPunctuation(headerText))))}. `;
     }
 
     // Body text with rich text processing
@@ -543,7 +563,7 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig): string {
     } else if (label) {
       // Use \mbox{} to protect labels like "1." from pandoc's list marker detection.
       // The Lua filter's RawInline handler converts \mbox{} to plain text for DOCX.
-      body += `${spacing}\n${indentCmd}\\mbox{${label}}~${paraText}\n\n`;
+      body += `${spacing}\n${indentCmd}\\mbox{${label}}~~${paraText}\n\n`;
     } else {
       // No label (unnumbered paragraphs, e.g. endorsements)
       body += `${spacing}\n${indentCmd}${paraText}\n\n`;
@@ -612,10 +632,10 @@ function buildBusinessSignature(data: Partial<DocumentData>): string {
  & ${close} & \\\\
 \\end{tabularx}
 
-\\vspace{4\\baselineskip}
+\\vspace{48pt}
 \\noindent
 \\begin{tabularx}{\\textwidth}{@{}XcX@{}}
-${sigRows.map(r => ` & ${r} & \\\\`).join('\n')}
+${trimLastRow(sigRows.map(r => ` & ${r} & \\\\`))}
 \\end{tabularx}
 
 `;
@@ -670,10 +690,10 @@ function buildDualSignature(data: Partial<DocumentData>, variant: 'moa' | 'joint
       rows.push(`\\centering ${escapeTabular(juniorTitle)} & \\centering ${escapeTabular(seniorTitle)} \\\\`);
     }
 
-    return `\\vspace{4\\baselineskip}
+    return `\\vspace{48pt}
 \\noindent
 \\begin{tabular}{@{}p{3in}@{\\hfill}p{3in}@{}}
-${rows.join('\n')}
+${trimLastRow(rows)}
 \\end{tabular}
 
 `;
@@ -705,10 +725,10 @@ ${rows.join('\n')}
 
   // Use p{3in}@{\hfill}p{3in} to match PDF template (joint_letter.tex \printSignature)
   // and stay consistent with the SSIC block layout above.
-  return `\\vspace{4\\baselineskip}
+  return `\\vspace{48pt}
 \\noindent
 \\begin{tabular}{@{}p{3in}@{\\hfill}p{3in}@{}}
-${rows.join('\n')}
+${trimLastRow(rows)}
 \\end{tabular}
 
 `;
@@ -732,7 +752,30 @@ function buildCopyTo(copyTos: CopyTo[]): string {
   return `\\vspace{12pt}
 \\noindent
 \\begin{tabular}{@{}l@{\\hspace{2\\fontdimen2\\font}}p{5.5in}@{}}
-${rows.join('\n')}
+${trimLastRow(rows)}
+\\end{tabular}
+
+`;
+}
+
+/** Distribution list using address-style tabular (label | content).
+ * Mirrors buildCopyTo but with "Distribution:" label for action addressees. */
+function buildDistribution(distributions: Distribution[]): string {
+  if (distributions.length === 0) return '';
+
+  const rows: string[] = [];
+  for (let i = 0; i < distributions.length; i++) {
+    if (i === 0) {
+      rows.push(`Distribution: & ${escapeTabular(distributions[i].text)} \\\\`);
+    } else {
+      rows.push(` & ${escapeTabular(distributions[i].text)} \\\\`);
+    }
+  }
+
+  return `\\vspace{12pt}
+\\noindent
+\\begin{tabular}{@{}l@{\\hspace{2\\fontdimen2\\font}}p{5.5in}@{}}
+${trimLastRow(rows)}
 \\end{tabular}
 
 `;
@@ -824,20 +867,21 @@ function buildMOATitle(data: Partial<DocumentData>, docType: string): string {
 `;
 }
 
-/** MOA dual SSIC blocks — senior on left, junior on right.
- * Per SECNAV M-5216.5 Figure 10-5: Senior command LEFT, Junior command RIGHT. */
+/** MOA dual SSIC blocks — junior on left, senior on right.
+ * Per SECNAV M-5216.5: Junior command LEFT (signs first), Senior command RIGHT (signs last).
+ * Matches signature block positioning and the fixed PDF templates (moa.tex/mou.tex). */
 function buildMOASSICBlock(data: Partial<DocumentData>): string {
-  // Senior command on LEFT (same as PDF template's moa.tex)
+  // Junior command on LEFT (signs first)
   const leftItems: string[] = [];
-  if (data.seniorSSIC || data.ssic) leftItems.push(escapeTabular(data.seniorSSIC || data.ssic));
-  if (data.seniorSerial || data.serial) leftItems.push(escapeTabular(data.seniorSerial || data.serial));
-  if (data.seniorDate || data.date) leftItems.push(escapeTabular(data.seniorDate || data.date));
+  if (data.juniorSSIC) leftItems.push(escapeTabular(data.juniorSSIC));
+  if (data.juniorSerial) leftItems.push(escapeTabular(data.juniorSerial));
+  if (data.juniorDate) leftItems.push(escapeTabular(data.juniorDate));
 
-  // Junior command on RIGHT
+  // Senior command on RIGHT (signs last)
   const rightItems: string[] = [];
-  if (data.juniorSSIC) rightItems.push(escapeTabular(data.juniorSSIC));
-  if (data.juniorSerial) rightItems.push(escapeTabular(data.juniorSerial));
-  if (data.juniorDate) rightItems.push(escapeTabular(data.juniorDate));
+  if (data.seniorSSIC || data.ssic) rightItems.push(escapeTabular(data.seniorSSIC || data.ssic));
+  if (data.seniorSerial || data.serial) rightItems.push(escapeTabular(data.seniorSerial || data.serial));
+  if (data.seniorDate || data.date) rightItems.push(escapeTabular(data.seniorDate || data.date));
 
   const maxRows = Math.max(leftItems.length, rightItems.length);
   const rows: string[] = [];
@@ -847,7 +891,7 @@ function buildMOASSICBlock(data: Partial<DocumentData>): string {
 
   return `\\noindent
 \\begin{tabular}{@{}p{3in}@{\\hfill}p{3in}@{}}
-${rows.join('\n')}
+${trimLastRow(rows)}
 \\end{tabular}
 
 `;
@@ -896,13 +940,13 @@ function buildJointLetterhead(data: Partial<DocumentData>): string {
   const centerContent = lines.join(' \\newline\n');
 
   // Use a centered tabularX layout (same pattern as standard letterhead but without seal)
-  // 1 baseline after letterhead (matches PDF's \vspace*{\baselineskip} in joint_letter.tex)
+  // One line of space after letterhead per SECNAV M-5216.5
   return `\\noindent
 \\begin{tabularx}{\\textwidth}{@{}X@{}c@{}X@{}}
  & ${centerContent} & \\\\
 \\end{tabularx}
 
-\\vspace{1\\baselineskip}
+\\vspace{12pt}
 `;
 }
 
@@ -934,7 +978,7 @@ function buildJointSSICBlock(data: Partial<DocumentData>): string {
 
   return `\\noindent
 \\begin{tabular}{@{}p{3in}@{\\hfill}p{3in}@{}}
-${rows.join('\n')}
+${trimLastRow(rows)}
 \\end{tabular}
 
 `;
@@ -949,16 +993,19 @@ function buildJointAddressBlock(data: Partial<DocumentData>): string {
   if (data.jointJuniorFrom) rows.push(` & ${escapeTabularWrapped(data.jointJuniorFrom)} \\\\`);
   if (data.jointTo) rows.push(`To:\\hspace{6\\fontdimen2\\font} & ${escapeTabularWrapped(data.jointTo)} \\\\`);
   if (data.jointSubject) {
-    // Blank spacer row before Subj (matches PDF's \tabularnewline[-6pt] empty row)
-    rows.push(`& \\\\[-6pt]`);
-    rows.push(`Subj:\\hspace{3\\fontdimen2\\font} & ${escapeTabularWrapped(data.jointSubject?.toUpperCase())} \\\\`);
+    // 12pt space before Subj (matches PDF's \tabularnewline[12pt] in templates)
+    // Use explicit empty spacer row because pandoc ignores \\[12pt] row spacing
+    if (rows.length > 0) {
+      rows.push(`& \\\\`);
+    }
+    rows.push(`Subj:\\hspace{3\\fontdimen2\\font} & \\uline{${escapeTabularWrapped(data.jointSubject?.toUpperCase())}} \\\\`);
   }
 
   if (rows.length === 0) return '';
 
   return `\\noindent
 \\begin{tabular}{@{}l@{}p{5.75in}@{}}
-${rows.join('\n')}
+${trimLastRow(rows)}
 \\end{tabular}
 
 `;
@@ -971,7 +1018,7 @@ function buildRecipientAddress(data: Partial<DocumentData>): string {
   // Recipient address as a single block with line breaks (not separate paragraphs)
   // Matches PDF template which uses \\ within \BusinessRecipientAddress
   const escaped = lines.map(l => escapeFlat(l.trim()));
-  return `\\vspace{24pt}\n${escaped.join(' \\\\\n')}\n\n`;
+  return `${escaped.join(' \\\\\n')}\n\n`;
 }
 
 function buildSalutation(data: Partial<DocumentData>): string {
@@ -1006,6 +1053,7 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
   content += buildEnclosures(store.enclosures);
   content += buildBody(store.paragraphs, config);
   content += buildSignature(data, config);
+  content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
 
   return content;
@@ -1032,14 +1080,14 @@ function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): strin
   if (config.ssic && data.serial) idRows.push(escapeTabular(data.serial));
   if (data.date) idRows.push(escapeTabular(data.date));
   if (idRows.length > 0) {
-    const rows = idRows.map(item => `${item} \\\\`).join('\n');
-    content += `\\noindent\n\\begin{tabular}{@{}l@{}}\n${rows}\n\\end{tabular}\n\n\\vspace{12pt}\n`;
+    const mappedRows = idRows.map(item => `${item} \\\\`);
+    // No trailing \vspace{12pt} — buildRecipientAddress (or pre-salutation space) provides the gap
+    content += `\\noindent\n\\begin{tabular}{@{}l@{}}\n${trimLastRow(mappedRows)}\n\\end{tabular}\n\n`;
   }
 
   content += buildRecipientAddress(data);
 
-  // Salutation with spacing — SECNAV Ch 11, Para 11-6
-  content += `\\vspace{12pt}\n`;
+  // Salutation — SECNAV Ch 11, Para 11-6
   content += buildSalutation(data);
 
   // Optional subject line — SECNAV Ch 11, Para 11-7
@@ -1048,11 +1096,12 @@ function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): strin
     const subjectText = store.docType === 'executive_correspondence'
       ? toTitleCase(data.subject)
       : data.subject.toUpperCase();
-    content += `\\vspace{12pt}\n${config.subjectPrefix}${escapeFlat(subjectText)}\n\n`;
+    content += `${config.subjectPrefix}${escapeFlat(subjectText)}\n\n`;
   }
 
   content += buildBody(store.paragraphs, config);
   content += buildBusinessSignature(data);
+  content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
 
   return content;
@@ -1079,6 +1128,7 @@ function buildMemoLayout(store: DocumentStore, config: DocTypeConfig): string {
   content += buildBody(store.paragraphs, config);
   if (config.hasDecisionBlock) content += buildDecisionBlock();
   content += buildSignature(data, config);
+  content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
 
   return content;
@@ -1095,7 +1145,7 @@ function buildMOALayout(store: DocumentStore, config: DocTypeConfig): string {
   if (data.moaSubject) {
     content += `\\noindent
 \\begin{tabular}{@{}l@{}p{5.75in}@{}}
-Subj:\\hspace{3\\fontdimen2\\font} & ${escapeTabularWrapped(data.moaSubject?.toUpperCase())} \\\\
+Subj:\\hspace{3\\fontdimen2\\font} & \\uline{${escapeTabularWrapped(data.moaSubject?.toUpperCase())}}
 \\end{tabular}
 
 `;
@@ -1105,6 +1155,7 @@ Subj:\\hspace{3\\fontdimen2\\font} & ${escapeTabularWrapped(data.moaSubject?.toU
   content += buildEnclosures(store.enclosures);
   content += buildBody(store.paragraphs, config);
   content += buildDualSignature(data, 'moa');
+  content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
 
   return content;
@@ -1117,13 +1168,14 @@ function buildJointLayout(store: DocumentStore, config: DocTypeConfig): string {
   content += buildJointLetterhead(data);
   content += buildJointSSICBlock(data);
   // "JOINT LETTER" designation per SECNAV M-5216.5 Ch 7 Fig 7-4
-  // 24pt before (matches PDF \par\vspace{24pt}), 12pt after (matches \\[12pt])
-  content += '\\vspace{24pt}\n\\noindent JOINT LETTER\n\n\\vspace{12pt}\n';
+  // 12pt before (matches PDF \par\vspace{12pt}), 12pt after (matches \\[12pt])
+  content += '\\vspace{12pt}\n\\noindent JOINT LETTER\n\n\\vspace{12pt}\n';
   content += buildJointAddressBlock(data);
   content += buildReferences(store.references);
   content += buildEnclosures(store.enclosures);
   content += buildBody(store.paragraphs, config);
   content += buildDualSignature(data, 'joint');
+  content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
 
   return content;
@@ -1138,8 +1190,8 @@ function buildJointMemoLayout(store: DocumentStore, config: DocTypeConfig): stri
   if (config.letterhead) content += buildJointLetterhead(data);
   // Dual SSIC blocks: junior LEFT, senior RIGHT (same as joint letter)
   content += buildJointSSICBlock(data);
-  // 24pt before designation (matches PDF \par\vspace{24pt}), 12pt after (matches \\[12pt])
-  content += '\\vspace{24pt}\n';
+  // 12pt before designation (matches PDF \par\vspace{12pt}), 12pt after (matches \\[12pt])
+  content += '\\vspace{12pt}\n';
   content += buildMemoHeader(config);
   content += '\\vspace{12pt}\n';
 
@@ -1148,16 +1200,19 @@ function buildJointMemoLayout(store: DocumentStore, config: DocTypeConfig): stri
     if (data.jointSeniorFrom) rows.push(`From: & ${escapeTabularWrapped(data.jointSeniorFrom)} \\\\`);
     if (data.jointJuniorFrom) rows.push(` & ${escapeTabularWrapped(data.jointJuniorFrom)} \\\\`);
     if (data.jointTo) rows.push(`To: & ${escapeTabularWrapped(data.jointTo)} \\\\`);
-    // Blank spacer row before Subj (matches PDF's \tabularnewline[-6pt])
+    // 12pt space before Subj (matches PDF's \tabularnewline[12pt] in templates)
+    // Use explicit empty spacer row because pandoc ignores \\[12pt] row spacing
     if (data.jointSubject) {
-      rows.push(`& \\\\[-6pt]`);
-      rows.push(`Subj: & ${escapeTabularWrapped(data.jointSubject?.toUpperCase())} \\\\`);
+      if (rows.length > 0) {
+        rows.push(`& \\\\`);
+      }
+      rows.push(`Subj: & \\uline{${escapeTabularWrapped(data.jointSubject?.toUpperCase())}} \\\\`);
     }
 
     if (rows.length > 0) {
       content += `\\noindent
 \\begin{tabular}{@{}l@{\\hspace{1em}}p{5.5in}@{}}
-${rows.join('\n')}
+${trimLastRow(rows)}
 \\end{tabular}
 
 `;
@@ -1168,6 +1223,7 @@ ${rows.join('\n')}
   content += buildEnclosures(store.enclosures);
   content += buildBody(store.paragraphs, config);
   content += buildDualSignature(data, 'joint_memo');
+  content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
 
   return content;
@@ -1190,7 +1246,7 @@ function buildStandardMemorandumLayout(store: DocumentStore, config: DocTypeConf
     content += `\\noindent\n\\begin{tabularx}{\\textwidth}{@{}Xr@{}}\n & ${escapeTabular(data.date)} \\\\\n\\end{tabularx}\n\n`;
   }
 
-  content += '\\vspace{24pt}\n';
+  content += '\\vspace{12pt}\n';
 
   // MEMORANDUM FOR addressee
   if (data.memorandumFor) {
@@ -1211,12 +1267,12 @@ function buildStandardMemorandumLayout(store: DocumentStore, config: DocTypeConf
 
   // FROM: line (optional for standard memo)
   if (data.from?.trim()) {
-    content += `\\noindent\n\\begin{tabular}{@{}l@{\\hspace{1em}}p{5.5in}@{}}\nFROM: & ${escapeTabularWrapped(data.from)} \\\\\n\\end{tabular}\n\n`;
+    content += `\\noindent\n\\begin{tabular}{@{}l@{\\hspace{1em}}p{5.5in}@{}}\nFROM: & ${escapeTabularWrapped(data.from)}\n\\end{tabular}\n\n`;
   }
 
   // SUBJECT: in Title Case (NOT ALL CAPS per Ch 12 ¶2l)
   if (data.subject) {
-    content += `\\noindent\n\\begin{tabular}{@{}l@{\\hspace{1em}}p{5.5in}@{}}\nSUBJECT: & ${escapeTabularWrapped(toTitleCase(data.subject))} \\\\\n\\end{tabular}\n\n`;
+    content += `\\noindent\n\\begin{tabular}{@{}l@{\\hspace{1em}}p{5.5in}@{}}\nSUBJECT: & \\uline{${escapeTabularWrapped(toTitleCase(data.subject))}}\n\\end{tabular}\n\n`;
   }
 
   // Body paragraphs
@@ -1248,7 +1304,7 @@ function buildActionMemorandumLayout(store: DocumentStore, config: DocTypeConfig
     content += `\\noindent\n\\begin{tabularx}{\\textwidth}{@{}Xr@{}}\n & ${escapeTabular(data.date)} \\\\\n\\end{tabularx}\n\n`;
   }
 
-  content += '\\vspace{24pt}\n';
+  content += '\\vspace{12pt}\n';
 
   // MEMORANDUM FOR addressee
   if (data.memorandumFor) {
@@ -1262,10 +1318,10 @@ function buildActionMemorandumLayout(store: DocumentStore, config: DocTypeConfig
   if (data.from) rows.push(`FROM: & ${escapeTabularWrapped(data.from)} \\\\`);
   if (data.subject) {
     rows.push(`& \\\\[-6pt]`);
-    rows.push(`SUBJECT: & ${escapeTabularWrapped(toTitleCase(data.subject))} \\\\`);
+    rows.push(`SUBJECT: & \\uline{${escapeTabularWrapped(toTitleCase(data.subject))}} \\\\`);
   }
   if (rows.length > 0) {
-    content += `\\noindent\n\\begin{tabular}{@{}l@{\\hspace{1em}}p{5.5in}@{}}\n${rows.join('\n')}\n\\end{tabular}\n\n`;
+    content += `\\noindent\n\\begin{tabular}{@{}l@{\\hspace{1em}}p{5.5in}@{}}\n${trimLastRow(rows)}\n\\end{tabular}\n\n`;
   }
 
   // Body paragraphs
@@ -1307,7 +1363,7 @@ function buildInfoMemorandumLayout(store: DocumentStore, config: DocTypeConfig):
     content += `\\noindent\n\\begin{tabularx}{\\textwidth}{@{}Xr@{}}\n & ${escapeTabular(data.date)} \\\\\n\\end{tabularx}\n\n`;
   }
 
-  content += '\\vspace{24pt}\n';
+  content += '\\vspace{12pt}\n';
 
   // FOR: / FROM: / SUBJECT: in tabular
   const rows: string[] = [];
@@ -1318,10 +1374,10 @@ function buildInfoMemorandumLayout(store: DocumentStore, config: DocTypeConfig):
   }
   if (data.subject) {
     rows.push(`& \\\\[-6pt]`);
-    rows.push(`SUBJECT: & ${escapeTabularWrapped(toTitleCase(data.subject))} \\\\`);
+    rows.push(`SUBJECT: & \\uline{${escapeTabularWrapped(toTitleCase(data.subject))}} \\\\`);
   }
   if (rows.length > 0) {
-    content += `\\noindent\n\\begin{tabular}{@{}l@{\\hspace{1em}}p{5.5in}@{}}\n${rows.join('\n')}\n\\end{tabular}\n\n`;
+    content += `\\noindent\n\\begin{tabular}{@{}l@{\\hspace{1em}}p{5.5in}@{}}\n${trimLastRow(rows)}\n\\end{tabular}\n\n`;
   }
 
   // Body paragraphs

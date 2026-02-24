@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect, type ChangeEvent } from 'react';
-import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X } from 'lucide-react';
+import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -47,7 +47,7 @@ export function Header({
   isCompiling,
   isFormsMode = false,
 }: HeaderProps) {
-  const { theme, toggleTheme, density, setDensity, autoSaveStatus, setAboutModalOpen, setNistModalOpen, setBatchModalOpen, setDocumentGuideOpen, setFindReplaceOpen, setShareModal, isMobile, previewVisible, togglePreview } = useUIStore();
+  const { theme, toggleTheme, density, setDensity, autoSaveStatus, setAboutModalOpen, setNistModalOpen, setBatchModalOpen, setDocumentGuideOpen, setFindReplaceOpen, setShareModal, isMobile, previewVisible, togglePreview, fullQualityPreview, setFullQualityPreview } = useUIStore();
   const documentStore = useDocumentStore();
   const { resetForm, applySnapshot, clearFieldsExceptLetterhead } = useDocumentStore();
   const { undo, redo, canUndo, canRedo } = useHistoryStore();
@@ -644,6 +644,19 @@ export function Header({
                 </div>
                 {density === 'spacious' && <Check className="h-4 w-4" />}
               </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              {/* Preview quality */}
+              <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Preview</div>
+              <DropdownMenuItem onClick={() => setFullQualityPreview(!fullQualityPreview)} className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <Zap className="h-4 w-4 mr-2" />
+                  Full Quality
+                </div>
+                {fullQualityPreview && <Check className="h-4 w-4" />}
+              </DropdownMenuItem>
+              <p className="px-2 pb-1.5 text-[10px] text-muted-foreground leading-tight">
+                Includes enclosures, hyperlinks, and signatures in live preview. May slow compilation.
+              </p>
             </DropdownMenuContent>
           </DropdownMenu>
 

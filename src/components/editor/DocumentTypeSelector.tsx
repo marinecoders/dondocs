@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
-import { Shield, Settings2, Eraser, FileText, AlertTriangle, FileStack, ClipboardList, File, LayoutTemplate, FolderOpen } from 'lucide-react';
+import { useState } from 'react';
+import { Shield, Settings2, Eraser, FileStack, ClipboardList, FolderOpen } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import {
@@ -30,183 +30,23 @@ import {
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
-import { DOC_TYPE_LABELS, DOC_TYPE_CONFIG, DOC_TYPE_CATEGORIES, FORM_TYPE_LABELS, FORM_TYPE_CATEGORIES, type DocumentData, type DocumentCategory, type FormType } from '@/types/document';
+import { DOC_TYPE_CONFIG, DOC_TYPE_LABELS, DOC_TYPE_CATEGORIES, FORM_TYPE_LABELS, FORM_TYPE_CATEGORIES, type DocumentCategory, type FormType } from '@/types/document';
 import { Badge } from '@/components/ui/badge';
-import { getExampleByDocType } from '@/data/exampleDocuments';
 
 export function DocumentTypeSelector() {
   const {
-    docType, setDocType,
     formType, setFormType,
     documentCategory, setDocumentCategory,
+    docType, setDocType,
     formData, setField,
     documentMode, setDocumentMode,
-    clearFieldsExceptLetterhead, loadTemplate,
-    paragraphs, references, enclosures
+    clearFieldsExceptLetterhead,
   } = useDocumentStore();
   const { setTemplateLoaderOpen } = useUIStore();
   const [showClearDialog, setShowClearDialog] = useState(false);
-  const [showSwitchDialog, setShowSwitchDialog] = useState(false);
-  const [pendingDocType, setPendingDocType] = useState<string | null>(null);
-  const config = DOC_TYPE_CONFIG[docType];
+  const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
   const isCompliant = documentMode === 'compliant';
   const isCorrespondence = documentCategory === 'correspondence';
-
-  /**
-   * Check if the user has meaningful content that would be lost.
-   * Returns false for:
-   * - Empty/placeholder content
-   * - Auto-loaded example data that matches the current doc type
-   * - Profile/letterhead fields (these are preserved on switch anyway)
-   */
-  const hasUserContent = useCallback(() => {
-    // Helper: Check if a string is just a placeholder
-    const isPlaceholder = (str: string | undefined | null): boolean => {
-      if (!str || !str.trim()) return true;
-      const trimmed = str.trim();
-      // Common placeholders
-      return trimmed.startsWith('[') && trimmed.endsWith(']') ||
-             trimmed === '[SUBJECT]' ||
-             trimmed === '[RECIPIENT]' ||
-             trimmed.includes('[Your content here');
-    };
-
-    // Get the auto-loaded example for the current doc type
-    const currentExample = getExampleByDocType(docType);
-
-    // Helper: Check if content matches the example exactly
-    const matchesExample = (field: string, value: string | undefined | null): boolean => {
-      if (!currentExample || !value) return false;
-      const exampleValue = currentExample.formData[field];
-      return exampleValue === value;
-    };
-
-    // Check paragraphs: ignore if empty, placeholder, or matches example exactly
-    const hasCustomParagraphs = paragraphs.some((p, index) => {
-      if (!p.text || !p.text.trim()) return false;
-      if (isPlaceholder(p.text)) return false;
-      // Check if it matches example paragraph at same index
-      if (currentExample?.paragraphs[index]?.text === p.text) return false;
-      return true;
-    });
-
-    // Check if ALL paragraphs match example (user loaded example, didn't modify)
-    const paragraphsMatchExample = currentExample &&
-      paragraphs.length === currentExample.paragraphs.length &&
-      paragraphs.every((p, i) => p.text === currentExample.paragraphs[i]?.text);
-
-    // Check references: ignore if empty or matches example
-    const hasCustomReferences = references.some((r, index) => {
-      if (!r.title || !r.title.trim()) return false;
-      if (currentExample?.references[index]?.title === r.title) return false;
-      return true;
-    });
-
-    const refsMatchExample = currentExample &&
-      references.length === currentExample.references.length &&
-      references.every((r, i) => r.title === currentExample.references[i]?.title);
-
-    // Check enclosures (examples typically don't have enclosures, so any = user added)
-    const hasEnclosures = enclosures.length > 0 && enclosures.some(e => e.title && e.title.trim().length > 0);
-
-    // Check subject: ignore if empty, placeholder, or matches example
-    const hasCustomSubject = formData.subject &&
-      formData.subject.trim().length > 0 &&
-      !isPlaceholder(formData.subject) &&
-      !matchesExample('subject', formData.subject);
-
-    // Check body field (used by some memo types)
-    const hasCustomBody = formData.body &&
-      formData.body.trim().length > 0 &&
-      !isPlaceholder(formData.body);
-
-    // If everything matches the example exactly, no user content
-    if (paragraphsMatchExample && refsMatchExample && !hasEnclosures &&
-        matchesExample('subject', formData.subject)) {
-      return false;
-    }
-
-    return hasCustomParagraphs || hasCustomReferences || hasEnclosures || hasCustomSubject || hasCustomBody;
-  }, [paragraphs, references, enclosures, formData, docType]);
-
-  /**
-   * Load example data for a specific document type
-   */
-  const loadExampleForDocType = useCallback((targetDocType: string) => {
-    const example = getExampleByDocType(targetDocType);
-    if (!example) {
-      // No example available, just switch type
-      setDocType(targetDocType);
-      return;
-    }
-
-    // IMPORTANT: Set doc type FIRST (this resets formData to defaults)
-    // Then set the example fields AFTER
-    setDocType(targetDocType);
-
-    // Load the example data after type is set
-    Object.entries(example.formData).forEach(([key, value]) => {
-      setField(key as keyof DocumentData, value);
-    });
-
-    loadTemplate({
-      references: example.references,
-      enclosures: [],
-      paragraphs: example.paragraphs,
-      copyTos: example.copyTos,
-    });
-  }, [setDocType, setField, loadTemplate]);
-
-  /**
-   * Handle document type change with smart detection
-   */
-  const handleDocTypeChange = useCallback((newDocType: string) => {
-    if (newDocType === docType) return;
-
-    if (hasUserContent()) {
-      // User has content - show dialog
-      setPendingDocType(newDocType);
-      setShowSwitchDialog(true);
-    } else {
-      // No meaningful content - auto-load example
-      loadExampleForDocType(newDocType);
-    }
-  }, [docType, hasUserContent, loadExampleForDocType]);
-
-  /**
-   * Switch type and keep user's current content
-   */
-  const handleKeepContent = useCallback(() => {
-    if (pendingDocType) {
-      setDocType(pendingDocType);
-    }
-    setShowSwitchDialog(false);
-    setPendingDocType(null);
-  }, [pendingDocType, setDocType]);
-
-  /**
-   * Switch type with blank document (just reset to defaults)
-   */
-  const handleBlankDocument = useCallback(() => {
-    if (pendingDocType) {
-      setDocType(pendingDocType); // This resets formData to defaults
-    }
-    setShowSwitchDialog(false);
-    setPendingDocType(null);
-  }, [pendingDocType, setDocType]);
-
-  /**
-   * Open template picker after switching type
-   */
-  const handleOpenTemplates = useCallback(() => {
-    if (pendingDocType) {
-      setDocType(pendingDocType);
-    }
-    setShowSwitchDialog(false);
-    setPendingDocType(null);
-    // Open the template loader modal
-    setTemplateLoaderOpen(true);
-  }, [pendingDocType, setDocType, setTemplateLoaderOpen]);
 
   return (
     <div className="space-y-density-4">
@@ -262,12 +102,34 @@ export function DocumentTypeSelector() {
         </div>
       )}
 
-      {/* Correspondence Document Type Selector */}
+      {/* Correspondence Settings */}
       {isCorrespondence && (
       <div className="space-y-density-4 border border-border rounded-lg bg-card/60 backdrop-blur-sm px-3 py-3 shadow-sm">
+        {/* Document Type Selector */}
+        <div className="space-y-2">
+          <Label>Document Type</Label>
+          <Select value={docType} onValueChange={(v) => setDocType(v)}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select document type" />
+            </SelectTrigger>
+            <SelectContent>
+              {DOC_TYPE_CATEGORIES.map((cat) => (
+                <SelectGroup key={cat.category}>
+                  <SelectLabel>{cat.category}</SelectLabel>
+                  {cat.types.map((type) => (
+                    <SelectItem key={type} value={type}>
+                      {DOC_TYPE_LABELS[type]}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <Label>Document Type</Label>
+            <Label>{DOC_TYPE_LABELS[docType] || 'Document'}</Label>
             <div className="flex items-center gap-1">
               <TooltipProvider>
                 <Tooltip>
@@ -307,51 +169,32 @@ export function DocumentTypeSelector() {
               </TooltipProvider>
             </div>
           </div>
-          <Select value={docType} onValueChange={handleDocTypeChange}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select document type" />
-            </SelectTrigger>
-            <SelectContent>
-              {DOC_TYPE_CATEGORIES.map((cat) => (
-                <SelectGroup key={cat.category}>
-                  <SelectLabel>{cat.category}</SelectLabel>
-                  {cat.types.map((type) => (
-                    <SelectItem key={type} value={type}>
-                      {DOC_TYPE_LABELS[type]}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              ))}
-            </SelectContent>
-          </Select>
         </div>
 
-        {/* Regulation hints - always show in compliant mode, show as "recommended" in custom */}
-        {config && (
-          <div className={`border rounded-md p-3 text-xs ${isCompliant ? 'bg-primary/5 border-primary/20' : 'bg-secondary/30 border-border'}`}>
-            <div className="flex items-center gap-2 mb-2">
-              <Badge variant={isCompliant ? 'default' : 'outline'} className="text-xs">
-                SECNAV M-5216.5 {config.regulations.ref}
-              </Badge>
-            </div>
-            {!isCompliant && (
-              <div className="text-muted-foreground space-y-0.5">
-                <div>
-                  <span className="font-medium">Required:</span>{' '}
-                  {config.regulations.fontSizeOptions
-                    ? `${config.regulations.fontSizeOptions[0]}–${config.regulations.fontSizeOptions[config.regulations.fontSizeOptions.length - 1]} font size`
-                    : `${config.regulations.fontSize} font size`}
-                </div>
-                <div>
-                  <span className="font-medium">{config.regulations.fontFamilyRequired ? 'Required' : 'Recommended'}:</span>{' '}
-                  Times New Roman
-                </div>
-              </div>
-            )}
+        {/* Regulation hints */}
+        <div className={`border rounded-md p-3 text-xs ${isCompliant ? 'bg-primary/5 border-primary/20' : 'bg-secondary/30 border-border'}`}>
+          <div className="flex items-center gap-2 mb-2">
+            <Badge variant={isCompliant ? 'default' : 'outline'} className="text-xs">
+              SECNAV M-5216.5 {config.regulations.ref}
+            </Badge>
           </div>
-        )}
+          {!isCompliant && (
+            <div className="text-muted-foreground space-y-0.5">
+              <div>
+                <span className="font-medium">Required:</span>{' '}
+                {config.regulations.fontSizeOptions
+                  ? `${config.regulations.fontSizeOptions[0]}–${config.regulations.fontSizeOptions[config.regulations.fontSizeOptions.length - 1]} font size`
+                  : `${config.regulations.fontSize} font size`}
+              </div>
+              <div>
+                <span className="font-medium">Recommended:</span>{' '}
+                Times New Roman
+              </div>
+            </div>
+          )}
+        </div>
 
-        {/* Font settings - available in both compliant and custom mode */}
+        {/* Font settings */}
         <div className="grid grid-cols-2 gap-density-4">
           <div className="space-y-2">
             <Label>Font Size</Label>
@@ -364,7 +207,7 @@ export function DocumentTypeSelector() {
               </SelectTrigger>
               <SelectContent>
                 {(() => {
-                  const sizes = isCompliant && config
+                  const sizes = isCompliant
                     ? (config.regulations.fontSizeOptions || [config.regulations.fontSize])
                     : ['10pt', '11pt', '12pt'];
                   return sizes.map(size => (
@@ -380,26 +223,19 @@ export function DocumentTypeSelector() {
             <Select
               value={formData.fontFamily || 'times'}
               onValueChange={(v) => setField('fontFamily', v)}
-              disabled={isCompliant && !!config?.regulations.fontFamilyRequired}
             >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {isCompliant && config?.regulations.fontFamilyRequired ? (
-                  <SelectItem value="times">Times New Roman</SelectItem>
-                ) : (
-                  <>
-                    <SelectItem value="times">Times New Roman</SelectItem>
-                    <SelectItem value="courier">Courier New</SelectItem>
-                  </>
-                )}
+                <SelectItem value="times">Times New Roman</SelectItem>
+                <SelectItem value="courier">Courier New</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
-        {/* Courier New informational note for general correspondence */}
-        {isCompliant && config && !config.regulations.fontFamilyRequired && formData.fontFamily === 'courier' && (
+        {/* Courier New informational note */}
+        {isCompliant && formData.fontFamily === 'courier' && (
           <p className="text-xs text-amber-600 dark:text-amber-400 -mt-1">
             Courier New is permitted for informal correspondence only (Ch 2 ¶20).
           </p>
@@ -460,47 +296,6 @@ export function DocumentTypeSelector() {
               className="bg-orange-600 text-white hover:bg-orange-700"
             >
               Clear Fields
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
-      {/* Switch document type dialog - shown when user has content */}
-      <AlertDialog open={showSwitchDialog} onOpenChange={(open) => {
-        if (!open) {
-          setShowSwitchDialog(false);
-          setPendingDocType(null);
-        }
-      }}>
-        <AlertDialogContent className="max-w-lg">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-amber-500" />
-              Switch to {pendingDocType ? DOC_TYPE_LABELS[pendingDocType] : ''}?
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              You have content in your current document. What would you like to do?
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter className="flex-col gap-2 sm:flex-row sm:flex-wrap sm:justify-end">
-            <AlertDialogCancel className="sm:mr-auto">Cancel</AlertDialogCancel>
-            <Button
-              variant="outline"
-              onClick={handleBlankDocument}
-            >
-              <File className="h-4 w-4 mr-2" />
-              Blank
-            </Button>
-            <Button
-              variant="outline"
-              onClick={handleOpenTemplates}
-            >
-              <LayoutTemplate className="h-4 w-4 mr-2" />
-              Template
-            </Button>
-            <AlertDialogAction onClick={handleKeepContent}>
-              <FileText className="h-4 w-4 mr-2" />
-              Keep Content
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -44,25 +44,25 @@
 %                    DUAL ID SYMBOLS AND TITLE BLOCK
 %=============================================================================
 % Both commands' ID symbols side by side
-% Senior command on LEFT, Junior command on RIGHT
+% Junior command on LEFT (signs first), Senior command on RIGHT (signs last)
 % Title block centered below
 
 \newcommand{\printDateAndTitle}{%
     % Dual ID symbols - side by side
     \noindent
     \begin{tabular}[t]{@{}p{3in}@{\hfill}p{3in}@{}}
-        % Senior command (LEFT)
-        \begin{tabular}[t]{@{}l@{}}
-            \optionalLine{\DocumentSSIC}%
-            \optionalLine{\DocumentSerial}%
-            \optionalField{\DocumentDate}%
-        \end{tabular}
-        &
-        % Junior command (RIGHT)
+        % Junior command (LEFT) - signs FIRST
         \begin{tabular}[t]{@{}l@{}}
             \optionalLine{\JuniorSSIC}%
             \optionalLine{\JuniorSerial}%
             \optionalField{\JuniorDate}%
+        \end{tabular}
+        &
+        % Senior command (RIGHT) - signs LAST
+        \begin{tabular}[t]{@{}l@{}}
+            \optionalLine{\DocumentSSIC}%
+            \optionalLine{\DocumentSerial}%
+            \optionalField{\DocumentDate}%
         \end{tabular}
     \end{tabular}
     \par\vspace{12pt}%
@@ -75,7 +75,7 @@
         AND\\
         \ifNotEmptyElse{\JuniorCommandName}{\MakeUppercase{\JuniorCommandName}}{[JUNIOR COMMAND]}
     \end{center}
-    \par\vspace{6pt}%
+    \par\vspace{12pt}%
 }
 
 
@@ -86,7 +86,7 @@
 \newcommand{\printAddressBlock}{%
     \noindent
     \begin{tabular}[t]{@{}l@{}p{5.75in}@{}}
-        Subj:\hspace{3\fontdimen2\font} & \SubjectLine\tabularnewline
+        Subj:\hspace{3\fontdimen2\font} & \SubjectLine%
     \end{tabular}%
     %
     % CUI block
@@ -166,6 +166,7 @@
 \fancypagestyle{documentpage}{%
     \fancyhf{}%
     \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyhead[L]{\ifdefempty{\ContinuationSubject}{}{\applyDocumentFontSize Subj:~~\ContinuationSubject}}%
     \fancyfoot[C]{\thepage}%
     \renewcommand{\headrulewidth}{0pt}%
     \renewcommand{\footrulewidth}{0pt}%
