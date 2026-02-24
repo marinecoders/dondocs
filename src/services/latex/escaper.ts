@@ -15,17 +15,27 @@ export function escapeLatex(str: string | undefined | null): string {
   });
 
   // Escape LaTeX special chars
+  // ORDER MATTERS: Replacements that introduce { } (like {\char36}, \textbackslash{})
+  // must come AFTER the { and } escaping, or their braces get re-escaped.
+  // Phase 1: Escape \ first (must be first to avoid double-escaping)
+  // Phase 2: Escape simple chars that don't introduce braces
+  // Phase 3: Escape { and } from the original text
+  // Phase 4: Replacements that introduce new { } (safe now — won't be re-escaped)
   let result = protectedStr
-    .replace(/\\/g, '\\textbackslash{}')
+    .replace(/\\/g, 'ZZZTEXTBACKSLASHZZZ')
     .replace(/&/g, '\\&')
     .replace(/%/g, '\\%')
-    .replace(/\$/g, '\\$')
     .replace(/#/g, '\\#')
     .replace(/_/g, '\\_')
+    .replace(/\$/g, 'ZZZDOLLARZZZ')
+    .replace(/~/g, 'ZZZTILDEZZZ')
+    .replace(/\^/g, 'ZZZCARETZZZ')
     .replace(/\{/g, '\\{')
     .replace(/\}/g, '\\}')
-    .replace(/~/g, '\\textasciitilde{}')
-    .replace(/\^/g, '\\textasciicircum{}');
+    .replace(/ZZZTEXTBACKSLASHZZZ/g, '\\textbackslash{}')
+    .replace(/ZZZDOLLARZZZ/g, '{\\char36}')
+    .replace(/ZZZTILDEZZZ/g, '\\textasciitilde{}')
+    .replace(/ZZZCARETZZZ/g, '\\textasciicircum{}');
 
   // Restore placeholders with highlighted LaTeX rendering
   // Escape underscores in the placeholder name for LaTeX text mode
@@ -122,7 +132,7 @@ export function escapeLatexUrl(url: string | undefined | null): string {
  * Convert rich text markers to LaTeX commands
  * **bold** -> \textbf{bold}
  * *italic* -> \textit{italic}
- * __underline__ -> \underline{underline}
+ * __underline__ -> \uline{underline}
  * Enclosure (1) -> \enclref{1} (clickable link when hyperlinks enabled)
  * enclosure (1) -> \enclref{1}
  * Encl (1) -> \enclref{1}
@@ -137,7 +147,7 @@ export function convertRichTextToLatex(text: string): string {
   result = result.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '\\textit{$1}');
 
   // Underline: __text__
-  result = result.replace(/__(.+?)__/g, '\\underline{$1}');
+  result = result.replace(/__(.+?)__/g, '\\uline{$1}');
 
   // Enclosure references: "Enclosure (1)", "enclosure (1)", "Encl (1)", "encl (1)"
   // These get converted to \enclref{1} which creates clickable hyperlinks when enabled
@@ -180,20 +190,41 @@ export function processBodyText(text: string): string {
     return key;
   });
 
+  // Convert any legacy LaTeX formatting commands to markdown markers
+  // (backward compatibility for previously saved content from old editor)
+  let converted = protectedText;
+  let prev = '';
+  while (prev !== converted) {
+    prev = converted;
+    converted = converted
+      .replace(/\\textbf\{([^{}]*)\}/g, '**$1**')
+      .replace(/\\textit\{([^{}]*)\}/g, '*$1*')
+      .replace(/\\underline\{([^{}]*)\}/g, '__$1__');
+  }
+
   // Now escape LaTeX special chars (but not our markers)
-  let result = protectedText
-    .replace(/\\/g, '\\textbackslash{}')
+  // ORDER MATTERS: Use placeholders for replacements that introduce { }
+  // so they don't get re-escaped by the { } escaping step.
+  let result = converted
+    .replace(/\\/g, 'ZZZTEXTBACKSLASHZZZ')
     .replace(/&/g, '\\&')
     .replace(/%/g, '\\%')
-    .replace(/\$/g, '\\$')
     .replace(/#/g, '\\#')
+    .replace(/\$/g, 'ZZZDOLLARZZZ')
+    .replace(/~/g, 'ZZZTILDEZZZ')
+    .replace(/\^/g, 'ZZZCARETZZZ')
     .replace(/\{/g, '\\{')
     .replace(/\}/g, '\\}')
-    .replace(/~/g, '\\textasciitilde{}')
-    .replace(/\^/g, '\\textasciicircum{}');
+    .replace(/ZZZTEXTBACKSLASHZZZ/g, '\\textbackslash{}')
+    .replace(/ZZZDOLLARZZZ/g, '{\\char36}')
+    .replace(/ZZZTILDEZZZ/g, '\\textasciitilde{}')
+    .replace(/ZZZCARETZZZ/g, '\\textasciicircum{}');
 
   // Note: Don't escape _ or * as they're used for formatting
   // The rich text conversion will handle them
+
+  // Convert newlines to LaTeX line breaks so input line breaks appear in PDF
+  result = result.replace(/\n/g, '\\\\\n');
 
   // Then convert rich text markers
   result = convertRichTextToLatex(result);

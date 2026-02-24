@@ -96,7 +96,7 @@ export function useLatexEngine() {
 
       // Load templates and packages
       await Promise.all([
-        loadScript('/lib/latex-templates.js'),
+        loadScript('/lib/latex-templates.js?v=11'),
         loadScript('/lib/texlive-packages.js'),
       ]);
       debug.timeEnd('ScriptLoad');

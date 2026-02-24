@@ -35,8 +35,8 @@
 %                    MEMORANDUM FOR ADDRESSEE
 %=============================================================================
 
-\newcommand{\MemorandumForAddressee}{}
-\newcommand{\setMemorandumForAddressee}[1]{\renewcommand{\MemorandumForAddressee}{#1}}
+% \MemorandumForAddressee and \setMemorandumForAddressee defined in main.tex
+% (before \input{document}) so document.tex can use them.
 
 
 %=============================================================================
@@ -58,11 +58,14 @@
 
 \newcommand{\printDateAndTitle}{%
     \vspace*{1in}%  % 2" top margin (1" from geometry + 1" here)
-    \hfill \DocumentDate\\[24pt]
+    \hfill \DocumentDate\par
+    \vspace{12pt}%
     \ifDistributionEnabled
-        \noindent MEMORANDUM FOR: SEE DISTRIBUTION\\[12pt]
+        \noindent MEMORANDUM FOR: SEE DISTRIBUTION\par
+        \vspace{12pt}%
     \else
-        \noindent MEMORANDUM FOR \MemorandumForAddressee\\[12pt]
+        \noindent MEMORANDUM FOR \MemorandumForAddressee\par
+        \vspace{12pt}%
     \fi
 }
 
@@ -74,7 +77,7 @@
 \newcommand{\printAddressBlock}{%
     \noindent
     \begin{tabular}[t]{@{}l@{\hspace{1em}}p{5.5in}@{}}
-        SUBJECT: & \SubjectLine\tabularnewline
+        SUBJECT: & \SubjectLine%
     \end{tabular}%
     %
     % CUI block
@@ -109,7 +112,8 @@
             % Optional: Signature image
             \ifNotEmpty{\SignatureImage}{%
             \IfFileExists{attachments/\SignatureImage}{%
-                \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
+                \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\
+                \vspace{6pt}%
             }{}%
             }%
         \fi
@@ -155,6 +159,7 @@
 \fancypagestyle{documentpage}{%
     \fancyhf{}%
     \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyhead[L]{\ifdefempty{\ContinuationSubject}{}{\applyDocumentFontSize SUBJECT:~~\ContinuationSubject}}%
     \fancyfoot[C]{\thepage}%
     \renewcommand{\headrulewidth}{0pt}%
     \renewcommand{\footrulewidth}{0pt}%

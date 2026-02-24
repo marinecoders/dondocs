@@ -14,7 +14,13 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { useDocumentStore } from '@/stores/documentStore';
-import { Shield, AlertTriangle, Info } from 'lucide-react';
+import { Shield, AlertTriangle, Info, HelpCircle } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import {
   getDomainClassificationRestriction,
   getDomainRestrictionMessage,
@@ -122,6 +128,24 @@ export function ClassificationSection() {
                 ({classLevel === 'custom' ? 'Custom' : currentLevel?.label})
               </span>
             )}
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild onClick={(e) => e.stopPropagation()}>
+                  <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-foreground" />
+                </TooltipTrigger>
+                <TooltipContent side="right" className="max-w-xs">
+                  <p className="font-medium mb-1">Classification Markings</p>
+                  <p className="text-xs">
+                    Set the security classification level for this document. Markings appear in the header and footer of every page per DoD 5200.01.
+                  </p>
+                  <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
+                    <li><strong>CUI:</strong> Adds controlled-by, category, and dissemination fields</li>
+                    <li><strong>Classified:</strong> Adds classified-by, derived-from, reason, and declassify-on fields</li>
+                    <li><strong>Portion marks:</strong> Set per-paragraph markings in the body editor</li>
+                  </ul>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </AccordionTrigger>
         <AccordionContent>

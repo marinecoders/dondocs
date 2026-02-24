@@ -67,6 +67,10 @@ interface UIState {
   mobilePreviewOpen: boolean;
   setMobilePreviewOpen: (open: boolean) => void;
 
+  // Preview quality
+  fullQualityPreview: boolean;
+  setFullQualityPreview: (enabled: boolean) => void;
+
   // Auto-save status
   autoSaveStatus: string;
   setAutoSaveStatus: (status: string) => void;
@@ -130,6 +134,10 @@ export const useUIStore = create<UIState>()(
       mobilePreviewOpen: false,
       setMobilePreviewOpen: (open) => set({ mobilePreviewOpen: open }),
 
+      // Preview quality - off by default for performance
+      fullQualityPreview: false,
+      setFullQualityPreview: (enabled) => set({ fullQualityPreview: enabled }),
+
       // Auto-save
       autoSaveStatus: '',
       setAutoSaveStatus: (status) => set({ autoSaveStatus: status }),
@@ -159,6 +167,7 @@ export const useUIStore = create<UIState>()(
         density: state.density,
         previewVisible: state.previewVisible,
         previewWidth: state.previewWidth,
+        fullQualityPreview: state.fullQualityPreview,
       }),
     }
   )

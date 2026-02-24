@@ -28,6 +28,7 @@
     \begin{tabular}[t]{@{}l@{}}
         \BusinessDate% Use civilian date format (January 5, 2015)
     \end{tabular}
+    \par\vspace{12pt}%
 }
 
 
@@ -37,19 +38,21 @@
 % Similar to business letter format
 
 \newcommand{\printAddressBlock}{%
-    \par\vspace{24pt}% 2 lines below date
-    \noindent
-    % Print recipient address block (pre-formatted with line breaks)
-    \BusinessRecipientAddress%
+    % Print recipient address block only if non-empty
+    % Spacing AFTER each element avoids stacking with 12pt from \printDateAndTitle
+    \ifNotEmpty{\BusinessRecipientAddress}{%
+        \noindent
+        \BusinessRecipientAddress%
+        \par\vspace{12pt}%
+    }%
     %
     % Salutation with colon
-    \par\vspace{12pt}%
     \noindent\BusinessSalutation%
     %
     % Subject line (optional)
     \ifNotEmpty{\SubjectLine}{%
         \par\vspace{12pt}%
-        \noindent SUBJECT: \MakeUppercase{\SubjectLine}%
+        \noindent SUBJECT: \SubjectLine%
     }%
     %
     % CUI block (if enabled)
@@ -89,7 +92,7 @@
     \end{center}
     %
     % Signature block - CENTERED, 4 lines below complimentary close
-    \vspace{36pt}%
+    \vspace{48pt}%
     \begin{center}
         \begin{minipage}{3in}
             \centering
@@ -100,7 +103,8 @@
             % Optional: Signature image
             \ifNotEmpty{\SignatureImage}{%
                 \IfFileExists{attachments/\SignatureImage}{%
-                    \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
+                    \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\
+                    \vspace{6pt}%
                 }{}%
             }%
             % Required: Name in ALL CAPS
@@ -132,6 +136,7 @@
 \fancypagestyle{documentpage}{%
     \fancyhf{}%
     \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyhead[L]{\ifdefempty{\ContinuationSubject}{}{\applyDocumentFontSize SUBJECT:~~\ContinuationSubject}}%
     \fancyfoot[C]{\thepage}% Page number centered
     \renewcommand{\headrulewidth}{0pt}%
     \renewcommand{\footrulewidth}{0pt}%

@@ -1,57 +1,68 @@
 /**
  * Debug Utility for DONDOCS-SECURED
  *
+ * Verbosity Levels:
+ *   0 = Silent  — no debug output (errors still logged)
+ *   1 = Basic   — key milestones, timing summaries, warnings
+ *   2 = Verbose — full detail: XML snippets, intermediate values, step-by-step traces
+ *
  * Easy access methods:
- * - Keyboard: Ctrl+Shift+D to toggle debug mode
- * - Console: DONDOCS.debug.enable() / DONDOCS.debug.disable() / DONDOCS.debug.status()
- * - URL: Add ?debug=true to enable for session
- * - Persistent: localStorage.setItem('DONDOCS_DEBUG', 'true')
+ * - Keyboard: Ctrl+Shift+D to cycle verbosity (0 → 1 → 2 → 0)
+ * - Console: DONDOCS.debug.level(0|1|2)
+ *            DONDOCS.debug.silent() / DONDOCS.debug.basic() / DONDOCS.debug.verbose()
+ *            DONDOCS.debug.status()
+ * - URL: Add ?debug=1 or ?debug=2 to enable for session (?debug=true → level 1)
+ * - Persistent: localStorage.setItem('DONDOCS_DEBUG', '1') or '2'
  *
  * Usage in code:
  *   import { debug } from '@/lib/debug';
- *   debug.log('Component', 'message', data);
- *   debug.warn('Component', 'warning message');
- *   debug.error('Component', 'error message', error);
+ *   debug.log('Component', 'message', data);        // level 1+ (basic)
+ *   debug.verbose('Component', 'detail', data);      // level 2 only
+ *   debug.warn('Component', 'warning message');       // level 1+
+ *   debug.error('Component', 'error message', error); // always shown
  *   debug.time('Operation');
  *   debug.timeEnd('Operation');
  */
 
 type LogLevel = 'log' | 'warn' | 'error' | 'info';
 
+/** Verbosity: 0 = silent, 1 = basic, 2 = verbose */
+type Verbosity = 0 | 1 | 2;
+
 interface DebugConfig {
-  enabled: boolean;
+  verbosity: Verbosity;
   categories: Set<string>;
   showTimestamps: boolean;
   showPerformance: boolean;
 }
 
-// Check various sources for debug flag
-function getInitialDebugState(): boolean {
+// Check various sources for debug verbosity
+function getInitialVerbosity(): Verbosity {
   // 1. Check URL param (highest priority for session)
   if (typeof window !== 'undefined') {
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('debug') === 'true') {
-      return true;
-    }
+    const debugParam = urlParams.get('debug');
+    if (debugParam === '2') return 2;
+    if (debugParam === '1' || debugParam === 'true') return 1;
   }
 
   // 2. Check localStorage (persistent)
   if (typeof localStorage !== 'undefined') {
-    if (localStorage.getItem('DONDOCS_DEBUG') === 'true') {
-      return true;
-    }
+    const stored = localStorage.getItem('DONDOCS_DEBUG');
+    if (stored === '2') return 2;
+    if (stored === '1' || stored === 'true') return 1;
   }
 
-  // 3. Check if in development mode
+  // 3. Check if in development mode — default to basic
   if (import.meta.env.DEV) {
-    return true;
+    return 1;
   }
 
-  return false;
+  return 0;
 }
 
 const config: DebugConfig = {
-  enabled: getInitialDebugState(),
+  verbosity: getInitialVerbosity(),
   categories: new Set<string>(), // Empty = all categories enabled
   showTimestamps: true,
   showPerformance: true,
@@ -91,14 +102,22 @@ function formatMessage(level: LogLevel, category: string, message: string): stri
   return [parts.join(' '), ...stylesParts];
 }
 
+/** Check if category should log at basic level (1+) */
 function shouldLog(category: string): boolean {
-  if (!config.enabled) return false;
+  if (config.verbosity < 1) return false;
   if (config.categories.size === 0) return true; // All categories enabled
   return config.categories.has(category);
 }
 
+/** Check if category should log at verbose level (2) */
+function shouldLogVerbose(category: string): boolean {
+  if (config.verbosity < 2) return false;
+  if (config.categories.size === 0) return true;
+  return config.categories.has(category);
+}
+
 export const debug = {
-  // Core logging methods
+  // --- Core logging methods (level 1+) ---
   log(category: string, message: string, ...data: unknown[]): void {
     if (!shouldLog(category)) return;
     const [formatted, ...logStyles] = formatMessage('log', category, message);
@@ -118,21 +137,44 @@ export const debug = {
   },
 
   error(category: string, message: string, ...data: unknown[]): void {
-    // Always log errors, even if debug is disabled
+    // Always log errors, even at verbosity 0
     const [formatted, ...logStyles] = formatMessage('error', category, message);
     console.error(formatted, ...logStyles, ...data);
   },
 
-  // Performance timing
+  // --- Verbose logging (level 2 only) ---
+  /** Log detailed/verbose info — only shown at verbosity level 2 */
+  verbose(category: string, message: string, ...data: unknown[]): void {
+    if (!shouldLogVerbose(category)) return;
+    const [formatted, ...logStyles] = formatMessage('log', category, `[verbose] ${message}`);
+    console.log(formatted, ...logStyles, ...data);
+  },
+
+  /** Log a verbose group (collapsed) — level 2 only */
+  verboseGroup(category: string, label: string, fn: () => void): void {
+    if (!shouldLogVerbose(category)) return;
+    console.groupCollapsed(`%c[${category}] ${label}`, styles.category);
+    fn();
+    console.groupEnd();
+  },
+
+  /** Log verbose data table — level 2 only */
+  verboseTable(category: string, label: string, data: unknown): void {
+    if (!shouldLogVerbose(category)) return;
+    console.log(`%c[${category}] ${label}:`, styles.category);
+    console.table(data);
+  },
+
+  // --- Performance timing (level 1+) ---
   time(label: string): void {
-    if (!config.enabled || !config.showPerformance) return;
+    if (config.verbosity < 1 || !config.showPerformance) return;
     timers.set(label, performance.now());
   },
 
   timeEnd(label: string): number {
     const start = timers.get(label);
     if (!start) {
-      if (config.enabled) {
+      if (config.verbosity >= 1) {
         console.warn(`Timer '${label}' does not exist`);
       }
       return 0;
@@ -147,7 +189,7 @@ export const debug = {
     }
     metrics.get(label)!.push(duration);
 
-    if (config.enabled && config.showPerformance) {
+    if (config.verbosity >= 1 && config.showPerformance) {
       console.log(
         `%c⏱ ${label}: ${duration.toFixed(2)}ms`,
         styles.performance
@@ -157,57 +199,69 @@ export const debug = {
     return duration;
   },
 
-  // Group logging
+  // --- Group logging (level 1+) ---
   group(category: string, label: string): void {
     if (!shouldLog(category)) return;
     console.group(`%c[${category}] ${label}`, styles.category);
   },
 
   groupEnd(): void {
-    if (!config.enabled) return;
+    if (config.verbosity < 1) return;
     console.groupEnd();
   },
 
-  // Table logging for data
+  // --- Table logging (level 1+) ---
   table(category: string, data: unknown): void {
     if (!shouldLog(category)) return;
     console.log(`%c[${category}] Data:`, styles.category);
     console.table(data);
   },
 
-  // State inspection
+  // --- State inspection (level 2) ---
   inspect(category: string, label: string, obj: unknown): void {
-    if (!shouldLog(category)) return;
+    if (!shouldLogVerbose(category)) return;
     console.log(`%c[${category}] ${label}:`, styles.category);
     console.dir(obj, { depth: 4 });
   },
 
-  // Configuration methods
-  enable(): void {
-    config.enabled = true;
-    localStorage.setItem('DONDOCS_DEBUG', 'true');
-    console.log('%c🔧 DONDOCS Debug Mode ENABLED', 'color: #10b981; font-weight: bold; font-size: 14px;');
-    console.log('Use DONDOCS.debug.help() for available commands');
-  },
-
-  disable(): void {
-    config.enabled = false;
-    localStorage.removeItem('DONDOCS_DEBUG');
-    console.log('%c🔧 DONDOCS Debug Mode DISABLED', 'color: #6b7280; font-weight: bold;');
-  },
-
-  toggle(): void {
-    if (config.enabled) {
-      debug.disable();
-    } else {
-      debug.enable();
+  // --- Verbosity level control ---
+  /** Set verbosity: 0 = silent, 1 = basic, 2 = verbose */
+  level(v: Verbosity): void {
+    config.verbosity = v;
+    const labels = ['Silent (0)', 'Basic (1)', 'Verbose (2)'];
+    const colors = ['#6b7280', '#10b981', '#f59e0b'];
+    localStorage.setItem('DONDOCS_DEBUG', String(v));
+    console.log(
+      `%c🔧 DONDOCS Verbosity: ${labels[v]}`,
+      `color: ${colors[v]}; font-weight: bold; font-size: 14px;`
+    );
+    if (v > 0) {
+      console.log('Use DONDOCS.debug.help() for available commands');
     }
   },
 
+  /** Set to level 0 — silent (only errors) */
+  silent(): void { debug.level(0); },
+  /** Set to level 1 — basic milestones and timing */
+  basic(): void { debug.level(1); },
+  /** Set to level 2 — full verbose detail */
+  verbose2(): void { debug.level(2); },
+
+  // Legacy compat — enable() sets level 1, disable() sets level 0
+  enable(): void { debug.level(1); },
+  disable(): void { debug.level(0); },
+
+  /** Cycle verbosity: 0 → 1 → 2 → 0 */
+  toggle(): void {
+    const next = ((config.verbosity + 1) % 3) as Verbosity;
+    debug.level(next);
+  },
+
   status(): void {
+    const labels = ['Silent (0)', 'Basic (1)', 'Verbose (2)'];
     console.log('%c📊 DONDOCS Debug Status', 'color: #8b5cf6; font-weight: bold; font-size: 14px;');
     console.table({
-      enabled: config.enabled,
+      verbosity: labels[config.verbosity],
       categories: config.categories.size === 0 ? 'All' : [...config.categories].join(', '),
       showTimestamps: config.showTimestamps,
       showPerformance: config.showPerformance,
@@ -215,7 +269,7 @@ export const debug = {
     });
   },
 
-  // Filter by category
+  // --- Filter by category ---
   only(...categories: string[]): void {
     config.categories = new Set(categories);
     console.log(`%c🔍 Filtering to categories: ${categories.join(', ')}`, styles.info);
@@ -226,7 +280,7 @@ export const debug = {
     console.log('%c🔍 Showing all categories', styles.info);
   },
 
-  // Performance metrics
+  // --- Performance metrics ---
   metrics(): void {
     console.log('%c📈 Performance Metrics', 'color: #10b981; font-weight: bold; font-size: 14px;');
     const metricsData: Record<string, { avg: string; min: string; max: string; count: number }> = {};
@@ -257,31 +311,35 @@ export const debug = {
     console.log('%c🗑 Metrics cleared', styles.info);
   },
 
-  // Help
+  // --- Help ---
   help(): void {
     console.log(`
 %c🔧 DONDOCS Debug Commands
 %c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-%cToggle Debug Mode:%c
-  DONDOCS.debug.enable()     - Enable debug logging
-  DONDOCS.debug.disable()    - Disable debug logging
-  DONDOCS.debug.toggle()     - Toggle debug mode
+%cVerbosity Levels:%c
+  DONDOCS.debug.level(0)     - Silent: errors only
+  DONDOCS.debug.level(1)     - Basic: milestones, timing, warnings
+  DONDOCS.debug.level(2)     - Verbose: full detail, XML, intermediates
+  DONDOCS.debug.silent()     - Shortcut for level(0)
+  DONDOCS.debug.basic()      - Shortcut for level(1)
+  DONDOCS.debug.verbose2()   - Shortcut for level(2)
+  DONDOCS.debug.toggle()     - Cycle: 0 → 1 → 2 → 0
   DONDOCS.debug.status()     - Show current status
 
 %cFilter Categories:%c
-  DONDOCS.debug.only('LaTeX', 'Store')  - Only show specific categories
-  DONDOCS.debug.all()                    - Show all categories
+  DONDOCS.debug.only('DOCX', 'LaTeX')  - Only show specific categories
+  DONDOCS.debug.all()                   - Show all categories
 
 %cPerformance:%c
   DONDOCS.debug.metrics()      - Show performance metrics
   DONDOCS.debug.clearMetrics() - Clear recorded metrics
 
 %cKeyboard Shortcut:%c
-  Ctrl+Shift+D - Toggle debug mode
+  Ctrl+Shift+D - Cycle verbosity (0 → 1 → 2 → 0)
 
 %cURL Parameter:%c
-  Add ?debug=true to URL to enable for session
+  ?debug=1  Basic logging     ?debug=2  Verbose logging
 
 %cCategories:%c
   LaTeX, Store, PDF, DOCX, UI, Engine, Compile, Error
@@ -297,9 +355,13 @@ export const debug = {
     );
   },
 
-  // Check if enabled (for conditional logic)
+  // --- State accessors ---
   get isEnabled(): boolean {
-    return config.enabled;
+    return config.verbosity >= 1;
+  },
+
+  get verbosityLevel(): Verbosity {
+    return config.verbosity;
   },
 };
 
@@ -395,10 +457,11 @@ if (typeof window !== 'undefined') {
     }
   });
 
-  // Show startup message if debug is enabled
-  if (config.enabled) {
+  // Show startup message if verbosity > 0
+  if (config.verbosity >= 1) {
+    const levelLabel = config.verbosity === 2 ? 'Verbose (2)' : 'Basic (1)';
     console.log(
-      '%c🔧 DONDOCS Debug Mode Active %c(Ctrl+Shift+D to toggle)',
+      `%c🔧 DONDOCS Debug: ${levelLabel} %c(Ctrl+Shift+D to cycle)`,
       'color: #10b981; font-weight: bold; font-size: 12px;',
       'color: #6b7280; font-size: 10px;'
     );

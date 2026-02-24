@@ -81,6 +81,12 @@ Per Ch 7 ¶13:
 Per Ch 2 ¶21:
 - **Black or blue-black ink** only for signing correspondence *(REQUIRED)*
 
+### Electronic Signatures / Signature Stamps
+Per Ch 2 ¶6:
+- Commanders/COs/OICs or civilian equivalents may authorize use of an electronic signature that replicates their signature where personal signing is impractical or the correspondence is routine
+- Personnel authorized to use another person's signature stamp **shall pen their initials next to each signature they stamp** to authenticate it
+- Safeguard signature stamps from unauthorized use
+
 ### Editing Ink (Suggested)
 Per Ch 2 ¶21:
 | Role | Color |
@@ -141,6 +147,15 @@ Per Ch 7 (various paragraphs):
 | `Encl:` | 3 spaces | Ch 7 ¶11b |
 
 **Second line alignment:** Start under the first word after the heading (not under the colon)
+
+### "To:" Line Rules
+Per Ch 7 ¶7a:
+- Address all correspondence to the **activity head** of an activity
+- Include the **office code** or person's title in parentheses, if known
+- If office code is **only numbers**, add the word "Code" before the numbers (e.g., "Code 10")
+- Do **NOT** add "Code" before an office code that starts with a letter (e.g., "N" or "SUP")
+- **Avoid using the name of an individual** in the "To:" line — frequent turnover can result in misrouted mail
+- You may include the complete mailing address and ZIP+4 code if you want the address for a record
 
 ---
 
@@ -426,7 +441,11 @@ Per Ch 7 ¶13c:
 - **Margins:** 1" all sides *(REQUIRED)* — *Ch 7 ¶1*
 - **Numbered Paragraphs:** YES (8 levels) *(REQUIRED)* — *Ch 7 ¶13, Figure 7-8*
 - **From/To Lines:** YES *(REQUIRED)* — *Ch 7 ¶6, ¶7*
-- **Signature:** Center of page, 4th line below text; abbreviated name only (J. M. SMITH), NO rank, NO complimentary close *(REQUIRED)* — *Ch 7 ¶14a(2)*
+- **Signature:** Center of page, 4th line below text. Preferred format: first initial, middle initial, and last name (e.g., J. M. SMITH). If no middle name, use first initial and last name only. Last name in ALL CAPS (exception: prefixes like McNALLY). Signature lines may be changed based on signer's preference. NO rank, NO complimentary close *(REQUIRED)* — *Ch 7 ¶14a(2)*
+- **"By direction" Signature:** When a subordinate is formally authorized to sign, type "By direction" below the name (not below the title). When the correspondence affects pay and allowances, include (a) name, (b) title, and (c) "By direction of the [activity head]." — *Ch 7 ¶14b(4)-(5)*
+- **"Acting" Signature:** When an officer temporarily succeeds to command, type "Acting" below the name. When formally appointed to replace an official who signs by title, type "Acting" below the typed name — *Ch 7 ¶14b(3), Ch 2 ¶5d*
+- **Signing "For" an Absent Official:** When the regular signer is unavailable and a delay would fail to meet a deadline, a delegated authority may sign and hand-write "for" before the typed name — *Ch 2 ¶5e*
+- **Stamp Signatures:** If using a stamp, mark all copies and avoid smeared or crooked impressions — *Ch 7 ¶14a(2)*
 - **Font:** 10-12pt *(REQUIRED)*, Times New Roman *(RECOMMENDED)* — *Ch 2 ¶20, Ch 7 ¶2*
 
 ### Business Letter
@@ -436,11 +455,18 @@ Per Ch 7 ¶13c:
 - **Numbered Paragraphs:** NO *(REQUIRED)* — *Ch 11 ¶6: "Do not number main paragraphs"*
 - **Paragraph Indent:** "four spaces (or set margin at half inch)" *(REQUIRED)* — *Ch 11 ¶6*
 - **Subparagraph Indent:** "eight spaces and start typing at the ninth space" — *Figure 11-1*
+- **Inside Address:** Place two to eight lines below the date (more space for short letters ≤100 words). City, state, and ZIP+4 code on last line with **only one space** between state and ZIP code — *Ch 11 ¶2, ¶2a(5), Figure 11-6*
 - **Date Format:** Spelled out (January 5, 2015) *(REQUIRED)* — *Ch 11 ¶1c*
+- **Attention Line:** Place 2 lines below last line of inside address and 2 lines above the salutation; type "Attention:" followed by name or title. Salutation must agree with first line of address (use collective salutation like "Ladies and Gentlemen" if addressing an organization) — *Ch 11 ¶3, Figure 11-5*
 - **Salutation:** YES, followed by colon *(REQUIRED)* — *Ch 11 ¶4*
+- **Subject Line:** Optional; may replace the salutation. When used in place of salutation, the first sentence serves as a greeting to the reader — *Ch 11 ¶5, Figure 11-4*
 - **Complimentary Close:** YES ("Sincerely,") at center, 2nd line below text *(REQUIRED)* — *Ch 11 ¶8*
 - **Signature:** Center of page, 4th line below "Sincerely,"; includes name (ALL CAPS), rank (spelled out), title, authority line — *Ch 11 ¶9a*
+- **Authority Line:** May be omitted on a routine business letter that neither makes a commitment nor takes an official stand — *Ch 11 ¶9a(4)*
+- **Short Letter Spacing:** In a letter containing eight lines or less, you may double-space throughout the text — *Ch 11 ¶6, Figure 11-6*
+- **Separate Mailing:** When an enclosure is to be sent separately, type "Separate Mailing:" and a brief description (e.g., `Separate Mailing: SECNAV M-5216.5`) — *Ch 11 ¶11*
 - **References/Enclosures:** "in the body of the letter only, without calling them references or enclosures" *(REQUIRED)* — *Ch 11 ¶7*
+- **Outgoing Copies:** Because the business letter has no "From:" line, every copy sent to addressees outside your activity must be a letterhead copy (printed, typed, stamped, or reproduced from the original) to show its origin — *Ch 11 ¶13*
 - **Font:** 10-12pt *(REQUIRED)*, Times New Roman *(RECOMMENDED)* — *Ch 2 ¶20*
 
 ### Letterhead Memorandum
@@ -461,6 +487,16 @@ Per Ch 7 ¶13c:
 - **May be handwritten** — *Ch 10 ¶1*
 - **Font:** 10-12pt *(REQUIRED)*, Times New Roman *(RECOMMENDED)* — *Ch 2 ¶20*
 
+### From-To Memorandum
+- **Chapter:** Ch 10 ¶2
+- **Forms:** OPNAV 5215/144A (8-1/2 x 11) or OPNAV 5215/144B (8-1/2 x 5-1/2) — *Ch 10 ¶2*
+- **Font:** 10-12pt *(REQUIRED)*, Times New Roman *(RECOMMENDED)* — *Ch 2 ¶20*
+
+### Plain-Paper Memorandum
+- **Chapter:** Ch 10 ¶3
+- **Date Position:** "Type the date on the sixth line so it ends flush with the right margin" — *Ch 10 ¶3b*
+- **Font:** 10-12pt *(REQUIRED)*, Times New Roman *(RECOMMENDED)* — *Ch 2 ¶20*
+
 ### Joint Letter / Joint Memorandum
 - **Chapter:** Ch 7 (Figure 7-4)
 - **Letterhead:** Dual (both commands) *(REQUIRED)* — *Figure 7-4*
@@ -472,6 +508,7 @@ Per Ch 7 ¶13c:
 ### MOA / MOU (Memorandum of Agreement/Understanding)
 - **Chapter:** Ch 10 ¶6
 - **Letterhead:** Both commands or plain bond; "type the command titles so the senior is at the top" *(REQUIRED)* — *Ch 10 ¶6c*
+- **Heading Format:** Center "MEMORANDUM OF AGREEMENT" (or "UNDERSTANDING") on the second line below the date line. Center "BETWEEN" on the next line, followed by the names of the agreeing activities. For MOU, substitute "Understanding" for "Agreement" — *Ch 10 ¶6b*
 - **Numbered Paragraphs:** YES (8 levels) "the same as other correspondence" *(REQUIRED)* — *Ch 10 ¶6b*
 - **Signature:** "Precede all signature lines by over scoring" (line above name) *(REQUIRED)* — *Ch 10 ¶6d*
 - **Signature Order:** "senior official is at the right...senior activity should sign the agreement after the junior activity(ies)" *(REQUIRED)* — *Ch 10 ¶6d*
@@ -493,9 +530,14 @@ Per Ch 7 ¶13c:
 - **Letterhead:** YES *(REQUIRED)* — *Figure 9-2*
 - **Must Include:** SSIC, subject line (repeat from basic letter exactly), basic letter identification — *Ch 9 ¶2, Figure 9-2*
 - **Endorsement Line Format:** "FIRST ENDORSEMENT on [basic letter reference]" — *Ch 9 ¶1b*
+- **Endorsement Numbering:** Use ordinal numbers: FIRST, SECOND, THIRD, etc. Number each endorsement in sequence as it is added to the basic letter — *Ch 9 ¶1b*
+- **Heading Overflow:** When the endorsement heading exceeds one line, start the succeeding line with the word "on" — *Ch 9 ¶1b*
 - **Numbered Paragraphs:** NO (continues basic letter sequence) — *Ch 9 ¶1*
+- **"Via:" Line in Endorsements:** Include any remaining "Via" addressees. If only one remains, do not number it. If more than one remains, number starting with (1) — *Ch 9 ¶2*
 - **Adding References:** Continue sequence from basic letter (if basic had up to (f), start with (g)) — *Ch 9 ¶3*
 - **Adding Enclosures:** Continue sequence from basic letter (if basic had up to (5), start with (6)) — *Ch 9 ¶4*
+- **Copy To in Endorsements:** If endorsement is significant (recommending disapproval, readdressed, substantive comments), include prior endorsers and the originator of the basic letter as copy to addressees. All copy to addressees from the basic letter and previous endorsements also become copy to addressees — *Ch 9 ¶5*
+- **"(complete)" Notation:** When a copy to addressee receives the basic letter and previous endorsements for the first time from you, type "(complete)" in parentheses to the right of their name — *Ch 9 ¶6c*
 - **Font:** 10-12pt *(REQUIRED)*, Times New Roman *(RECOMMENDED)* — *Ch 2 ¶20*
 
 ### Multiple-Address Letter
@@ -521,10 +563,18 @@ Per Ch 7 ¶13c:
 - **Paragraph Indent:** 0.5" from left margin — *Ch 12 ¶2e*
 - **Subparagraph Indent:** Additional 0.5" — *Ch 12 ¶2e*
 - **Subparagraph Style:** "bullets, numbers, or lower-case letters" — *Ch 12 ¶2f*
-- **Spacing:** Single within paragraphs, double between — *Ch 12 ¶2d*
+- **Spacing:** Single within paragraphs, double between paragraphs and bullets. Exception: memorandums with a single paragraph of eight lines or less may be double-spaced throughout — *Ch 12 ¶2d*
+- **Address Line (MEMORANDUM FOR):** Double space below date line. For single addressee, include title and office symbol. If multi-line, indent second line 2 additional spaces so first character aligns below third character of addressee title above. For multiple addressees, type each on a single line in block style below and to the right of "MEMORANDUM FOR:". If >16 addressees, use "MEMORANDUM FOR: SEE DISTRIBUTION" and add DISTRIBUTION list after signature block — *Ch 12 ¶2i*
+- **ATTN: Line:** Type "ATTN:" followed by name or title in parentheses, placed single space below address line, aligned under third character of office address — *Ch 12 ¶2j*
+- **THROUGH: Line:** Type "THROUGH:" double space below address line and double space above subject line. Type the "THROUGH:" office in ALL CAPS. Avoid using THROUGH when addressing to SecDef, DepSecDef, SECNAV, or UNSECNAV — *Ch 12 ¶2k*
+- **Subject Line:** Type "SUBJECT:" double space below last line of address line. Two spaces after colon. Capitalize first word and all principal words (Title Case, NOT ALL CAPS). Multi-line subjects: succeeding lines aligned below first word in subject line — *Ch 12 ¶2l*
+- **References:** Avoid for SecDef/DepSecDef/ExecSec signature. Do not letter a reference when there is only one (use "Reference:" not "Reference: (a)"). Multiple references: use "References:" with (a), (b), (c), etc. Attached references: add "(copy attached)" after title. Classified references: indicate classification of TITLE in parentheses BEFORE the title, and classification of REFERENCE at END — *Ch 12 ¶2m*
+- **Body Text:** Begin two lines below subject line. Use active voice and clear conversational language. Convey the message in complete, succinct paragraphs; restrict to 10-15 lines. Present most important information first — *Ch 12 ¶2o*
 - **Salutation:** NO — *Ch 12 ¶2n*
 - **Complimentary Close:** NO — *Ch 12 ¶2p*
 - **Signature Block:** Omit for SecDef/DepSecDef; full name for SECNAV/UNSECNAV; standard for others — *Ch 12 ¶2q*
+- **Signature Stamping:** The signer's name and title may be stamped below the written signature — *Ch 12 ¶2q(4)*
+- **Dual/Multiple Signatures:** When SecDef/DepSecDef/SECNAV/UNSECNAV and head of another agency co-sign, place signature blocks side by side with 4 blank lines below text. Non-DoD official at left margin; SecDef/DepSecDef/SECNAV/UNSECNAV beginning at center. When officials from 2+ offices sign, originating official's signature block on right side, additional co-signers to left and below — *Ch 12 ¶2q(5)*
 - **Date:** Omit for SecDef/DepSecDef/ExecSec signature (added when signed) — *Ch 12 ¶2h*
 - **Page Numbers:** Either top right (1" from top) or bottom center (1" from bottom) — *Ch 12 ¶2g*
 
@@ -533,6 +583,7 @@ Per Ch 7 ¶13c:
 - **Margins:** 1" all sides *(REQUIRED)* — *Ch 12 ¶3a(4)*
 - **Length:** "Limit to one page, unless issue is complex" — *Ch 12 ¶3a(1)*
 - **Style:** "short, concise and clear bullet statements (use of black dot bullet preferred)" — *Ch 12 ¶3a(2)*
+- **Page Numbering:** Number pages at bottom center starting on page 2 — *Ch 12 ¶3a(7)*
 - **Required Elements:** FOR:, FROM:, SUBJECT:, bullets, RECOMMENDATION:, COORDINATION:, Attachments:, Prepared By: — *Figure 12-9*
 
 ### Information Memorandum
@@ -582,6 +633,141 @@ Per Ch 7 ¶13c:
 
 ---
 
+## Element Positioning by Document Type
+
+This section documents the horizontal position of every major element for each document type, as implemented in the LaTeX templates.
+
+### Standard Naval Letter (`naval_letter.tex`)
+
+| Element | Position | LaTeX Implementation | Source |
+|---------|----------|---------------------|--------|
+| **SSIC / Serial / Date** | Right-aligned (flush right margin) | `\raggedleft` | Ch 7 §3: "longest line should end close to the right margin" |
+| **From / To / Via** | Left margin | `\noindent` tabular | Ch 7 ¶6-8, Figure 7-1 |
+| **Subj / Ref / Encl** | Left margin (text indented per colon spacing) | `\noindent` tabular | Ch 7 ¶9-11 |
+| **Body text** | Left margin, left-justified | `\noindent` | Ch 7 ¶12 |
+| **Signature block** | Center of page | `\hspace{3.25in}` + minipage | Ch 7 ¶14a(2) |
+| **Copy to** | Left margin | `\noindent` | Ch 7 ¶15 |
+
+### Standard Letter (`standard_letter.tex`)
+
+| Element | Position | LaTeX Implementation | Source |
+|---------|----------|---------------------|--------|
+| **SSIC / Serial / Date** | Right-aligned (flush right margin) | `\raggedleft` | Ch 7 §3 |
+| **From / To / Via / Subj** | Left margin | `\noindent` tabular | Ch 2 ¶1.c.(1) |
+| **Body text** | Left margin | `\noindent` | Ch 7 ¶12 |
+| **Signature block** | Center of page | `\hspace{3.25in}` + minipage | Ch 7 ¶14a |
+| **Copy to** | Left margin | `\noindent` | Ch 7 ¶15 |
+
+### Business Letter (`business_letter.tex`)
+
+| Element | Position | LaTeX Implementation | Source |
+|---------|----------|---------------------|--------|
+| **SSIC / Serial / Date** | Upper LEFT corner, blocked | `\noindent` tabular (left-aligned) | Ch 11 ¶1 |
+| **Inside address** | Left margin | `\noindent` | Ch 11 ¶2 |
+| **Attention line** | Left margin | `\noindent` | Ch 11 ¶3 |
+| **Salutation** | Left margin | `\noindent` | Ch 11 ¶4 |
+| **Subject** | Left margin | `\noindent` | Ch 11 ¶5 |
+| **Body text** | Indented 0.5" (4 spaces) | `\parindent{0.5in}` | Ch 11 ¶6 |
+| **Complimentary close** | Centered | `\begin{center}` | Ch 11 ¶8 |
+| **Signature block** | Centered | `\begin{center}` + minipage | Ch 11 ¶9a |
+| **Enclosures** | Left margin | `\noindent` | Ch 11 ¶10 |
+| **Copy to** | Left margin | `\noindent` | Ch 11 ¶15 |
+
+### Multiple Address Letter (`multiple_address_letter.tex`)
+
+| Element | Position | LaTeX Implementation | Source |
+|---------|----------|---------------------|--------|
+| **SSIC / Serial / Date** | Right-aligned | `\hfill` + tabular | Ch 7 §3 |
+| **From / To / Via / Subj** | Left margin | `\noindent` tabular | Ch 8, Figures 8-1 to 8-3 |
+| **Body text** | Left margin | `\noindent` | Ch 7 ¶12 |
+| **Signature block** | Center of page | `\hspace{3.25in}` + minipage | Ch 7 ¶14a |
+| **Copy to / Distribution** | Left margin | `\noindent` | Ch 8 ¶2 |
+
+### MOA / MOU (`moa.tex`, `mou.tex`)
+
+| Element | Position | LaTeX Implementation | Source |
+|---------|----------|---------------------|--------|
+| **Dual SSIC blocks** | Side by side (senior LEFT, junior RIGHT) | Dual-column tabular | Ch 10 ¶6c |
+| **Title block** | Centered ("MEMORANDUM OF AGREEMENT / BETWEEN / ...") | `\begin{center}` | Ch 10 ¶6b |
+| **Subj** | Left margin | `\noindent` tabular | Ch 10 ¶6 |
+| **Body text** | Left margin | `\noindent` | Ch 10 ¶6b |
+| **Dual signatures** | Side by side (junior LEFT, senior RIGHT), overscored | Dual-column tabular | Ch 10 ¶6d |
+
+### Joint Letter / Joint Memorandum (`joint_letter.tex`, `joint_memorandum.tex`)
+
+| Element | Position | LaTeX Implementation | Source |
+|---------|----------|---------------------|--------|
+| **Dual SSIC blocks** | Side by side (senior LEFT, junior RIGHT) | Dual-column tabular | Figure 7-4 |
+| **From / To / Via / Subj** | Left margin | `\noindent` tabular | Ch 7, Figure 7-4 |
+| **Body text** | Left margin | `\noindent` | Ch 7 ¶12 |
+| **Dual signatures** | Side by side (junior LEFT, senior RIGHT) | Dual-column tabular | Figure 7-4 |
+
+### Executive Memorandums (`standard_memorandum.tex`, `action_memorandum.tex`, `information_memorandum.tex`)
+
+| Element | Position | LaTeX Implementation | Source |
+|---------|----------|---------------------|--------|
+| **Date** | Right-aligned | `\hfill` | Ch 12 ¶2h |
+| **MEMORANDUM FOR** | Left margin | `\noindent` | Ch 12 ¶2i |
+| **FROM / SUBJECT** | Left margin (tabular) | `\noindent` tabular | Ch 12 ¶2l |
+| **Body text** | Indented 0.5" | Per Ch 12 ¶2e | Ch 12 ¶2e |
+| **Signature block** | Center of page | `\hspace{3.25in}` + minipage | Ch 12 ¶2q |
+
+### Executive Correspondence (`executive_correspondence.tex`)
+
+| Element | Position | LaTeX Implementation | Source |
+|---------|----------|---------------------|--------|
+| **Date** | Right-aligned | `\hfill` | Ch 12 ¶2h |
+| **Recipient address** | Left margin | `\noindent` | Ch 12 |
+| **Salutation** | Left margin | `\noindent` | Ch 12 ¶4 |
+| **Body text** | Indented 0.5" | `\parindent{0.5in}` | Ch 12 ¶2e |
+| **Complimentary close** | Center of page | `\hspace{3.25in}` | Ch 12 ¶4 |
+| **Signature block** | Center of page | `\hspace{3.25in}` + minipage | Ch 12 ¶2q |
+
+### Endorsements (`same_page_endorsement.tex`, `new_page_endorsement.tex`)
+
+| Element | Position | LaTeX Implementation | Source |
+|---------|----------|---------------------|--------|
+| **SSIC / Serial / Date** | Right-aligned | `\hfill` + tabular | Ch 9, Ch 7 §3 |
+| **Endorsement heading** | Left margin | `\noindent` | Ch 9 ¶1b |
+| **From / To / Via / Subj** | Left margin | `\noindent` tabular | Ch 9 ¶2 |
+| **Body text** | Left margin | `\noindent` | Ch 9 |
+| **Signature block** | Center of page | `\hspace{3.25in}` + minipage | Ch 7 ¶14a |
+| **Copy to** | Left margin | `\noindent` | Ch 9 ¶5 |
+
+### Memorandum Formats (`letterhead_memorandum.tex`, `plain_paper_memorandum.tex`, `mfr.tex`)
+
+| Element | Position | LaTeX Implementation | Source |
+|---------|----------|---------------------|--------|
+| **SSIC / Date** | Right-aligned | `\hfill` | Ch 10 ¶3-4 |
+| **MEMORANDUM label** | Left margin (for letterhead memo) | `\noindent` | Ch 10 ¶4 |
+| **From / To / Via / Subj** | Left margin | `\noindent` tabular | Ch 10 |
+| **Body text** | Left margin | `\noindent` | Ch 10 |
+| **Signature block** | Center of page | `\hspace{3.25in}` + minipage | Ch 7 ¶14a |
+
+### Decision Memorandum (`decision_memorandum.tex`)
+
+| Element | Position | LaTeX Implementation | Source |
+|---------|----------|---------------------|--------|
+| **Date** | Right-aligned | `\hfill` | Ch 10 ¶5 |
+| **MEMORANDUM FOR** | Left margin | `\noindent` | Ch 10 ¶5 |
+| **SUBJECT** | Left margin | `\noindent` tabular | Ch 10 ¶5 |
+| **Body text** | Left margin | `\noindent` | Ch 10 ¶5 |
+| **Signature block** | Center of page | `\hspace{3.25in}` + minipage | Ch 10 ¶5 |
+| **Decision block** | Left margin, 2 lines below signature | `\noindent` | Ch 10 ¶5 |
+
+### Positioning Summary
+
+| Element | Standard Position | Exceptions |
+|---------|-------------------|------------|
+| **SSIC / Serial / Date** | Right-aligned (`\raggedleft` or `\hfill`) | Business Letter: upper LEFT; MOA/MOU/Joint: dual columns |
+| **From / To / Via / Subj** | Left margin | Executive memos: use MEMORANDUM FOR instead |
+| **Body text** | Left margin, left-justified | Business Letter & Executive: indented 0.5" |
+| **Signature block** | Center of page (`\hspace{3.25in}`) | MOA/MOU/Joint: dual columns; Business Letter: centered (`\begin{center}`) |
+| **Copy to** | Left margin | — |
+| **Page numbers** | First page: none; Page 2+: bottom center | Executive: may use top right |
+
+---
+
 ## Reference Line Formats
 
 Per Ch 7 ¶10d:
@@ -596,7 +782,11 @@ Per Ch 7 ¶10d:
 | Notice | SNDL + NOTE + SSIC + Ser + date + (Canc: date) | `OPNAVNOTE 5216 Ser 09B/xxx of 21 May 08 (Canc: May 09)` |
 | U.S. Code | Title + U.S.C. + § + section | `28 U.S.C. §1498` |
 | DoD Directive/Instruction | Short title + number + date (month spelled out) | `DoD Directive 2000.1 of 6 May 2006` |
+| Telephone conversation | PHONCON + activity SNDL short title + office code + individual name + date | `PHONCON NAVPGSCOL, Code 13, CDR Smith, 3/15/08` |
+| Meeting | Mtg + activity SNDL short title + office code + individual name + date | `Mtg NAVPGSCOL, Code 13, CDR Smith, 3/15/08` |
 | Undated correspondence | Add `(undated)` | `CNO memo 5216 Ser 09B33/6U317731 (undated)` |
+
+**Reference Overflow:** If more than 26 references, continue with (aa), (ab), (ac), etc. — *Ch 7 ¶10c*
 
 **NOTAL Reference:** If addressee doesn't have reference, add `(NOTAL)` after it — *Ch 7 ¶10b*
 
@@ -690,6 +880,7 @@ Per Ch 2 ¶7:
 | Congressional correspondence | 5 working days | Ch 2 ¶7a(2) |
 | HqDON general | 10 working days | Ch 12 ¶4a |
 | HqDON Congressional | 5 working days | Ch 12 ¶4b |
+| FOIA/Privacy Act requests | 20 working days | Ch 2 ¶8c |
 
 If deadline cannot be met, send **interim response** — *Ch 2 ¶7, Ch 12 ¶6*
 

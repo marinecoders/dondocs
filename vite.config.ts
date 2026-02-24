@@ -157,11 +157,11 @@ export default defineConfig({
     texliveMiddleware(),
     VitePWA({
       registerType: 'prompt',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'lib/**/*'],
+      includeAssets: ['icon.svg', 'lib/**/*'],
       manifest: {
-        name: 'Naval Correspondence Generator',
-        short_name: 'NavCorr',
-        description: 'Generate SECNAV M-5216.5 compliant Naval correspondence with batch processing',
+        name: 'DonDocs - Naval Correspondence & Form Generator',
+        short_name: 'DonDocs',
+        description: 'Free SECNAV M-5216.5 correspondence & form generator for Navy/USMC. 20 document types — naval letters, memoranda, endorsements, NAVMC forms. PDF/DOCX export, 100% browser-based, works offline.',
         theme_color: '#1a365d',
         background_color: '#ffffff',
         display: 'standalone',
@@ -192,7 +192,7 @@ export default defineConfig({
         // Precache critical TeX files to ensure they're always available
         // Use timestamp-based revision to ensure fresh fetch after deployment
         additionalManifestEntries: [
-          { url: '/tex/null', revision: '2026-01-12' },
+          { url: '/tex/null', revision: '2026-02-23' },
         ],
         // Cache TeX Live files for offline use
         runtimeCaching: [
@@ -201,7 +201,7 @@ export default defineConfig({
             urlPattern: /\/tex\/.*/,
             handler: 'CacheFirst',
             options: {
-              cacheName: 'tex-internal-cache-v2', // v2: invalidate stale HTML responses
+              cacheName: 'tex-internal-cache-v3', // v3: distribution/copyto/spacing changes
               expiration: {
                 maxEntries: 100,
                 maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
@@ -260,6 +260,18 @@ export default defineConfig({
                   },
                 },
               ],
+            },
+          },
+          {
+            // Cache pandoc WASM files for offline DOCX generation
+            urlPattern: /\/lib\/pandoc\/.*/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'pandoc-wasm-cache-v1',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 90, // 90 days
+              },
             },
           },
         ],

@@ -16,7 +16,7 @@ import { TextReveal } from '@/components/effects/TextReveal';
 import { MouseGlowCard } from '@/components/effects/MouseGlowCard';
 
 const WELCOME_STORAGE_KEY = 'dondocs-welcome-shown';
-const WELCOME_VERSION = '2.0'; // Increment to show welcome again after major updates
+const WELCOME_VERSION = '2.1'; // Increment to show welcome again after major updates
 
 interface Feature {
   icon: React.ReactNode;
@@ -28,7 +28,7 @@ const FEATURES: Feature[] = [
   {
     icon: <FileText className="h-5 w-5 text-primary" />,
     title: 'Correspondence & Forms',
-    description: 'Naval letters, memos, endorsements, NAVMC forms, and more - all SECNAV M-5216.5 compliant.',
+    description: '20 document types: letters, endorsements, memoranda, agreements, and executive formats. SECNAV M-5216.5 compliant.',
   },
   {
     icon: <Shield className="h-5 w-5 text-primary" />,

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { Reference, Enclosure, Paragraph, CopyTo, DocumentData, DocumentMode } from '@/types/document';
+import type { Reference, Enclosure, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode } from '@/types/document';
 
 // Snapshot of document state (only the data parts, not actions)
 export interface DocumentSnapshot {
@@ -10,6 +10,7 @@ export interface DocumentSnapshot {
   enclosures: Enclosure[];
   paragraphs: Paragraph[];
   copyTos: CopyTo[];
+  distributions: Distribution[];
 }
 
 interface HistoryState {
@@ -43,10 +44,17 @@ function snapshotsEqual(a: DocumentSnapshot | null, b: DocumentSnapshot | null):
   if (a.references.length !== b.references.length) return false;
   if (a.enclosures.length !== b.enclosures.length) return false;
   if (a.copyTos.length !== b.copyTos.length) return false;
+  if ((a.distributions?.length || 0) !== (b.distributions?.length || 0)) return false;
 
-  // Check formData (simplified - just check key string fields)
-  const formKeys: (keyof DocumentData)[] = ['subject', 'from', 'to', 'via', 'serial', 'date', 'ssic'];
-  for (const key of formKeys) {
+  // Check formData — compare all populated keys for full change detection
+  // (covers showSubjectOnContinuation, includeHyperlinks, classification, etc.)
+  const allKeys = new Set([
+    ...Object.keys(a.formData),
+    ...Object.keys(b.formData),
+  ]) as Set<keyof DocumentData>;
+  for (const key of allKeys) {
+    // Skip signatureImage (non-serializable, large)
+    if (key === 'signatureImage') continue;
     if (a.formData[key] !== b.formData[key]) return false;
   }
 
@@ -65,6 +73,13 @@ function snapshotsEqual(a: DocumentSnapshot | null, b: DocumentSnapshot | null):
   // Check copyTos
   for (let i = 0; i < a.copyTos.length; i++) {
     if (a.copyTos[i].text !== b.copyTos[i].text) return false;
+  }
+
+  // Check distributions
+  const aDist = a.distributions || [];
+  const bDist = b.distributions || [];
+  for (let i = 0; i < aDist.length; i++) {
+    if (aDist[i].text !== bDist[i].text) return false;
   }
 
   return true;
@@ -86,6 +101,7 @@ function cloneSnapshot(snapshot: DocumentSnapshot): DocumentSnapshot {
     })),
     paragraphs: snapshot.paragraphs.map(p => ({ ...p })),
     copyTos: snapshot.copyTos.map(c => ({ ...c })),
+    distributions: (snapshot.distributions || []).map(d => ({ ...d })),
   };
 }
 

@@ -193,6 +193,7 @@ export const GENERATED_FILES = {
   referenceUrls: 'reference-urls.tex',
   enclConfig: 'encl-config.tex',
   copytoConfig: 'copyto-config.tex',
+  distributionConfig: 'distribution-config.tex',
   body: 'body.tex',
   classification: 'classification.tex',
 
