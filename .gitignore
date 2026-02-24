@@ -67,6 +67,9 @@ Desktop.ini
 .claude/
 
 
+# Large binary assets (fetched at runtime / cached by service worker)
+public/lib/pandoc/pandoc.wasm
+
 # Node / Vite
 node_modules/
 dist/

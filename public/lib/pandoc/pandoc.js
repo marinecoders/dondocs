@@ -47,16 +47,9 @@ const fds = [
 ];
 const options = { debug: false };
 const wasi = new WASI(args, env, fds, options);
-// Use instantiate(ArrayBuffer) instead of instantiateStreaming to bypass MIME type checks.
-// Vite's module transform pipeline can break import.meta.url resolution, causing
-// instantiateStreaming to reject with "Incorrect response MIME type" even when the
-// server serves application/wasm correctly.
-let wasmUrl;
-try {
-  wasmUrl = new URL("./pandoc.wasm", import.meta.url).href;
-} catch {
-  wasmUrl = "/lib/pandoc/pandoc.wasm";
-}
+// Fetch pandoc WASM binary from jsDelivr CDN (pandoc-wasm npm package, pandoc 3.9).
+// Uses ArrayBuffer instantiation instead of instantiateStreaming to bypass MIME type checks.
+const wasmUrl = "https://cdn.jsdelivr.net/npm/pandoc-wasm@1.0.1/src/pandoc.wasm";
 const wasmResponse = await fetch(wasmUrl);
 const wasmBytes = await wasmResponse.arrayBuffer();
 const { instance } = await WebAssembly.instantiate(wasmBytes, {
