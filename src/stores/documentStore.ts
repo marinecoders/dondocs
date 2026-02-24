@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { format, parse, isValid } from 'date-fns';
-import type { Reference, Enclosure, Paragraph, CopyTo, DocumentData, DocumentMode, DocumentCategory, FormType } from '@/types/document';
+import type { Reference, Enclosure, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, DocumentCategory, FormType } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { useHistoryStore } from './historyStore';
 import type { DocumentSnapshot } from './historyStore';
@@ -23,6 +23,7 @@ export interface SerializedSession {
   enclosures: Array<Omit<Enclosure, 'file'> & { hasFile?: boolean }>;
   paragraphs: Paragraph[];
   copyTos: CopyTo[];
+  distributions: Distribution[];
   timestamp: number;
 }
 
@@ -83,6 +84,7 @@ interface DocumentState {
   enclosures: Enclosure[];
   paragraphs: Paragraph[];
   copyTos: CopyTo[];
+  distributions: Distribution[];
 
   // Actions - Form
   setDocumentMode: (mode: DocumentMode) => void;
@@ -117,6 +119,11 @@ interface DocumentState {
   addCopyTo: (text: string) => void;
   updateCopyTo: (index: number, text: string) => void;
   removeCopyTo: (index: number) => void;
+
+  // Actions - Distribution
+  addDistribution: (text: string) => void;
+  updateDistribution: (index: number, text: string) => void;
+  removeDistribution: (index: number) => void;
 
   // Bulk Actions
   clearParagraphs: () => void;
@@ -190,7 +197,7 @@ const EXAMPLE_FORM_DATA: Partial<DocumentData> = {
   includeHyperlinks: false,
   // Business letter fields
   salutation: 'Dear Sir or Madam:',
-  complimentaryClose: 'Very respectfully,',
+  complimentaryClose: 'Sincerely,',
 };
 
 // Example references for demo document (empty for clean start)
@@ -223,6 +230,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     { text: 'G-4' },
     { text: 'Regimental S-3' },
   ],
+  distributions: [],
 
   setDocumentCategory: (category) => set({ documentCategory: category }),
 
@@ -232,12 +240,20 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     if (mode === 'compliant') {
       // Apply compliant formatting from doc type config
       const config = DOC_TYPE_CONFIG[state.docType] || DOC_TYPE_CONFIG.naval_letter;
+      // Font size: keep current if within allowed range, otherwise snap to default
+      const allowedSizes = config.regulations.fontSizeOptions || [config.regulations.fontSize];
+      const currentSize = state.formData.fontSize || '12pt';
+      const newFontSize = allowedSizes.includes(currentSize) ? currentSize : config.regulations.fontSize;
+      // Font family: enforce if required (Ch 12 exec docs), otherwise keep user's choice
+      const newFontFamily = config.regulations.fontFamilyRequired
+        ? config.regulations.fontFamily
+        : (state.formData.fontFamily || config.regulations.fontFamily);
       return {
         documentMode: mode,
         formData: {
           ...state.formData,
-          fontSize: config.regulations.fontSize,
-          fontFamily: config.regulations.fontFamily,
+          fontSize: newFontSize,
+          fontFamily: newFontFamily,
         },
       };
     }
@@ -253,19 +269,27 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       const convertedDate = state.formData.date
         ? convertDateFormat(state.formData.date, newDateFormat)
         : formatMilitaryDate(new Date());
+      // Font size: keep current if within allowed range, otherwise snap to default
+      const allowedSizes = config.regulations.fontSizeOptions || [config.regulations.fontSize];
+      const currentSize = state.formData.fontSize || '12pt';
+      const newFontSize = allowedSizes.includes(currentSize) ? currentSize : config.regulations.fontSize;
+      // Font family: enforce if required (Ch 12 exec docs), otherwise keep user's choice
+      const newFontFamily = config.regulations.fontFamilyRequired
+        ? config.regulations.fontFamily
+        : (state.formData.fontFamily || config.regulations.fontFamily);
 
       return {
         docType: type,
         formData: {
-          ...DEFAULT_FORM_DATA,
+          ...state.formData,
           docType: type,
-          fontSize: config.regulations.fontSize,
-          fontFamily: config.regulations.fontFamily,
+          fontSize: newFontSize,
+          fontFamily: newFontFamily,
           date: convertedDate,
         },
       };
     }
-    return { docType: type, formData: { ...DEFAULT_FORM_DATA, docType: type } };
+    return { docType: type, formData: { ...state.formData, docType: type } };
   }),
 
   setField: (key, value) => set((state) => ({
@@ -287,6 +311,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       { text: 'G-4' },
       { text: 'Regimental S-3' },
     ],
+    distributions: [],
   }),
 
   // References
@@ -383,6 +408,19 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     copyTos: state.copyTos.filter((_, i) => i !== index),
   })),
 
+  // Distribution
+  addDistribution: (text) => set((state) => ({
+    distributions: [...state.distributions, { text }],
+  })),
+
+  updateDistribution: (index, text) => set((state) => ({
+    distributions: state.distributions.map((d, i) => (i === index ? { text } : d)),
+  })),
+
+  removeDistribution: (index) => set((state) => ({
+    distributions: state.distributions.filter((_, i) => i !== index),
+  })),
+
   // Bulk Actions
   clearParagraphs: () => {
     debug.log('Store', 'Clearing all paragraphs');
@@ -411,6 +449,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       references: [],
       enclosures: [],
       copyTos: [],
+      distributions: [],
     });
   },
 
@@ -463,12 +502,19 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
           inReplyToText: '',
           // Business letter fields
           salutation: 'Dear Sir or Madam:',
-          complimentaryClose: 'Very respectfully,',
+          complimentaryClose: 'Sincerely,',
+          // Executive memo fields
+          memorandumFor: '',
+          attnLine: '',
+          throughLine: '',
+          coordination: '',
+          preparedBy: '',
         },
         paragraphs: [{ text: '', level: 0 }],
         references: [],
         enclosures: [],
         copyTos: [],
+        distributions: [],
       };
     });
   },
@@ -498,6 +544,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     enclosures: snapshot.enclosures,
     paragraphs: snapshot.paragraphs,
     copyTos: snapshot.copyTos,
+    distributions: snapshot.distributions || [],
   }),
 
   getSnapshot: (): DocumentSnapshot => {
@@ -510,6 +557,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       enclosures: state.enclosures,
       paragraphs: state.paragraphs,
       copyTos: state.copyTos,
+      distributions: state.distributions,
     };
   },
 }));
@@ -535,6 +583,7 @@ useDocumentStore.subscribe((state: DocumentState) => {
         enclosures: state.enclosures,
         paragraphs: state.paragraphs,
         copyTos: state.copyTos,
+        distributions: state.distributions,
       };
       useHistoryStore.getState().saveSnapshot(snapshot);
       debug.log('Store', 'Snapshot saved to history');
@@ -580,6 +629,7 @@ function saveSessionToStorage(state: DocumentState): void {
       })),
       paragraphs: state.paragraphs,
       copyTos: state.copyTos,
+      distributions: state.distributions,
       timestamp: Date.now(),
     };
 
@@ -664,6 +714,7 @@ export function restoreSession(): boolean {
       })),
       paragraphs: session.paragraphs,
       copyTos: session.copyTos,
+      distributions: session.distributions || [],
     });
 
     debug.log('Store', 'Session restored from localStorage');
@@ -699,6 +750,7 @@ export function getSerializedSessionForShare(): SerializedSession {
     })),
     paragraphs: state.paragraphs,
     copyTos: state.copyTos,
+    distributions: state.distributions,
     timestamp: Date.now(),
   };
 }
@@ -724,6 +776,7 @@ export function loadSharedSession(session: SerializedSession): void {
     })),
     paragraphs: session.paragraphs ?? [],
     copyTos: session.copyTos ?? [],
+    distributions: session.distributions ?? [],
   });
   debug.log('Store', 'Shared session applied');
 }

@@ -27,7 +27,8 @@ import { ALL_SERVICE_RANKS, formatRank } from '@/data/ranks';
 import type { SignatureType } from '@/types/document';
 
 export function MOASection() {
-  const { formData, setField, docType } = useDocumentStore();
+  const { formData, setField, docType, documentMode } = useDocumentStore();
+  const isCompliant = documentMode === 'compliant';
   const [seniorUnitModalOpen, setSeniorUnitModalOpen] = useState(false);
   const [juniorUnitModalOpen, setJuniorUnitModalOpen] = useState(false);
   const [seniorSSICModalOpen, setSeniorSSICModalOpen] = useState(false);
@@ -79,6 +80,7 @@ export function MOASection() {
                     ? 'A Memorandum of Agreement documents a mutual agreement between two or more parties on specific matters.'
                     : 'A Memorandum of Understanding documents a general understanding between two or more parties.'}
                   {' '}The junior command signs first (left), senior command signs last (right).
+                  {isCompliant && ' Letterhead is optional — plain bond with typed command titles is acceptable (Ch 10 ¶6c).'}
                 </p>
               </div>
 

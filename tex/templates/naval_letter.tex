@@ -16,26 +16,27 @@
 
 
 %=============================================================================
-%                    SSIC / SERIAL / DATE BLOCK (Right-aligned)
+%              SSIC / SERIAL / DATE BLOCK (Right-aligned, raggedleft)
 %=============================================================================
 
 \newcommand{\printDateAndTitle}{%
     \begingroup
     \applyDocumentFontSize
-    % SSIC block starts at horizontal center per SECNAV M-5216.5
-    % 3.25in offset positions the block to start at page center
-    \noindent\hspace{3.25in}%
-    \begin{minipage}[t]{3.25in}
-    \raggedright
-    % Optional "IN REPLY REFER TO" line per SECNAV M-5216.5 App C, Para 1.a
-    \ifInReplyEnabled
-        {\fontsize{5pt}{6pt}\selectfont IN REPLY REFER TO}\\
-    \fi
-    \ifdefempty{\DocumentSSIC}{}{\DocumentSSIC\\}%
-    \ifdefempty{\DocumentSerial}{}{\DocumentSerial\\}%
-    \DocumentDate
-    \end{minipage}\par
+    % SSIC block right-positioned, left-aligned per SECNAV M-5216.5 Ch 7 Section 3:
+    % "The longest line of the sender's symbol should end close to the right margin."
+    % \hfill pushes the block right; {l} left-aligns content within it.
+    \hfill
+    \begin{tabular}[t]{@{}l@{}}
+        % Optional "IN REPLY REFER TO" line per SECNAV M-5216.5 App C, Para 1.a
+        \ifInReplyEnabled
+            {\fontsize{5pt}{6pt}\selectfont IN REPLY REFER TO}\\
+        \fi
+        \ifdefempty{\DocumentSSIC}{}{\DocumentSSIC\\}%
+        \ifdefempty{\DocumentSerial}{}{\DocumentSerial\\}%
+        \DocumentDate
+    \end{tabular}
     \endgroup
+    \par\vspace{12pt}%
 }
 
 
@@ -119,7 +120,8 @@
             % Optional: Signature image
             \ifNotEmpty{\SignatureImage}{%
                 \IfFileExists{attachments/\SignatureImage}{%
-                    \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\[6pt]%
+                    \includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\SignatureImage}\\
+                    \vspace{6pt}%
                 }{}%
             }%
         \fi
@@ -153,6 +155,7 @@
 \fancypagestyle{documentpage}{%
     \fancyhf{}%
     \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyhead[L]{\ifdefempty{\ContinuationSubject}{}{\applyDocumentFontSize Subj:~~\ContinuationSubject}}%
     \fancyfoot[C]{\thepage}%  % Just the number, no "of X"
     \renewcommand{\headrulewidth}{0pt}%
     \renewcommand{\footrulewidth}{0pt}%

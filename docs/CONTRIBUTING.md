@@ -16,6 +16,7 @@ All contributions should be made to the Marine Coders organization repository, w
 - [Project Structure](#project-structure)
 - [Making Changes](#making-changes)
 - [Coding Standards](#coding-standards)
+  - [LaTeX Spacing Standards](#latex-spacing-standards)
 - [Testing](#testing)
 - [Submitting Changes](#submitting-changes)
 - [Issue Guidelines](#issue-guidelines)
@@ -242,6 +243,69 @@ export function escapeLatex(text: string): string {
 }
 ```
 
+### LaTeX Spacing Standards
+
+All vertical spacing **must** use `\vspace{<length>}`. No exceptions.
+
+Do not use `\\[Xpt]`, `\medskip`, `\bigskip`, `\smallskip`, `\baselineskip`, or bare blank lines as substitutes.
+
+#### Allowed Values
+
+| Value | Meaning | When to use |
+|-------|---------|-------------|
+| `\vspace{12pt}` | One blank line | Between paragraphs, before Ref/Encl, after SSIC, after date, section breaks |
+| `\vspace{6pt}` | Half line | Between subparagraphs |
+| `\vspace{24pt}` | Two blank lines | Before signature blocks, CUI/classification banners, endorsement separators |
+| `\vspace{48pt}` | Four lines | Gap between closing ("Very respectfully,") and typed signature name |
+
+#### Banned Alternatives
+
+| Don't use | Why |
+|-----------|-----|
+| `\\[12pt]` | Forces a line break first, then adds space -- different behavior than `\vspace` |
+| `\baselineskip` | ~14.4pt at 12pt font, not 12pt. Drifts with font size changes |
+| `\vspace{\baselineskip}` | Same problem, just wrapped in `\vspace` |
+| `\medskip` | Relative to document class, not a fixed value |
+| `\bigskip` / `\smallskip` | Same -- relative, not fixed |
+| blank lines | Depends on `\parskip` setting, unpredictable |
+
+#### In `.tex` templates
+
+```latex
+% Good
+\vspace{12pt}
+\vspace{6pt}
+\vspace{24pt}
+
+% Bad
+\\[12pt]
+\medskip
+\vspace{\baselineskip}
+```
+
+#### In TypeScript generators
+
+Same rule applies to `flat-generator.ts`, `generator.ts`, and `latex-templates.js`:
+
+```typescript
+// Good
+lines.push('\\vspace{12pt}');
+
+// Bad
+lines.push('\\medskip');
+lines.push('\\\\[12pt]');
+lines.push('\\vspace{\\baselineskip}');
+```
+
+If you find existing code using non-standard spacing, fix it in your PR or file an issue.
+
+#### SECNAV Reference
+
+Per SECNAV M-5216.5 Ch 7 Para 13:
+- **Within paragraphs:** Single spaced
+- **Between paragraphs:** Double spaced (one blank line = `\vspace{12pt}`)
+- **Between subparagraphs:** Not specified by the manual; use `\vspace{6pt}` for visual distinction
+
 ---
 
 ## Testing
@@ -250,7 +314,7 @@ export function escapeLatex(text: string): string {
 
 Before submitting changes, test:
 
-1. **Document Types** - Verify all 17 document types render correctly
+1. **Document Types** - Verify document types render correctly (Naval Letter, endorsements, memoranda, agreements, executive)
 2. **PDF Generation** - Check that PDFs generate without errors
 3. **References & Enclosures** - Test adding, removing, reordering
 4. **Classification** - Test CUI and classified markings

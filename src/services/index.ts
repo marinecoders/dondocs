@@ -5,9 +5,6 @@
  * Import from '@/services' instead of individual files.
  */
 
-// DOCX generation
-export { generateDocx } from './docx/generator';
-
 // LaTeX generation
 export {
   generateDocumentTex,

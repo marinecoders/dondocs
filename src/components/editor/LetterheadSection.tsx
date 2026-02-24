@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Building2 } from 'lucide-react';
+import { Building2, Info } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -19,10 +19,15 @@ import {
 import { useDocumentStore } from '@/stores/documentStore';
 import { UnitLookupModal } from '@/components/modals/UnitLookupModal';
 import { formatLetterhead, type UnitInfo } from '@/data/unitDirectory';
+import { DOC_TYPE_CONFIG } from '@/types/document';
 
 export function LetterheadSection() {
-  const { formData, setField } = useDocumentStore();
+  const { formData, setField, docType, documentMode } = useDocumentStore();
   const [unitModalOpen, setUnitModalOpen] = useState(false);
+  const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
+  const isCompliant = documentMode === 'compliant';
+  const isOptional = isCompliant && config.optionalLetterhead;
+  const isDisabled = !config.letterhead;
 
   const handleUnitSelect = (unit: UnitInfo) => {
     // Use SECNAV M-5216.5 compliant letterhead formatting
@@ -43,11 +48,24 @@ export function LetterheadSection() {
         onSelect={handleUnitSelect}
       />
 
-      <Accordion type="single" collapsible defaultValue="letterhead">
+      <Accordion type="single" collapsible defaultValue={isDisabled ? undefined : 'letterhead'}>
         <AccordionItem value="letterhead">
-          <AccordionTrigger>Letterhead</AccordionTrigger>
+          <AccordionTrigger>
+            <span className="flex items-center gap-2">
+              <span className={isDisabled ? 'text-muted-foreground' : ''}>Letterhead</span>
+              {isOptional && (
+                <span className="text-xs font-normal text-muted-foreground">(optional)</span>
+              )}
+              {isDisabled && (
+                <span className="flex items-center gap-1 text-xs font-normal text-muted-foreground">
+                  <Info className="h-3 w-3" />
+                  Not used by this document type
+                </span>
+              )}
+            </span>
+          </AccordionTrigger>
           <AccordionContent>
-            <div className="space-y-4 pt-2">
+            <div className={`space-y-4 pt-2 ${isDisabled ? 'opacity-50 pointer-events-none select-none' : ''}`}>
               {/* Seal Type + Color + Department/Service + Browse Units - responsive layout */}
               <div className="flex flex-col sm:flex-row sm:items-end gap-3">
                 <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 sm:gap-3">

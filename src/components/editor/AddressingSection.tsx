@@ -16,7 +16,7 @@ import {
   arrayMove,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { BookOpen, Plus, Trash2, AlertCircle, GripVertical } from 'lucide-react';
+import { BookOpen, Plus, Trash2, AlertCircle, GripVertical, HelpCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -30,6 +30,12 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { InputWithVariables } from '@/components/ui/variable-autocomplete';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useDocumentStore } from '@/stores/documentStore';
 import { SSICLookupModal } from '@/components/modals/SSICLookupModal';
 import type { DocTypeConfig } from '@/types/document';
@@ -107,6 +113,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
   const isCompliantMode = documentMode === 'compliant';
   const requiresSalutation = isCompliantMode && config.compliance.requiresSalutation;
   const dateFormat = isCompliantMode ? config.compliance.dateFormat : 'military';
+  const isSSICOptional = isCompliantMode && config.optionalSSIC;
 
   const handleSSICSelect = (code: string) => {
     setField('ssic', code);
@@ -167,7 +174,30 @@ export function AddressingSection({ config }: AddressingSectionProps) {
 
       <Accordion type="single" collapsible defaultValue="addressing">
         <AccordionItem value="addressing">
-          <AccordionTrigger>Document Information</AccordionTrigger>
+          <AccordionTrigger>
+            <span className="flex items-center gap-2">
+              Document Information
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild onClick={(e) => e.stopPropagation()}>
+                    <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-foreground" />
+                  </TooltipTrigger>
+                  <TooltipContent side="right" className="max-w-xs">
+                    <p className="font-medium mb-1">Document Information</p>
+                    <p className="text-xs">
+                      Core addressing fields required by SECNAV M-5216.5. These form the header block of your correspondence.
+                    </p>
+                    <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
+                      <li><strong>SSIC:</strong> Standard Subject Identification Code — categorizes the document topic{isSSICOptional && ' (not required for this type)'}</li>
+                      <li><strong>From/To:</strong> Originating and receiving commands or individuals</li>
+                      <li><strong>Via:</strong> Intermediate routing (chain of command) — optional</li>
+                      <li><strong>Subject:</strong> Brief description, auto-uppercased per regulation</li>
+                    </ul>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </span>
+          </AccordionTrigger>
           <AccordionContent>
             <div className="space-y-4 pt-2">
               {/* Date Only - for business letters (no SSIC/Serial) */}
@@ -184,11 +214,16 @@ export function AddressingSection({ config }: AddressingSectionProps) {
               )}
 
               {/* SSIC / Serial / Date - for standard documents */}
-              {config.ssic && !config.dateOnly && (
+              {/* Always show when not dateOnly; gray out SSIC/Serial when config.ssic is false */}
+              {!config.dateOnly && (
                 <>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="ssic">SSIC</Label>
+                  <div className={`space-y-2 ${!config.ssic ? 'opacity-50 pointer-events-none select-none' : ''}`}>
+                    <Label htmlFor="ssic">
+                      SSIC
+                      {!config.ssic && <span className="text-xs font-normal text-muted-foreground ml-1">(N/A)</span>}
+                      {config.ssic && isSSICOptional && <span className="text-xs font-normal text-muted-foreground ml-1">(optional)</span>}
+                    </Label>
                     <div className="flex gap-1">
                       <Input
                         id="ssic"
@@ -208,8 +243,12 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                       </Button>
                     </div>
                   </div>
-                <div className="space-y-2">
-                  <Label htmlFor="serial">Serial</Label>
+                <div className={`space-y-2 ${!config.ssic ? 'opacity-50 pointer-events-none select-none' : ''}`}>
+                  <Label htmlFor="serial">
+                    Serial
+                    {!config.ssic && <span className="text-xs font-normal text-muted-foreground ml-1">(N/A)</span>}
+                    {config.ssic && isCompliantMode && <span className="text-xs font-normal text-muted-foreground ml-1">(optional)</span>}
+                  </Label>
                   <Input
                     id="serial"
                     value={formData.serial || ''}
@@ -229,7 +268,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
               </div>
 
               {/* In Reply Refer To */}
-              <div className="space-y-2">
+              <div className={`space-y-2 ${!config.ssic ? 'opacity-50 pointer-events-none select-none' : ''}`}>
                 <div className="flex items-center gap-2">
                   <Checkbox
                     id="inReplyTo"
@@ -377,6 +416,20 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                 className="uppercase"
               />
             </div>
+
+            {/* Continuation page subject - only show for doc types with subject */}
+            {!config?.skipSubject && (
+              <div className="flex items-center space-x-2 pt-1">
+                <Checkbox
+                  id="showSubjectOnContinuation"
+                  checked={formData.showSubjectOnContinuation || false}
+                  onCheckedChange={(checked) => setField('showSubjectOnContinuation', !!checked)}
+                />
+                <Label htmlFor="showSubjectOnContinuation" className="text-sm font-normal cursor-pointer">
+                  Show subject line on continuation pages
+                </Label>
+              </div>
+            )}
           </div>
         </AccordionContent>
       </AccordionItem>

@@ -82,7 +82,7 @@
     left    = 1in,
     right   = 1in,
     headheight = 15pt,
-    headsep    = 0pt,
+    headsep    = 12pt,
     footskip   = 0.5in
 ]{geometry}
 
@@ -210,6 +210,16 @@
 
 \usepackage{pdfpages}
 
+% Custom \uline: underline at fixed depth so descenders cross through the line
+% (like Word), instead of \underline which pushes the line below descenders
+\makeatletter
+\newcommand{\uline}[1]{%
+  \leavevmode
+  \setbox\@tempboxa\hbox{#1}%
+  \rlap{\raisebox{-1.5pt}{\rule{\wd\@tempboxa}{0.4pt}}}%
+  \usebox\@tempboxa
+}
+\makeatother
 
 %=============================================================================
 %                           FONT CONFIGURATION
@@ -238,6 +248,10 @@
     }{%
         \renewcommand{\familydefault}{\ttdefault}%
     }%
+    % Switch the active font to the new family - \renewcommand{\familydefault}
+    % only sets the default for future \normalfont calls, it doesn't change the
+    % currently active font. Without this, body text stays in the old family.
+    \fontfamily{\familydefault}\selectfont
     % Apply font size by redefining \normalsize
     % This ensures the size persists in tabular environments and after groups
     \ifthenelse{\equal{\FontSize}{10pt}}{%
@@ -273,6 +287,11 @@
 \setlength{\parindent}{0in}
 \setlength{\parskip}{0pt}  % Format modules control their own spacing
 
+% Prevent widow/orphan lines per SECNAV M-5216.5 Ch 7 ¶13:
+% "At least two lines of a paragraph must appear on any page"
+\widowpenalty=10000
+\clubpenalty=10000
+
 
 %=============================================================================
 %                      DOCUMENT TYPE CONFIGURATION
@@ -280,6 +299,46 @@
 
 \newcommand{\DocumentType}{}
 \newcommand{\setDocumentType}[1]{\renewcommand{\DocumentType}{#1}}
+
+
+%=============================================================================
+%                       ENDORSEMENT CONFIGURATION
+%=============================================================================
+% Variables defined here (before \input{document}) so document.tex can
+% set them via \renewcommand. The format templates use these variables
+% in their \printDateAndTitle commands.
+
+\newcommand{\EndorsementOrdinal}{}      % FIRST, SECOND, THIRD, etc.
+\newcommand{\EndorsementSerial}{}       % Ser XXX/### (same-page only)
+\newcommand{\EndorsementDate}{}         % Date of endorsement (same-page only)
+\newcommand{\BasicLetterID}{}           % e.g., "NAS Meridian ltr 5216 Ser 11/273 of 22 Apr 15"
+
+
+%=============================================================================
+%                    EXECUTIVE MEMO CONFIGURATION
+%=============================================================================
+% Variables defined here (before \input{document}) so document.tex can
+% set them. The executive format templates use these in their print commands.
+
+% Standard Memorandum + Action Memorandum
+\newcommand{\MemorandumForAddressee}{}
+\newcommand{\setMemorandumForAddressee}[1]{\renewcommand{\MemorandumForAddressee}{#1}}
+
+% Action Memorandum
+\newcommand{\ActionFrom}{}
+\newcommand{\setActionFrom}[1]{\renewcommand{\ActionFrom}{#1}}
+\newcommand{\ActionSubject}{}
+\newcommand{\setActionSubject}[1]{\renewcommand{\ActionSubject}{#1}}
+
+% Information Memorandum
+\newcommand{\InfoMemoFor}{}
+\newcommand{\setInfoMemoFor}[1]{\renewcommand{\InfoMemoFor}{#1}}
+\newcommand{\InfoMemoFrom}{}
+\newcommand{\setInfoMemoFrom}[1]{\renewcommand{\InfoMemoFrom}{#1}}
+\newcommand{\InfoMemoCoordination}{}
+\newcommand{\setInfoMemoCoordination}[1]{\renewcommand{\InfoMemoCoordination}{#1}}
+\newcommand{\InfoMemoPreparedBy}{}
+\newcommand{\setInfoMemoPreparedBy}[1]{\renewcommand{\InfoMemoPreparedBy}{#1}}
 
 
 %=============================================================================
@@ -342,6 +401,12 @@
     \else
         \ClassifiedEnabledtrue
     \fi
+}
+
+% Custom classification: sets banner markings only (no CUI/Classified info block)
+\newcommand{\setCustomClassification}[1]{%
+    \renewcommand{\ClassificationMarking}{#1}%
+    \ClassificationEnabledtrue
 }
 
 
@@ -471,7 +536,11 @@
 %-----------------------------------------------------------------------------
 
 \newcommand{\SubjectLine}{}
-\newcommand{\setSubject}[1]{\renewcommand{\SubjectLine}{#1}}
+\newcommand{\setSubject}[1]{\renewcommand{\SubjectLine}{\uline{#1}}}
+
+% Continuation page subject line (shown on page 2+ when enabled)
+\newcommand{\ContinuationSubject}{}
+\newcommand{\setContinuationSubject}[1]{\renewcommand{\ContinuationSubject}{\uline{#1}}}
 
 
 %-----------------------------------------------------------------------------
@@ -483,6 +552,10 @@
 
 \newcommand{\BusinessClose}{}
 \newcommand{\setBusinessClose}[1]{\renewcommand{\BusinessClose}{#1}}
+
+% Business/executive recipient address (pre-formatted with line breaks)
+\newcommand{\BusinessRecipientAddress}{}
+\newcommand{\setBusinessRecipientAddress}[1]{\renewcommand{\BusinessRecipientAddress}{#1}}
 
 % Business letter date format: Month spelled out (January 5, 2015)
 \newcommand{\BusinessDate}{}
@@ -786,18 +859,26 @@
         % Color: \LetterheadColor (blue or black)
         \usefont{\encodingdefault}{\familydefault}{\seriesdefault}{\shapedefault}%
         \fontsize{10pt}{11pt}\selectfont
-        \textcolor{\LetterheadColor}{\textbf{UNITED STATES MARINE CORPS}}\\
+        % Department name conditional on \Department setting
+        \ifthenelse{\equal{\Department}{navy}}{%
+            \textcolor{\LetterheadColor}{\textbf{DEPARTMENT OF THE NAVY}}%
+        }{%
+            \ifthenelse{\equal{\Department}{dod}}{%
+                \textcolor{\LetterheadColor}{\textbf{DEPARTMENT OF DEFENSE}}%
+            }{%
+                \textcolor{\LetterheadColor}{\textbf{UNITED STATES MARINE CORPS}}%
+            }%
+        }\\
         \fontsize{8pt}{9pt}\selectfont
         \textcolor{\LetterheadColor}{\UnitName}\\
         \textcolor{\LetterheadColor}{\UnitLineTwo}\\
         \textcolor{\LetterheadColor}{\UnitLineThree}\\
         \textcolor{\LetterheadColor}{\UnitLineFour}
     \end{textblock*}%
-    % Spacing: Letterhead ends ~1.16in from top (0.625in start + ~0.53in content)
-    % SSIC should start exactly ONE LINE below letterhead per SECNAV M-5216.5
-    % With 1in top margin and 12pt baselineskip (~0.2in), position at ~0.36in below margin
-    \vspace*{0.16in}%  % Clear letterhead area
-    \vspace{\baselineskip}%  % Add exactly one line of space
+    % Spacing: Letterhead ends ~0.975in from top (0.625in start + ~0.35in content)
+    % Text area starts at ~1.02in (top=1in + headheight=15pt + headsep=12pt)
+    % 0.16in ≈ 12pt ≈ one line gap from letterhead bottom to SSIC block
+    \vspace*{0.16in}%  % One line below letterhead area
 }
 
 
@@ -834,12 +915,24 @@
 \newcommand{\refitem}[2]{%
     \ifhyperlinks
         \@ifundefined{ref@url@#1}{%
-            (#1) #2\\%
+            (#1)~~#2\\%
         }{%
-            (\href{\csname ref@url@#1\endcsname}{\textcolor{blue}{#1}}) #2\\%
+            (\href{\csname ref@url@#1\endcsname}{\textcolor{blue}{#1}})~~#2\\%
         }%
     \else
-        (#1) #2\\%
+        (#1)~~#2\\%
+    \fi
+}
+% Same as \refitem but without trailing \\ — used for the last reference
+\newcommand{\lastrefitem}[2]{%
+    \ifhyperlinks
+        \@ifundefined{ref@url@#1}{%
+            (#1)~~#2%
+        }{%
+            (\href{\csname ref@url@#1\endcsname}{\textcolor{blue}{#1}})~~#2%
+        }%
+    \else
+        (#1)~~#2%
     \fi
 }
 \makeatother
@@ -866,7 +959,7 @@
         \vspace{12pt}
         \noindent
         \begin{tabular}{@{}l@{}p{5.9in}@{}}
-            Ref:\hspace{4\fontdimen2\font} & \begin{minipage}[t]{5.9in}
+            Ref:\ifthenelse{\equal{\FontFamily}{times}}{\hspace{4.2\fontdimen2\font}}{\hspace{4\fontdimen2\font}} & \begin{minipage}[t]{5.9in}
                        \input{references}
                    \end{minipage}
         \end{tabular}%
@@ -919,9 +1012,11 @@
                            \stepcounter{encllistcount}%
                            \@ifundefined{encl@defined@\arabic{encllistcount}}{}{%
                                \ifhyperlinks
-                                   (\hyperlink{enclosure\arabic{encllistcount}}{\textcolor{blue}{\arabic{encllistcount}}}) \csname encl@title@\arabic{encllistcount}\endcsname\\%
+                                   (\hyperlink{enclosure\arabic{encllistcount}}{\textcolor{blue}{\arabic{encllistcount}}})~~\csname encl@title@\arabic{encllistcount}\endcsname%
                                \else
-                                   (\arabic{encllistcount}) \csname encl@title@\arabic{encllistcount}\endcsname\\%
+                                   (\arabic{encllistcount})~~\csname encl@title@\arabic{encllistcount}\endcsname%
+                               \fi
+                               \ifnum\value{encllistcount}<\value{enclmax}\\%
                                \fi
                            }%
                        \repeat
@@ -982,7 +1077,8 @@
                     \vspace*{2in}%
                     \begin{center}
                         \fontsize{16pt}{20pt}\selectfont
-                        \textbf{\currentencltitle}\\[1in]
+                        \textbf{\currentencltitle}\\
+                        \vspace{1in}
                         \fontsize{12pt}{16pt}\selectfont
                         \textit{(Physical document attached separately)}
                     \end{center}
@@ -1044,55 +1140,47 @@
 
 
 %=============================================================================
-%                        COPY TO (DISTRIBUTION) COMMANDS
+%                        DISTRIBUTION COMMANDS
 %=============================================================================
+% Per SECNAV M-5216.5 Ch 8: Distribution = action addressees
+% The generator emits \setHasDistribution and \DistributionRows{...}.
 
-% Flag for whether we have copy-tos
+\newif\ifhasdistribution
+\hasdistributionfalse
+\newcommand{\setHasDistribution}{\global\hasdistributiontrue}
+
+% Print distribution list
+\newcommand{\printDistribution}{%
+    \ifhasdistribution
+        \vspace{12pt}
+        \noindent
+        \begin{tabular}{@{}l@{}p{5.85in}@{}}
+            \DistributionRows
+        \end{tabular}%
+    \fi
+}
+
+
+%=============================================================================
+%                        COPY TO COMMANDS
+%=============================================================================
+% Per SECNAV M-5216.5 Ch 7, Para 15: Copy to = information addressees
+% The generator emits \setHasCopyTo and \CopyToRows{...}.
+
 \newif\ifhascopyto
 \hascopytofalse
-
-% Counter for copy-to entries
-\newcounter{copytomax}
-\setcounter{copytomax}{0}
-
-% Set flag when copy-tos exist
 \newcommand{\setHasCopyTo}{\global\hascopytotrue}
 
-% Define a copy-to entry: \copyto{1}{CO, 1st Bn, 1st Mar}
-\makeatletter
-\newcommand{\copytoentry}[2]{%
-    \ifnum#1>\value{copytomax}%
-        \setcounter{copytomax}{#1}%
-    \fi
-    \expandafter\gdef\csname copyto@text@#1\endcsname{#2}%
-    \expandafter\gdef\csname copyto@defined@#1\endcsname{1}%
-}
-\makeatother
-
-% Print copy-to list after signature block
-% Per SECNAV M-5216.5 Ch 7, Para 15: Copy to notation
-\makeatletter
+% Print copy-to list
 \newcommand{\printCopyTo}{%
     \ifhascopyto
-        \ifnum\value{copytomax}>0
-            \vspace{12pt}
-            \noindent
-            \begin{tabular}{@{}l@{}p{5.85in}@{}}
-                Copy to:\hspace{2\fontdimen2\font} & \begin{minipage}[t]{5.85in}
-                           \newcounter{copytolistcount}%
-                           \setcounter{copytolistcount}{0}%
-                           \loop\ifnum\value{copytolistcount}<\value{copytomax}%
-                               \stepcounter{copytolistcount}%
-                               \@ifundefined{copyto@defined@\arabic{copytolistcount}}{}{%
-                                   \csname copyto@text@\arabic{copytolistcount}\endcsname\\%
-                               }%
-                           \repeat
-                       \end{minipage}
-            \end{tabular}%
-        \fi
+        \vspace{12pt}
+        \noindent
+        \begin{tabular}{@{}l@{}p{5.85in}@{}}
+            \CopyToRows
+        \end{tabular}%
     \fi
 }
-\makeatother
 
 
 %=============================================================================
@@ -1105,7 +1193,7 @@
 \newcommand{\parasection}[1]{%
     \stepcounter{mainpara}%
     \vspace{12pt}%
-    \noindent\arabic{mainpara}. \underline{#1}:%
+    \noindent\arabic{mainpara}. \uline{#1}:%
 }
 
 % =============================================================================
@@ -1167,7 +1255,7 @@
 % Level 5 (JS level 4): underlined 1. at 1.0", text at 1.25", continuation at 1.0"
 \newlist{subsubsubsubpara}{enumerate}{1}
 \setlist[subsubsubsubpara,1]{
-    label      = \underline{\arabic*}.,
+    label      = \uline{\arabic*}.,
     leftmargin = 1.0in,
     itemindent = 0.25in,
     labelwidth = 0.2in,
@@ -1180,7 +1268,7 @@
 % Level 6 (JS level 5): underlined a. at 1.25", text at 1.5", continuation at 1.25"
 \newlist{subsubsubsubsubpara}{enumerate}{1}
 \setlist[subsubsubsubsubpara,1]{
-    label      = \underline{\alph*}.,
+    label      = \uline{\alph*}.,
     leftmargin = 1.25in,
     itemindent = 0.25in,
     labelwidth = 0.2in,
@@ -1193,7 +1281,7 @@
 % Level 7 (JS level 6): underlined (1) at 1.5", text at 1.75", continuation at 1.5"
 \newlist{subsubsubsubsubsubpara}{enumerate}{1}
 \setlist[subsubsubsubsubsubpara,1]{
-    label      = \underline{(\arabic*)},
+    label      = \uline{(\arabic*)},
     leftmargin = 1.5in,
     itemindent = 0.25in,
     labelwidth = 0.25in,
@@ -1206,7 +1294,7 @@
 % Level 8 (JS level 7): underlined (a) at 1.75", text at 2.0", continuation at 1.75"
 \newlist{subsubsubsubsubsubsubpara}{enumerate}{1}
 \setlist[subsubsubsubsubsubsubpara,1]{
-    label      = \underline{(\alph*)},
+    label      = \uline{(\alph*)},
     leftmargin = 1.75in,
     itemindent = 0.25in,
     labelwidth = 0.25in,
@@ -1224,6 +1312,9 @@
 % Load enclosure definitions first (so counter is set before document)
 % Note: Using encl-config.tex to avoid conflict with enclosures/ directory
 \input{encl-config}
+
+% Load distribution definitions
+\input{distribution-config}
 
 % Load copy-to definitions
 \input{copyto-config}
@@ -1304,7 +1395,14 @@
 
 
 %=============================================================================
-% COPY TO (DISTRIBUTION) - Shows after signature if any recipients defined
+% DISTRIBUTION - Action addressees (shows after signature if any defined)
+%=============================================================================
+
+\printDistribution
+
+
+%=============================================================================
+% COPY TO - Information addressees (shows after distribution if any defined)
 %=============================================================================
 
 \printCopyTo

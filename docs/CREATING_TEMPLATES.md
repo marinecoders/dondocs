@@ -24,24 +24,17 @@ Templates are located in `src/data/templates/` organized by category:
 ```
 src/data/templates/
 ├── types.ts                    # TypeScript interfaces
-├── index.ts                    # Exports all templates
-├── awards/                     # Award-related templates
+├── index.ts                    # Exports all templates (11 total)
+├── awards/                     # Award templates (NAM, LOA)
 │   ├── index.ts
-│   ├── meritorious-mast.ts
-│   ├── award-nam.ts
-│   └── ...
-├── personnel/                  # Personnel actions
+│   └── award-nam.ts, award-loa.ts
+├── personnel/                  # Personnel actions (PFT Waiver, Humanitarian Transfer)
 │   ├── index.ts
-│   ├── leave-request.ts
-│   └── ...
-├── leadership/                 # Counseling, LOIs, etc.
-├── endorsements/               # Endorsement templates
-├── administrative/             # Administrative templates
-├── training/                   # Training-related
-├── investigations/             # Investigation templates
-├── legal/                      # Legal templates
-├── memoranda/                  # MFR templates
-└── operations/                 # Operational templates
+│   └── pft-waiver.ts, humanitarian-transfer.ts
+├── leadership/                 # Command Interest letter
+├── administrative/             # Appointment letters (3 templates)
+├── investigations/             # Report of Findings, IO Appointment
+└── operations/                 # Letter of Instruction
 ```
 
 ---
@@ -132,7 +125,7 @@ export const LETTER_TEMPLATES: LetterTemplate[] = [
 
 ### Document Types
 
-The `docType` field determines the document format:
+The `docType` field determines the document format. All 20 types are available in the document type selector.
 
 | docType | Description |
 |---------|-------------|
@@ -153,6 +146,9 @@ The `docType` field determines the document format:
 | `moa` | Memorandum of Agreement (MOA) |
 | `mou` | Memorandum of Understanding (MOU) |
 | `executive_correspondence` | Executive Correspondence |
+| `standard_memorandum` | Standard Memorandum (HqDON) |
+| `action_memorandum` | Action Memorandum |
+| `information_memorandum` | Information Memorandum |
 
 ---
 
@@ -320,7 +316,8 @@ Creating new document *formats* requires LaTeX knowledge and is a more advanced 
 1. Check if an existing format can be adapted
 2. Review the existing LaTeX templates in `tex/templates/`
 3. See `src/lib/latex-templates.js` for how formats are loaded
-4. Open an issue to discuss the new format before implementing
+4. **Read the [LaTeX Spacing Standards](./CONTRIBUTING.md#latex-spacing-standards)** -- all spacing must use `\vspace{Xpt}` with the standard values (12pt, 6pt, 24pt, 48pt). Do not use `\\[Xpt]`, `\medskip`, `\baselineskip`, or other alternatives.
+5. Open an issue to discuss the new format before implementing
 
 Most contributors will only need to create content templates as described in this guide.
 

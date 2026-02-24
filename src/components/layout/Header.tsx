@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect, type ChangeEvent } from 'react';
-import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X } from 'lucide-react';
+import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -28,6 +28,7 @@ interface HeaderProps {
   onDownloadPdf?: () => void;
   onDownloadTex?: () => void;
   onDownloadDocx?: () => void;
+  onDownloadFlatTex?: () => void;
   onRefreshPreview?: () => void;
   isCompiling?: boolean;
   isFormsMode?: boolean;  // Whether we're in forms mode (hides LaTeX options)
@@ -41,11 +42,12 @@ export function Header({
   onDownloadPdf,
   onDownloadTex,
   onDownloadDocx,
+  onDownloadFlatTex,
   onRefreshPreview,
   isCompiling,
   isFormsMode = false,
 }: HeaderProps) {
-  const { theme, toggleTheme, density, setDensity, autoSaveStatus, setAboutModalOpen, setNistModalOpen, setBatchModalOpen, setDocumentGuideOpen, setFindReplaceOpen, setShareModal, isMobile, previewVisible, togglePreview } = useUIStore();
+  const { theme, toggleTheme, density, setDensity, autoSaveStatus, setAboutModalOpen, setNistModalOpen, setBatchModalOpen, setDocumentGuideOpen, setFindReplaceOpen, setShareModal, isMobile, previewVisible, togglePreview, fullQualityPreview, setFullQualityPreview } = useUIStore();
   const documentStore = useDocumentStore();
   const { resetForm, applySnapshot, clearFieldsExceptLetterhead } = useDocumentStore();
   const { undo, redo, canUndo, canRedo } = useHistoryStore();
@@ -192,7 +194,9 @@ export function Header({
         version: '1.0',
         exportedAt: new Date().toISOString(),
         documentMode: documentStore.documentMode,
+        documentCategory: documentStore.documentCategory,
         docType: documentStore.docType,
+        formType: documentStore.formType,
         formData: documentStore.formData,
         references: documentStore.references,
         // Include enclosure file data as base64 for full restoration
@@ -253,9 +257,19 @@ export function Header({
           documentStore.setDocumentMode?.(data.documentMode);
         }
 
+        // Apply document category
+        if (data.documentCategory) {
+          documentStore.setDocumentCategory(data.documentCategory);
+        }
+
         // Apply document type
         if (data.docType) {
           documentStore.setDocType(data.docType);
+        }
+
+        // Apply form type
+        if (data.formType) {
+          documentStore.setFormType(data.formType);
         }
 
         // Apply form data
@@ -284,9 +298,10 @@ export function Header({
               data: base64ToUint8Array(encl.file.data).buffer as ArrayBuffer,
             } : undefined,
           })) || [],
-          paragraphs: data.paragraphs?.map((para: { text: string; level?: number; portionMarking?: string }) => ({
+          paragraphs: data.paragraphs?.map((para: { text: string; level?: number; header?: string; portionMarking?: string }) => ({
             text: para.text,
             level: para.level || 0,
+            header: para.header,
             portionMarking: para.portionMarking,
           })) || [],
           copyTos: data.copyTos || [],
@@ -491,6 +506,10 @@ export function Header({
                     <FileText className="h-4 w-4 mr-2" />
                     Download LaTeX
                   </DropdownMenuItem>
+                  <DropdownMenuItem onClick={onDownloadFlatTex}>
+                    <FileText className="h-4 w-4 mr-2" />
+                    Download Flat LaTeX (Pandoc)
+                  </DropdownMenuItem>
                 </>
               )}
             </DropdownMenuContent>
@@ -625,6 +644,19 @@ export function Header({
                 </div>
                 {density === 'spacious' && <Check className="h-4 w-4" />}
               </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              {/* Preview quality */}
+              <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Preview</div>
+              <DropdownMenuItem onClick={() => setFullQualityPreview(!fullQualityPreview)} className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <Zap className="h-4 w-4 mr-2" />
+                  Full Quality
+                </div>
+                {fullQualityPreview && <Check className="h-4 w-4" />}
+              </DropdownMenuItem>
+              <p className="px-2 pb-1.5 text-[10px] text-muted-foreground leading-tight">
+                Includes enclosures, hyperlinks, and signatures in live preview. May slow compilation.
+              </p>
             </DropdownMenuContent>
           </DropdownMenu>
 
