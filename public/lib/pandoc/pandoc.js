@@ -38,10 +38,6 @@ import {
 
 const args = ["pandoc.wasm", "+RTS", "-H64m", "-RTS"];
 const env = [];
-const in_file = new File(new Uint8Array(), { readonly: true });
-const out_file = new File(new Uint8Array(), { readonly: false });
-const err_file = new File(new Uint8Array(), { readonly: false });
-const warnings_file = new File(new Uint8Array(), { readonly: false });
 const fileSystem = new Map();
 const fds = [
   new OpenFile(new File(new Uint8Array(), { readonly: true })),
@@ -99,7 +95,7 @@ export async function query(options) {
   new Uint8Array(instance.exports.memory.buffer, opts_ptr, opts_bytes.length)
     .set(opts_bytes);
   // add input files to fileSystem
-  fileSystem.clear()
+  fileSystem.clear();
   const out_file = new File(new Uint8Array(), { readonly: false });
   const err_file = new File(new Uint8Array(), { readonly: false });
   fileSystem.set("stdout", out_file);
@@ -120,7 +116,7 @@ export async function convert(options, stdin, files) {
   new Uint8Array(instance.exports.memory.buffer, opts_ptr, opts_bytes.length)
     .set(opts_bytes);
   // add input files to fileSystem
-  fileSystem.clear()
+  fileSystem.clear();
   const in_file = new File(new Uint8Array(), { readonly: true });
   const out_file = new File(new Uint8Array(), { readonly: false });
   const err_file = new File(new Uint8Array(), { readonly: false });
