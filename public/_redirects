@@ -1,1 +1,2 @@
-/* /index.html 200
+# Static asset 404s should not fall through to SPA
+# SPA routing is handled by wrangler.toml not_found_handling = "single-page-application"
