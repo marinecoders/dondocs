@@ -3,6 +3,9 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+# Base path for Vite (default: / for Docker/Caddy, override for GitHub Pages)
+ARG BASE_PATH=/
+
 # Copy package files
 COPY package.json package-lock.json ./
 
@@ -12,8 +15,8 @@ RUN npm ci
 # Copy source code
 COPY . .
 
-# Build the application
-RUN npm run build
+# Build the application with configurable base path
+RUN npx tsc -b && npx vite build --base=$BASE_PATH
 
 # Production stage with Caddy
 FROM caddy:2-alpine
