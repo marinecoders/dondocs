@@ -1,6 +1,0 @@
-#!/bin/bash
-cd ~/libo-secured
-git pull
-cd web-react
-npx vite build --base=/
-echo "Updated!"
