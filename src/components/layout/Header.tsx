@@ -445,38 +445,38 @@ export function Header({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={handleSaveProgress}>
-                <Save className="h-4 w-4 mr-2" />
+                <Save className="h-4 w-4 mr-2 text-muted-foreground" />
                 Save Progress
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleLoadProgress}>
-                <Download className="h-4 w-4 mr-2" />
+                <Download className="h-4 w-4 mr-2 text-muted-foreground" />
                 Load Saved
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => setShareModal('share')}>
-                <Link2 className="h-4 w-4 mr-2" />
+                <Link2 className="h-4 w-4 mr-2 text-muted-foreground" />
                 Share link…
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setShareModal('import')}>
-                <FileInput className="h-4 w-4 mr-2" />
+                <FileInput className="h-4 w-4 mr-2 text-muted-foreground" />
                 Import from link
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleExportDraft}>
-                <FileDown className="h-4 w-4 mr-2" />
+                <FileDown className="h-4 w-4 mr-2 text-muted-foreground" />
                 Export Draft to File
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => fileInputRef.current?.click()}>
-                <FileUp className="h-4 w-4 mr-2" />
+                <FileUp className="h-4 w-4 mr-2 text-muted-foreground" />
                 Import Draft from File
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => setShowClearFieldsDialog(true)} className="text-orange-600 dark:text-orange-400">
-                <Eraser className="h-4 w-4 mr-2" />
+                <Eraser className="h-4 w-4 mr-2 text-orange-600 dark:text-orange-400" />
                 Clear Fields (Keep Letterhead)
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setShowResetDialog(true)} className="text-destructive">
-                <RotateCcw className="h-4 w-4 mr-2" />
+                <RotateCcw className="h-4 w-4 mr-2 text-destructive" />
                 Reset All Fields
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -492,22 +492,22 @@ export function Header({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={handleDownloadPdf}>
-                <FileText className="h-4 w-4 mr-2" />
+                <FileText className="h-4 w-4 mr-2 text-muted-foreground" />
                 Download PDF
               </DropdownMenuItem>
               {/* LaTeX and DOCX only available for correspondence */}
               {!isFormsMode && (
                 <>
                   <DropdownMenuItem onClick={onDownloadDocx}>
-                    <FileText className="h-4 w-4 mr-2" />
+                    <FileText className="h-4 w-4 mr-2 text-muted-foreground" />
                     Download DOCX
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={onDownloadTex}>
-                    <FileText className="h-4 w-4 mr-2" />
+                    <FileText className="h-4 w-4 mr-2 text-muted-foreground" />
                     Download LaTeX
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={onDownloadFlatTex}>
-                    <FileText className="h-4 w-4 mr-2" />
+                    <FileText className="h-4 w-4 mr-2 text-muted-foreground" />
                     Download Flat LaTeX (Pandoc)
                   </DropdownMenuItem>
                 </>
@@ -560,30 +560,30 @@ export function Header({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-72">
               <DropdownMenuItem onClick={() => setNistModalOpen(true)}>
-                <Shield className="h-4 w-4 mr-2" />
+                <Shield className="h-4 w-4 mr-2 text-muted-foreground" />
                 NIST 800-171 Compliance
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setAboutModalOpen(true)}>
-                <Info className="h-4 w-4 mr-2" />
+                <Info className="h-4 w-4 mr-2 text-muted-foreground" />
                 About
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => window.open(GITHUB_REPO_URL, '_blank')}>
-                <Github className="h-4 w-4 mr-2" />
+                <Github className="h-4 w-4 mr-2 text-muted-foreground" />
                 View on GitHub
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => window.open(GITHUB_ISSUES_URL, '_blank')}>
-                <Bug className="h-4 w-4 mr-2" />
+                <Bug className="h-4 w-4 mr-2 text-muted-foreground" />
                 Report a Bug
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => useLogStore.getState().setOpen(true)}>
-                <ScrollText className="h-4 w-4 mr-2" />
+                <ScrollText className="h-4 w-4 mr-2 text-muted-foreground" />
                 View Logs
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <div className="px-2 py-1.5">
                 <h4 className="font-medium text-sm mb-2 flex items-center">
-                  <Keyboard className="h-4 w-4 mr-2" />
+                  <Keyboard className="h-4 w-4 mr-2 text-muted-foreground" />
                   Keyboard Shortcuts
                 </h4>
                 <div className="grid grid-cols-2 gap-1 text-xs">

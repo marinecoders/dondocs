@@ -137,7 +137,7 @@ export function DocumentTypeSelector() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="h-6 px-2 bg-primary/10 border border-primary/30 text-primary hover:text-primary/80 hover:bg-primary/20"
+                      className="h-6 px-2 bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20 hover:text-primary-foreground"
                       onClick={() => setTemplateLoaderOpen(true)}
                     >
                       <FolderOpen className="h-3.5 w-3.5 mr-1" />
