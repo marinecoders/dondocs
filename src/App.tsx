@@ -19,6 +19,7 @@ import { EnclosureErrorModal } from '@/components/modals/EnclosureErrorModal';
 import { RestoreSessionModal } from '@/components/modals/RestoreSessionModal';
 import { ShareModal } from '@/components/modals/ShareModal';
 import { UpdatePromptModal } from '@/components/modals/UpdatePromptModal';
+import { DocxProgressModal } from '@/components/modals/DocxProgressModal';
 import { parseShareUrl } from '@/lib/shareCrypto';
 import { BrowserCompatibilityNotice } from '@/components/BrowserCompatibilityNotice';
 import { BackgroundBeams } from '@/components/effects/BackgroundBeams';
@@ -32,7 +33,7 @@ import { useLogStore } from '@/stores/logStore';
 import { useLatexEngine, useServiceWorker } from '@/hooks';
 import { generateAllLatexFiles, type GeneratedFiles } from '@/services/latex/generator';
 import { generateFlatLatex } from '@/services/latex/flat-generator';
-import { convertLatexToDocx } from '@/services/docx/pandoc-converter';
+import { convertLatexToDocx, type DocxProgressPhase } from '@/services/docx/pandoc-converter';
 import { generateNavmc10274Pdf, loadNavmc10274Templates } from '@/services/pdf/navmc10274Generator';
 import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/navmc11811Generator';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
@@ -163,6 +164,9 @@ function App() {
   const [formPdfUrl, setFormPdfUrl] = useState<string | null>(null);
   const [isCompiling, setIsCompiling] = useState(false);
   const [compileError, setCompileError] = useState<string | null>(null);
+  // DOCX loading feedback: non-null means a conversion is in flight and the
+  // DocxProgressModal is shown. Drives the Header's "Generating…" menu state.
+  const [docxProgress, setDocxProgress] = useState<DocxProgressPhase | null>(null);
   const compileTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const formCompileTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isResettingRef = useRef(false);
@@ -568,21 +572,32 @@ function App() {
 
   const executeDocxDownload = useCallback(async () => {
     const latexContent = generateFlatLatex(documentStore);
-    const blob = await convertLatexToDocx(
-      latexContent,
-      documentStore.formData.sealType,
-      documentStore.formData.letterheadColor,
-      documentStore.formData.fontFamily,
-      documentStore.formData.fontSize,
-      documentStore.formData.classLevel,
-      documentStore.formData.customClassification,
-    );
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'correspondence.docx';
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    // Show the progress modal immediately so the user gets feedback the moment
+    // they click "Download DOCX" — the first run can spend several seconds in
+    // `preparing` before the WASM fetch even starts on slow connections.
+    setDocxProgress({ kind: 'preparing' });
+    try {
+      const blob = await convertLatexToDocx(
+        latexContent,
+        documentStore.formData.sealType,
+        documentStore.formData.letterheadColor,
+        documentStore.formData.fontFamily,
+        documentStore.formData.fontSize,
+        documentStore.formData.classLevel,
+        documentStore.formData.customClassification,
+        setDocxProgress,
+      );
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'correspondence.docx';
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } finally {
+      // Always hide the modal — success, error, or cancellation. The caller is
+      // responsible for surfacing errors (via compileError) to the user.
+      setDocxProgress(null);
+    }
   }, [documentStore]);
 
   // Core PII download function - can be called for retry
@@ -1031,6 +1046,7 @@ ${texFiles['body.tex'] || '% No body content'}
         onDownloadFlatTex={handleDownloadFlatTex}
         onRefreshPreview={compilePdf}
         isCompiling={isCompiling}
+        isDocxGenerating={docxProgress !== null}
         isFormsMode={documentCategory === 'forms'}
       />
 
@@ -1122,6 +1138,7 @@ ${texFiles['body.tex'] || '% No body content'}
         onConfirm={confirmUpdate}
         onDismiss={dismissUpdatePrompt}
       />
+      <DocxProgressModal phase={docxProgress} />
       <BrowserCompatibilityNotice />
     </div>
   );

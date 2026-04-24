@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect, type ChangeEvent } from 'react';
-import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap } from 'lucide-react';
+import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -31,6 +31,12 @@ interface HeaderProps {
   onDownloadFlatTex?: () => void;
   onRefreshPreview?: () => void;
   isCompiling?: boolean;
+  /**
+   * True while a DOCX download is in flight. Disables the DOCX menu item and
+   * swaps its icon for a spinner so a second click can't spawn a parallel
+   * conversion (the pandoc WASM module is a singleton but the modal UX is not).
+   */
+  isDocxGenerating?: boolean;
   isFormsMode?: boolean;  // Whether we're in forms mode (hides LaTeX options)
 }
 
@@ -45,6 +51,7 @@ export function Header({
   onDownloadFlatTex,
   onRefreshPreview,
   isCompiling,
+  isDocxGenerating = false,
   isFormsMode = false,
 }: HeaderProps) {
   const { theme, toggleTheme, density, setDensity, autoSaveStatus, setAboutModalOpen, setNistModalOpen, setBatchModalOpen, setDocumentGuideOpen, setFindReplaceOpen, setShareModal, isMobile, previewVisible, togglePreview, fullQualityPreview, setFullQualityPreview } = useUIStore();
@@ -498,9 +505,19 @@ export function Header({
               {/* LaTeX and DOCX only available for correspondence */}
               {!isFormsMode && (
                 <>
-                  <DropdownMenuItem onClick={onDownloadDocx}>
-                    <FileText className="h-4 w-4 mr-2" />
-                    Download DOCX
+                  <DropdownMenuItem
+                    onClick={onDownloadDocx}
+                    disabled={isDocxGenerating}
+                    // Radix treats `disabled` on menu items correctly (aria-disabled
+                    // + pointer-events none), so a second click can't fire while
+                    // the WASM is still loading or pandoc is running.
+                  >
+                    {isDocxGenerating ? (
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    ) : (
+                      <FileText className="h-4 w-4 mr-2" />
+                    )}
+                    {isDocxGenerating ? 'Generating DOCX…' : 'Download DOCX'}
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={onDownloadTex}>
                     <FileText className="h-4 w-4 mr-2" />

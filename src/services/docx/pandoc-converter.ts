@@ -26,6 +26,35 @@ interface PandocModule {
   query: (options: Record<string, unknown>) => Promise<unknown>;
 }
 
+/**
+ * Phased progress events for DOCX conversion.
+ *
+ * Phases run roughly in this order the FIRST time a DOCX is generated:
+ *   preparing → fetching-engine → instantiating → fetching-support → converting → postprocessing
+ *
+ * On subsequent calls the pandoc WASM module is already cached in memory,
+ * so only `preparing → converting → postprocessing` will fire.
+ *
+ * `fetching-engine` carries optional `loaded`/`total` byte counts; all other
+ * phases are status-only.
+ */
+export type DocxProgressPhase =
+  | { kind: 'preparing' }
+  | { kind: 'fetching-engine'; loaded: number; total: number }
+  | { kind: 'instantiating' }
+  | { kind: 'fetching-support' }
+  | { kind: 'converting' }
+  | { kind: 'postprocessing' };
+
+export type DocxProgressCallback = (phase: DocxProgressPhase) => void;
+
+// Low-level event shape emitted by pandoc.js (see public/lib/pandoc/pandoc.js).
+type PandocLoaderEvent =
+  | { kind: 'fetch-start' }
+  | { kind: 'fetch-progress'; loaded: number; total: number }
+  | { kind: 'instantiate-start' }
+  | { kind: 'ready' };
+
 // Singleton: lazily loaded pandoc module
 let pandocModule: PandocModule | null = null;
 let loadPromise: Promise<PandocModule> | null = null;
@@ -59,31 +88,70 @@ async function fetchSupportFile(filename: string): Promise<Blob> {
   return blob;
 }
 
-async function ensureLoaded(): Promise<PandocModule> {
+/**
+ * Install a progress hook that pandoc.js will call during its top-level
+ * WASM fetch + instantiation. Must be set BEFORE the dynamic import() of
+ * pandoc.js resolves for the first time.
+ *
+ * Returns a cleanup function that restores the previous hook (or removes it).
+ *
+ * Note: if the pandoc module is already cached from a prior call, the hook
+ * will never fire — top-level await only runs once per module URL.
+ */
+function installPandocLoaderHook(
+  onEvent: (event: PandocLoaderEvent) => void
+): () => void {
+  const scope = globalThis as typeof globalThis & {
+    __dondocsPandocProgress?: (event: PandocLoaderEvent) => void;
+  };
+  const previous = scope.__dondocsPandocProgress;
+  scope.__dondocsPandocProgress = onEvent;
+  return () => {
+    if (previous) {
+      scope.__dondocsPandocProgress = previous;
+    } else {
+      delete scope.__dondocsPandocProgress;
+    }
+  };
+}
+
+async function ensureLoaded(
+  onLoaderEvent?: (event: PandocLoaderEvent) => void
+): Promise<PandocModule> {
   if (pandocModule) {
     debug.verbose('DOCX', 'Pandoc module already loaded (cached)');
     return pandocModule;
   }
 
   if (!loadPromise) {
+    // Install the loader hook BEFORE we kick off the dynamic import, because
+    // pandoc.js uses top-level await and will start fetching the WASM binary
+    // the moment the import resolves. A hook installed after `import()` would
+    // miss the `fetch-start`/`fetch-progress` events on the first load.
+    const cleanup = onLoaderEvent ? installPandocLoaderHook(onLoaderEvent) : () => {};
+
     loadPromise = (async () => {
       debug.log('DOCX', 'Initializing pandoc WASM (first load)...');
       debug.time('DOCX:ensureLoaded');
 
-      // Load pandoc WASM module and support files in parallel
-      const [mod, refDocx, luaFilter] = await Promise.all([
-        loadPandocModule(),
-        referenceDocxBlob ? Promise.resolve(referenceDocxBlob) : fetchSupportFile('reference.docx'),
-        luaFilterBlob ? Promise.resolve(luaFilterBlob) : fetchSupportFile('dondocs.lua'),
-      ]);
+      try {
+        // Load pandoc WASM module and support files in parallel
+        const [mod, refDocx, luaFilter] = await Promise.all([
+          loadPandocModule(),
+          referenceDocxBlob ? Promise.resolve(referenceDocxBlob) : fetchSupportFile('reference.docx'),
+          luaFilterBlob ? Promise.resolve(luaFilterBlob) : fetchSupportFile('dondocs.lua'),
+        ]);
 
-      pandocModule = mod;
-      referenceDocxBlob = refDocx;
-      luaFilterBlob = luaFilter;
+        pandocModule = mod;
+        referenceDocxBlob = refDocx;
+        luaFilterBlob = luaFilter;
 
-      debug.timeEnd('DOCX:ensureLoaded');
-      debug.log('DOCX', 'Pandoc WASM ready');
-      return mod;
+        debug.timeEnd('DOCX:ensureLoaded');
+        debug.log('DOCX', 'Pandoc WASM ready');
+        return mod;
+      } finally {
+        cleanup();
+      }
     })();
   }
 
@@ -969,6 +1037,11 @@ async function postProcessDocx(
  *
  * On first call, downloads the pandoc WASM binary (~58MB).
  * Subsequent calls reuse the cached module.
+ *
+ * `onProgress` receives phased status updates so a caller can drive a
+ * loading UI. It is invoked synchronously from inside this function and
+ * from pandoc.js's top-level load; consumers should keep handlers cheap
+ * (e.g. a single React setState).
  */
 export async function convertLatexToDocx(
   latexContent: string,
@@ -978,12 +1051,57 @@ export async function convertLatexToDocx(
   fontSize?: string,
   classLevel?: string,
   customClassification?: string,
+  onProgress?: DocxProgressCallback,
 ): Promise<Blob> {
   debug.log('DOCX', '═══ Starting LaTeX → DOCX conversion ═══');
   debug.time('DOCX:totalConversion');
   debug.verbose('DOCX', `LaTeX input: ${(latexContent.length / 1024).toFixed(1)} KB, seal=${sealType}, font=${fontFamily} ${fontSize}`);
 
-  const mod = await ensureLoaded();
+  // Safe emit: never let a bad consumer callback abort the conversion.
+  const emit = (phase: DocxProgressPhase) => {
+    if (!onProgress) return;
+    try {
+      onProgress(phase);
+    } catch (err) {
+      debug.warn('DOCX', `onProgress callback threw: ${String(err)}`);
+    }
+  };
+
+  emit({ kind: 'preparing' });
+
+  // Translate low-level pandoc loader events into our phased API so
+  // consumers don't have to know about the two-stage init.
+  const loaderHook = onProgress
+    ? (event: PandocLoaderEvent) => {
+        switch (event.kind) {
+          case 'fetch-start':
+            emit({ kind: 'fetching-engine', loaded: 0, total: 0 });
+            break;
+          case 'fetch-progress':
+            emit({
+              kind: 'fetching-engine',
+              loaded: event.loaded,
+              total: event.total,
+            });
+            break;
+          case 'instantiate-start':
+            emit({ kind: 'instantiating' });
+            break;
+          case 'ready':
+            // ensureLoaded() also fetches reference.docx + dondocs.lua in
+            // parallel; report that phase here so the UI shows movement.
+            emit({ kind: 'fetching-support' });
+            break;
+        }
+      }
+    : undefined;
+
+  const mod = await ensureLoaded(loaderHook);
+
+  // If the module was already cached we never got `fetch-start` — emit a
+  // support-fetch phase anyway so the caller sees a consistent sequence
+  // before we jump into `converting`.
+  if (pandocModule) emit({ kind: 'fetching-support' });
 
   // Files map: pandoc reads input files and writes output files here
   const files: Record<string, Blob> = {
@@ -1020,6 +1138,7 @@ export async function convertLatexToDocx(
     debug.verboseTable('DOCX', 'metadata', metadata);
   });
 
+  emit({ kind: 'converting' });
   const result = await mod.convert(options, latexContent, files);
   debug.timeEnd('DOCX:pandocConvert');
 
@@ -1036,6 +1155,7 @@ export async function convertLatexToDocx(
   debug.log('DOCX', `Pandoc output: ${(outputBlob.size / 1024).toFixed(1)} KB`);
 
   // Post-process: zero cell padding, rescale gridCol, page geometry, fonts, letterhead colors, classification
+  emit({ kind: 'postprocessing' });
   const finalBlob = await postProcessDocx(outputBlob, fontFamily, fontSize, letterheadColor, classLevel, customClassification);
 
   debug.timeEnd('DOCX:totalConversion');
