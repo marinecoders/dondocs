@@ -68,6 +68,12 @@ function buildIssueUrl(args: { target: 'pdf' | 'docx'; title: string; message: s
     : args.compileLog;
 
   const body = [
+    '<!--',
+    'Thanks for reporting this! The log below was captured automatically — you',
+    'only need to fill in what happened and how to reproduce it. Reporting bugs',
+    'is the fastest way to get them fixed; we triage every report.',
+    '-->',
+    '',
     '## What happened',
     args.message,
     '',
@@ -83,6 +89,7 @@ function buildIssueUrl(args: { target: 'pdf' | 'docx'; title: string; message: s
     '## Environment',
     `- User agent: ${typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown'}`,
     `- URL: ${typeof window !== 'undefined' ? window.location.href : 'unknown'}`,
+    `- Reported: ${new Date().toISOString()}`,
   ].join('\n');
 
   const params = new URLSearchParams({
@@ -349,7 +356,8 @@ export function DownloadProgressModal({ phase, onClose, onRetry }: DownloadProgr
 
               {phase.reportable && (
                 <p className="text-xs text-muted-foreground break-words">
-                  If this keeps happening, report it on GitHub so we can fix it.
+                  Reporting this on GitHub is the fastest way to get it fixed —
+                  we triage every report.
                   {phase.compileLog ? ' The log is included in the prefilled issue.' : ''}
                 </p>
               )}

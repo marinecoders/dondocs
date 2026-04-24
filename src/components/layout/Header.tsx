@@ -47,8 +47,107 @@ interface HeaderProps {
 }
 
 const GITHUB_REPO_URL = 'https://github.com/marinecoders/dondocs';
-const GITHUB_ISSUES_URL = 'https://github.com/marinecoders/dondocs/issues';
+const GITHUB_NEW_ISSUE_URL = 'https://github.com/marinecoders/dondocs/issues/new';
 const STORAGE_KEY = 'dondocs-document';
+
+// GitHub URLs over ~8 KB start to fail in some browsers; cap the prefilled
+// log payload so the link always works. Users can still copy full logs from
+// Help → View Logs if they need the rest.
+const GH_ISSUE_LOG_MAX = 4000;
+// How many recent log entries to auto-include. We filter to errors + warnings
+// first — if there aren't enough, we fall back to the tail of all levels so
+// non-error bugs (UI glitches, etc.) still get useful context.
+const RECENT_LOG_COUNT = 40;
+
+/**
+ * Grab recent logs from the LogStore for auto-inclusion in a bug report.
+ * Prioritizes errors/warnings (what devs actually care about), falls back to
+ * the tail of all levels if there aren't enough signal-level entries.
+ * Returns null if logging isn't available or the store is empty.
+ */
+function collectRecentLogs(): string | null {
+  const logs = useLogStore.getState().logs;
+  if (logs.length === 0) return null;
+
+  // Prefer error + warn; if we don't have at least a handful, include the
+  // tail of everything so there's still something to look at.
+  const signalLogs = logs.filter((l) => l.level === 'error' || l.level === 'warn');
+  const picked = signalLogs.length >= 5
+    ? signalLogs.slice(-RECENT_LOG_COUNT)
+    : logs.slice(-RECENT_LOG_COUNT);
+
+  const formatted = picked
+    .map((l) => `[${l.timestamp.toISOString()}] [${l.level.toUpperCase()}] ${l.message}`)
+    .join('\n');
+
+  if (formatted.length > GH_ISSUE_LOG_MAX) {
+    const truncated = formatted.slice(-GH_ISSUE_LOG_MAX);
+    return `… [older entries truncated — ${formatted.length - GH_ISSUE_LOG_MAX} more chars in Help → View Logs]\n${truncated}`;
+  }
+  return formatted;
+}
+
+/**
+ * Build a prefilled "New issue" URL for the Help-menu bug report button.
+ *
+ * This is the app's universal bug-report entry point — used anywhere the
+ * user notices something wrong (UI glitch, unexpected behavior, etc.), not
+ * just download failures. To keep it a true catch-all, we auto-include:
+ *   - Recent error + warning logs from the LogStore (so reports about weird
+ *     behavior still carry context the dev can act on)
+ *   - Environment (user agent, URL, timestamp)
+ *
+ * The download-error modal uses its own, richer builder that includes the
+ * full compile log and a target ("pdf" | "docx") — the two complement each
+ * other rather than overlap.
+ */
+function buildBugReportUrl(): string {
+  const recentLogs = collectRecentLogs();
+
+  const body = [
+    '<!--',
+    'Thanks for reporting a bug! Not every section below is required — fill',
+    'in what you can and delete anything that does not apply. The more',
+    'context you share, the faster we can track down and fix the issue.',
+    '',
+    'Reporting bugs and suggesting features is the fastest way to get them',
+    'fixed or built — we triage every report.',
+    '-->',
+    '',
+    '## What happened',
+    '<!-- describe the bug in a sentence or two -->',
+    '',
+    '## Steps to reproduce',
+    '<!-- 1. ...',
+    '2. ...',
+    '3. ... -->',
+    '',
+    '## Expected behavior',
+    '<!-- what you expected to happen instead -->',
+    '',
+    '## Screenshots',
+    '<!-- paste images here if relevant -->',
+    '',
+    '## Logs',
+    recentLogs
+      ? '<!-- auto-captured from the in-app log store. Full logs available via Help → View Logs. -->\n```\n' +
+        recentLogs +
+        '\n```'
+      : '<!-- no recent errors were captured. If this bug produced one, open Help → View Logs, copy what you see, and paste below. -->\n```\n\n```',
+    '',
+    '## Environment',
+    `- User agent: ${typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown'}`,
+    `- URL: ${typeof window !== 'undefined' ? window.location.href : 'unknown'}`,
+    `- Reported: ${new Date().toISOString()}`,
+  ].join('\n');
+
+  const params = new URLSearchParams({
+    title: '[Bug] ',
+    body,
+    labels: 'bug',
+  });
+  return `${GITHUB_NEW_ISSUE_URL}?${params.toString()}`;
+}
 
 export function Header({
   onDownloadPdf,
@@ -606,7 +705,7 @@ export function Header({
                 <Github className="h-4 w-4 mr-2" />
                 View on GitHub
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => window.open(GITHUB_ISSUES_URL, '_blank')}>
+              <DropdownMenuItem onClick={() => window.open(buildBugReportUrl(), '_blank', 'noopener,noreferrer')}>
                 <Bug className="h-4 w-4 mr-2" />
                 Report a Bug
               </DropdownMenuItem>
@@ -754,7 +853,7 @@ export function Header({
                 <Github className="h-4 w-4 mr-2" />
                 GitHub
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => window.open(GITHUB_ISSUES_URL, '_blank')}>
+              <DropdownMenuItem onClick={() => window.open(buildBugReportUrl(), '_blank', 'noopener,noreferrer')}>
                 <Bug className="h-4 w-4 mr-2" />
                 Report Bug
               </DropdownMenuItem>
