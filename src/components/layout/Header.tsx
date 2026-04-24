@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect, type ChangeEvent } from 'react';
-import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap } from 'lucide-react';
+import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -31,12 +31,123 @@ interface HeaderProps {
   onDownloadFlatTex?: () => void;
   onRefreshPreview?: () => void;
   isCompiling?: boolean;
+  /**
+   * True while a DOCX download is in flight. Disables the DOCX menu item and
+   * swaps its icon for a spinner so a second click can't spawn a parallel
+   * conversion (the pandoc WASM module is a singleton but the modal UX is not).
+   */
+  isDocxGenerating?: boolean;
+  /**
+   * True while a PDF download is in flight (compile → merge → sign → save).
+   * Disables the PDF menu item and swaps its icon for a spinner so a second
+   * click can't start a parallel compile while the modal is up.
+   */
+  isPdfGenerating?: boolean;
   isFormsMode?: boolean;  // Whether we're in forms mode (hides LaTeX options)
 }
 
 const GITHUB_REPO_URL = 'https://github.com/marinecoders/dondocs';
-const GITHUB_ISSUES_URL = 'https://github.com/marinecoders/dondocs/issues';
+const GITHUB_NEW_ISSUE_URL = 'https://github.com/marinecoders/dondocs/issues/new';
 const STORAGE_KEY = 'dondocs-document';
+
+// GitHub URLs over ~8 KB start to fail in some browsers; cap the prefilled
+// log payload so the link always works. Users can still copy full logs from
+// Help → View Logs if they need the rest.
+const GH_ISSUE_LOG_MAX = 4000;
+// How many recent log entries to auto-include. We filter to errors + warnings
+// first — if there aren't enough, we fall back to the tail of all levels so
+// non-error bugs (UI glitches, etc.) still get useful context.
+const RECENT_LOG_COUNT = 40;
+
+/**
+ * Grab recent logs from the LogStore for auto-inclusion in a bug report.
+ * Prioritizes errors/warnings (what devs actually care about), falls back to
+ * the tail of all levels if there aren't enough signal-level entries.
+ * Returns null if logging isn't available or the store is empty.
+ */
+function collectRecentLogs(): string | null {
+  const logs = useLogStore.getState().logs;
+  if (logs.length === 0) return null;
+
+  // Prefer error + warn; if we don't have at least a handful, include the
+  // tail of everything so there's still something to look at.
+  const signalLogs = logs.filter((l) => l.level === 'error' || l.level === 'warn');
+  const picked = signalLogs.length >= 5
+    ? signalLogs.slice(-RECENT_LOG_COUNT)
+    : logs.slice(-RECENT_LOG_COUNT);
+
+  const formatted = picked
+    .map((l) => `[${l.timestamp.toISOString()}] [${l.level.toUpperCase()}] ${l.message}`)
+    .join('\n');
+
+  if (formatted.length > GH_ISSUE_LOG_MAX) {
+    const truncated = formatted.slice(-GH_ISSUE_LOG_MAX);
+    return `… [older entries truncated — ${formatted.length - GH_ISSUE_LOG_MAX} more chars in Help → View Logs]\n${truncated}`;
+  }
+  return formatted;
+}
+
+/**
+ * Build a prefilled "New issue" URL for the Help-menu bug report button.
+ *
+ * This is the app's universal bug-report entry point — used anywhere the
+ * user notices something wrong (UI glitch, unexpected behavior, etc.), not
+ * just download failures. To keep it a true catch-all, we auto-include:
+ *   - Recent error + warning logs from the LogStore (so reports about weird
+ *     behavior still carry context the dev can act on)
+ *   - Environment (user agent, URL, timestamp)
+ *
+ * The download-error modal uses its own, richer builder that includes the
+ * full compile log and a target ("pdf" | "docx") — the two complement each
+ * other rather than overlap.
+ */
+function buildBugReportUrl(): string {
+  const recentLogs = collectRecentLogs();
+
+  const body = [
+    '<!--',
+    'Thanks for reporting a bug! Not every section below is required — fill',
+    'in what you can and delete anything that does not apply. The more',
+    'context you share, the faster we can track down and fix the issue.',
+    '',
+    'Reporting bugs and suggesting features is the fastest way to get them',
+    'fixed or built — we triage every report.',
+    '-->',
+    '',
+    '## What happened',
+    '<!-- describe the bug in a sentence or two -->',
+    '',
+    '## Steps to reproduce',
+    '<!-- 1. ...',
+    '2. ...',
+    '3. ... -->',
+    '',
+    '## Expected behavior',
+    '<!-- what you expected to happen instead -->',
+    '',
+    '## Screenshots',
+    '<!-- paste images here if relevant -->',
+    '',
+    '## Logs',
+    recentLogs
+      ? '<!-- auto-captured from the in-app log store. Full logs available via Help → View Logs. -->\n```\n' +
+        recentLogs +
+        '\n```'
+      : '<!-- no recent errors were captured. If this bug produced one, open Help → View Logs, copy what you see, and paste below. -->\n```\n\n```',
+    '',
+    '## Environment',
+    `- User agent: ${typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown'}`,
+    `- URL: ${typeof window !== 'undefined' ? window.location.href : 'unknown'}`,
+    `- Reported: ${new Date().toISOString()}`,
+  ].join('\n');
+
+  const params = new URLSearchParams({
+    title: '[Bug] ',
+    body,
+    labels: 'bug',
+  });
+  return `${GITHUB_NEW_ISSUE_URL}?${params.toString()}`;
+}
 
 export function Header({
   onDownloadPdf,
@@ -45,6 +156,8 @@ export function Header({
   onDownloadFlatTex,
   onRefreshPreview,
   isCompiling,
+  isDocxGenerating = false,
+  isPdfGenerating = false,
   isFormsMode = false,
 }: HeaderProps) {
   const { theme, toggleTheme, density, setDensity, autoSaveStatus, setAboutModalOpen, setNistModalOpen, setBatchModalOpen, setDocumentGuideOpen, setFindReplaceOpen, setShareModal, isMobile, previewVisible, togglePreview, fullQualityPreview, setFullQualityPreview } = useUIStore();
@@ -491,16 +604,36 @@ export function Header({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={handleDownloadPdf}>
-                <FileText className="h-4 w-4 mr-2" />
-                Download PDF
+              <DropdownMenuItem
+                onClick={handleDownloadPdf}
+                disabled={isPdfGenerating}
+                // Block re-entry while the PDF pipeline is running — same
+                // rationale as DOCX: the modal blocks the app visually but a
+                // second click on the dropdown item would still fire.
+              >
+                {isPdfGenerating ? (
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                ) : (
+                  <FileText className="h-4 w-4 mr-2" />
+                )}
+                {isPdfGenerating ? 'Generating PDF…' : 'Download PDF'}
               </DropdownMenuItem>
               {/* LaTeX and DOCX only available for correspondence */}
               {!isFormsMode && (
                 <>
-                  <DropdownMenuItem onClick={onDownloadDocx}>
-                    <FileText className="h-4 w-4 mr-2" />
-                    Download DOCX
+                  <DropdownMenuItem
+                    onClick={onDownloadDocx}
+                    disabled={isDocxGenerating}
+                    // Radix treats `disabled` on menu items correctly (aria-disabled
+                    // + pointer-events none), so a second click can't fire while
+                    // the WASM is still loading or pandoc is running.
+                  >
+                    {isDocxGenerating ? (
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    ) : (
+                      <FileText className="h-4 w-4 mr-2" />
+                    )}
+                    {isDocxGenerating ? 'Generating DOCX…' : 'Download DOCX'}
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={onDownloadTex}>
                     <FileText className="h-4 w-4 mr-2" />
@@ -572,7 +705,7 @@ export function Header({
                 <Github className="h-4 w-4 mr-2" />
                 View on GitHub
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => window.open(GITHUB_ISSUES_URL, '_blank')}>
+              <DropdownMenuItem onClick={() => window.open(buildBugReportUrl(), '_blank', 'noopener,noreferrer')}>
                 <Bug className="h-4 w-4 mr-2" />
                 Report a Bug
               </DropdownMenuItem>
@@ -720,7 +853,7 @@ export function Header({
                 <Github className="h-4 w-4 mr-2" />
                 GitHub
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => window.open(GITHUB_ISSUES_URL, '_blank')}>
+              <DropdownMenuItem onClick={() => window.open(buildBugReportUrl(), '_blank', 'noopener,noreferrer')}>
                 <Bug className="h-4 w-4 mr-2" />
                 Report Bug
               </DropdownMenuItem>

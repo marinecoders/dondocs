@@ -55,14 +55,79 @@ const wasi = new WASI(args, env, fds, options);
 // found 46 69 6c 65" error (the ASCII bytes of "File"). unpkg has no such limit.
 // Uses ArrayBuffer instantiation instead of instantiateStreaming to bypass MIME type checks.
 const wasmUrl = "https://unpkg.com/pandoc-wasm@1.0.1/src/pandoc.wasm";
-const wasmResponse = await fetch(wasmUrl);
-if (!wasmResponse.ok) {
-  throw new Error(
-    `Failed to fetch pandoc.wasm from ${wasmUrl}: ` +
-    `HTTP ${wasmResponse.status} ${wasmResponse.statusText}`
-  );
+
+// Progress reporting hook: consumers (e.g. the DOCX converter UI) can set
+// `globalThis.__dondocsPandocProgress` to a function BEFORE importing this
+// module. The hook receives events of the form:
+//   { kind: "fetch-start" }
+//   { kind: "fetch-progress", loaded: number, total: number }  // total may be 0 if unknown
+//   { kind: "instantiate-start" }
+//   { kind: "ready" }
+// Errors inside the hook are swallowed so they never break pandoc loading.
+function reportProgress(event) {
+  try {
+    const hook = globalThis.__dondocsPandocProgress;
+    if (typeof hook === "function") hook(event);
+  } catch (_err) {
+    // Intentionally ignored — progress reporting must not block pandoc init.
+  }
 }
-const wasmBytes = await wasmResponse.arrayBuffer();
+
+async function fetchWasmBytes(url) {
+  reportProgress({ kind: "fetch-start" });
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch pandoc.wasm from ${url}: ` +
+      `HTTP ${response.status} ${response.statusText}`
+    );
+  }
+  const totalHeader = response.headers.get("content-length");
+  const total = totalHeader ? Number(totalHeader) : 0;
+
+  // Fallback when streaming isn't available (e.g. older runtimes or opaque bodies):
+  // read the whole response at once and emit a single progress event.
+  if (!response.body || typeof response.body.getReader !== "function") {
+    const buf = await response.arrayBuffer();
+    reportProgress({
+      kind: "fetch-progress",
+      loaded: buf.byteLength,
+      total: total || buf.byteLength,
+    });
+    return buf;
+  }
+
+  const reader = response.body.getReader();
+  const chunks = [];
+  let loaded = 0;
+  // Throttle progress events to roughly once per 64 KB of download to avoid
+  // flooding the React render loop on fast connections.
+  const EMIT_EVERY = 64 * 1024;
+  let nextEmitAt = EMIT_EVERY;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+    loaded += value.byteLength;
+    if (loaded >= nextEmitAt) {
+      reportProgress({ kind: "fetch-progress", loaded, total });
+      nextEmitAt = loaded + EMIT_EVERY;
+    }
+  }
+  // Final progress tick so the UI can settle at 100%.
+  reportProgress({ kind: "fetch-progress", loaded, total: total || loaded });
+
+  const merged = new Uint8Array(loaded);
+  let offset = 0;
+  for (const chunk of chunks) {
+    merged.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return merged.buffer;
+}
+
+const wasmBytes = await fetchWasmBytes(wasmUrl);
+reportProgress({ kind: "instantiate-start" });
 const { instance } = await WebAssembly.instantiate(wasmBytes, {
   wasi_snapshot_preview1: wasi.wasiImport,
 });
@@ -91,6 +156,7 @@ const argv_ptr = instance.exports.malloc(4);
 memory_data_view().setUint32(argv_ptr, argv, true);
 
 instance.exports.hs_init_with_rtsopts(argc_ptr, argv_ptr);
+reportProgress({ kind: "ready" });
 
 export async function query(options) {
   const opts_str = JSON.stringify(options);

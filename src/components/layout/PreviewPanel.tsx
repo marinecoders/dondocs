@@ -140,6 +140,24 @@ export function PreviewPanel({ pdfUrl, isCompiling, error }: PreviewPanelProps) 
                 </div>
               </div>
             )}
+            {/* Persistent error banner shown OVER the (now stale) PDF so the
+                user knows their latest edits failed to compile. Previously
+                this branch was gated on `!pdfUrl`, which meant once any
+                compile had ever succeeded, subsequent failures left no
+                visible indicator — see the auto-popup modal in App.tsx for
+                the one-shot attention-grabber that complements this banner. */}
+            {displayError && !isCompiling && (
+              <div
+                className="absolute top-0 inset-x-0 flex items-start gap-2 bg-destructive/10 border-b border-destructive/30 text-destructive px-3 py-2 text-xs"
+                role="alert"
+              >
+                <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <div className="font-medium">Compile failed — preview is out of date</div>
+                  <div className="break-words opacity-90">{displayError}</div>
+                </div>
+              </div>
+            )}
           </>
         )}
 
