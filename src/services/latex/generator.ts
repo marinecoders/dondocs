@@ -1,6 +1,7 @@
 import { escapeLatex, escapeLatexUrl, processBodyText, formatSubjectForLatex, formatAddressForLatex } from './escaper';
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
+import { base64ToUint8Array } from '@/lib/encoding';
 
 interface DocumentStore {
   docType: string;
@@ -121,11 +122,19 @@ ${isBusinessLetter ? `% Business letter: format recipient address as block with 
     {${formatAddressForLatex(toLine)}}
     {}{}{}{}`}
 
-${data.via?.trim() ? `\\setVia
-    {${escapeLatex(data.via?.split('\n')[0] || '')}}
-    {${escapeLatex(data.via?.split('\n')[1] || '')}}
-    {${escapeLatex(data.via?.split('\n')[2] || '')}}
-    {${escapeLatex(data.via?.split('\n')[3] || '')}}` : '% No Via'}
+${data.via?.trim() ? (() => {
+  // Split once and pad to 4 lines so indices 0..3 are always defined.
+  // Previously this called data.via?.split('\n')[N] four separate times and
+  // leaned on `|| ''` to paper over undefined entries — fragile and wasted
+  // work (see #20). Empty strings are rendered as empty LaTeX groups.
+  const viaLines = data.via.split('\n');
+  const [l0 = '', l1 = '', l2 = '', l3 = ''] = viaLines;
+  return `\\setVia
+    {${escapeLatex(l0)}}
+    {${escapeLatex(l1)}}
+    {${escapeLatex(l2)}}
+    {${escapeLatex(l3)}}`;
+})() : '% No Via'}
 
 \\setSubject{${subjectLine}}
 ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : '% Continuation subject disabled'}
@@ -341,15 +350,23 @@ function generateMOASignatoryTex(store: DocumentStore): string {
     signatureConfigTex = '\\setDigitalSignatureField';
   }
 
-  // Senior signatory name formatting (same as standard signatory)
-  const seniorFirstName = capitalizeWord(data.seniorSigName?.split(' ')[0]);
-  const seniorLastName = data.seniorSigName?.split(' ').slice(-1)[0]?.toUpperCase() || '';
+  // Senior signatory name formatting (same as standard signatory).
+  // Split once and read first/last word safely (see #20). When the input
+  // has a single word or is empty, `first` === `last` === that word (or
+  // empty string), which is the same behavior the old `?.split(...)[0]` /
+  // `?.slice(-1)[0] || ''` chain produced but without the repeated splits
+  // or the implicit-undefined pitfalls.
   const seniorFullName = data.seniorSigName || '';
+  const seniorParts = seniorFullName.split(' ').filter(Boolean);
+  const seniorFirstName = capitalizeWord(seniorParts[0]);
+  const seniorLastName = (seniorParts[seniorParts.length - 1] || '').toUpperCase();
   const seniorAbbrev = seniorFirstName ? `${seniorFirstName[0]}. ${seniorLastName}` : seniorLastName;
 
   // Junior signatory name formatting (abbreviated like senior: "R. CHIOFALO")
-  const juniorFirstName = capitalizeWord(data.juniorSigName?.split(' ')[0]);
-  const juniorLastName = data.juniorSigName?.split(' ').slice(-1)[0]?.toUpperCase() || '';
+  const juniorFullName = data.juniorSigName || '';
+  const juniorParts = juniorFullName.split(' ').filter(Boolean);
+  const juniorFirstName = capitalizeWord(juniorParts[0]);
+  const juniorLastName = (juniorParts[juniorParts.length - 1] || '').toUpperCase();
   const juniorAbbrev = juniorFirstName ? `${juniorFirstName[0]}. ${juniorLastName}` : juniorLastName;
 
   // Use EXISTING commands only - Senior uses document-level fields + standard signatory
@@ -707,16 +724,6 @@ export interface GeneratedFiles {
   includeHyperlinks: boolean;
   signatureImage?: Uint8Array; // PNG data for signature image
   referenceUrls: ReferenceUrlData[]; // URLs for reference hyperlinks
-}
-
-// Helper to convert base64 to Uint8Array
-function base64ToUint8Array(base64: string): Uint8Array {
-  const binaryString = atob(base64);
-  const bytes = new Uint8Array(binaryString.length);
-  for (let i = 0; i < binaryString.length; i++) {
-    bytes[i] = binaryString.charCodeAt(i);
-  }
-  return bytes;
 }
 
 export function generateAllLatexFiles(store: DocumentStore): GeneratedFiles {

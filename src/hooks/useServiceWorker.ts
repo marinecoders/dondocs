@@ -19,6 +19,10 @@ export function useServiceWorker() {
   const [showUpdatePrompt, setShowUpdatePrompt] = useState(false);
   const [isActiveSession, setIsActiveSession] = useState(false);
   const updateServiceWorkerRef = useRef<((reloadPage?: boolean) => Promise<void>) | null>(null);
+  // Track the periodic update-check interval so we can cancel it on unmount.
+  // Without this, HMR in dev and any unmount in tests leak a 60s timer that
+  // keeps calling registration.update() forever against a dead component.
+  const updateIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const {
     needRefresh: [needRefresh],
@@ -28,9 +32,14 @@ export function useServiceWorker() {
     onRegisteredSW(swUrl, registration) {
       console.log('[SW] Registered:', swUrl);
 
-      // Check for updates periodically (every 60 seconds)
+      // Check for updates periodically (every 60 seconds). Clear any prior
+      // interval first in case onRegisteredSW fires more than once (e.g.
+      // registration re-runs in dev).
       if (registration) {
-        setInterval(() => {
+        if (updateIntervalRef.current) {
+          clearInterval(updateIntervalRef.current);
+        }
+        updateIntervalRef.current = setInterval(() => {
           registration.update();
         }, 60 * 1000);
       }
@@ -39,6 +48,16 @@ export function useServiceWorker() {
       console.error('[SW] Registration error:', error);
     },
   });
+
+  // Clean up the update-check interval on unmount.
+  useEffect(() => {
+    return () => {
+      if (updateIntervalRef.current) {
+        clearInterval(updateIntervalRef.current);
+        updateIntervalRef.current = null;
+      }
+    };
+  }, []);
 
   // Store updateServiceWorker in ref for use in effects
   updateServiceWorkerRef.current = updateServiceWorker;
