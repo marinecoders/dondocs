@@ -47,10 +47,21 @@ const fds = [
 ];
 const options = { debug: false };
 const wasi = new WASI(args, env, fds, options);
-// Fetch pandoc WASM binary from jsDelivr CDN (pandoc-wasm npm package, pandoc 3.9).
+// Fetch pandoc WASM binary from unpkg CDN (pandoc-wasm npm package, pandoc 3.9).
+// NOTE: we previously used jsDelivr, but jsDelivr enforces a 50 MB/file limit and
+// this WASM is ~58 MB. jsDelivr responds with HTTP 403 and a plain-text body
+// ("File size exceeded the configured limit of 50 MB."), which then fails
+// WebAssembly.instantiate() with a cryptic "expected magic word 00 61 73 6d,
+// found 46 69 6c 65" error (the ASCII bytes of "File"). unpkg has no such limit.
 // Uses ArrayBuffer instantiation instead of instantiateStreaming to bypass MIME type checks.
-const wasmUrl = "https://cdn.jsdelivr.net/npm/pandoc-wasm@1.0.1/src/pandoc.wasm";
+const wasmUrl = "https://unpkg.com/pandoc-wasm@1.0.1/src/pandoc.wasm";
 const wasmResponse = await fetch(wasmUrl);
+if (!wasmResponse.ok) {
+  throw new Error(
+    `Failed to fetch pandoc.wasm from ${wasmUrl}: ` +
+    `HTTP ${wasmResponse.status} ${wasmResponse.statusText}`
+  );
+}
 const wasmBytes = await wasmResponse.arrayBuffer();
 const { instance } = await WebAssembly.instantiate(wasmBytes, {
   wasi_snapshot_preview1: wasi.wasiImport,
