@@ -30,8 +30,36 @@ export type DownloadProgressPhase =
   | { kind: 'pdf-merging-enclosures' }
   | { kind: 'pdf-signing' }
   | { kind: 'pdf-saving' }
-  // Terminal error (dismissible)
-  | { kind: 'error'; target: 'pdf' | 'docx'; title: string; message: string };
+  // Terminal error (dismissible).
+  // Optional fields drive which action buttons the modal renders — the
+  // error-handling code in App.tsx classifies each failure and flips on
+  // the fields that make sense for that failure mode.
+  | {
+      kind: 'error';
+      target: 'pdf' | 'docx';
+      title: string;
+      message: string;
+      /**
+       * Full compile/engine log to show inline in the modal. When present,
+       * the modal renders a scrollable log block and a "Copy logs" button.
+       */
+      compileLog?: string;
+      /**
+       * When true, the modal renders a Retry button that invokes
+       * `DownloadProgressModalProps.onRetry`. Use for transient failures
+       * like "engine not ready" or engine-reset retry exhaustion — cases
+       * where the user pressing a button again has a good chance of
+       * succeeding.
+       */
+      retryable?: boolean;
+      /**
+       * When true, the modal renders a "Report issue on GitHub" button
+       * that opens a prefilled issue with the error + log. Use for
+       * unexpected failures where we want the user to flag it to us.
+       * Skip for known user-facing conditions (engine-not-ready).
+       */
+      reportable?: boolean;
+    };
 
 /**
  * Adapter: convert a DocxProgressPhase (emitted by the converter) to

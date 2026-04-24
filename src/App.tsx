@@ -544,11 +544,16 @@ function App() {
       const success = await executeDownload(preOpenedWindow, setDownloadProgress);
       if (!success) {
         if (preOpenedWindow) preOpenedWindow.close();
+        // No exception but no PDF either — unusual path, worth reporting.
+        addLogDirect('error', 'PDF download failed: no output produced');
         setDownloadProgress({
           kind: 'error',
           target: 'pdf',
           title: 'PDF download failed',
-          message: 'No PDF was produced. Check the preview panel for compile errors and try again.',
+          message:
+            'No PDF was produced. Check the preview panel for compile errors and try again.',
+          retryable: true,
+          reportable: true,
         });
         return;
       }
@@ -557,6 +562,14 @@ function App() {
     } catch (err) {
       console.error('Download error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Download failed';
+      // SwiftLaTeX attaches the full compile log to the thrown error as
+      // `.compileLog` — surface it in the error UI and the log store.
+      const compileLog = (err as Error & { compileLog?: string })?.compileLog;
+
+      // Mirror compilePdf's logging pattern so the LogViewer shows the
+      // full context even if the user closes the error modal.
+      addLogDirect('error', `PDF download failed: ${errorMessage}`);
+      if (compileLog) addLogDirect('error', compileLog);
 
       // If engine reset was needed, wait for it and retry once. Keep the
       // modal visible on the preparing phase while we wait.
@@ -570,32 +583,47 @@ function App() {
             const success = await executeDownload(preOpenedWindow, setDownloadProgress);
             if (!success) {
               if (preOpenedWindow) preOpenedWindow.close();
+              // Engine reset succeeded but the retry still produced nothing —
+              // unexpected, worth reporting.
               setDownloadProgress({
                 kind: 'error',
                 target: 'pdf',
                 title: 'PDF download failed',
-                message: 'PDF generation failed after retry — no output was produced.',
+                message: 'PDF generation failed after an engine retry — no output was produced.',
+                retryable: true,
+                reportable: true,
               });
             } else {
               setDownloadProgress(null);
             }
           } else {
             if (preOpenedWindow) preOpenedWindow.close();
+            // Engine didn't come back in time — transient; offer a manual retry.
             setDownloadProgress({
               kind: 'error',
               target: 'pdf',
               title: 'Engine failed to recover',
-              message: 'The LaTeX engine didn\u2019t restart in time. Please try again.',
+              message:
+                'The LaTeX engine didn\u2019t restart in time. Give it a moment and try again.',
+              retryable: true,
+              reportable: false,
             });
           }
         } catch (retryErr) {
           console.error('Retry failed:', retryErr);
+          const retryMsg = retryErr instanceof Error ? retryErr.message : 'Download failed';
+          const retryLog = (retryErr as Error & { compileLog?: string })?.compileLog;
+          addLogDirect('error', `PDF retry failed: ${retryMsg}`);
+          if (retryLog) addLogDirect('error', retryLog);
           if (preOpenedWindow) preOpenedWindow.close();
           setDownloadProgress({
             kind: 'error',
             target: 'pdf',
             title: 'PDF download failed',
-            message: 'Download failed after retry. Please try again.',
+            message: `Download failed after retry: ${retryMsg}`,
+            compileLog: retryLog,
+            retryable: true,
+            reportable: true,
           });
         }
         return;
@@ -607,12 +635,15 @@ function App() {
         target: 'pdf',
         title: 'PDF download failed',
         message: errorMessage,
+        compileLog,
+        retryable: true,
+        reportable: true,
       });
     } finally {
       setIsCompiling(false);
       downloadInProgressRef.current = false;
     }
-  }, [executeDownload, waitForReady]);
+  }, [executeDownload, waitForReady, addLogDirect]);
 
   // DOCX download helpers (must be before handleProceedWithPII)
   const pendingDocxRef = useRef<boolean>(false);
@@ -708,11 +739,15 @@ function App() {
         await executeDocxDownload();
       } catch (err) {
         console.error('DOCX generation error:', err);
+        const msg = err instanceof Error ? err.message : 'An unexpected error occurred while generating the DOCX.';
+        addLogDirect('error', `DOCX download failed: ${msg}`);
         setDownloadProgress({
           kind: 'error',
           target: 'docx',
           title: 'DOCX download failed',
-          message: err instanceof Error ? err.message : 'An unexpected error occurred while generating the DOCX.',
+          message: msg,
+          retryable: true,
+          reportable: true,
         });
       }
       return;
@@ -738,11 +773,15 @@ function App() {
       const success = await executePIIDownload(preOpenedWindow, setDownloadProgress);
       if (!success) {
         if (preOpenedWindow) preOpenedWindow.close();
+        addLogDirect('error', 'PDF download failed: no output produced');
         setDownloadProgress({
           kind: 'error',
           target: 'pdf',
           title: 'PDF download failed',
-          message: 'No PDF was produced. Check the preview panel for compile errors and try again.',
+          message:
+            'No PDF was produced. Check the preview panel for compile errors and try again.',
+          retryable: true,
+          reportable: true,
         });
         return;
       }
@@ -750,6 +789,10 @@ function App() {
     } catch (err) {
       console.error('Download error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Download failed';
+      const compileLog = (err as Error & { compileLog?: string })?.compileLog;
+
+      addLogDirect('error', `PDF download failed: ${errorMessage}`);
+      if (compileLog) addLogDirect('error', compileLog);
 
       // If engine reset was needed, wait for it and retry once
       if (errorMessage === 'ENGINE_RESET_NEEDED') {
@@ -766,7 +809,9 @@ function App() {
                 kind: 'error',
                 target: 'pdf',
                 title: 'PDF download failed',
-                message: 'PDF generation failed after retry — no output was produced.',
+                message: 'PDF generation failed after an engine retry — no output was produced.',
+                retryable: true,
+                reportable: true,
               });
             } else {
               setDownloadProgress(null);
@@ -777,17 +822,27 @@ function App() {
               kind: 'error',
               target: 'pdf',
               title: 'Engine failed to recover',
-              message: 'The LaTeX engine didn\u2019t restart in time. Please try again.',
+              message:
+                'The LaTeX engine didn\u2019t restart in time. Give it a moment and try again.',
+              retryable: true,
+              reportable: false,
             });
           }
         } catch (retryErr) {
           console.error('PII download retry failed:', retryErr);
+          const retryMsg = retryErr instanceof Error ? retryErr.message : 'Download failed';
+          const retryLog = (retryErr as Error & { compileLog?: string })?.compileLog;
+          addLogDirect('error', `PDF retry failed: ${retryMsg}`);
+          if (retryLog) addLogDirect('error', retryLog);
           if (preOpenedWindow) preOpenedWindow.close();
           setDownloadProgress({
             kind: 'error',
             target: 'pdf',
             title: 'PDF download failed',
-            message: 'Download failed after retry. Please try again.',
+            message: `Download failed after retry: ${retryMsg}`,
+            compileLog: retryLog,
+            retryable: true,
+            reportable: true,
           });
         }
         return;
@@ -799,6 +854,9 @@ function App() {
         target: 'pdf',
         title: 'PDF download failed',
         message: errorMessage,
+        compileLog,
+        retryable: true,
+        reportable: true,
       });
     } finally {
       setIsCompiling(false);
@@ -806,7 +864,7 @@ function App() {
       pendingDownloadRef.current = null;
       setPiiDetectionResult(null);
     }
-  }, [executePIIDownload, executeDocxDownload, waitForReady]);
+  }, [executePIIDownload, executeDocxDownload, waitForReady, addLogDirect]);
 
   // Handle canceling download after PII warning
   const handleCancelPIIDownload = useCallback(() => {
@@ -874,7 +932,20 @@ function App() {
 
     // Correspondence mode - check engine ready
     if (!isReady) {
-      setCompileError('PDF engine not ready. Please wait for initialization.');
+      // Surface the problem in the download modal (same place all other
+      // download errors live) with a Retry button. The engine typically
+      // finishes initializing within a few seconds of page load, so one
+      // retry click is usually all the user needs.
+      setDownloadProgress({
+        kind: 'error',
+        target: 'pdf',
+        title: 'Engine still starting up',
+        message:
+          'The LaTeX engine is still initializing. Give it a couple seconds and try again.',
+        retryable: true,
+        // Not a bug worth reporting — this is a normal transient state.
+        reportable: false,
+      });
       return;
     }
 
@@ -1003,14 +1074,36 @@ ${texFiles['body.tex'] || '% No body content'}
       await executeDocxDownload();
     } catch (err) {
       console.error('DOCX generation error:', err);
+      const msg = err instanceof Error ? err.message : 'An unexpected error occurred while generating the DOCX.';
+      addLogDirect('error', `DOCX download failed: ${msg}`);
       setDownloadProgress({
         kind: 'error',
         target: 'docx',
         title: 'DOCX download failed',
-        message: err instanceof Error ? err.message : 'An unexpected error occurred while generating the DOCX.',
+        message: msg,
+        retryable: true,
+        reportable: true,
       });
     }
-  }, [documentStore, executeDocxDownload, setPiiWarningOpen]);
+  }, [documentStore, executeDocxDownload, setPiiWarningOpen, addLogDirect]);
+
+  /**
+   * Re-run the last failed download. The error phase carries the target
+   * (`pdf` | `docx`), so we just dispatch to the matching top-level entry
+   * point. Those entry points handle PII re-check, engine-ready check,
+   * progress reset, etc. — we don't need to reproduce any of that here.
+   */
+  const handleRetryDownload = useCallback(() => {
+    if (!downloadProgress || downloadProgress.kind !== 'error') return;
+    const target = downloadProgress.target;
+    // Clear the error immediately so the retry can set a fresh phase.
+    setDownloadProgress(null);
+    if (target === 'pdf') {
+      handleDownloadPdf();
+    } else {
+      handleDownloadDocx();
+    }
+  }, [downloadProgress, handleDownloadPdf, handleDownloadDocx]);
 
   // Global keyboard shortcuts
   useEffect(() => {
@@ -1236,6 +1329,7 @@ ${texFiles['body.tex'] || '% No body content'}
       <DownloadProgressModal
         phase={downloadProgress}
         onClose={() => setDownloadProgress(null)}
+        onRetry={handleRetryDownload}
       />
       <BrowserCompatibilityNotice />
     </div>
