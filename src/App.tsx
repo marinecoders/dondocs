@@ -145,6 +145,7 @@ function App() {
     setPreviewVisible,
     setPreviewWidth,
     setFindReplaceOpen,
+    piiWarningOpen,
     setPiiWarningOpen,
     setTemplateLoaderOpen,
     setReferenceLibraryOpen,
@@ -387,12 +388,23 @@ function App() {
   // after the first pop). The successful-compile branch of compilePdf
   // resets `lastShownCompileErrorRef` to null so a *future* failure pops
   // again — including re-breaks of the same error after a fix.
+  //
+  // Guard: suppress the pop while a download or PII modal is already up so
+  // we don't stack two modals on top of each other for what's often the
+  // same underlying compile failure (the download pipeline runs its own
+  // compile and will surface the error through the download modal's error
+  // phase). The dep on `downloadProgress` / `piiWarningOpen` re-runs this
+  // effect when those clear, giving us the chance to pop belatedly if the
+  // compile error is still unresolved — but only if it wasn't already
+  // shown (lastShownCompileErrorRef dedup still applies).
   useEffect(() => {
     if (!compileError) return;
     if (compileError === lastShownCompileErrorRef.current) return;
+    if (downloadProgress !== null) return;
+    if (piiWarningOpen) return;
     lastShownCompileErrorRef.current = compileError;
     setCompileErrorModalOpen(true);
-  }, [compileError]);
+  }, [compileError, downloadProgress, piiWarningOpen]);
 
   // Debounced compilation on document changes
   useEffect(() => {
