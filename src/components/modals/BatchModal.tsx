@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { memo, useState, useCallback, useMemo, useEffect } from 'react';
 import { Plus, Trash2, Download, AlertCircle, FileText, Variable, CheckCircle, XCircle, Copy, Lightbulb, Eye, Loader2, Settings, ArrowRight } from 'lucide-react';
 import {
   Dialog,
@@ -82,11 +82,117 @@ function copyToClipboard(text: string) {
   navigator.clipboard.writeText(text);
 }
 
+interface BatchModalRowProps {
+  row: BatchRow;
+  idx: number;
+  detectedPlaceholders: string[];
+  isGenerating: boolean;
+  isPreviewing: boolean;
+  isReadyToGenerate: boolean;
+  canRemove: boolean;
+  updateRowValue: (rowId: string, placeholder: string, value: string) => void;
+  removeRow: (id: string) => void;
+  handlePreview: (row: BatchRow) => void;
+}
+
+// Memoized row so typing in row N doesn't re-render rows 1..N-1.
+//
+// The parent passes a boolean `isPreviewing` (computed once per render as
+// `previewingRow === row.id`) instead of the full `previewingRow` string, so
+// switching which row is previewing only re-renders the two rows whose state
+// actually changed — not every row in the table.
+//
+// Same idea for `canRemove` vs `rows.length`: a per-row boolean flips only
+// at the 1↔2 boundary, not on every row add/remove.
+const BatchModalRow = memo(function BatchModalRow({
+  row,
+  idx,
+  detectedPlaceholders,
+  isGenerating,
+  isPreviewing,
+  isReadyToGenerate,
+  canRemove,
+  updateRowValue,
+  removeRow,
+  handlePreview,
+}: BatchModalRowProps) {
+  return (
+    <tr className={`border-t ${row.status === 'error' ? 'bg-destructive/10' : row.status === 'success' ? 'bg-green-500/10' : ''}`}>
+      <td className="px-2 py-1 text-muted-foreground">
+        <div className="flex items-center gap-1">
+          {row.status === 'success' && <CheckCircle className="h-4 w-4 text-green-500" />}
+          {row.status === 'error' && <XCircle className="h-4 w-4 text-destructive" />}
+          {row.status === 'generating' && <Loader2 className="h-4 w-4 animate-spin" />}
+          {(!row.status || row.status === 'pending') && <span>{idx + 1}</span>}
+        </div>
+      </td>
+      {detectedPlaceholders.map((placeholder) => (
+        <td key={placeholder} className="px-1 py-1">
+          <Input
+            value={row.values[placeholder] || ''}
+            onChange={(e) => updateRowValue(row.id, placeholder, e.target.value)}
+            placeholder={placeholder.substring(0, 8)}
+            className="h-7 w-24 text-xs"
+            disabled={isGenerating}
+          />
+        </td>
+      ))}
+      <td className="px-1 py-2">
+        <div className="flex items-center gap-0.5">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7"
+            onClick={() => handlePreview(row)}
+            disabled={!isReadyToGenerate || isGenerating || isPreviewing}
+            title="Preview document"
+          >
+            {isPreviewing ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Eye className="h-4 w-4" />
+            )}
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7 text-destructive"
+            onClick={() => removeRow(row.id)}
+            disabled={!canRemove || isGenerating}
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      </td>
+    </tr>
+  );
+});
+
 export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalProps) {
-  const { batchModalOpen, setBatchModalOpen } = useUIStore();
-  const documentStore = useDocumentStore();
-  const formStore = useFormStore();
-  const { documentCategory, formType } = useDocumentStore();
+  // Individual selectors — modal only re-renders on its own flag changing.
+  const batchModalOpen = useUIStore((s) => s.batchModalOpen);
+  const setBatchModalOpen = useUIStore((s) => s.setBatchModalOpen);
+  // Individual selectors. The useMemo for `detectedPlaceholders` below is the
+  // ONLY render-phase read of store data in this component, so we subscribe
+  // just to the slices it actually uses. All other reads are inside
+  // useCallback bodies (placeholder replacement at PDF-generation time,
+  // variable insertion on click) and pull fresh state via getState(). That
+  // keeps callback identity stable, which in turn keeps BatchModalRow's memo
+  // effective — otherwise every documentStore keystroke would churn
+  // `handlePreview` (passed as a prop), defeating the row memo.
+  const formData = useDocumentStore((s) => s.formData);
+  const paragraphs = useDocumentStore((s) => s.paragraphs);
+  const references = useDocumentStore((s) => s.references);
+  const enclosures = useDocumentStore((s) => s.enclosures);
+  const copyTos = useDocumentStore((s) => s.copyTos);
+  const documentCategory = useDocumentStore((s) => s.documentCategory);
+  const formType = useDocumentStore((s) => s.formType);
+  const setDocField = useDocumentStore((s) => s.setField);
+  const addParagraph = useDocumentStore((s) => s.addParagraph);
+  const navmc10274 = useFormStore((s) => s.navmc10274);
+  const navmc11811 = useFormStore((s) => s.navmc11811);
+  const setNavmc10274Field = useFormStore((s) => s.setNavmc10274Field);
+  const setNavmc11811Field = useFormStore((s) => s.setNavmc11811Field);
 
   const [rows, setRows] = useState<BatchRow[]>([
     { id: '1', values: {}, status: 'pending' },
@@ -148,7 +254,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     if (isFormsMode) {
       // Forms mode: scan form fields for placeholders
       if (formType === 'navmc_10274') {
-        const data = formStore.navmc10274;
+        const data = navmc10274;
         if (data.actionNo) allText.push(data.actionNo);
         if (data.ssicFileNo) allText.push(data.ssicFileNo);
         if (data.date) allText.push(data.date);
@@ -163,7 +269,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
         if (data.supplementalInfo) allText.push(data.supplementalInfo);
         if (data.proposedAction) allText.push(data.proposedAction);
       } else if (formType === 'navmc_118_11') {
-        const data = formStore.navmc11811;
+        const data = navmc11811;
         if (data.lastName) allText.push(data.lastName);
         if (data.firstName) allText.push(data.firstName);
         if (data.middleName) allText.push(data.middleName);
@@ -174,8 +280,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
         if (data.box11) allText.push(data.box11);
       }
     } else {
-      // Correspondence mode: scan document store fields
-      const { formData, paragraphs, references, enclosures, copyTos } = documentStore;
+      // Correspondence mode: scan document store fields (from granular selectors above)
 
       // Form fields
       if (formData.to) allText.push(formData.to);
@@ -199,7 +304,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
     const allPlaceholders = allText.flatMap((text) => detectPlaceholders(text));
     return [...new Set(allPlaceholders)];
-  }, [documentStore, formStore.navmc10274, formStore.navmc11811, isFormsMode, formType]);
+  }, [formData, paragraphs, references, enclosures, copyTos, navmc10274, navmc11811, isFormsMode, formType]);
 
   const addRow = useCallback(() => {
     setRows((prev) => [
@@ -222,44 +327,52 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     );
   }, []);
 
-  // Create modified store with placeholder replacements (for correspondence)
+  // Create modified store with placeholder replacements (for correspondence).
+  //
+  // Reads via getState() so this callback has stable identity across renders
+  // — otherwise every keystroke in a form field would change documentStore,
+  // which would change createModifiedStore, which would change
+  // generatePdfForRow, which would change handlePreview, which is a prop of
+  // BatchModalRow and would defeat its memo.
   const createModifiedStore = useCallback((values: PlaceholderValue) => {
+    const store = useDocumentStore.getState();
     return {
-      docType: documentStore.docType,
+      docType: store.docType,
       formData: {
-        ...documentStore.formData,
-        to: replacePlaceholders(documentStore.formData.to || '', values),
-        from: replacePlaceholders(documentStore.formData.from || '', values),
-        via: replacePlaceholders(documentStore.formData.via || '', values),
-        subject: replacePlaceholders(documentStore.formData.subject || '', values),
-        serial: replacePlaceholders(documentStore.formData.serial || '', values),
+        ...store.formData,
+        to: replacePlaceholders(store.formData.to || '', values),
+        from: replacePlaceholders(store.formData.from || '', values),
+        via: replacePlaceholders(store.formData.via || '', values),
+        subject: replacePlaceholders(store.formData.subject || '', values),
+        serial: replacePlaceholders(store.formData.serial || '', values),
       },
-      references: documentStore.references.map((ref) => ({
+      references: store.references.map((ref) => ({
         ...ref,
         title: replacePlaceholders(ref.title, values),
       })),
-      enclosures: documentStore.enclosures.map((encl) => ({
+      enclosures: store.enclosures.map((encl) => ({
         ...encl,
         title: replacePlaceholders(encl.title, values),
       })),
-      paragraphs: documentStore.paragraphs.map((para) => ({
+      paragraphs: store.paragraphs.map((para) => ({
         ...para,
         text: replacePlaceholders(para.text, values),
       })),
-      copyTos: documentStore.copyTos.map((ct) => ({
+      copyTos: store.copyTos.map((ct) => ({
         ...ct,
         text: replacePlaceholders(ct.text, values),
       })),
-      distributions: documentStore.distributions.map((d) => ({
+      distributions: store.distributions.map((d) => ({
         ...d,
         text: replacePlaceholders(d.text, values),
       })),
     };
-  }, [documentStore]);
+  }, []);
 
-  // Create modified NAVMC 10274 form data with placeholder replacements
+  // Create modified NAVMC 10274 form data with placeholder replacements.
+  // Same getState() pattern as createModifiedStore — keeps identity stable.
   const createModifiedNavmc10274 = useCallback((values: PlaceholderValue): NavmcForm10274Data => {
-    const data = formStore.navmc10274;
+    const data = useFormStore.getState().navmc10274;
     return {
       actionNo: replacePlaceholders(data.actionNo, values),
       ssicFileNo: replacePlaceholders(data.ssicFileNo, values),
@@ -275,11 +388,11 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
       supplementalInfo: replacePlaceholders(data.supplementalInfo, values),
       proposedAction: replacePlaceholders(data.proposedAction, values),
     };
-  }, [formStore.navmc10274]);
+  }, []);
 
-  // Create modified NAVMC 118(11) form data with placeholder replacements
+  // Create modified NAVMC 118(11) form data with placeholder replacements.
   const createModifiedNavmc11811 = useCallback((values: PlaceholderValue): Navmc11811Data => {
-    const data = formStore.navmc11811;
+    const data = useFormStore.getState().navmc11811;
     return {
       lastName: replacePlaceholders(data.lastName, values),
       firstName: replacePlaceholders(data.firstName, values),
@@ -290,7 +403,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
       entryDate: replacePlaceholders(data.entryDate, values),
       box11: replacePlaceholders(data.box11, values),
     };
-  }, [formStore.navmc11811]);
+  }, []);
 
   // Generate PDF for a single row with retry logic for ENGINE_RESET_NEEDED
   const generatePdfForRow = useCallback(async (values: PlaceholderValue, retryCount = 0): Promise<Uint8Array> => {
@@ -567,7 +680,9 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     }
   }, [detectedPlaceholders, looksLikeHeaders]);
 
-  // Handle adding a variable to the document
+  // Handle adding a variable to the document.
+  // Reads live state via getState() at click time (not stale render-time snapshot),
+  // and uses the stable setter refs bound at the top of the component.
   const handleAddVariable = useCallback(() => {
     if (!selectedVariable || !targetField) return;
 
@@ -576,45 +691,46 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     if (isFormsMode) {
       // Forms mode: Add to specific form fields
       if (formType === 'navmc_10274') {
-        const currentData = formStore.navmc10274;
+        const currentData = useFormStore.getState().navmc10274;
         if (targetField === 'to') {
-          formStore.setNavmc10274Field('to', currentData.to ? `${currentData.to} ${variableText}` : variableText);
+          setNavmc10274Field('to', currentData.to ? `${currentData.to} ${variableText}` : variableText);
         } else if (targetField === 'from') {
-          formStore.setNavmc10274Field('from', currentData.from ? `${currentData.from} ${variableText}` : variableText);
+          setNavmc10274Field('from', currentData.from ? `${currentData.from} ${variableText}` : variableText);
         } else if (targetField === 'natureOfAction') {
-          formStore.setNavmc10274Field('natureOfAction', currentData.natureOfAction ? `${currentData.natureOfAction} ${variableText}` : variableText);
+          setNavmc10274Field('natureOfAction', currentData.natureOfAction ? `${currentData.natureOfAction} ${variableText}` : variableText);
         }
       } else if (formType === 'navmc_118_11') {
-        const currentData = formStore.navmc11811;
+        const currentData = useFormStore.getState().navmc11811;
         if (targetField === 'lastName') {
-          formStore.setNavmc11811Field('lastName', currentData.lastName ? `${currentData.lastName} ${variableText}` : variableText);
+          setNavmc11811Field('lastName', currentData.lastName ? `${currentData.lastName} ${variableText}` : variableText);
         } else if (targetField === 'firstName') {
-          formStore.setNavmc11811Field('firstName', currentData.firstName ? `${currentData.firstName} ${variableText}` : variableText);
+          setNavmc11811Field('firstName', currentData.firstName ? `${currentData.firstName} ${variableText}` : variableText);
         } else if (targetField === 'remarksText') {
-          formStore.setNavmc11811Field('remarksText', currentData.remarksText ? `${currentData.remarksText} ${variableText}` : variableText);
+          setNavmc11811Field('remarksText', currentData.remarksText ? `${currentData.remarksText} ${variableText}` : variableText);
         }
       }
     } else {
       // Correspondence mode: Add to document fields
+      const currentFormData = useDocumentStore.getState().formData;
       if (targetField === 'subject') {
-        const currentSubject = documentStore.formData.subject || '';
-        documentStore.setField('subject', currentSubject ? `${currentSubject} ${variableText}` : variableText);
+        const currentSubject = currentFormData.subject || '';
+        setDocField('subject', currentSubject ? `${currentSubject} ${variableText}` : variableText);
       } else if (targetField === 'to') {
-        const currentTo = documentStore.formData.to || '';
-        documentStore.setField('to', currentTo ? `${currentTo} ${variableText}` : variableText);
+        const currentTo = currentFormData.to || '';
+        setDocField('to', currentTo ? `${currentTo} ${variableText}` : variableText);
       } else if (targetField === 'from') {
-        const currentFrom = documentStore.formData.from || '';
-        documentStore.setField('from', currentFrom ? `${currentFrom} ${variableText}` : variableText);
+        const currentFrom = currentFormData.from || '';
+        setDocField('from', currentFrom ? `${currentFrom} ${variableText}` : variableText);
       } else if (targetField === 'paragraph') {
         // Add a new paragraph with the variable
-        documentStore.addParagraph(variableText, 0);
+        addParagraph(variableText, 0);
       }
     }
 
     // Reset selection
     setSelectedVariable('');
     setTargetField('');
-  }, [selectedVariable, targetField, isFormsMode, formType, formStore, documentStore]);
+  }, [selectedVariable, targetField, isFormsMode, formType, setNavmc10274Field, setNavmc11811Field, setDocField, addParagraph]);
 
   const hasNoPlaceholders = detectedPlaceholders.length === 0;
 
@@ -878,56 +994,19 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                           </thead>
                           <tbody>
                             {rows.map((row, idx) => (
-                              <tr key={row.id} className={`border-t ${row.status === 'error' ? 'bg-destructive/10' : row.status === 'success' ? 'bg-green-500/10' : ''}`}>
-                                <td className="px-2 py-1 text-muted-foreground">
-                                  <div className="flex items-center gap-1">
-                                    {row.status === 'success' && <CheckCircle className="h-4 w-4 text-green-500" />}
-                                    {row.status === 'error' && <XCircle className="h-4 w-4 text-destructive" />}
-                                    {row.status === 'generating' && <Loader2 className="h-4 w-4 animate-spin" />}
-                                    {(!row.status || row.status === 'pending') && <span>{idx + 1}</span>}
-                                  </div>
-                                </td>
-                                {detectedPlaceholders.map((placeholder) => (
-                                  <td key={placeholder} className="px-1 py-1">
-                                    <Input
-                                      value={row.values[placeholder] || ''}
-                                      onChange={(e) =>
-                                        updateRowValue(row.id, placeholder, e.target.value)
-                                      }
-                                      placeholder={placeholder.substring(0, 8)}
-                                      className="h-7 w-24 text-xs"
-                                      disabled={isGenerating}
-                                    />
-                                  </td>
-                                ))}
-                                <td className="px-1 py-2">
-                                  <div className="flex items-center gap-0.5">
-                                    <Button
-                                      variant="ghost"
-                                      size="icon"
-                                      className="h-7 w-7"
-                                      onClick={() => handlePreview(row)}
-                                      disabled={!isReadyToGenerate || isGenerating || previewingRow === row.id}
-                                      title="Preview document"
-                                    >
-                                      {previewingRow === row.id ? (
-                                        <Loader2 className="h-4 w-4 animate-spin" />
-                                      ) : (
-                                        <Eye className="h-4 w-4" />
-                                      )}
-                                    </Button>
-                                    <Button
-                                      variant="ghost"
-                                      size="icon"
-                                      className="h-7 w-7 text-destructive"
-                                      onClick={() => removeRow(row.id)}
-                                      disabled={rows.length === 1 || isGenerating}
-                                    >
-                                      <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                  </div>
-                                </td>
-                              </tr>
+                              <BatchModalRow
+                                key={row.id}
+                                row={row}
+                                idx={idx}
+                                detectedPlaceholders={detectedPlaceholders}
+                                isGenerating={isGenerating}
+                                isPreviewing={previewingRow === row.id}
+                                isReadyToGenerate={isReadyToGenerate}
+                                canRemove={rows.length > 1}
+                                updateRowValue={updateRowValue}
+                                removeRow={removeRow}
+                                handlePreview={handlePreview}
+                              />
                             ))}
                           </tbody>
                         </table>

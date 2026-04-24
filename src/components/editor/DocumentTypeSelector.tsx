@@ -42,7 +42,7 @@ export function DocumentTypeSelector() {
     documentMode, setDocumentMode,
     clearFieldsExceptLetterhead,
   } = useDocumentStore();
-  const { setTemplateLoaderOpen } = useUIStore();
+  const setTemplateLoaderOpen = useUIStore((s) => s.setTemplateLoaderOpen);
   const [showClearDialog, setShowClearDialog] = useState(false);
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
   const isCompliant = documentMode === 'compliant';

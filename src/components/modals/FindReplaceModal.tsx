@@ -16,7 +16,9 @@ import { useDocumentStore } from '@/stores/documentStore';
 import type { Paragraph, DocumentData } from '@/types/document';
 
 export function FindReplaceModal() {
-  const { findReplaceOpen, setFindReplaceOpen } = useUIStore();
+  // Individual selectors — modal only re-renders on its own flag changing.
+  const findReplaceOpen = useUIStore((s) => s.findReplaceOpen);
+  const setFindReplaceOpen = useUIStore((s) => s.setFindReplaceOpen);
   const { formData, setField, paragraphs, updateParagraph } = useDocumentStore();
 
   const [findText, setFindText] = useState('');

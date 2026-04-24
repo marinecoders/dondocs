@@ -11,7 +11,11 @@ import { useUIStore } from '@/stores/uiStore';
 import { APP_VERSION, GIT_SHA, formatBuildTime } from '@/lib/version';
 
 export function AboutModal() {
-  const { aboutModalOpen, setAboutModalOpen } = useUIStore();
+  // Individual selectors so this modal only re-renders when its own flag
+  // changes — not when any other modal toggles or an unrelated UI field
+  // updates. Setters are stable from Zustand's `create()` callback.
+  const aboutModalOpen = useUIStore((s) => s.aboutModalOpen);
+  const setAboutModalOpen = useUIStore((s) => s.setAboutModalOpen);
 
   return (
     <Dialog open={aboutModalOpen} onOpenChange={setAboutModalOpen}>

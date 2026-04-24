@@ -89,7 +89,9 @@ const EMPTY_PROFILE: Profile = {
 };
 
 export function ProfileModal() {
-  const { profileModalOpen, setProfileModalOpen } = useUIStore();
+  // Individual selectors — modal only re-renders on its own flag changing.
+  const profileModalOpen = useUIStore((s) => s.profileModalOpen);
+  const setProfileModalOpen = useUIStore((s) => s.setProfileModalOpen);
   const { profiles, selectedProfile, addProfile, updateProfile, selectProfile } = useProfileStore();
   const { formData } = useDocumentStore();
 

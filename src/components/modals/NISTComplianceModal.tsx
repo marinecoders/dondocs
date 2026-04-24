@@ -12,7 +12,9 @@ import { useUIStore } from '@/stores/uiStore';
 const isOfficialDomain = typeof window !== 'undefined' && window.location.hostname.endsWith('.mil');
 
 export function NISTComplianceModal() {
-  const { nistModalOpen, setNistModalOpen } = useUIStore();
+  // Individual selectors — modal only re-renders on its own flag changing.
+  const nistModalOpen = useUIStore((s) => s.nistModalOpen);
+  const setNistModalOpen = useUIStore((s) => s.setNistModalOpen);
 
   return (
     <Dialog open={nistModalOpen} onOpenChange={setNistModalOpen}>

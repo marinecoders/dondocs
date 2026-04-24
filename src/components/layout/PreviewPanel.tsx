@@ -10,7 +10,12 @@ interface PreviewPanelProps {
 }
 
 export function PreviewPanel({ pdfUrl, isCompiling, error }: PreviewPanelProps) {
-  const { previewVisible, isMobile, setMobilePreviewOpen, fullQualityPreview } = useUIStore();
+  // Individual selectors so this panel only re-renders when one of these
+  // four fields actually changes (not on any other UI-store update).
+  const previewVisible = useUIStore((s) => s.previewVisible);
+  const isMobile = useUIStore((s) => s.isMobile);
+  const setMobilePreviewOpen = useUIStore((s) => s.setMobilePreviewOpen);
+  const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
   const enclosureCount = useDocumentStore((s) => s.enclosures.length);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const savedScrollRef = useRef<{ scrollTop: number; scrollLeft: number } | null>(null);

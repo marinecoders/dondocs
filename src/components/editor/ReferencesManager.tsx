@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -40,18 +41,18 @@ import { DOC_TYPE_CONFIG } from '@/types/document';
 interface SortableReferenceProps {
   reference: Reference;
   index: number;
-  onUpdateTitle: (title: string) => void;
-  onUpdateUrl: (url: string) => void;
-  onRemove: () => void;
 }
 
-function SortableReference({
+// Memoized so typing in reference N doesn't force a re-render of references
+// 1..N-1. Store setters are stable and pulled via selectors inside, so the
+// parent doesn't need to create fresh callback closures per row each render.
+const SortableReference = memo(function SortableReference({
   reference,
   index,
-  onUpdateTitle,
-  onUpdateUrl,
-  onRemove,
 }: SortableReferenceProps) {
+  const updateReference = useDocumentStore((s) => s.updateReference);
+  const removeReference = useDocumentStore((s) => s.removeReference);
+
   const {
     attributes,
     listeners,
@@ -93,14 +94,14 @@ function SortableReference({
         <div className="flex-1 space-y-2">
           <Input
             value={reference.title}
-            onChange={(e) => onUpdateTitle(e.target.value)}
+            onChange={(e) => updateReference(index, { title: e.target.value })}
             placeholder="Reference title..."
           />
           <div className="flex items-center gap-2">
             <Link className="h-4 w-4 text-muted-foreground" />
             <Input
               value={reference.url || ''}
-              onChange={(e) => onUpdateUrl(e.target.value)}
+              onChange={(e) => updateReference(index, { url: e.target.value })}
               placeholder="URL (optional)"
               className="text-sm"
             />
@@ -111,7 +112,7 @@ function SortableReference({
         <Button
           variant="ghost"
           size="sm"
-          onClick={onRemove}
+          onClick={() => removeReference(index)}
           className="text-destructive hover:text-destructive"
         >
           <Trash2 className="h-4 w-4" />
@@ -119,21 +120,20 @@ function SortableReference({
       </div>
     </div>
   );
-}
+});
 
 export function ReferencesManager() {
-  const {
-    documentMode,
-    docType,
-    references,
-    formData,
-    setField,
-    addReference,
-    updateReference,
-    removeReference,
-    reorderReferences,
-  } = useDocumentStore();
-  const { setReferenceLibraryOpen } = useUIStore();
+  // Individual selectors so the manager only re-renders when one of these
+  // specific slices changes. Setters used only by child rows are pulled
+  // inside those rows via their own selectors.
+  const documentMode = useDocumentStore((s) => s.documentMode);
+  const docType = useDocumentStore((s) => s.docType);
+  const references = useDocumentStore((s) => s.references);
+  const formData = useDocumentStore((s) => s.formData);
+  const setField = useDocumentStore((s) => s.setField);
+  const addReference = useDocumentStore((s) => s.addReference);
+  const reorderReferences = useDocumentStore((s) => s.reorderReferences);
+  const setReferenceLibraryOpen = useUIStore((s) => s.setReferenceLibraryOpen);
 
   // Get compliance settings
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
@@ -241,9 +241,6 @@ export function ReferencesManager() {
                       key={`ref-${index}`}
                       reference={ref}
                       index={index}
-                      onUpdateTitle={(title) => updateReference(index, { title })}
-                      onUpdateUrl={(url) => updateReference(index, { url })}
-                      onRemove={() => removeReference(index)}
                     />
                   ))}
                 </SortableContext>
