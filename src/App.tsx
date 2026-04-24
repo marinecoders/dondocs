@@ -20,6 +20,7 @@ import { RestoreSessionModal } from '@/components/modals/RestoreSessionModal';
 import { ShareModal } from '@/components/modals/ShareModal';
 import { UpdatePromptModal } from '@/components/modals/UpdatePromptModal';
 import { DownloadProgressModal } from '@/components/modals/DownloadProgressModal';
+import { CompileErrorModal } from '@/components/modals/CompileErrorModal';
 import {
   docxPhaseToDownloadPhase,
   type DownloadProgressPhase,
@@ -168,6 +169,16 @@ function App() {
   const [formPdfUrl, setFormPdfUrl] = useState<string | null>(null);
   const [isCompiling, setIsCompiling] = useState(false);
   const [compileError, setCompileError] = useState<string | null>(null);
+  // Full formatted log from the compile failure (from SwiftLaTeX). Drives the
+  // compile-error modal — kept separate from the logStore feed so we have a
+  // clean one-shot value to show without having to scrape the log history.
+  const [compileLog, setCompileLog] = useState<string | null>(null);
+  // Live-preview compile errors pop a modal the FIRST time a new error
+  // appears. `lastShownCompileErrorRef` holds the text we already showed so
+  // subsequent debounce cycles with the same error don't re-pop. Reset to
+  // null on every successful compile (see useEffect below).
+  const [compileErrorModalOpen, setCompileErrorModalOpen] = useState(false);
+  const lastShownCompileErrorRef = useRef<string | null>(null);
   // Download loading feedback (PDF + DOCX). Non-null means a download is in
   // flight (modal visible) or failed (error phase, dismissible modal). Drives
   // the Header's "Generating…" menu state so the user can't double-click.
@@ -292,6 +303,7 @@ function App() {
       setIsCompiling(true);
     }
     setCompileError(null);
+    setCompileLog(null);
 
     try {
       const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls } = generateAllLatexFiles(documentStore);
@@ -337,6 +349,11 @@ function App() {
         const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         setPdfUrl(url);
+        // Successful compile — clear any held-over log and reset the modal
+        // dedup guard so a *future* failure pops the modal again (otherwise
+        // after fixing and re-breaking with the same error, we'd stay silent).
+        setCompileLog(null);
+        lastShownCompileErrorRef.current = null;
       }
       // Clear reset flag on success
       isResettingRef.current = false;
@@ -344,23 +361,38 @@ function App() {
       console.error('Compilation error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Compilation failed';
       // Get compile log directly from error if available (for immediate access)
-      const compileLog = (err as Error & { compileLog?: string })?.compileLog;
+      const errCompileLog = (err as Error & { compileLog?: string })?.compileLog;
 
       // If engine reset is needed, mark that we're resetting so next compile doesn't flash
       if (errorMessage === 'ENGINE_RESET_NEEDED') {
         isResettingRef.current = true;
       } else {
         setCompileError(errorMessage);
+        setCompileLog(errCompileLog ?? null);
         // Add error and full log to log store directly so it's available when user opens log viewer
         addLogDirect('error', `Compilation failed: ${errorMessage}`);
-        if (compileLog) {
-          addLogDirect('error', compileLog);
+        if (errCompileLog) {
+          addLogDirect('error', errCompileLog);
         }
       }
     } finally {
       setIsCompiling(false);
     }
   }, [isReady, compile, documentStore, pdfUrl, addLogDirect, fullQualityPreview]);
+
+  // Auto-open the compile-error modal when a *new* error appears.
+  // "New" = different message than the last one we popped the modal for.
+  // This avoids spamming the user on every debounce cycle while an error
+  // persists (they type more, compile keeps failing, but modal stays quiet
+  // after the first pop). The successful-compile branch of compilePdf
+  // resets `lastShownCompileErrorRef` to null so a *future* failure pops
+  // again — including re-breaks of the same error after a fix.
+  useEffect(() => {
+    if (!compileError) return;
+    if (compileError === lastShownCompileErrorRef.current) return;
+    lastShownCompileErrorRef.current = compileError;
+    setCompileErrorModalOpen(true);
+  }, [compileError]);
 
   // Debounced compilation on document changes
   useEffect(() => {
@@ -1330,6 +1362,12 @@ ${texFiles['body.tex'] || '% No body content'}
         phase={downloadProgress}
         onClose={() => setDownloadProgress(null)}
         onRetry={handleRetryDownload}
+      />
+      <CompileErrorModal
+        open={compileErrorModalOpen}
+        error={compileError}
+        compileLog={compileLog}
+        onClose={() => setCompileErrorModalOpen(false)}
       />
       <BrowserCompatibilityNotice />
     </div>
