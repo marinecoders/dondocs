@@ -1069,6 +1069,12 @@ export async function convertLatexToDocx(
 
   emit({ kind: 'preparing' });
 
+  // Capture cached-ness BEFORE the await: pandocModule gets assigned inside
+  // ensureLoaded's IIFE before it resolves, so checking it after the await
+  // would always be truthy and the "already cached" branch below would fire
+  // even on the first load (firing `fetching-support` twice).
+  const wasAlreadyCached = pandocModule !== null;
+
   // Translate low-level pandoc loader events into our phased API so
   // consumers don't have to know about the two-stage init.
   const loaderHook = onProgress
@@ -1101,7 +1107,7 @@ export async function convertLatexToDocx(
   // If the module was already cached we never got `fetch-start` — emit a
   // support-fetch phase anyway so the caller sees a consistent sequence
   // before we jump into `converting`.
-  if (pandocModule) emit({ kind: 'fetching-support' });
+  if (wasAlreadyCached) emit({ kind: 'fetching-support' });
 
   // Files map: pandoc reads input files and writes output files here
   const files: Record<string, Blob> = {
