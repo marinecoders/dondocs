@@ -18,7 +18,9 @@ import { LETTER_TEMPLATES, type LetterTemplate } from '@/data/templates';
 const CATEGORIES = [...new Set(LETTER_TEMPLATES.map(t => t.category))];
 
 export function TemplateLoaderModal() {
-  const { templateLoaderOpen, setTemplateLoaderOpen } = useUIStore();
+  // Individual selectors — modal only re-renders on its own flag changing.
+  const templateLoaderOpen = useUIStore((s) => s.templateLoaderOpen);
+  const setTemplateLoaderOpen = useUIStore((s) => s.setTemplateLoaderOpen);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);

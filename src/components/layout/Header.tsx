@@ -160,10 +160,49 @@ export function Header({
   isPdfGenerating = false,
   isFormsMode = false,
 }: HeaderProps) {
-  const { theme, toggleTheme, density, setDensity, autoSaveStatus, setAboutModalOpen, setNistModalOpen, setBatchModalOpen, setDocumentGuideOpen, setFindReplaceOpen, setShareModal, isMobile, previewVisible, togglePreview, fullQualityPreview, setFullQualityPreview } = useUIStore();
-  const documentStore = useDocumentStore();
-  const { resetForm, applySnapshot, clearFieldsExceptLetterhead } = useDocumentStore();
-  const { undo, redo, canUndo, canRedo } = useHistoryStore();
+  // One selector per field — Zustand only re-renders us when THAT field
+  // changes by strict equality. Previously this was a single `useUIStore()`
+  // destructure, which subscribes to every field in the store: every modal
+  // open/close, every autoSaveStatus string change, every keystroke-driven
+  // density change, was re-rendering the entire header tree (~40 buttons
+  // + dropdown contents). Same idea for the document + history stores.
+  // Setters are stable references from Zustand's `create()` callback, so
+  // selecting them is effectively free.
+  const theme = useUIStore((s) => s.theme);
+  const toggleTheme = useUIStore((s) => s.toggleTheme);
+  const density = useUIStore((s) => s.density);
+  const setDensity = useUIStore((s) => s.setDensity);
+  const autoSaveStatus = useUIStore((s) => s.autoSaveStatus);
+  const setAboutModalOpen = useUIStore((s) => s.setAboutModalOpen);
+  const setNistModalOpen = useUIStore((s) => s.setNistModalOpen);
+  const setBatchModalOpen = useUIStore((s) => s.setBatchModalOpen);
+  const setDocumentGuideOpen = useUIStore((s) => s.setDocumentGuideOpen);
+  const setFindReplaceOpen = useUIStore((s) => s.setFindReplaceOpen);
+  const setShareModal = useUIStore((s) => s.setShareModal);
+  const isMobile = useUIStore((s) => s.isMobile);
+  const previewVisible = useUIStore((s) => s.previewVisible);
+  const togglePreview = useUIStore((s) => s.togglePreview);
+  const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
+  const setFullQualityPreview = useUIStore((s) => s.setFullQualityPreview);
+
+  // Document store actions only — we intentionally do NOT subscribe to any
+  // document state here. The import/export/reset handlers below read the
+  // full document via `useDocumentStore.getState()` at invocation time, so
+  // Header doesn't re-render on every keystroke anymore (which was the
+  // biggest single win in #10 tier-2 — Header has 40+ interactive elements
+  // and was re-rendering per character typed).
+  const resetForm = useDocumentStore((s) => s.resetForm);
+  const applySnapshot = useDocumentStore((s) => s.applySnapshot);
+  const clearFieldsExceptLetterhead = useDocumentStore((s) => s.clearFieldsExceptLetterhead);
+
+  const undo = useHistoryStore((s) => s.undo);
+  const redo = useHistoryStore((s) => s.redo);
+  // Select the derived booleans, not the getter functions — the getter
+  // references are stable so they'd never trigger a re-render. We need
+  // the value computed every render so the Undo/Redo button enabled state
+  // updates when past/future change.
+  const canUndo = useHistoryStore((s) => s.past.length > 0);
+  const canRedo = useHistoryStore((s) => s.future.length > 0);
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [showClearFieldsDialog, setShowClearFieldsDialog] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
@@ -184,10 +223,14 @@ export function Header({
     } catch { /* localStorage unavailable */ }
   }, []);
 
-  // Check if document contains any {{VARIABLE}} placeholders
+  // Check if document contains any {{VARIABLE}} placeholders.
+  // Reads state via getState() so this callback has no store dependencies —
+  // it re-creates only if its own identity needs to (i.e. never). The check
+  // runs on button click, not during render, so reading fresh state at call
+  // time is correct.
   const hasVariables = useCallback(() => {
     const variablePattern = /\{\{[A-Z0-9_]+\}\}/;
-    const { formData, paragraphs } = documentStore;
+    const { formData, paragraphs } = useDocumentStore.getState();
 
     // Check common text fields
     const fieldsToCheck = [
@@ -207,7 +250,7 @@ export function Header({
     }
 
     return false;
-  }, [documentStore]);
+  }, []);
 
   // Handle download PDF - redirect to batch mode if variables detected
   const handleDownloadPdf = useCallback(() => {
@@ -220,13 +263,14 @@ export function Header({
 
   const handleSaveProgress = useCallback(() => {
     try {
+      const ds = useDocumentStore.getState();
       const dataToSave = {
-        documentMode: documentStore.documentMode,
-        docType: documentStore.docType,
-        formData: documentStore.formData,
-        references: documentStore.references,
+        documentMode: ds.documentMode,
+        docType: ds.docType,
+        formData: ds.formData,
+        references: ds.references,
         // Enclosures with files need special handling - we'll save metadata only
-        enclosures: documentStore.enclosures.map(encl => ({
+        enclosures: ds.enclosures.map(encl => ({
           title: encl.title,
           pageStyle: encl.pageStyle,
           hasCoverPage: encl.hasCoverPage,
@@ -235,8 +279,8 @@ export function Header({
           hasFile: !!encl.file,
           fileName: encl.file?.name,
         })),
-        paragraphs: documentStore.paragraphs,
-        copyTos: documentStore.copyTos,
+        paragraphs: ds.paragraphs,
+        copyTos: ds.copyTos,
         savedAt: new Date().toISOString(),
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
@@ -247,19 +291,20 @@ export function Header({
       setSaveStatus('Save failed');
       setTimeout(() => setSaveStatus(null), 2000);
     }
-  }, [documentStore]);
+  }, []);
 
   const handleLoadProgress = useCallback(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
+        const ds = useDocumentStore.getState();
         const data = JSON.parse(saved);
-        documentStore.setDocumentMode?.(data.documentMode || 'compliant');
+        ds.setDocumentMode?.(data.documentMode || 'compliant');
         if (data.docType) {
-          documentStore.setDocType(data.docType);
+          ds.setDocType(data.docType);
         }
         if (data.formData) {
-          documentStore.setFormData(data.formData);
+          ds.setFormData(data.formData);
         }
         // Note: File data is not restored - user will need to re-attach PDFs
         setSaveStatus('Loaded!');
@@ -273,7 +318,7 @@ export function Header({
       setSaveStatus('Load failed');
       setTimeout(() => setSaveStatus(null), 2000);
     }
-  }, [documentStore]);
+  }, []);
 
   const handleReset = useCallback(() => {
     resetForm();
@@ -303,17 +348,18 @@ export function Header({
   // Export entire document state to a JSON file
   const handleExportDraft = useCallback(() => {
     try {
+      const ds = useDocumentStore.getState();
       const dataToExport = {
         version: '1.0',
         exportedAt: new Date().toISOString(),
-        documentMode: documentStore.documentMode,
-        documentCategory: documentStore.documentCategory,
-        docType: documentStore.docType,
-        formType: documentStore.formType,
-        formData: documentStore.formData,
-        references: documentStore.references,
+        documentMode: ds.documentMode,
+        documentCategory: ds.documentCategory,
+        docType: ds.docType,
+        formType: ds.formType,
+        formData: ds.formData,
+        references: ds.references,
         // Include enclosure file data as base64 for full restoration
-        enclosures: documentStore.enclosures.map(encl => ({
+        enclosures: ds.enclosures.map(encl => ({
           title: encl.title,
           pageStyle: encl.pageStyle,
           hasCoverPage: encl.hasCoverPage,
@@ -325,8 +371,8 @@ export function Header({
             data: uint8ArrayToBase64(arrayBufferToUint8Array(encl.file.data)),
           } : null,
         })),
-        paragraphs: documentStore.paragraphs,
-        copyTos: documentStore.copyTos,
+        paragraphs: ds.paragraphs,
+        copyTos: ds.copyTos,
       };
 
       const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
@@ -347,7 +393,7 @@ export function Header({
       setSaveStatus('Export failed');
       setTimeout(() => setSaveStatus(null), 2000);
     }
-  }, [documentStore]);
+  }, []);
 
   // Import document state from a JSON file
   const handleImportDraft = useCallback((event: ChangeEvent<HTMLInputElement>) => {
@@ -357,6 +403,7 @@ export function Header({
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
+        const ds = useDocumentStore.getState();
         const content = e.target?.result as string;
         const data = JSON.parse(content);
 
@@ -367,31 +414,31 @@ export function Header({
 
         // Apply document mode
         if (data.documentMode) {
-          documentStore.setDocumentMode?.(data.documentMode);
+          ds.setDocumentMode?.(data.documentMode);
         }
 
         // Apply document category
         if (data.documentCategory) {
-          documentStore.setDocumentCategory(data.documentCategory);
+          ds.setDocumentCategory(data.documentCategory);
         }
 
         // Apply document type
         if (data.docType) {
-          documentStore.setDocType(data.docType);
+          ds.setDocType(data.docType);
         }
 
         // Apply form type
         if (data.formType) {
-          documentStore.setFormType(data.formType);
+          ds.setFormType(data.formType);
         }
 
         // Apply form data
         if (data.formData) {
-          documentStore.setFormData(data.formData);
+          ds.setFormData(data.formData);
         }
 
         // Use loadTemplate for bulk loading (handles references, enclosures, paragraphs, copyTos)
-        documentStore.loadTemplate({
+        ds.loadTemplate({
           references: data.references || [],
           enclosures: data.enclosures?.map((encl: {
             title: string;
@@ -432,7 +479,7 @@ export function Header({
     reader.readAsText(file);
     // Reset the input so the same file can be selected again
     event.target.value = '';
-  }, [documentStore]);
+  }, []);
 
   return (
     <header className="border-b-2 border-primary/40 bg-gradient-to-r from-card via-card to-secondary/30 shadow-card">
@@ -497,7 +544,7 @@ export function Header({
             variant="ghost"
             size="icon"
             onClick={handleUndo}
-            disabled={!canUndo()}
+            disabled={!canUndo}
             aria-label="Undo (Ctrl+Z)"
             title="Undo (Ctrl+Z)"
             className="h-8 w-8 sm:h-9 sm:w-9"
@@ -508,7 +555,7 @@ export function Header({
             variant="ghost"
             size="icon"
             onClick={handleRedo}
-            disabled={!canRedo()}
+            disabled={!canRedo}
             aria-label="Redo (Ctrl+Y)"
             title="Redo (Ctrl+Y)"
             className="h-8 w-8 sm:h-9 sm:w-9"

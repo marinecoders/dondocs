@@ -41,7 +41,10 @@ const EXAMPLE_FORM_DATA = {
 export function ProfileBar() {
   const { profiles, selectedProfile, selectProfile, deleteProfile, importProfiles } = useProfileStore();
   const { setFormData } = useDocumentStore();
-  const { setProfileModalOpen, autoSaveStatus } = useUIStore();
+  // Individual selectors so we only re-render when autoSaveStatus string
+  // actually changes, not on every unrelated UI store field update.
+  const setProfileModalOpen = useUIStore((s) => s.setProfileModalOpen);
+  const autoSaveStatus = useUIStore((s) => s.autoSaveStatus);
 
   const profileNames = Object.keys(profiles).sort();
 

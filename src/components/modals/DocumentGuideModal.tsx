@@ -746,7 +746,9 @@ function ExamplesTab({ onClose }: { onClose: () => void }) {
 }
 
 export function DocumentGuideModal() {
-  const { documentGuideOpen, setDocumentGuideOpen } = useUIStore();
+  // Individual selectors — modal only re-renders on its own flag changing.
+  const documentGuideOpen = useUIStore((s) => s.documentGuideOpen);
+  const setDocumentGuideOpen = useUIStore((s) => s.setDocumentGuideOpen);
   const [activeTab, setActiveTab] = useState<'finder' | 'browse' | 'examples'>('finder');
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);

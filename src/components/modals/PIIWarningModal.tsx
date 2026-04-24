@@ -76,7 +76,9 @@ function SummaryBadge({ count, label, severity }: { count: number; label: string
 }
 
 export function PIIWarningModal({ detectionResult, onCancel, onProceed }: PIIWarningModalProps) {
-  const { piiWarningOpen, setPiiWarningOpen } = useUIStore();
+  // Individual selectors — modal only re-renders on its own flag changing.
+  const piiWarningOpen = useUIStore((s) => s.piiWarningOpen);
+  const setPiiWarningOpen = useUIStore((s) => s.setPiiWarningOpen);
 
   if (!detectionResult || !detectionResult.found) {
     return null;

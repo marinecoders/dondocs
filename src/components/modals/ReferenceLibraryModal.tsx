@@ -55,7 +55,9 @@ const REFERENCE_LIBRARY = [
 ];
 
 export function ReferenceLibraryModal() {
-  const { referenceLibraryOpen, setReferenceLibraryOpen } = useUIStore();
+  // Individual selectors — modal only re-renders on its own flag changing.
+  const referenceLibraryOpen = useUIStore((s) => s.referenceLibraryOpen);
+  const setReferenceLibraryOpen = useUIStore((s) => s.setReferenceLibraryOpen);
   const { addReference } = useDocumentStore();
   const [searchQuery, setSearchQuery] = useState('');
 

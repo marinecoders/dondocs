@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { memo, useState, useCallback, useMemo, useEffect } from 'react';
 import { Plus, Trash2, Download, AlertCircle, FileText, Variable, CheckCircle, XCircle, Copy, Lightbulb, Eye, Loader2, Settings, ArrowRight } from 'lucide-react';
 import {
   Dialog,
@@ -82,8 +82,96 @@ function copyToClipboard(text: string) {
   navigator.clipboard.writeText(text);
 }
 
+interface BatchModalRowProps {
+  row: BatchRow;
+  idx: number;
+  detectedPlaceholders: string[];
+  isGenerating: boolean;
+  isPreviewing: boolean;
+  isReadyToGenerate: boolean;
+  canRemove: boolean;
+  updateRowValue: (rowId: string, placeholder: string, value: string) => void;
+  removeRow: (id: string) => void;
+  handlePreview: (row: BatchRow) => void;
+}
+
+// Memoized row so typing in row N doesn't re-render rows 1..N-1.
+//
+// The parent passes a boolean `isPreviewing` (computed once per render as
+// `previewingRow === row.id`) instead of the full `previewingRow` string, so
+// switching which row is previewing only re-renders the two rows whose state
+// actually changed — not every row in the table.
+//
+// Same idea for `canRemove` vs `rows.length`: a per-row boolean flips only
+// at the 1↔2 boundary, not on every row add/remove.
+const BatchModalRow = memo(function BatchModalRow({
+  row,
+  idx,
+  detectedPlaceholders,
+  isGenerating,
+  isPreviewing,
+  isReadyToGenerate,
+  canRemove,
+  updateRowValue,
+  removeRow,
+  handlePreview,
+}: BatchModalRowProps) {
+  return (
+    <tr className={`border-t ${row.status === 'error' ? 'bg-destructive/10' : row.status === 'success' ? 'bg-green-500/10' : ''}`}>
+      <td className="px-2 py-1 text-muted-foreground">
+        <div className="flex items-center gap-1">
+          {row.status === 'success' && <CheckCircle className="h-4 w-4 text-green-500" />}
+          {row.status === 'error' && <XCircle className="h-4 w-4 text-destructive" />}
+          {row.status === 'generating' && <Loader2 className="h-4 w-4 animate-spin" />}
+          {(!row.status || row.status === 'pending') && <span>{idx + 1}</span>}
+        </div>
+      </td>
+      {detectedPlaceholders.map((placeholder) => (
+        <td key={placeholder} className="px-1 py-1">
+          <Input
+            value={row.values[placeholder] || ''}
+            onChange={(e) => updateRowValue(row.id, placeholder, e.target.value)}
+            placeholder={placeholder.substring(0, 8)}
+            className="h-7 w-24 text-xs"
+            disabled={isGenerating}
+          />
+        </td>
+      ))}
+      <td className="px-1 py-2">
+        <div className="flex items-center gap-0.5">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7"
+            onClick={() => handlePreview(row)}
+            disabled={!isReadyToGenerate || isGenerating || isPreviewing}
+            title="Preview document"
+          >
+            {isPreviewing ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Eye className="h-4 w-4" />
+            )}
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7 text-destructive"
+            onClick={() => removeRow(row.id)}
+            disabled={!canRemove || isGenerating}
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      </td>
+    </tr>
+  );
+});
+
 export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalProps) {
-  const { batchModalOpen, setBatchModalOpen } = useUIStore();
+  // Individual selectors — modal only re-renders on its own flag changing.
+  const batchModalOpen = useUIStore((s) => s.batchModalOpen);
+  const setBatchModalOpen = useUIStore((s) => s.setBatchModalOpen);
   const documentStore = useDocumentStore();
   const formStore = useFormStore();
   const { documentCategory, formType } = useDocumentStore();
@@ -878,56 +966,19 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                           </thead>
                           <tbody>
                             {rows.map((row, idx) => (
-                              <tr key={row.id} className={`border-t ${row.status === 'error' ? 'bg-destructive/10' : row.status === 'success' ? 'bg-green-500/10' : ''}`}>
-                                <td className="px-2 py-1 text-muted-foreground">
-                                  <div className="flex items-center gap-1">
-                                    {row.status === 'success' && <CheckCircle className="h-4 w-4 text-green-500" />}
-                                    {row.status === 'error' && <XCircle className="h-4 w-4 text-destructive" />}
-                                    {row.status === 'generating' && <Loader2 className="h-4 w-4 animate-spin" />}
-                                    {(!row.status || row.status === 'pending') && <span>{idx + 1}</span>}
-                                  </div>
-                                </td>
-                                {detectedPlaceholders.map((placeholder) => (
-                                  <td key={placeholder} className="px-1 py-1">
-                                    <Input
-                                      value={row.values[placeholder] || ''}
-                                      onChange={(e) =>
-                                        updateRowValue(row.id, placeholder, e.target.value)
-                                      }
-                                      placeholder={placeholder.substring(0, 8)}
-                                      className="h-7 w-24 text-xs"
-                                      disabled={isGenerating}
-                                    />
-                                  </td>
-                                ))}
-                                <td className="px-1 py-2">
-                                  <div className="flex items-center gap-0.5">
-                                    <Button
-                                      variant="ghost"
-                                      size="icon"
-                                      className="h-7 w-7"
-                                      onClick={() => handlePreview(row)}
-                                      disabled={!isReadyToGenerate || isGenerating || previewingRow === row.id}
-                                      title="Preview document"
-                                    >
-                                      {previewingRow === row.id ? (
-                                        <Loader2 className="h-4 w-4 animate-spin" />
-                                      ) : (
-                                        <Eye className="h-4 w-4" />
-                                      )}
-                                    </Button>
-                                    <Button
-                                      variant="ghost"
-                                      size="icon"
-                                      className="h-7 w-7 text-destructive"
-                                      onClick={() => removeRow(row.id)}
-                                      disabled={rows.length === 1 || isGenerating}
-                                    >
-                                      <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                  </div>
-                                </td>
-                              </tr>
+                              <BatchModalRow
+                                key={row.id}
+                                row={row}
+                                idx={idx}
+                                detectedPlaceholders={detectedPlaceholders}
+                                isGenerating={isGenerating}
+                                isPreviewing={previewingRow === row.id}
+                                isReadyToGenerate={isReadyToGenerate}
+                                canRemove={rows.length > 1}
+                                updateRowValue={updateRowValue}
+                                removeRow={removeRow}
+                                handlePreview={handlePreview}
+                              />
                             ))}
                           </tbody>
                         </table>

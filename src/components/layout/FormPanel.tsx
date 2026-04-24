@@ -22,7 +22,8 @@ import { DOC_TYPE_CONFIG } from '@/types/document';
 
 export function FormPanel() {
   const { documentCategory, formType, docType } = useDocumentStore();
-  const { previewVisible, isMobile } = useUIStore();
+  const previewVisible = useUIStore((s) => s.previewVisible);
+  const isMobile = useUIStore((s) => s.isMobile);
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
 
   const isFormsMode = documentCategory === 'forms';

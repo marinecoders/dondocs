@@ -134,35 +134,61 @@ function getDualSignatoryConfig(formData: Partial<DocumentData>, uiMode: string 
 }
 
 function App() {
-  const {
-    theme,
-    colorScheme,
-    density,
-    isMobile,
-    setIsMobile,
-    previewVisible,
-    previewWidth,
-    setPreviewVisible,
-    setPreviewWidth,
-    setFindReplaceOpen,
-    piiWarningOpen,
-    setPiiWarningOpen,
-    setTemplateLoaderOpen,
-    setReferenceLibraryOpen,
-    setShareModal,
-    shareModal,
-    togglePreview,
-    closeAllModals,
-    fullQualityPreview,
-  } = useUIStore();
+  // Individual selectors — Zustand only re-renders this component when the
+  // specific field changes by strict equality. Previously `useUIStore()`
+  // subscribed to the whole store, so every modal open/close and every
+  // autoSaveStatus transition was re-rendering App and its entire subtree.
+  // Setters are stable references from Zustand's `create()` callback, so
+  // selecting them individually adds no cost.
+  const theme = useUIStore((s) => s.theme);
+  const colorScheme = useUIStore((s) => s.colorScheme);
+  const density = useUIStore((s) => s.density);
+  const isMobile = useUIStore((s) => s.isMobile);
+  const setIsMobile = useUIStore((s) => s.setIsMobile);
+  const previewVisible = useUIStore((s) => s.previewVisible);
+  const previewWidth = useUIStore((s) => s.previewWidth);
+  const setPreviewVisible = useUIStore((s) => s.setPreviewVisible);
+  const setPreviewWidth = useUIStore((s) => s.setPreviewWidth);
+  const setFindReplaceOpen = useUIStore((s) => s.setFindReplaceOpen);
+  const piiWarningOpen = useUIStore((s) => s.piiWarningOpen);
+  const setPiiWarningOpen = useUIStore((s) => s.setPiiWarningOpen);
+  const setTemplateLoaderOpen = useUIStore((s) => s.setTemplateLoaderOpen);
+  const setReferenceLibraryOpen = useUIStore((s) => s.setReferenceLibraryOpen);
+  const setShareModal = useUIStore((s) => s.setShareModal);
+  const shareModal = useUIStore((s) => s.shareModal);
+  const togglePreview = useUIStore((s) => s.togglePreview);
+  const closeAllModals = useUIStore((s) => s.closeAllModals);
+  const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
   const mainContainerRef = useRef<HTMLElement>(null);
-  const documentStore = useDocumentStore();
-  const { documentCategory, formType } = useDocumentStore();
-  const { setFormData, applySnapshot } = useDocumentStore();
-  const formStore = useFormStore();
-  const { undo, redo } = useHistoryStore();
-  const { selectedProfile, profiles } = useProfileStore();
-  const { addLogDirect } = useLogStore();
+  // Individual selectors instead of a full `useDocumentStore()` subscription.
+  // The seven slices below are the ones that should invalidate the debounced
+  // compile; subscribing to them granularly means every other setter call
+  // (auto-save status pings, unrelated form field changes that the compile
+  // doesn't care about, etc.) no longer wakes App.tsx. Inside compilePdf we
+  // still need the full store for `generateAllLatexFiles`, but we pull it
+  // via `useDocumentStore.getState()` at call time so nothing gets stale.
+  const docType = useDocumentStore((s) => s.docType);
+  const formData = useDocumentStore((s) => s.formData);
+  const references = useDocumentStore((s) => s.references);
+  const enclosures = useDocumentStore((s) => s.enclosures);
+  const paragraphs = useDocumentStore((s) => s.paragraphs);
+  const copyTos = useDocumentStore((s) => s.copyTos);
+  const distributions = useDocumentStore((s) => s.distributions);
+  const documentCategory = useDocumentStore((s) => s.documentCategory);
+  const formType = useDocumentStore((s) => s.formType);
+  const setFormData = useDocumentStore((s) => s.setFormData);
+  const applySnapshot = useDocumentStore((s) => s.applySnapshot);
+  // Individual selectors — App no longer re-renders on every form-store
+  // keystroke (only when one of these three slices actually changes).
+  const navmc10274 = useFormStore((s) => s.navmc10274);
+  const navmc11811 = useFormStore((s) => s.navmc11811);
+  const includeCoverPage = useFormStore((s) => s.includeCoverPage);
+  // Individual selectors across the remaining stores too — same reasoning.
+  const undo = useHistoryStore((s) => s.undo);
+  const redo = useHistoryStore((s) => s.redo);
+  const selectedProfile = useProfileStore((s) => s.selectedProfile);
+  const profiles = useProfileStore((s) => s.profiles);
+  const addLogDirect = useLogStore((s) => s.addLogDirect);
   const { isReady, compile, waitForReady, error: engineError } = useLatexEngine();
   const { showUpdatePrompt, confirmUpdate, dismissUpdatePrompt } = useServiceWorker();
 
@@ -307,7 +333,12 @@ function App() {
     setCompileLog(null);
 
     try {
-      const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls } = generateAllLatexFiles(documentStore);
+      // Read the full document store at compile time via getState() so we
+      // don't need a render-subscribing reference. The debounce dep array
+      // already handles "when should we re-compile" granularly; by the time
+      // we get here the state is current.
+      const currentStore = useDocumentStore.getState();
+      const { texFiles, enclosures: generatedEnclosures, includeHyperlinks, signatureImage, referenceUrls } = generateAllLatexFiles(currentStore);
 
       // Build files object including signature image if present
       const files: Record<string, string | Uint8Array> = { ...texFiles };
@@ -323,20 +354,20 @@ function App() {
         // When disabled (default), these are deferred to the download/export path
         // for better responsiveness on slower machines.
         if (fullQualityPreview) {
-          if (enclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
-            const classification = getClassificationInfo(documentStore.formData.classLevel);
-            const mergeResult = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls);
+          if (generatedEnclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
+            const classification = getClassificationInfo(currentStore.formData.classLevel);
+            const mergeResult = await mergeEnclosures(pdfBytes, generatedEnclosures, classification, includeHyperlinks, referenceUrls);
             pdfBytes = mergeResult.pdfBytes;
           }
 
-          if (documentStore.formData.signatureType === 'digital') {
-            const config = DOC_TYPE_CONFIG[documentStore.docType];
+          if (currentStore.formData.signatureType === 'digital') {
+            const config = DOC_TYPE_CONFIG[currentStore.docType];
             const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
             if (isDualSignature) {
-              const sigConfig = getDualSignatoryConfig(documentStore.formData, config?.uiMode);
+              const sigConfig = getDualSignatoryConfig(currentStore.formData, config?.uiMode);
               pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes), sigConfig);
             } else {
-              const sigConfig = getSignatoryConfig(documentStore.formData);
+              const sigConfig = getSignatoryConfig(currentStore.formData);
               pdfBytes = await addSignatureField(new Uint8Array(pdfBytes), sigConfig);
             }
           }
@@ -379,7 +410,10 @@ function App() {
     } finally {
       setIsCompiling(false);
     }
-  }, [isReady, compile, documentStore, pdfUrl, addLogDirect, fullQualityPreview]);
+    // documentStore is read via useDocumentStore.getState() inside, so it
+    // doesn't need to be in the deps — only the things we actually close
+    // over as React values. pdfUrl is captured for revocation.
+  }, [isReady, compile, pdfUrl, addLogDirect, fullQualityPreview]);
 
   // Auto-open the compile-error modal when a *new* error appears.
   // "New" = different message than the last one we popped the modal for.
@@ -423,15 +457,19 @@ function App() {
         clearTimeout(compileTimeoutRef.current);
       }
     };
+    // The deps are the granular slices that should invalidate a re-compile.
+    // `compilePdf` is intentionally NOT a dep — it captures documentStore via
+    // getState(), and we don't want a new compilePdf identity (e.g. from pdfUrl
+    // changing) to kick off an unrelated debounce cycle.
   }, [
     isReady,
-    documentStore.docType,
-    documentStore.formData,
-    documentStore.references,
-    documentStore.enclosures,
-    documentStore.paragraphs,
-    documentStore.copyTos,
-    documentStore.distributions,
+    docType,
+    formData,
+    references,
+    enclosures,
+    paragraphs,
+    copyTos,
+    distributions,
     fullQualityPreview,
   ]);
 
@@ -476,14 +514,14 @@ function App() {
 
         if (formType === 'navmc_10274' && navmc10274Templates) {
           pdfBytes = await generateNavmc10274Pdf(
-            formStore.navmc10274,
+            navmc10274,
             navmc10274Templates.page1,
             navmc10274Templates.page2,
             navmc10274Templates.page3
           );
         } else if (formType === 'navmc_118_11' && navmc11811Template) {
           pdfBytes = await generateNavmc11811Pdf(
-            formStore.navmc11811,
+            navmc11811,
             navmc11811Template
           );
         }
@@ -510,7 +548,7 @@ function App() {
         clearTimeout(formCompileTimeoutRef.current);
       }
     };
-  }, [documentCategory, formType, formStore.navmc10274, formStore.navmc11811, navmc10274Templates, navmc11811Template]);
+  }, [documentCategory, formType, navmc10274, navmc11811, navmc10274Templates, navmc11811Template]);
 
   // Track if download is in progress to prevent double downloads
   const downloadInProgressRef = useRef(false);
@@ -522,7 +560,10 @@ function App() {
     preOpenedWindow?: Window | null,
     onProgress?: (phase: DownloadProgressPhase) => void,
   ): Promise<boolean> => {
-    const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls } = generateAllLatexFiles(documentStore);
+    // Snapshot fresh state at download time via getState() rather than
+    // closing over a render-subscribed reference.
+    const currentStore = useDocumentStore.getState();
+    const { texFiles, enclosures: generatedEnclosures, includeHyperlinks, signatureImage, referenceUrls } = generateAllLatexFiles(currentStore);
 
     // Build files object including signature image if present
     const files: Record<string, string | Uint8Array> = { ...texFiles };
@@ -535,10 +576,10 @@ function App() {
 
     if (pdfBytes) {
       // Merge enclosures and/or create hyperlinks (handles both PDF and text-only enclosures, and reference URLs)
-      if (enclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
+      if (generatedEnclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
         onProgress?.({ kind: 'pdf-merging-enclosures' });
-        const classification = getClassificationInfo(documentStore.formData.classLevel);
-        const mergeResult = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls);
+        const classification = getClassificationInfo(currentStore.formData.classLevel);
+        const mergeResult = await mergeEnclosures(pdfBytes, generatedEnclosures, classification, includeHyperlinks, referenceUrls);
         pdfBytes = mergeResult.pdfBytes;
 
         // Track enclosure errors for user notification (download context)
@@ -549,15 +590,15 @@ function App() {
       }
 
       // Add digital signature field if requested
-      if (documentStore.formData.signatureType === 'digital') {
+      if (currentStore.formData.signatureType === 'digital') {
         onProgress?.({ kind: 'pdf-signing' });
-        const config = DOC_TYPE_CONFIG[documentStore.docType];
+        const config = DOC_TYPE_CONFIG[currentStore.docType];
         const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
         if (isDualSignature) {
-          const sigConfig = getDualSignatoryConfig(documentStore.formData, config?.uiMode);
+          const sigConfig = getDualSignatoryConfig(currentStore.formData, config?.uiMode);
           pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes), sigConfig);
         } else {
-          const sigConfig = getSignatoryConfig(documentStore.formData);
+          const sigConfig = getSignatoryConfig(currentStore.formData);
           pdfBytes = await addSignatureField(new Uint8Array(pdfBytes), sigConfig);
         }
       }
@@ -567,7 +608,7 @@ function App() {
       return await downloadPdfBlob(blob, 'correspondence.pdf', preOpenedWindow);
     }
     return false;
-  }, [compile, documentStore]);
+  }, [compile]);
 
   const handleDownloadPdfInternal = useCallback(async () => {
     // Prevent multiple simultaneous downloads
@@ -693,7 +734,8 @@ function App() {
   const pendingDocxRef = useRef<boolean>(false);
 
   const executeDocxDownload = useCallback(async () => {
-    const latexContent = generateFlatLatex(documentStore);
+    const currentStore = useDocumentStore.getState();
+    const latexContent = generateFlatLatex(currentStore);
     // Show the progress modal immediately so the user gets feedback the moment
     // they click "Download DOCX" — the first run can spend several seconds in
     // `docx-preparing` before the WASM fetch even starts on slow connections.
@@ -703,12 +745,12 @@ function App() {
     setDownloadProgress({ kind: 'docx-preparing' });
     const blob = await convertLatexToDocx(
       latexContent,
-      documentStore.formData.sealType,
-      documentStore.formData.letterheadColor,
-      documentStore.formData.fontFamily,
-      documentStore.formData.fontSize,
-      documentStore.formData.classLevel,
-      documentStore.formData.customClassification,
+      currentStore.formData.sealType,
+      currentStore.formData.letterheadColor,
+      currentStore.formData.fontFamily,
+      currentStore.formData.fontSize,
+      currentStore.formData.classLevel,
+      currentStore.formData.customClassification,
       (phase) => setDownloadProgress(docxPhaseToDownloadPhase(phase)),
     );
     const url = URL.createObjectURL(blob);
@@ -719,7 +761,7 @@ function App() {
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     // Success — clear the modal.
     setDownloadProgress(null);
-  }, [documentStore]);
+  }, []);
 
   // Core PII download function - can be called for retry
   const executePIIDownload = useCallback(async (
@@ -728,6 +770,7 @@ function App() {
   ): Promise<boolean> => {
     if (!pendingDownloadRef.current) return false;
 
+    const currentStore = useDocumentStore.getState();
     const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls } = pendingDownloadRef.current;
 
     const files: Record<string, string | Uint8Array> = { ...texFiles };
@@ -741,7 +784,7 @@ function App() {
     if (pdfBytes) {
       if (enclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
         onProgress?.({ kind: 'pdf-merging-enclosures' });
-        const classification = getClassificationInfo(documentStore.formData.classLevel);
+        const classification = getClassificationInfo(currentStore.formData.classLevel);
         const mergeResult = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls);
         pdfBytes = mergeResult.pdfBytes;
 
@@ -753,15 +796,15 @@ function App() {
       }
 
       // Add digital signature field if requested
-      if (documentStore.formData.signatureType === 'digital') {
+      if (currentStore.formData.signatureType === 'digital') {
         onProgress?.({ kind: 'pdf-signing' });
-        const config = DOC_TYPE_CONFIG[documentStore.docType];
+        const config = DOC_TYPE_CONFIG[currentStore.docType];
         const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
         if (isDualSignature) {
-          const sigConfig = getDualSignatoryConfig(documentStore.formData, config?.uiMode);
+          const sigConfig = getDualSignatoryConfig(currentStore.formData, config?.uiMode);
           pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes), sigConfig);
         } else {
-          const sigConfig = getSignatoryConfig(documentStore.formData);
+          const sigConfig = getSignatoryConfig(currentStore.formData);
           pdfBytes = await addSignatureField(new Uint8Array(pdfBytes), sigConfig);
         }
       }
@@ -771,7 +814,7 @@ function App() {
       return await downloadPdfBlob(blob, 'correspondence.pdf', preOpenedWindow);
     }
     return false;
-  }, [compile, documentStore]);
+  }, [compile]);
 
   // Handle proceeding with download after PII warning is acknowledged
   const handleProceedWithPII = useCallback(async () => {
@@ -931,20 +974,20 @@ function App() {
 
       if (formType === 'navmc_10274' && navmc10274Templates) {
         pdfBytes = await generateNavmc10274Pdf(
-          formStore.navmc10274,
+          navmc10274,
           navmc10274Templates.page1,
           navmc10274Templates.page2,
           navmc10274Templates.page3,
-          { includeCoverPage: formStore.includeCoverPage }
+          { includeCoverPage }
         );
-        filename = `NAVMC-10274-${formStore.navmc10274.date || 'form'}.pdf`;
+        filename = `NAVMC-10274-${navmc10274.date || 'form'}.pdf`;
       } else if (formType === 'navmc_118_11' && navmc11811Template) {
         pdfBytes = await generateNavmc11811Pdf(
-          formStore.navmc11811,
+          navmc11811,
           navmc11811Template
         );
-        const lastName = formStore.navmc11811.lastName || 'Marine';
-        filename = `NAVMC-118-11-${lastName}-${formStore.navmc11811.entryDate || 'entry'}.pdf`;
+        const lastName = navmc11811.lastName || 'Marine';
+        filename = `NAVMC-118-11-${lastName}-${navmc11811.entryDate || 'entry'}.pdf`;
       }
 
       if (pdfBytes) {
@@ -965,7 +1008,7 @@ function App() {
     } finally {
       downloadInProgressRef.current = false;
     }
-  }, [formType, formStore.navmc10274, formStore.navmc11811, formStore.includeCoverPage, navmc10274Templates, navmc11811Template]);
+  }, [formType, navmc10274, navmc11811, includeCoverPage, navmc10274Templates, navmc11811Template]);
 
   const handleDownloadPdf = useCallback(() => {
     // Handle forms mode separately
@@ -1002,10 +1045,11 @@ function App() {
     console.log('Manual download click');
 
     // Check for PII before downloading
-    const piiResult = detectPII(documentStore);
+    const currentStore = useDocumentStore.getState();
+    const piiResult = detectPII(currentStore);
     if (piiResult.found) {
       // Store the generated files for later use
-      const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls } = generateAllLatexFiles(documentStore);
+      const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls } = generateAllLatexFiles(currentStore);
       pendingDownloadRef.current = { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls };
       setPiiDetectionResult(piiResult);
       setPiiWarningOpen(true);
@@ -1014,10 +1058,10 @@ function App() {
 
     // No PII found, proceed with download
     handleDownloadPdfInternal();
-  }, [documentCategory, isReady, handleDownloadPdfInternal, handleDownloadFormPdf, documentStore, setPiiWarningOpen]);
+  }, [documentCategory, isReady, handleDownloadPdfInternal, handleDownloadFormPdf, setPiiWarningOpen]);
 
   const handleDownloadTex = useCallback(() => {
-    const { texFiles } = generateAllLatexFiles(documentStore);
+    const { texFiles } = generateAllLatexFiles(useDocumentStore.getState());
 
     // Combine all generated tex files into one downloadable file
     // The files are: document.tex, letterhead.tex, signatory.tex, flags.tex,
@@ -1091,10 +1135,10 @@ ${texFiles['body.tex'] || '% No body content'}
     a.download = 'correspondence.tex';
     a.click();
     URL.revokeObjectURL(url);
-  }, [documentStore]);
+  }, []);
 
   const handleDownloadFlatTex = useCallback(() => {
-    const flatTex = generateFlatLatex(documentStore);
+    const flatTex = generateFlatLatex(useDocumentStore.getState());
     const blob = new Blob([flatTex], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -1102,11 +1146,11 @@ ${texFiles['body.tex'] || '% No body content'}
     a.download = 'correspondence-flat.tex';
     a.click();
     URL.revokeObjectURL(url);
-  }, [documentStore]);
+  }, []);
 
   const handleDownloadDocx = useCallback(async () => {
     // Check for PII before downloading
-    const piiResult = detectPII(documentStore);
+    const piiResult = detectPII(useDocumentStore.getState());
     if (piiResult.found) {
       pendingDocxRef.current = true;
       setPiiDetectionResult(piiResult);
@@ -1129,7 +1173,7 @@ ${texFiles['body.tex'] || '% No body content'}
         reportable: true,
       });
     }
-  }, [documentStore, executeDocxDownload, setPiiWarningOpen, addLogDirect]);
+  }, [executeDocxDownload, setPiiWarningOpen, addLogDirect]);
 
   /**
    * Re-run the last failed download. The error phase carries the target

@@ -256,7 +256,9 @@ function IOSPdfViewer({ pdfUrl, onClose, onDownload, isPhone }: {
 }
 
 export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreviewModalProps) {
-  const { mobilePreviewOpen, setMobilePreviewOpen } = useUIStore();
+  // Individual selectors — modal only re-renders on its own flag changing.
+  const mobilePreviewOpen = useUIStore((s) => s.mobilePreviewOpen);
+  const setMobilePreviewOpen = useUIStore((s) => s.setMobilePreviewOpen);
   const { setOpen: setLogViewerOpen, setEnabled: setLogEnabled } = useLogStore();
   const [numPages, setNumPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);

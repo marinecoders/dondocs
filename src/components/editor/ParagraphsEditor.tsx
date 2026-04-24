@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -92,29 +92,27 @@ interface SortableParagraphProps {
   label: string;
   showPortionMarking: boolean;
   disableIndent: boolean;  // True when numbered paragraphs are disabled (business letters, endorsements)
-  onUpdate: (text: string) => void;
-  onUpdateHeader: (header: string) => void;
-  onUpdatePortionMarking: (marking: PortionMarking | undefined) => void;
-  onRemove: () => void;
-  onIndent: () => void;
-  onOutdent: () => void;
-  onAddAfter: () => void;
 }
 
-function SortableParagraph({
+// Memoized so that typing in paragraph N doesn't force re-render of paragraphs
+// 1..N-1. The props are all primitives/stable refs except `paragraph` itself,
+// which only changes when that specific row's data changes — so default shallow
+// equality is sufficient. Store setters are pulled inline via selectors rather
+// than passed as callback props so the parent doesn't re-create closures per
+// row on every render (which would defeat memoization).
+const SortableParagraph = memo(function SortableParagraph({
   paragraph,
   index,
   label,
   showPortionMarking,
   disableIndent,
-  onUpdate,
-  onUpdateHeader,
-  onUpdatePortionMarking,
-  onRemove,
-  onIndent,
-  onOutdent,
-  onAddAfter,
 }: SortableParagraphProps) {
+  const updateParagraph = useDocumentStore((s) => s.updateParagraph);
+  const removeParagraph = useDocumentStore((s) => s.removeParagraph);
+  const indentParagraph = useDocumentStore((s) => s.indentParagraph);
+  const outdentParagraph = useDocumentStore((s) => s.outdentParagraph);
+  const addParagraph = useDocumentStore((s) => s.addParagraph);
+
   const {
     attributes,
     listeners,
@@ -165,7 +163,7 @@ function SortableParagraph({
             <span className="text-xs text-muted-foreground whitespace-nowrap">Header:</span>
             <Input
               value={paragraph.header || ''}
-              onChange={(e) => onUpdateHeader(e.target.value)}
+              onChange={(e) => updateParagraph(index, { header: e.target.value })}
               placeholder="Optional heading (auto-underlined)"
               className="h-7 text-sm flex-1"
             />
@@ -178,7 +176,7 @@ function SortableParagraph({
 
           <VariableChipEditor
             value={paragraph.text}
-            onChange={onUpdate}
+            onChange={(text) => updateParagraph(index, { text })}
             placeholder="Enter paragraph content... (type @ for variables)"
             rows={3}
           />
@@ -190,7 +188,7 @@ function SortableParagraph({
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={onOutdent}
+                  onClick={() => outdentParagraph(index)}
                   disabled={paragraph.level === 0}
                   title="Outdent (Shift+Tab)"
                 >
@@ -199,7 +197,7 @@ function SortableParagraph({
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={onIndent}
+                  onClick={() => indentParagraph(index)}
                   disabled={paragraph.level >= 7}
                   title="Indent (Tab)"
                 >
@@ -210,7 +208,7 @@ function SortableParagraph({
             <Button
               variant="ghost"
               size="sm"
-              onClick={onAddAfter}
+              onClick={() => addParagraph('', paragraph.level, index)}
               title="Add paragraph after"
             >
               <ArrowDown className="h-4 w-4 mr-1" />
@@ -221,7 +219,7 @@ function SortableParagraph({
             {showPortionMarking && (
               <Select
                 value={paragraph.portionMarking || ''}
-                onValueChange={(v) => onUpdatePortionMarking(v as PortionMarking || undefined)}
+                onValueChange={(v) => updateParagraph(index, { portionMarking: (v as PortionMarking) || undefined })}
               >
                 <SelectTrigger className="h-7 w-[70px] text-xs">
                   <SelectValue placeholder="Mark" />
@@ -243,7 +241,7 @@ function SortableParagraph({
             <Button
               variant="ghost"
               size="sm"
-              onClick={onRemove}
+              onClick={() => removeParagraph(index)}
               className="text-destructive hover:text-destructive"
               title="Remove paragraph"
             >
@@ -254,21 +252,18 @@ function SortableParagraph({
       </div>
     </div>
   );
-}
+});
 
 export function ParagraphsEditor() {
-  const {
-    documentMode,
-    docType,
-    formData,
-    paragraphs,
-    addParagraph,
-    updateParagraph,
-    removeParagraph,
-    reorderParagraphs,
-    indentParagraph,
-    outdentParagraph,
-  } = useDocumentStore();
+  // Individual selectors so the editor only re-renders when one of these
+  // specific slices changes. The child row components pull their own setters
+  // via selectors, so the parent no longer needs to own them.
+  const documentMode = useDocumentStore((s) => s.documentMode);
+  const docType = useDocumentStore((s) => s.docType);
+  const formData = useDocumentStore((s) => s.formData);
+  const paragraphs = useDocumentStore((s) => s.paragraphs);
+  const addParagraph = useDocumentStore((s) => s.addParagraph);
+  const reorderParagraphs = useDocumentStore((s) => s.reorderParagraphs);
 
   // Show portion marking when document has classification
   const showPortionMarking = formData.classLevel && formData.classLevel !== 'unclassified';
@@ -362,13 +357,6 @@ export function ParagraphsEditor() {
                   label={disableNumberedParagraphs ? '' : labels[index]}
                   showPortionMarking={!!showPortionMarking}
                   disableIndent={disableNumberedParagraphs}
-                  onUpdate={(text) => updateParagraph(index, { text })}
-                  onUpdateHeader={(header) => updateParagraph(index, { header })}
-                  onUpdatePortionMarking={(marking) => updateParagraph(index, { portionMarking: marking })}
-                  onRemove={() => removeParagraph(index)}
-                  onIndent={() => indentParagraph(index)}
-                  onOutdent={() => outdentParagraph(index)}
-                  onAddAfter={() => addParagraph('', para.level, index)}
                 />
               ))}
             </SortableContext>
