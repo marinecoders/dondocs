@@ -24,6 +24,8 @@
  *   debug.timeEnd('Operation');
  */
 
+import { APP_VERSION, GIT_SHA, BUILD_TIME } from '@/lib/version';
+
 type LogLevel = 'log' | 'warn' | 'error' | 'info';
 
 /** Verbosity: 0 = silent, 1 = basic, 2 = verbose */
@@ -437,7 +439,12 @@ declare global {
     DONDOCS: {
       debug: typeof debug;
       texlive: typeof texlive;
+      /** Semver from package.json (e.g. "1.2.0") */
       version: string;
+      /** Short git commit SHA of the deployed build (e.g. "a3f9c2b") */
+      sha: string;
+      /** ISO-8601 build timestamp */
+      buildTime: string;
     };
   }
 }
@@ -446,7 +453,9 @@ if (typeof window !== 'undefined') {
   window.DONDOCS = {
     debug,
     texlive,
-    version: '1.0.0',
+    version: APP_VERSION,
+    sha: GIT_SHA,
+    buildTime: BUILD_TIME,
   };
 
   // Keyboard shortcut: Ctrl+Shift+D

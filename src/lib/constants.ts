@@ -218,11 +218,16 @@ export const SHORTCUTS = {
 
 /**
  * Application info
+ *
+ * NOTE: Version info is NOT stored here — it comes from `@/lib/version`
+ * which is populated at build time from package.json + git. Import
+ * APP_VERSION / GIT_SHA from there instead of adding it back to this
+ * object. This comment exists to prevent re-introducing the hardcoded
+ * VERSION field that used to live here and drifted stale.
  */
 export const APP_INFO = {
   NAME: 'DONDOCS',
   FULL_NAME: 'DoN Correspondence Generator',
-  VERSION: '1.0.0',
   GITHUB_URL: 'https://github.com/marinecoders/dondocs',
 } as const;
 
