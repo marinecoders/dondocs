@@ -37,6 +37,12 @@ interface HeaderProps {
    * conversion (the pandoc WASM module is a singleton but the modal UX is not).
    */
   isDocxGenerating?: boolean;
+  /**
+   * True while a PDF download is in flight (compile → merge → sign → save).
+   * Disables the PDF menu item and swaps its icon for a spinner so a second
+   * click can't start a parallel compile while the modal is up.
+   */
+  isPdfGenerating?: boolean;
   isFormsMode?: boolean;  // Whether we're in forms mode (hides LaTeX options)
 }
 
@@ -52,6 +58,7 @@ export function Header({
   onRefreshPreview,
   isCompiling,
   isDocxGenerating = false,
+  isPdfGenerating = false,
   isFormsMode = false,
 }: HeaderProps) {
   const { theme, toggleTheme, density, setDensity, autoSaveStatus, setAboutModalOpen, setNistModalOpen, setBatchModalOpen, setDocumentGuideOpen, setFindReplaceOpen, setShareModal, isMobile, previewVisible, togglePreview, fullQualityPreview, setFullQualityPreview } = useUIStore();
@@ -498,9 +505,19 @@ export function Header({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={handleDownloadPdf}>
-                <FileText className="h-4 w-4 mr-2" />
-                Download PDF
+              <DropdownMenuItem
+                onClick={handleDownloadPdf}
+                disabled={isPdfGenerating}
+                // Block re-entry while the PDF pipeline is running — same
+                // rationale as DOCX: the modal blocks the app visually but a
+                // second click on the dropdown item would still fire.
+              >
+                {isPdfGenerating ? (
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                ) : (
+                  <FileText className="h-4 w-4 mr-2" />
+                )}
+                {isPdfGenerating ? 'Generating PDF…' : 'Download PDF'}
               </DropdownMenuItem>
               {/* LaTeX and DOCX only available for correspondence */}
               {!isFormsMode && (
