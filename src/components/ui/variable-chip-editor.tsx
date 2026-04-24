@@ -151,12 +151,23 @@ const VariableNode = Node.create({
 
   addNodeView() {
     return ({ node }) => {
+      // Build the chip via DOM APIs rather than innerHTML. node.attrs.label and
+      // node.attrs.name are user-controlled (custom variable names and labels
+      // flow through here), so interpolating them into an HTML string was an
+      // XSS sink — e.g. a variable label of `<img src=x onerror=...>` would
+      // execute. textContent escapes automatically. Closes GH #16.
       const span = document.createElement('span');
       span.className = 'inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-sm font-medium';
       span.contentEditable = 'false';
-      span.innerHTML = `<span class="text-blue-500 dark:text-blue-400">@</span>${node.attrs.label || node.attrs.name}`;
       span.setAttribute('data-type', 'variable');
       span.setAttribute('data-name', node.attrs.name);
+
+      const at = document.createElement('span');
+      at.className = 'text-blue-500 dark:text-blue-400';
+      at.textContent = '@';
+      span.appendChild(at);
+      span.appendChild(document.createTextNode(node.attrs.label || node.attrs.name));
+
       return { dom: span };
     };
   },

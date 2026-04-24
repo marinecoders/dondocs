@@ -94,6 +94,16 @@ const MEDICAL_KEYWORDS = [
   'dna',
 ];
 
+// Pre-compiled single alternation regex. Before this we were allocating 40
+// fresh RegExp objects on every detectPII() call (which runs before every
+// export) and scanning the text 40 separate times. One combined pattern
+// does the same work in a single O(n) sweep and zero per-call allocations.
+// Keywords are hard-coded above, so no regex-metachar escaping is needed.
+const MEDICAL_KEYWORDS_REGEX = new RegExp(
+  `\\b(?:${MEDICAL_KEYWORDS.join('|')})\\b`,
+  'gi'
+);
+
 // Excluded email domains (official/military domains that are less concerning)
 const EXCLUDED_EMAIL_DOMAINS = [
   'usmc.mil',
@@ -138,25 +148,28 @@ function findMatches(
 
 function findMedicalKeywords(text: string, field: string): PIIFinding[] {
   const findings: PIIFinding[] = [];
-  const lowerText = text.toLowerCase();
 
-  for (const keyword of MEDICAL_KEYWORDS) {
-    const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
-    let match;
+  // Reset lastIndex — the regex is module-level and shared, so a previous
+  // call may have left it mid-stream.
+  MEDICAL_KEYWORDS_REGEX.lastIndex = 0;
 
-    while ((match = regex.exec(lowerText)) !== null) {
-      // Get context around the match
-      const start = Math.max(0, match.index - 20);
-      const end = Math.min(text.length, match.index + match[0].length + 20);
-      const context = text.substring(start, end);
+  let match;
+  while ((match = MEDICAL_KEYWORDS_REGEX.exec(text)) !== null) {
+    // Get context around the match (on the original text so casing is
+    // preserved in the preview shown to the user).
+    const start = Math.max(0, match.index - 20);
+    const end = Math.min(text.length, match.index + match[0].length + 20);
+    const context = text.substring(start, end);
 
-      findings.push({
-        type: 'MEDICAL_KEYWORD',
-        field,
-        value: keyword,
-        context: `...${context}...`,
-      });
-    }
+    findings.push({
+      type: 'MEDICAL_KEYWORD',
+      field,
+      // Normalize to lowercase so the dedup pass downstream treats
+      // "Patient" and "patient" as the same finding (matches previous
+      // behavior where `value` was always the lowercase keyword).
+      value: match[0].toLowerCase(),
+      context: `...${context}...`,
+    });
   }
 
   return findings;

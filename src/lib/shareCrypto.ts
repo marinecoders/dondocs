@@ -2,12 +2,26 @@
  * Password-based encryption for share links.
  * Uses Web Crypto: PBKDF2 (key derivation) + AES-GCM (encryption).
  * Payload format: base64url(salt(16) || iv(12) || ciphertext).
+ *
+ * Plaintext inside the ciphertext is DEFLATE-compressed JSON. We identify
+ * compressed vs legacy payloads by byte-sniffing the first decrypted byte —
+ * DEFLATE streams begin with 0x78 (zlib header) while raw JSON always begins
+ * with 0x7B (`{`). This keeps the URL format unchanged, so share links
+ * produced before this change still decrypt.
  */
+
+import pako from 'pako';
 
 const PBKDF2_ITERATIONS = 120_000;
 const SALT_LENGTH = 16;
 const IV_LENGTH = 12;
 const KEY_LENGTH = 256;
+
+// 0x78 is the first byte of a zlib-wrapped DEFLATE stream (second byte varies
+// by compression level: 0x9C for default, 0xDA for best). JSON.stringify on
+// an object/array/string always produces `{`, `[`, or `"` — none of which
+// collide with 0x78, so sniffing is unambiguous for the payloads we produce.
+const DEFLATE_MAGIC = 0x78;
 
 function base64urlEncode(bytes: Uint8Array): string {
   let binary = '';
@@ -64,7 +78,14 @@ export async function encryptSharePayload(data: object, password: string): Promi
   const iv = crypto.getRandomValues(new Uint8Array(IV_LENGTH));
   const key = await deriveKey(password, salt);
   const enc = new TextEncoder();
-  const plaintext = enc.encode(JSON.stringify(data));
+  // Compress the JSON before encryption. Session payloads are highly
+  // repetitive (LaTeX templates, repeated field names, form labels) and
+  // typically compress 3-5x, which directly reduces share-link length —
+  // browsers choke on URLs past ~8 KB and some messaging apps truncate
+  // earlier. pako.deflate is already in the bundle for enclosure PDF
+  // decompression, so this adds no bundle weight.
+  const jsonBytes = enc.encode(JSON.stringify(data));
+  const plaintext = pako.deflate(jsonBytes);
   const ciphertext = await crypto.subtle.encrypt(
     { name: 'AES-GCM', iv },
     key,
@@ -102,7 +123,15 @@ export async function decryptSharePayload(
       key,
       ciphertext
     );
-    const decoded = new TextDecoder().decode(decrypted);
+    const decryptedBytes = new Uint8Array(decrypted);
+    // Byte-sniff for DEFLATE header. New payloads (post-compression change)
+    // start with 0x78; legacy payloads are raw UTF-8 JSON that always start
+    // with `{` (0x7B) or `[` (0x5B). We keep decoding legacy so old links
+    // users have already shared still work.
+    const jsonBytes = decryptedBytes[0] === DEFLATE_MAGIC
+      ? pako.inflate(decryptedBytes)
+      : decryptedBytes;
+    const decoded = new TextDecoder().decode(jsonBytes);
     return JSON.parse(decoded) as object;
   } catch {
     throw new Error('Wrong password or invalid share link');

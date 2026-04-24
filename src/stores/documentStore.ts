@@ -6,6 +6,7 @@ import { useHistoryStore } from './historyStore';
 import type { DocumentSnapshot } from './historyStore';
 import { debug } from '@/lib/debug';
 import { TIMING } from '@/lib/constants';
+import { compressedParse, compressedStringify } from '@/lib/compressedStorage';
 
 // Session persistence keys
 const SESSION_STORAGE_KEY = 'dondocs-document-session';
@@ -633,7 +634,11 @@ function saveSessionToStorage(state: DocumentState): void {
       timestamp: Date.now(),
     };
 
-    localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
+    // Compressed write — pako.deflate + base64, prefixed so the read path
+    // can distinguish it from legacy plain-JSON sessions. Typical shrink
+    // is ~2–3× after base64 expansion, which keeps us well below the
+    // per-origin localStorage quota as documents grow.
+    localStorage.setItem(SESSION_STORAGE_KEY, compressedStringify(session));
     localStorage.setItem(SESSION_TIMESTAMP_KEY, Date.now().toString());
     debug.log('Store', 'Session saved to localStorage');
   } catch (err) {
@@ -661,8 +666,10 @@ export function hasSavedSession(): boolean {
       return false;
     }
 
-    // Validate session data
-    const session = JSON.parse(sessionData) as SerializedSession;
+    // Validate session data. compressedParse handles both the new gz:-
+    // prefixed compressed form and legacy plain-JSON sessions that were
+    // written before compression was enabled.
+    const session = compressedParse<SerializedSession>(sessionData);
 
     // Check if it has meaningful content (not just default empty state)
     const hasContent =
@@ -683,7 +690,7 @@ export function getSavedSession(): SerializedSession | null {
   try {
     const sessionData = localStorage.getItem(SESSION_STORAGE_KEY);
     if (!sessionData) return null;
-    return JSON.parse(sessionData) as SerializedSession;
+    return compressedParse<SerializedSession>(sessionData);
   } catch {
     return null;
   }
