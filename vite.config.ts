@@ -4,7 +4,45 @@ import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import path from 'path'
 import fs from 'fs'
+import { execSync } from 'child_process'
 import type { Plugin } from 'vite'
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Build-time version metadata (single source of truth)
+// ─────────────────────────────────────────────────────────────────────────────
+// These values are injected into the bundle via `define` below and consumed
+// by src/lib/version.ts. Do not hardcode version strings elsewhere in the app.
+const pkg = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, 'package.json'), 'utf-8')
+) as { version: string };
+
+const APP_VERSION = pkg.version;
+const GIT_SHA = (() => {
+  try {
+    return execSync('git rev-parse --short HEAD', { stdio: ['ignore', 'pipe', 'ignore'] })
+      .toString()
+      .trim();
+  } catch {
+    return 'dev';
+  }
+})();
+const BUILD_TIME = new Date().toISOString();
+
+// Inject version metadata into index.html as <meta> tags so deployed version
+// can be verified without running JS (e.g., `curl site.com | grep dondocs-version`).
+function versionMetaPlugin(): Plugin {
+  return {
+    name: 'dondocs-version-meta',
+    transformIndexHtml(html) {
+      const metaTags = [
+        `<meta name="dondocs-version" content="${APP_VERSION}" />`,
+        `<meta name="dondocs-sha" content="${GIT_SHA}" />`,
+        `<meta name="dondocs-build-time" content="${BUILD_TIME}" />`,
+      ].join('\n    ');
+      return html.replace('</head>', `    ${metaTags}\n  </head>`);
+    },
+  };
+}
 
 // Middleware to handle texlive requests for SwiftLaTeX
 // This prevents Vite's HTML fallback from returning HTML for missing TeX files
@@ -151,10 +189,16 @@ function texliveMiddleware(): Plugin {
 
 // https://vite.dev/config/
 export default defineConfig({
+  define: {
+    __APP_VERSION__: JSON.stringify(APP_VERSION),
+    __GIT_SHA__: JSON.stringify(GIT_SHA),
+    __BUILD_TIME__: JSON.stringify(BUILD_TIME),
+  },
   plugins: [
     react(),
     tailwindcss(),
     texliveMiddleware(),
+    versionMetaPlugin(),
     VitePWA({
       registerType: 'prompt',
       includeAssets: ['icon.svg', 'lib/**/*'],
@@ -188,7 +232,14 @@ export default defineConfig({
         // Do NOT add skipWaiting or clientsClaim here - they cause auto-reload
         // Increase limit for large JS bundles (SwiftLaTeX is ~9MB)
         maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10MB
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
+        // NOTE: `html` intentionally NOT precached. Navigations go through the
+        // NetworkFirst runtime rule below so users always get the latest app
+        // shell on new tabs/sessions (see issue #31 — stale PWA cache kept
+        // users stuck on old versions). Hashed JS/CSS bundles are still
+        // precached so offline + subsequent loads stay fast.
+        globPatterns: ['**/*.{js,css,ico,png,svg,woff,woff2}'],
+        // Don't fall back to a precached index.html — we want NetworkFirst.
+        navigateFallback: null,
         // Precache critical TeX files to ensure they're always available
         // Use timestamp-based revision to ensure fresh fetch after deployment
         additionalManifestEntries: [
@@ -196,6 +247,22 @@ export default defineConfig({
         ],
         // Cache TeX Live files for offline use
         runtimeCaching: [
+          {
+            // App shell (index.html): NetworkFirst so every new tab/session
+            // gets the latest version if online. Falls back to cache after 3s
+            // so offline/slow networks still load the app instantly.
+            // This is the core fix for "updates don't reach users" (#31).
+            urlPattern: ({ request }) => request.mode === 'navigate',
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'dondocs-app-shell-v1',
+              networkTimeoutSeconds: 3,
+              expiration: {
+                maxEntries: 1,
+                maxAgeSeconds: 60 * 60 * 24 * 7, // 7 days offline grace
+              },
+            },
+          },
           {
             // Handle /tex/* paths (internal TeX file requests)
             urlPattern: /\/tex\/.*/,

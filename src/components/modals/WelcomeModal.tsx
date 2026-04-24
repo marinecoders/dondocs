@@ -16,7 +16,11 @@ import { TextReveal } from '@/components/effects/TextReveal';
 import { MouseGlowCard } from '@/components/effects/MouseGlowCard';
 
 const WELCOME_STORAGE_KEY = 'dondocs-welcome-shown';
-const WELCOME_VERSION = '2.1'; // Increment to show welcome again after major updates
+// Tracks the version of the WELCOME MODAL CONTENT — not the app version.
+// Bump this when the welcome modal's copy/features change meaningfully so
+// returning users see the updated content once. This is intentionally
+// separate from APP_VERSION in @/lib/version (which tracks code releases).
+const WELCOME_CONTENT_VERSION = '2.1';
 
 interface Feature {
   icon: React.ReactNode;
@@ -80,14 +84,14 @@ export function WelcomeModal() {
     }
 
     const stored = localStorage.getItem(WELCOME_STORAGE_KEY);
-    if (!stored || stored !== WELCOME_VERSION) {
+    if (!stored || stored !== WELCOME_CONTENT_VERSION) {
       setOpen(true);
     }
   }, []);
 
   const handleClose = () => {
     if (dontShowAgain) {
-      localStorage.setItem(WELCOME_STORAGE_KEY, WELCOME_VERSION);
+      localStorage.setItem(WELCOME_STORAGE_KEY, WELCOME_CONTENT_VERSION);
     }
     setOpen(false);
   };

@@ -8,8 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Github, Shield, Zap, FileText, Lock, Plane, ExternalLink } from 'lucide-react';
 import { useUIStore } from '@/stores/uiStore';
-
-const VERSION = '1.1.0';
+import { APP_VERSION, GIT_SHA, formatBuildTime } from '@/lib/version';
 
 export function AboutModal() {
   const { aboutModalOpen, setAboutModalOpen } = useUIStore();
@@ -21,7 +20,9 @@ export function AboutModal() {
           <DialogTitle className="flex items-center gap-3">
             <FileText className="h-6 w-6 text-primary" />
             <span className="text-xl font-bold">Naval Correspondence Generator</span>
-            <Badge variant="secondary">v{VERSION}</Badge>
+            <Badge variant="secondary" title={`Build ${GIT_SHA} · ${formatBuildTime()}`}>
+              v{APP_VERSION}
+            </Badge>
           </DialogTitle>
         </DialogHeader>
 
@@ -85,6 +86,24 @@ export function AboutModal() {
               View on GitHub
               <ExternalLink className="h-3 w-3 ml-1.5 opacity-50" />
             </Button>
+          </div>
+
+          {/* Build info — lets users verify which version they're running.
+              If a user reports a bug, have them read these values from the
+              About modal to confirm they're on the latest deployed build. */}
+          <div className="pt-3 border-t border-border/50 text-xs text-muted-foreground space-y-0.5 font-mono">
+            <div>
+              <span className="opacity-70">Version:</span>{' '}
+              <span>v{APP_VERSION}</span>
+            </div>
+            <div>
+              <span className="opacity-70">Build:</span>{' '}
+              <span>{GIT_SHA}</span>
+            </div>
+            <div>
+              <span className="opacity-70">Deployed:</span>{' '}
+              <span>{formatBuildTime()}</span>
+            </div>
           </div>
         </div>
       </DialogContent>
