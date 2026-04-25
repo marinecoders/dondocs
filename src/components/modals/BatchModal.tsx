@@ -40,6 +40,34 @@ import {
 // Local alias retained for naming compatibility with the rest of this file.
 type PlaceholderValue = PlaceholderValues;
 
+// Human-readable labels for each dropdown target field, used by the
+// "Added {{X}} to <field>" confirmation toast. Module-scope const (not
+// useMemo) since it never changes. Keys must match the SelectItem values
+// in the Add-Variable dropdown — adding/removing dropdown options means
+// adding/removing a key here.
+const FIELD_LABELS: Record<string, string> = {
+  // Correspondence
+  subject: 'Subject',
+  to: 'To',
+  from: 'From',
+  via: 'Via',
+  paragraph: 'New Paragraph',
+  // NAVMC 10274
+  orgStation: 'Org/Station',
+  natureOfAction: 'Nature of Action',
+  copyTo: 'Copy To',
+  references: 'References',
+  enclosures: 'Enclosures',
+  supplementalInfo: 'Supplemental Info',
+  proposedAction: 'Proposed Action',
+  // NAVMC 118(11)
+  lastName: 'Last Name',
+  firstName: 'First Name',
+  middleName: 'Middle Name',
+  remarksText: 'Remarks (Left)',
+  remarksTextRight: 'Remarks (Right)',
+};
+
 interface BatchRow {
   id: string;
   values: PlaceholderValue;
@@ -650,38 +678,6 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     }
   }, [detectedPlaceholders, looksLikeHeaders]);
 
-  // Build a human-readable label for the Add-confirmation toast. The list
-  // below mirrors the dropdown options, so adding/removing fields here and
-  // there must stay in sync.
-  const FIELD_LABELS: Record<string, string> = useMemo(() => ({
-    // Correspondence
-    subject: 'Subject',
-    to: 'To',
-    from: 'From',
-    via: 'Via',
-    paragraph: 'New Paragraph',
-    // NAVMC 10274
-    actionNo: 'Action No',
-    ssicFileNo: 'SSIC/File No',
-    date: 'Date',
-    orgStation: 'Org/Station',
-    natureOfAction: 'Nature of Action',
-    copyTo: 'Copy To',
-    references: 'References',
-    enclosures: 'Enclosures',
-    supplementalInfo: 'Supplemental Info',
-    proposedAction: 'Proposed Action',
-    // NAVMC 118(11)
-    lastName: 'Last Name',
-    firstName: 'First Name',
-    middleName: 'Middle Name',
-    edipi: 'EDIPI',
-    box11: 'Box 11 (SRB Pg)',
-    entryDate: 'Entry Date',
-    remarksText: 'Remarks (Left)',
-    remarksTextRight: 'Remarks (Right)',
-  }), []);
-
   // Handle adding a variable to the document.
   // Reads live state via getState() at click time (not stale render-time snapshot),
   // and uses the stable setter refs bound at the top of the component.
@@ -698,18 +694,21 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
       current ? `${current} ${variableText}` : variableText;
 
     if (isFormsMode) {
-      // Forms mode: Add to specific form fields
+      // Forms mode: Add to specific form fields.
+      // hasOwnProperty.call instead of `key in obj` so a hypothetical
+      // future dropdown drift adding e.g. `toString` as a value can't
+      // resolve via Object.prototype and call a setter with garbage.
       if (formType === 'navmc_10274') {
         const currentData = useFormStore.getState().navmc10274;
-        const fieldKey = targetField as keyof typeof currentData;
-        if (fieldKey in currentData) {
+        if (Object.prototype.hasOwnProperty.call(currentData, targetField)) {
+          const fieldKey = targetField as keyof typeof currentData;
           setNavmc10274Field(fieldKey, appendInto(currentData[fieldKey] ?? ''));
           inserted = true;
         }
       } else if (formType === 'navmc_118_11') {
         const currentData = useFormStore.getState().navmc11811;
-        const fieldKey = targetField as keyof typeof currentData;
-        if (fieldKey in currentData) {
+        if (Object.prototype.hasOwnProperty.call(currentData, targetField)) {
+          const fieldKey = targetField as keyof typeof currentData;
           setNavmc11811Field(fieldKey, appendInto(currentData[fieldKey] ?? ''));
           inserted = true;
         }
@@ -747,7 +746,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     // Reset selection
     setSelectedVariable('');
     setTargetField('');
-  }, [selectedVariable, targetField, isFormsMode, formType, setNavmc10274Field, setNavmc11811Field, setDocField, addParagraph, FIELD_LABELS]);
+  }, [selectedVariable, targetField, isFormsMode, formType, setNavmc10274Field, setNavmc11811Field, setDocField, addParagraph]);
 
   // Clean up the add-status timer on unmount so we don't fire setState
   // on an unmounted component if the modal closes within 2.5s of a click.
@@ -849,12 +848,26 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                       <SelectValue placeholder="Add to field..." />
                     </SelectTrigger>
                     <SelectContent>
+                      {/*
+                        Field choices are intentionally limited to ones that
+                        (a) accept arbitrary text via a variable-aware input
+                        (InputWithVariables / TextareaWithVariables /
+                        VariableChipEditor), and (b) don't have tight length
+                        limits that would truncate `{{NAME}}` (8 chars).
+
+                        Excluded for forms:
+                        - NAVMC 10274 actionNo / ssicFileNo: plain Input, fixed
+                          formats ("001-25", numeric SSIC). Variables would
+                          break those formats.
+                        - NAVMC 10274 date / NAVMC 118(11) entryDate: HTML
+                          type="date" inputs — appending text corrupts.
+                        - NAVMC 118(11) edipi (maxLength=10) and box11
+                          (maxLength=5): tight character limits. {{NAME}}
+                          alone is 8 chars, would truncate or overflow.
+                      */}
                       {isFormsMode ? (
                         formType === 'navmc_10274' ? (
                           <>
-                            <SelectItem value="actionNo">Action No</SelectItem>
-                            <SelectItem value="ssicFileNo">SSIC/File No</SelectItem>
-                            <SelectItem value="date">Date</SelectItem>
                             <SelectItem value="from">From</SelectItem>
                             <SelectItem value="via">Via</SelectItem>
                             <SelectItem value="orgStation">Org/Station</SelectItem>
@@ -871,9 +884,6 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                             <SelectItem value="lastName">Last Name</SelectItem>
                             <SelectItem value="firstName">First Name</SelectItem>
                             <SelectItem value="middleName">Middle Name</SelectItem>
-                            <SelectItem value="edipi">EDIPI</SelectItem>
-                            <SelectItem value="entryDate">Entry Date</SelectItem>
-                            <SelectItem value="box11">Box 11 (SRB Pg)</SelectItem>
                             <SelectItem value="remarksText">Remarks (Left)</SelectItem>
                             <SelectItem value="remarksTextRight">Remarks (Right)</SelectItem>
                           </>
