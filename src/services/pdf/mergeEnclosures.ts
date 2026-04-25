@@ -1,6 +1,7 @@
 import { PDFDocument, rgb, StandardFonts, PDFPage, PDFName, PDFArray, PDFNumber, PDFRef, PDFRawStream, PDFDict, PDFString, degrees } from 'pdf-lib';
 import pako from 'pako';
 import { debug } from '@/lib/debug';
+import { safeUrl } from '@/lib/url-safety';
 
 export interface EnclosureData {
   number: number;
@@ -637,13 +638,23 @@ function findReferenceLinks(pdfDoc: PDFDocument, mainPageCount: number, referenc
     return positions;
   }
 
-  // Create a map for quick URL lookup by letter
+  // Create a map for quick URL lookup by letter.
+  //
+  // safeUrl() validates the protocol (allowlist: http, https, mailto)
+  // and rejects dangerous schemes like javascript: / data: / file:
+  // that the previous "blindly prepend https://" logic was happy to
+  // pass through to the PDF /URI annotation. See @/lib/url-safety
+  // for the threat model. Issue #17.
+  //
+  // If safeUrl returns null (unsafe or unparseable), we skip the
+  // urlMap entry entirely — the reference still appears in the
+  // bibliography, just without a clickable link.
   const urlMap = new Map<string, string>();
   for (const ref of references) {
-    // Ensure URL has a protocol prefix (required for PDF URI annotations)
-    let url = ref.url;
-    if (url && !url.match(/^https?:\/\//i)) {
-      url = 'https://' + url;
+    const url = safeUrl(ref.url);
+    if (!url) {
+      debug.log('Hyperlinks', `Reference '${ref.letter}' -> rejected (unsafe or empty URL)`);
+      continue;
     }
     debug.log('Hyperlinks', `Reference '${ref.letter}' -> ${url}`);
     urlMap.set(ref.letter.toLowerCase(), url);
