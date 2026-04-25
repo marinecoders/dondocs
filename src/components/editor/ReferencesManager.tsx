@@ -37,6 +37,7 @@ import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
 import type { Reference } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
+import { safeUrl } from '@/lib/url-safety';
 
 interface SortableReferenceProps {
   reference: Reference;
@@ -66,6 +67,19 @@ const SortableReference = memo(function SortableReference({
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
+  // Surface unsafe URLs to the user. The same `safeUrl()` chokepoint
+  // that protects the PDF/DOCX export silently strips any URL whose
+  // scheme isn't in the allowlist. Without UI feedback, the user
+  // would never know their `javascript:` / `data:` / `file:` URL
+  // was rejected — they'd download a PDF with no link and assume the
+  // app was broken. The warning below tells them up front.
+  //
+  // Only flag NON-EMPTY URLs that fail validation; an empty field is
+  // a perfectly normal "no link" state.
+  const trimmedUrl = (reference.url ?? '').trim();
+  const urlInvalid = trimmedUrl !== '' && safeUrl(trimmedUrl) === null;
+  const urlWarningId = `ref-${index}-url-warning`;
 
   return (
     <div
@@ -97,13 +111,32 @@ const SortableReference = memo(function SortableReference({
             onChange={(e) => updateReference(index, { title: e.target.value })}
             placeholder="Reference title..."
           />
+          {urlInvalid && (
+            <div
+              id={urlWarningId}
+              role="alert"
+              className="flex items-start gap-1.5 text-xs text-destructive"
+            >
+              <AlertTriangle className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+              <span>
+                Unsafe URL — only <code className="font-mono">http</code>,{' '}
+                <code className="font-mono">https</code>, and{' '}
+                <code className="font-mono">mailto</code> links are allowed.
+                This URL won't be embedded in the exported PDF or DOCX.
+              </span>
+            </div>
+          )}
           <div className="flex items-center gap-2">
-            <Link className="h-4 w-4 text-muted-foreground" />
+            <Link
+              className={`h-4 w-4 ${urlInvalid ? 'text-destructive' : 'text-muted-foreground'}`}
+            />
             <Input
               value={reference.url || ''}
               onChange={(e) => updateReference(index, { url: e.target.value })}
               placeholder="URL (optional)"
-              className="text-sm"
+              className={`text-sm ${urlInvalid ? 'border-destructive focus-visible:ring-destructive' : ''}`}
+              aria-invalid={urlInvalid}
+              aria-describedby={urlInvalid ? urlWarningId : undefined}
             />
           </div>
         </div>
