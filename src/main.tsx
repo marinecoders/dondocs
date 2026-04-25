@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 
 // Initialize debug utility (registers global DONDOCS object and keyboard shortcut)
 import '@/lib/debug'
@@ -39,10 +40,21 @@ function migrateLocalStorage() {
   }
 }
 
-migrateLocalStorage();
+// migrateLocalStorage runs BEFORE the ErrorBoundary mounts, so any throw
+// here would bypass the boundary and produce the white screen we just
+// added the boundary to prevent. Guard with try/catch — migration is
+// best-effort cleanup of legacy keys; failing to migrate one key
+// shouldn't prevent the app from booting.
+try {
+  migrateLocalStorage();
+} catch (err) {
+  console.error('[main] migrateLocalStorage failed (non-fatal):', err);
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </StrictMode>,
 )
