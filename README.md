@@ -387,6 +387,37 @@ npm run build
 
 See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#project-structure) for the full directory layout and key file index.
 
+### Document Generation Pipelines
+
+DonDocs has **two independent generation pipelines** — one for PDF, one for DOCX — that share the same Zustand store but produce output through completely different LaTeX dialects and different runtime engines.
+
+| Output | Generator | Engine | Why separate |
+|---|---|---|---|
+| **PDF** | [`generator.ts`](src/services/latex/generator.ts) — multiple `.tex` files with custom macros and `\input{}` chains | SwiftLaTeX (WebAssembly LaTeX compiler) | SwiftLaTeX accepts our full LaTeX feature set; produces pixel-perfect typography |
+| **DOCX** | [`flat-generator.ts`](src/services/latex/flat-generator.ts) — single self-contained `.tex` using only pandoc-compatible LaTeX | Pandoc WASM + Lua filter + JSZip post-processing | Pandoc's reader rejects custom macros and `\input{}`; needs a flat dialect |
+
+Both pipelines:
+- Read from the same `documentStore` (Zustand)
+- Run entirely in-browser, no server calls
+- Produce equivalent SECNAV-compliant output, just in different formats
+
+The detailed walk-throughs below cover each pipeline end-to-end. **If you're working on PDF output, see [LaTeX Generation Flow](#latex-generation-flow). If you're working on DOCX output, see [DOCX Generation Flow](#docx-generation-flow).**
+
+#### Shared code (both pipelines)
+
+Some code is hit by both PDF and DOCX paths and is worth knowing about regardless of which output you're working on:
+
+| File | Purpose |
+|---|---|
+| [`src/stores/documentStore.ts`](src/stores/documentStore.ts) | Single source of truth for document state. Both generators read from here. |
+| [`src/services/latex/escaper.ts`](src/services/latex/escaper.ts) | LaTeX special-character escaping (`escapeLatex`, `escapeLatexUrl`, `processBodyText`, `convertRichTextToLatex`). Used by both generators. |
+| [`src/lib/placeholders.ts`](src/lib/placeholders.ts) | `replacePlaceholders()` for `{{NAME}}`-style variable substitution; per-form helpers like `applyPlaceholdersToNavmc11811()`. Both generators substitute placeholders before output. |
+| [`src/lib/url-safety.ts`](src/lib/url-safety.ts) | `safeUrl()` chokepoint for URL annotations — allowlist of `http`/`https`/`mailto`. Wired into both `mergeEnclosures.ts` (PDF post-process) and `generator.ts` (LaTeX `\setRefURL{}` for SwiftLaTeX). Rejects `javascript:` / `data:` / `file:` etc. |
+| [`src/services/pii/detector.ts`](src/services/pii/detector.ts) | PII/PHI scan on the document before either export path runs. |
+| [`src/data/`](src/data/) | Static data libraries (units, SSIC codes, references, ranks, office codes). Read on demand by both generators. |
+
+Changes to any of these files affect **both** outputs — please test PDF and DOCX after touching them.
+
 ### LaTeX Generation Flow
 
 The application generates PDFs through a multi-stage pipeline from UI input to final PDF output:
@@ -469,10 +500,11 @@ There are two types of templates:
 
 **6. Post-Processing (pdf-lib)**
 - `src/services/pdf/` handles PDF post-processing:
-  - Merge enclosure PDFs with cover pages and page scaling
-  - Add clickable hyperlinks for references and enclosures
+  - Merge enclosure PDFs with cover pages and page scaling (avoiding N+1 parses by reusing the validated `PDFDocument` from `validatePdf` in `addPdfEnclosure`)
+  - Add clickable hyperlinks for references and enclosures, with URLs sanitized via [`safeUrl()`](src/lib/url-safety.ts) before embedding as `/URI` annotations
   - Insert digital signature fields (CAC/PIV compatible)
   - Apply classification markings to enclosure pages (main letter markings handled by LaTeX)
+- Compile calls are serialized through a queue ref in `useLatexEngine.ts` to close a TOCTOU race in vendor `PdfTeXEngine.js` (its `isReady()` check + Busy-flag set are non-atomic).
 
 **Key Files:**
 | File | Purpose |
@@ -525,6 +557,7 @@ DOCX export uses a completely separate pipeline from the PDF path. Instead of th
 **1. Zustand Store → Flat Generator**
 - `src/services/latex/flat-generator.ts` reads the same store data as the PDF generator
 - Produces a single self-contained `.tex` file with no `\input{}` calls or custom macros
+- Reference URLs are sanitized via [`safeUrl()`](src/lib/url-safety.ts) before being embedded in `\href{}` annotations — same chokepoint the PDF path uses
 - Uses only pandoc-compatible LaTeX constructs:
   - `tabularx` for centered/right-aligned layouts (pandoc ignores `\begin{center}`)
   - `\mbox{}` to protect numbered labels from pandoc's list detection
@@ -532,7 +565,7 @@ DOCX export uses a completely separate pipeline from the PDF path. Instead of th
   - `\includegraphics{}` for seal images
 
 **2. Pandoc WASM Conversion**
-- `src/services/docx/pandoc-converter.ts` lazy-loads pandoc 3.9+ as a WASM module (~58MB, cached by service worker)
+- `src/services/docx/pandoc-converter.ts` lazy-loads pandoc 3.9+ as a WASM module (~58MB, cached by service worker after first DOCX export)
 - Conversion runs entirely in-browser with `+raw_tex` extension enabled
 - Input files provided to pandoc: flat `.tex`, `reference.docx` (template), `dondocs.lua` (filter), seal image
 - Layout metadata (column proportions) passed via pandoc `--metadata`
@@ -568,13 +601,7 @@ After pandoc produces the DOCX, `pandoc-converter.ts` opens it with JSZip and fi
 | `public/lib/pandoc/dondocs.lua` | Four-pass Lua filter for DOCX formatting |
 | `public/lib/pandoc/reference.docx` | DOCX template with base styles |
 
-**Why Two LaTeX Generators?**
-
-The PDF and DOCX pipelines require fundamentally different LaTeX:
-- **PDF** (`generator.ts`) produces multiple `.tex` files with custom macros, `\input{}` chains, and a `main.tex` entry point — compiled by SwiftLaTeX into a pixel-perfect PDF
-- **DOCX** (`flat-generator.ts`) produces a single flat file using only standard LaTeX that pandoc's reader can parse — no custom commands, no file includes, no format-specific macros
-
-Both generators read from the same Zustand store and produce equivalent output, but through completely different LaTeX dialects.
+**See [Document Generation Pipelines](#document-generation-pipelines) at the top of this section** for the side-by-side comparison and the shared-code touchpoints both generators hit.
 
 ---
 
