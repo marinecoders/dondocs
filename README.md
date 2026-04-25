@@ -447,7 +447,7 @@ There are two types of templates:
 - No LaTeX knowledge required - see `docs/CREATING_TEMPLATES.md`
 
 **Format Templates** (LaTeX) - Define document layouts:
-- `src/lib/latex-templates.js` contains all LaTeX templates as a JavaScript object
+- `public/lib/latex-templates.js` contains all LaTeX templates as a JavaScript object
 - `tex/main.tex` - Main document structure, package imports, base commands
 - `tex/templates/*.tex` - Document format templates (17 types: naval_letter, mfr, etc.)
 - Each format defines:
@@ -480,7 +480,7 @@ There are two types of templates:
 | `src/App.tsx` | Main app component, debounced preview (1.5s LaTeX, 500ms forms) |
 | `src/services/latex/generator.ts` | Generates `.tex` files from store data |
 | `src/services/latex/escaper.ts` | Escapes special LaTeX characters, wraps text |
-| `src/lib/latex-templates.js` | All LaTeX templates (main + 20 document types) |
+| `public/lib/latex-templates.js` | All LaTeX templates (main + 20 document types) |
 | `src/hooks/useLatexEngine.ts` | Manages SwiftLaTeX WebAssembly engine |
 | `src/services/pdf/mergeEnclosures.ts` | Merges enclosures, adds hyperlinks and markings |
 | `src/services/pdf/addSignatureField.ts` | Adds CAC/PIV digital signature fields |

@@ -78,8 +78,44 @@ let originalConsole: {
   debug: typeof console.debug;
 } | null = null;
 
+/**
+ * Whether the in-app log viewer should capture console.* calls.
+ *
+ * Capture is expensive in two ways: every console.log goes through
+ * formatArg (which JSON.stringify's objects), then through a Zustand
+ * `set()` that triggers re-renders for any subscriber, then buffers
+ * up to 500 entries forever. In production for users who never open
+ * the LogViewer, this is pure overhead — we throw the work away.
+ *
+ * Match the same gating as `debug.ts`: capture only when the user
+ * has opted into debug mode via URL param, persistent localStorage
+ * flag, or dev-mode default.
+ */
+function isDebugEnabled(): boolean {
+  // 1. URL param (session-scoped opt-in)
+  if (typeof window !== 'undefined') {
+    const urlParams = new URLSearchParams(window.location.search);
+    const p = urlParams.get('debug');
+    if (p === '1' || p === '2' || p === 'true') return true;
+  }
+  // 2. localStorage (persistent opt-in)
+  if (typeof localStorage !== 'undefined') {
+    const stored = localStorage.getItem('DONDOCS_DEBUG');
+    if (stored === '1' || stored === '2' || stored === 'true') return true;
+  }
+  // 3. Dev mode default
+  if (import.meta.env.DEV) return true;
+  return false;
+}
+
 export function enableConsoleCapture() {
   if (originalConsole) return; // Already capturing
+  // Production users who haven't opted into debug pay nothing — no
+  // wrapper, no formatArg, no Zustand set, no buffer growth. They
+  // also don't get to see anything in LogViewerModal, but that modal
+  // is debug-only (it's hidden behind Help → View Logs which itself
+  // requires debug mode to be on).
+  if (!isDebugEnabled()) return;
 
   originalConsole = {
     log: console.log,

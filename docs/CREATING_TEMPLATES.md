@@ -315,7 +315,7 @@ Creating new document *formats* requires LaTeX knowledge and is a more advanced 
 
 1. Check if an existing format can be adapted
 2. Review the existing LaTeX templates in `tex/templates/`
-3. See `src/lib/latex-templates.js` for how formats are loaded
+3. See `public/lib/latex-templates.js` for how formats are loaded
 4. **Read the [LaTeX Spacing Standards](./CONTRIBUTING.md#latex-spacing-standards)** -- all spacing must use `\vspace{Xpt}` with the standard values (12pt, 6pt, 24pt, 48pt). Do not use `\\[Xpt]`, `\medskip`, `\baselineskip`, or other alternatives.
 5. Open an issue to discuss the new format before implementing
 
