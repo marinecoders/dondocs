@@ -105,7 +105,7 @@ export function AboutModal() {
               <span>{GIT_SHA}</span>
             </div>
             <div>
-              <span className="opacity-70">Deployed:</span>{' '}
+              <span className="opacity-70">Last Updated:</span>{' '}
               <span>{formatBuildTime()}</span>
             </div>
           </div>
