@@ -79,7 +79,10 @@ function convertRichText(text: string): string {
   let result = text;
   result = result.replace(/\*\*(.+?)\*\*/g, '\\textbf{$1}');
   result = result.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '\\textit{$1}');
-  result = result.replace(/__(.+?)__/g, '\\uline{$1}');
+  // [^_]+? (not .+?) — see escaper.ts and variable-chip-editor.tsx for
+  // the matching change. Prevents `__________` fill-in-the-blank runs
+  // from being partially consumed into `\uline{_}` markup. Issue #14.
+  result = result.replace(/__([^_]+?)__/g, '\\uline{$1}');
 
   // Enclosure references: "Enclosure (1)", "enclosure (1)", "Encl (1)" → \enclref{1}
   result = result.replace(/[Ee]nclosure\s*\((\d+)\)/g, '\\enclref{$1}');

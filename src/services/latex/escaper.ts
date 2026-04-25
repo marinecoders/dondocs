@@ -147,7 +147,12 @@ export function convertRichTextToLatex(text: string): string {
   result = result.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '\\textit{$1}');
 
   // Underline: __text__
-  result = result.replace(/__(.+?)__/g, '\\uline{$1}');
+  // The inner group uses [^_]+? (not .+?) so a run of 3+ raw underscores
+  // (fill-in-the-blank lines like `Signature: __________`) doesn't get
+  // partially consumed as `\uline{_}` and produce a corrupted PDF.
+  // See variable-chip-editor.tsx for the matching editor-side fix and
+  // issue #14 for full context.
+  result = result.replace(/__([^_]+?)__/g, '\\uline{$1}');
 
   // Enclosure references: "Enclosure (1)", "enclosure (1)", "Encl (1)", "encl (1)"
   // These get converted to \enclref{1} which creates clickable hyperlinks when enabled
