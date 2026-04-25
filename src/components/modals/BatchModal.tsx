@@ -1,4 +1,4 @@
-import { memo, useState, useCallback, useMemo, useEffect } from 'react';
+import { memo, useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { Plus, Trash2, Download, AlertCircle, FileText, Variable, CheckCircle, XCircle, Copy, Lightbulb, Eye, Loader2, Settings, ArrowRight } from 'lucide-react';
 import {
   Dialog,
@@ -198,6 +198,13 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   // Variable insertion state
   const [selectedVariable, setSelectedVariable] = useState<string>('');
   const [targetField, setTargetField] = useState<string>('');
+  // Brief confirmation message after a successful "Add Variable" click.
+  // Without this the user clicks Add, the variable IS inserted into the
+  // document store, but `detectedPlaceholders` recalculates and the modal
+  // body re-shapes around it — making the click look like a no-op. The
+  // ref lets us cancel the timer on unmount or on a second click.
+  const [addStatus, setAddStatus] = useState<string | null>(null);
+  const addStatusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Form templates (loaded on demand when in forms mode)
   const [navmc10274Templates, setNavmc10274Templates] = useState<{
@@ -643,6 +650,38 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     }
   }, [detectedPlaceholders, looksLikeHeaders]);
 
+  // Build a human-readable label for the Add-confirmation toast. The list
+  // below mirrors the dropdown options, so adding/removing fields here and
+  // there must stay in sync.
+  const FIELD_LABELS: Record<string, string> = useMemo(() => ({
+    // Correspondence
+    subject: 'Subject',
+    to: 'To',
+    from: 'From',
+    via: 'Via',
+    paragraph: 'New Paragraph',
+    // NAVMC 10274
+    actionNo: 'Action No',
+    ssicFileNo: 'SSIC/File No',
+    date: 'Date',
+    orgStation: 'Org/Station',
+    natureOfAction: 'Nature of Action',
+    copyTo: 'Copy To',
+    references: 'References',
+    enclosures: 'Enclosures',
+    supplementalInfo: 'Supplemental Info',
+    proposedAction: 'Proposed Action',
+    // NAVMC 118(11)
+    lastName: 'Last Name',
+    firstName: 'First Name',
+    middleName: 'Middle Name',
+    edipi: 'EDIPI',
+    box11: 'Box 11 (SRB Pg)',
+    entryDate: 'Entry Date',
+    remarksText: 'Remarks (Left)',
+    remarksTextRight: 'Remarks (Right)',
+  }), []);
+
   // Handle adding a variable to the document.
   // Reads live state via getState() at click time (not stale render-time snapshot),
   // and uses the stable setter refs bound at the top of the component.
@@ -650,50 +689,76 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     if (!selectedVariable || !targetField) return;
 
     const variableText = `{{${selectedVariable}}}`;
+    // Track whether an applicable branch ran. If the user's targetField
+    // doesn't match any case (shouldn't happen, but guards future
+    // dropdown drift), we don't show a misleading "Added" message.
+    let inserted = false;
+
+    const appendInto = (current: string) =>
+      current ? `${current} ${variableText}` : variableText;
 
     if (isFormsMode) {
       // Forms mode: Add to specific form fields
       if (formType === 'navmc_10274') {
         const currentData = useFormStore.getState().navmc10274;
-        if (targetField === 'to') {
-          setNavmc10274Field('to', currentData.to ? `${currentData.to} ${variableText}` : variableText);
-        } else if (targetField === 'from') {
-          setNavmc10274Field('from', currentData.from ? `${currentData.from} ${variableText}` : variableText);
-        } else if (targetField === 'natureOfAction') {
-          setNavmc10274Field('natureOfAction', currentData.natureOfAction ? `${currentData.natureOfAction} ${variableText}` : variableText);
+        const fieldKey = targetField as keyof typeof currentData;
+        if (fieldKey in currentData) {
+          setNavmc10274Field(fieldKey, appendInto(currentData[fieldKey] ?? ''));
+          inserted = true;
         }
       } else if (formType === 'navmc_118_11') {
         const currentData = useFormStore.getState().navmc11811;
-        if (targetField === 'lastName') {
-          setNavmc11811Field('lastName', currentData.lastName ? `${currentData.lastName} ${variableText}` : variableText);
-        } else if (targetField === 'firstName') {
-          setNavmc11811Field('firstName', currentData.firstName ? `${currentData.firstName} ${variableText}` : variableText);
-        } else if (targetField === 'remarksText') {
-          setNavmc11811Field('remarksText', currentData.remarksText ? `${currentData.remarksText} ${variableText}` : variableText);
+        const fieldKey = targetField as keyof typeof currentData;
+        if (fieldKey in currentData) {
+          setNavmc11811Field(fieldKey, appendInto(currentData[fieldKey] ?? ''));
+          inserted = true;
         }
       }
     } else {
       // Correspondence mode: Add to document fields
       const currentFormData = useDocumentStore.getState().formData;
-      if (targetField === 'subject') {
-        const currentSubject = currentFormData.subject || '';
-        setDocField('subject', currentSubject ? `${currentSubject} ${variableText}` : variableText);
-      } else if (targetField === 'to') {
-        const currentTo = currentFormData.to || '';
-        setDocField('to', currentTo ? `${currentTo} ${variableText}` : variableText);
-      } else if (targetField === 'from') {
-        const currentFrom = currentFormData.from || '';
-        setDocField('from', currentFrom ? `${currentFrom} ${variableText}` : variableText);
+      if (targetField === 'subject' || targetField === 'to' || targetField === 'from' || targetField === 'via') {
+        const current = (currentFormData[targetField] as string | undefined) ?? '';
+        setDocField(targetField, appendInto(current));
+        inserted = true;
       } else if (targetField === 'paragraph') {
         // Add a new paragraph with the variable
         addParagraph(variableText, 0);
+        inserted = true;
       }
+    }
+
+    if (inserted) {
+      // Inline confirmation. Without this the modal's own UI may shift
+      // (the rows table replaces the onboarding view as soon as a
+      // placeholder is detected), making the click look like nothing
+      // happened. The toast lives near the Add button itself.
+      const fieldLabel = FIELD_LABELS[targetField] ?? targetField;
+      setAddStatus(`Added {{${selectedVariable}}} to ${fieldLabel}`);
+      if (addStatusTimerRef.current !== null) {
+        clearTimeout(addStatusTimerRef.current);
+      }
+      addStatusTimerRef.current = setTimeout(() => {
+        addStatusTimerRef.current = null;
+        setAddStatus(null);
+      }, 2500);
     }
 
     // Reset selection
     setSelectedVariable('');
     setTargetField('');
-  }, [selectedVariable, targetField, isFormsMode, formType, setNavmc10274Field, setNavmc11811Field, setDocField, addParagraph]);
+  }, [selectedVariable, targetField, isFormsMode, formType, setNavmc10274Field, setNavmc11811Field, setDocField, addParagraph, FIELD_LABELS]);
+
+  // Clean up the add-status timer on unmount so we don't fire setState
+  // on an unmounted component if the modal closes within 2.5s of a click.
+  useEffect(() => {
+    return () => {
+      if (addStatusTimerRef.current !== null) {
+        clearTimeout(addStatusTimerRef.current);
+        addStatusTimerRef.current = null;
+      }
+    };
+  }, []);
 
   const hasNoPlaceholders = detectedPlaceholders.length === 0;
 
@@ -749,6 +814,98 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
           <div className="flex-1 min-h-0 overflow-auto">
             <div className="p-6 space-y-4 min-w-0">
+              {/* Add Variable to Document — always visible.
+                  Previously this lived inside the `hasNoPlaceholders` branch
+                  below, which meant clicking Add caused `detectedPlaceholders`
+                  to recalculate, `hasNoPlaceholders` to flip false, and the
+                  whole UI to disappear — making the Add button look broken.
+                  Lifting it here keeps it accessible whether or not the doc
+                  already has placeholders, and the inline `addStatus` toast
+                  surfaces the action's effect now that the UI no longer
+                  visually changes around it. */}
+              <div className="space-y-3 rounded-lg border border-border/50 bg-muted/20 p-4">
+                <div className="flex items-center gap-2">
+                  <Plus className="h-4 w-4 text-primary" />
+                  <Label>Add Variable to Document</Label>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Quickly insert a variable into your document without leaving this modal.
+                </p>
+                <div className="flex gap-2 flex-wrap items-center">
+                  <Select value={selectedVariable} onValueChange={setSelectedVariable}>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Select variable..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {suggestedPlaceholders.map((p) => (
+                        <SelectItem key={p.name} value={p.name}>
+                          {p.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Select value={targetField} onValueChange={setTargetField}>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Add to field..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {isFormsMode ? (
+                        formType === 'navmc_10274' ? (
+                          <>
+                            <SelectItem value="actionNo">Action No</SelectItem>
+                            <SelectItem value="ssicFileNo">SSIC/File No</SelectItem>
+                            <SelectItem value="date">Date</SelectItem>
+                            <SelectItem value="from">From</SelectItem>
+                            <SelectItem value="via">Via</SelectItem>
+                            <SelectItem value="orgStation">Org/Station</SelectItem>
+                            <SelectItem value="to">To</SelectItem>
+                            <SelectItem value="natureOfAction">Nature of Action</SelectItem>
+                            <SelectItem value="copyTo">Copy To</SelectItem>
+                            <SelectItem value="references">References</SelectItem>
+                            <SelectItem value="enclosures">Enclosures</SelectItem>
+                            <SelectItem value="supplementalInfo">Supplemental Info</SelectItem>
+                            <SelectItem value="proposedAction">Proposed Action</SelectItem>
+                          </>
+                        ) : (
+                          <>
+                            <SelectItem value="lastName">Last Name</SelectItem>
+                            <SelectItem value="firstName">First Name</SelectItem>
+                            <SelectItem value="middleName">Middle Name</SelectItem>
+                            <SelectItem value="edipi">EDIPI</SelectItem>
+                            <SelectItem value="entryDate">Entry Date</SelectItem>
+                            <SelectItem value="box11">Box 11 (SRB Pg)</SelectItem>
+                            <SelectItem value="remarksText">Remarks (Left)</SelectItem>
+                            <SelectItem value="remarksTextRight">Remarks (Right)</SelectItem>
+                          </>
+                        )
+                      ) : (
+                        <>
+                          <SelectItem value="subject">Subject Line</SelectItem>
+                          <SelectItem value="to">To Field</SelectItem>
+                          <SelectItem value="from">From Field</SelectItem>
+                          <SelectItem value="via">Via Field</SelectItem>
+                          <SelectItem value="paragraph">New Paragraph</SelectItem>
+                        </>
+                      )}
+                    </SelectContent>
+                  </Select>
+                  <Button
+                    onClick={handleAddVariable}
+                    disabled={!selectedVariable || !targetField}
+                    size="sm"
+                  >
+                    <Plus className="h-4 w-4 mr-1" />
+                    Add
+                  </Button>
+                  {addStatus && (
+                    <span className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1">
+                      <CheckCircle className="h-3 w-3" />
+                      {addStatus}
+                    </span>
+                  )}
+                </div>
+              </div>
+
               {hasNoPlaceholders ? (
                 <div className="space-y-4">
                   <div className="flex items-start gap-3 p-4 rounded-lg border border-amber-500/30 bg-amber-500/10 transition-colors duration-300">
@@ -790,67 +947,6 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                     <p className="text-xs text-muted-foreground">{tipText}</p>
                   </div>
 
-                  {/* Add Variable to Document */}
-                  <div className="space-y-3 border-t pt-4 mt-4">
-                    <div className="flex items-center gap-2">
-                      <Plus className="h-4 w-4 text-primary" />
-                      <Label>Add Variable to Document</Label>
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      Quickly insert a variable into your document without leaving this modal.
-                    </p>
-                    <div className="flex gap-2 flex-wrap">
-                      <Select value={selectedVariable} onValueChange={setSelectedVariable}>
-                        <SelectTrigger className="w-[180px]">
-                          <SelectValue placeholder="Select variable..." />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {suggestedPlaceholders.map((p) => (
-                            <SelectItem key={p.name} value={p.name}>
-                              {p.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <Select value={targetField} onValueChange={setTargetField}>
-                        <SelectTrigger className="w-[160px]">
-                          <SelectValue placeholder="Add to field..." />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {isFormsMode ? (
-                            formType === 'navmc_10274' ? (
-                              <>
-                                <SelectItem value="to">To Field</SelectItem>
-                                <SelectItem value="from">From Field</SelectItem>
-                                <SelectItem value="natureOfAction">Nature of Action</SelectItem>
-                              </>
-                            ) : (
-                              <>
-                                <SelectItem value="lastName">Last Name</SelectItem>
-                                <SelectItem value="firstName">First Name</SelectItem>
-                                <SelectItem value="remarksText">Remarks</SelectItem>
-                              </>
-                            )
-                          ) : (
-                            <>
-                              <SelectItem value="subject">Subject Line</SelectItem>
-                              <SelectItem value="to">To Field</SelectItem>
-                              <SelectItem value="from">From Field</SelectItem>
-                              <SelectItem value="paragraph">New Paragraph</SelectItem>
-                            </>
-                          )}
-                        </SelectContent>
-                      </Select>
-                      <Button
-                        onClick={handleAddVariable}
-                        disabled={!selectedVariable || !targetField}
-                        size="sm"
-                      >
-                        <Plus className="h-4 w-4 mr-1" />
-                        Add
-                      </Button>
-                    </div>
-                  </div>
                 </div>
               ) : (
                 <>
