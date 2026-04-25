@@ -1,11 +1,14 @@
 #!/bin/bash
-# Build LaTeX templates
+# Build LaTeX templates.
+#
+# Output is loaded at runtime via `loadScript('/lib/latex-templates.js')`
+# in src/hooks/useLatexEngine.ts, which Vite serves from public/. There
+# is no JS/TS code that imports this file directly. We previously also
+# wrote a copy to src/lib/, but nothing read it — it was a parallel
+# stale file that drifted easily and confused docs. Removed.
 
-# Output to both public and src locations
+# Build to a temp file first, then copy to the canonical public/ location.
 OUTPUT_PUBLIC="public/lib/latex-templates.js"
-OUTPUT_SRC="src/lib/latex-templates.js"
-
-# Build to a temp file first
 OUTPUT="/tmp/latex-templates.js"
 
 echo "/**" > "$OUTPUT"
@@ -38,9 +41,6 @@ echo "if (typeof window !== 'undefined') {" >> "$OUTPUT"
 echo "  window.LATEX_TEMPLATES = LATEX_TEMPLATES;" >> "$OUTPUT"
 echo "}" >> "$OUTPUT"
 
-# Copy to both locations
 cp "$OUTPUT" "$OUTPUT_PUBLIC"
-cp "$OUTPUT" "$OUTPUT_SRC"
 
 echo "Generated $OUTPUT_PUBLIC"
-echo "Generated $OUTPUT_SRC"
