@@ -1,21 +1,22 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { debug } from '@/lib/debug';
-
-// localStorage key for the auto-saved document. Must match Header.tsx's
-// STORAGE_KEY — when that file changes, this one needs to change too.
-// Kept here as a constant rather than imported to avoid any chance of the
-// import path itself being part of a render crash.
-const STORAGE_KEY = 'dondocs-document';
+import { STORAGE_KEYS } from '@/lib/constants';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
 }
 
+// Distinct states so the user can tell apart "your draft is in your
+// clipboard" from "there was nothing to copy" from "we tried but the
+// browser refused (e.g. clipboard permission denied or insecure
+// context — clipboard API needs HTTPS or localhost)".
+type CopyStatus = 'idle' | 'copied' | 'empty' | 'failed';
+
 interface ErrorBoundaryState {
   error: Error | null;
   errorInfo: ErrorInfo | null;
   detailsOpen: boolean;
-  copyStatus: 'idle' | 'copied' | 'failed';
+  copyStatus: CopyStatus;
 }
 
 /**
@@ -52,6 +53,11 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     detailsOpen: false,
     copyStatus: 'idle',
   };
+  // Tracks the pending copy-status reset timer so we can clear it on
+  // unmount (or on a second click that supersedes the first). Without
+  // this we'd risk a setState-on-unmounted-component warning if the user
+  // clicks Reload within the 2s window.
+  private copyStatusTimer: ReturnType<typeof setTimeout> | null = null;
 
   static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
     return { error };
@@ -64,21 +70,43 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     debug.error('Boundary', 'Render error caught', { error, errorInfo });
   }
 
+  componentWillUnmount(): void {
+    if (this.copyStatusTimer !== null) {
+      clearTimeout(this.copyStatusTimer);
+      this.copyStatusTimer = null;
+    }
+  }
+
+  private scheduleCopyStatusReset(): void {
+    if (this.copyStatusTimer !== null) {
+      clearTimeout(this.copyStatusTimer);
+    }
+    this.copyStatusTimer = setTimeout(() => {
+      this.copyStatusTimer = null;
+      this.setState({ copyStatus: 'idle' });
+    }, 2000);
+  }
+
   handleCopySession = async (): Promise<void> => {
     try {
-      const data = localStorage.getItem(STORAGE_KEY);
+      const data = localStorage.getItem(STORAGE_KEYS.DOCUMENT);
       if (!data) {
-        this.setState({ copyStatus: 'failed' });
+        this.setState({ copyStatus: 'empty' });
+        this.scheduleCopyStatusReset();
         return;
       }
+      // navigator.clipboard requires a secure context (HTTPS or
+      // localhost). On http://192.168.x.x and similar, writeText
+      // rejects — we fall through to the catch below and surface a
+      // distinct "failed" status so the user knows it wasn't an
+      // empty-draft case.
       await navigator.clipboard.writeText(data);
       this.setState({ copyStatus: 'copied' });
-      // Reset the badge after a couple of seconds so the user knows they can
-      // copy again if they want (e.g. cleared their clipboard).
-      setTimeout(() => this.setState({ copyStatus: 'idle' }), 2000);
+      this.scheduleCopyStatusReset();
     } catch (err) {
       debug.error('Boundary', 'Failed to copy session', err);
       this.setState({ copyStatus: 'failed' });
+      this.scheduleCopyStatusReset();
     }
   };
 
@@ -91,7 +119,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       return;
     }
     try {
-      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(STORAGE_KEYS.DOCUMENT);
     } catch (err) {
       debug.error('Boundary', 'Failed to clear session before reload', err);
     }
@@ -195,7 +223,15 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               wordBreak: 'break-word',
             }}
           >
-            <strong>{error.name}:</strong> {error.message}
+            {/*
+              React generally wraps non-Error throws with `Error`, but
+              user code can still throw a plain string, null, or a
+              POJO. Coerce defensively so the boundary never throws
+              while rendering its own fallback (which would be
+              catastrophic — the boundary can't catch its own errors).
+            */}
+            <strong>{String(error.name ?? 'Error')}:</strong>{' '}
+            {String(error.message ?? error)}
           </div>
 
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '16px' }}>
@@ -207,9 +243,11 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             >
               {copyStatus === 'copied'
                 ? 'Copied ✓'
-                : copyStatus === 'failed'
+                : copyStatus === 'empty'
                   ? 'No saved draft'
-                  : 'Copy saved draft'}
+                  : copyStatus === 'failed'
+                    ? 'Copy failed'
+                    : 'Copy saved draft'}
             </button>
             <button
               type="button"
@@ -250,13 +288,13 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               <div style={{ fontSize: '12px', color: '#475569', marginBottom: '4px' }}>
                 Stack trace
               </div>
-              <code style={codeStyle}>{error.stack || '(no stack available)'}</code>
+              <code style={codeStyle}>{String(error.stack ?? '(no stack available)')}</code>
               {errorInfo?.componentStack && (
                 <>
                   <div style={{ fontSize: '12px', color: '#475569', margin: '12px 0 4px 0' }}>
                     Component stack
                   </div>
-                  <code style={codeStyle}>{errorInfo.componentStack}</code>
+                  <code style={codeStyle}>{String(errorInfo.componentStack)}</code>
                 </>
               )}
             </div>

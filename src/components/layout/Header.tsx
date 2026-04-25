@@ -22,6 +22,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useHistoryStore } from '@/stores/historyStore';
 import { uint8ArrayToBase64, base64ToUint8Array, arrayBufferToUint8Array } from '@/lib/encoding';
+import { STORAGE_KEYS } from '@/lib/constants';
 import { useLogStore } from '@/stores/logStore';
 
 interface HeaderProps {
@@ -48,7 +49,7 @@ interface HeaderProps {
 
 const GITHUB_REPO_URL = 'https://github.com/marinecoders/dondocs';
 const GITHUB_NEW_ISSUE_URL = 'https://github.com/marinecoders/dondocs/issues/new';
-const STORAGE_KEY = 'dondocs-document';
+const STORAGE_KEY = STORAGE_KEYS.DOCUMENT;
 
 // GitHub URLs over ~8 KB start to fail in some browsers; cap the prefilled
 // log payload so the link always works. Users can still copy full logs from

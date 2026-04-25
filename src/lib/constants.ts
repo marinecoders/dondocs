@@ -199,6 +199,10 @@ export const STORAGE_KEYS = {
   SELECTED_PROFILE: 'dondocs-selected-profile',
   THEME: 'dondocs-theme',
   LAST_DOC_TYPE: 'dondocs-last-doc-type',
+  // Auto-saved current document. Read/written by Header.tsx (Save / Load
+  // buttons) and read by ErrorBoundary.tsx (Copy saved draft / Reset and
+  // reload buttons). Keep these in sync via this single source of truth.
+  DOCUMENT: 'dondocs-document',
 } as const;
 
 /**
