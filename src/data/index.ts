@@ -38,13 +38,18 @@ export {
 } from './ssicCodes';
 
 // Unit Directory
+//
+// `loadUnitDirectory()` async-loads the 852 KB units.json on first call;
+// the eager exports (UNIT_CATEGORIES, ALL_UNITS, UNIT_DATABASE_INFO) are
+// gone because they would force the JSON into the main bundle. Callers
+// that need the database (currently just UnitLookupModal) should call
+// `loadUnitDirectory()` from inside an effect/event handler.
 export {
-  UNIT_CATEGORIES,
-  ALL_UNITS,
-  UNIT_DATABASE_INFO,
   formatUnitAddress,
   expandUnitName,
   formatLetterhead,
+  loadUnitDirectory,
   type UnitInfo,
   type UnitCategory,
+  type UnitDirectoryDatabase,
 } from './unitDirectory';

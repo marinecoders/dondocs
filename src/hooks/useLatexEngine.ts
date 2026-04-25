@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { debug } from '@/lib/debug';
 import { base64ToUint8Array } from '@/lib/encoding';
-import { TIMING, LATEX } from '@/lib/constants';
+import { LATEX } from '@/lib/constants';
 
 // Import the engine class - we'll load these as global scripts
 declare global {
@@ -69,6 +69,14 @@ export function useLatexEngine() {
 
   const engineRef = useRef<PdfTeXEngine | null>(null);
   const initStartedRef = useRef(false);
+  // Chain of in-flight compiles. Each call to `compile()` queues its work
+  // after whatever's currently pending, so two rapid compiles can never
+  // both pass the engine's isReady() check before either flips the Busy
+  // flag (the TOCTOU race inside vendor PdfTeXEngine.js — flagged in the
+  // perf audit). The chain swallows errors when storing back to the ref
+  // so a failed compile doesn't poison the queue, but callers still see
+  // the original error via the returned Promise.
+  const compileQueueRef = useRef<Promise<unknown>>(Promise.resolve());
 
   const initEngine = useCallback(async () => {
     // Prevent double initialization in StrictMode
@@ -101,9 +109,11 @@ export function useLatexEngine() {
       ]);
       debug.timeEnd('ScriptLoad');
 
-      // Wait a bit for scripts to register globals
-      await new Promise((resolve) => setTimeout(resolve, TIMING.ENGINE_SCRIPT_LOAD_WAIT));
-
+      // No wait needed: each loadScript() resolves on `script.onload`, which
+      // fires after the script body has executed. PdfTeXEngine.js declares
+      // `var PdfTeXEngine = ...` at top level, so the global is already on
+      // `window` by the time onload fires. Same for LATEX_TEMPLATES /
+      // TEXLIVE_PACKAGES. The previous 100 ms blind setTimeout was vestigial.
       if (!window.PdfTeXEngine) {
         throw new Error('PdfTeXEngine not loaded - check if /lib/PdfTeXEngine.js exists');
       }
@@ -177,11 +187,14 @@ export function useLatexEngine() {
 
       debug.timeEnd('PreloadPackages');
 
-      // Wait for worker to process all preload messages
-      // postMessage is async, so we need to give the worker time to process
-      debug.log('Engine', 'Waiting for worker to process preload messages...');
-      await new Promise((resolve) => setTimeout(resolve, TIMING.ENGINE_PRELOAD_WAIT));
-      debug.log('Engine', 'Preload wait complete');
+      // No wait needed here either. `preloadTexliveFile` posts a message to
+      // the worker, which handles `cmd:'preloadtex'` synchronously
+      // (FS.writeFile + cache update — no async work). Worker postMessage
+      // queues are FIFO, so any subsequent postMessage we send (writefile
+      // for templates, setmainfile, compilelatex) will be processed strictly
+      // *after* the preloads it follows. The previous 2000 ms blind
+      // setTimeout cost a flat 2 s on every cold start with no functional
+      // benefit.
 
       // Write LaTeX templates
       // Templates are stored with 'tex/' prefix but need to be written to root for SwiftLaTeX
@@ -206,22 +219,30 @@ export function useLatexEngine() {
       }
       debug.log('Engine', 'Null stub files written to memfs');
 
-      // Load seal images into virtual filesystem
+      // Load seal images into virtual filesystem.
+      //
+      // Fetched in parallel — they're served from the same origin and are
+      // independent files, so there's no reason to do four sequential RTTs.
+      // Combined with the PNG optimization (~86% size reduction), cold-start
+      // network cost on a slow connection drops from seconds to a few hundred
+      // milliseconds.
       debug.log('Engine', 'Loading seal images...', { files: LATEX.SEAL_FILES });
-      for (const sealFile of LATEX.SEAL_FILES) {
-        try {
-          const response = await fetch(`${BASE_PATH}attachments/${sealFile}`);
-          if (response.ok) {
-            const arrayBuffer = await response.arrayBuffer();
-            engine.writeMemFSFile(`attachments/${sealFile}`, new Uint8Array(arrayBuffer));
-            debug.log('Engine', `Loaded seal: ${sealFile}`);
-          } else {
-            debug.warn('Engine', `Seal file not found: ${sealFile}`, { status: response.status });
+      await Promise.all(
+        LATEX.SEAL_FILES.map(async (sealFile) => {
+          try {
+            const response = await fetch(`${BASE_PATH}attachments/${sealFile}`);
+            if (response.ok) {
+              const arrayBuffer = await response.arrayBuffer();
+              engine.writeMemFSFile(`attachments/${sealFile}`, new Uint8Array(arrayBuffer));
+              debug.log('Engine', `Loaded seal: ${sealFile}`);
+            } else {
+              debug.warn('Engine', `Seal file not found: ${sealFile}`, { status: response.status });
+            }
+          } catch (err) {
+            debug.warn('Engine', `Failed to load seal: ${sealFile}`, err);
           }
-        } catch (err) {
-          debug.warn('Engine', `Failed to load seal: ${sealFile}`, err);
-        }
-      }
+        })
+      );
 
       engineRef.current = engine;
       debug.timeEnd('EngineInit');
@@ -258,6 +279,10 @@ export function useLatexEngine() {
 
   const compile = useCallback(
     async (files: Record<string, string | Uint8Array>): Promise<Uint8Array | null> => {
+      // Inner function: the actual compile work. Wrapped in a queue
+      // below so two rapid compiles can never both pass isReady() before
+      // either flips the worker's Busy flag.
+      const doCompile = async (): Promise<Uint8Array | null> => {
       const engine = engineRef.current;
       if (!engine || !engine.isReady()) {
         debug.error('Compile', 'Engine not ready');
@@ -407,6 +432,16 @@ export function useLatexEngine() {
       const error = new Error('Compilation failed') as Error & { compileLog?: string };
       error.compileLog = formattedLog;
       throw error;
+      };
+      // Chain after any prior compile so engine.compileLaTeX() runs
+      // strictly serialized. We strip prior errors with `.catch()`
+      // before chaining doCompile so a failed compile doesn't poison
+      // the next caller. We then store back a swallowed-error version
+      // so the queue keeps moving, but return the original `next` so
+      // this caller still sees its own error.
+      const next = compileQueueRef.current.catch(() => undefined).then(doCompile);
+      compileQueueRef.current = next.catch(() => undefined);
+      return next;
     },
     [resetEngine]
   );

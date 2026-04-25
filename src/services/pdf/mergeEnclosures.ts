@@ -1027,17 +1027,25 @@ function createUriLinkAnnotations(pdfDoc: PDFDocument, positions: ReferencePosit
   console.log(`[hyperlinks] Created ${createdCount} URI link annotations for references`);
 }
 
+interface ValidatePdfResult {
+  pdf: PDFDocument | null;
+  error: string | null;
+}
+
 /**
  * Validates a PDF buffer to check if it can be loaded and has valid pages.
- * Returns an error message if invalid, null if valid.
+ *
+ * Returns the loaded PDFDocument on success so callers can reuse it
+ * (avoiding a second PDFDocument.load() in addPdfEnclosure — a 5-enclosure
+ * doc previously did 11 PDF parses; now it does 6).
  */
-async function validatePdf(data: ArrayBuffer, enclosureNumber: number): Promise<string | null> {
+async function validatePdf(data: ArrayBuffer, enclosureNumber: number): Promise<ValidatePdfResult> {
   try {
     const pdf = await PDFDocument.load(data, { ignoreEncryption: true });
     const pageCount = pdf.getPageCount();
 
     if (pageCount === 0) {
-      return 'PDF has no pages';
+      return { pdf: null, error: 'PDF has no pages' };
     }
 
     // Try to access each page to detect corruption
@@ -1046,15 +1054,15 @@ async function validatePdf(data: ArrayBuffer, enclosureNumber: number): Promise<
       // Check if page has contents (required for embedding)
       const contents = page.node.get(PDFName.of('Contents'));
       if (!contents) {
-        return `Page ${i + 1} is missing content stream (corrupted or empty page)`;
+        return { pdf: null, error: `Page ${i + 1} is missing content stream (corrupted or empty page)` };
       }
     }
 
-    return null; // Valid
+    return { pdf, error: null };
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
     console.error(`[validatePdf] Enclosure ${enclosureNumber} validation failed:`, message);
-    return message;
+    return { pdf: null, error: message };
   }
 }
 
@@ -1101,22 +1109,25 @@ export async function mergeEnclosures(
       }
 
       if (enclosure.data) {
-        // Validate PDF before attempting to merge
-        const validationError = await validatePdf(enclosure.data, enclosure.number);
-        if (validationError) {
+        // Validate PDF before attempting to merge. validatePdf returns the
+        // loaded PDFDocument on success so addPdfEnclosure can reuse it
+        // instead of parsing the same bytes a second time.
+        const { pdf: enclosurePdf, error: validationError } = await validatePdf(enclosure.data, enclosure.number);
+        if (validationError || !enclosurePdf) {
           console.error(`[mergeEnclosures] Enclosure ${enclosure.number} "${enclosure.title}" failed validation: ${validationError}`);
           errors.push({
             enclosureNumber: enclosure.number,
             title: enclosure.title,
-            error: validationError
+            error: validationError ?? 'Unknown validation error'
           });
           // Create an error placeholder page
-          addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, validationError);
+          addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, validationError ?? 'Unknown validation error');
           continue;
         }
 
-        // PDF enclosure - load and add pages
-        const result = await addPdfEnclosure(mainPdf, enclosure, helveticaBold, helvetica, classification);
+        // PDF enclosure — pass the already-loaded PDFDocument so we don't
+        // re-parse the same bytes.
+        const result = await addPdfEnclosure(mainPdf, enclosure, enclosurePdf, helveticaBold, helvetica, classification);
         if (result.error) {
           errors.push(result.error);
         }
@@ -1185,17 +1196,20 @@ interface AddEnclosureResult {
 /**
  * Adds a PDF enclosure to the document with the specified page style.
  * Handles page-level errors gracefully, continuing with valid pages.
+ *
+ * Takes a pre-loaded PDFDocument (from validatePdf) to avoid a redundant
+ * parse — the previous version was loading every enclosure twice.
  */
 async function addPdfEnclosure(
   mainPdf: PDFDocument,
   enclosure: EnclosureData,
+  enclosurePdf: PDFDocument,
   helveticaBold: Awaited<ReturnType<typeof mainPdf.embedFont>>,
   helvetica: Awaited<ReturnType<typeof mainPdf.embedFont>>,
   classification?: ClassificationInfo
 ): Promise<AddEnclosureResult> {
   if (!enclosure.data) return { pagesAdded: 0, pagesFailed: 0 };
 
-  const enclosurePdf = await PDFDocument.load(enclosure.data, { ignoreEncryption: true });
   const pageCount = enclosurePdf.getPageCount();
   const style = enclosure.pageStyle || 'border';
 

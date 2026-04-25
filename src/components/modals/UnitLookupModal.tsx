@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react';
-import { Search, X, Building2, MapPin } from 'lucide-react';
+import { useState, useMemo, useEffect } from 'react';
+import { Search, X, Building2, MapPin, Loader2 } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -16,7 +16,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { UNIT_CATEGORIES, ALL_UNITS, formatUnitAddress, UNIT_DATABASE_INFO, type UnitInfo } from '@/data/unitDirectory';
+import {
+  formatUnitAddress,
+  loadUnitDirectory,
+  type UnitInfo,
+  type UnitDirectoryDatabase,
+} from '@/data/unitDirectory';
 
 interface UnitLookupModalProps {
   open: boolean;
@@ -26,15 +31,40 @@ interface UnitLookupModalProps {
 
 export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModalProps) {
   const [search, setSearch] = useState('');
+  // The 852 KB units.json is dynamically imported on first modal open, so
+  // we hold the database in state and render a loading spinner until it
+  // resolves. Subsequent opens hit the memoized Promise instantly.
+  const [database, setDatabase] = useState<UnitDirectoryDatabase | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
-  // For searches, search all units; for browsing, use categories
+  useEffect(() => {
+    if (!open || database) return;
+    let cancelled = false;
+    loadUnitDirectory()
+      .then((db) => {
+        if (!cancelled) setDatabase(db);
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setLoadError(err instanceof Error ? err.message : 'Failed to load unit directory');
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [open, database]);
+
+  // For searches, search all units; for browsing, use categories. Both
+  // require the database to be loaded.
   const filteredResults = useMemo(() => {
+    if (!database) return null;
+
     if (!search.trim()) {
-      return { mode: 'categories' as const, categories: UNIT_CATEGORIES };
+      return { mode: 'categories' as const, categories: database.UNIT_CATEGORIES };
     }
 
     const searchLower = search.toLowerCase();
-    const matchedUnits = ALL_UNITS.filter(
+    const matchedUnits = database.ALL_UNITS.filter(
       (unit) =>
         unit.name.toLowerCase().includes(searchLower) ||
         unit.abbrev?.toLowerCase().includes(searchLower) ||
@@ -48,7 +78,7 @@ export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModa
     );
 
     return { mode: 'search' as const, units: matchedUnits };
-  }, [search]);
+  }, [search, database]);
 
   const handleSelect = (unit: UnitInfo) => {
     onSelect(unit);
@@ -56,9 +86,9 @@ export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModa
     setSearch('');
   };
 
-  const totalResults = filteredResults.mode === 'search'
+  const totalResults = filteredResults?.mode === 'search'
     ? filteredResults.units.length
-    : UNIT_CATEGORIES.reduce((acc, cat) => acc + cat.units.length, 0);
+    : database?.UNIT_CATEGORIES.reduce((acc, cat) => acc + cat.units.length, 0) ?? 0;
 
   const serviceColors: Record<string, string> = {
     'USMC': 'bg-red-500/10 text-red-600',
@@ -74,9 +104,15 @@ export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModa
           <DialogTitle className="flex items-center gap-2">
             <Building2 className="h-5 w-5" />
             Unit Directory
-            <Badge variant="outline" className="ml-2 text-xs font-normal">
-              {UNIT_DATABASE_INFO.totalUnits.toLocaleString()} units
-            </Badge>
+            {database ? (
+              <Badge variant="outline" className="ml-2 text-xs font-normal">
+                {database.UNIT_DATABASE_INFO.totalUnits.toLocaleString()} units
+              </Badge>
+            ) : (
+              <Badge variant="outline" className="ml-2 text-xs font-normal">
+                Loading…
+              </Badge>
+            )}
           </DialogTitle>
         </DialogHeader>
 
@@ -88,6 +124,7 @@ export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModa
             onChange={(e) => setSearch(e.target.value)}
             className="pl-9 pr-9"
             autoFocus
+            disabled={!database}
           />
           {search && (
             <Button
@@ -102,13 +139,26 @@ export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModa
         </div>
 
         <p className="text-sm text-muted-foreground">
-          {search
-            ? `${totalResults.toLocaleString()} units found`
-            : 'Browse or search military units'}
+          {!database
+            ? 'Loading unit directory…'
+            : search
+              ? `${totalResults.toLocaleString()} units found`
+              : 'Browse or search military units'}
         </p>
 
         <ScrollArea className="h-[450px] pr-4">
-          {filteredResults.mode === 'search' ? (
+          {loadError ? (
+            <div className="text-center py-8 text-destructive">
+              <Building2 className="h-12 w-12 mx-auto mb-3 opacity-50" />
+              <p>Failed to load unit directory</p>
+              <p className="text-sm mt-1 text-muted-foreground">{loadError}</p>
+            </div>
+          ) : !filteredResults ? (
+            <div className="flex items-center justify-center py-16 text-muted-foreground">
+              <Loader2 className="h-6 w-6 animate-spin mr-2" />
+              <span className="text-sm">Loading {`< 1 MB of unit data`}…</span>
+            </div>
+          ) : filteredResults.mode === 'search' ? (
             // Search results - flat list
             <div className="space-y-2">
               {filteredResults.units.slice(0, 100).map((unit, idx) => (
@@ -171,7 +221,9 @@ export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModa
 
         <div className="text-xs text-muted-foreground border-t pt-3 flex justify-between">
           <span>Click a unit to populate letterhead information</span>
-          <span>v{UNIT_DATABASE_INFO.version} • {UNIT_DATABASE_INFO.lastUpdated}</span>
+          {database && (
+            <span>v{database.UNIT_DATABASE_INFO.version} • {database.UNIT_DATABASE_INFO.lastUpdated}</span>
+          )}
         </div>
       </DialogContent>
     </Dialog>

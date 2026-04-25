@@ -206,6 +206,30 @@ export function Header({
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [showClearFieldsDialog, setShowClearFieldsDialog] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
+  // Tracks the pending "clear saveStatus" timeout so we can (a) cancel it
+  // when a new flash message replaces an in-flight one, and (b) clear it
+  // on unmount — the previous code had 9 raw setTimeout calls with no
+  // tracking, each capable of calling setSaveStatus on an unmounted
+  // component if the user navigated away within the 2 s window.
+  const saveStatusTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const flashSaveStatus = useCallback((message: string, durationMs = 2000) => {
+    if (saveStatusTimeoutRef.current) {
+      clearTimeout(saveStatusTimeoutRef.current);
+    }
+    setSaveStatus(message);
+    saveStatusTimeoutRef.current = setTimeout(() => {
+      setSaveStatus(null);
+      saveStatusTimeoutRef.current = null;
+    }, durationMs);
+  }, []);
+  useEffect(() => {
+    return () => {
+      if (saveStatusTimeoutRef.current) {
+        clearTimeout(saveStatusTimeoutRef.current);
+        saveStatusTimeoutRef.current = null;
+      }
+    };
+  }, []);
   const [bannerDismissed, setBannerDismissed] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -284,14 +308,12 @@ export function Header({
         savedAt: new Date().toISOString(),
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
-      setSaveStatus('Saved!');
-      setTimeout(() => setSaveStatus(null), 2000);
+      flashSaveStatus('Saved!');
     } catch (err) {
       console.error('Failed to save progress:', err);
-      setSaveStatus('Save failed');
-      setTimeout(() => setSaveStatus(null), 2000);
+      flashSaveStatus('Save failed');
     }
-  }, []);
+  }, [flashSaveStatus]);
 
   const handleLoadProgress = useCallback(() => {
     try {
@@ -307,18 +329,15 @@ export function Header({
           ds.setFormData(data.formData);
         }
         // Note: File data is not restored - user will need to re-attach PDFs
-        setSaveStatus('Loaded!');
-        setTimeout(() => setSaveStatus(null), 2000);
+        flashSaveStatus('Loaded!');
       } else {
-        setSaveStatus('No saved data');
-        setTimeout(() => setSaveStatus(null), 2000);
+        flashSaveStatus('No saved data');
       }
     } catch (err) {
       console.error('Failed to load progress:', err);
-      setSaveStatus('Load failed');
-      setTimeout(() => setSaveStatus(null), 2000);
+      flashSaveStatus('Load failed');
     }
-  }, []);
+  }, [flashSaveStatus]);
 
   const handleReset = useCallback(() => {
     resetForm();
@@ -386,14 +405,12 @@ export function Header({
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      setSaveStatus('Exported!');
-      setTimeout(() => setSaveStatus(null), 2000);
+      flashSaveStatus('Exported!');
     } catch (err) {
       console.error('Failed to export draft:', err);
-      setSaveStatus('Export failed');
-      setTimeout(() => setSaveStatus(null), 2000);
+      flashSaveStatus('Export failed');
     }
-  }, []);
+  }, [flashSaveStatus]);
 
   // Import document state from a JSON file
   const handleImportDraft = useCallback((event: ChangeEvent<HTMLInputElement>) => {
@@ -467,19 +484,17 @@ export function Header({
           copyTos: data.copyTos || [],
         });
 
-        setSaveStatus('Imported!');
-        setTimeout(() => setSaveStatus(null), 2000);
+        flashSaveStatus('Imported!');
       } catch (err) {
         console.error('Failed to import draft:', err);
-        setSaveStatus('Import failed');
-        setTimeout(() => setSaveStatus(null), 2000);
+        flashSaveStatus('Import failed');
       }
     };
 
     reader.readAsText(file);
     // Reset the input so the same file can be selected again
     event.target.value = '';
-  }, []);
+  }, [flashSaveStatus]);
 
   return (
     <header className="border-b-2 border-primary/40 bg-gradient-to-r from-card via-card to-secondary/30 shadow-card">
