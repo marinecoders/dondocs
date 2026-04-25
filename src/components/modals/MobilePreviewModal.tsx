@@ -6,6 +6,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { useLogStore } from '@/stores/logStore';
 import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
 import { useDeviceInfo } from '@/utils/device';
+import { debug } from '@/lib/debug';
 
 /**
  * PDF Preview Strategy:
@@ -278,8 +279,8 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
 
   useEffect(() => {
     if (deviceInfo.isIOS) {
-      console.log('[MobilePreview] iOS detected - using react-pdf-viewer');
-      console.log('[MobilePreview] Device:', { isIOS: deviceInfo.isIOS, isIPad: deviceInfo.isIPad, isIPhone: deviceInfo.isIPhone });
+      debug.log('MobilePreview', 'iOS detected - using react-pdf-viewer');
+      debug.log('MobilePreview', 'Device:', { isIOS: deviceInfo.isIOS, isIPad: deviceInfo.isIPad, isIPhone: deviceInfo.isIPhone });
     }
   }, [deviceInfo]);
 
@@ -304,7 +305,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
   }, []);
 
   const onDocumentLoadError = useCallback((err: Error) => {
-    console.error('PDF load error:', err?.message || err);
+    debug.error('MobilePreview', 'PDF load error:', err?.message || err);
   }, []);
 
   // Track visible page via IntersectionObserver
@@ -347,7 +348,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
       const blob = await response.blob();
       await downloadPdfBlob(blob, 'correspondence.pdf', preOpenedWindow);
     } catch (err) {
-      console.error('Download failed:', err);
+      debug.error('MobilePreview', 'Download failed:', err);
       if (preOpenedWindow) {
         preOpenedWindow.location.href = pdfUrl;
       } else {

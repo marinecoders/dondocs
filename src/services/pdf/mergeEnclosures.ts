@@ -1,5 +1,6 @@
 import { PDFDocument, rgb, StandardFonts, PDFPage, PDFName, PDFArray, PDFNumber, PDFRef, PDFRawStream, PDFDict, PDFString, degrees } from 'pdf-lib';
 import pako from 'pako';
+import { debug } from '@/lib/debug';
 
 export interface EnclosureData {
   number: number;
@@ -75,7 +76,7 @@ function recordEnclosurePage(enclosureNumber: number, pageIndex: number): void {
   // Only record the first page for each enclosure
   if (!enclosurePageMap.has(enclosureNumber)) {
     enclosurePageMap.set(enclosureNumber, pageIndex);
-    console.log(`[hyperlinks] Recorded enclosure ${enclosureNumber} -> page index ${pageIndex}`);
+    debug.log('Hyperlinks', `Recorded enclosure ${enclosureNumber} -> page index ${pageIndex}`);
   }
 }
 
@@ -102,22 +103,22 @@ function decompressContentStream(stream: PDFRawStream): Uint8Array {
   }
 
   const filterName = filter.toString();
-  console.log(`[hyperlinks] Stream filter: ${filterName}`);
+  debug.log('Hyperlinks', `Stream filter: ${filterName}`);
 
   if (filterName === '/FlateDecode') {
     try {
       // Use pako to decompress
       const decompressed = pako.inflate(rawBytes);
-      console.log(`[hyperlinks] Decompressed ${rawBytes.length} -> ${decompressed.length} bytes`);
+      debug.log('Hyperlinks', `Decompressed ${rawBytes.length} -> ${decompressed.length} bytes`);
       return decompressed;
     } catch (err) {
-      console.error('[hyperlinks] Decompression failed:', err);
+      debug.error('Hyperlinks', 'Decompression failed:', err);
       return rawBytes;
     }
   }
 
   // Unsupported filter, return raw
-  console.log(`[hyperlinks] Unsupported filter: ${filterName}`);
+  debug.log('Hyperlinks', `Unsupported filter: ${filterName}`);
   return rawBytes;
 }
 
@@ -125,7 +126,7 @@ function findEnclosureReferences(pdfDoc: PDFDocument, mainPageCount: number): Te
   const positions: TextPosition[] = [];
   const pages = pdfDoc.getPages();
 
-  console.log(`[hyperlinks] Scanning ${mainPageCount} main pages for enclosure references`);
+  debug.log('Hyperlinks', `Scanning ${mainPageCount} main pages for enclosure references`);
 
   // Only scan the main document pages (before enclosures were added)
   for (let pageIdx = 0; pageIdx < Math.min(mainPageCount, pages.length); pageIdx++) {
@@ -134,10 +135,10 @@ function findEnclosureReferences(pdfDoc: PDFDocument, mainPageCount: number): Te
     try {
       // Access content stream through the page node
       const contentsEntry = page.node.get(PDFName.of('Contents'));
-      console.log(`[hyperlinks] Page ${pageIdx + 1} Contents type: ${contentsEntry?.constructor?.name || 'undefined'}`);
+      debug.log('Hyperlinks', `Page ${pageIdx + 1} Contents type: ${contentsEntry?.constructor?.name || 'undefined'}`);
 
       if (!contentsEntry) {
-        console.log(`[hyperlinks] Page ${pageIdx + 1} has no Contents entry`);
+        debug.log('Hyperlinks', `Page ${pageIdx + 1} has no Contents entry`);
         continue;
       }
 
@@ -146,14 +147,14 @@ function findEnclosureReferences(pdfDoc: PDFDocument, mainPageCount: number): Te
 
       // Resolve the reference to get the actual stream
       const resolvedContents = page.node.lookup(PDFName.of('Contents'));
-      console.log(`[hyperlinks] Page ${pageIdx + 1} resolved Contents type: ${resolvedContents?.constructor?.name || 'undefined'}`);
+      debug.log('Hyperlinks', `Page ${pageIdx + 1} resolved Contents type: ${resolvedContents?.constructor?.name || 'undefined'}`);
 
       if (resolvedContents instanceof PDFRawStream) {
         // Direct stream - decompress if needed
         contentBytes = decompressContentStream(resolvedContents);
       } else if (resolvedContents instanceof PDFArray) {
         // Multiple content streams - decompress and concatenate them
-        console.log(`[hyperlinks] Page ${pageIdx + 1} has ${resolvedContents.size()} content streams`);
+        debug.log('Hyperlinks', `Page ${pageIdx + 1} has ${resolvedContents.size()} content streams`);
         const allBytes: number[] = [];
         for (let i = 0; i < resolvedContents.size(); i++) {
           const ref = resolvedContents.get(i);
@@ -171,21 +172,21 @@ function findEnclosureReferences(pdfDoc: PDFDocument, mainPageCount: number): Te
       }
 
       if (!contentBytes) {
-        console.log(`[hyperlinks] Page ${pageIdx + 1} could not get content bytes`);
+        debug.log('Hyperlinks', `Page ${pageIdx + 1} could not get content bytes`);
         continue;
       }
 
-      console.log(`[hyperlinks] Page ${pageIdx + 1} content stream size: ${contentBytes.length} bytes (decompressed)`);
+      debug.log('Hyperlinks', `Page ${pageIdx + 1} content stream size: ${contentBytes.length} bytes (decompressed)`);
 
       // Parse the content stream to find text positions
       const pagePositions = parseContentStreamForEnclosures(contentBytes, pageIdx);
       positions.push(...pagePositions);
     } catch (error) {
-      console.error(`[hyperlinks] Error processing page ${pageIdx + 1}:`, error);
+      debug.error('Hyperlinks', `Error processing page ${pageIdx + 1}:`, error);
     }
   }
 
-  console.log(`[hyperlinks] Found ${positions.length} enclosure references in content`);
+  debug.log('Hyperlinks', `Found ${positions.length} enclosure references in content`);
   return positions;
 }
 
@@ -207,7 +208,7 @@ function parseContentStreamForEnclosures(bytes: Uint8Array, pageIdx: number): Te
   const positions: TextPosition[] = [];
   const content = new TextDecoder('latin1').decode(bytes);
 
-  console.log(`[hyperlinks] Parsing page ${pageIdx + 1}, content length: ${content.length}`);
+  debug.log('Hyperlinks', `Parsing page ${pageIdx + 1}, content length: ${content.length}`);
 
   // Track color changes and text positions
   // We're looking for blue text (0 0 1 rg) followed by a digit
@@ -231,7 +232,7 @@ function parseContentStreamForEnclosures(bytes: Uint8Array, pageIdx: number): Te
     colorRanges.push({ startPos: colorMatch.index, isBlue });
   }
 
-  console.log(`[hyperlinks] Found ${colorRanges.length} color changes, ${colorRanges.filter(c => c.isBlue).length} blue`);
+  debug.log('Hyperlinks', `Found ${colorRanges.length} color changes, ${colorRanges.filter(c => c.isBlue).length} blue`);
 
   // Track all position-changing operations in sequence
   // We need to handle both absolute (Tm) and relative (Td/TD) positioning
@@ -295,7 +296,7 @@ function parseContentStreamForEnclosures(bytes: Uint8Array, pageIdx: number): Te
   // Sort position operations by their position in the stream
   positionOps.sort((a, b) => a.pos - b.pos);
 
-  console.log(`[hyperlinks] Found ${positionOps.filter(p => p.type === 'Tm').length} Tm, ${positionOps.filter(p => p.type === 'Td').length} Td/TD operations`);
+  debug.log('Hyperlinks', `Found ${positionOps.filter(p => p.type === 'Tm').length} Tm, ${positionOps.filter(p => p.type === 'Td').length} Td/TD operations`);
 
   // Find Tf (font size) operations
   // Format: /FontName size Tf
@@ -336,7 +337,7 @@ function parseContentStreamForEnclosures(bytes: Uint8Array, pageIdx: number): Te
     }
   }
 
-  console.log(`[hyperlinks] Found ${allTextOps.length} text operations`);
+  debug.log('Hyperlinks', `Found ${allTextOps.length} text operations`);
 
   // Helper to check if a position is in a blue color range
   function isBlueAtPosition(pos: number): boolean {
@@ -409,7 +410,7 @@ function parseContentStreamForEnclosures(bytes: Uint8Array, pageIdx: number): Te
     const position = getPositionAt(textOp.pos);
     const fontSize = getNearestFontSize(textOp.pos);
 
-    console.log(`[hyperlinks] Found blue digit ${encNum} at (${position.x}, ${position.y}), fontSize=${fontSize}`);
+    debug.log('Hyperlinks', `Found blue digit ${encNum} at (${position.x}, ${position.y}), fontSize=${fontSize}`);
 
     foundEnclosures.add(encNum);
     positions.push({
@@ -423,7 +424,7 @@ function parseContentStreamForEnclosures(bytes: Uint8Array, pageIdx: number): Te
     });
   }
 
-  console.log(`[hyperlinks] Page ${pageIdx + 1}: found ${positions.length} enclosure references`);
+  debug.log('Hyperlinks', `Page ${pageIdx + 1}: found ${positions.length} enclosure references`);
 
   // Fix potential x-coordinate misalignment for enclosure 1
   // In military correspondence, enclosure numbers (1), (2), (3) should be vertically aligned
@@ -439,7 +440,7 @@ function parseContentStreamForEnclosures(bytes: Uint8Array, pageIdx: number): Te
 
       // If enclosure 1's x is more than 30 points away from the average, it's probably wrong
       if (Math.abs(enc1.x - avgX) > 30) {
-        console.log(`[hyperlinks] Correcting enclosure 1 x-position: ${enc1.x} -> ${avgX} (was misaligned)`);
+        debug.log('Hyperlinks', `Correcting enclosure 1 x-position: ${enc1.x} -> ${avgX} (was misaligned)`);
         enc1.x = avgX;
       }
     }
@@ -454,7 +455,7 @@ function parseContentStreamForEnclosures(bytes: Uint8Array, pageIdx: number): Te
  */
 function createLinkAnnotations(pdfDoc: PDFDocument, positions: TextPosition[]): void {
   if (positions.length === 0 || enclosurePageMap.size === 0) {
-    console.log('[hyperlinks] No positions or enclosure pages to link');
+    debug.log('Hyperlinks', 'No positions or enclosure pages to link');
     return;
   }
 
@@ -464,12 +465,12 @@ function createLinkAnnotations(pdfDoc: PDFDocument, positions: TextPosition[]): 
   for (const pos of positions) {
     const targetPageIndex = enclosurePageMap.get(pos.enclosureNumber);
     if (targetPageIndex === undefined) {
-      console.log(`[hyperlinks] No target page for enclosure ${pos.enclosureNumber}`);
+      debug.log('Hyperlinks', `No target page for enclosure ${pos.enclosureNumber}`);
       continue;
     }
 
     if (pos.pageIndex >= pages.length || targetPageIndex >= pages.length) {
-      console.log(`[hyperlinks] Page index out of bounds: source=${pos.pageIndex}, target=${targetPageIndex}`);
+      debug.log('Hyperlinks', `Page index out of bounds: source=${pos.pageIndex}, target=${targetPageIndex}`);
       continue;
     }
 
@@ -527,10 +528,10 @@ function createLinkAnnotations(pdfDoc: PDFDocument, positions: TextPosition[]): 
     }
 
     createdCount++;
-    console.log(`[hyperlinks] Created link for enclosure ${pos.enclosureNumber} at (${pos.x}, ${pos.y}) -> page ${targetPageIndex + 1}`);
+    debug.log('Hyperlinks', `Created link for enclosure ${pos.enclosureNumber} at (${pos.x}, ${pos.y}) -> page ${targetPageIndex + 1}`);
   }
 
-  console.log(`[hyperlinks] Created ${createdCount} link annotations`);
+  debug.log('Hyperlinks', `Created ${createdCount} link annotations`);
 }
 
 /**
@@ -547,7 +548,7 @@ function createLinkAnnotations(pdfDoc: PDFDocument, positions: TextPosition[]): 
  */
 function createNamedDestinations(pdfDoc: PDFDocument): void {
   if (enclosurePageMap.size === 0) {
-    console.log('[hyperlinks] No enclosures to create destinations for');
+    debug.log('Hyperlinks', 'No enclosures to create destinations for');
     return;
   }
 
@@ -563,7 +564,7 @@ function createNamedDestinations(pdfDoc: PDFDocument): void {
 
   for (const [encNum, pageIndex] of sortedEntries) {
     if (pageIndex >= pages.length) {
-      console.log(`[hyperlinks] Skipping enclosure${encNum}: page index ${pageIndex} out of bounds`);
+      debug.log('Hyperlinks', `Skipping enclosure${encNum}: page index ${pageIndex} out of bounds`);
       continue;
     }
 
@@ -584,11 +585,11 @@ function createNamedDestinations(pdfDoc: PDFDocument): void {
     namesArray.push(PDFString.of(destName));
     namesArray.push(destArray as PDFArray);
 
-    console.log(`[hyperlinks] Created named destination '${destName}' -> page ${pageIndex + 1}`);
+    debug.log('Hyperlinks', `Created named destination '${destName}' -> page ${pageIndex + 1}`);
   }
 
   if (namesArray.length === 0) {
-    console.log('[hyperlinks] No valid destinations to create');
+    debug.log('Hyperlinks', 'No valid destinations to create');
     return;
   }
 
@@ -605,17 +606,17 @@ function createNamedDestinations(pdfDoc: PDFDocument): void {
   if (namesDict instanceof PDFDict) {
     // Names dictionary exists - add or replace Dests entry
     namesDict.set(PDFName.of('Dests'), destsDict);
-    console.log('[hyperlinks] Added Dests to existing Names dictionary');
+    debug.log('Hyperlinks', 'Added Dests to existing Names dictionary');
   } else {
     // Create new Names dictionary with Dests
     const newNamesDict = context.obj({
       Dests: destsDict
     });
     catalog.set(PDFName.of('Names'), newNamesDict);
-    console.log('[hyperlinks] Created new Names dictionary with Dests');
+    debug.log('Hyperlinks', 'Created new Names dictionary with Dests');
   }
 
-  console.log(`[hyperlinks] Created ${sortedEntries.length} named destinations`);
+  debug.log('Hyperlinks', `Created ${sortedEntries.length} named destinations`);
 }
 
 /**
@@ -627,12 +628,12 @@ function createNamedDestinations(pdfDoc: PDFDocument): void {
  * and create the annotations ourselves.
  */
 function findReferenceLinks(pdfDoc: PDFDocument, mainPageCount: number, references: ReferenceUrlData[]): ReferencePosition[] {
-  console.log('[hyperlinks] findReferenceLinks called with', references.length, 'references');
+  debug.log('Hyperlinks', 'findReferenceLinks called with', references.length, 'references');
   const positions: ReferencePosition[] = [];
   const pages = pdfDoc.getPages();
 
   if (references.length === 0) {
-    console.log('[hyperlinks] No reference URLs to search for');
+    debug.log('Hyperlinks', 'No reference URLs to search for');
     return positions;
   }
 
@@ -644,11 +645,11 @@ function findReferenceLinks(pdfDoc: PDFDocument, mainPageCount: number, referenc
     if (url && !url.match(/^https?:\/\//i)) {
       url = 'https://' + url;
     }
-    console.log(`[hyperlinks] Reference '${ref.letter}' -> ${url}`);
+    debug.log('Hyperlinks', `Reference '${ref.letter}' -> ${url}`);
     urlMap.set(ref.letter.toLowerCase(), url);
   }
 
-  console.log(`[hyperlinks] Scanning ${mainPageCount} pages for reference links (${references.length} references with URLs)`);
+  debug.log('Hyperlinks', `Scanning ${mainPageCount} pages for reference links (${references.length} references with URLs)`);
 
   // Scan main document pages for reference links
   for (let pageIdx = 0; pageIdx < Math.min(mainPageCount, pages.length); pageIdx++) {
@@ -686,11 +687,11 @@ function findReferenceLinks(pdfDoc: PDFDocument, mainPageCount: number, referenc
       const pagePositions = parseContentStreamForReferences(contentBytes, pageIdx, urlMap);
       positions.push(...pagePositions);
     } catch (error) {
-      console.error(`[hyperlinks] Error processing page ${pageIdx + 1} for references:`, error);
+      debug.error('Hyperlinks', `Error processing page ${pageIdx + 1} for references:`, error);
     }
   }
 
-  console.log(`[hyperlinks] Found ${positions.length} reference links`);
+  debug.log('Hyperlinks', `Found ${positions.length} reference links`);
   return positions;
 }
 
@@ -699,7 +700,7 @@ function findReferenceLinks(pdfDoc: PDFDocument, mainPageCount: number, referenc
  * Looks for blue text containing "reference" followed by "(letter)".
  */
 function parseContentStreamForReferences(bytes: Uint8Array, pageIdx: number, urlMap: Map<string, string>): ReferencePosition[] {
-  console.log(`[hyperlinks] Parsing page ${pageIdx + 1} content stream (${bytes.length} bytes)`);
+  debug.log('Hyperlinks', `Parsing page ${pageIdx + 1} content stream (${bytes.length} bytes)`);
   const positions: ReferencePosition[] = [];
   const content = new TextDecoder('latin1').decode(bytes);
 
@@ -850,13 +851,13 @@ function parseContentStreamForReferences(bytes: Uint8Array, pageIdx: number, url
   // Debug: Log all blue text operations to understand what patterns exist
   const blueTextOps = allTextOps.filter(op => isBlueAtPosition(op.pos));
   if (blueTextOps.length > 0) {
-    console.log(`[hyperlinks] Page ${pageIdx + 1}: Found ${blueTextOps.length} blue text operations:`);
+    debug.log('Hyperlinks', `Page ${pageIdx + 1}: Found ${blueTextOps.length} blue text operations:`);
     blueTextOps.slice(0, 20).forEach((op, i) => {
       const pos = getPositionAt(op.pos);
-      console.log(`  [${i}] "${op.text}" at (${pos.x.toFixed(1)}, ${pos.y.toFixed(1)})`);
+      debug.log('Hyperlinks', `  [${i}] "${op.text}" at (${pos.x.toFixed(1)}, ${pos.y.toFixed(1)})`);
     });
     if (blueTextOps.length > 20) {
-      console.log(`  ... and ${blueTextOps.length - 20} more`);
+      debug.log('Hyperlinks', `  ... and ${blueTextOps.length - 20} more`);
     }
   }
 
@@ -874,7 +875,7 @@ function parseContentStreamForReferences(bytes: Uint8Array, pageIdx: number, url
         const position = getPositionAt(textOp.pos);
         const fontSize = getNearestFontSize(textOp.pos);
 
-        console.log(`[hyperlinks] Found blue reference letter '${letter}' at (${position.x}, ${position.y}), fontSize=${fontSize}`);
+        debug.log('Hyperlinks', `Found blue reference letter '${letter}' at (${position.x}, ${position.y}), fontSize=${fontSize}`);
 
         foundLetters.add(letter);
         // Use a very large clickable area since position parsing can be imprecise
@@ -903,7 +904,7 @@ function parseContentStreamForReferences(bytes: Uint8Array, pageIdx: number, url
         const position = getPositionAt(textOp.pos);
         const fontSize = getNearestFontSize(textOp.pos);
 
-        console.log(`[hyperlinks] Found blue 'reference (${letter})' at (${position.x}, ${position.y})`);
+        debug.log('Hyperlinks', `Found blue 'reference (${letter})' at (${position.x}, ${position.y})`);
 
         foundLetters.add(letter);
         const startX = Math.min(position.x, MARGIN);
@@ -927,7 +928,7 @@ function parseContentStreamForReferences(bytes: Uint8Array, pageIdx: number, url
           const position = getPositionAt(textOp.pos);
           const fontSize = getNearestFontSize(textOp.pos);
 
-          console.log(`[hyperlinks] Found blue text containing '${letter}': "${textOp.text}" at (${position.x}, ${position.y})`);
+          debug.log('Hyperlinks', `Found blue text containing '${letter}': "${textOp.text}" at (${position.x}, ${position.y})`);
 
           foundLetters.add(letter);
           const startX = Math.min(position.x, MARGIN);
@@ -947,7 +948,7 @@ function parseContentStreamForReferences(bytes: Uint8Array, pageIdx: number, url
   }
 
   if (positions.length > 0) {
-    console.log(`[hyperlinks] Page ${pageIdx + 1}: found ${positions.length} reference links`);
+    debug.log('Hyperlinks', `Page ${pageIdx + 1}: found ${positions.length} reference links`);
   }
 
   return positions;
@@ -959,7 +960,7 @@ function parseContentStreamForReferences(bytes: Uint8Array, pageIdx: number, url
  */
 function createUriLinkAnnotations(pdfDoc: PDFDocument, positions: ReferencePosition[]): void {
   if (positions.length === 0) {
-    console.log('[hyperlinks] No reference positions to create URI links for');
+    debug.log('Hyperlinks', 'No reference positions to create URI links for');
     return;
   }
 
@@ -968,7 +969,7 @@ function createUriLinkAnnotations(pdfDoc: PDFDocument, positions: ReferencePosit
 
   for (const pos of positions) {
     if (pos.pageIndex >= pages.length) {
-      console.log(`[hyperlinks] Page index ${pos.pageIndex} out of bounds for reference ${pos.letter}`);
+      debug.log('Hyperlinks', `Page index ${pos.pageIndex} out of bounds for reference ${pos.letter}`);
       continue;
     }
 
@@ -981,7 +982,7 @@ function createUriLinkAnnotations(pdfDoc: PDFDocument, positions: ReferencePosit
     const rectURX = pos.x + pos.width + padding * 2;
     const rectURY = pos.y + pos.height + padding;
 
-    console.log(`[hyperlinks] Creating URI rect for '${pos.letter}': [${rectLLX.toFixed(1)}, ${rectLLY.toFixed(1)}, ${rectURX.toFixed(1)}, ${rectURY.toFixed(1)}] (${(rectURX - rectLLX).toFixed(1)} x ${(rectURY - rectLLY).toFixed(1)} points)`);
+    debug.log('Hyperlinks', `Creating URI rect for '${pos.letter}': [${rectLLX.toFixed(1)}, ${rectLLY.toFixed(1)}, ${rectURX.toFixed(1)}, ${rectURY.toFixed(1)}] (${(rectURX - rectLLX).toFixed(1)} x ${(rectURY - rectLLY).toFixed(1)} points)`);
 
     const rect = pdfDoc.context.obj([
       PDFNumber.of(rectLLX),
@@ -1021,10 +1022,10 @@ function createUriLinkAnnotations(pdfDoc: PDFDocument, positions: ReferencePosit
     }
 
     createdCount++;
-    console.log(`[hyperlinks] Created URI link for reference (${pos.letter}) -> ${pos.url}`);
+    debug.log('Hyperlinks', `Created URI link for reference (${pos.letter}) -> ${pos.url}`);
   }
 
-  console.log(`[hyperlinks] Created ${createdCount} URI link annotations for references`);
+  debug.log('Hyperlinks', `Created ${createdCount} URI link annotations for references`);
 }
 
 interface ValidatePdfResult {
@@ -1061,7 +1062,7 @@ async function validatePdf(data: ArrayBuffer, enclosureNumber: number): Promise<
     return { pdf, error: null };
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
-    console.error(`[validatePdf] Enclosure ${enclosureNumber} validation failed:`, message);
+    debug.error('MergeEnclosures', `Enclosure ${enclosureNumber} validation failed:`, message);
     return { pdf: null, error: message };
   }
 }
@@ -1079,7 +1080,7 @@ export async function mergeEnclosures(
   includeHyperlinks = false,
   referenceUrls: ReferenceUrlData[] = []
 ): Promise<MergeResult> {
-  console.log('[mergeEnclosures] Called with', enclosures.length, 'enclosures, hyperlinks:', includeHyperlinks, 'references:', referenceUrls.length);
+  debug.log('MergeEnclosures', 'Called with', enclosures.length, 'enclosures, hyperlinks:', includeHyperlinks, 'references:', referenceUrls.length);
 
   const errors: EnclosureError[] = [];
 
@@ -1098,7 +1099,7 @@ export async function mergeEnclosures(
 
   // Record the number of pages in the main document BEFORE adding enclosures
   const mainPageCount = mainPdf.getPageCount();
-  console.log(`[mergeEnclosures] Main document has ${mainPageCount} pages before adding enclosures`);
+  debug.log('MergeEnclosures', `Main document has ${mainPageCount} pages before adding enclosures`);
 
   // Process each enclosure in order
   for (const enclosure of enclosures) {
@@ -1114,7 +1115,7 @@ export async function mergeEnclosures(
         // instead of parsing the same bytes a second time.
         const { pdf: enclosurePdf, error: validationError } = await validatePdf(enclosure.data, enclosure.number);
         if (validationError || !enclosurePdf) {
-          console.error(`[mergeEnclosures] Enclosure ${enclosure.number} "${enclosure.title}" failed validation: ${validationError}`);
+          debug.error('MergeEnclosures', `Enclosure ${enclosure.number} "${enclosure.title}" failed validation: ${validationError}`);
           errors.push({
             enclosureNumber: enclosure.number,
             title: enclosure.title,
@@ -1136,7 +1137,7 @@ export async function mergeEnclosures(
       // No placeholder page is created unless explicitly requested via hasCoverPage
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';
-      console.error(`[mergeEnclosures] Failed to add enclosure ${enclosure.number}:`, err);
+      debug.error('MergeEnclosures', `Failed to add enclosure ${enclosure.number}:`, err);
       errors.push({
         enclosureNumber: enclosure.number,
         title: enclosure.title,
@@ -1153,12 +1154,12 @@ export async function mergeEnclosures(
   // The LaTeX template uses \hyperlink{enclosureN} which looks for named destinations
   // We create these destinations pointing to the first page of each enclosure
   if (includeHyperlinks && enclosurePageMap.size > 0) {
-    console.log('[mergeEnclosures] Creating named destinations for hyperlinks...');
+    debug.log('MergeEnclosures', 'Creating named destinations for hyperlinks...');
     createNamedDestinations(mainPdf);
 
     // Also create link annotations as a fallback for viewers that don't support named destinations
     // (This finds blue digit text and creates clickable regions)
-    console.log('[mergeEnclosures] Creating link annotations as fallback...');
+    debug.log('MergeEnclosures', 'Creating link annotations as fallback...');
     const positions = findEnclosureReferences(mainPdf, mainPageCount);
     createLinkAnnotations(mainPdf, positions);
   }
@@ -1167,7 +1168,7 @@ export async function mergeEnclosures(
   // The LaTeX template uses \reflink{letter} which produces "reference (letter)" in blue
   // SwiftLaTeX doesn't create proper URI annotations, so we create them ourselves
   if (includeHyperlinks && referenceUrls.length > 0) {
-    console.log('[mergeEnclosures] Processing reference hyperlinks...');
+    debug.log('MergeEnclosures', 'Processing reference hyperlinks...');
     const refPositions = findReferenceLinks(mainPdf, mainPageCount, referenceUrls);
     createUriLinkAnnotations(mainPdf, refPositions);
   }
@@ -1178,7 +1179,7 @@ export async function mergeEnclosures(
   const pdfBytes = await mainPdf.save();
 
   if (errors.length > 0) {
-    console.warn(`[mergeEnclosures] Completed with ${errors.length} enclosure error(s):`, errors);
+    debug.warn('MergeEnclosures', `Completed with ${errors.length} enclosure error(s):`, errors);
   }
 
   return { pdfBytes, errors, hasErrors: errors.length > 0 };
@@ -1338,7 +1339,7 @@ async function addPdfEnclosure(
       pagesAdded++;
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Unknown error';
-      console.error(`[addPdfEnclosure] Failed to add page ${i + 1} of enclosure ${enclosure.number}:`, errorMsg);
+      debug.error('MergeEnclosures', `Failed to add page ${i + 1} of enclosure ${enclosure.number}:`, errorMsg);
       failedPageErrors.push(`Page ${i + 1}: ${errorMsg}`);
       pagesFailed++;
     }

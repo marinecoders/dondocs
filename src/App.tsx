@@ -1220,9 +1220,15 @@ ${texFiles['body.tex'] || '% No body content'}
           // Open PDF in new tab for printing
           const printWindow = window.open(pdfUrl, '_blank');
           if (printWindow) {
+            // { once: true } so the listener auto-removes after firing —
+            // otherwise repeated Ctrl/Cmd+P presses leave each fresh
+            // popup window holding a closure reference indefinitely
+            // (the listener targets a window object that lives until
+            // the user closes it, and even after close the closure can
+            // pin it from being GC'd until the listener is unbound).
             printWindow.addEventListener('load', () => {
               printWindow.print();
-            });
+            }, { once: true });
           }
         }
         return;
