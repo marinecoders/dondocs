@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/accordion';
 import { InputWithVariables, TextareaWithVariables } from '@/components/ui/variable-autocomplete';
 import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
+import { DatePicker } from '@/components/ui/date-picker';
 import { useFormStore } from '@/stores/formStore';
 import { SSICLookupModal } from '@/components/modals/SSICLookupModal';
 import { UnitLookupModal } from '@/components/modals/UnitLookupModal';
@@ -148,11 +149,17 @@ export function Form6105Section() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="date">3. Date</Label>
-                <Input
+                {/*
+                  DatePicker (military format "15 Dec 24") instead of a raw
+                  HTML <input type="date"> (which produced ISO 2026-04-25)
+                  per SECNAV M-5216.5 / MCO 1070.12K. The picker accepts
+                  ISO on input, so any existing date values stored in the
+                  old format reformat on first edit. (Issue #15.)
+                */}
+                <DatePicker
                   id="date"
-                  type="date"
                   value={navmc10274.date}
-                  onChange={(e) => setNavmc10274Field('date', e.target.value)}
+                  onChange={(value) => setNavmc10274Field('date', value)}
                 />
               </div>
             </div>

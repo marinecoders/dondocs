@@ -1,6 +1,5 @@
 import { ClipboardList, RotateCcw, ChevronDown, Trash2, FileText } from 'lucide-react';
 import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -16,6 +15,7 @@ import {
 } from '@/components/ui/accordion';
 import { InputWithVariables } from '@/components/ui/variable-autocomplete';
 import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
+import { DatePicker } from '@/components/ui/date-picker';
 import { useFormStore } from '@/stores/formStore';
 import { NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
 
@@ -119,11 +119,17 @@ export function Form11811Section() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="entryDate">Entry Date</Label>
-                <Input
+                {/*
+                  DatePicker (military format "15 Dec 24") instead of a raw
+                  HTML <input type="date"> (which produced ISO 2026-04-25)
+                  per SECNAV M-5216.5 / MCO 1070.12K. The picker accepts
+                  ISO on input, so any existing entryDate values stored in
+                  the old format reformat on first edit. (Issue #15.)
+                */}
+                <DatePicker
                   id="entryDate"
-                  type="date"
                   value={navmc11811.entryDate}
-                  onChange={(e) => setNavmc11811Field('entryDate', e.target.value)}
+                  onChange={(value) => setNavmc11811Field('entryDate', value)}
                 />
               </div>
               <div className="space-y-2">
