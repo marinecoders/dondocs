@@ -41,6 +41,7 @@ import { generateFlatLatex } from '@/services/latex/flat-generator';
 import { convertLatexToDocx } from '@/services/docx/pandoc-converter';
 import { generateNavmc10274Pdf, loadNavmc10274Templates } from '@/services/pdf/navmc10274Generator';
 import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/navmc11811Generator';
+import { applyPlaceholdersToNavmc11811, buildNavmc11811DefaultValues } from '@/lib/placeholders';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
 import type { ClassificationInfo, EnclosureError } from '@/services/pdf/mergeEnclosures';
 import { addSignatureField, addDualSignatureFields, type DualSignatureFieldConfig, type SignatureFieldConfig } from '@/services/pdf/addSignatureField';
@@ -520,8 +521,14 @@ function App() {
             navmc10274Templates.page3
           );
         } else if (formType === 'navmc_118_11' && navmc11811Template) {
+          // Resolve cross-field placeholders ({{NAME}}, {{DATE}}, etc.)
+          // from the form's own field values before generating, so users
+          // typing `{{NAME}}` in the remarks field see the joined name
+          // in the output PDF instead of literal `{{NAME}}` (issue #13).
+          const values = buildNavmc11811DefaultValues(navmc11811);
+          const resolved = applyPlaceholdersToNavmc11811(navmc11811, values);
           pdfBytes = await generateNavmc11811Pdf(
-            navmc11811,
+            resolved,
             navmc11811Template
           );
         }
@@ -982,8 +989,13 @@ function App() {
         );
         filename = `NAVMC-10274-${navmc10274.date || 'form'}.pdf`;
       } else if (formType === 'navmc_118_11' && navmc11811Template) {
+        // Same self-referential placeholder resolution as the live-preview
+        // path above (compile useEffect). Without this, normal download
+        // renders `{{NAME}}` etc. as literal yellow-highlighted text.
+        const values = buildNavmc11811DefaultValues(navmc11811);
+        const resolved = applyPlaceholdersToNavmc11811(navmc11811, values);
         pdfBytes = await generateNavmc11811Pdf(
-          navmc11811,
+          resolved,
           navmc11811Template
         );
         const lastName = navmc11811.lastName || 'Marine';
