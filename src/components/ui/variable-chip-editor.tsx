@@ -458,10 +458,26 @@ function lineToHtml(line: string): string {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 
-  // Convert markdown formatting to HTML
+  // Convert markdown formatting to HTML.
+  //
+  // The underline pattern uses `[^_]+?` (not `.+?`) so a run of 3+ raw
+  // underscores doesn't accidentally match as `__<empty>__`-with-tail
+  // and corrupt the user's input. Real fill-in-the-blank lines like
+  // `Signature: __________` show up in the editor as literal text
+  // instead of being silently shortened by the inline `<u>` rewrite.
+  //
+  // Round-trip caveat: TipTap's Underline mark imposes no character
+  // restriction, so technically a user could underline text that
+  // contains an underscore — `editorToText` then emits `__foo_bar__`,
+  // and this pattern won't re-detect it. The underline is lost on
+  // save+reload for that one rare case. The fill-in-the-blank case
+  // is far more common in naval correspondence, so we accept the
+  // trade. The matching change is mirrored in
+  // `services/latex/escaper.ts` and `services/latex/flat-generator.ts`
+  // so the PDF and DOCX export paths get the same fix. Issue #14.
   html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   html = html.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
-  html = html.replace(/__(.+?)__/g, '<u>$1</u>');
+  html = html.replace(/__([^_]+?)__/g, '<u>$1</u>');
 
   // Also support legacy LaTeX formatting for backward compatibility
   html = html.replace(/\\textbf\{([^{}]*)\}/g, '<strong>$1</strong>');
