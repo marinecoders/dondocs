@@ -9,10 +9,6 @@
  * Timing constants (in milliseconds)
  */
 export const TIMING = {
-  // Engine initialization
-  ENGINE_SCRIPT_LOAD_WAIT: 100,
-  ENGINE_PRELOAD_WAIT: 2000, // Increased for slower browsers (iPad/iOS Chrome)
-
   // Compilation
   COMPILE_DEBOUNCE: 1500,
   COMPILE_RETRY_DELAY: 500,

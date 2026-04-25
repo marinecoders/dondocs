@@ -522,7 +522,10 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig): string {
 
   const labels = calculateLabels(paragraphs);
   const useNumbered = config.compliance.numberedParagraphs;
-  let body = '';
+  // Push-then-join across paragraphs (the cross-paragraph accumulator is
+  // the one that grows unbounded — within a single paragraph the
+  // accumulator stays small so we leave that alone).
+  const bodyParts: string[] = [];
 
   for (let i = 0; i < paragraphs.length; i++) {
     const para = paragraphs[i];
@@ -559,18 +562,18 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig): string {
       const bizIndentCmd = para.level === 0
         ? `\\dondocsfirstindent{0.50in}`
         : indentCmd;
-      body += `${spacing}\n${bizIndentCmd}${paraText}\n\n`;
+      bodyParts.push(`${spacing}\n${bizIndentCmd}${paraText}\n\n`);
     } else if (label) {
       // Use \mbox{} to protect labels like "1." from pandoc's list marker detection.
       // The Lua filter's RawInline handler converts \mbox{} to plain text for DOCX.
-      body += `${spacing}\n${indentCmd}\\mbox{${label}}~~${paraText}\n\n`;
+      bodyParts.push(`${spacing}\n${indentCmd}\\mbox{${label}}~~${paraText}\n\n`);
     } else {
       // No label (unnumbered paragraphs, e.g. endorsements)
-      body += `${spacing}\n${indentCmd}${paraText}\n\n`;
+      bodyParts.push(`${spacing}\n${indentCmd}${paraText}\n\n`);
     }
   }
 
-  return body;
+  return bodyParts.join('');
 }
 
 /** Single signature block positioned in right half using tabularX */
