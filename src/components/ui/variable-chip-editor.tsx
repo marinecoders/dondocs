@@ -458,10 +458,20 @@ function lineToHtml(line: string): string {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 
-  // Convert markdown formatting to HTML
+  // Convert markdown formatting to HTML.
+  //
+  // The underline pattern uses `[^_]+?` (not `.+?`) so a run of 3+ raw
+  // underscores doesn't accidentally match as `__<empty>__`-with-tail
+  // and corrupt the user's input. Real fill-in-the-blank lines like
+  // `Signature: __________` show up in the editor as literal text
+  // instead of being silently shortened by the inline `<u>` rewrite.
+  // Side effect: underscored phrases like `__foo_bar__` (an underscore
+  // mid-phrase) won't be detected as underline either — type the
+  // phrase without an internal underscore if you want it underlined.
+  // Issue #14.
   html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   html = html.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
-  html = html.replace(/__(.+?)__/g, '<u>$1</u>');
+  html = html.replace(/__([^_]+?)__/g, '<u>$1</u>');
 
   // Also support legacy LaTeX formatting for backward compatibility
   html = html.replace(/\\textbf\{([^{}]*)\}/g, '<strong>$1</strong>');
