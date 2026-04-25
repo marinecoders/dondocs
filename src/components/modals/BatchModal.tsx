@@ -29,10 +29,16 @@ import { generateNavmc10274Pdf, loadNavmc10274Templates } from '@/services/pdf/n
 import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/navmc11811Generator';
 import { debug } from '@/lib/debug';
 import { TIMING, BATCH_PLACEHOLDERS, NAVMC_10274_PLACEHOLDERS, NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
+import {
+  detectPlaceholders,
+  replacePlaceholders,
+  applyPlaceholdersToNavmc10274,
+  applyPlaceholdersToNavmc11811,
+  type PlaceholderValues,
+} from '@/lib/placeholders';
 
-interface PlaceholderValue {
-  [key: string]: string;
-}
+// Local alias retained for naming compatibility with the rest of this file.
+type PlaceholderValue = PlaceholderValues;
 
 interface BatchRow {
   id: string;
@@ -56,26 +62,6 @@ interface BatchModalProps {
 
 // Max retries for ENGINE_RESET_NEEDED
 const MAX_RETRIES = 2;
-
-// Detect placeholders in text (format: {{PLACEHOLDER_NAME}} - case insensitive)
-function detectPlaceholders(text: string): string[] {
-  const regex = /\{\{([A-Za-z0-9_]+)\}\}/g;
-  const placeholders = new Set<string>();
-  let match;
-  while ((match = regex.exec(text)) !== null) {
-    // Normalize to uppercase for consistency
-    placeholders.add(match[1].toUpperCase());
-  }
-  return Array.from(placeholders);
-}
-
-// Replace placeholders in text (case insensitive)
-function replacePlaceholders(text: string, values: PlaceholderValue): string {
-  return text.replace(/\{\{([A-Za-z0-9_]+)\}\}/gi, (match, key) => {
-    const upperKey = key.toUpperCase();
-    return values[upperKey] !== undefined ? values[upperKey] : match;
-  });
-}
 
 // Copy text to clipboard
 function copyToClipboard(text: string) {
@@ -369,40 +355,17 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     };
   }, []);
 
-  // Create modified NAVMC 10274 form data with placeholder replacements.
+  // Create modified NAVMC form data with placeholder replacements.
   // Same getState() pattern as createModifiedStore — keeps identity stable.
+  // Substitution itself is delegated to the shared `applyPlaceholdersTo*`
+  // helpers in @/lib/placeholders so the batch and normal-download paths
+  // can't drift apart (issue #13 was caused by exactly that drift).
   const createModifiedNavmc10274 = useCallback((values: PlaceholderValue): NavmcForm10274Data => {
-    const data = useFormStore.getState().navmc10274;
-    return {
-      actionNo: replacePlaceholders(data.actionNo, values),
-      ssicFileNo: replacePlaceholders(data.ssicFileNo, values),
-      date: replacePlaceholders(data.date, values),
-      from: replacePlaceholders(data.from, values),
-      via: replacePlaceholders(data.via, values),
-      orgStation: replacePlaceholders(data.orgStation, values),
-      to: replacePlaceholders(data.to, values),
-      natureOfAction: replacePlaceholders(data.natureOfAction, values),
-      copyTo: replacePlaceholders(data.copyTo, values),
-      references: replacePlaceholders(data.references, values),
-      enclosures: replacePlaceholders(data.enclosures, values),
-      supplementalInfo: replacePlaceholders(data.supplementalInfo, values),
-      proposedAction: replacePlaceholders(data.proposedAction, values),
-    };
+    return applyPlaceholdersToNavmc10274(useFormStore.getState().navmc10274, values);
   }, []);
 
-  // Create modified NAVMC 118(11) form data with placeholder replacements.
   const createModifiedNavmc11811 = useCallback((values: PlaceholderValue): Navmc11811Data => {
-    const data = useFormStore.getState().navmc11811;
-    return {
-      lastName: replacePlaceholders(data.lastName, values),
-      firstName: replacePlaceholders(data.firstName, values),
-      middleName: replacePlaceholders(data.middleName, values),
-      edipi: replacePlaceholders(data.edipi, values),
-      remarksText: replacePlaceholders(data.remarksText, values),
-      remarksTextRight: replacePlaceholders(data.remarksTextRight || '', values),
-      entryDate: replacePlaceholders(data.entryDate, values),
-      box11: replacePlaceholders(data.box11, values),
-    };
+    return applyPlaceholdersToNavmc11811(useFormStore.getState().navmc11811, values);
   }, []);
 
   // Generate PDF for a single row with retry logic for ENGINE_RESET_NEEDED
