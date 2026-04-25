@@ -1,7 +1,5 @@
 # DonDocs — Naval Correspondence & Form Generator
 
-> "The docs are done when the docs are done."
-
 [![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![SECNAV M-5216.5](https://img.shields.io/badge/SECNAV-M--5216.5-blue)](https://www.secnav.navy.mil/doni/SECNAV%20Manuals1/5216.5%20DON%20Correspondence%20Manual.pdf)
 [![MCO 5216.20B](https://img.shields.io/badge/MCO-5216.20B-red)](https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/899678/mco-521620/)
@@ -13,7 +11,6 @@
 
 ## Table of Contents
 
-- [Key Features](#key-features)
 - [Getting Started](#getting-started)
 - [Features](#features)
 - [Document Types](#document-types)
@@ -25,44 +22,6 @@
 - [Form Templates](#form-templates)
 - [Development](#development)
 - [License](#license)
-
----
-
-## Key Features
-
-### Publication-Quality Output
-- **LaTeX-based PDF generation** via WebAssembly - pixel-perfect formatting impossible with typical web tools
-- Professional typesetting that matches official military publications
-- Consistent spacing, margins, and font handling per SECNAV specifications
-
-### Comprehensive Data Libraries
-- **3,139 military units** with full addresses, MCC codes, and organizational data
-- **2,240 SSIC codes** from SECNAV M-5210.2 (August 2018)
-- **107 regulatory references** across 12 categories (MCO, SECNAVINST, NAVADMIN)
-- **74 office codes** (S-1, G-3, CO, XO, etc.) for signature blocks
-- **50+ military ranks** (USMC and Navy, all grades E1-O10 plus Warrant Officers)
-
-### Security-First Design
-- **100% client-side processing** - nothing leaves your browser
-- **PII/PHI detection** warns before download (SSN, EDIPI, DOB, medical info)
-- **Digital signature fields** compatible with CAC/PIV cards and Adobe Acrobat
-- **Classification markings** from Unclassified through TOP SECRET//SCI
-- **CUI handling** with 10 categories and distribution statements
-- **Portion markings** per-paragraph: (U), (CUI), (FOUO), (C), (S), (TS)
-- **NIST 800-171 compliant** - works on air-gapped networks (SIPR/JWICS)
-
-### Comprehensive Document Support
-- **20 document types** across letters, endorsements, memoranda, agreements, and executive formats
-- **Dynamic form adaptation** — the editor automatically shows/hides and reconfigures sections based on document type (e.g., dual-command fields for MOA/MOU, executive memo layouts, business letter salutations)
-- **11 pre-built templates** for common correspondence (awards, appointments, investigations, personnel)
-- **Distribution lists** and **Copy To** support per SECNAV Ch 8
-- **Continuation subject line** toggle for page 2+ headers
-- **Custom classification markings** for non-standard banners
-
-### Export Formats
-- **PDF** - Full-featured with enclosures, signatures, and classification markings
-- **DOCX** - Editable Microsoft Word format
-- **LaTeX** - Source files for advanced customization
 
 ---
 
@@ -85,6 +44,13 @@
 ---
 
 ## Features
+
+DonDocs uses a WebAssembly LaTeX compiler to produce publication-quality PDFs that match official military typesetting — pixel-perfect spacing, kerning, and margins per SECNAV specifications. Everything runs locally in the browser; nothing is ever sent to a server.
+
+### Export Formats
+- **PDF** — full-featured with enclosures, signatures, and classification markings
+- **DOCX** — editable Microsoft Word output with matching layout
+- **LaTeX** — source files for advanced customization
 
 ### Core Functionality
 - **Real-time PDF Preview** - See your document as you type (1.5s debounce)
@@ -388,167 +354,11 @@ PDF output includes empty signature fields compatible with:
 
 ## Form Templates
 
-This application supports official military forms (NAVMC 10274, NAVMC 118(11), etc.) by overlaying text onto official PDF templates.
+DonDocs supports official military forms (NAVMC 10274, NAVMC 118(11), etc.) by overlaying text onto official PDF templates obtained from [DoD Forms Management](https://forms.documentservices.dla.mil) or [Navy Forms Online](https://www.mynavyhr.navy.mil/References/Forms/).
 
-### Official Form Sources
+For instructions on adding a new form template — flattening XFA, defining box coordinates, generator code patterns — see **[docs/FORM_TEMPLATES.md](docs/FORM_TEMPLATES.md)**.
 
-**All form templates must be obtained from official sources:**
-
-- **DoD Forms Management Program**: https://forms.documentservices.dla.mil
-- **Navy Forms Online**: https://www.mynavyhr.navy.mil/References/Forms/
-
-> ⚠️ **Important**: Do not create new form templates from scratch. Only official, pre-approved forms should be used to ensure compliance with regulations.
-
-### XFA Forms and Flattening
-
-Official military PDF forms are typically encoded using **XFA (XML Forms Architecture)**, an Adobe technology for dynamic forms. XFA forms have special characteristics:
-
-- They contain embedded XML data structures
-- They support dynamic form features (calculations, validations)
-- They are **not compatible** with most PDF libraries (including pdf-lib)
-
-**Before using a form template, it must be "flattened":**
-
-1. **What is flattening?** Converting dynamic XFA form elements into static PDF content (text, lines, rectangles)
-2. **Why flatten?** pdf-lib and most JavaScript PDF libraries cannot read or modify XFA content
-3. **How to flatten?**
-   - Adobe Acrobat Pro: Print to PDF or use "Flatten Form Fields"
-   - Online tools: Various PDF flattening services (ensure no sensitive data)
-   - Command line: `pdftk input.pdf output output.pdf flatten`
-
-### Adding New Form Templates
-
-1. **Obtain the official form** from https://forms.documentservices.dla.mil
-
-2. **Flatten the PDF** to remove XFA encoding:
-   ```bash
-   pdftk official_form.pdf output flattened_form.pdf flatten
-   ```
-
-3. **Extract box boundaries** using the provided script:
-   ```bash
-   pip install pdfplumber
-   python scripts/extract-pdf-boxes.py public/templates/your_form.pdf --save-image
-   ```
-
-4. **Review the annotated image** to verify detected boxes
-
-5. **Create a generator** in `src/services/pdf/` using the smart box positioning system:
-   ```typescript
-   import { calculateTextPosition, type BoxBoundary } from './extractFormFields';
-
-   const BOX_PADDING = { left: 3, top: 3 };
-
-   const PAGE_BOXES: Record<string, BoxBoundary> = {
-     fieldName: { name: 'fieldName', left: 100, top: 500, width: 200, height: 30 },
-     // ... boxes from extract script
-   };
-
-   function getFieldPosition(boxName: keyof typeof PAGE_BOXES) {
-     return calculateTextPosition(PAGE_BOXES[boxName], BOX_PADDING, FONT_SIZE);
-   }
-   ```
-
-### Visual Box Editor (Recommended)
-
-The easiest way to define box coordinates is with the visual editor:
-
-```bash
-# Open in browser
-open tools/box-editor.html
-```
-
-1. Load your PDF template
-2. Click "Draw Mode" and drag to create boxes
-3. Name each box (e.g., `name`, `edipi`, `remarks`)
-4. Copy the TypeScript code or export as JSON
-
-This is a one-time setup per form template.
-
-### Box Detection Script (Alternative)
-
-The `scripts/extract-pdf-boxes.py` script can auto-detect boxes, but works best for forms with clear rectangles:
-
-```bash
-# Basic usage - auto-detect boxes
-python scripts/extract-pdf-boxes.py template.pdf
-
-# Save annotated image showing detected boxes
-python scripts/extract-pdf-boxes.py template.pdf --save-image
-
-# Adjust detection sensitivity
-python scripts/extract-pdf-boxes.py template.pdf --min-size 5 --max-size 300
-
-# Interactive mode for manual box definition
-python scripts/extract-pdf-boxes.py template.pdf --interactive
-
-# Save detected boxes as JSON config for manual editing
-python scripts/extract-pdf-boxes.py template.pdf --save-config
-
-# Load boxes from a JSON config file
-python scripts/extract-pdf-boxes.py --config public/templates/NAVMC118.boxes.json
-```
-
-**Output includes:**
-- Visual ASCII map of detected boxes
-- JSON data with coordinates
-- TypeScript code ready to paste into generators
-
-### JSON Box Configuration
-
-For forms where auto-detection doesn't work well (forms drawn with lines instead of rectangles), use a JSON config file:
-
-```json
-{
-  "template": "NAVMC118_template.pdf",
-  "description": "NAVMC 118(11) Administrative Remarks",
-  "pageSize": { "width": 612, "height": 792 },
-  "boxes": {
-    "name": {
-      "left": 148,
-      "top": 142,
-      "width": 206,
-      "height": 16,
-      "description": "Marine's name (LAST, FIRST MI)"
-    },
-    "edipi": {
-      "left": 465,
-      "top": 142,
-      "width": 106,
-      "height": 16,
-      "description": "DOD ID Number / EDIPI"
-    }
-  }
-}
-```
-
-**Existing configs:**
-- `public/templates/NAVMC118.boxes.json` - NAVMC 118(11) Administrative Remarks
-- `public/templates/NAVMC10274.boxes.json` - NAVMC 10274 Administrative Action
-
-**Workflow for new forms:**
-1. Run auto-detection: `python scripts/extract-pdf-boxes.py template.pdf --save-config`
-2. Edit the generated `template.boxes.json` to fix field names and coordinates
-3. Verify with: `python scripts/extract-pdf-boxes.py --config template.boxes.json`
-4. Copy the TypeScript output into your generator file
-
-### PDF Coordinate System
-
-Understanding PDF coordinates is essential for accurate form filling:
-
-- **Origin**: Bottom-left corner of the page (0, 0)
-- **X-axis**: Increases to the right
-- **Y-axis**: Increases upward
-- **Units**: Points (72 points = 1 inch)
-- **Letter size**: 612 × 792 points
-
-```
-(0, 792) -------- (612, 792)  ← Top of page
-    |                |
-    |                |
-    |                |
-(0, 0) ---------- (612, 0)    ← Bottom of page
-```
+> ⚠️ Only official, pre-approved forms should be used. Don't create form templates from scratch.
 
 ---
 
@@ -574,52 +384,8 @@ npm run build
 ```
 
 ### Project Structure
-```
-dondocs/
-├── tex/                          # LaTeX format templates (advanced)
-│   ├── main.tex                  # Main template
-│   └── templates/                # Document format templates (naval_letter, mfr, etc.)
-├── public/
-│   ├── attachments/              # Seal images
-│   └── lib/
-│       ├── PdfTeXEngine.js       # LaTeX engine
-│       ├── latex-templates.js    # Bundled LaTeX templates for SwiftLaTeX
-│       ├── texlive/              # TeX Live files
-│       └── pandoc/               # Pandoc WASM files for DOCX generation
-│           ├── pandoc.js         # WASM module loader
-│           ├── pandoc.wasm       # Pandoc binary (~58MB, cached by SW)
-│           ├── dondocs.lua       # Four-pass Lua filter for DOCX formatting
-│           └── reference.docx    # DOCX template with base styles
-├── src/
-│   ├── components/
-│   │   ├── editor/               # Form components
-│   │   ├── layout/               # Page layout
-│   │   ├── modals/               # Modal dialogs
-│   │   └── ui/                   # shadcn/ui components
-│   ├── data/
-│   │   ├── templates/            # Content templates (TypeScript) - add new templates here
-│   │   ├── units/                # Unit directory
-│   │   ├── ssic/                 # SSIC codes
-│   │   └── references/           # Reference library
-│   ├── hooks/                    # Custom React hooks
-│   ├── lib/                      # Utility libraries
-│   ├── services/
-│   │   ├── docx/                 # DOCX generation (pandoc WASM pipeline)
-│   │   │   ├── pandoc-converter.ts  # Pandoc WASM conversion + OOXML post-processing
-│   │   │   └── layout-config.ts     # Shared layout proportions (letterhead, columns)
-│   │   ├── latex/                # LaTeX generation
-│   │   │   ├── generator.ts         # PDF LaTeX generator (multi-file, SwiftLaTeX)
-│   │   │   ├── flat-generator.ts    # DOCX flat LaTeX generator (single-file, pandoc)
-│   │   │   └── escaper.ts           # LaTeX character escaping utilities
-│   │   ├── pdf/                  # PDF processing
-│   │   └── pii/                  # PII detection
-│   ├── stores/                   # Zustand stores
-│   └── types/                    # TypeScript types
-├── index.html                    # Entry point
-├── package.json                  # Dependencies
-├── vite.config.ts                # Vite config
-└── Makefile                      # Build commands
-```
+
+See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#project-structure) for the full directory layout and key file index.
 
 ### LaTeX Generation Flow
 
