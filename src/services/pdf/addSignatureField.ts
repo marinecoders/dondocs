@@ -107,7 +107,7 @@ function extractTextFromPage(
 
     // Find all TJ arrays and their positions
     // Format: "[(text)(text)...]TJ"
-    const tjRegex = /\[((?:[^\[\]]*|\([^)]*\))*)\]TJ/g;
+    const tjRegex = /\[((?:[^[\]]*|\([^)]*\))*)\]TJ/g;
 
     // Build ordered list of operations
     interface Operation {

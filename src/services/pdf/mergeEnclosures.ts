@@ -1023,7 +1023,7 @@ function createUriLinkAnnotations(pdfDoc: PDFDocument, positions: ReferencePosit
 
     // Add to page's Annots array
     const linkRef = pdfDoc.context.register(linkAnnotation);
-    let annots = page.node.lookup(PDFName.of('Annots'));
+    const annots = page.node.lookup(PDFName.of('Annots'));
 
     if (annots instanceof PDFArray) {
       annots.push(linkRef);
