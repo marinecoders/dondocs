@@ -1,11 +1,22 @@
-import { useEffect, useCallback, useState, useRef } from 'react';
+import { useEffect, useCallback, useState, useRef, lazy, Suspense } from 'react';
 import { Header } from '@/components/layout/Header';
 import { FormPanel } from '@/components/layout/FormPanel';
 import { PreviewPanel } from '@/components/layout/PreviewPanel';
 import { ResizableDivider } from '@/components/layout/ResizableDivider';
 import { ProfileModal } from '@/components/modals/ProfileModal';
 import { ReferenceLibraryModal } from '@/components/modals/ReferenceLibraryModal';
-import { MobilePreviewModal } from '@/components/modals/MobilePreviewModal';
+// MobilePreviewModal pulls react-pdf + @react-pdf-viewer + pdf.js core
+// (~400 KB raw / ~120 KB gz). Desktop users (the majority) never open
+// it — the floating "Preview PDF" button that triggers it only appears
+// on mobile. Lazy-loading splits it into its own chunk that's only
+// fetched when the user actually opens the modal. Combined with the
+// `mobilePreviewOpen &&` gate in the JSX below, the chunk doesn't
+// even start loading until the user taps the button.
+const MobilePreviewModal = lazy(() =>
+  import('@/components/modals/MobilePreviewModal').then((m) => ({
+    default: m.MobilePreviewModal,
+  }))
+);
 import { AboutModal } from '@/components/modals/AboutModal';
 import { NISTComplianceModal } from '@/components/modals/NISTComplianceModal';
 import { BatchModal } from '@/components/modals/BatchModal';
@@ -146,6 +157,8 @@ function App() {
   const density = useUIStore((s) => s.density);
   const isMobile = useUIStore((s) => s.isMobile);
   const setIsMobile = useUIStore((s) => s.setIsMobile);
+  // Gate the lazy MobilePreviewModal — chunk only fetches on first open.
+  const mobilePreviewOpen = useUIStore((s) => s.mobilePreviewOpen);
   const previewVisible = useUIStore((s) => s.previewVisible);
   const previewWidth = useUIStore((s) => s.previewWidth);
   const setPreviewVisible = useUIStore((s) => s.setPreviewVisible);
@@ -1383,12 +1396,25 @@ ${texFiles['body.tex'] || '% No body content'}
       {/* Modals */}
       <ProfileModal />
       <ReferenceLibraryModal />
-      <MobilePreviewModal
-        pdfUrl={documentCategory === 'forms' ? formPdfUrl : pdfUrl}
-        isCompiling={documentCategory === 'forms' ? false : (isCompiling || !isReady)}
-        error={documentCategory === 'forms' ? null : (compileError || engineError)}
-        onDownloadPdf={handleDownloadPdf}
-      />
+      {/*
+        Lazy-mounted only while open. On first open, React fetches the
+        chunk (the modal + react-pdf + react-pdf-viewer + pdf.js core).
+        Suspense fallback is null because the user just tapped the
+        "Preview PDF" button — they expect the dialog to appear with
+        whatever animation; a brief blank moment is indistinguishable
+        from regular dialog-open latency. After the first open, the
+        chunk is cached for the rest of the session.
+      */}
+      {mobilePreviewOpen && (
+        <Suspense fallback={null}>
+          <MobilePreviewModal
+            pdfUrl={documentCategory === 'forms' ? formPdfUrl : pdfUrl}
+            isCompiling={documentCategory === 'forms' ? false : (isCompiling || !isReady)}
+            error={documentCategory === 'forms' ? null : (compileError || engineError)}
+            onDownloadPdf={handleDownloadPdf}
+          />
+        </Suspense>
+      )}
       <AboutModal />
       <NISTComplianceModal />
       <BatchModal compile={compile} isEngineReady={isReady} waitForReady={waitForReady} />

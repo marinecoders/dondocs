@@ -130,7 +130,7 @@ dondocs/
 | `src/stores/documentStore.ts` | Document state management |
 | `src/services/latex/generator.ts` | Generates .tex files from state |
 | `src/services/latex/escaper.ts` | Escapes LaTeX special characters |
-| `src/lib/latex-templates.js` | All LaTeX templates |
+| `public/lib/latex-templates.js` | All LaTeX templates |
 | `src/hooks/useLatexEngine.ts` | SwiftLaTeX engine management |
 | `src/services/pdf/mergeEnclosures.ts` | PDF post-processing |
 
