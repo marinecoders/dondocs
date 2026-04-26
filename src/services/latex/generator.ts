@@ -16,6 +16,36 @@ interface DocumentStore {
 
 // const PARAGRAPH_INDENT_SPACES = 4; // Used in getBodyText for plain text output
 
+/**
+ * Validate a Point-of-Contact email before it gets embedded in the
+ * `\setPOC{}` macro (which the LaTeX template wraps in
+ * `\href{mailto:\POCEmail}{...}`).
+ *
+ * The scheme is forced to `mailto:` by the template so there's no
+ * scheme-injection risk, but a malformed email (no `@`, weird
+ * whitespace, paste with control chars, etc.) still produces a broken
+ * hyperlink in the rendered PDF. Routing through `safeUrl()` reuses
+ * the same chokepoint that validates reference URLs, so any future
+ * tightening of email validation lives in one place.
+ *
+ * Returns the cleaned bare email (no `mailto:` prefix — the template
+ * adds that), or empty string when invalid. Empty string preserves
+ * the prior behavior for unset/missing pocEmail; the LaTeX template
+ * already handles `\setPOC{}` with empty content gracefully.
+ */
+function validatedPocEmail(raw: string | undefined | null): string {
+  if (!raw) return '';
+  // The user might paste `mailto:foo@bar.com` — strip the prefix so
+  // safeUrl validates the bare email path.
+  const stripped = raw.trim().replace(/^mailto:/i, '');
+  if (!stripped) return '';
+  const safe = safeUrl(stripped);
+  if (safe && safe.startsWith('mailto:')) {
+    return safe.slice('mailto:'.length);
+  }
+  return '';
+}
+
 function getParagraphLabel(level: number, count: number): string {
   const patterns = [
     (n: number) => `${n}.`,
@@ -143,7 +173,7 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
 \\setBusinessSalutation{${escapeLatex((data.salutation || 'Dear Sir or Madam:').trim())}}
 \\setBusinessClose{${escapeLatex(data.complimentaryClose || 'Sincerely,')}}
 
-\\setPOC{${escapeLatex(data.pocEmail)}}
+\\setPOC{${escapeLatex(validatedPocEmail(data.pocEmail))}}
 `;
 
   // Memorandum For: addressee is embedded in the title ("MEMORANDUM FOR [addressee]")
@@ -688,7 +718,7 @@ export function generateClassificationTex(store: DocumentStore): string {
 \\setCUICategory{${escapeLatex(data.cuiCategory)}}
 \\setCUIDissemination{${escapeLatex(data.cuiDissemination)}}
 \\setCUIDistStatement{${escapeLatex(data.cuiDistStatement)}}
-\\setPOC{${escapeLatex(data.pocEmail)}}
+\\setPOC{${escapeLatex(validatedPocEmail(data.pocEmail))}}
 `;
   }
 
@@ -719,7 +749,7 @@ export function generateClassificationTex(store: DocumentStore): string {
 \\setDerivedFrom{${escapeLatex(data.derivedFrom)}}
 \\setDeclassifyOn{${escapeLatex(data.declassifyOn)}}
 \\setClassificationReason{${escapeLatex(data.classReason)}}
-\\setPOC{${escapeLatex(data.classifiedPocEmail)}}
+\\setPOC{${escapeLatex(validatedPocEmail(data.classifiedPocEmail))}}
 `;
 }
 

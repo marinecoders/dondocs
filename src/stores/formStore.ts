@@ -1,4 +1,16 @@
 import { create } from 'zustand';
+import { format } from 'date-fns';
+
+// SECNAV M-5216.5 / MCO 1070.12K abbreviated military date format.
+// Mirrors `formatMilitaryDate` in documentStore.ts and the DatePicker
+// component default. Used for NAVMC form date defaults below so a fresh
+// form pre-populates with "25 Apr 26" instead of ISO "2026-04-25".
+//
+// Without this, a user who opens a NAVMC form for the first time and
+// downloads without touching the date field gets a non-compliant PDF
+// — DatePicker's `parseFlexibleDate` only re-formats on user blur,
+// which never fires if the user accepts the pre-filled value as-is.
+const formatMilitaryDate = (d: Date): string => format(d, 'd MMM yy');
 
 export interface Navmc11811Data {
   // Marine identification
@@ -95,7 +107,7 @@ const EMPTY_NAVMC_11811: Navmc11811Data = {
 const DEFAULT_NAVMC_10274: NavmcForm10274Data = {
   actionNo: '001-25',
   ssicFileNo: '1610',
-  date: new Date().toISOString().split('T')[0],
+  date: formatMilitaryDate(new Date()),
   from: 'SSgt John A. Smith 1234567890/0311 USMC',
   via: '(1) XO, HQCO (2) CO, HQBN',
   orgStation: 'Alpha Company, 1st Battalion\n1st Marine Regiment\nCamp Pendleton, CA',
@@ -169,7 +181,7 @@ Acknowledged receipt of NAVMC 10274 dtd 15 Jan 25.
 //S//
 J. A. SMITH, SSgt, USMC`,
   remarksTextRight: '',
-  entryDate: new Date().toISOString().split('T')[0],
+  entryDate: formatMilitaryDate(new Date()),
   box11: '01',
 };
 
