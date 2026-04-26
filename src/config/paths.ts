@@ -83,7 +83,6 @@
  * │   │   ├── office-codes.json          # Military office codes (S-1, G-3, etc.)
  * │   │   ├── officeCodes.ts             # Office codes TypeScript wrapper
  * │   │   ├── ranks.ts                   # Military ranks (USMC, Navy)
- * │   │   ├── references.json            # Reference library (MCO, SECNAVINST)
  * │   │   ├── ssic.json                  # SSIC codes raw data
  * │   │   ├── ssicCodes.ts               # SSIC codes TypeScript wrapper
  * │   │   ├── units.json                 # Unit directory raw data
