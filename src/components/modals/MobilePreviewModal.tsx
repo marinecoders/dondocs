@@ -127,6 +127,36 @@ pdfjs.GlobalWorkerOptions.workerSrc = `${import.meta.env.BASE_URL}lib/pdf.worker
 // Worker URL for react-pdf-viewer (iOS)
 const PDFJS_WORKER_URL = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
 
+/**
+ * Hardened pdf.js options. Both viewers below preview user-supplied PDFs
+ * (compiled main + uploaded enclosures), so we force the safer code path.
+ *
+ * `isEvalSupported: false` mitigates CVE-2024-4367: PDF.js's eval-based
+ * font glyph renderer can be coerced into executing arbitrary JavaScript
+ * by a maliciously crafted PDF. Disabling it routes glyph rendering
+ * through the slower-but-safe non-eval path. The desktop preview uses an
+ * `<iframe>` and the browser's native PDF viewer, so it isn't affected;
+ * this hardening is specifically for the mobile path which renders
+ * pdf.js in our origin.
+ *
+ * `@react-pdf-viewer/core@3.12.0` pulls in the vulnerable
+ * `pdfjs-dist@3.11.174` transitively (`react-pdf@10` is fine on 5.x);
+ * upstream is dormant so a version bump isn't currently available. Until
+ * we migrate `MobilePreviewModal` off `@react-pdf-viewer`, this option
+ * closes the active exploit path.
+ *
+ * Note: defined at module scope so that `<Document options={...}>` gets
+ * a referentially stable object — react-pdf reprocesses the document
+ * when `options` changes by identity.
+ */
+const HARDENED_PDF_OPTIONS = { isEvalSupported: false } as const;
+const transformPdfParamsHardened = (
+  options: Record<string, unknown>,
+): Record<string, unknown> => ({
+  ...options,
+  isEvalSupported: false,
+});
+
 interface MobilePreviewModalProps {
   pdfUrl: string | null;
   isCompiling: boolean;
@@ -248,6 +278,7 @@ function IOSPdfViewer({ pdfUrl, onClose, onDownload, isPhone }: {
               fileUrl={pdfUrl}
               plugins={[defaultLayoutPluginInstance]}
               defaultScale={isPhone ? 0.5 : 1}
+              transformGetDocumentParams={transformPdfParamsHardened}
             />
           </div>
         </Worker>
@@ -455,6 +486,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
           >
             <Document
               file={pdfUrl}
+              options={HARDENED_PDF_OPTIONS}
               onLoadSuccess={onDocumentLoadSuccess}
               onLoadError={onDocumentLoadError}
               loading={
