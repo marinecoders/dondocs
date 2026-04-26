@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
+import { compressedLocalStorage } from '@/lib/compressedStorage';
 import type { Profile } from '@/types/document';
 
 // Default profiles for demonstration
@@ -91,6 +92,11 @@ export const useProfileStore = create<ProfileState>()(
     }),
     {
       name: 'dondocs_profiles',
+      // Compress on write; decompress on read. Profiles include base64 PNG
+      // signatures, so a few profiles routinely exceed several hundred KB.
+      // Backward-compatible: existing plain-JSON `dondocs_profiles` reads
+      // straight through and is rewritten compressed on the next save.
+      storage: createJSONStorage(() => compressedLocalStorage),
       // Merge persisted profiles with default profiles (defaults can be overwritten by user)
       merge: (persistedState, currentState) => ({
         ...currentState,
