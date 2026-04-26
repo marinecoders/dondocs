@@ -139,7 +139,7 @@ function capitalizeWord(word: string | undefined): string {
 /** Strip punctuation from paragraph headers per SECNAV formatting rules.
  * Dashes (-, –, —) are preserved; all other punctuation is removed. */
 function stripHeaderPunctuation(text: string): string {
-  return text.replace(/[(),.;:!?'"\/\\]/g, '').replace(/\s+/g, ' ').trim();
+  return text.replace(/[(),.;:!?'"/\\]/g, '').replace(/\s+/g, ' ').trim();
 }
 
 /** Underline entire header text using ulem's \uline for proper positioning. */
@@ -632,7 +632,7 @@ function buildBusinessSignature(data: Partial<DocumentData>): string {
   }
 
   // Use tabularX{XcX} for centering (pandoc ignores \begin{center})
-  let sig = `\\vspace{24pt}
+  const sig = `\\vspace{24pt}
 \\noindent
 \\begin{tabularx}{\\textwidth}{@{}XcX@{}}
  & ${close} & \\\\

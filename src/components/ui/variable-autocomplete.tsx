@@ -135,7 +135,7 @@ export function useVariableAutocomplete({
 
     // Find the last @ that starts a variable mention
     // @ must be at start of input OR preceded by whitespace/punctuation
-    const atMatches = [...textBeforeCursor.matchAll(/(^|[\s\n([\-])@([A-Za-z0-9_]*)$/g)];
+    const atMatches = [...textBeforeCursor.matchAll(/(^|[\s\n([-])@([A-Za-z0-9_]*)$/g)];
 
     if (atMatches.length > 0) {
       const match = atMatches[atMatches.length - 1];

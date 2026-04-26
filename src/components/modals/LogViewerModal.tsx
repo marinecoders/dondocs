@@ -46,7 +46,7 @@ export function LogViewerModal() {
       await navigator.clipboard.writeText(text);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
+    } catch {
       // Fallback for browsers without clipboard API or in non-secure contexts
       const textArea = document.createElement('textarea');
       textArea.value = text;

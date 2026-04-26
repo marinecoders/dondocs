@@ -24,7 +24,8 @@ import {
 import {
   getDomainClassificationRestriction,
   getDomainRestrictionMessage,
-  type ClassificationLevel
+  type ClassificationLevel,
+  type ClassificationRestriction,
 } from '@/lib/domainClassification';
 import { useEffect, useState } from 'react';
 import { getClassificationConfig } from '@/config/classification';
@@ -63,7 +64,7 @@ const DISTRIBUTION_STATEMENTS = [
 export function ClassificationSection() {
   const { formData, setField } = useDocumentStore();
   const classLevel = formData.classLevel || 'unclassified';
-  const [configOverride, setConfigOverride] = useState<{ restriction?: any; message?: string } | null>(null);
+  const [configOverride, setConfigOverride] = useState<{ restriction?: ClassificationRestriction; message?: string } | null>(null);
   const [configLoaded, setConfigLoaded] = useState(false);
 
   // Load config file override if available (async)
