@@ -14,8 +14,6 @@ interface DocumentStore {
   distributions: Distribution[];
 }
 
-// const PARAGRAPH_INDENT_SPACES = 4; // Used in getBodyText for plain text output
-
 /**
  * Validate a Point-of-Contact email before it gets embedded in the
  * `\setPOC{}` macro (which the LaTeX template wraps in
@@ -71,18 +69,6 @@ function calculateLabels(paragraphs: Paragraph[]): string[] {
 
   return labels;
 }
-
-// getBodyText is used for plain text output (not LaTeX)
-// Keeping for potential future use in exports
-// function getBodyText(paragraphs: Paragraph[]): string {
-//   const labels = calculateLabels(paragraphs);
-//   return paragraphs
-//     .map((para, i) => {
-//       const indent = ' '.repeat(para.level * PARAGRAPH_INDENT_SPACES);
-//       return `${indent}${labels[i]}  ${para.text}`;
-//     })
-//     .join('\n\n');
-// }
 
 export function generateDocumentTex(store: DocumentStore): string {
   const data = store.formData;
