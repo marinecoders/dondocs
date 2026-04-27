@@ -475,6 +475,7 @@ function App() {
     // `compilePdf` is intentionally NOT a dep — it captures documentStore via
     // getState(), and we don't want a new compilePdf identity (e.g. from pdfUrl
     // changing) to kick off an unrelated debounce cycle.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isReady,
     docType,

@@ -110,7 +110,11 @@ export function FindReplaceModal() {
         matchCount++;
       }
     }
-  }, [matches, currentMatchIndex, findText, replaceText, paragraphs, formData, updateParagraph, setField]);
+    // `totalMatches` is derived from `matches` via useMemo so it's
+    // already covered by the `matches` dep, but exhaustive-deps wants
+    // it spelled out explicitly. It's a memoized number — re-listing
+    // it adds no extra invalidations.
+  }, [matches, totalMatches, currentMatchIndex, findText, replaceText, paragraphs, formData, updateParagraph, setField]);
 
   const handleReplaceAll = useCallback(() => {
     if (totalMatches === 0 || !findText.trim()) return;
@@ -148,7 +152,11 @@ export function FindReplaceModal() {
         }
       }
     });
-  }, [findText, replaceText, caseSensitive, paragraphs, formData, updateParagraph, setField]);
+    // Same as handleReplace above: `totalMatches` is derived from
+    // `matches` (via useMemo) so re-listing it is redundant but
+    // satisfies exhaustive-deps without changing invalidation
+    // behavior.
+  }, [totalMatches, findText, replaceText, caseSensitive, paragraphs, formData, updateParagraph, setField]);
 
   // Keyboard shortcuts
   useEffect(() => {
