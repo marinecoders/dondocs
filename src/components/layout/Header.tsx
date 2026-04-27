@@ -651,7 +651,7 @@ export function Header({
                 <Eraser className="h-4 w-4 mr-2" />
                 Clear Fields (Keep Letterhead)
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setShowResetDialog(true)} className="text-destructive">
+              <DropdownMenuItem onClick={() => setShowResetDialog(true)} variant="destructive">
                 <RotateCcw className="h-4 w-4 mr-2" />
                 Reset All Fields
               </DropdownMenuItem>

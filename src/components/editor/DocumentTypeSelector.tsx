@@ -137,7 +137,13 @@ export function DocumentTypeSelector() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="h-6 px-2 bg-primary/10 border border-primary/30 text-primary hover:text-primary/80 hover:bg-primary/20"
+                      // Tinting the bg with --primary (USMC red at 10% opacity)
+                      // produced a peach/mustard look against the form panel
+                      // and clashed with the red text. Keep the brand-tinted
+                      // border for a subtle accent, but use neutral readable
+                      // foreground/muted bg so the button reads cleanly against
+                      // any panel background -- closes #29.
+                      className="h-6 px-2 border border-primary/30 text-foreground hover:bg-accent hover:text-accent-foreground"
                       onClick={() => setTemplateLoaderOpen(true)}
                     >
                       <FolderOpen className="h-3.5 w-3.5 mr-1" />
