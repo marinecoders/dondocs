@@ -95,13 +95,10 @@
  * │   │
  * │   ├── lib/                           # Utility libraries
  * │   │   ├── index.ts                   # Barrel export
- * │   │   ├── PdfTeXEngine.js            # Engine class (copied to public/)
  * │   │   ├── constants.ts               # Application constants
  * │   │   ├── debug.ts                   # Debug logging utilities
  * │   │   ├── encoding.ts                # Base64/binary encoding utils
- * │   │   ├── latex-templates.js         # LaTeX templates (copied to public/)
  * │   │   ├── paragraphUtils.ts          # Paragraph labeling utilities
- * │   │   ├── texlive-packages.js        # TeX packages (copied to public/)
  * │   │   └── utils.ts                   # General utilities (cn)
  * │   │
  * │   ├── services/                      # Document generation services
