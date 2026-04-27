@@ -341,6 +341,47 @@ export default defineConfig({
               },
             },
           },
+          {
+            // Cache the Pandoc WASM binary fetched from unpkg by pandoc.js
+            // (`https://unpkg.com/pandoc-wasm@1.0.1/src/pandoc.wasm`, ~58 MB).
+            // Without this rule, only the browser's HTTP cache would protect
+            // against re-downloading after the user clears site data or after
+            // the browser cache evicts under pressure. With workbox's 90-day
+            // CacheFirst, the bytes survive across sessions and the
+            // `usePandocIdlePrefetch` warm-up is durable.
+            urlPattern: /^https:\/\/unpkg\.com\/pandoc-wasm@/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'pandoc-wasm-cdn-cache-v1',
+              expiration: {
+                maxEntries: 5,
+                maxAgeSeconds: 60 * 60 * 24 * 90, // 90 days
+              },
+              cacheableResponse: {
+                // unpkg returns 200 for cache hits; opaque (0) responses
+                // can occur for cross-origin requests without CORS, but
+                // unpkg sets CORS headers so we should always get 200.
+                statuses: [0, 200],
+              },
+            },
+          },
+          {
+            // Cache the WASI shim that pandoc.js imports from jsdelivr
+            // (`https://cdn.jsdelivr.net/npm/@bjorn3/browser_wasi_shim@.../index.js`,
+            // ~50 KB). Same rationale as the unpkg rule above.
+            urlPattern: /^https:\/\/cdn\.jsdelivr\.net\/npm\/@bjorn3\/browser_wasi_shim/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'wasi-shim-cdn-cache-v1',
+              expiration: {
+                maxEntries: 5,
+                maxAgeSeconds: 60 * 60 * 24 * 90, // 90 days
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
         ],
       },
     }),

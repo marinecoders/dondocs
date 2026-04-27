@@ -47,6 +47,7 @@ import { useHistoryStore } from '@/stores/historyStore';
 import { useProfileStore } from '@/stores/profileStore';
 import { useLogStore } from '@/stores/logStore';
 import { useLatexEngine, useServiceWorker } from '@/hooks';
+import { usePandocIdlePrefetch } from '@/hooks/usePandocIdlePrefetch';
 import { generateAllLatexFiles, type GeneratedFiles } from '@/services/latex/generator';
 import { generateFlatLatex } from '@/services/latex/flat-generator';
 import { convertLatexToDocx } from '@/services/docx/pandoc-converter';
@@ -146,6 +147,12 @@ function getDualSignatoryConfig(formData: Partial<DocumentData>, uiMode: string 
 }
 
 function App() {
+  // Background-prefetch the Pandoc WASM module (~58 MB) during browser idle
+  // time so the first user-initiated DOCX export feels instant rather than
+  // a 5-15s download wait. Gated on connection type internally — skips on
+  // offline, data-saver, and very slow connections.
+  usePandocIdlePrefetch();
+
   // Individual selectors — Zustand only re-renders this component when the
   // specific field changes by strict equality. Previously `useUIStore()`
   // subscribed to the whole store, so every modal open/close and every

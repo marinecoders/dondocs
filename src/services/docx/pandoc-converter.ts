@@ -158,6 +158,33 @@ async function ensureLoaded(
   return loadPromise;
 }
 
+/**
+ * Prefetch the pandoc WASM module + support files during browser idle time.
+ *
+ * Populates the in-memory singleton, the browser's HTTP cache, and the
+ * workbox runtime cache (90-day CacheFirst — see vite.config.ts) so that
+ * the FIRST user-initiated DOCX export feels instant rather than a 5-15s
+ * wait for the ~58 MB WASM download.
+ *
+ * Safe to call multiple times — `ensureLoaded` short-circuits via the
+ * singleton + in-flight loadPromise. Errors are swallowed; a persistent
+ * loading failure surfaces later when the user actually exports DOCX.
+ *
+ * Should be gated on connection type by the caller (see
+ * `usePandocIdlePrefetch`) so we don't burn cellular data for users who
+ * never export DOCX.
+ */
+export async function prefetchPandocModule(): Promise<void> {
+  try {
+    await ensureLoaded();
+    debug.log('DOCX', 'Idle prefetch: pandoc WASM cached for next DOCX export');
+  } catch (err) {
+    // Don't surface to user -- the actual export call will retry and
+    // produce a real error then, with proper UI feedback.
+    debug.verbose('DOCX', 'Idle prefetch failed (will retry on first export)', err);
+  }
+}
+
 function getSealFilename(sealType?: string, letterheadColor?: string): string {
   const type = sealType || 'dow';
   const bwSuffix = letterheadColor === 'black' ? '-bw' : '';
