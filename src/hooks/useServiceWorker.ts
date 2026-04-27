@@ -59,8 +59,23 @@ export function useServiceWorker() {
     };
   }, []);
 
-  // Store updateServiceWorker in ref for use in effects
-  updateServiceWorkerRef.current = updateServiceWorker;
+  // Sync the latest updateServiceWorker callback into a ref so the
+  // needRefresh effect below can call it without listing it as a dep.
+  // (Adding the callback to that effect's deps would cause spurious
+  // re-runs on every render where useRegisterSW returns a new closure
+  // identity, which can flip needRefresh handling mid-cycle.)
+  //
+  // Setting `ref.current` in render directly works in practice but
+  // violates the React rule against side-effects during render and
+  // is brittle under concurrent rendering -- React may discard a
+  // render and re-run it, leaving the ref pointing at a stale closure
+  // from the discarded attempt. Move the assignment into useEffect so
+  // it runs after the render commits. The ref consumer below is also
+  // a useEffect and is declared after this one, so React runs them in
+  // order and the ref is always populated before the consumer reads it.
+  useEffect(() => {
+    updateServiceWorkerRef.current = updateServiceWorker;
+  }, [updateServiceWorker]);
 
   // Mark session as active after 5 seconds of being on the page
   // This means: fresh visit = auto-update, active session = prompt
@@ -72,12 +87,24 @@ export function useServiceWorker() {
     return () => clearTimeout(timer);
   }, []);
 
-  // When needRefresh is true, either auto-update or show prompt
+  // When needRefresh is true, either auto-update or show prompt.
+  //
+  // Legitimate "synchronize React state with an external system" pattern:
+  // useRegisterSW exposes `needRefresh` as a derived value (not a stream
+  // or listener callback), so our effect mirrors it into local UI state
+  // when it flips true. The react-hooks/set-state-in-effect rule docs
+  // explicitly call out "subscribe for updates from some external system,
+  // calling setState when external state changes" as legitimate -- this
+  // is the same shape, just expressed via a value-prop API rather than
+  // a callback-listener API. The rule is conservative about flagging
+  // synchronous setState in the effect body, so the disable is at the
+  // setShowUpdatePrompt call.
   useEffect(() => {
     if (needRefresh) {
       if (isActiveSession) {
         // User is actively working - show prompt
         console.log('[SW] Update available, prompting user (active session)');
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setShowUpdatePrompt(true);
       } else {
         // Fresh visit - auto-update silently
