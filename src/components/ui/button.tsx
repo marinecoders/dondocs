@@ -13,7 +13,12 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-white hover:bg-destructive/90 hover:scale-[1.02] focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
-          "border bg-background shadow-sm hover:bg-accent hover:text-accent-foreground hover:scale-[1.02] hover:shadow-md active:shadow-none dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+          // In dark mode, --accent is only marginally lighter than --background
+          // (HSL 220 10% 16% vs 220 14% 10%), so hover-bg defaults are nearly
+          // invisible. Use a translucent foreground overlay for a clearly-visible
+          // hover state that doesn't depend on the accent token's contrast --
+          // closes #29 ("top-level buttons hover dark on dark").
+          "border bg-background shadow-sm hover:bg-accent hover:text-accent-foreground hover:scale-[1.02] hover:shadow-md active:shadow-none dark:bg-input/30 dark:border-input dark:hover:bg-foreground/10 dark:hover:text-foreground",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80 hover:scale-[1.02]",
         ghost:
