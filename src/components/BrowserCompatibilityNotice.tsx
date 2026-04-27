@@ -93,8 +93,13 @@ export function BrowserCompatibilityNotice() {
   const [isVisible, setIsVisible] = useState(false);
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null);
 
+  // Read device info from `navigator.userAgent` on mount. Cannot be
+  // computed during render (lazy useState init) without coupling the
+  // device read to render order, and we also want to log alongside.
+  // Legitimate "synchronize React state with external system" pattern.
   useEffect(() => {
     const device = getDeviceInfo();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setDeviceInfo(device);
 
     // Log full device info for debugging

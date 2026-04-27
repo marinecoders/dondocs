@@ -84,13 +84,23 @@ export function SignatureSection({ config }: SignatureSectionProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [officeCodeModalOpen, setOfficeCodeModalOpen] = useState(false);
 
-  // Initialize useCustomRank based on current sigRank value
+  // Reset the rank-input mode when sigRank changes externally (e.g.
+  // a profile load). useCustomRank is bidirectional -- the user can
+  // toggle it manually via UI buttons further down, AND it should
+  // re-derive when sigRank changes from outside. That bidirectionality
+  // means it can't be a purely derived value (a profile load with a
+  // standard rank should flip the UI back to the picker, but a user
+  // can override). Reset-on-prop-change pattern; refactor candidate if
+  // the design ever simplifies to one-way derivation.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setUseCustomRank(!isStandardMilitaryRank(formData.sigRank || ''));
   }, [formData.sigRank]);
 
-  // Initialize useCustomOfficeCode based on current officeCode value
+  // Same bidirectional reset pattern as useCustomRank above, applied
+  // to the office-code field.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setUseCustomOfficeCode(!isStandardOfficeCode(formData.officeCode || ''));
   }, [formData.officeCode]);
 

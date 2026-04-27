@@ -83,8 +83,13 @@ export function WelcomeModal() {
       return;
     }
 
+    // Read localStorage on mount to decide whether to show the welcome
+    // modal. Cannot be derived during render -- localStorage is an
+    // external system, and the value can change between sessions.
+    // Legitimate "synchronize React state with external system" pattern.
     const stored = localStorage.getItem(WELCOME_STORAGE_KEY);
     if (!stored || stored !== WELCOME_CONTENT_VERSION) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setOpen(true);
     }
   }, []);
