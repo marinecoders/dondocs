@@ -315,9 +315,14 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
     }
   }, [deviceInfo]);
 
-  // Reset state when modal opens or pdfUrl changes
+  // Reset to page 1 when the modal opens or the PDF source changes.
+  // currentPage is also mutated by user scrolling/page navigation, so
+  // it can't be purely derived from the open/url inputs -- it has to
+  // be state. Reset-on-input-change pattern (analogous to FindReplaceModal
+  // resetting currentMatchIndex on search-input change).
   useEffect(() => {
     if (mobilePreviewOpen && pdfUrl) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setCurrentPage(1);
     }
   }, [mobilePreviewOpen, pdfUrl]);

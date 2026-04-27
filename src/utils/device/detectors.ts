@@ -298,7 +298,12 @@ export function useDeviceInfo(): DeviceInfo {
     userAgent: '',
   }));
   
+  // Read live device info on mount. Initial state above is a static
+  // fallback (false flags for SSR / pre-hydration); the real read uses
+  // `navigator.userAgent` which is only available in the browser.
+  // Legitimate "synchronize React state with external system" pattern.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setDeviceInfo(getDeviceInfo());
   }, []);
   

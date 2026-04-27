@@ -67,10 +67,17 @@ export function RestoreSessionModal() {
       return;
     }
 
-    // Check if there's a saved session
+    // Check if there's a saved session and seed the modal state from it.
+    // Reads localStorage / sessionStorage (external systems) and computes
+    // session metadata that can't be derived purely from React props.
+    // Legitimate "synchronize React state with external system" pattern.
     if (hasSavedSession()) {
       const session = getSavedSession();
       if (session) {
+        // The rule flags the first setState in the effect; subsequent
+        // ones in the same body are covered implicitly. All three
+        // setStates are part of the same one-time mount-time seed work.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSessionAge(getSessionAge());
         setSessionPreview({
           subject: session.formData?.subject,

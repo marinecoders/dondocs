@@ -70,8 +70,14 @@ export function FindReplaceModal() {
     return matches.reduce((sum, m) => sum + m.positions.length, 0);
   }, [matches]);
 
-  // Reset current match when search changes
+  // Reset current match when search changes. The match index is also
+  // mutated by user navigation (next/prev buttons), so it can't be
+  // purely derived from search inputs -- it has to be state. The lint
+  // rule prefers we set it from a callback rather than synchronously
+  // in an effect body, but useRegisterSW-style external subscription
+  // doesn't apply here (the trigger IS a React prop change). Suppressed.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrentMatchIndex(0);
   }, [findText, caseSensitive]);
 
