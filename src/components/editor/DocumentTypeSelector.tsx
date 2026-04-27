@@ -161,7 +161,14 @@ export function DocumentTypeSelector() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="h-6 px-2 bg-orange-500/10 border border-orange-500/30 text-orange-600 hover:text-orange-700 hover:bg-orange-500/20 dark:text-orange-400 dark:hover:text-orange-300 dark:hover:bg-orange-500/20"
+                      // Same readability fix as the Templates button next to
+                      // this one (PR #57): drop the tinted bg (orange-500/10
+                      // tint over the form-panel bg can read as muddy and
+                      // washes out the orange text) and keep just the orange
+                      // border + orange text. Hover gets a faint orange bg
+                      // to signal interactivity. Preserves the warning
+                      // aesthetic for the destructive action.
+                      className="h-6 px-2 border border-orange-500/30 text-orange-600 hover:bg-orange-500/10 dark:text-orange-400 dark:hover:bg-orange-500/15"
                       onClick={() => setShowClearDialog(true)}
                     >
                       <Eraser className="h-3.5 w-3.5 mr-1" />

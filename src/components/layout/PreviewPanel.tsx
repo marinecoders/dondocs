@@ -110,7 +110,11 @@ export function PreviewPanel({ pdfUrl, isCompiling, error }: PreviewPanelProps) 
             {isCompiling ? 'Compiling document...' : 'Compilation complete'}
           </div>
           {isCompiling && (
-            <div className="flex items-center gap-1.5 text-xs text-primary bg-primary/10 px-2 py-0.5 rounded-full" aria-hidden="true">
+            // Same readability pattern as PR #57's Templates button fix:
+            // dropping the tinted bg (primary/10 over the card bg reads as
+            // muddy and washes out the primary text). Status pill is
+            // read-only so no hover state to worry about.
+            <div className="flex items-center gap-1.5 text-xs text-primary border border-primary/30 px-2 py-0.5 rounded-full" aria-hidden="true">
               <Loader2 className="h-3 w-3 animate-spin" />
               <span>Compiling...</span>
             </div>

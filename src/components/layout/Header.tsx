@@ -536,7 +536,13 @@ export function Header({
           {/* NIST 800-171 Compliance Badge - icon only below lg, full badge on lg+ */}
           <button
             onClick={() => setNistModalOpen(true)}
-            className="flex items-center justify-center gap-1.5 rounded-md bg-green-500/10 border border-green-500/30 text-green-600 dark:text-green-400 text-xs cursor-pointer hover:bg-green-500/20 transition-colors p-1.5 lg:px-2 lg:py-1 shrink-0"
+            // Same readability fix as the Clear button + Compiling pill in
+            // this PR (and the Templates button in PR #57): drop the
+            // tinted bg (green-500/10 over the header card-bg muddied the
+            // green text). Keep the green border + green text for the
+            // "compliant/safe" status identity, hover gets the faint green
+            // bg as the interactivity signal.
+            className="flex items-center justify-center gap-1.5 rounded-md border border-green-500/30 text-green-600 dark:text-green-400 text-xs cursor-pointer hover:bg-green-500/10 dark:hover:bg-green-500/15 transition-colors p-1.5 lg:px-2 lg:py-1 shrink-0"
             title="Click to learn about NIST 800-171 compliance"
           >
             <Shield className="h-4 w-4 lg:h-3 lg:w-3" />
