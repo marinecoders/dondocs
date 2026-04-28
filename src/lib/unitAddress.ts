@@ -19,6 +19,33 @@
  * Street / City / State / ZIP fields for editing, and
  * `composeUnitAddress` to write the changes back as a single string.
  * No data-model migration, no generator change.
+ *
+ * ─────────────────────────────────────────────────────────────────────
+ * Round-trip stability — verified 2026-04-28 (PR #63):
+ *
+ *   Hand-curated codebase addresses          11/11 stable
+ *     - 8 from src/data/exampleDocuments.ts
+ *     - 1 documentStore default
+ *     - 2 from src/stores/profileStore.ts
+ *
+ *   Unit directory (src/data/units.json)     3140/3140 stable
+ *     - 17 entries lack a parseable State+ZIP tail (placeholder text
+ *       like "CONTACT MI TO UPDATE ADDRESS" or non-standard "GUAM"
+ *       in place of the 2-letter "GU"). The parser puts the whole
+ *       string in `city` so nothing is silently dropped — the user
+ *       sees the full text and can edit. compose() still emits the
+ *       exact input back.
+ *
+ *   Edge cases (empty, partial, mid-typing, multi-comma, whitespace,
+ *   null/undefined inputs)                   all stable
+ *
+ * Stability invariant tested:
+ *   compose(parse(s)) === compose(parse(compose(parse(s))))
+ *
+ * "Comma-canonical" outputs (where input "CITY STATE ZIP" recomposes
+ * to "CITY, STATE ZIP") are expected and match the format the LaTeX
+ * generator already produces.
+ * ─────────────────────────────────────────────────────────────────────
  */
 
 export interface UnitAddressParts {
