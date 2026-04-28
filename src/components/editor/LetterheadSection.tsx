@@ -89,14 +89,27 @@ export function LetterheadSection() {
     setField('unitLine1', letterhead.line1);
     // Line 2: Parent/higher command (e.g., "1ST MARINE DIVISION")
     setField('unitLine2', letterhead.line2);
-    // Safety-belt: clear the own-write marker before writing the
-    // unit's address so the formData→local sync useEffect always
-    // re-parses the new value, even in the (very unlikely) case
-    // where formatLetterhead's output is byte-identical to the
-    // last user-typed compose result.
+    // Canonicalize the address through parse/compose. The unit
+    // directory stores addresses as "STREET\nCITY STATE ZIP" with
+    // no comma between city and state, which `formatLetterhead`
+    // flattens to "STREET, CITY STATE ZIP" (1 comma). The downstream
+    // generator only splits onto two letterhead lines when there are
+    // 2+ commas, so without canonicalization the address would
+    // render on a single line with street and city/state/zip smushed
+    // together — wrong per SECNAV M-5216.5.
+    //
+    // Canonicalizing through parse/compose adds the missing comma
+    // between city and state for civilian addresses (and preserves
+    // the no-comma form for FPO/APO/DPO per USPS Pub 28 §38) so the
+    // generator splits correctly into "STREET" / "CITY, STATE ZIP".
+    const canonicalAddress = composeUnitAddress(parseUnitAddress(letterhead.address));
+    // Safety-belt: clear the own-write marker before writing so the
+    // formData→local sync useEffect always re-parses the new value,
+    // even in the (very unlikely) case where the canonical address
+    // is byte-identical to the last user-typed compose result.
     lastWriteRef.current = null;
-    // Line 3: Address
-    setField('unitAddress', letterhead.address);
+    // Line 3+: Address (canonicalized for correct generator split)
+    setField('unitAddress', canonicalAddress);
   };
 
   return (
