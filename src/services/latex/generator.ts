@@ -197,23 +197,39 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     // but could be added later; for now the body handles them via ParagraphsEditor
   }
 
-  // Endorsements: parse subject field to set EndorsementOrdinal and BasicLetterID
-  // Subject contains the full endorsement line, e.g.:
-  //   "FIRST ENDORSEMENT on LCpl T. M. Garcia's Special Liberty Request of 20 Jan 26"
+  // Endorsements: set EndorsementOrdinal and BasicLetterID per SECNAV
+  // M-5216.5 Ch 9 §2.1.b -- the rendered endorsement line is:
+  //   "[ORDINAL] ENDORSEMENT on [basic letter id]"
+  //
+  // Prefer the structured fields populated by the AddressingSection UI
+  // (`endorsementOrdinal` dropdown + `basicLetterId` input). Fall back
+  // to regex-parsing the subject for sessions saved before those fields
+  // existed -- legacy subjects looked like:
+  //   "FIRST ENDORSEMENT on LCpl Garcia's Special Liberty Request..."
   if (store.docType === 'same_page_endorsement' || store.docType === 'new_page_endorsement') {
-    const subjectText = data.subject || '';
-    // Try to parse "ORDINAL ENDORSEMENT on BASIC_LETTER_ID"
-    const endorsementMatch = subjectText.match(/^(.+?)\s+ENDORSEMENT(?:\s+on\s+(.+))?$/i);
-    if (endorsementMatch) {
-      const ordinal = endorsementMatch[1].trim();
-      const basicLetterId = endorsementMatch[2]?.trim() || '';
-      // Both types: set ordinal and basic letter ID
-      tex += `\\renewcommand{\\EndorsementOrdinal}{${escapeLatex(ordinal)}}\n`;
-      if (basicLetterId) {
-        tex += `\\renewcommand{\\BasicLetterID}{${escapeLatex(basicLetterId)}}\n`;
+    let ordinal = data.endorsementOrdinal?.trim() || '';
+    let basicLetterId = data.basicLetterId?.trim() || '';
+
+    if (!ordinal || !basicLetterId) {
+      // Backwards-compat: parse "ORDINAL ENDORSEMENT on BASIC_LETTER_ID"
+      // out of the subject for legacy saved sessions. Only fills the
+      // pieces that aren't already provided by the structured fields.
+      const subjectText = data.subject || '';
+      const match = subjectText.match(/^(.+?)\s+ENDORSEMENT(?:\s+on\s+(.+))?$/i);
+      if (match) {
+        if (!ordinal) ordinal = match[1].trim();
+        if (!basicLetterId) basicLetterId = match[2]?.trim() || '';
       }
     }
-    // Always set serial and date for same-page endorsement, regardless of subject match
+
+    if (ordinal) {
+      tex += `\\renewcommand{\\EndorsementOrdinal}{${escapeLatex(ordinal)}}\n`;
+    }
+    if (basicLetterId) {
+      tex += `\\renewcommand{\\BasicLetterID}{${escapeLatex(basicLetterId)}}\n`;
+    }
+    // Always set serial and date for same-page endorsement, regardless
+    // of whether ordinal was found via structured field or subject parse.
     if (store.docType === 'same_page_endorsement') {
       tex += `\\renewcommand{\\EndorsementSerial}{${escapeLatex(data.serial || '')}}\n`;
       tex += `\\renewcommand{\\EndorsementDate}{${escapeLatex(data.date || '')}}\n`;
