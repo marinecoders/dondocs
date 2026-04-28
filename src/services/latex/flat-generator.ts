@@ -904,11 +904,31 @@ ${trimLastRow(rows)}
 }
 
 function buildEndorsementHeader(docType: string, data: Partial<DocumentData>): string {
-  // The subject field contains the full endorsement line
-  // e.g. "FIRST ENDORSEMENT on LCpl T. M. Garcia's Special Liberty Request of 20 Jan 26"
-  const endorsementLine = data.subject
-    ? escapeFlat(data.subject.toUpperCase())
-    : 'FIRST ENDORSEMENT';
+  // Per SECNAV M-5216.5 Ch 9 §2.1.b the endorsement line is:
+  //   "[ORDINAL] ENDORSEMENT on [basic letter id]"
+  //
+  // Prefer the structured fields populated by the AddressingSection UI
+  // (`endorsementOrdinal` dropdown + `basicLetterId` input). Fall back
+  // to regex-parsing the subject for sessions saved before those fields
+  // existed.
+  let ordinal = data.endorsementOrdinal?.trim() || '';
+  let basicLetterId = data.basicLetterId?.trim() || '';
+
+  if (!ordinal || !basicLetterId) {
+    const subjectText = data.subject || '';
+    const match = subjectText.match(/^(.+?)\s+ENDORSEMENT(?:\s+on\s+(.+))?$/i);
+    if (match) {
+      if (!ordinal) ordinal = match[1].trim();
+      if (!basicLetterId) basicLetterId = match[2]?.trim() || '';
+    }
+  }
+
+  // Compose the endorsement line. Default to "FIRST ENDORSEMENT" when
+  // nothing is set so the document still renders something coherent.
+  const ordinalUpper = (ordinal || 'FIRST').toUpperCase();
+  const endorsementLine = basicLetterId
+    ? `${ordinalUpper} ENDORSEMENT on ${escapeFlat(basicLetterId)}`
+    : `${ordinalUpper} ENDORSEMENT`;
 
   if (docType === 'same_page_endorsement') {
     return `\\vspace{24pt}\n\\rule{\\textwidth}{0.5pt}\n\n${endorsementLine}\n\n\\vspace{12pt}\n`;

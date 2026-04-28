@@ -382,51 +382,73 @@ export const EXAMPLE_DOCUMENTS: ExampleDocument[] = [
   },
 
   // ENDORSEMENTS
+  // Both examples below mirror SECNAV M-5216.5 Ch 9 Figures 9-1 and 9-2
+  // verbatim. They share the same basic letter (NAS Meridian ltr 5216
+  // Ser 11/273 of 22 Apr 15), with FIRST endorsing same-page and SECOND
+  // endorsing new-page -- demonstrating the ordinal field flow through
+  // a real routing chain.
   {
     id: 'endorsement-example',
-    name: 'Same-Page Endorsement',
-    description: 'Brief endorsement recommending leave approval',
+    name: 'Same-Page Endorsement (FIRST)',
+    description: 'SECNAV M-5216.5 Ch 9 Figure 9-1 example -- first endorsement appended to the basic letter',
     category: 'Endorsements',
     docType: 'same_page_endorsement',
     formData: {
-      date: '25 Jan 26',
-      from: 'Company Commander, Alpha Company',
-      to: 'Commanding Officer, 1st Battalion, 4th Marines',
-      subject: 'FIRST ENDORSEMENT on LCpl T. M. Garcia\'s Special Liberty Request of 20 Jan 26',
+      date: '23 Apr 15',
+      serial: '019/870',
+      from: 'Commander, Sea Based Anti-Submarine Warfare Wing, Atlantic',
+      to: 'Commander, Fleet Forces Command',
+      via: 'Commander, Naval Air Force, U.S. Atlantic Fleet',
+      endorsementOrdinal: 'FIRST',
+      basicLetterId: 'NAS Meridian ltr 5216 Ser 11/273 of 22 Apr 15',
+      // Same-page endorsements may omit subject + SSIC + basic-letter
+      // ID per Ch 9 §2.1.a (entire page is photocopied with basic letter)
+      subject: '',
+      sigFirst: 'R',
+      sigMiddle: 'L',
+      sigLast: 'GABEL',
     },
     references: [],
     paragraphs: [
-      { text: 'Forwarded, recommending approval.', level: 0 },
-      { text: 'LCpl Garcia has maintained excellent performance and has no pending obligations that would preclude this request.', level: 0 },
+      { text: 'A same-page endorsement may omit the SSIC, subject, and the basic letter\'s identification if the entire page will be photocopied. However, these elements are required on all new-page endorsements, such as the one on the next page.', level: 0 },
     ],
     copyTos: [],
   },
   {
     id: 'new-page-endorsement-example',
-    name: 'New-Page Endorsement',
-    description: 'Detailed endorsement with additional justification',
+    name: 'New-Page Endorsement (SECOND)',
+    description: 'SECNAV M-5216.5 Ch 9 Figure 9-2 example -- second endorsement on a new page, repeats SSIC and basic letter ID',
     category: 'Endorsements',
     docType: 'new_page_endorsement',
     formData: {
-      department: 'usmc',
-      unitLine1: 'COMMANDING GENERAL',
-      unitLine2: '2D MARINE AIRCRAFT WING',
-      unitAddress: 'PSC BOX 8050, CHERRY POINT, NC 28533-0050',
+      department: 'navy',
+      unitLine1: 'COMMANDER',
+      unitLine2: 'NAVAL AIR FORCE ATLANTIC',
+      unitAddress: 'NORFOLK VA 23511-2494',
       sealType: 'dod',
       letterheadColor: 'blue',
-      date: '10 Feb 26',
-      from: 'Commanding General, 2d Marine Aircraft Wing',
-      to: 'Commanding General, II Marine Expeditionary Force',
-      subject: 'SECOND ENDORSEMENT on CO, MAG-14 ltr 1650 Ser 0034 of 28 Jan 26',
+      ssic: '5216',
+      serial: 'N72/420',
+      date: '28 Apr 15',
+      from: 'Commander, Naval Air Force, U.S. Atlantic Fleet',
+      to: 'Commander, Fleet Forces Command',
+      endorsementOrdinal: 'SECOND',
+      basicLetterId: 'NAS Meridian ltr 5216 Ser 11/273 of 22 Apr 15',
+      // New-page endorsements MUST repeat the basic letter's subject
+      // as their own per Ch 9 §2.1.a + the figure 9-2 example
+      subject: 'HOW TO PREPARE AN ENDORSEMENT',
+      sigFirst: 'J',
+      sigMiddle: 'T',
+      sigLast: 'CHILDRESS',
+      byDirection: true,
     },
     references: [],
     paragraphs: [
-      { text: 'Forwarded, recommending approval.', level: 0 },
-      { text: 'The requested waiver for Capt M. J. Sullivan to attend the Naval Postgraduate School will significantly enhance this officer\'s ability to serve in future aviation logistics billets.', level: 0 },
-      { text: 'Capt Sullivan\'s current assignment can be filled through normal rotation without adverse impact to squadron readiness. The investment in his education aligns with Wing manning objectives.', level: 0 },
+      { text: 'Start an endorsement on a new page. Number each page of your endorsement and continue the sequence of numbers from the previous endorsement or from the basic letter if you are the first endorser.', level: 0 },
+      { text: 'Every "new page" endorsement must repeat the basic letter\'s SSIC, identify the basic letter in the endorsement line, and use the basic letter\'s subject as its own.', level: 0 },
     ],
     copyTos: [
-      { text: 'CMC (MMOA)' },
+      { text: 'NAS Meridian (Code 11)' },
     ],
   },
 

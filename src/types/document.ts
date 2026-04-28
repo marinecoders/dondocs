@@ -116,6 +116,18 @@ export interface DocumentData {
   via: string;
   subject: string;
 
+  // Endorsements only (same_page_endorsement, new_page_endorsement)
+  // Per SECNAV M-5216.5 Ch 9 §2.1.b -- endorsement line format is:
+  //   "[ORDINAL] ENDORSEMENT on [basic letter id]"
+  // where ORDINAL is the word ordinal (FIRST, SECOND, THIRD, ...) for
+  // the endorsement's position in the routing chain. Both fields are
+  // populated by dedicated UI in AddressingSection that only renders
+  // for endorsement doc types. The generators read them directly
+  // (with regex fallback to subject for sessions saved before this
+  // structured-fields migration).
+  endorsementOrdinal?: string;
+  basicLetterId?: string;
+
   // Signature
   sigFirst: string;
   sigMiddle: string;

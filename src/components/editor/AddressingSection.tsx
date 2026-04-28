@@ -19,6 +19,13 @@ import { CSS } from '@dnd-kit/utilities';
 import { BookOpen, Plus, Trash2, AlertCircle, GripVertical, HelpCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -107,6 +114,7 @@ function SortableViaItem({ id, index, value, onChange, onRemove, canRemove }: So
 
 export function AddressingSection({ config }: AddressingSectionProps) {
   const { formData, setField, documentMode } = useDocumentStore();
+  const docType = useDocumentStore((s) => s.docType);
   const [ssicModalOpen, setSSICModalOpen] = useState(false);
 
   // Check compliance requirements for business letters
@@ -114,6 +122,11 @@ export function AddressingSection({ config }: AddressingSectionProps) {
   const requiresSalutation = isCompliantMode && config.compliance.requiresSalutation;
   const dateFormat = isCompliantMode ? config.compliance.dateFormat : 'military';
   const isSSICOptional = isCompliantMode && config.optionalSSIC;
+
+  // Endorsements (same_page / new_page) require a position-in-chain
+  // ordinal AND a basic-letter identifier per SECNAV M-5216.5 Ch 9 §2.1.b.
+  // Render dedicated UI when this doc type is selected.
+  const isEndorsement = docType === 'same_page_endorsement' || docType === 'new_page_endorsement';
 
   const handleSSICSelect = (code: string) => {
     setField('ssic', code);
@@ -405,14 +418,79 @@ export function AddressingSection({ config }: AddressingSectionProps) {
               </div>
             )}
 
-            {/* Subject */}
+            {/* Endorsement-specific fields. Only render for endorsement doc
+                types. The basic-letter ID + ordinal together produce the
+                endorsement line per SECNAV M-5216.5 Ch 9 §2.1.b:
+                  "[ORDINAL] ENDORSEMENT on [basic letter id]"  */}
+            {isEndorsement && (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="endorsementOrdinal">
+                    Endorsement Number <span className="text-destructive">*</span>
+                  </Label>
+                  <Select
+                    value={formData.endorsementOrdinal || ''}
+                    onValueChange={(v) => setField('endorsementOrdinal', v)}
+                  >
+                    <SelectTrigger id="endorsementOrdinal" className="w-full">
+                      <SelectValue placeholder="Select position in routing chain..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="FIRST">FIRST</SelectItem>
+                      <SelectItem value="SECOND">SECOND</SelectItem>
+                      <SelectItem value="THIRD">THIRD</SelectItem>
+                      <SelectItem value="FOURTH">FOURTH</SelectItem>
+                      <SelectItem value="FIFTH">FIFTH</SelectItem>
+                      <SelectItem value="SIXTH">SIXTH</SelectItem>
+                      <SelectItem value="SEVENTH">SEVENTH</SelectItem>
+                      <SelectItem value="EIGHTH">EIGHTH</SelectItem>
+                      <SelectItem value="NINTH">NINTH</SelectItem>
+                      <SelectItem value="TENTH">TENTH</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground">
+                    Pick this endorsement&apos;s position in the routing chain. Per SECNAV
+                    M-5216.5 Ch 9 §2.1.b: number each endorsement in the sequence in
+                    which it is added to the basic letter (1st added = FIRST, 2nd =
+                    SECOND, etc.).
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="basicLetterId">
+                    Basic Letter ID <span className="text-destructive">*</span>
+                  </Label>
+                  <Input
+                    id="basicLetterId"
+                    value={formData.basicLetterId || ''}
+                    onChange={(e) => setField('basicLetterId', e.target.value)}
+                    placeholder="e.g., USS SCRANTON ltr 3000 Ser SSN 756/001 of 5 May 96"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Identifies the document this endorses. Use reference-line style:
+                    [activity] [letter type] [SSIC] Ser [N/N] of [date].
+                  </p>
+                </div>
+              </>
+            )}
+
+            {/* Subject — endorsements use the basic letter's subject when
+                rendered (same-page omits it; new-page repeats the basic
+                letter subject per Ch 9 §1). For non-endorsements the user
+                types the actual subject of this document. */}
             <div className="space-y-2">
-              <Label htmlFor="subject">Subject</Label>
+              <Label htmlFor="subject">
+                {isEndorsement ? "Subject (basic letter's subject)" : 'Subject'}
+              </Label>
               <InputWithVariables
                 id="subject"
                 value={formData.subject || ''}
                 onValueChange={(v) => setField('subject', v)}
-                placeholder="SUBJECT LINE... (type @ for variables)"
+                placeholder={
+                  isEndorsement
+                    ? "Subject of the basic letter being endorsed..."
+                    : 'SUBJECT LINE... (type @ for variables)'
+                }
                 className="uppercase"
               />
             </div>
