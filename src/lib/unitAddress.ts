@@ -146,6 +146,36 @@ export function parseUnitAddress(raw: string | undefined | null): UnitAddressPar
  */
 const MILITARY_POST_REGEX = /^(FPO|APO|DPO)$/i;
 
+/**
+ * Split a `unitAddress` string into the two address lines the LaTeX
+ * letterhead expects: line 3 (street/box) and line 4 (city/state/zip).
+ *
+ * Convention: when the address has 2+ commas, split on the FIRST one —
+ * the street goes to line 3, the rest (city, state, zip) to line 4.
+ * Addresses with only 1 comma (e.g. "PRESIDIO OF MONTEREY, CA 93944"
+ * — no street) stay on a single line. Addresses with 0 commas (just
+ * "NORFOLK VA 23511-2494") also stay on a single line.
+ *
+ * Both `generator.ts` (DOCX) and `flat-generator.ts` (PDF) had identical
+ * inline copies of this logic before extraction — keeping it here as the
+ * single source of truth ensures the two output formats stay in sync.
+ */
+export function splitAddressForLetterhead(rawAddress: string): {
+  line1: string;
+  line2: string;
+} {
+  const trimmed = (rawAddress || '').trim();
+  const commaCount = (trimmed.match(/,/g) || []).length;
+  if (commaCount >= 2) {
+    const firstComma = trimmed.indexOf(',');
+    return {
+      line1: trimmed.slice(0, firstComma).trim(),
+      line2: trimmed.slice(firstComma + 1).trim(),
+    };
+  }
+  return { line1: trimmed, line2: '' };
+}
+
 export function composeUnitAddress(parts: UnitAddressParts): string {
   const street = parts.street.trim();
   const city = parts.city.trim();

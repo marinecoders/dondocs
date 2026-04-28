@@ -17,6 +17,7 @@
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, DocTypeConfig } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
+import { splitAddressForLetterhead } from '@/lib/unitAddress';
 
 interface DocumentStore {
   docType: string;
@@ -286,20 +287,9 @@ function buildLetterhead(data: Partial<DocumentData>): string {
   const unit1 = escapeTabular(data.unitLine1);
   const unit2 = data.unitLine2?.trim() ? escapeTabular(data.unitLine2) : '';
 
-  // Only split into two lines when there are 2+ commas (street + city/state).
-  // A single comma like "PRESIDIO OF MONTEREY, CA 93944" stays on one line.
-  const rawAddr = (data.unitAddress || '').trim();
-  const addrCommaCount = (rawAddr.match(/,/g) || []).length;
-  let addr1: string;
-  let addr2: string;
-  if (addrCommaCount >= 2) {
-    const firstComma = rawAddr.indexOf(',');
-    addr1 = rawAddr.slice(0, firstComma).trim();
-    addr2 = rawAddr.slice(firstComma + 1).trim();
-  } else {
-    addr1 = rawAddr;
-    addr2 = '';
-  }
+  // Split `unitAddress` into letterhead lines via the shared helper
+  // (single source of truth — generator.ts uses the same).
+  const { line1: addr1, line2: addr2 } = splitAddressForLetterhead(data.unitAddress || '');
 
   // Determine seal filename: {sealType}-seal{-bw if black}.png
   const sealType = data.sealType || 'dow';

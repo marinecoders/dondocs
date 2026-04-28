@@ -16,6 +16,7 @@
  */
 
 import type { UnitInfo, UnitCategory } from './unitDirectory';
+import { parseUnitAddress } from '@/lib/unitAddress';
 
 interface UnitsJsonShape {
   units: Array<{
@@ -43,28 +44,23 @@ export interface UnitDirectoryDatabase {
   };
 }
 
-// Parse "STREET\nCITY, STATE ZIP" into structured fields.
-function parseAddress(address: string): { street: string; city: string; state: string; zip: string } {
-  const lines = address.split('\n');
-  const lastLine = lines[lines.length - 1] || '';
-  const street = lines.slice(0, -1).join(', ') || lines[0] || '';
-
-  const match = lastLine.match(/^(.+),\s*([A-Z]{2})\s+(\d{5}(?:-\d{4})?)$/);
-  if (match) {
-    return {
-      street: street || lastLine,
-      city: match[1].trim(),
-      state: match[2],
-      zip: match[3],
-    };
-  }
-
-  return {
-    street: address.replace(/\n/g, ', '),
-    city: '',
-    state: '',
-    zip: '',
-  };
+// Extract structured city/state/zip from a unit-directory raw address
+// for searching and display in the UnitLookupModal.
+//
+// Delegates to the canonical `parseUnitAddress` helper (single source of
+// truth for the parse logic) after flattening the unit-directory's
+// `\n`-separated form to the comma-separated form that the helper
+// expects.
+//
+// The previous local `parseAddress` required a comma between city and
+// state, which only matched 212/3140 units (6.7%) — the other 93% had
+// space-separated city/state in `units.json` and ended up with empty
+// city/state/zip in their UnitInfo, breaking search-by-city/state.
+// `parseUnitAddress` accepts both separators, fixing this transparently.
+function extractCityStateZip(rawAddress: string): { city: string; state: string; zip: string } {
+  const flat = (rawAddress || '').replace(/\n/g, ', ');
+  const parts = parseUnitAddress(flat);
+  return { city: parts.city, state: parts.state, zip: parts.zip };
 }
 
 // Display labels for unit-type buckets in the accordion view.
@@ -144,7 +140,7 @@ export function loadUnitDirectory(): Promise<UnitDirectoryDatabase> {
     const unitsData = (mod.default ?? mod) as UnitsJsonShape;
 
     const allUnits: UnitInfo[] = unitsData.units.map((unit) => {
-      const parsed = parseAddress(unit.address || '');
+      const parsed = extractCityStateZip(unit.address || '');
       return {
         name: unit.name,
         abbrev: unit.abbrev,

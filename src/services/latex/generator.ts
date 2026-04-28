@@ -3,6 +3,7 @@ import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distributio
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { safeUrl } from '@/lib/url-safety';
+import { splitAddressForLetterhead } from '@/lib/unitAddress';
 
 interface DocumentStore {
   docType: string;
@@ -242,21 +243,11 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
 export function generateLetterheadTex(store: DocumentStore): string {
   const data = store.formData;
 
-  // Parse address: format is "Street/Box, City, State ZIP" (comma-separated)
-  // Only split into two lines when there are 2+ commas (street + city/state).
-  // A single comma like "PRESIDIO OF MONTEREY, CA 93944" stays on one line.
-  const rawAddress = (data.unitAddress || '').trim();
-  const commaCount = (rawAddress.match(/,/g) || []).length;
-  let addressLine1: string;
-  let addressLine2: string;
-  if (commaCount >= 2) {
-    const firstComma = rawAddress.indexOf(',');
-    addressLine1 = rawAddress.slice(0, firstComma).trim();
-    addressLine2 = rawAddress.slice(firstComma + 1).trim();
-  } else {
-    addressLine1 = rawAddress;
-    addressLine2 = '';
-  }
+  // Split `unitAddress` into letterhead lines 3 and 4 via the shared
+  // helper (single source of truth — flat-generator.ts uses the same).
+  const { line1: addressLine1, line2: addressLine2 } = splitAddressForLetterhead(
+    data.unitAddress || ''
+  );
 
   // Check if unit line 2 has content
   const hasLine2 = !!data.unitLine2?.trim();
