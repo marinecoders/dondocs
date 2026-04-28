@@ -36,6 +36,12 @@
  *       sees the full text and can edit. compose() still emits the
  *       exact input back.
  *
+ *   FPO/APO/DPO entries                      632/632 stable AND
+ *                                            preserve "FPO AP NNNNN"
+ *                                            (no comma between post
+ *                                            designator and state)
+ *                                            per USPS Pub 28 §38.
+ *
  *   Edge cases (empty, partial, mid-typing, multi-comma, whitespace,
  *   null/undefined inputs)                   all stable
  *
@@ -43,8 +49,9 @@
  *   compose(parse(s)) === compose(parse(compose(parse(s))))
  *
  * "Comma-canonical" outputs (where input "CITY STATE ZIP" recomposes
- * to "CITY, STATE ZIP") are expected and match the format the LaTeX
- * generator already produces.
+ * to "CITY, STATE ZIP") are expected for civilian addresses and match
+ * the format the LaTeX generator already produces. Military post
+ * addresses are space-separated.
  * ─────────────────────────────────────────────────────────────────────
  */
 
@@ -128,9 +135,17 @@ export function parseUnitAddress(raw: string | undefined | null): UnitAddressPar
  *     "State Zip" join (just "Zip" survives)
  *   - All-empty parts → empty string
  *
+ * Military post offices (FPO/APO/DPO) are space-separated from their
+ * state code per USPS Publication 28 §38, e.g. "FPO AP 96604-5602"
+ * not "FPO, AP 96604-5602". Civilian addresses keep the comma between
+ * city and state, matching the format the LaTeX letterhead generator
+ * has historically emitted (e.g. "CAMP PENDLETON, CA 92055-5190").
+ *
  * Note: we do not validate the state/zip format here (that's the
  * input's job). This function only handles assembly.
  */
+const MILITARY_POST_REGEX = /^(FPO|APO|DPO)$/i;
+
 export function composeUnitAddress(parts: UnitAddressParts): string {
   const street = parts.street.trim();
   const city = parts.city.trim();
@@ -140,11 +155,16 @@ export function composeUnitAddress(parts: UnitAddressParts): string {
   // "State Zip" segment. State is only included when it's exactly 2
   // characters so we don't emit a half-typed state like "C 92055"
   // that would then fail to parse on the next round-trip.
-  const stateZip =
-    state.length === 2 && zip
-      ? `${state} ${zip}`
-      : zip || (state.length === 2 ? state : '');
+  const validState = state.length === 2 ? state : '';
+  const stateZip = [validState, zip].filter(Boolean).join(' ');
 
-  const cityStateZip = [city, stateZip].filter(Boolean).join(', ');
+  // FPO/APO/DPO addresses use space (not comma) between the post
+  // designator and the state code. This preserves the canonical
+  // 632-entry-strong unit-directory format on round-trip.
+  const isMilitaryPost = MILITARY_POST_REGEX.test(city) && (validState || zip);
+  const cityStateZip = isMilitaryPost
+    ? [city, stateZip].filter(Boolean).join(' ')
+    : [city, stateZip].filter(Boolean).join(', ');
+
   return [street, cityStateZip].filter(Boolean).join(', ');
 }

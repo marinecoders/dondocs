@@ -89,6 +89,12 @@ export function LetterheadSection() {
     setField('unitLine1', letterhead.line1);
     // Line 2: Parent/higher command (e.g., "1ST MARINE DIVISION")
     setField('unitLine2', letterhead.line2);
+    // Safety-belt: clear the own-write marker before writing the
+    // unit's address so the formData→local sync useEffect always
+    // re-parses the new value, even in the (very unlikely) case
+    // where formatLetterhead's output is byte-identical to the
+    // last user-typed compose result.
+    lastWriteRef.current = null;
     // Line 3: Address
     setField('unitAddress', letterhead.address);
   };
@@ -283,6 +289,9 @@ export function LetterheadSection() {
                       placeholder="NC"
                       maxLength={2}
                       className="uppercase"
+                      autoCapitalize="characters"
+                      autoCorrect="off"
+                      spellCheck={false}
                     />
                   </div>
 
@@ -298,6 +307,8 @@ export function LetterheadSection() {
                       value={addressParts.zip}
                       onChange={(e) => updateAddressPart('zip', e.target.value)}
                       placeholder="28533-0050"
+                      inputMode="numeric"
+                      pattern="[0-9-]*"
                     />
                   </div>
                 </div>
