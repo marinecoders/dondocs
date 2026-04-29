@@ -111,6 +111,16 @@ export function wrapTextForForm(
     const body = para.slice(leadingPrefix.length);
     const words = body.split(/\s+/).filter((w) => w.length > 0);
 
+    // No body words after the leading prefix — typically a label-only
+    // paragraph the user is mid-typing (e.g. "1. " or "   a. ") or an
+    // intentional empty list item between content paragraphs. Preserve
+    // the prefix as a standalone line; without this branch we'd drop
+    // the line entirely and the user's "1." would silently vanish.
+    if (words.length === 0) {
+      lines.push(leadingPrefix);
+      continue;
+    }
+
     let currentPrefix = leadingPrefix;
     let currentText = '';
 
