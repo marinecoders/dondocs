@@ -308,6 +308,21 @@ export function ClassificationSection() {
                 </div>
 
                 <div className="space-y-2">
+                  <Label htmlFor="classReason">Reason</Label>
+                  <Input
+                    id="classReason"
+                    value={formData.classReason || ''}
+                    onChange={(e) => setField('classReason', e.target.value)}
+                    placeholder="e.g., 1.4(a), 1.4(c), 1.4(g) — EO 13526 §1.4 classification reason"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Per EO 13526 §1.4 — the original-classification authority's
+                    declared reason category. Only required when "Classified
+                    by" is set (i.e. originally classified, not derivatively).
+                  </p>
+                </div>
+
+                <div className="space-y-2">
                   <Label htmlFor="declassifyOn">Declassify On</Label>
                   <Input
                     id="declassifyOn"
