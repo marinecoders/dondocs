@@ -1,4 +1,5 @@
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import { wrapTextForForm } from './textWrap';
 
 // NAVMC 10274 - Administrative Action
 // This generator loads the official form templates and overlays text
@@ -201,46 +202,12 @@ const PAGE3_FIELDS = {
   },
 };
 
-/**
- * Wrap text to fit within a max width
- */
-function wrapText(
-  text: string,
-  maxWidth: number,
-  font: Awaited<ReturnType<typeof PDFDocument.prototype.embedFont>>,
-  fontSize: number
-): string[] {
-  const lines: string[] = [];
-  const paragraphs = text.split('\n');
-
-  for (const paragraph of paragraphs) {
-    if (!paragraph.trim()) {
-      lines.push('');
-      continue;
-    }
-
-    const words = paragraph.split(' ');
-    let currentLine = '';
-
-    for (const word of words) {
-      const testLine = currentLine ? `${currentLine} ${word}` : word;
-      const width = font.widthOfTextAtSize(testLine, fontSize);
-
-      if (width > maxWidth && currentLine) {
-        lines.push(currentLine);
-        currentLine = word;
-      } else {
-        currentLine = testLine;
-      }
-    }
-
-    if (currentLine) {
-      lines.push(currentLine);
-    }
-  }
-
-  return lines;
-}
+// `wrapText` previously lived here as an inline helper; it's now extracted
+// to `./textWrap.ts` (`wrapTextForForm`) and shared with navmc11811Generator.
+// The new implementation also fixes issue #24 — continuation lines of a
+// wrapped sub-paragraph now hang at the SECNAV-correct position instead of
+// dropping back to the box's left margin.
+const wrapText = wrapTextForForm;
 
 /**
  * Draw multi-line text on a page with placeholder highlighting
