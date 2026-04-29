@@ -1,4 +1,5 @@
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import { wrapTextForForm } from './textWrap';
 
 // NAVMC 118(11) - Administrative Remarks (Page 11 / 6105)
 // This generator loads the official form template and overlays text
@@ -168,46 +169,11 @@ const FIELDS = {
   },
 };
 
-/**
- * Wrap text to fit within a max width
- */
-function wrapText(
-  text: string,
-  maxWidth: number,
-  font: Awaited<ReturnType<typeof PDFDocument.prototype.embedFont>>,
-  fontSize: number
-): string[] {
-  const lines: string[] = [];
-  const paragraphs = text.split('\n');
-
-  for (const paragraph of paragraphs) {
-    if (!paragraph.trim()) {
-      lines.push('');
-      continue;
-    }
-
-    const words = paragraph.split(' ');
-    let currentLine = '';
-
-    for (const word of words) {
-      const testLine = currentLine ? `${currentLine} ${word}` : word;
-      const width = font.widthOfTextAtSize(testLine, fontSize);
-
-      if (width > maxWidth && currentLine) {
-        lines.push(currentLine);
-        currentLine = word;
-      } else {
-        currentLine = testLine;
-      }
-    }
-
-    if (currentLine) {
-      lines.push(currentLine);
-    }
-  }
-
-  return lines;
-}
+// `wrapText` was a duplicate copy of the same helper in navmc10274Generator;
+// both are now shared via `./textWrap.ts` (`wrapTextForForm`). The new
+// implementation fixes issue #24 — wrapped sub-paragraphs preserve their
+// SECNAV-style hanging indent on continuation lines.
+const wrapText = wrapTextForForm;
 
 /**
  * Generate a filled NAVMC 118(11) form

@@ -448,7 +448,12 @@ function editorToText(editor: ReturnType<typeof useEditor>): string {
     paragraphs.push(paraText);
   });
 
-  return paragraphs.join('\n').trim();
+  // Strip TRAILING newlines/whitespace only — never leading. The user is
+  // allowed to type "    test" or "\ta. ..." (leading whitespace is
+  // meaningful for SECNAV-style sub-paragraphs), and a blanket `.trim()`
+  // would silently delete it on every onUpdate, dropping the indent
+  // before the value reaches the store.
+  return paragraphs.join('\n').replace(/\s+$/, '');
 }
 
 // Convert a single line of text to HTML (escaping, LaTeX formatting, variables)
@@ -574,6 +579,20 @@ interface VariableChipEditorProps {
   placeholder?: string;
   className?: string;
   rows?: number;
+  /**
+   * If true, pressing Tab inserts 4 literal spaces (matching the SECNAV
+   * 0.25" sub-paragraph indent and the wrap helper's TAB_AS_SPACES
+   * constant). Used by NAVMC 10274 / 118-11 form fields where users need
+   * to indent SECNAV-style sub-paragraphs directly in the textarea.
+   *
+   * Defaults to false so other consumers (e.g. correspondence body
+   * paragraphs in ParagraphsEditor, where indentation is controlled by
+   * `paragraph.level` rather than leading whitespace) keep the browser's
+   * native Tab → focus-next-element behavior. Without this gate, every
+   * VariableChipEditor in the app would swallow Tab, breaking keyboard
+   * navigation everywhere.
+   */
+  tabInsertsSpaces?: boolean;
 }
 
 export function VariableChipEditor({
@@ -582,6 +601,7 @@ export function VariableChipEditor({
   placeholder = 'Type @ to insert variables...',
   className,
   rows = 3,
+  tabInsertsSpaces = false,
 }: VariableChipEditorProps) {
   const [isFocused, setIsFocused] = useState(false);
   const lastValue = useRef(value);
@@ -613,10 +633,53 @@ export function VariableChipEditor({
       VariableExtension,
     ],
     content: textToEditorHtml(value),
+    // Preserve consecutive whitespace through HTML parsing. ProseMirror's
+    // default parser uses HTML's "normal" whitespace rules — runs of
+    // spaces collapse to a single space — which would drop SECNAV-style
+    // sub-paragraph indents like "    a. ..." back to "a. ..." every
+    // time the editor reloads its content from the form store. With
+    // preserveWhitespace: 'full', the spaces survive parsing both for
+    // initial content and for `setContent` calls in the value-sync
+    // useEffect below.
+    parseOptions: { preserveWhitespace: 'full' },
     editorProps: {
       attributes: {
-        class: 'prose prose-sm dark:prose-invert max-w-none focus:outline-none px-3 py-2',
+        // `whitespace-pre-wrap` overrides Tailwind's `prose` default
+        // (white-space: normal) so multiple spaces typed by the user —
+        // both via the Space key and via the Tab handler below — render
+        // literally instead of collapsing to a single space. The PDF
+        // generator already preserves them; this just keeps the editor
+        // visually faithful to what gets generated.
+        class: 'prose prose-sm dark:prose-invert max-w-none focus:outline-none px-3 py-2 whitespace-pre-wrap',
         style: `min-height: ${rows * 24}px`,
+      },
+      // Tab key inserts 4 spaces (matching the SECNAV 0.25" / wrap-helper
+      // `TAB_AS_SPACES` convention) so users can indent sub-paragraphs
+      // directly in Field 12 / 13 / Page-11 entries instead of having to
+      // type four spaces or paste pre-formatted text. Shift+Tab is left
+      // to its default (move focus to previous field) so keyboard
+      // navigation still works for getting out of the editor.
+      //
+      // Gated behind `tabInsertsSpaces` so consumers that DON'T want this
+      // (e.g. correspondence body paragraphs, where indentation is
+      // already handled via `paragraph.level`) keep Tab → focus-next-
+      // element. Without this gate, the shared component would swallow
+      // Tab in every editor instance, breaking keyboard navigation in
+      // the SECNAV correspondence flow.
+      handleKeyDown(view, event) {
+        if (
+          tabInsertsSpaces &&
+          event.key === 'Tab' &&
+          !event.shiftKey &&
+          !event.ctrlKey &&
+          !event.metaKey &&
+          !event.altKey
+        ) {
+          event.preventDefault();
+          view.dispatch(view.state.tr.insertText('    '));
+          return true;
+        }
+        return false;
       },
     },
     onUpdate: ({ editor }) => {
@@ -636,7 +699,13 @@ export function VariableChipEditor({
     if (!editor || value === lastValue.current) return;
     lastValue.current = value;
     currentValue.current = value;
-    editor.commands.setContent(textToEditorHtml(value));
+    // Same `preserveWhitespace: 'full'` as the initial parseOptions —
+    // setContent uses its own parse pass, so the option must be passed
+    // here too or every store-driven re-render would drop leading
+    // whitespace from sub-paragraphs.
+    editor.commands.setContent(textToEditorHtml(value), {
+      parseOptions: { preserveWhitespace: 'full' },
+    });
   }, [value, editor]);
 
   // Register any variables found in the initial value
