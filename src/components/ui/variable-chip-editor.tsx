@@ -615,8 +615,28 @@ export function VariableChipEditor({
     content: textToEditorHtml(value),
     editorProps: {
       attributes: {
-        class: 'prose prose-sm dark:prose-invert max-w-none focus:outline-none px-3 py-2',
+        // `whitespace-pre-wrap` overrides Tailwind's `prose` default
+        // (white-space: normal) so multiple spaces typed by the user —
+        // both via the Space key and via the Tab handler below — render
+        // literally instead of collapsing to a single space. The PDF
+        // generator already preserves them; this just keeps the editor
+        // visually faithful to what gets generated.
+        class: 'prose prose-sm dark:prose-invert max-w-none focus:outline-none px-3 py-2 whitespace-pre-wrap',
         style: `min-height: ${rows * 24}px`,
+      },
+      // Tab key inserts 4 spaces (matching the SECNAV 0.25" / wrap-helper
+      // `TAB_AS_SPACES` convention) so users can indent sub-paragraphs
+      // directly in Field 12 / 13 / Page-11 entries instead of having to
+      // type four spaces or paste pre-formatted text. Shift+Tab is left
+      // to its default (move focus to previous field) so keyboard
+      // navigation still works for getting out of the editor.
+      handleKeyDown(view, event) {
+        if (event.key === 'Tab' && !event.shiftKey && !event.ctrlKey && !event.metaKey && !event.altKey) {
+          event.preventDefault();
+          view.dispatch(view.state.tr.insertText('    '));
+          return true;
+        }
+        return false;
       },
     },
     onUpdate: ({ editor }) => {
