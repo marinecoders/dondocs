@@ -48,5 +48,33 @@ export default defineConfig({
     // is reproducible on another. fast-check itself adds the seed to any
     // failure message so reduction is still possible.
     globals: false,
+    coverage: {
+      provider: 'v8',
+      // Whole-source thresholds. Set just below the current numbers
+      // (Statements 9.21%, Branches 7.87%, Functions 7.15%, Lines 9.54%)
+      // so a future PR can't accidentally drop coverage by removing tests
+      // — even one test file going missing fails the gate. Bump these
+      // upward as the suite grows.
+      thresholds: {
+        statements: 9,
+        branches: 7,
+        functions: 7,
+        lines: 9,
+      },
+      // Report on the whole src/ surface, not just imported files. That
+      // way the threshold reflects the actual proportion of the codebase
+      // under test, and "I added a new module" → "I owe a test" is
+      // visible in the percent rather than masked by averaging only over
+      // already-tested files.
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: [
+        // Exclude generated / static / type-only / config files.
+        'src/**/*.d.ts',
+        'src/**/*.test.{ts,tsx}',
+        'src/main.tsx',
+        'src/vite-env.d.ts',
+      ],
+      reporter: ['text-summary', 'json-summary'],
+    },
   },
 });
