@@ -139,11 +139,17 @@ describe('wrapSubjectLine', () => {
     expect(wrapSubjectLine('')).toEqual([]);
   });
 
-  it('preserves word content modulo whitespace collapse', () => {
+  it('preserves all non-whitespace characters in order', () => {
+    // The function may slice mid-word for inputs containing a single word
+    // longer than `maxLength` (the loop falls back to a hard cut when no
+    // space is available before the boundary). So a "preserves words"
+    // property would have false positives — instead, assert the strictly
+    // weaker but still-meaningful invariant: all non-whitespace
+    // characters survive in the same order. That catches any "drops a
+    // character" regression without false-failing on legitimate hard
+    // cuts.
     fc.assert(
       fc.property(
-        // Restrict to printable ASCII without leading/trailing whitespace
-        // so the property is meaningful (the function trims each line).
         fc
           .stringMatching(/^[A-Za-z0-9 ,.;:'-]{1,200}$/)
           .map((s) => s.replace(/\s+/g, ' ').trim())
@@ -151,9 +157,9 @@ describe('wrapSubjectLine', () => {
         fc.integer({ min: 20, max: 80 }),
         (subject, max) => {
           const lines = wrapSubjectLine(subject, max);
-          const inputWords = subject.split(/\s+/).filter((w) => w.length > 0);
-          const outputWords = lines.join(' ').split(/\s+/).filter((w) => w.length > 0);
-          expect(outputWords.sort()).toEqual(inputWords.sort());
+          const inputChars = subject.replace(/\s+/g, '');
+          const outputChars = lines.join('').replace(/\s+/g, '');
+          expect(outputChars).toBe(inputChars);
         }
       ),
       { numRuns: 200 }
