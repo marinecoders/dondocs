@@ -145,7 +145,10 @@ export function ClassificationSection() {
       <AccordionItem value="classification">
         <AccordionTrigger>
           <div className="flex items-center gap-2">
-            <Shield className="h-4 w-4" />
+            <Shield
+              className={`h-4 w-4 ${classLevel === 'custom' ? 'text-gray-600' : currentLevel?.color || 'text-foreground'}`}
+              style={{ fill: 'currentColor', fillOpacity: 0.2 }}
+            />
             Classification
             <span className={`text-xs font-medium ${classLevel === 'custom' ? 'text-gray-600' : currentLevel?.color}`}>
               ({classLevel === 'custom' ? 'Custom' : currentLevel?.label})
