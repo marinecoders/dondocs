@@ -83,10 +83,17 @@ export function countTotalWords(paragraphs: ParagraphLike[]): number {
 }
 
 /**
- * Get indent string for a paragraph level (for plain text output)
+ * Get indent string for a paragraph level (for plain text output).
+ *
+ * Clamps the resulting count to ≥ 0 so a negative `level` or
+ * `spacesPerLevel` doesn't trip `String.prototype.repeat`'s
+ * RangeError (it throws on negative counts). Surfaced by the fuzz
+ * suite — in production, `level` is always 0..MAX_DEPTH, but
+ * defensive clamping costs nothing and prevents a crash if a
+ * corrupted-state path ever produces a negative.
  */
 export function getIndentString(level: number, spacesPerLevel: number = 4): string {
-  return ' '.repeat(level * spacesPerLevel);
+  return ' '.repeat(Math.max(0, level * spacesPerLevel));
 }
 
 /**

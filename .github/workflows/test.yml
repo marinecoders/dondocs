@@ -1,0 +1,90 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel in-progress runs when a new commit lands on the same PR / branch.
+# Each push gets a fresh, definitive result.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: ${{ matrix.task }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        # Node 22 is the current Active LTS (supported through April 2027)
+        # and what Cloudflare Pages runs by default. The codebase ships to
+        # browsers, not Node, so the only Node-specific surface is the
+        # build / test tooling. Single version is enough.
+        task: [unit, typecheck]
+        # Lint deliberately omitted from the matrix until a separate
+        # cleanup PR drops the baseline `react-refresh/only-export-
+        # components` errors. Adding lint to CI now would block every
+        # PR on pre-existing noise. Tracked as a follow-up.
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: install
+        run: npm ci
+
+      - name: run task
+        run: |
+          case "${{ matrix.task }}" in
+            unit)      npm test ;;
+            typecheck) npx tsc --noEmit ;;
+          esac
+
+  coverage:
+    # Coverage gate. Thresholds live in vitest.config.ts and are set
+    # just below the current numbers, so a PR that drops coverage
+    # (e.g. removes a test file) fails the gate. Bump thresholds
+    # upward as the suite grows.
+    name: coverage threshold
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run test:coverage
+
+  build:
+    # Verifies the production bundle still compiles with the test changes
+    # in place. Catches "the test setup leaked into the bundle" mistakes.
+    name: production build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+      - name: assert no test file in dist
+        # Sanity check: tests/ MUST NOT end up in the production bundle.
+        # If this finds anything, our tsconfig.app.json `include` got
+        # widened or a test file got accidentally imported from src/.
+        run: |
+          if find dist -name '*.test.*' -print -quit | grep -q .; then
+            echo "::error::Test files found in dist/ — production bundle contaminated"
+            find dist -name '*.test.*'
+            exit 1
+          fi
