@@ -37,6 +37,7 @@ import {
   type DownloadProgressPhase,
 } from '@/components/modals/downloadProgressTypes';
 import { parseShareUrl } from '@/lib/shareCrypto';
+import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { BrowserCompatibilityNotice } from '@/components/BrowserCompatibilityNotice';
 import { BackgroundBeams } from '@/components/effects/BackgroundBeams';
 const marineCodersLogo = `${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`;
@@ -323,7 +324,10 @@ function App() {
         department: profile.department,
         unitLine1: profile.unitLine1,
         unitLine2: profile.unitLine2,
-        unitAddress: profile.unitAddress,
+        // Canonicalize on read so legacy profiles (saved before PR #63's
+        // canonicalize-on-pick fix) get the SECNAV-correct comma layout.
+        // No-op if the profile is already in canonical form.
+        unitAddress: canonicalizeUnitAddress(profile.unitAddress),
         ssic: profile.ssic,
         from: profile.from,
         sigFirst: profile.sigFirst,

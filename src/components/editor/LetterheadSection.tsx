@@ -23,6 +23,7 @@ import { DOC_TYPE_CONFIG } from '@/types/document';
 import {
   parseUnitAddress,
   composeUnitAddress,
+  canonicalizeUnitAddress,
   type UnitAddressParts,
 } from '@/lib/unitAddress';
 
@@ -89,20 +90,14 @@ export function LetterheadSection() {
     setField('unitLine1', letterhead.line1);
     // Line 2: Parent/higher command (e.g., "1ST MARINE DIVISION")
     setField('unitLine2', letterhead.line2);
-    // Canonicalize the address through parse/compose. The unit
-    // directory stores addresses as "STREET\nCITY STATE ZIP" with
-    // no comma between city and state, which `formatLetterhead`
-    // flattens to "STREET, CITY STATE ZIP" (1 comma). The downstream
-    // generator only splits onto two letterhead lines when there are
-    // 2+ commas, so without canonicalization the address would
-    // render on a single line with street and city/state/zip smushed
-    // together — wrong per SECNAV M-5216.5.
-    //
-    // Canonicalizing through parse/compose adds the missing comma
-    // between city and state for civilian addresses (and preserves
-    // the no-comma form for FPO/APO/DPO per USPS Pub 28 §38) so the
-    // generator splits correctly into "STREET" / "CITY, STATE ZIP".
-    const canonicalAddress = composeUnitAddress(parseUnitAddress(letterhead.address));
+    // Canonicalize the unit-directory address. The directory stores
+    // addresses as "STREET\nCITY STATE ZIP" (no comma between city
+    // and state), and without canonicalization the address would
+    // render on a single letterhead line for civilian entries —
+    // wrong per SECNAV M-5216.5. canonicalizeUnitAddress adds the
+    // missing comma for civilian addresses and preserves the
+    // no-comma form for FPO/APO/DPO per USPS Pub 28 §38.
+    const canonicalAddress = canonicalizeUnitAddress(letterhead.address);
     // Safety-belt: clear the own-write marker before writing so the
     // formData→local sync useEffect always re-parses the new value,
     // even in the (very unlikely) case where the canonical address

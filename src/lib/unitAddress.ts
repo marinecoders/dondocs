@@ -170,25 +170,57 @@ export function composeUnitAddress(parts: UnitAddressParts): string {
 }
 
 /**
+ * Idempotent normalization: parse + recompose so the result uses the
+ * canonical comma layout the LaTeX letterhead generator expects.
+ *
+ * Apply this when reading a unitAddress from a source that may not
+ * be in canonical form — legacy profiles saved before PR #63, raw
+ * unit-directory entries, user-pasted strings, etc. Civilian
+ * addresses gain the comma between city and state if missing
+ * ("CAMP PENDLETON CA 92055" → "CAMP PENDLETON, CA 92055"); FPO/APO
+ * addresses retain their no-comma form ("FPO AP 96604-5602") per
+ * USPS Pub 28 §38.
+ *
+ * compose() is round-trip stable, so applying this to an
+ * already-canonical address is a no-op.
+ */
+export function canonicalizeUnitAddress(rawAddress: string): string {
+  return composeUnitAddress(parseUnitAddress(rawAddress));
+}
+
+/**
  * Split a `unitAddress` string into the two address lines the LaTeX
  * letterhead expects: line 3 (street/box) and line 4 (city/state/zip).
  *
- * Convention: when the address has 2+ commas, split on the FIRST one —
- * the street goes to line 3, the rest (city, state, zip) to line 4.
- * Addresses with only 1 comma (e.g. "PRESIDIO OF MONTEREY, CA 93944"
- * — no street) stay on a single line. Addresses with 0 commas (just
- * "NORFOLK VA 23511-2494") also stay on a single line.
+ * Convention:
+ *   - 2+ commas → split on the FIRST one. Street goes to line 3,
+ *     the rest (city, state, zip) to line 4.
+ *   - Exactly 1 comma AND the post-comma portion starts with a
+ *     military post designator (FPO/APO/DPO) → split on the comma.
+ *     This handles the 632 unit-directory entries with addresses like
+ *     "UNIT 35602, FPO AP 96604-5602" where USPS Pub 28 §38 forbids a
+ *     comma between the post designator and the state code, so the
+ *     compose intentionally produces only 1 comma. Without this
+ *     special case, FPO/APO addresses would render with street and
+ *     post-line jammed onto a single letterhead line — wrong per
+ *     SECNAV M-5216.5.
+ *   - 1 comma civilian (e.g. "PRESIDIO OF MONTEREY, CA 93944") → stay
+ *     on a single line (no street present).
+ *   - 0 commas (e.g. "NORFOLK VA 23511-2494") → stay on a single line.
  *
  * Both `generator.ts` (DOCX) and `flat-generator.ts` (PDF) had identical
  * inline copies of this logic before extraction — keeping it here as the
  * single source of truth ensures the two output formats stay in sync.
  */
+const MILITARY_POST_LINE_PREFIX_REGEX = /^(FPO|APO|DPO)\s/i;
+
 export function splitAddressForLetterhead(rawAddress: string): {
   line1: string;
   line2: string;
 } {
   const trimmed = (rawAddress || '').trim();
   const commaCount = (trimmed.match(/,/g) || []).length;
+
   if (commaCount >= 2) {
     const firstComma = trimmed.indexOf(',');
     return {
@@ -196,5 +228,17 @@ export function splitAddressForLetterhead(rawAddress: string): {
       line2: trimmed.slice(firstComma + 1).trim(),
     };
   }
+
+  if (commaCount === 1) {
+    const firstComma = trimmed.indexOf(',');
+    const afterComma = trimmed.slice(firstComma + 1).trim();
+    if (MILITARY_POST_LINE_PREFIX_REGEX.test(afterComma)) {
+      return {
+        line1: trimmed.slice(0, firstComma).trim(),
+        line2: afterComma,
+      };
+    }
+  }
+
   return { line1: trimmed, line2: '' };
 }

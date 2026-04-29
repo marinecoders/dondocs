@@ -38,6 +38,7 @@ import { useDocumentStore } from '@/stores/documentStore';
 import type { Profile, SignatureImage } from '@/types/document';
 import type { UnitInfo } from '@/data/unitDirectory';
 import { ALL_SERVICE_RANKS, formatRank } from '@/data/ranks';
+import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 
 // Convert ArrayBuffer to base64
 function arrayBufferToBase64(buffer: ArrayBuffer): string {
@@ -314,11 +315,16 @@ export function ProfileModal() {
   }, []);
 
   const handleUnitSelect = (unit: UnitInfo) => {
+    // Canonicalize the address so the saved profile uses the
+    // SECNAV-correct format. Same fix as LetterheadSection.
+    const canonicalAddress = canonicalizeUnitAddress(
+      unit.address.replace(/\n/g, ', ')
+    );
     setFormState((prev) => ({
       ...prev,
       unitLine1: unit.name.toUpperCase(),
       unitLine2: unit.parentUnit?.toUpperCase() || '',
-      unitAddress: unit.address.replace(/\n/g, ', '),
+      unitAddress: canonicalAddress,
     }));
   };
 
