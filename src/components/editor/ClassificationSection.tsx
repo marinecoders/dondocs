@@ -83,8 +83,13 @@ const CLASSIFICATION_LEVELS = [
  * banner. Tailwind's `/N` opacity modifier produces the soft fill
  * (`/10` light theme, `/20` dark theme) without sacrificing contrast.
  *
- * For TOP SECRET//SCI specifically, CAPCO banners use yellow #FCE83A
- * as a BACKGROUND with BLACK text — replicated here.
+ * All 6 buttons share the same tinted-background visual treatment for
+ * consistency on hover (the previous SCI variant used a solid yellow
+ * with `hover:bg-[#FCE83A]/80` — that faded paler on hover against
+ * white, looking awkward next to the other 5 buttons that darken on
+ * hover). SCI text uses the darker `#A8920E` amber so the (TS//SCI)
+ * label is readable on a yellow-tinted background even in light mode;
+ * dark mode keeps the bright `#FCE83A` since the tint is darker there.
  */
 const CLASSIFICATION_PRESETS = [
   { value: 'UNCLASSIFIED',    label: 'Unclassified',    color: 'text-[#007A33] dark:text-[#3DBE6B]', bg: 'bg-[#007A33]/10 dark:bg-[#007A33]/20 border-[#007A33]/30 hover:bg-[#007A33]/20 dark:hover:bg-[#007A33]/30' },
@@ -92,8 +97,7 @@ const CLASSIFICATION_PRESETS = [
   { value: 'CONFIDENTIAL',    label: 'CONFIDENTIAL',    color: 'text-[#0033A0] dark:text-[#5B7FD9]', bg: 'bg-[#0033A0]/10 dark:bg-[#0033A0]/20 border-[#0033A0]/30 hover:bg-[#0033A0]/20 dark:hover:bg-[#0033A0]/30' },
   { value: 'SECRET',          label: 'SECRET',          color: 'text-[#C8102E] dark:text-[#E74C5C]', bg: 'bg-[#C8102E]/10 dark:bg-[#C8102E]/20 border-[#C8102E]/30 hover:bg-[#C8102E]/20 dark:hover:bg-[#C8102E]/30' },
   { value: 'TOP SECRET',      label: 'TOP SECRET',      color: 'text-[#FF8C00] dark:text-[#FFA940]', bg: 'bg-[#FF8C00]/10 dark:bg-[#FF8C00]/20 border-[#FF8C00]/30 hover:bg-[#FF8C00]/20 dark:hover:bg-[#FF8C00]/30' },
-  // TS//SCI: CAPCO standard is yellow background with black text.
-  { value: 'TOP SECRET//SCI', label: 'TOP SECRET//SCI', color: 'text-black dark:text-black', bg: 'bg-[#FCE83A] border-[#A8920E] hover:bg-[#FCE83A]/80 dark:bg-[#FCE83A] dark:hover:bg-[#FCE83A]/80' },
+  { value: 'TOP SECRET//SCI', label: 'TOP SECRET//SCI', color: 'text-[#A8920E] dark:text-[#FCE83A]', bg: 'bg-[#FCE83A]/20 dark:bg-[#FCE83A]/20 border-[#A8920E]/40 hover:bg-[#FCE83A]/40 dark:hover:bg-[#FCE83A]/30' },
 ];
 
 const CUI_CATEGORIES = [
