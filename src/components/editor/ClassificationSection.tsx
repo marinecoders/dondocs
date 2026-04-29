@@ -39,6 +39,29 @@ const CLASSIFICATION_LEVELS = [
   { value: 'top_secret_sci', label: 'TOP SECRET//SCI', color: 'text-orange-700' },
 ];
 
+/**
+ * Quick-fill marking presets shown in the Custom Classification block.
+ *
+ * Each preset is a one-click shortcut that populates the
+ * `customClassification` field with a standard marking string. Colors
+ * match the corresponding entries in CLASSIFICATION_LEVELS so a user
+ * looking at the Classification Level dropdown sees the same colored
+ * label here. On non-government domains the classified-level options
+ * are filtered out of the dropdown, but the user can still legitimately
+ * use Custom Classification to format an unclassified DRAFT that will
+ * be marked on an accredited system later (per the amber notice in the
+ * Custom block) — these presets save them from typing each marking by
+ * hand.
+ */
+const CLASSIFICATION_PRESETS = [
+  { value: 'UNCLASSIFIED',     label: 'Unclassified',    color: 'text-green-600',  bg: 'bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-950/50' },
+  { value: 'CUI',              label: 'CUI',             color: 'text-purple-600', bg: 'bg-purple-50 dark:bg-purple-950/30 border-purple-200 dark:border-purple-800 hover:bg-purple-100 dark:hover:bg-purple-950/50' },
+  { value: 'CONFIDENTIAL',     label: 'CONFIDENTIAL',    color: 'text-blue-600',   bg: 'bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-950/50' },
+  { value: 'SECRET',           label: 'SECRET',          color: 'text-red-600',    bg: 'bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-950/50' },
+  { value: 'TOP SECRET',       label: 'TOP SECRET',      color: 'text-orange-600', bg: 'bg-orange-50 dark:bg-orange-950/30 border-orange-200 dark:border-orange-800 hover:bg-orange-100 dark:hover:bg-orange-950/50' },
+  { value: 'TOP SECRET//SCI',  label: 'TOP SECRET//SCI', color: 'text-orange-700', bg: 'bg-orange-50 dark:bg-orange-950/30 border-orange-300 dark:border-orange-700 hover:bg-orange-100 dark:hover:bg-orange-950/50' },
+];
+
 const CUI_CATEGORIES = [
   'Privacy',
   'Proprietary Business Information',
@@ -245,6 +268,25 @@ export function ClassificationSection() {
                     fields below if your custom marking needs them; leave blank
                     otherwise.
                   </p>
+                  <div className="pt-1">
+                    <p className="text-xs text-muted-foreground mb-1.5">Quick fill (click to apply):</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {CLASSIFICATION_PRESETS.map((preset) => {
+                        const active = formData.customClassification === preset.value;
+                        return (
+                          <button
+                            key={preset.value}
+                            type="button"
+                            onClick={() => setField('customClassification', preset.value)}
+                            className={`px-2 py-0.5 text-xs font-medium rounded-md border transition-colors ${preset.color} ${preset.bg} ${active ? 'ring-2 ring-offset-1 ring-offset-background ring-current' : ''}`}
+                            title={`Set marking to "${preset.value}"`}
+                          >
+                            {preset.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
 
                 <div className="space-y-2">
