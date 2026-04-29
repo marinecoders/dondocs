@@ -40,10 +40,14 @@ describe('convertRichTextToLatex — marker substitution', () => {
 
   it('does not match `**` inside `***` (italic-then-bold edge — see issue #14)', () => {
     // Bold pattern is greedy but lazy on the inner group; italic uses a
-    // negative lookbehind to avoid sniping bold. Asserting both don't
-    // crash on adjacent triple-stars.
+    // negative lookbehind to avoid sniping bold. Two real assertions:
+    // (1) the user content "triplet" survives into the output, and
+    // (2) no orphan `**` markers leak through the conversion. The
+    // earlier version of this test only checked typeof === 'string',
+    // which trivially passed even when the function returned ''.
     const out = convertRichTextToLatex('***triplet***');
-    expect(typeof out).toBe('string');
+    expect(out).toContain('triplet');
+    expect(out).not.toMatch(/\*\*[^*]/); // no naked `**foo`
   });
 
   it('does not match a single `_` (preserves fill-in-the-blank lines)', () => {

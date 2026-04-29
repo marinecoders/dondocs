@@ -14,15 +14,16 @@ concurrency:
 
 jobs:
   test:
-    name: ${{ matrix.task }} (Node ${{ matrix.node }})
+    name: ${{ matrix.task }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
-        # Both LTS-current (20) and current (22) — catches "works on my
-        # machine, breaks on the CI runner's Node version" upgrades.
-        node: ['20', '22']
+        # Node 22 is the current Active LTS (supported through April 2027)
+        # and what Cloudflare Pages runs by default. The codebase ships to
+        # browsers, not Node, so the only Node-specific surface is the
+        # build / test tooling. Single version is enough.
         task: [unit, typecheck]
         # Lint deliberately omitted from the matrix until a separate
         # cleanup PR drops the baseline `react-refresh/only-export-
@@ -33,7 +34,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: '22'
           cache: 'npm'
 
       - name: install
@@ -47,10 +48,10 @@ jobs:
           esac
 
   coverage:
-    # Single run on Node 20 with a coverage gate. Thresholds live in
-    # vitest.config.ts and are set just below the current numbers, so
-    # a PR that drops coverage (e.g. removes a test file) fails the
-    # gate. Bump thresholds upward as the suite grows.
+    # Coverage gate. Thresholds live in vitest.config.ts and are set
+    # just below the current numbers, so a PR that drops coverage
+    # (e.g. removes a test file) fails the gate. Bump thresholds
+    # upward as the suite grows.
     name: coverage threshold
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -58,7 +59,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
       - run: npm ci
       - run: npm run test:coverage
@@ -73,7 +74,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
       - run: npm ci
       - run: npm run build
