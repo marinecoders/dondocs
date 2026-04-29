@@ -23,6 +23,7 @@ import { useDocumentStore } from '@/stores/documentStore';
 import { useHistoryStore } from '@/stores/historyStore';
 import { uint8ArrayToBase64, base64ToUint8Array, arrayBufferToUint8Array } from '@/lib/encoding';
 import { STORAGE_KEYS } from '@/lib/constants';
+import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { useLogStore } from '@/stores/logStore';
 
 interface HeaderProps {
@@ -327,7 +328,11 @@ export function Header({
           ds.setDocType(data.docType);
         }
         if (data.formData) {
-          ds.setFormData(data.formData);
+          // Canonicalize unitAddress on read (see App.tsx for rationale).
+          const formData = data.formData.unitAddress
+            ? { ...data.formData, unitAddress: canonicalizeUnitAddress(data.formData.unitAddress) }
+            : data.formData;
+          ds.setFormData(formData);
         }
         // Note: File data is not restored - user will need to re-attach PDFs
         flashSaveStatus('Loaded!');
@@ -452,7 +457,11 @@ export function Header({
 
         // Apply form data
         if (data.formData) {
-          ds.setFormData(data.formData);
+          // Canonicalize unitAddress on read (see App.tsx for rationale).
+          const formData = data.formData.unitAddress
+            ? { ...data.formData, unitAddress: canonicalizeUnitAddress(data.formData.unitAddress) }
+            : data.formData;
+          ds.setFormData(formData);
         }
 
         // Use loadTemplate for bulk loading (handles references, enclosures, paragraphs, copyTos)
