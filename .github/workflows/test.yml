@@ -1,0 +1,40 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel in-progress runs when a new commit lands on the same PR / branch.
+# Each push gets a fresh, definitive result.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit:
+    name: unit + property tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          # `cache: npm` reads package-lock.json and the lockfile hash to
+          # decide cache validity. Cuts ~30s off cold runs.
+          cache: 'npm'
+
+      - name: install
+        run: npm ci
+
+      - name: typecheck
+        run: npx tsc --noEmit
+
+      - name: test
+        # `npm test` runs `vitest run` (one-shot, no watch). The exit code
+        # is the gate: any failing assertion or thrown exception in any
+        # test file fails the job.
+        run: npm test
