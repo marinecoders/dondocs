@@ -147,11 +147,9 @@ export function ClassificationSection() {
           <div className="flex items-center gap-2">
             <Shield className="h-4 w-4" />
             Classification
-            {classLevel !== 'unclassified' && (
-              <span className={`text-xs font-medium ${classLevel === 'custom' ? 'text-gray-600' : currentLevel?.color}`}>
-                ({classLevel === 'custom' ? 'Custom' : currentLevel?.label})
-              </span>
-            )}
+            <span className={`text-xs font-medium ${classLevel === 'custom' ? 'text-gray-600' : currentLevel?.color}`}>
+              ({classLevel === 'custom' ? 'Custom' : currentLevel?.label})
+            </span>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild onClick={(e) => e.stopPropagation()}>
