@@ -240,11 +240,6 @@ export function LetterheadSection() {
 
               <div className="space-y-2">
                 <Label>Address</Label>
-                <p className="text-xs text-muted-foreground">
-                  Per SECNAV M-5216.5 letterhead format. Street/Box is
-                  optional; City, State, and ZIP appear together on the
-                  next line.
-                </p>
                 <div className="grid grid-cols-1 sm:grid-cols-6 gap-2">
                   <div className="sm:col-span-6 space-y-1">
                     <Label
