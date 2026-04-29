@@ -44,13 +44,24 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
+// Per-paragraph portion-mark colors aligned with the official CNSI / ISOO
+// banner palette (see CLASSIFICATION_LEVELS in ClassificationSection.tsx
+// for the citation block — EO 13526, 32 CFR 2001/2002, DoDM 5200.01,
+// CAPCO Register, ISOO Implementing Directive). Each level uses the
+// official code in light mode and a brighter readable variant in dark
+// mode so the contrast holds in either theme.
+//
+// FOUO was deprecated in favor of CUI per DoDI 5200.48 (2020), but
+// many legacy documents still use it; rendered here in the same purple
+// as CUI to signal the equivalence while keeping the marking selectable
+// for backwards compatibility.
 const PORTION_MARKING_OPTIONS: { value: PortionMarking; label: string; color: string }[] = [
-  { value: 'U', label: '(U)', color: 'text-green-600' },
-  { value: 'CUI', label: '(CUI)', color: 'text-purple-600' },
-  { value: 'FOUO', label: '(FOUO)', color: 'text-amber-600' },
-  { value: 'C', label: '(C)', color: 'text-blue-600' },
-  { value: 'S', label: '(S)', color: 'text-red-600' },
-  { value: 'TS', label: '(TS)', color: 'text-orange-600' },
+  { value: 'U',    label: '(U)',    color: 'text-[#007A33] dark:text-[#3DBE6B]' },
+  { value: 'CUI',  label: '(CUI)',  color: 'text-[#502B85] dark:text-[#9572D4]' },
+  { value: 'FOUO', label: '(FOUO)', color: 'text-[#502B85] dark:text-[#9572D4]' },
+  { value: 'C',    label: '(C)',    color: 'text-[#0033A0] dark:text-[#5B7FD9]' },
+  { value: 'S',    label: '(S)',    color: 'text-[#C8102E] dark:text-[#E74C5C]' },
+  { value: 'TS',   label: '(TS)',   color: 'text-[#FF8C00] dark:text-[#FFA940]' },
 ];
 
 const LEVEL_COLORS = [
