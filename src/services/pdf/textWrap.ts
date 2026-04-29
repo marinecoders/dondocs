@@ -40,6 +40,31 @@ interface PdfFontLike {
 const SECNAV_LABEL_REGEX = /^(\s*)((?:\d+\.|\([0-9a-zA-Z]+\)|[a-zA-Z]\.))(\s+)/;
 
 /**
+ * Tab → space normalization.
+ *
+ * pdf-lib's `widthOfTextAtSize` uses the embedded font's glyph table;
+ * tab characters typically don't have a glyph and either render as
+ * zero-width or get dropped silently — making the visual width
+ * unpredictable. The hanging-indent algorithm below treats the leading
+ * prefix as character-equivalent spaces, so a leading "\t" would be
+ * counted as 1 space (visually wrong: a tab is wider than a space in
+ * any font).
+ *
+ * Normalizing tab → 4 spaces up front gives:
+ *   - predictable rendering width
+ *   - correct hang-prefix computation
+ *   - consistent behavior whether the user typed spaces or pasted
+ *     tab-indented content from another editor
+ *
+ * 4 was picked as the common SECNAV-style sub-paragraph indent (Ch 7
+ * ¶13: "Each level indents 0.25" from the previous"). Most editors
+ * default to 4 too, so pasted content from Word / VSCode / etc.
+ * round-trips cleanly. The constant is here in case a future tweak
+ * (e.g. an 8-space convention for some forms) wants to override it.
+ */
+const TAB_AS_SPACES = '    ';
+
+/**
  * Split `text` into rendered lines that fit within `maxWidth` at the
  * given font/size. Preserves SECNAV-style hanging indent on
  * continuation lines: the same number of leading spaces as the
@@ -57,7 +82,9 @@ export function wrapTextForForm(
   fontSize: number
 ): string[] {
   const lines: string[] = [];
-  const paragraphs = text.split('\n');
+  // Normalize tabs to 4 spaces before any other processing — see
+  // TAB_AS_SPACES doc comment above.
+  const paragraphs = text.replace(/\t/g, TAB_AS_SPACES).split('\n');
 
   for (const para of paragraphs) {
     if (!para.trim()) {
