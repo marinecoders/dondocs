@@ -413,106 +413,17 @@ const VariableExtension = VariableNode.extend({
   },
 });
 
-// Convert editor content to {{VARIABLE}} text format with LaTeX formatting
-// Each ProseMirror paragraph becomes a line separated by \n
-function editorToText(editor: ReturnType<typeof useEditor>): string {
-  if (!editor) return '';
-  const paragraphs: string[] = [];
+// Pure text/HTML converters live in a sibling module so they can be
+// property-tested in isolation. The production component wires them up
+// with the customVariables store via the `deps` callbacks.
+import {
+  editorToText as editorToTextPure,
+  textToEditorHtml as textToEditorHtmlPure,
+} from './variable-chip-editor-text';
 
-  // Iterate over top-level paragraph nodes
-  editor.state.doc.forEach((paragraphNode) => {
-    let paraText = '';
-
-    paragraphNode.forEach((child) => {
-      if (child.type.name === 'variable') {
-        paraText += `{{${child.attrs.name}}}`;
-      } else if (child.type.name === 'hardBreak') {
-        paraText += '\n';
-      } else if (child.isText && child.text) {
-        let text = child.text;
-        // Apply markdown-style formatting markers
-        // processBodyText() expects these markers and converts them to LaTeX
-        const marks = child.marks;
-        const hasBold = marks.some(m => m.type.name === 'bold');
-        const hasItalic = marks.some(m => m.type.name === 'italic');
-        const hasUnderline = marks.some(m => m.type.name === 'underline');
-
-        if (hasBold) text = `**${text}**`;
-        if (hasItalic) text = `*${text}*`;
-        if (hasUnderline) text = `__${text}__`;
-
-        paraText += text;
-      }
-    });
-
-    paragraphs.push(paraText);
-  });
-
-  // Strip TRAILING newlines/whitespace only — never leading. The user is
-  // allowed to type "    test" or "\ta. ..." (leading whitespace is
-  // meaningful for SECNAV-style sub-paragraphs), and a blanket `.trim()`
-  // would silently delete it on every onUpdate, dropping the indent
-  // before the value reaches the store.
-  return paragraphs.join('\n').replace(/\s+$/, '');
-}
-
-// Convert a single line of text to HTML (escaping, LaTeX formatting, variables)
-function lineToHtml(line: string): string {
-  let html = line
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-
-  // Convert markdown formatting to HTML.
-  //
-  // The underline pattern uses `[^_]+?` (not `.+?`) so a run of 3+ raw
-  // underscores doesn't accidentally match as `__<empty>__`-with-tail
-  // and corrupt the user's input. Real fill-in-the-blank lines like
-  // `Signature: __________` show up in the editor as literal text
-  // instead of being silently shortened by the inline `<u>` rewrite.
-  //
-  // Round-trip caveat: TipTap's Underline mark imposes no character
-  // restriction, so technically a user could underline text that
-  // contains an underscore — `editorToText` then emits `__foo_bar__`,
-  // and this pattern won't re-detect it. The underline is lost on
-  // save+reload for that one rare case. The fill-in-the-blank case
-  // is far more common in naval correspondence, so we accept the
-  // trade. The matching change is mirrored in
-  // `services/latex/escaper.ts` and `services/latex/flat-generator.ts`
-  // so the PDF and DOCX export paths get the same fix. Issue #14.
-  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  html = html.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
-  html = html.replace(/__([^_]+?)__/g, '<u>$1</u>');
-
-  // Also support legacy LaTeX formatting for backward compatibility
-  html = html.replace(/\\textbf\{([^{}]*)\}/g, '<strong>$1</strong>');
-  html = html.replace(/\\textit\{([^{}]*)\}/g, '<em>$1</em>');
-  html = html.replace(/\\underline\{([^{}]*)\}/g, '<u>$1</u>');
-
-  // Convert variables to spans - check both default and custom variables
-  html = html.replace(/\{\{([A-Z0-9_]+)\}\}/g, (_, name) => {
-    const placeholder = BATCH_PLACEHOLDERS.find(p => p.name === name);
-    const customVars = getCustomVariables();
-    const customVar = customVars.find(p => p.name === name);
-    const label = placeholder?.label || customVar?.label || name;
-    // Register the variable in case it's new
-    addCustomVariable(name);
-    return `<span data-type="variable" data-name="${name}" data-label="${label}">@${label}</span>`;
-  });
-
-  return html;
-}
-
-// Convert {{VARIABLE}} text with LaTeX formatting to editor HTML content
-// Each \n in the text becomes a separate <p> tag so Tiptap preserves line structure
-function textToEditorHtml(text: string): string {
-  if (!text) return '<p><br></p>';
-
-  const lines = text.split('\n');
-  return lines
-    .map(line => `<p>${lineToHtml(line) || '<br>'}</p>`)
-    .join('');
-}
+const editorToText = editorToTextPure;
+const textToEditorHtml = (text: string) =>
+  textToEditorHtmlPure(text, { getCustomVariables, addCustomVariable });
 
 // Formatting toolbar for the editor
 interface EditorToolbarProps {
