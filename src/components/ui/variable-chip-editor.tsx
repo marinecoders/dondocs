@@ -579,6 +579,20 @@ interface VariableChipEditorProps {
   placeholder?: string;
   className?: string;
   rows?: number;
+  /**
+   * If true, pressing Tab inserts 4 literal spaces (matching the SECNAV
+   * 0.25" sub-paragraph indent and the wrap helper's TAB_AS_SPACES
+   * constant). Used by NAVMC 10274 / 118-11 form fields where users need
+   * to indent SECNAV-style sub-paragraphs directly in the textarea.
+   *
+   * Defaults to false so other consumers (e.g. correspondence body
+   * paragraphs in ParagraphsEditor, where indentation is controlled by
+   * `paragraph.level` rather than leading whitespace) keep the browser's
+   * native Tab → focus-next-element behavior. Without this gate, every
+   * VariableChipEditor in the app would swallow Tab, breaking keyboard
+   * navigation everywhere.
+   */
+  tabInsertsSpaces?: boolean;
 }
 
 export function VariableChipEditor({
@@ -587,6 +601,7 @@ export function VariableChipEditor({
   placeholder = 'Type @ to insert variables...',
   className,
   rows = 3,
+  tabInsertsSpaces = false,
 }: VariableChipEditorProps) {
   const [isFocused, setIsFocused] = useState(false);
   const lastValue = useRef(value);
@@ -644,8 +659,22 @@ export function VariableChipEditor({
       // type four spaces or paste pre-formatted text. Shift+Tab is left
       // to its default (move focus to previous field) so keyboard
       // navigation still works for getting out of the editor.
+      //
+      // Gated behind `tabInsertsSpaces` so consumers that DON'T want this
+      // (e.g. correspondence body paragraphs, where indentation is
+      // already handled via `paragraph.level`) keep Tab → focus-next-
+      // element. Without this gate, the shared component would swallow
+      // Tab in every editor instance, breaking keyboard navigation in
+      // the SECNAV correspondence flow.
       handleKeyDown(view, event) {
-        if (event.key === 'Tab' && !event.shiftKey && !event.ctrlKey && !event.metaKey && !event.altKey) {
+        if (
+          tabInsertsSpaces &&
+          event.key === 'Tab' &&
+          !event.shiftKey &&
+          !event.ctrlKey &&
+          !event.metaKey &&
+          !event.altKey
+        ) {
           event.preventDefault();
           view.dispatch(view.state.tr.insertText('    '));
           return true;

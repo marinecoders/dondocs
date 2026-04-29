@@ -162,6 +162,7 @@ export function Form11811Section() {
                   onChange={(v) => setNavmc11811Field('remarksText', v)}
                   placeholder="Type @ or click + for variables. Example: On {{ENTRY_DATE}}, {{NAME}} [describe the incident]..."
                   rows={16}
+                  tabInsertsSpaces
                 />
               </div>
               <div className="space-y-2">
@@ -171,6 +172,7 @@ export function Form11811Section() {
                   onChange={(v) => setNavmc11811Field('remarksTextRight', v)}
                   placeholder="[Continuation or additional entry...] (type @ or click + for variables)"
                   rows={16}
+                  tabInsertsSpaces
                 />
               </div>
             </div>

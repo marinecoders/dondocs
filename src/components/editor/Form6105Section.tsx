@@ -264,6 +264,7 @@ export function Form6105Section() {
                 onChange={(v) => setNavmc10274Field('supplementalInfo', v)}
                 placeholder="Full counseling statement (type @ or click + for variables)..."
                 rows={12}
+                tabInsertsSpaces
               />
             </div>
 
@@ -274,6 +275,7 @@ export function Form6105Section() {
                 onChange={(v) => setNavmc10274Field('proposedAction', v)}
                 placeholder="e.g., 'Request entry of adverse Page 11 (6105) entry per MCO 1610.7A' (type @ or click + for variables)"
                 rows={3}
+                tabInsertsSpaces
               />
             </div>
           </AccordionContent>
