@@ -183,22 +183,6 @@ export function ClassificationSection() {
               </Select>
             </div>
 
-            {/* Custom Classification Field */}
-            {isCustom && (
-              <div className="space-y-2">
-                <Label htmlFor="customClassification">Custom Classification</Label>
-                <Input
-                  id="customClassification"
-                  value={formData.customClassification || ''}
-                  onChange={(e) => setField('customClassification', e.target.value)}
-                  placeholder="e.g., FOR OFFICIAL USE ONLY, LIMITED DISTRIBUTION"
-                />
-                <p className="text-xs text-muted-foreground">
-                  Enter a custom classification marking that will appear in the document header and footer.
-                </p>
-              </div>
-            )}
-
             {/* Warning for classified documents */}
             {isClassified && (
               <div className="flex items-start gap-2 p-3 rounded-md bg-destructive/10 border border-destructive/20">
@@ -213,12 +197,142 @@ export function ClassificationSection() {
               </div>
             )}
 
-            {/* CUI Fields — shown in CUI mode and in Custom mode (so users can mix-and-match for testing) */}
-            {(isCUI || isCustom) && (
+            {/* Custom Classification — single block containing the marking
+                text plus every CUI and Classified field. Custom mode is the
+                only entry point on non-government domains where the
+                classified-level dropdown options are filtered out
+                (`src/lib/domainClassification.ts`), so all marking-related
+                inputs need to be reachable from one place here. */}
+            {isCustom && (
               <div className="space-y-4 p-3 rounded-md border bg-muted/30">
-                <p className="text-sm font-medium text-purple-600">
-                  CUI Configuration{isCustom && <span className="ml-2 text-xs font-normal text-muted-foreground">(optional in Custom mode)</span>}
-                </p>
+                <p className="text-sm font-medium">Custom Classification</p>
+
+                <div className="space-y-2">
+                  <Label htmlFor="customClassification">Custom Classification Marking</Label>
+                  <Input
+                    id="customClassification"
+                    value={formData.customClassification || ''}
+                    onChange={(e) => setField('customClassification', e.target.value)}
+                    placeholder="e.g., FOR OFFICIAL USE ONLY, LIMITED DISTRIBUTION"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Appears in the document header and footer. Fill any of the
+                    fields below if your custom marking needs them; leave blank
+                    otherwise.
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="customCuiControlledBy">Controlled By</Label>
+                  <Input
+                    id="customCuiControlledBy"
+                    value={formData.cuiControlledBy || ''}
+                    onChange={(e) => setField('cuiControlledBy', e.target.value)}
+                    placeholder="e.g., DoD"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="customCuiCategory">CUI Category</Label>
+                  <Select
+                    value={formData.cuiCategory || ''}
+                    onValueChange={(v) => setField('cuiCategory', v)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select category..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {CUI_CATEGORIES.map((cat) => (
+                        <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="customCuiDissemination">Dissemination Controls</Label>
+                  <Input
+                    id="customCuiDissemination"
+                    value={formData.cuiDissemination || ''}
+                    onChange={(e) => setField('cuiDissemination', e.target.value)}
+                    placeholder="e.g., NOFORN, REL TO USA, FVEY"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="customCuiDistStatement">Distribution Statement</Label>
+                  <Select
+                    value={formData.cuiDistStatement || ''}
+                    onValueChange={(v) => setField('cuiDistStatement', v)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select statement..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {DISTRIBUTION_STATEMENTS.map((stmt) => (
+                        <SelectItem key={stmt.value} value={stmt.value}>{stmt.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="customClassifiedBy">Classified By</Label>
+                  <Input
+                    id="customClassifiedBy"
+                    value={formData.classifiedBy || ''}
+                    onChange={(e) => setField('classifiedBy', e.target.value)}
+                    placeholder="e.g., John A. Smith, OCA"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="customDerivedFrom">Derived From</Label>
+                  <Input
+                    id="customDerivedFrom"
+                    value={formData.derivedFrom || ''}
+                    onChange={(e) => setField('derivedFrom', e.target.value)}
+                    placeholder="e.g., SECNAVINST 5510.36"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="customClassReason">Reason</Label>
+                  <Input
+                    id="customClassReason"
+                    value={formData.classReason || ''}
+                    onChange={(e) => setField('classReason', e.target.value)}
+                    placeholder="e.g., 1.4(a), 1.4(c), 1.4(g) — EO 13526 §1.4 classification reason"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="customDeclassifyOn">Declassify On</Label>
+                  <Input
+                    id="customDeclassifyOn"
+                    value={formData.declassifyOn || ''}
+                    onChange={(e) => setField('declassifyOn', e.target.value)}
+                    placeholder="e.g., 25X1, 20501231, or specific event"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="customClassifiedPocEmail">Classified POC Email</Label>
+                  <Input
+                    id="customClassifiedPocEmail"
+                    type="email"
+                    value={formData.classifiedPocEmail || ''}
+                    onChange={(e) => setField('classifiedPocEmail', e.target.value)}
+                    placeholder="john.doe@usmc.mil"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* CUI Fields — only when CUI is the selected level */}
+            {isCUI && (
+              <div className="space-y-4 p-3 rounded-md border bg-muted/30">
+                <p className="text-sm font-medium text-purple-600">CUI Configuration</p>
 
                 <div className="space-y-2">
                   <Label htmlFor="cuiControlledBy">Controlled By</Label>
@@ -276,16 +390,15 @@ export function ClassificationSection() {
               </div>
             )}
 
-            {/* Classified Fields — shown when an actual classified level is
-                selected (Confidential/Secret/...) and in Custom mode (so the
-                full set of LaTeX-template fields is reachable from the form
-                in any classification configuration). Per DoD 5200.01, these
-                accompany every classified document. */}
-            {(isClassified || isCustom) && (
+            {/* Classified Fields — only when an actual classified level is
+                selected (Confidential/Secret/Top Secret/Top Secret//SCI).
+                Per DoD 5200.01 these accompany every classified document.
+                On non-government domains where these levels are filtered
+                out, use Custom Classification — the equivalent fields are
+                exposed there. */}
+            {isClassified && (
               <div className="space-y-4 p-3 rounded-md border bg-muted/30">
-                <p className="text-sm font-medium text-destructive">
-                  Classified Configuration{isCustom && <span className="ml-2 text-xs font-normal text-muted-foreground">(optional in Custom mode)</span>}
-                </p>
+                <p className="text-sm font-medium text-destructive">Classified Configuration</p>
 
                 <div className="space-y-2">
                   <Label htmlFor="classifiedBy">Classified By</Label>
@@ -315,11 +428,6 @@ export function ClassificationSection() {
                     onChange={(e) => setField('classReason', e.target.value)}
                     placeholder="e.g., 1.4(a), 1.4(c), 1.4(g) — EO 13526 §1.4 classification reason"
                   />
-                  <p className="text-xs text-muted-foreground">
-                    Per EO 13526 §1.4 — the original-classification authority's
-                    declared reason category. Only required when "Classified
-                    by" is set (i.e. originally classified, not derivatively).
-                  </p>
                 </div>
 
                 <div className="space-y-2">
