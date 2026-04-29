@@ -213,10 +213,12 @@ export function ClassificationSection() {
               </div>
             )}
 
-            {/* CUI Fields */}
-            {isCUI && (
+            {/* CUI Fields — shown in CUI mode and in Custom mode (so users can mix-and-match for testing) */}
+            {(isCUI || isCustom) && (
               <div className="space-y-4 p-3 rounded-md border bg-muted/30">
-                <p className="text-sm font-medium text-purple-600">CUI Configuration</p>
+                <p className="text-sm font-medium text-purple-600">
+                  CUI Configuration{isCustom && <span className="ml-2 text-xs font-normal text-muted-foreground">(optional in Custom mode)</span>}
+                </p>
 
                 <div className="space-y-2">
                   <Label htmlFor="cuiControlledBy">Controlled By</Label>
@@ -270,6 +272,60 @@ export function ClassificationSection() {
                       ))}
                     </SelectContent>
                   </Select>
+                </div>
+              </div>
+            )}
+
+            {/* Classified Fields — shown when an actual classified level is
+                selected (Confidential/Secret/...) and in Custom mode (so the
+                full set of LaTeX-template fields is reachable from the form
+                in any classification configuration). Per DoD 5200.01, these
+                accompany every classified document. */}
+            {(isClassified || isCustom) && (
+              <div className="space-y-4 p-3 rounded-md border bg-muted/30">
+                <p className="text-sm font-medium text-destructive">
+                  Classified Configuration{isCustom && <span className="ml-2 text-xs font-normal text-muted-foreground">(optional in Custom mode)</span>}
+                </p>
+
+                <div className="space-y-2">
+                  <Label htmlFor="classifiedBy">Classified By</Label>
+                  <Input
+                    id="classifiedBy"
+                    value={formData.classifiedBy || ''}
+                    onChange={(e) => setField('classifiedBy', e.target.value)}
+                    placeholder="e.g., John A. Smith, OCA"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="derivedFrom">Derived From</Label>
+                  <Input
+                    id="derivedFrom"
+                    value={formData.derivedFrom || ''}
+                    onChange={(e) => setField('derivedFrom', e.target.value)}
+                    placeholder="e.g., SECNAVINST 5510.36"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="declassifyOn">Declassify On</Label>
+                  <Input
+                    id="declassifyOn"
+                    value={formData.declassifyOn || ''}
+                    onChange={(e) => setField('declassifyOn', e.target.value)}
+                    placeholder="e.g., 25X1, 20501231, or specific event"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="classifiedPocEmail">Classified POC Email</Label>
+                  <Input
+                    id="classifiedPocEmail"
+                    type="email"
+                    value={formData.classifiedPocEmail || ''}
+                    onChange={(e) => setField('classifiedPocEmail', e.target.value)}
+                    placeholder="john.doe@usmc.mil"
+                  />
                 </div>
               </div>
             )}
