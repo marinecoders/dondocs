@@ -577,6 +577,21 @@
 \newcommand{\POCEmail}{}
 \newcommand{\setPOC}[1]{\renewcommand{\POCEmail}{#1}}
 
+% Print "POC: <email>" as a clickable mailto link, OR nothing when no
+% pocEmail has been set. Without the empty-check, the templates would
+% emit a literal "POC: " followed by a zero-width \href{mailto:}{} link
+% (issue #50) — a SECNAV no-no since the label "POC:" appears with no
+% content, and the empty link still has a clickable hover/cursor zone.
+%
+% Used by every CUI / Classified block across all 14 templates that
+% render a POC line (see tex/templates/*.tex). Single source of truth.
+%
+% Note: \ifNotEmpty is defined later in this file (line ~696) but is
+% only resolved at expansion time, so this forward reference is safe.
+\newcommand{\printPOCLine}{%
+    \ifNotEmpty{\POCEmail}{POC: \href{mailto:\POCEmail}{\POCEmail}}%
+}
+
 
 %=============================================================================
 %                        LETTERHEAD CONFIGURATION
