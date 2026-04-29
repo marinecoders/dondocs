@@ -448,7 +448,12 @@ function editorToText(editor: ReturnType<typeof useEditor>): string {
     paragraphs.push(paraText);
   });
 
-  return paragraphs.join('\n').trim();
+  // Strip TRAILING newlines/whitespace only — never leading. The user is
+  // allowed to type "    test" or "\ta. ..." (leading whitespace is
+  // meaningful for SECNAV-style sub-paragraphs), and a blanket `.trim()`
+  // would silently delete it on every onUpdate, dropping the indent
+  // before the value reaches the store.
+  return paragraphs.join('\n').replace(/\s+$/, '');
 }
 
 // Convert a single line of text to HTML (escaping, LaTeX formatting, variables)
@@ -613,6 +618,15 @@ export function VariableChipEditor({
       VariableExtension,
     ],
     content: textToEditorHtml(value),
+    // Preserve consecutive whitespace through HTML parsing. ProseMirror's
+    // default parser uses HTML's "normal" whitespace rules — runs of
+    // spaces collapse to a single space — which would drop SECNAV-style
+    // sub-paragraph indents like "    a. ..." back to "a. ..." every
+    // time the editor reloads its content from the form store. With
+    // preserveWhitespace: 'full', the spaces survive parsing both for
+    // initial content and for `setContent` calls in the value-sync
+    // useEffect below.
+    parseOptions: { preserveWhitespace: 'full' },
     editorProps: {
       attributes: {
         // `whitespace-pre-wrap` overrides Tailwind's `prose` default
@@ -656,7 +670,13 @@ export function VariableChipEditor({
     if (!editor || value === lastValue.current) return;
     lastValue.current = value;
     currentValue.current = value;
-    editor.commands.setContent(textToEditorHtml(value));
+    // Same `preserveWhitespace: 'full'` as the initial parseOptions —
+    // setContent uses its own parse pass, so the option must be passed
+    // here too or every store-driven re-render would drop leading
+    // whitespace from sub-paragraphs.
+    editor.commands.setContent(textToEditorHtml(value), {
+      parseOptions: { preserveWhitespace: 'full' },
+    });
   }, [value, editor]);
 
   // Register any variables found in the initial value
