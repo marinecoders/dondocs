@@ -95,3 +95,4 @@ public/classification.config.json
 test-*.js
 *.test.js
 debug-*.log
+coverage/

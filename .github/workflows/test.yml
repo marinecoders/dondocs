@@ -46,6 +46,23 @@ jobs:
             typecheck) npx tsc --noEmit ;;
           esac
 
+  coverage:
+    # Single run on Node 20 with a coverage gate. Thresholds live in
+    # vitest.config.ts and are set just below the current numbers, so
+    # a PR that drops coverage (e.g. removes a test file) fails the
+    # gate. Bump thresholds upward as the suite grows.
+    name: coverage threshold
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run test:coverage
+
   build:
     # Verifies the production bundle still compiles with the test changes
     # in place. Catches "the test setup leaked into the bundle" mistakes.
