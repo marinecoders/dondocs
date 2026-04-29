@@ -1,5 +1,15 @@
 import { defineConfig } from 'vitest/config';
 import path from 'node:path';
+import fs from 'node:fs';
+
+// Mirror the Vite-injected globals from vite.config.ts so test files that
+// import modules consuming them (e.g. anything that transitively imports
+// `src/lib/version.ts`, which is most of `src/lib/`) don't crash with
+// `__APP_VERSION__ is not defined`. Values are static for tests — git SHA
+// and build time aren't meaningful in a test run.
+const pkg = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, 'package.json'), 'utf-8')
+) as { version: string };
 
 /**
  * Vitest configuration for dondocs tests.
@@ -15,6 +25,11 @@ import path from 'node:path';
  * under happy-dom — the perf cost is negligible at this scale.
  */
 export default defineConfig({
+  define: {
+    __APP_VERSION__: JSON.stringify(pkg.version),
+    __GIT_SHA__: JSON.stringify('test'),
+    __BUILD_TIME__: JSON.stringify('1970-01-01T00:00:00Z'),
+  },
   resolve: {
     alias: {
       // Mirror vite.config.ts's `@` alias so test imports match production.
@@ -24,6 +39,7 @@ export default defineConfig({
   test: {
     environment: 'happy-dom',
     include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx'],
+    setupFiles: ['./tests/_helpers/setup.ts'],
     // Property-based tests can be iteration-heavy; bump the default per-test
     // timeout so a thorough fast-check run doesn't false-fail on slower CI
     // runners.

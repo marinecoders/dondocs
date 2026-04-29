@@ -13,28 +13,60 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  unit:
-    name: unit + property tests
+  test:
+    name: ${{ matrix.task }} (Node ${{ matrix.node }})
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        # Both LTS-current (20) and current (22) — catches "works on my
+        # machine, breaks on the CI runner's Node version" upgrades.
+        node: ['20', '22']
+        task: [unit, typecheck]
+        # Lint deliberately omitted from the matrix until a separate
+        # cleanup PR drops the baseline `react-refresh/only-export-
+        # components` errors. Adding lint to CI now would block every
+        # PR on pre-existing noise. Tracked as a follow-up.
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          # `cache: npm` reads package-lock.json and the lockfile hash to
-          # decide cache validity. Cuts ~30s off cold runs.
+          node-version: ${{ matrix.node }}
           cache: 'npm'
 
       - name: install
         run: npm ci
 
-      - name: typecheck
-        run: npx tsc --noEmit
+      - name: run task
+        run: |
+          case "${{ matrix.task }}" in
+            unit)      npm test ;;
+            typecheck) npx tsc --noEmit ;;
+          esac
 
-      - name: test
-        # `npm test` runs `vitest run` (one-shot, no watch). The exit code
-        # is the gate: any failing assertion or thrown exception in any
-        # test file fails the job.
-        run: npm test
+  build:
+    # Verifies the production bundle still compiles with the test changes
+    # in place. Catches "the test setup leaked into the bundle" mistakes.
+    name: production build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+      - name: assert no test file in dist
+        # Sanity check: tests/ MUST NOT end up in the production bundle.
+        # If this finds anything, our tsconfig.app.json `include` got
+        # widened or a test file got accidentally imported from src/.
+        run: |
+          if find dist -name '*.test.*' -print -quit | grep -q .; then
+            echo "::error::Test files found in dist/ — production bundle contaminated"
+            find dist -name '*.test.*'
+            exit 1
+          fi
