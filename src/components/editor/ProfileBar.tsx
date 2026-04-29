@@ -17,6 +17,7 @@ import { useProfileStore } from '@/stores/profileStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
 import { debug } from '@/lib/debug';
+import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { readFileAsText, triggerDownload } from '@/lib/encoding';
 
 // Example form data for one-time mode (no profile)
@@ -62,7 +63,8 @@ export function ProfileBar() {
         department: profile.department,
         unitLine1: profile.unitLine1,
         unitLine2: profile.unitLine2,
-        unitAddress: profile.unitAddress,
+        // Canonicalize on read (see App.tsx for rationale).
+        unitAddress: canonicalizeUnitAddress(profile.unitAddress),
         ssic: profile.ssic,
         from: profile.from,
         sigFirst: profile.sigFirst,

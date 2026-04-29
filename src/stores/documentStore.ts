@@ -7,6 +7,7 @@ import type { DocumentSnapshot } from './historyStore';
 import { debug } from '@/lib/debug';
 import { TIMING } from '@/lib/constants';
 import { compressedParse, compressedStringify } from '@/lib/compressedStorage';
+import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 
 // Session persistence keys
 const SESSION_STORAGE_KEY = 'dondocs-document-session';
@@ -704,12 +705,19 @@ export function restoreSession(): boolean {
     const session = getSavedSession();
     if (!session) return false;
 
+    // Canonicalize unitAddress on read so legacy sessions saved before
+    // PR #63 (with the 1-comma form "STREET, CITY STATE ZIP") render
+    // correctly on the letterhead. No-op for already-canonical input.
+    const restoredFormData = session.formData?.unitAddress
+      ? { ...session.formData, unitAddress: canonicalizeUnitAddress(session.formData.unitAddress) }
+      : session.formData;
+
     useDocumentStore.setState({
       documentMode: session.documentMode,
       documentCategory: session.documentCategory || 'correspondence',
       docType: session.docType,
       formType: session.formType || 'navmc_10274',
-      formData: session.formData,
+      formData: restoredFormData,
       references: session.references,
       enclosures: session.enclosures.map(enc => ({
         title: enc.title,
@@ -767,12 +775,17 @@ export function getSerializedSessionForShare(): SerializedSession {
  * Enclosure file data is not included in shares; titles and metadata are restored.
  */
 export function loadSharedSession(session: SerializedSession): void {
+  // Canonicalize unitAddress on read (see restoreSession for rationale).
+  const sharedFormData = session.formData?.unitAddress
+    ? { ...session.formData, unitAddress: canonicalizeUnitAddress(session.formData.unitAddress) }
+    : (session.formData ?? {});
+
   useDocumentStore.setState({
     documentMode: session.documentMode,
     documentCategory: session.documentCategory ?? 'correspondence',
     docType: session.docType,
     formType: session.formType ?? 'navmc_10274',
-    formData: session.formData ?? {},
+    formData: sharedFormData,
     references: session.references ?? [],
     enclosures: (session.enclosures ?? []).map(enc => ({
       title: enc.title,

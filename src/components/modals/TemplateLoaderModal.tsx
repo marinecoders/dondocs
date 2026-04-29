@@ -14,6 +14,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useProfileStore } from '@/stores/profileStore';
 import { LETTER_TEMPLATES, type LetterTemplate } from '@/data/templates';
+import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 
 const CATEGORIES = [...new Set(LETTER_TEMPLATES.map(t => t.category))];
 
@@ -102,7 +103,8 @@ export function TemplateLoaderModal() {
         department: profile.department,
         unitLine1: profile.unitLine1,
         unitLine2: profile.unitLine2,
-        unitAddress: profile.unitAddress,
+        // Canonicalize on read (see App.tsx for rationale).
+        unitAddress: canonicalizeUnitAddress(profile.unitAddress),
         ssic: profile.ssic,
         from: profile.from,
         sigFirst: profile.sigFirst,

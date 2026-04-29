@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Building2, Info } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -20,6 +20,12 @@ import { useDocumentStore } from '@/stores/documentStore';
 import { UnitLookupModal } from '@/components/modals/UnitLookupModal';
 import { formatLetterhead, type UnitInfo } from '@/data/unitDirectory';
 import { DOC_TYPE_CONFIG } from '@/types/document';
+import {
+  parseUnitAddress,
+  composeUnitAddress,
+  canonicalizeUnitAddress,
+  type UnitAddressParts,
+} from '@/lib/unitAddress';
 
 export function LetterheadSection() {
   const { formData, setField, docType, documentMode } = useDocumentStore();
@@ -29,6 +35,54 @@ export function LetterheadSection() {
   const isOptional = isCompliant && config.optionalLetterhead;
   const isDisabled = !config.letterhead;
 
+  // Structured address fields are local UI state, kept in sync with
+  // `formData.unitAddress` (the persisted single-line representation).
+  // Two sync directions:
+  //
+  //   formData → local: when unitAddress changes for a reason OTHER than
+  //     our own write (unit-directory pick, profile load, fresh session
+  //     with a default), re-parse the string into the structured shape.
+  //
+  //   local → formData: any user edit recomposes the parts back into a
+  //     single string and writes it via setField.
+  //
+  // The `lastWriteRef` marker lets us distinguish "we just wrote this"
+  // from "something external wrote this" so we don't overwrite the
+  // user's mid-typing partial state with a re-parse of our own
+  // composition (which would lose the partial state mid-edit).
+  const [addressParts, setAddressParts] = useState<UnitAddressParts>(() =>
+    parseUnitAddress(formData.unitAddress || '')
+  );
+  const lastWriteRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    const current = formData.unitAddress || '';
+    if (current === lastWriteRef.current) {
+      // This is the round-trip echo of our own write. The local state
+      // is already what we wanted; ignore.
+      return;
+    }
+    // Legitimate "synchronize React state with an external system"
+    // pattern (per the react-hooks/set-state-in-effect rule docs):
+    // the external system here is the documentStore's unitAddress
+    // string. When something else writes to that string (unit
+    // directory pick, profile load, restore-session) we mirror the
+    // change into local structured-fields state. Suppressed for the
+    // same reason as the analogous patterns in useServiceWorker.ts
+    // and the PR #59 sweep.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setAddressParts(parseUnitAddress(current));
+    lastWriteRef.current = null;
+  }, [formData.unitAddress]);
+
+  const updateAddressPart = (key: keyof UnitAddressParts, value: string) => {
+    const next = { ...addressParts, [key]: value };
+    setAddressParts(next);
+    const composed = composeUnitAddress(next);
+    lastWriteRef.current = composed;
+    setField('unitAddress', composed);
+  };
+
   const handleUnitSelect = (unit: UnitInfo) => {
     // Use SECNAV M-5216.5 compliant letterhead formatting
     const letterhead = formatLetterhead(unit);
@@ -36,8 +90,21 @@ export function LetterheadSection() {
     setField('unitLine1', letterhead.line1);
     // Line 2: Parent/higher command (e.g., "1ST MARINE DIVISION")
     setField('unitLine2', letterhead.line2);
-    // Line 3: Address
-    setField('unitAddress', letterhead.address);
+    // Canonicalize the unit-directory address. The directory stores
+    // addresses as "STREET\nCITY STATE ZIP" (no comma between city
+    // and state), and without canonicalization the address would
+    // render on a single letterhead line for civilian entries —
+    // wrong per SECNAV M-5216.5. canonicalizeUnitAddress adds the
+    // missing comma for civilian addresses and preserves the
+    // no-comma form for FPO/APO/DPO per USPS Pub 28 §38.
+    const canonicalAddress = canonicalizeUnitAddress(letterhead.address);
+    // Safety-belt: clear the own-write marker before writing so the
+    // formData→local sync useEffect always re-parses the new value,
+    // even in the (very unlikely) case where the canonical address
+    // is byte-identical to the last user-typed compose result.
+    lastWriteRef.current = null;
+    // Line 3+: Address (canonicalized for correct generator split)
+    setField('unitAddress', canonicalAddress);
   };
 
   return (
@@ -172,13 +239,87 @@ export function LetterheadSection() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="unitAddress">Address</Label>
-                <Input
-                  id="unitAddress"
-                  value={formData.unitAddress || ''}
-                  onChange={(e) => setField('unitAddress', e.target.value)}
-                  placeholder="e.g., 3000 MARINE CORPS PENTAGON, WASHINGTON DC 20350"
-                />
+                <Label>Address</Label>
+                <p className="text-xs text-muted-foreground">
+                  Per SECNAV M-5216.5 letterhead format. Street/Box is
+                  optional; City, State, and ZIP appear together on the
+                  next line.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-6 gap-2">
+                  <div className="sm:col-span-6 space-y-1">
+                    <Label
+                      htmlFor="addressStreet"
+                      className="text-xs font-normal text-muted-foreground"
+                    >
+                      Street / Box <span className="italic">(optional)</span>
+                    </Label>
+                    <Input
+                      id="addressStreet"
+                      value={addressParts.street}
+                      onChange={(e) => updateAddressPart('street', e.target.value)}
+                      placeholder="e.g., PSC BOX 8050"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-4 space-y-1">
+                    <Label
+                      htmlFor="addressCity"
+                      className="text-xs font-normal text-muted-foreground"
+                    >
+                      City
+                    </Label>
+                    <Input
+                      id="addressCity"
+                      value={addressParts.city}
+                      onChange={(e) => updateAddressPart('city', e.target.value)}
+                      placeholder="e.g., CHERRY POINT"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-1 space-y-1">
+                    <Label
+                      htmlFor="addressState"
+                      className="text-xs font-normal text-muted-foreground"
+                    >
+                      State
+                    </Label>
+                    <Input
+                      id="addressState"
+                      value={addressParts.state}
+                      onChange={(e) =>
+                        // Auto-uppercase + cap at 2 characters so users
+                        // can't type "Cal" or "north carolina"
+                        updateAddressPart(
+                          'state',
+                          e.target.value.toUpperCase().slice(0, 2)
+                        )
+                      }
+                      placeholder="NC"
+                      maxLength={2}
+                      className="uppercase"
+                      autoCapitalize="characters"
+                      autoCorrect="off"
+                      spellCheck={false}
+                    />
+                  </div>
+
+                  <div className="sm:col-span-1 space-y-1">
+                    <Label
+                      htmlFor="addressZip"
+                      className="text-xs font-normal text-muted-foreground"
+                    >
+                      ZIP
+                    </Label>
+                    <Input
+                      id="addressZip"
+                      value={addressParts.zip}
+                      onChange={(e) => updateAddressPart('zip', e.target.value)}
+                      placeholder="28533-0050"
+                      inputMode="numeric"
+                      pattern="[0-9-]*"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </AccordionContent>
