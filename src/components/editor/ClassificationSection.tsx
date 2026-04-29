@@ -30,36 +30,70 @@ import {
 import { useEffect, useState } from 'react';
 import { getClassificationConfig } from '@/config/classification';
 
+/**
+ * Official CNSI / ISOO marking colors per:
+ *   - Executive Order 13526
+ *   - 32 CFR Part 2001 §2001.23 / Part 2002.16
+ *   - DoDM 5200.01 / DoDI 5200.48
+ *   - CAPCO Register (ODNI Authorized Classification and Control Markings)
+ *   - ISOO Implementing Directive (Classification Banner Color Codes)
+ *
+ * These are the canonical banner / portion-mark colors used on
+ * classified national-security and CUI documents — applying them to
+ * the in-app classification picker keeps the UI palette aligned with
+ * what the rendered PDF banner will actually show on a marked
+ * document. Hex codes match the dodcui.mil / ISOO published table:
+ *
+ *   UNCLASSIFIED       (U)        #007A33   green
+ *   CUI                            #502B85   purple
+ *   CONFIDENTIAL       (C)        #0033A0   blue
+ *   SECRET             (S)        #C8102E   red
+ *   TOP SECRET         (TS)       #FF8C00   orange
+ *   TOP SECRET//SCI    (TS//SCI)  #FCE83A   yellow
+ *
+ * Note: per dodcui.mil, CUI is NOT a CNSI classification level — the
+ * banner color is shared with CNSI markings only as a shorthand for
+ * ISOO display purposes. CUI handling is governed by 32 CFR Part 2002.
+ */
 const CLASSIFICATION_LEVELS = [
-  { value: 'unclassified', label: 'Unclassified', color: 'text-green-600' },
-  { value: 'cui', label: 'CUI (Controlled Unclassified Information)', color: 'text-purple-600' },
-  { value: 'confidential', label: 'CONFIDENTIAL', color: 'text-blue-600' },
-  { value: 'secret', label: 'SECRET', color: 'text-red-600' },
-  { value: 'top_secret', label: 'TOP SECRET', color: 'text-orange-600' },
-  { value: 'top_secret_sci', label: 'TOP SECRET//SCI', color: 'text-orange-700' },
+  { value: 'unclassified', label: 'Unclassified', color: 'text-[#007A33] dark:text-[#3DBE6B]' },
+  { value: 'cui', label: 'CUI (Controlled Unclassified Information)', color: 'text-[#502B85] dark:text-[#9572D4]' },
+  { value: 'confidential', label: 'CONFIDENTIAL', color: 'text-[#0033A0] dark:text-[#5B7FD9]' },
+  { value: 'secret', label: 'SECRET', color: 'text-[#C8102E] dark:text-[#E74C5C]' },
+  { value: 'top_secret', label: 'TOP SECRET', color: 'text-[#FF8C00] dark:text-[#FFA940]' },
+  // TS//SCI's official banner color is bright yellow #FCE83A, but yellow
+  // text on white has very low contrast (~1.5:1, well below WCAG AA).
+  // CAPCO banners use yellow as a BACKGROUND with black text — for our
+  // text-mode picker we use a darker yellow/amber that's readable on
+  // light backgrounds while still cueing the SCI banner's hue family.
+  // The bright #FCE83A is restored where the color is used as a fill or
+  // background tint (Shield icon fill at 20% opacity, preset button
+  // background) — see the Shield style and CLASSIFICATION_PRESETS.
+  { value: 'top_secret_sci', label: 'TOP SECRET//SCI', color: 'text-[#A8920E] dark:text-[#FCE83A]' },
 ];
 
 /**
  * Quick-fill marking presets shown in the Custom Classification block.
  *
  * Each preset is a one-click shortcut that populates the
- * `customClassification` field with a standard marking string. Colors
- * match the corresponding entries in CLASSIFICATION_LEVELS so a user
- * looking at the Classification Level dropdown sees the same colored
- * label here. On non-government domains the classified-level options
- * are filtered out of the dropdown, but the user can still legitimately
- * use Custom Classification to format an unclassified DRAFT that will
- * be marked on an accredited system later (per the amber notice in the
- * Custom block) — these presets save them from typing each marking by
- * hand.
+ * `customClassification` field with a standard marking string.
+ * Background tint, border, and text color all use the official CNSI /
+ * ISOO color codes (see CLASSIFICATION_LEVELS above for citations) so
+ * the buttons read as miniature versions of the actual document
+ * banner. Tailwind's `/N` opacity modifier produces the soft fill
+ * (`/10` light theme, `/20` dark theme) without sacrificing contrast.
+ *
+ * For TOP SECRET//SCI specifically, CAPCO banners use yellow #FCE83A
+ * as a BACKGROUND with BLACK text — replicated here.
  */
 const CLASSIFICATION_PRESETS = [
-  { value: 'UNCLASSIFIED',     label: 'Unclassified',    color: 'text-green-600',  bg: 'bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-950/50' },
-  { value: 'CUI',              label: 'CUI',             color: 'text-purple-600', bg: 'bg-purple-50 dark:bg-purple-950/30 border-purple-200 dark:border-purple-800 hover:bg-purple-100 dark:hover:bg-purple-950/50' },
-  { value: 'CONFIDENTIAL',     label: 'CONFIDENTIAL',    color: 'text-blue-600',   bg: 'bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-950/50' },
-  { value: 'SECRET',           label: 'SECRET',          color: 'text-red-600',    bg: 'bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800 hover:bg-red-100 dark:hover:bg-red-950/50' },
-  { value: 'TOP SECRET',       label: 'TOP SECRET',      color: 'text-orange-600', bg: 'bg-orange-50 dark:bg-orange-950/30 border-orange-200 dark:border-orange-800 hover:bg-orange-100 dark:hover:bg-orange-950/50' },
-  { value: 'TOP SECRET//SCI',  label: 'TOP SECRET//SCI', color: 'text-orange-700', bg: 'bg-orange-50 dark:bg-orange-950/30 border-orange-300 dark:border-orange-700 hover:bg-orange-100 dark:hover:bg-orange-950/50' },
+  { value: 'UNCLASSIFIED',    label: 'Unclassified',    color: 'text-[#007A33] dark:text-[#3DBE6B]', bg: 'bg-[#007A33]/10 dark:bg-[#007A33]/20 border-[#007A33]/30 hover:bg-[#007A33]/20 dark:hover:bg-[#007A33]/30' },
+  { value: 'CUI',             label: 'CUI',             color: 'text-[#502B85] dark:text-[#9572D4]', bg: 'bg-[#502B85]/10 dark:bg-[#502B85]/20 border-[#502B85]/30 hover:bg-[#502B85]/20 dark:hover:bg-[#502B85]/30' },
+  { value: 'CONFIDENTIAL',    label: 'CONFIDENTIAL',    color: 'text-[#0033A0] dark:text-[#5B7FD9]', bg: 'bg-[#0033A0]/10 dark:bg-[#0033A0]/20 border-[#0033A0]/30 hover:bg-[#0033A0]/20 dark:hover:bg-[#0033A0]/30' },
+  { value: 'SECRET',          label: 'SECRET',          color: 'text-[#C8102E] dark:text-[#E74C5C]', bg: 'bg-[#C8102E]/10 dark:bg-[#C8102E]/20 border-[#C8102E]/30 hover:bg-[#C8102E]/20 dark:hover:bg-[#C8102E]/30' },
+  { value: 'TOP SECRET',      label: 'TOP SECRET',      color: 'text-[#FF8C00] dark:text-[#FFA940]', bg: 'bg-[#FF8C00]/10 dark:bg-[#FF8C00]/20 border-[#FF8C00]/30 hover:bg-[#FF8C00]/20 dark:hover:bg-[#FF8C00]/30' },
+  // TS//SCI: CAPCO standard is yellow background with black text.
+  { value: 'TOP SECRET//SCI', label: 'TOP SECRET//SCI', color: 'text-black dark:text-black', bg: 'bg-[#FCE83A] border-[#A8920E] hover:bg-[#FCE83A]/80 dark:bg-[#FCE83A] dark:hover:bg-[#FCE83A]/80' },
 ];
 
 const CUI_CATEGORIES = [
