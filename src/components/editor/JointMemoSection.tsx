@@ -2,6 +2,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { DatePicker } from '@/components/ui/date-picker';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Accordion,
   AccordionContent,
@@ -61,6 +62,16 @@ export function JointMemoSection() {
                   placeholder="SUBJECT LINE IN ALL CAPS"
                   className="uppercase"
                 />
+                <div className="flex items-center space-x-2 pt-1">
+                  <Checkbox
+                    id="underlineSubjectJoint"
+                    checked={formData.underlineSubject || false}
+                    onCheckedChange={(checked) => setField('underlineSubject', !!checked)}
+                  />
+                  <Label htmlFor="underlineSubjectJoint" className="text-sm font-normal cursor-pointer">
+                    Underline subject line
+                  </Label>
+                </div>
               </div>
             </div>
           </AccordionContent>

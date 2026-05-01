@@ -536,11 +536,13 @@
 %-----------------------------------------------------------------------------
 
 \newcommand{\SubjectLine}{}
-\newcommand{\setSubject}[1]{\renewcommand{\SubjectLine}{\uline{#1}}}
+% Underline is applied by the generator when the user enables it (via \uline{} in
+% the argument), so \setSubject stores the content as-is without forcing underline.
+\newcommand{\setSubject}[1]{\renewcommand{\SubjectLine}{#1}}
 
 % Continuation page subject line (shown on page 2+ when enabled)
 \newcommand{\ContinuationSubject}{}
-\newcommand{\setContinuationSubject}[1]{\renewcommand{\ContinuationSubject}{\uline{#1}}}
+\newcommand{\setContinuationSubject}[1]{\renewcommand{\ContinuationSubject}{#1}}
 
 
 %-----------------------------------------------------------------------------

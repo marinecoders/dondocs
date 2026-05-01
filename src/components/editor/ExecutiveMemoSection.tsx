@@ -1,6 +1,7 @@
 import { FileText, AlertCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { DatePicker } from '@/components/ui/date-picker';
 import {
@@ -212,6 +213,16 @@ export function ExecutiveMemoSection() {
               <p className="text-xs text-muted-foreground">
                 Title Case per Ch 12 ¶2l (not ALL CAPS like standard correspondence)
               </p>
+              <div className="flex items-center space-x-2 pt-1">
+                <Checkbox
+                  id="underlineSubjectExec"
+                  checked={formData.underlineSubject || false}
+                  onCheckedChange={(checked) => setField('underlineSubject', !!checked)}
+                />
+                <Label htmlFor="underlineSubjectExec" className="text-sm font-normal cursor-pointer">
+                  Underline subject line
+                </Label>
+              </div>
             </div>
 
             {/* COORDINATION (Action/Info memos) */}

@@ -495,6 +495,18 @@ export function AddressingSection({ config }: AddressingSectionProps) {
               />
             </div>
 
+            {/* Subject underline option */}
+            <div className="flex items-center space-x-2 pt-1">
+              <Checkbox
+                id="underlineSubject"
+                checked={formData.underlineSubject || false}
+                onCheckedChange={(checked) => setField('underlineSubject', !!checked)}
+              />
+              <Label htmlFor="underlineSubject" className="text-sm font-normal cursor-pointer">
+                Underline subject line
+              </Label>
+            </div>
+
             {/* Continuation page subject - only show for doc types with subject */}
             {!config?.skipSubject && (
               <div className="flex items-center space-x-2 pt-1">

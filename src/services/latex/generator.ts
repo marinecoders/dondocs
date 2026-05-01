@@ -112,9 +112,15 @@ export function generateDocumentTex(store: DocumentStore): string {
   // Also wrap at 57 characters per SECNAV formatting requirements
   const rawSubject = isJointMode ? data.jointSubject : (isMOAMode ? data.moaSubject : data.subject);
   const usesTitleCaseSubject = isExecutiveMode || store.docType === 'executive_correspondence';
-  const subjectLine = usesTitleCaseSubject
+  const formattedSubject = usesTitleCaseSubject
     ? formatSubjectForLatex(toTitleCase(rawSubject || ''))
     : formatSubjectForLatex(rawSubject?.toUpperCase());
+  // Wrap in \uline{} when the user has opted to underline the subject.
+  // \uline is provided by the `ulem` package (already loaded in the template)
+  // and handles multi-line subjects correctly via \newline breaks.
+  const subjectLine = data.underlineSubject
+    ? `\\uline{${formattedSubject}}`
+    : formattedSubject;
 
   tex += `\\setSSIC{${config.ssic ? escapeLatex(ssic) : ''}}
 \\setSerial{${config.ssic ? escapeLatex(serial) : ''}}
