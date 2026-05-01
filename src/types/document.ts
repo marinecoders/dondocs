@@ -214,6 +214,9 @@ export interface DocumentData {
   // Continuation subject on page 2+
   showSubjectOnContinuation: boolean;
 
+  // Underline subject line in generated PDF/DOCX
+  underlineSubject: boolean;
+
   // Business letter fields (compliance-driven)
   salutation: string;
   complimentaryClose: string;

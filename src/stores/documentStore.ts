@@ -197,6 +197,8 @@ const EXAMPLE_FORM_DATA: Partial<DocumentData> = {
   pocEmail: 'john.doe@usmc.mil',
   // Hyperlinks - default to OFF (no hyperlinks)
   includeHyperlinks: false,
+  // Subject underline - default to OFF
+  underlineSubject: false,
   // Business letter fields
   salutation: 'Dear Sir or Madam:',
   complimentaryClose: 'Sincerely,',
@@ -500,6 +502,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
           // Other settings
           pageNumbering: 'none',
           includeHyperlinks: false,
+          underlineSubject: false,
           inReplyTo: false,
           inReplyToText: '',
           // Business letter fields

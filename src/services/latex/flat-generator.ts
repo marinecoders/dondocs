@@ -401,6 +401,11 @@ function escapeTabularWrapped(str: string | undefined | null, maxLength: number 
   return wrapped.map(l => escapeTabular(l)).join(' \\newline\n');
 }
 
+/** Conditionally wrap subject text in \\uline{} based on the underlineSubject flag. */
+function maybeUnderline(text: string, underline: boolean | undefined): string {
+  return underline ? `\\uline{${text}}` : text;
+}
+
 /** Strip trailing \\\\ (with optional spacing param) from the last row of a tabular
  * to avoid creating an empty row at the bottom. Matches the PDF template fix
  * where trailing \tabularnewline was removed before \end{tabular}. */
@@ -441,7 +446,7 @@ function buildAddressBlock(data: Partial<DocumentData>, config: DocTypeConfig): 
     if (rows.length > 0) {
       rows.push(`& \\\\`);
     }
-    rows.push(`Subj:\\hspace{3\\fontdimen2\\font} & \\uline{${escapeTabularWrapped(data.subject?.toUpperCase())}} \\\\`);
+    rows.push(`Subj:\\hspace{3\\fontdimen2\\font} & ${maybeUnderline(escapeTabularWrapped(data.subject?.toUpperCase()), data.underlineSubject)} \\\\`);
   }
 
   if (rows.length === 0) return '';
@@ -1014,7 +1019,7 @@ function buildJointAddressBlock(data: Partial<DocumentData>): string {
     if (rows.length > 0) {
       rows.push(`& \\\\`);
     }
-    rows.push(`Subj:\\hspace{3\\fontdimen2\\font} & \\uline{${escapeTabularWrapped(data.jointSubject?.toUpperCase())}} \\\\`);
+    rows.push(`Subj:\\hspace{3\\fontdimen2\\font} & ${maybeUnderline(escapeTabularWrapped(data.jointSubject?.toUpperCase()), data.underlineSubject)} \\\\`);
   }
 
   if (rows.length === 0) return '';
@@ -1161,7 +1166,7 @@ function buildMOALayout(store: DocumentStore, config: DocTypeConfig): string {
   if (data.moaSubject) {
     content += `\\noindent
 \\begin{tabular}{@{}l@{}p{5.75in}@{}}
-Subj:\\hspace{3\\fontdimen2\\font} & \\uline{${escapeTabularWrapped(data.moaSubject?.toUpperCase())}}
+Subj:\\hspace{3\\fontdimen2\\font} & ${maybeUnderline(escapeTabularWrapped(data.moaSubject?.toUpperCase()), data.underlineSubject)}
 \\end{tabular}
 
 `;
@@ -1222,7 +1227,7 @@ function buildJointMemoLayout(store: DocumentStore, config: DocTypeConfig): stri
       if (rows.length > 0) {
         rows.push(`& \\\\`);
       }
-      rows.push(`Subj: & \\uline{${escapeTabularWrapped(data.jointSubject?.toUpperCase())}} \\\\`);
+      rows.push(`Subj: & ${maybeUnderline(escapeTabularWrapped(data.jointSubject?.toUpperCase()), data.underlineSubject)} \\\\`);
     }
 
     if (rows.length > 0) {
@@ -1288,7 +1293,7 @@ function buildStandardMemorandumLayout(store: DocumentStore, config: DocTypeConf
 
   // SUBJECT: in Title Case (NOT ALL CAPS per Ch 12 ¶2l)
   if (data.subject) {
-    content += `\\noindent\n\\begin{tabular}{@{}l@{\\hspace{1em}}p{5.5in}@{}}\nSUBJECT: & \\uline{${escapeTabularWrapped(toTitleCase(data.subject))}}\n\\end{tabular}\n\n`;
+    content += `\\noindent\n\\begin{tabular}{@{}l@{\\hspace{1em}}p{5.5in}@{}}\nSUBJECT: & ${maybeUnderline(escapeTabularWrapped(toTitleCase(data.subject)), data.underlineSubject)}\n\\end{tabular}\n\n`;
   }
 
   // Body paragraphs
@@ -1334,7 +1339,7 @@ function buildActionMemorandumLayout(store: DocumentStore, config: DocTypeConfig
   if (data.from) rows.push(`FROM: & ${escapeTabularWrapped(data.from)} \\\\`);
   if (data.subject) {
     rows.push(`& \\\\[-6pt]`);
-    rows.push(`SUBJECT: & \\uline{${escapeTabularWrapped(toTitleCase(data.subject))}} \\\\`);
+    rows.push(`SUBJECT: & ${maybeUnderline(escapeTabularWrapped(toTitleCase(data.subject)), data.underlineSubject)} \\\\`);
   }
   if (rows.length > 0) {
     content += `\\noindent\n\\begin{tabular}{@{}l@{\\hspace{1em}}p{5.5in}@{}}\n${trimLastRow(rows)}\n\\end{tabular}\n\n`;
@@ -1390,7 +1395,7 @@ function buildInfoMemorandumLayout(store: DocumentStore, config: DocTypeConfig):
   }
   if (data.subject) {
     rows.push(`& \\\\[-6pt]`);
-    rows.push(`SUBJECT: & \\uline{${escapeTabularWrapped(toTitleCase(data.subject))}} \\\\`);
+    rows.push(`SUBJECT: & ${maybeUnderline(escapeTabularWrapped(toTitleCase(data.subject)), data.underlineSubject)} \\\\`);
   }
   if (rows.length > 0) {
     content += `\\noindent\n\\begin{tabular}{@{}l@{\\hspace{1em}}p{5.5in}@{}}\n${trimLastRow(rows)}\n\\end{tabular}\n\n`;
