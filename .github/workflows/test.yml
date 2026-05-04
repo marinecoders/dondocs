@@ -88,3 +88,56 @@ jobs:
             find dist -name '*.test.*'
             exit 1
           fi
+
+  compile-matrix:
+    # End-to-end LaTeX + DOCX compile harness. Runs `xelatex` and
+    # `pandoc` on every (docType × flag) fixture from
+    # `tests/_helpers/compileMatrix.ts` and asserts each one produces
+    # a valid output. This is the gap the unit / property / fuzz tests
+    # can't close: they assert on generator OUTPUT STRINGS but never
+    # ask the engine if those strings actually compile.
+    #
+    # Wall time: ~6-10 min on a 4-way pool (≈250 fixtures × 1-2s each).
+    # Bumped timeout reflects that.
+    name: compile matrix (LaTeX + DOCX)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: install xelatex + pandoc
+        # texlive-xetex pulls in the engine + ulem + hyperref + the
+        # font packages (txfonts, txfontsb) we use. tabularx + enumitem
+        # come from texlive-latex-extra. pandoc ships standalone (3.x
+        # in current Ubuntu). ~120MB total install.
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            texlive-xetex \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            pandoc
+
+      - run: npm ci
+
+      - name: run integration matrix
+        run: npm run test:integration
+
+      - name: upload failing tex dirs
+        # On failure, the harness leaves /tmp/dondocs-compile-XXXX dirs
+        # with the .tex files + log so a dev can `cd` in and reproduce.
+        # Pull them out as artifacts to make CI failures debuggable.
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failing-compile-artifacts
+          path: |
+            /tmp/dondocs-compile-*
+            /tmp/dondocs-docx-*
+          retention-days: 7
+          if-no-files-found: ignore

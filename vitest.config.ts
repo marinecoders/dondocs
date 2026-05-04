@@ -39,6 +39,11 @@ export default defineConfig({
   test: {
     environment: 'happy-dom',
     include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx'],
+    // Integration tests (LaTeX + DOCX compile matrix) shell out to
+    // xelatex / pandoc and take minutes to run. They have their own
+    // config (`vitest.integration.config.ts`) and run via
+    // `npm run test:integration`.
+    exclude: ['tests/integration/**', 'node_modules/**', 'dist/**'],
     setupFiles: ['./tests/_helpers/setup.ts'],
     // Property-based tests can be iteration-heavy; bump the default per-test
     // timeout so a thorough fast-check run doesn't false-fail on slower CI
