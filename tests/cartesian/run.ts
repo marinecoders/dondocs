@@ -150,6 +150,16 @@ interface Outcome {
   durationMs: number;
 }
 
+// Output-size floors. Matches the integration suite's per-fixture
+// assertions (latex-compile.test.ts uses `> 1000` for PDF, docx-compile
+// .test.ts uses `> 2000` for DOCX). These guards catch the rare path
+// where the engine exits 0 + the file is on disk but the content is
+// degenerate (truncated PDF header, empty DOCX zip, etc.). xelatex
+// almost never produces such output, but the same harness now matches
+// the integration suite's strictness for free.
+const MIN_PDF_BYTES = 1000;
+const MIN_DOCX_BYTES = 2000;
+
 async function compileOne(
   store: TestStore,
   path: 'latex' | 'docx' | 'both'
@@ -164,6 +174,16 @@ async function compileOne(
         workDir: r.workDir,
       };
     }
+    // Defensive: exit 0 + PDF on disk but tiny — treat as failure.
+    const pdfSize = r.pdfBytes?.byteLength ?? 0;
+    if (pdfSize <= MIN_PDF_BYTES) {
+      return {
+        ok: false,
+        exitCode: r.exitCode,
+        errorSummary: `xelatex exit 0 but PDF is suspiciously small (${pdfSize} bytes ≤ ${MIN_PDF_BYTES})`,
+        workDir: r.workDir,
+      };
+    }
     if (path === 'latex') return { ok: true, exitCode: 0, workDir: r.workDir };
   }
   if (path === 'docx' || path === 'both') {
@@ -173,6 +193,16 @@ async function compileOne(
         ok: false,
         exitCode: r.exitCode,
         errorSummary: r.log.split('\n').filter((l) => l.trim()).slice(-1)[0],
+        workDir: r.workDir,
+      };
+    }
+    // Same defensive size floor for DOCX.
+    const docxSize = r.docxBytes?.byteLength ?? 0;
+    if (docxSize <= MIN_DOCX_BYTES) {
+      return {
+        ok: false,
+        exitCode: r.exitCode,
+        errorSummary: `pandoc exit 0 but DOCX is suspiciously small (${docxSize} bytes ≤ ${MIN_DOCX_BYTES})`,
         workDir: r.workDir,
       };
     }
