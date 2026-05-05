@@ -1,0 +1,241 @@
+name: cartesian
+
+# The cartesian compile harness — every combination of every dimension
+# on every doc type, end-to-end through xelatex / pandoc.
+#
+# Strictly NOT a per-PR check. Two trigger modes:
+#
+#   1. Manual `workflow_dispatch` — pick a doc type, range, and path,
+#      and run a single shard up to ~5h50m wall (under GitHub Actions'
+#      6-hour-per-job cap). Useful for: "Does this change break
+#      naval_letter at 3-way+ flag interactions?" or for chasing a
+#      specific bug across a range of offsets.
+#
+#   2. Nightly `schedule` — runs a rotating ~50K-fixture DOCX-only
+#      slice of the full cartesian. DOCX is ~50× faster than xelatex,
+#      so a slice of this size finishes in ~30-40 min. Over time, the
+#      rotation covers the full 17.7M-fixture space without any
+#      single run breaking the bank.
+#
+# Cost reality check before clicking "Run workflow":
+#
+#   Single doc type, LaTeX path:
+#     ~884K fixtures × 3s / 4 vCPU ≈ 184 wall-hours
+#     ⇒ Fit it in one run by setting --limit (e.g. 8000 ≈ 100 min)
+#
+#   Single doc type, DOCX path (~50× faster):
+#     ~884K fixtures × 0.05s / 4 vCPU ≈ 3 wall-hours ✓ fits whole
+#
+#   Full cartesian (all 20 doc types):
+#     LaTeX: ~9.7 days even on 64 vCPU. Don't.
+#     DOCX:  ~62 hours / 4 vCPU. Possible across many runs.
+
+on:
+  workflow_dispatch:
+    inputs:
+      doc-type:
+        description: 'Doc type to test, or "all" for full cartesian'
+        required: true
+        default: 'naval_letter'
+        type: choice
+        options:
+          - all
+          - naval_letter
+          - standard_letter
+          - business_letter
+          - multiple_address_letter
+          - joint_letter
+          - joint_memorandum
+          - same_page_endorsement
+          - new_page_endorsement
+          - mfr
+          - mf
+          - plain_paper_memorandum
+          - letterhead_memorandum
+          - decision_memorandum
+          - executive_memorandum
+          - moa
+          - mou
+          - executive_correspondence
+          - standard_memorandum
+          - action_memorandum
+          - information_memorandum
+
+      path:
+        description: 'Compile path (DOCX is ~50× faster)'
+        required: true
+        default: 'latex'
+        type: choice
+        options:
+          - latex
+          - docx
+          - both
+
+      limit:
+        description: 'Max fixtures to compile (blank = no limit; under 6h: ≤8000 for latex, ≤200000 for docx)'
+        required: false
+        default: '5000'
+        type: string
+
+      start:
+        description: 'Start offset (advanced — leave 0 for normal runs)'
+        required: false
+        default: '0'
+        type: string
+
+      shard:
+        description: 'Shard "N/M" (advanced — leave blank for non-sharded)'
+        required: false
+        default: ''
+        type: string
+
+  schedule:
+    # 02:00 UTC every day. Hits a different rotating slice each run via
+    # the day-of-year arithmetic in the "compute nightly slice" step
+    # below. DOCX-only because LaTeX would never finish.
+    - cron: '0 2 * * *'
+
+# A new dispatch cancels any in-progress run on the same trigger.
+concurrency:
+  group: cartesian-${{ github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  cartesian-manual:
+    if: github.event_name == 'workflow_dispatch'
+    name: ${{ inputs.doc-type }} / ${{ inputs.path }} / limit ${{ inputs.limit }}
+    runs-on: ubuntu-latest
+    # 5h 50m. Just under GitHub Actions' hard 6h cap so a slow run
+    # has time to finish reporting + uploading artifacts before kill.
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: install xelatex + pandoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            texlive-xetex texlive-latex-extra texlive-fonts-recommended pandoc
+
+      - run: npm ci
+
+      - name: run cartesian
+        run: |
+          ARGS=""
+          if [ "${{ inputs.doc-type }}" != "all" ]; then
+            ARGS="$ARGS --doc-type=${{ inputs.doc-type }}"
+          fi
+          ARGS="$ARGS --path=${{ inputs.path }}"
+          if [ -n "${{ inputs.limit }}" ]; then
+            ARGS="$ARGS --limit=${{ inputs.limit }}"
+          fi
+          if [ "${{ inputs.start }}" != "0" ]; then
+            ARGS="$ARGS --start=${{ inputs.start }}"
+          fi
+          if [ -n "${{ inputs.shard }}" ]; then
+            ARGS="$ARGS --shard=${{ inputs.shard }}"
+          fi
+          echo "Cartesian args: $ARGS"
+          npm run test:cartesian -- $ARGS
+
+      - name: upload result CSV + log
+        if: always()  # Upload even on failure / timeout
+        uses: actions/upload-artifact@v4
+        with:
+          name: cartesian-results
+          path: .cartesian-results/
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: upload failing tex dirs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cartesian-failing-tex
+          path: |
+            /tmp/dondocs-compile-*
+            /tmp/dondocs-docx-*
+          retention-days: 14
+          if-no-files-found: ignore
+
+  cartesian-nightly:
+    if: github.event_name == 'schedule'
+    name: nightly DOCX slice
+    runs-on: ubuntu-latest
+    timeout-minutes: 60  # Should be ~30-40 min; 60 leaves headroom.
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: install pandoc (no TeX Live needed for DOCX path)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends pandoc
+
+      - run: npm ci
+
+      - name: compute today's slice
+        id: slice
+        # Rotate through the 17.7M fixture space at ~50K/night. 17.7M
+        # / 50K = 354 nights to cover the whole space (about 1 year),
+        # then we wrap. Modular arithmetic on day-of-year keeps the
+        # slice deterministic per-date so reruns of the same night are
+        # the same slice.
+        run: |
+          DAY=$(date -u +%j)        # 001..366
+          SLICE_SIZE=50000
+          START=$(( (DAY - 1) * SLICE_SIZE ))
+          END=$(( START + SLICE_SIZE ))
+          echo "Today is day-of-year $DAY → slice [$START, $END)"
+          echo "start=$START" >> "$GITHUB_OUTPUT"
+          echo "end=$END" >> "$GITHUB_OUTPUT"
+
+      - name: run nightly DOCX slice
+        run: |
+          npm run test:cartesian -- \
+            --path=docx \
+            --start=${{ steps.slice.outputs.start }} \
+            --end=${{ steps.slice.outputs.end }}
+
+      - name: upload result CSV + log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cartesian-nightly-${{ github.run_number }}
+          path: .cartesian-results/
+          retention-days: 90  # Longer than manual — useful for trend analysis.
+          if-no-files-found: ignore
+
+      - name: open issue on failure
+        # If the nightly run finds new failures, file an issue so the
+        # team sees it instead of having it sit in workflow-history
+        # purgatory.
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const day = new Date().toISOString().split('T')[0];
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Cartesian nightly DOCX failure — ${day}`,
+              body: [
+                `The nightly cartesian DOCX slice failed.`,
+                ``,
+                `Slice: \`${{ steps.slice.outputs.start }}\` → \`${{ steps.slice.outputs.end }}\` (~50K fixtures, day-of-year ${process.env.DAY ?? 'unknown'}).`,
+                ``,
+                `Workflow run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+                ``,
+                `The CSV + log artifacts on that run identify the specific failing fixtures.`,
+              ].join('\n'),
+              labels: ['automated', 'cartesian-failure'],
+            });

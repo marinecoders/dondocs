@@ -1,0 +1,154 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel in-progress runs when a new commit lands on the same PR / branch.
+# Each push gets a fresh, definitive result.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: ${{ matrix.task }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        # Node 22 is the current Active LTS (supported through April 2027)
+        # and what Cloudflare Pages runs by default. The codebase ships to
+        # browsers, not Node, so the only Node-specific surface is the
+        # build / test tooling. Single version is enough.
+        task: [unit, typecheck]
+        # Lint is intentionally not in this matrix. The baseline has a
+        # cluster of `react-refresh/only-export-components` warnings
+        # from earlier component refactors; enabling lint as a gate
+        # would block every PR on pre-existing noise. Cleanup is
+        # tracked as a follow-up PR (`feat/ci-lint-security`) that
+        # also adds bundle-size + `npm audit` gates and turns on
+        # `eslint-plugin-security`. CodeQL already runs separately
+        # via the auto-generated `codeql.yml` workflow.
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: install
+        run: npm ci
+
+      - name: run task
+        run: |
+          case "${{ matrix.task }}" in
+            unit)      npm test ;;
+            typecheck) npx tsc --noEmit ;;
+          esac
+
+  coverage:
+    # Coverage gate. Thresholds live in vitest.config.ts and are set
+    # just below the current numbers, so a PR that drops coverage
+    # (e.g. removes a test file) fails the gate. Bump thresholds
+    # upward as the suite grows.
+    name: coverage threshold
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run test:coverage
+
+  build:
+    # Verifies the production bundle still compiles with the test changes
+    # in place. Catches "the test setup leaked into the bundle" mistakes.
+    name: production build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+      - name: assert no test file in dist
+        # Sanity check: tests/ MUST NOT end up in the production bundle.
+        # If this finds anything, our tsconfig.app.json `include` got
+        # widened or a test file got accidentally imported from src/.
+        run: |
+          if find dist -name '*.test.*' -print -quit | grep -q .; then
+            echo "::error::Test files found in dist/ — production bundle contaminated"
+            find dist -name '*.test.*'
+            exit 1
+          fi
+
+  compile-matrix:
+    # End-to-end LaTeX + DOCX compile harness. Three test files run
+    # under `tests/integration/`:
+    #   - latex-compile.test.ts    : 380 pairwise fixtures × xelatex
+    #   - docx-compile.test.ts     : 380 pairwise fixtures × pandoc
+    #   - differential.test.ts     : 10 curated fixtures, asserts
+    #                                 user-supplied subject text
+    #                                 appears in BOTH extracted PDF
+    #                                 and DOCX outputs (catches path
+    #                                 divergence — exactly the kind of
+    #                                 bug PR #67 had with subject
+    #                                 underline).
+    # Total ≈ 770 tests. Wall time ~5 min on Ubuntu's 4-vCPU runner
+    # (xelatex dominates; pandoc + pdf-parse + mammoth are ~50× faster).
+    name: compile matrix (LaTeX + DOCX)
+    runs-on: ubuntu-latest
+    # Actual run time is ~5 min (xelatex dominates, ~3s × 380 fixtures
+    # / 4-way pool). 15 min budget catches a stuck job without letting
+    # it burn 25 min of runner time.
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: install xelatex + pandoc
+        # texlive-xetex pulls in the engine + ulem + hyperref + the
+        # font packages (txfonts, txfontsb) we use. tabularx + enumitem
+        # come from texlive-latex-extra. pandoc ships standalone (3.x
+        # in current Ubuntu). ~120MB total install.
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            texlive-xetex \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            pandoc
+
+      - run: npm ci
+
+      - name: run integration matrix
+        run: npm run test:integration
+
+      - name: upload failing tex dirs
+        # On failure, the harness leaves /tmp/dondocs-compile-XXXX dirs
+        # with the .tex files + log so a dev can `cd` in and reproduce.
+        # Pull them out as artifacts to make CI failures debuggable.
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failing-compile-artifacts
+          path: |
+            /tmp/dondocs-compile-*
+            /tmp/dondocs-docx-*
+          retention-days: 7
+          if-no-files-found: ignore

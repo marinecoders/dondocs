@@ -103,8 +103,16 @@ const SCHEME_RE = /^([a-z][a-z0-9+\-.]*):/i;
 // Loose email pattern — full RFC 5322 grammar is overkill for this
 // chokepoint, and the URL constructor doesn't enforce mailto local-part
 // shape, so we add a sanity check here. Requires a single @ and a dot
-// in the domain side; rejects whitespace.
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// in the domain side; rejects whitespace and the `?` / `#` characters
+// that the URL constructor treats as query / fragment delimiters.
+//
+// Excluding `?` and `#` is required for idempotence: if we accepted
+// them in the local-part, `safeUrl(bareEmail)` would canonicalize to
+// `mailto:foo?bar@x.com`, and `safeUrl(thatResult)` would split at
+// `?`, validate `mailto:foo` (no `@`), and reject — violating the
+// safeUrl(safeUrl(x)) === safeUrl(x) round-trip property the
+// canonicalization layer needs to be reliable.
+const EMAIL_RE = /^[^\s@?#]+@[^\s@?#]+\.[^\s@?#]+$/;
 
 // Bare host or host/path. Conservative: starts with alphanumeric,
 // allows dots/dashes, optional :port, optional /path.

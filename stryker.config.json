@@ -1,0 +1,78 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+
+  "_comment": "Stryker mutation-testing config — LOCAL ONLY, NOT in CI.",
+  "_run_comment": "Run with: `npm run test:mutation`. Wall time ~30 min on a modern laptop.",
+  "_purpose_comment": [
+    "Verifies the test suite isn't 'fake' — for each mutation injected into",
+    "src/services/latex/, at least one test must catch it. A surviving mutant",
+    "(no test failed) means the suite has a hole there.",
+    "",
+    "Scoped to src/services/latex/ specifically: this is the highest-value /",
+    "highest-bug-density layer (the LaTeX generator, the flat-generator, the",
+    "escaper). Mutating the React components or Zustand stores would explode",
+    "runtime without commensurate value.",
+    "",
+    "Manual mutation testing during the property/fuzz audit confirmed:",
+    "  - escapeLatex → '' was caught by 45 tests",
+    "  - wrapTextForForm bypass was caught by 17 tests",
+    "  - replacePlaceholders identity was caught by 6 tests",
+    "This config codifies the same check so future contributors can re-verify.",
+    "",
+    "Verified locally with `npx stryker run --dryRunOnly`: 6 source files",
+    "matched, 2533 mutants instrumented, 201 tests run in the dry-run pass."
+  ],
+
+  "packageManager": "npm",
+
+  "testRunner": "vitest",
+  "vitest": {
+    "configFile": "vitest.config.ts"
+  },
+
+  "checkers": ["typescript"],
+  "tsconfigFile": "tsconfig.app.json",
+
+  "mutate": [
+    "src/services/latex/**/*.ts",
+    "src/lib/url-safety.ts",
+    "src/lib/placeholders.ts",
+    "src/lib/paragraphUtils.ts",
+
+    "!src/**/*.d.ts"
+  ],
+
+  "_thresholds_comment": [
+    "Baseline scores measured during this PR's Stryker integration:",
+    "",
+    "  File                                  | Before | After  | Notes",
+    "  --------------------------------------|--------|--------|----------",
+    "  src/lib/url-safety.ts                 |  39%   |  71%   | strengthened — exposed EMAIL_RE bug",
+    "  src/lib/placeholders.ts               |  38%   | 100%   | strengthened — 3 helpers had no coverage",
+    "  src/lib/paragraphUtils.ts             |  87%   |  87%   | already strong",
+    "  src/services/latex/escaper.ts         |  54%   |  54%   | follow-up — surviving StringLiteral mutants",
+    "                                                            in escape patterns suggest a property gap",
+    "                                                            (multi-hour focused work)",
+    "",
+    "Break threshold (50) is just under the lowest strengthened score",
+    "so a regression that breaks a major test file fails the local run.",
+    "low (65) and high (80) remain aspirational targets — bump break",
+    "upward whenever a follow-up PR raises the floor."
+  ],
+  "thresholds": {
+    "high": 80,
+    "low": 65,
+    "break": 50
+  },
+
+  "reporters": ["clear-text", "progress", "html"],
+  "htmlReporter": {
+    "fileName": ".stryker-results/index.html"
+  },
+
+  "concurrency": 4,
+  "timeoutMS": 30000,
+
+  "tempDirName": ".stryker-tmp",
+  "cleanTempDir": true
+}
