@@ -139,7 +139,7 @@ describe('generateDocumentTex — smoke', () => {
     expect(tex).toContain('\\&');
   });
 
-  it('does not throw on missing optional fields (via, salutation, etc.)', () => {
+  it('survives missing optional fields (via, salutation, etc.) — no throw, subject still emitted', () => {
     const store = fixtureNavalLetter({
       formData: {
         ...fixtureNavalLetter().formData,
@@ -149,21 +149,41 @@ describe('generateDocumentTex — smoke', () => {
         pocEmail: undefined,
       },
     });
-    expect(() => generateDocumentTex(store)).not.toThrow();
+    // No-throw is the safety net; the value-check below is what catches a
+    // regression that silently drops the entire output (e.g. early-return
+    // on first undefined optional). Identity-returning impls fail this.
+    let tex: string | undefined;
+    expect(() => { tex = generateDocumentTex(store); }).not.toThrow();
+    expect(tex).toContain('OPERATIONAL READINESS REPORT');
   });
 
-  it('does not throw on an empty paragraphs array', () => {
+  it('survives an empty paragraphs array — no throw, header still emitted', () => {
     const store = fixtureNavalLetter({ paragraphs: [] });
-    expect(() => generateDocumentTex(store)).not.toThrow();
+    let tex: string | undefined;
+    expect(() => { tex = generateDocumentTex(store); }).not.toThrow();
+    // SSIC + serial come from the header, not from paragraphs.
+    expect(tex).toContain('1000');
+    expect(tex).toContain('0123');
   });
 
-  it('does not throw on different doc types (memorandum, endorsement, etc.)', () => {
+  it('different doc types each produce real output (subject survives, not just no-throw)', () => {
+    // Per-docType subject-survives check. Catches a regression where
+    // generateDocumentTex silently returns '' for an unknown / mishandled
+    // docType. Original test only checked no-throw — would have missed it.
+    //
+    // Case-insensitive: executive doc types (e.g. standard_memorandum)
+    // title-case the subject ("Operational Readiness Report") while the
+    // standard SECNAV types upper-case it. Either is fine — we only want
+    // to confirm the SUBJECT TEXT survives, not its exact casing.
     for (const docType of ['memorandum', 'endorsement', 'mf', 'standard_memorandum']) {
       const store = fixtureNavalLetter({
         docType,
         formData: { ...fixtureNavalLetter().formData, docType },
       });
-      expect(() => generateDocumentTex(store), `docType=${docType}`).not.toThrow();
+      const tex = generateDocumentTex(store);
+      expect(tex.toLowerCase(), `docType=${docType}`).toContain('operational readiness report');
+      // Non-trivial output — rules out a `() => 'operational readiness report'` regression.
+      expect(tex.length, `docType=${docType}`).toBeGreaterThan(200);
     }
   });
 });
@@ -176,11 +196,15 @@ describe('generateLetterheadTex — smoke', () => {
     expect(tex).toContain('1ST BATTALION');
   });
 
-  it('does not throw when address is missing', () => {
+  it('survives missing address — no throw, unit name still emitted', () => {
     const store = fixtureNavalLetter({
       formData: { ...fixtureNavalLetter().formData, unitAddress: undefined },
     });
-    expect(() => generateLetterheadTex(store)).not.toThrow();
+    let tex: string | undefined;
+    expect(() => { tex = generateLetterheadTex(store); }).not.toThrow();
+    // unitLine1 is still set in the fixture; the generator must still
+    // emit it even when one optional field is missing.
+    expect(tex).toContain('1ST BATTALION');
   });
 });
 
@@ -192,7 +216,7 @@ describe('generateSignatoryTex — smoke', () => {
     expect(tex).toContain('DOE');
   });
 
-  it('does not throw when signature fields are blank', () => {
+  it('survives blank name fields — no throw, rank/title still emitted', () => {
     const store = fixtureNavalLetter({
       formData: {
         ...fixtureNavalLetter().formData,
@@ -201,7 +225,12 @@ describe('generateSignatoryTex — smoke', () => {
         sigLast: '',
       },
     });
-    expect(() => generateSignatoryTex(store)).not.toThrow();
+    let tex: string | undefined;
+    expect(() => { tex = generateSignatoryTex(store); }).not.toThrow();
+    // Rank and title remain set ("Lieutenant Colonel", "Commanding Officer")
+    // — the generator must still emit them even when name parts are blank.
+    // Catches a regression that early-exits to '' on any missing name.
+    expect(tex).toContain('Commanding Officer');
   });
 });
 
@@ -223,11 +252,21 @@ describe('generateClassificationTex — smoke', () => {
     expect(tex.toLowerCase()).toContain('secret');
   });
 
-  it('does not throw on an unknown classLevel', () => {
+  it('unknown classLevel degrades safely — no throw, no fabricated marking', () => {
+    // Per the generator's "hard refusal" comment: unrecognized classLevel
+    // values must NOT silently fall through to SECRET. The output for an
+    // unknown level should NOT contain any classification marking token.
     const store = fixtureNavalLetter({
       formData: { ...fixtureNavalLetter().formData, classLevel: 'unknown-level' },
     });
-    expect(() => generateClassificationTex(store)).not.toThrow();
+    let tex: string | undefined;
+    expect(() => { tex = generateClassificationTex(store); }).not.toThrow();
+    expect(tex).toBeDefined();
+    // Must not fabricate any classification marking from an unknown level.
+    expect(tex!.toLowerCase()).not.toContain('secret');
+    expect(tex!.toLowerCase()).not.toContain('confidential');
+    // And must not have leaked the literal string "undefined" into output.
+    expect(tex).not.toContain('undefined');
   });
 });
 
@@ -249,7 +288,10 @@ describe('generateAllLatexFiles — orchestration', () => {
     expect(files.texFiles).toHaveProperty('signatory.tex');
   });
 
-  it('does not throw on a store with maximum complexity (refs + enclosures + 4-level paragraphs + copyTos + distributions)', () => {
+  it('store with maximum complexity emits real content for every collection (refs / enclosures / paragraphs / copyTos / distributions)', () => {
+    // Maximum-complexity fixture; the assertion verifies each input
+    // collection's distinctive token survives into the generated tex,
+    // ruling out a regression that drops one of them silently.
     const store = fixtureNavalLetter({
       references: [
         { letter: 'a', title: 'MCO 6100.13A' },
@@ -266,6 +308,18 @@ describe('generateAllLatexFiles — orchestration', () => {
       copyTos: [{ text: 'G-3/5' }, { text: 'G-4' }],
       distributions: [{ text: 'A' }, { text: 'B' }],
     });
-    expect(() => generateAllLatexFiles(store)).not.toThrow();
+    let files: ReturnType<typeof generateAllLatexFiles> | undefined;
+    expect(() => { files = generateAllLatexFiles(store); }).not.toThrow();
+
+    // Every collection's distinctive content survives somewhere in
+    // the emitted texFiles — search across all generated files
+    // because each lives in its own module (refs in references.tex,
+    // body in body.tex, copyTos in copyto-config.tex, etc).
+    const allTex = Object.values(files!.texFiles).join('\n');
+    expect(allTex).toContain('MCO 6100.13A');
+    expect(allTex).toContain('PFT Scorecard');
+    expect(allTex).toContain('Level 3 nesting');  // deepest paragraph
+    expect(allTex).toContain('G-3/5');
+    expect(allTex).toMatch(/Distribution|distribution/);
   });
 });

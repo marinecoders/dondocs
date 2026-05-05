@@ -79,9 +79,34 @@ describe('FILE_LIMITS', () => {
 });
 
 describe('FILE_TYPES', () => {
-  it('contains common types', () => {
-    expect(FILE_TYPES).toBeDefined();
-    expect(typeof FILE_TYPES).toBe('object');
+  it('exposes the set of MIME-type buckets the upload UIs depend on', () => {
+    // Concrete keys: each upload component switches on these names; if a
+    // key disappears the rest of the codebase breaks at use-sites without
+    // a unit test catching it. Pinning the keys here is the regression
+    // gate. (Original test only checked `typeof === 'object'`, which
+    // passed for `{}` — useless.)
+    expect(FILE_TYPES).toHaveProperty('PDF');
+    expect(FILE_TYPES).toHaveProperty('IMAGE');
+    expect(FILE_TYPES).toHaveProperty('EXCEL');
+    expect(FILE_TYPES).toHaveProperty('JSON');
+  });
+
+  it('every bucket is a non-empty array of MIME-type strings', () => {
+    // Catches a regression that empties a bucket (e.g. removes
+    // `application/pdf` from the PDF list) — that would silently break
+    // PDF uploads everywhere without any other test failing.
+    for (const [bucket, mimes] of Object.entries(FILE_TYPES)) {
+      expect(Array.isArray(mimes), `${bucket} should be an array`).toBe(true);
+      expect((mimes as readonly string[]).length, `${bucket} must have at least one MIME type`).toBeGreaterThan(0);
+      for (const mime of mimes as readonly string[]) {
+        // MIME type shape: `type/subtype` — at minimum one slash
+        expect(mime, `${bucket} entry`).toMatch(/^[a-z]+\/[a-z0-9.+-]+$/i);
+      }
+    }
+  });
+
+  it('PDF bucket includes application/pdf (depended on by the enclosure-upload + signature flows)', () => {
+    expect(FILE_TYPES.PDF).toContain('application/pdf');
   });
 });
 
