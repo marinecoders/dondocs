@@ -17,32 +17,34 @@
  * MacTeX or BasicTeX. Tests are skipped (with a console warning) if
  * xelatex is unavailable, so a fresh checkout doesn't false-fail.
  */
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { spawnSync } from 'node:child_process';
 import { compileFixture, formatFailure } from '../_helpers/compileLatex';
 import { pairwiseMatrix } from '../_helpers/compileMatrix';
 
-let xelatexAvailable = false;
+// Synchronous toolchain check at module load. Done at top level (not in
+// `beforeAll`) so the result is available BEFORE `describe.each` runs,
+// letting us use `it.skipIf(...)` and report tests as truly SKIPPED
+// (not falsely PASSED) when xelatex is missing. The previous pattern
+// used `if (!available) return;` inside the test body, which made
+// vitest report 760 passing tests on a runner with no TeX Live —
+// silently green CI on machines without a working compile path.
+const xelatexAvailable =
+  spawnSync('xelatex', ['--version'], { encoding: 'utf-8' }).status === 0;
 
-beforeAll(() => {
-  const result = spawnSync('xelatex', ['--version'], { encoding: 'utf-8' });
-  xelatexAvailable = result.status === 0;
-  if (!xelatexAvailable) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      '[latex-compile] xelatex not found on PATH — skipping all compile tests.\n' +
-      'Install MacTeX (macOS) or `apt install texlive-xetex` (Linux) to run this suite.'
-    );
-  }
-});
+if (!xelatexAvailable) {
+  // eslint-disable-next-line no-console
+  console.warn(
+    '[latex-compile] xelatex not found on PATH — every fixture below will be SKIPPED.\n' +
+    'Install MacTeX (macOS) or `apt install texlive-xetex` (Linux) to run this suite.'
+  );
+}
 
 describe('LaTeX compile matrix', () => {
   const fixtures = pairwiseMatrix();
 
   describe.each(fixtures)('$name', ({ name, store }) => {
-    it('compiles to PDF without xelatex error', async () => {
-      if (!xelatexAvailable) return;
-
+    it.skipIf(!xelatexAvailable)('compiles to PDF without xelatex error', async () => {
       const result = await compileFixture(store);
 
       if (!result.ok) {

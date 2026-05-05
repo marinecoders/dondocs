@@ -1,0 +1,60 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+
+  "_": "Stryker mutation-testing config — LOCAL ONLY, NOT in CI.",
+  "_run": "Run with: `npm run test:mutation`. Wall time ~30 min on a modern laptop.",
+  "_purpose": [
+    "Verifies the test suite isn't 'fake' — for each mutation injected into",
+    "src/services/latex/, at least one test must catch it. A surviving mutant",
+    "(no test failed) means the suite has a hole there.",
+    "",
+    "Scoped to src/services/latex/ specifically: this is the highest-value /",
+    "highest-bug-density layer (the LaTeX generator, the flat-generator, the",
+    "escaper, the URL-safety chokepoint). Mutating the React components or",
+    "Zustand stores would explode runtime without commensurate value.",
+    "",
+    "Manual mutation testing during the property/fuzz audit confirmed:",
+    "  - escapeLatex → '' was caught by 45 tests",
+    "  - wrapTextForForm bypass was caught by 17 tests",
+    "  - replacePlaceholders identity was caught by 6 tests",
+    "This config codifies the same check so future contributors can re-verify."
+  ],
+
+  "packageManager": "npm",
+
+  "testRunner": "vitest",
+  "vitest": {
+    "configFile": "vitest.config.ts"
+  },
+
+  "checkers": ["typescript"],
+  "tsconfigFile": "tsconfig.app.json",
+
+  "mutate": [
+    "src/services/latex/**/*.ts",
+    "src/lib/escaper.ts",
+    "src/lib/url-safety.ts",
+    "src/lib/placeholders.ts",
+    "src/lib/paragraphUtils.ts",
+
+    "!src/**/*.test.ts",
+    "!src/**/*.d.ts"
+  ],
+
+  "thresholds": {
+    "high": 80,
+    "low": 70,
+    "break": 60
+  },
+
+  "reporters": ["clear-text", "progress", "html"],
+  "htmlReporter": {
+    "fileName": ".stryker-results/index.html"
+  },
+
+  "concurrency": 4,
+  "timeoutMS": 30000,
+
+  "tempDirName": ".stryker-tmp",
+  "cleanTempDir": true
+}

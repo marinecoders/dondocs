@@ -56,15 +56,17 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       // Whole-source thresholds. Set just below the current numbers
-      // (Statements 9.21%, Branches 7.87%, Functions 7.15%, Lines 9.54%)
-      // so a future PR can't accidentally drop coverage by removing tests
+      // (Statements 9.31%, Branches 8.03%, Functions 7.15%, Lines 9.63%
+      // as of the property/fuzz/integration test layer landing) so a
+      // future PR can't accidentally drop coverage by removing tests
       // — even one test file going missing fails the gate. Bump these
-      // upward as the suite grows.
+      // upward as the suite grows. Margins are deliberately tight
+      // (~0.1%) so coverage drift trips the alarm early.
       thresholds: {
-        statements: 9,
-        branches: 7,
-        functions: 7,
-        lines: 9,
+        statements: 9.2,
+        branches: 7.9,
+        functions: 7.1,
+        lines: 9.5,
       },
       // Report on the whole src/ surface, not just imported files. That
       // way the threshold reflects the actual proportion of the codebase

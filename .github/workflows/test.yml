@@ -25,10 +25,14 @@ jobs:
         # browsers, not Node, so the only Node-specific surface is the
         # build / test tooling. Single version is enough.
         task: [unit, typecheck]
-        # Lint deliberately omitted from the matrix until a separate
-        # cleanup PR drops the baseline `react-refresh/only-export-
-        # components` errors. Adding lint to CI now would block every
-        # PR on pre-existing noise. Tracked as a follow-up.
+        # Lint is intentionally not in this matrix. The baseline has a
+        # cluster of `react-refresh/only-export-components` warnings
+        # from earlier component refactors; enabling lint as a gate
+        # would block every PR on pre-existing noise. Cleanup is
+        # tracked as a follow-up PR (`feat/ci-lint-security`) that
+        # also adds bundle-size + `npm audit` gates and turns on
+        # `eslint-plugin-security`. CodeQL already runs separately
+        # via the auto-generated `codeql.yml` workflow.
     steps:
       - uses: actions/checkout@v4
 
@@ -90,15 +94,19 @@ jobs:
           fi
 
   compile-matrix:
-    # End-to-end LaTeX + DOCX compile harness. Runs `xelatex` and
-    # `pandoc` on every (docType × flag) fixture from
-    # `tests/_helpers/compileMatrix.ts` and asserts each one produces
-    # a valid output. This is the gap the unit / property / fuzz tests
-    # can't close: they assert on generator OUTPUT STRINGS but never
-    # ask the engine if those strings actually compile.
-    #
-    # Wall time: ~6-10 min on a 4-way pool (≈250 fixtures × 1-2s each).
-    # Bumped timeout reflects that.
+    # End-to-end LaTeX + DOCX compile harness. Three test files run
+    # under `tests/integration/`:
+    #   - latex-compile.test.ts    : 380 pairwise fixtures × xelatex
+    #   - docx-compile.test.ts     : 380 pairwise fixtures × pandoc
+    #   - differential.test.ts     : 10 curated fixtures, asserts
+    #                                 user-supplied subject text
+    #                                 appears in BOTH extracted PDF
+    #                                 and DOCX outputs (catches path
+    #                                 divergence — exactly the kind of
+    #                                 bug PR #67 had with subject
+    #                                 underline).
+    # Total ≈ 770 tests. Wall time ~5 min on Ubuntu's 4-vCPU runner
+    # (xelatex dominates; pandoc + pdf-parse + mammoth are ~50× faster).
     name: compile matrix (LaTeX + DOCX)
     runs-on: ubuntu-latest
     timeout-minutes: 25
