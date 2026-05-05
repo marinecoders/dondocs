@@ -43,17 +43,19 @@
   ],
 
   "_thresholds_comment": [
-    "Current baseline (Apr 2026): src/lib/url-safety.ts scored 39%",
-    "in a full local Stryker run. The high/low/break values below are",
-    "set just under that so a fresh run doesn't false-fail; 'high' /",
-    "'low' remain aspirational targets to climb to as more property",
-    "tests strengthen. Bump these upward whenever a Stryker run shows",
-    "the floor moving."
+    "Baseline scores measured during this PR's Stryker integration:",
+    "  - src/lib/url-safety.ts: 39% (initial), 71% (after property-",
+    "    test strengthening + EMAIL_RE fix that property tests caught)",
+    "Break threshold (50) is set just under the strengthened score so",
+    "a regression that drops a major test file fails the local run.",
+    "low (65) and high (80) remain aspirational targets to climb to",
+    "as more property tests strengthen. Bump break upward whenever a",
+    "follow-up PR raises the floor."
   ],
   "thresholds": {
     "high": 80,
-    "low": 50,
-    "break": 35
+    "low": 65,
+    "break": 50
   },
 
   "reporters": ["clear-text", "progress", "html"],
