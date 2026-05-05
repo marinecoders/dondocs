@@ -548,3 +548,140 @@ export function pairwiseMatrix(): Fixture[] {
 
   return fixtures;
 }
+
+// ----- Full cartesian (every combination of every dimension) -----
+//
+// Per-doc-type cartesian size: 884,736
+//   classLevel × fontSize × fontFamily × pageNumbering × letterheadColor × signatureType × 2^12
+//      6     ×    3     ×     2     ×       3      ×       2        ×      2        ×  4096
+//
+// Total across 20 doc types: 17,694,720 fixtures × 2 paths (xelatex + pandoc) = 35.4M tests.
+//
+// At ~3s per xelatex compile that's 614 days SERIAL or ~9.7 days on a 64-vCPU
+// machine. Not feasible as a vitest matrix (vitest can't enumerate millions
+// of describe.each rows without OOMing). Exposed as a generator so a
+// dedicated CLI runner can stream through it lazily — see
+// `tests/cartesian/run.ts`.
+//
+// Each row's name encodes the docType + a 7-digit hex offset
+// (`naval_letter:cart#0000000` … `naval_letter:cart#00d7ffff`) so any single
+// failure is reproducible by re-running with --doc-type=X --start=N --end=N+1.
+
+const CART_DIMS = {
+  classLevel: ['unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci'] as const,
+  fontSize: ['10pt', '11pt', '12pt'] as const,
+  fontFamily: ['times', 'courier'] as const,
+  pageNumbering: ['none', 'simple', 'xofy'] as const,
+  letterheadColor: ['blue', 'black'] as const,
+  signatureType: ['none', 'digital'] as const,
+} as const;
+
+const CART_BOOL_KEYS = [
+  'underlineSubject',
+  'includeHyperlinks',
+  'showSubjectOnContinuation',
+  'byDirection',
+  'inReplyTo',
+  'hasReferences',
+  'hasEnclosures',
+  'hasVia',
+  'hasCopyTos',
+  'hasDistributions',
+  'longBody',
+  'specialCharsInSubject',
+] as const satisfies readonly (keyof FlagOverrides)[];
+
+const CART_BOOL_COUNT = CART_BOOL_KEYS.length;
+const CART_BOOL_COMBOS = 1 << CART_BOOL_COUNT; // 2^12 = 4096
+
+/** Cartesian size per doc type, computed once. */
+export const CARTESIAN_PER_DOCTYPE: number =
+  CART_DIMS.classLevel.length *
+  CART_DIMS.fontSize.length *
+  CART_DIMS.fontFamily.length *
+  CART_DIMS.pageNumbering.length *
+  CART_DIMS.letterheadColor.length *
+  CART_DIMS.signatureType.length *
+  CART_BOOL_COMBOS;
+
+/** Total cartesian size across every correspondence doc type. */
+export const CARTESIAN_TOTAL: number = CARTESIAN_PER_DOCTYPE * ALL_DOC_TYPES.length;
+
+/**
+ * Map a 0-based offset within `[0, CARTESIAN_PER_DOCTYPE)` to a `FlagOverrides`
+ * value. The offset's bit/digit positions encode each dimension. Mirrors the
+ * iteration order used by the generator below.
+ */
+function flagsFromOffset(offset: number): FlagOverrides {
+  let n = offset;
+  const bools = n & (CART_BOOL_COMBOS - 1); n >>>= CART_BOOL_COUNT;
+  const sigType = CART_DIMS.signatureType[n % CART_DIMS.signatureType.length]; n = Math.floor(n / CART_DIMS.signatureType.length);
+  const lhColor = CART_DIMS.letterheadColor[n % CART_DIMS.letterheadColor.length]; n = Math.floor(n / CART_DIMS.letterheadColor.length);
+  const pageNum = CART_DIMS.pageNumbering[n % CART_DIMS.pageNumbering.length]; n = Math.floor(n / CART_DIMS.pageNumbering.length);
+  const fontFam = CART_DIMS.fontFamily[n % CART_DIMS.fontFamily.length]; n = Math.floor(n / CART_DIMS.fontFamily.length);
+  const fontSz = CART_DIMS.fontSize[n % CART_DIMS.fontSize.length]; n = Math.floor(n / CART_DIMS.fontSize.length);
+  const classLv = CART_DIMS.classLevel[n % CART_DIMS.classLevel.length];
+
+  const flags: FlagOverrides = {
+    classLevel: classLv,
+    fontSize: fontSz,
+    fontFamily: fontFam,
+    pageNumbering: pageNum,
+    letterheadColor: lhColor,
+    signatureType: sigType,
+  };
+  for (let i = 0; i < CART_BOOL_COUNT; i++) {
+    (flags as Record<string, unknown>)[CART_BOOL_KEYS[i]] = !!(bools & (1 << i));
+  }
+  return flags;
+}
+
+/**
+ * Lazy generator over the full cartesian product.
+ *
+ * @param docType   restrict to a single doc type, or undefined for all 20
+ * @param start     global offset to start at (inclusive)
+ * @param end       global offset to stop at (exclusive); defaults to total
+ *
+ * Streaming — emits fixtures one at a time without materializing the array.
+ * Safe to use with millions of rows on a normal-RAM machine.
+ *
+ * Global offset:
+ *   docTypeIndex * CARTESIAN_PER_DOCTYPE + offsetWithinDocType
+ *
+ * The hex name format `<docType>:cart#<7-digit-hex>` encodes the
+ * offsetWithinDocType (0..CARTESIAN_PER_DOCTYPE-1, max = 0xd7fff = 884,735).
+ */
+export function* cartesianGenerator(
+  docType?: DocType,
+  start: number = 0,
+  end: number = docType ? CARTESIAN_PER_DOCTYPE : CARTESIAN_TOTAL
+): Generator<Fixture> {
+  if (docType) {
+    // Single doc type — offset is local.
+    const baseline = buildBaseline(docType);
+    const lo = Math.max(0, Math.floor(start));
+    const hi = Math.min(CARTESIAN_PER_DOCTYPE, Math.floor(end));
+    for (let i = lo; i < hi; i++) {
+      yield {
+        name: `${docType}:cart#${i.toString(16).padStart(7, '0')}`,
+        store: applyFlags(baseline, flagsFromOffset(i)),
+      };
+    }
+    return;
+  }
+
+  // All doc types — global offset.
+  const lo = Math.max(0, Math.floor(start));
+  const hi = Math.min(CARTESIAN_TOTAL, Math.floor(end));
+  for (let global = lo; global < hi; global++) {
+    const docIdx = Math.floor(global / CARTESIAN_PER_DOCTYPE);
+    const localIdx = global % CARTESIAN_PER_DOCTYPE;
+    const dt = ALL_DOC_TYPES[docIdx];
+    const baseline = buildBaseline(dt);
+    yield {
+      name: `${dt}:cart#${localIdx.toString(16).padStart(7, '0')}`,
+      store: applyFlags(baseline, flagsFromOffset(localIdx)),
+    };
+  }
+}

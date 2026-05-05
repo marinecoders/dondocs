@@ -97,3 +97,4 @@ test-*.js
 debug-*.log
 coverage/
 .pairwise-run.log
+.cartesian-results/
