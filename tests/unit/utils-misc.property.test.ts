@@ -51,10 +51,10 @@ describe('cn — className merger', () => {
           )
         ),
         (inputs) => {
-          // @ts-expect-error — fast-check generators don't perfectly
-          // match clsx's `ClassValue` union, but the runtime behavior
-          // we're testing is "never throws" which doesn't depend on
-          // the type fidelity.
+          // The fast-check generators (string / number / null /
+          // undefined / boolean / dictionary) all match clsx's
+          // `ClassValue` union, so no type cast is needed. We're
+          // testing the runtime never-throws property.
           cn(...inputs);
         }
       ),

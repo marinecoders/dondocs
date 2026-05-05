@@ -49,7 +49,6 @@ const pandocAvailable =
 const toolchainAvailable = xelatexAvailable && pandocAvailable;
 
 if (!toolchainAvailable) {
-  // eslint-disable-next-line no-console
   console.warn(
     '[differential] xelatex and/or pandoc missing — every differential check below will be SKIPPED.'
   );

@@ -23,7 +23,6 @@ const pandocAvailable =
   spawnSync('pandoc', ['--version'], { encoding: 'utf-8' }).status === 0;
 
 if (!pandocAvailable) {
-  // eslint-disable-next-line no-console
   console.warn(
     '[docx-compile] pandoc not found on PATH — every fixture below will be SKIPPED.\n' +
     'Install: `brew install pandoc` (macOS) or `apt install pandoc` (Linux).'

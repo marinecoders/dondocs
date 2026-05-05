@@ -122,6 +122,14 @@ export function generateDocumentTex(store: DocumentStore): string {
     ? `\\uline{${formattedSubject}}`
     : formattedSubject;
 
+  // `\enableInReplyReferTo` is a boolean toggle defined in main.tex —
+  // flips `\ifInReplyEnabled` which the templates use to render the
+  // static "IN REPLY REFER TO" header line. We deliberately do NOT
+  // emit `\setInReplyReferTo{...}` here: that macro is not defined in
+  // any template, the data.inReplyToText field has no rendering site,
+  // and SwiftLaTeX silently swallowed the unknown control sequence
+  // while xelatex (the integration matrix's engine) rejected it. See
+  // tests/regressions/pr-066-setInReplyReferTo-undefined-macro.test.ts.
   tex += `\\setSSIC{${config.ssic ? escapeLatex(ssic) : ''}}
 \\setSerial{${config.ssic ? escapeLatex(serial) : ''}}
 \\setDocumentDate{${escapeLatex(docDate)}}

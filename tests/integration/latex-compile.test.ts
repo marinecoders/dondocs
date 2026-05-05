@@ -33,7 +33,6 @@ const xelatexAvailable =
   spawnSync('xelatex', ['--version'], { encoding: 'utf-8' }).status === 0;
 
 if (!xelatexAvailable) {
-  // eslint-disable-next-line no-console
   console.warn(
     '[latex-compile] xelatex not found on PATH — every fixture below will be SKIPPED.\n' +
     'Install MacTeX (macOS) or `apt install texlive-xetex` (Linux) to run this suite.'
