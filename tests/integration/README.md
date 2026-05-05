@@ -6,20 +6,39 @@ Runs `xelatex` and `pandoc` on every meaningful fixture from
 
 ## Why this exists
 
-The unit / property / fuzz tests under `tests/unit/`, `tests/fuzz/`, and
-`tests/regressions/` all assert on the **string** that `generator.ts`
-produces — they never ask the engine whether that string actually compiles.
-Most "compiles in dev, breaks in prod" bugs hide in that gap:
+Two gaps the rest of the suite can't close:
+
+**1. "The generated LaTeX is valid"** — unit / property / fuzz tests
+under `tests/unit/`, `tests/fuzz/`, and `tests/regressions/` assert
+on the **string** that `generator.ts` produces. They never ask the
+engine whether that string actually compiles. Most "compiles in dev,
+breaks in prod" bugs hide in this gap:
 
 - Mismatched braces from a bad escape combination
 - Undefined macros (e.g. the `\setCUI` bug this PR caught and fixed)
 - Math-mode-from-text crashes (escaper let a `$` through)
 - Package interactions that compile in isolation but fail together
+- Unbalanced `\if` / `\fi` (e.g. the business_letter signature-block
+  bug this PR caught)
+
+The pairwise compile matrix (`latex-compile.test.ts` +
+`docx-compile.test.ts`) closes this gap.
+
+**2. "Both export paths agree on content"** — the PDF and DOCX
+paths use entirely separate generators (`generator.ts` for the
+SwiftLaTeX template, `flat-generator.ts` for the pandoc-friendly
+flat LaTeX). They can drift: PDF emits a field, DOCX silently drops
+it. Compile-pass on both doesn't catch this.
+
+The differential test (`differential.test.ts`) closes this gap by
+extracting plain text from each output and asserting the user's
+input survives in BOTH.
 
 ## Running locally
 
 ```bash
-# All integration tests (LaTeX + DOCX, ~760 tests). ~12-15 min on a 4-way pool.
+# All integration tests (770 tests: 760 pairwise + 10 differential).
+# Wall time ~5 min on a 4-way pool.
 npm run test:integration
 
 # Single doc type (covers all ~19 pairwise rows for that doc type, both paths)
@@ -27,6 +46,9 @@ npx vitest run --config vitest.integration.config.ts -t "naval_letter"
 
 # Single fixture by name
 npx vitest run --config vitest.integration.config.ts -t "naval_letter:pw#000a"
+
+# Differential test only (~7 s, 10 fixtures)
+npx vitest run --config vitest.integration.config.ts tests/integration/differential.test.ts
 ```
 
 ## Prerequisites
@@ -39,15 +61,33 @@ npx vitest run --config vitest.integration.config.ts -t "naval_letter:pw#000a"
 If a binary is missing, the corresponding tests skip with a console
 warning rather than failing — so a fresh checkout doesn't false-fail.
 
+## Three test files in this directory
+
+| File | What it does | Fixtures | Wall time |
+|------|--------------|---------:|----------:|
+| `latex-compile.test.ts` | Compiles each pairwise fixture with xelatex; asserts PDF > 1000 bytes | 380 | ~3-4 min |
+| `docx-compile.test.ts` | Compiles each pairwise fixture with pandoc; asserts DOCX > 2000 bytes | 380 | ~30 s |
+| `differential.test.ts` | For 10 curated fixtures, compiles BOTH paths, extracts text via `pdf-parse` + `mammoth`, asserts a distinctive token appears in BOTH outputs (catches one-path-drops-content bugs) | 10 | ~7 s |
+
 ## Architecture
 
 ```
-compileLatex.ts  ──▶  generateAllLatexFiles(store) ──▶ xelatex ──▶ PDF
-compileDocx.ts   ──▶  generateFlatLatex(store)     ──▶ pandoc  ──▶ DOCX
-compileMatrix.ts ──▶  pairwise covering array of 18 dimensions per
-                       doc type (~19 rows × 20 doc types = ~380
-                       fixtures × 2 paths = ~760 tests)
+compileLatex.ts   ──▶  generateAllLatexFiles(store) ──▶ xelatex ──▶ PDF
+compileDocx.ts    ──▶  generateFlatLatex(store)     ──▶ pandoc  ──▶ DOCX
+compileMatrix.ts  ──▶  pairwise covering array of 18 dimensions per
+                        doc type (~19 rows × 20 doc types = ~380
+                        fixtures × 2 paths = ~760 tests)
+differential.test ──▶  compile both paths + extract text + assert
+                        token-survives-in-both (10 curated fixtures)
 ```
+
+## When to use which test
+
+- **Adding a new generator-output assertion** → unit/property test under `tests/unit/`. Fast. No toolchain needed.
+- **Catching "compiles fine but emits wrong content"** → strengthen the unit/property test on the generator output string.
+- **Catching "the generated string isn't valid LaTeX"** → covered automatically by the pairwise compile matrix; no test addition needed unless you've added a new dimension to the matrix.
+- **Catching "PDF and DOCX paths drift apart in content"** → add a fixture to `differential.test.ts`.
+- **Visual / layout drift** (e.g. a margin moved 3pt, a banner color regressed) → NOT covered here; would need a visual-regression layer with golden PNG diffs (out of scope for this harness).
 
 ### Why pairwise (and not full cartesian)?
 

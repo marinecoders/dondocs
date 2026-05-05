@@ -1,9 +1,20 @@
 # Regression corpus
 
-Every entry here is a permanent test for a bug that hit a real user. The
-file naming convention is `issue-NNN-short-slug.test.ts` so an empty `git
-log` query for the issue number lands on the canary that prevents it
-returning.
+Every entry here is a permanent test for a bug that shipped to users
+(or could have, if a build had been cut at the wrong moment).
+
+Naming conventions:
+
+- **`issue-NNN-short-slug.test.ts`** — bug reported as a user-facing
+  GitHub issue; NNN is the issue number, so a stale `git log` query
+  for the issue lands on the canary that prevents it returning.
+- **`pr-NNN-short-slug.test.ts`** — bug caught **internally** by the
+  test harness (e.g. the LaTeX compile matrix surfacing an undefined
+  macro that SwiftLaTeX silently swallowed in production but xelatex
+  rejected). NNN is the PR that introduced both the harness coverage
+  and the fix. Same purpose as `issue-`: the canary prevents the
+  specific bug from sneaking back in even if the harness is later
+  refactored.
 
 ## Adding a new entry
 
