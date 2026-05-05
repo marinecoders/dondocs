@@ -28,6 +28,7 @@ import type {
   Distribution,
   DocumentData,
 } from '@/types/document';
+import { pairwise } from './combinatorial';
 
 /**
  * All correspondence doc types. Forms (NAVMC 10274, 118-11) are
@@ -60,15 +61,40 @@ export const ALL_DOC_TYPES = [
 export type DocType = typeof ALL_DOC_TYPES[number];
 
 /**
- * Flags we toggle independently on top of each doc type's baseline.
- * Every entry here produces a fixture per doc type.
+ * Every per-docType dimension a fixture can vary. Categorized:
+ *
+ *   Multi-value (rendering-mode dimensions — each branches generator output):
+ *     classLevel       — 6 values: unclassified, cui, confidential,
+ *                        secret, top_secret, top_secret_sci
+ *                        (omits 'custom', which requires
+ *                        customClassification to be set; covered
+ *                        separately if needed.)
+ *     fontSize         — 10pt / 11pt / 12pt
+ *     fontFamily       — times / courier
+ *     pageNumbering    — none / simple / xofy
+ *     letterheadColor  — blue / black
+ *     signatureType    — none / digital
+ *                        (omits 'image', which needs base64-encoded
+ *                        image bytes — provided in a separate
+ *                        targeted test if needed.)
+ *
+ *   Boolean flags (each toggles a code path or content branch):
+ *     underlineSubject, includeHyperlinks, showSubjectOnContinuation,
+ *     byDirection, inReplyTo, hasReferences, hasEnclosures, hasVia,
+ *     hasCopyTos, hasDistributions, longBody, specialCharsInSubject
  */
 export interface FlagOverrides {
+  classLevel?: 'unclassified' | 'cui' | 'confidential' | 'secret' | 'top_secret' | 'top_secret_sci';
+  fontSize?: '10pt' | '11pt' | '12pt';
+  fontFamily?: 'times' | 'courier';
+  pageNumbering?: 'none' | 'simple' | 'xofy';
+  letterheadColor?: 'blue' | 'black';
+  signatureType?: 'none' | 'digital';
+  underlineSubject?: boolean;
   includeHyperlinks?: boolean;
   showSubjectOnContinuation?: boolean;
   byDirection?: boolean;
   inReplyTo?: boolean;
-  classLevel?: 'unclassified' | 'cui' | 'secret';
   hasReferences?: boolean;
   hasEnclosures?: boolean;
   hasVia?: boolean;
@@ -296,6 +322,17 @@ export function applyFlags(base: TestStore, flags: FlagOverrides): TestStore {
     distributions: [...base.distributions],
   };
 
+  // Multi-value rendering-mode dimensions
+  if (flags.fontSize !== undefined) store.formData.fontSize = flags.fontSize;
+  if (flags.fontFamily !== undefined) store.formData.fontFamily = flags.fontFamily;
+  if (flags.pageNumbering !== undefined) store.formData.pageNumbering = flags.pageNumbering;
+  if (flags.letterheadColor !== undefined) store.formData.letterheadColor = flags.letterheadColor;
+  if (flags.signatureType !== undefined) store.formData.signatureType = flags.signatureType;
+
+  // Boolean flags
+  if (flags.underlineSubject !== undefined) {
+    store.formData.underlineSubject = flags.underlineSubject;
+  }
   if (flags.includeHyperlinks !== undefined) {
     store.formData.includeHyperlinks = flags.includeHyperlinks;
   }
@@ -310,9 +347,20 @@ export function applyFlags(base: TestStore, flags: FlagOverrides): TestStore {
     store.formData.inReplyTo = true;
     store.formData.inReplyToText = '1000 Ser N00/12345 of 1 Jan 26';
   }
+
+  // classLevel branches into different field setups. CUI uses the
+  // cui*-prefixed fields; confidential/secret/topsecret/topsecret-sci
+  // use the classified*-prefixed fields. Setting both is harmless but
+  // wasteful — we set only the relevant ones to keep test fixtures
+  // closer to real user input.
   if (flags.classLevel) {
     store.formData.classLevel = flags.classLevel;
-    if (flags.classLevel !== 'unclassified') {
+    if (flags.classLevel === 'cui') {
+      store.formData.cuiControlledBy = 'DOD';
+      store.formData.cuiCategory = 'PRVCY';
+      store.formData.cuiDissemination = 'FEDCON';
+      store.formData.cuiDistStatement = 'Distribution authorized to DoD and DoD contractors only.';
+    } else if (flags.classLevel !== 'unclassified') {
       store.formData.classifiedBy = 'OPNAVINST 5510.1';
       store.formData.derivedFrom = 'Multiple Sources';
       store.formData.declassifyOn = '20460115';
@@ -320,6 +368,7 @@ export function applyFlags(base: TestStore, flags: FlagOverrides): TestStore {
       store.formData.classifiedPocEmail = 'classified.poc@usmc.mil';
     }
   }
+
   if (flags.hasReferences) store.references = REFS;
   if (flags.hasEnclosures) store.enclosures = ENCS;
   if (flags.hasVia) {
@@ -346,8 +395,9 @@ export function applyFlags(base: TestStore, flags: FlagOverrides): TestStore {
  * Per-type fixture count: 1 (baseline) + N (toggled flags) + 1 (everything) = ~13.
  * Across 20 doc types ≈ 260 fixtures.
  *
- * Per-fixture compile cost ≈ 1-2s on a modern machine. Whole matrix:
- * ~5-10 min serial, ~1-2 min on a 4-way shard.
+ * Currently NOT used by the integration suite — `pairwiseMatrix()`
+ * subsumes it. Retained for situations where a faster local sanity
+ * run is wanted (single-flag-at-a-time, no pair coverage).
  */
 export function smokeMatrix(): Fixture[] {
   const fixtures: Fixture[] = [];
@@ -417,6 +467,82 @@ export function smokeMatrix(): Fixture[] {
         longBody: true,
         specialCharsInSubject: true,
       }),
+    });
+  }
+
+  return fixtures;
+}
+
+/**
+ * Pairwise matrix — every 2-way interaction of flag values is covered
+ * AT LEAST ONCE, per doc type.
+ *
+ * Why pairwise instead of full cartesian: 18 dimensions × ~2-6 values
+ * each = ~5,000+ combinations per doc type × 20 doc types = 100,000+
+ * compiles. That's a multi-hour run even on a 16-way pool. Pairwise
+ * (Tatsumi/IPOG style covering arrays) compresses each docType's
+ * combos to ~30-50 rows while still hitting every (dim_a=val_x,
+ * dim_b=val_y) pair. Empirically, the vast majority of compile
+ * regressions are 1- or 2-flag interactions; pairwise catches all of
+ * those by construction.
+ *
+ * What's covered for each docType:
+ *
+ *   classLevel        × 6 values (unclassified, cui, confidential,
+ *                                 secret, top_secret, top_secret_sci)
+ *   fontSize          × 3       (10pt, 11pt, 12pt)
+ *   fontFamily        × 2       (times, courier)
+ *   pageNumbering     × 3       (none, simple, xofy)
+ *   letterheadColor   × 2       (blue, black)
+ *   signatureType     × 2       (none, digital)
+ *   12 boolean flags  × 2       each (false, true)
+ *
+ *   = ~36 covering rows per docType (varies by greedy IPOG result)
+ *   × 20 doc types ≈ 700 fixtures
+ *   × 2 paths (LaTeX + DOCX) ≈ 1400 tests
+ *
+ * Wall time ≈ 12-15 min on a 4-way pool. Within the CI budget.
+ */
+export function pairwiseMatrix(): Fixture[] {
+  const dims = {
+    classLevel: ['unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci'] as const,
+    fontSize: ['10pt', '11pt', '12pt'] as const,
+    fontFamily: ['times', 'courier'] as const,
+    pageNumbering: ['none', 'simple', 'xofy'] as const,
+    letterheadColor: ['blue', 'black'] as const,
+    signatureType: ['none', 'digital'] as const,
+    underlineSubject: [false, true] as const,
+    includeHyperlinks: [false, true] as const,
+    showSubjectOnContinuation: [false, true] as const,
+    byDirection: [false, true] as const,
+    inReplyTo: [false, true] as const,
+    hasReferences: [false, true] as const,
+    hasEnclosures: [false, true] as const,
+    hasVia: [false, true] as const,
+    hasCopyTos: [false, true] as const,
+    hasDistributions: [false, true] as const,
+    longBody: [false, true] as const,
+    specialCharsInSubject: [false, true] as const,
+  };
+
+  // The covering array is identical across doc types (same dimension
+  // structure), so generate once and reuse. The doc-type-specific
+  // fixture comes from threading the row through `applyFlags` on each
+  // doc type's baseline.
+  const rows = pairwise(dims);
+
+  const fixtures: Fixture[] = [];
+  for (const docType of ALL_DOC_TYPES) {
+    const baseline = buildBaseline(docType);
+    rows.forEach((row, idx) => {
+      // Compact 4-digit hex of the row index — keeps test names short
+      // while staying unique. The actual flag values are visible in
+      // the failure message via fixture inspection.
+      const id = idx.toString(16).padStart(4, '0');
+      fixtures.push({
+        name: `${docType}:pw#${id}`,
+        store: applyFlags(baseline, row as FlagOverrides),
+      });
     });
   }
 

@@ -19,14 +19,14 @@ Most "compiles in dev, breaks in prod" bugs hide in that gap:
 ## Running locally
 
 ```bash
-# All integration tests (LaTeX + DOCX). ~6-10 min on a 4-way pool.
+# All integration tests (LaTeX + DOCX, ~760 tests). ~12-15 min on a 4-way pool.
 npm run test:integration
 
-# Single doc type
+# Single doc type (covers all ~19 pairwise rows for that doc type, both paths)
 npx vitest run --config vitest.integration.config.ts -t "naval_letter"
 
-# Single fixture
-npx vitest run --config vitest.integration.config.ts -t "naval_letter:cui"
+# Single fixture by name
+npx vitest run --config vitest.integration.config.ts -t "naval_letter:pw#000a"
 ```
 
 ## Prerequisites
@@ -44,8 +44,27 @@ warning rather than failing — so a fresh checkout doesn't false-fail.
 ```
 compileLatex.ts  ──▶  generateAllLatexFiles(store) ──▶ xelatex ──▶ PDF
 compileDocx.ts   ──▶  generateFlatLatex(store)     ──▶ pandoc  ──▶ DOCX
-compileMatrix.ts ──▶  fixtures: 20 doc types × ~13 flag variants ≈ 260
+compileMatrix.ts ──▶  pairwise covering array of 18 dimensions per
+                       doc type (~19 rows × 20 doc types = ~380
+                       fixtures × 2 paths = ~760 tests)
 ```
+
+### Why pairwise (and not full cartesian)?
+
+Full cartesian product of the dimensions we care about (classLevel × 6,
+fontSize × 3, fontFamily × 2, pageNumbering × 3, letterheadColor × 2,
+signatureType × 2, plus 12 boolean flags) is roughly 5,000+ rows per
+doc type × 20 = **100,000+ compiles** — multi-hour even on a 16-way
+pool. Empirically, the vast majority of compile regressions are 1-
+or 2-flag interactions, and pairwise (Tatsumi/IPOG-style covering
+arrays) hits every (dim_a=val_x, dim_b=val_y) pair with ~36 rows
+per doc type. Strict superset of "every flag toggled individually"
+(the older smoke matrix), at ~3× the size.
+
+The IPOG implementation lives in `tests/_helpers/combinatorial.ts`
+and is unit-tested at `combinatorial.test.ts`. `smokeMatrix()` is
+still exported from `compileMatrix.ts` if a fast (~260-fixture)
+sanity run is wanted locally — invoke it manually by importing.
 
 Each test runs in an isolated temp directory under `/tmp/dondocs-compile-*`
 or `/tmp/dondocs-docx-*`. On failure the directory is preserved (CI

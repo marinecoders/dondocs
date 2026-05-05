@@ -96,3 +96,4 @@ test-*.js
 *.test.js
 debug-*.log
 coverage/
+.pairwise-run.log

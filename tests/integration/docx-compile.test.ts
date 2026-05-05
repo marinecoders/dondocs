@@ -1,10 +1,11 @@
 /**
  * End-to-end DOCX compile matrix via pandoc.
  *
- * Sibling of `latex-compile.test.ts` — same fixture matrix, different
- * generator path (`flat-generator.ts` instead of the SwiftLaTeX one).
- * Catches: pandoc-incompatible LaTeX constructs, unbalanced braces in
- * the flat generator, package macros pandoc doesn't know.
+ * Sibling of `latex-compile.test.ts` — same `pairwiseMatrix()` fixture
+ * set, different generator path (`flat-generator.ts` instead of the
+ * SwiftLaTeX one). Catches: pandoc-incompatible LaTeX constructs,
+ * unbalanced braces in the flat generator, package macros pandoc
+ * doesn't know.
  *
  * Requires: `pandoc` on PATH (3.x preferred; ships standalone, no TeX
  * Live dependency). Skipped if unavailable.
@@ -12,7 +13,7 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import { spawnSync } from 'node:child_process';
 import { compileDocxFixture, formatDocxFailure } from '../_helpers/compileDocx';
-import { smokeMatrix } from '../_helpers/compileMatrix';
+import { pairwiseMatrix } from '../_helpers/compileMatrix';
 
 let pandocAvailable = false;
 
@@ -29,7 +30,7 @@ beforeAll(() => {
 });
 
 describe('DOCX compile matrix', () => {
-  const fixtures = smokeMatrix();
+  const fixtures = pairwiseMatrix();
 
   describe.each(fixtures)('$name', ({ name, store }) => {
     it('converts to DOCX without pandoc error', async () => {
