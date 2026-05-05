@@ -4,9 +4,26 @@ A streaming CLI runner that compiles **every combination** of every
 configuration dimension on every doc type. Per-doc-type cartesian =
 **884,736 fixtures**; full = **17.7M fixtures**.
 
-> **Heads up — this is not a CI-friendly workflow.** Wired up locally so
-> the harness exists; not bound to any cron / on-PR trigger. See timing
-> below before invoking the full thing.
+> **Not a per-PR check.** The harness is wired into CI in two
+> deliberately non-blocking modes — see "CI integration" below.
+
+## CI integration
+
+`.github/workflows/cartesian.yml` exposes two triggers:
+
+1. **Manual `workflow_dispatch`** — pick a doc type, range, path,
+   and fixture limit from the GitHub Actions UI and run a single
+   shard up to the 6-hour-per-job cap. Useful for spot-checking a
+   specific doc type at scale or chasing a 3-way+ flag interaction
+   bug, without having to leave your laptop running for hours.
+
+2. **Nightly `schedule`** (02:00 UTC) — runs a rotating ~50K-fixture
+   DOCX-only slice of the full cartesian. DOCX is ~50× faster than
+   xelatex, so the slice finishes in ~30-40 min. Over time, the
+   rotation covers the full 17.7M-fixture space; if any night
+   surfaces a failure, the workflow files an automated issue.
+
+Neither trigger blocks PR CI or runs on push.
 
 ## What the cartesian covers
 
