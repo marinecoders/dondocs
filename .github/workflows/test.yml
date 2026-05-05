@@ -109,7 +109,10 @@ jobs:
     # (xelatex dominates; pandoc + pdf-parse + mammoth are ~50× faster).
     name: compile matrix (LaTeX + DOCX)
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    # Actual run time is ~5 min (xelatex dominates, ~3s × 380 fixtures
+    # / 4-way pool). 15 min budget catches a stuck job without letting
+    # it burn 25 min of runner time.
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 

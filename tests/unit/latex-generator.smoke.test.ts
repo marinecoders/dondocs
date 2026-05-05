@@ -167,15 +167,29 @@ describe('generateDocumentTex — smoke', () => {
   });
 
   it('different doc types each produce real output (subject survives, not just no-throw)', () => {
-    // Per-docType subject-survives check. Catches a regression where
-    // generateDocumentTex silently returns '' for an unknown / mishandled
-    // docType. Original test only checked no-throw — would have missed it.
+    // Per-docType subject-survives check across the structurally
+    // distinct doc-type categories. Catches a regression where
+    // generateDocumentTex silently returns '' for one of these
+    // categories. Earlier version of this test referenced two
+    // non-existent doc types ('memorandum', 'endorsement') that
+    // silently fell through to the naval_letter fallback, hiding
+    // any category-specific bug — fixed to use real DOC_TYPE_CONFIG
+    // keys.
     //
-    // Case-insensitive: executive doc types (e.g. standard_memorandum)
-    // title-case the subject ("Operational Readiness Report") while the
-    // standard SECNAV types upper-case it. Either is fine — we only want
-    // to confirm the SUBJECT TEXT survives, not its exact casing.
-    for (const docType of ['memorandum', 'endorsement', 'mf', 'standard_memorandum']) {
+    // Case-insensitive: executive doc types (standard_memorandum)
+    // title-case the subject; standard SECNAV types upper-case it.
+    // Either is fine — we only want to confirm the SUBJECT TEXT
+    // survives, not its exact casing.
+    const realDocTypes = [
+      'naval_letter',           // standard SECNAV mode
+      'business_letter',        // business mode (different layout)
+      'standard_memorandum',    // executive mode (title-case subject)
+      'mfr',                    // memo mode
+      'plain_paper_memorandum', // memo mode, no letterhead
+      'same_page_endorsement',  // endorsement mode
+      'mf',                     // USMC-specific "Memorandum For"
+    ];
+    for (const docType of realDocTypes) {
       const store = fixtureNavalLetter({
         docType,
         formData: { ...fixtureNavalLetter().formData, docType },
