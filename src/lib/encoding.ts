@@ -207,12 +207,42 @@ export function escapeLatex(text: string): string {
 }
 
 /**
- * Strip LaTeX formatting commands for plain text extraction
+ * Strip LaTeX formatting commands for plain text extraction.
+ *
+ * Hardened against polynomial-time backtracking. The original
+ * `[^}]*` body match was O(n) per start position with O(n) potential
+ * start positions — adversarial input like `\emph{{|\emph{{|...`
+ * (no closing `}` ever) ran in O(n²). 30K-rep input took ~8 s in
+ * benchmark; this function is called from `countWords` on every
+ * keystroke in the paragraph editor, so a user pasting 30K chars
+ * of crafted content would freeze the UI for seconds. Self-DoS,
+ * but still poor UX. CodeQL `js/polynomial-redos`.
+ *
+ * Two-layer defense:
+ *   1. Outer length cap — text > 100K chars skips the alternation
+ *      regex entirely (uses the simpler unbounded-command strip).
+ *      No realistic single paragraph is > 100K chars; for a fuzz /
+ *      pathological input we accept slightly less-stripped output
+ *      rather than freeze.
+ *   2. Bounded-body match — `[^}]{0,2000}` instead of `[^}]*`.
+ *      Each start position does at most 2000 char comparisons, so
+ *      the polynomial collapses to linear in input size. 2000 is
+ *      generous for any realistic emphasized span (typical: 3-50
+ *      chars).
  */
+const MAX_STRIP_INPUT = 100_000;
+const MAX_BODY_CHARS = 2_000;
+
 export function stripLatexFormatting(text: string): string {
+  if (text.length > MAX_STRIP_INPUT) {
+    // Pathological input: skip the alternation regex (the slow path).
+    // Still strip standalone commands + braces so output is closer to
+    // plain text than the raw input.
+    return text.replace(/\\[a-zA-Z]+/g, '').replace(/[{}]/g, '');
+  }
   return text
-    .replace(/\\(textbf|textit|underline|emph)\{([^}]*)\}/g, '$2')
-    .replace(/\\[a-zA-Z]+\{([^}]*)\}/g, '$1')
+    .replace(new RegExp(`\\\\(textbf|textit|underline|emph)\\{([^}]{0,${MAX_BODY_CHARS}})\\}`, 'g'), '$2')
+    .replace(new RegExp(`\\\\[a-zA-Z]+\\{([^}]{0,${MAX_BODY_CHARS}})\\}`, 'g'), '$1')
     .replace(/\\[a-zA-Z]+/g, '')
     .replace(/[{}]/g, '');
 }

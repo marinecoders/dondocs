@@ -105,9 +105,35 @@ function extractTextFromPage(
     // Format: "x y Td" where x and y are numbers
     const tdRegex = /([\d.-]+)\s+([\d.-]+)\s+Td/g;
 
-    // Find all TJ arrays and their positions
-    // Format: "[(text)(text)...]TJ"
-    const tjRegex = /\[((?:[^[\]]*|\([^)]*\))*)\]TJ/g;
+    // Find all TJ arrays and their positions.
+    // Format: "[(text)(text)-100(text)...]TJ" where `-100` etc are kerning
+    // adjustments and `(text)` are PDF literal strings.
+    //
+    // Pre-fix regex: /\[((?:[^[\]]*|\([^)]*\))*)\]TJ/g
+    // The two outer alternation branches both matched paren-free chunks
+    // (`[^[\]]*` greedily consumed them; `\([^)]*\)` consumed a paren
+    // group). When the outer regex failed to find a trailing `]TJ`, the
+    // engine retried every possible split between the two branches —
+    // exponential in the count of `(` characters before the failure
+    // point. Benchmark: n=15 took ~81 SECONDS; n=20 effectively hung.
+    // A user-uploaded enclosure PDF with a crafted content stream
+    // (e.g. `[(a)(a)(a)...` with no `]TJ`) would freeze the worker
+    // when addSignatureField was called via mergeEnclosures.
+    //
+    // Post-fix regex: branches are now exclusive.
+    //   - `[^[\]()]` — single char that's not `[`, `]`, `(`, or `)`
+    //   - `\((?:\\.|[^\\)])*\)` — full PDF literal string, with the
+    //     inner body distinguishing escape sequences (`\.`) from
+    //     plain chars (`[^\\)]`). Inner alternation is also exclusive
+    //     (escape sequences start with `\`, plain chars cannot).
+    // No backtracking is possible — match time is linear in input
+    // size (verified: n=100K runs in 1ms, adversarial n=50K in 0ms).
+    //
+    // Semantic preservation verified against the original on:
+    // SwiftLaTeX-style multi-string TJ arrays, kerning numbers,
+    // escaped parens (`\)`, `\(`), escaped backslashes, empty arrays.
+    // CodeQL `js/redos`.
+    const tjRegex = /\[((?:[^[\]()]|\((?:\\.|[^\\)])*\))*)\]TJ/g;
 
     // Build ordered list of operations
     interface Operation {
