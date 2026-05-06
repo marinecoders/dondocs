@@ -122,18 +122,27 @@ jobs:
     # without a rebuild silently ships stale templates to users. We
     # hit this exact bug in PR #67 (subject-underline fix went through
     # tex/ but the bundle wasn't regenerated, so the deployed PDF still
-    # had the old behavior). One-line guard against the whole class.
+    # had the old behavior).
+    #
+    # Build script is `build-templates.mjs` (Node, deterministic).
+    # The earlier bash+sed pipeline produced different output on macOS
+    # (BSD sed) vs Linux (GNU sed), making this check fundamentally
+    # unworkable cross-platform. Node string.replace is identical
+    # across platforms.
     name: bundle in sync with tex/
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
       - name: rebuild bundle and assert no diff
         run: |
-          bash build-templates.sh
+          node build-templates.mjs
           if ! git diff --exit-code public/lib/latex-templates.js; then
             echo "::error::public/lib/latex-templates.js is out of sync with tex/ source."
-            echo "Run \`bash build-templates.sh\` locally and commit the regenerated bundle."
+            echo "Run \`node build-templates.mjs\` locally and commit the regenerated bundle."
             exit 1
           fi
 
