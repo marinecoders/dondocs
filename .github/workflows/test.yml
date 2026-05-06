@@ -12,6 +12,14 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+# Default `GITHUB_TOKEN` permissions for every job in this workflow.
+# `contents: read` is the minimum to clone the repo. None of these jobs
+# write to the repo, comment on PRs, create releases, etc., so the
+# default-broader scope was unnecessary attack surface (CodeQL rule
+# `actions/missing-workflow-permissions`).
+permissions:
+  contents: read
+
 jobs:
   test:
     name: ${{ matrix.task }}
