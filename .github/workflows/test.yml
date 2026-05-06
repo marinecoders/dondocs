@@ -12,6 +12,14 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+# Default `GITHUB_TOKEN` permissions for every job in this workflow.
+# `contents: read` is the minimum to clone the repo. None of these jobs
+# write to the repo, comment on PRs, create releases, etc., so the
+# default-broader scope was unnecessary attack surface (CodeQL rule
+# `actions/missing-workflow-permissions`).
+permissions:
+  contents: read
+
 jobs:
   test:
     name: ${{ matrix.task }}
@@ -29,10 +37,11 @@ jobs:
         # cluster of `react-refresh/only-export-components` warnings
         # from earlier component refactors; enabling lint as a gate
         # would block every PR on pre-existing noise. Cleanup is
-        # tracked as a follow-up PR (`feat/ci-lint-security`) that
-        # also adds bundle-size + `npm audit` gates and turns on
-        # `eslint-plugin-security`. CodeQL already runs separately
-        # via the auto-generated `codeql.yml` workflow.
+        # tracked as a follow-up PR that will also turn on
+        # `eslint-plugin-security`. Bundle-size and `npm audit` gates
+        # already exist (see the `build` and `audit` jobs below).
+        # CodeQL runs separately via the auto-generated `codeql.yml`
+        # workflow.
     steps:
       - uses: actions/checkout@v4
 
@@ -92,6 +101,113 @@ jobs:
             find dist -name '*.test.*'
             exit 1
           fi
+
+      - name: bundle-size budget
+        # Catches silent bundle bloat. The runtime ships every byte under
+        # dist/assets/*.js to the browser; if the total drifts much past
+        # the current size something has been pulled in unintentionally
+        # (a tree-shaking regression, an accidental whole-library import,
+        # a polyfill imported in app code, etc.). Threshold is the
+        # current measurement (3.66 MiB) + ~10% headroom, so legitimate
+        # growth is fine but quiet 30%-over-six-months drift fails CI.
+        # Bump the budget upward in the same PR that legitimately grows
+        # the bundle — that makes "is this growth justified?" a code-
+        # review conversation instead of a thing nobody notices.
+        run: |
+          BUDGET_BYTES=4194304   # 4.0 MiB
+          TOTAL=$(find dist/assets -name "*.js" -exec stat -c %s {} \; | awk '{s+=$1} END {print s+0}')
+          echo "Total dist/assets JS: $TOTAL bytes (budget: $BUDGET_BYTES)"
+          if [ "$TOTAL" -gt "$BUDGET_BYTES" ]; then
+            echo "::error::Bundle ${TOTAL}B exceeds budget ${BUDGET_BYTES}B (~$((TOTAL * 100 / BUDGET_BYTES))% of budget)."
+            echo "Bump BUDGET_BYTES in test.yml if growth is justified."
+            exit 1
+          fi
+
+  bundle-sync:
+    # Catches drift between `tex/` source files and the committed
+    # `public/lib/latex-templates.js` bundle. The runtime loads the
+    # bundle (not the source) — so an editor change to `tex/main.tex`
+    # without a rebuild silently ships stale templates to users. We
+    # hit this exact bug in PR #67 (subject-underline fix went through
+    # tex/ but the bundle wasn't regenerated, so the deployed PDF still
+    # had the old behavior).
+    #
+    # Build script is `build-templates.mjs` (Node, deterministic).
+    # The earlier bash+sed pipeline produced different output on macOS
+    # (BSD sed) vs Linux (GNU sed), making this check fundamentally
+    # unworkable cross-platform. Node string.replace is identical
+    # across platforms.
+    name: bundle in sync with tex/
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: rebuild bundle and assert no diff
+        run: |
+          node build-templates.mjs
+          if ! git diff --exit-code public/lib/latex-templates.js; then
+            echo "::error::public/lib/latex-templates.js is out of sync with tex/ source."
+            echo "Run \`node build-templates.mjs\` locally and commit the regenerated bundle."
+            exit 1
+          fi
+
+  audit:
+    # `npm audit --audit-level=high` gate. Currently 19 high vulns —
+    # all from a single GHSA advisory transitive in @react-pdf-viewer/*
+    # (no upstream fix available; tracked separately in feat/ci-lint-security
+    # for the dep upgrade). Allowlisting that one advisory by ID lets
+    # the gate be effective immediately: any NEW high/critical vuln
+    # fails CI, while the known-and-tracked one doesn't false-fail.
+    #
+    # When the @react-pdf-viewer upgrade lands and the advisory is
+    # gone, drop the entry from KNOWN_ADVISORIES and the gate becomes
+    # vanilla `npm audit --audit-level=high`.
+    name: npm audit (high+)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - name: high-severity audit with explicit allowlist
+        run: |
+          # Comma-separated GHSA / npm advisory IDs we accept (with reason).
+          # Add new entries as a separate PR with the reason inline.
+          export KNOWN_ADVISORIES="1104044"   # @react-pdf-viewer transitive — no upstream fix
+          npm audit --json > audit.json || true
+          UNKNOWN=$(python3 <<'PY'
+          import json, os
+          allow = set(os.environ.get('KNOWN_ADVISORIES', '').split(','))
+          d = json.load(open('audit.json'))
+          bad = []
+          for name, info in d.get('vulnerabilities', {}).items():
+              sev = info.get('severity')
+              if sev not in ('high', 'critical'):
+                  continue
+              for v in info.get('via', []):
+                  if isinstance(v, dict) and v.get('source'):
+                      if str(v['source']) not in allow:
+                          bad.append(f'{name} via advisory {v["source"]} ({sev}, {v.get("title","")})')
+          for b in sorted(set(bad)):
+              print(b)
+          PY
+          )
+          if [ -n "$UNKNOWN" ]; then
+            echo "::error::New high/critical vulnerabilities not in the allowlist:"
+            echo "$UNKNOWN"
+            echo ""
+            echo "Either upgrade the offending dep or, if no fix is available,"
+            echo "add the advisory ID to KNOWN_ADVISORIES in .github/workflows/test.yml"
+            echo "with an inline comment explaining why."
+            exit 1
+          fi
+          echo "No new high/critical vulnerabilities outside the allowlist."
 
   compile-matrix:
     # End-to-end LaTeX + DOCX compile harness. Three test files run
