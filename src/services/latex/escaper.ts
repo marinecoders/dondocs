@@ -118,14 +118,59 @@ export function formatAddressForLatex(address: string | undefined | null, maxLen
 }
 
 /**
- * Escape URL for LaTeX (handle % and other special chars)
+ * Escape URL for LaTeX before embedding it in `\href{...}{...}`.
+ *
+ * Threat model: the URL has been validated by `safeUrl()` (allowed
+ * scheme, scheme injection prevented), but `safeUrl` preserves the
+ * user-typed form including LaTeX-active characters. If we don't
+ * escape them here, a URL like `https://example.com/has\xyzzy123`
+ * compiles to `\href{https://example.com/has\xyzzy123}{link}` and
+ * xelatex throws `! Undefined control sequence` on `\xyzzy123` —
+ * a denial-of-service via a single user-supplied reference URL.
+ *
+ * Active chars in `\href` URL argument:
+ *   `\` — LaTeX command introducer (THE main DoS vector)
+ *   `%` — comment marker (eats rest of line)
+ *   `#` — parameter substitution
+ *   `&` — alignment tab
+ *   `{` `}` — group delimiters (mismatch breaks compile)
+ *   `$` — math mode toggle
+ *   `^` `~` — superscript / non-breaking space (special in some macro contexts)
+ *
+ * `_` is NOT escaped: hyperref's `\href` detokenizes the URL argument,
+ * so a literal `_` in the URL renders fine without escape (verified
+ * with xelatex). Escaping `_` here would actually break URLs like
+ * `https://example.com/my_path` because the URL string would contain
+ * `\_` which xelatex would see as a literal-underscore command, but
+ * `hyperref` would then encode the `\` as `%5C` in the link target —
+ * silently corrupting every legitimate URL with an underscore.
+ *
+ * Order matters: backslash MUST be escaped first via the sentinel
+ * pattern (same trick as `escapeLatex`). Otherwise the `\` we
+ * introduce for `\&`, `\%`, etc. would itself match the backslash
+ * regex and double-escape.
  */
 export function escapeLatexUrl(url: string | undefined | null): string {
   if (!url) return '';
   return url
+    // Phase 1: backslash → sentinel (so the escape `\` below don't recurse).
+    .replace(/\\/g, 'ZZZURLBACKSLASHZZZ')
+    // Phase 2: chars that don't introduce new `\`.
+    .replace(/&/g, '\\&')
     .replace(/%/g, '\\%')
     .replace(/#/g, '\\#')
-    .replace(/&/g, '\\&');
+    .replace(/\{/g, '\\{')
+    .replace(/\}/g, '\\}')
+    // Phase 3: chars whose escape introduces `\` — safe now since backslash
+    // matching is on the sentinel, not a real `\`.
+    .replace(/\$/g, 'ZZZURLDOLLARZZZ')
+    .replace(/\^/g, 'ZZZURLCARETZZZ')
+    .replace(/~/g, 'ZZZURLTILDEZZZ')
+    // Phase 4: finalize sentinels to their LaTeX-safe forms.
+    .replace(/ZZZURLBACKSLASHZZZ/g, '\\textbackslash{}')
+    .replace(/ZZZURLDOLLARZZZ/g, '\\$')
+    .replace(/ZZZURLCARETZZZ/g, '\\^{}')
+    .replace(/ZZZURLTILDEZZZ/g, '\\~{}');
 }
 
 /**

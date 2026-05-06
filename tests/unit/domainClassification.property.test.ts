@@ -73,6 +73,46 @@ describe('getDomainClassificationRestriction — policy table', () => {
       ALL_LEVELS
     );
   });
+
+  // Regression: classification policy used `.includes('.ic.gov')` which
+  // matched `evil.ic.gov.com`. `gov.com` is publicly registerable on
+  // the `.com` TLD, so an attacker hosting at `evil.ic.gov.com` would
+  // unlock TOP SECRET classification on documents — a real bypass on a
+  // tool that gates a security-sensitive UI choice. Same shape on
+  // `.smil.mil` (SECRET). Fixed by switching to `endsWith` + apex
+  // equality. CodeQL `js/incomplete-url-substring-sanitization`.
+  describe('domain-suffix bypass regression (CodeQL js/incomplete-url-substring-sanitization)', () => {
+    it('IC bypass: evil.ic.gov.com no longer matches as Intelligence Community', () => {
+      // Pre-fix: `.includes('.ic.gov')` returned true → allowedLevels = ALL_LEVELS.
+      // Post-fix: endsWith returns false → falls through to non-government default.
+      expect(getDomainClassificationRestriction('evil.ic.gov.com').maxLevel).not.toBe('top_secret');
+      expect(getDomainClassificationRestriction('evil.ic.gov.com').allowedLevels).not.toContain('top_secret');
+    });
+
+    it('IC bypass: nested suffix is also rejected', () => {
+      expect(getDomainClassificationRestriction('attacker.ic.gov.example.com').allowedLevels)
+        .not.toContain('top_secret');
+    });
+
+    it('SMIL bypass: evil.smil.mil.com no longer matches as Secure Military', () => {
+      expect(getDomainClassificationRestriction('evil.smil.mil.com').maxLevel).not.toBe('secret');
+      expect(getDomainClassificationRestriction('evil.smil.mil.com').allowedLevels).not.toContain('secret');
+    });
+
+    it('apex domain: bare ic.gov still works (equality fallback covers no-subdomain case)', () => {
+      expect(getDomainClassificationRestriction('ic.gov').maxLevel).toBe('top_secret');
+    });
+
+    it('apex domain: bare smil.mil still works', () => {
+      expect(getDomainClassificationRestriction('smil.mil').maxLevel).toBe('secret');
+    });
+
+    it('legitimate IC subdomains still work after the fix', () => {
+      for (const host of ['cia.ic.gov', 'nsa.ic.gov', 'foo.bar.ic.gov']) {
+        expect(getDomainClassificationRestriction(host).maxLevel).toBe('top_secret');
+      }
+    });
+  });
 });
 
 describe('isClassificationAllowed', () => {

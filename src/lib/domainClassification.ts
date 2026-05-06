@@ -70,17 +70,26 @@ export function getDomainClassificationRestriction(domain?: string): Classificat
   }
 
   const currentDomain = domain || getCurrentDomain();
-  
-  // Check for .smil.mil or .smil domains (Secure MIL)
-  if (currentDomain.includes('.smil.mil') || currentDomain.endsWith('.smil')) {
+
+  // Domain-suffix matching uses `endsWith` (not `includes`) because
+  // `.com` parents like `gov.com` or `mil.com` are publicly registerable.
+  // A `.includes('.ic.gov')` check would have matched `evil.ic.gov.com`
+  // (registerable on `.com`) and unlocked TS classification for an
+  // attacker-controlled host. `endsWith` requires the suffix to be at
+  // the end of the host, where the trust signal actually lives.
+  // Equality fallback (`=== 'foo.gov'`) covers the apex case where the
+  // host has no leading subdomain.
+
+  // Secure MIL (SECRET)
+  if (currentDomain.endsWith('.smil.mil') || currentDomain === 'smil.mil' || currentDomain.endsWith('.smil')) {
     return {
       maxLevel: 'secret',
       allowedLevels: ['unclassified', 'cui', 'confidential', 'secret'],
     };
   }
-  
-  // Check for .ic.gov domains (Intelligence Community)
-  if (currentDomain.includes('.ic.gov')) {
+
+  // Intelligence Community (TOP SECRET)
+  if (currentDomain.endsWith('.ic.gov') || currentDomain === 'ic.gov') {
     return {
       maxLevel: 'top_secret',
       allowedLevels: ['unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci'],
@@ -126,11 +135,13 @@ export function getDomainRestrictionMessage(domain?: string): string {
 
   const currentDomain = domain || getCurrentDomain();
   
-  if (currentDomain.includes('.smil.mil') || currentDomain.endsWith('.smil')) {
+  // Same suffix-matching rule as `getDomainPolicy` above. See comment
+  // there for the bypass `.includes()` would allow.
+  if (currentDomain.endsWith('.smil.mil') || currentDomain === 'smil.mil' || currentDomain.endsWith('.smil')) {
     return 'Secure Military domain detected. Classification up to SECRET is allowed.';
   }
-  
-  if (currentDomain.includes('.ic.gov')) {
+
+  if (currentDomain.endsWith('.ic.gov') || currentDomain === 'ic.gov') {
     return 'Intelligence Community domain detected. All classification levels are allowed.';
   }
   

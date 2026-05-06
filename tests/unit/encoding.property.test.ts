@@ -128,4 +128,49 @@ describe('stripLatexFormatting', () => {
       { numRuns: 200 }
     );
   });
+
+  // Regression: the original `[^}]*` body match was O(n²) because the regex
+  // engine could try every start position with every body length. Adversarial
+  // input like `\emph{{|\emph{{|...` (no closing `}` ever) ran in ~8s for
+  // 30K reps. countWords calls this on every keystroke in the paragraph
+  // editor, so a paste of crafted content would freeze the UI.
+  // Fix: bound the body match to {0,2000} chars + skip alternation regex
+  // entirely for inputs > 100K chars. CodeQL `js/polynomial-redos`.
+  describe('polynomial-redos regression (CodeQL js/polynomial-redos)', () => {
+    it('handles 30K-rep pathological input in well under 1 second', () => {
+      // Pre-fix: ~8 seconds. Post-fix: ~10ms.
+      const pathological = '\\emph{{' + '|\\emph{{'.repeat(30_000);
+      const start = Date.now();
+      const out = stripLatexFormatting(pathological);
+      const elapsed = Date.now() - start;
+      // 1s budget is ~80x faster than the pre-fix runtime; if this
+      // regresses to anything close to the original, the test fails fast.
+      expect(elapsed).toBeLessThan(1000);
+      // Sanity: output is finite and a string.
+      expect(typeof out).toBe('string');
+    });
+
+    it('handles the > 100K char fast-path without hanging', () => {
+      // Anything over MAX_STRIP_INPUT (100K) skips the alternation regex.
+      // Verify it returns quickly even with adversarial structure.
+      const huge = '\\emph{{|'.repeat(20_000); // 160K chars
+      const start = Date.now();
+      const out = stripLatexFormatting(huge);
+      const elapsed = Date.now() - start;
+      expect(elapsed).toBeLessThan(500);
+      // Fast-path strips standalone commands and braces, so output should
+      // contain neither `\emph` nor `{` nor `}`.
+      expect(out).not.toContain('\\emph');
+      expect(out).not.toContain('{');
+      expect(out).not.toContain('}');
+    });
+
+    it('still strips formatting correctly for realistic paragraph-sized input', () => {
+      // The bounded-body fix must not break legitimate use.
+      const realistic = 'Plain text \\textbf{bold word} more text \\textit{italic phrase here} end.';
+      expect(stripLatexFormatting(realistic)).toBe(
+        'Plain text bold word more text italic phrase here end.'
+      );
+    });
+  });
 });
