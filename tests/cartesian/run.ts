@@ -58,6 +58,7 @@ import {
 } from '../_helpers/compileMatrix';
 import { compileFixture, type CompileResult, type TestStore } from '../_helpers/compileLatex';
 import { compileDocxFixture, type DocxCompileResult } from '../_helpers/compileDocx';
+import { resolveRange as resolveRangeImpl } from './range';
 
 interface Args {
   docType?: string;
@@ -112,30 +113,15 @@ function parseArgs(argv: string[]): Args {
 }
 
 /**
- * Resolve user-friendly args to a concrete (start, end) offset window.
- * Shard is computed AFTER doc-type-or-all is decided, so `--doc-type=X
- * --shard=1/4` shards the doc type's 884K rows.
+ * Thin wrapper that injects the cartesian universe sizes into the pure
+ * `resolveRange` from `./range.ts`. Range math is property-tested
+ * separately at `tests/unit/cartesianRange.property.test.ts`.
  */
 function resolveRange(args: Args): { start: number; end: number; total: number } {
-  const universe = args.docType ? CARTESIAN_PER_DOCTYPE : CARTESIAN_TOTAL;
-
-  let start = args.start ?? 0;
-  let end = args.end ?? universe;
-
-  if (args.shard) {
-    const span = end - start;
-    const shardSize = Math.ceil(span / args.shard.m);
-    const shardStart = start + (args.shard.n - 1) * shardSize;
-    const shardEnd = Math.min(end, shardStart + shardSize);
-    start = shardStart;
-    end = shardEnd;
-  }
-
-  if (args.limit !== undefined) {
-    end = Math.min(end, start + args.limit);
-  }
-
-  return { start, end, total: end - start };
+  return resolveRangeImpl(args, {
+    perDocType: CARTESIAN_PER_DOCTYPE,
+    total: CARTESIAN_TOTAL,
+  });
 }
 
 interface Outcome {
