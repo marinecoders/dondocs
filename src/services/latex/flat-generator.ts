@@ -258,7 +258,7 @@ function buildClassificationHeaders(data: Partial<DocumentData>): string {
   const classLevel = data.classLevel;
   if (!classLevel || classLevel === 'unclassified') return '';
 
-  let marking = '';
+  let marking: string;
   if (classLevel === 'cui') marking = 'CUI';
   else if (classLevel === 'custom' && data.customClassification) marking = data.customClassification;
   else {
@@ -656,8 +656,14 @@ ${trimLastRow(sigRows.map(r => ` & ${r} & \\\\`))}
  * MOA/MOU: overscored (horizontal rule above name) per SECNAV M-5216.5 Fig 10-5
  * Joint/Joint Memo: no overscoring per Ch 7 Fig 7-4 */
 function buildDualSignature(data: Partial<DocumentData>, variant: 'moa' | 'joint' | 'joint_memo'): string {
-  let juniorName = '', juniorRank = '', juniorTitle = '';
-  let seniorName = '', seniorRank = '', seniorTitle = '';
+  // juniorRank/seniorRank only populate in the 'moa' branch (joint variants
+  // don't carry rank); default to '' so the rank-row rendering below still
+  // works on joint variants. juniorName/Title and seniorName/Title are
+  // always assigned in both branches.
+  let juniorName: string, juniorTitle: string;
+  let seniorName: string, seniorTitle: string;
+  let juniorRank = '';
+  let seniorRank = '';
 
   if (variant === 'moa') {
     const junFirst = capitalizeWord(data.juniorSigName?.split(' ')[0]);
