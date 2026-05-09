@@ -13,7 +13,8 @@
  */
 
 import { useState } from 'react';
-import { AlertCircle, Copy, Check, Github, X, ScrollText } from 'lucide-react';
+import { AlertCircle, Copy, Check, X, ScrollText } from 'lucide-react';
+import { GithubIcon } from '@/components/icons/GithubIcon';
 import {
   Dialog,
   DialogContent,
@@ -172,7 +173,7 @@ export function CompileErrorModal({ open, error, compileLog, onClose }: CompileE
               View all logs
             </Button>
             <Button variant="outline" onClick={handleReport}>
-              <Github className="h-4 w-4 mr-2" />
+              <GithubIcon className="h-4 w-4 mr-2" />
               Report issue
             </Button>
           </DialogFooter>

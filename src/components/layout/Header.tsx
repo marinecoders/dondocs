@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect, type ChangeEvent } from 'react';
-import { Moon, Sun, Download, FileText, RefreshCw, Github, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2 } from 'lucide-react';
+import { Moon, Sun, Download, FileText, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2 } from 'lucide-react';
+import { GithubIcon } from '@/components/icons/GithubIcon';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -780,7 +781,7 @@ export function Header({
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => window.open(GITHUB_REPO_URL, '_blank')}>
-                <Github className="h-4 w-4 mr-2" />
+                <GithubIcon className="h-4 w-4 mr-2" />
                 View on GitHub
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => window.open(buildBugReportUrl(), '_blank', 'noopener,noreferrer')}>
@@ -928,7 +929,7 @@ export function Header({
                 View Logs
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => window.open(GITHUB_REPO_URL, '_blank')}>
-                <Github className="h-4 w-4 mr-2" />
+                <GithubIcon className="h-4 w-4 mr-2" />
                 GitHub
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => window.open(buildBugReportUrl(), '_blank', 'noopener,noreferrer')}>
