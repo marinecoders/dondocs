@@ -187,6 +187,17 @@ interface SuggestionListRef {
 const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(
   ({ items, command, query }, ref) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
+    // Reset selection to 0 whenever `items` changes (e.g. user keeps typing
+    // and the autocomplete narrows). Done via the React-recommended "store-
+    // previous-value-and-compare" pattern during render rather than a
+    // useEffect, which avoids the set-state-in-effect cascading-render
+    // warning. The setState during render is OK here because it only fires
+    // on the items-changed transition, not every render.
+    const [prevItems, setPrevItems] = useState(items);
+    if (items !== prevItems) {
+      setPrevItems(items);
+      setSelectedIndex(0);
+    }
 
     const selectItem = useCallback((index: number) => {
       const item = items[index];
@@ -210,8 +221,6 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(
         return false;
       },
     }), [items.length, selectItem, selectedIndex]);
-
-    useEffect(() => setSelectedIndex(0), [items]);
 
     // Group by category
     const grouped = items.reduce((acc, item) => {

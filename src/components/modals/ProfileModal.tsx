@@ -140,11 +140,15 @@ export function ProfileModal() {
     return false;
   }, [formState, profileName, isEditing]);
 
-  // Populate form when modal opens (not on every formData change)
+  // Populate form when modal opens (not on every formData change).
+  // Modal-opened-reset-form pattern. The "key reset" alternative would force
+  // the dialog to remount on every open and lose the radix-ui transition;
+  // this effect runs once per open and only writes form state.
   useEffect(() => {
     if (profileModalOpen) {
       if (isEditing && selectedProfile) {
         const profile = profiles[selectedProfile];
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setProfileName(selectedProfile);
         setFormState({ ...EMPTY_PROFILE, ...profile });
         initialStateRef.current = { name: selectedProfile, profile: { ...EMPTY_PROFILE, ...profile } };

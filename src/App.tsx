@@ -244,17 +244,26 @@ function App() {
   const [enclosureErrors, setEnclosureErrors] = useState<EnclosureError[]>([]);
   const [showEnclosureErrors, setShowEnclosureErrors] = useState(false);
 
-  // Share link payload when opened from URL hash (#s=...)
-  const [sharePayloadFromHash, setSharePayloadFromHash] = useState<string | null>(null);
+  // Share link payload when opened from URL hash (#s=...).
+  // Parsed once at mount via lazy initializer — avoids a setState-in-effect
+  // hit and prevents a flash of the empty editor before the import modal
+  // opens.
+  const [sharePayloadFromHash, setSharePayloadFromHash] = useState<string | null>(() =>
+    parseShareUrl(window.location.href)
+  );
 
-  // On mount, if URL has a share hash, open import modal with that payload
+  // If the URL had a share hash, open the import modal once on mount.
+  // Separate from the lazy initializer above so the modal-open side effect
+  // happens *after* render rather than during state init.
+  // setShareModal is a Zustand setter (not a useState setter), so the
+  // react-hooks/set-state-in-effect rule no longer fires on this effect
+  // after the lazy-init refactor above moved the only useState setter
+  // (setSharePayloadFromHash) out of the effect body.
   useEffect(() => {
-    const payload = parseShareUrl(window.location.href);
-    if (payload) {
-      setSharePayloadFromHash(payload);
+    if (sharePayloadFromHash) {
       setShareModal('import');
     }
-  }, [setShareModal]);
+  }, [sharePayloadFromHash, setShareModal]);
 
   // Apply theme to document
   useEffect(() => {
@@ -462,6 +471,11 @@ function App() {
     if (downloadProgress !== null) return;
     if (piiWarningOpen) return;
     lastShownCompileErrorRef.current = compileError;
+    // Dedup-and-open-modal pattern. The dedup ref + the modal state both
+    // have to live here so we can re-evaluate when downloadProgress /
+    // piiWarningOpen clear. Lifting either to the compileError producer
+    // would couple the engine layer to the modal layer.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCompileErrorModalOpen(true);
   }, [compileError, downloadProgress, piiWarningOpen]);
 

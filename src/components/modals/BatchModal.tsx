@@ -243,27 +243,32 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   const [navmc11811Template, setNavmc11811Template] = useState<ArrayBuffer | null>(null);
   const [_templatesLoading, setTemplatesLoading] = useState(false);
 
-  // Load form templates when in forms mode
+  // Load form templates when in forms mode.
+  // setTemplatesLoading(true) is the FIRST line of the async loadTemplates()
+  // body (rather than running synchronously in the effect) so React doesn't
+  // see a synchronous setState during effect run — avoids the
+  // set-state-in-effect cascading-render hit while preserving the same
+  // user-visible loading-flag flicker.
   useEffect(() => {
-    if (documentCategory === 'forms' && batchModalOpen) {
+    if (documentCategory !== 'forms' || !batchModalOpen) return;
+
+    const loadTemplates = async () => {
       setTemplatesLoading(true);
-      const loadTemplates = async () => {
-        try {
-          if (formType === 'navmc_10274' && !navmc10274Templates) {
-            const templates = await loadNavmc10274Templates();
-            setNavmc10274Templates(templates);
-          } else if (formType === 'navmc_118_11' && !navmc11811Template) {
-            const template = await loadNavmc11811Template();
-            setNavmc11811Template(template);
-          }
-        } catch (err) {
-          debug.error('Batch', 'Failed to load form templates', err);
-        } finally {
-          setTemplatesLoading(false);
+      try {
+        if (formType === 'navmc_10274' && !navmc10274Templates) {
+          const templates = await loadNavmc10274Templates();
+          setNavmc10274Templates(templates);
+        } else if (formType === 'navmc_118_11' && !navmc11811Template) {
+          const template = await loadNavmc11811Template();
+          setNavmc11811Template(template);
         }
-      };
-      loadTemplates();
-    }
+      } catch (err) {
+        debug.error('Batch', 'Failed to load form templates', err);
+      } finally {
+        setTemplatesLoading(false);
+      }
+    };
+    loadTemplates();
   }, [documentCategory, formType, batchModalOpen, navmc10274Templates, navmc11811Template]);
 
   const isFormsMode = documentCategory === 'forms';

@@ -67,10 +67,10 @@ export function LetterheadSection() {
     // the external system here is the documentStore's unitAddress
     // string. When something else writes to that string (unit
     // directory pick, profile load, restore-session) we mirror the
-    // change into local structured-fields state. Suppressed for the
-    // same reason as the analogous patterns in useServiceWorker.ts
-    // and the PR #59 sweep.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    // change into local structured-fields state. The early-return
+    // round-trip-echo guard above means React doesn't see a same-
+    // value setState here, so the rule doesn't actually fire on
+    // this shape (no disable directive needed).
     setAddressParts(parseUnitAddress(current));
     lastWriteRef.current = null;
   }, [formData.unitAddress]);
