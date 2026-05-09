@@ -21,6 +21,8 @@ export function escapeLatex(str: string | undefined | null): string {
   // Phase 2: Escape simple chars that don't introduce braces
   // Phase 3: Escape { and } from the original text
   // Phase 4: Replacements that introduce new { } (safe now — won't be re-escaped)
+  // codeql[js/incomplete-sanitization]: false positive — sentinel pattern
+  // (Phase 1 below) escapes all `\` from input before subsequent replaces add their own.
   let result = protectedStr
     .replace(/\\/g, 'ZZZTEXTBACKSLASHZZZ')
     .replace(/&/g, '\\&')
@@ -40,6 +42,8 @@ export function escapeLatex(str: string | undefined | null): string {
   // Restore placeholders with highlighted LaTeX rendering
   // Escape underscores in the placeholder name for LaTeX text mode
   for (const [key, name] of Object.entries(placeholderMap)) {
+    // codeql[js/incomplete-sanitization]: false positive — `name` is captured
+    // from /\{\{([A-Za-z0-9_]+)\}\}/, which cannot contain `\`.
     const escapedName = name.replace(/_/g, '\\_');
     result = result.replace(key, `\\fcolorbox{orange}{yellow!30}{\\textsf{\\small ${escapedName}}}`);
   }
@@ -152,6 +156,8 @@ export function formatAddressForLatex(address: string | undefined | null, maxLen
  */
 export function escapeLatexUrl(url: string | undefined | null): string {
   if (!url) return '';
+  // codeql[js/incomplete-sanitization]: false positive — sentinel pattern
+  // (Phase 1 below) escapes all `\` from input before subsequent replaces add their own.
   return url
     // Phase 1: backslash → sentinel (so the escape `\` below don't recurse).
     .replace(/\\/g, 'ZZZURLBACKSLASHZZZ')
@@ -219,7 +225,9 @@ export function convertRichTextToLatex(text: string): string {
 export function highlightPlaceholders(text: string): string {
   // Match {{PLACEHOLDER_NAME}} pattern (case insensitive)
   return text.replace(/\{\{([A-Za-z0-9_]+)\}\}/g, (_match, name) => {
-    // Escape underscores in the placeholder name for LaTeX text mode
+    // Escape underscores in the placeholder name for LaTeX text mode.
+    // codeql[js/incomplete-sanitization]: false positive — `name` is captured
+    // from /[A-Za-z0-9_]+/ above, which cannot contain `\`.
     const escapedName = name.replace(/_/g, '\\_');
     // Render as highlighted box with the placeholder name
     return `\\fcolorbox{orange}{yellow!30}{\\textsf{\\small ${escapedName}}}`;
@@ -255,6 +263,8 @@ export function processBodyText(text: string): string {
   // Now escape LaTeX special chars (but not our markers)
   // ORDER MATTERS: Use placeholders for replacements that introduce { }
   // so they don't get re-escaped by the { } escaping step.
+  // codeql[js/incomplete-sanitization]: false positive — sentinel pattern
+  // (first replace) escapes all `\` from input before subsequent replaces add their own.
   let result = converted
     .replace(/\\/g, 'ZZZTEXTBACKSLASHZZZ')
     .replace(/&/g, '\\&')
@@ -282,6 +292,8 @@ export function processBodyText(text: string): string {
   // Restore placeholders with highlighted LaTeX rendering
   // Escape underscores in the placeholder name for LaTeX text mode
   for (const [key, name] of Object.entries(placeholderMap)) {
+    // codeql[js/incomplete-sanitization]: false positive — `name` is captured
+    // from /\{\{([A-Za-z0-9_]+)\}\}/, which cannot contain `\`.
     const escapedName = name.replace(/_/g, '\\_');
     result = result.replace(key, `\\fcolorbox{orange}{yellow!30}{\\textsf{\\small ${escapedName}}}`);
   }

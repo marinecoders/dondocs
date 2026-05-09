@@ -297,6 +297,8 @@ describe('LaTeX generator — semantic fuzz on the subject field', () => {
           // alphanumeric run "FUZZ_..._END" survives modulo case.
           const cleaned = subject.replace(/\s+/g, '').toLowerCase();
           const texCleaned = tex.replace(/\s+/g, '').toLowerCase();
+          // codeql[js/incomplete-sanitization]: false positive — test code
+          // mirroring the production escape, no untrusted input flows here.
           if (!texCleaned.includes(cleaned.replace(/_/g, '\\_'))
               && !texCleaned.includes(cleaned)) {
             throw new Error(

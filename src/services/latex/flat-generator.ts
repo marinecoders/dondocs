@@ -37,6 +37,8 @@ function escapeFlat(str: string | undefined | null): string {
   // in SwiftLaTeX. Pandoc also handles {\char36} correctly for DOCX.
   // ORDER MATTERS: Use placeholders for replacements that introduce { }
   // so they don't get re-escaped by the { } escaping step.
+  // codeql[js/incomplete-sanitization]: false positive — sentinel pattern
+  // (first replace) escapes all `\` from input before subsequent replaces add their own.
   return str
     .replace(/\\/g, 'ZZZTEXTBACKSLASHZZZ')
     .replace(/&/g, '\\&')
@@ -59,6 +61,8 @@ function escapeTabular(str: string | undefined | null): string {
   if (!str) return '';
   // ORDER MATTERS: Use placeholders for replacements that introduce { }
   // so they don't get re-escaped by the { } escaping step.
+  // codeql[js/incomplete-sanitization]: false positive — sentinel pattern
+  // (first replace) escapes all `\` from input before subsequent replaces add their own.
   return str
     .replace(/\\/g, 'ZZZTEXTBACKSLASHZZZ')
     .replace(/%/g, '\\%')
@@ -107,7 +111,10 @@ function processText(text: string): string {
     return key;
   });
 
-  // Escape LaTeX specials
+  // Escape LaTeX specials.
+  // codeql[js/incomplete-sanitization]: false positive — the first replace
+  // converts every `\` from input to `\textbackslash{}`, so subsequent replaces
+  // that add `\<char>` tokens don't double-escape original input backslashes.
   result = result
     .replace(/\\/g, '\\textbackslash{}')
     .replace(/&/g, '\\&')
@@ -125,6 +132,8 @@ function processText(text: string): string {
   // Restore placeholders with highlighted LaTeX rendering
   // The Lua filter converts \fcolorbox to bold {{NAME}} for DOCX
   for (const [key, name] of Object.entries(placeholderMap)) {
+    // codeql[js/incomplete-sanitization]: false positive — `name` is captured
+    // from /\{\{([A-Za-z0-9_]+)\}\}/, which cannot contain `\`.
     const escapedName = name.replace(/_/g, '\\_');
     result = result.replace(key, `\\fcolorbox{orange}{yellow!30}{\\textsf{\\small ${escapedName}}}`);
   }
