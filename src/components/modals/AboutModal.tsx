@@ -6,7 +6,8 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Github, Shield, Zap, FileText, Lock, Plane, ExternalLink } from 'lucide-react';
+import { Shield, Zap, FileText, Lock, Plane, ExternalLink } from 'lucide-react';
+import { GithubIcon } from '@/components/icons/GithubIcon';
 import { useUIStore } from '@/stores/uiStore';
 import { APP_VERSION, GIT_SHA, formatBuildTime } from '@/lib/version';
 
@@ -86,7 +87,7 @@ export function AboutModal() {
               size="sm"
               onClick={() => window.open('https://github.com/marinecoders/dondocs', '_blank')}
             >
-              <Github className="h-4 w-4 mr-2" />
+              <GithubIcon className="h-4 w-4 mr-2" />
               View on GitHub
               <ExternalLink className="h-3 w-3 ml-1.5 opacity-50" />
             </Button>

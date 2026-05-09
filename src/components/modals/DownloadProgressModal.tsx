@@ -17,7 +17,8 @@
  */
 
 import { useState } from 'react';
-import { FileText, Loader2, Download, AlertCircle, FilePen, RotateCw, Copy, Check, Github } from 'lucide-react';
+import { FileText, Loader2, Download, AlertCircle, FilePen, RotateCw, Copy, Check } from 'lucide-react';
+import { GithubIcon } from '@/components/icons/GithubIcon';
 import {
   Dialog,
   DialogContent,
@@ -368,7 +369,7 @@ export function DownloadProgressModal({ phase, onClose, onRetry }: DownloadProgr
                 </Button>
                 {phase.reportable && (
                   <Button variant="outline" onClick={handleReport}>
-                    <Github className="h-4 w-4 mr-2" />
+                    <GithubIcon className="h-4 w-4 mr-2" />
                     Report issue
                   </Button>
                 )}
