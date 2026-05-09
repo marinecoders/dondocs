@@ -121,6 +121,50 @@ describe('escapeLatexUrl', () => {
     expect(escapeLatexUrl(null)).toBe('');
     expect(escapeLatexUrl('')).toBe('');
   });
+
+  // Regression: a URL containing an undefined-LaTeX-command-shaped path
+  // segment (e.g. `\xyzzy123`) used to break xelatex with `! Undefined
+  // control sequence` because backslashes weren't escaped here. Fixed by
+  // adding the sentinel-pattern phase that also escapes `\`, `{`, `}`,
+  // `$`, `^`, `~` (`hyperref` doesn't need `_` escaped — see fn
+  // docstring). Pre-fix: the input below produced output with a raw
+  // `\xyzzy123` token. Post-fix: it produces `\textbackslash{}xyzzy123`.
+  it('escapes backslash so URLs with `\\foo` segments don\'t become LaTeX commands', () => {
+    const out = escapeLatexUrl('https://example.com/has\\xyzzy123');
+    // The literal `\xyzzy123` token must NOT survive — that's what
+    // breaks xelatex.
+    expect(out).not.toMatch(/\\xyzzy123/);
+    // Whatever replacement we use, it must be a known-safe construct
+    // that xelatex doesn't interpret as a command call. The current
+    // fix uses `\textbackslash{}`.
+    expect(out).toContain('\\textbackslash{}');
+  });
+
+  it('escapes the full set of LaTeX-active chars in URLs (\\, {, }, $, ^, ~, %, #, &)', () => {
+    // Hand-crafted URL covering every active char the escape needs to
+    // handle. After escape, no naked `\<letter>` should appear that
+    // xelatex would interpret as a command call.
+    const input = 'https://x.com/a&b%c#d{e}f$g^h~i\\j';
+    const out = escapeLatexUrl(input);
+    // Every output `\<token>` is one of the explicitly-allowed escape forms.
+    const ALLOWED = ['\\&', '\\%', '\\#', '\\{', '\\}', '\\$', '\\^{}', '\\~{}', '\\textbackslash{}'];
+    for (const match of out.matchAll(/\\[^\\]/g)) {
+      const tok = out.slice(match.index!, match.index! + 2);
+      const ok = ALLOWED.some((a) => out.slice(match.index!, match.index! + a.length) === a);
+      expect(ok, `unexpected \\<token> in output: ${JSON.stringify(tok)} (full: ${out})`).toBe(true);
+    }
+  });
+
+  // hyperref's `\href` detokenizes the URL argument, so a literal `_`
+  // renders correctly without an explicit escape. Don't escape it,
+  // because a `\_` in the URL would actually corrupt the link target
+  // (the `\` gets percent-encoded by hyperref).
+  it('does NOT escape `_` (hyperref detokenizes)', () => {
+    const out = escapeLatexUrl('https://example.com/my_path_here');
+    expect(out).not.toContain('\\_');
+    // The plain underscores survive verbatim.
+    expect(out).toMatch(/my_path_here/);
+  });
 });
 
 describe('wrapSubjectLine', () => {
