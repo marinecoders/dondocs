@@ -21,7 +21,7 @@ export function base64ToUint8Array(base64: string): Uint8Array {
     return bytes;
   } catch (err) {
     debug.error('Encoding', 'Failed to decode base64 string', err);
-    throw new Error('Invalid base64 string');
+    throw new Error('Invalid base64 string', { cause: err });
   }
 }
 
@@ -37,7 +37,7 @@ export function uint8ArrayToBase64(bytes: Uint8Array): string {
     return btoa(binary);
   } catch (err) {
     debug.error('Encoding', 'Failed to encode to base64', err);
-    throw new Error('Failed to encode bytes to base64');
+    throw new Error('Failed to encode bytes to base64', { cause: err });
   }
 }
 
@@ -57,7 +57,7 @@ export async function blobToUint8Array(blob: Blob): Promise<Uint8Array> {
     return new Uint8Array(arrayBuffer);
   } catch (err) {
     debug.error('Encoding', 'Failed to convert blob to Uint8Array', err);
-    throw new Error('Failed to read blob data');
+    throw new Error('Failed to read blob data', { cause: err });
   }
 }
 

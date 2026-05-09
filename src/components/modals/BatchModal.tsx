@@ -403,8 +403,12 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     return applyPlaceholdersToNavmc11811(useFormStore.getState().navmc11811, values);
   }, []);
 
-  // Generate PDF for a single row with retry logic for ENGINE_RESET_NEEDED
-  const generatePdfForRow = useCallback(async (values: PlaceholderValue, retryCount = 0): Promise<Uint8Array> => {
+  // Generate PDF for a single row with retry logic for ENGINE_RESET_NEEDED.
+  // Retry is implemented as an in-function loop rather than recursion so the
+  // useCallback doesn't need to refer to itself before initialization (which
+  // tripped react-hooks/immutability and required a Temporal-Dead-Zone-safe
+  // pattern that's only obvious at runtime, not to the React Compiler).
+  const generatePdfForRow = useCallback(async (values: PlaceholderValue): Promise<Uint8Array> => {
     // Forms mode: use pdf-lib form generators
     if (isFormsMode) {
       if (formType === 'navmc_10274') {
@@ -428,29 +432,32 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
       throw new Error(`Unknown form type: ${formType}`);
     }
 
-    // Correspondence mode: use LaTeX compilation
+    // Correspondence mode: use LaTeX compilation, retrying on ENGINE_RESET_NEEDED
     const modifiedStore = createModifiedStore(values);
     const { texFiles } = generateAllLatexFiles(modifiedStore);
 
-    try {
-      // Compile LaTeX to PDF
-      const pdf = await compile(texFiles);
-      if (!pdf) {
-        throw new Error('PDF compilation failed');
-      }
-      return pdf;
-    } catch (err) {
-      // Handle ENGINE_RESET_NEEDED with retry
-      if (err instanceof Error && err.message === 'ENGINE_RESET_NEEDED' && retryCount < MAX_RETRIES) {
-        debug.log('Batch', `Engine reset detected, waiting for ready and retrying (attempt ${retryCount + 1}/${MAX_RETRIES})...`);
-        const ready = await waitForReady(5000);
-        if (ready) {
-          return generatePdfForRow(values, retryCount + 1);
+    for (let retryCount = 0; retryCount <= MAX_RETRIES; retryCount++) {
+      try {
+        const pdf = await compile(texFiles);
+        if (!pdf) {
+          throw new Error('PDF compilation failed');
         }
-        throw new Error('Engine failed to recover after reset');
+        return pdf;
+      } catch (err) {
+        if (err instanceof Error && err.message === 'ENGINE_RESET_NEEDED' && retryCount < MAX_RETRIES) {
+          debug.log('Batch', `Engine reset detected, waiting for ready and retrying (attempt ${retryCount + 1}/${MAX_RETRIES})...`);
+          const ready = await waitForReady(5000);
+          if (ready) {
+            continue;
+          }
+          throw new Error('Engine failed to recover after reset', { cause: err });
+        }
+        throw err;
       }
-      throw err;
     }
+    // Unreachable: the loop either returns a pdf or throws within the catch.
+    // Present so TypeScript doesn't complain about a Promise<Uint8Array | undefined>.
+    throw new Error('Engine failed to recover after reset (max retries exceeded)');
   }, [createModifiedStore, createModifiedNavmc10274, createModifiedNavmc11811, compile, waitForReady, isFormsMode, formType, navmc10274Templates, navmc11811Template]);
 
   // Check if we're ready to generate (depends on mode)

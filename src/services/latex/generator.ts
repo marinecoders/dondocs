@@ -342,7 +342,7 @@ export function generateSignatoryTex(store: DocumentStore): string {
   // Set signature type and image
   // signatureType: 'none' = just typed name, 'image' = uploaded signature, 'digital' = empty field for CAC signing
   const signatureType = data.signatureType || 'none';
-  let signatureConfigTex = '';
+  let signatureConfigTex: string;
 
   if (signatureType === 'image' && data.signatureImage?.data) {
     // Use uploaded signature image
