@@ -13,6 +13,10 @@ enableConsoleCapture()
 
 // Migrate legacy localStorage keys to current naming convention
 function migrateLocalStorage() {
+  // codeql[js/incomplete-sanitization]: false positive — these are hardcoded
+  // string constants, each containing exactly one `]` (the obfuscation sentinel
+  // that hides the legacy "libo" name from grep). Non-global replace is
+  // correct since each string has exactly one `]` to remove.
   const legacyPrefixes = ['l]ibo-secured-', 'l]ibo_', 'l]ibo-', 'L]IBO_'].map(p => p.replace(']', ''));
   const keysToMigrate: [string, string][] = [];
 
