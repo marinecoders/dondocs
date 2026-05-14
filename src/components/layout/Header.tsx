@@ -233,15 +233,18 @@ export function Header({
       }
     };
   }, []);
-  const [bannerDismissed, setBannerDismissed] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
+  // Read the banner-dismissed flag from localStorage as the initial state
+  // (lazy initializer runs once, on mount). Avoids a layout-shift flash where
+  // the banner briefly appears before an effect closes it; also avoids a
+  // setState-in-effect lint hit.
+  const [bannerDismissed, setBannerDismissed] = useState<boolean>(() => {
     try {
-      const dismissed = localStorage.getItem('dondocs-banner-dismissed');
-      if (dismissed === 'true') setBannerDismissed(true);
-    } catch { /* localStorage unavailable (private browsing) */ }
-  }, []);
+      return localStorage.getItem('dondocs-banner-dismissed') === 'true';
+    } catch {
+      return false; // localStorage unavailable (private browsing)
+    }
+  });
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const dismissBanner = useCallback(() => {
     setBannerDismissed(true);

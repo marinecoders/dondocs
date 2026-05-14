@@ -102,8 +102,13 @@ export function DatePicker({
     return parseFlexibleDate(value || "")
   }, [value])
 
-  // Sync input value with prop value
+  // Sync input value with prop value.
+  // Controlled-input-with-local-buffer pattern. Local `inputValue` lets the
+  // user type partial dates ("5/" while typing "5/12/26") without immediately
+  // running them through parseFlexibleDate; we re-sync to the prop whenever
+  // the canonical `value` changes externally (calendar click, programmatic).
   React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setInputValue(value || "")
   }, [value])
 

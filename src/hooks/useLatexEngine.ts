@@ -446,7 +446,12 @@ export function useLatexEngine() {
     [resetEngine]
   );
 
+  // Mount-time engine boot. initEngine() is async and writes engine-status
+  // state as it progresses (downloading → loading wasm → ready). There's no
+  // event-handler equivalent for "the hook just mounted, kick off the long-
+  // running boot sequence" — that's the canonical purpose of effects.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     initEngine();
   }, [initEngine]);
 
