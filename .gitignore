@@ -3,6 +3,16 @@
 # =============================================================================
 
 # -----------------------------------------------------------------------------
+# Build-time vendored binaries (downloaded by scripts/vendor-assets.mjs)
+# -----------------------------------------------------------------------------
+# pandoc.wasm is ~58 MB; committing it would nearly triple the repo and live in
+# history forever. It is fetched on postinstall/prebuild and baked into dist/,
+# so the deployed (air-gapped) artifact is self-contained while the repo stays
+# lean. The small WASI shim + pdfjs 3.11 worker ARE committed (see public/lib/).
+public/lib/pandoc/pandoc.wasm
+public/lib/pandoc/*.partial
+
+# -----------------------------------------------------------------------------
 # LaTeX Build Artifacts
 # -----------------------------------------------------------------------------
 *.aux
@@ -88,6 +98,9 @@ venv/
 
 # Classification configuration (keep example, ignore actual config)
 public/classification.config.json
+
+# Local audit findings (multi-agent code audit output — kept local, not shipped)
+.audit-findings/
 
 # -----------------------------------------------------------------------------
 # Test & Debug Files

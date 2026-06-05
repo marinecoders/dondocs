@@ -124,8 +124,15 @@ const pdfViewerStyles = `
 // react-pdf v10 uses pdfjs-dist v5 — worker copied to public/lib/
 pdfjs.GlobalWorkerOptions.workerSrc = `${import.meta.env.BASE_URL}lib/pdf.worker.min.mjs`;
 
-// Worker URL for react-pdf-viewer (iOS)
-const PDFJS_WORKER_URL = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
+// Worker URL for react-pdf-viewer (iOS).
+// Air-gap: vendored same-origin at public/lib/pdf.worker-3.11.min.js (matches
+// @react-pdf-viewer's pdfjs 3.11.174). Previously loaded from a public CDN,
+// which left the iOS PDF preview blank on air-gapped iPads/iPhones — the exact
+// devices field users carry on SIPR/JWICS. The desktop path above already
+// self-hosts its worker; this brings iOS to parity. (The @react-pdf-viewer →
+// react-pdf migration that would unify both on the bundled v5 worker is tracked
+// separately.)
+const PDFJS_WORKER_URL = `${import.meta.env.BASE_URL}lib/pdf.worker-3.11.min.js`;
 
 /**
  * Hardened pdf.js options. Both viewers below preview user-supplied PDFs

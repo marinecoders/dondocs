@@ -28,13 +28,18 @@
    of strings.
 */
 
+// Air-gap: the WASI shim is vendored locally (public/lib/pandoc/wasi-shim.js,
+// a self-contained bundle of @bjorn3/browser_wasi_shim@0.3.0). Importing it
+// same-origin means no third-party CDN round-trip — required for the
+// SIPR/JWICS air-gapped networks dondocs targets. The relative specifier
+// resolves against this module's own URL (public/lib/pandoc/pandoc.js).
 import {
   WASI,
   OpenFile,
   File,
   ConsoleStdout,
   PreopenDirectory,
-} from "https://cdn.jsdelivr.net/npm/@bjorn3/browser_wasi_shim@0.3.0/dist/index.js";
+} from "./wasi-shim.js";
 
 const args = ["pandoc.wasm", "+RTS", "-H64m", "-RTS"];
 const env = [];
@@ -47,14 +52,14 @@ const fds = [
 ];
 const options = { debug: false };
 const wasi = new WASI(args, env, fds, options);
-// Fetch pandoc WASM binary from unpkg CDN (pandoc-wasm npm package, pandoc 3.9).
-// NOTE: we previously used jsDelivr, but jsDelivr enforces a 50 MB/file limit and
-// this WASM is ~58 MB. jsDelivr responds with HTTP 403 and a plain-text body
-// ("File size exceeded the configured limit of 50 MB."), which then fails
-// WebAssembly.instantiate() with a cryptic "expected magic word 00 61 73 6d,
-// found 46 69 6c 65" error (the ASCII bytes of "File"). unpkg has no such limit.
+// Air-gap: the pandoc WASM binary is vendored same-origin at
+// public/lib/pandoc/pandoc.wasm (fetched at build time by scripts/vendor-assets.mjs
+// from pandoc-wasm@1.0.1, then baked into dist/ — it is NOT committed to git because
+// the 58 MB binary would bloat the repo; see .gitignore). Resolving the URL against
+// import.meta.url keeps it same-origin under any BASE_URL, so DOCX export works on
+// fully offline SIPR/JWICS networks with zero third-party CDN dependency.
 // Uses ArrayBuffer instantiation instead of instantiateStreaming to bypass MIME type checks.
-const wasmUrl = "https://unpkg.com/pandoc-wasm@1.0.1/src/pandoc.wasm";
+const wasmUrl = new URL("./pandoc.wasm", import.meta.url).href;
 
 // Progress reporting hook: consumers (e.g. the DOCX converter UI) can set
 // `globalThis.__dondocsPandocProgress` to a function BEFORE importing this
