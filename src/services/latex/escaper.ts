@@ -11,25 +11,36 @@
  * missing metric and 404; on air-gap it fails outright.)
  *
  * Each mapping below targets a glyph in a font we DO ship:
- *   - `\S \P \dag \ddag` fall back to `\mathsection` etc. in `cmsy` (bundled).
+ *   - § ¶ † ‡ use the EXPLICIT math-mode symbols (`\ensuremath{\mathsection}`
+ *     etc.), which draw from `cmsy` (bundled). The text-mode shorthands
+ *     (`\S`, `\P`, `\dag`, `\ddag`) must NOT be used here: on the modern
+ *     LaTeX kernel the bundle ships (textcomp integrated, 2020+), they
+ *     expand to `\textsection`/`\textparagraph`/… whose DEFAULT encoding is
+ *     TS1 — landing on the exact missing-`tcrm*.tfm` crash this map exists
+ *     to prevent. Verified empirically: a Times doc with `\S{}` loads
+ *     `ts1ptm.fd` + requests TS1 fonts; `\ensuremath{\mathsection}` loads
+ *     only `cmsy10`.
  *   - `\ensuremath{...}` symbols (°, ×, ÷, ±, µ, •, ·) come from cmsy/cmmi.
- *   - `\textcircled{c}` composes a circle + letter from the base font.
+ *   - `\textcircled{c}` composes a circle (cmsy `\bigcirc`) + letter from the
+ *     base font — verified to load no TS1 fonts.
  *   - Smart quotes / dashes / ellipsis map to their classic ASCII-LaTeX forms.
  *
  * Anything NOT mapped here that is also non-ASCII and not a letter/combining
  * mark is dropped by the fail-safe in `applyLatexSymbolFallback` — better to
  * lose one exotic glyph than to fatal the whole compile. Letters (incl.
  * accented: é, ü, ñ …) are preserved; inputenc composes them from the base
- * font. Extend SYMBOL_REPLACEMENTS as new symbols are reported.
+ * font. Extend SYMBOL_REPLACEMENTS as new symbols are reported — and when you
+ * do, prove the new form requests no TS1 fonts (see
+ * tests/integration/latex-compile-no-ts1.test.ts).
  *
  * NOTE: this is for the PDF (SwiftLaTeX) path only. The DOCX/pandoc path
  * (flat-generator.ts) handles Unicode natively and must NOT use this.
  */
 const SYMBOL_REPLACEMENTS: Array<[RegExp, string]> = [
-  [/§/g, '\\S{}'],            // § section sign
-  [/¶/g, '\\P{}'],            // ¶ pilcrow
-  [/†/g, '\\dag{}'],          // † dagger
-  [/‡/g, '\\ddag{}'],         // ‡ double dagger
+  [/§/g, '\\ensuremath{\\mathsection}'],   // § section sign (cmsy, NOT \S — TS1)
+  [/¶/g, '\\ensuremath{\\mathparagraph}'], // ¶ pilcrow (cmsy, NOT \P — TS1)
+  [/†/g, '\\ensuremath{\\dagger}'],        // † dagger (cmsy, NOT \dag — TS1)
+  [/‡/g, '\\ensuremath{\\ddagger}'],       // ‡ double dagger (cmsy, NOT \ddag — TS1)
   [/©/g, '\\textcircled{c}'], // © copyright
   [/®/g, '\\textcircled{r}'], // ® registered
   [/™/g, '\\textsuperscript{TM}'], // ™ trademark
