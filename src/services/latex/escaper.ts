@@ -11,25 +11,36 @@
  * missing metric and 404; on air-gap it fails outright.)
  *
  * Each mapping below targets a glyph in a font we DO ship:
- *   - `\S \P \dag \ddag` fall back to `\mathsection` etc. in `cmsy` (bundled).
+ *   - § ¶ † ‡ use the EXPLICIT math-mode symbols (`\ensuremath{\mathsection}`
+ *     etc.), which draw from `cmsy` (bundled). The text-mode shorthands
+ *     (`\S`, `\P`, `\dag`, `\ddag`) must NOT be used here: on the modern
+ *     LaTeX kernel the bundle ships (textcomp integrated, 2020+), they
+ *     expand to `\textsection`/`\textparagraph`/… whose DEFAULT encoding is
+ *     TS1 — landing on the exact missing-`tcrm*.tfm` crash this map exists
+ *     to prevent. Verified empirically: a Times doc with `\S{}` loads
+ *     `ts1ptm.fd` + requests TS1 fonts; `\ensuremath{\mathsection}` loads
+ *     only `cmsy10`.
  *   - `\ensuremath{...}` symbols (°, ×, ÷, ±, µ, •, ·) come from cmsy/cmmi.
- *   - `\textcircled{c}` composes a circle + letter from the base font.
+ *   - `\textcircled{c}` composes a circle (cmsy `\bigcirc`) + letter from the
+ *     base font — verified to load no TS1 fonts.
  *   - Smart quotes / dashes / ellipsis map to their classic ASCII-LaTeX forms.
  *
  * Anything NOT mapped here that is also non-ASCII and not a letter/combining
  * mark is dropped by the fail-safe in `applyLatexSymbolFallback` — better to
  * lose one exotic glyph than to fatal the whole compile. Letters (incl.
  * accented: é, ü, ñ …) are preserved; inputenc composes them from the base
- * font. Extend SYMBOL_REPLACEMENTS as new symbols are reported.
+ * font. Extend SYMBOL_REPLACEMENTS as new symbols are reported — and when you
+ * do, prove the new form requests no TS1 fonts (see
+ * tests/integration/latex-compile-no-ts1.test.ts).
  *
  * NOTE: this is for the PDF (SwiftLaTeX) path only. The DOCX/pandoc path
  * (flat-generator.ts) handles Unicode natively and must NOT use this.
  */
 const SYMBOL_REPLACEMENTS: Array<[RegExp, string]> = [
-  [/§/g, '\\S{}'],            // § section sign
-  [/¶/g, '\\P{}'],            // ¶ pilcrow
-  [/†/g, '\\dag{}'],          // † dagger
-  [/‡/g, '\\ddag{}'],         // ‡ double dagger
+  [/§/g, '\\ensuremath{\\mathsection}'],   // § section sign (cmsy, NOT \S — TS1)
+  [/¶/g, '\\ensuremath{\\mathparagraph}'], // ¶ pilcrow (cmsy, NOT \P — TS1)
+  [/†/g, '\\ensuremath{\\dagger}'],        // † dagger (cmsy, NOT \dag — TS1)
+  [/‡/g, '\\ensuremath{\\ddagger}'],       // ‡ double dagger (cmsy, NOT \ddag — TS1)
   [/©/g, '\\textcircled{c}'], // © copyright
   [/®/g, '\\textcircled{r}'], // ® registered
   [/™/g, '\\textsuperscript{TM}'], // ™ trademark
@@ -314,11 +325,23 @@ export function highlightPlaceholders(text: string): string {
  * Escape LaTeX and convert rich text markers
  */
 export function processBodyText(text: string): string {
+  // Normalize Windows (\r\n) and old-Mac (\r) line endings to \n FIRST.
+  // The newline→`\\` conversion below replaces only `\n`; a surviving `\r`
+  // reaches the .tex output, where TeX treats it as a line ending too. A
+  // pasted blank line with CRLF (`\r\n\r\n` — typical of Windows/NMCI
+  // clipboards) then becomes a REAL empty source line (a paragraph break)
+  // followed by a line containing only `\\` — which is exactly
+  // `! LaTeX Error: There's no line here to end.` and a dead compile.
+  // With pure-LF input this cannot happen (every \n is consumed by the
+  // conversion), so normalizing here fully closes the failure.
+  // Compile-level proof: tests/integration/latex-compile-crlf-paragraph.test.ts
+  const normalized = text.replace(/\r\n?/g, '\n');
+
   // First, extract and protect placeholders before escaping
   // Use keys without special chars (no underscores - they conflict with underline pattern)
   const placeholderMap: Record<string, string> = {};
   let placeholderIndex = 0;
-  const protectedText = text.replace(/\{\{([A-Za-z0-9_]+)\}\}/g, (_match, name) => {
+  const protectedText = normalized.replace(/\{\{([A-Za-z0-9_]+)\}\}/g, (_match, name) => {
     const key = `ZZZVARPLACEHOLDER${placeholderIndex++}ZZZ`;
     placeholderMap[key] = name;
     return key;
@@ -365,8 +388,28 @@ export function processBodyText(text: string): string {
   // conversion, which only touches `*` / `_` markers.
   result = applyLatexSymbolFallback(result);
 
-  // Convert newlines to LaTeX line breaks so input line breaks appear in PDF
-  result = result.replace(/\n/g, '\\\\\n');
+  // Convert newlines to LaTeX line breaks so input line breaks appear in PDF.
+  //
+  // Blank lines need special care: naively converting each `\n` to `\\`
+  // turns a pasted blank line (`\n\n`) into a source line containing ONLY
+  // `\\` — and main.tex sets `\raggedright` (standard for naval
+  // correspondence), under which a standalone `\\` is a fatal
+  // `! LaTeX Error: There's no line here to end.` (verified by bisecting a
+  // failing fixture down to exactly that line, then reproducing with
+  // article + \raggedright). So:
+  //   - leading/trailing newline runs are trimmed (a `\\` butted against
+  //     the paragraph edges adds nothing and risks the same error), and
+  //   - interior blank-line runs become `\\[\baselineskip]` — one line
+  //     break plus one blank line's worth of space, preserving the visual
+  //     gap the user typed while never emitting a standalone `\\`
+  //     (raggedright-safe, verified by compile).
+  // The sentinel keeps the single-`\n` pass from re-matching the newline
+  // that the blank-line replacement itself emits.
+  result = result
+    .replace(/^\n+|\n+$/g, '')
+    .replace(/\n{2,}/g, 'ZZZBLANKLINEZZZ')
+    .replace(/\n/g, '\\\\\n')
+    .replace(/ZZZBLANKLINEZZZ/g, '\\\\[\\baselineskip]\n');
 
   // Then convert rich text markers
   result = convertRichTextToLatex(result);
