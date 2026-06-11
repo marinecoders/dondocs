@@ -325,11 +325,23 @@ export function highlightPlaceholders(text: string): string {
  * Escape LaTeX and convert rich text markers
  */
 export function processBodyText(text: string): string {
+  // Normalize Windows (\r\n) and old-Mac (\r) line endings to \n FIRST.
+  // The newline→`\\` conversion below replaces only `\n`; a surviving `\r`
+  // reaches the .tex output, where TeX treats it as a line ending too. A
+  // pasted blank line with CRLF (`\r\n\r\n` — typical of Windows/NMCI
+  // clipboards) then becomes a REAL empty source line (a paragraph break)
+  // followed by a line containing only `\\` — which is exactly
+  // `! LaTeX Error: There's no line here to end.` and a dead compile.
+  // With pure-LF input this cannot happen (every \n is consumed by the
+  // conversion), so normalizing here fully closes the failure.
+  // Compile-level proof: tests/integration/latex-compile-crlf-paragraph.test.ts
+  const normalized = text.replace(/\r\n?/g, '\n');
+
   // First, extract and protect placeholders before escaping
   // Use keys without special chars (no underscores - they conflict with underline pattern)
   const placeholderMap: Record<string, string> = {};
   let placeholderIndex = 0;
-  const protectedText = text.replace(/\{\{([A-Za-z0-9_]+)\}\}/g, (_match, name) => {
+  const protectedText = normalized.replace(/\{\{([A-Za-z0-9_]+)\}\}/g, (_match, name) => {
     const key = `ZZZVARPLACEHOLDER${placeholderIndex++}ZZZ`;
     placeholderMap[key] = name;
     return key;
@@ -376,8 +388,28 @@ export function processBodyText(text: string): string {
   // conversion, which only touches `*` / `_` markers.
   result = applyLatexSymbolFallback(result);
 
-  // Convert newlines to LaTeX line breaks so input line breaks appear in PDF
-  result = result.replace(/\n/g, '\\\\\n');
+  // Convert newlines to LaTeX line breaks so input line breaks appear in PDF.
+  //
+  // Blank lines need special care: naively converting each `\n` to `\\`
+  // turns a pasted blank line (`\n\n`) into a source line containing ONLY
+  // `\\` — and main.tex sets `\raggedright` (standard for naval
+  // correspondence), under which a standalone `\\` is a fatal
+  // `! LaTeX Error: There's no line here to end.` (verified by bisecting a
+  // failing fixture down to exactly that line, then reproducing with
+  // article + \raggedright). So:
+  //   - leading/trailing newline runs are trimmed (a `\\` butted against
+  //     the paragraph edges adds nothing and risks the same error), and
+  //   - interior blank-line runs become `\\[\baselineskip]` — one line
+  //     break plus one blank line's worth of space, preserving the visual
+  //     gap the user typed while never emitting a standalone `\\`
+  //     (raggedright-safe, verified by compile).
+  // The sentinel keeps the single-`\n` pass from re-matching the newline
+  // that the blank-line replacement itself emits.
+  result = result
+    .replace(/^\n+|\n+$/g, '')
+    .replace(/\n{2,}/g, 'ZZZBLANKLINEZZZ')
+    .replace(/\n/g, '\\\\\n')
+    .replace(/ZZZBLANKLINEZZZ/g, '\\\\[\\baselineskip]\n');
 
   // Then convert rich text markers
   result = convertRichTextToLatex(result);
