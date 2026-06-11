@@ -147,9 +147,19 @@ describe('escaper — semantic fuzz', () => {
     );
   });
 
-  it('formatSubjectForLatex output is non-empty for non-empty input', () => {
+  it('formatSubjectForLatex output is non-empty for input with renderable content', () => {
+    // Precondition refined to require at least one RENDERABLE character (ASCII
+    // printable or a Unicode letter/mark). The escaper intentionally drops
+    // unmapped non-ASCII *symbols* (emoji, exotic glyphs) because the offline
+    // SwiftLaTeX font set can't render them and a raw one would fatal the whole
+    // compile (see tests/regressions/latex-section-sign-tcrm-missing.test.ts).
+    // So a subject made ENTIRELY of such symbols (e.g. "👨‍👩‍👧‍👦") legitimately
+    // sanitizes to empty — that is the safe outcome, not a bug. The real
+    // invariant is: any subject containing renderable content yields non-empty
+    // LaTeX.
+    const hasRenderable = (s: string) => /[\x21-\x7E]/.test(s) || /\p{L}|\p{M}/u.test(s);
     fc.assert(
-      fc.property(adversarialString.filter((s) => s.trim().length > 0), (s) => {
+      fc.property(adversarialString.filter((s) => s.trim().length > 0 && hasRenderable(s)), (s) => {
         const out = formatSubjectForLatex(s);
         expect(out.length).toBeGreaterThan(0);
       }),

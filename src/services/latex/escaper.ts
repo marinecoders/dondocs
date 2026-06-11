@@ -1,4 +1,75 @@
 /**
+ * Map non-ASCII symbols to LaTeX commands that render with the FONTS WE BUNDLE.
+ *
+ * Why this exists: the offline SwiftLaTeX engine ships a curated 85-file font
+ * set (Computer Modern + Times + Courier). `textcomp` is loaded, which routes
+ * symbols like `§` (U+00A7) to the TS1 ("text companion") encoding. But the TS1
+ * Computer Modern metrics (`tcrm*.tfm`) are NOT in the bundle, so a single `§`
+ * — e.g. a routine "5 U.S.C. § 552a" citation — makes pdfTeX abort with
+ * `Font TS1/cmr/m/n/12=tcrm1200 ... Metric (TFM) file not found` and produces
+ * NO PDF at all. (On the deployed site the engine would try to fetch the
+ * missing metric and 404; on air-gap it fails outright.)
+ *
+ * Each mapping below targets a glyph in a font we DO ship:
+ *   - `\S \P \dag \ddag` fall back to `\mathsection` etc. in `cmsy` (bundled).
+ *   - `\ensuremath{...}` symbols (°, ×, ÷, ±, µ, •, ·) come from cmsy/cmmi.
+ *   - `\textcircled{c}` composes a circle + letter from the base font.
+ *   - Smart quotes / dashes / ellipsis map to their classic ASCII-LaTeX forms.
+ *
+ * Anything NOT mapped here that is also non-ASCII and not a letter/combining
+ * mark is dropped by the fail-safe in `applyLatexSymbolFallback` — better to
+ * lose one exotic glyph than to fatal the whole compile. Letters (incl.
+ * accented: é, ü, ñ …) are preserved; inputenc composes them from the base
+ * font. Extend SYMBOL_REPLACEMENTS as new symbols are reported.
+ *
+ * NOTE: this is for the PDF (SwiftLaTeX) path only. The DOCX/pandoc path
+ * (flat-generator.ts) handles Unicode natively and must NOT use this.
+ */
+const SYMBOL_REPLACEMENTS: Array<[RegExp, string]> = [
+  [/§/g, '\\S{}'],            // § section sign
+  [/¶/g, '\\P{}'],            // ¶ pilcrow
+  [/†/g, '\\dag{}'],          // † dagger
+  [/‡/g, '\\ddag{}'],         // ‡ double dagger
+  [/©/g, '\\textcircled{c}'], // © copyright
+  [/®/g, '\\textcircled{r}'], // ® registered
+  [/™/g, '\\textsuperscript{TM}'], // ™ trademark
+  [/°/g, '\\ensuremath{^\\circ}'], // ° degree
+  [/±/g, '\\ensuremath{\\pm}'],    // ± plus-minus
+  [/×/g, '\\ensuremath{\\times}'], // × multiplication
+  [/÷/g, '\\ensuremath{\\div}'],   // ÷ division
+  [/µ/g, '\\ensuremath{\\mu}'],    // µ micro
+  [/•/g, '\\ensuremath{\\bullet}'], // • bullet
+  [/·/g, '\\ensuremath{\\cdot}'],  // · middle dot
+  [/…/g, '\\ldots{}'],        // … ellipsis
+  [/–/g, '--'],               // – en dash
+  [/—/g, '---'],              // — em dash
+  [/‘/g, '`'],                // ' left single quote
+  [/’/g, "'"],                // ' right single quote / apostrophe
+  [/“/g, '``'],               // " left double quote
+  [/”/g, "''"],               // " right double quote
+];
+
+/**
+ * Apply the bundled-font symbol map, then a fail-safe that strips any remaining
+ * non-ASCII that is not a letter or combining mark — so an unmapped symbol can
+ * never hard-fail the compile. Must run AFTER the special-char escaping phase
+ * (the replacements introduce `\` and `{}` that must not be re-escaped).
+ */
+function applyLatexSymbolFallback(text: string): string {
+  let out = text;
+  for (const [re, rep] of SYMBOL_REPLACEMENTS) {
+    out = out.replace(re, rep);
+  }
+  // Fail-safe: drop unmapped non-ASCII symbols/punctuation. ASCII (incl.
+  // whitespace and the newlines body text relies on) is kept via \p{ASCII};
+  // letters (\p{L}) and marks (\p{M}) are kept so accented names still render
+  // via inputenc. Only stray non-ASCII *symbols* (emoji, exotic glyphs) are
+  // removed — they have no bundled font and a raw one would fatal the compile.
+  out = out.replace(/[^\p{ASCII}\p{L}\p{M}]/gu, '');
+  return out;
+}
+
+/**
  * Escape special LaTeX characters (with placeholder support)
  */
 export function escapeLatex(str: string | undefined | null): string {
@@ -38,6 +109,11 @@ export function escapeLatex(str: string | undefined | null): string {
     .replace(/ZZZDOLLARZZZ/g, '{\\char36}')
     .replace(/ZZZTILDEZZZ/g, '\\textasciitilde{}')
     .replace(/ZZZCARETZZZ/g, '\\textasciicircum{}');
+
+  // Phase 5: map non-ASCII symbols (§, ¶, ©, °, …) to bundled-font LaTeX so a
+  // single such character can't fatal the offline compile. Runs after escaping
+  // because it introduces `\` and `{}` that must not be re-escaped.
+  result = applyLatexSymbolFallback(result);
 
   // Restore placeholders with highlighted LaTeX rendering
   // Escape underscores in the placeholder name for LaTeX text mode
@@ -282,6 +358,12 @@ export function processBodyText(text: string): string {
 
   // Note: Don't escape _ or * as they're used for formatting
   // The rich text conversion will handle them
+
+  // Map non-ASCII symbols (§, ¶, ©, °, …) to bundled-font LaTeX so a single
+  // such character in a paragraph can't fatal the offline compile. Runs after
+  // escaping (it introduces `\` and `{}`) but before the rich-text marker
+  // conversion, which only touches `*` / `_` markers.
+  result = applyLatexSymbolFallback(result);
 
   // Convert newlines to LaTeX line breaks so input line breaks appear in PDF
   result = result.replace(/\n/g, '\\\\\n');
