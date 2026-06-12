@@ -57,7 +57,11 @@ function escapeFlat(str: string | undefined | null): string {
     .replace(/ZZZCARETZZZ/g, '\\textasciicircum{}');
 }
 
-/** Escape for use inside tabular cells (& must not be escaped since it's the column separator) */
+/** Escape for use inside tabular cells. User CONTENT ampersands must be
+ * escaped (\&) — the old "& is the column separator" rationale applied to
+ * the table SYNTAX our code emits, not to cell text. Unescaped, a unit name
+ * like "H&S Battalion" became a phantom alignment tab that corrupted the
+ * DOCX table (the PDF path always escaped it). */
 function escapeTabular(str: string | undefined | null): string {
   if (!str) return '';
   // ORDER MATTERS: Use placeholders for replacements that introduce { }
@@ -66,6 +70,7 @@ function escapeTabular(str: string | undefined | null): string {
   // (first replace) escapes all `\` from input before subsequent replaces add their own.
   return str
     .replace(/\\/g, 'ZZZTEXTBACKSLASHZZZ')
+    .replace(/&/g, '\\&')
     .replace(/%/g, '\\%')
     .replace(/#/g, '\\#')
     .replace(/_/g, '\\_')
