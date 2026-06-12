@@ -5,12 +5,12 @@ import { DOC_TYPE_CONFIG } from '@/types/document';
 import { useHistoryStore } from './historyStore';
 import type { DocumentSnapshot } from './historyStore';
 import { debug } from '@/lib/debug';
-import { TIMING } from '@/lib/constants';
+import { TIMING, STORAGE_KEYS} from '@/lib/constants';
 import { compressedParse, compressedStringify } from '@/lib/compressedStorage';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 
 // Session persistence keys
-const SESSION_STORAGE_KEY = 'dondocs-document-session';
+const SESSION_STORAGE_KEY = STORAGE_KEYS.DOCUMENT_SESSION;
 const SESSION_TIMESTAMP_KEY = 'dondocs-session-timestamp';
 const SESSION_MAX_AGE = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 

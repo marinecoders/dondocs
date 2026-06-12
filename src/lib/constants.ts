@@ -203,6 +203,11 @@ export const STORAGE_KEYS = {
   // buttons) and read by ErrorBoundary.tsx (Copy saved draft / Reset and
   // reload buttons). Keep these in sync via this single source of truth.
   DOCUMENT: 'dondocs-document',
+  // Auto-saved session (written by documentStore's debounced autosave,
+  // read on load by the restore prompt). This is the key that actually
+  // rehydrates at startup — so it's the one ErrorBoundary must clear to
+  // break a crash-on-rehydrate loop.
+  DOCUMENT_SESSION: 'dondocs-document-session',
 } as const;
 
 /**
