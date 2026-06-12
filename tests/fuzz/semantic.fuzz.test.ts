@@ -157,7 +157,10 @@ describe('escaper — semantic fuzz', () => {
     // sanitizes to empty — that is the safe outcome, not a bug. The real
     // invariant is: any subject containing renderable content yields non-empty
     // LaTeX.
-    const hasRenderable = (s: string) => /[\x21-\x7E]/.test(s) || /\p{L}|\p{M}/u.test(s);
+    // Renderable = ASCII printable, or letters in the Latin ranges the
+    // bundled fonts cover (non-Latin scripts are stripped by the fail-safe
+    // because pdfTeX fatals on them — see escaper-failsafe-i18n regression).
+    const hasRenderable = (s: string) => /[\x21-\x7E]/.test(s) || /[\u00C0-\u024F\u1E00-\u1EFF]/u.test(s);
     fc.assert(
       fc.property(adversarialString.filter((s) => s.trim().length > 0 && hasRenderable(s)), (s) => {
         const out = formatSubjectForLatex(s);
