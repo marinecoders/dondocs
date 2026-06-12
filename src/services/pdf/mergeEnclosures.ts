@@ -24,6 +24,10 @@ export interface MergeResult {
   pdfBytes: Uint8Array;
   errors: EnclosureError[];
   hasErrors: boolean;
+  /** Page count of the basic document BEFORE enclosures were appended.
+   *  Lets the signature-field placer stay off enclosure pages (C-7).
+   *  Undefined when nothing was merged (whole doc = basic doc). */
+  basicPageCount?: number;
 }
 
 export interface ReferenceUrlData {
@@ -1193,7 +1197,7 @@ export async function mergeEnclosures(
     debug.warn('MergeEnclosures', `Completed with ${errors.length} enclosure error(s):`, errors);
   }
 
-  return { pdfBytes, errors, hasErrors: errors.length > 0 };
+  return { pdfBytes, errors, hasErrors: errors.length > 0, basicPageCount: mainPageCount };
 }
 
 /**
