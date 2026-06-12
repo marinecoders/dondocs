@@ -37,17 +37,17 @@ import { join } from 'node:path';
 import { compileFixture, formatFailure } from '../_helpers/compileLatex';
 import { buildBaseline } from '../_helpers/compileMatrix';
 
-const xelatexAvailable =
-  spawnSync('xelatex', ['--version'], { encoding: 'utf-8' }).status === 0;
+const pdflatexAvailable =
+  spawnSync('pdflatex', ['--version'], { encoding: 'utf-8' }).status === 0;
 
-if (!xelatexAvailable) {
+if (!pdflatexAvailable) {
   console.warn(
     '[latex-compile-no-ts1] xelatex not found on PATH — suite will be SKIPPED.'
   );
 }
 
 describe('mapped symbols never request TS1 fonts (bundled-engine safety)', () => {
-  it.skipIf(!xelatexAvailable)(
+  it.skipIf(!pdflatexAvailable)(
     'naval letter with § ¶ † ‡ © ® ™ ° in body/subject/reference compiles with zero TS1 font loads',
     async () => {
       const store = buildBaseline('naval_letter');
