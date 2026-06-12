@@ -179,7 +179,10 @@ jobs:
         run: |
           # Comma-separated GHSA / npm advisory IDs we accept (with reason).
           # Add new entries as a separate PR with the reason inline.
-          export KNOWN_ADVISORIES="1104044"   # @react-pdf-viewer transitive — no upstream fix
+          # Both advisories are pdfjs-dist transitive via @react-pdf-viewer (dormant
+          # upstream, no fix). Tracked for the react-pdf migration that removes
+          # @react-pdf-viewer entirely; until then they are knowingly accepted.
+          export KNOWN_ADVISORIES="1104044,1118732"   # @react-pdf-viewer → pdfjs-dist
           npm audit --json > audit.json || true
           UNKNOWN=$(python3 <<'PY'
           import json, os
