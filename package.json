@@ -90,5 +90,6 @@
     "vite-plugin-pwa": "^1.3.0",
     "vitest": "^4.1.5",
     "workbox-window": "^7.0.0"
-  }
+  },
+  "license": "MIT"
 }
