@@ -499,64 +499,17 @@
   .text-density-sm { font-size: var(--density-text-sm); }
   .text-density-base { font-size: var(--density-text-base); }
 
-  /* Slow spin animation for update banner */
-  .animate-spin-slow {
-    animation: spin 3s linear infinite;
-  }
-
-  /* Marines.dev-inspired hover interactions */
-  .hover-lift {
-    transition: transform 300ms ease-in-out, box-shadow 300ms ease-in-out;
-  }
-  .hover-lift:hover {
-    transform: scale(1.02);
-  }
-
-  .hover-glow {
-    transition: border-color 300ms ease-in-out, box-shadow 300ms ease-in-out;
-  }
-  .hover-glow:hover {
-    box-shadow: 0 0 20px oklch(0.80 0.14 85 / 0.15);
-  }
-
-  /* Shadow depth system */
+  /* Shadow depth system — static elevation only. The decorative utilities
+     that used to live here (hover-lift/hover-glow scale+glow hovers,
+     text-glow text-shadows, the infinite animated-gradient-bg, the
+     text-reveal entrance, and the unused animate-spin-slow) were removed:
+     motion and effects are reserved for communicating state, never
+     decoration. */
   .shadow-card {
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.2), 0 2px 4px -2px rgb(0 0 0 / 0.15);
   }
-  .shadow-card-hover {
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.25), 0 4px 6px -4px rgb(0 0 0 / 0.15);
-  }
   .shadow-elevated {
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2), 0 8px 10px -6px rgb(0 0 0 / 0.15);
-  }
-
-  /* Text glow effects */
-  .text-glow {
-    text-shadow: 0 2px 8px rgb(255 255 255 / 0.15);
-  }
-  .text-glow-gold {
-    text-shadow: 0 2px 12px oklch(0.80 0.14 85 / 0.3);
-  }
-
-  /* Animated gradient background */
-  @keyframes gradient-shift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  .animated-gradient-bg {
-    background-size: 200% 200%;
-    animation: gradient-shift 5s ease infinite;
-  }
-
-  /* Text reveal animation */
-  @keyframes text-reveal-word {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .text-reveal-word {
-    opacity: 0;
-    animation: text-reveal-word 600ms ease forwards;
   }
 
   /* Accordion section left accent border */

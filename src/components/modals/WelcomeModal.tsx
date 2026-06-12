@@ -11,9 +11,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { AnimatedGradientBG } from '@/components/effects/AnimatedGradientBG';
-import { TextReveal } from '@/components/effects/TextReveal';
-import { MouseGlowCard } from '@/components/effects/MouseGlowCard';
 
 const WELCOME_STORAGE_KEY = 'dondocs-welcome-shown';
 // Tracks the version of the WELCOME MODAL CONTENT — not the app version.
@@ -173,26 +170,26 @@ export function WelcomeModal() {
       <DialogContent className="sm:max-w-lg p-0 gap-0 overflow-hidden max-h-[calc(100dvh-2rem)] flex flex-col" showCloseButton={false}>
         {/* Scrollable content area */}
         <div className="flex-1 overflow-y-auto min-h-0">
-          {/* Header with animated gradient */}
-          <AnimatedGradientBG className="px-5 py-5 sm:px-6 sm:py-8 text-white">
+          {/* Header */}
+          <div className="px-5 py-5 sm:px-6 sm:py-8 bg-card border-b">
             <div className="flex items-center gap-3 mb-2">
-              <FileText className="h-7 w-7 sm:h-8 sm:w-8" />
-              <DialogTitle className="text-xl sm:text-2xl font-bold text-white text-glow">
-                <TextReveal text="Welcome to DonDocs" />
+              <FileText className="h-7 w-7 sm:h-8 sm:w-8 text-primary" />
+              <DialogTitle className="text-xl sm:text-2xl font-bold">
+                Welcome to DonDocs
               </DialogTitle>
             </div>
-            <p className="text-white text-sm">
+            <p className="text-muted-foreground text-sm">
               DoN correspondence and forms, made simple. 100% browser-based, SECNAV M-5216.5 compliant.
             </p>
-          </AnimatedGradientBG>
+          </div>
 
           {/* Features */}
           <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
               {FEATURES.map((feature, idx) => (
-                <MouseGlowCard
+                <div
                   key={idx}
-                  className="rounded-lg bg-secondary/50 hover:bg-secondary border border-transparent hover:border-primary/10 transition-all duration-300"
+                  className="rounded-lg bg-secondary/50 border"
                 >
                   <div className="flex items-start gap-3 p-2.5 sm:p-3">
                     <div className="shrink-0 mt-0.5">{feature.icon}</div>
@@ -201,7 +198,7 @@ export function WelcomeModal() {
                       <p className="text-xs text-muted-foreground">{feature.description}</p>
                     </div>
                   </div>
-                </MouseGlowCard>
+                </div>
               ))}
             </div>
 
