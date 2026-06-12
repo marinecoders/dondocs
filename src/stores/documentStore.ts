@@ -572,6 +572,20 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
 let saveTimeout: ReturnType<typeof setTimeout> | null = null;
 let sessionSaveTimeout: ReturnType<typeof setTimeout> | null = null;
 
+// While the session-restore prompt is on screen, mount-time store writes
+// (profile letterhead sync, defaults) would autosave over the very session
+// the user is about to restore — restoreSession() re-reads localStorage at
+// click time, so a user who took >2s to read the prompt restored the
+// freshly-overwritten default document and lost their work. The restore
+// modal suspends session saves while the decision is pending.
+let sessionSavesSuspended = false;
+export function suspendSessionSaves(): void {
+  sessionSavesSuspended = true;
+}
+export function resumeSessionSaves(): void {
+  sessionSavesSuspended = false;
+}
+
 useDocumentStore.subscribe((state: DocumentState) => {
   // Debounce snapshot saving
   if (saveTimeout) {
@@ -597,14 +611,18 @@ useDocumentStore.subscribe((state: DocumentState) => {
     }
   }, TIMING.HISTORY_SNAPSHOT_DEBOUNCE);
 
-  // Also persist to localStorage for session restore (debounced more)
+  // Also persist to localStorage for session restore (debounced more).
+  // Skipped entirely while suspended (restore prompt is on screen) — see
+  // suspendSessionSaves below for the race this prevents.
   if (sessionSaveTimeout) {
     clearTimeout(sessionSaveTimeout);
   }
 
-  sessionSaveTimeout = setTimeout(() => {
-    saveSessionToStorage(state);
-  }, 2000); // 2 second debounce for localStorage
+  if (!sessionSavesSuspended) {
+    sessionSaveTimeout = setTimeout(() => {
+      if (!sessionSavesSuspended) saveSessionToStorage(state);
+    }, 2000); // 2 second debounce for localStorage
+  }
 });
 
 /**
