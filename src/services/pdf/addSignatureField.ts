@@ -12,6 +12,10 @@ export interface SignatureFieldConfig {
   height?: number;
   /** Signatory name to search for (for text-based positioning) */
   signatoryName?: string;
+  /** Last page index of the BASIC document (0-based). When enclosures were
+   *  merged before signing, the signature must not land on enclosure pages —
+   *  search and fallback are clamped to this page (C-7). */
+  lastBasicPageIndex?: number;
 }
 
 /**
@@ -333,10 +337,17 @@ function calculateFallbackPosition(
 function findSignatoryPosition(
   pdfDoc: PDFDocument,
   signatoryName: string | undefined,
-  signatureType: 'single' | 'junior' | 'senior' = 'single'
+  signatureType: 'single' | 'junior' | 'senior' = 'single',
+  lastBasicPageIndex?: number
 ): { pageIndex: number; x: number; y: number } {
   const pages = pdfDoc.getPages();
-  const lastPageIndex = pages.length - 1;
+  // Clamp to the basic document's page range so the CAC field never lands
+  // on a merged enclosure page (e.g. over someone else's signature in an
+  // endorsement package).
+  const lastPageIndex = Math.min(
+    lastBasicPageIndex ?? pages.length - 1,
+    pages.length - 1
+  );
   const lastPage = pages[lastPageIndex];
 
   // Try text-based search if signatory name provided
@@ -408,7 +419,7 @@ export async function addSignatureField(
   } = config;
 
   // Find position (text-based or calculated fallback)
-  const position = findSignatoryPosition(pdfDoc, signatoryName, 'single');
+  const position = findSignatoryPosition(pdfDoc, signatoryName, 'single', config.lastBasicPageIndex);
 
   console.log(`[addSignatureField] Using position: page ${position.pageIndex + 1}, x=${position.x}, y=${position.y}`);
 
@@ -486,8 +497,8 @@ export async function addDualSignatureFields(
   } = config;
 
   // Find positions
-  const juniorPosition = findSignatoryPosition(pdfDoc, juniorSignatoryName, 'junior');
-  const seniorPosition = findSignatoryPosition(pdfDoc, seniorSignatoryName, 'senior');
+  const juniorPosition = findSignatoryPosition(pdfDoc, juniorSignatoryName, 'junior', config.lastBasicPageIndex);
+  const seniorPosition = findSignatoryPosition(pdfDoc, seniorSignatoryName, 'senior', config.lastBasicPageIndex);
 
   // Align both signatures to the same Y coordinate (use the average)
   // This ensures both signature fields appear at the same height
