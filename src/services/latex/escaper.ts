@@ -51,6 +51,13 @@ const SYMBOL_REPLACEMENTS: Array<[RegExp, string]> = [
   [/µ/g, '\\ensuremath{\\mu}'],    // µ micro
   [/•/g, '\\ensuremath{\\bullet}'], // • bullet
   [/·/g, '\\ensuremath{\\cdot}'],  // · middle dot
+  [/¹/g, '\\textsuperscript{1}'], // ¹ superscript one
+  [/²/g, '\\textsuperscript{2}'], // ² superscript two
+  [/³/g, '\\textsuperscript{3}'], // ³ superscript three
+  [/½/g, '1/2'],              // ½ vulgar fraction
+  [/¼/g, '1/4'],              // ¼ vulgar fraction
+  [/¾/g, '3/4'],              // ¾ vulgar fraction
+  [/€/g, 'EUR '],             // € no bundled glyph; text fallback beats deletion
   [/…/g, '\\ldots{}'],        // … ellipsis
   [/–/g, '--'],               // – en dash
   [/—/g, '---'],              // — em dash
@@ -71,12 +78,21 @@ function applyLatexSymbolFallback(text: string): string {
   for (const [re, rep] of SYMBOL_REPLACEMENTS) {
     out = out.replace(re, rep);
   }
-  // Fail-safe: drop unmapped non-ASCII symbols/punctuation. ASCII (incl.
-  // whitespace and the newlines body text relies on) is kept via \p{ASCII};
-  // letters (\p{L}) and marks (\p{M}) are kept so accented names still render
-  // via inputenc. Only stray non-ASCII *symbols* (emoji, exotic glyphs) are
-  // removed — they have no bundled font and a raw one would fatal the compile.
-  out = out.replace(/[^\p{ASCII}\p{L}\p{M}]/gu, '');
+  // Unicode separators (NBSP U+00A0, thin/figure spaces, line/para seps —
+  // ubiquitous in Word/Outlook paste) become a regular space rather than
+  // being deleted: deleting them silently fused words ("ref (a)\u{00A0}para 4"
+  // -> "ref (a)para 4").
+  out = out.replace(/[\p{Zs}\p{Zl}\p{Zp}]/gu, ' ');
+  // Fail-safe: drop any remaining character the offline font set cannot
+  // render, so a stray glyph can never fatal the compile. Kept: ASCII, and
+  // the Latin ranges the bundled fonts + the kernel's UTF-8 handling cover —
+  // Latin-1 Supplement through Latin Extended-B (U+00C0–U+024F) and Latin
+  // Extended Additional (U+1E00–U+1EFF, Vietnamese), plus combining marks.
+  // NOT kept: Greek/Cyrillic/CJK/Hangul/Arabic letters — they are \p{L} but
+  // pdfTeX throws "Unicode character ... not set up for use with LaTeX"
+  // (a fatal, no-PDF error), so the earlier letters-are-safe premise was
+  // wrong for non-Latin scripts. Stripping them keeps the compile alive.
+  out = out.replace(/[^\p{ASCII}\u00C0-\u024F\u1E00-\u1EFF\p{M}]/gu, '');
   return out;
 }
 

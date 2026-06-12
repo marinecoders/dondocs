@@ -201,7 +201,12 @@ export default defineConfig({
     versionMetaPlugin(),
     VitePWA({
       registerType: 'prompt',
-      includeAssets: ['icon.svg', 'lib/**/*'],
+      // SW-1: do NOT precache lib/**/* — that injected the entire engine tree
+      // (TeX packages, fonts, pandoc.wasm; ~36 MB deployed) into the precache
+      // manifest, bypassing maximumFileSizeToCacheInBytes and downloading it
+      // all on first visit for users who never compile. The runtime
+      // CacheFirst rules below cache engine assets on demand instead.
+      includeAssets: ['icon.svg'],
       manifest: {
         name: 'DonDocs - Naval Correspondence & Form Generator',
         short_name: 'DonDocs',
@@ -232,6 +237,10 @@ export default defineConfig({
         // Do NOT add skipWaiting or clientsClaim here - they cause auto-reload
         // Increase limit for large JS bundles (SwiftLaTeX is ~9MB)
         maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10MB
+        // SW-2: the app loads latex-templates.js?v=11 and swiftlatexpdftex.js?v=6;
+        // without this, precache lookups miss on the ?v= param and offline
+        // engine init fails despite the asset being cached.
+        ignoreURLParametersMatching: [/^v$/],
         // NOTE: `html` intentionally NOT precached. Navigations go through the
         // NetworkFirst runtime rule below so users always get the latest app
         // shell on new tabs/sessions (see issue #31 — stale PWA cache kept
@@ -247,6 +256,17 @@ export default defineConfig({
         ],
         // Cache TeX Live files for offline use
         runtimeCaching: [
+          {
+            // Engine core files at lib/ root (latex-templates.js,
+            // swiftlatexpdftex.js/.wasm, pdf.worker*.mjs) — no longer
+            // precached (SW-1), so cache on first use for offline reuse.
+            urlPattern: /\/lib\/[^/]+$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'engine-core-cache-v1',
+              expiration: { maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 90 },
+            },
+          },
           {
             // App shell (index.html): NetworkFirst so every new tab/session
             // gets the latest version if online. Falls back to cache after 3s
