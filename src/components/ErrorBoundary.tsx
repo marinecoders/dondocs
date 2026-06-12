@@ -1,6 +1,7 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { debug } from '@/lib/debug';
 import { STORAGE_KEYS } from '@/lib/constants';
+import { getSavedSession } from '@/stores/documentStore';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -89,7 +90,14 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
   handleCopySession = async (): Promise<void> => {
     try {
-      const data = localStorage.getItem(STORAGE_KEYS.DOCUMENT);
+      // The auto-saved session (the one that rehydrates on load, and the
+      // thing the user is most likely trying to rescue) is stored COMPRESSED
+      // under DOCUMENT_SESSION. Decompress it to readable JSON; fall back to
+      // the manual Save/Load draft under DOCUMENT.
+      const session = getSavedSession();
+      const data = session
+        ? JSON.stringify(session, null, 2)
+        : localStorage.getItem(STORAGE_KEYS.DOCUMENT);
       if (!data) {
         this.setState({ copyStatus: 'empty' });
         this.scheduleCopyStatusReset();
@@ -119,6 +127,11 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       return;
     }
     try {
+      // Clear BOTH the auto-saved session (rehydrated on load) and the
+      // manual draft. Previously only DOCUMENT was cleared, so a crash
+      // caused by the auto-saved session re-loaded the same bad state and
+      // crashed again — an infinite loop with no escape.
+      localStorage.removeItem(STORAGE_KEYS.DOCUMENT_SESSION);
       localStorage.removeItem(STORAGE_KEYS.DOCUMENT);
     } catch (err) {
       debug.error('Boundary', 'Failed to clear session before reload', err);
