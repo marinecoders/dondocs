@@ -358,11 +358,14 @@
 
 /* Dark mode default — Marines.dev branded */
 .dark {
-  --background: oklch(0.14 0.008 260);     /* Dark slate */
+  /* Elevation ladder — each surface is a clear perceptual step up from the
+     canvas so panels read as lifted, and popovers/menus sit ABOVE cards
+     (previously card and popover were identical, so nothing popped). */
+  --background: oklch(0.115 0.008 260);    /* Deepened canvas */
   --foreground: oklch(0.98 0 0);           /* White */
-  --card: oklch(0.20 0.008 260);           /* Slate card */
+  --card: oklch(0.205 0.008 260);          /* Slate card — lifted off canvas */
   --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.20 0.008 260);
+  --popover: oklch(0.245 0.009 260);       /* Elevated — menus/dropdowns */
   --popover-foreground: oklch(0.98 0 0);
   --primary: oklch(0.55 0.20 25);          /* Bright USMC Red — WCAG AA on dark */
   --primary-foreground: oklch(0.98 0 0);   /* White on red */
@@ -373,7 +376,7 @@
   --accent: oklch(0.80 0.15 85);           /* #f1b434 gold accent */
   --accent-foreground: oklch(0.14 0.008 260);
   --destructive: oklch(0.50 0.18 25);      /* Brighter red — WCAG AA */
-  --border: oklch(0.28 0.008 260);         /* Slate border */
+  --border: oklch(0.305 0.008 260);        /* Crisper edges for card separation */
   --input: oklch(0.23 0.008 260);
   --ring: oklch(0.55 0.20 25);             /* Bright USMC Red ring */
   --chart-1: oklch(0.58 0.22 25);          /* Bright red */
@@ -381,7 +384,7 @@
   --chart-3: oklch(0.85 0.14 85);          /* Gold */
   --chart-4: oklch(0.50 0.18 25);          /* Mid red */
   --chart-5: oklch(0.80 0.15 85);          /* Yellow */
-  --sidebar: oklch(0.16 0.008 260);        /* Slate sidebar */
+  --sidebar: oklch(0.135 0.008 260);       /* Slate sidebar — deepened with canvas */
   --sidebar-foreground: oklch(0.98 0 0);
   --sidebar-primary: oklch(0.55 0.20 25);  /* Bright USMC Red */
   --sidebar-primary-foreground: oklch(0.98 0 0);
@@ -432,11 +435,11 @@
     --sidebar-ring: #970818;
   }
   .dark {
-    --background: #07090c;
+    --background: #040507;
     --foreground: #f8f8f8;
-    --card: #14161a;
+    --card: #15171b;
     --card-foreground: #f8f8f8;
-    --popover: #14161a;
+    --popover: #1e2125;
     --popover-foreground: #f8f8f8;
     --primary: #cc272e;
     --primary-foreground: #f8f8f8;
@@ -447,7 +450,7 @@
     --accent: #eab532;
     --accent-foreground: #07090c;
     --destructive: #b32228;
-    --border: #27292d;
+    --border: #2d2f33;
     --input: #1b1d21;
     --ring: #cc272e;
     --chart-1: #df202e;
@@ -455,7 +458,7 @@
     --chart-3: #f8c655;
     --chart-4: #b32228;
     --chart-5: #eab532;
-    --sidebar: #0b0d11;
+    --sidebar: #07080b;
     --sidebar-foreground: #f8f8f8;
     --sidebar-primary: #cc272e;
     --sidebar-primary-foreground: #f8f8f8;
