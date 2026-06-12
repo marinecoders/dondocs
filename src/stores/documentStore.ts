@@ -541,15 +541,36 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   },
 
   // History (Undo/Redo)
-  applySnapshot: (snapshot) => set({
-    documentMode: snapshot.documentMode,
-    docType: snapshot.docType,
-    formData: snapshot.formData,
-    references: snapshot.references,
-    enclosures: snapshot.enclosures,
-    paragraphs: snapshot.paragraphs,
-    copyTos: snapshot.copyTos,
-    distributions: snapshot.distributions || [],
+  applySnapshot: (snapshot) => set((state) => {
+    // Re-graft live enclosure file bytes. History snapshots intentionally
+    // omit `file` (too large to keep 50 copies of), so a wholesale replace
+    // permanently destroyed attached PDFs on every undo/redo — the next
+    // download silently omitted those pages. Match same-index-same-title
+    // first, then any unused same-title enclosure.
+    const used = new Set<number>();
+    const enclosures = snapshot.enclosures.map((e, i) => {
+      if (e.file) return e;
+      const cur = state.enclosures;
+      const match =
+        cur[i]?.title === e.title && cur[i]?.file && !used.has(i)
+          ? i
+          : cur.findIndex((c, j) => !used.has(j) && c.title === e.title && !!c.file);
+      if (match >= 0) {
+        used.add(match);
+        return { ...e, file: cur[match].file };
+      }
+      return e;
+    });
+    return {
+      documentMode: snapshot.documentMode,
+      docType: snapshot.docType,
+      formData: snapshot.formData,
+      references: snapshot.references,
+      enclosures,
+      paragraphs: snapshot.paragraphs,
+      copyTos: snapshot.copyTos,
+      distributions: snapshot.distributions || [],
+    };
   }),
 
   getSnapshot: (): DocumentSnapshot => {
