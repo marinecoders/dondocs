@@ -34,17 +34,17 @@ import { spawnSync } from 'node:child_process';
 import { compileFixture, formatFailure } from '../_helpers/compileLatex';
 import { buildBaseline } from '../_helpers/compileMatrix';
 
-const xelatexAvailable =
-  spawnSync('xelatex', ['--version'], { encoding: 'utf-8' }).status === 0;
+const pdflatexAvailable =
+  spawnSync('pdflatex', ['--version'], { encoding: 'utf-8' }).status === 0;
 
-if (!xelatexAvailable) {
+if (!pdflatexAvailable) {
   console.warn(
     '[latex-compile-blank-lines] xelatex not found on PATH — suite will be SKIPPED.'
   );
 }
 
 describe('blank lines in paragraph text compile (raggedright standalone-\\\\ regression)', () => {
-  it.skipIf(!xelatexAvailable)(
+  it.skipIf(!pdflatexAvailable)(
     'LF blank lines: multi-block paste with \\n\\n compiles to PDF',
     async () => {
       const store = buildBaseline('naval_letter');
@@ -66,7 +66,7 @@ describe('blank lines in paragraph text compile (raggedright standalone-\\\\ reg
     120_000
   );
 
-  it.skipIf(!xelatexAvailable)(
+  it.skipIf(!pdflatexAvailable)(
     'CRLF blank lines: Windows-clipboard paste with \\r\\n\\r\\n compiles to PDF',
     async () => {
       const store = buildBaseline('naval_letter');
@@ -87,7 +87,7 @@ describe('blank lines in paragraph text compile (raggedright standalone-\\\\ reg
     120_000
   );
 
-  it.skipIf(!xelatexAvailable)(
+  it.skipIf(!pdflatexAvailable)(
     'leading/trailing newlines around paragraph text compile to PDF',
     async () => {
       const store = buildBaseline('naval_letter');
