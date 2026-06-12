@@ -18,6 +18,7 @@ import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distributio
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
+import { deriveOverallClassLevel } from '@/lib/overallClassification';
 
 interface DocumentStore {
   docType: string;
@@ -56,7 +57,11 @@ function escapeFlat(str: string | undefined | null): string {
     .replace(/ZZZCARETZZZ/g, '\\textasciicircum{}');
 }
 
-/** Escape for use inside tabular cells (& must not be escaped since it's the column separator) */
+/** Escape for use inside tabular cells. User CONTENT ampersands must be
+ * escaped (\&) — the old "& is the column separator" rationale applied to
+ * the table SYNTAX our code emits, not to cell text. Unescaped, a unit name
+ * like "H&S Battalion" became a phantom alignment tab that corrupted the
+ * DOCX table (the PDF path always escaped it). */
 function escapeTabular(str: string | undefined | null): string {
   if (!str) return '';
   // ORDER MATTERS: Use placeholders for replacements that introduce { }
@@ -65,6 +70,7 @@ function escapeTabular(str: string | undefined | null): string {
   // (first replace) escapes all `\` from input before subsequent replaces add their own.
   return str
     .replace(/\\/g, 'ZZZTEXTBACKSLASHZZZ')
+    .replace(/&/g, '\\&')
     .replace(/%/g, '\\%')
     .replace(/#/g, '\\#')
     .replace(/_/g, '\\_')
@@ -254,8 +260,10 @@ ${colorDef}
 `;
 }
 
-function buildClassificationHeaders(data: Partial<DocumentData>): string {
-  const classLevel = data.classLevel;
+function buildClassificationHeaders(data: Partial<DocumentData>, paragraphs: Paragraph[]): string {
+  // Banner = max(document level, highest portion mark) — same chokepoint as
+  // the PDF path (SECNAV M-5216.5 / DoDM 5200.01 Vol 2).
+  const classLevel = deriveOverallClassLevel(data.classLevel, paragraphs);
   if (!classLevel || classLevel === 'unclassified') return '';
 
   let marking: string;
@@ -1447,7 +1455,7 @@ export function generateFlatLatex(store: DocumentStore): string {
   let tex = '';
 
   tex += buildPreamble(data);
-  tex += buildClassificationHeaders(data);
+  tex += buildClassificationHeaders(data, store.paragraphs);
   tex += buildPageNumbering(data);
   tex += '\n\\begin{document}\n\n';
 
