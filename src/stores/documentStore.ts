@@ -5,12 +5,12 @@ import { DOC_TYPE_CONFIG } from '@/types/document';
 import { useHistoryStore } from './historyStore';
 import type { DocumentSnapshot } from './historyStore';
 import { debug } from '@/lib/debug';
-import { TIMING } from '@/lib/constants';
+import { TIMING, STORAGE_KEYS} from '@/lib/constants';
 import { compressedParse, compressedStringify } from '@/lib/compressedStorage';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 
 // Session persistence keys
-const SESSION_STORAGE_KEY = 'dondocs-document-session';
+const SESSION_STORAGE_KEY = STORAGE_KEYS.DOCUMENT_SESSION;
 const SESSION_TIMESTAMP_KEY = 'dondocs-session-timestamp';
 const SESSION_MAX_AGE = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 
@@ -541,15 +541,36 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   },
 
   // History (Undo/Redo)
-  applySnapshot: (snapshot) => set({
-    documentMode: snapshot.documentMode,
-    docType: snapshot.docType,
-    formData: snapshot.formData,
-    references: snapshot.references,
-    enclosures: snapshot.enclosures,
-    paragraphs: snapshot.paragraphs,
-    copyTos: snapshot.copyTos,
-    distributions: snapshot.distributions || [],
+  applySnapshot: (snapshot) => set((state) => {
+    // Re-graft live enclosure file bytes. History snapshots intentionally
+    // omit `file` (too large to keep 50 copies of), so a wholesale replace
+    // permanently destroyed attached PDFs on every undo/redo — the next
+    // download silently omitted those pages. Match same-index-same-title
+    // first, then any unused same-title enclosure.
+    const used = new Set<number>();
+    const enclosures = snapshot.enclosures.map((e, i) => {
+      if (e.file) return e;
+      const cur = state.enclosures;
+      const match =
+        cur[i]?.title === e.title && cur[i]?.file && !used.has(i)
+          ? i
+          : cur.findIndex((c, j) => !used.has(j) && c.title === e.title && !!c.file);
+      if (match >= 0) {
+        used.add(match);
+        return { ...e, file: cur[match].file };
+      }
+      return e;
+    });
+    return {
+      documentMode: snapshot.documentMode,
+      docType: snapshot.docType,
+      formData: snapshot.formData,
+      references: snapshot.references,
+      enclosures,
+      paragraphs: snapshot.paragraphs,
+      copyTos: snapshot.copyTos,
+      distributions: snapshot.distributions || [],
+    };
   }),
 
   getSnapshot: (): DocumentSnapshot => {
@@ -571,6 +592,20 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
 // Debounce to avoid saving on every keystroke
 let saveTimeout: ReturnType<typeof setTimeout> | null = null;
 let sessionSaveTimeout: ReturnType<typeof setTimeout> | null = null;
+
+// While the session-restore prompt is on screen, mount-time store writes
+// (profile letterhead sync, defaults) would autosave over the very session
+// the user is about to restore — restoreSession() re-reads localStorage at
+// click time, so a user who took >2s to read the prompt restored the
+// freshly-overwritten default document and lost their work. The restore
+// modal suspends session saves while the decision is pending.
+let sessionSavesSuspended = false;
+export function suspendSessionSaves(): void {
+  sessionSavesSuspended = true;
+}
+export function resumeSessionSaves(): void {
+  sessionSavesSuspended = false;
+}
 
 useDocumentStore.subscribe((state: DocumentState) => {
   // Debounce snapshot saving
@@ -597,14 +632,18 @@ useDocumentStore.subscribe((state: DocumentState) => {
     }
   }, TIMING.HISTORY_SNAPSHOT_DEBOUNCE);
 
-  // Also persist to localStorage for session restore (debounced more)
+  // Also persist to localStorage for session restore (debounced more).
+  // Skipped entirely while suspended (restore prompt is on screen) — see
+  // suspendSessionSaves below for the race this prevents.
   if (sessionSaveTimeout) {
     clearTimeout(sessionSaveTimeout);
   }
 
-  sessionSaveTimeout = setTimeout(() => {
-    saveSessionToStorage(state);
-  }, 2000); // 2 second debounce for localStorage
+  if (!sessionSavesSuspended) {
+    sessionSaveTimeout = setTimeout(() => {
+      if (!sessionSavesSuspended) saveSessionToStorage(state);
+    }, 2000); // 2 second debounce for localStorage
+  }
 });
 
 /**

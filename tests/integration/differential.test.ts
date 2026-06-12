@@ -41,12 +41,12 @@ import { applyFlags, buildBaseline, type DocType } from '../_helpers/compileMatr
 import { PDFParse } from 'pdf-parse';
 import mammoth from 'mammoth';
 
-const xelatexAvailable =
-  spawnSync('xelatex', ['--version'], { encoding: 'utf-8' }).status === 0;
+const pdflatexAvailable =
+  spawnSync('pdflatex', ['--version'], { encoding: 'utf-8' }).status === 0;
 const pandocAvailable =
   spawnSync('pandoc', ['--version'], { encoding: 'utf-8' }).status === 0;
 
-const toolchainAvailable = xelatexAvailable && pandocAvailable;
+const toolchainAvailable = pdflatexAvailable && pandocAvailable;
 
 if (!toolchainAvailable) {
   console.warn(

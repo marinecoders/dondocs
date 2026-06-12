@@ -13,11 +13,13 @@
  * runs a fixture matrix through this and asserts every combination
  * compiles.
  *
- * Engine choice: xelatex (not pdflatex). SwiftLaTeX in production is
- * a XeTeX fork, so xelatex is the closest local engine. A bug that
- * compiles in xelatex but not in SwiftLaTeX would still be a SwiftLaTeX
- * quirk worth knowing about — but the inverse (compiles in SwiftLaTeX,
- * fails in xelatex) is uncommon and would still be a bug worth fixing.
+ * Engine choice: pdflatex. The production engine is the SwiftLaTeX
+ * *pdfTeX* build (public/lib/swiftlatexpdftex.wasm + PdfTeXEngine.js),
+ * NOT XeTeX — so pdflatex is the closest local engine. This matters:
+ * the harness previously used xelatex, which loads TS1/Unicode fonts
+ * pdfTeX lacks, so it green-lit documents that fataled in production
+ * (the § / tcrm1200 bug, twice). pdflatex shares pdfTeX's 8-bit font
+ * model and inputenc behavior, catching that class locally and in CI.
  *
  * Templates: read directly from `tex/main.tex` and `tex/templates/*.tex`
  * — these are the canonical source. The `public/lib/latex-templates.js`
@@ -118,14 +120,14 @@ function tail(log: string, n: number): string {
  * never rejects, even on timeout. The caller decides what counts as
  * a failure based on `exitCode`.
  */
-function runXelatex(cwd: string, mainFile: string): Promise<{
+function runPdflatex(cwd: string, mainFile: string): Promise<{
   exitCode: number | null;
   log: string;
 }> {
   return new Promise((resolve) => {
     let log = '';
     const proc = spawn(
-      'xelatex',
+      'pdflatex',
       [
         '-interaction=nonstopmode',
         '-halt-on-error',
@@ -149,7 +151,7 @@ function runXelatex(cwd: string, mainFile: string): Promise<{
 }
 
 /**
- * Compile a fixture with xelatex. Single-pass — we don't need
+ * Compile a fixture with pdflatex. Single-pass — we don't need
  * `\pageref{LastPage}` resolution for compile-error detection. If a
  * future test wants accurate page counts, run xelatex twice.
  */
@@ -192,7 +194,7 @@ export async function compileFixture(store: TestStore): Promise<CompileResult> {
   // No-op for now; if individual fixtures need stubs, the matrix can
   // override them.
 
-  const { exitCode, log } = await runXelatex(workDir, 'main.tex');
+  const { exitCode, log } = await runPdflatex(workDir, 'main.tex');
   const ok = exitCode === 0;
   const errors = parseLatexErrors(log);
   const logTail = tail(log, 60);
