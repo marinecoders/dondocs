@@ -391,6 +391,82 @@
   --sidebar-ring: oklch(0.55 0.20 25);
 }
 
+/* critical #7: oklch() has no effect on Chromium/Edge < 111 (common on
+   locked-down DoD/NMCI machines), leaving the themed CSS vars unset and
+   the UI black/transparent. This sRGB fallback — computed from the same
+   oklch values — keeps the default light and dark themes fully legible on
+   those browsers. Alternate [data-scheme] palettes fall back to this
+   default, acceptable for the rare unsupported browser. */
+@supports not (color: oklch(0% 0 0)) {
+  :root {
+    --background: #f1f6fa;
+    --foreground: #0c1016;
+    --card: #fafcfe;
+    --card-foreground: #0c1016;
+    --popover: #fafcfe;
+    --popover-foreground: #0c1016;
+    --primary: #970818;
+    --primary-foreground: #fcfcfc;
+    --secondary: #dbe6f2;
+    --secondary-foreground: #0c1016;
+    --muted: #e6ecf2;
+    --muted-foreground: #34414f;
+    --accent: #06384b;
+    --accent-foreground: #fcfcfc;
+    --destructive: #6c0008;
+    --border: #ced9e5;
+    --input: #eaeff5;
+    --ring: #970818;
+    --chart-1: #970818;
+    --chart-2: #06384b;
+    --chart-3: #eab532;
+    --chart-4: #8a0314;
+    --chart-5: #f8c655;
+    --sidebar: #eaeff5;
+    --sidebar-foreground: #0c1016;
+    --sidebar-primary: #970818;
+    --sidebar-primary-foreground: #fcfcfc;
+    --sidebar-accent: #dbe6f2;
+    --sidebar-accent-foreground: #0c1016;
+    --sidebar-border: #ced9e5;
+    --sidebar-ring: #970818;
+  }
+  .dark {
+    --background: #07090c;
+    --foreground: #f8f8f8;
+    --card: #14161a;
+    --card-foreground: #f8f8f8;
+    --popover: #14161a;
+    --popover-foreground: #f8f8f8;
+    --primary: #cc272e;
+    --primary-foreground: #f8f8f8;
+    --secondary: #1b1d21;
+    --secondary-foreground: #f8f8f8;
+    --muted: #1b1d21;
+    --muted-foreground: #b3b8be;
+    --accent: #eab532;
+    --accent-foreground: #07090c;
+    --destructive: #b32228;
+    --border: #27292d;
+    --input: #1b1d21;
+    --ring: #cc272e;
+    --chart-1: #df202e;
+    --chart-2: #185d79;
+    --chart-3: #f8c655;
+    --chart-4: #b32228;
+    --chart-5: #eab532;
+    --sidebar: #0b0d11;
+    --sidebar-foreground: #f8f8f8;
+    --sidebar-primary: #cc272e;
+    --sidebar-primary-foreground: #f8f8f8;
+    --sidebar-accent: #1b1d21;
+    --sidebar-accent-foreground: #f8f8f8;
+    --sidebar-border: #27292d;
+    --sidebar-ring: #cc272e;
+  }
+}
+
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
