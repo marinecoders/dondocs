@@ -18,6 +18,7 @@ import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distributio
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
+import { deriveOverallClassLevel } from '@/lib/overallClassification';
 
 interface DocumentStore {
   docType: string;
@@ -254,8 +255,10 @@ ${colorDef}
 `;
 }
 
-function buildClassificationHeaders(data: Partial<DocumentData>): string {
-  const classLevel = data.classLevel;
+function buildClassificationHeaders(data: Partial<DocumentData>, paragraphs: Paragraph[]): string {
+  // Banner = max(document level, highest portion mark) — same chokepoint as
+  // the PDF path (SECNAV M-5216.5 / DoDM 5200.01 Vol 2).
+  const classLevel = deriveOverallClassLevel(data.classLevel, paragraphs);
   if (!classLevel || classLevel === 'unclassified') return '';
 
   let marking: string;
@@ -1447,7 +1450,7 @@ export function generateFlatLatex(store: DocumentStore): string {
   let tex = '';
 
   tex += buildPreamble(data);
-  tex += buildClassificationHeaders(data);
+  tex += buildClassificationHeaders(data, store.paragraphs);
   tex += buildPageNumbering(data);
   tex += '\n\\begin{document}\n\n';
 
