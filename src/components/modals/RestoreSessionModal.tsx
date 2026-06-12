@@ -18,6 +18,8 @@ import {
 import { Button } from '@/components/ui/button';
 import {
   hasSavedSession,
+  suspendSessionSaves,
+  resumeSessionSaves,
   getSavedSession,
   restoreSession,
   clearSavedSession,
@@ -85,6 +87,9 @@ export function RestoreSessionModal() {
           referenceCount: session.references?.length || 0,
           docType: session.docType,
         });
+        // Freeze session autosave while the prompt is up so mount-time
+        // store writes can't overwrite the payload before the user decides.
+        suspendSessionSaves();
         setOpen(true);
         // Mark that we've shown the modal in this session
         sessionStorage.setItem(RESTORE_SHOWN_KEY, 'true');
@@ -94,11 +99,13 @@ export function RestoreSessionModal() {
 
   const handleRestore = () => {
     restoreSession();
+    resumeSessionSaves();
     setOpen(false);
   };
 
   const handleStartFresh = () => {
     clearSavedSession();
+    resumeSessionSaves();
     setOpen(false);
   };
 

@@ -388,10 +388,12 @@ function App() {
         // When disabled (default), these are deferred to the download/export path
         // for better responsiveness on slower machines.
         if (fullQualityPreview) {
+          let lastBasicPageIndex: number | undefined;
           if (generatedEnclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
             const classification = getClassificationInfo(currentStore.formData.classLevel);
             const mergeResult = await mergeEnclosures(pdfBytes, generatedEnclosures, classification, includeHyperlinks, referenceUrls);
             pdfBytes = mergeResult.pdfBytes;
+            lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
           }
 
           if (currentStore.formData.signatureType === 'digital') {
@@ -399,10 +401,10 @@ function App() {
             const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
             if (isDualSignature) {
               const sigConfig = getDualSignatoryConfig(currentStore.formData, config?.uiMode);
-              pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes), sigConfig);
+              pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes), { ...sigConfig, lastBasicPageIndex });
             } else {
               const sigConfig = getSignatoryConfig(currentStore.formData);
-              pdfBytes = await addSignatureField(new Uint8Array(pdfBytes), sigConfig);
+              pdfBytes = await addSignatureField(new Uint8Array(pdfBytes), { ...sigConfig, lastBasicPageIndex });
             }
           }
         }
@@ -622,11 +624,13 @@ function App() {
 
     if (pdfBytes) {
       // Merge enclosures and/or create hyperlinks (handles both PDF and text-only enclosures, and reference URLs)
+      let lastBasicPageIndex: number | undefined;
       if (generatedEnclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
         onProgress?.({ kind: 'pdf-merging-enclosures' });
         const classification = getClassificationInfo(currentStore.formData.classLevel);
         const mergeResult = await mergeEnclosures(pdfBytes, generatedEnclosures, classification, includeHyperlinks, referenceUrls);
         pdfBytes = mergeResult.pdfBytes;
+        lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
 
         // Track enclosure errors for user notification (download context)
         if (mergeResult.hasErrors) {
@@ -642,10 +646,10 @@ function App() {
         const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
         if (isDualSignature) {
           const sigConfig = getDualSignatoryConfig(currentStore.formData, config?.uiMode);
-          pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes), sigConfig);
+          pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes), { ...sigConfig, lastBasicPageIndex });
         } else {
           const sigConfig = getSignatoryConfig(currentStore.formData);
-          pdfBytes = await addSignatureField(new Uint8Array(pdfBytes), sigConfig);
+          pdfBytes = await addSignatureField(new Uint8Array(pdfBytes), { ...sigConfig, lastBasicPageIndex });
         }
       }
 
@@ -828,11 +832,13 @@ function App() {
     let pdfBytes = await compile(files);
 
     if (pdfBytes) {
+      let lastBasicPageIndex: number | undefined;
       if (enclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
         onProgress?.({ kind: 'pdf-merging-enclosures' });
         const classification = getClassificationInfo(currentStore.formData.classLevel);
         const mergeResult = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls);
         pdfBytes = mergeResult.pdfBytes;
+        lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
 
         // Track enclosure errors for user notification (PII download context)
         if (mergeResult.hasErrors) {
@@ -848,10 +854,10 @@ function App() {
         const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
         if (isDualSignature) {
           const sigConfig = getDualSignatoryConfig(currentStore.formData, config?.uiMode);
-          pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes), sigConfig);
+          pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes), { ...sigConfig, lastBasicPageIndex });
         } else {
           const sigConfig = getSignatoryConfig(currentStore.formData);
-          pdfBytes = await addSignatureField(new Uint8Array(pdfBytes), sigConfig);
+          pdfBytes = await addSignatureField(new Uint8Array(pdfBytes), { ...sigConfig, lastBasicPageIndex });
         }
       }
 

@@ -91,6 +91,11 @@ interface BatchModalProps {
 // Max retries for ENGINE_RESET_NEEDED
 const MAX_RETRIES = 2;
 
+// Sentinel for the column-mapping "skip this column" choice. Radix Select v2
+// throws on <SelectItem value=""> (empty string is reserved for clearing),
+// which crashed the whole app the moment the mapping dropdown opened.
+const SKIP_COLUMN = '__skip__';
+
 // Copy text to clipboard
 function copyToClipboard(text: string) {
   navigator.clipboard.writeText(text);
@@ -1020,14 +1025,14 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                             </span>
                             <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0" />
                             <Select
-                              value={columnMappings[idx] || ''}
-                              onValueChange={(v) => updateColumnMapping(idx, v)}
+                              value={columnMappings[idx] || SKIP_COLUMN}
+                              onValueChange={(v) => updateColumnMapping(idx, v === SKIP_COLUMN ? '' : v)}
                             >
                               <SelectTrigger className="h-8 flex-1">
                                 <SelectValue placeholder="Select variable..." />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="">— Skip —</SelectItem>
+                                <SelectItem value={SKIP_COLUMN}>— Skip —</SelectItem>
                                 {detectedPlaceholders.map((p) => (
                                   <SelectItem key={p} value={p}>{`{{${p}}}`}</SelectItem>
                                 ))}
