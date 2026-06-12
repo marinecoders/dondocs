@@ -25,10 +25,9 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useLogStore } from '@/stores/logStore';
+import { safeReportUrl, BUG_REPORT_PRIVACY_NOTICE, BUG_REPORT_LOG_PROMPT } from '@/lib/bugReport';
 
 const GITHUB_NEW_ISSUE_URL = 'https://github.com/marinecoders/dondocs/issues/new';
-// Keep the prefilled URL under the ~8 KB threshold that breaks some browsers.
-const GH_ISSUE_LOG_MAX = 6000;
 
 interface CompileErrorModalProps {
   open: boolean;
@@ -39,18 +38,13 @@ interface CompileErrorModalProps {
   onClose: () => void;
 }
 
-function buildIssueUrl(args: { error: string; compileLog?: string | null }): string {
-  const log = args.compileLog ?? undefined;
-  const truncated = log && log.length > GH_ISSUE_LOG_MAX
-    ? log.slice(0, GH_ISSUE_LOG_MAX) +
-      `\n\n… [log truncated — ${log.length - GH_ISSUE_LOG_MAX} more chars, paste the full log from the "Copy logs" button]`
-    : log;
-
+function buildIssueUrl(args: { error: string }): string {
   const body = [
+    BUG_REPORT_PRIVACY_NOTICE,
+    '',
     '<!--',
-    'Thanks for reporting this! The log below was captured automatically — you',
-    'only need to fill in what you were editing when it broke. Reporting bugs',
-    'is the fastest way to get them fixed; we triage every report.',
+    'Thanks for reporting this! Fill in what you were editing when it broke.',
+    'Reporting bugs is the fastest way to get them fixed; we triage every report.',
     '-->',
     '',
     '## What happened',
@@ -62,12 +56,11 @@ function buildIssueUrl(args: { error: string; compileLog?: string | null }): str
     '## What I was editing',
     '<!-- short description of what LaTeX / fields you were changing when this happened -->',
     '',
-    '## Log output',
-    truncated ? '```\n' + truncated + '\n```' : '(no log available)',
+    BUG_REPORT_LOG_PROMPT,
     '',
     '## Environment',
     `- User agent: ${typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown'}`,
-    `- URL: ${typeof window !== 'undefined' ? window.location.href : 'unknown'}`,
+    `- URL: ${safeReportUrl()}`,
     `- Reported: ${new Date().toISOString()}`,
   ].join('\n');
 
@@ -98,7 +91,7 @@ export function CompileErrorModal({ open, error, compileLog, onClose }: CompileE
 
   const handleReport = () => {
     if (!error) return;
-    const url = buildIssueUrl({ error, compileLog });
+    const url = buildIssueUrl({ error });
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
@@ -159,8 +152,8 @@ export function CompileErrorModal({ open, error, compileLog, onClose }: CompileE
           <p className="text-xs text-muted-foreground break-words">
             If this looks like a bug (not just a typo in your document), reporting
             it on GitHub is the fastest way to get it fixed — we triage every
-            report.
-            {compileLog ? ' The log is included in the prefilled issue.' : ''}
+            report. Use “Copy logs” and paste the log into the issue after
+            reviewing it — reports go to public GitHub, so don’t include CUI.
           </p>
 
           <DialogFooter className="flex-col-reverse sm:flex-row sm:justify-end gap-2">

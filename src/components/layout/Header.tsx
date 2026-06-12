@@ -26,6 +26,7 @@ import { uint8ArrayToBase64, base64ToUint8Array, arrayBufferToUint8Array } from 
 import { STORAGE_KEYS } from '@/lib/constants';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { useLogStore } from '@/stores/logStore';
+import { safeReportUrl, BUG_REPORT_PRIVACY_NOTICE, BUG_REPORT_LOG_PROMPT } from '@/lib/bugReport';
 
 interface HeaderProps {
   onDownloadPdf?: () => void;
@@ -53,43 +54,6 @@ const GITHUB_REPO_URL = 'https://github.com/marinecoders/dondocs';
 const GITHUB_NEW_ISSUE_URL = 'https://github.com/marinecoders/dondocs/issues/new';
 const STORAGE_KEY = STORAGE_KEYS.DOCUMENT;
 
-// GitHub URLs over ~8 KB start to fail in some browsers; cap the prefilled
-// log payload so the link always works. Users can still copy full logs from
-// Help → View Logs if they need the rest.
-const GH_ISSUE_LOG_MAX = 4000;
-// How many recent log entries to auto-include. We filter to errors + warnings
-// first — if there aren't enough, we fall back to the tail of all levels so
-// non-error bugs (UI glitches, etc.) still get useful context.
-const RECENT_LOG_COUNT = 40;
-
-/**
- * Grab recent logs from the LogStore for auto-inclusion in a bug report.
- * Prioritizes errors/warnings (what devs actually care about), falls back to
- * the tail of all levels if there aren't enough signal-level entries.
- * Returns null if logging isn't available or the store is empty.
- */
-function collectRecentLogs(): string | null {
-  const logs = useLogStore.getState().logs;
-  if (logs.length === 0) return null;
-
-  // Prefer error + warn; if we don't have at least a handful, include the
-  // tail of everything so there's still something to look at.
-  const signalLogs = logs.filter((l) => l.level === 'error' || l.level === 'warn');
-  const picked = signalLogs.length >= 5
-    ? signalLogs.slice(-RECENT_LOG_COUNT)
-    : logs.slice(-RECENT_LOG_COUNT);
-
-  const formatted = picked
-    .map((l) => `[${l.timestamp.toISOString()}] [${l.level.toUpperCase()}] ${l.message}`)
-    .join('\n');
-
-  if (formatted.length > GH_ISSUE_LOG_MAX) {
-    const truncated = formatted.slice(-GH_ISSUE_LOG_MAX);
-    return `… [older entries truncated — ${formatted.length - GH_ISSUE_LOG_MAX} more chars in Help → View Logs]\n${truncated}`;
-  }
-  return formatted;
-}
-
 /**
  * Build a prefilled "New issue" URL for the Help-menu bug report button.
  *
@@ -105,9 +69,10 @@ function collectRecentLogs(): string | null {
  * other rather than overlap.
  */
 function buildBugReportUrl(): string {
-  const recentLogs = collectRecentLogs();
 
   const body = [
+    BUG_REPORT_PRIVACY_NOTICE,
+    '',
     '<!--',
     'Thanks for reporting a bug! Not every section below is required — fill',
     'in what you can and delete anything that does not apply. The more',
@@ -131,16 +96,11 @@ function buildBugReportUrl(): string {
     '## Screenshots',
     '<!-- paste images here if relevant -->',
     '',
-    '## Logs',
-    recentLogs
-      ? '<!-- auto-captured from the in-app log store. Full logs available via Help → View Logs. -->\n```\n' +
-        recentLogs +
-        '\n```'
-      : '<!-- no recent errors were captured. If this bug produced one, open Help → View Logs, copy what you see, and paste below. -->\n```\n\n```',
+    BUG_REPORT_LOG_PROMPT,
     '',
     '## Environment',
     `- User agent: ${typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown'}`,
-    `- URL: ${typeof window !== 'undefined' ? window.location.href : 'unknown'}`,
+    `- URL: ${safeReportUrl()}`,
     `- Reported: ${new Date().toISOString()}`,
   ].join('\n');
 

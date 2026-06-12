@@ -29,11 +29,9 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import type { DownloadProgressPhase } from './downloadProgressTypes';
+import { safeReportUrl, BUG_REPORT_PRIVACY_NOTICE, BUG_REPORT_LOG_PROMPT } from '@/lib/bugReport';
 
 const GITHUB_NEW_ISSUE_URL = 'https://github.com/marinecoders/dondocs/issues/new';
-// GitHub URLs over ~8 KB start to fail in some browsers; cap the pasted log
-// so the prefill link always works. Users hit "Copy logs" for the full text.
-const GH_ISSUE_LOG_MAX = 6000;
 
 interface DownloadProgressModalProps {
   /**
@@ -58,21 +56,17 @@ interface DownloadProgressModalProps {
 }
 
 /**
- * Build a prefilled "New issue" URL for the current error. Logs are
- * capped at GH_ISSUE_LOG_MAX chars so the URL stays under browser
- * length limits; the full log is still available via Copy logs.
+ * Build a prefilled "New issue" URL for the current error. Document
+ * content (logs, URL hash/share payload) is deliberately NOT embedded —
+ * the user pastes a reviewed log via "Copy logs". See lib/bugReport.ts.
  */
-function buildIssueUrl(args: { target: 'pdf' | 'docx'; title: string; message: string; compileLog?: string }): string {
-  const truncated = args.compileLog && args.compileLog.length > GH_ISSUE_LOG_MAX
-    ? args.compileLog.slice(0, GH_ISSUE_LOG_MAX) +
-      `\n\n… [log truncated — ${args.compileLog.length - GH_ISSUE_LOG_MAX} more chars, paste the full log from the "Copy logs" button]`
-    : args.compileLog;
-
+function buildIssueUrl(args: { target: 'pdf' | 'docx'; title: string; message: string }): string {
   const body = [
+    BUG_REPORT_PRIVACY_NOTICE,
+    '',
     '<!--',
-    'Thanks for reporting this! The log below was captured automatically — you',
-    'only need to fill in what happened and how to reproduce it. Reporting bugs',
-    'is the fastest way to get them fixed; we triage every report.',
+    'Thanks for reporting this! Fill in what happened and how to reproduce it.',
+    'Reporting bugs is the fastest way to get them fixed; we triage every report.',
     '-->',
     '',
     '## What happened',
@@ -84,12 +78,11 @@ function buildIssueUrl(args: { target: 'pdf' | 'docx'; title: string; message: s
     '## Steps to reproduce',
     '<!-- describe what you were doing when this happened -->',
     '',
-    '## Log output',
-    truncated ? '```\n' + truncated + '\n```' : '(no log available)',
+    BUG_REPORT_LOG_PROMPT,
     '',
     '## Environment',
     `- User agent: ${typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown'}`,
-    `- URL: ${typeof window !== 'undefined' ? window.location.href : 'unknown'}`,
+    `- URL: ${safeReportUrl()}`,
     `- Reported: ${new Date().toISOString()}`,
   ].join('\n');
 
@@ -228,7 +221,6 @@ export function DownloadProgressModal({ phase, onClose, onRetry }: DownloadProgr
       target: phase.target,
       title: phase.title,
       message: phase.message,
-      compileLog: phase.compileLog,
     });
     window.open(url, '_blank', 'noopener,noreferrer');
   };
@@ -359,7 +351,7 @@ export function DownloadProgressModal({ phase, onClose, onRetry }: DownloadProgr
                 <p className="text-xs text-muted-foreground break-words">
                   Reporting this on GitHub is the fastest way to get it fixed —
                   we triage every report.
-                  {phase.compileLog ? ' The log is included in the prefilled issue.' : ''}
+                  {phase.compileLog ? ' Use “Copy logs” and paste it into the issue after reviewing — reports are public, no CUI.' : ''}
                 </p>
               )}
 
