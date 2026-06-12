@@ -3,4 +3,11 @@ compatibility_date = "2025-04-01"
 
 [assets]
 directory = "./dist"
-not_found_handling = "single-page-application"
+# Real 404s for missing assets (DEP-1). The previous
+# "single-page-application" setting served 200+index.html for EVERY missing
+# path — including missing TeX/font/engine files, which poisoned the
+# engine's caches with HTML bytes (the pk-font path has no HTML sniff).
+# The app is a single page at "/" with hash-based share links, so SPA
+# deep-link rewriting is unnecessary; this matches the Caddy deployment,
+# which already returns real 404s.
+not_found_handling = "none"
