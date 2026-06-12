@@ -4,6 +4,7 @@ import { DOC_TYPE_CONFIG } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { safeUrl } from '@/lib/url-safety';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
+import { deriveOverallClassLevel } from '@/lib/overallClassification';
 
 interface DocumentStore {
   docType: string;
@@ -672,6 +673,10 @@ export function generateBodyTex(store: DocumentStore): string {
     const para = store.paragraphs[i];
     const label = useNumberedParagraphs ? labels[i] : '';
     const headerText = para.header?.trim();
+    // Portion marking prefix, e.g. "(S) " — previously rendered only on the
+    // DOCX path; the PDF silently dropped it (DoDM 5200.01 V2 requires
+    // portion marks on the primary output too). Enum-constrained, LaTeX-safe.
+    const portionPrefix = para.portionMarking ? `(${para.portionMarking}) ` : '';
 
     if (para.level === 0) {
       // Level 0: Main paragraph with optional underlined header
@@ -680,15 +685,15 @@ export function generateBodyTex(store: DocumentStore): string {
         // Business letter: 0.5" first-line indent, no numbers
         if (headerText) {
           const formattedHeader = toTitleCase(headerText);
-          parts.push(`\\vspace{12pt}\n\\noindent\\hspace{0.5in}${underlineWords(escapeLatex(formattedHeader))}.  ${processBodyText(para.text)}\n\n`);
+          parts.push(`\\vspace{12pt}\n\\noindent\\hspace{0.5in}${underlineWords(escapeLatex(formattedHeader))}.  ${portionPrefix}${processBodyText(para.text)}\n\n`);
         } else {
-          parts.push(`\\vspace{12pt}\n\\noindent\\hspace{0.5in}${processBodyText(para.text)}\n\n`);
+          parts.push(`\\vspace{12pt}\n\\noindent\\hspace{0.5in}${portionPrefix}${processBodyText(para.text)}\n\n`);
         }
       } else if (headerText) {
         const formattedHeader = toTitleCase(headerText);
-        parts.push(`\\vspace{12pt}\n\\noindent ${label} ${underlineWords(escapeLatex(formattedHeader))}.  ${processBodyText(para.text)}\n\n`);
+        parts.push(`\\vspace{12pt}\n\\noindent ${label} ${underlineWords(escapeLatex(formattedHeader))}.  ${portionPrefix}${processBodyText(para.text)}\n\n`);
       } else {
-        parts.push(`\\vspace{12pt}\n\\noindent ${label}  ${processBodyText(para.text)}\n\n`);
+        parts.push(`\\vspace{12pt}\n\\noindent ${label}  ${portionPrefix}${processBodyText(para.text)}\n\n`);
       }
     } else {
       // Subparagraphs: Use leftskip for proper continuation line wrapping
@@ -697,9 +702,9 @@ export function generateBodyTex(store: DocumentStore): string {
 
       if (headerText) {
         const formattedHeader = toTitleCase(headerText);
-        parts.push(`\\vspace{6pt}\n{\\leftskip=${levelIndent}in\n\\noindent ${label} ${underlineWords(escapeLatex(formattedHeader))}. ${processBodyText(para.text)}\\par}\n\n`);
+        parts.push(`\\vspace{6pt}\n{\\leftskip=${levelIndent}in\n\\noindent ${label} ${underlineWords(escapeLatex(formattedHeader))}. ${portionPrefix}${processBodyText(para.text)}\\par}\n\n`);
       } else {
-        parts.push(`\\vspace{6pt}\n{\\leftskip=${levelIndent}in\n\\noindent ${label} ${processBodyText(para.text)}\\par}\n\n`);
+        parts.push(`\\vspace{6pt}\n{\\leftskip=${levelIndent}in\n\\noindent ${label} ${portionPrefix}${processBodyText(para.text)}\\par}\n\n`);
       }
     }
   }
@@ -710,11 +715,17 @@ export function generateBodyTex(store: DocumentStore): string {
 export function generateClassificationTex(store: DocumentStore): string {
   const data = store.formData;
 
-  if (data.classLevel === 'unclassified' || !data.classLevel) {
+  // Banner reflects the HIGHEST portion marking, not just the document
+  // level (SECNAV M-5216.5 / DoDM 5200.01 Vol 2). A CUI document with an
+  // (S) paragraph must render a SECRET banner. `custom` passes through
+  // unchanged (unrankable free text).
+  const overallLevel = deriveOverallClassLevel(data.classLevel, store.paragraphs);
+
+  if (overallLevel === 'unclassified') {
     return '% Unclassified - no classification markings\n';
   }
 
-  if (data.classLevel === 'cui') {
+  if (overallLevel === 'cui') {
     // \setClassification{CUI} is the canonical entry point — it sets
     // \ClassificationMarking, flips \ClassificationEnabledtrue, and
     // detects the literal "CUI" arg to flip \CUIEnabledtrue (see
@@ -737,7 +748,7 @@ export function generateClassificationTex(store: DocumentStore): string {
 
   // Handle custom classification - just output the text verbatim as banner only
   // Uses \setCustomClassification which sets banners but NOT the classified info block.
-  if (data.classLevel === 'custom') {
+  if (overallLevel === 'custom') {
     // No marking text yet → emit nothing. We MUST NOT fall through to the
     // classified branch below: that path's `\setClassification{...}` setter
     // had a `|| 'SECRET'` fallback which silently rendered fake SECRET
@@ -765,7 +776,7 @@ export function generateClassificationTex(store: DocumentStore): string {
   // Hard refusal — if the classLevel is some unrecognized value, do NOT
   // silently default to SECRET. Render the doc as unclassified rather than
   // fabricating a classification marking the user did not select.
-  const marking = classLevelMap[data.classLevel];
+  const marking = classLevelMap[overallLevel];
   if (!marking) {
     return '% Unrecognized classLevel — no classification markings rendered\n';
   }
