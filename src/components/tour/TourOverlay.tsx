@@ -63,10 +63,12 @@ export function TourOverlay() {
     let scrolled: Element | null = null;
     const measure = () => {
       const el = step.target ? document.querySelector<HTMLElement>(step.target) : null;
-      // A target inside a closing/closed Radix layer (a dismissed modal that is
-      // still mounted for its exit animation) counts as gone — otherwise the
-      // spotlight strands on a control the user just closed.
-      if (!el || el.closest('[data-state="closed"]')) {
+      // A target inside a closing/closed Radix dialog (a dismissed modal still
+      // mounted for its exit animation) counts as gone — otherwise the
+      // spotlight strands on a control the user just closed. Scoped to dialogs
+      // so a collapsed accordion header (also data-state="closed", but visible)
+      // can still be spotlighted.
+      if (!el || el.closest('[role="dialog"][data-state="closed"]')) {
         setRect((prev) => (prev === null ? prev : null));
         scrolled = null;
         return;

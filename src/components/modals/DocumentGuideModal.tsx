@@ -749,15 +749,15 @@ function ExamplesTab({ onClose }: { onClose: () => void }) {
 
 // The power features that are easy to miss. Shown in the guide's "Features"
 // tab: a one-line summary, quick numbered steps for people who learn fast, and
-// a "Show me" spotlight that points at the real control in the live UI.
+// a guided walkthrough that points at the real controls in the live UI.
 interface PowerFeature {
   icon: LucideIcon;
   title: string;
   where: string;
   body: string;
   steps: string[];
-  /** Guided walkthrough launched by "Show me" — one or more spotlight steps
-   *  that can open the feature's surface and point at each control in turn. */
+  /** Guided walkthrough launched by "Walk me through it": one or more spotlight
+   *  steps that can open the feature's surface and point at each control. */
   tour: TourStep[];
 }
 
@@ -787,13 +787,13 @@ const POWER_FEATURES: PowerFeature[] = [
     icon: Layers,
     title: 'Batch generation',
     where: 'Toolbar → Batch',
-    body: 'Produce one finished document per row from a single template — award citations, promotion letters, anything repeated across people.',
+    body: 'Produce one finished document per row from a single template: award citations, promotion letters, or anything repeated across people.',
     steps: [
       'Open Batch from the toolbar.',
       'Drop a {{NAME}} placeholder (any label) into a field.',
       'Paste tab-separated rows straight from a spreadsheet.',
       'Map columns to placeholders, then review each row.',
-      'Generate the set — one PDF per row.',
+      'Generate the set: one PDF per row.',
     ],
     tour: [
       {
@@ -805,13 +805,13 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="batch-addvar"]',
         title: 'Add a variable',
-        body: 'Pick a variable and a field, then Add. That drops a {{placeholder}} into your document — the column DonDocs fills per row.',
+        body: 'Pick a variable and a field, then Add. That drops a {{placeholder}} into your document. DonDocs fills that column for every row.',
         action: openBatch,
       },
       {
         target: '[data-tour="batch-commonvars"]',
         title: 'Or copy a common one',
-        body: 'Not sure what to use? These common variables copy with one click — paste one into any field.',
+        body: 'Not sure what to use? These common variables copy with one click. Paste one into any field.',
         action: openBatch,
       },
       {
@@ -842,7 +842,7 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="profile-name"]',
         title: 'Name it',
-        body: 'Give the profile a name you will recognize — your command, say.',
+        body: 'Give the profile a name you will recognize, like your command.',
         action: openProfileModal,
       },
       {
@@ -854,7 +854,7 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="profile-signature"]',
         title: 'Add your signature block',
-        body: 'Name, rank or title, and position — they carry into every document you draft with this profile.',
+        body: 'Name, rank or title, and position. They carry into every document you draft with this profile.',
         action: openProfileModal,
       },
       {
@@ -873,7 +873,7 @@ const POWER_FEATURES: PowerFeature[] = [
     steps: [
       'Pick your document type.',
       'Click Templates, then search or filter the list.',
-      'Select one and load it — your profile letterhead stays on top.',
+      'Select one and load it. Your profile letterhead stays on top.',
     ],
     tour: [
       {
@@ -908,14 +908,14 @@ const POWER_FEATURES: PowerFeature[] = [
     ],
     tour: [
       {
-        target: '[data-tour="enclosures"]',
+        target: '[data-tour="enclosures"] [data-slot="accordion-trigger"]',
         title: 'Enclosures',
         body: 'Where you list enclosures on the letter and attach PDF files.',
       },
       {
         target: '[data-tour="enclosure-add"]',
         title: 'Add an enclosure',
-        body: 'Click Add Enclosure and give it a title — it is listed on the letter automatically.',
+        body: 'Click Add Enclosure and give it a title. It is listed on the letter automatically.',
         action: () => expandSection('enclosures'),
       },
       {
@@ -938,20 +938,20 @@ const POWER_FEATURES: PowerFeature[] = [
     ],
     tour: [
       {
-        target: '[data-tour="signature"]',
+        target: '[data-tour="signature"] [data-slot="accordion-trigger"]',
         title: 'Signature block',
-        body: 'How your letter is signed — typed name, an image, or a digital field.',
+        body: 'How your letter is signed: typed name, an image, or a digital field.',
       },
       {
         target: '[data-tour="signature-name"]',
         title: 'Who is signing',
-        body: 'Fill in the name, then rank or title and position below — they print under the signature line.',
+        body: 'Fill in the name, then rank or title and position below. They print under the signature line.',
         action: () => expandSection('signature'),
       },
       {
         target: '[data-tour="signature-style"]',
         title: 'Pick a signature style',
-        body: 'Typed only, Upload image (a scanned signature), or Digital field — an empty field for CAC/PKI signing in Adobe after you download.',
+        body: 'Three styles: Typed only, Upload image (a scanned signature), or Digital field for CAC/PKI signing in Adobe after you download.',
         action: () => expandSection('signature'),
       },
     ],
@@ -963,7 +963,7 @@ const POWER_FEATURES: PowerFeature[] = [
     body: 'Send a document as a password-protected link. Nothing is stored on a server; the recipient needs both the link and the password you set.',
     steps: [
       'Open Save → Create share link and set a password.',
-      'Generate the link — it copies to your clipboard.',
+      'Generate the link. It copies to your clipboard.',
       'Send the link and password separately to the recipient.',
       'They open it with Save → Open from share link.',
     ],
@@ -977,7 +977,7 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="share-password"]',
         title: 'Set a password',
-        body: 'The document is encrypted in your browser — nothing is stored on a server. The recipient needs this password to open it.',
+        body: 'The document is encrypted in your browser. Nothing is stored on a server, and the recipient needs this password to open it.',
         action: openShareModal,
       },
       {
@@ -1001,7 +1001,7 @@ const POWER_FEATURES: PowerFeature[] = [
     ],
     tour: [
       {
-        target: '[data-tour="classification"]',
+        target: '[data-tour="classification"] [data-slot="accordion-trigger"]',
         title: 'Classification',
         body: 'Set the document marking and the banner that appears at the top.',
       },
@@ -1150,7 +1150,7 @@ export function DocumentGuideModal() {
           <div className="flex-1 min-h-0 overflow-y-auto">
             <div className="p-6 space-y-2.5">
               <p className="text-sm text-muted-foreground">
-                DonDocs does more than draft a single letter. Expand a feature for the quick steps, or pick “Show me” to be taken straight to it.
+                DonDocs does more than draft a single letter. Expand a feature for the quick steps, or pick “Walk me through it” for a guided tour of the real controls.
               </p>
               {POWER_FEATURES.map((f) => {
                 const Icon = f.icon;
