@@ -55,53 +55,50 @@ export function TourOverlay() {
     // Batch modal) before the element exists. Run that side-effect first.
     step.action?.();
 
-    let cancelled = false;
-    const cleanups: Array<() => void> = [];
-
-    const attach = (el: HTMLElement) => {
-      el.scrollIntoView({ block: 'center', inline: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
-      const update = () => {
-        const r = el.getBoundingClientRect();
-        if (r.width === 0 && r.height === 0) {
-          setRect(null); // hidden (e.g. collapsed at this breakpoint)
-        } else {
-          setRect({ top: r.top, left: r.left, width: r.width, height: r.height });
-        }
-      };
-      update();
-      // Recompute after the smooth scroll settles.
-      const settle = window.setTimeout(update, reduce ? 0 : 280);
-      window.addEventListener('scroll', update, true);
-      window.addEventListener('resize', update);
-      cleanups.push(() => {
-        window.clearTimeout(settle);
-        window.removeEventListener('scroll', update, true);
-        window.removeEventListener('resize', update);
-      });
-    };
-
-    // Locate the target, retrying briefly so an element mounted by action()
-    // (a modal opening, a section expanding) is caught instead of falling
-    // straight through to the centered fallback.
-    const locate = (attemptsLeft: number) => {
-      if (cancelled) return;
+    // We re-query the selector on every tick rather than hold an element
+    // reference. The overlay is passive, so the user can open and close the
+    // surface underneath it: re-querying means a freshly-mounted modal is
+    // caught within a tick, and a closed one yields "not found" → the spotlight
+    // re-centers instead of stranding on stale coordinates.
+    let scrolled: Element | null = null;
+    const measure = () => {
       const el = step.target ? document.querySelector<HTMLElement>(step.target) : null;
-      if (el) {
-        attach(el);
+      // A target inside a closing/closed Radix layer (a dismissed modal that is
+      // still mounted for its exit animation) counts as gone — otherwise the
+      // spotlight strands on a control the user just closed.
+      if (!el || el.closest('[data-state="closed"]')) {
+        setRect((prev) => (prev === null ? prev : null));
+        scrolled = null;
         return;
       }
-      if (step.target && attemptsLeft > 0) {
-        const t = window.setTimeout(() => locate(attemptsLeft - 1), 60);
-        cleanups.push(() => window.clearTimeout(t));
+      const r = el.getBoundingClientRect();
+      if (r.width === 0 && r.height === 0) {
+        setRect((prev) => (prev === null ? prev : null)); // hidden / collapsed
         return;
       }
-      setRect(null); // no target (or it never appeared) → centered card
+      if (scrolled !== el) {
+        scrolled = el;
+        el.scrollIntoView({ block: 'center', inline: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+      }
+      setRect((prev) =>
+        prev &&
+        Math.abs(prev.top - r.top) < 0.5 &&
+        Math.abs(prev.left - r.left) < 0.5 &&
+        Math.abs(prev.width - r.width) < 0.5 &&
+        Math.abs(prev.height - r.height) < 0.5
+          ? prev // unchanged — skip the re-render
+          : { top: r.top, left: r.left, width: r.width, height: r.height }
+      );
     };
-    locate(10); // ~600ms budget for an async-mounted modal to appear
 
+    measure();
+    const poll = window.setInterval(measure, 150);
+    window.addEventListener('scroll', measure, true);
+    window.addEventListener('resize', measure);
     return () => {
-      cancelled = true;
-      cleanups.forEach((fn) => fn());
+      window.clearInterval(poll);
+      window.removeEventListener('scroll', measure, true);
+      window.removeEventListener('resize', measure);
     };
   }, [active, stepIndex, step]);
 
@@ -141,17 +138,17 @@ export function TourOverlay() {
     cardStyle = { top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: CARD_W };
   }
 
-  // Portaled to <body> and layered above Radix dialogs (z-50) and the
-  // browser-compat notice (z-100), so a guided step can spotlight a control
-  // inside an open modal — the dim covers the modal and the cutout reveals it.
+  // Passive coach overlay: it highlights and explains, but never blocks the
+  // page. The dim and spotlight are click-through (pointer-events-none) so the
+  // user can keep using the app — only the coachmark itself is interactive.
+  // Non-modal, so tapping outside the card interacts with the app instead of
+  // dismissing the tour. Portaled to <body> and layered above Radix dialogs
+  // (z-50) so a guided step can spotlight a control inside an open modal.
   return createPortal(
-    <div role="dialog" aria-modal="true" aria-label="Product tour">
-      {/* Click-catcher: blocks interaction with the page beneath the tour.
-          Explicit pointer-events so it works even if <body> is locked. */}
-      <div className="fixed inset-0 z-[110] pointer-events-auto" />
-
+    <div role="region" aria-label="Product tour">
       {/* The dim + spotlight. With a target, a transparent box punches a hole
-          via its huge spread shadow; without one, a plain full-screen dim. */}
+          via its huge spread shadow; without one, a plain full-screen dim.
+          Both are click-through — nothing here intercepts pointer events. */}
       {rect ? (
         <div
           className="fixed z-[111] pointer-events-none rounded-lg ring-2 ring-primary transition-all duration-200"
@@ -160,17 +157,20 @@ export function TourOverlay() {
             left: rect.left - PAD,
             width: rect.width + PAD * 2,
             height: rect.height + PAD * 2,
-            boxShadow: '0 0 0 9999px rgba(0,0,0,0.62)',
+            boxShadow: '0 0 0 9999px rgba(0,0,0,0.5)',
           }}
         />
       ) : (
-        <div className="fixed inset-0 z-[111] pointer-events-none bg-black/60" />
+        <div className="fixed inset-0 z-[111] pointer-events-none bg-black/50" />
       )}
 
-      {/* Coachmark */}
+      {/* Coachmark — the only interactive surface. Stop pointer events from
+          reaching the document so an open Radix dialog beneath doesn't treat a
+          tap on the card as an outside-click and dismiss itself. */}
       <div
         ref={cardRef}
         tabIndex={-1}
+        onPointerDown={(e) => e.stopPropagation()}
         className="fixed z-[112] pointer-events-auto rounded-xl border bg-popover text-popover-foreground p-4 shadow-elevated outline-none"
         style={cardStyle}
       >
