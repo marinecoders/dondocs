@@ -39,6 +39,9 @@ const INK = '#1d2128';
 const INK_MUTED = '#3a3f48';
 const SERIF = 'Georgia, "Times New Roman", serif';
 const SIG_FONT = "'Damion', cursive";
+// Fixed issue date of this standing welcome letter: the project's inception.
+// A welcome-aboard letter is promulgated once, not re-dated on every visit.
+const ISSUE_DATE = '29 Dec 2025';
 
 export function WelcomeModal() {
   const [open, setOpen] = useState(false);
@@ -77,14 +80,6 @@ export function WelcomeModal() {
     setOpen(false);
   };
 
-  // Today's date in naval format (e.g. "12 Jun 2026"), so the letter reads
-  // as freshly drafted for this reader rather than a static template.
-  const today = new Date().toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  });
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
@@ -113,7 +108,7 @@ export function WelcomeModal() {
             </div>
 
             <p className="text-right" style={{ fontSize: '12px', color: INK_MUTED, margin: '0 0 14px' }}>
-              {today}
+              {ISSUE_DATE}
             </p>
 
             <div style={{ fontSize: '13px', lineHeight: 1.5 }}>
@@ -139,10 +134,18 @@ export function WelcomeModal() {
                   your device.
                 </span>
               </div>
-              <div className="flex">
+              <div className="flex" style={{ marginBottom: '10px' }}>
                 <span style={{ width: '20px', flexShrink: 0 }}>2.</span>
                 <span>
-                  Make ready and begin. <em>Semper Fidelis.</em>
+                  DonDocs is in open beta. Treat each draft as your own work and check every document
+                  against the governing instruction before you sign or release it.
+                </span>
+              </div>
+              <div className="flex">
+                <span style={{ width: '20px', flexShrink: 0 }}>3.</span>
+                <span>
+                  Your feedback drives this tool. Send a bug or an idea from the Help menu and the next
+                  version will be better for it. <em>Semper Fidelis.</em>
                 </span>
               </div>
             </div>
