@@ -3,6 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <!-- Preload the welcome-letter artwork so it paints with the text instead
+         of popping in a beat later (shown the moment a new user lands; the
+         seal also serves as the app background watermark). -->
+    <link rel="preload" as="image" href="/attachments/marine-coders-banner.webp" type="image/webp" />
+    <link rel="preload" as="image" href="/attachments/marine-coders-logo.svg" type="image/svg+xml" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content="Free SECNAV M-5216.5 correspondence & form generator for Navy/USMC. 20 document types — naval letters, memoranda, endorsements, NAVMC forms. PDF/DOCX export, 100% browser-based, works offline." />
     <meta property="og:title" content="DonDocs - Naval Correspondence & Form Generator" />

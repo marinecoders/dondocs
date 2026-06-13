@@ -24,6 +24,7 @@ import { FindReplaceModal } from '@/components/modals/FindReplaceModal';
 import { TemplateLoaderModal } from '@/components/modals/TemplateLoaderModal';
 import { DocumentGuideModal } from '@/components/modals/DocumentGuideModal';
 import { WelcomeModal } from '@/components/modals/WelcomeModal';
+import { TourOverlay } from '@/components/tour/TourOverlay';
 import { PIIWarningModal } from '@/components/modals/PIIWarningModal';
 import { LogViewerModal } from '@/components/modals/LogViewerModal';
 import { EnclosureErrorModal } from '@/components/modals/EnclosureErrorModal';
@@ -1454,6 +1455,7 @@ ${texFiles['body.tex'] || '% No body content'}
       <TemplateLoaderModal />
       <DocumentGuideModal />
       <WelcomeModal />
+      <TourOverlay />
       <PIIWarningModal
         detectionResult={piiDetectionResult}
         onCancel={handleCancelPIIDownload}

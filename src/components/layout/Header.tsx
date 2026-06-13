@@ -26,6 +26,7 @@ import { uint8ArrayToBase64, base64ToUint8Array, arrayBufferToUint8Array } from 
 import { STORAGE_KEYS } from '@/lib/constants';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { useLogStore } from '@/stores/logStore';
+import { useTourStore } from '@/stores/tourStore';
 import { safeReportUrl, BUG_REPORT_PRIVACY_NOTICE, BUG_REPORT_LOG_PROMPT } from '@/lib/bugReport';
 
 interface HeaderProps {
@@ -631,7 +632,7 @@ export function Header({
           {/* Save/Load dropdown - always visible but compact on smaller screens */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-8 px-2 lg:px-3">
+              <Button data-tour="save" variant="outline" size="sm" className="h-8 px-2 lg:px-3">
                 <Save className="h-4 w-4 lg:mr-2" />
                 <span className="hidden lg:inline">Save</span>
               </Button>
@@ -678,7 +679,7 @@ export function Header({
           {/* Download dropdown - always visible but compact on smaller screens */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-8 px-2 lg:px-3">
+              <Button data-tour="download" variant="outline" size="sm" className="h-8 px-2 lg:px-3">
                 <Download className="h-4 w-4 lg:mr-2" />
                 <span className="hidden lg:inline">Download</span>
               </Button>
@@ -767,11 +768,16 @@ export function Header({
           {/* Help dropdown - hidden below xl */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" aria-label="Help & Info" title="Help & Info" className="h-8 w-8 hidden xl:flex">
+              <Button data-tour="help" variant="ghost" size="icon" aria-label="Help & Info" title="Help & Info" className="h-8 w-8 hidden xl:flex">
                 <HelpCircle className="h-4 w-4" aria-hidden="true" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-72">
+              <DropdownMenuItem onClick={() => useTourStore.getState().start()}>
+                <Compass className="h-4 w-4 mr-2" />
+                Take the Tour
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => setNistModalOpen(true)}>
                 <Shield className="h-4 w-4 mr-2" />
                 NIST 800-171 Compliance
@@ -825,7 +831,7 @@ export function Header({
           {/* Appearance dropdown - hidden below xl */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" aria-label="Appearance settings" title="Appearance" className="h-8 w-8 sm:h-9 sm:w-9 hidden xl:flex">
+              <Button data-tour="appearance" variant="ghost" size="icon" aria-label="Appearance settings" title="Appearance" className="h-8 w-8 sm:h-9 sm:w-9 hidden xl:flex">
                 <Settings className="h-4 w-4" aria-hidden="true" />
               </Button>
             </DropdownMenuTrigger>
@@ -921,6 +927,10 @@ export function Header({
               <DropdownMenuSeparator />
               {/* Help section */}
               <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Help</div>
+              <DropdownMenuItem onClick={() => useTourStore.getState().start()}>
+                <Compass className="h-4 w-4 mr-2" />
+                Take the Tour
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setNistModalOpen(true)}>
                 <Shield className="h-4 w-4 mr-2" />
                 NIST 800-171

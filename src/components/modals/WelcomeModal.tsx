@@ -10,6 +10,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import { useTourStore, hasCompletedTour } from '@/stores/tourStore';
+import { useUIStore } from '@/stores/uiStore';
 // Signature face for the letter's "Marine Coders" sign-off. Self-hosted via
 // @fontsource (bundled, served same-origin), so it stays air-gap safe: no
 // web-font CDN. Damion is a bold connected script that reads as signed.
@@ -70,6 +72,10 @@ export function WelcomeModal() {
     if (!stored || stored !== WELCOME_CONTENT_VERSION) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setOpen(true);
+      // New users land with the live preview open so they immediately see the
+      // document take shape. This only runs for the welcome cohort (no saved
+      // session), so returning users keep their own preview preference.
+      useUIStore.getState().setPreviewVisible(true);
     }
   }, []);
 
@@ -78,6 +84,12 @@ export function WelcomeModal() {
       localStorage.setItem(WELCOME_STORAGE_KEY, WELCOME_CONTENT_VERSION);
     }
     setOpen(false);
+    // First-run: flow straight into the guided tour the first time, once the
+    // welcome dialog's close animation finishes. Returning users have a saved
+    // session and never see the welcome, so this only fires for new users.
+    if (!hasCompletedTour()) {
+      setTimeout(() => useTourStore.getState().start(), 350);
+    }
   };
 
   return (
@@ -102,6 +114,8 @@ export function WelcomeModal() {
                 src={BANNER_SRC}
                 alt="Marine Coders"
                 className="mx-auto"
+                decoding="sync"
+                fetchPriority="high"
                 style={{ height: '46px', filter: 'brightness(0)' }}
               />
               <div style={{ borderTop: `1px solid ${INK}`, marginTop: '12px' }} />
@@ -164,6 +178,8 @@ export function WelcomeModal() {
                 src={SEAL_SRC}
                 alt=""
                 aria-hidden="true"
+                decoding="sync"
+                fetchPriority="high"
                 style={{ height: '52px', filter: 'brightness(0)', opacity: 0.9 }}
               />
             </div>
