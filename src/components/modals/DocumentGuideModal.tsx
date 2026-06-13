@@ -767,6 +767,8 @@ const openProfileModal = () => useUIStore.getState().setProfileModalOpen(true);
 const closeProfileModal = () => useUIStore.getState().setProfileModalOpen(false);
 const openShareModal = () => useUIStore.getState().setShareModal('share');
 const closeShareModal = () => useUIStore.getState().setShareModal(null);
+const openTemplateLoader = () => useUIStore.getState().setTemplateLoaderOpen(true);
+const closeTemplateLoader = () => useUIStore.getState().setTemplateLoaderOpen(false);
 
 // Expand an inline accordion section (Enclosures, etc.) so a guided step can
 // spotlight a control inside it. Clicks the section trigger only when it is
@@ -876,8 +878,21 @@ const POWER_FEATURES: PowerFeature[] = [
     tour: [
       {
         target: '[data-tour="templates"]',
-        title: 'Templates live here',
-        body: 'Pick a document type, then open Templates to start from a ready-made document.',
+        title: 'Open Templates',
+        body: 'Pick a document type, then open Templates to start from a ready-made document instead of a blank page.',
+        action: closeTemplateLoader,
+      },
+      {
+        target: '[data-tour="template-search"]',
+        title: 'Find one',
+        body: 'Search by name, description, or SSIC, or filter by category, then click a template to preview it.',
+        action: openTemplateLoader,
+      },
+      {
+        target: '[data-tour="template-load"]',
+        title: 'Load it',
+        body: 'Loads the subject, paragraphs, and references into the editor. Your profile letterhead stays on top.',
+        action: openTemplateLoader,
       },
     ],
   },

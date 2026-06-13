@@ -147,7 +147,7 @@ export function TemplateLoaderModal() {
           </DialogTitle>
         </DialogHeader>
 
-        <div className="p-4 border-b shrink-0 space-y-3 bg-background z-10">
+        <div data-tour="template-search" className="p-4 border-b shrink-0 space-y-3 bg-background z-10">
           {/* Search */}
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -255,6 +255,7 @@ export function TemplateLoaderModal() {
             Cancel
           </Button>
           <Button
+            data-tour="template-load"
             onClick={handleLoadTemplate}
             disabled={!selectedTemplate}
             className="hover:bg-primary/90"
