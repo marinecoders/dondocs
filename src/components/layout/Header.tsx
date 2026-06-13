@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect, type ChangeEvent } from 'react';
-import { Moon, Sun, Download, FileText, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2 } from 'lucide-react';
+import { Moon, Sun, Download, FileText, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2, Lightbulb } from 'lucide-react';
 import { GithubIcon } from '@/components/icons/GithubIcon';
 import { Button } from '@/components/ui/button';
 import {
@@ -108,6 +108,44 @@ function buildBugReportUrl(): string {
     title: '[Bug] ',
     body,
     labels: 'bug',
+  });
+  return `${GITHUB_NEW_ISSUE_URL}?${params.toString()}`;
+}
+
+/**
+ * Build a prefilled "New issue" URL for the Help-menu feature-suggestion
+ * button — the welcome letter invites ideas, and this is where they land.
+ *
+ * Unlike the bug report, a suggestion needs no logs or compile output, so
+ * nothing is auto-embedded. The same public-GitHub privacy notice and the
+ * hash/query-stripped URL (safeReportUrl) still apply.
+ */
+function buildFeatureRequestUrl(): string {
+  const body = [
+    BUG_REPORT_PRIVACY_NOTICE,
+    '',
+    '<!--',
+    'Thanks for helping shape DonDocs. Tell us what you would like it to do.',
+    'A rough idea is welcome; the more concrete, the faster we can build it.',
+    '-->',
+    '',
+    '## What would you like to see',
+    '<!-- the feature or change, in a sentence or two -->',
+    '',
+    '## Why it would help',
+    '<!-- what it makes easier, faster, or possible -->',
+    '',
+    '## Anything else',
+    '<!-- the document type it applies to, examples, references, or a mockup -->',
+    '',
+    '## Environment',
+    `- URL: ${safeReportUrl()}`,
+  ].join('\n');
+
+  const params = new URLSearchParams({
+    title: '[Feature] ',
+    body,
+    labels: 'enhancement',
   });
   return `${GITHUB_NEW_ISSUE_URL}?${params.toString()}`;
 }
@@ -751,6 +789,10 @@ export function Header({
                 <Bug className="h-4 w-4 mr-2" />
                 Report a Bug
               </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => window.open(buildFeatureRequestUrl(), '_blank', 'noopener,noreferrer')}>
+                <Lightbulb className="h-4 w-4 mr-2" />
+                Suggest a Feature
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => useLogStore.getState().setOpen(true)}>
                 <ScrollText className="h-4 w-4 mr-2" />
                 View Logs
@@ -898,6 +940,10 @@ export function Header({
               <DropdownMenuItem onClick={() => window.open(buildBugReportUrl(), '_blank', 'noopener,noreferrer')}>
                 <Bug className="h-4 w-4 mr-2" />
                 Report Bug
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => window.open(buildFeatureRequestUrl(), '_blank', 'noopener,noreferrer')}>
+                <Lightbulb className="h-4 w-4 mr-2" />
+                Suggest Feature
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
