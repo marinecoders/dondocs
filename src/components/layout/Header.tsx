@@ -1,11 +1,12 @@
 import { useState, useCallback, useRef, useEffect, type ChangeEvent } from 'react';
-import { Moon, Sun, Download, FileText, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2, Lightbulb } from 'lucide-react';
+import { Moon, Sun, Download, FileText, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2, Lightbulb, FolderOpen } from 'lucide-react';
 import { GithubIcon } from '@/components/icons/GithubIcon';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
@@ -637,41 +638,44 @@ export function Header({
                 <span className="hidden lg:inline">Save</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" className="w-60">
+              <DropdownMenuLabel className="text-xs text-muted-foreground font-normal">Draft (this browser)</DropdownMenuLabel>
               <DropdownMenuItem onClick={handleSaveProgress}>
                 <Save className="h-4 w-4 mr-2" />
-                Save Progress
+                Save draft
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleLoadProgress}>
-                <Download className="h-4 w-4 mr-2" />
-                Load Saved
+                <FolderOpen className="h-4 w-4 mr-2" />
+                Open saved draft
               </DropdownMenuItem>
               <DropdownMenuSeparator />
+              <DropdownMenuLabel className="text-xs text-muted-foreground font-normal">Share</DropdownMenuLabel>
               <DropdownMenuItem onClick={() => setShareModal('share')}>
                 <Link2 className="h-4 w-4 mr-2" />
-                Share link…
+                Create share link…
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setShareModal('import')}>
                 <FileInput className="h-4 w-4 mr-2" />
-                Import from link
+                Open from share link
               </DropdownMenuItem>
               <DropdownMenuSeparator />
+              <DropdownMenuLabel className="text-xs text-muted-foreground font-normal">Backup file (.json)</DropdownMenuLabel>
               <DropdownMenuItem onClick={handleExportDraft}>
                 <FileDown className="h-4 w-4 mr-2" />
-                Export Draft to File
+                Export to file
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => fileInputRef.current?.click()}>
                 <FileUp className="h-4 w-4 mr-2" />
-                Import Draft from File
+                Import from file
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => setShowClearFieldsDialog(true)} className="text-orange-600 dark:text-orange-400">
                 <Eraser className="h-4 w-4 mr-2" />
-                Clear Fields (Keep Letterhead)
+                Clear fields (keep letterhead)
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setShowResetDialog(true)} variant="destructive">
                 <RotateCcw className="h-4 w-4 mr-2" />
-                Reset All Fields
+                Reset all fields
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

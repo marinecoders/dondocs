@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { HelpCircle, ChevronDown, ChevronRight, FileText, CheckCircle2, Lightbulb, BookOpen, Sparkles, ArrowRight, RotateCcw, Search, Eye, Check } from 'lucide-react';
+import { HelpCircle, ChevronDown, ChevronRight, FileText, CheckCircle2, Lightbulb, BookOpen, Sparkles, ArrowRight, RotateCcw, Search, Eye, Check, Zap, Layers, Users, FolderOpen, Paperclip, PenLine, Link2, Shield, type LucideIcon } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -745,11 +745,58 @@ function ExamplesTab({ onClose }: { onClose: () => void }) {
   );
 }
 
+// The power features that are easy to miss. Shown in the guide's "Features"
+// tab so people discover what DonDocs can do beyond drafting a single letter.
+const POWER_FEATURES: { icon: LucideIcon; title: string; where: string; body: string }[] = [
+  {
+    icon: Layers,
+    title: 'Batch generation',
+    where: 'Toolbar → Batch',
+    body: 'Generate many documents at once. Put {{NAME}} (or any label) in a field, paste a list of values, and DonDocs produces one finished document per row. Ideal for award citations, promotion letters, or anything repeated across people.',
+  },
+  {
+    icon: Users,
+    title: 'Profiles',
+    where: 'Top-left selector',
+    body: 'Save your unit letterhead and sender details as a reusable profile so you never retype them. Switch profiles to draft for a different command.',
+  },
+  {
+    icon: FolderOpen,
+    title: 'Templates',
+    where: 'Next to document type',
+    body: 'Start from a ready-made document for common formats instead of a blank page.',
+  },
+  {
+    icon: Paperclip,
+    title: 'Enclosures',
+    where: 'Enclosures section',
+    body: 'Attach PDF enclosures. They are listed on the letter and merged into the final PDF automatically.',
+  },
+  {
+    icon: PenLine,
+    title: 'Signature',
+    where: 'Signature section',
+    body: 'Add a signature block, an optional signature image, or a digital signature field on the exported PDF.',
+  },
+  {
+    icon: Link2,
+    title: 'Encrypted share link',
+    where: 'Save → Create share link',
+    body: 'Send a document as a password-protected link. Nothing is stored on a server; the recipient needs both the link and the password you set.',
+  },
+  {
+    icon: Shield,
+    title: 'Classification & portion marks',
+    where: 'Classification section',
+    body: 'Set the document classification and per-paragraph portion marks. The banner is derived from the highest marking in the document.',
+  },
+];
+
 export function DocumentGuideModal() {
   // Individual selectors — modal only re-renders on its own flag changing.
   const documentGuideOpen = useUIStore((s) => s.documentGuideOpen);
   const setDocumentGuideOpen = useUIStore((s) => s.setDocumentGuideOpen);
-  const [activeTab, setActiveTab] = useState<'finder' | 'browse' | 'examples'>('finder');
+  const [activeTab, setActiveTab] = useState<'finder' | 'browse' | 'examples' | 'features'>('finder');
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [expandedGuide, setExpandedGuide] = useState<string | null>(null);
@@ -845,12 +892,49 @@ export function DocumentGuideModal() {
               <span className="hidden sm:inline">Examples</span>
               <span className="sm:hidden">Examples</span>
             </button>
+            <button
+              onClick={() => setActiveTab('features')}
+              className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                activeTab === 'features'
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <Zap className="h-4 w-4" />
+              <span className="hidden sm:inline">Features</span>
+              <span className="sm:hidden">More</span>
+            </button>
           </div>
         </div>
 
         {activeTab === 'finder' && (
           <div className="flex-1 min-h-0 overflow-y-auto">
             <DocumentFinder onSelectGuide={handleSelectFromFinder} />
+          </div>
+        )}
+
+        {activeTab === 'features' && (
+          <div className="flex-1 min-h-0 overflow-y-auto">
+            <div className="p-6 space-y-3">
+              <p className="text-sm text-muted-foreground">
+                DonDocs does more than draft a single letter. Here is what each feature does and where to find it.
+              </p>
+              {POWER_FEATURES.map((f) => {
+                const Icon = f.icon;
+                return (
+                  <div key={f.title} className="flex items-start gap-3 rounded-lg border bg-card/50 p-3">
+                    <Icon className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h4 className="font-medium text-sm">{f.title}</h4>
+                        <span className="text-[11px] text-muted-foreground bg-muted rounded px-1.5 py-0.5">{f.where}</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-0.5">{f.body}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
 
