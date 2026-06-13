@@ -113,15 +113,15 @@ export function WelcomeModal() {
 
             <div style={{ fontSize: '13px', lineHeight: 1.5 }}>
               <div className="flex">
-                <span className="font-bold" style={{ width: '46px', flexShrink: 0 }}>From:</span>
+                <span className="font-bold" style={{ width: '58px', flexShrink: 0 }}>From:</span>
                 <span>Marine Coders</span>
               </div>
               <div className="flex">
-                <span className="font-bold" style={{ width: '46px', flexShrink: 0 }}>To:</span>
+                <span className="font-bold" style={{ width: '58px', flexShrink: 0 }}>To:</span>
                 <span>New User</span>
               </div>
               <div className="flex" style={{ marginBottom: '12px' }}>
-                <span className="font-bold" style={{ width: '46px', flexShrink: 0 }}>Subj:</span>
+                <span className="font-bold" style={{ width: '58px', flexShrink: 0 }}>Subj:</span>
                 <span className="font-bold" style={{ letterSpacing: '0.02em' }}>WELCOME ABOARD DONDOCS</span>
               </div>
 
