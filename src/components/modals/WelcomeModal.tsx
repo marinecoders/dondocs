@@ -10,6 +10,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import { useTourStore, hasCompletedTour } from '@/stores/tourStore';
 // Signature face for the letter's "Marine Coders" sign-off. Self-hosted via
 // @fontsource (bundled, served same-origin), so it stays air-gap safe: no
 // web-font CDN. Damion is a bold connected script that reads as signed.
@@ -78,6 +79,12 @@ export function WelcomeModal() {
       localStorage.setItem(WELCOME_STORAGE_KEY, WELCOME_CONTENT_VERSION);
     }
     setOpen(false);
+    // First-run: flow straight into the guided tour the first time, once the
+    // welcome dialog's close animation finishes. Returning users have a saved
+    // session and never see the welcome, so this only fires for new users.
+    if (!hasCompletedTour()) {
+      setTimeout(() => useTourStore.getState().start(), 350);
+    }
   };
 
   return (
