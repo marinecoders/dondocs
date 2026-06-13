@@ -1,5 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { FileText, Shield, Zap, Users, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { getDeviceInfo } from '@/utils/device';
 import { hasSavedSession } from '@/stores/documentStore';
 import {
@@ -11,62 +10,42 @@ import {
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { AnimatedGradientBG } from '@/components/effects/AnimatedGradientBG';
-import { TextReveal } from '@/components/effects/TextReveal';
-import { MouseGlowCard } from '@/components/effects/MouseGlowCard';
+// Signature face for the letter's "Marine Coders" sign-off. Self-hosted via
+// @fontsource (bundled, served same-origin), so it stays air-gap safe: no
+// web-font CDN. Damion is a bold connected script that reads as signed.
+import '@fontsource/damion/400.css';
 
 const WELCOME_STORAGE_KEY = 'dondocs-welcome-shown';
-// Tracks the version of the WELCOME MODAL CONTENT — not the app version.
-// Bump this when the welcome modal's copy/features change meaningfully so
+// Tracks the version of the WELCOME MODAL CONTENT, not the app version.
+// Bump this when the welcome modal's copy/design changes meaningfully so
 // returning users see the updated content once. This is intentionally
 // separate from APP_VERSION in @/lib/version (which tracks code releases).
-const WELCOME_CONTENT_VERSION = '2.1';
+const WELCOME_CONTENT_VERSION = '3.0';
 
-interface Feature {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}
+// Wide Marine Coders lockup ("MARINE [EGA] CODERS") used as the letter's
+// masthead, and the < EGA > seal used as the chop beside the signature.
+// Both are light artwork on a transparent ground, so `brightness(0)`
+// renders them as black ink on the cream "paper": the engraved,
+// single-colour look of a real letterhead. The seal is the same mark the
+// app shows as its background watermark, so the welcome and the app
+// behind it carry one emblem.
+const BANNER_SRC = `${import.meta.env.BASE_URL}attachments/marine-coders-banner.webp`;
+const SEAL_SRC = `${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`;
 
-const FEATURES: Feature[] = [
-  {
-    icon: <FileText className="h-5 w-5 text-primary" />,
-    title: 'Correspondence & Forms',
-    description: '20 document types: letters, endorsements, memoranda, agreements, and executive formats. SECNAV M-5216.5 compliant.',
-  },
-  {
-    icon: <Shield className="h-5 w-5 text-primary" />,
-    title: '100% Browser-Based',
-    description: 'All processing happens locally. No servers, no uploads, no data leaves your device.',
-  },
-  {
-    icon: <Zap className="h-5 w-5 text-primary" />,
-    title: 'Professional Output',
-    description: 'LaTeX-quality typesetting via WebAssembly. Attach enclosures and add digital signature fields.',
-  },
-  {
-    icon: <Users className="h-5 w-5 text-primary" />,
-    title: 'Profiles & Templates',
-    description: 'Save your unit info as reusable profiles. Load templates for common document types.',
-  },
-];
-
-const TIPS = [
-  'Your work auto-saves locally. Use Ctrl+Z to undo, Ctrl+Y to redo.',
-  'Click the NIST badge in the header to learn about security compliance.',
-  'Use {{PLACEHOLDER}} syntax for batch generating multiple documents.',
-  'Drag and drop PDF enclosures - they get merged into your final document.',
-  'Save your signature image with your profile for quick reuse across documents.',
-  'Use the resizable divider to adjust the preview panel width to your preference.',
-];
+// Cream paper + dark ink, a self-contained skeuomorphic surface, so its
+// colors live here rather than in the app theme tokens.
+const PAPER_BG = '#faf8f2';
+const INK = '#1d2128';
+const INK_MUTED = '#3a3f48';
+const SERIF = 'Georgia, "Times New Roman", serif';
+const SIG_FONT = "'Damion', cursive";
+// Fixed issue date of this standing welcome letter: the project's inception.
+// A welcome-aboard letter is promulgated once, not re-dated on every visit.
+const ISSUE_DATE = '29 Dec 2025';
 
 export function WelcomeModal() {
   const [open, setOpen] = useState(false);
   const [dontShowAgain, setDontShowAgain] = useState(false);
-  const [currentTip, setCurrentTip] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const resumeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const autoScrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     // Don't show welcome modal on incompatible browsers - they get the browser notice instead
@@ -101,153 +80,99 @@ export function WelcomeModal() {
     setOpen(false);
   };
 
-  // Navigate to previous tip
-  const goToPrev = useCallback(() => {
-    setCurrentTip((prev) => (prev - 1 + TIPS.length) % TIPS.length);
-    setIsPaused(true);
-    // Clear any existing resume timeout
-    if (resumeTimeoutRef.current) {
-      clearTimeout(resumeTimeoutRef.current);
-    }
-    // Resume auto-scroll after 4 seconds of inactivity
-    resumeTimeoutRef.current = setTimeout(() => {
-      setIsPaused(false);
-    }, 4000);
-  }, []);
-
-  // Navigate to next tip
-  const goToNext = useCallback(() => {
-    setCurrentTip((prev) => (prev + 1) % TIPS.length);
-    setIsPaused(true);
-    // Clear any existing resume timeout
-    if (resumeTimeoutRef.current) {
-      clearTimeout(resumeTimeoutRef.current);
-    }
-    // Resume auto-scroll after 4 seconds of inactivity
-    resumeTimeoutRef.current = setTimeout(() => {
-      setIsPaused(false);
-    }, 4000);
-  }, []);
-
-  // Click on indicator dot
-  const goToTip = useCallback((index: number) => {
-    setCurrentTip(index);
-    setIsPaused(true);
-    if (resumeTimeoutRef.current) {
-      clearTimeout(resumeTimeoutRef.current);
-    }
-    resumeTimeoutRef.current = setTimeout(() => {
-      setIsPaused(false);
-    }, 4000);
-  }, []);
-
-  // Auto-rotate tips when not paused
-  useEffect(() => {
-    if (!open || isPaused) {
-      if (autoScrollIntervalRef.current) {
-        clearInterval(autoScrollIntervalRef.current);
-        autoScrollIntervalRef.current = null;
-      }
-      return;
-    }
-    autoScrollIntervalRef.current = setInterval(() => {
-      setCurrentTip((prev) => (prev + 1) % TIPS.length);
-    }, 5000);
-    return () => {
-      if (autoScrollIntervalRef.current) {
-        clearInterval(autoScrollIntervalRef.current);
-      }
-    };
-  }, [open, isPaused]);
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
-      if (autoScrollIntervalRef.current) clearInterval(autoScrollIntervalRef.current);
-    };
-  }, []);
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-lg p-0 gap-0 overflow-hidden max-h-[calc(100dvh-2rem)] flex flex-col" showCloseButton={false}>
-        {/* Scrollable content area */}
-        <div className="flex-1 overflow-y-auto min-h-0">
-          {/* Header with animated gradient */}
-          <AnimatedGradientBG className="px-5 py-5 sm:px-6 sm:py-8 text-white">
-            <div className="flex items-center gap-3 mb-2">
-              <FileText className="h-7 w-7 sm:h-8 sm:w-8" />
-              <DialogTitle className="text-xl sm:text-2xl font-bold text-white text-glow">
-                <TextReveal text="Welcome to DonDocs" />
-              </DialogTitle>
+      <DialogContent
+        className="sm:max-w-lg p-0 gap-0 overflow-hidden max-h-[calc(100dvh-2rem)] flex flex-col"
+        showCloseButton={false}
+      >
+        {/* The visual title is the letter's Subj line; this keeps the
+            dialog accessible without a duplicate visible heading. */}
+        <DialogTitle className="sr-only">Welcome aboard DonDocs</DialogTitle>
+
+        {/* The welcome message, drafted as a naval letter on cream paper. */}
+        <div className="flex-1 overflow-y-auto min-h-0 p-4 pb-0">
+          <div
+            className="rounded-[3px] px-6 py-6 sm:px-8 shadow-[0_12px_34px_rgba(0,0,0,0.55)]"
+            style={{ backgroundColor: PAPER_BG, color: INK, fontFamily: SERIF }}
+          >
+            {/* Letterhead: the wide Marine Coders lockup, engraved in black. */}
+            <div className="mb-3">
+              <img
+                src={BANNER_SRC}
+                alt="Marine Coders"
+                className="mx-auto"
+                style={{ height: '46px', filter: 'brightness(0)' }}
+              />
+              <div style={{ borderTop: `1px solid ${INK}`, marginTop: '12px' }} />
             </div>
-            <p className="text-white text-sm">
-              DoN correspondence and forms, made simple. 100% browser-based, SECNAV M-5216.5 compliant.
+
+            <p className="text-right" style={{ fontSize: '12px', color: INK_MUTED, margin: '0 0 14px' }}>
+              {ISSUE_DATE}
             </p>
-          </AnimatedGradientBG>
 
-          {/* Features */}
-          <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
-              {FEATURES.map((feature, idx) => (
-                <MouseGlowCard
-                  key={idx}
-                  className="rounded-lg bg-secondary/50 hover:bg-secondary border border-transparent hover:border-primary/10 transition-all duration-300"
-                >
-                  <div className="flex items-start gap-3 p-2.5 sm:p-3">
-                    <div className="shrink-0 mt-0.5">{feature.icon}</div>
-                    <div>
-                      <h4 className="font-medium text-sm">{feature.title}</h4>
-                      <p className="text-xs text-muted-foreground">{feature.description}</p>
-                    </div>
-                  </div>
-                </MouseGlowCard>
-              ))}
+            <div style={{ fontSize: '13px', lineHeight: 1.5 }}>
+              <div className="flex">
+                <span className="font-bold" style={{ width: '58px', flexShrink: 0 }}>From:</span>
+                <span>Marine Coders</span>
+              </div>
+              <div className="flex">
+                <span className="font-bold" style={{ width: '58px', flexShrink: 0 }}>To:</span>
+                <span>New User</span>
+              </div>
+              <div className="flex" style={{ marginBottom: '12px' }}>
+                <span className="font-bold" style={{ width: '58px', flexShrink: 0 }}>Subj:</span>
+                <span className="font-bold" style={{ letterSpacing: '0.02em' }}>WELCOME ABOARD DONDOCS</span>
+              </div>
+
+              <div className="flex" style={{ marginBottom: '10px' }}>
+                <span style={{ width: '20px', flexShrink: 0 }}>1.</span>
+                <span>
+                  DonDocs drafts Department of the Navy correspondence and forms to SECNAV M-5216.5
+                  standard: naval letters, endorsements, memoranda, and NAVMC forms, all properly
+                  typeset. Everything runs in your browser. No servers, no uploads, and nothing leaves
+                  your device.
+                </span>
+              </div>
+              <div className="flex" style={{ marginBottom: '10px' }}>
+                <span style={{ width: '20px', flexShrink: 0 }}>2.</span>
+                <span>
+                  DonDocs is in open beta. Treat each draft as your own work and check every document
+                  against the governing instruction before you sign or release it.
+                </span>
+              </div>
+              <div className="flex">
+                <span style={{ width: '20px', flexShrink: 0 }}>3.</span>
+                <span>
+                  Your feedback drives this tool. Send a bug or an idea from the Help menu and the next
+                  version will be better for it. <em>Semper Fidelis.</em>
+                </span>
+              </div>
             </div>
 
-            {/* Rotating tip with navigation — hidden on small phones */}
-            <div className="hidden sm:block bg-primary/10 border border-primary/20 rounded-lg p-3">
-              <div className="flex items-center justify-between mb-1">
-                <p className="text-xs text-primary font-medium">Pro Tip</p>
-                <div className="flex items-center gap-1">
-                  <button
-                    onClick={goToPrev}
-                    className="p-1 rounded hover:bg-primary/20 text-primary transition-colors"
-                    title="Previous tip"
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </button>
-                  <span className="text-xs text-muted-foreground min-w-[3ch] text-center">
-                    {currentTip + 1}/{TIPS.length}
-                  </span>
-                  <button
-                    onClick={goToNext}
-                    className="p-1 rounded hover:bg-primary/20 text-primary transition-colors"
-                    title="Next tip"
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </button>
+            {/* Signature block: signed once, with the < EGA > seal as the chop. */}
+            <div className="flex items-center justify-end gap-4" style={{ marginTop: '24px' }}>
+              <div className="text-right">
+                <div style={{ fontFamily: SIG_FONT, fontSize: '34px', lineHeight: 1, color: '#1a2740' }}>
+                  Marine Coders
+                </div>
+                <div style={{ fontSize: '11px', letterSpacing: '0.06em', color: INK_MUTED, marginTop: '2px' }}>
+                  marines.dev
                 </div>
               </div>
-              <p className="text-sm transition-opacity duration-300 min-h-[2.5rem]">{TIPS[currentTip]}</p>
-              <div className="flex gap-1 mt-2">
-                {TIPS.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => goToTip(idx)}
-                    className={`h-1.5 w-4 rounded-full transition-colors ${
-                      idx === currentTip ? 'bg-primary' : 'bg-primary/30 hover:bg-primary/50'
-                    }`}
-                    title={`Tip ${idx + 1}`}
-                  />
-                ))}
-              </div>
+              <img
+                src={SEAL_SRC}
+                alt=""
+                aria-hidden="true"
+                style={{ height: '52px', filter: 'brightness(0)', opacity: 0.9 }}
+              />
             </div>
           </div>
         </div>
 
-        {/* Footer — always visible at bottom */}
-        <DialogFooter className="px-4 sm:px-6 py-3 sm:py-4 border-t bg-muted/30 shrink-0">
+        {/* Controls live in the dark chrome below the letter, keeping the
+            page itself pristine. */}
+        <DialogFooter className="px-4 sm:px-6 py-3 sm:py-4 shrink-0 sm:items-center">
           <div className="flex items-center gap-2 flex-1">
             <Checkbox
               id="dontShow"
@@ -258,7 +183,7 @@ export function WelcomeModal() {
               Don't show this again
             </Label>
           </div>
-          <Button onClick={handleClose}>Get Started</Button>
+          <Button onClick={handleClose}>Get started</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

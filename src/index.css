@@ -358,11 +358,14 @@
 
 /* Dark mode default — Marines.dev branded */
 .dark {
-  --background: oklch(0.14 0.008 260);     /* Dark slate */
+  /* Elevation ladder — each surface is a clear perceptual step up from the
+     canvas so panels read as lifted, and popovers/menus sit ABOVE cards
+     (previously card and popover were identical, so nothing popped). */
+  --background: oklch(0.115 0.008 260);    /* Deepened canvas */
   --foreground: oklch(0.98 0 0);           /* White */
-  --card: oklch(0.20 0.008 260);           /* Slate card */
+  --card: oklch(0.205 0.008 260);          /* Slate card — lifted off canvas */
   --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.20 0.008 260);
+  --popover: oklch(0.245 0.009 260);       /* Elevated — menus/dropdowns */
   --popover-foreground: oklch(0.98 0 0);
   --primary: oklch(0.55 0.20 25);          /* Bright USMC Red — WCAG AA on dark */
   --primary-foreground: oklch(0.98 0 0);   /* White on red */
@@ -373,7 +376,7 @@
   --accent: oklch(0.80 0.15 85);           /* #f1b434 gold accent */
   --accent-foreground: oklch(0.14 0.008 260);
   --destructive: oklch(0.50 0.18 25);      /* Brighter red — WCAG AA */
-  --border: oklch(0.28 0.008 260);         /* Slate border */
+  --border: oklch(0.305 0.008 260);        /* Crisper edges for card separation */
   --input: oklch(0.23 0.008 260);
   --ring: oklch(0.55 0.20 25);             /* Bright USMC Red ring */
   --chart-1: oklch(0.58 0.22 25);          /* Bright red */
@@ -381,7 +384,7 @@
   --chart-3: oklch(0.85 0.14 85);          /* Gold */
   --chart-4: oklch(0.50 0.18 25);          /* Mid red */
   --chart-5: oklch(0.80 0.15 85);          /* Yellow */
-  --sidebar: oklch(0.16 0.008 260);        /* Slate sidebar */
+  --sidebar: oklch(0.135 0.008 260);       /* Slate sidebar — deepened with canvas */
   --sidebar-foreground: oklch(0.98 0 0);
   --sidebar-primary: oklch(0.55 0.20 25);  /* Bright USMC Red */
   --sidebar-primary-foreground: oklch(0.98 0 0);
@@ -432,11 +435,11 @@
     --sidebar-ring: #970818;
   }
   .dark {
-    --background: #07090c;
+    --background: #040507;
     --foreground: #f8f8f8;
-    --card: #14161a;
+    --card: #15171b;
     --card-foreground: #f8f8f8;
-    --popover: #14161a;
+    --popover: #1e2125;
     --popover-foreground: #f8f8f8;
     --primary: #cc272e;
     --primary-foreground: #f8f8f8;
@@ -447,7 +450,7 @@
     --accent: #eab532;
     --accent-foreground: #07090c;
     --destructive: #b32228;
-    --border: #27292d;
+    --border: #2d2f33;
     --input: #1b1d21;
     --ring: #cc272e;
     --chart-1: #df202e;
@@ -455,7 +458,7 @@
     --chart-3: #f8c655;
     --chart-4: #b32228;
     --chart-5: #eab532;
-    --sidebar: #0b0d11;
+    --sidebar: #07080b;
     --sidebar-foreground: #f8f8f8;
     --sidebar-primary: #cc272e;
     --sidebar-primary-foreground: #f8f8f8;
@@ -496,64 +499,17 @@
   .text-density-sm { font-size: var(--density-text-sm); }
   .text-density-base { font-size: var(--density-text-base); }
 
-  /* Slow spin animation for update banner */
-  .animate-spin-slow {
-    animation: spin 3s linear infinite;
-  }
-
-  /* Marines.dev-inspired hover interactions */
-  .hover-lift {
-    transition: transform 300ms ease-in-out, box-shadow 300ms ease-in-out;
-  }
-  .hover-lift:hover {
-    transform: scale(1.02);
-  }
-
-  .hover-glow {
-    transition: border-color 300ms ease-in-out, box-shadow 300ms ease-in-out;
-  }
-  .hover-glow:hover {
-    box-shadow: 0 0 20px oklch(0.80 0.14 85 / 0.15);
-  }
-
-  /* Shadow depth system */
+  /* Shadow depth system — static elevation only. The decorative utilities
+     that used to live here (hover-lift/hover-glow scale+glow hovers,
+     text-glow text-shadows, the infinite animated-gradient-bg, the
+     text-reveal entrance, and the unused animate-spin-slow) were removed:
+     motion and effects are reserved for communicating state, never
+     decoration. */
   .shadow-card {
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.2), 0 2px 4px -2px rgb(0 0 0 / 0.15);
   }
-  .shadow-card-hover {
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.25), 0 4px 6px -4px rgb(0 0 0 / 0.15);
-  }
   .shadow-elevated {
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2), 0 8px 10px -6px rgb(0 0 0 / 0.15);
-  }
-
-  /* Text glow effects */
-  .text-glow {
-    text-shadow: 0 2px 8px rgb(255 255 255 / 0.15);
-  }
-  .text-glow-gold {
-    text-shadow: 0 2px 12px oklch(0.80 0.14 85 / 0.3);
-  }
-
-  /* Animated gradient background */
-  @keyframes gradient-shift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  .animated-gradient-bg {
-    background-size: 200% 200%;
-    animation: gradient-shift 5s ease infinite;
-  }
-
-  /* Text reveal animation */
-  @keyframes text-reveal-word {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .text-reveal-word {
-    opacity: 0;
-    animation: text-reveal-word 600ms ease forwards;
   }
 
   /* Accordion section left accent border */

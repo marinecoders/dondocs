@@ -20,7 +20,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { MouseGlowCard } from '@/components/effects/MouseGlowCard';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore, type NavmcForm10274Data, type Navmc11811Data } from '@/stores/formStore';
@@ -805,7 +804,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
       <Dialog open={batchModalOpen} onOpenChange={setBatchModalOpen}>
         <DialogContent className="sm:max-w-3xl max-h-[85vh] flex flex-col p-0 gap-0 overflow-hidden">
           <DialogHeader className="bg-card px-6 py-4 border-b border-border/50 shrink-0">
-            <DialogTitle className="flex items-center gap-2 tracking-wide text-glow">
+            <DialogTitle className="flex items-center gap-2 tracking-wide">
               <FileText className="h-5 w-5 text-primary" />
               Batch Generation {isFormsMode && '(Forms)'}
               {!isReadyToGenerate && (
@@ -954,13 +953,13 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                     </Label>
                     <div className="grid grid-cols-2 gap-2">
                       {suggestedPlaceholders.slice(0, 8).map((p) => (
-                        <MouseGlowCard
+                        <div
                           key={p.name}
-                          className="rounded-lg border border-border/50 hover:border-primary/30 transition-all duration-300"
+                          className="rounded-lg border border-border/50 hover:border-primary/30 transition-colors duration-150"
                         >
                           <button
                             onClick={() => copyToClipboard(`{{${p.name}}}`)}
-                            className="flex items-center justify-between p-2 text-left text-sm w-full hover:bg-secondary/50 hover:scale-[1.01] transition-all duration-300 group rounded-lg"
+                            className="flex items-center justify-between p-2 text-left text-sm w-full hover:bg-secondary/50 transition-colors duration-150 group rounded-lg"
                           >
                             <div>
                               <span className="font-medium">{p.label}</span>
@@ -968,7 +967,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                             </div>
                             <Copy className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                           </button>
-                        </MouseGlowCard>
+                        </div>
                       ))}
                     </div>
                     <p className="text-xs text-muted-foreground">{tipText}</p>
