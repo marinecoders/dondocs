@@ -172,7 +172,7 @@ export function ShareModal({
             </p>
           )}
 
-          <div className="space-y-2">
+          <div data-tour="share-password" className="space-y-2">
             <Label htmlFor="share-password">
               {isImport ? 'Password' : 'Password for this link'}
             </Label>
@@ -248,6 +248,7 @@ export function ShareModal({
             </Button>
           ) : (
             <Button
+              data-tour="share-generate"
               onClick={handleGenerateLink}
               disabled={!canSubmit || working}
             >

@@ -765,6 +765,8 @@ const openBatch = () => useUIStore.getState().setBatchModalOpen(true);
 const closeBatch = () => useUIStore.getState().setBatchModalOpen(false);
 const openProfileModal = () => useUIStore.getState().setProfileModalOpen(true);
 const closeProfileModal = () => useUIStore.getState().setProfileModalOpen(false);
+const openShareModal = () => useUIStore.getState().setShareModal('share');
+const closeShareModal = () => useUIStore.getState().setShareModal(null);
 
 // Expand an inline accordion section (Enclosures, etc.) so a guided step can
 // spotlight a control inside it. Clicks the section trigger only when it is
@@ -941,8 +943,21 @@ const POWER_FEATURES: PowerFeature[] = [
     tour: [
       {
         target: '[data-tour="save"]',
-        title: 'Share links live here',
-        body: 'Open this menu, then Create share link, to send a password-protected copy.',
+        title: 'Share starts here',
+        body: 'Open the Save menu, then Create share link, to send a password-protected copy.',
+        action: closeShareModal,
+      },
+      {
+        target: '[data-tour="share-password"]',
+        title: 'Set a password',
+        body: 'The document is encrypted in your browser — nothing is stored on a server. The recipient needs this password to open it.',
+        action: openShareModal,
+      },
+      {
+        target: '[data-tour="share-generate"]',
+        title: 'Generate the link',
+        body: 'Creates a link that copies to your clipboard. Send the link and the password separately; the recipient opens it with Save → Open from share link.',
+        action: openShareModal,
       },
     ],
   },
