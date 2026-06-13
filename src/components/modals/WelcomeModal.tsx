@@ -10,6 +10,10 @@ import {
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+// Signature face for the letter's "Marine Coders" sign-off. Self-hosted via
+// @fontsource (bundled, served same-origin), so it stays air-gap safe — no
+// web-font CDN. Dancing Script is a flowing script that still reads cleanly.
+import '@fontsource/dancing-script/600.css';
 
 const WELCOME_STORAGE_KEY = 'dondocs-welcome-shown';
 // Tracks the version of the WELCOME MODAL CONTENT, not the app version.
@@ -34,6 +38,7 @@ const PAPER_BG = '#faf8f2';
 const INK = '#1d2128';
 const INK_MUTED = '#3a3f48';
 const SERIF = 'Georgia, "Times New Roman", serif';
+const SIG_FONT = "'Dancing Script', cursive";
 
 export function WelcomeModal() {
   const [open, setOpen] = useState(false);
@@ -142,29 +147,21 @@ export function WelcomeModal() {
               </div>
             </div>
 
-            {/* Signature block: signed, with the < EGA > seal as the chop. */}
-            <div className="flex items-center justify-end gap-3.5" style={{ marginTop: '22px' }}>
+            {/* Signature block: signed once, with the < EGA > seal as the chop. */}
+            <div className="flex items-center justify-end gap-4" style={{ marginTop: '24px' }}>
               <div className="text-right">
-                <div
-                  style={{
-                    fontFamily: SERIF,
-                    fontStyle: 'italic',
-                    fontSize: '23px',
-                    lineHeight: 1,
-                    color: '#1a2740',
-                  }}
-                >
+                <div style={{ fontFamily: SIG_FONT, fontSize: '34px', lineHeight: 1, color: '#1a2740' }}>
                   Marine Coders
                 </div>
-                <div style={{ fontSize: '11px', letterSpacing: '0.08em', color: INK_MUTED, marginTop: '4px' }}>
-                  MARINE CODERS &middot; marinecoders.org
+                <div style={{ fontSize: '11px', letterSpacing: '0.06em', color: INK_MUTED, marginTop: '2px' }}>
+                  marines.dev
                 </div>
               </div>
               <img
                 src={SEAL_SRC}
                 alt=""
                 aria-hidden="true"
-                style={{ height: '50px', filter: 'brightness(0)', opacity: 0.9 }}
+                style={{ height: '52px', filter: 'brightness(0)', opacity: 0.9 }}
               />
             </div>
           </div>
