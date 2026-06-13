@@ -12,20 +12,23 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 
 const WELCOME_STORAGE_KEY = 'dondocs-welcome-shown';
-// Tracks the version of the WELCOME MODAL CONTENT — not the app version.
+// Tracks the version of the WELCOME MODAL CONTENT, not the app version.
 // Bump this when the welcome modal's copy/design changes meaningfully so
 // returning users see the updated content once. This is intentionally
 // separate from APP_VERSION in @/lib/version (which tracks code releases).
 const WELCOME_CONTENT_VERSION = '3.0';
 
-// The Marine Coders seal (angle brackets around the Eagle, Globe, and
-// Anchor). Same asset the app uses as its background watermark, so the
-// welcome and the app behind it carry one mark. White artwork on a
-// transparent ground — `brightness(0)` renders it as black ink on the
-// cream "paper" of the letter.
+// Wide Marine Coders lockup ("MARINE [EGA] CODERS") used as the letter's
+// masthead, and the < EGA > seal used as the chop beside the signature.
+// Both are light artwork on a transparent ground, so `brightness(0)`
+// renders them as black ink on the cream "paper": the engraved,
+// single-colour look of a real letterhead. The seal is the same mark the
+// app shows as its background watermark, so the welcome and the app
+// behind it carry one emblem.
+const BANNER_SRC = `${import.meta.env.BASE_URL}attachments/marine-coders-banner.webp`;
 const SEAL_SRC = `${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`;
 
-// Cream paper + dark ink — a self-contained skeuomorphic surface, so its
+// Cream paper + dark ink, a self-contained skeuomorphic surface, so its
 // colors live here rather than in the app theme tokens.
 const PAPER_BG = '#faf8f2';
 const INK = '#1d2128';
@@ -90,70 +93,58 @@ export function WelcomeModal() {
         {/* The welcome message, drafted as a naval letter on cream paper. */}
         <div className="flex-1 overflow-y-auto min-h-0 p-4 pb-0">
           <div
-            className="relative rounded-[3px] px-6 py-6 sm:px-8 shadow-[0_12px_34px_rgba(0,0,0,0.55)]"
+            className="rounded-[3px] px-6 py-6 sm:px-8 shadow-[0_12px_34px_rgba(0,0,0,0.55)]"
             style={{ backgroundColor: PAPER_BG, color: INK, fontFamily: SERIF }}
           >
-            {/* Embossed seal, pressed faintly into the page behind the text. */}
-            <img
-              src={SEAL_SRC}
-              alt=""
-              aria-hidden="true"
-              className="pointer-events-none select-none absolute"
-              style={{ right: '18px', bottom: '14px', width: '132px', opacity: 0.05, filter: 'brightness(0)', zIndex: 0 }}
-            />
+            {/* Letterhead: the wide Marine Coders lockup, engraved in black. */}
+            <div className="mb-3">
+              <img
+                src={BANNER_SRC}
+                alt="Marine Coders"
+                className="mx-auto"
+                style={{ height: '46px', filter: 'brightness(0)' }}
+              />
+              <div style={{ borderTop: `1px solid ${INK}`, marginTop: '12px' }} />
+            </div>
 
-            <div className="relative" style={{ zIndex: 1 }}>
-              {/* Letterhead */}
-              <div className="text-center mb-3.5">
-                <img
-                  src={SEAL_SRC}
-                  alt="Marine Coders"
-                  className="mx-auto mb-2"
-                  style={{ height: '42px', filter: 'brightness(0)' }}
-                />
-                <div style={{ fontSize: '11px', letterSpacing: '0.18em', color: INK }}>
-                  MARINE CODERS
-                </div>
-                <div style={{ borderTop: `1.5px solid ${INK}`, marginTop: '8px' }} />
-                <div style={{ borderTop: `0.5px solid ${INK}`, marginTop: '2px' }} />
+            <p className="text-right" style={{ fontSize: '12px', color: INK_MUTED, margin: '0 0 14px' }}>
+              {today}
+            </p>
+
+            <div style={{ fontSize: '13px', lineHeight: 1.5 }}>
+              <div className="flex">
+                <span className="font-bold" style={{ width: '46px', flexShrink: 0 }}>From:</span>
+                <span>Marine Coders</span>
+              </div>
+              <div className="flex">
+                <span className="font-bold" style={{ width: '46px', flexShrink: 0 }}>To:</span>
+                <span>New User</span>
+              </div>
+              <div className="flex" style={{ marginBottom: '12px' }}>
+                <span className="font-bold" style={{ width: '46px', flexShrink: 0 }}>Subj:</span>
+                <span className="font-bold" style={{ letterSpacing: '0.02em' }}>WELCOME ABOARD DONDOCS</span>
               </div>
 
-              <p className="text-right" style={{ fontSize: '12px', color: INK_MUTED, margin: '0 0 14px' }}>
-                {today}
-              </p>
-
-              <div style={{ fontSize: '13px', lineHeight: 1.5 }}>
-                <div className="flex">
-                  <span className="font-bold" style={{ width: '46px', flexShrink: 0 }}>From:</span>
-                  <span>Marine Coders</span>
-                </div>
-                <div className="flex">
-                  <span className="font-bold" style={{ width: '46px', flexShrink: 0 }}>To:</span>
-                  <span>New User</span>
-                </div>
-                <div className="flex" style={{ marginBottom: '12px' }}>
-                  <span className="font-bold" style={{ width: '46px', flexShrink: 0 }}>Subj:</span>
-                  <span className="font-bold" style={{ letterSpacing: '0.02em' }}>WELCOME ABOARD DONDOCS</span>
-                </div>
-
-                <div className="flex" style={{ marginBottom: '10px' }}>
-                  <span style={{ width: '20px', flexShrink: 0 }}>1.</span>
-                  <span>
-                    DonDocs drafts SECNAV M-5216.5&ndash;compliant naval correspondence &mdash; twenty
-                    formats, properly typeset &mdash; entirely in your browser. No servers, no uploads;
-                    nothing leaves your device.
-                  </span>
-                </div>
-                <div className="flex">
-                  <span style={{ width: '20px', flexShrink: 0 }}>2.</span>
-                  <span>
-                    Begin your first letter below. <em>Semper Fidelis.</em>
-                  </span>
-                </div>
+              <div className="flex" style={{ marginBottom: '10px' }}>
+                <span style={{ width: '20px', flexShrink: 0 }}>1.</span>
+                <span>
+                  DonDocs drafts Department of the Navy correspondence and forms to SECNAV M-5216.5
+                  standard: naval letters, endorsements, memoranda, and NAVMC forms, all properly
+                  typeset. Everything runs in your browser. No servers, no uploads, and nothing leaves
+                  your device.
+                </span>
               </div>
+              <div className="flex">
+                <span style={{ width: '20px', flexShrink: 0 }}>2.</span>
+                <span>
+                  Make ready and begin. <em>Semper Fidelis.</em>
+                </span>
+              </div>
+            </div>
 
-              {/* Signature block */}
-              <div className="text-right" style={{ marginTop: '20px' }}>
+            {/* Signature block: signed, with the < EGA > seal as the chop. */}
+            <div className="flex items-center justify-end gap-3.5" style={{ marginTop: '22px' }}>
+              <div className="text-right">
                 <div
                   style={{
                     fontFamily: SERIF,
@@ -169,6 +160,12 @@ export function WelcomeModal() {
                   MARINE CODERS &middot; marinecoders.org
                 </div>
               </div>
+              <img
+                src={SEAL_SRC}
+                alt=""
+                aria-hidden="true"
+                style={{ height: '50px', filter: 'brightness(0)', opacity: 0.9 }}
+              />
             </div>
           </div>
         </div>
@@ -186,7 +183,7 @@ export function WelcomeModal() {
               Don't show this again
             </Label>
           </div>
-          <Button onClick={handleClose}>Start a letter</Button>
+          <Button onClick={handleClose}>Get started</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
