@@ -26,9 +26,19 @@ export const TOUR_STEPS: TourStep[] = [
     body: 'Each document type is set up to match its governing instruction, so the layout is correct from the first keystroke.',
   },
   {
+    target: '[data-tour="templates"]',
+    title: 'Or start from a template',
+    body: 'Load a ready-made document for common formats instead of starting from a blank page.',
+  },
+  {
     target: '[data-tour="download"]',
     title: 'Export when ready',
     body: 'Generate a print-ready PDF or a Word file. Everything compiles in your browser; nothing leaves your device.',
+  },
+  {
+    target: '[data-tour="save"]',
+    title: 'Save your work',
+    body: 'Your draft autosaves to this browser. Save keeps a named copy you can reload later or share.',
   },
   {
     target: '[data-tour="appearance"]',

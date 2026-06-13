@@ -632,7 +632,7 @@ export function Header({
           {/* Save/Load dropdown - always visible but compact on smaller screens */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-8 px-2 lg:px-3">
+              <Button data-tour="save" variant="outline" size="sm" className="h-8 px-2 lg:px-3">
                 <Save className="h-4 w-4 lg:mr-2" />
                 <span className="hidden lg:inline">Save</span>
               </Button>

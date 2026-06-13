@@ -135,6 +135,7 @@ export function DocumentTypeSelector() {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
+                      data-tour="templates"
                       variant="ghost"
                       size="sm"
                       // Tinting the bg with --primary (USMC red at 10% opacity)
