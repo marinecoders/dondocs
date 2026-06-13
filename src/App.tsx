@@ -1364,7 +1364,7 @@ ${texFiles['body.tex'] || '% No body content'}
         <img
           src={marineCodersLogo}
           alt=""
-          className="w-full max-w-[90vw] sm:max-w-[1200px] opacity-[0.08] sm:opacity-[0.07] dark:opacity-[0.12] dark:sm:opacity-[0.10] invert dark:invert-0"
+          className="w-full max-w-[90vw] sm:max-w-[1200px] opacity-[0.04] sm:opacity-[0.035] dark:opacity-[0.12] dark:sm:opacity-[0.10] invert dark:invert-0"
           aria-hidden="true"
         />
       </div>

@@ -3,52 +3,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@layer base {
-  :root {
-    --background: 220 14% 10%;
-    --foreground: 210 40% 98%;
-    --card: 220 10% 14%;
-    --card-foreground: 210 40% 98%;
-    --popover: 220 10% 14%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 100% 50%;
-    --primary-foreground: 220 14% 10%;
-    --secondary: 220 10% 16%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 220 10% 16%;
-    --muted-foreground: 215 15% 75%;
-    --accent: 220 10% 16%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 220 10% 20%;
-    --input: 220 10% 20%;
-    --ring: 210 100% 50%;
-    --radius: 0.5rem;
-  }
-
-  .light {
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 210 100% 50%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 25% 35%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222 47% 11%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 210 100% 50%;
-  }
-}
+/* Theme tokens live in the unlayered `:root` (light) and `.dark` blocks
+   further down, in oklch. The legacy HSL `:root`/`.light` token block that
+   used to sit here was dead: the unlayered rules always win, and the app
+   only ever toggles the `dark` class, never `light`. */
 
 @layer base {
   * {
