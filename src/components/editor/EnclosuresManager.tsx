@@ -389,6 +389,7 @@ export function EnclosuresManager() {
 
               <div className="space-y-2 mt-2">
                 <Button
+                  data-tour="enclosure-add"
                   variant="outline"
                   onClick={() => addEnclosure('')}
                   className="w-full"
@@ -399,6 +400,7 @@ export function EnclosuresManager() {
 
                 {/* Drop zone for PDFs */}
                 <label
+                  data-tour="enclosure-attach"
                   className={`flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
                     isDraggingOver
                       ? 'border-primary bg-primary/10'

@@ -79,6 +79,10 @@ export function TourOverlay() {
       if (scrolled !== el) {
         scrolled = el;
         el.scrollIntoView({ block: 'center', inline: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+      } else if (r.top < 8 || r.bottom > window.innerHeight - 8) {
+        // The target drifted out of view — e.g. a section finished expanding
+        // and pushed it down. Re-center instantly so the spotlight follows.
+        el.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'auto' });
       }
       setRect((prev) =>
         prev &&

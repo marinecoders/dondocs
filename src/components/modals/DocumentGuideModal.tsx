@@ -763,6 +763,20 @@ interface PowerFeature {
 
 const openBatch = () => useUIStore.getState().setBatchModalOpen(true);
 const closeBatch = () => useUIStore.getState().setBatchModalOpen(false);
+const openProfileModal = () => useUIStore.getState().setProfileModalOpen(true);
+const closeProfileModal = () => useUIStore.getState().setProfileModalOpen(false);
+
+// Expand an inline accordion section (Enclosures, etc.) so a guided step can
+// spotlight a control inside it. Clicks the section trigger only when it is
+// currently collapsed, so re-running the step on Back never toggles it shut.
+const expandSection = (tourKey: string) => {
+  const item = document
+    .querySelector(`[data-tour="${tourKey}"]`)
+    ?.querySelector('[data-slot="accordion-item"]');
+  if (item?.getAttribute('data-state') === 'closed') {
+    (item.querySelector('[data-slot="accordion-trigger"]') as HTMLElement | null)?.click();
+  }
+};
 
 const POWER_FEATURES: PowerFeature[] = [
   {
@@ -816,9 +830,34 @@ const POWER_FEATURES: PowerFeature[] = [
     ],
     tour: [
       {
-        target: '[data-tour="profiles"]',
-        title: 'Profiles live here',
-        body: 'Create, switch, and edit saved letterhead profiles from this selector.',
+        target: '[data-tour="profile-create"]',
+        title: 'Create a profile',
+        body: 'Profiles save your letterhead and sender details so you never retype them. Start one with the + button.',
+        action: closeProfileModal,
+      },
+      {
+        target: '[data-tour="profile-name"]',
+        title: 'Name it',
+        body: 'Give the profile a name you will recognize — your command, say.',
+        action: openProfileModal,
+      },
+      {
+        target: '[data-tour="profile-letterhead"]',
+        title: 'Fill the letterhead once',
+        body: 'Your unit lines, address, and SSIC. Browse Units autofills these from the directory.',
+        action: openProfileModal,
+      },
+      {
+        target: '[data-tour="profile-signature"]',
+        title: 'Add your signature block',
+        body: 'Name, rank or title, and position — they carry into every document you draft with this profile.',
+        action: openProfileModal,
+      },
+      {
+        target: '[data-tour="profile-save"]',
+        title: 'Save and reuse',
+        body: 'Create the profile, then switch to it anytime from the selector. The pencil edits it later.',
+        action: openProfileModal,
       },
     ],
   },
@@ -853,8 +892,20 @@ const POWER_FEATURES: PowerFeature[] = [
     tour: [
       {
         target: '[data-tour="enclosures"]',
-        title: 'Enclosures live here',
-        body: 'Expand this section to add enclosures and attach PDFs.',
+        title: 'Enclosures',
+        body: 'Where you list enclosures on the letter and attach PDF files.',
+      },
+      {
+        target: '[data-tour="enclosure-add"]',
+        title: 'Add an enclosure',
+        body: 'Click Add Enclosure and give it a title — it is listed on the letter automatically.',
+        action: () => expandSection('enclosures'),
+      },
+      {
+        target: '[data-tour="enclosure-attach"]',
+        title: 'Attach a PDF',
+        body: 'Optionally attach a PDF (drag and drop works). It merges into the final export, after the letter.',
+        action: () => expandSection('enclosures'),
       },
     ],
   },

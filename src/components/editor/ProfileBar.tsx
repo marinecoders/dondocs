@@ -138,6 +138,7 @@ export function ProfileBar() {
       </Select>
 
       <Button
+        data-tour="profile-create"
         variant="ghost"
         size="icon"
         className="h-7 w-7"
