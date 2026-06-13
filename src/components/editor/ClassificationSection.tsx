@@ -223,7 +223,7 @@ export function ClassificationSection() {
             </div>
 
             {/* Classification Level */}
-            <div className="space-y-2">
+            <div data-tour="classification-level" className="space-y-2">
               <Label htmlFor="classLevel">Classification Level</Label>
               <Select
                 value={classLevel}

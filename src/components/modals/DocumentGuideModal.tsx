@@ -924,8 +924,20 @@ const POWER_FEATURES: PowerFeature[] = [
     tour: [
       {
         target: '[data-tour="signature"]',
-        title: 'Signature lives here',
-        body: 'Expand this section to fill the signature block or add a signature image.',
+        title: 'Signature block',
+        body: 'How your letter is signed — typed name, an image, or a digital field.',
+      },
+      {
+        target: '[data-tour="signature-name"]',
+        title: 'Who is signing',
+        body: 'Fill in the name, then rank or title and position below — they print under the signature line.',
+        action: () => expandSection('signature'),
+      },
+      {
+        target: '[data-tour="signature-style"]',
+        title: 'Pick a signature style',
+        body: 'Typed only, Upload image (a scanned signature), or Digital field — an empty field for CAC/PKI signing in Adobe after you download.',
+        action: () => expandSection('signature'),
       },
     ],
   },
@@ -975,8 +987,14 @@ const POWER_FEATURES: PowerFeature[] = [
     tour: [
       {
         target: '[data-tour="classification"]',
-        title: 'Classification lives here',
-        body: 'Expand this section to set the classification and portion marks.',
+        title: 'Classification',
+        body: 'Set the document marking and the banner that appears at the top.',
+      },
+      {
+        target: '[data-tour="classification-level"]',
+        title: 'Set the level',
+        body: 'Choose the classification. The right marking fields (CUI or classified) appear below, and the banner is derived from the highest marking. Per-paragraph portion marks live in the body editor.',
+        action: () => expandSection('classification'),
       },
     ],
   },
