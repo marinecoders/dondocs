@@ -290,7 +290,7 @@ export function EnclosuresManager() {
   }, [handleUploadNewEnclosure]);
 
   return (
-    <Accordion type="single" collapsible>
+    <Accordion data-tour="enclosures" type="single" collapsible>
       <AccordionItem value="enclosures">
         <AccordionTrigger>
           <span className="flex items-center gap-2">

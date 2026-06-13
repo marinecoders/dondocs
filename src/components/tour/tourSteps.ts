@@ -12,6 +12,13 @@ export interface TourStep {
   target?: string;
   title: string;
   body: string;
+  /**
+   * Optional side-effect run when this step becomes active — e.g. open the
+   * modal or expand the section the target lives in, so a guided walkthrough
+   * can spotlight a control that is not yet on screen. Must be idempotent: it
+   * re-runs when the user navigates back to the step.
+   */
+  action?: () => void;
 }
 
 export const TOUR_STEPS: TourStep[] = [

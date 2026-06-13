@@ -759,6 +759,7 @@ export function Header({
 
           {/* Batch Generation button - hidden below xl */}
           <Button
+            data-tour="batch"
             variant="outline"
             size="sm"
             className="h-8 px-2 xl:px-3 hidden xl:flex"

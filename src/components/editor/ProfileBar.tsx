@@ -122,7 +122,7 @@ export function ProfileBar() {
   };
 
   return (
-    <div className="flex items-center gap-1.5 px-3 py-1.5 border-b border-border bg-secondary/20">
+    <div data-tour="profiles" className="flex items-center gap-1.5 px-3 py-1.5 border-b border-border bg-secondary/20">
       <Select value={selectedProfile || '__none__'} onValueChange={handleProfileChange}>
         <SelectTrigger className="w-40 h-7 text-xs">
           <SelectValue placeholder="Select Profile" />

@@ -179,7 +179,7 @@ export function ClassificationSection() {
   const isCustom = classLevel === 'custom';
 
   return (
-    <Accordion type="single" collapsible>
+    <Accordion data-tour="classification" type="single" collapsible>
       <AccordionItem value="classification">
         <AccordionTrigger>
           <div className="flex items-center gap-2">

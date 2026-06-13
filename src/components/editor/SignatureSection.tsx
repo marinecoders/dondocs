@@ -174,7 +174,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
 
   return (
     <>
-    <Accordion type="single" collapsible>
+    <Accordion data-tour="signature" type="single" collapsible>
       <AccordionItem value="signature">
         <AccordionTrigger>
           <span className="flex items-center gap-2">

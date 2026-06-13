@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { HelpCircle, ChevronDown, ChevronRight, FileText, CheckCircle2, Lightbulb, BookOpen, Sparkles, ArrowRight, RotateCcw, Search, Eye, Check, Zap, Layers, Users, FolderOpen, Paperclip, PenLine, Link2, Shield, type LucideIcon } from 'lucide-react';
+import { HelpCircle, ChevronDown, ChevronRight, FileText, CheckCircle2, Lightbulb, BookOpen, Sparkles, ArrowRight, RotateCcw, Search, Eye, Check, Zap, Layers, Users, FolderOpen, Paperclip, PenLine, Link2, Shield, MapPin, type LucideIcon } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -11,6 +11,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
+import { useTourStore } from '@/stores/tourStore';
+import type { TourStep } from '@/components/tour/tourSteps';
 import { DOCUMENT_TYPE_GUIDES, GUIDE_CATEGORIES, GUIDE_GROUPS, type DocumentTypeGuide } from '@/data/documentGuide';
 import { EXAMPLE_DOCUMENTS, EXAMPLE_CATEGORIES, type ExampleDocument } from '@/data/exampleDocuments';
 import { DOC_TYPE_LABELS, type DocumentData } from '@/types/document';
@@ -746,49 +748,171 @@ function ExamplesTab({ onClose }: { onClose: () => void }) {
 }
 
 // The power features that are easy to miss. Shown in the guide's "Features"
-// tab so people discover what DonDocs can do beyond drafting a single letter.
-const POWER_FEATURES: { icon: LucideIcon; title: string; where: string; body: string }[] = [
+// tab: a one-line summary, quick numbered steps for people who learn fast, and
+// a "Show me" spotlight that points at the real control in the live UI.
+interface PowerFeature {
+  icon: LucideIcon;
+  title: string;
+  where: string;
+  body: string;
+  steps: string[];
+  /** Guided walkthrough launched by "Show me" — one or more spotlight steps
+   *  that can open the feature's surface and point at each control in turn. */
+  tour: TourStep[];
+}
+
+const openBatch = () => useUIStore.getState().setBatchModalOpen(true);
+const closeBatch = () => useUIStore.getState().setBatchModalOpen(false);
+
+const POWER_FEATURES: PowerFeature[] = [
   {
     icon: Layers,
     title: 'Batch generation',
     where: 'Toolbar → Batch',
-    body: 'Generate many documents at once. Put {{NAME}} (or any label) in a field, paste a list of values, and DonDocs produces one finished document per row. Ideal for award citations, promotion letters, or anything repeated across people.',
+    body: 'Produce one finished document per row from a single template — award citations, promotion letters, anything repeated across people.',
+    steps: [
+      'Open Batch from the toolbar.',
+      'Drop a {{NAME}} placeholder (any label) into a field.',
+      'Paste tab-separated rows straight from a spreadsheet.',
+      'Map columns to placeholders, then review each row.',
+      'Generate the set — one PDF per row.',
+    ],
+    tour: [
+      {
+        target: '[data-tour="batch"]',
+        title: 'Open Batch',
+        body: 'Batch lives on the toolbar. It turns one template into many finished documents.',
+        action: closeBatch,
+      },
+      {
+        target: '[data-tour="batch-addvar"]',
+        title: 'Add a variable',
+        body: 'Pick a variable and a field, then Add. That drops a {{placeholder}} into your document — the column DonDocs fills per row.',
+        action: openBatch,
+      },
+      {
+        target: '[data-tour="batch-commonvars"]',
+        title: 'Or copy a common one',
+        body: 'Not sure what to use? These common variables copy with one click — paste one into any field.',
+        action: openBatch,
+      },
+      {
+        target: '[data-tour="batch-generate"]',
+        title: 'Generate the set',
+        body: 'Paste your rows from a spreadsheet (each row becomes a document), then Generate makes one PDF per row.',
+        action: openBatch,
+      },
+    ],
   },
   {
     icon: Users,
     title: 'Profiles',
     where: 'Top-left selector',
-    body: 'Save your unit letterhead and sender details as a reusable profile so you never retype them. Switch profiles to draft for a different command.',
+    body: 'Save your unit letterhead and sender details once, then reuse or switch between commands without retyping.',
+    steps: [
+      'Fill in your letterhead and sender details once.',
+      'Click the + by the profile selector to save them as a profile.',
+      'Switch profiles anytime from the dropdown; edit with the pencil.',
+    ],
+    tour: [
+      {
+        target: '[data-tour="profiles"]',
+        title: 'Profiles live here',
+        body: 'Create, switch, and edit saved letterhead profiles from this selector.',
+      },
+    ],
   },
   {
     icon: FolderOpen,
     title: 'Templates',
     where: 'Next to document type',
     body: 'Start from a ready-made document for common formats instead of a blank page.',
+    steps: [
+      'Pick your document type.',
+      'Click Templates, then search or filter the list.',
+      'Select one and load it — your profile letterhead stays on top.',
+    ],
+    tour: [
+      {
+        target: '[data-tour="templates"]',
+        title: 'Templates live here',
+        body: 'Pick a document type, then open Templates to start from a ready-made document.',
+      },
+    ],
   },
   {
     icon: Paperclip,
     title: 'Enclosures',
     where: 'Enclosures section',
     body: 'Attach PDF enclosures. They are listed on the letter and merged into the final PDF automatically.',
+    steps: [
+      'Open the Enclosures section and click Add Enclosure.',
+      'Title it, and optionally attach a PDF (drag and drop works).',
+      'Attached PDFs merge into the export, in order, after the letter.',
+    ],
+    tour: [
+      {
+        target: '[data-tour="enclosures"]',
+        title: 'Enclosures live here',
+        body: 'Expand this section to add enclosures and attach PDFs.',
+      },
+    ],
   },
   {
     icon: PenLine,
     title: 'Signature',
     where: 'Signature section',
     body: 'Add a signature block, an optional signature image, or a digital signature field on the exported PDF.',
+    steps: [
+      'Open Signature Block and fill name, rank/title, and office code.',
+      'Choose a style: Typed only, Upload image, or Digital field.',
+      'Optionally check "By direction" and set the authority.',
+    ],
+    tour: [
+      {
+        target: '[data-tour="signature"]',
+        title: 'Signature lives here',
+        body: 'Expand this section to fill the signature block or add a signature image.',
+      },
+    ],
   },
   {
     icon: Link2,
     title: 'Encrypted share link',
     where: 'Save → Create share link',
     body: 'Send a document as a password-protected link. Nothing is stored on a server; the recipient needs both the link and the password you set.',
+    steps: [
+      'Open Save → Create share link and set a password.',
+      'Generate the link — it copies to your clipboard.',
+      'Send the link and password separately to the recipient.',
+      'They open it with Save → Open from share link.',
+    ],
+    tour: [
+      {
+        target: '[data-tour="save"]',
+        title: 'Share links live here',
+        body: 'Open this menu, then Create share link, to send a password-protected copy.',
+      },
+    ],
   },
   {
     icon: Shield,
     title: 'Classification & portion marks',
     where: 'Classification section',
     body: 'Set the document classification and per-paragraph portion marks. The banner is derived from the highest marking in the document.',
+    steps: [
+      'Open the Classification section and set the classification level.',
+      'Fill the marking fields that appear (CUI or classified).',
+      'Set per-paragraph portion marks in the body editor.',
+      'The banner is derived from the highest marking.',
+    ],
+    tour: [
+      {
+        target: '[data-tour="classification"]',
+        title: 'Classification lives here',
+        body: 'Expand this section to set the classification and portion marks.',
+      },
+    ],
   },
 ];
 
@@ -800,6 +924,16 @@ export function DocumentGuideModal() {
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [expandedGuide, setExpandedGuide] = useState<string | null>(null);
+  const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
+
+  // "Show me": close the guide, then run the feature's guided walkthrough once
+  // the dialog has finished animating out so the page is interactive again.
+  const handleShowMe = (tour: TourStep[]) => {
+    setDocumentGuideOpen(false);
+    window.setTimeout(() => {
+      useTourStore.getState().startSteps(tour);
+    }, 300);
+  };
 
   // Get categories for selected group
   const groupCategories = useMemo(() => {
@@ -915,22 +1049,57 @@ export function DocumentGuideModal() {
 
         {activeTab === 'features' && (
           <div className="flex-1 min-h-0 overflow-y-auto">
-            <div className="p-6 space-y-3">
+            <div className="p-6 space-y-2.5">
               <p className="text-sm text-muted-foreground">
-                DonDocs does more than draft a single letter. Here is what each feature does and where to find it.
+                DonDocs does more than draft a single letter. Expand a feature for the quick steps, or pick “Show me” to be taken straight to it.
               </p>
               {POWER_FEATURES.map((f) => {
                 const Icon = f.icon;
+                const isOpen = expandedFeature === f.title;
                 return (
-                  <div key={f.title} className="flex items-start gap-3 rounded-lg border bg-card/50 p-3">
-                    <Icon className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <h4 className="font-medium text-sm">{f.title}</h4>
-                        <span className="text-[11px] text-muted-foreground bg-muted rounded px-1.5 py-0.5">{f.where}</span>
+                  <div key={f.title} className="rounded-lg border bg-card/50 overflow-hidden">
+                    <button
+                      type="button"
+                      onClick={() => setExpandedFeature(isOpen ? null : f.title)}
+                      aria-expanded={isOpen}
+                      className="w-full flex items-start gap-3 p-3 text-left hover:bg-muted/40 transition-colors"
+                    >
+                      <Icon className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <h4 className="font-medium text-sm">{f.title}</h4>
+                          <span className="text-[11px] text-muted-foreground bg-muted rounded px-1.5 py-0.5">{f.where}</span>
+                        </div>
+                        <p className="text-sm text-muted-foreground mt-0.5">{f.body}</p>
                       </div>
-                      <p className="text-sm text-muted-foreground mt-0.5">{f.body}</p>
-                    </div>
+                      {isOpen ? (
+                        <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0 mt-1" />
+                      ) : (
+                        <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0 mt-1" />
+                      )}
+                    </button>
+                    {isOpen && (
+                      <div className="px-3 pb-3 pl-11">
+                        <ol className="space-y-2">
+                          {f.steps.map((step, i) => (
+                            <li key={i} className="flex gap-2.5 text-sm text-muted-foreground">
+                              <span className="flex-none w-5 h-5 rounded-full border text-[11px] flex items-center justify-center text-foreground mt-px">
+                                {i + 1}
+                              </span>
+                              <span className="leading-snug">{step}</span>
+                            </li>
+                          ))}
+                        </ol>
+                        <button
+                          type="button"
+                          onClick={() => handleShowMe(f.tour)}
+                          className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
+                        >
+                          <MapPin className="h-3.5 w-3.5" />
+                          {f.tour.length > 1 ? 'Walk me through it' : 'Show me where'}
+                        </button>
+                      </div>
+                    )}
                   </div>
                 );
               })}
