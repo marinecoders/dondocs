@@ -17,10 +17,26 @@ interface TourState {
   end: () => void;
 }
 
+// A closing Radix dialog (e.g. the welcome modal) can leave
+// `pointer-events: none` stuck on <body>, which would make the tour — and
+// the whole app — unclickable. Clear it whenever the tour opens or closes.
+function clearBodyPointerLock(): void {
+  try {
+    if (document.body.style.pointerEvents === 'none') {
+      document.body.style.pointerEvents = '';
+    }
+  } catch {
+    /* no DOM */
+  }
+}
+
 export const useTourStore = create<TourState>((set, get) => ({
   active: false,
   stepIndex: 0,
-  start: () => set({ active: true, stepIndex: 0 }),
+  start: () => {
+    clearBodyPointerLock();
+    set({ active: true, stepIndex: 0 });
+  },
   next: () => {
     const { stepIndex } = get();
     if (stepIndex >= TOUR_STEPS.length - 1) {
@@ -38,6 +54,7 @@ export const useTourStore = create<TourState>((set, get) => ({
     } catch {
       /* storage unavailable — nothing to persist */
     }
+    clearBodyPointerLock();
     set({ active: false, stepIndex: 0 });
   },
 }));

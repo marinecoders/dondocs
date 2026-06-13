@@ -84,6 +84,11 @@ export function TourOverlay() {
   // Keyboard controls + initial focus.
   useEffect(() => {
     if (!active) return;
+    // The welcome dialog can leave pointer-events:none stuck on <body>; clear
+    // it here (after render, so it wins over Radix's layout effects).
+    if (document.body.style.pointerEvents === 'none') {
+      document.body.style.pointerEvents = '';
+    }
     cardRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') end();
@@ -114,8 +119,9 @@ export function TourOverlay() {
 
   return (
     <div role="dialog" aria-modal="true" aria-label="Product tour">
-      {/* Click-catcher: blocks interaction with the page beneath the tour. */}
-      <div className="fixed inset-0 z-[60]" />
+      {/* Click-catcher: blocks interaction with the page beneath the tour.
+          Explicit pointer-events so it works even if <body> is locked. */}
+      <div className="fixed inset-0 z-[60] pointer-events-auto" />
 
       {/* The dim + spotlight. With a target, a transparent box punches a hole
           via its huge spread shadow; without one, a plain full-screen dim. */}
@@ -138,7 +144,7 @@ export function TourOverlay() {
       <div
         ref={cardRef}
         tabIndex={-1}
-        className="fixed z-[62] rounded-xl border bg-popover text-popover-foreground p-4 shadow-elevated outline-none"
+        className="fixed z-[62] pointer-events-auto rounded-xl border bg-popover text-popover-foreground p-4 shadow-elevated outline-none"
         style={cardStyle}
       >
         <div className="text-xs text-muted-foreground mb-1">
