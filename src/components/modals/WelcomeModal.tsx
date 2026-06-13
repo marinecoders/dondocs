@@ -11,9 +11,9 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 // Signature face for the letter's "Marine Coders" sign-off. Self-hosted via
-// @fontsource (bundled, served same-origin), so it stays air-gap safe — no
-// web-font CDN. Dancing Script is a flowing script that still reads cleanly.
-import '@fontsource/dancing-script/600.css';
+// @fontsource (bundled, served same-origin), so it stays air-gap safe: no
+// web-font CDN. Damion is a bold connected script that reads as signed.
+import '@fontsource/damion/400.css';
 
 const WELCOME_STORAGE_KEY = 'dondocs-welcome-shown';
 // Tracks the version of the WELCOME MODAL CONTENT, not the app version.
@@ -38,7 +38,7 @@ const PAPER_BG = '#faf8f2';
 const INK = '#1d2128';
 const INK_MUTED = '#3a3f48';
 const SERIF = 'Georgia, "Times New Roman", serif';
-const SIG_FONT = "'Dancing Script', cursive";
+const SIG_FONT = "'Damion', cursive";
 
 export function WelcomeModal() {
   const [open, setOpen] = useState(false);
