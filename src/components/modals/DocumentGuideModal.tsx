@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useTourStore } from '@/stores/tourStore';
+import { useOnboardingStore } from '@/stores/onboardingStore';
 import type { TourStep } from '@/components/tour/tourSteps';
 import { DOCUMENT_TYPE_GUIDES, GUIDE_CATEGORIES, GUIDE_GROUPS, type DocumentTypeGuide } from '@/data/documentGuide';
 import { EXAMPLE_DOCUMENTS, EXAMPLE_CATEGORIES, type ExampleDocument } from '@/data/exampleDocuments';
@@ -751,6 +752,8 @@ function ExamplesTab({ onClose }: { onClose: () => void }) {
 // tab: a one-line summary, quick numbered steps for people who learn fast, and
 // a guided walkthrough that points at the real controls in the live UI.
 interface PowerFeature {
+  /** Stable onboarding key — marks this feature learned once its walkthrough finishes. */
+  key: string;
   icon: LucideIcon;
   title: string;
   where: string;
@@ -784,6 +787,7 @@ const expandSection = (tourKey: string) => {
 
 const POWER_FEATURES: PowerFeature[] = [
   {
+    key: 'batch',
     icon: Layers,
     title: 'Batch generation',
     where: 'Toolbar → Batch',
@@ -823,6 +827,7 @@ const POWER_FEATURES: PowerFeature[] = [
     ],
   },
   {
+    key: 'profiles',
     icon: Users,
     title: 'Profiles',
     where: 'Top-left selector',
@@ -866,6 +871,7 @@ const POWER_FEATURES: PowerFeature[] = [
     ],
   },
   {
+    key: 'templates',
     icon: FolderOpen,
     title: 'Templates',
     where: 'Next to document type',
@@ -897,6 +903,7 @@ const POWER_FEATURES: PowerFeature[] = [
     ],
   },
   {
+    key: 'enclosures',
     icon: Paperclip,
     title: 'Enclosures',
     where: 'Enclosures section',
@@ -927,6 +934,7 @@ const POWER_FEATURES: PowerFeature[] = [
     ],
   },
   {
+    key: 'signature',
     icon: PenLine,
     title: 'Signature',
     where: 'Signature section',
@@ -957,6 +965,7 @@ const POWER_FEATURES: PowerFeature[] = [
     ],
   },
   {
+    key: 'share',
     icon: Link2,
     title: 'Encrypted share link',
     where: 'Save → Create share link',
@@ -989,6 +998,7 @@ const POWER_FEATURES: PowerFeature[] = [
     ],
   },
   {
+    key: 'classification',
     icon: Shield,
     title: 'Classification & portion marks',
     where: 'Classification section',
@@ -1024,13 +1034,16 @@ export function DocumentGuideModal() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [expandedGuide, setExpandedGuide] = useState<string | null>(null);
   const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
+  const completed = useOnboardingStore((s) => s.completed);
+  const learnedCount = POWER_FEATURES.filter((f) => completed[f.key]).length;
 
   // "Show me": close the guide, then run the feature's guided walkthrough once
   // the dialog has finished animating out so the page is interactive again.
-  const handleShowMe = (tour: TourStep[]) => {
+  // The key marks the feature learned when its walkthrough reaches the end.
+  const handleShowMe = (tour: TourStep[], key: string) => {
     setDocumentGuideOpen(false);
     window.setTimeout(() => {
-      useTourStore.getState().startSteps(tour);
+      useTourStore.getState().startSteps(tour, key);
     }, 300);
   };
 
@@ -1152,17 +1165,47 @@ export function DocumentGuideModal() {
               <p className="text-sm text-muted-foreground">
                 DonDocs does more than draft a single letter. Expand a feature for the quick steps, or pick “Walk me through it” for a guided tour of the real controls.
               </p>
+              <div className="rounded-lg border bg-card/50 px-3.5 py-3">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium">
+                    {learnedCount} of {POWER_FEATURES.length} features learned
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {learnedCount === POWER_FEATURES.length ? 'All caught up' : 'Keep going'}
+                  </span>
+                </div>
+                <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+                  <div
+                    className="h-full bg-green-500 transition-all duration-300"
+                    style={{ width: `${(learnedCount / POWER_FEATURES.length) * 100}%` }}
+                  />
+                </div>
+              </div>
               {POWER_FEATURES.map((f) => {
                 const Icon = f.icon;
                 const isOpen = expandedFeature === f.title;
+                const isLearned = !!completed[f.key];
                 return (
                   <div key={f.title} className="rounded-lg border bg-card/50 overflow-hidden">
                     <button
                       type="button"
                       onClick={() => setExpandedFeature(isOpen ? null : f.title)}
                       aria-expanded={isOpen}
-                      className="w-full flex items-start gap-3 p-3 text-left hover:bg-muted/40 transition-colors"
+                      className="w-full flex items-start gap-2.5 p-3 text-left hover:bg-muted/40 transition-colors"
                     >
+                      {isLearned ? (
+                        <span
+                          className="flex-none mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-green-500/15 text-green-600 dark:text-green-400"
+                          aria-label="Learned"
+                        >
+                          <Check className="h-3 w-3" />
+                        </span>
+                      ) : (
+                        <span
+                          className="flex-none mt-0.5 h-5 w-5 rounded-full border-2 border-muted-foreground/25"
+                          aria-hidden="true"
+                        />
+                      )}
                       <Icon className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2 flex-wrap">
@@ -1191,7 +1234,7 @@ export function DocumentGuideModal() {
                         </ol>
                         <button
                           type="button"
-                          onClick={() => handleShowMe(f.tour)}
+                          onClick={() => handleShowMe(f.tour, f.key)}
                           className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
                         >
                           <MapPin className="h-3.5 w-3.5" />

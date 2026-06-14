@@ -8,16 +8,23 @@
  */
 import { describe, it, expect, beforeEach } from 'vitest';
 import { useTourStore, hasCompletedTour } from '@/stores/tourStore';
+import { useOnboardingStore } from '@/stores/onboardingStore';
 import { TOUR_STEPS } from '@/components/tour/tourSteps';
 
 const SPOTLIGHT = [
   { target: '[data-tour="batch"]', title: 'Batch lives here', body: 'Open this to generate one per row.' },
 ];
 
+const TWO_STEP = [
+  { target: '[data-tour="a"]', title: 'A', body: 'first' },
+  { target: '[data-tour="b"]', title: 'B', body: 'second' },
+];
+
 describe('tourStore', () => {
   beforeEach(() => {
     localStorage.clear();
-    useTourStore.setState({ active: false, stepIndex: 0, steps: TOUR_STEPS, markOnEnd: true });
+    useTourStore.setState({ active: false, stepIndex: 0, steps: TOUR_STEPS, markOnEnd: true, completionKey: null });
+    useOnboardingStore.setState({ completed: {} });
   });
 
   it('start() runs the full intro tour and ending records it as seen', () => {
@@ -57,5 +64,26 @@ describe('tourStore', () => {
     useTourStore.getState().end();
     expect(useTourStore.getState().steps).toBe(TOUR_STEPS);
     expect(useTourStore.getState().markOnEnd).toBe(true);
+  });
+
+  it('finishing a walkthrough marks its onboarding key learned', () => {
+    useTourStore.getState().startSteps(TWO_STEP, 'enclosures');
+    useTourStore.getState().next(); // step 1 -> 2
+    useTourStore.getState().next(); // past the last step = finished
+    expect(useTourStore.getState().active).toBe(false);
+    expect(useOnboardingStore.getState().completed.enclosures).toBe(true);
+  });
+
+  it('exiting a walkthrough early does NOT mark it learned', () => {
+    useTourStore.getState().startSteps(TWO_STEP, 'enclosures');
+    useTourStore.getState().next(); // advance to step 2 (not finished)
+    useTourStore.getState().end();  // user hits the corner X / Esc
+    expect(useOnboardingStore.getState().completed.enclosures).toBeUndefined();
+  });
+
+  it('a walkthrough with no key never touches onboarding', () => {
+    useTourStore.getState().startSteps(SPOTLIGHT); // no completionKey
+    useTourStore.getState().next(); // single step -> finishes
+    expect(useOnboardingStore.getState().completed).toEqual({});
   });
 });

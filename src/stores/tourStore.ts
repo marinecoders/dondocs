@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { TOUR_STEPS, type TourStep } from '@/components/tour/tourSteps';
+import { useOnboardingStore } from '@/stores/onboardingStore';
 
 const TOUR_STORAGE_KEY = 'dondocs-tour-completed';
 // Version of the TOUR CONTENT (not the app). Bump when the steps change
@@ -15,10 +16,14 @@ interface TourState {
   /** Whether ending should record the first-run flag. Only the intro tour
    *  marks itself seen; a one-off "Show me" spotlight must not. */
   markOnEnd: boolean;
+  /** Onboarding key for the active walkthrough. Marked learned only when the
+   *  tour reaches its last step (not when skipped/exited). null = don't track. */
+  completionKey: string | null;
   /** Open the full intro tour from the first step (replays + first-run). */
   start: () => void;
-  /** Spotlight an arbitrary set of steps (e.g. one feature's location). */
-  startSteps: (steps: TourStep[]) => void;
+  /** Spotlight an arbitrary set of steps (e.g. one feature's walkthrough).
+   *  Pass an onboarding key to mark the feature learned on completion. */
+  startSteps: (steps: TourStep[], completionKey?: string) => void;
   next: () => void;
   prev: () => void;
   /** Close the tour and mark it seen so first-run does not nag again. */
@@ -43,18 +48,22 @@ export const useTourStore = create<TourState>((set, get) => ({
   stepIndex: 0,
   steps: TOUR_STEPS,
   markOnEnd: true,
+  completionKey: null,
   start: () => {
     clearBodyPointerLock();
-    set({ active: true, stepIndex: 0, steps: TOUR_STEPS, markOnEnd: true });
+    set({ active: true, stepIndex: 0, steps: TOUR_STEPS, markOnEnd: true, completionKey: null });
   },
-  startSteps: (steps) => {
+  startSteps: (steps, completionKey) => {
     if (steps.length === 0) return;
     clearBodyPointerLock();
-    set({ active: true, stepIndex: 0, steps, markOnEnd: false });
+    set({ active: true, stepIndex: 0, steps, markOnEnd: false, completionKey: completionKey ?? null });
   },
   next: () => {
-    const { stepIndex, steps } = get();
+    const { stepIndex, steps, completionKey } = get();
     if (stepIndex >= steps.length - 1) {
+      // Reaching the final step = finished. Record the feature as learned
+      // before closing (an early × / Esc / Skip never gets here).
+      if (completionKey) useOnboardingStore.getState().markComplete(completionKey);
       get().end();
       return;
     }
@@ -73,7 +82,7 @@ export const useTourStore = create<TourState>((set, get) => ({
       }
     }
     clearBodyPointerLock();
-    set({ active: false, stepIndex: 0, steps: TOUR_STEPS, markOnEnd: true });
+    set({ active: false, stepIndex: 0, steps: TOUR_STEPS, markOnEnd: true, completionKey: null });
   },
 }));
 
