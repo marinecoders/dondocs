@@ -838,7 +838,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                   already has placeholders, and the inline `addStatus` toast
                   surfaces the action's effect now that the UI no longer
                   visually changes around it. */}
-              <div className="space-y-3 rounded-lg border border-border/50 bg-muted/20 p-4">
+              <div data-tour="batch-addvar" className="space-y-3 rounded-lg border border-border/50 bg-muted/20 p-4">
                 <div className="flex items-center gap-2">
                   <Plus className="h-4 w-4 text-primary" />
                   <Label>Add Variable to Document</Label>
@@ -945,7 +945,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                     </div>
                   </div>
 
-                  <div className="space-y-2">
+                  <div data-tour="batch-commonvars" className="space-y-2">
                     <Label className="text-sm">
                       {isFormsMode
                         ? `${formType === 'navmc_10274' ? 'NAVMC 10274' : 'NAVMC 118(11)'} Variables (click to copy)`
@@ -1133,6 +1133,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
               Cancel
             </Button>
             <Button
+              data-tour="batch-generate"
               onClick={handleGenerateBatch}
               disabled={hasNoPlaceholders || isGenerating || rows.length === 0 || !isReadyToGenerate}
               className="tracking-wide"

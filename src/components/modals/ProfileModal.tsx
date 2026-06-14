@@ -360,7 +360,7 @@ export function ProfileModal() {
           {/* Scrollable Content */}
           <div className="flex-1 overflow-y-auto min-h-0">
             <div className="space-y-4 px-6 py-4">
-              <div className="space-y-2">
+              <div data-tour="profile-name" className="space-y-2">
                 <Label htmlFor="profileName">Profile Name</Label>
                 <Input
                   id="profileName"
@@ -371,7 +371,7 @@ export function ProfileModal() {
                 />
               </div>
 
-              <div className="border-t pt-4">
+              <div data-tour="profile-letterhead" className="border-t pt-4">
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="text-sm font-medium">Letterhead Information</h4>
                   <Button
@@ -467,7 +467,7 @@ export function ProfileModal() {
                 </div>
               </div>
 
-              <div className="border-t pt-4">
+              <div data-tour="profile-signature" className="border-t pt-4">
                 <h4 className="text-sm font-medium mb-3">Signature Block</h4>
                 <div className="grid grid-cols-3 gap-3">
                   <div className="space-y-2">
@@ -706,7 +706,7 @@ export function ProfileModal() {
             <Button variant="outline" onClick={handleClose}>
               Cancel
             </Button>
-            <Button onClick={handleSave}>
+            <Button data-tour="profile-save" onClick={handleSave}>
               {isEditing ? 'Save Changes' : 'Create Profile'}
             </Button>
           </DialogFooter>

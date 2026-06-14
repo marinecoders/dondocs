@@ -179,7 +179,7 @@ export function ClassificationSection() {
   const isCustom = classLevel === 'custom';
 
   return (
-    <Accordion type="single" collapsible>
+    <Accordion data-tour="classification" type="single" collapsible>
       <AccordionItem value="classification">
         <AccordionTrigger>
           <div className="flex items-center gap-2">
@@ -223,7 +223,7 @@ export function ClassificationSection() {
             </div>
 
             {/* Classification Level */}
-            <div className="space-y-2">
+            <div data-tour="classification-level" className="space-y-2">
               <Label htmlFor="classLevel">Classification Level</Label>
               <Select
                 value={classLevel}

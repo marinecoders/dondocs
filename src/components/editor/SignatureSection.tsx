@@ -174,7 +174,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
 
   return (
     <>
-    <Accordion type="single" collapsible>
+    <Accordion data-tour="signature" type="single" collapsible>
       <AccordionItem value="signature">
         <AccordionTrigger>
           <span className="flex items-center gap-2">
@@ -226,7 +226,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
             )}
 
             {/* Name fields */}
-            <div className="grid grid-cols-3 gap-2 sm:gap-4">
+            <div data-tour="signature-name" className="grid grid-cols-3 gap-2 sm:gap-4">
               <div className="space-y-2 col-span-2 sm:col-span-1">
                 <Label htmlFor="sigFirst">First Name</Label>
                 <Input
@@ -469,7 +469,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
             </div>
 
             {/* Signature Type Selection */}
-            <div className="space-y-3">
+            <div data-tour="signature-style" className="space-y-3">
               <Label>Signature Style</Label>
               {/* All signature options available */}
                 <div className="grid grid-cols-3 gap-2">
