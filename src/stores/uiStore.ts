@@ -47,6 +47,9 @@ interface UIState {
   templateLoaderOpen: boolean;
   piiWarningOpen: boolean;
   documentGuideOpen: boolean;
+  /** The Document Guide's active tab, lifted to the store so the activation
+   *  checklist can deep-link straight to Features before opening it. */
+  documentGuideTab: 'finder' | 'browse' | 'examples' | 'features';
   /** 'share' | 'import' when open, null when closed */
   shareModal: 'share' | 'import' | null;
   setProfileModalOpen: (open: boolean) => void;
@@ -60,6 +63,7 @@ interface UIState {
   setTemplateLoaderOpen: (open: boolean) => void;
   setPiiWarningOpen: (open: boolean) => void;
   setDocumentGuideOpen: (open: boolean) => void;
+  setDocumentGuideTab: (tab: UIState['documentGuideTab']) => void;
 
   // Mobile
   isMobile: boolean;
@@ -115,6 +119,7 @@ export const useUIStore = create<UIState>()(
       templateLoaderOpen: false,
       piiWarningOpen: false,
       documentGuideOpen: false,
+      documentGuideTab: 'browse',
       shareModal: null,
       setProfileModalOpen: (open) => set({ profileModalOpen: open }),
       setRestoreModalOpen: (open) => set({ restoreModalOpen: open }),
@@ -127,6 +132,7 @@ export const useUIStore = create<UIState>()(
       setTemplateLoaderOpen: (open) => set({ templateLoaderOpen: open }),
       setPiiWarningOpen: (open) => set({ piiWarningOpen: open }),
       setDocumentGuideOpen: (open) => set({ documentGuideOpen: open }),
+      setDocumentGuideTab: (tab) => set({ documentGuideTab: tab }),
 
       // Mobile
       isMobile: false,

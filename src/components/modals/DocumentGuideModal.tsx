@@ -1,5 +1,27 @@
 import { useState, useMemo } from 'react';
-import { HelpCircle, ChevronDown, ChevronRight, FileText, CheckCircle2, Lightbulb, BookOpen, Sparkles, ArrowRight, RotateCcw, Search, Eye, Check, Zap, Layers, Users, FolderOpen, Paperclip, PenLine, Link2, Shield, MapPin, type LucideIcon } from 'lucide-react';
+import { HelpCircle, ChevronDown, ChevronRight, ChevronLeft, FileText, CheckCircle2, Lightbulb, BookOpen, Sparkles, ArrowRight, RotateCcw, Search, Eye, Check, Zap, Layers, Users, FolderOpen, Paperclip, PenLine, Link2, Shield, MapPin, File, Briefcase, Mail, ClipboardCheck, ClipboardList, BookMarked, Scale, Award, ScrollText, FileSignature, Star, type LucideIcon } from 'lucide-react';
+
+// Lucide icons for document types / groups / categories, keyed by id — the
+// app uses lucide everywhere else, so the guide should too (the old emoji
+// `icon` fields in documentGuide.ts are no longer rendered).
+const DOC_TYPE_ICONS: Record<string, LucideIcon> = {
+  naval_letter: FileText, standard_letter: File, business_letter: Briefcase,
+  multiple_address_letter: Mail, joint_letter: Users, same_page_endorsement: CheckCircle2,
+  new_page_endorsement: ClipboardCheck, mfr: BookMarked, mf: FileText,
+  plain_paper_memorandum: File, letterhead_memorandum: FileText, decision_memorandum: Scale,
+  executive_memorandum: Award, joint_memorandum: Users, moa: ScrollText, mou: FileSignature,
+  executive_correspondence: Star, navmc_10274: ClipboardList, navmc_118_11: ClipboardList,
+};
+const GROUP_ICONS: Record<string, LucideIcon> = { correspondence: FileText, forms: ClipboardList };
+const CATEGORY_ICONS: Record<string, LucideIcon> = {
+  Letters: FileText, Endorsements: CheckCircle2, Memoranda: FileText,
+  Agreements: ScrollText, Executive: Star, Forms: ClipboardList,
+};
+
+function DocIcon({ id, className }: { id: string; className?: string }) {
+  const Icon = DOC_TYPE_ICONS[id] ?? FileText;
+  return <Icon className={className ?? 'h-5 w-5 shrink-0 text-muted-foreground'} aria-hidden="true" />;
+}
 import {
   Dialog,
   DialogContent,
@@ -18,344 +40,56 @@ import { DOCUMENT_TYPE_GUIDES, GUIDE_CATEGORIES, GUIDE_GROUPS, type DocumentType
 import { EXAMPLE_DOCUMENTS, EXAMPLE_CATEGORIES, type ExampleDocument } from '@/data/exampleDocuments';
 import { DOC_TYPE_LABELS, type DocumentData } from '@/types/document';
 
-// Document Finder Questions and Logic
-interface Question {
-  id: string;
-  question: string;
-  options: {
-    label: string;
-    value: string;
-    icon?: string;
-  }[];
-}
-
-const FINDER_QUESTIONS: Question[] = [
-  {
-    id: 'recipient',
-    question: 'Who is the primary recipient?',
-    options: [
-      { label: 'Military command or unit', value: 'military', icon: '🎖️' },
-      { label: 'Civilian person or business', value: 'civilian', icon: '💼' },
-      { label: 'Multiple commands/addressees', value: 'multiple', icon: '📨' },
-      { label: 'For the record (no specific recipient)', value: 'record', icon: '📔' },
-    ],
-  },
-  {
-    id: 'purpose',
-    question: 'What is the main purpose?',
-    options: [
-      { label: 'Request, recommendation, or tasking', value: 'request', icon: '📋' },
-      { label: 'Provide information or status update', value: 'inform', icon: '📢' },
-      { label: 'Present options for a decision', value: 'decision', icon: '⚖️' },
-      { label: 'Document an event for the record', value: 'document', icon: '📝' },
-      { label: 'Establish an agreement between parties', value: 'agreement', icon: '🤝' },
-      { label: 'Endorse/forward another letter', value: 'response', icon: '↩️' },
-    ],
-  },
-  {
-    id: 'routing',
-    question: 'How will this be routed?',
-    options: [
-      { label: 'Direct to recipient', value: 'direct', icon: '➡️' },
-      { label: 'Through chain of command (via)', value: 'via', icon: '⬆️' },
-      { label: 'Internal within my command', value: 'internal', icon: '🏢' },
-    ],
-  },
-  {
-    id: 'formality',
-    question: 'What level of formality is needed?',
-    options: [
-      { label: 'Formal with official letterhead', value: 'formal', icon: '🏛️' },
-      { label: 'Routine/working level', value: 'informal', icon: '📄' },
-      { label: 'Flag/General officer level', value: 'executive', icon: '⭐' },
-    ],
-  },
-];
-
-interface FinderResult {
-  docType: string;
-  confidence: 'high' | 'medium';
-  reason: string;
-}
-
-function getRecommendations(answers: Record<string, string>): FinderResult[] {
-  const results: FinderResult[] = [];
-  const { recipient, purpose, routing, formality } = answers;
-
-  // ===========================================
-  // ENDORSEMENTS (Ch 7) - Responding to/forwarding another letter
-  // ===========================================
-  if (purpose === 'response') {
-    if (formality === 'informal' || routing === 'internal') {
-      results.push({
-        docType: 'same_page_endorsement',
-        confidence: 'high',
-        reason: 'Per Ch 7: Brief endorsements added directly below the basic letter when space permits',
-      });
-      results.push({
-        docType: 'new_page_endorsement',
-        confidence: 'medium',
-        reason: 'Use if endorsement is lengthy or basic letter page is full',
-      });
-    } else {
-      results.push({
-        docType: 'new_page_endorsement',
-        confidence: 'high',
-        reason: 'Per Ch 7: New page endorsement with own letterhead for formal/detailed responses',
-      });
-      results.push({
-        docType: 'same_page_endorsement',
-        confidence: 'medium',
-        reason: 'Alternative if endorsement is brief and fits on original letter',
-      });
-    }
-    return results;
-  }
-
-  // ===========================================
-  // AGREEMENTS (Ch 12) - MOA vs MOU
-  // MOA = Specific resource/funding commitments
-  // MOU = General understanding, roles, coordination
-  // ===========================================
-  if (purpose === 'agreement') {
-    if (formality === 'formal' || formality === 'executive') {
-      results.push({
-        docType: 'moa',
-        confidence: 'high',
-        reason: 'Per Ch 12: MOA for agreements with specific resource commitments, funding, or binding obligations',
-      });
-      results.push({
-        docType: 'mou',
-        confidence: 'medium',
-        reason: 'Alternative: MOU if establishing general understanding without specific resource commitments',
-      });
-    } else {
-      results.push({
-        docType: 'mou',
-        confidence: 'high',
-        reason: 'Per Ch 12: MOU for establishing working relationships and general coordination frameworks',
-      });
-      results.push({
-        docType: 'moa',
-        confidence: 'medium',
-        reason: 'Use MOA instead if agreement involves specific resources or funding',
-      });
-    }
-    return results;
-  }
-
-  // ===========================================
-  // FOR THE RECORD - MFR (Ch 10)
-  // ===========================================
-  if (recipient === 'record') {
-    results.push({
-      docType: 'mfr',
-      confidence: 'high',
-      reason: 'Per Ch 10: Memorandum for the Record documents events, decisions, or conversations for official record',
-    });
-    return results;
-  }
-
-  // ===========================================
-  // CIVILIAN RECIPIENTS - Business Letter (Ch 11)
-  // ===========================================
-  if (recipient === 'civilian') {
-    results.push({
-      docType: 'business_letter',
-      confidence: 'high',
-      reason: 'Per Ch 11: Business letter format for correspondence with civilians, contractors, and non-DoD entities',
-    });
-    return results;
-  }
-
-  // ===========================================
-  // DECISION MEMOS (Ch 12) - Presenting options
-  // ===========================================
-  if (purpose === 'decision') {
-    results.push({
-      docType: 'decision_memorandum',
-      confidence: 'high',
-      reason: 'Per Ch 12: Decision memo presents options with pros/cons and staff recommendation for command decision',
-    });
-    if (formality === 'executive') {
-      results.push({
-        docType: 'executive_memorandum',
-        confidence: 'medium',
-        reason: 'Alternative for flag/general officer level with executive summary format',
-      });
-    }
-    return results;
-  }
-
-  // ===========================================
-  // MULTIPLE ADDRESSEES (Ch 2)
-  // ===========================================
-  if (recipient === 'multiple') {
-    results.push({
-      docType: 'multiple_address_letter',
-      confidence: 'high',
-      reason: 'Per Ch 2: Multiple address letter for identical content to several commands simultaneously',
-    });
-    results.push({
-      docType: 'naval_letter',
-      confidence: 'medium',
-      reason: 'Alternative: Standard naval letter with distribution list in Copy To section',
-    });
-    return results;
-  }
-
-  // ===========================================
-  // EXECUTIVE/FLAG LEVEL (Ch 12)
-  // ===========================================
-  if (formality === 'executive') {
-    if (routing === 'internal' || purpose === 'inform') {
-      results.push({
-        docType: 'executive_memorandum',
-        confidence: 'high',
-        reason: 'Per Ch 12: Executive memo for staff-to-senior leadership communication, status updates, and briefings',
-      });
-    } else {
-      results.push({
-        docType: 'executive_correspondence',
-        confidence: 'high',
-        reason: 'Per Ch 12: Executive correspondence for flag-to-flag or communication with very senior officials',
-      });
-    }
-    results.push({
-      docType: 'naval_letter',
-      confidence: 'medium',
-      reason: 'Naval letter is also appropriate for formal executive matters requiring official record',
-    });
-    return results;
-  }
-
-  // ===========================================
-  // DOCUMENTING EVENTS (Ch 10)
-  // ===========================================
-  if (purpose === 'document') {
-    results.push({
-      docType: 'mfr',
-      confidence: 'high',
-      reason: 'Per Ch 10: MFR documents meetings, verbal orders, decisions, or events for the official record',
-    });
-    if (routing === 'internal') {
-      results.push({
-        docType: 'letterhead_memorandum',
-        confidence: 'medium',
-        reason: 'Alternative: Letterhead memo if document needs to be shared formally within command',
-      });
-    }
-    return results;
-  }
-
-  // ===========================================
-  // INTERNAL/ROUTINE COMMUNICATION (Ch 12)
-  // ===========================================
-  if (routing === 'internal') {
-    if (formality === 'informal') {
-      results.push({
-        docType: 'plain_paper_memorandum',
-        confidence: 'high',
-        reason: 'Per Ch 12: Plain paper memo for routine internal working-level communication',
-      });
-      results.push({
-        docType: 'mf',
-        confidence: 'medium',
-        reason: 'Alternative: "Memorandum For" format for direct communication to specific person/office',
-      });
-    } else {
-      results.push({
-        docType: 'letterhead_memorandum',
-        confidence: 'high',
-        reason: 'Per Ch 12: Letterhead memo for formal internal communications that may be forwarded',
-      });
-      results.push({
-        docType: 'mf',
-        confidence: 'medium',
-        reason: 'Alternative: "Memorandum For" for direct staff actions or information papers',
-      });
-    }
-    return results;
-  }
-
-  // ===========================================
-  // CHAIN OF COMMAND ROUTING (Ch 2)
-  // ===========================================
-  if (routing === 'via') {
-    results.push({
-      docType: 'naval_letter',
-      confidence: 'high',
-      reason: 'Per Ch 2: Naval letter with Via line for correspondence routed through chain of command',
-    });
-    if (formality === 'informal') {
-      results.push({
-        docType: 'standard_letter',
-        confidence: 'medium',
-        reason: 'Alternative: Standard letter (same format without letterhead) if letterhead not available',
-      });
-    }
-    return results;
-  }
-
-  // ===========================================
-  // DEFAULT - NAVAL LETTER (Ch 2)
-  // The standard format for official DoN correspondence
-  // ===========================================
-  if (formality === 'formal') {
-    results.push({
-      docType: 'naval_letter',
-      confidence: 'high',
-      reason: 'Per Ch 2: Naval letter is the standard format for official Department of the Navy correspondence',
-    });
-  } else {
-    results.push({
-      docType: 'naval_letter',
-      confidence: 'high',
-      reason: 'Per Ch 2: Naval letter is appropriate for most official military correspondence',
-    });
-    results.push({
-      docType: 'standard_letter',
-      confidence: 'medium',
-      reason: 'Alternative: Standard letter (same format) when letterhead is not required or available',
-    });
-  }
-
-  return results;
-}
+import {
+  getNextQuestion,
+  getRecommendations,
+  DOC_DIFFERENTIATORS,
+  splitReason,
+} from './documentFinderLogic';
 
 // Document Finder Component
+//
+// A branching interview driven by getNextQuestion(answers). Answers are kept in
+// an ordered stack so "Back" pops the last answer and re-derives the current
+// question — questions are skipped/added dynamically, so a fixed index won't do.
 function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) => void }) {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [showResults, setShowResults] = useState(false);
+  const [order, setOrder] = useState<string[]>([]);
+
+  const question = getNextQuestion(answers);
+  const showResults = question === null && order.length > 0;
+
+  const recommendations = useMemo(
+    () => (showResults ? getRecommendations(answers) : []),
+    [showResults, answers]
+  );
 
   const handleAnswer = (questionId: string, value: string) => {
-    const newAnswers = { ...answers, [questionId]: value };
-    setAnswers(newAnswers);
+    setAnswers((prev) => ({ ...prev, [questionId]: value }));
+    setOrder((prev) => [...prev, questionId]);
+  };
 
-    // Move to next question or show results
-    if (currentQuestion < FINDER_QUESTIONS.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-    } else {
-      setShowResults(true);
-    }
+  const handleBack = () => {
+    if (order.length === 0) return;
+    const last = order[order.length - 1];
+    const nextAnswers = { ...answers };
+    delete nextAnswers[last];
+    setAnswers(nextAnswers);
+    setOrder(order.slice(0, -1));
   };
 
   const handleReset = () => {
-    setCurrentQuestion(0);
     setAnswers({});
-    setShowResults(false);
+    setOrder([]);
   };
 
-  const recommendations = useMemo(() => {
-    if (!showResults) return [];
-    return getRecommendations(answers);
-  }, [showResults, answers]);
-
-  const question = FINDER_QUESTIONS[currentQuestion];
-  const progress = ((currentQuestion + (showResults ? 1 : 0)) / FINDER_QUESTIONS.length) * 100;
-
   if (showResults) {
+    const wasUnsure = ['category', 'recipient', 'purpose', 'resources', 'formType'].some(
+      (k) => answers[k] === 'unsure'
+    );
+    const [a, b] = recommendations;
+    const showCompare = b && DOC_DIFFERENTIATORS[a.docType] && DOC_DIFFERENTIATORS[b.docType];
+
     return (
       <div className="p-4 space-y-4">
         <div className="text-center pb-4 border-b">
@@ -368,10 +102,22 @@ function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) =>
           </p>
         </div>
 
+        {wasUnsure && (
+          <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/5 p-3 text-xs text-muted-foreground">
+            <Lightbulb className="h-4 w-4 text-amber-500 shrink-0 mt-0.5" />
+            <span>
+              You weren&apos;t sure on one or more answers, so these are the most common
+              formats for your situation. Open any card to see when it fits, or use
+              &ldquo;Start over&rdquo; to refine your answers.
+            </span>
+          </div>
+        )}
+
         <div className="space-y-3">
           {recommendations.map((rec, index) => {
             const guide = DOCUMENT_TYPE_GUIDES.find(g => g.id === rec.docType);
             if (!guide) return null;
+            const { cite, why } = splitReason(rec.reason);
 
             return (
               <button
@@ -382,24 +128,26 @@ function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) =>
                 }`}
               >
                 <div className="flex items-start gap-3">
-                  <span className="text-2xl">{guide.icon}</span>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
+                  <DocIcon id={guide.id} className="h-6 w-6 shrink-0 text-primary mt-0.5" />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-semibold">{guide.name}</span>
-                      {rec.confidence === 'high' && index === 0 && (
+                      {index === 0 ? (
                         <Badge className="bg-green-500/10 text-green-600 border-green-500/30">
                           Best Match
                         </Badge>
-                      )}
-                      {rec.confidence === 'medium' && (
+                      ) : (
                         <Badge variant="outline" className="text-xs">
                           Alternative
                         </Badge>
                       )}
+                      {cite && (
+                        <Badge variant="outline" className="text-[10px] font-normal text-muted-foreground">
+                          {cite}
+                        </Badge>
+                      )}
                     </div>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {rec.reason}
-                    </p>
+                    <p className="text-sm text-muted-foreground mt-1">{why}</p>
                   </div>
                   <ArrowRight className="h-5 w-5 text-muted-foreground shrink-0" />
                 </div>
@@ -407,6 +155,26 @@ function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) =>
             );
           })}
         </div>
+
+        {showCompare && (
+          <div className="rounded-lg border bg-muted/30 p-3">
+            <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground mb-2">
+              <Scale className="h-3.5 w-3.5" />
+              How to choose
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              {[a, b].map((r) => {
+                const g = DOCUMENT_TYPE_GUIDES.find((x) => x.id === r.docType);
+                return (
+                  <div key={r.docType} className="space-y-0.5">
+                    <div className="text-sm font-medium">{g?.name ?? r.docType}</div>
+                    <div className="text-xs text-muted-foreground">{DOC_DIFFERENTIATORS[r.docType]}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         <div className="pt-4 border-t">
           <Button variant="outline" onClick={handleReset} className="w-full">
@@ -418,25 +186,20 @@ function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) =>
     );
   }
 
+  if (!question) return null;
+
   return (
     <div className="p-4 space-y-6">
-      {/* Progress bar */}
-      <div className="space-y-2">
-        <div className="flex justify-between text-xs text-muted-foreground">
-          <span>Question {currentQuestion + 1} of {FINDER_QUESTIONS.length}</span>
-          <span>{Math.round(progress)}% complete</span>
-        </div>
-        <div className="h-2 bg-muted rounded-full overflow-hidden">
-          <div
-            className="h-full bg-primary transition-all duration-300"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
+      <div className="text-xs font-medium text-muted-foreground">
+        Question {order.length + 1}
       </div>
 
       {/* Question */}
-      <div className="text-center py-4">
+      <div className="text-center py-2">
         <h3 className="text-lg font-semibold">{question.question}</h3>
+        {question.help && (
+          <p className="text-sm text-muted-foreground mt-1.5">{question.help}</p>
+        )}
       </div>
 
       {/* Options */}
@@ -448,29 +211,28 @@ function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) =>
             className="w-full text-left p-4 rounded-lg border hover:border-primary hover:bg-accent/50 transition-all group"
           >
             <div className="flex items-center gap-3">
-              <span className="text-xl">{option.icon}</span>
-              <span className="flex-1 font-medium">{option.label}</span>
-              <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="flex-1 min-w-0">
+                <div className="font-medium">{option.label}</div>
+                {option.help && (
+                  <div className="text-xs text-muted-foreground mt-0.5">{option.help}</div>
+                )}
+              </div>
+              <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
             </div>
           </button>
         ))}
       </div>
 
-      {/* Back / Reset */}
-      {currentQuestion > 0 && (
-        <div className="pt-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => {
-              const prevQuestion = FINDER_QUESTIONS[currentQuestion - 1];
-              const newAnswers = { ...answers };
-              delete newAnswers[prevQuestion.id];
-              setAnswers(newAnswers);
-              setCurrentQuestion(currentQuestion - 1);
-            }}
-          >
-            Back to previous question
+      {/* Back / Start over */}
+      {order.length > 0 && (
+        <div className="flex items-center gap-2 pt-2">
+          <Button variant="ghost" size="sm" onClick={handleBack}>
+            <ChevronLeft className="h-4 w-4 mr-1" />
+            Back
+          </Button>
+          <Button variant="ghost" size="sm" onClick={handleReset} className="text-muted-foreground">
+            <RotateCcw className="h-4 w-4 mr-1.5" />
+            Start over
           </Button>
         </div>
       )}
@@ -490,7 +252,7 @@ function GuideCard({ guide, isExpanded, onToggle }: {
         className="w-full text-left p-4 hover:bg-accent/50 transition-colors"
       >
         <div className="flex items-start gap-3">
-          <span className="text-2xl">{guide.icon}</span>
+          <DocIcon id={guide.id} className="h-5 w-5 shrink-0 text-muted-foreground mt-0.5" />
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
               <span className="font-semibold text-foreground">{guide.name}</span>
@@ -1029,7 +791,10 @@ export function DocumentGuideModal() {
   // Individual selectors — modal only re-renders on its own flag changing.
   const documentGuideOpen = useUIStore((s) => s.documentGuideOpen);
   const setDocumentGuideOpen = useUIStore((s) => s.setDocumentGuideOpen);
-  const [activeTab, setActiveTab] = useState<'finder' | 'browse' | 'examples' | 'features'>('finder');
+  // The active tab lives in the store so the activation checklist can deep-link
+  // straight to Features (it sets the tab, then opens the guide).
+  const activeTab = useUIStore((s) => s.documentGuideTab);
+  const setActiveTab = useUIStore((s) => s.setDocumentGuideTab);
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [expandedGuide, setExpandedGuide] = useState<string | null>(null);
@@ -1103,28 +868,15 @@ export function DocumentGuideModal() {
         <div className="px-4 py-2 border-b bg-muted/30 shrink-0">
           <div className="flex gap-1 p-1 bg-muted rounded-lg">
             <button
-              onClick={() => setActiveTab('finder')}
-              className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                activeTab === 'finder'
-                  ? 'bg-background text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              <Sparkles className="h-4 w-4" />
-              <span className="hidden sm:inline">Find My Doc</span>
-              <span className="sm:hidden">Find</span>
-            </button>
-            <button
               onClick={() => setActiveTab('browse')}
               className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                activeTab === 'browse'
+                activeTab === 'browse' || activeTab === 'finder'
                   ? 'bg-background text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               <Search className="h-4 w-4" />
-              <span className="hidden sm:inline">Browse Types</span>
-              <span className="sm:hidden">Browse</span>
+              <span>Browse</span>
             </button>
             <button
               onClick={() => setActiveTab('examples')}
@@ -1155,6 +907,14 @@ export function DocumentGuideModal() {
 
         {activeTab === 'finder' && (
           <div className="flex-1 min-h-0 overflow-y-auto">
+            <button
+              type="button"
+              onClick={() => setActiveTab('browse')}
+              className="flex items-center gap-1.5 px-4 pt-4 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Back to browse
+            </button>
             <DocumentFinder onSelectGuide={handleSelectFromFinder} />
           </div>
         )}
@@ -1210,7 +970,7 @@ export function DocumentGuideModal() {
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2 flex-wrap">
                           <h4 className="font-medium text-sm">{f.title}</h4>
-                          <span className="text-[11px] text-muted-foreground bg-muted rounded px-1.5 py-0.5">{f.where}</span>
+                          <span className="text-xs text-muted-foreground bg-muted rounded px-1.5 py-0.5">{f.where}</span>
                         </div>
                         <p className="text-sm text-muted-foreground mt-0.5">{f.body}</p>
                       </div>
@@ -1225,7 +985,7 @@ export function DocumentGuideModal() {
                         <ol className="space-y-2">
                           {f.steps.map((step, i) => (
                             <li key={i} className="flex gap-2.5 text-sm text-muted-foreground">
-                              <span className="flex-none w-5 h-5 rounded-full border text-[11px] flex items-center justify-center text-foreground mt-px">
+                              <span className="flex-none w-5 h-5 rounded-full border text-xs flex items-center justify-center text-foreground mt-px">
                                 {i + 1}
                               </span>
                               <span className="leading-snug">{step}</span>
@@ -1278,7 +1038,7 @@ export function DocumentGuideModal() {
                           className="w-full text-left p-6 rounded-lg border-2 hover:border-primary hover:bg-accent/50 transition-all group"
                         >
                           <div className="flex items-center gap-4">
-                            <span className="text-4xl">{group.icon}</span>
+                            {(() => { const GI = GROUP_ICONS[group.id] ?? FileText; return <GI className="h-8 w-8 shrink-0 text-primary" aria-hidden="true" />; })()}
                             <div className="flex-1">
                               <div className="flex items-center gap-2">
                                 <span className="text-xl font-semibold">{group.name}</span>
@@ -1293,6 +1053,17 @@ export function DocumentGuideModal() {
                         </button>
                       );
                     })}
+                  </div>
+                  <div className="text-center pt-2">
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('finder')}
+                      className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      <Sparkles className="h-4 w-4 text-primary" />
+                      Not sure which to use? Answer a few questions
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1343,7 +1114,7 @@ export function DocumentGuideModal() {
                               : 'bg-background border hover:bg-accent'
                           }`}
                         >
-                          <span>{cat.icon}</span>
+                          {(() => { const CI = CATEGORY_ICONS[cat.id] ?? FileText; return <CI className="h-3.5 w-3.5" aria-hidden="true" />; })()}
                           {cat.name}
                           <Badge
                             variant={selectedCategory === cat.id ? 'outline' : 'secondary'}
@@ -1363,9 +1134,7 @@ export function DocumentGuideModal() {
                     {selectedCategory && (
                       <div className="pb-2 mb-2 border-b">
                         <div className="flex items-center gap-2">
-                          <span className="text-xl">
-                            {GUIDE_CATEGORIES.find(c => c.id === selectedCategory)?.icon}
-                          </span>
+                          {(() => { const CI = CATEGORY_ICONS[selectedCategory] ?? FileText; return <CI className="h-5 w-5 shrink-0 text-primary" aria-hidden="true" />; })()}
                           <div>
                             <h3 className="font-semibold">{GUIDE_CATEGORIES.find(c => c.id === selectedCategory)?.name}</h3>
                             <p className="text-sm text-muted-foreground">

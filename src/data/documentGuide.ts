@@ -2,7 +2,6 @@ export interface DocumentTypeGuide {
   id: string;
   name: string;
   category: string;
-  icon: string; // emoji for visual appeal
   summary: string;
   whenToUse: string[];
   keyFeatures: string[];
@@ -16,7 +15,6 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'naval_letter',
     name: 'Naval Letter (on letterhead)',
     category: 'Letters',
-    icon: '📄',
     summary: 'The standard format for official correspondence within and outside the Department of the Navy. Uses official letterhead and formal addressing.',
     whenToUse: [
       'Official correspondence to other commands or units',
@@ -45,7 +43,6 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'standard_letter',
     name: 'Standard Letter (plain paper)',
     category: 'Letters',
-    icon: '📝',
     summary: 'Same format as a naval letter but without official letterhead. Used when letterhead is not required or appropriate.',
     whenToUse: [
       'Internal correspondence where letterhead is unnecessary',
@@ -71,7 +68,6 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'business_letter',
     name: 'Business Letter',
     category: 'Letters',
-    icon: '💼',
     summary: 'Used for correspondence with individuals or organizations outside the Department of Defense. Uses a more traditional business format familiar to civilian recipients.',
     whenToUse: [
       'Correspondence with civilian businesses or contractors',
@@ -101,7 +97,6 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'multiple_address_letter',
     name: 'Multiple Address Letter',
     category: 'Letters',
-    icon: '📨',
     summary: 'Used when the same letter needs to be sent to multiple addressees. Efficient for distributing identical information to several commands.',
     whenToUse: [
       'Policy announcements to multiple commands',
@@ -127,7 +122,6 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'joint_letter',
     name: 'Joint Letter',
     category: 'Letters',
-    icon: '🤝',
     summary: 'A letter signed by two commanding officers or officials, typically from different organizations, presenting a unified position or coordinated action.',
     whenToUse: [
       'Coordinated actions between two commands',
@@ -156,7 +150,6 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'same_page_endorsement',
     name: 'Same-Page Endorsement',
     category: 'Endorsements',
-    icon: '✅',
     summary: 'A brief endorsement added to the same page as the basic letter, used when the endorsement is short and space permits.',
     whenToUse: [
       'Short recommendations (approve/disapprove)',
@@ -182,7 +175,6 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'new_page_endorsement',
     name: 'New-Page Endorsement',
     category: 'Endorsements',
-    icon: '📋',
     summary: 'An endorsement on a new page with its own letterhead, used when the endorsement requires more space or when same-page endorsement is not appropriate.',
     whenToUse: [
       'Lengthy endorsements with detailed comments',
@@ -211,7 +203,6 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'mfr',
     name: 'Memorandum for the Record (MFR)',
     category: 'Memoranda',
-    icon: '📔',
     summary: 'Documents information, decisions, or events for the official record. Creates a permanent record of something that occurred or was decided.',
     whenToUse: [
       'Documenting meetings or conversations',
@@ -240,7 +231,6 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'mf',
     name: 'Memorandum For',
     category: 'Memoranda',
-    icon: '📩',
     summary: 'A memorandum addressed to a specific person or office, typically used for internal communication within an organization.',
     whenToUse: [
       'Internal correspondence to a specific person',
@@ -266,7 +256,6 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'plain_paper_memorandum',
     name: 'Plain Paper Memorandum',
     category: 'Memoranda',
-    icon: '📃',
     summary: 'An informal memorandum without letterhead, used for routine internal communications where official letterhead is not required.',
     whenToUse: [
       'Routine internal communications',
@@ -292,7 +281,6 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'letterhead_memorandum',
     name: 'Letterhead Memorandum',
     category: 'Memoranda',
-    icon: '🏛️',
     summary: 'A formal memorandum on official letterhead, used for more formal internal communications or when the communication may leave the organization.',
     whenToUse: [
       'Formal internal communications',
@@ -318,7 +306,6 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'decision_memorandum',
     name: 'Decision Memorandum',
     category: 'Memoranda',
-    icon: '⚖️',
     summary: 'Presents options to a decision-maker with recommendations. Designed to facilitate command decisions by presenting clear choices.',
     whenToUse: [
       'Presenting options for commander decision',
@@ -347,7 +334,6 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'executive_memorandum',
     name: 'Executive Memorandum',
     category: 'Memoranda',
-    icon: '👔',
     summary: 'A memorandum for senior executives or flag officers, typically more polished and concise, focusing on strategic-level information.',
     whenToUse: [
       'Communication to flag/general officers',
@@ -373,7 +359,6 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'joint_memorandum',
     name: 'Joint Memorandum',
     category: 'Memoranda',
-    icon: '🤝',
     summary: 'A memorandum signed by two officials, typically representing coordinated staff positions or agreements between organizations.',
     whenToUse: [
       'Coordinated staff recommendations',
@@ -401,7 +386,6 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'moa',
     name: 'Memorandum of Agreement (MOA)',
     category: 'Agreements',
-    icon: '📜',
     summary: 'A formal agreement between two or more parties that documents specific terms, responsibilities, and often resource commitments. More binding than an MOU.',
     whenToUse: [
       'Agreements with specific resource commitments',
@@ -431,7 +415,6 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'mou',
     name: 'Memorandum of Understanding (MOU)',
     category: 'Agreements',
-    icon: '🤝',
     summary: 'Documents a mutual understanding between parties about their relationship, roles, or coordination. Less formal than an MOA, typically without specific resource commitments.',
     whenToUse: [
       'Establishing working relationships',
@@ -463,7 +446,6 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'executive_correspondence',
     name: 'Executive Correspondence',
     category: 'Executive',
-    icon: '⭐',
     summary: 'High-level correspondence from or to senior executives, designed for strategic communication at the highest levels of command.',
     whenToUse: [
       'Communication between flag/general officers',
@@ -491,7 +473,6 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'navmc_10274',
     name: 'NAVMC 10274 - Administrative Action',
     category: 'Forms',
-    icon: '📋',
     summary: 'Used to document and process administrative actions for Marine Corps personnel. Records formal administrative decisions and their disposition.',
     whenToUse: [
       'Documenting administrative actions',
@@ -517,7 +498,6 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'navmc_118_11',
     name: 'NAVMC 118 (11) - Administrative Remarks',
     category: 'Forms',
-    icon: '📝',
     summary: 'The "Page 11" entry for Marine Corps service record books. Documents counselings, commendations, and significant administrative events.',
     whenToUse: [
       'Counseling documentation (positive or negative)',
@@ -543,20 +523,20 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
 
 // Top-level guide groups (Correspondence vs Forms)
 export const GUIDE_GROUPS = [
-  { id: 'correspondence', name: 'Correspondence', icon: '📄', description: 'Letters, memos, and official documents' },
-  { id: 'forms', name: 'Forms', icon: '📋', description: 'Military forms (NAVMC, DD, SF)' },
+  { id: 'correspondence', name: 'Correspondence', description: 'Letters, memos, and official documents' },
+  { id: 'forms', name: 'Forms', description: 'Military forms (NAVMC, DD, SF)' },
 ];
 
 // Categories within each group
 export const GUIDE_CATEGORIES = [
   // Correspondence categories
-  { id: 'Letters', name: 'Letters', icon: '📄', description: 'Official correspondence formats', group: 'correspondence' },
-  { id: 'Endorsements', name: 'Endorsements', icon: '✅', description: 'Routing and recommendations', group: 'correspondence' },
-  { id: 'Memoranda', name: 'Memoranda', icon: '📝', description: 'Internal communication formats', group: 'correspondence' },
-  { id: 'Agreements', name: 'Agreements', icon: '🤝', description: 'Formal agreements between parties', group: 'correspondence' },
-  { id: 'Executive', name: 'Executive', icon: '⭐', description: 'Senior-level correspondence', group: 'correspondence' },
+  { id: 'Letters', name: 'Letters', description: 'Official correspondence formats', group: 'correspondence' },
+  { id: 'Endorsements', name: 'Endorsements', description: 'Routing and recommendations', group: 'correspondence' },
+  { id: 'Memoranda', name: 'Memoranda', description: 'Internal communication formats', group: 'correspondence' },
+  { id: 'Agreements', name: 'Agreements', description: 'Formal agreements between parties', group: 'correspondence' },
+  { id: 'Executive', name: 'Executive', description: 'Senior-level correspondence', group: 'correspondence' },
   // Forms categories
-  { id: 'Forms', name: 'NAVMC Forms', icon: '⚓', description: 'Marine Corps forms', group: 'forms' },
+  { id: 'Forms', name: 'NAVMC Forms', description: 'Marine Corps forms', group: 'forms' },
 ];
 
 export function getGuidesByCategory(category: string): DocumentTypeGuide[] {
