@@ -68,7 +68,7 @@ export function Form11811Section() {
             <span className="font-medium">Marine Identification</span>
           </AccordionTrigger>
           <AccordionContent className="space-y-4 pt-2">
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="lastName">Last Name</Label>
                 <InputWithVariables
@@ -104,7 +104,7 @@ export function Form11811Section() {
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="edipi">EDIPI</Label>
                 <InputWithVariables

@@ -135,7 +135,7 @@ export function MOASection() {
               </div>
 
               {/* SSIC / Serial / Date */}
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="seniorSSIC">SSIC</Label>
                   <div className="flex gap-1">
@@ -283,7 +283,7 @@ export function MOASection() {
               </div>
 
               {/* SSIC / Serial / Date */}
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="juniorSSIC">SSIC</Label>
                   <div className="flex gap-1">
@@ -419,7 +419,7 @@ export function MOASection() {
                     onClick={() => setField('signatureType', 'none' as SignatureType)}
                   >
                     <span className="text-xs">Typed Only</span>
-                    <span className="text-[10px] text-muted-foreground">Overscored names</span>
+                    <span className="text-xs text-muted-foreground">Overscored names</span>
                   </Button>
                   <Button
                     type="button"
