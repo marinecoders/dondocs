@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect, type ChangeEvent } from 'react';
-import { Moon, Sun, Download, FileText, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2, Lightbulb, FolderOpen } from 'lucide-react';
+import { Moon, Sun, Download, FileText, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2, Lightbulb, FolderOpen, Rocket } from 'lucide-react';
 import { GithubIcon } from '@/components/icons/GithubIcon';
 import { Button } from '@/components/ui/button';
 import {
@@ -28,6 +28,7 @@ import { STORAGE_KEYS } from '@/lib/constants';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { useLogStore } from '@/stores/logStore';
 import { useTourStore } from '@/stores/tourStore';
+import { useOnboardingStore } from '@/stores/onboardingStore';
 import { safeReportUrl, BUG_REPORT_PRIVACY_NOTICE, BUG_REPORT_LOG_PROMPT } from '@/lib/bugReport';
 
 interface HeaderProps {
@@ -55,6 +56,9 @@ interface HeaderProps {
 const GITHUB_REPO_URL = 'https://github.com/marinecoders/dondocs';
 const GITHUB_NEW_ISSUE_URL = 'https://github.com/marinecoders/dondocs/issues/new';
 const STORAGE_KEY = STORAGE_KEYS.DOCUMENT;
+// Marine Coders Eagle, Globe & Anchor seal — air-gap safe (same-origin SVG,
+// already preloaded for the background watermark).
+const marineCodersLogo = `${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`;
 
 /**
  * Build a prefilled "New issue" URL for the Help-menu bug report button.
@@ -187,6 +191,10 @@ export function Header({
   const togglePreview = useUIStore((s) => s.togglePreview);
   const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
   const setFullQualityPreview = useUIStore((s) => s.setFullQualityPreview);
+  // Reopen the getting-started checklist (clears its dismissal). Hidden once the
+  // onboarding is finished and the celebration has retired the launcher for good.
+  const checklistCelebrated = useOnboardingStore((s) => s.checklistCelebrated);
+  const reopenChecklist = () => useOnboardingStore.getState().setChecklistDismissed(false);
 
   // Document store actions only — we intentionally do NOT subscribe to any
   // document state here. The import/export/reset handlers below read the
@@ -514,7 +522,7 @@ export function Header({
     <header className="border-b-2 border-primary/40 bg-gradient-to-r from-card via-card to-secondary/30 shadow-card">
       {/* Dismissable beta release banner */}
       {!bannerDismissed && (
-        <div className="bg-amber-500/10 text-amber-700 dark:text-amber-300/90 text-[11px] font-medium py-0.5 text-center tracking-wide relative border-b border-amber-500/20">
+        <div className="bg-amber-500/10 text-amber-700 dark:text-amber-300/90 text-xs font-medium py-0.5 text-center tracking-wide relative border-b border-amber-500/20">
           Not an official DoW website. Beta release - report issues on GitHub.
           <button
             onClick={dismissBanner}
@@ -536,26 +544,35 @@ export function Header({
       />
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 lg:gap-3 min-w-0">
-          <div className="flex items-center gap-2">
-            <FileText className="h-5 w-5 lg:h-6 lg:w-6 text-primary shrink-0" />
+          <div className="flex items-center gap-2.5">
+            {/* Brand mark — the Marine Coders Eagle, Globe & Anchor. The seal
+                SVG is solid white, so invert it to read on the light header
+                and leave it white in dark mode. */}
+            <img
+              src={marineCodersLogo}
+              alt="Marine Coders"
+              decoding="sync"
+              className="h-7 lg:h-8 w-auto shrink-0 invert dark:invert-0"
+            />
             <div className="flex flex-col min-w-0">
-              <h1 className="text-sm lg:text-lg font-bold text-foreground leading-tight truncate tracking-wide">
-                <span className="hidden sm:inline">Naval Correspondence</span>
-                <span className="sm:hidden">Naval Corr.</span>
+              <h1 className="text-base lg:text-lg font-semibold text-foreground leading-tight truncate">
+                DonDocs
               </h1>
-              <span className="text-xs text-muted-foreground hidden lg:block leading-tight tracking-wider uppercase">Generator</span>
+              <span className="text-xs text-muted-foreground hidden sm:block leading-tight truncate">Naval correspondence &amp; forms</span>
             </div>
           </div>
           {/* NIST 800-171 Compliance Badge - icon only below lg, full badge on lg+ */}
           <button
+            type="button"
             onClick={() => setNistModalOpen(true)}
             // Same readability fix as the Clear button + Compiling pill in
             // this PR (and the Templates button in PR #57): drop the
             // tinted bg (green-500/10 over the header card-bg muddied the
             // green text). Keep the green border + green text for the
             // "compliant/safe" status identity, hover gets the faint green
-            // bg as the interactivity signal.
-            className="flex items-center justify-center gap-1.5 rounded-md border border-green-500/30 text-green-600 dark:text-green-400 text-xs cursor-pointer hover:bg-green-500/10 dark:hover:bg-green-500/15 transition-colors p-1.5 lg:px-2 lg:py-1 shrink-0"
+            // bg as the interactivity signal. Neutral focus ring (not green)
+            // so keyboard users get an indicator without a new accent colour.
+            className="flex items-center justify-center gap-1.5 rounded-md border border-green-500/30 text-green-600 dark:text-green-400 text-xs cursor-pointer hover:bg-green-500/10 dark:hover:bg-green-500/15 transition-colors p-1.5 lg:px-2 lg:py-1 shrink-0 outline-none focus-visible:ring-ring/50 focus-visible:ring-[3px]"
             title="Click to learn about NIST 800-171 compliance"
           >
             <Shield className="h-4 w-4 lg:h-3 lg:w-3" />
@@ -598,6 +615,10 @@ export function Header({
             <Redo2 className="h-4 w-4" aria-hidden="true" />
           </Button>
 
+          {/* Group divider — only at xl, where the full toolbar shows and the
+              row would otherwise read as one undifferentiated wall of icons. */}
+          <div aria-hidden="true" className="hidden xl:block w-px h-5 self-center bg-border mx-1" />
+
           {/* Refresh - hidden below xl, in hamburger menu */}
           <Button
             variant="ghost"
@@ -629,6 +650,8 @@ export function Header({
               <span className="hidden 2xl:inline">Preview</span>
             </Button>
           )}
+
+          <div aria-hidden="true" className="hidden xl:block w-px h-5 self-center bg-border mx-1" />
 
           {/* Save/Load dropdown - always visible but compact on smaller screens */}
           <DropdownMenu>
@@ -733,6 +756,8 @@ export function Header({
             </DropdownMenuContent>
           </DropdownMenu>
 
+          <div aria-hidden="true" className="hidden xl:block w-px h-5 self-center bg-border mx-1" />
+
           {/* Guide button - hidden below xl */}
           <Button
             variant="outline"
@@ -782,6 +807,12 @@ export function Header({
                 <Compass className="h-4 w-4 mr-2" />
                 Take the Tour
               </DropdownMenuItem>
+              {!checklistCelebrated && (
+                <DropdownMenuItem onClick={reopenChecklist}>
+                  <Rocket className="h-4 w-4 mr-2" />
+                  Getting started
+                </DropdownMenuItem>
+              )}
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => setNistModalOpen(true)}>
                 <Shield className="h-4 w-4 mr-2" />
@@ -882,7 +913,7 @@ export function Header({
                 </div>
                 {fullQualityPreview && <Check className="h-4 w-4" />}
               </DropdownMenuItem>
-              <p className="px-2 pb-1.5 text-[10px] text-muted-foreground leading-tight">
+              <p className="px-2 pb-1.5 text-xs text-muted-foreground leading-tight">
                 Includes enclosures, hyperlinks, and signatures in live preview. May slow compilation.
               </p>
             </DropdownMenuContent>
@@ -936,6 +967,12 @@ export function Header({
                 <Compass className="h-4 w-4 mr-2" />
                 Take the Tour
               </DropdownMenuItem>
+              {!checklistCelebrated && (
+                <DropdownMenuItem onClick={reopenChecklist}>
+                  <Rocket className="h-4 w-4 mr-2" />
+                  Getting started
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem onClick={() => setNistModalOpen(true)}>
                 <Shield className="h-4 w-4 mr-2" />
                 NIST 800-171

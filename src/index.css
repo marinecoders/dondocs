@@ -33,15 +33,17 @@
     overflow: hidden;
   }
 
-  /* Custom scrollbar styling */
+  /* Custom scrollbar styling. The tokens are oklch(), so the old
+     hsl(var(--muted-foreground) / a) syntax was invalid and silently fell
+     back to the default scrollbar — use color-mix on the oklch token. */
   * {
-    scrollbar-width: auto;
-    scrollbar-color: hsl(var(--muted-foreground) / 0.4) transparent;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--muted-foreground) 40%, transparent) transparent;
   }
 
   *::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
   }
 
   *::-webkit-scrollbar-track {
@@ -50,14 +52,15 @@
   }
 
   *::-webkit-scrollbar-thumb {
-    background: hsl(var(--muted-foreground) / 0.4);
+    background: color-mix(in oklab, var(--muted-foreground) 40%, transparent);
     border-radius: 6px;
     border: 2px solid transparent;
     background-clip: content-box;
+    transition: background-color 150ms;
   }
 
   *::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--muted-foreground) / 0.5);
+    background: color-mix(in oklab, var(--muted-foreground) 60%, transparent);
     background-clip: content-box;
   }
 
@@ -323,14 +326,14 @@
   --foreground: oklch(0.98 0 0);           /* White */
   --card: oklch(0.205 0.008 260);          /* Slate card — lifted off canvas */
   --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.245 0.009 260);       /* Elevated — menus/dropdowns */
+  --popover: oklch(0.27 0.009 260);        /* Elevated — menus/dropdowns sit clearly above cards */
   --popover-foreground: oklch(0.98 0 0);
   --primary: oklch(0.55 0.20 25);          /* Bright USMC Red — WCAG AA on dark */
   --primary-foreground: oklch(0.98 0 0);   /* White on red */
   --secondary: oklch(0.23 0.008 260);      /* Dark slate */
   --secondary-foreground: oklch(0.98 0 0);
   --muted: oklch(0.23 0.008 260);
-  --muted-foreground: oklch(0.78 0.01 250);
+  --muted-foreground: oklch(0.82 0.02 250); /* Slightly brighter slate — easier read on deep canvas */
   --accent: oklch(0.80 0.15 85);           /* #f1b434 gold accent */
   --accent-foreground: oklch(0.14 0.008 260);
   --destructive: oklch(0.50 0.18 25);      /* Brighter red — WCAG AA */

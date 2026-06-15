@@ -7,6 +7,15 @@ const TOUR_STORAGE_KEY = 'dondocs-tour-completed';
 // meaningfully so the first-run tour replays once for returning users.
 const TOUR_VERSION = '1';
 
+/**
+ * Onboarding key marked when the intro tour is *finished* (reaches the last
+ * step), not merely seen. `TOUR_STORAGE_KEY` above is set on any end — finish
+ * OR skip/Esc/× — so the first-run prompt never nags again; but the getting-
+ * started checklist should only credit the step when the user actually walked
+ * it through, so it reads this key instead.
+ */
+export const GUIDED_TOUR_KEY = 'guided_tour';
+
 interface TourState {
   active: boolean;
   stepIndex: number;
@@ -51,7 +60,9 @@ export const useTourStore = create<TourState>((set, get) => ({
   completionKey: null,
   start: () => {
     clearBodyPointerLock();
-    set({ active: true, stepIndex: 0, steps: TOUR_STEPS, markOnEnd: true, completionKey: null });
+    // completionKey so finishing the intro tour (reaching the last step) credits
+    // the checklist's "Take the guided tour" step — skipping/× does not.
+    set({ active: true, stepIndex: 0, steps: TOUR_STEPS, markOnEnd: true, completionKey: GUIDED_TOUR_KEY });
   },
   startSteps: (steps, completionKey) => {
     if (steps.length === 0) return;

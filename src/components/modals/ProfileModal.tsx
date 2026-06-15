@@ -469,7 +469,7 @@ export function ProfileModal() {
 
               <div data-tour="profile-signature" className="border-t pt-4">
                 <h4 className="text-sm font-medium mb-3">Signature Block</h4>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div className="space-y-2">
                     <Label htmlFor="sigFirst">First Name</Label>
                     <Input

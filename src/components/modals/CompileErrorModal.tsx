@@ -141,7 +141,7 @@ export function CompileErrorModal({ open, error, compileLog, onClose }: CompileE
                 </Button>
               </div>
               <pre
-                className="max-h-48 overflow-auto rounded-md bg-muted border border-border p-2 text-[11px] leading-tight font-mono whitespace-pre-wrap break-all text-foreground/80"
+                className="max-h-48 overflow-auto rounded-md bg-muted border border-border p-2 text-xs leading-tight font-mono whitespace-pre-wrap break-all text-foreground/80"
                 aria-label="Compile error log"
               >
                 {compileLog}

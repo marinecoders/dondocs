@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { X, ArrowRight } from 'lucide-react';
 import { useTourStore } from '@/stores/tourStore';
@@ -12,9 +12,67 @@ interface Rect {
 }
 
 const CARD_W = 304;
-const CARD_H_EST = 188; // generous estimate for placement math only
+const CARD_H_EST = 210; // initial estimate before the card is measured
 const GAP = 12; // space between target and card
 const PAD = 6; // spotlight padding around the target
+
+const clamp = (v: number, lo: number, hi: number) => Math.min(Math.max(v, lo), Math.max(lo, hi));
+
+/**
+ * Choose a coachmark position that never covers the spotlight. Tries below,
+ * above, right, then left of the padded spotlight rect — each candidate sits
+ * fully outside it, so the highlighted control stays visible — and picks the
+ * first that fits on screen. The card size is capped to the viewport first, so
+ * the math never assumes a card larger than the screen.
+ *
+ * A side fits whenever the target is small enough on that axis to leave a
+ * card-plus-gap band; combined with the adaptive scroll in `measure` (which
+ * parks the target near an edge on short viewports), at least one side fits for
+ * any normal control on any display. The fallback runs only when the highlighted
+ * element is itself larger than the screen minus the card — then the card is
+ * pinned to the roomiest edge so it covers as little of the spotlight as
+ * possible (nothing can show both fully in that case).
+ */
+interface Placement {
+  top: number;
+  left: number;
+  /** When set, cap the card to this height (it scrolls) so it fits a tight gap. */
+  maxH?: number;
+}
+
+function placeCoachmark(rect: Rect, vw: number, vh: number, cardW: number, cardH: number): Placement {
+  const cw = Math.min(cardW, vw - 2 * GAP);
+  const ch = Math.min(cardH, vh - 2 * GAP);
+  const sTop = rect.top - PAD;
+  const sBottom = rect.top + rect.height + PAD;
+  const sLeft = rect.left - PAD;
+  const sRight = rect.left + rect.width + PAD;
+  // Centered on the target for the vertical placements / on it for the side ones.
+  const cx = clamp(rect.left + rect.width / 2 - cw / 2, GAP, vw - cw - GAP);
+  const cy = clamp(rect.top + rect.height / 2 - ch / 2, GAP, vh - ch - GAP);
+
+  // Try each side at the card's full size — each candidate is fully outside the
+  // padded spotlight, so the highlight stays visible.
+  if (sBottom + GAP + ch <= vh - GAP) return { top: sBottom + GAP, left: cx }; // below
+  if (sTop - GAP - ch >= GAP) return { top: sTop - GAP - ch, left: cx }; // above
+  if (sRight + GAP + cw <= vw - GAP) return { top: cy, left: sRight + GAP }; // right
+  if (sLeft - GAP - cw >= GAP) return { top: cy, left: sLeft - GAP - cw }; // left
+
+  // The card is taller than any side's gap. Drop it into the larger vertical
+  // band and cap its height there — it scrolls internally — so it still never
+  // covers the spotlight. Width is never capped, which keeps placement stable
+  // (the card's measured natural height doesn't change under it).
+  const gapBelow = vh - sBottom - 2 * GAP;
+  const gapAbove = sTop - 2 * GAP;
+  if (Math.max(gapBelow, gapAbove) >= 100) {
+    return gapBelow >= gapAbove
+      ? { top: sBottom + GAP, left: cx, maxH: gapBelow }
+      : { top: GAP, left: cx, maxH: gapAbove };
+  }
+  // The highlight nearly fills the viewport (it's larger than the screen minus a
+  // usable card) — overlap is unavoidable; pin the card to the bottom.
+  return { top: clamp(vh - ch - GAP, GAP, vh - GAP), left: cx };
+}
 
 const prefersReducedMotion = () =>
   typeof window !== 'undefined' &&
@@ -39,7 +97,9 @@ export function TourOverlay() {
   const end = useTourStore((s) => s.end);
 
   const [rect, setRect] = useState<Rect | null>(null);
+  const [cardSize, setCardSize] = useState({ w: CARD_W, h: CARD_H_EST });
   const cardRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
 
   const step = steps[stepIndex];
   const isLast = stepIndex === steps.length - 1;
@@ -79,13 +139,23 @@ export function TourOverlay() {
         setRect((prev) => (prev === null ? prev : null)); // hidden / collapsed
         return;
       }
+      // Reserve room for the card by where we park the target: center it when
+      // the viewport is tall enough to also fit the card on one side (looks
+      // best), otherwise pull the target to the top so a full card height stays
+      // free below it. 'start' is always at least as good as 'center' for fitting
+      // the card, so prefer it on any viewport too short to center — this is the
+      // lever that keeps the card off the spotlight on small / landscape displays.
+      const vh = window.innerHeight;
+      const block: ScrollLogicalPosition =
+        vh >= r.height + 2 * CARD_H_EST + 3 * GAP ? 'center' : 'start';
       if (scrolled !== el) {
         scrolled = el;
-        el.scrollIntoView({ block: 'center', inline: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
-      } else if (r.top < 8 || r.bottom > window.innerHeight - 8) {
-        // The target drifted out of view — e.g. a section finished expanding
-        // and pushed it down. Re-center instantly so the spotlight follows.
-        el.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'auto' });
+        el.scrollIntoView({ block, inline: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+      } else if (r.top < -1 || r.bottom > vh + 1) {
+        // The target was clipped — e.g. a section finished expanding and pushed
+        // it off-screen. Re-anchor instantly so the spotlight follows. (Only on
+        // real clipping, so an intentional top-parked target isn't re-scrolled.)
+        el.scrollIntoView({ block, inline: 'nearest', behavior: 'auto' });
       }
       setRect((prev) =>
         prev &&
@@ -133,23 +203,44 @@ export function TourOverlay() {
     return () => window.removeEventListener('keydown', onKey, true);
   }, [active, stepIndex, end]);
 
+  // Measure the card's real size so placement reserves the right amount of room
+  // (the body length varies per step). Re-runs when the step content changes or
+  // the target moves/resizes; the value guard makes redundant runs a no-op.
+  useLayoutEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+    const w = el.offsetWidth;
+    // The card's NATURAL height, independent of any maxHeight cap we apply for
+    // placement — so the measurement can't feed back into the cap and oscillate.
+    // The body is the only flexible part, so swap its visible height for its
+    // full content height: cardHeight - bodyVisible + bodyContent.
+    const body = bodyRef.current;
+    const h = body
+      ? el.offsetHeight - body.clientHeight + body.scrollHeight
+      : el.scrollHeight;
+    setCardSize((p) => (p.w === w && p.h === h ? p : { w, h }));
+  }, [active, stepIndex, rect]);
+
   if (!active || !step) return null;
 
-  // Position the coachmark: below the target if it fits, otherwise above;
-  // clamped to the viewport. Centered when there is no target.
+  // Position the coachmark beside the target — below / above / right / left,
+  // whichever fits — so it never covers the spotlight. On a viewport too small
+  // for the card beside the target, placeCoachmark caps it to the largest gap
+  // (maxH) and it scrolls; overflow-auto keeps the Back/Next buttons reachable.
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
   let cardStyle: React.CSSProperties;
   if (rect) {
-    const below = rect.top + rect.height + PAD + GAP;
-    const fitsBelow = below + CARD_H_EST < window.innerHeight;
-    const top = fitsBelow ? below : Math.max(GAP, rect.top - PAD - GAP - CARD_H_EST);
-    const left = Math.min(
-      Math.max(GAP, rect.left + rect.width / 2 - CARD_W / 2),
-      window.innerWidth - CARD_W - GAP
-    );
-    cardStyle = { top, left, width: CARD_W };
+    const p = placeCoachmark(rect, vw, vh, cardSize.w, cardSize.h);
+    cardStyle = { top: p.top, left: p.left, maxHeight: p.maxH ?? 'calc(100dvh - 1.5rem)' };
   } else {
-    cardStyle = { top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: CARD_W };
+    cardStyle = { top: '50%', left: '50%', transform: 'translate(-50%, -50%)', maxHeight: 'calc(100dvh - 1.5rem)' };
   }
+  cardStyle = {
+    ...cardStyle,
+    width: CARD_W,
+    maxWidth: 'calc(100vw - 1.5rem)',
+  };
 
   // Locked coach overlay: the tour is modal, so only its own controls (the
   // corner ×, Back, Next, or Esc) advance or exit it. Incidental clicks and
@@ -191,7 +282,7 @@ export function TourOverlay() {
         ref={cardRef}
         tabIndex={-1}
         onPointerDown={(e) => e.stopPropagation()}
-        className="fixed z-[112] pointer-events-auto rounded-xl border bg-popover text-popover-foreground p-4 shadow-elevated outline-none"
+        className="fixed z-[112] pointer-events-auto flex flex-col rounded-xl border bg-popover text-popover-foreground p-4 shadow-elevated outline-none overflow-hidden"
         style={cardStyle}
       >
         {/* Exit, tucked into the corner so it stays out of the controls. */}
@@ -203,9 +294,14 @@ export function TourOverlay() {
         >
           <X className="h-4 w-4" />
         </button>
-        <h3 className="text-sm font-semibold mb-1 pr-6">{step.title}</h3>
-        <p className="text-[13px] text-muted-foreground leading-relaxed mb-3">{step.body}</p>
-        <div className="flex items-center justify-between gap-3">
+        <h3 className="shrink-0 text-sm font-semibold mb-1 pr-6">{step.title}</h3>
+        {/* Only the body scrolls when the card is capped to a tight gap on a
+            short screen; the title above and the controls below stay pinned, so
+            Back/Next are always inside the box. */}
+        <div ref={bodyRef} className="min-h-0 flex-1 overflow-y-auto">
+          <p className="text-sm text-muted-foreground leading-relaxed">{step.body}</p>
+        </div>
+        <div className="shrink-0 flex items-center justify-between gap-3 pt-3">
           {/* Progress: the current step is a pill, the rest small dots. */}
           {isSingle ? (
             <span />

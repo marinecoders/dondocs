@@ -339,7 +339,7 @@ export function DownloadProgressModal({ phase, onClose, onRetry }: DownloadProgr
                     </Button>
                   </div>
                   <pre
-                    className="max-h-48 overflow-auto rounded-md bg-muted border border-border p-2 text-[11px] leading-tight font-mono whitespace-pre-wrap break-all text-foreground/80"
+                    className="max-h-48 overflow-auto rounded-md bg-muted border border-border p-2 text-xs leading-tight font-mono whitespace-pre-wrap break-all text-foreground/80"
                     aria-label="Error log output"
                   >
                     {phase.compileLog}
