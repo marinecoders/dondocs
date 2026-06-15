@@ -25,6 +25,8 @@ import { TemplateLoaderModal } from '@/components/modals/TemplateLoaderModal';
 import { DocumentGuideModal } from '@/components/modals/DocumentGuideModal';
 import { WelcomeModal } from '@/components/modals/WelcomeModal';
 import { TourOverlay } from '@/components/tour/TourOverlay';
+import { ActivationChecklist } from '@/components/onboarding/ActivationChecklist';
+import { useOnboardingStore } from '@/stores/onboardingStore';
 import { PIIWarningModal } from '@/components/modals/PIIWarningModal';
 import { LogViewerModal } from '@/components/modals/LogViewerModal';
 import { EnclosureErrorModal } from '@/components/modals/EnclosureErrorModal';
@@ -656,7 +658,12 @@ function App() {
 
       onProgress?.({ kind: 'pdf-saving' });
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
-      return await downloadPdfBlob(blob, 'correspondence.pdf', preOpenedWindow);
+      const downloaded = await downloadPdfBlob(blob, 'correspondence.pdf', preOpenedWindow);
+      // First real PDF checks off "Build your first document" in the getting-
+      // started checklist (markComplete is idempotent). Both the normal and the
+      // PII-confirmed download paths end here.
+      if (downloaded) useOnboardingStore.getState().markComplete('first_document');
+      return downloaded;
     }
     return false;
   }, [compile]);
@@ -864,7 +871,12 @@ function App() {
 
       onProgress?.({ kind: 'pdf-saving' });
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
-      return await downloadPdfBlob(blob, 'correspondence.pdf', preOpenedWindow);
+      const downloaded = await downloadPdfBlob(blob, 'correspondence.pdf', preOpenedWindow);
+      // First real PDF checks off "Build your first document" in the getting-
+      // started checklist (markComplete is idempotent). Both the normal and the
+      // PII-confirmed download paths end here.
+      if (downloaded) useOnboardingStore.getState().markComplete('first_document');
+      return downloaded;
     }
     return false;
   }, [compile]);
@@ -1058,6 +1070,8 @@ function App() {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+        // Exporting a form PDF also completes the checklist's first-document step.
+        useOnboardingStore.getState().markComplete('first_document');
       } else {
         console.error('No PDF generated - missing templates or unsupported form type');
       }
@@ -1456,6 +1470,7 @@ ${texFiles['body.tex'] || '% No body content'}
       <DocumentGuideModal />
       <WelcomeModal />
       <TourOverlay />
+      <ActivationChecklist />
       <PIIWarningModal
         detectionResult={piiDetectionResult}
         onCancel={handleCancelPIIDownload}
