@@ -1,12 +1,7 @@
 /**
- * Service Worker Registration Hook
- *
- * Handles PWA service worker registration and update notifications.
- * Uses vite-plugin-pwa's useRegisterSW hook with prompt mode.
- *
- * - Fresh visits (within 5 seconds): auto-update silently
- * - Active sessions (after 5 seconds): prompt user before updating
- * - After reload: automatically restores their work without prompting
+ * PWA service-worker registration and update handling (vite-plugin-pwa's
+ * useRegisterSW in prompt mode). Fresh visits (within 5s) auto-update silently;
+ * active sessions prompt first. Work is auto-restored after the reload.
  */
 
 import { useEffect, useState, useCallback, useRef } from 'react';
@@ -19,9 +14,8 @@ export function useServiceWorker() {
   const [showUpdatePrompt, setShowUpdatePrompt] = useState(false);
   const [isActiveSession, setIsActiveSession] = useState(false);
   const updateServiceWorkerRef = useRef<((reloadPage?: boolean) => Promise<void>) | null>(null);
-  // Track the periodic update-check interval so we can cancel it on unmount.
-  // Without this, HMR in dev and any unmount in tests leak a 60s timer that
-  // keeps calling registration.update() forever against a dead component.
+  // Periodic update-check interval, cancelled on unmount so dev HMR and tests
+  // don't leak a 60s timer calling registration.update() against a dead component.
   const updateIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const {
@@ -32,9 +26,8 @@ export function useServiceWorker() {
     onRegisteredSW(swUrl, registration) {
       console.log('[SW] Registered:', swUrl);
 
-      // Check for updates periodically (every 60 seconds). Clear any prior
-      // interval first in case onRegisteredSW fires more than once (e.g.
-      // registration re-runs in dev).
+      // Poll for updates every 60s. Clear any prior interval in case
+      // onRegisteredSW fires more than once (e.g. dev re-registration).
       if (registration) {
         if (updateIntervalRef.current) {
           clearInterval(updateIntervalRef.current);
@@ -59,26 +52,17 @@ export function useServiceWorker() {
     };
   }, []);
 
-  // Sync the latest updateServiceWorker callback into a ref so the
-  // needRefresh effect below can call it without listing it as a dep.
-  // (Adding the callback to that effect's deps would cause spurious
-  // re-runs on every render where useRegisterSW returns a new closure
-  // identity, which can flip needRefresh handling mid-cycle.)
-  //
-  // Setting `ref.current` in render directly works in practice but
-  // violates the React rule against side-effects during render and
-  // is brittle under concurrent rendering -- React may discard a
-  // render and re-run it, leaving the ref pointing at a stale closure
-  // from the discarded attempt. Move the assignment into useEffect so
-  // it runs after the render commits. The ref consumer below is also
-  // a useEffect and is declared after this one, so React runs them in
-  // order and the ref is always populated before the consumer reads it.
+  // Keep the latest updateServiceWorker in a ref so the needRefresh effect can
+  // call it without depending on it (its closure identity changes each render).
+  // Assign in an effect, not during render, to stay safe under concurrent
+  // rendering; the consumer effect is declared after this one, so the ref is
+  // populated first.
   useEffect(() => {
     updateServiceWorkerRef.current = updateServiceWorker;
   }, [updateServiceWorker]);
 
-  // Mark session as active after 5 seconds of being on the page
-  // This means: fresh visit = auto-update, active session = prompt
+  // Mark the session active after 5s: fresh visit auto-updates, active session
+  // prompts.
   useEffect(() => {
     const timer = setTimeout(() => {
       console.log('[SW] Session now active - updates will prompt');
@@ -87,18 +71,8 @@ export function useServiceWorker() {
     return () => clearTimeout(timer);
   }, []);
 
-  // When needRefresh is true, either auto-update or show prompt.
-  //
-  // Legitimate "synchronize React state with an external system" pattern:
-  // useRegisterSW exposes `needRefresh` as a derived value (not a stream
-  // or listener callback), so our effect mirrors it into local UI state
-  // when it flips true. The react-hooks/set-state-in-effect rule docs
-  // explicitly call out "subscribe for updates from some external system,
-  // calling setState when external state changes" as legitimate -- this
-  // is the same shape, just expressed via a value-prop API rather than
-  // a callback-listener API. The rule is conservative about flagging
-  // synchronous setState in the effect body, so the disable is at the
-  // setShowUpdatePrompt call.
+  // When needRefresh flips true, auto-update or show the prompt. useRegisterSW
+  // exposes it as a derived value, so the effect mirrors it into local UI state.
   useEffect(() => {
     if (needRefresh) {
       if (isActiveSession) {
@@ -114,13 +88,11 @@ export function useServiceWorker() {
     }
   }, [needRefresh, isActiveSession]);
 
-  // User confirms update - save state and reload
+  // User confirms the update, so reload. documentsStore.init auto-resumes the open
+  // document, so there's no restore prompt to pre-empt.
   const confirmUpdate = useCallback(() => {
-    console.log('[SW] User confirmed update, marking for auto-restore');
-    // Mark that we should auto-restore after reload (skip restore modal)
-    localStorage.setItem(SW_AUTO_RESTORE_KEY, 'true');
+    console.log('[SW] User confirmed update, reloading');
     setShowUpdatePrompt(false);
-    // Trigger the service worker update which will reload the page
     updateServiceWorker(true);
   }, [updateServiceWorker]);
 

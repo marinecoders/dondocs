@@ -10,7 +10,7 @@
  * JSON-serializable shapes, and the legacy-compat case pins down a
  * known-good pre-compression string.
  */
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import fc from 'fast-check';
 import {
   compressedStringify,
@@ -140,5 +140,42 @@ describe('compressedLocalStorage — Zustand StateStorage adapter', () => {
 
   it('getItem returns null for unknown keys', () => {
     expect(compressedLocalStorage.getItem('definitely-not-set')).toBeNull();
+  });
+});
+
+describe('compressedLocalStorage — quota and corruption safety', () => {
+  afterEach(() => {
+    localStorage.clear();
+  });
+
+  it('rethrows a quota error exactly once, without retrying the larger plain value', () => {
+    const quota = new DOMException('full', 'QuotaExceededError');
+    const setSpy = vi.spyOn(localStorage, 'setItem').mockImplementation(() => {
+      throw quota;
+    });
+    // Restore in finally rather than via afterEach: restoreAllMocks doesn't
+    // reliably un-spy a host object's method across all runtimes, and a leaked
+    // throwing setItem would break the next test.
+    try {
+      // A repetitive payload so the compressed branch is what's attempted first.
+      const value = JSON.stringify({ data: Array.from({ length: 200 }, () => 'AAAAAAAAAAAAAAAA') });
+
+      expect(() => compressedLocalStorage.setItem('k', value)).toThrow();
+      // The old code caught the quota error and retried with the larger plain
+      // value (a second throwing write); the fix writes exactly once and rethrows.
+      expect(setSpy).toHaveBeenCalledTimes(1);
+    } finally {
+      setSpy.mockRestore();
+    }
+  });
+
+  it('getItem returns null for a truncated/corrupt gz payload instead of throwing', () => {
+    // 'gz:' alone inflates to "" — would crash downstream JSON.parse if returned.
+    localStorage.setItem('empty-gz', 'gz:');
+    expect(compressedLocalStorage.getItem('empty-gz')).toBeNull();
+    // Valid base64 ("hello") but not a deflate stream — pako rejects the zlib
+    // header. (Avoid invalid-base64 input, whose atob handling differs by runtime.)
+    localStorage.setItem('bad-gz', 'gz:aGVsbG8=');
+    expect(compressedLocalStorage.getItem('bad-gz')).toBeNull();
   });
 });

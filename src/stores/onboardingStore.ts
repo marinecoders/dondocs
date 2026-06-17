@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { safeLocalStorage } from '@/lib/compressedStorage';
 
 /**
  * Tracks which feature walkthroughs the user has finished, so the guide can
@@ -42,6 +43,6 @@ export const useOnboardingStore = create<OnboardingState>()(
       setChecklistCelebrated: (v) =>
         set(v ? { checklistCelebrated: true, checklistDismissed: false } : { checklistCelebrated: v }),
     }),
-    { name: 'dondocs-onboarding' }
+    { name: 'dondocs-onboarding', storage: createJSONStorage(() => safeLocalStorage) }
   )
 );
