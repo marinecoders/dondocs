@@ -1,17 +1,17 @@
-import { useEffect, useCallback, useState, useRef, lazy, Suspense } from 'react';
+import { useEffect, useCallback, useMemo, useState, useRef, lazy, Suspense } from 'react';
 import { Header } from '@/components/layout/Header';
 import { FormPanel } from '@/components/layout/FormPanel';
+import { EditorSidebar } from '@/components/layout/EditorSidebar';
+import { MobileRecents } from '@/components/layout/MobileRecents';
+import { VersionHistoryModal } from '@/components/modals/VersionHistoryModal';
 import { PreviewPanel } from '@/components/layout/PreviewPanel';
 import { ResizableDivider } from '@/components/layout/ResizableDivider';
 import { ProfileModal } from '@/components/modals/ProfileModal';
 import { ReferenceLibraryModal } from '@/components/modals/ReferenceLibraryModal';
 // MobilePreviewModal pulls react-pdf + @react-pdf-viewer + pdf.js core
-// (~400 KB raw / ~120 KB gz). Desktop users (the majority) never open
-// it — the floating "Preview PDF" button that triggers it only appears
-// on mobile. Lazy-loading splits it into its own chunk that's only
-// fetched when the user actually opens the modal. Combined with the
-// `mobilePreviewOpen &&` gate in the JSX below, the chunk doesn't
-// even start loading until the user taps the button.
+// (~400 KB raw / ~120 KB gz) and only appears on mobile. Lazy-load it into
+// its own chunk; the mobilePreviewOpen gate below holds the fetch until the
+// user taps "Preview PDF".
 const MobilePreviewModal = lazy(() =>
   import('@/components/modals/MobilePreviewModal').then((m) => ({
     default: m.MobilePreviewModal,
@@ -30,7 +30,6 @@ import { useOnboardingStore } from '@/stores/onboardingStore';
 import { PIIWarningModal } from '@/components/modals/PIIWarningModal';
 import { LogViewerModal } from '@/components/modals/LogViewerModal';
 import { EnclosureErrorModal } from '@/components/modals/EnclosureErrorModal';
-import { RestoreSessionModal } from '@/components/modals/RestoreSessionModal';
 import { ShareModal } from '@/components/modals/ShareModal';
 import { UpdatePromptModal } from '@/components/modals/UpdatePromptModal';
 import { DownloadProgressModal } from '@/components/modals/DownloadProgressModal';
@@ -40,15 +39,42 @@ import {
   type DownloadProgressPhase,
 } from '@/components/modals/downloadProgressTypes';
 import { parseShareUrl } from '@/lib/shareCrypto';
-import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { BrowserCompatibilityNotice } from '@/components/BrowserCompatibilityNotice';
-import { BackgroundBeams } from '@/components/effects/BackgroundBeams';
+import { StorageNotice } from '@/components/StorageNotice';
+import { probeStorageHealth } from '@/lib/documentsDb';
 const marineCodersLogo = `${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`;
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore } from '@/stores/documentStore';
+import { useDocumentStore, getSavedSession } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
 import { useHistoryStore } from '@/stores/historyStore';
-import { useProfileStore } from '@/stores/profileStore';
+import { useDocumentsStore, applySelectedProfile, correspondenceFilename } from '@/stores/documentsStore';
+import { useBackupStore } from '@/stores/backupStore';
+import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
+import { useEditorSections } from '@/components/layout/editorSections';
+import { CommandPalette, type CommandGroup } from '@/components/modals/CommandPalette';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { formatShortcut } from '@/lib/platform';
+import {
+  CornerDownRight,
+  Plus,
+  FileText,
+  Download,
+  Save,
+  Layers,
+  Compass,
+  BookOpen,
+  Hash,
+  Paperclip,
+  Braces,
+  FileDown,
+  Link2,
+  Search,
+  History,
+  Copy,
+  Users,
+  MoonStar,
+  PanelRight,
+} from 'lucide-react';
 import { useLogStore } from '@/stores/logStore';
 import { useLatexEngine, useServiceWorker } from '@/hooks';
 import { usePandocIdlePrefetch } from '@/hooks/usePandocIdlePrefetch';
@@ -125,8 +151,8 @@ function getDualSignatoryConfig(formData: Partial<DocumentData>, uiMode: string 
   let seniorName: string | undefined;
 
   if (uiMode === 'moa') {
-    // MOA/MOU: Junior uses full name uppercased, Senior uses abbreviated form "F. LASTNAME"
-    // This matches how the LaTeX generator renders them (see generator.ts lines 255-278)
+    // MOA/MOU: Junior uses full name uppercased, Senior uses "F. LASTNAME",
+    // matching how the LaTeX generator renders them.
     juniorName = formData.juniorSigName?.toUpperCase()?.trim() || undefined;
 
     // Senior signatory in MOA/MOU uses abbreviated form: "F. LASTNAME"
@@ -150,25 +176,28 @@ function getDualSignatoryConfig(formData: Partial<DocumentData>, uiMode: string 
   };
 }
 
+// Latest download triggers, published by App in an effect. Held at module scope
+// (like editorOutlineStore's jump handler) so the command-palette groups — built
+// during render — can dispatch a download without referencing a ref-reading
+// callback during render, which the React rules forbid.
+const commandDownloadTriggers: { pdf: () => void; docx: () => void } = {
+  pdf: () => {},
+  docx: () => {},
+};
+
 function App() {
-  // Background-prefetch the Pandoc WASM module (~58 MB) during browser idle
-  // time so the first user-initiated DOCX export feels instant rather than
-  // a 5-15s download wait. Gated on connection type internally — skips on
-  // offline, data-saver, and very slow connections.
+  // Prefetch the Pandoc WASM module (~58 MB) during browser idle time so the
+  // first DOCX export skips the download wait. Skips slow/data-saver connections.
   usePandocIdlePrefetch();
 
-  // Individual selectors — Zustand only re-renders this component when the
-  // specific field changes by strict equality. Previously `useUIStore()`
-  // subscribed to the whole store, so every modal open/close and every
-  // autoSaveStatus transition was re-rendering App and its entire subtree.
-  // Setters are stable references from Zustand's `create()` callback, so
-  // selecting them individually adds no cost.
+  // Individual selectors so Zustand only re-renders App on the specific field's
+  // change, not on every store update. Setters are stable, so selecting them is free.
   const theme = useUIStore((s) => s.theme);
   const colorScheme = useUIStore((s) => s.colorScheme);
   const density = useUIStore((s) => s.density);
   const isMobile = useUIStore((s) => s.isMobile);
   const setIsMobile = useUIStore((s) => s.setIsMobile);
-  // Gate the lazy MobilePreviewModal — chunk only fetches on first open.
+  // Gate the lazy MobilePreviewModal; chunk fetches on first open only.
   const mobilePreviewOpen = useUIStore((s) => s.mobilePreviewOpen);
   const previewVisible = useUIStore((s) => s.previewVisible);
   const previewWidth = useUIStore((s) => s.previewWidth);
@@ -184,14 +213,14 @@ function App() {
   const togglePreview = useUIStore((s) => s.togglePreview);
   const closeAllModals = useUIStore((s) => s.closeAllModals);
   const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
+  const commandPaletteOpen = useUIStore((s) => s.commandPaletteOpen);
+  const setCommandPaletteOpen = useUIStore((s) => s.setCommandPaletteOpen);
+  // The current document's section outline drives the palette's "Jump to section" group.
+  const { sections: outlineSections } = useEditorSections();
   const mainContainerRef = useRef<HTMLElement>(null);
-  // Individual selectors instead of a full `useDocumentStore()` subscription.
-  // The seven slices below are the ones that should invalidate the debounced
-  // compile; subscribing to them granularly means every other setter call
-  // (auto-save status pings, unrelated form field changes that the compile
-  // doesn't care about, etc.) no longer wakes App.tsx. Inside compilePdf we
-  // still need the full store for `generateAllLatexFiles`, but we pull it
-  // via `useDocumentStore.getState()` at call time so nothing gets stale.
+  // Individual selectors, not a full useDocumentStore() subscription. These are
+  // the slices that should invalidate the debounced compile; other setter calls
+  // no longer wake App. compilePdf reads the full store via getState() at call time.
   const docType = useDocumentStore((s) => s.docType);
   const formData = useDocumentStore((s) => s.formData);
   const references = useDocumentStore((s) => s.references);
@@ -201,18 +230,14 @@ function App() {
   const distributions = useDocumentStore((s) => s.distributions);
   const documentCategory = useDocumentStore((s) => s.documentCategory);
   const formType = useDocumentStore((s) => s.formType);
-  const setFormData = useDocumentStore((s) => s.setFormData);
   const applySnapshot = useDocumentStore((s) => s.applySnapshot);
-  // Individual selectors — App no longer re-renders on every form-store
-  // keystroke (only when one of these three slices actually changes).
+  // Individual selectors so App re-renders only when one of these slices changes.
   const navmc10274 = useFormStore((s) => s.navmc10274);
   const navmc11811 = useFormStore((s) => s.navmc11811);
   const includeCoverPage = useFormStore((s) => s.includeCoverPage);
-  // Individual selectors across the remaining stores too — same reasoning.
+  // Individual selectors across the remaining stores too.
   const undo = useHistoryStore((s) => s.undo);
   const redo = useHistoryStore((s) => s.redo);
-  const selectedProfile = useProfileStore((s) => s.selectedProfile);
-  const profiles = useProfileStore((s) => s.profiles);
   const addLogDirect = useLogStore((s) => s.addLogDirect);
   const { isReady, compile, waitForReady, error: engineError } = useLatexEngine();
   const { showUpdatePrompt, confirmUpdate, dismissUpdatePrompt } = useServiceWorker();
@@ -221,23 +246,44 @@ function App() {
   const [formPdfUrl, setFormPdfUrl] = useState<string | null>(null);
   const [isCompiling, setIsCompiling] = useState(false);
   const [compileError, setCompileError] = useState<string | null>(null);
-  // Full formatted log from the compile failure (from SwiftLaTeX). Drives the
-  // compile-error modal — kept separate from the logStore feed so we have a
-  // clean one-shot value to show without having to scrape the log history.
+  // Full compile-failure log from SwiftLaTeX. Drives the compile-error modal,
+  // kept separate from the logStore feed as a clean one-shot value.
   const [compileLog, setCompileLog] = useState<string | null>(null);
-  // Live-preview compile errors pop a modal the FIRST time a new error
-  // appears. `lastShownCompileErrorRef` holds the text we already showed so
-  // subsequent debounce cycles with the same error don't re-pop. Reset to
-  // null on every successful compile (see useEffect below).
+  // Live-preview compile errors pop a modal the first time a new error appears.
+  // lastShownCompileErrorRef holds the text already shown so repeated debounce
+  // cycles with the same error don't re-pop; reset to null on success.
   const [compileErrorModalOpen, setCompileErrorModalOpen] = useState(false);
   const lastShownCompileErrorRef = useRef<string | null>(null);
-  // Download loading feedback (PDF + DOCX). Non-null means a download is in
-  // flight (modal visible) or failed (error phase, dismissible modal). Drives
-  // the Header's "Generating…" menu state so the user can't double-click.
+  // Download progress (PDF + DOCX). Non-null means a download is in flight or
+  // failed; drives the modal and the Header's "Generating…" menu state.
   const [downloadProgress, setDownloadProgress] = useState<DownloadProgressPhase | null>(null);
+  // On a successful export, flash a brief "Downloaded — nothing left your device"
+  // beat before dismissing the progress modal, so the app narrates the ending it
+  // used to drop. The functional guard avoids clearing a fresh download the user
+  // kicked off during the beat.
+  const finishDownload = useCallback(() => {
+    setDownloadProgress({ kind: 'success' });
+    window.setTimeout(() => {
+      setDownloadProgress((p) => (p?.kind === 'success' ? null : p));
+    }, 1800);
+  }, []);
   const compileTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const formCompileTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isResettingRef = useRef(false);
+  // Idle-time full-quality preview upgrade. When fullQualityPreview is off
+  // (default, for responsiveness), the resting preview is upgraded to match the
+  // download — enclosures merged, signature fields added — once the user goes
+  // idle. previewGenRef stamps each compile so a stale idle pass never swaps in
+  // an out-of-date PDF; the idle handle is cancelled when a newer compile starts.
+  const [previewEnhanced, setPreviewEnhanced] = useState(false);
+  const previewGenRef = useRef(0);
+  const idleEnhanceRef = useRef<number | null>(null);
+  const cancelIdleEnhance = useCallback(() => {
+    if (idleEnhanceRef.current == null) return;
+    if (typeof window.cancelIdleCallback === 'function') window.cancelIdleCallback(idleEnhanceRef.current);
+    else clearTimeout(idleEnhanceRef.current);
+    idleEnhanceRef.current = null;
+  }, []);
 
   // PII detection state
   const [piiDetectionResult, setPiiDetectionResult] = useState<PIIDetectionResult | null>(null);
@@ -247,21 +293,14 @@ function App() {
   const [enclosureErrors, setEnclosureErrors] = useState<EnclosureError[]>([]);
   const [showEnclosureErrors, setShowEnclosureErrors] = useState(false);
 
-  // Share link payload when opened from URL hash (#s=...).
-  // Parsed once at mount via lazy initializer — avoids a setState-in-effect
-  // hit and prevents a flash of the empty editor before the import modal
-  // opens.
+  // Share link payload from the URL hash (#s=...), parsed once at mount via a
+  // lazy initializer to avoid a flash of the empty editor before the import modal.
   const [sharePayloadFromHash, setSharePayloadFromHash] = useState<string | null>(() =>
     parseShareUrl(window.location.href)
   );
 
-  // If the URL had a share hash, open the import modal once on mount.
-  // Separate from the lazy initializer above so the modal-open side effect
-  // happens *after* render rather than during state init.
-  // setShareModal is a Zustand setter (not a useState setter), so the
-  // react-hooks/set-state-in-effect rule no longer fires on this effect
-  // after the lazy-init refactor above moved the only useState setter
-  // (setSharePayloadFromHash) out of the effect body.
+  // If the URL had a share hash, open the import modal once on mount, after
+  // render rather than during state init.
   useEffect(() => {
     if (sharePayloadFromHash) {
       setShareModal('import');
@@ -271,6 +310,16 @@ function App() {
   // Apply theme to document
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
+    // Keep the browser/PWA chrome color in step with the app theme. The static
+    // theme-color metas key off prefers-color-scheme, but the app theme is
+    // user-controlled and independent — so override both metas' content to the
+    // active canvas color, else the status bar mistints when they disagree.
+    const canvas = theme === 'dark' ? '#0b0d11' : '#f1f6fa';
+    document
+      .querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
+      .forEach((m) => {
+        m.content = canvas;
+      });
   }, [theme]);
 
   // Apply density to document
@@ -286,8 +335,8 @@ function App() {
   // Track if initial setup has been done
   const initialSetupDoneRef = useRef(false);
 
-  // Detect mobile/tablet devices
-  // iPads and tablets should use mobile UI since embedded PDF preview doesn't work well
+  // Detect mobile/tablet devices. iPads and tablets use the mobile UI because
+  // embedded PDF preview doesn't work well there.
   useEffect(() => {
     const checkMobile = () => {
       const width = window.innerWidth;
@@ -313,9 +362,16 @@ function App() {
       // Only set preview visibility on initial setup, not on every resize
       if (!initialSetupDoneRef.current) {
         initialSetupDoneRef.current = true;
-        // Check if user has a persisted preference (localStorage)
-        const stored = localStorage.getItem('dondocs_ui');
-        const hasPersistedPreference = stored && JSON.parse(stored)?.state?.previewVisible !== undefined;
+        // Check if user has a persisted preference. Reading localStorage can throw
+        // (blocked site data) or the value can be corrupt; treat either as "no
+        // preference" so this never aborts the resize listener registration below.
+        let hasPersistedPreference = false;
+        try {
+          const stored = localStorage.getItem('dondocs_ui');
+          hasPersistedPreference = !!stored && JSON.parse(stored)?.state?.previewVisible !== undefined;
+        } catch {
+          // blocked or corrupt storage: keep the default (no preference)
+        }
 
         if (!hasPersistedPreference) {
           // First-time user: show preview on desktop, hide on mobile
@@ -328,39 +384,123 @@ function App() {
     return () => window.removeEventListener('resize', checkMobile);
   }, [setIsMobile, setPreviewVisible]);
 
-  // Sync selected profile with form data on initial load
+  // Bootstrap the document registry on initial load.
   useEffect(() => {
-    if (selectedProfile && profiles[selectedProfile]) {
-      const profile = profiles[selectedProfile];
-      setFormData({
-        department: profile.department,
-        unitLine1: profile.unitLine1,
-        unitLine2: profile.unitLine2,
-        // Canonicalize on read so legacy profiles (saved before PR #63's
-        // canonicalize-on-pick fix) get the SECNAV-correct comma layout.
-        // No-op if the profile is already in canonical form.
-        unitAddress: canonicalizeUnitAddress(profile.unitAddress),
-        ssic: profile.ssic,
-        from: profile.from,
-        sigFirst: profile.sigFirst,
-        sigMiddle: profile.sigMiddle,
-        sigLast: profile.sigLast,
-        sigRank: profile.sigRank,
-        sigTitle: profile.sigTitle,
-        byDirection: profile.byDirection,
-        byDirectionAuthority: profile.byDirectionAuthority,
-        cuiControlledBy: profile.cuiControlledBy,
-        pocEmail: profile.pocEmail,
-        signatureImage: profile.signatureImage,
+    // init() resumes the last open document, or returns false for a fresh start.
+    // On a fresh start, seed the profile letterhead then baseline, so applying
+    // the profile counts as part of the starting state and the document enters
+    // Recents only once the user changes it. Don't re-apply over restored content.
+    let cancelled = false;
+    const seedFreshStart = () => {
+      if (cancelled) return;
+      applySelectedProfile();
+      useDocumentsStore.getState().markBaseline();
+    };
+    // If the user was last working on a NAVMC form, return them to that view
+    // after init (the form field data itself is rehydrated by formStore's own
+    // persist; init only resumes correspondence). Read before init runs.
+    const lastSession = getSavedSession();
+    const resumeFormType =
+      lastSession?.documentCategory === 'forms' ? lastSession.formType : null;
+    const restoreFormsView = () => {
+      if (cancelled || !resumeFormType) return;
+      const ds = useDocumentStore.getState();
+      ds.setDocumentCategory('forms');
+      ds.setFormType(resumeFormType);
+    };
+    void useDocumentsStore
+      .getState()
+      .init()
+      .then((resumed) => {
+        if (!resumed) seedFreshStart();
+        restoreFormsView();
+      })
+      // Hydration shouldn't reject (storage failures are caught internally), but
+      // if it ever does, degrade to a usable seeded document instead of an
+      // unhandled rejection that leaves the editor unseeded.
+      .catch(() => {
+        seedFreshStart();
+        restoreFormsView();
+      })
+      // Probe how durable storage is only AFTER hydration/migration settles, so a
+      // returning user's just-migrated docs are already in IndexedDB and the
+      // StorageNotice can't be suppressed by reading an empty store mid-migration.
+      .finally(() => {
+        void probeStorageHealth()
+          .then((health) => {
+            if (!cancelled) useUIStore.getState().setStorageHealth(health);
+          })
+          .catch(() => {
+            /* probe is best-effort; leave storageHealth at its default */
+          });
       });
-    }
+    // Reconnect a previously-chosen synced-backup file (no-op if none / unsupported).
+    void useBackupStore.getState().init();
+    return () => {
+      cancelled = true;
+    };
     // Only run on initial mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Forms persist on every edit (formStore's own persist middleware); reflect
+  // that in the "Saved" indicator the same way the correspondence registry
+  // write does, so the signal is honest in both categories. Debounced so the
+  // passive indicator wakes once per typing pause rather than on every keystroke.
+  useEffect(() => {
+    let t: ReturnType<typeof setTimeout> | undefined;
+    const unsub = useFormStore.subscribe(() => {
+      clearTimeout(t);
+      t = setTimeout(() => {
+        // Don't claim "Saved" when localStorage is blocked/full — nothing durable
+        // was written. StorageNotice already warns; keep the indicator honest.
+        if (useUIStore.getState().storageHealth === 'unavailable') return;
+        useUIStore.getState().markSaved();
+      }, 800);
+    });
+    return () => {
+      clearTimeout(t);
+      unsub();
+    };
   }, []);
 
   // Compile PDF
+  // Upgrade a base preview PDF to full quality — merge enclosures + hyperlink
+  // annotations, then add signature fields — reusing the exact export pipeline so
+  // the resting preview equals the download. Regenerates from the passed store so
+  // it's safe to run detached (at idle). Returns the enhanced bytes.
+  const enhancePreviewPdf = useCallback(
+    async (pdfBytes: Uint8Array, currentStore: ReturnType<typeof useDocumentStore.getState>): Promise<Uint8Array> => {
+      const { enclosures: generatedEnclosures, includeHyperlinks, referenceUrls } = generateAllLatexFiles(currentStore);
+      let out = pdfBytes;
+      let lastBasicPageIndex: number | undefined;
+      if (generatedEnclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
+        const classification = getClassificationInfo(currentStore.formData.classLevel);
+        const mergeResult = await mergeEnclosures(out, generatedEnclosures, classification, includeHyperlinks, referenceUrls);
+        out = mergeResult.pdfBytes;
+        lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
+      }
+      if (currentStore.formData.signatureType === 'digital') {
+        const config = DOC_TYPE_CONFIG[currentStore.docType];
+        const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
+        if (isDualSignature) {
+          const sigConfig = getDualSignatoryConfig(currentStore.formData, config?.uiMode);
+          out = await addDualSignatureFields(new Uint8Array(out), { ...sigConfig, lastBasicPageIndex });
+        } else {
+          const sigConfig = getSignatoryConfig(currentStore.formData);
+          out = await addSignatureField(new Uint8Array(out), { ...sigConfig, lastBasicPageIndex });
+        }
+      }
+      return out;
+    },
+    []
+  );
+
   const compilePdf = useCallback(async () => {
     if (!isReady) return;
+    // Invalidate any pending idle upgrade and stamp this compile so a late idle
+    // pass from a previous edit can't swap in a stale PDF.
+    cancelIdleEnhance();
+    const gen = ++previewGenRef.current;
 
     // Don't show new compiling state if we're recovering from a reset
     if (!isResettingRef.current) {
@@ -370,10 +510,8 @@ function App() {
     setCompileLog(null);
 
     try {
-      // Read the full document store at compile time via getState() so we
-      // don't need a render-subscribing reference. The debounce dep array
-      // already handles "when should we re-compile" granularly; by the time
-      // we get here the state is current.
+      // Read the full store via getState() at compile time; the debounce dep
+      // array already handles when to re-compile, so the state here is current.
       const currentStore = useDocumentStore.getState();
       const { texFiles, enclosures: generatedEnclosures, includeHyperlinks, signatureImage, referenceUrls } = generateAllLatexFiles(currentStore);
 
@@ -386,30 +524,19 @@ function App() {
       let pdfBytes = await compile(files);
 
       if (pdfBytes) {
-        // When fullQualityPreview is enabled, run the full pipeline in preview
-        // (enclosure merging, hyperlink annotation, digital signature fields).
-        // When disabled (default), these are deferred to the download/export path
-        // for better responsiveness on slower machines.
-        if (fullQualityPreview) {
-          let lastBasicPageIndex: number | undefined;
-          if (generatedEnclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
-            const classification = getClassificationInfo(currentStore.formData.classLevel);
-            const mergeResult = await mergeEnclosures(pdfBytes, generatedEnclosures, classification, includeHyperlinks, referenceUrls);
-            pdfBytes = mergeResult.pdfBytes;
-            lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
-          }
+        // Is there anything beyond the base letter to show (enclosures, hyperlink
+        // annotations, or a digital-signature field)?
+        const hasEnhancements =
+          generatedEnclosures.length > 0 ||
+          (includeHyperlinks && referenceUrls.length > 0) ||
+          currentStore.formData.signatureType === 'digital';
+        const basePdfBytes = pdfBytes;
 
-          if (currentStore.formData.signatureType === 'digital') {
-            const config = DOC_TYPE_CONFIG[currentStore.docType];
-            const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
-            if (isDualSignature) {
-              const sigConfig = getDualSignatoryConfig(currentStore.formData, config?.uiMode);
-              pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes), { ...sigConfig, lastBasicPageIndex });
-            } else {
-              const sigConfig = getSignatoryConfig(currentStore.formData);
-              pdfBytes = await addSignatureField(new Uint8Array(pdfBytes), { ...sigConfig, lastBasicPageIndex });
-            }
-          }
+        // fullQualityPreview runs the full pipeline inline. When off (default),
+        // the base letter is shown now (fast) and upgraded to full quality once
+        // the user is idle (see below), so per-keystroke previews stay cheap.
+        if (fullQualityPreview && hasEnhancements) {
+          pdfBytes = await enhancePreviewPdf(pdfBytes, currentStore);
         }
 
         // Revoke old URL
@@ -420,11 +547,39 @@ function App() {
         const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         setPdfUrl(url);
-        // Successful compile — clear any held-over log and reset the modal
-        // dedup guard so a *future* failure pops the modal again (otherwise
-        // after fixing and re-breaking with the same error, we'd stay silent).
+        setPreviewEnhanced(fullQualityPreview && hasEnhancements);
+        // Success: clear any held-over log and reset the modal dedup guard so a
+        // future failure (including a re-break of the same error) pops again.
         setCompileLog(null);
         lastShownCompileErrorRef.current = null;
+
+        // Not full-quality but there's more to show: upgrade the resting preview
+        // to match the download once the browser is idle. Guarded by the compile
+        // generation so it can only ever run after the user has stopped editing.
+        if (!fullQualityPreview && hasEnhancements) {
+          const runIdleEnhance = () => {
+            idleEnhanceRef.current = null;
+            if (gen !== previewGenRef.current) return; // a newer compile superseded us
+            void enhancePreviewPdf(basePdfBytes, useDocumentStore.getState())
+              .then((enhanced) => {
+                if (gen !== previewGenRef.current) return; // went stale during the async work
+                const enhancedUrl = URL.createObjectURL(
+                  new Blob([new Uint8Array(enhanced)], { type: 'application/pdf' })
+                );
+                setPdfUrl((prev) => {
+                  if (prev) URL.revokeObjectURL(prev);
+                  return enhancedUrl;
+                });
+                setPreviewEnhanced(true);
+              })
+              .catch((err) => addLogDirect('info', `Idle preview upgrade skipped: ${err instanceof Error ? err.message : 'error'}`));
+          };
+          if (typeof window.requestIdleCallback === 'function') {
+            idleEnhanceRef.current = window.requestIdleCallback(runIdleEnhance, { timeout: 2500 });
+          } else {
+            idleEnhanceRef.current = window.setTimeout(runIdleEnhance, 500) as unknown as number;
+          }
+        }
       }
       // Clear reset flag on success
       isResettingRef.current = false;
@@ -449,37 +604,23 @@ function App() {
     } finally {
       setIsCompiling(false);
     }
-    // documentStore is read via useDocumentStore.getState() inside, so it
-    // doesn't need to be in the deps — only the things we actually close
-    // over as React values. pdfUrl is captured for revocation.
-  }, [isReady, compile, pdfUrl, addLogDirect, fullQualityPreview]);
+    // documentStore is read via getState() inside, so it's not a dep; only the
+    // values closed over are. pdfUrl is captured for revocation.
+  }, [isReady, compile, pdfUrl, addLogDirect, fullQualityPreview, enhancePreviewPdf, cancelIdleEnhance]);
 
-  // Auto-open the compile-error modal when a *new* error appears.
-  // "New" = different message than the last one we popped the modal for.
-  // This avoids spamming the user on every debounce cycle while an error
-  // persists (they type more, compile keeps failing, but modal stays quiet
-  // after the first pop). The successful-compile branch of compilePdf
-  // resets `lastShownCompileErrorRef` to null so a *future* failure pops
-  // again — including re-breaks of the same error after a fix.
+  // Auto-open the compile-error modal when a new error (different message than
+  // the last one shown) appears, so a persistent error doesn't re-pop every
+  // debounce cycle.
   //
-  // Guard: suppress the pop while a download or PII modal is already up so
-  // we don't stack two modals on top of each other for what's often the
-  // same underlying compile failure (the download pipeline runs its own
-  // compile and will surface the error through the download modal's error
-  // phase). The dep on `downloadProgress` / `piiWarningOpen` re-runs this
-  // effect when those clear, giving us the chance to pop belatedly if the
-  // compile error is still unresolved — but only if it wasn't already
-  // shown (lastShownCompileErrorRef dedup still applies).
+  // Suppress the pop while a download or PII modal is up to avoid stacking
+  // modals for the same underlying failure; the deps re-run this when those
+  // clear so we can pop belatedly if the error is still unresolved.
   useEffect(() => {
     if (!compileError) return;
     if (compileError === lastShownCompileErrorRef.current) return;
     if (downloadProgress !== null) return;
     if (piiWarningOpen) return;
     lastShownCompileErrorRef.current = compileError;
-    // Dedup-and-open-modal pattern. The dedup ref + the modal state both
-    // have to live here so we can re-evaluate when downloadProgress /
-    // piiWarningOpen clear. Lifting either to the compileError producer
-    // would couple the engine layer to the modal layer.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setCompileErrorModalOpen(true);
   }, [compileError, downloadProgress, piiWarningOpen]);
@@ -500,11 +641,12 @@ function App() {
       if (compileTimeoutRef.current) {
         clearTimeout(compileTimeoutRef.current);
       }
+      // A pending edit supersedes any queued idle upgrade from the last compile.
+      cancelIdleEnhance();
     };
-    // The deps are the granular slices that should invalidate a re-compile.
-    // `compilePdf` is intentionally NOT a dep — it captures documentStore via
-    // getState(), and we don't want a new compilePdf identity (e.g. from pdfUrl
-    // changing) to kick off an unrelated debounce cycle.
+    // Deps are the slices that should invalidate a re-compile. compilePdf is not
+    // a dep: it reads documentStore via getState(), and a new compilePdf identity
+    // (e.g. from pdfUrl changing) shouldn't kick off a debounce cycle.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isReady,
@@ -518,8 +660,7 @@ function App() {
     fullQualityPreview,
   ]);
 
-  // Generate form PDF preview when in forms mode
-  // Note: Templates need to be loaded async, so we cache them
+  // Form PDF preview state. Templates load async, so cache them.
   const [navmc10274Templates, setNavmc10274Templates] = useState<{
     page1: ArrayBuffer;
     page2: ArrayBuffer;
@@ -565,10 +706,9 @@ function App() {
             navmc10274Templates.page3
           );
         } else if (formType === 'navmc_118_11' && navmc11811Template) {
-          // Resolve cross-field placeholders ({{NAME}}, {{DATE}}, etc.)
-          // from the form's own field values before generating, so users
-          // typing `{{NAME}}` in the remarks field see the joined name
-          // in the output PDF instead of literal `{{NAME}}` (issue #13).
+          // Resolve cross-field placeholders ({{NAME}}, {{DATE}}, etc.) from the
+          // form's own values, so {{NAME}} in the remarks field renders the joined
+          // name in the PDF instead of the literal token.
           const values = buildNavmc11811DefaultValues(navmc11811);
           const resolved = applyPlaceholdersToNavmc11811(navmc11811, values);
           pdfBytes = await generateNavmc11811Pdf(
@@ -604,15 +744,13 @@ function App() {
   // Track if download is in progress to prevent double downloads
   const downloadInProgressRef = useRef(false);
 
-  // Core download function - can be called for retry.
-  // `onProgress` is optional so batch-mode / programmatic callers can invoke
-  // this without the modal wiring; the interactive path always passes it.
+  // Core download function, also called on retry. onProgress is optional so
+  // batch/programmatic callers can skip the modal wiring.
   const executeDownload = useCallback(async (
     preOpenedWindow?: Window | null,
     onProgress?: (phase: DownloadProgressPhase) => void,
   ): Promise<boolean> => {
-    // Snapshot fresh state at download time via getState() rather than
-    // closing over a render-subscribed reference.
+    // Snapshot fresh state at download time via getState().
     const currentStore = useDocumentStore.getState();
     const { texFiles, enclosures: generatedEnclosures, includeHyperlinks, signatureImage, referenceUrls } = generateAllLatexFiles(currentStore);
 
@@ -658,10 +796,8 @@ function App() {
 
       onProgress?.({ kind: 'pdf-saving' });
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
-      const downloaded = await downloadPdfBlob(blob, 'correspondence.pdf', preOpenedWindow);
-      // First real PDF checks off "Build your first document" in the getting-
-      // started checklist (markComplete is idempotent). Both the normal and the
-      // PII-confirmed download paths end here.
+      const downloaded = await downloadPdfBlob(blob, correspondenceFilename('pdf'), preOpenedWindow);
+      // First real PDF checks off "Build your first document" (idempotent).
       if (downloaded) useOnboardingStore.getState().markComplete('first_document');
       return downloaded;
     }
@@ -679,7 +815,7 @@ function App() {
     // Pre-open window for iOS BEFORE any async work (must be synchronous from user gesture)
     const preOpenedWindow = preOpenWindowForIOS();
 
-    // Show the modal immediately — the compile step alone can take seconds.
+    // Show the modal immediately; the compile step alone can take seconds.
     setDownloadProgress({ kind: 'pdf-preparing' });
     setIsCompiling(true);
     setCompileError(null);
@@ -687,7 +823,7 @@ function App() {
       const success = await executeDownload(preOpenedWindow, setDownloadProgress);
       if (!success) {
         if (preOpenedWindow) preOpenedWindow.close();
-        // No exception but no PDF either — unusual path, worth reporting.
+        // No exception but no PDF either; worth reporting.
         addLogDirect('error', 'PDF download failed: no output produced');
         setDownloadProgress({
           kind: 'error',
@@ -700,13 +836,13 @@ function App() {
         });
         return;
       }
-      // Success — hide the modal.
-      setDownloadProgress(null);
+      // Success: hide the modal.
+      finishDownload();
     } catch (err) {
       console.error('Download error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Download failed';
       // SwiftLaTeX attaches the full compile log to the thrown error as
-      // `.compileLog` — surface it in the error UI and the log store.
+      // .compileLog; surface it in the error UI and the log store.
       const compileLog = (err as Error & { compileLog?: string })?.compileLog;
 
       // Mirror compilePdf's logging pattern so the LogViewer shows the
@@ -726,8 +862,7 @@ function App() {
             const success = await executeDownload(preOpenedWindow, setDownloadProgress);
             if (!success) {
               if (preOpenedWindow) preOpenedWindow.close();
-              // Engine reset succeeded but the retry still produced nothing —
-              // unexpected, worth reporting.
+              // Engine reset succeeded but the retry produced nothing; worth reporting.
               setDownloadProgress({
                 kind: 'error',
                 target: 'pdf',
@@ -737,11 +872,11 @@ function App() {
                 reportable: true,
               });
             } else {
-              setDownloadProgress(null);
+              finishDownload();
             }
           } else {
             if (preOpenedWindow) preOpenedWindow.close();
-            // Engine didn't come back in time — transient; offer a manual retry.
+            // Engine didn't come back in time; offer a manual retry.
             setDownloadProgress({
               kind: 'error',
               target: 'pdf',
@@ -786,7 +921,7 @@ function App() {
       setIsCompiling(false);
       downloadInProgressRef.current = false;
     }
-  }, [executeDownload, waitForReady, addLogDirect]);
+  }, [executeDownload, waitForReady, addLogDirect, finishDownload]);
 
   // DOCX download helpers (must be before handleProceedWithPII)
   const pendingDocxRef = useRef<boolean>(false);
@@ -794,12 +929,10 @@ function App() {
   const executeDocxDownload = useCallback(async () => {
     const currentStore = useDocumentStore.getState();
     const latexContent = generateFlatLatex(currentStore);
-    // Show the progress modal immediately so the user gets feedback the moment
-    // they click "Download DOCX" — the first run can spend several seconds in
-    // `docx-preparing` before the WASM fetch even starts on slow connections.
-    // On error we intentionally do NOT clear downloadProgress here; the caller
-    // catches the exception and flips the modal into an error phase, which
-    // avoids a flash of hidden-then-shown modal.
+    // Show the progress modal immediately; the first run can sit in
+    // docx-preparing for several seconds before the WASM fetch on slow
+    // connections. On error, leave downloadProgress set: the caller flips the
+    // modal into an error phase, avoiding a hidden-then-shown flash.
     setDownloadProgress({ kind: 'docx-preparing' });
     const blob = await convertLatexToDocx(
       latexContent,
@@ -814,12 +947,12 @@ function App() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'correspondence.docx';
+    a.download = correspondenceFilename('docx');
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    // Success — clear the modal.
-    setDownloadProgress(null);
-  }, []);
+    // Success: clear the modal.
+    finishDownload();
+  }, [finishDownload]);
 
   // Core PII download function - can be called for retry
   const executePIIDownload = useCallback(async (
@@ -871,10 +1004,8 @@ function App() {
 
       onProgress?.({ kind: 'pdf-saving' });
       const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
-      const downloaded = await downloadPdfBlob(blob, 'correspondence.pdf', preOpenedWindow);
-      // First real PDF checks off "Build your first document" in the getting-
-      // started checklist (markComplete is idempotent). Both the normal and the
-      // PII-confirmed download paths end here.
+      const downloaded = await downloadPdfBlob(blob, correspondenceFilename('pdf'), preOpenedWindow);
+      // First real PDF checks off "Build your first document" (idempotent).
       if (downloaded) useOnboardingStore.getState().markComplete('first_document');
       return downloaded;
     }
@@ -937,7 +1068,7 @@ function App() {
         });
         return;
       }
-      setDownloadProgress(null);
+      finishDownload();
     } catch (err) {
       console.error('Download error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Download failed';
@@ -966,7 +1097,7 @@ function App() {
                 reportable: true,
               });
             } else {
-              setDownloadProgress(null);
+              finishDownload();
             }
           } else {
             if (preOpenedWindow) preOpenedWindow.close();
@@ -1016,7 +1147,7 @@ function App() {
       pendingDownloadRef.current = null;
       setPiiDetectionResult(null);
     }
-  }, [executePIIDownload, executeDocxDownload, waitForReady, addLogDirect]);
+  }, [executePIIDownload, executeDocxDownload, waitForReady, addLogDirect, finishDownload]);
 
   // Handle canceling download after PII warning
   const handleCancelPIIDownload = useCallback(() => {
@@ -1083,6 +1214,8 @@ function App() {
   }, [formType, navmc10274, navmc11811, includeCoverPage, navmc10274Templates, navmc11811Template]);
 
   const handleDownloadPdf = useCallback(() => {
+    // Reveal validation now, so the section rail's error dots appear on Generate.
+    useUIStore.getState().setValidationVisible(true);
     // Handle forms mode separately
     if (documentCategory === 'forms') {
       handleDownloadFormPdf();
@@ -1102,7 +1235,7 @@ function App() {
         message:
           'The LaTeX engine is still initializing. Give it a couple seconds and try again.',
         retryable: true,
-        // Not a bug worth reporting — this is a normal transient state.
+        // Not a bug worth reporting; a normal transient state.
         reportable: false,
       });
       return;
@@ -1204,7 +1337,7 @@ ${texFiles['body.tex'] || '% No body content'}
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'correspondence.tex';
+    a.download = correspondenceFilename('tex');
     a.click();
     URL.revokeObjectURL(url);
   }, []);
@@ -1221,6 +1354,7 @@ ${texFiles['body.tex'] || '% No body content'}
   }, []);
 
   const handleDownloadDocx = useCallback(async () => {
+    useUIStore.getState().setValidationVisible(true);
     // Check for PII before downloading
     const piiResult = detectPII(useDocumentStore.getState());
     if (piiResult.found) {
@@ -1249,9 +1383,8 @@ ${texFiles['body.tex'] || '% No body content'}
 
   /**
    * Re-run the last failed download. The error phase carries the target
-   * (`pdf` | `docx`), so we just dispatch to the matching top-level entry
-   * point. Those entry points handle PII re-check, engine-ready check,
-   * progress reset, etc. — we don't need to reproduce any of that here.
+   * (pdf | docx), so dispatch to the matching entry point; those handle PII
+   * re-check, engine-ready check, and progress reset.
    */
   const handleRetryDownload = useCallback(() => {
     if (!downloadProgress || downloadProgress.kind !== 'error') return;
@@ -1278,6 +1411,22 @@ ${texFiles['body.tex'] || '% No body content'}
         return;
       }
 
+      // Ctrl/Cmd + K - toggle the command palette. Handled first so it always
+      // works (including to close the palette).
+      if (isMod && (e.key === 'k' || e.key === 'K')) {
+        e.preventDefault();
+        const ui = useUIStore.getState();
+        ui.setCommandPaletteOpen(!ui.commandPaletteOpen);
+        return;
+      }
+
+      // While the command palette is open, swallow every other global
+      // mod-shortcut (save / download / print / find / preview) so they can't
+      // fire behind it — e.g. ⌘D over the open palette must not export a PDF.
+      if (useUIStore.getState().commandPaletteOpen) {
+        return;
+      }
+
       // Ctrl/Cmd + D - Download PDF
       if (isMod && e.key === 'd') {
         e.preventDefault();
@@ -1292,12 +1441,8 @@ ${texFiles['body.tex'] || '% No body content'}
           // Open PDF in new tab for printing
           const printWindow = window.open(pdfUrl, '_blank');
           if (printWindow) {
-            // { once: true } so the listener auto-removes after firing —
-            // otherwise repeated Ctrl/Cmd+P presses leave each fresh
-            // popup window holding a closure reference indefinitely
-            // (the listener targets a window object that lives until
-            // the user closes it, and even after close the closure can
-            // pin it from being GC'd until the listener is unbound).
+            // { once: true } so the listener auto-removes after firing,
+            // otherwise each popup window stays pinned by the closure.
             printWindow.addEventListener('load', () => {
               printWindow.print();
             }, { once: true });
@@ -1306,11 +1451,14 @@ ${texFiles['body.tex'] || '% No body content'}
         return;
       }
 
-      // Ctrl/Cmd + S - Save draft (triggers save status indicator)
+      // Ctrl/Cmd + S - flush a real save now. Work already autosaves
+      // continuously; this forces the current document to persist immediately
+      // (correspondence -> registry; forms already persist per edit) and the
+      // passive "Saved" indicator reflects it.
       if (isMod && e.key === 's') {
         e.preventDefault();
-        useUIStore.getState().setAutoSaveStatus('Draft saved');
-        setTimeout(() => useUIStore.getState().setAutoSaveStatus(''), 2000);
+        useDocumentsStore.getState().saveCurrent();
+        useUIStore.getState().markSaved();
         return;
       }
 
@@ -1371,19 +1519,259 @@ ${texFiles['body.tex'] || '% No body content'}
     applySnapshot,
   ]);
 
+  // Keep the latest download triggers in the module-level holder so the
+  // command-palette groups, built during render, can dispatch a download without
+  // referencing a ref-reading callback at render time (the React rules forbid
+  // touching refs during render). onRun reads the holder at click time.
+  useEffect(() => {
+    commandDownloadTriggers.pdf = handleDownloadPdf;
+    commandDownloadTriggers.docx = () => {
+      void handleDownloadDocx();
+    };
+  }, [handleDownloadPdf, handleDownloadDocx]);
+
+  // Command palette (⌘K) groups, wired to the real Zustand actions. getState() is
+  // read inside each onRun so the actions are always current; the only render-time
+  // dependency is the section outline (the "Jump to section" group).
+  const allDocs = useDocumentsStore((s) => s.docs);
+  const currentDocId = useDocumentsStore((s) => s.currentId);
+  const commandGroups = useMemo<CommandGroup[]>(() => {
+    const groups: CommandGroup[] = [];
+
+    if (outlineSections.length > 0) {
+      groups.push({
+        label: 'Jump to section',
+        items: outlineSections.map((s) => ({
+          id: `jump-${s.id}`,
+          label: s.label,
+          icon: CornerDownRight,
+          onRun: () => useEditorOutlineStore.getState().jump(s.id),
+        })),
+      });
+    }
+
+    // Switch to a recent document — Recents are otherwise unreachable by keyboard.
+    const recentDocs = Object.values(allDocs)
+      .map((d) => d.meta)
+      .filter((m) => m.id !== currentDocId)
+      .sort((a, b) => b.updatedAt - a.updatedAt)
+      .slice(0, 12);
+    if (recentDocs.length > 0) {
+      groups.push({
+        label: 'Switch to document',
+        items: recentDocs.map((m) => ({
+          id: `switch-${m.id}`,
+          label: m.title,
+          icon: FileText,
+          onRun: () => useDocumentsStore.getState().switchTo(m.id),
+        })),
+      });
+    }
+
+    groups.push({
+      label: 'Create',
+      items: [
+        {
+          id: 'new-document',
+          label: 'New document',
+          icon: Plus,
+          onRun: () => useDocumentsStore.getState().newDocument(),
+        },
+        {
+          id: 'new-naval-letter',
+          label: 'New Naval Letter',
+          icon: FileText,
+          onRun: () => {
+            useDocumentsStore.getState().newDocument();
+            useDocumentStore.getState().setDocType('naval_letter');
+          },
+        },
+        {
+          id: 'new-mfr',
+          label: 'New Memorandum for the Record',
+          icon: FileText,
+          onRun: () => {
+            useDocumentsStore.getState().newDocument();
+            useDocumentStore.getState().setDocType('mfr');
+          },
+        },
+        {
+          id: 'new-moa',
+          label: 'New Memorandum of Agreement',
+          icon: FileText,
+          onRun: () => {
+            useDocumentsStore.getState().newDocument();
+            useDocumentStore.getState().setDocType('moa');
+          },
+        },
+      ],
+    });
+
+    groups.push({
+      label: 'Actions',
+      items: [
+        {
+          id: 'download-pdf',
+          label: 'Download PDF',
+          icon: Download,
+          kbd: formatShortcut('mod D'),
+          onRun: () => commandDownloadTriggers.pdf(),
+        },
+        {
+          id: 'download-docx',
+          label: 'Download Word (.docx)',
+          icon: Download,
+          onRun: () => commandDownloadTriggers.docx(),
+        },
+        {
+          id: 'save-draft',
+          label: 'Save draft now',
+          icon: Save,
+          kbd: formatShortcut('mod S'),
+          onRun: () => {
+            useDocumentsStore.getState().saveCurrent();
+            useUIStore.getState().markSaved();
+          },
+        },
+        {
+          id: 'batch-generate',
+          label: 'Batch generate…',
+          icon: Layers,
+          onRun: () => useUIStore.getState().setBatchModalOpen(true),
+        },
+        {
+          id: 'document-guide',
+          label: 'Document type guide',
+          icon: Compass,
+          onRun: () => useUIStore.getState().setDocumentGuideOpen(true),
+        },
+        {
+          id: 'browse-templates',
+          label: 'Browse templates…',
+          icon: FileDown,
+          onRun: () => useUIStore.getState().setTemplateLoaderOpen(true),
+        },
+        {
+          id: 'find-replace',
+          label: 'Find & Replace…',
+          icon: Search,
+          kbd: formatShortcut('mod H'),
+          onRun: () => useUIStore.getState().setFindReplaceOpen(true),
+        },
+        {
+          id: 'share-link',
+          label: 'Create share link…',
+          icon: Link2,
+          onRun: () => useUIStore.getState().setShareModal('share'),
+        },
+        {
+          id: 'import-link',
+          label: 'Open a share link…',
+          icon: Link2,
+          onRun: () => useUIStore.getState().setShareModal('import'),
+        },
+      ],
+    });
+
+    // Commands scoped to the open document (only when it's actually in Recents).
+    if (currentDocId && allDocs[currentDocId]) {
+      groups.push({
+        label: 'This document',
+        items: [
+          {
+            id: 'version-history',
+            label: 'Version history…',
+            icon: History,
+            onRun: () => useUIStore.getState().setHistoryDocId(currentDocId),
+          },
+          {
+            id: 'duplicate-document',
+            label: 'Duplicate document',
+            icon: Copy,
+            onRun: () => useDocumentsStore.getState().duplicateDocument(currentDocId),
+          },
+        ],
+      });
+    }
+
+    groups.push({
+      label: 'View',
+      items: [
+        {
+          id: 'toggle-theme',
+          label: 'Toggle light / dark theme',
+          icon: MoonStar,
+          onRun: () => useUIStore.getState().toggleTheme(),
+        },
+        {
+          id: 'toggle-preview',
+          label: 'Toggle preview panel',
+          icon: PanelRight,
+          onRun: () => useUIStore.getState().togglePreview(),
+        },
+        {
+          id: 'manage-profiles',
+          label: 'Manage profiles…',
+          icon: Users,
+          onRun: () => useUIStore.getState().setProfileModalOpen(true),
+        },
+      ],
+    });
+
+    const insertItems: CommandGroup['items'] = [
+      {
+        id: 'insert-reference',
+        label: 'Insert reference…',
+        icon: BookOpen,
+        onRun: () => useUIStore.getState().setReferenceLibraryOpen(true),
+      },
+    ];
+    // The SSIC field lives in the addressing section; only offer the jump when
+    // that section exists for the current doc type (it's absent for MOAs, joint
+    // letters, and the NAVMC forms), so the command never fires a dead jump that
+    // would briefly hide the section-rail indicator.
+    if (outlineSections.some((s) => s.id === 'addressing')) {
+      insertItems.push({
+        id: 'lookup-ssic',
+        label: 'Look up SSIC code…',
+        icon: Hash,
+        onRun: () => useEditorOutlineStore.getState().jump('addressing'),
+      });
+    }
+    if (outlineSections.some((s) => s.id === 'enclosures')) {
+      insertItems.push({
+        id: 'attach-enclosure',
+        label: 'Attach enclosure…',
+        icon: Paperclip,
+        onRun: () => useEditorOutlineStore.getState().jump('enclosures'),
+      });
+    }
+    insertItems.push({
+      id: 'insert-batch-variable',
+      label: 'Insert batch variable…',
+      icon: Braces,
+      onRun: () => useUIStore.getState().setBatchModalOpen(true),
+    });
+    groups.push({ label: 'Insert', items: insertItems });
+
+    return groups;
+  }, [outlineSections, allDocs, currentDocId]);
+
   return (
+    <TooltipProvider>
     <div className="flex flex-col h-screen bg-background relative overflow-hidden">
-      {/* Marine Coders EGA watermark - behind beams */}
+      {/* Faint Marine Coders EGA watermark behind the whole app. The animated
+          beams + a denser EGA seal live inside the editor column (FormPanel),
+          so the branded motion stays in the editor and doesn't sweep behind the
+          sidebar, header, and preview. */}
       <div className="fixed inset-0 z-0 flex items-center justify-center pointer-events-none mt-16">
         <img
           src={marineCodersLogo}
           alt=""
-          className="w-full max-w-[90vw] sm:max-w-[1200px] opacity-[0.04] sm:opacity-[0.035] dark:opacity-[0.12] dark:sm:opacity-[0.10] invert dark:invert-0"
+          className="w-full max-w-[90vw] sm:max-w-[1200px] opacity-[0.04] sm:opacity-[0.035] dark:opacity-[0.055] dark:sm:opacity-[0.05] invert dark:invert-0"
           aria-hidden="true"
         />
       </div>
-      {/* Animated background beams - ported from Marines.dev */}
-      <BackgroundBeams className="fixed inset-0 z-0 opacity-60 dark:opacity-100" reducedMotion={isMobile} />
       {/* Skip link for keyboard navigation - WCAG 2.4.1 */}
       <a
         href="#main-content"
@@ -1404,12 +1792,24 @@ ${texFiles['body.tex'] || '% No body content'}
         isFormsMode={documentCategory === 'forms'}
       />
 
-      <main id="main-content" ref={mainContainerRef} className="flex flex-1 overflow-hidden">
+      <StorageNotice />
+
+      <div className="flex flex-1 overflow-hidden">
+        {/* Document workspace (desktop). Sits beside the main editor so the
+            resize-divider math inside <main> is unaffected. */}
+        <EditorSidebar />
+        {/* Mobile-only Recents (floating button + dialog); desktop sidebar is hidden on phones. */}
+        <MobileRecents />
+        <VersionHistoryModal />
+
+        <main id="main-content" ref={mainContainerRef} className="flex flex-1 min-w-0 overflow-hidden">
         {/* Form Panel - takes remaining space when preview is visible */}
         <div
           className="min-w-0 overflow-hidden"
           style={{
-            flex: previewVisible && !isMobile ? `0 0 ${100 - previewWidth}%` : '1 1 100%',
+            // shrink=1 so the panels absorb the divider's width; with shrink=0 the
+            // preview's right edge got clipped.
+            flex: previewVisible && !isMobile ? `1 1 ${100 - previewWidth}%` : '1 1 100%',
           }}
         >
           <FormPanel />
@@ -1428,30 +1828,27 @@ ${texFiles['body.tex'] || '% No body content'}
         <div
           className="min-w-0 overflow-hidden"
           style={{
-            flex: previewVisible && !isMobile ? `0 0 ${previewWidth}%` : undefined,
+            flex: previewVisible && !isMobile ? `1 1 ${previewWidth}%` : undefined,
             display: previewVisible || isMobile ? 'block' : 'none',
           }}
         >
           <PreviewPanel
             pdfUrl={documentCategory === 'forms' ? formPdfUrl : pdfUrl}
             isCompiling={documentCategory === 'forms' ? false : (isCompiling || !isReady)}
+            isWarmingUp={documentCategory === 'forms' ? false : !isReady}
+            previewEnhanced={documentCategory === 'forms' ? true : previewEnhanced}
             error={documentCategory === 'forms' ? null : (compileError || engineError)}
           />
         </div>
-      </main>
+        </main>
+      </div>
 
       {/* Modals */}
       <ProfileModal />
       <ReferenceLibraryModal />
-      {/*
-        Lazy-mounted only while open. On first open, React fetches the
-        chunk (the modal + react-pdf + react-pdf-viewer + pdf.js core).
-        Suspense fallback is null because the user just tapped the
-        "Preview PDF" button — they expect the dialog to appear with
-        whatever animation; a brief blank moment is indistinguishable
-        from regular dialog-open latency. After the first open, the
-        chunk is cached for the rest of the session.
-      */}
+      {/* Lazy-mounted only while open; first open fetches the chunk, then it's
+          cached for the session. Suspense fallback is null since a brief blank
+          reads as normal dialog-open latency. */}
       {mobilePreviewOpen && (
         <Suspense fallback={null}>
           <MobilePreviewModal
@@ -1464,6 +1861,13 @@ ${texFiles['body.tex'] || '% No body content'}
       )}
       <AboutModal />
       <NISTComplianceModal />
+      {commandPaletteOpen && (
+        <CommandPalette
+          open
+          onClose={() => setCommandPaletteOpen(false)}
+          groups={commandGroups}
+        />
+      )}
       <BatchModal compile={compile} isEngineReady={isReady} waitForReady={waitForReady} />
       <FindReplaceModal />
       <TemplateLoaderModal />
@@ -1485,7 +1889,8 @@ ${texFiles['body.tex'] || '% No body content'}
           setEnclosureErrors([]);
         }}
       />
-      <RestoreSessionModal />
+      {/* RestoreSessionModal retired: the registry auto-resumes the last open
+          document, and Recents replaces the old "restore?" prompt. */}
       <ShareModal
         open={shareModal !== null}
         onOpenChange={(open) => {
@@ -1520,6 +1925,7 @@ ${texFiles['body.tex'] || '% No body content'}
       />
       <BrowserCompatibilityNotice />
     </div>
+    </TooltipProvider>
   );
 }
 
