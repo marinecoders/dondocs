@@ -3,6 +3,7 @@ import { Building2, Info } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { HelpTip } from '@/components/ui/help-tip';
 import {
   Select,
   SelectContent,
@@ -17,6 +18,8 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { useDocumentStore } from '@/stores/documentStore';
+import { useUIStore } from '@/stores/uiStore';
+import { unfilled } from '@/lib/requiredField';
 import { UnitLookupModal } from '@/components/modals/UnitLookupModal';
 import { formatLetterhead, type UnitInfo } from '@/data/unitDirectory';
 import { DOC_TYPE_CONFIG } from '@/types/document';
@@ -34,22 +37,17 @@ export function LetterheadSection() {
   const isCompliant = documentMode === 'compliant';
   const isOptional = isCompliant && config.optionalLetterhead;
   const isDisabled = !config.letterhead;
+  const validationVisible = useUIStore((s) => s.validationVisible);
+  // Mirror getSectionError('letterhead'): only a required (non-optional)
+  // letterhead flags a missing unit name.
+  const unitNameInvalid =
+    validationVisible && config.letterhead === true && !config.optionalLetterhead && unfilled(formData.unitLine1);
 
-  // Structured address fields are local UI state, kept in sync with
-  // `formData.unitAddress` (the persisted single-line representation).
-  // Two sync directions:
-  //
-  //   formData → local: when unitAddress changes for a reason OTHER than
-  //     our own write (unit-directory pick, profile load, fresh session
-  //     with a default), re-parse the string into the structured shape.
-  //
-  //   local → formData: any user edit recomposes the parts back into a
-  //     single string and writes it via setField.
-  //
-  // The `lastWriteRef` marker lets us distinguish "we just wrote this"
-  // from "something external wrote this" so we don't overwrite the
-  // user's mid-typing partial state with a re-parse of our own
-  // composition (which would lose the partial state mid-edit).
+  // Structured address fields mirror formData.unitAddress (the persisted
+  // single-line form). User edits recompose into the string; external writes
+  // (directory pick, profile load) re-parse back into the fields. lastWriteRef
+  // distinguishes our own write from an external one so a re-parse doesn't clobber
+  // the user's mid-edit partial state.
   const [addressParts, setAddressParts] = useState<UnitAddressParts>(() =>
     parseUnitAddress(formData.unitAddress || '')
   );
@@ -58,19 +56,12 @@ export function LetterheadSection() {
   useEffect(() => {
     const current = formData.unitAddress || '';
     if (current === lastWriteRef.current) {
-      // This is the round-trip echo of our own write. The local state
-      // is already what we wanted; ignore.
+      // Round-trip echo of our own write; local state already matches.
       return;
     }
-    // Legitimate "synchronize React state with an external system"
-    // pattern (per the react-hooks/set-state-in-effect rule docs):
-    // the external system here is the documentStore's unitAddress
-    // string. When something else writes to that string (unit
-    // directory pick, profile load, restore-session) we mirror the
-    // change into local structured-fields state. The early-return
-    // round-trip-echo guard above means React doesn't see a same-
-    // value setState here, so the rule doesn't actually fire on
-    // this shape (no disable directive needed).
+    // External write (directory pick, profile load, restore-session): mirror it
+    // into the structured fields. The echo guard above means no same-value
+    // setState here.
     setAddressParts(parseUnitAddress(current));
     lastWriteRef.current = null;
   }, [formData.unitAddress]);
@@ -84,26 +75,16 @@ export function LetterheadSection() {
   };
 
   const handleUnitSelect = (unit: UnitInfo) => {
-    // Use SECNAV M-5216.5 compliant letterhead formatting
     const letterhead = formatLetterhead(unit);
-    // Line 1: Unit name (expanded abbreviations)
     setField('unitLine1', letterhead.line1);
-    // Line 2: Parent/higher command (e.g., "1ST MARINE DIVISION")
     setField('unitLine2', letterhead.line2);
-    // Canonicalize the unit-directory address. The directory stores
-    // addresses as "STREET\nCITY STATE ZIP" (no comma between city
-    // and state), and without canonicalization the address would
-    // render on a single letterhead line for civilian entries —
-    // wrong per SECNAV M-5216.5. canonicalizeUnitAddress adds the
-    // missing comma for civilian addresses and preserves the
-    // no-comma form for FPO/APO/DPO per USPS Pub 28 §38.
+    // canonicalizeUnitAddress adds the missing city/state comma for civilian
+    // addresses (and preserves the no-comma FPO/APO/DPO form per USPS Pub 28
+    // §38) so the address splits across letterhead lines correctly.
     const canonicalAddress = canonicalizeUnitAddress(letterhead.address);
-    // Safety-belt: clear the own-write marker before writing so the
-    // formData→local sync useEffect always re-parses the new value,
-    // even in the (very unlikely) case where the canonical address
-    // is byte-identical to the last user-typed compose result.
+    // Clear the own-write marker so the sync effect re-parses even if the
+    // canonical address happens to match the last composed value.
     lastWriteRef.current = null;
-    // Line 3+: Address (canonicalized for correct generator split)
     setField('unitAddress', canonicalAddress);
   };
 
@@ -120,6 +101,12 @@ export function LetterheadSection() {
           <AccordionTrigger>
             <span className="flex items-center gap-2">
               <span className={isDisabled ? 'text-muted-foreground' : ''}>Letterhead</span>
+              <HelpTip>
+                <p className="font-medium mb-1">Letterhead</p>
+                <p className="text-xs">
+                  Unit name, address, seal, and color. Some document types (MFR, plain paper) don&apos;t use letterhead.
+                </p>
+              </HelpTip>
               {isOptional && (
                 <span className="text-xs font-normal text-muted-foreground">(optional)</span>
               )}
@@ -133,16 +120,20 @@ export function LetterheadSection() {
           </AccordionTrigger>
           <AccordionContent>
             <div className={`space-y-4 pt-2 ${isDisabled ? 'opacity-50 pointer-events-none select-none' : ''}`}>
-              {/* Seal Type + Color + Department/Service + Browse Units - responsive layout */}
-              <div className="flex flex-col sm:flex-row sm:items-end gap-3">
-                <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 sm:gap-3">
-                  <div className="space-y-2 sm:w-28">
+              {/* Responsive row: the editor column width is independent of the
+                  viewport (collapsible sidebar + resizable preview), so flex-wrap
+                  lets it wrap rather than overflow at a narrow column. */}
+              <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-end gap-3">
+                {/* Seal + Color wrap as one unit; sm:basis-52 drives the line
+                    break and min-w-0 lets the cells shrink rather than overflow. */}
+                <div className="grid grid-cols-2 gap-3 min-w-0 sm:basis-52 sm:grow-0 sm:shrink">
+                  <div className="space-y-2 min-w-0">
                     <Label>Seal</Label>
                     <Select
                       value={formData.sealType || 'dow'}
                       onValueChange={(v) => setField('sealType', v)}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="w-full">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -152,13 +143,13 @@ export function LetterheadSection() {
                     </Select>
                   </div>
 
-                  <div className="space-y-2 sm:w-28">
+                  <div className="space-y-2 min-w-0">
                     <Label>Color</Label>
                     <Select
                       value={formData.letterheadColor || 'blue'}
                       onValueChange={(v) => setField('letterheadColor', v as 'blue' | 'black')}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="w-full">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -169,13 +160,16 @@ export function LetterheadSection() {
                   </div>
                 </div>
 
-                <div className="space-y-2 flex-1 hidden sm:block">
+                {/* Department grows to fill the row and wraps below seal/color at a
+                    narrow column. sm:basis-48 gives the wrap a real width (basis-0
+                    let Browse Units overflow); min-w-0 truncates the value. */}
+                <div className="space-y-2 min-w-0 hidden sm:block sm:grow sm:basis-48">
                   <Label>Department / Service</Label>
                   <Select
                     value={formData.department || 'usmc'}
                     onValueChange={(v) => setField('department', v)}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -188,13 +182,13 @@ export function LetterheadSection() {
                 </div>
 
                 {/* Mobile-only Department selector */}
-                <div className="space-y-2 sm:hidden">
+                <div className="space-y-2 min-w-0 sm:hidden">
                   <Label>Department</Label>
                   <Select
                     value={formData.department || 'usmc'}
                     onValueChange={(v) => setField('department', v)}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -211,7 +205,7 @@ export function LetterheadSection() {
                   variant="outline"
                   size="default"
                   onClick={() => setUnitModalOpen(true)}
-                  className="gap-2 w-full sm:w-auto"
+                  className="gap-2 w-full sm:w-auto shrink-0"
                 >
                   <Building2 className="h-4 w-4" />
                   Browse Units
@@ -224,6 +218,7 @@ export function LetterheadSection() {
                   id="unitLine1"
                   value={formData.unitLine1 || ''}
                   onChange={(e) => setField('unitLine1', e.target.value)}
+                  aria-invalid={unitNameInvalid ? true : undefined}
                   placeholder="e.g., HEADQUARTERS UNITED STATES MARINE CORPS"
                 />
               </div>
@@ -282,8 +277,7 @@ export function LetterheadSection() {
                       id="addressState"
                       value={addressParts.state}
                       onChange={(e) =>
-                        // Auto-uppercase + cap at 2 characters so users
-                        // can't type "Cal" or "north carolina"
+                        // Uppercase + cap at 2 chars for the state abbreviation.
                         updateAddressPart(
                           'state',
                           e.target.value.toUpperCase().slice(0, 2)

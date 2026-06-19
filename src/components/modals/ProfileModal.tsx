@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { X, Building2, BookOpen, Upload, FileImage } from 'lucide-react';
+import { FILE_LIMITS } from '@/lib/constants';
 import {
   Dialog,
   DialogContent,
@@ -90,7 +91,7 @@ const EMPTY_PROFILE: Profile = {
 };
 
 export function ProfileModal() {
-  // Individual selectors — modal only re-renders on its own flag changing.
+  // Individual selectors so the modal only re-renders on its own flag changing.
   const profileModalOpen = useUIStore((s) => s.profileModalOpen);
   const setProfileModalOpen = useUIStore((s) => s.setProfileModalOpen);
   const { profiles, selectedProfile, addProfile, updateProfile, selectProfile } = useProfileStore();
@@ -140,10 +141,8 @@ export function ProfileModal() {
     return false;
   }, [formState, profileName, isEditing]);
 
-  // Populate form when modal opens (not on every formData change).
-  // Modal-opened-reset-form pattern. The "key reset" alternative would force
-  // the dialog to remount on every open and lose the radix-ui transition;
-  // this effect runs once per open and only writes form state.
+  // Populate the form when the modal opens, not on every formData change. A key
+  // reset would remount the dialog and drop the Radix open transition.
   useEffect(() => {
     if (profileModalOpen) {
       if (isEditing && selectedProfile) {
@@ -192,50 +191,42 @@ export function ProfileModal() {
 
     const trimmedName = profileName.trim();
 
-    if (isEditing && selectedProfile) {
-      updateProfile(selectedProfile, formState);
-      // Also refresh the document form with the updated profile data
-      useDocumentStore.getState().setFormData({
-        department: formState.department,
-        unitLine1: formState.unitLine1,
-        unitLine2: formState.unitLine2,
-        unitAddress: formState.unitAddress,
-        ssic: formState.ssic,
-        from: formState.from,
-        sigFirst: formState.sigFirst,
-        sigMiddle: formState.sigMiddle,
-        sigLast: formState.sigLast,
-        sigRank: formState.sigRank,
-        sigTitle: formState.sigTitle,
-        byDirection: formState.byDirection,
-        byDirectionAuthority: formState.byDirectionAuthority,
-        cuiControlledBy: formState.cuiControlledBy,
-        pocEmail: formState.pocEmail,
-        signatureImage: formState.signatureImage,
-      });
-    } else {
-      addProfile(trimmedName, formState);
-      // Auto-select the newly created profile and load its data
-      selectProfile(trimmedName);
-      // Load the profile data into the form
-      useDocumentStore.getState().setFormData({
-        department: formState.department,
-        unitLine1: formState.unitLine1,
-        unitLine2: formState.unitLine2,
-        unitAddress: formState.unitAddress,
-        ssic: formState.ssic,
-        from: formState.from,
-        sigFirst: formState.sigFirst,
-        sigMiddle: formState.sigMiddle,
-        sigLast: formState.sigLast,
-        sigRank: formState.sigRank,
-        sigTitle: formState.sigTitle,
-        byDirection: formState.byDirection,
-        byDirectionAuthority: formState.byDirectionAuthority,
-        cuiControlledBy: formState.cuiControlledBy,
-        pocEmail: formState.pocEmail,
-        signatureImage: formState.signatureImage,
-      });
+    const formFields = {
+      department: formState.department,
+      unitLine1: formState.unitLine1,
+      unitLine2: formState.unitLine2,
+      unitAddress: formState.unitAddress,
+      ssic: formState.ssic,
+      from: formState.from,
+      sigFirst: formState.sigFirst,
+      sigMiddle: formState.sigMiddle,
+      sigLast: formState.sigLast,
+      sigRank: formState.sigRank,
+      sigTitle: formState.sigTitle,
+      byDirection: formState.byDirection,
+      byDirectionAuthority: formState.byDirectionAuthority,
+      cuiControlledBy: formState.cuiControlledBy,
+      pocEmail: formState.pocEmail,
+      signatureImage: formState.signatureImage,
+    };
+
+    // The persist write throws if localStorage is full; zustand has already
+    // applied the in-memory change, so warn the user rather than crash silently.
+    try {
+      if (isEditing && selectedProfile) {
+        updateProfile(selectedProfile, formState);
+      } else {
+        addProfile(trimmedName, formState);
+        selectProfile(trimmedName);
+      }
+      useDocumentStore.getState().setFormData(formFields);
+    } catch (err) {
+      console.error('Failed to save profile (storage may be full)', err);
+      alert(
+        "Couldn't save this profile — your browser's local storage is full. " +
+          'Try a smaller signature image, or delete an old profile, then save again.'
+      );
+      return; // keep the modal open so the user can adjust and retry
     }
 
     setProfileModalOpen(false);
@@ -268,6 +259,11 @@ export function ProfileModal() {
   const handleSignatureUpload = useCallback(async (file: File) => {
     if (!file.type.startsWith('image/')) {
       console.error('Only image files are supported');
+      return;
+    }
+    // Signatures are stored base64 in localStorage; cap the size so they can't fill it.
+    if (file.size > FILE_LIMITS.MAX_SIGNATURE_SIZE_MB * 1024 * 1024) {
+      alert(`That signature image is too large (max ${FILE_LIMITS.MAX_SIGNATURE_SIZE_MB} MB). Please use a smaller file.`);
       return;
     }
 

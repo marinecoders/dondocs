@@ -1,21 +1,10 @@
 import { memo } from 'react';
 import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-} from '@dnd-kit/core';
+  DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent, } from '@dnd-kit/core';
 import {
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
+  SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy, } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, Plus, Trash2, Library, Link, AlertTriangle, HelpCircle, Info } from 'lucide-react';
+import { GripVertical, Plus, Trash2, Library, Link, AlertTriangle, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -27,12 +16,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { HelpTip } from '@/components/ui/help-tip';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
 import type { Reference } from '@/types/document';
@@ -85,9 +69,9 @@ const SortableReference = memo(function SortableReference({
     <div
       ref={setNodeRef}
       style={style}
-      className={`bg-card border border-border rounded-lg p-3 mb-2 ${
-        isDragging ? 'opacity-50 shadow-lg' : ''
-      }`}
+      // Card-less rows (matching the design): references read lighter than the
+      // carded enclosures below, separated by whitespace rather than borders.
+      className={`mb-3 ${isDragging ? 'opacity-50' : ''}`}
     >
       <div className="flex items-start gap-2">
         {/* Drag handle */}
@@ -144,7 +128,7 @@ const SortableReference = memo(function SortableReference({
         {/* Remove button */}
         <Button
           variant="ghost"
-          size="sm"
+          size="icon"
           onClick={() => removeReference(index)}
           className="text-destructive hover:text-destructive"
         >
@@ -195,7 +179,7 @@ export function ReferencesManager() {
         <AccordionTrigger>
           <span className="flex items-center gap-2">
             <span className={referencesNotAllowed ? 'text-muted-foreground' : ''}>References</span>
-            <Badge variant="secondary" className="min-w-[28px] justify-center">
+            <Badge variant="secondary" className="min-w-[28px] justify-center tnum">
               {references.length}
             </Badge>
             {referencesNotAllowed && (
@@ -204,24 +188,17 @@ export function ReferencesManager() {
                 Not used by this document type
               </span>
             )}
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild onClick={(e) => e.stopPropagation()}>
-                  <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-foreground" />
-                </TooltipTrigger>
-                <TooltipContent side="right" className="max-w-xs">
-                  <p className="font-medium mb-1">References</p>
-                  <p className="text-xs">
-                    Cite directives, orders, or prior correspondence that authorize or relate to this document. References appear as lettered items — (a), (b), (c) — before the body.
-                  </p>
-                  <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
-                    <li><strong>Drag to reorder:</strong> References auto-letter based on position</li>
-                    <li><strong>URLs:</strong> Add a link to make the reference clickable in PDF</li>
-                    <li><strong>Library:</strong> Browse 107 common military references to insert</li>
-                  </ul>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <HelpTip>
+              <p className="font-medium mb-1">References</p>
+              <p className="text-xs">
+                Cite directives, orders, or prior correspondence that authorize or relate to this document. References appear as lettered items — (a), (b), (c) — before the body.
+              </p>
+              <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
+                <li><strong>Drag to reorder:</strong> References auto-letter based on position</li>
+                <li><strong>URLs:</strong> Add a link to make the reference clickable in PDF</li>
+                <li><strong>Library:</strong> Browse 107 common military references to insert</li>
+              </ul>
+            </HelpTip>
           </span>
         </AccordionTrigger>
         <AccordionContent>
@@ -241,25 +218,6 @@ export function ReferencesManager() {
             )}
 
             <div className={referencesNotAllowed ? 'opacity-50 pointer-events-none select-none' : ''}>
-              {/* Hyperlinks toggle - only show when there are references */}
-              {references.length > 0 && (
-                <div className="mb-3 pb-3 border-b border-border space-y-2">
-                  <div className="flex items-center gap-2">
-                    <Checkbox
-                      id="includeHyperlinks"
-                      checked={formData.includeHyperlinks || false}
-                      onCheckedChange={(checked) => setField('includeHyperlinks', !!checked)}
-                    />
-                    <Label htmlFor="includeHyperlinks" className="text-sm font-normal cursor-pointer">
-                      Include hyperlinks in PDF
-                    </Label>
-                  </div>
-                  <p className="text-xs text-muted-foreground pl-6">
-                    When enabled, references with URLs become clickable hyperlinks in the PDF. Example: Link "MCO 1500.52" directly to marines.mil/directives.
-                  </p>
-                </div>
-              )}
-
               <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
@@ -279,23 +237,45 @@ export function ReferencesManager() {
                 </SortableContext>
               </DndContext>
 
-              <div className="flex gap-2 mt-2">
+              <div className="flex flex-wrap gap-2 mt-2">
                 <Button
                   variant="outline"
+                  size="sm"
                   onClick={() => addReference('')}
-                  className="flex-1"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Reference
                 </Button>
                 <Button
                   variant="outline"
+                  size="sm"
                   onClick={() => setReferenceLibraryOpen(true)}
                 >
                   <Library className="h-4 w-4 mr-2" />
                   Library
                 </Button>
               </div>
+
+              {/* Hyperlinks toggle — simplified to a single line with a help
+                  tip; the full explanation lives in the tooltip. */}
+              {references.length > 0 && (
+                <div className="flex items-center gap-2 mt-3">
+                  <Checkbox
+                    id="includeHyperlinks"
+                    checked={formData.includeHyperlinks || false}
+                    onCheckedChange={(checked) => setField('includeHyperlinks', !!checked)}
+                  />
+                  <Label htmlFor="includeHyperlinks" className="text-sm font-normal cursor-pointer">
+                    Include hyperlinks in PDF
+                  </Label>
+                  <HelpTip>
+                    <p className="text-xs">
+                      When enabled, references with URLs become clickable hyperlinks in the PDF.
+                      Example: link “MCO 1500.52” directly to marines.mil/directives.
+                    </p>
+                  </HelpTip>
+                </div>
+              )}
             </div>
           </div>
         </AccordionContent>

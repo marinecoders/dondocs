@@ -1,21 +1,10 @@
 import { useCallback, useState } from 'react';
 import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-} from '@dnd-kit/core';
+  DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent, } from '@dnd-kit/core';
 import {
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
+  SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy, } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, Plus, Trash2, Upload, FileText, X, AlertTriangle, HelpCircle, Info } from 'lucide-react';
+import { GripVertical, Plus, Trash2, Upload, FileText, X, AlertTriangle, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -35,12 +24,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { HelpTip } from '@/components/ui/help-tip';
 import { useDocumentStore } from '@/stores/documentStore';
 import type { Enclosure, EnclosurePageStyle } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
@@ -108,7 +92,7 @@ function SortableEnclosure({
         </button>
 
         {/* Number badge */}
-        <Badge variant="secondary" className="mt-2 min-w-[32px] justify-center">
+        <Badge variant="secondary" className="mt-2 min-w-[32px] justify-center tnum">
           ({index + 1})
         </Badge>
 
@@ -124,16 +108,16 @@ function SortableEnclosure({
           {enclosure.file ? (
             <div className="space-y-2">
               <div className="flex items-center gap-2 p-2 bg-secondary/30 rounded text-sm">
-                <FileText className="h-4 w-4 text-primary" />
-                <span className="flex-1 truncate">{enclosure.file.name}</span>
-                <span className="text-muted-foreground">
+                <FileText className="h-4 w-4 text-primary shrink-0" />
+                <span className="flex-1 min-w-0 truncate">{enclosure.file.name}</span>
+                <span className="text-muted-foreground shrink-0 whitespace-nowrap">
                   {(enclosure.file.size / 1024).toFixed(1)} KB
                 </span>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={onRemoveFile}
-                  className="h-6 w-6 p-0"
+                  className="h-6 w-6 p-0 shrink-0"
                 >
                   <X className="h-3 w-3" />
                 </Button>
@@ -192,7 +176,7 @@ function SortableEnclosure({
         {/* Remove button */}
         <Button
           variant="ghost"
-          size="sm"
+          size="icon"
           onClick={onRemove}
           className="text-destructive hover:text-destructive"
         >
@@ -295,7 +279,7 @@ export function EnclosuresManager() {
         <AccordionTrigger>
           <span className="flex items-center gap-2">
             <span className={enclosuresNotAllowed ? 'text-muted-foreground' : ''}>Enclosures</span>
-            <Badge variant="secondary" className="min-w-[28px] justify-center">
+            <Badge variant="secondary" className="min-w-[28px] justify-center tnum">
               {enclosures.length}
             </Badge>
             {enclosuresNotAllowed && (
@@ -304,25 +288,18 @@ export function EnclosuresManager() {
                 Not used by this document type
               </span>
             )}
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild onClick={(e) => e.stopPropagation()}>
-                  <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-foreground" />
-                </TooltipTrigger>
-                <TooltipContent side="right" className="max-w-xs">
-                  <p className="font-medium mb-1">PDF Attachment Feature</p>
-                  <p className="text-xs">
-                    Attach PDF files to enclosures to merge them into your final document.
-                    Each attached PDF will be appended after the main letter in order.
-                  </p>
-                  <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
-                    <li><strong>Page Style:</strong> Control how PDFs appear (bordered, full page, or fit to margins)</li>
-                    <li><strong>Cover Page:</strong> Add a title/placeholder page before the PDF</li>
-                    <li><strong>Hyperlinks:</strong> Enable clickable links from "Encl (1)" to jump directly to that enclosure</li>
-                  </ul>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <HelpTip>
+              <p className="font-medium mb-1">PDF Attachment Feature</p>
+              <p className="text-xs">
+                Attach PDF files to enclosures to merge them into your final document.
+                Each attached PDF will be appended after the main letter in order.
+              </p>
+              <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
+                <li><strong>Page Style:</strong> Control how PDFs appear (bordered, full page, or fit to margins)</li>
+                <li><strong>Cover Page:</strong> Add a title/placeholder page before the PDF</li>
+                <li><strong>Hyperlinks:</strong> Enable clickable links from "Encl (1)" to jump directly to that enclosure</li>
+              </ul>
+            </HelpTip>
           </span>
         </AccordionTrigger>
         <AccordionContent>
@@ -342,22 +319,24 @@ export function EnclosuresManager() {
             )}
 
             <div className={enclosuresNotAllowed ? 'opacity-50 pointer-events-none select-none' : ''}>
-              {/* Hyperlinks toggle - only show when there are enclosures */}
+              {/* Hyperlinks toggle — simplified to a single line; the full
+                  explanation lives in the help tip. */}
               {enclosures.length > 0 && (
-                <div className="mb-3 pb-3 border-b border-border space-y-2">
-                  <div className="flex items-center gap-2">
-                    <Checkbox
-                      id="includeEnclosureHyperlinks"
-                      checked={formData.includeHyperlinks || false}
-                      onCheckedChange={(checked) => setField('includeHyperlinks', !!checked)}
-                    />
-                    <Label htmlFor="includeEnclosureHyperlinks" className="text-sm font-normal cursor-pointer">
-                      Include hyperlinks in PDF
-                    </Label>
-                  </div>
-                  <p className="text-xs text-muted-foreground pl-6">
-                    When enabled, clicking "Encl (1)" in the letter jumps directly to that enclosure's pages. Great for lengthy annexes or SOPs.
-                  </p>
+                <div className="flex items-center gap-2 mb-3 pb-3 border-b border-border">
+                  <Checkbox
+                    id="includeEnclosureHyperlinks"
+                    checked={formData.includeHyperlinks || false}
+                    onCheckedChange={(checked) => setField('includeHyperlinks', !!checked)}
+                  />
+                  <Label htmlFor="includeEnclosureHyperlinks" className="text-sm font-normal cursor-pointer">
+                    Include hyperlinks in PDF
+                  </Label>
+                  <HelpTip>
+                    <p className="text-xs">
+                      When enabled, clicking “Encl (1)” in the letter jumps directly to that
+                      enclosure’s pages. Great for lengthy annexes or SOPs.
+                    </p>
+                  </HelpTip>
                 </div>
               )}
 

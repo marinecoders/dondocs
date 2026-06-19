@@ -17,6 +17,8 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useDocumentStore } from '@/stores/documentStore';
+import { useUIStore } from '@/stores/uiStore';
+import { unfilled } from '@/lib/requiredField';
 
 /**
  * Executive Memo Section — used for standard_memorandum, action_memorandum, information_memorandum
@@ -28,6 +30,7 @@ import { useDocumentStore } from '@/stores/documentStore';
  */
 export function ExecutiveMemoSection() {
   const { formData, setField, docType } = useDocumentStore();
+  const validationVisible = useUIStore((s) => s.validationVisible);
 
   const isActionMemo = docType === 'action_memorandum';
   const isInfoMemo = docType === 'information_memorandum';
@@ -208,6 +211,7 @@ export function ExecutiveMemoSection() {
                 id="exec-subject"
                 value={formData.subject || ''}
                 onChange={(e) => setField('subject', e.target.value)}
+                aria-invalid={validationVisible && unfilled(formData.subject) ? true : undefined}
                 placeholder="Quarterly Report on Personnel Readiness"
               />
               <p className="text-xs text-muted-foreground">

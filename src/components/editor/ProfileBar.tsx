@@ -15,9 +15,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useProfileStore } from '@/stores/profileStore';
 import { useDocumentStore } from '@/stores/documentStore';
+import { SaveStatus } from '@/components/SaveStatus';
 import { useUIStore } from '@/stores/uiStore';
 import { debug } from '@/lib/debug';
-import { canonicalizeUnitAddress } from '@/lib/unitAddress';
+import { profileFormPatch } from '@/stores/documentsStore';
 import { readFileAsText, triggerDownload } from '@/lib/encoding';
 
 // Example form data for one-time mode (no profile)
@@ -42,49 +43,49 @@ const EXAMPLE_FORM_DATA = {
 export function ProfileBar() {
   const { profiles, selectedProfile, selectProfile, deleteProfile, importProfiles } = useProfileStore();
   const { setFormData } = useDocumentStore();
-  // Individual selectors so we only re-render when autoSaveStatus string
-  // actually changes, not on every unrelated UI store field update.
   const setProfileModalOpen = useUIStore((s) => s.setProfileModalOpen);
-  const autoSaveStatus = useUIStore((s) => s.autoSaveStatus);
 
   const profileNames = Object.keys(profiles).sort();
 
   const handleProfileChange = (name: string) => {
-    if (name === '__none__') {
-      selectProfile(null);
-      // Load example data for one-time mode
-      setFormData(EXAMPLE_FORM_DATA);
-      return;
-    }
-    selectProfile(name);
-    const profile = profiles[name];
-    if (profile) {
-      setFormData({
-        department: profile.department,
-        unitLine1: profile.unitLine1,
-        unitLine2: profile.unitLine2,
-        // Canonicalize on read (see App.tsx for rationale).
-        unitAddress: canonicalizeUnitAddress(profile.unitAddress),
-        ssic: profile.ssic,
-        from: profile.from,
-        sigFirst: profile.sigFirst,
-        sigMiddle: profile.sigMiddle,
-        sigLast: profile.sigLast,
-        sigRank: profile.sigRank,
-        sigTitle: profile.sigTitle,
-        byDirection: profile.byDirection,
-        byDirectionAuthority: profile.byDirectionAuthority,
-        cuiControlledBy: profile.cuiControlledBy,
-        pocEmail: profile.pocEmail,
-        signatureImage: profile.signatureImage,
-      });
+    // selectProfile persists the whole profile blob via compressedLocalStorage,
+    // which rethrows on quota — guard so switching profiles under storage
+    // pressure degrades (logs) instead of throwing out of the event handler.
+    try {
+      if (name === '__none__') {
+        selectProfile(null);
+        // Only seed the example letterhead when the document is still pristine,
+        // so picking "No Profile" mid-edit never overwrites work already typed.
+        const ds = useDocumentStore.getState();
+        const subject = (ds.formData.subject ?? '').trim();
+        const pristine =
+          (!subject || /^\[.*\]$/.test(subject)) &&
+          ds.paragraphs.every((p) => !(p.text ?? '').trim());
+        if (pristine) setFormData(EXAMPLE_FORM_DATA);
+        return;
+      }
+      selectProfile(name);
+      const profile = profiles[name];
+      if (profile) {
+        // Shared mapper — applies the signature block only when the profile has
+        // a signer, so picking the signer-less default profile from this
+        // dropdown no longer blanks an existing signature (matches the New-doc
+        // path in applySelectedProfile).
+        setFormData(profileFormPatch(profile));
+      }
+    } catch (err) {
+      debug.error('Profile', 'Failed to switch profile (storage may be full)', err);
     }
   };
 
   const handleDelete = () => {
     if (!selectedProfile) return;
     if (confirm(`Delete profile "${selectedProfile}"?`)) {
-      deleteProfile(selectedProfile);
+      try {
+        deleteProfile(selectedProfile);
+      } catch (err) {
+        debug.error('Profile', 'Failed to delete profile (storage may be full)', err);
+      }
     }
   };
 
@@ -124,7 +125,7 @@ export function ProfileBar() {
   return (
     <div data-tour="profiles" className="flex items-center gap-1.5 px-3 py-1.5 border-b border-border bg-secondary/20">
       <Select value={selectedProfile || '__none__'} onValueChange={handleProfileChange}>
-        <SelectTrigger className="w-40 h-7 text-xs">
+        <SelectTrigger className="w-[200px] h-7 text-xs">
           <SelectValue placeholder="Select Profile" />
         </SelectTrigger>
         <SelectContent>
@@ -143,7 +144,14 @@ export function ProfileBar() {
         size="icon"
         className="h-7 w-7"
         onClick={() => {
-          selectProfile(null);
+          // selectProfile persists via compressedLocalStorage, which rethrows on
+          // quota — guard so a near-full store degrades (logs) instead of throwing
+          // out of the click handler into the ErrorBoundary. The modal still opens.
+          try {
+            selectProfile(null);
+          } catch (err) {
+            debug.error('Profile', 'Failed to clear profile selection (storage may be full)', err);
+          }
           setProfileModalOpen(true);
         }}
         title="Create New Profile"
@@ -198,9 +206,7 @@ export function ProfileBar() {
 
       <div className="flex-1" />
 
-      {autoSaveStatus && (
-        <span className="text-xs text-muted-foreground">{autoSaveStatus}</span>
-      )}
+      <SaveStatus />
     </div>
   );
 }
