@@ -546,6 +546,39 @@ export function pairwiseMatrix(): Fixture[] {
     });
   }
 
+  // Unsigned-draft guard: every doc type must also compile with an EMPTY
+  // signatory name. A document legitimately reaches the compiler unsigned —
+  // SECNAV allows unsigned drafts, "Clear all fields" wipes the signature, and
+  // a profile may carry no signer (the editor-ux default profile did, so every
+  // new doc hit this). The pairwise rows above always populate the signatory,
+  // so this case was uncovered: `\printSignature`'s `\MakeUppercase{}\\` fataled
+  // with "There's no line here to end." The signature block must render blank.
+  for (const docType of ALL_DOC_TYPES) {
+    const baseline = buildBaseline(docType);
+    fixtures.push({
+      name: `${docType}:unsigned`,
+      store: {
+        ...baseline,
+        formData: {
+          ...baseline.formData,
+          sigFirst: '', sigMiddle: '', sigLast: '',
+          sigRank: '', sigTitle: '', officeCode: '',
+          // Dual-signatory doc types (MOA/MOU, joint letter/memo) read their own
+          // signer fields, so empty those too — otherwise their `:unsigned` rows
+          // would still carry names and never exercise the empty path. They end
+          // name lines with \par (not \\) so they don't crash today, but this
+          // keeps the guard honest if a future edit changes that.
+          seniorSigName: '', seniorSigRank: '', seniorSigTitle: '',
+          juniorSigName: '', juniorSigRank: '', juniorSigTitle: '',
+          jointSeniorSigName: '', jointSeniorSigTitle: '',
+          jointJuniorSigName: '', jointJuniorSigTitle: '',
+          jointMemoSeniorSigName: '', jointMemoSeniorSigTitle: '',
+          jointMemoJuniorSigName: '', jointMemoJuniorSigTitle: '',
+        },
+      },
+    });
+  }
+
   return fixtures;
 }
 
