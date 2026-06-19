@@ -158,3 +158,72 @@ export function canIndent(level: number): boolean {
 export function canOutdent(level: number): boolean {
   return level > 0;
 }
+
+/**
+ * Clamp a paragraph list back into the SECNAV nesting invariant: the first
+ * paragraph is always top-level, and no paragraph may sit more than one level
+ * deeper than the one directly above it. Run after every structural edit so the
+ * editor can't emit an illegal-but-still-compiling outline — e.g. a Tab that
+ * jumps two levels, or an outdent that strands its sub-paragraphs too deep.
+ * Returns the same array reference contents but with offending levels lowered
+ * (unchanged paragraph objects are preserved by identity).
+ */
+export function normalizeLevels<T extends { level: number }>(paragraphs: T[]): T[] {
+  let prev = -1; // forces paragraphs[0] down to level 0
+  return paragraphs.map((p) => {
+    const level = Math.max(0, Math.min(clampLevel(p.level), prev + 1));
+    prev = level;
+    return level === p.level ? p : { ...p, level };
+  });
+}
+
+/**
+ * Normalize legacy portion markings on load. FOUO was retired into the CUI
+ * program (DoDI 5200.48, 2020), and the block editor's mark palette only carries
+ * U/CUI/C/S/TS — so a paragraph persisted with FOUO by an older build would
+ * otherwise be mislabeled as (U) in the gutter and silently downgraded to U on
+ * the first cycle-click, corrupting the marking (and, via overallClassification,
+ * the document-wide banner). Rewriting FOUO -> CUI at every load boundary keeps
+ * old drafts correct. Returns the same array reference when nothing changes, so
+ * it never dirties an untouched document.
+ */
+export function migratePortionMarkings<T extends { portionMarking?: string }>(paragraphs: T[]): T[] {
+  let changed = false;
+  const next = paragraphs.map((p): T => {
+    if (p.portionMarking === 'FOUO') {
+      changed = true;
+      return { ...p, portionMarking: 'CUI' } as T;
+    }
+    return p;
+  });
+  return changed ? next : paragraphs;
+}
+
+/**
+ * Split pasted prose (from Word / Outlook / email) into paragraph segments so a
+ * dropped draft becomes real blocks instead of one blob. Splits on blank lines
+ * when present, otherwise on single newlines, and strips a leading auto-
+ * enumerator (1. / a. / (1) / •) from each segment so it doesn't double up with
+ * the editor's own SECNAV numbering.
+ */
+export function splitPastedParagraphs(raw: string): string[] {
+  const normalized = raw.replace(/\r\n?/g, '\n').trim();
+  if (!normalized) return [];
+  const hasBlankLines = /\n[ \t]*\n/.test(normalized);
+  const segments = normalized.split(hasBlankLines ? /\n[ \t]*\n+/ : /\n+/);
+  return segments
+    .map((s) => s.trim().replace(/^(?:\(?\d+[.)]|\(?[a-zA-Z][.)]|[•·▪◦*-])\s+/, '').trim())
+    .filter((s) => s.length > 0);
+}
+
+/**
+ * True when the paragraph at `index` may be indented one level deeper right now:
+ * it isn't the first paragraph and isn't already one deeper than its predecessor
+ * (and is under the max depth). Mirrors what normalizeLevels would allow, so the
+ * UI can disable the control instead of offering a no-op.
+ */
+export function canIndentAt(paragraphs: { level: number }[], index: number): boolean {
+  if (index <= 0) return false;
+  const level = paragraphs[index].level;
+  return level < PARAGRAPH.MAX_DEPTH && level <= paragraphs[index - 1].level;
+}
