@@ -1559,7 +1559,7 @@ const LATEX_TEMPLATES = {
             }%
         \\fi
         % Required: Name (use abbreviated if available, else full name uppercased)
-        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\MakeUppercase{\\SignatoryName}\\\\}%
+        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
         % Optional: Rank
         \\optionalLine{\\SignatoryRank}%
         % Optional: Title
@@ -1733,7 +1733,7 @@ const LATEX_TEMPLATES = {
             }%
         \\fi
             % Required: Name in ALL CAPS
-            \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\MakeUppercase{\\SignatoryName}\\\\}%
+            \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
             % Optional: Rank
             \\optionalLine{\\SignatoryRank}%
             % Optional: Title
@@ -1923,7 +1923,7 @@ const LATEX_TEMPLATES = {
             }%
         \\fi
         % Required: Name only (abbreviated format preferred)
-        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\MakeUppercase{\\SignatoryName}\\\\}%
+        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
         % Optional: By direction authority line
         \\optionalField{\\ByDirection}%
     \\end{minipage}%
@@ -2085,7 +2085,7 @@ const LATEX_TEMPLATES = {
             }%
         \\fi
             % Required: Name in ALL CAPS
-            \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\MakeUppercase{\\SignatoryName}\\\\}%
+            \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
             % Optional: Rank
             \\optionalLine{\\SignatoryRank}%
             % Optional: Title
@@ -2230,7 +2230,7 @@ const LATEX_TEMPLATES = {
             }%
         \\fi
         % Required: Name (use abbreviated if available, else full name uppercased)
-        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\MakeUppercase{\\SignatoryName}\\\\}%
+        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
         % Optional: Rank
         \\optionalLine{\\SignatoryRank}%
         % Optional: Title
@@ -2937,7 +2937,7 @@ const LATEX_TEMPLATES = {
             }%
         \\fi
         % Required: Name only (abbreviated format preferred)
-        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\MakeUppercase{\\SignatoryName}\\\\}%
+        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
         % Optional: By direction authority line
         \\optionalField{\\ByDirection}%
     \\end{minipage}
@@ -3085,7 +3085,7 @@ const LATEX_TEMPLATES = {
             }%
         \\fi
         % Required: Name (use abbreviated if available, else full name uppercased)
-        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\MakeUppercase{\\SignatoryName}\\\\}%
+        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
         % Optional: Rank and Title
         \\optionalLine{\\SignatoryRank}%
         \\optionalLine{\\SignatoryTitle}%
@@ -3211,7 +3211,7 @@ const LATEX_TEMPLATES = {
             }%
         \\fi
         % Required: Name (use abbreviated if available, else full name uppercased)
-        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\MakeUppercase{\\SignatoryName}\\\\}%
+        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
         % Optional: Rank and Title
         \\optionalLine{\\SignatoryRank}%
         \\optionalLine{\\SignatoryTitle}%
@@ -3738,7 +3738,7 @@ const LATEX_TEMPLATES = {
             }%
         \\fi
         % Required: Name (use abbreviated if available, else full name uppercased)
-        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\MakeUppercase{\\SignatoryName}\\\\}%
+        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
         % Optional: Rank
         \\optionalLine{\\SignatoryRank}%
         % Optional: Title
@@ -4088,7 +4088,7 @@ const LATEX_TEMPLATES = {
             }%
         \\fi
         % Required: Name only (abbreviated format preferred)
-        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\MakeUppercase{\\SignatoryName}\\\\}%
+        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
         % Optional: By direction authority line
         \\optionalField{\\ByDirection}%
     \\end{minipage}
@@ -4225,7 +4225,7 @@ const LATEX_TEMPLATES = {
             }%
         \\fi
         % Required: Name only (abbreviated format preferred)
-        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\MakeUppercase{\\SignatoryName}\\\\}%
+        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
         % Optional: By direction authority line
         \\optionalField{\\ByDirection}%
     \\end{minipage}
@@ -4401,7 +4401,7 @@ const LATEX_TEMPLATES = {
             }%
         \\fi
         % Required: Name only (abbreviated format preferred)
-        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\MakeUppercase{\\SignatoryName}\\\\}%
+        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
         % Optional: By direction authority line
         \\optionalField{\\ByDirection}%
     \\end{minipage}
@@ -4754,7 +4754,7 @@ const LATEX_TEMPLATES = {
             }%
         \\fi
         % Required: Name (use abbreviated if available, else full name uppercased)
-        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\MakeUppercase{\\SignatoryName}\\\\}%
+        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
         % Optional: Title
         \\optionalLine{\\SignatoryTitle}%
         % Optional: By direction authority line

@@ -114,7 +114,7 @@
             }%
         \fi
         % Required: Name (use abbreviated if available, else full name uppercased)
-        \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev\\}{\MakeUppercase{\SignatoryName}\\}%
+        \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev\\}{\ifNotEmpty{\SignatoryName}{\MakeUppercase{\SignatoryName}\\}}%
         % Optional: Rank and Title
         \optionalLine{\SignatoryRank}%
         \optionalLine{\SignatoryTitle}%

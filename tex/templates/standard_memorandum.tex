@@ -118,7 +118,7 @@
             }%
         \fi
         % Required: Name (use abbreviated if available, else full name uppercased)
-        \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev\\}{\MakeUppercase{\SignatoryName}\\}%
+        \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev\\}{\ifNotEmpty{\SignatoryName}{\MakeUppercase{\SignatoryName}\\}}%
         % Optional: Title
         \optionalLine{\SignatoryTitle}%
         % Optional: By direction authority line
