@@ -31,6 +31,9 @@ vi.mock('@/lib/shareCrypto', () => ({
 vi.mock('@/stores/documentStore', () => ({
   getSerializedSessionForShare: vi.fn(() => ({ docType: 'naval_letter' })),
   loadSharedSession: vi.fn(),
+  // The share flow scans the live document for PII before building a link;
+  // a clean (empty) document lets the happy path generate straight through.
+  useDocumentStore: { getState: vi.fn(() => ({ formData: {}, paragraphs: [], copyTos: [], references: [] })) },
 }));
 
 beforeEach(() => {

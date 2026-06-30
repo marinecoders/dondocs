@@ -63,14 +63,22 @@ describe('detectPII — pattern detection', () => {
 
   it('detects an EDIPI (10-digit number)', () => {
     const store = emptyStore();
-    store.formData.subject = 'EDIPI: 1234567890';
+    // A realistic, non-sequential 10-digit id. (A placeholder sequence like
+    // 1234567890 is now intentionally rejected by the precision filter.)
+    store.formData.subject = 'EDIPI: 1436758291';
     const out = detectPII(store);
     expect(out.found).toBe(true);
-    // 10-digit EDIPI matches both EDIPI and the 9-digit-fallback SSN
-    // pattern (since the regex allows any 9-digit run inside a longer
-    // number — the SUT documents this as "may have false positives").
-    // The important assertion is that EDIPI was caught.
     expect(out.summary.edipi).toBeGreaterThanOrEqual(1);
+  });
+
+  it('ignores placeholder / structurally-invalid numeric runs (precision)', () => {
+    const store = emptyStore();
+    // ZIP+4 without a dash (9 digits, invalid SSN area 000), a repeated run, and
+    // an ascending sequence — none should be flagged as SSN/EDIPI.
+    store.formData.subject = 'Codes 000123456, 1111111111, and 1234567890';
+    const out = detectPII(store);
+    expect(out.summary.ssn).toBe(0);
+    expect(out.summary.edipi).toBe(0);
   });
 
   it('detects a DOB in MM/DD/YYYY format', () => {
@@ -165,5 +173,31 @@ describe('getPIITypeSeverity — policy table', () => {
   it('phone and email are LOW severity (often public)', () => {
     expect(getPIITypeSeverity('PHONE')).toBe('low');
     expect(getPIITypeSeverity('EMAIL_ADDRESS')).toBe('low');
+  });
+});
+
+// These fields all ride along in the share/export payload (serializeSession), so
+// the pre-share warning must scan them — otherwise it gives false assurance for
+// PII typed into a heading, a distribution line, or an enclosure title.
+describe('detectPII — fields carried into share/export', () => {
+  const base = { formData: {} as Record<string, unknown>, paragraphs: [], copyTos: [], references: [] };
+
+  it('scans paragraph headings, not just body text', () => {
+    const out = detectPII({ ...base, paragraphs: [{ text: 'ok', header: 'SSN 123-45-6789' }] });
+    expect(out.found).toBe(true);
+    expect(out.summary.ssn).toBeGreaterThanOrEqual(1);
+  });
+
+  it('scans distribution lines', () => {
+    const out = detectPII({ ...base, distributions: [{ text: 'SSN 123-45-6789' }] });
+    expect(out.found).toBe(true);
+    expect(out.summary.ssn).toBeGreaterThanOrEqual(1);
+  });
+
+  it('scans enclosure titles and cover-page descriptions', () => {
+    const byTitle = detectPII({ ...base, enclosures: [{ title: 'SSN 123-45-6789' }] });
+    expect(byTitle.summary.ssn).toBeGreaterThanOrEqual(1);
+    const byCover = detectPII({ ...base, enclosures: [{ coverPageDescription: 'SSN 123-45-6789' }] });
+    expect(byCover.summary.ssn).toBeGreaterThanOrEqual(1);
   });
 });

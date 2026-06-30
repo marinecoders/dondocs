@@ -115,6 +115,38 @@ const EXCLUDED_EMAIL_DOMAINS = [
   'marines.mil',
 ];
 
+const digitsOf = (s: string): string => s.replace(/\D/g, '');
+
+// Reject runs that aren't plausibly a real identifier: a single repeated digit
+// (000000000) or a strict ascending/descending sequence (123456789 / 987654321).
+// These are the placeholder/example values that make bare \d{9}/\d{10} noisy.
+function looksLikeRealId(d: string): boolean {
+  if (/^(\d)\1+$/.test(d)) return false;
+  const chars = d.split('').map(Number);
+  const asc = chars.every((n, i) => i === 0 || n === (chars[i - 1] + 1) % 10);
+  const desc = chars.every((n, i) => i === 0 || n === (chars[i - 1] + 9) % 10);
+  return !asc && !desc;
+}
+
+// SSA structural rules for a 9-digit SSN: area 001–899 excluding 666; group 01–99;
+// serial 0001–9999. Rules out ZIP+4 runs, document numbers, and obvious fakes.
+function isPlausibleSSN(digits: string): boolean {
+  if (digits.length !== 9 || !looksLikeRealId(digits)) return false;
+  const area = Number(digits.slice(0, 3));
+  const group = Number(digits.slice(3, 5));
+  const serial = Number(digits.slice(5));
+  return area !== 0 && area !== 666 && area < 900 && group !== 0 && serial !== 0;
+}
+
+// Precision gate for the low-confidence numeric patterns. A dashed SSN
+// (XXX-XX-XXXX) is a strong enough signal to keep as-is; a bare 9-/10-digit run
+// must clear the structural / non-placeholder checks before it's flagged.
+function passesPrecision(type: PIIType, match: string): boolean {
+  if (type === 'SSN') return match.includes('-') ? true : isPlausibleSSN(match);
+  if (type === 'EDIPI') return looksLikeRealId(digitsOf(match));
+  return true;
+}
+
 function findMatches(
   text: string,
   patterns: RegExp[],
@@ -129,6 +161,10 @@ function findMatches(
 
     let match;
     while ((match = pattern.exec(text)) !== null) {
+      // Drop low-confidence numeric false positives (a bare 9-digit ZIP+4 or a
+      // 10-digit doc number that isn't structurally an SSN/EDIPI).
+      if (!passesPrecision(type, match[0])) continue;
+
       // Get context around the match
       const start = Math.max(0, match.index - 20);
       const end = Math.min(text.length, match.index + match[0].length + 20);
@@ -201,9 +237,26 @@ function findEmails(text: string, field: string): PIIFinding[] {
 
 interface DocumentStore {
   formData: Record<string, unknown>;
-  paragraphs: Array<{ text: string }>;
+  paragraphs: Array<{ text: string; header?: string }>;
   copyTos: Array<{ text: string }>;
   references: Array<{ title: string; url?: string }>;
+  distributions?: Array<{ text: string }>;
+  enclosures?: Array<{ title?: string; coverPageDescription?: string }>;
+}
+
+// The full PII battery on a single free-text field. Shared so every scannable
+// field — not just the body — gets the same coverage that the share/export
+// payload assumes was applied.
+function scanText(text: string | undefined, fieldName: string): PIIFinding[] {
+  if (typeof text !== 'string' || !text.trim()) return [];
+  return [
+    ...findMatches(text, SSN_PATTERNS, 'SSN', fieldName),
+    ...findMatches(text, [EDIPI_PATTERN], 'EDIPI', fieldName),
+    ...findMatches(text, DOB_PATTERNS, 'DOB', fieldName),
+    ...findMatches(text, PHONE_PATTERNS, 'PHONE', fieldName),
+    ...findMedicalKeywords(text, fieldName),
+    ...findEmails(text, fieldName),
+  ];
 }
 
 export function detectPII(documentStore: DocumentStore): PIIDetectionResult {
@@ -244,17 +297,10 @@ export function detectPII(documentStore: DocumentStore): PIIDetectionResult {
     }
   }
 
-  // Scan paragraphs (document body - highest risk area)
+  // Scan paragraphs (document body - highest risk area), including their headings.
   documentStore.paragraphs.forEach((para, index) => {
-    if (para.text && para.text.trim()) {
-      const fieldName = `Paragraph ${index + 1}`;
-      findings.push(...findMatches(para.text, SSN_PATTERNS, 'SSN', fieldName));
-      findings.push(...findMatches(para.text, [EDIPI_PATTERN], 'EDIPI', fieldName));
-      findings.push(...findMatches(para.text, DOB_PATTERNS, 'DOB', fieldName));
-      findings.push(...findMatches(para.text, PHONE_PATTERNS, 'PHONE', fieldName));
-      findings.push(...findMedicalKeywords(para.text, fieldName));
-      findings.push(...findEmails(para.text, fieldName));
-    }
+    findings.push(...scanText(para.text, `Paragraph ${index + 1}`));
+    findings.push(...scanText(para.header, `Paragraph ${index + 1} heading`));
   });
 
   // Scan copy-to recipients
@@ -277,6 +323,17 @@ export function detectPII(documentStore: DocumentStore): PIIDetectionResult {
       // URLs might contain PII in query parameters
       findings.push(...findMatches(ref.url, SSN_PATTERNS, 'SSN', `${fieldName} URL`));
     }
+  });
+
+  // Scan distribution lines and enclosure titles/cover descriptions — all three
+  // ride along in the share/export payload (serializeSession), so the pre-share
+  // warning must scan them too or it gives false assurance.
+  (documentStore.distributions ?? []).forEach((dist, index) => {
+    findings.push(...scanText(dist.text, `Distribution ${index + 1}`));
+  });
+  (documentStore.enclosures ?? []).forEach((enc, index) => {
+    findings.push(...scanText(enc.title, `Enclosure ${index + 1}`));
+    findings.push(...scanText(enc.coverPageDescription, `Enclosure ${index + 1} cover page`));
   });
 
   // Remove duplicates (same value in same field)
