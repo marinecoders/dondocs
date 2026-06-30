@@ -1,6 +1,34 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Self-hosted Geist (latin), vendored from @fontsource-variable/geist so the
+   primary subset can be <link rel="preload">ed in index.html — eliminates the
+   FOUT / text reflow the late-loading webfont caused on first paint. */
+@font-face {
+  font-family: 'Geist Variable';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/geist-latin-wght-normal.woff2') format('woff2-variations');
+}
+@font-face {
+  font-family: 'Geist Variable';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/geist-latin-wght-italic.woff2') format('woff2-variations');
+}
+/* Metric-matched fallback (Geist's published overrides) so if the preloaded
+   font isn't ready by first paint on a slow link, the swap can't reflow text. */
+@font-face {
+  font-family: 'Geist Fallback';
+  src: local('Arial'), local('Helvetica Neue'), local('Liberation Sans');
+  ascent-override: 95.94%;
+  descent-override: 23.98%;
+  line-gap-override: 0%;
+  size-adjust: 100.65%;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 /* Theme tokens live in the unlayered `:root` (light) and `.dark` blocks
@@ -21,7 +49,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Roboto', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Geist Variable', 'Geist Fallback', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-feature-settings: 'kern' 1, 'liga' 1;
     margin: 0;
     position: fixed;
@@ -91,6 +119,8 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-brand-accent: var(--brand-accent);
+  --color-brand-accent-foreground: var(--brand-accent-foreground);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
   --color-input: var(--input);
@@ -110,8 +140,35 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* A1 — crafted foundation tokens. Pure tokens: components inherit these through
+   their existing shadow-* / text-* utilities and the body font, so there are no
+   per-component edits. */
+@theme {
+  --font-sans: 'Geist Variable', 'Geist Fallback', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Layered, navy-tinted elevation (rgb 18 27 46 ≈ slate-navy) with a 1px
+     shadow-as-border ring, mapped onto Tailwind's scale:
+     inputs → xs/sm · cards → md · popovers → lg · dialogs → xl. */
+  --shadow-xs: 0 1px 2px 0 rgb(18 27 46 / 0.06);
+  --shadow-sm: 0 1px 2px -1px rgb(18 27 46 / 0.08), 0 1px 3px 0 rgb(18 27 46 / 0.06);
+  --shadow-md: 0 0 0 1px rgb(18 27 46 / 0.03), 0 2px 4px -1px rgb(18 27 46 / 0.08), 0 6px 12px -2px rgb(18 27 46 / 0.08);
+  --shadow-lg: 0 0 0 1px rgb(18 27 46 / 0.04), 0 6px 12px -3px rgb(18 27 46 / 0.10), 0 16px 24px -6px rgb(18 27 46 / 0.12);
+  --shadow-xl: 0 0 0 1px rgb(18 27 46 / 0.04), 0 12px 20px -6px rgb(18 27 46 / 0.12), 0 28px 40px -10px rgb(18 27 46 / 0.18);
+
+  /* Optical tracking ladder: large display text compresses, body/small relaxes. */
+  --text-xs--letter-spacing: 0.01em;
+  --text-sm--letter-spacing: 0.005em;
+  --text-base--letter-spacing: 0em;
+  --text-lg--letter-spacing: -0.006em;
+  --text-xl--letter-spacing: -0.011em;
+  --text-2xl--letter-spacing: -0.016em;
+  --text-3xl--letter-spacing: -0.019em;
+  --text-4xl--letter-spacing: -0.021em;
+  --text-5xl--letter-spacing: -0.022em;
+}
+
 :root {
-  --radius: 0.625rem;
+  --radius: 0.5rem;
   /* Marines.dev branded default — navy tint + USMC Red primary */
   --background: oklch(0.97 0.008 250);     /* #dee4e7 light bg with navy tint */
   --foreground: oklch(0.17 0.015 260);     /* #1a1d24 dark text */
@@ -125,9 +182,12 @@
   --secondary-foreground: oklch(0.17 0.015 260);
   --muted: oklch(0.94 0.01 250);
   --muted-foreground: oklch(0.37 0.03 250);
-  --accent: oklch(0.32 0.06 230);          /* #07405B navy blue */
-  --accent-foreground: oklch(0.99 0 0);
+  --accent: oklch(0.94 0.01 250);          /* Neutral hover (shadcn contract) */
+  --accent-foreground: oklch(0.21 0.02 250);
+  --brand-accent: oklch(0.32 0.06 230);    /* #07405B navy — intentional brand highlight */
+  --brand-accent-foreground: oklch(0.99 0 0);
   --destructive: oklch(0.33 0.14 25);      /* #7A131B battle red */
+  --success: oklch(0.63 0.17 149);         /* ~green-600 — status/compliance tint */
   --border: oklch(0.88 0.02 250);          /* Navy-tinted border */
   --input: oklch(0.95 0.01 250);
   --ring: oklch(0.43 0.17 25);             /* USMC Red ring */
@@ -188,8 +248,10 @@
 [data-scheme="navy"] {
   --primary: oklch(0.43 0.17 25);   /* #a6192e USMC Red */
   --primary-foreground: oklch(0.99 0 0);
-  --accent: oklch(0.32 0.06 230);   /* #07405B mcswf-blue */
-  --accent-foreground: oklch(0.99 0 0);
+  --accent: oklch(0.94 0.01 250);   /* Neutral hover */
+  --accent-foreground: oklch(0.21 0.02 250);
+  --brand-accent: oklch(0.32 0.06 230);   /* #07405B mcswf-blue — brand highlight */
+  --brand-accent-foreground: oklch(0.99 0 0);
   --ring: oklch(0.43 0.17 25);      /* USMC Red */
 }
 
@@ -207,8 +269,10 @@
   --secondary-foreground: oklch(0.98 0 0);
   --muted: oklch(0.23 0.008 260);
   --muted-foreground: oklch(0.78 0.01 250);
-  --accent: oklch(0.80 0.15 85);        /* #f1b434 gold — accent only */
-  --accent-foreground: oklch(0.14 0.008 260);
+  --accent: oklch(0.27 0.01 260);       /* Neutral hover (lifted off card) */
+  --accent-foreground: oklch(0.96 0 0);
+  --brand-accent: oklch(0.80 0.15 85);  /* #f1b434 gold — brand highlight */
+  --brand-accent-foreground: oklch(0.14 0.008 260);
   --destructive: oklch(0.50 0.18 25);   /* Brighter battle red — WCAG AA */
   --border: oklch(0.28 0.008 260);
   --input: oklch(0.23 0.008 260);
@@ -235,8 +299,10 @@
   --secondary-foreground: oklch(0.17 0.015 260);
   --muted: oklch(0.94 0.02 250);
   --muted-foreground: oklch(0.33 0.05 250);
-  --accent: oklch(0.58 0.12 85);        /* Gold accent */
-  --accent-foreground: oklch(0.17 0.015 260);
+  --accent: oklch(0.94 0.01 250);       /* Neutral hover */
+  --accent-foreground: oklch(0.21 0.02 250);
+  --brand-accent: oklch(0.58 0.12 85);  /* Gold — brand highlight */
+  --brand-accent-foreground: oklch(0.17 0.015 260);
   --destructive: oklch(0.33 0.14 25);   /* #7A131B battle red */
   --border: oklch(0.85 0.04 250);
   --input: oklch(0.95 0.02 250);
@@ -254,8 +320,10 @@
 [data-scheme="usmc"] {
   --primary: oklch(0.50 0.18 25);  /* Blood stripe scarlet */
   --primary-foreground: oklch(1 0 0);  /* Pure white for max contrast */
-  --accent: oklch(0.25 0.05 250);  /* Dress blue navy */
-  --accent-foreground: oklch(0.98 0 0);
+  --accent: oklch(0.94 0.01 250);  /* Neutral hover */
+  --accent-foreground: oklch(0.21 0.02 250);
+  --brand-accent: oklch(0.25 0.05 250);  /* Dress blue navy — brand highlight */
+  --brand-accent-foreground: oklch(0.98 0 0);
   --ring: oklch(0.50 0.18 25);  /* Scarlet ring */
   --destructive: oklch(0.45 0.18 25);  /* Darker red */
 }
@@ -275,8 +343,10 @@
   --secondary-foreground: oklch(0.98 0 0);
   --muted: oklch(0.23 0.008 260);
   --muted-foreground: oklch(0.78 0.01 250);  /* Light slate — WCAG AA */
-  --accent: oklch(0.58 0.22 25);  /* Blood stripe red */
-  --accent-foreground: oklch(0.98 0 0);
+  --accent: oklch(0.27 0.01 260);  /* Neutral hover */
+  --accent-foreground: oklch(0.96 0 0);
+  --brand-accent: oklch(0.58 0.22 25);  /* Blood stripe red — brand highlight */
+  --brand-accent-foreground: oklch(0.98 0 0);
   --border: oklch(0.28 0.008 260);  /* Slate border */
   --input: oklch(0.23 0.008 260);
   --ring: oklch(0.58 0.22 25);  /* Red ring */
@@ -303,8 +373,10 @@
   --secondary-foreground: oklch(0.98 0 0);
   --muted: oklch(0.94 0.01 250);  /* Light blue-gray */
   --muted-foreground: oklch(0.37 0.03 250);  /* Medium navy — WCAG AA */
-  --accent: oklch(0.25 0.05 250);  /* Navy accent */
-  --accent-foreground: oklch(0.98 0 0);
+  --accent: oklch(0.94 0.01 250);  /* Neutral hover */
+  --accent-foreground: oklch(0.21 0.02 250);
+  --brand-accent: oklch(0.25 0.05 250);  /* Navy — brand highlight */
+  --brand-accent-foreground: oklch(0.98 0 0);
   --border: oklch(0.88 0.02 250);  /* Light navy border */
   --input: oklch(0.96 0.01 250);
   --ring: oklch(0.50 0.20 25);  /* Scarlet ring */
@@ -322,9 +394,9 @@
   /* Elevation ladder — each surface is a clear perceptual step up from the
      canvas so panels read as lifted, and popovers/menus sit ABOVE cards
      (previously card and popover were identical, so nothing popped). */
-  --background: oklch(0.115 0.008 260);    /* Deepened canvas */
+  --background: oklch(0.16 0.008 260);     /* Lifted canvas — off near-pure-black for depth; APCA body-text Lc ~-103 (unchanged) */
   --foreground: oklch(0.98 0 0);           /* White */
-  --card: oklch(0.205 0.008 260);          /* Slate card — lifted off canvas */
+  --card: oklch(0.22 0.008 260);           /* Slate card — lifted off canvas (keeps ~0.06 L separation) */
   --card-foreground: oklch(0.98 0 0);
   --popover: oklch(0.27 0.009 260);        /* Elevated — menus/dropdowns sit clearly above cards */
   --popover-foreground: oklch(0.98 0 0);
@@ -334,9 +406,12 @@
   --secondary-foreground: oklch(0.98 0 0);
   --muted: oklch(0.23 0.008 260);
   --muted-foreground: oklch(0.82 0.02 250); /* Slightly brighter slate — easier read on deep canvas */
-  --accent: oklch(0.80 0.15 85);           /* #f1b434 gold accent */
-  --accent-foreground: oklch(0.14 0.008 260);
+  --accent: oklch(0.27 0.01 260);          /* Neutral hover (lifted off card) */
+  --accent-foreground: oklch(0.96 0 0);
+  --brand-accent: oklch(0.80 0.15 85);     /* #f1b434 gold — brand highlight */
+  --brand-accent-foreground: oklch(0.14 0.008 260);
   --destructive: oklch(0.50 0.18 25);      /* Brighter red — WCAG AA */
+  --success: oklch(0.79 0.18 149);         /* ~green-400 — brighter for deep canvas */
   --border: oklch(0.305 0.008 260);        /* Crisper edges for card separation */
   --input: oklch(0.23 0.008 260);
   --ring: oklch(0.55 0.20 25);             /* Bright USMC Red ring */
@@ -345,7 +420,7 @@
   --chart-3: oklch(0.85 0.14 85);          /* Gold */
   --chart-4: oklch(0.50 0.18 25);          /* Mid red */
   --chart-5: oklch(0.80 0.15 85);          /* Yellow */
-  --sidebar: oklch(0.135 0.008 260);       /* Slate sidebar — deepened with canvas */
+  --sidebar: oklch(0.16 0.008 260);        /* Slate sidebar — tracks the lifted canvas */
   --sidebar-foreground: oklch(0.98 0 0);
   --sidebar-primary: oklch(0.55 0.20 25);  /* Bright USMC Red */
   --sidebar-primary-foreground: oklch(0.98 0 0);
@@ -375,9 +450,12 @@
     --secondary-foreground: #0c1016;
     --muted: #e6ecf2;
     --muted-foreground: #34414f;
-    --accent: #06384b;
-    --accent-foreground: #fcfcfc;
+    --accent: #e6ecf2;
+    --accent-foreground: #1b1d21;
+    --brand-accent: #06384b;
+    --brand-accent-foreground: #fcfcfc;
     --destructive: #6c0008;
+    --success: #15803d;
     --border: #ced9e5;
     --input: #eaeff5;
     --ring: #970818;
@@ -396,9 +474,9 @@
     --sidebar-ring: #970818;
   }
   .dark {
-    --background: #040507;
+    --background: #0b0d11;
     --foreground: #f8f8f8;
-    --card: #15171b;
+    --card: #181b1e;
     --card-foreground: #f8f8f8;
     --popover: #1e2125;
     --popover-foreground: #f8f8f8;
@@ -408,9 +486,12 @@
     --secondary-foreground: #f8f8f8;
     --muted: #1b1d21;
     --muted-foreground: #b3b8be;
-    --accent: #eab532;
-    --accent-foreground: #07090c;
+    --accent: #262a30;
+    --accent-foreground: #f4f6f8;
+    --brand-accent: #eab532;
+    --brand-accent-foreground: #07090c;
     --destructive: #b32228;
+    --success: #4ade80;
     --border: #2d2f33;
     --input: #1b1d21;
     --ring: #cc272e;
@@ -419,7 +500,7 @@
     --chart-3: #f8c655;
     --chart-4: #b32228;
     --chart-5: #eab532;
-    --sidebar: #07080b;
+    --sidebar: #0b0d11;
     --sidebar-foreground: #f8f8f8;
     --sidebar-primary: #cc272e;
     --sidebar-primary-foreground: #f8f8f8;
@@ -473,14 +554,40 @@
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2), 0 8px 10px -6px rgb(0 0 0 / 0.15);
   }
 
-  /* Accordion section left accent border */
-  [data-slot="accordion-item"] {
-    border-left: 3px solid transparent;
-    transition: border-color 300ms ease, box-shadow 300ms ease;
+  /* Tabular figures — align digits in columns (timestamps, counts, page numbers). */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
   }
-  [data-slot="accordion-item"][data-state="open"] {
-    border-left-color: var(--primary);
+
+  /* Unified modal scrim — one look for every overlay (Dialog, AlertDialog, and
+     the command palette) instead of the previous black/70 vs rgba mismatch. */
+  .dd-scrim {
+    background-color: oklch(0.15 0.02 260 / 0.55);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
   }
+}
+
+/* Transform-only keyframes — never animate opacity from 0, so content stays
+   visible if the animation clock is throttled (offscreen, reduced-motion, capture). */
+@keyframes dd-progress {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+@keyframes dd-fade-in {
+  from { transform: translateY(4px); }
+  to { transform: none; }
+}
+@keyframes dd-pop-in {
+  from { transform: translateY(8px) scale(0.985); }
+  to { transform: none; }
+}
+/* One restrained pulse when the document first becomes "Ready to sign". */
+@keyframes dd-ready-pop {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.14); }
+  100% { transform: scale(1); }
 }
 
 /* Respect prefers-reduced-motion — WCAG 2.3.3 */
@@ -491,18 +598,8 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  .dd-anim {
+    animation: none !important;
+  }
 }
 
-/* Section card styling for form panels */
-@layer components {
-  .section-card {
-    border-radius: 0.5rem;
-    border: 1px solid var(--border);
-    background: var(--card);
-    padding: 1rem;
-    transition: box-shadow 300ms ease, border-color 300ms ease;
-  }
-  .section-card:hover {
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.15), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  }
-}

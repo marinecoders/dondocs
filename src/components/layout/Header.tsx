@@ -1,13 +1,17 @@
-import { useState, useCallback, useRef, useEffect, type ChangeEvent } from 'react';
-import { Moon, Sun, Download, FileText, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2, Lightbulb, FolderOpen, Rocket } from 'lucide-react';
+import { useState, useCallback, useRef, useEffect, type ChangeEvent, type ReactNode } from 'react';
+import { Moon, Sun, Download, FileText, Braces, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2, Lightbulb, FolderOpen, Rocket, FolderSync } from 'lucide-react';
 import { GithubIcon } from '@/components/icons/GithubIcon';
 import { Button } from '@/components/ui/button';
+import { Kbd } from '@/components/ui/kbd';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { formatShortcut } from '@/lib/platform';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
@@ -22,6 +26,9 @@ import {
 } from '@/components/ui/alert-dialog';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
+import { useFormStore } from '@/stores/formStore';
+import { useDocumentsStore, exportLibrary, importLibrary } from '@/stores/documentsStore';
+import { useBackupStore } from '@/stores/backupStore';
 import { useHistoryStore } from '@/stores/historyStore';
 import { uint8ArrayToBase64, base64ToUint8Array, arrayBufferToUint8Array } from '@/lib/encoding';
 import { STORAGE_KEYS } from '@/lib/constants';
@@ -38,41 +45,24 @@ interface HeaderProps {
   onDownloadFlatTex?: () => void;
   onRefreshPreview?: () => void;
   isCompiling?: boolean;
-  /**
-   * True while a DOCX download is in flight. Disables the DOCX menu item and
-   * swaps its icon for a spinner so a second click can't spawn a parallel
-   * conversion (the pandoc WASM module is a singleton but the modal UX is not).
-   */
+  /** True while a DOCX download is in flight; disables the menu item. */
   isDocxGenerating?: boolean;
-  /**
-   * True while a PDF download is in flight (compile → merge → sign → save).
-   * Disables the PDF menu item and swaps its icon for a spinner so a second
-   * click can't start a parallel compile while the modal is up.
-   */
+  /** True while a PDF download is in flight; disables the menu item. */
   isPdfGenerating?: boolean;
-  isFormsMode?: boolean;  // Whether we're in forms mode (hides LaTeX options)
+  isFormsMode?: boolean;  // Forms mode hides LaTeX options
 }
 
 const GITHUB_REPO_URL = 'https://github.com/marinecoders/dondocs';
 const GITHUB_NEW_ISSUE_URL = 'https://github.com/marinecoders/dondocs/issues/new';
 const STORAGE_KEY = STORAGE_KEYS.DOCUMENT;
-// Marine Coders Eagle, Globe & Anchor seal — air-gap safe (same-origin SVG,
-// already preloaded for the background watermark).
+// Marine Coders seal: same-origin SVG, already preloaded for the watermark.
 const marineCodersLogo = `${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`;
 
 /**
  * Build a prefilled "New issue" URL for the Help-menu bug report button.
- *
- * This is the app's universal bug-report entry point — used anywhere the
- * user notices something wrong (UI glitch, unexpected behavior, etc.), not
- * just download failures. To keep it a true catch-all, we auto-include:
- *   - Recent error + warning logs from the LogStore (so reports about weird
- *     behavior still carry context the dev can act on)
- *   - Environment (user agent, URL, timestamp)
- *
- * The download-error modal uses its own, richer builder that includes the
- * full compile log and a target ("pdf" | "docx") — the two complement each
- * other rather than overlap.
+ * The app's general bug-report entry point. Auto-includes recent error/warning
+ * logs and environment (user agent, URL, timestamp). The download-error modal
+ * has its own builder that also carries the full compile log and a target.
  */
 function buildBugReportUrl(): string {
 
@@ -120,11 +110,7 @@ function buildBugReportUrl(): string {
 
 /**
  * Build a prefilled "New issue" URL for the Help-menu feature-suggestion
- * button — the welcome letter invites ideas, and this is where they land.
- *
- * Unlike the bug report, a suggestion needs no logs or compile output, so
- * nothing is auto-embedded. The same public-GitHub privacy notice and the
- * hash/query-stripped URL (safeReportUrl) still apply.
+ * button. Unlike the bug report, nothing is auto-embedded.
  */
 function buildFeatureRequestUrl(): string {
   const body = [
@@ -156,6 +142,19 @@ function buildFeatureRequestUrl(): string {
   return `${GITHUB_NEW_ISSUE_URL}?${params.toString()}`;
 }
 
+/**
+ * Wrap a header control in the styled (themeable, delayed) tooltip. The control
+ * keeps its own aria-label for screen readers; the tooltip is the hover hint.
+ */
+function HeaderTip({ label, children }: { label: ReactNode; children: ReactNode }) {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>{children}</TooltipTrigger>
+      <TooltipContent>{label}</TooltipContent>
+    </Tooltip>
+  );
+}
+
 export function Header({
   onDownloadPdf,
   onDownloadTex,
@@ -167,61 +166,47 @@ export function Header({
   isPdfGenerating = false,
   isFormsMode = false,
 }: HeaderProps) {
-  // One selector per field — Zustand only re-renders us when THAT field
-  // changes by strict equality. Previously this was a single `useUIStore()`
-  // destructure, which subscribes to every field in the store: every modal
-  // open/close, every autoSaveStatus string change, every keystroke-driven
-  // density change, was re-rendering the entire header tree (~40 buttons
-  // + dropdown contents). Same idea for the document + history stores.
-  // Setters are stable references from Zustand's `create()` callback, so
-  // selecting them is effectively free.
+  // One selector per field so Zustand only re-renders on that field's change,
+  // not on every store update (this header is ~40 buttons + dropdowns). Setters
+  // are stable, so selecting them is free. Same for the document + history stores.
   const theme = useUIStore((s) => s.theme);
   const toggleTheme = useUIStore((s) => s.toggleTheme);
   const density = useUIStore((s) => s.density);
   const setDensity = useUIStore((s) => s.setDensity);
-  const autoSaveStatus = useUIStore((s) => s.autoSaveStatus);
   const setAboutModalOpen = useUIStore((s) => s.setAboutModalOpen);
   const setNistModalOpen = useUIStore((s) => s.setNistModalOpen);
   const setBatchModalOpen = useUIStore((s) => s.setBatchModalOpen);
   const setDocumentGuideOpen = useUIStore((s) => s.setDocumentGuideOpen);
   const setFindReplaceOpen = useUIStore((s) => s.setFindReplaceOpen);
+  const setCommandPaletteOpen = useUIStore((s) => s.setCommandPaletteOpen);
   const setShareModal = useUIStore((s) => s.setShareModal);
   const isMobile = useUIStore((s) => s.isMobile);
   const previewVisible = useUIStore((s) => s.previewVisible);
   const togglePreview = useUIStore((s) => s.togglePreview);
   const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
   const setFullQualityPreview = useUIStore((s) => s.setFullQualityPreview);
-  // Reopen the getting-started checklist (clears its dismissal). Hidden once the
-  // onboarding is finished and the celebration has retired the launcher for good.
+  // Reopen the getting-started checklist. Hidden once onboarding is finished.
   const checklistCelebrated = useOnboardingStore((s) => s.checklistCelebrated);
   const reopenChecklist = () => useOnboardingStore.getState().setChecklistDismissed(false);
 
-  // Document store actions only — we intentionally do NOT subscribe to any
-  // document state here. The import/export/reset handlers below read the
-  // full document via `useDocumentStore.getState()` at invocation time, so
-  // Header doesn't re-render on every keystroke anymore (which was the
-  // biggest single win in #10 tier-2 — Header has 40+ interactive elements
-  // and was re-rendering per character typed).
+  // Actions only, no document-state subscription. The handlers below read the
+  // full document via useDocumentStore.getState() at call time, so Header
+  // doesn't re-render per keystroke.
   const resetForm = useDocumentStore((s) => s.resetForm);
   const applySnapshot = useDocumentStore((s) => s.applySnapshot);
   const clearFieldsExceptLetterhead = useDocumentStore((s) => s.clearFieldsExceptLetterhead);
 
   const undo = useHistoryStore((s) => s.undo);
   const redo = useHistoryStore((s) => s.redo);
-  // Select the derived booleans, not the getter functions — the getter
-  // references are stable so they'd never trigger a re-render. We need
-  // the value computed every render so the Undo/Redo button enabled state
-  // updates when past/future change.
+  // Select the derived booleans, not the stable getter functions, so the
+  // Undo/Redo enabled state updates when past/future change.
   const canUndo = useHistoryStore((s) => s.past.length > 0);
   const canRedo = useHistoryStore((s) => s.future.length > 0);
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [showClearFieldsDialog, setShowClearFieldsDialog] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
-  // Tracks the pending "clear saveStatus" timeout so we can (a) cancel it
-  // when a new flash message replaces an in-flight one, and (b) clear it
-  // on unmount — the previous code had 9 raw setTimeout calls with no
-  // tracking, each capable of calling setSaveStatus on an unmounted
-  // component if the user navigated away within the 2 s window.
+  // Pending "clear saveStatus" timeout, tracked so we can cancel it when a new
+  // flash replaces an in-flight one and clear it on unmount.
   const saveStatusTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const flashSaveStatus = useCallback((message: string, durationMs = 2000) => {
     if (saveStatusTimeoutRef.current) {
@@ -241,10 +226,8 @@ export function Header({
       }
     };
   }, []);
-  // Read the banner-dismissed flag from localStorage as the initial state
-  // (lazy initializer runs once, on mount). Avoids a layout-shift flash where
-  // the banner briefly appears before an effect closes it; also avoids a
-  // setState-in-effect lint hit.
+  // Seed banner-dismissed from localStorage via a lazy initializer so the
+  // banner doesn't flash before an effect could close it.
   const [bannerDismissed, setBannerDismissed] = useState<boolean>(() => {
     try {
       return localStorage.getItem('dondocs-banner-dismissed') === 'true';
@@ -253,6 +236,14 @@ export function Header({
     }
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const libraryInputRef = useRef<HTMLInputElement>(null);
+
+  // Synced-backup file (File System Access API).
+  const backupStatus = useBackupStore((s) => s.status);
+  const backupFileName = useBackupStore((s) => s.fileName);
+  const setupBackup = useBackupStore((s) => s.setupBackup);
+  const reconnectBackup = useBackupStore((s) => s.reconnect);
+  const disableBackup = useBackupStore((s) => s.disable);
 
   const dismissBanner = useCallback(() => {
     setBannerDismissed(true);
@@ -261,16 +252,12 @@ export function Header({
     } catch { /* localStorage unavailable */ }
   }, []);
 
-  // Check if document contains any {{VARIABLE}} placeholders.
-  // Reads state via getState() so this callback has no store dependencies —
-  // it re-creates only if its own identity needs to (i.e. never). The check
-  // runs on button click, not during render, so reading fresh state at call
-  // time is correct.
+  // Does the document contain any {{VARIABLE}} placeholders? Reads via
+  // getState() at click time, so the callback has no store dependencies.
   const hasVariables = useCallback(() => {
     const variablePattern = /\{\{[A-Z0-9_]+\}\}/;
     const { formData, paragraphs } = useDocumentStore.getState();
 
-    // Check common text fields
     const fieldsToCheck = [
       formData.subject,
       formData.from,
@@ -282,7 +269,6 @@ export function Header({
       if (field && variablePattern.test(field)) return true;
     }
 
-    // Check paragraphs
     for (const para of paragraphs) {
       if (variablePattern.test(para.text)) return true;
     }
@@ -307,22 +293,27 @@ export function Header({
         docType: ds.docType,
         formData: ds.formData,
         references: ds.references,
-        // Enclosures with files need special handling - we'll save metadata only
+        // Save enclosure metadata only, not the file data (too large for localStorage)
         enclosures: ds.enclosures.map(encl => ({
           title: encl.title,
           pageStyle: encl.pageStyle,
           hasCoverPage: encl.hasCoverPage,
           coverPageDescription: encl.coverPageDescription,
-          // Don't save file data (too large for localStorage)
           hasFile: !!encl.file,
           fileName: encl.file?.name,
         })),
         paragraphs: ds.paragraphs,
         copyTos: ds.copyTos,
+        distributions: ds.distributions,
         savedAt: new Date().toISOString(),
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
-      flashSaveStatus('Saved!');
+      // Also promote into Recents so an explicit Save shows in the sidebar list.
+      useDocumentsStore.getState().saveCurrent();
+      // Correspondence: the ambient "Saved · <time>" indicator in the ProfileBar
+      // is the single source of truth — no redundant "Saved!" toast. Forms aren't
+      // persisted yet, so they still get an explicit heads-up.
+      if (ds.documentCategory === 'forms') flashSaveStatus("Form drafts aren't saved yet");
     } catch (err) {
       console.error('Failed to save progress:', err);
       flashSaveStatus('Save failed');
@@ -333,8 +324,14 @@ export function Header({
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
+        // Preserve the open document before overwriting the live store, so the
+        // loaded draft opens as its own Recents entry instead of clobbering it.
+        useDocumentsStore.getState().syncCurrent();
         const ds = useDocumentStore.getState();
         const data = JSON.parse(saved);
+        // Saved drafts are correspondence-only; reset the category so the loaded
+        // doc is coherent and saveCurrent() can promote it to Recents.
+        ds.setDocumentCategory('correspondence');
         ds.setDocumentMode?.(data.documentMode || 'compliant');
         if (data.docType) {
           ds.setDocType(data.docType);
@@ -346,7 +343,30 @@ export function Header({
             : data.formData;
           ds.setFormData(formData);
         }
-        // Note: File data is not restored - user will need to re-attach PDFs
+        // Restore the body and lists too; otherwise the loaded draft keeps the
+        // previously-open document's paragraphs/references/enclosures/copyTos.
+        // Enclosure file bytes aren't saved, so the user re-attaches PDFs.
+        ds.loadTemplate({
+          references: data.references || [],
+          enclosures: (data.enclosures || []).map((encl: {
+            title: string;
+            pageStyle?: string;
+            hasCoverPage?: boolean;
+            coverPageDescription?: string;
+          }) => ({
+            title: encl.title,
+            pageStyle: encl.pageStyle,
+            hasCoverPage: encl.hasCoverPage,
+            coverPageDescription: encl.coverPageDescription,
+            file: undefined,
+          })),
+          paragraphs: data.paragraphs || [],
+          copyTos: data.copyTos || [],
+        });
+        // loadTemplate doesn't cover distributions; set it explicitly so the
+        // loaded draft doesn't inherit the previously-open document's list.
+        useDocumentStore.setState({ distributions: data.distributions || [] });
+        useDocumentsStore.getState().openLoadedAsNew();
         flashSaveStatus('Loaded!');
       } else {
         flashSaveStatus('No saved data');
@@ -410,6 +430,17 @@ export function Header({
         })),
         paragraphs: ds.paragraphs,
         copyTos: ds.copyTos,
+        distributions: ds.distributions,
+        // NAVMC form field data lives in a separate store; include it so a
+        // forms draft round-trips (Export is the only durable copy for forms).
+        forms: (() => {
+          const fs = useFormStore.getState();
+          return {
+            navmc10274: fs.navmc10274,
+            navmc11811: fs.navmc11811,
+            includeCoverPage: fs.includeCoverPage,
+          };
+        })(),
       };
 
       const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
@@ -446,6 +477,12 @@ export function Header({
         if (!data.version || !data.docType) {
           throw new Error('Invalid draft file format');
         }
+
+        // Preserve the currently-open document before overwriting the live
+        // store, so the import opens as its own Recents entry instead of
+        // clobbering (and then silently overwriting) the open doc — mirrors
+        // handleLoadProgress.
+        useDocumentsStore.getState().syncCurrent();
 
         // Apply document mode
         if (data.documentMode) {
@@ -505,6 +542,18 @@ export function Header({
           })) || [],
           copyTos: data.copyTos || [],
         });
+        // loadTemplate doesn't cover distributions; restore it explicitly.
+        useDocumentStore.setState({ distributions: data.distributions || [] });
+
+        // Restore NAVMC form field data (separate store; shallow-merges the
+        // navmc10274/navmc11811/includeCoverPage slices that were exported).
+        if (data.forms) {
+          useFormStore.setState(data.forms);
+        }
+
+        // Register the import as its own Recents entry under a fresh id rather
+        // than overwriting the previously-open document.
+        useDocumentsStore.getState().openLoadedAsNew();
 
         flashSaveStatus('Imported!');
       } catch (err) {
@@ -518,12 +567,51 @@ export function Header({
     event.target.value = '';
   }, [flashSaveStatus]);
 
+  // Whole-library backup: export/import EVERY saved document (not just the open
+  // one) — a safety net against browser-storage eviction.
+  const handleExportLibrary = useCallback(async () => {
+    try {
+      const json = await exportLibrary();
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `dondocs-library-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      flashSaveStatus('Backed up!');
+    } catch (err) {
+      console.error('Failed to export library:', err);
+      flashSaveStatus('Backup failed');
+    }
+  }, [flashSaveStatus]);
+
+  const handleImportLibrary = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const { imported, skipped } = await importLibrary(e.target?.result as string);
+        const kept = skipped > 0 ? ` · kept ${skipped} newer` : '';
+        flashSaveStatus(`Imported ${imported} document${imported === 1 ? '' : 's'}${kept}`);
+      } catch (err) {
+        console.error('Failed to import library:', err);
+        flashSaveStatus('Import failed');
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+  }, [flashSaveStatus]);
+
   return (
-    <header className="border-b-2 border-primary/40 bg-gradient-to-r from-card via-card to-secondary/30 shadow-card">
+    <header className="border-b border-border bg-card">
       {/* Dismissable beta release banner */}
       {!bannerDismissed && (
-        <div className="bg-amber-500/10 text-amber-700 dark:text-amber-300/90 text-xs font-medium py-0.5 text-center tracking-wide relative border-b border-amber-500/20">
-          Not an official DoW website. Beta release - report issues on GitHub.
+        <div className="bg-amber-500/10 text-amber-700 dark:text-amber-300/90 text-[0.6875rem] font-medium py-0.5 text-center tracking-wide relative border-b border-amber-500/20">
+          Not an official DoW website. Beta release — report issues on GitHub.
           <button
             onClick={dismissBanner}
             className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-amber-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 transition-colors"
@@ -542,12 +630,19 @@ export function Header({
         accept=".json"
         className="hidden"
       />
+      {/* Hidden file input for importing a whole-library backup */}
+      <input
+        type="file"
+        ref={libraryInputRef}
+        onChange={handleImportLibrary}
+        accept=".json"
+        className="hidden"
+      />
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 lg:gap-3 min-w-0">
           <div className="flex items-center gap-2.5">
-            {/* Brand mark — the Marine Coders Eagle, Globe & Anchor. The seal
-                SVG is solid white, so invert it to read on the light header
-                and leave it white in dark mode. */}
+            {/* Brand mark. The seal SVG is solid white, so invert it on the
+                light header and leave it white in dark mode. */}
             <img
               src={marineCodersLogo}
               alt="Marine Coders"
@@ -555,100 +650,130 @@ export function Header({
               className="h-7 lg:h-8 w-auto shrink-0 invert dark:invert-0"
             />
             <div className="flex flex-col min-w-0">
-              <h1 className="text-base lg:text-lg font-semibold text-foreground leading-tight truncate">
+              <h1 className="text-base font-semibold tracking-[-0.01em] text-foreground leading-tight truncate">
                 DonDocs
               </h1>
-              <span className="text-xs text-muted-foreground hidden sm:block leading-tight truncate">Naval correspondence &amp; forms</span>
+              <span className="text-[10px] text-muted-foreground hidden sm:block leading-tight truncate">Naval correspondence &amp; forms</span>
             </div>
           </div>
           {/* NIST 800-171 Compliance Badge - icon only below lg, full badge on lg+ */}
-          <button
-            type="button"
-            onClick={() => setNistModalOpen(true)}
-            // Same readability fix as the Clear button + Compiling pill in
-            // this PR (and the Templates button in PR #57): drop the
-            // tinted bg (green-500/10 over the header card-bg muddied the
-            // green text). Keep the green border + green text for the
-            // "compliant/safe" status identity, hover gets the faint green
-            // bg as the interactivity signal. Neutral focus ring (not green)
-            // so keyboard users get an indicator without a new accent colour.
-            className="flex items-center justify-center gap-1.5 rounded-md border border-green-500/30 text-green-600 dark:text-green-400 text-xs cursor-pointer hover:bg-green-500/10 dark:hover:bg-green-500/15 transition-colors p-1.5 lg:px-2 lg:py-1 shrink-0 outline-none focus-visible:ring-ring/50 focus-visible:ring-[3px]"
-            title="Click to learn about NIST 800-171 compliance"
-          >
-            <Shield className="h-4 w-4 lg:h-3 lg:w-3" />
-            <span className="hidden lg:inline">NIST 800-171</span>
-          </button>
+          <HeaderTip label="NIST 800-171 compliance — learn more">
+            <button
+              type="button"
+              onClick={() => setNistModalOpen(true)}
+              aria-label="NIST 800-171 compliance"
+              // Demoted to a quiet neutral chip: neutral border + muted text so it
+              // reads as a status marker, not a call to action. Only the shield
+              // carries the success tint. Faint muted bg on hover, neutral focus ring.
+              className="flex items-center justify-center gap-1.5 rounded-md border border-border text-muted-foreground text-xs cursor-pointer hover:bg-muted transition-colors p-1.5 lg:px-2 lg:py-1 shrink-0 outline-none focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+            >
+              <Shield className="h-4 w-4 lg:h-3 lg:w-3 text-[var(--success)]" />
+              <span className="hidden lg:inline">NIST 800-171</span>
+            </button>
+          </HeaderTip>
         </div>
 
         <div className="flex items-center gap-1 sm:gap-2">
-          {/* Aria-live region for status announcements - WCAG 4.1.3 */}
+          {/* Aria-live region for transient action toasts - WCAG 4.1.3 */}
           <div aria-live="polite" aria-atomic="true" className="sr-only">
-            {saveStatus || autoSaveStatus}
+            {saveStatus}
           </div>
-          {(autoSaveStatus || saveStatus) && (
+          {/* Transient action toast only (e.g. "Exported!", "Loaded!"). The
+              passive "Saved · <time>" indicator lives in the ProfileBar per the
+              design, so it isn't duplicated in the header chrome. */}
+          {saveStatus && (
             <span className="text-xs text-muted-foreground hidden lg:inline" aria-hidden="true">
-              {saveStatus || autoSaveStatus}
+              {saveStatus}
             </span>
           )}
 
-          {/* Undo/Redo buttons - always visible */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleUndo}
-            disabled={!canUndo}
-            aria-label="Undo (Ctrl+Z)"
-            title="Undo (Ctrl+Z)"
-            className="h-8 w-8 sm:h-9 sm:w-9"
+          {/* Mobile: an icon-only entry to the same palette (there's no ⌘K on
+              touch, so without this the palette is unreachable on phones). */}
+          <button
+            type="button"
+            onClick={() => setCommandPaletteOpen(true)}
+            aria-label="Search or jump to…"
+            className="flex lg:hidden h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted outline-none focus-visible:ring-ring/50 focus-visible:ring-[3px]"
           >
-            <Undo2 className="h-4 w-4" aria-hidden="true" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleRedo}
-            disabled={!canRedo}
-            aria-label="Redo (Ctrl+Y)"
-            title="Redo (Ctrl+Y)"
-            className="h-8 w-8 sm:h-9 sm:w-9"
-          >
-            <Redo2 className="h-4 w-4" aria-hidden="true" />
-          </Button>
+            <Search className="h-4 w-4" aria-hidden="true" />
+          </button>
 
-          {/* Group divider — only at xl, where the full toolbar shows and the
-              row would otherwise read as one undifferentiated wall of icons. */}
+          {/* ⌘K command palette trigger — Linear/Raycast search affordance.
+              The palette is also reachable via the global ⌘K keybinding; this
+              pill is the discoverable entry point. */}
+          <button
+            type="button"
+            onClick={() => setCommandPaletteOpen(true)}
+            aria-label="Open command palette"
+            className="hidden lg:flex h-8 min-w-[180px] items-center gap-2 rounded-md border border-border bg-transparent pl-2.5 pr-2 text-muted-foreground transition-colors hover:bg-muted outline-none focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+          >
+            <Search className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+            <span className="flex-1 text-left text-xs">Search or jump…</span>
+            <Kbd>{formatShortcut('mod K')}</Kbd>
+          </button>
+          <div aria-hidden="true" className="hidden lg:block w-px h-5 self-center bg-border mx-1" />
+
+          {/* Undo/Redo buttons - always visible */}
+          <HeaderTip label={`Undo (${formatShortcut('mod Z')})`}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleUndo}
+              disabled={!canUndo}
+              aria-label="Undo"
+              className="h-8 w-8 sm:h-9 sm:w-9"
+            >
+              <Undo2 className="h-4 w-4" aria-hidden="true" />
+            </Button>
+          </HeaderTip>
+          <HeaderTip label={`Redo (${formatShortcut('mod Y')})`}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleRedo}
+              disabled={!canRedo}
+              aria-label="Redo"
+              className="h-8 w-8 sm:h-9 sm:w-9"
+            >
+              <Redo2 className="h-4 w-4" aria-hidden="true" />
+            </Button>
+          </HeaderTip>
+
+          {/* Group divider, only at xl where the full toolbar shows. */}
           <div aria-hidden="true" className="hidden xl:block w-px h-5 self-center bg-border mx-1" />
 
           {/* Refresh - hidden below xl, in hamburger menu */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onRefreshPreview}
-            disabled={isCompiling}
-            aria-label="Refresh Preview"
-            title="Refresh Preview"
-            className="h-8 w-8 sm:h-9 sm:w-9 hidden xl:flex"
-          >
-            <RefreshCw className={`h-4 w-4 ${isCompiling ? 'animate-spin' : ''}`} aria-hidden="true" />
-          </Button>
+          <HeaderTip label="Refresh preview">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onRefreshPreview}
+              disabled={isCompiling}
+              aria-label="Refresh preview"
+              className="h-8 w-8 sm:h-9 sm:w-9 hidden xl:flex"
+            >
+              <RefreshCw className={`h-4 w-4 ${isCompiling ? 'animate-spin' : ''}`} aria-hidden="true" />
+            </Button>
+          </HeaderTip>
 
           {/* Preview toggle - hidden below xl and on mobile devices */}
           {!isMobile && (
-            <Button
-              variant={previewVisible ? "default" : "outline"}
-              size="sm"
-              onClick={togglePreview}
-              aria-label={previewVisible ? "Hide Preview (Ctrl+E)" : "Show Preview (Ctrl+E)"}
-              title={previewVisible ? "Hide Preview (Ctrl+E)" : "Show Preview (Ctrl+E)"}
-              className="h-8 px-2 sm:px-3 hidden xl:flex"
-            >
-              {previewVisible ? (
-                <PanelRightClose className="h-4 w-4 xl:mr-2" aria-hidden="true" />
-              ) : (
-                <PanelRight className="h-4 w-4 xl:mr-2" aria-hidden="true" />
-              )}
-              <span className="hidden 2xl:inline">Preview</span>
-            </Button>
+            <HeaderTip label={`${previewVisible ? 'Hide' : 'Show'} preview (${formatShortcut('mod E')})`}>
+              <Button
+                variant={previewVisible ? "secondary" : "ghost"}
+                size="sm"
+                onClick={togglePreview}
+                aria-label={previewVisible ? "Hide preview" : "Show preview"}
+                className="h-8 px-2 sm:px-3 hidden xl:flex"
+              >
+                {previewVisible ? (
+                  <PanelRightClose className="h-4 w-4 xl:mr-2" aria-hidden="true" />
+                ) : (
+                  <PanelRight className="h-4 w-4 xl:mr-2" aria-hidden="true" />
+                )}
+                <span className="hidden 2xl:inline">Preview</span>
+              </Button>
+            </HeaderTip>
           )}
 
           <div aria-hidden="true" className="hidden xl:block w-px h-5 self-center bg-border mx-1" />
@@ -691,6 +816,38 @@ export function Header({
                 <FileUp className="h-4 w-4 mr-2" />
                 Import from file
               </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleExportLibrary}>
+                <FileDown className="h-4 w-4 mr-2" />
+                Back up all documents
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => libraryInputRef.current?.click()}>
+                <FileUp className="h-4 w-4 mr-2" />
+                Restore from backup
+              </DropdownMenuItem>
+              {backupStatus === 'off' && (
+                <DropdownMenuItem onClick={() => void setupBackup()}>
+                  <FolderSync className="h-4 w-4 mr-2" />
+                  Set up auto-backup…
+                </DropdownMenuItem>
+              )}
+              {backupStatus === 'needs-permission' && (
+                <DropdownMenuItem onClick={() => void reconnectBackup()}>
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Reconnect auto-backup
+                </DropdownMenuItem>
+              )}
+              {backupStatus === 'connected' && (
+                <>
+                  <DropdownMenuItem disabled className="opacity-100">
+                    <Check className="h-4 w-4 mr-2 text-primary" />
+                    <span className="truncate">Auto-backup: {backupFileName}</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => void disableBackup()}>
+                    <X className="h-4 w-4 mr-2" />
+                    Turn off auto-backup
+                  </DropdownMenuItem>
+                </>
+              )}
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => setShowClearFieldsDialog(true)} className="text-orange-600 dark:text-orange-400">
                 <Eraser className="h-4 w-4 mr-2" />
@@ -706,7 +863,7 @@ export function Header({
           {/* Download dropdown - always visible but compact on smaller screens */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button data-tour="download" variant="outline" size="sm" className="h-8 px-2 lg:px-3">
+              <Button data-tour="download" variant="default" size="sm" className="h-8 px-2 lg:px-3">
                 <Download className="h-4 w-4 lg:mr-2" />
                 <span className="hidden lg:inline">Download</span>
               </Button>
@@ -715,9 +872,8 @@ export function Header({
               <DropdownMenuItem
                 onClick={handleDownloadPdf}
                 disabled={isPdfGenerating}
-                // Block re-entry while the PDF pipeline is running — same
-                // rationale as DOCX: the modal blocks the app visually but a
-                // second click on the dropdown item would still fire.
+                // Block re-entry while the PDF pipeline runs; the modal doesn't
+                // stop a second click on the dropdown item.
               >
                 {isPdfGenerating ? (
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -725,6 +881,9 @@ export function Header({
                   <FileText className="h-4 w-4 mr-2" />
                 )}
                 {isPdfGenerating ? 'Generating PDF…' : 'Download PDF'}
+                {!isPdfGenerating && (
+                  <DropdownMenuShortcut>{formatShortcut('mod D')}</DropdownMenuShortcut>
+                )}
               </DropdownMenuItem>
               {/* LaTeX and DOCX only available for correspondence */}
               {!isFormsMode && (
@@ -732,9 +891,8 @@ export function Header({
                   <DropdownMenuItem
                     onClick={onDownloadDocx}
                     disabled={isDocxGenerating}
-                    // Radix treats `disabled` on menu items correctly (aria-disabled
-                    // + pointer-events none), so a second click can't fire while
-                    // the WASM is still loading or pandoc is running.
+                    // Radix sets pointer-events:none on disabled items, so a
+                    // second click can't fire while pandoc is running.
                   >
                     {isDocxGenerating ? (
                       <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -743,12 +901,15 @@ export function Header({
                     )}
                     {isDocxGenerating ? 'Generating DOCX…' : 'Download DOCX'}
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={onDownloadTex}>
-                    <FileText className="h-4 w-4 mr-2" />
+                  {/* Code exports are a secondary tier: separated + muted with a
+                      Braces glyph so they read below the document exports. */}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={onDownloadTex} className="text-muted-foreground">
+                    <Braces className="h-4 w-4 mr-2" />
                     Download LaTeX
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={onDownloadFlatTex}>
-                    <FileText className="h-4 w-4 mr-2" />
+                  <DropdownMenuItem onClick={onDownloadFlatTex} className="text-muted-foreground">
+                    <Braces className="h-4 w-4 mr-2" />
                     Download Flat LaTeX (Pandoc)
                   </DropdownMenuItem>
                 </>
@@ -759,49 +920,57 @@ export function Header({
           <div aria-hidden="true" className="hidden xl:block w-px h-5 self-center bg-border mx-1" />
 
           {/* Guide button - hidden below xl */}
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-8 px-2 xl:px-3 hidden xl:flex"
-            onClick={() => setDocumentGuideOpen(true)}
-            title="When to use each document type"
-          >
-            <Compass className="h-4 w-4 xl:mr-2" />
-            <span className="hidden 2xl:inline">Guide</span>
-          </Button>
+          <HeaderTip label="When to use each document type">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 px-2 xl:px-3 hidden xl:flex"
+              onClick={() => setDocumentGuideOpen(true)}
+              aria-label="Document type guide"
+            >
+              <Compass className="h-4 w-4 xl:mr-2" />
+              <span className="hidden 2xl:inline">Guide</span>
+            </Button>
+          </HeaderTip>
 
           {/* Find & Replace button - hidden below xl */}
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-8 px-2 xl:px-3 hidden xl:flex"
-            onClick={() => setFindReplaceOpen(true)}
-            title="Find & Replace (Ctrl+H)"
-          >
-            <Search className="h-4 w-4 xl:mr-2" />
-            <span className="hidden 2xl:inline">Find</span>
-          </Button>
+          <HeaderTip label={`Find & Replace (${formatShortcut('mod H')})`}>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 px-2 xl:px-3 hidden xl:flex"
+              onClick={() => setFindReplaceOpen(true)}
+              aria-label="Find and replace"
+            >
+              <Search className="h-4 w-4 xl:mr-2" />
+              <span className="hidden 2xl:inline">Find</span>
+            </Button>
+          </HeaderTip>
 
           {/* Batch Generation button - hidden below xl */}
-          <Button
-            data-tour="batch"
-            variant="outline"
-            size="sm"
-            className="h-8 px-2 xl:px-3 hidden xl:flex"
-            onClick={() => setBatchModalOpen(true)}
-            title="Generate multiple documents with variables"
-          >
-            <Layers className="h-4 w-4 xl:mr-2" />
-            <span className="hidden 2xl:inline">Batch</span>
-          </Button>
+          <HeaderTip label="Generate multiple documents with variables">
+            <Button
+              data-tour="batch"
+              variant="ghost"
+              size="sm"
+              className="h-8 px-2 xl:px-3 hidden xl:flex"
+              onClick={() => setBatchModalOpen(true)}
+              aria-label="Batch generate"
+            >
+              <Layers className="h-4 w-4 xl:mr-2" />
+              <span className="hidden 2xl:inline">Batch</span>
+            </Button>
+          </HeaderTip>
 
           {/* Help dropdown - hidden below xl */}
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button data-tour="help" variant="ghost" size="icon" aria-label="Help & Info" title="Help & Info" className="h-8 w-8 hidden xl:flex">
-                <HelpCircle className="h-4 w-4" aria-hidden="true" />
-              </Button>
-            </DropdownMenuTrigger>
+            <HeaderTip label="Help & info">
+              <DropdownMenuTrigger asChild>
+                <Button data-tour="help" variant="ghost" size="icon" aria-label="Help & info" className="h-8 w-8 hidden xl:flex">
+                  <HelpCircle className="h-4 w-4" aria-hidden="true" />
+                </Button>
+              </DropdownMenuTrigger>
+            </HeaderTip>
             <DropdownMenuContent align="end" className="w-72">
               <DropdownMenuItem onClick={() => useTourStore.getState().start()}>
                 <Compass className="h-4 w-4 mr-2" />
@@ -847,30 +1016,29 @@ export function Header({
                 </h4>
                 <div className="grid grid-cols-2 gap-1 text-xs">
                   <div className="text-muted-foreground">Download PDF</div>
-                  <div className="font-mono text-right">Ctrl+D</div>
+                  <div className="font-mono text-right">{formatShortcut('mod D')}</div>
                   <div className="text-muted-foreground">Save Draft</div>
-                  <div className="font-mono text-right">Ctrl+S</div>
+                  <div className="font-mono text-right">{formatShortcut('mod S')}</div>
                   <div className="text-muted-foreground">Find & Replace</div>
-                  <div className="font-mono text-right">Ctrl+H</div>
+                  <div className="font-mono text-right">{formatShortcut('mod H')}</div>
                   <div className="text-muted-foreground">Toggle Preview</div>
-                  <div className="font-mono text-right">Ctrl+E</div>
+                  <div className="font-mono text-right">{formatShortcut('mod E')}</div>
                   <div className="text-muted-foreground">Undo / Redo</div>
-                  <div className="font-mono text-right">Ctrl+Z/Y</div>
+                  <div className="font-mono text-right">{formatShortcut('mod Z')} / {formatShortcut('mod Y')}</div>
                 </div>
-                <p className="text-xs text-muted-foreground mt-2 pt-1 border-t">
-                  Mac: Use Cmd instead of Ctrl
-                </p>
               </div>
             </DropdownMenuContent>
           </DropdownMenu>
 
           {/* Appearance dropdown - hidden below xl */}
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button data-tour="appearance" variant="ghost" size="icon" aria-label="Appearance settings" title="Appearance" className="h-8 w-8 sm:h-9 sm:w-9 hidden xl:flex">
-                <Settings className="h-4 w-4" aria-hidden="true" />
-              </Button>
-            </DropdownMenuTrigger>
+            <HeaderTip label="Appearance">
+              <DropdownMenuTrigger asChild>
+                <Button data-tour="appearance" variant="ghost" size="icon" aria-label="Appearance settings" className="h-8 w-8 sm:h-9 sm:w-9 hidden xl:flex">
+                  <Settings className="h-4 w-4" aria-hidden="true" />
+                </Button>
+              </DropdownMenuTrigger>
+            </HeaderTip>
             <DropdownMenuContent align="end" className="w-48">
               {/* Theme */}
               <DropdownMenuItem onClick={toggleTheme} className="flex items-center justify-between">

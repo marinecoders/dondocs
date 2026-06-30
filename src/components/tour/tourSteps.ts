@@ -45,7 +45,7 @@ export const TOUR_STEPS: TourStep[] = [
   {
     target: '[data-tour="save"]',
     title: 'Save your work',
-    body: 'Your draft autosaves to this browser. Save keeps a named copy you can reload later or share.',
+    body: 'Your draft autosaves in this browser; use Download or Share to keep a permanent copy. Save keeps a named copy you can reload later.',
   },
   {
     target: '[data-tour="appearance"]',

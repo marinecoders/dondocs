@@ -8,7 +8,14 @@
          seal also serves as the app background watermark). -->
     <link rel="preload" as="image" href="/attachments/marine-coders-banner.webp" type="image/webp" />
     <link rel="preload" as="image" href="/attachments/marine-coders-logo.svg" type="image/svg+xml" />
+    <!-- Preload the primary (latin) brand font so it's ready by first paint —
+         prevents the unstyled-text flash/reflow as Geist swaps in. -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/geist-latin-wght-normal.woff2" crossorigin />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <!-- Tint the mobile browser / installed-PWA chrome to match the app canvas
+         in each color scheme (values mirror index.css's sRGB --background fallbacks). -->
+    <meta name="theme-color" content="#f1f6fa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0d11" media="(prefers-color-scheme: dark)" />
     <meta name="description" content="Free SECNAV M-5216.5 correspondence & form generator for Navy/USMC. 20 document types — naval letters, memoranda, endorsements, NAVMC forms. PDF/DOCX export, 100% browser-based, works offline." />
     <meta property="og:title" content="DonDocs - Naval Correspondence & Form Generator" />
     <meta property="og:description" content="Create SECNAV M-5216.5 compliant naval letters, memoranda, endorsements & NAVMC forms. 20 document types for Navy/USMC. PDF & DOCX export, no servers — works on NMCI and air-gapped networks." />
