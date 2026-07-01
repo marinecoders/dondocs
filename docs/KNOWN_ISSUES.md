@@ -30,6 +30,19 @@ Pandoc ignores `\fancyfoot[R]{\thepage}`, so page number position is determined 
 
 **Files:** `src/services/latex/flat-generator.ts`, `public/lib/pandoc/dondocs.lua`
 
+### Memorandum For (mf): No Addressee Field in the Editor
+
+The generators emit the `MEMORANDUM FOR [addressee]` line only when `data.to`
+is set, but the `mf` document type's config has `fromTo: false` and no
+recipient-address block, so no editor field ever writes `data.to`. The
+defining line of the document is always empty in the output.
+
+**Potential fix:** Render a dedicated addressee input for `docType === 'mf'`
+(or reuse the executive-memo `MEMORANDUM FOR` input) and keep the existing
+generator gating.
+
+**Files:** `src/components/editor/AddressingSection.tsx`, `src/types/document.ts`, `src/services/latex/flat-generator.ts`
+
 ---
 
 ## Open (By Design)

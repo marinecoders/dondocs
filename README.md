@@ -54,6 +54,8 @@ DonDocs uses a WebAssembly LaTeX compiler to produce publication-quality PDFs th
 
 ### Core Functionality
 - **Real-time PDF Preview** - See your document as you type (1.5s debounce)
+- **Block Paragraph Editor** - Body paragraphs as keyboard-driven blocks: Enter splits, Backspace merges, Tab/Shift+Tab indent within SECNAV nesting rules, drag to reorder (sub-paragraphs move with their parent), inline bold/italic/underline, per-paragraph portion markings, and an `@` menu for variables and cross-references
+- **Command Palette** - `Ctrl+K` / `Cmd+K` searches every action and open document
 - **20 Document Types** - All selectable from the document type dropdown with full SECNAV M-5216.5 compliance
 - **Dynamic UI Sections** - Form panels adapt per document type: sections gray out with "Not used by this document type" indicators when inapplicable, and specialized panels appear for dual-command formats (MOA/MOU, Joint, Executive)
 - **SECNAV M-5216.5 Compliant** - Automatic formatting per Navy/Marine Corps regulations
@@ -63,15 +65,20 @@ DonDocs uses a WebAssembly LaTeX compiler to produce publication-quality PDFs th
 - **Full Quality Preview** - Optional toggle to include enclosures, hyperlinks, and signatures in the live preview (Settings > Preview)
 
 ### Document Management
+- **Multi-Document Workspace** - Every document you write is autosaved to a Recents list (sidebar): switch, search full-text, pin, rename, duplicate, and delete with undo. Work survives reloads and browser restarts — see [Storage Architecture](docs/STORAGE.md)
+- **Version History** - Per-document snapshots (captured as you edit and on each Save) with one-click restore; restoring snapshots the current state first so it's reversible
+- **Library Backup** - Export every saved document to a single JSON file and restore it later; restore keeps whichever copy is newer. On Chromium desktop, a synced backup file auto-mirrors the library to a file you choose after every save
 - **Profiles System** - Save and reuse unit information and signature images
-- **Template Library** - 11 auditor-approved letter templates for common correspondence
+- **Template Library** - 11 auditor-approved letter templates, plus save any document as your own reusable template
+- **Clause Library** - Save and insert reusable body paragraphs, seeded with common SECNAV boilerplate
+- **Endorsement Inheritance** - Base an endorsement on a saved letter: composes the basic-letter reference line and carries the subject, references, and enclosures forward
 - **Clear Fields** - Reset all content while preserving letterhead for quick new document creation
 - **Reference Library** - 107 searchable military references with one-click insert
-- **Unit Directory** - 3,139 units searchable by name, abbreviation, MCC, or location
+- **Unit Directory** - 3,139 units searchable by name, abbreviation, MCC, or location; insert directly into letterhead or To/Via lines
 - **Office Codes** - 74 standard military position codes for signature blocks
 - **SSIC Lookup** - 2,240 codes searchable by number or description
 - **Batch Generation** - Generate multiple documents with 28 built-in placeholders and Insert Variable button
-- **Find & Replace** - Search and replace text across your document
+- **Find & Replace** - Search and replace text across your document, including paragraph headings
 - **Undo/Redo** - 50-level history with keyboard shortcuts
 - **Document Statistics** - Real-time word count, character count, paragraph count
 
@@ -234,7 +241,7 @@ Per SECNAV M-5216.5, dual-command documents position the **Junior command on the
 Privacy, Proprietary, Legal, Law Enforcement, Export Control, Financial, Intelligence, Critical Infrastructure, Defense, Other
 
 ### Portion Markings
-Apply per-paragraph markings: **(U)**, **(CUI)**, **(FOUO)**, **(C)**, **(S)**, **(TS)**
+Apply per-paragraph markings: **(U)**, **(CUI)**, **(C)**, **(S)**, **(TS)**. Legacy documents marked **(FOUO)** are migrated to **(CUI)** on load, per DoDI 5200.48.
 
 ### PII/PHI Detection
 Before downloading, DonDocs scans for:
@@ -262,7 +269,7 @@ PDF output includes empty signature fields compatible with:
 | Button | Function | Shortcut |
 |--------|----------|----------|
 | Refresh | Force recompile preview | - |
-| Save | Save/Load from browser storage | Ctrl+S |
+| Save | Force a save now (documents autosave continuously; the indicator shows the real write result) | Ctrl+S |
 | Download | PDF, DOCX, LaTeX export | Ctrl+D |
 | Templates | Load pre-built templates | Ctrl+Shift+T |
 | Batch | Generate multiple documents | - |
@@ -272,6 +279,11 @@ PDF output includes empty signature fields compatible with:
 | Color | Default / Navy / USMC schemes | - |
 | Theme | Toggle dark/light mode | - |
 | Full Quality | Include enclosures/hyperlinks/signatures in preview | - |
+
+### Workspace Sidebar
+- **Sections** - Live outline of the current document; the active section tracks as you scroll, and clicking jumps to it
+- **Recents** - Every saved document with search, pin, rename, duplicate, delete (with undo), and per-document version history
+- Collapsible on desktop; on mobile the document list opens as a drawer
 
 ### Editor Panel (Left)
 - **Profile Bar** - Quick profile selector with unit lookup
@@ -312,6 +324,7 @@ PDF output includes empty signature fields compatible with:
 
 | Shortcut | Action |
 |----------|--------|
+| `Ctrl+K` / `Cmd+K` | Command palette (search actions and documents) |
 | `Ctrl+D` / `Cmd+D` | Download PDF |
 | `Ctrl+P` / `Cmd+P` | Print PDF |
 | `Ctrl+S` / `Cmd+S` | Save Draft |
@@ -346,9 +359,15 @@ PDF output includes empty signature fields compatible with:
 - **TipTap** - Rich text editing
 - **react-day-picker** - Date selection
 
+### Storage
+- **IndexedDB** - Per-document registry (the Recents list), version-history snapshots, and the synced-backup file handle
+- **localStorage** - Crash-backstop session blob, profiles/templates/clauses (gzip-compressed), and preferences
+- **File System Access API** - Synced backup file on Chromium desktop
+- Migrations run in place on upgrade (legacy single-document storage folds into the registry; retired FOUO portion markings become CUI). Full design: [docs/STORAGE.md](docs/STORAGE.md)
+
 ### Progressive Web App
 - **vite-plugin-pwa** - Service worker for offline support
-- **Workbox** - Intelligent caching for TeX Live packages
+- **Workbox** - Intelligent caching for TeX Live packages; the app shell is served network-first and its cache is versioned per build
 
 ---
 
@@ -635,7 +654,7 @@ A: Yes. After the first visit, the app caches all necessary files including the 
 A: The tool formats documents but does not provide security controls for classified data. Use appropriate systems for classified information.
 
 **Q: Is my data saved anywhere?**
-A: Everything runs in your browser. Nothing is transmitted to any server. Data can be saved to browser localStorage.
+A: Everything runs in your browser; nothing is transmitted to any server. Documents autosave to your browser's IndexedDB and appear in the Recents sidebar across visits. Because browsers can evict local storage, you can export the whole library to a JSON backup file (or, on Chromium desktop, keep a backup file auto-synced after every save). See [docs/STORAGE.md](docs/STORAGE.md) for the full design.
 
 **Q: Why LaTeX instead of jsPDF?**
 A: LaTeX produces publication-quality output with proper kerning, ligatures, and typography that matches official military publications.
