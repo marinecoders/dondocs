@@ -3,6 +3,10 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import { safeLocalStorage } from '@/lib/compressedStorage';
 import { format } from 'date-fns';
 
+// The persist key for NAVMC form data. Exported so the "Saved" indicator can
+// verify the latest write actually landed (safeLocalStorage.lastWriteFailed).
+export const FORMS_PERSIST_KEY = 'dondocs-forms';
+
 // SECNAV M-5216.5 / MCO 1070.12K abbreviated military date format.
 // Mirrors `formatMilitaryDate` in documentStore.ts and the DatePicker
 // component default. Used for NAVMC form date defaults below so a fresh
@@ -223,7 +227,7 @@ export const useFormStore = create<FormStore>()(
   setIncludeCoverPage: (value) => set({ includeCoverPage: value }),
     }),
     {
-      name: 'dondocs-forms',
+      name: FORMS_PERSIST_KEY,
       storage: createJSONStorage(() => safeLocalStorage),
       // Persist only the field data so NAVMC form work survives reload (forms
       // aren't in the IndexedDB registry; this is their durable slot).

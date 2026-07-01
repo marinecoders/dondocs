@@ -68,9 +68,21 @@ export const compressedLocalStorage: StateStorage = {
       // store falls back to its initial state.
       return decoded || null;
     } catch (err) {
-      // Return null on a corrupt payload so Zustand falls back to its initial
-      // state rather than throwing (which would drop the user's profiles/prefs).
-      debug.warn('compressedStorage', `Inflate failed for "${name}", returning null`, err);
+      // Corrupt payload: Zustand must fall back to the store's initial state
+      // (returning null) rather than crash — but the very next persist write
+      // would then permanently overwrite the only copy of the user's data. Stash
+      // the raw value under a sibling key first so it stays recoverable, and log
+      // at error level (warn is verbosity-gated) so the reset is never invisible.
+      try {
+        localStorage.setItem(`${name}.corrupt`, value);
+      } catch {
+        /* stash is best-effort — never block the fallback */
+      }
+      debug.error(
+        'compressedStorage',
+        `Inflate failed for "${name}" — store reset to defaults; raw payload kept at "${name}.corrupt"`,
+        err
+      );
       return null;
     }
   },
@@ -103,12 +115,23 @@ export const compressedLocalStorage: StateStorage = {
   },
 };
 
+// Swallowing write errors is this adapter's contract — but anything that CLAIMS
+// durability on top of it (the forms "Saved" indicator) must be able to ask
+// whether the latest write for its store actually landed. Tracked per persist key.
+const failedWrites = new Set<string>();
+
+/** Did the most recent safeLocalStorage write for this persist key fail? */
+export function lastWriteFailed(name: string): boolean {
+  return failedWrites.has(name);
+}
+
 /**
  * Plain (uncompressed) localStorage adapter that never throws. get/set/remove
  * swallow SecurityError (blocked site data) and quota errors so a persisted
  * store's set() can't escape and crash the app at boot. For small prefs that
  * don't need compression (uiStore, onboardingStore); zustand's default storage
- * does NOT guard writes, which is the crash this prevents.
+ * does NOT guard writes, which is the crash this prevents. Write outcomes are
+ * recorded so durability claims can be checked via lastWriteFailed().
  */
 export const safeLocalStorage: StateStorage = {
   getItem: (name) => {
@@ -121,8 +144,10 @@ export const safeLocalStorage: StateStorage = {
   setItem: (name, value) => {
     try {
       localStorage.setItem(name, value);
+      failedWrites.delete(name);
     } catch (err) {
-      debug.warn('safeLocalStorage', `write failed for "${name}" (blocked or full)`, err);
+      failedWrites.add(name);
+      debug.error('safeLocalStorage', `write failed for "${name}" (blocked or full)`, err);
     }
   },
   removeItem: (name) => {

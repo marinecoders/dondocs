@@ -45,7 +45,8 @@ import { probeStorageHealth } from '@/lib/documentsDb';
 const marineCodersLogo = `${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`;
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore, getSavedSession } from '@/stores/documentStore';
-import { useFormStore } from '@/stores/formStore';
+import { useFormStore, FORMS_PERSIST_KEY } from '@/stores/formStore';
+import { lastWriteFailed } from '@/lib/compressedStorage';
 import { useHistoryStore } from '@/stores/historyStore';
 import { useDocumentsStore, applySelectedProfile, correspondenceFilename } from '@/stores/documentsStore';
 import { useBackupStore } from '@/stores/backupStore';
@@ -451,8 +452,14 @@ function App() {
     const unsub = useFormStore.subscribe(() => {
       clearTimeout(t);
       t = setTimeout(() => {
-        // Don't claim "Saved" when localStorage is blocked/full — nothing durable
-        // was written. StorageNotice already warns; keep the indicator honest.
+        // Verify the write actually landed before claiming "Saved". Forms
+        // persist through safeLocalStorage, which swallows quota/security
+        // errors by design — and storageHealth measures IndexedDB, not
+        // localStorage, so it can read healthy while the form write failed.
+        if (lastWriteFailed(FORMS_PERSIST_KEY)) {
+          useUIStore.getState().setSaveStatus('error');
+          return;
+        }
         if (useUIStore.getState().storageHealth === 'unavailable') return;
         useUIStore.getState().markSaved();
       }, 800);
