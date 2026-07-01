@@ -5,7 +5,7 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
-## [1.2.0] — Unreleased
+## [1.2.0] — 2026-07-01
 
 The editor becomes a multi-document workspace. Existing data migrates in
 place on first load; no action required.
