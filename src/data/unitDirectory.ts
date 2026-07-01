@@ -93,5 +93,17 @@ export function formatLetterhead(unit: UnitInfo): { line1: string; line2: string
   };
 }
 
+/**
+ * Insert a unit name into a To/Via addressing field. An empty field or a
+ * bracketed placeholder ([RECIPIENT]) is replaced wholesale; otherwise the unit
+ * is appended after a comma (any trailing comma/space is trimmed first, so a
+ * "Commanding Officer," prefix reads correctly and never doubles the comma).
+ */
+export function insertUnitInto(existing: string, unitName: string): string {
+  const cur = existing.trim();
+  if (!cur || /^\[.*\]$/.test(cur)) return unitName;
+  return `${cur.replace(/[,\s]+$/, '')}, ${unitName}`;
+}
+
 // Re-export the lazy loader so callers can import from one place.
 export { loadUnitDirectory, type UnitDirectoryDatabase } from './unitDirectoryData';
