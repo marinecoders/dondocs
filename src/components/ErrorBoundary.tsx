@@ -2,7 +2,7 @@ import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { debug } from '@/lib/debug';
 import { STORAGE_KEYS } from '@/lib/constants';
 import { getSavedSession } from '@/stores/documentStore';
-import { idbGetCurrentId, idbDeleteDocument, idbSetCurrentId } from '@/lib/documentsDb';
+import { idbGetCurrentId, idbDeleteDocument, idbDeleteSnapshots, idbSetCurrentId } from '@/lib/documentsDb';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -111,7 +111,13 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       localStorage.removeItem(STORAGE_KEYS.DOCUMENT_SESSION);
       localStorage.removeItem(STORAGE_KEYS.DOCUMENT);
       const currentId = await idbGetCurrentId();
-      if (currentId) await idbDeleteDocument(currentId);
+      if (currentId) {
+        await idbDeleteDocument(currentId);
+        // Its version-history snapshots go with it — otherwise up to 10 full
+        // copies of the erased document linger in IndexedDB with no UI that
+        // can ever list or remove them.
+        await idbDeleteSnapshots(currentId);
+      }
       await idbSetCurrentId(null);
     } catch (err) {
       debug.error('Boundary', 'Failed to clear session before reload', err);

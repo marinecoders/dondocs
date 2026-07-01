@@ -942,8 +942,15 @@ export function loadSharedSession(session: SerializedSession): void {
  * Clears the saved session from localStorage.
  */
 export function clearSavedSession(): void {
-  localStorage.removeItem(SESSION_STORAGE_KEY);
-  localStorage.removeItem(SESSION_TIMESTAMP_KEY);
+  // Guarded like every sibling helper: with site data blocked, removeItem
+  // throws SecurityError — and this runs mid-delete (reopenAfterRemoval),
+  // where an escaped throw would strand the store half-deleted.
+  try {
+    localStorage.removeItem(SESSION_STORAGE_KEY);
+    localStorage.removeItem(SESSION_TIMESTAMP_KEY);
+  } catch {
+    return;
+  }
   debug.log('Store', 'Saved session cleared');
 }
 
