@@ -17,6 +17,8 @@ const idbPutDocument = vi.fn();
 const idbSetCurrentId = vi.fn();
 const idbDeleteDocument = vi.fn();
 const idbGetCurrentId = vi.fn();
+const idbGetMigratedIds = vi.fn();
+const idbSetMigratedIds = vi.fn();
 
 vi.mock('@/lib/documentsDb', () => ({
   idbGetAllDocuments: (...args: unknown[]) => idbGetAllDocuments(...args),
@@ -24,6 +26,8 @@ vi.mock('@/lib/documentsDb', () => ({
   idbSetCurrentId: (...args: unknown[]) => idbSetCurrentId(...args),
   idbDeleteDocument: (...args: unknown[]) => idbDeleteDocument(...args),
   idbGetCurrentId: (...args: unknown[]) => idbGetCurrentId(...args),
+  idbGetMigratedIds: (...args: unknown[]) => idbGetMigratedIds(...args),
+  idbSetMigratedIds: (...args: unknown[]) => idbSetMigratedIds(...args),
 }));
 
 // Imported after the mock is registered so the store binds to the stubs.
@@ -74,6 +78,9 @@ beforeEach(() => {
   idbGetAllDocuments.mockResolvedValue([]);
   idbPutDocument.mockResolvedValue(true);
   idbSetCurrentId.mockResolvedValue(true);
+  idbGetCurrentId.mockResolvedValue(null);
+  idbGetMigratedIds.mockResolvedValue([]);
+  idbSetMigratedIds.mockResolvedValue(undefined);
 });
 
 afterEach(() => {
@@ -118,16 +125,52 @@ describe('migrateLegacyRegistry — delete source only after all writes confirme
     expect(localStorage.getItem(LEGACY_KEY)).not.toBeNull();
   });
 
-  it('skips migration entirely when IndexedDB is already populated', async () => {
+  it('merges only the records missing from a populated IDB (per-record retry)', async () => {
+    // A prior partial run migrated d1 but failed on d2, leaving the blob behind.
+    // The retry must fold in ONLY d2 — never duplicate d1 — then drop the blob.
     seedLegacyBlob();
-    const existingBlob = localStorage.getItem(LEGACY_KEY);
-    idbGetAllDocuments.mockResolvedValue([docEntry('existing', 'X')]);
+    idbGetAllDocuments.mockResolvedValue([{ id: 'd1', ...docEntry('d1', 'A') }]);
 
     await migrateLegacyRegistry();
 
-    // No writes, and the blob is left untouched (byte-for-byte).
-    expect(idbPutDocument).not.toHaveBeenCalled();
+    expect(idbPutDocument).toHaveBeenCalledTimes(1);
+    expect((idbPutDocument.mock.calls[0][0] as { id: string }).id).toBe('d2');
+    expect(localStorage.getItem(LEGACY_KEY)).toBeNull(); // all records durable now
+    expect(idbSetMigratedIds).toHaveBeenCalledWith([]); // ledger cleared with the blob
+  });
+
+  it('a doc migrated then deleted by the user stays deleted on retry (ledger)', async () => {
+    // d1 migrated on a prior run (it's in the ledger) and the user deleted it
+    // since; d2's put failed back then. The retry must NOT resurrect d1.
+    seedLegacyBlob();
+    idbGetAllDocuments.mockResolvedValue([]); // d1 deleted, d2 never landed
+    idbGetMigratedIds.mockResolvedValue(['d1']);
+
+    await migrateLegacyRegistry();
+
+    expect(idbPutDocument).toHaveBeenCalledTimes(1);
+    expect((idbPutDocument.mock.calls[0][0] as { id: string }).id).toBe('d2');
+  });
+
+  it('persists the ledger on a partial failure so the next retry is exact', async () => {
+    seedLegacyBlob();
+    idbPutDocument.mockResolvedValueOnce(true).mockResolvedValueOnce(false);
+
+    await migrateLegacyRegistry();
+
+    expect(localStorage.getItem(LEGACY_KEY)).not.toBeNull(); // blob kept for retry
+    // The one durable id was recorded so a later delete of it can't be undone
+    // by the retry.
+    expect(idbSetMigratedIds).toHaveBeenCalledTimes(1);
+    expect(idbSetMigratedIds.mock.calls[0][0]).toHaveLength(1);
+  });
+
+  it('never overrides a resume pointer the user has set since (stale currentId)', async () => {
+    seedLegacyBlob();
+    idbGetCurrentId.mockResolvedValue('user-picked-doc');
+
+    await migrateLegacyRegistry();
+
     expect(idbSetCurrentId).not.toHaveBeenCalled();
-    expect(localStorage.getItem(LEGACY_KEY)).toBe(existingBlob);
   });
 });

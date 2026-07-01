@@ -39,7 +39,24 @@ function openDb(): Promise<IDBDatabase> {
       if (!db.objectStoreNames.contains(DOCS_STORE)) db.createObjectStore(DOCS_STORE, { keyPath: 'id' });
       if (!db.objectStoreNames.contains(APP_STORE)) db.createObjectStore(APP_STORE, { keyPath: 'key' });
     };
-    req.onsuccess = () => resolve(req.result);
+    req.onsuccess = () => {
+      const db = req.result;
+      // The browser can force-close a connection (storage eviction, "clear
+      // site data", OS pressure). Without this handler the dead connection
+      // stays cached and every later transaction fails for the rest of the
+      // page lifetime — reset so the next call reopens a live one.
+      db.onclose = () => {
+        dbPromise = null;
+      };
+      // Another tab requesting a version upgrade would block forever while
+      // this connection is held open; release it and let the next call here
+      // reopen at the new version.
+      db.onversionchange = () => {
+        db.close();
+        dbPromise = null;
+      };
+      resolve(db);
+    };
     req.onerror = () => reject(req.error);
     // Another tab on an older-version connection blocks a version bump. Reject
     // (and reset below) rather than leave the open request hanging forever.
@@ -73,13 +90,18 @@ function run<T>(store: string, mode: IDBTransactionMode, fn: (s: IDBObjectStore)
   );
 }
 
-export async function idbGetAllDocuments(): Promise<StoredDocument[]> {
+// Returns [] for a genuinely empty (or absent) registry and null when the read
+// FAILED — the two must stay distinguishable, or every consumer (hydration,
+// backups, import conflict-resolution) mistakes a broken database for an empty
+// library and acts on it: overwriting backup files with nothing, showing a
+// blank Recents to a user whose documents are intact on disk, etc.
+export async function idbGetAllDocuments(): Promise<StoredDocument[] | null> {
   if (!hasIndexedDb) return [];
   try {
     return await run<StoredDocument[]>(DOCS_STORE, 'readonly', (s) => s.getAll());
   } catch (err) {
     debug.error('DocumentsDb', 'getAll failed', err);
-    return [];
+    return null;
   }
 }
 
@@ -174,6 +196,41 @@ export async function idbClearBackupHandle(): Promise<void> {
   }
 }
 
+// ── Legacy-migration ledger ──────────────────────────────────────────────────
+// Ids already folded from the legacy localStorage registry blob into IndexedDB.
+// Kept so a PARTIAL migration can retry just the failed records on a later load
+// without resurrecting docs the user deleted after they migrated
+// (see documentsStore.migrateLegacyRegistry). Cleared once the blob is dropped.
+const MIGRATED_IDS_KEY = 'legacyMigratedIds';
+
+export async function idbGetMigratedIds(): Promise<string[]> {
+  if (!hasIndexedDb) return [];
+  try {
+    const rec = await run<{ key: string; value: string[] } | undefined>(
+      APP_STORE,
+      'readonly',
+      (s) => s.get(MIGRATED_IDS_KEY)
+    );
+    return rec?.value ?? [];
+  } catch (err) {
+    debug.error('DocumentsDb', 'getMigratedIds failed', err);
+    return [];
+  }
+}
+
+export async function idbSetMigratedIds(ids: string[]): Promise<void> {
+  if (!hasIndexedDb) return;
+  try {
+    if (ids.length === 0) {
+      await run(APP_STORE, 'readwrite', (s) => s.delete(MIGRATED_IDS_KEY));
+    } else {
+      await run(APP_STORE, 'readwrite', (s) => s.put({ key: MIGRATED_IDS_KEY, value: ids }));
+    }
+  } catch (err) {
+    debug.error('DocumentsDb', 'setMigratedIds failed', err);
+  }
+}
+
 // Request persistent storage on first write so docs aren't evicted under disk pressure.
 let persistRequested = false;
 function maybeRequestPersist(): void {
@@ -185,12 +242,14 @@ function maybeRequestPersist(): void {
     .catch(() => {});
 }
 
-export type StorageHealth = 'ok' | 'evictable' | 'unavailable';
+export type StorageHealth = 'ok' | 'evictable' | 'unreadable' | 'unavailable';
 
 /**
  * How durable the user's saved documents actually are in this browser:
  *  - 'unavailable': IndexedDB can't be opened (disabled by policy, blocked site
  *    data, or some private modes) — the Recents library won't persist at all.
+ *  - 'unreadable': the database opens but its records can't be read — the
+ *    user's documents exist on disk but this session can't see them.
  *  - 'evictable': IndexedDB works but persistent storage isn't granted, so the
  *    browser may clear it under disk pressure or inactivity (e.g. WebKit's
  *    ~7-day cap).
@@ -204,6 +263,10 @@ export async function probeStorageHealth(): Promise<StorageHealth> {
   } catch {
     return 'unavailable';
   }
+  // A database that opens but can't be read must never probe as healthy — an
+  // empty-looking library would suppress the very notice that explains it.
+  const records = await idbGetAllDocuments();
+  if (records === null) return 'unreadable';
   try {
     if (navigator.storage?.persisted && (await navigator.storage.persisted())) return 'ok';
   } catch {
@@ -212,11 +275,7 @@ export async function probeStorageHealth(): Promise<StorageHealth> {
   // Best-effort storage. Only warn once the user actually has documents at risk;
   // a brand-new visitor has created nothing to lose, and persistence is often
   // auto-granted (Chromium) after the first real write anyway.
-  try {
-    if ((await idbGetAllDocuments()).length === 0) return 'ok';
-  } catch {
-    /* ignore */
-  }
+  if (records.length === 0) return 'ok';
   return 'evictable';
 }
 
@@ -249,8 +308,25 @@ export async function idbGetSnapshots(docId: string): Promise<DocSnapshot[]> {
 export async function idbAddSnapshot(docId: string, snap: DocSnapshot): Promise<boolean> {
   if (!hasIndexedDb) return false;
   try {
-    const next = [snap, ...(await idbGetSnapshots(docId))].slice(0, MAX_SNAPSHOTS);
-    await run(APP_STORE, 'readwrite', (s) => s.put({ key: `snap:${docId}`, value: next }));
+    // Read-modify-write of the ring in ONE transaction. Two separate calls
+    // (get, then put) let concurrent adds — e.g. restore's safety snapshot
+    // racing Save's checkpoint — read the same ring and clobber each other's
+    // write, silently dropping history. A single readwrite transaction
+    // serializes them, and a failed read aborts before the put can replace
+    // the ring with just the newest entry.
+    const db = await openDb();
+    await new Promise<void>((resolve, reject) => {
+      const t = db.transaction(APP_STORE, 'readwrite');
+      const store = t.objectStore(APP_STORE);
+      const getReq = store.get(`snap:${docId}`);
+      getReq.onsuccess = () => {
+        const existing = (getReq.result as { value?: DocSnapshot[] } | undefined)?.value ?? [];
+        store.put({ key: `snap:${docId}`, value: [snap, ...existing].slice(0, MAX_SNAPSHOTS) });
+      };
+      t.oncomplete = () => resolve();
+      t.onabort = () => reject(t.error ?? new Error('IndexedDB transaction aborted'));
+      t.onerror = () => reject(t.error ?? new Error('IndexedDB transaction error'));
+    });
     return true;
   } catch (err) {
     debug.error('DocumentsDb', 'addSnapshot failed', err);

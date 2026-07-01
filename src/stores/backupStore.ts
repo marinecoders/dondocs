@@ -17,8 +17,11 @@ import { debug } from '@/lib/debug';
  * Chromium-desktop only. Elsewhere the status is 'unsupported' and the manual
  * "Back up all documents" export remains the fallback. Browsers require a fresh
  * user gesture to re-grant write access after a full restart ('needs-permission').
+ * 'error' = the file can't be written (moved/deleted/locked/disk-full) or the
+ * registry can't be read — surfaced instead of silently letting the mirror go
+ * stale; later saves keep retrying and a success flips back to 'connected'.
  */
-export type BackupStatus = 'off' | 'connected' | 'needs-permission' | 'unsupported';
+export type BackupStatus = 'off' | 'connected' | 'needs-permission' | 'error' | 'unsupported';
 
 const isSupported =
   typeof window !== 'undefined' && typeof (window as unknown as { showSaveFilePicker?: unknown }).showSaveFilePicker === 'function';
@@ -40,8 +43,11 @@ async function requestPerm(handle: FileSystemFileHandle): Promise<PermState> {
 
 // Same shape exportLibrary() writes, built here to avoid importing documentsStore
 // (which imports this module) — a leaf dependency on documentsDb instead.
-async function buildLibraryJson(): Promise<string> {
+// Returns null when the registry can't be read: mirroring a failed read would
+// overwrite the user's one external safety copy with an empty library.
+async function buildLibraryJson(): Promise<string | null> {
   const records = await idbGetAllDocuments();
+  if (records === null) return null;
   return JSON.stringify({ kind: 'dondocs-library', version: 1, docs: records });
 }
 
@@ -124,16 +130,31 @@ export const useBackupStore = create<BackupState>((set, get) => ({
   },
 
   writeNow: async () => {
-    if (get().status !== 'connected' || !handleRef) return;
+    const status = get().status;
+    // 'error' stays writable so the next save retries and can self-heal.
+    if ((status !== 'connected' && status !== 'error') || !handleRef) return;
     try {
       const perm = await queryPerm(handleRef);
       if (perm !== 'granted') {
         set({ status: 'needs-permission' });
         return;
       }
-      await writeToHandle(handleRef, await buildLibraryJson());
-      set({ lastBackupAt: Date.now() });
+      const json = await buildLibraryJson();
+      if (json === null) {
+        // Registry read failed — keep the existing backup file intact and do NOT
+        // advance lastBackupAt; claiming success here would be a lie.
+        debug.error('Backup', 'library read failed — skipped backup write');
+        set({ status: 'error' });
+        return;
+      }
+      await writeToHandle(handleRef, json);
+      set({ lastBackupAt: Date.now(), status: 'connected' });
     } catch (err) {
+      // Permission revoked mid-write reads as NotAllowedError; everything else
+      // (file moved/deleted/locked, disk full) is a write fault. Either way the
+      // mirror stopped updating — say so instead of staying 'connected'.
+      const name = (err as Error)?.name;
+      set({ status: name === 'NotAllowedError' || name === 'SecurityError' ? 'needs-permission' : 'error' });
       debug.error('Backup', 'write failed', err);
     }
   },
@@ -142,7 +163,10 @@ export const useBackupStore = create<BackupState>((set, get) => ({
 // Debounced auto-backup, teed off every registry save (see documentsStore).
 let backupTimer: ReturnType<typeof setTimeout> | null = null;
 export function scheduleBackup(): void {
-  if (useBackupStore.getState().status !== 'connected') return;
+  const status = useBackupStore.getState().status;
+  // Keep scheduling through 'error' so a transient fault (file briefly locked
+  // by a sync client, disk momentarily full) heals on the next save.
+  if (status !== 'connected' && status !== 'error') return;
   if (backupTimer) clearTimeout(backupTimer);
   backupTimer = setTimeout(() => {
     void useBackupStore.getState().writeNow();

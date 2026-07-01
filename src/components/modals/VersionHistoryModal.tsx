@@ -26,6 +26,7 @@ export function VersionHistoryModal() {
   const setDocId = useUIStore((s) => s.setHistoryDocId);
   const restoreSnapshot = useDocumentsStore((s) => s.restoreSnapshot);
   const [snaps, setSnaps] = useState<DocSnapshot[]>([]);
+  const [restoreFailed, setRestoreFailed] = useState(false);
 
   useEffect(() => {
     if (!docId) return;
@@ -39,13 +40,27 @@ export function VersionHistoryModal() {
   }, [docId]);
 
   return (
-    <Dialog open={docId != null} onOpenChange={(o) => !o && setDocId(null)}>
+    <Dialog
+      open={docId != null}
+      onOpenChange={(o) => {
+        if (!o) {
+          setDocId(null);
+          setRestoreFailed(false); // stale warning must not greet the next open
+        }
+      }}
+    >
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-base">
             <History className="h-4 w-4" /> Version history
           </DialogTitle>
         </DialogHeader>
+        {restoreFailed && (
+          <p role="alert" className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">
+            Couldn&apos;t save a safety copy of the current draft, so nothing was restored. Try
+            again — or copy any unsaved work first.
+          </p>
+        )}
         {snaps.length === 0 ? (
           <p className="py-6 text-center text-xs text-muted-foreground">
             No saved versions yet. Versions are captured automatically as you keep editing and each
@@ -70,9 +85,15 @@ export function VersionHistoryModal() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => {
-                    restoreSnapshot(snap.session);
-                    setDocId(null);
+                  onClick={async () => {
+                    // restoreSnapshot only proceeds once the safety copy of the
+                    // current draft has committed — if it can't, nothing was
+                    // restored, so keep the modal open and say why.
+                    if (await restoreSnapshot(snap.session)) {
+                      setDocId(null);
+                    } else {
+                      setRestoreFailed(true);
+                    }
                   }}
                 >
                   <RotateCcw className="mr-1 h-3.5 w-3.5" /> Restore

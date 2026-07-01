@@ -95,4 +95,38 @@ describe('backupStore permission state machine', () => {
     expect(store.getState().status).toBe('needs-permission');
     expect(handle.writes).toHaveLength(1); // no second write once revoked
   });
+
+  it('a persistent write failure surfaces as error instead of silently staying connected', async () => {
+    const handle = makeHandle('granted');
+    const store = await loadStore(vi.fn(async () => handle));
+    await store.getState().setupBackup(); // connected + seed write
+    const before = store.getState().lastBackupAt;
+
+    // The file was moved/locked/deleted — every write now throws.
+    handle.createWritable = async () => {
+      throw new DOMException('file gone', 'NotFoundError');
+    };
+    await store.getState().writeNow();
+    expect(store.getState().status).toBe('error'); // not a silent stale mirror
+    expect(store.getState().lastBackupAt).toBe(before); // no fake success stamp
+  });
+
+  it('recovers to connected when a later write succeeds after an error', async () => {
+    const handle = makeHandle('granted');
+    const store = await loadStore(vi.fn(async () => handle));
+    await store.getState().setupBackup();
+
+    const workingWritable = handle.createWritable;
+    handle.createWritable = async () => {
+      throw new DOMException('locked', 'NoModificationAllowedError');
+    };
+    await store.getState().writeNow();
+    expect(store.getState().status).toBe('error');
+
+    // The sync client released the file — the next save self-heals.
+    handle.createWritable = workingWritable;
+    await store.getState().writeNow();
+    expect(store.getState().status).toBe('connected');
+    expect(handle.writes.length).toBeGreaterThanOrEqual(2);
+  });
 });

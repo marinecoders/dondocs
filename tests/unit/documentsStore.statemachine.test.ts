@@ -313,4 +313,37 @@ describe('documentsStore — registry state machine', () => {
     useDocumentsStore.getState().togglePin('p1');
     expect(useDocumentsStore.getState().docs.p1.meta.pinned).toBe(false);
   });
+
+  it('11. an idle tab must not clobber another tab\'s newer save (stale-flush guard)', () => {
+    useDocumentsStore.setState({ currentId: 'doc-1' });
+    useDocumentsStore.getState().markBaseline();
+    // This tab writes and persists its own content — baseline advances with it.
+    useDocumentStore.getState().setFormData({ subject: 'ORIGINAL FROM THIS TAB' });
+    useDocumentsStore.getState().syncCurrent();
+    const mine = useDocumentsStore.getState().docs['doc-1'];
+    expect(mine.meta.title).toBe('ORIGINAL FROM THIS TAB');
+
+    // Another tab saves a NEWER version; the cross-tab broadcast mirrors it into
+    // this tab's docs map (list only — the live editor is deliberately untouched).
+    const theirs = {
+      meta: { ...mine.meta, title: 'NEWER FROM OTHER TAB', updatedAt: mine.meta.updatedAt + 1000 },
+      session: {
+        ...mine.session,
+        formData: { ...mine.session.formData, subject: 'NEWER FROM OTHER TAB' },
+      },
+    };
+    useDocumentsStore.setState({ docs: { 'doc-1': theirs } });
+
+    // This tab goes hidden → pagehide flush → syncCurrent. Its live document
+    // still equals what it last persisted, so the flush must be a no-op instead
+    // of overwriting the other tab's newer copy with a stale one.
+    useDocumentsStore.getState().syncCurrent();
+    expect(useDocumentsStore.getState().docs['doc-1'].meta.title).toBe('NEWER FROM OTHER TAB');
+
+    // A REAL local edit still persists as before (last-writer-wins between two
+    // genuinely-editing tabs is the accepted contract).
+    useDocumentStore.getState().setFormData({ subject: 'REAL LOCAL EDIT' });
+    useDocumentsStore.getState().syncCurrent();
+    expect(useDocumentsStore.getState().docs['doc-1'].meta.title).toBe('REAL LOCAL EDIT');
+  });
 });

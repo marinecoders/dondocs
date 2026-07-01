@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect, type ChangeEvent, type ReactNode } from 'react';
-import { Moon, Sun, Download, FileText, Braces, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2, Lightbulb, FolderOpen, Rocket, FolderSync } from 'lucide-react';
+import { Moon, Sun, Download, FileText, Braces, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2, Lightbulb, FolderOpen, Rocket, FolderSync, AlertTriangle } from 'lucide-react';
 import { GithubIcon } from '@/components/icons/GithubIcon';
 import { Button } from '@/components/ui/button';
 import { Kbd } from '@/components/ui/kbd';
@@ -244,6 +244,7 @@ export function Header({
   const setupBackup = useBackupStore((s) => s.setupBackup);
   const reconnectBackup = useBackupStore((s) => s.reconnect);
   const disableBackup = useBackupStore((s) => s.disable);
+  const writeBackupNow = useBackupStore((s) => s.writeNow);
 
   const dismissBanner = useCallback(() => {
     setBannerDismissed(true);
@@ -835,6 +836,21 @@ export function Header({
                   <RefreshCw className="h-4 w-4 mr-2" />
                   Reconnect auto-backup
                 </DropdownMenuItem>
+              )}
+              {backupStatus === 'error' && (
+                <>
+                  <DropdownMenuItem
+                    onClick={() => void writeBackupNow()}
+                    className="text-orange-600 dark:text-orange-400"
+                  >
+                    <AlertTriangle className="h-4 w-4 mr-2" />
+                    <span className="truncate">Auto-backup failing — retry now</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => void setupBackup()}>
+                    <FolderSync className="h-4 w-4 mr-2" />
+                    Choose a different backup file…
+                  </DropdownMenuItem>
+                </>
               )}
               {backupStatus === 'connected' && (
                 <>

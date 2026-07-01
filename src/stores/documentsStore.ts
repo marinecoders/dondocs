@@ -25,6 +25,9 @@ import {
   idbDeleteSnapshots,
   idbGetCurrentId,
   idbSetCurrentId,
+  idbGetMigratedIds,
+  idbSetMigratedIds,
+  type StoredDocument,
 } from '@/lib/documentsDb';
 import { scheduleBackup } from './backupStore';
 import { debug } from '@/lib/debug';
@@ -108,9 +111,11 @@ interface DocumentsState {
   renameDocument: (id: string, name: string) => void;
   /** Clone a document into a new Recents entry titled "Copy of …". */
   duplicateDocument: (id: string) => void;
-  /** Replace the live editor with a version-history snapshot (snapshots the
-   *  current state first so the restore is itself reversible). */
-  restoreSnapshot: (session: SerializedSession) => void;
+  /** Replace the live editor with a version-history snapshot. Awaits a safety
+   *  snapshot of the current state first — that commit is what makes the
+   *  restore reversible — and resolves false (restoring nothing) if the safety
+   *  copy could not be written. */
+  restoreSnapshot: (session: SerializedSession) => Promise<boolean>;
   /**
    * Register the document currently in the live store as a new Recents entry
    * (used by Header's Load progress). Flush the open document first, then call
@@ -372,10 +377,14 @@ function persistCurrentId(id: string | null): void {
 }
 
 // One-time migration of the previous compressed-localStorage registry blob into
-// IndexedDB, then drop the old key. Only runs while IndexedDB is still empty.
+// IndexedDB, then drop the old key. Per-record and retryable: a record is
+// skipped when it's already in IDB (a prior partial run migrated it) or in the
+// migrated-ids ledger (migrated earlier and since DELETED by the user —
+// re-putting it would resurrect it). The blob is kept until every record is
+// durable, so a partial failure retries just the missing records on the next
+// load instead of stranding them forever.
 type LegacyRegistry = { docs?: Record<string, DocumentEntry>; currentId?: string | null };
 export async function migrateLegacyRegistry(): Promise<void> {
-  if ((await idbGetAllDocuments()).length > 0) return; // IDB already populated
   let raw: string | null;
   try {
     // Reading localStorage throws (SecurityError) when site data is blocked;
@@ -385,24 +394,40 @@ export async function migrateLegacyRegistry(): Promise<void> {
     return;
   }
   if (!raw) return;
+  const existing = await idbGetAllDocuments();
+  if (existing === null) return; // registry unreadable — keep the legacy blob untouched
   try {
     const parsed = compressedParse<{ state?: LegacyRegistry } & LegacyRegistry>(raw);
     const state = parsed.state ?? parsed;
+    const inIdb = new Set(existing.map((r) => r.id));
+    const ledger = new Set(await idbGetMigratedIds());
     let allWritten = true;
     for (const [id, entry] of Object.entries(state.docs ?? {})) {
-      if (entry?.meta && entry?.session) {
-        if (!(await idbPutDocument({ id, meta: entry.meta, session: entry.session }))) allWritten = false;
+      if (!entry?.meta || !entry?.session) continue;
+      if (inIdb.has(id) || ledger.has(id)) continue;
+      if (await idbPutDocument({ id, meta: entry.meta, session: entry.session })) {
+        ledger.add(id);
+      } else {
+        allWritten = false;
       }
     }
-    if (state.currentId && !(await idbSetCurrentId(state.currentId))) allWritten = false;
-    // Only drop the legacy blob once every record is confirmed durable in IDB;
-    // otherwise keep it so the next load retries rather than losing the user's
-    // only copy. The length>0 guard above prevents a re-run from duplicating.
+    // The resume pointer: only seed it when none exists — on a retry the user
+    // may have switched documents since, and the stale legacy pointer must not
+    // override that.
+    if (state.currentId && !(await idbGetCurrentId())) {
+      if (!(await idbSetCurrentId(state.currentId))) allWritten = false;
+    }
     if (allWritten) {
+      // Every record is durable: drop the blob, then the ledger (its only job
+      // was to protect retries while the blob still existed).
       localStorage.removeItem('dondocs_documents');
+      await idbSetMigratedIds([]);
       debug.log('Documents', 'Migrated localStorage registry to IndexedDB');
     } else {
-      debug.error('Documents', 'IndexedDB write failed during migration; keeping legacy blob for retry');
+      // Persist the ledger so the next load retries ONLY the failed records —
+      // and a doc migrated now but deleted before that retry stays deleted.
+      await idbSetMigratedIds([...ledger]);
+      debug.error('Documents', 'IndexedDB write failed during migration; keeping legacy blob to retry the failed records');
     }
   } catch (err) {
     debug.error('Documents', 'localStorage -> IndexedDB migration failed', err);
@@ -420,6 +445,15 @@ function ensureHydrated(
     hydratePromise = (async () => {
       await migrateLegacyRegistry();
       const [records, cid] = await Promise.all([idbGetAllDocuments(), idbGetCurrentId()]);
+      if (records === null) {
+        // The registry exists but can't be read. Never proceed as if the library
+        // were empty — init would fold the legacy blob into a duplicate document
+        // and a backup would capture nothing. Surface the state, then reject so
+        // hydratePromise resets (a later init() can retry after the fault clears)
+        // while App's init catch seeds a usable blank in the meantime.
+        useUIStore.getState().setStorageHealth('unreadable');
+        throw new Error('Document registry unreadable');
+      }
       const loaded: Record<string, DocumentEntry> = {};
       for (const r of records) {
         // Fold a legacy FOUO portion marking to CUI in the PERSISTED registry, not
@@ -526,11 +560,81 @@ function reopenAfterRemoval(
 // SNAPSHOT_INTERVAL; an explicit Save forces one. idbAddSnapshot caps the ring.
 const SNAPSHOT_INTERVAL = 3 * 60_000;
 const lastSnap: Record<string, number> = {};
-function maybeSnapshot(docId: string, session: SerializedSession, force = false): void {
+// Resolves true when the snapshot committed (or was throttle-skipped); callers
+// that only checkpoint opportunistically `void` it, while restoreSnapshot awaits
+// it — the safety copy is what makes a restore reversible.
+function maybeSnapshot(docId: string, session: SerializedSession, force = false): Promise<boolean> {
   const now = Date.now();
-  if (!force && now - (lastSnap[docId] ?? 0) < SNAPSHOT_INTERVAL) return;
+  if (!force && now - (lastSnap[docId] ?? 0) < SNAPSHOT_INTERVAL) return Promise.resolve(true);
   lastSnap[docId] = now;
-  void idbAddSnapshot(docId, { ts: now, session });
+  return idbAddSnapshot(docId, { ts: now, session });
+}
+
+// The post-hydration half of init(): resume the current document, or fold the
+// legacy single-session blob into the registry, or start brand-new. Split out
+// of the store so init() can run it under a cross-tab Web Lock.
+function initAfterHydration(
+  set: (partial: Partial<DocumentsState>) => void,
+  get: () => DocumentsState
+): boolean {
+  const { currentId, docs } = get();
+
+  // Returning user: the registry knows the open document; load it to resume.
+  // The IndexedDB registry entry is authoritative — we deliberately do NOT fall
+  // back to the id-less localStorage session blob here: it may hold a DIFFERENT
+  // document (e.g. after a switchTo whose debounced blob-rewrite hadn't fired),
+  // so preferring it could graft another draft's content onto this one.
+  if (currentId && docs[currentId]) {
+    let session = docs[currentId].session;
+    // Canonicalize the stored unitAddress to match what loadSharedSession
+    // applies; otherwise a legacy entry re-sorts to the top on first reload.
+    if (session.formData?.unitAddress) {
+      const canon = canonicalizeUnitAddress(session.formData.unitAddress);
+      if (canon !== session.formData.unitAddress) {
+        session = { ...session, formData: { ...session.formData, unitAddress: canon } };
+        const entry = { ...docs[currentId], session };
+        set({ docs: { ...docs, [currentId]: entry } });
+        persistEntry(entry);
+      }
+    }
+    loadSharedSession(session);
+    applyProfileSignature();
+    set({ baseline: session });
+    useUIStore.getState().setValidationVisible(false);
+    debug.log('Documents', 'Resumed current document', { id: currentId });
+    return true;
+  }
+
+  // First load after this feature shipped: fold the legacy single session into
+  // the registry so prior work isn't lost.
+  const legacy = getSavedSession();
+  if (legacy && legacy.documentCategory !== 'forms' && isMeaningful(legacy)) {
+    if (legacy.formData?.unitAddress) {
+      legacy.formData = {
+        ...legacy.formData,
+        unitAddress: canonicalizeUnitAddress(legacy.formData.unitAddress),
+      };
+    }
+    const id = newId();
+    const entry = { meta: metaFor(id, legacy), session: legacy };
+    set({ currentId: id, docs: { ...docs, [id]: entry } });
+    persistEntry(entry);
+    persistCurrentId(id);
+    loadSharedSession(legacy);
+    applyProfileSignature();
+    set({ baseline: legacy });
+    debug.log('Documents', 'Migrated legacy session as first document', { id });
+    return true;
+  }
+
+  // Brand-new (or forms-only) start: give the live document an id. The caller
+  // sets its baseline after applying the profile; it enters Recents on first
+  // edit. Don't persist this id yet — a visitor who types nothing would
+  // otherwise leave a resume pointer aimed at a document that was never saved.
+  // syncCurrent/saveCurrent persist it the moment the doc gains real content.
+  const id = newId();
+  set({ currentId: id, baseline: null });
+  return false;
 }
 
 export const useDocumentsStore = create<DocumentsState>((set, get) => ({
@@ -546,65 +650,19 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   },
 
   init: async () => {
-    await ensureHydrated(set, get);
-    const { currentId, docs } = get();
-
-    // Returning user: the registry knows the open document; load it to resume.
-    // The IndexedDB registry entry is authoritative — we deliberately do NOT fall
-    // back to the id-less localStorage session blob here: it may hold a DIFFERENT
-    // document (e.g. after a switchTo whose debounced blob-rewrite hadn't fired),
-    // so preferring it could graft another draft's content onto this one.
-    if (currentId && docs[currentId]) {
-      let session = docs[currentId].session;
-      // Canonicalize the stored unitAddress to match what loadSharedSession
-      // applies; otherwise a legacy entry re-sorts to the top on first reload.
-      if (session.formData?.unitAddress) {
-        const canon = canonicalizeUnitAddress(session.formData.unitAddress);
-        if (canon !== session.formData.unitAddress) {
-          session = { ...session, formData: { ...session.formData, unitAddress: canon } };
-          const entry = { ...docs[currentId], session };
-          set({ docs: { ...docs, [currentId]: entry } });
-          persistEntry(entry);
-        }
-      }
-      loadSharedSession(session);
-      applyProfileSignature();
-      set({ baseline: session });
-      useUIStore.getState().setValidationVisible(false);
-      debug.log('Documents', 'Resumed current document', { id: currentId });
-      return true;
+    // Two tabs booting simultaneously on a user's FIRST post-upgrade load would
+    // each fold the legacy session blob into its own newId() — a duplicate
+    // document. The Web Locks API serializes init across tabs: the loser waits,
+    // then hydrates a registry the winner already migrated and resumes normally.
+    // Without locks support, behavior is unchanged (single-tab is unaffected).
+    const run = async (): Promise<boolean> => {
+      await ensureHydrated(set, get);
+      return initAfterHydration(set, get);
+    };
+    if (typeof navigator !== 'undefined' && navigator.locks?.request) {
+      return navigator.locks.request('dondocs-init', run);
     }
-
-    // First load after this feature shipped: fold the legacy single session into
-    // the registry so prior work isn't lost.
-    const legacy = getSavedSession();
-    if (legacy && legacy.documentCategory !== 'forms' && isMeaningful(legacy)) {
-      if (legacy.formData?.unitAddress) {
-        legacy.formData = {
-          ...legacy.formData,
-          unitAddress: canonicalizeUnitAddress(legacy.formData.unitAddress),
-        };
-      }
-      const id = newId();
-      const entry = { meta: metaFor(id, legacy), session: legacy };
-      set({ currentId: id, docs: { ...docs, [id]: entry } });
-      persistEntry(entry);
-      persistCurrentId(id);
-      loadSharedSession(legacy);
-      applyProfileSignature();
-      set({ baseline: legacy });
-      debug.log('Documents', 'Migrated legacy session as first document', { id });
-      return true;
-    }
-
-    // Brand-new (or forms-only) start: give the live document an id. The caller
-    // sets its baseline after applying the profile; it enters Recents on first
-    // edit. Don't persist this id yet — a visitor who types nothing would
-    // otherwise leave a resume pointer aimed at a document that was never saved.
-    // syncCurrent/saveCurrent persist it the moment the doc gains real content.
-    const id = newId();
-    set({ currentId: id, baseline: null });
-    return false;
+    return run();
   },
 
   syncCurrent: (source) => {
@@ -624,14 +682,25 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     } else if (sameContent(prev.session, session)) {
       // Already in Recents and unchanged. Removal is explicit (delete).
       return;
+    } else if (baseline && sameContent(baseline, session)) {
+      // The live document matches what THIS tab last loaded/persisted — the
+      // registry entry moved ahead via another tab's save (mirrored in by the
+      // cross-tab broadcast). This tab has nothing of its own to contribute, so
+      // persisting now would overwrite the other tab's newer copy with a stale
+      // one. Classic case: the same document open in two tabs, and the idle
+      // tab's visibilitychange/pagehide flush firing after the active tab saved.
+      return;
     }
     const entry = { meta: metaFor(currentId, session, prev?.meta), session };
-    set({ docs: { ...docs, [currentId]: entry } });
+    // Advance the baseline to what we just persisted: "baseline" means the last
+    // state THIS tab loaded or wrote, which is exactly the reference the stale-
+    // flush guard above needs (not the state from load time).
+    set({ docs: { ...docs, [currentId]: entry }, baseline: session });
     persistEntry(entry);
     // First time this doc reaches Recents: pin it as the resume pointer (init no
     // longer persists ids eagerly, so this is where a real doc becomes resumable).
     if (!prev) persistCurrentId(currentId);
-    maybeSnapshot(currentId, session);
+    void maybeSnapshot(currentId, session);
   },
 
   saveCurrent: () => {
@@ -645,10 +714,11 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     const prev = docs[currentId];
     if (prev && sameContent(prev.session, session)) return;
     const entry = { meta: metaFor(currentId, session, prev?.meta), session };
-    set({ docs: { ...docs, [currentId]: entry } });
+    // Keep baseline in lockstep with what this tab persisted (see syncCurrent).
+    set({ docs: { ...docs, [currentId]: entry }, baseline: session });
     persistEntry(entry);
     if (!prev) persistCurrentId(currentId); // make a just-saved fresh doc resumable
-    maybeSnapshot(currentId, session, true); // explicit Save = a deliberate checkpoint
+    void maybeSnapshot(currentId, session, true); // explicit Save = a deliberate checkpoint
   },
 
   newDocument: () => {
@@ -780,13 +850,21 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     debug.log('Documents', 'Duplicated document', { from: id, to: copyId });
   },
 
-  restoreSnapshot: (session) => {
+  restoreSnapshot: async (session) => {
     const { currentId } = get();
-    // Snapshot the current state first so restoring is itself reversible.
-    if (currentId) maybeSnapshot(currentId, getSerializedSessionForShare(), true);
+    // The safety snapshot is what makes a restore reversible (the modal says
+    // so), so it must COMMIT before anything is overwritten. Fire-and-forget
+    // here used to race saveCurrent's forced checkpoint below and lose the
+    // safety copy — silently destroying the pre-restore draft. If it can't be
+    // written, restore nothing and let the caller say so.
+    if (currentId) {
+      const ok = await maybeSnapshot(currentId, getSerializedSessionForShare(), true);
+      if (!ok) return false;
+    }
     loadSharedSession(session);
     get().markBaseline();
     get().saveCurrent(); // persist the restored content as the current version
+    return true;
   },
 }));
 
@@ -836,6 +914,7 @@ if (typeof BroadcastChannel !== 'undefined') {
   docsChannel = new BroadcastChannel('dondocs-docs');
   docsChannel.onmessage = () => {
     void idbGetAllDocuments().then((records) => {
+      if (records === null) return; // read failed — keep this tab's list rather than blanking it
       const loaded: Record<string, DocumentEntry> = {};
       for (const r of records) loaded[r.id] = { meta: r.meta, session: r.session };
       const { currentId, docs } = useDocumentsStore.getState();
@@ -859,9 +938,23 @@ export function importShouldReplace(existingUpdatedAt: number | undefined, incom
   return existingUpdatedAt === undefined || incomingUpdatedAt >= existingUpdatedAt;
 }
 
-/** Serialize every saved document to a single JSON backup string. */
+/** Serialize every saved document to a single JSON backup string.
+ *
+ *  Reads the in-memory registry — the exact list the user sees in Recents,
+ *  kept in lockstep with IndexedDB by persistEntry and cross-tab broadcasts —
+ *  so a database whose reads are failing can't quietly produce an empty
+ *  backup file. When the registry couldn't be read at all this session,
+ *  refuse (the caller shows "Backup failed") rather than fabricate success. */
 export async function exportLibrary(): Promise<string> {
-  const records = await idbGetAllDocuments();
+  const { docs, hydrated } = useDocumentsStore.getState();
+  if (!hydrated || useUIStore.getState().storageHealth === 'unreadable') {
+    throw new Error('Saved documents could not be read — a backup now would be incomplete');
+  }
+  const records: StoredDocument[] = Object.values(docs).map((e) => ({
+    id: e.meta.id,
+    meta: e.meta,
+    session: e.session,
+  }));
   return JSON.stringify({ kind: 'dondocs-library', version: 1, docs: records });
 }
 
@@ -876,24 +969,40 @@ export async function importLibrary(json: string): Promise<{ imported: number; s
   if (!Array.isArray(records)) throw new Error('Not a DonDocs library file');
 
   // Snapshot the current updatedAt per id so we only overwrite with something
-  // at least as new.
+  // at least as new. If that read fails, ABORT: with an empty conflict map an
+  // old backup would silently overwrite every newer local copy.
+  const current = await idbGetAllDocuments();
+  if (current === null) {
+    throw new Error('Could not read the current library — import cancelled to protect newer local copies');
+  }
   const existing = new Map<string, number>();
-  for (const r of await idbGetAllDocuments()) existing.set(r.id, r.meta?.updatedAt ?? 0);
+  for (const r of current) existing.set(r.id, r.meta?.updatedAt ?? 0);
 
   let imported = 0;
   let skipped = 0;
+  const applied: DocumentEntry[] = [];
   for (const r of records as DocumentEntry[]) {
     if (!r?.meta?.id || !r?.session) continue;
     if (!importShouldReplace(existing.get(r.meta.id), r.meta.updatedAt ?? 0)) {
       skipped++; // the copy already here is newer — keep it
       continue;
     }
-    if (await idbPutDocument({ id: r.meta.id, meta: r.meta, session: r.session })) imported++;
+    if (await idbPutDocument({ id: r.meta.id, meta: r.meta, session: r.session })) {
+      imported++;
+      applied.push({ meta: r.meta, session: r.session });
+    }
   }
   // Re-read the merged set so the Recents list reflects the import immediately.
+  // If that read fails, fold the just-imported records into the in-memory list
+  // instead of blanking it — the puts above are already durable.
   const all = await idbGetAllDocuments();
   const loaded: Record<string, DocumentEntry> = {};
-  for (const r of all) loaded[r.id] = { meta: r.meta, session: r.session };
+  if (all !== null) {
+    for (const r of all) loaded[r.id] = { meta: r.meta, session: r.session };
+  } else {
+    Object.assign(loaded, useDocumentsStore.getState().docs);
+    for (const e of applied) loaded[e.meta.id] = e;
+  }
   useDocumentsStore.setState({ docs: loaded });
   return { imported, skipped };
 }

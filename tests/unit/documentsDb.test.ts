@@ -73,4 +73,18 @@ describe('documentsDb (fake-indexeddb)', () => {
     await idbDeleteSnapshots('snap-doc');
     expect(await idbGetSnapshots('snap-doc')).toEqual([]);
   });
+
+  it('serializes concurrent snapshot adds — no lost update between racing writers', async () => {
+    // Restore's safety snapshot races Save's forced checkpoint through this
+    // exact pattern. With a read-then-write split across two transactions the
+    // second writer clobbers the first; the single-transaction version must
+    // keep BOTH.
+    await Promise.all([
+      idbAddSnapshot('race-doc', { ts: 100, session: doc('x').session }),
+      idbAddSnapshot('race-doc', { ts: 200, session: doc('x').session }),
+    ]);
+    const snaps = await idbGetSnapshots('race-doc');
+    expect(snaps.map((s) => s.ts).sort((a, b) => a - b)).toEqual([100, 200]);
+    await idbDeleteSnapshots('race-doc');
+  });
 });

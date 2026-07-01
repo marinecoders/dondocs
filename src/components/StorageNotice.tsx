@@ -19,7 +19,13 @@ export function StorageNotice() {
   const message =
     storageHealth === 'unavailable'
       ? "This browser is blocking storage, so your document list (Recents) won't be saved between visits."
-      : 'Your documents are saved in this browser only and could be cleared by it.';
+      : storageHealth === 'unreadable'
+        ? "Your saved documents couldn't be read this visit — nothing was deleted."
+        : 'Your documents are saved in this browser only and could be cleared by it.';
+  const suffix =
+    storageHealth === 'unreadable'
+      ? 'Reloading usually fixes it; if not, restore from a backup file.'
+      : 'Use Download or Share to keep a permanent copy.';
 
   return (
     <div
@@ -28,8 +34,7 @@ export function StorageNotice() {
     >
       <Info className="h-3.5 w-3.5 shrink-0 text-amber-600 dark:text-amber-400" />
       <p className="min-w-0 flex-1">
-        {message}{' '}
-        <span className="text-muted-foreground">Use Download or Share to keep a permanent copy.</span>
+        {message} <span className="text-muted-foreground">{suffix}</span>
       </p>
       <button
         type="button"
