@@ -10,9 +10,12 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { useDocumentStore } from '@/stores/documentStore';
+import { useUIStore } from '@/stores/uiStore';
+import { unfilled } from '@/lib/requiredField';
 
 export function JointMemoSection() {
   const { formData, setField } = useDocumentStore();
+  const validationVisible = useUIStore((s) => s.validationVisible);
 
   return (
     <>
@@ -59,6 +62,7 @@ export function JointMemoSection() {
                   id="subject"
                   value={formData.subject || ''}
                   onChange={(e) => setField('subject', e.target.value)}
+                  aria-invalid={validationVisible && unfilled(formData.subject) ? true : undefined}
                   placeholder="SUBJECT LINE IN ALL CAPS"
                   className="uppercase"
                 />

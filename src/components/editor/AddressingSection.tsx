@@ -1,31 +1,12 @@
 import { useState, useMemo, useCallback } from 'react';
 import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-} from '@dnd-kit/core';
+  DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent, } from '@dnd-kit/core';
 import {
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy,
-  arrayMove,
-} from '@dnd-kit/sortable';
+  SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy, arrayMove, } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { BookOpen, Plus, Trash2, AlertCircle, GripVertical, HelpCircle } from 'lucide-react';
+import { BookOpen, Plus, Trash2, AlertCircle, GripVertical, Building2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -37,14 +18,13 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { InputWithVariables } from '@/components/ui/variable-autocomplete';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { HelpTip } from '@/components/ui/help-tip';
 import { useDocumentStore } from '@/stores/documentStore';
+import { useUIStore } from '@/stores/uiStore';
+import { unfilled } from '@/lib/requiredField';
 import { SSICLookupModal } from '@/components/modals/SSICLookupModal';
+import { UnitLookupModal } from '@/components/modals/UnitLookupModal';
+import { expandUnitName, insertUnitInto, type UnitInfo } from '@/data/unitDirectory';
 import type { DocTypeConfig } from '@/types/document';
 
 interface AddressingSectionProps {
@@ -57,10 +37,11 @@ interface SortableViaItemProps {
   value: string;
   onChange: (value: string) => void;
   onRemove: () => void;
+  onLookup: () => void;
   canRemove: boolean;
 }
 
-function SortableViaItem({ id, index, value, onChange, onRemove, canRemove }: SortableViaItemProps) {
+function SortableViaItem({ id, index, value, onChange, onRemove, onLookup, canRemove }: SortableViaItemProps) {
   const {
     attributes,
     listeners,
@@ -100,6 +81,16 @@ function SortableViaItem({ id, index, value, onChange, onRemove, canRemove }: So
       />
       <Button
         type="button"
+        variant="outline"
+        size="icon"
+        onClick={onLookup}
+        title="Look up a unit"
+        className="shrink-0"
+      >
+        <Building2 className="h-4 w-4" />
+      </Button>
+      <Button
+        type="button"
         variant="ghost"
         size="icon"
         onClick={onRemove}
@@ -115,7 +106,24 @@ function SortableViaItem({ id, index, value, onChange, onRemove, canRemove }: So
 export function AddressingSection({ config }: AddressingSectionProps) {
   const { formData, setField, documentMode } = useDocumentStore();
   const docType = useDocumentStore((s) => s.docType);
+  const validationVisible = useUIStore((s) => s.validationVisible);
   const [ssicModalOpen, setSSICModalOpen] = useState(false);
+  // Unit-directory lookup target: 'to' | a Via row index | null (closed). One
+  // modal serves both the To field and each Via row.
+  const [unitLookup, setUnitLookup] = useState<'to' | number | null>(null);
+
+  const handleUnitSelect = (unit: UnitInfo) => {
+    const name = expandUnitName(unit.name);
+    const fd = useDocumentStore.getState().formData;
+    if (unitLookup === 'to') {
+      setField('to', insertUnitInto(fd.to ?? '', name));
+    } else if (typeof unitLookup === 'number') {
+      const lines = (fd.via ?? '').split('\n');
+      lines[unitLookup] = insertUnitInto(lines[unitLookup] ?? '', name);
+      setField('via', lines.join('\n'));
+    }
+    setUnitLookup(null);
+  };
 
   // Check compliance requirements for business letters
   const isCompliantMode = documentMode === 'compliant';
@@ -184,35 +192,36 @@ export function AddressingSection({ config }: AddressingSectionProps) {
         onOpenChange={setSSICModalOpen}
         onSelect={handleSSICSelect}
       />
+      <UnitLookupModal
+        open={unitLookup !== null}
+        onOpenChange={(open) => {
+          if (!open) setUnitLookup(null);
+        }}
+        onSelect={handleUnitSelect}
+      />
 
       <Accordion type="single" collapsible defaultValue="addressing">
         <AccordionItem value="addressing">
           <AccordionTrigger>
             <span className="flex items-center gap-2">
               Document Information
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild onClick={(e) => e.stopPropagation()}>
-                    <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-foreground" />
-                  </TooltipTrigger>
-                  <TooltipContent side="right" className="max-w-xs">
-                    <p className="font-medium mb-1">Document Information</p>
-                    <p className="text-xs">
-                      Core addressing fields required by SECNAV M-5216.5. These form the header block of your correspondence.
-                    </p>
-                    <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
-                      <li><strong>SSIC:</strong> Standard Subject Identification Code — categorizes the document topic{isSSICOptional && ' (not required for this type)'}</li>
-                      <li><strong>From/To:</strong> Originating and receiving commands or individuals</li>
-                      <li><strong>Via:</strong> Intermediate routing (chain of command) — optional</li>
-                      <li><strong>Subject:</strong> Brief description, auto-uppercased per regulation</li>
-                    </ul>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <HelpTip>
+                <p className="font-medium mb-1">Document Information</p>
+                <p className="text-xs">
+                  Core addressing fields required by SECNAV M-5216.5. These form the header block of your correspondence.
+                </p>
+                <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
+                  <li><strong>SSIC:</strong> Standard Subject Identification Code — categorizes the document topic{isSSICOptional && ' (not required for this type)'}</li>
+                  <li><strong>From/To:</strong> Originating and receiving commands or individuals</li>
+                  <li><strong>Via:</strong> Intermediate routing (chain of command) — optional</li>
+                  <li><strong>Subject:</strong> Brief description, auto-uppercased per regulation</li>
+                </ul>
+              </HelpTip>
             </span>
           </AccordionTrigger>
           <AccordionContent>
             <div className="space-y-4 pt-2">
+              <p className="text-xs text-muted-foreground -mt-1">From, To, Via, Subject, and identifying symbols.</p>
               {/* Date Only - for business letters (no SSIC/Serial) */}
               {config.dateOnly && (
                 <div className="space-y-2">
@@ -311,8 +320,9 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                   id="to"
                   value={formData.to || ''}
                   onChange={(e) => setField('to', e.target.value)}
+                  aria-invalid={validationVisible && unfilled(formData.to) ? true : undefined}
                   placeholder="Mr. John Smith&#10;Director of Operations&#10;ABC Company&#10;123 Main Street&#10;City, State ZIP"
-                  className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-2 aria-invalid:ring-destructive/20"
                   rows={5}
                 />
                 <p className="text-xs text-muted-foreground flex items-center gap-1">
@@ -324,24 +334,43 @@ export function AddressingSection({ config }: AddressingSectionProps) {
 
             {/* From / To */}
             {config.fromTo && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              // Full-width stacked (From over To), matching the design — command
+              // names are long, so each gets its own row rather than a cramped
+              // two-up grid.
+              <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="from">From</Label>
                   <InputWithVariables
                     id="from"
                     value={formData.from || ''}
                     onValueChange={(v) => setField('from', v)}
+                    aria-invalid={validationVisible && unfilled(formData.from) ? true : undefined}
                     placeholder="Commanding Officer... (type @ for variables)"
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="to">To</Label>
-                  <InputWithVariables
-                    id="to"
-                    value={formData.to || ''}
-                    onValueChange={(v) => setField('to', v)}
-                    placeholder="Commanding General... (type @ for variables)"
-                  />
+                  <div className="flex gap-1">
+                    <div className="flex-1">
+                      <InputWithVariables
+                        id="to"
+                        value={formData.to || ''}
+                        onValueChange={(v) => setField('to', v)}
+                        aria-invalid={validationVisible && unfilled(formData.to) ? true : undefined}
+                        placeholder="Commanding General... (type @ for variables)"
+                      />
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setUnitLookup('to')}
+                      title="Look up a unit"
+                      className="shrink-0"
+                    >
+                      <Building2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               </div>
             )}
@@ -380,6 +409,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                           value={line}
                           onChange={(value) => updateViaLine(index, value)}
                           onRemove={() => removeViaLine(index)}
+                          onLookup={() => setUnitLookup(index)}
                           canRemove={viaLines.length > 1 || !!line}
                         />
                       ))}
@@ -418,61 +448,8 @@ export function AddressingSection({ config }: AddressingSectionProps) {
               </div>
             )}
 
-            {/* Endorsement-specific fields. Only render for endorsement doc
-                types. The basic-letter ID + ordinal together produce the
-                endorsement line per SECNAV M-5216.5 Ch 9 §2.1.b:
-                  "[ORDINAL] ENDORSEMENT on [basic letter id]"  */}
-            {isEndorsement && (
-              <>
-                <div className="space-y-2">
-                  <Label htmlFor="endorsementOrdinal">
-                    Endorsement Number <span className="text-destructive">*</span>
-                  </Label>
-                  <Select
-                    value={formData.endorsementOrdinal || ''}
-                    onValueChange={(v) => setField('endorsementOrdinal', v)}
-                  >
-                    <SelectTrigger id="endorsementOrdinal" className="w-full">
-                      <SelectValue placeholder="Select position in routing chain..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="FIRST">FIRST</SelectItem>
-                      <SelectItem value="SECOND">SECOND</SelectItem>
-                      <SelectItem value="THIRD">THIRD</SelectItem>
-                      <SelectItem value="FOURTH">FOURTH</SelectItem>
-                      <SelectItem value="FIFTH">FIFTH</SelectItem>
-                      <SelectItem value="SIXTH">SIXTH</SelectItem>
-                      <SelectItem value="SEVENTH">SEVENTH</SelectItem>
-                      <SelectItem value="EIGHTH">EIGHTH</SelectItem>
-                      <SelectItem value="NINTH">NINTH</SelectItem>
-                      <SelectItem value="TENTH">TENTH</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <p className="text-xs text-muted-foreground">
-                    Pick this endorsement&apos;s position in the routing chain. Per SECNAV
-                    M-5216.5 Ch 9 §2.1.b: number each endorsement in the sequence in
-                    which it is added to the basic letter (1st added = FIRST, 2nd =
-                    SECOND, etc.).
-                  </p>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="basicLetterId">
-                    Basic Letter ID <span className="text-destructive">*</span>
-                  </Label>
-                  <Input
-                    id="basicLetterId"
-                    value={formData.basicLetterId || ''}
-                    onChange={(e) => setField('basicLetterId', e.target.value)}
-                    placeholder="e.g., USS SCRANTON ltr 3000 Ser SSN 756/001 of 5 May 96"
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    Identifies the document this endorses. Use reference-line style:
-                    [activity] [letter type] [SSIC] Ser [N/N] of [date].
-                  </p>
-                </div>
-              </>
-            )}
+            {/* Endorsement ordinal + basic-letter id now live in their own
+                "Basic Letter" rail section (EndorsementBasicLetterSection). */}
 
             {/* Subject — endorsements use the basic letter's subject when
                 rendered (same-page omits it; new-page repeats the basic
@@ -486,6 +463,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                 id="subject"
                 value={formData.subject || ''}
                 onValueChange={(v) => setField('subject', v)}
+                aria-invalid={validationVisible && unfilled(formData.subject) ? true : undefined}
                 placeholder={
                   isEndorsement
                     ? "Subject of the basic letter being endorsed..."

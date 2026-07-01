@@ -34,17 +34,15 @@
  * │   │   ├── editor/                    # Form editor components
  * │   │   │   ├── index.ts               # Barrel export
  * │   │   │   ├── AddressingSection.tsx
+ * │   │   │   ├── BlockParagraphsEditor.tsx
  * │   │   │   ├── ClassificationSection.tsx
  * │   │   │   ├── CopyToManager.tsx
- * │   │   │   ├── DocumentStats.tsx
  * │   │   │   ├── DocumentTypeSelector.tsx
  * │   │   │   ├── EnclosuresManager.tsx
  * │   │   │   ├── LetterheadSection.tsx
  * │   │   │   ├── MOASection.tsx
- * │   │   │   ├── ParagraphsEditor.tsx
  * │   │   │   ├── ProfileBar.tsx
  * │   │   │   ├── ReferencesManager.tsx
- * │   │   │   ├── RichTextToolbar.tsx
  * │   │   │   └── SignatureSection.tsx
  * │   │   │
  * │   │   ├── layout/                    # Page layout components

@@ -1,26 +1,12 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from '@/components/ui/select';
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
+  Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from '@/components/ui/accordion';
 import { useDocumentStore } from '@/stores/documentStore';
-import { Shield, AlertTriangle, Info, HelpCircle } from 'lucide-react';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Shield, AlertTriangle, Info } from 'lucide-react';
+import { HelpTip } from '@/components/ui/help-tip';
 import {
   getDomainClassificationRestriction,
   getDomainRestrictionMessage,
@@ -30,67 +16,26 @@ import {
 import { useEffect, useState } from 'react';
 import { getClassificationConfig } from '@/config/classification';
 
-/**
- * Official CNSI / ISOO marking colors per:
- *   - Executive Order 13526
- *   - 32 CFR Part 2001 §2001.23 / Part 2002.16
- *   - DoDM 5200.01 / DoDI 5200.48
- *   - CAPCO Register (ODNI Authorized Classification and Control Markings)
- *   - ISOO Implementing Directive (Classification Banner Color Codes)
- *
- * These are the canonical banner / portion-mark colors used on
- * classified national-security and CUI documents — applying them to
- * the in-app classification picker keeps the UI palette aligned with
- * what the rendered PDF banner will actually show on a marked
- * document. Hex codes match the dodcui.mil / ISOO published table:
- *
- *   UNCLASSIFIED       (U)        #007A33   green
- *   CUI                            #502B85   purple
- *   CONFIDENTIAL       (C)        #0033A0   blue
- *   SECRET             (S)        #C8102E   red
- *   TOP SECRET         (TS)       #FF8C00   orange
- *   TOP SECRET//SCI    (TS//SCI)  #FCE83A   yellow
- *
- * Note: per dodcui.mil, CUI is NOT a CNSI classification level — the
- * banner color is shared with CNSI markings only as a shorthand for
- * ISOO display purposes. CUI handling is governed by 32 CFR Part 2002.
- */
+// Official CNSI/ISOO banner colors (EO 13526, 32 CFR 2001/2002, DoDM 5200.01,
+// CAPCO Register, ISOO directive). Hex codes match the dodcui.mil/ISOO table:
+//   UNCLASSIFIED  #007A33  CUI  #502B85  CONFIDENTIAL  #0033A0
+//   SECRET  #C8102E  TOP SECRET  #FF8C00  TOP SECRET//SCI  #FCE83A
+// CUI is not a CNSI level; it shares a banner color for display only and is
+// governed by 32 CFR Part 2002.
 const CLASSIFICATION_LEVELS = [
   { value: 'unclassified', label: 'Unclassified', color: 'text-[#007A33] dark:text-[#3DBE6B]' },
   { value: 'cui', label: 'CUI (Controlled Unclassified Information)', color: 'text-[#502B85] dark:text-[#9572D4]' },
   { value: 'confidential', label: 'CONFIDENTIAL', color: 'text-[#0033A0] dark:text-[#5B7FD9]' },
   { value: 'secret', label: 'SECRET', color: 'text-[#C8102E] dark:text-[#E74C5C]' },
   { value: 'top_secret', label: 'TOP SECRET', color: 'text-[#FF8C00] dark:text-[#FFA940]' },
-  // TS//SCI's official banner color is bright yellow #FCE83A, but yellow
-  // text on white has very low contrast (~1.5:1, well below WCAG AA).
-  // CAPCO banners use yellow as a BACKGROUND with black text — for our
-  // text-mode picker we use a darker yellow/amber that's readable on
-  // light backgrounds while still cueing the SCI banner's hue family.
-  // The bright #FCE83A is restored where the color is used as a fill or
-  // background tint (Shield icon fill at 20% opacity, preset button
-  // background) — see the Shield style and CLASSIFICATION_PRESETS.
+  // TS//SCI's banner yellow (#FCE83A) is too low-contrast as text on white,
+  // so use a darker amber here; the bright yellow stays for fills/tints.
   { value: 'top_secret_sci', label: 'TOP SECRET//SCI', color: 'text-[#A8920E] dark:text-[#FCE83A]' },
 ];
 
-/**
- * Quick-fill marking presets shown in the Custom Classification block.
- *
- * Each preset is a one-click shortcut that populates the
- * `customClassification` field with a standard marking string.
- * Background tint, border, and text color all use the official CNSI /
- * ISOO color codes (see CLASSIFICATION_LEVELS above for citations) so
- * the buttons read as miniature versions of the actual document
- * banner. Tailwind's `/N` opacity modifier produces the soft fill
- * (`/10` light theme, `/20` dark theme) without sacrificing contrast.
- *
- * All 6 buttons share the same tinted-background visual treatment for
- * consistency on hover (the previous SCI variant used a solid yellow
- * with `hover:bg-[#FCE83A]/80` — that faded paler on hover against
- * white, looking awkward next to the other 5 buttons that darken on
- * hover). SCI text uses the darker `#A8920E` amber so the (TS//SCI)
- * label is readable on a yellow-tinted background even in light mode;
- * dark mode keeps the bright `#FCE83A` since the tint is darker there.
- */
+// Quick-fill presets for the Custom Classification field. Tinted backgrounds use
+// the CNSI/ISOO colors above so each button reads as a mini banner. SCI text uses
+// the darker #A8920E amber to stay readable on its yellow tint in light mode.
 const CLASSIFICATION_PRESETS = [
   { value: 'UNCLASSIFIED',    label: 'Unclassified',    color: 'text-[#007A33] dark:text-[#3DBE6B]', bg: 'bg-[#007A33]/10 dark:bg-[#007A33]/20 border-[#007A33]/30 hover:bg-[#007A33]/20 dark:hover:bg-[#007A33]/30' },
   { value: 'CUI',             label: 'CUI',             color: 'text-[#502B85] dark:text-[#9572D4]', bg: 'bg-[#502B85]/10 dark:bg-[#502B85]/20 border-[#502B85]/30 hover:bg-[#502B85]/20 dark:hover:bg-[#502B85]/30' },
@@ -153,12 +98,16 @@ export function ClassificationSection() {
     domainRestriction.allowedLevels.includes(level.value as ClassificationLevel)
   );
 
+  // Only surface the "Domain Restrictions" banner when a domain actually narrows
+  // the level list — otherwise it's noise on the default (unrestricted) panel.
+  const isDomainRestricted = allowedLevels.length < CLASSIFICATION_LEVELS.length;
+
   // Check if current selection is allowed (custom is always allowed)
   const isCurrentLevelAllowed = classLevel === 'custom' ||
     domainRestriction.allowedLevels.includes(classLevel as ClassificationLevel);
 
-  // If current level is not allowed, reset to highest allowed level
-  // Wait for config to load first to avoid race condition
+  // If the current level isn't allowed, reset to the highest allowed one.
+  // Wait for config to load first.
   useEffect(() => {
     if (!configLoaded) return;
     if (!isCurrentLevelAllowed && classLevel !== 'unclassified' && classLevel !== 'custom') {
@@ -191,36 +140,33 @@ export function ClassificationSection() {
             <span className={`text-xs font-medium ${classLevel === 'custom' ? 'text-gray-600' : currentLevel?.color}`}>
               ({classLevel === 'custom' ? 'Custom' : currentLevel?.label})
             </span>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild onClick={(e) => e.stopPropagation()}>
-                  <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-foreground" />
-                </TooltipTrigger>
-                <TooltipContent side="right" className="max-w-xs">
-                  <p className="font-medium mb-1">Classification Markings</p>
-                  <p className="text-xs">
-                    Set the security classification level for this document. Markings appear in the header and footer of every page per DoD 5200.01.
-                  </p>
-                  <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
-                    <li><strong>CUI:</strong> Adds controlled-by, category, and dissemination fields</li>
-                    <li><strong>Classified:</strong> Adds classified-by, derived-from, reason, and declassify-on fields</li>
-                    <li><strong>Portion marks:</strong> Set per-paragraph markings in the body editor</li>
-                  </ul>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <HelpTip>
+              <p className="font-medium mb-1">Classification Markings</p>
+              <p className="text-xs">
+                Set the security classification level for this document. Markings appear in the header and footer of every page per DoD 5200.01.
+              </p>
+              <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
+                <li><strong>CUI:</strong> Adds controlled-by, category, and dissemination fields</li>
+                <li><strong>Classified:</strong> Adds classified-by, derived-from, reason, and declassify-on fields</li>
+                <li><strong>Portion marks:</strong> Set per-paragraph markings in the body editor</li>
+              </ul>
+            </HelpTip>
           </div>
         </AccordionTrigger>
         <AccordionContent>
           <div className="space-y-4 pt-2">
-            {/* Domain Restriction Info */}
-            <div className="flex items-start gap-2 p-3 rounded-md bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800">
-              <Info className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
-              <div className="text-sm text-blue-800 dark:text-blue-300">
-                <p className="font-medium">Domain Restrictions</p>
-                <p className="text-xs mt-1">{restrictionMessage}</p>
+            <p className="text-xs text-muted-foreground -mt-1">Security markings stamped top and bottom.</p>
+            {/* Domain Restriction Info — only when the active domain narrows the
+                level list, so the default panel stays clean like the design. */}
+            {isDomainRestricted && (
+              <div className="flex items-start gap-2 border-l-2 border-blue-300 dark:border-blue-800 pl-3">
+                <Info className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
+                <div className="text-sm text-blue-800 dark:text-blue-300">
+                  <p className="font-medium">Domain Restrictions</p>
+                  <p className="text-xs mt-1">{restrictionMessage}</p>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Classification Level */}
             <div data-tour="classification-level" className="space-y-2">
@@ -259,12 +205,10 @@ export function ClassificationSection() {
               </div>
             )}
 
-            {/* Custom Classification — single block containing the marking
-                text plus every CUI and Classified field. Custom mode is the
-                only entry point on non-government domains where the
-                classified-level dropdown options are filtered out
-                (`src/lib/domainClassification.ts`), so all marking-related
-                inputs need to be reachable from one place here. */}
+            {/* Custom mode holds the marking text plus all CUI/Classified
+                fields in one block: on non-government domains the classified
+                dropdown options are filtered out, so this is the only place
+                those inputs are reachable. */}
             {isCustom && (
               <div className="space-y-4 p-3 rounded-md border bg-muted/30">
                 <p className="text-sm font-medium">Custom Classification</p>
@@ -435,7 +379,7 @@ export function ClassificationSection() {
               </div>
             )}
 
-            {/* CUI Fields — only when CUI is the selected level */}
+            {/* CUI fields, shown only when CUI is the selected level. */}
             {isCUI && (
               <div className="space-y-4 p-3 rounded-md border bg-muted/30">
                 <p className="text-sm font-medium text-purple-600">CUI Configuration</p>
@@ -496,12 +440,9 @@ export function ClassificationSection() {
               </div>
             )}
 
-            {/* Classified Fields — only when an actual classified level is
-                selected (Confidential/Secret/Top Secret/Top Secret//SCI).
-                Per DoD 5200.01 these accompany every classified document.
-                On non-government domains where these levels are filtered
-                out, use Custom Classification — the equivalent fields are
-                exposed there. */}
+            {/* Classified fields, shown only for an actual classified level.
+                Per DoD 5200.01 these accompany every classified document. On
+                non-government domains the equivalent fields live in Custom. */}
             {isClassified && (
               <div className="space-y-4 p-3 rounded-md border bg-muted/30">
                 <p className="text-sm font-medium text-destructive">Classified Configuration</p>

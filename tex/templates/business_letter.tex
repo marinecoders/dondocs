@@ -131,7 +131,7 @@
             }%
         \fi
             % Required: Name in ALL CAPS
-            \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev\\}{\MakeUppercase{\SignatoryName}\\}%
+            \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev\\}{\ifNotEmpty{\SignatoryName}{\MakeUppercase{\SignatoryName}\\}}%
             % Optional: Rank
             \optionalLine{\SignatoryRank}%
             % Optional: Title

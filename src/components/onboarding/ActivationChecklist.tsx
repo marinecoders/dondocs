@@ -11,7 +11,7 @@ import {
   CheckCircle2,
   type LucideIcon,
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { TourButton } from '@/components/tour/TourButton';
 import { ProgressRing } from './ProgressRing';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { useProfileStore } from '@/stores/profileStore';
@@ -20,9 +20,8 @@ import { useUIStore } from '@/stores/uiStore';
 
 // The 7 power-feature keys the guide tracks; "all learned" is one checklist step.
 const POWER_KEYS = ['batch', 'profiles', 'templates', 'enclosures', 'signature', 'share', 'classification'] as const;
-// Profiles the app ships with — a user "created a profile" once they have one
-// whose name isn't a default.
-const DEFAULT_PROFILE_NAMES = ['23d Marine Regiment', 'Marine Innovation Unit'];
+// Profiles the app ships with; a non-default name counts as user-created.
+const DEFAULT_PROFILE_NAMES = ['Marine Innovation Unit'];
 
 const prefersReducedMotion = () =>
   typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
@@ -38,18 +37,14 @@ interface ChecklistRow {
 }
 
 /**
- * Floating "getting started" activation checklist — the persistent, at-a-glance
- * hub that nudges a new user through the four things that make DonDocs click,
- * and checks each off automatically as it's done. A collapsed pill (a progress
- * ring + "Get set up") expands into the card; finishing all four fires a one-off
- * celebration and retires the launcher for good. Dismissible (✕) and re-openable
- * from Help → Getting started. Hidden while the product tour is running so the
- * two onboarding surfaces never fight.
+ * Floating getting-started checklist. A collapsed pill (progress ring + "Get set
+ * up") expands into a card tracking the four onboarding steps; finishing all four
+ * fires a one-off celebration and retires the launcher. Dismissible and re-openable
+ * from Help. Hidden while the product tour runs.
  *
- * Completion is derived live from the real stores, never stored on the widget:
- * the tour flag, a non-default profile, the `first_document` export milestone,
- * and the 7 feature walkthroughs. Only the launcher's own lifecycle
- * (dismissed / celebrated) is persisted, in the onboarding store.
+ * Completion is derived live from the stores (tour flag, non-default profile,
+ * first_document milestone, the 7 feature walkthroughs). Only the launcher's own
+ * dismissed/celebrated lifecycle is persisted.
  */
 export function ActivationChecklist() {
   const completed = useOnboardingStore((s) => s.completed);
@@ -60,10 +55,12 @@ export function ActivationChecklist() {
   const setCelebrated = useOnboardingStore((s) => s.setChecklistCelebrated);
   // Hide the launcher while a tour is running so they don't compete.
   const tourActive = useTourStore((s) => s.active);
+  // On mobile the Preview PDF FAB owns the bottom-right corner; hide this so they
+  // don't overlap.
+  const isMobile = useUIStore((s) => s.isMobile);
 
-  // Credit the tour only when the user actually finished it (reaching the last
-  // step marks GUIDED_TOUR_KEY) — skipping or ×-ing out does not count. Reading
-  // the onboarding map also keeps this reactive.
+  // Credit the tour only when finished (reaching the last step marks
+  // GUIDED_TOUR_KEY); skipping or exiting doesn't count.
   const tourDone = !!completed[GUIDED_TOUR_KEY];
   const profileDone = Object.keys(profiles).some((n) => !DEFAULT_PROFILE_NAMES.includes(n));
   const docDone = !!completed['first_document'];
@@ -83,7 +80,13 @@ export function ActivationChecklist() {
       title: 'Create your command profile',
       sub: 'Save your letterhead and signature once, reuse everywhere',
       done: profileDone,
-      action: () => useUIStore.getState().setProfileModalOpen(true),
+      // Deselect first so the modal opens in Create mode; otherwise the
+      // default profile selected on load would lock it into Edit mode and this
+      // step could never complete. Mirrors ProfileBar's create action.
+      action: () => {
+        useProfileStore.getState().selectProfile(null);
+        useUIStore.getState().setProfileModalOpen(true);
+      },
     },
     {
       glyph: FileText,
@@ -113,10 +116,8 @@ export function ActivationChecklist() {
   const cardRef = useRef<HTMLDivElement>(null);
   const wasOpen = useRef(false);
 
-  // The celebration is derived, not stored: it shows while every step is done
-  // but the terminal `checklistCelebrated` flag hasn't been set yet. An effect
-  // retires it after a beat; "Start drafting" retires it at once. (setCelebrated
-  // is a store action, so this is not a React setState-in-effect.)
+  // Celebration is derived: shown while every step is done but checklistCelebrated
+  // hasn't been set. The effect retires it after a beat; "Start drafting" at once.
   const showCelebration = done === total && !celebrated;
   useEffect(() => {
     if (!showCelebration) return;
@@ -124,11 +125,9 @@ export function ActivationChecklist() {
     return () => window.clearTimeout(t);
   }, [showCelebration, setCelebrated]);
 
-  // On open, move focus into the card — the first actionable row, or the card
-  // itself when every row is done (a disabled button can't take focus, which
-  // would otherwise strand focus on document.body). Escape collapses, handled at
-  // the window in capture phase so it works wherever focus landed (mirrors the
-  // tour overlay).
+  // On open, focus the first actionable row, or the card itself when every row is
+  // done (a disabled button can't take focus). Escape collapses, handled at the
+  // window in capture phase so it works wherever focus landed.
   useEffect(() => {
     if (open) {
       const card = cardRef.current;
@@ -143,35 +142,34 @@ export function ActivationChecklist() {
       window.addEventListener('keydown', onKey, true);
       return () => window.removeEventListener('keydown', onKey, true);
     }
-    // Collapsed: hand focus back to the launcher pill — but only when returning
-    // from the open card, never on the initial mount (which would steal focus).
+    // Collapsed: return focus to the pill, but only when returning from the open
+    // card, never on initial mount.
     if (wasOpen.current) {
       wasOpen.current = false;
       pillRef.current?.focus();
     }
   }, [open]);
 
-  // The first-run tour owns the screen; never compete with it.
+  // The first-run tour owns the screen.
   if (tourActive) return null;
+  // The mobile Preview FAB owns the corner (see isMobile note above).
+  if (isMobile) return null;
   // A finished celebration retires the launcher for good.
   if (celebrated) return null;
-  // Hidden until re-opened from Help. A dismissed user who then finishes
-  // everything is retired quietly (the `celebrated` guard above), with no
-  // surprise celebration popping from the corner.
+  // Dismissed and hidden until re-opened from Help. The celebrated guard above
+  // means a dismissed user who later finishes is retired without a surprise popup.
   if (dismissed && !celebrated) return null;
 
   const reduce = prefersReducedMotion();
-  // Focus returns to the pill via the open effect (after it re-mounts), so these
-  // just flip state.
+  // The open effect handles focus; these just flip state.
   const collapse = () => setOpen(false);
   const hide = () => {
     setOpen(false);
     setDismissed(true);
   };
 
-  // z-40 keeps the launcher above page content but BELOW Radix modals (z-50),
-  // so a modal a row opens covers the pill instead of it floating over the dim.
-  // The tour (z-110+) still layers above, and we return null while it runs.
+  // z-40: above page content but below Radix modals (z-50), so a modal a row
+  // opens covers the pill rather than floating over the dim.
   const anchor = 'fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 origin-bottom-right';
   const cardChrome =
     'w-[340px] max-w-[calc(100vw-2.5rem)] rounded-xl border border-border bg-popover text-popover-foreground shadow-elevated overflow-hidden';
@@ -190,16 +188,16 @@ export function ActivationChecklist() {
             >
               <PartyPopper className="h-6 w-6" />
             </div>
-            <h3 className="text-base font-semibold">You&apos;re all set</h3>
+            <h3 className="text-base font-semibold">Squared away</h3>
             <p className="mt-1 text-sm text-muted-foreground">
-              You&apos;ve found everything you need. Time to draft.
+              Everything&apos;s in order — time to draft.
             </p>
             <p className="sr-only" role="status" aria-live="polite">
               All steps complete. DonDocs is ready.
             </p>
-            <Button size="sm" className="mt-4" onClick={() => setCelebrated(true)}>
+            <TourButton className="mt-4" onClick={() => setCelebrated(true)}>
               Start drafting
-            </Button>
+            </TourButton>
           </div>
         </div>
       </div>
@@ -242,7 +240,7 @@ export function ActivationChecklist() {
           <div className="min-w-0 flex-1">
             <div className="text-sm font-semibold leading-tight">Getting started</div>
             <div className="text-xs text-muted-foreground">
-              {done === total ? 'All set — nice work' : `${done} of ${total} done`}
+              {done === total ? 'Squared away' : `${done} of ${total} done`}
             </div>
           </div>
           <button

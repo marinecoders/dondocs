@@ -127,29 +127,41 @@ export function enableConsoleCapture() {
 
   const store = useLogStore.getState();
 
+  // Capture is app-wide, so a component that calls console.* DURING render would
+  // otherwise trigger addLog's Zustand set() mid-render — React then warns
+  // "Cannot update a component while rendering a different component", and since
+  // that warning is itself a console.error we capture, it cascades. Format the
+  // message synchronously (args are fresh) but land the store update in a
+  // microtask, after the current render commits. Log order is preserved by the
+  // entry id.
+  const capture = (level: LogEntry['level'], args: unknown[]) => {
+    const message = args.map((a) => formatArg(a)).join(' ');
+    queueMicrotask(() => store.addLog(level, message));
+  };
+
   console.log = (...args) => {
     originalConsole?.log(...args);
-    store.addLog('log', args.map(a => formatArg(a)).join(' '));
+    capture('log', args);
   };
 
   console.warn = (...args) => {
     originalConsole?.warn(...args);
-    store.addLog('warn', args.map(a => formatArg(a)).join(' '));
+    capture('warn', args);
   };
 
   console.error = (...args) => {
     originalConsole?.error(...args);
-    store.addLog('error', args.map(a => formatArg(a)).join(' '));
+    capture('error', args);
   };
 
   console.info = (...args) => {
     originalConsole?.info(...args);
-    store.addLog('info', args.map(a => formatArg(a)).join(' '));
+    capture('info', args);
   };
 
   console.debug = (...args) => {
     originalConsole?.debug(...args);
-    store.addLog('debug', args.map(a => formatArg(a)).join(' '));
+    capture('debug', args);
   };
 }
 

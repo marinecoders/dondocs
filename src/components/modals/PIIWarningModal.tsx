@@ -1,4 +1,5 @@
-import { AlertTriangle, Shield, X, FileWarning, Download } from 'lucide-react';
+import { useState } from 'react';
+import { AlertTriangle, Shield, X, FileWarning, Download, Eye, EyeOff } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -32,8 +33,33 @@ const typeIcons: Record<PIIType, string> = {
   EMAIL_ADDRESS: '@',
 };
 
+// Mask a detected value down to its last 4 characters so a privacy warning
+// doesn't itself print the SSN/DoD ID in cleartext. Revealed on demand per row.
+function maskPII(type: PIIType, value: string): string {
+  const digits = value.replace(/\D/g, '');
+  const last4 = digits.slice(-4);
+  switch (type) {
+    case 'SSN':
+      return `•••-••-${last4}`;
+    case 'EDIPI':
+      return `••••••${last4}`;
+    case 'PHONE':
+      return `•••-•••-${last4}`;
+    case 'DOB':
+      return '••/••/••••';
+    case 'EMAIL_ADDRESS': {
+      const [user, domain] = value.split('@');
+      return user && domain ? `${user[0]}•••@${domain}` : '•••';
+    }
+    default:
+      return value;
+  }
+}
+
 function FindingItem({ finding }: { finding: PIIFinding }) {
   const severity = getPIITypeSeverity(finding.type);
+  const [revealed, setRevealed] = useState(false);
+  const hasValue = finding.type !== 'MEDICAL_KEYWORD';
 
   return (
     <div className={`p-3 rounded-lg border ${severityColors[severity]}`}>
@@ -48,12 +74,26 @@ function FindingItem({ finding }: { finding: PIIFinding }) {
               {finding.field}
             </Badge>
           </div>
-          {finding.type !== 'MEDICAL_KEYWORD' && (
-            <code className="block mt-1 text-sm font-mono bg-black/10 dark:bg-white/10 px-2 py-0.5 rounded">
-              {finding.value}
-            </code>
+          {hasValue && (
+            <div className="mt-1 flex items-center gap-1.5">
+              <code className="text-sm font-mono bg-black/10 dark:bg-white/10 px-2 py-0.5 rounded">
+                {revealed ? finding.value : maskPII(finding.type, finding.value)}
+              </code>
+              <button
+                type="button"
+                onClick={() => setRevealed((v) => !v)}
+                aria-label={revealed ? 'Hide value' : 'Reveal value'}
+                aria-pressed={revealed}
+                className="rounded p-1 opacity-70 outline-none transition-opacity hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-ring/50"
+              >
+                {revealed ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+              </button>
+            </div>
           )}
-          {finding.context && (
+          {/* The context window can quote the value verbatim, so only surface it
+              once the user has chosen to reveal (medical keywords carry no value
+              and keep their context as the only clue). */}
+          {finding.context && (!hasValue || revealed) && (
             <p className="mt-1 text-xs opacity-75 truncate">
               {finding.context}
             </p>

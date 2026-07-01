@@ -2,14 +2,21 @@ import { useEffect, useRef, useCallback } from 'react';
 import { Loader2, AlertCircle, Eye, Paperclip } from 'lucide-react';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
+import { ReadinessMeter } from './ReadinessMeter';
 
 interface PreviewPanelProps {
   pdfUrl: string | null;
   isCompiling: boolean;
+  /** The one-time in-browser LaTeX engine boot (distinct from a routine
+   *  recompile) — the slowest, most anxious wait, so it gets its own copy. */
+  isWarmingUp?: boolean;
+  /** True once the resting preview has been upgraded to include enclosures +
+   *  signature (full quality), so the "encl. in download" note can stand down. */
+  previewEnhanced?: boolean;
   error: string | null;
 }
 
-export function PreviewPanel({ pdfUrl, isCompiling, error }: PreviewPanelProps) {
+export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, previewEnhanced = false, error }: PreviewPanelProps) {
   // Individual selectors so this panel only re-renders when one of these
   // four fields actually changes (not on any other UI-store update).
   const previewVisible = useUIStore((s) => s.previewVisible);
@@ -102,34 +109,54 @@ export function PreviewPanel({ pdfUrl, isCompiling, error }: PreviewPanelProps) 
   return (
     <div className="flex flex-col bg-background h-full">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-card flex-shrink-0">
+      <div className="relative flex items-center justify-between px-4 py-2 border-b border-border bg-card flex-shrink-0">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium">PDF Preview</span>
+          <span className="text-sm font-medium">Preview</span>
           {/* Aria-live region for compilation status - WCAG 4.1.3 */}
           <div aria-live="polite" aria-atomic="true" className="sr-only">
-            {isCompiling ? 'Compiling document...' : 'Compilation complete'}
+            {isWarmingUp
+              ? 'Warming up the typesetter, one-time setup...'
+              : isCompiling
+                ? 'Compiling document...'
+                : 'Compilation complete'}
           </div>
+          {/* Compile state reads as a quiet label plus the slim sweep below —
+              motion communicates the state, not a spinner badge. */}
           {isCompiling && (
-            // Same readability pattern as PR #57's Templates button fix:
-            // dropping the tinted bg (primary/10 over the card bg reads as
-            // muddy and washes out the primary text). Status pill is
-            // read-only so no hover state to worry about.
-            <div className="flex items-center gap-1.5 text-xs text-primary border border-primary/30 px-2 py-0.5 rounded-full" aria-hidden="true">
-              <Loader2 className="h-3 w-3 animate-spin" />
-              <span>Compiling...</span>
+            <span className="text-xs text-muted-foreground whitespace-nowrap" aria-hidden="true">
+              {isWarmingUp ? 'Warming up…' : 'Compiling…'}
+            </span>
+          )}
+        </div>
+        <div className="flex items-center gap-3">
+          {/* Readiness ring — driven by the single documentCompleteness rule, so
+              it can't contradict the rail's section dots. */}
+          <ReadinessMeter />
+          {enclosureCount > 0 && !fullQualityPreview && !previewEnhanced && (
+            <div className="flex items-center gap-1 text-xs text-muted-foreground" title="Enclosures are included in the downloaded PDF. The preview upgrades to show them once you pause.">
+              <Paperclip className="h-3 w-3" />
+              <span className="tnum">{enclosureCount} encl. in download</span>
             </div>
           )}
         </div>
-        {enclosureCount > 0 && !fullQualityPreview && (
-          <div className="flex items-center gap-1 text-xs text-muted-foreground" title="Enclosures are included in the downloaded PDF but not shown in preview. Enable Full Quality in Settings to preview them.">
-            <Paperclip className="h-3 w-3" />
-            <span>{enclosureCount} encl. in download</span>
+        {/* Indeterminate compile sweep — slim, scarlet, riding the header's
+            bottom edge. Transform-only (dd-progress) so a throttled animation
+            clock can't strand it mid-frame; dd-anim disables it under
+            prefers-reduced-motion (the "Compiling…" label still conveys state). */}
+        {isCompiling && (
+          <div className="absolute left-0 right-0 -bottom-px h-0.5 overflow-hidden" aria-hidden="true">
+            <div
+              className="dd-anim h-full w-1/4 bg-primary"
+              style={{ animation: 'dd-progress 1.1s cubic-bezier(0.4,0,0.2,1) infinite' }}
+            />
           </div>
         )}
       </div>
 
-      {/* Content */}
-      <div className="flex-1 relative bg-muted/30">
+      {/* Content — a deeper mat so the document reads as paper resting on a
+          surface (visible in the empty / loading / error states; the embedded
+          PDF viewer supplies its own mat once a page is shown). */}
+      <div className="flex-1 relative bg-[color-mix(in_oklab,var(--muted)_60%,var(--background))]">
         {/* Show PDF if available, with optional loading overlay */}
         {pdfUrl && (
           <>
@@ -137,18 +164,12 @@ export function PreviewPanel({ pdfUrl, isCompiling, error }: PreviewPanelProps) 
               ref={iframeRef}
               src={pdfUrl}
               className="absolute inset-0 w-full h-full border-0"
-              title="PDF Preview"
+              title="Document preview"
               onLoad={handleIframeLoad}
             />
-            {/* Loading overlay on top of existing PDF */}
-            {isCompiling && (
-              <div className="absolute inset-0 bg-background/60 backdrop-blur-sm flex items-center justify-center">
-                <div className="flex flex-col items-center gap-3 bg-card px-6 py-4 rounded-lg shadow-lg border border-border">
-                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                  <p className="text-sm font-medium">Compiling document...</p>
-                </div>
-              </div>
-            )}
+            {/* While recompiling, the stale PDF stays visible and unobscured —
+                the header's compile sweep conveys the in-flight state instead of
+                a blocking overlay wash. */}
             {/* Persistent error banner shown OVER the (now stale) PDF so the
                 user knows their latest edits failed to compile. Previously
                 this branch was gated on `!pdfUrl`, which meant once any
@@ -185,15 +206,28 @@ export function PreviewPanel({ pdfUrl, isCompiling, error }: PreviewPanelProps) 
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="flex flex-col items-center gap-3">
               {isCompiling ? (
-                <>
-                  <Loader2 className="h-10 w-10 animate-spin text-primary" />
-                  <p className="text-sm font-medium">Generating PDF...</p>
-                  <p className="text-xs text-muted-foreground">This may take a moment on first load</p>
-                </>
+                isWarmingUp ? (
+                  <>
+                    <Loader2 className="h-10 w-10 animate-spin text-primary" />
+                    <p className="text-sm font-medium">Warming up the typesetter…</p>
+                    <p className="max-w-[19rem] text-center text-xs text-muted-foreground">
+                      One-time setup — the LaTeX engine loads into your browser. Everything runs locally, and this won&apos;t happen again.
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <Loader2 className="h-10 w-10 animate-spin text-primary" />
+                    <p className="text-sm font-medium">Generating PDF…</p>
+                    <p className="text-xs text-muted-foreground">This should only take a moment.</p>
+                  </>
+                )
               ) : (
                 <>
                   <Eye className="h-8 w-8 text-muted-foreground" />
-                  <p className="text-sm text-muted-foreground">PDF preview will appear here</p>
+                  <p className="text-sm font-medium text-foreground">Your document preview will appear here</p>
+                  <p className="max-w-[16rem] text-center text-xs text-muted-foreground">
+                    Fill in the Subject and body on the left — the formatted letter renders here as you type.
+                  </p>
                 </>
               )}
             </div>

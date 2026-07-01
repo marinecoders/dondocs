@@ -3,6 +3,7 @@ import { Search, X, BookOpen } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -57,6 +58,7 @@ export function SSICLookupModal({ open, onOpenChange, onSelect }: SSICLookupModa
             <BookOpen className="h-5 w-5" />
             SSIC Code Reference
           </DialogTitle>
+          <DialogDescription>Standard Subject Identification Codes</DialogDescription>
         </DialogHeader>
 
         <div className="relative">

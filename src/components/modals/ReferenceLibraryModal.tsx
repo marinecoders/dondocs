@@ -3,6 +3,7 @@ import { Search, Plus } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -87,6 +88,7 @@ export function ReferenceLibraryModal() {
       <DialogContent className="sm:max-w-lg max-h-[80vh]">
         <DialogHeader>
           <DialogTitle>Reference Library</DialogTitle>
+          <DialogDescription>Common Marine Corps directives and orders</DialogDescription>
         </DialogHeader>
 
         <div className="relative">

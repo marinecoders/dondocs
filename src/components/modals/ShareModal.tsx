@@ -6,7 +6,7 @@
  */
 
 import { useState, useCallback } from 'react';
-import { Link2, KeyRound, Check, Loader2, ShieldAlert } from 'lucide-react';
+import { Link2, KeyRound, Check, Loader2, ShieldAlert, AlertTriangle } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -24,8 +24,9 @@ import {
   buildShareUrl,
   parseShareUrl,
 } from '@/lib/shareCrypto';
-import { getSerializedSessionForShare, loadSharedSession } from '@/stores/documentStore';
+import { getSerializedSessionForShare, loadSharedSession, useDocumentStore } from '@/stores/documentStore';
 import type { SerializedSession } from '@/stores/documentStore';
+import { detectPII, getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
 
 export type ShareModalMode = 'share' | 'import';
 
@@ -51,30 +52,54 @@ export function ShareModal({
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [working, setWorking] = useState(false);
+  // Non-null when a pre-share PII scan found something; the user confirms or backs out.
+  const [piiFindings, setPiiFindings] = useState<PIIDetectionResult | null>(null);
 
   const payloadFromInput = initialPayload ?? (mode === 'import' ? parseShareUrl(pasteLink) : null);
 
-  const handleGenerateLink = useCallback(async () => {
-    setError(null);
-    if (!password.trim()) {
-      setError('Please set a password');
-      return;
-    }
+  // The actual encrypt → build → copy, run only once any PII has been
+  // acknowledged. A share link leaves the device, so it goes through the same
+  // PII conscience-check the PDF/DOCX exports do.
+  const doGenerate = useCallback(async () => {
+    setPiiFindings(null);
     setWorking(true);
     try {
       const session = getSerializedSessionForShare();
       const encrypted = await encryptSharePayload(session, password);
       const url = buildShareUrl(encrypted);
       setShareLink(url);
-      await navigator.clipboard.writeText(url);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
+      // The link is generated and shown regardless — isolate the clipboard write so
+      // a failure (insecure context / denied permission) only skips the "copied"
+      // confirmation instead of reporting a false "Failed to generate link".
+      try {
+        await navigator.clipboard.writeText(url);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2500);
+      } catch {
+        /* clipboard unavailable — the visible link is still usable */
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to generate link');
     } finally {
       setWorking(false);
     }
   }, [password]);
+
+  const handleGenerateLink = useCallback(() => {
+    setError(null);
+    if (!password.trim()) {
+      setError('Please set a password');
+      return;
+    }
+    // Scan before the document can leave the device; warn once, then let the
+    // user decide (the payload is still password-encrypted either way).
+    const pii = detectPII(useDocumentStore.getState());
+    if (pii.found) {
+      setPiiFindings(pii);
+      return;
+    }
+    void doGenerate();
+  }, [password, doGenerate]);
 
   const handleImport = useCallback(async () => {
     setError(null);
@@ -194,7 +219,7 @@ export function ShareModal({
 
           {!isImport && shareLink && (
             <div className="space-y-2">
-              <Label>Share link (copied to clipboard)</Label>
+              <Label>{copied ? 'Share link (copied to clipboard)' : 'Share link'}</Label>
               <div className="flex items-center gap-2">
                 <Input
                   readOnly
@@ -225,6 +250,30 @@ export function ShareModal({
             <p className="text-sm text-destructive" role="alert">
               {error}
             </p>
+          )}
+
+          {!isImport && piiFindings && (
+            <div className="rounded-md border border-amber-300 bg-amber-50 p-3 text-sm dark:border-amber-800 dark:bg-amber-950/30" role="alert">
+              <div className="flex items-start gap-2">
+                <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />
+                <div className="min-w-0">
+                  <p className="font-medium text-amber-800 dark:text-amber-300">This document may contain PII/PHI</p>
+                  <p className="mt-0.5 text-amber-700 dark:text-amber-400/90">
+                    Found {piiFindings.findings.length} potential item{piiFindings.findings.length === 1 ? '' : 's'} (
+                    {[...new Set(piiFindings.findings.map((f) => getPIITypeLabel(f.type)))].join(', ')}). The link is
+                    password-encrypted, but it still leaves your device — share it only if you mean to.
+                  </p>
+                  <div className="mt-2 flex gap-2">
+                    <Button size="sm" variant="destructive" onClick={() => void doGenerate()} disabled={working}>
+                      Share anyway
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => setPiiFindings(null)}>
+                      Review first
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
         </div>
 

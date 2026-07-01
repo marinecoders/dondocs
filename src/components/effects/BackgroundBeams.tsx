@@ -23,7 +23,7 @@ function generateGridPaths(spacing: number): string {
   return paths.join('');
 }
 
-// Pre-generate desktop versions (static — no need to recompute)
+// Precomputed once; the paths are static.
 const DESKTOP_BEAMS = generateBeamPaths(22);
 const DESKTOP_GRID = generateGridPaths(14);
 const MOBILE_BEAMS = generateBeamPaths(8);
@@ -31,12 +31,17 @@ const MOBILE_GRID = generateGridPaths(28);
 
 interface BackgroundBeamsProps {
   className?: string;
+  /** Fewer beams (mobile perf). Does NOT stop motion on its own. */
   reducedMotion?: boolean;
+  /** OS reduce-motion: render only the static grid, omitting the animated beams.
+   *  CSS reduced-motion doesn't govern SVG SMIL, so it must be gated here. */
+  prefersReducedMotion?: boolean;
 }
 
-export function BackgroundBeams({ className, reducedMotion = false }: BackgroundBeamsProps) {
+export function BackgroundBeams({ className, reducedMotion = false, prefersReducedMotion = false }: BackgroundBeamsProps) {
   const beamPaths = reducedMotion ? MOBILE_BEAMS : DESKTOP_BEAMS;
   const gridPaths = reducedMotion ? MOBILE_GRID : DESKTOP_GRID;
+  const showBeams = !prefersReducedMotion;
   return (
     <div className={cn('absolute inset-0 flex h-full w-full items-center justify-center pointer-events-none', className)}>
       <svg
@@ -55,8 +60,8 @@ export function BackgroundBeams({ className, reducedMotion = false }: Background
           strokeWidth="0.5"
         />
 
-        {/* Animated beams with staggered CSS animations */}
-        {beamPaths.map((path, i) => (
+        {/* Animated beams; omitted when the user prefers reduced motion. */}
+        {showBeams && beamPaths.map((path, i) => (
           <path
             key={i}
             d={path}
@@ -68,7 +73,7 @@ export function BackgroundBeams({ className, reducedMotion = false }: Background
 
         <defs>
           {/* Animated gradients for each beam */}
-          {beamPaths.map((_, i) => (
+          {showBeams && beamPaths.map((_, i) => (
             <linearGradient
               key={i}
               id={`beam-grad-${i}`}

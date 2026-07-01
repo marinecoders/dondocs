@@ -17,7 +17,7 @@
  */
 
 import { useState } from 'react';
-import { FileText, Loader2, Download, AlertCircle, FilePen, RotateCw, Copy, Check } from 'lucide-react';
+import { FileText, Loader2, Download, AlertCircle, FilePen, RotateCw, Copy, Check, CheckCircle2 } from 'lucide-react';
 import { GithubIcon } from '@/components/icons/GithubIcon';
 import {
   Dialog,
@@ -160,6 +160,12 @@ function phaseCopy(phase: DownloadProgressPhase): PhaseCopy {
         title: 'Saving PDF…',
         description: 'Triggering the browser download.',
       };
+    // --- Success ---
+    case 'success':
+      return {
+        title: 'Downloaded',
+        description: 'Ready to sign — nothing left your device.',
+      };
     // --- Error ---
     case 'error':
       return {
@@ -184,6 +190,8 @@ function phaseIcon(phase: DownloadProgressPhase) {
   switch (phase.kind) {
     case 'error':
       return <AlertCircle className="h-5 w-5 text-destructive flex-shrink-0" />;
+    case 'success':
+      return <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0" />;
     case 'docx-fetching-engine':
       return <Download className="h-5 w-5 text-primary flex-shrink-0" />;
     case 'pdf-compiling':
@@ -199,6 +207,7 @@ function phaseIcon(phase: DownloadProgressPhase) {
 export function DownloadProgressModal({ phase, onClose, onRetry }: DownloadProgressModalProps) {
   const open = phase !== null;
   const isError = phase?.kind === 'error';
+  const isSuccess = phase?.kind === 'success';
   const [logCopied, setLogCopied] = useState(false);
 
   const handleCopyLog = async () => {
@@ -266,7 +275,7 @@ export function DownloadProgressModal({ phase, onClose, onRetry }: DownloadProgr
             <DialogTitle className="flex items-center gap-2 min-w-0">
               {phase && phaseIcon(phase)}
               <span className="truncate">{copy.title}</span>
-              {!isError && (
+              {!isError && !isSuccess && (
                 <Loader2 className="h-4 w-4 text-muted-foreground animate-spin flex-shrink-0 ml-auto" />
               )}
             </DialogTitle>

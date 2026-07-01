@@ -469,6 +469,39 @@ export const DOC_TYPE_LABELS: Record<string, string> = {
   information_memorandum: 'Information Memorandum',
 };
 
+/**
+ * Short, scannable type code shown as a chip on each Recents row, using the
+ * shorthand a correspondence clerk reads at a glance (LTR / MEMO / END / MFR /
+ * MOA …) so a document package stops being a wall of identical file icons.
+ */
+export const DOC_TYPE_CHIP: Record<string, string> = {
+  naval_letter: 'LTR',
+  standard_letter: 'LTR',
+  business_letter: 'BL',
+  multiple_address_letter: 'LTR',
+  joint_letter: 'JLTR',
+  same_page_endorsement: 'END',
+  new_page_endorsement: 'END',
+  mfr: 'MFR',
+  plain_paper_memorandum: 'MEMO',
+  letterhead_memorandum: 'MEMO',
+  decision_memorandum: 'MEMO',
+  executive_memorandum: 'MEMO',
+  moa: 'MOA',
+  mou: 'MOU',
+  joint_memorandum: 'JMEM',
+  mf: 'MF',
+  executive_correspondence: 'EXEC',
+  standard_memorandum: 'MEMO',
+  action_memorandum: 'MEMO',
+  information_memorandum: 'MEMO',
+};
+
+/** The Recents type chip for a doc type (falls back to a generic code). */
+export function docTypeChip(docType: string): string {
+  return DOC_TYPE_CHIP[docType] ?? 'DOC';
+}
+
 // Categorized document types for the selector UI
 export const DOC_TYPE_CATEGORIES: { category: string; types: string[] }[] = [
   {

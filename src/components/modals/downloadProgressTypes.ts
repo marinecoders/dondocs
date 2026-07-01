@@ -30,6 +30,8 @@ export type DownloadProgressPhase =
   | { kind: 'pdf-merging-enclosures' }
   | { kind: 'pdf-signing' }
   | { kind: 'pdf-saving' }
+  // Terminal success — a brief "Downloaded" confirmation the caller auto-dismisses.
+  | { kind: 'success' }
   // Terminal error (dismissible).
   // Optional fields drive which action buttons the modal renders — the
   // error-handling code in App.tsx classifies each failure and flips on

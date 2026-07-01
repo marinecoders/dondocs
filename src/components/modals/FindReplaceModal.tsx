@@ -26,45 +26,52 @@ export function FindReplaceModal() {
   const [caseSensitive, setCaseSensitive] = useState(false);
   const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
 
-  // Find all matches across paragraphs and form fields
+  // All positions of `needle` in `haystack` (respecting case sensitivity).
+  const positionsOf = useCallback(
+    (haystack: string, needle: string): number[] => {
+      const h = caseSensitive ? haystack : haystack.toLowerCase();
+      const n = caseSensitive ? needle : needle.toLowerCase();
+      const out: number[] = [];
+      let pos = 0;
+      while ((pos = h.indexOf(n, pos)) !== -1) {
+        out.push(pos);
+        pos += n.length;
+      }
+      return out;
+    },
+    [caseSensitive]
+  );
+
+  // Find all matches across paragraph bodies, paragraph headings, and form fields.
   const matches = useMemo(() => {
     if (!findText.trim()) return [];
 
-    const results: { type: 'paragraph' | 'field'; index: number; field?: string; positions: number[] }[] = [];
-    const searchText = caseSensitive ? findText : findText.toLowerCase();
+    const results: {
+      type: 'paragraph' | 'field';
+      index: number;
+      target?: 'text' | 'header';
+      field?: string;
+      positions: number[];
+    }[] = [];
 
-    // Search paragraphs
+    // Search paragraph bodies and — the bug this fixes — their headings, which a
+    // find/replace-all used to skip entirely.
     paragraphs.forEach((para: Paragraph, index: number) => {
-      const text = caseSensitive ? para.text : para.text.toLowerCase();
-      const positions: number[] = [];
-      let pos = 0;
-      while ((pos = text.indexOf(searchText, pos)) !== -1) {
-        positions.push(pos);
-        pos += searchText.length;
-      }
-      if (positions.length > 0) {
-        results.push({ type: 'paragraph', index, positions });
-      }
+      const textPos = positionsOf(para.text, findText);
+      if (textPos.length > 0) results.push({ type: 'paragraph', index, target: 'text', positions: textPos });
+      const headerPos = para.header ? positionsOf(para.header, findText) : [];
+      if (headerPos.length > 0) results.push({ type: 'paragraph', index, target: 'header', positions: headerPos });
     });
 
     // Search key form fields
     const fieldsToSearch: (keyof DocumentData)[] = ['subject', 'from', 'to', 'via'];
     fieldsToSearch.forEach((field: keyof DocumentData) => {
-      const value = formData[field] as string || '';
-      const text = caseSensitive ? value : value.toLowerCase();
-      const positions: number[] = [];
-      let pos = 0;
-      while ((pos = text.indexOf(searchText, pos)) !== -1) {
-        positions.push(pos);
-        pos += searchText.length;
-      }
-      if (positions.length > 0) {
-        results.push({ type: 'field', index: -1, field: field as string, positions });
-      }
+      const positions = positionsOf((formData[field] as string) || '', findText);
+      if (positions.length > 0) results.push({ type: 'field', index: -1, field: field as string, positions });
     });
 
     return results;
-  }, [findText, caseSensitive, paragraphs, formData]);
+  }, [findText, paragraphs, formData, positionsOf]);
 
   const totalMatches = useMemo(() => {
     return matches.reduce((sum, m) => sum + m.positions.length, 0);
@@ -103,8 +110,9 @@ export function FindReplaceModal() {
           if (match.type === 'paragraph') {
             const para = paragraphs[match.index];
             const pos = match.positions[i];
-            const newText = para.text.slice(0, pos) + replaceText + para.text.slice(pos + findText.length);
-            updateParagraph(match.index, { text: newText });
+            const src = match.target === 'header' ? para.header ?? '' : para.text;
+            const replaced = src.slice(0, pos) + replaceText + src.slice(pos + findText.length);
+            updateParagraph(match.index, match.target === 'header' ? { header: replaced } : { text: replaced });
           } else if (match.field) {
             const value = formData[match.field as keyof typeof formData] as string || '';
             const pos = match.positions[i];
@@ -125,38 +133,30 @@ export function FindReplaceModal() {
   const handleReplaceAll = useCallback(() => {
     if (totalMatches === 0 || !findText.trim()) return;
 
-    // Replace in paragraphs
+    const replaceIn = (src: string): string => {
+      if (caseSensitive) return src.split(findText).join(replaceText);
+      const regex = new RegExp(findText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+      return src.replace(regex, replaceText);
+    };
+
+    // Replace in paragraph bodies AND headings (headings were previously skipped).
     paragraphs.forEach((para: Paragraph, index: number) => {
-      if (caseSensitive) {
-        const newText = para.text.split(findText).join(replaceText);
-        if (newText !== para.text) {
-          updateParagraph(index, { text: newText });
-        }
-      } else {
-        const regex = new RegExp(findText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-        const newText = para.text.replace(regex, replaceText);
-        if (newText !== para.text) {
-          updateParagraph(index, { text: newText });
-        }
+      const patch: Partial<Paragraph> = {};
+      const newText = replaceIn(para.text);
+      if (newText !== para.text) patch.text = newText;
+      if (para.header) {
+        const newHeader = replaceIn(para.header);
+        if (newHeader !== para.header) patch.header = newHeader;
       }
+      if (Object.keys(patch).length > 0) updateParagraph(index, patch);
     });
 
     // Replace in form fields
     const fieldsToSearch: (keyof DocumentData)[] = ['subject', 'from', 'to', 'via'];
     fieldsToSearch.forEach((field: keyof DocumentData) => {
-      const value = formData[field] as string || '';
-      if (caseSensitive) {
-        const newValue = value.split(findText).join(replaceText);
-        if (newValue !== value) {
-          setField(field, newValue);
-        }
-      } else {
-        const regex = new RegExp(findText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-        const newValue = value.replace(regex, replaceText);
-        if (newValue !== value) {
-          setField(field, newValue);
-        }
-      }
+      const value = (formData[field] as string) || '';
+      const newValue = replaceIn(value);
+      if (newValue !== value) setField(field, newValue);
     });
     // Same as handleReplace above: `totalMatches` is derived from
     // `matches` (via useMemo) so re-listing it is redundant but
@@ -261,7 +261,7 @@ export function FindReplaceModal() {
 
           {/* Help text */}
           <p className="text-xs text-muted-foreground">
-            Press Enter or F3 for next match, Shift+Enter for previous. Searches paragraphs, subject, from, to, and via fields.
+            Press Enter or F3 for next match, Shift+Enter for previous. Searches paragraph text and headings, plus the subject, from, to, and via fields.
           </p>
         </div>
       </DialogContent>

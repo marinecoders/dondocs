@@ -1,8 +1,8 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { X, ArrowRight } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useTourStore } from '@/stores/tourStore';
-import { Button } from '@/components/ui/button';
+import { TourButton } from './TourButton';
 
 interface Rect {
   top: number;
@@ -20,18 +20,10 @@ const clamp = (v: number, lo: number, hi: number) => Math.min(Math.max(v, lo), M
 
 /**
  * Choose a coachmark position that never covers the spotlight. Tries below,
- * above, right, then left of the padded spotlight rect — each candidate sits
- * fully outside it, so the highlighted control stays visible — and picks the
- * first that fits on screen. The card size is capped to the viewport first, so
- * the math never assumes a card larger than the screen.
- *
- * A side fits whenever the target is small enough on that axis to leave a
- * card-plus-gap band; combined with the adaptive scroll in `measure` (which
- * parks the target near an edge on short viewports), at least one side fits for
- * any normal control on any display. The fallback runs only when the highlighted
- * element is itself larger than the screen minus the card — then the card is
- * pinned to the roomiest edge so it covers as little of the spotlight as
- * possible (nothing can show both fully in that case).
+ * above, right, then left of the padded spotlight rect (each candidate sits fully
+ * outside it) and picks the first that fits. The card is capped to the viewport
+ * first. The fallback runs only when the highlight is itself larger than the
+ * screen minus the card, pinning the card to the roomiest edge.
  */
 interface Placement {
   top: number;
@@ -51,17 +43,14 @@ function placeCoachmark(rect: Rect, vw: number, vh: number, cardW: number, cardH
   const cx = clamp(rect.left + rect.width / 2 - cw / 2, GAP, vw - cw - GAP);
   const cy = clamp(rect.top + rect.height / 2 - ch / 2, GAP, vh - ch - GAP);
 
-  // Try each side at the card's full size — each candidate is fully outside the
-  // padded spotlight, so the highlight stays visible.
+  // Try each side at full card size; each candidate is fully outside the spotlight.
   if (sBottom + GAP + ch <= vh - GAP) return { top: sBottom + GAP, left: cx }; // below
   if (sTop - GAP - ch >= GAP) return { top: sTop - GAP - ch, left: cx }; // above
   if (sRight + GAP + cw <= vw - GAP) return { top: cy, left: sRight + GAP }; // right
   if (sLeft - GAP - cw >= GAP) return { top: cy, left: sLeft - GAP - cw }; // left
 
-  // The card is taller than any side's gap. Drop it into the larger vertical
-  // band and cap its height there — it scrolls internally — so it still never
-  // covers the spotlight. Width is never capped, which keeps placement stable
-  // (the card's measured natural height doesn't change under it).
+  // Taller than any side's gap: drop it into the larger vertical band and cap its
+  // height there (it scrolls). Width is never capped, keeping placement stable.
   const gapBelow = vh - sBottom - 2 * GAP;
   const gapAbove = sTop - 2 * GAP;
   if (Math.max(gapBelow, gapAbove) >= 100) {
@@ -69,8 +58,8 @@ function placeCoachmark(rect: Rect, vw: number, vh: number, cardW: number, cardH
       ? { top: sBottom + GAP, left: cx, maxH: gapBelow }
       : { top: GAP, left: cx, maxH: gapAbove };
   }
-  // The highlight nearly fills the viewport (it's larger than the screen minus a
-  // usable card) — overlap is unavoidable; pin the card to the bottom.
+  // The highlight nearly fills the viewport; overlap is unavoidable, so pin the
+  // card to the bottom.
   return { top: clamp(vh - ch - GAP, GAP, vh - GAP), left: cx };
 }
 
@@ -79,14 +68,11 @@ const prefersReducedMotion = () =>
   window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
 /**
- * Guided-tour overlay. Dims the page, spotlights the current step's target
- * (a box-shadow cutout), and anchors a coachmark beside it. Drives entirely
- * from `useTourStore`; renders nothing when the tour is inactive.
- *
- * The highlighted element is shown but not interactive — the tour is a
- * walkthrough, not a task, so navigation is via the card and the keyboard
- * (Esc to exit, arrows to move). If a step's target is missing or hidden,
- * the card centers and the spotlight is skipped, so the tour never breaks.
+ * Guided-tour overlay. Dims the page, spotlights the current step's target via a
+ * box-shadow cutout, and anchors a coachmark beside it. Driven by useTourStore;
+ * renders nothing when inactive. The highlight is shown but not interactive;
+ * navigation is via the card and Esc. A missing target centers the card and skips
+ * the spotlight so the tour never breaks.
  */
 export function TourOverlay() {
   const active = useTourStore((s) => s.active);
@@ -103,8 +89,8 @@ export function TourOverlay() {
 
   const step = steps[stepIndex];
   const isLast = stepIndex === steps.length - 1;
-  // A one-off "Show me" spotlight is a single step; drop the step counter and
-  // soften the action label so it doesn't read like a multi-step walkthrough.
+  // A one-off "Show me" spotlight is a single step: drop the counter and soften
+  // the action label.
   const isSingle = steps.length === 1;
 
   // Locate + track the target rect for the current step.
@@ -112,23 +98,20 @@ export function TourOverlay() {
     if (!active || !step) return;
     const reduce = prefersReducedMotion();
 
-    // A guided step may need to open the surface its target lives in (e.g. the
-    // Batch modal) before the element exists. Run that side-effect first.
+    // A step may need to open the surface its target lives in (e.g. the Batch
+    // modal) before the element exists. Run that side-effect first.
     step.action?.();
 
-    // We re-query the selector on every tick rather than hold an element
-    // reference. The overlay is passive, so the user can open and close the
-    // surface underneath it: re-querying means a freshly-mounted modal is
-    // caught within a tick, and a closed one yields "not found" → the spotlight
-    // re-centers instead of stranding on stale coordinates.
+    // Re-query the selector every tick rather than hold an element reference: the
+    // surface underneath can open and close, so this catches a freshly-mounted
+    // modal within a tick and re-centers when the target is gone.
     let scrolled: Element | null = null;
     const measure = () => {
       const el = step.target ? document.querySelector<HTMLElement>(step.target) : null;
-      // A target inside a closing/closed Radix dialog (a dismissed modal still
-      // mounted for its exit animation) counts as gone — otherwise the
-      // spotlight strands on a control the user just closed. Scoped to dialogs
-      // so a collapsed accordion header (also data-state="closed", but visible)
-      // can still be spotlighted.
+      // A target inside a closing/closed Radix dialog counts as gone, so the
+      // spotlight doesn't strand on a just-closed control. Scoped to dialogs so a
+      // collapsed accordion header (also data-state="closed", but visible) still
+      // spotlights.
       if (!el || el.closest('[role="dialog"][data-state="closed"]')) {
         setRect((prev) => (prev === null ? prev : null));
         scrolled = null;
@@ -139,12 +122,10 @@ export function TourOverlay() {
         setRect((prev) => (prev === null ? prev : null)); // hidden / collapsed
         return;
       }
-      // Reserve room for the card by where we park the target: center it when
-      // the viewport is tall enough to also fit the card on one side (looks
-      // best), otherwise pull the target to the top so a full card height stays
-      // free below it. 'start' is always at least as good as 'center' for fitting
-      // the card, so prefer it on any viewport too short to center — this is the
-      // lever that keeps the card off the spotlight on small / landscape displays.
+      // Park the target to reserve card room: center it when the viewport is tall
+      // enough to also fit the card on one side, otherwise pull it to the top so a
+      // full card height stays free below. Keeps the card off the spotlight on
+      // short/landscape displays.
       const vh = window.innerHeight;
       const block: ScrollLogicalPosition =
         vh >= r.height + 2 * CARD_H_EST + 3 * GAP ? 'center' : 'start';
@@ -152,9 +133,9 @@ export function TourOverlay() {
         scrolled = el;
         el.scrollIntoView({ block, inline: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
       } else if (r.top < -1 || r.bottom > vh + 1) {
-        // The target was clipped — e.g. a section finished expanding and pushed
-        // it off-screen. Re-anchor instantly so the spotlight follows. (Only on
-        // real clipping, so an intentional top-parked target isn't re-scrolled.)
+        // The target was clipped (e.g. a section expanded and pushed it
+        // off-screen). Re-anchor instantly, but only on real clipping so a
+        // top-parked target isn't re-scrolled.
         el.scrollIntoView({ block, inline: 'nearest', behavior: 'auto' });
       }
       setRect((prev) =>
@@ -163,7 +144,7 @@ export function TourOverlay() {
         Math.abs(prev.left - r.left) < 0.5 &&
         Math.abs(prev.width - r.width) < 0.5 &&
         Math.abs(prev.height - r.height) < 0.5
-          ? prev // unchanged — skip the re-render
+          ? prev // unchanged; skip the re-render
           : { top: r.top, left: r.left, width: r.width, height: r.height }
       );
     };
@@ -182,19 +163,18 @@ export function TourOverlay() {
   // Keyboard controls + initial focus.
   useEffect(() => {
     if (!active) return;
-    // The welcome dialog can leave pointer-events:none stuck on <body>; clear
-    // it here (after render, so it wins over Radix's layout effects).
+    // The welcome dialog can leave pointer-events:none stuck on <body>; clear it
+    // after render so it wins over Radix's layout effects.
     if (document.body.style.pointerEvents === 'none') {
       document.body.style.pointerEvents = '';
     }
     cardRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
-      // Only Escape is handled — typing and arrow keys flow to whatever field
-      // is focused (the tour spotlights real inputs) and never drive the tour;
-      // navigation happens solely through the on-card Back/Next buttons.
+      // Only Escape; typing and arrows flow to the focused field, and navigation
+      // is via the on-card Back/Next.
       if (e.key !== 'Escape') return;
-      // Exit the tour. Capture-phase + stop so a spotlighted Radix dialog
-      // doesn't also handle Escape and close itself, stranding the walkthrough.
+      // Capture-phase + stop so a spotlighted Radix dialog doesn't also handle
+      // Escape and close itself, stranding the walkthrough.
       e.preventDefault();
       e.stopPropagation();
       end();
@@ -203,17 +183,16 @@ export function TourOverlay() {
     return () => window.removeEventListener('keydown', onKey, true);
   }, [active, stepIndex, end]);
 
-  // Measure the card's real size so placement reserves the right amount of room
-  // (the body length varies per step). Re-runs when the step content changes or
-  // the target moves/resizes; the value guard makes redundant runs a no-op.
+  // Measure the card's real size so placement reserves the right room (body length
+  // varies per step). Re-runs on step/target change; the value guard makes
+  // redundant runs a no-op.
   useLayoutEffect(() => {
     const el = cardRef.current;
     if (!el) return;
     const w = el.offsetWidth;
-    // The card's NATURAL height, independent of any maxHeight cap we apply for
-    // placement — so the measurement can't feed back into the cap and oscillate.
-    // The body is the only flexible part, so swap its visible height for its
-    // full content height: cardHeight - bodyVisible + bodyContent.
+    // The card's natural height, independent of any maxHeight cap, so measurement
+    // can't feed back into the cap and oscillate. The body is the only flexible
+    // part, so swap its visible height for its content height.
     const body = bodyRef.current;
     const h = body
       ? el.offsetHeight - body.clientHeight + body.scrollHeight
@@ -223,10 +202,9 @@ export function TourOverlay() {
 
   if (!active || !step) return null;
 
-  // Position the coachmark beside the target — below / above / right / left,
-  // whichever fits — so it never covers the spotlight. On a viewport too small
-  // for the card beside the target, placeCoachmark caps it to the largest gap
-  // (maxH) and it scrolls; overflow-auto keeps the Back/Next buttons reachable.
+  // Position the coachmark beside the target so it never covers the spotlight.
+  // When no side fits, placeCoachmark caps it to the largest gap (maxH) and it
+  // scrolls; overflow-auto keeps Back/Next reachable.
   const vw = window.innerWidth;
   const vh = window.innerHeight;
   let cardStyle: React.CSSProperties;
@@ -242,24 +220,21 @@ export function TourOverlay() {
     maxWidth: 'calc(100vw - 1.5rem)',
   };
 
-  // Locked coach overlay: the tour is modal, so only its own controls (the
-  // corner ×, Back, Next, or Esc) advance or exit it. Incidental clicks and
-  // keys can't break the step. Portaled to <body> and layered above Radix
-  // dialogs (z-50) so a guided step can spotlight a control inside a modal.
+  // The tour is modal: only its own controls (corner ×, Back, Next, Esc) advance
+  // or exit it. Portaled to <body> and layered above Radix dialogs (z-50) so a
+  // step can spotlight a control inside a modal.
   return createPortal(
     <div role="region" aria-label="Product tour">
-      {/* Click blocker: catches every pointer event on the page beneath the
-          tour. No onClick, so tapping the dim does nothing (never dismisses
-          the tour); stopPropagation keeps a spotlighted dialog from treating
-          the tap as an outside-click and closing itself. */}
+      {/* Click blocker over the page. No onClick, so tapping the dim does
+          nothing; stopPropagation keeps a spotlighted dialog from treating the
+          tap as an outside-click and closing. */}
       <div
         className="fixed inset-0 z-[110] pointer-events-auto"
         onPointerDown={(e) => e.stopPropagation()}
       />
 
-      {/* The dim + spotlight (visual only). With a target, a transparent box
-          punches a hole via its huge spread shadow; without one, a plain
-          full-screen dim. */}
+      {/* Dim + spotlight (visual only). With a target, a transparent box punches
+          a hole via its large spread shadow; without one, a plain full dim. */}
       {rect ? (
         <div
           className="fixed z-[111] pointer-events-none rounded-lg ring-2 ring-primary transition-all duration-200"
@@ -275,9 +250,9 @@ export function TourOverlay() {
         <div className="fixed inset-0 z-[111] pointer-events-none bg-black/50" />
       )}
 
-      {/* Coachmark — the only interactive surface. Stop pointer events from
-          reaching the document so an open Radix dialog beneath doesn't treat a
-          tap on the card as an outside-click and dismiss itself. */}
+      {/* Coachmark: the only interactive surface. Stop pointer events from
+          reaching the document so an open Radix dialog beneath doesn't dismiss
+          on a tap. */}
       <div
         ref={cardRef}
         tabIndex={-1}
@@ -285,7 +260,7 @@ export function TourOverlay() {
         className="fixed z-[112] pointer-events-auto flex flex-col rounded-xl border bg-popover text-popover-foreground p-4 shadow-elevated outline-none overflow-hidden"
         style={cardStyle}
       >
-        {/* Exit, tucked into the corner so it stays out of the controls. */}
+        {/* Exit, in the corner so it stays clear of the controls. */}
         <button
           type="button"
           onClick={end}
@@ -295,40 +270,40 @@ export function TourOverlay() {
           <X className="h-4 w-4" />
         </button>
         <h3 className="shrink-0 text-sm font-semibold mb-1 pr-6">{step.title}</h3>
-        {/* Only the body scrolls when the card is capped to a tight gap on a
-            short screen; the title above and the controls below stay pinned, so
-            Back/Next are always inside the box. */}
+        {/* Only the body scrolls when the card is capped to a tight gap; the
+            title and controls stay pinned so Back/Next are always in the box. */}
         <div ref={bodyRef} className="min-h-0 flex-1 overflow-y-auto">
           <p className="text-sm text-muted-foreground leading-relaxed">{step.body}</p>
         </div>
         <div className="shrink-0 flex items-center justify-between gap-3 pt-3">
-          {/* Progress: the current step is a pill, the rest small dots. */}
+          {/* Progress: current step is a pill, the rest dots. The dots column
+              yields space first (min-w-0 + overflow-hidden) so a long step list
+              can't push the shrink-0 Back/Next group past the clipped edge. */}
           {isSingle ? (
             <span />
           ) : (
-            <div className="flex items-center gap-1.5" aria-hidden="true">
+            <div className="flex min-w-0 items-center gap-1.5 overflow-hidden" aria-hidden="true">
               {steps.map((_, i) => (
                 <span
                   key={i}
                   className={
                     i === stepIndex
-                      ? 'h-1.5 w-4 rounded-full bg-primary transition-all'
-                      : 'h-1.5 w-1.5 rounded-full bg-muted-foreground/30 transition-all'
+                      ? 'h-1.5 w-4 shrink-0 rounded-full bg-primary transition-all'
+                      : 'h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground/30 transition-all'
                   }
                 />
               ))}
             </div>
           )}
-          <div className="flex gap-2">
+          <div className="flex shrink-0 gap-2">
             {stepIndex > 0 && (
-              <Button variant="ghost" size="sm" onClick={prev}>
+              <TourButton variant="ghost" onClick={prev}>
                 Back
-              </Button>
+              </TourButton>
             )}
-            <Button size="sm" onClick={next}>
+            <TourButton arrow={!isSingle && !isLast ? 'next' : undefined} onClick={next}>
               {isSingle ? 'Got it' : isLast ? 'Done' : 'Next'}
-              {!isSingle && !isLast && <ArrowRight className="h-3.5 w-3.5 ml-1" />}
-            </Button>
+            </TourButton>
           </div>
         </div>
       </div>

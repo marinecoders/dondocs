@@ -71,10 +71,13 @@ export function ResizableDivider({ onResize, containerRef, currentWidth }: Resiz
       )}
       <div
         onMouseDown={handleMouseDown}
-        className="relative flex-shrink-0 cursor-col-resize group"
+        className="relative flex-shrink-0 cursor-col-resize group rounded outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
         role="separator"
         aria-orientation="vertical"
-        aria-label="Resize preview panel. Drag left or right to resize."
+        aria-label="Resize preview panel. Drag, or use the left and right arrow keys."
+        aria-valuenow={Math.round(currentWidth)}
+        aria-valuemin={20}
+        aria-valuemax={80}
         tabIndex={0}
         onKeyDown={(e) => {
           // Allow keyboard resizing with arrow keys

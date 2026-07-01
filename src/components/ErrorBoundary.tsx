@@ -2,15 +2,14 @@ import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { debug } from '@/lib/debug';
 import { STORAGE_KEYS } from '@/lib/constants';
 import { getSavedSession } from '@/stores/documentStore';
+import { idbGetCurrentId, idbDeleteDocument, idbDeleteSnapshots, idbSetCurrentId } from '@/lib/documentsDb';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
 }
 
-// Distinct states so the user can tell apart "your draft is in your
-// clipboard" from "there was nothing to copy" from "we tried but the
-// browser refused (e.g. clipboard permission denied or insecure
-// context — clipboard API needs HTTPS or localhost)".
+// Distinct states: copied, nothing to copy, or the browser refused (clipboard
+// needs a secure context).
 type CopyStatus = 'idle' | 'copied' | 'empty' | 'failed';
 
 interface ErrorBoundaryState {
@@ -21,31 +20,16 @@ interface ErrorBoundaryState {
 }
 
 /**
- * Top-level error boundary for the app.
+ * Top-level error boundary. Catches render-phase exceptions below it and shows a
+ * recovery UI instead of a white screen. The recovery UI uses inline styles only,
+ * since richer components could be part of what crashed.
  *
- * Catches any render-phase exception in the tree below it and shows a
- * recovery UI instead of leaving the user with a white screen. The
- * recovery UI is intentionally low-dependency: inline styles + a couple
- * of Tailwind utility classes only. Anything richer (shadcn Button,
- * Dialog, theme tokens) risks being part of *what crashed*.
- *
- * The boundary itself can't recover from errors in event handlers, async
- * code, server-rendered HTML, or errors thrown in the boundary itself.
- * For our purposes that's fine — the dominant failure mode this addresses
- * is a render-time bug somewhere in the editor / form / preview tree
- * that turned the whole tab into a white screen with no way out.
- *
- * Recovery options offered to the user:
- *  - Copy session: exfiltrate the auto-saved JSON to the clipboard so
- *    they can paste it into a recovery channel (or just hold it before
- *    a wipe).
- *  - Reload: window.location.reload(). Cheap. Often enough — the boundary
- *    only catches RENDER errors, so reloading replays the same render
- *    against the same persisted state and will likely crash again, but
- *    sometimes the crash was a transient network or async race.
- *  - Reset & reload: clear localStorage[STORAGE_KEY] then reload. The
- *    escape hatch when the persisted session itself is what's crashing
- *    on rehydrate.
+ * Recovery options:
+ *  - Copy session: copy the auto-saved JSON to the clipboard before a wipe.
+ *  - Reload: replays the same render against the same state (helps only a
+ *    transient crash) but is cheap.
+ *  - Reset & reload: clear the persisted session, for when it's what crashes on
+ *    rehydrate.
  */
 export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   state: ErrorBoundaryState = {
@@ -54,10 +38,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     detailsOpen: false,
     copyStatus: 'idle',
   };
-  // Tracks the pending copy-status reset timer so we can clear it on
-  // unmount (or on a second click that supersedes the first). Without
-  // this we'd risk a setState-on-unmounted-component warning if the user
-  // clicks Reload within the 2s window.
+  // Pending copy-status reset timer, cleared on unmount or a superseding click to
+  // avoid a setState-on-unmounted warning.
   private copyStatusTimer: ReturnType<typeof setTimeout> | null = null;
 
   static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
@@ -66,8 +48,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     this.setState({ errorInfo });
-    // Funnel into the existing debug stream so the in-app log viewer (and
-    // anything wired up to it later, e.g. a remote sink) captures the crash.
+    // Funnel into the debug stream so the in-app log viewer captures the crash.
     debug.error('Boundary', 'Render error caught', { error, errorInfo });
   }
 
@@ -90,10 +71,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
   handleCopySession = async (): Promise<void> => {
     try {
-      // The auto-saved session (the one that rehydrates on load, and the
-      // thing the user is most likely trying to rescue) is stored COMPRESSED
-      // under DOCUMENT_SESSION. Decompress it to readable JSON; fall back to
-      // the manual Save/Load draft under DOCUMENT.
+      // The auto-saved session is stored compressed under DOCUMENT_SESSION;
+      // decompress it to readable JSON, falling back to the manual draft.
       const session = getSavedSession();
       const data = session
         ? JSON.stringify(session, null, 2)
@@ -103,11 +82,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
         this.scheduleCopyStatusReset();
         return;
       }
-      // navigator.clipboard requires a secure context (HTTPS or
-      // localhost). On http://192.168.x.x and similar, writeText
-      // rejects — we fall through to the catch below and surface a
-      // distinct "failed" status so the user knows it wasn't an
-      // empty-draft case.
+      // navigator.clipboard needs a secure context; over plain http it rejects
+      // and falls to the catch, which surfaces a distinct "failed" status.
       await navigator.clipboard.writeText(data);
       this.setState({ copyStatus: 'copied' });
       this.scheduleCopyStatusReset();
@@ -122,17 +98,27 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     window.location.reload();
   };
 
-  handleResetAndReload = (): void => {
+  handleResetAndReload = async (): Promise<void> => {
     if (!window.confirm('This will erase your auto-saved draft and reload. Continue?')) {
       return;
     }
     try {
-      // Clear BOTH the auto-saved session (rehydrated on load) and the
-      // manual draft. Previously only DOCUMENT was cleared, so a crash
-      // caused by the auto-saved session re-loaded the same bad state and
-      // crashed again — an infinite loop with no escape.
+      // init() resumes from the IndexedDB registry before reading these
+      // localStorage keys, so clearing localStorage alone left the crashing doc to
+      // reload in a loop. Drop the current IndexedDB record and its pointer too so
+      // init() falls through to a blank document; keep clearing localStorage for
+      // the legacy paths.
       localStorage.removeItem(STORAGE_KEYS.DOCUMENT_SESSION);
       localStorage.removeItem(STORAGE_KEYS.DOCUMENT);
+      const currentId = await idbGetCurrentId();
+      if (currentId) {
+        await idbDeleteDocument(currentId);
+        // Its version-history snapshots go with it — otherwise up to 10 full
+        // copies of the erased document linger in IndexedDB with no UI that
+        // can ever list or remove them.
+        await idbDeleteSnapshots(currentId);
+      }
+      await idbSetCurrentId(null);
     } catch (err) {
       debug.error('Boundary', 'Failed to clear session before reload', err);
     }
@@ -150,9 +136,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       return this.props.children;
     }
 
-    // Inline styles only — Tailwind classes might fail to load if a CSS
-    // regression is what crashed the app. The container styling here is
-    // deliberately boring so it works even on a blank document.
+    // Inline styles only, in case a CSS regression is what crashed the app.
     const containerStyle: React.CSSProperties = {
       minHeight: '100vh',
       display: 'flex',
@@ -236,13 +220,9 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               wordBreak: 'break-word',
             }}
           >
-            {/*
-              React generally wraps non-Error throws with `Error`, but
-              user code can still throw a plain string, null, or a
-              POJO. Coerce defensively so the boundary never throws
-              while rendering its own fallback (which would be
-              catastrophic — the boundary can't catch its own errors).
-            */}
+            {/* Code can throw a non-Error (string, null, POJO), so coerce: the
+                boundary can't catch errors thrown while rendering its own
+                fallback. */}
             <strong>{String(error.name ?? 'Error')}:</strong>{' '}
             {String(error.message ?? error)}
           </div>

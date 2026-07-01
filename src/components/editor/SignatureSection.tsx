@@ -3,29 +3,17 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
+  Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from '@/components/ui/accordion';
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Upload, X, FileImage, PenLine, Shield, Type, Search, AlertCircle, HelpCircle } from 'lucide-react';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+  Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, } from '@/components/ui/select';
+import { Upload, X, FileImage, PenLine, Shield, Type, Search, AlertCircle } from 'lucide-react';
+import { HelpTip } from '@/components/ui/help-tip';
 import { useDocumentStore } from '@/stores/documentStore';
+import { useUIStore } from '@/stores/uiStore';
+import { unfilled } from '@/lib/requiredField';
+import { FILE_LIMITS } from '@/lib/constants';
 import type { DocTypeConfig, SignatureImage, SignatureType } from '@/types/document';
 import { ALL_SERVICE_RANKS, formatRank } from '@/data/ranks';
 import { getOfficeCode, OFFICE_CODES } from '@/data/officeCodes';
@@ -73,6 +61,7 @@ interface SignatureSectionProps {
 
 export function SignatureSection({ config }: SignatureSectionProps) {
   const { formData, setField, documentMode } = useDocumentStore();
+  const validationVisible = useUIStore((s) => s.validationVisible);
   const isDualSignature = config.signature === 'dual';
   const hasDualDigitalSignature = isDualSignature && formData.signatureType === 'digital';
 
@@ -84,14 +73,9 @@ export function SignatureSection({ config }: SignatureSectionProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [officeCodeModalOpen, setOfficeCodeModalOpen] = useState(false);
 
-  // Reset the rank-input mode when sigRank changes externally (e.g.
-  // a profile load). useCustomRank is bidirectional -- the user can
-  // toggle it manually via UI buttons further down, AND it should
-  // re-derive when sigRank changes from outside. That bidirectionality
-  // means it can't be a purely derived value (a profile load with a
-  // standard rank should flip the UI back to the picker, but a user
-  // can override). Reset-on-prop-change pattern; refactor candidate if
-  // the design ever simplifies to one-way derivation.
+  // Re-derive the rank-input mode when sigRank changes externally (e.g. a
+  // profile load). It's bidirectional: the user can also toggle it below, so it
+  // can't be purely derived.
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setUseCustomRank(!isStandardMilitaryRank(formData.sigRank || ''));
@@ -104,11 +88,14 @@ export function SignatureSection({ config }: SignatureSectionProps) {
     setUseCustomOfficeCode(!isStandardOfficeCode(formData.officeCode || ''));
   }, [formData.officeCode]);
 
-  // Generate preview URL from base64 signature
+  // Generate preview URL from base64 signature. Reading the field into a local
+  // const first lets the React Compiler preserve this memo — an optional-chain
+  // in the dep array (`signatureImage?.data`) doesn't match its inferred dep.
+  const signatureImageData = formData.signatureImage?.data;
   const signaturePreviewUrl = useMemo(() => {
-    if (!formData.signatureImage?.data) return null;
-    return base64ToDataUrl(formData.signatureImage.data, 'image/png');
-  }, [formData.signatureImage?.data]);
+    if (!signatureImageData) return null;
+    return base64ToDataUrl(signatureImageData, 'image/png');
+  }, [signatureImageData]);
 
   // Get office code title for display
   const officeCodeDisplay = useMemo(() => {
@@ -121,6 +108,11 @@ export function SignatureSection({ config }: SignatureSectionProps) {
   const handleSignatureUpload = useCallback(async (file: File) => {
     if (!file.type.startsWith('image/')) {
       console.error('Only image files are supported');
+      return;
+    }
+    // Signatures are stored base64 in localStorage; cap the size so they can't fill it.
+    if (file.size > FILE_LIMITS.MAX_SIGNATURE_SIZE_MB * 1024 * 1024) {
+      alert(`That signature image is too large (max ${FILE_LIMITS.MAX_SIGNATURE_SIZE_MB} MB). Please use a smaller file.`);
       return;
     }
 
@@ -179,25 +171,18 @@ export function SignatureSection({ config }: SignatureSectionProps) {
         <AccordionTrigger>
           <span className="flex items-center gap-2">
             Signature Block
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild onClick={(e) => e.stopPropagation()}>
-                  <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-foreground" />
-                </TooltipTrigger>
-                <TooltipContent side="right" className="max-w-xs">
-                  <p className="font-medium mb-1">Signature Block</p>
-                  <p className="text-xs">
-                    Configure who signs the document. The signature block appears 4 lines below the last paragraph per SECNAV M-5216.5.
-                  </p>
-                  <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
-                    <li><strong>Typed Only:</strong> Name, rank, and title printed below signature line</li>
-                    <li><strong>Upload Image:</strong> Overlay a scanned signature above the typed block</li>
-                    <li><strong>Digital Field:</strong> Creates an empty field for CAC/PIV signing in Adobe</li>
-                    <li><strong>By Direction:</strong> Sign on behalf of a senior authority</li>
-                  </ul>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <HelpTip>
+              <p className="font-medium mb-1">Signature Block</p>
+              <p className="text-xs">
+                Configure who signs the document. The signature block appears 4 lines below the last paragraph per SECNAV M-5216.5.
+              </p>
+              <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
+                <li><strong>Typed Only:</strong> Name, rank, and title printed below signature line</li>
+                <li><strong>Upload Image:</strong> Overlay a scanned signature above the typed block</li>
+                <li><strong>Digital Field:</strong> Creates an empty field for CAC/PIV signing in Adobe</li>
+                <li><strong>By Direction:</strong> Sign on behalf of a senior authority</li>
+              </ul>
+            </HelpTip>
           </span>
         </AccordionTrigger>
         <AccordionContent>
@@ -252,42 +237,32 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                   id="sigLast"
                   value={formData.sigLast || ''}
                   onChange={(e) => setField('sigLast', e.target.value)}
+                  aria-invalid={validationVisible && unfilled(formData.sigLast) ? true : undefined}
                   placeholder="Doe"
                 />
               </div>
             </div>
 
-            {/* Rank and Title — hidden when config says name-only (e.g., standard_letter, plain_paper_memorandum) */}
+            {/* Rank and Title, hidden when the config is name-only (e.g. standard_letter). */}
             {config.showSignatureRankTitle !== false && (
             <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <Button
-                  type="button"
-                  variant={!useCustomRank ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => {
-                    if (useCustomRank) {
-                      setUseCustomRank(false);
-                      setField('sigRank', '');
-                    }
-                  }}
-                >
-                  Military
-                </Button>
-                <Button
-                  type="button"
-                  variant={useCustomRank ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => {
-                    if (!useCustomRank) {
-                      setUseCustomRank(true);
-                      setField('sigRank', '');
-                    }
-                  }}
-                >
-                  Civilian / Other
-                </Button>
-              </div>
+              {/* Neutral segmented toggle (matches the Document Type controls;
+                  keeps Download the one scarlet primary). */}
+              <Tabs
+                value={useCustomRank ? 'civilian' : 'military'}
+                onValueChange={(v) => {
+                  const custom = v === 'civilian';
+                  if (custom !== useCustomRank) {
+                    setUseCustomRank(custom);
+                    setField('sigRank', '');
+                  }
+                }}
+              >
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="military">Military</TabsTrigger>
+                  <TabsTrigger value="civilian">Civilian / Other</TabsTrigger>
+                </TabsList>
+              </Tabs>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="sigRank">Rank / Title</Label>
@@ -354,34 +329,23 @@ export function SignatureSection({ config }: SignatureSectionProps) {
 
             {/* Office Code + POC Email */}
             <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <Button
-                  type="button"
-                  variant={!useCustomOfficeCode ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => {
-                    if (useCustomOfficeCode) {
-                      setUseCustomOfficeCode(false);
-                      setField('officeCode', '');
-                    }
-                  }}
-                >
-                  Standard
-                </Button>
-                <Button
-                  type="button"
-                  variant={useCustomOfficeCode ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => {
-                    if (!useCustomOfficeCode) {
-                      setUseCustomOfficeCode(true);
-                      setField('officeCode', '');
-                    }
-                  }}
-                >
-                  Custom
-                </Button>
-              </div>
+              {/* Neutral segmented toggle (consistent with the rank + Document
+                  Type controls). */}
+              <Tabs
+                value={useCustomOfficeCode ? 'custom' : 'standard'}
+                onValueChange={(v) => {
+                  const custom = v === 'custom';
+                  if (custom !== useCustomOfficeCode) {
+                    setUseCustomOfficeCode(custom);
+                    setField('officeCode', '');
+                  }
+                }}
+              >
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="standard">Standard</TabsTrigger>
+                  <TabsTrigger value="custom">Custom</TabsTrigger>
+                </TabsList>
+              </Tabs>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="officeCode">Office Code</Label>
@@ -473,11 +437,17 @@ export function SignatureSection({ config }: SignatureSectionProps) {
               <Label>Signature Style</Label>
               {/* All signature options available */}
                 <div className="grid grid-cols-3 gap-2">
-                    <Button
+                    {/* Selected style reads as a tinted ring (border + 10% tint +
+                        primary text), not a solid scarlet fill — a quieter
+                        selection state that keeps Download the one scarlet primary. */}
+                    <button
                       type="button"
-                      variant={(formData.signatureType || 'none') === 'none' ? 'default' : 'outline'}
-                      size="sm"
-                      className="flex flex-col items-center gap-1 h-auto py-3"
+                      aria-pressed={(formData.signatureType || 'none') === 'none'}
+                      className={`flex flex-col items-center gap-1.5 rounded-md border py-3 px-1.5 text-xs font-medium cursor-pointer transition-colors ${
+                        (formData.signatureType || 'none') === 'none'
+                          ? 'border-primary bg-primary/10 text-primary'
+                          : 'border-border text-foreground hover:bg-muted/40'
+                      }`}
                       onClick={() => {
                         setField('signatureType', 'none' as SignatureType);
                         if (formData.signatureImage) {
@@ -486,23 +456,29 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                       }}
                     >
                       <Type className="h-5 w-5" />
-                      <span className="text-xs">Typed Only</span>
-                    </Button>
-                    <Button
+                      <span>Typed Only</span>
+                    </button>
+                    <button
                       type="button"
-                      variant={formData.signatureType === 'image' ? 'default' : 'outline'}
-                      size="sm"
-                      className="flex flex-col items-center gap-1 h-auto py-3"
+                      aria-pressed={formData.signatureType === 'image'}
+                      className={`flex flex-col items-center gap-1.5 rounded-md border py-3 px-1.5 text-xs font-medium cursor-pointer transition-colors ${
+                        formData.signatureType === 'image'
+                          ? 'border-primary bg-primary/10 text-primary'
+                          : 'border-border text-foreground hover:bg-muted/40'
+                      }`}
                       onClick={() => setField('signatureType', 'image' as SignatureType)}
                     >
                       <PenLine className="h-5 w-5" />
-                      <span className="text-xs">Upload Image</span>
-                    </Button>
-                    <Button
+                      <span>Upload Image</span>
+                    </button>
+                    <button
                       type="button"
-                      variant={formData.signatureType === 'digital' ? 'default' : 'outline'}
-                      size="sm"
-                      className="flex flex-col items-center gap-1 h-auto py-3"
+                      aria-pressed={formData.signatureType === 'digital'}
+                      className={`flex flex-col items-center gap-1.5 rounded-md border py-3 px-1.5 text-xs font-medium cursor-pointer transition-colors ${
+                        formData.signatureType === 'digital'
+                          ? 'border-primary bg-primary/10 text-primary'
+                          : 'border-border text-foreground hover:bg-muted/40'
+                      }`}
                       onClick={() => {
                         setField('signatureType', 'digital' as SignatureType);
                         if (formData.signatureImage) {
@@ -511,8 +487,8 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                       }}
                     >
                       <Shield className="h-5 w-5" />
-                      <span className="text-xs">Digital Field</span>
-                    </Button>
+                      <span>Digital Field</span>
+                    </button>
                   </div>
 
                   {/* Description based on selection */}
@@ -580,7 +556,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
 
               {/* Digital Signature Info - only show when 'digital' is selected */}
               {formData.signatureType === 'digital' && (
-                <div className="border rounded-lg p-4 bg-primary/5 border-primary/20">
+                <div className="border-l-2 border-primary/50 pl-3">
                   <div className="flex items-start gap-3">
                     <Shield className="h-5 w-5 text-primary mt-0.5" />
                     <div className="space-y-1">

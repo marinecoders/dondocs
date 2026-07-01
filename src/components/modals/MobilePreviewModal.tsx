@@ -34,57 +34,57 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 const pdfViewerStyles = `
   /* Theme react-pdf-viewer to match app */
   .rpv-core__viewer {
-    --rpv-color-primary: hsl(var(--primary));
-    --rpv-color-primary-foreground: hsl(var(--primary-foreground));
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
+    --rpv-color-primary: var(--primary);
+    --rpv-color-primary-foreground: var(--primary-foreground);
+    background-color: var(--background);
+    color: var(--foreground);
   }
 
   /* Toolbar styling */
   .rpv-default-layout__toolbar {
-    background-color: hsl(var(--card)) !important;
-    border-bottom: 1px solid hsl(var(--border)) !important;
+    background-color: var(--card) !important;
+    border-bottom: 1px solid var(--border) !important;
   }
 
   .rpv-core__minimal-button {
-    color: hsl(var(--foreground)) !important;
+    color: var(--foreground) !important;
   }
 
   .rpv-core__minimal-button:hover {
-    background-color: hsl(var(--accent)) !important;
+    background-color: var(--accent) !important;
   }
 
   /* Sidebar styling */
   .rpv-default-layout__sidebar {
-    background-color: hsl(var(--card)) !important;
-    border-right: 1px solid hsl(var(--border)) !important;
+    background-color: var(--card) !important;
+    border-right: 1px solid var(--border) !important;
   }
 
   .rpv-default-layout__sidebar-headers {
-    background-color: hsl(var(--muted)) !important;
+    background-color: var(--muted) !important;
   }
 
   .rpv-default-layout__sidebar-tab {
-    color: hsl(var(--muted-foreground)) !important;
+    color: var(--muted-foreground) !important;
   }
 
   .rpv-default-layout__sidebar-tab--selected {
-    color: hsl(var(--primary)) !important;
-    border-color: hsl(var(--primary)) !important;
+    color: var(--primary) !important;
+    border-color: var(--primary) !important;
   }
 
   /* Thumbnail styling */
   .rpv-thumbnail__container {
-    background-color: hsl(var(--card)) !important;
+    background-color: var(--card) !important;
   }
 
   .rpv-thumbnail__item--selected .rpv-thumbnail__cover::after {
-    border-color: hsl(var(--primary)) !important;
+    border-color: var(--primary) !important;
   }
 
   /* Body/main area styling */
   .rpv-default-layout__body {
-    background-color: hsl(var(--muted) / 0.3) !important;
+    background-color: color-mix(in oklch, var(--muted) 30%, transparent) !important;
   }
 
   .rpv-core__inner-pages {
@@ -93,30 +93,30 @@ const pdfViewerStyles = `
 
   /* Popover/dropdown styling */
   .rpv-core__popover-body {
-    background-color: hsl(var(--popover)) !important;
-    border: 1px solid hsl(var(--border)) !important;
-    color: hsl(var(--popover-foreground)) !important;
+    background-color: var(--popover) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--popover-foreground) !important;
   }
 
   .rpv-core__menu-item:hover {
-    background-color: hsl(var(--accent)) !important;
+    background-color: var(--accent) !important;
   }
 
   /* Scrollbar styling */
   .rpv-core__inner-pages::-webkit-scrollbar-thumb {
-    background-color: hsl(var(--muted-foreground) / 0.3) !important;
+    background-color: color-mix(in oklch, var(--muted-foreground) 30%, transparent) !important;
   }
 
   /* Page number input */
   .rpv-core__textbox {
-    background-color: hsl(var(--input)) !important;
-    border-color: hsl(var(--border)) !important;
-    color: hsl(var(--foreground)) !important;
+    background-color: var(--input) !important;
+    border-color: var(--border) !important;
+    color: var(--foreground) !important;
   }
 
   /* Zoom dropdown */
   .rpv-zoom__popover-target-scale {
-    color: hsl(var(--foreground)) !important;
+    color: var(--foreground) !important;
   }
 `;
 

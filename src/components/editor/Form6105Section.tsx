@@ -25,13 +25,26 @@ import { SSICLookupModal } from '@/components/modals/SSICLookupModal';
 import { UnitLookupModal } from '@/components/modals/UnitLookupModal';
 import { FormReferenceLibraryModal } from '@/components/modals/FormReferenceLibraryModal';
 import { NAVMC_10274_PLACEHOLDERS } from '@/lib/constants';
+import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
+import { cn } from '@/lib/utils';
 import type { UnitInfo } from '@/data/unitDirectory';
+
+// Active-section left-rule for a form AccordionItem, matching the letter
+// sections (FormPanel's SectionShell). activeId only changes at section
+// boundaries, so this re-renders the form infrequently.
+function sectionRule(active: boolean): string {
+  return cn(
+    'border-l-2 -ml-3 pl-3 transition-colors duration-200',
+    active ? 'border-l-muted-foreground/30' : 'border-l-transparent'
+  );
+}
 
 // Common variables to show first in autocomplete
 const COMMON_FORM_VARS = ['LAST_NAME', 'FIRST_NAME', 'NAME', 'EDIPI', 'RANK', 'DATE'];
 
 export function Form6105Section() {
   const { navmc10274, setNavmc10274Field, resetNavmc10274, clearNavmc10274, includeCoverPage, setIncludeCoverPage } = useFormStore();
+  const activeId = useEditorOutlineStore((s) => s.activeId);
 
   // Modal states
   const [ssicModalOpen, setSSICModalOpen] = useState(false);
@@ -111,9 +124,9 @@ export function Form6105Section() {
         </Label>
       </div>
 
-      <Accordion type="multiple" defaultValue={['header', 'addressing', 'content']} className="space-y-2">
+      <Accordion type="multiple" className="space-y-2">
         {/* Header Section */}
-        <AccordionItem value="header" className="border rounded-lg px-4">
+        <AccordionItem value="header" id="sec-header" data-section="header" className={sectionRule(activeId === 'header')}>
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">Header Information</span>
           </AccordionTrigger>
@@ -149,13 +162,9 @@ export function Form6105Section() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="date">3. Date</Label>
-                {/*
-                  DatePicker (military format "15 Dec 24") instead of a raw
-                  HTML <input type="date"> (which produced ISO 2026-04-25)
-                  per SECNAV M-5216.5 / MCO 1070.12K. The picker accepts
-                  ISO on input, so any existing date values stored in the
-                  old format reformat on first edit. (Issue #15.)
-                */}
+                {/* DatePicker for military date format ("15 Dec 24") per
+                    SECNAV M-5216.5 / MCO 1070.12K. It accepts ISO on input,
+                    so old ISO-format values reformat on first edit. */}
                 <DatePicker
                   id="date"
                   value={navmc10274.date}
@@ -167,7 +176,7 @@ export function Form6105Section() {
         </AccordionItem>
 
         {/* Addressing Section */}
-        <AccordionItem value="addressing" className="border rounded-lg px-4">
+        <AccordionItem value="addressing" id="sec-addressing" data-section="addressing" className={sectionRule(activeId === 'addressing')}>
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">Addressing</span>
           </AccordionTrigger>
@@ -239,7 +248,7 @@ export function Form6105Section() {
         </AccordionItem>
 
         {/* Content Section */}
-        <AccordionItem value="content" className="border rounded-lg px-4">
+        <AccordionItem value="content" id="sec-content" data-section="content" className={sectionRule(activeId === 'content')}>
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">Counseling Content</span>
           </AccordionTrigger>
@@ -282,7 +291,7 @@ export function Form6105Section() {
         </AccordionItem>
 
         {/* References Section */}
-        <AccordionItem value="references" className="border rounded-lg px-4">
+        <AccordionItem value="references" id="sec-references" data-section="references" className={sectionRule(activeId === 'references')}>
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">References & Distribution</span>
           </AccordionTrigger>
@@ -340,7 +349,7 @@ export function Form6105Section() {
       </Accordion>
 
       {/* Info box */}
-      <div className="border rounded-md p-3 text-xs bg-amber-50 border-amber-200 dark:bg-amber-950/30 dark:border-amber-800">
+      <div className="border-l-2 pl-3 text-xs border-amber-400 dark:border-amber-600">
         <div className="text-amber-700 dark:text-amber-400 font-medium mb-1">
           FOR OFFICIAL USE ONLY - Privacy Sensitive
         </div>

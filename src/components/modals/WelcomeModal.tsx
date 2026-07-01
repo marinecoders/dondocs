@@ -7,42 +7,34 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
+import { TourButton } from '@/components/tour/TourButton';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { useTourStore, hasCompletedTour } from '@/stores/tourStore';
 import { useUIStore } from '@/stores/uiStore';
-// Signature face for the letter's "Marine Coders" sign-off. Self-hosted via
-// @fontsource (bundled, served same-origin), so it stays air-gap safe: no
-// web-font CDN. Damion is a bold connected script that reads as signed.
+// Script face for the "Marine Coders" sign-off. Self-hosted via @fontsource
+// (same-origin, no web-font CDN) to stay air-gap safe.
 import '@fontsource/damion/400.css';
 
 const WELCOME_STORAGE_KEY = 'dondocs-welcome-shown';
-// Tracks the version of the WELCOME MODAL CONTENT, not the app version.
-// Bump this when the welcome modal's copy/design changes meaningfully so
-// returning users see the updated content once. This is intentionally
-// separate from APP_VERSION in @/lib/version (which tracks code releases).
+// Welcome-modal content version (not the app version). Bump it when the copy or
+// design changes so returning users see the update once.
 const WELCOME_CONTENT_VERSION = '3.0';
 
-// Wide Marine Coders lockup ("MARINE [EGA] CODERS") used as the letter's
-// masthead, and the < EGA > seal used as the chop beside the signature.
-// Both are light artwork on a transparent ground, so `brightness(0)`
-// renders them as black ink on the cream "paper": the engraved,
-// single-colour look of a real letterhead. The seal is the same mark the
-// app shows as its background watermark, so the welcome and the app
-// behind it carry one emblem.
+// Banner lockup (letter masthead) and seal (chop beside the signature). Both are
+// light artwork on transparent, so brightness(0) renders them as black ink on the
+// cream paper. The seal matches the app's background watermark.
 const BANNER_SRC = `${import.meta.env.BASE_URL}attachments/marine-coders-banner.webp`;
 const SEAL_SRC = `${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`;
 
-// Cream paper + dark ink, a self-contained skeuomorphic surface, so its
-// colors live here rather than in the app theme tokens.
+// Cream paper + dark ink: a self-contained surface, so its colors live here
+// rather than in the app theme tokens.
 const PAPER_BG = '#faf8f2';
 const INK = '#1d2128';
 const INK_MUTED = '#3a3f48';
 const SERIF = 'Georgia, "Times New Roman", serif';
 const SIG_FONT = "'Damion', cursive";
-// Fixed issue date of this standing welcome letter: the project's inception.
-// A welcome-aboard letter is promulgated once, not re-dated on every visit.
+// Fixed issue date: the welcome letter is dated once, not on every visit.
 const ISSUE_DATE = '29 Dec 2025';
 
 export function WelcomeModal() {
@@ -50,44 +42,50 @@ export function WelcomeModal() {
   const [dontShowAgain, setDontShowAgain] = useState(false);
 
   useEffect(() => {
-    // Don't show welcome modal on incompatible browsers - they get the browser notice instead
+    // Incompatible browsers get the browser notice instead of the welcome.
     const device = getDeviceInfo();
     if (device.isInAppBrowser) {
       console.log('[WelcomeModal] Skipping - in-app browser detected');
       return;
     }
 
-    // Don't show welcome modal if there's a saved session to restore
-    // Returning users have already seen the welcome
+    // A saved session means a returning user who's already seen the welcome.
     if (hasSavedSession()) {
       console.log('[WelcomeModal] Skipping - saved session exists');
       return;
     }
 
-    // Read localStorage on mount to decide whether to show the welcome
-    // modal. Cannot be derived during render -- localStorage is an
-    // external system, and the value can change between sessions.
-    // Legitimate "synchronize React state with external system" pattern.
-    const stored = localStorage.getItem(WELCOME_STORAGE_KEY);
+    // Decide from localStorage whether to show the modal; it can't be derived
+    // during render. Reading can throw under blocked site data — treat that as
+    // "not yet seen" so a fresh user still gets the welcome and boot never crashes.
+    let stored: string | null = null;
+    try {
+      stored = localStorage.getItem(WELCOME_STORAGE_KEY);
+    } catch {
+      // blocked storage: leave stored=null so the welcome still shows
+    }
     if (!stored || stored !== WELCOME_CONTENT_VERSION) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setOpen(true);
-      // New users land with the live preview open so they immediately see the
-      // document take shape. This only runs for the welcome cohort (no saved
-      // session), so returning users keep their own preview preference.
+      // New users land with the live preview open. Only runs for the welcome
+      // cohort, so returning users keep their own preview preference.
       useUIStore.getState().setPreviewVisible(true);
     }
   }, []);
 
-  const handleClose = () => {
+  const finish = (startTour: boolean) => {
     if (dontShowAgain) {
-      localStorage.setItem(WELCOME_STORAGE_KEY, WELCOME_CONTENT_VERSION);
+      try {
+        localStorage.setItem(WELCOME_STORAGE_KEY, WELCOME_CONTENT_VERSION);
+      } catch {
+        /* blocked storage: the modal just reappears next visit */
+      }
     }
     setOpen(false);
-    // First-run: flow straight into the guided tour the first time, once the
-    // welcome dialog's close animation finishes. Returning users have a saved
-    // session and never see the welcome, so this only fires for new users.
-    if (!hasCompletedTour()) {
+    // The tour is now opt-in: only launch it when the user explicitly asks, so a
+    // new user isn't force-marched through a 7-step overlay before they can type.
+    // It stays one click away from the Help menu and the getting-started checklist.
+    if (startTour && !hasCompletedTour()) {
       setTimeout(() => useTourStore.getState().start(), 350);
     }
   };
@@ -98,8 +96,8 @@ export function WelcomeModal() {
         className="sm:max-w-lg p-0 gap-0 overflow-hidden max-h-[calc(100dvh-2rem)] flex flex-col"
         showCloseButton={false}
       >
-        {/* The visual title is the letter's Subj line; this keeps the
-            dialog accessible without a duplicate visible heading. */}
+        {/* The visible title is the letter's Subj line; this sr-only heading
+            keeps the dialog accessible without duplicating it. */}
         <DialogTitle className="sr-only">Welcome aboard DonDocs</DialogTitle>
 
         {/* The welcome message, drafted as a naval letter on cream paper. */}
@@ -186,8 +184,7 @@ export function WelcomeModal() {
           </div>
         </div>
 
-        {/* Controls live in the dark chrome below the letter, keeping the
-            page itself pristine. */}
+        {/* Controls live in the chrome below the letter. */}
         <DialogFooter className="px-4 sm:px-6 py-3 sm:py-4 shrink-0 sm:items-center">
           <div className="flex items-center gap-2 flex-1">
             <Checkbox
@@ -199,7 +196,14 @@ export function WelcomeModal() {
               Don't show this again
             </Label>
           </div>
-          <Button onClick={handleClose}>Get started</Button>
+          <div className="flex items-center gap-2">
+            <TourButton variant="ghost" size="default" onClick={() => finish(true)}>
+              Take a quick tour
+            </TourButton>
+            <TourButton size="default" arrow="next" onClick={() => finish(false)}>
+              Start writing
+            </TourButton>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -4,10 +4,12 @@ import type { Reference, Enclosure, Paragraph, CopyTo, Distribution, DocumentDat
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { useHistoryStore } from './historyStore';
 import type { DocumentSnapshot } from './historyStore';
+import { useUIStore } from './uiStore';
 import { debug } from '@/lib/debug';
 import { TIMING, STORAGE_KEYS} from '@/lib/constants';
 import { compressedParse, compressedStringify } from '@/lib/compressedStorage';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
+import { normalizeLevels, migratePortionMarkings } from '@/lib/paragraphUtils';
 
 // Session persistence keys
 const SESSION_STORAGE_KEY = STORAGE_KEYS.DOCUMENT_SESSION;
@@ -75,7 +77,7 @@ const convertDateFormat = (dateString: string, targetFormat: 'military' | 'spell
   return targetFormat === 'spelled' ? formatSpelledDate(date) : formatMilitaryDate(date);
 };
 
-interface DocumentState {
+export interface DocumentState {
   // Document data
   documentMode: DocumentMode;
   documentCategory: DocumentCategory;
@@ -111,6 +113,8 @@ interface DocumentState {
 
   // Actions - Paragraphs
   addParagraph: (text: string, level: number, afterIndex?: number) => void;
+  /** Insert several paragraphs (a split paste) after `afterIndex` in one edit. */
+  insertParagraphs: (afterIndex: number, texts: string[], level: number) => void;
   updateParagraph: (index: number, updates: Partial<Paragraph>) => void;
   removeParagraph: (index: number) => void;
   reorderParagraphs: (fromIndex: number, toIndex: number) => void;
@@ -236,9 +240,15 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   ],
   distributions: [],
 
-  setDocumentCategory: (category) => set({ documentCategory: category }),
+  setDocumentCategory: (category) => {
+    useUIStore.getState().setValidationVisible(false);
+    set({ documentCategory: category });
+  },
 
-  setFormType: (type) => set({ formType: type }),
+  setFormType: (type) => {
+    useUIStore.getState().setValidationVisible(false);
+    set({ formType: type });
+  },
 
   setDocumentMode: (mode) => set((state) => {
     if (mode === 'compliant') {
@@ -264,7 +274,9 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     return { documentMode: mode };
   }),
 
-  setDocType: (type) => set((state) => {
+  setDocType: (type) => {
+    useUIStore.getState().setValidationVisible(false);
+    set((state) => {
     const config = DOC_TYPE_CONFIG[type] || DOC_TYPE_CONFIG.naval_letter;
     // In compliant mode, always apply the regulation fonts and date format
     if (state.documentMode === 'compliant') {
@@ -294,7 +306,8 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       };
     }
     return { docType: type, formData: { ...state.formData, docType: type } };
-  }),
+    });
+  },
 
   setField: (key, value) => set((state) => ({
     formData: { ...state.formData, [key]: value },
@@ -304,7 +317,10 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     formData: { ...state.formData, ...data },
   })),
 
-  resetForm: () => set({
+  resetForm: () => {
+    useUIStore.getState().setValidationVisible(false);
+    set({
+    documentMode: 'compliant',
     docType: 'naval_letter',
     formData: { ...DEFAULT_FORM_DATA },
     references: [...DEFAULT_REFERENCES],
@@ -316,7 +332,8 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       { text: 'Regimental S-3' },
     ],
     distributions: [],
-  }),
+    });
+  },
 
   // References
   addReference: (title, url) => set((state) => ({
@@ -372,30 +389,90 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     return { paragraphs: [...state.paragraphs, newPara] };
   }),
 
+  // Bulk insert (split paste): one edit, so it's a single undo step and a single
+  // Recents/preview sync. Levels are normalized in case afterIndex leaves a gap.
+  insertParagraphs: (afterIndex, texts, level) => set((state) => {
+    if (texts.length === 0) return {};
+    const newParas = [...state.paragraphs];
+    newParas.splice(afterIndex + 1, 0, ...texts.map((text) => ({ text, level })));
+    return { paragraphs: normalizeLevels(newParas) };
+  }),
+
   updateParagraph: (index, updates) => set((state) => ({
     paragraphs: state.paragraphs.map((p, i) => (i === index ? { ...p, ...updates } : p)),
   })),
 
+  // Removing a paragraph can leave a following sub-paragraph stranded too deep
+  // under its new predecessor, so re-normalize the nesting after the filter.
   removeParagraph: (index) => set((state) => ({
-    paragraphs: state.paragraphs.filter((_, i) => i !== index),
+    paragraphs: normalizeLevels(state.paragraphs.filter((_, i) => i !== index)),
   })),
 
+  // Subtree-aware move: a paragraph travels with its sub-paragraphs so dragging
+  // (or Alt+↑/↓ on) a parent never strands its children under a new parent.
   reorderParagraphs: (fromIndex, toIndex) => set((state) => {
-    const newParas = [...state.paragraphs];
-    const [moved] = newParas.splice(fromIndex, 1);
-    newParas.splice(toIndex, 0, moved);
-    return { paragraphs: newParas };
+    const paras = state.paragraphs;
+    if (
+      fromIndex === toIndex ||
+      fromIndex < 0 || fromIndex >= paras.length ||
+      toIndex < 0 || toIndex >= paras.length
+    ) {
+      return {};
+    }
+
+    // The moved unit is the paragraph plus its contiguous deeper-level
+    // descendants, so a parent carries its whole subtree.
+    const baseLevel = paras[fromIndex].level;
+    let blockEnd = fromIndex + 1;
+    while (blockEnd < paras.length && paras[blockEnd].level > baseLevel) blockEnd++;
+
+    // Keyboard "move down" on a parent targets its own first child; reinterpret
+    // that as the sibling just past the whole block. Any other drop inside the
+    // block is a no-op — you can't reorder a subtree into itself.
+    let effTo = toIndex;
+    if (toIndex >= fromIndex && toIndex < blockEnd) {
+      if (blockEnd >= paras.length) return {};
+      effTo = blockEnd;
+    }
+
+    const block = paras.slice(fromIndex, blockEnd);
+    const rest = [...paras.slice(0, fromIndex), ...paras.slice(blockEnd)];
+    const target = paras[effTo];
+    const targetInRest = rest.indexOf(target);
+
+    let insertAt: number;
+    if (effTo < fromIndex) {
+      // Moving up: land immediately before the target.
+      insertAt = targetInRest;
+    } else {
+      // Moving down: land after the target and its own subtree, so the block is
+      // never wedged between another parent and its children.
+      let end = targetInRest + 1;
+      const targetLevel = target.level;
+      while (end < rest.length && rest[end].level > targetLevel) end++;
+      insertAt = end;
+    }
+
+    const next = [...rest.slice(0, insertAt), ...block, ...rest.slice(insertAt)];
+    // Repair any illegal nesting the move exposed (e.g. a top-level block landing
+    // between a parent and its children).
+    return { paragraphs: normalizeLevels(next) };
   }),
 
+  // Indent is capped one level deeper than the paragraph directly above:
+  // bumping the level then normalizing makes an over-indent a no-op instead of
+  // producing an illegal (but still-compiling) two-level jump.
   indentParagraph: (index) => set((state) => ({
-    paragraphs: state.paragraphs.map((p, i) =>
-      i === index ? { ...p, level: Math.min(p.level + 1, 7) } : p
+    paragraphs: normalizeLevels(
+      state.paragraphs.map((p, i) => (i === index ? { ...p, level: p.level + 1 } : p))
     ),
   })),
 
+  // Outdenting a parent pulls its now-too-deep sub-paragraphs up with it so the
+  // outline stays legal.
   outdentParagraph: (index) => set((state) => ({
-    paragraphs: state.paragraphs.map((p, i) =>
-      i === index ? { ...p, level: Math.max(p.level - 1, 0) } : p
+    paragraphs: normalizeLevels(
+      state.paragraphs.map((p, i) => (i === index ? { ...p, level: Math.max(p.level - 1, 0) } : p))
     ),
   })),
 
@@ -459,6 +536,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
 
   clearFieldsExceptLetterhead: () => {
     debug.log('Store', 'Clearing all fields except letterhead');
+    useUIStore.getState().setValidationVisible(false);
     set((state) => {
       // Preserve letterhead fields and font settings
       const preservedFields = {
@@ -531,8 +609,9 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       enclosures: data.enclosures?.length,
       copyTos: data.copyTos?.length,
     });
+    useUIStore.getState().setValidationVisible(false);
     set((state) => ({
-      paragraphs: data.paragraphs ?? state.paragraphs,
+      paragraphs: data.paragraphs ? migratePortionMarkings(data.paragraphs) : state.paragraphs,
       references: data.references ? reLetterReferences(data.references) : state.references,
       enclosures: data.enclosures ?? state.enclosures,
       copyTos: data.copyTos ?? state.copyTos,
@@ -542,11 +621,10 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
 
   // History (Undo/Redo)
   applySnapshot: (snapshot) => set((state) => {
-    // Re-graft live enclosure file bytes. History snapshots intentionally
-    // omit `file` (too large to keep 50 copies of), so a wholesale replace
-    // permanently destroyed attached PDFs on every undo/redo — the next
-    // download silently omitted those pages. Match same-index-same-title
-    // first, then any unused same-title enclosure.
+    // Re-graft live enclosure file bytes. History snapshots omit `file` (too
+    // large to keep 50 copies of), so a wholesale replace would destroy attached
+    // PDFs on every undo/redo. Match same-index-same-title first, then any unused
+    // same-title enclosure.
     const used = new Set<number>();
     const enclosures = snapshot.enclosures.map((e, i) => {
       if (e.file) return e;
@@ -593,12 +671,9 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
 let saveTimeout: ReturnType<typeof setTimeout> | null = null;
 let sessionSaveTimeout: ReturnType<typeof setTimeout> | null = null;
 
-// While the session-restore prompt is on screen, mount-time store writes
-// (profile letterhead sync, defaults) would autosave over the very session
-// the user is about to restore — restoreSession() re-reads localStorage at
-// click time, so a user who took >2s to read the prompt restored the
-// freshly-overwritten default document and lost their work. The restore
-// modal suspends session saves while the decision is pending.
+// While the session-restore prompt is on screen, mount-time store writes would
+// autosave over the session the user is about to restore. restoreSession()
+// re-reads localStorage at click time, so saves are suspended until they decide.
 let sessionSavesSuspended = false;
 export function suspendSessionSaves(): void {
   sessionSavesSuspended = true;
@@ -632,9 +707,8 @@ useDocumentStore.subscribe((state: DocumentState) => {
     }
   }, TIMING.HISTORY_SNAPSHOT_DEBOUNCE);
 
-  // Also persist to localStorage for session restore (debounced more).
-  // Skipped entirely while suspended (restore prompt is on screen) — see
-  // suspendSessionSaves below for the race this prevents.
+  // Also persist to localStorage for session restore (debounced more). Skipped
+  // while suspended; see suspendSessionSaves for the race this prevents.
   if (sessionSaveTimeout) {
     clearTimeout(sessionSaveTimeout);
   }
@@ -645,6 +719,23 @@ useDocumentStore.subscribe((state: DocumentState) => {
     }, 2000); // 2 second debounce for localStorage
   }
 });
+
+// Flush the pending debounced session save when the page is hidden or unloaded so
+// the last edits aren't lost. localStorage.setItem is synchronous, so it commits
+// before teardown. No-op if the debounce already fired.
+function flushSessionSave(): void {
+  if (sessionSaveTimeout && !sessionSavesSuspended) {
+    clearTimeout(sessionSaveTimeout);
+    sessionSaveTimeout = null;
+    saveSessionToStorage(useDocumentStore.getState());
+  }
+}
+if (typeof document !== 'undefined') {
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') flushSessionSave();
+  });
+  window.addEventListener('pagehide', flushSessionSave);
+}
 
 /**
  * Saves the current document state to localStorage for session restore.
@@ -677,10 +768,8 @@ function saveSessionToStorage(state: DocumentState): void {
       timestamp: Date.now(),
     };
 
-    // Compressed write — pako.deflate + base64, prefixed so the read path
-    // can distinguish it from legacy plain-JSON sessions. Typical shrink
-    // is ~2–3× after base64 expansion, which keeps us well below the
-    // per-origin localStorage quota as documents grow.
+    // Compressed write, prefixed so the read path can tell it from legacy
+    // plain-JSON sessions.
     localStorage.setItem(SESSION_STORAGE_KEY, compressedStringify(session));
     localStorage.setItem(SESSION_TIMESTAMP_KEY, Date.now().toString());
     debug.log('Store', 'Session saved to localStorage');
@@ -709,12 +798,11 @@ export function hasSavedSession(): boolean {
       return false;
     }
 
-    // Validate session data. compressedParse handles both the new gz:-
-    // prefixed compressed form and legacy plain-JSON sessions that were
-    // written before compression was enabled.
+    // compressedParse handles both the gz:-prefixed compressed form and legacy
+    // plain-JSON sessions.
     const session = compressedParse<SerializedSession>(sessionData);
 
-    // Check if it has meaningful content (not just default empty state)
+    // Meaningful content, not just default empty state.
     const hasContent =
       (session.paragraphs && session.paragraphs.length > 0 && session.paragraphs.some(p => p.text.trim() !== '')) ||
       (session.references && session.references.length > 0) ||
@@ -747,9 +835,8 @@ export function restoreSession(): boolean {
     const session = getSavedSession();
     if (!session) return false;
 
-    // Canonicalize unitAddress on read so legacy sessions saved before
-    // PR #63 (with the 1-comma form "STREET, CITY STATE ZIP") render
-    // correctly on the letterhead. No-op for already-canonical input.
+    // Canonicalize unitAddress on read so legacy sessions with the 1-comma form
+    // "STREET, CITY STATE ZIP" render correctly on the letterhead.
     const restoredFormData = session.formData?.unitAddress
       ? { ...session.formData, unitAddress: canonicalizeUnitAddress(session.formData.unitAddress) }
       : session.formData;
@@ -769,7 +856,7 @@ export function restoreSession(): boolean {
         // File data is not restored - user will need to re-attach
         file: undefined,
       })),
-      paragraphs: session.paragraphs,
+      paragraphs: migratePortionMarkings(session.paragraphs),
       copyTos: session.copyTos,
       distributions: session.distributions || [],
     });
@@ -787,7 +874,15 @@ export function restoreSession(): boolean {
  * Excludes file data and signature images.
  */
 export function getSerializedSessionForShare(): SerializedSession {
-  const state = useDocumentStore.getState();
+  return serializeSession(useDocumentStore.getState());
+}
+
+/**
+ * Serializes a given document state (not necessarily the live one) into a
+ * shareable session, so the registry can snapshot a previous state, e.g. to
+ * preserve a correspondence document the instant the user flips to the Forms tab.
+ */
+export function serializeSession(state: DocumentState): SerializedSession {
   return {
     documentMode: state.documentMode,
     documentCategory: state.documentCategory,
@@ -836,7 +931,7 @@ export function loadSharedSession(session: SerializedSession): void {
       coverPageDescription: enc.coverPageDescription,
       file: undefined,
     })),
-    paragraphs: session.paragraphs ?? [],
+    paragraphs: migratePortionMarkings(session.paragraphs ?? []),
     copyTos: session.copyTos ?? [],
     distributions: session.distributions ?? [],
   });
@@ -847,8 +942,15 @@ export function loadSharedSession(session: SerializedSession): void {
  * Clears the saved session from localStorage.
  */
 export function clearSavedSession(): void {
-  localStorage.removeItem(SESSION_STORAGE_KEY);
-  localStorage.removeItem(SESSION_TIMESTAMP_KEY);
+  // Guarded like every sibling helper: with site data blocked, removeItem
+  // throws SecurityError — and this runs mid-delete (reopenAfterRemoval),
+  // where an escaped throw would strand the store half-deleted.
+  try {
+    localStorage.removeItem(SESSION_STORAGE_KEY);
+    localStorage.removeItem(SESSION_TIMESTAMP_KEY);
+  } catch {
+    return;
+  }
   debug.log('Store', 'Saved session cleared');
 }
 

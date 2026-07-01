@@ -118,7 +118,10 @@ export function useVariableAutocomplete({
     document.body.removeChild(mirror);
 
     return {
-      top: inputRect.top + (spanRect.top - mirrorRect.top) + input.scrollTop + 20,
+      // Subtract scrollTop: the mirror lays out unscrolled text, so the caret
+      // offset is measured at scrollTop=0; internal scroll moves the visible caret
+      // up by scrollTop (left already subtracts scrollLeft).
+      top: inputRect.top + (spanRect.top - mirrorRect.top) - input.scrollTop + 20,
       left: inputRect.left + (spanRect.left - mirrorRect.left) - input.scrollLeft,
     };
   }, [inputRef, value]);
@@ -224,8 +227,18 @@ export function useVariableAutocomplete({
     if (!isOpen) return;
 
     const handleClickOutside = () => setIsOpen(false);
+    // The popup is position:fixed with coordinates captured at open time, so any
+    // scroll detaches it; dismiss on scroll/resize. capture:true is required since
+    // the form scrolls on the inner Radix ScrollArea, whose scroll doesn't bubble.
+    const handleDismiss = () => setIsOpen(false);
     document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    window.addEventListener('scroll', handleDismiss, true);
+    window.addEventListener('resize', handleDismiss);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+      window.removeEventListener('scroll', handleDismiss, true);
+      window.removeEventListener('resize', handleDismiss);
+    };
   }, [isOpen]);
 
   return {
@@ -287,12 +300,14 @@ export function VariableAutocompletePopup({
 
   return createPortal(
     <div
-      className="fixed z-50 bg-popover border border-border rounded-lg shadow-lg overflow-hidden"
+      className="fixed z-50 flex flex-col bg-popover border border-border rounded-lg shadow-lg overflow-hidden"
       style={{
         top: position.top,
         left: Math.min(position.left, window.innerWidth - 320),
         width: '300px',
-        maxHeight: '320px',
+        // Cap to the space below the caret so a low field doesn't push the list
+        // off-screen.
+        maxHeight: Math.max(120, window.innerHeight - position.top - 8),
       }}
       onClick={(e) => e.stopPropagation()}
     >
@@ -310,8 +325,9 @@ export function VariableAutocompletePopup({
         </div>
       </div>
 
-      {/* Results */}
-      <div ref={listRef} className="overflow-y-auto max-h-[260px]">
+      {/* flex-1 + min-h-0 so the list scrolls within the popup's clamped height
+          rather than a fixed cap that could exceed it. */}
+      <div ref={listRef} className="overflow-y-auto flex-1 min-h-0">
         {all.length === 0 ? (
           <div className="px-3 py-4 text-sm text-muted-foreground text-center">
             No variables match "{searchQuery}"

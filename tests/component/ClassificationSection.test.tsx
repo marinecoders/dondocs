@@ -75,8 +75,12 @@ describe('ClassificationSection', () => {
 
     await user.click(screen.getByText('Classification'));
 
-    // Domain-restriction info always renders; marking-specific blocks do not.
-    expect(await screen.findByText('Domain Restrictions')).toBeInTheDocument();
+    // The "Domain Restrictions" banner is now gated to domains that actually
+    // narrow the level list; the permissive mock above does not, so it must NOT
+    // render (keeps the default panel clean, matching the design). Wait on the
+    // always-present level picker instead, then assert no marking-specific blocks.
+    expect(await screen.findByText('Classification Level')).toBeInTheDocument();
+    expect(screen.queryByText('Domain Restrictions')).not.toBeInTheDocument();
     expect(screen.queryByText('Classified Document Warning')).not.toBeInTheDocument();
     expect(screen.queryByText('CUI Configuration')).not.toBeInTheDocument();
   });

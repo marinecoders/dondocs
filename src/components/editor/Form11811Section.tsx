@@ -17,13 +17,26 @@ import { InputWithVariables } from '@/components/ui/variable-autocomplete';
 import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
 import { DatePicker } from '@/components/ui/date-picker';
 import { useFormStore } from '@/stores/formStore';
+import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
+import { cn } from '@/lib/utils';
 import { NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
 
 // Common variables to show first in autocomplete
 const COMMON_FORM_VARS = ['LAST_NAME', 'FIRST_NAME', 'NAME', 'EDIPI', 'ENTRY_DATE'];
 
+// Active-section left-rule for a form AccordionItem, matching the letter
+// sections (FormPanel's SectionShell). activeId only changes at section
+// boundaries, so this re-renders the form infrequently.
+function sectionRule(active: boolean): string {
+  return cn(
+    'border-l-2 -ml-3 pl-3 transition-colors duration-200',
+    active ? 'border-l-muted-foreground/30' : 'border-l-transparent'
+  );
+}
+
 export function Form11811Section() {
   const { navmc11811, setNavmc11811Field, resetNavmc11811, clearNavmc11811 } = useFormStore();
+  const activeId = useEditorOutlineStore((s) => s.activeId);
 
   return (
     <div className="space-y-4">
@@ -61,9 +74,9 @@ export function Form11811Section() {
         adverse administrative remarks, and other official entries.
       </p>
 
-      <Accordion type="multiple" defaultValue={['marine', 'content']} className="space-y-2">
+      <Accordion type="multiple" className="space-y-2">
         {/* Marine Identification */}
-        <AccordionItem value="marine" className="border rounded-lg px-4">
+        <AccordionItem value="marine" id="sec-marine" data-section="marine" className={sectionRule(activeId === 'marine')}>
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">Marine Identification</span>
           </AccordionTrigger>
@@ -119,13 +132,9 @@ export function Form11811Section() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="entryDate">Entry Date</Label>
-                {/*
-                  DatePicker (military format "15 Dec 24") instead of a raw
-                  HTML <input type="date"> (which produced ISO 2026-04-25)
-                  per SECNAV M-5216.5 / MCO 1070.12K. The picker accepts
-                  ISO on input, so any existing entryDate values stored in
-                  the old format reformat on first edit. (Issue #15.)
-                */}
+                {/* DatePicker for military date format ("15 Dec 24") per
+                    SECNAV M-5216.5 / MCO 1070.12K. It accepts ISO on input,
+                    so old ISO-format values reformat on first edit. */}
                 <DatePicker
                   id="entryDate"
                   value={navmc11811.entryDate}
@@ -149,7 +158,7 @@ export function Form11811Section() {
         </AccordionItem>
 
         {/* Entry Content */}
-        <AccordionItem value="content" className="border rounded-lg px-4">
+        <AccordionItem value="content" id="sec-content" data-section="content" className={sectionRule(activeId === 'content')}>
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">6105 Entry Content</span>
           </AccordionTrigger>
@@ -185,7 +194,7 @@ export function Form11811Section() {
       </Accordion>
 
       {/* Info box */}
-      <div className="border rounded-md p-3 text-xs bg-amber-50 border-amber-200 dark:bg-amber-950/30 dark:border-amber-800">
+      <div className="border-l-2 pl-3 text-xs border-amber-400 dark:border-amber-600">
         <div className="text-amber-700 dark:text-amber-400 font-medium mb-1">
           FOUO - Privacy Sensitive When Filled In
         </div>
