@@ -272,10 +272,21 @@ export default defineConfig({
             // gets the latest version if online. Falls back to cache after 3s
             // so offline/slow networks still load the app instantly.
             // This is the core fix for "updates don't reach users" (#31).
+            //
+            // The cache name is stamped per BUILD: the shell references hashed
+            // bundles that live in the precache, and each new service worker
+            // purges the previous precache on activation. An unversioned shell
+            // cache could outlive its bundles — offline launch would render a
+            // stale index.html whose scripts are gone (blank app). Versioning
+            // means a freshly-activated SW starts with an empty shell cache and
+            // can never serve a shell older than its own precache; the first
+            // online navigation refills it. (Old shell caches are one ~10 KB
+            // entry each; workbox only cleans precaches, so they linger — an
+            // accepted cost.)
             urlPattern: ({ request }) => request.mode === 'navigate',
             handler: 'NetworkFirst',
             options: {
-              cacheName: 'dondocs-app-shell-v1',
+              cacheName: `dondocs-app-shell-${GIT_SHA || BUILD_TIME.replace(/[:.]/g, '-')}`,
               networkTimeoutSeconds: 3,
               expiration: {
                 maxEntries: 1,
