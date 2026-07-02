@@ -32,16 +32,12 @@ jobs:
         # and what Cloudflare Pages runs by default. The codebase ships to
         # browsers, not Node, so the only Node-specific surface is the
         # build / test tooling. Single version is enough.
-        task: [unit, typecheck]
-        # Lint is intentionally not in this matrix. The baseline has a
-        # cluster of `react-refresh/only-export-components` warnings
-        # from earlier component refactors; enabling lint as a gate
-        # would block every PR on pre-existing noise. Cleanup is
-        # tracked as a follow-up PR that will also turn on
-        # `eslint-plugin-security`. Bundle-size and `npm audit` gates
-        # already exist (see the `build` and `audit` jobs below).
-        # CodeQL runs separately via the auto-generated `codeql.yml`
-        # workflow.
+        task: [unit, typecheck, lint]
+        # Lint is now a gate: the baseline is clean (0 errors). The
+        # `eslint-plugin-security` follow-up is still open. Bundle-size
+        # and `npm audit` gates already exist (see the `build` and
+        # `audit` jobs below). CodeQL runs separately via the
+        # auto-generated `codeql.yml` workflow.
     steps:
       - uses: actions/checkout@v4
 
@@ -58,6 +54,7 @@ jobs:
           case "${{ matrix.task }}" in
             unit)      npm test ;;
             typecheck) npx tsc --noEmit ;;
+            lint)      npm run lint ;;
           esac
 
   coverage:

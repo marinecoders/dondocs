@@ -34,4 +34,22 @@ export default defineConfig([
       ],
     },
   },
+  {
+    // `react-refresh/only-export-components` is a Fast Refresh (dev HMR) hint,
+    // not a correctness rule. These files intentionally export a component
+    // alongside non-component values, and splitting them would fight the
+    // established pattern:
+    //   - badge/button: the shadcn convention of co-locating the cva variants
+    //   - variable-chip-editor: document-variable helpers used across editors
+    //   - WelcomeModal: a reset helper for the settings/help menu
+    files: [
+      'src/components/ui/badge.tsx',
+      'src/components/ui/button.tsx',
+      'src/components/ui/variable-chip-editor.tsx',
+      'src/components/modals/WelcomeModal.tsx',
+    ],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
 ])
