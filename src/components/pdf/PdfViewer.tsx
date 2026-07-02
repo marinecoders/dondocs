@@ -154,47 +154,56 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
         fullscreen={showFullscreen && fullscreen.available ? fullscreen : null}
       />
       <div className="relative min-h-0 flex-1">
-        {state.active && (
-          <PdfPageLayer
-            key={state.active.gen}
-            ref={activeLayerRef}
-            url={state.active.url}
-            gen={state.active.gen}
-            pageWidth={pageWidth}
-            dprCap={dprCap}
-            visible
-            onDocMeta={handleDocMeta}
-            onPageInView={setPageInView}
-            onFailed={handleActiveFailed}
-          />
-        )}
-        {state.incoming && (
-          <PdfPageLayer
-            key={state.incoming.gen}
-            ref={incomingLayerRef}
-            url={state.incoming.url}
-            gen={state.incoming.gen}
-            pageWidth={pageWidth}
-            dprCap={dprCap}
-            visible={false}
-            initialScrollTop={stagedScrollTop}
-            onDocMeta={handleDocMeta}
-            onLoaded={onIncomingLoaded}
-            onReady={handleIncomingReady}
-            onFailed={onIncomingFailed}
-          />
-        )}
-        {showFading && (
-          <PdfPageLayer
-            key={fadingSlot.gen}
-            url={fadingSlot.url}
-            gen={fadingSlot.gen}
-            pageWidth={pageWidth}
-            dprCap={dprCap}
-            visible={false}
-            fadingOut
-          />
-        )}
+        {/* ONE keyed array on purpose: React only reconciles keys across a
+            single children array, not across separate JSX expression slots.
+            On promotion the incoming element becomes the active one and the
+            old active becomes the fading one — as array siblings their
+            instances (and painted canvases) are preserved; as positional
+            slots they would remount, refetching a revoked blob URL. The
+            fading layer is last so it paints on top while it dissolves. */}
+        {[
+          state.active && (
+            <PdfPageLayer
+              key={state.active.gen}
+              ref={activeLayerRef}
+              url={state.active.url}
+              gen={state.active.gen}
+              pageWidth={pageWidth}
+              dprCap={dprCap}
+              visible
+              onDocMeta={handleDocMeta}
+              onPageInView={setPageInView}
+              onFailed={handleActiveFailed}
+            />
+          ),
+          state.incoming && (
+            <PdfPageLayer
+              key={state.incoming.gen}
+              ref={incomingLayerRef}
+              url={state.incoming.url}
+              gen={state.incoming.gen}
+              pageWidth={pageWidth}
+              dprCap={dprCap}
+              visible={false}
+              initialScrollTop={stagedScrollTop}
+              onDocMeta={handleDocMeta}
+              onLoaded={onIncomingLoaded}
+              onReady={handleIncomingReady}
+              onFailed={onIncomingFailed}
+            />
+          ),
+          showFading && (
+            <PdfPageLayer
+              key={fadingSlot.gen}
+              url={fadingSlot.url}
+              gen={fadingSlot.gen}
+              pageWidth={pageWidth}
+              dprCap={dprCap}
+              visible={false}
+              fadingOut
+            />
+          ),
+        ].filter(Boolean)}
       </div>
     </div>
   );

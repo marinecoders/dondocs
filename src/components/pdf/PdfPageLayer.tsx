@@ -173,8 +173,7 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
       ref={containerRef}
       onScroll={handleScroll}
       aria-hidden={!visible || undefined}
-      // @ts-expect-error — `inert` is a valid DOM attribute; React's types lag.
-      inert={!visible ? '' : undefined}
+      inert={!visible}
       className={cn(
         'absolute inset-0 overflow-auto overscroll-contain',
         // Hidden pre-render layer: invisible, inert. Fading layer: same, but
