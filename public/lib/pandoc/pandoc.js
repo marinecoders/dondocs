@@ -165,11 +165,15 @@ async function fetchWasmParts() {
   return merged.buffer;
 }
 
-const wasmBytes = await fetchWasmParts();
+let wasmBytes = await fetchWasmParts();
 reportProgress({ kind: "instantiate-start" });
 const { instance } = await WebAssembly.instantiate(wasmBytes, {
   wasi_snapshot_preview1: wasi.wasiImport,
 });
+// Release the ~58MB reassembled buffer: instantiate has compiled its own copy,
+// but this module-scope binding would otherwise retain it for the tab's
+// lifetime on top of pandoc's linear memory.
+wasmBytes = null;
 
 wasi.initialize(instance);
 instance.exports.__wasm_call_ctors();
