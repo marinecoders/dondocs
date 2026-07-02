@@ -251,6 +251,9 @@ export default defineConfig({
       workbox: {
         // With registerType: 'prompt', vite-plugin-pwa handles skipWaiting via message
         // Do NOT add skipWaiting or clientsClaim here - they cause auto-reload
+        // Reclaim retired runtime caches on activate (workbox only cleans its
+        // own precache). public/sw-cleanup.js is served next to sw.js.
+        importScripts: ['sw-cleanup.js'],
         // Increase limit for large JS bundles (SwiftLaTeX is ~9MB)
         maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10MB
         // SW-2: the app loads latex-templates.js?v=11 and swiftlatexpdftex.js?v=6;
