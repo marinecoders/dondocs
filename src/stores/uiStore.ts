@@ -34,6 +34,9 @@ interface UIState {
   togglePreview: () => void;
   setPreviewVisible: (visible: boolean) => void;
   setPreviewWidth: (width: number) => void;
+  /** PDF viewer thumbnail rail (only offered on 2+ page documents). */
+  pdfThumbnailsOpen: boolean;
+  setPdfThumbnailsOpen: (open: boolean) => void;
 
   // Modals
   profileModalOpen: boolean;
@@ -142,6 +145,8 @@ export const useUIStore = create<UIState>()(
       togglePreview: () => set((state) => ({ previewVisible: !state.previewVisible })),
       setPreviewVisible: (visible) => set({ previewVisible: visible }),
       setPreviewWidth: (width) => set({ previewWidth: Math.max(20, Math.min(80, width)) }),
+      pdfThumbnailsOpen: false,
+      setPdfThumbnailsOpen: (open) => set({ pdfThumbnailsOpen: open }),
 
       // Modals
       profileModalOpen: false,
@@ -237,6 +242,7 @@ export const useUIStore = create<UIState>()(
         density: state.density,
         previewVisible: state.previewVisible,
         previewWidth: state.previewWidth,
+        pdfThumbnailsOpen: state.pdfThumbnailsOpen,
         fullQualityPreview: state.fullQualityPreview,
         sidebarCollapsed: state.sidebarCollapsed,
         storageNoticeDismissed: state.storageNoticeDismissed,

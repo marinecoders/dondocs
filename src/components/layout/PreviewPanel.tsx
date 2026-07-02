@@ -1,8 +1,13 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Loader2, AlertCircle, Eye, Paperclip } from 'lucide-react';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { ReadinessMeter } from './ReadinessMeter';
+
+// The in-app viewer (react-pdf + pdf.js) is its own chunk: the desktop shell
+// stays pdf.js-free until a preview actually exists. The warm-up effect below
+// starts fetching it during the first compile so it's ready before the PDF is.
+const PdfViewer = lazy(() => import('@/components/pdf/PdfViewer'));
 
 interface PreviewPanelProps {
   pdfUrl: string | null;
@@ -24,64 +29,14 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
   const setMobilePreviewOpen = useUIStore((s) => s.setMobilePreviewOpen);
   const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
   const enclosureCount = useDocumentStore((s) => s.enclosures.length);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const savedScrollRef = useRef<{ scrollTop: number; scrollLeft: number } | null>(null);
-  const previousUrlRef = useRef<string | null>(null);
 
-  // Save scroll position before PDF URL changes
-  const saveScrollPosition = useCallback(() => {
-    try {
-      const iframe = iframeRef.current;
-      if (iframe?.contentWindow?.document?.scrollingElement) {
-        const scrollEl = iframe.contentWindow.document.scrollingElement;
-        savedScrollRef.current = {
-          scrollTop: scrollEl.scrollTop,
-          scrollLeft: scrollEl.scrollLeft,
-        };
-      }
-    } catch {
-      // Cross-origin restrictions may prevent access - silently ignore
-    }
-  }, []);
-
-  // Restore scroll position after PDF loads
-  const restoreScrollPosition = useCallback(() => {
-    const saved = savedScrollRef.current;
-    if (!saved) return;
-
-    // Try multiple times as PDF viewer may take time to initialize
-    const attempts = [100, 300, 600, 1000];
-    attempts.forEach((delay) => {
-      setTimeout(() => {
-        try {
-          const iframe = iframeRef.current;
-          if (iframe?.contentWindow?.document?.scrollingElement) {
-            const scrollEl = iframe.contentWindow.document.scrollingElement;
-            scrollEl.scrollTop = saved.scrollTop;
-            scrollEl.scrollLeft = saved.scrollLeft;
-          }
-        } catch {
-          // Cross-origin restrictions may prevent access - silently ignore
-        }
-      }, delay);
-    });
-  }, []);
-
-  // Handle PDF URL changes - save position before, restore after
+  // Prefetch the viewer chunk while the first compile runs, so the viewer is
+  // parsed and ready by the time a pdfUrl exists. (Scroll preservation across
+  // recompiles now lives inside PdfViewer's double-buffered swap — the old
+  // reach-into-the-iframe hack is gone with the iframe.)
   useEffect(() => {
-    if (pdfUrl && previousUrlRef.current && pdfUrl !== previousUrlRef.current) {
-      // URL is changing, save current scroll position
-      saveScrollPosition();
-    }
-    previousUrlRef.current = pdfUrl;
-  }, [pdfUrl, saveScrollPosition]);
-
-  // Handle iframe load event to restore scroll position
-  const handleIframeLoad = useCallback(() => {
-    if (savedScrollRef.current) {
-      restoreScrollPosition();
-    }
-  }, [restoreScrollPosition]);
+    if (isCompiling) void import('@/components/pdf/PdfViewer');
+  }, [isCompiling]);
 
   // Filter out engine reset message - it's not a user-facing error
   const displayError = error === 'ENGINE_RESET_NEEDED' ? null : error;
@@ -160,13 +115,11 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
         {/* Show PDF if available, with optional loading overlay */}
         {pdfUrl && (
           <>
-            <iframe
-              ref={iframeRef}
-              src={pdfUrl}
-              className="absolute inset-0 w-full h-full border-0"
-              title="Document preview"
-              onLoad={handleIframeLoad}
-            />
+            <Suspense fallback={null /* the mat behind is already painted */}>
+              <div className="absolute inset-0" title="Document preview">
+                <PdfViewer pdfUrl={pdfUrl} />
+              </div>
+            </Suspense>
             {/* While recompiling, the stale PDF stays visible and unobscured —
                 the header's compile sweep conveys the in-flight state instead of
                 a blocking overlay wash. */}
