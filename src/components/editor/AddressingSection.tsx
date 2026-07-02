@@ -312,6 +312,43 @@ export function AddressingSection({ config }: AddressingSectionProps) {
               </>
             )}
 
+            {/* Memorandum For (mf): the addressee is embedded in the title line
+                ("MEMORANDUM FOR [addressee]"), so this doc type has no From/To
+                block — but the generators still read the addressee from `to`.
+                Without this field the defining line of the document rendered
+                blank (docs/KNOWN_ISSUES.md, now resolved). */}
+            {docType === 'mf' && (
+              <div className="space-y-2">
+                <Label htmlFor="to">
+                  Memorandum For <span className="text-destructive">*</span>
+                </Label>
+                <div className="flex gap-1">
+                  <div className="flex-1">
+                    <InputWithVariables
+                      id="to"
+                      value={formData.to || ''}
+                      onValueChange={(v) => setField('to', v)}
+                      aria-invalid={validationVisible && unfilled(formData.to) ? true : undefined}
+                      placeholder="Distribution List, or the receiving office/official"
+                    />
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    onClick={() => setUnitLookup('to')}
+                    title="Look up a unit"
+                    className="shrink-0"
+                  >
+                    <Building2 className="h-4 w-4" />
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Completes the title line: MEMORANDUM FOR [addressee] (SECNAV M-5216.5 Ch 10).
+                </p>
+              </div>
+            )}
+
             {/* Recipient Address - for business letters (multi-line address block) */}
             {config.recipientAddress && (
               <div className="space-y-2">

@@ -2,6 +2,20 @@
 
 ## Resolved
 
+### Memorandum For (mf): No Addressee Field in the Editor
+
+**Resolved:** July 2026 (1.2.3)
+
+The generators emit the `MEMORANDUM FOR [addressee]` line only when `data.to`
+is set, but no editor field wrote `to` for the `mf` doc type (`fromTo: false`,
+no recipient-address block) — so the defining line of every Memorandum For
+rendered blank. Fixed with a dedicated required "Memorandum For" field (with
+unit lookup) in the addressing section; the section-completeness rule now
+requires it, and an integration test compiles a real `mf` document and asserts
+the addressee appears in the output text.
+
+**Files:** `src/components/editor/AddressingSection.tsx`, `src/components/layout/editorSections.tsx`, `tests/integration/mf-addressee.test.ts`
+
 ### SwiftLaTeX Dollar Sign (`$`) Rendering
 
 **Resolved:** February 2026
@@ -29,19 +43,6 @@ Pandoc ignores `\fancyfoot[R]{\thepage}`, so page number position is determined 
 **Potential fix:** Post-process `word/footer1.xml` to position the page number field code.
 
 **Files:** `src/services/latex/flat-generator.ts`, `public/lib/pandoc/dondocs.lua`
-
-### Memorandum For (mf): No Addressee Field in the Editor
-
-The generators emit the `MEMORANDUM FOR [addressee]` line only when `data.to`
-is set, but the `mf` document type's config has `fromTo: false` and no
-recipient-address block, so no editor field ever writes `data.to`. The
-defining line of the document is always empty in the output.
-
-**Potential fix:** Render a dedicated addressee input for `docType === 'mf'`
-(or reuse the executive-memo `MEMORANDUM FOR` input) and keep the existing
-generator gating.
-
-**Files:** `src/components/editor/AddressingSection.tsx`, `src/types/document.ts`, `src/services/latex/flat-generator.ts`
 
 ---
 

@@ -109,6 +109,16 @@ describe('getSectionError — addressing only flags fields the doc type exposes'
     expect(getSectionError('addressing', { from: '', to: '', subject: 'X' }, noParas, DOC_TYPE_CONFIG.business_letter)).toBe(true);
     expect(getSectionError('addressing', { from: '', to: 'Acme Corp', subject: 'X' }, noParas, DOC_TYPE_CONFIG.business_letter)).toBe(false);
   });
+
+  it('flags the Memorandum For addressee (mf writes the MEMORANDUM FOR line from `to`)', () => {
+    expect(DOC_TYPE_CONFIG.mf.fromTo).toBe(false);
+    expect(DOC_TYPE_CONFIG.mf.memoTitle).toBe('MEMORANDUM FOR');
+    // The addressee field is required — a blank (or placeholder) To errors...
+    expect(getSectionError('addressing', { from: '', to: '', subject: 'X' }, noParas, DOC_TYPE_CONFIG.mf)).toBe(true);
+    expect(getSectionError('addressing', { from: '', to: '[RECIPIENT]', subject: 'X' }, noParas, DOC_TYPE_CONFIG.mf)).toBe(true);
+    // ...and a real addressee clears it (From stays unfillable, so blank From is fine).
+    expect(getSectionError('addressing', { from: '', to: 'Distribution List', subject: 'X' }, noParas, DOC_TYPE_CONFIG.mf)).toBe(false);
+  });
 });
 
 describe('getSectionError — executive/joint-memo heading sections validate their Subject', () => {

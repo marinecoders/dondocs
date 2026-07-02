@@ -191,7 +191,12 @@ export function getSectionError(
       // unclearable error dot on the Heading section; business letters (no From)
       // got the same on the From check.
       const fromError = config.fromTo ? unfilled(formData.from) : false;
-      const toError = config.fromTo || config.recipientAddress ? unfilled(formData.to) : false;
+      // "To" also carries the Memorandum For addressee — the doc type renders a
+      // dedicated required field for its "MEMORANDUM FOR [addressee]" title line.
+      const toError =
+        config.fromTo || config.recipientAddress || config.memoTitle === 'MEMORANDUM FOR'
+          ? unfilled(formData.to)
+          : false;
       return fromError || toError || unfilled(formData.subject);
     }
     case 'body':

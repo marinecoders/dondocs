@@ -5,6 +5,16 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.3] — 2026-07-01
+
+### Fixed
+
+- Memorandum For (mf) documents can finally address someone: the editor
+  gains a required "Memorandum For" field (with unit lookup) that fills the
+  `MEMORANDUM FOR [addressee]` title line, which previously always rendered
+  blank because no field wrote it. Guarded by an integration test that
+  compiles a real document and checks the line in the output.
+
 ## [1.2.2] — 2026-07-01
 
 ### Security
