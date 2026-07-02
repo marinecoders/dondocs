@@ -28,6 +28,22 @@ const GIT_SHA = (() => {
 })();
 const BUILD_TIME = new Date().toISOString();
 
+// The vendored pandoc-wasm release (from the manifest scripts/vendor-assets.mjs
+// wrote at prebuild). The pandoc runtime cache is named after it, so bumping
+// the pinned version rotates to a brand-new cache — a returning client can
+// never reassemble a mix of old cached parts and new network parts. 'dev' when
+// the manifest isn't staged yet (e.g. dev without a prior vendor run).
+const PANDOC_VERSION = (() => {
+  try {
+    const m = JSON.parse(
+      fs.readFileSync(path.resolve(__dirname, 'public/lib/pandoc/pandoc.wasm.manifest.json'), 'utf-8')
+    );
+    return typeof m.version === 'string' ? m.version : 'dev';
+  } catch {
+    return 'dev';
+  }
+})();
+
 // Inject version metadata into index.html as <meta> tags so deployed version
 // can be verified without running JS (e.g., `curl site.com | grep dondocs-version`).
 function versionMetaPlugin(): Plugin {
@@ -362,17 +378,16 @@ export default defineConfig({
           },
           {
             // Pandoc assets (manifest + wasm parts + lua filter + reference
-            // docx) — all same-origin since the air-gap vendoring; the old
-            // unpkg/jsdelivr rules are gone with the CDN fetches themselves.
-            // v2: v1 may hold a stale whole pandoc.wasm entry from the CDN
-            // era. Workbox never deletes unreferenced runtime caches, so v1
-            // (and the two retired CDN caches) linger on returning clients
-            // until the browser evicts them — same accepted cost as the
-            // versioned app-shell caches above.
+            // docx) — all same-origin since the air-gap vendoring. The cache
+            // name is stamped with the pandoc release, so a version bump lands
+            // on an empty cache and the manifest + every part are fetched fresh
+            // together: no returning client can ever assemble a stale-part /
+            // fresh-part mix from an unversioned CacheFirst URL. Retired caches
+            // are reclaimed by public/sw-cleanup.js on activate.
             urlPattern: /\/lib\/pandoc\/.*/,
             handler: 'CacheFirst',
             options: {
-              cacheName: 'pandoc-wasm-cache-v2',
+              cacheName: `pandoc-wasm-cache-${PANDOC_VERSION}`,
               expiration: {
                 // manifest + 3 parts + dondocs.lua + reference.docx = 6 live
                 // entries (pandoc.js and wasi-shim.js are precached).
