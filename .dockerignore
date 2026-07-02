@@ -26,6 +26,12 @@ KNOWN_ISSUES.md
 dist
 build
 
+# Vendored pandoc parts — staged fresh inside the build (see Dockerfile), so a
+# dev machine's copy must not ride in via the build context and overwrite them.
+public/lib/pandoc/pandoc.wasm
+public/lib/pandoc/pandoc.wasm.part*
+public/lib/pandoc/pandoc.wasm.manifest.json
+
 # Logs
 *.log
 npm-debug.log*

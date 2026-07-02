@@ -1,10 +1,11 @@
 /**
  * Idle-time prefetch of the Pandoc WASM module (~58 MB).
  *
- * The first DOCX export downloads the Pandoc WASM binary from unpkg, plus
- * a small WASI shim from jsdelivr. On a typical connection that's a
- * 5-15s wait between the user clicking "Download DOCX" and the file
- * actually being generated -- a noticeably bad first-time experience.
+ * The first DOCX export downloads the Pandoc WASM binary as same-origin
+ * parts from /lib/pandoc/ (vendored at build time — no CDN, so it works
+ * air-gapped). On a typical connection that's still a 5-15s wait between
+ * the user clicking "Download DOCX" and the file actually being
+ * generated -- a noticeably bad first-time experience.
  *
  * This hook fires `prefetchPandocModule()` shortly after the page is
  * idle, populating the in-memory singleton + workbox runtime cache in

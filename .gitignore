@@ -67,8 +67,12 @@ Desktop.ini
 .claude/
 
 
-# Large binary assets (fetched at runtime / cached by service worker)
+# Build-time vendored binaries (downloaded + split by scripts/vendor-assets.mjs;
+# baked into dist/ so the deployed artifact is air-gap self-contained)
 public/lib/pandoc/pandoc.wasm
+public/lib/pandoc/pandoc.wasm.part*
+public/lib/pandoc/pandoc.wasm.manifest.json
+public/lib/pandoc/*.partial
 
 # Node / Vite
 node_modules/

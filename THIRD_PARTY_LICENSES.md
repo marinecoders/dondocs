@@ -12,10 +12,10 @@ grant in `LICENSE` does **not** extend to these components.
 | SwiftLaTeX (PdfTeXEngine) | `public/lib/PdfTeXEngine.js`, `public/lib/swiftlatexpdftex.js`, `public/lib/swiftlatexpdftex.wasm` | AGPL-3.0 (SwiftLaTeX project); the engine wraps pdfTeX, see below |
 | pdfTeX (compiled into the SwiftLaTeX WASM) | `public/lib/swiftlatexpdftex.wasm` | GPL-2.0-or-later |
 | TeX Live packages and fonts | `public/lib/texlive/`, `public/lib/texlive-packages.js` | LaTeX Project Public License (LPPL) and per-package licenses; Computer Modern fonts under their respective font licenses |
-| Pandoc (WASM, fetched at build time) | `public/lib/pandoc/pandoc.wasm` (via `scripts/vendor-assets.mjs`, from the `pandoc-wasm` npm package) | GPL-2.0-or-later |
+| Pandoc (WASM, fetched at build time) | `public/lib/pandoc/pandoc.wasm.part*` (downloaded and split by `scripts/vendor-assets.mjs` from the `pandoc-wasm` npm package) | GPL-2.0-or-later |
 | pandoc.js interface | `public/lib/pandoc/pandoc.js` | MIT (Tweag I/O Limited and John MacFarlane) |
 | browser_wasi_shim | `public/lib/pandoc/wasi-shim.js` (bundled from `@bjorn3/browser_wasi_shim`) | MIT OR Apache-2.0 |
-| PDF.js worker | `public/lib/pdf.worker.min.mjs`, `public/lib/pdf.worker-3.11.min.js` | Apache-2.0 (Mozilla) |
+| PDF.js worker | `public/lib/pdf.worker.min.mjs` (synced from `react-pdf`'s pdfjs-dist by `scripts/sync-pdf-worker.mjs`) | Apache-2.0 (Mozilla) |
 
 ## Notes
 

@@ -28,6 +28,22 @@ const GIT_SHA = (() => {
 })();
 const BUILD_TIME = new Date().toISOString();
 
+// The vendored pandoc-wasm release (from the manifest scripts/vendor-assets.mjs
+// wrote at prebuild). The pandoc runtime cache is named after it, so bumping
+// the pinned version rotates to a brand-new cache — a returning client can
+// never reassemble a mix of old cached parts and new network parts. 'dev' when
+// the manifest isn't staged yet (e.g. dev without a prior vendor run).
+const PANDOC_VERSION = (() => {
+  try {
+    const m = JSON.parse(
+      fs.readFileSync(path.resolve(__dirname, 'public/lib/pandoc/pandoc.wasm.manifest.json'), 'utf-8')
+    );
+    return typeof m.version === 'string' ? m.version : 'dev';
+  } catch {
+    return 'dev';
+  }
+})();
+
 // Inject version metadata into index.html as <meta> tags so deployed version
 // can be verified without running JS (e.g., `curl site.com | grep dondocs-version`).
 function versionMetaPlugin(): Plugin {
@@ -235,6 +251,9 @@ export default defineConfig({
       workbox: {
         // With registerType: 'prompt', vite-plugin-pwa handles skipWaiting via message
         // Do NOT add skipWaiting or clientsClaim here - they cause auto-reload
+        // Reclaim retired runtime caches on activate (workbox only cleans its
+        // own precache). public/sw-cleanup.js is served next to sw.js.
+        importScripts: ['sw-cleanup.js'],
         // Increase limit for large JS bundles (SwiftLaTeX is ~9MB)
         maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10MB
         // SW-2: the app loads latex-templates.js?v=11 and swiftlatexpdftex.js?v=6;
@@ -361,55 +380,22 @@ export default defineConfig({
             },
           },
           {
-            // Cache pandoc WASM files for offline DOCX generation
+            // Pandoc assets (manifest + wasm parts + lua filter + reference
+            // docx) — all same-origin since the air-gap vendoring. The cache
+            // name is stamped with the pandoc release, so a version bump lands
+            // on an empty cache and the manifest + every part are fetched fresh
+            // together: no returning client can ever assemble a stale-part /
+            // fresh-part mix from an unversioned CacheFirst URL. Retired caches
+            // are reclaimed by public/sw-cleanup.js on activate.
             urlPattern: /\/lib\/pandoc\/.*/,
             handler: 'CacheFirst',
             options: {
-              cacheName: 'pandoc-wasm-cache-v1',
+              cacheName: `pandoc-wasm-cache-${PANDOC_VERSION}`,
               expiration: {
+                // manifest + 3 parts + dondocs.lua + reference.docx = 6 live
+                // entries (pandoc.js and wasi-shim.js are precached).
                 maxEntries: 10,
                 maxAgeSeconds: 60 * 60 * 24 * 90, // 90 days
-              },
-            },
-          },
-          {
-            // Cache the Pandoc WASM binary fetched from unpkg by pandoc.js
-            // (`https://unpkg.com/pandoc-wasm@1.0.1/src/pandoc.wasm`, ~58 MB).
-            // Without this rule, only the browser's HTTP cache would protect
-            // against re-downloading after the user clears site data or after
-            // the browser cache evicts under pressure. With workbox's 90-day
-            // CacheFirst, the bytes survive across sessions and the
-            // `usePandocIdlePrefetch` warm-up is durable.
-            urlPattern: /^https:\/\/unpkg\.com\/pandoc-wasm@/,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'pandoc-wasm-cdn-cache-v1',
-              expiration: {
-                maxEntries: 5,
-                maxAgeSeconds: 60 * 60 * 24 * 90, // 90 days
-              },
-              cacheableResponse: {
-                // unpkg returns 200 for cache hits; opaque (0) responses
-                // can occur for cross-origin requests without CORS, but
-                // unpkg sets CORS headers so we should always get 200.
-                statuses: [0, 200],
-              },
-            },
-          },
-          {
-            // Cache the WASI shim that pandoc.js imports from jsdelivr
-            // (`https://cdn.jsdelivr.net/npm/@bjorn3/browser_wasi_shim@.../index.js`,
-            // ~50 KB). Same rationale as the unpkg rule above.
-            urlPattern: /^https:\/\/cdn\.jsdelivr\.net\/npm\/@bjorn3\/browser_wasi_shim/,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'wasi-shim-cdn-cache-v1',
-              expiration: {
-                maxEntries: 5,
-                maxAgeSeconds: 60 * 60 * 24 * 90, // 90 days
-              },
-              cacheableResponse: {
-                statuses: [0, 200],
               },
             },
           },

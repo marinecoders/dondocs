@@ -64,8 +64,10 @@ let referenceDocxBlob: Blob | null = null;
 let luaFilterBlob: Blob | null = null;
 
 async function loadPandocModule(): Promise<PandocModule> {
-  // pandoc.js is an ES module with top-level await and CDN imports.
-  // It lives in public/ and must NOT go through Vite's transform pipeline.
+  // pandoc.js is an ES module with top-level await; it loads the WASI shim
+  // and the pandoc WASM parts same-origin from /lib/pandoc/ (vendored at
+  // build time — air-gap safe, no CDN). It lives in public/ and must NOT go
+  // through Vite's transform pipeline.
   // We construct a full absolute URL so the browser loads it directly.
   const moduleUrl = new URL(`${BASE_PATH}lib/pandoc/pandoc.js`, window.location.origin).href;
   debug.log('DOCX', `Loading pandoc WASM module from ${moduleUrl}`);

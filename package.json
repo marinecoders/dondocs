@@ -1,11 +1,15 @@
 {
   "name": "web-react",
   "private": true,
-  "version": "1.2.4",
+  "version": "1.2.5",
   "type": "module",
   "scripts": {
+    "predev": "node scripts/vendor-assets.mjs --allow-offline",
     "dev": "vite",
+    "vendor-assets": "node scripts/vendor-assets.mjs",
+    "prebuild": "node scripts/vendor-assets.mjs",
     "build": "tsc -b && vite build",
+    "postbuild": "node scripts/check-no-cdn.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",

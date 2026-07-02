@@ -90,6 +90,17 @@ jobs:
           node-version: '22'
           cache: 'npm'
       - run: npm ci
+      # Cache the vendored pandoc parts so build doesn't re-download ~58MB from
+      # unpkg on every run — keyed on the vendor script (which pins the version),
+      # so a version bump invalidates it. On a hit, prebuild's isCurrent() skips
+      # the download; on a miss, the script retries transient failures.
+      - name: cache pandoc wasm parts
+        uses: actions/cache@v4
+        with:
+          path: |
+            public/lib/pandoc/pandoc.wasm.part*
+            public/lib/pandoc/pandoc.wasm.manifest.json
+          key: pandoc-wasm-${{ hashFiles('scripts/vendor-assets.mjs') }}
       - run: npm run build
       - name: assert no test file in dist
         # Sanity check: tests/ MUST NOT end up in the production bundle.
