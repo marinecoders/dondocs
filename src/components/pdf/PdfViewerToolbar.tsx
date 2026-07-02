@@ -5,6 +5,7 @@ import {
   Maximize2,
   Minimize2,
   MoveHorizontal,
+  PanelLeft,
   RectangleVertical,
   ZoomIn,
   ZoomOut,
@@ -18,6 +19,8 @@ interface PdfViewerToolbarProps {
   pageCount: number;
   zoomPercent: number;
   fitMode: 'width' | 'page' | null;
+  /** Thumbnail-rail control; null hides the toggle (single-page documents). */
+  thumbnails: { open: boolean; toggle: () => void } | null;
   onGoToPage: (page: number) => void;
   onPrevPage: () => void;
   onNextPage: () => void;
@@ -71,6 +74,7 @@ export function PdfViewerToolbar({
   pageCount,
   zoomPercent,
   fitMode,
+  thumbnails,
   onGoToPage,
   onPrevPage,
   onNextPage,
@@ -101,6 +105,15 @@ export function PdfViewerToolbar({
         className
       )}
     >
+      {thumbnails && (
+        <ToolButton
+          label={thumbnails.open ? 'Hide page thumbnails' : 'Show page thumbnails'}
+          onClick={thumbnails.toggle}
+          pressed={thumbnails.open}
+        >
+          <PanelLeft className={cn('h-4 w-4', thumbnails.open && 'text-primary')} />
+        </ToolButton>
+      )}
       <ToolButton label="Previous page" onClick={onPrevPage} disabled={page <= 1}>
         <ChevronUp className="h-4 w-4" />
       </ToolButton>

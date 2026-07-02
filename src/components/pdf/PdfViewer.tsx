@@ -3,6 +3,7 @@ import { AlertCircle, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useDeviceInfo } from '@/utils/device';
+import { useUIStore } from '@/stores/uiStore';
 import { cn } from '@/lib/utils';
 // Side effect: sets the single pdf.js workerSrc for the whole app.
 import { getDprCap } from './pdfConfig';
@@ -54,6 +55,12 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
   // staged — the hidden layer pre-renders around it. Captured in an effect
   // (refs are off-limits during render).
   const [stagedScrollTop, setStagedScrollTop] = useState(0);
+  // Thumbnail rail: preference persists; the toggle only exists on 2+ page
+  // documents, so a single-page letter never shows (or pays for) the rail.
+  const thumbsOpen = useUIStore((s) => s.pdfThumbnailsOpen);
+  const setThumbsOpen = useUIStore((s) => s.setPdfThumbnailsOpen);
+  // Callback-ref state so the portal target re-renders the layer when it mounts.
+  const [thumbTarget, setThumbTarget] = useState<HTMLDivElement | null>(null);
   // The just-replaced layer, kept mounted briefly (same key → same instance)
   // so it can fade out over the promoted one.
   const [fadingSlot, setFadingSlot] = useState<DocSlot | null>(null);
@@ -157,6 +164,11 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
         pageCount={docMeta?.numPages ?? 0}
         zoomPercent={Math.round(effectiveScale * 100)}
         fitMode={mode.kind === 'fit-width' ? 'width' : mode.kind === 'fit-page' ? 'page' : null}
+        thumbnails={
+          (docMeta?.numPages ?? 0) >= 2
+            ? { open: thumbsOpen, toggle: () => setThumbsOpen(!thumbsOpen) }
+            : null
+        }
         onGoToPage={goToPageNumber}
         onPrevPage={() => goToPage(-1)}
         onNextPage={() => goToPage(1)}
@@ -167,7 +179,15 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
         onOpenInTab={openInTab}
         fullscreen={showFullscreen && fullscreen.available ? fullscreen : null}
       />
-      <div className="relative min-h-0 flex-1">
+      <div className="flex min-h-0 flex-1">
+        {thumbsOpen && (docMeta?.numPages ?? 0) >= 2 && (
+          <div
+            ref={setThumbTarget}
+            className="w-[104px] shrink-0 overflow-y-auto border-r border-border bg-card/50"
+            aria-label="Page thumbnails"
+          />
+        )}
+        <div className="relative min-h-0 flex-1">
         {/* ONE keyed array on purpose: React only reconciles keys across a
             single children array, not across separate JSX expression slots.
             On promotion the incoming element becomes the active one and the
@@ -185,6 +205,8 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
               pageWidth={pageWidth}
               dprCap={dprCap}
               visible
+              thumbPortalTarget={thumbTarget}
+              currentPage={pageInView}
               onDocMeta={handleDocMeta}
               onPageInView={setPageInView}
               onFailed={handleActiveFailed}
@@ -218,6 +240,7 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
             />
           ),
         ].filter(Boolean)}
+        </div>
       </div>
     </div>
   );

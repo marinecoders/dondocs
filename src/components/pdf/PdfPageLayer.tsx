@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { createPortal } from 'react-dom';
 import { Document, Page } from 'react-pdf';
 import { cn } from '@/lib/utils';
 import { HARDENED_PDF_OPTIONS } from './pdfConfig';
@@ -43,6 +44,12 @@ interface PdfPageLayerProps {
   initialScrollTop?: number;
   /** Fade the layer out (promotion crossfade). */
   fadingOut?: boolean;
+  /** Where the thumbnail rail lives (a sibling column). Thumbnails portal out
+   *  of this layer's <Document> so they share the parsed document — no second
+   *  parse, and they follow document swaps for free. Active layer only. */
+  thumbPortalTarget?: HTMLElement | null;
+  /** 1-based page highlighted in the rail. */
+  currentPage?: number;
   onDocMeta?: (gen: number, meta: { numPages: number; baseWidth: number; baseAspect: number }) => void;
   onPageInView?: (page: number) => void;
   /** Hidden layer only: document parsed (numPages known). */
@@ -59,7 +66,7 @@ interface PdfPageLayerProps {
  * the viewer inside iOS's canvas memory budget.
  */
 export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(function PdfPageLayer(
-  { url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, fadingOut = false, onDocMeta, onPageInView, onLoaded, onReady, onFailed },
+  { url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, fadingOut = false, thumbPortalTarget, currentPage, onDocMeta, onPageInView, onLoaded, onReady, onFailed },
   ref
 ) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -116,6 +123,16 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible, layout.length]);
 
+  const scrollToPage = useCallback(
+    (index: number, smooth: boolean) => {
+      const el = containerRef.current;
+      const target = layout[index];
+      if (!el || !target) return;
+      el.scrollTo({ top: Math.max(0, target.top - PAGE_GAP), behavior: smooth ? 'smooth' : 'auto' });
+    },
+    [layout]
+  );
+
   useImperativeHandle(
     ref,
     () => ({
@@ -125,14 +142,9 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
         if (!el) return;
         el.scrollTop = clampScrollTop(v, el.scrollHeight, el.clientHeight);
       },
-      scrollToPage: (index: number, smooth: boolean) => {
-        const el = containerRef.current;
-        const target = layout[index];
-        if (!el || !target) return;
-        el.scrollTo({ top: Math.max(0, target.top - PAGE_GAP), behavior: smooth ? 'smooth' : 'auto' });
-      },
+      scrollToPage,
     }),
-    [layout]
+    [scrollToPage]
   );
 
   const handleScroll = useCallback(() => {
@@ -258,6 +270,51 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
             );
           })}
         </div>
+        {/* Thumbnail rail: portaled to the sibling column but rendered INSIDE
+            this <Document>, so the thumbs draw from the same parsed document
+            (react-pdf's context crosses the portal). Tiny canvases at dpr 1 —
+            even a 50-page merged doc costs single-digit MB. */}
+        {visible &&
+          thumbPortalTarget &&
+          numPages > 0 &&
+          createPortal(
+            <div className="flex flex-col gap-2 p-2">
+              {Array.from({ length: numPages }, (_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => scrollToPage(i, true)}
+                  aria-label={`Go to page ${i + 1}`}
+                  aria-current={currentPage === i + 1 ? 'page' : undefined}
+                  className={cn(
+                    'shrink-0 rounded-sm outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-ring/60',
+                    currentPage === i + 1
+                      ? 'ring-2 ring-primary'
+                      : 'ring-1 ring-black/10 hover:ring-ring/60 dark:ring-white/10'
+                  )}
+                >
+                  <Page
+                    pageNumber={i + 1}
+                    width={72}
+                    devicePixelRatio={1}
+                    renderTextLayer={false}
+                    renderAnnotationLayer={false}
+                    loading={
+                      <div
+                        className="bg-white/70"
+                        style={{ width: 72, height: 72 / (aspects[i] ?? DEFAULT_PAGE_ASPECT) }}
+                      />
+                    }
+                    error={null}
+                  />
+                  <span className="tnum block py-0.5 text-center text-[10px] text-muted-foreground">
+                    {i + 1}
+                  </span>
+                </button>
+              ))}
+            </div>,
+            thumbPortalTarget
+          )}
       </Document>
     </div>
   );

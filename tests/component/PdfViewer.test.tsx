@@ -122,6 +122,26 @@ describe('PdfViewer', () => {
     expect(input.value).toBe('1'); // out of range for a 2-page doc → restored
   });
 
+  it('thumbnail rail: toggle appears on multi-page docs, opens a clickable rail', async () => {
+    const { container } = renderViewer('blob:test/5');
+    await waitFor(() => expect(screen.getByText('of 2')).toBeTruthy());
+
+    const toggle = screen.getByLabelText('Show page thumbnails');
+    expect(toggle.getAttribute('aria-pressed')).toBe('false');
+    fireEvent.click(toggle);
+
+    // Rail mounts and the portal fills it with one thumbnail button per page,
+    // drawn from the SAME document (no second doc:testid appears).
+    await waitFor(() => expect(screen.getByLabelText('Go to page 2')).toBeTruthy());
+    expect(container.querySelectorAll('[data-testid="doc:blob:test/5"]')).toHaveLength(1);
+    expect(screen.getByLabelText('Go to page 1').getAttribute('aria-current')).toBe('page');
+    expect(screen.getByLabelText('Hide page thumbnails').getAttribute('aria-pressed')).toBe('true');
+
+    // Close restores the clean single-column layout.
+    fireEvent.click(screen.getByLabelText('Hide page thumbnails'));
+    await waitFor(() => expect(screen.queryByLabelText('Go to page 2')).toBeNull());
+  });
+
   it('zoom buttons change the rendered page width', async () => {
     const { container } = renderViewer('blob:test/3');
     await waitFor(() => expect(container.querySelector('[data-testid="page:1"]')).toBeTruthy());
