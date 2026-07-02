@@ -4,7 +4,10 @@
   "version": "1.2.4",
   "type": "module",
   "scripts": {
+    "predev": "node scripts/vendor-assets.mjs",
     "dev": "vite",
+    "vendor-assets": "node scripts/vendor-assets.mjs",
+    "prebuild": "node scripts/vendor-assets.mjs",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
