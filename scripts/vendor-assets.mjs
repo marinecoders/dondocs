@@ -105,6 +105,28 @@ async function isCurrent() {
   }
 }
 
+/** Fetch with retries + backoff so a transient unpkg blip doesn't fail an
+ *  otherwise-green build (or the docker-release build). Each attempt gets its
+ *  own timeout — an AbortSignal can't be reused once it has fired. */
+async function fetchWithRetry(url, attempts = 3, timeoutMs = 120_000) {
+  let lastErr;
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      const res = await fetch(url, { signal: AbortSignal.timeout(timeoutMs) });
+      if (res.ok && res.body) return res;
+      lastErr = new Error(`HTTP ${res.status} ${res.statusText}`);
+    } catch (err) {
+      lastErr = err instanceof Error ? err : new Error(String(err));
+    }
+    if (i < attempts) {
+      const backoff = 1000 * 2 ** (i - 1);
+      console.warn(`[vendor] download attempt ${i}/${attempts} failed (${lastErr.message}); retrying in ${backoff}ms`);
+      await new Promise((r) => setTimeout(r, backoff));
+    }
+  }
+  throw new Error(`[vendor] ${WASM.name}: download failed after ${attempts} attempts — ${lastErr?.message}`);
+}
+
 async function vendorPandocWasm() {
   if (await isCurrent()) {
     console.log(`[vendor] ${WASM.name} ${WASM.version}: parts current per manifest — skipping download`);
@@ -113,12 +135,7 @@ async function vendorPandocWasm() {
 
   mkdirSync(PANDOC_DIR, { recursive: true });
   console.log(`[vendor] ${WASM.name}: downloading ${WASM.url} ...`);
-  // Bounded: a black-holing proxy would otherwise hang the build/dev startup
-  // forever (native fetch has no default timeout).
-  const res = await fetch(WASM.url, { signal: AbortSignal.timeout(120_000) });
-  if (!res.ok || !res.body) {
-    throw new Error(`[vendor] ${WASM.name}: HTTP ${res.status} ${res.statusText} fetching ${WASM.url}`);
-  }
+  const res = await fetchWithRetry(WASM.url);
   const bytes = Buffer.from(await res.arrayBuffer());
 
   if (bytes.byteLength < WASM.minBytes) {
