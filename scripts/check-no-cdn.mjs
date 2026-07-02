@@ -24,11 +24,19 @@ function isMainModule() {
   }
 }
 
-/** Hosts that must never appear in a shipped asset. */
+/** Public CDN hosts that must never appear in a shipped asset. A denylist, not
+ *  a proof of no cross-origin fetch — it enumerates the well-known JS-module and
+ *  font CDNs an accidental `import from 'https://…'` would realistically pull
+ *  from. Add new module CDNs here as they appear. */
 export const FORBIDDEN = [
   'unpkg.com',
   'cdn.jsdelivr.net',
   'cdnjs.cloudflare.com',
+  'esm.sh',
+  'esm.run',
+  'cdn.skypack.dev',
+  'jspm.io',
+  'raw.githubusercontent.com',
   'fonts.googleapis.com',
   'fonts.gstatic.com',
   'ajax.googleapis.com',
