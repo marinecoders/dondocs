@@ -5,6 +5,26 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [Unreleased]
+
+### Changed
+
+- **One PDF viewer everywhere** — the desktop preview drops the browser's
+  iframe viewer and mobile drops its per-platform split; every surface renders
+  through a shared in-app viewer with zoom, page navigation, fullscreen, and
+  an open-in-tab escape hatch. Recompiles now swap in place: the old page
+  stays visible while the new one renders, then dissolves — no white flash,
+  no scroll jump.
+
+### Removed
+
+- `@react-pdf-viewer` (all five packages) and its CDN-hosted pdf.js 3.x
+  worker. This closes the 21 high-severity audit advisories
+  (CVE-2024-4367) that CI previously carried an explicit allowlist for —
+  `npm audit --audit-level=high` now gates with zero exceptions, and a new CI
+  check keeps the vendored pdf.js worker in lockstep with the installed
+  library.
+
 ## [1.2.0] — 2026-07-01
 
 The editor becomes a multi-document workspace. Existing data migrates in

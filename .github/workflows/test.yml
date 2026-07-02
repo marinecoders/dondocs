@@ -155,16 +155,12 @@ jobs:
           fi
 
   audit:
-    # `npm audit --audit-level=high` gate. Currently 19 high vulns —
-    # all from a single GHSA advisory transitive in @react-pdf-viewer/*
-    # (no upstream fix available; tracked separately in feat/ci-lint-security
-    # for the dep upgrade). Allowlisting that one advisory by ID lets
-    # the gate be effective immediately: any NEW high/critical vuln
-    # fails CI, while the known-and-tracked one doesn't false-fail.
-    #
-    # When the @react-pdf-viewer upgrade lands and the advisory is
-    # gone, drop the entry from KNOWN_ADVISORIES and the gate becomes
-    # vanilla `npm audit --audit-level=high`.
+    # Vanilla `npm audit --audit-level=high` gate — zero exceptions. The
+    # allowlist machinery this job used to carry existed for one advisory
+    # chain (pdfjs-dist via @react-pdf-viewer, no upstream fix); the react-pdf
+    # migration removed those packages, so the gate is now unconditional. If a
+    # new high/critical advisory has no fix, discuss before reintroducing any
+    # allowlist — the default answer is to replace the dependency.
     name: npm audit (high+)
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -175,42 +171,34 @@ jobs:
           node-version: '22'
           cache: 'npm'
       - run: npm ci
-      - name: high-severity audit with explicit allowlist
+      - name: high-severity audit
+        run: npm audit --audit-level=high
+
+  pdf-worker-sync:
+    # Catches drift between the installed pdfjs-dist (via react-pdf) and the
+    # vendored public/lib/pdf.worker.min.mjs the app serves as its pdf.js
+    # worker. pdf.js hard-fails on a worker/API version mismatch, so a
+    # react-pdf upgrade without a re-vendored worker would break every preview
+    # surface at runtime while building green. Same guard pattern as
+    # "bundle in sync with tex/" above.
+    name: pdf worker in sync
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - name: re-vendor worker and assert no diff
         run: |
-          # Comma-separated GHSA / npm advisory IDs we accept (with reason).
-          # Add new entries as a separate PR with the reason inline.
-          # Both advisories are pdfjs-dist transitive via @react-pdf-viewer (dormant
-          # upstream, no fix). Tracked for the react-pdf migration that removes
-          # @react-pdf-viewer entirely; until then they are knowingly accepted.
-          export KNOWN_ADVISORIES="1104044,1118732"   # @react-pdf-viewer → pdfjs-dist
-          npm audit --json > audit.json || true
-          UNKNOWN=$(python3 <<'PY'
-          import json, os
-          allow = set(os.environ.get('KNOWN_ADVISORIES', '').split(','))
-          d = json.load(open('audit.json'))
-          bad = []
-          for name, info in d.get('vulnerabilities', {}).items():
-              sev = info.get('severity')
-              if sev not in ('high', 'critical'):
-                  continue
-              for v in info.get('via', []):
-                  if isinstance(v, dict) and v.get('source'):
-                      if str(v['source']) not in allow:
-                          bad.append(f'{name} via advisory {v["source"]} ({sev}, {v.get("title","")})')
-          for b in sorted(set(bad)):
-              print(b)
-          PY
-          )
-          if [ -n "$UNKNOWN" ]; then
-            echo "::error::New high/critical vulnerabilities not in the allowlist:"
-            echo "$UNKNOWN"
-            echo ""
-            echo "Either upgrade the offending dep or, if no fix is available,"
-            echo "add the advisory ID to KNOWN_ADVISORIES in .github/workflows/test.yml"
-            echo "with an inline comment explaining why."
+          npm run sync:pdf-worker
+          if ! git diff --exit-code public/lib/pdf.worker.min.mjs; then
+            echo "::error::public/lib/pdf.worker.min.mjs is out of sync with the installed pdfjs-dist."
+            echo "Run \`npm run sync:pdf-worker\` locally and commit the regenerated worker."
             exit 1
           fi
-          echo "No new high/critical vulnerabilities outside the allowlist."
 
   compile-matrix:
     # End-to-end LaTeX + DOCX compile harness. Three test files run
