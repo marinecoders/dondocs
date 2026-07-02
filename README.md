@@ -302,9 +302,12 @@ PDF output includes empty signature fields compatible with:
 - **Document Statistics** - Word/character/paragraph counts
 
 ### Preview Panel (Right)
-- Real-time PDF preview
-- Loading indicator during compilation
-- Error messages for troubleshooting
+- Real-time PDF preview in an in-app viewer (same viewer on desktop and mobile)
+- Recompiles swap in place — the page updates where you left it, no flash or scroll jump
+- Zoom in/out, fit width, fit page; page navigation with direct page entry
+- Collapsible thumbnail rail on multi-page documents (click a page to jump)
+- Fullscreen and open-in-tab (the browser's native viewer, one click away)
+- Compile errors banner over the last good preview, with the error message and logs
 
 ### UI Customization
 - **3 Density Modes** - Compact (power users), Comfortable (default), Spacious (touch/accessibility)
@@ -352,7 +355,7 @@ PDF output includes empty signature fields compatible with:
 - **Pandoc WASM** - In-browser LaTeX-to-DOCX conversion via WebAssembly (~58MB, cached by service worker)
 - **pdf-lib** - PDF manipulation (enclosures, signatures, metadata)
 - **JSZip** - DOCX post-processing (table widths, fonts, letterhead colors)
-- **react-pdf-viewer** - In-browser PDF preview
+- **react-pdf** (pdf.js) - the in-app PDF viewer on every platform
 
 ### Data Processing
 - **date-fns** - Military date formatting (4 Jan 26)
