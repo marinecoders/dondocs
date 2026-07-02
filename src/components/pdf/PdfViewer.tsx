@@ -50,6 +50,10 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
   const [docMeta, setDocMeta] = useState<{ numPages: number; baseWidth: number } | null>(null);
   const [pageInView, setPageInView] = useState(1);
   const [loadFailed, setLoadFailed] = useState(false);
+  // The active layer's scroll position at the moment an incoming document was
+  // staged — the hidden layer pre-renders around it. Captured in an effect
+  // (refs are off-limits during render).
+  const [stagedScrollTop, setStagedScrollTop] = useState(0);
   // The just-replaced layer, kept mounted briefly (same key → same instance)
   // so it can fade out over the promoted one.
   const [fadingSlot, setFadingSlot] = useState<DocSlot | null>(null);
@@ -83,6 +87,13 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
     },
     []
   );
+
+  const incomingGen = state.incoming?.gen ?? null;
+  useEffect(() => {
+    if (incomingGen !== null) {
+      setStagedScrollTop(activeLayerRef.current?.getScrollTop() ?? 0);
+    }
+  }, [incomingGen]);
 
   // Meta comes from whichever layer loaded most recently (the incoming layer
   // reports during pre-render, so a page-count change is reflected by the time
@@ -166,7 +177,7 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
             pageWidth={pageWidth}
             dprCap={dprCap}
             visible={false}
-            initialScrollTop={activeLayerRef.current?.getScrollTop() ?? 0}
+            initialScrollTop={stagedScrollTop}
             onDocMeta={handleDocMeta}
             onLoaded={onIncomingLoaded}
             onReady={handleIncomingReady}

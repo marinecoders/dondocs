@@ -77,7 +77,18 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
     return computePageLayout(filled, pageWidth, PAGE_GAP, LAYER_PAD);
   }, [numPages, aspects, pageWidth]);
 
-  const viewportHeight = containerRef.current?.clientHeight ?? 800;
+  // Viewport height is measured state (refs must not be read during render);
+  // 800 is a safe pre-measure default — it only widens the first window.
+  const [viewportHeight, setViewportHeight] = useState(800);
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    setViewportHeight(el.clientHeight);
+    if (typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(() => setViewportHeight(el.clientHeight));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   // Render window: the visible layer follows its own scroll; the hidden layer
   // pre-renders around the scroll position it will be promoted at.
@@ -86,6 +97,24 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
     () => visibleRange(anchor, viewportHeight, layout, visible ? viewportHeight : 0),
     [anchor, viewportHeight, layout, visible]
   );
+
+  // Hidden-layer readiness bookkeeping: once the layout exists, record which
+  // restore-window pages must paint before this layer reports ready. Runs in
+  // an effect (never during render) and at most once per layer instance —
+  // onRenderSuccess drains the set as pages paint.
+  useEffect(() => {
+    if (visible || !onReady || layout.length === 0 || pendingRenderRef.current !== null) return;
+    const pending = new Set<number>();
+    for (let i = first; i <= last; i++) pending.add(i);
+    if (pending.size === 0) {
+      onReady(gen);
+      return;
+    }
+    pendingRenderRef.current = pending;
+    // The window is captured at first-layout on purpose; later window shifts
+    // belong to the promoted (visible) phase.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible, layout.length]);
 
   useImperativeHandle(
     ref,
@@ -226,44 +255,8 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
           })}
         </div>
       </Document>
-      {/* Hidden-layer readiness bookkeeping: once the layout is known, record
-          which restore-window pages must paint before promotion. */}
-      {!visible && layout.length > 0 && pendingRenderRef.current === null && onReady && (
-        <TrackPending firstIndex={first} lastIndex={last} pendingRef={pendingRenderRef} onEmpty={() => onReady(gen)} />
-      )}
     </div>
   );
 });
-
-/** Initializes the pending-render set exactly once per (hidden) layer. Rendered
- *  as a null component so the initialization participates in the same commit
- *  as the first windowed <Page> mount. */
-function TrackPending({
-  firstIndex,
-  lastIndex,
-  pendingRef,
-  onEmpty,
-}: {
-  firstIndex: number;
-  lastIndex: number;
-  pendingRef: React.MutableRefObject<Set<number> | null>;
-  onEmpty: () => void;
-}) {
-  useEffect(() => {
-    if (pendingRef.current !== null) return;
-    const pending = new Set<number>();
-    for (let i = firstIndex; i <= lastIndex; i++) pending.add(i);
-    if (pending.size === 0) {
-      onEmpty();
-      return;
-    }
-    pendingRef.current = pending;
-    // Pages already painted before this effect ran can't call back — but
-    // onRenderSuccess always fires after mount, and this effect runs in the
-    // same commit as the first windowed Page mount, so no callback is missed.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  return null;
-}
 
 export default PdfPageLayer;
