@@ -5,6 +5,17 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.4] — 2026-07-01
+
+### Fixed
+
+- Synced backup now says when it's paused. Browsers revoke a file's write
+  permission every time the app fully closes, so auto-backup silently
+  stopped after each restart until you reopened the Save menu — a returning
+  user had no way to know their backup wasn't current. A dismissible strip
+  now appears when the backup needs reconnecting (or a write failed), with a
+  one-click Reconnect (or Choose file) action.
+
 ## [1.2.3] — 2026-07-01
 
 ### Fixed

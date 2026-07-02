@@ -42,6 +42,7 @@ import {
 import { parseShareUrl } from '@/lib/shareCrypto';
 import { BrowserCompatibilityNotice } from '@/components/BrowserCompatibilityNotice';
 import { StorageNotice } from '@/components/StorageNotice';
+import { BackupNotice } from '@/components/BackupNotice';
 import { probeStorageHealth } from '@/lib/documentsDb';
 const marineCodersLogo = `${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`;
 import { useUIStore } from '@/stores/uiStore';
@@ -1812,6 +1813,7 @@ ${texFiles['body.tex'] || '% No body content'}
       />
 
       <StorageNotice />
+      <BackupNotice />
 
       <div className="flex flex-1 overflow-hidden">
         {/* Document workspace (desktop). Sits beside the main editor so the
