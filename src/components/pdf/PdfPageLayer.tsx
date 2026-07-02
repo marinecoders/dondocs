@@ -278,7 +278,11 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
           thumbPortalTarget &&
           numPages > 0 &&
           createPortal(
-            <div className="flex flex-col gap-2 p-2">
+            // Mirrors the retired plugin's thumbnail anatomy: items centered in
+            // the rail, the selection ring drawn TIGHT on the page image (a
+            // stretched frame reads as broken page margins), and the page
+            // number below the frame rather than inside it.
+            <div className="flex flex-col items-center gap-3 p-2">
               {Array.from({ length: numPages }, (_, i) => (
                 <button
                   key={i}
@@ -286,28 +290,37 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
                   onClick={() => scrollToPage(i, true)}
                   aria-label={`Go to page ${i + 1}`}
                   aria-current={currentPage === i + 1 ? 'page' : undefined}
-                  className={cn(
-                    'shrink-0 rounded-sm outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-ring/60',
-                    currentPage === i + 1
-                      ? 'ring-2 ring-primary'
-                      : 'ring-1 ring-black/10 hover:ring-ring/60 dark:ring-white/10'
-                  )}
+                  className="group flex w-fit shrink-0 flex-col items-center gap-1 outline-none"
                 >
-                  <Page
-                    pageNumber={i + 1}
-                    width={72}
-                    devicePixelRatio={1}
-                    renderTextLayer={false}
-                    renderAnnotationLayer={false}
-                    loading={
-                      <div
-                        className="bg-white/70"
-                        style={{ width: 72, height: 72 / (aspects[i] ?? DEFAULT_PAGE_ASPECT) }}
-                      />
-                    }
-                    error={null}
-                  />
-                  <span className="tnum block py-0.5 text-center text-[10px] text-muted-foreground">
+                  <div
+                    className={cn(
+                      'overflow-hidden rounded-[3px] bg-white transition-shadow',
+                      currentPage === i + 1
+                        ? 'ring-2 ring-primary'
+                        : 'ring-1 ring-black/10 group-hover:ring-ring/60 group-focus-visible:ring-2 group-focus-visible:ring-ring/60 dark:ring-white/10'
+                    )}
+                  >
+                    <Page
+                      pageNumber={i + 1}
+                      width={72}
+                      devicePixelRatio={dprCap}
+                      renderTextLayer={false}
+                      renderAnnotationLayer={false}
+                      loading={
+                        <div
+                          className="bg-white/70"
+                          style={{ width: 72, height: 72 / (aspects[i] ?? DEFAULT_PAGE_ASPECT) }}
+                        />
+                      }
+                      error={null}
+                    />
+                  </div>
+                  <span
+                    className={cn(
+                      'tnum text-[10px]',
+                      currentPage === i + 1 ? 'font-medium text-foreground' : 'text-muted-foreground'
+                    )}
+                  >
                     {i + 1}
                   </span>
                 </button>
