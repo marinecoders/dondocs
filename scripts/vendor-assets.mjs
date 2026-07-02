@@ -28,7 +28,7 @@
  */
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, realpathSync, statSync } from 'node:fs';
-import { open, readFile, rename, rm, writeFile } from 'node:fs/promises';
+import { readFile, rename, rm, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -129,16 +129,17 @@ async function vendorPandocWasm() {
   }
   const sha256 = createHash('sha256').update(bytes).digest('hex');
 
-  // Split into parts, each staged as .partial and renamed only when complete.
+  // Write each part directly. writeFile loops on short writes internally
+  // (a single fh.write does not — its bytesWritten can be < length on ENOSPC/
+  // RLIMIT and the caller must retry the remainder), so this can't ship a
+  // truncated part the manifest then blesses. Per-part .partial staging would
+  // be redundant: the manifest is written last as the commit point, so a crash
+  // before it lands leaves isCurrent() false and the next run re-vendors.
   const sizes = planParts(bytes.byteLength);
   const parts = sizes.map((_, i) => `pandoc.wasm.part${i}`);
   let offset = 0;
   for (let i = 0; i < sizes.length; i++) {
-    const tmp = join(PANDOC_DIR, `${parts[i]}.partial`);
-    const fh = await open(tmp, 'w');
-    await fh.write(bytes, offset, sizes[i]);
-    await fh.close();
-    await rename(tmp, join(PANDOC_DIR, parts[i]));
+    await writeFile(join(PANDOC_DIR, parts[i]), bytes.subarray(offset, offset + sizes[i]));
     offset += sizes[i];
   }
 
