@@ -40,6 +40,9 @@ export interface PdfViewerProps {
  */
 export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: PdfViewerProps) {
   const rootRef = useRef<HTMLDivElement>(null);
+  // The column the pages actually live in — this is what fit modes must track
+  // (it shrinks when the thumbnail rail opens; the root does not).
+  const contentRef = useRef<HTMLDivElement>(null);
   const activeLayerRef = useRef<PdfPageLayerHandle>(null);
   const incomingLayerRef = useRef<PdfPageLayerHandle>(null);
   const reducedMotion = useReducedMotion();
@@ -67,7 +70,7 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
   const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { mode, pageWidth, effectiveScale, zoomStep, zoomFitWidth, zoomFitPage } = usePdfZoom(
-    rootRef,
+    contentRef,
     docMeta?.baseWidth ?? null,
     docMeta?.baseAspect ?? null
   );
@@ -187,7 +190,7 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
             aria-label="Page thumbnails"
           />
         )}
-        <div className="relative min-h-0 flex-1">
+        <div ref={contentRef} className="relative min-h-0 flex-1">
         {/* ONE keyed array on purpose: React only reconciles keys across a
             single children array, not across separate JSX expression slots.
             On promotion the incoming element becomes the active one and the

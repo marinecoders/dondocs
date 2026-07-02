@@ -547,9 +547,16 @@ function App() {
           pdfBytes = await enhancePreviewPdf(pdfBytes, currentStore);
         }
 
-        // Revoke old URL
+        // Revoke the old URL on a delay: the viewer double-buffers document
+        // swaps, so an in-flight load of the outgoing URL may still be reading
+        // it (the idle-enhance pass replaces the resting compile within the
+        // same second). Immediate revocation aborts that read — harmless (the
+        // swap machine abandons quietly) but it litters the console with
+        // pdf.js fetch warnings. A few seconds keeps every in-flight load
+        // alive; blobs are ~100 KB, so the deferred memory cost is trivial.
         if (pdfUrl) {
-          URL.revokeObjectURL(pdfUrl);
+          const stale = pdfUrl;
+          setTimeout(() => URL.revokeObjectURL(stale), 5000);
         }
 
         const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
@@ -575,7 +582,10 @@ function App() {
                   new Blob([new Uint8Array(enhanced)], { type: 'application/pdf' })
                 );
                 setPdfUrl((prev) => {
-                  if (prev) URL.revokeObjectURL(prev);
+                  // Deferred like the resting-compile revocation above: the
+                  // viewer may be mid-load on `prev` when the enhanced swap
+                  // lands.
+                  if (prev) setTimeout(() => URL.revokeObjectURL(prev), 5000);
                   return enhancedUrl;
                 });
                 setPreviewEnhanced(true);
@@ -729,10 +739,11 @@ function App() {
           const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
           const url = URL.createObjectURL(blob);
 
-          // Revoke old URL after creating new one
+          // Revoke old URL after creating new one (deferred — see the
+          // correspondence revocations above for why).
           setFormPdfUrl((prevUrl) => {
             if (prevUrl) {
-              URL.revokeObjectURL(prevUrl);
+              setTimeout(() => URL.revokeObjectURL(prevUrl), 5000);
             }
             return url;
           });

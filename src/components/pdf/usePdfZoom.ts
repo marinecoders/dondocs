@@ -16,11 +16,15 @@ export type ZoomMode = { kind: 'fit-width' } | { kind: 'fit-page' } | { kind: 'm
 export const MAT_PAD = 24;
 /** Fit modes never render wider than this (matches the old mobile cap). */
 export const MAX_FIT_WIDTH = 960;
-/** The toolbar's height — subtracted from the root box for fit-page. */
-export const TOOLBAR_HEIGHT = 36;
 
+/**
+ * `contentRef` must be the element that actually holds the pages — the layer
+ * column, NOT the viewer root. The root doesn't shrink when the thumbnail
+ * rail opens, so observing it renders pages wider than the space they live in
+ * (negative margins + horizontal scroll — caught in the live geometry scan).
+ */
 export function usePdfZoom(
-  rootRef: React.RefObject<HTMLElement | null>,
+  contentRef: React.RefObject<HTMLElement | null>,
   basePageCssWidth: number | null,
   basePageAspect: number | null
 ) {
@@ -29,7 +33,7 @@ export function usePdfZoom(
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const el = rootRef.current;
+    const el = contentRef.current;
     if (!el || typeof ResizeObserver === 'undefined') return;
     const ro = new ResizeObserver((entries) => {
       const rect = entries[entries.length - 1]?.contentRect;
@@ -43,17 +47,17 @@ export function usePdfZoom(
       ro.disconnect();
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
-  }, [rootRef]);
+  }, [contentRef]);
 
   const aspect = basePageAspect ?? DEFAULT_PAGE_ASPECT;
   const clampWidth = (w: number) => Math.min(Math.max(w, 120), MAX_FIT_WIDTH);
   const fitWidth = clampWidth(box.width - MAT_PAD * 2);
-  // Whole page visible: constrained by BOTH dimensions — the height available
-  // under the toolbar sets the ceiling, but a narrow panel still wins (a
-  // height-only fit would exceed the container and force horizontal scroll,
-  // defeating the point of the mode).
+  // Whole page visible: constrained by BOTH dimensions — the content column's
+  // height (it already excludes the toolbar) sets the ceiling, but a narrow
+  // column still wins (a height-only fit would exceed the container and force
+  // horizontal scroll, defeating the point of the mode).
   const fitPageWidth = clampWidth(
-    Math.min((box.height - TOOLBAR_HEIGHT - MAT_PAD * 2) * aspect, box.width - MAT_PAD * 2)
+    Math.min((box.height - MAT_PAD * 2) * aspect, box.width - MAT_PAD * 2)
   );
 
   const widthFor = useCallback(

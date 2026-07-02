@@ -99,9 +99,12 @@ export function PdfViewerToolbar({
   };
 
   return (
+    // @container: in narrow panels (rail open, divider dragged tight) the
+    // text readouts yield before any button clips — page entry and every
+    // control stay reachable at the panel's minimum width.
     <div
       className={cn(
-        'flex h-9 shrink-0 items-center gap-1 border-b border-border bg-card px-2',
+        '@container flex h-9 shrink-0 items-center gap-1 overflow-hidden border-b border-border bg-card px-2',
         className
       )}
     >
@@ -135,7 +138,9 @@ export function PdfViewerToolbar({
           onBlur={(e) => commitPage(e.currentTarget)}
           onFocus={(e) => e.currentTarget.select()}
         />
-        <span className="tnum whitespace-nowrap">of {pageCount > 0 ? pageCount : '—'}</span>
+        <span className="tnum hidden whitespace-nowrap @[360px]:inline">
+          of {pageCount > 0 ? pageCount : '—'}
+        </span>
       </span>
 
       <div className="flex-1" />
@@ -143,7 +148,7 @@ export function PdfViewerToolbar({
       <ToolButton label="Zoom out" onClick={onZoomOut}>
         <ZoomOut className="h-4 w-4" />
       </ToolButton>
-      <span className="tnum min-w-[3rem] text-center text-xs text-muted-foreground">
+      <span className="tnum hidden min-w-[3rem] text-center text-xs text-muted-foreground @[420px]:block">
         {zoomPercent}%
       </span>
       <ToolButton label="Zoom in" onClick={onZoomIn}>
@@ -156,7 +161,7 @@ export function PdfViewerToolbar({
         <RectangleVertical className={cn('h-4 w-4', fitMode === 'page' && 'text-primary')} />
       </ToolButton>
 
-      <div className="mx-1 h-4 w-px bg-border" />
+      <div className="mx-1 hidden h-4 w-px bg-border @[420px]:block" />
 
       {fullscreen && (
         <ToolButton
