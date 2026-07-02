@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { X, Building2, BookOpen, Upload, FileImage } from 'lucide-react';
 import { FILE_LIMITS } from '@/lib/constants';
 import {
@@ -249,11 +249,12 @@ export function ProfileModal() {
     setFormState((prev) => ({ ...prev, [field]: value }));
   };
 
-  // Generate preview URL from base64 signature
-  const signaturePreviewUrl = useMemo(() => {
-    if (!formState.signatureImage?.data) return null;
-    return base64ToDataUrl(formState.signatureImage.data, 'image/png');
-  }, [formState.signatureImage?.data]);
+  // Generate preview URL from base64 signature. No manual useMemo: the React
+  // Compiler memoizes this derivation automatically, and a hand-written memo
+  // here trips react-hooks/preserve-manual-memoization.
+  const signaturePreviewUrl = formState.signatureImage?.data
+    ? base64ToDataUrl(formState.signatureImage.data, 'image/png')
+    : null;
 
   // Handle signature image upload
   const handleSignatureUpload = useCallback(async (file: File) => {

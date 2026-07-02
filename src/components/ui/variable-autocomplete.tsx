@@ -39,7 +39,10 @@ const categoryIcons: Record<string, string> = {
   'Entry': '📝',
 };
 
-export function useVariableAutocomplete({
+// Internal to this module (used by InputWithVariables/TextareaWithVariables
+// below). Not exported: keeping it unexported lets Fast Refresh treat this
+// file as component-only.
+function useVariableAutocomplete({
   inputRef,
   value,
   onChange,

@@ -94,5 +94,4 @@ for (const name of files) {
 const output = HEADER + body + FOOTER;
 writeFileSync(OUTPUT_PUBLIC, output);
 
-// eslint-disable-next-line no-console
 console.log(`Generated ${OUTPUT_PUBLIC} (${output.length.toLocaleString()} bytes, ${files.length + 1} templates)`);
