@@ -28,13 +28,18 @@
    of strings.
 */
 
+// Air-gap: the WASI shim is vendored locally (public/lib/pandoc/wasi-shim.js,
+// a self-contained bundle of @bjorn3/browser_wasi_shim@0.3.0). This import
+// used to be a top-level await on a public CDN — on an isolated network the
+// whole module (and with it DOCX export) died at load time. Don't name CDN
+// hosts even in comments here: check-no-cdn scans shipped text verbatim.
 import {
   WASI,
   OpenFile,
   File,
   ConsoleStdout,
   PreopenDirectory,
-} from "https://cdn.jsdelivr.net/npm/@bjorn3/browser_wasi_shim@0.3.0/dist/index.js";
+} from "./wasi-shim.js";
 
 const args = ["pandoc.wasm", "+RTS", "-H64m", "-RTS"];
 const env = [];
@@ -47,14 +52,15 @@ const fds = [
 ];
 const options = { debug: false };
 const wasi = new WASI(args, env, fds, options);
-// Fetch pandoc WASM binary from unpkg CDN (pandoc-wasm npm package, pandoc 3.9).
-// NOTE: we previously used jsDelivr, but jsDelivr enforces a 50 MB/file limit and
-// this WASM is ~58 MB. jsDelivr responds with HTTP 403 and a plain-text body
-// ("File size exceeded the configured limit of 50 MB."), which then fails
-// WebAssembly.instantiate() with a cryptic "expected magic word 00 61 73 6d,
-// found 46 69 6c 65" error (the ASCII bytes of "File"). unpkg has no such limit.
-// Uses ArrayBuffer instantiation instead of instantiateStreaming to bypass MIME type checks.
-const wasmUrl = "https://unpkg.com/pandoc-wasm@1.0.1/src/pandoc.wasm";
+// Air-gap: pandoc.wasm is vendored same-origin, split into sub-25MiB parts
+// (Cloudflare's per-file deploy limit) by scripts/vendor-assets.mjs and
+// reassembled here before instantiation. The manifest carries the part list
+// and exact sizes, so progress reports against a real total and a truncated
+// part (or an error body standing in for one) is caught before
+// WebAssembly.instantiate can fail cryptically. Resolved against
+// import.meta.url so any BASE_URL deployment works.
+const MANIFEST_URL = new URL("./pandoc.wasm.manifest.json", import.meta.url);
+const WASM_MAGIC = [0x00, 0x61, 0x73, 0x6d];
 
 // Progress reporting hook: consumers (e.g. the DOCX converter UI) can set
 // `globalThis.__dondocsPandocProgress` to a function BEFORE importing this
@@ -73,60 +79,93 @@ function reportProgress(event) {
   }
 }
 
-async function fetchWasmBytes(url) {
+async function fetchWasmParts() {
   reportProgress({ kind: "fetch-start" });
-  const response = await fetch(url);
-  if (!response.ok) {
+
+  const manRes = await fetch(MANIFEST_URL);
+  if (!manRes.ok) {
     throw new Error(
-      `Failed to fetch pandoc.wasm from ${url}: ` +
-      `HTTP ${response.status} ${response.statusText}`
+      `Failed to fetch pandoc.wasm manifest: HTTP ${manRes.status} ${manRes.statusText}. ` +
+      "If developing locally, run `npm run vendor-assets` to stage the parts."
     );
   }
-  const totalHeader = response.headers.get("content-length");
-  const total = totalHeader ? Number(totalHeader) : 0;
-
-  // Fallback when streaming isn't available (e.g. older runtimes or opaque bodies):
-  // read the whole response at once and emit a single progress event.
-  if (!response.body || typeof response.body.getReader !== "function") {
-    const buf = await response.arrayBuffer();
-    reportProgress({
-      kind: "fetch-progress",
-      loaded: buf.byteLength,
-      total: total || buf.byteLength,
-    });
-    return buf;
+  const { parts, partBytes, totalBytes } = await manRes.json();
+  if (
+    !Array.isArray(parts) || parts.length === 0 ||
+    !Array.isArray(partBytes) || partBytes.length !== parts.length ||
+    !Number.isInteger(totalBytes) || totalBytes <= 0
+  ) {
+    throw new Error("pandoc.wasm.manifest.json is malformed — re-run `npm run vendor-assets`");
   }
 
-  const reader = response.body.getReader();
-  const chunks = [];
+  // The manifest gives the exact size upfront, so ONE allocation receives the
+  // streamed bytes directly — no chunks[]+merge pass, halving peak memory for
+  // a ~58 MB payload.
+  const merged = new Uint8Array(totalBytes);
   let loaded = 0;
   // Throttle progress events to roughly once per 64 KB of download to avoid
   // flooding the React render loop on fast connections.
   const EMIT_EVERY = 64 * 1024;
   let nextEmitAt = EMIT_EVERY;
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    chunks.push(value);
-    loaded += value.byteLength;
-    if (loaded >= nextEmitAt) {
-      reportProgress({ kind: "fetch-progress", loaded, total });
-      nextEmitAt = loaded + EMIT_EVERY;
+
+  for (let i = 0; i < parts.length; i++) {
+    const response = await fetch(new URL(`./${parts[i]}`, import.meta.url));
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch ${parts[i]}: HTTP ${response.status} ${response.statusText}`
+      );
+    }
+    const partStart = loaded;
+
+    // Fallback when streaming isn't available (older runtimes / opaque bodies).
+    if (!response.body || typeof response.body.getReader !== "function") {
+      const buf = new Uint8Array(await response.arrayBuffer());
+      if (partStart + buf.byteLength > totalBytes) {
+        throw new Error(`${parts[i]} overflows the manifest's totalBytes`);
+      }
+      merged.set(buf, partStart);
+      loaded += buf.byteLength;
+      reportProgress({ kind: "fetch-progress", loaded, total: totalBytes });
+    } else {
+      const reader = response.body.getReader();
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        if (loaded + value.byteLength > totalBytes) {
+          throw new Error(`${parts[i]} overflows the manifest's totalBytes`);
+        }
+        merged.set(value, loaded);
+        loaded += value.byteLength;
+        if (loaded >= nextEmitAt) {
+          reportProgress({ kind: "fetch-progress", loaded, total: totalBytes });
+          nextEmitAt = loaded + EMIT_EVERY;
+        }
+      }
+    }
+
+    // Exact per-part size gate: a truncated download or an HTML error body
+    // fails HERE with a named part, not later in instantiate with a cryptic
+    // magic-word error.
+    const got = loaded - partStart;
+    if (got !== partBytes[i]) {
+      throw new Error(
+        `${parts[i]}: expected ${partBytes[i]} bytes, got ${got} (truncated or error body)`
+      );
     }
   }
-  // Final progress tick so the UI can settle at 100%.
-  reportProgress({ kind: "fetch-progress", loaded, total: total || loaded });
 
-  const merged = new Uint8Array(loaded);
-  let offset = 0;
-  for (const chunk of chunks) {
-    merged.set(chunk, offset);
-    offset += chunk.byteLength;
+  if (loaded !== totalBytes) {
+    throw new Error(`pandoc.wasm reassembly: expected ${totalBytes} bytes, got ${loaded}`);
   }
+  if (!WASM_MAGIC.every((b, i) => merged[i] === b)) {
+    throw new Error("pandoc.wasm reassembly failed the magic-byte check (00 61 73 6d)");
+  }
+  // Final progress tick so the UI can settle at 100%.
+  reportProgress({ kind: "fetch-progress", loaded, total: totalBytes });
   return merged.buffer;
 }
 
-const wasmBytes = await fetchWasmBytes(wasmUrl);
+const wasmBytes = await fetchWasmParts();
 reportProgress({ kind: "instantiate-start" });
 const { instance } = await WebAssembly.instantiate(wasmBytes, {
   wasi_snapshot_preview1: wasi.wasiImport,
