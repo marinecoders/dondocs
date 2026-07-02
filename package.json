@@ -9,6 +9,7 @@
     "vendor-assets": "node scripts/vendor-assets.mjs",
     "prebuild": "node scripts/vendor-assets.mjs",
     "build": "tsc -b && vite build",
+    "postbuild": "node scripts/check-no-cdn.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
