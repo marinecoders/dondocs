@@ -115,9 +115,9 @@ jobs:
     # has time to finish reporting + uploading artifacts before kill.
     timeout-minutes: 350
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: '22'
           cache: 'npm'
@@ -151,7 +151,7 @@ jobs:
 
       - name: upload result CSV + log
         if: always()  # Upload even on failure / timeout
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cartesian-results
           path: .cartesian-results/
@@ -160,7 +160,7 @@ jobs:
 
       - name: upload failing tex dirs
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cartesian-failing-tex
           path: |
@@ -181,9 +181,9 @@ jobs:
       contents: read
       issues: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: '22'
           cache: 'npm'
@@ -220,7 +220,7 @@ jobs:
 
       - name: upload result CSV + log
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cartesian-nightly-${{ github.run_number }}
           path: .cartesian-results/
@@ -232,7 +232,7 @@ jobs:
         # team sees it instead of having it sit in workflow-history
         # purgatory.
         if: failure()
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const day = new Date().toISOString().split('T')[0];
