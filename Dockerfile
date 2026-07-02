@@ -15,6 +15,11 @@ RUN npm ci
 # Copy source code
 COPY . .
 
+# Vendor the pandoc WASM parts (npm lifecycle hooks don't run here because
+# the build invokes vite directly). Without this, DOCX export ships broken —
+# the app loads pandoc same-origin and has no CDN fallback.
+RUN node scripts/vendor-assets.mjs
+
 # Build the application with configurable base path
 RUN npx tsc -b && npx vite build --base=$BASE_PATH
 
