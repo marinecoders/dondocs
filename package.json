@@ -1,7 +1,7 @@
 {
   "name": "web-react",
   "private": true,
-  "version": "1.2.1",
+  "version": "1.2.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -18,7 +18,8 @@
   },
   "overrides": {
     "serialize-javascript": "^7.0.5",
-    "tar": "^7.5.13"
+    "tar": "^7.5.13",
+    "qs": "^6.15.3"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
