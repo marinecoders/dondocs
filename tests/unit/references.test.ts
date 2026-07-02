@@ -101,25 +101,86 @@ describe('getReference / getReferencesByCategory', () => {
   });
 });
 
-// No-regression guard: every reference the two former inline arrays surfaced
-// must still be discoverable via search. Each token below is the distinctive
-// identifier from an original entry; a token that returns zero results means
-// that reference vanished from the library.
-describe('no regression vs the former inline modal arrays', () => {
-  const MUST_BE_DISCOVERABLE = [
-    // ReferenceLibraryModal (general)
-    '5215.1L', '5216.20', '5210.11F', '1650.19', '1900.16', '1001R.1L', '1020.34H',
-    '3000.11B', '3500.27C', '5580.2B', 'M-5210.1', '5216.5', '5211.5F', '5510.30C',
-    '5510.36B', 'MCBul 5216', 'MCBul 1020', 'Navy Regulations', '5215.17A', 'MCRP',
-    'MCWP', 'Reference (a)', 'Basic Correspondence', 'Endorsement 1',
-    // FormReferenceLibraryModal (counseling)
-    '1610.7A', '1070.12K', 'P1080.20', '6100.13A', '6110.3A', '5800.16A', '1752.5C',
-    '5354.1', 'JAGMAN', 'P1100.72C', '5300.17A', '5300.6', '1050.3J', '1510.118',
-    '5100.29C', '5100.19F', 'Article 86', 'Article 91', 'Article 92', 'Article 107',
-    'Article 112a', 'Article 128', 'Article 134', '7220.52F',
-  ];
+// No-regression guard: EVERY citation string the two former inline arrays
+// surfaced (verbatim below) must still be discoverable in the unified dataset.
+// The check derives the realistic search token from each original title (its
+// order identifier, or the whole quick-insert phrase) and asserts a hit — so a
+// directive dropped from the library, or silently regressed to an older
+// revision letter, fails CI.
+const FORMER_GENERAL_ARRAY = [
+  'MCO 5215.1L - Directives Management Program',
+  'MCO 5216.20 - Correspondence Manual',
+  'MCO 5210.11F - Record Management Program',
+  'MCO 1650.19K - Decorations and Awards',
+  'MCO 1900.16 - Separation and Retirement',
+  'MCO 1001R.1L - MCTFS User Manual',
+  'MCO 1020.34H - Marine Corps Uniform Regulations',
+  'MCO 3000.11B - Marine Air Ground Task Force Staff Training Program',
+  'MCO 3500.27C - Operational Risk Management',
+  'MCO 5580.2B - Law Enforcement Manual',
+  'SECNAV M-5210.1 - Department of the Navy Records Management Manual',
+  'SECNAV M-5216.5 - Department of the Navy Correspondence Manual',
+  'SECNAV M-5239.2 - DON Cybersecurity Program',
+  'SECNAVINST 5211.5F - Privacy Act',
+  'SECNAVINST 5510.30C - DON Personnel Security Program',
+  'SECNAVINST 5510.36B - DON Information Security Program',
+  'MCBul 5216 - Correspondence Procedures',
+  'MCBul 1020 - Uniform Board Decisions',
+  'U.S. Navy Regulations, 1990',
+  'OPNAVINST 5215.17A - Navy Directives Issuance System',
+  'MCRP 3-0B - How to Conduct Training',
+  'MCWP 5-10 - Marine Corps Planning Process',
+  'Reference (a)',
+  'Basic Correspondence',
+  'Endorsement 1',
+];
+const FORMER_FORM_ARRAY = [
+  'MCO 1610.7A - Performance Evaluation System',
+  'MCO 1900.16 - Separation and Retirement Manual',
+  'MCO 1070.12K - Individual Records Administration Manual',
+  'MCO P1080.20 - Marine Corps Promotions Manual',
+  'MCO 1001R.1L - MCTFS User Manual',
+  'MCO 6100.13A W/CH 1 - Marine Corps Physical Fitness and Combat Fitness Tests',
+  'MCO 6110.3A - Marine Corps Body Composition and Military Appearance Program',
+  'MCO 5800.16A - Marine Corps Manual for Legal Administration (LEGADMINMAN)',
+  'MCO 1752.5C - Sexual Assault Prevention and Response Program',
+  'MCO 5354.1F - Marine Corps Prohibited Activities and Conduct Prevention',
+  'JAGMAN - Manual of the Judge Advocate General',
+  'MCO 1020.34H - Marine Corps Uniform Regulations',
+  'MCO P1100.72C - Military Occupational Specialties Manual',
+  'MCO 5300.17A - Marine Corps Substance Abuse Program',
+  'MCO 5300.6 - Urinalysis Program',
+  'MCO 1050.3J - Regulations for Leave, Liberty, and Administrative Absence',
+  'MCO 1510.118 - Individual Training Standards',
+  'MCO 3500.27C - Operational Risk Management',
+  'MCO 5100.29C - Marine Corps Safety Program',
+  'MCO 5100.19F - Marine Corps Traffic Safety Program',
+  'UCMJ Article 86 - Absence Without Leave',
+  'UCMJ Article 91 - Insubordinate Conduct',
+  'UCMJ Article 92 - Failure to Obey Order or Regulation',
+  'UCMJ Article 107 - False Official Statements',
+  'UCMJ Article 112a - Wrongful Use of Controlled Substances',
+  'UCMJ Article 128 - Assault',
+  'UCMJ Article 134 - General Article',
+  'MCO 7220.52F - Marine Corps Indebtedness Processing Procedures',
+];
 
-  it.each(MUST_BE_DISCOVERABLE)('surfaces a result for "%s"', (token) => {
-    expect(searchReferences(token).length).toBeGreaterThan(0);
-  });
+/** The token a user would realistically type to find a given original entry. */
+function searchTokenFor(title: string): string {
+  // Quick-insert pseudo-entries with no order number: search the whole phrase.
+  if (!title.includes(' - ') && !title.includes('Article')) {
+    return title.replace(/[,()]/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+  const head = title.split(' - ')[0];
+  const num = head.match(/\b([A-Z]?\d{3,5}[.-]\d+[A-Za-z]?|\d-\d+[A-Za-z]?|Article \d+[a-z]?)\b/);
+  return num ? num[1] : head.replace(/[,()]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+describe('no regression vs the former inline modal arrays', () => {
+  it.each([...FORMER_GENERAL_ARRAY, ...FORMER_FORM_ARRAY])(
+    'still surfaces "%s"',
+    (originalTitle) => {
+      expect(searchReferences(searchTokenFor(originalTitle)).length).toBeGreaterThan(0);
+    },
+  );
 });
