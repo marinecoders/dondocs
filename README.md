@@ -619,7 +619,7 @@ After pandoc produces the DOCX, `pandoc-converter.ts` opens it with JSZip and fi
 | `src/services/docx/pandoc-converter.ts` | Pandoc WASM loading, conversion, and OOXML post-processing |
 | `src/services/docx/layout-config.ts` | Shared layout proportions (used by both flat-generator and converter) |
 | `public/lib/pandoc/pandoc.js` | Pandoc 3.9+ WASM module loader |
-| `public/lib/pandoc/pandoc.wasm` | Pandoc WASM binary (~58MB) |
+| `public/lib/pandoc/pandoc.wasm.part*` + `pandoc.wasm.manifest.json` | Pandoc WASM binary (~58MB), vendored at build time as sub-25MiB same-origin parts (gitignored; staged by `scripts/vendor-assets.mjs`, reassembled in the browser) |
 | `public/lib/pandoc/dondocs.lua` | Four-pass Lua filter for DOCX formatting |
 | `public/lib/pandoc/reference.docx` | DOCX template with base styles |
 

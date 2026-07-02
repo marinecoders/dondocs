@@ -163,20 +163,27 @@ async function vendorPandocWasm() {
 }
 
 async function main() {
-  if (process.env.SKIP_VENDOR_ASSETS === '1') {
-    console.log('[vendor] SKIP_VENDOR_ASSETS=1 — skipping downloads (pre-staged builder)');
-    await cleanupLegacyFiles();
-    return;
-  }
+  await cleanupLegacyFiles();
   try {
-    await cleanupLegacyFiles();
+    if (process.env.SKIP_VENDOR_ASSETS === '1') {
+      // Pre-staged builder: don't download, but DO verify the operator actually
+      // staged valid parts. isCurrent() is pure local filesystem work — there's
+      // no air-gap reason to skip it — and a green build with no parts is the
+      // exact silent regression this pipeline exists to prevent.
+      if (await isCurrent()) {
+        console.log(`[vendor] SKIP_VENDOR_ASSETS=1 — pre-staged parts verified (${WASM.name} ${WASM.version})`);
+        return;
+      }
+      throw new Error(
+        'SKIP_VENDOR_ASSETS=1 but the pandoc parts/manifest are missing or stale in public/lib/pandoc/'
+      );
+    }
     await vendorPandocWasm();
   } catch (err) {
     console.error(String(err instanceof Error ? err.message : err));
     console.error(
-      '\n[vendor] pandoc parts are missing — DOCX export will not work until they exist. ' +
-        'If this machine is offline, stage the parts + manifest into public/lib/pandoc/ ' +
-        'manually and set SKIP_VENDOR_ASSETS=1.'
+      '\n[vendor] pandoc parts are unavailable — DOCX export will not work until they exist. ' +
+        'Offline? Stage the parts + manifest into public/lib/pandoc/ and set SKIP_VENDOR_ASSETS=1.'
     );
     process.exit(1);
   }
