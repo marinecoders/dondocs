@@ -27,10 +27,23 @@
  * network work for fully-offline builders that pre-stage the files.
  */
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, realpathSync, statSync } from 'node:fs';
 import { open, readFile, rename, rm, writeFile } from 'node:fs/promises';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+/** True when this module is the entry point. Both sides are realpath-resolved:
+ *  Node realpaths import.meta.url for the main module, but process.argv[1] keeps
+ *  any symlink as typed, so a plain path.resolve comparison is false under a
+ *  symlinked checkout (e.g. macOS /tmp → /private/tmp) and the script would
+ *  silently no-op — disabling the air-gap staging it exists to guarantee. */
+function isMainModule() {
+  try {
+    return !!process.argv[1] && realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url));
+  } catch {
+    return false;
+  }
+}
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = join(__dirname, '..');
@@ -170,6 +183,6 @@ async function main() {
 }
 
 // Execution guard: unit tests import planParts without triggering a download.
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (isMainModule()) {
   await main();
 }

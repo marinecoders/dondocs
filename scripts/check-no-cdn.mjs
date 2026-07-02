@@ -9,9 +9,20 @@
  * Runs via the `postbuild` npm hook, so the existing "production build" CI
  * job enforces it with no workflow changes.
  */
-import { readdirSync, readFileSync, statSync } from 'node:fs';
-import { dirname, extname, join, relative, resolve } from 'node:path';
+import { readdirSync, readFileSync, realpathSync, statSync } from 'node:fs';
+import { dirname, extname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+/** True when this module is the entry point. Realpath-resolves both sides so a
+ *  symlinked absolute invocation (e.g. via /tmp on macOS) still runs the guard
+ *  instead of silently passing — see the matching note in vendor-assets.mjs. */
+function isMainModule() {
+  try {
+    return !!process.argv[1] && realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url));
+  } catch {
+    return false;
+  }
+}
 
 /** Hosts that must never appear in a shipped asset. */
 export const FORBIDDEN = [
@@ -76,6 +87,6 @@ function main() {
 }
 
 // Execution guard: unit tests import findCdnHits without scanning anything.
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (isMainModule()) {
   main();
 }
