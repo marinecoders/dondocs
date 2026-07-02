@@ -113,7 +113,9 @@ async function vendorPandocWasm() {
 
   mkdirSync(PANDOC_DIR, { recursive: true });
   console.log(`[vendor] ${WASM.name}: downloading ${WASM.url} ...`);
-  const res = await fetch(WASM.url);
+  // Bounded: a black-holing proxy would otherwise hang the build/dev startup
+  // forever (native fetch has no default timeout).
+  const res = await fetch(WASM.url, { signal: AbortSignal.timeout(120_000) });
   if (!res.ok || !res.body) {
     throw new Error(`[vendor] ${WASM.name}: HTTP ${res.status} ${res.statusText} fetching ${WASM.url}`);
   }
@@ -164,6 +166,10 @@ async function vendorPandocWasm() {
 }
 
 async function main() {
+  // predev passes --allow-offline: dev doesn't need DOCX to boot, so a failed
+  // vendor there is a warning, not a hard stop. prebuild passes nothing, so a
+  // release build still fails loudly if the parts can't be staged.
+  const allowOffline = process.argv.includes('--allow-offline');
   await cleanupLegacyFiles();
   try {
     if (process.env.SKIP_VENDOR_ASSETS === '1') {
@@ -182,10 +188,14 @@ async function main() {
     await vendorPandocWasm();
   } catch (err) {
     console.error(String(err instanceof Error ? err.message : err));
-    console.error(
-      '\n[vendor] pandoc parts are unavailable — DOCX export will not work until they exist. ' +
-        'Offline? Stage the parts + manifest into public/lib/pandoc/ and set SKIP_VENDOR_ASSETS=1.'
-    );
+    const guidance =
+      '[vendor] pandoc parts are unavailable — DOCX export will not work until they exist. ' +
+      'Offline? Stage the parts + manifest into public/lib/pandoc/ and set SKIP_VENDOR_ASSETS=1.';
+    if (allowOffline) {
+      console.warn(`${guidance}\n[vendor] --allow-offline: continuing without them (dev only).`);
+      return;
+    }
+    console.error(guidance);
     process.exit(1);
   }
 }

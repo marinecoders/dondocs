@@ -4,7 +4,7 @@
   "version": "1.2.5",
   "type": "module",
   "scripts": {
-    "predev": "node scripts/vendor-assets.mjs",
+    "predev": "node scripts/vendor-assets.mjs --allow-offline",
     "dev": "vite",
     "vendor-assets": "node scripts/vendor-assets.mjs",
     "prebuild": "node scripts/vendor-assets.mjs",
