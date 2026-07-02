@@ -47,7 +47,7 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
 
   const { state, onIncomingLoaded, onIncomingReady, onIncomingFailed } = usePdfDocumentSwap(pdfUrl);
 
-  const [docMeta, setDocMeta] = useState<{ numPages: number; baseWidth: number } | null>(null);
+  const [docMeta, setDocMeta] = useState<{ numPages: number; baseWidth: number; baseAspect: number } | null>(null);
   const [pageInView, setPageInView] = useState(1);
   const [loadFailed, setLoadFailed] = useState(false);
   // The active layer's scroll position at the moment an incoming document was
@@ -59,9 +59,10 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
   const [fadingSlot, setFadingSlot] = useState<DocSlot | null>(null);
   const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const { mode, pageWidth, effectiveScale, zoomStep, zoomFit } = usePdfZoom(
+  const { mode, pageWidth, effectiveScale, zoomStep, zoomFitWidth, zoomFitPage } = usePdfZoom(
     rootRef,
-    docMeta?.baseWidth ?? null
+    docMeta?.baseWidth ?? null,
+    docMeta?.baseAspect ?? null
   );
   const fullscreen = useFullscreen(rootRef);
 
@@ -98,10 +99,13 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
   // Meta comes from whichever layer loaded most recently (the incoming layer
   // reports during pre-render, so a page-count change is reflected by the time
   // it's promoted).
-  const handleDocMeta = useCallback((_gen: number, meta: { numPages: number; baseWidth: number }) => {
-    setDocMeta(meta);
-    setLoadFailed(false);
-  }, []);
+  const handleDocMeta = useCallback(
+    (_gen: number, meta: { numPages: number; baseWidth: number; baseAspect: number }) => {
+      setDocMeta(meta);
+      setLoadFailed(false);
+    },
+    []
+  );
 
   const handleActiveFailed = useCallback(() => setLoadFailed(true), []);
 
@@ -114,6 +118,14 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
       activeLayerRef.current?.scrollToPage(pageInView - 1 + delta, !reducedMotion);
     },
     [pageInView, reducedMotion]
+  );
+
+  // Direct entry from the toolbar's page input (1-based, pre-clamped there).
+  const goToPageNumber = useCallback(
+    (n: number) => {
+      activeLayerRef.current?.scrollToPage(n - 1, !reducedMotion);
+    },
+    [reducedMotion]
   );
 
   if (loadFailed) {
@@ -144,12 +156,14 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
         page={pageInView}
         pageCount={docMeta?.numPages ?? 0}
         zoomPercent={Math.round(effectiveScale * 100)}
-        isFitWidth={mode.kind === 'fit-width'}
+        fitMode={mode.kind === 'fit-width' ? 'width' : mode.kind === 'fit-page' ? 'page' : null}
+        onGoToPage={goToPageNumber}
         onPrevPage={() => goToPage(-1)}
         onNextPage={() => goToPage(1)}
         onZoomIn={() => zoomStep(1)}
         onZoomOut={() => zoomStep(-1)}
-        onZoomFit={zoomFit}
+        onZoomFitWidth={zoomFitWidth}
+        onZoomFitPage={zoomFitPage}
         onOpenInTab={openInTab}
         fullscreen={showFullscreen && fullscreen.available ? fullscreen : null}
       />

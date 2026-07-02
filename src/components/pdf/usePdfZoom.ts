@@ -1,64 +1,88 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { nextZoomStep } from './pdfMath';
+import { nextZoomStep, DEFAULT_PAGE_ASPECT } from './pdfMath';
 
 /**
  * Zoom state for the viewer. Fit-width is the resting mode: the page tracks
  * the container (ResizeObserver, rAF-coalesced) up to a hard cap so a wide
- * desktop panel doesn't blow a letter page up to poster size. Stepping the
- * zoom converts the current *effective* scale into the nearest discrete stop
- * and switches to manual; "fit" returns to tracking.
+ * desktop panel doesn't blow a letter page up to poster size. Fit-page sizes
+ * the page so the whole sheet is visible — the "judge the composition" view.
+ * Stepping the zoom converts the current *effective* scale into the nearest
+ * discrete stop and switches to manual; either fit button returns to tracking.
  */
 
-export type ZoomMode = { kind: 'fit-width' } | { kind: 'manual'; scale: number };
+export type ZoomMode = { kind: 'fit-width' } | { kind: 'fit-page' } | { kind: 'manual'; scale: number };
 
 /** Horizontal padding of the mat around the page, per side. */
 export const MAT_PAD = 24;
-/** Fit-width never renders wider than this (matches the old mobile cap). */
+/** Fit modes never render wider than this (matches the old mobile cap). */
 export const MAX_FIT_WIDTH = 960;
+/** The toolbar's height — subtracted from the root box for fit-page. */
+export const TOOLBAR_HEIGHT = 36;
 
-export function usePdfZoom(rootRef: React.RefObject<HTMLElement | null>, basePageCssWidth: number | null) {
+export function usePdfZoom(
+  rootRef: React.RefObject<HTMLElement | null>,
+  basePageCssWidth: number | null,
+  basePageAspect: number | null
+) {
   const [mode, setMode] = useState<ZoomMode>({ kind: 'fit-width' });
-  const [containerWidth, setContainerWidth] = useState(0);
+  const [box, setBox] = useState({ width: 0, height: 0 });
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     const el = rootRef.current;
     if (!el || typeof ResizeObserver === 'undefined') return;
     const ro = new ResizeObserver((entries) => {
-      const width = entries[entries.length - 1]?.contentRect.width ?? 0;
+      const rect = entries[entries.length - 1]?.contentRect;
+      if (!rect) return;
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
-      rafRef.current = requestAnimationFrame(() => setContainerWidth(width));
+      rafRef.current = requestAnimationFrame(() => setBox({ width: rect.width, height: rect.height }));
     });
     ro.observe(el);
-    setContainerWidth(el.clientWidth);
+    setBox({ width: el.clientWidth, height: el.clientHeight });
     return () => {
       ro.disconnect();
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
   }, [rootRef]);
 
-  const fitWidth = Math.min(Math.max(containerWidth - MAT_PAD * 2, 120), MAX_FIT_WIDTH);
-  const pageWidth =
-    mode.kind === 'fit-width'
-      ? fitWidth
-      : Math.round((basePageCssWidth ?? fitWidth) * mode.scale);
+  const aspect = basePageAspect ?? DEFAULT_PAGE_ASPECT;
+  const clampWidth = (w: number) => Math.min(Math.max(w, 120), MAX_FIT_WIDTH);
+  const fitWidth = clampWidth(box.width - MAT_PAD * 2);
+  // Whole page visible: constrained by BOTH dimensions — the height available
+  // under the toolbar sets the ceiling, but a narrow panel still wins (a
+  // height-only fit would exceed the container and force horizontal scroll,
+  // defeating the point of the mode).
+  const fitPageWidth = clampWidth(
+    Math.min((box.height - TOOLBAR_HEIGHT - MAT_PAD * 2) * aspect, box.width - MAT_PAD * 2)
+  );
 
-  // The scale the current pageWidth corresponds to, for the % readout and as
-  // the starting point when stepping out of fit-width.
+  const widthFor = useCallback(
+    (m: ZoomMode): number => {
+      if (m.kind === 'fit-width') return fitWidth;
+      if (m.kind === 'fit-page') return fitPageWidth;
+      return Math.round((basePageCssWidth ?? fitWidth) * m.scale);
+    },
+    [fitWidth, fitPageWidth, basePageCssWidth]
+  );
+
+  const pageWidth = widthFor(mode);
+  // The scale the current pageWidth corresponds to — the % readout, and the
+  // starting point when stepping out of either fit mode.
   const effectiveScale = basePageCssWidth ? pageWidth / basePageCssWidth : 1;
 
   const zoomStep = useCallback(
     (dir: 1 | -1) => {
       setMode((prev) => {
         const base = basePageCssWidth ?? fitWidth;
-        const current = prev.kind === 'manual' ? prev.scale : fitWidth / base;
+        const current = widthFor(prev) / base;
         return { kind: 'manual', scale: nextZoomStep(current, dir) };
       });
     },
-    [basePageCssWidth, fitWidth]
+    [basePageCssWidth, fitWidth, widthFor]
   );
 
-  const zoomFit = useCallback(() => setMode({ kind: 'fit-width' }), []);
+  const zoomFitWidth = useCallback(() => setMode({ kind: 'fit-width' }), []);
+  const zoomFitPage = useCallback(() => setMode({ kind: 'fit-page' }), []);
 
-  return { mode, pageWidth, effectiveScale, zoomStep, zoomFit };
+  return { mode, pageWidth, effectiveScale, zoomStep, zoomFitWidth, zoomFitPage };
 }

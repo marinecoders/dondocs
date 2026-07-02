@@ -66,7 +66,8 @@ beforeAll(() => {
 describe('PdfViewer', () => {
   it('renders the toolbar with a tabular page indicator once the doc loads', async () => {
     renderViewer('blob:test/1');
-    await waitFor(() => expect(screen.getByText('1 of 2')).toBeTruthy());
+    await waitFor(() => expect(screen.getByText('of 2')).toBeTruthy());
+    expect((screen.getByLabelText('Page number') as HTMLInputElement).value).toBe('1');
     expect(screen.getByLabelText('Zoom in')).toBeTruthy();
     expect(screen.getByLabelText('Open in browser tab')).toBeTruthy();
   });
@@ -97,6 +98,28 @@ describe('PdfViewer', () => {
       () => expect(container.querySelector('[data-testid="doc:blob:test/1"]')).toBeNull(),
       { timeout: 3000 }
     );
+  });
+
+  it('offers both fit modes and a direct page-number input', async () => {
+    const { container } = renderViewer('blob:test/4');
+    await waitFor(() => expect(container.querySelector('[data-testid="page:1"]')).toBeTruthy());
+
+    // Two explicit fit buttons; fit-width is the resting default.
+    const fitWidth = screen.getByLabelText('Fit width');
+    const fitPage = screen.getByLabelText('Fit page');
+    expect(fitWidth.getAttribute('aria-pressed')).toBe('true');
+    expect(fitPage.getAttribute('aria-pressed')).toBe('false');
+    fireEvent.click(fitPage);
+    await waitFor(() => expect(fitPage.getAttribute('aria-pressed')).toBe('true'));
+    expect(fitWidth.getAttribute('aria-pressed')).toBe('false');
+
+    // Page input seeds from the current page and clamps invalid entries back.
+    const input = screen.getByLabelText('Page number') as HTMLInputElement;
+    expect(input.value).toBe('1');
+    fireEvent.keyDown(input, { key: 'Enter', target: input }); // unchanged → no-op
+    input.value = '99';
+    fireEvent.blur(input);
+    expect(input.value).toBe('1'); // out of range for a 2-page doc → restored
   });
 
   it('zoom buttons change the rendered page width', async () => {

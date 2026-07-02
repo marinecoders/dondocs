@@ -43,7 +43,7 @@ interface PdfPageLayerProps {
   initialScrollTop?: number;
   /** Fade the layer out (promotion crossfade). */
   fadingOut?: boolean;
-  onDocMeta?: (gen: number, meta: { numPages: number; baseWidth: number }) => void;
+  onDocMeta?: (gen: number, meta: { numPages: number; baseWidth: number; baseAspect: number }) => void;
   onPageInView?: (page: number) => void;
   /** Hidden layer only: document parsed (numPages known). */
   onLoaded?: (gen: number) => void;
@@ -208,8 +208,13 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
           ).then((resolved) => setAspects(resolved));
           void doc
             .getPage(1)
-            .then((p) => onDocMeta?.(gen, { numPages: doc.numPages, baseWidth: p.getViewport({ scale: 1 }).width }))
-            .catch(() => onDocMeta?.(gen, { numPages: doc.numPages, baseWidth: pageWidth }));
+            .then((p) => {
+              const vp = p.getViewport({ scale: 1 });
+              onDocMeta?.(gen, { numPages: doc.numPages, baseWidth: vp.width, baseAspect: vp.width / vp.height });
+            })
+            .catch(() =>
+              onDocMeta?.(gen, { numPages: doc.numPages, baseWidth: pageWidth, baseAspect: DEFAULT_PAGE_ASPECT })
+            );
           if (visible) onPageInView?.(1);
         }}
         onLoadError={() => onFailed?.(gen)}

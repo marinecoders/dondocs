@@ -1,4 +1,14 @@
-import { ChevronDown, ChevronUp, ExternalLink, Maximize2, Minimize2, Scan, ZoomIn, ZoomOut } from 'lucide-react';
+import {
+  ChevronDown,
+  ChevronUp,
+  ExternalLink,
+  Maximize2,
+  Minimize2,
+  MoveHorizontal,
+  RectangleVertical,
+  ZoomIn,
+  ZoomOut,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
@@ -7,12 +17,14 @@ interface PdfViewerToolbarProps {
   page: number;
   pageCount: number;
   zoomPercent: number;
-  isFitWidth: boolean;
+  fitMode: 'width' | 'page' | null;
+  onGoToPage: (page: number) => void;
   onPrevPage: () => void;
   onNextPage: () => void;
   onZoomIn: () => void;
   onZoomOut: () => void;
-  onZoomFit: () => void;
+  onZoomFitWidth: () => void;
+  onZoomFitPage: () => void;
   onOpenInTab: () => void;
   fullscreen?: { isFullscreen: boolean; toggle: () => void } | null;
   className?: string;
@@ -22,11 +34,13 @@ function ToolButton({
   label,
   onClick,
   disabled,
+  pressed,
   children,
 }: {
   label: string;
   onClick: () => void;
   disabled?: boolean;
+  pressed?: boolean;
   children: React.ReactNode;
 }) {
   return (
@@ -38,6 +52,7 @@ function ToolButton({
           size="icon"
           className="h-7 w-7"
           aria-label={label}
+          aria-pressed={pressed}
           onClick={onClick}
           disabled={disabled}
         >
@@ -55,16 +70,30 @@ export function PdfViewerToolbar({
   page,
   pageCount,
   zoomPercent,
-  isFitWidth,
+  fitMode,
+  onGoToPage,
   onPrevPage,
   onNextPage,
   onZoomIn,
   onZoomOut,
-  onZoomFit,
+  onZoomFitWidth,
+  onZoomFitPage,
   onOpenInTab,
   fullscreen,
   className,
 }: PdfViewerToolbarProps) {
+  // Uncontrolled input keyed by the current page: it remounts (and re-seeds)
+  // whenever the page changes from scrolling/buttons, while typing stays local
+  // until Enter/blur commits — no set-state-in-effect syncing needed.
+  const commitPage = (el: HTMLInputElement) => {
+    const n = Math.round(Number(el.value));
+    if (Number.isFinite(n) && n >= 1 && n <= pageCount && n !== page) {
+      onGoToPage(n);
+    } else {
+      el.value = String(page); // invalid or unchanged — restore the readout
+    }
+  };
+
   return (
     <div
       className={cn(
@@ -78,8 +107,22 @@ export function PdfViewerToolbar({
       <ToolButton label="Next page" onClick={onNextPage} disabled={page >= pageCount}>
         <ChevronDown className="h-4 w-4" />
       </ToolButton>
-      <span className="tnum min-w-[4.5rem] px-1 text-center text-xs text-muted-foreground" aria-live="polite">
-        {pageCount > 0 ? `${page} of ${pageCount}` : '—'}
+      <span className="flex items-center gap-1 px-1 text-xs text-muted-foreground">
+        <input
+          key={page}
+          defaultValue={pageCount > 0 ? page : ''}
+          disabled={pageCount === 0}
+          inputMode="numeric"
+          aria-label="Page number"
+          className="tnum h-6 w-9 rounded border border-border bg-background text-center text-xs text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:opacity-50"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') commitPage(e.currentTarget);
+            if (e.key === 'Escape') e.currentTarget.value = String(page);
+          }}
+          onBlur={(e) => commitPage(e.currentTarget)}
+          onFocus={(e) => e.currentTarget.select()}
+        />
+        <span className="tnum whitespace-nowrap">of {pageCount > 0 ? pageCount : '—'}</span>
       </span>
 
       <div className="flex-1" />
@@ -93,8 +136,11 @@ export function PdfViewerToolbar({
       <ToolButton label="Zoom in" onClick={onZoomIn}>
         <ZoomIn className="h-4 w-4" />
       </ToolButton>
-      <ToolButton label={isFitWidth ? 'Fit width (on)' : 'Fit width'} onClick={onZoomFit}>
-        <Scan className={cn('h-4 w-4', isFitWidth && 'text-primary')} />
+      <ToolButton label="Fit width" onClick={onZoomFitWidth} pressed={fitMode === 'width'}>
+        <MoveHorizontal className={cn('h-4 w-4', fitMode === 'width' && 'text-primary')} />
+      </ToolButton>
+      <ToolButton label="Fit page" onClick={onZoomFitPage} pressed={fitMode === 'page'}>
+        <RectangleVertical className={cn('h-4 w-4', fitMode === 'page' && 'text-primary')} />
       </ToolButton>
 
       <div className="mx-1 h-4 w-px bg-border" />
