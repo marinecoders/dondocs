@@ -5,6 +5,23 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.5] — 2026-07-02
+
+### Fixed
+
+- DOCX export now works on a genuinely air-gapped network. The pandoc
+  engine (WASI shim + 56 MB WASM binary) was fetched from public CDNs at
+  runtime — fine with a warm cache, a hard failure on isolated networks
+  with a cold one, despite the app's air-gap promise. Both assets are now
+  vendored same-origin at build time; the binary ships as sub-25 MiB parts
+  (the hosting platform's per-file limit) reassembled in the browser.
+
+### Added
+
+- A build guard (`check-no-cdn`) that fails CI if any shipped asset
+  references a public CDN, so the air-gap capability can't silently
+  regress.
+
 ## [1.2.4] — 2026-07-01
 
 ### Fixed
