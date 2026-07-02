@@ -6,8 +6,8 @@ import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 // proxy; Page renders a probe div and fires onRenderSuccess after mount. This
 // exercises the real swap machine, zoom math, and layer lifecycle without a
 // canvas or worker (happy-dom has neither).
-vi.mock('react-pdf', () => {
-  const React = require('react');
+vi.mock('react-pdf', async () => {
+  const React = await import('react');
   const PAGE_ASPECT = 8.5 / 11;
   const makeDoc = (numPages: number) => ({
     numPages,
@@ -25,6 +25,9 @@ vi.mock('react-pdf', () => {
       return () => {
         alive = false;
       };
+      // Keyed on file alone on purpose: callbacks are inline in the layer and
+      // change identity per render; re-firing would double-load documents.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [file]);
     return React.createElement('div', { 'data-testid': `doc:${file}` }, children);
   }
@@ -32,6 +35,7 @@ vi.mock('react-pdf', () => {
     React.useEffect(() => {
       const t = setTimeout(() => onRenderSuccess?.(), 0);
       return () => clearTimeout(t);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return React.createElement('div', { 'data-testid': `page:${pageNumber}`, 'data-width': width });
   }
@@ -120,6 +124,16 @@ describe('PdfViewer', () => {
     input.value = '99';
     fireEvent.blur(input);
     expect(input.value).toBe('1'); // out of range for a 2-page doc → restored
+
+    // A valid entry actually scrolls the active layer to that page's band.
+    const scrollCalls: Array<{ top?: number }> = [];
+    (Element.prototype as { scrollTo: (o: { top?: number }) => void }).scrollTo = function (o) {
+      scrollCalls.push(o);
+    };
+    input.value = '2';
+    fireEvent.keyDown(input, { key: 'Enter', target: input });
+    expect(scrollCalls.length).toBeGreaterThan(0);
+    expect(scrollCalls[scrollCalls.length - 1].top).toBeGreaterThan(0); // page 2 sits below page 1
   });
 
   it('thumbnail rail: toggle appears on multi-page docs, opens a clickable rail', async () => {

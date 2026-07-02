@@ -3,8 +3,8 @@ import { describe, it, expect, vi, beforeAll, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 
 // Same react-pdf stub as PdfViewer.test — the panel lazy-loads the viewer.
-vi.mock('react-pdf', () => {
-  const React = require('react');
+vi.mock('react-pdf', async () => {
+  const React = await import('react');
   const makeDoc = (numPages: number) => ({
     numPages,
     getPage: () =>
@@ -17,6 +17,8 @@ vi.mock('react-pdf', () => {
       return () => {
         alive = false;
       };
+      // Keyed on file alone on purpose — see PdfViewer.test.tsx.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [file]);
     return React.createElement('div', { 'data-testid': `doc:${file}` }, children);
   }
@@ -24,6 +26,7 @@ vi.mock('react-pdf', () => {
     React.useEffect(() => {
       const t = setTimeout(() => onRenderSuccess?.(), 0);
       return () => clearTimeout(t);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return React.createElement('div', { 'data-testid': `page:${pageNumber}` });
   }
