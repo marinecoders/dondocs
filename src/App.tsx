@@ -8,9 +8,10 @@ import { PreviewPanel } from '@/components/layout/PreviewPanel';
 import { ResizableDivider } from '@/components/layout/ResizableDivider';
 import { ProfileModal } from '@/components/modals/ProfileModal';
 import { ReferenceLibraryModal } from '@/components/modals/ReferenceLibraryModal';
-// MobilePreviewModal pulls react-pdf + @react-pdf-viewer + pdf.js core
-// (~400 KB raw / ~120 KB gz) and only appears on mobile. Lazy-load it into
-// its own chunk; the mobilePreviewOpen gate below holds the fetch until the
+// MobilePreviewModal renders the shared in-app PdfViewer (react-pdf + pdf.js),
+// which Rollup emits as its own chunk because the desktop panel dynamically
+// imports the same component — one pdf.js copy for both surfaces. The modal
+// stays lazy too; the mobilePreviewOpen gate below holds the fetch until the
 // user taps "Preview PDF".
 const MobilePreviewModal = lazy(() =>
   import('@/components/modals/MobilePreviewModal').then((m) => ({

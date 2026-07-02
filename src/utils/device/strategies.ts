@@ -30,18 +30,14 @@
  *    is more reliable.
  * 
  * PDF PREVIEW:
- * 
- * 1. Desktop: Native iframe works perfectly - browsers have built-in
- *    PDF viewers.
- * 
- * 2. iPad: Native iframe also works great - Safari has excellent PDF
- *    viewing with zoom, scroll, etc.
- * 
- * 3. iPhone/Android phones: Screen is small, native viewer is awkward.
- *    Use react-pdf-viewer for custom UI with zoom controls.
+ *
+ * All platforms render through the shared in-app viewer
+ * (src/components/pdf/PdfViewer.tsx) — page virtualization plus a capped
+ * devicePixelRatio keep canvas memory inside iOS budgets, so no per-device
+ * viewer split remains. Only DOWNLOAD strategy varies by device.
  */
 
-import type { DeviceInfo, DeviceStrategy, PdfDownloadStrategy, PdfPreviewStrategy } from './types';
+import type { DeviceInfo, DeviceStrategy, PdfDownloadStrategy } from './types';
 import { getDeviceInfo } from './detectors';
 
 /**
@@ -85,42 +81,16 @@ export function getPdfDownloadStrategy(device?: DeviceInfo): PdfDownloadStrategy
 }
 
 /**
- * Get the recommended PDF preview strategy for the current device
- * 
- * NOTE: We use react-pdf-viewer for ALL iOS devices (iPhone AND iPad) because:
- * - react-pdf crashes on iOS due to canvas memory limits (384MB)
- * - iframe shows black screen on iPad (tested and failed)
- * - react-pdf-viewer works reliably on all iOS devices
- */
-export function getPdfPreviewStrategy(device?: DeviceInfo): PdfPreviewStrategy {
-  const info = device || getDeviceInfo();
-  
-  // iOS (iPhone AND iPad): Use react-pdf-viewer
-  // This is the ONLY viewer that works reliably on iOS
-  if (info.isIOS) {
-    return 'react-pdf-viewer';
-  }
-  
-  // Desktop: Use native iframe, browser has built-in PDF viewer
-  if (info.isDesktop) {
-    return 'iframe';
-  }
-  
-  // Android phones/tablets: Use react-pdf-viewer for custom UI
-  return 'react-pdf-viewer';
-}
-
-/**
- * Get complete strategy recommendations with reasoning
+ * Get complete strategy recommendations with reasoning. Preview no longer
+ * varies by device (one in-app viewer everywhere); only downloads do.
  */
 export function getDeviceStrategy(device?: DeviceInfo): DeviceStrategy {
   const info = device || getDeviceInfo();
   const download = getPdfDownloadStrategy(info);
-  const preview = getPdfPreviewStrategy(info);
-  
+
   // Generate human-readable reasoning
   let reasoning: string;
-  
+
   if (info.isIOS && info.isInAppBrowser) {
     const appName = info.isGoogleApp ? 'Google App' :
                     info.isFacebookApp ? 'Facebook' :
@@ -129,20 +99,18 @@ export function getDeviceStrategy(device?: DeviceInfo): DeviceStrategy {
                     info.isLinkedInApp ? 'LinkedIn' : 'in-app browser';
     reasoning = `${appName} in-app browser detected. WKWebView doesn't support blob URL downloads (WebKit bug #216918). User must open in Safari.`;
   } else if (info.isIOS && info.isChromeIOS) {
-    reasoning = 'Chrome iOS detected. Blob URLs broken, using FileReader + data URL + window.open. Preview uses react-pdf-viewer for phone-optimized UI.';
+    reasoning = 'Chrome iOS detected. Blob URLs broken, using FileReader + data URL + window.open.';
   } else if (info.isIOS && info.isFirefoxIOS) {
     reasoning = 'Firefox iOS detected. Same WebKit limitations as Chrome iOS. Using data URL approach.';
-  } else if (info.isIOS && info.isRealSafari && info.isIPad) {
-    reasoning = 'iPad Safari detected. Native iframe for preview (excellent built-in PDF viewer). Standard blob download with octet-stream MIME type.';
   } else if (info.isIOS && info.isRealSafari) {
-    reasoning = 'iPhone Safari detected. react-pdf-viewer for phone-optimized preview. Standard blob download with octet-stream MIME type.';
+    reasoning = 'iOS Safari detected. Standard blob download with octet-stream MIME type.';
   } else if (info.isAndroid) {
-    reasoning = 'Android detected. Data URL download is more reliable than blob URLs. react-pdf-viewer for phone-optimized preview.';
+    reasoning = 'Android detected. Data URL download is more reliable than blob URLs.';
   } else {
-    reasoning = 'Desktop browser detected. Native iframe for preview, standard blob URL for download.';
+    reasoning = 'Desktop browser detected. Standard blob URL for download.';
   }
-  
-  return { download, preview, reasoning };
+
+  return { download, reasoning };
 }
 
 /**

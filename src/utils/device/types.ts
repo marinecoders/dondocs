@@ -94,21 +94,13 @@ export type PdfDownloadStrategy =
   ;
 
 /**
- * PDF preview strategy recommendation
- */
-export type PdfPreviewStrategy =
-  | 'iframe'           // Native browser PDF viewer in iframe
-  | 'react-pdf-viewer' // react-pdf-viewer library (good for phones)
-  | 'react-pdf'        // react-pdf library (good for tablets)
-  ;
-
-/**
- * Combined strategy recommendations for a device
+ * Combined strategy recommendations for a device. Preview is not part of the
+ * strategy anymore: every platform renders through the shared in-app viewer
+ * (src/components/pdf/PdfViewer.tsx).
  */
 export interface DeviceStrategy {
   download: PdfDownloadStrategy;
-  preview: PdfPreviewStrategy;
-  
+
   /** Human-readable explanation of why this strategy was chosen */
   reasoning: string;
 }
