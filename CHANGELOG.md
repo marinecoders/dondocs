@@ -5,16 +5,17 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
-## [Unreleased]
+## [1.2.1] — 2026-07-01
 
 ### Changed
 
 - **One PDF viewer everywhere** — the desktop preview drops the browser's
   iframe viewer and mobile drops its per-platform split; every surface renders
-  through a shared in-app viewer with zoom, page navigation, fullscreen, and
-  an open-in-tab escape hatch. Recompiles now swap in place: the old page
-  stays visible while the new one renders, then dissolves — no white flash,
-  no scroll jump.
+  through a shared in-app viewer with zoom, fit-width and fit-page modes,
+  page navigation with direct page entry, a collapsible thumbnail rail on
+  multi-page documents, fullscreen, and an open-in-tab escape hatch.
+  Recompiles swap in place: the old page stays visible while the new one
+  renders, then dissolves — no white flash, no scroll jump.
 
 ### Removed
 
