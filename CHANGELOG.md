@@ -5,6 +5,16 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.2] — 2026-07-01
+
+### Security
+
+- Overrode the transitive `qs` dependency to 6.15.3
+  (GHSA-q8mj-m7cp-5q26, moderate DoS). The vulnerable copy lived only in a
+  dev-tool chain (`@stryker-mutator/core` → `typed-rest-client`) and never
+  shipped in the app; the repository now has zero open advisories of any
+  severity.
+
 ## [1.2.1] — 2026-07-01
 
 ### Changed
