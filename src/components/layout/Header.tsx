@@ -27,7 +27,8 @@ import {
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
-import { useDocumentsStore, exportLibrary, importLibrary } from '@/stores/documentsStore';
+import { useDocumentsStore } from '@/stores/documentsStore';
+import { buildBackup, restoreBackup, summarizeRestore } from '@/lib/backup';
 import { useBackupStore } from '@/stores/backupStore';
 import { useHistoryStore } from '@/stores/historyStore';
 import { uint8ArrayToBase64, base64ToUint8Array, arrayBufferToUint8Array } from '@/lib/encoding';
@@ -572,19 +573,21 @@ export function Header({
   // one) — a safety net against browser-storage eviction.
   const handleExportLibrary = useCallback(async () => {
     try {
-      const json = await exportLibrary();
+      // Full-account bundle: documents + profiles/signatures + snippets +
+      // templates + live NAVMC forms — not just documents.
+      const json = await buildBackup();
       const blob = new Blob([json], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `dondocs-library-${new Date().toISOString().split('T')[0]}.json`;
+      a.download = `dondocs-backup-${new Date().toISOString().split('T')[0]}.json`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      flashSaveStatus('Backed up!');
+      flashSaveStatus('Backed up everything!');
     } catch (err) {
-      console.error('Failed to export library:', err);
+      console.error('Failed to export backup:', err);
       flashSaveStatus('Backup failed');
     }
   }, [flashSaveStatus]);
@@ -595,12 +598,13 @@ export function Header({
     const reader = new FileReader();
     reader.onload = async (e) => {
       try {
-        const { imported, skipped } = await importLibrary(e.target?.result as string);
-        const kept = skipped > 0 ? ` · kept ${skipped} newer` : '';
-        flashSaveStatus(`Imported ${imported} document${imported === 1 ? '' : 's'}${kept}`);
+        // Branches on file kind: full backups restore everything, legacy
+        // docs-only files still restore documents. Merges non-destructively.
+        const result = await restoreBackup(e.target?.result as string);
+        flashSaveStatus(summarizeRestore(result));
       } catch (err) {
-        console.error('Failed to import library:', err);
-        flashSaveStatus('Import failed');
+        console.error('Failed to restore backup:', err);
+        flashSaveStatus('Restore failed');
       }
     };
     reader.readAsText(file);
@@ -819,7 +823,7 @@ export function Header({
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleExportLibrary}>
                 <FileDown className="h-4 w-4 mr-2" />
-                Back up all documents
+                Back up everything
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => libraryInputRef.current?.click()}>
                 <FileUp className="h-4 w-4 mr-2" />
