@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect, type ChangeEvent, type ReactNode } from 'react';
-import { Moon, Sun, Download, FileText, Braces, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2, Lightbulb, FolderOpen, Rocket, FolderSync, AlertTriangle } from 'lucide-react';
+import { Moon, Sun, Download, FileText, Braces, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2, Lightbulb, FolderOpen, Rocket, FolderSync, AlertTriangle, MonitorDown } from 'lucide-react';
 import { GithubIcon } from '@/components/icons/GithubIcon';
 import { Button } from '@/components/ui/button';
 import { Kbd } from '@/components/ui/kbd';
@@ -30,6 +30,8 @@ import { useFormStore } from '@/stores/formStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { buildBackup, restoreBackup, summarizeRestore } from '@/lib/backup';
 import { useBackupStore } from '@/stores/backupStore';
+import { useInstallStore } from '@/stores/installStore';
+import { promptInstall } from '@/hooks/useInstallPrompt';
 import { useHistoryStore } from '@/stores/historyStore';
 import { uint8ArrayToBase64, base64ToUint8Array, arrayBufferToUint8Array } from '@/lib/encoding';
 import { STORAGE_KEYS } from '@/lib/constants';
@@ -242,6 +244,7 @@ export function Header({
   // Synced-backup file (File System Access API).
   const saveMenuOpen = useUIStore((s) => s.saveMenuOpen);
   const setSaveMenuOpen = useUIStore((s) => s.setSaveMenuOpen);
+  const isInstalled = useInstallStore((s) => s.isInstalled);
   const backupStatus = useBackupStore((s) => s.status);
   const backupFileName = useBackupStore((s) => s.fileName);
   const setupBackup = useBackupStore((s) => s.setupBackup);
@@ -1025,6 +1028,12 @@ export function Header({
                   Getting started
                 </DropdownMenuItem>
               )}
+              {!isInstalled && (
+                <DropdownMenuItem onClick={() => void promptInstall()}>
+                  <MonitorDown className="h-4 w-4 mr-2" />
+                  Install app
+                </DropdownMenuItem>
+              )}
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => setNistModalOpen(true)}>
                 <Shield className="h-4 w-4 mr-2" />
@@ -1182,6 +1191,12 @@ export function Header({
                 <DropdownMenuItem onClick={reopenChecklist}>
                   <Rocket className="h-4 w-4 mr-2" />
                   Getting started
+                </DropdownMenuItem>
+              )}
+              {!isInstalled && (
+                <DropdownMenuItem onClick={() => void promptInstall()}>
+                  <MonitorDown className="h-4 w-4 mr-2" />
+                  Install app
                 </DropdownMenuItem>
               )}
               <DropdownMenuItem onClick={() => setNistModalOpen(true)}>

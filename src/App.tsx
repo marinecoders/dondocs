@@ -33,6 +33,7 @@ import { LogViewerModal } from '@/components/modals/LogViewerModal';
 import { EnclosureErrorModal } from '@/components/modals/EnclosureErrorModal';
 import { ShareModal } from '@/components/modals/ShareModal';
 import { UpdatePromptModal } from '@/components/modals/UpdatePromptModal';
+import { InstallAppModal } from '@/components/modals/InstallAppModal';
 import { DownloadProgressModal } from '@/components/modals/DownloadProgressModal';
 import { CompileErrorModal } from '@/components/modals/CompileErrorModal';
 import {
@@ -43,6 +44,7 @@ import { parseShareUrl } from '@/lib/shareCrypto';
 import { BrowserCompatibilityNotice } from '@/components/BrowserCompatibilityNotice';
 import { StorageNotice } from '@/components/StorageNotice';
 import { BackupNotice } from '@/components/BackupNotice';
+import { InstallNotice } from '@/components/InstallNotice';
 import { probeStorageHealth } from '@/lib/documentsDb';
 const marineCodersLogo = `${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`;
 import { useUIStore } from '@/stores/uiStore';
@@ -79,7 +81,7 @@ import {
   PanelRight,
 } from 'lucide-react';
 import { useLogStore } from '@/stores/logStore';
-import { useLatexEngine, useServiceWorker } from '@/hooks';
+import { useLatexEngine, useServiceWorker, useInstallPrompt } from '@/hooks';
 import { usePandocIdlePrefetch } from '@/hooks/usePandocIdlePrefetch';
 import { generateAllLatexFiles, type GeneratedFiles } from '@/services/latex/generator';
 import { generateFlatLatex } from '@/services/latex/flat-generator';
@@ -244,6 +246,8 @@ function App() {
   const addLogDirect = useLogStore((s) => s.addLogDirect);
   const { isReady, compile, waitForReady, error: engineError } = useLatexEngine();
   const { showUpdatePrompt, confirmUpdate, dismissUpdatePrompt } = useServiceWorker();
+  // Capture beforeinstallprompt / appinstalled + seed standalone detection.
+  useInstallPrompt();
 
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [formPdfUrl, setFormPdfUrl] = useState<string | null>(null);
@@ -1821,6 +1825,7 @@ ${texFiles['body.tex'] || '% No body content'}
 
       <StorageNotice />
       <BackupNotice />
+      <InstallNotice />
 
       <div className="flex flex-1 overflow-hidden">
         {/* Document workspace (desktop). Sits beside the main editor so the
@@ -1940,6 +1945,7 @@ ${texFiles['body.tex'] || '% No body content'}
         onConfirm={confirmUpdate}
         onDismiss={dismissUpdatePrompt}
       />
+      <InstallAppModal />
       <DownloadProgressModal
         phase={downloadProgress}
         onClose={() => setDownloadProgress(null)}
