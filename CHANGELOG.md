@@ -5,6 +5,18 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.29] — 2026-07-04
+
+### Fixed
+
+- The top-bar controls now share one height. The undo, redo, refresh, and
+  appearance icon buttons grew to 36px at ≥640px while every other control
+  stayed 32px, breaking the row into two heights; they're now a uniform 32px.
+- The Document Type, font-size, font-family, and Form Type pickers now span
+  their field column. They were sized to their content (w-fit), so the trigger
+  and its chevron floated mid-row out of line with every sibling field, which
+  is full-width.
+
 ## [1.2.28] — 2026-07-04
 
 ### Fixed
