@@ -1804,7 +1804,12 @@ ${texFiles['body.tex'] || '% No body content'}
 
   return (
     <TooltipProvider>
-    <div className="flex flex-col h-screen bg-background relative overflow-hidden">
+    {/* h-screen-dvh (index.css): the shell sizes to the VISIBLE viewport on
+        mobile — 100vh is ~50-100px taller than what's on screen under iOS
+        Safari / Chrome Android browser chrome, which pushed the bottom FABs
+        and preview toolbar under it — with a 100vh fallback for pre-dvh
+        engines. */}
+    <div className="flex flex-col h-screen-dvh bg-background relative overflow-hidden">
       {/* Faint Marine Coders EGA watermark behind the whole app. The animated
           beams + a denser EGA seal live inside the editor column (FormPanel),
           so the branded motion stays in the editor and doesn't sweep behind the

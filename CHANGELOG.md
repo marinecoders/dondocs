@@ -5,6 +5,19 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.14] — 2026-07-03
+
+### Fixed
+
+- On phones, the bottom controls (Preview PDF, Recents) no longer sit partly
+  under the browser's own toolbar: the app shell now sizes to the *visible*
+  viewport (`100dvh`, with a fallback for older browsers) instead of the
+  full 100vh that mobile browser chrome overlaps.
+- The full-screen mobile PDF preview now respects notched phones: its
+  header (title, Download, Logs, Close) pads below the status bar / dynamic
+  island, and its bottom edge clears the home indicator — previously both
+  rendered underneath in an installed app.
+
 ## [1.2.13] — 2026-07-03
 
 ### Fixed
