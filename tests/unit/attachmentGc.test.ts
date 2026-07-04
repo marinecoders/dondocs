@@ -1,0 +1,145 @@
+// Sets a real (in-memory) IndexedDB on the global before documentsDb evaluates.
+// Must be the first import.
+import 'fake-indexeddb/auto';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import {
+  idbPutDocument,
+  idbDeleteDocument,
+  idbGetAllDocuments,
+  idbAddSnapshot,
+  idbDeleteSnapshots,
+  idbPutAttachment,
+  idbGetAttachment,
+  idbGetAllAttachments,
+  idbDeleteAttachment,
+  type StoredDocument,
+  type StoredAttachment,
+} from '@/lib/documentsDb';
+import * as documentsDb from '@/lib/documentsDb';
+import * as backup from '@/lib/backup';
+import { useDocumentStore } from '@/stores/documentStore';
+import { sweepOrphanedAttachments } from '@/lib/attachmentGc';
+
+// A stored document whose single enclosure points at attachment `refId` (or none).
+const doc = (id: string, refId?: string): StoredDocument =>
+  ({
+    id,
+    meta: { id, title: `Doc ${id}`, docType: 'naval_letter', updatedAt: 1 },
+    session: {
+      docType: 'naval_letter',
+      paragraphs: [],
+      references: [],
+      enclosures: refId
+        ? [{ title: 'Enc', fileRef: { id: refId, name: 'f.pdf', size: 3, type: 'application/pdf' } }]
+        : [],
+      copyTos: [],
+      distributions: [],
+    },
+  }) as unknown as StoredDocument;
+
+const att = (id: string): StoredAttachment => ({
+  id,
+  name: 'f.pdf',
+  type: 'application/pdf',
+  size: 3,
+  data: new Uint8Array([1, 2, 3]).buffer,
+});
+
+// Global reads make the sweep sensitive to leftovers; start every test clean.
+async function clearAll() {
+  const docs = (await idbGetAllDocuments()) ?? [];
+  for (const d of docs) {
+    await idbDeleteSnapshots(d.id);
+    await idbDeleteDocument(d.id);
+  }
+  const atts = (await idbGetAllAttachments()) ?? [];
+  for (const a of atts) await idbDeleteAttachment(a.id);
+  useDocumentStore.setState({ enclosures: [] });
+}
+
+beforeEach(async () => {
+  vi.restoreAllMocks();
+  await clearAll();
+});
+
+describe('sweepOrphanedAttachments', () => {
+  it('deletes an unreferenced blob and keeps a referenced one', async () => {
+    await idbPutDocument(doc('d1', 'att_keep'));
+    await idbPutAttachment(att('att_keep'));
+    await idbPutAttachment(att('att_orphan')); // no document points at this
+
+    const deleted = await sweepOrphanedAttachments();
+
+    expect(deleted).toBe(1);
+    expect(await idbGetAttachment('att_keep')).toBeTruthy();
+    expect(await idbGetAttachment('att_orphan')).toBeNull();
+  });
+
+  it('KEEPS a blob referenced only by a version-history snapshot (undo must survive)', async () => {
+    // The live doc no longer references att_snap, but an earlier snapshot does.
+    await idbPutDocument(doc('d2')); // current session: no enclosures
+    await idbAddSnapshot('d2', { ts: 1, session: doc('d2', 'att_snap').session });
+    await idbPutAttachment(att('att_snap'));
+
+    const deleted = await sweepOrphanedAttachments();
+
+    expect(deleted).toBe(0);
+    expect(await idbGetAttachment('att_snap')).toBeTruthy();
+  });
+
+  it('KEEPS a blob referenced only by the live in-memory session (unsynced attach)', async () => {
+    // No persisted doc references it yet — it was just attached this session.
+    useDocumentStore.setState({
+      enclosures: [{ title: 'Fresh', fileRef: { id: 'att_live', name: 'f.pdf', size: 3, type: '' } }],
+    } as never);
+    await idbPutAttachment(att('att_live'));
+
+    const deleted = await sweepOrphanedAttachments();
+
+    expect(deleted).toBe(0);
+    expect(await idbGetAttachment('att_live')).toBeTruthy();
+  });
+
+  it('ABORTS and deletes nothing when the document registry is unreadable', async () => {
+    // A read FAILURE (null) must not be read as "no docs reference anything".
+    vi.spyOn(documentsDb, 'idbGetAllDocuments').mockResolvedValue(null);
+    await idbPutAttachment(att('att_x'));
+
+    const result = await sweepOrphanedAttachments();
+
+    expect(result).toBeNull();
+    expect(await idbGetAttachment('att_x')).toBeTruthy();
+  });
+
+  it('ABORTS when the attachment store is unreadable', async () => {
+    await idbPutDocument(doc('d3', 'att_ref'));
+    vi.spyOn(documentsDb, 'idbGetAllAttachments').mockResolvedValue(null);
+
+    const result = await sweepOrphanedAttachments();
+
+    expect(result).toBeNull();
+  });
+
+  it('stands down entirely while a backup restore is in flight', async () => {
+    vi.spyOn(backup, 'isRestoreInProgress').mockReturnValue(true);
+    await idbPutAttachment(att('att_during_restore')); // an orphan, but restore is running
+
+    const result = await sweepOrphanedAttachments();
+
+    expect(result).toBeNull();
+    expect(await idbGetAttachment('att_during_restore')).toBeTruthy();
+  });
+
+  it('no-ops on an all-referenced store', async () => {
+    await idbPutDocument(doc('d4', 'att_a'));
+    await idbPutDocument(doc('d5', 'att_b'));
+    await idbPutAttachment(att('att_a'));
+    await idbPutAttachment(att('att_b'));
+
+    const deleted = await sweepOrphanedAttachments();
+
+    expect(deleted).toBe(0);
+    expect(await idbGetAttachment('att_a')).toBeTruthy();
+    expect(await idbGetAttachment('att_b')).toBeTruthy();
+  });
+});
