@@ -61,9 +61,20 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
   if (!mobilePreviewOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-background flex flex-col">
+    // `fixed inset-0` extends under a notched phone's status bar and home
+    // indicator (index.html sets viewport-fit=cover), so the header and content
+    // pad by the safe-area insets — without this the title and Download/Logs/
+    // Close controls render behind the clock/dynamic island in a standalone
+    // install, and the viewer's bottom edge sits under the home indicator.
+    <div
+      className="fixed inset-0 z-50 bg-background flex flex-col"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+    >
       {/* Header */}
-      <div className="flex items-center justify-between px-3 py-2 border-b border-border bg-card shrink-0">
+      <div
+        className="flex items-center justify-between px-3 py-2 border-b border-border bg-card shrink-0"
+        style={{ paddingTop: 'max(0.5rem, env(safe-area-inset-top, 0px))' }}
+      >
         <span className="font-semibold text-sm">PDF Preview</span>
         <div className="flex items-center gap-1">
           {pdfUrl && !isCompiling && (

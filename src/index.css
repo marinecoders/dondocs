@@ -585,6 +585,18 @@
     font-feature-settings: 'tnum' 1;
   }
 
+  /* Full-height app shell: dvh sizes to the VISIBLE viewport on mobile (100vh
+     is ~50–100px taller than what's on screen under iOS Safari / Chrome
+     Android browser chrome). Declaration-order fallback — the browser keeps
+     the last value it understands, so pre-dvh engines (old NMCI Chromium)
+     get 100vh. NOT `h-screen h-[100dvh]` classes: at equal specificity the
+     STYLESHEET order decides, and Tailwind emits .h-screen after arbitrary
+     values, silently nullifying the dvh. */
+  .h-screen-dvh {
+    height: 100vh;
+    height: 100dvh;
+  }
+
   /* Unified modal scrim — one look for every overlay (Dialog, AlertDialog, and
      the command palette) instead of the previous black/70 vs rgba mismatch. */
   .dd-scrim {
