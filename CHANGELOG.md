@@ -5,6 +5,19 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.20] — 2026-07-04
+
+### Added
+
+- Backups now include each document's version history. "Back up all
+  documents" and the synced auto-backup previously captured only the current
+  state of every document — restoring on a new machine silently dropped the
+  per-document undo/restore-an-earlier-version rings. The bundle now carries
+  those snapshots (and any enclosure file a snapshot alone still references),
+  and a restore merges them into any local history without ever dropping a
+  snapshot you have taken since. Older backup files that predate this still
+  restore cleanly.
+
 ## [1.2.19] — 2026-07-04
 
 ### Changed

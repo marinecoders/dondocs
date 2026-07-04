@@ -292,7 +292,7 @@ export interface DocSnapshot {
   session: SerializedSession;
 }
 
-const MAX_SNAPSHOTS = 10;
+export const MAX_SNAPSHOTS = 10;
 
 export async function idbGetSnapshots(docId: string): Promise<DocSnapshot[]> {
   if (!hasIndexedDb) return [];
@@ -334,6 +334,27 @@ export async function idbAddSnapshot(docId: string, snap: DocSnapshot): Promise<
     return true;
   } catch (err) {
     debug.error('DocumentsDb', 'addSnapshot failed', err);
+    return false;
+  }
+}
+
+// Overwrite a document's whole snapshot ring in one shot (backup restore writes
+// a merged ring). Caps defensively at MAX_SNAPSHOTS; an empty ring deletes the
+// key rather than storing []. idbAddSnapshot is still the path for incremental,
+// serialized single-snapshot appends.
+export async function idbSetSnapshots(docId: string, snaps: DocSnapshot[]): Promise<boolean> {
+  if (!hasIndexedDb) return false;
+  try {
+    if (snaps.length === 0) {
+      await run(APP_STORE, 'readwrite', (s) => s.delete(`snap:${docId}`));
+    } else {
+      await run(APP_STORE, 'readwrite', (s) =>
+        s.put({ key: `snap:${docId}`, value: snaps.slice(0, MAX_SNAPSHOTS) })
+      );
+    }
+    return true;
+  } catch (err) {
+    debug.error('DocumentsDb', 'setSnapshots failed', err);
     return false;
   }
 }
