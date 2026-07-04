@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.32] — 2026-07-04
+
+### Accessibility
+
+- The custom-classification preset chips now show a keyboard focus ring. The
+  ring was bound to the selected state only, so tabbing across the chips gave
+  no focus indicator (WCAG 2.4.7). They now carry the standard focus-visible
+  ring independent of selection.
+
 ## [1.2.31] — 2026-07-04
 
 ### Fixed

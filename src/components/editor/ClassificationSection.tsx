@@ -264,7 +264,7 @@ export function ClassificationSection() {
                             key={preset.value}
                             type="button"
                             onClick={() => setField('customClassification', preset.value)}
-                            className={`px-2 py-0.5 text-xs font-medium rounded-md border transition-colors ${preset.color} ${preset.bg} ${active ? 'ring-2 ring-offset-1 ring-offset-background ring-current' : ''}`}
+                            className={`px-2 py-0.5 text-xs font-medium rounded-md border transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 ${preset.color} ${preset.bg} ${active ? 'ring-2 ring-offset-1 ring-offset-background ring-current' : ''}`}
                             title={`Set marking to "${preset.value}"`}
                           >
                             {preset.label}
