@@ -71,7 +71,7 @@ export function ResizableDivider({ onResize, containerRef, currentWidth }: Resiz
       )}
       <div
         onMouseDown={handleMouseDown}
-        className="relative flex-shrink-0 cursor-col-resize group rounded outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+        className="relative flex-shrink-0 cursor-col-resize group rounded outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
         role="separator"
         aria-orientation="vertical"
         aria-label="Resize preview panel. Drag, or use the left and right arrow keys."

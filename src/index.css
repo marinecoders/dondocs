@@ -122,6 +122,11 @@
   --color-brand-accent: var(--brand-accent);
   --color-brand-accent-foreground: var(--brand-accent-foreground);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -187,7 +192,11 @@
   --brand-accent: oklch(0.32 0.06 230);    /* #07405B navy — intentional brand highlight */
   --brand-accent-foreground: oklch(0.99 0 0);
   --destructive: oklch(0.33 0.14 25);      /* #7A131B battle red */
+  --destructive-foreground: oklch(0.99 0 0); /* label on a destructive fill */
   --success: oklch(0.63 0.17 149);         /* ~green-600 — status/compliance tint */
+  --success-foreground: oklch(0.99 0 0);
+  --warning: oklch(0.55 0.13 65);          /* ~amber-700 — ≥4.5:1 as text on the light canvas */
+  --warning-foreground: oklch(0.99 0 0);
   --border: oklch(0.88 0.02 250);          /* Navy-tinted border */
   --input: oklch(0.95 0.01 250);
   --ring: oklch(0.43 0.17 25);             /* USMC Red ring */
@@ -411,7 +420,11 @@
   --brand-accent: oklch(0.80 0.15 85);     /* #f1b434 gold — brand highlight */
   --brand-accent-foreground: oklch(0.14 0.008 260);
   --destructive: oklch(0.50 0.18 25);      /* Brighter red — WCAG AA */
+  --destructive-foreground: oklch(0.99 0 0);
   --success: oklch(0.79 0.18 149);         /* ~green-400 — brighter for deep canvas */
+  --success-foreground: oklch(0.20 0.04 150);
+  --warning: oklch(0.83 0.16 85);          /* ~amber-400 — bright enough as text on deep canvas */
+  --warning-foreground: oklch(0.22 0.03 85);
   --border: oklch(0.305 0.008 260);        /* Crisper edges for card separation */
   --input: oklch(0.23 0.008 260);
   --ring: oklch(0.55 0.20 25);             /* Bright USMC Red ring */
@@ -455,7 +468,11 @@
     --brand-accent: #06384b;
     --brand-accent-foreground: #fcfcfc;
     --destructive: #6c0008;
+    --destructive-foreground: #ffffff;
     --success: #15803d;
+    --success-foreground: #ffffff;
+    --warning: #b45309;
+    --warning-foreground: #ffffff;
     --border: #ced9e5;
     --input: #eaeff5;
     --ring: #970818;
@@ -491,7 +508,11 @@
     --brand-accent: #eab532;
     --brand-accent-foreground: #07090c;
     --destructive: #b32228;
+    --destructive-foreground: #ffffff;
     --success: #4ade80;
+    --success-foreground: #052e16;
+    --warning: #fbbf24;
+    --warning-foreground: #1c1917;
     --border: #2d2f33;
     --input: #1b1d21;
     --ring: #cc272e;
@@ -547,11 +568,15 @@
      text-reveal entrance, and the unused animate-spin-slow) were removed:
      motion and effects are reserved for communicating state, never
      decoration. */
+  /* Both aliases resolve to the navy-tinted ladder above (cards → md,
+     floating layers/dialogs → xl, per the ladder's own mapping) instead of
+     the pure-black one-offs they used to carry — a raw black drop over the
+     light canvas read as a foreign asset next to every other elevation. */
   .shadow-card {
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.2), 0 2px 4px -2px rgb(0 0 0 / 0.15);
+    box-shadow: var(--shadow-md);
   }
   .shadow-elevated {
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2), 0 8px 10px -6px rgb(0 0 0 / 0.15);
+    box-shadow: var(--shadow-xl);
   }
 
   /* Tabular figures — align digits in columns (timestamps, counts, page numbers). */

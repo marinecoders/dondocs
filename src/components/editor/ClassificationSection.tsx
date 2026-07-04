@@ -27,22 +27,25 @@ const CLASSIFICATION_LEVELS = [
   { value: 'cui', label: 'CUI (Controlled Unclassified Information)', color: 'text-[#502B85] dark:text-[#9572D4]' },
   { value: 'confidential', label: 'CONFIDENTIAL', color: 'text-[#0033A0] dark:text-[#5B7FD9]' },
   { value: 'secret', label: 'SECRET', color: 'text-[#C8102E] dark:text-[#E74C5C]' },
-  { value: 'top_secret', label: 'TOP SECRET', color: 'text-[#FF8C00] dark:text-[#FFA940]' },
-  // TS//SCI's banner yellow (#FCE83A) is too low-contrast as text on white,
-  // so use a darker amber here; the bright yellow stays for fills/tints.
-  { value: 'top_secret_sci', label: 'TOP SECRET//SCI', color: 'text-[#A8920E] dark:text-[#FCE83A]' },
+  // TOP SECRET's banner orange (#FF8C00, 2.3:1) and the TS//SCI amber
+  // (#A8920E, 3.0:1) fail WCAG AA as text on the light card — on the very
+  // labels that must be unmissable. Text uses darkened variants (≥4.5:1 on the
+  // card AND on the /10–/20 tints); the bright banner colors stay for
+  // fills/tints only. Dark-mode variants sit on the deep canvas and pass as-is.
+  { value: 'top_secret', label: 'TOP SECRET', color: 'text-[#B45309] dark:text-[#FFA940]' },
+  { value: 'top_secret_sci', label: 'TOP SECRET//SCI', color: 'text-[#756808] dark:text-[#FCE83A]' },
 ];
 
 // Quick-fill presets for the Custom Classification field. Tinted backgrounds use
-// the CNSI/ISOO colors above so each button reads as a mini banner. SCI text uses
-// the darker #A8920E amber to stay readable on its yellow tint in light mode.
+// the CNSI/ISOO banner colors so each button reads as a mini banner; the TOP
+// SECRET / SCI label text uses the darkened AA-safe variants from above.
 const CLASSIFICATION_PRESETS = [
   { value: 'UNCLASSIFIED',    label: 'Unclassified',    color: 'text-[#007A33] dark:text-[#3DBE6B]', bg: 'bg-[#007A33]/10 dark:bg-[#007A33]/20 border-[#007A33]/30 hover:bg-[#007A33]/20 dark:hover:bg-[#007A33]/30' },
   { value: 'CUI',             label: 'CUI',             color: 'text-[#502B85] dark:text-[#9572D4]', bg: 'bg-[#502B85]/10 dark:bg-[#502B85]/20 border-[#502B85]/30 hover:bg-[#502B85]/20 dark:hover:bg-[#502B85]/30' },
   { value: 'CONFIDENTIAL',    label: 'CONFIDENTIAL',    color: 'text-[#0033A0] dark:text-[#5B7FD9]', bg: 'bg-[#0033A0]/10 dark:bg-[#0033A0]/20 border-[#0033A0]/30 hover:bg-[#0033A0]/20 dark:hover:bg-[#0033A0]/30' },
   { value: 'SECRET',          label: 'SECRET',          color: 'text-[#C8102E] dark:text-[#E74C5C]', bg: 'bg-[#C8102E]/10 dark:bg-[#C8102E]/20 border-[#C8102E]/30 hover:bg-[#C8102E]/20 dark:hover:bg-[#C8102E]/30' },
-  { value: 'TOP SECRET',      label: 'TOP SECRET',      color: 'text-[#FF8C00] dark:text-[#FFA940]', bg: 'bg-[#FF8C00]/10 dark:bg-[#FF8C00]/20 border-[#FF8C00]/30 hover:bg-[#FF8C00]/20 dark:hover:bg-[#FF8C00]/30' },
-  { value: 'TOP SECRET//SCI', label: 'TOP SECRET//SCI', color: 'text-[#A8920E] dark:text-[#FCE83A]', bg: 'bg-[#FCE83A]/20 dark:bg-[#FCE83A]/20 border-[#A8920E]/40 hover:bg-[#FCE83A]/40 dark:hover:bg-[#FCE83A]/30' },
+  { value: 'TOP SECRET',      label: 'TOP SECRET',      color: 'text-[#B45309] dark:text-[#FFA940]', bg: 'bg-[#FF8C00]/10 dark:bg-[#FF8C00]/20 border-[#FF8C00]/30 hover:bg-[#FF8C00]/20 dark:hover:bg-[#FF8C00]/30' },
+  { value: 'TOP SECRET//SCI', label: 'TOP SECRET//SCI', color: 'text-[#756808] dark:text-[#FCE83A]', bg: 'bg-[#FCE83A]/20 dark:bg-[#FCE83A]/20 border-[#A8920E]/40 hover:bg-[#FCE83A]/40 dark:hover:bg-[#FCE83A]/30' },
 ];
 
 const CUI_CATEGORIES = [

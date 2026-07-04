@@ -96,7 +96,7 @@ export function ReadinessMeter() {
           onClick={() => jump(missing[0])}
           title={`${complete} of ${required} required sections complete — jump to the first incomplete one`}
           aria-label={`Document readiness: Drafting, ${complete} of ${required} required sections complete. Jump to the first incomplete section.`}
-          className="flex items-center gap-1.5 rounded outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+          className="flex items-center gap-1.5 rounded outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
         >
           {inner}
         </button>

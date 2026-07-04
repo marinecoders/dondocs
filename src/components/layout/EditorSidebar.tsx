@@ -243,7 +243,7 @@ export function EditorSidebar() {
             onClick={toggleSidebar}
             aria-label="Collapse sidebar"
             aria-expanded={true}
-            className="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+            className="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
           >
             <PanelLeftClose className="h-4 w-4" />
           </button>
@@ -263,7 +263,7 @@ export function EditorSidebar() {
               onClick={() => setSort((s) => (s === 'recent' ? 'name' : 'recent'))}
               aria-label={sort === 'recent' ? 'Sort by name' : 'Sort by most recent'}
               title={sort === 'recent' ? 'Sorted by most recent — switch to A–Z' : 'Sorted A–Z — switch to most recent'}
-              className="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 transition-colors"
+              className="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 transition-colors"
             >
               {sort === 'recent' ? <Clock className="h-3.5 w-3.5" /> : <ArrowDownAZ className="h-3.5 w-3.5" />}
             </button>
@@ -272,7 +272,7 @@ export function EditorSidebar() {
               onClick={() => (selectMode ? exitSelectMode() : setSelectMode(true))}
               aria-pressed={selectMode}
               title={selectMode ? 'Exit selection' : 'Select multiple documents'}
-              className={`inline-flex h-7 w-7 items-center justify-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring/50 transition-colors ${
+              className={`inline-flex h-7 w-7 items-center justify-center rounded-md outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 transition-colors ${
                 selectMode ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-muted hover:text-foreground'
               }`}
             >
@@ -300,7 +300,7 @@ export function EditorSidebar() {
                 type="button"
                 onClick={deleteSelected}
                 disabled={selected.size === 0}
-                className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 font-medium text-destructive outline-none hover:bg-destructive/10 focus-visible:ring-2 focus-visible:ring-ring/50 disabled:opacity-40 disabled:hover:bg-transparent"
+                className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 font-medium text-destructive outline-none hover:bg-destructive/10 focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:opacity-40 disabled:hover:bg-transparent"
               >
                 <Trash2 className="h-3.5 w-3.5" /> Delete
               </button>
@@ -308,7 +308,7 @@ export function EditorSidebar() {
                 type="button"
                 onClick={exitSelectMode}
                 aria-label="Cancel selection"
-                className="inline-flex items-center rounded px-1 py-0.5 text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+                className="inline-flex items-center rounded px-1 py-0.5 text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
               >
                 <X className="h-3.5 w-3.5" />
               </button>
@@ -337,7 +337,7 @@ export function EditorSidebar() {
             <button
               type="button"
               onClick={() => restoreDeleted()}
-              className="inline-flex shrink-0 items-center gap-1 rounded px-1.5 py-0.5 font-medium text-primary outline-none hover:bg-primary/10 focus-visible:ring-2 focus-visible:ring-ring/50"
+              className="inline-flex shrink-0 items-center gap-1 rounded px-1.5 py-0.5 font-medium text-primary outline-none hover:bg-primary/10 focus-visible:ring-[3px] focus-visible:ring-ring/50"
             >
               <Undo2 className="h-3.5 w-3.5" /> Undo
             </button>
@@ -367,14 +367,14 @@ export function EditorSidebar() {
                   <button
                     type="button"
                     onClick={newDocument}
-                    className="rounded-md px-2.5 py-1.5 text-left text-sm text-foreground outline-none hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50"
+                    className="rounded-md px-2.5 py-1.5 text-left text-sm text-foreground outline-none hover:bg-muted focus-visible:ring-[3px] focus-visible:ring-ring/50"
                   >
                     Start a naval letter
                   </button>
                   <button
                     type="button"
                     onClick={() => useUIStore.getState().setTemplateLoaderOpen(true)}
-                    className="rounded-md px-2.5 py-1.5 text-left text-sm text-foreground outline-none hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50"
+                    className="rounded-md px-2.5 py-1.5 text-left text-sm text-foreground outline-none hover:bg-muted focus-visible:ring-[3px] focus-visible:ring-ring/50"
                   >
                     Browse templates
                   </button>
@@ -384,7 +384,7 @@ export function EditorSidebar() {
                       useUIStore.getState().setDocumentGuideTab('finder');
                       useUIStore.getState().setDocumentGuideOpen(true);
                     }}
-                    className="rounded-md px-2.5 py-1.5 text-left text-sm text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+                    className="rounded-md px-2.5 py-1.5 text-left text-sm text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
                   >
                     Not sure which? Answer a few questions
                   </button>
@@ -422,7 +422,7 @@ export function EditorSidebar() {
                             data-doc-id={m.id}
                             onClick={() => toggleSelected(m.id)}
                             aria-pressed={isSelected}
-                            className="flex min-w-0 flex-1 items-center gap-2 rounded-md px-2.5 py-1.5 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+                            className="flex min-w-0 flex-1 items-center gap-2 rounded-md px-2.5 py-1.5 text-left outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
                           >
                             <span
                               aria-hidden="true"
@@ -448,7 +448,7 @@ export function EditorSidebar() {
                               else if (e.key === 'Escape') setRenamingId(null);
                             }}
                             aria-label={`Rename ${m.title}`}
-                            className="min-w-0 flex-1 rounded-md border border-border bg-card px-2.5 py-1.5 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+                            className="min-w-0 flex-1 rounded-md border border-border bg-card px-2.5 py-1.5 text-sm text-foreground outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
                           />
                         ) : (
                           /* Open the document; sibling to the actions menu, not nested. */
@@ -457,7 +457,7 @@ export function EditorSidebar() {
                             data-doc-id={m.id}
                             onClick={() => switchTo(m.id)}
                             aria-current={active ? 'true' : undefined}
-                            className="flex min-w-0 flex-1 items-center gap-2 rounded-md px-2.5 py-1.5 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+                            className="flex min-w-0 flex-1 items-center gap-2 rounded-md px-2.5 py-1.5 text-left outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
                           >
                             <span
                               aria-hidden="true"
@@ -490,7 +490,7 @@ export function EditorSidebar() {
                               <button
                                 type="button"
                                 aria-label={`Actions for ${m.title}`}
-                                className="shrink-0 rounded p-1 text-muted-foreground opacity-0 outline-none transition-opacity hover:text-foreground focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-ring/50 group-hover:opacity-100 data-[state=open]:opacity-100"
+                                className="shrink-0 rounded p-1 text-muted-foreground opacity-0 outline-none transition-opacity hover:text-foreground focus-visible:opacity-100 focus-visible:ring-[3px] focus-visible:ring-ring/50 group-hover:opacity-100 data-[state=open]:opacity-100"
                               >
                                 <MoreHorizontal className="h-3.5 w-3.5" />
                               </button>

@@ -631,7 +631,7 @@ export function Header({
           Not an official DoW website. Beta release — report issues on GitHub.
           <button
             onClick={dismissBanner}
-            className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-amber-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 transition-colors"
+            className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-amber-500/20 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 transition-colors"
             aria-label="Dismiss banner"
           >
             <X className="h-3 w-3" />
@@ -684,7 +684,7 @@ export function Header({
               // carries the success tint. Faint muted bg on hover, neutral focus ring.
               className="flex items-center justify-center gap-1.5 rounded-md border border-border text-muted-foreground text-xs cursor-pointer hover:bg-muted transition-colors p-1.5 lg:px-2 lg:py-1 shrink-0 outline-none focus-visible:ring-ring/50 focus-visible:ring-[3px]"
             >
-              <Shield className="h-4 w-4 lg:h-3 lg:w-3 text-[var(--success)]" />
+              <Shield className="h-4 w-4 lg:h-3 lg:w-3 text-success" />
               <span className="hidden lg:inline">NIST 800-171</span>
             </button>
           </HeaderTip>
@@ -871,7 +871,7 @@ export function Header({
                 <>
                   <DropdownMenuItem
                     onClick={() => void writeBackupNow()}
-                    className="text-orange-600 dark:text-orange-400"
+                    className="text-warning"
                   >
                     <AlertTriangle className="h-4 w-4 mr-2" />
                     <span className="truncate">Auto-backup failing — retry now</span>
@@ -895,7 +895,7 @@ export function Header({
                 </>
               )}
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => setShowClearFieldsDialog(true)} className="text-orange-600 dark:text-orange-400">
+              <DropdownMenuItem onClick={() => setShowClearFieldsDialog(true)} className="text-warning">
                 <Eraser className="h-4 w-4 mr-2" />
                 Clear fields (keep letterhead)
               </DropdownMenuItem>

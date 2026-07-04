@@ -135,10 +135,10 @@ const BatchModalRow = memo(function BatchModalRow({
   handlePreview,
 }: BatchModalRowProps) {
   return (
-    <tr className={`border-t ${row.status === 'error' ? 'bg-destructive/10' : row.status === 'success' ? 'bg-green-500/10' : ''}`}>
+    <tr className={`border-t ${row.status === 'error' ? 'bg-destructive/10' : row.status === 'success' ? 'bg-success/10' : ''}`}>
       <td className="px-2 py-1 text-muted-foreground">
         <div className="flex items-center gap-1">
-          {row.status === 'success' && <CheckCircle className="h-4 w-4 text-green-500" />}
+          {row.status === 'success' && <CheckCircle className="h-4 w-4 text-success" />}
           {row.status === 'error' && <XCircle className="h-4 w-4 text-destructive" />}
           {row.status === 'generating' && <Loader2 className="h-4 w-4 animate-spin" />}
           {(!row.status || row.status === 'pending') && <span>{idx + 1}</span>}
@@ -924,7 +924,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                     Add
                   </Button>
                   {addStatus && (
-                    <span className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1">
+                    <span className="text-xs text-success flex items-center gap-1">
                       <CheckCircle className="h-3 w-3" />
                       {addStatus}
                     </span>
@@ -1099,10 +1099,10 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
                     {/* Results Summary */}
                     {lastResults && (
-                      <div className={`p-4 rounded-lg border shadow-sm transition-colors duration-300 ${lastResults.failed > 0 ? 'border-amber-500/30 bg-amber-500/10' : 'border-green-500/30 bg-green-500/10'}`}>
+                      <div className={`p-4 rounded-lg border shadow-sm transition-colors duration-300 ${lastResults.failed > 0 ? 'border-amber-500/30 bg-amber-500/10' : 'border-success/30 bg-success/10'}`}>
                         <div className="flex items-center gap-2 mb-2">
                           {lastResults.failed === 0 ? (
-                            <CheckCircle className="h-5 w-5 text-green-500" />
+                            <CheckCircle className="h-5 w-5 text-success" />
                           ) : (
                             <AlertCircle className="h-5 w-5 text-amber-500" />
                           )}

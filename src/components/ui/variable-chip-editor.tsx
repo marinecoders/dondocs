@@ -332,7 +332,7 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(
               command(customItem);
             }}
           >
-            <div className="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400 text-lg">
+            <div className="w-8 h-8 rounded-full bg-success/15 dark:bg-success/25 flex items-center justify-center text-success text-lg">
               +
             </div>
             <div className="flex-1">

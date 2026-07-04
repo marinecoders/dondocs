@@ -221,7 +221,7 @@ export function ActivationChecklist() {
         <div className={`${cardChrome} ${cardMotion}`} role="dialog" aria-label="Onboarding complete">
           <div className="p-6 text-center">
             <div
-              className={`mx-auto mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-green-500/10 text-green-600 dark:text-green-400 ${
+              className={`mx-auto mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-success/10 text-success ${
                 reduce ? '' : 'animate-in zoom-in-50 duration-300'
               }`}
             >
@@ -254,7 +254,7 @@ export function ActivationChecklist() {
           aria-label={`Get set up — ${done} of ${total} steps complete`}
           aria-expanded={false}
           aria-haspopup="dialog"
-          className="inline-flex h-11 items-center gap-2.5 rounded-full border border-border bg-popover pl-1.5 pr-3.5 text-popover-foreground shadow-elevated outline-none transition-[transform,border-color] duration-150 hover:-translate-y-px hover:border-primary/40 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none max-sm:w-11 max-sm:justify-center max-sm:px-0"
+          className="inline-flex h-11 items-center gap-2.5 rounded-full border border-border bg-popover pl-1.5 pr-3.5 text-popover-foreground shadow-elevated outline-none transition-[transform,border-color] duration-150 hover:-translate-y-px hover:border-primary/40 active:scale-[0.98] focus-visible:ring-[3px] focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none max-sm:w-11 max-sm:justify-center max-sm:px-0"
         >
           <ProgressRing size={28} done={done} total={total} />
           <span className="hidden text-[13px] font-medium leading-none sm:inline">Get set up</span>
@@ -286,7 +286,7 @@ export function ActivationChecklist() {
             type="button"
             onClick={collapse}
             aria-label="Collapse checklist"
-            className="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            className="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
           >
             <ChevronDown className="h-4 w-4" />
           </button>
@@ -294,7 +294,7 @@ export function ActivationChecklist() {
             type="button"
             onClick={hide}
             aria-label="Hide getting-started checklist"
-            className="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            className="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
           >
             <X className="h-4 w-4" />
           </button>
@@ -334,7 +334,7 @@ export function ActivationChecklist() {
                   }`}
                 >
                   {row.done ? (
-                    <CheckCircle2 className="h-5 w-5 shrink-0 text-green-600 dark:text-green-400" />
+                    <CheckCircle2 className="h-5 w-5 shrink-0 text-success" />
                   ) : (
                     <Glyph className="h-5 w-5 shrink-0 text-muted-foreground" />
                   )}
