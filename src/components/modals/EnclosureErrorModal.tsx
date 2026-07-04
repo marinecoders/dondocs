@@ -58,7 +58,7 @@ export function EnclosureErrorModal({ errors, open, onClose }: EnclosureErrorMod
                   {error.error}
                 </div>
                 {error.pagesSucceeded !== undefined && error.pagesSucceeded > 0 && (
-                  <div className="text-xs text-green-600 dark:text-green-400 mt-1">
+                  <div className="text-xs text-success mt-1">
                     {error.pagesSucceeded} page(s) loaded successfully
                   </div>
                 )}

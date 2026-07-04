@@ -7,7 +7,11 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card"
       className={cn(
-        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05),0_4px_16px_-6px_rgba(0,0,0,0.45)]",
+        // shadow-md = the navy-tinted ladder step for cards. The old bespoke
+        // 45%-black drop (tuned for a dark surface) read as a grey smudge on
+        // the light canvas; its white inset highlight only makes sense in dark
+        // mode, so it's scoped there.
+        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-md dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05),0_4px_16px_-6px_rgba(0,0,0,0.45)]",
         className
       )}
       {...props}

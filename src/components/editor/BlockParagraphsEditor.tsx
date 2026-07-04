@@ -451,7 +451,7 @@ export function BlockParagraphsEditor() {
                     <button
                       type="button"
                       onClick={() => insertClause(sn.text)}
-                      className="min-w-0 flex-1 rounded-md px-2 py-1.5 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+                      className="min-w-0 flex-1 rounded-md px-2 py-1.5 text-left outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
                     >
                       <span className="block truncate text-sm text-foreground">{sn.name}</span>
                       <span className="block truncate text-[11px] text-muted-foreground">{sn.text}</span>
@@ -487,7 +487,7 @@ export function BlockParagraphsEditor() {
                   }
                   setClausesOpen(false);
                 }}
-                className="w-full rounded-md px-2 py-1.5 text-left text-sm text-foreground outline-none hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50 disabled:opacity-40 disabled:hover:bg-transparent"
+                className="w-full rounded-md px-2 py-1.5 text-left text-sm text-foreground outline-none hover:bg-muted focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:opacity-40 disabled:hover:bg-transparent"
               >
                 Save last paragraph as a clause
               </button>

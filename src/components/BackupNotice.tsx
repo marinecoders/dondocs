@@ -45,7 +45,7 @@ export function BackupNotice() {
       <button
         type="button"
         onClick={() => void onAction()}
-        className="shrink-0 rounded px-2 py-0.5 font-medium text-amber-700 underline-offset-2 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring/50 dark:text-amber-300"
+        className="shrink-0 rounded px-2 py-0.5 font-medium text-amber-700 underline-offset-2 outline-none hover:underline focus-visible:ring-[3px] focus-visible:ring-ring/50 dark:text-amber-300"
       >
         {actionLabel}
       </button>
@@ -53,7 +53,7 @@ export function BackupNotice() {
         type="button"
         onClick={() => setDismissedStatus(status)}
         aria-label="Dismiss backup notice"
-        className="shrink-0 rounded p-0.5 text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+        className="shrink-0 rounded p-0.5 text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
       >
         <X className="h-3.5 w-3.5" />
       </button>

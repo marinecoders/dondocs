@@ -84,7 +84,7 @@ function FindingItem({ finding }: { finding: PIIFinding }) {
                 onClick={() => setRevealed((v) => !v)}
                 aria-label={revealed ? 'Hide value' : 'Reveal value'}
                 aria-pressed={revealed}
-                className="rounded p-1 opacity-70 outline-none transition-opacity hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-ring/50"
+                className="rounded p-1 opacity-70 outline-none transition-opacity hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-[3px] focus-visible:ring-ring/50"
               >
                 {revealed ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
               </button>

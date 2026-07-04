@@ -5,6 +5,26 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.13] — 2026-07-03
+
+### Fixed
+
+- Readability failures on the labels that matter most: the TOP SECRET and
+  TOP SECRET//SCI classification labels (2.3:1 and 3.0:1 against a light
+  card — both WCAG AA failures) and the NIST modal's "Development Domain"
+  warning heading (2.9:1) now use darkened text that clears 4.5:1, while the
+  bright banner colors remain for fills. The labels on "Reset Everything" /
+  "Discard Changes" confirm buttons rendered near-black on dark red because
+  their text token was never defined; it now resolves to white (12.5:1).
+- One focus ring everywhere: 28 controls drew a thinner 2px keyboard-focus
+  ring than the app's 3px standard (so tabbing visibly changed the ring),
+  one drew an amber ring, and three icon buttons had no ring at all.
+- Cards and every dialog now use the app's navy-tinted elevation instead of
+  bespoke pure-black shadows that read as grey smudges on the light canvas.
+- Status greens and warning ambers are driven by semantic theme tokens
+  (`--success` was defined but never wired; `--warning` didn't exist), so
+  they stay consistent across all color schemes.
+
 ## [1.2.12] — 2026-07-03
 
 ### Added

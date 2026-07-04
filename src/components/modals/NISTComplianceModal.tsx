@@ -21,7 +21,7 @@ export function NISTComplianceModal() {
       <DialogContent className="sm:max-w-lg max-h-[85vh]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Shield className="h-5 w-5 text-green-500" />
+            <Shield className="h-5 w-5 text-success" />
             NIST 800-171 Compliance
           </DialogTitle>
         </DialogHeader>
@@ -39,8 +39,8 @@ export function NISTComplianceModal() {
               <h4 className="font-semibold">How This Application Complies</h4>
 
               <div className="space-y-3">
-                <div className="flex items-start gap-3 p-3 rounded-lg bg-green-500/10 border border-green-500/20">
-                  <Server className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
+                <div className="flex items-start gap-3 p-3 rounded-lg bg-success/10 border border-success/20">
+                  <Server className="h-4 w-4 text-success mt-0.5 shrink-0" />
                   <div>
                     <p className="text-sm font-medium">No Server Communication</p>
                     <p className="text-xs text-muted-foreground">
@@ -49,8 +49,8 @@ export function NISTComplianceModal() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3 rounded-lg bg-green-500/10 border border-green-500/20">
-                  <Lock className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
+                <div className="flex items-start gap-3 p-3 rounded-lg bg-success/10 border border-success/20">
+                  <Lock className="h-4 w-4 text-success mt-0.5 shrink-0" />
                   <div>
                     <p className="text-sm font-medium">Local Processing Only</p>
                     <p className="text-xs text-muted-foreground">
@@ -59,8 +59,8 @@ export function NISTComplianceModal() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3 rounded-lg bg-green-500/10 border border-green-500/20">
-                  <Wifi className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
+                <div className="flex items-start gap-3 p-3 rounded-lg bg-success/10 border border-success/20">
+                  <Wifi className="h-4 w-4 text-success mt-0.5 shrink-0" />
                   <div>
                     <p className="text-sm font-medium">Air-Gap Compatible</p>
                     <p className="text-xs text-muted-foreground">
@@ -69,8 +69,8 @@ export function NISTComplianceModal() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3 rounded-lg bg-green-500/10 border border-green-500/20">
-                  <Eye className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
+                <div className="flex items-start gap-3 p-3 rounded-lg bg-success/10 border border-success/20">
+                  <Eye className="h-4 w-4 text-success mt-0.5 shrink-0" />
                   <div>
                     <p className="text-sm font-medium">No Telemetry or Analytics</p>
                     <p className="text-xs text-muted-foreground">
@@ -79,8 +79,8 @@ export function NISTComplianceModal() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3 rounded-lg bg-green-500/10 border border-green-500/20">
-                  <Database className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
+                <div className="flex items-start gap-3 p-3 rounded-lg bg-success/10 border border-success/20">
+                  <Database className="h-4 w-4 text-success mt-0.5 shrink-0" />
                   <div>
                     <p className="text-sm font-medium">Browser-Only Storage</p>
                     <p className="text-xs text-muted-foreground">
@@ -103,7 +103,9 @@ export function NISTComplianceModal() {
                 <div className="flex items-start gap-3 p-3 mt-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
                   <AlertTriangle className="h-4 w-4 text-amber-500 mt-0.5 shrink-0" />
                   <div>
-                    <p className="text-sm font-medium text-amber-600 dark:text-amber-400">Development Domain</p>
+                    {/* amber-800 (not 600, which is 2.9:1 here): a 14px "do not
+                        use for official correspondence" warning must clear AA. */}
+                    <p className="text-sm font-medium text-amber-800 dark:text-amber-300">Development Domain</p>
                     <p className="text-xs text-muted-foreground">
                       This application is currently hosted on a non-government domain. Do not use for official correspondence or enter sensitive information. For official use, access this application through your authorized .mil network.
                     </p>

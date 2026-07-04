@@ -93,7 +93,7 @@ function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) =>
     return (
       <div className="p-4 space-y-4">
         <div className="text-center pb-4 border-b">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-500/10 text-green-500 mb-3">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-success/10 text-success mb-3">
             <Sparkles className="h-6 w-6" />
           </div>
           <h3 className="font-semibold text-lg">Recommended Document Types</h3>
@@ -133,7 +133,7 @@ function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) =>
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-semibold">{guide.name}</span>
                       {index === 0 ? (
-                        <Badge className="bg-green-500/10 text-green-600 border-green-500/30">
+                        <Badge className="bg-success/10 text-success border-success/30">
                           Best Match
                         </Badge>
                       ) : (
@@ -279,7 +279,7 @@ function GuideCard({ guide, isExpanded, onToggle }: {
             <ul className="space-y-1.5">
               {guide.whenToUse.map((item, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                  <CheckCircle2 className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
+                  <CheckCircle2 className="h-4 w-4 text-success mt-0.5 shrink-0" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -979,7 +979,7 @@ export function DocumentGuideModal() {
                 </div>
                 <div className="h-1.5 rounded-full bg-muted overflow-hidden">
                   <div
-                    className="h-full bg-green-500 transition-all duration-300"
+                    className="h-full bg-success transition-all duration-300"
                     style={{ width: `${(learnedCount / POWER_FEATURES.length) * 100}%` }}
                   />
                 </div>
@@ -998,7 +998,7 @@ export function DocumentGuideModal() {
                     >
                       {isLearned ? (
                         <span
-                          className="flex-none mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-green-500/15 text-green-600 dark:text-green-400"
+                          className="flex-none mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-success/15 text-success"
                           aria-label="Learned"
                         >
                           <Check className="h-3 w-3" />

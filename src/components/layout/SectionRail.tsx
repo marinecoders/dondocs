@@ -60,7 +60,7 @@ export function SectionRail({
                 onClick={() => onJump(s.id)}
                 aria-current={active ? 'true' : undefined}
                 className={cn(
-                  'flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-left text-sm transition-colors duration-150 outline-none focus-visible:ring-2 focus-visible:ring-ring/50',
+                  'flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-left text-sm transition-colors duration-150 outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50',
                   active
                     ? 'font-medium text-primary'
                     : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'

@@ -237,7 +237,7 @@ export function ShareModal({
                   aria-label="Copy again"
                 >
                   {copied ? (
-                    <Check className="h-4 w-4 text-green-600" />
+                    <Check className="h-4 w-4 text-success" />
                   ) : (
                     <KeyRound className="h-4 w-4" />
                   )}

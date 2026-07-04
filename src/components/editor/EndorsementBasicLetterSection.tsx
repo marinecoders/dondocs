@@ -151,7 +151,7 @@ export function EndorsementBasicLetterSection() {
                           <button
                             type="button"
                             onClick={() => applyBasicLetter(d.meta)}
-                            className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left outline-none hover:bg-muted/60 focus-visible:ring-2 focus-visible:ring-ring/50"
+                            className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left outline-none hover:bg-muted/60 focus-visible:ring-[3px] focus-visible:ring-ring/50"
                           >
                             <span className="inline-flex h-4 shrink-0 items-center justify-center rounded bg-muted px-1 text-[9px] font-semibold uppercase tracking-wide text-muted-foreground" style={{ minWidth: '2.4rem' }}>
                               {docTypeChip(d.meta.docType)}
@@ -175,7 +175,7 @@ export function EndorsementBasicLetterSection() {
                       type="button"
                       onClick={() => setApplied(null)}
                       aria-label="Dismiss basic-letter summary"
-                      className="shrink-0 rounded p-0.5 text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+                      className="shrink-0 rounded p-0.5 text-muted-foreground outline-none hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
                     >
                       <X className="h-3.5 w-3.5" />
                     </button>

@@ -66,7 +66,7 @@ export function SaveStatus({ className }: { className?: string }) {
   const backedUp = backupStatus === 'connected' && lastBackupAt != null;
   return (
     <span className={`inline-flex items-center gap-1 ${base}`}>
-      <Check className="h-3 w-3 text-[var(--success)]" aria-hidden />
+      <Check className="h-3 w-3 text-success" aria-hidden />
       Saved · {savedAgo(lastSavedAt)}
       {backedUp && (
         <span

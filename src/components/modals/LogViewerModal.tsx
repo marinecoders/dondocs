@@ -130,7 +130,7 @@ export function LogViewerModal() {
 
         <div className="flex gap-2 mb-2">
           <Button variant="outline" size="sm" onClick={handleCopyLogs} disabled={logs.length === 0}>
-            {copied ? <Check className="h-4 w-4 mr-2 text-green-500" /> : <Copy className="h-4 w-4 mr-2" />}
+            {copied ? <Check className="h-4 w-4 mr-2 text-success" /> : <Copy className="h-4 w-4 mr-2" />}
             {copied ? 'Copied!' : 'Copy'}
           </Button>
           <Button variant="outline" size="sm" onClick={handleDownloadLogs} disabled={logs.length === 0}>
