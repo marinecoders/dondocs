@@ -143,14 +143,19 @@ newer local work.
 
 **Synced backup file** (Chromium desktop): the user picks a file once; the
 `FileSystemFileHandle` persists in IndexedDB and survives restarts. Every
-registry save mirrors the whole library to that file (1.5s debounce). Browsers
-require a fresh user gesture to re-grant write access after a restart —
-surfaced as "Reconnect auto-backup" in the Documents menu.
+registry save mirrors the **full-account bundle** — the same `dondocs-backup`
+`buildBackup()` produces for the manual download, including enclosure bytes —
+to that file (1.5s debounce), so a restore from it brings back everything, not
+just documents. (Each write re-serializes the account; with large enclosures
+that base64 pass runs on every debounced save — acceptable off the critical
+path, and a future optimization could diff attachments.) Browsers require a
+fresh user gesture to re-grant write access after a restart — surfaced as
+"Reconnect auto-backup" in the Documents menu.
 
 Backup failure semantics:
 
-- A failed registry read **skips the write** — an empty library is never
-  mirrored over a good backup file, and "last backed up" is not advanced.
+- A failed account read **skips the write** — an incomplete/empty bundle is
+  never mirrored over a good backup file, and "last backed up" is not advanced.
 - A failed file write flips the status to `error`, shown in the Documents menu
   with a retry; later saves keep retrying, and a success self-heals back to
   `connected`. Permission loss shows `needs-permission` instead.

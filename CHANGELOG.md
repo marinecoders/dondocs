@@ -5,6 +5,20 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.8] — 2026-07-03
+
+### Fixed
+
+- The synced auto-backup file (Chromium desktop) was still docs-only. While
+  the manual **"Back up everything"** download became a full-account bundle,
+  the file that auto-mirrors after every save kept writing just documents — so
+  anyone relying on it for cross-machine backup still lost profiles and
+  signatures, snippets, user templates, in-progress NAVMC form fields, and
+  enclosure files on restore. The mirror now writes the same complete
+  `dondocs-backup` bundle, so a restore from it brings back everything. A
+  failed account read still skips the write, so an incomplete bundle can't
+  overwrite a good backup file.
+
 ## [1.2.7] — 2026-07-03
 
 ### Added
