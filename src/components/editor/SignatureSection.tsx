@@ -545,7 +545,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                         Drag & drop or click to upload
                       </span>
                       <span className="text-xs text-muted-foreground">
-                        PNG, JPG, or GIF (max 500KB recommended)
+                        PNG, JPG, or GIF — up to {FILE_LIMITS.MAX_SIGNATURE_SIZE_MB} MB (under 500 KB keeps drafts small)
                       </span>
                       <input
                         type="file"

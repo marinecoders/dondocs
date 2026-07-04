@@ -5,6 +5,18 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.31] — 2026-07-04
+
+### Fixed
+
+- The Recipient Address field now uses the shared textarea component, so it
+  gets the same focus ring, focus/hover transitions, and invalid-state styling
+  as every neighboring field instead of a hand-rolled variant that had a
+  thinner ring and no hover state.
+- The signature upload hint no longer contradicts the limit it enforces. It
+  read "max 500KB recommended" while the guard rejects at 2 MB; it now states
+  the real 2 MB cap and keeps "under 500 KB" as a soft suggestion.
+
 ## [1.2.30] — 2026-07-04
 
 ### Changed
