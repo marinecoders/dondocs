@@ -6,6 +6,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { BookOpen, Plus, Trash2, AlertCircle, GripVertical, Building2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -353,13 +354,13 @@ export function AddressingSection({ config }: AddressingSectionProps) {
             {config.recipientAddress && (
               <div className="space-y-2">
                 <Label htmlFor="to">Recipient Address</Label>
-                <textarea
+                <Textarea
                   id="to"
                   value={formData.to || ''}
                   onChange={(e) => setField('to', e.target.value)}
                   aria-invalid={validationVisible && unfilled(formData.to) ? true : undefined}
                   placeholder="Mr. John Smith&#10;Director of Operations&#10;ABC Company&#10;123 Main Street&#10;City, State ZIP"
-                  className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-2 aria-invalid:ring-destructive/20"
+                  className="min-h-[100px]"
                   rows={5}
                 />
                 <p className="text-xs text-muted-foreground flex items-center gap-1">
