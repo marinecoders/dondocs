@@ -40,8 +40,8 @@ export function LetterheadSection() {
   const validationVisible = useUIStore((s) => s.validationVisible);
   // Mirror getSectionError('letterhead'): only a required (non-optional)
   // letterhead flags a missing unit name.
-  const unitNameInvalid =
-    validationVisible && config.letterhead === true && !config.optionalLetterhead && unfilled(formData.unitLine1);
+  const unitNameRequired = config.letterhead === true && !config.optionalLetterhead;
+  const unitNameInvalid = validationVisible && unitNameRequired && unfilled(formData.unitLine1);
 
   // Structured address fields mirror formData.unitAddress (the persisted
   // single-line form). User edits recompose into the string; external writes
@@ -213,14 +213,22 @@ export function LetterheadSection() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="unitLine1">Unit Name</Label>
+                <Label htmlFor="unitLine1">
+                  Unit Name{unitNameRequired && <span className="text-destructive"> *</span>}
+                </Label>
                 <Input
                   id="unitLine1"
                   value={formData.unitLine1 || ''}
                   onChange={(e) => setField('unitLine1', e.target.value)}
                   aria-invalid={unitNameInvalid ? true : undefined}
+                  aria-describedby={unitNameInvalid ? 'unitLine1-error' : undefined}
                   placeholder="e.g., HEADQUARTERS UNITED STATES MARINE CORPS"
                 />
+                {unitNameInvalid && (
+                  <p id="unitLine1-error" role="alert" className="text-xs text-destructive">
+                    Unit name is required.
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">
