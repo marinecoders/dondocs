@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.26] — 2026-07-04
+
+### Changed
+
+- One focus-ring geometry across the whole app. Buttons and badges added a 2px
+  offset that every other control (inputs, selects, the custom header buttons,
+  etc.) never used, so tabbing across the UI visibly changed the ring. Buttons
+  and badges now use the same flush `ring-[3px]` as everything else.
+
 ## [1.2.25] — 2026-07-04
 
 ### Fixed
