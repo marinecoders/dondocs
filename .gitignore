@@ -104,3 +104,10 @@ coverage/
 .cartesian-results/
 .stryker-results/
 .stryker-tmp/
+
+# Generated PWA/Apple icons — rasterized from public/icon.svg by
+# scripts/generate-icons.mjs on predev/prebuild (one source of truth).
+public/apple-touch-icon.png
+public/pwa-192.png
+public/pwa-512.png
+public/pwa-maskable-512.png

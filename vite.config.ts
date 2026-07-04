@@ -222,12 +222,16 @@ export default defineConfig({
       // manifest, bypassing maximumFileSizeToCacheInBytes and downloading it
       // all on first visit for users who never compile. The runtime
       // CacheFirst rules below cache engine assets on demand instead.
-      includeAssets: ['icon.svg'],
+      // PNG icons are rasterized from icon.svg by scripts/generate-icons.mjs on
+      // prebuild — one source of truth for the brand mark; the PNGs never drift.
+      includeAssets: ['icon.svg', 'apple-touch-icon.png', 'pwa-192.png', 'pwa-512.png', 'pwa-maskable-512.png'],
       manifest: {
         name: 'DonDocs - Naval Correspondence & Form Generator',
         short_name: 'DonDocs',
         description: 'Free SECNAV M-5216.5 correspondence & form generator for Navy/USMC. 20 document types — naval letters, memoranda, endorsements, NAVMC forms. PDF/DOCX export, 100% browser-based, works offline.',
-        theme_color: '#1a365d',
+        // Matches index.html's light theme-color meta (the manifest can't be
+        // media-queried, so it carries the light value; the metas handle dark).
+        theme_color: '#f1f6fa',
         background_color: '#ffffff',
         display: 'standalone',
         orientation: 'portrait',
@@ -241,9 +245,24 @@ export default defineConfig({
             purpose: 'any',
           },
           {
-            src: 'icon.svg',
+            src: 'pwa-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'any',
+          },
+          {
+            src: 'pwa-512.png',
             sizes: '512x512',
-            type: 'image/svg+xml',
+            type: 'image/png',
+            purpose: 'any',
+          },
+          {
+            // Dedicated safe-zone render (mark at 70% on full-bleed navy) — the
+            // raw icon.svg's circle spans ~94% of the canvas and would be
+            // cropped by circular/squircle launcher masks.
+            src: 'pwa-maskable-512.png',
+            sizes: '512x512',
+            type: 'image/png',
             purpose: 'maskable',
           },
         ],
