@@ -5,6 +5,18 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.19] — 2026-07-04
+
+### Changed
+
+- Hardened the storage pipeline's automated test coverage. Added regression
+  tests for the durability probe's full state matrix, the corrupt-payload
+  recovery stash, blocked/private-mode storage handling, the legacy-migration
+  ledger, graceful attachment-persist failure, backup restore of legacy files,
+  the restore-in-flight guard, malformed-backup tolerance, and the soft-delete
+  undo window keeping enclosure attachments reachable. No behavior change —
+  coverage only.
+
 ## [1.2.18] — 2026-07-04
 
 ### Fixed

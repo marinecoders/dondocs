@@ -12,10 +12,13 @@
  */
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import fc from 'fast-check';
+import pako from 'pako';
 import {
   compressedStringify,
   compressedParse,
   compressedLocalStorage,
+  safeLocalStorage,
+  lastWriteFailed,
 } from '@/lib/compressedStorage';
 
 const COMPRESSED_PREFIX = 'gz:';
@@ -177,5 +180,77 @@ describe('compressedLocalStorage — quota and corruption safety', () => {
     // header. (Avoid invalid-base64 input, whose atob handling differs by runtime.)
     localStorage.setItem('bad-gz', 'gz:aGVsbG8=');
     expect(compressedLocalStorage.getItem('bad-gz')).toBeNull();
+  });
+
+  it('STASHES the raw corrupt payload at `<name>.corrupt` before resetting', () => {
+    // The whole point of the stash: a corrupt read returns null (store falls back
+    // to defaults), but the very next persist write would overwrite the only copy
+    // of the user's data. The raw bytes must be preserved for recovery first.
+    const raw = 'gz:aGVsbG8=';
+    localStorage.setItem('doc-key', raw);
+    expect(compressedLocalStorage.getItem('doc-key')).toBeNull();
+    expect(localStorage.getItem('doc-key.corrupt')).toBe(raw);
+  });
+
+  it('survives corruption even when the recovery stash write itself fails', () => {
+    // Worst case: corrupt payload AND localStorage is full, so the `.corrupt`
+    // stash can't be written. getItem must still return null, never throw.
+    localStorage.setItem('doc-key2', 'gz:aGVsbG8=');
+    const setSpy = vi.spyOn(localStorage, 'setItem').mockImplementation(() => {
+      throw new DOMException('full', 'QuotaExceededError');
+    });
+    try {
+      expect(compressedLocalStorage.getItem('doc-key2')).toBeNull();
+    } finally {
+      setSpy.mockRestore();
+    }
+  });
+});
+
+describe('compressedStringify — deflate failure falls back to plain JSON', () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  it('returns valid, parseable plain JSON when pako.deflate throws', () => {
+    vi.spyOn(pako, 'deflate').mockImplementation(() => {
+      throw new Error('deflate blew up');
+    });
+    const value = { a: 1, b: 'hello', c: [1, 2, 3] };
+    const out = compressedStringify(value);
+    expect(out.startsWith('gz:')).toBe(false); // plain JSON, not compressed
+    expect(compressedParse(out)).toEqual(value); // still round-trips
+  });
+});
+
+describe('safeLocalStorage — never throws; tracks durability', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    localStorage.clear();
+  });
+
+  it('swallows a SecurityError (blocked site data / private mode) on write and flags it', () => {
+    const setSpy = vi.spyOn(localStorage, 'setItem').mockImplementation(() => {
+      throw new DOMException('denied', 'SecurityError');
+    });
+    try {
+      // Must NOT throw — a persisted store's set() escaping would crash boot.
+      expect(() => safeLocalStorage.setItem('pref', 'v')).not.toThrow();
+      expect(lastWriteFailed('pref')).toBe(true);
+    } finally {
+      setSpy.mockRestore();
+    }
+    // A later successful write clears the failed flag — the durability claim heals.
+    safeLocalStorage.setItem('pref', 'v2');
+    expect(lastWriteFailed('pref')).toBe(false);
+  });
+
+  it('getItem returns null (not throw) when reading is blocked', () => {
+    const getSpy = vi.spyOn(localStorage, 'getItem').mockImplementation(() => {
+      throw new DOMException('denied', 'SecurityError');
+    });
+    try {
+      expect(safeLocalStorage.getItem('anything')).toBeNull();
+    } finally {
+      getSpy.mockRestore();
+    }
   });
 });
