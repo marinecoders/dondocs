@@ -64,7 +64,7 @@ export function CopyToManager() {
               onClick={() => addCopyTo('')}
             >
               <Plus className="h-4 w-4 mr-2" />
-              Add Recipient
+              Add recipient
             </Button>
           </div>
         </AccordionContent>

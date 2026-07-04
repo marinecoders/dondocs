@@ -246,7 +246,7 @@ export function ReferencesManager() {
                   onClick={() => addReference('')}
                 >
                   <Plus className="h-4 w-4 mr-2" />
-                  Add Reference
+                  Add reference
                 </Button>
                 <Button
                   variant="outline"

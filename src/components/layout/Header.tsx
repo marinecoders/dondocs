@@ -1251,7 +1251,7 @@ export function Header({
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={handleReset} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              Reset Everything
+              Reset everything
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -1271,7 +1271,7 @@ export function Header({
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={handleClearFields} className="bg-orange-600 text-white hover:bg-orange-700">
-              Clear Fields
+              Clear fields
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
