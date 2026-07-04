@@ -79,9 +79,11 @@ import {
   Users,
   MoonStar,
   PanelRight,
+  MonitorDown,
 } from 'lucide-react';
 import { useLogStore } from '@/stores/logStore';
-import { useLatexEngine, useServiceWorker, useInstallPrompt } from '@/hooks';
+import { useLatexEngine, useServiceWorker, useInstallPrompt, promptInstall } from '@/hooks';
+import { useInstallStore } from '@/stores/installStore';
 import { usePandocIdlePrefetch } from '@/hooks/usePandocIdlePrefetch';
 import { generateAllLatexFiles, type GeneratedFiles } from '@/services/latex/generator';
 import { generateFlatLatex } from '@/services/latex/flat-generator';
@@ -248,6 +250,7 @@ function App() {
   const { showUpdatePrompt, confirmUpdate, dismissUpdatePrompt } = useServiceWorker();
   // Capture beforeinstallprompt / appinstalled + seed standalone detection.
   useInstallPrompt();
+  const isInstalled = useInstallStore((s) => s.isInstalled);
 
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [formPdfUrl, setFormPdfUrl] = useState<string | null>(null);
@@ -1701,6 +1704,17 @@ ${texFiles['body.tex'] || '% No body content'}
           icon: Link2,
           onRun: () => useUIStore.getState().setShareModal('import'),
         },
+        // Hidden once running as an installed app.
+        ...(!isInstalled
+          ? [
+              {
+                id: 'install-app',
+                label: 'Install app…',
+                icon: MonitorDown,
+                onRun: () => void promptInstall(),
+              },
+            ]
+          : []),
       ],
     });
 
@@ -1786,7 +1800,7 @@ ${texFiles['body.tex'] || '% No body content'}
     groups.push({ label: 'Insert', items: insertItems });
 
     return groups;
-  }, [outlineSections, allDocs, currentDocId]);
+  }, [outlineSections, allDocs, currentDocId, isInstalled]);
 
   return (
     <TooltipProvider>
