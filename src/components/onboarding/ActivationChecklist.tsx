@@ -7,6 +7,7 @@ import {
   GraduationCap,
   UserPlus,
   FileText,
+  FolderSync,
   Compass,
   CheckCircle2,
   type LucideIcon,
@@ -15,11 +16,12 @@ import { TourButton } from '@/components/tour/TourButton';
 import { ProgressRing } from './ProgressRing';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { useProfileStore } from '@/stores/profileStore';
+import { useBackupStore } from '@/stores/backupStore';
 import { useTourStore, GUIDED_TOUR_KEY } from '@/stores/tourStore';
 import { useUIStore } from '@/stores/uiStore';
 
-// The 7 power-feature keys the guide tracks; "all learned" is one checklist step.
-const POWER_KEYS = ['batch', 'profiles', 'templates', 'enclosures', 'signature', 'share', 'classification'] as const;
+// The 8 power-feature keys the guide tracks; "all learned" is one checklist step.
+const POWER_KEYS = ['batch', 'profiles', 'templates', 'enclosures', 'signature', 'share', 'classification', 'backup'] as const;
 // Profiles the app ships with; a non-default name counts as user-created.
 const DEFAULT_PROFILE_NAMES = ['Marine Innovation Unit'];
 
@@ -38,17 +40,18 @@ interface ChecklistRow {
 
 /**
  * Floating getting-started checklist. A collapsed pill (progress ring + "Get set
- * up") expands into a card tracking the four onboarding steps; finishing all four
+ * up") expands into a card tracking the five onboarding steps; finishing all five
  * fires a one-off celebration and retires the launcher. Dismissible and re-openable
  * from Help. Hidden while the product tour runs.
  *
  * Completion is derived live from the stores (tour flag, non-default profile,
- * first_document milestone, the 7 feature walkthroughs). Only the launcher's own
- * dismissed/celebrated lifecycle is persisted.
+ * first_document/first_backup milestones, the 8 feature walkthroughs). Only the
+ * launcher's own dismissed/celebrated lifecycle is persisted.
  */
 export function ActivationChecklist() {
   const completed = useOnboardingStore((s) => s.completed);
   const profiles = useProfileStore((s) => s.profiles);
+  const backupStatus = useBackupStore((s) => s.status);
   const dismissed = useOnboardingStore((s) => s.checklistDismissed);
   const celebrated = useOnboardingStore((s) => s.checklistCelebrated);
   const setDismissed = useOnboardingStore((s) => s.setChecklistDismissed);
@@ -64,6 +67,10 @@ export function ActivationChecklist() {
   const tourDone = !!completed[GUIDED_TOUR_KEY];
   const profileDone = Object.keys(profiles).some((n) => !DEFAULT_PROFILE_NAMES.includes(n));
   const docDone = !!completed['first_document'];
+  // A real backup, not a watched walkthrough: the first_backup milestone is set
+  // when "Back up everything" succeeds or auto-backup writes; a live connected
+  // mirror also counts (covers users who set it up before this row existed).
+  const backupDone = !!completed['first_backup'] || backupStatus === 'connected';
   const learnedCount = POWER_KEYS.filter((k) => completed[k]).length;
   const featuresDone = learnedCount === POWER_KEYS.length;
 
@@ -94,6 +101,19 @@ export function ActivationChecklist() {
       sub: 'Pick a template and export a PDF',
       done: docDone,
       action: () => useUIStore.getState().setTemplateLoaderOpen(true),
+    },
+    {
+      glyph: FolderSync,
+      title: 'Back up your work',
+      sub: 'One file with everything — restore it on any machine',
+      done: backupDone,
+      // Opens the guide's backup feature card ("Walk me through it" from there
+      // spotlights the real controls); completing this row requires an actual
+      // backup, mirroring how first_document requires a real export.
+      action: () => {
+        useUIStore.getState().setDocumentGuideTab('features');
+        useUIStore.getState().setDocumentGuideOpen(true);
+      },
     },
     {
       glyph: Compass,

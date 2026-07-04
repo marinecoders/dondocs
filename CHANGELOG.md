@@ -5,6 +5,20 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.9] — 2026-07-03
+
+### Added
+
+- Backup is now taught, not just available. The full-account backup shipped
+  over the last releases was buried in a dropdown with nothing pointing at
+  it. Now: the guided tour gains a "Back up everything" step; the Document
+  Guide's Features tab gains a backup card with a "Walk me through it"
+  spotlight of the real controls; the getting-started checklist gains a
+  "Back up your work" step (completed by an actual backup — a downloaded
+  bundle or a connected auto-backup); and the passive save indicator shows a
+  persistent "Backed up" segment whenever the synced auto-backup is live, so
+  you can see at a glance that your work is mirrored outside the browser.
+
 ## [1.2.8] — 2026-07-03
 
 ### Fixed

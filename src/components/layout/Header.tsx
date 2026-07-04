@@ -240,6 +240,8 @@ export function Header({
   const libraryInputRef = useRef<HTMLInputElement>(null);
 
   // Synced-backup file (File System Access API).
+  const saveMenuOpen = useUIStore((s) => s.saveMenuOpen);
+  const setSaveMenuOpen = useUIStore((s) => s.setSaveMenuOpen);
   const backupStatus = useBackupStore((s) => s.status);
   const backupFileName = useBackupStore((s) => s.fileName);
   const setupBackup = useBackupStore((s) => s.setupBackup);
@@ -591,6 +593,8 @@ export function Header({
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
       flashSaveStatus('Backed up everything!');
+      // First real backup → credit the getting-started checklist row.
+      useOnboardingStore.getState().markComplete('first_backup');
     } catch (err) {
       console.error('Failed to export backup:', err);
       flashSaveStatus('Backup failed');
@@ -788,8 +792,18 @@ export function Header({
 
           <div aria-hidden="true" className="hidden xl:block w-px h-5 self-center bg-border mx-1" />
 
-          {/* Save/Load dropdown - always visible but compact on smaller screens */}
-          <DropdownMenu>
+          {/* Save/Load dropdown - always visible but compact on smaller screens.
+              Controlled through uiStore so the backup walkthrough can open it and
+              spotlight the items inside; while a tour is running, dismissal
+              requests (outside click/focus, Escape) are refused so the
+              spotlighted item can't vanish mid-step. */}
+          <DropdownMenu
+            open={saveMenuOpen}
+            onOpenChange={(open) => {
+              if (!open && useTourStore.getState().active) return;
+              setSaveMenuOpen(open);
+            }}
+          >
             <DropdownMenuTrigger asChild>
               <Button data-tour="save" variant="outline" size="sm" className="h-8 px-2 lg:px-3">
                 <Save className="h-4 w-4 lg:mr-2" />
@@ -826,22 +840,26 @@ export function Header({
                 <FileUp className="h-4 w-4 mr-2" />
                 Import from file
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleExportLibrary}>
+              <DropdownMenuItem data-tour="backup-export" onClick={handleExportLibrary}>
                 <FileDown className="h-4 w-4 mr-2" />
                 Back up everything
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => libraryInputRef.current?.click()}>
+              <DropdownMenuItem data-tour="backup-restore" onClick={() => libraryInputRef.current?.click()}>
                 <FileUp className="h-4 w-4 mr-2" />
                 Restore from backup
               </DropdownMenuItem>
+              {/* data-tour="backup-auto" rides on whichever auto-backup item the
+                  current status renders, so the walkthrough spotlights the right
+                  control in every state (absent on non-Chromium, where the tour
+                  falls back to a centered card). */}
               {backupStatus === 'off' && (
-                <DropdownMenuItem onClick={() => void setupBackup()}>
+                <DropdownMenuItem data-tour="backup-auto" onClick={() => void setupBackup()}>
                   <FolderSync className="h-4 w-4 mr-2" />
                   Set up auto-backup…
                 </DropdownMenuItem>
               )}
               {backupStatus === 'needs-permission' && (
-                <DropdownMenuItem onClick={() => void reconnectBackup()}>
+                <DropdownMenuItem data-tour="backup-auto" onClick={() => void reconnectBackup()}>
                   <RefreshCw className="h-4 w-4 mr-2" />
                   Reconnect auto-backup
                 </DropdownMenuItem>
@@ -855,7 +873,7 @@ export function Header({
                     <AlertTriangle className="h-4 w-4 mr-2" />
                     <span className="truncate">Auto-backup failing — retry now</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => void setupBackup()}>
+                  <DropdownMenuItem data-tour="backup-auto" onClick={() => void setupBackup()}>
                     <FolderSync className="h-4 w-4 mr-2" />
                     Choose a different backup file…
                   </DropdownMenuItem>
@@ -863,7 +881,7 @@ export function Header({
               )}
               {backupStatus === 'connected' && (
                 <>
-                  <DropdownMenuItem disabled className="opacity-100">
+                  <DropdownMenuItem data-tour="backup-auto" disabled className="opacity-100">
                     <Check className="h-4 w-4 mr-2 text-primary" />
                     <span className="truncate">Auto-backup: {backupFileName}</span>
                   </DropdownMenuItem>

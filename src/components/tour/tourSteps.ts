@@ -48,6 +48,11 @@ export const TOUR_STEPS: TourStep[] = [
     body: 'Your draft autosaves in this browser; use Download or Share to keep a permanent copy. Save keeps a named copy you can reload later.',
   },
   {
+    target: '[data-tour="save"]',
+    title: 'Back up everything',
+    body: 'This menu is also your safety net: "Back up everything" downloads one file with all your documents, profiles, signatures, and settings — restore it on any machine. On desktop Chrome or Edge, auto-backup can keep a file current after every save.',
+  },
+  {
     target: '[data-tour="appearance"]',
     title: 'Make it yours',
     body: 'Switch between light and dark mode and adjust the spacing here.',
