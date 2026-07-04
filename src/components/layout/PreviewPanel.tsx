@@ -130,8 +130,10 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
                 visible indicator — see the auto-popup modal in App.tsx for
                 the one-shot attention-grabber that complements this banner. */}
             {displayError && !isCompiling && (
+              // top-9 clears the PdfViewer's own h-9 toolbar (PdfViewerToolbar.tsx)
+              // so the banner never buries the page/zoom/fit controls beneath it.
               <div
-                className="absolute top-0 inset-x-0 flex items-start gap-2 bg-destructive/10 border-b border-destructive/30 text-destructive px-3 py-2 text-xs"
+                className="absolute top-9 inset-x-0 flex items-start gap-2 bg-destructive/10 border-b border-destructive/30 text-destructive px-3 py-2 text-xs"
                 role="alert"
               >
                 <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" />

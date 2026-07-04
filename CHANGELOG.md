@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.21] — 2026-07-04
+
+### Fixed
+
+- The "compile failed" preview banner no longer covers the PDF viewer's own
+  toolbar. It sat at the top of the content area, directly over the page,
+  zoom, and fit controls; it now offsets below the toolbar so those controls
+  stay usable while the banner is shown.
+
 ## [1.2.20] — 2026-07-04
 
 ### Added
