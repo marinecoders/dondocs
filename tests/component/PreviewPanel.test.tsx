@@ -58,17 +58,24 @@ beforeEach(() => {
   useUIStore.setState({ isMobile: false, previewVisible: true });
 });
 
+// The viewer is lazy-loaded (React.lazy), so the `doc:` node only mounts after
+// the dynamic import resolves. Under a saturated CI/parallel test pool that can
+// take longer than waitFor's 1s default, which flaked these waits; a generous
+// ceiling removes the race without slowing the happy path (waitFor still returns
+// the instant the node appears).
+const LAZY_TIMEOUT = { timeout: 5000 };
+
 describe('PreviewPanel — compile-error reporting', () => {
   it('a failure AFTER a successful compile banners over the stale document', async () => {
     renderPanel({ pdfUrl: 'blob:test/ok', error: 'Undefined control sequence \\badmacro' });
 
     // The banner announces the failure (role=alert reaches screen readers)…
-    const alert = await screen.findByRole('alert');
+    const alert = await screen.findByRole('alert', undefined, LAZY_TIMEOUT);
     expect(alert.textContent).toContain('Compile failed — preview is out of date');
     expect(alert.textContent).toContain('Undefined control sequence');
 
     // …while the last good document stays visible underneath, not blanked.
-    await waitFor(() => expect(screen.getByTestId('doc:blob:test/ok')).toBeTruthy());
+    await waitFor(() => expect(screen.getByTestId('doc:blob:test/ok')).toBeTruthy(), LAZY_TIMEOUT);
   });
 
   it('a failure with NO document yet shows the centered error state', () => {
@@ -85,7 +92,7 @@ describe('PreviewPanel — compile-error reporting', () => {
 
   it('no error, no banner — the viewer renders clean', async () => {
     renderPanel({ pdfUrl: 'blob:test/clean' });
-    await waitFor(() => expect(screen.getByTestId('doc:blob:test/clean')).toBeTruthy());
+    await waitFor(() => expect(screen.getByTestId('doc:blob:test/clean')).toBeTruthy(), LAZY_TIMEOUT);
     expect(screen.queryByRole('alert')).toBeNull();
   });
 });
