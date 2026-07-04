@@ -746,7 +746,7 @@ export function Header({
               onClick={handleUndo}
               disabled={!canUndo}
               aria-label="Undo"
-              className="h-8 w-8 sm:h-9 sm:w-9"
+              className="h-8 w-8"
             >
               <Undo2 className="h-4 w-4" aria-hidden="true" />
             </Button>
@@ -758,7 +758,7 @@ export function Header({
               onClick={handleRedo}
               disabled={!canRedo}
               aria-label="Redo"
-              className="h-8 w-8 sm:h-9 sm:w-9"
+              className="h-8 w-8"
             >
               <Redo2 className="h-4 w-4" aria-hidden="true" />
             </Button>
@@ -775,7 +775,7 @@ export function Header({
               onClick={onRefreshPreview}
               disabled={isCompiling}
               aria-label="Refresh preview"
-              className="h-8 w-8 sm:h-9 sm:w-9 hidden xl:flex"
+              className="h-8 w-8 hidden xl:flex"
             >
               <RefreshCw className={`h-4 w-4 ${isCompiling ? 'animate-spin' : ''}`} aria-hidden="true" />
             </Button>
@@ -1094,7 +1094,7 @@ export function Header({
           <DropdownMenu>
             <HeaderTip label="Appearance">
               <DropdownMenuTrigger asChild>
-                <Button data-tour="appearance" variant="ghost" size="icon" aria-label="Appearance settings" className="h-8 w-8 sm:h-9 sm:w-9 hidden xl:flex">
+                <Button data-tour="appearance" variant="ghost" size="icon" aria-label="Appearance settings" className="h-8 w-8 hidden xl:flex">
                   <Settings className="h-4 w-4" aria-hidden="true" />
                 </Button>
               </DropdownMenuTrigger>

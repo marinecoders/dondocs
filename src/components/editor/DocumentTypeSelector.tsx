@@ -86,7 +86,7 @@ export function DocumentTypeSelector() {
             select keeps its accessible name via aria-label. */}
         <div data-tour="doctype" className="space-y-2">
           <Select value={docType} onValueChange={(v) => setDocType(v)}>
-            <SelectTrigger aria-label="Document Type">
+            <SelectTrigger aria-label="Document Type" className="w-full">
               <SelectValue placeholder="Select document type" />
             </SelectTrigger>
             <SelectContent>
@@ -141,7 +141,7 @@ export function DocumentTypeSelector() {
                 value={formData.fontSize || config.regulations.fontSize}
                 onValueChange={(v) => setField('fontSize', v)}
               >
-                <SelectTrigger>
+                <SelectTrigger className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -189,7 +189,7 @@ export function DocumentTypeSelector() {
                   value={formData.fontSize || '12pt'}
                   onValueChange={(v) => setField('fontSize', v)}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -206,7 +206,7 @@ export function DocumentTypeSelector() {
                   value={formData.fontFamily || 'times'}
                   onValueChange={(v) => setField('fontFamily', v)}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -250,7 +250,7 @@ export function DocumentTypeSelector() {
         <div className="space-y-2">
           <Label>Form Type</Label>
           <Select value={formType} onValueChange={(v) => setFormType(v as FormType)}>
-            <SelectTrigger>
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Select form type" />
             </SelectTrigger>
             <SelectContent>
