@@ -19,7 +19,7 @@ import * as documentsDb from '@/lib/documentsDb';
 import * as backup from '@/lib/backup';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
-import { sweepOrphanedAttachments } from '@/lib/attachmentGc';
+import { sweepOrphanedAttachments, collectLiveAttachmentIds } from '@/lib/attachmentGc';
 
 // A stored document whose single enclosure points at attachment `refId` (or none).
 const doc = (id: string, refId?: string): StoredDocument =>
@@ -176,5 +176,50 @@ describe('sweepOrphanedAttachments', () => {
     expect(deleted).toBe(0);
     expect(await idbGetAttachment('att_a')).toBeTruthy();
     expect(await idbGetAttachment('att_b')).toBeTruthy();
+  });
+});
+
+// Integration: the soft-delete undo window must not lose attachments. remove()
+// hard-deletes the document record from IDB immediately but keeps an in-memory
+// undo copy for 6s; a sweep firing in that window must still see the doc's
+// attachment (via the pending-delete mark-set source) so an undo restores a
+// document whose enclosure bytes are intact.
+describe('soft-delete undo window keeps attachments reachable', () => {
+  beforeEach(async () => {
+    await clearAll();
+    useDocumentsStore.setState({ docs: {}, currentId: null, hydrated: true, baseline: null, pendingDelete: null });
+  });
+
+  it('a pending-delete doc still protects its attachment; undo leaves it intact', async () => {
+    // A doc referencing att_pending, plus a separate current doc so remove()
+    // doesn't trigger the reopen-fallback path.
+    const target = {
+      meta: { id: 'target', title: 'Target', docType: 'naval_letter', updatedAt: 1 },
+      session: doc('target', 'att_pending').session,
+    };
+    const keeper = { meta: { id: 'keeper', title: 'Keeper', docType: 'naval_letter', updatedAt: 2 }, session: doc('keeper').session };
+    await idbPutDocument(target as never);
+    await idbPutAttachment(att('att_pending'));
+    useDocumentsStore.setState({ docs: { target, keeper } as never, currentId: 'keeper' });
+
+    // Soft-delete: the IDB record and the in-memory entry are gone, held only in
+    // the pending-undo buffer.
+    useDocumentsStore.getState().remove('target');
+    await new Promise((r) => setTimeout(r, 5)); // let the eager idbDeleteDocument commit
+    expect((await idbGetAllDocuments())?.find((r) => r.id === 'target')).toBeUndefined();
+    expect(useDocumentsStore.getState().docs.target).toBeUndefined();
+
+    // The mark set STILL includes att_pending (via the pending-delete source),
+    // so a sweep in the undo window does not reap it.
+    const live = await collectLiveAttachmentIds();
+    expect(live?.has('att_pending')).toBe(true);
+    expect(await sweepOrphanedAttachments()).toBe(0);
+    expect(await idbGetAttachment('att_pending')).toBeTruthy();
+
+    // Undo re-lists the doc and cancels the purge timer (no dangling 6s sweep).
+    useDocumentsStore.getState().restoreDeleted();
+    await new Promise((r) => setTimeout(r, 5));
+    expect(useDocumentsStore.getState().docs.target).toBeDefined();
+    expect(await idbGetAttachment('att_pending')).toBeTruthy();
   });
 });
