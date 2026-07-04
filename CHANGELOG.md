@@ -5,6 +5,22 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.18] — 2026-07-04
+
+### Fixed
+
+- Enclosure file attachments no longer leak IndexedDB storage. Their bytes
+  were written when you attached a file but never removed — deleting a
+  document, replacing an enclosure's file, or removing an enclosure all left
+  the old blob behind forever, quietly eating the storage quota this app
+  warns you about when it runs low. A reachability sweep now reclaims any
+  blob no longer reachable from a document, its version history, the open
+  editor, or the just-attached-not-yet-saved state. It runs once at startup
+  and after each document delete commits, aborts without touching anything
+  if storage can't be fully read, and stands down during a backup restore —
+  so it can never remove a blob a live document, an undo step, or a running
+  backup still needs.
+
 ## [1.2.17] — 2026-07-04
 
 ### Changed

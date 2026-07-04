@@ -174,6 +174,17 @@ export async function buildBackup(): Promise<string> {
   return JSON.stringify(bundle);
 }
 
+// Set for the duration of a restore so the attachment GC sweep stands down.
+// A restore writes documents BEFORE their blobs (below), so at every instant a
+// written blob already has a referencing doc and would survive a sweep anyway —
+// this flag is belt-and-suspenders against any future reordering of the steps.
+let restoreInProgress = false;
+
+/** True while {@link restoreBackup} is running. Read by the attachment GC. */
+export function isRestoreInProgress(): boolean {
+  return restoreInProgress;
+}
+
 /**
  * Restore a backup file. Branches on `kind` (not version) so legacy docs-only
  * `dondocs-library` files keep working. Collections merge non-destructively;
@@ -181,6 +192,15 @@ export async function buildBackup(): Promise<string> {
  * bring back the backed-up form fields).
  */
 export async function restoreBackup(json: string): Promise<RestoreResult> {
+  restoreInProgress = true;
+  try {
+    return await runRestore(json);
+  } finally {
+    restoreInProgress = false;
+  }
+}
+
+async function runRestore(json: string): Promise<RestoreResult> {
   const { kind, parsed } = classifyBackup(json);
 
   // Legacy docs-only file → delegate to the conflict-aware document merge.

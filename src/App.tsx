@@ -444,6 +444,17 @@ function App() {
           .catch(() => {
             /* probe is best-effort; leave storageHealth at its default */
           });
+        // Reclaim enclosure blobs orphaned by past deletes/edits, once the
+        // registry has fully hydrated so the mark set is complete. Deferred to
+        // idle so it never competes with first paint; self-guarded and lazily
+        // imported (keeps the collector out of the initial bundle).
+        const reclaim = () =>
+          void import('@/lib/attachmentGc').then((m) => void m.sweepOrphanedAttachments());
+        if ('requestIdleCallback' in window) {
+          (window as unknown as { requestIdleCallback: (cb: () => void) => void }).requestIdleCallback(reclaim);
+        } else {
+          setTimeout(reclaim, 3000);
+        }
       });
     // Reconnect a previously-chosen synced-backup file (no-op if none / unsupported).
     void useBackupStore.getState().init();

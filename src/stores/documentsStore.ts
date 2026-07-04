@@ -497,6 +497,20 @@ function finalizePurge(): void {
     void idbDeleteSnapshots(e.meta.id);
   }
   pendingEntries = [];
+  // The undo window has closed and the deleted docs' snapshots are gone, so any
+  // blobs they alone referenced are now unreachable — reclaim them. Dynamically
+  // imported to avoid a static cycle (attachmentGc imports this module for the
+  // pending-delete roots). Fire-and-forget; the sweep is self-guarded.
+  void import('@/lib/attachmentGc').then((m) => void m.sweepOrphanedAttachments());
+}
+
+/**
+ * Sessions of documents currently staged for an undoable delete. Consumed by
+ * the attachment collector so a blob referenced only by an about-to-be-restored
+ * doc is never reaped inside the 6s undo window. Empty when nothing is pending.
+ */
+export function getPendingDeleteSessions(): SerializedSession[] {
+  return pendingEntries.map((e) => e.session);
 }
 
 // Stage entries for a 6s-undoable delete. The document records are hard-deleted
