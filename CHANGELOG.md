@@ -5,6 +5,19 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.6] — 2026-07-03
+
+### Fixed
+
+- "Back up all documents" was silently incomplete: it saved only your
+  documents, so restoring a backup on another machine lost your profiles
+  and saved signatures, snippets, user templates, and in-progress NAVMC
+  form fields — each lives in its own store. The action (now **"Back up
+  everything"**) writes a full-account bundle covering all of them, and
+  restore merges non-destructively so re-importing an older backup can't
+  overwrite newer local work. Legacy documents-only backup files still
+  restore.
+
 ## [1.2.5] — 2026-07-02
 
 ### Fixed
