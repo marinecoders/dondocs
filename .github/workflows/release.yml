@@ -1,0 +1,53 @@
+name: release
+
+# Auto-create a GitHub release when package.json's version is bumped on main.
+# Every PR bumps the version + adds a CHANGELOG entry, so the squash-merge push
+# is the release trigger. Idempotent (skips if the release already exists), so
+# re-runs and pushes that don't change the version are safe. The published
+# release then triggers docker-release.yml.
+#
+# Uses the built-in GITHUB_TOKEN with `contents: write` — which, unlike a PAT
+# or OAuth token, can tag even commits that touch .github/workflows, so this
+# never hits the "workflow scope required" wall that blocks manual `gh release`.
+
+on:
+  push:
+    branches: [main]
+    paths: ['package.json']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Resolve version
+        id: v
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Create release if it doesn't exist
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="v${{ steps.v.outputs.version }}"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "Release $tag already exists — nothing to do."
+            exit 0
+          fi
+          # Notes = this version's CHANGELOG section (body under the heading).
+          awk -v n="${{ steps.v.outputs.version }}" '
+            $0 ~ "^## \\["n"\\]" { grab = 1; next }
+            grab && /^## \[/ { exit }
+            grab { print }
+          ' CHANGELOG.md | sed '/./,$!d' > notes.md
+          if [ ! -s notes.md ]; then
+            printf 'Release %s\n' "$tag" > notes.md
+          fi
+          gh release create "$tag" --target "${{ github.sha }}" --title "$tag" --notes-file notes.md

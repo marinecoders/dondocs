@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.24] — 2026-07-04
+
+### Changed
+
+- Releases are now cut automatically. A GitHub release is created whenever the
+  version in `package.json` is bumped on `main`, with notes drawn from that
+  version's CHANGELOG entry — so tags, releases, and the changelog can no
+  longer drift, and the published release still triggers the Docker image build.
+
 ## [1.2.23] — 2026-07-04
 
 ### Fixed
