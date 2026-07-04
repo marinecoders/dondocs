@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.22] — 2026-07-04
+
+### Fixed
+
+- The dialog close (✕) button is now a 36px touch target (was 28px), so it
+  clears the WCAG minimum comfortably on touch. The icon is unchanged; only
+  the hit area grew.
+
 ## [1.2.21] — 2026-07-04
 
 ### Fixed
