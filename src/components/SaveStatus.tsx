@@ -1,6 +1,7 @@
 import { useEffect, useReducer } from 'react';
-import { Check, Loader2, AlertCircle } from 'lucide-react';
+import { Check, Loader2, AlertCircle, FolderSync } from 'lucide-react';
 import { useUIStore } from '@/stores/uiStore';
+import { useBackupStore } from '@/stores/backupStore';
 
 function savedAgo(ts: number): string {
   const s = Math.floor((Date.now() - ts) / 1000);
@@ -16,10 +17,19 @@ function savedAgo(ts: number): string {
  * registry write for correspondence, formStore's persist for forms). Renders
  * nothing until the first save. Replaces the old manual-save toast theater so
  * the UI honestly shows that work is being kept automatically.
+ *
+ * When the synced auto-backup is connected AND has actually written, a
+ * second "Backed up" segment appears — the durable confidence signal that the
+ * account is mirrored to a file outside the browser, not just to its storage.
+ * Failure states are deliberately NOT rendered here (BackupNotice owns them);
+ * this indicator only ever affirms what is true.
  */
 export function SaveStatus({ className }: { className?: string }) {
   const lastSavedAt = useUIStore((s) => s.lastSavedAt);
   const saveStatus = useUIStore((s) => s.saveStatus);
+  const backupStatus = useBackupStore((s) => s.status);
+  const lastBackupAt = useBackupStore((s) => s.lastBackupAt);
+  const backupFileName = useBackupStore((s) => s.fileName);
   const [, refresh] = useReducer((n: number) => n + 1, 0);
 
   useEffect(() => {
@@ -51,10 +61,23 @@ export function SaveStatus({ className }: { className?: string }) {
     );
   }
   if (lastSavedAt == null) return null;
+  // Affirm the mirror only when it is live and has committed at least once
+  // this session — never on 'error'/'needs-permission' (BackupNotice's job).
+  const backedUp = backupStatus === 'connected' && lastBackupAt != null;
   return (
     <span className={`inline-flex items-center gap-1 ${base}`}>
       <Check className="h-3 w-3 text-[var(--success)]" aria-hidden />
       Saved · {savedAgo(lastSavedAt)}
+      {backedUp && (
+        <span
+          className="inline-flex items-center gap-1"
+          title={`Auto-backup is on — your account mirrors to ${backupFileName ?? 'your backup file'} after every save. Last backup ${savedAgo(lastBackupAt)}.`}
+        >
+          <span aria-hidden>·</span>
+          <FolderSync className="h-3 w-3" aria-hidden />
+          Backed up
+        </span>
+      )}
     </span>
   );
 }

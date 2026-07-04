@@ -591,6 +591,8 @@ export function Header({
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
       flashSaveStatus('Backed up everything!');
+      // First real backup → credit the getting-started checklist row.
+      useOnboardingStore.getState().markComplete('first_backup');
     } catch (err) {
       console.error('Failed to export backup:', err);
       flashSaveStatus('Backup failed');

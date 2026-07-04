@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { HelpCircle, ChevronDown, ChevronRight, ChevronLeft, FileText, CheckCircle2, Lightbulb, BookOpen, Sparkles, ArrowRight, RotateCcw, Search, Eye, Check, Zap, Layers, Users, FolderOpen, Paperclip, PenLine, Link2, Shield, MapPin, File, Briefcase, Mail, ClipboardCheck, ClipboardList, BookMarked, Scale, Award, ScrollText, FileSignature, Star, type LucideIcon } from 'lucide-react';
+import { HelpCircle, ChevronDown, ChevronRight, ChevronLeft, FileText, CheckCircle2, Lightbulb, BookOpen, Sparkles, ArrowRight, RotateCcw, Search, Eye, Check, Zap, Layers, Users, FolderOpen, Paperclip, PenLine, Link2, Shield, MapPin, File, Briefcase, Mail, ClipboardCheck, ClipboardList, BookMarked, Scale, Award, ScrollText, FileSignature, Star, FolderSync, type LucideIcon } from 'lucide-react';
 
 // Lucide icons for document types / groups / categories, keyed by id — the
 // app uses lucide everywhere else, so the guide should too (the old emoji
@@ -782,6 +782,31 @@ const POWER_FEATURES: PowerFeature[] = [
         title: 'Set the level',
         body: 'Choose the classification. The right marking fields (CUI or classified) appear below, and the banner is derived from the highest marking. Per-paragraph portion marks live in the body editor.',
         action: () => expandSection('classification'),
+      },
+    ],
+  },
+  {
+    key: 'backup',
+    icon: FolderSync,
+    title: 'Back up everything',
+    where: 'Save → Back up everything',
+    body: 'One file with your entire account — documents, profiles, signatures, snippets, templates, form fields, and enclosure attachments. Restore it on any machine; nothing ever touches a server.',
+    steps: [
+      'Open Save → Back up everything to download the backup file.',
+      'Keep it somewhere safe — a shared drive, USB stick, or synced folder.',
+      'On a new machine, use Save → Restore from backup to bring it all back.',
+      'On desktop Chrome or Edge, Set up auto-backup keeps a file current after every save.',
+    ],
+    tour: [
+      {
+        target: '[data-tour="save"]',
+        title: 'Your safety net',
+        body: 'Everything lives in this browser — so keep a copy outside it. Open the Save menu and choose "Back up everything" to download one file with your whole account.',
+      },
+      {
+        target: '[data-tour="save"]',
+        title: 'Restore anywhere',
+        body: '"Restore from backup" merges that file back in — on this machine or a brand-new one — without overwriting anything newer. On desktop Chrome or Edge, "Set up auto-backup" mirrors the file automatically after every save.',
       },
     ],
   },

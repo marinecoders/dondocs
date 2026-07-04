@@ -5,6 +5,7 @@ import {
   idbClearBackupHandle,
 } from '@/lib/documentsDb';
 import { buildBackup } from '@/lib/backup';
+import { useOnboardingStore } from '@/stores/onboardingStore';
 import { debug } from '@/lib/debug';
 
 /**
@@ -160,6 +161,8 @@ export const useBackupStore = create<BackupState>((set, get) => ({
       }
       await writeToHandle(handleRef, json);
       set({ lastBackupAt: Date.now(), status: 'connected' });
+      // A committed mirror write is a real backup → credit the checklist row.
+      useOnboardingStore.getState().markComplete('first_backup');
     } catch (err) {
       // Permission revoked mid-write reads as NotAllowedError; everything else
       // (file moved/deleted/locked, disk full) is a write fault. Either way the
