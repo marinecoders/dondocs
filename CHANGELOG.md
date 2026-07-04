@@ -5,6 +5,20 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.11] — 2026-07-03
+
+### Added
+
+- Proper install icons on every platform, all derived from one source. iOS
+  Add-to-Home-Screen previously produced a degraded icon (no
+  `apple-touch-icon`, no Apple meta tags), and the Android/Chromium manifest
+  reused the raw SVG for its maskable slot, so circular launcher masks could
+  crop the emblem. The build now rasterizes `icon.svg` into the Apple
+  home-screen icon, 192/512 PNG icons, and a dedicated safe-zone maskable
+  icon — one canonical image, so the installed-app icon can never drift from
+  the brand mark. The installed-PWA title bar color now matches the app
+  canvas instead of a stale navy.
+
 ## [1.2.10] — 2026-07-03
 
 ### Fixed
