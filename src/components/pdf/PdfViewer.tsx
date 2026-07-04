@@ -159,6 +159,13 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
         case 'ArrowUp':
           scrollBy(-80);
           break;
+        case ' ': {
+          // Space / Shift+Space: near-viewport scroll, the universal PDF-reader
+          // binding. The wrapper's height ≈ the layer's (layers are inset-0).
+          const viewport = contentRef.current?.clientHeight ?? 400;
+          scrollBy(e.shiftKey ? -viewport * 0.9 : viewport * 0.9);
+          break;
+        }
         case 'PageDown':
           goToPage(1);
           break;
@@ -204,7 +211,10 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
     };
     el.addEventListener('wheel', onWheel, { passive: false });
     return () => el.removeEventListener('wheel', onWheel);
-  }, [zoomStep]);
+    // loadFailed in the deps: the error branch renders WITHOUT the content
+    // wrapper, so if the viewer ever recovers, the effect must re-run to
+    // attach onto the freshly-mounted element.
+  }, [zoomStep, loadFailed]);
 
   if (loadFailed) {
     return (
@@ -262,7 +272,7 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
           ref={contentRef}
           tabIndex={0}
           role="region"
-          aria-label="PDF document. Arrow keys scroll, Page Up and Page Down change pages, Home and End jump to the first and last page, plus and minus zoom, 0 fits the width."
+          aria-label="PDF document. Arrow keys and Space scroll, Page Up and Page Down change pages, Home and End jump to the first and last page, plus and minus zoom, 0 fits the width."
           onKeyDown={handleContentKeyDown}
           // ring-inset: the ring must draw inside the scroll area's edges — an
           // outset ring would be clipped by the flex parent and invisible.
