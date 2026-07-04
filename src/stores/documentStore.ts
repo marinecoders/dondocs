@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { format, parse, isValid } from 'date-fns';
-import type { Reference, Enclosure, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, DocumentCategory, FormType } from '@/types/document';
+import type { Reference, Enclosure, FileRef, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, DocumentCategory, FormType } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
+import { loadAttachment, persistAttachment } from '@/lib/attachments';
 import { useHistoryStore } from './historyStore';
 import type { DocumentSnapshot } from './historyStore';
 import { useUIStore } from './uiStore';
@@ -24,7 +25,10 @@ export interface SerializedSession {
   formType: FormType;
   formData: Partial<DocumentData>;
   references: Reference[];
-  enclosures: Array<Omit<Enclosure, 'file'> & { hasFile?: boolean }>;
+  // `file` bytes live in the attachments store; `fileRef` is the durable handle
+  // that rehydrates them on load. `hasFile` stays for legacy sessions written
+  // before fileRef existed (they had bytes in memory but nothing to recover).
+  enclosures: Array<Omit<Enclosure, 'file'> & { hasFile?: boolean; fileRef?: FileRef }>;
   paragraphs: Paragraph[];
   copyTos: CopyTo[];
   distributions: Distribution[];
@@ -106,7 +110,7 @@ export interface DocumentState {
   reorderReferences: (fromIndex: number, toIndex: number) => void;
 
   // Actions - Enclosures
-  addEnclosure: (title: string, file?: Enclosure['file']) => void;
+  addEnclosure: (title: string, file?: Enclosure['file'], fileRef?: FileRef) => void;
   updateEnclosure: (index: number, updates: Partial<Enclosure>) => void;
   removeEnclosure: (index: number) => void;
   reorderEnclosures: (fromIndex: number, toIndex: number) => void;
@@ -359,8 +363,8 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   }),
 
   // Enclosures
-  addEnclosure: (title, file) => set((state) => ({
-    enclosures: [...state.enclosures, { title, file }],
+  addEnclosure: (title, file, fileRef) => set((state) => ({
+    enclosures: [...state.enclosures, { title, file, fileRef }],
   })),
 
   updateEnclosure: (index, updates) => set((state) => ({
@@ -761,6 +765,7 @@ function saveSessionToStorage(state: DocumentState): void {
         hasCoverPage: enc.hasCoverPage,
         coverPageDescription: enc.coverPageDescription,
         hasFile: !!enc.file,
+        fileRef: enc.fileRef,
       })),
       paragraphs: state.paragraphs,
       copyTos: state.copyTos,
@@ -853,7 +858,8 @@ export function restoreSession(): boolean {
         pageStyle: enc.pageStyle,
         hasCoverPage: enc.hasCoverPage,
         coverPageDescription: enc.coverPageDescription,
-        // File data is not restored - user will need to re-attach
+        fileRef: enc.fileRef,
+        // Bytes are streamed back in asynchronously below (rehydrateEnclosureFiles).
         file: undefined,
       })),
       paragraphs: migratePortionMarkings(session.paragraphs),
@@ -861,6 +867,7 @@ export function restoreSession(): boolean {
       distributions: session.distributions || [],
     });
 
+    void rehydrateEnclosureFiles();
     debug.log('Store', 'Session restored from localStorage');
     return true;
   } catch (err) {
@@ -899,6 +906,7 @@ export function serializeSession(state: DocumentState): SerializedSession {
       hasCoverPage: enc.hasCoverPage,
       coverPageDescription: enc.coverPageDescription,
       hasFile: !!enc.file,
+      fileRef: enc.fileRef,
     })),
     paragraphs: state.paragraphs,
     copyTos: state.copyTos,
@@ -929,13 +937,100 @@ export function loadSharedSession(session: SerializedSession): void {
       pageStyle: enc.pageStyle,
       hasCoverPage: enc.hasCoverPage,
       coverPageDescription: enc.coverPageDescription,
+      fileRef: enc.fileRef,
+      // Bytes are streamed back in asynchronously below (rehydrateEnclosureFiles).
       file: undefined,
     })),
     paragraphs: migratePortionMarkings(session.paragraphs ?? []),
     copyTos: session.copyTos ?? [],
     distributions: session.distributions ?? [],
   });
+  void rehydrateEnclosureFiles();
   debug.log('Store', 'Shared session applied');
+}
+
+/**
+ * Streams persisted enclosure bytes back into the live document. A restored
+ * session carries a `fileRef` per attached enclosure but no `file` (the bytes
+ * live in the IndexedDB attachments store, not the session JSON); this fetches
+ * each and grafts it back in.
+ *
+ * Matched by `fileRef.id`, never by index, and only fills an enclosure whose
+ * `file` is still empty — so a user who edited/reordered/removed enclosures
+ * between load and hydrate is never clobbered. Fully best-effort: any failure is
+ * swallowed, leaving the enclosure in the pre-existing "re-attach" state.
+ *
+ * Returns once every referenced blob has been resolved, so callers that must
+ * export (which reads `file.data`) can await a complete document.
+ */
+export async function rehydrateEnclosureFiles(): Promise<void> {
+  const pending = useDocumentStore
+    .getState()
+    .enclosures.filter((e) => e.fileRef && !e.file)
+    .map((e) => e.fileRef!.id);
+  if (pending.length === 0) return;
+
+  const wanted = new Set(pending);
+  const loaded = new Map<string, { name: string; size: number; data: ArrayBuffer }>();
+  await Promise.all(
+    [...wanted].map(async (id) => {
+      try {
+        const data = await loadAttachment(id);
+        if (data) {
+          // Prefer the ref's own name/size (survives even if two enclosures share bytes).
+          const ref = useDocumentStore.getState().enclosures.find((e) => e.fileRef?.id === id)?.fileRef;
+          loaded.set(id, { name: ref?.name ?? '', size: ref?.size ?? data.byteLength, data });
+        }
+      } catch (err) {
+        debug.error('Store', 'Failed to rehydrate enclosure file', err);
+      }
+    })
+  );
+  if (loaded.size === 0) return;
+
+  useDocumentStore.setState((state) => ({
+    enclosures: state.enclosures.map((e) => {
+      if (e.file || !e.fileRef) return e; // don't overwrite live edits
+      const got = loaded.get(e.fileRef.id);
+      return got ? { ...e, file: got } : e;
+    }),
+  }));
+  debug.log('Store', 'Enclosure files rehydrated', { count: loaded.size });
+}
+
+/**
+ * Persists any enclosure that carries live bytes but no durable `fileRef` — the
+ * case for a draft imported from JSON, whose file bytes arrived inline. Gives
+ * each a `fileRef` so it survives a reload and rides along in a full backup,
+ * matching the persist-on-attach path. Matched by array index against the live
+ * state at write time so an intervening edit is never clobbered.
+ */
+export async function persistUnsavedEnclosures(): Promise<void> {
+  const snapshot = useDocumentStore.getState().enclosures;
+  const work = snapshot
+    .map((e, index) => ({ e, index }))
+    .filter(({ e }) => e.file && !e.fileRef);
+  if (work.length === 0) return;
+
+  for (const { e, index } of work) {
+    if (!e.file) continue;
+    try {
+      const ref = await persistAttachment(
+        { name: e.file.name, size: e.file.size, type: '' },
+        e.file.data
+      );
+      useDocumentStore.setState((state) => {
+        const cur = state.enclosures[index];
+        // Only stamp the ref if this slot still holds the same, still-unref'd file.
+        if (!cur?.file || cur.fileRef || cur.file !== e.file) return {};
+        const enclosures = state.enclosures.slice();
+        enclosures[index] = { ...cur, fileRef: ref };
+        return { enclosures };
+      });
+    } catch (err) {
+      debug.error('Store', 'Failed to persist imported enclosure', err);
+    }
+  }
 }
 
 /**

@@ -9,13 +9,16 @@ happens when writes fail.
 
 ### IndexedDB — the source of truth for documents
 
-Database `dondocs` (version 1), two object stores. All access goes through
-`src/lib/documentsDb.ts`; nothing else touches IndexedDB directly.
+Database `dondocs` (version 2), three object stores. All access goes through
+`src/lib/documentsDb.ts`; nothing else touches IndexedDB directly. The v1→v2
+upgrade is purely additive — it creates the `attachments` store and leaves
+existing records untouched.
 
 | Store | Contents |
 |-------|----------|
 | `documents` (keyPath `id`) | One record per document: `{ id, meta, session }`. `meta` is the Recents row (title, docType, updatedAt, pinned, user-set name); `session` is the full serialized document. |
 | `app` (key/value) | `currentId` (resume pointer), `backupFileHandle` (the synced-backup `FileSystemFileHandle` — handles are structured-cloneable), `legacyMigratedIds` (migration ledger), and `snap:<docId>` — per-document version-history snapshots, capped at the 10 most recent. |
+| `attachments` (keyPath `id`) | Enclosure file bytes: `{ id, name, type, size, data }` (`data` is the raw `ArrayBuffer`). A serialized enclosure keeps only a `fileRef` (id + name/size/type) into this store, so the blob loads once and never bloats a document record. Bytes are written on attach (`src/lib/attachments.ts`) and streamed back into the live document by `rehydrateEnclosureFiles`. Ids are random (not content-addressed): `crypto.subtle` needs a secure origin an air-gapped `http://` deployment may lack, so there is no cross-enclosure dedup and no GC yet — a removed enclosure leaves its blob behind until the store is cleared. |
 
 Two contracts in `documentsDb.ts` matter more than the rest:
 
@@ -127,10 +130,16 @@ Recents re-sort), and every load path into the live editor
 
 ## Backups
 
-**Manual** (`Back up all documents`): serializes the in-memory registry — the
-exact list the user sees — to a JSON download. Restore merges per record;
-when the same id exists on both sides, the newer `updatedAt` wins, so restoring
-an old backup can't overwrite newer work.
+**Manual** (`Back up everything`, `src/lib/backup.ts`): a full-account JSON
+download (kind `dondocs-backup`) covering every store, not just documents —
+the in-memory registry, profiles + signatures, saved snippets, user templates,
+the live NAVMC form fields, and the enclosure file bytes those documents
+reference (base64-embedded, pulled from the `attachments` store). Restore is
+non-destructive: documents merge per record with newer `updatedAt` winning;
+profiles/snippets/templates add only missing entries (local always wins a
+collision); attachments add only ids not already present. A legacy docs-only
+`dondocs-library` file still restores. So an old backup can never overwrite
+newer local work.
 
 **Synced backup file** (Chromium desktop): the user picks a file once; the
 `FileSystemFileHandle` persists in IndexedDB and survives restarts. Every

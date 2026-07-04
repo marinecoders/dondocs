@@ -26,6 +26,7 @@ import {
 } from '@/components/ui/accordion';
 import { HelpTip } from '@/components/ui/help-tip';
 import { useDocumentStore } from '@/stores/documentStore';
+import { persistAttachment } from '@/lib/attachments';
 import type { Enclosure, EnclosurePageStyle } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 
@@ -223,12 +224,16 @@ export function EnclosuresManager() {
 
   const handleAttachFile = useCallback(async (index: number, file: File) => {
     const data = await file.arrayBuffer();
+    // Persist the bytes so the enclosure survives a reload and rides along in a
+    // backup; keep the in-memory copy for immediate export either way.
+    const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, data);
     updateEnclosure(index, {
       file: {
         name: file.name,
         size: file.size,
         data,
       },
+      fileRef,
     });
   }, [updateEnclosure]);
 
@@ -236,11 +241,12 @@ export function EnclosuresManager() {
     // Extract filename without extension for the title
     const title = file.name.replace(/\.pdf$/i, '');
     const data = await file.arrayBuffer();
+    const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, data);
     addEnclosure(title, {
       name: file.name,
       size: file.size,
       data,
-    });
+    }, fileRef);
   }, [addEnclosure]);
 
   // Drag and drop state
@@ -356,7 +362,7 @@ export function EnclosuresManager() {
                       index={index}
                       onUpdateTitle={(title) => updateEnclosure(index, { title })}
                       onAttachFile={(file) => handleAttachFile(index, file)}
-                      onRemoveFile={() => updateEnclosure(index, { file: undefined })}
+                      onRemoveFile={() => updateEnclosure(index, { file: undefined, fileRef: undefined })}
                       onRemove={() => removeEnclosure(index)}
                       onUpdatePageStyle={(pageStyle) => updateEnclosure(index, { pageStyle })}
                       onUpdateCoverPage={(hasCoverPage) => updateEnclosure(index, { hasCoverPage })}

@@ -25,7 +25,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore } from '@/stores/documentStore';
+import { useDocumentStore, persistUnsavedEnclosures } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { buildBackup, restoreBackup, summarizeRestore } from '@/lib/backup';
@@ -556,6 +556,11 @@ export function Header({
         // Register the import as its own Recents entry under a fresh id rather
         // than overwriting the previously-open document.
         useDocumentsStore.getState().openLoadedAsNew();
+
+        // The draft's enclosure bytes arrived inline; persist them to the
+        // attachments store so they survive a reload and a full backup, just
+        // like a file attached through the UI.
+        void persistUnsavedEnclosures();
 
         flashSaveStatus('Imported!');
       } catch (err) {

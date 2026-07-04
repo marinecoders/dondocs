@@ -26,6 +26,16 @@ export interface Reference {
 
 export type EnclosurePageStyle = 'border' | 'fullpage' | 'fit';
 
+// A durable pointer to enclosure file bytes stored in the IndexedDB `attachments`
+// store. Persisted in the serialized session so an enclosure's file survives a
+// reload (and travels in a full backup), instead of being dropped to a re-attach.
+export interface FileRef {
+  id: string; // key into the attachments store
+  name: string;
+  size: number;
+  type: string; // MIME type ('' when the browser didn't provide one)
+}
+
 export interface Enclosure {
   title: string;
   file?: {
@@ -33,6 +43,7 @@ export interface Enclosure {
     size: number;
     data: ArrayBuffer;
   };
+  fileRef?: FileRef; // durable handle to `file`'s bytes; set once the file is persisted
   pageStyle?: EnclosurePageStyle; // 'border' = 85% with border, 'fullpage' = full page, 'fit' = fit to margins
   hasCoverPage?: boolean; // If true, add a cover page before the enclosure content
   coverPageDescription?: string; // Optional description text for the cover page

@@ -5,6 +5,20 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.7] — 2026-07-03
+
+### Added
+
+- Enclosure attachments now persist. The PDF you attach to an enclosure used
+  to live only in memory on the open document — a reload dropped it (you had
+  to re-attach) and a full backup couldn't carry it. Attached files are now
+  stored in a new IndexedDB `attachments` store, streamed back into the
+  document on load, and embedded in the **"Back up everything"** bundle, so a
+  restore on another machine brings the enclosure files back too. Restore adds
+  only attachments the local database doesn't already have, so re-importing a
+  backup never duplicates data. The IndexedDB schema bumps to v2 with a purely
+  additive upgrade (existing documents are untouched).
+
 ## [1.2.6] — 2026-07-03
 
 ### Fixed
