@@ -138,6 +138,74 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
     [reducedMotion]
   );
 
+  // ── Keyboard access ───────────────────────────────────────────────────────
+  // The scrollable element lives inside a per-generation layer that is
+  // REPLACED on every recompile, so focus can't live there — the stable
+  // content wrapper is the keyboard surface instead, routing keys to the
+  // active layer. Without this a keyboard-only user could reach the toolbar
+  // but never scroll or navigate the document at all.
+  const handleContentKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.ctrlKey || e.metaKey || e.altKey) return; // browser shortcuts pass through
+      const layer = activeLayerRef.current;
+      const pageCount = docMeta?.numPages ?? 0;
+      const scrollBy = (delta: number) => {
+        if (layer) layer.setScrollTop(layer.getScrollTop() + delta);
+      };
+      switch (e.key) {
+        case 'ArrowDown':
+          scrollBy(80);
+          break;
+        case 'ArrowUp':
+          scrollBy(-80);
+          break;
+        case 'PageDown':
+          goToPage(1);
+          break;
+        case 'PageUp':
+          goToPage(-1);
+          break;
+        case 'Home':
+          layer?.scrollToPage(0, !reducedMotion);
+          break;
+        case 'End':
+          if (pageCount > 0) layer?.scrollToPage(pageCount - 1, !reducedMotion);
+          break;
+        case '+':
+        case '=':
+          zoomStep(1);
+          break;
+        case '-':
+          zoomStep(-1);
+          break;
+        case '0':
+          zoomFitWidth();
+          break;
+        default:
+          return; // unhandled: let it propagate (Tab, Escape, …)
+      }
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    [docMeta?.numPages, goToPage, reducedMotion, zoomStep, zoomFitWidth]
+  );
+
+  // Ctrl/⌘ + wheel (and trackpad pinch, which browsers report as ctrl+wheel)
+  // zooms the document instead of the page. Must be a native non-passive
+  // listener — React's synthetic wheel handlers are passive, so preventDefault
+  // there can't stop the browser's own page zoom.
+  useEffect(() => {
+    const el = contentRef.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      if (!e.ctrlKey && !e.metaKey) return;
+      e.preventDefault();
+      zoomStep(e.deltaY < 0 ? 1 : -1);
+    };
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+  }, [zoomStep]);
+
   if (loadFailed) {
     return (
       <div className={cn('flex h-full flex-col items-center justify-center gap-3 p-6', className)}>
@@ -190,7 +258,16 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
             aria-label="Page thumbnails"
           />
         )}
-        <div ref={contentRef} className="relative min-h-0 flex-1">
+        <div
+          ref={contentRef}
+          tabIndex={0}
+          role="region"
+          aria-label="PDF document. Arrow keys scroll, Page Up and Page Down change pages, Home and End jump to the first and last page, plus and minus zoom, 0 fits the width."
+          onKeyDown={handleContentKeyDown}
+          // ring-inset: the ring must draw inside the scroll area's edges — an
+          // outset ring would be clipped by the flex parent and invisible.
+          className="relative min-h-0 flex-1 outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:ring-inset"
+        >
         {/* ONE keyed array on purpose: React only reconciles keys across a
             single children array, not across separate JSX expression slots.
             On promotion the incoming element becomes the active one and the
