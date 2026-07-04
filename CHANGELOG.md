@@ -5,6 +5,18 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.34] — 2026-07-04
+
+### Changed
+
+- Severity notices across the app now draw from theme tokens instead of
+  hardcoded palette colors, so they restain correctly in every color scheme. A
+  new shared Notice primitive (info / warning / error / success) backs the
+  panels in the PII warning, enclosure warning, NIST compliance, and update
+  modals, replacing three ambers, two oranges, and a blue that used to drift.
+  The PII warning header also drops its decorative red/amber gradient for a
+  flat, AA-contrast token color.
+
 ## [1.2.33] — 2026-07-04
 
 ### Changed

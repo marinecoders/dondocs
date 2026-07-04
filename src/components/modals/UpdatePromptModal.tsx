@@ -15,6 +15,7 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { Notice } from '@/components/ui/notice';
 
 interface UpdatePromptModalProps {
   open: boolean;
@@ -51,10 +52,10 @@ export function UpdatePromptModal({ open, onConfirm, onDismiss }: UpdatePromptMo
             </DialogDescription>
           </DialogHeader>
 
-          <div className="text-xs text-muted-foreground bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-md p-3 break-words">
+          <Notice variant="info" className="text-xs text-muted-foreground break-words">
             <strong>Note:</strong> PDF enclosure files and signature images will need
             to be re-attached after the update.
-          </div>
+          </Notice>
 
           <DialogFooter className="flex-col sm:flex-row gap-2 flex-shrink-0">
             <Button

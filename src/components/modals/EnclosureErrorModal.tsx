@@ -16,6 +16,7 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { Notice } from '@/components/ui/notice';
 import type { EnclosureError } from '@/services/pdf/mergeEnclosures';
 
 interface EnclosureErrorModalProps {
@@ -31,7 +32,7 @@ export function EnclosureErrorModal({ errors, open, onClose }: EnclosureErrorMod
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-orange-600">
+          <DialogTitle className="flex items-center gap-2 text-warning">
             <AlertTriangle className="h-5 w-5" />
             Enclosure Warning{errors.length > 1 ? 's' : ''}
           </DialogTitle>
@@ -45,11 +46,8 @@ export function EnclosureErrorModal({ errors, open, onClose }: EnclosureErrorMod
 
         <div className="space-y-3 max-h-64 overflow-y-auto">
           {errors.map((error, index) => (
-            <div
-              key={index}
-              className="flex gap-3 p-3 bg-orange-50 dark:bg-orange-950/30 border border-orange-200 dark:border-orange-800 rounded-md"
-            >
-              <FileWarning className="h-5 w-5 text-orange-500 flex-shrink-0 mt-0.5" />
+            <Notice key={index} variant="warning" className="flex gap-3">
+              <FileWarning className="h-5 w-5 text-warning flex-shrink-0 mt-0.5" />
               <div className="flex-1 min-w-0">
                 <div className="font-medium text-sm text-foreground">
                   Enclosure ({error.enclosureNumber}): {error.title}
@@ -63,7 +61,7 @@ export function EnclosureErrorModal({ errors, open, onClose }: EnclosureErrorMod
                   </div>
                 )}
               </div>
-            </div>
+            </Notice>
           ))}
         </div>
 
