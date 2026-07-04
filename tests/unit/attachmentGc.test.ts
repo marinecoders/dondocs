@@ -18,6 +18,7 @@ import {
 import * as documentsDb from '@/lib/documentsDb';
 import * as backup from '@/lib/backup';
 import { useDocumentStore } from '@/stores/documentStore';
+import { useDocumentsStore } from '@/stores/documentsStore';
 import { sweepOrphanedAttachments } from '@/lib/attachmentGc';
 
 // A stored document whose single enclosure points at attachment `refId` (or none).
@@ -55,6 +56,7 @@ async function clearAll() {
   const atts = (await idbGetAllAttachments()) ?? [];
   for (const a of atts) await idbDeleteAttachment(a.id);
   useDocumentStore.setState({ enclosures: [] });
+  useDocumentsStore.setState({ docs: {} });
 }
 
 beforeEach(async () => {
@@ -85,6 +87,39 @@ describe('sweepOrphanedAttachments', () => {
 
     expect(deleted).toBe(0);
     expect(await idbGetAttachment('att_snap')).toBeTruthy();
+  });
+
+  it('KEEPS a blob referenced only by the in-memory registry (unpersisted local save / duplicate)', async () => {
+    // A doc the in-memory registry knows about but whose IndexedDB write hasn't
+    // landed — this is what buildBackup marks from, so the sweep must not reap it.
+    useDocumentsStore.setState({
+      docs: {
+        m1: {
+          meta: { id: 'm1', title: 'In memory', docType: 'naval_letter', updatedAt: 1 },
+          session: doc('m1', 'att_inmem').session,
+        },
+      },
+    } as never);
+    await idbPutAttachment(att('att_inmem')); // blob on disk, doc only in memory
+
+    const deleted = await sweepOrphanedAttachments();
+
+    expect(deleted).toBe(0);
+    expect(await idbGetAttachment('att_inmem')).toBeTruthy();
+  });
+
+  it('KEEPS a blob a duplicate still shares after the original is deleted', async () => {
+    // duplicateDocument shares the same session object → same fileRef id. Deleting
+    // one copy must NOT free the blob the other still points at (mark-and-sweep
+    // keeps anything referenced by anyone; eager per-doc deletion would corrupt).
+    await idbPutDocument(doc('keeper', 'att_dup'));
+    await idbPutAttachment(att('att_dup'));
+    // ('deleted-copy' is already gone; only the keeper references att_dup.)
+
+    const deleted = await sweepOrphanedAttachments();
+
+    expect(deleted).toBe(0);
+    expect(await idbGetAttachment('att_dup')).toBeTruthy();
   });
 
   it('KEEPS a blob referenced only by the live in-memory session (unsynced attach)', async () => {

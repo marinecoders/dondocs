@@ -42,7 +42,7 @@ import {
 } from '@/lib/documentsDb';
 import type { SerializedSession } from '@/stores/documentStore';
 import { useDocumentStore } from '@/stores/documentStore';
-import { getPendingDeleteSessions } from '@/stores/documentsStore';
+import { getPendingDeleteSessions, useDocumentsStore } from '@/stores/documentsStore';
 import { isRestoreInProgress } from '@/lib/backup';
 import { debug } from '@/lib/debug';
 
@@ -60,17 +60,35 @@ function collectSessionRefs(session: SerializedSession | undefined, into: Set<st
  * Build the set of attachment ids still reachable from anywhere. Returns null
  * to signal "could not read the registry" — callers MUST treat null as an abort
  * (delete nothing), never as an empty set.
+ *
+ * The registry is read from BOTH the persisted store AND the in-memory registry,
+ * and their union is what's kept. This is load-bearing, not belt-and-suspenders:
+ *   - buildBackup() marks attachments from the IN-MEMORY registry (exportLibrary),
+ *     which can hold a doc whose IndexedDB write hasn't landed yet (a fresh local
+ *     save, a just-made duplicate). Reading only IDB would let the sweep reap a
+ *     blob a backup is about to embed — exactly the corruption we must avoid.
+ *   - Another tab's save reaches IndexedDB before this tab's in-memory registry
+ *     hears about it. Reading only memory would reap that doc's blobs.
+ * The union is a superset of both, so no live, backed-up, or cross-tab blob is
+ * ever a sweep target.
  */
 export async function collectLiveAttachmentIds(): Promise<Set<string> | null> {
-  const docs = await idbGetAllDocuments();
-  if (docs === null) return null; // read failure — refuse to sweep on partial knowledge
+  const persisted = await idbGetAllDocuments();
+  if (persisted === null) return null; // read failure — refuse to sweep on partial knowledge
 
   const live = new Set<string>();
 
-  // (a) persisted document sessions + (b) their snapshot rings.
-  for (const doc of docs) {
-    collectSessionRefs(doc.session, live);
-    const snaps = await idbGetSnapshots(doc.id); // [] on read failure — best-effort per doc
+  // (a) registry documents — union of persisted (IDB) and in-memory, keyed by id
+  // so a doc present in both is visited once for its snapshot ring.
+  const inMemory = Object.values(useDocumentsStore.getState().docs);
+  const sessionsById = new Map<string, SerializedSession>();
+  for (const doc of persisted) sessionsById.set(doc.id, doc.session);
+  for (const entry of inMemory) sessionsById.set(entry.meta.id, entry.session);
+
+  for (const [id, session] of sessionsById) {
+    collectSessionRefs(session, live);
+    // (b) the document's version-history snapshot ring.
+    const snaps = await idbGetSnapshots(id); // [] on read failure — best-effort per doc
     for (const snap of snaps) collectSessionRefs(snap.session, live);
   }
 
