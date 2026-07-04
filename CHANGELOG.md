@@ -5,6 +5,17 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.25] — 2026-07-04
+
+### Fixed
+
+- Keyboard and touch access for three editor controls: the reference and
+  enclosure drag handles now carry an accessible name and an explicit button
+  type (they defaulted to form-submit); the "@" variable menu's "Create new
+  variable" row now responds to Enter as its footer promises (not mouse only);
+  and the reference-library "Add" button, previously invisible until hover, is
+  now shown on touch devices and revealed on keyboard focus.
+
 ## [1.2.24] — 2026-07-04
 
 ### Changed
