@@ -63,3 +63,20 @@ export const TOUR_STEPS: TourStep[] = [
     body: 'Guides, keyboard shortcuts, bug reports, and feature ideas are all in this menu, and you can replay this tour from here anytime.',
   },
 ];
+
+/**
+ * Drop steps whose target isn't in the current layout, so the tour never
+ * spotlights an element the user can't see. Two Header controls (appearance,
+ * help) are `hidden xl:flex`, so on sub-1280px widths their steps would
+ * otherwise fall back to a centered card describing invisible buttons. A step
+ * with no target (a centered card) or an `action` (which mounts its own target)
+ * is always kept — only steps that name an element already absent are removed.
+ */
+export function visibleTourSteps(steps: TourStep[] = TOUR_STEPS): TourStep[] {
+  if (typeof document === 'undefined') return steps;
+  return steps.filter((s) => {
+    if (!s.target || s.action) return true;
+    const el = document.querySelector(s.target);
+    return !!el && (el as HTMLElement).getClientRects().length > 0;
+  });
+}

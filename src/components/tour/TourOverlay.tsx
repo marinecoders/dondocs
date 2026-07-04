@@ -269,6 +269,15 @@ export function TourOverlay() {
         >
           <X className="h-4 w-4" />
         </button>
+        {/* Announce each step to screen readers: the card element is reused
+            across steps (never remounts), so this region's text updates in
+            place and a polite live region reads the new step. The visual dots
+            below are aria-hidden, so this is the only step-progress a SR gets. */}
+        <p className="sr-only" role="status" aria-live="polite">
+          {isSingle
+            ? step.title
+            : `Step ${stepIndex + 1} of ${steps.length}: ${step.title}`}
+        </p>
         <h3 className="shrink-0 text-sm font-semibold mb-1 pr-6">{step.title}</h3>
         {/* Only the body scrolls when the card is capped to a tight gap; the
             title and controls stay pinned so Back/Next are always in the box. */}
@@ -282,17 +291,22 @@ export function TourOverlay() {
           {isSingle ? (
             <span />
           ) : (
-            <div className="flex min-w-0 items-center gap-1.5 overflow-hidden" aria-hidden="true">
-              {steps.map((_, i) => (
-                <span
-                  key={i}
-                  className={
-                    i === stepIndex
-                      ? 'h-1.5 w-4 shrink-0 rounded-full bg-primary transition-all'
-                      : 'h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground/30 transition-all'
-                  }
-                />
-              ))}
+            <div className="flex min-w-0 items-center gap-2 overflow-hidden" aria-hidden="true">
+              <span className="shrink-0 text-xs tabular-nums text-muted-foreground">
+                {stepIndex + 1}/{steps.length}
+              </span>
+              <div className="flex min-w-0 items-center gap-1.5 overflow-hidden">
+                {steps.map((_, i) => (
+                  <span
+                    key={i}
+                    className={
+                      i === stepIndex
+                        ? 'h-1.5 w-4 shrink-0 rounded-full bg-primary transition-all'
+                        : 'h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground/30 transition-all'
+                    }
+                  />
+                ))}
+              </div>
             </div>
           )}
           <div className="flex shrink-0 gap-2">
