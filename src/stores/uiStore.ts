@@ -55,6 +55,10 @@ interface UIState {
   documentGuideTab: 'finder' | 'browse' | 'examples' | 'features';
   /** 'share' | 'import' when open, null when closed */
   shareModal: 'share' | 'import' | null;
+  /** The header Save dropdown, controlled here so a guided walkthrough can hold
+   *  it open and spotlight the backup items inside it. Session-only. */
+  saveMenuOpen: boolean;
+  setSaveMenuOpen: (open: boolean) => void;
   setProfileModalOpen: (open: boolean) => void;
   setRestoreModalOpen: (open: boolean) => void;
   setShareModal: (mode: 'share' | 'import' | null) => void;
@@ -162,6 +166,8 @@ export const useUIStore = create<UIState>()(
       documentGuideOpen: false,
       documentGuideTab: 'browse',
       shareModal: null,
+      saveMenuOpen: false,
+      setSaveMenuOpen: (open) => set({ saveMenuOpen: open }),
       setProfileModalOpen: (open) => set({ profileModalOpen: open }),
       setRestoreModalOpen: (open) => set({ restoreModalOpen: open }),
       setShareModal: (mode) => set({ shareModal: mode }),

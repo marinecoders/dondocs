@@ -534,6 +534,10 @@ const openShareModal = () => useUIStore.getState().setShareModal('share');
 const closeShareModal = () => useUIStore.getState().setShareModal(null);
 const openTemplateLoader = () => useUIStore.getState().setTemplateLoaderOpen(true);
 const closeTemplateLoader = () => useUIStore.getState().setTemplateLoaderOpen(false);
+// The Save dropdown is store-controlled (Header refuses dismissals while a tour
+// runs), so a walkthrough can hold it open and spotlight the items inside it.
+const openSaveMenu = () => useUIStore.getState().setSaveMenuOpen(true);
+const closeSaveMenu = () => useUIStore.getState().setSaveMenuOpen(false);
 
 // Expand an inline accordion section (Enclosures, etc.) so a guided step can
 // spotlight a control inside it. Clicks the section trigger only when it is
@@ -801,12 +805,26 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="save"]',
         title: 'Your safety net',
-        body: 'Everything lives in this browser — so keep a copy outside it. Open the Save menu and choose "Back up everything" to download one file with your whole account.',
+        body: 'Everything lives in this browser — so keep a copy outside it. All the backup tools are in this Save menu.',
+        action: closeSaveMenu,
       },
       {
-        target: '[data-tour="save"]',
+        target: '[data-tour="backup-export"]',
+        title: 'Back up everything',
+        body: 'Downloads one file with your whole account — documents, profiles, signatures, snippets, templates, form fields, and enclosure attachments. Keep it on a shared drive, USB stick, or synced folder.',
+        action: openSaveMenu,
+      },
+      {
+        target: '[data-tour="backup-restore"]',
         title: 'Restore anywhere',
-        body: '"Restore from backup" merges that file back in — on this machine or a brand-new one — without overwriting anything newer. On desktop Chrome or Edge, "Set up auto-backup" mirrors the file automatically after every save.',
+        body: 'Merges a backup file back in — on this machine or a brand-new one — without overwriting anything newer.',
+        action: openSaveMenu,
+      },
+      {
+        target: '[data-tour="backup-auto"]',
+        title: 'Set it and forget it',
+        body: 'On desktop Chrome or Edge, auto-backup mirrors your account to a file of your choosing after every save — drop it in a synced folder and it is always current.',
+        action: openSaveMenu,
       },
     ],
   },
