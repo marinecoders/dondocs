@@ -5,6 +5,22 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.28] — 2026-07-04
+
+### Fixed
+
+- The guided tour no longer spotlights controls that aren't on screen. The
+  appearance and help buttons are hidden below 1280px, so those two steps used
+  to fall back to a centered card describing invisible buttons; they're now
+  filtered out at narrower widths.
+
+### Accessibility
+
+- The guided tour announces each step to screen readers via a polite live
+  region ("Step 3 of 8: …") and shows a visible step counter next to the
+  progress dots. Previously the only progress indicator was the aria-hidden dot
+  row, so assistive tech got no notice when the step changed.
+
 ## [1.2.27] — 2026-07-04
 
 ### Fixed

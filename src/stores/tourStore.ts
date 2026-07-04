@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { TOUR_STEPS, type TourStep } from '@/components/tour/tourSteps';
+import { TOUR_STEPS, visibleTourSteps, type TourStep } from '@/components/tour/tourSteps';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 
 const TOUR_STORAGE_KEY = 'dondocs-tour-completed';
@@ -63,7 +63,9 @@ export const useTourStore = create<TourState>((set, get) => ({
     clearBodyPointerLock();
     // completionKey so finishing the intro tour (reaching the last step) credits
     // the checklist's "Take the guided tour" step — skipping/× does not.
-    set({ active: true, stepIndex: 0, steps: TOUR_STEPS, markOnEnd: true, completionKey: GUIDED_TOUR_KEY });
+    // Filter to steps whose target is present so narrow layouts (where the
+    // appearance/help buttons are hidden) don't spotlight invisible controls.
+    set({ active: true, stepIndex: 0, steps: visibleTourSteps(TOUR_STEPS), markOnEnd: true, completionKey: GUIDED_TOUR_KEY });
   },
   startSteps: (steps, completionKey) => {
     if (steps.length === 0) return;
