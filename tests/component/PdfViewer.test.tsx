@@ -167,4 +167,74 @@ describe('PdfViewer', () => {
       expect(after).toBeGreaterThan(before);
     });
   });
+
+  // ── Keyboard access (audit HIGH: the document was pointer-only) ───────────
+  describe('keyboard access', () => {
+    const getRegion = async () => {
+      await waitFor(() => expect(screen.getByRole('region', { name: /PDF document/ })).toBeTruthy());
+      return screen.getByRole('region', { name: /PDF document/ });
+    };
+
+    it('the document region is focusable and announces its key bindings', async () => {
+      renderViewer('blob:test/kb1');
+      const region = await getRegion();
+      expect(region.tabIndex).toBe(0);
+      expect(region.getAttribute('aria-label')).toMatch(/plus and minus zoom/);
+      expect(region.getAttribute('aria-label')).toMatch(/Space scroll/);
+    });
+
+    it('+ / - / 0 drive zoom from the keyboard', async () => {
+      const { container } = renderViewer('blob:test/kb2');
+      const region = await getRegion();
+      await waitFor(() => expect(container.querySelector('[data-testid="page:1"]')).toBeTruthy());
+      const width = () => Number(container.querySelector('[data-testid="page:1"]')!.getAttribute('data-width'));
+      const fit = width();
+
+      // Two steps up (a single '+' from the tiny happy-dom fit width lands on
+      // the ladder's FLOOR step, where '-' would clamp in place).
+      fireEvent.keyDown(region, { key: '+' });
+      fireEvent.keyDown(region, { key: '+' });
+      await waitFor(() => expect(width()).toBeGreaterThan(fit));
+      const zoomed = width();
+
+      fireEvent.keyDown(region, { key: '-' });
+      await waitFor(() => expect(width()).toBeLessThan(zoomed));
+
+      fireEvent.keyDown(region, { key: '0' }); // back to fit-width
+      await waitFor(() => expect(width()).toBe(fit));
+    });
+
+    it('PageDown / Home navigate pages via the active layer', async () => {
+      const { container } = renderViewer('blob:test/kb3');
+      const region = await getRegion();
+      // Wait for the PROMOTED layer's page render, not just the meta ('of 2'
+      // appears during pre-render, before activeLayerRef is populated).
+      await waitFor(() => expect(container.querySelector('[data-testid="page:1"]')).toBeTruthy());
+
+      const scrollCalls: Array<{ top?: number }> = [];
+      (Element.prototype as { scrollTo: (o: { top?: number }) => void }).scrollTo = function (o) {
+        scrollCalls.push(o);
+      };
+      fireEvent.keyDown(region, { key: 'PageDown' });
+      expect(scrollCalls.length).toBeGreaterThan(0);
+      expect(scrollCalls[scrollCalls.length - 1].top).toBeGreaterThan(0); // page 2 band
+
+      fireEvent.keyDown(region, { key: 'Home' });
+      // Page 1's band top = layer pad minus the page gap (~8px), not exactly 0.
+      expect(scrollCalls[scrollCalls.length - 1].top).toBeLessThan(24);
+      expect(container).toBeTruthy();
+    });
+
+    it('modifier chords pass through untouched (browser shortcuts keep working)', async () => {
+      const { container } = renderViewer('blob:test/kb4');
+      const region = await getRegion();
+      await waitFor(() => expect(container.querySelector('[data-testid="page:1"]')).toBeTruthy());
+      const before = Number(container.querySelector('[data-testid="page:1"]')!.getAttribute('data-width'));
+
+      // Ctrl+'+' must NOT be handled here (that's the browser's page zoom).
+      const handled = !fireEvent.keyDown(region, { key: '+', ctrlKey: true });
+      expect(handled).toBe(false); // not preventDefault'ed
+      expect(Number(container.querySelector('[data-testid="page:1"]')!.getAttribute('data-width'))).toBe(before);
+    });
+  });
 });

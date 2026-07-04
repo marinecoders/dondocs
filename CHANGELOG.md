@@ -5,6 +5,17 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.16] — 2026-07-04
+
+### Added
+
+- The PDF preview is fully keyboard-accessible. Keyboard users could reach
+  its toolbar but never scroll or navigate the document itself; the viewer
+  is now focusable with arrow keys to scroll, Page Up/Down to change pages,
+  Home/End for first/last page, `+`/`-` to zoom, and `0` to fit the width —
+  plus Ctrl/⌘ + scroll (and trackpad pinch) to zoom, matching every desktop
+  PDF reader.
+
 ## [1.2.15] — 2026-07-03
 
 ### Added
