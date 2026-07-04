@@ -7,8 +7,16 @@
          The PNG is rasterized from icon.svg at build time (generate-icons.mjs)
          so the home-screen icon can never drift from the brand mark. -->
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- The standard meta first; the apple- variant alone triggers a Chrome
+         deprecation warning. -->
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- "default" (opaque bar, theme-adaptive text), NOT "black-translucent":
+         translucent makes the installed app full-bleed with white status text,
+         and the shell has no safe-area-inset-top handling — the header would
+         render under the notch and the clock would vanish on the light canvas.
+         Revisit alongside top safe-area support. -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="DonDocs" />
     <!-- Preload the welcome-letter artwork so it paints with the text instead
          of popping in a beat later (shown the moment a new user lands; the
