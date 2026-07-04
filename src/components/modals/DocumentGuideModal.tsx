@@ -675,7 +675,7 @@ const POWER_FEATURES: PowerFeature[] = [
     where: 'Enclosures section',
     body: 'Attach PDF enclosures. They are listed on the letter and merged into the final PDF automatically.',
     steps: [
-      'Open the Enclosures section and click Add Enclosure.',
+      'Open the Enclosures section and click Add enclosure.',
       'Title it, and optionally attach a PDF (drag and drop works).',
       'Attached PDFs merge into the export, in order, after the letter.',
     ],
@@ -688,7 +688,7 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="enclosure-add"]',
         title: 'Add an enclosure',
-        body: 'Click Add Enclosure and give it a title. It is listed on the letter automatically.',
+        body: 'Click Add enclosure and give it a title. It is listed on the letter automatically.',
         action: () => expandSection('enclosures'),
       },
       {

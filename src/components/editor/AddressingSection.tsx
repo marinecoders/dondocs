@@ -426,7 +426,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                     disabled={viaLines.length >= 4}
                   >
                     <Plus className="h-4 w-4 mr-1" />
-                    Add Via
+                    Add via
                   </Button>
                 </div>
                 <DndContext

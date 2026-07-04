@@ -5,6 +5,16 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.33] — 2026-07-04
+
+### Changed
+
+- Button labels now use consistent sentence case. The editor add-buttons ("Add
+  reference", "Add enclosure", "Add via", "Add recipient", "Add action
+  addressee") and the reset/clear/restore dialog actions ("Reset everything",
+  "Clear fields", "Start fresh", "Restore session") were a mix of Title Case
+  and sentence case; they now all follow sentence case, matching the Save menu.
+
 ## [1.2.32] — 2026-07-04
 
 ### Accessibility
