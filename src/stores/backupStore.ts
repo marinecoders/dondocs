@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 import {
-  idbGetAllDocuments,
   idbGetBackupHandle,
   idbSetBackupHandle,
   idbClearBackupHandle,
 } from '@/lib/documentsDb';
+import { buildBackup } from '@/lib/backup';
 import { debug } from '@/lib/debug';
 
 /**
@@ -14,11 +14,16 @@ import { debug } from '@/lib/debug';
  * file, so it's always the latest copy — drop it in a synced folder for
  * cross-machine backup, all without a server.
  *
+ * The mirror is a full-account bundle (the same one "Back up everything"
+ * downloads): documents, profiles + signatures, snippets, user templates, the
+ * live NAVMC form fields, and enclosure file bytes. A restore from this file
+ * therefore brings back everything, not just documents.
+ *
  * Chromium-desktop only. Elsewhere the status is 'unsupported' and the manual
- * "Back up all documents" export remains the fallback. Browsers require a fresh
+ * "Back up everything" export remains the fallback. Browsers require a fresh
  * user gesture to re-grant write access after a full restart ('needs-permission').
  * 'error' = the file can't be written (moved/deleted/locked/disk-full) or the
- * registry can't be read — surfaced instead of silently letting the mirror go
+ * account can't be read — surfaced instead of silently letting the mirror go
  * stale; later saves keep retrying and a success flips back to 'connected'.
  */
 export type BackupStatus = 'off' | 'connected' | 'needs-permission' | 'error' | 'unsupported';
@@ -41,14 +46,21 @@ async function requestPerm(handle: FileSystemFileHandle): Promise<PermState> {
   return h.requestPermission ? h.requestPermission({ mode: 'readwrite' }) : 'granted';
 }
 
-// Same shape exportLibrary() writes, built here to avoid importing documentsStore
-// (which imports this module) — a leaf dependency on documentsDb instead.
-// Returns null when the registry can't be read: mirroring a failed read would
-// overwrite the user's one external safety copy with an empty library.
-async function buildLibraryJson(): Promise<string | null> {
-  const records = await idbGetAllDocuments();
-  if (records === null) return null;
-  return JSON.stringify({ kind: 'dondocs-library', version: 1, docs: records });
+// The full-account bundle to mirror. buildBackup() throws when the account can't
+// be read (e.g. an unreadable registry) — we convert that to null so the caller
+// SKIPS the write: mirroring a failed read would overwrite the user's one
+// external safety copy with an incomplete/empty file.
+//
+// Runtime-only import cycle (backupStore → backup → documentsStore → backupStore):
+// every edge is called from inside a function, never at module init, so the
+// modules initialize cleanly.
+async function buildBackupJson(): Promise<string | null> {
+  try {
+    return await buildBackup();
+  } catch (err) {
+    debug.error('Backup', 'account read failed — skipped backup write', err);
+    return null;
+  }
 }
 
 async function writeToHandle(handle: FileSystemFileHandle, json: string): Promise<void> {
@@ -97,8 +109,8 @@ export const useBackupStore = create<BackupState>((set, get) => ({
         showSaveFilePicker: (o: unknown) => Promise<FileSystemFileHandle>;
       }).showSaveFilePicker;
       const handle = await picker({
-        suggestedName: 'dondocs-library.json',
-        types: [{ description: 'DonDocs library', accept: { 'application/json': ['.json'] } }],
+        suggestedName: 'dondocs-backup.json',
+        types: [{ description: 'DonDocs backup', accept: { 'application/json': ['.json'] } }],
       });
       handleRef = handle;
       await idbSetBackupHandle(handle);
@@ -139,11 +151,10 @@ export const useBackupStore = create<BackupState>((set, get) => ({
         set({ status: 'needs-permission' });
         return;
       }
-      const json = await buildLibraryJson();
+      const json = await buildBackupJson();
       if (json === null) {
-        // Registry read failed — keep the existing backup file intact and do NOT
+        // Account read failed — keep the existing backup file intact and do NOT
         // advance lastBackupAt; claiming success here would be a lie.
-        debug.error('Backup', 'library read failed — skipped backup write');
         set({ status: 'error' });
         return;
       }

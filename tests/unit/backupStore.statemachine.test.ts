@@ -9,11 +9,17 @@ const setHandle = vi.fn(async () => true);
 const clearHandle = vi.fn(async () => {});
 
 vi.mock('@/lib/documentsDb', () => ({
-  idbGetAllDocuments: vi.fn(async () => []),
   idbGetBackupHandle: vi.fn(async () => backupHandle),
   idbSetBackupHandle: (...a: unknown[]) => setHandle(...(a as [])),
   idbClearBackupHandle: (...a: unknown[]) => clearHandle(...(a as [])),
 }));
+
+// The mirror content comes from buildBackup(); mock it so the state-machine test
+// stays about permissions/writes, decoupled from what a real backup contains.
+const buildBackup = vi.fn(async () =>
+  JSON.stringify({ kind: 'dondocs-backup', version: 3, documents: [], attachments: [] })
+);
+vi.mock('@/lib/backup', () => ({ buildBackup: () => buildBackup() }));
 
 interface FakeHandle {
   name: string;
@@ -84,6 +90,30 @@ describe('backupStore permission state machine', () => {
     expect(picker).toHaveBeenCalledTimes(1);
     expect(store.getState().status).toBe('connected');
     expect(handle.writes).toHaveLength(1); // seeded on connect
+  });
+
+  it('mirrors a full-account backup bundle, not a docs-only library', async () => {
+    const handle = makeHandle('granted');
+    const store = await loadStore(vi.fn(async () => handle));
+    await store.getState().setupBackup();
+    expect(buildBackup).toHaveBeenCalled();
+    expect(JSON.parse(handle.writes[0]).kind).toBe('dondocs-backup'); // not 'dondocs-library'
+  });
+
+  it('skips the write (and keeps the file intact) when the account can not be read', async () => {
+    const handle = makeHandle('granted');
+    const store = await loadStore(vi.fn(async () => handle));
+    await store.getState().setupBackup(); // connected + one seed write
+    const seededWrites = handle.writes.length;
+    const before = store.getState().lastBackupAt;
+
+    // buildBackup throws (e.g. unreadable registry): mirroring now would overwrite
+    // the one external safety copy with an incomplete file — so we must not write.
+    buildBackup.mockRejectedValueOnce(new Error('registry unreadable'));
+    await store.getState().writeNow();
+    expect(store.getState().status).toBe('error');
+    expect(handle.writes).toHaveLength(seededWrites); // no overwrite
+    expect(store.getState().lastBackupAt).toBe(before); // no fake success stamp
   });
 
   it('writeNow flips to needs-permission when permission was revoked between saves', async () => {
