@@ -5,6 +5,16 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.30] — 2026-07-04
+
+### Changed
+
+- The command palette's selected row now uses a neutral selection tint instead
+  of a saturated brand fill. Arrow-keying through results previously flooded
+  each row with the brand accent (navy, gold, or dress-blue depending on
+  scheme); it now uses the same quiet accent wash as every other menu, keeping
+  saturated color for genuine emphasis.
+
 ## [1.2.29] — 2026-07-04
 
 ### Fixed
