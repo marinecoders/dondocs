@@ -17,6 +17,9 @@ import {
   idbDeleteDocument,
   idbGetAllAttachments,
   idbDeleteAttachment,
+  idbAddSnapshot,
+  idbGetSnapshots,
+  idbDeleteSnapshots,
 } from '@/lib/documentsDb';
 import { useProfileStore } from '@/stores/profileStore';
 import { useSnippetsStore } from '@/stores/snippetsStore';
@@ -71,7 +74,10 @@ async function wipeEverything(): Promise<void> {
   }));
   useDocumentsStore.setState({ docs: {}, currentId: null, hydrated: true });
   for (const a of (await idbGetAllAttachments()) ?? []) await idbDeleteAttachment(a.id);
-  for (const d of (await idbGetAllDocuments()) ?? []) await idbDeleteDocument(d.id);
+  for (const d of (await idbGetAllDocuments()) ?? []) {
+    await idbDeleteSnapshots(d.id);
+    await idbDeleteDocument(d.id);
+  }
 }
 
 describe('full-account backup round-trip (saves EVERYTHING)', () => {
@@ -176,5 +182,72 @@ describe('full-account backup round-trip (saves EVERYTHING)', () => {
     const result = await restoreBackup(json);
     expect(result.profilesAdded).toBe(0); // collision → no add
     expect(useProfileStore.getState().profiles['Test CO'].sigTitle).toBe('EDITED LOCALLY'); // local wins
+  });
+
+  it('backs up and restores version-history snapshots, incl. an attachment only a snapshot references', async () => {
+    await wipeEverything();
+    for (const d of (await idbGetAllDocuments()) ?? []) await idbDeleteSnapshots(d.id);
+
+    // An attachment referenced ONLY by an old snapshot (the current doc points at
+    // nothing) — this is the blob the GC keeps alive and the backup must carry so
+    // the restored history can rehydrate its file.
+    const snapBytes = new Uint8Array([9, 8, 7]);
+    const snapRef = await persistAttachment({ name: 'v1.pdf', size: 3, type: 'application/pdf' }, snapBytes.buffer);
+
+    useDocumentsStore.setState({
+      hydrated: true,
+      currentId: 'doc-h',
+      docs: {
+        'doc-h': {
+          meta: { id: 'doc-h', title: 'History Doc', docType: 'naval_letter', updatedAt: 10 },
+          session: session({ formData: { subject: 'CURRENT STATE' } }), // no enclosures now
+        },
+      },
+    });
+    // Two version-history entries; the older one referenced snapRef's file.
+    await idbAddSnapshot('doc-h', { ts: 100, session: session({ formData: { subject: 'EARLIER DRAFT' } }) });
+    await idbAddSnapshot('doc-h', {
+      ts: 200,
+      session: session({ formData: { subject: 'MID DRAFT' }, enclosures: [{ title: 'Draft encl', hasFile: true, fileRef: snapRef }] }),
+    });
+
+    // ── Build: bundle carries the ring AND the snapshot-only attachment ──
+    const json = await buildBackup();
+    const bundle = JSON.parse(json);
+    expect(bundle.version).toBe(4);
+    expect(bundle.snapshots['doc-h']).toHaveLength(2);
+    expect(bundle.attachments.map((a: { id: string }) => a.id)).toContain(snapRef.id);
+
+    // ── Wipe (incl. snapshots) then restore ──
+    await wipeEverything();
+    await idbDeleteSnapshots('doc-h');
+    expect(await idbGetSnapshots('doc-h')).toEqual([]);
+
+    const result = await restoreBackup(json);
+    expect(result.snapshotDocs).toBe(1);
+    const ring = await idbGetSnapshots('doc-h');
+    expect(ring).toHaveLength(2);
+    expect(ring.map((s) => s.ts).sort((a, b) => a - b)).toEqual([100, 200]);
+    // the snapshot-only enclosure's bytes are back
+    expect(await loadAttachment(snapRef.id)).not.toBeNull();
+  });
+
+  it('a v3 bundle (no snapshots field) still restores cleanly', async () => {
+    await wipeEverything();
+    useDocumentsStore.setState({ hydrated: true, currentId: null, docs: {} });
+    const v3 = JSON.stringify({
+      kind: 'dondocs-backup',
+      version: 3,
+      documents: [{ id: 'v3-1', meta: { id: 'v3-1', title: 'Legacy v3', docType: 'naval_letter', updatedAt: 5 }, session: session() }],
+      profiles: { profiles: {}, selectedProfile: null },
+      forms: { navmc10274: null, navmc11811: null },
+      snippets: [],
+      userTemplates: {},
+      attachments: [],
+      // no `snapshots` field
+    });
+    const result = await restoreBackup(v3);
+    expect(result.documents.imported).toBe(1);
+    expect(result.snapshotDocs).toBe(0);
   });
 });

@@ -20,13 +20,22 @@ import { useProfileStore } from '@/stores/profileStore';
 import { useFormStore } from '@/stores/formStore';
 import { useSnippetsStore, type Snippet } from '@/stores/snippetsStore';
 import { useUserTemplatesStore, type UserTemplate } from '@/stores/userTemplatesStore';
-import { idbGetAttachment, idbPutAttachment, type StoredAttachment } from '@/lib/documentsDb';
+import {
+  idbGetAttachment,
+  idbPutAttachment,
+  idbGetSnapshots,
+  idbSetSnapshots,
+  MAX_SNAPSHOTS,
+  type StoredAttachment,
+  type DocSnapshot,
+} from '@/lib/documentsDb';
 import { uint8ArrayToBase64, base64ToUint8Array, arrayBufferToUint8Array } from '@/lib/encoding';
 
 export const BACKUP_KIND = 'dondocs-backup';
-// v3 adds `attachments` (enclosure file bytes). Restore branches on `kind`, not
-// version, so a v2 bundle (no attachments) still restores cleanly.
-export const BACKUP_VERSION = 3;
+// v4 adds `snapshots` (per-document version history). v3 added `attachments`.
+// Restore branches on `kind` and on field PRESENCE, not version, so a v2 (no
+// attachments) or v3 (no snapshots) bundle still restores cleanly.
+export const BACKUP_VERSION = 4;
 const LIBRARY_KIND = 'dondocs-library'; // legacy docs-only file
 
 /** An enclosure blob embedded in the bundle; `data` is base64 of the raw bytes. */
@@ -48,6 +57,8 @@ export interface BackupBundle {
   snippets: Snippet[];
   userTemplates: Record<string, UserTemplate>;
   attachments: BackupAttachment[];
+  /** Per-document version-history rings, keyed by document id. */
+  snapshots: Record<string, DocSnapshot[]>;
 }
 
 export interface RestoreResult {
@@ -57,6 +68,8 @@ export interface RestoreResult {
   templatesAdded: number;
   formsRestored: boolean;
   attachmentsAdded: number;
+  /** Number of documents whose version history was restored. */
+  snapshotDocs: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -116,6 +129,29 @@ export function collectAttachmentIds(docs: unknown[]): string[] {
   return [...ids];
 }
 
+/**
+ * Non-destructive merge of two version-history rings for one document: union by
+ * timestamp (the capture instant is the identity), newest-first, capped at
+ * MAX_SNAPSHOTS. Restoring a backup adds its history WITHOUT dropping any local
+ * snapshots you've taken since — same philosophy as every other merge here. A
+ * timestamp present in both keeps the local copy (backup can't clobber newer
+ * work). Malformed entries (no numeric ts) are dropped.
+ */
+export function mergeSnapshots(
+  current: DocSnapshot[] | undefined | null,
+  backup: DocSnapshot[] | undefined | null,
+): DocSnapshot[] {
+  const byTs = new Map<number, DocSnapshot>();
+  // Backup first, then local — so a local snapshot at the same ts wins the slot.
+  for (const s of Array.isArray(backup) ? backup : []) {
+    if (s && typeof s.ts === 'number') byTs.set(s.ts, s);
+  }
+  for (const s of Array.isArray(current) ? current : []) {
+    if (s && typeof s.ts === 'number') byTs.set(s.ts, s);
+  }
+  return [...byTs.values()].sort((a, b) => b.ts - a.ts).slice(0, MAX_SNAPSHOTS);
+}
+
 /** Parse + shape-check a backup file; returns the discriminated kind. */
 export function classifyBackup(json: string): { kind: string; parsed: Record<string, unknown> } {
   let parsed: unknown;
@@ -142,11 +178,25 @@ export async function buildBackup(): Promise<string> {
   const libraryJson = await exportLibrary();
   const { docs } = JSON.parse(libraryJson) as { docs: unknown[] };
 
-  // Enclosure file bytes: pull exactly the blobs the backed-up documents point
-  // at, base64-encoded to ride inside the single JSON file (the same encoding
-  // the single-draft export already uses for enclosures).
+  // Per-document version history: pull each backed-up doc's snapshot ring so a
+  // restore on a fresh machine brings back "restore an earlier version", not
+  // just the current state.
+  const snapshots: Record<string, DocSnapshot[]> = {};
+  for (const doc of docs) {
+    const id = (doc as { id?: unknown })?.id;
+    if (typeof id !== 'string') continue;
+    const ring = await idbGetSnapshots(id);
+    if (ring.length) snapshots[id] = ring;
+  }
+
+  // Enclosure file bytes: pull exactly the blobs referenced by the backed-up
+  // documents AND by their snapshots (a snapshot can reference an attachment the
+  // current doc no longer does — that blob is kept alive by the GC and must ride
+  // along so the restored history can rehydrate its file). DocSnapshot has the
+  // same `.session.enclosures` shape collectAttachmentIds reads.
+  const snapshotEntries = Object.values(snapshots).flat();
   const attachments: BackupAttachment[] = [];
-  for (const id of collectAttachmentIds(docs)) {
+  for (const id of collectAttachmentIds([...docs, ...snapshotEntries])) {
     const rec = await idbGetAttachment(id);
     if (!rec) continue; // a missing blob just means that enclosure won't restore its file
     attachments.push({
@@ -170,6 +220,7 @@ export async function buildBackup(): Promise<string> {
     snippets: useSnippetsStore.getState().snippets,
     userTemplates: useUserTemplatesStore.getState().templates,
     attachments,
+    snapshots,
   };
   return JSON.stringify(bundle);
 }
@@ -206,7 +257,7 @@ async function runRestore(json: string): Promise<RestoreResult> {
   // Legacy docs-only file → delegate to the conflict-aware document merge.
   if (kind === LIBRARY_KIND) {
     const documents = await importLibrary(json);
-    return { documents, profilesAdded: 0, snippetsAdded: 0, templatesAdded: 0, formsRestored: false, attachmentsAdded: 0 };
+    return { documents, profilesAdded: 0, snippetsAdded: 0, templatesAdded: 0, formsRestored: false, attachmentsAdded: 0, snapshotDocs: 0 };
   }
 
   // Documents: importLibrary expects `{ docs }`; the v2 bundle stores them under
@@ -277,7 +328,22 @@ async function runRestore(json: string): Promise<RestoreResult> {
     }
   }
 
-  return { documents, profilesAdded, snippetsAdded, templatesAdded, formsRestored, attachmentsAdded };
+  // Version history: merge each backed-up ring into any local ring for that doc
+  // (never dropping local snapshots), then write it back. Absent on v2/v3
+  // bundles → skipped. Done after attachments so a restored snapshot's enclosure
+  // bytes are already on disk.
+  let snapshotDocs = 0;
+  const backupSnapshots = parsed.snapshots;
+  if (backupSnapshots && typeof backupSnapshots === 'object') {
+    for (const [docId, snaps] of Object.entries(backupSnapshots as Record<string, unknown>)) {
+      if (!Array.isArray(snaps)) continue;
+      const existing = await idbGetSnapshots(docId);
+      const merged = mergeSnapshots(existing, snaps as DocSnapshot[]);
+      if (merged.length && (await idbSetSnapshots(docId, merged))) snapshotDocs++;
+    }
+  }
+
+  return { documents, profilesAdded, snippetsAdded, templatesAdded, formsRestored, attachmentsAdded, snapshotDocs };
 }
 
 /** One-line human summary of a restore, for the save-status toast. */
@@ -288,6 +354,7 @@ export function summarizeRestore(r: RestoreResult): string {
   if (r.snippetsAdded) parts.push(`${r.snippetsAdded} snippet${r.snippetsAdded === 1 ? '' : 's'}`);
   if (r.templatesAdded) parts.push(`${r.templatesAdded} template${r.templatesAdded === 1 ? '' : 's'}`);
   if (r.attachmentsAdded) parts.push(`${r.attachmentsAdded} attachment${r.attachmentsAdded === 1 ? '' : 's'}`);
+  if (r.snapshotDocs) parts.push('version history');
   if (r.formsRestored) parts.push('form fields');
   const kept = r.documents.skipped > 0 ? ` · kept ${r.documents.skipped} newer` : '';
   return `Restored ${parts.join(', ')}${kept}`;

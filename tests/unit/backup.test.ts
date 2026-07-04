@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   mergeRecord,
   mergeById,
+  mergeSnapshots,
   classifyBackup,
   collectAttachmentIds,
   summarizeRestore,
@@ -76,16 +77,51 @@ describe('collectAttachmentIds', () => {
 describe('summarizeRestore', () => {
   it('lists only the buckets that changed', () => {
     expect(
-      summarizeRestore({ documents: { imported: 3, skipped: 1 }, profilesAdded: 2, snippetsAdded: 0, templatesAdded: 1, formsRestored: true, attachmentsAdded: 0 }),
+      summarizeRestore({ documents: { imported: 3, skipped: 1 }, profilesAdded: 2, snippetsAdded: 0, templatesAdded: 1, formsRestored: true, attachmentsAdded: 0, snapshotDocs: 0 }),
     ).toBe('Restored 3 docs, 2 profiles, 1 template, form fields · kept 1 newer');
     expect(
-      summarizeRestore({ documents: { imported: 1, skipped: 0 }, profilesAdded: 0, snippetsAdded: 0, templatesAdded: 0, formsRestored: false, attachmentsAdded: 0 }),
+      summarizeRestore({ documents: { imported: 1, skipped: 0 }, profilesAdded: 0, snippetsAdded: 0, templatesAdded: 0, formsRestored: false, attachmentsAdded: 0, snapshotDocs: 0 }),
     ).toBe('Restored 1 doc');
   });
 
   it('reports restored attachments', () => {
     expect(
-      summarizeRestore({ documents: { imported: 2, skipped: 0 }, profilesAdded: 0, snippetsAdded: 0, templatesAdded: 0, formsRestored: false, attachmentsAdded: 3 }),
+      summarizeRestore({ documents: { imported: 2, skipped: 0 }, profilesAdded: 0, snippetsAdded: 0, templatesAdded: 0, formsRestored: false, attachmentsAdded: 3, snapshotDocs: 0 }),
     ).toBe('Restored 2 docs, 3 attachments');
+  });
+
+  it('reports restored version history', () => {
+    expect(
+      summarizeRestore({ documents: { imported: 2, skipped: 0 }, profilesAdded: 0, snippetsAdded: 0, templatesAdded: 0, formsRestored: false, attachmentsAdded: 0, snapshotDocs: 2 }),
+    ).toBe('Restored 2 docs, version history');
+  });
+});
+
+describe('mergeSnapshots', () => {
+  const snap = (ts: number, subject = `s${ts}`) => ({ ts, session: { subject } }) as never;
+
+  it('unions two rings by timestamp, newest-first', () => {
+    const merged = mergeSnapshots([snap(3), snap(1)], [snap(2)]);
+    expect(merged.map((s: { ts: number }) => s.ts)).toEqual([3, 2, 1]);
+  });
+
+  it('keeps the LOCAL copy when a timestamp exists in both (backup cannot clobber)', () => {
+    const merged = mergeSnapshots([snap(5, 'local')], [snap(5, 'backup')]);
+    expect(merged).toHaveLength(1);
+    expect((merged[0].session as { subject: string }).subject).toBe('local');
+  });
+
+  it('caps at MAX_SNAPSHOTS (10), keeping the newest', () => {
+    const local = Array.from({ length: 8 }, (_, i) => snap(i + 1));
+    const backup = Array.from({ length: 8 }, (_, i) => snap(i + 101));
+    const merged = mergeSnapshots(local, backup);
+    expect(merged).toHaveLength(10);
+    expect(merged[0].ts).toBe(108); // newest backup
+    expect(merged.every((s: { ts: number }) => s.ts >= 99)).toBe(false); // some old dropped
+  });
+
+  it('tolerates null/undefined/malformed rings', () => {
+    expect(mergeSnapshots(null, undefined)).toEqual([]);
+    expect(mergeSnapshots([{ ts: 'x' } as never], [snap(2)]).map((s: { ts: number }) => s.ts)).toEqual([2]);
   });
 });
