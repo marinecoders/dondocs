@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.23] — 2026-07-04
+
+### Fixed
+
+- The required "Unit Name" letterhead field now shows a red asterisk and,
+  when validation flags it empty, a visible "Unit name is required" message
+  wired to the input via `aria-describedby` — previously it only painted the
+  invalid ring, leaving both sighted and screen-reader users without a remedy.
+
 ## [1.2.22] — 2026-07-04
 
 ### Fixed
