@@ -5,6 +5,17 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.15] — 2026-07-03
+
+### Added
+
+- Phones finally get the getting-started checklist. It was desktop-only —
+  the floating launcher collides with the mobile Preview button, so mobile
+  hid it entirely and the menu's "Getting started" item silently did
+  nothing. On mobile it now opens as a bottom sheet with the same steps
+  (tour, profile, first document, back up, install, power features),
+  closing itself when a step opens its surface.
+
 ## [1.2.14] — 2026-07-03
 
 ### Fixed

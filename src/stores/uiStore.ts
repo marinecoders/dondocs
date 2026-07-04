@@ -59,6 +59,11 @@ interface UIState {
    *  it open and spotlight the backup items inside it. Session-only. */
   saveMenuOpen: boolean;
   setSaveMenuOpen: (open: boolean) => void;
+  /** Mobile-only getting-started sheet (the floating checklist card collides
+   *  with the Preview FAB on phones, so mobile gets a bottom sheet opened from
+   *  the menu instead). Session-only. */
+  checklistSheetOpen: boolean;
+  setChecklistSheetOpen: (open: boolean) => void;
   setProfileModalOpen: (open: boolean) => void;
   setRestoreModalOpen: (open: boolean) => void;
   setShareModal: (mode: 'share' | 'import' | null) => void;
@@ -168,6 +173,8 @@ export const useUIStore = create<UIState>()(
       shareModal: null,
       saveMenuOpen: false,
       setSaveMenuOpen: (open) => set({ saveMenuOpen: open }),
+      checklistSheetOpen: false,
+      setChecklistSheetOpen: (open) => set({ checklistSheetOpen: open }),
       setProfileModalOpen: (open) => set({ profileModalOpen: open }),
       setRestoreModalOpen: (open) => set({ restoreModalOpen: open }),
       setShareModal: (mode) => set({ shareModal: mode }),
