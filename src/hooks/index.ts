@@ -4,3 +4,4 @@ export { useLatexEngine } from './useLatexEngine';
 export { useStatusMessage } from './useStatusMessage';
 export { useServiceWorker } from './useServiceWorker';
 export { useReducedMotion } from './useReducedMotion';
+export { useInstallPrompt, promptInstall, isInstallRelevant } from './useInstallPrompt';

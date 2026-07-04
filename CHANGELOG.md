@@ -5,6 +5,21 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.12] — 2026-07-03
+
+### Added
+
+- DonDocs can now invite you to install it. Installing was always possible
+  but the app never offered: Help (and the mobile menu) gain an
+  **"Install app"** entry, a slim dismissible strip suggests installing where
+  it's actually possible (never a dead button — snoozes for two weeks, gone
+  forever once installed), and the getting-started checklist gains an
+  "Install the app" step. On Chrome/Edge the native install dialog opens
+  directly; everywhere else a short guide shows the exact steps for the
+  device — including iOS's Share → Add to Home Screen, which Safari never
+  offers on its own. The Android install splash now matches the app canvas
+  instead of flashing white. Everything is on-device; no network calls.
+
 ## [1.2.11] — 2026-07-03
 
 ### Added

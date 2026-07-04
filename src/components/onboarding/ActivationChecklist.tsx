@@ -8,6 +8,7 @@ import {
   UserPlus,
   FileText,
   FolderSync,
+  MonitorDown,
   Compass,
   CheckCircle2,
   type LucideIcon,
@@ -17,6 +18,8 @@ import { ProgressRing } from './ProgressRing';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { useProfileStore } from '@/stores/profileStore';
 import { useBackupStore } from '@/stores/backupStore';
+import { useInstallStore } from '@/stores/installStore';
+import { promptInstall, isInstallRelevant } from '@/hooks/useInstallPrompt';
 import { useTourStore, GUIDED_TOUR_KEY } from '@/stores/tourStore';
 import { useUIStore } from '@/stores/uiStore';
 
@@ -52,6 +55,8 @@ export function ActivationChecklist() {
   const completed = useOnboardingStore((s) => s.completed);
   const profiles = useProfileStore((s) => s.profiles);
   const backupStatus = useBackupStore((s) => s.status);
+  const canInstall = useInstallStore((s) => s.canInstall);
+  const isInstalled = useInstallStore((s) => s.isInstalled);
   const dismissed = useOnboardingStore((s) => s.checklistDismissed);
   const celebrated = useOnboardingStore((s) => s.checklistCelebrated);
   const setDismissed = useOnboardingStore((s) => s.setChecklistDismissed);
@@ -115,6 +120,20 @@ export function ActivationChecklist() {
         useUIStore.getState().setDocumentGuideOpen(true);
       },
     },
+    // Only where installing is actually possible (captured prompt, iOS's
+    // manual path, or already done) — a platform that can't install must not
+    // carry a forever-incomplete step that blocks the celebration.
+    ...(isInstalled || isInstallRelevant(canInstall, isInstalled)
+      ? [
+          {
+            glyph: MonitorDown,
+            title: 'Install the app',
+            sub: 'One-tap offline access from its own icon',
+            done: isInstalled,
+            action: () => void promptInstall(),
+          } satisfies ChecklistRow,
+        ]
+      : []),
     {
       glyph: Compass,
       title: 'Explore the power features',

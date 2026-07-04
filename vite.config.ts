@@ -232,7 +232,9 @@ export default defineConfig({
         // Matches index.html's light theme-color meta (the manifest can't be
         // media-queried, so it carries the light value; the metas handle dark).
         theme_color: '#f1f6fa',
-        background_color: '#ffffff',
+        // Android's install splash background — match the app canvas so launch
+        // doesn't flash pure white before first paint.
+        background_color: '#f1f6fa',
         display: 'standalone',
         orientation: 'portrait',
         scope: '/',

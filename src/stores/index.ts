@@ -10,3 +10,4 @@ export { useHistoryStore, type DocumentSnapshot } from './historyStore';
 export { useLogStore, type LogEntry } from './logStore';
 export { useProfileStore } from './profileStore';
 export { useUIStore, type DensityMode, type ColorScheme } from './uiStore';
+export { useInstallStore } from './installStore';
