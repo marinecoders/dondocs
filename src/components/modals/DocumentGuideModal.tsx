@@ -123,7 +123,7 @@ function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) =>
               <button
                 key={rec.docType}
                 onClick={() => onSelectGuide(rec.docType)}
-                className={`w-full text-left p-4 rounded-lg border transition-all hover:border-primary hover:bg-accent/50 ${
+                className={`focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 w-full text-left p-4 rounded-lg border transition-all hover:border-primary hover:bg-accent/50 ${
                   index === 0 ? 'border-primary bg-primary/5 ring-2 ring-primary/20' : ''
                 }`}
               >
@@ -208,7 +208,7 @@ function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) =>
           <button
             key={option.value}
             onClick={() => handleAnswer(question.id, option.value)}
-            className="w-full text-left p-4 rounded-lg border hover:border-primary hover:bg-accent/50 transition-all group"
+            className="focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 w-full text-left p-4 rounded-lg border hover:border-primary hover:bg-accent/50 transition-all group"
           >
             <div className="flex items-center gap-3">
               <div className="flex-1 min-w-0">
@@ -249,7 +249,7 @@ function GuideCard({ guide, isExpanded, onToggle }: {
     <div className="border rounded-lg overflow-hidden bg-card transition-all">
       <button
         onClick={onToggle}
-        className="w-full text-left p-4 hover:bg-accent/50 transition-colors"
+        className="focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 w-full text-left p-4 hover:bg-accent/50 transition-colors"
       >
         <div className="flex items-start gap-3">
           <DocIcon id={guide.id} className="h-5 w-5 shrink-0 text-muted-foreground mt-0.5" />
@@ -457,7 +457,7 @@ function ExamplesTab({ onClose }: { onClose: () => void }) {
               <button
                 key={example.id}
                 onClick={() => setSelectedExample(example)}
-                className={`w-full text-left p-4 rounded-lg border transition-colors ${
+                className={`focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 w-full text-left p-4 rounded-lg border transition-colors ${
                   selectedExample?.id === example.id
                     ? 'border-primary bg-primary/5'
                     : 'border-border hover:border-primary/50 hover:bg-accent/50'
@@ -912,7 +912,7 @@ export function DocumentGuideModal() {
           <div className="flex gap-1 p-1 bg-muted rounded-lg">
             <button
               onClick={() => setActiveTab('browse')}
-              className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              className={`focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                 activeTab === 'browse' || activeTab === 'finder'
                   ? 'bg-background text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
@@ -923,7 +923,7 @@ export function DocumentGuideModal() {
             </button>
             <button
               onClick={() => setActiveTab('examples')}
-              className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              className={`focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                 activeTab === 'examples'
                   ? 'bg-background text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
@@ -935,7 +935,7 @@ export function DocumentGuideModal() {
             </button>
             <button
               onClick={() => setActiveTab('features')}
-              className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              className={`focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                 activeTab === 'features'
                   ? 'bg-background text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
@@ -953,7 +953,7 @@ export function DocumentGuideModal() {
             <button
               type="button"
               onClick={() => setActiveTab('browse')}
-              className="flex items-center gap-1.5 px-4 pt-4 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 flex items-center gap-1.5 px-4 pt-4 text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               <ChevronLeft className="h-4 w-4" />
               Back to browse
@@ -994,7 +994,7 @@ export function DocumentGuideModal() {
                       type="button"
                       onClick={() => setExpandedFeature(isOpen ? null : f.title)}
                       aria-expanded={isOpen}
-                      className="w-full flex items-start gap-2.5 p-3 text-left hover:bg-muted/40 transition-colors"
+                      className="focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 w-full flex items-start gap-2.5 p-3 text-left hover:bg-muted/40 transition-colors"
                     >
                       {isLearned ? (
                         <span
@@ -1038,7 +1038,7 @@ export function DocumentGuideModal() {
                         <button
                           type="button"
                           onClick={() => handleShowMe(f.tour, f.key)}
-                          className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
+                          className="focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
                         >
                           <MapPin className="h-3.5 w-3.5" />
                           {f.tour.length > 1 ? 'Walk me through it' : 'Show me where'}
@@ -1078,7 +1078,7 @@ export function DocumentGuideModal() {
                             setSelectedCategory(null);
                             setExpandedGuide(null);
                           }}
-                          className="w-full text-left p-6 rounded-lg border-2 hover:border-primary hover:bg-accent/50 transition-all group"
+                          className="focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 w-full text-left p-6 rounded-lg border-2 hover:border-primary hover:bg-accent/50 transition-all group"
                         >
                           <div className="flex items-center gap-4">
                             {(() => { const GI = GROUP_ICONS[group.id] ?? FileText; return <GI className="h-8 w-8 shrink-0 text-primary" aria-hidden="true" />; })()}
@@ -1101,7 +1101,7 @@ export function DocumentGuideModal() {
                     <button
                       type="button"
                       onClick={() => setActiveTab('finder')}
-                      className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      className="focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
                     >
                       <Sparkles className="h-4 w-4 text-primary" />
                       Not sure which to use? Answer a few questions
@@ -1120,7 +1120,7 @@ export function DocumentGuideModal() {
                       setSelectedCategory(null);
                       setExpandedGuide(null);
                     }}
-                    className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
                     <ChevronRight className="h-4 w-4 rotate-180" />
                     Back to categories
@@ -1131,7 +1131,7 @@ export function DocumentGuideModal() {
                         setSelectedCategory(null);
                         setExpandedGuide(null);
                       }}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                      className={`focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                         selectedCategory === null
                           ? 'bg-primary text-primary-foreground'
                           : 'bg-background border hover:bg-accent'
@@ -1151,7 +1151,7 @@ export function DocumentGuideModal() {
                             setSelectedCategory(cat.id);
                             setExpandedGuide(null);
                           }}
-                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                          className={`focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                             selectedCategory === cat.id
                               ? 'bg-primary text-primary-foreground'
                               : 'bg-background border hover:bg-accent'

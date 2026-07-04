@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.27] — 2026-07-04
+
+### Fixed
+
+- Every clickable control in the document-guide modal now shows a keyboard
+  focus ring. Its custom tabs, finder option cards, recommendation cards,
+  category pills, and "Show me where" links were raw buttons with no
+  focus-visible indicator; all now carry the standard ring.
+
 ## [1.2.26] — 2026-07-04
 
 ### Changed
