@@ -189,8 +189,16 @@ export function Header({
   const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
   const setFullQualityPreview = useUIStore((s) => s.setFullQualityPreview);
   // Reopen the getting-started checklist. Hidden once onboarding is finished.
+  // Desktop un-hides the floating card; on mobile (no floating launcher — the
+  // Preview FAB owns that corner) it opens the checklist's bottom sheet.
   const checklistCelebrated = useOnboardingStore((s) => s.checklistCelebrated);
-  const reopenChecklist = () => useOnboardingStore.getState().setChecklistDismissed(false);
+  const reopenChecklist = () => {
+    if (useUIStore.getState().isMobile) {
+      useUIStore.getState().setChecklistSheetOpen(true);
+    } else {
+      useOnboardingStore.getState().setChecklistDismissed(false);
+    }
+  };
 
   // Actions only, no document-state subscription. The handlers below read the
   // full document via useDocumentStore.getState() at call time, so Header

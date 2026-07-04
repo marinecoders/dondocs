@@ -14,6 +14,13 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import { TourButton } from '@/components/tour/TourButton';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
 import { ProgressRing } from './ProgressRing';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { useProfileStore } from '@/stores/profileStore';
@@ -63,9 +70,12 @@ export function ActivationChecklist() {
   const setCelebrated = useOnboardingStore((s) => s.setChecklistCelebrated);
   // Hide the launcher while a tour is running so they don't compete.
   const tourActive = useTourStore((s) => s.active);
-  // On mobile the Preview PDF FAB owns the bottom-right corner; hide this so they
-  // don't overlap.
+  // On mobile the Preview PDF FAB owns the bottom-right corner, so there is no
+  // floating launcher there — instead the same checklist renders as a bottom
+  // sheet, opened from the menu's "Getting started" item.
   const isMobile = useUIStore((s) => s.isMobile);
+  const sheetOpen = useUIStore((s) => s.checklistSheetOpen);
+  const setSheetOpen = useUIStore((s) => s.setChecklistSheetOpen);
 
   // Credit the tour only when finished (reaching the last step marks
   // GUIDED_TOUR_KEY); skipping or exiting doesn't count.
@@ -189,12 +199,121 @@ export function ActivationChecklist() {
     }
   }, [open]);
 
+  // Shared row list — identical rows on the desktop card and the mobile sheet;
+  // only the close-on-navigate callback differs.
+  const renderRows = (onNavigate: () => void) => (
+    <ul className="p-1.5">
+      {rows.map((row) => {
+        const Glyph = row.glyph;
+        return (
+          <li key={row.title}>
+            <button
+              type="button"
+              disabled={row.done}
+              onClick={() => {
+                row.action();
+                onNavigate();
+              }}
+              aria-label={
+                row.done
+                  ? `${row.title} — completed`
+                  : row.badge
+                    ? `${row.title} — ${row.badge.replace('/', ' of ')} learned`
+                    : `${row.title} — not started`
+              }
+              className={`group flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left transition-colors ${
+                row.done ? 'cursor-default' : 'hover:bg-muted/60'
+              }`}
+            >
+              {row.done ? (
+                <CheckCircle2 className="h-5 w-5 shrink-0 text-success" />
+              ) : (
+                <Glyph className="h-5 w-5 shrink-0 text-muted-foreground" />
+              )}
+              <div className="min-w-0 flex-1">
+                <div
+                  className={`text-sm font-medium leading-snug ${
+                    row.done ? 'text-muted-foreground line-through' : 'text-foreground'
+                  }`}
+                >
+                  {row.title}
+                </div>
+                {!row.done && <div className="text-xs text-muted-foreground">{row.sub}</div>}
+              </div>
+              {!row.done &&
+                (row.badge ? (
+                  <span className="shrink-0 rounded-full bg-muted px-1.5 py-0.5 text-[11px] font-medium tabular-nums text-muted-foreground">
+                    {row.badge}
+                  </span>
+                ) : (
+                  <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+                ))}
+            </button>
+          </li>
+        );
+      })}
+    </ul>
+  );
+
   // The first-run tour owns the screen.
   if (tourActive) return null;
-  // The mobile Preview FAB owns the corner (see isMobile note above).
-  if (isMobile) return null;
   // A finished celebration retires the launcher for good.
   if (celebrated) return null;
+
+  // ── Mobile: bottom sheet, opened from the menu's "Getting started" ────────
+  // No floating launcher (the Preview FAB owns the corner) and the `dismissed`
+  // flag doesn't apply — the sheet only ever appears when explicitly opened.
+  if (isMobile) {
+    return (
+      <Dialog open={sheetOpen} onOpenChange={setSheetOpen}>
+        <DialogContent
+          className="top-auto bottom-0 left-0 translate-x-0 translate-y-0 w-full max-w-full sm:max-w-full rounded-b-none rounded-t-2xl border-x-0 border-b-0 p-0 gap-0"
+          style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+        >
+          {showCelebration ? (
+            <div className="p-6 text-center">
+              <div className="mx-auto mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-success/10 text-success">
+                <PartyPopper className="h-6 w-6" />
+              </div>
+              <DialogTitle className="text-base font-semibold">Squared away</DialogTitle>
+              <DialogDescription className="mt-1 text-sm text-muted-foreground">
+                Everything&apos;s in order — time to draft.
+              </DialogDescription>
+              <TourButton
+                className="mt-4"
+                onClick={() => {
+                  setCelebrated(true);
+                  setSheetOpen(false);
+                }}
+              >
+                Start drafting
+              </TourButton>
+            </div>
+          ) : (
+            <>
+              <DialogHeader className="px-4 pt-4 pb-1 text-left">
+                <DialogTitle className="flex items-center gap-2.5 text-sm font-semibold">
+                  <ProgressRing size={26} done={done} total={total} />
+                  Getting started
+                </DialogTitle>
+                <DialogDescription className="text-xs text-muted-foreground">
+                  {done === total ? 'Squared away' : `${done} of ${total} done`}
+                </DialogDescription>
+              </DialogHeader>
+              <div className="mx-4 mb-1 h-1 overflow-hidden rounded-full bg-muted">
+                <div
+                  className="h-full rounded-full bg-primary transition-[width] duration-500 ease-out motion-reduce:transition-none"
+                  style={{ width: `${(done / total) * 100}%` }}
+                />
+              </div>
+              {renderRows(() => setSheetOpen(false))}
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
   // Dismissed and hidden until re-opened from Help. The celebrated guard above
   // means a dismissed user who later finishes is retired without a surprise popup.
   if (dismissed && !celebrated) return null;
@@ -310,57 +429,7 @@ export function ActivationChecklist() {
         <p className="sr-only" role="status" aria-live="polite">{`${done} of ${total} steps complete`}</p>
 
         {/* Items */}
-        <ul className="p-1.5">
-          {rows.map((row) => {
-            const Glyph = row.glyph;
-            return (
-              <li key={row.title}>
-                <button
-                  type="button"
-                  disabled={row.done}
-                  onClick={() => {
-                    row.action();
-                    setOpen(false);
-                  }}
-                  aria-label={
-                    row.done
-                      ? `${row.title} — completed`
-                      : row.badge
-                        ? `${row.title} — ${row.badge.replace('/', ' of ')} learned`
-                        : `${row.title} — not started`
-                  }
-                  className={`group flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left transition-colors ${
-                    row.done ? 'cursor-default' : 'hover:bg-muted/60'
-                  }`}
-                >
-                  {row.done ? (
-                    <CheckCircle2 className="h-5 w-5 shrink-0 text-success" />
-                  ) : (
-                    <Glyph className="h-5 w-5 shrink-0 text-muted-foreground" />
-                  )}
-                  <div className="min-w-0 flex-1">
-                    <div
-                      className={`text-sm font-medium leading-snug ${
-                        row.done ? 'text-muted-foreground line-through' : 'text-foreground'
-                      }`}
-                    >
-                      {row.title}
-                    </div>
-                    {!row.done && <div className="text-xs text-muted-foreground">{row.sub}</div>}
-                  </div>
-                  {!row.done &&
-                    (row.badge ? (
-                      <span className="shrink-0 rounded-full bg-muted px-1.5 py-0.5 text-[11px] font-medium tabular-nums text-muted-foreground">
-                        {row.badge}
-                      </span>
-                    ) : (
-                      <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
-                    ))}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+        {renderRows(() => setOpen(false))}
 
         {/* Footer */}
         <div className="border-t border-border px-4 py-2.5">
