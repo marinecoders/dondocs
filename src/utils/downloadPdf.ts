@@ -11,8 +11,9 @@ import {
   getDeviceInfo, 
   getPdfDownloadStrategy, 
   getDownloadUnsupportedMessage,
-  type DeviceInfo 
+  type DeviceInfo
 } from './device';
+import { showAppAlert } from '@/stores/alertStore';
 
 /**
  * Download PDF using FileReader -> Data URL -> anchor click
@@ -154,7 +155,7 @@ export async function downloadPdfBlob(
       // In-app browsers can't download - show user instructions
       console.log('[downloadPdf] In-app browser detected - showing instructions');
       const message = getDownloadUnsupportedMessage(device);
-      alert(message);
+      showAppAlert({ title: 'Downloads need a real browser', message });
       
       // Still try blob URL as last-ditch effort (probably won't work)
       const pdfBlob = new Blob([blob], { type: 'application/pdf' });

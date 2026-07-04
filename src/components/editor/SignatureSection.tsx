@@ -14,6 +14,7 @@ import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
 import { unfilled } from '@/lib/requiredField';
 import { FILE_LIMITS } from '@/lib/constants';
+import { showAppAlert } from '@/stores/alertStore';
 import type { DocTypeConfig, SignatureImage, SignatureType } from '@/types/document';
 import { ALL_SERVICE_RANKS, formatRank } from '@/data/ranks';
 import { getOfficeCode, OFFICE_CODES } from '@/data/officeCodes';
@@ -112,7 +113,10 @@ export function SignatureSection({ config }: SignatureSectionProps) {
     }
     // Signatures are stored base64 in localStorage; cap the size so they can't fill it.
     if (file.size > FILE_LIMITS.MAX_SIGNATURE_SIZE_MB * 1024 * 1024) {
-      alert(`That signature image is too large (max ${FILE_LIMITS.MAX_SIGNATURE_SIZE_MB} MB). Please use a smaller file.`);
+      showAppAlert({
+        title: 'Image too large',
+        message: `That signature image is too large (max ${FILE_LIMITS.MAX_SIGNATURE_SIZE_MB} MB). Please use a smaller file.`,
+      });
       return;
     }
 

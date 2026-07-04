@@ -17,6 +17,7 @@ import { useProfileStore } from '@/stores/profileStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { SaveStatus } from '@/components/SaveStatus';
 import { useUIStore } from '@/stores/uiStore';
+import { showAppAlert, showAppConfirm } from '@/stores/alertStore';
 import { debug } from '@/lib/debug';
 import { profileFormPatch } from '@/stores/documentsStore';
 import { readFileAsText, triggerDownload } from '@/lib/encoding';
@@ -78,9 +79,15 @@ export function ProfileBar() {
     }
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!selectedProfile) return;
-    if (confirm(`Delete profile "${selectedProfile}"?`)) {
+    const confirmed = await showAppConfirm({
+      title: 'Delete profile?',
+      message: `"${selectedProfile}" will be removed. This can't be undone.`,
+      confirmLabel: 'Delete',
+      destructive: true,
+    });
+    if (confirmed) {
       try {
         deleteProfile(selectedProfile);
       } catch (err) {
@@ -116,7 +123,10 @@ export function ProfileBar() {
       debug.log('Profile', 'Import successful', { count: profileCount });
     } catch (err) {
       debug.error('Profile', 'Failed to import profiles', err);
-      alert(`Failed to import profiles: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      showAppAlert({
+        title: "Couldn't import profiles",
+        message: err instanceof Error ? err.message : 'Unknown error',
+      });
     } finally {
       e.target.value = '';
     }

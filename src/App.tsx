@@ -42,6 +42,7 @@ import {
 } from '@/components/modals/downloadProgressTypes';
 import { parseShareUrl } from '@/lib/shareCrypto';
 import { BrowserCompatibilityNotice } from '@/components/BrowserCompatibilityNotice';
+import { AppAlertDialog } from '@/components/AppAlertDialog';
 import { StorageNotice } from '@/components/StorageNotice';
 import { BackupNotice } from '@/components/BackupNotice';
 import { InstallNotice } from '@/components/InstallNotice';
@@ -1965,6 +1966,7 @@ ${texFiles['body.tex'] || '% No body content'}
         onDismiss={dismissUpdatePrompt}
       />
       <InstallAppModal />
+      <AppAlertDialog />
       <DownloadProgressModal
         phase={downloadProgress}
         onClose={() => setDownloadProgress(null)}

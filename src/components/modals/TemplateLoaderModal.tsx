@@ -14,6 +14,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore, getSerializedSessionForShare, loadSharedSession } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { useUserTemplatesStore } from '@/stores/userTemplatesStore';
+import { showAppAlert } from '@/stores/alertStore';
 import { useProfileStore } from '@/stores/profileStore';
 import { LETTER_TEMPLATES, type LetterTemplate } from '@/data/templates';
 import { DOC_TYPE_LABELS } from '@/types/document';
@@ -185,10 +186,11 @@ export function TemplateLoaderModal() {
       setSavingName(null);
     } catch (err) {
       console.error('Failed to save template (storage may be full)', err);
-      alert(
-        "Couldn't save this template — your browser's local storage is full. " +
-          'Delete a few documents or templates, then try again.'
-      );
+      showAppAlert({
+        title: "Couldn't save this template",
+        message:
+          "Your browser's local storage is full. Delete a few documents or templates, then try again.",
+      });
     }
   };
 

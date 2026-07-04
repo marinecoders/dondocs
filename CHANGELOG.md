@@ -5,6 +5,19 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.17] — 2026-07-04
+
+### Changed
+
+- Every message the app raises now appears in its own themed dialog instead
+  of a native browser popup. `alert()`/`confirm()` follow the operating
+  system's theme, not the app's — a white OS popup over a dark UI (the same
+  class of bug as the old crash screen). All ten remaining native alerts
+  (storage-full warnings, signature-size limits, import errors, in-app
+  browser download instructions) and the profile-delete confirm were moved
+  to an in-app alert dialog, and a lint rule keeps native popups from
+  coming back.
+
 ## [1.2.16] — 2026-07-04
 
 ### Added
