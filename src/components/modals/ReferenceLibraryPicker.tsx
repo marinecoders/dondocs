@@ -101,7 +101,10 @@ export function ReferenceLibraryPicker({
                         variant="ghost"
                         size="sm"
                         onClick={() => onSelect(citation)}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+                        // Hidden-until-hover on pointer devices, but always shown on
+                        // touch (no hover) and revealed on keyboard focus, so the
+                        // action is reachable by every input method.
+                        className="opacity-0 [@media(hover:none)]:opacity-100 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 transition-opacity shrink-0"
                       >
                         <Plus className="h-4 w-4 mr-1" />
                         Add

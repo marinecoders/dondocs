@@ -289,8 +289,32 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(
       if (item) command(item);
     }, [items, command]);
 
+    // The "create custom variable" candidate shown when nothing matches. Shared
+    // by the keyboard handler and the rendered row so BOTH create it — the footer
+    // promised "Enter", but previously only a mouse click worked.
+    const customName = query.trim() ? query.trim().toUpperCase().replace(/[^A-Z0-9_]/g, '_') : '';
+    const createCustom = useCallback(() => {
+      if (!customName) return;
+      addCustomVariable(customName);
+      command({
+        name: customName,
+        label: customName.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase()),
+        category: 'Custom',
+        example: 'Your custom value',
+      });
+    }, [customName, command]);
+
     useImperativeHandle(ref, () => ({
       onKeyDown: (event: KeyboardEvent) => {
+        if (items.length === 0) {
+          // No matches: Enter/Tab creates the custom variable (matching the
+          // footer hint); there's nothing to navigate.
+          if ((event.key === 'Enter' || event.key === 'Tab') && customName) {
+            createCustom();
+            return true;
+          }
+          return false;
+        }
         if (event.key === 'ArrowUp') {
           setSelectedIndex((prev) => (prev - 1 + items.length) % items.length);
           return true;
@@ -305,18 +329,10 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(
         }
         return false;
       },
-    }), [items.length, selectItem, selectedIndex]);
+    }), [items.length, selectItem, selectedIndex, customName, createCustom]);
 
     // If no matches and user typed something, offer to create custom variable
     if (items.length === 0 && query.trim()) {
-      const customName = query.toUpperCase().replace(/[^A-Z0-9_]/g, '_');
-      const customItem: VariableItem = {
-        name: customName,
-        label: customName.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase()),
-        category: 'Custom',
-        example: `Your custom value`,
-      };
-
       return (
         <div className="bg-popover border border-border rounded-lg shadow-lg overflow-hidden w-[280px]">
           <div className="px-3 py-2 border-b border-border bg-muted/50">
@@ -327,10 +343,7 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(
           </div>
           <div
             className="px-3 py-3 cursor-pointer hover:bg-accent flex items-center gap-3"
-            onClick={() => {
-              addCustomVariable(customName);
-              command(customItem);
-            }}
+            onClick={createCustom}
           >
             <div className="w-8 h-8 rounded-full bg-success/15 dark:bg-success/25 flex items-center justify-center text-success text-lg">
               +

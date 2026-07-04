@@ -85,6 +85,8 @@ function SortableEnclosure({
       <div className="flex items-start gap-2">
         {/* Drag handle */}
         <button
+          type="button"
+          aria-label={`Drag to reorder enclosure ${index + 1}`}
           {...attributes}
           {...listeners}
           className="mt-2 cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground"
