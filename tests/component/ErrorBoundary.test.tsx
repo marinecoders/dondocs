@@ -119,11 +119,10 @@ describe('ErrorBoundary', () => {
     expect(await screen.findByText('Copy failed')).toBeInTheDocument();
   });
 
-  it('"Reset and reload" clears BOTH session keys after confirmation (audit #6)', async () => {
+  it('"Reset and reload" clears BOTH session keys after the inline confirmation (audit #6)', async () => {
     const user = userEvent.setup();
     localStorage.setItem(STORAGE_KEYS.DOCUMENT_SESSION, 'compressed-session');
     localStorage.setItem(STORAGE_KEYS.DOCUMENT, 'manual-draft');
-    window.confirm = vi.fn().mockReturnValue(true);
     const reload = vi.fn();
     Object.defineProperty(window, 'location', {
       value: { ...window.location, reload },
@@ -136,17 +135,23 @@ describe('ErrorBoundary', () => {
         <Bomb />
       </ErrorBoundary>
     );
+    // Two-step flow: the first click only ARMS the in-app confirmation strip
+    // (no native window.confirm — it follows the OS theme, not the app's) and
+    // must not erase anything by itself.
     await user.click(screen.getByRole('button', { name: /erase saved draft and reload/i }));
+    expect(localStorage.getItem(STORAGE_KEYS.DOCUMENT_SESSION)).toBe('compressed-session');
+    expect(reload).not.toHaveBeenCalled();
+
+    await user.click(screen.getByRole('button', { name: 'Erase and reload' }));
 
     expect(localStorage.getItem(STORAGE_KEYS.DOCUMENT_SESSION)).toBeNull();
     expect(localStorage.getItem(STORAGE_KEYS.DOCUMENT)).toBeNull();
     expect(reload).toHaveBeenCalledTimes(1);
   });
 
-  it('"Reset and reload" is a no-op when the user cancels the confirm', async () => {
+  it('"Reset and reload" is a no-op when the user cancels the inline confirm', async () => {
     const user = userEvent.setup();
     localStorage.setItem(STORAGE_KEYS.DOCUMENT_SESSION, 'compressed-session');
-    window.confirm = vi.fn().mockReturnValue(false);
     const reload = vi.fn();
     Object.defineProperty(window, 'location', {
       value: { ...window.location, reload },
@@ -160,9 +165,28 @@ describe('ErrorBoundary', () => {
       </ErrorBoundary>
     );
     await user.click(screen.getByRole('button', { name: /erase saved draft and reload/i }));
+    await user.click(screen.getByRole('button', { name: 'Cancel' }));
 
     expect(localStorage.getItem(STORAGE_KEYS.DOCUMENT_SESSION)).toBe('compressed-session');
     expect(reload).not.toHaveBeenCalled();
+    expect(screen.queryByRole('button', { name: 'Erase and reload' })).not.toBeInTheDocument();
+  });
+
+  it('matches the active color scheme instead of always rendering light', () => {
+    // Dark class on <html> is how the app applies dark mode (set pre-paint by
+    // index.html); the crash screen must follow it, not blast a white page.
+    document.documentElement.classList.add('dark');
+    try {
+      render(
+        <ErrorBoundary>
+          <Bomb />
+        </ErrorBoundary>
+      );
+      const page = screen.getByRole('alert');
+      expect(page.style.backgroundColor).toBe('#0b1120'); // dark, not #f8fafc
+    } finally {
+      document.documentElement.classList.remove('dark');
+    }
   });
 
   it('toggles the stack-trace details on demand', async () => {

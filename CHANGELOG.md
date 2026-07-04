@@ -5,6 +5,18 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.10] — 2026-07-03
+
+### Fixed
+
+- The crash-recovery screen ("Something went wrong") now follows the app's
+  light/dark scheme instead of always rendering a bright white page — it
+  still uses only inline styles (so it works even when a CSS regression is
+  what crashed), but reads the active scheme off the document. Its
+  "Reset and reload" confirmation is now an in-app inline prompt instead of
+  the browser's native dialog, which followed the OS theme rather than the
+  app's.
+
 ## [1.2.9] — 2026-07-03
 
 ### Added
