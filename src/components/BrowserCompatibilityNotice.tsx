@@ -17,6 +17,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { AlertTriangle, X, ExternalLink } from 'lucide-react';
 import { getDeviceInfo, type DeviceInfo } from '@/utils/device';
+import { showAppAlert } from '@/stores/alertStore';
 
 // Browser icons as simple SVG components
 function SafariIcon({ className }: { className?: string }) {
@@ -130,10 +131,18 @@ export function BrowserCompatibilityNotice() {
     const currentUrl = window.location.href;
     try {
       await navigator.clipboard.writeText(currentUrl);
-      alert('URL copied to clipboard!\n\nTo open in Safari:\n1. Open Safari app\n2. Paste the URL in the address bar\n\nOr:\n1. Tap the ⋮ or share button in this browser\n2. Select "Open in Safari"');
+      showAppAlert({
+        title: 'URL copied to clipboard',
+        message:
+          'To open in Safari:\n1. Open Safari app\n2. Paste the URL in the address bar\n\nOr:\n1. Tap the ⋮ or share button in this browser\n2. Select "Open in Safari"',
+      });
     } catch {
       // Clipboard API might not work, just show instructions
-      alert('To open in Safari:\n\n1. Tap the ⋮ or share button at the top/bottom of your screen\n2. Select "Open in Safari" or "Open in Browser"');
+      showAppAlert({
+        title: 'Open in Safari',
+        message:
+          '1. Tap the ⋮ or share button at the top/bottom of your screen\n2. Select "Open in Safari" or "Open in Browser"',
+      });
     }
   }, []);
 

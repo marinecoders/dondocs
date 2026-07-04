@@ -19,6 +19,7 @@ import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
 import { HelpTip } from '@/components/ui/help-tip';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useSnippetsStore } from '@/stores/snippetsStore';
+import { showAppAlert } from '@/stores/alertStore';
 import { DOC_TYPE_CONFIG, type PortionMarking } from '@/types/document';
 import { calculateLabels, canIndentAt } from '@/lib/paragraphUtils';
 import { cn } from '@/lib/utils';
@@ -480,10 +481,11 @@ export function BlockParagraphsEditor() {
                     addSnippet('', lastNonEmpty);
                   } catch (err) {
                     console.error('Failed to save clause (storage may be full)', err);
-                    alert(
-                      "Couldn't save this clause — your browser's local storage is full. " +
-                        'Delete a few documents or clauses, then try again.'
-                    );
+                    showAppAlert({
+                      title: "Couldn't save this clause",
+                      message:
+                        "Your browser's local storage is full. Delete a few documents or clauses, then try again.",
+                    });
                   }
                   setClausesOpen(false);
                 }}

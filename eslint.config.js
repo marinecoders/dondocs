@@ -57,6 +57,10 @@ export default defineConfig([
       globals: globals.browser,
     },
     rules: {
+      // Native alert()/confirm()/prompt() follow the OS theme, not the app's
+      // (a white popup over a dark UI). Use showAppAlert/showAppConfirm from
+      // stores/alertStore instead — they render in the themed AppAlertDialog.
+      'no-alert': 'error',
       // Standard convention: an underscore prefix on a destructured key,
       // catch binding, or function arg signals "I know this is unused on
       // purpose" (e.g. omitting a key with `const { [k]: _omit, ...rest } = obj`).

@@ -34,6 +34,7 @@ import {
 import { UnitLookupModal } from '@/components/modals/UnitLookupModal';
 import { SSICLookupModal } from '@/components/modals/SSICLookupModal';
 import { useUIStore } from '@/stores/uiStore';
+import { showAppAlert } from '@/stores/alertStore';
 import { useProfileStore } from '@/stores/profileStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import type { Profile, SignatureImage } from '@/types/document';
@@ -185,7 +186,7 @@ export function ProfileModal() {
 
   const handleSave = () => {
     if (!profileName.trim()) {
-      alert('Please enter a profile name');
+      showAppAlert({ title: 'Name required', message: 'Please enter a profile name.' });
       return;
     }
 
@@ -222,10 +223,12 @@ export function ProfileModal() {
       useDocumentStore.getState().setFormData(formFields);
     } catch (err) {
       console.error('Failed to save profile (storage may be full)', err);
-      alert(
-        "Couldn't save this profile — your browser's local storage is full. " +
-          'Try a smaller signature image, or delete an old profile, then save again.'
-      );
+      showAppAlert({
+        title: "Couldn't save this profile",
+        message:
+          "Your browser's local storage is full. " +
+          'Try a smaller signature image, or delete an old profile, then save again.',
+      });
       return; // keep the modal open so the user can adjust and retry
     }
 
@@ -264,7 +267,10 @@ export function ProfileModal() {
     }
     // Signatures are stored base64 in localStorage; cap the size so they can't fill it.
     if (file.size > FILE_LIMITS.MAX_SIGNATURE_SIZE_MB * 1024 * 1024) {
-      alert(`That signature image is too large (max ${FILE_LIMITS.MAX_SIGNATURE_SIZE_MB} MB). Please use a smaller file.`);
+      showAppAlert({
+        title: 'Image too large',
+        message: `That signature image is too large (max ${FILE_LIMITS.MAX_SIGNATURE_SIZE_MB} MB). Please use a smaller file.`,
+      });
       return;
     }
 
