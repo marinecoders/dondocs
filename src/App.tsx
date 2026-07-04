@@ -46,7 +46,7 @@ import { BackupNotice } from '@/components/BackupNotice';
 import { probeStorageHealth } from '@/lib/documentsDb';
 const marineCodersLogo = `${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`;
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore, getSavedSession } from '@/stores/documentStore';
+import { useDocumentStore, getSavedSession, rehydrateEnclosureFiles } from '@/stores/documentStore';
 import { useFormStore, FORMS_PERSIST_KEY } from '@/stores/formStore';
 import { lastWriteFailed } from '@/lib/compressedStorage';
 import { useHistoryStore } from '@/stores/historyStore';
@@ -519,6 +519,10 @@ function App() {
     setCompileLog(null);
 
     try {
+      // If the document was just restored, its enclosure bytes may still be
+      // streaming back from the attachments store; make sure they're present
+      // before the pipeline reads file.data (no-op once already hydrated).
+      await rehydrateEnclosureFiles();
       // Read the full store via getState() at compile time; the debounce dep
       // array already handles when to re-compile, so the state here is current.
       const currentStore = useDocumentStore.getState();
@@ -770,6 +774,9 @@ function App() {
     preOpenedWindow?: Window | null,
     onProgress?: (phase: DownloadProgressPhase) => void,
   ): Promise<boolean> => {
+    // Ensure any just-restored enclosure bytes are back before the export
+    // pipeline reads file.data (no-op once already hydrated).
+    await rehydrateEnclosureFiles();
     // Snapshot fresh state at download time via getState().
     const currentStore = useDocumentStore.getState();
     const { texFiles, enclosures: generatedEnclosures, includeHyperlinks, signatureImage, referenceUrls } = generateAllLatexFiles(currentStore);

@@ -15,9 +15,12 @@ export interface StoredDocument {
 }
 
 const DB_NAME = 'dondocs';
-const DB_VERSION = 1;
+// v2 adds the `attachments` store (enclosure file bytes). The upgrade is purely
+// additive — existing `documents`/`app` records are untouched.
+const DB_VERSION = 2;
 const DOCS_STORE = 'documents';
 const APP_STORE = 'app'; // key/value store; currently just { key:'currentId', value }
+const ATTACHMENTS_STORE = 'attachments'; // enclosure file blobs, keyed by content-free id
 
 const hasIndexedDb = typeof indexedDB !== 'undefined';
 
@@ -38,6 +41,7 @@ function openDb(): Promise<IDBDatabase> {
       const db = req.result;
       if (!db.objectStoreNames.contains(DOCS_STORE)) db.createObjectStore(DOCS_STORE, { keyPath: 'id' });
       if (!db.objectStoreNames.contains(APP_STORE)) db.createObjectStore(APP_STORE, { keyPath: 'key' });
+      if (!db.objectStoreNames.contains(ATTACHMENTS_STORE)) db.createObjectStore(ATTACHMENTS_STORE, { keyPath: 'id' });
     };
     req.onsuccess = () => {
       const db = req.result;
@@ -340,5 +344,66 @@ export async function idbDeleteSnapshots(docId: string): Promise<void> {
     await run(APP_STORE, 'readwrite', (s) => s.delete(`snap:${docId}`));
   } catch (err) {
     debug.error('DocumentsDb', 'deleteSnapshots failed', err);
+  }
+}
+
+// ── Enclosure attachments ────────────────────────────────────────────────────
+// Enclosure file bytes, stored once and referenced by id from a document's
+// serialized enclosures (see src/lib/attachments.ts). Kept in their own store so
+// the (potentially large) blobs never bloat a document record's read/write, and
+// so a backup can pull exactly the blobs its documents reference.
+
+export interface StoredAttachment {
+  id: string;
+  name: string;
+  type: string;
+  size: number;
+  data: ArrayBuffer;
+}
+
+/** Confirms the blob is committed; false on any failure (callers keep the
+ *  in-memory copy either way, so a failed persist just means "not durable"). */
+export async function idbPutAttachment(rec: StoredAttachment): Promise<boolean> {
+  if (!hasIndexedDb) return false;
+  maybeRequestPersist();
+  try {
+    await run(ATTACHMENTS_STORE, 'readwrite', (s) => s.put(rec));
+    return true;
+  } catch (err) {
+    debug.error('DocumentsDb', 'putAttachment failed', err);
+    return false;
+  }
+}
+
+export async function idbGetAttachment(id: string): Promise<StoredAttachment | null> {
+  if (!hasIndexedDb) return null;
+  try {
+    const rec = await run<StoredAttachment | undefined>(ATTACHMENTS_STORE, 'readonly', (s) => s.get(id));
+    return rec ?? null;
+  } catch (err) {
+    debug.error('DocumentsDb', 'getAttachment failed', err);
+    return null;
+  }
+}
+
+// Returns [] for a genuinely empty store and null when the read FAILED — a
+// backup must be able to tell "no attachments" from "couldn't read them" so it
+// never writes a bundle that silently drops every enclosure's bytes.
+export async function idbGetAllAttachments(): Promise<StoredAttachment[] | null> {
+  if (!hasIndexedDb) return [];
+  try {
+    return await run<StoredAttachment[]>(ATTACHMENTS_STORE, 'readonly', (s) => s.getAll());
+  } catch (err) {
+    debug.error('DocumentsDb', 'getAllAttachments failed', err);
+    return null;
+  }
+}
+
+export async function idbDeleteAttachment(id: string): Promise<void> {
+  if (!hasIndexedDb) return;
+  try {
+    await run(ATTACHMENTS_STORE, 'readwrite', (s) => s.delete(id));
+  } catch (err) {
+    debug.error('DocumentsDb', 'deleteAttachment failed', err);
   }
 }

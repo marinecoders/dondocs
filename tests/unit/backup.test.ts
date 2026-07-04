@@ -3,6 +3,7 @@ import {
   mergeRecord,
   mergeById,
   classifyBackup,
+  collectAttachmentIds,
   summarizeRestore,
   BACKUP_KIND,
 } from '@/lib/backup';
@@ -55,13 +56,36 @@ describe('classifyBackup', () => {
   });
 });
 
+describe('collectAttachmentIds', () => {
+  const doc = (ids: (string | undefined)[]) => ({
+    session: { enclosures: ids.map((id) => (id ? { title: 't', fileRef: { id } } : { title: 't' })) },
+  });
+
+  it('gathers every distinct fileRef id across documents', () => {
+    const ids = collectAttachmentIds([doc(['a', 'b']), doc(['b', 'c'])]);
+    expect(new Set(ids)).toEqual(new Set(['a', 'b', 'c'])); // deduped across docs
+  });
+
+  it('ignores enclosures without a fileRef and malformed shapes', () => {
+    expect(collectAttachmentIds([doc([undefined, 'x'])])).toEqual(['x']);
+    expect(collectAttachmentIds([{}, { session: {} }, { session: { enclosures: 'nope' } }])).toEqual([]);
+    expect(collectAttachmentIds([])).toEqual([]);
+  });
+});
+
 describe('summarizeRestore', () => {
   it('lists only the buckets that changed', () => {
     expect(
-      summarizeRestore({ documents: { imported: 3, skipped: 1 }, profilesAdded: 2, snippetsAdded: 0, templatesAdded: 1, formsRestored: true }),
+      summarizeRestore({ documents: { imported: 3, skipped: 1 }, profilesAdded: 2, snippetsAdded: 0, templatesAdded: 1, formsRestored: true, attachmentsAdded: 0 }),
     ).toBe('Restored 3 docs, 2 profiles, 1 template, form fields · kept 1 newer');
     expect(
-      summarizeRestore({ documents: { imported: 1, skipped: 0 }, profilesAdded: 0, snippetsAdded: 0, templatesAdded: 0, formsRestored: false }),
+      summarizeRestore({ documents: { imported: 1, skipped: 0 }, profilesAdded: 0, snippetsAdded: 0, templatesAdded: 0, formsRestored: false, attachmentsAdded: 0 }),
     ).toBe('Restored 1 doc');
+  });
+
+  it('reports restored attachments', () => {
+    expect(
+      summarizeRestore({ documents: { imported: 2, skipped: 0 }, profilesAdded: 0, snippetsAdded: 0, templatesAdded: 0, formsRestored: false, attachmentsAdded: 3 }),
+    ).toBe('Restored 2 docs, 3 attachments');
   });
 });
