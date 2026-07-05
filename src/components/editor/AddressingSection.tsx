@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/accordion';
 import { InputWithVariables } from '@/components/ui/variable-autocomplete';
 import { HelpTip } from '@/components/ui/help-tip';
+import { IconTip } from '@/components/ui/icon-tip';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
 import { unfilled } from '@/lib/requiredField';
@@ -83,16 +84,17 @@ function SortableViaItem({ id, index, value, onChange, onRemove, onLookup, canRe
         placeholder="Commanding Officer, 6th Marine Regiment"
         className="flex-1"
       />
-      <Button
-        type="button"
-        variant="outline"
-        size="icon"
-        onClick={onLookup}
-        title="Look up a unit"
-        className="shrink-0"
-      >
-        <Building2 className="h-4 w-4" />
-      </Button>
+      <IconTip label="Look up a unit">
+        <Button
+          type="button"
+          variant="outline"
+          size="icon"
+          onClick={onLookup}
+          className="shrink-0"
+        >
+          <Building2 className="h-4 w-4" />
+        </Button>
+      </IconTip>
       <Button
         type="button"
         variant="ghost"
@@ -258,15 +260,16 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                         placeholder="5216"
                         className="flex-1"
                       />
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="icon"
-                        onClick={() => setSSICModalOpen(true)}
-                        title="Browse SSIC Codes"
-                      >
-                        <BookOpen className="h-4 w-4" />
-                      </Button>
+                      <IconTip label="Browse SSIC codes">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          onClick={() => setSSICModalOpen(true)}
+                        >
+                          <BookOpen className="h-4 w-4" />
+                        </Button>
+                      </IconTip>
                     </div>
                   </div>
                 <div className={`space-y-2 ${!config.ssic ? 'opacity-50 pointer-events-none select-none' : ''}`}>
@@ -336,16 +339,17 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                       placeholder="Distribution List, or the receiving office/official"
                     />
                   </div>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    onClick={() => setUnitLookup('to')}
-                    title="Look up a unit"
-                    className="shrink-0"
-                  >
-                    <Building2 className="h-4 w-4" />
-                  </Button>
+                  <IconTip label="Look up a unit">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setUnitLookup('to')}
+                      className="shrink-0"
+                    >
+                      <Building2 className="h-4 w-4" />
+                    </Button>
+                  </IconTip>
                 </div>
                 <p className="text-xs text-muted-foreground">
                   Completes the title line: MEMORANDUM FOR [addressee] (SECNAV M-5216.5 Ch 10).
@@ -401,16 +405,17 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                         placeholder="Commanding General... (type @ for variables)"
                       />
                     </div>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      onClick={() => setUnitLookup('to')}
-                      title="Look up a unit"
-                      className="shrink-0"
-                    >
-                      <Building2 className="h-4 w-4" />
-                    </Button>
+                    <IconTip label="Look up a unit">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setUnitLookup('to')}
+                        className="shrink-0"
+                      >
+                        <Building2 className="h-4 w-4" />
+                      </Button>
+                    </IconTip>
                   </div>
                 </div>
               </div>
