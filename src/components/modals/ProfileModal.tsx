@@ -548,7 +548,7 @@ export function ProfileModal() {
                         onValueChange={(v) => updateField('sigRank', v)}
                       >
                         <SelectTrigger id="sigRank">
-                          <SelectValue placeholder="Select rank..." />
+                          <SelectValue placeholder="Select rank…" />
                         </SelectTrigger>
                         <SelectContent className="max-h-[300px]">
                           {ALL_SERVICE_RANKS.map((service) => (

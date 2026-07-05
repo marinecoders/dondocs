@@ -207,7 +207,7 @@ export function EndorsementBasicLetterSection() {
                 onValueChange={(v) => setField('endorsementOrdinal', v)}
               >
                 <SelectTrigger id="endorsementOrdinal" className="w-full">
-                  <SelectValue placeholder="Select position in routing chain..." />
+                  <SelectValue placeholder="Select position in routing chain…" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="FIRST">FIRST</SelectItem>

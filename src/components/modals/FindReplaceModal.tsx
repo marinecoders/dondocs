@@ -210,7 +210,7 @@ export function FindReplaceModal() {
                 id="find"
                 value={findText}
                 onChange={(e) => setFindText(e.target.value)}
-                placeholder="Search text..."
+                placeholder="Search text…"
                 autoFocus
               />
               <Button variant="outline" size="icon" onClick={handleFindPrevious} disabled={totalMatches === 0}>
@@ -237,7 +237,7 @@ export function FindReplaceModal() {
                 id="replace"
                 value={replaceText}
                 onChange={(e) => setReplaceText(e.target.value)}
-                placeholder="Replacement text..."
+                placeholder="Replacement text…"
               />
               <Button variant="outline" onClick={handleReplace} disabled={totalMatches === 0}>
                 <Replace className="h-4 w-4 mr-1" />

@@ -109,7 +109,7 @@ function SortableEnclosure({
           <Input
             value={enclosure.title}
             onChange={(e) => onUpdateTitle(e.target.value)}
-            placeholder="Enclosure title..."
+            placeholder="Enclosure title…"
             aria-label={`Enclosure (${index + 1}) title`}
           />
 
@@ -174,7 +174,7 @@ function SortableEnclosure({
           </div>
           {enclosure.hasCoverPage && (
             <Textarea
-              placeholder="Optional description for page..."
+              placeholder="Optional description for page…"
               value={enclosure.coverPageDescription || ''}
               onChange={(e) => onUpdateCoverDescription(e.target.value)}
               className="text-xs min-h-[60px]"

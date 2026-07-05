@@ -285,7 +285,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                       onValueChange={(v) => setField('sigRank', v)}
                     >
                       <SelectTrigger id="sigRank">
-                        <SelectValue placeholder="Select rank..." />
+                        <SelectValue placeholder="Select rank…" />
                       </SelectTrigger>
                       <SelectContent className="max-h-[300px]">
                         {ALL_SERVICE_RANKS.map((service) => (
@@ -369,7 +369,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                           id="officeCode"
                           value={officeCodeDisplay}
                           readOnly
-                          placeholder="Optional - click search..."
+                          placeholder="Optional - click search…"
                           className="pr-8 cursor-pointer"
                           onClick={() => setOfficeCodeModalOpen(true)}
                         />

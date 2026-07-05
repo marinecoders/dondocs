@@ -303,7 +303,7 @@ export function ClassificationSection() {
                     onValueChange={(v) => setField('cuiCategory', v)}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select category..." />
+                      <SelectValue placeholder="Select category…" />
                     </SelectTrigger>
                     <SelectContent>
                       {CUI_CATEGORIES.map((cat) => (
@@ -330,7 +330,7 @@ export function ClassificationSection() {
                     onValueChange={(v) => setField('cuiDistStatement', v)}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select statement..." />
+                      <SelectValue placeholder="Select statement…" />
                     </SelectTrigger>
                     <SelectContent>
                       {DISTRIBUTION_STATEMENTS.map((stmt) => (
@@ -422,7 +422,7 @@ export function ClassificationSection() {
                     onValueChange={(v) => setField('cuiCategory', v)}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select category..." />
+                      <SelectValue placeholder="Select category…" />
                     </SelectTrigger>
                     <SelectContent>
                       {CUI_CATEGORIES.map((cat) => (
@@ -449,7 +449,7 @@ export function ClassificationSection() {
                     onValueChange={(v) => setField('cuiDistStatement', v)}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select statement..." />
+                      <SelectValue placeholder="Select statement…" />
                     </SelectTrigger>
                     <SelectContent>
                       {DISTRIBUTION_STATEMENTS.map((stmt) => (

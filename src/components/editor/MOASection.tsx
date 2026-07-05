@@ -200,7 +200,7 @@ export function MOASection() {
                       onValueChange={(v) => setField('seniorSigRank', v)}
                     >
                       <SelectTrigger id="seniorSigRank">
-                        <SelectValue placeholder="Select rank..." />
+                        <SelectValue placeholder="Select rank…" />
                       </SelectTrigger>
                       <SelectContent className="max-h-[300px]">
                         {ALL_SERVICE_RANKS.map((service) => (
@@ -349,7 +349,7 @@ export function MOASection() {
                       onValueChange={(v) => setField('juniorSigRank', v)}
                     >
                       <SelectTrigger id="juniorSigRank">
-                        <SelectValue placeholder="Select rank..." />
+                        <SelectValue placeholder="Select rank…" />
                       </SelectTrigger>
                       <SelectContent className="max-h-[300px]">
                         {ALL_SERVICE_RANKS.map((service) => (

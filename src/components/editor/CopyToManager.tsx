@@ -45,7 +45,7 @@ export function CopyToManager() {
                 <Input
                   value={ct.text}
                   onChange={(e) => updateCopyTo(index, e.target.value)}
-                  placeholder="Recipient..."
+                  placeholder="Recipient…"
                 />
                 <Button
                   variant="ghost"
