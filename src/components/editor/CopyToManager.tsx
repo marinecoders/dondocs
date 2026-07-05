@@ -46,11 +46,13 @@ export function CopyToManager() {
                   value={ct.text}
                   onChange={(e) => updateCopyTo(index, e.target.value)}
                   placeholder="Recipient…"
+                  aria-label={`Copy-to recipient ${index + 1}`}
                 />
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => removeCopyTo(index)}
+                  aria-label={`Remove copy-to recipient ${index + 1}`}
                   className="text-destructive hover:text-destructive"
                 >
                   <Trash2 className="h-4 w-4" />
