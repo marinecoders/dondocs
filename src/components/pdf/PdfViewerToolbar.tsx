@@ -1,6 +1,7 @@
 import {
   ChevronDown,
   ChevronUp,
+  Download,
   ExternalLink,
   Maximize2,
   Minimize2,
@@ -29,6 +30,7 @@ interface PdfViewerToolbarProps {
   onZoomFitWidth: () => void;
   onZoomFitPage: () => void;
   onOpenInTab: () => void;
+  onDownload: () => void;
   fullscreen?: { isFullscreen: boolean; toggle: () => void } | null;
   className?: string;
 }
@@ -53,7 +55,12 @@ function ToolButton({
           type="button"
           variant="ghost"
           size="icon"
-          className="h-7 w-7"
+          className={cn(
+            'h-8 w-8',
+            // A pressed toggle gets a toned fill, not just an icon tint, so the
+            // selected state reads without relying on color alone.
+            pressed && 'bg-primary/10 text-primary hover:bg-primary/15 hover:text-primary'
+          )}
           aria-label={label}
           aria-pressed={pressed}
           onClick={onClick}
@@ -83,6 +90,7 @@ export function PdfViewerToolbar({
   onZoomFitWidth,
   onZoomFitPage,
   onOpenInTab,
+  onDownload,
   fullscreen,
   className,
 }: PdfViewerToolbarProps) {
@@ -114,7 +122,7 @@ export function PdfViewerToolbar({
           onClick={thumbnails.toggle}
           pressed={thumbnails.open}
         >
-          <PanelLeft className={cn('h-4 w-4', thumbnails.open && 'text-primary')} />
+          <PanelLeft className="h-4 w-4" />
         </ToolButton>
       )}
       <ToolButton label="Previous page" onClick={onPrevPage} disabled={page <= 1}>
@@ -148,17 +156,17 @@ export function PdfViewerToolbar({
       <ToolButton label="Zoom out" onClick={onZoomOut}>
         <ZoomOut className="h-4 w-4" />
       </ToolButton>
-      <span className="tnum hidden min-w-[3rem] text-center text-xs text-muted-foreground @[420px]:block">
+      <span className="tnum hidden min-w-[3rem] text-center text-xs text-muted-foreground @[300px]:block">
         {zoomPercent}%
       </span>
       <ToolButton label="Zoom in" onClick={onZoomIn}>
         <ZoomIn className="h-4 w-4" />
       </ToolButton>
       <ToolButton label="Fit width" onClick={onZoomFitWidth} pressed={fitMode === 'width'}>
-        <MoveHorizontal className={cn('h-4 w-4', fitMode === 'width' && 'text-primary')} />
+        <MoveHorizontal className="h-4 w-4" />
       </ToolButton>
       <ToolButton label="Fit page" onClick={onZoomFitPage} pressed={fitMode === 'page'}>
-        <RectangleVertical className={cn('h-4 w-4', fitMode === 'page' && 'text-primary')} />
+        <RectangleVertical className="h-4 w-4" />
       </ToolButton>
 
       <div className="mx-1 hidden h-4 w-px bg-border @[420px]:block" />
@@ -171,6 +179,9 @@ export function PdfViewerToolbar({
           {fullscreen.isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
         </ToolButton>
       )}
+      <ToolButton label="Download PDF" onClick={onDownload}>
+        <Download className="h-4 w-4" />
+      </ToolButton>
       <ToolButton label="Open in browser tab" onClick={onOpenInTab}>
         <ExternalLink className="h-4 w-4" />
       </ToolButton>

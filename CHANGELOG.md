@@ -5,6 +5,19 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.39] — 2026-07-04
+
+### Added
+
+- The PDF preview toolbar now has a Download button, so you can save the
+  rendered PDF straight from the viewer instead of only opening it in a new tab.
+
+### Changed
+
+- Preview-toolbar buttons are a bit larger (32px) for easier tapping, the
+  Fit-width/Fit-page toggles now show a filled background when active (not just
+  a color tint), and the zoom percentage stays visible on narrower panels.
+
 ## [1.2.38] — 2026-07-04
 
 ### Changed
