@@ -48,6 +48,10 @@ const CLASSIFICATION_PRESETS = [
   { value: 'TOP SECRET//SCI', label: 'TOP SECRET//SCI', color: 'text-[#756808] dark:text-[#FCE83A]', bg: 'bg-[#FCE83A]/20 dark:bg-[#FCE83A]/20 border-[#A8920E]/40 hover:bg-[#FCE83A]/40 dark:hover:bg-[#FCE83A]/30' },
 ];
 
+// Official CUI banner color (#502B85 / dark #9572D4), matching the level/preset
+// swatches above — not a generic purple.
+const CUI_TEXT_COLOR = 'text-[#502B85] dark:text-[#9572D4]';
+
 const CUI_CATEGORIES = [
   'Privacy',
   'Proprietary Business Information',
@@ -130,12 +134,19 @@ export function ClassificationSection() {
 
   const isCustom = classLevel === 'custom';
 
+  // Both POC-email inputs bind the same field and only one shows at a time, so
+  // one validity check covers both. Flag a non-empty value that isn't a basic
+  // address; an empty field is a normal "not filled in yet" state.
+  const pocEmail = (formData.classifiedPocEmail || '').trim();
+  const pocEmailInvalid = pocEmail !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(pocEmail);
+
   return (
     <Accordion data-tour="classification" type="single" collapsible>
       <AccordionItem value="classification">
         <AccordionTrigger>
           <div className="flex items-center gap-2">
             <Shield
+              aria-hidden="true"
               className={`h-4 w-4 ${classLevel === 'custom' ? 'text-gray-600' : currentLevel?.color || 'text-foreground'}`}
               style={{ fill: 'currentColor', fillOpacity: 0.2 }}
             />
@@ -163,9 +174,9 @@ export function ClassificationSection() {
                 level list, so the default panel stays clean like the design. */}
             {isDomainRestricted && (
               <div className="flex items-start gap-2 border-l-2 border-blue-300 dark:border-blue-800 pl-3">
-                <Info className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
+                <Info aria-hidden="true" className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
                 <div className="text-sm text-blue-800 dark:text-blue-300">
-                  <p className="font-medium">Domain Restrictions</p>
+                  <p className="font-medium"><span className="sr-only">Important: </span>Domain Restrictions</p>
                   <p className="text-xs mt-1">{restrictionMessage}</p>
                 </div>
               </div>
@@ -197,9 +208,9 @@ export function ClassificationSection() {
             {/* Warning for classified documents */}
             {isClassified && (
               <div className="flex items-start gap-2 p-3 rounded-md bg-destructive/10 border border-destructive/20">
-                <AlertTriangle className="h-4 w-4 text-destructive mt-0.5 shrink-0" />
+                <AlertTriangle aria-hidden="true" className="h-4 w-4 text-destructive mt-0.5 shrink-0" />
                 <div className="text-sm text-destructive">
-                  <p className="font-medium">Classified Document Warning</p>
+                  <p className="font-medium"><span className="sr-only">Warning: </span>Classified Document Warning</p>
                   <p className="text-xs mt-1">
                     This document will contain classified markings. Ensure proper handling
                     procedures are followed per applicable security regulations.
@@ -217,9 +228,9 @@ export function ClassificationSection() {
                 <p className="text-sm font-medium">Custom Classification</p>
 
                 <div className="flex items-start gap-2 p-3 rounded-md bg-amber-50 border border-amber-200 dark:bg-amber-950/30 dark:border-amber-800">
-                  <AlertTriangle className="h-4 w-4 text-amber-700 dark:text-amber-400 mt-0.5 shrink-0" />
+                  <AlertTriangle aria-hidden="true" className="h-4 w-4 text-amber-700 dark:text-amber-400 mt-0.5 shrink-0" />
                   <div className="text-sm text-amber-800 dark:text-amber-300">
-                    <p className="font-medium">Classification handling — non-accredited system</p>
+                    <p className="font-medium"><span className="sr-only">Warning: </span>Classification handling — non-accredited system</p>
                     <p className="text-xs mt-1">
                       Per DoDM 5200.01 Vol 3 and EO 13526, classified
                       information (CONFIDENTIAL, SECRET, TOP SECRET, TS//SCI)
@@ -264,7 +275,7 @@ export function ClassificationSection() {
                             key={preset.value}
                             type="button"
                             onClick={() => setField('customClassification', preset.value)}
-                            className={`px-2 py-0.5 text-xs font-medium rounded-md border transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 ${preset.color} ${preset.bg} ${active ? 'ring-2 ring-offset-1 ring-offset-background ring-current' : ''}`}
+                            className={`px-2 py-1 text-xs font-medium rounded-md border transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 ${preset.color} ${preset.bg} ${active ? 'ring-2 ring-offset-1 ring-offset-background ring-current' : ''}`}
                             title={`Set marking to "${preset.value}"`}
                           >
                             {preset.label}
@@ -377,7 +388,14 @@ export function ClassificationSection() {
                     value={formData.classifiedPocEmail || ''}
                     onChange={(e) => setField('classifiedPocEmail', e.target.value)}
                     placeholder="john.doe@usmc.mil"
+                    aria-invalid={pocEmailInvalid || undefined}
+                    aria-describedby={pocEmailInvalid ? 'customClassifiedPocEmail-error' : undefined}
                   />
+                  {pocEmailInvalid && (
+                    <p id="customClassifiedPocEmail-error" role="alert" className="text-xs text-destructive">
+                      Enter a valid email address (e.g. john.doe@usmc.mil).
+                    </p>
+                  )}
                 </div>
               </div>
             )}
@@ -385,7 +403,7 @@ export function ClassificationSection() {
             {/* CUI fields, shown only when CUI is the selected level. */}
             {isCUI && (
               <div className="space-y-4 p-3 rounded-md border bg-muted/30">
-                <p className="text-sm font-medium text-purple-600">CUI Configuration</p>
+                <p className={`text-sm font-medium ${CUI_TEXT_COLOR}`}>CUI Configuration</p>
 
                 <div className="space-y-2">
                   <Label htmlFor="cuiControlledBy">Controlled By</Label>
@@ -498,7 +516,14 @@ export function ClassificationSection() {
                     value={formData.classifiedPocEmail || ''}
                     onChange={(e) => setField('classifiedPocEmail', e.target.value)}
                     placeholder="john.doe@usmc.mil"
+                    aria-invalid={pocEmailInvalid || undefined}
+                    aria-describedby={pocEmailInvalid ? 'classifiedPocEmail-error' : undefined}
                   />
+                  {pocEmailInvalid && (
+                    <p id="classifiedPocEmail-error" role="alert" className="text-xs text-destructive">
+                      Enter a valid email address (e.g. john.doe@usmc.mil).
+                    </p>
+                  )}
                 </div>
               </div>
             )}
