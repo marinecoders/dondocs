@@ -4,6 +4,7 @@ import { BookOpen, Building2, Library } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { IconTip } from '@/components/ui/icon-tip';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   DropdownMenu,
@@ -150,14 +151,15 @@ export function Form6105Section() {
                     onChange={(e) => setNavmc10274Field('ssicFileNo', e.target.value)}
                     placeholder="e.g., 1610"
                   />
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => setSSICModalOpen(true)}
-                    title="Browse SSIC Codes"
-                  >
-                    <BookOpen className="h-4 w-4" />
-                  </Button>
+                  <IconTip label="Browse SSIC codes">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setSSICModalOpen(true)}
+                    >
+                      <BookOpen className="h-4 w-4" />
+                    </Button>
+                  </IconTip>
                 </div>
               </div>
               <div className="space-y-2">
@@ -207,15 +209,16 @@ export function Form6105Section() {
                     placeholders={NAVMC_10274_PLACEHOLDERS}
                     commonVariables={COMMON_FORM_VARS}
                   />
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => setUnitModalOpen(true)}
-                    title="Browse Unit Directory"
-                    className="h-auto self-stretch"
-                  >
-                    <Building2 className="h-4 w-4" />
-                  </Button>
+                  <IconTip label="Browse unit directory">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setUnitModalOpen(true)}
+                      className="h-auto self-stretch"
+                    >
+                      <Building2 className="h-4 w-4" />
+                    </Button>
+                  </IconTip>
                 </div>
               </div>
             </div>
@@ -309,15 +312,16 @@ export function Form6105Section() {
                   placeholders={NAVMC_10274_PLACEHOLDERS}
                   commonVariables={COMMON_FORM_VARS}
                 />
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => setReferenceModalOpen(true)}
-                  title="Browse Reference Library"
-                  className="h-auto self-stretch"
-                >
-                  <Library className="h-4 w-4" />
-                </Button>
+                <IconTip label="Browse reference library">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => setReferenceModalOpen(true)}
+                    className="h-auto self-stretch"
+                  >
+                    <Library className="h-4 w-4" />
+                  </Button>
+                </IconTip>
               </div>
             </div>
 

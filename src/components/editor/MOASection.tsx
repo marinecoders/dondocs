@@ -3,6 +3,7 @@ import { Building2, BookOpen, Shield } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { IconTip } from '@/components/ui/icon-tip';
 import { DatePicker } from '@/components/ui/date-picker';
 import {
   Select,
@@ -146,15 +147,16 @@ export function MOASection() {
                       placeholder="5216"
                       className="flex-1"
                     />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      onClick={() => setSeniorSSICModalOpen(true)}
-                      title="Browse SSIC Codes"
-                    >
-                      <BookOpen className="h-4 w-4" />
-                    </Button>
+                    <IconTip label="Browse SSIC codes">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setSeniorSSICModalOpen(true)}
+                      >
+                        <BookOpen className="h-4 w-4" />
+                      </Button>
+                    </IconTip>
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -294,15 +296,16 @@ export function MOASection() {
                       placeholder="5216"
                       className="flex-1"
                     />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      onClick={() => setJuniorSSICModalOpen(true)}
-                      title="Browse SSIC Codes"
-                    >
-                      <BookOpen className="h-4 w-4" />
-                    </Button>
+                    <IconTip label="Browse SSIC codes">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setJuniorSSICModalOpen(true)}
+                      >
+                        <BookOpen className="h-4 w-4" />
+                      </Button>
+                    </IconTip>
                   </div>
                 </div>
                 <div className="space-y-2">

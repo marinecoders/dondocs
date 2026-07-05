@@ -5,6 +5,17 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.49] — 2026-07-05
+
+### Accessibility
+
+- The remaining lookup buttons — browse SSIC codes (joint / MOA letters, the
+  6105 counseling form, and command profiles), browse the unit directory and
+  reference library on the 6105 form, and search/clear the signature office code
+  — now use the themed tooltip that appears on keyboard focus and carries a real
+  accessible name, matching the addressing section. Their labels were also
+  normalized to sentence case.
+
 ## [1.2.48] — 2026-07-05
 
 ### Accessibility
