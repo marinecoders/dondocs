@@ -46,11 +46,13 @@ export function DistributionManager() {
                   value={d.text}
                   onChange={(e) => updateDistribution(index, e.target.value)}
                   placeholder="Action addressee…"
+                  aria-label={`Action addressee ${index + 1}`}
                 />
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => removeDistribution(index)}
+                  aria-label={`Remove action addressee ${index + 1}`}
                   className="text-destructive hover:text-destructive"
                 >
                   <Trash2 className="h-4 w-4" />

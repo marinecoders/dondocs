@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.58] — 2026-07-05
+
+### Accessibility
+
+- The copy-to recipient and action-addressee fields (and their remove buttons),
+  plus an enclosure's cover-page description, now carry proper accessible names
+  so screen-reader users hear what each field is instead of just "edit text".
+
 ## [1.2.57] — 2026-07-05
 
 ### Fixed

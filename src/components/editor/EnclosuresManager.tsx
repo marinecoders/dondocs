@@ -177,6 +177,7 @@ function SortableEnclosure({
               placeholder="Optional description for page…"
               value={enclosure.coverPageDescription || ''}
               onChange={(e) => onUpdateCoverDescription(e.target.value)}
+              aria-label={`Enclosure (${index + 1}) cover page description`}
               className="text-xs min-h-[60px]"
             />
           )}
