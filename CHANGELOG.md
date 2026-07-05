@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.53] — 2026-07-05
+
+### Accessibility
+
+- The document sidebar's sort and multi-select buttons and the preview's
+  readiness "jump to the first incomplete section" control now use the themed
+  tooltip that appears on keyboard focus, instead of a native browser tooltip
+  that keyboard and touch users never saw.
+
 ## [1.2.52] — 2026-07-05
 
 ### Accessibility

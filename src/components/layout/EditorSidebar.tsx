@@ -6,6 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { IconTip } from '@/components/ui/icon-tip';
 import { SectionRail } from './SectionRail';
 import { getSectionError, getFormSectionError, useEditorSections, ERROR_BEARING_IDS } from './editorSections';
 import { useDocumentStore } from '@/stores/documentStore';
@@ -258,26 +259,29 @@ export function EditorSidebar() {
         <div className="flex items-center justify-between px-3 pb-1.5">
           <span className="text-2xs font-semibold tracking-[0.06em] uppercase text-muted-foreground">Recent</span>
           <div className="flex items-center gap-1">
-            <button
-              type="button"
-              onClick={() => setSort((s) => (s === 'recent' ? 'name' : 'recent'))}
-              aria-label={sort === 'recent' ? 'Sort by name' : 'Sort by most recent'}
-              title={sort === 'recent' ? 'Sorted by most recent — switch to A–Z' : 'Sorted A–Z — switch to most recent'}
-              className="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 transition-colors"
-            >
-              {sort === 'recent' ? <Clock className="h-3.5 w-3.5" /> : <ArrowDownAZ className="h-3.5 w-3.5" />}
-            </button>
-            <button
-              type="button"
-              onClick={() => (selectMode ? exitSelectMode() : setSelectMode(true))}
-              aria-pressed={selectMode}
-              title={selectMode ? 'Exit selection' : 'Select multiple documents'}
-              className={`inline-flex h-7 w-7 items-center justify-center rounded-md outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 transition-colors ${
-                selectMode ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-              }`}
-            >
-              <CheckSquare className="h-3.5 w-3.5" />
-            </button>
+            <IconTip label={sort === 'recent' ? 'Sorted by most recent — switch to A–Z' : 'Sorted A–Z — switch to most recent'}>
+              <button
+                type="button"
+                onClick={() => setSort((s) => (s === 'recent' ? 'name' : 'recent'))}
+                aria-label={sort === 'recent' ? 'Sort by name' : 'Sort by most recent'}
+                className="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 transition-colors"
+              >
+                {sort === 'recent' ? <Clock className="h-3.5 w-3.5" /> : <ArrowDownAZ className="h-3.5 w-3.5" />}
+              </button>
+            </IconTip>
+            <IconTip label={selectMode ? 'Exit selection' : 'Select multiple documents'}>
+              <button
+                type="button"
+                onClick={() => (selectMode ? exitSelectMode() : setSelectMode(true))}
+                aria-pressed={selectMode}
+                aria-label={selectMode ? 'Exit selection' : 'Select multiple documents'}
+                className={`inline-flex h-7 w-7 items-center justify-center rounded-md outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 transition-colors ${
+                  selectMode ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                }`}
+              >
+                <CheckSquare className="h-3.5 w-3.5" />
+              </button>
+            </IconTip>
             <button
               ref={newBtnRef}
               type="button"
