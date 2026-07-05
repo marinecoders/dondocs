@@ -5,6 +5,16 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.61] — 2026-07-05
+
+### Changed
+
+- The two-column rows on the NAVMC 6105 and 11811 forms now stack into one
+  column on phones instead of staying cramped side by side.
+- The document guide's reset button reads "Start over" consistently.
+- The welcome screen's letter preview uses the standard elevation shadow instead
+  of a hard-coded heavy black drop.
+
 ## [1.2.60] — 2026-07-05
 
 ### Changed

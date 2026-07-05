@@ -163,7 +163,7 @@ export function Form11811Section() {
             <span className="font-medium">6105 Entry Content</span>
           </AccordionTrigger>
           <AccordionContent className="space-y-4 pt-2">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="remarksText">Administrative Remarks (Left)</Label>
                 <VariableChipEditor
