@@ -15,6 +15,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { unfilled } from '@/lib/requiredField';
 import { FILE_LIMITS } from '@/lib/constants';
 import { showAppAlert } from '@/stores/alertStore';
+import { isImageFile, rejectedFilesMessage } from '@/lib/fileFilter';
 import type { DocTypeConfig, SignatureImage, SignatureType } from '@/types/document';
 import { ALL_SERVICE_RANKS, formatRank } from '@/data/ranks';
 import { getOfficeCode, OFFICE_CODES } from '@/data/officeCodes';
@@ -107,8 +108,8 @@ export function SignatureSection({ config }: SignatureSectionProps) {
 
   // Handle signature image upload
   const handleSignatureUpload = useCallback(async (file: File) => {
-    if (!file.type.startsWith('image/')) {
-      console.error('Only image files are supported');
+    if (!isImageFile(file)) {
+      showAppAlert({ title: 'Image files only', message: rejectedFilesMessage([file], 'image') });
       return;
     }
     // Signatures are stored base64 in localStorage; cap the size so they can't fill it.
@@ -157,8 +158,10 @@ export function SignatureSection({ config }: SignatureSectionProps) {
     e.preventDefault();
     setIsDragging(false);
 
+    // Hand any dropped file to the uploader; it validates the type and surfaces
+    // an error for non-images instead of the drop silently doing nothing.
     const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith('image/')) {
+    if (file) {
       handleSignatureUpload(file);
     }
   }, [handleSignatureUpload]);

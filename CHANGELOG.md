@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.36] — 2026-07-04
+
+### Fixed
+
+- Attaching an unsupported file now tells you why instead of doing nothing.
+  Dropping or picking a non-PDF for an enclosure, or a non-image for a
+  signature, silently ignored the file; it now shows a clear message naming the
+  skipped file, and valid files in the same drop still attach.
+
 ## [1.2.35] — 2026-07-04
 
 ### Changed

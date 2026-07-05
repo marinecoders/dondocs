@@ -11,6 +11,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
+import { partitionFiles, rejectedFilesMessage, isPdfFile } from '@/lib/fileFilter';
+import { showAppAlert } from '@/stores/alertStore';
 import {
   Select,
   SelectContent,
@@ -69,8 +71,11 @@ function SortableEnclosure({
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file && file.type === 'application/pdf') {
+    if (!file) return;
+    if (isPdfFile(file)) {
       onAttachFile(file);
+    } else {
+      showAppAlert({ title: 'PDF files only', message: rejectedFilesMessage([file], 'PDF') });
     }
   };
 
@@ -273,12 +278,13 @@ export function EnclosuresManager() {
     e.stopPropagation();
     setIsDraggingOver(false);
 
-    const files = Array.from(e.dataTransfer.files);
-    const pdfFiles = files.filter((file) => file.type === 'application/pdf');
-
-    pdfFiles.forEach((file) => {
+    const { accepted, rejected } = partitionFiles(Array.from(e.dataTransfer.files), isPdfFile);
+    accepted.forEach((file) => {
       handleUploadNewEnclosure(file);
     });
+    if (rejected.length > 0) {
+      showAppAlert({ title: 'PDF files only', message: rejectedFilesMessage(rejected, 'PDF') });
+    }
   }, [handleUploadNewEnclosure]);
 
   return (
@@ -406,12 +412,11 @@ export function EnclosuresManager() {
                     accept=".pdf"
                     multiple
                     onChange={(e) => {
-                      const files = Array.from(e.target.files || []);
-                      files.forEach((file) => {
-                        if (file.type === 'application/pdf') {
-                          handleUploadNewEnclosure(file);
-                        }
-                      });
+                      const { accepted, rejected } = partitionFiles(Array.from(e.target.files || []), isPdfFile);
+                      accepted.forEach((file) => handleUploadNewEnclosure(file));
+                      if (rejected.length > 0) {
+                        showAppAlert({ title: 'PDF files only', message: rejectedFilesMessage(rejected, 'PDF') });
+                      }
                       e.target.value = '';
                     }}
                     className="hidden"
