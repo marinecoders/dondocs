@@ -171,8 +171,8 @@ export function BrowserCompatibilityNotice() {
         {/* Header */}
         <div className="flex items-start justify-between p-4 border-b border-border">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-amber-500/10 rounded-full">
-              <AlertTriangle className="h-6 w-6 text-amber-500" />
+            <div className="p-2 bg-warning/10 rounded-full">
+              <AlertTriangle className="h-6 w-6 text-warning" />
             </div>
             <div>
               <h2 className="font-semibold text-lg">Limited Browser Support</h2>

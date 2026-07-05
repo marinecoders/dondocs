@@ -5,6 +5,24 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.47] — 2026-07-05
+
+### Accessibility
+
+- Caution/warning surfaces now draw from the theme's warning color instead of a
+  hard-coded amber, so they track light/dark and every color scheme and stay
+  legible. The warning color was also darkened slightly in light mode so warning
+  text clears the WCAG AA 4.5:1 contrast ratio on its own tinted background
+  (previously ~4.06:1) — this also sharpens the storage and backup banners.
+
+### Changed
+
+- The PII/PHI and encryption notices in Share, the reference/enclosure
+  "not applicable to this document type" notices, the batch "some failed"
+  summary, the browser-compatibility notice, the status-message helper, and the
+  "Clear fields" confirm button all route through the semantic warning/success
+  tokens now.
+
 ## [1.2.46] — 2026-07-05
 
 ### Changed

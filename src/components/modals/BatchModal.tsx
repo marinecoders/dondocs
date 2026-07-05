@@ -1099,12 +1099,12 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
                     {/* Results Summary */}
                     {lastResults && (
-                      <div className={`p-4 rounded-lg border shadow-sm transition-colors duration-300 ${lastResults.failed > 0 ? 'border-amber-500/30 bg-amber-500/10' : 'border-success/30 bg-success/10'}`}>
+                      <div className={`p-4 rounded-lg border shadow-sm transition-colors duration-300 ${lastResults.failed > 0 ? 'border-warning/30 bg-warning/10' : 'border-success/30 bg-success/10'}`}>
                         <div className="flex items-center gap-2 mb-2">
                           {lastResults.failed === 0 ? (
                             <CheckCircle className="h-5 w-5 text-success" />
                           ) : (
-                            <AlertCircle className="h-5 w-5 text-amber-500" />
+                            <AlertCircle className="h-5 w-5 text-warning" />
                           )}
                           <span className="font-medium">
                             Generation Complete: {lastResults.succeeded}/{lastResults.total} succeeded

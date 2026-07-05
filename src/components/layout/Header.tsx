@@ -1270,7 +1270,7 @@ export function Header({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleClearFields} className="bg-orange-600 text-white hover:bg-orange-700">
+            <AlertDialogAction onClick={handleClearFields} className="bg-warning text-warning-foreground hover:bg-warning/90">
               Clear fields
             </AlertDialogAction>
           </AlertDialogFooter>

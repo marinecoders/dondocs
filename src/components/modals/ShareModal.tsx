@@ -162,14 +162,14 @@ export function ShareModal({
         </DialogHeader>
 
         <div
-          className="flex gap-3 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2.5 text-sm text-amber-800 dark:border-amber-400/30 dark:bg-amber-500/10 dark:text-amber-200"
+          className="flex gap-3 rounded-md border border-warning/40 bg-warning/10 px-3 py-2.5 text-sm text-warning"
           role="status"
           aria-live="polite"
         >
-          <ShieldAlert className="h-5 w-5 flex-shrink-0 mt-0.5 text-amber-600 dark:text-amber-400" />
+          <ShieldAlert className="h-5 w-5 flex-shrink-0 mt-0.5 text-warning" />
           <div>
             <p className="font-medium mb-0.5">How encryption works</p>
-            <p className="text-muted-foreground dark:text-amber-200/90">
+            <p className="text-muted-foreground">
               Encryption is done in your browser only. Your password is never sent to any server.
               The link contains data encrypted with AES-GCM using a key derived from your password (PBKDF2).
               Share the link and the password separately; anyone with both can decrypt and open the document.
@@ -253,12 +253,12 @@ export function ShareModal({
           )}
 
           {!isImport && piiFindings && (
-            <div className="rounded-md border border-amber-300 bg-amber-50 p-3 text-sm dark:border-amber-800 dark:bg-amber-950/30" role="alert">
+            <div className="rounded-md border border-warning/40 bg-warning/10 p-3 text-sm" role="alert">
               <div className="flex items-start gap-2">
-                <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />
+                <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
                 <div className="min-w-0">
-                  <p className="font-medium text-amber-800 dark:text-amber-300">This document may contain PII/PHI</p>
-                  <p className="mt-0.5 text-amber-700 dark:text-amber-400/90">
+                  <p className="font-medium text-warning">This document may contain PII/PHI</p>
+                  <p className="mt-0.5 text-warning">
                     Found {piiFindings.findings.length} potential item{piiFindings.findings.length === 1 ? '' : 's'} (
                     {[...new Set(piiFindings.findings.map((f) => getPIITypeLabel(f.type)))].join(', ')}). The link is
                     password-encrypted, but it still leaves your device — share it only if you mean to.
