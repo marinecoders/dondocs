@@ -7,6 +7,7 @@ import {
 import { useDocumentStore } from '@/stores/documentStore';
 import { Shield, AlertTriangle, Info } from 'lucide-react';
 import { HelpTip } from '@/components/ui/help-tip';
+import { Notice } from '@/components/ui/notice';
 import {
   getDomainClassificationRestriction,
   getDomainRestrictionMessage,
@@ -212,7 +213,7 @@ export function ClassificationSection() {
 
             {/* Warning for classified documents */}
             {isClassified && (
-              <div className="flex items-start gap-2 p-3 rounded-md bg-destructive/10 border border-destructive/20">
+              <Notice variant="error" className="flex items-start gap-2">
                 <AlertTriangle aria-hidden="true" className="h-4 w-4 text-destructive mt-0.5 shrink-0" />
                 <div className="text-sm text-destructive">
                   <p className="font-medium"><span className="sr-only">Warning: </span>Classified Document Warning</p>
@@ -221,7 +222,7 @@ export function ClassificationSection() {
                     procedures are followed per applicable security regulations.
                   </p>
                 </div>
-              </div>
+              </Notice>
             )}
 
             {/* Custom mode holds the marking text plus all CUI/Classified
@@ -232,9 +233,9 @@ export function ClassificationSection() {
               <div className="space-y-4 p-3 rounded-md border bg-muted/30">
                 <p className="text-sm font-medium">Custom Classification</p>
 
-                <div className="flex items-start gap-2 p-3 rounded-md bg-amber-50 border border-amber-200 dark:bg-amber-950/30 dark:border-amber-800">
-                  <AlertTriangle aria-hidden="true" className="h-4 w-4 text-amber-700 dark:text-amber-400 mt-0.5 shrink-0" />
-                  <div className="text-sm text-amber-800 dark:text-amber-300">
+                <Notice variant="warning" className="flex items-start gap-2">
+                  <AlertTriangle aria-hidden="true" className="h-4 w-4 text-warning mt-0.5 shrink-0" />
+                  <div className="text-sm text-warning">
                     <p className="font-medium"><span className="sr-only">Warning: </span>Classification handling — non-accredited system</p>
                     <p className="text-xs mt-1">
                       Per DoDM 5200.01 Vol 3 and EO 13526, classified
@@ -255,7 +256,7 @@ export function ClassificationSection() {
                       security regulations.
                     </p>
                   </div>
-                </div>
+                </Notice>
 
                 <div className="space-y-2">
                   <Label htmlFor="customClassification">Custom Classification Marking</Label>

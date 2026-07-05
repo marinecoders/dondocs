@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.59] — 2026-07-05
+
+### Changed
+
+- The classified-document warning and the custom-classification handling notice
+  now use the shared themed notice component, so they match every other in-app
+  notice and the caution notice draws its amber from the theme (tracking light/
+  dark and every color scheme) instead of a hard-coded shade.
+
 ## [1.2.58] — 2026-07-05
 
 ### Accessibility
