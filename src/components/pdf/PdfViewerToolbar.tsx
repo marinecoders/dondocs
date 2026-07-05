@@ -156,9 +156,19 @@ export function PdfViewerToolbar({
       <ToolButton label="Zoom out" onClick={onZoomOut}>
         <ZoomOut className="h-4 w-4" />
       </ToolButton>
-      <span className="tnum hidden min-w-[3rem] text-center text-xs text-muted-foreground @[300px]:block">
-        {zoomPercent}%
-      </span>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button
+            type="button"
+            onClick={onZoomFitWidth}
+            aria-label={`Zoom ${zoomPercent} percent — reset to fit width`}
+            className="tnum hidden min-w-[3rem] rounded text-center text-xs text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 @[300px]:block"
+          >
+            {zoomPercent}%
+          </button>
+        </TooltipTrigger>
+        <TooltipContent>Reset zoom (fit width)</TooltipContent>
+      </Tooltip>
       <ToolButton label="Zoom in" onClick={onZoomIn}>
         <ZoomIn className="h-4 w-4" />
       </ToolButton>

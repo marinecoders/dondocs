@@ -5,6 +5,13 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.60] — 2026-07-05
+
+### Changed
+
+- The zoom percentage in the PDF viewer toolbar is now a button — click it to
+  reset the zoom to fit-width — instead of a static label.
+
 ## [1.2.59] — 2026-07-05
 
 ### Changed
