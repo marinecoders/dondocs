@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
+import { IconTip } from '@/components/ui/icon-tip';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from '@/components/ui/accordion';
@@ -373,28 +374,30 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                           onClick={() => setOfficeCodeModalOpen(true)}
                         />
                         {formData.officeCode && (
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="absolute right-1 top-1/2 -translate-y-1/2 h-6 w-6"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setField('officeCode', '');
-                            }}
-                            title="Clear office code"
-                          >
-                            <X className="h-3 w-3" />
-                          </Button>
+                          <IconTip label="Clear office code">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="absolute right-1 top-1/2 -translate-y-1/2 h-6 w-6"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setField('officeCode', '');
+                              }}
+                            >
+                              <X className="h-3 w-3" />
+                            </Button>
+                          </IconTip>
                         )}
                       </div>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => setOfficeCodeModalOpen(true)}
-                        title="Search office codes"
-                      >
-                        <Search className="h-4 w-4" />
-                      </Button>
+                      <IconTip label="Search office codes">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => setOfficeCodeModalOpen(true)}
+                        >
+                          <Search className="h-4 w-4" />
+                        </Button>
+                      </IconTip>
                     </div>
                   )}
                 </div>

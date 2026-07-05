@@ -19,6 +19,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import { IconTip } from '@/components/ui/icon-tip';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -447,15 +448,16 @@ export function ProfileModal() {
                         placeholder="5216"
                         className="flex-1"
                       />
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="icon"
-                        onClick={() => setShowSSICLookup(true)}
-                        title="Browse SSIC Codes"
-                      >
-                        <BookOpen className="h-4 w-4" />
-                      </Button>
+                      <IconTip label="Browse SSIC codes">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          onClick={() => setShowSSICLookup(true)}
+                        >
+                          <BookOpen className="h-4 w-4" />
+                        </Button>
+                      </IconTip>
                     </div>
                   </div>
                   <div className="space-y-2 col-span-2">
