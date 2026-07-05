@@ -39,9 +39,22 @@ describe('BackupNotice', () => {
   it('shows a write-failure strip that offers to re-pick the file', () => {
     setStatus('error');
     render(<BackupNotice />);
-    expect(screen.getByRole('status').textContent).toContain("couldn't write");
+    // A failed write silently stales the backup — announce it assertively.
+    expect(screen.getByRole('alert').textContent).toContain("couldn't write");
     fireEvent.click(screen.getByRole('button', { name: 'Choose file' }));
     expect(useBackupStore.getState().setupBackup).toHaveBeenCalledOnce();
+  });
+
+  it('escalates only the write-failure to role=alert; the expected permission drop stays polite', () => {
+    setStatus('needs-permission');
+    const { rerender } = render(<BackupNotice />);
+    expect(screen.queryByRole('alert')).toBeNull();
+    expect(screen.getByRole('status')).toBeTruthy();
+
+    setStatus('error');
+    rerender(<BackupNotice />);
+    expect(screen.getByRole('alert')).toBeTruthy();
+    expect(screen.queryByRole('status')).toBeNull();
   });
 
   it('dismissal is per-status: hiding needs-permission still lets a later error surface', () => {
@@ -53,6 +66,6 @@ describe('BackupNotice', () => {
 
     setStatus('error');
     rerender(<BackupNotice />);
-    expect(screen.getByRole('status').textContent).toContain("couldn't write"); // new status re-surfaces
+    expect(screen.getByRole('alert').textContent).toContain("couldn't write"); // new status re-surfaces
   });
 });

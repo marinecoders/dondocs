@@ -32,12 +32,16 @@ export function BackupNotice() {
   const actionLabel = needsPermission ? 'Reconnect' : 'Choose file';
   const onAction = needsPermission ? reconnect : setupBackup;
 
+  // A failed write means the backup is silently stale — announce it assertively;
+  // a permission drop on relaunch is expected and stays polite.
+  const role = status === 'error' ? 'alert' : 'status';
+
   return (
     <div
-      role="status"
-      className="flex items-center gap-2 border-b border-amber-500/25 bg-amber-500/10 px-4 py-1 text-xs text-foreground"
+      role={role}
+      className="flex items-start gap-2 border-b border-b-warning/30 border-l-2 border-l-warning bg-warning/10 px-4 py-1 text-xs text-foreground"
     >
-      <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-amber-600 dark:text-amber-400" />
+      <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-warning" />
       <p className="min-w-0 flex-1">
         {message}
         {fileName ? <span className="text-muted-foreground"> ({fileName})</span> : null}
@@ -45,7 +49,7 @@ export function BackupNotice() {
       <button
         type="button"
         onClick={() => void onAction()}
-        className="shrink-0 rounded px-2 py-0.5 font-medium text-amber-700 underline-offset-2 outline-none hover:underline focus-visible:ring-[3px] focus-visible:ring-ring/50 dark:text-amber-300"
+        className="-my-1.5 shrink-0 rounded px-2 py-1.5 font-medium text-warning underline-offset-2 outline-none hover:underline focus-visible:ring-[3px] focus-visible:ring-ring/50"
       >
         {actionLabel}
       </button>
@@ -53,7 +57,7 @@ export function BackupNotice() {
         type="button"
         onClick={() => setDismissedStatus(status)}
         aria-label="Dismiss backup notice"
-        className="shrink-0 rounded p-0.5 text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
+        className="-m-1.5 shrink-0 rounded p-1.5 text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
       >
         <X className="h-3.5 w-3.5" />
       </button>
