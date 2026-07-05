@@ -179,7 +179,7 @@ function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) =>
         <div className="pt-4 border-t">
           <Button variant="outline" onClick={handleReset} className="w-full">
             <RotateCcw className="h-4 w-4 mr-2" />
-            Start Over
+            Start over
           </Button>
         </div>
       </div>

@@ -103,7 +103,7 @@ export function WelcomeModal() {
         {/* The welcome message, drafted as a naval letter on cream paper. */}
         <div className="flex-1 overflow-y-auto min-h-0 p-4 pb-0">
           <div
-            className="rounded-[3px] px-6 py-6 sm:px-8 shadow-[0_12px_34px_rgba(0,0,0,0.55)]"
+            className="rounded-[3px] px-6 py-6 sm:px-8 shadow-xl"
             style={{ backgroundColor: PAPER_BG, color: INK, fontFamily: SERIF }}
           >
             {/* Letterhead: the wide Marine Coders lockup, engraved in black. */}
