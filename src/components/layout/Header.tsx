@@ -635,11 +635,11 @@ export function Header({
     <header className="border-b border-border bg-card">
       {/* Dismissable beta release banner */}
       {!bannerDismissed && (
-        <div className="bg-amber-500/10 text-amber-700 dark:text-amber-300/90 text-[0.6875rem] font-medium py-0.5 text-center tracking-wide relative border-b border-amber-500/20">
+        <div className="bg-warning/10 text-warning text-xs font-medium py-0.5 text-center tracking-wide relative border-b border-warning/20">
           Not an official DoW website. Beta release — report issues on GitHub.
           <button
             onClick={dismissBanner}
-            className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-amber-500/20 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 transition-colors"
+            className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-warning/20 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 transition-colors"
             aria-label="Dismiss banner"
           >
             <X className="h-3 w-3" />

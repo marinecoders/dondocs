@@ -27,12 +27,16 @@ export function StorageNotice() {
       ? 'Reloading usually fixes it; if not, restore from a backup file.'
       : 'Use Download or Share to keep a permanent copy.';
 
+  // A blocked/unreadable store is a data-durability problem, so announce it
+  // assertively; the benign "best-effort" heads-up stays polite.
+  const role = storageHealth === 'unavailable' || storageHealth === 'unreadable' ? 'alert' : 'status';
+
   return (
     <div
-      role="status"
-      className="flex items-center gap-2 border-b border-amber-500/25 bg-amber-500/10 px-4 py-1 text-xs text-foreground"
+      role={role}
+      className="flex items-start gap-2 border-b border-b-warning/30 border-l-2 border-l-warning bg-warning/10 px-4 py-1 text-xs text-foreground"
     >
-      <Info className="h-3.5 w-3.5 shrink-0 text-amber-600 dark:text-amber-400" />
+      <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-warning" />
       <p className="min-w-0 flex-1">
         {message} <span className="text-muted-foreground">{suffix}</span>
       </p>
@@ -40,7 +44,7 @@ export function StorageNotice() {
         type="button"
         onClick={dismiss}
         aria-label="Dismiss storage notice"
-        className="shrink-0 rounded p-0.5 text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
+        className="-m-1.5 shrink-0 rounded p-1.5 text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
       >
         <X className="h-3.5 w-3.5" />
       </button>

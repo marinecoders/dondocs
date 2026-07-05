@@ -5,6 +5,27 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.35] — 2026-07-04
+
+### Changed
+
+- The storage and backup notice strips and the beta banner now use the shared
+  warning color, so they restain correctly in every theme instead of a fixed
+  amber, and the banner text matches the strips' size.
+
+### Fixed
+
+- Stacked notice strips now read as separate: each carries a left accent bar
+  and a firmer divider instead of merging into one slab.
+- A notice's leading icon aligns to the first line when the message wraps, and
+  the dismiss/action controls have larger touch targets.
+
+### Accessibility
+
+- Blocked storage and failed-backup conditions are now announced assertively to
+  screen readers (role="alert") instead of politely, where they could be
+  missed; the benign heads-up cases stay polite.
+
 ## [1.2.34] — 2026-07-04
 
 ### Changed
