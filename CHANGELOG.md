@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.48] — 2026-07-05
+
+### Accessibility
+
+- The "look up a unit" and "browse SSIC codes" buttons in the addressing section
+  now use a proper themed tooltip that appears on keyboard focus and carries a
+  real accessible name, instead of a native browser tooltip that keyboard and
+  touch users never saw.
+
 ## [1.2.47] — 2026-07-05
 
 ### Accessibility
