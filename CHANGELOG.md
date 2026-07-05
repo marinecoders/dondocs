@@ -5,6 +5,21 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.42] — 2026-07-04
+
+### Fixed
+
+- In the body editor, the @-insert menu now scrolls the highlighted option into
+  view when you arrow past the visible rows or wrap top-to-bottom.
+- The floating bold/italic/underline toolbar no longer clips off the top of the
+  screen when the selected text is near the top — it flips below the selection
+  when there isn't room above.
+
+### Changed
+
+- The @-menu, its "create variable" panel, and the floating toolbar now share
+  one shadow depth instead of three different ones.
+
 ## [1.2.41] — 2026-07-04
 
 ### Accessibility

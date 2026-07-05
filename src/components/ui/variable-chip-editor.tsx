@@ -272,6 +272,14 @@ interface SuggestionListRef {
 const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(
   ({ items, command, query }, ref) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
+    // Keep the keyboard-selected row visible: arrowing past the fold (or wrapping
+    // top↔bottom) would otherwise highlight an off-screen option.
+    const listRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+      listRef.current
+        ?.querySelector('[aria-selected="true"]')
+        ?.scrollIntoView({ block: 'nearest' });
+    }, [selectedIndex]);
     // Reset selection to 0 whenever `items` changes (e.g. user keeps typing
     // and the autocomplete narrows). Done via the React-recommended "store-
     // previous-value-and-compare" pattern during render rather than a
@@ -334,7 +342,7 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(
     // If no matches and user typed something, offer to create custom variable
     if (items.length === 0 && query.trim()) {
       return (
-        <div className="bg-popover border border-border rounded-lg shadow-lg overflow-hidden w-[280px]">
+        <div className="bg-popover border border-border rounded-lg shadow-md overflow-hidden w-[280px]">
           <div className="px-3 py-2 border-b border-border bg-muted/50">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <span className="text-base font-medium text-blue-500">@</span>
@@ -362,7 +370,7 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(
 
     if (items.length === 0) {
       return (
-        <div className="bg-popover border border-border rounded-lg shadow-lg overflow-hidden w-[280px]">
+        <div className="bg-popover border border-border rounded-lg shadow-md overflow-hidden w-[280px]">
           <div className="px-3 py-3 text-sm text-muted-foreground text-center">
             Type a variable name...
           </div>
@@ -375,7 +383,7 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(
         <div className="px-3 pt-2.5 pb-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
           Insert
         </div>
-        <div className="max-h-[280px] overflow-y-auto px-1 pb-1.5" role="listbox" aria-label="Insert variable">
+        <div ref={listRef} className="max-h-[280px] overflow-y-auto px-1 pb-1.5" role="listbox" aria-label="Insert variable">
           {items.map((item, idx) => {
             const Icon = iconForItem(item);
             const active = idx === selectedIndex;
@@ -664,7 +672,7 @@ export function VariableChipEditor({
 }: VariableChipEditorProps) {
   const [isFocused, setIsFocused] = useState(false);
   // Floating B/I/U toolbar position when text is selected in block mode.
-  const [selBox, setSelBox] = useState<{ top: number; left: number } | null>(null);
+  const [selBox, setSelBox] = useState<{ top: number; bottom: number; left: number } | null>(null);
   const lastValue = useRef(value);
   const currentValue = useRef(value);
 
@@ -855,7 +863,7 @@ export function VariableChipEditor({
         setSelBox(null);
         return;
       }
-      setSelBox({ top: rect.top, left: rect.left + rect.width / 2 });
+      setSelBox({ top: rect.top, bottom: rect.bottom, left: rect.left + rect.width / 2 });
     },
   });
 
@@ -906,13 +914,20 @@ export function VariableChipEditor({
         )}
         {selBox &&
           editor &&
-          createPortal(
+          (() => {
+            // Sit above the selection, but flip below when the selection is near
+            // the top of the viewport so the bar never clips off-screen.
+            const placeAbove = selBox.top >= 48;
+            const style: React.CSSProperties = placeAbove
+              ? { position: 'fixed', top: selBox.top - 8, left: selBox.left, transform: 'translate(-50%, -100%)', zIndex: 60 }
+              : { position: 'fixed', top: selBox.bottom + 8, left: selBox.left, transform: 'translate(-50%, 0)', zIndex: 60 };
+            return createPortal(
             <div
               role="toolbar"
               aria-label="Text formatting"
               onMouseDown={(e) => e.preventDefault()}
-              style={{ position: 'fixed', top: selBox.top - 8, left: selBox.left, transform: 'translate(-50%, -100%)', zIndex: 60 }}
-              className="flex gap-0.5 rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-elevated"
+              style={style}
+              className="flex gap-0.5 rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md"
             >
               {fmtBtns.map(({ cmd, glyph, cls }) => (
                 <button
@@ -937,7 +952,8 @@ export function VariableChipEditor({
               ))}
             </div>,
             document.body
-          )}
+          );
+          })()}
       </div>
     );
   }
