@@ -23,6 +23,7 @@ import { HelpTip } from '@/components/ui/help-tip';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
 import { unfilled } from '@/lib/requiredField';
+import { RequiredMark } from '@/components/ui/required-mark';
 import { SSICLookupModal } from '@/components/modals/SSICLookupModal';
 import { UnitLookupModal } from '@/components/modals/UnitLookupModal';
 import { expandUnitName, insertUnitInto, type UnitInfo } from '@/data/unitDirectory';
@@ -66,8 +67,10 @@ function SortableViaItem({ id, index, value, onChange, onRemove, onLookup, canRe
       <button
         {...attributes}
         {...listeners}
-        className="cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground"
         type="button"
+        aria-label={`Drag to reorder via routing ${index + 1}`}
+        title="Drag to reorder"
+        className="cursor-grab rounded-sm text-muted-foreground outline-none transition-colors hover:bg-accent/50 hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 active:cursor-grabbing"
       >
         <GripVertical className="h-4 w-4" />
       </button>
@@ -247,7 +250,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                       {!config.ssic && <span className="text-xs font-normal text-muted-foreground ml-1">(N/A)</span>}
                       {config.ssic && isSSICOptional && <span className="text-xs font-normal text-muted-foreground ml-1">(optional)</span>}
                     </Label>
-                    <div className="flex gap-1">
+                    <div className="flex gap-2">
                       <Input
                         id="ssic"
                         value={formData.ssic || ''}
@@ -321,9 +324,9 @@ export function AddressingSection({ config }: AddressingSectionProps) {
             {docType === 'mf' && (
               <div className="space-y-2">
                 <Label htmlFor="to">
-                  Memorandum For <span className="text-destructive">*</span>
+                  Memorandum For <RequiredMark />
                 </Label>
-                <div className="flex gap-1">
+                <div className="flex gap-2">
                   <div className="flex-1">
                     <InputWithVariables
                       id="to"
@@ -388,7 +391,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="to">To</Label>
-                  <div className="flex gap-1">
+                  <div className="flex gap-2">
                     <div className="flex-1">
                       <InputWithVariables
                         id="to"
@@ -466,19 +469,17 @@ export function AddressingSection({ config }: AddressingSectionProps) {
             {/* Salutation - Required for business letters in compliant mode */}
             {requiresSalutation && (
               <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <Label htmlFor="salutation">Salutation</Label>
-                  <span className="text-xs text-destructive">* Required</span>
-                </div>
+                <Label htmlFor="salutation">Salutation<RequiredMark /></Label>
                 <Input
                   id="salutation"
                   value={formData.salutation || ''}
                   onChange={(e) => setField('salutation', e.target.value)}
                   placeholder="Dear Sir or Madam:"
-                  className={!formData.salutation?.trim() ? 'border-destructive' : ''}
+                  aria-invalid={validationVisible && unfilled(formData.salutation) ? true : undefined}
+                  aria-describedby={validationVisible && unfilled(formData.salutation) ? 'salutation-error' : undefined}
                 />
-                {!formData.salutation?.trim() && (
-                  <p className="text-xs text-destructive flex items-center gap-1">
+                {validationVisible && unfilled(formData.salutation) && (
+                  <p id="salutation-error" role="alert" className="text-xs text-destructive flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
                     Per SECNAV M-5216.5 Ch 11: Business letters require a salutation
                   </p>

@@ -16,6 +16,7 @@ import { unfilled } from '@/lib/requiredField';
 import { FILE_LIMITS } from '@/lib/constants';
 import { showAppAlert } from '@/stores/alertStore';
 import { isImageFile, rejectedFilesMessage } from '@/lib/fileFilter';
+import { RequiredMark } from '@/components/ui/required-mark';
 import type { DocTypeConfig, SignatureImage, SignatureType } from '@/types/document';
 import { ALL_SERVICE_RANKS, formatRank } from '@/data/ranks';
 import { getOfficeCode, OFFICE_CODES } from '@/data/officeCodes';
@@ -197,10 +198,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
             {/* Complimentary Close - Required for business letters in compliant mode */}
             {requiresComplimentaryClose && (
               <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <Label htmlFor="complimentaryClose">Complimentary Close</Label>
-                  <span className="text-xs text-destructive">* Required</span>
-                </div>
+                <Label htmlFor="complimentaryClose">Complimentary Close<RequiredMark /></Label>
                 <Input
                   id="complimentaryClose"
                   value={formData.complimentaryClose || ''}

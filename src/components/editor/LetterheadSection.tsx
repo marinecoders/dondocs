@@ -120,6 +120,9 @@ export function LetterheadSection() {
           </AccordionTrigger>
           <AccordionContent>
             <div className={`space-y-4 pt-2 ${isDisabled ? 'opacity-50 pointer-events-none select-none' : ''}`}>
+              <p className="-mt-1 text-xs text-muted-foreground">
+                Unit name, address, seal, and color that appear at the top of the page.
+              </p>
               {/* Responsive row: the editor column width is independent of the
                   viewport (collapsible sidebar + resizable preview), so flex-wrap
                   lets it wrap rather than overflow at a narrow column. */}
@@ -128,7 +131,17 @@ export function LetterheadSection() {
                     break and min-w-0 lets the cells shrink rather than overflow. */}
                 <div className="grid grid-cols-2 gap-3 min-w-0 sm:basis-52 sm:grow-0 sm:shrink">
                   <div className="space-y-2 min-w-0">
-                    <Label>Seal</Label>
+                    <Label className="flex items-center gap-1.5">
+                      Seal
+                      <HelpTip>
+                        <p className="text-xs">
+                          Which seal prints on the letterhead. <strong>DoW</strong> is the
+                          Department of War seal (the current default); <strong>DoD</strong>
+                          {' '}is the older Department of Defense seal. Picking the wrong one
+                          produces an officially incorrect document.
+                        </p>
+                      </HelpTip>
+                    </Label>
                     <Select
                       value={formData.sealType || 'dow'}
                       onValueChange={(v) => setField('sealType', v)}
@@ -153,8 +166,18 @@ export function LetterheadSection() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="blue">Blue</SelectItem>
-                        <SelectItem value="black">Black</SelectItem>
+                        <SelectItem value="blue">
+                          <span className="flex items-center gap-2">
+                            <span className="h-3 w-3 shrink-0 rounded-full border border-border bg-brand-accent" aria-hidden="true" />
+                            Blue
+                          </span>
+                        </SelectItem>
+                        <SelectItem value="black">
+                          <span className="flex items-center gap-2">
+                            <span className="h-3 w-3 shrink-0 rounded-full border border-border bg-black" aria-hidden="true" />
+                            Black
+                          </span>
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -310,8 +333,12 @@ export function LetterheadSection() {
                     <Input
                       id="addressZip"
                       value={addressParts.zip}
-                      onChange={(e) => updateAddressPart('zip', e.target.value)}
+                      // Keep only digits and the ZIP+4 hyphen, capped at 10 chars
+                      // ("#####-####"); `pattern` alone never fires without a
+                      // native submit, which this form doesn't do.
+                      onChange={(e) => updateAddressPart('zip', e.target.value.replace(/[^0-9-]/g, '').slice(0, 10))}
                       placeholder="28533-0050"
+                      maxLength={10}
                       inputMode="numeric"
                       pattern="[0-9-]*"
                     />
