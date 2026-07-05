@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.51] — 2026-07-05
+
+### Accessibility
+
+- The profile bar's controls (profile picker, create, edit, and more) are now the
+  standard 32px size instead of 28px, easier to hit, and the icon buttons use the
+  themed tooltip that reaches keyboard and touch users and carries an accessible
+  name. Their labels were normalized to sentence case.
+
 ## [1.2.50] — 2026-07-05
 
 ### Changed
