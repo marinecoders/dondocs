@@ -1,5 +1,6 @@
 import { Plus, Pencil, Trash2, Upload, Download, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { IconTip } from '@/components/ui/icon-tip';
 import {
   Select,
   SelectContent,
@@ -135,11 +136,11 @@ export function ProfileBar() {
   return (
     <div data-tour="profiles" className="flex items-center gap-1.5 px-3 py-1.5 border-b border-border bg-secondary/20">
       <Select value={selectedProfile || '__none__'} onValueChange={handleProfileChange}>
-        <SelectTrigger className="w-[200px] h-7 text-xs">
-          <SelectValue placeholder="Select Profile" />
+        <SelectTrigger size="sm" className="w-[200px] text-xs">
+          <SelectValue placeholder="Select profile" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="__none__">No Profile</SelectItem>
+          <SelectItem value="__none__">No profile</SelectItem>
           {profileNames.map((name) => (
             <SelectItem key={name} value={name}>
               {name}
@@ -148,44 +149,46 @@ export function ProfileBar() {
         </SelectContent>
       </Select>
 
-      <Button
-        data-tour="profile-create"
-        variant="ghost"
-        size="icon"
-        className="h-7 w-7"
-        onClick={() => {
-          // selectProfile persists via compressedLocalStorage, which rethrows on
-          // quota — guard so a near-full store degrades (logs) instead of throwing
-          // out of the click handler into the ErrorBoundary. The modal still opens.
-          try {
-            selectProfile(null);
-          } catch (err) {
-            debug.error('Profile', 'Failed to clear profile selection (storage may be full)', err);
-          }
-          setProfileModalOpen(true);
-        }}
-        title="Create New Profile"
-      >
-        <Plus className="h-3.5 w-3.5" />
-      </Button>
+      <IconTip label="Create profile">
+        <Button
+          data-tour="profile-create"
+          variant="ghost"
+          size="icon-sm"
+          onClick={() => {
+            // selectProfile persists via compressedLocalStorage, which rethrows on
+            // quota — guard so a near-full store degrades (logs) instead of throwing
+            // out of the click handler into the ErrorBoundary. The modal still opens.
+            try {
+              selectProfile(null);
+            } catch (err) {
+              debug.error('Profile', 'Failed to clear profile selection (storage may be full)', err);
+            }
+            setProfileModalOpen(true);
+          }}
+        >
+          <Plus className="h-4 w-4" />
+        </Button>
+      </IconTip>
 
-      <Button
-        variant="ghost"
-        size="icon"
-        className="h-7 w-7"
-        onClick={() => setProfileModalOpen(true)}
-        disabled={!selectedProfile}
-        title="Edit Profile"
-      >
-        <Pencil className="h-3.5 w-3.5" />
-      </Button>
+      <IconTip label="Edit profile">
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          onClick={() => setProfileModalOpen(true)}
+          disabled={!selectedProfile}
+        >
+          <Pencil className="h-4 w-4" />
+        </Button>
+      </IconTip>
 
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="h-7 w-7" title="More profile options">
-            <MoreHorizontal className="h-3.5 w-3.5" />
-          </Button>
-        </DropdownMenuTrigger>
+        <IconTip label="More options">
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon-sm">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+        </IconTip>
         <DropdownMenuContent align="start">
           <DropdownMenuItem
             onClick={handleDelete}
@@ -193,16 +196,16 @@ export function ProfileBar() {
             className="text-destructive focus:text-destructive"
           >
             <Trash2 className="h-4 w-4 mr-2" />
-            Delete Profile
+            Delete profile
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleExport}>
             <Download className="h-4 w-4 mr-2" />
-            Export Profiles
+            Export profiles
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <label className="cursor-pointer">
               <Upload className="h-4 w-4 mr-2" />
-              Import Profiles
+              Import profiles
               <input
                 type="file"
                 accept=".json"
