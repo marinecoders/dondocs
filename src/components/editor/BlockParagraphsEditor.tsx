@@ -294,7 +294,7 @@ const BlockRow = memo(function BlockRow({
             </Button>
           </IconTip>
           <div className="flex-1" />
-          <span className="mr-0.5 text-[11px] text-muted-foreground tnum">{countWords(text)} w</span>
+          <span className="mr-0.5 text-2xs text-muted-foreground tnum">{countWords(text)} w</span>
           <IconTip label="Delete paragraph">
             <Button
               variant="ghost"
@@ -454,7 +454,7 @@ export function BlockParagraphsEditor() {
             </Button>
           </PopoverTrigger>
           <PopoverContent align="start" className="w-80 p-0">
-            <div className="border-b border-border px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+            <div className="border-b border-border px-3 py-2 text-2xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
               Insert a clause
             </div>
             <ul className="max-h-64 overflow-y-auto p-1">
@@ -469,7 +469,7 @@ export function BlockParagraphsEditor() {
                       className="min-w-0 flex-1 rounded-md px-2 py-1.5 text-left outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
                     >
                       <span className="block truncate text-sm text-foreground">{sn.name}</span>
-                      <span className="block truncate text-[11px] text-muted-foreground">{sn.text}</span>
+                      <span className="block truncate text-2xs text-muted-foreground">{sn.text}</span>
                     </button>
                     <button
                       type="button"

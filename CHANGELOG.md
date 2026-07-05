@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.54] — 2026-07-05
+
+### Changed
+
+- Small UI labels (badges, group headers, keycaps, counts, and similar micro-text)
+  now all draw from one shared type step instead of a scatter of hand-picked 9px,
+  10px, and 11px sizes. The smallest 9px and 10px labels move up to a consistent,
+  more legible size, and the masthead subtitle is a touch larger and less faint.
+
 ## [1.2.53] — 2026-07-05
 
 ### Accessibility

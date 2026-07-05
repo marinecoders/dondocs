@@ -285,7 +285,7 @@ export function TemplateLoaderModal() {
           <div className="p-4 grid gap-2">
             {userTemplateList.length > 0 && (
               <>
-                <div className="px-1 text-[10px] font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+                <div className="px-1 text-2xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
                   Your templates
                 </div>
                 {userTemplateList.map((t) => (
@@ -331,7 +331,7 @@ export function TemplateLoaderModal() {
                     </button>
                   </div>
                 ))}
-                <div className="mt-2 px-1 text-[10px] font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+                <div className="mt-2 px-1 text-2xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
                   Built-in templates
                 </div>
               </>

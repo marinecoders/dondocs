@@ -142,7 +142,7 @@ function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) =>
                         </Badge>
                       )}
                       {cite && (
-                        <Badge variant="outline" className="text-[10px] font-normal text-muted-foreground">
+                        <Badge variant="outline" className="text-2xs font-normal text-muted-foreground">
                           {cite}
                         </Badge>
                       )}

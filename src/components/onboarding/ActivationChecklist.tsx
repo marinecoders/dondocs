@@ -242,7 +242,7 @@ export function ActivationChecklist() {
               </div>
               {!row.done &&
                 (row.badge ? (
-                  <span className="shrink-0 rounded-full bg-muted px-1.5 py-0.5 text-[11px] font-medium tabular-nums text-muted-foreground">
+                  <span className="shrink-0 rounded-full bg-muted px-1.5 py-0.5 text-2xs font-medium tabular-nums text-muted-foreground">
                     {row.badge}
                   </span>
                 ) : (
@@ -433,7 +433,7 @@ export function ActivationChecklist() {
 
         {/* Footer */}
         <div className="border-t border-border px-4 py-2.5">
-          <p className="text-[11px] text-muted-foreground">Reopen anytime from the Help menu.</p>
+          <p className="text-2xs text-muted-foreground">Reopen anytime from the Help menu.</p>
         </div>
       </div>
     </div>

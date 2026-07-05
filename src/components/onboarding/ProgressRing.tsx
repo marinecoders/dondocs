@@ -37,7 +37,7 @@ export function ProgressRing({ size, done, total }: { size: number; done: number
           className="text-primary transition-[stroke-dashoffset] duration-500 ease-out motion-reduce:transition-none"
         />
       </svg>
-      <span className="absolute inline-flex items-center justify-center text-[11px] font-semibold tabular-nums leading-none text-foreground">
+      <span className="absolute inline-flex items-center justify-center text-2xs font-semibold tabular-nums leading-none text-foreground">
         {complete ? <Check className="h-3 w-3 text-success" /> : `${done}/${total}`}
       </span>
     </span>

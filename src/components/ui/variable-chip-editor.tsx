@@ -380,7 +380,7 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(
 
     return (
       <div className="bg-popover text-popover-foreground border border-border rounded-lg shadow-md overflow-hidden w-[300px]">
-        <div className="px-3 pt-2.5 pb-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+        <div className="px-3 pt-2.5 pb-1 text-2xs font-semibold uppercase tracking-wider text-muted-foreground">
           Insert
         </div>
         <div ref={listRef} className="max-h-[280px] overflow-y-auto px-1 pb-1.5" role="listbox" aria-label="Insert variable">
