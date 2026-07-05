@@ -208,7 +208,7 @@ export function EditorSidebar() {
           onClick={toggleSidebar}
           aria-label="Expand sidebar"
           aria-expanded={false}
-          className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+          className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
         >
           <PanelLeftOpen className="h-4 w-4" />
         </button>
@@ -216,7 +216,7 @@ export function EditorSidebar() {
           type="button"
           onClick={newDocument}
           aria-label="New document"
-          className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+          className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
         >
           <Plus className="h-4 w-4" />
         </button>
@@ -235,7 +235,7 @@ export function EditorSidebar() {
       {/* On this page: section outline (collapse control shares the label row) */}
       <div className="px-2 pb-2 border-b border-border">
         <div className="flex items-center justify-between px-2.5 pt-2 pb-1">
-          <span className="text-[10px] font-semibold tracking-[0.06em] uppercase text-muted-foreground">
+          <span className="text-2xs font-semibold tracking-[0.06em] uppercase text-muted-foreground">
             On this page
           </span>
           <button
@@ -256,7 +256,7 @@ export function EditorSidebar() {
       {/* Recent: document library */}
       <div className="flex min-h-0 flex-1 flex-col pt-2">
         <div className="flex items-center justify-between px-3 pb-1.5">
-          <span className="text-[10px] font-semibold tracking-[0.06em] uppercase text-muted-foreground">Recent</span>
+          <span className="text-2xs font-semibold tracking-[0.06em] uppercase text-muted-foreground">Recent</span>
           <div className="flex items-center gap-1">
             <button
               type="button"
@@ -282,7 +282,7 @@ export function EditorSidebar() {
               ref={newBtnRef}
               type="button"
               onClick={newDocument}
-              className="inline-flex items-center gap-1 rounded-md border border-border bg-card px-2 py-1 text-xs text-foreground hover:bg-muted transition-colors"
+              className="inline-flex items-center gap-1 rounded-md border border-border bg-card px-2 py-1 text-xs text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-[3px] focus-visible:ring-ring/50"
             >
               <Plus className="h-3.5 w-3.5" />
               New
@@ -394,17 +394,19 @@ export function EditorSidebar() {
           ) : (
             groups.map((g) => (
               <div key={g.label} className="mb-1.5">
-                <div className="px-2.5 py-1 text-[10px] font-semibold tracking-[0.06em] uppercase text-muted-foreground/80">{g.label}</div>
+                <div className="px-2.5 py-1 text-2xs font-semibold tracking-[0.06em] uppercase text-muted-foreground">{g.label}</div>
                 <ul className="space-y-0.5">
                   {g.items.map((m) => {
                     const active = m.id === currentId;
                     const isSelected = selected.has(m.id);
-                    const highlight = selectMode ? isSelected : active;
                     return (
                       <li
                         key={m.id}
                         className={`group relative flex items-center rounded-md pr-1 transition-colors ${
-                          highlight ? 'bg-primary/10' : 'hover:bg-muted/60'
+                          // Active (non-select) already shows the 3px scarlet bar +
+                          // text-primary like the section rail above, so no row fill
+                          // here — the fill is reserved for the selection-checked state.
+                          selectMode && isSelected ? 'bg-primary/10' : 'hover:bg-muted/60'
                         }`}
                       >
                         {active && !selectMode && (
@@ -461,7 +463,7 @@ export function EditorSidebar() {
                           >
                             <span
                               aria-hidden="true"
-                              className={`inline-flex h-4 shrink-0 items-center justify-center rounded px-1 text-[9px] font-semibold uppercase leading-none tracking-wide ${
+                              className={`inline-flex h-4 shrink-0 items-center justify-center rounded px-1 text-2xs font-semibold uppercase leading-none tracking-wide ${
                                 active ? 'bg-primary/15 text-primary' : 'bg-muted text-muted-foreground'
                               }`}
                               style={{ minWidth: '2.4rem' }}
@@ -475,7 +477,7 @@ export function EditorSidebar() {
                               >
                                 {m.title}
                               </span>
-                              <span className="block truncate text-[11px] text-muted-foreground tnum">
+                              <span className="block truncate text-2xs text-muted-foreground tnum">
                                 {relTime(m.updatedAt)}
                               </span>
                             </span>
@@ -490,7 +492,10 @@ export function EditorSidebar() {
                               <button
                                 type="button"
                                 aria-label={`Actions for ${m.title}`}
-                                className="shrink-0 rounded p-1 text-muted-foreground opacity-0 outline-none transition-opacity hover:text-foreground focus-visible:opacity-100 focus-visible:ring-[3px] focus-visible:ring-ring/50 group-hover:opacity-100 data-[state=open]:opacity-100"
+                                // Rest at 40% (not fully hidden) and reveal on
+                                // row-level hover/focus so tabbing doesn't pop each
+                                // '…' 0→100 in turn; always shown on touch (no hover).
+                                className="shrink-0 rounded p-1 text-muted-foreground opacity-40 outline-none transition-opacity hover:text-foreground focus-visible:opacity-100 focus-visible:ring-[3px] focus-visible:ring-ring/50 group-hover:opacity-100 group-focus-within:opacity-100 data-[state=open]:opacity-100 [@media(hover:none)]:opacity-100"
                               >
                                 <MoreHorizontal className="h-3.5 w-3.5" />
                               </button>
