@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.62] — 2026-07-05
+
+### Fixed
+
+- The "Blue" swatch in the letterhead color picker now shows navy blue in every
+  theme. It was borrowing the theme's brand-accent color, which is gold in the
+  USMC theme (and its dark mode) and red in another — so the "Blue" option looked
+  yellow. The swatch now uses the actual navy the letterhead prints (RGB 0,32,91).
+
 ## [1.2.61] — 2026-07-05
 
 ### Changed

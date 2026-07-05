@@ -168,7 +168,7 @@ export function LetterheadSection() {
                       <SelectContent>
                         <SelectItem value="blue">
                           <span className="flex items-center gap-2">
-                            <span className="h-3 w-3 shrink-0 rounded-full border border-border bg-brand-accent" aria-hidden="true" />
+                            <span className="h-3 w-3 shrink-0 rounded-full border border-border bg-[#00205B]" aria-hidden="true" />
                             Blue
                           </span>
                         </SelectItem>
