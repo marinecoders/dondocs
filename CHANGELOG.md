@@ -5,6 +5,13 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.56] — 2026-07-05
+
+### Fixed
+
+- Dropping or selecting a non-image file for a profile's signature now shows a
+  clear "image files only" message instead of silently doing nothing.
+
 ## [1.2.55] — 2026-07-05
 
 ### Fixed
