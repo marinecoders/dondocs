@@ -3,6 +3,7 @@ import { Search, X, Briefcase } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -59,6 +60,9 @@ export function OfficeCodeLookupModal({ open, onOpenChange, onSelect }: OfficeCo
             <Briefcase className="h-5 w-5" />
             Office Code Reference
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            Look up a standard office code and insert it into the signature block.
+          </DialogDescription>
         </DialogHeader>
 
         <div className="relative">

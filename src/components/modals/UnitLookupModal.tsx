@@ -3,6 +3,7 @@ import { Search, X, Building2, MapPin, Loader2 } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -114,6 +115,9 @@ export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModa
               </Badge>
             )}
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            Search the unit directory and insert a unit&apos;s name and address.
+          </DialogDescription>
         </DialogHeader>
 
         <div className="relative">

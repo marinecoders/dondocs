@@ -350,8 +350,8 @@ export function ProfileModal() {
               </DialogTitle>
               <Button
                 variant="ghost"
-                size="icon"
-                className="h-7 w-7 rounded-sm opacity-70 hover:opacity-100"
+                size="icon-sm"
+                className="rounded-md text-muted-foreground opacity-70 hover:bg-muted hover:opacity-100"
                 onClick={handleClose}
               >
                 <X className="h-4 w-4" />
