@@ -5,6 +5,24 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.41] — 2026-07-04
+
+### Accessibility
+
+- The Classification section's decorative icons are now hidden from screen
+  readers, and its advisory banners carry a spoken "Warning:"/"Important:"
+  prefix so their intent is clear without the icon.
+- The Classified POC email fields now validate: a malformed address shows an
+  inline error and is flagged to assistive tech, clearing once it's valid.
+- The custom-classification preset chips are a little taller so they clear the
+  minimum touch-target size.
+
+### Fixed
+
+- The CUI Configuration heading uses the official CUI color (and a dark-mode
+  variant) instead of a generic purple, matching the classification swatches
+  elsewhere.
+
 ## [1.2.40] — 2026-07-04
 
 ### Changed
