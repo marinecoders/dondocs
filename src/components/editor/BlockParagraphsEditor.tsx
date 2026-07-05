@@ -7,6 +7,7 @@ import { CSS } from '@dnd-kit/utilities';
 import {
   GripVertical, Plus, Trash2, ChevronRight, ChevronLeft, ArrowUp, ArrowDown, AlertTriangle, Library } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { IconTip } from '@/components/ui/icon-tip';
 import { Input } from '@/components/ui/input';
 import {
   Accordion,
@@ -270,39 +271,48 @@ const BlockRow = memo(function BlockRow({
           )}
           {!disableIndent && (
             <>
-              <Button variant="ghost" size="icon" className="h-6 w-6" disabled={level === 0} onClick={() => outdentParagraph(index)} title="Outdent (Shift+Tab)">
-                <ChevronLeft className="h-3.5 w-3.5" />
-              </Button>
-              <Button variant="ghost" size="icon" className="h-6 w-6" disabled={!canIndent} onClick={() => indentParagraph(index)} title="Indent (Tab)">
-                <ChevronRight className="h-3.5 w-3.5" />
-              </Button>
+              <IconTip label="Outdent (Shift+Tab)">
+                <Button variant="ghost" size="icon" className="h-6 w-6" disabled={level === 0} onClick={() => outdentParagraph(index)}>
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                </Button>
+              </IconTip>
+              <IconTip label="Indent (Tab)">
+                <Button variant="ghost" size="icon" className="h-6 w-6" disabled={!canIndent} onClick={() => indentParagraph(index)}>
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </Button>
+              </IconTip>
             </>
           )}
-          <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => onMove(-1)} title="Move up (⌘↑)">
-            <ArrowUp className="h-3.5 w-3.5" />
-          </Button>
-          <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => onMove(1)} title="Move down (⌘↓)">
-            <ArrowDown className="h-3.5 w-3.5" />
-          </Button>
+          <IconTip label="Move up (⌘↑)">
+            <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => onMove(-1)}>
+              <ArrowUp className="h-3.5 w-3.5" />
+            </Button>
+          </IconTip>
+          <IconTip label="Move down (⌘↓)">
+            <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => onMove(1)}>
+              <ArrowDown className="h-3.5 w-3.5" />
+            </Button>
+          </IconTip>
           <div className="flex-1" />
           <span className="mr-0.5 text-[11px] text-muted-foreground tnum">{countWords(text)} w</span>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-6 w-6 text-muted-foreground hover:text-destructive"
-            onClick={() => {
-              const total = useDocumentStore.getState().paragraphs.length;
-              if (total <= 1) {
-                updateParagraph(index, { text: '', header: '' });
-              } else {
-                removeParagraph(index);
-                requestFocus(Math.max(0, index - 1));
-              }
-            }}
-            title="Delete paragraph"
-          >
-            <Trash2 className="h-3.5 w-3.5" />
-          </Button>
+          <IconTip label="Delete paragraph">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-6 w-6 text-muted-foreground hover:text-destructive"
+              onClick={() => {
+                const total = useDocumentStore.getState().paragraphs.length;
+                if (total <= 1) {
+                  updateParagraph(index, { text: '', header: '' });
+                } else {
+                  removeParagraph(index);
+                  requestFocus(Math.max(0, index - 1));
+                }
+              }}
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+            </Button>
+          </IconTip>
         </div>
       </div>
     </div>
