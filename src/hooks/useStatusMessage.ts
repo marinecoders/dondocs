@@ -113,11 +113,11 @@ export function getMessageClasses(type: MessageType): string {
 
   switch (type) {
     case 'success':
-      return `${baseClasses} text-green-600 bg-green-100 dark:text-green-400 dark:bg-green-900/30`;
+      return `${baseClasses} text-success bg-success/10`;
     case 'error':
-      return `${baseClasses} text-red-600 bg-red-100 dark:text-red-400 dark:bg-red-900/30`;
+      return `${baseClasses} text-destructive bg-destructive/10`;
     case 'warning':
-      return `${baseClasses} text-amber-600 bg-amber-100 dark:text-amber-400 dark:bg-amber-900/30`;
+      return `${baseClasses} text-warning bg-warning/10`;
     case 'info':
     default:
       return `${baseClasses} text-blue-600 bg-blue-100 dark:text-blue-400 dark:bg-blue-900/30`;

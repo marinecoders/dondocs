@@ -201,7 +201,7 @@
   --destructive-foreground: oklch(0.99 0 0); /* label on a destructive fill */
   --success: oklch(0.63 0.17 149);         /* ~green-600 — status/compliance tint */
   --success-foreground: oklch(0.99 0 0);
-  --warning: oklch(0.55 0.13 65);          /* ~amber-700 — ≥4.5:1 as text on the light canvas */
+  --warning: oklch(0.50 0.13 65);          /* ~amber-800 — ≥4.5:1 as text on both the light canvas and its own 10% tint */
   --warning-foreground: oklch(0.99 0 0);
   --border: oklch(0.88 0.02 250);          /* Navy-tinted border */
   --input: oklch(0.95 0.01 250);
@@ -477,7 +477,7 @@
     --destructive-foreground: #ffffff;
     --success: #15803d;
     --success-foreground: #ffffff;
-    --warning: #b45309;
+    --warning: #92400e;
     --warning-foreground: #ffffff;
     --border: #ced9e5;
     --input: #eaeff5;
