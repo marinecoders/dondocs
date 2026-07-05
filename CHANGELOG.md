@@ -5,6 +5,20 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.37] — 2026-07-04
+
+### Accessibility
+
+- Reference and enclosure title/URL fields now have proper labels, so screen
+  readers announce which field they are instead of "edit text, blank".
+- The reorder drag handles show a keyboard focus ring and a hover surface.
+
+### Changed
+
+- The References and Enclosures sections now show a short line when empty
+  instead of just bare Add buttons, and a library-picker row highlights when a
+  control inside it is focused by keyboard.
+
 ## [1.2.36] — 2026-07-04
 
 ### Fixed

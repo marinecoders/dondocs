@@ -94,7 +94,7 @@ function SortableEnclosure({
           aria-label={`Drag to reorder enclosure ${index + 1}`}
           {...attributes}
           {...listeners}
-          className="mt-2 cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground"
+          className="mt-2 cursor-grab rounded-sm text-muted-foreground outline-none transition-colors hover:bg-accent/50 hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 active:cursor-grabbing"
         >
           <GripVertical className="h-4 w-4" />
         </button>
@@ -110,6 +110,7 @@ function SortableEnclosure({
             value={enclosure.title}
             onChange={(e) => onUpdateTitle(e.target.value)}
             placeholder="Enclosure title..."
+            aria-label={`Enclosure (${index + 1}) title`}
           />
 
           {/* PDF attachment section */}
@@ -379,6 +380,12 @@ export function EnclosuresManager() {
                   ))}
                 </SortableContext>
               </DndContext>
+
+              {enclosures.length === 0 && (
+                <p className="mt-1 mb-2 text-sm text-muted-foreground">
+                  No enclosures yet. Add one, then attach its PDF.
+                </p>
+              )}
 
               <div className="space-y-2 mt-2">
                 <Button

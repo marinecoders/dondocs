@@ -94,7 +94,7 @@ export function ReferenceLibraryPicker({
                   return (
                     <div
                       key={ref.id}
-                      className="flex items-center justify-between p-2 rounded-md hover:bg-secondary/50 group"
+                      className="flex items-center justify-between p-2 rounded-md hover:bg-secondary/50 focus-within:bg-secondary/50 group"
                     >
                       <span className="text-sm">{citation}</span>
                       <Button

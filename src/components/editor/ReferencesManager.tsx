@@ -80,7 +80,7 @@ const SortableReference = memo(function SortableReference({
           aria-label={`Drag to reorder reference ${index + 1}`}
           {...attributes}
           {...listeners}
-          className="mt-2 cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground"
+          className="mt-2 cursor-grab rounded-sm text-muted-foreground outline-none transition-colors hover:bg-accent/50 hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 active:cursor-grabbing"
         >
           <GripVertical className="h-4 w-4" />
         </button>
@@ -96,6 +96,7 @@ const SortableReference = memo(function SortableReference({
             value={reference.title}
             onChange={(e) => updateReference(index, { title: e.target.value })}
             placeholder="Reference title..."
+            aria-label={`Reference (${reference.letter}) title`}
           />
           {urlInvalid && (
             <div
@@ -121,6 +122,7 @@ const SortableReference = memo(function SortableReference({
               onChange={(e) => updateReference(index, { url: e.target.value })}
               placeholder="URL (optional)"
               className={`text-sm ${urlInvalid ? 'border-destructive focus-visible:ring-destructive' : ''}`}
+              aria-label={`Reference (${reference.letter}) URL`}
               aria-invalid={urlInvalid}
               aria-describedby={urlInvalid ? urlWarningId : undefined}
             />
@@ -176,7 +178,7 @@ export function ReferencesManager() {
   };
 
   return (
-    <Accordion type="single" collapsible>
+    <Accordion data-tour="references" type="single" collapsible>
       <AccordionItem value="references">
         <AccordionTrigger>
           <span className="flex items-center gap-2">
@@ -239,8 +241,15 @@ export function ReferencesManager() {
                 </SortableContext>
               </DndContext>
 
+              {references.length === 0 && (
+                <p className="mt-1 mb-2 text-sm text-muted-foreground">
+                  No references yet. Add one, or browse the library.
+                </p>
+              )}
+
               <div className="flex flex-wrap gap-2 mt-2">
                 <Button
+                  data-tour="reference-add"
                   variant="outline"
                   size="sm"
                   onClick={() => addReference('')}
@@ -249,6 +258,7 @@ export function ReferencesManager() {
                   Add reference
                 </Button>
                 <Button
+                  data-tour="reference-library"
                   variant="outline"
                   size="sm"
                   onClick={() => setReferenceLibraryOpen(true)}
