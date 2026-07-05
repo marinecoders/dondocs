@@ -18,10 +18,13 @@ interface PIIWarningModalProps {
   onProceed: () => void;
 }
 
+// Severity tints driven by theme tokens (not hardcoded palette hues), so all
+// schemes restain from one source: high → destructive, medium → warning,
+// low → primary (info).
 const severityColors = {
-  high: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800',
-  medium: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200 dark:border-amber-800',
-  low: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200 dark:border-blue-800',
+  high: 'bg-destructive/10 text-destructive border-destructive/30',
+  medium: 'bg-warning/10 text-warning border-warning/30',
+  low: 'bg-primary/10 text-primary border-primary/30',
 };
 
 const typeIcons: Record<PIIType, string> = {
@@ -152,8 +155,10 @@ export function PIIWarningModal({ detectionResult, onCancel, onProceed }: PIIWar
       if (!open) handleClose();
     }}>
       <DialogContent className="sm:max-w-xl p-0 overflow-hidden" showCloseButton={false}>
-        {/* Warning Header */}
-        <div className={`px-6 py-5 ${totalHighSeverity > 0 ? 'bg-gradient-to-r from-red-600 to-orange-600' : 'bg-gradient-to-r from-amber-600 to-orange-500'} text-white`}>
+        {/* Warning Header — flat token color (no decorative gradient): the
+            destructive/warning tokens restain per scheme and carry AA-contrast
+            foregrounds, so red/amber palette drift is gone. */}
+        <div className={`px-6 py-5 ${totalHighSeverity > 0 ? 'bg-destructive text-destructive-foreground' : 'bg-warning text-warning-foreground'}`}>
           <div className="flex items-center gap-4">
             <div className="p-3 bg-white/20 rounded-xl">
               {totalHighSeverity > 0 ? (
@@ -166,7 +171,7 @@ export function PIIWarningModal({ detectionResult, onCancel, onProceed }: PIIWar
               <h2 className="text-xl font-bold">
                 {totalHighSeverity > 0 ? 'Sensitive Data Detected!' : 'Potential PII/PHI Detected'}
               </h2>
-              <p className="text-white/80 text-sm mt-1">
+              <p className="opacity-80 text-sm mt-1">
                 {findings.length} potential issue{findings.length !== 1 ? 's' : ''} found in your document
               </p>
             </div>

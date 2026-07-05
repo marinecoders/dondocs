@@ -6,6 +6,7 @@ import {
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Shield, Server, Lock, Wifi, Eye, Database, ExternalLink, AlertTriangle } from 'lucide-react';
+import { Notice } from '@/components/ui/notice';
 import { useUIStore } from '@/stores/uiStore';
 
 // Check if we're on an official .mil domain
@@ -100,17 +101,15 @@ export function NISTComplianceModal() {
                 <li>• Documents processed on government networks</li>
               </ul>
               {!isOfficialDomain && (
-                <div className="flex items-start gap-3 p-3 mt-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
-                  <AlertTriangle className="h-4 w-4 text-amber-500 mt-0.5 shrink-0" />
+                <Notice variant="warning" className="flex items-start gap-3 mt-3">
+                  <AlertTriangle className="h-4 w-4 text-warning mt-0.5 shrink-0" />
                   <div>
-                    {/* amber-800 (not 600, which is 2.9:1 here): a 14px "do not
-                        use for official correspondence" warning must clear AA. */}
-                    <p className="text-sm font-medium text-amber-800 dark:text-amber-300">Development Domain</p>
+                    <p className="text-sm font-medium text-warning">Development Domain</p>
                     <p className="text-xs text-muted-foreground">
                       This application is currently hosted on a non-government domain. Do not use for official correspondence or enter sensitive information. For official use, access this application through your authorized .mil network.
                     </p>
                   </div>
-                </div>
+                </Notice>
               )}
             </section>
 
