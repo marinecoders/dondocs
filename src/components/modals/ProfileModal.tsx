@@ -42,16 +42,7 @@ import type { Profile, SignatureImage } from '@/types/document';
 import type { UnitInfo } from '@/data/unitDirectory';
 import { ALL_SERVICE_RANKS, formatRank } from '@/data/ranks';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
-
-// Convert ArrayBuffer to base64
-function arrayBufferToBase64(buffer: ArrayBuffer): string {
-  const bytes = new Uint8Array(buffer);
-  let binary = '';
-  for (let i = 0; i < bytes.byteLength; i++) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  return btoa(binary);
-}
+import { loadSignatureAsPngBase64 } from '@/lib/signatureImage';
 
 // Convert base64 to data URL for display
 function base64ToDataUrl(base64: string, mimeType: string): string {
@@ -275,8 +266,16 @@ export function ProfileModal() {
       return;
     }
 
-    const buffer = await file.arrayBuffer();
-    const base64 = arrayBufferToBase64(buffer);
+    let base64: string;
+    try {
+      base64 = await loadSignatureAsPngBase64(file);
+    } catch (err) {
+      showAppAlert({
+        title: "Couldn't read that image",
+        message: err instanceof Error ? err.message : 'Please try a different file.',
+      });
+      return;
+    }
 
     const signatureImage: SignatureImage = {
       name: file.name,

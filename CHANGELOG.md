@@ -5,6 +5,16 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.55] — 2026-07-05
+
+### Fixed
+
+- Signature images uploaded as JPG or GIF now render correctly in the preview and
+  in the exported PDF. Previously they were stored and embedded as if they were
+  PNG, so a JPG or GIF signature could render wrong or fail to appear on the
+  document. Every non-PNG signature upload is now converted to PNG when you add
+  it (existing letters are unaffected until you re-upload).
+
 ## [1.2.54] — 2026-07-05
 
 ### Changed
