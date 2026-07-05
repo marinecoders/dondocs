@@ -204,9 +204,13 @@ const BlockRow = memo(function BlockRow({
         <GripVertical className="h-4 w-4" />
       </button>
 
-      {/* Gutter label — tabular, serif, like the printed page. */}
+      {/* Gutter label — tabular, serif, like the printed page. The label pattern
+          cycles every 4 levels (1./a./(1)/(a)); per SECNAV Ch 7 the deeper
+          levels 4–7 repeat those patterns but underlined, which is exactly what
+          the LaTeX/PDF renders — mirror it here so "(a)" at level 3 and level 7
+          aren't indistinguishable in the editor. */}
       <div className="select-none pt-0.5 pr-2.5 text-right font-serif text-[15px] leading-relaxed text-muted-foreground tnum">
-        {label}
+        <span className={level >= 4 ? 'underline' : undefined}>{label}</span>
       </div>
 
       <div className="min-w-0">

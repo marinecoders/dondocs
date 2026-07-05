@@ -5,6 +5,16 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.43] — 2026-07-04
+
+### Fixed
+
+- Deeply-nested body paragraphs (levels 5–8) now show an underlined label in the
+  editor, matching the printed PDF. The label pattern repeats every four levels
+  per SECNAV Ch 7, so without the underline a level-8 "(a)" looked identical to
+  a level-4 "(a)" in the editor even though the exported document distinguished
+  them correctly.
+
 ## [1.2.42] — 2026-07-04
 
 ### Fixed
