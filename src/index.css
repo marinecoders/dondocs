@@ -160,6 +160,12 @@
   --shadow-lg: 0 0 0 1px rgb(18 27 46 / 0.04), 0 6px 12px -3px rgb(18 27 46 / 0.10), 0 16px 24px -6px rgb(18 27 46 / 0.12);
   --shadow-xl: 0 0 0 1px rgb(18 27 46 / 0.04), 0 12px 20px -6px rgb(18 27 46 / 0.12), 0 28px 40px -10px rgb(18 27 46 / 0.18);
 
+  /* One step below text-xs for micro-labels (eyebrow captions, doc-type chips,
+     timestamps) — replaces the scattered text-[9px]/[10px]/[11px] arbitraries. */
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+  --text-2xs--letter-spacing: 0.01em;
+
   /* Optical tracking ladder: large display text compresses, body/small relaxes. */
   --text-xs--letter-spacing: 0.01em;
   --text-sm--letter-spacing: 0.005em;

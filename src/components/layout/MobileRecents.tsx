@@ -119,7 +119,7 @@ export function MobileRecents() {
                     >
                       <span
                         aria-hidden="true"
-                        className={`inline-flex h-5 shrink-0 items-center justify-center rounded px-1 text-[10px] font-semibold uppercase leading-none tracking-wide ${
+                        className={`inline-flex h-5 shrink-0 items-center justify-center rounded px-1 text-2xs font-semibold uppercase leading-none tracking-wide ${
                           active ? 'bg-primary/15 text-primary' : 'bg-muted text-muted-foreground'
                         }`}
                         style={{ minWidth: '2.6rem' }}
@@ -133,7 +133,7 @@ export function MobileRecents() {
                         >
                           {m.title}
                         </span>
-                        <span className="block truncate text-[11px] text-muted-foreground tnum">
+                        <span className="block truncate text-2xs text-muted-foreground tnum">
                           {relTime(m.updatedAt)}
                         </span>
                       </span>
@@ -143,7 +143,7 @@ export function MobileRecents() {
                       type="button"
                       onClick={() => togglePin(m.id)}
                       aria-label={m.pinned ? `Unpin ${m.title}` : `Pin ${m.title}`}
-                      className="shrink-0 rounded p-2 text-muted-foreground hover:text-foreground"
+                      className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
                     >
                       {m.pinned ? <PinOff className="h-4 w-4" /> : <Pin className="h-4 w-4" />}
                     </button>
@@ -151,7 +151,7 @@ export function MobileRecents() {
                       type="button"
                       onClick={() => remove(m.id)}
                       aria-label={`Remove ${m.title}`}
-                      className="shrink-0 rounded p-2 text-muted-foreground hover:text-destructive"
+                      className="ml-0.5 inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:text-destructive focus-visible:ring-[3px] focus-visible:ring-ring/50"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>

@@ -5,6 +5,26 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.40] — 2026-07-04
+
+### Changed
+
+- The active document in the Recents sidebar now shows a single indicator (the
+  scarlet left bar, matching the section outline above) instead of also filling
+  the row, so the two lists speak the same visual language.
+- Sidebar micro-labels (section headers, doc-type chips, timestamps) now use one
+  shared type size instead of three slightly different hand-set sizes, and the
+  recency group labels ("Today", "Pinned") are a touch more legible.
+
+### Accessibility
+
+- The sidebar's collapse, expand, and New buttons now show a keyboard focus ring.
+- The per-row "…" actions menu rests faintly visible and reveals on row
+  hover/focus instead of popping into view row-by-row while tabbing; it's always
+  visible on touch.
+- The mobile Recents pin and delete buttons are now full 44px touch targets with
+  a gap between them, so the destructive delete is harder to hit by mistake.
+
 ## [1.2.39] — 2026-07-04
 
 ### Added
