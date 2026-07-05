@@ -373,7 +373,7 @@ export function ActivationChecklist() {
           aria-label={`Get set up — ${done} of ${total} steps complete`}
           aria-expanded={false}
           aria-haspopup="dialog"
-          className="inline-flex h-11 items-center gap-2.5 rounded-full border border-border bg-popover pl-1.5 pr-3.5 text-popover-foreground shadow-elevated outline-none transition-[transform,border-color] duration-150 hover:-translate-y-px hover:border-primary/40 active:scale-[0.98] focus-visible:ring-[3px] focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none max-sm:w-11 max-sm:justify-center max-sm:px-0"
+          className="inline-flex h-11 items-center gap-2.5 rounded-full border border-border bg-popover pl-1.5 pr-3.5 text-popover-foreground shadow-elevated outline-none transition-[transform,border-color] duration-150 hover:-translate-y-px hover:border-primary/40 active:scale-[0.97] focus-visible:ring-[3px] focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none max-sm:w-11 max-sm:justify-center max-sm:px-0"
         >
           <ProgressRing size={28} done={done} total={total} />
           <span className="hidden text-[13px] font-medium leading-none sm:inline">Get set up</span>

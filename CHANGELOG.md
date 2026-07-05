@@ -5,6 +5,18 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.46] — 2026-07-05
+
+### Changed
+
+- Form controls now share one rest/hover/focus behaviour: text areas and select
+  menus shift their border the same quiet way inputs already do (previously text
+  areas tinted red and lifted a shadow, and selects didn't react at all), and
+  hover/focus transitions are scoped so borders no longer snap. Checkboxes and
+  accordion headers use the same scoped transitions, and the checkbox corner
+  radius now comes from the shared radius token. The "Get set up" launcher's
+  press animation matches every other button.
+
 ## [1.2.45] — 2026-07-05
 
 ### Changed
