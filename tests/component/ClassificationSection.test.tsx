@@ -68,6 +68,24 @@ describe('ClassificationSection', () => {
     expect(screen.queryByText('Classified Document Warning')).not.toBeInTheDocument();
   });
 
+  it('offers no classified marking in the custom quick-fill (this browser tool is not accredited)', async () => {
+    const user = userEvent.setup();
+    setLevel('custom');
+    render(<ClassificationSection />);
+
+    await user.click(screen.getByText('Classification')); // expand accordion
+
+    // The unclassified caveats are offered as one-click quick-fill…
+    expect(await screen.findByRole('button', { name: 'FOR OFFICIAL USE ONLY' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Unclassified' })).toBeInTheDocument();
+
+    // …but classified levels must NEVER be a one-click preset here. They are
+    // reachable only through the domain-accreditation-gated level dropdown.
+    for (const name of ['CONFIDENTIAL', 'SECRET', 'TOP SECRET', 'TOP SECRET//SCI']) {
+      expect(screen.queryByRole('button', { name })).not.toBeInTheDocument();
+    }
+  });
+
   it('shows neither classified nor CUI config for an unclassified document', async () => {
     const user = userEvent.setup();
     setLevel('unclassified');

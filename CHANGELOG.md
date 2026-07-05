@@ -5,6 +5,20 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.57] — 2026-07-05
+
+### Fixed
+
+- The Custom Classification "quick fill" no longer offers CONFIDENTIAL, SECRET,
+  TOP SECRET, or TOP SECRET//SCI as one-click markings. This browser tool is not
+  accredited for classified processing, and those one-click presets let an
+  otherwise-unclassified document be stamped with a classified banner, bypassing
+  the domain check that keeps classified levels out of the main dropdown. The
+  quick fill now offers only unclassified caveats (Unclassified, CUI, For
+  Official Use Only). Classified levels remain available only through the
+  domain-gated Classification Level dropdown, on accredited networks. (A new
+  document still correctly defaults to Unclassified with no marking.)
+
 ## [1.2.56] — 2026-07-05
 
 ### Fixed
