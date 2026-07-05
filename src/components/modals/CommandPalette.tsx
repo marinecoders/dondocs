@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { createPortal } from 'react-dom';
-import { Search, type LucideIcon } from 'lucide-react';
+import { Search, SearchX, type LucideIcon } from 'lucide-react';
 import { Kbd } from '@/components/ui/kbd';
 import { cn } from '@/lib/utils';
 
@@ -37,6 +37,10 @@ export function CommandPalette({
   const [sel, setSel] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const activeRef = useRef<HTMLDivElement>(null);
+  // Ignore mouseenter-to-select until the pointer actually moves, so scrolling
+  // a long list under a stationary cursor during keyboard nav doesn't yank the
+  // selection to whatever row slid beneath it.
+  const pointerMoved = useRef(false);
 
   // The parent mounts this only while open (see App), so each open starts from a
   // fresh instance — no reset effect needed. Focus the search input on mount, and
@@ -80,14 +84,17 @@ export function CommandPalette({
       onClose();
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
+      pointerMoved.current = false;
       setSel((s) => Math.min(s + 1, flat.length - 1));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
+      pointerMoved.current = false;
       setSel((s) => Math.max(s - 1, 0));
     } else if (e.key === 'Enter') {
       e.preventDefault();
       run(flat[clampedSel]);
     } else if (e.key === 'Tab') {
+      pointerMoved.current = false;
       // Focus trap: the search input is the only focusable control, and the
       // result rows are navigated via aria-activedescendant (not Tab). Without
       // this, Tab walks focus out of the modal into the app behind the scrim.
@@ -117,7 +124,7 @@ export function CommandPalette({
       style={{ paddingTop: '12vh' }}
     >
       <div
-        className="dd-anim w-[min(560px,92vw)] overflow-hidden rounded-2xl border border-border bg-popover text-popover-foreground shadow-elevated"
+        className="dd-anim w-[min(560px,92vw)] overflow-hidden rounded-lg border border-primary/10 bg-popover text-popover-foreground shadow-elevated"
         style={{ animation: 'dd-pop-in 0.16s cubic-bezier(0.4,0,0.2,1)' }}
         onMouseDown={(e) => e.stopPropagation()}
         onKeyDown={onKey}
@@ -141,13 +148,21 @@ export function CommandPalette({
             aria-autocomplete="list"
             className="flex-1 border-none bg-transparent text-base text-foreground outline-none placeholder:text-muted-foreground"
           />
-          <Kbd>Esc</Kbd>
         </div>
 
         {/* Results */}
-        <div id={listboxId} role="listbox" aria-label="Commands" className="max-h-[380px] overflow-y-auto p-1.5">
+        <div
+          id={listboxId}
+          role="listbox"
+          aria-label="Commands"
+          onMouseMove={() => { pointerMoved.current = true; }}
+          className="max-h-[380px] overflow-y-auto p-1.5"
+        >
           {flat.length === 0 ? (
-            <p className="px-3 py-7 text-center text-sm text-muted-foreground">No matches for “{query}”.</p>
+            <div className="flex min-h-[120px] flex-col items-center justify-center gap-2 px-3 py-8 text-center">
+              <SearchX className="h-6 w-6 text-muted-foreground/60" aria-hidden="true" />
+              <p className="text-sm text-muted-foreground">No commands match “{query}”.</p>
+            </div>
           ) : (
             filtered.map((g) => (
               <div key={g.label} className="mb-1">
@@ -166,11 +181,11 @@ export function CommandPalette({
                       ref={active ? activeRef : undefined}
                       role="option"
                       aria-selected={active}
-                      onMouseEnter={() => setSel(flatIndex)}
+                      onMouseEnter={() => { if (pointerMoved.current) setSel(flatIndex); }}
                       onClick={() => run(it)}
                       className={cn(
-                        'flex cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-2',
-                        active ? 'bg-accent text-accent-foreground' : 'text-popover-foreground'
+                        'flex cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-2 transition-colors',
+                        active ? 'bg-accent text-accent-foreground' : 'text-popover-foreground hover:bg-muted'
                       )}
                     >
                       <Icon className={cn('h-4 w-4 shrink-0', active ? 'text-current' : 'text-muted-foreground')} />
@@ -180,12 +195,26 @@ export function CommandPalette({
                           {it.hint}
                         </span>
                       )}
-                      {it.kbd && <Kbd>{it.kbd}</Kbd>}
+                      {it.kbd && <Kbd active={active}>{it.kbd}</Kbd>}
                     </div>
                   );
                 })}
               </div>
             ))
+          )}
+        </div>
+
+        {/* Persistent action hints + result count. */}
+        <div className="flex items-center justify-between gap-3 border-t border-primary/10 px-4 py-2 text-[11px] text-muted-foreground">
+          <div className="flex items-center gap-3">
+            <span className="flex items-center gap-1"><Kbd>↵</Kbd> Run</span>
+            <span className="flex items-center gap-1"><Kbd>↑</Kbd><Kbd>↓</Kbd> Navigate</span>
+            <span className="flex items-center gap-1"><Kbd>esc</Kbd> Close</span>
+          </div>
+          {flat.length > 0 && (
+            <span className="tabular-nums">
+              {flat.length} result{flat.length === 1 ? '' : 's'}
+            </span>
           )}
         </div>
       </div>
