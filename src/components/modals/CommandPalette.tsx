@@ -166,7 +166,7 @@ export function CommandPalette({
           ) : (
             filtered.map((g) => (
               <div key={g.label} className="mb-1">
-                <div className="px-2.5 pb-1 pt-2 text-[10px] font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+                <div className="px-2.5 pb-1 pt-2 text-2xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
                   {g.label}
                 </div>
                 {g.items.map((it) => {
@@ -191,7 +191,7 @@ export function CommandPalette({
                       <Icon className={cn('h-4 w-4 shrink-0', active ? 'text-current' : 'text-muted-foreground')} />
                       <span className="flex-1 truncate text-sm">{it.label}</span>
                       {it.hint && (
-                        <span className={cn('text-[11px]', active ? 'text-current opacity-85' : 'text-muted-foreground')}>
+                        <span className={cn('text-2xs', active ? 'text-current opacity-85' : 'text-muted-foreground')}>
                           {it.hint}
                         </span>
                       )}
@@ -205,7 +205,7 @@ export function CommandPalette({
         </div>
 
         {/* Persistent action hints + result count. */}
-        <div className="flex items-center justify-between gap-3 border-t border-primary/10 px-4 py-2 text-[11px] text-muted-foreground">
+        <div className="flex items-center justify-between gap-3 border-t border-primary/10 px-4 py-2 text-2xs text-muted-foreground">
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1"><Kbd>↵</Kbd> Run</span>
             <span className="flex items-center gap-1"><Kbd>↑</Kbd><Kbd>↓</Kbd> Navigate</span>

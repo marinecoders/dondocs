@@ -678,7 +678,7 @@ export function Header({
               <h1 className="text-base font-semibold tracking-[-0.01em] text-foreground leading-tight truncate">
                 DonDocs
               </h1>
-              <span className="text-[10px] text-muted-foreground hidden sm:block leading-tight truncate">Naval correspondence &amp; forms</span>
+              <span className="text-xs text-foreground/70 hidden sm:block leading-tight truncate">Naval correspondence &amp; forms</span>
             </div>
           </div>
           {/* NIST 800-171 Compliance Badge - icon only below lg, full badge on lg+ */}

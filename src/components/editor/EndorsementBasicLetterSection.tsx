@@ -153,7 +153,7 @@ export function EndorsementBasicLetterSection() {
                             onClick={() => applyBasicLetter(d.meta)}
                             className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left outline-none hover:bg-muted/60 focus-visible:ring-[3px] focus-visible:ring-ring/50"
                           >
-                            <span className="inline-flex h-4 shrink-0 items-center justify-center rounded bg-muted px-1 text-[9px] font-semibold uppercase tracking-wide text-muted-foreground" style={{ minWidth: '2.4rem' }}>
+                            <span className="inline-flex h-4 shrink-0 items-center justify-center rounded bg-muted px-1 text-2xs font-semibold uppercase tracking-wide text-muted-foreground" style={{ minWidth: '2.4rem' }}>
                               {docTypeChip(d.meta.docType)}
                             </span>
                             <span className="min-w-0 flex-1 truncate text-sm text-foreground">{d.meta.title}</span>

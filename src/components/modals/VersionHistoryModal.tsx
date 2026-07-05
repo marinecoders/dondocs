@@ -77,7 +77,7 @@ export function VersionHistoryModal() {
                   <span className="block truncate text-foreground">
                     {snap.session.formData?.subject?.trim() || 'Untitled version'}
                   </span>
-                  <span className="block text-[11px] text-muted-foreground tnum">
+                  <span className="block text-2xs text-muted-foreground tnum">
                     {fmt(snap.ts)}
                     {i === 0 ? ' · latest' : ''}
                   </span>

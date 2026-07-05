@@ -317,7 +317,7 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
                   </div>
                   <span
                     className={cn(
-                      'tnum text-[10px]',
+                      'tnum text-2xs',
                       currentPage === i + 1 ? 'font-medium text-foreground' : 'text-muted-foreground'
                     )}
                   >

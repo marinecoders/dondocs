@@ -83,7 +83,7 @@ export function ReadinessMeter() {
     <div className="flex items-center gap-2 text-xs">
       {documentMode === 'compliant' && (
         <span
-          className="hidden items-center gap-1 rounded-full border border-border px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground md:inline-flex"
+          className="hidden items-center gap-1 rounded-full border border-border px-1.5 py-0.5 text-2xs font-medium text-muted-foreground md:inline-flex"
           title="Built to the SECNAV M-5216.5 / MCO 5216.19A compliant format"
         >
           <ShieldCheck className="h-3 w-3" aria-hidden="true" />
