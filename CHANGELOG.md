@@ -5,6 +5,22 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.38] — 2026-07-04
+
+### Changed
+
+- The command palette gained a persistent hint bar (Run / Navigate / Close and
+  a live result count), a clearer empty state with an icon and a steady height
+  so the panel no longer jumps, and its corner radius and border now match the
+  other dialogs. Keyboard-shortcut chips on the selected row invert so they
+  stay legible, and hovering a row gives a lighter tint distinct from the
+  keyboard selection.
+
+### Fixed
+
+- Scrolling the command-palette list under a stationary cursor no longer yanks
+  the selection to whatever row slides beneath it during keyboard navigation.
+
 ## [1.2.37] — 2026-07-04
 
 ### Accessibility
