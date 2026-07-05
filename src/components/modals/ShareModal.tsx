@@ -6,7 +6,7 @@
  */
 
 import { useState, useCallback } from 'react';
-import { Link2, KeyRound, Check, Loader2, ShieldAlert, AlertTriangle } from 'lucide-react';
+import { Link2, Copy, Check, Loader2, ShieldAlert, AlertTriangle } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -239,7 +239,7 @@ export function ShareModal({
                   {copied ? (
                     <Check className="h-4 w-4 text-success" />
                   ) : (
-                    <KeyRound className="h-4 w-4" />
+                    <Copy className="h-4 w-4" />
                   )}
                 </Button>
               </div>

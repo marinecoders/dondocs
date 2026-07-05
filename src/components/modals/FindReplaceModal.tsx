@@ -3,6 +3,7 @@ import { Search, Replace, ChevronDown, ChevronUp } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -195,6 +196,9 @@ export function FindReplaceModal() {
             <Search className="h-5 w-5" />
             Find & Replace
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            Search the document body for text and optionally replace matches.
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">

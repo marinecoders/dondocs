@@ -4,6 +4,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Shield, Zap, FileText, Lock, Plane, ExternalLink } from 'lucide-react';
@@ -20,7 +21,7 @@ export function AboutModal() {
 
   return (
     <Dialog open={aboutModalOpen} onOpenChange={setAboutModalOpen}>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="sm:max-w-lg max-h-[85vh]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3">
             <FileText className="h-6 w-6 text-primary" />
@@ -31,6 +32,7 @@ export function AboutModal() {
           </DialogTitle>
         </DialogHeader>
 
+        <ScrollArea className="max-h-[70vh] pr-4">
         <div className="space-y-5">
           <p className="text-muted-foreground italic border-l-2 border-primary pl-3">
             Professional document generation for Marines, by Marines.
@@ -111,6 +113,7 @@ export function AboutModal() {
             </div>
           </div>
         </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

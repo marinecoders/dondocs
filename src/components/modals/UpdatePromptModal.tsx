@@ -5,7 +5,7 @@
  * Allows them to update now or later, preserving their work.
  */
 
-import { RefreshCw, Clock, X } from 'lucide-react';
+import { RefreshCw, Clock } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -25,21 +25,14 @@ interface UpdatePromptModalProps {
 
 export function UpdatePromptModal({ open, onConfirm, onDismiss }: UpdatePromptModalProps) {
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onOpenChange={(o) => { if (!o) onDismiss(); }}>
       <DialogContent
         className="sm:max-w-md w-[calc(100vw-2rem)] overflow-hidden"
+        // Escape / outside stay disabled so dismissal is an explicit choice; the
+        // shared corner × routes through onOpenChange above.
         onInteractOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
-        showCloseButton={false}
       >
-        {/* Custom close button that calls onDismiss */}
-        <button
-          onClick={onDismiss}
-          className="absolute top-4 right-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-        >
-          <X className="h-4 w-4" />
-          <span className="sr-only">Close</span>
-        </button>
         <div className="flex flex-col gap-4 overflow-hidden">
           <DialogHeader className="min-w-0">
             <DialogTitle className="flex items-center gap-2 min-w-0">
