@@ -70,9 +70,9 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
           {/* Aria-live region for compilation status - WCAG 4.1.3 */}
           <div aria-live="polite" aria-atomic="true" className="sr-only">
             {isWarmingUp
-              ? 'Warming up the typesetter, one-time setup...'
+              ? 'Warming up the typesetter, one-time setup…'
               : isCompiling
-                ? 'Compiling document...'
+                ? 'Compiling document…'
                 : 'Compilation complete'}
           </div>
           {/* Compile state reads as a quiet label plus the slim sweep below —

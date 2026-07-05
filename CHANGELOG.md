@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.50] — 2026-07-05
+
+### Changed
+
+- Placeholder and loading text now use a real ellipsis character (…) instead of
+  three periods (...) everywhere, for consistent, properly-typeset microcopy.
+- The "via" address row numbers are the same width and use the same tabular
+  figures as the reference and enclosure row numbers, so the columns line up.
+
 ## [1.2.49] — 2026-07-05
 
 ### Accessibility

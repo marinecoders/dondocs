@@ -169,7 +169,7 @@ export function Form11811Section() {
                 <VariableChipEditor
                   value={navmc11811.remarksText}
                   onChange={(v) => setNavmc11811Field('remarksText', v)}
-                  placeholder="Type @ or click + for variables. Example: On {{ENTRY_DATE}}, {{NAME}} [describe the incident]..."
+                  placeholder="Type @ or click + for variables. Example: On {{ENTRY_DATE}}, {{NAME}} [describe the incident]…"
                   rows={16}
                   tabInsertsSpaces
                 />
@@ -179,7 +179,7 @@ export function Form11811Section() {
                 <VariableChipEditor
                   value={navmc11811.remarksTextRight || ''}
                   onChange={(v) => setNavmc11811Field('remarksTextRight', v)}
-                  placeholder="[Continuation or additional entry...] (type @ or click + for variables)"
+                  placeholder="[Continuation or additional entry…] (type @ or click + for variables)"
                   rows={16}
                   tabInsertsSpaces
                 />

@@ -45,7 +45,7 @@ export function DistributionManager() {
                 <Input
                   value={d.text}
                   onChange={(e) => updateDistribution(index, e.target.value)}
-                  placeholder="Action addressee..."
+                  placeholder="Action addressee…"
                 />
                 <Button
                   variant="ghost"

@@ -75,7 +75,7 @@ function SortableViaItem({ id, index, value, onChange, onRemove, onLookup, canRe
       >
         <GripVertical className="h-4 w-4" />
       </button>
-      <Badge variant="secondary" className="shrink-0 min-w-[36px] justify-center">
+      <Badge variant="secondary" className="shrink-0 min-w-[32px] justify-center tnum">
         ({index + 1})
       </Badge>
       <Input
@@ -390,7 +390,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                     value={formData.from || ''}
                     onValueChange={(v) => setField('from', v)}
                     aria-invalid={validationVisible && unfilled(formData.from) ? true : undefined}
-                    placeholder="Commanding Officer... (type @ for variables)"
+                    placeholder="Commanding Officer… (type @ for variables)"
                   />
                 </div>
                 <div className="space-y-2">
@@ -402,7 +402,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                         value={formData.to || ''}
                         onValueChange={(v) => setField('to', v)}
                         aria-invalid={validationVisible && unfilled(formData.to) ? true : undefined}
-                        placeholder="Commanding General... (type @ for variables)"
+                        placeholder="Commanding General… (type @ for variables)"
                       />
                     </div>
                     <IconTip label="Look up a unit">
@@ -510,8 +510,8 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                 aria-invalid={validationVisible && unfilled(formData.subject) ? true : undefined}
                 placeholder={
                   isEndorsement
-                    ? "Subject of the basic letter being endorsed..."
-                    : 'SUBJECT LINE... (type @ for variables)'
+                    ? 'Subject of the basic letter being endorsed…'
+                    : 'SUBJECT LINE… (type @ for variables)'
                 }
                 className="uppercase"
               />

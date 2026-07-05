@@ -849,7 +849,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                 <div className="flex gap-2 flex-wrap items-center">
                   <Select value={selectedVariable} onValueChange={setSelectedVariable}>
                     <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Select variable..." />
+                      <SelectValue placeholder="Select variable…" />
                     </SelectTrigger>
                     <SelectContent>
                       {suggestedPlaceholders.map((p) => (
@@ -861,7 +861,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                   </Select>
                   <Select value={targetField} onValueChange={setTargetField}>
                     <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Add to field..." />
+                      <SelectValue placeholder="Add to field…" />
                     </SelectTrigger>
                     <SelectContent>
                       {/*
@@ -1028,7 +1028,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                               onValueChange={(v) => updateColumnMapping(idx, v === SKIP_COLUMN ? '' : v)}
                             >
                               <SelectTrigger className="h-8 flex-1">
-                                <SelectValue placeholder="Select variable..." />
+                                <SelectValue placeholder="Select variable…" />
                               </SelectTrigger>
                               <SelectContent>
                                 <SelectItem value={SKIP_COLUMN}>— Skip —</SelectItem>

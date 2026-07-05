@@ -95,7 +95,7 @@ const SortableReference = memo(function SortableReference({
           <Input
             value={reference.title}
             onChange={(e) => updateReference(index, { title: e.target.value })}
-            placeholder="Reference title..."
+            placeholder="Reference title…"
             aria-label={`Reference (${reference.letter}) title`}
           />
           {urlInvalid && (

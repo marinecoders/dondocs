@@ -274,7 +274,7 @@ export function Form6105Section() {
               <VariableChipEditor
                 value={navmc10274.supplementalInfo}
                 onChange={(v) => setNavmc10274Field('supplementalInfo', v)}
-                placeholder="Full counseling statement (type @ or click + for variables)..."
+                placeholder="Full counseling statement (type @ or click + for variables)…"
                 rows={12}
                 tabInsertsSpaces
               />
@@ -331,7 +331,7 @@ export function Form6105Section() {
                 id="enclosures"
                 value={navmc10274.enclosures}
                 onValueChange={(v) => setNavmc10274Field('enclosures', v)}
-                placeholder="e.g., (1) Previous counseling dated... (type @ for variables)"
+                placeholder="e.g., (1) Previous counseling dated… (type @ for variables)"
                 placeholders={NAVMC_10274_PLACEHOLDERS}
                 commonVariables={COMMON_FORM_VARS}
               />
