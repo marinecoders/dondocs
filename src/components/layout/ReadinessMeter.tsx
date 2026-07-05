@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Check, ShieldCheck } from 'lucide-react';
+import { IconTip } from '@/components/ui/icon-tip';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useDocumentCompleteness } from './editorSections';
@@ -91,15 +92,16 @@ export function ReadinessMeter() {
       )}
 
       {canJump ? (
-        <button
-          type="button"
-          onClick={() => jump(missing[0])}
-          title={`${complete} of ${required} required sections complete — jump to the first incomplete one`}
-          aria-label={`Document readiness: Drafting, ${complete} of ${required} required sections complete. Jump to the first incomplete section.`}
-          className="flex items-center gap-1.5 rounded outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
-        >
-          {inner}
-        </button>
+        <IconTip label={`${complete} of ${required} required sections complete — jump to the first incomplete one`}>
+          <button
+            type="button"
+            onClick={() => jump(missing[0])}
+            aria-label={`Document readiness: Drafting, ${complete} of ${required} required sections complete. Jump to the first incomplete section.`}
+            className="flex items-center gap-1.5 rounded outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
+          >
+            {inner}
+          </button>
+        </IconTip>
       ) : (
         <div
           className="flex items-center gap-1.5"

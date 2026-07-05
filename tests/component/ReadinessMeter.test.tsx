@@ -7,7 +7,18 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen, cleanup } from '@testing-library/react';
 import { ReadinessMeter } from '@/components/layout/ReadinessMeter';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { useDocumentStore } from '@/stores/documentStore';
+
+// The meter's "jump to first incomplete" control is wrapped in IconTip, which
+// relies on the app-root TooltipProvider (App.tsx) — supply one in tests.
+function renderMeter() {
+  return render(
+    <TooltipProvider>
+      <ReadinessMeter />
+    </TooltipProvider>
+  );
+}
 
 function configure(formData: Record<string, string>, paragraphs: { text: string }[]) {
   useDocumentStore.setState({
@@ -27,7 +38,7 @@ describe('ReadinessMeter — driven by the single completeness rule', () => {
   });
 
   it('reads "Drafting" while required sections are unfilled', () => {
-    render(<ReadinessMeter />);
+    renderMeter();
     const meter = screen.getByLabelText(/Document readiness/i);
     expect(meter.getAttribute('aria-label')).toMatch(/Drafting/);
     expect(screen.getByText('Drafting')).toBeTruthy();
@@ -44,12 +55,12 @@ describe('ReadinessMeter — driven by the single completeness rule', () => {
       },
       [{ text: 'The Marine requests special liberty.' }]
     );
-    render(<ReadinessMeter />);
+    renderMeter();
     expect(screen.getByText('Ready to sign')).toBeTruthy();
   });
 
   it('shows the Compliant pill in compliant mode', () => {
-    render(<ReadinessMeter />);
+    renderMeter();
     expect(screen.getByText('Compliant')).toBeTruthy();
   });
 });
