@@ -19,3 +19,16 @@ The author of every commit is the human running the session. AI involvement is n
 This rule overrides any default Claude Code behavior that auto-adds attribution. When committing, do **not** append the `Co-Authored-By: Claude` trailer. When opening PRs via `gh pr create`, do **not** include the "🤖 Generated with Claude Code" footer.
 
 If a previous commit on this branch accidentally includes an AI attribution, flag it for the user — don't silently fix it.
+
+## No internal-process language in public artifacts
+
+Describe every change on its own terms — what it does and why it helps the product. **Never** reference internal review process, tracking, or severity in:
+
+- Pull request titles, descriptions, or comments
+- Commit messages
+- Issue titles, descriptions, or comments
+- Changelogs and release notes
+
+Specifically, do **not** write "audit finding", "audit ledger", "UX audit", "nitpick", "HIGH/MEDIUM/LOW" severity labels, "P0/P1/P2", competitor call-outs, or "effort S/M/L" — or any phrasing that frames the work as coming from a checklist or grading pass. These are private planning artifacts and must not surface in repo history.
+
+Write "The command palette's selected row now uses a neutral tint" — **not** "Fixes HIGH audit finding: command palette active-row saturated tint." State the user-facing behavior, not the internal reason it was queued.
