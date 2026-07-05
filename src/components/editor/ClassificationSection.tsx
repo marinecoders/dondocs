@@ -39,13 +39,18 @@ const CLASSIFICATION_LEVELS = [
 // Quick-fill presets for the Custom Classification field. Tinted backgrounds use
 // the CNSI/ISOO banner colors so each button reads as a mini banner; the TOP
 // SECRET / SCI label text uses the darkened AA-safe variants from above.
+// Custom-mode quick-fill markings. Deliberately UNCLASSIFIED-only: this is a
+// browser-based tool that is NOT accredited for classified processing, and the
+// custom-mode warning says as much. The classified levels (CONFIDENTIAL, SECRET,
+// TOP SECRET, TS//SCI) are intentionally absent — they were previously offered
+// here as one-click presets, which let an unclassified document be stamped with
+// a classified banner and bypassed the domain-accreditation gate that removes
+// those levels from the Classification Level dropdown. Classified levels remain
+// selectable ONLY via that gated dropdown, on accredited domains.
 const CLASSIFICATION_PRESETS = [
-  { value: 'UNCLASSIFIED',    label: 'Unclassified',    color: 'text-[#007A33] dark:text-[#3DBE6B]', bg: 'bg-[#007A33]/10 dark:bg-[#007A33]/20 border-[#007A33]/30 hover:bg-[#007A33]/20 dark:hover:bg-[#007A33]/30' },
-  { value: 'CUI',             label: 'CUI',             color: 'text-[#502B85] dark:text-[#9572D4]', bg: 'bg-[#502B85]/10 dark:bg-[#502B85]/20 border-[#502B85]/30 hover:bg-[#502B85]/20 dark:hover:bg-[#502B85]/30' },
-  { value: 'CONFIDENTIAL',    label: 'CONFIDENTIAL',    color: 'text-[#0033A0] dark:text-[#5B7FD9]', bg: 'bg-[#0033A0]/10 dark:bg-[#0033A0]/20 border-[#0033A0]/30 hover:bg-[#0033A0]/20 dark:hover:bg-[#0033A0]/30' },
-  { value: 'SECRET',          label: 'SECRET',          color: 'text-[#C8102E] dark:text-[#E74C5C]', bg: 'bg-[#C8102E]/10 dark:bg-[#C8102E]/20 border-[#C8102E]/30 hover:bg-[#C8102E]/20 dark:hover:bg-[#C8102E]/30' },
-  { value: 'TOP SECRET',      label: 'TOP SECRET',      color: 'text-[#B45309] dark:text-[#FFA940]', bg: 'bg-[#FF8C00]/10 dark:bg-[#FF8C00]/20 border-[#FF8C00]/30 hover:bg-[#FF8C00]/20 dark:hover:bg-[#FF8C00]/30' },
-  { value: 'TOP SECRET//SCI', label: 'TOP SECRET//SCI', color: 'text-[#756808] dark:text-[#FCE83A]', bg: 'bg-[#FCE83A]/20 dark:bg-[#FCE83A]/20 border-[#A8920E]/40 hover:bg-[#FCE83A]/40 dark:hover:bg-[#FCE83A]/30' },
+  { value: 'UNCLASSIFIED',         label: 'Unclassified',         color: 'text-[#007A33] dark:text-[#3DBE6B]', bg: 'bg-[#007A33]/10 dark:bg-[#007A33]/20 border-[#007A33]/30 hover:bg-[#007A33]/20 dark:hover:bg-[#007A33]/30' },
+  { value: 'CUI',                  label: 'CUI',                  color: 'text-[#502B85] dark:text-[#9572D4]', bg: 'bg-[#502B85]/10 dark:bg-[#502B85]/20 border-[#502B85]/30 hover:bg-[#502B85]/20 dark:hover:bg-[#502B85]/30' },
+  { value: 'FOR OFFICIAL USE ONLY', label: 'FOR OFFICIAL USE ONLY', color: 'text-[#502B85] dark:text-[#9572D4]', bg: 'bg-[#502B85]/10 dark:bg-[#502B85]/20 border-[#502B85]/30 hover:bg-[#502B85]/20 dark:hover:bg-[#502B85]/30' },
 ];
 
 // Official CUI banner color (#502B85 / dark #9572D4), matching the level/preset
