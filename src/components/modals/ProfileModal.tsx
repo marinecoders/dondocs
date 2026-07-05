@@ -43,6 +43,7 @@ import type { UnitInfo } from '@/data/unitDirectory';
 import { ALL_SERVICE_RANKS, formatRank } from '@/data/ranks';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { loadSignatureAsPngBase64 } from '@/lib/signatureImage';
+import { isImageFile, rejectedFilesMessage } from '@/lib/fileFilter';
 
 // Convert base64 to data URL for display
 function base64ToDataUrl(base64: string, mimeType: string): string {
@@ -253,8 +254,8 @@ export function ProfileModal() {
 
   // Handle signature image upload
   const handleSignatureUpload = useCallback(async (file: File) => {
-    if (!file.type.startsWith('image/')) {
-      console.error('Only image files are supported');
+    if (!isImageFile(file)) {
+      showAppAlert({ title: 'Image files only', message: rejectedFilesMessage([file], 'image') });
       return;
     }
     // Signatures are stored base64 in localStorage; cap the size so they can't fill it.
@@ -310,8 +311,10 @@ export function ProfileModal() {
     e.preventDefault();
     setIsDragging(false);
 
+    // Hand any dropped file to the uploader; it validates the type and surfaces
+    // an error for non-images instead of the drop silently doing nothing.
     const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith('image/')) {
+    if (file) {
       handleSignatureUpload(file);
     }
   }, [handleSignatureUpload]);
