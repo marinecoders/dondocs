@@ -5,6 +5,27 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.44] — 2026-07-04
+
+### Changed
+
+- The Letterhead section opens with a one-line description like every other
+  section, and the color picker shows a small swatch next to Blue/Black.
+
+### Fixed
+
+- The ZIP field now accepts only digits and the ZIP+4 hyphen (up to 10
+  characters) instead of arbitrary text.
+- The Seal picker has a help tip explaining the DoW vs DoD choice, since the
+  wrong one produces an officially incorrect letterhead.
+
+### Accessibility
+
+- Required-field markers are now consistent across the addressing and signature
+  fields, the Via routing drag handle has a proper label and keyboard focus
+  ring, and the salutation field only shows its error once you've tried to
+  export, matching every other field.
+
 ## [1.2.43] — 2026-07-04
 
 ### Fixed
