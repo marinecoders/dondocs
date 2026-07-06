@@ -252,7 +252,15 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
                       devicePixelRatio={dprCap}
                       renderTextLayer={false}
                       renderAnnotationLayer={false}
-                      loading={null}
+                      // Skeleton until the canvas paints — react-pdf swaps this
+                      // out on render, so a slow page shows a shimmer instead of
+                      // a blank white rectangle. Pulse stills under reduced-motion.
+                      loading={
+                        <div
+                          aria-hidden
+                          className="h-full w-full animate-pulse bg-muted/40"
+                        />
+                      }
                       error={null}
                       onRenderSuccess={() => {
                         const pending = pendingRenderRef.current;
