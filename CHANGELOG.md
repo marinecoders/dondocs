@@ -5,6 +5,16 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.69] — 2026-07-05
+
+### Fixed
+
+- The signature-style selector (Typed Only / Upload Image / Digital Field) is
+  now a proper radio group. It was three independent toggle buttons, so a
+  screen reader announced them as unrelated controls instead of one choice, and
+  keyboard users had to Tab through each. It now announces as a single group,
+  and the arrow keys move the selection between the three options.
+
 ## [1.2.68] — 2026-07-05
 
 ### Added
