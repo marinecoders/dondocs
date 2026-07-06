@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.83] — 2026-07-05
+
+### Changed
+
+- The inserted variable chips in the body editor (and the "@" glyphs) now draw
+  from the theme's informational-blue token instead of hardcoded Tailwind blue.
+  The color is essentially the same — it's now a theme token, so it stays in
+  step with the rest of the palette.
+
 ## [1.2.82] — 2026-07-05
 
 ### Changed
