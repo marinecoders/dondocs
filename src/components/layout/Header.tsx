@@ -4,7 +4,11 @@ import { GithubIcon } from '@/components/icons/GithubIcon';
 import { Button } from '@/components/ui/button';
 import { Kbd } from '@/components/ui/kbd';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { formatShortcut } from '@/lib/platform';
+import { formatShortcut, isMac } from '@/lib/platform';
+
+// Redo is Ctrl+Y on Windows/Linux but ⌘⇧Z on macOS; the handler accepts both,
+// so display the native gesture per platform.
+const REDO_SHORTCUT = isMac ? 'mod shift Z' : 'mod Y';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -751,7 +755,7 @@ export function Header({
               <Undo2 className="h-4 w-4" aria-hidden="true" />
             </Button>
           </HeaderTip>
-          <HeaderTip label={`Redo (${formatShortcut('mod Y')})`}>
+          <HeaderTip label={`Redo (${formatShortcut(REDO_SHORTCUT)})`}>
             <Button
               variant="ghost"
               size="icon"
@@ -1084,7 +1088,7 @@ export function Header({
                   <div className="text-muted-foreground">Toggle Preview</div>
                   <div className="font-mono text-right">{formatShortcut('mod E')}</div>
                   <div className="text-muted-foreground">Undo / Redo</div>
-                  <div className="font-mono text-right">{formatShortcut('mod Z')} / {formatShortcut('mod Y')}</div>
+                  <div className="font-mono text-right">{formatShortcut('mod Z')} / {formatShortcut(REDO_SHORTCUT)}</div>
                 </div>
               </div>
             </DropdownMenuContent>
