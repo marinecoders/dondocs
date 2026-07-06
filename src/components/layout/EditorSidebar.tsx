@@ -207,7 +207,7 @@ export function EditorSidebar() {
         <button
           type="button"
           onClick={toggleSidebar}
-          aria-label="Expand sidebar"
+          aria-label="Expand sidebar" title="Expand sidebar"
           aria-expanded={false}
           className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
         >
@@ -216,7 +216,7 @@ export function EditorSidebar() {
         <button
           type="button"
           onClick={newDocument}
-          aria-label="New document"
+          aria-label="New document" title="New document"
           className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
         >
           <Plus className="h-4 w-4" />
@@ -242,7 +242,7 @@ export function EditorSidebar() {
           <button
             type="button"
             onClick={toggleSidebar}
-            aria-label="Collapse sidebar"
+            aria-label="Collapse sidebar" title="Collapse sidebar"
             aria-expanded={true}
             className="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
           >
@@ -481,7 +481,7 @@ export function EditorSidebar() {
                               >
                                 {m.title}
                               </span>
-                              <span className="block truncate text-2xs text-muted-foreground tnum">
+                              <span className="block whitespace-nowrap text-2xs text-muted-foreground tnum">
                                 {relTime(m.updatedAt)}
                               </span>
                             </span>
