@@ -44,6 +44,7 @@ import { ALL_SERVICE_RANKS, formatRank } from '@/data/ranks';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { loadSignatureAsPngBase64 } from '@/lib/signatureImage';
 import { isImageFile, rejectedFilesMessage } from '@/lib/fileFilter';
+import { formatFileSize } from '@/lib/utils';
 
 // Convert base64 to data URL for display
 function base64ToDataUrl(base64: string, mimeType: string): string {
@@ -655,7 +656,7 @@ export function ProfileModal() {
                       <div className="flex items-center gap-2 text-xs text-muted-foreground">
                         <FileImage className="h-3 w-3" />
                         <span>{formState.signatureImage.name}</span>
-                        <span>({(formState.signatureImage.size / 1024).toFixed(1)} KB)</span>
+                        <span>({formatFileSize(formState.signatureImage.size)})</span>
                       </div>
                     </div>
                   ) : (

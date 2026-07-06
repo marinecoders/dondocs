@@ -135,7 +135,7 @@ export function CompileErrorModal({ open, error, compileLog, onClose }: CompileE
                   ) : (
                     <>
                       <Copy className="h-3 w-3 mr-1" />
-                      Copy logs
+                      Copy log
                     </>
                   )}
                 </Button>
@@ -152,7 +152,7 @@ export function CompileErrorModal({ open, error, compileLog, onClose }: CompileE
           <p className="text-xs text-muted-foreground break-words">
             If this looks like a bug (not just a typo in your document), reporting
             it on GitHub is the fastest way to get it fixed — we triage every
-            report. Use “Copy logs” and paste the log into the issue after
+            report. Use “Copy log” and paste the log into the issue after
             reviewing it — reports go to public GitHub, so don’t include CUI.
           </p>
 

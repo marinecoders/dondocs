@@ -18,6 +18,7 @@ import { loadSignatureAsPngBase64 } from '@/lib/signatureImage';
 import { FILE_LIMITS } from '@/lib/constants';
 import { showAppAlert } from '@/stores/alertStore';
 import { isImageFile, rejectedFilesMessage } from '@/lib/fileFilter';
+import { formatFileSize } from '@/lib/utils';
 import { RequiredMark } from '@/components/ui/required-mark';
 import type { DocTypeConfig, SignatureImage, SignatureType } from '@/types/document';
 import { ALL_SERVICE_RANKS, formatRank } from '@/data/ranks';
@@ -545,7 +546,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                       <div className="flex items-center gap-2 text-xs text-muted-foreground">
                         <FileImage className="h-3 w-3" />
                         <span>{formData.signatureImage.name}</span>
-                        <span>({(formData.signatureImage.size / 1024).toFixed(1)} KB)</span>
+                        <span>({formatFileSize(formData.signatureImage.size)})</span>
                       </div>
                     </div>
                   ) : (
