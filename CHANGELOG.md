@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.68] — 2026-07-05
+
+### Added
+
+- Removing a reference or an enclosure that has content — a title, a URL, or an
+  attached PDF — now asks for confirmation first, so a stray click can't quietly
+  delete your work (and, for references, silently re-letter the rest of the
+  list). Blank rows still clear in a single click.
+
 ## [1.2.67] — 2026-07-05
 
 ### Fixed
