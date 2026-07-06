@@ -5,6 +5,17 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.91] — 2026-07-06
+
+### Fixed
+
+- The Marine Corps EGA emblem no longer appears twice. A faint full-viewport
+  watermark sat behind the whole app in addition to the denser one in the editor
+  column; because they were centered on different things, they drifted apart at
+  some zoom levels and read as a doubled emblem (with one bleeding behind the
+  sidebar and header). Removed the full-viewport copy, leaving the single
+  contained editor watermark. The animated background is unchanged.
+
 ## [1.2.90] — 2026-07-05
 
 ### Changed
