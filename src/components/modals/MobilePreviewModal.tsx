@@ -106,8 +106,8 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
               <Loader2 className="h-8 w-8 animate-spin text-primary absolute -bottom-1 -right-1 bg-background rounded-full p-1" />
             </div>
             <div className="text-center">
-              <p className="font-medium">Generating PDF...</p>
-              <p className="text-sm text-muted-foreground mt-1">This may take a moment</p>
+              <p className="font-medium">Generating PDF…</p>
+              <p className="text-sm text-muted-foreground mt-1">This should only take a moment.</p>
             </div>
           </div>
         )}
