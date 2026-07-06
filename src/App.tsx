@@ -47,7 +47,6 @@ import { StorageNotice } from '@/components/StorageNotice';
 import { BackupNotice } from '@/components/BackupNotice';
 import { InstallNotice } from '@/components/InstallNotice';
 import { probeStorageHealth } from '@/lib/documentsDb';
-const marineCodersLogo = `${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`;
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore, getSavedSession, rehydrateEnclosureFiles } from '@/stores/documentStore';
 import { useFormStore, FORMS_PERSIST_KEY } from '@/stores/formStore';
@@ -1822,18 +1821,10 @@ ${texFiles['body.tex'] || '% No body content'}
         and preview toolbar under it — with a 100vh fallback for pre-dvh
         engines. */}
     <div className="flex flex-col h-screen-dvh bg-background relative overflow-hidden">
-      {/* Faint Marine Coders EGA watermark behind the whole app. The animated
-          beams + a denser EGA seal live inside the editor column (FormPanel),
-          so the branded motion stays in the editor and doesn't sweep behind the
-          sidebar, header, and preview. */}
-      <div className="fixed inset-0 z-0 flex items-center justify-center pointer-events-none mt-16">
-        <img
-          src={marineCodersLogo}
-          alt=""
-          className="w-full max-w-[90vw] sm:max-w-[1200px] opacity-[0.04] sm:opacity-[0.035] dark:opacity-[0.055] dark:sm:opacity-[0.05] invert dark:invert-0"
-          aria-hidden="true"
-        />
-      </div>
+      {/* The Marine Coders EGA seal (and the animated beams) live inside the
+          editor column (FormPanel) as a single, contained brand watermark. The
+          previous full-viewport seal here duplicated it behind the sidebar and
+          header at some zoom levels, so it was removed. */}
       {/* Skip link for keyboard navigation - WCAG 2.4.1 */}
       <a
         href="#main-content"
