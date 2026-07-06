@@ -5,6 +5,13 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.66] — 2026-07-05
+
+### Changed
+
+- The "Generating PDF" message now reads the same on mobile as on desktop
+  ("Generating PDF… — This should only take a moment."), with a real ellipsis.
+
 ## [1.2.65] — 2026-07-05
 
 ### Changed
