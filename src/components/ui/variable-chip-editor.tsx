@@ -342,7 +342,7 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(
     // If no matches and user typed something, offer to create custom variable
     if (items.length === 0 && query.trim()) {
       return (
-        <div className="bg-popover border border-border rounded-md shadow-md overflow-hidden w-[280px]">
+        <div className="bg-popover border border-border rounded-md shadow-md overflow-hidden w-[300px]">
           <div className="px-3 py-2 border-b border-border bg-muted/50">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <span className="text-base font-medium text-info">@</span>
@@ -370,7 +370,7 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(
 
     if (items.length === 0) {
       return (
-        <div className="bg-popover border border-border rounded-md shadow-md overflow-hidden w-[280px]">
+        <div className="bg-popover border border-border rounded-md shadow-md overflow-hidden w-[300px]">
           <div className="px-3 py-3 text-sm text-muted-foreground text-center">
             Type a variable name...
           </div>
