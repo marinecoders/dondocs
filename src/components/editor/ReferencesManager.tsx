@@ -23,6 +23,7 @@ import { showAppConfirm } from '@/stores/alertStore';
 import type { Reference } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { safeUrl } from '@/lib/url-safety';
+import { ALL_REFERENCES } from '@/data/references';
 
 interface SortableReferenceProps {
   reference: Reference;
@@ -219,7 +220,7 @@ export function ReferencesManager() {
               <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
                 <li><strong>Drag to reorder:</strong> References auto-letter based on position</li>
                 <li><strong>URLs:</strong> Add a link to make the reference clickable in PDF</li>
-                <li><strong>Library:</strong> Browse 107 common military references to insert</li>
+                <li><strong>Library:</strong> Browse {ALL_REFERENCES.length} common military references to insert</li>
               </ul>
             </HelpTip>
           </span>
