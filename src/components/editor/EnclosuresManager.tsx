@@ -126,6 +126,7 @@ function SortableEnclosure({
                   variant="ghost"
                   size="sm"
                   onClick={onRemoveFile}
+                  aria-label={`Remove attached PDF from enclosure ${index + 1}`}
                   className="h-6 w-6 p-0 shrink-0"
                 >
                   <X className="h-3 w-3" />
@@ -188,6 +189,7 @@ function SortableEnclosure({
           variant="ghost"
           size="icon"
           onClick={onRemove}
+          aria-label={`Remove enclosure ${index + 1}`}
           className="text-destructive hover:text-destructive"
         >
           <Trash2 className="h-4 w-4" />

@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.63] — 2026-07-05
+
+### Accessibility
+
+- The remove buttons on references and enclosures (and the "remove attached PDF"
+  button) now carry accessible names, so screen-reader users hear what each
+  destructive button does instead of just "button".
+
 ## [1.2.62] — 2026-07-05
 
 ### Fixed
