@@ -19,6 +19,7 @@ import {
 import { HelpTip } from '@/components/ui/help-tip';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
+import { showAppConfirm } from '@/stores/alertStore';
 import type { Reference } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { safeUrl } from '@/lib/url-safety';
@@ -64,6 +65,23 @@ const SortableReference = memo(function SortableReference({
   const trimmedUrl = (reference.url ?? '').trim();
   const urlInvalid = trimmedUrl !== '' && safeUrl(trimmedUrl) === null;
   const urlWarningId = `ref-${index}-url-warning`;
+
+  // Removing a reference re-letters every reference after it — an easy misclick
+  // to make and awkward to undo. Confirm first, but only when the row actually
+  // holds something; discarding a blank row should stay a single click.
+  const handleRemove = async () => {
+    const hasContent = (reference.title ?? '').trim() !== '' || trimmedUrl !== '';
+    if (hasContent) {
+      const confirmed = await showAppConfirm({
+        title: 'Remove reference?',
+        message: `Reference (${reference.letter}) will be removed and the remaining references re-lettered.`,
+        confirmLabel: 'Remove',
+        destructive: true,
+      });
+      if (!confirmed) return;
+    }
+    removeReference(index);
+  };
 
   return (
     <div
@@ -133,7 +151,7 @@ const SortableReference = memo(function SortableReference({
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => removeReference(index)}
+          onClick={handleRemove}
           aria-label={`Remove reference ${index + 1}`}
           className="text-destructive hover:text-destructive"
         >

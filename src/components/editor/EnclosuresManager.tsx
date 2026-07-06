@@ -12,7 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { partitionFiles, rejectedFilesMessage, isPdfFile } from '@/lib/fileFilter';
-import { showAppAlert } from '@/stores/alertStore';
+import { showAppAlert, showAppConfirm } from '@/stores/alertStore';
 import {
   Select,
   SelectContent,
@@ -248,6 +248,39 @@ export function EnclosuresManager() {
     });
   }, [updateEnclosure]);
 
+  // Confirm before dropping an enclosure that holds anything — a title or an
+  // attached PDF (the latter is real uploaded data). A blank row still deletes
+  // in one click.
+  const handleRemoveEnclosure = useCallback(async (index: number, encl: Enclosure) => {
+    const hasContent = (encl.title ?? '').trim() !== '' || !!encl.file;
+    if (hasContent) {
+      const confirmed = await showAppConfirm({
+        title: 'Remove enclosure?',
+        message: encl.file
+          ? `Enclosure (${index + 1}) and its attached PDF “${encl.file.name}” will be removed.`
+          : `Enclosure (${index + 1}) will be removed.`,
+        confirmLabel: 'Remove',
+        destructive: true,
+      });
+      if (!confirmed) return;
+    }
+    removeEnclosure(index);
+  }, [removeEnclosure]);
+
+  // Detaching a PDF discards the uploaded bytes — always confirm.
+  const handleRemoveFile = useCallback(async (index: number, encl: Enclosure) => {
+    if (encl.file) {
+      const confirmed = await showAppConfirm({
+        title: 'Remove attached PDF?',
+        message: `“${encl.file.name}” will be detached from enclosure (${index + 1}).`,
+        confirmLabel: 'Remove',
+        destructive: true,
+      });
+      if (!confirmed) return;
+    }
+    updateEnclosure(index, { file: undefined, fileRef: undefined });
+  }, [updateEnclosure]);
+
   const handleUploadNewEnclosure = useCallback(async (file: File) => {
     // Extract filename without extension for the title
     const title = file.name.replace(/\.pdf$/i, '');
@@ -374,8 +407,8 @@ export function EnclosuresManager() {
                       index={index}
                       onUpdateTitle={(title) => updateEnclosure(index, { title })}
                       onAttachFile={(file) => handleAttachFile(index, file)}
-                      onRemoveFile={() => updateEnclosure(index, { file: undefined, fileRef: undefined })}
-                      onRemove={() => removeEnclosure(index)}
+                      onRemoveFile={() => handleRemoveFile(index, encl)}
+                      onRemove={() => handleRemoveEnclosure(index, encl)}
                       onUpdatePageStyle={(pageStyle) => updateEnclosure(index, { pageStyle })}
                       onUpdateCoverPage={(hasCoverPage) => updateEnclosure(index, { hasCoverPage })}
                       onUpdateCoverDescription={(coverPageDescription) => updateEnclosure(index, { coverPageDescription })}
