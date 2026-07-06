@@ -242,13 +242,13 @@ const VariableNode = Node.create({
       // XSS sink — e.g. a variable label of `<img src=x onerror=...>` would
       // execute. textContent escapes automatically. Closes GH #16.
       const span = document.createElement('span');
-      span.className = 'inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-sm font-medium';
+      span.className = 'inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-info/10 text-info text-sm font-medium';
       span.contentEditable = 'false';
       span.setAttribute('data-type', 'variable');
       span.setAttribute('data-name', node.attrs.name);
 
       const at = document.createElement('span');
-      at.className = 'text-blue-500 dark:text-blue-400';
+      at.className = 'text-info';
       at.textContent = '@';
       span.appendChild(at);
       span.appendChild(document.createTextNode(node.attrs.label || node.attrs.name));
@@ -345,7 +345,7 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(
         <div className="bg-popover border border-border rounded-md shadow-md overflow-hidden w-[280px]">
           <div className="px-3 py-2 border-b border-border bg-muted/50">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span className="text-base font-medium text-blue-500">@</span>
+              <span className="text-base font-medium text-info">@</span>
               <span>Create new variable</span>
             </div>
           </div>
