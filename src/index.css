@@ -168,6 +168,10 @@
   --text-2xs--line-height: 1rem;
   --text-2xs--letter-spacing: 0.01em;
 
+  /* Serif reading size for the block-paragraph editor body/gutter — one named
+     token instead of the repeated text-[15px] arbitrary. */
+  --text-serif-body: 0.9375rem;
+
   /* Optical tracking ladder: large display text compresses, body/small relaxes. */
   --text-xs--letter-spacing: 0.01em;
   --text-sm--letter-spacing: 0.005em;
