@@ -16,6 +16,13 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
 import { HelpTip } from '@/components/ui/help-tip';
 import { useDocumentStore } from '@/stores/documentStore';
@@ -26,14 +33,14 @@ import { calculateLabels, canIndentAt } from '@/lib/paragraphUtils';
 import { cn } from '@/lib/utils';
 
 // Per-paragraph portion marks (official CNSI/ISOO palette; brighter variants in
-// dark mode). Clicking the mark cycles to the next one — quick to set inline as
-// you write, like the prototype's gutter mark.
-const PORTION_MARKS: { value: PortionMarking; label: string; color: string }[] = [
-  { value: 'U', label: '(U)', color: 'text-[#007A33] dark:text-[#3DBE6B]' },
-  { value: 'CUI', label: '(CUI)', color: 'text-[#502B85] dark:text-[#9572D4]' },
-  { value: 'C', label: '(C)', color: 'text-[#0033A0] dark:text-[#5B7FD9]' },
-  { value: 'S', label: '(S)', color: 'text-[#C8102E] dark:text-[#E74C5C]' },
-  { value: 'TS', label: '(TS)', color: 'text-[#FF8C00] dark:text-[#FFA940]' },
+// dark mode). The gutter chip opens a menu to pick any marking directly — no
+// more clicking through the whole cycle to step back one level.
+const PORTION_MARKS: { value: PortionMarking; label: string; name: string; color: string }[] = [
+  { value: 'U', label: '(U)', name: 'Unclassified', color: 'text-[#007A33] dark:text-[#3DBE6B]' },
+  { value: 'CUI', label: '(CUI)', name: 'Controlled Unclassified', color: 'text-[#502B85] dark:text-[#9572D4]' },
+  { value: 'C', label: '(C)', name: 'Confidential', color: 'text-[#0033A0] dark:text-[#5B7FD9]' },
+  { value: 'S', label: '(S)', name: 'Secret', color: 'text-[#C8102E] dark:text-[#E74C5C]' },
+  { value: 'TS', label: '(TS)', name: 'Top Secret', color: 'text-[#FF8C00] dark:text-[#FFA940]' },
 ];
 
 function countWords(text: string): number {
@@ -165,18 +172,11 @@ const BlockRow = memo(function BlockRow({
     return false;
   }, [index, removeParagraph, updateParagraph, outdentParagraph, requestFocus]);
 
-  const cycleMark = () => {
-    const at = PORTION_MARKS.findIndex((m) => m.value === (portionMarking ?? 'U'));
-    // An unknown/legacy marking (at === -1) must not wrap to index 0 ('U') — that
-    // would silently downgrade a controlled marking. Start the cycle at CUI.
-    const nextIndex = at < 0 ? 1 : (at + 1) % PORTION_MARKS.length;
-    updateParagraph(index, { portionMarking: PORTION_MARKS[nextIndex].value });
-  };
   // Fall back to rendering the raw stored value (never the (U) palette default),
   // so a marking outside the palette is shown honestly rather than mislabeled.
   const mark =
     PORTION_MARKS.find((m) => m.value === (portionMarking ?? 'U')) ??
-    { value: portionMarking as PortionMarking, label: `(${portionMarking})`, color: PORTION_MARKS[1].color };
+    { value: portionMarking as PortionMarking, label: `(${portionMarking})`, name: String(portionMarking), color: PORTION_MARKS[1].color };
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -229,14 +229,34 @@ const BlockRow = memo(function BlockRow({
         )}
         <div className="flex items-baseline gap-1">
           {showPortionMarking && (
-            <button
-              type="button"
-              onClick={cycleMark}
-              title="Cycle portion marking"
-              className={cn('shrink-0 font-serif text-[15px] font-semibold', mark.color)}
-            >
-              {mark.label}
-            </button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  type="button"
+                  aria-label={`Portion marking: ${mark.name}. Change`}
+                  title="Set portion marking"
+                  className={cn(
+                    'shrink-0 rounded-sm font-serif text-[15px] font-semibold outline-none transition-colors hover:bg-accent/50 focus-visible:ring-[3px] focus-visible:ring-ring/50',
+                    mark.color
+                  )}
+                >
+                  {mark.label}
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="min-w-48">
+                <DropdownMenuRadioGroup
+                  value={portionMarking ?? 'U'}
+                  onValueChange={(v) => updateParagraph(index, { portionMarking: v as PortionMarking })}
+                >
+                  {PORTION_MARKS.map((m) => (
+                    <DropdownMenuRadioItem key={m.value} value={m.value} className="gap-2">
+                      <span className={cn('w-12 shrink-0 font-serif font-semibold', m.color)}>{m.label}</span>
+                      <span className="text-muted-foreground">{m.name}</span>
+                    </DropdownMenuRadioItem>
+                  ))}
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
           )}
           <div className="min-w-0 flex-1 font-serif text-[15px]">
             <VariableChipEditor

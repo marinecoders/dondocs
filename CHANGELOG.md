@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.71] — 2026-07-05
+
+### Changed
+
+- The per-paragraph portion-marking chip (U / CUI / C / S / TS) now opens a menu
+  to pick any marking directly, each shown with its full name. It previously
+  only cycled forward one step per click, so stepping back a level meant clicking
+  through all the others; the current marking is now checked in the menu.
+
 ## [1.2.70] — 2026-07-05
 
 ### Changed
