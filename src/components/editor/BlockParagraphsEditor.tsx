@@ -210,7 +210,7 @@ const BlockRow = memo(function BlockRow({
           levels 4–7 repeat those patterns but underlined, which is exactly what
           the LaTeX/PDF renders — mirror it here so "(a)" at level 3 and level 7
           aren't indistinguishable in the editor. */}
-      <div className="select-none pt-0.5 pr-2.5 text-right font-serif text-[15px] leading-relaxed text-muted-foreground tnum">
+      <div className="select-none pt-0.5 pr-2.5 text-right font-serif text-serif-body leading-relaxed text-muted-foreground tnum">
         <span className={level >= 4 ? 'underline' : undefined}>{label}</span>
       </div>
 
@@ -224,7 +224,7 @@ const BlockRow = memo(function BlockRow({
               if (!header) setWantsHeader(false);
             }}
             placeholder="Heading"
-            className="mb-1 h-7 border-none bg-transparent px-0 font-serif text-[15px] font-semibold underline shadow-none focus-visible:ring-0"
+            className="mb-1 h-7 border-none bg-transparent px-0 font-serif text-serif-body font-semibold underline shadow-none focus-visible:ring-0"
           />
         )}
         <div className="flex items-baseline gap-1">
@@ -236,7 +236,7 @@ const BlockRow = memo(function BlockRow({
                   aria-label={`Portion marking: ${mark.name}. Change`}
                   title="Set portion marking"
                   className={cn(
-                    'shrink-0 rounded-sm font-serif text-[15px] font-semibold outline-none transition-colors hover:bg-accent/50 focus-visible:ring-[3px] focus-visible:ring-ring/50',
+                    'shrink-0 rounded-sm font-serif text-serif-body font-semibold outline-none transition-colors hover:bg-accent/50 focus-visible:ring-[3px] focus-visible:ring-ring/50',
                     mark.color
                   )}
                 >
@@ -258,7 +258,7 @@ const BlockRow = memo(function BlockRow({
               </DropdownMenuContent>
             </DropdownMenu>
           )}
-          <div className="min-w-0 flex-1 font-serif text-[15px]">
+          <div className="min-w-0 flex-1 font-serif text-serif-body">
             <VariableChipEditor
               blockMode
               autoFocus={autoFocus}

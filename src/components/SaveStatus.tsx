@@ -65,7 +65,7 @@ export function SaveStatus({ className }: { className?: string }) {
   // this session — never on 'error'/'needs-permission' (BackupNotice's job).
   const backedUp = backupStatus === 'connected' && lastBackupAt != null;
   return (
-    <span className={`inline-flex items-center gap-1 ${base}`}>
+    <span className={`inline-flex items-center gap-1 tnum ${base}`}>
       <Check className="h-3 w-3 text-success" aria-hidden />
       Saved · {savedAgo(lastSavedAt)}
       {backedUp && (

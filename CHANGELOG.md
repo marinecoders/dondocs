@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.80] — 2026-07-05
+
+### Changed
+
+- The "Saved · N ago" indicator now uses tabular figures, so its digits don't
+  shift width as the time ticks up.
+- Internal: the block editor's serif reading size moved off a repeated arbitrary
+  value onto one named token. No visible change.
+
 ## [1.2.79] — 2026-07-05
 
 ### Changed
