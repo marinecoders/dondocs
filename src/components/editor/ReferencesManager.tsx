@@ -99,7 +99,7 @@ const SortableReference = memo(function SortableReference({
           aria-label={`Drag to reorder reference ${index + 1}`}
           {...attributes}
           {...listeners}
-          className="mt-2 cursor-grab rounded-sm text-muted-foreground outline-none transition-colors hover:bg-accent/50 hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 active:cursor-grabbing"
+          className="mt-2 cursor-grab touch-none rounded-sm text-muted-foreground outline-none transition-colors hover:bg-accent/50 hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 active:cursor-grabbing"
         >
           <GripVertical className="h-4 w-4" />
         </button>
