@@ -40,8 +40,10 @@ function sectionRule(active: boolean): string {
   );
 }
 
-// Common variables to show first in autocomplete
-const COMMON_FORM_VARS = ['LAST_NAME', 'FIRST_NAME', 'NAME', 'EDIPI', 'RANK', 'DATE'];
+// Names to sort first in the @ autocomplete. This only reorders entries that
+// exist in `placeholders` (NAVMC_10274_PLACEHOLDERS = NAME, DATE), so any name
+// not in that set is inert — keep this list to what the form actually offers.
+const COMMON_FORM_VARS = ['NAME', 'DATE'];
 
 export function Form6105Section() {
   const { navmc10274, setNavmc10274Field, resetNavmc10274, clearNavmc10274, includeCoverPage, setIncludeCoverPage } = useFormStore();
