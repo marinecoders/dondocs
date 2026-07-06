@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.90] — 2026-07-05
+
+### Changed
+
+- The About dialog's title now uses the same size and weight as every other
+  dialog title. In the date picker, "today" is marked with a ring outline
+  instead of a fill, so it reads distinctly from the solid-filled selected day.
+
 ## [1.2.89] — 2026-07-05
 
 ### Changed

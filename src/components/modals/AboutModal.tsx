@@ -25,7 +25,7 @@ export function AboutModal() {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3">
             <FileText className="h-5 w-5 text-primary" />
-            <span className="text-xl font-bold">Naval Correspondence Generator</span>
+            <span>Naval Correspondence Generator</span>
             <Badge variant="secondary" title={`Build ${GIT_SHA} · ${formatBuildTime()}`}>
               v{APP_VERSION}
             </Badge>
