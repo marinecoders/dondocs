@@ -101,6 +101,7 @@ function SortableViaItem({ id, index, value, onChange, onRemove, onLookup, canRe
         size="icon"
         onClick={onRemove}
         disabled={!canRemove}
+        aria-label={`Remove via routing ${index + 1}`}
         className="shrink-0 text-destructive hover:text-destructive"
       >
         <Trash2 className="h-4 w-4" />

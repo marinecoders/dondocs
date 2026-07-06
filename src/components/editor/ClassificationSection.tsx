@@ -153,11 +153,11 @@ export function ClassificationSection() {
           <div className="flex items-center gap-2">
             <Shield
               aria-hidden="true"
-              className={`h-4 w-4 ${classLevel === 'custom' ? 'text-gray-600' : currentLevel?.color || 'text-foreground'}`}
+              className={`h-4 w-4 ${classLevel === 'custom' ? 'text-muted-foreground' : currentLevel?.color || 'text-foreground'}`}
               style={{ fill: 'currentColor', fillOpacity: 0.2 }}
             />
             Classification
-            <span className={`text-xs font-medium ${classLevel === 'custom' ? 'text-gray-600' : currentLevel?.color}`}>
+            <span className={`text-xs font-medium ${classLevel === 'custom' ? 'text-muted-foreground' : currentLevel?.color}`}>
               ({classLevel === 'custom' ? 'Custom' : currentLevel?.label})
             </span>
             <HelpTip>
@@ -205,7 +205,7 @@ export function ClassificationSection() {
                     </SelectItem>
                   ))}
                   <SelectItem value="custom">
-                    <span className="text-gray-600">Custom Classification</span>
+                    <span className="text-muted-foreground">Custom Classification</span>
                   </SelectItem>
                 </SelectContent>
               </Select>

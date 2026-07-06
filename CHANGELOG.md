@@ -5,6 +5,17 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.75] — 2026-07-05
+
+### Fixed
+
+- The "remove" button on an addressing "Via" line now has an accessible name —
+  it was an icon-only button a screen reader announced as just "button".
+- The "(Custom)" classification label and the "Custom Classification" menu item
+  used a fixed grey with no dark variant, which failed WCAG AA contrast on the
+  dark theme; both now use the theme's secondary-text color, which passes in
+  both light and dark.
+
 ## [1.2.74] — 2026-07-05
 
 ### Changed
