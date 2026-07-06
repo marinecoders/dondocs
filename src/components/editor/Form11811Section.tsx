@@ -21,8 +21,10 @@ import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { cn } from '@/lib/utils';
 import { NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
 
-// Common variables to show first in autocomplete
-const COMMON_FORM_VARS = ['LAST_NAME', 'FIRST_NAME', 'NAME', 'EDIPI', 'ENTRY_DATE'];
+// Names to sort first in the @ autocomplete. This only reorders entries that
+// exist in `placeholders` (NAVMC_118_11_PLACEHOLDERS = NAME, DATE), so any name
+// not in that set is inert — keep this list to what the form actually offers.
+const COMMON_FORM_VARS = ['NAME', 'DATE'];
 
 // Active-section left-rule for a form AccordionItem, matching the letter
 // sections (FormPanel's SectionShell). activeId only changes at section

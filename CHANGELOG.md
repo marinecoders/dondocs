@@ -5,6 +5,16 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.74] — 2026-07-05
+
+### Changed
+
+- Removed dead entries from the NAVMC 6105 / 118(11) form autocomplete's
+  "show these first" list. It named variables (LAST_NAME, EDIPI, RANK, …) that
+  aren't in those forms' example set, so they never had any effect; the list now
+  matches what the forms actually offer. No visible change. (You can still type
+  `@ANYTHING` to create any custom variable.)
+
 ## [1.2.73] — 2026-07-05
 
 ### Changed
