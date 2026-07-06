@@ -134,6 +134,7 @@ const SortableReference = memo(function SortableReference({
           variant="ghost"
           size="icon"
           onClick={() => removeReference(index)}
+          aria-label={`Remove reference ${index + 1}`}
           className="text-destructive hover:text-destructive"
         >
           <Trash2 className="h-4 w-4" />
