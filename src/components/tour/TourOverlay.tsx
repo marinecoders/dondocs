@@ -237,7 +237,7 @@ export function TourOverlay() {
           a hole via its large spread shadow; without one, a plain full dim. */}
       {rect ? (
         <div
-          className="fixed z-[111] pointer-events-none rounded-lg ring-2 ring-primary transition-all duration-200"
+          className="fixed z-[111] pointer-events-none rounded-lg ring-2 ring-primary transition-[top,left,width,height] duration-200"
           style={{
             top: rect.top - PAD,
             left: rect.left - PAD,
@@ -301,8 +301,8 @@ export function TourOverlay() {
                     key={i}
                     className={
                       i === stepIndex
-                        ? 'h-1.5 w-4 shrink-0 rounded-full bg-primary transition-all'
-                        : 'h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground/30 transition-all'
+                        ? 'h-1.5 w-4 shrink-0 rounded-full bg-primary transition-[width]'
+                        : 'h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground/30 transition-[width]'
                     }
                   />
                 ))}

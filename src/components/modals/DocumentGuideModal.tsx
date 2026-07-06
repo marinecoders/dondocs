@@ -123,7 +123,7 @@ function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) =>
               <button
                 key={rec.docType}
                 onClick={() => onSelectGuide(rec.docType)}
-                className={`focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 w-full text-left p-4 rounded-lg border transition-all hover:border-primary hover:bg-accent/50 ${
+                className={`focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 w-full text-left p-4 rounded-lg border transition-[color,background-color,border-color] hover:border-primary hover:bg-accent/50 ${
                   index === 0 ? 'border-primary bg-primary/5 ring-2 ring-primary/20' : ''
                 }`}
               >
@@ -208,7 +208,7 @@ function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) =>
           <button
             key={option.value}
             onClick={() => handleAnswer(question.id, option.value)}
-            className="focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 w-full text-left p-4 rounded-lg border hover:border-primary hover:bg-accent/50 transition-all group"
+            className="focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 w-full text-left p-4 rounded-lg border hover:border-primary hover:bg-accent/50 transition-[color,background-color,border-color] group"
           >
             <div className="flex items-center gap-3">
               <div className="flex-1 min-w-0">
@@ -246,7 +246,7 @@ function GuideCard({ guide, isExpanded, onToggle }: {
   onToggle: () => void;
 }) {
   return (
-    <div className="border rounded-lg overflow-hidden bg-card transition-all">
+    <div className="border rounded-lg overflow-hidden bg-card transition-[color,background-color,border-color]">
       <button
         onClick={onToggle}
         className="focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 w-full text-left p-4 hover:bg-accent/50 transition-colors"
@@ -979,7 +979,7 @@ export function DocumentGuideModal() {
                 </div>
                 <div className="h-1.5 rounded-full bg-muted overflow-hidden">
                   <div
-                    className="h-full bg-success transition-all duration-300"
+                    className="h-full bg-success transition-[width] duration-300"
                     style={{ width: `${(learnedCount / POWER_FEATURES.length) * 100}%` }}
                   />
                 </div>
@@ -1078,7 +1078,7 @@ export function DocumentGuideModal() {
                             setSelectedCategory(null);
                             setExpandedGuide(null);
                           }}
-                          className="focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 w-full text-left p-6 rounded-lg border-2 hover:border-primary hover:bg-accent/50 transition-all group"
+                          className="focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 w-full text-left p-6 rounded-lg border-2 hover:border-primary hover:bg-accent/50 transition-[color,background-color,border-color] group"
                         >
                           <div className="flex items-center gap-4">
                             {(() => { const GI = GROUP_ICONS[group.id] ?? FileText; return <GI className="h-8 w-8 shrink-0 text-primary" aria-hidden="true" />; })()}

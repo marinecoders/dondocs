@@ -5,6 +5,16 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.84] — 2026-07-05
+
+### Changed
+
+- Scoped the remaining `transition-all` animations to just the properties that
+  actually change (colors on the document-guide cards, width on the progress
+  bar and the tour's step dots, and position/size on the tour spotlight — which
+  no longer tries to interpolate its full-screen dimming overlay). Same motion,
+  less work per frame.
+
 ## [1.2.83] — 2026-07-05
 
 ### Changed
