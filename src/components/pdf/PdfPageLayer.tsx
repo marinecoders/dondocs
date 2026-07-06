@@ -302,7 +302,7 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
                 >
                   <div
                     className={cn(
-                      'overflow-hidden rounded-[3px] bg-white transition-shadow',
+                      'overflow-hidden rounded-sm bg-white transition-shadow',
                       currentPage === i + 1
                         ? 'ring-2 ring-primary'
                         : 'ring-1 ring-black/10 group-hover:ring-ring/60 group-focus-visible:ring-[3px] group-focus-visible:ring-ring/50 dark:ring-white/10'

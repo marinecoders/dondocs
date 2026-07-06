@@ -138,7 +138,7 @@ export function PdfViewerToolbar({
           disabled={pageCount === 0}
           inputMode="numeric"
           aria-label="Page number"
-          className="tnum h-6 w-9 rounded border border-border bg-background text-center text-xs text-foreground outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:opacity-50"
+          className="tnum h-6 w-9 rounded-md border border-border bg-background text-center text-xs text-foreground outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:opacity-50"
           onKeyDown={(e) => {
             if (e.key === 'Enter') commitPage(e.currentTarget);
             if (e.key === 'Escape') e.currentTarget.value = String(page);
