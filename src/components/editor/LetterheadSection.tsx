@@ -272,7 +272,7 @@ export function LetterheadSection() {
                       htmlFor="addressStreet"
                       className="text-xs font-normal text-muted-foreground"
                     >
-                      Street / Box <span className="italic">(optional)</span>
+                      Street / Box <span>(optional)</span>
                     </Label>
                     <Input
                       id="addressStreet"

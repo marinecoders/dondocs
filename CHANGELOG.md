@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.87] — 2026-07-05
+
+### Changed
+
+- Small editor-panel touch-ups: the signature-style buttons give a subtle press
+  response, the custom-classification preset chips show a pointer cursor on
+  hover, and the letterhead "Street / Box (optional)" hint drops a stray italic
+  so it matches the other "(optional)" hints.
+
 ## [1.2.86] — 2026-07-05
 
 ### Changed
