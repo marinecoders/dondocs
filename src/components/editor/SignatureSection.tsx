@@ -500,7 +500,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                           role="radio"
                           aria-checked={selected}
                           tabIndex={selected ? 0 : -1}
-                          className={`flex flex-col items-center gap-1.5 rounded-md border py-3 px-1.5 text-xs font-medium cursor-pointer transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 ${
+                          className={`flex flex-col items-center gap-1.5 rounded-md border py-3 px-1.5 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,transform] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 active:scale-[0.98] ${
                             selected
                               ? 'border-primary bg-primary/10 text-primary'
                               : 'border-border text-foreground hover:bg-muted/40'
