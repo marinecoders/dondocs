@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.72] — 2026-07-05
+
+### Changed
+
+- PDF preview pages now show a subtle loading shimmer while they render, instead
+  of a blank white rectangle. On a slow render you get feedback that the page is
+  on its way rather than an empty box. (The thumbnail rail already did this.)
+
 ## [1.2.71] — 2026-07-05
 
 ### Changed
