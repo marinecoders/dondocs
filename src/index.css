@@ -633,6 +633,13 @@
   100% { transform: scale(1); }
 }
 
+/* Entrance for the "@" variable-suggestion popup — it previously snapped in
+   with no transition while every other surface eases. Transform-only, so the
+   list stays visible even if the animation clock is throttled. */
+.dd-at-menu {
+  animation: dd-pop-in 130ms ease-out;
+}
+
 /* Respect prefers-reduced-motion — WCAG 2.3.3 */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
