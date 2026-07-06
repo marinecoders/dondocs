@@ -152,6 +152,10 @@ export function SignatureSection({ config }: SignatureSectionProps) {
 
   const handleDragLeave = useCallback((e: React.DragEvent) => {
     e.preventDefault();
+    // `dragleave` also fires when the cursor crosses the drop zone's own child
+    // elements (the icon, label, input). Only clear the active tint when the
+    // pointer actually leaves the zone — otherwise the border flickers on/off.
+    if (e.currentTarget.contains(e.relatedTarget as Node | null)) return;
     setIsDragging(false);
   }, []);
 
