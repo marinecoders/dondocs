@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.70] — 2026-07-05
+
+### Changed
+
+- The "@" variable-and-cross-reference menu now eases in with a subtle rise
+  instead of snapping into place, matching how the rest of the app's popovers
+  and menus appear.
+
 ## [1.2.69] — 2026-07-05
 
 ### Fixed

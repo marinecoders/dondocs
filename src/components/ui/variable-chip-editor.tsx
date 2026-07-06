@@ -501,6 +501,9 @@ const VariableExtension = VariableNode.extend({
                 props: { items: props.items, command: props.command, query: props.query },
                 editor: props.editor,
               });
+              // Ease the popup in instead of snapping — a fresh wrapper element
+              // is created per open, so the entrance plays each time.
+              component.element.classList.add('dd-at-menu');
 
               if (!props.clientRect) return;
 
