@@ -200,7 +200,7 @@ const BlockRow = memo(function BlockRow({
         {...listeners}
         aria-label="Drag to reorder"
         title="Drag to reorder"
-        className="absolute -left-5 top-1.5 cursor-grab active:cursor-grabbing text-muted-foreground opacity-0 transition-opacity group-hover:opacity-70 focus-visible:opacity-100"
+        className="absolute -left-5 top-1.5 cursor-grab touch-none active:cursor-grabbing text-muted-foreground opacity-0 transition-opacity group-hover:opacity-70 focus-visible:opacity-100"
       >
         <GripVertical className="h-4 w-4" />
       </button>

@@ -5,6 +5,16 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.78] — 2026-07-05
+
+### Fixed
+
+- Reordering by drag now works reliably on touch devices. The drag handles on
+  Via routing, references, enclosures, and body paragraphs didn't opt out of the
+  browser's touch-scrolling, so grabbing a handle on a phone could scroll the
+  page instead of starting the drag; they now claim the gesture (`touch-action:
+  none`). Keyboard reordering was unaffected and still works.
+
 ## [1.2.77] — 2026-07-05
 
 ### Fixed
