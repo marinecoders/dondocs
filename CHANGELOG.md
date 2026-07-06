@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.82] — 2026-07-05
+
+### Changed
+
+- Corner radii now come from the theme's radius scale instead of a few one-off
+  pixel values: the keyboard-shortcut chips, the PDF thumbnail frames, the
+  page-number field, and the "@" insert menu (which now matches the app's other
+  popovers). Differences are 1–2px — a consistency cleanup, not a redesign.
+
 ## [1.2.81] — 2026-07-05
 
 ### Changed
