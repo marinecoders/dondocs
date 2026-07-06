@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.73] — 2026-07-05
+
+### Changed
+
+- Added a neutral informational color (`--info`) to the theme, defined for light
+  and dark schemes (with an sRGB fallback), and moved the classification "Domain
+  Restrictions" note onto it. It was the last banner still using hardcoded blue
+  palette classes instead of a semantic token.
+
 ## [1.2.72] — 2026-07-05
 
 ### Changed

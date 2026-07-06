@@ -127,6 +127,8 @@
   --color-success-foreground: var(--success-foreground);
   --color-warning: var(--warning);
   --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -203,6 +205,8 @@
   --success-foreground: oklch(0.99 0 0);
   --warning: oklch(0.50 0.13 65);          /* ~amber-800 — ≥4.5:1 as text on both the light canvas and its own 10% tint */
   --warning-foreground: oklch(0.99 0 0);
+  --info: oklch(0.48 0.19 255);            /* ~blue-700 — neutral informational; ≥4.5:1 as text on the light canvas */
+  --info-foreground: oklch(0.99 0 0);
   --border: oklch(0.88 0.02 250);          /* Navy-tinted border */
   --input: oklch(0.95 0.01 250);
   --ring: oklch(0.43 0.17 25);             /* USMC Red ring */
@@ -431,6 +435,8 @@
   --success-foreground: oklch(0.20 0.04 150);
   --warning: oklch(0.83 0.16 85);          /* ~amber-400 — bright enough as text on deep canvas */
   --warning-foreground: oklch(0.22 0.03 85);
+  --info: oklch(0.72 0.14 255);            /* ~blue-400 — brighter for deep canvas */
+  --info-foreground: oklch(0.20 0.04 255);
   --border: oklch(0.305 0.008 260);        /* Crisper edges for card separation */
   --input: oklch(0.23 0.008 260);
   --ring: oklch(0.55 0.20 25);             /* Bright USMC Red ring */
@@ -479,6 +485,8 @@
     --success-foreground: #ffffff;
     --warning: #92400e;
     --warning-foreground: #ffffff;
+    --info: #1d4ed8;
+    --info-foreground: #ffffff;
     --border: #ced9e5;
     --input: #eaeff5;
     --ring: #970818;
@@ -519,6 +527,8 @@
     --success-foreground: #052e16;
     --warning: #fbbf24;
     --warning-foreground: #1c1917;
+    --info: #60a5fa;
+    --info-foreground: #0a1f3d;
     --border: #2d2f33;
     --input: #1b1d21;
     --ring: #cc272e;

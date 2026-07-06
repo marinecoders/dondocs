@@ -1,7 +1,7 @@
 {
   "name": "web-react",
   "private": true,
-  "version": "1.2.72",
+  "version": "1.2.73",
   "type": "module",
   "scripts": {
     "predev": "node scripts/vendor-assets.mjs --allow-offline && node scripts/generate-icons.mjs",

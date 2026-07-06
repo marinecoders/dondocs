@@ -179,9 +179,9 @@ export function ClassificationSection() {
             {/* Domain Restriction Info — only when the active domain narrows the
                 level list, so the default panel stays clean like the design. */}
             {isDomainRestricted && (
-              <div className="flex items-start gap-2 border-l-2 border-blue-300 dark:border-blue-800 pl-3">
-                <Info aria-hidden="true" className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
-                <div className="text-sm text-blue-800 dark:text-blue-300">
+              <div className="flex items-start gap-2 border-l-2 border-info/40 pl-3">
+                <Info aria-hidden="true" className="h-4 w-4 text-info mt-0.5 shrink-0" />
+                <div className="text-sm text-info">
                   <p className="font-medium"><span className="sr-only">Important: </span>Domain Restrictions</p>
                   <p className="text-xs mt-1">{restrictionMessage}</p>
                 </div>
