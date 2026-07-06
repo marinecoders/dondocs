@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.89] — 2026-07-05
+
+### Changed
+
+- The preview panel's idle "your document preview will appear here" icon is now
+  the same size as the loading spinner, and its helper text uses the same width,
+  so the empty and loading states line up. The PDF page-number field is a touch
+  wider so three-digit page numbers aren't cramped.
+
 ## [1.2.88] — 2026-07-05
 
 ### Changed
