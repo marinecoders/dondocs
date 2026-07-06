@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.86] — 2026-07-05
+
+### Changed
+
+- The sidebar's collapse, expand, and New-document buttons now show a hover
+  tooltip (they already had screen-reader names). Tidied a no-op ellipsis style
+  on the Recents timestamps.
+
 ## [1.2.85] — 2026-07-05
 
 ### Changed
