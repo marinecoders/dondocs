@@ -161,6 +161,9 @@
   --shadow-md: 0 0 0 1px rgb(18 27 46 / 0.03), 0 2px 4px -1px rgb(18 27 46 / 0.08), 0 6px 12px -2px rgb(18 27 46 / 0.08);
   --shadow-lg: 0 0 0 1px rgb(18 27 46 / 0.04), 0 6px 12px -3px rgb(18 27 46 / 0.10), 0 16px 24px -6px rgb(18 27 46 / 0.12);
   --shadow-xl: 0 0 0 1px rgb(18 27 46 / 0.04), 0 12px 20px -6px rgb(18 27 46 / 0.12), 0 28px 40px -10px rgb(18 27 46 / 0.18);
+  /* Top rung, so `shadow-2xl` stays on the navy ladder instead of falling back
+     to Tailwind's default black. */
+  --shadow-2xl: 0 0 0 1px rgb(18 27 46 / 0.05), 0 18px 30px -8px rgb(18 27 46 / 0.16), 0 40px 60px -12px rgb(18 27 46 / 0.24);
 
   /* One step below text-xs for micro-labels (eyebrow captions, doc-type chips,
      timestamps) — replaces the scattered text-[9px]/[10px]/[11px] arbitraries. */

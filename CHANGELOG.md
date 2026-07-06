@@ -5,6 +5,16 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.81] — 2026-07-05
+
+### Changed
+
+- Popovers, dropdown menus, and select lists now use the app's "popover"
+  elevation rung (a slightly stronger navy-tinted shadow), matching the
+  documented shadow ladder — and a submenu no longer casts a heavier shadow than
+  the menu it opens from. Added a top `shadow-2xl` rung on the navy ladder so it
+  never falls back to a raw-black shadow.
+
 ## [1.2.80] — 2026-07-05
 
 ### Changed
