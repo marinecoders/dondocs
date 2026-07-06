@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.64] — 2026-07-05
+
+### Fixed
+
+- On macOS, the Redo control now shows its native ⌘⇧Z shortcut instead of ⌘Y
+  (Windows/Linux still show Ctrl+Y). Both gestures already worked; only the
+  displayed hint was wrong on Mac.
+
 ## [1.2.63] — 2026-07-05
 
 ### Accessibility
