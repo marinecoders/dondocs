@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -53,6 +53,15 @@ function isStandardOfficeCode(code: string): boolean {
 interface SignatureSectionProps {
   config: DocTypeConfig;
 }
+
+// The three mutually-exclusive signature styles. Rendered as a real radio
+// group (roving focus + arrow keys) rather than independent toggle buttons so
+// a screen reader announces "1 of 3" and keyboard users arrow between them.
+const SIGNATURE_STYLES = [
+  { value: 'none', Icon: Type, label: 'Typed Only' },
+  { value: 'image', Icon: PenLine, label: 'Upload Image' },
+  { value: 'digital', Icon: Shield, label: 'Digital Field' },
+] as const;
 
 export function SignatureSection({ config }: SignatureSectionProps) {
   const { formData, setField, documentMode } = useDocumentStore();
@@ -175,6 +184,31 @@ export function SignatureSection({ config }: SignatureSectionProps) {
   const handleRemoveSignature = useCallback(() => {
     setField('signatureImage', undefined);
   }, [setField]);
+
+  // Signature-style radio group: select a style and drop any uploaded image
+  // when leaving the "image" option (its bytes are meaningless for typed or
+  // digital signatures).
+  const currentSignatureStyle = (formData.signatureType || 'none') as SignatureType;
+  const styleRadioRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const selectSignatureStyle = useCallback((value: SignatureType) => {
+    setField('signatureType', value);
+    if (value !== 'image' && formData.signatureImage) {
+      setField('signatureImage', undefined);
+    }
+  }, [setField, formData.signatureImage]);
+
+  // Roving focus: arrow keys move selection and focus between the styles, wrap
+  // at the ends — the keyboard model a radio group is expected to have.
+  const handleStyleKeyDown = useCallback((e: React.KeyboardEvent, index: number) => {
+    let next: number;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (index + 1) % SIGNATURE_STYLES.length;
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (index - 1 + SIGNATURE_STYLES.length) % SIGNATURE_STYLES.length;
+    else return;
+    e.preventDefault();
+    selectSignatureStyle(SIGNATURE_STYLES[next].value);
+    styleRadioRefs.current[next]?.focus();
+  }, [selectSignatureStyle]);
 
   return (
     <>
@@ -446,60 +480,38 @@ export function SignatureSection({ config }: SignatureSectionProps) {
             {/* Signature Type Selection */}
             <div data-tour="signature-style" className="space-y-3">
               <Label>Signature Style</Label>
-              {/* All signature options available */}
-                <div className="grid grid-cols-3 gap-2">
-                    {/* Selected style reads as a tinted ring (border + 10% tint +
-                        primary text), not a solid scarlet fill — a quieter
-                        selection state that keeps Download the one scarlet primary. */}
-                    <button
-                      type="button"
-                      aria-pressed={(formData.signatureType || 'none') === 'none'}
-                      className={`flex flex-col items-center gap-1.5 rounded-md border py-3 px-1.5 text-xs font-medium cursor-pointer transition-colors ${
-                        (formData.signatureType || 'none') === 'none'
-                          ? 'border-primary bg-primary/10 text-primary'
-                          : 'border-border text-foreground hover:bg-muted/40'
-                      }`}
-                      onClick={() => {
-                        setField('signatureType', 'none' as SignatureType);
-                        if (formData.signatureImage) {
-                          setField('signatureImage', undefined);
-                        }
-                      }}
-                    >
-                      <Type className="h-5 w-5" />
-                      <span>Typed Only</span>
-                    </button>
-                    <button
-                      type="button"
-                      aria-pressed={formData.signatureType === 'image'}
-                      className={`flex flex-col items-center gap-1.5 rounded-md border py-3 px-1.5 text-xs font-medium cursor-pointer transition-colors ${
-                        formData.signatureType === 'image'
-                          ? 'border-primary bg-primary/10 text-primary'
-                          : 'border-border text-foreground hover:bg-muted/40'
-                      }`}
-                      onClick={() => setField('signatureType', 'image' as SignatureType)}
-                    >
-                      <PenLine className="h-5 w-5" />
-                      <span>Upload Image</span>
-                    </button>
-                    <button
-                      type="button"
-                      aria-pressed={formData.signatureType === 'digital'}
-                      className={`flex flex-col items-center gap-1.5 rounded-md border py-3 px-1.5 text-xs font-medium cursor-pointer transition-colors ${
-                        formData.signatureType === 'digital'
-                          ? 'border-primary bg-primary/10 text-primary'
-                          : 'border-border text-foreground hover:bg-muted/40'
-                      }`}
-                      onClick={() => {
-                        setField('signatureType', 'digital' as SignatureType);
-                        if (formData.signatureImage) {
-                          setField('signatureImage', undefined);
-                        }
-                      }}
-                    >
-                      <Shield className="h-5 w-5" />
-                      <span>Digital Field</span>
-                    </button>
+              {/* All signature options available. Selected style reads as a
+                  tinted ring (border + 10% tint + primary text), not a solid
+                  scarlet fill — a quieter selection state that keeps Download
+                  the one scarlet primary. */}
+                <div
+                  role="radiogroup"
+                  aria-label="Signature style"
+                  className="grid grid-cols-3 gap-2"
+                >
+                    {SIGNATURE_STYLES.map((style, index) => {
+                      const selected = currentSignatureStyle === style.value;
+                      return (
+                        <button
+                          key={style.value}
+                          ref={(el) => { styleRadioRefs.current[index] = el; }}
+                          type="button"
+                          role="radio"
+                          aria-checked={selected}
+                          tabIndex={selected ? 0 : -1}
+                          className={`flex flex-col items-center gap-1.5 rounded-md border py-3 px-1.5 text-xs font-medium cursor-pointer transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 ${
+                            selected
+                              ? 'border-primary bg-primary/10 text-primary'
+                              : 'border-border text-foreground hover:bg-muted/40'
+                          }`}
+                          onClick={() => selectSignatureStyle(style.value)}
+                          onKeyDown={(e) => handleStyleKeyDown(e, index)}
+                        >
+                          <style.Icon className="h-5 w-5" />
+                          <span>{style.label}</span>
+                        </button>
+                      );
+                    })}
                   </div>
 
                   {/* Description based on selection */}
