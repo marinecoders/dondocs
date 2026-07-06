@@ -1057,7 +1057,7 @@ export function Header({
                 About
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => window.open(GITHUB_REPO_URL, '_blank')}>
+              <DropdownMenuItem onClick={() => window.open(GITHUB_REPO_URL, '_blank', 'noopener,noreferrer')}>
                 <GithubIcon className="h-4 w-4 mr-2" />
                 View on GitHub
               </DropdownMenuItem>
@@ -1224,7 +1224,7 @@ export function Header({
                 <ScrollText className="h-4 w-4 mr-2" />
                 View Logs
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => window.open(GITHUB_REPO_URL, '_blank')}>
+              <DropdownMenuItem onClick={() => window.open(GITHUB_REPO_URL, '_blank', 'noopener,noreferrer')}>
                 <GithubIcon className="h-4 w-4 mr-2" />
                 GitHub
               </DropdownMenuItem>

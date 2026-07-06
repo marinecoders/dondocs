@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.76] — 2026-07-05
+
+### Fixed
+
+- The "View on GitHub" links (in the About dialog and the header menus) now open
+  with `noopener,noreferrer`, so the new tab can't reach back into the app via
+  `window.opener` (reverse-tabnabbing). The other external links already did this.
+
 ## [1.2.75] — 2026-07-05
 
 ### Fixed
