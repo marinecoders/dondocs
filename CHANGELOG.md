@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.85] — 2026-07-05
+
+### Changed
+
+- Tooltips now sit a few pixels off their trigger (instead of touching it) and
+  cap their width, so a long hint wraps into a tidy box rather than stretching.
+- The About dialog's title icon is now the same size as every other dialog
+  title's icon.
+
 ## [1.2.84] — 2026-07-05
 
 ### Changed
