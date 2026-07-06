@@ -5,6 +5,17 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.88] — 2026-07-05
+
+### Changed
+
+- The "@" insert menu no longer changes width as you type (its empty / create /
+  results states are now the same width).
+- The reference and enclosure trash buttons show a faint red hover fill instead
+  of a no-op hover.
+- The References "Library" button reads "Browse Library," parallel to "Add
+  Reference."
+
 ## [1.2.87] — 2026-07-05
 
 ### Changed

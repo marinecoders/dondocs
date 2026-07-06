@@ -154,7 +154,7 @@ const SortableReference = memo(function SortableReference({
           size="icon"
           onClick={handleRemove}
           aria-label={`Remove reference ${index + 1}`}
-          className="text-destructive hover:text-destructive"
+          className="text-destructive hover:bg-destructive/10 hover:text-destructive"
         >
           <Trash2 className="h-4 w-4" />
         </Button>
@@ -284,7 +284,7 @@ export function ReferencesManager() {
                   onClick={() => setReferenceLibraryOpen(true)}
                 >
                   <Library className="h-4 w-4 mr-2" />
-                  Library
+                  Browse Library
                 </Button>
               </div>
 
