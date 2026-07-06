@@ -304,6 +304,9 @@ export function ProfileModal() {
 
   const handleDragLeave = useCallback((e: React.DragEvent) => {
     e.preventDefault();
+    // `dragleave` fires when crossing the drop zone's own children too; only
+    // clear the active tint when the pointer truly leaves, to avoid flicker.
+    if (e.currentTarget.contains(e.relatedTarget as Node | null)) return;
     setIsDragging(false);
   }, []);
 

@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.67] — 2026-07-05
+
+### Fixed
+
+- The signature drag-and-drop zone (in the signature block and in the profile
+  editor) no longer flickers its highlight as you move the file over it. The
+  highlight now clears only when the file actually leaves the zone.
+
 ## [1.2.66] — 2026-07-05
 
 ### Changed
