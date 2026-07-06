@@ -830,6 +830,7 @@ export function Header({
               <DropdownMenuItem onClick={handleSaveProgress}>
                 <Save className="h-4 w-4 mr-2" />
                 Save draft
+                <DropdownMenuShortcut>{formatShortcut('mod S')}</DropdownMenuShortcut>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleLoadProgress}>
                 <FolderOpen className="h-4 w-4 mr-2" />
