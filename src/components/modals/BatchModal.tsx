@@ -793,7 +793,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
         return 'Tip: Add variables to the "To" field like "LCpl {{LAST_NAME}}, {{FIRST_NAME}} {{MI}}\\n{{EDIPI}}\\n{{MOS}}"';
       }
       if (formType === 'navmc_118_11') {
-        return 'Tip: Add variables to the remarks like "On {{ENTRY_DATE}}, {{NAME}} failed to meet PFT standards..."';
+        return 'Tip: Add variables to the remarks like "On {{ENTRY_DATE}}, {{NAME}} failed to meet PFT standards…"';
       }
     }
     return 'Tip: Add a variable to your Subject line like "PROMOTION OF {{NAME}} TO {{RANK}}"';

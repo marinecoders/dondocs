@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.79] — 2026-07-05
+
+### Changed
+
+- File sizes now read in KB or MB as appropriate. A signature image or an
+  attached enclosure PDF over a megabyte showed as, e.g., "2048.0 KB"; it now
+  reads "2 MB". Small files still show KB (or bytes), and a trailing ".0" is
+  dropped. The "Copy log" control and its instructions now read consistently.
+
 ## [1.2.78] — 2026-07-05
 
 ### Fixed

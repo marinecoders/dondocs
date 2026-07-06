@@ -29,6 +29,7 @@ import {
 import { HelpTip } from '@/components/ui/help-tip';
 import { useDocumentStore } from '@/stores/documentStore';
 import { persistAttachment } from '@/lib/attachments';
+import { formatFileSize } from '@/lib/utils';
 import type { Enclosure, EnclosurePageStyle } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 
@@ -120,7 +121,7 @@ function SortableEnclosure({
                 <FileText className="h-4 w-4 text-primary shrink-0" />
                 <span className="flex-1 min-w-0 truncate">{enclosure.file.name}</span>
                 <span className="text-muted-foreground shrink-0 whitespace-nowrap">
-                  {(enclosure.file.size / 1024).toFixed(1)} KB
+                  {formatFileSize(enclosure.file.size)}
                 </span>
                 <Button
                   variant="ghost"
