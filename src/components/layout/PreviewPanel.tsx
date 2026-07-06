@@ -178,9 +178,9 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
                 )
               ) : (
                 <>
-                  <Eye className="h-8 w-8 text-muted-foreground" />
+                  <Eye className="h-10 w-10 text-muted-foreground" />
                   <p className="text-sm font-medium text-foreground">Your document preview will appear here</p>
-                  <p className="max-w-[16rem] text-center text-xs text-muted-foreground">
+                  <p className="max-w-xs text-center text-xs text-muted-foreground">
                     Fill in the Subject and body on the left — the formatted letter renders here as you type.
                   </p>
                 </>
