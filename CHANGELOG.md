@@ -5,6 +5,19 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.92] — 2026-07-06
+
+### Fixed
+
+- New builds now reach open sessions reliably. The service worker and the HTML
+  entry are the two files that tell a running app a newer version exists, but
+  they had no cache rule, so a CDN- or browser-cached copy could hide new
+  releases — leaving people on stale UI until a manual hard-refresh. They're now
+  served `no-cache, must-revalidate` (hashed assets stay cached forever), and the
+  app also checks for updates the moment its tab is refocused or the network
+  reconnects — not only on the 60-second timer. Together these get a fresh build
+  in front of active users within seconds of them returning to the tab.
+
 ## [1.2.91] — 2026-07-06
 
 ### Fixed

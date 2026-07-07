@@ -15,6 +15,29 @@
   Content-Type: text/plain
   Cache-Control: no-cache, no-store, must-revalidate
 
+# Update pivots — must always be revalidated, never served stale.
+# The service worker is how every client learns a new build exists: if the edge
+# or browser serves a cached sw.js, registration.update() can't see the new
+# version and users get stuck on the old UI. index.html is the entry that points
+# at the current hashed bundles, so it must be fresh too. `no-cache` = revalidate
+# with the origin (cheap 304 when unchanged), not "never cache".
+/sw.js
+  Cache-Control: no-cache, must-revalidate
+/index.html
+  Cache-Control: no-cache, must-revalidate
+/
+  Cache-Control: no-cache, must-revalidate
+/registerSW.js
+  Cache-Control: no-cache, must-revalidate
+/manifest.webmanifest
+  Cache-Control: no-cache, must-revalidate
+
+# Hashed build assets are content-addressed (their name changes when they
+# change), so they're safe to cache forever — this is a load-time win, not a
+# staleness risk.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
 # Enable CORS for all assets (needed for service worker)
 /*
   Access-Control-Allow-Origin: *
