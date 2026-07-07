@@ -17,6 +17,9 @@ export function useServiceWorker() {
   // Periodic update-check interval, cancelled on unmount so dev HMR and tests
   // don't leak a 60s timer calling registration.update() against a dead component.
   const updateIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  // The live registration, so the focus/reconnect listeners below can trigger an
+  // immediate update check (not just wait for the next 60s tick).
+  const registrationRef = useRef<ServiceWorkerRegistration | null>(null);
 
   const {
     needRefresh: [needRefresh],
@@ -29,6 +32,7 @@ export function useServiceWorker() {
       // Poll for updates every 60s. Clear any prior interval in case
       // onRegisteredSW fires more than once (e.g. dev re-registration).
       if (registration) {
+        registrationRef.current = registration;
         if (updateIntervalRef.current) {
           clearInterval(updateIntervalRef.current);
         }
@@ -49,6 +53,26 @@ export function useServiceWorker() {
         clearInterval(updateIntervalRef.current);
         updateIntervalRef.current = null;
       }
+    };
+  }, []);
+
+  // Check for a new build the moment a long-lived session comes back to life —
+  // when the tab is refocused or the network reconnects — instead of waiting up
+  // to 60s for the next poll (or the browser's own ~24h check). This is what
+  // gets a fresh build to users who leave the app open for hours/days.
+  useEffect(() => {
+    const checkNow = () => {
+      if (document.visibilityState === 'visible') {
+        registrationRef.current?.update().catch(() => {});
+      }
+    };
+    document.addEventListener('visibilitychange', checkNow);
+    window.addEventListener('focus', checkNow);
+    window.addEventListener('online', checkNow);
+    return () => {
+      document.removeEventListener('visibilitychange', checkNow);
+      window.removeEventListener('focus', checkNow);
+      window.removeEventListener('online', checkNow);
     };
   }, []);
 
