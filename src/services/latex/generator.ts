@@ -336,8 +336,12 @@ export function generateSignatoryTex(store: DocumentStore): string {
 
   let byDirectionTex = '';
   if (data.byDirection) {
-    const authority = data.byDirectionAuthority || 'the Commanding Officer';
-    byDirectionTex = `\\setByDirection{By direction of ${escapeLatex(authority)}}`;
+    // Per SECNAV M-5216.5 Ch 7 ¶14b(4)-(5) the bare "By direction" is the norm;
+    // the "of the <activity head>" long form is reserved for correspondence
+    // affecting pay and allowances, so it only appears when one is named.
+    const authority = (data.byDirectionAuthority || '').trim();
+    const line = authority ? `By direction of ${escapeLatex(authority)}` : 'By direction';
+    byDirectionTex = `\\setByDirection{${line}}`;
   }
 
   // Set signature type and image

@@ -461,19 +461,24 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                   onCheckedChange={(checked) => setField('byDirection', !!checked)}
                 />
                 <Label htmlFor="byDirection" className="font-normal">
-                  By direction of...
+                  By direction
                 </Label>
               </div>
 
               {formData.byDirection && (
                 <div className="space-y-2 ml-6">
-                  <Label htmlFor="byDirectionAuthority">Authority</Label>
+                  <Label htmlFor="byDirectionAuthority">Authority (optional)</Label>
                   <Input
                     id="byDirectionAuthority"
                     value={formData.byDirectionAuthority || ''}
                     onChange={(e) => setField('byDirectionAuthority', e.target.value)}
-                    placeholder="the Commanding Officer"
+                    placeholder="Leave blank for a plain “By direction”"
                   />
+                  <p className="text-xs text-muted-foreground">
+                    Per SECNAV M-5216.5 Ch 7, the signature block reads “By direction.”
+                    Name an authority only when the correspondence affects pay and
+                    allowances — it then prints “By direction of the Commanding Officer.”
+                  </p>
                 </div>
               )}
             </div>

@@ -5,6 +5,18 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.93] — 2026-07-06
+
+### Fixed
+
+- The "By direction" signature block now reads "By direction" instead of
+  "By direction of the Commanding Officer". Per SECNAV M-5216.5 Ch 7
+  ¶14b(4)-(5) the bare form is the norm; the "of the <activity head>" long
+  form is reserved for correspondence affecting pay and allowances. Both the
+  PDF and DOCX paths hardcoded the long form with a "the Commanding Officer"
+  fallback, so every by-direction letter carried it. The Authority field is
+  now optional and only adds the long form when a name is entered.
+
 ## [1.2.92] — 2026-07-06
 
 ### Fixed
