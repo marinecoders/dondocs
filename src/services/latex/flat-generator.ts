@@ -591,6 +591,15 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig): string {
   return bodyParts.join('');
 }
 
+/** "By direction" line per SECNAV M-5216.5 Ch 7 ¶14b(4)-(5): the bare form is
+ *  the norm. The "of the <activity head>" long form is reserved for
+ *  correspondence affecting pay and allowances, so it appears only when an
+ *  authority is actually named — never as a default. */
+function buildByDirectionLine(authority: string | undefined): string {
+  const named = (authority || '').trim();
+  return named ? `By direction of ${escapeTabular(named)}` : 'By direction';
+}
+
 /** Single signature block positioned in right half using tabularX */
 function buildSignature(data: Partial<DocumentData>, config: DocTypeConfig): string {
   const sigStyle = config.signature;
@@ -610,8 +619,7 @@ function buildSignature(data: Partial<DocumentData>, config: DocTypeConfig): str
     if (data.sigTitle) sigRows.push(escapeTabular(data.sigTitle));
   }
   if (data.byDirection) {
-    const authority = data.byDirectionAuthority || 'the Commanding Officer';
-    sigRows.push(`By direction of ${escapeTabular(authority)}`);
+    sigRows.push(buildByDirectionLine(data.byDirectionAuthority));
   }
 
   const rows = sigRows.map(r => ` & ${r} \\\\`).join('\n');
@@ -639,8 +647,7 @@ function buildBusinessSignature(data: Partial<DocumentData>): string {
   if (data.sigRank) sigRows.push(escapeTabular(data.sigRank));
   if (data.sigTitle) sigRows.push(escapeTabular(data.sigTitle));
   if (data.byDirection) {
-    const authority = data.byDirectionAuthority || 'the Commanding Officer';
-    sigRows.push(`By direction of ${escapeTabular(authority)}`);
+    sigRows.push(buildByDirectionLine(data.byDirectionAuthority));
   }
 
   // Use tabularX{XcX} for centering (pandoc ignores \begin{center})
