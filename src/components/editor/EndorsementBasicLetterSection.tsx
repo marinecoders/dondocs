@@ -1,8 +1,10 @@
-import { useMemo, useState } from 'react';
-import { FileStack, Search, X } from 'lucide-react';
+import { useCallback, useMemo, useState } from 'react';
+import { FileStack, Search, Upload, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { persistAttachment } from '@/lib/attachments';
+import { formatFileSize } from '@/lib/utils';
 import {
   Select,
   SelectContent,
@@ -114,12 +116,78 @@ export function EndorsementBasicLetterSection() {
     setQuery('');
   };
 
+  // Upload the basic letter's PDF so the export can assemble it ahead of the
+  // endorsement (Ch 9 Fig 9-3). Bytes go to the attachments store — survive a
+  // reload, ride along in a backup — and only the fileRef is serialized.
+  const handleBasicLetterFile = useCallback(
+    async (file: File) => {
+      const data = await file.arrayBuffer();
+      const fileRef = await persistAttachment(
+        { name: file.name, size: file.size, type: file.type },
+        data
+      );
+      setField('basicLetterFile', { name: file.name, size: file.size, data });
+      setField('basicLetterFileRef', fileRef);
+    },
+    [setField]
+  );
+
+  const removeBasicLetterFile = useCallback(() => {
+    setField('basicLetterFile', undefined);
+    setField('basicLetterFileRef', undefined);
+  }, [setField]);
+
+  const basicLetterFile = formData.basicLetterFile;
+
   return (
     <Accordion type="single" collapsible defaultValue="basic">
       <AccordionItem value="basic">
         <AccordionTrigger>Basic Letter</AccordionTrigger>
         <AccordionContent>
           <div className="space-y-4 pt-2">
+            {/* Upload the basic letter's PDF. On export DonDocs assembles it
+                ahead of the endorsement (Ch 9 Fig 9-3, new-page assembly). */}
+            <div className="space-y-2">
+              <Label>Basic letter PDF</Label>
+              {basicLetterFile ? (
+                <div className="flex items-center gap-2 rounded-md border border-border bg-muted/40 p-2">
+                  <FileStack className="h-4 w-4 shrink-0 text-muted-foreground" />
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm text-foreground">{basicLetterFile.name}</p>
+                    <p className="text-xs text-muted-foreground">{formatFileSize(basicLetterFile.size)}</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={removeBasicLetterFile}
+                    aria-label="Remove basic-letter PDF"
+                    className="shrink-0 rounded p-1 text-muted-foreground outline-none hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              ) : (
+                <label className="flex cursor-pointer items-center gap-2 rounded border border-dashed border-border p-2 transition-colors hover:bg-secondary/30">
+                  <Upload className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">Upload the letter you&apos;re endorsing (optional)</span>
+                  <input
+                    type="file"
+                    accept=".pdf,application/pdf"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) void handleBasicLetterFile(file);
+                      e.target.value = '';
+                    }}
+                  />
+                </label>
+              )}
+              <p className="text-xs text-muted-foreground">
+                Assembled ahead of your endorsement in the exported PDF (SECNAV
+                M-5216.5 Ch 9, Fig 9-3). PDF export only — the Word file contains
+                the endorsement alone.
+              </p>
+            </div>
+
             {/* Base this endorsement on a saved correspondence document. */}
             <div className="space-y-2">
               <Popover open={pickerOpen} onOpenChange={setPickerOpen}>
