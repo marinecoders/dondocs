@@ -27,7 +27,10 @@ const SHELL_CACHE_PREFIX = 'dondocs-app-shell';
 const GUARD_KEY = 'dondocs-boot-recovery';
 
 function extractWatchdogSource(): string {
-  const scripts = [...indexHtml.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]);
+  // Case-insensitive: this only extracts a known inline script from our own
+  // index.html, but CodeQL (rightly) treats case-sensitive tag regexes as a
+  // sanitizer-bypass smell, and <SCRIPT> is valid HTML anyway.
+  const scripts = [...indexHtml.matchAll(/<script>([\s\S]*?)<\/script>/gi)].map((m) => m[1]);
   const src = scripts.find((s) => s.includes(GUARD_KEY));
   if (!src) throw new Error('boot watchdog inline script not found in index.html');
   return src;
