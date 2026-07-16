@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react';
-import { Search, X, BookOpen } from 'lucide-react';
+import { useState, useMemo, useEffect } from 'react';
+import { Search, X, BookOpen, Loader2 } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -16,7 +16,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { SSIC_CATEGORIES, type SSICCode } from '@/data/ssicCodes';
+import { loadSsicCategories, type SSICCategory, type SSICCode } from '@/data/ssicCodes';
 
 interface SSICLookupModalProps {
   open: boolean;
@@ -24,23 +24,65 @@ interface SSICLookupModalProps {
   onSelect: (code: string) => void;
 }
 
+// The full set is 2,240 codes; a broad search ("1") matches hundreds. Cap what
+// renders so the list stays responsive, and tell the user when there's more.
+const MAX_SEARCH_RESULTS = 100;
+
 export function SSICLookupModal({ open, onOpenChange, onSelect }: SSICLookupModalProps) {
   const [search, setSearch] = useState('');
+  const [categories, setCategories] = useState<SSICCategory[]>([]);
 
-  const filteredCategories = useMemo(() => {
-    if (!search.trim()) return SSIC_CATEGORIES;
+  // ssic.json is dynamically imported to keep it out of the main bundle, so
+  // pull it in when the modal opens. The loader caches, so reopening is free.
+  useEffect(() => {
+    if (!open) return;
+    let cancelled = false;
+    void loadSsicCategories().then((loaded) => {
+      if (!cancelled) setCategories(loaded);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [open]);
+
+  const { filteredCategories, totalMatches } = useMemo(() => {
+    if (!search.trim()) {
+      return { filteredCategories: categories, totalMatches: 0 };
+    }
 
     const searchLower = search.toLowerCase();
-    return SSIC_CATEGORIES.map((category) => ({
-      ...category,
-      codes: category.codes.filter(
-        (code) =>
-          code.code.includes(search) ||
-          code.title.toLowerCase().includes(searchLower) ||
-          code.description?.toLowerCase().includes(searchLower)
-      ),
-    })).filter((category) => category.codes.length > 0);
-  }, [search]);
+    const matched = categories
+      .map((category) => ({
+        ...category,
+        codes: category.codes.filter(
+          (code) =>
+            code.code.includes(search) ||
+            code.title.toLowerCase().includes(searchLower) ||
+            code.description?.toLowerCase().includes(searchLower)
+        ),
+      }))
+      .filter((category) => category.codes.length > 0);
+
+    const total = matched.reduce((acc, c) => acc + c.codes.length, 0);
+
+    // Trim across categories in order, so the cap never hides a whole group's
+    // worth of results behind an earlier group.
+    let remaining = MAX_SEARCH_RESULTS;
+    const capped = matched.flatMap((category) => {
+      if (remaining <= 0) return [];
+      const codes = category.codes.slice(0, remaining);
+      remaining -= codes.length;
+      return [{ ...category, codes }];
+    });
+
+    return { filteredCategories: capped, totalMatches: total };
+  }, [search, categories]);
+
+  // Searching must reveal its own hits — an accordion collapsed over a match is
+  // indistinguishable from no match at all. Remounting on the matched set (the
+  // `key` below) re-applies defaultValue, so groups auto-open while searching
+  // while the accordion stays uncontrolled for ordinary browsing.
+  const matchedRanges = search.trim() ? filteredCategories.map((c) => c.range).join('|') : '';
 
   const handleSelect = (code: SSICCode) => {
     onSelect(code.code);
@@ -48,7 +90,8 @@ export function SSICLookupModal({ open, onOpenChange, onSelect }: SSICLookupModa
     setSearch('');
   };
 
-  const totalResults = filteredCategories.reduce((acc, cat) => acc + cat.codes.length, 0);
+  const shown = filteredCategories.reduce((acc, cat) => acc + cat.codes.length, 0);
+  const loading = categories.length === 0;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -83,11 +126,24 @@ export function SSICLookupModal({ open, onOpenChange, onSelect }: SSICLookupModa
         </div>
 
         <p className="text-sm text-muted-foreground">
-          {search ? `${totalResults} results found` : 'Browse or search SSIC codes'}
+          {!search && 'Browse or search SSIC codes'}
+          {search && totalMatches > shown && `Showing ${shown} of ${totalMatches} results — refine your search`}
+          {search && totalMatches <= shown && `${totalMatches} result${totalMatches === 1 ? '' : 's'} found`}
         </p>
 
         <ScrollArea className="h-[400px] pr-4">
-          <Accordion type="multiple" className="w-full" defaultValue={search ? filteredCategories.map((c) => c.range) : []}>
+          {loading && (
+            <div className="flex items-center justify-center gap-2 py-8 text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span className="text-sm">Loading SSIC codes…</span>
+            </div>
+          )}
+          <Accordion
+            key={matchedRanges || 'browse'}
+            type="multiple"
+            className="w-full"
+            defaultValue={matchedRanges ? matchedRanges.split('|') : []}
+          >
             {filteredCategories.map((category) => (
               <AccordionItem key={category.range} value={category.range}>
                 <AccordionTrigger className="hover:no-underline">

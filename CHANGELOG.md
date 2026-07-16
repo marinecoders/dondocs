@@ -5,6 +5,24 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.96] — 2026-07-16
+
+### Fixed
+
+- The SSIC lookup now searches all 2,240 codes instead of 129. The full
+  SECNAV M-5210.2 code list already shipped in the app but nothing imported it,
+  so the lookup only ever rendered a small hand-maintained subset — searching a
+  real code such as 11013 or 3120 returned nothing at all.
+- Corrected three SSIC major-group names. The hand-maintained list omitted
+  General Material (10000), which shifted every group above it down by one:
+  Facilities and Activities was filed under 10000, Civilian Personnel under
+  11000, and an invented "Science and Technology" filled 12000. Groups are now
+  named to match the codes actually filed under them, and the four groups that
+  had no category at all (13000 Aeronautical, plus Ships, Combat Service
+  Support, and Civil Affairs) are reachable.
+- Searching now expands the groups that contain matches, rather than leaving
+  hits hidden behind collapsed headings.
+
 ## [1.2.95] — 2026-07-16
 
 ### Fixed
