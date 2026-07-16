@@ -73,8 +73,8 @@ DonDocs uses a WebAssembly LaTeX compiler to produce publication-quality PDFs th
 - **Clause Library** - Save and insert reusable body paragraphs, seeded with common SECNAV boilerplate
 - **Endorsement Inheritance** - Base an endorsement on a saved letter: composes the basic-letter reference line and carries the subject, references, and enclosures forward
 - **Clear Fields** - Reset all content while preserving letterhead for quick new document creation
-- **Reference Library** - 107 searchable military references with one-click insert
-- **Unit Directory** - 3,139 units searchable by name, abbreviation, MCC, or location; insert directly into letterhead or To/Via lines
+- **Reference Library** - 135 searchable military references with one-click insert
+- **Unit Directory** - 3,140 units searchable by name, abbreviation, MCC, or location; insert directly into letterhead or To/Via lines
 - **Office Codes** - 74 standard military position codes for signature blocks
 - **SSIC Lookup** - 2,240 codes searchable by number or description
 - **Batch Generation** - Generate multiple documents with 28 built-in placeholders and Insert Variable button
@@ -89,7 +89,7 @@ DonDocs uses a WebAssembly LaTeX compiler to produce publication-quality PDFs th
   - Dates of Birth
   - Phone numbers
   - Personal email addresses
-  - 95+ medical/PHI keywords
+  - 40 medical/PHI keywords
 - **Digital Signature Fields** - CAC/PIV compatible signature boxes in PDF
 - **Classification Markings** - Unclassified through TOP SECRET//SCI
 - **CUI Handling** - 10 categories with distribution statements (A-F)
@@ -502,7 +502,7 @@ There are two types of templates:
 **Format Templates** (LaTeX) - Define document layouts:
 - `public/lib/latex-templates.js` contains all LaTeX templates as a JavaScript object
 - `tex/main.tex` - Main document structure, package imports, base commands
-- `tex/templates/*.tex` - Document format templates (17 types: naval_letter, mfr, etc.)
+- `tex/templates/*.tex` - Document format templates (20 types: naval_letter, mfr, etc.)
 - Each format defines:
   - `\printDateAndTitle` - How date/SSIC block is formatted
   - `\printAddressBlock` - How From/To/Via/Subject appears

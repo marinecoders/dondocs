@@ -36,8 +36,9 @@ jobs:
         # Lint is now a gate: the baseline is clean (0 errors). The
         # `eslint-plugin-security` follow-up is still open. Bundle-size
         # and `npm audit` gates already exist (see the `build` and
-        # `audit` jobs below). CodeQL runs separately via the
-        # auto-generated `codeql.yml` workflow.
+        # `audit` jobs below). CodeQL is not in this repo at all — it runs
+        # from GitHub's default setup (Settings > Code security), weekly and
+        # on every PR, so there's no workflow file here to read.
     steps:
       - uses: actions/checkout@v7
 
