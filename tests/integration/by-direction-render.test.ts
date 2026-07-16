@@ -18,14 +18,9 @@ import { writeFile, mkdtemp } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { compileFixture } from '../_helpers/compileLatex';
+import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfToolchain';
 
-const toolchain =
-  spawnSync('pdflatex', ['--version'], { encoding: 'utf-8' }).status === 0 &&
-  spawnSync('pdftotext', ['-v'], { encoding: 'utf-8' }).status === 0;
-
-if (!toolchain) {
-  console.warn('[by-direction-render] pdflatex/pdftotext missing — SKIPPING.');
-}
+const toolchain = hasPdfToolchain;
 
 function store(byDirectionAuthority: string) {
   return {
@@ -78,6 +73,8 @@ async function renderedText(authority: string): Promise<string> {
 }
 
 describe('by-direction signature — rendered PDF', () => {
+  describeToolchainRequirement('by-direction-render');
+
   it.skipIf(!toolchain)('prints a bare "By direction" when no authority is named', async () => {
     const text = await renderedText('');
     expect(text).toMatch(/By direction/);

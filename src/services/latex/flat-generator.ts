@@ -18,6 +18,10 @@ import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distributio
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
 import { enclosureStartNumber } from '@/lib/endorsement';
+import {
+  resolveAppendedEndorsement,
+  appendedEndorsementSigner,
+} from '@/lib/appendedEndorsement';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
 
@@ -595,6 +599,71 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig): string {
   return bodyParts.join('');
 }
 
+/**
+ * The appointee's acknowledgement below the letter's signature: a rule across
+ * the page, the endorsement line, its own From/To, the body, and the signer.
+ * Mirrors `\printAppendedEndorsement` in tex/main.tex — the two must produce
+ * the same page, so a change here needs the same change there.
+ */
+function buildAppendedEndorsement(store: DocumentStore): string {
+  const ack = resolveAppendedEndorsement(store.docType, store.formData);
+  if (!ack) return '';
+
+  // \mbox{} protects the label from pandoc's list-marker detection, exactly as
+  // the main body does — without it pandoc consumed the digit and the DOCX
+  // rendered a bare "." where the PDF showed "1.".
+  const body = ack.paragraphs
+    .map((text, i) => `\\noindent \\mbox{${i + 1}.}~~${escapeFlat(text)}\n\n`)
+    .join('');
+
+  const signer = appendedEndorsementSigner(store.formData);
+
+  // Ch 9 para 2.1a: the endorsement line sits below the date line, which the
+  // same-page omission list does not cover (Fig 9-1 shows it). Serial is
+  // optional; both stay blank when the appointee hand-dates at signature.
+  //
+  // tabularx{Xr} for the date and tabularx{X@{}l} for the signer, not \hfill
+  // and \hspace*{3.25in}: dondocs.lua understands only \dondocsindent and drops
+  // all other raw LaTeX, so both commands vanished — the DOCX left-aligned the
+  // date and signed the appointee at the margin while the officer signed at
+  // 3.25in. These are the idioms the letter's own date and signature use, and
+  // the ones this file's header prescribes ("tabularX{Xr} for right-aligned
+  // content"). The 0.5pt rule matches the DOCX endorsement divider below.
+  const dateRows = [ack.serial, ack.date]
+    .filter(Boolean)
+    .map((row) => ` & ${escapeTabular(row)} \\\\`)
+    .join('\n');
+
+  return `\\vspace{24pt}
+\\noindent
+\\rule{\\textwidth}{0.5pt}
+
+\\vspace{12pt}
+\\noindent
+\\begin{tabularx}{\\textwidth}{@{}Xr@{}}
+${dateRows}
+\\end{tabularx}
+
+\\vspace{12pt}
+\\noindent FIRST ENDORSEMENT
+
+\\vspace{12pt}
+\\noindent
+\\begin{tabular}{@{}l@{}p{5.75in}@{}}
+From:\\hspace{2\\fontdimen2\\font} & ${escapeTabular(ack.from)} \\\\
+To:\\hspace{6\\fontdimen2\\font} & ${escapeTabular(ack.to)} \\\\
+\\end{tabular}
+
+\\vspace{12pt}
+${body}\\vspace{48pt}
+\\noindent
+\\begin{tabularx}{\\textwidth}{@{}X@{}l@{}}
+ & ${escapeTabular(signer)} \\\\
+\\end{tabularx}
+
+`;
+}
+
 /** "By direction" line per SECNAV M-5216.5 Ch 7 ¶14b(4)-(5): the bare form is
  *  the norm. The "of the <activity head>" long form is reserved for
  *  correspondence affecting pay and allowances, so it appears only when an
@@ -1111,6 +1180,9 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
   );
   content += buildBody(store.paragraphs, config);
   content += buildSignature(data, config);
+  // Between the signature and Distribution/Copy to — Ch 9 Figure 9-1 puts the
+  // "Copy to:" block last on the sheet, below the endorsement.
+  content += buildAppendedEndorsement(store);
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
 

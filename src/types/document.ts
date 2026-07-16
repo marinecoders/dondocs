@@ -157,6 +157,24 @@ export interface DocumentData {
   signatureImage?: SignatureImage;
   signatureType?: SignatureType;
 
+  // Acknowledgement endorsement — an appointment letter usually carries the
+  // appointee's acknowledgement on its own sheet: the appointing officer signs,
+  // a rule divides the page, the appointee endorses back below it. Both halves
+  // are written at once, so the endorsement keeps its own addressees, body, and
+  // signer rather than reusing the letter's. Addressees default to inverting
+  // the letter. See src/lib/appendedEndorsement.ts.
+  appendEndorsement?: boolean;
+  endorsementFrom?: string;
+  endorsementTo?: string;
+  /** One paragraph per line; numbered like any endorsement body. */
+  endorsementBody?: string;
+  endorsementSigFirst?: string;
+  endorsementSigMiddle?: string;
+  endorsementSigLast?: string;
+  /** Distinct from the letter's own serial/date: the appointee signs later. */
+  endorsementSerial?: string;
+  endorsementDate?: string;
+
   // Classification
   classLevel: string;
   customClassification: string;
