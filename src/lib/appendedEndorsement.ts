@@ -98,8 +98,13 @@ export function resolveAppendedEndorsement(
  * and surname, no rank or title.
  */
 export function appendedEndorsementSigner(data: AppendedEndorsementData): string {
-  const initials = [data.endorsementSigFirst, data.endorsementSigMiddle]
-    .map((part) => (part || '').trim().charAt(0).toUpperCase())
+  // First and middle are positional: a middle initial without a first must not
+  // slide into the first slot and print "A. DOE" for someone who left first
+  // blank. Drop the middle when there is no first — same as the letter's own
+  // signature, which never shows a middle without a first.
+  const first = (data.endorsementSigFirst || '').trim().charAt(0).toUpperCase();
+  const middle = first ? (data.endorsementSigMiddle || '').trim().charAt(0).toUpperCase() : '';
+  const initials = [first, middle]
     .filter(Boolean)
     .map((initial) => `${initial}.`)
     .join(' ');

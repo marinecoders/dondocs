@@ -91,6 +91,18 @@ describe('appendedEndorsementSigner', () => {
   it('handles a missing middle initial', () => {
     expect(appendedEndorsementSigner({ ...base, endorsementSigMiddle: '' })).toBe('J. DOE');
   });
+
+  // First and middle are positional. A middle initial with no first must not
+  // slide into the first slot and sign the wrong name.
+  it('drops the middle initial when there is no first name', () => {
+    expect(
+      appendedEndorsementSigner({ endorsementSigMiddle: 'A', endorsementSigLast: 'Doe' })
+    ).toBe('DOE');
+  });
+
+  it('is empty when nothing is filled in', () => {
+    expect(appendedEndorsementSigner({})).toBe('');
+  });
 });
 
 describe('both generators emit the acknowledgement', () => {
