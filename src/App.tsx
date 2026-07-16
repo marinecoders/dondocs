@@ -93,12 +93,41 @@ import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/na
 import { applyPlaceholdersToNavmc11811, buildNavmc11811DefaultValues } from '@/lib/placeholders';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
 import type { ClassificationInfo, EnclosureError } from '@/services/pdf/mergeEnclosures';
+import { assembleEndorsement } from '@/services/pdf/assembleEndorsement';
+import { isEndorsement } from '@/lib/endorsement';
 import { addSignatureField, addDualSignatureFields, type DualSignatureFieldConfig, type SignatureFieldConfig } from '@/services/pdf/addSignatureField';
 import { DOC_TYPE_CONFIG, type DocumentData } from '@/types/document';
 import { detectPII, type PIIDetectionResult } from '@/services/pii/detector';
 import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
 
 // Helper to get classification marking for enclosures
+/**
+ * Assemble the uploaded basic letter ahead of a compiled endorsement, so the
+ * exported PDF is the letter followed by the endorsement (SECNAV M-5216.5 Ch 9
+ * Fig 9-3). A no-op for non-endorsements or when no basic-letter PDF is
+ * attached. Runs before the enclosure merge, so `mergeEnclosures` treats the
+ * combined [letter + endorsement] as the main document and the signature-field
+ * placement (`basicPageCount - 1`) still lands on the endorsement's last page.
+ * On a bad upload it returns the endorsement unchanged plus an error for the
+ * caller to surface — never a silently dropped export.
+ */
+async function assembleBasicLetter(
+  pdfBytes: Uint8Array,
+  docType: string,
+  formData: Partial<DocumentData>
+): Promise<{ pdfBytes: Uint8Array; error?: string }> {
+  const data = formData.basicLetterFile?.data;
+  if (!isEndorsement(docType) || !data) return { pdfBytes };
+  const result = await assembleEndorsement(pdfBytes, data);
+  return result.ok ? { pdfBytes: result.pdfBytes } : { pdfBytes, error: result.error };
+}
+
+/** An EnclosureError-shaped entry so a failed basic-letter assembly surfaces in
+ *  the same modal the enclosure merge uses. */
+function basicLetterError(error: string): EnclosureError {
+  return { enclosureNumber: 0, title: 'Basic letter', error };
+}
+
 function getClassificationInfo(
   classLevel: string | undefined,
   customClassification?: string
@@ -498,7 +527,11 @@ function App() {
   const enhancePreviewPdf = useCallback(
     async (pdfBytes: Uint8Array, currentStore: ReturnType<typeof useDocumentStore.getState>): Promise<Uint8Array> => {
       const { enclosures: generatedEnclosures, includeHyperlinks, referenceUrls } = generateAllLatexFiles(currentStore);
-      let out = pdfBytes;
+      // Assemble the basic letter ahead of the endorsement first, so the
+      // preview shows the real artifact and the enclosure merge below runs on
+      // the combined document. Preview silently falls back to the endorsement
+      // alone on a bad upload — the download path is where the error surfaces.
+      let out = (await assembleBasicLetter(pdfBytes, currentStore.docType, currentStore.formData)).pdfBytes;
       let lastBasicPageIndex: number | undefined;
       if (generatedEnclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
         const classification = getClassificationInfo(currentStore.formData.classLevel);
@@ -560,7 +593,10 @@ function App() {
         const hasEnhancements =
           generatedEnclosures.length > 0 ||
           (includeHyperlinks && referenceUrls.length > 0) ||
-          currentStore.formData.signatureType === 'digital';
+          currentStore.formData.signatureType === 'digital' ||
+          // A basic-letter PDF assembles ahead of the endorsement in
+          // enhancePreviewPdf, so the preview must run that pass to show it.
+          (isEndorsement(currentStore.docType) && !!currentStore.formData.basicLetterFile?.data);
         const basePdfBytes = pdfBytes;
 
         // fullQualityPreview runs the full pipeline inline. When off (default),
@@ -809,6 +845,15 @@ function App() {
     let pdfBytes = await compile(files);
 
     if (pdfBytes) {
+      // Assemble the basic letter ahead of the endorsement before merging
+      // enclosures. A bad upload is surfaced (not dropped) and the endorsement
+      // still exports on its own.
+      const assembled = await assembleBasicLetter(pdfBytes, currentStore.docType, currentStore.formData);
+      pdfBytes = assembled.pdfBytes;
+      if (assembled.error) {
+        setEnclosureErrors([basicLetterError(assembled.error)]);
+        setShowEnclosureErrors(true);
+      }
       // Merge enclosures and/or create hyperlinks (handles both PDF and text-only enclosures, and reference URLs)
       let lastBasicPageIndex: number | undefined;
       if (generatedEnclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
@@ -1018,6 +1063,14 @@ function App() {
     let pdfBytes = await compile(files);
 
     if (pdfBytes) {
+      // Assemble the basic letter ahead of the endorsement (see the primary
+      // download path above); surface a bad upload rather than dropping it.
+      const assembled = await assembleBasicLetter(pdfBytes, currentStore.docType, currentStore.formData);
+      pdfBytes = assembled.pdfBytes;
+      if (assembled.error) {
+        setEnclosureErrors([basicLetterError(assembled.error)]);
+        setShowEnclosureErrors(true);
+      }
       let lastBasicPageIndex: number | undefined;
       if (enclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
         onProgress?.({ kind: 'pdf-merging-enclosures' });
