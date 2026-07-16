@@ -5,6 +5,20 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.95] — 2026-07-16
+
+### Fixed
+
+- The app now self-heals from a stale app shell instead of white-screening.
+  After a deploy, a cached `index.html` can point at hashed bundles that no
+  longer exist — the service worker's network-first navigation fetch can be
+  satisfied by the browser's HTTP cache and then store that stale shell in its
+  own runtime cache, so every new tab white-screened until a hard refresh. A
+  boot watchdog in the shell now detects that the app never started and, once
+  per session, drops the shell caches, re-fetches the page past the HTTP
+  cache, and reloads. Offline launches are left untouched, and deploying this
+  release automatically abandons any already-poisoned shell cache.
+
 ## [1.2.94] — 2026-07-06
 
 ### Added

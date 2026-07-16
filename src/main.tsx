@@ -4,6 +4,20 @@ import './index.css'
 import App from './App.tsx'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 
+declare global {
+  interface Window {
+    /** Set the moment the app bundle executes; read by the index.html boot
+     *  watchdog to tell "stale shell, scripts never loaded" apart from a
+     *  healthy boot. */
+    __DD_BOOTED__?: boolean
+  }
+}
+
+// First observable act of the bundle — if the shell's script tags point at
+// bundles a deploy has replaced, this line never runs and the watchdog in
+// index.html self-heals with a one-shot cache-bypassing reload.
+window.__DD_BOOTED__ = true
+
 // Initialize debug utility (registers global DONDOCS object and keyboard shortcut)
 import '@/lib/debug'
 
