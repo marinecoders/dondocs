@@ -798,17 +798,34 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\AckTo}{}
 \\newcommand{\\AckBody}{}
 \\newcommand{\\AckSignature}{}
-\\newcommand{\\setAppendedEndorsement}[4]{%
+\\newcommand{\\AckSerial}{}
+\\newcommand{\\AckDate}{}
+\\newcommand{\\setAppendedEndorsement}[6]{%
     \\renewcommand{\\AckFrom}{#1}%
     \\renewcommand{\\AckTo}{#2}%
     \\renewcommand{\\AckBody}{#3}%
     \\renewcommand{\\AckSignature}{#4}%
+    \\renewcommand{\\AckSerial}{#5}%
+    \\renewcommand{\\AckDate}{#6}%
 }
 
 \\newcommand{\\printAppendedEndorsement}{%
     \\ifdefempty{\\AckFrom}{}{%
         \\vspace{24pt}%
         \\noindent\\rule{\\textwidth}{0.4pt}\\par
+        \\vspace{12pt}%
+        % Ch 9 para 2.1a starts the endorsement line "on the second line below the
+        % date line". A same-page endorsement may omit the SSIC, subject and the
+        % basic letter's ID symbols — the date line is not on that list, and
+        % Fig 9-1 shows it. The serial is optional: an appointee endorsing back
+        % is not assigning one. Both stay blank for hand-dating at signature.
+        \\hfill
+        \\begin{tabular}[t]{@{}l@{}}
+            \\ifdefempty{\\AckSerial}{}{%
+                \\AckSerial\\\\
+            }%
+            \\AckDate
+        \\end{tabular}\\par
         \\vspace{12pt}%
         \\noindent FIRST ENDORSEMENT\\par
         \\vspace{12pt}%

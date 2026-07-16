@@ -548,6 +548,31 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                       </div>
                     </div>
 
+                    {/* Ch 9 ¶2.1a puts a date line above the endorsement line, and
+                        the same-page omission list does not cover it (Fig 9-1).
+                        Left blank it prints an empty line for the appointee to
+                        hand-date, which is how an appointment is usually signed. */}
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="space-y-2">
+                        <Label htmlFor="endorsementDate">Date (optional)</Label>
+                        <Input
+                          id="endorsementDate"
+                          value={formData.endorsementDate || ''}
+                          onChange={(e) => setField('endorsementDate', e.target.value)}
+                          placeholder="Blank to sign by hand"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="endorsementSerial">Serial (optional)</Label>
+                        <Input
+                          id="endorsementSerial"
+                          value={formData.endorsementSerial || ''}
+                          onChange={(e) => setField('endorsementSerial', e.target.value)}
+                          placeholder="Ser 1710/024"
+                        />
+                      </div>
+                    </div>
+
                     {/* Addressees invert the letter unless overridden, so the common
                         case needs no typing at all. */}
                     <div className="space-y-2">

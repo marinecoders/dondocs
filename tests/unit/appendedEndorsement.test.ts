@@ -113,6 +113,26 @@ describe('both generators emit the acknowledgement', () => {
     expect(tex).toMatch(/read and understand/);
   });
 
+  // Ch 9 ¶2.1a: the endorsement line sits below the date line, which the
+  // same-page omission list does not cover. Both outputs must carry it, or a
+  // PDF and a DOCX of the same appointment disagree about a signed document.
+  it('both carry the endorsement\'s own date and serial', () => {
+    const dated = {
+      ...(store as Record<string, unknown>),
+      formData: { ...base, docType: 'naval_letter', endorsementSerial: 'Ser 1710/024', endorsementDate: '3 Feb 25' },
+    } as never;
+    for (const tex of [generateFlatLatex(dated), generateSignatoryTex(dated)]) {
+      expect(tex).toContain('Ser 1710/024');
+      expect(tex).toContain('3 Feb 25');
+    }
+  });
+
+  it('omits the serial row when hand-dated, without dropping the date line', () => {
+    const tex = generateFlatLatex(store);
+    expect(tex).not.toContain('Ser 1710/024');
+    expect(tex).toContain('FIRST ENDORSEMENT');
+  });
+
   it('neither emits anything when the letter carries no acknowledgement', () => {
     const plain = {
       ...(store as Record<string, unknown>),

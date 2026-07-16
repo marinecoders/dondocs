@@ -362,7 +362,9 @@ export function generateSignatoryTex(store: DocumentStore): string {
     {${escapeLatex(ack.from)}}
     {${escapeLatex(ack.to)}}
     {${body}}
-    {${escapeLatex(appendedEndorsementSigner(data))}}`;
+    {${escapeLatex(appendedEndorsementSigner(data))}}
+    {${escapeLatex(ack.serial)}}
+    {${escapeLatex(ack.date)}}`;
   }
 
   // Set signature type and image

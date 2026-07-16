@@ -615,9 +615,20 @@ function buildAppendedEndorsement(store: DocumentStore): string {
 
   const signer = appendedEndorsementSigner(store.formData);
 
+  // Ch 9 para 2.1a: the endorsement line sits below the date line, which the
+  // same-page omission list does not cover (Fig 9-1 shows it). Serial is
+  // optional; both stay blank when the appointee hand-dates at signature.
+  const serialRow = ack.serial ? `${escapeTabular(ack.serial)} \\\\\n` : '';
+
   return `\\vspace{24pt}
 \\noindent
 \\rule{\\textwidth}{0.4pt}
+
+\\vspace{12pt}
+\\hfill
+\\begin{tabular}{@{}l@{}}
+${serialRow}${escapeTabular(ack.date)}
+\\end{tabular}
 
 \\vspace{12pt}
 \\noindent FIRST ENDORSEMENT

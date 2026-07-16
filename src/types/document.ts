@@ -171,6 +171,9 @@ export interface DocumentData {
   endorsementSigFirst?: string;
   endorsementSigMiddle?: string;
   endorsementSigLast?: string;
+  /** Distinct from the letter's own serial/date: the appointee signs later. */
+  endorsementSerial?: string;
+  endorsementDate?: string;
 
   // Classification
   classLevel: string;

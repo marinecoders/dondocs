@@ -121,4 +121,31 @@ describe('appended acknowledgement — rendered PDF', () => {
     expect(text).toMatch(/R\. L\. SMITH/);
     expect(text).not.toMatch(/FIRST ENDORSEMENT/);
   });
+
+  // Ch 9 ¶2.1a starts the endorsement line "on the second line below the date
+  // line". A same-page endorsement may omit the SSIC, subject and basic letter
+  // ID — not the date — so the line must render and must sit above the
+  // endorsement line, as Fig 9-1 shows.
+  it.skipIf(!toolchain)('prints the date line above the endorsement line', async () => {
+    const { text, pages } = await render({
+      ...acknowledgement,
+      endorsementSerial: 'Ser 1710/024',
+      endorsementDate: '3 Feb 25',
+    });
+
+    expect(pages).toBe(1);
+    expect(text).toMatch(/Ser 1710\/024/);
+    expect(text).toMatch(/3 Feb 25/);
+    expect(text.indexOf('3 Feb 25')).toBeLessThan(text.indexOf('FIRST ENDORSEMENT'));
+    expect(text.indexOf('Ser 1710/024')).toBeLessThan(text.indexOf('3 Feb 25'));
+
+    // The letter's own date must not be mistaken for the endorsement's.
+    expect(text.indexOf('15 Jan 25')).toBeLessThan(text.indexOf('Ser 1710/024'));
+  });
+
+  it.skipIf(!toolchain)('still lands on one sheet when hand-dated at signature', async () => {
+    const { pages, text } = await render(acknowledgement);
+    expect(pages).toBe(1);
+    expect(text).toMatch(/FIRST ENDORSEMENT/);
+  });
 });

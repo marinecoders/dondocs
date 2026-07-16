@@ -30,6 +30,8 @@ export interface AppendedEndorsementData {
   endorsementSigFirst?: string;
   endorsementSigMiddle?: string;
   endorsementSigLast?: string;
+  endorsementSerial?: string;
+  endorsementDate?: string;
   /** Fall back to inverting the letter's own addressees. */
   from?: string;
   to?: string;
@@ -40,6 +42,10 @@ export interface AppendedEndorsement {
   to: string;
   /** One entry per non-blank line; the generators number them 1., 2., … */
   paragraphs: string[];
+  /** Optional — an appointee endorsing back is not assigning a serial. */
+  serial: string;
+  /** Blank by default: the appointee hand-dates this when they sign. */
+  date: string;
 }
 
 export function canAppendEndorsement(docType: string): boolean {
@@ -72,7 +78,13 @@ export function resolveAppendedEndorsement(
   // block under a rule would just be a stray paragraph.
   if (!from || !to) return null;
 
-  return { from, to, paragraphs };
+  return {
+    from,
+    to,
+    paragraphs,
+    serial: (data.endorsementSerial || '').trim(),
+    date: (data.endorsementDate || '').trim(),
+  };
 }
 
 /**
