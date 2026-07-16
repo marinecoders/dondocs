@@ -840,9 +840,14 @@ export function generateAllLatexFiles(store: DocumentStore): GeneratedFiles {
     'classification.tex': generateClassificationTex(store),
   };
 
-  // Collect ALL enclosures for JavaScript handling (maintains correct order)
+  // Collect ALL enclosures for JavaScript handling (maintains correct order).
+  // The number must match the one printed in the Encl: list and used for the
+  // `\enclosure{n}` hyperlink anchor — the merge stamps page markers and
+  // resolves "Encl (n)" links by it, so an endorsement's continued numbering
+  // has to reach here too.
+  const enclStart = enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber);
   const enclosures: EnclosureData[] = store.enclosures.map((encl, i) => ({
-    number: i + 1,
+    number: enclStart + i,
     title: encl.title || 'Untitled',
     data: encl.file?.data, // undefined if no PDF attached
     pageStyle: encl.pageStyle,
