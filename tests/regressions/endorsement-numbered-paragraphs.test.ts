@@ -1,7 +1,7 @@
 /**
  * Endorsement bodies are numbered (SECNAV M-5216.5).
  *
- * The rule is Ch 2 ¶13a: "Identify all paragraphs or subparagraphs with a
+ * The rule is Ch 7 ¶13a: "Identify all paragraphs or subparagraphs with a
  * number or letter." Ch 9 states no exception, so endorsements inherit it.
  * Where the manual wants paragraphs unnumbered it says so in those words --
  * Ch 11 ¶6 "Do not number main paragraphs", Ch 12 ¶3.2c(2) "Do not number the

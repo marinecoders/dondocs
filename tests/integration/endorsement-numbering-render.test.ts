@@ -6,7 +6,7 @@
  * user-visible change on this branch: source assertions pass even when the
  * template never renders the label. This reads the numbers off the page.
  *
- * The rule is Ch 2 ¶13a ("Identify all paragraphs or subparagraphs with a
+ * The rule is Ch 7 ¶13a ("Identify all paragraphs or subparagraphs with a
  * number or letter"), to which Ch 9 states no exception. Fig 9-1 numbers a
  * single-paragraph body; Fig 9-2 numbers "1." and "2.".
  *

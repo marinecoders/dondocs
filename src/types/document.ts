@@ -377,13 +377,15 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
     regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 7' },
     compliance: DUAL_SIGNATURE_COMPLIANCE,
   },
-  // Endorsements number their paragraphs. Ch 2 ¶13a is the general rule --
-  // "Identify all paragraphs or subparagraphs with a number or letter" -- and
-  // Ch 9 states no exception to it. Where this manual wants paragraphs
-  // unnumbered it says so in those words (Ch 11 ¶6, Ch 12 ¶3.2c(2)); Ch 9 has
-  // no such sentence, and Figs 9-1 and 9-2 both show a numbered body (9-1
-  // numbers even its single paragraph). The only "do not number" in Ch 9 is for
-  // Via addressees.
+  // Endorsements number their paragraphs. The rule is Ch 7 ¶13a
+  // (Correspondence Format) -- "Identify all paragraphs or subparagraphs with a
+  // number or letter" -- which an endorsement inherits by being
+  // letter-formatted: Ch 9 sets only the endorsement line, addressees and
+  // signature, and states no paragraph rule of its own. Figs 9-1 and 9-2 settle
+  // it directly, both showing a numbered body (9-1 numbers even its single
+  // paragraph). Where this manual wants paragraphs unnumbered it says so in
+  // those words (Ch 11 ¶6, Ch 12 ¶3.2c(2)); Ch 9 has no such sentence, and its
+  // only "do not number" is for Via addressees.
   //
   // These rendered unnumbered because Ch 9's "continue the sequence" language
   // was read as a paragraph rule. It never is: ¶3 continues a sequence of

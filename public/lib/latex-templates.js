@@ -4372,7 +4372,7 @@ const LATEX_TEMPLATES = {
 %   - DO NOT repeat enclosures already in basic letter
 %   - Continue the REFERENCE (letters, Ch 9 ¶3), ENCLOSURE (numbers, ¶4) and
 %     PAGE-number (Fig 9-2 ¶1) sequences from the basic letter. None of these
-%     is a paragraph rule: the body is numbered from 1. per Ch 2 ¶13a, as
+%     is a paragraph rule: the body is numbered from 1. per Ch 7 ¶13a, as
 %     Figure 9-1 shows for its single paragraph.
 %
 %=============================================================================
