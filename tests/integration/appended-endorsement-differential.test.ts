@@ -19,13 +19,23 @@ import mammoth from 'mammoth';
 import { compileFixture } from '../_helpers/compileLatex';
 import { compileDocxFixture } from '../_helpers/compileDocx';
 import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfToolchain';
+import { canAppendEndorsement } from '@/lib/appendedEndorsement';
+import { DOC_TYPE_CONFIG } from '@/types/document';
 
 const toolchain = hasPdfToolchain;
 
-const store = {
-  docType: 'naval_letter',
+/**
+ * Driven off `canAppendEndorsement` rather than a hand-listed fixture, because
+ * the bug this guards against was exactly a doc type the resolver admitted and
+ * the DOCX layout never built. Anything added to ELIGIBLE is tested here or the
+ * suite is empty for it.
+ */
+const ELIGIBLE_DOC_TYPES = Object.keys(DOC_TYPE_CONFIG).filter(canAppendEndorsement);
+
+const makeStore = (docType: string) => ({
+  docType,
   formData: {
-    docType: 'naval_letter',
+    docType,
     fontSize: '12pt',
     fontFamily: 'times',
     pageNumbering: 'none',
@@ -61,7 +71,7 @@ const store = {
   ],
   copyTos: [],
   distributions: [],
-} as never;
+} as never);
 
 async function extractPdfText(pdfBytes: Uint8Array): Promise<string> {
   const parser = new PDFParse({ data: new Uint8Array(pdfBytes) });
@@ -79,7 +89,13 @@ async function extractDocxText(docxBytes: Uint8Array): Promise<string> {
 describe('appended acknowledgement — PDF ⇿ DOCX', () => {
   describeToolchainRequirement('appended-endorsement-differential');
 
-  it.skipIf(!toolchain)('carries the acknowledgement into both outputs', async () => {
+  it('covers every doc type the resolver admits', () => {
+    expect(ELIGIBLE_DOC_TYPES.length).toBeGreaterThan(0);
+    expect(ELIGIBLE_DOC_TYPES).toEqual(['naval_letter', 'standard_letter']);
+  });
+
+  it.skipIf(!toolchain).each(ELIGIBLE_DOC_TYPES)('%s carries the acknowledgement into both outputs', async (docType) => {
+    const store = makeStore(docType);
     const [pdfResult, docxResult] = await Promise.all([
       compileFixture(store),
       compileDocxFixture(store),

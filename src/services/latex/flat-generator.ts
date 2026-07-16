@@ -621,17 +621,28 @@ function buildAppendedEndorsement(store: DocumentStore): string {
   // Ch 9 para 2.1a: the endorsement line sits below the date line, which the
   // same-page omission list does not cover (Fig 9-1 shows it). Serial is
   // optional; both stay blank when the appointee hand-dates at signature.
-  const serialRow = ack.serial ? `${escapeTabular(ack.serial)} \\\\\n` : '';
+  //
+  // tabularx{Xr} for the date and tabularx{X@{}l} for the signer, not \hfill
+  // and \hspace*{3.25in}: dondocs.lua understands only \dondocsindent and drops
+  // all other raw LaTeX, so both commands vanished — the DOCX left-aligned the
+  // date and signed the appointee at the margin while the officer signed at
+  // 3.25in. These are the idioms the letter's own date and signature use, and
+  // the ones this file's header prescribes ("tabularX{Xr} for right-aligned
+  // content"). The 0.5pt rule matches the DOCX endorsement divider below.
+  const dateRows = [ack.serial, ack.date]
+    .filter(Boolean)
+    .map((row) => ` & ${escapeTabular(row)} \\\\`)
+    .join('\n');
 
   return `\\vspace{24pt}
 \\noindent
-\\rule{\\textwidth}{0.4pt}
+\\rule{\\textwidth}{0.5pt}
 
 \\vspace{12pt}
-\\hfill
-\\begin{tabular}{@{}l@{}}
-${serialRow}${escapeTabular(ack.date)}
-\\end{tabular}
+\\noindent
+\\begin{tabularx}{\\textwidth}{@{}Xr@{}}
+${dateRows}
+\\end{tabularx}
 
 \\vspace{12pt}
 \\noindent FIRST ENDORSEMENT
@@ -645,7 +656,10 @@ To:\\hspace{6\\fontdimen2\\font} & ${escapeTabular(ack.to)} \\\\
 
 \\vspace{12pt}
 ${body}\\vspace{48pt}
-\\noindent\\hspace*{3.25in}${escapeFlat(signer)}
+\\noindent
+\\begin{tabularx}{\\textwidth}{@{}X@{}l@{}}
+ & ${escapeTabular(signer)} \\\\
+\\end{tabularx}
 
 `;
 }

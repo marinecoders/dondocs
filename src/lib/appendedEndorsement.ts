@@ -14,13 +14,19 @@
  * and can't drift into rendering different documents from the same input.
  */
 
-/** Doc types that may carry an appended acknowledgement. */
-const ELIGIBLE = new Set([
-  'naval_letter',
-  'standard_letter',
-  'letterhead_memorandum',
-  'plain_paper_memorandum',
-]);
+/**
+ * Doc types that may carry an appended acknowledgement — letters only.
+ *
+ * Ch 9 ¶1 opens "When a *letter* is transmitted via your activity, use an
+ * endorsement", and the memorandum chapters (10-12) never mention endorsements
+ * at all, so there is no cite for endorsing a memorandum and Compliant mode may
+ * not invent one. The memo types were listed here on judgement rather than a
+ * cite, and the DOCX path then proved the point: `buildAppendedEndorsement` is
+ * reachable only from `buildStandardLayout`, while memos route through
+ * `buildMemoLayout`, so a memo rendered the acknowledgement in the PDF and
+ * dropped it from the Word file.
+ */
+const ELIGIBLE = new Set(['naval_letter', 'standard_letter']);
 
 export interface AppendedEndorsementData {
   appendEndorsement?: boolean;

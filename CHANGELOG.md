@@ -12,7 +12,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 - An appointment letter can now carry the appointee's acknowledgement on the
   same sheet: you sign the top, a rule divides the page, and the appointee
   endorses back below it. Tick "Add an acknowledgement endorsement" in the
-  Signature section of a naval letter, standard letter, or memorandum. The
+  Signature section of a naval letter or standard letter. The
   From/To lines invert the letter automatically, so the common case needs no
   typing beyond the acknowledgement text and the appointee's name.
 - Previously the endorsement could only be produced as its own separate

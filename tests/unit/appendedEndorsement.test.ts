@@ -61,11 +61,17 @@ describe('resolveAppendedEndorsement', () => {
     ).toBeNull();
   });
 
-  // An endorsement belongs to a letter. Leaving a stale toggle on after
-  // switching to a form or an endorsement must not staple one to it.
+  // An endorsement belongs to a letter — Ch 9 ¶1, "When a *letter* is
+  // transmitted via your activity", and Chs 10-12 never mention endorsements.
+  // Memoranda are listed explicitly because they were briefly eligible on
+  // judgement rather than a cite, and the DOCX silently dropped the block for
+  // them (buildAppendedEndorsement is only reachable from buildStandardLayout).
+  // Leaving a stale toggle on after switching doc type must not staple one on.
   it.each([
     ['naval_letter', true],
     ['standard_letter', true],
+    ['letterhead_memorandum', false],
+    ['plain_paper_memorandum', false],
     ['same_page_endorsement', false],
     ['moa', false],
     ['business_letter', false],
@@ -100,7 +106,9 @@ describe('both generators emit the acknowledgement', () => {
 
   it('flat generator (DOCX) draws the rule, the line, and the signer', () => {
     const tex = generateFlatLatex(store);
-    expect(tex).toContain('\\rule{\\textwidth}{0.4pt}');
+    // 0.5pt matches the DOCX same-page endorsement divider (flat-generator's
+    // other rules are all 0.5pt); the PDF path uses 0.4pt to match its own.
+    expect(tex).toContain('\\rule{\\textwidth}{0.5pt}');
     expect(tex).toContain('FIRST ENDORSEMENT');
     expect(tex).toContain('Sergeant J. A. DOE, USMC');
     expect(tex).toMatch(/read and understand/);
