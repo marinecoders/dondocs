@@ -21,6 +21,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ### Fixed
 
+- The acknowledgement carries its own date line. Ch 9 ¶2.1a starts the
+  endorsement line "on the second line below the date line", and the relief a
+  same-page endorsement gets is limited to the SSIC, subject, and the basic
+  letter's identification symbols — not the date, which Fig 9-1 shows. The date
+  and serial are optional and blank by default, printing the line for the
+  appointee to hand-date at signature.
 - The rendered-PDF tests (`by-direction-render`) were skipping in CI rather than
   running: the compile-matrix job installs texlive and pandoc but never
   installed poppler-utils, and the tests skip themselves when `pdftotext` is
