@@ -5,6 +5,19 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.98] — 2026-07-16
+
+### Added
+
+- An "Appointment Acknowledgement (Endorsement)" template — the appointee's
+  half of an appointment, endorsing back to the appointing officer that they
+  have read the references and assume the duties. It pairs with the existing
+  "Appointment to Collateral Duty" letter, which had no acknowledgement to go
+  with it. The duty title and unit are placeholders and no program's orders are
+  baked in, so the same template serves any collateral duty.
+- This is the first template that isn't a naval letter; loading it switches the
+  document type to a same-page endorsement.
+
 ## [1.2.97] — 2026-07-16
 
 ### Added

@@ -18,6 +18,7 @@ import { commandInterest } from './leadership';
 // Administrative
 import {
   appointmentCollateralDuty,
+  appointmentAcknowledgement,
   appointmentBoardMember,
   appointmentSafetyOfficer,
 } from './administrative';
@@ -42,6 +43,7 @@ export const LETTER_TEMPLATES: LetterTemplate[] = [
   commandInterest,
   // Administrative
   appointmentCollateralDuty,
+  appointmentAcknowledgement,
   appointmentBoardMember,
   appointmentSafetyOfficer,
   // Investigations
