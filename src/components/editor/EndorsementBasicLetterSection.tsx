@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { persistAttachment } from '@/lib/attachments';
+import { validateBasicLetter } from '@/services/pdf/assembleEndorsement';
 import { formatFileSize } from '@/lib/utils';
 import {
   Select,
@@ -59,6 +60,7 @@ export function EndorsementBasicLetterSection() {
   const [pickerOpen, setPickerOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [applied, setApplied] = useState<AppliedSource | null>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   // Correspondence documents (never this one, never forms), newest first.
   const candidates = useMemo(() => {
@@ -128,6 +130,15 @@ export function EndorsementBasicLetterSection() {
   const handleBasicLetterFile = useCallback(
     async (file: File) => {
       const data = await file.arrayBuffer();
+      // Validate before storing anything: a corrupt or encrypted PDF rejected
+      // here gets feedback next to the control, instead of persisting bad bytes
+      // that the preview silently skips and only the export reports.
+      const check = await validateBasicLetter(data);
+      if (!check.ok) {
+        setUploadError(check.error);
+        return;
+      }
+      setUploadError(null);
       const fileRef = await persistAttachment(
         { name: file.name, size: file.size, type: file.type },
         data
@@ -141,6 +152,7 @@ export function EndorsementBasicLetterSection() {
   const removeBasicLetterFile = useCallback(() => {
     setField('basicLetterFile', undefined);
     setField('basicLetterFileRef', undefined);
+    setUploadError(null);
   }, [setField]);
 
   const basicLetterFile = formData.basicLetterFile;
@@ -189,6 +201,11 @@ export function EndorsementBasicLetterSection() {
                     }}
                   />
                 </label>
+              )}
+              {uploadError && (
+                <p role="alert" className="text-xs text-destructive">
+                  Couldn&apos;t read that PDF: {uploadError}
+                </p>
               )}
               <p className="text-xs text-muted-foreground">
                 The pages get assembled ahead of your endorsement in the exported

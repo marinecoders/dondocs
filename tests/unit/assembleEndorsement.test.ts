@@ -8,7 +8,7 @@
  */
 import { describe, it, expect } from 'vitest';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
-import { assembleEndorsement } from '@/services/pdf/assembleEndorsement';
+import { assembleEndorsement, validateBasicLetter } from '@/services/pdf/assembleEndorsement';
 
 /** A PDF whose pages each carry a unique word, so order is checkable. */
 async function makePdf(words: string[]): Promise<Uint8Array> {
@@ -77,5 +77,30 @@ describe('assembleEndorsement', () => {
     const buf = letter.buffer.slice(letter.byteOffset, letter.byteOffset + letter.byteLength);
     const result = await assembleEndorsement(await makePdf(['E']), buf);
     expect(result.ok).toBe(true);
+  });
+});
+
+// Attach-time validation: the upload handler rejects a bad file before it is
+// persisted, so the preview's silent fallback can only ever hide bytes that
+// were valid when attached — never a file that was broken from the start.
+describe('validateBasicLetter', () => {
+  it('accepts a readable PDF and reports its page count', async () => {
+    const result = await validateBasicLetter(await makePdf(['A', 'B']));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.pageCount).toBe(2);
+  });
+
+  it('rejects bytes that are not a PDF', async () => {
+    const result = await validateBasicLetter(new Uint8Array([0xde, 0xad, 0xbe, 0xef]));
+    expect(result.ok).toBe(false);
+    if (result.ok) return;
+    expect(result.error).toBeTruthy();
+  });
+
+  it('rejects a page-less PDF', async () => {
+    const empty = await (await PDFDocument.create()).save();
+    const result = await validateBasicLetter(empty);
+    expect(result.ok).toBe(false);
   });
 });

@@ -45,6 +45,22 @@ function toUint8(data: Uint8Array | ArrayBuffer): Uint8Array {
 }
 
 /**
+ * Validate an uploaded basic letter without assembling it — run at attach time
+ * so a corrupt or encrypted PDF is rejected with feedback right in the form,
+ * instead of being stored and only failing at export. (The preview deliberately
+ * falls back silently on a bad letter to avoid a modal per recompile, so attach
+ * is the one place the user reliably sees the problem.)
+ */
+export async function validateBasicLetter(
+  data: Uint8Array | ArrayBuffer
+): Promise<{ ok: true; pageCount: number } | { ok: false; error: string }> {
+  const result = await loadBasicLetter(data);
+  return 'error' in result
+    ? { ok: false, error: result.error }
+    : { ok: true, pageCount: result.pdf.getPageCount() };
+}
+
+/**
  * Validate the uploaded basic letter enough to embed it. Mirrors the check
  * mergeEnclosures runs on enclosure PDFs: it must load, have pages, and every
  * page must carry a content stream (an empty page cannot be copied).
