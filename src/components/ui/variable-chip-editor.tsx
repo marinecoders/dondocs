@@ -789,7 +789,7 @@ export function VariableChipEditor({
           }
           // Tab indents / Shift+Tab outdents — but ONLY when indent is enabled for
           // this doc type. When the handlers are absent (compliant business letter,
-          // endorsement, executive memo: numberedParagraphs=false), let Tab fall
+          // executive memo: numberedParagraphs=false), let Tab fall
           // through to the browser's native focus move instead of swallowing it,
           // otherwise the editor becomes a keyboard trap (WCAG 2.1.2).
           if (event.key === 'Tab' && !event.shiftKey) {

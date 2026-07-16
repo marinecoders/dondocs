@@ -685,7 +685,10 @@ export function generateBodyTex(store: DocumentStore): string {
   const labels = calculateLabels(store.paragraphs);
   const config = DOC_TYPE_CONFIG[store.docType] || DOC_TYPE_CONFIG.naval_letter;
 
-  // Business letters and endorsements don't use numbered paragraphs
+  // Business letters (Ch 11 ¶6, "Do not number main paragraphs") and executive
+  // correspondence (Ch 12 ¶3.2c(2), "Do not number the paragraphs") don't
+  // number theirs. Endorsements do -- see the Ch 9 note in
+  // DOC_TYPE_CONFIG.
   const useNumberedParagraphs = config.compliance.numberedParagraphs;
   // Business letters and executive correspondence use 0.5" first-line indent instead of numbers
   const isBusinessLetter = config.uiMode === 'business';
