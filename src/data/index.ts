@@ -29,10 +29,12 @@ export {
 } from './ranks';
 
 // SSIC Codes
+//
+// `loadSsicCategories()` async-loads the 172 KB ssic.json on first call; the
+// result is cached, so callers can await it freely.
 export {
-  SSIC_CATEGORIES,
-  ALL_SSIC_CODES,
-  SSIC_BY_CODE,
+  loadSsicCategories,
+  loadAllSsicCodes,
   type SSICCode,
   type SSICCategory,
 } from './ssicCodes';
