@@ -150,7 +150,14 @@ describe('both generators emit the acknowledgement', () => {
   it('omits the serial row when hand-dated, without dropping the date line', () => {
     const tex = generateFlatLatex(store);
     expect(tex).not.toContain('Ser 1710/024');
-    expect(tex).toContain('FIRST ENDORSEMENT');
+    // "Without dropping the date line" must actually be asserted: the
+    // right-aligned date table still renders (blank, for hand-dating at
+    // signature) above the endorsement line — checking only FIRST ENDORSEMENT
+    // let a dropped date block pass.
+    const ackStart = tex.indexOf('FIRST ENDORSEMENT');
+    expect(ackStart).toBeGreaterThan(-1);
+    const beforeAck = tex.slice(tex.indexOf('\\rule{\\textwidth}{0.5pt}'), ackStart);
+    expect(beforeAck).toContain('\\begin{tabularx}{\\textwidth}{@{}Xr@{}}');
   });
 
   it('neither emits anything when the letter carries no acknowledgement', () => {

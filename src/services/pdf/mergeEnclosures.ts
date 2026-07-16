@@ -18,6 +18,10 @@ export interface EnclosureError {
   error: string;
   pagesFailed?: number; // Number of pages that failed (if partial failure)
   pagesSucceeded?: number; // Number of pages that succeeded
+  /** Distinguishes a failed basic-letter assembly (endorsements) from a failed
+   *  enclosure: the modal copy differs — an enclosure gets a placeholder page,
+   *  an unassembled basic letter is simply absent from the export. */
+  kind?: 'enclosure' | 'basicLetter';
 }
 
 export interface MergeResult {

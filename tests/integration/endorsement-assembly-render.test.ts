@@ -107,9 +107,10 @@ describe('endorsement + basic-letter assembly — rendered PDF', () => {
     expect(stdout).toMatch(/Forwarded, recommending approval\./);
   });
 
-  it.skipIf(!toolchain)('leaves the endorsement alone when no letter is attached', async () => {
-    // The primitive is only invoked when a file is present; assembling with no
-    // basic letter is not a path — this guards the resolver's own gate instead.
+  // The export gate itself (new-page + attached file only) is a pure function
+  // unit-tested in tests/unit/assembleEndorsement.test.ts; this render check
+  // only shows a letterless endorsement compiles to its own pages.
+  it.skipIf(!toolchain)('an endorsement with no letter compiles to its own pages only', async () => {
     const compiled = await compileFixture(endorsementStore);
     expect(compiled.ok).toBe(true);
     const dir = await mkdtemp(join(tmpdir(), 'dondocs-noassembly-'));

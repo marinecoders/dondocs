@@ -163,11 +163,12 @@ export function EndorsementBasicLetterSection() {
         <AccordionTrigger>Basic Letter</AccordionTrigger>
         <AccordionContent>
           <div className="space-y-4 pt-2">
-            {/* Upload the basic letter's PDF — new-page endorsements only, since
-                assembly puts the endorsement on its own page after the letter
-                (Ch 9). A same-page endorsement sits on the letter's signature
-                page and shows metadata fields only. */}
-            {isNewPage && (
+            {/* Upload the basic letter's PDF — the UPLOAD affordance is new-page
+                only, since assembly puts the endorsement on its own page after
+                the letter (Ch 9). But an already-attached file always shows its
+                chip: hiding it on a doc-type switch left an invisible,
+                unremovable attachment. */}
+            {(isNewPage || basicLetterFile) && (
             <div className="space-y-2">
               <Label>The basic letter (PDF)</Label>
               {basicLetterFile ? (
@@ -207,18 +208,26 @@ export function EndorsementBasicLetterSection() {
                   Couldn&apos;t read that PDF: {uploadError}
                 </p>
               )}
-              <p className="text-xs text-muted-foreground">
-                The pages get assembled ahead of your endorsement in the exported
-                PDF (SECNAV M-5216.5 Ch 9). PDF export only — the Word file
-                contains the endorsement alone.
-              </p>
+              {isNewPage ? (
+                <p className="text-xs text-muted-foreground">
+                  The pages get assembled ahead of your endorsement in the exported
+                  PDF (SECNAV M-5216.5 Ch 9). PDF export only — the Word file
+                  contains the endorsement alone.
+                </p>
+              ) : (
+                <p className="text-xs text-muted-foreground">
+                  A same-page endorsement doesn&apos;t use an uploaded letter — it is
+                  typed onto the letter&apos;s own signature page. Switch to a
+                  New-Page Endorsement to assemble this file, or remove it.
+                </p>
+              )}
             </div>
             )}
 
             {/* Autofill the metadata fields below from a saved DonDocs letter.
                 This fills the ID / subject / references — it does not attach the
-                letter's pages (that's the PDF upload above, or below for a
-                same-page endorsement). */}
+                letter's pages (that's what the PDF upload on a new-page
+                endorsement is for). */}
             <div className="space-y-2">
               <Popover open={pickerOpen} onOpenChange={setPickerOpen}>
                 <PopoverTrigger asChild>

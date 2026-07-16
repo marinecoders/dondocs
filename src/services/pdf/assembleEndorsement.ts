@@ -24,6 +24,21 @@ import { debug } from '@/lib/debug';
  * page(s), which is always correct.
  */
 
+/**
+ * The export/preview gate, extracted so it is testable on its own: assemble
+ * only for a new-page endorsement with a letter actually attached. A same-page
+ * endorsement is typed onto the letter's own signature page — assembly (which
+ * appends the endorsement on its own page) would silently turn it into a
+ * new-page document — and a stale attachment on any other doc type must never
+ * assemble either.
+ */
+export function shouldAssembleBasicLetter(
+  docType: string,
+  formData: { basicLetterFile?: { data: ArrayBuffer } } | undefined
+): boolean {
+  return docType === 'new_page_endorsement' && !!formData?.basicLetterFile?.data;
+}
+
 export interface AssembleResult {
   /** The combined PDF: basic-letter pages, then endorsement pages. */
   pdfBytes: Uint8Array;
@@ -55,9 +70,21 @@ export async function validateBasicLetter(
   data: Uint8Array | ArrayBuffer
 ): Promise<{ ok: true; pageCount: number } | { ok: false; error: string }> {
   const result = await loadBasicLetter(data);
-  return 'error' in result
-    ? { ok: false, error: result.error }
-    : { ok: true, pageCount: result.pdf.getPageCount() };
+  if ('error' in result) return { ok: false, error: result.error };
+  // Dry-run the actual operation assembly performs: loading tolerates an
+  // encrypted body (ignoreEncryption), but copyPages on one throws — without
+  // this, such a file passed attach validation, silently vanished from every
+  // preview, and only failed at export.
+  try {
+    const scratch = await PDFDocument.create();
+    await scratch.copyPages(result.pdf, result.pdf.getPageIndices());
+  } catch (err) {
+    return {
+      ok: false,
+      error: err instanceof Error ? err.message : 'The PDF’s pages could not be copied (it may be encrypted).',
+    };
+  }
+  return { ok: true, pageCount: result.pdf.getPageCount() };
 }
 
 /**

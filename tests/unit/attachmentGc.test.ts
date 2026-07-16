@@ -135,6 +135,26 @@ describe('sweepOrphanedAttachments', () => {
     expect(await idbGetAttachment('att_live')).toBeTruthy();
   });
 
+  it("KEEPS a just-uploaded basic letter referenced only by the live session's formData", async () => {
+    // The endorsement's basic letter lives in formData.basicLetterFileRef, not
+    // enclosures. Root (c) once passed only { enclosures } to the collector, so
+    // a sweep in the ~2s before the debounced save (e.g. finalizePurge after a
+    // document delete) reaped a letter the user had just uploaded.
+    useDocumentStore.setState((state) => ({
+      enclosures: [],
+      formData: {
+        ...state.formData,
+        basicLetterFileRef: { id: 'att_letter', name: 'letter.pdf', size: 3, type: 'application/pdf' },
+      },
+    }) as never);
+    await idbPutAttachment(att('att_letter'));
+
+    const deleted = await sweepOrphanedAttachments();
+
+    expect(deleted).toBe(0);
+    expect(await idbGetAttachment('att_letter')).toBeTruthy();
+  });
+
   it('ABORTS and deletes nothing when the document registry is unreadable', async () => {
     // A read FAILURE (null) must not be read as "no docs reference anything".
     vi.spyOn(documentsDb, 'idbGetAllDocuments').mockResolvedValue(null);

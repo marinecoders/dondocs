@@ -8,7 +8,11 @@
  */
 import { describe, it, expect } from 'vitest';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
-import { assembleEndorsement, validateBasicLetter } from '@/services/pdf/assembleEndorsement';
+import {
+  assembleEndorsement,
+  validateBasicLetter,
+  shouldAssembleBasicLetter,
+} from '@/services/pdf/assembleEndorsement';
 
 /** A PDF whose pages each carry a unique word, so order is checkable. */
 async function makePdf(words: string[]): Promise<Uint8Array> {
@@ -128,5 +132,28 @@ describe('validateBasicLetter', () => {
     const empty = await (await PDFDocument.create()).save();
     const result = await validateBasicLetter(empty);
     expect(result.ok).toBe(false);
+  });
+});
+
+// The export/preview gate, now pure and testable — an integration test used to
+// claim to guard this without ever invoking it.
+describe('shouldAssembleBasicLetter', () => {
+  const file = { basicLetterFile: { data: new ArrayBuffer(8) } };
+
+  it('assembles a new-page endorsement with a letter attached', () => {
+    expect(shouldAssembleBasicLetter('new_page_endorsement', file)).toBe(true);
+  });
+
+  it('never assembles a same-page endorsement — it lives ON the letter, not after it', () => {
+    expect(shouldAssembleBasicLetter('same_page_endorsement', file)).toBe(false);
+  });
+
+  it('never assembles a stale attachment on another doc type', () => {
+    expect(shouldAssembleBasicLetter('naval_letter', file)).toBe(false);
+  });
+
+  it('no letter, no assembly', () => {
+    expect(shouldAssembleBasicLetter('new_page_endorsement', {})).toBe(false);
+    expect(shouldAssembleBasicLetter('new_page_endorsement', undefined)).toBe(false);
   });
 });

@@ -657,6 +657,17 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     useUIStore.getState().setValidationVisible(false);
     set((state) => {
       const formData = data.formData ? { ...state.formData, ...data.formData } : state.formData;
+      // A template describes a document; it never carries an uploaded basic
+      // letter. Without this, spreading the old formData stapled the previous
+      // document's letter onto whatever loads next. Keyed on the REF, not the
+      // bytes: this same path restores saved drafts, whose sessions serialize
+      // basicLetterFileRef with the bytes stripped — those must keep their ref
+      // (rehydrate brings the bytes back). Only an incoming formData with no
+      // ref at all means "no letter belongs here".
+      if (data.formData && !('basicLetterFileRef' in data.formData)) {
+        delete formData.basicLetterFile;
+        delete formData.basicLetterFileRef;
+      }
       return {
         paragraphs: data.paragraphs ? migratePortionMarkings(data.paragraphs) : state.paragraphs,
         // Re-letter against the incoming start so a loaded endorsement keeps
@@ -1026,7 +1037,13 @@ export async function rehydrateEnclosureFiles(): Promise<void> {
   if (blRef && !useDocumentStore.getState().formData.basicLetterFile) {
     try {
       const data = await loadAttachment(blRef.id);
-      if (data && !useDocumentStore.getState().formData.basicLetterFile) {
+      // Re-check the ref IDENTITY after the await, not just absence of bytes:
+      // if the user removed the letter (or switched documents) while the load
+      // was in flight, both fields are cleared — grafting bytes back would
+      // resurrect a removed letter with no ref, which assembles into exports
+      // but never serializes. Same guard the enclosure path uses.
+      const current = useDocumentStore.getState().formData;
+      if (data && !current.basicLetterFile && current.basicLetterFileRef?.id === blRef.id) {
         useDocumentStore.setState((state) => ({
           formData: {
             ...state.formData,
