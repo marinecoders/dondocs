@@ -80,8 +80,16 @@
             try {
               if (window.__DD_BOOTED__) { sessionStorage.removeItem(KEY); return; }
               if (!navigator.onLine) return;
-              if (sessionStorage.getItem(KEY)) return; // one shot per tab session
-              sessionStorage.setItem(KEY, '1');
+              // One shot per DISTINCT broken shell, not per tab session: the
+              // module script's hashed src fingerprints the build this shell
+              // belongs to. Guarding on the bare session left a tab stuck when
+              // the first heal didn't take (a stale SW re-served a different
+              // stale shell) — a new fingerprint means a new failure worth one
+              // more attempt, while the same shell can still never loop.
+              var s = document.querySelector('script[type="module"][src]');
+              var shellId = (s && s.getAttribute('src')) || 'unknown';
+              if (sessionStorage.getItem(KEY) === shellId) return;
+              sessionStorage.setItem(KEY, shellId);
               var reload = function () { location.reload(); };
               var dropShellCaches = ('caches' in window)
                 ? caches.keys().then(function (keys) {

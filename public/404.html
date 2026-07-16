@@ -1,0 +1,32 @@
+<!doctype html>
+<!-- This file's PRESENCE is the fix, not its content: Cloudflare Pages serves
+     single-page-app fallback (HTTP 200 + index.html) for EVERY missing path
+     unless a top-level 404.html exists. That fallback is what poisoned client
+     caches: a request for a hashed bundle that a deploy had rotated away got
+     200 + HTML — stamped by the request-path _headers rule with
+     "max-age=31536000, immutable" — and browsers cached HTML-as-CSS/JS for a
+     year with no revalidation. The Workers deployment already returns real
+     404s (wrangler.toml not_found_handling = "none", DEP-1); this brings the
+     Pages deployment to parity. The app is a single page at "/" with
+     hash-based share links, so SPA deep-link rewriting is not needed. -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Not found — DonDocs</title>
+    <style>
+      body { font-family: system-ui, sans-serif; display: grid; place-items: center; min-height: 100vh; margin: 0; background: #0b1220; color: #e2e8f0; }
+      main { text-align: center; padding: 2rem; }
+      a { color: #7dd3fc; }
+      p { color: #94a3b8; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>404 — not found</h1>
+      <p>This file doesn't exist (it may belong to an older build).</p>
+      <p><a href="/">Open DonDocs</a></p>
+    </main>
+  </body>
+</html>

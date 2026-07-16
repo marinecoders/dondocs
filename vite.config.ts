@@ -327,6 +327,13 @@ export default defineConfig({
             handler: 'NetworkFirst',
             options: {
               cacheName: `dondocs-app-shell-${GIT_SHA || BUILD_TIME.replace(/[:.]/g, '-')}`,
+              // The SW's "network" fetch goes through the browser HTTP cache by
+              // default, which is how a stale shell got stored in the runtime
+              // cache in the first place (the 1.2.95 incident — the watchdog
+              // treats the symptom; this removes the cause). no-store makes the
+              // shell fetch hit the origin every time; offline still falls back
+              // to the versioned cache below.
+              fetchOptions: { cache: 'no-store' },
               networkTimeoutSeconds: 3,
               expiration: {
                 maxEntries: 1,

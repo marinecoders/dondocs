@@ -5,6 +5,25 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.104] — 2026-07-16
+
+### Fixed
+
+- Missing files now return a real 404 instead of the app shell. The Pages
+  deployment served 200 + index.html for every missing path — including hashed
+  bundles an update had replaced — and the request-path header rules stamped
+  that HTML with "cache for a year, immutable". A browser that asked for a
+  just-rotated stylesheet cached HTML in its place and rendered the app
+  unstyled until a hard refresh. A top-level 404.html switches Pages to real
+  404s, matching the Docker/Workers deployments.
+- The service worker's app-shell fetch now bypasses the browser HTTP cache
+  entirely (no-store), removing the mechanism that let a stale shell into the
+  runtime cache in the first place — the 1.2.95 watchdog treated the symptom;
+  this removes the cause.
+- The boot watchdog now retries once per distinct broken shell rather than
+  once per tab session, so a tab can self-heal again when the first recovery
+  didn't stick, and still can never loop.
+
 ## [1.2.103] — 2026-07-16
 
 ### Fixed
