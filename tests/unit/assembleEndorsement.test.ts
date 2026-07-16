@@ -41,6 +41,32 @@ describe('assembleEndorsement', () => {
     expect(await pageCount(result.pdfBytes)).toBe(4);
   });
 
+  // Page counts alone can't see a reversed concatenation — a flip once slipped
+  // through this file green because every count stays identical either way.
+  // Distinct page sizes make the order itself observable: letter pages are
+  // letter-size, the endorsement page is deliberately 1pt narrower.
+  it('really is letter-then-endorsement, not just the right page count', async () => {
+    const sizedPdf = async (words: string[], width: number) => {
+      const doc = await PDFDocument.create();
+      const font = await doc.embedFont(StandardFonts.Helvetica);
+      for (const word of words) {
+        const page = doc.addPage([width, 792]);
+        page.drawText(word, { x: 72, y: 700, size: 24, font, color: rgb(0, 0, 0) });
+      }
+      return doc.save();
+    };
+    const result = await assembleEndorsement(
+      await sizedPdf(['ENDORSEMENT'], 611),
+      await sizedPdf(['LETTER-1', 'LETTER-2'], 612)
+    );
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+
+    const merged = await PDFDocument.load(result.pdfBytes);
+    const widths = merged.getPages().map((p) => Math.round(p.getSize().width));
+    expect(widths).toEqual([612, 612, 611]);
+  });
+
   it('handles a single-page basic letter', async () => {
     const result = await assembleEndorsement(await makePdf(['E']), await makePdf(['L']));
     expect(result.ok).toBe(true);
