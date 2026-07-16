@@ -5,6 +5,21 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.101] — 2026-07-16
+
+### Added
+
+- An endorsement can now be assembled onto the basic letter it endorses. Upload
+  the letter's PDF in the Basic Letter section of a same-page or new-page
+  endorsement, and the exported PDF is the letter followed by your endorsement
+  (SECNAV M-5216.5 Ch 9, Fig 9-3, "Assembly of an Endorsement"). The preview
+  shows the assembled document, and the uploaded letter is stored like an
+  enclosure — it survives a reload and rides along in a backup.
+- New-page assembly only, by design: Ch 9 ¶1 makes a new-page endorsement always
+  valid, and DonDocs does not overlay text onto the signature page of a letter it
+  did not generate. PDF export only — the Word file contains the endorsement
+  alone.
+
 ## [1.2.100] — 2026-07-16
 
 ### Fixed
