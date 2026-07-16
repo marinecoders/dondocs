@@ -327,13 +327,18 @@ export default defineConfig({
             handler: 'NetworkFirst',
             options: {
               cacheName: `dondocs-app-shell-${GIT_SHA || BUILD_TIME.replace(/[:.]/g, '-')}`,
-              // The SW's "network" fetch goes through the browser HTTP cache by
-              // default, which is how a stale shell got stored in the runtime
-              // cache in the first place (the 1.2.95 incident — the watchdog
-              // treats the symptom; this removes the cause). no-store makes the
-              // shell fetch hit the origin every time; offline still falls back
-              // to the versioned cache below.
-              fetchOptions: { cache: 'no-store' },
+              // Do NOT add fetchOptions here: workbox silently DROPS
+              // fetchOptions for navigation requests (StrategyHandler.fetch,
+              // workbox#1796 — fetch(navRequest, init) throws, so it passes
+              // undefined). A `cache: 'no-store'` on this rule compiles into
+              // sw.js and does nothing. The guard against the 1.2.95 vector
+              // (SW's shell fetch satisfied by a stale browser HTTP cache
+              // entry) is the ORIGIN: public/_headers serves "/" with
+              // no-cache, must-revalidate, so a cached shell has zero
+              // freshness and must revalidate before it can satisfy anything.
+              // What we CAN harden here: never let a non-200 (error page,
+              // redirect body, opaque response) be stored as the app shell.
+              cacheableResponse: { statuses: [200] },
               networkTimeoutSeconds: 3,
               expiration: {
                 maxEntries: 1,
