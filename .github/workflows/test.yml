@@ -272,12 +272,12 @@ jobs:
   sbom:
     name: sbom
     runs-on: ubuntu-latest
-    # Advisory, not a gate: a missing SBOM is a paperwork problem, not a broken
-    # build, and this must never be the reason a fix can't ship. The cost is
-    # that a broken generator reports green and the artifact quietly stops
-    # appearing — so check for `sbom-<sha>` on the run before citing one, don't
-    # infer it from a passing check.
-    continue-on-error: true
+    # A real gate, deliberately. The generator only reads the lockfile and the
+    # installed tree, so it doesn't flake — and if it *can't* read them, that's
+    # a signal about the dependency tree worth failing on, not swallowing. The
+    # alternative (continue-on-error) reports green while the artifact quietly
+    # stops being produced, which is the worst outcome for a file whose whole
+    # job is to be citable evidence.
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -290,6 +290,40 @@ jobs:
       # listing them would misrepresent what the app actually runs.
       - name: generate SBOM
         run: npm run sbom
+
+      # A zero-exit generator can still leave an empty or shapeless file, which
+      # would upload happily and be useless to whoever cites it. Check the
+      # artifact itself: right subject, and every component carries the fields
+      # that make an SBOM machine-usable (purl / version / license).
+      - name: validate SBOM
+        run: |
+          node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            const sbom = JSON.parse(readFileSync("sbom.cdx.json", "utf-8"));
+            const pkg = JSON.parse(readFileSync("package.json", "utf-8"));
+            const fail = (msg) => { console.error(`::error::SBOM ${msg}`); process.exit(1); };
+
+            if (sbom.bomFormat !== "CycloneDX") fail(`bomFormat is ${sbom.bomFormat}, expected CycloneDX`);
+            if (sbom.metadata?.component?.name !== pkg.name) {
+              fail(`describes "${sbom.metadata?.component?.name}", expected "${pkg.name}"`);
+            }
+
+            const components = sbom.components ?? [];
+            if (components.length === 0) fail("lists no components");
+
+            // Every direct production dependency must appear. CycloneDX splits
+            // scoped packages into group + name, so rebuild the real id.
+            const present = new Set(components.map((c) => (c.group ? `${c.group}/${c.name}` : c.name)));
+            const missing = Object.keys(pkg.dependencies ?? {}).filter((d) => !present.has(d));
+            if (missing.length) fail(`omits production dependencies: ${missing.join(", ")}`);
+
+            for (const field of ["purl", "version", "licenses"]) {
+              const bad = components.filter((c) => !c[field]?.length);
+              if (bad.length) fail(`has ${bad.length} component(s) with no ${field} (e.g. ${bad[0].name})`);
+            }
+
+            console.log(`SBOM OK — ${components.length} components, ${Object.keys(pkg.dependencies ?? {}).length} direct prod deps present`);
+          '
 
       - name: upload SBOM
         uses: actions/upload-artifact@v7
