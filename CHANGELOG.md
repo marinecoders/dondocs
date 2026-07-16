@@ -5,6 +5,21 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.100] — 2026-07-16
+
+### Fixed
+
+- Endorsements now number their paragraphs, and their editor offers paragraph
+  labels, Tab to indent, and subparagraphs like any other letter. Both same-page
+  and new-page endorsements rendered their bodies unnumbered, against SECNAV
+  M-5216.5 Ch 2 ¶13a ("Identify all paragraphs or subparagraphs with a number or
+  letter"), to which Ch 9 states no exception — Fig 9-1 numbers its body even
+  though it is a single paragraph, and Fig 9-2 numbers "1." and "2.". Ch 9's
+  "continue the sequence" language, which had been read as a paragraph rule,
+  never is: it governs references (letters), enclosures (numbers), and page
+  numbers.
+  **If you render endorsements, their paragraphs will now be numbered.**
+
 ## [1.2.99] — 2026-07-16
 
 ### Added
