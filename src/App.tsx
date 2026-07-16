@@ -94,7 +94,6 @@ import { applyPlaceholdersToNavmc11811, buildNavmc11811DefaultValues } from '@/l
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
 import type { ClassificationInfo, EnclosureError } from '@/services/pdf/mergeEnclosures';
 import { assembleEndorsement } from '@/services/pdf/assembleEndorsement';
-import { isEndorsement } from '@/lib/endorsement';
 import { addSignatureField, addDualSignatureFields, type DualSignatureFieldConfig, type SignatureFieldConfig } from '@/services/pdf/addSignatureField';
 import { DOC_TYPE_CONFIG, type DocumentData } from '@/types/document';
 import { detectPII, type PIIDetectionResult } from '@/services/pii/detector';
@@ -117,7 +116,11 @@ async function assembleBasicLetter(
   formData: Partial<DocumentData>
 ): Promise<{ pdfBytes: Uint8Array; error?: string }> {
   const data = formData.basicLetterFile?.data;
-  if (!isEndorsement(docType) || !data) return { pdfBytes };
+  // New-page only: assembly puts the endorsement on its own page after the
+  // letter, which is a new-page endorsement. A same-page endorsement is meant to
+  // sit on the letter's signature page (which DonDocs can't do with an uploaded
+  // PDF), so it never assembles even if a stale file is attached.
+  if (docType !== 'new_page_endorsement' || !data) return { pdfBytes };
   const result = await assembleEndorsement(pdfBytes, data);
   return result.ok ? { pdfBytes: result.pdfBytes } : { pdfBytes, error: result.error };
 }
@@ -595,8 +598,8 @@ function App() {
           (includeHyperlinks && referenceUrls.length > 0) ||
           currentStore.formData.signatureType === 'digital' ||
           // A basic-letter PDF assembles ahead of the endorsement in
-          // enhancePreviewPdf, so the preview must run that pass to show it.
-          (isEndorsement(currentStore.docType) && !!currentStore.formData.basicLetterFile?.data);
+          // enhancePreviewPdf (new-page only), so the preview must run that pass.
+          (currentStore.docType === 'new_page_endorsement' && !!currentStore.formData.basicLetterFile?.data);
         const basePdfBytes = pdfBytes;
 
         // fullQualityPreview runs the full pipeline inline. When off (default),

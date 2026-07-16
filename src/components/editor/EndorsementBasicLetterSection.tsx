@@ -46,6 +46,11 @@ interface AppliedSource {
  */
 export function EndorsementBasicLetterSection() {
   const { formData, setField } = useDocumentStore();
+  const docType = useDocumentStore((s) => s.docType);
+  // Assembly puts the endorsement on its own page after the letter — a new-page
+  // endorsement. A same-page endorsement sits on the letter's signature page, so
+  // uploading a letter to assemble only makes sense for new-page.
+  const isNewPage = docType === 'new_page_endorsement';
   const addReference = useDocumentStore((s) => s.addReference);
   const addEnclosure = useDocumentStore((s) => s.addEnclosure);
   const docs = useDocumentsStore((s) => s.docs);
@@ -145,10 +150,13 @@ export function EndorsementBasicLetterSection() {
         <AccordionTrigger>Basic Letter</AccordionTrigger>
         <AccordionContent>
           <div className="space-y-4 pt-2">
-            {/* Upload the basic letter's PDF. On export DonDocs assembles it
-                ahead of the endorsement (Ch 9 Fig 9-3, new-page assembly). */}
+            {/* Upload the basic letter's PDF — new-page endorsements only, since
+                assembly puts the endorsement on its own page after the letter
+                (Ch 9 Fig 9-3). A same-page endorsement sits on the letter's
+                signature page and shows metadata fields only. */}
+            {isNewPage && (
             <div className="space-y-2">
-              <Label>Basic letter PDF</Label>
+              <Label>The basic letter (PDF)</Label>
               {basicLetterFile ? (
                 <div className="flex items-center gap-2 rounded-md border border-border bg-muted/40 p-2">
                   <FileStack className="h-4 w-4 shrink-0 text-muted-foreground" />
@@ -182,19 +190,23 @@ export function EndorsementBasicLetterSection() {
                 </label>
               )}
               <p className="text-xs text-muted-foreground">
-                Assembled ahead of your endorsement in the exported PDF (SECNAV
-                M-5216.5 Ch 9, Fig 9-3). PDF export only — the Word file contains
-                the endorsement alone.
+                The pages get assembled ahead of your endorsement in the exported
+                PDF (SECNAV M-5216.5 Ch 9, Fig 9-3). PDF export only — the Word
+                file contains the endorsement alone.
               </p>
             </div>
+            )}
 
-            {/* Base this endorsement on a saved correspondence document. */}
+            {/* Autofill the metadata fields below from a saved DonDocs letter.
+                This fills the ID / subject / references — it does not attach the
+                letter's pages (that's the PDF upload above, or below for a
+                same-page endorsement). */}
             <div className="space-y-2">
               <Popover open={pickerOpen} onOpenChange={setPickerOpen}>
                 <PopoverTrigger asChild>
                   <Button variant="outline" size="sm" className="w-full justify-start">
                     <FileStack className="mr-2 h-4 w-4" />
-                    Base on a saved letter…
+                    Autofill from a saved letter…
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent align="start" className="w-[22rem] p-0">
