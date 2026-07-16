@@ -5,6 +5,24 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.103] — 2026-07-16
+
+### Fixed
+
+- The PDF now numbers via addressees. SECNAV M-5216.5 Ch 9 ¶2: one remaining
+  via addressee is not numbered; two or more are numbered "(1)", "(2)", … The
+  DOCX export always did this; the PDF templates rendered the lines verbatim.
+  Numbering now happens once, in a helper both exports share.
+- The exported DOCX of a same-page endorsement carries its serial and date,
+  right-aligned between the separating rule and the endorsement line, as the
+  PDF already did (Ch 9 Fig 9-1: "Ser 019/870" / "23 Apr 15").
+- "Base on a saved letter" no longer copies the letter's references and
+  enclosures into the endorsement — Ch 9 ¶3-4: "Do not repeat a reference …
+  already … identified in the reference line of the basic letter"; sequences
+  are continued instead. Autofill now sets "First reference" / "First
+  enclosure" just past the source's last item (refs a-c → d, 5 enclosures →
+  6), leaving any start you already typed alone.
+
 ## [1.2.102] — 2026-07-16
 
 ### Fixed
