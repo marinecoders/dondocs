@@ -377,10 +377,18 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
     regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 7' },
     compliance: DUAL_SIGNATURE_COMPLIANCE,
   },
-  // Endorsements number their paragraphs like any letter: Figs 9-1 and 9-2 both
-  // show a numbered body (9-1 numbers even its single paragraph). Ch 9's
-  // "continue the sequence from the basic letter" governs *enclosures*, not
-  // paragraphs — reading it as the latter is what left these unnumbered.
+  // Endorsements number their paragraphs. Ch 2 ¶13a is the general rule --
+  // "Identify all paragraphs or subparagraphs with a number or letter" -- and
+  // Ch 9 states no exception to it. Where this manual wants paragraphs
+  // unnumbered it says so in those words (Ch 11 ¶6, Ch 12 ¶3.2c(2)); Ch 9 has
+  // no such sentence, and Figs 9-1 and 9-2 both show a numbered body (9-1
+  // numbers even its single paragraph). The only "do not number" in Ch 9 is for
+  // Via addressees.
+  //
+  // These rendered unnumbered because Ch 9's "continue the sequence" language
+  // was read as a paragraph rule. It never is: ¶3 continues a sequence of
+  // *letters* (references), ¶4 a sequence of *numbers* (enclosures), and
+  // Fig 9-2's own first paragraph continues *page* numbers.
   same_page_endorsement: {
     letterhead: false, ssic: false, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
     showSignatureRankTitle: false, // Endorsements use abbreviated name only per Ch 9
