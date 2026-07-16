@@ -5,6 +5,7 @@ import { base64ToUint8Array } from '@/lib/encoding';
 import { enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
 import { safeUrl } from '@/lib/url-safety';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
+import { formatViaLines } from '@/lib/viaLines';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
 import {
   resolveAppendedEndorsement,
@@ -166,11 +167,12 @@ ${isBusinessLetter ? `% Business letter: format recipient address as block with 
     {}{}{}{}`}
 
 ${data.via?.trim() ? (() => {
-  // Split once and pad to 4 lines so indices 0..3 are always defined.
-  // Previously this called data.via?.split('\n')[N] four separate times and
-  // leaned on `|| ''` to paper over undefined entries — fragile and wasted
-  // work (see #20). Empty strings are rendered as empty LaTeX groups.
-  const viaLines = data.via.split('\n');
+  // formatViaLines numbers the addressees when more than one remains
+  // (Ch 9 ¶2) — shared with flat-generator.ts so PDF and DOCX agree. The
+  // templates render \ViaLineOne..Four verbatim, so numbering here fixes
+  // every template at once. Pad to 4 lines so indices 0..3 are always
+  // defined; empty strings are rendered as empty LaTeX groups.
+  const viaLines = formatViaLines(data.via);
   const [l0 = '', l1 = '', l2 = '', l3 = ''] = viaLines;
   return `\\setVia
     {${escapeLatex(l0)}}

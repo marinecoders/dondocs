@@ -23,6 +23,7 @@ import {
   appendedEndorsementSigner,
 } from '@/lib/appendedEndorsement';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
+import { formatViaLines } from '@/lib/viaLines';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
 
 interface DocumentStore {
@@ -455,15 +456,14 @@ function buildAddressBlock(data: Partial<DocumentData>, config: DocTypeConfig): 
   }
 
   if (config.via && data.via?.trim()) {
-    const viaLines = data.via.split('\n').filter((l: string) => l.trim());
-    // Per SECNAV Ch 9 ¶2: suppress (1) numbering when only one via
-    const useNumbering = viaLines.length > 1;
+    // formatViaLines applies the Ch 9 ¶2 numbering — single source shared
+    // with the PDF path (generator.ts), so the two outputs cannot drift.
+    const viaLines = formatViaLines(data.via);
     for (let i = 0; i < viaLines.length; i++) {
-      const prefix = useNumbering ? `(${i + 1}) ` : '';
       if (i === 0) {
-        rows.push(`Via:\\hspace{5\\fontdimen2\\font} & ${prefix}${escapeTabularWrapped(viaLines[i])} \\\\`);
+        rows.push(`Via:\\hspace{5\\fontdimen2\\font} & ${escapeTabularWrapped(viaLines[i])} \\\\`);
       } else {
-        rows.push(` & ${prefix}${escapeTabularWrapped(viaLines[i])} \\\\`);
+        rows.push(` & ${escapeTabularWrapped(viaLines[i])} \\\\`);
       }
     }
   }
