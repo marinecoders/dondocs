@@ -148,4 +148,41 @@ describe('appended acknowledgement — rendered PDF', () => {
     expect(pages).toBe(1);
     expect(text).toMatch(/FIRST ENDORSEMENT/);
   });
+
+  // A letter long enough to push the acknowledgement past the page break used
+  // to tear it in half — endorsement line on one page, the appointee's
+  // signature stranded on the next. Ch 9 para 1 permits a same-page
+  // endorsement only when all of it fits ("If not, use a new-page
+  // endorsement"), so half a signed endorsement is never a legal rendering.
+  // \printAppendedEndorsement wraps the block in a minipage to keep it whole.
+  it.skipIf(!toolchain)('never splits the acknowledgement across a page break', async () => {
+    const filler = Array.from({ length: 6 }, (_, i) => ({
+      text: `Paragraph ${i + 1}. ` + 'Text that consumes vertical space and pushes the signature block down the page. '.repeat(3),
+      level: 0,
+    }));
+    const result = await compileFixture({
+      ...(store({ ...acknowledgement, endorsementDate: '3 Feb 25' }) as unknown as Record<string, unknown>),
+      paragraphs: filler,
+    } as never);
+    expect(result.ok, `pdflatex failed; work dir: ${result.workDir}`).toBe(true);
+
+    const dir = await mkdtemp(join(tmpdir(), 'dondocs-ack-split-'));
+    const pdfPath = join(dir, 'out.pdf');
+    await writeFile(pdfPath, result.pdfBytes!);
+    const { stdout } = spawnSync('pdftotext', [pdfPath, '-'], { encoding: 'utf-8' });
+    expect(stdout.trim().length).toBeGreaterThan(0);
+
+    const pages = stdout.split('\f');
+    const pageOf = (re: RegExp) => pages.findIndex((p) => re.test(p));
+    const endorsementLine = pageOf(/FIRST ENDORSEMENT/);
+    const dateLine = pageOf(/3 Feb 25/);
+    // Anchored to end-of-line so the letter's "To: Sergeant J. A. DOE" does not
+    // masquerade as the appointee's signature.
+    const signature = pageOf(/J\. A\. DOE\s*$/m);
+
+    expect(endorsementLine).toBeGreaterThanOrEqual(0);
+    expect(signature).toBeGreaterThanOrEqual(0);
+    expect(dateLine).toBe(endorsementLine);
+    expect(signature).toBe(endorsementLine);
+  });
 });

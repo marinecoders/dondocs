@@ -812,6 +812,14 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\printAppendedEndorsement}{%
     \\ifdefempty{\\AckFrom}{}{%
         \\vspace{24pt}%
+        % Ch 9 para 1 allows a same-page endorsement only when the whole of it
+        % fits on the signature page -- "If not, use a new-page endorsement." A
+        % minipage cannot be broken, so an endorsement that does not fit moves
+        % whole rather than stranding the appointee's signature on the next
+        % page. It cannot make an over-long endorsement conform (that needs a
+        % new-page endorsement, which is its own doc type), but it does keep the
+        % signature with the block it belongs to.
+        \\noindent\\begin{minipage}{\\textwidth}%
         \\noindent\\rule{\\textwidth}{0.4pt}\\par
         \\vspace{12pt}%
         % Ch 9 para 2.1a starts the endorsement line "on the second line below the
@@ -840,6 +848,7 @@ const LATEX_TEMPLATES = {
         % 4 lines below the last paragraph, matching the basic signature block.
         \\vspace{48pt}%
         \\noindent\\hspace*{3.25in}\\AckSignature\\par
+        \\end{minipage}%
     }%
 }
 
