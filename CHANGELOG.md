@@ -5,6 +5,19 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.102] — 2026-07-16
+
+### Fixed
+
+- Endorsement pages now genuinely continue the basic letter's sequence
+  (SECNAV M-5216.5 Ch 9, Fig 9-2: "Number each page of your endorsement and
+  continue the sequence of numbers from ... the basic letter"). "First page
+  number" was a dead field in PDF export — the generator never emitted it and
+  the template had no counter to receive it — and the Word export suppressed
+  the continued number on the endorsement's own sheet, where Fig 9-2 prints
+  it. Uploading a basic letter now also defaults the field from the letter's
+  page count instead of discarding it.
+
 ## [1.2.101] — 2026-07-16
 
 ### Added

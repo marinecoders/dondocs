@@ -93,6 +93,11 @@ export function generateDocumentTex(store: DocumentStore): string {
 \\setFontSize{${data.fontSize || '12pt'}}
 \\setFontFamily{${data.fontFamily || 'times'}}
 \\setPageNumberStyle{${data.pageNumbering || 'none'}}
+${
+  data.startingPageNumber && data.startingPageNumber > 1
+    ? `\\setStartingPageNumber{${Math.floor(data.startingPageNumber)}}`
+    : '% Page sequence starts at 1'
+}
 
 `;
 

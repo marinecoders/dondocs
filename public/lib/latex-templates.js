@@ -129,6 +129,16 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\PageNumberStyle}{xofy}
 \\newcommand{\\setPageNumberStyle}[1]{\\renewcommand{\\PageNumberStyle}{#1}}
 
+% An endorsement continues the basic letter's page sequence rather than
+% starting at 1 (Ch 9, Fig 9-2 body: "Number each page of your endorsement and
+% continue the sequence of numbers from the previous endorsement or from the
+% basic letter"). The counter is applied at \\begin{document}; with a start
+% above 1 the first sheet naturally prints its number (Fig 9-2 shows "2" on
+% the endorsement's own sheet), since the styles' suppress-page-1 checks test
+% the counter value, not the sheet index.
+\\newcommand{\\StartingPageNumber}{1}
+\\newcommand{\\setStartingPageNumber}[1]{\\renewcommand{\\StartingPageNumber}{#1}}
+
 % Smart page numbering based on style setting
 \\makeatletter
 \\newcommand{\\smartPageNumber}{%
@@ -1445,6 +1455,11 @@ const LATEX_TEMPLATES = {
 
 % Apply font settings after config is loaded
 \\applyFontSettings
+
+% Continue the basic letter's page sequence (Ch 9): applied after the config
+% inputs so \\setStartingPageNumber from document.tex has taken effect, and
+% before any content so sheet 1 carries the continued number.
+\\setcounter{page}{\\StartingPageNumber}
 
 %=============================================================================
 % LOAD FORMAT-SPECIFIC MODULE
