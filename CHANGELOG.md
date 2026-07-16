@@ -5,6 +5,23 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.94] — 2026-07-06
+
+### Added
+
+- Endorsements can now say where they pick up. An endorsement continues the
+  basic letter's numbering rather than opening its own (SECNAV M-5216.5 Ch 9
+  ¶3) — if the basic letter ran to reference (f), the endorsement starts at
+  (g) — but DonDocs restarted every sequence from scratch: page 1, reference
+  (a), enclosure (1). The basic letter is a separate document the app cannot
+  read, so a "Continues from the basic letter" group on endorsement document
+  types takes the first page number, first reference letter, and first
+  enclosure number. The starting page number was already honored by the
+  generator but had no control to set it.
+
+  The continuation applies to endorsements only, so a value left behind after
+  switching document type can never silently offset a basic letter's sequence.
+
 ## [1.2.93] — 2026-07-06
 
 ### Fixed

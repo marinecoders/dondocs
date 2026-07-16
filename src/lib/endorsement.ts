@@ -49,6 +49,38 @@ export function refWordForDocType(docType: string): string {
   return REF_WORD[docType] ?? 'ltr';
 }
 
+/** The doc types that continue a package rather than open one. */
+export function isEndorsement(docType: string): boolean {
+  return docType === 'same_page_endorsement' || docType === 'new_page_endorsement';
+}
+
+/**
+ * Zero-based index the reference lettering starts at.
+ *
+ * SECNAV M-5216.5 Ch 9 ¶3: an endorsement continues the basic letter's
+ * sequence — if the basic ran to (f), the endorsement's first new reference is
+ * (g). The basic letter is a separate document DonDocs cannot see, so the user
+ * supplies the start. Only endorsements continue a sequence; everything else
+ * opens its own at (a), so a stale value can't silently offset a basic letter.
+ */
+export function referenceStartIndex(docType: string, startingLetter?: string): number {
+  if (!isEndorsement(docType)) return 0;
+  const letter = (startingLetter ?? '').trim().toLowerCase();
+  if (!/^[a-z]$/.test(letter)) return 0;
+  return letter.charCodeAt(0) - 97;
+}
+
+/**
+ * The number the enclosure list starts at — the same Ch 9 ¶3 continuation rule
+ * as references. Defaults to 1 for anything that isn't an endorsement or has no
+ * usable value.
+ */
+export function enclosureStartNumber(docType: string, startingNumber?: number): number {
+  if (!isEndorsement(docType)) return 1;
+  const n = Number(startingNumber);
+  return Number.isFinite(n) && n >= 1 ? Math.floor(n) : 1;
+}
+
 // Empty or a bracketed placeholder ([SSIC]) counts as absent.
 function usable(value: string | undefined): string {
   const t = (value ?? '').trim();

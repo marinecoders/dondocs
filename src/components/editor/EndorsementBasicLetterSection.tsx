@@ -245,6 +245,73 @@ export function EndorsementBasicLetterSection() {
                 [activity] [letter type] [SSIC] Ser [N/N] of [date].
               </p>
             </div>
+
+            {/* Sequence continuation. An endorsement carries on the basic
+                letter's numbering instead of opening its own (Ch 9 ¶3), but the
+                basic letter is a separate document DonDocs can't read — so the
+                user supplies where this one picks up. */}
+            <div className="space-y-3 border-t border-border pt-4">
+              <div className="space-y-1">
+                <h4 className="text-sm font-medium">Continues from the basic letter</h4>
+                <p className="text-xs text-muted-foreground">
+                  An endorsement picks up where the basic letter left off — per SECNAV
+                  M-5216.5 Ch 9 ¶3, if it ran to reference (f), this one starts at (g).
+                  Leave these blank to start a fresh sequence.
+                </p>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-3">
+                <div className="space-y-2">
+                  <Label htmlFor="startingPageNumber">First page number</Label>
+                  <Input
+                    id="startingPageNumber"
+                    type="number"
+                    min={1}
+                    inputMode="numeric"
+                    value={formData.startingPageNumber ?? ''}
+                    onChange={(e) => {
+                      const v = e.target.value.trim();
+                      setField('startingPageNumber', v === '' ? 1 : Math.max(1, Number(v) || 1));
+                    }}
+                    placeholder="1"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="startingReferenceLetter">First reference</Label>
+                  <Input
+                    id="startingReferenceLetter"
+                    value={formData.startingReferenceLetter || ''}
+                    onChange={(e) => setField('startingReferenceLetter', e.target.value.trim().toLowerCase())}
+                    placeholder="a"
+                    maxLength={1}
+                    aria-describedby="startingReferenceLetter-hint"
+                  />
+                  <p id="startingReferenceLetter-hint" className="sr-only">
+                    A single letter, a through z.
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="startingEnclosureNumber">First enclosure</Label>
+                  <Input
+                    id="startingEnclosureNumber"
+                    type="number"
+                    min={1}
+                    inputMode="numeric"
+                    value={formData.startingEnclosureNumber ?? ''}
+                    onChange={(e) => {
+                      const v = e.target.value.trim();
+                      setField(
+                        'startingEnclosureNumber',
+                        v === '' ? undefined : Math.max(1, Number(v) || 1)
+                      );
+                    }}
+                    placeholder="1"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </AccordionContent>
       </AccordionItem>

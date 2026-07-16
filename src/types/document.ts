@@ -107,6 +107,12 @@ export interface DocumentData {
   // Page settings
   pageNumbering: string;
   startingPageNumber: number;
+  // Endorsements continue the basic letter's sequences rather than opening
+  // their own (SECNAV M-5216.5 Ch 9 ¶3). The basic letter is a separate
+  // document, so the user supplies where this one picks up. See
+  // `referenceStartIndex` / `enclosureStartNumber` in lib/endorsement.ts.
+  startingReferenceLetter?: string;
+  startingEnclosureNumber?: number;
 
   // Letterhead
   department: string;

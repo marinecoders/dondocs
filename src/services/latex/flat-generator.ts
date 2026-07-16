@@ -17,6 +17,7 @@
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, DocTypeConfig } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
+import { enclosureStartNumber } from '@/lib/endorsement';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
 
@@ -503,16 +504,19 @@ ${trimLastRow(rows)}
 
 /** Enclosures using tabular for proper hanging-indent alignment.
  * Colon spacing per SECNAV Ch 7 ¶11b: Encl=3sp */
-function buildEnclosures(enclosures: Enclosure[]): string {
+function buildEnclosures(enclosures: Enclosure[], startNumber = 1): string {
   if (enclosures.length === 0) return '';
 
   const rows: string[] = [];
   for (let i = 0; i < enclosures.length; i++) {
     const encl = enclosures[i];
+    // `startNumber` lets an endorsement continue the basic letter's numbering
+    // (Ch 9 ¶3); it is 1 for everything that opens its own sequence.
+    const n = startNumber + i;
     if (i === 0) {
-      rows.push(`Encl:\\hspace{3\\fontdimen2\\font} & (${i + 1})~~${escapeTabular(encl.title)} \\\\`);
+      rows.push(`Encl:\\hspace{3\\fontdimen2\\font} & (${n})~~${escapeTabular(encl.title)} \\\\`);
     } else {
-      rows.push(` & (${i + 1})~~${escapeTabular(encl.title)} \\\\`);
+      rows.push(` & (${n})~~${escapeTabular(encl.title)} \\\\`);
     }
   }
 
@@ -1101,7 +1105,10 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
   content += buildInReplyTo(data);
   content += buildAddressBlock(data, config);
   content += buildReferences(store.references);
-  content += buildEnclosures(store.enclosures);
+  content += buildEnclosures(
+    store.enclosures,
+    enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
+  );
   content += buildBody(store.paragraphs, config);
   content += buildSignature(data, config);
   content += buildDistribution(store.distributions);
@@ -1175,7 +1182,10 @@ function buildMemoLayout(store: DocumentStore, config: DocTypeConfig): string {
   }
   content += buildAddressBlock(data, config);
   content += buildReferences(store.references);
-  content += buildEnclosures(store.enclosures);
+  content += buildEnclosures(
+    store.enclosures,
+    enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
+  );
   content += buildBody(store.paragraphs, config);
   if (config.hasDecisionBlock) content += buildDecisionBlock();
   content += buildSignature(data, config);
@@ -1203,7 +1213,10 @@ Subj:\\hspace{3\\fontdimen2\\font} & ${maybeUnderline(escapeTabularWrapped(data.
   }
 
   content += buildReferences(store.references);
-  content += buildEnclosures(store.enclosures);
+  content += buildEnclosures(
+    store.enclosures,
+    enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
+  );
   content += buildBody(store.paragraphs, config);
   content += buildDualSignature(data, 'moa');
   content += buildDistribution(store.distributions);
@@ -1223,7 +1236,10 @@ function buildJointLayout(store: DocumentStore, config: DocTypeConfig): string {
   content += '\\vspace{12pt}\n\\noindent JOINT LETTER\n\n\\vspace{12pt}\n';
   content += buildJointAddressBlock(data);
   content += buildReferences(store.references);
-  content += buildEnclosures(store.enclosures);
+  content += buildEnclosures(
+    store.enclosures,
+    enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
+  );
   content += buildBody(store.paragraphs, config);
   content += buildDualSignature(data, 'joint');
   content += buildDistribution(store.distributions);
@@ -1271,7 +1287,10 @@ ${trimLastRow(rows)}
   }
 
   content += buildReferences(store.references);
-  content += buildEnclosures(store.enclosures);
+  content += buildEnclosures(
+    store.enclosures,
+    enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
+  );
   content += buildBody(store.paragraphs, config);
   content += buildDualSignature(data, 'joint_memo');
   content += buildDistribution(store.distributions);

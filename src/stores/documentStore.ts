@@ -9,6 +9,7 @@ import { useUIStore } from './uiStore';
 import { debug } from '@/lib/debug';
 import { TIMING, STORAGE_KEYS} from '@/lib/constants';
 import { compressedParse, compressedStringify } from '@/lib/compressedStorage';
+import { referenceStartIndex } from '@/lib/endorsement';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { normalizeLevels, migratePortionMarkings } from '@/lib/paragraphUtils';
 
@@ -155,18 +156,18 @@ export interface DocumentState {
   getSnapshot: () => DocumentSnapshot;
 }
 
-const getNextReferenceLetter = (refs: Reference[]): string => {
+// `offset` shifts the sequence so an endorsement can continue the basic
+// letter's lettering (Ch 9 ¶3) — it is 0 for every non-endorsement.
+const letterAt = (index: number): string => {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz';
-  return alphabet[refs.length] || `a${refs.length - 26}`;
+  return alphabet[index] || `a${index - 26}`;
 };
 
-const reLetterReferences = (refs: Reference[]): Reference[] => {
-  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
-  return refs.map((ref, index) => ({
-    ...ref,
-    letter: alphabet[index] || `a${index - 26}`,
-  }));
-};
+const getNextReferenceLetter = (refs: Reference[], offset = 0): string =>
+  letterAt(refs.length + offset);
+
+const reLetterReferences = (refs: Reference[], offset = 0): Reference[] =>
+  refs.map((ref, index) => ({ ...ref, letter: letterAt(index + offset) }));
 
 // Example form data for first-time visitors (one-time mode / no profile selected)
 const EXAMPLE_FORM_DATA: Partial<DocumentData> = {
@@ -307,15 +308,40 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
           fontFamily: newFontFamily,
           date: convertedDate,
         },
+        // Only endorsements continue a sequence, so switching type re-letters:
+        // leaving one resets to (a), entering one applies the saved start.
+        references: reLetterReferences(
+          state.references,
+          referenceStartIndex(type, state.formData.startingReferenceLetter)
+        ),
       };
     }
-    return { docType: type, formData: { ...state.formData, docType: type } };
+    return {
+      docType: type,
+      formData: { ...state.formData, docType: type },
+      references: reLetterReferences(
+        state.references,
+        referenceStartIndex(type, state.formData.startingReferenceLetter)
+      ),
+    };
     });
   },
 
-  setField: (key, value) => set((state) => ({
-    formData: { ...state.formData, [key]: value },
-  })),
+  setField: (key, value) => set((state) => {
+    const formData = { ...state.formData, [key]: value };
+    // The start letter shifts every reference after it, so re-letter in the
+    // same commit — otherwise the rows keep the previous sequence on screen.
+    if (key === 'startingReferenceLetter') {
+      return {
+        formData,
+        references: reLetterReferences(
+          state.references,
+          referenceStartIndex(state.docType, formData.startingReferenceLetter)
+        ),
+      };
+    }
+    return { formData };
+  }),
 
   setFormData: (data) => set((state) => ({
     formData: { ...state.formData, ...data },
@@ -343,7 +369,14 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   addReference: (title, url) => set((state) => ({
     references: [
       ...state.references,
-      { letter: getNextReferenceLetter(state.references), title, url: url || '' },
+      {
+        letter: getNextReferenceLetter(
+          state.references,
+          referenceStartIndex(state.docType, state.formData.startingReferenceLetter)
+        ),
+        title,
+        url: url || '',
+      },
     ],
   })),
 
@@ -352,14 +385,22 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   })),
 
   removeReference: (index) => set((state) => ({
-    references: reLetterReferences(state.references.filter((_, i) => i !== index)),
+    references: reLetterReferences(
+      state.references.filter((_, i) => i !== index),
+      referenceStartIndex(state.docType, state.formData.startingReferenceLetter)
+    ),
   })),
 
   reorderReferences: (fromIndex, toIndex) => set((state) => {
     const newRefs = [...state.references];
     const [moved] = newRefs.splice(fromIndex, 1);
     newRefs.splice(toIndex, 0, moved);
-    return { references: reLetterReferences(newRefs) };
+    return {
+      references: reLetterReferences(
+        newRefs,
+        referenceStartIndex(state.docType, state.formData.startingReferenceLetter)
+      ),
+    };
   }),
 
   // Enclosures
@@ -614,13 +655,23 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       copyTos: data.copyTos?.length,
     });
     useUIStore.getState().setValidationVisible(false);
-    set((state) => ({
-      paragraphs: data.paragraphs ? migratePortionMarkings(data.paragraphs) : state.paragraphs,
-      references: data.references ? reLetterReferences(data.references) : state.references,
-      enclosures: data.enclosures ?? state.enclosures,
-      copyTos: data.copyTos ?? state.copyTos,
-      formData: data.formData ? { ...state.formData, ...data.formData } : state.formData,
-    }));
+    set((state) => {
+      const formData = data.formData ? { ...state.formData, ...data.formData } : state.formData;
+      return {
+        paragraphs: data.paragraphs ? migratePortionMarkings(data.paragraphs) : state.paragraphs,
+        // Re-letter against the incoming start so a loaded endorsement keeps
+        // the sequence it was saved with.
+        references: data.references
+          ? reLetterReferences(
+              data.references,
+              referenceStartIndex(state.docType, formData.startingReferenceLetter)
+            )
+          : state.references,
+        enclosures: data.enclosures ?? state.enclosures,
+        copyTos: data.copyTos ?? state.copyTos,
+        formData,
+      };
+    });
   },
 
   // History (Undo/Redo)

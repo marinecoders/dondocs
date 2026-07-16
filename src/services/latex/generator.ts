@@ -2,6 +2,7 @@ import { escapeLatex, escapeLatexUrl, processBodyText, formatSubjectForLatex, fo
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
+import { enclosureStartNumber } from '@/lib/endorsement';
 import { safeUrl } from '@/lib/url-safety';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
@@ -573,7 +574,10 @@ ${store.enclosures
     .map((e, i) => {
       // Always use JSPDF marker - JavaScript handles ALL enclosure pages
       // This ensures correct ordering (text-only and PDF enclosures in sequence)
-      return `\\enclosure{${i + 1}}{JSPDF}{${escapeLatex(e.title || 'Untitled')}}`;
+      // The start number lets an endorsement continue the basic letter's
+      // numbering (Ch 9 ¶3); it is 1 for everything else.
+      const n = enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber) + i;
+      return `\\enclosure{${n}}{JSPDF}{${escapeLatex(e.title || 'Untitled')}}`;
     })
     .join('\n')}
 `;
