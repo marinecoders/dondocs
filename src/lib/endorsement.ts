@@ -81,6 +81,18 @@ export function enclosureStartNumber(docType: string, startingNumber?: number): 
   return Number.isFinite(n) && n >= 1 ? Math.floor(n) : 1;
 }
 
+/**
+ * The page number the document starts at — the Ch 9 page-continuation rule
+ * (Fig 9-2 ¶1), gated exactly like its reference/enclosure siblings above: a
+ * startingPageNumber left behind after switching document type must never
+ * silently offset a basic letter's own sequence.
+ */
+export function pageStartNumber(docType: string, startingPageNumber?: number): number {
+  if (!isEndorsement(docType)) return 1;
+  const n = Number(startingPageNumber);
+  return Number.isFinite(n) && n > 1 ? Math.floor(n) : 1;
+}
+
 // Empty or a bracketed placeholder ([SSIC]) counts as absent.
 function usable(value: string | undefined): string {
   const t = (value ?? '').trim();

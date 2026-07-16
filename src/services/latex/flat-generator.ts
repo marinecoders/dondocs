@@ -17,7 +17,7 @@
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, DocTypeConfig } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
-import { enclosureStartNumber } from '@/lib/endorsement';
+import { enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
 import {
   resolveAppendedEndorsement,
   appendedEndorsementSigner,
@@ -291,13 +291,15 @@ function buildClassificationHeaders(data: Partial<DocumentData>, paragraphs: Par
 `;
 }
 
-function buildPageNumbering(data: Partial<DocumentData>): string {
+function buildPageNumbering(docType: string, data: Partial<DocumentData>): string {
   const style = data.pageNumbering || 'none';
   if (style === 'none') return '\\pagenumbering{gobble}\n';
-  // Support custom starting page number (e.g., for endorsements continuing a letter)
-  const startPage = data.startingPageNumber && data.startingPageNumber > 1
-    ? `\\setcounter{page}{${data.startingPageNumber}}\n`
-    : '';
+  // The Ch 9 page continuation, gated to endorsement types exactly like the
+  // reference/enclosure continuations — this was previously ungated, so a
+  // startingPageNumber left behind by an endorsement silently offset ANY
+  // doc type's pages in the Word export.
+  const start = pageStartNumber(docType, data.startingPageNumber);
+  const startPage = start > 1 ? `\\setcounter{page}{${start}}\n` : '';
   // SECNAV: no page number on the FIRST page of a document — but a continued
   // sequence is not a first page: Fig 9-2 prints the number on the
   // endorsement's own sheet ("2"), so suppression only applies when the
@@ -1558,7 +1560,7 @@ export function generateFlatLatex(store: DocumentStore): string {
 
   tex += buildPreamble(data);
   tex += buildClassificationHeaders(data, store.paragraphs);
-  tex += buildPageNumbering(data);
+  tex += buildPageNumbering(store.docType, data);
   tex += '\n\\begin{document}\n\n';
 
   switch (config.uiMode) {
