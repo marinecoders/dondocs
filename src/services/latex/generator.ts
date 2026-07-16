@@ -355,8 +355,12 @@ export function generateSignatoryTex(store: DocumentStore): string {
   let appendedEndorsementTex = '';
   const ack = resolveAppendedEndorsement(store.docType, data);
   if (ack) {
+    // Label spacing matches generateBodyTex's `${label}  ${text}` exactly. The
+    // acknowledgement sits on the same sheet as the letter it answers, so its
+    // "1." must align with the letter's "1."; \hspace here put the text 2.3pt
+    // further right than the body above it.
     const body = ack.paragraphs
-      .map((text, i) => `\\noindent ${i + 1}.\\hspace{2\\fontdimen2\\font}${escapeLatex(text)}\\par\\vspace{12pt}`)
+      .map((text, i) => `\\noindent ${i + 1}.  ${escapeLatex(text)}\\par\\vspace{12pt}`)
       .join('');
     appendedEndorsementTex = `\\setAppendedEndorsement
     {${escapeLatex(ack.from)}}

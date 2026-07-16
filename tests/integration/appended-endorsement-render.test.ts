@@ -149,6 +149,41 @@ describe('appended acknowledgement — rendered PDF', () => {
     expect(text).toMatch(/FIRST ENDORSEMENT/);
   });
 
+  // The acknowledgement sits on the same sheet as the letter it answers, so a
+  // reader sees both numbered lists at once and any difference in the gap after
+  // "1." reads as sloppy. This is invisible to text assertions: pdftotext
+  // reports "1. Zulu" either way. \hspace{2\fontdimen2\font} here put the
+  // acknowledgement's text 2.3pt right of the letter's, so compare x-positions.
+  it.skipIf(!toolchain)("aligns its paragraphs with the letter's above it", async () => {
+    const result = await compileFixture({
+      ...(store({
+        ...acknowledgement,
+        endorsementBody: 'Zulu acknowledgement one.\nZulu acknowledgement two.',
+      }) as unknown as Record<string, unknown>),
+      paragraphs: [
+        { text: 'Zulu letter body one.', level: 0 },
+        { text: 'Zulu letter body two.', level: 0 },
+      ],
+    } as never);
+    expect(result.ok, `pdflatex failed; work dir: ${result.workDir}`).toBe(true);
+
+    const dir = await mkdtemp(join(tmpdir(), 'dondocs-ack-align-'));
+    const pdfPath = join(dir, 'out.pdf');
+    await writeFile(pdfPath, result.pdfBytes!);
+    const { stdout } = spawnSync('pdftotext', ['-bbox', pdfPath, '-'], { encoding: 'utf-8' });
+
+    const words = [...stdout.matchAll(/<word xMin="([\d.]+)"[^>]*>([^<]+)<\/word>/g)]
+      .map((m) => ({ x: Number(m[1]), word: m[2] }));
+    const labelXs = [...new Set(words.filter((w) => /^[12]\.$/.test(w.word)).map((w) => w.x))];
+    const textXs = [...new Set(words.filter((w) => w.word === 'Zulu').map((w) => w.x))];
+
+    // Four numbered paragraphs: two in the letter, two in the acknowledgement.
+    expect(words.filter((w) => w.word === 'Zulu')).toHaveLength(4);
+    // Every label starts at the margin, and every body text starts at one x.
+    expect(labelXs).toHaveLength(1);
+    expect(textXs).toHaveLength(1);
+  });
+
   // A letter long enough to push the acknowledgement past the page break used
   // to tear it in half — endorsement line on one page, the appointee's
   // signature stranded on the next. Ch 9 para 1 permits a same-page
