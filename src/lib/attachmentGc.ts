@@ -46,8 +46,13 @@ import { getPendingDeleteSessions, useDocumentsStore } from '@/stores/documentsS
 import { isRestoreInProgress } from '@/lib/backup';
 import { debug } from '@/lib/debug';
 
-/** Every enclosure `fileRef.id` in one session, added to `into`. */
+/** Every enclosure `fileRef.id` plus the basic-letter ref in one session. */
 function collectSessionRefs(session: SerializedSession | undefined, into: Set<string>): void {
+  // An endorsement's basic-letter PDF is stored as an attachment; keep it
+  // reachable so the GC doesn't sweep it out from under a saved endorsement.
+  const blId = session?.formData?.basicLetterFileRef?.id;
+  if (typeof blId === 'string' && blId) into.add(blId);
+
   const enclosures = session?.enclosures;
   if (!Array.isArray(enclosures)) return;
   for (const enc of enclosures) {

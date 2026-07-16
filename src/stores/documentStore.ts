@@ -949,6 +949,9 @@ export function serializeSession(state: DocumentState): SerializedSession {
     formData: {
       ...state.formData,
       signatureImage: undefined,
+      // Bytes live in the attachments store; keep only basicLetterFileRef so the
+      // serialized session stays light and JSON-safe (rehydrated on load).
+      basicLetterFile: undefined,
     },
     references: state.references,
     enclosures: state.enclosures.map(enc => ({
@@ -1015,6 +1018,27 @@ export function loadSharedSession(session: SerializedSession): void {
  * export (which reads `file.data`) can await a complete document.
  */
 export async function rehydrateEnclosureFiles(): Promise<void> {
+  // The endorsement's basic-letter PDF is stored the same way as an enclosure
+  // file (bytes in the attachments store, only the ref serialized), so reload it
+  // here too. Done first, before the enclosure early-return, so a basic letter
+  // is rehydrated even on an endorsement that has no enclosures.
+  const blRef = useDocumentStore.getState().formData.basicLetterFileRef;
+  if (blRef && !useDocumentStore.getState().formData.basicLetterFile) {
+    try {
+      const data = await loadAttachment(blRef.id);
+      if (data && !useDocumentStore.getState().formData.basicLetterFile) {
+        useDocumentStore.setState((state) => ({
+          formData: {
+            ...state.formData,
+            basicLetterFile: { name: blRef.name, size: blRef.size || data.byteLength, data },
+          },
+        }));
+      }
+    } catch (err) {
+      debug.error('Store', 'Failed to rehydrate basic-letter file', err);
+    }
+  }
+
   const pending = useDocumentStore
     .getState()
     .enclosures.filter((e) => e.fileRef && !e.file)
