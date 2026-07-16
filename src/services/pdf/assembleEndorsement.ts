@@ -5,10 +5,17 @@ import { debug } from '@/lib/debug';
  * Assemble an endorsement onto the basic letter it endorses.
  *
  * An endorsement is written on correspondence that comes up the chain: you
- * receive a letter, endorse it, and forward the assembly. SECNAV M-5216.5 Ch 9
- * Fig 9-3 ("Assembly of an Endorsement") is the basic letter followed by the
- * endorsement — which is what this produces: the uploaded letter's pages first,
- * the generated endorsement after.
+ * receive a letter, endorse it, and forward the assembly. The letter's pages
+ * come first, the endorsement after — because a new-page endorsement's pages
+ * "continue the sequence of numbers from ... the basic letter" (SECNAV M-5216.5
+ * Ch 9, Fig 9-2 body): the letter is pages 1..N and the endorsement N+1, which
+ * only reads correctly with the letter physically first.
+ *
+ * (Fig 9-3, "Assembly of an Endorsement", is a *suggested* physical routing
+ * stack — envelopes, file copies, via copies — and it places the current
+ * endorsement on top of the basic letter. That is a mailing/filing convenience
+ * for a stack of loose papers, not the pagination of a single bound PDF, so it
+ * does not govern the page order here.)
  *
  * New-page only, by design. Ch 9 ¶1 makes a new-page endorsement always valid
  * ("If not, use a new-page endorsement"); same-page is the optional space-saver.

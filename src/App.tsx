@@ -102,8 +102,9 @@ import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
 // Helper to get classification marking for enclosures
 /**
  * Assemble the uploaded basic letter ahead of a compiled endorsement, so the
- * exported PDF is the letter followed by the endorsement (SECNAV M-5216.5 Ch 9
- * Fig 9-3). A no-op for non-endorsements or when no basic-letter PDF is
+ * exported PDF is the letter followed by the endorsement (SECNAV M-5216.5 Ch 9:
+ * the endorsement continues the basic letter's page numbers, so the letter
+ * reads first). A no-op for non-endorsements or when no basic-letter PDF is
  * attached. Runs before the enclosure merge, so `mergeEnclosures` treats the
  * combined [letter + endorsement] as the main document and the signature-field
  * placement (`basicPageCount - 1`) still lands on the endorsement's last page.

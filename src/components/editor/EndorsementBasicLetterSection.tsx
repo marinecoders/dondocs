@@ -122,8 +122,9 @@ export function EndorsementBasicLetterSection() {
   };
 
   // Upload the basic letter's PDF so the export can assemble it ahead of the
-  // endorsement (Ch 9 Fig 9-3). Bytes go to the attachments store — survive a
-  // reload, ride along in a backup — and only the fileRef is serialized.
+  // endorsement (Ch 9 — the endorsement continues the letter's page numbers).
+  // Bytes go to the attachments store — survive a reload, ride along in a
+  // backup — and only the fileRef is serialized.
   const handleBasicLetterFile = useCallback(
     async (file: File) => {
       const data = await file.arrayBuffer();
@@ -152,8 +153,8 @@ export function EndorsementBasicLetterSection() {
           <div className="space-y-4 pt-2">
             {/* Upload the basic letter's PDF — new-page endorsements only, since
                 assembly puts the endorsement on its own page after the letter
-                (Ch 9 Fig 9-3). A same-page endorsement sits on the letter's
-                signature page and shows metadata fields only. */}
+                (Ch 9). A same-page endorsement sits on the letter's signature
+                page and shows metadata fields only. */}
             {isNewPage && (
             <div className="space-y-2">
               <Label>The basic letter (PDF)</Label>
@@ -191,8 +192,8 @@ export function EndorsementBasicLetterSection() {
               )}
               <p className="text-xs text-muted-foreground">
                 The pages get assembled ahead of your endorsement in the exported
-                PDF (SECNAV M-5216.5 Ch 9, Fig 9-3). PDF export only — the Word
-                file contains the endorsement alone.
+                PDF (SECNAV M-5216.5 Ch 9). PDF export only — the Word file
+                contains the endorsement alone.
               </p>
             </div>
             )}

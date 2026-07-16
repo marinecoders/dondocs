@@ -1,8 +1,10 @@
 /**
  * The endorsement is assembled onto the basic letter it endorses: the uploaded
- * letter's pages first, the endorsement after (SECNAV M-5216.5 Ch 9 Fig 9-3).
- * These pin the order, the page count, and that a bad upload fails loudly with
- * the endorsement returned unchanged — never a silently dropped export.
+ * letter's pages first, the endorsement after — a new-page endorsement
+ * continues the basic letter's page numbers (SECNAV M-5216.5 Ch 9), so the
+ * letter reads first. These pin the order, the page count, and that a bad
+ * upload fails loudly with the endorsement returned unchanged — never a
+ * silently dropped export.
  */
 import { describe, it, expect } from 'vitest';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';

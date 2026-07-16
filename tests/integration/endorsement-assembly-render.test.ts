@@ -1,7 +1,8 @@
 /**
  * The endorsement + basic-letter assembly, proved against a real compiled
  * endorsement (not a synthetic PDF) and a real basic letter: the letter's pages
- * come first, the endorsement after, on one PDF (SECNAV M-5216.5 Ch 9 Fig 9-3).
+ * come first, the endorsement after, on one PDF — a new-page endorsement
+ * continues the basic letter's page numbers (SECNAV M-5216.5 Ch 9).
  *
  * The unit test (tests/unit/assembleEndorsement.test.ts) pins the primitive on
  * pdf-lib fixtures; this compiles the endorsement DonDocs actually produces and
