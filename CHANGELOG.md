@@ -5,6 +5,28 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.99] — 2026-07-16
+
+### Added
+
+- An appointment letter can now carry the appointee's acknowledgement on the
+  same sheet: you sign the top, a rule divides the page, and the appointee
+  endorses back below it. Tick "Add an acknowledgement endorsement" in the
+  Signature section of a naval letter, standard letter, or memorandum. The
+  From/To lines invert the letter automatically, so the common case needs no
+  typing beyond the acknowledgement text and the appointee's name.
+- Previously the endorsement could only be produced as its own separate
+  document, which is not what an appointment letter looks like in practice
+  (SECNAV M-5216.5 Ch 9, Fig 9-1).
+
+### Fixed
+
+- The rendered-PDF tests (`by-direction-render`) were skipping in CI rather than
+  running: the compile-matrix job installs texlive and pandoc but never
+  installed poppler-utils, and the tests skip themselves when `pdftotext` is
+  absent. CI now installs poppler-utils, and the suites fail rather than skip
+  when the toolchain is missing, so a skip can no longer be mistaken for a pass.
+
 ## [1.2.98] — 2026-07-16
 
 ### Added

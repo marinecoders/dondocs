@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { canAppendEndorsement } from '@/lib/appendedEndorsement';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { IconTip } from '@/components/ui/icon-tip';
@@ -66,6 +68,7 @@ const SIGNATURE_STYLES = [
 
 export function SignatureSection({ config }: SignatureSectionProps) {
   const { formData, setField, documentMode } = useDocumentStore();
+  const docType = useDocumentStore((s) => s.docType);
   const validationVisible = useUIStore((s) => s.validationVisible);
   const isDualSignature = config.signature === 'dual';
   const hasDualDigitalSignature = isDualSignature && formData.signatureType === 'digital';
@@ -482,6 +485,97 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                 </div>
               )}
             </div>
+
+            {/* Appointment acknowledgement — the appointee's half, same sheet */}
+            {canAppendEndorsement(docType) && (
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="appendEndorsement"
+                    checked={formData.appendEndorsement || false}
+                    onCheckedChange={(checked) => setField('appendEndorsement', !!checked)}
+                  />
+                  <Label htmlFor="appendEndorsement" className="font-normal">
+                    Add an acknowledgement endorsement
+                  </Label>
+                  <HelpTip>
+                    <p className="font-medium mb-1">Acknowledgement Endorsement</p>
+                    <p className="text-xs">
+                      Puts the recipient&apos;s acknowledgement on this same page, below a
+                      dividing rule — you sign the top, they sign the bottom, one sheet.
+                      Standard for appointment letters.
+                    </p>
+                  </HelpTip>
+                </div>
+
+                {formData.appendEndorsement && (
+                  <div className="space-y-3 ml-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="endorsementBody">Acknowledgement</Label>
+                      <Textarea
+                        id="endorsementBody"
+                        value={formData.endorsementBody || ''}
+                        onChange={(e) => setField('endorsementBody', e.target.value)}
+                        placeholder={'I have read and understand the references listed above.\nI hereby assume the duties and responsibilities as the [DUTY TITLE].'}
+                        className="min-h-[76px] text-sm"
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        One paragraph per line; they&apos;re numbered automatically.
+                      </p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>Signed by</Label>
+                      <div className="grid grid-cols-3 gap-2">
+                        <Input
+                          value={formData.endorsementSigFirst || ''}
+                          onChange={(e) => setField('endorsementSigFirst', e.target.value)}
+                          placeholder="First"
+                          aria-label="Acknowledgement signer first name"
+                        />
+                        <Input
+                          value={formData.endorsementSigMiddle || ''}
+                          onChange={(e) => setField('endorsementSigMiddle', e.target.value)}
+                          placeholder="M.I."
+                          aria-label="Acknowledgement signer middle initial"
+                        />
+                        <Input
+                          value={formData.endorsementSigLast || ''}
+                          onChange={(e) => setField('endorsementSigLast', e.target.value)}
+                          placeholder="Last"
+                          aria-label="Acknowledgement signer last name"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Addressees invert the letter unless overridden, so the common
+                        case needs no typing at all. */}
+                    <div className="space-y-2">
+                      <Label htmlFor="endorsementFrom">From (optional)</Label>
+                      <Input
+                        id="endorsementFrom"
+                        value={formData.endorsementFrom || ''}
+                        onChange={(e) => setField('endorsementFrom', e.target.value)}
+                        placeholder={formData.to || "The letter's To line"}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="endorsementTo">To (optional)</Label>
+                      <Input
+                        id="endorsementTo"
+                        value={formData.endorsementTo || ''}
+                        onChange={(e) => setField('endorsementTo', e.target.value)}
+                        placeholder={formData.from || "The letter's From line"}
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Left blank, the endorsement answers back: From the letter&apos;s
+                      addressee, To its originator.
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Signature Type Selection */}
             <div data-tour="signature-style" className="space-y-3">

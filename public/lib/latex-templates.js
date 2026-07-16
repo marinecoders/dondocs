@@ -781,6 +781,51 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\ByDirection}{}
 \\newcommand{\\setByDirection}[1]{\\renewcommand{\\ByDirection}{#1}}
 
+%=============================================================================
+% APPENDED ACKNOWLEDGEMENT ENDORSEMENT
+%=============================================================================
+% An appointment letter commonly carries the appointee's acknowledgement on the
+% same page: the appointing officer signs above the rule, the appointee signs
+% below it, and the whole thing is one sheet (SECNAV M-5216.5 Ch 9 — a
+% same-page endorsement may omit the SSIC, subject, and basic-letter ID because
+% it sits on the basic letter's own page, which is exactly the case here).
+%
+% Unlike a standalone same-page endorsement, both halves are authored at once,
+% so the endorsement carries its own From/To/body/signer rather than reusing
+% the letter's. Empty From = nothing renders, so every doc type can call
+% \\printAppendedEndorsement unconditionally.
+\\newcommand{\\AckFrom}{}
+\\newcommand{\\AckTo}{}
+\\newcommand{\\AckBody}{}
+\\newcommand{\\AckSignature}{}
+\\newcommand{\\setAppendedEndorsement}[4]{%
+    \\renewcommand{\\AckFrom}{#1}%
+    \\renewcommand{\\AckTo}{#2}%
+    \\renewcommand{\\AckBody}{#3}%
+    \\renewcommand{\\AckSignature}{#4}%
+}
+
+\\newcommand{\\printAppendedEndorsement}{%
+    \\ifdefempty{\\AckFrom}{}{%
+        \\vspace{24pt}%
+        \\noindent\\rule{\\textwidth}{0.4pt}\\par
+        \\vspace{12pt}%
+        \\noindent FIRST ENDORSEMENT\\par
+        \\vspace{12pt}%
+        % Colon spacing matches the basic letter's From/To block (Ch 7 para 11b).
+        \\noindent
+        \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}
+            From:\\hspace{2\\fontdimen2\\font} & \\AckFrom\\tabularnewline
+            To:\\hspace{6\\fontdimen2\\font} & \\AckTo
+        \\end{tabular}\\par
+        \\vspace{12pt}%
+        \\AckBody
+        % 4 lines below the last paragraph, matching the basic signature block.
+        \\vspace{48pt}%
+        \\noindent\\hspace*{3.25in}\\AckSignature\\par
+    }%
+}
+
 % setSignatureImage: If non-empty, redefine SignatureImage so \\ifx check works
 \\newcommand{\\setSignatureImage}[1]{%
     \\def\\temp{#1}%
@@ -1422,6 +1467,16 @@ const LATEX_TEMPLATES = {
 %=============================================================================
 
 \\printSignature
+
+
+%=============================================================================
+% APPENDED ACKNOWLEDGEMENT - The appointee's endorsement on the same page
+%=============================================================================
+% Renders nothing unless \\setAppendedEndorsement has been called. Sits between
+% the signature and Distribution/Copy to, matching Ch 9 Figure 9-1 where the
+% "Copy to:" block is the last thing on the sheet, below the endorsement.
+
+\\printAppendedEndorsement
 
 
 %=============================================================================

@@ -18,6 +18,10 @@ import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distributio
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
 import { enclosureStartNumber } from '@/lib/endorsement';
+import {
+  resolveAppendedEndorsement,
+  appendedEndorsementSigner,
+} from '@/lib/appendedEndorsement';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
 
@@ -595,6 +599,43 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig): string {
   return bodyParts.join('');
 }
 
+/**
+ * The appointee's acknowledgement below the letter's signature: a rule across
+ * the page, the endorsement line, its own From/To, the body, and the signer.
+ * Mirrors `\printAppendedEndorsement` in tex/main.tex — the two must produce
+ * the same page, so a change here needs the same change there.
+ */
+function buildAppendedEndorsement(store: DocumentStore): string {
+  const ack = resolveAppendedEndorsement(store.docType, store.formData);
+  if (!ack) return '';
+
+  const body = ack.paragraphs
+    .map((text, i) => `\\noindent ${i + 1}.\\hspace{2\\fontdimen2\\font}${escapeFlat(text)}\n\n`)
+    .join('');
+
+  const signer = appendedEndorsementSigner(store.formData);
+
+  return `\\vspace{24pt}
+\\noindent
+\\rule{\\textwidth}{0.4pt}
+
+\\vspace{12pt}
+\\noindent FIRST ENDORSEMENT
+
+\\vspace{12pt}
+\\noindent
+\\begin{tabular}{@{}l@{}p{5.75in}@{}}
+From:\\hspace{2\\fontdimen2\\font} & ${escapeTabular(ack.from)} \\\\
+To:\\hspace{6\\fontdimen2\\font} & ${escapeTabular(ack.to)} \\\\
+\\end{tabular}
+
+\\vspace{12pt}
+${body}\\vspace{48pt}
+\\noindent\\hspace*{3.25in}${escapeFlat(signer)}
+
+`;
+}
+
 /** "By direction" line per SECNAV M-5216.5 Ch 7 ¶14b(4)-(5): the bare form is
  *  the norm. The "of the <activity head>" long form is reserved for
  *  correspondence affecting pay and allowances, so it appears only when an
@@ -1111,6 +1152,9 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
   );
   content += buildBody(store.paragraphs, config);
   content += buildSignature(data, config);
+  // Between the signature and Distribution/Copy to — Ch 9 Figure 9-1 puts the
+  // "Copy to:" block last on the sheet, below the endorsement.
+  content += buildAppendedEndorsement(store);
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
 

@@ -6,6 +6,10 @@ import { enclosureStartNumber } from '@/lib/endorsement';
 import { safeUrl } from '@/lib/url-safety';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
+import {
+  resolveAppendedEndorsement,
+  appendedEndorsementSigner,
+} from '@/lib/appendedEndorsement';
 
 interface DocumentStore {
   docType: string;
@@ -345,6 +349,22 @@ export function generateSignatoryTex(store: DocumentStore): string {
     byDirectionTex = `\\setByDirection{${line}}`;
   }
 
+  // The appointee's acknowledgement, if this letter carries one. Body is
+  // pre-numbered here because \setAppendedEndorsement takes it as one argument;
+  // main.tex's \printAppendedEndorsement renders nothing when From is empty.
+  let appendedEndorsementTex = '';
+  const ack = resolveAppendedEndorsement(store.docType, data);
+  if (ack) {
+    const body = ack.paragraphs
+      .map((text, i) => `\\noindent ${i + 1}.\\hspace{2\\fontdimen2\\font}${escapeLatex(text)}\\par\\vspace{12pt}`)
+      .join('');
+    appendedEndorsementTex = `\\setAppendedEndorsement
+    {${escapeLatex(ack.from)}}
+    {${escapeLatex(ack.to)}}
+    {${body}}
+    {${escapeLatex(appendedEndorsementSigner(data))}}`;
+  }
+
   // Set signature type and image
   // signatureType: 'none' = just typed name, 'image' = uploaded signature, 'digital' = empty field for CAC signing
   const signatureType = data.signatureType || 'none';
@@ -376,6 +396,8 @@ export function generateSignatoryTex(store: DocumentStore): string {
 \\setSignatoryAbbrev{${escapeLatex(abbrevName)}}
 
 ${byDirectionTex}
+
+${appendedEndorsementTex}
 
 ${signatureConfigTex}
 `;
