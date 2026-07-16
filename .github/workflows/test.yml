@@ -237,11 +237,16 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
-      - name: install xelatex + pandoc
+      - name: install xelatex + pandoc + poppler
         # texlive-xetex pulls in the engine + ulem + hyperref + the
         # font packages (txfonts, txfontsb) we use. tabularx + enumitem
         # come from texlive-latex-extra. pandoc ships standalone (3.x
         # in current Ubuntu). ~120MB total install.
+        #
+        # poppler-utils supplies pdftotext + pdfinfo. The render tests
+        # (by-direction-render, appended-endorsement-render) read text and
+        # page counts off a compiled PDF and skip themselves when those
+        # binaries are absent — so without this they passed by not running.
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
@@ -249,7 +254,8 @@ jobs:
             texlive-latex-base \
             texlive-latex-extra \
             texlive-fonts-recommended \
-            pandoc
+            pandoc \
+            poppler-utils
 
       - run: npm ci
 
