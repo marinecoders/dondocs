@@ -108,9 +108,11 @@ export interface DocumentData {
   pageNumbering: string;
   startingPageNumber: number;
   // Endorsements continue the basic letter's sequences rather than opening
-  // their own (SECNAV M-5216.5 Ch 9 ¶3). The basic letter is a separate
-  // document, so the user supplies where this one picks up. See
-  // `referenceStartIndex` / `enclosureStartNumber` in lib/endorsement.ts.
+  // their own: the reference sequence of letters (SECNAV M-5216.5 Ch 9 ¶3),
+  // the enclosure sequence of numbers (Ch 9 ¶4), and the page numbers
+  // (Fig 9-2 ¶1). The basic letter is a separate document, so the user
+  // supplies where this one picks up. See `referenceStartIndex` /
+  // `enclosureStartNumber` in lib/endorsement.ts.
   startingReferenceLetter?: string;
   startingEnclosureNumber?: number;
 
@@ -337,7 +339,7 @@ const DUAL_SIGNATURE_COMPLIANCE = {
 
 // Executive correspondence compliance (Ch 12) - bullets not numbered paragraphs, uses "Attachments:" not "Encl:"
 const EXECUTIVE_COMPLIANCE = {
-  numberedParagraphs: false,     // Uses bullets per Ch 12 ¶3a(2)
+  numberedParagraphs: false,     // Uses bullets per Ch 12 ¶4.3a(2)
   allowReferences: false,        // Avoided for principal signatures per Ch 12 ¶2m
   allowEnclosures: false,        // Uses "Attachments:" not "Encl:" per Ch 12 ¶3
   requiresSalutation: false,

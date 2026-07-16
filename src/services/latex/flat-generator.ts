@@ -514,8 +514,8 @@ function buildEnclosures(enclosures: Enclosure[], startNumber = 1): string {
   const rows: string[] = [];
   for (let i = 0; i < enclosures.length; i++) {
     const encl = enclosures[i];
-    // `startNumber` lets an endorsement continue the basic letter's numbering
-    // (Ch 9 ¶3); it is 1 for everything that opens its own sequence.
+    // `startNumber` lets an endorsement continue the basic letter's enclosure
+    // numbering (Ch 9 ¶4); it is 1 for everything that opens its own sequence.
     const n = startNumber + i;
     if (i === 0) {
       rows.push(`Encl:\\hspace{3\\fontdimen2\\font} & (${n})~~${escapeTabular(encl.title)} \\\\`);
