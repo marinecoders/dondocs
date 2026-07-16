@@ -609,8 +609,11 @@ function buildAppendedEndorsement(store: DocumentStore): string {
   const ack = resolveAppendedEndorsement(store.docType, store.formData);
   if (!ack) return '';
 
+  // \mbox{} protects the label from pandoc's list-marker detection, exactly as
+  // the main body does — without it pandoc consumed the digit and the DOCX
+  // rendered a bare "." where the PDF showed "1.".
   const body = ack.paragraphs
-    .map((text, i) => `\\noindent ${i + 1}.\\hspace{2\\fontdimen2\\font}${escapeFlat(text)}\n\n`)
+    .map((text, i) => `\\noindent \\mbox{${i + 1}.}~~${escapeFlat(text)}\n\n`)
     .join('');
 
   const signer = appendedEndorsementSigner(store.formData);
