@@ -23,7 +23,13 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore, searchableText, type DocumentMeta } from '@/stores/documentsStore';
 import { docTypeChip } from '@/types/document';
-import { composeBasicLetterId } from '@/lib/endorsement';
+import {
+  composeBasicLetterId,
+  continuationEnclosureNumber,
+  continuationReferenceLetter,
+  enclosureStartNumber,
+  referenceStartIndex,
+} from '@/lib/endorsement';
 
 /** The basic letter's routing, surfaced read-only so the user can fill the
  *  endorsement's own From/To/Via chain by hand — we never guess the chain. */
@@ -32,8 +38,22 @@ interface AppliedSource {
   from: string;
   to: string;
   via: string;
-  refs: number;
-  encls: number;
+  /** Continuation actually applied ('' / null when the source adds none or
+   *  the user had already supplied a start). */
+  refStart: string;
+  enclStart: number | null;
+}
+
+/** The applied-summary sentence for the sequence continuation, '' when the
+ *  source added nothing (Ch 9 ¶3-4: never repeat, continue instead). */
+function continuationSummary(applied: AppliedSource): string {
+  const parts = [
+    applied.refStart ? `references continue at (${applied.refStart})` : '',
+    applied.enclStart != null ? `enclosures at (${applied.enclStart})` : '',
+  ].filter(Boolean);
+  return parts.length > 0
+    ? ` Its references and enclosures are not repeated (Ch 9) — ${parts.join(' and ')}.`
+    : '';
 }
 
 /**
@@ -41,9 +61,10 @@ interface AppliedSource {
  * identifier together produce the endorsement line per SECNAV M-5216.5 Ch 9
  * §2.1.b: "[ORDINAL] ENDORSEMENT on [basic letter id]". Also lets the user base
  * the endorsement on a saved correspondence document: it composes the
- * basic-letter id and carries the subject + references + enclosures forward,
- * while leaving the endorsement's own From/To/Via to the user (that's routing
- * judgment, not something to infer).
+ * basic-letter id, carries the subject forward, and points the continuation
+ * fields just past the source's references and enclosures (Ch 9 ¶3-4 forbid
+ * repeating them), while leaving the endorsement's own From/To/Via to the user
+ * (that's routing judgment, not something to infer).
  */
 export function EndorsementBasicLetterSection() {
   const { formData, setField } = useDocumentStore();
@@ -52,8 +73,6 @@ export function EndorsementBasicLetterSection() {
   // endorsement. A same-page endorsement sits on the letter's signature page, so
   // uploading a letter to assemble only makes sense for new-page.
   const isNewPage = docType === 'new_page_endorsement';
-  const addReference = useDocumentStore((s) => s.addReference);
-  const addEnclosure = useDocumentStore((s) => s.addEnclosure);
   const docs = useDocumentsStore((s) => s.docs);
   const currentId = useDocumentsStore((s) => s.currentId);
 
@@ -88,36 +107,34 @@ export function EndorsementBasicLetterSection() {
       setField('subject', sourceSubject);
     }
 
-    // 3. Merge references — carry the basic letter's forward, deduped by title,
-    //    keeping any the endorser already added. (The store re-letters them.)
-    const haveRefs = new Set(ds.references.map((r) => r.title.trim().toLowerCase()));
-    for (const r of s.references ?? []) {
-      const title = (r.title ?? '').trim();
-      if (title && !haveRefs.has(title.toLowerCase())) {
-        addReference(title, r.url);
-        haveRefs.add(title.toLowerCase());
-      }
-    }
+    // 3. Never copy the source's references or enclosures — Ch 9 ¶3: "Do not
+    //    repeat a reference in the reference line of your endorsement that has
+    //    already been identified in the reference line of the basic letter"
+    //    (¶4 says the same for enclosures). The endorsement CONTINUES the
+    //    sequences instead, so point the continuation fields just past the
+    //    source's last item — unless the user already supplied a start.
+    const refStart = continuationReferenceLetter(
+      (s.references ?? []).filter((r) => (r.title ?? '').trim()).length,
+      referenceStartIndex(s.docType, fd.startingReferenceLetter)
+    );
+    const applyRefStart = !!refStart && !(ds.formData.startingReferenceLetter ?? '').trim();
+    if (applyRefStart) setField('startingReferenceLetter', refStart);
 
-    // 4. Merge enclosure titles. Files aren't part of a saved session, so only
-    //    the titles carry; the user re-attaches any files.
-    const haveEncls = new Set(ds.enclosures.map((e) => e.title.trim().toLowerCase()));
-    for (const e of s.enclosures ?? []) {
-      const title = (e.title ?? '').trim();
-      if (title && !haveEncls.has(title.toLowerCase())) {
-        addEnclosure(title);
-        haveEncls.add(title.toLowerCase());
-      }
-    }
+    const enclStart = continuationEnclosureNumber(
+      (s.enclosures ?? []).filter((e) => (e.title ?? '').trim()).length,
+      enclosureStartNumber(s.docType, fd.startingEnclosureNumber)
+    );
+    const applyEnclStart = enclStart != null && ds.formData.startingEnclosureNumber == null;
+    if (applyEnclStart) setField('startingEnclosureNumber', enclStart);
 
-    // 5. Record the basic letter's routing as read-only context.
+    // 4. Record the basic letter's routing as read-only context.
     setApplied({
       title: meta.title,
       from: (fd.from ?? '').trim(),
       to: (fd.to ?? '').trim(),
       via: (fd.via ?? '').trim().split('\n').filter(Boolean).join(' → '),
-      refs: (s.references ?? []).length,
-      encls: (s.enclosures ?? []).length,
+      refStart: applyRefStart ? refStart : '',
+      enclStart: applyEnclStart ? enclStart : null,
     });
     setPickerOpen(false);
     setQuery('');
@@ -301,10 +318,8 @@ export function EndorsementBasicLetterSection() {
                     </button>
                   </div>
                   <p className="mt-1 text-muted-foreground">
-                    Composed the basic-letter ID and carried the subject
-                    {applied.refs > 0 ? `, ${applied.refs} reference${applied.refs === 1 ? '' : 's'}` : ''}
-                    {applied.encls > 0 ? `, and ${applied.encls} enclosure${applied.encls === 1 ? '' : 's'}` : ''}
-                    {' '}forward.
+                    Composed the basic-letter ID and carried the subject forward.
+                    {continuationSummary(applied)}
                   </p>
                   {(applied.from || applied.to || applied.via) && (
                     <div className="mt-2 space-y-0.5 text-muted-foreground">
