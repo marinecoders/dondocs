@@ -298,9 +298,13 @@ function buildPageNumbering(data: Partial<DocumentData>): string {
   const startPage = data.startingPageNumber && data.startingPageNumber > 1
     ? `\\setcounter{page}{${data.startingPageNumber}}\n`
     : '';
-  // SECNAV: no page number on first page, numbered on subsequent pages
+  // SECNAV: no page number on the FIRST page of a document — but a continued
+  // sequence is not a first page: Fig 9-2 prints the number on the
+  // endorsement's own sheet ("2"), so suppression only applies when the
+  // sequence actually starts at 1.
+  const suppressFirst = startPage ? '' : '\\thispagestyle{plain}\n';
   // Use right footer to avoid conflict with classification markings in center footer
-  return `\\fancypagestyle{plain}{\\fancyhf{}}\n\\thispagestyle{plain}\n\\fancyfoot[R]{\\thepage}\n${startPage}`;
+  return `\\fancypagestyle{plain}{\\fancyhf{}}\n${suppressFirst}\\fancyfoot[R]{\\thepage}\n${startPage}`;
 }
 
 /** Centered letterhead using tabularX (pandoc renders center alignment in DOCX) */
