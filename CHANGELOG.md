@@ -5,6 +5,20 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.97] — 2026-07-16
+
+### Added
+
+- A security policy (`SECURITY.md`) covering private vulnerability reporting,
+  what is and isn't in scope, and what the project does not promise.
+- A CycloneDX SBOM of production dependencies, generated on every CI run
+  (`npm run sbom`) and kept as a build artifact for 90 days.
+
+### Changed
+
+- The package is named `dondocs` rather than the `web-react` scaffold default,
+  so the SBOM identifies the software it describes.
+
 ## [1.2.96] — 2026-07-16
 
 ### Fixed

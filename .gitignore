@@ -111,3 +111,6 @@ public/apple-touch-icon.png
 public/pwa-192.png
 public/pwa-512.png
 public/pwa-maskable-512.png
+
+# Generated supply-chain artifact (npm run sbom); produced fresh in CI.
+sbom.cdx.json
