@@ -62,6 +62,44 @@
         }
       })();
     </script>
+    <!-- Boot watchdog: self-heal a stale app shell instead of white-screening.
+         After a deploy, a cached index.html can reference hashed bundles that
+         no longer exist (the service worker's NetworkFirst navigation fetch can
+         be satisfied by the browser's HTTP cache, and may then store that stale
+         shell in its own runtime cache — the 1.2.94 white-screen incident). The
+         app sets window.__DD_BOOTED__ as its first act; if that hasn't happened
+         shortly after load and we're online, this drops the shell caches,
+         force-revalidates the page in the HTTP cache, and reloads ONCE
+         (session-guarded so it can never loop; offline is left alone — the
+         cached shell is all an air-gapped machine has). -->
+    <script>
+      (function () {
+        try {
+          var KEY = 'dondocs-boot-recovery';
+          setTimeout(function () {
+            try {
+              if (window.__DD_BOOTED__) { sessionStorage.removeItem(KEY); return; }
+              if (!navigator.onLine) return;
+              if (sessionStorage.getItem(KEY)) return; // one shot per tab session
+              sessionStorage.setItem(KEY, '1');
+              var reload = function () { location.reload(); };
+              var dropShellCaches = ('caches' in window)
+                ? caches.keys().then(function (keys) {
+                    return Promise.all(keys
+                      .filter(function (k) { return k.indexOf('dondocs-app-shell') === 0; })
+                      .map(function (k) { return caches.delete(k); }));
+                  }).catch(function () {})
+                : Promise.resolve();
+              // cache:'reload' bypasses the HTTP cache and replaces the stored
+              // entry with a fresh copy, so the reload below can't re-read the
+              // same stale shell.
+              var refreshShell = fetch(location.href, { cache: 'reload' }).catch(function () {});
+              Promise.all([dropShellCaches, refreshShell]).then(reload, reload);
+            } catch (e) { /* never break boot */ }
+          }, 10000);
+        } catch (e) { /* never break boot */ }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
