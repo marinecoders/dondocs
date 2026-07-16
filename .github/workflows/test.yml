@@ -268,3 +268,29 @@ jobs:
             /tmp/dondocs-docx-*
           retention-days: 7
           if-no-files-found: ignore
+
+  sbom:
+    name: sbom
+    runs-on: ubuntu-latest
+    # Advisory, not a gate: a missing SBOM is a paperwork problem, not a broken
+    # build, and this must never be the reason a fix can't ship.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+
+      # Production dependencies only — devDependencies aren't shipped, so
+      # listing them would misrepresent what the app actually runs.
+      - name: generate SBOM
+        run: npm run sbom
+
+      - name: upload SBOM
+        uses: actions/upload-artifact@v7
+        with:
+          name: sbom-${{ github.sha }}
+          path: sbom.cdx.json
+          retention-days: 90
