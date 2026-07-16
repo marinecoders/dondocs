@@ -120,6 +120,11 @@ const FIXTURES: DiffFixture[] = [
   // endorsement marker — divergence here would mean one path lost
   // the endorsement framing entirely.
   plain('same_page_endorsement', 'baseline', {}, 'ENDORSEMENT'),
+
+  // …and its date must survive in both too. Fig 9-1 places the serial and
+  // date between the separating rule and the endorsement line; the DOCX path
+  // used to drop them while the PDF's \printDateAndTitle rendered them.
+  plain('same_page_endorsement', 'serial-date', {}, '15 Jan 26'),
 ];
 
 async function extractPdfText(pdfBytes: Uint8Array): Promise<string> {

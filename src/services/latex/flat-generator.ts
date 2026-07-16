@@ -1035,7 +1035,20 @@ function buildEndorsementHeader(docType: string, data: Partial<DocumentData>): s
     : `${ordinalUpper} ENDORSEMENT`;
 
   if (docType === 'same_page_endorsement') {
-    return `\\vspace{24pt}\n\\rule{\\textwidth}{0.5pt}\n\n${endorsementLine}\n\n\\vspace{12pt}\n`;
+    // Serial and date sit right-aligned between the rule and the endorsement
+    // line (Fig 9-1: "Ser 019/870" / "23 Apr 15"); \printDateAndTitle in
+    // same_page_endorsement.tex is the PDF side of this block. tabularx{Xr},
+    // not \hfill — dondocs.lua drops raw LaTeX it doesn't know (see
+    // buildAppendedEndorsement). Serial is optional; both rows drop when the
+    // endorser hand-dates at signature.
+    const idRows = [data.serial, data.date]
+      .filter(Boolean)
+      .map((row) => ` & ${escapeTabular(row)} \\\\`)
+      .join('\n');
+    const idBlock = idRows
+      ? `\\vspace{12pt}\n\\noindent\n\\begin{tabularx}{\\textwidth}{@{}Xr@{}}\n${idRows}\n\\end{tabularx}\n\n`
+      : '';
+    return `\\vspace{24pt}\n\\rule{\\textwidth}{0.5pt}\n\n${idBlock}\\vspace{12pt}\n${endorsementLine}\n\n\\vspace{12pt}\n`;
   }
   return `${endorsementLine}\n\n\\vspace{12pt}\n`;
 }
