@@ -521,7 +521,7 @@ Per Ch 7 ¶13c:
 - **Chapter:** Ch 9
 - **Letterhead:** N/A (continues on basic letter's signature page) — *Figure 9-1*
 - **When to Use:** "If it will completely fit on the signature page of the basic letter or the preceding endorsement" — *Ch 9 ¶1*
-- **Numbered Paragraphs:** NO (continues basic letter sequence) — *Ch 9 ¶1a*
+- **Numbered Paragraphs:** YES *(REQUIRED)* — *Figure 9-1* (numbers its body even though it is a single paragraph). What continues from the basic letter is the reference and enclosure sequence, not paragraph numbering — *Ch 9 ¶3, ¶4*
 - **May Omit:** SSIC, subject, basic letter's identification symbols "if the entire page will be photocopied" — *Ch 9 ¶1a*
 - **Font:** 10-12pt *(REQUIRED)*, Times New Roman *(RECOMMENDED)* — *Ch 2 ¶20*
 
@@ -532,7 +532,7 @@ Per Ch 7 ¶13c:
 - **Endorsement Line Format:** "FIRST ENDORSEMENT on [basic letter reference]" — *Ch 9 ¶1b*
 - **Endorsement Numbering:** Use ordinal numbers: FIRST, SECOND, THIRD, etc. Number each endorsement in sequence as it is added to the basic letter — *Ch 9 ¶1b*
 - **Heading Overflow:** When the endorsement heading exceeds one line, start the succeeding line with the word "on" — *Ch 9 ¶1b*
-- **Numbered Paragraphs:** NO (continues basic letter sequence) — *Ch 9 ¶1*
+- **Numbered Paragraphs:** YES *(REQUIRED)* — *Figure 9-2* (numbers "1." and "2."). What continues from the basic letter is the reference and enclosure sequence, not paragraph numbering — *Ch 9 ¶3, ¶4*
 - **"Via:" Line in Endorsements:** Include any remaining "Via" addressees. If only one remains, do not number it. If more than one remains, number starting with (1) — *Ch 9 ¶2*
 - **Adding References:** Continue sequence from basic letter (if basic had up to (f), start with (g)) — *Ch 9 ¶3*
 - **Adding Enclosures:** Continue sequence from basic letter (if basic had up to (5), start with (6)) — *Ch 9 ¶4*

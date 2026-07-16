@@ -4370,7 +4370,9 @@ const LATEX_TEMPLATES = {
 %   - Horizontal line separates basic letter from endorsement
 %   - DO NOT repeat references already in basic letter
 %   - DO NOT repeat enclosures already in basic letter
-%   - Continue numbering sequences from basic letter
+%   - Continue the REFERENCE and ENCLOSURE sequences from the basic letter
+%     (Ch 9 ¶3, ¶4). This does not apply to paragraphs: the body is numbered
+%     from 1., as Figure 9-1 shows for its single paragraph.
 %
 %=============================================================================
 

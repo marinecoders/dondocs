@@ -329,12 +329,6 @@ const BUSINESS_COMPLIANCE = {
   dateFormat: 'spelled' as const,  // "January 4, 2026" format
 };
 
-// Endorsement compliance - NO numbered paragraphs (continues basic letter sequence)
-const ENDORSEMENT_COMPLIANCE = {
-  ...DEFAULT_COMPLIANCE,
-  numberedParagraphs: false,
-};
-
 // Dual signature compliance (MOA/MOU/Joint)
 const DUAL_SIGNATURE_COMPLIANCE = {
   ...DEFAULT_COMPLIANCE,
@@ -383,18 +377,22 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
     regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 7' },
     compliance: DUAL_SIGNATURE_COMPLIANCE,
   },
+  // Endorsements number their paragraphs like any letter: Figs 9-1 and 9-2 both
+  // show a numbered body (9-1 numbers even its single paragraph). Ch 9's
+  // "continue the sequence from the basic letter" governs *enclosures*, not
+  // paragraphs — reading it as the latter is what left these unnumbered.
   same_page_endorsement: {
     letterhead: false, ssic: false, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
     showSignatureRankTitle: false, // Endorsements use abbreviated name only per Ch 9
     skipSubject: true,
     regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 9' },
-    compliance: ENDORSEMENT_COMPLIANCE,
+    compliance: DEFAULT_COMPLIANCE,
   },
   new_page_endorsement: {
     letterhead: true, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
     showSignatureRankTitle: false, // Endorsements use abbreviated name only per Ch 9
     regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 9' },
-    compliance: ENDORSEMENT_COMPLIANCE,
+    compliance: DEFAULT_COMPLIANCE,
   },
   mfr: {
     letterhead: true, ssic: true, fromTo: false, via: false, memoHeader: true, signature: 'abbrev', uiMode: 'memo',
