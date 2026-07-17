@@ -145,6 +145,19 @@ export function EndorsementBasicLetterSection() {
       );
       setField('basicLetterFile', { name: file.name, size: file.size, data });
       setField('basicLetterFileRef', fileRef);
+      // The endorsement continues the letter's page sequence (Ch 9, Fig 9-2:
+      // "Number each page of your endorsement and continue the sequence of
+      // numbers from ... the basic letter"). The page count is in hand, so
+      // default "First page number" from it — but never clobber a value the
+      // user already set. Numbering must also actually print for the
+      // continuation to exist, so a 'none' style steps up to 'simple'.
+      const fd = useDocumentStore.getState().formData;
+      if (!fd.startingPageNumber || fd.startingPageNumber <= 1) {
+        setField('startingPageNumber', check.pageCount + 1);
+        if (!fd.pageNumbering || fd.pageNumbering === 'none') {
+          setField('pageNumbering', 'simple');
+        }
+      }
     },
     [setField]
   );

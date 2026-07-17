@@ -2,7 +2,7 @@ import { escapeLatex, escapeLatexUrl, processBodyText, formatSubjectForLatex, fo
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
-import { enclosureStartNumber } from '@/lib/endorsement';
+import { enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
 import { safeUrl } from '@/lib/url-safety';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
@@ -93,6 +93,12 @@ export function generateDocumentTex(store: DocumentStore): string {
 \\setFontSize{${data.fontSize || '12pt'}}
 \\setFontFamily{${data.fontFamily || 'times'}}
 \\setPageNumberStyle{${data.pageNumbering || 'none'}}
+${(() => {
+  // Gated to endorsement types like the reference/enclosure continuations —
+  // a leftover value must never offset another doc type's own sequence.
+  const start = pageStartNumber(store.docType, data.startingPageNumber);
+  return start > 1 ? `\\setStartingPageNumber{${start}}` : '% Page sequence starts at 1';
+})()}
 
 `;
 
