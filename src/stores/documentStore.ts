@@ -657,6 +657,17 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     useUIStore.getState().setValidationVisible(false);
     set((state) => {
       const formData = data.formData ? { ...state.formData, ...data.formData } : state.formData;
+      // A template describes a document; it never carries an uploaded basic
+      // letter. Without this, spreading the old formData stapled the previous
+      // document's letter onto whatever loads next. Keyed on the REF, not the
+      // bytes: this same path restores saved drafts, whose sessions serialize
+      // basicLetterFileRef with the bytes stripped — those must keep their ref
+      // (rehydrate brings the bytes back). Only an incoming formData with no
+      // ref at all means "no letter belongs here".
+      if (data.formData && !('basicLetterFileRef' in data.formData)) {
+        delete formData.basicLetterFile;
+        delete formData.basicLetterFileRef;
+      }
       return {
         paragraphs: data.paragraphs ? migratePortionMarkings(data.paragraphs) : state.paragraphs,
         // Re-letter against the incoming start so a loaded endorsement keeps
@@ -949,6 +960,9 @@ export function serializeSession(state: DocumentState): SerializedSession {
     formData: {
       ...state.formData,
       signatureImage: undefined,
+      // Bytes live in the attachments store; keep only basicLetterFileRef so the
+      // serialized session stays light and JSON-safe (rehydrated on load).
+      basicLetterFile: undefined,
     },
     references: state.references,
     enclosures: state.enclosures.map(enc => ({
@@ -1015,6 +1029,33 @@ export function loadSharedSession(session: SerializedSession): void {
  * export (which reads `file.data`) can await a complete document.
  */
 export async function rehydrateEnclosureFiles(): Promise<void> {
+  // The endorsement's basic-letter PDF is stored the same way as an enclosure
+  // file (bytes in the attachments store, only the ref serialized), so reload it
+  // here too. Done first, before the enclosure early-return, so a basic letter
+  // is rehydrated even on an endorsement that has no enclosures.
+  const blRef = useDocumentStore.getState().formData.basicLetterFileRef;
+  if (blRef && !useDocumentStore.getState().formData.basicLetterFile) {
+    try {
+      const data = await loadAttachment(blRef.id);
+      // Re-check the ref IDENTITY after the await, not just absence of bytes:
+      // if the user removed the letter (or switched documents) while the load
+      // was in flight, both fields are cleared — grafting bytes back would
+      // resurrect a removed letter with no ref, which assembles into exports
+      // but never serializes. Same guard the enclosure path uses.
+      const current = useDocumentStore.getState().formData;
+      if (data && !current.basicLetterFile && current.basicLetterFileRef?.id === blRef.id) {
+        useDocumentStore.setState((state) => ({
+          formData: {
+            ...state.formData,
+            basicLetterFile: { name: blRef.name, size: blRef.size || data.byteLength, data },
+          },
+        }));
+      }
+    } catch (err) {
+      debug.error('Store', 'Failed to rehydrate basic-letter file', err);
+    }
+  }
+
   const pending = useDocumentStore
     .getState()
     .enclosures.filter((e) => e.fileRef && !e.file)

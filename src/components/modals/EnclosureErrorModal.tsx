@@ -28,19 +28,29 @@ interface EnclosureErrorModalProps {
 export function EnclosureErrorModal({ errors, open, onClose }: EnclosureErrorModalProps) {
   if (errors.length === 0) return null;
 
+  // A failed basic-letter assembly (endorsements) is not an enclosure: it gets
+  // no placeholder page — the letter is simply absent from the export — so the
+  // copy must not claim otherwise.
+  const enclosureCount = errors.filter((e) => e.kind !== 'basicLetter').length;
+  const hasBasicLetter = errors.some((e) => e.kind === 'basicLetter');
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-warning">
             <AlertTriangle className="h-5 w-5" />
-            Enclosure Warning{errors.length > 1 ? 's' : ''}
+            {enclosureCount > 0 && hasBasicLetter
+              ? 'Export Warnings'
+              : hasBasicLetter
+                ? 'Basic Letter Warning'
+                : `Enclosure Warning${errors.length > 1 ? 's' : ''}`}
           </DialogTitle>
           <DialogDescription>
-            {errors.length === 1
-              ? 'One enclosure could not be fully processed.'
-              : `${errors.length} enclosures could not be fully processed.`}
-            {' '}The PDF was generated with placeholder pages for the affected enclosures.
+            {hasBasicLetter &&
+              'The basic letter could not be read, so the PDF contains the endorsement alone — without the letter ahead of it. '}
+            {enclosureCount > 0 &&
+              `${enclosureCount === 1 ? 'One enclosure' : `${enclosureCount} enclosures`} could not be fully processed; the PDF was generated with placeholder pages for the affected enclosures.`}
           </DialogDescription>
         </DialogHeader>
 
@@ -50,7 +60,9 @@ export function EnclosureErrorModal({ errors, open, onClose }: EnclosureErrorMod
               <FileWarning className="h-5 w-5 text-warning flex-shrink-0 mt-0.5" />
               <div className="flex-1 min-w-0">
                 <div className="font-medium text-sm text-foreground">
-                  Enclosure ({error.enclosureNumber}): {error.title}
+                  {error.kind === 'basicLetter'
+                    ? 'Basic letter (not assembled)'
+                    : `Enclosure (${error.enclosureNumber}): ${error.title}`}
                 </div>
                 <div className="text-xs text-muted-foreground mt-1 break-words">
                   {error.error}

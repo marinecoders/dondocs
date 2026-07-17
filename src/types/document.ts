@@ -145,6 +145,19 @@ export interface DocumentData {
   endorsementOrdinal?: string;
   basicLetterId?: string;
 
+  // The basic letter this endorsement is written on, uploaded as a PDF so the
+  // exported endorsement can be assembled after it (SECNAV M-5216.5 Ch 9 — the
+  // endorsement continues the basic letter's page numbers, so the letter reads
+  // first). Stored like an enclosure file: bytes live in the attachments
+  // store, only `basicLetterFileRef` is serialized, and `basicLetterFile.data`
+  // is rehydrated from it on load. Endorsement doc types only.
+  basicLetterFile?: {
+    name: string;
+    size: number;
+    data: ArrayBuffer;
+  };
+  basicLetterFileRef?: FileRef;
+
   // Signature
   sigFirst: string;
   sigMiddle: string;

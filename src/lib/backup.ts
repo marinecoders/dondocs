@@ -119,12 +119,17 @@ export function mergeById<T extends { id: string }>(
 export function collectAttachmentIds(docs: unknown[]): string[] {
   const ids = new Set<string>();
   for (const doc of docs) {
-    const enclosures = (doc as { session?: { enclosures?: unknown } })?.session?.enclosures;
-    if (!Array.isArray(enclosures)) continue;
-    for (const enc of enclosures) {
-      const id = (enc as { fileRef?: { id?: unknown } })?.fileRef?.id;
-      if (typeof id === 'string' && id) ids.add(id);
+    const session = (doc as { session?: { enclosures?: unknown; formData?: { basicLetterFileRef?: { id?: unknown } } } })?.session;
+    const enclosures = session?.enclosures;
+    if (Array.isArray(enclosures)) {
+      for (const enc of enclosures) {
+        const id = (enc as { fileRef?: { id?: unknown } })?.fileRef?.id;
+        if (typeof id === 'string' && id) ids.add(id);
+      }
     }
+    // An endorsement's basic-letter PDF is an attachment too — embed its bytes.
+    const blId = session?.formData?.basicLetterFileRef?.id;
+    if (typeof blId === 'string' && blId) ids.add(blId);
   }
   return [...ids];
 }
