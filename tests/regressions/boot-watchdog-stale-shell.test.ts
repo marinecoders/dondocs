@@ -36,17 +36,26 @@ function extractWatchdogSource(): string {
   return src;
 }
 
+// The shell fingerprint: the hashed module src of the build this index.html
+// belongs to. The guard stores it so recovery is one-shot PER BROKEN SHELL —
+// a different stale shell (served by a stale SW after the first heal) gets one
+// more attempt, while the same shell can never loop.
+const SHELL_SRC = '/assets/main-abc123.js';
+
 interface RunOptions {
   booted: boolean;
   online?: boolean;
-  guardAlreadySet?: boolean;
+  /** Pre-set guard value: SHELL_SRC = this shell already healed. */
+  guardValue?: string;
   cacheKeys?: string[];
+  /** The module script src the current shell carries (null = none found). */
+  shellSrc?: string | null;
 }
 
 /** Run the extracted watchdog against doubles and fire its timer. */
 async function runWatchdog(opts: RunOptions) {
   const storage = new Map<string, string>();
-  if (opts.guardAlreadySet) storage.set(GUARD_KEY, '1');
+  if (opts.guardValue !== undefined) storage.set(GUARD_KEY, opts.guardValue);
 
   const deleted: string[] = [];
   const fetchCalls: { url: string; init?: RequestInit }[] = [];
@@ -62,6 +71,13 @@ async function runWatchdog(opts: RunOptions) {
   };
   const sandbox = {
     window: { __DD_BOOTED__: opts.booted ? true : undefined, caches: cachesStub },
+    document: {
+      querySelector: (sel: string) => {
+        if (!sel.includes('script')) return null;
+        const src = opts.shellSrc === undefined ? SHELL_SRC : opts.shellSrc;
+        return src === null ? null : { getAttribute: () => src };
+      },
+    },
     navigator: { onLine: opts.online ?? true },
     sessionStorage: {
       getItem: (k: string) => storage.get(k) ?? null,
@@ -117,13 +133,15 @@ describe('boot watchdog — stale shell recovery (v1.2.94 incident)', () => {
       { url: 'https://dondocs.test/', init: { cache: 'reload' } },
     ]);
     expect(r.reloads()).toBe(1);
-    expect(r.storage.get(GUARD_KEY)).toBe('1');
+    // The guard records WHICH shell was healed (the hashed module src), so
+    // recovery is one-shot per broken build rather than per tab session.
+    expect(r.storage.get(GUARD_KEY)).toBe(SHELL_SRC);
   });
 
-  it('never loops: a second firing with the guard set does nothing', async () => {
+  it('never loops: a second firing on the SAME broken shell does nothing', async () => {
     const r = await runWatchdog({
       booted: false,
-      guardAlreadySet: true,
+      guardValue: SHELL_SRC,
       cacheKeys: [`${SHELL_CACHE_PREFIX}-deadbeef`],
     });
     expect(r.deleted).toEqual([]);
@@ -131,10 +149,31 @@ describe('boot watchdog — stale shell recovery (v1.2.94 incident)', () => {
     expect(r.reloads()).toBe(0);
   });
 
+  it('heals again when a DIFFERENT stale shell appears after the first recovery', async () => {
+    // The reported incident: heal #1 ran, but a stale service worker then
+    // served a different stale shell — under the session-wide guard the tab
+    // was stuck until a manual hard refresh. A new shell fingerprint earns
+    // exactly one more attempt.
+    const r = await runWatchdog({
+      booted: false,
+      guardValue: '/assets/main-oldbuild.js',
+      cacheKeys: [`${SHELL_CACHE_PREFIX}-deadbeef`],
+    });
+    expect(r.deleted).toEqual([`${SHELL_CACHE_PREFIX}-deadbeef`]);
+    expect(r.reloads()).toBe(1);
+    expect(r.storage.get(GUARD_KEY)).toBe(SHELL_SRC);
+  });
+
+  it('a shell with no module script still gets a one-shot recovery under a stable key', async () => {
+    const r = await runWatchdog({ booted: false, shellSrc: null, cacheKeys: [] });
+    expect(r.reloads()).toBe(1);
+    expect(r.storage.get(GUARD_KEY)).toBe('unknown');
+  });
+
   it('healthy boot: no recovery, and the one-shot guard is cleared for next time', async () => {
     const r = await runWatchdog({
       booted: true,
-      guardAlreadySet: true, // left over from a prior recovered session
+      guardValue: SHELL_SRC, // left over from a prior recovered session
       cacheKeys: [`${SHELL_CACHE_PREFIX}-deadbeef`],
     });
     expect(r.deleted).toEqual([]);

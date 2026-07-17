@@ -5,6 +5,29 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.104] — 2026-07-16
+
+### Fixed
+
+- Missing files now return a real 404 instead of the app shell. The Pages
+  deployment served 200 + index.html for every missing path — including hashed
+  bundles an update had replaced — and the request-path header rules stamped
+  that HTML with "cache for a year, immutable". A browser that asked for a
+  just-rotated stylesheet cached HTML in its place and rendered the app
+  unstyled until a hard refresh. A top-level 404.html switches Pages to real
+  404s, matching the Docker/Workers deployments.
+- The service worker can no longer cache a non-200 response as the app shell
+  (error pages, redirect bodies, and opaque responses are rejected). The
+  stale-shell-via-HTTP-cache vector itself is closed at the origin — "/" is
+  served no-cache, so a cached shell has zero freshness and must revalidate
+  before it can satisfy the service worker's fetch. (A no-store fetch option
+  on the navigation rule was considered and rejected: workbox silently drops
+  fetchOptions for navigation requests, so it would compile in and do
+  nothing.)
+- The boot watchdog now retries once per distinct broken shell rather than
+  once per tab session, so a tab can self-heal again when the first recovery
+  didn't stick, and still can never loop.
+
 ## [1.2.103] — 2026-07-16
 
 ### Fixed
