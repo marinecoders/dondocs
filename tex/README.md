@@ -9,7 +9,7 @@
 | Document Category | Font Size | Font Type | Source |
 |-------------------|-----------|-----------|--------|
 | **General Correspondence** (Chs 7-11) | 10-12pt *(REQUIRED)* | Times New Roman *(RECOMMENDED)*; Courier New *(permitted for informal only)* | Ch 2 ¶20 |
-| **Executive Correspondence** (Ch 12) | 12pt *(REQUIRED)* | Times New Roman *(REQUIRED)* | Ch 12 ¶2, ¶2c, ¶3a(3) |
+| **Executive Correspondence** (Ch 12) | 12pt *(REQUIRED)* | Times New Roman *(REQUIRED)* | Ch 12 ¶3.2, ¶4.2c, ¶4.3a(3) |
 
 > **Ch 2 ¶20:** "For text, use 10 to 12 point font size. Times New Roman 12-point is the **preferred** font style and size for official correspondence, but Courier New may be used for informal correspondence."
 
@@ -116,7 +116,7 @@ Per Appendix C ¶4h:
 | **Business Letter** | 1" | 1" (up to 2" for short letters ≤100 words) | 1" | Ch 7 ¶1, Ch 11 Fig 11-6 |
 | **Executive Memo (First Page)** | 2" (adjustable to 1.75"; 1" if no letterhead) | 1" (up to 2" if <11 lines) | 1" | Ch 12 ¶2b |
 | **Executive Memo (Succeeding Pages)** | 1" | 1" | 1" | Ch 12 ¶2b |
-| **Action Memo** | 1" | 1" | 1" | Ch 12 ¶3a(4) |
+| **Action Memo** | 1" | 1" | 1" | Ch 12 ¶4.3a(4) |
 | **Directives** | 1" (header) | 1" | 0.5" (footer) | Ch 7 ¶1 (per OPNAVINST 5215.17) |
 
 ---
@@ -234,7 +234,7 @@ Encl:   (1) Title of First Enclosure
 | Never duplicate | Never list item in both enclosure AND reference line | Ch 7 ¶11a |
 
 ### Marking Enclosures
-Per Ch 7 ¶13a:
+Per Ch 2 ¶13a:
 
 | Page | Marking | Position |
 |------|---------|----------|
@@ -580,10 +580,10 @@ Per Ch 7 ¶13c:
 
 ### Action Memorandum
 - **Use:** "Forwarding material that requires SecDef, DepSecDef, HqDON approval or signature" or "Describing a problem and recommending a solution" — *Ch 12 ¶1b(2)*
-- **Margins:** 1" all sides *(REQUIRED)* — *Ch 12 ¶3a(4)*
-- **Length:** "Limit to one page, unless issue is complex" — *Ch 12 ¶3a(1)*
-- **Style:** "short, concise and clear bullet statements (use of black dot bullet preferred)" — *Ch 12 ¶3a(2)*
-- **Page Numbering:** Number pages at bottom center starting on page 2 — *Ch 12 ¶3a(7)*
+- **Margins:** 1" all sides *(REQUIRED)* — *Ch 12 ¶4.3a(4)*
+- **Length:** "Limit to one page, unless issue is complex" — *Ch 12 ¶4.3a(1)*
+- **Style:** "short, concise and clear bullet statements (use of black dot bullet preferred)" — *Ch 12 ¶4.3a(2)*
+- **Page Numbering:** Number pages at bottom center starting on page 2 — *Ch 12 ¶4.3a(7)*
 - **Required Elements:** FOR:, FROM:, SUBJECT:, bullets, RECOMMENDATION:, COORDINATION:, Attachments:, Prepared By: — *Figure 12-9*
 
 ### Information Memorandum

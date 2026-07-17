@@ -603,7 +603,7 @@ ${store.enclosures
       // Always use JSPDF marker - JavaScript handles ALL enclosure pages
       // This ensures correct ordering (text-only and PDF enclosures in sequence)
       // The start number lets an endorsement continue the basic letter's
-      // numbering (Ch 9 ¶3); it is 1 for everything else.
+      // enclosure numbering (Ch 9 ¶4); it is 1 for everything else.
       const n = enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber) + i;
       return `\\enclosure{${n}}{JSPDF}{${escapeLatex(e.title || 'Untitled')}}`;
     })

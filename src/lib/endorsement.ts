@@ -71,9 +71,9 @@ export function referenceStartIndex(docType: string, startingLetter?: string): n
 }
 
 /**
- * The number the enclosure list starts at — the same Ch 9 ¶3 continuation rule
- * as references. Defaults to 1 for anything that isn't an endorsement or has no
- * usable value.
+ * The number the enclosure list starts at — the Ch 9 ¶4 continuation rule,
+ * the enclosure counterpart of ¶3's reference lettering. Defaults to 1 for
+ * anything that isn't an endorsement or has no usable value.
  */
 export function enclosureStartNumber(docType: string, startingNumber?: number): number {
   if (!isEndorsement(docType)) return 1;

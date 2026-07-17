@@ -354,9 +354,11 @@ export function EndorsementBasicLetterSection() {
             </div>
 
             {/* Sequence continuation. An endorsement carries on the basic
-                letter's numbering instead of opening its own (Ch 9 ¶3), but the
-                basic letter is a separate document DonDocs can't read — so the
-                user supplies where this one picks up. */}
+                letter's sequences instead of opening its own — reference
+                letters (Ch 9 ¶3), enclosure numbers (Ch 9 ¶4), page numbers
+                (Fig 9-2 ¶1) — but the basic letter is a separate document
+                DonDocs can't read, so the user supplies where this one picks
+                up. */}
             <div className="space-y-3 border-t border-border pt-4">
               <div className="space-y-1">
                 <h4 className="text-sm font-medium">Continues from the basic letter</h4>

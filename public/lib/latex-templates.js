@@ -837,7 +837,8 @@ const LATEX_TEMPLATES = {
         \\vspace{12pt}%
         \\noindent FIRST ENDORSEMENT\\par
         \\vspace{12pt}%
-        % Colon spacing matches the basic letter's From/To block (Ch 7 para 11b).
+        % Colon spacing matches the basic letter's From/To block: two spaces
+        % after "From:" (Ch 7 para 6c), six after "To:" (Ch 7 para 7b).
         \\noindent
         \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}
             From:\\hspace{2\\fontdimen2\\font} & \\AckFrom\\tabularnewline
@@ -4041,7 +4042,7 @@ const LATEX_TEMPLATES = {
 %
 % References:
 %   - SECNAV M-5216.5 (DON Correspondence Manual), Chapter 9
-%   - Figure 9-3
+%   - Figure 9-2
 %
 % What It's For:
 %   Use an endorsement to forward comments, recommendations, or
