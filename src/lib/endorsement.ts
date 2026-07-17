@@ -93,6 +93,36 @@ export function pageStartNumber(docType: string, startingPageNumber?: number): n
   return Number.isFinite(n) && n > 1 ? Math.floor(n) : 1;
 }
 
+/**
+ * Where the endorsement's reference lettering picks up when it is based on a
+ * saved letter. Ch 9 ¶3: "Do not repeat a reference in the reference line of
+ * your endorsement that has already been identified in the reference line of
+ * the basic letter" — instead, assign letters "by continuing the sequence of
+ * letters from the basic letter". `count` is how many references the source
+ * identifies; `startIndex` is where the source's own sequence began (0 unless
+ * the source is itself an endorsement), so endorsing an endorsement keeps
+ * counting rather than resetting.
+ *
+ * Returns '' when the source adds nothing to continue, or when the next
+ * letter runs past 'z' — startingReferenceLetter holds a single a–z letter,
+ * so past that there is nothing representable to suggest.
+ */
+export function continuationReferenceLetter(count: number, startIndex = 0): string {
+  if (!Number.isInteger(count) || count <= 0) return '';
+  const next = startIndex + count;
+  return next < 26 ? String.fromCharCode(97 + next) : '';
+}
+
+/**
+ * The enclosure-number counterpart (Ch 9 ¶4): a source whose enclosures ran
+ * "up to number 5" puts this endorsement's first at 6. Returns undefined when
+ * the source adds no enclosures, leaving the field untouched.
+ */
+export function continuationEnclosureNumber(count: number, startNumber = 1): number | undefined {
+  if (!Number.isInteger(count) || count <= 0) return undefined;
+  return startNumber + count;
+}
+
 // Empty or a bracketed placeholder ([SSIC]) counts as absent.
 function usable(value: string | undefined): string {
   const t = (value ?? '').trim();

@@ -23,6 +23,7 @@ import {
   appendedEndorsementSigner,
 } from '@/lib/appendedEndorsement';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
+import { formatViaLines } from '@/lib/viaLines';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
 
 interface DocumentStore {
@@ -455,15 +456,14 @@ function buildAddressBlock(data: Partial<DocumentData>, config: DocTypeConfig): 
   }
 
   if (config.via && data.via?.trim()) {
-    const viaLines = data.via.split('\n').filter((l: string) => l.trim());
-    // Per SECNAV Ch 9 ¶2: suppress (1) numbering when only one via
-    const useNumbering = viaLines.length > 1;
+    // formatViaLines applies the Ch 9 ¶2 numbering — single source shared
+    // with the PDF path (generator.ts), so the two outputs cannot drift.
+    const viaLines = formatViaLines(data.via);
     for (let i = 0; i < viaLines.length; i++) {
-      const prefix = useNumbering ? `(${i + 1}) ` : '';
       if (i === 0) {
-        rows.push(`Via:\\hspace{5\\fontdimen2\\font} & ${prefix}${escapeTabularWrapped(viaLines[i])} \\\\`);
+        rows.push(`Via:\\hspace{5\\fontdimen2\\font} & ${escapeTabularWrapped(viaLines[i])} \\\\`);
       } else {
-        rows.push(` & ${prefix}${escapeTabularWrapped(viaLines[i])} \\\\`);
+        rows.push(` & ${escapeTabularWrapped(viaLines[i])} \\\\`);
       }
     }
   }
@@ -1035,7 +1035,20 @@ function buildEndorsementHeader(docType: string, data: Partial<DocumentData>): s
     : `${ordinalUpper} ENDORSEMENT`;
 
   if (docType === 'same_page_endorsement') {
-    return `\\vspace{24pt}\n\\rule{\\textwidth}{0.5pt}\n\n${endorsementLine}\n\n\\vspace{12pt}\n`;
+    // Serial and date sit right-aligned between the rule and the endorsement
+    // line (Fig 9-1: "Ser 019/870" / "23 Apr 15"); \printDateAndTitle in
+    // same_page_endorsement.tex is the PDF side of this block. tabularx{Xr},
+    // not \hfill — dondocs.lua drops raw LaTeX it doesn't know (see
+    // buildAppendedEndorsement). Serial is optional; both rows drop when the
+    // endorser hand-dates at signature.
+    const idRows = [data.serial, data.date]
+      .filter(Boolean)
+      .map((row) => ` & ${escapeTabular(row)} \\\\`)
+      .join('\n');
+    const idBlock = idRows
+      ? `\\vspace{12pt}\n\\noindent\n\\begin{tabularx}{\\textwidth}{@{}Xr@{}}\n${idRows}\n\\end{tabularx}\n\n`
+      : '';
+    return `\\vspace{24pt}\n\\rule{\\textwidth}{0.5pt}\n\n${idBlock}\\vspace{12pt}\n${endorsementLine}\n\n\\vspace{12pt}\n`;
   }
   return `${endorsementLine}\n\n\\vspace{12pt}\n`;
 }

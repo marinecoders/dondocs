@@ -12,6 +12,8 @@ import {
   isEndorsement,
   referenceStartIndex,
   enclosureStartNumber,
+  continuationReferenceLetter,
+  continuationEnclosureNumber,
 } from '@/lib/endorsement';
 
 describe('isEndorsement', () => {
@@ -69,5 +71,50 @@ describe('enclosureStartNumber', () => {
 
   it('floors a fractional value rather than emitting "(2.5)"', () => {
     expect(enclosureStartNumber('same_page_endorsement', 2.7)).toBe(2);
+  });
+});
+
+describe('continuationReferenceLetter', () => {
+  it("continues the source's sequence — the reg's own example", () => {
+    // Ch 9 ¶3: "identified up to letter 'f', the first reference of your
+    // endorsement would be letter 'g'" — six references (a-f) → (g).
+    expect(continuationReferenceLetter(6)).toBe('g');
+    expect(continuationReferenceLetter(3)).toBe('d');
+  });
+
+  it('keeps counting when the source itself continued a sequence', () => {
+    // Endorsing an endorsement: the source started at (d) and added (d), (e),
+    // so this one starts at (f) — not back at (c).
+    expect(continuationReferenceLetter(2, 3)).toBe('f');
+  });
+
+  it('returns "" when the source identifies no references', () => {
+    expect(continuationReferenceLetter(0)).toBe('');
+    expect(continuationReferenceLetter(-1)).toBe('');
+    expect(continuationReferenceLetter(1.5)).toBe('');
+  });
+
+  it('returns "" past (z) — the field holds a single letter', () => {
+    expect(continuationReferenceLetter(25)).toBe('z');
+    expect(continuationReferenceLetter(26)).toBe('');
+    expect(continuationReferenceLetter(20, 10)).toBe('');
+  });
+});
+
+describe('continuationEnclosureNumber', () => {
+  it("continues the source's sequence — the reg's own example", () => {
+    // Ch 9 ¶4: "identified up to number '5', the first enclosure of your
+    // endorsement would be number '6'."
+    expect(continuationEnclosureNumber(5)).toBe(6);
+  });
+
+  it('keeps counting when the source itself continued a sequence', () => {
+    expect(continuationEnclosureNumber(2, 6)).toBe(8);
+  });
+
+  it('returns undefined when the source adds no enclosures', () => {
+    expect(continuationEnclosureNumber(0)).toBeUndefined();
+    expect(continuationEnclosureNumber(-2)).toBeUndefined();
+    expect(continuationEnclosureNumber(0.5)).toBeUndefined();
   });
 });
