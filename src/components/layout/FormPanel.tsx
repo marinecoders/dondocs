@@ -33,6 +33,16 @@ export function FormPanel() {
   const viewport = () =>
     scrollWrapRef.current?.querySelector<HTMLElement>('[data-slot="scroll-area-viewport"]') ?? null;
 
+  // When the sidebar jumps to a section, that choice is authoritative until the
+  // user scrolls for real. Without this, jumping to a trailing section (e.g.
+  // Distribution) scrolls the viewport to its bottom, and the scroll event the
+  // jump itself fires trips the bottom-edge override below, which snaps the
+  // highlight to the LAST section (Signature) — so a short second-to-last
+  // section could never be selected. Pinning (rather than a time window) means a
+  // late layout shift or async re-render can't quietly re-fire the override and
+  // un-stick the jump; only a genuine user scroll (wheel/touch/arrow) clears it.
+  const jumpPinnedRef = useRef(false);
+
   // Scroll-spy: the active section is the last one whose top has passed a
   // trigger line near the top of the viewport, with a bottom-edge override so
   // the final short sections light up at the end. Publishes to the outline store.
@@ -44,6 +54,9 @@ export function FormPanel() {
     let raf = 0;
     const compute = () => {
       raf = 0;
+      // A jump owns the active section until the user scrolls for real, so a
+      // stray scroll event (layout shift, re-render) can't clobber it.
+      if (jumpPinnedRef.current) return;
       // Bottom-edge override: when scrolled to the end, light the last section.
       // Gated on the form actually overflowing, else a short doc would light the
       // last section at the top on first paint instead of the first.
@@ -67,10 +80,21 @@ export function FormPanel() {
     const schedule = () => {
       if (!raf) raf = requestAnimationFrame(compute);
     };
+    // A real user scroll (wheel / touch / arrow key) releases the jump pin, so
+    // the spy resumes the instant the user takes over — and, crucially, only
+    // then. Bare 'scroll' events don't release it: those also fire for the
+    // jump's own scroll and for layout shifts, neither of which is user intent.
+    const releasePin = () => { jumpPinnedRef.current = false; };
     root.addEventListener('scroll', schedule, { passive: true });
+    root.addEventListener('wheel', releasePin, { passive: true });
+    root.addEventListener('touchmove', releasePin, { passive: true });
+    root.addEventListener('keydown', releasePin);
     schedule(); // initial sync, deferred out of the effect body
     return () => {
       root.removeEventListener('scroll', schedule);
+      root.removeEventListener('wheel', releasePin);
+      root.removeEventListener('touchmove', releasePin);
+      root.removeEventListener('keydown', releasePin);
       if (raf) cancelAnimationFrame(raf);
     };
   }, [sections, spyEnabled]);
@@ -81,6 +105,9 @@ export function FormPanel() {
     const root = scrollWrapRef.current?.querySelector<HTMLElement>('[data-slot="scroll-area-viewport"]');
     const el = root?.querySelector<HTMLElement>(`#sec-${id}`);
     if (!el) return;
+    // Own the active section until the user scrolls — through the scroll this
+    // jump is about to fire, and through any later re-render or layout shift.
+    jumpPinnedRef.current = true;
     el.scrollIntoView({ block: 'start', behavior: 'auto' });
     // Move focus into the section so keyboard/AT users land there, not back on
     // the rail button (WCAG 2.4.3). The wrapper is tabIndex=-1 for this.

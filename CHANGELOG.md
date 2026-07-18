@@ -5,6 +5,20 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.106] — 2026-07-17
+
+### Fixed
+
+- Jumping to a section near the end of the editor outline (e.g. Distribution)
+  now highlights that section, not the last one. The scroll-spy has a
+  bottom-edge override that lights the final section once you reach the end of
+  the form — but a short second-to-last section can't scroll any higher than
+  the bottom, so clicking it in the outline snapped the highlight straight to
+  the last section (Signature). A jump is now authoritative: the section you
+  jumped to stays selected until you actually scroll — a later re-render or
+  layout shift can't quietly re-fire the override and un-stick it — and the
+  first real scroll (wheel, touch, or arrow key) resumes normal scroll-spying.
+
 ## [1.2.105] — 2026-07-17
 
 ### Fixed
