@@ -34,8 +34,9 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
   A counseling entry is authenticated by the counselor and the counseled Marine
   (MCO 1610.7 / IRAM); DonDocs appends signature blocks — typed, image, or
   digital — to the end of the remarks, with the acknowledgement wording yours to
-  set. The form's three pre-printed "(Signature)" cells (Art 137, SBP) are left
-  alone; these close the entry text, where a 6105's signatures actually go.
+  set and the counselor's name a one-click fill from your profile (as on the AA
+  form). The form's three pre-printed "(Signature)" cells (Art 137, SBP) are
+  left alone; these close the entry text, where a 6105's signatures actually go.
 - Under the hood, both forms now share one signature model and one set of
   pdf-lib primitives, so the AA form and the 118(11) can't drift apart as
   signing grows.

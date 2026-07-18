@@ -22,6 +22,8 @@ import { cn } from '@/lib/utils';
 import { NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
 import { SignatureStylePicker } from './SignatureStylePicker';
 import type { FormSignatureBlock } from '@/types/signature';
+import { useProfileStore } from '@/stores/profileStore';
+import { abbreviatedSignatoryName } from '@/lib/signatoryName';
 
 // Names to sort first in the @ autocomplete. This only reorders entries that
 // exist in `placeholders` (NAVMC_118_11_PLACEHOLDERS = NAME, DATE), so any name
@@ -40,6 +42,13 @@ function sectionRule(active: boolean): string {
 
 export function Form11811Section() {
   const { navmc11811, setNavmc11811Field, resetNavmc11811, clearNavmc11811 } = useFormStore();
+  // The counselor's initials + SURNAME from the active profile — the counselor
+  // is usually the person at the app, so offer their name as a one-click fill
+  // (never written silently), the same as the AA form's originator.
+  const profileSignatoryName = useProfileStore((s) => {
+    const p = s.selectedProfile ? s.profiles[s.selectedProfile] : undefined;
+    return p ? abbreviatedSignatoryName(p.sigFirst, p.sigMiddle, p.sigLast) : '';
+  });
   const signatureBlocks = navmc11811.signatureBlocks;
   const setSignatureBlock = (index: number, patch: Partial<FormSignatureBlock>) =>
     setNavmc11811Field(
@@ -240,13 +249,28 @@ export function Form11811Section() {
                     placeholders={NAVMC_118_11_PLACEHOLDERS}
                     commonVariables={COMMON_FORM_VARS}
                   />
-                  <InputWithVariables
-                    value={block.name}
-                    onValueChange={(v) => setSignatureBlock(index, { name: v })}
-                    placeholder="Typed name (e.g. A. B. SMITH)"
-                    placeholders={NAVMC_118_11_PLACEHOLDERS}
-                    commonVariables={COMMON_FORM_VARS}
-                  />
+                  <div className="flex items-center gap-2">
+                    <div className="min-w-0 flex-1">
+                      <InputWithVariables
+                        value={block.name}
+                        onValueChange={(v) => setSignatureBlock(index, { name: v })}
+                        placeholder="Typed name (e.g. A. B. SMITH)"
+                        placeholders={NAVMC_118_11_PLACEHOLDERS}
+                        commonVariables={COMMON_FORM_VARS}
+                      />
+                    </div>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="shrink-0"
+                      disabled={!profileSignatoryName}
+                      onClick={() => setSignatureBlock(index, { name: profileSignatoryName })}
+                      title={profileSignatoryName ? `Use ${profileSignatoryName}` : 'No profile signature to use'}
+                    >
+                      Use profile
+                    </Button>
+                  </div>
                   <SignatureStylePicker
                     block={block}
                     index={index}
