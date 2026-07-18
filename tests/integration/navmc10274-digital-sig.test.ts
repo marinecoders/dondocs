@@ -66,6 +66,30 @@ function pageOfText(bytes: Uint8Array, needles: RegExp[]): number[] {
   return needles.map((re) => pages.findIndex((pg) => re.test(pg)));
 }
 
+/** Page indices (0-based) that carry at least one image XObject. */
+async function imagePages(bytes: Uint8Array): Promise<number[]> {
+  const doc = await PDFDocument.load(bytes);
+  const out: number[] = [];
+  doc.getPages().forEach((pg, i) => {
+    const res = pg.node.lookup(PDFName.of('Resources')) as PDFDict | undefined;
+    const xo = res?.lookup(PDFName.of('XObject')) as PDFDict | undefined;
+    if (!xo) return;
+    for (const [, ref] of xo.entries()) {
+      const stream = doc.context.lookup(ref) as { dict?: PDFDict } | undefined;
+      const sub = stream?.dict?.lookup(PDFName.of('Subtype')) as PDFName | undefined;
+      if (sub?.toString() === '/Image') {
+        out.push(i);
+        return;
+      }
+    }
+  });
+  return out;
+}
+
+// A 1×1 red PNG — enough to prove an image is embedded and placed.
+const RED_PNG =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+
 describe('NAVMC 10274 digital signature fields', () => {
   describeToolchainRequirement('navmc10274-digital-sig');
 
@@ -133,5 +157,43 @@ describe('NAVMC 10274 digital signature fields', () => {
     // fail here.
     const pages = fields.map((f) => f.pageIndex).sort();
     expect(pages).toEqual([smithPage, oakesPage].sort());
+  });
+});
+
+describe('NAVMC 10274 image signature blocks', () => {
+  describeToolchainRequirement('navmc10274-image-sig');
+
+  it.skipIf(!toolchain)('embeds a scanned signature on the signer\'s page, and only when style is image', async () => {
+    const withImage = await generate({
+      ...base,
+      signatureBlocks: [{ statement: '', name: 'R. L. SMITH', style: 'image', image: RED_PNG }],
+    });
+    const [smithPage] = pageOfText(withImage, [/R\. L\. SMITH/]);
+    expect(await imagePages(withImage)).toContain(smithPage); // image landed on the signer's page
+
+    // Differential: the same doc typed (no image) has no image on that page, so
+    // the one above is ours — not a template graphic.
+    const typed = await generate({
+      ...base,
+      signatureBlocks: [{ statement: '', name: 'R. L. SMITH', style: 'typed' }],
+    });
+    expect(await imagePages(typed)).not.toContain(smithPage);
+  });
+
+  it.skipIf(!toolchain)('follows an image block onto the continuation page', async () => {
+    const filler = Array.from({ length: 26 }, (_, i) => `${i + 1}. Paragraph.`).join('\n');
+    const bytes = await generate({
+      ...base,
+      supplementalInfo: filler,
+      signatureBlocks: [
+        { statement: '', name: 'R. L. SMITH', style: 'image', image: RED_PNG },
+        { statement: 'I acknowledge receipt.', name: 'T. R. OAKES', style: 'image', image: RED_PNG },
+      ],
+    });
+    const [smithPage, oakesPage] = pageOfText(bytes, [/R\. L\. SMITH/, /T\. R\. OAKES/]);
+    expect(oakesPage).toBeGreaterThan(smithPage); // overflow happened
+    const imgs = await imagePages(bytes);
+    expect(imgs).toContain(smithPage);
+    expect(imgs).toContain(oakesPage); // the image followed its block to page 3
   });
 });

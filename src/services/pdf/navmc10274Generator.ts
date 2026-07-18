@@ -126,7 +126,9 @@ export interface Navmc10274Data {
 
 import { calculateTextPosition, type BoxBoundary } from './extractFormFields';
 import { addSignatureFieldToPage } from './signatureFieldCore';
-import { isDigital, type SignatureStyle } from '@/types/signature';
+import { base64ToUint8Array } from '@/lib/encoding';
+import type { SignatureStyle } from '@/types/signature';
+import type { PDFImage, PDFPage } from 'pdf-lib';
 
 // A digital signature field sits in the signing gap ABOVE the typed name: 8pt
 // above the name's baseline (clearing its ascenders — a 2pt gap clipped them in
@@ -148,6 +150,48 @@ function signatureFieldRect(
   return [textX, bottom, textX + SIG_FIELD_WIDTH, bottom + SIG_FIELD_HEIGHT];
 }
 
+// A scanned signature fills the same signing gap as a digital field but can be
+// taller — it uses the two blank signing lines above the name.
+const SIG_IMAGE_MAX_WIDTH = SIG_FIELD_WIDTH;
+
+/** Decode a base64 data URL to a pdf-lib image, or null if it can't be read
+ *  (a bad upload must never abort the whole export). */
+async function embedSignatureImage(
+  pdfDoc: PDFDocument,
+  dataUrl: string
+): Promise<PDFImage | null> {
+  try {
+    const comma = dataUrl.indexOf(',');
+    const header = comma >= 0 ? dataUrl.slice(0, comma) : '';
+    const bytes = base64ToUint8Array(comma >= 0 ? dataUrl.slice(comma + 1) : dataUrl);
+    return /jpe?g/i.test(header) ? await pdfDoc.embedJpg(bytes) : await pdfDoc.embedPng(bytes);
+  } catch {
+    return null;
+  }
+}
+
+/** Draw a scanned signature into the signing gap above a name, scaled to fit
+ *  the two blank lines and never wider than the field width; bottom-left
+ *  anchored at the field rect so it sits where a CAC field would. */
+function drawSignatureImage(
+  page: PDFPage,
+  image: PDFImage,
+  textX: number,
+  blockStartY: number,
+  nameLineInPage: number,
+  lineHeight: number
+): void {
+  const [x, y] = signatureFieldRect(textX, blockStartY, nameLineInPage, lineHeight);
+  const boxHeight = 2 * lineHeight; // the two blank signing lines
+  const scale = Math.min(SIG_IMAGE_MAX_WIDTH / image.width, boxHeight / image.height);
+  page.drawImage(image, {
+    x,
+    y,
+    width: image.width * scale,
+    height: image.height * scale,
+  });
+}
+
 /** A signature block's lines, pre-wrapped: optional statement paragraph, then
  *  the typed name. The block is atomic for pagination. */
 export interface ComposedBlockTwelve {
@@ -155,16 +199,25 @@ export interface ComposedBlockTwelve {
   /** [start, end] line spans (inclusive) that pagination must not split — one
    *  per signature block: its statement, signing space, and name move as one.
    *  `nameLineIndex` is where the typed name landed (null for a statement-only
-   *  block); `digital` marks a block that wants a CAC signature field placed in
-   *  its signing space. */
-  groups: Array<{ start: number; end: number; nameLineIndex: number | null; digital: boolean }>;
+   *  block); `style`/`image` say what (if anything) goes in the signing gap. */
+  groups: Array<{
+    start: number;
+    end: number;
+    nameLineIndex: number | null;
+    style: SignatureStyle;
+    image?: string;
+  }>;
 }
 
-/** Where a digital signature field goes: which page, and the name's line index
- *  within that page's block-12 stream (the field sits in the gap above it). */
+/** Where a signature mark goes in the signing gap: which page, the name's line
+ *  index within that page's block-12 stream (the mark sits above it), and what
+ *  to draw there — a CAC field ('digital') or a scanned image ('image'). Typed
+ *  blocks produce no placement. */
 export interface SignatureFieldPlacement {
   page: 'main' | 'continuation';
   nameLineInPage: number;
+  style: 'image' | 'digital';
+  image?: string;
 }
 
 /**
@@ -183,7 +236,7 @@ export interface SignatureFieldPlacement {
 export function composeBlockTwelveLines(parts: {
   supplementalInfo: string[];
   proposedAction: string[];
-  signatureBlocks: Array<{ statement: string[]; name: string; style?: SignatureStyle }>;
+  signatureBlocks: Array<{ statement: string[]; name: string; style?: SignatureStyle; image?: string }>;
 }): ComposedBlockTwelve {
   const lines: string[] = [...parts.supplementalInfo];
   if (parts.proposedAction.length > 0) {
@@ -215,7 +268,13 @@ export function composeBlockTwelveLines(parts: {
       nameLineIndex = lines.length;
       lines.push(name);
     }
-    groups.push({ start, end: lines.length - 1, nameLineIndex, digital: isDigital(block) });
+    groups.push({
+      start,
+      end: lines.length - 1,
+      nameLineIndex,
+      style: block.style ?? 'typed',
+      image: block.image,
+    });
   }
   return { lines, groups };
 }
@@ -237,16 +296,22 @@ export function paginateBlockTwelve(
 } {
   const { lines, groups } = composed;
 
-  // Digital blocks with a name → a field placement, computed once we know each
-  // name's final page and its line index within that page's stream.
+  // Blocks with a name and a signing mark (a CAC field, or an image with data)
+  // → a placement, computed once we know each name's final page and its line
+  // index within that page's stream.
   const placementsFor = (split: number, continuationStart: number): SignatureFieldPlacement[] =>
     groups
-      .filter((g) => g.digital && g.nameLineIndex !== null)
+      .filter(
+        (g) =>
+          g.nameLineIndex !== null &&
+          (g.style === 'digital' || (g.style === 'image' && !!g.image))
+      )
       .map((g) => {
         const idx = g.nameLineIndex as number;
+        const mark = { style: g.style as 'image' | 'digital', image: g.image };
         return idx < split
-          ? { page: 'main' as const, nameLineInPage: idx }
-          : { page: 'continuation' as const, nameLineInPage: idx - continuationStart };
+          ? { page: 'main' as const, nameLineInPage: idx, ...mark }
+          : { page: 'continuation' as const, nameLineInPage: idx - continuationStart, ...mark };
       });
 
   if (lines.length <= pageCapacity) {
@@ -542,8 +607,28 @@ export async function generateNavmc10274Pdf(
         : [],
       name: (block.name ?? '').trim(),
       style: block.style,
+      image: block.image,
     })),
   });
+
+  // Place a signing mark (CAC field or scanned image) in the gap above a name.
+  const placeSignatureMark = async (
+    page: PDFPage,
+    p: SignatureFieldPlacement,
+    box: { x: number; y: number; lineHeight: number }
+  ): Promise<void> => {
+    if (p.style === 'digital') {
+      addSignatureFieldToPage(
+        pdfDoc,
+        page,
+        signatureFieldRect(box.x, box.y, p.nameLineInPage, box.lineHeight),
+        `Signature_${sigFieldSeq++}`
+      );
+    } else if (p.style === 'image' && p.image) {
+      const img = await embedSignatureImage(pdfDoc, p.image);
+      if (img) drawSignatureImage(page, img, box.x, box.y, p.nameLineInPage, box.lineHeight);
+    }
+  };
   // Continuation-page field placements are held until page 3 is created below.
   let continuationFieldPlacements: SignatureFieldPlacement[] = [];
   if (blockTwelve.lines.length > 0) {
@@ -561,19 +646,9 @@ export async function generateNavmc10274Pdf(
       FONT_SIZE,
       PAGE2_FIELDS.supplementalInfo.maxLines
     );
-    // Digital signature fields whose name landed on the main page.
+    // Signing marks whose name landed on the main page.
     for (const p of fieldPlacements.filter((f) => f.page === 'main')) {
-      addSignatureFieldToPage(
-        pdfDoc,
-        page2,
-        signatureFieldRect(
-          PAGE2_FIELDS.supplementalInfo.x,
-          PAGE2_FIELDS.supplementalInfo.y,
-          p.nameLineInPage,
-          PAGE2_FIELDS.supplementalInfo.lineHeight
-        ),
-        `Signature_${sigFieldSeq++}`
-      );
+      await placeSignatureMark(page2, p, PAGE2_FIELDS.supplementalInfo);
     }
     continuationFieldPlacements = fieldPlacements.filter((f) => f.page === 'continuation');
     if (continuationLines.length > 0) {
@@ -603,19 +678,9 @@ export async function generateNavmc10274Pdf(
       FONT_SIZE,
       PAGE3_FIELDS.supplementalInfo.maxLines
     );
-    // Digital signature fields for blocks that overflowed onto page 3.
+    // Signing marks for blocks that overflowed onto page 3.
     for (const p of continuationFieldPlacements) {
-      addSignatureFieldToPage(
-        pdfDoc,
-        page3,
-        signatureFieldRect(
-          PAGE3_FIELDS.supplementalInfo.x,
-          PAGE3_FIELDS.supplementalInfo.y,
-          p.nameLineInPage,
-          PAGE3_FIELDS.supplementalInfo.lineHeight
-        ),
-        `Signature_${sigFieldSeq++}`
-      );
+      await placeSignatureMark(page3, p, PAGE3_FIELDS.supplementalInfo);
     }
   }
 
