@@ -740,8 +740,12 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
         const currentData = useFormStore.getState().navmc11811;
         if (Object.prototype.hasOwnProperty.call(currentData, targetField)) {
           const fieldKey = targetField as keyof typeof currentData;
-          setNavmc11811Field(fieldKey, appendInto(currentData[fieldKey] ?? ''));
-          inserted = true;
+          const value = currentData[fieldKey];
+          // Only text fields are batch targets — signatureBlocks is an array.
+          if (typeof value === 'string') {
+            setNavmc11811Field(fieldKey, appendInto(value));
+            inserted = true;
+          }
         }
       }
     } else {

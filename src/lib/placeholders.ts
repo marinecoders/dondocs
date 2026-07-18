@@ -124,6 +124,11 @@ export function applyPlaceholdersToNavmc11811(
     remarksTextRight: replacePlaceholders(data.remarksTextRight ?? '', values),
     entryDate: replacePlaceholders(data.entryDate, values),
     box11: replacePlaceholders(data.box11, values),
+    signatureBlocks: (data.signatureBlocks ?? []).map((block) => ({
+      ...block, // preserve style and image
+      statement: replacePlaceholders(block.statement, values),
+      name: replacePlaceholders(block.name, values),
+    })),
   };
 }
 

@@ -22,15 +22,23 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
   your profile in one click, and a signature block never splits across the
   page break: if it won't fit, the whole block (statement, signing space, and
   name) moves to the continuation page together.
-- Any AA-form signature block can carry a digital signature field. Tick
-  "Digital signature field (CAC)" on a block and the exported PDF gets a real,
-  empty AcroForm signature field in that block's signing space — the same kind
-  of field the naval letter already offers, which Adobe Acrobat and CAC
-  middleware recognize as signable. DonDocs embeds the field; the cryptographic
-  signature is applied later in Acrobat (a browser cannot reach a CAC's private
-  key). The field is placed by computed geometry, not a text search, and
-  follows its block onto the continuation page so it can never be stranded away
-  from the name it belongs to.
+- Each AA-form signature block now chooses how it signs — **Typed** name,
+  **Image** (upload a scanned signature, drawn into the signing space), or
+  **Digital** (an empty CAC-signable AcroForm field, signed later in Acrobat) —
+  the same three-way choice the naval letter offers. Image and digital marks are
+  placed by computed geometry, not a text search, and follow their block onto
+  the continuation page so they can never be stranded away from the name. (The
+  cryptographic CAC signature is applied in Acrobat; a browser cannot reach a
+  CAC's private key.)
+- The **NAVMC 118(11) / Page 11 (6105)** entry can now carry its signatures too.
+  A counseling entry is authenticated by the counselor and the counseled Marine
+  (MCO 1610.7 / IRAM); DonDocs appends signature blocks — typed, image, or
+  digital — to the end of the remarks, with the acknowledgement wording yours to
+  set. The form's three pre-printed "(Signature)" cells (Art 137, SBP) are left
+  alone; these close the entry text, where a 6105's signatures actually go.
+- Under the hood, both forms now share one signature model and one set of
+  pdf-lib primitives, so the AA form and the 118(11) can't drift apart as
+  signing grows.
 
 ### Fixed
 
@@ -41,7 +49,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
   paragraph.
 - Removed a phantom "13." from that field's label (the printed form has no
   field 13) and a never-rendered, never-collected signature field from the
-  6105 generator (the printed NAVMC 118(11) carries its own signature lines).
+  6105 generator.
 
 ## [1.2.106] — 2026-07-17
 

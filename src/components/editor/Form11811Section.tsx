@@ -20,6 +20,8 @@ import { useFormStore } from '@/stores/formStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { cn } from '@/lib/utils';
 import { NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
+import { SignatureStylePicker } from './SignatureStylePicker';
+import type { FormSignatureBlock } from '@/types/signature';
 
 // Names to sort first in the @ autocomplete. This only reorders entries that
 // exist in `placeholders` (NAVMC_118_11_PLACEHOLDERS = NAME, DATE), so any name
@@ -38,6 +40,16 @@ function sectionRule(active: boolean): string {
 
 export function Form11811Section() {
   const { navmc11811, setNavmc11811Field, resetNavmc11811, clearNavmc11811 } = useFormStore();
+  const signatureBlocks = navmc11811.signatureBlocks;
+  const setSignatureBlock = (index: number, patch: Partial<FormSignatureBlock>) =>
+    setNavmc11811Field(
+      'signatureBlocks',
+      signatureBlocks.map((b, i) => (i === index ? { ...b, ...patch } : b))
+    );
+  const addSignatureBlock = () =>
+    setNavmc11811Field('signatureBlocks', [...signatureBlocks, { statement: '', name: '', style: 'typed' }]);
+  const removeSignatureBlock = (index: number) =>
+    setNavmc11811Field('signatureBlocks', signatureBlocks.filter((_, i) => i !== index));
   const activeId = useEditorOutlineStore((s) => s.activeId);
 
   return (
@@ -191,6 +203,61 @@ export function Form11811Section() {
               Include: incident description, date/location, standards violated, prior counseling (if any),
               expected corrective actions, and consequences of continued deficiency.
             </p>
+          </AccordionContent>
+        </AccordionItem>
+
+        {/* Signatures — close the 6105 entry (counselor + counseled Marine) */}
+        <AccordionItem value="signatures" id="sec-signatures" data-section="signatures" className={sectionRule(activeId === 'signatures')}>
+          <AccordionTrigger>Signatures</AccordionTrigger>
+          <AccordionContent>
+            <div className="space-y-4 pt-1">
+              <p className="text-xs text-muted-foreground">
+                A Page 11 entry is authenticated by the counselor and the
+                counseled Marine (MCO 1610.7 / IRAM). Each block prints at the
+                end of the entry text; type the acknowledgement wording your
+                command uses.
+              </p>
+              {signatureBlocks.map((block, index) => (
+                <div key={index} className="space-y-2 rounded-md border border-border p-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-muted-foreground">
+                      Signature {index + 1}
+                    </span>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      aria-label={`Remove signature block ${index + 1}`}
+                      onClick={() => removeSignatureBlock(index)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <InputWithVariables
+                    value={block.statement}
+                    onValueChange={(v) => setSignatureBlock(index, { statement: v })}
+                    placeholder="Statement above the signing line (e.g. I have been counseled…)"
+                    placeholders={NAVMC_118_11_PLACEHOLDERS}
+                    commonVariables={COMMON_FORM_VARS}
+                  />
+                  <InputWithVariables
+                    value={block.name}
+                    onValueChange={(v) => setSignatureBlock(index, { name: v })}
+                    placeholder="Typed name (e.g. A. B. SMITH)"
+                    placeholders={NAVMC_118_11_PLACEHOLDERS}
+                    commonVariables={COMMON_FORM_VARS}
+                  />
+                  <SignatureStylePicker
+                    block={block}
+                    index={index}
+                    onChange={(patch) => setSignatureBlock(index, patch)}
+                  />
+                </div>
+              ))}
+              <Button type="button" variant="outline" size="sm" onClick={addSignatureBlock}>
+                Add signature block
+              </Button>
+            </div>
           </AccordionContent>
         </AccordionItem>
       </Accordion>

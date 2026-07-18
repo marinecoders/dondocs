@@ -105,12 +105,22 @@ export interface Navmc11811Data {
   // Box 11 - SRB (Service Record Book) page number, 5 chars max
   box11: string;
 
-  // No typed-signature field: the printed NAVMC 118(11) carries its own
-  // "(Signature)" lines, which are signed by hand. (A `signatureName` was
-  // declared here for years, never rendered and never collected by any UI.)
+  // Signature blocks appended to the end of the 6105 entry, in signing order.
+  // A Page 11 counseling entry is authenticated by the counselor and the
+  // counseled Marine (MCO 1610.7 / IRAM); the form's three pre-printed
+  // "(Signature)" cells at the top are for standing entries (Art 137, SBP), not
+  // this one, so these blocks close the entry text itself. Each block's optional
+  // statement ("I have been counseled…") prints above its signing space; `style`
+  // selects typed name / scanned image / empty CAC field, as on the AA form.
+  signatureBlocks: FormSignatureBlock[];
 }
 
 import { calculateTextPosition, type BoxBoundary } from './extractFormFields';
+import { addSignatureFieldToPage } from './signatureFieldCore';
+import { base64ToUint8Array } from '@/lib/encoding';
+import { isDigital, isImage } from '@/types/signature';
+import type { FormSignatureBlock } from '@/types/signature';
+import type { PDFDocument as PDFDocumentType, PDFImage, PDFPage } from 'pdf-lib';
 
 // =============================================================================
 // SMART BOX POSITIONING SYSTEM
@@ -176,6 +186,84 @@ const FIELDS = {
 // SECNAV-style hanging indent on continuation lines.
 const wrapText = wrapTextForForm;
 
+// Signing-gap geometry (mirrors the AA form): a mark sits 8pt above the name
+// baseline, up to 180pt wide and two blank lines tall.
+const SIG_ABOVE = 8;
+const SIG_FIELD_W = 180;
+const SIG_FIELD_H = 20;
+
+/** Decode a base64 (data-URL or raw) image to a pdf-lib image, or null. */
+async function embedSignatureImage(
+  pdfDoc: PDFDocumentType,
+  dataUrl: string
+): Promise<PDFImage | null> {
+  try {
+    const comma = dataUrl.indexOf(',');
+    const header = comma >= 0 ? dataUrl.slice(0, comma) : '';
+    const bytes = base64ToUint8Array(comma >= 0 ? dataUrl.slice(comma + 1) : dataUrl);
+    return /jpe?g/i.test(header) ? await pdfDoc.embedJpg(bytes) : await pdfDoc.embedPng(bytes);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Draw the signature blocks that close a 6105 entry into a remarks column,
+ * starting below `startY`. Each block prints its statement (if any), leaves two
+ * blank signing lines, then the typed name — placing a CAC field or a scanned
+ * image in the gap above the name per the block's style. Returns nothing; the
+ * column is capped by its own height like the entry text above it.
+ */
+async function appendSignatureBlocks(
+  pdfDoc: PDFDocumentType,
+  page: PDFPage,
+  font: Parameters<typeof drawTextWithHighlights>[4],
+  fontSize: number,
+  blocks: FormSignatureBlock[],
+  col: { x: number; maxWidth: number; lineHeight: number },
+  startY: number,
+  seq: { n: number }
+): Promise<void> {
+  let y = startY;
+  for (const block of blocks) {
+    const name = (block.name ?? '').trim();
+    const statement = (block.statement ?? '').trim();
+    if (!name && !statement) continue;
+    y -= col.lineHeight; // paragraph gap before the block
+    if (statement) {
+      for (const line of wrapText(statement, col.maxWidth, font, fontSize)) {
+        drawTextWithHighlights(page, line, col.x, y, font, fontSize);
+        y -= col.lineHeight;
+      }
+    }
+    y -= 2 * col.lineHeight; // the two blank signing lines
+    if (!name) continue;
+    if (isDigital(block)) {
+      const bottom = y + SIG_ABOVE;
+      addSignatureFieldToPage(
+        pdfDoc,
+        page,
+        [col.x, bottom, col.x + SIG_FIELD_W, bottom + SIG_FIELD_H],
+        `Signature_${seq.n++}`
+      );
+    } else if (isImage(block) && block.image) {
+      const img = await embedSignatureImage(pdfDoc, block.image);
+      if (img) {
+        const boxH = 2 * col.lineHeight;
+        const scale = Math.min(SIG_FIELD_W / img.width, boxH / img.height);
+        page.drawImage(img, {
+          x: col.x,
+          y: y + SIG_ABOVE,
+          width: img.width * scale,
+          height: img.height * scale,
+        });
+      }
+    }
+    drawTextWithHighlights(page, name, col.x, y, font, fontSize);
+    y -= col.lineHeight;
+  }
+}
+
 /**
  * Generate a filled NAVMC 118(11) form
  * @param data - Form data to fill in
@@ -213,6 +301,7 @@ export async function generateNavmc11811Pdf(
   }
 
   // Fill in left remarks area (with placeholder highlighting)
+  let leftEndY = FIELDS.remarks.y;
   if (data.remarksText) {
     const lines = wrapText(data.remarksText, FIELDS.remarks.maxWidth, font, FONT_SIZE);
     let y = FIELDS.remarks.y;
@@ -226,10 +315,14 @@ export async function generateNavmc11811Pdf(
     if (data.entryDate) {
       y -= FIELDS.remarks.lineHeight; // Extra space
       drawTextWithHighlights(page, data.entryDate, FIELDS.remarks.x, y, font, FONT_SIZE);
+      y -= FIELDS.remarks.lineHeight;
     }
+    leftEndY = y;
   }
 
   // Fill in right remarks area (continuation) (with placeholder highlighting)
+  let rightEndY = FIELDS.remarksRight.y;
+  const hasRight = !!data.remarksTextRight;
   if (data.remarksTextRight) {
     const lines = wrapText(data.remarksTextRight, FIELDS.remarksRight.maxWidth, font, FONT_SIZE);
     let y = FIELDS.remarksRight.y;
@@ -238,6 +331,16 @@ export async function generateNavmc11811Pdf(
       drawTextWithHighlights(page, lines[i], FIELDS.remarksRight.x, y, font, FONT_SIZE);
       y -= FIELDS.remarksRight.lineHeight;
     }
+    rightEndY = y;
+  }
+
+  // Close the entry with its signature blocks — in the column the entry ends in
+  // (the right column when the entry spilled into it, else the left).
+  const sigBlocks = data.signatureBlocks ?? [];
+  if (sigBlocks.length > 0) {
+    const col = hasRight ? FIELDS.remarksRight : FIELDS.remarks;
+    const startY = hasRight ? rightEndY : leftEndY;
+    await appendSignatureBlocks(pdfDoc, page, font, FONT_SIZE, sigBlocks, col, startY, { n: 1 });
   }
 
   return pdfDoc.save();

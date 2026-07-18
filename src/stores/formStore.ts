@@ -51,6 +51,10 @@ export interface Navmc11811Data {
 
   // Box 11 - SRB (Service Record Book) page number, 5 chars max
   box11: string;
+
+  // Signature blocks closing the 6105 entry (counselor + counseled Marine),
+  // appended to the remarks body. Same shape/styles as the AA form.
+  signatureBlocks: FormSignatureBlock[];
 }
 
 export interface NavmcForm10274Data {
@@ -133,6 +137,7 @@ const EMPTY_NAVMC_11811: Navmc11811Data = {
   firstName: '',
   middleName: '',
   edipi: '',
+  signatureBlocks: [],
   remarksText: '',
   remarksTextRight: '',
   entryDate: '',
@@ -228,6 +233,16 @@ J. A. SMITH, SSgt, USMC`,
   remarksTextRight: '',
   entryDate: formatMilitaryDate(new Date()),
   box11: '01',
+  // A 6105 is authenticated by the counselor and the counseled Marine; the
+  // acknowledgement wording is the user's to set (MCO 1610.7 / IRAM).
+  signatureBlocks: [
+    { statement: '', name: 'J. A. SMITH', style: 'typed' },
+    {
+      statement: 'I have been counseled this date and understand this entry.',
+      name: 'J. M. DOE',
+      style: 'typed',
+    },
+  ],
 };
 
 export const useFormStore = create<FormStore>()(
@@ -289,6 +304,15 @@ export const useFormStore = create<FormStore>()(
             ...p.navmc10274,
             signatureBlocks: Array.isArray(p.navmc10274.signatureBlocks)
               ? p.navmc10274.signatureBlocks.map(migrateSignatureBlock)
+              : [],
+          };
+        }
+        if (p.navmc11811) {
+          merged.navmc11811 = {
+            ...current.navmc11811,
+            ...p.navmc11811,
+            signatureBlocks: Array.isArray(p.navmc11811.signatureBlocks)
+              ? p.navmc11811.signatureBlocks.map(migrateSignatureBlock)
               : [],
           };
         }
