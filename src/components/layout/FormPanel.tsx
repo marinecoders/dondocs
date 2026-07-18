@@ -33,6 +33,15 @@ export function FormPanel() {
   const viewport = () =>
     scrollWrapRef.current?.querySelector<HTMLElement>('[data-slot="scroll-area-viewport"]') ?? null;
 
+  // When the sidebar jumps to a section, that choice is authoritative until the
+  // user scrolls. Without this, jumping to a trailing section (e.g.
+  // Distribution) scrolls the viewport to its bottom, and the scroll event that
+  // the jump itself fires trips the bottom-edge override below, which snaps the
+  // highlight to the LAST section (Signature) — so a short second-to-last
+  // section could never be selected. Suppress the spy briefly so the jump's own
+  // scroll can't clobber it; a real user scroll clears it and resumes the spy.
+  const suppressSpyUntilRef = useRef(0);
+
   // Scroll-spy: the active section is the last one whose top has passed a
   // trigger line near the top of the viewport, with a bottom-edge override so
   // the final short sections light up at the end. Publishes to the outline store.
@@ -44,6 +53,8 @@ export function FormPanel() {
     let raf = 0;
     const compute = () => {
       raf = 0;
+      // A recent jump owns the active section until the user scrolls for real.
+      if (performance.now() < suppressSpyUntilRef.current) return;
       // Bottom-edge override: when scrolled to the end, light the last section.
       // Gated on the form actually overflowing, else a short doc would light the
       // last section at the top on first paint instead of the first.
@@ -67,10 +78,19 @@ export function FormPanel() {
     const schedule = () => {
       if (!raf) raf = requestAnimationFrame(compute);
     };
+    // A real user scroll (wheel / touch / arrow key) ends the post-jump
+    // suppression immediately, so the spy is never sluggish after a jump.
+    const releaseSuppression = () => { suppressSpyUntilRef.current = 0; };
     root.addEventListener('scroll', schedule, { passive: true });
+    root.addEventListener('wheel', releaseSuppression, { passive: true });
+    root.addEventListener('touchmove', releaseSuppression, { passive: true });
+    root.addEventListener('keydown', releaseSuppression);
     schedule(); // initial sync, deferred out of the effect body
     return () => {
       root.removeEventListener('scroll', schedule);
+      root.removeEventListener('wheel', releaseSuppression);
+      root.removeEventListener('touchmove', releaseSuppression);
+      root.removeEventListener('keydown', releaseSuppression);
       if (raf) cancelAnimationFrame(raf);
     };
   }, [sections, spyEnabled]);
@@ -81,6 +101,8 @@ export function FormPanel() {
     const root = scrollWrapRef.current?.querySelector<HTMLElement>('[data-slot="scroll-area-viewport"]');
     const el = root?.querySelector<HTMLElement>(`#sec-${id}`);
     if (!el) return;
+    // Own the active section through the scroll this jump is about to fire.
+    suppressSpyUntilRef.current = performance.now() + 400;
     el.scrollIntoView({ block: 'start', behavior: 'auto' });
     // Move focus into the section so keyboard/AT users land there, not back on
     // the rail button (WCAG 2.4.3). The wrapper is tabIndex=-1 for this.
