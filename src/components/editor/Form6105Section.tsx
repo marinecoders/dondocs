@@ -65,6 +65,27 @@ export function Form6105Section() {
     const p = s.selectedProfile ? s.profiles[s.selectedProfile] : undefined;
     return p ? abbreviatedSignatoryName(p.sigFirst, p.sigMiddle, p.sigLast) : '';
   });
+  // Block 4 "From" in the form's own style ("SSgt John A. Smith") — rank +
+  // full first name + middle initial + last, from the profile. The profile
+  // doesn't hold EDIPI/MOS, so the user appends those; still one click for
+  // the part the app knows. Never written silently.
+  const profileFromLine = useProfileStore((s) => {
+    const p = s.selectedProfile ? s.profiles[s.selectedProfile] : undefined;
+    if (!p) return '';
+    const first = (p.sigFirst ?? '').trim();
+    // Positional, like abbreviatedSignatoryName: no first ⇒ no middle initial.
+    const middle = first ? (p.sigMiddle ?? '').trim().charAt(0) : '';
+    const name = [first, middle && `${middle.toUpperCase()}.`, (p.sigLast ?? '').trim()]
+      .filter(Boolean)
+      .join(' ');
+    return [(p.sigRank ?? '').trim(), name].filter(Boolean).join(' ');
+  });
+  // Block 5 "Organization/Station" from the profile's unit — the same shape
+  // the unit-directory picker writes (name lines, then address).
+  const profileOrgStation = useProfileStore((s) => {
+    const p = s.selectedProfile ? s.profiles[s.selectedProfile] : undefined;
+    return p ? [p.unitLine1, p.unitLine2, p.unitAddress].map((l) => (l ?? '').trim()).filter(Boolean).join('\n') : '';
+  });
   const signatureBlocks = navmc10274.signatureBlocks;
   const setSignatureBlock = (index: number, patch: Partial<FormSignatureBlock>) => {
     setNavmc10274Field(
@@ -255,7 +276,20 @@ export function Form6105Section() {
           <AccordionContent className="space-y-4 pt-2">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="from">4. From (Grade, Name, EDIPI, MOS, etc.)</Label>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="from">4. From (Grade, Name, EDIPI, MOS, etc.)</Label>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 px-2 text-xs"
+                    onClick={() => setNavmc10274Field('from', profileFromLine)}
+                    disabled={!profileFromLine}
+                    title={profileFromLine ? `Use ${profileFromLine}` : 'No profile name to use'}
+                  >
+                    Use profile
+                  </Button>
+                </div>
                 <TextareaWithVariables
                   id="from"
                   value={navmc10274.from}
@@ -267,7 +301,20 @@ export function Form6105Section() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="orgStation">5. Organization/Station</Label>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="orgStation">5. Organization/Station</Label>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 px-2 text-xs"
+                    onClick={() => setNavmc10274Field('orgStation', profileOrgStation)}
+                    disabled={!profileOrgStation}
+                    title={profileOrgStation ? 'Use your profile unit' : 'No profile unit to use'}
+                  >
+                    Use profile
+                  </Button>
+                </div>
                 <div className="flex gap-1">
                   <TextareaWithVariables
                     id="orgStation"

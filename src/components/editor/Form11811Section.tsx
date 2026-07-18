@@ -1,4 +1,5 @@
-import { ClipboardList, RotateCcw, ChevronDown, Trash2, FileText } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ClipboardList, RotateCcw, ChevronDown, Trash2, FileText, AlertTriangle } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import {
@@ -29,6 +30,26 @@ import { useProfileStore } from '@/stores/profileStore';
 import { abbreviatedSignatoryName } from '@/lib/signatoryName';
 import { standardSignaturePair } from '@/lib/signaturePresets';
 import { showAppConfirm } from '@/stores/alertStore';
+import {
+  computeNavmc11811Fit,
+  type Navmc11811Fit,
+} from '@/services/pdf/navmc11811Generator';
+
+/**
+ * Per-column "≈ lines used / capacity" readout under a remarks editor. The
+ * counts come from the generator's own wrap metrics (computeNavmc11811Fit),
+ * so what this says matches what actually prints.
+ */
+function ColumnFitLine({ fit }: { fit: Navmc11811Fit['left'] | undefined }) {
+  if (!fit) return null;
+  const over = fit.truncated > 0;
+  return (
+    <p className={`text-xs ${over ? 'text-destructive' : 'text-muted-foreground'}`}>
+      ≈ {fit.lines} of {fit.capacity} printed lines
+      {over && ` — ${fit.truncated} won't fit`}
+    </p>
+  );
+}
 
 // Names to sort first in the @ autocomplete. This only reorders entries that
 // exist in `placeholders` (NAVMC_118_11_PLACEHOLDERS = NAME, DATE), so any name
@@ -98,6 +119,44 @@ export function Form11811Section() {
       )
     );
   const activeId = useEditorOutlineStore((s) => s.activeId);
+
+  // Fit report from the generator's own metrics, debounced behind typing. The
+  // columns are one physical page — text past a column's capacity is NOT
+  // printed, so this is the only thing standing between the user and silent
+  // truncation on export.
+  const [fit, setFit] = useState<Navmc11811Fit | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    const t = setTimeout(() => {
+      computeNavmc11811Fit(navmc11811).then(
+        (f) => !cancelled && setFit(f),
+        () => !cancelled && setFit(null)
+      );
+    }, 300);
+    return () => {
+      cancelled = true;
+      clearTimeout(t);
+    };
+  }, [navmc11811]);
+  const overflowMessages: string[] = [];
+  if (fit) {
+    if (fit.left.truncated > 0)
+      overflowMessages.push(
+        `Left column is full — ${fit.left.truncated} line${fit.left.truncated === 1 ? '' : 's'} won't print. Continue in the right column.`
+      );
+    if (fit.right.truncated > 0)
+      overflowMessages.push(
+        `Right column is full — ${fit.right.truncated} line${fit.right.truncated === 1 ? '' : 's'} won't print. Shorten the entry or start a second Page 11.`
+      );
+    if (fit.left.spillover > 0 && fit.left.truncated === 0)
+      overflowMessages.push(
+        'The entry date/signature blocks run past the bottom of the left column — shorten the entry or continue it in the right column.'
+      );
+    if (fit.right.spillover > 0 && fit.right.truncated === 0)
+      overflowMessages.push(
+        'The signature blocks run past the bottom of the right column — shorten the entry.'
+      );
+  }
 
   return (
     <div className="space-y-4">
@@ -234,6 +293,7 @@ export function Form11811Section() {
                   rows={16}
                   tabInsertsSpaces
                 />
+                <ColumnFitLine fit={fit?.left} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="remarksTextRight">Administrative Remarks (Right)</Label>
@@ -244,11 +304,27 @@ export function Form11811Section() {
                   rows={16}
                   tabInsertsSpaces
                 />
+                <ColumnFitLine fit={fit?.right} />
               </div>
             </div>
+            {overflowMessages.length > 0 && (
+              <div
+                role="alert"
+                className="flex items-start gap-2 rounded-lg border border-warning/30 bg-warning/10 p-3 text-sm"
+              >
+                <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0 text-warning" />
+                <div className="space-y-1 text-warning">
+                  {overflowMessages.map((m) => (
+                    <p key={m}>{m}</p>
+                  ))}
+                </div>
+              </div>
+            )}
             <p className="text-xs text-muted-foreground">
               Include: incident description, date/location, standards violated, prior counseling (if any),
               expected corrective actions, and consequences of continued deficiency.
+              The form is a single page — text does not flow between columns, and
+              anything past a column&apos;s last printed line is left off the PDF.
             </p>
           </AccordionContent>
         </AccordionItem>

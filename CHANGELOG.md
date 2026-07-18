@@ -70,6 +70,26 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 - After adding a signature block, focus lands in the new block's first field —
   a preset pick flows straight into editing instead of leaving you to click
   into the card (the add-menu suppresses its own focus-return to make room).
+- The 118(11) editor now shows how the entry **fits the printed page**: a live
+  "≈ N of 37 printed lines" readout under each remarks column and a warning
+  the moment text (or the closing date/signature blocks) runs past what the
+  column can hold. The form is a single physical page — there is no
+  continuation sheet — and previously anything past the cap was silently left
+  off the exported PDF. The counts come from the generator's own font metrics
+  and wrapping, so the warning and the printout can't disagree.
+- The AA form's **From** and **Organization/Station** gained one-click "Use
+  profile" fills — the originator's rank and name, and your own unit's
+  name/address, straight from the active profile (the fields users retype most
+  often). Both fills are explicit buttons, never written silently.
+
+### Fixed
+
+- The 118(11) remarks columns' line cap is now calibrated to the printed form:
+  a rendered probe showed the old 40-line cap letting the last three lines
+  print **on top of the NAME/EDIPI identification strip** at the bottom of the
+  page. Each column now stops at 37 lines — the last line that clears the
+  strip — and the new fit warning surfaces what didn't make it instead of
+  dropping it silently.
 
 ### Changed
 

@@ -120,7 +120,7 @@ import { addSignatureFieldToPage, signatureFieldName } from './signatureFieldCor
 import { base64ToUint8Array } from '@/lib/encoding';
 import { isDigital, isImage } from '@/types/signature';
 import type { FormSignatureBlock } from '@/types/signature';
-import type { PDFDocument as PDFDocumentType, PDFImage, PDFPage } from 'pdf-lib';
+import type { PDFDocument as PDFDocumentType, PDFFont, PDFImage, PDFPage } from 'pdf-lib';
 
 // =============================================================================
 // SMART BOX POSITIONING SYSTEM
@@ -167,16 +167,23 @@ const FIELDS = {
     boxWidth: PAGE_BOXES.box11.width
   },
 
-  // Remarks boxes with additional properties
+  // Remarks boxes with additional properties.
+  //
+  // maxLines is calibrated by rendering, not derived from the box height: a
+  // 45-numbered-line probe showed lines 38+ printing over the NAME/EDIPI
+  // identification strip at the bottom of the form (the old cap of 40 let the
+  // last three lines corrupt the strip). 37 is the last line that stays above
+  // it. Content beyond the cap is truncated — computeNavmc11811Fit() reports
+  // that so the editor can warn instead of dropping text silently.
   remarks: {
     ...getFieldPosition('remarks'),
     lineHeight: 11,
-    maxLines: 40,
+    maxLines: 37,
   },
   remarksRight: {
     ...getFieldPosition('remarksRight'),
     lineHeight: 11,
-    maxLines: 40,
+    maxLines: 37,
   },
 };
 
@@ -208,11 +215,38 @@ async function embedSignatureImage(
 }
 
 /**
+ * Line count the signature blocks consume in a column — the measurement twin
+ * of appendSignatureBlocks below. Keep the two in lockstep: per non-empty
+ * block, 1 paragraph gap + the wrapped statement lines + 2 blank signing
+ * lines + 1 name line (when named). computeNavmc11811Fit uses this so the
+ * editor can warn when the close-out runs past the column bottom.
+ */
+function signatureBlockLineCount(
+  blocks: FormSignatureBlock[],
+  font: PDFFont,
+  fontSize: number,
+  maxWidth: number
+): number {
+  let n = 0;
+  for (const block of blocks) {
+    const name = (block.name ?? '').trim();
+    const statement = (block.statement ?? '').trim();
+    if (!name && !statement) continue;
+    n += 1; // paragraph gap before the block
+    if (statement) n += wrapText(statement, maxWidth, font, fontSize).length;
+    n += 2; // the two blank signing lines
+    if (name) n += 1;
+  }
+  return n;
+}
+
+/**
  * Draw the signature blocks that close a 6105 entry into a remarks column,
  * starting below `startY`. Each block prints its statement (if any), leaves two
  * blank signing lines, then the typed name — placing a CAC field or a scanned
  * image in the gap above the name per the block's style. Returns nothing; the
  * column is capped by its own height like the entry text above it.
+ * (Line accounting mirrored in signatureBlockLineCount above.)
  */
 async function appendSignatureBlocks(
   pdfDoc: PDFDocumentType,
@@ -344,6 +378,92 @@ export async function generateNavmc11811Pdf(
   }
 
   return pdfDoc.save();
+}
+
+// =============================================================================
+// FIT REPORT — how much of the entry actually prints
+// =============================================================================
+
+export interface Navmc11811ColumnFit {
+  /** Wrapped entry-text lines this column's content produces. */
+  lines: number;
+  /** Entry-text lines the column can print before truncation. */
+  capacity: number;
+  /** Entry-text lines that will NOT print. */
+  truncated: number;
+  /**
+   * Lines the column's close-out (entry date and/or signature blocks, when
+   * they land in this column) runs past the bottom of the column.
+   */
+  spillover: number;
+}
+
+export interface Navmc11811Fit {
+  left: Navmc11811ColumnFit;
+  right: Navmc11811ColumnFit;
+}
+
+// A cached measurement font. wrapText needs real Times Roman metrics — the
+// same font generateNavmc11811Pdf embeds — but a fit check must not load the
+// form template or build a full document per keystroke. One throwaway
+// document's font is reused for every measurement.
+let measurementFontPromise: Promise<PDFFont> | null = null;
+function measurementFont(): Promise<PDFFont> {
+  measurementFontPromise ??= PDFDocument.create().then((doc) =>
+    doc.embedFont(StandardFonts.TimesRoman)
+  );
+  return measurementFontPromise;
+}
+
+/**
+ * Report how the entry fits the form's two fixed columns, using the same
+ * wrapping, font metrics, and line caps the generator draws with. The editor
+ * shows this so over-long text warns instead of silently truncating (the
+ * columns are a single physical page — there is no continuation sheet; a
+ * longer entry continues in the right column or on a second Page 11).
+ */
+export async function computeNavmc11811Fit(data: Navmc11811Data): Promise<Navmc11811Fit> {
+  const font = await measurementFont();
+
+  const leftLines = data.remarksText
+    ? wrapText(data.remarksText, FIELDS.remarks.maxWidth, font, FONT_SIZE).length
+    : 0;
+  const rightLines = data.remarksTextRight
+    ? wrapText(data.remarksTextRight, FIELDS.remarksRight.maxWidth, font, FONT_SIZE).length
+    : 0;
+
+  const leftPrinted = Math.min(leftLines, FIELDS.remarks.maxLines);
+  const rightPrinted = Math.min(rightLines, FIELDS.remarksRight.maxLines);
+
+  // Close-out placement mirrors the generator: the date follows the left
+  // column's text (2 lines: gap + date); the signature blocks land in the
+  // right column when it has text, else the left.
+  const dateLines = data.remarksText && data.entryDate ? 2 : 0;
+  const sigInRight = !!data.remarksTextRight;
+  const sigLines = signatureBlockLineCount(
+    data.signatureBlocks ?? [],
+    font,
+    FONT_SIZE,
+    (sigInRight ? FIELDS.remarksRight : FIELDS.remarks).maxWidth
+  );
+
+  const leftUsed = leftPrinted + dateLines + (sigInRight ? 0 : sigLines);
+  const rightUsed = rightPrinted + (sigInRight ? sigLines : 0);
+
+  return {
+    left: {
+      lines: leftLines,
+      capacity: FIELDS.remarks.maxLines,
+      truncated: leftLines - leftPrinted,
+      spillover: Math.max(0, leftUsed - FIELDS.remarks.maxLines),
+    },
+    right: {
+      lines: rightLines,
+      capacity: FIELDS.remarksRight.maxLines,
+      truncated: rightLines - rightPrinted,
+      spillover: Math.max(0, rightUsed - FIELDS.remarksRight.maxLines),
+    },
+  };
 }
 
 /**
