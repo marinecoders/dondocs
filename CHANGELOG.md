@@ -14,10 +14,10 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
   bottom-edge override that lights the final section once you reach the end of
   the form — but a short second-to-last section can't scroll any higher than
   the bottom, so clicking it in the outline snapped the highlight straight to
-  the last section (Signature). A jump is now authoritative: the spy is
-  suppressed for the scroll the jump itself fires, and a real user scroll
-  resumes it immediately, so both the target section and normal scroll-spying
-  behave.
+  the last section (Signature). A jump is now authoritative: the section you
+  jumped to stays selected until you actually scroll — a later re-render or
+  layout shift can't quietly re-fire the override and un-stick it — and the
+  first real scroll (wheel, touch, or arrow key) resumes normal scroll-spying.
 
 ## [1.2.105] — 2026-07-17
 
