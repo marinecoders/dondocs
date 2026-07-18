@@ -107,12 +107,14 @@ export function getFormSections(formType: FormType): EditorSection[] {
         { id: 'header', label: 'Header information', icon: Hash },
         { id: 'addressing', label: 'Addressing', icon: Send },
         { id: 'content', label: 'Counseling content', icon: ClipboardList },
+        { id: 'signatures', label: 'Signatures', icon: PenLine },
         { id: 'references', label: 'References & distribution', icon: BookOpen },
       ];
     case 'navmc_118_11':
       return [
         { id: 'marine', label: 'Marine identification', icon: User },
         { id: 'content', label: 'Entry content', icon: ClipboardList },
+        { id: 'signatures', label: 'Signatures', icon: PenLine },
       ];
     default:
       return [];

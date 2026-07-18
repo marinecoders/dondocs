@@ -2,6 +2,22 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { safeLocalStorage } from '@/lib/compressedStorage';
 import { format } from 'date-fns';
+import type { FormSignatureBlock, SignatureStyle } from '@/types/signature';
+
+/** Upgrade a persisted signature block from the pre-1.2.107 `digital` boolean
+ *  to the `style` field, dropping the legacy key. Idempotent. */
+function migrateSignatureBlock(
+  block: FormSignatureBlock & { digital?: boolean }
+): FormSignatureBlock {
+  if (block.style) {
+    const { digital: _d, ...rest } = block;
+    void _d;
+    return rest;
+  }
+  const { digital, ...rest } = block;
+  const style: SignatureStyle = digital ? 'digital' : 'typed';
+  return { ...rest, style };
+}
 
 // The persist key for NAVMC form data. Exported so the "Saved" indicator can
 // verify the latest write actually landed (safeLocalStorage.lastWriteFailed).
@@ -35,6 +51,10 @@ export interface Navmc11811Data {
 
   // Box 11 - SRB (Service Record Book) page number, 5 chars max
   box11: string;
+
+  // Signature blocks closing the 6105 entry (counselor + counseled Marine),
+  // appended to the remarks body. Same shape/styles as the AA form.
+  signatureBlocks: FormSignatureBlock[];
 }
 
 export interface NavmcForm10274Data {
@@ -62,8 +82,20 @@ export interface NavmcForm10274Data {
   enclosures: string;
   // Field 12: Supplemental Information (main counseling text)
   supplementalInfo: string;
-  // Field 13: Proposed/Recommended Action
+  // Proposed/Recommended Action. The printed NAVMC 10274 has no box for this
+  // (its fields run 1-12), so it renders as a labeled closing paragraph inside
+  // block 12 rather than into a box of its own.
   proposedAction: string;
+  // Signature blocks at the end of block 12, in signing order. The first is
+  // the originator's, per the form's own caption ("type name of originator and
+  // sign 3 lines below text"); counseling actions add the counseled Marine's
+  // acknowledgement and sometimes a witness. Each block's optional statement
+  // ("Acknowledged:", "I have witnessed…") prints as a paragraph above that
+  // signer's signing space; the typed name goes on the third line below it.
+  // `style` selects how each block signs: 'typed' (name only, the default),
+  // 'image' (a scanned signature drawn in the gap), or 'digital' (an empty
+  // CAC-signable AcroForm field placed there for signing later in Acrobat).
+  signatureBlocks: FormSignatureBlock[];
 }
 
 interface FormStore {
@@ -97,6 +129,7 @@ const EMPTY_NAVMC_10274: NavmcForm10274Data = {
   enclosures: '',
   supplementalInfo: '',
   proposedAction: '',
+  signatureBlocks: [],
 };
 
 const EMPTY_NAVMC_11811: Navmc11811Data = {
@@ -104,6 +137,7 @@ const EMPTY_NAVMC_11811: Navmc11811Data = {
   firstName: '',
   middleName: '',
   edipi: '',
+  signatureBlocks: [],
   remarksText: '',
   remarksTextRight: '',
   entryDate: '',
@@ -169,6 +203,16 @@ Despite these counseling efforts and remedial PT opportunities, you have failed 
 
 10. Your signature below acknowledges receipt of this counseling and indicates that you understand the requirements and potential consequences outlined herein. Your signature does not constitute agreement with the contents of this counseling. You have the right to submit a written rebuttal within 10 working days of the date of this counseling.`,
   proposedAction: 'Request entry of adverse Page 11 (6105) entry per MCO 1610.7A. Recommend assignment to Remedial PT Program and monthly progress evaluations.',
+  // Two blocks — the shape most counseling actions need: the originator signs
+  // first, then the Marine acknowledges (fulfilling the demo text's own
+  // "Your signature below acknowledges receipt" in paragraph 10).
+  signatureBlocks: [
+    { statement: '', name: 'R. L. SMITH' },
+    {
+      statement: 'I acknowledge receipt and understanding of this counseling.',
+      name: 'J. A. DOE',
+    },
+  ],
 };
 
 const DEFAULT_NAVMC_11811: Navmc11811Data = {
@@ -189,6 +233,16 @@ J. A. SMITH, SSgt, USMC`,
   remarksTextRight: '',
   entryDate: formatMilitaryDate(new Date()),
   box11: '01',
+  // A 6105 is authenticated by the counselor and the counseled Marine; the
+  // acknowledgement wording is the user's to set (MCO 1610.7 / IRAM).
+  signatureBlocks: [
+    { statement: '', name: 'J. A. SMITH', style: 'typed' },
+    {
+      statement: 'I have been counseled this date and understand this entry.',
+      name: 'J. M. DOE',
+      style: 'typed',
+    },
+  ],
 };
 
 export const useFormStore = create<FormStore>()(
@@ -236,6 +290,34 @@ export const useFormStore = create<FormStore>()(
         navmc11811: s.navmc11811,
         includeCoverPage: s.includeCoverPage,
       }),
+      // Persisted sessions predating signatureBlocks hydrate a navmc10274
+      // without the array — the default merge is shallow, so the stored object
+      // would replace the default wholesale and leave signatureBlocks undefined,
+      // crashing the Forms tab on .map. Also upgrade any block still carrying the
+      // pre-1.2.107 `digital: boolean` flag to the `style` field.
+      merge: (persisted, current) => {
+        const p = (persisted ?? {}) as Partial<FormStore>;
+        const merged = { ...current, ...p };
+        if (p.navmc10274) {
+          merged.navmc10274 = {
+            ...current.navmc10274,
+            ...p.navmc10274,
+            signatureBlocks: Array.isArray(p.navmc10274.signatureBlocks)
+              ? p.navmc10274.signatureBlocks.map(migrateSignatureBlock)
+              : [],
+          };
+        }
+        if (p.navmc11811) {
+          merged.navmc11811 = {
+            ...current.navmc11811,
+            ...p.navmc11811,
+            signatureBlocks: Array.isArray(p.navmc11811.signatureBlocks)
+              ? p.navmc11811.signatureBlocks.map(migrateSignatureBlock)
+              : [],
+          };
+        }
+        return merged;
+      },
     }
   )
 );

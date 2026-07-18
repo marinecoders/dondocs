@@ -5,6 +5,113 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.108] — 2026-07-18
+
+### Added
+
+- The AA form (NAVMC 10274) now types its signature blocks for you — up to
+  four, in signing order, because a counseling action carries more than one:
+  the originator (whose block the form's own caption mandates — "type name of
+  originator and sign 3 lines below text"), the counseled Marine's
+  acknowledgement, and sometimes a witness. Each block takes an optional
+  statement ("I acknowledge receipt…", "Witnessed:") printed above its signing
+  space, with the typed name on the third line below. Users had to fake all of
+  this by hand, tabbing across the supplemental-information box or editing the
+  exported file — and tabs are normalized to spaces in a proportional font, so
+  that alignment could never come out right. The originator's name fills from
+  your profile in one click, and a signature block never splits across the
+  page break: if it won't fit, the whole block (statement, signing space, and
+  name) moves to the continuation page together.
+- Each AA-form signature block now chooses how it signs — **Typed** name,
+  **Image** (upload a scanned signature, drawn into the signing space), or
+  **Digital** (an empty CAC-signable AcroForm field, signed later in Acrobat) —
+  the same three-way choice the naval letter offers. Image and digital marks are
+  placed by computed geometry, not a text search, and follow their block onto
+  the continuation page so they can never be stranded away from the name. (The
+  cryptographic CAC signature is applied in Acrobat; a browser cannot reach a
+  CAC's private key.)
+- The **NAVMC 118(11) / Page 11 (6105)** entry can now carry its signatures too.
+  A counseling entry is authenticated by the counselor and the counseled Marine
+  (MCO 1610.7 / IRAM); DonDocs appends signature blocks — typed, image, or
+  digital — to the end of the remarks, with the acknowledgement wording yours to
+  set and the counselor's name a one-click fill from your profile (as on the AA
+  form). The form's three pre-printed "(Signature)" cells (Art 137, SBP) are
+  left alone; these close the entry text, where a 6105's signatures actually go.
+- Under the hood, both forms now share one signature model and one set of
+  pdf-lib primitives, so the AA form and the 118(11) can't drift apart as
+  signing grows.
+- Adding a signature block is now role-aware on both forms: **Add signature…**
+  offers Originator/Counselor, Marine acknowledgement, and Witness, each seeded
+  with the right starting statement so the boilerplate is one click away instead
+  of retyped. The wording stays fully editable — it's a starting point, not a
+  locked value.
+- On the AA form, signatures now live in their own **Signatures** section in the
+  editor outline rather than buried at the bottom of Counseling Content, so the
+  originator's block is where you'd look for it. (The 118(11) already had one.)
+- Digital (CAC-signable) signature fields now carry the signer's name — a block
+  for "R. L. SMITH" produces a field named for them instead of an anonymous
+  "Signature 1", so Acrobat's signature panel and any downstream tooling can
+  tell the counselor's field from the Marine's.
+- Signature blocks on both forms can be **dragged to reorder** (grip handle,
+  keyboard-operable like the References list). Order is the top-to-bottom
+  signing/print order, so a counselor added after the fact no longer has to be
+  deleted and re-added to sit above the Marine's acknowledgement — and on the
+  AA form the block dragged to the top becomes the originator automatically.
+- Signature presets now arrive with the typed name already filled where the app
+  knows it: the counselor/originator from the active profile, and — on the
+  118(11) — the Marine's acknowledgement from the Marine Identification fields
+  the form already collects ("J. M. DOE"), instead of asking you to retype a
+  name that's two sections up. Witness stays blank; the app can't guess who
+  witnessed. All fills are editable.
+- An empty Signatures section offers the standard counseling setup in one
+  click — "Add originator/counselor + Marine acknowledgement" — which, with a
+  profile and the Marine's name on file, produces a ready-to-export pair
+  without typing.
+- After adding a signature block, focus lands in the new block's first field —
+  a preset pick flows straight into editing instead of leaving you to click
+  into the card (the add-menu suppresses its own focus-return to make room).
+- The 118(11) editor now shows how the entry **fits the printed page**: a live
+  "≈ N of 37 printed lines" readout under each remarks column and a warning
+  the moment text (or the closing date/signature blocks) runs past what the
+  column can hold. The form is a single physical page — there is no
+  continuation sheet — and previously anything past the cap was silently left
+  off the exported PDF. The counts come from the generator's own font metrics
+  and wrapping, so the warning and the printout can't disagree.
+- The AA form's **From** and **Organization/Station** gained one-click "Use
+  profile" fills — the originator's rank and name, and your own unit's
+  name/address, straight from the active profile (the fields users retype most
+  often). Both fills are explicit buttons, never written silently.
+
+### Fixed
+
+- The 118(11) remarks columns' line cap is now calibrated to the printed form:
+  a rendered probe showed the old 40-line cap letting the last three lines
+  print **on top of the NAME/EDIPI identification strip** at the bottom of the
+  page. Each column now stops at 37 lines — the last line that clears the
+  strip — and the new fit warning surfaces what didn't make it instead of
+  dropping it silently.
+
+### Changed
+
+- Removing a signature block that holds a statement, name, or uploaded
+  signature image now asks first — the same rule References and Enclosures
+  follow — and on the AA form warns that the next block becomes the
+  originator. An empty block still removes in one click.
+- Signature drag handles grew a padded hit area for touch, and a small drag
+  threshold keeps a touch-scroll that starts on a handle from becoming an
+  accidental reorder.
+
+### Fixed
+
+- The AA form's "Proposed/Recommended Action" is no longer silently dropped
+  from the PDF. The field was collected and saved but never rendered — the
+  printed form has no box for it (its fields run 1–12) — so anything typed
+  there vanished on export. It now closes block 12 as its own labeled
+  paragraph.
+- Removed a phantom "13." from that field's label (the printed form has no
+  field 13) and a never-rendered, never-collected signature field from the
+  6105 generator.
+
 ## [1.2.107] — 2026-07-18
 
 ### Fixed
