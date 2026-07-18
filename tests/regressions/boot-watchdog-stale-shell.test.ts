@@ -60,6 +60,15 @@ interface RunOptions {
   shellSrc?: string | null;
   /** Whether a service worker controls the page (default: yes, one worker). */
   serviceWorker?: boolean;
+  /** Skip the automatic timer firing (to exercise the fast CSS-error path alone). */
+  autoFireTimer?: boolean;
+}
+
+/** A minimal resource-error event target, as the capture listener sees it. */
+interface ErrorTarget {
+  tagName: string;
+  rel?: string;
+  href?: string;
 }
 
 /** Run the extracted watchdog against doubles and fire its timer. */
@@ -72,6 +81,8 @@ async function runWatchdog(opts: RunOptions) {
   let reloads = 0;
   let unregistered = 0;
   let timerCb: (() => void) | null = null;
+  let errorCb: ((e: { target: ErrorTarget | null }) => void) | null = null;
+  let errorCapture: boolean | undefined;
 
   const cachesStub = {
     keys: async () => opts.cacheKeys ?? [],
@@ -92,7 +103,20 @@ async function runWatchdog(opts: RunOptions) {
   }
   const stylesApplied = opts.stylesApplied ?? true;
   const sandbox = {
-    window: { __DD_BOOTED__: opts.booted ? true : undefined, caches: cachesStub },
+    window: {
+      __DD_BOOTED__: opts.booted ? true : undefined,
+      caches: cachesStub,
+      addEventListener: (
+        type: string,
+        cb: (e: { target: ErrorTarget | null }) => void,
+        capture?: boolean
+      ) => {
+        if (type === 'error') {
+          errorCb = cb;
+          errorCapture = capture;
+        }
+      },
+    },
     // The watchdog probes getComputedStyle(...).getPropertyValue('--background');
     // an empty value means the stylesheet never applied (unstyled shell).
     getComputedStyle: () => ({
@@ -132,15 +156,32 @@ async function runWatchdog(opts: RunOptions) {
   // Execute the real inline script with our doubles shadowing the globals.
   new Function(...Object.keys(sandbox), extractWatchdogSource())(...Object.values(sandbox));
 
-  const fireTimer = async () => {
-    timerCb?.();
+  const settle = async () => {
     // let the recovery's promise chain settle
     await new Promise((r) => globalThis.setTimeout(r, 0));
     await new Promise((r) => globalThis.setTimeout(r, 0));
   };
-  await fireTimer();
+  const fireTimer = async () => {
+    timerCb?.();
+    await settle();
+  };
+  /** Fire the capture-phase resource-error listener with the given target. */
+  const fireError = async (target: ErrorTarget | null) => {
+    errorCb?.({ target });
+    await settle();
+  };
+  if (opts.autoFireTimer !== false) await fireTimer();
 
-  return { deleted, fetchCalls, reloads: () => reloads, unregistered: () => unregistered, storage, fireTimer };
+  return {
+    deleted,
+    fetchCalls,
+    reloads: () => reloads,
+    unregistered: () => unregistered,
+    storage,
+    fireTimer,
+    fireError,
+    errorListener: () => ({ registered: errorCb !== null, capture: errorCapture }),
+  };
 }
 
 describe('boot watchdog — stale shell recovery (v1.2.94 incident)', () => {
@@ -242,6 +283,72 @@ describe('boot watchdog — stale shell recovery (v1.2.94 incident)', () => {
     // and it must NOT burn the one-shot guard while offline, or a machine that
     // comes back online later has no recovery left
     expect(r.storage.has(GUARD_KEY)).toBe(false);
+  });
+});
+
+describe('boot watchdog — fast heal on stylesheet failure', () => {
+  const cssTarget = (href = 'https://dondocs.test/assets/main-abc123.css'): {
+    tagName: string;
+    rel: string;
+    href: string;
+  } => ({ tagName: 'LINK', rel: 'stylesheet', href });
+
+  it('a failed shell stylesheet heals immediately — no waiting for the timer', async () => {
+    const r = await runWatchdog({
+      booted: false,
+      stylesApplied: false,
+      autoFireTimer: false,
+      cacheKeys: [`${SHELL_CACHE_PREFIX}-deadbeef`],
+    });
+    // capture phase is load-bearing: resource errors don't bubble, so a
+    // bubble-phase listener would never fire and the fast path silently dies.
+    expect(r.errorListener()).toEqual({ registered: true, capture: true });
+    await r.fireError(cssTarget());
+    expect(r.reloads()).toBe(1);
+    expect(r.unregistered()).toBe(2);
+    expect(r.deleted).toEqual([`${SHELL_CACHE_PREFIX}-deadbeef`]);
+    expect(r.storage.get(GUARD_KEY)).toBe(SHELL_SRC);
+  });
+
+  it('the timer firing after a fast heal does not heal twice', async () => {
+    const r = await runWatchdog({
+      booted: false,
+      stylesApplied: false,
+      autoFireTimer: false,
+      cacheKeys: [`${SHELL_CACHE_PREFIX}-deadbeef`],
+    });
+    await r.fireError(cssTarget());
+    await r.fireTimer();
+    expect(r.reloads()).toBe(1); // one-shot guard holds across both triggers
+  });
+
+  it('ignores failures that are not our shell stylesheet', async () => {
+    const r = await runWatchdog({ booted: false, stylesApplied: false, autoFireTimer: false });
+    await r.fireError(null); // no target at all
+    await r.fireError({ tagName: 'IMG', href: 'https://dondocs.test/assets/x.png' });
+    await r.fireError({ tagName: 'LINK', rel: 'preload', href: 'https://dondocs.test/assets/a.css' });
+    await r.fireError(cssTarget('https://dondocs.test/other/site.css')); // not /assets/
+    expect(r.reloads()).toBe(0);
+  });
+
+  it('a stylesheet error while styles ARE applied never nukes a healthy session', async () => {
+    // e.g. a secondary/print stylesheet failing after the main one applied.
+    const r = await runWatchdog({ booted: true, stylesApplied: true, autoFireTimer: false });
+    await r.fireError(cssTarget());
+    expect(r.reloads()).toBe(0);
+    expect(r.unregistered()).toBe(0);
+  });
+
+  it('offline: the fast path stands down like the timer path', async () => {
+    const r = await runWatchdog({
+      booted: false,
+      stylesApplied: false,
+      online: false,
+      autoFireTimer: false,
+    });
+    await r.fireError(cssTarget());
+    expect(r.reloads()).toBe(0);
+    expect(r.storage.has(GUARD_KEY)).toBe(false); // guard not burned while offline
   });
 });
 
