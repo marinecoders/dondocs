@@ -52,6 +52,11 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
   for "R. L. SMITH" produces a field named for them instead of an anonymous
   "Signature 1", so Acrobat's signature panel and any downstream tooling can
   tell the counselor's field from the Marine's.
+- Signature blocks on both forms can be **dragged to reorder** (grip handle,
+  keyboard-operable like the References list). Order is the top-to-bottom
+  signing/print order, so a counselor added after the fact no longer has to be
+  deleted and re-added to sit above the Marine's acknowledgement — and on the
+  AA form the block dragged to the top becomes the originator automatically.
 
 ### Fixed
 

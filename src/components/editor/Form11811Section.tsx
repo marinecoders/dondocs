@@ -22,6 +22,8 @@ import { cn } from '@/lib/utils';
 import { NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
 import { SignatureStylePicker } from './SignatureStylePicker';
 import { AddSignatureBlockMenu } from './AddSignatureBlockMenu';
+import { SortableSignatureList, SortableSignatureItem } from './SortableSignatureBlocks';
+import { arrayMove } from '@dnd-kit/sortable';
 import type { FormSignatureBlock } from '@/types/signature';
 import { useProfileStore } from '@/stores/profileStore';
 import { abbreviatedSignatoryName } from '@/lib/signatoryName';
@@ -222,61 +224,77 @@ export function Form11811Section() {
               <p className="text-xs text-muted-foreground">
                 A Page 11 entry is authenticated by the counselor and the
                 counseled Marine (MCO 1610.7 / IRAM). Each block prints at the
-                end of the entry text; type the acknowledgement wording your
-                command uses.
+                end of the entry text, top-to-bottom in the order below; drag a
+                block&apos;s handle to rearrange. Type the acknowledgement
+                wording your command uses.
               </p>
-              {signatureBlocks.map((block, index) => (
-                <div key={index} className="space-y-2 rounded-md border border-border p-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-medium text-muted-foreground">
-                      Signature {index + 1}
-                    </span>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      aria-label={`Remove signature block ${index + 1}`}
-                      onClick={() => removeSignatureBlock(index)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <InputWithVariables
-                    value={block.statement}
-                    onValueChange={(v) => setSignatureBlock(index, { statement: v })}
-                    placeholder="Statement above the signing line (e.g. I have been counseled…)"
-                    placeholders={NAVMC_118_11_PLACEHOLDERS}
-                    commonVariables={COMMON_FORM_VARS}
-                  />
-                  <div className="flex items-center gap-2">
-                    <div className="min-w-0 flex-1">
+              <SortableSignatureList
+                count={signatureBlocks.length}
+                className="space-y-4"
+                onReorder={(oldIndex, newIndex) =>
+                  setNavmc11811Field('signatureBlocks', arrayMove(signatureBlocks, oldIndex, newIndex))
+                }
+              >
+                {signatureBlocks.map((block, index) => (
+                  <SortableSignatureItem
+                    key={index}
+                    index={index}
+                    label={`signature block ${index + 1}`}
+                    showHandle={signatureBlocks.length > 1}
+                  >
+                    <div className="space-y-2 rounded-md border border-border p-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-medium text-muted-foreground">
+                          Signature {index + 1}
+                        </span>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          aria-label={`Remove signature block ${index + 1}`}
+                          onClick={() => removeSignatureBlock(index)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                       <InputWithVariables
-                        value={block.name}
-                        onValueChange={(v) => setSignatureBlock(index, { name: v })}
-                        placeholder="Typed name (e.g. A. B. SMITH)"
+                        value={block.statement}
+                        onValueChange={(v) => setSignatureBlock(index, { statement: v })}
+                        placeholder="Statement above the signing line (e.g. I have been counseled…)"
                         placeholders={NAVMC_118_11_PLACEHOLDERS}
                         commonVariables={COMMON_FORM_VARS}
                       />
+                      <div className="flex items-center gap-2">
+                        <div className="min-w-0 flex-1">
+                          <InputWithVariables
+                            value={block.name}
+                            onValueChange={(v) => setSignatureBlock(index, { name: v })}
+                            placeholder="Typed name (e.g. A. B. SMITH)"
+                            placeholders={NAVMC_118_11_PLACEHOLDERS}
+                            commonVariables={COMMON_FORM_VARS}
+                          />
+                        </div>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="shrink-0"
+                          disabled={!profileSignatoryName}
+                          onClick={() => setSignatureBlock(index, { name: profileSignatoryName })}
+                          title={profileSignatoryName ? `Use ${profileSignatoryName}` : 'No profile signature to use'}
+                        >
+                          Use profile
+                        </Button>
+                      </div>
+                      <SignatureStylePicker
+                        block={block}
+                        index={index}
+                        onChange={(patch) => setSignatureBlock(index, patch)}
+                      />
                     </div>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="shrink-0"
-                      disabled={!profileSignatoryName}
-                      onClick={() => setSignatureBlock(index, { name: profileSignatoryName })}
-                      title={profileSignatoryName ? `Use ${profileSignatoryName}` : 'No profile signature to use'}
-                    >
-                      Use profile
-                    </Button>
-                  </div>
-                  <SignatureStylePicker
-                    block={block}
-                    index={index}
-                    onChange={(patch) => setSignatureBlock(index, patch)}
-                  />
-                </div>
-              ))}
+                  </SortableSignatureItem>
+                ))}
+              </SortableSignatureList>
               <AddSignatureBlockMenu
                 form="navmc_118_11"
                 onAdd={(b) => setNavmc11811Field('signatureBlocks', [...signatureBlocks, b])}

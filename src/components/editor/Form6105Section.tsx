@@ -34,6 +34,8 @@ import type { UnitInfo } from '@/data/unitDirectory';
 import type { FormSignatureBlock } from '@/types/signature';
 import { SignatureStylePicker } from './SignatureStylePicker';
 import { AddSignatureBlockMenu } from './AddSignatureBlockMenu';
+import { SortableSignatureList, SortableSignatureItem } from './SortableSignatureBlocks';
+import { arrayMove } from '@dnd-kit/sortable';
 
 // Active-section left-rule for a form AccordionItem, matching the letter
 // sections (FormPanel's SectionShell). activeId only changes at section
@@ -358,63 +360,79 @@ export function Form6105Section() {
                   expects at least the originator&apos;s.
                 </p>
               )}
-              {signatureBlocks.map((block, index) => (
-                <div key={index} className="space-y-2 rounded-md border border-border p-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-medium text-muted-foreground">
-                      {index === 0 ? 'Originator' : `Signature ${index + 1}`}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => removeSignatureBlock(index)}
-                      aria-label={`Remove signature block ${index + 1}`}
-                      className="rounded p-0.5 text-muted-foreground outline-none hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </button>
-                  </div>
-                  <Input
-                    value={block.statement}
-                    onChange={(e) => setSignatureBlock(index, { statement: e.target.value })}
-                    placeholder={
-                      index === 0
-                        ? 'Statement above the signature (optional)'
-                        : 'e.g., I acknowledge receipt and understanding of this counseling.'
-                    }
-                    aria-label={`Signature block ${index + 1} statement`}
-                  />
-                  <div className="flex gap-2">
-                    <Input
-                      value={block.name}
-                      onChange={(e) => setSignatureBlock(index, { name: e.target.value })}
-                      placeholder="R. L. SMITH"
-                      aria-label={`Signature block ${index + 1} typed name`}
-                    />
-                    {index === 0 && (
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="shrink-0 self-center"
-                        onClick={fillOriginatorFromProfile}
-                        disabled={!profileOriginatorName}
-                        title={profileOriginatorName ? `Use ${profileOriginatorName}` : 'No profile signature to use'}
-                      >
-                        Use profile
-                      </Button>
-                    )}
-                  </div>
-                  <SignatureStylePicker
-                    block={block}
+              <SortableSignatureList
+                count={signatureBlocks.length}
+                className="space-y-2"
+                onReorder={(oldIndex, newIndex) =>
+                  setNavmc10274Field('signatureBlocks', arrayMove(signatureBlocks, oldIndex, newIndex))
+                }
+              >
+                {signatureBlocks.map((block, index) => (
+                  <SortableSignatureItem
+                    key={index}
                     index={index}
-                    onChange={(patch) => setSignatureBlock(index, patch)}
-                  />
-                </div>
-              ))}
+                    label={`signature block ${index + 1}`}
+                    showHandle={signatureBlocks.length > 1}
+                  >
+                    <div className="space-y-2 rounded-md border border-border p-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-medium text-muted-foreground">
+                          {index === 0 ? 'Originator' : `Signature ${index + 1}`}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => removeSignatureBlock(index)}
+                          aria-label={`Remove signature block ${index + 1}`}
+                          className="rounded p-0.5 text-muted-foreground outline-none hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                      <Input
+                        value={block.statement}
+                        onChange={(e) => setSignatureBlock(index, { statement: e.target.value })}
+                        placeholder={
+                          index === 0
+                            ? 'Statement above the signature (optional)'
+                            : 'e.g., I acknowledge receipt and understanding of this counseling.'
+                        }
+                        aria-label={`Signature block ${index + 1} statement`}
+                      />
+                      <div className="flex gap-2">
+                        <Input
+                          value={block.name}
+                          onChange={(e) => setSignatureBlock(index, { name: e.target.value })}
+                          placeholder="R. L. SMITH"
+                          aria-label={`Signature block ${index + 1} typed name`}
+                        />
+                        {index === 0 && (
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="shrink-0 self-center"
+                            onClick={fillOriginatorFromProfile}
+                            disabled={!profileOriginatorName}
+                            title={profileOriginatorName ? `Use ${profileOriginatorName}` : 'No profile signature to use'}
+                          >
+                            Use profile
+                          </Button>
+                        )}
+                      </div>
+                      <SignatureStylePicker
+                        block={block}
+                        index={index}
+                        onChange={(patch) => setSignatureBlock(index, patch)}
+                      />
+                    </div>
+                  </SortableSignatureItem>
+                ))}
+              </SortableSignatureList>
               <p className="text-xs text-muted-foreground">
-                Each typed name prints on the third line below what precedes it
-                — the space above is where that person signs, per the
-                form&apos;s caption. Statements print as a paragraph above
+                Drag the handle to reorder — blocks print top-to-bottom in this
+                order. Each typed name prints on the third line below what
+                precedes it — the space above is where that person signs, per
+                the form&apos;s caption. Statements print as a paragraph above
                 their signature.
               </p>
             </div>
