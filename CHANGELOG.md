@@ -40,6 +40,18 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 - Under the hood, both forms now share one signature model and one set of
   pdf-lib primitives, so the AA form and the 118(11) can't drift apart as
   signing grows.
+- Adding a signature block is now role-aware on both forms: **Add signature…**
+  offers Originator/Counselor, Marine acknowledgement, and Witness, each seeded
+  with the right starting statement so the boilerplate is one click away instead
+  of retyped. The wording stays fully editable — it's a starting point, not a
+  locked value.
+- On the AA form, signatures now live in their own **Signatures** section in the
+  editor outline rather than buried at the bottom of Counseling Content, so the
+  originator's block is where you'd look for it. (The 118(11) already had one.)
+- Digital (CAC-signable) signature fields now carry the signer's name — a block
+  for "R. L. SMITH" produces a field named for them instead of an anonymous
+  "Signature 1", so Acrobat's signature panel and any downstream tooling can
+  tell the counselor's field from the Marine's.
 
 ### Fixed
 

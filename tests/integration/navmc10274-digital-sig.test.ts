@@ -46,13 +46,14 @@ async function sigFields(bytes: Uint8Array) {
   const fields = acro.lookup(PDFName.of('Fields')) as PDFArray | undefined;
   if (!fields) return [];
   const pageRefs = doc.getPages().map((p) => doc.context.getObjectRef(p.node)?.toString());
-  const out: Array<{ pageIndex: number; rect: number[] }> = [];
+  const out: Array<{ pageIndex: number; rect: number[]; name: string }> = [];
   for (let i = 0; i < fields.size(); i++) {
     const f = fields.lookup(i) as PDFDict;
     if ((f.lookup(PDFName.of('FT')) as PDFName | undefined)?.toString() !== '/Sig') continue;
     const rect = (f.lookup(PDFName.of('Rect')) as PDFArray).asArray().map((n) => (n as { asNumber(): number }).asNumber());
     const pRef = f.get(PDFName.of('P')) as PDFRef | undefined;
-    out.push({ pageIndex: pageRefs.indexOf(pRef?.toString()), rect });
+    const name = (f.lookup(PDFName.of('T')) as { asString?(): string } | undefined)?.asString?.() ?? '';
+    out.push({ pageIndex: pageRefs.indexOf(pRef?.toString()), rect, name });
   }
   return out;
 }
@@ -108,6 +109,10 @@ describe('NAVMC 10274 digital signature fields', () => {
 
     const [smithPage] = pageOfText(bytes, [/R\. L\. SMITH/]);
     expect(f.pageIndex).toBe(smithPage); // field on the signer's page
+
+    // The field is named for its signer (not an anonymous "Signature N"), so
+    // Acrobat's signature panel can tell whose field is whose.
+    expect(f.name).toMatch(/^R L SMITH signature \d+$/);
 
     expect(f.rect[0]).toBeGreaterThanOrEqual(30); // block-12 left margin
     expect(f.rect[3] - f.rect[1]).toBeCloseTo(20, 0); // configured height

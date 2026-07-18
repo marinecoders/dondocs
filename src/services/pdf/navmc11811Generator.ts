@@ -116,7 +116,7 @@ export interface Navmc11811Data {
 }
 
 import { calculateTextPosition, type BoxBoundary } from './extractFormFields';
-import { addSignatureFieldToPage } from './signatureFieldCore';
+import { addSignatureFieldToPage, signatureFieldName } from './signatureFieldCore';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { isDigital, isImage } from '@/types/signature';
 import type { FormSignatureBlock } from '@/types/signature';
@@ -244,7 +244,7 @@ async function appendSignatureBlocks(
         pdfDoc,
         page,
         [col.x, bottom, col.x + SIG_FIELD_W, bottom + SIG_FIELD_H],
-        `Signature_${seq.n++}`
+        signatureFieldName(name, seq.n++)
       );
     } else if (isImage(block) && block.image) {
       const img = await embedSignatureImage(pdfDoc, block.image);

@@ -125,7 +125,7 @@ export interface Navmc10274Data {
 }
 
 import { calculateTextPosition, type BoxBoundary } from './extractFormFields';
-import { addSignatureFieldToPage } from './signatureFieldCore';
+import { addSignatureFieldToPage, signatureFieldName } from './signatureFieldCore';
 import { base64ToUint8Array } from '@/lib/encoding';
 import type { SignatureStyle } from '@/types/signature';
 import type { PDFImage, PDFPage } from 'pdf-lib';
@@ -206,6 +206,7 @@ export interface ComposedBlockTwelve {
     nameLineIndex: number | null;
     style: SignatureStyle;
     image?: string;
+    name: string;
   }>;
 }
 
@@ -218,6 +219,7 @@ export interface SignatureFieldPlacement {
   nameLineInPage: number;
   style: 'image' | 'digital';
   image?: string;
+  name: string;
 }
 
 /**
@@ -274,6 +276,7 @@ export function composeBlockTwelveLines(parts: {
       nameLineIndex,
       style: block.style ?? 'typed',
       image: block.image,
+      name,
     });
   }
   return { lines, groups };
@@ -308,7 +311,7 @@ export function paginateBlockTwelve(
       )
       .map((g) => {
         const idx = g.nameLineIndex as number;
-        const mark = { style: g.style as 'image' | 'digital', image: g.image };
+        const mark = { style: g.style as 'image' | 'digital', image: g.image, name: g.name };
         return idx < split
           ? { page: 'main' as const, nameLineInPage: idx, ...mark }
           : { page: 'continuation' as const, nameLineInPage: idx - continuationStart, ...mark };
@@ -622,7 +625,7 @@ export async function generateNavmc10274Pdf(
         pdfDoc,
         page,
         signatureFieldRect(box.x, box.y, p.nameLineInPage, box.lineHeight),
-        `Signature_${sigFieldSeq++}`
+        signatureFieldName(p.name, sigFieldSeq++)
       );
     } else if (p.style === 'image' && p.image) {
       const img = await embedSignatureImage(pdfDoc, p.image);

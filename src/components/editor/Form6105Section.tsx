@@ -33,6 +33,7 @@ import { cn } from '@/lib/utils';
 import type { UnitInfo } from '@/data/unitDirectory';
 import type { FormSignatureBlock } from '@/types/signature';
 import { SignatureStylePicker } from './SignatureStylePicker';
+import { AddSignatureBlockMenu } from './AddSignatureBlockMenu';
 
 // Active-section left-rule for a form AccordionItem, matching the letter
 // sections (FormPanel's SectionShell). activeId only changes at section
@@ -67,8 +68,6 @@ export function Form6105Section() {
       signatureBlocks.map((b, i) => (i === index ? { ...b, ...patch } : b))
     );
   };
-  const addSignatureBlock = () =>
-    setNavmc10274Field('signatureBlocks', [...signatureBlocks, { statement: '', name: '' }]);
   const removeSignatureBlock = (index: number) =>
     setNavmc10274Field(
       'signatureBlocks',
@@ -330,23 +329,28 @@ export function Form6105Section() {
                 its own labeled paragraph.
               </p>
             </div>
+          </AccordionContent>
+        </AccordionItem>
 
-            {/* Signature blocks close block 12: "type name of originator and
-                sign 3 lines below text" is printed on the form itself. A
-                counseling action typically adds the Marine's acknowledgement
-                as a second block, and sometimes a witness as a third. */}
+        {/* Signatures Section — block 12 closes with the originator's typed
+            name signed 3 lines below the text (printed on the form itself); a
+            counseling action typically adds the Marine's acknowledgement as a
+            second block, and sometimes a witness as a third. */}
+        <AccordionItem value="signatures" id="sec-signatures" data-section="signatures" className={sectionRule(activeId === 'signatures')}>
+          <AccordionTrigger className="hover:no-underline">
+            <span className="font-medium">Signatures</span>
+          </AccordionTrigger>
+          <AccordionContent className="space-y-4 pt-2">
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label>Signature blocks</Label>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={addSignatureBlock}
+                <AddSignatureBlockMenu
+                  form="navmc_10274"
                   disabled={signatureBlocks.length >= 4}
-                >
-                  Add signature
-                </Button>
+                  onAdd={(b) =>
+                    setNavmc10274Field('signatureBlocks', [...signatureBlocks, b])
+                  }
+                />
               </div>
               {signatureBlocks.length === 0 && (
                 <p className="text-xs text-muted-foreground">

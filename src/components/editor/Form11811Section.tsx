@@ -21,6 +21,7 @@ import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { cn } from '@/lib/utils';
 import { NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
 import { SignatureStylePicker } from './SignatureStylePicker';
+import { AddSignatureBlockMenu } from './AddSignatureBlockMenu';
 import type { FormSignatureBlock } from '@/types/signature';
 import { useProfileStore } from '@/stores/profileStore';
 import { abbreviatedSignatoryName } from '@/lib/signatoryName';
@@ -55,8 +56,6 @@ export function Form11811Section() {
       'signatureBlocks',
       signatureBlocks.map((b, i) => (i === index ? { ...b, ...patch } : b))
     );
-  const addSignatureBlock = () =>
-    setNavmc11811Field('signatureBlocks', [...signatureBlocks, { statement: '', name: '', style: 'typed' }]);
   const removeSignatureBlock = (index: number) =>
     setNavmc11811Field('signatureBlocks', signatureBlocks.filter((_, i) => i !== index));
   const activeId = useEditorOutlineStore((s) => s.activeId);
@@ -278,9 +277,10 @@ export function Form11811Section() {
                   />
                 </div>
               ))}
-              <Button type="button" variant="outline" size="sm" onClick={addSignatureBlock}>
-                Add signature block
-              </Button>
+              <AddSignatureBlockMenu
+                form="navmc_118_11"
+                onAdd={(b) => setNavmc11811Field('signatureBlocks', [...signatureBlocks, b])}
+              />
             </div>
           </AccordionContent>
         </AccordionItem>

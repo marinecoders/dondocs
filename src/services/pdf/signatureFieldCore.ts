@@ -26,6 +26,17 @@ import {
  * @param rect [x, y, x2, y2] in PDF points, origin bottom-left.
  * @param name unique AcroForm field name (must be unique in the document).
  */
+/**
+ * A human-readable, unique AcroForm field name for a signer, so Acrobat shows
+ * the signer *which* field is theirs (e.g. "R L SMITH signature 1") instead of
+ * an opaque "Signature_1". Periods are stripped — they denote field hierarchy
+ * in AcroForm names — and `seq` guarantees uniqueness within the document.
+ */
+export function signatureFieldName(rawName: string | undefined, seq: number): string {
+  const clean = (rawName ?? '').replace(/\./g, '').replace(/\s+/g, ' ').trim();
+  return clean ? `${clean} signature ${seq}` : `Signature ${seq}`;
+}
+
 export function addSignatureFieldToPage(
   pdfDoc: PDFDocument,
   page: PDFPage,
