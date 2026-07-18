@@ -44,7 +44,9 @@ export function SortableSignatureList({
   children: ReactNode;
 }) {
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    // A small distance threshold so a touch-scroll that happens to start on
+    // the handle doesn't turn into an accidental drag.
+    useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   );
 
@@ -99,7 +101,10 @@ export function SortableSignatureItem({
             aria-label={`Drag to reorder ${label}`}
             {...attributes}
             {...listeners}
-            className="mt-3 cursor-grab touch-none rounded-sm text-muted-foreground outline-none transition-colors hover:bg-accent/50 hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 active:cursor-grabbing"
+            // p-1 pads the hit area for touch without growing the icon; mt-2
+            // (+4px padding) keeps the glyph at the same visual height as the
+            // old mt-3.
+            className="mt-2 cursor-grab touch-none rounded-sm p-1 text-muted-foreground outline-none transition-colors hover:bg-accent/50 hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 active:cursor-grabbing"
           >
             <GripVertical className="h-4 w-4" />
           </button>

@@ -27,6 +27,8 @@ import { arrayMove } from '@dnd-kit/sortable';
 import type { FormSignatureBlock } from '@/types/signature';
 import { useProfileStore } from '@/stores/profileStore';
 import { abbreviatedSignatoryName } from '@/lib/signatoryName';
+import { standardSignaturePair } from '@/lib/signaturePresets';
+import { showAppConfirm } from '@/stores/alertStore';
 
 // Names to sort first in the @ autocomplete. This only reorders entries that
 // exist in `placeholders` (NAVMC_118_11_PLACEHOLDERS = NAME, DATE), so any name
@@ -58,8 +60,43 @@ export function Form11811Section() {
       'signatureBlocks',
       signatureBlocks.map((b, i) => (i === index ? { ...b, ...patch } : b))
     );
-  const removeSignatureBlock = (index: number) =>
+  // The counseled Marine's name in the same abbreviated form, derived from the
+  // Marine Identification fields this form already collects — so the
+  // acknowledgement preset arrives pre-filled instead of asking the user to
+  // retype a name that's two sections up.
+  const marineAckName = abbreviatedSignatoryName(
+    navmc11811.firstName,
+    navmc11811.middleName,
+    navmc11811.lastName
+  );
+  // Deleting a filled block loses a statement, a typed name, and possibly an
+  // uploaded signature image. Confirm first, same rule as References /
+  // Enclosures: an empty block still removes in a single click.
+  const removeSignatureBlock = async (index: number) => {
+    const b = signatureBlocks[index];
+    const hasContent =
+      (b?.statement ?? '').trim() !== '' || (b?.name ?? '').trim() !== '' || !!b?.image;
+    if (hasContent) {
+      const confirmed = await showAppConfirm({
+        title: 'Remove signature block?',
+        message: `Signature ${index + 1} and its contents will be removed.`,
+        confirmLabel: 'Remove',
+        destructive: true,
+      });
+      if (!confirmed) return;
+    }
     setNavmc11811Field('signatureBlocks', signatureBlocks.filter((_, i) => i !== index));
+  };
+  // Move focus into a block's first input after it's added, so a preset pick
+  // flows straight into editing. Double-rAF: the first frame lets React commit
+  // the new card, the second runs after the dropdown's close cleanup so its
+  // focus handling can't land after ours.
+  const focusStatement = (index: number) =>
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() =>
+        document.getElementById(`p11-sig-${index}-statement`)?.focus()
+      )
+    );
   const activeId = useEditorOutlineStore((s) => s.activeId);
 
   return (
@@ -258,6 +295,7 @@ export function Form11811Section() {
                         </Button>
                       </div>
                       <InputWithVariables
+                        id={`p11-sig-${index}-statement`}
                         value={block.statement}
                         onValueChange={(v) => setSignatureBlock(index, { statement: v })}
                         placeholder="Statement above the signing line (e.g. I have been counseled…)"
@@ -295,10 +333,40 @@ export function Form11811Section() {
                   </SortableSignatureItem>
                 ))}
               </SortableSignatureList>
-              <AddSignatureBlockMenu
-                form="navmc_118_11"
-                onAdd={(b) => setNavmc11811Field('signatureBlocks', [...signatureBlocks, b])}
-              />
+              <div className="flex flex-wrap gap-2">
+                <AddSignatureBlockMenu
+                  form="navmc_118_11"
+                  names={{ signer: profileSignatoryName, marine: marineAckName }}
+                  onAdd={(b) => {
+                    const index = signatureBlocks.length;
+                    setNavmc11811Field('signatureBlocks', [...signatureBlocks, b]);
+                    // Returned to the menu: it runs this on close, after its
+                    // exit animation, so the focus can't be clobbered.
+                    return () => focusStatement(index);
+                  }}
+                />
+                {signatureBlocks.length === 0 && (
+                  /* One click sets up the standard pair — counselor from the
+                     profile, the Marine from the identification fields above. */
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setNavmc11811Field(
+                        'signatureBlocks',
+                        standardSignaturePair('navmc_118_11', {
+                          signer: profileSignatoryName,
+                          marine: marineAckName,
+                        })
+                      );
+                      focusStatement(0);
+                    }}
+                  >
+                    Add counselor + Marine acknowledgement
+                  </Button>
+                )}
+              </div>
             </div>
           </AccordionContent>
         </AccordionItem>

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { signaturePresets } from '@/lib/signaturePresets';
+import { signaturePresets, standardSignaturePair } from '@/lib/signaturePresets';
 import { signatureFieldName } from '@/services/pdf/signatureFieldCore';
 
 describe('signaturePresets', () => {
@@ -47,6 +47,48 @@ describe('signaturePresets', () => {
     const first = a.make();
     first.name = 'R. L. SMITH';
     expect(a.make().name).toBe(''); // a later make() is unaffected
+  });
+
+  it('pre-fills names the app knows: signer ← profile, ack ← Marine; witness stays blank', () => {
+    const names = { signer: 'R. L. SMITH', marine: 'J. M. DOE' };
+    for (const form of ['navmc_10274', 'navmc_118_11'] as const) {
+      const byId = Object.fromEntries(signaturePresets(form, names).map((p) => [p.id, p.make()]));
+      expect(byId.signer.name).toBe('R. L. SMITH');
+      expect(byId.acknowledgement.name).toBe('J. M. DOE');
+      // Whoever witnessed is never guessable — no pre-fill even with names given.
+      expect(byId.witness.name).toBe('');
+    }
+  });
+
+  it('leaves names blank when the context has none (no profile, blank Marine ID)', () => {
+    for (const preset of signaturePresets('navmc_118_11', {})) {
+      expect(preset.make().name).toBe('');
+    }
+  });
+});
+
+describe('standardSignaturePair', () => {
+  it('returns signer then acknowledgement, in signing order', () => {
+    const [signer, ack] = standardSignaturePair('navmc_118_11', {
+      signer: 'R. L. SMITH',
+      marine: 'J. M. DOE',
+    });
+    expect(signer.statement).toBe(''); // counselor's block has no statement
+    expect(signer.name).toBe('R. L. SMITH');
+    expect(ack.statement).toMatch(/counseled this date/i);
+    expect(ack.name).toBe('J. M. DOE');
+    expect(standardSignaturePair('navmc_118_11')).toHaveLength(2);
+  });
+
+  it('uses the form-specific acknowledgement wording', () => {
+    const [, aaAck] = standardSignaturePair('navmc_10274');
+    expect(aaAck.statement).toMatch(/acknowledge receipt/i);
+  });
+
+  it('returns fresh instances each call', () => {
+    const a = standardSignaturePair('navmc_10274');
+    a[0].name = 'MUTATED';
+    expect(standardSignaturePair('navmc_10274')[0].name).toBe('');
   });
 });
 

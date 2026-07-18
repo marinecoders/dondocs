@@ -36,6 +36,8 @@ import { SignatureStylePicker } from './SignatureStylePicker';
 import { AddSignatureBlockMenu } from './AddSignatureBlockMenu';
 import { SortableSignatureList, SortableSignatureItem } from './SortableSignatureBlocks';
 import { arrayMove } from '@dnd-kit/sortable';
+import { standardSignaturePair } from '@/lib/signaturePresets';
+import { showAppConfirm } from '@/stores/alertStore';
 
 // Active-section left-rule for a form AccordionItem, matching the letter
 // sections (FormPanel's SectionShell). activeId only changes at section
@@ -70,10 +72,41 @@ export function Form6105Section() {
       signatureBlocks.map((b, i) => (i === index ? { ...b, ...patch } : b))
     );
   };
-  const removeSignatureBlock = (index: number) =>
+  // Deleting a filled block loses a statement, a typed name, and possibly an
+  // uploaded signature image — and deleting block 1 silently promotes the next
+  // block to originator. Confirm first, same rule as References/Enclosures:
+  // an empty block still removes in a single click.
+  const removeSignatureBlock = async (index: number) => {
+    const b = signatureBlocks[index];
+    const hasContent =
+      (b?.statement ?? '').trim() !== '' || (b?.name ?? '').trim() !== '' || !!b?.image;
+    if (hasContent) {
+      const promote =
+        index === 0 && signatureBlocks.length > 1
+          ? ' The next block becomes the originator.'
+          : '';
+      const confirmed = await showAppConfirm({
+        title: 'Remove signature block?',
+        message: `${index === 0 ? 'The originator block' : `Signature ${index + 1}`} and its contents will be removed.${promote}`,
+        confirmLabel: 'Remove',
+        destructive: true,
+      });
+      if (!confirmed) return;
+    }
     setNavmc10274Field(
       'signatureBlocks',
       signatureBlocks.filter((_, i) => i !== index)
+    );
+  };
+  // Move focus into a block's first input after it's added, so a preset pick
+  // flows straight into editing. Double-rAF: the first frame lets React commit
+  // the new card, the second runs after the dropdown's close cleanup so its
+  // focus handling can't land after ours.
+  const focusStatement = (index: number) =>
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() =>
+        document.getElementById(`aa-sig-${index}-statement`)?.focus()
+      )
     );
   const fillOriginatorFromProfile = () => {
     if (!profileOriginatorName) return;
@@ -349,16 +382,39 @@ export function Form6105Section() {
                 <AddSignatureBlockMenu
                   form="navmc_10274"
                   disabled={signatureBlocks.length >= 4}
-                  onAdd={(b) =>
-                    setNavmc10274Field('signatureBlocks', [...signatureBlocks, b])
-                  }
+                  names={{ signer: profileOriginatorName }}
+                  onAdd={(b) => {
+                    const index = signatureBlocks.length;
+                    setNavmc10274Field('signatureBlocks', [...signatureBlocks, b]);
+                    // Returned to the menu: it runs this on close, after its
+                    // exit animation, so the focus can't be clobbered.
+                    return () => focusStatement(index);
+                  }}
                 />
               </div>
               {signatureBlocks.length === 0 && (
-                <p className="text-xs text-muted-foreground">
-                  No signature blocks — block 12 ends with the text. The form
-                  expects at least the originator&apos;s.
-                </p>
+                <div className="space-y-2">
+                  <p className="text-xs text-muted-foreground">
+                    No signature blocks — block 12 ends with the text. The form
+                    expects at least the originator&apos;s.
+                  </p>
+                  {/* One click sets up the standard counseling pair, with the
+                      originator pre-filled from the profile when there is one. */}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setNavmc10274Field(
+                        'signatureBlocks',
+                        standardSignaturePair('navmc_10274', { signer: profileOriginatorName })
+                      );
+                      focusStatement(0);
+                    }}
+                  >
+                    Add originator + Marine acknowledgement
+                  </Button>
+                </div>
               )}
               <SortableSignatureList
                 count={signatureBlocks.length}
@@ -389,6 +445,7 @@ export function Form6105Section() {
                         </button>
                       </div>
                       <Input
+                        id={`aa-sig-${index}-statement`}
                         value={block.statement}
                         onChange={(e) => setSignatureBlock(index, { statement: e.target.value })}
                         placeholder={
@@ -430,10 +487,10 @@ export function Form6105Section() {
               </SortableSignatureList>
               <p className="text-xs text-muted-foreground">
                 Drag the handle to reorder — blocks print top-to-bottom in this
-                order. Each typed name prints on the third line below what
-                precedes it — the space above is where that person signs, per
-                the form&apos;s caption. Statements print as a paragraph above
-                their signature.
+                order, and the top block signs as the originator. Each typed
+                name prints on the third line below what precedes it — the
+                space above is where that person signs, per the form&apos;s
+                caption. Statements print as a paragraph above their signature.
               </p>
             </div>
           </AccordionContent>

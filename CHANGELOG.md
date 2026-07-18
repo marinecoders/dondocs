@@ -57,6 +57,29 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
   signing/print order, so a counselor added after the fact no longer has to be
   deleted and re-added to sit above the Marine's acknowledgement — and on the
   AA form the block dragged to the top becomes the originator automatically.
+- Signature presets now arrive with the typed name already filled where the app
+  knows it: the counselor/originator from the active profile, and — on the
+  118(11) — the Marine's acknowledgement from the Marine Identification fields
+  the form already collects ("J. M. DOE"), instead of asking you to retype a
+  name that's two sections up. Witness stays blank; the app can't guess who
+  witnessed. All fills are editable.
+- An empty Signatures section offers the standard counseling setup in one
+  click — "Add originator/counselor + Marine acknowledgement" — which, with a
+  profile and the Marine's name on file, produces a ready-to-export pair
+  without typing.
+- After adding a signature block, focus lands in the new block's first field —
+  a preset pick flows straight into editing instead of leaving you to click
+  into the card (the add-menu suppresses its own focus-return to make room).
+
+### Changed
+
+- Removing a signature block that holds a statement, name, or uploaded
+  signature image now asks first — the same rule References and Enclosures
+  follow — and on the AA form warns that the next block becomes the
+  originator. An empty block still removes in one click.
+- Signature drag handles grew a padded hit area for touch, and a small drag
+  threshold keeps a touch-scroll that starts on a handle from becoming an
+  accidental reorder.
 
 ### Fixed
 
