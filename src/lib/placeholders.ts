@@ -150,5 +150,10 @@ export function applyPlaceholdersToNavmc10274(
     enclosures: replacePlaceholders(data.enclosures, values),
     supplementalInfo: replacePlaceholders(data.supplementalInfo, values),
     proposedAction: replacePlaceholders(data.proposedAction, values),
+    signatureBlocks: (data.signatureBlocks ?? []).map((block) => ({
+      ...block, // preserve `digital` and any future per-block flags
+      statement: replacePlaceholders(block.statement, values),
+      name: replacePlaceholders(block.name, values),
+    })),
   };
 }

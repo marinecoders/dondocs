@@ -5,6 +5,44 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.107] — 2026-07-18
+
+### Added
+
+- The AA form (NAVMC 10274) now types its signature blocks for you — up to
+  four, in signing order, because a counseling action carries more than one:
+  the originator (whose block the form's own caption mandates — "type name of
+  originator and sign 3 lines below text"), the counseled Marine's
+  acknowledgement, and sometimes a witness. Each block takes an optional
+  statement ("I acknowledge receipt…", "Witnessed:") printed above its signing
+  space, with the typed name on the third line below. Users had to fake all of
+  this by hand, tabbing across the supplemental-information box or editing the
+  exported file — and tabs are normalized to spaces in a proportional font, so
+  that alignment could never come out right. The originator's name fills from
+  your profile in one click, and a signature block never splits across the
+  page break: if it won't fit, the whole block (statement, signing space, and
+  name) moves to the continuation page together.
+- Any AA-form signature block can carry a digital signature field. Tick
+  "Digital signature field (CAC)" on a block and the exported PDF gets a real,
+  empty AcroForm signature field in that block's signing space — the same kind
+  of field the naval letter already offers, which Adobe Acrobat and CAC
+  middleware recognize as signable. DonDocs embeds the field; the cryptographic
+  signature is applied later in Acrobat (a browser cannot reach a CAC's private
+  key). The field is placed by computed geometry, not a text search, and
+  follows its block onto the continuation page so it can never be stranded away
+  from the name it belongs to.
+
+### Fixed
+
+- The AA form's "Proposed/Recommended Action" is no longer silently dropped
+  from the PDF. The field was collected and saved but never rendered — the
+  printed form has no box for it (its fields run 1–12) — so anything typed
+  there vanished on export. It now closes block 12 as its own labeled
+  paragraph.
+- Removed a phantom "13." from that field's label (the printed form has no
+  field 13) and a never-rendered, never-collected signature field from the
+  6105 generator (the printed NAVMC 118(11) carries its own signature lines).
+
 ## [1.2.106] — 2026-07-17
 
 ### Fixed

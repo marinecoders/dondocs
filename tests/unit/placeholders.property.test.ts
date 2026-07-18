@@ -272,6 +272,9 @@ const SAMPLE_10274: NavmcForm10274Data = {
   enclosures: '',
   supplementalInfo: 'Re: {{NAME}}',
   proposedAction: 'Approve',
+  signatureBlocks: [
+    { statement: 'Acknowledged by {{NAME}}.', name: '{{ORIGINATOR}}', digital: true },
+  ],
 };
 
 describe('applyPlaceholdersToNavmc10274', () => {
@@ -284,6 +287,20 @@ describe('applyPlaceholdersToNavmc10274', () => {
     expect(result.via).toBe('SMITH');
     expect(result.natureOfAction).toBe('Request transfer');
     expect(result.supplementalInfo).toBe('Re: SMITH');
+    // Signature blocks substitute in both the statement and the name.
+    expect(result.signatureBlocks[0].statement).toBe('Acknowledged by SMITH.');
+    expect(result.signatureBlocks[0].name).toBe('{{ORIGINATOR}}');
+    // The digital-field flag survives substitution — a batch run must not
+    // silently drop the CAC field the user asked for.
+    expect(result.signatureBlocks[0].digital).toBe(true);
+  });
+
+  it('substitutes signature-block names when the variable is supplied', () => {
+    const result = applyPlaceholdersToNavmc10274(SAMPLE_10274, {
+      NAME: 'SMITH',
+      ORIGINATOR: 'R. L. SMITH',
+    });
+    expect(result.signatureBlocks[0].name).toBe('R. L. SMITH');
   });
 
   it('non-placeholder fields pass through unchanged', () => {

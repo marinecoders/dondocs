@@ -112,11 +112,179 @@ export interface Navmc10274Data {
   enclosures: string;
   // Field 12: Supplemental Information
   supplementalInfo: string;
-  // Field 13: Proposed/Recommended Action
+  // Proposed/Recommended Action — the printed form has no box for it (its
+  // fields run 1-12), so it renders as a labeled closing paragraph inside
+  // block 12. It used to be collected by the UI and silently dropped here.
   proposedAction: string;
+  // Signature blocks at the end of block 12, in signing order. The form's
+  // caption mandates the first ("type name of originator and sign 3 lines
+  // below text"); counseling actions commonly add the counseled Marine's
+  // acknowledgement and sometimes a witness — an optional statement renders as
+  // a paragraph above each block's signing space.
+  signatureBlocks?: Array<{ statement?: string; name?: string; digital?: boolean }>;
 }
 
 import { calculateTextPosition, type BoxBoundary } from './extractFormFields';
+import { addSignatureFieldToPage } from './signatureFieldCore';
+
+// A digital signature field sits in the signing gap ABOVE the typed name: 8pt
+// above the name's baseline (clearing its ascenders — a 2pt gap clipped them in
+// testing) and 20pt tall, within the two blank lines the compose reserves.
+const SIG_FIELD_ABOVE = 8;
+const SIG_FIELD_HEIGHT = 20;
+const SIG_FIELD_WIDTH = 180;
+
+/** Rect for a signature field above a name drawn at (textX, block-start y minus
+ *  nameLineInPage line-heights). */
+function signatureFieldRect(
+  textX: number,
+  blockStartY: number,
+  nameLineInPage: number,
+  lineHeight: number
+): [number, number, number, number] {
+  const nameBaselineY = blockStartY - nameLineInPage * lineHeight;
+  const bottom = nameBaselineY + SIG_FIELD_ABOVE;
+  return [textX, bottom, textX + SIG_FIELD_WIDTH, bottom + SIG_FIELD_HEIGHT];
+}
+
+/** A signature block's lines, pre-wrapped: optional statement paragraph, then
+ *  the typed name. The block is atomic for pagination. */
+export interface ComposedBlockTwelve {
+  lines: string[];
+  /** [start, end] line spans (inclusive) that pagination must not split — one
+   *  per signature block: its statement, signing space, and name move as one.
+   *  `nameLineIndex` is where the typed name landed (null for a statement-only
+   *  block); `digital` marks a block that wants a CAC signature field placed in
+   *  its signing space. */
+  groups: Array<{ start: number; end: number; nameLineIndex: number | null; digital: boolean }>;
+}
+
+/** Where a digital signature field goes: which page, and the name's line index
+ *  within that page's block-12 stream (the field sits in the gap above it). */
+export interface SignatureFieldPlacement {
+  page: 'main' | 'continuation';
+  nameLineInPage: number;
+}
+
+/**
+ * Block 12's contents in order: the supplemental text, the proposed action as
+ * a labeled closing paragraph, then the signature blocks in signing order.
+ *
+ * Each name sits on the THIRD line below whatever precedes it — the form's own
+ * caption is the spec: "type name of originator and sign 3 lines below text".
+ * The two blank lines above each name are that signer's signing space. (The
+ * naval letter's fourth-line convention from Ch 7 ¶14 does not apply here; the
+ * form overrides it.) A block's optional statement ("Acknowledged:", "I have
+ * witnessed…") renders as a paragraph directly above its signing space, which
+ * is how counseling actions carry the Marine's acknowledgement and a witness
+ * below the originator. Exported for tests.
+ */
+export function composeBlockTwelveLines(parts: {
+  supplementalInfo: string[];
+  proposedAction: string[];
+  signatureBlocks: Array<{ statement: string[]; name: string; digital?: boolean }>;
+}): ComposedBlockTwelve {
+  const lines: string[] = [...parts.supplementalInfo];
+  if (parts.proposedAction.length > 0) {
+    if (lines.length > 0) lines.push('');
+    lines.push(...parts.proposedAction);
+  }
+  const groups: ComposedBlockTwelve['groups'] = [];
+  for (const block of parts.signatureBlocks) {
+    const name = block.name.trim();
+    if (!name && block.statement.length === 0) continue;
+    let start: number;
+    let nameLineIndex: number | null = null;
+    if (block.statement.length > 0) {
+      // The blank before the statement is paragraph separation (outside the
+      // group); the statement, the signing gap, and the name are the block.
+      if (lines.length > 0) lines.push('');
+      start = lines.length;
+      lines.push(...block.statement);
+      if (name) {
+        lines.push('', '');
+        nameLineIndex = lines.length;
+        lines.push(name);
+      }
+    } else {
+      // No statement: the signing-gap blanks themselves open the block — they
+      // ARE the signing space, so pagination must carry them with the name.
+      start = lines.length;
+      if (lines.length > 0) lines.push('', '');
+      nameLineIndex = lines.length;
+      lines.push(name);
+    }
+    groups.push({ start, end: lines.length - 1, nameLineIndex, digital: block.digital ?? false });
+  }
+  return { lines, groups };
+}
+
+/**
+ * Split block 12 across the form page and the continuation page without ever
+ * splitting a signature block: a typed name orphaned at the top of page 3 with
+ * its signing space left on page 2 cannot be signed. When the naive split
+ * lands inside a group, the whole group moves to the continuation page.
+ * Exported for tests.
+ */
+export function paginateBlockTwelve(
+  composed: ComposedBlockTwelve,
+  pageCapacity: number
+): {
+  pageLines: string[];
+  continuationLines: string[];
+  fieldPlacements: SignatureFieldPlacement[];
+} {
+  const { lines, groups } = composed;
+
+  // Digital blocks with a name → a field placement, computed once we know each
+  // name's final page and its line index within that page's stream.
+  const placementsFor = (split: number, continuationStart: number): SignatureFieldPlacement[] =>
+    groups
+      .filter((g) => g.digital && g.nameLineIndex !== null)
+      .map((g) => {
+        const idx = g.nameLineIndex as number;
+        return idx < split
+          ? { page: 'main' as const, nameLineInPage: idx }
+          : { page: 'continuation' as const, nameLineInPage: idx - continuationStart };
+      });
+
+  if (lines.length <= pageCapacity) {
+    // Everything on the main page: split past the end, continuation empty.
+    return { pageLines: lines, continuationLines: [], fieldPlacements: placementsFor(lines.length, 0) };
+  }
+  let split = pageCapacity;
+  for (const group of groups) {
+    // The split index is the first line of the continuation page; a group is
+    // torn when it starts before the split and ends at or past it.
+    if (group.start < split && group.end >= split) {
+      split = group.start;
+      break;
+    }
+  }
+  // Blank separators at the boundary belong to neither page — but a blank
+  // inside a group is a signing gap, not a separator, and must survive the
+  // trim or the name loses its signing space.
+  const inGroup = (index: number) => groups.some((g) => index >= g.start && index <= g.end);
+  const pageLines = lines.slice(0, split);
+  while (
+    pageLines.length > 0 &&
+    pageLines[pageLines.length - 1] === '' &&
+    !inGroup(pageLines.length - 1)
+  ) {
+    pageLines.pop();
+  }
+  const continuationLines = lines.slice(split);
+  let continuationStart = split;
+  while (
+    continuationLines.length > 0 &&
+    continuationLines[0] === '' &&
+    !inGroup(continuationStart)
+  ) {
+    continuationLines.shift();
+    continuationStart++;
+  }
+  return { pageLines, continuationLines, fieldPlacements: placementsFor(split, continuationStart) };
+}
 
 // =============================================================================
 // SMART BOX POSITIONING SYSTEM
@@ -282,6 +450,8 @@ export async function generateNavmc10274Pdf(
   // Track if we need page 3 for overflow
   let needsPage3 = false;
   let remainingSupplementalLines: string[] = [];
+  // Unique AcroForm field names across all signature fields in this document.
+  let sigFieldSeq = 1;
 
   // Fill Page 2 fields (with placeholder highlighting)
 
@@ -348,14 +518,41 @@ export async function generateNavmc10274Pdf(
     drawMultilineText(page2, lines, PAGE2_FIELDS.enclosures.x, PAGE2_FIELDS.enclosures.y, PAGE2_FIELDS.enclosures.lineHeight, font, FONT_SIZE);
   }
 
-  // Field 12: Supplemental Information (may span pages)
-  if (data.supplementalInfo) {
-    const allLines = wrapText(data.supplementalInfo, PAGE2_FIELDS.supplementalInfo.maxWidth, font, FONT_SIZE);
-
-    // Draw on page 2
-    const { remainingLines } = drawMultilineText(
+  // Field 12: Supplemental Information (may span pages). One line stream
+  // carries the text, the proposed action, and the signature blocks, so
+  // pagination moves them to the continuation page together — and a signature
+  // block moves whole (paginateBlockTwelve), never leaving a typed name
+  // stranded without its signing space.
+  const blockTwelve = composeBlockTwelveLines({
+    supplementalInfo: data.supplementalInfo
+      ? wrapText(data.supplementalInfo, PAGE2_FIELDS.supplementalInfo.maxWidth, font, FONT_SIZE)
+      : [],
+    proposedAction: data.proposedAction
+      ? wrapText(
+          `Proposed/recommended action: ${data.proposedAction}`,
+          PAGE2_FIELDS.supplementalInfo.maxWidth,
+          font,
+          FONT_SIZE
+        )
+      : [],
+    signatureBlocks: (data.signatureBlocks ?? []).map((block) => ({
+      statement: block.statement?.trim()
+        ? wrapText(block.statement.trim(), PAGE2_FIELDS.supplementalInfo.maxWidth, font, FONT_SIZE)
+        : [],
+      name: (block.name ?? '').trim(),
+      digital: block.digital ?? false,
+    })),
+  });
+  // Continuation-page field placements are held until page 3 is created below.
+  let continuationFieldPlacements: SignatureFieldPlacement[] = [];
+  if (blockTwelve.lines.length > 0) {
+    const { pageLines, continuationLines, fieldPlacements } = paginateBlockTwelve(
+      blockTwelve,
+      PAGE2_FIELDS.supplementalInfo.maxLines
+    );
+    drawMultilineText(
       page2,
-      allLines,
+      pageLines,
       PAGE2_FIELDS.supplementalInfo.x,
       PAGE2_FIELDS.supplementalInfo.y,
       PAGE2_FIELDS.supplementalInfo.lineHeight,
@@ -363,11 +560,24 @@ export async function generateNavmc10274Pdf(
       FONT_SIZE,
       PAGE2_FIELDS.supplementalInfo.maxLines
     );
-
-    // Track if we need page 3
-    if (remainingLines.length > 0) {
+    // Digital signature fields whose name landed on the main page.
+    for (const p of fieldPlacements.filter((f) => f.page === 'main')) {
+      addSignatureFieldToPage(
+        pdfDoc,
+        page2,
+        signatureFieldRect(
+          PAGE2_FIELDS.supplementalInfo.x,
+          PAGE2_FIELDS.supplementalInfo.y,
+          p.nameLineInPage,
+          PAGE2_FIELDS.supplementalInfo.lineHeight
+        ),
+        `Signature_${sigFieldSeq++}`
+      );
+    }
+    continuationFieldPlacements = fieldPlacements.filter((f) => f.page === 'continuation');
+    if (continuationLines.length > 0) {
       needsPage3 = true;
-      remainingSupplementalLines = remainingLines;
+      remainingSupplementalLines = continuationLines;
     }
   }
 
@@ -392,6 +602,20 @@ export async function generateNavmc10274Pdf(
       FONT_SIZE,
       PAGE3_FIELDS.supplementalInfo.maxLines
     );
+    // Digital signature fields for blocks that overflowed onto page 3.
+    for (const p of continuationFieldPlacements) {
+      addSignatureFieldToPage(
+        pdfDoc,
+        page3,
+        signatureFieldRect(
+          PAGE3_FIELDS.supplementalInfo.x,
+          PAGE3_FIELDS.supplementalInfo.y,
+          p.nameLineInPage,
+          PAGE3_FIELDS.supplementalInfo.lineHeight
+        ),
+        `Signature_${sigFieldSeq++}`
+      );
+    }
   }
 
   return pdfDoc.save();

@@ -298,6 +298,12 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
         if (data.enclosures) allText.push(data.enclosures);
         if (data.supplementalInfo) allText.push(data.supplementalInfo);
         if (data.proposedAction) allText.push(data.proposedAction);
+        // Signature blocks: variables may appear in a statement or a name
+        // (e.g. an acknowledgement addressed to each Marine in the batch).
+        for (const block of data.signatureBlocks ?? []) {
+          if (block.statement) allText.push(block.statement);
+          if (block.name) allText.push(block.name);
+        }
       } else if (formType === 'navmc_118_11') {
         const data = navmc11811;
         if (data.lastName) allText.push(data.lastName);
@@ -718,8 +724,17 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
         const currentData = useFormStore.getState().navmc10274;
         if (Object.prototype.hasOwnProperty.call(currentData, targetField)) {
           const fieldKey = targetField as keyof typeof currentData;
-          setNavmc10274Field(fieldKey, appendInto(currentData[fieldKey] ?? ''));
-          inserted = true;
+          const fieldValue = currentData[fieldKey];
+          // signatureBlocks is structured (statement+name rows), not a text
+          // field — the target dropdown never offers it, and this guard keeps
+          // a drifted key from appending a variable into a non-string.
+          if (typeof fieldValue === 'string') {
+            setNavmc10274Field(
+              fieldKey as Exclude<keyof typeof currentData, 'signatureBlocks'>,
+              appendInto(fieldValue)
+            );
+            inserted = true;
+          }
         }
       } else if (formType === 'navmc_118_11') {
         const currentData = useFormStore.getState().navmc11811;

@@ -13,6 +13,7 @@
  * can share one definition of what "has an acknowledgement" and what goes in it,
  * and can't drift into rendering different documents from the same input.
  */
+import { abbreviatedSignatoryName } from '@/lib/signatoryName';
 
 /**
  * Doc types that may carry an appended acknowledgement — letters only.
@@ -98,16 +99,9 @@ export function resolveAppendedEndorsement(
  * and surname, no rank or title.
  */
 export function appendedEndorsementSigner(data: AppendedEndorsementData): string {
-  // First and middle are positional: a middle initial without a first must not
-  // slide into the first slot and print "A. DOE" for someone who left first
-  // blank. Drop the middle when there is no first — same as the letter's own
-  // signature, which never shows a middle without a first.
-  const first = (data.endorsementSigFirst || '').trim().charAt(0).toUpperCase();
-  const middle = first ? (data.endorsementSigMiddle || '').trim().charAt(0).toUpperCase() : '';
-  const initials = [first, middle]
-    .filter(Boolean)
-    .map((initial) => `${initial}.`)
-    .join(' ');
-  const last = (data.endorsementSigLast || '').trim().toUpperCase();
-  return [initials, last].filter(Boolean).join(' ');
+  return abbreviatedSignatoryName(
+    data.endorsementSigFirst,
+    data.endorsementSigMiddle,
+    data.endorsementSigLast
+  );
 }

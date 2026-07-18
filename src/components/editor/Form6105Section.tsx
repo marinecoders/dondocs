@@ -22,6 +22,8 @@ import { InputWithVariables, TextareaWithVariables } from '@/components/ui/varia
 import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
 import { DatePicker } from '@/components/ui/date-picker';
 import { useFormStore } from '@/stores/formStore';
+import { useProfileStore } from '@/stores/profileStore';
+import { abbreviatedSignatoryName } from '@/lib/signatoryName';
 import { SSICLookupModal } from '@/components/modals/SSICLookupModal';
 import { UnitLookupModal } from '@/components/modals/UnitLookupModal';
 import { FormReferenceLibraryModal } from '@/components/modals/FormReferenceLibraryModal';
@@ -48,6 +50,36 @@ const COMMON_FORM_VARS = ['NAME', 'DATE'];
 export function Form6105Section() {
   const { navmc10274, setNavmc10274Field, resetNavmc10274, clearNavmc10274, includeCoverPage, setIncludeCoverPage } = useFormStore();
   const activeId = useEditorOutlineStore((s) => s.activeId);
+
+  // The active profile's signature name in the abbreviated form signature
+  // blocks use (initials + SURNAME), offered as a one-click fill for the
+  // originator — never written silently.
+  const profileOriginatorName = useProfileStore((s) => {
+    const p = s.selectedProfile ? s.profiles[s.selectedProfile] : undefined;
+    return p ? abbreviatedSignatoryName(p.sigFirst, p.sigMiddle, p.sigLast) : '';
+  });
+  const signatureBlocks = navmc10274.signatureBlocks;
+  const setSignatureBlock = (index: number, patch: Partial<{ statement: string; name: string; digital: boolean }>) => {
+    setNavmc10274Field(
+      'signatureBlocks',
+      signatureBlocks.map((b, i) => (i === index ? { ...b, ...patch } : b))
+    );
+  };
+  const addSignatureBlock = () =>
+    setNavmc10274Field('signatureBlocks', [...signatureBlocks, { statement: '', name: '' }]);
+  const removeSignatureBlock = (index: number) =>
+    setNavmc10274Field(
+      'signatureBlocks',
+      signatureBlocks.filter((_, i) => i !== index)
+    );
+  const fillOriginatorFromProfile = () => {
+    if (!profileOriginatorName) return;
+    if (signatureBlocks.length === 0) {
+      setNavmc10274Field('signatureBlocks', [{ statement: '', name: profileOriginatorName }]);
+    } else {
+      setSignatureBlock(0, { name: profileOriginatorName });
+    }
+  };
 
   // Modal states
   const [ssicModalOpen, setSSICModalOpen] = useState(false);
@@ -283,7 +315,7 @@ export function Form6105Section() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="proposedAction">13. Proposed/Recommended Action</Label>
+              <Label htmlFor="proposedAction">Proposed/Recommended Action</Label>
               <VariableChipEditor
                 value={navmc10274.proposedAction}
                 onChange={(v) => setNavmc10274Field('proposedAction', v)}
@@ -291,6 +323,97 @@ export function Form6105Section() {
                 rows={3}
                 tabInsertsSpaces
               />
+              <p className="text-xs text-muted-foreground">
+                The printed form has no box for this — it closes out block 12 as
+                its own labeled paragraph.
+              </p>
+            </div>
+
+            {/* Signature blocks close block 12: "type name of originator and
+                sign 3 lines below text" is printed on the form itself. A
+                counseling action typically adds the Marine's acknowledgement
+                as a second block, and sometimes a witness as a third. */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label>Signature blocks</Label>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={addSignatureBlock}
+                  disabled={signatureBlocks.length >= 4}
+                >
+                  Add signature
+                </Button>
+              </div>
+              {signatureBlocks.length === 0 && (
+                <p className="text-xs text-muted-foreground">
+                  No signature blocks — block 12 ends with the text. The form
+                  expects at least the originator&apos;s.
+                </p>
+              )}
+              {signatureBlocks.map((block, index) => (
+                <div key={index} className="space-y-2 rounded-md border border-border p-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-muted-foreground">
+                      {index === 0 ? 'Originator' : `Signature ${index + 1}`}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => removeSignatureBlock(index)}
+                      aria-label={`Remove signature block ${index + 1}`}
+                      className="rounded p-0.5 text-muted-foreground outline-none hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                  <Input
+                    value={block.statement}
+                    onChange={(e) => setSignatureBlock(index, { statement: e.target.value })}
+                    placeholder={
+                      index === 0
+                        ? 'Statement above the signature (optional)'
+                        : 'e.g., I acknowledge receipt and understanding of this counseling.'
+                    }
+                    aria-label={`Signature block ${index + 1} statement`}
+                  />
+                  <div className="flex gap-2">
+                    <Input
+                      value={block.name}
+                      onChange={(e) => setSignatureBlock(index, { name: e.target.value })}
+                      placeholder="R. L. SMITH"
+                      aria-label={`Signature block ${index + 1} typed name`}
+                    />
+                    {index === 0 && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="shrink-0 self-center"
+                        onClick={fillOriginatorFromProfile}
+                        disabled={!profileOriginatorName}
+                        title={profileOriginatorName ? `Use ${profileOriginatorName}` : 'No profile signature to use'}
+                      >
+                        Use profile
+                      </Button>
+                    )}
+                  </div>
+                  <label className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Checkbox
+                      checked={block.digital ?? false}
+                      onCheckedChange={(v) => setSignatureBlock(index, { digital: v === true })}
+                      aria-label={`Signature block ${index + 1}: add a digital (CAC) signature field`}
+                    />
+                    Digital signature field (CAC — signed in Acrobat)
+                  </label>
+                </div>
+              ))}
+              <p className="text-xs text-muted-foreground">
+                Each typed name prints on the third line below what precedes it
+                — the space above is where that person signs, per the
+                form&apos;s caption. Statements print as a paragraph above
+                their signature.
+              </p>
             </div>
           </AccordionContent>
         </AccordionItem>

@@ -105,8 +105,9 @@ export interface Navmc11811Data {
   // Box 11 - SRB (Service Record Book) page number, 5 chars max
   box11: string;
 
-  // Signature info (for the counseling signature line)
-  signatureName?: string;
+  // No typed-signature field: the printed NAVMC 118(11) carries its own
+  // "(Signature)" lines, which are signed by hand. (A `signatureName` was
+  // declared here for years, never rendered and never collected by any UI.)
 }
 
 import { calculateTextPosition, type BoxBoundary } from './extractFormFields';
