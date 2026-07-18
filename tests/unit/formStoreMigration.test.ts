@@ -73,4 +73,43 @@ describe('formStore hydration of pre-signatureBlocks sessions', () => {
       { statement: '', name: 'J. A. DOE', style: 'typed' },
     ]);
   });
+
+  it('gives a pre-signatures navmc11811 an empty signatureBlocks list', async () => {
+    localStorage.setItem(
+      FORMS_PERSIST_KEY,
+      JSON.stringify({
+        state: {
+          navmc11811: {
+            lastName: 'DOE',
+            remarksText: 'Saved before the 118(11) had signatures.',
+            // no signatureBlocks key
+          },
+        },
+        version: 0,
+      })
+    );
+    await useFormStore.persist.rehydrate();
+    const data = useFormStore.getState().navmc11811;
+    expect(data.lastName).toBe('DOE');
+    expect(data.remarksText).toBe('Saved before the 118(11) had signatures.');
+    expect(data.signatureBlocks).toEqual([]); // never undefined — the Forms tab .maps it
+  });
+
+  it('upgrades a 118(11) block from the digital flag to style', async () => {
+    localStorage.setItem(
+      FORMS_PERSIST_KEY,
+      JSON.stringify({
+        state: {
+          navmc11811: {
+            signatureBlocks: [{ statement: '', name: 'A. B. COUNSELOR', digital: true }],
+          },
+        },
+        version: 0,
+      })
+    );
+    await useFormStore.persist.rehydrate();
+    expect(useFormStore.getState().navmc11811.signatureBlocks).toEqual([
+      { statement: '', name: 'A. B. COUNSELOR', style: 'digital' },
+    ]);
+  });
 });

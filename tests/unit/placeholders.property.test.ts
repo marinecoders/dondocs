@@ -156,6 +156,7 @@ const SAMPLE_11811: Navmc11811Data = {
   remarksTextRight: '',
   entryDate: '15 Jan 26',
   box11: 'PFM',
+  signatureBlocks: [],
 };
 
 describe('buildNavmc11811DefaultValues', () => {
@@ -253,6 +254,22 @@ describe('applyPlaceholdersToNavmc11811', () => {
     const values = buildNavmc11811DefaultValues(SAMPLE_11811);
     const filled = applyPlaceholdersToNavmc11811(SAMPLE_11811, values);
     expect(filled.remarksText).toBe('Counseled on 15 Jan 26 re: DOE, JOHN, MICHAEL');
+  });
+
+  it('substitutes signature-block text but preserves style and image', () => {
+    const data: Navmc11811Data = {
+      ...SAMPLE_11811,
+      signatureBlocks: [
+        { statement: 'Counseled {{NAME}}.', name: '{{NAME}}', style: 'digital' },
+        { statement: '', name: 'J. DOE', style: 'image', image: 'iVBORw0KGgo=' },
+      ],
+    };
+    const result = applyPlaceholdersToNavmc11811(data, { NAME: 'CPL SMITH' });
+    expect(result.signatureBlocks[0].statement).toBe('Counseled CPL SMITH.');
+    expect(result.signatureBlocks[0].name).toBe('CPL SMITH');
+    expect(result.signatureBlocks[0].style).toBe('digital'); // style survives a batch run
+    expect(result.signatureBlocks[1].style).toBe('image');
+    expect(result.signatureBlocks[1].image).toBe('iVBORw0KGgo='); // image survives too
   });
 });
 

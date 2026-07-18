@@ -113,6 +113,7 @@ export function getFormSections(formType: FormType): EditorSection[] {
       return [
         { id: 'marine', label: 'Marine identification', icon: User },
         { id: 'content', label: 'Entry content', icon: ClipboardList },
+        { id: 'signatures', label: 'Signatures', icon: PenLine },
       ];
     default:
       return [];
