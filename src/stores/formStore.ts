@@ -2,6 +2,22 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { safeLocalStorage } from '@/lib/compressedStorage';
 import { format } from 'date-fns';
+import type { FormSignatureBlock, SignatureStyle } from '@/types/signature';
+
+/** Upgrade a persisted signature block from the pre-1.2.107 `digital` boolean
+ *  to the `style` field, dropping the legacy key. Idempotent. */
+function migrateSignatureBlock(
+  block: FormSignatureBlock & { digital?: boolean }
+): FormSignatureBlock {
+  if (block.style) {
+    const { digital: _d, ...rest } = block;
+    void _d;
+    return rest;
+  }
+  const { digital, ...rest } = block;
+  const style: SignatureStyle = digital ? 'digital' : 'typed';
+  return { ...rest, style };
+}
 
 // The persist key for NAVMC form data. Exported so the "Saved" indicator can
 // verify the latest write actually landed (safeLocalStorage.lastWriteFailed).
@@ -72,9 +88,10 @@ export interface NavmcForm10274Data {
   // acknowledgement and sometimes a witness. Each block's optional statement
   // ("Acknowledged:", "I have witnessed…") prints as a paragraph above that
   // signer's signing space; the typed name goes on the third line below it.
-  // `digital` places an empty CAC-signable AcroForm field in the signing gap
-  // above the name (the signer applies the cryptographic signature in Acrobat).
-  signatureBlocks: Array<{ statement: string; name: string; digital?: boolean }>;
+  // `style` selects how each block signs: 'typed' (name only, the default),
+  // 'image' (a scanned signature drawn in the gap), or 'digital' (an empty
+  // CAC-signable AcroForm field placed there for signing later in Acrobat).
+  signatureBlocks: FormSignatureBlock[];
 }
 
 interface FormStore {
@@ -258,10 +275,11 @@ export const useFormStore = create<FormStore>()(
         navmc11811: s.navmc11811,
         includeCoverPage: s.includeCoverPage,
       }),
-      // Persisted sessions predating signatureBlocks (every user before
-      // 1.2.105) hydrate a navmc10274 without the array — the default merge is
-      // shallow, so the stored object would replace the default wholesale and
-      // leave signatureBlocks undefined, crashing the Forms tab on .map.
+      // Persisted sessions predating signatureBlocks hydrate a navmc10274
+      // without the array — the default merge is shallow, so the stored object
+      // would replace the default wholesale and leave signatureBlocks undefined,
+      // crashing the Forms tab on .map. Also upgrade any block still carrying the
+      // pre-1.2.107 `digital: boolean` flag to the `style` field.
       merge: (persisted, current) => {
         const p = (persisted ?? {}) as Partial<FormStore>;
         const merged = { ...current, ...p };
@@ -270,7 +288,7 @@ export const useFormStore = create<FormStore>()(
             ...current.navmc10274,
             ...p.navmc10274,
             signatureBlocks: Array.isArray(p.navmc10274.signatureBlocks)
-              ? p.navmc10274.signatureBlocks
+              ? p.navmc10274.signatureBlocks.map(migrateSignatureBlock)
               : [],
           };
         }

@@ -73,7 +73,7 @@ describe('NAVMC 10274 digital signature fields', () => {
     const bytes = await generate({
       ...base,
       signatureBlocks: [
-        { statement: '', name: 'R. L. SMITH', digital: true },
+        { statement: '', name: 'R. L. SMITH', style: 'digital' },
         { statement: 'I acknowledge receipt.', name: 'T. R. OAKES' }, // not digital
       ],
     });
@@ -117,8 +117,8 @@ describe('NAVMC 10274 digital signature fields', () => {
       ...base,
       supplementalInfo: filler,
       signatureBlocks: [
-        { statement: '', name: 'R. L. SMITH', digital: true },
-        { statement: 'I acknowledge receipt.', name: 'T. R. OAKES', digital: true },
+        { statement: '', name: 'R. L. SMITH', style: 'digital' },
+        { statement: 'I acknowledge receipt.', name: 'T. R. OAKES', style: 'digital' },
       ],
     });
     const fields = await sigFields(bytes);

@@ -31,6 +31,7 @@ import { NAVMC_10274_PLACEHOLDERS } from '@/lib/constants';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { cn } from '@/lib/utils';
 import type { UnitInfo } from '@/data/unitDirectory';
+import type { FormSignatureBlock } from '@/types/signature';
 
 // Active-section left-rule for a form AccordionItem, matching the letter
 // sections (FormPanel's SectionShell). activeId only changes at section
@@ -59,7 +60,7 @@ export function Form6105Section() {
     return p ? abbreviatedSignatoryName(p.sigFirst, p.sigMiddle, p.sigLast) : '';
   });
   const signatureBlocks = navmc10274.signatureBlocks;
-  const setSignatureBlock = (index: number, patch: Partial<{ statement: string; name: string; digital: boolean }>) => {
+  const setSignatureBlock = (index: number, patch: Partial<FormSignatureBlock>) => {
     setNavmc10274Field(
       'signatureBlocks',
       signatureBlocks.map((b, i) => (i === index ? { ...b, ...patch } : b))
@@ -400,8 +401,8 @@ export function Form6105Section() {
                   </div>
                   <label className="flex items-center gap-2 text-xs text-muted-foreground">
                     <Checkbox
-                      checked={block.digital ?? false}
-                      onCheckedChange={(v) => setSignatureBlock(index, { digital: v === true })}
+                      checked={block.style === 'digital'}
+                      onCheckedChange={(v) => setSignatureBlock(index, { style: v === true ? 'digital' : 'typed' })}
                       aria-label={`Signature block ${index + 1}: add a digital (CAC) signature field`}
                     />
                     Digital signature field (CAC — signed in Acrobat)

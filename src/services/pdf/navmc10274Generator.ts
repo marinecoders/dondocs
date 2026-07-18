@@ -121,11 +121,12 @@ export interface Navmc10274Data {
   // below text"); counseling actions commonly add the counseled Marine's
   // acknowledgement and sometimes a witness — an optional statement renders as
   // a paragraph above each block's signing space.
-  signatureBlocks?: Array<{ statement?: string; name?: string; digital?: boolean }>;
+  signatureBlocks?: Array<{ statement?: string; name?: string; style?: SignatureStyle; image?: string }>;
 }
 
 import { calculateTextPosition, type BoxBoundary } from './extractFormFields';
 import { addSignatureFieldToPage } from './signatureFieldCore';
+import { isDigital, type SignatureStyle } from '@/types/signature';
 
 // A digital signature field sits in the signing gap ABOVE the typed name: 8pt
 // above the name's baseline (clearing its ascenders — a 2pt gap clipped them in
@@ -182,7 +183,7 @@ export interface SignatureFieldPlacement {
 export function composeBlockTwelveLines(parts: {
   supplementalInfo: string[];
   proposedAction: string[];
-  signatureBlocks: Array<{ statement: string[]; name: string; digital?: boolean }>;
+  signatureBlocks: Array<{ statement: string[]; name: string; style?: SignatureStyle }>;
 }): ComposedBlockTwelve {
   const lines: string[] = [...parts.supplementalInfo];
   if (parts.proposedAction.length > 0) {
@@ -214,7 +215,7 @@ export function composeBlockTwelveLines(parts: {
       nameLineIndex = lines.length;
       lines.push(name);
     }
-    groups.push({ start, end: lines.length - 1, nameLineIndex, digital: block.digital ?? false });
+    groups.push({ start, end: lines.length - 1, nameLineIndex, digital: isDigital(block) });
   }
   return { lines, groups };
 }
@@ -540,7 +541,7 @@ export async function generateNavmc10274Pdf(
         ? wrapText(block.statement.trim(), PAGE2_FIELDS.supplementalInfo.maxWidth, font, FONT_SIZE)
         : [],
       name: (block.name ?? '').trim(),
-      digital: block.digital ?? false,
+      style: block.style,
     })),
   });
   // Continuation-page field placements are held until page 3 is created below.

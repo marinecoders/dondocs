@@ -273,7 +273,7 @@ const SAMPLE_10274: NavmcForm10274Data = {
   supplementalInfo: 'Re: {{NAME}}',
   proposedAction: 'Approve',
   signatureBlocks: [
-    { statement: 'Acknowledged by {{NAME}}.', name: '{{ORIGINATOR}}', digital: true },
+    { statement: 'Acknowledged by {{NAME}}.', name: '{{ORIGINATOR}}', style: 'digital' },
   ],
 };
 
@@ -292,7 +292,7 @@ describe('applyPlaceholdersToNavmc10274', () => {
     expect(result.signatureBlocks[0].name).toBe('{{ORIGINATOR}}');
     // The digital-field flag survives substitution — a batch run must not
     // silently drop the CAC field the user asked for.
-    expect(result.signatureBlocks[0].digital).toBe(true);
+    expect(result.signatureBlocks[0].style).toBe('digital');
   });
 
   it('substitutes signature-block names when the variable is supplied', () => {

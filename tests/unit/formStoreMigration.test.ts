@@ -45,8 +45,32 @@ describe('formStore hydration of pre-signatureBlocks sessions', () => {
       })
     );
     await useFormStore.persist.rehydrate();
+    // Migration normalizes each block to carry an explicit `style` (a block
+    // saved before the style field defaults to 'typed').
     expect(useFormStore.getState().navmc10274.signatureBlocks).toEqual([
-      { statement: 'Acknowledged:', name: 'T. R. OAKES' },
+      { statement: 'Acknowledged:', name: 'T. R. OAKES', style: 'typed' },
+    ]);
+  });
+
+  it('upgrades a pre-1.2.107 digital flag to style', async () => {
+    localStorage.setItem(
+      FORMS_PERSIST_KEY,
+      JSON.stringify({
+        state: {
+          navmc10274: {
+            signatureBlocks: [
+              { statement: '', name: 'R. L. SMITH', digital: true },
+              { statement: '', name: 'J. A. DOE', digital: false },
+            ],
+          },
+        },
+        version: 0,
+      })
+    );
+    await useFormStore.persist.rehydrate();
+    expect(useFormStore.getState().navmc10274.signatureBlocks).toEqual([
+      { statement: '', name: 'R. L. SMITH', style: 'digital' },
+      { statement: '', name: 'J. A. DOE', style: 'typed' },
     ]);
   });
 });

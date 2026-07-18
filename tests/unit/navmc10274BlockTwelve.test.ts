@@ -175,7 +175,7 @@ describe('digital signature field placements', () => {
     const composed = composeBlockTwelveLines({
       supplementalInfo: ['Counseling text.'],
       proposedAction: [],
-      signatureBlocks: [{ statement: [], name: 'R. L. SMITH', digital: true }],
+      signatureBlocks: [{ statement: [], name: 'R. L. SMITH', style: 'digital' }],
     });
     const { fieldPlacements, pageLines } = paginateBlockTwelve(composed, 29);
     expect(fieldPlacements).toHaveLength(1);
@@ -200,8 +200,8 @@ describe('digital signature field placements', () => {
       supplementalInfo: Array.from({ length: 23 }, (_, i) => `Line ${i + 1}.`),
       proposedAction: [],
       signatureBlocks: [
-        { statement: [], name: 'R. L. SMITH', digital: true },
-        { statement: ['I acknowledge receipt.'], name: 'T. R. OAKES', digital: true },
+        { statement: [], name: 'R. L. SMITH', style: 'digital' },
+        { statement: ['I acknowledge receipt.'], name: 'T. R. OAKES', style: 'digital' },
       ],
     });
     const { fieldPlacements, pageLines, continuationLines } = paginateBlockTwelve(composed, 29);
