@@ -62,23 +62,40 @@
         }
       })();
     </script>
-    <!-- Boot watchdog: self-heal a stale app shell instead of white-screening.
-         After a deploy, a cached index.html can reference hashed bundles that
-         no longer exist (the service worker's NetworkFirst navigation fetch can
-         be satisfied by the browser's HTTP cache, and may then store that stale
-         shell in its own runtime cache — the 1.2.94 white-screen incident). The
-         app sets window.__DD_BOOTED__ as its first act; if that hasn't happened
-         shortly after load and we're online, this drops the shell caches,
-         force-revalidates the page in the HTTP cache, and reloads ONCE
-         (session-guarded so it can never loop; offline is left alone — the
-         cached shell is all an air-gapped machine has). -->
-    <script>
+    <!-- Boot watchdog: self-heal a stale/broken app shell instead of leaving a
+         white or unstyled screen. Two failure modes, one recovery:
+           1. Stale shell — a cached index.html references hashed bundles that no
+              longer exist, so the JS never boots (window.__DD_BOOTED__ stays
+              unset). The 1.2.94 white-screen incident.
+           2. Poisoned stylesheet — the JS boots but a stale service worker serves
+              a bad /assets/*.css, so the app renders UNSTYLED. Booting alone is
+              therefore NOT health: we also require our --background token to have
+              resolved, which only happens if the stylesheet actually applied.
+              Without this, the app's own "update available" prompt can't rescue
+              the user — it's a React component, invisible without CSS.
+         When neither holds shortly after load and we're online, this unregisters
+         the service worker (so the healing reload isn't intercepted and fetches
+         fresh assets straight from the network), drops the shell caches,
+         force-revalidates the page in the HTTP cache, and reloads ONCE. Guarded
+         per DISTINCT shell so it can never loop; IndexedDB/localStorage (saved
+         documents) are never touched; offline is left alone — the cached shell is
+         all an air-gapped machine has. This exact block is extracted and
+         exercised end-to-end by tests/regressions/boot-watchdog-stale-shell.ts. -->
+    <script id="boot-watchdog">
       (function () {
         try {
           var KEY = 'dondocs-boot-recovery';
+          // Our stylesheet defines --background on :root. If it resolves empty,
+          // the stylesheet never applied — the shell is unstyled/broken.
+          function stylesApplied() {
+            try {
+              return getComputedStyle(document.documentElement)
+                .getPropertyValue('--background').trim() !== '';
+            } catch (e) { return true; } // can't tell → assume fine, never nuke blindly
+          }
           setTimeout(function () {
             try {
-              if (window.__DD_BOOTED__) { sessionStorage.removeItem(KEY); return; }
+              if (window.__DD_BOOTED__ && stylesApplied()) { sessionStorage.removeItem(KEY); return; }
               if (!navigator.onLine) return;
               // One shot per DISTINCT broken shell, not per tab session: the
               // module script's hashed src fingerprints the build this shell
@@ -91,6 +108,15 @@
               if (sessionStorage.getItem(KEY) === shellId) return;
               sessionStorage.setItem(KEY, shellId);
               var reload = function () { location.reload(); };
+              // Unregister the worker: the poisoned CSS is served BY the stale SW,
+              // so the reload must not be intercepted by it. With no controller,
+              // the healing load fetches the current hashed assets from the
+              // network. Engine caches are left intact so offline compile survives.
+              var unregisterSW = ('serviceWorker' in navigator)
+                ? navigator.serviceWorker.getRegistrations().then(function (regs) {
+                    return Promise.all(regs.map(function (r) { return r.unregister(); }));
+                  }).catch(function () {})
+                : Promise.resolve();
               var dropShellCaches = ('caches' in window)
                 ? caches.keys().then(function (keys) {
                     return Promise.all(keys
@@ -102,7 +128,7 @@
               // entry with a fresh copy, so the reload below can't re-read the
               // same stale shell.
               var refreshShell = fetch(location.href, { cache: 'reload' }).catch(function () {});
-              Promise.all([dropShellCaches, refreshShell]).then(reload, reload);
+              Promise.all([unregisterSW, dropShellCaches, refreshShell]).then(reload, reload);
             } catch (e) { /* never break boot */ }
           }, 10000);
         } catch (e) { /* never break boot */ }

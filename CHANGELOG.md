@@ -5,6 +5,24 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.105] — 2026-07-17
+
+### Fixed
+
+- The boot watchdog now heals an *unstyled* shell, not just a blank one.
+  Previously it treated "the JavaScript booted" as health — but a stale
+  service worker can serve a poisoned stylesheet, so the app mounts and renders
+  with no CSS (the white/unstyled page some users were stuck on). Booting is no
+  longer sufficient: the watchdog also checks that the stylesheet actually
+  applied (our `--background` token resolved), and when it hasn't, it now
+  **unregisters the service worker** — the thing serving the bad CSS — before
+  reloading, so the healing load fetches the current assets straight from the
+  network. This runs inline in `index.html` (served fresh on every visit), so a
+  currently-stuck client self-heals on its next load with no cache-clearing or
+  DevTools needed. It still runs at most once per distinct shell (never loops),
+  never touches saved documents (IndexedDB/localStorage), and leaves offline
+  clients alone.
+
 ## [1.2.104] — 2026-07-16
 
 ### Fixed
