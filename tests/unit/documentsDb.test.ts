@@ -1,7 +1,7 @@
 // Sets a real (in-memory) IndexedDB on the global before documentsDb evaluates,
 // so its module-load `hasIndexedDb` probe sees a store. Must be the first import.
 import 'fake-indexeddb/auto';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach } from 'vitest';
 import {
   isIdbAvailable,
   idbPutDocument,
@@ -12,6 +12,7 @@ import {
   idbAddSnapshot,
   idbGetSnapshots,
   idbDeleteSnapshots,
+  requestPersistentStorage,
   type StoredDocument,
 } from '@/lib/documentsDb';
 
@@ -86,5 +87,84 @@ describe('documentsDb (fake-indexeddb)', () => {
     const snaps = await idbGetSnapshots('race-doc');
     expect(snaps.map((s) => s.ts).sort((a, b) => a - b)).toEqual([100, 200]);
     await idbDeleteSnapshots('race-doc');
+  });
+});
+
+describe('requestPersistentStorage', () => {
+  // navigator.storage isn't provided by the test DOM — install a stub per test
+  // and always restore, so the suite's other files see the environment they
+  // expect.
+  const setStorage = (stub: unknown) =>
+    Object.defineProperty(navigator, 'storage', { value: stub, configurable: true });
+  const clearDocs = async () => {
+    const all = (await idbGetAllDocuments()) ?? [];
+    for (const d of all) await idbDeleteDocument(d.id);
+  };
+  afterEach(() => {
+    setStorage(undefined);
+  });
+
+  it('returns false (never throws) when the API is unavailable', async () => {
+    setStorage(undefined);
+    await expect(requestPersistentStorage()).resolves.toBe(false);
+  });
+
+  it('already persisted: reports true without re-requesting', async () => {
+    let persistCalls = 0;
+    setStorage({
+      persisted: async () => true,
+      persist: async () => {
+        persistCalls++;
+        return true;
+      },
+    });
+    await expect(requestPersistentStorage()).resolves.toBe(true);
+    expect(persistCalls).toBe(0);
+  });
+
+  it('does not prompt a user with nothing to lose (zero documents)', async () => {
+    await clearDocs();
+    let persistCalls = 0;
+    setStorage({
+      persisted: async () => false,
+      persist: async () => {
+        persistCalls++;
+        return true;
+      },
+    });
+    await expect(requestPersistentStorage()).resolves.toBe(false);
+    expect(persistCalls).toBe(0);
+  });
+
+  it('requests persistence once the user has documents at risk', async () => {
+    await idbPutDocument(doc('persist-1'));
+    let persistCalls = 0;
+    setStorage({
+      persisted: async () => false,
+      persist: async () => {
+        persistCalls++;
+        return true;
+      },
+    });
+    await expect(requestPersistentStorage()).resolves.toBe(true);
+    expect(persistCalls).toBe(1);
+    await idbDeleteDocument('persist-1');
+  });
+
+  it('a denied request reports false without throwing', async () => {
+    await idbPutDocument(doc('persist-2'));
+    setStorage({ persisted: async () => false, persist: async () => false });
+    await expect(requestPersistentStorage()).resolves.toBe(false);
+    await idbDeleteDocument('persist-2');
+  });
+
+  it('a throwing persisted() degrades to false, never an unhandled rejection', async () => {
+    setStorage({
+      persisted: async () => {
+        throw new Error('blocked by policy');
+      },
+      persist: async () => true,
+    });
+    await expect(requestPersistentStorage()).resolves.toBe(false);
   });
 });

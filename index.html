@@ -73,14 +73,18 @@
               resolved, which only happens if the stylesheet actually applied.
               Without this, the app's own "update available" prompt can't rescue
               the user — it's a React component, invisible without CSS.
-         When neither holds shortly after load and we're online, this unregisters
-         the service worker (so the healing reload isn't intercepted and fetches
-         fresh assets straight from the network), drops the shell caches,
-         force-revalidates the page in the HTTP cache, and reloads ONCE. Guarded
-         per DISTINCT shell so it can never loop; IndexedDB/localStorage (saved
-         documents) are never touched; offline is left alone — the cached shell is
-         all an air-gapped machine has. This exact block is extracted and
-         exercised end-to-end by tests/regressions/boot-watchdog-stale-shell.ts. -->
+         When neither holds and we're online, this unregisters the service
+         worker (so the healing reload isn't intercepted and fetches fresh
+         assets straight from the network), drops the shell caches,
+         force-revalidates the page in the HTTP cache, and reloads ONCE.
+         Recovery has two triggers: a FAST one — a shell stylesheet firing its
+         error event (the 404 case, healed the moment it lands instead of
+         after seconds of unstyled page) — and a 10s timer that catches
+         everything else. Guarded per DISTINCT shell so it can never loop;
+         IndexedDB/localStorage (saved documents) are never touched; offline is
+         left alone — the cached shell is all an air-gapped machine has. This
+         exact block is extracted and exercised end-to-end by
+         tests/regressions/boot-watchdog-stale-shell.ts. -->
     <script id="boot-watchdog">
       (function () {
         try {
@@ -93,16 +97,16 @@
                 .getPropertyValue('--background').trim() !== '';
             } catch (e) { return true; } // can't tell → assume fine, never nuke blindly
           }
-          setTimeout(function () {
+          // The one-shot recovery, shared by the slow timer below and the fast
+          // stylesheet-failure trigger. Guarded per DISTINCT broken shell, not
+          // per tab session: the module script's hashed src fingerprints the
+          // build this shell belongs to. Guarding on the bare session left a
+          // tab stuck when the first heal didn't take (a stale SW re-served a
+          // different stale shell) — a new fingerprint means a new failure
+          // worth one more attempt, while the same shell can still never loop.
+          function heal() {
             try {
-              if (window.__DD_BOOTED__ && stylesApplied()) { sessionStorage.removeItem(KEY); return; }
               if (!navigator.onLine) return;
-              // One shot per DISTINCT broken shell, not per tab session: the
-              // module script's hashed src fingerprints the build this shell
-              // belongs to. Guarding on the bare session left a tab stuck when
-              // the first heal didn't take (a stale SW re-served a different
-              // stale shell) — a new fingerprint means a new failure worth one
-              // more attempt, while the same shell can still never loop.
               var s = document.querySelector('script[type="module"][src]');
               var shellId = (s && s.getAttribute('src')) || 'unknown';
               if (sessionStorage.getItem(KEY) === shellId) return;
@@ -129,6 +133,33 @@
               // same stale shell.
               var refreshShell = fetch(location.href, { cache: 'reload' }).catch(function () {});
               Promise.all([unregisterSW, dropShellCaches, refreshShell]).then(reload, reload);
+            } catch (e) { /* never break boot */ }
+          }
+          // Fast path: a shell stylesheet that fails to load fires a capture-
+          // phase error event the moment the 404/failure lands — heal right
+          // then instead of leaving the user on an unstyled page until the
+          // timer. Only our own hashed assets count, and only when the styles
+          // really are missing, so an unrelated resource error can't nuke a
+          // healthy session. (Resource errors don't bubble; capture is the
+          // only way to see them from here.)
+          if (window.addEventListener) {
+            window.addEventListener('error', function (e) {
+              try {
+                var t = e && e.target;
+                if (!t || t.tagName !== 'LINK') return;
+                if ((t.rel || '') !== 'stylesheet') return;
+                if (String(t.href || '').indexOf('/assets/') === -1) return;
+                if (stylesApplied()) return;
+                heal();
+              } catch (err) { /* never break boot */ }
+            }, true);
+          }
+          // Slow path: catches everything else (blank shell, hung requests,
+          // a worker serving nothing at all).
+          setTimeout(function () {
+            try {
+              if (window.__DD_BOOTED__ && stylesApplied()) { sessionStorage.removeItem(KEY); return; }
+              heal();
             } catch (e) { /* never break boot */ }
           }, 10000);
         } catch (e) { /* never break boot */ }

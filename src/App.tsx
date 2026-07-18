@@ -46,7 +46,7 @@ import { AppAlertDialog } from '@/components/AppAlertDialog';
 import { StorageNotice } from '@/components/StorageNotice';
 import { BackupNotice } from '@/components/BackupNotice';
 import { InstallNotice } from '@/components/InstallNotice';
-import { probeStorageHealth } from '@/lib/documentsDb';
+import { probeStorageHealth, requestPersistentStorage } from '@/lib/documentsDb';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore, getSavedSession, rehydrateEnclosureFiles } from '@/stores/documentStore';
 import { useFormStore, FORMS_PERSIST_KEY } from '@/stores/formStore';
@@ -466,8 +466,14 @@ function App() {
       // Probe how durable storage is only AFTER hydration/migration settles, so a
       // returning user's just-migrated docs are already in IndexedDB and the
       // StorageNotice can't be suppressed by reading an empty store mid-migration.
+      // Request persistence first so the probe reports the post-grant state —
+      // for most Chromium users this quietly flips 'evictable' to 'ok' and, more
+      // importantly, stops the browser evicting the service worker's precache
+      // (the root of the recurring unstyled-shell loop).
       .finally(() => {
-        void probeStorageHealth()
+        void requestPersistentStorage()
+          .catch(() => false)
+          .then(() => probeStorageHealth())
           .then((health) => {
             if (!cancelled) useUIStore.getState().setStorageHealth(health);
           })

@@ -260,6 +260,33 @@ export type StorageHealth = 'ok' | 'evictable' | 'unreadable' | 'unavailable';
  *  - 'ok': persistent storage is granted.
  * Uses the passive `persisted()` check (no permission prompt).
  */
+/**
+ * Ask the browser to protect this origin's storage from eviction. Persistence
+ * covers everything the app depends on — IndexedDB (documents), Cache Storage
+ * (the offline engines AND the service worker's precache), and the service
+ * worker registration itself. Without it, disk pressure can evict the
+ * precache out from under an installed worker, leaving it serving a shell
+ * whose assets are gone (the recurring unstyled-page loop the boot watchdog
+ * heals). Asking is the systemic fix; the watchdog is the backstop.
+ *
+ * Only asks once the user actually has documents: Chromium decides silently
+ * from engagement signals either way, but Firefox shows a permission dialog,
+ * and prompting a first-time visitor with nothing to lose is noise. Best
+ * effort — returns whether storage is persistent afterwards.
+ */
+export async function requestPersistentStorage(): Promise<boolean> {
+  try {
+    if (!navigator.storage?.persist || !navigator.storage.persisted) return false;
+    if (await navigator.storage.persisted()) return true;
+    if (!hasIndexedDb) return false;
+    const records = await idbGetAllDocuments();
+    if (!records || records.length === 0) return false;
+    return await navigator.storage.persist();
+  } catch {
+    return false;
+  }
+}
+
 export async function probeStorageHealth(): Promise<StorageHealth> {
   if (!hasIndexedDb) return 'unavailable';
   try {

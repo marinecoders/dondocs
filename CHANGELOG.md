@@ -5,7 +5,7 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
-## [1.2.107] — 2026-07-18
+## [1.2.108] — 2026-07-18
 
 ### Added
 
@@ -111,6 +111,26 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 - Removed a phantom "13." from that field's label (the printed form has no
   field 13) and a never-rendered, never-collected signature field from the
   6105 generator.
+
+## [1.2.107] — 2026-07-18
+
+### Fixed
+
+- The unstyled-page flash on refresh now heals instantly instead of after
+  seconds. When a stale service worker serves a shell whose stylesheet no
+  longer exists, the boot watchdog previously waited 10 seconds before
+  recovering; the failed stylesheet's own error event now triggers the same
+  one-shot recovery the moment the failure lands. All guards carry over:
+  only the app's own stylesheets count, a healthy styled session is never
+  touched, offline clients are left alone, and recovery still can never loop.
+- Attacked the root of the recurrence: the app now asks the browser for
+  **persistent storage** once a user has saved documents. Persistence protects
+  IndexedDB, Cache Storage, and the service-worker registration from
+  disk-pressure eviction — the mechanism that strands an installed worker
+  serving a shell whose assets were evicted, producing the
+  broken-refresh-then-recover loop on affected machines. Chromium grants or
+  denies silently; the storage-health notice now reflects the post-request
+  state. A brand-new visitor with nothing to lose is never prompted.
 
 ## [1.2.106] — 2026-07-17
 
