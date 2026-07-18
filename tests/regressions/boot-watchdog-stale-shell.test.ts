@@ -30,7 +30,7 @@ function extractWatchdogSource(): string {
   // Case-insensitive: this only extracts a known inline script from our own
   // index.html, but CodeQL (rightly) treats case-sensitive tag regexes as a
   // sanitizer-bypass smell, and <SCRIPT> is valid HTML anyway.
-  const scripts = [...indexHtml.matchAll(/<script>([\s\S]*?)<\/script>/gi)].map((m) => m[1]);
+  const scripts = [...indexHtml.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/gi)].map((m) => m[1]);
   const src = scripts.find((s) => s.includes(GUARD_KEY));
   if (!src) throw new Error('boot watchdog inline script not found in index.html');
   return src;
@@ -44,12 +44,17 @@ const SHELL_SRC = '/assets/main-abc123.js';
 
 interface RunOptions {
   booted: boolean;
+  /** Whether our --background token resolved (the stylesheet applied). Default
+   *  true: booting is only healthy when the CSS also loaded. */
+  stylesApplied?: boolean;
   online?: boolean;
   /** Pre-set guard value: SHELL_SRC = this shell already healed. */
   guardValue?: string;
   cacheKeys?: string[];
   /** The module script src the current shell carries (null = none found). */
   shellSrc?: string | null;
+  /** Whether a service worker controls the page (default: yes, one worker). */
+  serviceWorker?: boolean;
 }
 
 /** Run the extracted watchdog against doubles and fire its timer. */
@@ -60,6 +65,7 @@ async function runWatchdog(opts: RunOptions) {
   const deleted: string[] = [];
   const fetchCalls: { url: string; init?: RequestInit }[] = [];
   let reloads = 0;
+  let unregistered = 0;
   let timerCb: (() => void) | null = null;
 
   const cachesStub = {
@@ -69,8 +75,25 @@ async function runWatchdog(opts: RunOptions) {
       return true;
     },
   };
+  const hasSW = opts.serviceWorker ?? true;
+  const navigatorStub: Record<string, unknown> = { onLine: opts.online ?? true };
+  if (hasSW) {
+    navigatorStub.serviceWorker = {
+      getRegistrations: async () => [
+        { unregister: async () => void unregistered++ },
+        { unregister: async () => void unregistered++ },
+      ],
+    };
+  }
+  const stylesApplied = opts.stylesApplied ?? true;
   const sandbox = {
     window: { __DD_BOOTED__: opts.booted ? true : undefined, caches: cachesStub },
+    // The watchdog probes getComputedStyle(...).getPropertyValue('--background');
+    // an empty value means the stylesheet never applied (unstyled shell).
+    getComputedStyle: () => ({
+      getPropertyValue: (prop: string) =>
+        prop === '--background' && stylesApplied ? 'oklch(0.97 0.008 250)' : '',
+    }),
     document: {
       querySelector: (sel: string) => {
         if (!sel.includes('script')) return null;
@@ -78,7 +101,7 @@ async function runWatchdog(opts: RunOptions) {
         return src === null ? null : { getAttribute: () => src };
       },
     },
-    navigator: { onLine: opts.online ?? true },
+    navigator: navigatorStub,
     sessionStorage: {
       getItem: (k: string) => storage.get(k) ?? null,
       setItem: (k: string, v: string) => void storage.set(k, v),
@@ -112,7 +135,7 @@ async function runWatchdog(opts: RunOptions) {
   };
   await fireTimer();
 
-  return { deleted, fetchCalls, reloads: () => reloads, storage, fireTimer };
+  return { deleted, fetchCalls, reloads: () => reloads, unregistered: () => unregistered, storage, fireTimer };
 }
 
 describe('boot watchdog — stale shell recovery (v1.2.94 incident)', () => {
@@ -133,8 +156,27 @@ describe('boot watchdog — stale shell recovery (v1.2.94 incident)', () => {
       { url: 'https://dondocs.test/', init: { cache: 'reload' } },
     ]);
     expect(r.reloads()).toBe(1);
+    // Recovery unregisters the service worker — it is what serves the stale
+    // shell, so the healing reload must not be intercepted by it.
+    expect(r.unregistered()).toBe(2);
     // The guard records WHICH shell was healed (the hashed module src), so
     // recovery is one-shot per broken build rather than per tab session.
+    expect(r.storage.get(GUARD_KEY)).toBe(SHELL_SRC);
+  });
+
+  it('booted-but-unstyled shell (poisoned CSS) is recovered, not treated as healthy', async () => {
+    // The regression this release fixes: the JS booted (__DD_BOOTED__ set) but
+    // a stale service worker served a bad stylesheet, so --background never
+    // resolved. The old watchdog saw "booted" and stood down, leaving the user
+    // on a white/unstyled page. Health now requires the stylesheet too.
+    const r = await runWatchdog({
+      booted: true,
+      stylesApplied: false,
+      cacheKeys: [`${SHELL_CACHE_PREFIX}-deadbeef`],
+    });
+    expect(r.reloads()).toBe(1);
+    expect(r.unregistered()).toBe(2); // the poisoned worker is unregistered
+    expect(r.deleted).toEqual([`${SHELL_CACHE_PREFIX}-deadbeef`]);
     expect(r.storage.get(GUARD_KEY)).toBe(SHELL_SRC);
   });
 
@@ -173,11 +215,13 @@ describe('boot watchdog — stale shell recovery (v1.2.94 incident)', () => {
   it('healthy boot: no recovery, and the one-shot guard is cleared for next time', async () => {
     const r = await runWatchdog({
       booted: true,
+      stylesApplied: true, // booted AND styled — genuinely healthy
       guardValue: SHELL_SRC, // left over from a prior recovered session
       cacheKeys: [`${SHELL_CACHE_PREFIX}-deadbeef`],
     });
     expect(r.deleted).toEqual([]);
     expect(r.reloads()).toBe(0);
+    expect(r.unregistered()).toBe(0);
     expect(r.storage.has(GUARD_KEY)).toBe(false);
   });
 
