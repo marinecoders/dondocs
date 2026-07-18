@@ -32,6 +32,7 @@ import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { cn } from '@/lib/utils';
 import type { UnitInfo } from '@/data/unitDirectory';
 import type { FormSignatureBlock } from '@/types/signature';
+import { SignatureStylePicker } from './SignatureStylePicker';
 
 // Active-section left-rule for a form AccordionItem, matching the letter
 // sections (FormPanel's SectionShell). activeId only changes at section
@@ -399,14 +400,11 @@ export function Form6105Section() {
                       </Button>
                     )}
                   </div>
-                  <label className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <Checkbox
-                      checked={block.style === 'digital'}
-                      onCheckedChange={(v) => setSignatureBlock(index, { style: v === true ? 'digital' : 'typed' })}
-                      aria-label={`Signature block ${index + 1}: add a digital (CAC) signature field`}
-                    />
-                    Digital signature field (CAC — signed in Acrobat)
-                  </label>
+                  <SignatureStylePicker
+                    block={block}
+                    index={index}
+                    onChange={(patch) => setSignatureBlock(index, patch)}
+                  />
                 </div>
               ))}
               <p className="text-xs text-muted-foreground">
