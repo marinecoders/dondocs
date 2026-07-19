@@ -130,6 +130,24 @@ describe('parseNavalLetter — portion markings', () => {
     expect(p.paragraphs[0]).toEqual({ text: 'Top.', level: 0, portionMarking: 'CUI' });
     expect(p.paragraphs[1]).toEqual({ text: 'Plain sub with no mark.', level: 1 });
   });
+
+  it('captures a portion mark on a paren-numbered paragraph', () => {
+    const p = parseNavalLetter('        (1) (S) A marked subsubparagraph.');
+    expect(p.paragraphs[0]).toEqual({ text: 'A marked subsubparagraph.', level: 2, portionMarking: 'S' });
+  });
+
+  it('keeps the portion mark when the paragraph wraps across lines', () => {
+    const p = parseNavalLetter('1.  (S) This secret paragraph was wrapped\nacross two output lines.');
+    expect(p.paragraphs).toEqual([
+      { text: 'This secret paragraph was wrapped across two output lines.', level: 0, portionMarking: 'S' },
+    ]);
+  });
+
+  it('does not treat a parenthetical that is not a mark as a portion mark', () => {
+    const p = parseNavalLetter('1.  (See reference (a)) for the governing policy.');
+    expect(p.paragraphs[0].portionMarking).toBeUndefined();
+    expect(p.paragraphs[0].text).toBe('(See reference (a)) for the governing policy.');
+  });
 });
 
 describe('parseNavalLetter — paragraph levels', () => {

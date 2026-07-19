@@ -34,15 +34,18 @@ export const IMPORTABLE_DOC_TYPES = [
   'mou',
 ] as const;
 
-// Strong, unambiguous openers → a specific type, high confidence. Tested in order.
+// Strong, unambiguous openers → a specific type, high confidence. Tested in
+// order. Each is anchored to the START of a line (the `m` flag) because these
+// are title / endorsement lines, not phrases — a naval letter whose Subj reads
+// "RENEWAL OF MEMORANDUM OF AGREEMENT" must not be misread as an MOA.
 const STRONG_MARKERS: { re: RegExp; docType: string; reason: string }[] = [
-  { re: /memorandum\s+for\s+the\s+record/i, docType: 'mfr', reason: 'Contains "MEMORANDUM FOR THE RECORD".' },
-  { re: /memorandum\s+of\s+agreement/i, docType: 'moa', reason: 'Contains "MEMORANDUM OF AGREEMENT".' },
-  { re: /memorandum\s+of\s+understanding/i, docType: 'mou', reason: 'Contains "MEMORANDUM OF UNDERSTANDING".' },
+  { re: /^\s*memorandum\s+for\s+the\s+record/im, docType: 'mfr', reason: 'Contains "MEMORANDUM FOR THE RECORD".' },
+  { re: /^\s*memorandum\s+of\s+agreement/im, docType: 'moa', reason: 'Contains "MEMORANDUM OF AGREEMENT".' },
+  { re: /^\s*memorandum\s+of\s+understanding/im, docType: 'mou', reason: 'Contains "MEMORANDUM OF UNDERSTANDING".' },
   // "FIRST ENDORSEMENT", "SECOND ENDORSEMENT on …", "1st Endorsement". New-page
   // is always a valid form, so it's the safe default guess for an endorsement.
   {
-    re: /\b(?:first|second|third|fourth|fifth|\d+(?:st|nd|rd|th))\s+endorsement\b/i,
+    re: /^\s*(?:first|second|third|fourth|fifth|\d+(?:st|nd|rd|th))\s+endorsement\b/im,
     docType: 'new_page_endorsement',
     reason: 'Contains an endorsement line.',
   },
@@ -61,9 +64,10 @@ export function detectDocumentType(rawText: string): DocTypeDetection {
   const hasTo = hasLabel(text, /^\s*to\s*:/im);
   const hasSubj = hasLabel(text, /^\s*subj(?:ect)?\s*:/im);
 
-  // A generic "MEMORANDUM" (including "MEMORANDUM FOR <name>") — the family is
-  // clear but the specific memo type isn't, so ask the drafter to confirm.
-  if (/\bmemorandum\b/i.test(text) && !(hasFrom && hasTo && hasSubj)) {
+  // A generic "MEMORANDUM" title line (including "MEMORANDUM FOR <name>") — the
+  // family is clear but the specific memo type isn't, so ask the drafter to
+  // confirm. Line-anchored so a body mention ("per the memorandum") doesn't fire.
+  if (/^\s*memorandum\b/im.test(text) && !(hasFrom && hasTo && hasSubj)) {
     return {
       docType: 'plain_paper_memorandum',
       confidence: 'low',

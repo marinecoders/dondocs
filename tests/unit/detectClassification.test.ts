@@ -33,6 +33,20 @@ describe('detectClassification — banner level', () => {
     const d = detectClassification(['SECRET', '1. x', 'UNCLASSIFIED'].join('\n'));
     expect(d.classLevel).toBe('secret');
   });
+
+  it('tolerates whitespace around the // control separator', () => {
+    expect(detectClassification('TOP SECRET // SCI\n1. x').classLevel).toBe('top_secret_sci');
+  });
+
+  it('reads a legacy FOUO banner as CUI', () => {
+    expect(detectClassification('FOR OFFICIAL USE ONLY\n1. x').classLevel).toBe('cui');
+    expect(detectClassification('UNCLASSIFIED//FOUO\n1. x').classLevel).toBe('cui');
+  });
+
+  it('detects a banner that appears only once (single-page document)', () => {
+    const d = detectClassification('SECRET\n\nFrom: A\n\n1. Body.');
+    expect(d).toMatchObject({ classLevel: 'secret', found: true });
+  });
 });
 
 describe('detectClassification — false positives', () => {
@@ -45,6 +59,13 @@ describe('detectClassification — false positives', () => {
   it('does not fire on the word secret mid-sentence', () => {
     const d = detectClassification('1. Keep this a secret between us.');
     expect(d.found).toBe(false);
+  });
+
+  it('does not treat a prose line that merely starts with the word as a banner', () => {
+    // The trailer must start with "//" — plain trailing words are not a banner.
+    expect(detectClassification('SECRET SERVICE DETAIL ASSIGNMENTS').found).toBe(false);
+    expect(detectClassification('CONFIDENTIAL sources report the following.').found).toBe(false);
+    expect(detectClassification('TOP SECRETARY DUTIES').found).toBe(false);
   });
 
   it('reports not-found for a plain unmarked letter', () => {

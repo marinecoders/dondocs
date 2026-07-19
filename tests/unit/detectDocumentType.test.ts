@@ -36,6 +36,32 @@ describe('detectDocumentType — strong markers (high confidence)', () => {
     expect(d.docType).toBe('mfr');
     expect(d.confidence).toBe('high');
   });
+
+  it('matches an endorsement line even with leading indentation', () => {
+    const d = detectDocumentType('        FIRST ENDORSEMENT on CO ltr 1650');
+    expect(d).toMatchObject({ docType: 'new_page_endorsement', confidence: 'high' });
+  });
+});
+
+describe('detectDocumentType — markers must be title lines, not phrases', () => {
+  it('does not read a letter that mentions an MOA in its subject as an MOA', () => {
+    const d = detectDocumentType(
+      ['From: A', 'To: B', '', 'Subj: RENEWAL OF THE MEMORANDUM OF AGREEMENT', '', '1. Body.'].join('\n')
+    );
+    expect(d.docType).toBe('naval_letter');
+    expect(d.confidence).toBe('high');
+  });
+
+  it('does not read a body reference to a memorandum as a memorandum', () => {
+    const d = detectDocumentType('From: A\n\n1. Comply with the memorandum of understanding cited.');
+    expect(d.docType).not.toBe('mou');
+    expect(d.docType).not.toBe('plain_paper_memorandum');
+  });
+
+  it('still catches an MOA whose title line carries trailing text', () => {
+    const d = detectDocumentType('MEMORANDUM OF AGREEMENT BETWEEN THE NAVY AND THE ARMY');
+    expect(d).toMatchObject({ docType: 'moa', confidence: 'high' });
+  });
 });
 
 describe('detectDocumentType — letters', () => {

@@ -32,16 +32,24 @@ export interface ClassificationDetection {
 
 // A standalone banner line → its level. Order matters: the most specific /
 // highest markings are tested first so "TOP SECRET//SCI" isn't read as plain
-// "TOP SECRET", and "SECRET" doesn't swallow a "TOP SECRET" line. Each anchors
-// the whole (trimmed) line and tolerates a trailing "//" control string
-// (e.g. "SECRET//NOFORN") without changing the base level.
+// "TOP SECRET", and "SECRET" doesn't swallow a "TOP SECRET" line.
+//
+// Each pattern anchors the WHOLE (trimmed) line: the base marking, optionally
+// followed by a "//" control string (e.g. "SECRET//NOFORN", "CUI//SP-CTI").
+// Requiring the trailer to start with "//" is deliberate — it keeps a prose
+// line that merely starts with the word ("SECRET SERVICE DETAIL",
+// "CONFIDENTIAL sources report…") from being mistaken for a banner.
+const TRAILER = String.raw`(?:\s*\/\/.*)?$`;
 const BANNER_MARKINGS: { re: RegExp; level: ClassificationLevel; label: string }[] = [
-  { re: /^top\s+secret\s*\/\/\s*sci\b.*$/i, level: 'top_secret_sci', label: 'TOP SECRET//SCI' },
-  { re: /^top\s+secret\b.*$/i, level: 'top_secret', label: 'TOP SECRET' },
-  { re: /^secret\b.*$/i, level: 'secret', label: 'SECRET' },
-  { re: /^confidential\b.*$/i, level: 'confidential', label: 'CONFIDENTIAL' },
-  { re: /^(?:cui|controlled\s+unclassified\s+information)\b.*$/i, level: 'cui', label: 'CUI' },
-  { re: /^unclassified\b.*$/i, level: 'unclassified', label: 'UNCLASSIFIED' },
+  { re: new RegExp(String.raw`^top\s+secret\s*\/\/\s*sci${TRAILER}`, 'i'), level: 'top_secret_sci', label: 'TOP SECRET//SCI' },
+  { re: new RegExp(String.raw`^top\s+secret${TRAILER}`, 'i'), level: 'top_secret', label: 'TOP SECRET' },
+  { re: new RegExp(String.raw`^secret${TRAILER}`, 'i'), level: 'secret', label: 'SECRET' },
+  { re: new RegExp(String.raw`^confidential${TRAILER}`, 'i'), level: 'confidential', label: 'CONFIDENTIAL' },
+  { re: new RegExp(String.raw`^(?:cui|controlled\s+unclassified\s+information)${TRAILER}`, 'i'), level: 'cui', label: 'CUI' },
+  // Legacy FOUO banner (retired into CUI, DoDI 5200.48) — common on older
+  // Marine correspondence, so recognize it and map it to CUI.
+  { re: new RegExp(String.raw`^(?:for\s+official\s+use\s+only|unclassified\s*\/\/\s*fouo)${TRAILER}`, 'i'), level: 'cui', label: 'CUI (FOUO)' },
+  { re: new RegExp(String.raw`^unclassified${TRAILER}`, 'i'), level: 'unclassified', label: 'UNCLASSIFIED' },
 ];
 
 const LEVEL_RANK: Record<ClassificationLevel, number> = {
