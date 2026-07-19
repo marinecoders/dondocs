@@ -746,8 +746,8 @@ export function VariableChipEditor({
         // generator already preserves them; this just keeps the editor
         // visually faithful to what gets generated.
         class: blockMode
-          ? 'focus:outline-none whitespace-pre-wrap text-sm leading-relaxed'
-          : 'prose prose-sm dark:prose-invert max-w-none focus:outline-none px-3 py-2 whitespace-pre-wrap',
+          ? 'caret-primary focus:outline-none whitespace-pre-wrap text-sm leading-relaxed'
+          : 'prose prose-sm dark:prose-invert max-w-none caret-primary focus:outline-none px-3 py-2 whitespace-pre-wrap',
         style: blockMode ? 'min-height: 1.5em' : `min-height: ${rows * 24}px`,
       },
       // Tab key inserts 4 spaces (matching the SECNAV 0.25" / wrap-helper
@@ -964,7 +964,7 @@ export function VariableChipEditor({
   return (
     <div className={cn(
       'relative border rounded-md bg-background transition-colors overflow-hidden',
-      isFocused ? 'ring-2 ring-ring ring-offset-2' : 'border-input',
+      isFocused ? 'ring-[3px] ring-ring/50 ring-offset-2 ring-offset-background' : 'border-input',
       className
     )}>
       <EditorToolbar editor={editor} />

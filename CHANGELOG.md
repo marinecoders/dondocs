@@ -5,7 +5,21 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
-## [1.2.110] — 2026-07-18
+## [1.2.111] — 2026-07-19
+
+### Changed
+
+- **The command palette (⌘K) now matches on subsequences, not just substrings.**
+  Typing an acronym like "nnl" finds "New Naval Letter"; the matched letters are
+  highlighted in each result, and results are ranked by match quality (a
+  start-of-word or prefix match beats a scattered one).
+
+### Fixed
+
+- A few design-token strays: the "Clear fields" confirm button now uses the
+  shared warning color instead of a raw orange; two focus rings that were still
+  the old 2px width match the app's 3px ring; and the paragraph editor's text
+  caret is tinted to the brand color.
 
 ### Added
 

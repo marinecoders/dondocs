@@ -3,6 +3,26 @@ import { createPortal } from 'react-dom';
 import { Search, SearchX, type LucideIcon } from 'lucide-react';
 import { Kbd } from '@/components/ui/kbd';
 import { cn } from '@/lib/utils';
+import { fuzzyMatch } from '@/lib/fuzzyMatch';
+
+/** Render `text` with the matched character positions emphasized. */
+function Highlighted({ text, indices }: { text: string; indices: number[] }) {
+  if (indices.length === 0) return <>{text}</>;
+  const hit = new Set(indices);
+  return (
+    <>
+      {Array.from(text, (ch, i) =>
+        hit.has(i) ? (
+          <span key={i} className="font-semibold text-current">
+            {ch}
+          </span>
+        ) : (
+          ch
+        )
+      )}
+    </>
+  );
+}
 
 export interface CommandItem {
   id: string;
@@ -55,14 +75,27 @@ export function CommandPalette({
     };
   }, []);
 
-  const q = query.trim().toLowerCase();
+  const q = query.trim();
+  // Subsequence-match each item against its label (then its hint), rank
+  // best-first within the group, and remember where the label matched so the
+  // matched characters can be highlighted in the row.
+  const labelHits = new Map<string, number[]>();
   const filtered = groups
-    .map((g) => ({
-      ...g,
-      items: g.items.filter(
-        (it) => !q || it.label.toLowerCase().includes(q) || it.hint?.toLowerCase().includes(q)
-      ),
-    }))
+    .map((g) => {
+      const scored = g.items
+        .map((it) => {
+          const onLabel = fuzzyMatch(it.label, q);
+          const onHint = onLabel ? null : it.hint ? fuzzyMatch(it.hint, q) : null;
+          const m = onLabel ?? onHint;
+          if (!m) return null;
+          labelHits.set(it.id, onLabel ? onLabel.indices : []);
+          return { it, score: m.score };
+        })
+        .filter((x): x is { it: CommandItem; score: number } => x !== null);
+      // Keep the authored order with no query; rank by match quality once typing.
+      if (q) scored.sort((a, b) => b.score - a.score);
+      return { ...g, items: scored.map((x) => x.it) };
+    })
     .filter((g) => g.items.length > 0);
   const flat = filtered.flatMap((g) => g.items);
   const clampedSel = Math.min(sel, Math.max(0, flat.length - 1));
@@ -189,7 +222,9 @@ export function CommandPalette({
                       )}
                     >
                       <Icon className={cn('h-4 w-4 shrink-0', active ? 'text-current' : 'text-muted-foreground')} />
-                      <span className="flex-1 truncate text-sm">{it.label}</span>
+                      <span className="flex-1 truncate text-sm">
+                        <Highlighted text={it.label} indices={labelHits.get(it.id) ?? []} />
+                      </span>
                       {it.hint && (
                         <span className={cn('text-2xs', active ? 'text-current opacity-85' : 'text-muted-foreground')}>
                           {it.hint}
