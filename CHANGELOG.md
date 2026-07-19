@@ -5,6 +5,46 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.110] — 2026-07-18
+
+### Added
+
+- **Import a letter from a PDF or Word document.** Save → "Import letter…" opens
+  an existing letter and reads it back into the editor as a new document —
+  the From/To/Via/Subj header, the SSIC / serial / date, the reference,
+  enclosure, and copy-to lists, the numbered-paragraph tree, and the signer's
+  name (multiple Via addressees import as separate lines, so the letter
+  re-numbers them correctly). The old
+  way to reuse a letter you only had as a file was to retype it; now it's a file
+  pick and a review. The whole read happens in your browser — PDFs through the
+  pdf.js already bundled for the preview, Word (.docx) files through the same
+  pandoc engine that powers DOCX export — so nothing is uploaded and it's fine
+  on NMCI/air-gapped networks. It's a best-effort parse: a review dialog shows
+  every recognized field before anything is written, the letter opens as a new
+  document so your current one is untouched, and you check the fields after.
+  Text-based PDFs and .docx only — a scanned image has no text to read (that's a
+  later feature). The file type is detected from its contents (magic bytes) as
+  well as its name, so a Word document saved with the wrong extension still
+  imports; and the header block of a real letterhead Word document — which the
+  converter lays out as a table — is read correctly (From/To/Via/Subj and the
+  SSIC/serial/date) rather than skipped.
+- **The importer detects the document type.** It reads the file's text for the
+  tell-tale opener — an endorsement line, "MEMORANDUM FOR THE RECORD",
+  "MEMORANDUM OF AGREEMENT/UNDERSTANDING", or a From/To/Subj letter skeleton —
+  and pre-selects the matching type in the review dialog. When the type is clear
+  it says so; when it can't be sure (a bare "MEMORANDUM", or only partial
+  addressing) it flags the guess and asks you to confirm from the full list of
+  importable types before the letter opens.
+- **The importer carries classification across.** When the source is marked, it
+  reads the banner (UNCLASSIFIED / CUI / CONFIDENTIAL / SECRET / TOP SECRET /
+  TOP SECRET//SCI — highest wins), the derivative-classification authority block
+  ("Classified by / Derived from / Declassify on / Reason"), and the
+  per-paragraph portion markings, and pre-sets the Classification section from
+  them. For Word files the banner lives in the page header/footer, which the
+  body read skips, so those parts are read directly from the .docx. Anything
+  above Unclassified is called out in the review dialog with a reminder to
+  verify the marking before you export; an unmarked file stays Unclassified.
+
 ## [1.2.109] — 2026-07-18
 
 ### Added
@@ -21,6 +61,8 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
   (a banner higher than every portion), and on mixing CUI with legacy FOUO.
   The findings appear inline in the section as you edit — advisory, never
   blocking — and are announced to screen readers.
+
+## [1.2.108] — 2026-07-18
 
 ### Added
 

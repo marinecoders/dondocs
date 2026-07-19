@@ -187,6 +187,89 @@ export async function prefetchPandocModule(): Promise<void> {
   }
 }
 
+/**
+ * Read a .docx file's text content by running pandoc WASM in reverse
+ * (docx → plain). Used by the letter importer so the same SECNAV parser can
+ * consume Word documents, not just PDFs. Everything runs in-browser, offline.
+ *
+ * The bytes are handed to pandoc through the virtual-FS `files` map (binary
+ * input can't go through the string `stdin` channel — it would be mangled by
+ * UTF-8 encoding); `input-files` names the entry to read. `wrap: 'none'` keeps
+ * each source paragraph on a single line so the line-oriented header parser
+ * sees "From:", "To:", "Subj:" intact rather than hard-wrapped at 72 columns.
+ */
+export async function convertDocxToPlainText(bytes: Uint8Array): Promise<string> {
+  const mod = await ensureLoaded();
+
+  // Copy into a standalone ArrayBuffer so the Blob owns its bytes regardless of
+  // how the caller allocated the view (e.g. a subarray of a larger buffer).
+  const buffer = bytes.slice().buffer;
+  const files: Record<string, Blob> = {
+    'input.docx': new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    }),
+  };
+
+  const options: Record<string, unknown> = {
+    from: 'docx',
+    to: 'plain',
+    'input-files': ['input.docx'],
+    'output-file': 'output.txt',
+    wrap: 'none',
+  };
+
+  debug.log('DOCX', 'Reading DOCX text via pandoc (docx → plain)...');
+  const result = await mod.convert(options, null, files);
+  if (result.stderr) debug.warn('DOCX', `Pandoc docx-read stderr: ${result.stderr}`);
+
+  const out = files['output.txt'];
+  if (out && out.size > 0) return out.text();
+  // Fall back to stdout if the build streams the result there instead.
+  return result.stdout ?? '';
+}
+
+// Decode the five predefined XML entities. Order matters: "&amp;" is decoded
+// LAST so an input like "&amp;lt;" resolves to the literal "&lt;" rather than
+// being double-unescaped into "<".
+function decodeXmlText(s: string): string {
+  return s
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, '&');
+}
+
+/**
+ * Extract the text of a .docx file's headers and footers, one line per source
+ * paragraph. The classification banner is rendered into the Word page header
+ * and footer (word/header*.xml, word/footer*.xml), which pandoc's body-only
+ * `docx → plain` read never sees — so the importer reads these parts directly
+ * to recover the banner marking. Pure text, in-browser (JSZip), no network.
+ *
+ * Rather than strip tags from the raw XML (an incomplete, injection-prone form
+ * of sanitization), it pulls the text out of each `<w:t>` run and joins the runs
+ * within a `<w:p>` paragraph — OOXML run text contains no nested markup, so this
+ * is exact. Paragraphs become newlines, keeping the banner on its own line.
+ */
+export async function extractDocxMarkingText(bytes: Uint8Array): Promise<string> {
+  const zip = await JSZip.loadAsync(bytes.slice().buffer);
+  const parts = Object.keys(zip.files).filter((n) => /word\/(?:header|footer)\d*\.xml$/i.test(n));
+  const chunks: string[] = [];
+  for (const name of parts) {
+    const xml = await zip.files[name].async('string');
+    const lines: string[] = [];
+    // Split on the paragraph close tag so each <w:p> becomes its own line.
+    for (const paragraph of xml.split(/<\/w:p>/)) {
+      const runs = [...paragraph.matchAll(/<w:t\b[^>]*>([\s\S]*?)<\/w:t>/g)].map((m) => m[1]);
+      const text = decodeXmlText(runs.join('')).replace(/[ \t]+/g, ' ').trim();
+      if (text) lines.push(text);
+    }
+    if (lines.length) chunks.push(lines.join('\n'));
+  }
+  return chunks.join('\n');
+}
+
 function getSealFilename(sealType?: string, letterheadColor?: string): string {
   const type = sealType || 'dow';
   const bwSuffix = letterheadColor === 'black' ? '-bw' : '';

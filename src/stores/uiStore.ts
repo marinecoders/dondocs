@@ -45,6 +45,7 @@ interface UIState {
   aboutModalOpen: boolean;
   nistModalOpen: boolean;
   batchModalOpen: boolean;
+  importLetterModalOpen: boolean;
   commandPaletteOpen: boolean;
   findReplaceOpen: boolean;
   templateLoaderOpen: boolean;
@@ -71,6 +72,7 @@ interface UIState {
   setAboutModalOpen: (open: boolean) => void;
   setNistModalOpen: (open: boolean) => void;
   setBatchModalOpen: (open: boolean) => void;
+  setImportLetterModalOpen: (open: boolean) => void;
   setCommandPaletteOpen: (open: boolean) => void;
   setFindReplaceOpen: (open: boolean) => void;
   setTemplateLoaderOpen: (open: boolean) => void;
@@ -164,6 +166,7 @@ export const useUIStore = create<UIState>()(
       aboutModalOpen: false,
       nistModalOpen: false,
       batchModalOpen: false,
+      importLetterModalOpen: false,
       commandPaletteOpen: false,
       findReplaceOpen: false,
       templateLoaderOpen: false,
@@ -182,6 +185,7 @@ export const useUIStore = create<UIState>()(
       setAboutModalOpen: (open) => set({ aboutModalOpen: open }),
       setNistModalOpen: (open) => set({ nistModalOpen: open }),
       setBatchModalOpen: (open) => set({ batchModalOpen: open }),
+      setImportLetterModalOpen: (open) => set({ importLetterModalOpen: open }),
       setCommandPaletteOpen: (open) => set({ commandPaletteOpen: open }),
       setFindReplaceOpen: (open) => set({ findReplaceOpen: open }),
       setTemplateLoaderOpen: (open) => set({ templateLoaderOpen: open }),
@@ -233,6 +237,7 @@ export const useUIStore = create<UIState>()(
         aboutModalOpen: false,
         nistModalOpen: false,
         batchModalOpen: false,
+        importLetterModalOpen: false,
         commandPaletteOpen: false,
         findReplaceOpen: false,
         templateLoaderOpen: false,

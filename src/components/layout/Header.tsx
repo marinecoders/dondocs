@@ -183,6 +183,7 @@ export function Header({
   const setAboutModalOpen = useUIStore((s) => s.setAboutModalOpen);
   const setNistModalOpen = useUIStore((s) => s.setNistModalOpen);
   const setBatchModalOpen = useUIStore((s) => s.setBatchModalOpen);
+  const setImportLetterModalOpen = useUIStore((s) => s.setImportLetterModalOpen);
   const setDocumentGuideOpen = useUIStore((s) => s.setDocumentGuideOpen);
   const setFindReplaceOpen = useUIStore((s) => s.setFindReplaceOpen);
   const setCommandPaletteOpen = useUIStore((s) => s.setCommandPaletteOpen);
@@ -845,6 +846,10 @@ export function Header({
               <DropdownMenuItem onClick={() => setShareModal('import')}>
                 <FileInput className="h-4 w-4 mr-2" />
                 Open from share link
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setImportLetterModalOpen(true)}>
+                <FileUp className="h-4 w-4 mr-2" />
+                Import letter from PDF or Word…
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuLabel className="text-xs text-muted-foreground font-normal">Backup file (.json)</DropdownMenuLabel>
