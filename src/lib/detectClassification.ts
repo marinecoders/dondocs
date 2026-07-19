@@ -109,7 +109,16 @@ export function detectClassification(rawText: string): ClassificationDetection {
     }
   }
 
-  const hasAuthority = Object.keys(authority).length > 0;
+  // "Classified by / Derived from / Declassify on" are unambiguous authority-block
+  // labels; "Reason:" is not — it appears in ordinary prose — so it only counts
+  // as a classification field when one of the strong labels is also present.
+  const hasStrongAuthority =
+    authority.classifiedBy !== undefined ||
+    authority.derivedFrom !== undefined ||
+    authority.declassifyOn !== undefined;
+  if (!hasStrongAuthority) delete authority.classReason;
+
+  const hasAuthority = hasStrongAuthority;
   const classLevel = banner?.level ?? 'unclassified';
   const found = banner !== null || hasAuthority;
 

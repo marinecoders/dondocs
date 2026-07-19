@@ -103,6 +103,14 @@ describe('detectClassification — derivative classification authority block', (
     expect(d.derivedFrom).toBe('Multiple Sources');
     expect(d.reason).toMatch(/confirm/i);
   });
+
+  it('does not treat a lone "Reason:" line as a classification block', () => {
+    // "Reason:" appears in ordinary prose; it only counts alongside a strong
+    // authority label (Classified by / Derived from / Declassify on).
+    const d = detectClassification('From: A\nTo: B\n\n1. Reason: the request was denied.');
+    expect(d.found).toBe(false);
+    expect(d.classReason).toBeUndefined();
+  });
 });
 
 describe('detectClassification — labels', () => {

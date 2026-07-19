@@ -35,7 +35,12 @@ async function extractLetterText(file: File): Promise<{ body: string; markings: 
   const buffer = await readFileAsArrayBuffer(file);
   const bytes = arrayBufferToUint8Array(buffer);
   if (isDocxFile(file)) {
-    const [body, markings] = await Promise.all([convertDocxToPlainText(bytes), extractDocxMarkingText(bytes)]);
+    // The body is essential; the header/footer markings only feed classification
+    // detection, so a hiccup reading them must not fail the whole import.
+    const [body, markings] = await Promise.all([
+      convertDocxToPlainText(bytes),
+      extractDocxMarkingText(bytes).catch(() => ''),
+    ]);
     return { body, markings };
   }
   return { body: await extractPdfText(bytes), markings: '' };
