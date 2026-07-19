@@ -5,7 +5,22 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
-## [1.2.108] — 2026-07-18
+## [1.2.109] — 2026-07-18
+
+### Added
+
+- **Import a letter from a PDF.** Save → "Import letter from PDF…" opens an
+  existing naval letter and reads it back into the editor as a new document —
+  the From/To/Via/Subj header, the SSIC / serial / date, the reference and
+  enclosure lists, the numbered-paragraph tree, and the signer's name. The old
+  way to reuse a letter you only had as a PDF was to retype it; now it's a file
+  pick and a review. The whole read happens in your browser through the pdf.js
+  already bundled for the preview — nothing is uploaded, so it's fine on
+  NMCI/air-gapped networks. It's a best-effort parse: a review dialog shows
+  every recognized field before anything is written, the letter opens as a new
+  document so your current one is untouched, and you check the fields after.
+  Text-based PDFs only — a scanned image has no text to read (that's a later
+  feature).
 
 ### Added
 

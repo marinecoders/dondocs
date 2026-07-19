@@ -19,6 +19,7 @@ const MobilePreviewModal = lazy(() =>
   }))
 );
 import { AboutModal } from '@/components/modals/AboutModal';
+import { ImportLetterModal } from '@/components/modals/ImportLetterModal';
 import { NISTComplianceModal } from '@/components/modals/NISTComplianceModal';
 import { BatchModal } from '@/components/modals/BatchModal';
 import { FindReplaceModal } from '@/components/modals/FindReplaceModal';
@@ -1980,6 +1981,7 @@ ${texFiles['body.tex'] || '% No body content'}
       )}
       <AboutModal />
       <NISTComplianceModal />
+      <ImportLetterModal />
       {commandPaletteOpen && (
         <CommandPalette
           open
