@@ -5,6 +5,26 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.114] — 2026-07-19
+
+### Added
+
+- **"Spell out on first use" check for letters and memos.** As you write a naval
+  letter or memorandum, DonDocs flags any acronym used before it's defined and
+  reminds you to spell it out with the acronym in parentheses the first time —
+  "North Atlantic Treaty Organization (NATO)" — per SECNAV M-5216.5 ¶17c. It's
+  advisory (never blocks), hidden when the body is clean, and skips the
+  abbreviations a naval reader knows on sight (USMC, DoD, MCO, i.e., etc.). This
+  is the correspondence counterpart to the recordkeeping-form abbreviations: on a
+  letter the rule is to use acronyms sparingly and define them, not to compress.
+
+### Fixed
+
+- **Recovered the first entry of the IRAM abbreviation list.** The dataset was
+  missing "abbreviation → abbr" — the list's opening row, which the importer had
+  mistaken for a column heading. The recordkeeping forms now carry all 1,602
+  authorized entries.
+
 ## [1.2.113] — 2026-07-19
 
 ### Added
@@ -24,7 +44,6 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
   It is deliberately cautious: it only speaks up for a longer word that is a
   single typo away from exactly one approved term, and never touches an ordinary
   English word (or a slip of one), so a correctly spelled word is left alone.
-
 ## [1.2.112] — 2026-07-19
 
 ### Added
