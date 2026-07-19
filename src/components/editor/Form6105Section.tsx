@@ -359,7 +359,7 @@ export function Form6105Section() {
                 id="to"
                 value={navmc10274.to}
                 onValueChange={(v) => setNavmc10274Field('to', v)}
-                placeholder="Office or section this action routes to — e.g. IPAC Pay, S-1 (Admin) (type @ for variables)"
+                placeholder="Addressee — a routing office for an admin action, or the Marine for a counseling entry (type @ for variables)"
                 rows={2}
                 placeholders={NAVMC_10274_PLACEHOLDERS}
                 commonVariables={COMMON_FORM_VARS}

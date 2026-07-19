@@ -18,6 +18,11 @@ import { suggestRouting } from '@/lib/suggestRouting';
  * governing order and a "verify with your SOP" caveat. It's a decision aid: the
  * drafter clicks to insert the suggestion, and it never fills the field on its
  * own. (Command-specific routing overrides are a planned follow-up.)
+ *
+ * The AA form pulls double duty — an administrative action that routes to a
+ * section, or a counseling entry whose "To" is the Marine — so the helper stays
+ * collapsed to a quiet link until a routable action type is detected or the
+ * drafter asks for it, rather than nagging on every counseling.
  */
 export function ActionRoutingHelper({
   natureOfAction,
@@ -28,9 +33,25 @@ export function ActionRoutingHelper({
 }) {
   const detected = useMemo(() => suggestRouting(natureOfAction), [natureOfAction]);
   const [picked, setPicked] = useState('');
+  const [manualOpen, setManualOpen] = useState(false);
+
   const activeId = picked || detected[0]?.id || '';
   const route = ACTION_ROUTING.find((r) => r.id === activeId);
   const autoDetected = !picked && detected.length > 0;
+  const expanded = manualOpen || detected.length > 0 || picked !== '';
+
+  if (!expanded) {
+    return (
+      <button
+        type="button"
+        onClick={() => setManualOpen(true)}
+        className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <Compass className="h-3.5 w-3.5" />
+        Not sure where this routes? Get routing help
+      </button>
+    );
+  }
 
   return (
     <div className="space-y-2.5 rounded-md border border-border bg-secondary/20 p-3">
@@ -41,7 +62,7 @@ export function ActionRoutingHelper({
 
       <div className="space-y-1.5">
         <Select value={activeId} onValueChange={setPicked}>
-          <SelectTrigger className="w-full">
+          <SelectTrigger className="w-full" aria-label="Type of action, for a routing suggestion">
             <SelectValue placeholder="Pick the type of action…" />
           </SelectTrigger>
           <SelectContent>
@@ -74,6 +95,7 @@ export function ActionRoutingHelper({
             size="sm"
             variant="secondary"
             className="shrink-0"
+            aria-label={`Use "${route.destination}" in the To field`}
             onClick={() => onInsert(route.destination)}
           >
             Use <ArrowRight className="ml-1 h-3.5 w-3.5" />
