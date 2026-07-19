@@ -5,7 +5,20 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
-## [1.2.111] — 2026-07-19
+## [1.2.112] — 2026-07-19
+
+### Added
+
+- **Routing help on the Administrative Action (NAVMC 10274) form.** The "7. To"
+  field now offers a suggestion for where a package usually routes based on the
+  action type — read from your "Nature of Action" text (e.g. dependents, pay,
+  reenlistment, TAD, records correction) or picked from a list. Each suggestion
+  names the typical section (IPAC / S-1 / Career Planner / a HQMC Manpower
+  branch), cites the governing order to check, and one click drops it into the
+  field. It is deliberately advisory — routing varies by command, so every
+  suggestion is hedged ("IPAC, or your S-1") and reminds you to confirm with
+  your unit SOP or S-1 before submitting. (Also corrects the field's placeholder,
+  which described the wrong thing.)
 
 ### Changed
 
