@@ -45,46 +45,68 @@ if (start === -1 || end === -1) {
   process.exit(1);
 }
 
-// A page header/footer or chapter marker — noise between real rows.
-const NOISE = /^\s*(6-\d+|600[0-9]|IRAM|CHAPTER.*|\d+)\s*$/;
-// A dot-leader row: "FULL WORD/PHRASE ....... abbr".
-const ROW = /^(.*?)\.{4,}\s*(\*?[A-Za-z0-9/().\- ]+?)\s*$/;
-// A bare wrapped fragment (the head of a word that continued onto this line).
-const WRAP = /^\s*[A-Z][A-Z /-]*$/;
+// Page furniture between real rows: page numbers ("6-5"), the running header /
+// footer ("6002", "IRAM", "6002   IRAM", "IRAM   6002"), chapter markers, or a
+// bare number. These are ignored WITHOUT clearing the wrapped-word buffer.
+const NOISE = /^\s*(?:6-\d+|CHAPTER.*|(?:600[0-9]|IRAM)(?:\s+(?:600[0-9]|IRAM))?|\d+)\s*$/;
+// A dot-leader row: "FULL WORD/PHRASE ..... abbr". Threshold 2+ dots so a
+// near-full-width term with only a short leader is still captured.
+const ROW = /^(.*?)\.{2,}\s*(\*?[A-Za-z0-9/().\- ]+?)\s*$/;
 
-/** Normalize the left side to a lookup key: drop the compound-only asterisk,
- *  the " -INC -ING" suffix-variant markers, and collapse whitespace. */
+/** Normalize the left side to a lookup key: drop the " -ING"/" -INC" grammatical
+ *  suffix markers (hyphen directly attached — NOT " - AEROLOGY" specialty
+ *  suffixes, which are distinct terms), and collapse whitespace. */
 function cleanWord(raw) {
   return raw
-    .replace(/\s+-\s*[A-Za-z]+/g, '')
+    .replace(/\s+-[A-Za-z]+/g, '')
     .replace(/\s+/g, ' ')
     .trim();
 }
 
+/**
+ * Resolve an abbr field to a usable abbreviation + compound-only flag. The IRAM
+ * marks only compound-only alternatives with a leading "*", and a field may list
+ * alternatives as "X or Y" (e.g. "*Mer or coml"). Prefer the first alternative
+ * that is NOT compound-only; the entry is compound-only only if every one is.
+ */
+function resolveAbbr(field) {
+  const alts = field.split(/\s+or\s+/).map((a) => a.trim()).filter(Boolean);
+  const usable = alts.find((a) => !a.startsWith('*'));
+  if (usable) return { abbr: usable, compoundOnly: false };
+  return { abbr: (alts[0] || field).replace(/^\*/, '').trim(), compoundOnly: true };
+}
+
 const seen = new Map(); // lowercased word -> entry (first wins)
+const dropped = []; // same-word/different-abbr rows we couldn't keep
 let buffer = '';
 
-for (let i = start; i < end; i++) {
+// Start past the "ABBREVIATION ..... abbr" column header (start), which is itself
+// a dot-leader row but not a data entry.
+for (let i = start + 1; i < end; i++) {
   const line = lines[i];
   const m = line.match(ROW);
   if (m) {
     const word = cleanWord(`${buffer} ${m[1]}`.trim());
-    let abbr = m[2].trim();
-    const compoundOnly = abbr.startsWith('*');
-    if (compoundOnly) abbr = abbr.replace(/^\*/, '').trim();
+    const { abbr, compoundOnly } = resolveAbbr(m[2].trim());
     buffer = '';
     const key = word.toLowerCase();
-    if (word && abbr && !seen.has(key)) {
-      seen.set(key, compoundOnly ? { word, abbr, compoundOnly } : { word, abbr });
+    if (word && abbr) {
+      if (!seen.has(key)) {
+        seen.set(key, compoundOnly ? { word, abbr, compoundOnly } : { word, abbr });
+      } else if (seen.get(key).abbr !== abbr) {
+        dropped.push({ word, abbr, keptAbbr: seen.get(key).abbr });
+      }
     }
     continue;
   }
   const s = line.trim();
-  if (s && WRAP.test(s) && !NOISE.test(line)) {
-    buffer = `${buffer} ${s}`.trim();
-  } else if (!NOISE.test(line)) {
-    buffer = '';
-  }
+  if (!s || NOISE.test(line)) continue; // blank / page furniture — keep the buffer
+  buffer = `${buffer} ${s}`.trim(); // a wrapped word head — buffer it for the next row
+}
+
+if (dropped.length) {
+  console.warn(`[iram] ${dropped.length} same-word rows with a different abbr were not kept (lookup is one-per-word):`);
+  for (const d of dropped) console.warn(`  "${d.word}" -> ${d.abbr} (kept ${d.keptAbbr})`);
 }
 
 const entries = [...seen.values()].sort((a, b) => a.word.localeCompare(b.word));

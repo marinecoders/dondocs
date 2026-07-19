@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Scissors, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { abbrevSetForForm } from '@/data/abbreviations';
+import { abbrevSetForForm, type AbbrevEntry } from '@/data/abbreviations';
 import {
   buildAbbrevIndex,
-  findApplicableAbbreviations,
-  applyAbbreviation,
+  scanAbbreviations,
+  applyMatches,
   type AbbrevIndex,
+  type AbbrevMatch,
 } from '@/lib/abbreviations';
 
 const MAX_SHOWN = 12;
@@ -18,6 +19,9 @@ const MAX_SHOWN = 12;
  * forms) and lets them apply one — or all — with a click. Suggestion only; it
  * never rewrites the field on its own, and it stays hidden until something in the
  * text actually has an approved abbreviation.
+ *
+ * Applies by the scanned, non-overlapping spans (not a global word replace), so
+ * applying "service" can't clobber the "service record" phrase suggestion.
  *
  * The ~1,600-entry dataset is loaded on demand the first time a governed field
  * mounts, so it never touches the initial bundle.
@@ -35,7 +39,7 @@ export function AbbreviationHelper({
   const [index, setIndex] = useState<AbbrevIndex | null>(null);
 
   useEffect(() => {
-    if (!set) return; // render returns null below when there's no set
+    if (!set) return;
     let alive = true;
     set
       .load()
@@ -50,15 +54,23 @@ export function AbbreviationHelper({
     };
   }, [set]);
 
-  const applicable = useMemo(
-    () => (index ? findApplicableAbbreviations(value, index) : []),
-    [value, index]
-  );
+  const matches = useMemo(() => (index ? scanAbbreviations(value, index) : []), [value, index]);
 
-  if (!set || applicable.length === 0) return null;
+  // Unique entries in first-occurrence order, each with the spans it occupies.
+  const groups = useMemo(() => {
+    const byWord = new Map<string, { entry: AbbrevEntry; matches: AbbrevMatch[] }>();
+    for (const m of matches) {
+      const key = m.entry.word.toLowerCase();
+      const g = byWord.get(key);
+      if (g) g.matches.push(m);
+      else byWord.set(key, { entry: m.entry, matches: [m] });
+    }
+    return [...byWord.values()];
+  }, [matches]);
 
-  const shown = applicable.slice(0, MAX_SHOWN);
-  const applyAll = () => onChange(applicable.reduce((text, e) => applyAbbreviation(text, e), value));
+  if (!set || groups.length === 0) return null;
+
+  const shown = groups.slice(0, MAX_SHOWN);
 
   return (
     <div className="space-y-2 rounded-md border border-border bg-secondary/20 p-3">
@@ -67,30 +79,33 @@ export function AbbreviationHelper({
           <Scissors className="h-4 w-4 text-primary" />
           Approved abbreviations
         </div>
-        <Button type="button" size="sm" variant="secondary" onClick={applyAll}>
-          Apply all ({applicable.length})
+        <Button
+          type="button"
+          size="sm"
+          variant="secondary"
+          onClick={() => onChange(applyMatches(value, matches))}
+        >
+          Apply all ({groups.length})
         </Button>
       </div>
 
       <div className="flex flex-wrap gap-1.5">
-        {shown.map((e) => (
+        {shown.map((g) => (
           <button
-            key={e.word}
+            key={g.entry.word}
             type="button"
-            onClick={() => onChange(applyAbbreviation(value, e))}
-            aria-label={`Replace "${e.word}" with "${e.abbr}"`}
-            title={`Replace "${e.word}" with "${e.abbr}"`}
+            onClick={() => onChange(applyMatches(value, g.matches))}
+            aria-label={`Replace "${g.entry.word}" with "${g.entry.abbr}"`}
+            title={`Replace "${g.entry.word}" with "${g.entry.abbr}"`}
             className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-2 py-1 text-xs transition-colors hover:border-primary/50 hover:bg-secondary/40"
           >
-            <span className="text-muted-foreground">{e.word.toLowerCase()}</span>
+            <span className="text-muted-foreground">{g.entry.word.toLowerCase()}</span>
             <span aria-hidden>→</span>
-            <span className="font-medium">{e.abbr}</span>
+            <span className="font-medium">{g.entry.abbr}</span>
           </button>
         ))}
-        {applicable.length > MAX_SHOWN && (
-          <span className="self-center text-xs text-muted-foreground">
-            +{applicable.length - MAX_SHOWN} more
-          </span>
+        {groups.length > MAX_SHOWN && (
+          <span className="self-center text-xs text-muted-foreground">+{groups.length - MAX_SHOWN} more</span>
         )}
       </div>
 

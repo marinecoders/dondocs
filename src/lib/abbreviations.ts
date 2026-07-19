@@ -79,9 +79,11 @@ export function scanAbbreviations(text: string, index: AbbrevIndex): AbbrevMatch
       const start = phraseTokens[0].start;
       const end = phraseTokens[k - 1].end;
       const source = text.slice(start, end);
-      // Skip if it doesn't shorten, or the text is already the abbreviation.
-      if (entry.abbr.length >= source.length) break;
-      if (source.toLowerCase() === entry.abbr.toLowerCase()) break;
+      // Not usable at this length — fall through to a shorter phrase at the same
+      // start (`continue`, not `break`): e.g. a non-shortening multi-word entry
+      // must not shadow a valid one-word entry nested at the same position.
+      if (entry.abbr.length >= source.length) continue;
+      if (source.toLowerCase() === entry.abbr.toLowerCase()) continue;
       matched = { entry, start, end, text: source };
       i += k; // consume the phrase
       break;
@@ -116,4 +118,23 @@ const escapeRegExp = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, '\\
 export function applyAbbreviation(text: string, entry: AbbrevEntry): string {
   const re = new RegExp(`(?<![A-Za-z])${escapeRegExp(entry.word)}(?![A-Za-z])`, 'gi');
   return text.replace(re, entry.abbr);
+}
+
+/**
+ * Replace a set of scanned matches by their offsets, right-to-left in a single
+ * pass. Unlike repeated whole-word replaces, this composes correctly: applying a
+ * standalone "service" match can't clobber the "service record" phrase match,
+ * because each match owns a fixed, non-overlapping span. Overlapping or
+ * out-of-range matches are skipped defensively.
+ */
+export function applyMatches(text: string, matches: readonly AbbrevMatch[]): string {
+  const ordered = [...matches].sort((a, b) => b.start - a.start);
+  let out = text;
+  let lastStart = out.length + 1;
+  for (const m of ordered) {
+    if (m.start < 0 || m.end > out.length || m.end > lastStart) continue; // out of range / overlaps a later splice
+    out = out.slice(0, m.start) + m.entry.abbr + out.slice(m.end);
+    lastStart = m.start;
+  }
+  return out;
 }

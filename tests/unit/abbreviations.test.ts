@@ -4,6 +4,7 @@ import {
   scanAbbreviations,
   findApplicableAbbreviations,
   applyAbbreviation,
+  applyMatches,
 } from '@/lib/abbreviations';
 import type { AbbrevEntry } from '@/data/abbreviations';
 
@@ -64,5 +65,39 @@ describe('applyAbbreviation', () => {
     expect(applyAbbreviation('the commanding officer signed', { word: 'commanding officer', abbr: 'CO' })).toBe(
       'the CO signed'
     );
+  });
+});
+
+describe('scanAbbreviations — a non-shortening phrase does not shadow a nested word', () => {
+  it('falls through to the one-word entry when the longer phrase does not shorten', () => {
+    // "active duty" would match, but its abbr is NOT shorter, so the scan must
+    // fall through to "active" -> "act" at the same start (regression for the
+    // break-vs-continue fix).
+    const idx = buildAbbrevIndex([
+      { word: 'active duty', abbr: 'active-duty status' }, // longer than the phrase
+      { word: 'active', abbr: 'act' },
+    ]);
+    expect(scanAbbreviations('active duty roster', idx).map((m) => m.entry.abbr)).toEqual(['act']);
+  });
+});
+
+describe('applyMatches — composes non-overlapping spans', () => {
+  const idx = buildAbbrevIndex([
+    { word: 'service', abbr: 'svc' },
+    { word: 'service record', abbr: 'SR' },
+  ]);
+
+  it('applies a word and an overlapping phrase without one clobbering the other', () => {
+    const text = 'his service was noted in the service record';
+    const out = applyMatches(text, scanAbbreviations(text, idx));
+    // The standalone "service" -> svc; the phrase "service record" -> SR (NOT "svc record").
+    expect(out).toBe('his svc was noted in the SR');
+  });
+
+  it('applying only one entry leaves the other phrase intact', () => {
+    const text = 'the service record shows service';
+    const matches = scanAbbreviations(text, idx).filter((m) => m.entry.word === 'service');
+    // Only the standalone "service" span is replaced; the phrase is untouched.
+    expect(applyMatches(text, matches)).toBe('the service record shows svc');
   });
 });

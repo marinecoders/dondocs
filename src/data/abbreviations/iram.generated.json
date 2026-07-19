@@ -1,12 +1,8 @@
 {
   "source": "MCO P1070.12K (IRAM), ch. 6 ¶6002.10a",
   "note": "Authorized recordkeeping abbreviations. compoundOnly entries may only be used inside a compound abbreviation (IRAM ¶6001.2).",
-  "count": 1587,
+  "count": 1601,
   "entries": [
-    {
-      "word": "ABBREVIATION",
-      "abbr": "abbr"
-    },
     {
       "word": "ABOARD",
       "abbr": "abd"
@@ -92,7 +88,7 @@
       "abbr": "aqn"
     },
     {
-      "word": "ACQUITTAL",
+      "word": "ACQUITTAL - ACQUITTED",
       "abbr": "acq"
     },
     {
@@ -108,7 +104,7 @@
       "abbr": "AD"
     },
     {
-      "word": "ACTIVE DUTY FOR SPECIAL WORK",
+      "word": "ACTIVE DUTY FOR TRAINING (RESERVE ESTABLISHMENT ONLY). ADT ACTIVE DUTY FOR SPECIAL WORK",
       "abbr": "ADSW"
     },
     {
@@ -200,6 +196,10 @@
       "abbr": "adv"
     },
     {
+      "word": "ADVANCED (CLASS B) AEROGRAPHER'S MATE",
+      "abbr": "AG(B)"
+    },
+    {
       "word": "ADVANCED COMBAT TRAINING",
       "abbr": "ACT"
     },
@@ -242,10 +242,6 @@
     {
       "word": "AERIAL RECONNAISSANCE OFFICER",
       "abbr": "ARO"
-    },
-    {
-      "word": "AEROGRAPHER'S MATE",
-      "abbr": "AG(A)"
     },
     {
       "word": "AFFORD",
@@ -310,14 +306,6 @@
     {
       "word": "AIRCRAFT",
       "abbr": "acft"
-    },
-    {
-      "word": "AIRCRAFT FIRE FIGHTING AND RESCUE",
-      "abbr": "AFFR"
-    },
-    {
-      "word": "AIRCRAFT MAINTENANCE",
-      "abbr": "A/C(MAINTO)"
     },
     {
       "word": "AIRLIFT CONTROL ELEMENT",
@@ -421,10 +409,6 @@
       "abbr": "ATF"
     },
     {
-      "word": "AND INTELLIGENCE",
-      "abbr": "C4I"
-    },
-    {
       "word": "ANNUAL RETIREMENT CREDIT REPORT",
       "abbr": "ARCR"
     },
@@ -525,7 +509,7 @@
       "abbr": "arng"
     },
     {
-      "word": "ARRIVAL",
+      "word": "ARRIVAL - ARRIVE",
       "abbr": "arr"
     },
     {
@@ -573,6 +557,10 @@
       "abbr": "ACTS"
     },
     {
+      "word": "ASSIGNMENT, CLASSIFICATION, AND TRAVEL SYSTEMS MANUAL",
+      "abbr": "ACTSMAN"
+    },
+    {
       "word": "ASSIST",
       "abbr": "asst"
     },
@@ -617,7 +605,7 @@
       "abbr": "attn"
     },
     {
-      "word": "AUDIT",
+      "word": "AUDIT - AUDITOR",
       "abbr": "aud"
     },
     {
@@ -691,6 +679,10 @@
     {
       "word": "AVIATION COMBAT ELEMENT",
       "abbr": "ACE"
+    },
+    {
+      "word": "AVIATION COURSES BASIC (CLASS A) AEROGRAPHER'S MATE",
+      "abbr": "AG(A)"
     },
     {
       "word": "AVIATION ELECTRICIANS MATE",
@@ -817,6 +809,10 @@
       "abbr": "BAQ"
     },
     {
+      "word": "BASIC ALLOWANCE FOR SUBSISTENCE; BATTALION AID STATION",
+      "abbr": "BAS"
+    },
+    {
       "word": "BASIC COMMUNICATION OFFICERS COURSE",
       "abbr": "BCOC"
     },
@@ -921,7 +917,7 @@
       "abbr": "br"
     },
     {
-      "word": "BROTHER",
+      "word": "BREAD-WATER.......................................... B&W BROTHER",
       "abbr": "bro"
     },
     {
@@ -1033,7 +1029,7 @@
       "abbr": "CPU"
     },
     {
-      "word": "CERTIFICATE",
+      "word": "CERTIFICATE - CERTIFIED",
       "abbr": "cert"
     },
     {
@@ -1081,7 +1077,7 @@
       "abbr": "C/S"
     },
     {
-      "word": "CIVIL",
+      "word": "CIVIL - CIVILIAN",
       "abbr": "civ"
     },
     {
@@ -1109,7 +1105,7 @@
       "abbr": "cl"
     },
     {
-      "word": "CLASSIFY",
+      "word": "CLASSIFY - CLASSIFICATION - CLASSIFIED",
       "abbr": "clas"
     },
     {
@@ -1257,6 +1253,22 @@
       "abbr": "C3"
     },
     {
+      "word": "COMMAND, CONTROL, AND COMMUNICATIONS COUNTERMEASURES",
+      "abbr": "C3CM"
+    },
+    {
+      "word": "COMMAND, CONTROL, COMMUNICATIONS, AND COMPUTER SYSTEMS",
+      "abbr": "C4"
+    },
+    {
+      "word": "COMMAND, CONTROL, COMMUNICATIONS, AND INTELLIGENCE",
+      "abbr": "C3I"
+    },
+    {
+      "word": "COMMAND, CONTROL, COMMUNICATIONS, COMPUTER SYSTEMS, AND INTELLIGENCE",
+      "abbr": "C4I"
+    },
+    {
       "word": "COMMANDANT",
       "abbr": "Comdt"
     },
@@ -1298,8 +1310,7 @@
     },
     {
       "word": "COMMERCIAL",
-      "abbr": "Mer or coml",
-      "compoundOnly": true
+      "abbr": "coml"
     },
     {
       "word": "COMMERCIAL AIR",
@@ -1336,6 +1347,10 @@
     {
       "word": "COMPETITION IN ARMS PROGRAM",
       "abbr": "CIAP"
+    },
+    {
+      "word": "COMPLETE - COMPLETION - UPON COMPLETION THEREOF",
+      "abbr": "compl"
     },
     {
       "word": "COMPONENT",
@@ -1394,7 +1409,7 @@
       "abbr": "CONGRINT"
     },
     {
-      "word": "CONNECTION CONNECTION WITH",
+      "word": "CONNECTION - IN CONNECTION WITH",
       "abbr": "conn"
     },
     {
@@ -1414,7 +1429,7 @@
       "abbr": "CPAC"
     },
     {
-      "word": "CONSTRUCTION",
+      "word": "CONSTRUCTION - CONSTRUCTIVE",
       "abbr": "cons"
     },
     {
@@ -1642,6 +1657,10 @@
       "abbr": "DEERS"
     },
     {
+      "word": "DEFENSE INTELLIGENCE SUMMARY; DAILY INTELLIGENCE SUMMARY",
+      "abbr": "DISUM"
+    },
+    {
       "word": "DEFENSE LANGUAGE APTITUDE BATTERY",
       "abbr": "DLAB"
     },
@@ -1722,7 +1741,7 @@
       "abbr": "deplm"
     },
     {
-      "word": "DEPUTY",
+      "word": "DEPUTY - DEPOT",
       "abbr": "dep",
       "compoundOnly": true
     },
@@ -2007,7 +2026,7 @@
       "abbr": "elig"
     },
     {
-      "word": "ELIMINATE",
+      "word": "ELIMINATE - ELIMINATION",
       "abbr": "elim"
     },
     {
@@ -2083,7 +2102,7 @@
       "abbr": "ens"
     },
     {
-      "word": "ENTITLE",
+      "word": "ENTITLE - ENTITLING",
       "abbr": "entl"
     },
     {
@@ -2113,10 +2132,6 @@
     {
       "word": "ERRONEOUS",
       "abbr": "err"
-    },
-    {
-      "word": "ESCAPE",
-      "abbr": "SERE"
     },
     {
       "word": "ESSENTIAL SUBJECTS TEST",
@@ -2155,7 +2170,7 @@
       "abbr": "ETR"
     },
     {
-      "word": "EVACUATE",
+      "word": "EVACUATE - EVACUATION",
       "abbr": "evac"
     },
     {
@@ -2175,7 +2190,7 @@
       "abbr": "exch"
     },
     {
-      "word": "EXCLUDE",
+      "word": "EXCLUDE - EXCLUSIVE",
       "abbr": "excl"
     },
     {
@@ -2243,7 +2258,7 @@
       "abbr": "EOD"
     },
     {
-      "word": "EXTEND",
+      "word": "EXTEND - EXTENSION",
       "abbr": "ext"
     },
     {
@@ -2423,10 +2438,6 @@
       "abbr": "fol"
     },
     {
-      "word": "FOLLOWED BY A NUMERAL GRADE)",
-      "abbr": "GS-"
-    },
-    {
       "word": "FOLLOWING NAMED MARINE",
       "abbr": "FNM"
     },
@@ -2591,6 +2602,10 @@
       "abbr": "GMST"
     },
     {
+      "word": "GENERAL SCHEDULE (CIVIL SERVICE EMPLOYEE, NORMALLY FOLLOWED BY A NUMERAL GRADE)",
+      "abbr": "GS-"
+    },
+    {
       "word": "GENERAL SUPPORT",
       "abbr": "GS"
     },
@@ -2663,10 +2678,6 @@
       "abbr": "GM"
     },
     {
-      "word": "GUIDED MISSILE SYSTEM",
-      "abbr": "TOW"
-    },
-    {
       "word": "GUILTY",
       "abbr": "G"
     },
@@ -2701,6 +2712,10 @@
     {
       "word": "HEADQUARTERS MASTER FILE",
       "abbr": "HMF"
+    },
+    {
+      "word": "HEALTH RECORD(COMBINED MEDICAL AND DENTAL RECORDS)",
+      "abbr": "HR"
     },
     {
       "word": "HEAVY",
@@ -2887,7 +2902,7 @@
       "abbr": "IDAC"
     },
     {
-      "word": "INDICATE",
+      "word": "INDICATE - INDICATING",
       "abbr": "indc"
     },
     {
@@ -2941,6 +2956,10 @@
     {
       "word": "INFORMATION",
       "abbr": "info"
+    },
+    {
+      "word": "INFORMATION CONTROL CENTER; INFORMATION COORDINATION CENTER",
+      "abbr": "ICC"
     },
     {
       "word": "INFORMATION SERVICE OFFICER",
@@ -3075,7 +3094,7 @@
       "abbr": "invol"
     },
     {
-      "word": "INVOLVE",
+      "word": "INVOLVE - INVOLVING",
       "abbr": "inv"
     },
     {
@@ -3183,8 +3202,12 @@
       "abbr": "JURIS"
     },
     {
-      "word": "JUSTIFY",
+      "word": "JUSTIFY - JUSTIFICATION",
       "abbr": "just"
+    },
+    {
+      "word": "KEY TERRAIN, OBSERVATION, COVER AND CONCEALMENT, OBSTACLES, AND AVENUES OF APPROACH",
+      "abbr": "KOCOA"
     },
     {
       "word": "KILLED IN ACTION",
@@ -3335,10 +3358,6 @@
       "abbr": "LVS"
     },
     {
-      "word": "LOGISTICS, AND COMMAND AND SIGNAL",
-      "abbr": "SMEAC"
-    },
-    {
       "word": "LONG-RANGE ENLISTED STAFFING GOAL MODEL",
       "abbr": "LRESGM"
     },
@@ -3347,7 +3366,7 @@
       "abbr": "LRP"
     },
     {
-      "word": "LOSE PAY OF PAY",
+      "word": "LOSE PAY - LOSS OF PAY",
       "abbr": "LP"
     },
     {
@@ -3427,11 +3446,7 @@
       "abbr": "MTS"
     },
     {
-      "word": "MANUAL",
-      "abbr": "ACTSMAN"
-    },
-    {
-      "word": "MANUAL OF THE JUDGE ADVOCATE GENERAL",
+      "word": "MANUAL FOR COURTS-MARTIAL, UNITED STATES 1995.......... MCM,1995 MANUAL OF THE JUDGE ADVOCATE GENERAL",
       "abbr": "JAGMAN"
     },
     {
@@ -3504,7 +3519,7 @@
       "abbr": "MCCRES"
     },
     {
-      "word": "MARINE CORPS DATA NETWORK",
+      "word": "MARINE CORPS COMMERCIAL ACCOUNTS PROCESSING SYSTEM . MCCAPS MARINE CORPS DATA NETWORK",
       "abbr": "MCDN"
     },
     {
@@ -3536,7 +3551,7 @@
       "abbr": "MIMMS"
     },
     {
-      "word": "MARINE CORPS MANUAL",
+      "word": "MARINE CORPS JUNIOR RESERVE OFFICER TRAINING CORPS . MCJROTC MARINE CORPS MANUAL",
       "abbr": "MARCORMAN"
     },
     {
@@ -3558,6 +3573,10 @@
     {
       "word": "MARINE CORPS PROMOTION SYSTEM",
       "abbr": "MCPS"
+    },
+    {
+      "word": "MARINE CORPS RECRUIT AND RECRUIT TRAINING COMMAND",
+      "abbr": "MCR-RTC"
     },
     {
       "word": "MARINE CORPS RESERVE ADMINISTRATIVE MANAGEMENT MANUAL",
@@ -3672,7 +3691,7 @@
       "abbr": "max"
     },
     {
-      "word": "MECHANIC",
+      "word": "MECHANIC - MECHANICAL",
       "abbr": "mech"
     },
     {
@@ -3756,7 +3775,7 @@
       "abbr": "msgr"
     },
     {
-      "word": "MESSMAN",
+      "word": "MESSMAN - MESSMEN",
       "abbr": "msm"
     },
     {
@@ -3880,7 +3899,7 @@
       "abbr": "MRTC"
     },
     {
-      "word": "MOBILIZE",
+      "word": "MOBILIZE - MOBILIZATION",
       "abbr": "mob"
     },
     {
@@ -3888,7 +3907,7 @@
       "abbr": "MIP"
     },
     {
-      "word": "MODIFY",
+      "word": "MODIFY - MODIFIED - MODIFICATION",
       "abbr": "mod"
     },
     {
@@ -3972,7 +3991,7 @@
       "abbr": "NSN"
     },
     {
-      "word": "NAVAL",
+      "word": "NAVAL - NAVY",
       "abbr": "Nav"
     },
     {
@@ -3988,7 +4007,23 @@
       "abbr": "NAO"
     },
     {
-      "word": "NAVAL AVIATOR",
+      "word": "NAVAL AVIATION OBSERVER - AEROLOGY",
+      "abbr": "NAOA"
+    },
+    {
+      "word": "NAVAL AVIATION OBSERVER - NAVIGATION",
+      "abbr": "NAON"
+    },
+    {
+      "word": "NAVAL AVIATION OBSERVER - RADAR",
+      "abbr": "NAOR"
+    },
+    {
+      "word": "NAVAL AVIATION OBSERVER - TACTICAL",
+      "abbr": "NAOT"
+    },
+    {
+      "word": "NAVAL AVIATOR - OFFICER",
       "abbr": "NA"
     },
     {
@@ -4160,10 +4195,6 @@
       "abbr": "No"
     },
     {
-      "word": "NUMERAL GRADE)",
-      "abbr": "WG-"
-    },
-    {
       "word": "OBJECT",
       "abbr": "obj"
     },
@@ -4172,7 +4203,7 @@
       "abbr": "OC"
     },
     {
-      "word": "OBLIGATED",
+      "word": "OBLIGATED - OBLIGATOR - OBLIGATION",
       "abbr": "obl"
     },
     {
@@ -4184,10 +4215,6 @@
       "abbr": "OP"
     },
     {
-      "word": "OBSTACLES, AND AVENUES OF APPROACH",
-      "abbr": "KOCOA"
-    },
-    {
       "word": "OCCUPATIONAL FIELD",
       "abbr": "OccFld"
     },
@@ -4196,8 +4223,12 @@
       "abbr": "off"
     },
     {
-      "word": "OFFICE OF PERSONNEL MANAGEMENT",
+      "word": "OFFICE OF THE CHIEF OF NAVAL OPERATIONS INSTRUCTIONS . OPNAVINST OFFICE OF PERSONNEL MANAGEMENT",
       "abbr": "OPM"
+    },
+    {
+      "word": "OFFICER (CLASS O) AIRCRAFT MAINTENANCE",
+      "abbr": "A/C(MAINTO)"
     },
     {
       "word": "OFFICER ASSIGNMENT DECISION SUPPORT SYSTEM",
@@ -4212,7 +4243,7 @@
       "abbr": "OCC"
     },
     {
-      "word": "OFFICER IN CHARGE",
+      "word": "OFFICER EXERCISING GENERAL COURT-MARTIAL JURISDICTION. OEGCMJ OFFICER IN CHARGE",
       "abbr": "OIC"
     },
     {
@@ -4300,7 +4331,7 @@
       "abbr": "OPSUM"
     },
     {
-      "word": "OPERATIONS ORDER",
+      "word": "OPERATIONS AND MAINTENANCE............................... O&M OPERATIONS ORDER",
       "abbr": "OperO"
     },
     {
@@ -4312,7 +4343,7 @@
       "abbr": "OPSEC"
     },
     {
-      "word": "OPERATOR",
+      "word": "OPERATOR - OPERATE",
       "abbr": "Opr"
     },
     {
@@ -4380,7 +4411,7 @@
       "abbr": "pd"
     },
     {
-      "word": "PARACHUTE",
+      "word": "PARACHUTE - PARACHUTIST",
       "abbr": "prcht"
     },
     {
@@ -4508,7 +4539,7 @@
       "abbr": "PSCI"
     },
     {
-      "word": "PERTAIN",
+      "word": "PERTAIN - PERTINENT",
       "abbr": "pert"
     },
     {
@@ -4548,7 +4579,7 @@
       "abbr": "PPBS"
     },
     {
-      "word": "PLATOON LEADER",
+      "word": "PLANS AND OPERATIONS................................... P&O PLANS, POLICIES, AND OPERATIONS........................ PP&O PLATOON LEADER",
       "abbr": "PltLdr"
     },
     {
@@ -4612,7 +4643,7 @@
       "abbr": "prelim"
     },
     {
-      "word": "PREPARE",
+      "word": "PREPARE - PREPARATION - PREPARATORY",
       "abbr": "prep"
     },
     {
@@ -4688,7 +4719,7 @@
       "abbr": "proj"
     },
     {
-      "word": "PROMOTE",
+      "word": "PROMOTE - PROMOTION",
       "abbr": "prom"
     },
     {
@@ -4740,7 +4771,7 @@
       "abbr": "PurSent"
     },
     {
-      "word": "QUALIFICATION",
+      "word": "QUALIFICATION - QUALIFIED - QUALIFY",
       "abbr": "qual"
     },
     {
@@ -4840,7 +4871,7 @@
       "abbr": "RecSta"
     },
     {
-      "word": "RECLASSIFY",
+      "word": "RECLASSIFY - RECLASSIFICATION",
       "abbr": "reclas"
     },
     {
@@ -4940,7 +4971,7 @@
       "abbr": "relfor"
     },
     {
-      "word": "RELIEVE",
+      "word": "RELIEVE - RELIEF - RELEASE",
       "abbr": "rel"
     },
     {
@@ -4992,7 +5023,7 @@
       "abbr": "repro"
     },
     {
-      "word": "REQUALIFIED",
+      "word": "REQUALIFIED - REQUALIFY",
       "abbr": "requal"
     },
     {
@@ -5012,7 +5043,7 @@
       "abbr": "RIDT"
     },
     {
-      "word": "RESERVE",
+      "word": "RESEARCH AND DEVELOPMENT................................ R&D RESERVE",
       "abbr": "res"
     },
     {
@@ -5076,7 +5107,7 @@
       "abbr": "retnsvc"
     },
     {
-      "word": "RETIRED",
+      "word": "RETIRED - RETIREMENT",
       "abbr": "ret"
     },
     {
@@ -5104,7 +5135,7 @@
       "abbr": "rev"
     },
     {
-      "word": "REVOKE",
+      "word": "REVOKE - REVOCATION",
       "abbr": "revo"
     },
     {
@@ -5112,7 +5143,7 @@
       "abbr": "rfl"
     },
     {
-      "word": "RIFLE EXPERT",
+      "word": "RIFLE AND PISTOL TEAM................................... R&PT RIFLE EXPERT",
       "abbr": "RE"
     },
     {
@@ -5272,7 +5303,7 @@
       "abbr": "SentLP"
     },
     {
-      "word": "SEPARATE",
+      "word": "SEPARATE - SEPARATION",
       "abbr": "sep"
     },
     {
@@ -5304,7 +5335,7 @@
       "abbr": "SRS"
     },
     {
-      "word": "SERVE",
+      "word": "SERVE - SERVING",
       "abbr": "serv"
     },
     {
@@ -5328,7 +5359,7 @@
       "abbr": "SGLI"
     },
     {
-      "word": "SETTLEMENT",
+      "word": "SETTLEMENT - SETTLED",
       "abbr": "sett"
     },
     {
@@ -5348,7 +5379,7 @@
       "abbr": "SMAW"
     },
     {
-      "word": "SICK IN",
+      "word": "SICK - SICK IN",
       "abbr": "sk"
     },
     {
@@ -5382,6 +5413,10 @@
     {
       "word": "SITUATION SUMMARY",
       "abbr": "SITSUM"
+    },
+    {
+      "word": "SITUATION, MISSION, EXECUTION, ADMINISTRATION AND LOGISTICS, AND COMMAND AND SIGNAL",
+      "abbr": "SMEAC"
     },
     {
       "word": "SKILL PROGRESSION TRAINING",
@@ -5444,11 +5479,15 @@
       "abbr": "SplSvc"
     },
     {
+      "word": "SPECIALIZED (CLASS C) AIRCRAFT FIRE FIGHTING AND RESCUE",
+      "abbr": "AFFR"
+    },
+    {
       "word": "SPECIALTY",
       "abbr": "splty"
     },
     {
-      "word": "SPECIFY",
+      "word": "SPECIFY - SPECIFICATION",
       "abbr": "spec"
     },
     {
@@ -5533,7 +5572,7 @@
     },
     {
       "word": "STATION",
-      "abbr": "BAS"
+      "abbr": "Sta"
     },
     {
       "word": "STATION OF INITIAL ASSIGNMENT",
@@ -5604,7 +5643,7 @@
       "abbr": "SNP"
     },
     {
-      "word": "SUBMIT",
+      "word": "SUBMIT - SUBMISSION",
       "abbr": "sub"
     },
     {
@@ -5616,7 +5655,7 @@
       "abbr": "subs"
     },
     {
-      "word": "SUBSTITUTE",
+      "word": "SUBSTITUTE - SUBSTITUTION",
       "abbr": "subt"
     },
     {
@@ -5626,10 +5665,6 @@
     {
       "word": "SUITABLE",
       "abbr": "suit"
-    },
-    {
-      "word": "SUMMARY",
-      "abbr": "DISUM"
     },
     {
       "word": "SUMMARY COURT-MARTIAL",
@@ -5644,7 +5679,7 @@
       "abbr": "SP"
     },
     {
-      "word": "SUPERVISE",
+      "word": "SUPERVISE - SUPERVISOR",
       "abbr": "super"
     },
     {
@@ -5680,6 +5715,10 @@
       "abbr": "SE"
     },
     {
+      "word": "SUPPORTING ESTABLISHMENT END USER COMPUTING EQUIPMENT",
+      "abbr": "SEEUCE"
+    },
+    {
       "word": "SURRENDER",
       "abbr": "surr"
     },
@@ -5692,7 +5731,11 @@
       "abbr": "surv"
     },
     {
-      "word": "SUSPECT",
+      "word": "SURVIVAL, EVASION, RESISTANCE TO INTERROGATION, AND ESCAPE",
+      "abbr": "SERE"
+    },
+    {
+      "word": "SUSPECT - SUSPICION",
       "abbr": "susp"
     },
     {
@@ -5702,10 +5745,6 @@
     {
       "word": "SYSTEM",
       "abbr": "sys"
-    },
-    {
-      "word": "SYSTEMS",
-      "abbr": "C4"
     },
     {
       "word": "SYSTEMS APPROACH TO TRAINING",
@@ -5784,11 +5823,19 @@
       "abbr": "TACLOG"
     },
     {
+      "word": "TACTICAL RECOVERY OF AIRCRAFT, EQUIPMENT, AND PERSONNEL",
+      "abbr": "TRAP"
+    },
+    {
+      "word": "TACTICAL WARFARE SIMULATION, EVALUATION AND ANALYSIS SYSTEM",
+      "abbr": "TWSEAS"
+    },
+    {
       "word": "TANK",
       "abbr": "tk"
     },
     {
-      "word": "TECHNICAL",
+      "word": "TECHNICAL - TECHNICIAN",
       "abbr": "tech"
     },
     {
@@ -5984,6 +6031,10 @@
       "abbr": "trps"
     },
     {
+      "word": "TUBE LAUNCHED, OPTICALLY TRACKED, WIRE COMMAND LINK, GUIDED MISSILE SYSTEM",
+      "abbr": "TOW"
+    },
+    {
       "word": "TYPE TRANSACTION CODE",
       "abbr": "TTC"
     },
@@ -6008,11 +6059,11 @@
       "abbr": "unauth"
     },
     {
-      "word": "UNAUTHORIZED ABSENCE OVER LEAVE",
+      "word": "UNAUTHORIZED ABSENCE - ABSENT OVER LEAVE",
       "abbr": "UA(AOL)"
     },
     {
-      "word": "UNAUTHORIZED ABSENCE WITHOUT LEAVE",
+      "word": "UNAUTHORIZED ABSENCE - ABSENT WITHOUT LEAVE",
       "abbr": "UA(AWOL)"
     },
     {
@@ -6120,7 +6171,7 @@
       "abbr": "unsat"
     },
     {
-      "word": "UNSUITABLE",
+      "word": "UNSUITABLE - UNSUITABILITY",
       "abbr": "unsuit"
     },
     {
@@ -6164,11 +6215,11 @@
       "abbr": "VRBM"
     },
     {
-      "word": "VARIABLE TIME FUZE",
+      "word": "VARIABLE TIME - PROXIMITY FUZE",
       "abbr": "VT"
     },
     {
-      "word": "VEHICLE",
+      "word": "VEHICLE - VEHICULAR",
       "abbr": "veh"
     },
     {
@@ -6242,6 +6293,10 @@
     {
       "word": "VOUCHER",
       "abbr": "Vou"
+    },
+    {
+      "word": "WAGE GRADE (CIVIL SERVICE EMPLOYEE, NORMALLY FOLLOWED BY A NUMERAL GRADE)",
+      "abbr": "WG-"
     },
     {
       "word": "WAGE LEADERS (CIVIL SERVICE EMPLOYEE)",
@@ -6340,7 +6395,7 @@
       "abbr": "WIA"
     },
     {
-      "word": "WOUNDED IN ACTION EVACUATED",
+      "word": "WOUNDED IN ACTION - NOT EVACUATED",
       "abbr": "WIANE"
     },
     {
