@@ -17,11 +17,18 @@ import {
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { useUIStore } from '@/stores/uiStore';
-import { parseLetterFile, hasParsedContent, applyParsedLetter, type ParsedImport } from '@/lib/importLetter';
+import {
+  parseLetterFile,
+  hasParsedContent,
+  applyParsedLetter,
+  isDocxFile,
+  type ParsedImport,
+} from '@/lib/importLetter';
 import { IMPORTABLE_DOC_TYPES } from '@/lib/detectDocumentType';
 import { CLASSIFICATION_LABELS } from '@/lib/detectClassification';
 import { DOC_TYPE_LABELS } from '@/types/document';
 import { abbreviatedSignatoryName } from '@/lib/signatoryName';
+import { debug } from '@/lib/debug';
 
 type Phase =
   | { kind: 'idle' }
@@ -65,29 +72,45 @@ export function ImportLetterModal() {
 
   const handleFile = useCallback(async (file: File) => {
     setPhase({ kind: 'parsing' });
+    const docx = isDocxFile(file);
     try {
       const result = await parseLetterFile(file);
       if (!hasParsedContent(result.parsed)) {
         setPhase({
           kind: 'error',
-          message:
-            "Couldn't find letter text in this file. If it's a scan or image PDF, text import can't read it yet.",
+          message: docx
+            ? "Couldn't find any letter text in this Word document — it may be empty or hold only images."
+            : "Couldn't find letter text in this PDF. If it's a scan or image, text import can't read it yet.",
         });
         return;
       }
       setPhase({ kind: 'review', result });
-    } catch {
+    } catch (err) {
+      // Surface the failure to the user and log the cause for diagnosis — a
+      // failed DOCX read on an air-gapped host is usually the pandoc engine not
+      // loading, which the generic "corrupt file" wording would hide.
+      debug.error('Import', `Failed to read ${docx ? 'DOCX' : 'PDF'} for import`, err);
       setPhase({
         kind: 'error',
-        message: 'This file could not be read. It may be corrupt, protected, or an unsupported format.',
+        message: docx
+          ? 'This Word document could not be read. It may be corrupt or password-protected, or the document engine could not start.'
+          : 'This PDF could not be read. It may be corrupt or password-protected.',
       });
     }
   }, []);
 
   const doImport = useCallback(
     (result: ParsedImport, docType: string) => {
-      applyParsedLetter(result.parsed, docType, result.classification);
-      onOpenChange(false);
+      try {
+        applyParsedLetter(result.parsed, docType, result.classification);
+        onOpenChange(false);
+      } catch (err) {
+        debug.error('Import', 'Failed to apply the parsed letter to the editor', err);
+        setPhase({
+          kind: 'error',
+          message: 'The letter was read, but could not be opened in the editor. Please try again.',
+        });
+      }
     },
     [onOpenChange]
   );

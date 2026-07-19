@@ -16,7 +16,7 @@ export interface ParsedImport {
 }
 
 /** True when the file name or MIME type identifies a Word document. */
-function isDocxFile(file: File): boolean {
+export function isDocxFile(file: File): boolean {
   return (
     /\.docx$/i.test(file.name) ||
     file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
