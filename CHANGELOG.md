@@ -31,6 +31,15 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
   it says so; when it can't be sure (a bare "MEMORANDUM", or only partial
   addressing) it flags the guess and asks you to confirm from the full list of
   importable types before the letter opens.
+- **The importer carries classification across.** When the source is marked, it
+  reads the banner (UNCLASSIFIED / CUI / CONFIDENTIAL / SECRET / TOP SECRET /
+  TOP SECRET//SCI — highest wins), the derivative-classification authority block
+  ("Classified by / Derived from / Declassify on / Reason"), and the
+  per-paragraph portion markings, and pre-sets the Classification section from
+  them. For Word files the banner lives in the page header/footer, which the
+  body read skips, so those parts are read directly from the .docx. Anything
+  above Unclassified is called out in the review dialog with a reminder to
+  verify the marking before you export; an unmarked file stays Unclassified.
 
 ## [1.2.109] — 2026-07-18
 

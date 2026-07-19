@@ -2,15 +2,17 @@ import { readFileAsArrayBuffer, arrayBufferToUint8Array } from '@/lib/encoding';
 import { extractPdfText } from '@/lib/pdfText';
 import { parseNavalLetter, type ParsedLetter } from '@/lib/parseNavalLetter';
 import { detectDocumentType, type DocTypeDetection } from '@/lib/detectDocumentType';
-import { convertDocxToPlainText } from '@/services/docx/pandoc-converter';
+import { detectClassification, type ClassificationDetection } from '@/lib/detectClassification';
+import { convertDocxToPlainText, extractDocxMarkingText } from '@/services/docx/pandoc-converter';
 import { useDocumentStore, persistUnsavedEnclosures } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import type { DocumentData } from '@/types/document';
 
-/** A parsed file plus the importer's best guess at which document type it is. */
+/** A parsed file plus the importer's guesses at document type and classification. */
 export interface ParsedImport {
   parsed: ParsedLetter;
   detection: DocTypeDetection;
+  classification: ClassificationDetection;
 }
 
 /** True when the file name or MIME type identifies a Word document. */
@@ -21,21 +23,38 @@ function isDocxFile(file: File): boolean {
   );
 }
 
-/** Extract the plain text of a supported letter file (PDF text-layer or DOCX). */
-async function extractLetterText(file: File): Promise<string> {
+/**
+ * Extract the text of a supported letter file (PDF text-layer or DOCX). Returns
+ * the readable `body` used for parsing, plus any `markings` text that lives
+ * outside the body — the classification banner rides in the Word page
+ * header/footer, which the body-only DOCX read can't see, so it is pulled
+ * separately. A PDF's banner is already in the page text, so `markings` is
+ * empty there.
+ */
+async function extractLetterText(file: File): Promise<{ body: string; markings: string }> {
   const buffer = await readFileAsArrayBuffer(file);
   const bytes = arrayBufferToUint8Array(buffer);
-  return isDocxFile(file) ? convertDocxToPlainText(bytes) : extractPdfText(bytes);
+  if (isDocxFile(file)) {
+    const [body, markings] = await Promise.all([convertDocxToPlainText(bytes), extractDocxMarkingText(bytes)]);
+    return { body, markings };
+  }
+  return { body: await extractPdfText(bytes), markings: '' };
 }
 
 /**
  * Read a letter file (PDF or DOCX), parse it into naval-letter fields, and
- * detect which document type it most likely is. Text-layer PDFs and Word
- * documents only — a scanned image PDF has no text to read.
+ * detect the document type and classification. Text-layer PDFs and Word
+ * documents only — a scanned image PDF has no text to read. The letter
+ * structure is parsed from the body; classification also considers the
+ * header/footer markings (where the DOCX banner lives).
  */
 export async function parseLetterFile(file: File): Promise<ParsedImport> {
-  const text = await extractLetterText(file);
-  return { parsed: parseNavalLetter(text), detection: detectDocumentType(text) };
+  const { body, markings } = await extractLetterText(file);
+  return {
+    parsed: parseNavalLetter(body),
+    detection: detectDocumentType(body),
+    classification: detectClassification(markings ? `${markings}\n${body}` : body),
+  };
 }
 
 /** Whether the parser recognized anything worth importing. */
@@ -60,8 +79,17 @@ export function hasParsedContent(p: ParsedLetter): boolean {
  * `docType` is the type the drafter confirmed in the review step (defaulting to
  * the importer's detection); every importable type lives in the correspondence
  * category, and `setDocType` derives the per-type layout config from it.
+ *
+ * `classification`, when the source was marked, pre-sets the banner level and
+ * any derivative-classification authority block; per-paragraph portion markings
+ * ride in on the parsed paragraphs. The drafter still owns the Classification
+ * section after import (and the domain restriction applies there as usual).
  */
-export function applyParsedLetter(parsed: ParsedLetter, docType = 'naval_letter'): void {
+export function applyParsedLetter(
+  parsed: ParsedLetter,
+  docType = 'naval_letter',
+  classification?: ClassificationDetection
+): void {
   const docs = useDocumentsStore.getState();
   const ds = useDocumentStore.getState();
 
@@ -85,13 +113,26 @@ export function applyParsedLetter(parsed: ParsedLetter, docType = 'naval_letter'
     formData.sigMiddle = parsed.signature.middle;
     formData.sigLast = parsed.signature.last;
   }
+  // Classification: only write when the source actually carried markings, so an
+  // unmarked import stays at the fresh-letter Unclassified default.
+  if (classification?.found) {
+    formData.classLevel = classification.classLevel;
+    if (classification.classifiedBy) formData.classifiedBy = classification.classifiedBy;
+    if (classification.derivedFrom) formData.derivedFrom = classification.derivedFrom;
+    if (classification.declassifyOn) formData.declassifyOn = classification.declassifyOn;
+    if (classification.classReason) formData.classReason = classification.classReason;
+  }
   ds.setFormData(formData);
 
   ds.loadTemplate({
     // `letter` is re-assigned by the store from array position.
     references: parsed.references.map((title) => ({ letter: '', title })),
     enclosures: parsed.enclosures.map((title) => ({ title })),
-    paragraphs: parsed.paragraphs.map((p) => ({ text: p.text, level: p.level })),
+    paragraphs: parsed.paragraphs.map((p) => ({
+      text: p.text,
+      level: p.level,
+      ...(p.portionMarking && { portionMarking: p.portionMarking }),
+    })),
     copyTos: parsed.copyTos.map((text) => ({ text })),
   });
 

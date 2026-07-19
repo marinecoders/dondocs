@@ -114,6 +114,24 @@ describe('parseNavalLetter — copy to', () => {
   });
 });
 
+describe('parseNavalLetter — portion markings', () => {
+  it('captures a leading portion mark and strips it from the text', () => {
+    const p = parseNavalLetter(
+      ['1.  (U) This paragraph is unclassified.', '', '2.  (S) This one is secret.'].join('\n')
+    );
+    expect(p.paragraphs).toEqual([
+      { text: 'This paragraph is unclassified.', level: 0, portionMarking: 'U' },
+      { text: 'This one is secret.', level: 0, portionMarking: 'S' },
+    ]);
+  });
+
+  it('captures portion marks at sub-levels and leaves unmarked paragraphs alone', () => {
+    const p = parseNavalLetter(['1.  (CUI) Top.', '    a.  Plain sub with no mark.'].join('\n'));
+    expect(p.paragraphs[0]).toEqual({ text: 'Top.', level: 0, portionMarking: 'CUI' });
+    expect(p.paragraphs[1]).toEqual({ text: 'Plain sub with no mark.', level: 1 });
+  });
+});
+
 describe('parseNavalLetter — paragraph levels', () => {
   it('maps 1. / a. / (1) / (a) to levels 0–3', () => {
     const p = parseNavalLetter(

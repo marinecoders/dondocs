@@ -228,6 +228,31 @@ export async function convertDocxToPlainText(bytes: Uint8Array): Promise<string>
   return result.stdout ?? '';
 }
 
+/**
+ * Extract the text of a .docx file's headers and footers, one line per source
+ * paragraph. The classification banner is rendered into the Word page header
+ * and footer (word/header*.xml, word/footer*.xml), which pandoc's body-only
+ * `docx → plain` read never sees — so the importer reads these parts directly
+ * to recover the banner marking. Pure text, in-browser (JSZip), no network.
+ */
+export async function extractDocxMarkingText(bytes: Uint8Array): Promise<string> {
+  const zip = await JSZip.loadAsync(bytes.slice().buffer);
+  const parts = Object.keys(zip.files).filter((n) => /word\/(?:header|footer)\d*\.xml$/i.test(n));
+  const chunks: string[] = [];
+  for (const name of parts) {
+    const xml = await zip.files[name].async('string');
+    const text = xml
+      .replace(/<\/w:p>/g, '\n') // paragraph break → newline (banner on its own line)
+      .replace(/<[^>]+>/g, '') // drop all tags, keeping run text
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/[ \t]+/g, ' ');
+    if (text.trim()) chunks.push(text.trim());
+  }
+  return chunks.join('\n');
+}
+
 function getSealFilename(sealType?: string, letterheadColor?: string): string {
   const type = sealType || 'dow';
   const bwSuffix = letterheadColor === 'black' ? '-bw' : '';

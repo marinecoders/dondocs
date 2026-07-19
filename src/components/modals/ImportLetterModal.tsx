@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { FileUp, Loader2, AlertTriangle, FileText, Info } from 'lucide-react';
+import { FileUp, Loader2, AlertTriangle, FileText, Info, ShieldAlert } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -19,6 +19,7 @@ import { Button } from '@/components/ui/button';
 import { useUIStore } from '@/stores/uiStore';
 import { parseLetterFile, hasParsedContent, applyParsedLetter, type ParsedImport } from '@/lib/importLetter';
 import { IMPORTABLE_DOC_TYPES } from '@/lib/detectDocumentType';
+import { CLASSIFICATION_LABELS } from '@/lib/detectClassification';
 import { DOC_TYPE_LABELS } from '@/types/document';
 import { abbreviatedSignatoryName } from '@/lib/signatoryName';
 
@@ -85,7 +86,7 @@ export function ImportLetterModal() {
 
   const doImport = useCallback(
     (result: ParsedImport, docType: string) => {
-      applyParsedLetter(result.parsed, docType);
+      applyParsedLetter(result.parsed, docType, result.classification);
       onOpenChange(false);
     },
     [onOpenChange]
@@ -163,9 +164,12 @@ function ReviewBody({
   onBack: () => void;
   onImport: (docType: string) => void;
 }) {
-  const { parsed, detection } = result;
+  const { parsed, detection, classification } = result;
   const [docType, setDocType] = useState(detection.docType);
   const lowConfidence = detection.confidence === 'low';
+  // Surface a classification marking when one was read from the source, and
+  // treat anything above Unclassified as needing the drafter's eye.
+  const classified = classification.found && classification.classLevel !== 'unclassified';
 
   const sig = parsed.signature
     ? abbreviatedSignatoryName(parsed.signature.first, parsed.signature.middle, parsed.signature.last)
@@ -186,7 +190,26 @@ function ReviewBody({
         <Row label="Copy to" value={parsed.copyTos.length} />
         <Row label="Paragraphs" value={parsed.paragraphs.length} />
         <Row label="Signature" value={sig} />
+        <Row
+          label="Classification"
+          value={classification.found ? CLASSIFICATION_LABELS[classification.classLevel] : undefined}
+        />
+        <Row label="Classified by" value={classification.classifiedBy} />
+        <Row label="Derived from" value={classification.derivedFrom} />
+        <Row label="Declassify on" value={classification.declassifyOn} />
       </div>
+
+      {/* Classification is safety-critical: when the source was marked, call it
+          out explicitly and note that the drafter still owns the marking. */}
+      {classification.found && (
+        <p
+          className={`flex items-start gap-1.5 text-xs ${classified ? 'text-warning' : 'text-muted-foreground'}`}
+        >
+          <ShieldAlert className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+          {classification.reason}
+          {classified && ' It carries into the Classification section — verify it there before you export.'}
+        </p>
+      )}
 
       {/* Document-type picker: pre-selected to the importer's guess. When the
           guess is uncertain we say so and ask the drafter to confirm. */}

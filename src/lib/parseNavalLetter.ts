@@ -11,6 +11,8 @@
  * independent of how those lines were extracted (PDF today, DOCX later).
  */
 
+import type { PortionMarking } from '@/types/document';
+
 export interface ParsedLetter {
   ssic?: string;
   serial?: string;
@@ -25,7 +27,7 @@ export interface ParsedLetter {
   enclosures: string[];
   /** "Copy to" recipients, one per entry. */
   copyTos: string[];
-  paragraphs: { text: string; level: number }[];
+  paragraphs: { text: string; level: number; portionMarking?: PortionMarking }[];
   signature?: { first: string; middle: string; last: string };
 }
 
@@ -71,12 +73,25 @@ const PARAGRAPH_LABELS: { level: number; re: RegExp }[] = [
 // Encl list marker, not the body — so only "N." ends the header block.
 const BODY_START_RE = /^\d+\.\s+/;
 
-/** If the line opens a numbered paragraph, its level and label-stripped text. */
-function paragraphStartOf(line: string): { level: number; text: string } | null {
+// A portion mark leads the paragraph text after its number label, per SECNAV
+// M-5216.5 / DoDM 5200.01: "1.  (S) The text…". Captured so an imported
+// classified letter keeps its per-paragraph markings, not just the banner.
+const PORTION_MARK_RE = /^\((U|CUI|FOUO|C|S|TS)\)\s+(.*)$/;
+
+/** Peel a leading "(S)" portion mark off paragraph text, if present. */
+function splitPortionMark(text: string): { text: string; portionMarking?: PortionMarking } {
+  const m = text.match(PORTION_MARK_RE);
+  return m ? { portionMarking: m[1] as PortionMarking, text: m[2] } : { text };
+}
+
+/** If the line opens a numbered paragraph, its level, text, and portion mark. */
+function paragraphStartOf(
+  line: string
+): { level: number; text: string; portionMarking?: PortionMarking } | null {
   const trimmed = line.trim();
   for (const { level, re } of PARAGRAPH_LABELS) {
     const m = trimmed.match(re);
-    if (m) return { level, text: m[2] };
+    if (m) return { level, ...splitPortionMark(m[2]) };
   }
   return null;
 }
@@ -234,15 +249,15 @@ function parseCopyTo(lines: string[]): string[] {
  * A line without a label continues the current paragraph (wrapped text);
  * levels are emitted as-is and the store clamps any illegal jump.
  */
-function collectParagraphs(lines: string[], start: number): { text: string; level: number }[] {
-  const paras: { text: string; level: number }[] = [];
+function collectParagraphs(lines: string[], start: number): ParsedLetter['paragraphs'] {
+  const paras: ParsedLetter['paragraphs'] = [];
   for (let i = start; i < lines.length; i++) {
     const line = lines[i];
     if (BODY_TERMINATORS.test(line.trim())) break;
     if (parseSignature(line)) break; // reached the signature block
     const p = paragraphStartOf(line);
     if (p) {
-      paras.push({ text: p.text.trim(), level: p.level });
+      paras.push({ text: p.text.trim(), level: p.level, ...(p.portionMarking && { portionMarking: p.portionMarking }) });
     } else if (line.trim() && paras.length > 0) {
       // Continuation of the paragraph above — rejoin the wrapped line.
       paras[paras.length - 1].text = `${paras[paras.length - 1].text} ${line.trim()}`.trim();
