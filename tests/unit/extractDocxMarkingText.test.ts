@@ -64,4 +64,23 @@ describe('extractDocxMarkingText', () => {
     });
     expect(await extractDocxMarkingText(bytes)).toContain('SECRET & SPECIAL');
   });
+
+  it('does not double-unescape entities (&amp;lt; stays &lt;)', async () => {
+    // Ampersand must be decoded last: "&amp;lt;" is a literal "&lt;", not "<".
+    const bytes = await makeDocx({
+      'word/header1.xml': `<w:hdr>${para(['A &amp;lt; B'])}</w:hdr>`,
+    });
+    const text = await extractDocxMarkingText(bytes);
+    expect(text).toContain('A &lt; B');
+    expect(text).not.toContain('A < B');
+  });
+
+  it('does not let a run that contains angle brackets inject markup', async () => {
+    // Run text arrives escaped; "&lt;script&gt;" decodes to literal text, and
+    // there is no tag-stripping pass that could be bypassed.
+    const bytes = await makeDocx({
+      'word/footer1.xml': `<w:ftr>${para(['&lt;script&gt;alert(1)&lt;/script&gt;'])}</w:ftr>`,
+    });
+    expect(await extractDocxMarkingText(bytes)).toBe('<script>alert(1)</script>');
+  });
 });

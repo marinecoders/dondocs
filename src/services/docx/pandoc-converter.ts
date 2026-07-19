@@ -228,12 +228,29 @@ export async function convertDocxToPlainText(bytes: Uint8Array): Promise<string>
   return result.stdout ?? '';
 }
 
+// Decode the five predefined XML entities. Order matters: "&amp;" is decoded
+// LAST so an input like "&amp;lt;" resolves to the literal "&lt;" rather than
+// being double-unescaped into "<".
+function decodeXmlText(s: string): string {
+  return s
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, '&');
+}
+
 /**
  * Extract the text of a .docx file's headers and footers, one line per source
  * paragraph. The classification banner is rendered into the Word page header
  * and footer (word/header*.xml, word/footer*.xml), which pandoc's body-only
  * `docx → plain` read never sees — so the importer reads these parts directly
  * to recover the banner marking. Pure text, in-browser (JSZip), no network.
+ *
+ * Rather than strip tags from the raw XML (an incomplete, injection-prone form
+ * of sanitization), it pulls the text out of each `<w:t>` run and joins the runs
+ * within a `<w:p>` paragraph — OOXML run text contains no nested markup, so this
+ * is exact. Paragraphs become newlines, keeping the banner on its own line.
  */
 export async function extractDocxMarkingText(bytes: Uint8Array): Promise<string> {
   const zip = await JSZip.loadAsync(bytes.slice().buffer);
@@ -241,14 +258,14 @@ export async function extractDocxMarkingText(bytes: Uint8Array): Promise<string>
   const chunks: string[] = [];
   for (const name of parts) {
     const xml = await zip.files[name].async('string');
-    const text = xml
-      .replace(/<\/w:p>/g, '\n') // paragraph break → newline (banner on its own line)
-      .replace(/<[^>]+>/g, '') // drop all tags, keeping run text
-      .replace(/&amp;/g, '&')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/[ \t]+/g, ' ');
-    if (text.trim()) chunks.push(text.trim());
+    const lines: string[] = [];
+    // Split on the paragraph close tag so each <w:p> becomes its own line.
+    for (const paragraph of xml.split(/<\/w:p>/)) {
+      const runs = [...paragraph.matchAll(/<w:t\b[^>]*>([\s\S]*?)<\/w:t>/g)].map((m) => m[1]);
+      const text = decodeXmlText(runs.join('')).replace(/[ \t]+/g, ' ').trim();
+      if (text) lines.push(text);
+    }
+    if (lines.length) chunks.push(lines.join('\n'));
   }
   return chunks.join('\n');
 }
