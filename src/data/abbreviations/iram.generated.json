@@ -1,0 +1,6418 @@
+{
+  "source": "MCO P1070.12K (IRAM), ch. 6 ¶6002.10a",
+  "note": "Authorized recordkeeping abbreviations. compoundOnly entries may only be used inside a compound abbreviation (IRAM ¶6001.2).",
+  "count": 1602,
+  "entries": [
+    {
+      "word": "ABBREVIATION",
+      "abbr": "abbr"
+    },
+    {
+      "word": "ABOARD",
+      "abbr": "abd"
+    },
+    {
+      "word": "ABOUT",
+      "abbr": "abt"
+    },
+    {
+      "word": "ABSENCE-ABSENT",
+      "abbr": "abs"
+    },
+    {
+      "word": "ABSENT/ABSENCE WITHOUT/OVER LEAVE/LIBERTY",
+      "abbr": "AWOL"
+    },
+    {
+      "word": "ACADEMIC-ACADEMY",
+      "abbr": "acad"
+    },
+    {
+      "word": "ACCEPTED",
+      "abbr": "acc"
+    },
+    {
+      "word": "ACCESSOR IDENTIFICATION",
+      "abbr": "ACID"
+    },
+    {
+      "word": "ACCESSORY",
+      "abbr": "accy"
+    },
+    {
+      "word": "ACCIDENT",
+      "abbr": "acdt"
+    },
+    {
+      "word": "ACCIDENTAL INJURIES",
+      "abbr": "acci"
+    },
+    {
+      "word": "ACCOMMODATE",
+      "abbr": "accom"
+    },
+    {
+      "word": "ACCOMPANY",
+      "abbr": "acmp"
+    },
+    {
+      "word": "ACCOMPLISH",
+      "abbr": "accomp"
+    },
+    {
+      "word": "ACCORD",
+      "abbr": "acd"
+    },
+    {
+      "word": "ACCOUNT",
+      "abbr": "acct"
+    },
+    {
+      "word": "ACCOUNTS CLOSED",
+      "abbr": "a/c"
+    },
+    {
+      "word": "ACCRUED LEAVE",
+      "abbr": "aclv"
+    },
+    {
+      "word": "ACCUMULATED DEPLOYED TIME",
+      "abbr": "ADT"
+    },
+    {
+      "word": "ACHIEVE",
+      "abbr": "achv"
+    },
+    {
+      "word": "ACKNOWLEDGE",
+      "abbr": "ack"
+    },
+    {
+      "word": "ACQUISITION",
+      "abbr": "aqn"
+    },
+    {
+      "word": "ACQUITTAL - ACQUITTED",
+      "abbr": "acq"
+    },
+    {
+      "word": "ACT",
+      "abbr": "act"
+    },
+    {
+      "word": "ACTIVATE",
+      "abbr": "actd"
+    },
+    {
+      "word": "ACTIVE DUTY",
+      "abbr": "AD"
+    },
+    {
+      "word": "ACTIVE DUTY FOR TRAINING (RESERVE ESTABLISHMENT ONLY). ADT ACTIVE DUTY FOR SPECIAL WORK",
+      "abbr": "ADSW"
+    },
+    {
+      "word": "ACTIVE RESERVE (AR) PROGRAM",
+      "abbr": "AR"
+    },
+    {
+      "word": "ACTIVE SERVICE",
+      "abbr": "svc"
+    },
+    {
+      "word": "ACTIVE STATUS LIST",
+      "abbr": "ASL"
+    },
+    {
+      "word": "ACTIVITY",
+      "abbr": "acty"
+    },
+    {
+      "word": "ADAPT",
+      "abbr": "adpt"
+    },
+    {
+      "word": "ADDITION",
+      "abbr": "add"
+    },
+    {
+      "word": "ADDITIONAL FLIGHT TRAINING PERIOD",
+      "abbr": "AFTP"
+    },
+    {
+      "word": "ADDITIONAL TRAINING PERIOD",
+      "abbr": "ATP"
+    },
+    {
+      "word": "ADDRESS",
+      "abbr": "addr"
+    },
+    {
+      "word": "ADDRESS INDICATOR GROUP",
+      "abbr": "AIG"
+    },
+    {
+      "word": "ADDRESSEE",
+      "abbr": "adee"
+    },
+    {
+      "word": "ADJUDICATE",
+      "abbr": "adju"
+    },
+    {
+      "word": "ADJUTANT",
+      "abbr": "Adj"
+    },
+    {
+      "word": "ADMINISTRATIVE",
+      "abbr": "admin"
+    },
+    {
+      "word": "ADMINISTRATIVE CLERK COURSE",
+      "abbr": "ACC"
+    },
+    {
+      "word": "ADMINISTRATIVE COMMAND",
+      "abbr": "ADCOM"
+    },
+    {
+      "word": "ADMINISTRATIVE CONTROL",
+      "abbr": "ADCON"
+    },
+    {
+      "word": "ADMINISTRATIVE ORDER",
+      "abbr": "ADMINORD"
+    },
+    {
+      "word": "ADMINISTRATIVE PLAN",
+      "abbr": "ADMINPLAN"
+    },
+    {
+      "word": "ADMINISTRATIVE/LEGAL SERVICES COURSES ADJUTANT COURSE",
+      "abbr": "ADJC"
+    },
+    {
+      "word": "ADMONISH",
+      "abbr": "admon"
+    },
+    {
+      "word": "ADVANCE",
+      "abbr": "adv"
+    },
+    {
+      "word": "ADVANCED (CLASS B) AEROGRAPHER'S MATE",
+      "abbr": "AG(B)"
+    },
+    {
+      "word": "ADVANCED COMBAT TRAINING",
+      "abbr": "ACT"
+    },
+    {
+      "word": "ADVANCED COMMUNICATION OFFICERS COURSE",
+      "abbr": "ACDC"
+    },
+    {
+      "word": "ADVANCED DEGREE PROGRAM",
+      "abbr": "ADP"
+    },
+    {
+      "word": "ADVANCED LEGAL SERVICES COURSE",
+      "abbr": "ALSC"
+    },
+    {
+      "word": "ADVANCED LOGISTICS SUPPORT BASE",
+      "abbr": "ALSB"
+    },
+    {
+      "word": "ADVANCED PERSONNEL ADMINISTRATION COURSE",
+      "abbr": "APAC"
+    },
+    {
+      "word": "ADVISE AVAILABILITY",
+      "abbr": "adaval"
+    },
+    {
+      "word": "ADVISORY FILE",
+      "abbr": "ADF"
+    },
+    {
+      "word": "ADVISORY REPORT",
+      "abbr": "ADR"
+    },
+    {
+      "word": "ADVOCATE",
+      "abbr": "advoc"
+    },
+    {
+      "word": "AERIAL RECONNAISSANCE OFFICER",
+      "abbr": "ARO"
+    },
+    {
+      "word": "AFFORD",
+      "abbr": "afd"
+    },
+    {
+      "word": "AGGRESSION- AGGRESSIVE- AGGRESSOR",
+      "abbr": "aggres"
+    },
+    {
+      "word": "AGREEMENT",
+      "abbr": "aqr"
+    },
+    {
+      "word": "AGRICULTURAL-AGRICULTURE",
+      "abbr": "agric"
+    },
+    {
+      "word": "AIR CUSHION VEHICLE",
+      "abbr": "ACV"
+    },
+    {
+      "word": "AIR DELIVER",
+      "abbr": "airdel"
+    },
+    {
+      "word": "AIR FORCE MANUAL",
+      "abbr": "AFM"
+    },
+    {
+      "word": "AIR FORCE REGULATIONS",
+      "abbr": "AFR"
+    },
+    {
+      "word": "AIR FORCES",
+      "abbr": "AF"
+    },
+    {
+      "word": "AIR OBSERVER",
+      "abbr": "AObsr"
+    },
+    {
+      "word": "AIR OFFICER",
+      "abbr": "AO"
+    },
+    {
+      "word": "AIR TRAFFIC CONTROL CLASS A-1",
+      "abbr": "ATC(A)"
+    },
+    {
+      "word": "AIR TRAFFIC CONTROL OFFICER",
+      "abbr": "ATCO(O)"
+    },
+    {
+      "word": "AIRBORNE",
+      "abbr": "abn"
+    },
+    {
+      "word": "AIRBORNE EARLY WARNING",
+      "abbr": "AEW"
+    },
+    {
+      "word": "AIRCRAFT",
+      "abbr": "acft"
+    },
+    {
+      "word": "AIRLIFT CONTROL ELEMENT",
+      "abbr": "ALCE"
+    },
+    {
+      "word": "ALL-PURPOSE LIGHTWEIGHT INDIVIDUAL CARRYING EQUIPMENT",
+      "abbr": "ALICE"
+    },
+    {
+      "word": "ALLIED ADMINISTRATIVE PUBLICATION",
+      "abbr": "AAP"
+    },
+    {
+      "word": "ALLIED COMMUNICATIONS PUBLICATION",
+      "abbr": "ACP"
+    },
+    {
+      "word": "ALLIED PUBLICATION",
+      "abbr": "AP"
+    },
+    {
+      "word": "ALLOCATE",
+      "abbr": "aloc"
+    },
+    {
+      "word": "ALLOTMENT",
+      "abbr": "alot"
+    },
+    {
+      "word": "ALLOWANCE",
+      "abbr": "alw"
+    },
+    {
+      "word": "ALTERNATE",
+      "abbr": "alt"
+    },
+    {
+      "word": "ALTERNATE ANNUAL TRAINING",
+      "abbr": "ALTAT"
+    },
+    {
+      "word": "AMBULANCE-AMBULATORY-AMBASSADOR",
+      "abbr": "Amb"
+    },
+    {
+      "word": "AMERICAN",
+      "abbr": "Am",
+      "compoundOnly": true
+    },
+    {
+      "word": "AMERICAN EMBASSY",
+      "abbr": "AmEmb"
+    },
+    {
+      "word": "AMERICAN REDCROSS",
+      "abbr": "ARC"
+    },
+    {
+      "word": "AMMUNITION",
+      "abbr": "ammo"
+    },
+    {
+      "word": "AMMUNITION SUPPLY POINT",
+      "abbr": "ASP"
+    },
+    {
+      "word": "AMOUNT",
+      "abbr": "amt"
+    },
+    {
+      "word": "AMPHIBIOUS",
+      "abbr": "Phib"
+    },
+    {
+      "word": "AMPHIBIOUS ASSAULT BULK FUEL SYSTEM",
+      "abbr": "AABFS"
+    },
+    {
+      "word": "AMPHIBIOUS ASSAULT SHIP",
+      "abbr": "LPH"
+    },
+    {
+      "word": "AMPHIBIOUS ASSAULT SHIP (GENERAL PURPOSE)",
+      "abbr": "LHA"
+    },
+    {
+      "word": "AMPHIBIOUS ASSAULT SHIP (MULTIPURPOSE)",
+      "abbr": "LHD"
+    },
+    {
+      "word": "AMPHIBIOUS CARGO SHIP",
+      "abbr": "LKA"
+    },
+    {
+      "word": "AMPHIBIOUS LANDING EXERCISE",
+      "abbr": "PHIBLEX"
+    },
+    {
+      "word": "AMPHIBIOUS TASK FORCE",
+      "abbr": "ATF"
+    },
+    {
+      "word": "ANNUAL RETIREMENT CREDIT REPORT",
+      "abbr": "ARCR"
+    },
+    {
+      "word": "ANNUAL TRAINING",
+      "abbr": "AT"
+    },
+    {
+      "word": "ANTIAIR WARFARE",
+      "abbr": "AAW"
+    },
+    {
+      "word": "ANTIAIRCRAFT",
+      "abbr": "AA"
+    },
+    {
+      "word": "ANTITANK GUIDED MISSILE",
+      "abbr": "ATGM"
+    },
+    {
+      "word": "ANTITANK; ANTITERRORISM",
+      "abbr": "AT"
+    },
+    {
+      "word": "APPLICATION",
+      "abbr": "appl"
+    },
+    {
+      "word": "APPREHEND",
+      "abbr": "aprnd"
+    },
+    {
+      "word": "APPROPRIATE",
+      "abbr": "aprop"
+    },
+    {
+      "word": "APPROPRIATION",
+      "abbr": "appn"
+    },
+    {
+      "word": "APPROVE",
+      "abbr": "appr"
+    },
+    {
+      "word": "APPROXIMATE",
+      "abbr": "approx"
+    },
+    {
+      "word": "ARMAMENT",
+      "abbr": "armt"
+    },
+    {
+      "word": "ARMED FORCES CLASSIFICATION TEST",
+      "abbr": "AFCT"
+    },
+    {
+      "word": "ARMED FORCES QUALIFICATION TEST",
+      "abbr": "AFQT"
+    },
+    {
+      "word": "ARMED GUARD",
+      "abbr": "ArmGd"
+    },
+    {
+      "word": "ARMED SERVICES VOCATIONAL APTITUDE BATTERY",
+      "abbr": "ASVAB"
+    },
+    {
+      "word": "ARMOR-PIERCING",
+      "abbr": "AP"
+    },
+    {
+      "word": "ARMORER",
+      "abbr": "Armr"
+    },
+    {
+      "word": "ARMY ATTACHE",
+      "abbr": "ArmA"
+    },
+    {
+      "word": "ARMY LIAISON OFFICER",
+      "abbr": "ArLnO"
+    },
+    {
+      "word": "ARMY POST OFFICE",
+      "abbr": "APO"
+    },
+    {
+      "word": "ARMY RADIO CODE TEST",
+      "abbr": "ARC"
+    },
+    {
+      "word": "ARRAIGN",
+      "abbr": "argn"
+    },
+    {
+      "word": "ARRANGE",
+      "abbr": "arng"
+    },
+    {
+      "word": "ARRIVAL - ARRIVE",
+      "abbr": "arr"
+    },
+    {
+      "word": "ARRIVED CONTINENTAL LIMITS U.S",
+      "abbr": "ARRUS"
+    },
+    {
+      "word": "ARTICLE",
+      "abbr": "art"
+    },
+    {
+      "word": "ARTILLERY",
+      "abbr": "arty"
+    },
+    {
+      "word": "ARTILLERY LIAISON OFFICER",
+      "abbr": "ALO"
+    },
+    {
+      "word": "AS SOON AS POSSIBLE",
+      "abbr": "ASAP"
+    },
+    {
+      "word": "ASSAULT",
+      "abbr": "aslt"
+    },
+    {
+      "word": "ASSAULT AMPHIBIOUS VEHICLE",
+      "abbr": "AAV"
+    },
+    {
+      "word": "ASSAULT ECHELON",
+      "abbr": "AE"
+    },
+    {
+      "word": "ASSAULT FOLLOW-ON ECHELON",
+      "abbr": "AFOE"
+    },
+    {
+      "word": "ASSIGN",
+      "abbr": "asg"
+    },
+    {
+      "word": "ASSIGNMENT, CLASSIFICATION, AND TRAVEL SYSTEMS",
+      "abbr": "ACTS"
+    },
+    {
+      "word": "ASSIGNMENT, CLASSIFICATION, AND TRAVEL SYSTEMS MANUAL",
+      "abbr": "ACTSMAN"
+    },
+    {
+      "word": "ASSIST",
+      "abbr": "asst"
+    },
+    {
+      "word": "ASSISTANT",
+      "abbr": "asstn"
+    },
+    {
+      "word": "ASSISTANT CHIEF OF STAFF",
+      "abbr": "AC/S"
+    },
+    {
+      "word": "ASSISTANT COMMANDANT OF THE MARINE CORPS",
+      "abbr": "ACMC"
+    },
+    {
+      "word": "ASSOCIATE",
+      "abbr": "assoc"
+    },
+    {
+      "word": "ATHLETICS",
+      "abbr": "ath"
+    },
+    {
+      "word": "ATLANTIC",
+      "abbr": "Lant"
+    },
+    {
+      "word": "ATOMIC WARFARE",
+      "abbr": "ATW"
+    },
+    {
+      "word": "ATTACH",
+      "abbr": "att"
+    },
+    {
+      "word": "ATTACK",
+      "abbr": "atk"
+    },
+    {
+      "word": "ATTENTION",
+      "abbr": "attn"
+    },
+    {
+      "word": "AUDIT - AUDITOR",
+      "abbr": "aud"
+    },
+    {
+      "word": "AUGMENT",
+      "abbr": "augm"
+    },
+    {
+      "word": "AUTHORITY GRANTED",
+      "abbr": "AuthGr"
+    },
+    {
+      "word": "AUTHORITY-AUTHORIZED-AUTHORIZATION",
+      "abbr": "auth"
+    },
+    {
+      "word": "AUTOMATED DATA PROCESSING",
+      "abbr": "ADP"
+    },
+    {
+      "word": "AUTOMATED FITNESS REPORT SYSTEM",
+      "abbr": "AFRS"
+    },
+    {
+      "word": "AUTOMATED INSPECTION REPORTING SYSTEM",
+      "abbr": "AIRS"
+    },
+    {
+      "word": "AUTOMATED ORDER WRITING PROCESS",
+      "abbr": "AOWP"
+    },
+    {
+      "word": "AUTOMATED PAY SYSTEMS MANUAL",
+      "abbr": "APSM"
+    },
+    {
+      "word": "AUTOMATED RECRUIT DISTRIBUTION PROCESS",
+      "abbr": "ARDP"
+    },
+    {
+      "word": "AUTOMATED RECRUIT MANAGEMENT SYSTEM",
+      "abbr": "ARMS"
+    },
+    {
+      "word": "AUTOMATIC",
+      "abbr": "auto"
+    },
+    {
+      "word": "AUTOMATIC DIGITAL NETWORK",
+      "abbr": "AUTODIN"
+    },
+    {
+      "word": "AUTOMOTIVE",
+      "abbr": "autmv"
+    },
+    {
+      "word": "AVAILABLE",
+      "abbr": "aval"
+    },
+    {
+      "word": "AVERAGE",
+      "abbr": "avg"
+    },
+    {
+      "word": "AVIATION",
+      "abbr": "avn"
+    },
+    {
+      "word": "AVIATION CAREER INCENTIVE PAY",
+      "abbr": "ACIP"
+    },
+    {
+      "word": "AVIATION COMBAT ELEMENT",
+      "abbr": "ACE"
+    },
+    {
+      "word": "AVIATION COURSES BASIC (CLASS A) AEROGRAPHER'S MATE",
+      "abbr": "AG(A)"
+    },
+    {
+      "word": "AVIATION ELECTRICIANS MATE",
+      "abbr": "AE(A)"
+    },
+    {
+      "word": "AVIATION FAMILIARIZATION",
+      "abbr": "AFAM(A)"
+    },
+    {
+      "word": "AVIATION FIRE CONTROL TECHNICIAN",
+      "abbr": "AFC(A)"
+    },
+    {
+      "word": "AVIATION GROUND SUPPORT",
+      "abbr": "AGS"
+    },
+    {
+      "word": "AVIATION MACHINIST'S MATE J (TURBOJET)",
+      "abbr": "ADJ(A)"
+    },
+    {
+      "word": "AVIATION OFFICER CANDIDATE COURSE",
+      "abbr": "AOCC"
+    },
+    {
+      "word": "AVIATION ORDNANCEMAN",
+      "abbr": "AO(A)"
+    },
+    {
+      "word": "AVIATION SERVICE ENTRY DATE",
+      "abbr": "ASED"
+    },
+    {
+      "word": "AVIATION STRUCTURAL MECHANIC E (SAFETY EQUIP)",
+      "abbr": "AME(A)"
+    },
+    {
+      "word": "AVIATION STRUCTURAL MECHANIC H (HYDRAULIC)",
+      "abbr": "AMH(A)"
+    },
+    {
+      "word": "AVIATION TRAINING",
+      "abbr": "AvnTrng"
+    },
+    {
+      "word": "AVIONICS FUNDAMENTALS",
+      "abbr": "AFU(A)"
+    },
+    {
+      "word": "AVIONICS INTERMEDIATE",
+      "abbr": "AV(B)"
+    },
+    {
+      "word": "AWAIT",
+      "abbr": "awt"
+    },
+    {
+      "word": "AWAITING",
+      "abbr": "awtg"
+    },
+    {
+      "word": "AWAITING ACTION HIGHER AUTHORITY",
+      "abbr": "AAHA"
+    },
+    {
+      "word": "AWAITING OFFICE HOURS",
+      "abbr": "AOH"
+    },
+    {
+      "word": "AWAITING RESULTS OF TRIAL",
+      "abbr": "ARTL"
+    },
+    {
+      "word": "AWAITING TRIAL",
+      "abbr": "ATL"
+    },
+    {
+      "word": "AWARD",
+      "abbr": "awd"
+    },
+    {
+      "word": "BACHELOR ENLISTED QUARTERS",
+      "abbr": "BEQ"
+    },
+    {
+      "word": "BACHELOR OFFICERS QUARTERS",
+      "abbr": "BOQ"
+    },
+    {
+      "word": "BACK ORDER",
+      "abbr": "b/o"
+    },
+    {
+      "word": "BACK ORDER VALIDATION",
+      "abbr": "BOV"
+    },
+    {
+      "word": "BACKGROUND INVESTIGATION",
+      "abbr": "BI"
+    },
+    {
+      "word": "BAD CONDUCT DISCHARGE",
+      "abbr": "BCD"
+    },
+    {
+      "word": "BAGGAGE",
+      "abbr": "bag"
+    },
+    {
+      "word": "BALANCE",
+      "abbr": "bal"
+    },
+    {
+      "word": "BARRACKS",
+      "abbr": "bks"
+    },
+    {
+      "word": "BASIC ALLOWANCE FOR HOUSING",
+      "abbr": "BAH"
+    },
+    {
+      "word": "BASIC ALLOWANCE FOR QUARTERS",
+      "abbr": "BAQ"
+    },
+    {
+      "word": "BASIC ALLOWANCE FOR SUBSISTENCE; BATTALION AID STATION",
+      "abbr": "BAS"
+    },
+    {
+      "word": "BASIC COMMUNICATION OFFICERS COURSE",
+      "abbr": "BCOC"
+    },
+    {
+      "word": "BASIC DAILY ROUTINE",
+      "abbr": "BDR"
+    },
+    {
+      "word": "BASIC INDIVIDUAL RECORD",
+      "abbr": "BIR"
+    },
+    {
+      "word": "BASIC INFANTRY WEAPON",
+      "abbr": "BIW"
+    },
+    {
+      "word": "BASIC MAINTENANCE ALLOWANCE",
+      "abbr": "BMA"
+    },
+    {
+      "word": "BASIC SKILLS EDUCATION PROGRAM",
+      "abbr": "BSEP"
+    },
+    {
+      "word": "BASIC SKILLS TRAINING",
+      "abbr": "BST"
+    },
+    {
+      "word": "BASIC TRAINING RECORD",
+      "abbr": "BTR"
+    },
+    {
+      "word": "BASIC WARRIOR TRAINING",
+      "abbr": "BWT"
+    },
+    {
+      "word": "BATTLE CASUALTY; BATTLE CENTER",
+      "abbr": "BC"
+    },
+    {
+      "word": "BEIRUT VETERAN",
+      "abbr": "BVet"
+    },
+    {
+      "word": "BENEFICIARY",
+      "abbr": "benef"
+    },
+    {
+      "word": "BESIEGED",
+      "abbr": "bes"
+    },
+    {
+      "word": "BETWEEN",
+      "abbr": "btwn"
+    },
+    {
+      "word": "BILL OF LADING",
+      "abbr": "b/l"
+    },
+    {
+      "word": "BILLET",
+      "abbr": "Bil"
+    },
+    {
+      "word": "BOARD",
+      "abbr": "Bd"
+    },
+    {
+      "word": "BOARD FOR CORRECTION OF NAVAL RECORDS",
+      "abbr": "BCNR"
+    },
+    {
+      "word": "BOARD OF INQUIRY",
+      "abbr": "BOI"
+    },
+    {
+      "word": "BOARD OF REVIEW",
+      "abbr": "BOR"
+    },
+    {
+      "word": "BOARD OF SURVEY",
+      "abbr": "BdSur"
+    },
+    {
+      "word": "BODY NOT RECOVERED",
+      "abbr": "BNR"
+    },
+    {
+      "word": "BOOK",
+      "abbr": "bk"
+    },
+    {
+      "word": "BOOKKEEPING",
+      "abbr": "bkkp"
+    },
+    {
+      "word": "BOUNDARY",
+      "abbr": "bdry"
+    },
+    {
+      "word": "BRANCH",
+      "abbr": "br"
+    },
+    {
+      "word": "BREAD-WATER.......................................... B&W BROTHER",
+      "abbr": "bro"
+    },
+    {
+      "word": "BROUGHT FORWARD",
+      "abbr": "BF"
+    },
+    {
+      "word": "BUILDING",
+      "abbr": "bldg"
+    },
+    {
+      "word": "BUREAU",
+      "abbr": "Bu"
+    },
+    {
+      "word": "BUREAU CONTROL NUMBER",
+      "abbr": "BCN"
+    },
+    {
+      "word": "BUREAU NUMBER",
+      "abbr": "BUNO"
+    },
+    {
+      "word": "BUREAU OF NAVAL PERSONNEL INSTRUCTIONS",
+      "abbr": "BUPERSINST"
+    },
+    {
+      "word": "BY DIRECTION",
+      "abbr": "Bydir"
+    },
+    {
+      "word": "BY NAME ASSIGNMENT (SYSTEM)",
+      "abbr": "BNA"
+    },
+    {
+      "word": "CALENDAR YEAR",
+      "abbr": "CY"
+    },
+    {
+      "word": "CALIBER",
+      "abbr": "cal"
+    },
+    {
+      "word": "CAMOUFLAGE",
+      "abbr": "camo"
+    },
+    {
+      "word": "CANCELED",
+      "abbr": "canc"
+    },
+    {
+      "word": "CANDIDATE",
+      "abbr": "cand"
+    },
+    {
+      "word": "CAPACITY",
+      "abbr": "cap"
+    },
+    {
+      "word": "CAPTURE",
+      "abbr": "cptr"
+    },
+    {
+      "word": "CAREER PLANNER",
+      "abbr": "CarPlan"
+    },
+    {
+      "word": "CAREER RETIREMENT CREDIT REPORT",
+      "abbr": "CRCR"
+    },
+    {
+      "word": "CARLOAD",
+      "abbr": "c/l"
+    },
+    {
+      "word": "CARRY",
+      "abbr": "car"
+    },
+    {
+      "word": "CASUAL",
+      "abbr": "cas"
+    },
+    {
+      "word": "CASUALTY ASSISTANCE CALLS OFFICER",
+      "abbr": "CACO"
+    },
+    {
+      "word": "CASUALTY REPORT",
+      "abbr": "CASREP"
+    },
+    {
+      "word": "CATEGORY",
+      "abbr": "cat"
+    },
+    {
+      "word": "CATHODE RAY TUBE",
+      "abbr": "CRT"
+    },
+    {
+      "word": "CEMETERY",
+      "abbr": "cem"
+    },
+    {
+      "word": "CENTER",
+      "abbr": "ctr"
+    },
+    {
+      "word": "CENTRAL PROCESSING UNIT",
+      "abbr": "CPU"
+    },
+    {
+      "word": "CERTIFICATE - CERTIFIED",
+      "abbr": "cert"
+    },
+    {
+      "word": "CHANGE",
+      "abbr": "ch"
+    },
+    {
+      "word": "CHANGE OF PRIMARY DUTY",
+      "abbr": "ChPriDu"
+    },
+    {
+      "word": "CHANGE OF STATUS",
+      "abbr": "ChSta"
+    },
+    {
+      "word": "CHAPTER",
+      "abbr": "chap"
+    },
+    {
+      "word": "CHARACTER",
+      "abbr": "char"
+    },
+    {
+      "word": "CHARGE",
+      "abbr": "chg"
+    },
+    {
+      "word": "CHECK",
+      "abbr": "ck"
+    },
+    {
+      "word": "CHEMICAL",
+      "abbr": "cml"
+    },
+    {
+      "word": "CHIEF OF NAVAL OPERATIONS",
+      "abbr": "CNO"
+    },
+    {
+      "word": "CHIEF OF NAVAL OPERATIONS INSTRUCTION",
+      "abbr": "OPNAVINST"
+    },
+    {
+      "word": "CHIEF OF STAFF",
+      "abbr": "C/S"
+    },
+    {
+      "word": "CIVIL - CIVILIAN",
+      "abbr": "civ"
+    },
+    {
+      "word": "CIVIL AUTHORITIES",
+      "abbr": "CA"
+    },
+    {
+      "word": "CIVILIAN CLOTHING MAINTENANCE ALLOWANCE",
+      "abbr": "CCMA"
+    },
+    {
+      "word": "CIVILIAN HEALTH AND MEDICAL PROGRAM FOR UNIFORMED SERVICES",
+      "abbr": "CHAMPUS"
+    },
+    {
+      "word": "CIVILIAN OCCUPATION",
+      "abbr": "CivOcc"
+    },
+    {
+      "word": "CIVILIAN PERSONNEL INSTRUCTIONS",
+      "abbr": "CPI"
+    },
+    {
+      "word": "CLASS",
+      "abbr": "cl"
+    },
+    {
+      "word": "CLASSIFY - CLASSIFICATION - CLASSIFIED",
+      "abbr": "clas"
+    },
+    {
+      "word": "CLEARANCE",
+      "abbr": "clnc"
+    },
+    {
+      "word": "CLERICAL COMPOSITE SCORE",
+      "abbr": "CL"
+    },
+    {
+      "word": "CLERK",
+      "abbr": "clk"
+    },
+    {
+      "word": "CLERK TYPIST",
+      "abbr": "ClkTyp"
+    },
+    {
+      "word": "CLOSE AIR SUPPORT",
+      "abbr": "CAS"
+    },
+    {
+      "word": "CLOSE COMBAT PISTOL COURSE",
+      "abbr": "CCPC"
+    },
+    {
+      "word": "CLOSE COMBAT SHOTGUN COURSE",
+      "abbr": "CCSC"
+    },
+    {
+      "word": "CLOSE QUARTERS BATTLE",
+      "abbr": "CQB"
+    },
+    {
+      "word": "CLOTHING",
+      "abbr": "clo"
+    },
+    {
+      "word": "CLOTHING MAINTENANCE/MONETARY ALLOWANCE",
+      "abbr": "CMA"
+    },
+    {
+      "word": "CLOTHING REPLACEMENT ALLOWANCE",
+      "abbr": "CRA"
+    },
+    {
+      "word": "CODE",
+      "abbr": "CC"
+    },
+    {
+      "word": "COLLECT",
+      "abbr": "coll"
+    },
+    {
+      "word": "COLLEGE DEGREE PROGRAM",
+      "abbr": "CDP"
+    },
+    {
+      "word": "COLLEGE-LEVEL EXAMINATION PROGRAM",
+      "abbr": "CLEP"
+    },
+    {
+      "word": "COLON",
+      "abbr": "cln"
+    },
+    {
+      "word": "COLUMN",
+      "abbr": "colm"
+    },
+    {
+      "word": "COMBAT",
+      "abbr": "cbt"
+    },
+    {
+      "word": "COMBAT CARGO OFFICER",
+      "abbr": "CCO"
+    },
+    {
+      "word": "COMBAT COMMITTED",
+      "abbr": "CbtComitd"
+    },
+    {
+      "word": "COMBAT INFORMATION CENTER",
+      "abbr": "CIC"
+    },
+    {
+      "word": "COMBAT MARKSMANSHIP PROGRAM",
+      "abbr": "CMP"
+    },
+    {
+      "word": "COMBAT OPERATIONS CENTER",
+      "abbr": "COC"
+    },
+    {
+      "word": "COMBAT OPERATIONS INTELLIGENCE CENTER",
+      "abbr": "COIC"
+    },
+    {
+      "word": "COMBAT SERVICE SUPPORT",
+      "abbr": "CSS"
+    },
+    {
+      "word": "COMBINED ARMS EXERCISE",
+      "abbr": "CAX"
+    },
+    {
+      "word": "COMBINED ARMS REGIMENT",
+      "abbr": "CAR"
+    },
+    {
+      "word": "COMMA",
+      "abbr": "Cmm"
+    },
+    {
+      "word": "COMMAND",
+      "abbr": "cmd"
+    },
+    {
+      "word": "COMMAND AND CONTROL",
+      "abbr": "C2"
+    },
+    {
+      "word": "COMMAND ELEMENT",
+      "abbr": "CE"
+    },
+    {
+      "word": "COMMAND INSPECTION PROGRAM",
+      "abbr": "CIP"
+    },
+    {
+      "word": "COMMAND POST",
+      "abbr": "CP"
+    },
+    {
+      "word": "COMMAND POST EXERCISE",
+      "abbr": "CPX"
+    },
+    {
+      "word": "COMMAND REPORTING UNIT CODE",
+      "abbr": "CRUC"
+    },
+    {
+      "word": "COMMAND, CONTROL, AND COMMUNICATIONS",
+      "abbr": "C3"
+    },
+    {
+      "word": "COMMAND, CONTROL, AND COMMUNICATIONS COUNTERMEASURES",
+      "abbr": "C3CM"
+    },
+    {
+      "word": "COMMAND, CONTROL, COMMUNICATIONS, AND COMPUTER SYSTEMS",
+      "abbr": "C4"
+    },
+    {
+      "word": "COMMAND, CONTROL, COMMUNICATIONS, AND INTELLIGENCE",
+      "abbr": "C3I"
+    },
+    {
+      "word": "COMMAND, CONTROL, COMMUNICATIONS, COMPUTER SYSTEMS, AND INTELLIGENCE",
+      "abbr": "C4I"
+    },
+    {
+      "word": "COMMANDANT",
+      "abbr": "Comdt"
+    },
+    {
+      "word": "COMMANDANT OF THE MARINE CORPS",
+      "abbr": "CMC"
+    },
+    {
+      "word": "COMMANDANT'S PLANNING GUIDANCE",
+      "abbr": "CPG"
+    },
+    {
+      "word": "COMMANDER",
+      "abbr": "comdr"
+    },
+    {
+      "word": "COMMANDER IN CHIEF",
+      "abbr": "CinC"
+    },
+    {
+      "word": "COMMANDING",
+      "abbr": "comdg"
+    },
+    {
+      "word": "COMMANDING GENERAL",
+      "abbr": "CG"
+    },
+    {
+      "word": "COMMANDING GENERAL'S INSPECTION PROGRAM",
+      "abbr": "CGIP"
+    },
+    {
+      "word": "COMMANDING OFFICER",
+      "abbr": "CO"
+    },
+    {
+      "word": "COMMANDING OFFICER NONJUDICIAL PUNISHMENT",
+      "abbr": "COP"
+    },
+    {
+      "word": "COMMERCIAL",
+      "abbr": "coml"
+    },
+    {
+      "word": "COMMERCIAL AIR",
+      "abbr": "MerAir"
+    },
+    {
+      "word": "COMMISSARY",
+      "abbr": "comsy"
+    },
+    {
+      "word": "COMMISSION",
+      "abbr": "com"
+    },
+    {
+      "word": "COMMUNICATION",
+      "abbr": "Comm"
+    },
+    {
+      "word": "COMMUNICATION OPERATION INSTRUCTIONS",
+      "abbr": "COI"
+    },
+    {
+      "word": "COMMUNICATIONS SECURITY",
+      "abbr": "COMSEC"
+    },
+    {
+      "word": "COMMUNICATIONS-ELECTRONICS OFFICER",
+      "abbr": "CEO"
+    },
+    {
+      "word": "COMMUTED RATIONS",
+      "abbr": "ComRats"
+    },
+    {
+      "word": "COMPETITION IN ARMS PROGRAM",
+      "abbr": "CIAP"
+    },
+    {
+      "word": "COMPLETE - COMPLETION - UPON COMPLETION THEREOF",
+      "abbr": "compl"
+    },
+    {
+      "word": "COMPONENT",
+      "abbr": "comp"
+    },
+    {
+      "word": "COMPUTER AIDED EMBARKATION MANAGEMENT SYSTEM",
+      "abbr": "CAEMS"
+    },
+    {
+      "word": "CONCEPT PLAN",
+      "abbr": "ConPlan"
+    },
+    {
+      "word": "CONCERNED",
+      "abbr": "conc"
+    },
+    {
+      "word": "CONDITION",
+      "abbr": "cond"
+    },
+    {
+      "word": "CONDUCT",
+      "abbr": "con"
+    },
+    {
+      "word": "CONFERENCE",
+      "abbr": "confer"
+    },
+    {
+      "word": "CONFIDENTIAL",
+      "abbr": "conf"
+    },
+    {
+      "word": "CONFINE",
+      "abbr": "cnf"
+    },
+    {
+      "word": "CONFINED",
+      "abbr": "cnfd"
+    },
+    {
+      "word": "CONFINEMENT",
+      "abbr": "cnft"
+    },
+    {
+      "word": "CONFINEMENT AT HARD LABOR",
+      "abbr": "CHL"
+    },
+    {
+      "word": "CONFIRM",
+      "abbr": "cfm"
+    },
+    {
+      "word": "CONGRESSIONAL INTEREST",
+      "abbr": "CONGRINT"
+    },
+    {
+      "word": "CONNECTION - IN CONNECTION WITH",
+      "abbr": "conn"
+    },
+    {
+      "word": "CONSCIENTIOUS OBJECTOR",
+      "abbr": "ConObjtr"
+    },
+    {
+      "word": "CONSIDER",
+      "abbr": "cons"
+    },
+    {
+      "word": "CONSOLIDATED ADMINISTRATION",
+      "abbr": "CONAD"
+    },
+    {
+      "word": "CONSOLIDATED PERSONNEL ADMINISTRATION CENTER",
+      "abbr": "CPAC"
+    },
+    {
+      "word": "CONSTRUCTION - CONSTRUCTIVE",
+      "abbr": "cons"
+    },
+    {
+      "word": "CONTAIN",
+      "abbr": "cntn"
+    },
+    {
+      "word": "CONTINENTAL LIMITS UNITED STATES",
+      "abbr": "CONLUS"
+    },
+    {
+      "word": "CONTINENTAL UNITED STATES",
+      "abbr": "CONUS"
+    },
+    {
+      "word": "CONTINGENCY PLAN",
+      "abbr": "CONPLAN"
+    },
+    {
+      "word": "CONTINUED",
+      "abbr": "contd"
+    },
+    {
+      "word": "CONTRACT",
+      "abbr": "cont"
+    },
+    {
+      "word": "CONTROL",
+      "abbr": "cntl"
+    },
+    {
+      "word": "CONVALESCENT LEAVE",
+      "abbr": "CnvLv"
+    },
+    {
+      "word": "CONVENE",
+      "abbr": "cvn"
+    },
+    {
+      "word": "CONVENIENCE OF THE GOVERNMENT",
+      "abbr": "CofG"
+    },
+    {
+      "word": "CONVENING AUTHORITY; CIVIL AFFAIRS",
+      "abbr": "CA"
+    },
+    {
+      "word": "CONVICT",
+      "abbr": "conv"
+    },
+    {
+      "word": "COORDINATE",
+      "abbr": "coord"
+    },
+    {
+      "word": "COORDINATING REVIEW AUTHORITY",
+      "abbr": "CRA"
+    },
+    {
+      "word": "CORRECT",
+      "abbr": "corr"
+    },
+    {
+      "word": "CORRECTIONS MANAGEMENT INFORMATION SYSTEM",
+      "abbr": "CORMIS"
+    },
+    {
+      "word": "CORRESPONDENCE",
+      "abbr": "corresp"
+    },
+    {
+      "word": "COST OF LIVING ALLOWANCE",
+      "abbr": "COLA"
+    },
+    {
+      "word": "COUNTER BATTERY RADAR",
+      "abbr": "CBR"
+    },
+    {
+      "word": "COUNTERINTELLIGENCE",
+      "abbr": "CI"
+    },
+    {
+      "word": "COURSE",
+      "abbr": "crs"
+    },
+    {
+      "word": "COURSE CONCEPT ELEMENT",
+      "abbr": "CCE"
+    },
+    {
+      "word": "COURSE CONTENT REVIEW BOARD",
+      "abbr": "CCRB"
+    },
+    {
+      "word": "COURSE DESCRIPTIVE DATA",
+      "abbr": "CDD"
+    },
+    {
+      "word": "COURT OF APPEALS FOR THE ARMED FORCES",
+      "abbr": "CAAF"
+    },
+    {
+      "word": "COURT-MARTIAL",
+      "abbr": "CM"
+    },
+    {
+      "word": "CREDIT",
+      "abbr": "cr"
+    },
+    {
+      "word": "CRITICAL",
+      "abbr": "cri"
+    },
+    {
+      "word": "CRYPTOGRAPHIC",
+      "abbr": "CRYPTO"
+    },
+    {
+      "word": "CURRENT",
+      "abbr": "curr"
+    },
+    {
+      "word": "CURRENT FISCAL YEAR",
+      "abbr": "CFY"
+    },
+    {
+      "word": "CUSTODY",
+      "abbr": "cust"
+    },
+    {
+      "word": "CUSTOMER INFORMATION CONTROL SYSTEM",
+      "abbr": "CICS"
+    },
+    {
+      "word": "DATA BASE",
+      "abbr": "DBASE"
+    },
+    {
+      "word": "DATE CURRENT TOUR BEGAN",
+      "abbr": "DCTB"
+    },
+    {
+      "word": "DATE OF BIRTH",
+      "abbr": "DOB"
+    },
+    {
+      "word": "DATE OF DETACHMENT",
+      "abbr": "DofD"
+    },
+    {
+      "word": "DATE OF RANK",
+      "abbr": "DOR"
+    },
+    {
+      "word": "DATE-TIME GROUP",
+      "abbr": "DTG"
+    },
+    {
+      "word": "DATED",
+      "abbr": "dtd"
+    },
+    {
+      "word": "DAUGHTER",
+      "abbr": "dau"
+    },
+    {
+      "word": "DAY",
+      "abbr": "da"
+    },
+    {
+      "word": "DAYS",
+      "abbr": "das"
+    },
+    {
+      "word": "DEACTIVATE",
+      "abbr": "deactd"
+    },
+    {
+      "word": "DEATHS FROM ACCIDENTAL INJURIES",
+      "abbr": "DAI"
+    },
+    {
+      "word": "DEATHS FROM DISEASE",
+      "abbr": "DFD"
+    },
+    {
+      "word": "DEATHS FROM OTHER CAUSES",
+      "abbr": "DOC"
+    },
+    {
+      "word": "DEBARK",
+      "abbr": "debark"
+    },
+    {
+      "word": "DECLARED DESERTER",
+      "abbr": "DclDes"
+    },
+    {
+      "word": "DECLASSIFY",
+      "abbr": "DECL"
+    },
+    {
+      "word": "DECONTAMINATION",
+      "abbr": "decon"
+    },
+    {
+      "word": "DEDUCT",
+      "abbr": "ded"
+    },
+    {
+      "word": "DEFENSE",
+      "abbr": "def"
+    },
+    {
+      "word": "DEFENSE CONDITION",
+      "abbr": "DEFCON"
+    },
+    {
+      "word": "DEFENSE COUNSEL",
+      "abbr": "DC"
+    },
+    {
+      "word": "DEFENSE ENROLLMENT ELIGIBILITY REPORTING SYSTEM",
+      "abbr": "DEERS"
+    },
+    {
+      "word": "DEFENSE INTELLIGENCE SUMMARY; DAILY INTELLIGENCE SUMMARY",
+      "abbr": "DISUM"
+    },
+    {
+      "word": "DEFENSE LANGUAGE APTITUDE BATTERY",
+      "abbr": "DLAB"
+    },
+    {
+      "word": "DEFENSE LANGUAGE PROFICIENCY TEST",
+      "abbr": "DLPT"
+    },
+    {
+      "word": "DEFENSE OFFICER PERSONNEL MANAGEMENT ACT",
+      "abbr": "DOPMA"
+    },
+    {
+      "word": "DEFENSE SWITCHED NETWORK (Replaced AUTOVON)",
+      "abbr": "DSN"
+    },
+    {
+      "word": "DEFENSE TRAVEL PAY SYSTEM",
+      "abbr": "DTPS"
+    },
+    {
+      "word": "DEFER",
+      "abbr": "dfr"
+    },
+    {
+      "word": "DEGREE",
+      "abbr": "deg"
+    },
+    {
+      "word": "DELAYED ENTRY PROGRAM",
+      "abbr": "DEP"
+    },
+    {
+      "word": "DELIVER",
+      "abbr": "del"
+    },
+    {
+      "word": "DEMILITARIZED ZONE",
+      "abbr": "DMZ"
+    },
+    {
+      "word": "DEMOLITION",
+      "abbr": "dml"
+    },
+    {
+      "word": "DEMONSTRATE",
+      "abbr": "dmst"
+    },
+    {
+      "word": "DEPART",
+      "abbr": "dept"
+    },
+    {
+      "word": "DEPARTED UNITED STATES",
+      "abbr": "DepUS"
+    },
+    {
+      "word": "DEPARTMENT OF DEFENSE DIRECTIVE",
+      "abbr": "DoDDir"
+    },
+    {
+      "word": "DEPARTMENT OF DEFENSE FINANCIAL MANAGEMENT REGULATIONS",
+      "abbr": "DODFMR"
+    },
+    {
+      "word": "DEPARTMENT OF DEFENSE INSTRUCTION",
+      "abbr": "DoDInst"
+    },
+    {
+      "word": "DEPENDENCY AND INDEMNITY COMPENSATION",
+      "abbr": "DIC"
+    },
+    {
+      "word": "DEPENDENT",
+      "abbr": "depn"
+    },
+    {
+      "word": "DEPLOYMENT",
+      "abbr": "deplm"
+    },
+    {
+      "word": "DEPUTY - DEPOT",
+      "abbr": "dep",
+      "compoundOnly": true
+    },
+    {
+      "word": "DEPUTY CHIEF OF STAFF",
+      "abbr": "DC/S"
+    },
+    {
+      "word": "DEPUTY NAVAL INSPECTOR GENERAL FOR MARINE CORPS MATTERS",
+      "abbr": "DNIGMC"
+    },
+    {
+      "word": "DESERT",
+      "abbr": "des"
+    },
+    {
+      "word": "DESERTER INFORMATION POINT",
+      "abbr": "DIP"
+    },
+    {
+      "word": "DESIGNATE DESIGNATION",
+      "abbr": "desig"
+    },
+    {
+      "word": "DESTINATION",
+      "abbr": "destn"
+    },
+    {
+      "word": "DETACH",
+      "abbr": "det"
+    },
+    {
+      "word": "DETACHED DUTY",
+      "abbr": "DetDu"
+    },
+    {
+      "word": "DETAIL",
+      "abbr": "dtl"
+    },
+    {
+      "word": "DETAINED PAY",
+      "abbr": "dtnd pay"
+    },
+    {
+      "word": "DETERMINE",
+      "abbr": "detm"
+    },
+    {
+      "word": "DEVELOP",
+      "abbr": "dev"
+    },
+    {
+      "word": "DIAGNOSIS UNDETERMINED",
+      "abbr": "DU"
+    },
+    {
+      "word": "DIARY FEEDBACK REPORT",
+      "abbr": "DFR"
+    },
+    {
+      "word": "DIARY MANAGEMENT REPORT",
+      "abbr": "DMR"
+    },
+    {
+      "word": "DIED OF WOUNDS",
+      "abbr": "DOW"
+    },
+    {
+      "word": "DIFFERENCE",
+      "abbr": "dif"
+    },
+    {
+      "word": "DIRECT SUPPORT",
+      "abbr": "DS"
+    },
+    {
+      "word": "DIRECTOR",
+      "abbr": "dir"
+    },
+    {
+      "word": "DIRECTOR OF INSTRUCTION",
+      "abbr": "DOI"
+    },
+    {
+      "word": "DISABILITY",
+      "abbr": "dsabl"
+    },
+    {
+      "word": "DISABILITY EVALUATION SYSTEM",
+      "abbr": "DES"
+    },
+    {
+      "word": "DISAPPROVE",
+      "abbr": "disap"
+    },
+    {
+      "word": "DISBAND",
+      "abbr": "disd"
+    },
+    {
+      "word": "DISBURSING",
+      "abbr": "disb"
+    },
+    {
+      "word": "DISBURSING OFFICER VOUCHER",
+      "abbr": "DOV"
+    },
+    {
+      "word": "DISCHARGE",
+      "abbr": "dis"
+    },
+    {
+      "word": "DISCIPLINE",
+      "abbr": "discp"
+    },
+    {
+      "word": "DISCONTINUE",
+      "abbr": "discon"
+    },
+    {
+      "word": "DISEMBARK",
+      "abbr": "disemb"
+    },
+    {
+      "word": "DISENROLL",
+      "abbr": "disenr"
+    },
+    {
+      "word": "DISHONORABLE",
+      "abbr": "DISHON"
+    },
+    {
+      "word": "DISHONORABLE DISCHARGE",
+      "abbr": "DD"
+    },
+    {
+      "word": "DISK OPERATING SYSTEM",
+      "abbr": "DOS"
+    },
+    {
+      "word": "DISPOSITION",
+      "abbr": "dispo"
+    },
+    {
+      "word": "DISSEMINATE",
+      "abbr": "disem"
+    },
+    {
+      "word": "DISTRIBUTION",
+      "abbr": "distr"
+    },
+    {
+      "word": "DISTRICT",
+      "abbr": "dist"
+    },
+    {
+      "word": "DITTO (Duplicate as before)",
+      "abbr": "do"
+    },
+    {
+      "word": "DOCTRINE",
+      "abbr": "doc"
+    },
+    {
+      "word": "DOCUMENT",
+      "abbr": "docu"
+    },
+    {
+      "word": "DRILL",
+      "abbr": "dr"
+    },
+    {
+      "word": "DRILL INSTRUCTOR",
+      "abbr": "DI"
+    },
+    {
+      "word": "DUPLICATE",
+      "abbr": "dupe"
+    },
+    {
+      "word": "DURING",
+      "abbr": "dur"
+    },
+    {
+      "word": "DUTY",
+      "abbr": "du"
+    },
+    {
+      "word": "DUTY CONNECTION",
+      "abbr": "DuCon"
+    },
+    {
+      "word": "DUTY UNDER INSTRUCTION",
+      "abbr": "DUINS"
+    },
+    {
+      "word": "EACH",
+      "abbr": "ea"
+    },
+    {
+      "word": "ECHELON",
+      "abbr": "ech"
+    },
+    {
+      "word": "ECONOMY",
+      "abbr": "econ"
+    },
+    {
+      "word": "EDUCATION",
+      "abbr": "educ"
+    },
+    {
+      "word": "EDUCATIONAL EQUIVALENCY TEST",
+      "abbr": "EET"
+    },
+    {
+      "word": "EFFECT",
+      "abbr": "eff"
+    },
+    {
+      "word": "EFFECTIVE DATE",
+      "abbr": "ED"
+    },
+    {
+      "word": "EFFECTIVE DATE OF MOBILIZATION",
+      "abbr": "M-Day"
+    },
+    {
+      "word": "EFFICIENCY REVIEW",
+      "abbr": "ER"
+    },
+    {
+      "word": "ELECTRIC",
+      "abbr": "elec"
+    },
+    {
+      "word": "ELECTRONIC COUNTER-COUNTERMEASURES",
+      "abbr": "ECCM"
+    },
+    {
+      "word": "ELECTRONIC COUNTERMEASURES",
+      "abbr": "ECM"
+    },
+    {
+      "word": "ELECTRONIC DATA PROCESSING TEST",
+      "abbr": "EDPT"
+    },
+    {
+      "word": "ELECTRONIC FUND TRANSFER",
+      "abbr": "EFT"
+    },
+    {
+      "word": "ELECTRONIC LIBRARY MAIL SYSTEM",
+      "abbr": "ELMS"
+    },
+    {
+      "word": "ELECTRONIC MAIL",
+      "abbr": "E-Mail"
+    },
+    {
+      "word": "ELECTRONIC REPAIR COMPOSITE SCORE",
+      "abbr": "EL"
+    },
+    {
+      "word": "ELECTRONIC SIGNATURE",
+      "abbr": "ELSIG"
+    },
+    {
+      "word": "ELECTRONIC WARFARE",
+      "abbr": "EW"
+    },
+    {
+      "word": "ELECTRONICS TECHNICAL OFFICER",
+      "abbr": "ELTO(O)"
+    },
+    {
+      "word": "ELEMENT",
+      "abbr": "elm"
+    },
+    {
+      "word": "ELIGIBLE",
+      "abbr": "elig"
+    },
+    {
+      "word": "ELIMINATE - ELIMINATION",
+      "abbr": "elim"
+    },
+    {
+      "word": "EMBARK",
+      "abbr": "emb"
+    },
+    {
+      "word": "EMERGENCY",
+      "abbr": "emerg"
+    },
+    {
+      "word": "EMPLOYMENT",
+      "abbr": "emplm"
+    },
+    {
+      "word": "EN ROUTE",
+      "abbr": "enr"
+    },
+    {
+      "word": "ENABLING LEARNING OBJECTIVE",
+      "abbr": "ELO"
+    },
+    {
+      "word": "ENCLOSURE",
+      "abbr": "encl"
+    },
+    {
+      "word": "END USER COMPUTER EQUIPMENT",
+      "abbr": "EUCE"
+    },
+    {
+      "word": "ENDORSE",
+      "abbr": "end"
+    },
+    {
+      "word": "ENEMY",
+      "abbr": "en"
+    },
+    {
+      "word": "ENEMY PRISONER OF WAR",
+      "abbr": "EPW"
+    },
+    {
+      "word": "ENGINE",
+      "abbr": "eng"
+    },
+    {
+      "word": "ENGINEER",
+      "abbr": "engr"
+    },
+    {
+      "word": "ENLIST",
+      "abbr": "enl"
+    },
+    {
+      "word": "ENLISTED ASSIGNMENT MODEL",
+      "abbr": "EAM"
+    },
+    {
+      "word": "ENLISTED AVIATION MAINTENANCE TRAINEE MANAGEMENT SYSTEM",
+      "abbr": "EAMTRAMS"
+    },
+    {
+      "word": "ENLISTED STAFFING GOAL MODEL",
+      "abbr": "ESGM"
+    },
+    {
+      "word": "ENLISTMENT EXTENDED",
+      "abbr": "enlext"
+    },
+    {
+      "word": "ENSIGN (not military grade)",
+      "abbr": "ens"
+    },
+    {
+      "word": "ENTITLE - ENTITLING",
+      "abbr": "entl"
+    },
+    {
+      "word": "ENTRANCE NATIONAL AGENCY CHECK",
+      "abbr": "ENTNAC"
+    },
+    {
+      "word": "ENTRY LEVEL TRAINING ASSIGNMENT",
+      "abbr": "ELTA"
+    },
+    {
+      "word": "EQUAL OPPORTUNITY ADVISOR",
+      "abbr": "EOA"
+    },
+    {
+      "word": "EQUIPMENT",
+      "abbr": "equip"
+    },
+    {
+      "word": "EQUIPPED",
+      "abbr": "eqpd"
+    },
+    {
+      "word": "EQUIVALENT INSTRUCTION OR DUTY",
+      "abbr": "EIOD"
+    },
+    {
+      "word": "ERRONEOUS",
+      "abbr": "err"
+    },
+    {
+      "word": "ESSENTIAL SUBJECTS TEST",
+      "abbr": "EST"
+    },
+    {
+      "word": "ESTABLISH",
+      "abbr": "estab"
+    },
+    {
+      "word": "ESTIMATE",
+      "abbr": "est"
+    },
+    {
+      "word": "ESTIMATED DATE OF ARRIVAL",
+      "abbr": "EDA"
+    },
+    {
+      "word": "ESTIMATED DATE OF DEPARTURE",
+      "abbr": "EDD"
+    },
+    {
+      "word": "ESTIMATED TIME EN ROUTE",
+      "abbr": "ETE"
+    },
+    {
+      "word": "ESTIMATED TIME OF ARRIVAL",
+      "abbr": "ETA"
+    },
+    {
+      "word": "ESTIMATED TIME OF DEPARTURE",
+      "abbr": "ETD"
+    },
+    {
+      "word": "ESTIMATED TIME OF RETURN",
+      "abbr": "ETR"
+    },
+    {
+      "word": "EVACUATE - EVACUATION",
+      "abbr": "evac"
+    },
+    {
+      "word": "EVALUATE",
+      "abbr": "eval"
+    },
+    {
+      "word": "EXAMINATION",
+      "abbr": "exam"
+    },
+    {
+      "word": "EXCELLENT",
+      "abbr": "exc"
+    },
+    {
+      "word": "EXCHANGE",
+      "abbr": "exch"
+    },
+    {
+      "word": "EXCLUDE - EXCLUSIVE",
+      "abbr": "excl"
+    },
+    {
+      "word": "EXCUSED ABSENCE",
+      "abbr": "EA"
+    },
+    {
+      "word": "EXECUTED",
+      "abbr": "execd"
+    },
+    {
+      "word": "EXECUTION",
+      "abbr": "execn"
+    },
+    {
+      "word": "EXECUTIVE",
+      "abbr": "exec"
+    },
+    {
+      "word": "EXECUTIVE OFFICER",
+      "abbr": "XO"
+    },
+    {
+      "word": "EXEMPT",
+      "abbr": "exempt"
+    },
+    {
+      "word": "EXERCISE",
+      "abbr": "ex"
+    },
+    {
+      "word": "EXISTED PRIOR TO SERVICE",
+      "abbr": "EPTS"
+    },
+    {
+      "word": "EXPEND",
+      "abbr": "exp"
+    },
+    {
+      "word": "EXPERIENCE",
+      "abbr": "exper"
+    },
+    {
+      "word": "EXPIRATION OF ACTIVE SERVICE",
+      "abbr": "EAS"
+    },
+    {
+      "word": "EXPIRATION OF EXTENDED ENLISTMENT",
+      "abbr": "EofEE"
+    },
+    {
+      "word": "EXPIRATION OF INDUCTION",
+      "abbr": "EofI"
+    },
+    {
+      "word": "EXPIRATION OF OBLIGATED SERVICE",
+      "abbr": "EOS"
+    },
+    {
+      "word": "EXPLOSIVE",
+      "abbr": "expl"
+    },
+    {
+      "word": "EXPLOSIVE ORDNANCE DISPOSAL",
+      "abbr": "EOD"
+    },
+    {
+      "word": "EXTEND - EXTENSION",
+      "abbr": "ext"
+    },
+    {
+      "word": "EXTENDED ACTIVE DUTY",
+      "abbr": "EAD"
+    },
+    {
+      "word": "EXTENDED TECHNICAL TRAINING",
+      "abbr": "ETT"
+    },
+    {
+      "word": "EXTENSION OF ENLISTMENT",
+      "abbr": "extenl"
+    },
+    {
+      "word": "FACSIMILE",
+      "abbr": "FAX"
+    },
+    {
+      "word": "FACTOR EVALUATION SYSTEM",
+      "abbr": "FES"
+    },
+    {
+      "word": "FAMILY",
+      "abbr": "fam"
+    },
+    {
+      "word": "FAMILY ALLOWANCE",
+      "abbr": "FA"
+    },
+    {
+      "word": "FAMILY SEPARATION ALLOWANCE",
+      "abbr": "FSA"
+    },
+    {
+      "word": "FAMILY SERVICE CENTER",
+      "abbr": "FamSvcCtr"
+    },
+    {
+      "word": "FATHER",
+      "abbr": "F"
+    },
+    {
+      "word": "FAVORABLE",
+      "abbr": "fav"
+    },
+    {
+      "word": "FEDERAL BUREAU OF INVESTIGATION",
+      "abbr": "FBI"
+    },
+    {
+      "word": "FEDERAL PERSONNEL MANUAL",
+      "abbr": "FPM"
+    },
+    {
+      "word": "FEDERAL STOCK NUMBER",
+      "abbr": "FSN"
+    },
+    {
+      "word": "FEDERAL WAGE SYSTEM",
+      "abbr": "FWS"
+    },
+    {
+      "word": "FIELD",
+      "abbr": "fld"
+    },
+    {
+      "word": "FIELD BULLETIN",
+      "abbr": "FB"
+    },
+    {
+      "word": "FIELD EXERCISE",
+      "abbr": "FEX"
+    },
+    {
+      "word": "FIELD FLIGHT PERFORMANCE BOARD",
+      "abbr": "FFP"
+    },
+    {
+      "word": "FIELD MANUAL",
+      "abbr": "FM"
+    },
+    {
+      "word": "FIELD SKILLS TRAINING",
+      "abbr": "FST"
+    },
+    {
+      "word": "FILE SERVER",
+      "abbr": "FServ"
+    },
+    {
+      "word": "FILM STRIP",
+      "abbr": "flmstp"
+    },
+    {
+      "word": "FINAL SETTLEMENT",
+      "abbr": "FS"
+    },
+    {
+      "word": "FIRE DIRECTION CENTER",
+      "abbr": "FDC"
+    },
+    {
+      "word": "FIRE SUPPORT COORDINATION CENTER",
+      "abbr": "FSCC"
+    },
+    {
+      "word": "FIRE SUPPORT COORDINATOR",
+      "abbr": "FSC"
+    },
+    {
+      "word": "FISCAL YEAR",
+      "abbr": "FY"
+    },
+    {
+      "word": "FIT FOR FULL DUTY",
+      "abbr": "FFD"
+    },
+    {
+      "word": "FITNESS REPORT",
+      "abbr": "FitRpt"
+    },
+    {
+      "word": "FITNESS REPORT AUDIT PROGRAM",
+      "abbr": "FRAP"
+    },
+    {
+      "word": "FIXED-WING",
+      "abbr": "FW"
+    },
+    {
+      "word": "FLEET",
+      "abbr": "FLT"
+    },
+    {
+      "word": "FLEET HOSPITAL",
+      "abbr": "FH"
+    },
+    {
+      "word": "FLEET MARINE FORCE END USER COMPUTER EQUIPMENT",
+      "abbr": "FMF-EUCE"
+    },
+    {
+      "word": "FLEET MARINE FORCE MANUAL",
+      "abbr": "FMFM"
+    },
+    {
+      "word": "FLEET MARINE FORCE PERSONNEL ASSISTANCE PROGRAM",
+      "abbr": "FAP"
+    },
+    {
+      "word": "FLEET MARINE FORCE REFERENCE PUBLICATION",
+      "abbr": "FMFRP"
+    },
+    {
+      "word": "FLEET POST OFFICE",
+      "abbr": "FPO"
+    },
+    {
+      "word": "FLIGHT",
+      "abbr": "flt"
+    },
+    {
+      "word": "FLIGHT ORDERS",
+      "abbr": "FltO"
+    },
+    {
+      "word": "FLIGHT STATUS SELECTION BOARD",
+      "abbr": "FSSB"
+    },
+    {
+      "word": "FLOPPY DISKS",
+      "abbr": "FD"
+    },
+    {
+      "word": "FOLLOW",
+      "abbr": "fol"
+    },
+    {
+      "word": "FOLLOWING NAMED MARINE",
+      "abbr": "FNM"
+    },
+    {
+      "word": "FOR ACTION",
+      "abbr": "ForAc"
+    },
+    {
+      "word": "FOR FURTHER ASSIGNMENT",
+      "abbr": "FFA"
+    },
+    {
+      "word": "FOR FURTHER TRANSFER",
+      "abbr": "FFT"
+    },
+    {
+      "word": "FOR OFFICIAL USE ONLY",
+      "abbr": "FOUO"
+    },
+    {
+      "word": "FOR RECORD",
+      "abbr": "FOREC"
+    },
+    {
+      "word": "FORCE",
+      "abbr": "for"
+    },
+    {
+      "word": "FOREIGN AREA OFFICER",
+      "abbr": "FAO"
+    },
+    {
+      "word": "FOREIGN DUTY",
+      "abbr": "FORDU"
+    },
+    {
+      "word": "FOREIGN LANGUAGE PROFICIENCY PAY",
+      "abbr": "FLPP"
+    },
+    {
+      "word": "FOREIGN MILITARY SALES",
+      "abbr": "FMS"
+    },
+    {
+      "word": "FORFEIT",
+      "abbr": "forf"
+    },
+    {
+      "word": "FORMER MARINE",
+      "abbr": "FMar"
+    },
+    {
+      "word": "FORWARD",
+      "abbr": "fwd"
+    },
+    {
+      "word": "FORWARD AIR CONTROLLER",
+      "abbr": "FAC"
+    },
+    {
+      "word": "FORWARD AIR CONTROLLER (AIRBORNE)",
+      "abbr": "FAC(A)"
+    },
+    {
+      "word": "FORWARD ECHELON",
+      "abbr": "FwdEch"
+    },
+    {
+      "word": "FORWARD LOOKING INFRARED RADAR",
+      "abbr": "FLIR"
+    },
+    {
+      "word": "FORWARD OBSERVER",
+      "abbr": "FO"
+    },
+    {
+      "word": "FRAGMENTATION ORDER",
+      "abbr": "FRAGO"
+    },
+    {
+      "word": "FRAGMENTATION WOUND",
+      "abbr": "FragWd"
+    },
+    {
+      "word": "FRAUDULENT ENLISTMENT",
+      "abbr": "frdenl"
+    },
+    {
+      "word": "FREE FIRE AREA",
+      "abbr": "FFA"
+    },
+    {
+      "word": "FREQUENCY",
+      "abbr": "freq"
+    },
+    {
+      "word": "FREQUENCY MODULATION",
+      "abbr": "FM"
+    },
+    {
+      "word": "FROM",
+      "abbr": "fr"
+    },
+    {
+      "word": "FUNCTIONAL ACCOUNT NUMBER",
+      "abbr": "FAN"
+    },
+    {
+      "word": "FUNDAMENTAL",
+      "abbr": "fund"
+    },
+    {
+      "word": "FURNISH",
+      "abbr": "furn"
+    },
+    {
+      "word": "FURTHER ASSIGNMENT",
+      "abbr": "FURAS"
+    },
+    {
+      "word": "FUTURE MONITORED COMMAND CODE",
+      "abbr": "FMCC"
+    },
+    {
+      "word": "GCA/RATCC ELECTRONICS MAINTENANCE OFFICER",
+      "abbr": "GCAELMAO(O"
+    },
+    {
+      "word": "GENERAL (not military grade)",
+      "abbr": "gen"
+    },
+    {
+      "word": "GENERAL CLASSIFICATION TEST",
+      "abbr": "GCT"
+    },
+    {
+      "word": "GENERAL COURT-MARTIAL",
+      "abbr": "GCM"
+    },
+    {
+      "word": "GENERAL COURT-MARTIAL ORDER",
+      "abbr": "GCMO"
+    },
+    {
+      "word": "GENERAL COURT-MARTIAL PRISONER",
+      "abbr": "GCMP"
+    },
+    {
+      "word": "GENERAL DISCHARGE",
+      "abbr": "GenDis"
+    },
+    {
+      "word": "GENERAL EDUCATIONAL DEVELOPMENT TEST",
+      "abbr": "GEDT"
+    },
+    {
+      "word": "GENERAL MANAGER (CIVIL SERVICE EMPLOYEE)",
+      "abbr": "GM"
+    },
+    {
+      "word": "GENERAL MILITARY SUBJECTS TEST",
+      "abbr": "GMST"
+    },
+    {
+      "word": "GENERAL SCHEDULE (CIVIL SERVICE EMPLOYEE, NORMALLY FOLLOWED BY A NUMERAL GRADE)",
+      "abbr": "GS-"
+    },
+    {
+      "word": "GENERAL SUPPORT",
+      "abbr": "GS"
+    },
+    {
+      "word": "GENERAL TECHNICAL COMPOSITE",
+      "abbr": "GT"
+    },
+    {
+      "word": "GIGABYTE",
+      "abbr": "GB"
+    },
+    {
+      "word": "GLOBAL COMMAND CONTROL SYSTEM",
+      "abbr": "GCCS"
+    },
+    {
+      "word": "GOOD OF THE SERVICE",
+      "abbr": "GOS"
+    },
+    {
+      "word": "GOVERNMENT",
+      "abbr": "govt"
+    },
+    {
+      "word": "GOVERNMENT TRANSPORTATION REQUEST",
+      "abbr": "GTR"
+    },
+    {
+      "word": "GRADE",
+      "abbr": "gde"
+    },
+    {
+      "word": "GRADUATE",
+      "abbr": "grad"
+    },
+    {
+      "word": "GRADUATION",
+      "abbr": "grdn"
+    },
+    {
+      "word": "GRAVES REGISTRATION",
+      "abbr": "GrReg"
+    },
+    {
+      "word": "GRENADA VETERAN",
+      "abbr": "GVet"
+    },
+    {
+      "word": "GROUND",
+      "abbr": "gnd"
+    },
+    {
+      "word": "GROUND COMBAT ELEMENT",
+      "abbr": "GCE"
+    },
+    {
+      "word": "GROUND CONTROL APPROACH",
+      "abbr": "GCA"
+    },
+    {
+      "word": "GROUND SUPPORT EQUIPMENT",
+      "abbr": "GSE"
+    },
+    {
+      "word": "GUARD",
+      "abbr": "gd"
+    },
+    {
+      "word": "GUIDED MISSILE",
+      "abbr": "GM"
+    },
+    {
+      "word": "GUILTY",
+      "abbr": "G"
+    },
+    {
+      "word": "GUNNER",
+      "abbr": "gnr"
+    },
+    {
+      "word": "GUNSHOT WOUND",
+      "abbr": "GSW"
+    },
+    {
+      "word": "HANDLING",
+      "abbr": "hdlg"
+    },
+    {
+      "word": "HARD DISK",
+      "abbr": "HD"
+    },
+    {
+      "word": "HAZARDOUS DUTY INCENTIVE PAY",
+      "abbr": "HDIP"
+    },
+    {
+      "word": "HEADQUARTERS",
+      "abbr": "hq"
+    },
+    {
+      "word": "HEADQUARTERS ACCESSION MANAGEMENT SYSTEM",
+      "abbr": "HAMS"
+    },
+    {
+      "word": "HEADQUARTERS MASTER FILE",
+      "abbr": "HMF"
+    },
+    {
+      "word": "HEALTH RECORD(COMBINED MEDICAL AND DENTAL RECORDS)",
+      "abbr": "HR"
+    },
+    {
+      "word": "HEAVY",
+      "abbr": "hvy"
+    },
+    {
+      "word": "HEAVY ANTIARMOR WEAPON",
+      "abbr": "HAW"
+    },
+    {
+      "word": "HEAVY ARTILLERY",
+      "abbr": "HvyArty"
+    },
+    {
+      "word": "HEAVY ASSAULT ANTITANK WEAPON",
+      "abbr": "HAAW"
+    },
+    {
+      "word": "HEAVY MACHINEGUN",
+      "abbr": "HMG"
+    },
+    {
+      "word": "HELICOPTER",
+      "abbr": "hcptr"
+    },
+    {
+      "word": "HIGH EXPLOSIVE",
+      "abbr": "HE"
+    },
+    {
+      "word": "HIGH INTENSITY CONFLICT",
+      "abbr": "HIC"
+    },
+    {
+      "word": "HIGH MOBILITY MULTIPURPOSE WHEELED VEHICLE",
+      "abbr": "HMMWV"
+    },
+    {
+      "word": "HIGH SCHOOL",
+      "abbr": "HS"
+    },
+    {
+      "word": "HISTORY/HISTORICAL",
+      "abbr": "hist"
+    },
+    {
+      "word": "HOME ADDRESS",
+      "abbr": "HA"
+    },
+    {
+      "word": "HOME OF RECORD",
+      "abbr": "HOR"
+    },
+    {
+      "word": "HOME TRAINING CENTER",
+      "abbr": "HTC"
+    },
+    {
+      "word": "HONORABLE",
+      "abbr": "hon"
+    },
+    {
+      "word": "HONORABLE DISCHARGE",
+      "abbr": "HonDis"
+    },
+    {
+      "word": "HONORABLY RETIRED",
+      "abbr": "HonRetd"
+    },
+    {
+      "word": "HOSPITAL",
+      "abbr": "hosp"
+    },
+    {
+      "word": "HOSTILE",
+      "abbr": "hstl"
+    },
+    {
+      "word": "HOSTILE FIRE AREA",
+      "abbr": "HFA"
+    },
+    {
+      "word": "HOSTILE FIRE PAY",
+      "abbr": "HFP"
+    },
+    {
+      "word": "HOUSEHOLD EFFECTS",
+      "abbr": "HHE"
+    },
+    {
+      "word": "HOUSEHOLD GOODS",
+      "abbr": "HHG"
+    },
+    {
+      "word": "HOWITZER",
+      "abbr": "How"
+    },
+    {
+      "word": "HUMANITARIAN REASONS",
+      "abbr": "HUMS"
+    },
+    {
+      "word": "HUSBAND",
+      "abbr": "H"
+    },
+    {
+      "word": "IDENTIFICATION",
+      "abbr": "ID"
+    },
+    {
+      "word": "ILLUMINATION",
+      "abbr": "ILLUM"
+    },
+    {
+      "word": "IMMEDIATE",
+      "abbr": "immed"
+    },
+    {
+      "word": "IN ACCORDANCE WITH",
+      "abbr": "IAW"
+    },
+    {
+      "word": "IN HANDS OF CIVIL AUTHORITIES",
+      "abbr": "IHCA"
+    },
+    {
+      "word": "IN HANDS OF FOREIGN AUTHORITIES",
+      "abbr": "IHFA"
+    },
+    {
+      "word": "IN PROGRESS PAYMENT",
+      "abbr": "IPP"
+    },
+    {
+      "word": "IN THE CASE OF",
+      "abbr": "ICO"
+    },
+    {
+      "word": "INACTIVE",
+      "abbr": "inact"
+    },
+    {
+      "word": "INACTIVE DUTY TRAINING",
+      "abbr": "IDT"
+    },
+    {
+      "word": "INACTIVE STATUS LIST",
+      "abbr": "ISL"
+    },
+    {
+      "word": "INCAPACITATED",
+      "abbr": "INCAP"
+    },
+    {
+      "word": "INCLUDE-INCLUDING-INCLUSIVE",
+      "abbr": "incl"
+    },
+    {
+      "word": "INCOMPETENCE-INCOMPETENT",
+      "abbr": "incomp"
+    },
+    {
+      "word": "INCONSISTENT CONDITIONS REPORT",
+      "abbr": "ICR"
+    },
+    {
+      "word": "INCREMENTAL INITIAL ACTIVE DUTY FOR TRAINING",
+      "abbr": "IIADT"
+    },
+    {
+      "word": "INDEBTED",
+      "abbr": "indebt"
+    },
+    {
+      "word": "INDEFINITE",
+      "abbr": "indef"
+    },
+    {
+      "word": "INDEPENDENT",
+      "abbr": "indep"
+    },
+    {
+      "word": "INDEPENDENT DUTY ADMINISTRATION COURSE",
+      "abbr": "IDAC"
+    },
+    {
+      "word": "INDICATE - INDICATING",
+      "abbr": "indc"
+    },
+    {
+      "word": "INDIVIDUAL",
+      "abbr": "indiv"
+    },
+    {
+      "word": "INDIVIDUAL COMBAT TRAINING",
+      "abbr": "ICT"
+    },
+    {
+      "word": "INDIVIDUAL MILITARY COUNSEL",
+      "abbr": "IMC"
+    },
+    {
+      "word": "INDIVIDUAL MOBILIZATION AUGMENTEE",
+      "abbr": "IMA"
+    },
+    {
+      "word": "INDIVIDUAL READY RESERVE",
+      "abbr": "IRR"
+    },
+    {
+      "word": "INDIVIDUAL TRAINING STANDARDS",
+      "abbr": "ITS"
+    },
+    {
+      "word": "INDIVIDUAL TRAINING STANDARDS SYSTEM",
+      "abbr": "ITSS"
+    },
+    {
+      "word": "INDUCTION",
+      "abbr": "ind"
+    },
+    {
+      "word": "INERTIAL NAVIGATION SYSTEM",
+      "abbr": "INS"
+    },
+    {
+      "word": "INFANTRY",
+      "abbr": "inf"
+    },
+    {
+      "word": "INFANTRY OFFICER COURSE",
+      "abbr": "IOC"
+    },
+    {
+      "word": "INFLAMMABLE",
+      "abbr": "Infl"
+    },
+    {
+      "word": "INFORMATION",
+      "abbr": "info"
+    },
+    {
+      "word": "INFORMATION CONTROL CENTER; INFORMATION COORDINATION CENTER",
+      "abbr": "ICC"
+    },
+    {
+      "word": "INFORMATION SERVICE OFFICER",
+      "abbr": "ISO"
+    },
+    {
+      "word": "INFORMATION SERVICES MANAGEMENT REPRESENTATIVE",
+      "abbr": "ISMR"
+    },
+    {
+      "word": "INFORMATION SYSTEMS",
+      "abbr": "IS"
+    },
+    {
+      "word": "INFORMATION SYSTEMS MANAGEMENT OFFICER",
+      "abbr": "ISMO"
+    },
+    {
+      "word": "INITIAL",
+      "abbr": "init"
+    },
+    {
+      "word": "INITIAL ACTIVE DUTY FOR TRAINING",
+      "abbr": "IADT"
+    },
+    {
+      "word": "INITIAL CIVILIAN CASH CLOTHING ALLOWANCE",
+      "abbr": "ICCCA"
+    },
+    {
+      "word": "INITIAL CLOTHING MONETARY ALLOWANCE",
+      "abbr": "ICMA"
+    },
+    {
+      "word": "INITIAL SKILLS TRAINING",
+      "abbr": "IST"
+    },
+    {
+      "word": "INJURIES OR ILLNESSES FROM OTHER CAUSES",
+      "abbr": "IOC"
+    },
+    {
+      "word": "INJURIES OR ILLNESSES SELF-INFLICTED (INTENTIONALLY)",
+      "abbr": "ISI"
+    },
+    {
+      "word": "INPUT/OUTPUT",
+      "abbr": "I/O"
+    },
+    {
+      "word": "INSPECTOR GENERAL",
+      "abbr": "IG"
+    },
+    {
+      "word": "INSPECTOR GENERAL OF THE MARINE CORPS",
+      "abbr": "IGMC"
+    },
+    {
+      "word": "INSPECTOR GENERAL'S UNIT INSPECTION PROGRAM",
+      "abbr": "IGUIP"
+    },
+    {
+      "word": "INSPECTOR-INSTRUCTOR",
+      "abbr": "I-I"
+    },
+    {
+      "word": "INSTRUCTION",
+      "abbr": "instn"
+    },
+    {
+      "word": "INSTRUCTOR",
+      "abbr": "instr"
+    },
+    {
+      "word": "INTEGRATED COMMUNICATION COLLECTION SYSTEM",
+      "abbr": "ICCS"
+    },
+    {
+      "word": "INTEGRATED LOGISTIC SUPPORT PLAN",
+      "abbr": "ILSP"
+    },
+    {
+      "word": "INTEGRATED SIGNALS INTELLIGENCE SYSTEM",
+      "abbr": "ISIS"
+    },
+    {
+      "word": "INTEGRATED TACTICAL AIR CONTROL SYSTEM",
+      "abbr": "ITACS"
+    },
+    {
+      "word": "INTELLIGENCE",
+      "abbr": "intel"
+    },
+    {
+      "word": "INTELLIGENCE SUMMARY",
+      "abbr": "INTSUM"
+    },
+    {
+      "word": "INTENDED MILITARY OCCUPATIONAL SPECIALTY",
+      "abbr": "IMOS"
+    },
+    {
+      "word": "INTERIM HOUSING ALLOWANCE",
+      "abbr": "IHA"
+    },
+    {
+      "word": "INTERMEDIATE COMMAND",
+      "abbr": "IC"
+    },
+    {
+      "word": "INTERMEDIATE MONITORED COMMAND CODE",
+      "abbr": "IMCC"
+    },
+    {
+      "word": "INTERNED",
+      "abbr": "ITD"
+    },
+    {
+      "word": "INTERPRETER",
+      "abbr": "intpr"
+    },
+    {
+      "word": "INVESTIGATE",
+      "abbr": "inves"
+    },
+    {
+      "word": "INVESTIGATING OFFICER",
+      "abbr": "IO"
+    },
+    {
+      "word": "INVOLUNTARY",
+      "abbr": "invol"
+    },
+    {
+      "word": "INVOLVE - INVOLVING",
+      "abbr": "inv"
+    },
+    {
+      "word": "ISSUE",
+      "abbr": "iss"
+    },
+    {
+      "word": "ITINERANT RECRUITING DUTY",
+      "abbr": "IRD"
+    },
+    {
+      "word": "JOINED",
+      "abbr": "jd"
+    },
+    {
+      "word": "JOINED ASSIGNED",
+      "abbr": "jdasg"
+    },
+    {
+      "word": "JOINED BY ENLISTMENT",
+      "abbr": "jdenl"
+    },
+    {
+      "word": "JOINED BY INDUCTION",
+      "abbr": "jdind"
+    },
+    {
+      "word": "JOINED BY REENLISTMENT",
+      "abbr": "jdreenl"
+    },
+    {
+      "word": "JOINED FROM",
+      "abbr": "jdfr"
+    },
+    {
+      "word": "JOINT ARMY, NAVY, AIR FORCE PUBLICATION",
+      "abbr": "JANAP"
+    },
+    {
+      "word": "JOINT CHIEF OF STAFF PUBLICATION",
+      "abbr": "JCS pub"
+    },
+    {
+      "word": "JOINT CHIEFS OF STAFF MEMORANDUM OF POLICY",
+      "abbr": "JCSMOP"
+    },
+    {
+      "word": "JOINT DEPLOYMENT SYSTEM",
+      "abbr": "JDS"
+    },
+    {
+      "word": "JOINT FEDERAL TRAVEL REGULATIONS",
+      "abbr": "JFTR"
+    },
+    {
+      "word": "JOINT HOUSEHOLD",
+      "abbr": "JHH"
+    },
+    {
+      "word": "JOINT INTEROPERABILITY OF TACTICAL COMMAND CONTROL SYSTEM",
+      "abbr": "JITCCS"
+    },
+    {
+      "word": "JOINT OPERATION PLANNING AND EXECUTION SYSTEM",
+      "abbr": "JOPES"
+    },
+    {
+      "word": "JOINT OPERATION PLANNING SYSTEM",
+      "abbr": "JOPS"
+    },
+    {
+      "word": "JOINT OPERATIONAL REPORTING SYSTEM",
+      "abbr": "JOREP"
+    },
+    {
+      "word": "JOINT PERSONNEL ASSET VISIBILITY",
+      "abbr": "JPAV"
+    },
+    {
+      "word": "JOINT PUBLICATION",
+      "abbr": "JP"
+    },
+    {
+      "word": "JOINT STRATEGIC PLANNING SYSTEM",
+      "abbr": "JSPS"
+    },
+    {
+      "word": "JOINT TACTICAL INFORMATION DISTRIBUTION SYSTEM",
+      "abbr": "JTIDS"
+    },
+    {
+      "word": "JUDGE ADVOCATE GENERAL",
+      "abbr": "JAG"
+    },
+    {
+      "word": "JUDGE ADVOCATE GENERAL INSTRUCTION",
+      "abbr": "JAGINST"
+    },
+    {
+      "word": "JUNIOR",
+      "abbr": "Jr"
+    },
+    {
+      "word": "JURISDICTION COMMAND",
+      "abbr": "JURIS"
+    },
+    {
+      "word": "JUSTIFY - JUSTIFICATION",
+      "abbr": "just"
+    },
+    {
+      "word": "KEY TERRAIN, OBSERVATION, COVER AND CONCEALMENT, OBSTACLES, AND AVENUES OF APPROACH",
+      "abbr": "KOCOA"
+    },
+    {
+      "word": "KILLED IN ACTION",
+      "abbr": "KIA"
+    },
+    {
+      "word": "KILLING ZONE",
+      "abbr": "KZ"
+    },
+    {
+      "word": "KILOBYTE",
+      "abbr": "KB"
+    },
+    {
+      "word": "KOREAN WAR VETERAN",
+      "abbr": "KVet"
+    },
+    {
+      "word": "LANDING",
+      "abbr": "lndg"
+    },
+    {
+      "word": "LANDING CRAFT, AIR CUSHIONED",
+      "abbr": "LCAL"
+    },
+    {
+      "word": "LANDING EXERCISE",
+      "abbr": "LEX"
+    },
+    {
+      "word": "LANDING FORCE MANUAL",
+      "abbr": "LFM"
+    },
+    {
+      "word": "LANDING SIGNAL OFFICER",
+      "abbr": "LSO"
+    },
+    {
+      "word": "LANDING ZONE",
+      "abbr": "LZ"
+    },
+    {
+      "word": "LANGUAGE",
+      "abbr": "lang"
+    },
+    {
+      "word": "LANGUAGE PROFICIENCY TEST",
+      "abbr": "LPT"
+    },
+    {
+      "word": "LASER GUIDED WEAPON",
+      "abbr": "LGW"
+    },
+    {
+      "word": "LEADER",
+      "abbr": "ldr"
+    },
+    {
+      "word": "LEAVE",
+      "abbr": "lv"
+    },
+    {
+      "word": "LEAVE AND EARNINGS STATEMENT",
+      "abbr": "LES"
+    },
+    {
+      "word": "LEGAL",
+      "abbr": "leg"
+    },
+    {
+      "word": "LEGAL SERVICES SPECIALIST COURSE",
+      "abbr": "LSSC"
+    },
+    {
+      "word": "LEGISLATIVE AFFAIRS",
+      "abbr": "LA"
+    },
+    {
+      "word": "LETTER",
+      "abbr": "ltr"
+    },
+    {
+      "word": "LETTER OF INSTRUCTION",
+      "abbr": "LOI"
+    },
+    {
+      "word": "LIAISON",
+      "abbr": "ln"
+    },
+    {
+      "word": "LIAISON OFFICER",
+      "abbr": "LNO"
+    },
+    {
+      "word": "LIGHT ANTIAIRCRAFT",
+      "abbr": "LAA"
+    },
+    {
+      "word": "LIGHT ARMORED VEHICLE",
+      "abbr": "LAV"
+    },
+    {
+      "word": "LIGHT ARMORED VEHICLE TEST DIRECTORATE",
+      "abbr": "LAVTD"
+    },
+    {
+      "word": "LIGHT ARMORED VEHICLE-ANTITANK",
+      "abbr": "LAV-AT"
+    },
+    {
+      "word": "LIGHT ARTILLERY",
+      "abbr": "LARTY"
+    },
+    {
+      "word": "LIGHT ASSAULT",
+      "abbr": "LA"
+    },
+    {
+      "word": "LIGHT ASSAULT WEAPON",
+      "abbr": "LAW"
+    },
+    {
+      "word": "LIMITED DUTY",
+      "abbr": "LIMDU"
+    },
+    {
+      "word": "LIMITED DUTY OFFICER",
+      "abbr": "LDO"
+    },
+    {
+      "word": "LOCAL AREA NETWORK",
+      "abbr": "LAN"
+    },
+    {
+      "word": "LOCATION",
+      "abbr": "loc"
+    },
+    {
+      "word": "LOCATION TOUR DATE",
+      "abbr": "LTD"
+    },
+    {
+      "word": "LOGISTIC",
+      "abbr": "log"
+    },
+    {
+      "word": "LOGISTICS VEHICLE SYSTEM",
+      "abbr": "LVS"
+    },
+    {
+      "word": "LONG-RANGE ENLISTED STAFFING GOAL MODEL",
+      "abbr": "LRESGM"
+    },
+    {
+      "word": "LONG-RANGE PATROL",
+      "abbr": "LRP"
+    },
+    {
+      "word": "LOSE PAY - LOSS OF PAY",
+      "abbr": "LP"
+    },
+    {
+      "word": "LOW INTENSITY CONFLICT",
+      "abbr": "LIC"
+    },
+    {
+      "word": "LUMP SUM LEAVE",
+      "abbr": "LSL"
+    },
+    {
+      "word": "MACHINE GUN",
+      "abbr": "MG"
+    },
+    {
+      "word": "MAINTENANCE",
+      "abbr": "maint"
+    },
+    {
+      "word": "MAJOR SUBORDINATE COMMANDERS",
+      "abbr": "MSC"
+    },
+    {
+      "word": "MAN-PORTABLE AIR DEFENSE MISSILE SYSTEM",
+      "abbr": "STINGER"
+    },
+    {
+      "word": "MANAGED ON-THE-JOB TRAINING",
+      "abbr": "MOJT"
+    },
+    {
+      "word": "MANAGEMENT",
+      "abbr": "mgt"
+    },
+    {
+      "word": "MANAGEMENT DATA LIST",
+      "abbr": "ML"
+    },
+    {
+      "word": "MANAGEMENT DATA LIST-CONSOLIDATED",
+      "abbr": "ML-C"
+    },
+    {
+      "word": "MANAGEMENT OF PERSONNEL RECORDS",
+      "abbr": "MAPER"
+    },
+    {
+      "word": "MANAGER",
+      "abbr": "mgr"
+    },
+    {
+      "word": "MANDATORY",
+      "abbr": "mand"
+    },
+    {
+      "word": "MANEUVER",
+      "abbr": "Mane"
+    },
+    {
+      "word": "MANPOWER",
+      "abbr": "mpr"
+    },
+    {
+      "word": "MANPOWER AUTHORIZATION",
+      "abbr": "MPA"
+    },
+    {
+      "word": "MANPOWER INFORMATION SYSTEMS SUPPORT ACTIVITY",
+      "abbr": "MISSA"
+    },
+    {
+      "word": "MANPOWER REQUIREMENTS DETERMINATION PROGRAM",
+      "abbr": "MRDP"
+    },
+    {
+      "word": "MANPOWER TRANSITION SYSTEM",
+      "abbr": "MTS"
+    },
+    {
+      "word": "MANUAL FOR COURTS-MARTIAL, UNITED STATES 1995.......... MCM,1995 MANUAL OF THE JUDGE ADVOCATE GENERAL",
+      "abbr": "JAGMAN"
+    },
+    {
+      "word": "MANUAL OF THE MEDICAL DEPARTMENT",
+      "abbr": "MANMED"
+    },
+    {
+      "word": "MAP EXERCISE",
+      "abbr": "MAPEX"
+    },
+    {
+      "word": "MARGINAL TERRAIN VEHICLE",
+      "abbr": "MTV"
+    },
+    {
+      "word": "MARINE",
+      "abbr": "Mar",
+      "compoundOnly": true
+    },
+    {
+      "word": "MARINE AIR-GROUND INTELLIGENCE SYSTEM",
+      "abbr": "MAGIS"
+    },
+    {
+      "word": "MARINE AVIATION CADET",
+      "abbr": "MARCAD"
+    },
+    {
+      "word": "MARINE AVIATION COMMAND AND CONTROL SYSTEM",
+      "abbr": "MACCS"
+    },
+    {
+      "word": "MARINE AVIATION OPERATIONS CLERICAL",
+      "abbr": "MARAOC(C)"
+    },
+    {
+      "word": "MARINE AVIATION SUPPLY",
+      "abbr": "MARAK(C)"
+    },
+    {
+      "word": "MARINE BATTLE SKILLS TRAINING",
+      "abbr": "MBST"
+    },
+    {
+      "word": "MARINE COMBAT TRAINING",
+      "abbr": "MCT"
+    },
+    {
+      "word": "MARINE CORPS ADMINISTRATIVE PROCEDURES",
+      "abbr": "MCAP"
+    },
+    {
+      "word": "MARINE CORPS ASSOCIATE DEGREE COMPLETION PROGRAM",
+      "abbr": "MADCOP"
+    },
+    {
+      "word": "MARINE CORPS AUTOMATED INSTRUCTIONAL MANAGEMENT SYSTEM",
+      "abbr": "MCAIMS"
+    },
+    {
+      "word": "MARINE CORPS AUTOMATED TEST EQUIPMENT SYSTEM",
+      "abbr": "MCATES"
+    },
+    {
+      "word": "MARINE CORPS BULLETIN",
+      "abbr": "MCBUL"
+    },
+    {
+      "word": "MARINE CORPS COMBAT READINESS EVALUATION SYSTEM",
+      "abbr": "MCCRES"
+    },
+    {
+      "word": "MARINE CORPS COMMERCIAL ACCOUNTS PROCESSING SYSTEM . MCCAPS MARINE CORPS DATA NETWORK",
+      "abbr": "MCDN"
+    },
+    {
+      "word": "MARINE CORPS ELEMENT",
+      "abbr": "MARCORELEM"
+    },
+    {
+      "word": "MARINE CORPS ENLISTED COMMISSIONING EDUCATION PROGRAM",
+      "abbr": "MECEP"
+    },
+    {
+      "word": "MARINE CORPS EQUIPMENT BOARD",
+      "abbr": "MCEB"
+    },
+    {
+      "word": "MARINE CORPS EXCHANGE",
+      "abbr": "MCX"
+    },
+    {
+      "word": "MARINE CORPS EXPENDITURE REIMBURSEMENT REPORTING SYSTEM",
+      "abbr": "MCERRS"
+    },
+    {
+      "word": "MARINE CORPS INDIVIDUAL RECORDS ADMINISTRATION MANUAL",
+      "abbr": "IRAM"
+    },
+    {
+      "word": "MARINE CORPS INTEGRATED MAINTENANCE MANAGEMENT SYSTEM",
+      "abbr": "MIMMS"
+    },
+    {
+      "word": "MARINE CORPS JUNIOR RESERVE OFFICER TRAINING CORPS . MCJROTC MARINE CORPS MANUAL",
+      "abbr": "MARCORMAN"
+    },
+    {
+      "word": "MARINE CORPS MANUAL FOR LEGAL ADMINISTRATION",
+      "abbr": "LEGADMINMAN"
+    },
+    {
+      "word": "MARINE CORPS MOBILIZATION PROCESSING SYSTEM",
+      "abbr": "MCMPS"
+    },
+    {
+      "word": "MARINE CORPS ORDER",
+      "abbr": "MCO"
+    },
+    {
+      "word": "MARINE CORPS PROMOTION MANUAL",
+      "abbr": "MARCORPROMAN"
+    },
+    {
+      "word": "MARINE CORPS PROMOTION SYSTEM",
+      "abbr": "MCPS"
+    },
+    {
+      "word": "MARINE CORPS RECRUIT AND RECRUIT TRAINING COMMAND",
+      "abbr": "MCR-RTC"
+    },
+    {
+      "word": "MARINE CORPS RESERVE ADMINISTRATIVE MANAGEMENT MANUAL",
+      "abbr": "MCRAMM"
+    },
+    {
+      "word": "MARINE CORPS SEPARATION AND RETIREMENT MANUAL",
+      "abbr": "MARCORSEPMAN"
+    },
+    {
+      "word": "MARINE CORPS SPECIAL ORDERS",
+      "abbr": "MCSO"
+    },
+    {
+      "word": "MARINE CORPS TACTICAL DATA SYSTEM",
+      "abbr": "MTDS"
+    },
+    {
+      "word": "MARINE CORPS TECHNICAL BULLETIN",
+      "abbr": "MCTB"
+    },
+    {
+      "word": "MARINE CORPS TOTAL FORCE SYSTEM",
+      "abbr": "MCTFS"
+    },
+    {
+      "word": "MARINE CORPS TOTAL FORCE SYSTEM CODES MANUAL",
+      "abbr": "MCTFSCODESMAN"
+    },
+    {
+      "word": "MARINE CORPS TOTAL FORCE SYSTEM PERSONNEL REPORTING INSTRUCTIONS MANUAL",
+      "abbr": "MCTFSPRIM"
+    },
+    {
+      "word": "MARINE CORPS TRAVEL ADVANCE AND SETTLEMENT SYSTEM",
+      "abbr": "MCTASS"
+    },
+    {
+      "word": "MARINE CORPS TRAVEL INSTRUCTIONS MANUAL",
+      "abbr": "MCTIM"
+    },
+    {
+      "word": "MARINE CORPS UNIFORM REGULATIONS",
+      "abbr": "MCUR"
+    },
+    {
+      "word": "MARINE CORPS USER'S MANUAL",
+      "abbr": "MC/UM"
+    },
+    {
+      "word": "MARINE GARRISON FORCE",
+      "abbr": "MGF"
+    },
+    {
+      "word": "MARINE INTEGRATED FIRE AND AIR SUPPORT SYSTEM",
+      "abbr": "MIFASS"
+    },
+    {
+      "word": "MARINE INTEGRATED LOGISTICS SYSTEM",
+      "abbr": "MILOGS"
+    },
+    {
+      "word": "MARINE LEADER TRAINING",
+      "abbr": "MLT"
+    },
+    {
+      "word": "MARINE REPORTED ON",
+      "abbr": "MRO"
+    },
+    {
+      "word": "MARITIME PREPOSITIONING FORCE",
+      "abbr": "MPF"
+    },
+    {
+      "word": "MARK",
+      "abbr": "mk"
+    },
+    {
+      "word": "MARKSMANSHIP",
+      "abbr": "mkship"
+    },
+    {
+      "word": "MASTER BRIEF SHEET",
+      "abbr": "MBS"
+    },
+    {
+      "word": "MASTER ELECTRONIC SIGNATURE",
+      "abbr": "M-ELSIG"
+    },
+    {
+      "word": "MASTER ERROR CONTROL FILE",
+      "abbr": "MECF"
+    },
+    {
+      "word": "MASTER MILITARY PAY ACCOUNT",
+      "abbr": "MMPA"
+    },
+    {
+      "word": "MATERIAL",
+      "abbr": "mat"
+    },
+    {
+      "word": "MATERIAL ALLOWANCE LIST",
+      "abbr": "MAL"
+    },
+    {
+      "word": "MATERIAL HANDLING EQUIPMENT",
+      "abbr": "MHE"
+    },
+    {
+      "word": "MAXIMUM",
+      "abbr": "max"
+    },
+    {
+      "word": "MECHANIC - MECHANICAL",
+      "abbr": "mech"
+    },
+    {
+      "word": "MECHANICAL APTITUDE TEST",
+      "abbr": "MAT"
+    },
+    {
+      "word": "MECHANICAL MAINTENANCE COMPOSITE SCORE",
+      "abbr": "MM"
+    },
+    {
+      "word": "MEDICAL",
+      "abbr": "Med"
+    },
+    {
+      "word": "MEDICAL BOARD",
+      "abbr": "MedBd"
+    },
+    {
+      "word": "MEDICAL EMERGENCY EVACUATION",
+      "abbr": "MEDEVAC"
+    },
+    {
+      "word": "MEDICAL OFFICER",
+      "abbr": "MO"
+    },
+    {
+      "word": "MEDICAL TREATMENT FACILITY",
+      "abbr": "MTF"
+    },
+    {
+      "word": "MEDIUM ARTILLERY",
+      "abbr": "MARTY"
+    },
+    {
+      "word": "MEGABYTE",
+      "abbr": "MB"
+    },
+    {
+      "word": "MEMBER",
+      "abbr": "mbr"
+    },
+    {
+      "word": "MEMBER OF A COMBAT UNIT ENTITLED TO COMBAT PAY",
+      "abbr": "MBRCU"
+    },
+    {
+      "word": "MEMORANDUM",
+      "abbr": "memo"
+    },
+    {
+      "word": "MEMORANDUM FOR THE RECORD",
+      "abbr": "MFR"
+    },
+    {
+      "word": "MEMORANDUM OF AGREEMENT",
+      "abbr": "MOA"
+    },
+    {
+      "word": "MEMORANDUM OF POLICY",
+      "abbr": "MOP"
+    },
+    {
+      "word": "MEMORANDUM OF UNDERSTANDING",
+      "abbr": "MOU"
+    },
+    {
+      "word": "MERITORIOUS",
+      "abbr": "merit"
+    },
+    {
+      "word": "MESSAGE",
+      "abbr": "msg"
+    },
+    {
+      "word": "MESSAGE CENTER",
+      "abbr": "Msgcen"
+    },
+    {
+      "word": "MESSENGER",
+      "abbr": "msgr"
+    },
+    {
+      "word": "MESSMAN - MESSMEN",
+      "abbr": "msm"
+    },
+    {
+      "word": "MID-INTENSITY CONFLICT",
+      "abbr": "MIC"
+    },
+    {
+      "word": "MID-RANGE INFORMATION SYSTEMS PLAN",
+      "abbr": "MRISP"
+    },
+    {
+      "word": "MILITARY",
+      "abbr": "mil"
+    },
+    {
+      "word": "MILITARY AFFILIATE RADIO SYSTEM",
+      "abbr": "MARS"
+    },
+    {
+      "word": "MILITARY CONSTRUCTION",
+      "abbr": "MILCON"
+    },
+    {
+      "word": "MILITARY OCCUPATIONAL SPECIALTY",
+      "abbr": "MOS"
+    },
+    {
+      "word": "MILITARY OPERATIONS",
+      "abbr": "MILOPS"
+    },
+    {
+      "word": "MILITARY PERSONNEL",
+      "abbr": "MILPERS"
+    },
+    {
+      "word": "MILITARY POLICE",
+      "abbr": "MP"
+    },
+    {
+      "word": "MILITARY SERVICE NUMBER",
+      "abbr": "MSN"
+    },
+    {
+      "word": "MILITARY SERVICE OBLIGATION",
+      "abbr": "MSO"
+    },
+    {
+      "word": "MILITARY STATUS",
+      "abbr": "MILSTATS"
+    },
+    {
+      "word": "MINIMUM",
+      "abbr": "MIN"
+    },
+    {
+      "word": "MINUTE",
+      "abbr": "min"
+    },
+    {
+      "word": "MISCELLANEOUS",
+      "abbr": "misc"
+    },
+    {
+      "word": "MISCONDUCT",
+      "abbr": "miscon"
+    },
+    {
+      "word": "MISSING",
+      "abbr": "mis"
+    },
+    {
+      "word": "MISSING IN ACTION",
+      "abbr": "MIA"
+    },
+    {
+      "word": "MISSING MOVEMENT",
+      "abbr": "MisMov"
+    },
+    {
+      "word": "MISSION ORIENTED PROTECTIVE POSTURE",
+      "abbr": "MOPP"
+    },
+    {
+      "word": "MISSION PERFORMANCE STANDARD",
+      "abbr": "MPS"
+    },
+    {
+      "word": "MISSION TRAINING PLAN",
+      "abbr": "MTP"
+    },
+    {
+      "word": "MITIGATE",
+      "abbr": "mit"
+    },
+    {
+      "word": "MOBILE ELECTRONIC WARFARE SUPPORT SYSTEM",
+      "abbr": "MWSS"
+    },
+    {
+      "word": "MOBILIZATION DESIGNEE",
+      "abbr": "MOBDES"
+    },
+    {
+      "word": "MOBILIZATION MANAGEMENT PLAN",
+      "abbr": "M-Plan"
+    },
+    {
+      "word": "MOBILIZATION MONITORED COMMAND CODE",
+      "abbr": "MOBMCC"
+    },
+    {
+      "word": "MOBILIZATION OPERATIONAL READINESS DEPLOYMENT TEST",
+      "abbr": "MORDT"
+    },
+    {
+      "word": "MOBILIZATION PROCESSING CENTER",
+      "abbr": "MPC"
+    },
+    {
+      "word": "MOBILIZATION RESERVE TRAINING CENTER",
+      "abbr": "MRTC"
+    },
+    {
+      "word": "MOBILIZE - MOBILIZATION",
+      "abbr": "mob"
+    },
+    {
+      "word": "MODEL INSTALLATION PROGRAM",
+      "abbr": "MIP"
+    },
+    {
+      "word": "MODIFY - MODIFIED - MODIFICATION",
+      "abbr": "mod"
+    },
+    {
+      "word": "MONETARY ALLOWANCE IN LIEU OF QUARTERS",
+      "abbr": "MAQ"
+    },
+    {
+      "word": "MONITORED COMMAND CODE",
+      "abbr": "MCC"
+    },
+    {
+      "word": "MONTGOMERY GI BILL",
+      "abbr": "MGIB"
+    },
+    {
+      "word": "MONTGOMERY GI BILL-RESERVE",
+      "abbr": "MGIB-R"
+    },
+    {
+      "word": "MONTH",
+      "abbr": "mo"
+    },
+    {
+      "word": "MONTHLY MONETARY LIMITATION",
+      "abbr": "MonLmt"
+    },
+    {
+      "word": "MONTHS",
+      "abbr": "mos"
+    },
+    {
+      "word": "MORTAR",
+      "abbr": "mort"
+    },
+    {
+      "word": "MOST EFFICIENT ORGANIZATION",
+      "abbr": "MEO"
+    },
+    {
+      "word": "MOTHER",
+      "abbr": "M"
+    },
+    {
+      "word": "MOTOR TRANSPORT",
+      "abbr": "MT"
+    },
+    {
+      "word": "MULTICHANNEL",
+      "abbr": "MUX"
+    },
+    {
+      "word": "MULTIPLE",
+      "abbr": "mult"
+    },
+    {
+      "word": "MULTIPLE INTEGRATED LASER ENGAGEMENT SYSTEM",
+      "abbr": "MILES"
+    },
+    {
+      "word": "MULTIPURPOSE ASSAULT WEAPON",
+      "abbr": "MAW"
+    },
+    {
+      "word": "NAME, GRADE, AND SOCIAL SECURITY NUMBER",
+      "abbr": "NAGRASSN"
+    },
+    {
+      "word": "NATIONAL",
+      "abbr": "Natl"
+    },
+    {
+      "word": "NATIONAL AGENCY CHECK",
+      "abbr": "NAC"
+    },
+    {
+      "word": "NATIONAL SERVICE LIFE INSURANCE",
+      "abbr": "NSLI"
+    },
+    {
+      "word": "NATIONAL STOCK NUMBER",
+      "abbr": "NSN"
+    },
+    {
+      "word": "NAVAL - NAVY",
+      "abbr": "Nav"
+    },
+    {
+      "word": "NAVAL AIR TRAINING AND OPERATING PROCEDURES STANDARDIZATION PROGRAM",
+      "abbr": "NATOPS"
+    },
+    {
+      "word": "NAVAL AVIATION CADET",
+      "abbr": "NAVCAD"
+    },
+    {
+      "word": "NAVAL AVIATION OBSERVER",
+      "abbr": "NAO"
+    },
+    {
+      "word": "NAVAL AVIATION OBSERVER - AEROLOGY",
+      "abbr": "NAOA"
+    },
+    {
+      "word": "NAVAL AVIATION OBSERVER - NAVIGATION",
+      "abbr": "NAON"
+    },
+    {
+      "word": "NAVAL AVIATION OBSERVER - RADAR",
+      "abbr": "NAOR"
+    },
+    {
+      "word": "NAVAL AVIATION OBSERVER - TACTICAL",
+      "abbr": "NAOT"
+    },
+    {
+      "word": "NAVAL AVIATOR - OFFICER",
+      "abbr": "NA"
+    },
+    {
+      "word": "NAVAL CRIMINAL INVESTIGATIVE SERVICE",
+      "abbr": "NCIS"
+    },
+    {
+      "word": "NAVAL FLIGHT OFFICER",
+      "abbr": "NFO"
+    },
+    {
+      "word": "NAVAL GUNFIRE",
+      "abbr": "NGF"
+    },
+    {
+      "word": "NAVAL GUNFIRE LIAISON OFFICER",
+      "abbr": "NGFLO"
+    },
+    {
+      "word": "NAVAL WARFARE PUBLICATION",
+      "abbr": "NWP"
+    },
+    {
+      "word": "NAVY AND MARINE CORPS APPELLATE LEAVE ACTIVITY",
+      "abbr": "NAMALA"
+    },
+    {
+      "word": "NAVY AND MARINE CORPS COURT OF CRIMINAL APPEALS",
+      "abbr": "NMCCA"
+    },
+    {
+      "word": "NAVY DEPARTMENT GENERAL ORDER",
+      "abbr": "NDGO"
+    },
+    {
+      "word": "NAVY ENLISTED SCIENTIFIC EDUCATION PROGRAM",
+      "abbr": "NESEP"
+    },
+    {
+      "word": "NAVY MILITARY PERSONNEL COMMAND INSTRUCTION",
+      "abbr": "NAVMILPERSCOMINST"
+    },
+    {
+      "word": "NAVY REGULATIONS",
+      "abbr": "NavRegs"
+    },
+    {
+      "word": "NAVY TRAVEL INSTRUCTIONS",
+      "abbr": "NTI"
+    },
+    {
+      "word": "NECESSARY",
+      "abbr": "nec"
+    },
+    {
+      "word": "NEGATIVE",
+      "abbr": "neg"
+    },
+    {
+      "word": "NETWORK",
+      "abbr": "NET"
+    },
+    {
+      "word": "NEXT INFERIOR RANK",
+      "abbr": "NIR"
+    },
+    {
+      "word": "NO ACTION REQUIRED",
+      "abbr": "NAR"
+    },
+    {
+      "word": "NO FURTHER SERVICE",
+      "abbr": "NFS"
+    },
+    {
+      "word": "NO TIME LOST",
+      "abbr": "NTL"
+    },
+    {
+      "word": "NO TRAVEL INVOLVED",
+      "abbr": "NTvlI"
+    },
+    {
+      "word": "NOMINATE",
+      "abbr": "nom"
+    },
+    {
+      "word": "NONAPPROPRIATED FUND",
+      "abbr": "NAF"
+    },
+    {
+      "word": "NONBATTLE CASUALTY",
+      "abbr": "NonBC"
+    },
+    {
+      "word": "NONCOMMISSIONED OFFICER",
+      "abbr": "NCO"
+    },
+    {
+      "word": "NONCOMMISSIONED OFFICER IN CHARGE",
+      "abbr": "NCOIC"
+    },
+    {
+      "word": "NONJUDICIAL PUNISHMENT",
+      "abbr": "NJP"
+    },
+    {
+      "word": "NONPRIOR SERVICE",
+      "abbr": "NPS"
+    },
+    {
+      "word": "NOT APPLICABLE",
+      "abbr": "N/A"
+    },
+    {
+      "word": "NOT EARLIER THAN",
+      "abbr": "NET"
+    },
+    {
+      "word": "NOT GUILTY",
+      "abbr": "NG"
+    },
+    {
+      "word": "NOT LATER THAN",
+      "abbr": "NLT"
+    },
+    {
+      "word": "NOT PHYSICALLY QUALIFIED",
+      "abbr": "NPQ"
+    },
+    {
+      "word": "NOT RECOMMENDED FOR REENLISTMENT",
+      "abbr": "NRR"
+    },
+    {
+      "word": "NOT SCHEDULED",
+      "abbr": "NS"
+    },
+    {
+      "word": "NOT TO, NOR NEEDED, BY ALL",
+      "abbr": "NOTAL"
+    },
+    {
+      "word": "NOTEREADER/TRANSCRIBER COURSE",
+      "abbr": "NTC"
+    },
+    {
+      "word": "NOTICE OF BASIC ELIGIBILITY",
+      "abbr": "NOBE"
+    },
+    {
+      "word": "NOTICE OF ELIGIBILITY",
+      "abbr": "NOE"
+    },
+    {
+      "word": "NOTIFY",
+      "abbr": "nty"
+    },
+    {
+      "word": "NUCLEAR, BIOLOGICAL, CHEMICAL",
+      "abbr": "NBC"
+    },
+    {
+      "word": "NUCLEAR, BIOLOGICAL, CHEMICAL DEFENSE",
+      "abbr": "NBCD"
+    },
+    {
+      "word": "NUMBER",
+      "abbr": "No"
+    },
+    {
+      "word": "OBJECT",
+      "abbr": "obj"
+    },
+    {
+      "word": "OBJECT CLASS",
+      "abbr": "OC"
+    },
+    {
+      "word": "OBLIGATED - OBLIGATOR - OBLIGATION",
+      "abbr": "obl"
+    },
+    {
+      "word": "OBLIGATED SERVICE",
+      "abbr": "OBLSVC"
+    },
+    {
+      "word": "OBSERVATION POST",
+      "abbr": "OP"
+    },
+    {
+      "word": "OCCUPATIONAL FIELD",
+      "abbr": "OccFld"
+    },
+    {
+      "word": "OFFICE",
+      "abbr": "off"
+    },
+    {
+      "word": "OFFICE OF THE CHIEF OF NAVAL OPERATIONS INSTRUCTIONS . OPNAVINST OFFICE OF PERSONNEL MANAGEMENT",
+      "abbr": "OPM"
+    },
+    {
+      "word": "OFFICER (CLASS O) AIRCRAFT MAINTENANCE",
+      "abbr": "A/C(MAINTO)"
+    },
+    {
+      "word": "OFFICER ASSIGNMENT DECISION SUPPORT SYSTEM",
+      "abbr": "OADSS"
+    },
+    {
+      "word": "OFFICER CANDIDATE",
+      "abbr": "OCan"
+    },
+    {
+      "word": "OFFICER CANDIDATE CLASS",
+      "abbr": "OCC"
+    },
+    {
+      "word": "OFFICER EXERCISING GENERAL COURT-MARTIAL JURISDICTION. OEGCMJ OFFICER IN CHARGE",
+      "abbr": "OIC"
+    },
+    {
+      "word": "OFFICER OF THE DAY",
+      "abbr": "OD"
+    },
+    {
+      "word": "OFFICER QUALIFICATION RECORD",
+      "abbr": "OQR"
+    },
+    {
+      "word": "OFFICER SELECTION OFFICER",
+      "abbr": "OSO"
+    },
+    {
+      "word": "OFFICER SELECTION TEAM",
+      "abbr": "OST"
+    },
+    {
+      "word": "OFFICER SERVICE BASE DATE",
+      "abbr": "OSBD"
+    },
+    {
+      "word": "OFFICER SLATE FILE",
+      "abbr": "OSF"
+    },
+    {
+      "word": "OFFICER STAFFING GOAL MODEL",
+      "abbr": "OSGM"
+    },
+    {
+      "word": "OFFICIAL",
+      "abbr": "Ofl"
+    },
+    {
+      "word": "OFFICIAL MILITARY PERSONNEL FILE",
+      "abbr": "OMPF"
+    },
+    {
+      "word": "ON-LINE DIARY SYSTEM",
+      "abbr": "OLDS"
+    },
+    {
+      "word": "ON-THE-JOB TRAINING",
+      "abbr": "OJT"
+    },
+    {
+      "word": "OPERATION",
+      "abbr": "Op"
+    },
+    {
+      "word": "OPERATION REPORT",
+      "abbr": "OpREP"
+    },
+    {
+      "word": "OPERATIONAL COMMAND",
+      "abbr": "OPCOM"
+    },
+    {
+      "word": "OPERATIONAL CONTROL",
+      "abbr": "OPCON"
+    },
+    {
+      "word": "OPERATIONAL FLYING",
+      "abbr": "OPFLY"
+    },
+    {
+      "word": "OPERATIONAL FLYING BASE DATE",
+      "abbr": "OFBD"
+    },
+    {
+      "word": "OPERATIONAL HANDBOOK",
+      "abbr": "OH"
+    },
+    {
+      "word": "OPERATIONAL READINESS EVALUATION",
+      "abbr": "ORE"
+    },
+    {
+      "word": "OPERATIONAL READINESS FLOAT",
+      "abbr": "ORF"
+    },
+    {
+      "word": "OPERATIONAL SUMMARY",
+      "abbr": "OPSUM"
+    },
+    {
+      "word": "OPERATIONS AND MAINTENANCE............................... O&M OPERATIONS ORDER",
+      "abbr": "OperO"
+    },
+    {
+      "word": "OPERATIONS PLAN",
+      "abbr": "OPLAN"
+    },
+    {
+      "word": "OPERATIONS SECURITY",
+      "abbr": "OPSEC"
+    },
+    {
+      "word": "OPERATOR - OPERATE",
+      "abbr": "Opr"
+    },
+    {
+      "word": "OPPORTUNITY",
+      "abbr": "Opty"
+    },
+    {
+      "word": "OPTION",
+      "abbr": "OPT"
+    },
+    {
+      "word": "ORDERED TO ACTIVE DUTY",
+      "abbr": "OAD"
+    },
+    {
+      "word": "ORDNANCE",
+      "abbr": "Ord"
+    },
+    {
+      "word": "ORGANIZE",
+      "abbr": "org"
+    },
+    {
+      "word": "ORIENTATION",
+      "abbr": "Orien"
+    },
+    {
+      "word": "ORIGINAL",
+      "abbr": "orig"
+    },
+    {
+      "word": "OUTSIDE THE CONTINENTAL UNITED STATES",
+      "abbr": "OCONUS"
+    },
+    {
+      "word": "OVERSEAS",
+      "abbr": "o/s"
+    },
+    {
+      "word": "OVERSEAS HOUSING ALLOWANCE",
+      "abbr": "OHA"
+    },
+    {
+      "word": "OVERSEAS REPLACEMENT",
+      "abbr": "OSRepl"
+    },
+    {
+      "word": "OVERTAKEN BY EVENTS",
+      "abbr": "OBE"
+    },
+    {
+      "word": "PACIFIC",
+      "abbr": "Pac"
+    },
+    {
+      "word": "PACKAGE",
+      "abbr": "pkg"
+    },
+    {
+      "word": "PAGE",
+      "abbr": "pg"
+    },
+    {
+      "word": "PAID",
+      "abbr": "pd"
+    },
+    {
+      "word": "PARACHUTE - PARACHUTIST",
+      "abbr": "prcht"
+    },
+    {
+      "word": "PARAGRAPH",
+      "abbr": "par"
+    },
+    {
+      "word": "PARENTHESIS",
+      "abbr": "paren"
+    },
+    {
+      "word": "PASSENGER",
+      "abbr": "PAX"
+    },
+    {
+      "word": "PATIENT",
+      "abbr": "pnt"
+    },
+    {
+      "word": "PAY AND ALLOWANCES",
+      "abbr": "PandL"
+    },
+    {
+      "word": "PAY ENTRY BASE DATE",
+      "abbr": "PEBD"
+    },
+    {
+      "word": "PAYMENT",
+      "abbr": "pmt"
+    },
+    {
+      "word": "PENDING",
+      "abbr": "pend"
+    },
+    {
+      "word": "PERFORM",
+      "abbr": "pef"
+    },
+    {
+      "word": "PERFORMANCE EVALUATION SYSTEM",
+      "abbr": "PES"
+    },
+    {
+      "word": "PERIOD",
+      "abbr": "prd"
+    },
+    {
+      "word": "PERMANENT",
+      "abbr": "perm"
+    },
+    {
+      "word": "PERMANENT CHANGE OF ASSIGNMENT",
+      "abbr": "PCA"
+    },
+    {
+      "word": "PERMANENT CHANGE OF STATION",
+      "abbr": "PCS"
+    },
+    {
+      "word": "PERMANENT CHANGE OF STATION ORDER",
+      "abbr": "PCSO"
+    },
+    {
+      "word": "PERMANENT DISABILITY RETIRED LIST",
+      "abbr": "PDRL"
+    },
+    {
+      "word": "PERMANENT DUTY STATION",
+      "abbr": "PDS"
+    },
+    {
+      "word": "PERMANENT LIMITED DUTY",
+      "abbr": "PLD"
+    },
+    {
+      "word": "PERMANENT MAILING ADDRESS",
+      "abbr": "PMA"
+    },
+    {
+      "word": "PERMISSION GRANTED",
+      "abbr": "PerGra"
+    },
+    {
+      "word": "PERSONAL COMPUTER",
+      "abbr": "PC"
+    },
+    {
+      "word": "PERSONAL EFFECTS",
+      "abbr": "PerEf"
+    },
+    {
+      "word": "PERSONNEL",
+      "abbr": "pers"
+    },
+    {
+      "word": "PERSONNEL ACTION REQUEST",
+      "abbr": "PAR"
+    },
+    {
+      "word": "PERSONNEL ALLOCATION PLAN",
+      "abbr": "PAP"
+    },
+    {
+      "word": "PERSONNEL CLASSIFICATION",
+      "abbr": "PersClas"
+    },
+    {
+      "word": "PERSONNEL CLERK COURSE",
+      "abbr": "PCC"
+    },
+    {
+      "word": "PERSONNEL OFFICER COURSE",
+      "abbr": "POC"
+    },
+    {
+      "word": "PERSONNEL RECORD TRANSFER CARD",
+      "abbr": "PRTC"
+    },
+    {
+      "word": "PERSONNEL REQUIREMENTS CRITERIA MANUAL",
+      "abbr": "PRCM"
+    },
+    {
+      "word": "PERSONNEL SECURITY CLEARANCE EVALUATION",
+      "abbr": "PSCI"
+    },
+    {
+      "word": "PERTAIN - PERTINENT",
+      "abbr": "pert"
+    },
+    {
+      "word": "PETROLEUM, OIL, AND LUBRICANTS",
+      "abbr": "POL"
+    },
+    {
+      "word": "PHOTOGRAPH",
+      "abbr": "photo"
+    },
+    {
+      "word": "PHYSICAL",
+      "abbr": "phys"
+    },
+    {
+      "word": "PHYSICAL EVALUATION BOARD",
+      "abbr": "PEB"
+    },
+    {
+      "word": "PISTOL-REVOLVER EXPERT",
+      "abbr": "PE"
+    },
+    {
+      "word": "PISTOL-REVOLVER MARKSMAN",
+      "abbr": "PMM"
+    },
+    {
+      "word": "PISTOL-REVOLVER SHARPSHOOTER",
+      "abbr": "PSS"
+    },
+    {
+      "word": "PISTOL-REVOLVER UNQUALIFIED",
+      "abbr": "PUQ"
+    },
+    {
+      "word": "PLANNING, PROGRAMMING, AND BUDGET SYSTEM",
+      "abbr": "PPBS"
+    },
+    {
+      "word": "PLANS AND OPERATIONS................................... P&O PLANS, POLICIES, AND OPERATIONS........................ PP&O PLATOON LEADER",
+      "abbr": "PltLdr"
+    },
+    {
+      "word": "PLATOON LEADERS CLASS",
+      "abbr": "PLC"
+    },
+    {
+      "word": "PLATOON LEADERS CLASS (AVIATION)",
+      "abbr": "PLC(A)"
+    },
+    {
+      "word": "PLATOON LEADERS CLASS (LAW)",
+      "abbr": "PLC(L)"
+    },
+    {
+      "word": "POINT",
+      "abbr": "pt"
+    },
+    {
+      "word": "POINT OF CONTACT",
+      "abbr": "POC"
+    },
+    {
+      "word": "PORT OF DEBARKATION",
+      "abbr": "POD"
+    },
+    {
+      "word": "PORT OF EMBARKATION",
+      "abbr": "POE"
+    },
+    {
+      "word": "POSITION",
+      "abbr": "POS"
+    },
+    {
+      "word": "POSITION LOCATION REPORTING SYSTEM",
+      "abbr": "PLRS"
+    },
+    {
+      "word": "POST OFFICE",
+      "abbr": "PO"
+    },
+    {
+      "word": "PRACTICE",
+      "abbr": "prac"
+    },
+    {
+      "word": "PRECISE PERSONNEL ASSIGNMENT SYSTEM",
+      "abbr": "PREPAS"
+    },
+    {
+      "word": "PRECLUDE",
+      "abbr": "precld"
+    },
+    {
+      "word": "PREFERENCE",
+      "abbr": "pref"
+    },
+    {
+      "word": "PRELIMINARY",
+      "abbr": "prelim"
+    },
+    {
+      "word": "PREPARE - PREPARATION - PREPARATORY",
+      "abbr": "prep"
+    },
+    {
+      "word": "PREVIOUS",
+      "abbr": "prev"
+    },
+    {
+      "word": "PRIMARY",
+      "abbr": "pri"
+    },
+    {
+      "word": "PRIOR SERVICE",
+      "abbr": "PS"
+    },
+    {
+      "word": "PRISONER",
+      "abbr": "PRIS"
+    },
+    {
+      "word": "PRISONER AT LARGE",
+      "abbr": "PAL"
+    },
+    {
+      "word": "PRISONER OF WAR",
+      "abbr": "POW"
+    },
+    {
+      "word": "PROBATION",
+      "abbr": "prob"
+    },
+    {
+      "word": "PROCEED",
+      "abbr": "procd"
+    },
+    {
+      "word": "PROCESS",
+      "abbr": "proc"
+    },
+    {
+      "word": "PRODUCT IMPROVEMENT PROGRAM",
+      "abbr": "PIP"
+    },
+    {
+      "word": "PROFESSIONAL DEVELOPMENT EDUCATION",
+      "abbr": "PDE"
+    },
+    {
+      "word": "PROFESSIONAL MILITARY EDUCATION",
+      "abbr": "PME"
+    },
+    {
+      "word": "PROFICIENCY PAY",
+      "abbr": "ProPay"
+    },
+    {
+      "word": "PROGRAM",
+      "abbr": "prog"
+    },
+    {
+      "word": "PROGRAM ELEMENT NUMBER",
+      "abbr": "PEN"
+    },
+    {
+      "word": "PROGRAM OBJECTIVE MEMORANDUM",
+      "abbr": "POM"
+    },
+    {
+      "word": "PROGRAM OF INSTRUCTION",
+      "abbr": "POI"
+    },
+    {
+      "word": "PROJECT",
+      "abbr": "proj"
+    },
+    {
+      "word": "PROMOTE - PROMOTION",
+      "abbr": "prom"
+    },
+    {
+      "word": "PROPERTY",
+      "abbr": "prop"
+    },
+    {
+      "word": "PROVISIONAL",
+      "abbr": "prov"
+    },
+    {
+      "word": "PROVOST MARSHAL",
+      "abbr": "PM"
+    },
+    {
+      "word": "PSYCHOLOGICAL OPERATIONS",
+      "abbr": "PSYOPS"
+    },
+    {
+      "word": "PUBLIC AFFAIRS",
+      "abbr": "PA"
+    },
+    {
+      "word": "PUBLIC AFFAIRS SUMMARY",
+      "abbr": "PAS"
+    },
+    {
+      "word": "PUBLIC LAW",
+      "abbr": "P.L."
+    },
+    {
+      "word": "PUBLIC PROPERTY",
+      "abbr": "PP"
+    },
+    {
+      "word": "PUBLICATION",
+      "abbr": "pub(s)"
+    },
+    {
+      "word": "PUBLICATION(S) LISTING",
+      "abbr": "PL"
+    },
+    {
+      "word": "PURSUANT",
+      "abbr": "pur"
+    },
+    {
+      "word": "PURSUANT TO SENTENCE OF COURT",
+      "abbr": "PurSent"
+    },
+    {
+      "word": "QUALIFICATION - QUALIFIED - QUALIFY",
+      "abbr": "qual"
+    },
+    {
+      "word": "QUALIFIED MILITARY AVAILABLE",
+      "abbr": "QMA"
+    },
+    {
+      "word": "QUARTER",
+      "abbr": "qtr"
+    },
+    {
+      "word": "QUARTERMASTER",
+      "abbr": "QM"
+    },
+    {
+      "word": "QUARTERS",
+      "abbr": "qtrs"
+    },
+    {
+      "word": "QUOTA SERIAL NUMBER",
+      "abbr": "QSN"
+    },
+    {
+      "word": "RADAR",
+      "abbr": "rdr"
+    },
+    {
+      "word": "RADAR INTERCEPT OFFICER",
+      "abbr": "RIO"
+    },
+    {
+      "word": "RADIO",
+      "abbr": "rad"
+    },
+    {
+      "word": "RADIO OPERATOR",
+      "abbr": "RADOpr"
+    },
+    {
+      "word": "RAILROAD",
+      "abbr": "RR"
+    },
+    {
+      "word": "RANDOM ACCESS MEMORY",
+      "abbr": "RAM"
+    },
+    {
+      "word": "RANK",
+      "abbr": "rk"
+    },
+    {
+      "word": "RATION",
+      "abbr": "rat"
+    },
+    {
+      "word": "RATIONS",
+      "abbr": "rats"
+    },
+    {
+      "word": "READ ONLY MEMORY",
+      "abbr": "ROM"
+    },
+    {
+      "word": "READINESS MANAGEMENT PERIOD",
+      "abbr": "RMP"
+    },
+    {
+      "word": "REAL-TIME AUTOMATED PERSONNEL IDENTIFICATION SYSTEM",
+      "abbr": "RAPIDS"
+    },
+    {
+      "word": "REAR AREA SECURITY",
+      "abbr": "RAS"
+    },
+    {
+      "word": "REAR ECHELON",
+      "abbr": "rearEch"
+    },
+    {
+      "word": "REASSIGN",
+      "abbr": "REASG"
+    },
+    {
+      "word": "REASSIGNMENT ORDER",
+      "abbr": "REASGO"
+    },
+    {
+      "word": "RECAPITULATION",
+      "abbr": "recap"
+    },
+    {
+      "word": "RECEIVED",
+      "abbr": "recd"
+    },
+    {
+      "word": "RECEIVING STATION",
+      "abbr": "RecSta"
+    },
+    {
+      "word": "RECLASSIFY - RECLASSIFICATION",
+      "abbr": "reclas"
+    },
+    {
+      "word": "RECOMMEND",
+      "abbr": "recom"
+    },
+    {
+      "word": "RECOMMENDED FOR REENLISTMENT",
+      "abbr": "recom reenl"
+    },
+    {
+      "word": "RECONNAISSANCE",
+      "abbr": "recon"
+    },
+    {
+      "word": "RECONNAISSANCE, SURVEILLANCE, AND TARGET ACQUISITION",
+      "abbr": "RSTA"
+    },
+    {
+      "word": "RECORD",
+      "abbr": "rec"
+    },
+    {
+      "word": "RECORD OF EMERGENCY DATA",
+      "abbr": "RED"
+    },
+    {
+      "word": "RECORD OF SERVICE",
+      "abbr": "ROS"
+    },
+    {
+      "word": "RECRUIT",
+      "abbr": "rct"
+    },
+    {
+      "word": "RECRUIT DISTRIBUTION MODEL",
+      "abbr": "RDM"
+    },
+    {
+      "word": "RECRUITING",
+      "abbr": "rctg"
+    },
+    {
+      "word": "RECRUITING SERVICE MANAGEMENT INFORMATION SYSTEM",
+      "abbr": "RSMIS"
+    },
+    {
+      "word": "REDESIGNATE",
+      "abbr": "redesig"
+    },
+    {
+      "word": "REDEYE LAUNCH SIMULATOR",
+      "abbr": "RELS"
+    },
+    {
+      "word": "REDISTRIBUTION",
+      "abbr": "redistr"
+    },
+    {
+      "word": "REDUCE",
+      "abbr": "red"
+    },
+    {
+      "word": "REDUCED CLOTHING REPLACEMENT ALLOWANCE",
+      "abbr": "RCRA"
+    },
+    {
+      "word": "REENLIST",
+      "abbr": "reenl"
+    },
+    {
+      "word": "REFER",
+      "abbr": "ref"
+    },
+    {
+      "word": "REGULAR",
+      "abbr": "reg"
+    },
+    {
+      "word": "REGULATIONS",
+      "abbr": "regs"
+    },
+    {
+      "word": "REHABILITATION",
+      "abbr": "rehab"
+    },
+    {
+      "word": "REIMBURSE",
+      "abbr": "reimb"
+    },
+    {
+      "word": "REINFORCED",
+      "abbr": "rein"
+    },
+    {
+      "word": "RELIEF FOR",
+      "abbr": "relfor"
+    },
+    {
+      "word": "RELIEVE - RELIEF - RELEASE",
+      "abbr": "rel"
+    },
+    {
+      "word": "REMIT",
+      "abbr": "rem"
+    },
+    {
+      "word": "REMOTELY PILOTED VEHICLE",
+      "abbr": "RPV"
+    },
+    {
+      "word": "RENDEZVOUS",
+      "abbr": "rdvu"
+    },
+    {
+      "word": "REORGANIZE",
+      "abbr": "reorg"
+    },
+    {
+      "word": "REPAIR",
+      "abbr": "rep"
+    },
+    {
+      "word": "REPLACE",
+      "abbr": "repl"
+    },
+    {
+      "word": "REPORT",
+      "abbr": "rpt"
+    },
+    {
+      "word": "REPORTING SENIOR",
+      "abbr": "RS"
+    },
+    {
+      "word": "REPORTING UNIT",
+      "abbr": "RU"
+    },
+    {
+      "word": "REPORTING UNIT CODE",
+      "abbr": "RUC"
+    },
+    {
+      "word": "REPRESENTATIVE",
+      "abbr": "rep"
+    },
+    {
+      "word": "REPRODUCTION",
+      "abbr": "repro"
+    },
+    {
+      "word": "REQUALIFIED - REQUALIFY",
+      "abbr": "requal"
+    },
+    {
+      "word": "REQUEST",
+      "abbr": "re"
+    },
+    {
+      "word": "REQUIRE",
+      "abbr": "reqr"
+    },
+    {
+      "word": "REQUISITION",
+      "abbr": "rqn"
+    },
+    {
+      "word": "RESCHEDULED INACTIVE DUTY TRAINING",
+      "abbr": "RIDT"
+    },
+    {
+      "word": "RESEARCH AND DEVELOPMENT................................ R&D RESERVE",
+      "abbr": "res"
+    },
+    {
+      "word": "RESERVE ADMINISTRATION COURSE",
+      "abbr": "RAC"
+    },
+    {
+      "word": "RESERVE COMPONENT SURVIVOR BENEFIT PLAN",
+      "abbr": "RCSBP"
+    },
+    {
+      "word": "RESERVE COUNTERPART TRAINING",
+      "abbr": "RCT"
+    },
+    {
+      "word": "RESERVE OFFICER PERSONNEL MANAGEMENT ACT",
+      "abbr": "ROPMA"
+    },
+    {
+      "word": "RESERVE OPTIONAL ENLISTMENT PROGRAM",
+      "abbr": "ROEP"
+    },
+    {
+      "word": "RESERVE QUALIFICATION SUMMARY REPORT",
+      "abbr": "RQSR"
+    },
+    {
+      "word": "RESERVE RETIREMENT CREDIT REPORT",
+      "abbr": "RRCR"
+    },
+    {
+      "word": "RESIGNATION",
+      "abbr": "resig"
+    },
+    {
+      "word": "RESIGNED",
+      "abbr": "resg"
+    },
+    {
+      "word": "RESPONSIBILITY CENTER NUMBER",
+      "abbr": "RC"
+    },
+    {
+      "word": "RESPONSIBLE",
+      "abbr": "resp"
+    },
+    {
+      "word": "RESPONSIBLE OFFICER (FOR SUPPLY ACCOUNTS)",
+      "abbr": "RO"
+    },
+    {
+      "word": "RESTRICT",
+      "abbr": "restr"
+    },
+    {
+      "word": "RETAIN",
+      "abbr": "retn"
+    },
+    {
+      "word": "RETAINED IN THE SERVICE",
+      "abbr": "retnsvc"
+    },
+    {
+      "word": "RETIRED - RETIREMENT",
+      "abbr": "ret"
+    },
+    {
+      "word": "RETROACTIVE",
+      "abbr": "retro"
+    },
+    {
+      "word": "RETURN",
+      "abbr": "rtrn"
+    },
+    {
+      "word": "RETURNED TO MILITARY CONTROL",
+      "abbr": "RMC"
+    },
+    {
+      "word": "REVIEWED",
+      "abbr": "revd"
+    },
+    {
+      "word": "REVIEWING OFFICER(IN CONNECTION WITH FITNESS REPORTS)",
+      "abbr": "RO"
+    },
+    {
+      "word": "REVISE",
+      "abbr": "rev"
+    },
+    {
+      "word": "REVOKE - REVOCATION",
+      "abbr": "revo"
+    },
+    {
+      "word": "RIFLE (WEAPON)",
+      "abbr": "rfl"
+    },
+    {
+      "word": "RIFLE AND PISTOL TEAM................................... R&PT RIFLE EXPERT",
+      "abbr": "RE"
+    },
+    {
+      "word": "RIFLE MARKSMAN",
+      "abbr": "RMM"
+    },
+    {
+      "word": "RIFLE RANGE",
+      "abbr": "RR"
+    },
+    {
+      "word": "RIFLE SHARPSHOOTER",
+      "abbr": "RSS"
+    },
+    {
+      "word": "RIFLE UNQUALIFIED",
+      "abbr": "RUQ"
+    },
+    {
+      "word": "RIGHT",
+      "abbr": "rt"
+    },
+    {
+      "word": "ROCKET",
+      "abbr": "rkt"
+    },
+    {
+      "word": "ROCKET LAUNCHER",
+      "abbr": "RL"
+    },
+    {
+      "word": "ROTATION",
+      "abbr": "rot"
+    },
+    {
+      "word": "ROTATION TOUR DATE",
+      "abbr": "RTD"
+    },
+    {
+      "word": "RULES FOR COURTS-MARTIAL",
+      "abbr": "R.C.M."
+    },
+    {
+      "word": "RULES FOR ENGAGEMENT",
+      "abbr": "ROE"
+    },
+    {
+      "word": "SALVAGE",
+      "abbr": "salv"
+    },
+    {
+      "word": "SATISFACTORY",
+      "abbr": "sat"
+    },
+    {
+      "word": "SCHEDULE",
+      "abbr": "sked"
+    },
+    {
+      "word": "SCHOOL",
+      "abbr": "scol"
+    },
+    {
+      "word": "SEA DUTY",
+      "abbr": "SEADU"
+    },
+    {
+      "word": "SEARCH AND RESCUE/COMBAT SEARCH AND RESCUE",
+      "abbr": "SAR/CSAR"
+    },
+    {
+      "word": "SECRET",
+      "abbr": "sec"
+    },
+    {
+      "word": "SECRETARY",
+      "abbr": "Secy"
+    },
+    {
+      "word": "SECRETARY OF DEFENSE",
+      "abbr": "SecDef"
+    },
+    {
+      "word": "SECRETARY OF THE NAVY",
+      "abbr": "SecNav"
+    },
+    {
+      "word": "SECRETARY OF THE NAVY INSTRUCTION",
+      "abbr": "SECNAVINST"
+    },
+    {
+      "word": "SECTION",
+      "abbr": "sect"
+    },
+    {
+      "word": "SECURITY",
+      "abbr": "Scty"
+    },
+    {
+      "word": "SELECTED MARINE CORPS RESERVE",
+      "abbr": "SMCR"
+    },
+    {
+      "word": "SELECTED RESERVE INCENTIVE PROGRAM",
+      "abbr": "SRIP"
+    },
+    {
+      "word": "SELECTION BOARD",
+      "abbr": "SelBd"
+    },
+    {
+      "word": "SELECTIVE REENLISTMENT BONUS PROGRAM",
+      "abbr": "SRBP"
+    },
+    {
+      "word": "SELECTIVE SERVICE",
+      "abbr": "SS"
+    },
+    {
+      "word": "SELF CONTAINED UNDERWATER BREATHING APPARATUS",
+      "abbr": "SCUBA"
+    },
+    {
+      "word": "SELF-PROPELLED",
+      "abbr": "SP"
+    },
+    {
+      "word": "SEMIANNUAL",
+      "abbr": "SEMIANN"
+    },
+    {
+      "word": "SENIOR",
+      "abbr": "Sr"
+    },
+    {
+      "word": "SENIOR CLERK COURSE",
+      "abbr": "SCC"
+    },
+    {
+      "word": "SENIOR EXECUTIVE SERVICE",
+      "abbr": "SES"
+    },
+    {
+      "word": "SENIOR OFFICER PRESENT",
+      "abbr": "SOPres"
+    },
+    {
+      "word": "SENTENCE",
+      "abbr": "sent"
+    },
+    {
+      "word": "SENTENCED TO BE CONFINED",
+      "abbr": "sentconf"
+    },
+    {
+      "word": "SENTENCED TO LOSE PAY",
+      "abbr": "SentLP"
+    },
+    {
+      "word": "SEPARATE - SEPARATION",
+      "abbr": "sep"
+    },
+    {
+      "word": "SEPARATE COVER",
+      "abbr": "SC"
+    },
+    {
+      "word": "SEPARATE WRITTEN AGREEMENT",
+      "abbr": "SWAG"
+    },
+    {
+      "word": "SEPARATION DESIGNATOR NUMBER",
+      "abbr": "SDN"
+    },
+    {
+      "word": "SEPARATION IN LIEU OF TRIAL",
+      "abbr": "SILT"
+    },
+    {
+      "word": "SERGEANT MAJOR OF THE MARINE CORPS",
+      "abbr": "SGTMAJMARCOR"
+    },
+    {
+      "word": "SERIAL",
+      "abbr": "ser"
+    },
+    {
+      "word": "SERIOUS",
+      "abbr": "SRS"
+    },
+    {
+      "word": "SERVE - SERVING",
+      "abbr": "serv"
+    },
+    {
+      "word": "SERVICE",
+      "abbr": "svc"
+    },
+    {
+      "word": "SERVICE RECORD",
+      "abbr": "SR"
+    },
+    {
+      "word": "SERVICE RECORD BOOK",
+      "abbr": "SRB"
+    },
+    {
+      "word": "SERVICE SCHOOL",
+      "abbr": "SvcScol"
+    },
+    {
+      "word": "SERVICEMEN'S GROUP LIFE INSURANCE",
+      "abbr": "SGLI"
+    },
+    {
+      "word": "SETTLEMENT - SETTLED",
+      "abbr": "sett"
+    },
+    {
+      "word": "SHIP IMMEDIATELY",
+      "abbr": "ShipIm"
+    },
+    {
+      "word": "SHIPPING",
+      "abbr": "ship"
+    },
+    {
+      "word": "SHORT TAKEOFF AND LANDING",
+      "abbr": "STOL"
+    },
+    {
+      "word": "SHOULDER-LAUNCHED MULTIPURPOSE ASSAULT WEAPON",
+      "abbr": "SMAW"
+    },
+    {
+      "word": "SICK - SICK IN",
+      "abbr": "sk"
+    },
+    {
+      "word": "SICK MISCONDUCT",
+      "abbr": "SKMC"
+    },
+    {
+      "word": "SIDE LOOKING AIRBORNE RADAR",
+      "abbr": "SLAR"
+    },
+    {
+      "word": "SIGNAL",
+      "abbr": "Sig"
+    },
+    {
+      "word": "SIGNAL INTELLIGENCE",
+      "abbr": "SIGINT"
+    },
+    {
+      "word": "SIGNAL OPERATION INSTRUCTIONS",
+      "abbr": "SOI"
+    },
+    {
+      "word": "SIGNED",
+      "abbr": "/s/"
+    },
+    {
+      "word": "SITUATION REPORT",
+      "abbr": "SITREP"
+    },
+    {
+      "word": "SITUATION SUMMARY",
+      "abbr": "SITSUM"
+    },
+    {
+      "word": "SITUATION, MISSION, EXECUTION, ADMINISTRATION AND LOGISTICS, AND COMMAND AND SIGNAL",
+      "abbr": "SMEAC"
+    },
+    {
+      "word": "SKILL PROGRESSION TRAINING",
+      "abbr": "SPT"
+    },
+    {
+      "word": "SMALL ARMS TARGET PRACTICE",
+      "abbr": "SATP"
+    },
+    {
+      "word": "SOCIAL SECURITY NUMBER",
+      "abbr": "SSN"
+    },
+    {
+      "word": "SOUTHEAST ASIA",
+      "abbr": "SEA"
+    },
+    {
+      "word": "SOUTHWEST ASIA",
+      "abbr": "SWA"
+    },
+    {
+      "word": "SPECIAL -1ST",
+      "abbr": "spl"
+    },
+    {
+      "word": "SPECIAL BACKGROUND INVESTIGATION",
+      "abbr": "SBI"
+    },
+    {
+      "word": "SPECIAL COURT-MARTIAL",
+      "abbr": "SPCM"
+    },
+    {
+      "word": "SPECIAL DUTY",
+      "abbr": "Spldu"
+    },
+    {
+      "word": "SPECIAL EDUCATION PROGRAM",
+      "abbr": "SEP"
+    },
+    {
+      "word": "SPECIAL MONEY REQUISITION",
+      "abbr": "SMR"
+    },
+    {
+      "word": "SPECIAL OPERATIONS CAPABLE EXERCISE",
+      "abbr": "SOCEX"
+    },
+    {
+      "word": "SPECIAL OPERATIONS/LOW INTENSITY CONFLICT",
+      "abbr": "SO/LIC"
+    },
+    {
+      "word": "SPECIAL ORDER",
+      "abbr": "SO"
+    },
+    {
+      "word": "SPECIAL SERVICES",
+      "abbr": "SplSvc"
+    },
+    {
+      "word": "SPECIALIZED (CLASS C) AIRCRAFT FIRE FIGHTING AND RESCUE",
+      "abbr": "AFFR"
+    },
+    {
+      "word": "SPECIALTY",
+      "abbr": "splty"
+    },
+    {
+      "word": "SPECIFY - SPECIFICATION",
+      "abbr": "spec"
+    },
+    {
+      "word": "SQUAD AUTOMATIC WEAPON",
+      "abbr": "SAW"
+    },
+    {
+      "word": "SQUADRON",
+      "abbr": "sqdn"
+    },
+    {
+      "word": "STAFF JUDGE ADVOCATE",
+      "abbr": "SJA"
+    },
+    {
+      "word": "STAFF NONCOMMISSIONED OFFICER",
+      "abbr": "SNCO"
+    },
+    {
+      "word": "STAFF NONCOMMISSIONED OFFICER IN CHARGE",
+      "abbr": "SNCOIC"
+    },
+    {
+      "word": "STAFF NONCOMMISSIONED OFFICERS DEGREE COMPLETION PROGRAM",
+      "abbr": "SNCODCP"
+    },
+    {
+      "word": "STAFF UNACCOMPANIED ENLISTED PERSONNEL HOUSING",
+      "abbr": "Staff UEPH"
+    },
+    {
+      "word": "STANDARD",
+      "abbr": "std"
+    },
+    {
+      "word": "STANDARD ACCOUNTING BUDGET REPORTING SYSTEM",
+      "abbr": "SABRS"
+    },
+    {
+      "word": "STANDARD FORM",
+      "abbr": "SF"
+    },
+    {
+      "word": "STANDARD IDENTIFICATION INFORMATION",
+      "abbr": "SII"
+    },
+    {
+      "word": "STANDARD MAINTENANCE ALLOWANCE",
+      "abbr": "SMA"
+    },
+    {
+      "word": "STANDARD NOMENCLATURE LIST",
+      "abbr": "SNL"
+    },
+    {
+      "word": "STANDARD TOUR OF DUTY",
+      "abbr": "STDU"
+    },
+    {
+      "word": "STANDARD WRITTEN AGREEMENT",
+      "abbr": "SWAT"
+    },
+    {
+      "word": "STANDARDIZATION AGREEMENT",
+      "abbr": "STANAG"
+    },
+    {
+      "word": "STANDING OPERATING PROCEDURE",
+      "abbr": "SOP"
+    },
+    {
+      "word": "START",
+      "abbr": "strt"
+    },
+    {
+      "word": "STATEMENT OF UNDERSTANDING",
+      "abbr": "SOU"
+    },
+    {
+      "word": "STATEMENT OF WORK",
+      "abbr": "SOW"
+    },
+    {
+      "word": "STATION",
+      "abbr": "Sta"
+    },
+    {
+      "word": "STATION OF INITIAL ASSIGNMENT",
+      "abbr": "SIA"
+    },
+    {
+      "word": "STATUS OF FORCES AGREEMENT",
+      "abbr": "SOFA"
+    },
+    {
+      "word": "STENOGRAPHER",
+      "abbr": "Steno"
+    },
+    {
+      "word": "STINGER LAUNCH SIMULATOR",
+      "abbr": "STLS"
+    },
+    {
+      "word": "STOCK LIST",
+      "abbr": "SL"
+    },
+    {
+      "word": "STRAGGLER",
+      "abbr": "strag"
+    },
+    {
+      "word": "STRATEGIC",
+      "abbr": "strgc"
+    },
+    {
+      "word": "STREET",
+      "abbr": "St"
+    },
+    {
+      "word": "STRENGTH",
+      "abbr": "str"
+    },
+    {
+      "word": "STUDENT",
+      "abbr": "stud"
+    },
+    {
+      "word": "STUDENT NAVAL AVIATOR",
+      "abbr": "SNA"
+    },
+    {
+      "word": "STUDENT NAVAL FLIGHT OFFICER",
+      "abbr": "SNFO"
+    },
+    {
+      "word": "SUBJECT",
+      "abbr": "subj"
+    },
+    {
+      "word": "SUBJECT MATTER EXPERT",
+      "abbr": "SME"
+    },
+    {
+      "word": "SUBJECT NAMED MARINE",
+      "abbr": "SNM"
+    },
+    {
+      "word": "SUBJECT NAMED OFFICER",
+      "abbr": "SNO"
+    },
+    {
+      "word": "SUBJECT NAMED PRISONER",
+      "abbr": "SNP"
+    },
+    {
+      "word": "SUBMIT - SUBMISSION",
+      "abbr": "sub"
+    },
+    {
+      "word": "SUBSEQUENT",
+      "abbr": "subq"
+    },
+    {
+      "word": "SUBSISTENCE",
+      "abbr": "subs"
+    },
+    {
+      "word": "SUBSTITUTE - SUBSTITUTION",
+      "abbr": "subt"
+    },
+    {
+      "word": "SUFFICIENT",
+      "abbr": "suf"
+    },
+    {
+      "word": "SUITABLE",
+      "abbr": "suit"
+    },
+    {
+      "word": "SUMMARY COURT-MARTIAL",
+      "abbr": "SCM"
+    },
+    {
+      "word": "SUPERINTEND",
+      "abbr": "supt"
+    },
+    {
+      "word": "SUPERIOR PERFORMANCE",
+      "abbr": "SP"
+    },
+    {
+      "word": "SUPERVISE - SUPERVISOR",
+      "abbr": "super"
+    },
+    {
+      "word": "SUPERVISION AND MANAGEMENT",
+      "abbr": "SUPMGT(C)"
+    },
+    {
+      "word": "SUPPLEMENT",
+      "abbr": "supp"
+    },
+    {
+      "word": "SUPPLY",
+      "abbr": "sup"
+    },
+    {
+      "word": "SUPPLY INSTRUCTION",
+      "abbr": "SI"
+    },
+    {
+      "word": "SUPPORT",
+      "abbr": "spt"
+    },
+    {
+      "word": "SUPPORTED ACTIVITIES SUPPLY SUPPORT SYSTEM",
+      "abbr": "SASSY"
+    },
+    {
+      "word": "SUPPORTING ARMS COORDINATION CENTER",
+      "abbr": "SACC"
+    },
+    {
+      "word": "SUPPORTING ESTABLISHMENT",
+      "abbr": "SE"
+    },
+    {
+      "word": "SUPPORTING ESTABLISHMENT END USER COMPUTING EQUIPMENT",
+      "abbr": "SEEUCE"
+    },
+    {
+      "word": "SURRENDER",
+      "abbr": "surr"
+    },
+    {
+      "word": "SURVEILLANCE AND TARGET ACQUISITION",
+      "abbr": "sta"
+    },
+    {
+      "word": "SURVEY",
+      "abbr": "surv"
+    },
+    {
+      "word": "SURVIVAL, EVASION, RESISTANCE TO INTERROGATION, AND ESCAPE",
+      "abbr": "SERE"
+    },
+    {
+      "word": "SUSPECT - SUSPICION",
+      "abbr": "susp"
+    },
+    {
+      "word": "SWITCHBOARD",
+      "abbr": "swbd"
+    },
+    {
+      "word": "SYSTEM",
+      "abbr": "sys"
+    },
+    {
+      "word": "SYSTEMS APPROACH TO TRAINING",
+      "abbr": "SAT"
+    },
+    {
+      "word": "TABLE OF ALLOWANCE",
+      "abbr": "T/A"
+    },
+    {
+      "word": "TABLE OF ALLOWANCE FOR PUBLICATIONS",
+      "abbr": "TAP"
+    },
+    {
+      "word": "TABLE OF AUTHORIZED MATERIAL",
+      "abbr": "TAM"
+    },
+    {
+      "word": "TABLE(S) OF EQUIPMENT",
+      "abbr": "T/E"
+    },
+    {
+      "word": "TABLE(S) OF MANPOWER REQUIREMENTS",
+      "abbr": "T/MR"
+    },
+    {
+      "word": "TABLE(S) OF ORGANIZATION",
+      "abbr": "T/O"
+    },
+    {
+      "word": "TACTICAL AIR COMMAND/CONTROL CENTER",
+      "abbr": "TACC"
+    },
+    {
+      "word": "TACTICAL AIR CONTROL PARTY",
+      "abbr": "TACP"
+    },
+    {
+      "word": "TACTICAL AIR NAVIGATION SYSTEM",
+      "abbr": "TACAN"
+    },
+    {
+      "word": "TACTICAL AIR OPERATIONS CENTER",
+      "abbr": "TAOC"
+    },
+    {
+      "word": "TACTICAL AIR REQUESTS",
+      "abbr": "TAR"
+    },
+    {
+      "word": "TACTICAL AREA OF RESPONSIBILITY",
+      "abbr": "TAOR"
+    },
+    {
+      "word": "TACTICAL AVIATION",
+      "abbr": "TACAIR"
+    },
+    {
+      "word": "TACTICAL ELECTRONIC RECONNAISSANCE PROCESSING AND EVALUATION SYSTEM",
+      "abbr": "TERPES"
+    },
+    {
+      "word": "TACTICAL EXERCISE COORDINATION GROUP",
+      "abbr": "TECG"
+    },
+    {
+      "word": "TACTICAL EXERCISE COORDINATOR",
+      "abbr": "TEC"
+    },
+    {
+      "word": "TACTICAL EXERCISE WITHOUT TROOPS",
+      "abbr": "TEWT"
+    },
+    {
+      "word": "TACTICAL LOGISTICAL GROUP",
+      "abbr": "TACLOG"
+    },
+    {
+      "word": "TACTICAL RECOVERY OF AIRCRAFT, EQUIPMENT, AND PERSONNEL",
+      "abbr": "TRAP"
+    },
+    {
+      "word": "TACTICAL WARFARE SIMULATION, EVALUATION AND ANALYSIS SYSTEM",
+      "abbr": "TWSEAS"
+    },
+    {
+      "word": "TANK",
+      "abbr": "tk"
+    },
+    {
+      "word": "TECHNICAL - TECHNICIAN",
+      "abbr": "tech"
+    },
+    {
+      "word": "TECHNICAL BULLETIN",
+      "abbr": "TB"
+    },
+    {
+      "word": "TECHNICAL INSTRUCTION",
+      "abbr": "TI"
+    },
+    {
+      "word": "TECHNICAL MANUAL",
+      "abbr": "TM"
+    },
+    {
+      "word": "TELEPHONE",
+      "abbr": "Tp"
+    },
+    {
+      "word": "TELEPHONE CONVERSATION",
+      "abbr": "PHONCON"
+    },
+    {
+      "word": "TELETYPEWRITER",
+      "abbr": "tty"
+    },
+    {
+      "word": "TELEVISION",
+      "abbr": "TV"
+    },
+    {
+      "word": "TEMPORARILY ATTACHED",
+      "abbr": "tempatt"
+    },
+    {
+      "word": "TEMPORARY",
+      "abbr": "temp"
+    },
+    {
+      "word": "TEMPORARY ADDITIONAL DUTY",
+      "abbr": "TAD"
+    },
+    {
+      "word": "TEMPORARY DISABILITY RETIRED LIST",
+      "abbr": "TDRL"
+    },
+    {
+      "word": "TEMPORARY DUTY",
+      "abbr": "TDY"
+    },
+    {
+      "word": "TEMPORARY LIMITED DUTY",
+      "abbr": "TLD"
+    },
+    {
+      "word": "TEMPORARY LODGING ALLOWANCE",
+      "abbr": "TLA"
+    },
+    {
+      "word": "TEMPORARY LODGING EXPENSE ALLOWANCE",
+      "abbr": "TLE"
+    },
+    {
+      "word": "TENTATIVE CHARACTERIZATION OF SERVICE",
+      "abbr": "TCS"
+    },
+    {
+      "word": "TERMINAL AREA SECURITY OFFICER",
+      "abbr": "TASO"
+    },
+    {
+      "word": "TERMINAL LEARNING OBJECTIVE",
+      "abbr": "TLO"
+    },
+    {
+      "word": "TERMINATE",
+      "abbr": "term"
+    },
+    {
+      "word": "TEST AND EVALUATION",
+      "abbr": "TE"
+    },
+    {
+      "word": "TIME IN GRADE",
+      "abbr": "TIG"
+    },
+    {
+      "word": "TIME IN SERVICE",
+      "abbr": "TIS"
+    },
+    {
+      "word": "TIME LOST",
+      "abbr": "TL"
+    },
+    {
+      "word": "TO BE DETERMINED",
+      "abbr": "TBD"
+    },
+    {
+      "word": "TOP SECRET",
+      "abbr": "TS"
+    },
+    {
+      "word": "TOTAL DETENTION OF PAY",
+      "abbr": "TDP"
+    },
+    {
+      "word": "TOTAL FORCE RETENTION SYSTEM",
+      "abbr": "TFRS"
+    },
+    {
+      "word": "TOTAL LOSS OF PAY",
+      "abbr": "TLP"
+    },
+    {
+      "word": "TOTAL QUALITY LEADERSHIP",
+      "abbr": "TQL"
+    },
+    {
+      "word": "TOUR OPTIMIZATION FOR UNIFORM READINESS II MODEL",
+      "abbr": "TOUR II"
+    },
+    {
+      "word": "TRAIN",
+      "abbr": "trng"
+    },
+    {
+      "word": "TRAINING FILM",
+      "abbr": "TF"
+    },
+    {
+      "word": "TRAINING INPUT PLAN",
+      "abbr": "TIP"
+    },
+    {
+      "word": "TRAINING PAY CATEGORY",
+      "abbr": "TPC"
+    },
+    {
+      "word": "TRAINING PLAN",
+      "abbr": "TRAPLAN"
+    },
+    {
+      "word": "TRAINING QUOTA MEMORANDUM",
+      "abbr": "TQM"
+    },
+    {
+      "word": "TRAINING SITUATION ANALYSIS",
+      "abbr": "TSA"
+    },
+    {
+      "word": "TRANSACTION RESEARCHER FILE",
+      "abbr": "TRF"
+    },
+    {
+      "word": "TRANSFER",
+      "abbr": "tr"
+    },
+    {
+      "word": "TRANSIENT FACILITY",
+      "abbr": "TFAC"
+    },
+    {
+      "word": "TRANSMIT",
+      "abbr": "XMIT"
+    },
+    {
+      "word": "TRANSPORT",
+      "abbr": "trans"
+    },
+    {
+      "word": "TRAVEL",
+      "abbr": "tvl"
+    },
+    {
+      "word": "TRAVEL ORDER NUMBER",
+      "abbr": "TON"
+    },
+    {
+      "word": "TREATMENT",
+      "abbr": "trmt"
+    },
+    {
+      "word": "TRIAL",
+      "abbr": "trl"
+    },
+    {
+      "word": "TRIAL COUNSEL",
+      "abbr": "TC"
+    },
+    {
+      "word": "TROOPS",
+      "abbr": "trps"
+    },
+    {
+      "word": "TUBE LAUNCHED, OPTICALLY TRACKED, WIRE COMMAND LINK, GUIDED MISSILE SYSTEM",
+      "abbr": "TOW"
+    },
+    {
+      "word": "TYPE TRANSACTION CODE",
+      "abbr": "TTC"
+    },
+    {
+      "word": "ULTIMATE",
+      "abbr": "ult"
+    },
+    {
+      "word": "ULTRAHIGH FREQUENCY",
+      "abbr": "UHF"
+    },
+    {
+      "word": "UNACCOMPANIED ENLISTED PERSONNEL HOUSING",
+      "abbr": "UEPH"
+    },
+    {
+      "word": "UNACCOMPANIED OFFICER PERSONNEL HOUSING",
+      "abbr": "UOPH"
+    },
+    {
+      "word": "UNAUTHORIZED",
+      "abbr": "unauth"
+    },
+    {
+      "word": "UNAUTHORIZED ABSENCE - ABSENT OVER LEAVE",
+      "abbr": "UA(AOL)"
+    },
+    {
+      "word": "UNAUTHORIZED ABSENCE - ABSENT WITHOUT LEAVE",
+      "abbr": "UA(AWOL)"
+    },
+    {
+      "word": "UNAVOIDABLE",
+      "abbr": "unavd"
+    },
+    {
+      "word": "UNCLASSIFIED",
+      "abbr": "UNCLAS"
+    },
+    {
+      "word": "UNDER HONORABLE CONDITIONS",
+      "abbr": "UHC"
+    },
+    {
+      "word": "UNDER OTHER THAN HONORABLE CONDITIONS",
+      "abbr": "UOHC"
+    },
+    {
+      "word": "UNDESIRABLE DISCHARGE",
+      "abbr": "UnDis"
+    },
+    {
+      "word": "UNFITNESS",
+      "abbr": "unfit"
+    },
+    {
+      "word": "UNIFORM",
+      "abbr": "unif"
+    },
+    {
+      "word": "UNIFORM CODE OF MILITARY JUSTICE",
+      "abbr": "UCMJ"
+    },
+    {
+      "word": "UNIT ACTIVITY REPORT",
+      "abbr": "UAR"
+    },
+    {
+      "word": "UNIT COMMANDERS PERSONNEL SYSTEM",
+      "abbr": "UCPS"
+    },
+    {
+      "word": "UNIT DEPLOYMENT PROGRAM",
+      "abbr": "UDP"
+    },
+    {
+      "word": "UNIT DIARY",
+      "abbr": "UD"
+    },
+    {
+      "word": "UNIT DIARY/MANPOWER INTERGRATED PERSONNEL SYSTEM",
+      "abbr": "UD/MIPS"
+    },
+    {
+      "word": "UNIT IDENTIFICATION CODE",
+      "abbr": "UIC"
+    },
+    {
+      "word": "UNIT MUSTER SHEET",
+      "abbr": "UMS"
+    },
+    {
+      "word": "UNIT OF FIRE",
+      "abbr": "u/f"
+    },
+    {
+      "word": "UNIT SUSTAINMENT TRAINING",
+      "abbr": "UST"
+    },
+    {
+      "word": "UNIT VERIFICATION ROSTER",
+      "abbr": "UVR"
+    },
+    {
+      "word": "UNITED STATES",
+      "abbr": "U.S."
+    },
+    {
+      "word": "UNITED STATES CODE",
+      "abbr": "USC"
+    },
+    {
+      "word": "UNITED STATES SHIP",
+      "abbr": "USS"
+    },
+    {
+      "word": "UNIVERSITY",
+      "abbr": "univ"
+    },
+    {
+      "word": "UNKNOWN",
+      "abbr": "UNK"
+    },
+    {
+      "word": "UNMANNED AERIAL VEHICLE",
+      "abbr": "UAV"
+    },
+    {
+      "word": "UNQUALIFIED",
+      "abbr": "UQ"
+    },
+    {
+      "word": "UNSATISFACTORY",
+      "abbr": "unsat"
+    },
+    {
+      "word": "UNSUITABLE - UNSUITABILITY",
+      "abbr": "unsuit"
+    },
+    {
+      "word": "UNTIL FURTHER NOTICE",
+      "abbr": "UFN"
+    },
+    {
+      "word": "UNUSED LEAVE",
+      "abbr": "UL"
+    },
+    {
+      "word": "USER IDENTIFICATION",
+      "abbr": "USERID"
+    },
+    {
+      "word": "USER'S MANUAL",
+      "abbr": "UM"
+    },
+    {
+      "word": "UTILITIES",
+      "abbr": "util"
+    },
+    {
+      "word": "UTILIZE",
+      "abbr": "utl"
+    },
+    {
+      "word": "VALIDATION AND EXTRACT FILE",
+      "abbr": "VEF"
+    },
+    {
+      "word": "VARIABLE REENLISTMENT BONUS",
+      "abbr": "VRB"
+    },
+    {
+      "word": "VARIABLE REENLISTMENT BONUS INSTALLMENTS",
+      "abbr": "VRBI"
+    },
+    {
+      "word": "VARIABLE REENLISTMENT BONUS MULTIPLE",
+      "abbr": "VRBM"
+    },
+    {
+      "word": "VARIABLE TIME - PROXIMITY FUZE",
+      "abbr": "VT"
+    },
+    {
+      "word": "VEHICLE - VEHICULAR",
+      "abbr": "veh"
+    },
+    {
+      "word": "VENEREAL DISEASE",
+      "abbr": "VD"
+    },
+    {
+      "word": "VERIFICATION OF MILITARY EDUCATION AND TRAINING",
+      "abbr": "VMET"
+    },
+    {
+      "word": "VERIFICATION OF MILITARY EXPERIENCE AND TRAINING",
+      "abbr": "VERDOC"
+    },
+    {
+      "word": "VERIFY",
+      "abbr": "ver"
+    },
+    {
+      "word": "VERTICAL/SHORT TAKEOFF AND LANDING",
+      "abbr": "VTOL"
+    },
+    {
+      "word": "VERY GOOD",
+      "abbr": "VG"
+    },
+    {
+      "word": "VERY HIGH FREQUENCY",
+      "abbr": "VHF"
+    },
+    {
+      "word": "VETERAN",
+      "abbr": "Vet"
+    },
+    {
+      "word": "VETERANS ADMINISTRATION",
+      "abbr": "VA"
+    },
+    {
+      "word": "VIDEO TELECONFERENCING",
+      "abbr": "VTC"
+    },
+    {
+      "word": "VIETNAM VETERAN",
+      "abbr": "VVet"
+    },
+    {
+      "word": "VIOLATION",
+      "abbr": "viol"
+    },
+    {
+      "word": "VISUAL",
+      "abbr": "vis"
+    },
+    {
+      "word": "VISUAL INQUIRY SYSTEM",
+      "abbr": "VIS"
+    },
+    {
+      "word": "VISUAL RECONNAISSANCE",
+      "abbr": "VR"
+    },
+    {
+      "word": "VOLUME",
+      "abbr": "vol"
+    },
+    {
+      "word": "VOLUNTEER",
+      "abbr": "V"
+    },
+    {
+      "word": "VOUCHER",
+      "abbr": "Vou"
+    },
+    {
+      "word": "WAGE GRADE (CIVIL SERVICE EMPLOYEE, NORMALLY FOLLOWED BY A NUMERAL GRADE)",
+      "abbr": "WG-"
+    },
+    {
+      "word": "WAGE LEADERS (CIVIL SERVICE EMPLOYEE)",
+      "abbr": "WL"
+    },
+    {
+      "word": "WAGE SUPERVISOR (CIVIL SERVICE EMPLOYEE)",
+      "abbr": "WS"
+    },
+    {
+      "word": "WAIVED",
+      "abbr": "wvd"
+    },
+    {
+      "word": "WAREHOUSE",
+      "abbr": "whs"
+    },
+    {
+      "word": "WARFARE",
+      "abbr": "warf"
+    },
+    {
+      "word": "WARRANT",
+      "abbr": "wrnt"
+    },
+    {
+      "word": "WEAPON",
+      "abbr": "wpn"
+    },
+    {
+      "word": "WEAPONS AND TACTICS INSTRUCTOR",
+      "abbr": "WTI"
+    },
+    {
+      "word": "WEEK",
+      "abbr": "wk"
+    },
+    {
+      "word": "WEEKS",
+      "abbr": "wks"
+    },
+    {
+      "word": "WEIGHT",
+      "abbr": "wt"
+    },
+    {
+      "word": "WELL AND ON DUTY",
+      "abbr": "WOD"
+    },
+    {
+      "word": "WESTERN PACIFIC",
+      "abbr": "WESTPAC"
+    },
+    {
+      "word": "WHEN DIRECTED",
+      "abbr": "WD"
+    },
+    {
+      "word": "WHITE PHOSPHOROUS",
+      "abbr": "WP"
+    },
+    {
+      "word": "WIDE AREA NETWORK",
+      "abbr": "WAN"
+    },
+    {
+      "word": "WIFE",
+      "abbr": "W"
+    },
+    {
+      "word": "WILL BE ISSUED",
+      "abbr": "WBI"
+    },
+    {
+      "word": "WILL BE ORDERED",
+      "abbr": "WBO"
+    },
+    {
+      "word": "WITH",
+      "abbr": "W/"
+    },
+    {
+      "word": "WITHOUT",
+      "abbr": "w/o"
+    },
+    {
+      "word": "WORD PROCESSING SYSTEM",
+      "abbr": "WPS"
+    },
+    {
+      "word": "WORDS PER MINUTE",
+      "abbr": "wpm"
+    },
+    {
+      "word": "WOUNDED IN ACTION",
+      "abbr": "WIA"
+    },
+    {
+      "word": "WOUNDED IN ACTION - NOT EVACUATED",
+      "abbr": "WIANE"
+    },
+    {
+      "word": "YEAR",
+      "abbr": "yr"
+    },
+    {
+      "word": "YEAR GROUP",
+      "abbr": "YG"
+    },
+    {
+      "word": "YEARS",
+      "abbr": "yrs"
+    }
+  ]
+}
