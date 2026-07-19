@@ -69,6 +69,51 @@ describe('parseNavalLetter — full letter', () => {
   });
 });
 
+describe('parseNavalLetter — via addressees', () => {
+  it('stores multiple via as newline-separated entries, stripping source numbering', () => {
+    // The generator re-adds "(1)/(2)"; the parsed value must not bake them in.
+    const p = parseNavalLetter(
+      ['From: A', 'Via:  (1) Commanding Officer', '      (2) Regional Commander', '', '1. Body.'].join('\n')
+    );
+    expect(p.via).toBe('Commanding Officer\nRegional Commander');
+  });
+
+  it('handles an inline numbered via on one line', () => {
+    const p = parseNavalLetter('From: A\nVia: (1) First Official (2) Second Official\n\n1. Body.');
+    expect(p.via).toBe('First Official\nSecond Official');
+  });
+
+  it('keeps a single via as one unnumbered line', () => {
+    const p = parseNavalLetter('From: A\nVia: Assistant Chief of Staff, G-1\n\n1. Body.');
+    expect(p.via).toBe('Assistant Chief of Staff, G-1');
+  });
+});
+
+describe('parseNavalLetter — copy to', () => {
+  it('captures a Copy to block after the signature, one recipient per line', () => {
+    const p = parseNavalLetter(
+      ['1. Body.', '', '                 R. L. SMITH', '', 'Copy to:', 'G-3/5', 'G-4', 'Regimental S-3'].join('\n')
+    );
+    expect(p.copyTos).toEqual(['G-3/5', 'G-4', 'Regimental S-3']);
+  });
+
+  it('captures an inline "Copy to: X" plus following lines', () => {
+    const p = parseNavalLetter(['1. Body.', '', 'Copy to: First Command', 'Second Command'].join('\n'));
+    expect(p.copyTos).toEqual(['First Command', 'Second Command']);
+  });
+
+  it('stops the copy-to list at a Distribution block', () => {
+    const p = parseNavalLetter(
+      ['1. Body.', '', 'Copy to:', 'Alpha Co', '', 'Distribution:', 'List B'].join('\n')
+    );
+    expect(p.copyTos).toEqual(['Alpha Co']);
+  });
+
+  it('is empty when there is no copy-to block', () => {
+    expect(parseNavalLetter('1. Body.').copyTos).toEqual([]);
+  });
+});
+
 describe('parseNavalLetter — paragraph levels', () => {
   it('maps 1. / a. / (1) / (a) to levels 0–3', () => {
     const p = parseNavalLetter(

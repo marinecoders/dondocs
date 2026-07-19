@@ -23,6 +23,8 @@ export interface ParsedLetter {
   references: string[];
   /** Enclosure titles in order; numbering is positional in the store. */
   enclosures: string[];
+  /** "Copy to" recipients, one per entry. */
+  copyTos: string[];
   paragraphs: { text: string; level: number }[];
   signature?: { first: string; middle: string; last: string };
 }
@@ -143,7 +145,7 @@ function parseIdentification(preHeader: string[]): Pick<ParsedLetter, 'ssic' | '
 export function parseNavalLetter(rawText: string): ParsedLetter {
   const lines = rawText.replace(/\r\n?/g, '\n').split('\n');
 
-  const result: ParsedLetter = { references: [], enclosures: [], paragraphs: [] };
+  const result: ParsedLetter = { references: [], enclosures: [], copyTos: [], paragraphs: [] };
 
   // ── 1. Header block (first From:/To:/…: line onward) ──
   // With no recognizable header the whole document is body; bodyStart = 0 and
@@ -183,8 +185,14 @@ export function parseNavalLetter(rawText: string): ParsedLetter {
 
     result.from = joinField('from');
     result.to = joinField('to');
-    result.via = joinField('via');
     result.subject = joinField('subject');
+    // Via is one addressee per line — the generator re-adds the "(1)/(2)"
+    // numbering, so strip the source's markers and store newline-separated,
+    // never a single "(1) X (2) Y" line that would render un-numbered.
+    if (fields.via) {
+      const vias = splitLabeledItems(fields.via.join(' '));
+      result.via = vias.length ? vias.join('\n') : undefined;
+    }
     if (fields.ref) result.references = splitLabeledItems(fields.ref.join(' '));
     if (fields.encl) result.enclosures = splitLabeledItems(fields.encl.join(' '));
   }
@@ -192,8 +200,33 @@ export function parseNavalLetter(rawText: string): ParsedLetter {
   // ── 2. Body paragraphs + signature (always, header or not) ──
   result.paragraphs = collectParagraphs(lines, bodyStart);
   result.signature = findSignature(lines, bodyStart) ?? undefined;
+  result.copyTos = parseCopyTo(lines);
 
   return result;
+}
+
+// A trailing block that isn't Copy to — ends the copy-to recipient list.
+const OTHER_TRAILING_BLOCK = /^(distribution|blind\s*copy|bcc)\s*:/i;
+
+/**
+ * Collect the "Copy to" recipients — one per line — from the trailing block,
+ * so an imported letter keeps its copy-to list instead of dropping it. The
+ * block sits after the signature; entries run until a blank line, the next
+ * trailing block (Distribution/BCC), a header label, or EOF.
+ */
+function parseCopyTo(lines: string[]): string[] {
+  const start = lines.findIndex((l) => /^copy\s*to\s*:/i.test(l.trim()));
+  if (start === -1) return [];
+  const recipients: string[] = [];
+  const first = afterColon(lines[start]).trim();
+  if (first) recipients.push(first); // "Copy to: Foo" on the label line
+  for (let i = start + 1; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) break; // a blank line closes the list
+    if (OTHER_TRAILING_BLOCK.test(line) || headerLabelOf(line) || parseSignature(line)) break;
+    recipients.push(line);
+  }
+  return recipients;
 }
 
 /**

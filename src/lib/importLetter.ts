@@ -62,6 +62,7 @@ export function applyParsedLetter(parsed: ParsedLetter): void {
     references: parsed.references.map((title) => ({ letter: '', title })),
     enclosures: parsed.enclosures.map((title) => ({ title })),
     paragraphs: parsed.paragraphs.map((p) => ({ text: p.text, level: p.level })),
+    copyTos: parsed.copyTos.map((text) => ({ text })),
   });
 
   docs.openLoadedAsNew();

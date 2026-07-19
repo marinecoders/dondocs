@@ -11,8 +11,10 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 - **Import a letter from a PDF.** Save → "Import letter from PDF…" opens an
   existing naval letter and reads it back into the editor as a new document —
-  the From/To/Via/Subj header, the SSIC / serial / date, the reference and
-  enclosure lists, the numbered-paragraph tree, and the signer's name. The old
+  the From/To/Via/Subj header, the SSIC / serial / date, the reference,
+  enclosure, and copy-to lists, the numbered-paragraph tree, and the signer's
+  name (multiple Via addressees import as separate lines, so the letter
+  re-numbers them correctly). The old
   way to reuse a letter you only had as a PDF was to retype it; now it's a file
   pick and a review. The whole read happens in your browser through the pdf.js
   already bundled for the preview — nothing is uploaded, so it's fine on

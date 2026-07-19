@@ -162,6 +162,7 @@ function ReviewBody({
         <Row label="Date" value={parsed.date} />
         <Row label="References" value={parsed.references.length} />
         <Row label="Enclosures" value={parsed.enclosures.length} />
+        <Row label="Copy to" value={parsed.copyTos.length} />
         <Row label="Paragraphs" value={parsed.paragraphs.length} />
         <Row label="Signature" value={sig} />
       </div>
