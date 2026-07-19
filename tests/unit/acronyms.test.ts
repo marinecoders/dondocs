@@ -31,6 +31,38 @@ describe('findUndefinedAcronyms — spell-out-first (SECNAV M-5216.5 ¶17c)', ()
   });
 });
 
+describe('findUndefinedAcronyms — not-an-acronym cases (no false positives)', () => {
+  it('does not flag plurals of allowlisted or defined acronyms', () => {
+    expect(findUndefinedAcronyms('Identify the unit POCs and redact all SSNs.')).toEqual([]);
+    expect(
+      findUndefinedAcronyms('A Memorandum of Understanding (MOU) governs this. Three MOUs were signed.')
+    ).toEqual([]);
+  });
+
+  it('does not flag Roman numerals', () => {
+    expect(findUndefinedAcronyms('Veterans of World War II attended Phase IV of paragraph VII.')).toEqual([]);
+  });
+
+  it('does not flag CamelCase rank abbreviations', () => {
+    expect(findUndefinedAcronyms('LCpl Doe and GySgt Roe reported as directed.')).toEqual([]);
+  });
+
+  it('does not flag all-caps emphasis words or slashed abbreviations', () => {
+    expect(findUndefinedAcronyms('Personnel will NOT enter; mark the field N/A.')).toEqual([]);
+  });
+
+  it('does not flag SECNAV / OPNAV / CMC (now allowlisted)', () => {
+    expect(findUndefinedAcronyms('Per SECNAV and OPNAV policy, CMC will decide.')).toEqual([]);
+  });
+
+  it('matches a definition regardless of period/case variance', () => {
+    // "(NATO)" defines a later "N.A.T.O." use.
+    expect(findUndefinedAcronyms('The North Atlantic Treaty Organization (NATO) met; N.A.T.O. adjourned.')).toEqual(
+      []
+    );
+  });
+});
+
 describe('findUndefinedAcronyms — strict (directives)', () => {
   it('flags even established/allowlisted acronyms when strict', () => {
     const f = findUndefinedAcronyms('The USMC will comply.', { strict: true });
