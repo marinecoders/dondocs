@@ -849,7 +849,7 @@ export function Header({
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setImportLetterModalOpen(true)}>
                 <FileUp className="h-4 w-4 mr-2" />
-                Import letter from PDF…
+                Import letter from PDF or Word…
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuLabel className="text-xs text-muted-foreground font-normal">Backup file (.json)</DropdownMenuLabel>

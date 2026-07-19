@@ -1,15 +1,41 @@
 import { readFileAsArrayBuffer, arrayBufferToUint8Array } from '@/lib/encoding';
 import { extractPdfText } from '@/lib/pdfText';
 import { parseNavalLetter, type ParsedLetter } from '@/lib/parseNavalLetter';
+import { detectDocumentType, type DocTypeDetection } from '@/lib/detectDocumentType';
+import { convertDocxToPlainText } from '@/services/docx/pandoc-converter';
 import { useDocumentStore, persistUnsavedEnclosures } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import type { DocumentData } from '@/types/document';
 
-/** Read a PDF File and parse it into naval-letter fields. Text-layer PDFs only. */
-export async function parseLetterFile(file: File): Promise<ParsedLetter> {
+/** A parsed file plus the importer's best guess at which document type it is. */
+export interface ParsedImport {
+  parsed: ParsedLetter;
+  detection: DocTypeDetection;
+}
+
+/** True when the file name or MIME type identifies a Word document. */
+function isDocxFile(file: File): boolean {
+  return (
+    /\.docx$/i.test(file.name) ||
+    file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  );
+}
+
+/** Extract the plain text of a supported letter file (PDF text-layer or DOCX). */
+async function extractLetterText(file: File): Promise<string> {
   const buffer = await readFileAsArrayBuffer(file);
-  const text = await extractPdfText(arrayBufferToUint8Array(buffer));
-  return parseNavalLetter(text);
+  const bytes = arrayBufferToUint8Array(buffer);
+  return isDocxFile(file) ? convertDocxToPlainText(bytes) : extractPdfText(bytes);
+}
+
+/**
+ * Read a letter file (PDF or DOCX), parse it into naval-letter fields, and
+ * detect which document type it most likely is. Text-layer PDFs and Word
+ * documents only — a scanned image PDF has no text to read.
+ */
+export async function parseLetterFile(file: File): Promise<ParsedImport> {
+  const text = await extractLetterText(file);
+  return { parsed: parseNavalLetter(text), detection: detectDocumentType(text) };
 }
 
 /** Whether the parser recognized anything worth importing. */
@@ -30,8 +56,12 @@ export function hasParsedContent(p: ParsedLetter): boolean {
  * Header.tsx: set the document type, then the scalar fields, then the arrays,
  * then open the result as its own recents entry. Only fields the parser filled
  * are written — everything else stays at the fresh-letter default.
+ *
+ * `docType` is the type the drafter confirmed in the review step (defaulting to
+ * the importer's detection); every importable type lives in the correspondence
+ * category, and `setDocType` derives the per-type layout config from it.
  */
-export function applyParsedLetter(parsed: ParsedLetter): void {
+export function applyParsedLetter(parsed: ParsedLetter, docType = 'naval_letter'): void {
   const docs = useDocumentsStore.getState();
   const ds = useDocumentStore.getState();
 
@@ -40,7 +70,7 @@ export function applyParsedLetter(parsed: ParsedLetter): void {
 
   ds.setDocumentMode('compliant');
   ds.setDocumentCategory('correspondence');
-  ds.setDocType('naval_letter');
+  ds.setDocType(docType);
 
   const formData: Partial<DocumentData> = {};
   if (parsed.ssic) formData.ssic = parsed.ssic;

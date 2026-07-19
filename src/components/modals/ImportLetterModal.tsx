@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { FileUp, Loader2, AlertTriangle, FileText } from 'lucide-react';
+import { FileUp, Loader2, AlertTriangle, FileText, Info } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -8,16 +8,24 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { useUIStore } from '@/stores/uiStore';
-import { parseLetterFile, hasParsedContent, applyParsedLetter } from '@/lib/importLetter';
-import type { ParsedLetter } from '@/lib/parseNavalLetter';
+import { parseLetterFile, hasParsedContent, applyParsedLetter, type ParsedImport } from '@/lib/importLetter';
+import { IMPORTABLE_DOC_TYPES } from '@/lib/detectDocumentType';
+import { DOC_TYPE_LABELS } from '@/types/document';
 import { abbreviatedSignatoryName } from '@/lib/signatoryName';
 
 type Phase =
   | { kind: 'idle' }
   | { kind: 'parsing' }
-  | { kind: 'review'; parsed: ParsedLetter }
+  | { kind: 'review'; result: ParsedImport }
   | { kind: 'error'; message: string };
 
 /** One "Label: value" row in the review summary; hidden when nothing parsed. */
@@ -32,9 +40,10 @@ function Row({ label, value }: { label: string; value?: string | number }) {
 }
 
 /**
- * Import an existing naval letter from a PDF: read its text (offline, via the
- * bundled pdf.js), parse the SECNAV structure, show what was recognized, and
- * on confirm open it as a new editable document. Best-effort — the review step
+ * Import an existing naval letter from a PDF or Word document: read its text
+ * (offline, via the bundled pdf.js for PDFs or pandoc WASM for DOCX), parse the
+ * SECNAV structure, guess the document type, show what was recognized, and on
+ * confirm open it as a new editable document. Best-effort — the review step
  * exists because parsing can't be perfect, and the letter opens for editing
  * either way. Scanned/image PDFs have no text to read (OCR is out of scope).
  */
@@ -56,24 +65,27 @@ export function ImportLetterModal() {
   const handleFile = useCallback(async (file: File) => {
     setPhase({ kind: 'parsing' });
     try {
-      const parsed = await parseLetterFile(file);
-      if (!hasParsedContent(parsed)) {
+      const result = await parseLetterFile(file);
+      if (!hasParsedContent(result.parsed)) {
         setPhase({
           kind: 'error',
           message:
-            "Couldn't find letter text in this PDF. If it's a scan or image, text import can't read it yet.",
+            "Couldn't find letter text in this file. If it's a scan or image PDF, text import can't read it yet.",
         });
         return;
       }
-      setPhase({ kind: 'review', parsed });
+      setPhase({ kind: 'review', result });
     } catch {
-      setPhase({ kind: 'error', message: 'This PDF could not be read. It may be corrupt or protected.' });
+      setPhase({
+        kind: 'error',
+        message: 'This file could not be read. It may be corrupt, protected, or an unsupported format.',
+      });
     }
   }, []);
 
   const doImport = useCallback(
-    (parsed: ParsedLetter) => {
-      applyParsedLetter(parsed);
+    (result: ParsedImport, docType: string) => {
+      applyParsedLetter(result.parsed, docType);
       onOpenChange(false);
     },
     [onOpenChange]
@@ -88,21 +100,21 @@ export function ImportLetterModal() {
             Import a letter
           </DialogTitle>
           <DialogDescription>
-            Open an existing naval letter from a PDF as a new editable document. Everything is read
-            in your browser — nothing is uploaded.
+            Open an existing letter from a PDF or Word document as a new editable document.
+            Everything is read in your browser — nothing is uploaded.
           </DialogDescription>
         </DialogHeader>
 
         {phase.kind === 'idle' && (
           <label className="flex cursor-pointer flex-col items-center gap-2 rounded-md border-2 border-dashed border-border p-8 text-center transition-colors hover:border-primary/50 hover:bg-secondary/30">
             <FileUp className="h-6 w-6 text-muted-foreground" />
-            <span className="text-sm font-medium">Choose a PDF to import</span>
+            <span className="text-sm font-medium">Choose a PDF or Word file to import</span>
             <span className="text-xs text-muted-foreground">
-              Text-based PDFs only — a scanned image can&apos;t be read yet.
+              Text-based PDF (.pdf) or Word (.docx) — a scanned image can&apos;t be read yet.
             </span>
             <input
               type="file"
-              accept=".pdf,application/pdf"
+              accept=".pdf,application/pdf,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
               className="hidden"
               onChange={(e) => {
                 const file = e.target.files?.[0];
@@ -131,7 +143,11 @@ export function ImportLetterModal() {
         )}
 
         {phase.kind === 'review' && (
-          <ReviewBody parsed={phase.parsed} onBack={reset} onImport={() => doImport(phase.parsed)} />
+          <ReviewBody
+            result={phase.result}
+            onBack={reset}
+            onImport={(docType) => doImport(phase.result, docType)}
+          />
         )}
       </DialogContent>
     </Dialog>
@@ -139,17 +155,22 @@ export function ImportLetterModal() {
 }
 
 function ReviewBody({
-  parsed,
+  result,
   onBack,
   onImport,
 }: {
-  parsed: ParsedLetter;
+  result: ParsedImport;
   onBack: () => void;
-  onImport: () => void;
+  onImport: (docType: string) => void;
 }) {
+  const { parsed, detection } = result;
+  const [docType, setDocType] = useState(detection.docType);
+  const lowConfidence = detection.confidence === 'low';
+
   const sig = parsed.signature
     ? abbreviatedSignatoryName(parsed.signature.first, parsed.signature.middle, parsed.signature.last)
     : undefined;
+
   return (
     <>
       <div className="space-y-1.5 rounded-md border border-border bg-secondary/20 p-3">
@@ -166,6 +187,39 @@ function ReviewBody({
         <Row label="Paragraphs" value={parsed.paragraphs.length} />
         <Row label="Signature" value={sig} />
       </div>
+
+      {/* Document-type picker: pre-selected to the importer's guess. When the
+          guess is uncertain we say so and ask the drafter to confirm. */}
+      <div className="space-y-1.5">
+        <label htmlFor="import-doc-type" className="text-sm font-medium">
+          Document type
+        </label>
+        <Select value={docType} onValueChange={setDocType}>
+          <SelectTrigger id="import-doc-type" className="w-full">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {IMPORTABLE_DOC_TYPES.map((t) => (
+              <SelectItem key={t} value={t}>
+                {DOC_TYPE_LABELS[t] ?? t}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <p
+          className={`flex items-start gap-1.5 text-xs ${
+            lowConfidence ? 'text-warning' : 'text-muted-foreground'
+          }`}
+        >
+          {lowConfidence ? (
+            <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+          ) : (
+            <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+          )}
+          {detection.reason}
+        </p>
+      </div>
+
       <p className="flex items-start gap-1.5 text-xs text-muted-foreground">
         <FileText className="mt-0.5 h-3.5 w-3.5 shrink-0" />
         This is a best-effort read — check every field after importing. The letter opens as a new
@@ -175,7 +229,7 @@ function ReviewBody({
         <Button variant="outline" onClick={onBack}>
           Choose a different file
         </Button>
-        <Button onClick={onImport}>Import into editor</Button>
+        <Button onClick={() => onImport(docType)}>Import into editor</Button>
       </DialogFooter>
     </>
   );

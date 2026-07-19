@@ -187,6 +187,47 @@ export async function prefetchPandocModule(): Promise<void> {
   }
 }
 
+/**
+ * Read a .docx file's text content by running pandoc WASM in reverse
+ * (docx → plain). Used by the letter importer so the same SECNAV parser can
+ * consume Word documents, not just PDFs. Everything runs in-browser, offline.
+ *
+ * The bytes are handed to pandoc through the virtual-FS `files` map (binary
+ * input can't go through the string `stdin` channel — it would be mangled by
+ * UTF-8 encoding); `input-files` names the entry to read. `wrap: 'none'` keeps
+ * each source paragraph on a single line so the line-oriented header parser
+ * sees "From:", "To:", "Subj:" intact rather than hard-wrapped at 72 columns.
+ */
+export async function convertDocxToPlainText(bytes: Uint8Array): Promise<string> {
+  const mod = await ensureLoaded();
+
+  // Copy into a standalone ArrayBuffer so the Blob owns its bytes regardless of
+  // how the caller allocated the view (e.g. a subarray of a larger buffer).
+  const buffer = bytes.slice().buffer;
+  const files: Record<string, Blob> = {
+    'input.docx': new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    }),
+  };
+
+  const options: Record<string, unknown> = {
+    from: 'docx',
+    to: 'plain',
+    'input-files': ['input.docx'],
+    'output-file': 'output.txt',
+    wrap: 'none',
+  };
+
+  debug.log('DOCX', 'Reading DOCX text via pandoc (docx → plain)...');
+  const result = await mod.convert(options, null, files);
+  if (result.stderr) debug.warn('DOCX', `Pandoc docx-read stderr: ${result.stderr}`);
+
+  const out = files['output.txt'];
+  if (out && out.size > 0) return out.text();
+  // Fall back to stdout if the build streams the result there instead.
+  return result.stdout ?? '';
+}
+
 function getSealFilename(sealType?: string, letterheadColor?: string): string {
   const type = sealType || 'dow';
   const bwSuffix = letterheadColor === 'black' ? '-bw' : '';

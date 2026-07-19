@@ -9,20 +9,28 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ### Added
 
-- **Import a letter from a PDF.** Save → "Import letter from PDF…" opens an
-  existing naval letter and reads it back into the editor as a new document —
+- **Import a letter from a PDF or Word document.** Save → "Import letter…" opens
+  an existing letter and reads it back into the editor as a new document —
   the From/To/Via/Subj header, the SSIC / serial / date, the reference,
   enclosure, and copy-to lists, the numbered-paragraph tree, and the signer's
   name (multiple Via addressees import as separate lines, so the letter
   re-numbers them correctly). The old
-  way to reuse a letter you only had as a PDF was to retype it; now it's a file
-  pick and a review. The whole read happens in your browser through the pdf.js
-  already bundled for the preview — nothing is uploaded, so it's fine on
-  NMCI/air-gapped networks. It's a best-effort parse: a review dialog shows
+  way to reuse a letter you only had as a file was to retype it; now it's a file
+  pick and a review. The whole read happens in your browser — PDFs through the
+  pdf.js already bundled for the preview, Word (.docx) files through the same
+  pandoc engine that powers DOCX export — so nothing is uploaded and it's fine
+  on NMCI/air-gapped networks. It's a best-effort parse: a review dialog shows
   every recognized field before anything is written, the letter opens as a new
   document so your current one is untouched, and you check the fields after.
-  Text-based PDFs only — a scanned image has no text to read (that's a later
-  feature).
+  Text-based PDFs and .docx only — a scanned image has no text to read (that's a
+  later feature).
+- **The importer detects the document type.** It reads the file's text for the
+  tell-tale opener — an endorsement line, "MEMORANDUM FOR THE RECORD",
+  "MEMORANDUM OF AGREEMENT/UNDERSTANDING", or a From/To/Subj letter skeleton —
+  and pre-selects the matching type in the review dialog. When the type is clear
+  it says so; when it can't be sure (a bare "MEMORANDUM", or only partial
+  addressing) it flags the guess and asks you to confirm from the full list of
+  importable types before the letter opens.
 
 ## [1.2.109] — 2026-07-18
 
