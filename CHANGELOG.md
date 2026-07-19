@@ -5,7 +5,22 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
-## [1.2.108] — 2026-07-18
+## [1.2.109] — 2026-07-18
+
+### Added
+
+- The Classification section now **checks your markings against each other**.
+  DonDocs renders the banner and per-paragraph portion marks; it now also
+  validates that they agree, following the "highest classification wins" rule
+  (DoDM 5200.01 for classified, DoDI 5200.48 / 32 CFR 2002 for CUI). The
+  serious case it catches is **under-marking** — a paragraph marked higher than
+  the document's banner (e.g. a (S) paragraph under a CONFIDENTIAL banner),
+  flagged as an error because the overall marking must be at least the highest
+  portion. It also warns on a classified/CUI document with no portion marks,
+  on partial marking (some paragraphs marked and some not), on over-marking
+  (a banner higher than every portion), and on mixing CUI with legacy FOUO.
+  The findings appear inline in the section as you edit — advisory, never
+  blocking — and are announced to screen readers.
 
 ### Added
 
