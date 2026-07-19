@@ -14,8 +14,9 @@ import {
   type ClassificationLevel,
   type ClassificationRestriction,
 } from '@/lib/domainClassification';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { getClassificationConfig } from '@/config/classification';
+import { validateClassificationMarkings } from '@/lib/classificationValidation';
 
 // Official CNSI/ISOO banner colors (EO 13526, 32 CFR 2001/2002, DoDM 5200.01,
 // CAPCO Register, ISOO directive). Hex codes match the dodcui.mil/ISOO table:
@@ -82,7 +83,17 @@ const DISTRIBUTION_STATEMENTS = [
 
 export function ClassificationSection() {
   const { formData, setField } = useDocumentStore();
+  const paragraphs = useDocumentStore((s) => s.paragraphs);
   const classLevel = formData.classLevel || 'unclassified';
+
+  // Banner ↔ portion-marking consistency ("highest classification wins"). An
+  // under-marked paragraph (marked higher than the banner) is the finding that
+  // most needs catching; the rest are advisory. Recomputed only when the level
+  // or paragraph markings change.
+  const markingFindings = useMemo(
+    () => validateClassificationMarkings(classLevel, paragraphs),
+    [classLevel, paragraphs]
+  );
   const [configOverride, setConfigOverride] = useState<{ restriction?: ClassificationRestriction; message?: string } | null>(null);
   const [configLoaded, setConfigLoaded] = useState(false);
 
@@ -210,6 +221,29 @@ export function ClassificationSection() {
                 </SelectContent>
               </Select>
             </div>
+
+            {/* Banner ↔ portion-marking consistency findings. aria-live so a
+                new under-marking is announced without stealing focus. */}
+            {markingFindings.length > 0 && (
+              <div className="space-y-2" aria-live="polite">
+                {markingFindings.map((finding, i) => {
+                  const accent = finding.severity === 'error' ? 'text-destructive' : 'text-warning';
+                  return (
+                    <Notice key={i} variant={finding.severity === 'error' ? 'error' : 'warning'}>
+                      <div className="flex items-start gap-2 text-sm">
+                        <AlertTriangle aria-hidden="true" className={`h-4 w-4 mt-0.5 shrink-0 ${accent}`} />
+                        <span className={accent}>
+                          <span className="sr-only">
+                            {finding.severity === 'error' ? 'Error: ' : 'Warning: '}
+                          </span>
+                          {finding.message}
+                        </span>
+                      </div>
+                    </Notice>
+                  );
+                })}
+              </div>
+            )}
 
             {/* Warning for classified documents */}
             {isClassified && (
