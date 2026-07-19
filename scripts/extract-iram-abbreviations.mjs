@@ -80,9 +80,12 @@ const seen = new Map(); // lowercased word -> entry (first wins)
 const dropped = []; // same-word/different-abbr rows we couldn't keep
 let buffer = '';
 
-// Start past the "ABBREVIATION ..... abbr" column header (start), which is itself
-// a dot-leader row but not a data entry.
-for (let i = start + 1; i < end; i++) {
+// The "ABBREVIATION ..... abbr" line that anchors the list is itself the FIRST
+// DATA ROW (the word "abbreviation" -> "abbr"), not a column caption: headers in
+// this manual (see section b's "PHRASE EQUIVALENT  MEANING") carry no dot
+// leader, and the row sits exactly where alphabetical order puts it (before
+// ABOARD). Start AT it, not past it.
+for (let i = start; i < end; i++) {
   const line = lines[i];
   const m = line.match(ROW);
   if (m) {
