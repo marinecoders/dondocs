@@ -33,14 +33,27 @@ export interface ParsedLetter {
 
 // The labels that open a header field. Longer/aliased spellings first so
 // "Subject" matches before a naive "Subj" prefix test would.
+// Leading `\s*` tolerates indentation: pandoc renders the header block of a
+// DOCX letter as a grid table, so labels arrive indented ("  From:  …") rather
+// than at the line start.
 const HEADER_LABELS: { key: 'from' | 'to' | 'via' | 'subject' | 'ref' | 'encl'; re: RegExp }[] = [
-  { key: 'from', re: /^from\s*:/i },
-  { key: 'to', re: /^to\s*:/i },
-  { key: 'via', re: /^via\s*:/i },
-  { key: 'subject', re: /^subj(?:ect)?\s*:/i },
-  { key: 'ref', re: /^ref(?:erence)?\s*:/i },
-  { key: 'encl', re: /^encl(?:osure)?\s*:/i },
+  { key: 'from', re: /^\s*from\s*:/i },
+  { key: 'to', re: /^\s*to\s*:/i },
+  { key: 'via', re: /^\s*via\s*:/i },
+  { key: 'subject', re: /^\s*subj(?:ect)?\s*:/i },
+  { key: 'ref', re: /^\s*ref(?:erence)?\s*:/i },
+  { key: 'encl', re: /^\s*encl(?:osure)?\s*:/i },
 ];
+
+// A grid-table rule line, e.g. "  ------- ----------------". Pandoc draws the
+// letterhead, identification, and From/To/Subj blocks of a DOCX letter as grid
+// tables; these separator rows are layout, not content, and must be dropped
+// before parsing or they get swept into a field value. A blank line (no dashes)
+// is NOT a separator — those carry paragraph structure and are kept.
+const GRID_SEPARATOR = /^[\s\-+|]*$/;
+function isGridSeparator(line: string): boolean {
+  return GRID_SEPARATOR.test(line) && (line.match(/-/g)?.length ?? 0) >= 3;
+}
 
 // A line that ends the letter body — the trailing blocks the editor holds
 // separately (Copy to / Distribution) must not be swept in as paragraphs.
@@ -158,7 +171,10 @@ function parseIdentification(preHeader: string[]): Pick<ParsedLetter, 'ssic' | '
 }
 
 export function parseNavalLetter(rawText: string): ParsedLetter {
-  const lines = rawText.replace(/\r\n?/g, '\n').split('\n');
+  const lines = rawText
+    .replace(/\r\n?/g, '\n')
+    .split('\n')
+    .filter((l) => !isGridSeparator(l));
 
   const result: ParsedLetter = { references: [], enclosures: [], copyTos: [], paragraphs: [] };
 

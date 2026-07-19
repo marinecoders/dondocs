@@ -4,23 +4,18 @@ import { parseNavalLetter, type ParsedLetter } from '@/lib/parseNavalLetter';
 import { detectDocumentType, type DocTypeDetection } from '@/lib/detectDocumentType';
 import { detectClassification, type ClassificationDetection } from '@/lib/detectClassification';
 import { convertDocxToPlainText, extractDocxMarkingText } from '@/services/docx/pandoc-converter';
+import { detectImportFormat } from '@/lib/importFormat';
 import { useDocumentStore, persistUnsavedEnclosures } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import type { DocumentData } from '@/types/document';
+
+export { isDocxFile, detectImportFormat, type ImportFormat } from '@/lib/importFormat';
 
 /** A parsed file plus the importer's guesses at document type and classification. */
 export interface ParsedImport {
   parsed: ParsedLetter;
   detection: DocTypeDetection;
   classification: ClassificationDetection;
-}
-
-/** True when the file name or MIME type identifies a Word document. */
-export function isDocxFile(file: File): boolean {
-  return (
-    /\.docx$/i.test(file.name) ||
-    file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-  );
 }
 
 /**
@@ -34,7 +29,8 @@ export function isDocxFile(file: File): boolean {
 async function extractLetterText(file: File): Promise<{ body: string; markings: string }> {
   const buffer = await readFileAsArrayBuffer(file);
   const bytes = arrayBufferToUint8Array(buffer);
-  if (isDocxFile(file)) {
+  const format = detectImportFormat(file, bytes);
+  if (format === 'docx') {
     // The body is essential; the header/footer markings only feed classification
     // detection, so a hiccup reading them must not fail the whole import.
     const [body, markings] = await Promise.all([
@@ -43,7 +39,8 @@ async function extractLetterText(file: File): Promise<{ body: string; markings: 
     ]);
     return { body, markings };
   }
-  return { body: await extractPdfText(bytes), markings: '' };
+  if (format === 'pdf') return { body: await extractPdfText(bytes), markings: '' };
+  throw new Error(`Unsupported file type for import: ${file.name || '(unnamed file)'}`);
 }
 
 /**

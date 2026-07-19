@@ -23,7 +23,11 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
   every recognized field before anything is written, the letter opens as a new
   document so your current one is untouched, and you check the fields after.
   Text-based PDFs and .docx only — a scanned image has no text to read (that's a
-  later feature).
+  later feature). The file type is detected from its contents (magic bytes) as
+  well as its name, so a Word document saved with the wrong extension still
+  imports; and the header block of a real letterhead Word document — which the
+  converter lays out as a table — is read correctly (From/To/Via/Subj and the
+  SSIC/serial/date) rather than skipped.
 - **The importer detects the document type.** It reads the file's text for the
   tell-tale opener — an endorsement line, "MEMORANDUM FOR THE RECORD",
   "MEMORANDUM OF AGREEMENT/UNDERSTANDING", or a From/To/Subj letter skeleton —

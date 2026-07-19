@@ -69,6 +69,61 @@ describe('parseNavalLetter — full letter', () => {
   });
 });
 
+describe('parseNavalLetter — pandoc grid-table header (DOCX import)', () => {
+  // pandoc renders the letterhead / identification / From-To-Subj blocks of a
+  // DOCX letter as grid tables: indented cell text with dash separator rows.
+  // The parser must strip the rules and read the indented labels anyway.
+  const GRID_DOCX = [
+    '  ---------------- ------------------------------------- ----------------',
+    '  [image]               UNITED STATES MARINE CORPS',
+    '                            NEWBURGH, NY 12550',
+    '  ---------------- ------------------------------------- ----------------',
+    '',
+    '  ----------------------------------- -----------------------------------',
+    '                                      1650',
+    '',
+    '                                      0042',
+    '',
+    '                                      4 Jan 26',
+    '  ----------------------------------- -----------------------------------',
+    '',
+    '  ------- -----------------------------------------------------------------',
+    '  From:   Commanding Officer, Marine Innovation Unit',
+    '',
+    '  To:     Director',
+    '',
+    '  Subj:   REAL LETTERHEAD TEST',
+    '  ------- -----------------------------------------------------------------',
+    '',
+    '1.  First paragraph.',
+    '',
+    '2.  Second paragraph.',
+  ].join('\n');
+
+  it('reads the identification block from the indented grid cells', () => {
+    const p = parseNavalLetter(GRID_DOCX);
+    expect(p.ssic).toBe('1650');
+    expect(p.serial).toBe('0042');
+    expect(p.date).toBe('4 Jan 26');
+  });
+
+  it('reads indented From / To / Subj labels and drops the rule rows', () => {
+    const p = parseNavalLetter(GRID_DOCX);
+    expect(p.from).toBe('Commanding Officer, Marine Innovation Unit');
+    expect(p.to).toBe('Director');
+    // The trailing "------" rule must not be swept into the subject value.
+    expect(p.subject).toBe('REAL LETTERHEAD TEST');
+  });
+
+  it('still reads the body paragraphs', () => {
+    const p = parseNavalLetter(GRID_DOCX);
+    expect(p.paragraphs).toEqual([
+      { text: 'First paragraph.', level: 0 },
+      { text: 'Second paragraph.', level: 0 },
+    ]);
+  });
+});
+
 describe('parseNavalLetter — via addressees', () => {
   it('stores multiple via as newline-separated entries, stripping source numbering', () => {
     // The generator re-adds "(1)/(2)"; the parsed value must not bake them in.
