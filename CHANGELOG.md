@@ -19,6 +19,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
   suggestion is hedged ("IPAC, or your S-1") and reminds you to confirm with
   your unit SOP or S-1 before submitting. (Also corrects the field's placeholder,
   which described the wrong thing.)
+- **Save your command's actual routing.** The bundled suggestions are
+  doctrine-level; you can edit any one to your command's real routing (e.g.
+  "IPAC Bldg 100, pay window 3") and it's remembered. Your overrides ride in the
+  backup file, so an admin chief can configure the command's routing once and
+  share the backup with the unit — every Marine then gets their command's real
+  routing, not just doctrine.
 
 ### Changed
 

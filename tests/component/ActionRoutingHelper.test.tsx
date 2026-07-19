@@ -7,9 +7,12 @@
  * Nature of Action matches, and only inserts on an explicit click.
  */
 // @vitest-environment happy-dom
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ActionRoutingHelper } from '@/components/editor/ActionRoutingHelper';
+import { useRoutingStore } from '@/stores/routingStore';
+
+beforeEach(() => useRoutingStore.setState({ overrides: {} }));
 
 describe('ActionRoutingHelper', () => {
   it('stays collapsed to a quiet link when nothing routable is detected', () => {
@@ -45,5 +48,27 @@ describe('ActionRoutingHelper', () => {
     expect(onInsert).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole('button', { name: /Use ".*" in the To field/i }));
     expect(onInsert).toHaveBeenCalledWith('Unit Career Planner (career retention specialist)');
+  });
+
+  it('lets a unit save its own routing, which then wins and can be reset', () => {
+    const onInsert = vi.fn();
+    render(<ActionRoutingHelper natureOfAction="Request TAD travel via DTS" onInsert={onInsert} />);
+
+    fireEvent.click(screen.getByRole('button', { name: /Set your command's routing/i }));
+    fireEvent.change(screen.getByLabelText(/Your command's routing/i), {
+      target: { value: 'S-4 Travel, Bldg 22 (Cpl Vega)' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /Save/i }));
+
+    // The unit value now shows and inserts instead of the doctrine default.
+    expect(screen.getByText('S-4 Travel, Bldg 22 (Cpl Vega)')).toBeTruthy();
+    expect(screen.getByText(/Saved for your unit/i)).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: /Use ".*" in the To field/i }));
+    expect(onInsert).toHaveBeenCalledWith('S-4 Travel, Bldg 22 (Cpl Vega)');
+
+    // Reset restores the bundled default.
+    fireEvent.click(screen.getByRole('button', { name: /reset to default/i }));
+    expect(screen.queryByText('S-4 Travel, Bldg 22 (Cpl Vega)')).toBeNull();
+    expect(screen.getByText(/S-1 or S-4/i)).toBeTruthy();
   });
 });

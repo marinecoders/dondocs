@@ -20,6 +20,7 @@ import { useProfileStore } from '@/stores/profileStore';
 import { useFormStore } from '@/stores/formStore';
 import { useSnippetsStore, type Snippet } from '@/stores/snippetsStore';
 import { useUserTemplatesStore, type UserTemplate } from '@/stores/userTemplatesStore';
+import { useRoutingStore, sanitizeOverrides } from '@/stores/routingStore';
 import {
   idbGetAttachment,
   idbPutAttachment,
@@ -32,10 +33,11 @@ import {
 import { uint8ArrayToBase64, base64ToUint8Array, arrayBufferToUint8Array } from '@/lib/encoding';
 
 export const BACKUP_KIND = 'dondocs-backup';
-// v4 adds `snapshots` (per-document version history). v3 added `attachments`.
-// Restore branches on `kind` and on field PRESENCE, not version, so a v2 (no
-// attachments) or v3 (no snapshots) bundle still restores cleanly.
-export const BACKUP_VERSION = 4;
+// v5 adds `routingOverrides` (unit AA-form routing). v4 added `snapshots`
+// (per-document version history). v3 added `attachments`. Restore branches on
+// `kind` and on field PRESENCE, not version, so an older bundle (missing any of
+// these fields) still restores cleanly.
+export const BACKUP_VERSION = 5;
 const LIBRARY_KIND = 'dondocs-library'; // legacy docs-only file
 
 /** An enclosure blob embedded in the bundle; `data` is base64 of the raw bytes. */
@@ -59,6 +61,8 @@ export interface BackupBundle {
   attachments: BackupAttachment[];
   /** Per-document version-history rings, keyed by document id. */
   snapshots: Record<string, DocSnapshot[]>;
+  /** Unit-specific AA-form routing overrides, keyed by action-type id. */
+  routingOverrides?: Record<string, string>;
 }
 
 export interface RestoreResult {
@@ -70,6 +74,8 @@ export interface RestoreResult {
   attachmentsAdded: number;
   /** Number of documents whose version history was restored. */
   snapshotDocs: number;
+  /** Number of unit routing overrides merged in. */
+  routingRulesAdded: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -226,6 +232,7 @@ export async function buildBackup(): Promise<string> {
     userTemplates: useUserTemplatesStore.getState().templates,
     attachments,
     snapshots,
+    routingOverrides: useRoutingStore.getState().overrides,
   };
   return JSON.stringify(bundle);
 }
@@ -262,7 +269,7 @@ async function runRestore(json: string): Promise<RestoreResult> {
   // Legacy docs-only file → delegate to the conflict-aware document merge.
   if (kind === LIBRARY_KIND) {
     const documents = await importLibrary(json);
-    return { documents, profilesAdded: 0, snippetsAdded: 0, templatesAdded: 0, formsRestored: false, attachmentsAdded: 0, snapshotDocs: 0 };
+    return { documents, profilesAdded: 0, snippetsAdded: 0, templatesAdded: 0, formsRestored: false, attachmentsAdded: 0, snapshotDocs: 0, routingRulesAdded: 0 };
   }
 
   // Documents: importLibrary expects `{ docs }`; the v2 bundle stores them under
@@ -302,6 +309,23 @@ async function runRestore(json: string): Promise<RestoreResult> {
     templatesAdded = added;
     return { templates: merged };
   });
+
+  // Unit routing overrides: a shared config wins on conflicts (an admin chief's
+  // backup is the authority for the command's routing); local-only entries stay.
+  let routingRulesAdded = 0;
+  const incomingRouting = sanitizeOverrides(parsed.routingOverrides);
+  if (Object.keys(incomingRouting).length > 0) {
+    useRoutingStore.setState((s) => {
+      const merged = { ...s.overrides };
+      for (const [id, dest] of Object.entries(incomingRouting)) {
+        if (merged[id] !== dest) {
+          merged[id] = dest;
+          routingRulesAdded++;
+        }
+      }
+      return { overrides: merged };
+    });
+  }
 
   // Live NAVMC form buffer: single state, replaced when the backup carries it.
   let formsRestored = false;
@@ -348,7 +372,7 @@ async function runRestore(json: string): Promise<RestoreResult> {
     }
   }
 
-  return { documents, profilesAdded, snippetsAdded, templatesAdded, formsRestored, attachmentsAdded, snapshotDocs };
+  return { documents, profilesAdded, snippetsAdded, templatesAdded, formsRestored, attachmentsAdded, snapshotDocs, routingRulesAdded };
 }
 
 /** One-line human summary of a restore, for the save-status toast. */
@@ -361,6 +385,7 @@ export function summarizeRestore(r: RestoreResult): string {
   if (r.attachmentsAdded) parts.push(`${r.attachmentsAdded} attachment${r.attachmentsAdded === 1 ? '' : 's'}`);
   if (r.snapshotDocs) parts.push('version history');
   if (r.formsRestored) parts.push('form fields');
+  if (r.routingRulesAdded) parts.push(`${r.routingRulesAdded} routing rule${r.routingRulesAdded === 1 ? '' : 's'}`);
   const kept = r.documents.skipped > 0 ? ` · kept ${r.documents.skipped} newer` : '';
   return `Restored ${parts.join(', ')}${kept}`;
 }
