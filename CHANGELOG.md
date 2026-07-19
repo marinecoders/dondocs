@@ -5,6 +5,26 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.113] — 2026-07-19
+
+### Added
+
+- **Authorized abbreviations on the recordkeeping forms.** As you write a Page 11
+  (NAVMC 118(11)) or Administrative Action (NAVMC 10274) entry, DonDocs shows the
+  approved abbreviations from the IRAM (MCO P1070.12K, ch. 6) for the words in
+  your text — "commanding officer → CO", "headquarters → hq" — and you apply one,
+  or all of them, with a click. It's suggestion-only: nothing rewrites your entry
+  on its own, and the helper stays hidden until a word in the field actually has
+  an approved abbreviation. The ~1,600-entry list is bound to the order that
+  governs it, so it appears only on those recordkeeping forms; other document
+  types keep their own conventions.
+- **"Did you mean?" for misspelled terms.** The abbreviation helper now also
+  catches a likely typo of an approved word — "adminstrative", "corrspondence",
+  "reconaissance" — and offers the correction with its abbreviation in one click.
+  It is deliberately cautious: it only speaks up for a longer word that is a
+  single typo away from exactly one approved term, and never touches an ordinary
+  English word (or a slip of one), so a correctly spelled word is left alone.
+
 ## [1.2.112] — 2026-07-19
 
 ### Added
