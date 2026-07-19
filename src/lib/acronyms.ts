@@ -35,8 +35,19 @@ const normalize = (token: string): string => token.toUpperCase().replace(/[./]/g
 // . & / - (so "U.S.", "C4ISR", "OPNAV/N1" are single tokens).
 const TOKEN_RE = /[A-Za-z][A-Za-z0-9&/.-]*[A-Za-z0-9]/g;
 
-// Roman numerals — "Phase IV", "World War II" are not acronyms.
-const ROMAN_RE = /^[IVXLCDM]+$/;
+// A WELL-FORMED Roman numeral (I..MMMCMXCIX). Deliberately strict: this must NOT
+// match ordinary all-caps acronyms that happen to use only the letters I,V,X,L,
+// C,D,M — "CID", "LCM", "DIV", "CIV" are not valid numerals and stay acronyms.
+// (A valid numeral like "MI"/"CV" is only treated as a numeral in context — see
+// precededByOrdinalWord — so "the MI shop" is still flagged.)
+const ROMAN_RE = /^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/;
+// Words that introduce a sequence number, so a following Roman numeral is an
+// ordinal ("Phase IV", "World War II", "Appendix C") — not an acronym.
+const ORDINAL_WORDS: ReadonlySet<string> = new Set([
+  'phase', 'part', 'chapter', 'section', 'appendix', 'annex', 'article', 'enclosure', 'encl',
+  'volume', 'vol', 'tab', 'figure', 'fig', 'table', 'paragraph', 'para', 'subpara', 'title',
+  'war', 'world', 'step', 'tier', 'type', 'class', 'mark', 'option', 'phase', 'priority', 'level',
+]);
 // Slash-joined single letters — "N/A", "A/C", "C/O" are abbreviations, not
 // acronyms that need a spelled-out definition.
 const SLASHED_RE = /^[A-Z](\/[A-Z])+$/;
@@ -46,22 +57,40 @@ const EMPHASIS_WORDS: ReadonlySet<string> = new Set([
   'SEE', 'USE', 'DUE', 'YES', 'NO', 'MUST', 'SHALL', 'WILL', 'MAY', 'CAN', 'ONLY', 'ALSO',
   'THIS', 'THAT', 'WITH', 'FROM', 'INTO', 'UPON', 'EACH', 'BOTH', 'SUCH', 'NONE', 'NOTE',
   'APPROVED', 'DISAPPROVED', 'IMPORTANT', 'WARNING', 'CAUTION', 'REQUIRED', 'ATTENTION',
+  // Verbs/labels routinely capitalized in endorsement and routing blocks.
+  'ENDORSED', 'CONCUR', 'NONCONCUR', 'CONCURRENCE', 'FORWARDED', 'RECOMMEND', 'RECOMMENDED',
+  'CERTIFIED', 'SIGNED', 'CANCELLED', 'CANCELED', 'RETURNED', 'SUBMITTED', 'ENCLOSED',
+  'ATTACHED', 'REVISED', 'PENDING', 'COMPLETED', 'DENIED', 'GRANTED', 'VERIFIED', 'ROUTINE',
+  'PRIORITY', 'IMMEDIATE', 'DRAFT', 'FINAL', 'VOID', 'SAMPLE', 'SUBJECT', 'REFERENCE',
 ]);
 
 /**
  * True when a token reads as an acronym: all uppercase (no lowercase letters, so
  * a CamelCase rank like "LCpl" or a plural "POCs" is excluded), two or more
- * capital letters, and not a Roman numeral, slashed abbreviation, or an ordinary
- * word written in caps.
+ * capital letters, and not a slashed abbreviation or an ordinary word written in
+ * caps. (Roman-numeral ordinals are excluded in context by the caller, not here,
+ * so genuine acronyms like "CID"/"MI" that use numeral letters still qualify.)
  */
 function isAcronym(token: string): boolean {
   if (/[a-z]/.test(token)) return false;
   if ((token.match(/[A-Z]/g)?.length ?? 0) < 2) return false;
   if (SLASHED_RE.test(token)) return false;
   const bare = token.replace(/[^A-Z]/g, '');
-  if (ROMAN_RE.test(bare)) return false;
   if (EMPHASIS_WORDS.has(bare)) return false;
   return true;
+}
+
+/**
+ * True when the token at `index` is a Roman-numeral ordinal in context — a
+ * well-formed numeral immediately preceded by a word that introduces a sequence
+ * ("Phase IV", "World War II"). Both conditions are required, so a valid numeral
+ * used as an acronym ("the MI shop", "the CV deployed") is still treated as an
+ * acronym.
+ */
+function isOrdinalNumeral(text: string, token: string, index: number): boolean {
+  if (!ROMAN_RE.test(normalize(token))) return false;
+  const before = text.slice(0, index).match(/([A-Za-z]+)\W*$/);
+  return before ? ORDINAL_WORDS.has(before[1].toLowerCase()) : false;
 }
 
 export interface AcronymFinding {
@@ -99,6 +128,7 @@ export function findUndefinedAcronyms(text: string, options: AcronymCheckOptions
   for (const m of text.matchAll(TOKEN_RE)) {
     const token = m[0];
     if (!isAcronym(token)) continue;
+    if (isOrdinalNumeral(text, token, m.index)) continue;
     const key = normalize(token);
     if (!firstSeen.has(key)) firstSeen.set(key, { display: token, index: m.index });
   }

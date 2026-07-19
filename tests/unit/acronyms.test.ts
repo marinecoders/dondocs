@@ -81,3 +81,30 @@ describe('CORRESPONDENCE_ALLOWLIST', () => {
     expect(CORRESPONDENCE_ALLOWLIST.has('US')).toBe(true); // "U.S." normalizes to this
   });
 });
+
+describe('findUndefinedAcronyms — Roman-numeral letters vs. genuine ordinals', () => {
+  const f = (t: string) => findUndefinedAcronyms(t).map((x) => x.acronym);
+
+  it('flags real acronyms that happen to use only numeral letters', () => {
+    // Regression: a blanket /^[IVXLCDM]+$/ check silently swallowed these.
+    expect(f('The CID will open a case this week.')).toEqual(['CID']);
+    expect(f('Load the gear onto the LCM before dawn.')).toEqual(['LCM']);
+    expect(f('The MCM squadron sailed at first light.')).toEqual(['MCM']);
+    expect(f('Coordinate with MI before the brief.')).toEqual(['MI']);
+    expect(f('The C4I node is offline.')).toEqual(['C4I']);
+    // Even well-formed numerals (MI=1001, CV=105) are acronyms out of ordinal context.
+    expect(f('The MI shop and the CV deployed.')).toEqual(['MI', 'CV']);
+  });
+
+  it('still skips genuine Roman-numeral ordinals in sequence context', () => {
+    expect(f('Complete Phase IV before the review.')).toEqual([]);
+    expect(f('This dates to World War II.')).toEqual([]);
+    expect(f('See Appendix C and Annex D.')).toEqual([]);
+    expect(f('Proceed to Part III of the order.')).toEqual([]);
+  });
+
+  it('does not flag capitalized endorsement/routing verbs', () => {
+    expect(f('The request is ENDORSED and forwarded. I CONCUR with it.')).toEqual([]);
+    expect(f('Recommendation: DISAPPROVED. Package RETURNED to the originator.')).toEqual([]);
+  });
+});
