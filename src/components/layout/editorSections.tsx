@@ -12,6 +12,7 @@ import { SignatureSection } from '@/components/editor/SignatureSection';
 import { ReferencesManager } from '@/components/editor/ReferencesManager';
 import { EnclosuresManager } from '@/components/editor/EnclosuresManager';
 import { BlockParagraphsEditor } from '@/components/editor/BlockParagraphsEditor';
+import { AcronymCheck } from '@/components/editor/AcronymCheck';
 import { CopyToManager } from '@/components/editor/CopyToManager';
 import { DistributionManager } from '@/components/editor/DistributionManager';
 import { EndorsementBasicLetterSection } from '@/components/editor/EndorsementBasicLetterSection';
@@ -331,7 +332,12 @@ export function renderEditorSection(id: string, config: DocTypeConfig): ReactNod
     case 'classification':
       return <ClassificationSection />;
     case 'body':
-      return <BlockParagraphsEditor />;
+      return (
+        <div className="space-y-3">
+          <BlockParagraphsEditor />
+          <AcronymCheck />
+        </div>
+      );
     case 'references':
       return <ReferencesManager />;
     case 'enclosures':
