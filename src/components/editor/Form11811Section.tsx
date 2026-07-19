@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/accordion';
 import { InputWithVariables } from '@/components/ui/variable-autocomplete';
 import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
+import { AbbreviationHelper } from '@/components/editor/AbbreviationHelper';
 import { DatePicker } from '@/components/ui/date-picker';
 import { useFormStore } from '@/stores/formStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
@@ -294,6 +295,11 @@ export function Form11811Section() {
                   tabInsertsSpaces
                 />
                 <ColumnFitLine fit={fit?.left} />
+                <AbbreviationHelper
+                  value={navmc11811.remarksText}
+                  onChange={(v) => setNavmc11811Field('remarksText', v)}
+                  formType="navmc_11811"
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="remarksTextRight">Administrative Remarks (Right)</Label>
@@ -305,6 +311,11 @@ export function Form11811Section() {
                   tabInsertsSpaces
                 />
                 <ColumnFitLine fit={fit?.right} />
+                <AbbreviationHelper
+                  value={navmc11811.remarksTextRight || ''}
+                  onChange={(v) => setNavmc11811Field('remarksTextRight', v)}
+                  formType="navmc_11811"
+                />
               </div>
             </div>
             {overflowMessages.length > 0 && (

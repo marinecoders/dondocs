@@ -19,6 +19,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { InputWithVariables, TextareaWithVariables } from '@/components/ui/variable-autocomplete';
+import { AbbreviationHelper } from '@/components/editor/AbbreviationHelper';
 import { ActionRoutingHelper } from '@/components/editor/ActionRoutingHelper';
 import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
 import { DatePicker } from '@/components/ui/date-picker';
@@ -399,6 +400,11 @@ export function Form6105Section() {
                 placeholder="Full counseling statement (type @ or click + for variables)…"
                 rows={12}
                 tabInsertsSpaces
+              />
+              <AbbreviationHelper
+                value={navmc10274.supplementalInfo}
+                onChange={(v) => setNavmc10274Field('supplementalInfo', v)}
+                formType="navmc_10274"
               />
             </div>
 
