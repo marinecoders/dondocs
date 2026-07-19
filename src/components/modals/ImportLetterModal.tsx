@@ -22,6 +22,7 @@ import {
   hasParsedContent,
   applyParsedLetter,
   isDocxFile,
+  isLegacyDocFile,
   type ParsedImport,
 } from '@/lib/importLetter';
 import { IMPORTABLE_DOC_TYPES } from '@/lib/detectDocumentType';
@@ -71,6 +72,16 @@ export function ImportLetterModal() {
   );
 
   const handleFile = useCallback(async (file: File) => {
+    // Legacy binary .doc can't be read by either engine — catch it up front with
+    // a message that tells the drafter how to proceed, not a vague failure.
+    if (isLegacyDocFile(file)) {
+      setPhase({
+        kind: 'error',
+        message:
+          'Legacy Word “.doc” files can’t be imported. Open it in Word and save as “.docx” (or print to PDF), then import that.',
+      });
+      return;
+    }
     setPhase({ kind: 'parsing' });
     const docx = isDocxFile(file);
     try {

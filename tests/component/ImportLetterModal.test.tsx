@@ -20,6 +20,7 @@ vi.mock('@/lib/importLetter', () => ({
   isDocxFile: (f: File) =>
     /\.docx$/i.test(f.name) ||
     f.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  isLegacyDocFile: (f: File) => /\.doc$/i.test(f.name) || f.type === 'application/msword',
 }));
 
 import { ImportLetterModal } from '@/components/modals/ImportLetterModal';
@@ -72,6 +73,15 @@ describe('ImportLetterModal — failed imports reach the error phase', () => {
     selectFile(new File(['x'], 'blank.pdf', { type: 'application/pdf' }));
 
     expect(await screen.findByText(/Couldn't find letter text in this PDF/i)).toBeTruthy();
+  });
+
+  it('rejects a legacy .doc up front with a re-save hint (no parse attempted)', async () => {
+    render(<ImportLetterModal />);
+    selectFile(new File(['x'], 'memo.doc', { type: 'application/msword' }));
+
+    expect(await screen.findByText(/Legacy Word .* can.t be imported/i)).toBeTruthy();
+    expect(await screen.findByText(/save as .*docx/i)).toBeTruthy();
+    expect(mockParse).not.toHaveBeenCalled();
   });
 
   it('recovers to the file picker after an error', async () => {

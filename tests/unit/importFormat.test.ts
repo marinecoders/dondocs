@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { detectImportFormat, isDocxFile, DOCX_MIME } from '@/lib/importFormat';
+import { detectImportFormat, isDocxFile, isLegacyDocFile, DOCX_MIME } from '@/lib/importFormat';
 
 // detectImportFormat/isDocxFile read only name + type, so a lightweight stand-in
 // avoids constructing a real File in the node test environment.
@@ -44,5 +44,22 @@ describe('isDocxFile', () => {
     expect(isDocxFile(asFile('a.docx'))).toBe(true);
     expect(isDocxFile(asFile('a', DOCX_MIME))).toBe(true);
     expect(isDocxFile(asFile('a.pdf', 'application/pdf'))).toBe(false);
+  });
+});
+
+describe('isLegacyDocFile', () => {
+  const OLE = new Uint8Array([0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1]);
+  it('recognizes a legacy .doc by extension and by the msword MIME', () => {
+    expect(isLegacyDocFile(asFile('memo.doc'))).toBe(true);
+    expect(isLegacyDocFile(asFile('memo', 'application/msword'))).toBe(true);
+  });
+  it('recognizes the OLE compound-file magic when bytes are provided', () => {
+    expect(isLegacyDocFile(asFile('memo'), OLE)).toBe(true);
+  });
+  it('does not flag a modern .docx as legacy (".doc$" excludes ".docx")', () => {
+    expect(isLegacyDocFile(asFile('memo.docx', DOCX_MIME))).toBe(false);
+  });
+  it('does not flag a PDF', () => {
+    expect(isLegacyDocFile(asFile('memo.pdf', 'application/pdf'), PDF_MAGIC)).toBe(false);
   });
 });

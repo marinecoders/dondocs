@@ -9,7 +9,7 @@ import { useDocumentStore, persistUnsavedEnclosures } from '@/stores/documentSto
 import { useDocumentsStore } from '@/stores/documentsStore';
 import type { DocumentData } from '@/types/document';
 
-export { isDocxFile, detectImportFormat, type ImportFormat } from '@/lib/importFormat';
+export { isDocxFile, isLegacyDocFile, detectImportFormat, type ImportFormat } from '@/lib/importFormat';
 
 /** A parsed file plus the importer's guesses at document type and classification. */
 export interface ParsedImport {
