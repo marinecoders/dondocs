@@ -1,7 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Scissors, Info, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { abbrevSetForForm, loadCommonWords, type AbbrevEntry } from '@/data/abbreviations';
+import {
+  abbrevSetForForm,
+  loadCommonWords,
+  loadFuzzyDenylist,
+  type AbbrevEntry,
+} from '@/data/abbreviations';
 import {
   buildAbbrevIndex,
   scanAbbreviations,
@@ -10,6 +15,7 @@ import {
   makeCommonWordLookup,
   type AbbrevIndex,
   type AbbrevMatch,
+  type FuzzyMatch,
 } from '@/lib/abbreviations';
 
 const MAX_SHOWN = 12;
@@ -40,6 +46,7 @@ export function AbbreviationHelper({
   const set = abbrevSetForForm(formType);
   const [index, setIndex] = useState<AbbrevIndex | null>(null);
   const [nearestCommonWord, setNearestCommonWord] = useState<((token: string) => string | null) | null>(null);
+  const [isKnownWord, setIsKnownWord] = useState<((token: string) => boolean) | null>(null);
 
   useEffect(() => {
     if (!set) return;
@@ -52,11 +59,15 @@ export function AbbreviationHelper({
       .catch(() => {
         /* the dataset just won't be available; the field still works */
       });
-    // The common-word guard for the fuzzy pass is a separate chunk; without it,
-    // the exact suggestions still work — we just don't offer typo corrections.
-    loadCommonWords()
-      .then((words) => {
-        if (alive) setNearestCommonWord(() => makeCommonWordLookup(words));
+    // The fuzzy pass needs two guards, each its own chunk. Without them the exact
+    // suggestions still work — we just don't offer typo corrections. Both must be
+    // present before we run the pass, so we never correct without them.
+    Promise.all([loadCommonWords(), loadFuzzyDenylist()])
+      .then(([common, deny]) => {
+        if (!alive) return;
+        setNearestCommonWord(() => makeCommonWordLookup(common));
+        const denySet = new Set(deny);
+        setIsKnownWord(() => (token: string) => denySet.has(token));
       })
       .catch(() => {
         /* no fuzzy suggestions, exact matching is unaffected */
@@ -68,11 +79,14 @@ export function AbbreviationHelper({
 
   const matches = useMemo(() => (index ? scanAbbreviations(value, index) : []), [value, index]);
 
-  // Tentative "did you mean" corrections for likely misspellings — only once the
-  // common-word guard has loaded, so we never offer one without it.
+  // Tentative "did you mean" corrections for likely misspellings — only once both
+  // fuzzy guards have loaded, so we never offer one without them.
   const typos = useMemo(
-    () => (index && nearestCommonWord ? scanTypos(value, index, nearestCommonWord) : []),
-    [value, index, nearestCommonWord]
+    () =>
+      index && nearestCommonWord && isKnownWord
+        ? scanTypos(value, index, nearestCommonWord, isKnownWord)
+        : [],
+    [value, index, nearestCommonWord, isKnownWord]
   );
 
   // Unique entries in first-occurrence order, each with the spans it occupies.
@@ -87,12 +101,15 @@ export function AbbreviationHelper({
     return [...byWord.values()];
   }, [matches]);
 
-  // Distinct misspellings (first-occurrence order), each with the span to fix.
+  // Distinct misspellings (first-occurrence order), each with ALL its spans, so
+  // one click fixes every occurrence (parity with the exact-match chips).
   const typoGroups = useMemo(() => {
-    const byTyped = new Map<string, (typeof typos)[number]>();
+    const byTyped = new Map<string, { first: FuzzyMatch; matches: FuzzyMatch[] }>();
     for (const t of typos) {
       const key = t.typed.toLowerCase();
-      if (!byTyped.has(key)) byTyped.set(key, t);
+      const g = byTyped.get(key);
+      if (g) g.matches.push(t);
+      else byTyped.set(key, { first: t, matches: [t] });
     }
     return [...byTyped.values()];
   }, [typos]);
@@ -150,18 +167,20 @@ export function AbbreviationHelper({
             Did you mean?
           </div>
           <div className="flex flex-wrap gap-1.5">
-            {shownTypos.map((t) => (
+            {shownTypos.map(({ first, matches: spans }) => (
               <button
-                key={t.typed.toLowerCase()}
+                key={first.typed.toLowerCase()}
                 type="button"
-                onClick={() => onChange(applyMatches(value, [{ ...t, text: t.typed }]))}
-                aria-label={`Correct "${t.typed}" to "${t.entry.word}" and abbreviate to "${t.entry.abbr}"`}
-                title={`"${t.typed}" looks like "${t.entry.word}" → ${t.entry.abbr}`}
+                onClick={() => onChange(applyMatches(value, spans.map((m) => ({ ...m, text: m.typed }))))}
+                aria-label={`Correct "${first.typed}" to "${first.entry.word}" and abbreviate to "${first.entry.abbr}"`}
+                title={`"${first.typed}" looks like "${first.entry.word}" → ${first.entry.abbr}`}
                 className="inline-flex items-center gap-1 rounded-md border border-dashed border-border bg-background px-2 py-1 text-xs transition-colors hover:border-primary/50 hover:bg-secondary/40"
               >
-                <span className="text-muted-foreground line-through decoration-muted-foreground/40">{t.typed}</span>
+                <span className="text-muted-foreground line-through decoration-muted-foreground/40">
+                  {first.typed}
+                </span>
                 <span aria-hidden>→</span>
-                <span className="font-medium">{t.entry.abbr}</span>
+                <span className="font-medium">{first.entry.abbr}</span>
               </button>
             ))}
             {typoGroups.length > MAX_SHOWN && (

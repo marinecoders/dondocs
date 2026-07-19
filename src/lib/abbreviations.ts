@@ -164,15 +164,17 @@ export function applyMatches(text: string, matches: readonly AbbrevMatch[]): str
 // ---------------------------------------------------------------------------
 // Fuzzy "did you mean" pass (issue #25 — typo-tolerant suggestions).
 //
-// Exact matching leaves a mistyped word unhelped: "battaion" never resolves to
-// "battalion" -> "Bn". This pass offers a correction, but only under strict
-// guards, because a careless fuzzy match is worse than none — silently steering
-// a correctly spelled word toward a military abbreviation would erode trust in
-// the whole feature. A token is only offered a correction when ALL hold:
+// Exact matching leaves a mistyped word unhelped: "corrspondence" never resolves
+// to "correspondence" -> "corresp". This pass offers a correction, but only under
+// strict guards, because a careless fuzzy match is worse than none — silently
+// steering a correctly spelled word toward a military abbreviation would erode
+// trust in the whole feature. A token is only offered a correction when ALL hold:
 //   1. it is at least MIN_FUZZY_LEN characters (short words are too dense);
 //   2. it is not itself an approved entry (that's the exact pass's job);
-//   3. it is not a common English word, and doesn't merely look like a typo of
-//      one (the caller supplies that test — see isTypoOfCommonWord);
+//   3. it is not a real English word (a plural like "squadrons" or a distinct
+//      word like "commandeer" one edit from a term is left alone — see
+//      isKnownWord), and doesn't merely look like a typo of a common word other
+//      than the entry (see nearestCommonWord);
 //   4. exactly one approved entry sits within a single edit of it (no ambiguity);
 //   5. that entry's abbreviation is actually shorter.
 // ---------------------------------------------------------------------------
@@ -249,20 +251,44 @@ function uniqueFuzzyEntry(token: string, index: AbbrevIndex): AbbrevEntry | null
  * Scan `text` for likely misspellings of an approved word and suggest the
  * correction. Returns a separate channel from {@link scanAbbreviations} so the UI
  * can present these as tentative "did you mean" prompts, distinct from the exact
- * matches. `nearestCommonWord(token)` returns the ordinary English word the token
- * is (or looks like a one-edit slip of), or null — a match to a *different* word
- * than the entry means the token is more likely an everyday-word typo, so it is
- * left alone. Tokens already covered by an exact match are skipped.
+ * matches. EVERY occurrence of a mistyped word is returned (so the caller can
+ * group and fix them all at once, like the exact pass).
+ *
+ * Guards, all required:
+ *  - `isKnownWord(token)` true → the token is a correctly-spelled real word (a
+ *    plural like "squadrons", a distinct word like "commandeer"); left alone.
+ *  - `nearestCommonWord(token)` returns the ordinary word the token is/looks like
+ *    a one-edit slip of, or null — a match to a word *other* than the entry means
+ *    it's more likely an everyday-word typo, so it's left alone.
+ * Tokens already covered by an exact match are skipped.
  */
 export function scanTypos(
   text: string,
   index: AbbrevIndex,
-  nearestCommonWord: (token: string) => string | null
+  nearestCommonWord: (token: string) => string | null,
+  isKnownWord: (token: string) => boolean = () => false
 ): FuzzyMatch[] {
   if (index.byLen.size === 0) return [];
   const covered = scanAbbreviations(text, index);
   const out: FuzzyMatch[] = [];
-  const seen = new Set<string>();
+  // Cache the correction decision per distinct token text so repeated
+  // occurrences are decided once but each is still emitted (fix-all).
+  const decided = new Map<string, AbbrevEntry | null>();
+
+  const decide = (lc: string): AbbrevEntry | null => {
+    if (index.byWord.has(lc)) return null; // exactly an approved entry — not a typo
+    if (isKnownWord(lc)) return null; // a correctly-spelled real word — leave it
+    const entry = uniqueFuzzyEntry(lc, index);
+    if (!entry) return null;
+    if (entry.abbr.length >= lc.length) return null; // correction must save space
+    // Leave it alone if it looks like a typo of an ordinary word OTHER than the
+    // entry. (When the nearby word IS the entry's word, the token is simply a
+    // misspelling of that approved term — "corrspondence" -> "correspondence".)
+    const near = nearestCommonWord(lc);
+    if (near && near !== entry.word.toLowerCase()) return null;
+    return entry;
+  };
+
   let ci = 0;
   for (const tk of tokenize(text)) {
     if (tk.text.length < MIN_FUZZY_LEN) continue;
@@ -272,22 +298,12 @@ export function scanTypos(
     if (ci < covered.length && tk.start < covered[ci].end && tk.end > covered[ci].start) continue;
 
     const lc = tk.text.toLowerCase();
-    if (index.byWord.has(lc)) continue; // exactly an approved entry — not a typo
-    if (seen.has(lc)) continue;
-
-    const entry = uniqueFuzzyEntry(lc, index);
-    if (!entry) continue;
-    if (entry.abbr.length >= tk.text.length) continue; // correction must save space
-
-    // Leave the token alone if it is — or looks like a typo of — an ordinary word
-    // OTHER than the entry itself. (When the nearby word IS the entry's word, the
-    // token is simply a misspelling of that approved term, which is what we want
-    // to catch: "battaion" -> "battalion", even though "battalion" is common.)
-    const near = nearestCommonWord(lc);
-    if (near && near !== entry.word.toLowerCase()) continue;
-
-    seen.add(lc);
-    out.push({ entry, start: tk.start, end: tk.end, typed: tk.text });
+    let entry = decided.get(lc);
+    if (entry === undefined) {
+      entry = decide(lc);
+      decided.set(lc, entry);
+    }
+    if (entry) out.push({ entry, start: tk.start, end: tk.end, typed: tk.text });
   }
   return out;
 }

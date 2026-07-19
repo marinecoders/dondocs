@@ -24,6 +24,8 @@ vi.mock('@/data/abbreviations', () => ({
       : null,
   // A tiny common-word guard so the fuzzy pass has something to load.
   loadCommonWords: async () => ['personnel', 'battalion'],
+  // Real-word denylist; empty here so the fuzzy pass stays enabled.
+  loadFuzzyDenylist: async () => [],
 }));
 
 import { AbbreviationHelper } from '@/components/editor/AbbreviationHelper';

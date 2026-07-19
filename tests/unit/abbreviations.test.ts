@@ -163,6 +163,24 @@ describe('scanTypos — guarded fuzzy suggestions', () => {
     const out = applyMatches(text, scanTypos(text, idx, lookup).map((t) => ({ ...t, text: t.typed })));
     expect(out).toBe('the Bn formed up');
   });
+
+  it('leaves a correctly-spelled real word alone (isKnownWord guard)', () => {
+    // "trainings" is one edit from the entry "training", but it is a real word;
+    // the known-word guard must suppress it (no "trainings -> trng").
+    const isKnownWord = (t: string) => t === 'trainings';
+    expect(scanTypos('the trainings were held', idx, lookup, isKnownWord)).toEqual([]);
+    // Without the guard, the unguarded pass would have offered it — proving the
+    // guard is what suppresses it.
+    expect(scanTypos('the trainings were held', idx, lookup).map((t) => t.entry.abbr)).toEqual(['trng']);
+  });
+
+  it('returns every occurrence so a caller can fix them all', () => {
+    const text = 'the battaion and the other battaion';
+    const hits = scanTypos(text, idx, lookup);
+    expect(hits.map((t) => t.typed)).toEqual(['battaion', 'battaion']);
+    // Applying all spans fixes both.
+    expect(applyMatches(text, hits.map((t) => ({ ...t, text: t.typed })))).toBe('the Bn and the other Bn');
+  });
 });
 
 describe('makeCommonWordLookup', () => {

@@ -52,6 +52,17 @@ export async function loadCommonWords(): Promise<string[]> {
 }
 
 /**
+ * Real English words (>=8 chars) that sit one edit from an approved term, loaded
+ * on demand. The fuzzy pass suppresses these so it never "corrects" a correctly
+ * spelled word (a plural like "squadrons", or a distinct word like "commandeer")
+ * into an abbreviation. Its own small chunk.
+ */
+export async function loadFuzzyDenylist(): Promise<string[]> {
+  const mod = await import('./fuzzy-denylist.generated.json');
+  return (mod.default.words ?? []) as string[];
+}
+
+/**
  * The abbreviation set that applies to a form, or null. The IRAM set governs the
  * recordkeeping forms; correspondence (naval letters) follows SECNAV M-5216.5's
  * different "spell it out first" rule and is intentionally left out for now.
