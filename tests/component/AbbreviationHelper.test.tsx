@@ -18,9 +18,12 @@ vi.mock('@/data/abbreviations', () => ({
           load: async () => [
             { word: 'commanding officer', abbr: 'CO' },
             { word: 'headquarters', abbr: 'hq' },
+            { word: 'battalion', abbr: 'Bn' },
           ],
         }
       : null,
+  // A tiny common-word guard so the fuzzy pass has something to load.
+  loadCommonWords: async () => ['personnel', 'battalion'],
 }));
 
 import { AbbreviationHelper } from '@/components/editor/AbbreviationHelper';
@@ -79,5 +82,14 @@ describe('AbbreviationHelper', () => {
     // Give the async load a tick; still nothing to show.
     await new Promise((r) => setTimeout(r, 0));
     expect(container.querySelector('button')).toBeNull();
+  });
+
+  it('offers a "did you mean" correction for a misspelled approved word', async () => {
+    const onChange = vi.fn();
+    render(<AbbreviationHelper value="the battaion stood up" onChange={onChange} formType="navmc_11811" />);
+    // The fuzzy channel appears once the common-word guard has loaded.
+    expect(await screen.findByText('Did you mean?')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: /Correct "battaion" to "battalion"/i }));
+    expect(onChange).toHaveBeenCalledWith('the Bn stood up');
   });
 });

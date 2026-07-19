@@ -18,6 +18,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
   an approved abbreviation. The ~1,600-entry list is bound to the order that
   governs it, so it appears only on those recordkeeping forms; other document
   types keep their own conventions.
+- **"Did you mean?" for misspelled terms.** The abbreviation helper now also
+  catches a likely typo of an approved word — "adminstrative", "corrspondence",
+  "reconaissance" — and offers the correction with its abbreviation in one click.
+  It is deliberately cautious: it only speaks up for a longer word that is a
+  single typo away from exactly one approved term, and never touches an ordinary
+  English word (or a slip of one), so a correctly spelled word is left alone.
 
 ## [1.2.112] — 2026-07-19
 

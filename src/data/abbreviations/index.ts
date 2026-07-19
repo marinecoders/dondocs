@@ -41,6 +41,17 @@ export const ABBREVIATION_SETS: Record<string, AbbrevSet> = {
 };
 
 /**
+ * Common English words (>=7 chars), loaded on demand. The fuzzy "did you mean"
+ * abbreviation pass uses this to leave ordinary words alone — a typed word that
+ * IS a common word, or looks like a typo of one, is never offered a correction.
+ * Its own chunk, pulled only when a governed field first scans for typos.
+ */
+export async function loadCommonWords(): Promise<string[]> {
+  const mod = await import('./common-words.generated.json');
+  return (mod.default.words ?? []) as string[];
+}
+
+/**
  * The abbreviation set that applies to a form, or null. The IRAM set governs the
  * recordkeeping forms; correspondence (naval letters) follows SECNAV M-5216.5's
  * different "spell it out first" rule and is intentionally left out for now.

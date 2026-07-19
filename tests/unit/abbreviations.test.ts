@@ -5,6 +5,9 @@ import {
   findApplicableAbbreviations,
   applyAbbreviation,
   applyMatches,
+  withinOneEdit,
+  scanTypos,
+  makeCommonWordLookup,
 } from '@/lib/abbreviations';
 import type { AbbrevEntry } from '@/data/abbreviations';
 
@@ -99,5 +102,78 @@ describe('applyMatches — composes non-overlapping spans', () => {
     const matches = scanAbbreviations(text, idx).filter((m) => m.entry.word === 'service');
     // Only the standalone "service" span is replaced; the phrase is untouched.
     expect(applyMatches(text, matches)).toBe('the service record shows svc');
+  });
+});
+
+describe('withinOneEdit — bounded Damerau-Levenshtein', () => {
+  it('is true for identical strings and every single-edit form', () => {
+    expect(withinOneEdit('battalion', 'battalion')).toBe(true); // identical
+    expect(withinOneEdit('battalien', 'battalion')).toBe(true); // substitution
+    expect(withinOneEdit('battalon', 'battalion')).toBe(true); // deletion
+    expect(withinOneEdit('battaliion', 'battalion')).toBe(true); // insertion
+    expect(withinOneEdit('battailon', 'battalion')).toBe(true); // adjacent transposition
+  });
+
+  it('is false at distance two or more, or a length gap over one', () => {
+    expect(withinOneEdit('bataion', 'battalion')).toBe(false); // two deletions
+    expect(withinOneEdit('battle', 'battalion')).toBe(false); // far apart
+    expect(withinOneEdit('cat', 'category')).toBe(false); // length gap > 1
+    expect(withinOneEdit('abcd', 'badc')).toBe(false); // two transpositions
+  });
+});
+
+describe('scanTypos — guarded fuzzy suggestions', () => {
+  const idx = buildAbbrevIndex([
+    { word: 'battalion', abbr: 'Bn' },
+    { word: 'personnel', abbr: 'pers' },
+    { word: 'training', abbr: 'trng' }, // 8 chars — eligible
+    { word: 'unit', abbr: 'unit' }, // short — never fuzzy-matched
+  ]);
+  // "personal" and "battalion" are ordinary words; "battalion" is also an entry.
+  const lookup = makeCommonWordLookup(['personal', 'battalion']);
+
+  it('offers a correction for a clear misspelling of an approved word', () => {
+    const typos = scanTypos('the battaion formed up', idx, lookup);
+    expect(typos.map((t) => [t.typed, t.entry.abbr])).toEqual([['battaion', 'Bn']]);
+  });
+
+  it('corrects a typo even when the approved word is itself a common word', () => {
+    // "battaion" is one edit from the common word "battalion" — but that word IS
+    // the entry, so it is the correction we want, not a reason to suppress.
+    expect(scanTypos('battaion', idx, lookup).map((t) => t.entry.abbr)).toEqual(['Bn']);
+  });
+
+  it('never corrects a correctly spelled approved word (that is the exact pass)', () => {
+    expect(scanTypos('the battalion formed up', idx, lookup)).toEqual([]);
+  });
+
+  it('leaves an everyday word alone when it looks like a different common word', () => {
+    // "personal" is one edit from the entry "personnel", but it is itself the
+    // ordinary word "personal" — a different word — so it must not be corrected.
+    expect(scanTypos('a personal note', idx, lookup)).toEqual([]);
+  });
+
+  it('does not fuzz short tokens', () => {
+    // "unti" is one edit from "unit" but far under the length floor.
+    expect(scanTypos('the unti moved', idx, lookup)).toEqual([]);
+  });
+
+  it('applies a typo correction by its span', () => {
+    const text = 'the battaion formed up';
+    const out = applyMatches(text, scanTypos(text, idx, lookup).map((t) => ({ ...t, text: t.typed })));
+    expect(out).toBe('the Bn formed up');
+  });
+});
+
+describe('makeCommonWordLookup', () => {
+  const lookup = makeCommonWordLookup(['personnel', 'training', 'attention']);
+
+  it('returns the exact common word, or the one a token is one edit from', () => {
+    expect(lookup('personnel')).toBe('personnel'); // exact
+    expect(lookup('attension')).toBe('attention'); // one edit
+  });
+
+  it('returns null when nothing common is within one edit', () => {
+    expect(lookup('battaion')).toBeNull();
   });
 });
