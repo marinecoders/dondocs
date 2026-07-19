@@ -1,8 +1,12 @@
 {
   "source": "MCO P1070.12K (IRAM), ch. 6 ¶6002.10a",
   "note": "Authorized recordkeeping abbreviations. compoundOnly entries may only be used inside a compound abbreviation (IRAM ¶6001.2).",
-  "count": 1601,
+  "count": 1602,
   "entries": [
+    {
+      "word": "ABBREVIATION",
+      "abbr": "abbr"
+    },
     {
       "word": "ABOARD",
       "abbr": "abd"
