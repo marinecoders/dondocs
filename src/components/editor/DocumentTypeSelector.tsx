@@ -294,7 +294,7 @@ export function DocumentTypeSelector() {
                 clearFieldsExceptLetterhead();
                 setShowClearDialog(false);
               }}
-              className="bg-orange-600 text-white hover:bg-orange-700"
+              className="bg-warning text-warning-foreground hover:bg-warning/90"
             >
               Clear fields
             </AlertDialogAction>
