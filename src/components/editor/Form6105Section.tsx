@@ -19,6 +19,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { InputWithVariables, TextareaWithVariables } from '@/components/ui/variable-autocomplete';
+import { ActionRoutingHelper } from '@/components/editor/ActionRoutingHelper';
 import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
 import { DatePicker } from '@/components/ui/date-picker';
 import { useFormStore } from '@/stores/formStore';
@@ -358,10 +359,14 @@ export function Form6105Section() {
                 id="to"
                 value={navmc10274.to}
                 onValueChange={(v) => setNavmc10274Field('to', v)}
-                placeholder="Marine's full name, rank, and MOS (type @ for variables)"
+                placeholder="Addressee — a routing office for an admin action, or the Marine for a counseling entry (type @ for variables)"
                 rows={2}
                 placeholders={NAVMC_10274_PLACEHOLDERS}
                 commonVariables={COMMON_FORM_VARS}
+              />
+              <ActionRoutingHelper
+                natureOfAction={navmc10274.natureOfAction}
+                onInsert={(dest) => setNavmc10274Field('to', dest)}
               />
             </div>
           </AccordionContent>

@@ -27,6 +27,7 @@ import { useUserTemplatesStore } from '@/stores/userTemplatesStore';
 import { useFormStore } from '@/stores/formStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { useUIStore } from '@/stores/uiStore';
+import { useRoutingStore } from '@/stores/routingStore';
 import type { Profile } from '@/types/document';
 import type { SerializedSession } from '@/stores/documentStore';
 
@@ -73,6 +74,7 @@ async function wipeEverything(): Promise<void> {
     navmc11811: { ...s.navmc11811 },
   }));
   useDocumentsStore.setState({ docs: {}, currentId: null, hydrated: true });
+  useRoutingStore.setState({ overrides: {} });
   for (const a of (await idbGetAllAttachments()) ?? []) await idbDeleteAttachment(a.id);
   for (const d of (await idbGetAllDocuments()) ?? []) {
     await idbDeleteSnapshots(d.id);
@@ -102,6 +104,7 @@ describe('full-account backup round-trip (saves EVERYTHING)', () => {
       navmc10274: { ...s.navmc10274, ssicFileNo: 'SSIC-10274-MARKER', supplementalInfo: 'counseling text' },
       navmc11811: { ...s.navmc11811 },
     }));
+    useRoutingStore.setState({ overrides: { pay: 'IPAC Bldg 100, pay window 3' } });
     useDocumentsStore.setState({
       hydrated: true,
       currentId: 'doc-1',
@@ -127,12 +130,14 @@ describe('full-account backup round-trip (saves EVERYTHING)', () => {
     expect(bundle.forms.navmc10274.ssicFileNo).toBe('SSIC-10274-MARKER');
     expect(bundle.attachments).toHaveLength(1);
     expect(bundle.attachments[0].id).toBe(fileRef.id);
+    expect(bundle.routingOverrides.pay).toBe('IPAC Bldg 100, pay window 3');
 
     // ── Wipe every store + IndexedDB (simulate a brand-new machine) ───────────
     await wipeEverything();
     expect(useProfileStore.getState().profiles).toEqual({});
     expect(useSnippetsStore.getState().snippets).toEqual([]);
     expect(useUserTemplatesStore.getState().templates).toEqual({});
+    expect(useRoutingStore.getState().overrides).toEqual({});
     expect(await loadAttachment(fileRef.id)).toBeNull();
     expect(await idbGetAllDocuments()).toEqual([]);
 
@@ -162,6 +167,10 @@ describe('full-account backup round-trip (saves EVERYTHING)', () => {
     // NAVMC form fields (replaced wholesale on restore — overwrites the WIPED marker)
     expect(result.formsRestored).toBe(true);
     expect(useFormStore.getState().navmc10274.ssicFileNo).toBe('SSIC-10274-MARKER');
+
+    // unit routing overrides
+    expect(result.routingRulesAdded).toBe(1);
+    expect(useRoutingStore.getState().overrides.pay).toBe('IPAC Bldg 100, pay window 3');
 
     // enclosure attachment bytes
     expect(result.attachmentsAdded).toBe(1);
@@ -214,7 +223,7 @@ describe('full-account backup round-trip (saves EVERYTHING)', () => {
     // ── Build: bundle carries the ring AND the snapshot-only attachment ──
     const json = await buildBackup();
     const bundle = JSON.parse(json);
-    expect(bundle.version).toBe(4);
+    expect(bundle.version).toBe(5);
     expect(bundle.snapshots['doc-h']).toHaveLength(2);
     expect(bundle.attachments.map((a: { id: string }) => a.id)).toContain(snapRef.id);
 
