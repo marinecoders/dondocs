@@ -56,7 +56,9 @@ export const ACTION_ROUTING: readonly ActionRoute[] = [
   {
     id: 'orders_enlisted',
     category: 'PCS / assignments — enlisted',
-    keywords: ['pcs', 'assignment', 'reassignment', 'monitor', 'orders', 'b-billet', 'special duty'],
+    // Note: no bare "orders" — it collides with "TAD orders" / "travel orders".
+    // A PCS action is identified by "pcs"/"permanent change"/assignment terms.
+    keywords: ['pcs', 'permanent change of station', 'assignment', 'reassignment', 'monitor', 'b-billet', 'special duty'],
     destination: 'HQMC MMEA (Enlisted Assignments) — via your S-1/IPAC',
     note: 'Enlisted assignment/monitor matters go to HQMC MMEA; local orders execution is IPAC Distribution.',
     authority: 'HQMC Manpower Management (MMEA)',
@@ -74,7 +76,9 @@ export const ACTION_ROUTING: readonly ActionRoute[] = [
   {
     id: 'reenlistment',
     category: 'Reenlistment / retention / SRB',
-    keywords: ['reenlist', 'reenlistment', 'retention', 'srb', 'extension', 'career', 'bonus'],
+    // "extension of enlistment" (not bare "extension", which grabs "extension of
+    // leave") and "career retention" (not bare "career").
+    keywords: ['reenlist', 'reenlistment', 'retention', 'srb', 'bonus', 'extension of enlistment', 'career retention'],
     destination: 'Unit Career Planner (career retention specialist)',
     note: 'Reenlistment, extensions, and SRB packages route through your unit Career Planner.',
     level: 'local',
@@ -161,7 +165,7 @@ export const ACTION_ROUTING: readonly ActionRoute[] = [
   {
     id: 'medical_board',
     category: 'Medical board (MEB/PEB/IDES)',
-    keywords: ['meb', 'peb', 'ides', 'medical board', 'limdu', 'limited duty', 'light duty'],
+    keywords: ['meb', 'peb', 'ides', 'medical board', 'medical evaluation board', 'limdu', 'limited duty', 'light duty'],
     destination: 'Your medical (BAS) & S-1 (IDES)',
     note: 'Medical evaluation board actions run through your medical section with S-1 for the IDES package.',
     level: 'local',

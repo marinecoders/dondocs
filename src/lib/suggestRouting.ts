@@ -18,8 +18,11 @@ function hasKeyword(text: string, keyword: string): boolean {
 }
 
 /**
- * Routes whose keywords appear in `natureText`, most-matched first. Empty when
- * the text is blank or nothing matches — the UI then just offers the picker.
+ * Routes whose keywords appear in `natureText`, best match first. Each matched
+ * keyword scores its word count, so a specific multi-word phrase ("medical
+ * evaluation board", "extension of enlistment") outranks a route that only
+ * caught a generic single word — the tie-break is specificity, not the order of
+ * the table. Empty when the text is blank or nothing matches.
  */
 export function suggestRouting(natureText: string): ActionRoute[] {
   const text = (natureText || '').toLowerCase();
@@ -27,9 +30,12 @@ export function suggestRouting(natureText: string): ActionRoute[] {
 
   return ACTION_ROUTING.map((route) => ({
     route,
-    hits: route.keywords.reduce((n, kw) => n + (hasKeyword(text, kw) ? 1 : 0), 0),
+    score: route.keywords.reduce(
+      (n, kw) => n + (hasKeyword(text, kw) ? kw.trim().split(/\s+/).length : 0),
+      0
+    ),
   }))
-    .filter((x) => x.hits > 0)
-    .sort((a, b) => b.hits - a.hits)
+    .filter((x) => x.score > 0)
+    .sort((a, b) => b.score - a.score)
     .map((x) => x.route);
 }
