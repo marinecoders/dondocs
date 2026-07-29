@@ -1,0 +1,123 @@
+#!/usr/bin/env bash
+# Batch-import NAVMC/OPNAV/NAVPERS forms from a manifest through the full
+# pipeline: acquire (DON Forms API by id, cached) -> flatten -> harvest ->
+# promote to a live config form -> reconcile index.json. Idempotent and
+# resumable (a finished form has a form.json and is skipped). Dynamic-XFA forms
+# the flattener refuses are recorded in docs/xfa-manual-queue.tsv, never lost.
+#
+#   scripts/import-batch.sh <manifest.tsv> [cache-dir]
+#
+# Manifest: one form per line, tab-separated `id<TAB>folder[<TAB>category]`.
+# `#`-comment and blank lines are ignored. When category is omitted the
+# importer derives it (SSIC from the page text). This is the single committed
+# batch tool — it replaces the per-family scratchpad scripts.
+#
+# REHARVEST=1 re-runs the harvester on folders that ALREADY exist (after a
+# harvester change), reusing their flattened pages: fetch original -> harvest
+# -> promote, no re-flatten. New/missing folders are skipped in this mode.
+set -uo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT" || { echo "cannot cd to repo root: $ROOT" >&2; exit 1; }
+
+MANIFEST="${1:-}"
+CACHE="${2:-${TMPDIR:-/tmp}/dondocs-form-cache}"
+if [[ -z "$MANIFEST" || ! -f "$MANIFEST" ]]; then
+  echo "usage: $0 <manifest.tsv> [cache-dir]   (manifest: id<TAB>folder[<TAB>category])" >&2
+  exit 2
+fi
+mkdir -p "$CACHE"
+QUEUE="$ROOT/docs/xfa-manual-queue.tsv"
+[[ -f "$QUEUE" ]] || printf 'form\tid\treason\n' > "$QUEUE"
+
+UA='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
+API='https://dso.dla.mil/DONNavyForms-RequestService/api/forms'
+
+imported=0 skipped=0 refused=0 failed=0
+while IFS=$'\t' read -r id folder category || [[ -n "$id" ]]; do
+  [[ -z "$id" || "$id" == \#* ]] && continue
+  exists=0; [[ -f "public/templates/$folder/form.json" ]] && exists=1
+  # Import mode skips finished folders; re-harvest mode only touches them.
+  if [[ "${REHARVEST:-0}" == 1 ]]; then
+    [[ $exists -eq 0 ]] && { skipped=$((skipped+1)); continue; }
+  elif [[ $exists -eq 1 ]]; then
+    skipped=$((skipped+1)); continue
+  fi
+
+  pdf="$CACHE/$id.pdf"
+  if [[ ! -s "$pdf" ]]; then
+    curl -sf -m 90 -A "$UA" -H 'accept: application/json' "$API/$id/file" -o "$pdf" || true
+    sleep 0.25
+  fi
+  if [[ ! -s "$pdf" ]] || ! head -c4 "$pdf" | grep -q '%PDF'; then
+    echo "[fail-dl]   $folder"; failed=$((failed+1)); rm -f "$pdf"; continue
+  fi
+
+  # Import mode flattens (import-navmc.sh); re-harvest reuses existing pages.
+  if [[ "${REHARVEST:-0}" != 1 ]]; then
+    out="$(scripts/import-navmc.sh "$pdf" "$folder" 2>&1)"; rc=$?
+    if [[ $rc -ne 0 ]]; then
+      if grep -qiE "XFA|placeholder|please wait|REFUSED" <<<"$out"; then
+        echo "[xfa-queue] $folder"; refused=$((refused+1))
+        grep -qF "	$id	" "$QUEUE" || printf '%s\t%s\tdynamic-xfa (needs Acrobat flatten)\n' "$folder" "$id" >> "$QUEUE"
+      else
+        echo "[fail-import] $folder: $(tail -1 <<<"$out")"; failed=$((failed+1))
+      fi
+      continue
+    fi
+  fi
+
+  if ! python3 scripts/harvest-fields.py "$pdf" "$folder" >/dev/null 2>&1; then
+    echo "[fail-harvest] $folder"; failed=$((failed+1)); continue
+  fi
+
+  # Promote draft -> live form.json and flip the index row to config:true.
+  # Both writes are temp-file + atomic-rename: a crash mid-batch can never
+  # leave a half-written index.json (the catalog's source of truth for every
+  # form). A missing index row is a hard error, not a silent orphan.
+  if ! python3 - "$folder" "${category:-}" <<'PY'
+import json, os, sys
+folder, category = sys.argv[1], sys.argv[2]
+d = f'public/templates/{folder}'
+
+def write_atomic(path, obj):
+    tmp = f'{path}.tmp'
+    with open(tmp, 'w') as fh:
+        json.dump(obj, fh, indent=2)
+        fh.write('\n')
+    os.replace(tmp, path)
+
+promoted = json.load(open(f'{d}/form.draft.json'))
+# Preserve a hand-corrected top-level label across a re-harvest. The harvester
+# emits the raw folder name ("NAVMC11620 - ..."); the spaced display label
+# ("NAVMC 11620 - ...", shown in the editor banner) is applied after import and
+# is NOT reproduced by the harvester, so a blind overwrite reverts it.
+prev_path = f'{d}/form.json'
+if os.path.exists(prev_path):
+    try:
+        prev_label = json.load(open(prev_path)).get('label')
+        if prev_label:
+            promoted['label'] = prev_label
+    except (json.JSONDecodeError, OSError):
+        pass
+write_atomic(prev_path, promoted)
+idx = json.load(open('public/templates/index.json'))
+found = False
+for t in idx['templates']:
+    if t['directory'] == folder:
+        t['config'] = True
+        if category:
+            t['category'] = category
+        found = True
+if not found:
+    sys.exit(f'no index.json entry for {folder!r} (import-navmc.sh did not register it)')
+write_atomic('public/templates/index.json', idx)
+PY
+  then
+    echo "[fail-promote] $folder"; failed=$((failed+1)); continue
+  fi
+  imported=$((imported+1))
+  (( imported % 25 == 0 )) && echo "[batch] $imported imported, $refused queued, $failed failed"
+done < "$MANIFEST"
+
+echo "[batch] DONE — imported=$imported skipped=$skipped xfa-queued=$refused failed=$failed"
+echo "[batch] xfa manual queue: $(($(wc -l < "$QUEUE") - 1)) forms in $QUEUE"
