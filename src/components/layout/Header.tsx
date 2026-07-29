@@ -453,12 +453,17 @@ export function Header({
         distributions: ds.distributions,
         // NAVMC form field data lives in a separate store; include it so a
         // forms draft round-trips (Export is the only durable copy for forms).
+        // configFormValues/configFormRows hold every config-driven form (all
+        // 700+ beyond the two hand-built ones) — without them a forms draft
+        // exports blank, the worst data-loss class for an offline app.
         forms: (() => {
           const fs = useFormStore.getState();
           return {
             navmc10274: fs.navmc10274,
             navmc11811: fs.navmc11811,
             includeCoverPage: fs.includeCoverPage,
+            configFormValues: fs.configFormValues,
+            configFormRows: fs.configFormRows,
           };
         })(),
       };
@@ -565,10 +570,22 @@ export function Header({
         // loadTemplate doesn't cover distributions; restore it explicitly.
         useDocumentStore.setState({ distributions: data.distributions || [] });
 
-        // Restore NAVMC form field data (separate store; shallow-merges the
-        // navmc10274/navmc11811/includeCoverPage slices that were exported).
+        // Restore NAVMC form field data (separate store). The single-buffer
+        // slices are replaced when present; the config-form dictionaries merge
+        // per-id (imported form wins its own key) so loading one form's draft
+        // never wipes other config forms already in progress.
         if (data.forms) {
-          useFormStore.setState(data.forms);
+          const f = data.forms as Partial<{
+            navmc10274: unknown; navmc11811: unknown; includeCoverPage: boolean;
+            configFormValues: Record<string, unknown>; configFormRows: Record<string, unknown>;
+          }>;
+          useFormStore.setState((s) => ({
+            navmc10274: (f.navmc10274 as typeof s.navmc10274) ?? s.navmc10274,
+            navmc11811: (f.navmc11811 as typeof s.navmc11811) ?? s.navmc11811,
+            includeCoverPage: f.includeCoverPage ?? s.includeCoverPage,
+            configFormValues: { ...s.configFormValues, ...(f.configFormValues as typeof s.configFormValues ?? {}) },
+            configFormRows: { ...s.configFormRows, ...(f.configFormRows as typeof s.configFormRows ?? {}) },
+          }));
         }
 
         // Register the import as its own Recents entry under a fresh id rather
