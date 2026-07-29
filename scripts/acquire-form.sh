@@ -89,9 +89,12 @@ def title_folder(number_token, form_title):
     titled = ' '.join(w if (w.isupper() and len(w) <= 4) else w.capitalize() for w in words)
     return f'{number_token} - {titled}'.strip(' -')
 
-# Existing config-form ids, to skip re-acquiring what's already in the catalog.
+# Everything already in the catalog, to skip re-acquiring it.
 idx = json.load(open('public/templates/index.json'))
-have_ids = {t['id'] for t in idx['templates'] if t.get('config')}
+# EVERY id, not just config forms: the two hand-built forms (10274, 118(11))
+# are config:false with their geometry in TypeScript, and reusing their id
+# would collide in the registry.
+have_ids = {t['id'] for t in idx['templates']}
 have_dirs = {t['directory'] for t in idx['templates']}
 
 rows, problems = [], []
@@ -133,7 +136,7 @@ for q in queries:
     folder = override_folder or title_folder(number_token, api_title)
     form_id = re.sub(r'[^a-z0-9]', '', folder.split(' - ')[0].lower())
     if form_id in have_ids:
-        problems.append(f'[exists] {q!r} -> {form_id} already a config form; skipping')
+        problems.append(f'[exists] {q!r} -> {form_id} is already in the catalog; skipping')
         continue
     if folder in have_dirs:
         problems.append(f'[exists-dir] {q!r} -> folder {folder!r} already present; skipping')

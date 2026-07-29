@@ -32,9 +32,24 @@ QUEUE="$ROOT/docs/xfa-manual-queue.tsv"
 UA='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
 API='https://dso.dla.mil/DONNavyForms-RequestService/api/forms'
 
+# Folders that must NEVER be re-imported: the hand-built forms whose geometry
+# lives in TypeScript generators. They carry boxes.json instead of form.json, so
+# the "already has a form.json" skip below cannot see them — re-importing would
+# overwrite their reviewed pages and flip them to a robot draft in the catalog.
+PROTECTED="$(python3 - <<'PYP'
+import json
+idx = json.load(open('public/templates/index.json'))
+print('\n'.join(t['directory'] for t in idx['templates'] if t.get('verified')))
+PYP
+)"
+
 imported=0 skipped=0 refused=0 failed=0
 while IFS=$'\t' read -r id folder category || [[ -n "$id" ]]; do
   [[ -z "$id" || "$id" == \#* ]] && continue
+  if [[ -f "public/templates/$folder/boxes.json" ]] || grep -qxF "$folder" <<<"$PROTECTED"; then
+    echo "[protected] $folder — hand-built form; refusing to re-import"
+    skipped=$((skipped+1)); continue
+  fi
   exists=0; [[ -f "public/templates/$folder/form.json" ]] && exists=1
   # Import mode skips finished folders; re-harvest mode only touches them.
   if [[ "${REHARVEST:-0}" == 1 ]]; then
