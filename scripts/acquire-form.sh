@@ -120,7 +120,17 @@ for q in queries:
         problems.append(f"[inactive] {q!r} -> only {best.get('status')} ({best.get('formNumber')}); anonymous download will 400")
         continue
     number_token = folder_token(best.get('formNumber', ''))  # NAVMC11620 / OPNAV1650-3
-    folder = override_folder or title_folder(number_token, best.get('formTitle'))
+    # The API sometimes returns an empty formTitle (NAVMC 11036 is one), which
+    # produced the folder "NAVMC11036 -" and a catalog row with no title at
+    # all. Refuse rather than fabricate: pass --folder with a real name, and
+    # the page heading is the place to read it from.
+    api_title = (best.get('formTitle') or '').strip()
+    if not api_title and not override_folder:
+        problems.append(
+            f'[no-title] {q!r} -> the API has no formTitle for {best.get("formNumber")}; '
+            'rerun with --folder "NUMBER - Real Title"')
+        continue
+    folder = override_folder or title_folder(number_token, api_title)
     form_id = re.sub(r'[^a-z0-9]', '', folder.split(' - ')[0].lower())
     if form_id in have_ids:
         problems.append(f'[exists] {q!r} -> {form_id} already a config form; skipping')
