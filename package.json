@@ -1,7 +1,7 @@
 {
   "name": "dondocs",
   "private": true,
-  "version": "1.2.114",
+  "version": "1.2.127",
   "description": "Browser-based SECNAV M-5216.5 naval correspondence and forms generator.",
   "type": "module",
   "scripts": {
@@ -21,7 +21,9 @@
     "test:cartesian": "vite-node --config vitest.integration.config.ts tests/cartesian/run.ts --",
     "test:mutation": "stryker run",
     "sync:pdf-worker": "node scripts/sync-pdf-worker.mjs",
-    "sbom": "cyclonedx-npm --omit dev --output-format JSON --output-file sbom.cdx.json"
+    "sbom": "cyclonedx-npm --omit dev --output-format JSON --output-file sbom.cdx.json",
+    "form-coverage": "npx tsx scripts/form-coverage.mts",
+    "stamp-quality": "npx tsx scripts/stamp-quality.mts"
   },
   "overrides": {
     "serialize-javascript": "^7.0.5",
