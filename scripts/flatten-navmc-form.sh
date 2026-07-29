@@ -110,12 +110,25 @@ if [[ -n "$BTN" ]]; then
   echo "          Form' graphic must not ship on a template." >&2
 fi
 
-# 5. Split into the per-page files the registry loads.
+# 5. Split into the per-page files the registry loads. Separate into the work
+#    dir FIRST and only swap into place once the pages exist: deleting the
+#    destination up front meant a failed pdfseparate left a previously working
+#    form with no pages at all. A run that produces nothing is an error, not a
+#    quiet success — downstream the harvester would otherwise die on an empty
+#    page list with an index error instead of a readable message.
+if ! pdfseparate "$WORK/flat.pdf" "$WORK/page%d.pdf"; then
+  echo "[flatten] REFUSED: pdfseparate failed on '$SRC'; $DEST left untouched." >&2
+  exit 4
+fi
+COUNT="$(ls "$WORK"/page*.pdf 2>/dev/null | wc -l | xargs)"
+if [[ "$COUNT" -eq 0 ]]; then
+  echo "[flatten] REFUSED: pdfseparate produced no pages from '$SRC';" >&2
+  echo "          $DEST left untouched." >&2
+  exit 4
+fi
 mkdir -p "$DEST"
 rm -f "$DEST"/page*.pdf
-pdfseparate "$WORK/flat.pdf" "$DEST/page%d.pdf"
-
-COUNT="$(ls "$DEST"/page*.pdf 2>/dev/null | wc -l | xargs)"
+mv "$WORK"/page*.pdf "$DEST"/
 echo "[flatten] wrote $COUNT page(s) to $DEST/"
 for p in "$DEST"/page*.pdf; do
   echo "  $(basename "$p") — Form:$(pdfinfo "$p" | awk '/^Form/{print $2}') $(pdfinfo "$p" | awk -F: '/Page size/{print $2}' | xargs)"

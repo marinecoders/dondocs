@@ -177,6 +177,16 @@ try:
     category = ssic_category(open(text_path, errors='replace').read())
 except OSError:
     category = 'General' 
+def display_name(folder):
+    """Folder token -> user-facing form number. The folder smooshes the prefix
+    and number for filesystem tidiness ("OPNAV1650-3"); the catalog shows the
+    number the way the form does. Every family needs this, not just NAVMC."""
+    num, sep, title = folder.partition(' - ')
+    num = re.sub(r'^NAVMCHQ(?=\d)', 'NAVMC HQ ', num)
+    num = re.sub(r'^([A-Z]+)(?=\d)', r'\1 ', num)
+    return f'{num}{sep}{title}' if sep else num
+
+
 data = json.load(open(index_path))
 if any(t['id'] == form_id for t in data['templates']):
     print(f"[import] registry: '{form_id}' already present — index.json unchanged")
@@ -189,7 +199,7 @@ data['templates'].append({
     'id': form_id,
     # The folder smooshes NAVMC and the number for filesystem tidiness; the
     # display name is user-facing, so give the number its space back.
-    'name': re.sub(r'^NAVMC(?=\d)', 'NAVMC ', folder),
+    'name': display_name(folder),
     'directory': folder,
     'description': desc or folder.split(' - ', 1)[-1],
     'category': category,
@@ -198,8 +208,13 @@ data['templates'].append({
     'pages': pages,
     'pageLabels': [f'Page {i + 1}' for i in range(len(pages))],
 })
-json.dump(data, open(index_path, 'w'), indent=2)
-open(index_path, 'a').write('\n')
+# Temp-file + atomic rename: index.json is the catalog's source of truth for
+# every form, so a crash mid-write must not leave it half-written.
+tmp = index_path + '.tmp'
+with open(tmp, 'w') as fh:
+    json.dump(data, fh, indent=2)
+    fh.write('\n')
+os.replace(tmp, index_path)
 print(f"[import] registry: added '{form_id}' with {len(pages)} page(s)")
 EOF
 
