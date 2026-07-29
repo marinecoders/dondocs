@@ -51,6 +51,8 @@ import { probeStorageHealth, requestPersistentStorage } from '@/lib/documentsDb'
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore, getSavedSession, rehydrateEnclosureFiles } from '@/stores/documentStore';
 import { useFormStore, FORMS_PERSIST_KEY } from '@/stores/formStore';
+import { configForFormType } from '@/services/formRegistry';
+import { renderFormPdf } from '@/services/pdf/genericFormRenderer';
 import { lastWriteFailed } from '@/lib/compressedStorage';
 import { useHistoryStore } from '@/stores/historyStore';
 import { useDocumentsStore, applySelectedProfile, correspondenceFilename } from '@/stores/documentsStore';
@@ -274,6 +276,8 @@ function App() {
   const navmc10274 = useFormStore((s) => s.navmc10274);
   const navmc11811 = useFormStore((s) => s.navmc11811);
   const includeCoverPage = useFormStore((s) => s.includeCoverPage);
+  const configFormValues = useFormStore((s) => s.configFormValues);
+  const configFormRows = useFormStore((s) => s.configFormRows);
   // Individual selectors across the remaining stores too.
   const undo = useHistoryStore((s) => s.undo);
   const redo = useHistoryStore((s) => s.redo);
@@ -801,6 +805,11 @@ function App() {
             resolved,
             navmc11811Template
           );
+        } else {
+          // Config-driven forms (form.json): the registry resolves the type,
+          // the generic renderer draws it. Null for unknown types.
+          const cfg = await configForFormType(formType);
+          if (cfg) pdfBytes = await renderFormPdf(cfg, configFormValues[formType] ?? {}, configFormRows[formType] ?? {});
         }
 
         if (pdfBytes) {
@@ -826,7 +835,7 @@ function App() {
         clearTimeout(formCompileTimeoutRef.current);
       }
     };
-  }, [documentCategory, formType, navmc10274, navmc11811, navmc10274Templates, navmc11811Template]);
+  }, [documentCategory, formType, navmc10274, navmc11811, configFormValues, configFormRows, navmc10274Templates, navmc11811Template]);
 
   // Track if download is in progress to prevent double downloads
   const downloadInProgressRef = useRef(false);
@@ -1299,6 +1308,12 @@ function App() {
         );
         const lastName = navmc11811.lastName || 'Marine';
         filename = `NAVMC-118-11-${lastName}-${navmc11811.entryDate || 'entry'}.pdf`;
+      } else {
+        const cfg = await configForFormType(formType);
+        if (cfg) {
+          pdfBytes = await renderFormPdf(cfg, configFormValues[formType] ?? {}, configFormRows[formType] ?? {});
+          filename = `${cfg.id.toUpperCase()}-form.pdf`;
+        }
       }
 
       if (pdfBytes) {
@@ -1321,7 +1336,7 @@ function App() {
     } finally {
       downloadInProgressRef.current = false;
     }
-  }, [formType, navmc10274, navmc11811, includeCoverPage, navmc10274Templates, navmc11811Template]);
+  }, [formType, navmc10274, navmc11811, includeCoverPage, navmc10274Templates, navmc11811Template, configFormValues, configFormRows]);
 
   const handleDownloadPdf = useCallback(() => {
     // Reveal validation now, so the section rail's error dots appear on Generate.

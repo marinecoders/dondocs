@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
+import { configFormOutline, useFormConfigFor } from '@/services/formRegistry';
 import { LetterheadSection } from '@/components/editor/LetterheadSection';
 import { AddressingSection } from '@/components/editor/AddressingSection';
 import { ClassificationSection } from '@/components/editor/ClassificationSection';
@@ -138,14 +139,25 @@ export function useEditorSections(): {
   const docType = useDocumentStore((s) => s.docType);
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
   const isFormsMode = documentCategory === 'forms';
+  // Config-driven forms carry their outline in form.json; null for the
+  // built-in forms and while the config loads (the rail fills in when it does).
+  const formConfig = useFormConfigFor(formType);
   const sections = useMemo(
     () => [
       // Document Type leads the outline (matches the prototype's first rail
       // section); it's always rendered at the top of the editor in both modes.
       { id: 'type', label: 'Document Type', icon: FileText },
-      ...(isFormsMode ? getFormSections(formType) : getEditorSections(config, docType)),
+      ...(isFormsMode
+        ? formConfig
+          ? configFormOutline(formConfig).map((e) => ({
+              id: e.id,
+              label: e.label,
+              icon: e.kind === 'rowGroup' ? Users : ClipboardList,
+            }))
+          : getFormSections(formType)
+        : getEditorSections(config, docType)),
     ],
-    [isFormsMode, formType, docType] // eslint-disable-line react-hooks/exhaustive-deps
+    [isFormsMode, formType, docType, formConfig] // eslint-disable-line react-hooks/exhaustive-deps
   );
   return { sections, config, isFormsMode, formType };
 }
@@ -308,17 +320,31 @@ export function useDocumentCompleteness(): DocumentCompleteness {
   const paragraphs = useDocumentStore((s) => s.paragraphs);
   const navmc10274 = useFormStore((s) => s.navmc10274);
   const navmc11811 = useFormStore((s) => s.navmc11811);
+  // Config-driven forms carry `required` on the fields the author marked
+  // mandatory; the meter tracks how many are filled.
+  const configForm = useFormConfigFor(formType);
+  const configValues = useFormStore((s) => s.configFormValues[formType]);
   const idKey = sections.map((s) => s.id).join(',');
   return useMemo(() => {
     const ids = idKey ? idKey.split(',') : [];
     if (isFormsMode) {
-      const data = formType === 'navmc_10274' ? navmc10274 : formType === 'navmc_118_11' ? navmc11811 : null;
-      const required = (FORM_ERROR_BEARING_IDS[formType] ?? []).filter((id) => ids.includes(id));
-      return completenessFrom(required, (id) => (data ? getFormSectionError(formType, id, data) : false));
+      if (formType === 'navmc_10274' || formType === 'navmc_118_11') {
+        const data = formType === 'navmc_10274' ? navmc10274 : navmc11811;
+        const required = (FORM_ERROR_BEARING_IDS[formType] ?? []).filter((id) => ids.includes(id));
+        return completenessFrom(required, (id) => getFormSectionError(formType, id, data));
+      }
+      // A config form is "ready" when every required field has a value.
+      const requiredKeys = configForm
+        ? Object.entries(configForm.fields).filter(([, f]) => f.required).map(([k]) => k)
+        : [];
+      return completenessFrom(requiredKeys, (k) => {
+        const v = configValues?.[k];
+        return v === undefined || v === '' || v === false;
+      });
     }
     const required = ids.filter((id) => (ERROR_BEARING_IDS as readonly string[]).includes(id));
     return completenessFrom(required, (id) => getSectionError(id, formData, paragraphs, config));
-  }, [idKey, isFormsMode, formType, navmc10274, navmc11811, formData, paragraphs, config]);
+  }, [idKey, isFormsMode, formType, navmc10274, navmc11811, formData, paragraphs, config, configForm, configValues]);
 }
 
 export function renderEditorSection(id: string, config: DocTypeConfig): ReactNode {
