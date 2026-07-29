@@ -1,8 +1,13 @@
 /**
  * The generic form renderer draws real values onto real template pages. Uses
- * the committed UPB pages with a synthetic config so the test owns its
- * coordinates, and asserts on pdftotext of the rendered PDF — not on the
- * generator's internals (per the repo rule: verify by rendering).
+ * the committed AA-form pages as the canvas with a synthetic config so the test
+ * owns its coordinates, and asserts on pdftotext of the rendered PDF — not on
+ * the generator's internals (per the repo rule: verify by rendering).
+ *
+ * The pages are a canvas, not a fixture: nothing here reads that form's own
+ * form.json, so any committed letter-size template works. It points at the
+ * hand-built AA form because those pages ship on main — no script-generated
+ * form is committed, so the test must not depend on one being present.
  *
  * Requires pdftotext; skipped (not falsely passed) without.
  */
@@ -16,14 +21,14 @@ import { renderFormPdf, type PageLoader } from '@/services/pdf/genericFormRender
 import { assertFormConfig } from '@/types/formConfig';
 import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfToolchain';
 
-const DIR = join(process.cwd(), 'public/templates/NAVMC10132 - Unit Punishment Book');
+const DIR = join(process.cwd(), 'public/templates/NAVMC10274 - Administrative Action');
 const diskLoader: PageLoader = async (_dir, page) => new Uint8Array(await readFile(join(DIR, page)));
 
 const config = assertFormConfig(
   {
     id: 'test-form',
     label: 'Test form',
-    directory: 'NAVMC10132 - Unit Punishment Book',
+    directory: 'NAVMC10274 - Administrative Action',
     pages: ['page1.pdf', 'page2.pdf'],
     sections: [{ title: 'Test', fields: ['unit', 'remarks', 'agree'] }],
     fields: {
