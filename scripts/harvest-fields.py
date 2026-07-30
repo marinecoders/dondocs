@@ -434,6 +434,20 @@ def main() -> None:
             total += 1
         draft_pages[f"page{page_no}"] = boxes
 
+    # The page filter above can drop EVERY field, and the earlier "no fields
+    # found" gate cannot see it: that one tests the raw harvest, this tests what
+    # survived. Without this the script exits 0 having written a config with
+    # `fields: {}` — which assertFormConfig accepts, so the form reaches the
+    # catalog looking importable and offers the user nothing to fill in.
+    if not any(draft_pages.values()):
+        for w in warnings:
+            print(f"  WARN: {w}", file=sys.stderr)
+        sys.exit(
+            f"harvest-fields: REFUSED — all {total or 'harvested'} fields map to pages "
+            f"beyond the {len(page_pdfs)} committed template page(s). The source and the "
+            f"template pages are not the same document; re-flatten from this source."
+        )
+
     draft = {
         "template": f"page{min(fields)}.pdf",
         "source": source,
@@ -643,8 +657,11 @@ def main() -> None:
     print(f"[harvest] source: {source} | {total} fields across {len(draft_pages)} page(s)")
     for name, boxes in draft_pages.items():
         print(f"  {name}: {len(boxes)} fields")
+    # Warnings go to stderr: a dropped page or an out-of-bounds box is silent
+    # data loss, and the batch driver has to be able to separate them from the
+    # progress chatter it discards.
     for w in warnings:
-        print(f"  WARN: {w}")
+        print(f"  WARN: {w}", file=sys.stderr)
     print(f"[harvest] draft:   {out}")
     print(f"[harvest] overlay: {sheet}/  — verify every box sits on its blank before promoting")
 

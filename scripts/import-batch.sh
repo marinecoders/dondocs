@@ -48,7 +48,7 @@ print('\n'.join(t['directory'] for t in idx['templates'] if t.get('verified')))
 PYP
 )"
 
-imported=0 skipped=0 refused=0 failed=0
+imported=0 skipped=0 refused=0 failed=0 warned=0
 while IFS=$'\t' read -r id folder category number || [[ -n "$id" ]]; do
   [[ -z "$id" || "$id" == \#* ]] && continue
   # acquire-form.sh writes "-" for "no category" because bash collapses an
@@ -89,8 +89,19 @@ while IFS=$'\t' read -r id folder category number || [[ -n "$id" ]]; do
     fi
   fi
 
-  if ! python3 scripts/harvest-fields.py "$pdf" "$folder" >/dev/null 2>&1; then
-    echo "[fail-harvest] $folder"; failed=$((failed+1)); continue
+  # Capture rather than discard: the harvester warns when fields map to pages
+  # the template does not have, or when a box falls outside the page. Both are
+  # silent data loss — a 76-field form imported with 45 fields and reported as
+  # a success — so the warnings are surfaced and counted, not sent to /dev/null.
+  hout="$(python3 scripts/harvest-fields.py "$pdf" "$folder" 2>&1)"
+  if [[ $? -ne 0 ]]; then
+    echo "[fail-harvest] $folder: $(grep -m1 'REFUSED\|Error\|error' <<<"$hout" || tail -1 <<<"$hout")"
+    failed=$((failed+1)); continue
+  fi
+  if grep -q 'WARN:' <<<"$hout"; then
+    warned=$((warned+1))
+    echo "[warn] $folder — harvest dropped or mislocated fields:"
+    grep 'WARN:' <<<"$hout" | head -4 | sed 's/^/  /'
   fi
 
   # Promote draft -> live form.json and flip the index row to config:true.
@@ -142,5 +153,6 @@ PY
   (( imported % 25 == 0 )) && echo "[batch] $imported imported, $refused queued, $failed failed"
 done < "$MANIFEST"
 
-echo "[batch] DONE — imported=$imported skipped=$skipped xfa-queued=$refused failed=$failed"
+echo "[batch] DONE — imported=$imported skipped=$skipped xfa-queued=$refused failed=$failed warned=$warned"
+(( warned > 0 )) && echo "[batch] $warned form(s) imported WITH WARNINGS — review those before trusting their fields"
 echo "[batch] xfa manual queue: $(($(wc -l < "$QUEUE") - 1)) forms in $QUEUE"
