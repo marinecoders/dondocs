@@ -171,11 +171,13 @@ def plan(best, note_problems=True):
         # (NAVMC 11036 is one), which produced the folder "NAVMC11036 -" and a
         # catalog row with no title. Refuse rather than fabricate: the page
         # heading is the place to read the real name from.
+        # Always named, even in walk mode where the other diagnostics are
+        # suppressed: there are only about a dozen, each one is actionable, and
+        # a bare count tells you nothing about which form to go and look at.
         skipped['untitled'] += 1
-        if note_problems:
-            problems.append(
-                f'[no-title] {number!r} -> the registry has no formTitle; '
-                'rerun with --folder "NUMBER - Real Title"')
+        problems.append(
+            f'[no-title] {number!r} -> the registry has no formTitle; '
+            'rerun with --folder "NUMBER - Real Title"')
         return None
     folder = override_folder or fn.folder_name(number, api_title)
     form_id = fn.form_id(folder)

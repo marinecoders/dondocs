@@ -80,8 +80,13 @@ eq(fn.norm('DD 285 '), fn.norm('DD 285'), 'whitespace variant compares equal')
 for junk in ['LITHO', 'N/A', '', '   ', 'MCIEAST-MCB CAMLEJ MCCS SPORT',
              'MCIEAST-MCB CAMLEJ/LSST-E/LEGA']:
     check(not fn.is_form_number(junk), f'{junk!r} must not pass the form-number gate')
-for real in ['NAVMC 11620', 'DD 285', 'OPNAV 1650/3', 'NAVMC 118(11)', 'FHCC 118']:
+for real in ['NAVMC 11620', 'DD 285', 'OPNAV 1650/3', 'NAVMC 118(11)', 'FHCC 118',
+             'MCIWEST-MCB CAMPEN AC/S MCCS 12000/2']:  # 36 chars — the longest real one
     check(fn.is_form_number(real), f'{real!r} must pass the form-number gate')
+# One Active row states an ordering instruction in the number field and passes
+# every other gate. A form number is an identifier, not a sentence.
+check(not fn.is_form_number('Please send email to: dd1898-forms.docsvcs@dla.mil to order'),
+      'a prose instruction must not pass the form-number gate')
 
 # --- titles ----------------------------------------------------------------
 eq(fn.title_case('MAP EVALUATION'), 'MAP Evaluation', 'listed acronym kept')
@@ -95,6 +100,14 @@ for shouted in ['SIGN', 'OUT', 'UNIT', 'BOOK', 'DATE', 'NAME', 'TIME', 'FOR', 'U
     check(got == shouted.capitalize(), f'{shouted!r} must not read as an acronym: got {got!r}')
 eq(fn.title_case('CONTRAINDICATIONS FOR USE IN STEMI'),
    'Contraindications For Use In Stemi', 'unlisted acronym degrades to a word')
+# 26 Active titles begin "U.S. …", and capitalize() lowercases everything after
+# the first character, so the periods have to be split on and non-alphabetic
+# parts left verbatim.
+eq(fn.title_case('U.S. NAVY STANDARD INSTRUMENT DEPARTURE'),
+   'U.S. Navy Standard Instrument Departure', 'U.S. keeps its shape')
+eq(fn.title_case('MCO P1070.12K RECORD'), 'MCO P1070.12K Record',
+   'alphanumeric parts are not re-cased')
+eq(fn.title_case('PLACARD 8-1/2 X 11'), 'Placard 8-1/2 X 11', 'measurements untouched')
 
 # --- rows the registry calls Active but that say they are dead -------------
 # 38 Active numbers and 9 Active titles carry a cancellation notice in band.
@@ -142,6 +155,14 @@ check(len(capped) <= fn.MAX_FOLDER, f'folder name not capped: {len(capped)} char
 check(capped.startswith('NAVHOSPROTA6320-89 - '), f'token must survive the cap: {capped!r}')
 check(not capped.endswith(('-', ' ', '.')), f'cap left a dangling separator: {capped!r}')
 check(' ' in capped.split(' - ', 1)[1], 'cap should keep more than one word when it fits')
+# The cap must hold even when the number token alone fills the budget. The
+# guard was "room > 0 and too long", which skipped truncation in exactly this
+# case and returned the untruncated title — a 182-character folder name.
+for token_len in (fn.MAX_FOLDER - 3, fn.MAX_FOLDER, fn.MAX_FOLDER + 50):
+    got = fn.folder_name('X' * token_len, long_title)
+    check(len(got) <= max(token_len, fn.MAX_FOLDER),
+          f'token of {token_len} chars produced a {len(got)}-char folder: {got!r}')
+    check(' - ' not in got, f'no room for a title, so none should be appended: {got!r}')
 
 # A form with no usable title degrades to the bare token rather than
 # "NAVMC11036 -", the folder the empty-title bug actually produced.

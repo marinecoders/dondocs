@@ -45,9 +45,9 @@ import re
 # out mid-title. Anything not listed here is title-cased, which at worst
 # lowercases an unlisted acronym in a name a human reviews at promote time.
 ACRONYMS = {
-    'BCP', 'CFT', 'CO', 'CUI', 'EGA', 'FOUO', 'ID', 'II', 'III', 'IV', 'MAP',
-    'MCI', 'MOS', 'NCO', 'NJP', 'OIC', 'OMPF', 'PCS', 'PFT', 'PII', 'SNCO',
-    'SRB', 'SSIC', 'TAD', 'UPB', 'USMC', 'XO',
+    'BCP', 'CFT', 'CO', 'CUI', 'DON', 'EGA', 'FOUO', 'ID', 'II', 'III', 'IV',
+    'MAP', 'MCI', 'MCO', 'MOS', 'NCO', 'NJP', 'OIC', 'OMPF', 'PCS', 'PFT',
+    'PII', 'SNCO', 'SRB', 'SSIC', 'TAD', 'UPB', 'USMC', 'USN', 'XO',
 }
 
 # Characters that must never reach a path component: the separators, the shell
@@ -66,6 +66,12 @@ _ASTERISK_RUN = re.compile(r'\*+[^*]*\*+')
 
 MAX_FOLDER = 100
 
+# A form number is an identifier, not a sentence. One Active row is prose —
+# "Please send email to: dd1898-forms.docsvcs@dla.mil to order" — and it passes
+# every other gate. The longest legitimate number is 36 characters
+# ("MCIWEST-MCB CAMPEN AC/S MCCS 12000/2"), so 40 separates them with margin.
+MAX_NUMBER = 40
+
 
 def clean_number(raw):
     """Trim the stray whitespace 891 Active rows carry and collapse inner runs."""
@@ -73,8 +79,13 @@ def clean_number(raw):
 
 
 def is_form_number(raw):
-    """A form number contains a digit. Drops "LITHO", "N/A" and the empties."""
-    return bool(re.search(r'\d', clean_number(raw)))
+    """A form number contains a digit and is short.
+
+    The digit test drops "LITHO", "N/A" and the empties; the length test drops
+    the row whose number is an instruction sentence.
+    """
+    s = clean_number(raw)
+    return bool(re.search(r'\d', s)) and len(s) <= MAX_NUMBER
 
 
 def strip_markers(raw):
@@ -147,9 +158,14 @@ def title_case(raw):
     """
     words = []
     for word in re.sub(r'\s+', ' ', (raw or '').strip()).split(' '):
-        parts = re.split(r'([/\-])', word)
+        # Split on "." too, so "U.S." keeps its shape instead of becoming
+        # "U.s." — 26 Active titles start that way. Parts that are not purely
+        # alphabetic are left verbatim, because str.capitalize() lowercases
+        # everything after the first character and turned "12K" into "12k".
+        parts = re.split(r'([/\-.])', word)
         words.append(''.join(
-            p if p.upper() in ACRONYMS else p.capitalize() for p in parts
+            p if (p.upper() in ACRONYMS or not p.isalpha()) else p.capitalize()
+            for p in parts
         ))
     return ' '.join(w for w in words if w)
 
@@ -176,7 +192,13 @@ def folder_name(number, title, max_len=MAX_FOLDER):
     if not titled:
         return token
     room = max_len - len(token) - 3
-    if room > 0 and len(titled) > room:
+    if room <= 0:
+        # A token that fills the budget on its own leaves nowhere for a title.
+        # Returning early matters: the guard used to be "room > 0 and too long",
+        # which skipped truncation entirely here and returned the FULL title,
+        # silently breaking the one promise this function makes.
+        return token
+    if len(titled) > room:
         cut = titled[:room]
         if ' ' in cut:
             cut = cut[:cut.rfind(' ')]
