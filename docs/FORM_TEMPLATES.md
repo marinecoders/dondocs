@@ -44,6 +44,43 @@ Official military PDF forms are typically encoded using **XFA (XML Forms Archite
 
 ## Adding New Form Templates
 
+**The short way.** `scripts/acquire-form.sh` runs every step below for you,
+straight from the DON Forms registry. It defaults to a dry run; add `--yes` to
+import.
+
+```bash
+scripts/acquire-form.sh "NAVMC 11675"          # one form, by number
+scripts/acquire-form.sh --active --family NAVMC # every Active NAVMC
+scripts/acquire-form.sh --active --limit 20     # a trial slice, any family
+```
+
+`--active` pages through the registry's whole catalog — an empty `SearchQuery`
+returns all 13,859 rows — and keeps every Active form, so **no list of forms is
+kept in the repo**: the importable set is derived on each run. Of ~10,000 Active
+rows, about 9,600 are distinct importable forms across 449 families; the rest
+are dropped and counted in the summary:
+
+| dropped | why |
+|---|---|
+| ~113 | no digit in the number — the registry has 39 rows named `LITHO`, plus `N/A` and blanks |
+| ~61 | the number or title says `***CANCELLED BY USMC***` / `***INACTIVE***` while `status` still claims Active |
+| ~12 | no title at all — rerun with `--folder "NUMBER - Real Title"`, reading the name off the page |
+
+Because the set is derived, the count drifts as forms are cancelled and added,
+and whether a form survives the flattener is only knowable by trying it. Expect
+*about* that many, not exactly. Dynamic-XFA refusals are appended to
+`docs/xfa-manual-queue.tsv` rather than lost.
+
+Folder and id derivation is shared by both front doors in
+`scripts/form-names.py`, tested by `scripts/test-form-names.py` against the
+shapes the registry really contains — titles with `/` in them (1,224 of them,
+which would otherwise create a nested directory), titles that are HTML, numbers
+with stray whitespace, revision stamps that must not fragment one form into
+several catalog rows, and `NAVMC 118(11)`, whose number really does end in
+parentheses.
+
+To do it by hand instead:
+
 1. **Obtain the official form** from https://forms.documentservices.dla.mil
 
 2. **Flatten the PDF** into the per-page template files, headless, with one

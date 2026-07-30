@@ -7,10 +7,15 @@
 #
 #   scripts/import-batch.sh <manifest.tsv> [cache-dir]
 #
-# Manifest: one form per line, tab-separated `id<TAB>folder[<TAB>category]`.
-# `#`-comment and blank lines are ignored. When category is omitted the
-# importer derives it (SSIC from the page text). This is the single committed
-# batch tool — it replaces the per-family scratchpad scripts.
+# Manifest: one form per line, tab-separated
+# `id<TAB>folder[<TAB>category[<TAB>formNumber]]`. `#`-comment and blank lines
+# are ignored. When category is "-" or omitted the importer derives it (SSIC
+# from the page text); write "-" rather than an empty field, because tab is IFS
+# whitespace and bash collapses "\t\t" into one delimiter, shifting the columns
+# after it left. formNumber is the registry's own string ("OPNAV 1650/3"): the
+# folder token cannot be inverted back into it, so passing it through is what
+# lets the catalog show a non-NAVMC number the way the form prints it. This is
+# the single committed batch tool — it replaces the per-family scratchpads.
 #
 # REHARVEST=1 re-runs the harvester on folders that ALREADY exist (after a
 # harvester change), reusing their flattened pages: fetch original -> harvest
@@ -44,8 +49,11 @@ PYP
 )"
 
 imported=0 skipped=0 refused=0 failed=0
-while IFS=$'\t' read -r id folder category || [[ -n "$id" ]]; do
+while IFS=$'\t' read -r id folder category number || [[ -n "$id" ]]; do
   [[ -z "$id" || "$id" == \#* ]] && continue
+  # acquire-form.sh writes "-" for "no category" because bash collapses an
+  # empty tab-delimited field and shifts every later column left.
+  [[ "$category" == "-" ]] && category=""
   if [[ -f "public/templates/$folder/boxes.json" ]] || grep -qxF "$folder" <<<"$PROTECTED"; then
     echo "[protected] $folder — hand-built form; refusing to re-import"
     skipped=$((skipped+1)); continue
@@ -69,7 +77,7 @@ while IFS=$'\t' read -r id folder category || [[ -n "$id" ]]; do
 
   # Import mode flattens (import-navmc.sh); re-harvest reuses existing pages.
   if [[ "${REHARVEST:-0}" != 1 ]]; then
-    out="$(scripts/import-navmc.sh "$pdf" "$folder" 2>&1)"; rc=$?
+    out="$(scripts/import-navmc.sh "$pdf" "$folder" "" "${number:-}" 2>&1)"; rc=$?
     if [[ $rc -ne 0 ]]; then
       if grep -qiE "XFA|placeholder|please wait|REFUSED" <<<"$out"; then
         echo "[xfa-queue] $folder"; refused=$((refused+1))
