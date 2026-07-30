@@ -116,11 +116,34 @@ for dead in ['NAVMC 11428 ***CANCELLED BY USMC***', 'ARMS 105 CANCELLED',
              'NAVSO 10460/32 *CANCELED. EMAIL JFOLWAREHOUSE@DLA.MIL TO ORDER*',
              'NAVMC 10425 ***Cancelled per USMC Leadership***']:
     check(fn.is_retired(dead), f'{dead!r} must be recognized as retired')
-# The notice sometimes sits only in the title.
+# A title counts only when the notice has REPLACED the subject, which every
+# real one signals by naming the authority.
 check(fn.is_retired('DD 1934', '***CANCELLED BY DON***'), 'retired via title only')
 check(fn.is_retired('DD 2MC (RES)', 'CANCELLED BY DON'), 'retired via unmarked title')
-for live in ['NAVMC 11620', 'OPNAV 1650/3', 'NAVMED 5040*6', 'NAVMC 118(11)']:
-    check(not fn.is_retired(live, 'MAP EVALUATION'), f'{live!r} must not read as retired')
+check(fn.is_retired('DD 1251 (4C)', '***CANCELLED BY FORMS MANAGER***'), 'authority named')
+check(fn.is_retired('NAVMC 10425', 'Cancelled per USMC Leadership'), 'cancelled PER also counts')
+
+# These are LIVE forms whose SUBJECT is cancellation or inactive status. Reading
+# the title on the same keyword list as the number dropped all of them.
+for num, title in [
+    ('NAVPERS 1910/30', 'RELEASE TO INACTIVE DUTY OF USNR PERSONNEL (OTHER THAN FLEET RESERVE)'),
+    ('NAVRES 1321/1', 'OFFICER APPLICATION/ORDERS FOR INACTIVE DUTY TRAINING'),
+    ('NAVRES 1321/2', 'INACTIVE DUTY TRAINING ORDERS TERMINATION/CANCELLATION/MOD'),
+    ('NAVRES 1570/21', 'INACTIVE DUTY TRAINING PARTICIPATION RECORD (SAMPLE)'),
+    ('SF 1098', 'CANCELED OR UNDELIVERED CHECKS, SCHEDULE OF'),
+    ('NAVMC HQ 723 (EF)', 'REQUEST FOR FOLLOW-UP INFO ON OBSOLETE FORM'),
+    ('FRCSW 4855/122', 'HOLD - DO NOT USE OR ISSUE TAG'),
+    ('NAVSEA 4734/17', 'INACTIVE LABEL'),
+    ('NAVMC 11620', 'MAP EVALUATION'),
+    ('NAVMED 5040*6', 'MEDINSGEN PREPARATORY WORKSHEET'),
+]:
+    check(not fn.is_retired(num, title), f'{num!r} ({title[:34]}…) must NOT read as retired')
+
+# A marker in the NUMBER stays decisive — an identifier never says "INACTIVE".
+for num in ['NES 111 Inactive', 'NAVSEA 1995/17 INACTIVE', 'NAVMC 10070 INACTIVE',
+            'DD 572 Inactive', 'DD 3073 ***ON HOLD***', 'NAVSUP 452 ***INACTIVE***']:
+    check(fn.is_retired(num, 'BLOOD DONATION RECORD'),
+          f'{num!r} carries the marker in the number and must read as retired')
 
 # An asterisk that is part of the real number survives; a delimited annotation
 # run does not.

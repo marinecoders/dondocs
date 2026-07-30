@@ -56,8 +56,21 @@ _UNSAFE = re.compile(r'[/\\:*?"<>|\x00-\x1f]')
 
 # In-band "this form is dead" notices. The registry marks these rows Active
 # anyway, so the status field is necessary but not sufficient.
-_RETIRED = re.compile(
+#
+# The field matters more than the word. A form NUMBER is an identifier and never
+# legitimately says "INACTIVE", so any marker there is decisive. A TITLE is a
+# subject line, where these words are usually what the form is ABOUT: "RELEASE
+# TO INACTIVE DUTY OF USNR PERSONNEL", "CANCELED OR UNDELIVERED CHECKS",
+# "REQUEST FOR FOLLOW-UP INFO ON OBSOLETE FORM", "HOLD - DO NOT USE OR ISSUE
+# TAG" are all live forms. Matching titles on the same list dropped 11 of them.
+_RETIRED_NUMBER = re.compile(
     r'cancell?ed|\binactive\b|\bon hold\b|obsolete|supersed|rescind|do not use', re.I)
+
+# In a title, only a notice that REPLACES the subject counts — every real one
+# names the authority ("***CANCELLED BY USMC***", "CANCELLED BY DON",
+# "***CANCELLED BY FORMS MANAGER***"), which is what separates them from
+# "CANCELED OR UNDELIVERED CHECKS, SCHEDULE OF".
+_RETIRED_TITLE = re.compile(r'^\W*cancell?ed\s+(by|per)\b', re.I)
 
 # An asterisk-delimited annotation run, which is where those notices live.
 # Requires asterisks on BOTH sides so a form whose number legitimately contains
@@ -134,12 +147,14 @@ def clean_title(raw):
 
 
 def is_retired(number, title=''):
-    """True when the row says it is cancelled, whatever its status field claims.
+    """True when the row says it is dead, whatever its status field claims.
 
-    Checked against both fields: some rows carry the notice only in the number
-    ("ARMS 105 CANCELLED"), others only in the title ("***CANCELLED BY DON***").
+    Asymmetric on purpose — see _RETIRED_NUMBER / _RETIRED_TITLE. A marker
+    anywhere in the number is decisive; in the title only a notice that has
+    replaced the subject counts.
     """
-    return bool(_RETIRED.search(f'{number or ""} {clean_title(title)}'))
+    return bool(_RETIRED_NUMBER.search(number or '')
+                or _RETIRED_TITLE.search(clean_title(title)))
 
 
 def has_title(raw):
