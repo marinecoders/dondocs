@@ -106,6 +106,13 @@ else:
             sys.exit('[import] could not find a form number in the pages or filename — '
                      'pass the folder name explicitly, or the number as argument 4')
         number = f'{m.group(1)} {m.group(2)}'
+        # The general pattern can latch onto any all-caps word followed by
+        # digits, so it can be wrong in a way the NAVMC footer never is. Say so
+        # rather than let a guessed number become a folder name in silence; the
+        # batch path always passes the registry number and never lands here.
+        print(f'[import] WARNING: form number GUESSED from the page text as '
+              f'{number!r}. Verify it, or pass the number as argument 4.',
+              file=sys.stderr)
 
 # Title, in trust order:
 #  1. The source PDF's Title metadata — LiveCycle stamps the real form name
