@@ -55,13 +55,15 @@ failures: list[str] = []
 
 
 def build_pdf(path: Path, rect: tuple[float, float, float, float],
-              media: tuple[float, float, float, float]) -> None:
+              media: tuple[float, float, float, float], rotate: int = 0) -> None:
     """One page, one text widget at `rect`, and the SAME rect painted black in
     the content stream so the flattened page carries pixel ground truth."""
     w = PdfWriter()
     mx0, my0, mx1, my1 = media
     page = w.add_blank_page(width=abs(mx1 - mx0), height=abs(my1 - my0))
     page[NameObject("/MediaBox")] = ArrayObject([FloatObject(v) for v in media])
+    if rotate:
+        page[NameObject("/Rotate")] = NumberObject(rotate)
 
     x0, y0, x1, y1 = rect
     painted = f"0 0 0 rg\n{x0} {y0} {x1 - x0} {y1 - y0} re f\n".encode()
@@ -114,10 +116,10 @@ def ink_box(page_pdf: Path) -> tuple[float, float, float, float]:
             (max(xs) + 1) / SCALE, (max(ys) + 1) / SCALE)
 
 
-def run_case(name: str, rect, media) -> None:
+def run_case(name: str, rect, media, rotate: int = 0) -> None:
     folder = TEMPLATES / f"ZZINK - {name}"
     src = Path(tempfile.mkdtemp()) / "src.pdf"
-    build_pdf(src, rect, media)
+    build_pdf(src, rect, media, rotate)
     try:
         folder.mkdir(parents=True, exist_ok=True)
         flat = subprocess.run([str(ROOT / "scripts" / "flatten-navmc-form.sh"),
@@ -165,15 +167,15 @@ run_case("Control", rect=(100, 600, 300, 620), media=(0, 0, 612, 792))
 # outright with a false "different revisions" verdict.
 run_case("InvertedBox", rect=(100, 600, 300, 620), media=(0, 792, 612, 0))
 
-# NOT COVERED YET, and deliberately not asserted so this file stays green:
-#   * /Rotate 90/180/270 — harvest ignores page rotation entirely. A 180 source
-#     places every box 478pt from the ink; 90/270 is refused with the same false
-#     "different revisions" message. Add a case here when that is fixed.
-#   * A non-zero MediaBox origin — pdftocairo normalizes the origin to 0,0 but
-#     harvest reads the source rect unshifted, so every box is translated by the
-#     origin (measured: 51pt for a half-inch inset).
-# Both are confirmed, reproduced defects. Listing them here rather than leaving
-# the gap invisible is the point.
+# Page rotation. pdftocairo bakes it into the flattened page, so a rect read
+# from source user space has to be rotated to match or it lands 478pt away —
+# still on the page, which is why no existing guard caught it.
+for deg in (90, 180, 270):
+    run_case(f"Rot{deg}", rect=(100, 600, 300, 620), media=(0, 0, 612, 792), rotate=deg)
+
+# A cropped or imposed source: pdftocairo normalizes the origin to 0,0 but the
+# rect is written in the source's own space.
+run_case("OffsetOrigin", rect=(136, 636, 336, 656), media=(36, 36, 648, 828))
 
 if failures:
     print(f"FAIL — {len(failures)} mismatch(es) between harvested boxes and ink:")

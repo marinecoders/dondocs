@@ -228,10 +228,8 @@ def harvest_acroform(reader: PdfReader) -> dict[int, list[dict]]:
                 ftype = "radio" if flags & (1 << 15) else "checkbox"
             else:
                 ftype = FIELD_TYPES.get(str(ft), "text")
-            rect = [float(v) for v in w["/Rect"]]
-            llx, urx = sorted((rect[0], rect[2]))
-            lly, ury = sorted((rect[1], rect[3]))
-            if urx - llx < 1 or ury - lly < 1:
+            left, top, width, height = place_on_page(page, w["/Rect"])
+            if width < 1 or height < 1:
                 continue
             name = qualified_name(w)
             tooltip = str(inherited(w, "/TU") or "")
@@ -242,10 +240,10 @@ def harvest_acroform(reader: PdfReader) -> dict[int, list[dict]]:
             pages.setdefault(idx, []).append({
                 "name": name,
                 "type": ftype,
-                "left": round(llx, 1),
-                "top": round(ury, 1),
-                "width": round(urx - llx, 1),
-                "height": round(ury - lly, 1),
+                "left": round(left, 1),
+                "top": round(top, 1),
+                "width": round(width, 1),
+                "height": round(height, 1),
                 "description": export or tooltip,
                 "options": choice_options(w) if ftype == "choice" else None,
                 "group": name if ftype == "radio" else None,
@@ -282,6 +280,33 @@ def box_size(rect) -> tuple[float, float]:
     x0, x1 = sorted((float(rect[0]), float(rect[2])))
     y0, y1 = sorted((float(rect[1]), float(rect[3])))
     return x1 - x0, y1 - y0
+
+
+def place_on_page(page, rect) -> tuple[float, float, float, float]:
+    """Widget /Rect -> its box on the FLATTENED page (left, top, width, height).
+
+    pdftocairo bakes /Rotate into the page and moves the origin to 0,0, so a
+    rect read from source user space is in a different coordinate system than
+    the page the app draws on. Both corrections are needed or the box lands
+    where the ink is not — measured at 478pt for a /Rotate 180 form and 36pt
+    for a half-inch MediaBox inset, neither of which trips any existing guard
+    because both stay comfortably on the page.
+    """
+    mx0, mx1 = sorted((float(page.mediabox[0]), float(page.mediabox[2])))
+    my0, my1 = sorted((float(page.mediabox[1]), float(page.mediabox[3])))
+    w, h = mx1 - mx0, my1 - my0
+    llx, urx = sorted((float(rect[0]) - mx0, float(rect[2]) - mx0))
+    lly, ury = sorted((float(rect[1]) - my0, float(rect[3]) - my0))
+    # page.rotation resolves the /Pages inheritance that page.get("/Rotate")
+    # would miss.
+    rot = int(page.rotation or 0) % 360
+    if rot == 90:
+        return lly, w - llx, ury - lly, urx - llx
+    if rot == 180:
+        return w - urx, h - lly, urx - llx, ury - lly
+    if rot == 270:
+        return h - ury, urx, ury - lly, urx - llx
+    return llx, ury, urx - llx, ury - lly
 
 
 def measure(value: str | None) -> float:
@@ -397,6 +422,12 @@ def main() -> None:
 
     reader = PdfReader(str(src))
     page_w, page_h = box_size(reader.pages[0].mediabox)
+    # pdftocairo emits the ROTATED page, so a 90/270 source flattens to swapped
+    # dimensions. Swap here and the revision guard, the bounds warning, the
+    # recorded pageSize and the overlay scale all follow.
+    rotations = {int(p.rotation or 0) % 360 for p in reader.pages}
+    if rotations & {90, 270}:
+        page_w, page_h = page_h, page_w
 
     # Revision guard: the source PDF and the committed template pages must be
     # the SAME document, or every harvested coordinate silently lies (we caught
@@ -433,6 +464,9 @@ def main() -> None:
     draft_pages: dict[str, dict] = {}
     orig_names: dict[str, dict[str, str]] = {}
     warnings: list[str] = []
+    if len(rotations) > 1:
+        warnings.append(f"pages disagree on rotation {sorted(rotations)}; the page-size "
+                        "swap follows the whole document, so check the overlays")
     total = 0
     for page_no in sorted(fields):
         if page_no > len(page_pdfs):
