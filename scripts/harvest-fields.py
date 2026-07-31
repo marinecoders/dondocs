@@ -259,27 +259,30 @@ def harvest_acroform(reader: PdfReader) -> dict[int, list[dict]]:
 UNIT = {"mm": 72 / 25.4, "cm": 72 / 2.54, "in": 72.0, "pt": 1.0}
 
 
-def box_size(rect) -> tuple[float, float]:
-    """Width and height of a PDF rectangle, normalized.
+def norm_rect(rect) -> tuple[float, float, float, float]:
+    """Rectangle corners, sorted.
 
-    A rectangle may be written with ANY two diagonally opposite corners
-    (PDF 32000-1 §7.9.5) — normalizing is the consumer's job. pypdf subtracts
-    without sorting, so a box given as [0 792 612 0] reports height -792.
-
-    That is not hypothetical: every LiveCycle-authored DON form ships that way.
-    Six local originals do, NAVMC 10274 and 321A among them, and the negative
-    height made the revision guard below refuse them with a "different
-    revisions" verdict that was provably false — the committed page is a
-    byte-identical split of the very source being refused. poppler normalizes,
-    which is why `pdfinfo` reported a sane 612x792 the whole time.
-
-    Both axes are sorted, not just the height: [612 792 0 0] flips the width
-    too, and the same guard, the bounds warning and the overlay scale would all
-    inherit it.
+    A PDF rectangle may be written with ANY two diagonally opposite corners
+    (PDF 32000-1 7.9.5) — normalizing is the consumer's job, and pypdf does not
+    do it. Every LiveCycle-authored DON form writes its MediaBox as
+    [0 792 612 0]; six local originals do, NAVMC 10274 among them. The negative
+    height that fell out of that made the revision guard refuse them against a
+    template page that was a byte-identical split of the same source.
     """
     x0, x1 = sorted((float(rect[0]), float(rect[2])))
     y0, y1 = sorted((float(rect[1]), float(rect[3])))
-    return x1 - x0, y1 - y0
+    return x0, y0, x1, y1
+
+
+def page_box(page) -> tuple[float, float, float, float]:
+    """The rectangle pdftocairo actually renders: the crop box, clipped to the
+    media box. CropBox defaults to MediaBox, so this is usually the media box —
+    but a cropped or imposed source renders smaller, and measuring the wrong one
+    put the revision guard back to refusing the form as a different revision.
+    """
+    mx0, my0, mx1, my1 = norm_rect(page.mediabox)
+    cx0, cy0, cx1, cy1 = norm_rect(page.cropbox)
+    return max(mx0, cx0), max(my0, cy0), min(mx1, cx1), min(my1, cy1)
 
 
 def place_on_page(page, rect) -> tuple[float, float, float, float]:
@@ -292,8 +295,7 @@ def place_on_page(page, rect) -> tuple[float, float, float, float]:
     for a half-inch MediaBox inset, neither of which trips any existing guard
     because both stay comfortably on the page.
     """
-    mx0, mx1 = sorted((float(page.mediabox[0]), float(page.mediabox[2])))
-    my0, my1 = sorted((float(page.mediabox[1]), float(page.mediabox[3])))
+    mx0, my0, mx1, my1 = page_box(page)
     w, h = mx1 - mx0, my1 - my0
     llx, urx = sorted((float(rect[0]) - mx0, float(rect[2]) - mx0))
     lly, ury = sorted((float(rect[1]) - my0, float(rect[3]) - my0))
@@ -421,7 +423,8 @@ def main() -> None:
         pass  # warm nothing; sizes come from pdfinfo below
 
     reader = PdfReader(str(src))
-    page_w, page_h = box_size(reader.pages[0].mediabox)
+    bx0, by0, bx1, by1 = page_box(reader.pages[0])
+    page_w, page_h = bx1 - bx0, by1 - by0
     # pdftocairo emits the ROTATED page, so a 90/270 source flattens to swapped
     # dimensions. Swap here and the revision guard, the bounds warning, the
     # recorded pageSize and the overlay scale all follow.
@@ -433,7 +436,8 @@ def main() -> None:
     # the SAME document, or every harvested coordinate silently lies (we caught
     # a 612pt-tall web 11622 against 684pt-tall committed pages). Page size is
     # the cheap tell; the overlay review is the thorough one.
-    tw, th = box_size(PdfReader(str(page_pdfs[0])).pages[0].mediabox)
+    tx0, ty0, tx1, ty1 = page_box(PdfReader(str(page_pdfs[0])).pages[0])
+    tw, th = tx1 - tx0, ty1 - ty0
     if abs(tw - page_w) > 1 or abs(th - page_h) > 1:
         sys.exit(
             f"harvest-fields: REFUSED — source pages are {page_w:g}x{page_h:g} pt but the "

@@ -55,7 +55,8 @@ failures: list[str] = []
 
 
 def build_pdf(path: Path, rect: tuple[float, float, float, float],
-              media: tuple[float, float, float, float], rotate: int = 0) -> None:
+              media: tuple[float, float, float, float], rotate: int = 0,
+              crop: tuple[float, float, float, float] | None = None) -> None:
     """One page, one text widget at `rect`, and the SAME rect painted black in
     the content stream so the flattened page carries pixel ground truth."""
     w = PdfWriter()
@@ -64,6 +65,8 @@ def build_pdf(path: Path, rect: tuple[float, float, float, float],
     page[NameObject("/MediaBox")] = ArrayObject([FloatObject(v) for v in media])
     if rotate:
         page[NameObject("/Rotate")] = NumberObject(rotate)
+    if crop:
+        page[NameObject("/CropBox")] = ArrayObject([FloatObject(v) for v in crop])
 
     x0, y0, x1, y1 = rect
     painted = f"0 0 0 rg\n{x0} {y0} {x1 - x0} {y1 - y0} re f\n".encode()
@@ -116,10 +119,10 @@ def ink_box(page_pdf: Path) -> tuple[float, float, float, float]:
             (max(xs) + 1) / SCALE, (max(ys) + 1) / SCALE)
 
 
-def run_case(name: str, rect, media, rotate: int = 0) -> None:
+def run_case(name: str, rect, media, rotate: int = 0, crop=None) -> None:
     folder = TEMPLATES / f"ZZINK - {name}"
     src = Path(tempfile.mkdtemp()) / "src.pdf"
-    build_pdf(src, rect, media, rotate)
+    build_pdf(src, rect, media, rotate, crop)
     try:
         folder.mkdir(parents=True, exist_ok=True)
         flat = subprocess.run([str(ROOT / "scripts" / "flatten-navmc-form.sh"),
@@ -176,6 +179,11 @@ for deg in (90, 180, 270):
 # A cropped or imposed source: pdftocairo normalizes the origin to 0,0 but the
 # rect is written in the source's own space.
 run_case("OffsetOrigin", rect=(136, 636, 336, 656), media=(36, 36, 648, 828))
+
+# pdftocairo renders the CROP box, not the media box (verified: 612x792 media
+# with a 612x535 crop flattens to 612x535). Measuring the media box put the
+# revision guard back to refusing the form as a different revision.
+run_case("CropBox", rect=(100, 400, 300, 420), media=(0, 0, 612, 792), crop=(0, 0, 612, 535))
 
 if failures:
     print(f"FAIL — {len(failures)} mismatch(es) between harvested boxes and ink:")
