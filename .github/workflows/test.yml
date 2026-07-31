@@ -63,6 +63,15 @@ jobs:
         if: matrix.task == 'scripts'
         run: python3 -m pip install --quiet pypdf pillow
 
+      # test-harvest-ink.py drives the real flatten + harvest and measures the
+      # rendered pixels, so it needs the same toolchain the pipeline needs. It
+      # skips cleanly when these are absent, which would mean the one test that
+      # checks coordinates against reality silently never runs in CI — so
+      # install them rather than letting it opt out.
+      - name: pdf toolchain
+        if: matrix.task == 'scripts'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq qpdf poppler-utils
+
       - name: run task
         run: |
           case "${{ matrix.task }}" in
