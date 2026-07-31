@@ -156,3 +156,16 @@ done < "$MANIFEST"
 echo "[batch] DONE — imported=$imported skipped=$skipped xfa-queued=$refused failed=$failed warned=$warned"
 (( warned > 0 )) && echo "[batch] $warned form(s) imported WITH WARNINGS — review those before trusting their fields"
 echo "[batch] xfa manual queue: $(($(wc -l < "$QUEUE") - 1)) forms in $QUEUE"
+
+# Report failure in the exit code. This used to end on an echo, so the script
+# returned that echo's status — always 0 — and a run that failed forty forms
+# looked like a success to anything checking. acquire-form.sh `exec`s this, so
+# the front door inherited the lie.
+#
+# Only `failed` is fatal. An xfa-queued form is an expected outcome parked in
+# docs/xfa-manual-queue.tsv, and a warned form did import — it just needs a look
+# before its fields are trusted. Both are reported above; neither is an error.
+if (( failed > 0 )); then
+  echo "[batch] FAILED — $failed form(s) did not import" >&2
+  exit 1
+fi
