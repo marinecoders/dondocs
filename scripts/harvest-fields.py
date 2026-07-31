@@ -261,6 +261,29 @@ def harvest_acroform(reader: PdfReader) -> dict[int, list[dict]]:
 UNIT = {"mm": 72 / 25.4, "cm": 72 / 2.54, "in": 72.0, "pt": 1.0}
 
 
+def box_size(rect) -> tuple[float, float]:
+    """Width and height of a PDF rectangle, normalized.
+
+    A rectangle may be written with ANY two diagonally opposite corners
+    (PDF 32000-1 §7.9.5) — normalizing is the consumer's job. pypdf subtracts
+    without sorting, so a box given as [0 792 612 0] reports height -792.
+
+    That is not hypothetical: every LiveCycle-authored DON form ships that way.
+    Six local originals do, NAVMC 10274 and 321A among them, and the negative
+    height made the revision guard below refuse them with a "different
+    revisions" verdict that was provably false — the committed page is a
+    byte-identical split of the very source being refused. poppler normalizes,
+    which is why `pdfinfo` reported a sane 612x792 the whole time.
+
+    Both axes are sorted, not just the height: [612 792 0 0] flips the width
+    too, and the same guard, the bounds warning and the overlay scale would all
+    inherit it.
+    """
+    x0, x1 = sorted((float(rect[0]), float(rect[2])))
+    y0, y1 = sorted((float(rect[1]), float(rect[3])))
+    return x1 - x0, y1 - y0
+
+
 def measure(value: str | None) -> float:
     if not value:
         return 0.0
@@ -373,15 +396,13 @@ def main() -> None:
         pass  # warm nothing; sizes come from pdfinfo below
 
     reader = PdfReader(str(src))
-    first = reader.pages[0].mediabox
-    page_w, page_h = float(first.width), float(first.height)
+    page_w, page_h = box_size(reader.pages[0].mediabox)
 
     # Revision guard: the source PDF and the committed template pages must be
     # the SAME document, or every harvested coordinate silently lies (we caught
     # a 612pt-tall web 11622 against 684pt-tall committed pages). Page size is
     # the cheap tell; the overlay review is the thorough one.
-    tmpl = PdfReader(str(page_pdfs[0])).pages[0].mediabox
-    tw, th = float(tmpl.width), float(tmpl.height)
+    tw, th = box_size(PdfReader(str(page_pdfs[0])).pages[0].mediabox)
     if abs(tw - page_w) > 1 or abs(th - page_h) > 1:
         sys.exit(
             f"harvest-fields: REFUSED — source pages are {page_w:g}x{page_h:g} pt but the "
