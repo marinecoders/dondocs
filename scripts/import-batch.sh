@@ -20,6 +20,12 @@
 # REHARVEST=1 re-runs the harvester on folders that ALREADY exist (after a
 # harvester change), reusing their flattened pages: fetch original -> harvest
 # -> promote, no re-flatten. New/missing folders are skipped in this mode.
+#
+# A re-harvest updates GEOMETRY only. The committed form.json stays the truth
+# for labels, required/multiline/options, sections and row-group shape, so hand
+# corrections survive — which also means an improved harvester label does NOT
+# land on a form that already has one. Delete its form.json to force a fresh
+# import. See scripts/promote_form.py.
 set -uo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT" || { echo "cannot cd to repo root: $ROOT" >&2; exit 1; }
@@ -37,24 +43,26 @@ QUEUE="$ROOT/docs/xfa-manual-queue.tsv"
 UA='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
 API='https://dso.dla.mil/DONNavyForms-RequestService/api/forms'
 
-# On sys.path for the promote heredoc, which imports index_json for the lock.
-export SCRIPTS="$ROOT/scripts"
-
-# Folders that must NEVER be re-imported: the hand-built forms whose geometry
-# lives in TypeScript generators. They carry boxes.json instead of form.json, so
-# the "already has a form.json" skip below cannot see them — re-importing would
-# overwrite their reviewed pages and flip them to a robot draft in the catalog.
+# `row_flag <folder> <key>` — true when index.json marks that form's row.
 #
-# Re-read per form rather than snapshotted at startup: a human (or a second
-# batch) can mark a form `verified` while this run is still walking a manifest
-# of thousands, and a stale snapshot would let us overwrite the very pages they
-# just finished reviewing.
-is_protected() {
-  python3 - "$1" <<'PYP'
+#   verified  hand-built forms whose geometry lives in TypeScript generators.
+#             They carry boxes.json instead of form.json, so the "already has a
+#             form.json" skip below cannot see them, and re-importing would
+#             overwrite their reviewed pages and flip them to a robot draft.
+#   config    the promote step finished. form.json ALONE does not mean finished:
+#             a promote that died between writing the file and committing the
+#             row leaves an orphan, and keying on the file made that folder
+#             unreachable — skipped forever here, unregisterable under REHARVEST.
+#
+# Read per form rather than snapshotted at startup: a human (or a second batch)
+# can mark a form verified while this run is still walking a manifest of
+# thousands, and a stale snapshot would overwrite the pages they just reviewed.
+row_flag() {
+  python3 - "$1" "$2" <<'PYP'
 import json, sys
+folder, key = sys.argv[1], sys.argv[2]
 idx = json.load(open('public/templates/index.json'))
-sys.exit(0 if any(t['directory'] == sys.argv[1] and t.get('verified')
-                  for t in idx['templates']) else 1)
+sys.exit(0 if any(t['directory'] == folder and t.get(key) for t in idx['templates']) else 1)
 PYP
 }
 
@@ -64,11 +72,19 @@ while IFS=$'\t' read -r id folder category number || [[ -n "$id" ]]; do
   # acquire-form.sh writes "-" for "no category" because bash collapses an
   # empty tab-delimited field and shifts every later column left.
   [[ "$category" == "-" ]] && category=""
-  if [[ -f "public/templates/$folder/boxes.json" ]] || is_protected "$folder"; then
+  formwarn=0  # harvest and promote can both warn; the form still counts once
+  if [[ -f "public/templates/$folder/boxes.json" ]] || row_flag "$folder" verified; then
     echo "[protected] $folder — hand-built form; refusing to re-import"
     skipped=$((skipped+1)); continue
   fi
-  exists=0; [[ -f "public/templates/$folder/form.json" ]] && exists=1
+  exists=0
+  if [[ -f "public/templates/$folder/form.json" ]]; then
+    if row_flag "$folder" config; then
+      exists=1
+    else
+      echo "[orphan]    $folder — form.json without a config row; re-importing"
+    fi
+  fi
   # Import mode skips finished folders; re-harvest mode only touches them.
   if [[ "${REHARVEST:-0}" == 1 ]]; then
     [[ $exists -eq 0 ]] && { skipped=$((skipped+1)); continue; }
@@ -109,64 +125,27 @@ while IFS=$'\t' read -r id folder category number || [[ -n "$id" ]]; do
     failed=$((failed+1)); continue
   fi
   if grep -q 'WARN:' <<<"$hout"; then
-    warned=$((warned+1))
+    formwarn=1
     echo "[warn] $folder — harvest dropped or mislocated fields:"
     grep 'WARN:' <<<"$hout" | head -4 | sed 's/^/  /'
   fi
 
   # Promote draft -> live form.json and flip the index row to config:true.
-  # form.json is temp-file + atomic-rename; the index row goes through
-  # index_json.update, which locks and re-reads so a batch running in another
-  # terminal cannot lose the row it just added. A missing index row is a hard
-  # error, not a silent orphan.
-  if ! python3 - "$folder" "${category:-}" <<'PY'
-import json, os, sys
-folder, category = sys.argv[1], sys.argv[2]
-d = f'public/templates/{folder}'
-sys.path.insert(0, os.environ['SCRIPTS'])
-import index_json
-
-def write_atomic(path, obj):
-    tmp = f'{path}.tmp.{os.getpid()}'
-    with open(tmp, 'w') as fh:
-        json.dump(obj, fh, indent=2)
-        fh.write('\n')
-    os.replace(tmp, path)
-
-promoted = json.load(open(f'{d}/form.draft.json'))
-# Preserve a hand-corrected top-level label across a re-harvest. The harvester
-# emits the raw folder name ("NAVMC11620 - ..."); the spaced display label
-# ("NAVMC 11620 - ...", shown in the editor banner) is applied after import and
-# is NOT reproduced by the harvester, so a blind overwrite reverts it.
-prev_path = f'{d}/form.json'
-if os.path.exists(prev_path):
-    try:
-        prev_label = json.load(open(prev_path)).get('label')
-        if prev_label:
-            promoted['label'] = prev_label
-    except (json.JSONDecodeError, OSError):
-        pass
-write_atomic(prev_path, promoted)
-
-
-def commit_row(idx):
-    found = False
-    for t in idx['templates']:
-        if t['directory'] == folder:
-            t['config'] = True
-            if category:
-                t['category'] = category
-            found = True
-    if not found:
-        sys.exit(f'no index.json entry for {folder!r} (import-navmc.sh did not register it)')
-
-
-index_json.update(commit_row)
-PY
-  then
-    echo "[fail-promote] $folder"; failed=$((failed+1)); continue
+  # The committed form.json wins on meaning and the draft only on geometry, so
+  # a re-harvest cannot revert hand edits; what it stops seeing is kept and
+  # warned about. The row is located before anything is written, so a missing
+  # one is a refusal rather than a refusal plus an orphan.
+  pout="$(python3 scripts/promote_form.py "$folder" "${category:-}" 2>&1)"
+  if [[ $? -ne 0 ]]; then
+    echo "[fail-promote] $folder: $(tail -1 <<<"$pout")"; failed=$((failed+1)); continue
+  fi
+  if grep -q 'WARN:' <<<"$pout"; then
+    formwarn=1
+    echo "[warn] $folder — promote kept edits this harvest disagrees with:"
+    grep 'WARN:' <<<"$pout" | head -4 | sed 's/^/  /'
   fi
   imported=$((imported+1))
+  (( formwarn )) && warned=$((warned+1))
   (( imported % 25 == 0 )) && echo "[batch] $imported imported, $refused queued, $failed failed"
 done < "$MANIFEST"
 
