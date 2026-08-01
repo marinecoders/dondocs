@@ -390,10 +390,16 @@ def parse_xfa_template(xml: str, page_height: float) -> dict[int, list[dict]]:
     xml = re.sub(r'\sxmlns="[^"]+"', "", xml, count=1)
     root = ET.fromstring(xml)
 
-    # Content margins: the first contentArea places the form on the page.
-    ca = root.find(".//contentArea")
-    off_x = measure(ca.get("x")) if ca is not None else 0.0
-    off_y = measure(ca.get("y")) if ca is not None else 0.0
+    # Content margins: each pageArea places its own page. Reading the FIRST
+    # contentArea and applying it everywhere put every field on a form with a
+    # different margin on page 2 at page 1's inset. Pages past the last declared
+    # area fall back to the first, which is the old behaviour and right for the
+    # ordinary uniform template.
+    areas = root.findall(".//pageArea/contentArea") or root.findall(".//contentArea")
+
+    def inset(page: int) -> tuple[float, float]:
+        el = areas[page - 1] if page - 1 < len(areas) else (areas[0] if areas else None)
+        return (measure(el.get("x")), measure(el.get("y"))) if el is not None else (0.0, 0.0)
 
     # Page assignment: each top-level positioned subform under the root form
     # subform is one page, in document order (the layout NAVMC forms use).
@@ -431,6 +437,7 @@ def parse_xfa_template(xml: str, page_height: float) -> dict[int, list[dict]]:
                 if group and ftype == "checkbox":
                     ftype = "radio"
                 cap = child.find("caption/value/text")
+                off_x, off_y = inset(page)
                 pages.setdefault(page, []).append({
                     "name": child.get("name") or "field",
                     "type": ftype,
@@ -642,29 +649,45 @@ def main() -> None:
         pass  # warm nothing; sizes come from pdfinfo below
 
     reader = PdfReader(str(src))
-    bx0, by0, bx1, by1 = page_box(reader.pages[0])
-    page_w, page_h = bx1 - bx0, by1 - by0
-    # pdftocairo emits the ROTATED page, so a 90/270 source flattens to swapped
-    # dimensions. Swap here and the revision guard, the bounds warning, the
-    # recorded pageSize and the overlay scale all follow.
-    rotations = {int(p.rotation or 0) % 360 for p in reader.pages}
-    if rotations & {90, 270}:
-        page_w, page_h = page_h, page_w
+
+    def sized(page) -> tuple[float, float]:
+        """The page as pdftocairo will flatten it: the rendered box, and the
+        dimensions swapped when the page carries a quarter turn."""
+        x0, y0, x1, y1 = page_box(page)
+        w, h = x1 - x0, y1 - y0
+        return (h, w) if int(page.rotation or 0) % 360 in (90, 270) else (w, h)
+
+    # Per page, not page 1 for the whole document. A form whose pages differ in
+    # size or rotation had every later page measured against page 1: the bounds
+    # warning fired on boxes that were fine (or stayed quiet on ones that were
+    # not), and the overlay PNGs — the artifact a human checks the import
+    # against — drew every box at the wrong scale. The one thing that was
+    # already per-page is the box itself, via place_on_page.
+    src_size = {i: sized(p) for i, p in enumerate(reader.pages, start=1)}
+    tpl_size = {i: sized(PdfReader(str(p)).pages[0]) for i, p in enumerate(page_pdfs, start=1)}
+    page_w, page_h = src_size[1]
+
+    warnings: list[str] = []
 
     # Revision guard: the source PDF and the committed template pages must be
     # the SAME document, or every harvested coordinate silently lies (we caught
     # a 612pt-tall web 11622 against 684pt-tall committed pages). Page size is
     # the cheap tell; the overlay review is the thorough one.
-    tx0, ty0, tx1, ty1 = page_box(PdfReader(str(page_pdfs[0])).pages[0])
-    tw, th = tx1 - tx0, ty1 - ty0
+    tw, th = tpl_size[1]
     if abs(tw - page_w) > 1 or abs(th - page_h) > 1:
         sys.exit(
             f"harvest-fields: REFUSED — source pages are {page_w:g}x{page_h:g} pt but the "
             f"committed template pages are {tw:g}x{th:g} pt. Different revisions: harvest "
             f"from the SAME original the template pages were flattened from."
         )
-
-    warnings: list[str] = []
+    # Later pages only warn. Page 1 agreeing is strong evidence it is the right
+    # document, and a genuine mixed-size form is a thing; refusing outright
+    # would block imports that work today.
+    for i in sorted(set(src_size) & set(tpl_size) - {1}):
+        if src_size[i] != tpl_size[i]:
+            warnings.append(f"page {i} is {src_size[i][0]:g}x{src_size[i][1]:g} pt in the source "
+                            f"but {tpl_size[i][0]:g}x{tpl_size[i][1]:g} pt in the template — "
+                            f"check that page's overlay closely")
     fields, locked = harvest_acroform(reader)
     source = "acroform"
     if locked:
@@ -690,9 +713,6 @@ def main() -> None:
     used: set[str] = set()
     draft_pages: dict[str, dict] = {}
     orig_names: dict[str, dict[str, str]] = {}
-    if len(rotations) > 1:
-        warnings.append(f"pages disagree on rotation {sorted(rotations)}; the page-size "
-                        "swap follows the whole document, so check the overlays")
     total = 0
     for page_no in sorted(fields):
         if page_no > len(page_pdfs):
@@ -703,7 +723,8 @@ def main() -> None:
         for f in sorted(fields[page_no], key=lambda f: (-f["top"], f["left"])):
             key = dedupe(camel(f["name"]), used)
             orig_names[f"page{page_no}"][key] = f["name"]
-            if not (0 <= f["left"] <= page_w and 0 <= f["top"] <= page_h):
+            bound_w, bound_h = src_size.get(page_no, (page_w, page_h))
+            if not (0 <= f["left"] <= bound_w and 0 <= f["top"] <= bound_h):
                 warnings.append(f"page{page_no}.{key} out of bounds: left={f['left']} top={f['top']}")
             boxes[key] = {
                 "left": f["left"], "top": f["top"],
@@ -813,11 +834,15 @@ def main() -> None:
             continue
         png = io_render(page_pdfs[page_no - 1])
         im = Image.open(png).convert("RGB")
-        scale = im.width / page_w
+        # This page's own size. Scaling every page by page 1's put the boxes
+        # somewhere else entirely on a mixed-size form, in the one artifact a
+        # human uses to decide whether the harvest is right.
+        this_w, this_h = tpl_size[page_no]
+        scale = im.width / this_w
         d = ImageDraw.Draw(im)
         for key, b in draft_pages[f"page{page_no}"].items():
             x0 = b["left"] * scale
-            y0 = (page_h - b["top"]) * scale
+            y0 = (this_h - b["top"]) * scale
             d.rectangle([x0, y0, x0 + b["width"] * scale, y0 + b["height"] * scale], outline=(220, 30, 30), width=2)
             d.text((x0 + 2, y0 + 1), key[:22], fill=(180, 20, 20))
         im.save(sheet / f"overlay-page{page_no}.png")

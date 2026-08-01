@@ -130,7 +130,11 @@ export async function renderFormPdf(
       // A checked box or selected radio option gets a centered mark; both
       // boxes are small. (Choice dropdowns fall through — their selected
       // value prints as text.)
-      const size = Math.min(box.height - 2, 10);
+      // Floor it. `height - 2` goes to zero on a 2pt box — a ticked box that
+      // printed nothing at all — and negative below that, which pdf-lib will
+      // not draw. A hair of overflow on a hairline box beats an invisible
+      // answer. Every real checkbox is 10pt or more, where this is unchanged.
+      const size = Math.max(Math.min(box.height - 2, 10), 4);
       const width = fnt.widthOfTextAtSize(CHECK_MARK, size);
       page.drawText(CHECK_MARK, {
         x: box.left + (box.width - width) / 2,

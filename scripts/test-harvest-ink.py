@@ -233,6 +233,12 @@ if run.returncode != 0:
     failures.append(f"flatten refused a form with one blank page: {run.stderr.strip()[:160]}")
 elif "page2" not in run.stderr:
     failures.append(f"the blank continuation page was not called out: {run.stderr.strip()[:160]}")
+# These sources carry no AcroForm at all, which is exactly the case the old
+# "still reports an interactive form after flattening" check claimed to cover
+# and never could — its input had already been through pdftocairo.
+elif "no AcroForm or XFA layer" not in run.stderr:
+    failures.append("a source with no interactive layer flattened without a word — "
+                    "the harvester will fail later with a puzzling 'no fields found'")
 
 if failures:
     print(f"FAIL — {len(failures)} mismatch(es) between harvested boxes and ink:")

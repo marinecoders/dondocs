@@ -17,6 +17,7 @@ import { mkdtemp, writeFile } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { PDFDocument } from 'pdf-lib';
 import { renderFormPdf, type PageLoader } from '@/services/pdf/genericFormRenderer';
 import { assertFormConfig } from '@/types/formConfig';
 import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfToolchain';
@@ -69,6 +70,54 @@ describe.runIf(hasPdfToolchain)('generic form renderer', () => {
     expect(p1).toContain('1st Battalion, 6th Marines');
     const p2 = spawnSync('pdftotext', ['-f', '2', '-l', '2', pdf, '-'], { encoding: 'utf-8' }).stdout;
     expect(p2).toContain('Line one of the remarks.');
+  });
+
+  // A hairline box. The mark size was `height - 2`: zero at 2pt, negative
+  // below. pdf-lib writes either without complaint and pdftotext still reports
+  // an "X" for all of them, so string-matching says everything is fine.
+  // Measuring the page says otherwise — at 150dpi a checked box draws
+  //   3pt: 1 dark pixel (invisible)      2pt: 429 (a blob 5x a normal mark)
+  //   1pt: 1 dark pixel (invisible)     12pt: 85 (correct)
+  // A zero-size glyph does not vanish, it renders unbounded. Drawn on a blank
+  // page so the only ink that can be counted is the mark itself.
+  it('draws a legible, bounded mark in a box too small to subtract from', async () => {
+    const blank = await PDFDocument.create();
+    blank.addPage([612, 792]);
+    const blankBytes = await blank.save();
+    const blankLoader: PageLoader = async () => new Uint8Array(blankBytes);
+
+    const inkFor = async (height: number) => {
+      const cfg = assertFormConfig(
+        {
+          ...config,
+          pages: ['page1.pdf'],
+          sections: [],
+          fields: {
+            tick: { type: 'checkbox', label: 'Tick', page: 1, box: { left: 300, top: 400, width: 12, height } },
+          },
+        },
+        `clamp-${height}`
+      );
+      const bytes = await renderFormPdf(cfg, { tick: true }, {}, blankLoader);
+      const dir = await mkdtemp(join(tmpdir(), 'gfr-clamp-'));
+      const pdf = join(dir, 'out.pdf');
+      await writeFile(pdf, bytes);
+      spawnSync('pdftoppm', ['-gray', '-r', '150', '-singlefile', pdf, join(dir, 'p')]);
+      // Raw PGM: "P5\n<w> <h>\n<max>\n" then one byte per pixel.
+      const raw = await readFile(join(dir, 'p.pgm'));
+      const body = raw.subarray(raw.indexOf(10, raw.indexOf(10, raw.indexOf(10) + 1) + 1) + 1);
+      let dark = 0;
+      for (const v of body) if (v < 200) dark++;
+      return dark;
+    };
+
+    const normal = await inkFor(12);
+    expect(normal).toBeGreaterThan(20);
+    for (const height of [1, 2, 3]) {
+      const ink = await inkFor(height);
+      expect(ink, `a ticked ${height}pt box printed nothing anyone could see`).toBeGreaterThan(4);
+      expect(ink, `a ticked ${height}pt box sprawled past a normal mark`).toBeLessThan(normal * 1.5);
+    }
   });
 
   it('renders row-group entries at their per-row offsets', async () => {

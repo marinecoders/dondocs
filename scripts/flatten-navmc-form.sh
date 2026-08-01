@@ -45,7 +45,26 @@ trap 'rm -rf "$WORK"' EXIT
 #    qpdf --decrypt needs no password). Harmless if the PDF isn't restricted.
 qpdf --decrypt "$SRC" "$WORK/dec.pdf" 2>/dev/null || cp "$SRC" "$WORK/dec.pdf"
 
-# 1b. Strip every annotation before rendering. pdftocairo draws widget
+# 1b. Did the source carry an interactive layer at all? Ask BEFORE 1c strips
+#     the annotations, which takes the AcroForm with them.
+#
+#     Step 4 used to ask this of flat.pdf and refuse when it "still reports an
+#     interactive form after flattening" — a check that could never fire, since
+#     its input has already been through pdftocairo, which drops the form
+#     unconditionally. It read like a guard and tested nothing.
+#
+#     The live question is the opposite one: a source with no form has no field
+#     geometry for harvest-fields.py to read, so the import dies further down
+#     with a puzzling "no fields found". Say it here, where the cause is. A
+#     warning, not a refusal — flattening a print-only PDF into template pages
+#     is a legitimate thing to do.
+if ! pdfinfo "$WORK/dec.pdf" | grep -qE "^Form:\s*(XFA|AcroForm)"; then
+  echo "[flatten] WARNING: '$SRC' carries no AcroForm or XFA layer — there are no" >&2
+  echo "          field boxes to harvest. Fine for a print-only template; if you" >&2
+  echo "          expected a fillable form, this is the wrong source file." >&2
+fi
+
+# 1c. Strip every annotation before rendering. pdftocairo draws widget
 #     appearance streams into the page, so Print/Reset button ARTWORK (and
 #     any field chrome) would be baked into the template as pixels — the
 #     buttons stop working either way, but a dead "Print Form" graphic on a
@@ -88,19 +107,12 @@ if grep -qiE "$XFA_PLACEHOLDER" <<<"$ALLTEXT"; then
   exit 3
 fi
 
-# 4. Confirm the flatten actually stripped the interactive layer.
-if pdfinfo "$WORK/flat.pdf" | grep -qE "^Form:\s*(XFA|AcroForm)"; then
-  echo "[flatten] REFUSED: '$SRC' still reports an interactive form after" >&2
-  echo "          flattening (pdfinfo Form != none). Needs Acrobat." >&2
-  exit 3
-fi
-
-# 4b. Button-artwork guard: with annotations stripped (step 1b), no button
-#     caption should survive into the rendered text. If one does, the artwork
-#     reached the page some other way (e.g. drawn into the static content by
-#     the form's author) and a human must look at the pages. A warning, not a
-#     refusal — real forms legitimately say things like "Type or print", so
-#     only unmistakable button captions are matched.
+# 4. Button-artwork guard: with annotations stripped (step 1c), no button
+#    caption should survive into the rendered text. If one does, the artwork
+#    reached the page some other way (e.g. drawn into the static content by
+#    the form's author) and a human must look at the pages. A warning, not a
+#    refusal — real forms legitimately say things like "Type or print", so
+#    only unmistakable button captions are matched.
 BTN="$(pdftotext -layout "$WORK/flat.pdf" - 2>/dev/null \
   | grep -inE '\b(print form|reset form|save form|clear form|submit form|print button|reset button)\b' || true)"
 if [[ -n "$BTN" ]]; then
@@ -127,7 +139,7 @@ if [[ "$COUNT" -eq 0 ]]; then
   exit 4
 fi
 # 5b. Ink guard. A page that renders all-white is not a form, and nothing above
-#     would notice: stripping /Annots (step 1b) removes the only marks a source
+#     would notice: stripping /Annots (step 1c) removes the only marks a source
 #     whose static layer is empty ever had, and such a source clears the XFA
 #     refusal whenever it happens not to carry Adobe's wording. Blank pages then
 #     get committed as templates and the import reports success.
