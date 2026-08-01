@@ -367,7 +367,8 @@ def parse_xfa_template(xml: str, page_height: float) -> dict[int, list[dict]]:
     form = root.find("subform")
     if form is None:
         return {}
-    page_roots = [sf for sf in form.findall("subform")] or [form]
+    page_subforms = form.findall("subform")
+    page_roots = page_subforms or [form]
 
     pages: dict[int, list[dict]] = {}
 
@@ -403,8 +404,161 @@ def parse_xfa_template(xml: str, page_height: float) -> dict[int, list[dict]]:
 
     for i, pr in enumerate(page_roots, start=1):
         walk(pr, measure(pr.get("x")), measure(pr.get("y")), i)
+    # The root subform can carry fields of its own ALONGSIDE the page subforms —
+    # a form-wide date, a hidden version stamp, a root exclGroup — and only the
+    # page subforms were walked, so that entire level vanished without a word.
+    # The `or [form]` fallback hid it whenever the root had no page subforms at
+    # all, which is why it only ever showed up on mixed templates. walk() just
+    # iterates its first argument, so a list of the root's own children does.
+    if page_subforms:
+        loose = [c for c in form if c.tag in ("field", "exclGroup", "area")]
+        if loose:
+            walk(loose, 0.0, 0.0, 1)
     return pages
 
+
+def detect_row_groups(draft_pages: dict, orig_names: dict) -> tuple[dict, set]:
+    """Collapse repeated-row families (roster forms) into rowGroups.
+
+    Returns `(row_groups, grouped_keys)`; every key in grouped_keys leaves the
+    flat field list. Pure — no PDFs, no files — because this is where a
+    checkbox checklist used to be swallowed whole and nothing downstream could
+    see it: boxes.draft.json is written before this runs and still shows all
+    ten, so the overlay PNGs looked right too.
+    """
+    # Detect repeated-row families (roster forms). Two encodings exist in the
+    # wild: a RowN suffix on the field name (lastNameRow1..RowN), and a varying
+    # index on a repeating parent subform (Subform1[0].FirstName ..
+    # Subform1[29].FirstName — the 11622). A family qualifies when >=3
+    # consecutive rows share one left edge and a constant vertical stride;
+    # its columns collapse into a rowGroup whose boxes describe row 1 and
+    # leave the flat field list. Anything irregular stays a plain field.
+    row_groups: dict[str, dict] = {}
+    grouped_keys: set[str] = set()
+    for page_name, boxes in draft_pages.items():
+        families: dict[str, list[tuple[str, dict]]] = {}
+        for key, b in boxes.items():
+            # Radio-group members carry a shared AcroForm parent name (b["group"])
+            # and stack at a constant vertical stride — geometry indistinguishable
+            # from a roster. But a radio group is ONE pick-one field, not a table:
+            # collapsing it into a grid destroys mutual exclusion and drops the
+            # group/options/required that field_config attaches (the grid renders
+            # each option as a free-text cell). Keep radio kids out of the family
+            # builder so they stay flat radio fields the editor groups correctly.
+            if b.get("group"):
+                continue
+            name = orig_names.get(page_name, {}).get(key, key)
+            # Encoding 1: numeric row suffix on the key — lastNameRow1..RowN,
+            # but also bare trailing digits (the 10561's Model1..Model5) and
+            # dot-indices that camelize to digits (the 10359's Date.0 ->
+            # date0). Any trailing number is only a CANDIDATE; the geometry
+            # gates below (shared left edge, constant stride, >=3 rows)
+            # decide whether it is actually a table.
+            m = re.fullmatch(r"(.*?)(?:Row|ROW)?(\d+)", key)
+            if m and m.group(1):
+                families.setdefault(f"suffix:{m.group(1)}", []).append((key, b))
+            # Encoding 2: wildcard each bracket index in the qualified name in
+            # turn; the position whose index varies across fields is the row.
+            for wm in re.finditer(r"\[(\d+)\]", name):
+                wildcard = name[: wm.start()] + "[*]" + name[wm.end():]
+                families.setdefault(f"index:{wildcard}", []).append((key, b))
+        col_used: set[str] = set()
+        candidates: list[dict] = []
+        for base, members in sorted(families.items()):
+            avail = [e for e in members if e[0] not in grouped_keys]
+            if len(avail) < 3:
+                continue
+            # One qualified name can span several visual columns (the 11622's
+            # EDIPI[*] covers both the PFT and CFT tables), so cluster the
+            # family by left edge first; each aligned cluster is a column
+            # candidate in its own right.
+            clusters: list[list] = []
+            for e in sorted(avail, key=lambda e: e[1]["left"]):
+                if clusters and abs(e[1]["left"] - clusters[-1][-1][1]["left"]) <= 1.0:
+                    clusters[-1].append(e)
+                else:
+                    clusters.append([e])
+            for cluster in clusters:
+                if len(cluster) < 3:
+                    continue
+                # LiveCycle instance indices are NOT visual order (the 11622
+                # puts instance 0 at the table top and appends 1..29 bottom-
+                # up), so row order comes from geometry: sort by top.
+                entries = sorted(cluster, key=lambda e: -e[1]["top"])
+                if any(e[0] in grouped_keys for e in entries):
+                    continue
+                tops = [e[1]["top"] for e in entries]
+                diffs = [tops[i] - tops[i + 1] for i in range(len(tops) - 1)]
+                if not diffs or max(diffs) - min(diffs) > 1.0 or min(diffs) <= 0:
+                    continue  # rows repeat at one constant positive stride
+                first_key, first_box = entries[0]
+                if base.startswith("suffix:"):
+                    col_name = base.split(":", 1)[1]
+                else:
+                    col_name = camel(orig_names.get(page_name, {}).get(first_key, first_key))
+                candidates.append({
+                    "name": col_name,
+                    "box": first_box,
+                    "stride": sum(diffs) / len(diffs),
+                    "count": len(entries),
+                    "keys": [e[0] for e in entries],
+                })
+                grouped_keys.update(e[0] for e in entries)
+        # One page can hold several independent tables (the 11643 has a
+        # 4-row block and a 10-row remarks stack on the same page). A single
+        # merged group stamps every column with one shared row count and
+        # loses the taller stacks' extra rows, so bucket the candidates into
+        # coherent tables first: columns of one table share a row count, a
+        # stride, and (nearly) the top edge of row 1. Every bucket becomes
+        # its own rowGroup — a one-column bucket is a legitimate vertical
+        # stack.
+        candidates.sort(key=lambda c: (c["count"], c["box"]["top"]))
+        buckets: list[list[dict]] = []
+        for c in candidates:
+            b = buckets[-1] if buckets else None
+            if (
+                b
+                and b[0]["count"] == c["count"]
+                and abs(b[0]["stride"] - c["stride"]) <= 1.5
+                and abs(b[0]["box"]["top"] - c["box"]["top"]) <= max(6.0, 0.75 * b[0]["stride"])
+            ):
+                b.append(c)
+            else:
+                buckets.append([c])
+        for kept in buckets:
+            # A vertical checkbox checklist clears every gate above — one name
+            # family (dedupe() invents checkBox, checkBox2, … even when the
+            # author numbered nothing), one left edge, a constant stride — and
+            # collapsing it keeps row 1 alone and erases the rest from BOTH
+            # sections and fields. Nothing warns, and boxes.draft.json is written
+            # before this runs, so the overlay PNGs still show all ten. A table
+            # one checkbox wide is not a table; leave them as fields and let
+            # section_editor() tag the section a checklist, which is what it is
+            # for and what it never got the chance to do.
+            if len(kept) == 1 and kept[0]["box"]["type"] == "checkbox":
+                grouped_keys.difference_update(kept[0]["keys"])
+                continue
+            counts = [c["count"] for c in kept]
+            columns: dict[str, dict] = {}
+            for c in sorted(kept, key=lambda c: c["box"]["left"]):
+                col_name = dedupe(c["name"] or "col", col_used)
+                columns[col_name] = {
+                    "type": c["box"]["type"],
+                    "label": c["box"]["description"] or humanize(col_name),
+                    "page": int(re.search(r"\d+", page_name).group()),
+                    "box": {k: c["box"][k] for k in ("left", "top", "width", "height")},
+                }
+            row_groups["rows" if len(row_groups) == 0 else f"rows{len(row_groups) + 1}"] = {
+                "title": "Rows",
+                "page": int(re.search(r"\d+", page_name).group()),
+                "count": max(set(counts), key=counts.count),
+                "rowStride": round(sum(c["stride"] for c in kept) / len(kept), 2),
+                # A roster reads as a spreadsheet; the grid editor is the module
+                # for it (src/components/editor/RowGroupGrid.tsx).
+                "editor": "grid",
+                "columns": columns,
+            }
+    return row_groups, grouped_keys
 
 # --- output + overlay proof --------------------------------------------------
 
@@ -522,126 +676,7 @@ def main() -> None:
     out = folder / "boxes.draft.json"
     out.write_text(json.dumps(draft, indent=2) + "\n")
 
-    # Detect repeated-row families (roster forms). Two encodings exist in the
-    # wild: a RowN suffix on the field name (lastNameRow1..RowN), and a varying
-    # index on a repeating parent subform (Subform1[0].FirstName ..
-    # Subform1[29].FirstName — the 11622). A family qualifies when >=3
-    # consecutive rows share one left edge and a constant vertical stride;
-    # its columns collapse into a rowGroup whose boxes describe row 1 and
-    # leave the flat field list. Anything irregular stays a plain field.
-    row_groups: dict[str, dict] = {}
-    grouped_keys: set[str] = set()
-    for page_name, boxes in draft_pages.items():
-        families: dict[str, list[tuple[str, dict]]] = {}
-        for key, b in boxes.items():
-            # Radio-group members carry a shared AcroForm parent name (b["group"])
-            # and stack at a constant vertical stride — geometry indistinguishable
-            # from a roster. But a radio group is ONE pick-one field, not a table:
-            # collapsing it into a grid destroys mutual exclusion and drops the
-            # group/options/required that field_config attaches (the grid renders
-            # each option as a free-text cell). Keep radio kids out of the family
-            # builder so they stay flat radio fields the editor groups correctly.
-            if b.get("group"):
-                continue
-            name = orig_names.get(page_name, {}).get(key, key)
-            # Encoding 1: numeric row suffix on the key — lastNameRow1..RowN,
-            # but also bare trailing digits (the 10561's Model1..Model5) and
-            # dot-indices that camelize to digits (the 10359's Date.0 ->
-            # date0). Any trailing number is only a CANDIDATE; the geometry
-            # gates below (shared left edge, constant stride, >=3 rows)
-            # decide whether it is actually a table.
-            m = re.fullmatch(r"(.*?)(?:Row|ROW)?(\d+)", key)
-            if m and m.group(1):
-                families.setdefault(f"suffix:{m.group(1)}", []).append((key, b))
-            # Encoding 2: wildcard each bracket index in the qualified name in
-            # turn; the position whose index varies across fields is the row.
-            for wm in re.finditer(r"\[(\d+)\]", name):
-                wildcard = name[: wm.start()] + "[*]" + name[wm.end():]
-                families.setdefault(f"index:{wildcard}", []).append((key, b))
-        col_used: set[str] = set()
-        candidates: list[dict] = []
-        for base, members in sorted(families.items()):
-            avail = [e for e in members if e[0] not in grouped_keys]
-            if len(avail) < 3:
-                continue
-            # One qualified name can span several visual columns (the 11622's
-            # EDIPI[*] covers both the PFT and CFT tables), so cluster the
-            # family by left edge first; each aligned cluster is a column
-            # candidate in its own right.
-            clusters: list[list] = []
-            for e in sorted(avail, key=lambda e: e[1]["left"]):
-                if clusters and abs(e[1]["left"] - clusters[-1][-1][1]["left"]) <= 1.0:
-                    clusters[-1].append(e)
-                else:
-                    clusters.append([e])
-            for cluster in clusters:
-                if len(cluster) < 3:
-                    continue
-                # LiveCycle instance indices are NOT visual order (the 11622
-                # puts instance 0 at the table top and appends 1..29 bottom-
-                # up), so row order comes from geometry: sort by top.
-                entries = sorted(cluster, key=lambda e: -e[1]["top"])
-                if any(e[0] in grouped_keys for e in entries):
-                    continue
-                tops = [e[1]["top"] for e in entries]
-                diffs = [tops[i] - tops[i + 1] for i in range(len(tops) - 1)]
-                if not diffs or max(diffs) - min(diffs) > 1.0 or min(diffs) <= 0:
-                    continue  # rows repeat at one constant positive stride
-                first_key, first_box = entries[0]
-                if base.startswith("suffix:"):
-                    col_name = base.split(":", 1)[1]
-                else:
-                    col_name = camel(orig_names.get(page_name, {}).get(first_key, first_key))
-                candidates.append({
-                    "name": col_name,
-                    "box": first_box,
-                    "stride": sum(diffs) / len(diffs),
-                    "count": len(entries),
-                    "keys": [e[0] for e in entries],
-                })
-                grouped_keys.update(e[0] for e in entries)
-        # One page can hold several independent tables (the 11643 has a
-        # 4-row block and a 10-row remarks stack on the same page). A single
-        # merged group stamps every column with one shared row count and
-        # loses the taller stacks' extra rows, so bucket the candidates into
-        # coherent tables first: columns of one table share a row count, a
-        # stride, and (nearly) the top edge of row 1. Every bucket becomes
-        # its own rowGroup — a one-column bucket is a legitimate vertical
-        # stack.
-        candidates.sort(key=lambda c: (c["count"], c["box"]["top"]))
-        buckets: list[list[dict]] = []
-        for c in candidates:
-            b = buckets[-1] if buckets else None
-            if (
-                b
-                and b[0]["count"] == c["count"]
-                and abs(b[0]["stride"] - c["stride"]) <= 1.5
-                and abs(b[0]["box"]["top"] - c["box"]["top"]) <= max(6.0, 0.75 * b[0]["stride"])
-            ):
-                b.append(c)
-            else:
-                buckets.append([c])
-        for kept in buckets:
-            counts = [c["count"] for c in kept]
-            columns: dict[str, dict] = {}
-            for c in sorted(kept, key=lambda c: c["box"]["left"]):
-                col_name = dedupe(c["name"] or "col", col_used)
-                columns[col_name] = {
-                    "type": c["box"]["type"],
-                    "label": c["box"]["description"] or humanize(col_name),
-                    "page": int(re.search(r"\d+", page_name).group()),
-                    "box": {k: c["box"][k] for k in ("left", "top", "width", "height")},
-                }
-            row_groups["rows" if len(row_groups) == 0 else f"rows{len(row_groups) + 1}"] = {
-                "title": "Rows",
-                "page": int(re.search(r"\d+", page_name).group()),
-                "count": max(set(counts), key=counts.count),
-                "rowStride": round(sum(c["stride"] for c in kept) / len(kept), 2),
-                # A roster reads as a spreadsheet; the grid editor is the module
-                # for it (src/components/editor/RowGroupGrid.tsx).
-                "editor": "grid",
-                "columns": columns,
-            }
+    row_groups, grouped_keys = detect_row_groups(draft_pages, orig_names)
 
     # Also emit a FormConfig draft (src/types/formConfig.ts) — the file that,
     # once reviewed and renamed form.json, makes the form fillable in the app

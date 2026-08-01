@@ -101,6 +101,49 @@ check(fields["unit"]["description"] == "", "captionless field should be empty-de
 check(parse_xfa_template("<template></template>", PAGE_H) == {},
       "template with no form subform should return {}")
 
+# The mixed shape: page subforms AND fields hanging off the root subform, which
+# is how a form-wide date, a hidden version stamp or a root exclGroup is
+# normally authored. Only the page subforms were walked, so that whole level
+# vanished with nothing said — and the `or [form]` fallback hid it whenever the
+# root had no page subforms at all, which is why it never showed up alone.
+MIXED = """<?xml version="1.0"?>
+<template xmlns="http://www.xfa.org/schema/xfa-template/3.0/">
+  <subform name="form1">
+    <subform name="page1" x="0in" y="0in">
+      <field name="onPage" x="1in" y="1in" w="2in" h="0.25in"><ui><textEdit/></ui></field>
+    </subform>
+    <field name="formWideDate" x="5in" y="0.5in" w="1.5in" h="0.25in">
+      <ui><dateTimeEdit/></ui>
+    </field>
+    <exclGroup name="scope" x="1in" y="6in">
+      <field name="scopeAll" x="0in" y="0in" w="0.2in" h="0.2in"><ui><checkButton/></ui></field>
+      <field name="scopeSome" x="1in" y="0in" w="0.2in" h="0.2in"><ui><checkButton/></ui></field>
+    </exclGroup>
+  </subform>
+</template>"""
+
+mixed = {f["name"]: f for f in parse_xfa_template(MIXED, PAGE_H).get(1, [])}
+check(set(mixed) == {"onPage", "formWideDate", "scopeAll", "scopeSome"},
+      f"root-level fields were dropped: harvested {sorted(mixed)}")
+check(mixed.get("formWideDate", {}).get("type") == "date",
+      "a root-level field lost its widget type")
+# The exclGroup contributes its own offset the same way a subform does:
+# 1in group + 1in field = 144pt.
+check(mixed.get("scopeSome", {}).get("left") == 144.0,
+      f"root exclGroup offset not applied: {mixed.get('scopeSome', {}).get('left')}")
+
+# The fields-only root still yields each field exactly once — the fallback path
+# must not double-count now that the root level is walked as well.
+ONLY_ROOT = """<?xml version="1.0"?>
+<template xmlns="http://www.xfa.org/schema/xfa-template/3.0/">
+  <subform name="form1">
+    <field name="solo" x="1in" y="1in" w="2in" h="0.25in"><ui><textEdit/></ui></field>
+  </subform>
+</template>"""
+solo = parse_xfa_template(ONLY_ROOT, PAGE_H).get(1, [])
+check([f["name"] for f in solo] == ["solo"],
+      f"a root-only template harvested {[f['name'] for f in solo]}")
+
 if failures:
     print(f"FAIL — {len(failures)} assertion(s):")
     for f in failures:
