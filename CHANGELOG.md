@@ -5,195 +5,54 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
-## [1.2.127] — 2026-07-20
+## [1.2.115] — 2026-08-01
 
-### Fixed
+### Added
 
-- **Form text can no longer overflow its box.** Two escape hatches closed
-  in the config-form renderer: a single-line value that still did not fit
-  at the 5pt shrink floor was drawn past the box edge anyway, and the
-  multiline wrapper cannot break a single word wider than the box (a long
-  serial number or URL sailed through). Text is now hard-clipped at the
-  box edge with a visible ellipsis — a deliberate, visible cutoff instead
-  of overprinting neighboring fields — and dropped overflow lines mark the
-  last visible line the same way. Proven by a rendered-PDF test: the
-  ellipsis appears, the full oversized string never does.
+- **Forms are now described as data, not code.** A form is defined entirely by a
+  `form.json` sitting beside its template pages: the editor sections, the field
+  widgets, saving, the live preview and the PDF export all run through one
+  generic pipeline. Adding a form takes no TypeScript. **No new forms ship in
+  this release** — this is the machinery they arrive on, and the two hand-built
+  forms (NAVMC 10274 and NAVMC 118(11)) keep their own editors.
+- **Roster tables.** A form can declare a repeated-row region: one set of column
+  boxes describes row 1 and is stamped down the page at a fixed stride. The
+  editor gives you a spreadsheet you tab across, capped at the number of rows the
+  printed form actually has, and the entries save and ride the backup bundle like
+  any other field. A mostly-checkbox section renders as a compact checklist
+  instead of a stack of labelled boxes.
+- **A searchable form catalog.** Pick a form by number, title or nickname, or
+  browse the full list. Hand-checked forms sort above automatically prepared
+  ones, and an automatically prepared form carries a plain notice in the editor:
+  it was prepared by machine, it has not been checked by a person, and the
+  exported PDF should be compared against the official form before signing.
+- **The form import toolchain** (`scripts/`, for maintainers — nothing in it runs
+  in the app). One command takes an official form from the DON forms registry to
+  a registered, review-ready template: fetch, decrypt, flatten headlessly with no
+  Adobe, harvest every field box out of the original, and promote it to a live
+  form. It works on any form family in the registry, not just NAVMC.
 
-## [1.2.126] — 2026-07-20
+  It is built to refuse rather than guess. It will not stage Adobe's "please
+  wait" placeholder as a form, or a page that rendered blank, or a source whose
+  pages are not the document the template was flattened from. When it does drop
+  or move a field it says so and the batch counts it, because a 76-field form
+  imported with 45 fields and reported as a success is the failure that matters.
+  Every import writes overlay images with each harvested box drawn on the page
+  it belongs to, at that page's own size, so a person can see whether a box sits
+  on its blank; the pipeline's own tests check those boxes against the ink on
+  the rendered page rather than against the arithmetic that produced them.
+  Re-running the
+  harvester after an improvement updates only geometry, so a form someone has
+  reviewed by hand never silently reverts. Two imports running at once cannot
+  drop each other's rows from the catalog.
 
 ### Changed
 
-- **Trimmed the imported forms to five curated keepers**, re-run end-to-end
-  through the fully hardened pipeline (annotation strip, button-caption
-  guard, spacing fixes): NAVMC 11149 High School/Community College Update
-  Report, 11425 Marine Corps Lifelong Learning, 11643 Field Feeding
-  Evaluation Record, 11760 Lesson Safety Review Checklist, and 11864
-  Relocation Assistance Plan. Dropped the niche or too-thin five (two
-  artillery computation sheets, the 4-field service agreement, the HQ 509
-  sample-format card, and the surveying worksheet).
-
-## [1.2.125] — 2026-07-20
-
-### Added
-
-- The flatten script now warns when unmistakable button captions ("Print
-  Form", "Reset Form", "Save Form", …) survive into the rendered pages —
-  the tell that button artwork reached the template some way the
-  annotation strip cannot catch. Advisory, not a refusal: real forms
-  legitimately contain words like "print", so only full captions match.
-
-## [1.2.124] — 2026-07-20
-
-### Fixed
-
-- **Dead Print/Reset button artwork no longer bakes into flattened
-  templates.** The buttons themselves were already removed (nothing
-  clickable survived flattening), but poppler renders widget appearance
-  streams, so five of the ten newly imported forms carried a non-functional
-  "Print"/"Reset" graphic on the page. The flatten script now strips every
-  annotation before rendering; all ten new forms plus the older MAP
-  Evaluation (11620) templates were re-flattened clean. Verified: zero
-  Print/Reset text on every committed template page.
-
-## [1.2.123] — 2026-07-20
-
-### Added
-
-- **Ten new fillable NAVMC forms**, imported end-to-end through the automated
-  pipeline from the official DON Forms registry and served config-driven (no
-  per-form code): 11149 High School/Community College Update Report, 11425
-  Marine Corps Lifelong Learning, 11643 Field Feeding Evaluation Record,
-  11760 Lesson Safety Review Checklist, 11768 Examination Rating, 11775
-  Early Release Service Agreement, 11806 UTM Zone Transformation, 11810
-  Horizontal Distance from Subtense, 11864 Relocation Plan, and HQ 509
-  Reserve Retirement Master Control Card. Six carry auto-detected roster
-  tables. All show the prepared-automatically notice; field placement is
-  draft-quality pending hand review.
-
-## [1.2.122] — 2026-07-20
-
-### Added
-
-- Automatically-imported forms now carry a plain-language notice in the
-  editor: the form was prepared automatically, it is an early version not
-  yet fully hand-checked, and the exported PDF should be compared against
-  the official form before signing. The two hand-built forms (NAVMC 10274
-  and NAVMC 118(11)) use their own editors and never show it.
-
-## [1.2.121] — 2026-07-20
-
-### Fixed
-
-- **Spacing sweep across the form toolchain.** Registry display names read
-  "NAVMC 10274 - Administrative Action" instead of the folder-style
-  "NAVMC10274 -" smoosh (the importer now gives the number its space when
-  registering; existing index.json entries corrected — folder names on disk
-  are unchanged). The harvester camelizes all-caps words wholesale
-  ("ARTICLES" -> "articles", not "aRTICLES"), and fields with no authored
-  tooltip get a readable label split from the key ("scorePullUpOrFAH" ->
-  "Score Pull Up Or FAH") instead of the raw smooshed key.
-
-## [1.2.120] — 2026-07-19
-
-### Fixed
-
-- **Harvester: two new row encodings from a field survey of the DON Forms
-  registry.** A six-form sample of never-before-seen NAVMCs exposed rosters
-  the row detector missed: bare trailing digits (`Model1..Model5`, NAVMC
-  10561) and XFA-escaped dot indices (`Date\.0..Date\.N`, NAVMC 10359 —
-  whose escaped dots also mangled every key down to its bare digit). Any
-  trailing number is now a row candidate (the geometry gates still decide
-  what is actually a table), suffix families tolerate colliding numbers
-  across tables via the same left-edge clustering the bracket encoding
-  uses, and `camel()` folds `\.` into the segment instead of splitting on
-  it. On the survey: NAVMC 10154 detects 2 tables, 10359 goes from 0 tables
-  and digit-soup keys to 2 tables with semantic keys, and the 11622 (EF)
-  original detects its full 26-column roster.
-
-## [1.2.119] — 2026-07-19
-
-### Fixed
-
-- A missing or malformed `form.json` no longer surfaces as an unhandled
-  promise rejection: the config load degrades to "no config" (empty editor,
-  Document Type-only rail) with the error logged for the fix.
-- Registry forms were rendered inside every form category in the Form Type
-  dropdown; with only one category today nothing duplicated, but a second
-  category would have listed each form twice. They are now pinned to the
-  Administrative group.
-- `assertFormConfig` refuses a row-group column whose `page` differs from the
-  group's page — the renderer draws all columns on the group's page, so the
-  mismatch would have silently rendered fields somewhere unintended.
-- Generic form accordion items key off deduped outline ids instead of raw
-  section titles, so duplicate titles in a hand-edited config stay
-  independent.
-
-## [1.2.118] — 2026-07-19
-
-### Fixed
-
-- Config-driven forms now appear in the sidebar outline. The section rail
-  showed only "Document Type" for registry forms (the built-in NAVMC editors
-  had hand-listed sections; config forms had none), so there was nothing to
-  click through. The form's own sections and row groups now populate the
-  rail, and each editor group carries the shared scroll anchor — click to
-  jump, scroll-spy highlight, and the active hairline all work exactly as
-  they do for letters. One outline derivation feeds both the rail and the
-  anchors, so they cannot drift apart.
-
-## [1.2.117] — 2026-07-19
-
-### Added
-
-- **Row groups for roster forms.** A config-driven form can now declare a
-  repeated-row table (`rowGroups` in `form.json`): one set of column boxes
-  describes row 1 and is stamped down the page at a fixed stride. The editor
-  grows an add/remove row card list capped at the printed row count, entries
-  persist and ride the backup bundle, and the renderer drops overflow rows
-  rather than printing past the table. Built for the NAVMC 11622 PFT/CFT
-  worksheet, whose 813 fields are really ~25 columns × 30 Marines.
-- **Harvester detects roster tables.** `scripts/harvest-fields.py` recognizes
-  both repeated-row encodings found in the wild — `Row1..RowN` name suffixes
-  and LiveCycle instance indices (`FirstName[0..29]`) — orders rows by
-  geometry rather than trusting instance order, splits families that span
-  two tables (PFT and CFT halves sharing one field name) by column position,
-  and emits the `rowGroups` draft automatically. On the real 11622 this
-  collapses 813 harvested fields to 25 columns plus 64 standalone fields.
-
-### Fixed
-
-- Form PDF downloads could render stale config-driven field values: the
-  download callback omitted the generic form state from its dependencies.
-
-## [1.2.116] — 2026-07-19
-
-### Added
-
-- **Config-driven forms — and the first new fillable form in months.** A NAVMC
-  form is now described entirely by data: a `form.json` beside its template
-  pages drives the editor sections, the field widgets, persistence, live
-  preview, and PDF export through one generic pipeline. The pilot is the
-  **NAVMC 10132 Unit Punishment Book (Rev. 08-2023)** — all 74 fields across
-  12 sections, fillable and rendering into the official form. Adding the next
-  form is running two scripts and reviewing two JSON files, no code.
-- **Form import toolchain.** One command (`scripts/import-navmc.sh`) takes an
-  official NAVMC PDF to registered template pages (decrypt, flatten, split,
-  register, contact sheet — refusing pure-XFA placeholders); a second
-  (`scripts/harvest-fields.py`) harvests every field's exact box from the
-  original into a reviewable draft with overlay proof images. Staged with it:
-  the MAP Evaluation (11620) and BCP Evaluation (11621) field maps.
-
-## [1.2.115] — 2026-07-19
-
-### Added
-
-- **Three new letter templates** (issue #28): a Records Discrepancy
-  Notification (SSIC 1070) for flagging service-record errors with the
-  corrective action requested, an Unauthorized Absence Statement (SSIC 1050)
-  documenting the period, circumstances, and acknowledgment of a UA, and a
-  Certificate of Relief (SSIC 1601) certifying turnover of a duty, post, or
-  accountable responsibility. All three are placeholder-driven like the
-  existing templates and verified by compiled-PDF tests.
+- Form template pages are revalidated in the background instead of being pinned
+  for 90 days. A form you have opened still opens instantly offline — the
+  air-gapped promise is unchanged — but a corrected template now reaches you on
+  the next online load instead of months later. The old pinned cache is dropped
+  when the new service worker activates.
 
 ## [1.2.114] — 2026-07-19
 

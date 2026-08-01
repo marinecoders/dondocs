@@ -68,7 +68,7 @@ function fromEntry(e: ConfigFormEntry): CatalogForm {
 }
 
 /** Every selectable form, built-ins first, then registry forms by name.
- *  Memoized on the (stable) config-form entries so the ~700-item map+sort runs
+ *  Memoized on the (stable) config-form entries so the whole-catalog map+sort runs
  *  once per data change, not on every unrelated re-render of the picker/catalog
  *  — both of which key their own filter/sort memos off this array's identity. */
 export function useFormCatalog(): CatalogForm[] {

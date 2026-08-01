@@ -287,10 +287,11 @@ export default defineConfig({
         // users stuck on old versions). Hashed JS/CSS bundles are still
         // precached so offline + subsequent loads stay fast.
         globPatterns: ['**/*.{js,css,ico,png,svg,woff,woff2}'],
-        // Keep the 705 form thumbnails OUT of the precache manifest — the png
-        // glob would sweep in ~7MB / 700 entries, ballooning every offline
-        // install. They runtime-cache on demand (form-templates rule below),
-        // same lesson as the lib/** exclusion (SW-1).
+        // Keep form template pages and thumbnails OUT of the precache manifest.
+        // A catalog of any size would sweep hundreds of entries and megabytes
+        // into every offline install via the png glob; they runtime-cache on
+        // demand instead (form-templates rule below), the same lesson as the
+        // lib/** exclusion (SW-1).
         globIgnores: ['templates/**'],
         // Don't fall back to a precached index.html — we want NetworkFirst.
         navigateFallback: null,
@@ -313,8 +314,8 @@ export default defineConfig({
             },
           },
           {
-            // Form template pages + thumbnails: too many (1200+ PDFs) to
-            // precache. StaleWhileRevalidate — NOT CacheFirst — so a viewed form
+            // Form template pages + thumbnails: far too many to precache once a
+            // catalog is imported. StaleWhileRevalidate — NOT CacheFirst — so a viewed form
             // still opens instantly offline (the air-gap promise for SIPR/JWICS),
             // yet a re-harvest that rewrites page*.pdf under the SAME filename
             // propagates on the next online load. CacheFirst here would pin the
