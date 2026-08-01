@@ -18,6 +18,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { showAppConfirm } from '@/stores/alertStore';
 import { useFormStore } from '@/stores/formStore';
 import { configFormOutline, useFormConfigFor } from '@/services/formRegistry';
 import { SectionShell } from '@/components/layout/SectionShell';
@@ -51,7 +52,25 @@ export function GenericFormSection({ formType }: { formType: string }) {
   // fields stay blank (the renderer never draws them). ADDITIVE: every press
   // appends another run of the pattern to whatever is already there, so
   // repeated clicks stress-test shrink-to-fit, wrapping, and the clip.
-  const fillTestData = () => {
+  const fillTestData = async () => {
+    // It writes to EVERY field and ticks EVERY checkbox. That is the point when
+    // you are checking a freshly imported form's boxes, and a disaster on a form
+    // someone has been filling in — there is no undo, and unpicking it by hand
+    // across seventy-five fields is worse than starting over. Confirm only when
+    // there is something to lose, the same rule the reference rows use.
+    const hasWork =
+      Object.values(values ?? {}).some((v) => v !== '' && v !== false && v !== undefined) ||
+      Object.values(rowValues ?? {}).some((rows) => (rows ?? []).length > 0);
+    if (hasWork) {
+      const confirmed = await showAppConfirm({
+        title: 'Overwrite this form with test data?',
+        message:
+          'Every field gets a test pattern and every checkbox is ticked, over what you have already entered. This cannot be undone.',
+        confirmLabel: 'Fill with test data',
+        destructive: true,
+      });
+      if (!confirmed) return;
+    }
     const TEST = '01010101010101';
     const grow = (existing: unknown) =>
       (typeof existing === 'string' ? existing : '') + TEST;

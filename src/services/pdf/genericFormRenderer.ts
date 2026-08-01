@@ -146,7 +146,11 @@ export async function renderFormPdf(
       return;
     }
 
-    const text = String(value);
+    // A boolean belongs to a checkbox, not to a text box. If a hand edit
+    // retypes a field from checkbox to text, the stored `true` would otherwise
+    // print the word "true" onto an official form.
+    if (typeof value === 'boolean') return;
+    const text = value;
     const pos = calculateTextPosition({ name: key, ...box }, { left: 3, top: 3 }, FONT_SIZE);
     if (field.multiline) {
       // Word-wrap first, then hard-wrap any line the word-wrapper could not

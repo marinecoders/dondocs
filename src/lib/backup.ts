@@ -329,10 +329,10 @@ async function runRestore(json: string): Promise<RestoreResult> {
 
   // Live NAVMC form buffer. The two single-buffer forms are one known form each,
   // so replacing them when the backup carries them is safe. configFormValues/
-  // configFormRows are dictionaries keyed by form id across 700+ forms, so they
-  // merge non-destructively (add-only-missing, keep local) — a restore must
-  // never clobber a config form the user has in progress but the bundle lacks,
-  // per this module's contract.
+  // configFormRows are dictionaries keyed by form id, one entry per form the
+  // user has touched, so they merge non-destructively (add-only-missing, keep
+  // local) — a restore must never clobber a config form the user has in
+  // progress but the bundle lacks, per this module's contract.
   let formsRestored = false;
   const forms = parsed.forms as BackupBundle['forms'] | undefined;
   if (forms && (forms.navmc10274 || forms.navmc11811 || forms.configFormValues || forms.configFormRows)) {
