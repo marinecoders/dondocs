@@ -120,6 +120,35 @@ listed = {k for s in merged["sections"] for k in s["fields"]}
 check("newbie" in listed, "a newly harvested field is in no section — the editor would never show it")
 check("newbie" in warned, f"a newly harvested field was not warned about: {warnings}")
 
+# "Keep what the harvest stopped seeing" has one limit. A revision that drops a
+# page clears the page-1 size guard, because the pages it kept are the same
+# size — and a kept field on the page that went away is a page outside
+# 1..len(pages), which assertFormConfig refuses. Keeping it would not preserve
+# one field, it would take the whole form out of the app.
+shrunk = json.loads(json.dumps(DRAFT))
+shrunk["pages"] = ["page1.pdf"]
+stranded = json.loads(json.dumps(LIVE))
+stranded["pages"] = ["page1.pdf", "page2.pdf"]
+stranded["fields"]["onPage2"] = {"type": "text", "label": "Second page", "page": 2,
+                                 "box": {"left": 5, "top": 5, "width": 50, "height": 10}}
+stranded["sections"][0]["fields"].append("onPage2")
+smaller, notes = promote_form.merge(stranded, shrunk)
+check("onPage2" not in smaller["fields"],
+      "a field on a page this revision no longer has was kept — assertFormConfig "
+      "rejects the page number and the whole form stops loading")
+check(any("DROPPED" in n and "onPage2" in n for n in notes),
+      f"dropping that field was not called out: {notes}")
+check(all(k in smaller["fields"] for s in smaller["sections"] for k in s["fields"]),
+      "a section still references the dropped field, which is equally fatal")
+check("dropped" in smaller["fields"],
+      "a field on a page that still exists was dropped along with it")
+
+# A hand-edited "sections": null is a key that exists with no list behind it.
+# setdefault hands back the None and the promote dies on it.
+nulled, _ = promote_form.merge(dict(LIVE, sections=None), DRAFT)
+check([s["title"] for s in nulled["sections"]] == ["Fields"],
+      f'a form.json with "sections": null did not survive: {nulled.get("sections")}')
+
 # A fresh import has nothing to preserve and must come through untouched.
 check(promote_form.merge({}, DRAFT)[0]["fields"].keys() == DRAFT["fields"].keys(),
       "merging onto an empty config lost fields")

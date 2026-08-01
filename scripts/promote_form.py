@@ -65,13 +65,31 @@ def merge(prev, draft):
             out[key] = draft[key]
 
     draft_fields = draft.get("fields") or {}
-    fields = out.setdefault("fields", {})
+    fields = out.get("fields") or {}
+    out["fields"] = fields
     for key, f in draft_fields.items():
         fields[key] = merge_field(fields[key], f) if key in fields else copy.deepcopy(f)
-    for key in fields:
-        if key not in draft_fields:
+
+    # "Keep what the harvest stopped seeing" has one limit: a field on a page the
+    # form no longer has. assertFormConfig refuses a page outside 1..len(pages),
+    # so keeping it does not preserve one field, it takes the WHOLE form out of
+    # the app. A revision that drops a page is the case — it clears the page-1
+    # size guard because the pages it kept are the same size. Losing the field
+    # beats losing the form, but it is never quiet about it.
+    pages = len(out.get("pages") or [])
+    for key in list(fields):
+        if key in draft_fields:
+            continue
+        if pages and fields[key].get("page", 1) > pages:
+            del fields[key]
+            warnings.append(f"WARN: field {key!r} sat on page {prev['fields'][key]['page']} "
+                            f"and this revision only has {pages} — DROPPED, because a field "
+                            f"past the last page makes the whole form fail to load")
+        else:
             warnings.append(f"WARN: field {key!r} is in form.json but this harvest no "
                             f"longer finds it — kept, and its box may be stale")
+    for s in out.get("sections") or []:
+        s["fields"] = [k for k in s["fields"] if k in fields]
 
     # A field nothing lists is a field the editor never shows, so a newly
     # harvested one is filed under the section the draft put it in.
@@ -82,7 +100,10 @@ def merge(prev, draft):
             continue
         src = draft_section.get(key)
         title = src["title"] if src else "Harvested"
-        sections = out.setdefault("sections", [])
+        # Not setdefault: a hand-edited "sections": null is a key that exists
+        # with no list behind it, and setdefault would hand back the None.
+        sections = out.get("sections") or []
+        out["sections"] = sections
         target = next((s for s in sections if s["title"] == title), None)
         if target is None:
             target = {"title": title, "fields": []}
