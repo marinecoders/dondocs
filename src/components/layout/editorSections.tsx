@@ -6,6 +6,7 @@ import {
 import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
 import { configFormOutline, useFormConfigFor } from '@/services/formRegistry';
+import type { FormConfig, FormValues } from '@/types/formConfig';
 import { LetterheadSection } from '@/components/editor/LetterheadSection';
 import { AddressingSection } from '@/components/editor/AddressingSection';
 import { ClassificationSection } from '@/components/editor/ClassificationSection';
@@ -310,6 +311,38 @@ export function completenessFrom(requiredIds: string[], isError: (id: string) =>
 }
 
 /**
+ * "How done is this config form" — every required field filled, with each
+ * required radio group counted ONCE.
+ *
+ * A radio group is one question. The author marks the group mandatory and the
+ * AcroForm /Ff bit is inherited by every kid, so counting the kids separately
+ * demanded that all three options be picked at the same time — mutually
+ * exclusive by construction, so the form could never reach ready and the meter
+ * sat permanently short.
+ *
+ * Exported for its own test: the hook below cannot be called outside React.
+ */
+export function configFormCompleteness(
+  config: FormConfig | null | undefined,
+  values: FormValues | undefined,
+): DocumentCompleteness {
+  const filled = (key: string) => {
+    const v = values?.[key];
+    return !(v === undefined || v === '' || v === false);
+  };
+  // One unit per requirement: a grouped radio contributes its group, everything
+  // else contributes itself. A field key can never collide with a `group:` id —
+  // harvested keys are camelCase with no punctuation.
+  const units = new Map<string, string[]>();
+  for (const [key, f] of Object.entries(config?.fields ?? {})) {
+    if (!f.required) continue;
+    const id = f.type === 'radio' && f.group ? `group:${f.group}` : key;
+    units.set(id, [...(units.get(id) ?? []), key]);
+  }
+  return completenessFrom([...units.keys()], (id) => !(units.get(id) ?? []).some(filled));
+}
+
+/**
  * Single source of truth for "how done is this document," derived from the same
  * getSectionError / getFormSectionError rules the rail dots use — so the
  * readiness meter and the rail can never disagree.
@@ -333,14 +366,7 @@ export function useDocumentCompleteness(): DocumentCompleteness {
         const required = (FORM_ERROR_BEARING_IDS[formType] ?? []).filter((id) => ids.includes(id));
         return completenessFrom(required, (id) => getFormSectionError(formType, id, data));
       }
-      // A config form is "ready" when every required field has a value.
-      const requiredKeys = configForm
-        ? Object.entries(configForm.fields).filter(([, f]) => f.required).map(([k]) => k)
-        : [];
-      return completenessFrom(requiredKeys, (k) => {
-        const v = configValues?.[k];
-        return v === undefined || v === '' || v === false;
-      });
+      return configFormCompleteness(configForm, configValues);
     }
     const required = ids.filter((id) => (ERROR_BEARING_IDS as readonly string[]).includes(id));
     return completenessFrom(required, (id) => getSectionError(id, formData, paragraphs, config));

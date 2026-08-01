@@ -213,8 +213,11 @@ def caption_for(field: dict, words: list[dict], page_h: float) -> str | None:
     return None
 
 
-def harvest_acroform(reader: PdfReader) -> dict[int, list[dict]]:
+def harvest_acroform(reader: PdfReader) -> tuple[dict[int, list[dict]], list[str]]:
+    """Widget geometry per page, plus the names of the widgets deliberately
+    skipped — the caller warns about those rather than losing them in silence."""
     pages: dict[int, list[dict]] = {}
+    skipped: list[str] = []
     for idx, page in enumerate(reader.pages, start=1):
         for ref in page.get("/Annots") or []:
             w = resolve(ref)
@@ -222,6 +225,14 @@ def harvest_acroform(reader: PdfReader) -> dict[int, list[dict]]:
                 continue
             ft = inherited(w, "/FT")
             flags = int(inherited(w, "/Ff") or 0)
+            annot = int(w.get("/F") or 0)
+            # A widget the author locked (/Ff ReadOnly) or hid (/F Hidden or
+            # NoView) is not something anyone can fill in, and the flattened
+            # page does not draw it either — emitting it puts a field in the
+            # editor that prints onto blank paper. Both flags were ignored.
+            if flags & 1 or annot & (1 << 1) or annot & (1 << 5):
+                skipped.append(qualified_name(w))
+                continue
             if ft == "/Btn":
                 if flags & (1 << 16):  # pushbutton (Reset/Print) — not data
                     continue
@@ -248,10 +259,16 @@ def harvest_acroform(reader: PdfReader) -> dict[int, list[dict]]:
                 "options": choice_options(w) if ftype == "choice" else None,
                 "group": name if ftype == "radio" else None,
                 # /Ff bit 2 (value 2) marks a field the form author made
-                # mandatory — feeds the app's readiness meter.
+                # mandatory — feeds the app's readiness meter. Radio kids
+                # inherit it from the group, which is correct: the GROUP is the
+                # requirement, and the editor counts it once.
                 "required": bool(flags & (1 << 1)),
+                # /Ff bit 13 (value 4096) is the author saying this box wraps.
+                # None means nothing said so — the XFA path, where the caller
+                # falls back to guessing from the box height.
+                "multiline": bool(flags & (1 << 12)) if ftype == "text" else None,
             })
-    return pages
+    return pages, skipped
 
 
 # --- source 2: XFA template XML --------------------------------------------
@@ -548,6 +565,13 @@ def detect_row_groups(draft_pages: dict, orig_names: dict) -> tuple[dict, set]:
                     "page": int(re.search(r"\d+", page_name).group()),
                     "box": {k: c["box"][k] for k in ("left", "top", "width", "height")},
                 }
+                # A column carries the same authored facts a flat field does.
+                # Dropping them meant a reviewer reading form.json could not
+                # tell a dropdown column from a free-text one.
+                if c["box"].get("options"):
+                    columns[col_name]["options"] = c["box"]["options"]
+                if c["box"].get("required"):
+                    columns[col_name]["required"] = True
             row_groups["rows" if len(row_groups) == 0 else f"rows{len(row_groups) + 1}"] = {
                 "title": "Rows",
                 "page": int(re.search(r"\d+", page_name).group()),
@@ -599,8 +623,12 @@ def main() -> None:
             f"from the SAME original the template pages were flattened from."
         )
 
-    fields = harvest_acroform(reader)
+    warnings: list[str] = []
+    fields, locked = harvest_acroform(reader)
     source = "acroform"
+    if locked:
+        shown = ", ".join(locked[:5]) + ("…" if len(locked) > 5 else "")
+        warnings.append(f"{len(locked)} read-only or hidden widget(s) skipped: {shown}")
     if not any(fields.values()):
         fields = harvest_xfa(reader, page_h)
         source = "xfa"
@@ -621,7 +649,6 @@ def main() -> None:
     used: set[str] = set()
     draft_pages: dict[str, dict] = {}
     orig_names: dict[str, dict[str, str]] = {}
-    warnings: list[str] = []
     if len(rotations) > 1:
         warnings.append(f"pages disagree on rotation {sorted(rotations)}; the page-size "
                         "swap follows the whole document, so check the overlays")
@@ -642,7 +669,7 @@ def main() -> None:
                 "width": f["width"], "height": f["height"],
                 "type": f["type"], "description": f["description"],
                 "options": f.get("options"), "group": f.get("group"),
-                "required": f.get("required"),
+                "required": f.get("required"), "multiline": f.get("multiline"),
             }
             total += 1
         draft_pages[f"page{page_no}"] = boxes
@@ -697,7 +724,13 @@ def main() -> None:
             "page": int(re.search(r"\d+", page).group()),
             "box": {k: b[k] for k in ("left", "top", "width", "height")},
         }
-        if b["type"] == "text" and b["height"] > 30:
+        # The author's own /Ff bit when there is one. Guessing from height made
+        # every tall single-line box wrap and missed every short wrapping one;
+        # the guess now only covers the XFA path, which carries no /Ff.
+        multiline = b.get("multiline")
+        if multiline is None:
+            multiline = b["type"] == "text" and b["height"] > 30
+        if multiline:
             cfg["multiline"] = True
         if b.get("options"):
             cfg["options"] = b["options"]
