@@ -57,8 +57,8 @@ def check(cond, message):
 # Page 1 is Letter; page 2 is Legal — 216pt taller. The page-2 field sits at a
 # height that does not exist on page 1, which is exactly the case page 1's
 # measurements got wrong in both directions.
-LETTER = (612.0, 792.0)
-LEGAL = (612.0, 1008.0)
+LETTER = (612.076, 792.099)
+LEGAL = (612.076, 1008.099)
 P1_RECT = (100.0, 600.0, 300.0, 620.0)
 P2_RECT = (100.0, 900.0, 300.0, 920.0)   # top=920 — off the bottom of a Letter page
 
@@ -123,6 +123,15 @@ try:
           f"a page-2 field within its own page was called out of bounds: "
           f"{harv.stderr.strip()[:200]}")
 
+    # The template pages came out of this very source, so no page differs from
+    # its counterpart. Real page boxes are fractional and flattening moves the
+    # last decimals, so a size comparison without a tolerance warns about every
+    # page of every multi-page form — printing two identical numbers as though
+    # they disagreed. Caught on a live OPNAV 1650/3 import, not by a unit test.
+    check("in the source but" not in harv.stderr,
+          f"pages that match their templates were reported as different sizes: "
+          f"{harv.stderr.strip()[:200]}")
+
     # The overlay is the review artifact. Find where the harvester drew its box
     # and where the ink it claims to cover actually is.
     m = re.search(r"\[harvest\] overlay: (\S+)/", harv.stdout)
@@ -147,6 +156,39 @@ try:
                       f"(drawn {drawn}, ink {ink}) — the review image is lying")
 finally:
     shutil.rmtree(folder, ignore_errors=True)
+
+
+# --- the later-page size check needs the same slack page 1 has ---------------
+# Real page boxes are fractional (612.076 x 792.099 on the OPNAV 1650/3) and
+# flattening moves the last decimals, so comparing them exactly warned about
+# every page of every multi-page form — printing two identical numbers as though
+# they disagreed. That shipped, and a live import caught it, not a test. This
+# drives the tolerance directly rather than hoping pdftocairo drifts on cue.
+def warned_with_template_page2(height: float) -> str:
+    folder = TEMPLATES / f"ZZPAGE - Tol {height:g}"
+    src = Path(tempfile.mkdtemp()) / "src.pdf"
+    build(src)
+    try:
+        folder.mkdir(parents=True, exist_ok=True)
+        subprocess.run([str(ROOT / "scripts" / "flatten-navmc-form.sh"), str(src), str(folder)],
+                       capture_output=True, text=True)
+        swap = PdfWriter()
+        swap.add_blank_page(width=LEGAL[0], height=height)
+        with open(folder / "page2.pdf", "wb") as fh:
+            swap.write(fh)
+        return subprocess.run([sys.executable, str(ROOT / "scripts" / "harvest-fields.py"),
+                               str(src), folder.name],
+                              capture_output=True, text=True).stderr
+    finally:
+        shutil.rmtree(folder, ignore_errors=True)
+
+
+check("in the source but" not in warned_with_template_page2(LEGAL[1] + 0.5),
+      "half a point of difference on page 2 was reported as a size mismatch — "
+      "that is flattening noise, and warning about it on every page trains "
+      "everyone to ignore the warning")
+check("in the source but" in warned_with_template_page2(LEGAL[1] + 6),
+      "page 2 being 6pt shorter in the template than in the source went unmentioned")
 
 if failures:
     print(f"FAIL — {len(failures)} problem(s) measuring a mixed-size form:")

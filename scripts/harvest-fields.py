@@ -684,7 +684,11 @@ def main() -> None:
     # document, and a genuine mixed-size form is a thing; refusing outright
     # would block imports that work today.
     for i in sorted(set(src_size) & set(tpl_size) - {1}):
-        if src_size[i] != tpl_size[i]:
+        # The same 1pt tolerance page 1 uses. Real page boxes are fractional
+        # (612.076 x 792.099 on the OPNAV 1650/3) and flattening moves the last
+        # decimals, so an exact comparison warned about every page of every
+        # multi-page form, printing two identical numbers as if they differed.
+        if any(abs(a - b) > 1 for a, b in zip(src_size[i], tpl_size[i])):
             warnings.append(f"page {i} is {src_size[i][0]:g}x{src_size[i][1]:g} pt in the source "
                             f"but {tpl_size[i][0]:g}x{tpl_size[i][1]:g} pt in the template — "
                             f"check that page's overlay closely")
@@ -862,7 +866,11 @@ def main() -> None:
 def io_render(page_pdf: Path) -> Path:
     """Render a template page to PNG at 100dpi (cached per temp run)."""
     out = Path(tempfile.gettempdir()) / f"harvest-{page_pdf.parent.name}-{page_pdf.stem}"
-    png = out.with_suffix(".png")
+    # Not with_suffix: a folder whose name contains a period ("U.S. Marine
+    # Corps …" — real titles have them) makes that period the suffix, so the
+    # cache path and the path pdftoppm was told to write disagree and the
+    # harvester dies on a missing file before it reads a single field.
+    png = out.with_name(out.name + ".png")
     if not png.exists():
         subprocess.run(
             ["pdftoppm", "-png", "-r", "100", "-singlefile", str(page_pdf), str(out)],
