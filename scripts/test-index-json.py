@@ -70,6 +70,11 @@ with tempfile.TemporaryDirectory() as tmp:
     if strays:
         failures.append(f"temp files left behind: {strays}")
 
+    # public/ is copied verbatim into dist/, so the catalog's own lock must not
+    # sit beside it — it shipped to users as a stray zero-byte file once.
+    if index_json.lock_for(index_json.INDEX).parent == index_json.INDEX.parent:
+        failures.append("the repo catalog's lock file sits in public/, which is served")
+
     # Aborting the mutation is how promote refuses to write a form whose index
     # row is missing, so it has to leave the catalog byte-identical.
     before = index.read_bytes()

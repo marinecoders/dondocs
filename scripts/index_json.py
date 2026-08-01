@@ -33,6 +33,15 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX = ROOT / "public" / "templates" / "index.json"
+# Vite copies public/ into dist/ verbatim, so a sidecar next to the catalog
+# ships to every user as a stray zero-byte file. The repo's own lock sits at the
+# repo root; any other index (the tests) locks beside itself.
+REPO_LOCK = ROOT / ".index-json.lock"
+
+
+def lock_for(index_path) -> Path:
+    path = Path(index_path).resolve()
+    return REPO_LOCK if path == INDEX.resolve() else Path(f"{path}.lock")
 
 
 def update(mutate, index_path=INDEX):
@@ -43,8 +52,8 @@ def update(mutate, index_path=INDEX):
     exactly as it was, which is what lets a caller validate a row and abort
     before anything on disk has moved.
     """
+    lock = open(lock_for(index_path), "a+")
     index_path = str(index_path)
-    lock = open(f"{index_path}.lock", "a+")
     try:
         fcntl.flock(lock, fcntl.LOCK_EX)
         with open(index_path) as fh:
