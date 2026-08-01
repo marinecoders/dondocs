@@ -144,6 +144,70 @@ solo = parse_xfa_template(ONLY_ROOT, PAGE_H).get(1, [])
 check([f["name"] for f in solo] == ["solo"],
       f"a root-only template harvested {[f['name'] for f in solo]}")
 
+# An exclGroup is XFA's radio group and a choiceList carries its own option
+# list. Neither was read: every exclGroup member came out an independent
+# checkbox, so the editor let a Marine tick all three at once, and every
+# dropdown shipped as a free-text box. Two groups share a name here because
+# real templates reuse one across pages — fusing them would make picking a
+# rank clear the pay grade.
+PICKERS = """<?xml version="1.0"?>
+<template xmlns="http://www.xfa.org/schema/xfa-template/3.0/">
+  <subform name="form1">
+    <subform name="page1" x="0in" y="0in">
+      <exclGroup name="component" x="1in" y="1in">
+        <field name="active" x="0in" y="0in" w="0.2in" h="0.2in">
+          <ui><checkButton/></ui>
+          <caption><value><text>Active</text></value></caption>
+        </field>
+        <field name="reserve" x="1in" y="0in" w="0.2in" h="0.2in"><ui><checkButton/></ui></field>
+        <field name="retired" x="2in" y="0in" w="0.2in" h="0.2in"><ui><checkButton/></ui></field>
+      </exclGroup>
+      <exclGroup name="component" x="1in" y="2in">
+        <field name="yes" x="0in" y="0in" w="0.2in" h="0.2in"><ui><checkButton/></ui></field>
+        <field name="no" x="1in" y="0in" w="0.2in" h="0.2in"><ui><checkButton/></ui></field>
+      </exclGroup>
+      <field name="grade" x="1in" y="3in" w="1.5in" h="0.25in">
+        <ui><choiceList/></ui>
+        <items><text>Sergeant</text><text>Staff Sergeant</text></items>
+        <items save="1" presence="hidden"><text>E5</text><text>E6</text></items>
+      </field>
+      <field name="remarks" x="1in" y="4in" w="5in" h="0.25in">
+        <ui><textEdit multiLine="1"/></ui>
+      </field>
+      <field name="tallName" x="1in" y="5in" w="5in" h="1in">
+        <ui><textEdit/></ui>
+      </field>
+    </subform>
+  </subform>
+</template>"""
+
+picked = {f["name"]: f for f in parse_xfa_template(PICKERS, PAGE_H).get(1, [])}
+
+# Mutual exclusion: every member is a radio, and the two same-named groups do
+# not fuse into one.
+for name in ("active", "reserve", "retired", "yes", "no"):
+    check(picked.get(name, {}).get("type") == "radio",
+          f"exclGroup member {name!r} came out as "
+          f"{picked.get(name, {}).get('type')!r}, not a radio")
+first = {picked[k]["group"] for k in ("active", "reserve", "retired")}
+second = {picked[k]["group"] for k in ("yes", "no")}
+check(len(first) == 1 and len(second) == 1,
+      f"one exclGroup produced several group ids: {first} / {second}")
+check(first != second,
+      f"two same-named exclGroups fused into one pick-one ({first}) — picking in "
+      "either would clear the other")
+
+# The dropdown offers what the form prints, not the export codes.
+check(picked.get("grade", {}).get("type") == "choice", "choiceList should map to choice")
+check(picked.get("grade", {}).get("options") == ["Sergeant", "Staff Sergeant"],
+      f"choiceList options harvested as {picked.get('grade', {}).get('options')}")
+
+# Wrapping comes from the template, not from how tall the box happens to be.
+check(picked.get("remarks", {}).get("multiline") is True,
+      'a field the template marks multiLine="1" was not marked multiline')
+check(picked.get("tallName", {}).get("multiline") is False,
+      "a 72pt-tall single-line field was marked multiline anyway")
+
 if failures:
     print(f"FAIL — {len(failures)} assertion(s):")
     for f in failures:

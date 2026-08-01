@@ -358,6 +358,22 @@ def xfa_template_xml(reader: PdfReader) -> str | None:
     return "".join(chunks) or None
 
 
+def choice_items(field) -> list[str] | None:
+    """A choiceList's <items>, the XFA twin of an AcroForm /Opt list.
+
+    LiveCycle writes two when the export value differs from what is printed: the
+    display list, and a save="1" list of values. Keep the display text — the
+    same choice choice_options() makes — so the editor offers what the form
+    prints. Never read at all before, so every XFA dropdown shipped as free text.
+    """
+    lists = field.findall("items")
+    if not lists:
+        return None
+    display = next((el for el in lists if el.get("save") != "1"), lists[0])
+    out = [(c.text or "").strip() for c in display]
+    return [s for s in out if s] or None
+
+
 def harvest_xfa(reader: PdfReader, page_height: float) -> dict[int, list[dict]]:
     xml = xfa_template_xml(reader)
     if not xml:
@@ -388,8 +404,9 @@ def parse_xfa_template(xml: str, page_height: float) -> dict[int, list[dict]]:
     page_roots = page_subforms or [form]
 
     pages: dict[int, list[dict]] = {}
+    group_names: dict[str, int] = {}
 
-    def walk(node, base_x: float, base_y: float, page: int):
+    def walk(node, base_x: float, base_y: float, page: int, group: str | None = None):
         for child in node:
             if child.tag == "field":
                 x = base_x + measure(child.get("x"))
@@ -399,13 +416,20 @@ def parse_xfa_template(xml: str, page_height: float) -> dict[int, list[dict]]:
                 if w < 1 or h < 1:
                     continue
                 ui = child.find("ui")
-                widget = list(ui)[0].tag if ui is not None and len(ui) else "textEdit"
+                el = list(ui)[0] if ui is not None and len(ui) else None
+                widget = el.tag if el is not None else "textEdit"
                 ftype = {
                     "checkButton": "checkbox", "dateTimeEdit": "date",
                     "signature": "signature", "choiceList": "choice",
                 }.get(widget, "text")
                 if widget == "button":
                     continue
+                # An exclGroup is XFA's radio group: exactly one member may be
+                # picked. Its members were harvested as independent checkboxes,
+                # so the editor let a Marine tick every option at once and the
+                # exported form said things the paper form cannot.
+                if group and ftype == "checkbox":
+                    ftype = "radio"
                 cap = child.find("caption/value/text")
                 pages.setdefault(page, []).append({
                     "name": child.get("name") or "field",
@@ -415,9 +439,26 @@ def parse_xfa_template(xml: str, page_height: float) -> dict[int, list[dict]]:
                     "width": round(w, 1),
                     "height": round(h, 1),
                     "description": (cap.text or "").strip() if cap is not None else "",
+                    "options": choice_items(child) if ftype == "choice" else None,
+                    "group": group if ftype == "radio" else None,
+                    # The template is the authority on wrapping, the same way
+                    # /Ff bit 13 is on the AcroForm side. None only when there
+                    # is no widget element to ask.
+                    "multiline": (el.get("multiLine") == "1"
+                                  if ftype == "text" and el is not None else None),
                 })
-            elif child.tag in ("subform", "exclGroup", "area"):
-                walk(child, base_x + measure(child.get("x")), base_y + measure(child.get("y")), page)
+            elif child.tag == "exclGroup":
+                # Name the group so its members share one id. Templates do reuse
+                # a name across pages, so number the repeats rather than fuse
+                # two unrelated groups into one pick-one.
+                base = child.get("name") or "exclGroup"
+                group_names[base] = group_names.get(base, 0) + 1
+                gid = base if group_names[base] == 1 else f"{base}{group_names[base]}"
+                walk(child, base_x + measure(child.get("x")),
+                     base_y + measure(child.get("y")), page, gid)
+            elif child.tag in ("subform", "area"):
+                walk(child, base_x + measure(child.get("x")),
+                     base_y + measure(child.get("y")), page, group)
 
     for i, pr in enumerate(page_roots, start=1):
         walk(pr, measure(pr.get("x")), measure(pr.get("y")), i)
