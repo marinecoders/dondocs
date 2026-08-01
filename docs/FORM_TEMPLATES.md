@@ -83,15 +83,24 @@ To do it by hand instead:
 
 1. **Obtain the official form** from https://forms.documentservices.dla.mil
 
-2. **Flatten the PDF** into the per-page template files, headless, with one
-   command — it lifts the owner-password, flattens, splits, and **refuses if the
-   form is pure dynamic XFA** (see the trap below) so a placeholder can never be
-   staged:
+2. **Flatten and register it**, headless, with one command. It lifts the
+   owner-password, flattens, splits into per-page files, names the form from its
+   own pages, and adds its row to `public/templates/index.json`. It **refuses if
+   the form is pure dynamic XFA** (see the trap below) so a placeholder can never
+   be staged:
    ```bash
-   scripts/flatten-navmc-form.sh ~/Desktop/"NAVMC 11621 (EF).pdf" \
-     "NAVMC11621 - BCP Evaluation"
+   scripts/import-navmc.sh ~/Desktop/"NAVMC 11621 (EF).pdf"
    ```
-   Or run the pieces by hand (see the verified pipeline above):
+   It says so when it had to guess the number rather than read it off a
+   `NAVMC …` footer. A guess usually means you should pass the registry's own
+   string as argument 4 (`"" "" "OPNAV 1650/3"`) or the folder name outright as
+   argument 2 — left alone, a guessed number becomes the folder name.
+
+   Registering is not optional: step 5 refuses to promote a form that has no
+   catalog row, because a `form.json` with no row is a folder nothing can reach.
+   `scripts/flatten-navmc-form.sh` is the flatten-only piece this calls, useful
+   on its own for making template pages out of a print-only PDF, but it does not
+   register anything. The rawest form of all, for reference:
    ```bash
    pdftocairo -pdf official_form.pdf flat.pdf && pdfseparate flat.pdf page%d.pdf
    ```
@@ -112,41 +121,48 @@ To do it by hand instead:
    ```
    It reads AcroForm widget rectangles when present (exact — every NAVMC tested
    so far has them) and falls back to computing geometry from the XFA template
-   XML. Output: `boxes.draft.json` in the template folder plus overlay PNGs of
-   the boxes drawn on the flattened pages — **review the overlays, rename the
-   keys to semantic names, then promote the draft to `boxes.json`.** The script
-   refuses when the source's page size differs from the committed pages
-   (different revisions produce silently-wrong coordinates).
+   XML. It writes two files into the template folder: `boxes.draft.json`, a flat
+   list of every box for reading, and `form.draft.json`, the config the app will
+   actually load. Plus overlay PNGs of the boxes drawn on their own pages.
 
-   Legacy alternative — rectangle detection from the flattened pages:
+   It refuses outright when page 1 of the source is a different size from page 1
+   of the committed template — different revisions produce silently-wrong
+   coordinates — and warns when a later page disagrees, since a genuine
+   mixed-size form exists. Anything it drops or cannot place is a `WARN:` line
+   that `import-batch.sh` counts, never a silent omission.
+
+4. **Review the overlays.** Every harvested box is drawn on the page it belongs
+   to, at that page's own size. Check that each one sits on its blank before you
+   trust the form; this is the step the whole pipeline is built around.
+
+5. **Promote the draft** to the live config and flip the catalog row:
    ```bash
-   pip install pdfplumber
-   python scripts/extract-pdf-boxes.py public/templates/your_form.pdf --save-image
+   python3 scripts/promote_form.py "NAVMC10132 - Unit Punishment Book"
    ```
+   That writes `form.json` — **and there is no step 6.** No TypeScript, no
+   generator, no registry edit: the form is fillable, previewable and
+   exportable from that file alone.
 
-4. **Review the annotated image** to verify detected boxes
-
-5. **Create a generator** in `src/services/pdf/` using the smart box positioning system:
-   ```typescript
-   import { calculateTextPosition, type BoxBoundary } from './extractFormFields';
-
-   const BOX_PADDING = { left: 3, top: 3 };
-
-   const PAGE_BOXES: Record<string, BoxBoundary> = {
-     fieldName: { name: 'fieldName', left: 100, top: 500, width: 200, height: 30 },
-     // ... boxes from extract script
-   };
-
-   function getFieldPosition(boxName: keyof typeof PAGE_BOXES) {
-     return calculateTextPosition(PAGE_BOXES[boxName], BOX_PADDING, FONT_SIZE);
-   }
-   ```
+   Rename keys to semantic names and correct labels directly in `form.json`.
+   Those edits are safe: re-running the harvester later (`REHARVEST=1
+   scripts/import-batch.sh …`) takes only `box` and `page` from the fresh draft
+   and leaves every label, `required`, `options` and section arrangement alone.
+   A field the new harvest no longer sees is kept and warned about, not deleted.
+   To start over from scratch, delete `form.json` and import again.
 
 ---
 
-## Visual Box Editor (Recommended)
+## The legacy path — for the two hand-built forms only
 
-The easiest way to define box coordinates is with the visual editor:
+NAVMC 10274 and NAVMC 118(11) predate config-driven forms. Their geometry lives
+in `boxes.json` plus a generator in `src/services/pdf/`, and the import pipeline
+above deliberately refuses to touch them (`verified: true` in the catalog, and a
+`boxes.json` in the folder). **Do not use this path for a new form** — it exists
+so those two keep working, and everything below documents them.
+
+### Visual box editor
+
+The easiest way to define box coordinates by hand:
 
 ```bash
 # Open in browser
@@ -162,7 +178,25 @@ This is a one-time setup per form template.
 
 ---
 
-## Box Detection Script (Alternative)
+### Writing the generator
+
+With the boxes in hand, a legacy form gets a generator in `src/services/pdf/`:
+
+```typescript
+import { calculateTextPosition, type BoxBoundary } from './extractFormFields';
+
+const BOX_PADDING = { left: 3, top: 3 };
+
+const PAGE_BOXES: Record<string, BoxBoundary> = {
+  fieldName: { name: 'fieldName', left: 100, top: 500, width: 200, height: 30 },
+};
+
+function getFieldPosition(boxName: keyof typeof PAGE_BOXES) {
+  return calculateTextPosition(PAGE_BOXES[boxName], BOX_PADDING, FONT_SIZE);
+}
+```
+
+### Box detection script
 
 The `scripts/extract-pdf-boxes.py` script can auto-detect boxes, but works best for forms with clear rectangles:
 
@@ -193,7 +227,7 @@ python scripts/extract-pdf-boxes.py --config public/templates/NAVMC118.boxes.jso
 
 ---
 
-## JSON Box Configuration
+### JSON box configuration
 
 For forms where auto-detection doesn't work well (forms drawn with lines instead of rectangles), use a JSON config file:
 
