@@ -290,6 +290,10 @@ function App() {
 
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [formPdfUrl, setFormPdfUrl] = useState<string | null>(null);
+  // A form preview that fails must SAY so. It used to fall through to the empty
+  // state — "your document preview will appear here" — which reads as "you have
+  // not filled anything in yet" on a form that is actually broken.
+  const [formPreviewError, setFormPreviewError] = useState<string | null>(null);
   const [isCompiling, setIsCompiling] = useState(false);
   const [compileError, setCompileError] = useState<string | null>(null);
   // Full compile-failure log from SwiftLaTeX. Drives the compile-error modal,
@@ -813,6 +817,7 @@ function App() {
         }
 
         if (pdfBytes) {
+          setFormPreviewError(null);
           const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
           const url = URL.createObjectURL(blob);
 
@@ -827,6 +832,7 @@ function App() {
         }
       } catch (err) {
         console.error('Form PDF generation error:', err);
+        setFormPreviewError(err instanceof Error ? err.message : String(err));
       }
     }, 500); // Faster debounce for forms since no LaTeX compilation
 
@@ -1990,7 +1996,7 @@ ${texFiles['body.tex'] || '% No body content'}
             isCompiling={documentCategory === 'forms' ? false : (isCompiling || !isReady)}
             isWarmingUp={documentCategory === 'forms' ? false : !isReady}
             previewEnhanced={documentCategory === 'forms' ? true : previewEnhanced}
-            error={documentCategory === 'forms' ? null : (compileError || engineError)}
+            error={documentCategory === 'forms' ? formPreviewError : (compileError || engineError)}
           />
         </div>
         </main>

@@ -29,6 +29,9 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
   const setMobilePreviewOpen = useUIStore((s) => s.setMobilePreviewOpen);
   const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
   const enclosureCount = useDocumentStore((s) => s.enclosures.length);
+  // The empty state told every user to fill in "the Subject and body", which a
+  // form does not have.
+  const isFormsMode = useDocumentStore((s) => s.documentCategory) === 'forms';
 
   // Prefetch the viewer chunk while the first compile runs, so the viewer is
   // parsed and ready by the time a pdfUrl exists. (Scroll preservation across
@@ -181,7 +184,9 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
                   <Eye className="h-10 w-10 text-muted-foreground" />
                   <p className="text-sm font-medium text-foreground">Your document preview will appear here</p>
                   <p className="max-w-xs text-center text-xs text-muted-foreground">
-                    Fill in the Subject and body on the left — the formatted letter renders here as you type.
+                    {isFormsMode
+                      ? 'Pick a form and start filling it in on the left — the filled form renders here as you type.'
+                      : 'Fill in the Subject and body on the left — the formatted letter renders here as you type.'}
                   </p>
                 </>
               )}
