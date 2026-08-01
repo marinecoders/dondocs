@@ -126,6 +126,47 @@ if [[ "$COUNT" -eq 0 ]]; then
   echo "          $DEST left untouched." >&2
   exit 4
 fi
+# 5b. Ink guard. A page that renders all-white is not a form, and nothing above
+#     would notice: stripping /Annots (step 1b) removes the only marks a source
+#     whose static layer is empty ever had, and such a source clears the XFA
+#     refusal whenever it happens not to carry Adobe's wording. Blank pages then
+#     get committed as templates and the import reports success.
+#     Warn per blank page — a near-empty continuation page is a real thing — and
+#     refuse only when EVERY page is blank, which is the shape that produces a
+#     template nobody can fill in.
+BLANK="$(python3 - "$WORK" <<'PYEOF'
+import re, subprocess, sys, tempfile
+from pathlib import Path
+
+blank = []
+for pdf in sorted(Path(sys.argv[1]).glob('page*.pdf'),
+                  key=lambda p: int(re.search(r'\d+', p.stem).group())):
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp) / 'p'
+        subprocess.run(['pdftoppm', '-gray', '-r', '36', '-singlefile', str(pdf), str(root)],
+                       check=True, capture_output=True)
+        raw = root.with_suffix('.pgm').read_bytes()
+    # Raw PGM is "P5\n<w> <h>\n<max>\n" then one byte per pixel, so anything
+    # below full white is ink. A handful of pixels is antialiasing, not content.
+    parts = raw.split(b'\n', 3)
+    body = parts[3] if raw.startswith(b'P5') and len(parts) == 4 else b''
+    if sum(1 for b in body if b < 250) <= 8:
+        blank.append(pdf.stem)
+print(' '.join(blank))
+PYEOF
+)"
+BLANK_COUNT="$(wc -w <<<"$BLANK" | xargs)"
+if [[ "$BLANK_COUNT" -eq "$COUNT" ]]; then
+  echo "[flatten] REFUSED: every one of the $COUNT rendered page(s) of '$SRC' is" >&2
+  echo "          blank — the source has no static layer to flatten. $DEST left" >&2
+  echo "          untouched. Flatten it in Acrobat (see docs/FORM_TEMPLATES.md)." >&2
+  exit 4
+elif [[ -n "$BLANK" ]]; then
+  echo "[flatten] WARNING: blank page(s) after flattening: $BLANK" >&2
+  echo "          Review them before committing — a page with no ink is either a" >&2
+  echo "          real continuation page or a piece of the form that did not render." >&2
+fi
+
 mkdir -p "$DEST"
 rm -f "$DEST"/page*.pdf
 mv "$WORK"/page*.pdf "$DEST"/

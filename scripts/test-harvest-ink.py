@@ -185,6 +185,55 @@ run_case("OffsetOrigin", rect=(136, 636, 336, 656), media=(36, 36, 648, 828))
 # revision guard back to refusing the form as a different revision.
 run_case("CropBox", rect=(100, 400, 300, 420), media=(0, 0, 612, 792), crop=(0, 0, 612, 535))
 
+
+# --- the flatten refuses a source that renders to nothing --------------------
+# Stripping /Annots removes the only marks a source with an empty static layer
+# ever had. If it also happens not to carry Adobe's placeholder wording it clears
+# every gate above, and blank pages get committed as a working form.
+
+def build_blank_pages(path: Path, inked: list[bool]) -> None:
+    """One page per entry; True paints a rule, False leaves the page white."""
+    w = PdfWriter()
+    for has_ink in inked:
+        page = w.add_blank_page(width=612, height=792)
+        if has_ink:
+            from pypdf.generic import DecodedStreamObject
+            stream = DecodedStreamObject()
+            stream.set_data(b"0 0 0 rg\n72 700 300 4 re f\n")
+            page[NameObject("/Contents")] = w._add_object(stream)
+    with open(path, "wb") as fh:
+        w.write(fh)
+
+
+def flatten(inked: list[bool], name: str):
+    folder = TEMPLATES / f"ZZINK - {name}"
+    src = Path(tempfile.mkdtemp()) / "src.pdf"
+    build_blank_pages(src, inked)
+    folder.mkdir(parents=True, exist_ok=True)
+    # A sentinel: a refusal must leave an existing template exactly as it was.
+    (folder / "page1.pdf").write_bytes(b"sentinel")
+    try:
+        run = subprocess.run([str(ROOT / "scripts" / "flatten-navmc-form.sh"), str(src), str(folder)],
+                             capture_output=True, text=True)
+        return run, (folder / "page1.pdf").read_bytes()
+    finally:
+        shutil.rmtree(folder, ignore_errors=True)
+
+
+run, page1 = flatten([False, False], "AllBlank")
+if run.returncode == 0:
+    failures.append("flatten accepted a source whose every page renders blank")
+elif "blank" not in run.stderr.lower():
+    failures.append(f"the all-blank refusal did not say why: {run.stderr.strip()[:160]}")
+if page1 != b"sentinel":
+    failures.append("the all-blank refusal overwrote the existing template pages")
+
+run, _ = flatten([True, False], "OneBlank")
+if run.returncode != 0:
+    failures.append(f"flatten refused a form with one blank page: {run.stderr.strip()[:160]}")
+elif "page2" not in run.stderr:
+    failures.append(f"the blank continuation page was not called out: {run.stderr.strip()[:160]}")
+
 if failures:
     print(f"FAIL — {len(failures)} mismatch(es) between harvested boxes and ink:")
     for f in failures:
