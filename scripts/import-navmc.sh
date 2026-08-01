@@ -45,6 +45,8 @@ trap 'rm -rf "$WORK"' EXIT
 # Shared with acquire-form.sh so both front doors derive the same folder and id.
 export FORM_NAMES="$ROOT/scripts/form-names.py"
 [[ -f "$FORM_NAMES" ]] || { echo "[import] missing $FORM_NAMES" >&2; exit 1; }
+# On sys.path for the register heredoc, which imports index_json for the lock.
+export SCRIPTS="$ROOT/scripts"
 
 # --- 1. Acquire -------------------------------------------------------------
 if [[ "$SRC" == http* ]]; then
@@ -170,7 +172,7 @@ mv "$STAGE"/page*.pdf "$DEST/"
 
 # --- 8. Register ------------------------------------------------------------
 python3 - "$ROOT/public/templates/index.json" "$FOLDER" "$DESC" "$TEXT" "$NUMBER" <<'EOF'
-import importlib.util, json, os, re, sys
+import importlib.util, os, re, sys
 index_path, folder, desc, text_path = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
 number = sys.argv[5] if len(sys.argv) > 5 else ''
 
@@ -209,38 +211,50 @@ def ssic_category(text):
 try:
     category = ssic_category(open(text_path, errors='replace').read())
 except OSError:
-    category = 'General' 
-data = json.load(open(index_path))
-if any(t['id'] == form_id for t in data['templates']):
-    print(f"[import] registry: '{form_id}' already present — index.json unchanged")
-    sys.exit(0)
+    category = 'General'
 pages = sorted(
     (f for f in os.listdir(os.path.join(os.path.dirname(index_path), folder)) if re.fullmatch(r'page\d+\.pdf', f)),
     key=lambda f: int(re.search(r'\d+', f).group()),
 )
-data['templates'].append({
-    'id': form_id,
-    # The folder smooshes the prefix and number for filesystem tidiness
-    # ("OPNAV1650-3"); the catalog shows the number the way the form prints it.
-    # The registry's own string is used when the caller passed it, because the
-    # token cannot be inverted — "OPNAV1650-3" could have been 1650/3 or 1650-3.
-    'name': fn.display_name(folder, number),
-    'directory': folder,
-    'description': desc or folder.split(' - ', 1)[-1],
-    'category': category,
-    'keywords': [],
-    'verified': False,
-    'pages': pages,
-    'pageLabels': [f'Page {i + 1}' for i in range(len(pages))],
-})
-# Temp-file + atomic rename: index.json is the catalog's source of truth for
-# every form, so a crash mid-write must not leave it half-written.
-tmp = index_path + '.tmp'
-with open(tmp, 'w') as fh:
-    json.dump(data, fh, indent=2)
-    fh.write('\n')
-os.replace(tmp, index_path)
-print(f"[import] registry: added '{form_id}' with {len(pages)} page(s)")
+
+# index.json is the catalog's source of truth for every form, so the write goes
+# through the shared lock: re-read inside it, append, atomic-rename. Reading the
+# file out here and replacing it wholesale is what let a batch run in another
+# terminal lose the row it had just added.
+sys.path.insert(0, os.environ['SCRIPTS'])
+import index_json
+
+
+class AlreadyPresent(Exception):
+    """Raised out of the mutation so update() leaves index.json untouched."""
+
+
+def register(data):
+    if any(t['id'] == form_id for t in data['templates']):
+        raise AlreadyPresent
+    data['templates'].append({
+        'id': form_id,
+        # The folder smooshes the prefix and number for filesystem tidiness
+        # ("OPNAV1650-3"); the catalog shows the number the way the form prints
+        # it. The registry's own string is used when the caller passed it,
+        # because the token cannot be inverted — "OPNAV1650-3" could have been
+        # 1650/3 or 1650-3.
+        'name': fn.display_name(folder, number),
+        'directory': folder,
+        'description': desc or folder.split(' - ', 1)[-1],
+        'category': category,
+        'keywords': [],
+        'verified': False,
+        'pages': pages,
+        'pageLabels': [f'Page {i + 1}' for i in range(len(pages))],
+    })
+
+
+try:
+    index_json.update(register, index_path)
+    print(f"[import] registry: added '{form_id}' with {len(pages)} page(s)")
+except AlreadyPresent:
+    print(f"[import] registry: '{form_id}' already present — index.json unchanged")
 EOF
 
 # --- 8b. Catalog thumbnail ---------------------------------------------------

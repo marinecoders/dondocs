@@ -114,3 +114,8 @@ public/pwa-maskable-512.png
 
 # Generated supply-chain artifact (npm run sbom); produced fresh in CI.
 sbom.cdx.json
+
+# Sidecar the form-import scripts flock to serialize their index.json writes
+# (scripts/index_json.py). Empty, and never unlinked — deleting a lock file out
+# from under a holder is how two runs end up locking different inodes.
+public/templates/index.json.lock
