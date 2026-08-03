@@ -62,6 +62,24 @@ describe('paragraph labels', () => {
     expect(delimitParagraphMark(6, underline(paragraphMark(6, 1)))).toBe('(<u>1</u>)');
   });
 
+  it('keeps counting in letters past the end of the alphabet', () => {
+    // `96 + count` walked out of the alphabet: the 27th sibling was labelled
+    // "{" and the 52nd got an unprintable character, so a paragraph could lose
+    // its label with nothing on the page to show it.
+    expect(paragraphMark(1, 26)).toBe('z');
+    expect(paragraphMark(1, 27)).toBe('aa');
+    expect(paragraphMark(1, 28)).toBe('ab');
+    expect(paragraphMark(1, 52)).toBe('az');
+    expect(paragraphMark(1, 53)).toBe('ba');
+  });
+
+  it('never emits a mark outside the printable label alphabet', () => {
+    for (let count = 1; count <= 200; count++) {
+      expect(paragraphMark(1, count), `letters broke at ${count}`).toMatch(/^[a-z]+$/);
+      expect(paragraphMark(0, count), `numerals broke at ${count}`).toMatch(/^[0-9]+$/);
+    }
+  });
+
   it('keeps deeper nesting visibly deep rather than wrapping to plain', () => {
     // The figure forbids going past level 7, so there is no prescribed answer
     // below it. Staying underlined at least cannot be mistaken for a top-level

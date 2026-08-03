@@ -26,9 +26,32 @@ function isAlphabetic(level: number): boolean {
   return level % 2 === 1;
 }
 
-/** The bare counter for a level: "1", "a", "2", "b" — no punctuation. */
+/**
+ * The 1-based nth letter: a, b, ... z, aa, ab, ...
+ *
+ * The continuation past z is ours — Fig 7-8 never contemplates a 27th sibling,
+ * and the manual's answer to a list that long is to re-paragraph rather than
+ * keep subdividing. It still has to be *something*: the previous
+ * `String.fromCharCode(96 + count)` walked straight out of the alphabet, so the
+ * 27th subparagraph was labelled "{" and the 52nd got an unprintable character,
+ * losing its label with nothing to show anything had gone wrong.
+ */
+function nthLetter(count: number): string {
+  let remaining = count;
+  let letters = '';
+  while (remaining > 0) {
+    letters = String.fromCharCode(97 + ((remaining - 1) % 26)) + letters;
+    remaining = Math.floor((remaining - 1) / 26);
+  }
+  return letters;
+}
+
+/**
+ * The bare counter for a level: "1", "a", "2", "b" — no punctuation.
+ * `count` is 1-based, as `calculateLabels` produces it.
+ */
 export function paragraphMark(level: number, count: number): string {
-  return isAlphabetic(level) ? String.fromCharCode(96 + count) : String(count);
+  return isAlphabetic(level) ? nthLetter(count) : String(count);
 }
 
 /** Wrap a mark in its level's punctuation: "1." or "(1)". */
