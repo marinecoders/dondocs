@@ -9,7 +9,10 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ### Fixed
 
-- **Word exports carry the subject line on continuation pages.** SECNAV
+- **Word exports carry the subject line on continuation pages**, with a clear
+  line between it and the text below, as Ch 7 ¶16 requires ("continue the text
+  beginning on the second line below the subject") — matching the spacing the
+  PDF already produced. SECNAV
   M-5216.5 Ch 7 ¶16 requires the subject to be repeated at the top of every page
   after the first. The PDF has always done this — gated on the "Show subject
   line on continuation pages" setting — but the Word export ignored the setting

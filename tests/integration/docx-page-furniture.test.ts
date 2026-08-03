@@ -74,6 +74,43 @@ describe.skipIf(!pandocAvailable)('DOCX page furniture', () => {
     expect(xml).toContain('<w:headerReference w:type="default"');
   }, 120_000);
 
+  it('leaves one blank line between the subject and the body', async () => {
+    // SECNAV M-5216.5 ¶7-16: "Continue the text beginning on the second line
+    // below the subject" — one clear line between them.
+    //
+    // The header opens at w:header=720 and the body at w:top=1440, so the
+    // subject has to end at 1200 to leave a line. Measured on the PDF for the
+    // same document: subject at 0.661in, body at 1.053in, a 28.2pt gap against
+    // a 14.4pt line — the same one-blank-line relationship. This keeps the two
+    // exports agreeing rather than each drifting to its own spacing.
+    const { read } = await furnish({
+      marking: '',
+      continuationSubject: `Subj:  ${SUBJECT}`,
+      wantsPageNumbers: true,
+      startPage: 1,
+    });
+
+    expect(
+      await read('word/header2.xml'),
+      'the subject sits hard against the body with no blank line',
+    ).toContain('<w:spacing w:before="240"/>');
+  }, 120_000);
+
+  it('drops the lead-in when a marking already occupies the line above', async () => {
+    // With a classification marking the subject is already the header's second
+    // line, so adding the lead-in would push the body a line further down.
+    const { read } = await furnish({
+      marking: 'SECRET',
+      continuationSubject: `Subj:  ${SUBJECT}`,
+      wantsPageNumbers: true,
+      startPage: 1,
+    });
+
+    const header = (await read('word/header2.xml'))!;
+    expect(header).toContain('SECRET');
+    expect(header, 'double-spaced the subject away from the body').not.toContain('w:before=');
+  }, 120_000);
+
   it('numbers pages 2+ from the centered footer, leaving page 1 unnumbered', async () => {
     const { xml, read } = await furnish({
       marking: '',

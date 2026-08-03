@@ -499,9 +499,30 @@ function markingParagraph(marking: string): string {
  * Word export disagree with the PDF built from the same document. The two
  * spaces match those templates' `~~`.
  */
-function continuationSubjectParagraph(line: string): string {
-  return '<w:p><w:pPr><w:jc w:val="left"/></w:pPr>'
+function continuationSubjectParagraph(line: string, spaceBefore: number): string {
+  const spacing = spaceBefore > 0 ? `<w:spacing w:before="${spaceBefore}"/>` : '';
+  return `<w:p><w:pPr>${spacing}<w:jc w:val="left"/></w:pPr>`
     + `<w:r><w:t xml:space="preserve">${escapeXmlText(line)}</w:t></w:r></w:p>`;
+}
+
+/** One single-spaced line at 12pt, in twips — the unit ¶7-16 counts in. */
+const LINE_TWIPS = 240;
+
+/**
+ * How far to push the subject down inside the header so the body lands on the
+ * second line below it, per ¶7-16 — one blank line between the two.
+ *
+ * The header starts at `w:header` (720 twips, half an inch) and the body at
+ * `w:top` (1440). For the body to be a clear line below, the subject must END
+ * one line short of the body — at 1200 — so it occupies 960-1200.
+ *
+ * With a classification marking above it the subject is already the second
+ * line and lands there on its own; without one it needs a line of lead-in.
+ * The PDF measures 0.661in for this line against the body's 1.053in, which is
+ * the same one-blank-line relationship — this keeps Word agreeing with it.
+ */
+function subjectSpaceBefore(hasMarking: boolean): number {
+  return hasMarking ? 0 : LINE_TWIPS;
 }
 
 /**
@@ -553,7 +574,12 @@ function planHeadersAndFooters(
     // opening sheet continues someone else's sequence and Fig 9-2 numbers it.
     // Same split the PDF templates make between their `firstpage` styles.
     firstFooter: [...marked, ...(numberFirstPage ? number : [])],
-    defaultHeader: [...marked, ...(continuationSubject ? [continuationSubjectParagraph(continuationSubject)] : [])],
+    defaultHeader: [
+      ...marked,
+      ...(continuationSubject
+        ? [continuationSubjectParagraph(continuationSubject, subjectSpaceBefore(!!marking))]
+        : []),
+    ],
     // Marking first, then the number below it — mirrors the PDF, where the
     // marking is \fancyfoot[C] on its own line above \thepage.
     defaultFooter: [...marked, ...number],
