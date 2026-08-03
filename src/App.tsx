@@ -89,6 +89,7 @@ import { usePandocIdlePrefetch } from '@/hooks/usePandocIdlePrefetch';
 import { generateAllLatexFiles, type GeneratedFiles } from '@/services/latex/generator';
 import { generateFlatLatex } from '@/services/latex/flat-generator';
 import { convertLatexToDocx } from '@/services/docx/pandoc-converter';
+import { pageStartNumber } from '@/lib/endorsement';
 import { generateNavmc10274Pdf, loadNavmc10274Templates } from '@/services/pdf/navmc10274Generator';
 import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/navmc11811Generator';
 import { applyPlaceholdersToNavmc11811, buildNavmc11811DefaultValues } from '@/lib/placeholders';
@@ -1037,12 +1038,20 @@ function App() {
     setDownloadProgress({ kind: 'docx-preparing' });
     const blob = await convertLatexToDocx(
       latexContent,
-      currentStore.formData.sealType,
-      currentStore.formData.letterheadColor,
-      currentStore.formData.fontFamily,
-      currentStore.formData.fontSize,
-      currentStore.formData.classLevel,
-      currentStore.formData.customClassification,
+      {
+        sealType: currentStore.formData.sealType,
+        letterheadColor: currentStore.formData.letterheadColor,
+        fontFamily: currentStore.formData.fontFamily,
+        fontSize: currentStore.formData.fontSize,
+        classLevel: currentStore.formData.classLevel,
+        customClassification: currentStore.formData.customClassification,
+        showSubjectOnContinuation: currentStore.formData.showSubjectOnContinuation,
+        pageNumbering: currentStore.formData.pageNumbering,
+        startingPageNumber: pageStartNumber(
+          currentStore.docType,
+          currentStore.formData.startingPageNumber,
+        ),
+      },
       (phase) => setDownloadProgress(docxPhaseToDownloadPhase(phase)),
     );
     const url = URL.createObjectURL(blob);

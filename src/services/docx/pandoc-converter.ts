@@ -433,6 +433,32 @@ function perfectLetterheadCentering(xml: string, textWidthTwips: number): Letter
   return { xml, hasLetterheadSeal: true };
 }
 
+/**
+ * Everything the DOCX writer needs from the document beyond its LaTeX.
+ *
+ * An object rather than positional arguments: these are all `formData` fields
+ * read at one call site, and the last two arrived only because the Word export
+ * had been silently ignoring two settings the PDF honours. Six loose strings
+ * was already at the edge of readable; eight would not be.
+ */
+export interface DocxConversionOptions {
+  sealType?: string;
+  letterheadColor?: string;
+  fontFamily?: string;
+  fontSize?: string;
+  classLevel?: string;
+  customClassification?: string;
+  /** Repeat "Subj:" at the top of pages 2+ — SECNAV M-5216.5 ¶7-16. */
+  showSubjectOnContinuation?: boolean;
+  /** 'none' | 'simple' | 'x-of-y'; anything but 'none' numbers pages 2+ (¶7-17). */
+  pageNumbering?: string;
+  /**
+   * First page's number. Above 1 means this document continues an earlier one's
+   * sequence — an endorsement — and Ch 9 Fig 9-2 numbers its opening sheet.
+   */
+  startingPageNumber?: number;
+}
+
 /** Resolve classLevel to the classification marking text (e.g. "SECRET", "CUI"). */
 function getClassificationMarking(classLevel?: string, customClassification?: string): string {
   if (!classLevel || classLevel === 'unclassified') return '';
@@ -447,44 +473,217 @@ function getClassificationMarking(classLevel?: string, customClassification?: st
   return map[classLevel] || '';
 }
 
+/** Escape text destined for an XML text node. */
+function escapeXmlText(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+const W_NS = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"'
+  + ' xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"';
+
+/** A centered bold paragraph — the classification marking's shape. */
+function markingParagraph(marking: string): string {
+  return '<w:p><w:pPr><w:jc w:val="center"/></w:pPr>'
+    + `<w:r><w:rPr><w:b/></w:rPr><w:t>${escapeXmlText(marking)}</w:t></w:r></w:p>`;
+}
+
 /**
- * Inject classification marking header and footer into the DOCX zip.
- * Creates word/header1.xml and word/footer1.xml with the marking text
- * centered and bold, then wires them into the document relationships,
- * content types, and sectPr.
+ * The repeated subject line at the left margin, per SECNAV M-5216.5 ¶7-16.
+ *
+ * Takes the whole line rather than just the text because the label is not
+ * constant: the PDF templates head letters with `Subj:~~` and memoranda and
+ * business letters with `SUBJECT:~~`. Hardcoding either one here would make the
+ * Word export disagree with the PDF built from the same document. The two
+ * spaces match those templates' `~~`.
  */
-async function injectClassificationHeaderFooter(
+function continuationSubjectParagraph(line: string): string {
+  return '<w:p><w:pPr><w:jc w:val="left"/></w:pPr>'
+    + `<w:r><w:t xml:space="preserve">${escapeXmlText(line)}</w:t></w:r></w:p>`;
+}
+
+/**
+ * A centered PAGE field — ¶7-17: "Center page numbers 1/2 inch from the bottom
+ * edge, starting with the number 2." The 1/2 inch is the sectPr's w:footer
+ * distance (720 twips), which page geometry already sets; "starting with 2"
+ * falls out of this living in the *default* footer while page 1 uses the
+ * `first` one.
+ */
+function pageNumberParagraph(): string {
+  return '<w:p><w:pPr><w:jc w:val="center"/></w:pPr>'
+    + '<w:r><w:fldChar w:fldCharType="begin"/></w:r>'
+    + '<w:r><w:instrText xml:space="preserve"> PAGE </w:instrText></w:r>'
+    + '<w:r><w:fldChar w:fldCharType="separate"/></w:r>'
+    + '<w:r><w:fldChar w:fldCharType="end"/></w:r></w:p>';
+}
+
+/** An empty paragraph — Word needs a header/footer part to contain at least one. */
+const EMPTY_PARAGRAPH = '<w:p/>';
+
+interface HeaderFooterParts {
+  /** Page 1. */
+  firstHeader: string[];
+  firstFooter: string[];
+  /** Page 2 onward. */
+  defaultHeader: string[];
+  defaultFooter: string[];
+}
+
+/**
+ * Decide what goes on page 1 versus the continuation pages.
+ *
+ * Page 1 and later pages differ, so the document needs `w:titlePg` and two sets
+ * of parts. The classification marking must appear on BOTH — turning on
+ * titlePg without giving page 1 its own marked header would silently strip the
+ * marking from the first page of every classified letter.
+ */
+function planHeadersAndFooters(
+  marking: string,
+  continuationSubject: string,
+  wantsPageNumbers: boolean,
+  numberFirstPage: boolean,
+): HeaderFooterParts {
+  const marked = marking ? [markingParagraph(marking)] : [];
+  const number = wantsPageNumbers ? [pageNumberParagraph()] : [];
+  return {
+    firstHeader: [...marked],
+    // ¶7-17 leaves a letter's first page unnumbered, but an endorsement's
+    // opening sheet continues someone else's sequence and Fig 9-2 numbers it.
+    // Same split the PDF templates make between their `firstpage` styles.
+    firstFooter: [...marked, ...(numberFirstPage ? number : [])],
+    defaultHeader: [...marked, ...(continuationSubject ? [continuationSubjectParagraph(continuationSubject)] : [])],
+    // Marking first, then the number below it — mirrors the PDF, where the
+    // marking is \fancyfoot[C] on its own line above \thepage.
+    defaultFooter: [...marked, ...number],
+  };
+}
+
+/**
+ * Rebuild a <w:sectPr> with header/footer references and w:titlePg in their
+ * schema-required positions.
+ *
+ * CT_SectPr is a *sequence*, not a bag: the header/footer references come
+ * first, and w:titlePg belongs after w:cols and before w:docGrid. Appending
+ * everything before `</w:sectPr>` (as the classification-only code used to)
+ * happens to survive Word's leniency, but titlePg out of order is the kind of
+ * thing that makes Word repair the file on open — so build it properly.
+ */
+function rebuildSectPr(
+  sectPr: string,
+  refs: string,
+  titlePg: boolean,
+  startPage: number,
+): string {
+  // Strip the wrapper, then re-emit: refs, existing children, titlePg.
+  const open = sectPr.match(/^<w:sectPr[^>]*>/)?.[0] ?? '<w:sectPr>';
+  const inner = sectPr.slice(open.length, sectPr.lastIndexOf('</w:sectPr>'));
+
+  // w:titlePg sits after w:cols/w:vAlign and before w:docGrid. Nothing here
+  // emits docGrid today, so appending it last is in-order; if pandoc ever does,
+  // splice ahead of it rather than after.
+  const docGrid = inner.match(/<w:docGrid[^>]*\/?>/)?.[0];
+  // The Word equivalent of \setcounter{page}{N} — pandoc drops that too, so an
+  // endorsement continuing at page 3 would otherwise restart Word at 1.
+  const pgNumType = startPage > 1 ? `<w:pgNumType w:start="${startPage}"/>` : '';
+  const titleTag = titlePg ? '<w:titlePg/>' : '';
+  const tail = `${pgNumType}${titleTag}`;
+  const body = docGrid
+    ? inner.replace(docGrid, `${tail}${docGrid}`)
+    : `${inner}${tail}`;
+
+  return `${open}${refs}${body}</w:sectPr>`;
+}
+
+/**
+ * Inject the page header and footer parts into the DOCX zip and wire them into
+ * content types, relationships and sectPr.
+ *
+ * Everything here is invisible to pandoc: `\fancyhead` and `\fancyfoot` are not
+ * constructs its LaTeX reader understands, so the flat generator's page
+ * furniture is dropped on the floor. Before this existed the Word export
+ * carried no page numbers at all and no repeated subject line, while the PDF
+ * built from the same document had both.
+ */
+export interface PageFurniture {
+  /** Classification marking, or '' for unclassified. Appears on every page. */
+  marking: string;
+  /**
+   * The subject line as it should appear on pages 2+, label included
+   * ("Subj:  X" or "SUBJECT:  X"), or '' to omit. Whole line rather than just
+   * the text because the label varies by document type.
+   */
+  continuationSubject: string;
+  /** Number pages 2+. */
+  wantsPageNumbers: boolean;
+  /** First page's number; above 1 also numbers page 1 (Ch 9 Fig 9-2). */
+  startPage: number;
+}
+
+/**
+ * Apply the page header/footer furniture to a pandoc-produced DOCX.
+ *
+ * Exported for `tests/integration/docx-page-furniture.test.ts`: the DOCX test
+ * harness deliberately stops at pandoc and does not run the post-pass, so
+ * without this seam the OOXML written here — parts, content types,
+ * relationships, sectPr ordering — would ship with no test able to see it.
+ * Production reaches it through `postProcessDocx`; the test drives the same
+ * function with the same inputs.
+ */
+export async function applyPageFurniture(
   zip: JSZip,
   xml: string,
-  marking: string,
+  furniture: PageFurniture,
 ): Promise<string> {
-  // --- Create header1.xml and footer1.xml ---
-  const headerXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
-    + '<w:hdr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"'
-    + ' xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'
-    + '<w:p><w:pPr><w:jc w:val="center"/></w:pPr>'
-    + '<w:r><w:rPr><w:b/></w:rPr>'
-    + `<w:t>${marking}</w:t>`
-    + '</w:r></w:p></w:hdr>';
+  return injectHeadersAndFooters(
+    zip,
+    xml,
+    planHeadersAndFooters(
+      furniture.marking,
+      furniture.continuationSubject,
+      furniture.wantsPageNumbers,
+      furniture.startPage > 1,
+    ),
+    furniture.startPage,
+  );
+}
 
-  const footerXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
-    + '<w:ftr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"'
-    + ' xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'
-    + '<w:p><w:pPr><w:jc w:val="center"/></w:pPr>'
-    + '<w:r><w:rPr><w:b/></w:rPr>'
-    + `<w:t>${marking}</w:t>`
-    + '</w:r></w:p></w:ftr>';
+async function injectHeadersAndFooters(
+  zip: JSZip,
+  xml: string,
+  parts: HeaderFooterParts,
+  startPage: number,
+): Promise<string> {
+  const wrap = (tag: 'hdr' | 'ftr', paragraphs: string[]) =>
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+    + `<w:${tag} ${W_NS}>`
+    + (paragraphs.length ? paragraphs.join('') : EMPTY_PARAGRAPH)
+    + `</w:${tag}>`;
 
-  zip.file('word/header1.xml', headerXml);
-  zip.file('word/footer1.xml', footerXml);
+  // Word resolves an *absent* reference by inheriting the previous section's,
+  // so an empty page-1 header must be an explicit empty part rather than a
+  // missing one — otherwise page 1 falls back to the default and shows the
+  // continuation subject it is not supposed to have.
+  const files: Array<{ name: string; tag: 'hdr' | 'ftr'; refTag: string; type: string; rel: string; body: string[] }> = [
+    { name: 'header1.xml', tag: 'hdr', refTag: 'headerReference', type: 'first', rel: 'rIdHdrFirst', body: parts.firstHeader },
+    { name: 'header2.xml', tag: 'hdr', refTag: 'headerReference', type: 'default', rel: 'rIdHdrDefault', body: parts.defaultHeader },
+    { name: 'footer1.xml', tag: 'ftr', refTag: 'footerReference', type: 'first', rel: 'rIdFtrFirst', body: parts.firstFooter },
+    { name: 'footer2.xml', tag: 'ftr', refTag: 'footerReference', type: 'default', rel: 'rIdFtrDefault', body: parts.defaultFooter },
+  ];
+
+  for (const f of files) {
+    zip.file(`word/${f.name}`, wrap(f.tag, f.body));
+  }
 
   // --- Update [Content_Types].xml ---
   const contentTypesFile = zip.file('[Content_Types].xml');
   if (contentTypesFile) {
     let ct = await contentTypesFile.async('string');
-    const hdrOverride = '<Override PartName="/word/header1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"/>';
-    const ftrOverride = '<Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/>';
-    ct = ct.replace('</Types>', `${hdrOverride}${ftrOverride}</Types>`);
+    const overrides = files
+      .map(f => `<Override PartName="/word/${f.name}" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.${f.tag === 'hdr' ? 'header' : 'footer'}+xml"/>`)
+      .join('');
+    ct = ct.replace('</Types>', `${overrides}</Types>`);
     zip.file('[Content_Types].xml', ct);
   }
 
@@ -492,18 +691,70 @@ async function injectClassificationHeaderFooter(
   const relsFile = zip.file('word/_rels/document.xml.rels');
   if (relsFile) {
     let rels = await relsFile.async('string');
-    const hdrRel = '<Relationship Id="rIdClassHdr" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header" Target="header1.xml"/>';
-    const ftrRel = '<Relationship Id="rIdClassFtr" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer1.xml"/>';
-    rels = rels.replace('</Relationships>', `${hdrRel}${ftrRel}</Relationships>`);
+    const relEntries = files
+      .map(f => `<Relationship Id="${f.rel}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/${f.tag === 'hdr' ? 'header' : 'footer'}" Target="${f.name}"/>`)
+      .join('');
+    rels = rels.replace('</Relationships>', `${relEntries}</Relationships>`);
     zip.file('word/_rels/document.xml.rels', rels);
   }
 
-  // --- Add headerReference and footerReference to sectPr in document.xml ---
-  const hdrRef = '<w:headerReference w:type="default" r:id="rIdClassHdr"/>';
-  const ftrRef = '<w:footerReference w:type="default" r:id="rIdClassFtr"/>';
-  xml = xml.replace(/<\/w:sectPr>/, `${hdrRef}${ftrRef}</w:sectPr>`);
+  // --- Wire references and titlePg into sectPr ---
+  const refs = files.map(f => `<w:${f.refTag} w:type="${f.type}" r:id="${f.rel}"/>`).join('');
+  return xml.replace(/<w:sectPr[\s\S]*?<\/w:sectPr>/, (sectPr) => rebuildSectPr(sectPr, refs, true, startPage));
+}
 
-  return xml;
+/**
+ * Recover the subject text from the rendered document so the continuation
+ * header can repeat it verbatim.
+ *
+ * Reading it back out of `document.xml` beats threading it down from the store:
+ * `convertLatexToDocx` already takes six loose formData fields, and the subject
+ * here is guaranteed to be the one that actually rendered — same escaping, same
+ * casing, same underline decision — rather than a second derivation of it that
+ * can drift.
+ *
+ * Three shapes have to be recognised, because the label is not one string and
+ * the block is not always a table:
+ *
+ *   - letters and endorsements  — a two-column row labelled "Subj:"
+ *   - memoranda and executive   — the same, labelled "SUBJECT:" (Ch 12 ¶2l)
+ *   - business letters          — a bare paragraph, "SUBJECT: ..." , no table
+ *
+ * Matching only the first shape is not a smaller fix, it is a silent one: the
+ * PDF templates carry \ContinuationSubject for all of them, so a memo would
+ * repeat its subject in the PDF and not in the Word file, with nothing to say
+ * why.
+ *
+ * Returns '' when the document has no subject line at all, which is correct for
+ * a same-page endorsement (`skipSubject`).
+ *
+ * The label comes back with the text because the continuation header has to
+ * repeat whichever one this document uses — see continuationSubjectParagraph.
+ */
+const SUBJECT_LABELS = ['Subj:', 'SUBJECT:'];
+
+export function extractSubjectFromDocument(xml: string): string {
+  const textOf = (fragment: string) =>
+    (fragment.match(/<w:t[^>]*>([^<]*)</g) || [])
+      .map(m => m.replace(/^<w:t[^>]*>/, '').replace(/<$/, ''))
+      .join('')
+      .trim();
+
+  for (const row of xml.match(/<w:tr[\s\S]*?<\/w:tr>/g) || []) {
+    const [label, value] = row.match(/<w:tc>[\s\S]*?<\/w:tc>/g) || [];
+    if (!label || !value) continue;
+    const labelText = textOf(label);
+    if (SUBJECT_LABELS.includes(labelText)) return `${labelText}  ${textOf(value)}`;
+  }
+
+  // Business letters render the subject as an ordinary paragraph. Tables are
+  // searched first so a document carrying both cannot match the looser shape.
+  for (const paragraph of xml.match(/<w:p(?:\s[^>]*)?>[\s\S]*?<\/w:p>/g) || []) {
+    const text = textOf(paragraph);
+    const label = SUBJECT_LABELS.find(l => text.startsWith(l));
+    if (label) return `${label}  ${text.slice(label.length).trim()}`;
+  }
+  return '';
 }
 
 /** Convert letterheadColor setting to OOXML color hex (without #) */
@@ -624,11 +875,16 @@ function applyLetterheadStyling(xml: string, colorHex: string): string {
 
 async function postProcessDocx(
   docxBlob: Blob,
-  fontFamily: string = 'times',
-  fontSize: string = '12pt',
-  letterheadColor?: string,
-  classLevel?: string,
-  customClassification?: string,
+  {
+    fontFamily = 'times',
+    fontSize = '12pt',
+    letterheadColor,
+    classLevel,
+    customClassification,
+    showSubjectOnContinuation,
+    pageNumbering,
+    startingPageNumber,
+  }: DocxConversionOptions = {},
 ): Promise<Blob> {
   debug.log('DOCX', `Post-processing DOCX (${(docxBlob.size / 1024).toFixed(1)} KB)`);
   debug.time('DOCX:postProcess');
@@ -955,13 +1211,25 @@ async function postProcessDocx(
     }
   }
 
-  // --- 6b. Classification marking header/footer ---
-  // When classification is not "unclassified", inject centered bold marking
-  // text into DOCX header and footer on every page.
+  // --- 6b. Page header and footer ---
+  // Three separate things share one mechanism: the classification marking (every
+  // page), the repeated subject line (¶7-16, pages 2+) and the page number
+  // (¶7-17, pages 2+). Skipped entirely when the document wants none of them,
+  // so an unclassified single-page letter keeps the parts-free zip it had.
   const classMarking = getClassificationMarking(classLevel, customClassification);
-  debug.verbose('DOCX', `Step 6b: Classification marking = "${classMarking || 'none'}"`);
-  if (classMarking) {
-    xml = await injectClassificationHeaderFooter(zip, xml, classMarking);
+  const continuationSubject = showSubjectOnContinuation ? extractSubjectFromDocument(xml) : '';
+  const wantsPageNumbers = !!pageNumbering && pageNumbering !== 'none';
+  debug.verbose(
+    'DOCX',
+    `Step 6b: marking="${classMarking || 'none'}" continuationSubj="${continuationSubject || 'none'}" pageNumbers=${wantsPageNumbers}`,
+  );
+  if (classMarking || continuationSubject || wantsPageNumbers) {
+    xml = await applyPageFurniture(zip, xml, {
+      marking: classMarking,
+      continuationSubject,
+      wantsPageNumbers,
+      startPage: Math.max(1, Math.trunc(startingPageNumber || 1)),
+    });
   }
 
   zip.file('word/document.xml', xml);
@@ -1157,14 +1425,10 @@ async function postProcessDocx(
  */
 export async function convertLatexToDocx(
   latexContent: string,
-  sealType?: string,
-  letterheadColor?: string,
-  fontFamily?: string,
-  fontSize?: string,
-  classLevel?: string,
-  customClassification?: string,
+  docOptions: DocxConversionOptions = {},
   onProgress?: DocxProgressCallback,
 ): Promise<Blob> {
+  const { sealType, letterheadColor, fontFamily, fontSize } = docOptions;
   debug.log('DOCX', '═══ Starting LaTeX → DOCX conversion ═══');
   debug.time('DOCX:totalConversion');
   debug.verbose('DOCX', `LaTeX input: ${(latexContent.length / 1024).toFixed(1)} KB, seal=${sealType}, font=${fontFamily} ${fontSize}`);
@@ -1274,7 +1538,7 @@ export async function convertLatexToDocx(
 
   // Post-process: zero cell padding, rescale gridCol, page geometry, fonts, letterhead colors, classification
   emit({ kind: 'postprocessing' });
-  const finalBlob = await postProcessDocx(outputBlob, fontFamily, fontSize, letterheadColor, classLevel, customClassification);
+  const finalBlob = await postProcessDocx(outputBlob, docOptions);
 
   debug.timeEnd('DOCX:totalConversion');
   debug.log('DOCX', `═══ DOCX conversion complete: ${(finalBlob.size / 1024).toFixed(1)} KB ═══`);
