@@ -18,6 +18,7 @@ import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distributio
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
 import { enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
+import { paragraphMark, delimitParagraphMark, isUnderlinedLevel } from './paragraphLabel';
 import {
   resolveAppendedEndorsement,
   appendedEndorsementSigner,
@@ -195,15 +196,23 @@ function buildFullName(first: string | undefined, middle: string | undefined, la
 /** Generate paragraph label per SECNAV Ch 7 ¶13, Figure 7-8.
  * Levels 0-3: 1./a./(1)/(a) — plain
  * Levels 4-7: same pattern but underlined (spec levels 5-8) */
+/**
+ * A paragraph label, ready to drop into the .tex.
+ *
+ * `\mbox` keeps pandoc from reading a label like "1." at the start of a line as
+ * an ordered-list marker; the Lua filter unwraps it again for DOCX. It wraps the
+ * counter only, so the period and parentheses stay outside it — which is also
+ * what puts the underline on just the counter, per Fig 7-8.
+ */
 function getParagraphLabel(level: number, count: number): string {
-  const patterns = [
-    (n: number) => `${n}.`,
-    (n: number) => `${String.fromCharCode(96 + n)}.`,
-    (n: number) => `(${n})`,
-    (n: number) => `(${String.fromCharCode(96 + n)})`,
-  ];
-  const label = patterns[level % 4](count);
-  return level >= 4 ? `\\uline{${label}}` : label;
+  const mark = paragraphMark(level, count);
+  if (!isUnderlinedLevel(level)) {
+    return `\\mbox{${delimitParagraphMark(level, mark)}}`;
+  }
+  // Underlined levels put the punctuation outside both the \uline and the
+  // \mbox: Fig 7-8 underlines the counter alone, and keeping the \mbox content
+  // to exactly `\uline{1}` is what lets the Lua filter recognise and unwrap it.
+  return delimitParagraphMark(level, `\\mbox{\\uline{${mark}}}`);
 }
 
 function calculateLabels(paragraphs: Paragraph[]): string[] {
@@ -584,7 +593,16 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig): string {
     const indentIn = isBusiness
       ? (para.level + 1) * 0.5   // Business: 0.5in per level, starting at 0.5in
       : para.level * 0.25;        // Standard: 0.25in per level (level 0 = flush left)
-    const indentCmd = indentIn > 0 ? `\\dondocsindent{${indentIn.toFixed(2)}in}` : '';
+    // Standard correspondence indents the subparagraph's FIRST LINE only.
+    // SECNAV M-5216.5 Ch 7 ¶13: "When using a subparagraph, the first line is
+    // always indented the appropriate number of spaces depending on the level
+    // of subparagraphing. All other lines of a subparagraph continue at the
+    // left margin. Do not indent the continuation lines of a subparagraph."
+    // Figure 7-8 shows the same shape. This was \dondocsindent (w:ind w:left),
+    // which indents every line of the paragraph including the wrapped ones.
+    // Business letters keep the block indent — Ch 11 has no such rule.
+    const indentMacro = isBusiness ? 'dondocsindent' : 'dondocsfirstindent';
+    const indentCmd = indentIn > 0 ? `\\${indentMacro}{${indentIn.toFixed(2)}in}` : '';
 
     if (isBusiness) {
       // Business letter: first-line indent for level 0, full indent for deeper levels
@@ -593,9 +611,9 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig): string {
         : indentCmd;
       bodyParts.push(`${spacing}\n${bizIndentCmd}${paraText}\n\n`);
     } else if (label) {
-      // Use \mbox{} to protect labels like "1." from pandoc's list marker detection.
-      // The Lua filter's RawInline handler converts \mbox{} to plain text for DOCX.
-      bodyParts.push(`${spacing}\n${indentCmd}\\mbox{${label}}~~${paraText}\n\n`);
+      // getParagraphLabel already carries the \mbox that hides the marker from
+      // pandoc's list detection, so the label goes in as-is.
+      bodyParts.push(`${spacing}\n${indentCmd}${label}~~${paraText}\n\n`);
     } else {
       // No label (unnumbered paragraphs, e.g. endorsements)
       bodyParts.push(`${spacing}\n${indentCmd}${paraText}\n\n`);

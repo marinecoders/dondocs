@@ -425,7 +425,15 @@ export function processBodyText(text: string): string {
     .replace(/^\n+|\n+$/g, '')
     .replace(/\n{2,}/g, 'ZZZBLANKLINEZZZ')
     .replace(/\n/g, '\\\\\n')
-    .replace(/ZZZBLANKLINEZZZ/g, '\\\\[\\baselineskip]\n');
+    .replace(/ZZZBLANKLINEZZZ/g, '\\\\[\\baselineskip]\n')
+    // A line break whose next line opens with `[` is read as `\\`'s optional
+    // vertical-space argument, so the user's bracket is swallowed and the
+    // compile dies on "Missing number, treated as zero". The default body
+    // placeholder starts with `[`, so pressing Enter above it was enough.
+    // `{}` ends the optional-argument scan. The `\\[\baselineskip]` emitted
+    // just above keeps its argument — its bracket is on the same line as its
+    // `\\`, so this pattern cannot match it.
+    .replace(/\\\\\n\[/g, '\\\\\n{}[');
 
   // Then convert rich text markers
   result = convertRichTextToLatex(result);

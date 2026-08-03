@@ -3,6 +3,7 @@ import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distributio
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
+import { paragraphMark, delimitParagraphMark, isUnderlinedLevel } from './paragraphLabel';
 import { safeUrl } from '@/lib/url-safety';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
 import { formatViaLines } from '@/lib/viaLines';
@@ -53,14 +54,11 @@ function validatedPocEmail(raw: string | undefined | null): string {
 }
 
 function getParagraphLabel(level: number, count: number): string {
-  const patterns = [
-    (n: number) => `${n}.`,
-    (n: number) => `${String.fromCharCode(96 + n)}.`,
-    (n: number) => `(${n})`,
-    (n: number) => `(${String.fromCharCode(96 + n)})`,
-  ];
-  const pattern = patterns[level % 4];
-  return pattern(count);
+  const mark = paragraphMark(level, count);
+  // Fig 7-8 underlines the counter itself at levels 4+; the period and the
+  // parentheses stay plain, so the delimiter goes on outside the \uline.
+  const underlined = isUnderlinedLevel(level) ? `\\uline{${mark}}` : mark;
+  return delimitParagraphMark(level, underlined);
 }
 
 function calculateLabels(paragraphs: Paragraph[]): string[] {
@@ -743,15 +741,32 @@ export function generateBodyTex(store: DocumentStore): string {
         parts.push(`\\vspace{12pt}\n\\noindent ${label}  ${portionPrefix}${processBodyText(para.text)}\n\n`);
       }
     } else {
-      // Subparagraphs: Use leftskip for proper continuation line wrapping
-      // Per SECNAV Ch 7 ¶13: continuation lines return to label position
+      // Subparagraphs indent their FIRST LINE only.
+      //
+      // SECNAV M-5216.5 Ch 7 ¶13: "Start all continuation lines at the left
+      // margin... When using a subparagraph, the first line is always indented
+      // the appropriate number of spaces depending on the level of
+      // subparagraphing. All other lines of a subparagraph continue at the left
+      // margin. Do not indent the continuation lines of a subparagraph."
+      // Figure 7-8 shows the same shape.
+      //
+      // This was `\leftskip`, which shifts EVERY line of the paragraph — the
+      // comment here claimed ¶13 wanted continuation lines at the label
+      // position, which is the opposite of what ¶13 says. `\hspace*` indents
+      // only the line it sits on, matching the DOCX path's
+      // \dondocsfirstindent → w:ind w:firstLine.
+      //
+      // Business letters keep the block indent (Ch 11 has no such rule), which
+      // is also what the DOCX path does for them.
       const levelIndent = isBusinessLetter ? (para.level + 1) * 0.5 : para.level * 0.25; // Business: 0.5" per level, Others: 0.25"
+      const body = headerText
+        ? `${label} ${underlineWords(escapeLatex(toTitleCase(headerText)))}. ${portionPrefix}${processBodyText(para.text)}`
+        : `${label} ${portionPrefix}${processBodyText(para.text)}`;
 
-      if (headerText) {
-        const formattedHeader = toTitleCase(headerText);
-        parts.push(`\\vspace{6pt}\n{\\leftskip=${levelIndent}in\n\\noindent ${label} ${underlineWords(escapeLatex(formattedHeader))}. ${portionPrefix}${processBodyText(para.text)}\\par}\n\n`);
+      if (isBusinessLetter) {
+        parts.push(`\\vspace{6pt}\n{\\leftskip=${levelIndent}in\n\\noindent ${body}\\par}\n\n`);
       } else {
-        parts.push(`\\vspace{6pt}\n{\\leftskip=${levelIndent}in\n\\noindent ${label} ${portionPrefix}${processBodyText(para.text)}\\par}\n\n`);
+        parts.push(`\\vspace{6pt}\n\\noindent\\hspace*{${levelIndent}in}${body}\n\n`);
       }
     }
   }
