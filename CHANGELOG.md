@@ -5,6 +5,16 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.116] — 2026-08-03
+
+### Fixed
+
+- **The SSIC, serial and date sit at the right margin in Word again.** They were
+  landing in the middle of the page — the block was being laid out as if it were
+  a signature block, which is centred, rather than the right-aligned
+  identification block SECNAV M-5216.5 Ch 7 puts in the upper right. The PDF was
+  always correct; only the Word export was affected.
+
 ## [1.2.115] — 2026-08-03
 
 ### Fixed

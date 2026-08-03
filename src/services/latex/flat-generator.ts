@@ -377,8 +377,14 @@ function buildSSICBlock(data: Partial<DocumentData>, alignRight = true): string 
 
   if (alignRight) {
     const rows = items.map(item => ` & ${item} \\\\`).join('\n');
+    // The second column MUST be `r`, not `l`: dondocs.lua classifies a 2-column
+    // table by its second column's alignment, and only AlignRight reaches the
+    // SSIC branch (75/25). As `l` this fell through to has_empty_first_column()
+    // and was formatted as a *signature block* — an even 50/50 split that put
+    // the SSIC, serial and date in the middle of the Word page instead of at
+    // the right margin. buildInReplyTo() below has always used `r`.
     return `\\noindent
-\\begin{tabularx}{\\textwidth}{@{}X@{}l@{}}
+\\begin{tabularx}{\\textwidth}{@{}Xr@{}}
 ${rows}
 \\end{tabularx}
 
