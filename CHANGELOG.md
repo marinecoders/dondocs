@@ -5,6 +5,26 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.117] — 2026-08-03
+
+### Fixed
+
+- **Word exports carry the subject line on continuation pages**, with a clear
+  line between it and the text below, as Ch 7 ¶16 requires ("continue the text
+  beginning on the second line below the subject") — matching the spacing the
+  PDF already produced. SECNAV
+  M-5216.5 Ch 7 ¶16 requires the subject to be repeated at the top of every page
+  after the first. The PDF has always done this — gated on the "Show subject
+  line on continuation pages" setting — but the Word export ignored the setting
+  entirely. Memoranda and business letters get the "SUBJECT:" label their PDF
+  uses; letters and endorsements get "Subj:".
+
+- **Word exports are page numbered.** Ch 7 ¶17: no number on the first page of a
+  letter, then centred half an inch from the bottom starting at 2. Word files
+  had no page numbers at all. An endorsement continues the basic letter's
+  sequence, so it starts at its own number and its first sheet is numbered too,
+  per Ch 9 Figure 9-2.
+
 ## [1.2.116] — 2026-08-03
 
 ### Fixed
