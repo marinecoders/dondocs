@@ -3,6 +3,7 @@ import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distributio
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
+import { paragraphMark, delimitParagraphMark, isUnderlinedLevel } from './paragraphLabel';
 import { safeUrl } from '@/lib/url-safety';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
 import { formatViaLines } from '@/lib/viaLines';
@@ -53,14 +54,11 @@ function validatedPocEmail(raw: string | undefined | null): string {
 }
 
 function getParagraphLabel(level: number, count: number): string {
-  const patterns = [
-    (n: number) => `${n}.`,
-    (n: number) => `${String.fromCharCode(96 + n)}.`,
-    (n: number) => `(${n})`,
-    (n: number) => `(${String.fromCharCode(96 + n)})`,
-  ];
-  const pattern = patterns[level % 4];
-  return pattern(count);
+  const mark = paragraphMark(level, count);
+  // Fig 7-8 underlines the counter itself at levels 4+; the period and the
+  // parentheses stay plain, so the delimiter goes on outside the \uline.
+  const underlined = isUnderlinedLevel(level) ? `\\uline{${mark}}` : mark;
+  return delimitParagraphMark(level, underlined);
 }
 
 function calculateLabels(paragraphs: Paragraph[]): string[] {
