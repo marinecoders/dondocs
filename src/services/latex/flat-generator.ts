@@ -584,7 +584,16 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig): string {
     const indentIn = isBusiness
       ? (para.level + 1) * 0.5   // Business: 0.5in per level, starting at 0.5in
       : para.level * 0.25;        // Standard: 0.25in per level (level 0 = flush left)
-    const indentCmd = indentIn > 0 ? `\\dondocsindent{${indentIn.toFixed(2)}in}` : '';
+    // Standard correspondence indents the subparagraph's FIRST LINE only.
+    // SECNAV M-5216.5 Ch 7 ¶13: "When using a subparagraph, the first line is
+    // always indented the appropriate number of spaces depending on the level
+    // of subparagraphing. All other lines of a subparagraph continue at the
+    // left margin. Do not indent the continuation lines of a subparagraph."
+    // Figure 7-8 shows the same shape. This was \dondocsindent (w:ind w:left),
+    // which indents every line of the paragraph including the wrapped ones.
+    // Business letters keep the block indent — Ch 11 has no such rule.
+    const indentMacro = isBusiness ? 'dondocsindent' : 'dondocsfirstindent';
+    const indentCmd = indentIn > 0 ? `\\${indentMacro}{${indentIn.toFixed(2)}in}` : '';
 
     if (isBusiness) {
       // Business letter: first-line indent for level 0, full indent for deeper levels
