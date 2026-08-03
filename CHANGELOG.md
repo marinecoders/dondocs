@@ -5,6 +5,37 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.115] — 2026-08-03
+
+### Fixed
+
+- **Subparagraphs indent only their first line.** Wrapped lines were being
+  pushed right along with the first, so a subparagraph sat as an indented
+  block. SECNAV M-5216.5 Ch 7 ¶13 is explicit: "All other lines of a
+  subparagraph continue at the left margin. Do not indent the continuation
+  lines of a subparagraph." Both the PDF and the Word export were wrong, in
+  different ways. Business letters keep the block indent — Ch 11 has no
+  equivalent rule.
+
+- **Paragraph labels are underlined where the manual underlines them.** Figure
+  7-8 runs the 1. / a. / (1) / (a) cycle twice and underlines the counter the
+  second time through, on the numeral or letter only — never the period or the
+  parentheses. The PDF underlined nothing; Word underlined whole labels,
+  punctuation included. The two exports now agree with the figure and with each
+  other.
+
+- **Deep paragraph labels no longer print as LaTeX in Word.** A label below the
+  fourth level came out as the literal characters `\uline{1.}` in front of the
+  paragraph.
+
+- **A line break above a bracketed line no longer breaks the PDF.** Pressing
+  Enter on the line above text starting with "[" — which the starting body
+  placeholder does — produced no PDF at all.
+
+- **Paragraph letters continue past "z".** The 27th subparagraph at a lettered
+  level was labelled "{", and beyond the 52nd the label became an invisible
+  character. It now continues aa, ab, and so on.
+
 ## [1.2.114] — 2026-07-19
 
 ### Added
