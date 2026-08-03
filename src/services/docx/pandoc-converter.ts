@@ -505,46 +505,6 @@ function continuationSubjectParagraph(line: string, spaceBefore: number): string
     + `<w:r><w:t xml:space="preserve">${escapeXmlText(line)}</w:t></w:r></w:p>`;
 }
 
-/** Where the header text starts, and where the body does — both from pgMar. */
-const HEADER_TOP_TWIPS = 720;
-const BODY_TOP_TWIPS = 1440;
-
-/**
- * The height of one single-spaced line, in twips.
- *
- * NOT 240. `w:line="240" w:lineRule="auto"` in the styles is Word's
- * single-spacing *base unit*, not a measurement — the rendered line is driven
- * by the font's ascent, descent and line gap. Times New Roman runs about
- * 1.15 em, so 12pt sets a ~276 twip line. Treating 240 as the line height is
- * what left the subject sitting three-quarters of a line off the body.
- */
-function lineTwips(fontSizePt: number): number {
-  return Math.round(fontSizePt * 20 * 1.15);
-}
-
-/**
- * How far to push the subject down inside the header so the body lands on the
- * second line below it — one clear line between them, per ¶7-16.
- *
- * The body is fixed at `w:top`, so the only lever is where the subject sits:
- * it has to END one line short of the body. With a classification marking
- * above it the subject is already on the header's second line and needs no
- * lead-in; without one it does.
- *
- * The PDF measures this same relationship — subject at 0.661in, body at
- * 1.053in, a 28.2pt gap on a 14.4pt line — so this keeps Word agreeing with
- * it rather than each export drifting to its own spacing.
- */
-function subjectSpaceBefore(hasMarking: boolean, fontSizePt: number): number {
-  const line = lineTwips(fontSizePt);
-  const linesAbove = hasMarking ? 2 : 1; // marking occupies one, subject the next
-  // Clamped, not negative: a marking plus the subject plus a clear line wants
-  // three line-heights and the header opens only 720 twips above the body, so
-  // a classified letter at 11 or 12pt runs short. It degrades to "as much room
-  // as there is" rather than overlapping the text.
-  return Math.max(0, BODY_TOP_TWIPS - HEADER_TOP_TWIPS - line * (linesAbove + 1));
-}
-
 /**
  * A centered PAGE field — ¶7-17: "Center page numbers 1/2 inch from the bottom
  * edge, starting with the number 2." The 1/2 inch is the sectPr's w:footer
@@ -560,8 +520,35 @@ function pageNumberParagraph(): string {
     + '<w:r><w:fldChar w:fldCharType="end"/></w:r></w:p>';
 }
 
-/** An empty paragraph — Word needs a header/footer part to contain at least one. */
+/** An empty paragraph — one blank line, and what Word needs a part to contain. */
 const EMPTY_PARAGRAPH = '<w:p/>';
+
+/**
+ * The height of one single-spaced line, in twips.
+ *
+ * NOT 240. `w:line="240" w:lineRule="auto"` in the styles is Word's
+ * single-spacing *base unit*, not a measurement — the rendered line is driven
+ * by the font's ascent, descent and line gap. Times New Roman runs about
+ * 1.15 em, so 12pt sets a ~276 twip line.
+ */
+function lineTwips(fontSizePt: number): number {
+  return Math.round(fontSizePt * 20 * 1.15);
+}
+
+/**
+ * How far the subject sits below the top of the header region.
+ *
+ * This positions the line; it does NOT create the gap beneath it. On a
+ * letterhead document `w:top` is 720 — the same as `w:header` — so the body
+ * begins directly after whatever the header contains, with no margin left over
+ * to space against. That is why the blank line has to be a real empty
+ * paragraph (see planHeadersAndFooters) rather than arithmetic against the
+ * top margin, which is what the first two attempts at this got wrong.
+ */
+function subjectSpaceBefore(hasMarking: boolean, fontSizePt: number): number {
+  // A marking already occupies the first line; the subject follows it.
+  return hasMarking ? 0 : Math.round(lineTwips(fontSizePt) * 0.6);
+}
 
 interface HeaderFooterParts {
   /** Page 1. */
@@ -598,7 +585,13 @@ function planHeadersAndFooters(
     defaultHeader: [
       ...marked,
       ...(continuationSubject
-        ? [continuationSubjectParagraph(continuationSubject, subjectSpaceBefore(!!marking, fontSizePt))]
+        ? [
+            continuationSubjectParagraph(continuationSubject, subjectSpaceBefore(!!marking, fontSizePt)),
+            // ¶7-16: "Continue the text beginning on the second line below the
+            // subject." The body starts straight after the header on a
+            // letterhead document, so this empty line IS the blank one.
+            EMPTY_PARAGRAPH,
+          ]
         : []),
     ],
     // Marking first, then the number below it — mirrors the PDF, where the

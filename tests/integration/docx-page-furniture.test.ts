@@ -92,12 +92,15 @@ describe.skipIf(!pandocAvailable)('DOCX page furniture', () => {
       fontSizePt: 12,
     });
 
-    // 12pt Times sets a ~276 twip line. Header opens at 720, body at 1440, so
-    // the subject must start at 1440 - 2*276 = 888 to leave one clear line.
-    expect(
-      await read('word/header2.xml'),
-      'the subject sits less than a clear line off the body',
-    ).toContain('<w:spacing w:before="168"/>');
+    // The blank line has to be a real empty paragraph. On a letterhead document
+    // w:top is 720 — the same as w:header — so the body begins directly after
+    // whatever the header holds, and there is no margin gap to space against.
+    // Two earlier attempts computed an offset against a 1440 top margin that
+    // letterhead documents never have, and the line never appeared on the page.
+    const header = (await read('word/header2.xml'))!;
+    const paragraphs = header.match(/<w:p[ />]/g) || [];
+    expect(paragraphs.length, 'no trailing empty line after the subject').toBe(2);
+    expect(header, 'the trailing line is not empty').toMatch(/<w:p\/>|<w:p><\/w:p>/);
   }, 120_000);
 
   it('drops the lead-in when a marking already occupies the line above', async () => {
@@ -116,7 +119,8 @@ describe.skipIf(!pandocAvailable)('DOCX page furniture', () => {
 
     const header = (await read('word/header2.xml'))!;
     expect(header).toContain('SECRET');
-    expect(header, 'double-spaced the subject away from the body').not.toContain('w:before=');
+    expect(header, 'the subject took a lead-in it does not need').not.toContain('w:before=');
+    expect(header.match(/<w:p[ />]/g) || [], 'marking + subject + blank line').toHaveLength(3);
   }, 120_000);
 
   it('numbers pages 2+ from the centered footer, leaving page 1 unnumbered', async () => {
