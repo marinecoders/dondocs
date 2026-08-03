@@ -59,6 +59,7 @@ describe.skipIf(!pandocAvailable)('DOCX page furniture', () => {
       continuationSubject: `Subj:  ${SUBJECT}`,
       wantsPageNumbers: true,
       startPage: 1,
+      fontSizePt: 12,
     });
 
     // Page 1 and later pages must be distinguishable at all.
@@ -88,22 +89,29 @@ describe.skipIf(!pandocAvailable)('DOCX page furniture', () => {
       continuationSubject: `Subj:  ${SUBJECT}`,
       wantsPageNumbers: true,
       startPage: 1,
+      fontSizePt: 12,
     });
 
+    // 12pt Times sets a ~276 twip line. Header opens at 720, body at 1440, so
+    // the subject must start at 1440 - 2*276 = 888 to leave one clear line.
     expect(
       await read('word/header2.xml'),
-      'the subject sits hard against the body with no blank line',
-    ).toContain('<w:spacing w:before="240"/>');
+      'the subject sits less than a clear line off the body',
+    ).toContain('<w:spacing w:before="168"/>');
   }, 120_000);
 
   it('drops the lead-in when a marking already occupies the line above', async () => {
-    // With a classification marking the subject is already the header's second
-    // line, so adding the lead-in would push the body a line further down.
+    // A marking, the subject and a clear line need three line-heights, but the
+    // header opens only 720 twips above the body — 828 at 12pt. There is no
+    // room for a lead-in, so the subject follows the marking directly and the
+    // gap runs short of a full line on a classified letter. Recorded here so
+    // it is a known limit rather than a surprise.
     const { read } = await furnish({
       marking: 'SECRET',
       continuationSubject: `Subj:  ${SUBJECT}`,
       wantsPageNumbers: true,
       startPage: 1,
+      fontSizePt: 12,
     });
 
     const header = (await read('word/header2.xml'))!;
@@ -117,6 +125,7 @@ describe.skipIf(!pandocAvailable)('DOCX page furniture', () => {
       continuationSubject: '',
       wantsPageNumbers: true,
       startPage: 1,
+      fontSizePt: 12,
     });
 
     const defaultFooter = await read('word/footer2.xml');
@@ -138,6 +147,7 @@ describe.skipIf(!pandocAvailable)('DOCX page furniture', () => {
       continuationSubject: `Subj:  ${SUBJECT}`,
       wantsPageNumbers: true,
       startPage: 1,
+      fontSizePt: 12,
     });
 
     for (const part of ['header1.xml', 'header2.xml', 'footer1.xml', 'footer2.xml']) {
@@ -153,6 +163,7 @@ describe.skipIf(!pandocAvailable)('DOCX page furniture', () => {
       continuationSubject: `Subj:  ${SUBJECT}`,
       wantsPageNumbers: true,
       startPage: 1,
+      fontSizePt: 12,
     });
 
     const contentTypes = (await read('[Content_Types].xml'))!;
@@ -179,6 +190,7 @@ describe.skipIf(!pandocAvailable)('DOCX page furniture', () => {
       continuationSubject: `Subj:  ${SUBJECT}`,
       wantsPageNumbers: true,
       startPage: 1,
+      fontSizePt: 12,
     });
 
     const sectPr = xml.match(/<w:sectPr[\s\S]*?<\/w:sectPr>/)![0];
@@ -201,6 +213,7 @@ describe.skipIf(!pandocAvailable)('DOCX page furniture', () => {
       continuationSubject: '',
       wantsPageNumbers: true,
       startPage: 3,
+      fontSizePt: 12,
     });
 
     expect(xml, 'Word restarts at 1 without an explicit pgNumType').toContain(

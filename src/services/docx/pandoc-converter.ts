@@ -505,24 +505,44 @@ function continuationSubjectParagraph(line: string, spaceBefore: number): string
     + `<w:r><w:t xml:space="preserve">${escapeXmlText(line)}</w:t></w:r></w:p>`;
 }
 
-/** One single-spaced line at 12pt, in twips — the unit ¶7-16 counts in. */
-const LINE_TWIPS = 240;
+/** Where the header text starts, and where the body does — both from pgMar. */
+const HEADER_TOP_TWIPS = 720;
+const BODY_TOP_TWIPS = 1440;
+
+/**
+ * The height of one single-spaced line, in twips.
+ *
+ * NOT 240. `w:line="240" w:lineRule="auto"` in the styles is Word's
+ * single-spacing *base unit*, not a measurement — the rendered line is driven
+ * by the font's ascent, descent and line gap. Times New Roman runs about
+ * 1.15 em, so 12pt sets a ~276 twip line. Treating 240 as the line height is
+ * what left the subject sitting three-quarters of a line off the body.
+ */
+function lineTwips(fontSizePt: number): number {
+  return Math.round(fontSizePt * 20 * 1.15);
+}
 
 /**
  * How far to push the subject down inside the header so the body lands on the
- * second line below it, per ¶7-16 — one blank line between the two.
+ * second line below it — one clear line between them, per ¶7-16.
  *
- * The header starts at `w:header` (720 twips, half an inch) and the body at
- * `w:top` (1440). For the body to be a clear line below, the subject must END
- * one line short of the body — at 1200 — so it occupies 960-1200.
+ * The body is fixed at `w:top`, so the only lever is where the subject sits:
+ * it has to END one line short of the body. With a classification marking
+ * above it the subject is already on the header's second line and needs no
+ * lead-in; without one it does.
  *
- * With a classification marking above it the subject is already the second
- * line and lands there on its own; without one it needs a line of lead-in.
- * The PDF measures 0.661in for this line against the body's 1.053in, which is
- * the same one-blank-line relationship — this keeps Word agreeing with it.
+ * The PDF measures this same relationship — subject at 0.661in, body at
+ * 1.053in, a 28.2pt gap on a 14.4pt line — so this keeps Word agreeing with
+ * it rather than each export drifting to its own spacing.
  */
-function subjectSpaceBefore(hasMarking: boolean): number {
-  return hasMarking ? 0 : LINE_TWIPS;
+function subjectSpaceBefore(hasMarking: boolean, fontSizePt: number): number {
+  const line = lineTwips(fontSizePt);
+  const linesAbove = hasMarking ? 2 : 1; // marking occupies one, subject the next
+  // Clamped, not negative: a marking plus the subject plus a clear line wants
+  // three line-heights and the header opens only 720 twips above the body, so
+  // a classified letter at 11 or 12pt runs short. It degrades to "as much room
+  // as there is" rather than overlapping the text.
+  return Math.max(0, BODY_TOP_TWIPS - HEADER_TOP_TWIPS - line * (linesAbove + 1));
 }
 
 /**
@@ -565,6 +585,7 @@ function planHeadersAndFooters(
   continuationSubject: string,
   wantsPageNumbers: boolean,
   numberFirstPage: boolean,
+  fontSizePt: number,
 ): HeaderFooterParts {
   const marked = marking ? [markingParagraph(marking)] : [];
   const number = wantsPageNumbers ? [pageNumberParagraph()] : [];
@@ -577,7 +598,7 @@ function planHeadersAndFooters(
     defaultHeader: [
       ...marked,
       ...(continuationSubject
-        ? [continuationSubjectParagraph(continuationSubject, subjectSpaceBefore(!!marking))]
+        ? [continuationSubjectParagraph(continuationSubject, subjectSpaceBefore(!!marking, fontSizePt))]
         : []),
     ],
     // Marking first, then the number below it — mirrors the PDF, where the
@@ -645,6 +666,8 @@ export interface PageFurniture {
   wantsPageNumbers: boolean;
   /** First page's number; above 1 also numbers page 1 (Ch 9 Fig 9-2). */
   startPage: number;
+  /** Body font size in points — sets the line height the subject spaces against. */
+  fontSizePt: number;
 }
 
 /**
@@ -670,6 +693,7 @@ export async function applyPageFurniture(
       furniture.continuationSubject,
       furniture.wantsPageNumbers,
       furniture.startPage > 1,
+      furniture.fontSizePt,
     ),
     furniture.startPage,
   );
@@ -1255,6 +1279,7 @@ async function postProcessDocx(
       continuationSubject,
       wantsPageNumbers,
       startPage: Math.max(1, Math.trunc(startingPageNumber || 1)),
+      fontSizePt: parseInt(fontSize, 10) || 12,
     });
   }
 
