@@ -388,6 +388,16 @@ local function handle_raw_inline(el)
   -- \mbox{content} → just the content as plain text
   local mbox_content = text:match("^\\mbox%{(.-)%}$")
   if mbox_content then
+    -- ...unless the content is itself markup. Paragraph labels below the
+    -- fourth level arrive as \mbox{\uline{1.}}, and returning that verbatim
+    -- printed the literal characters "\uline{1.}" in front of the paragraph.
+    -- Only \uline needs unwrapping here: it is the one command the generator
+    -- puts inside an \mbox, and pandoc reads a bare \uline correctly on its
+    -- own — the \mbox is what hides it.
+    local underlined = mbox_content:match("^\\uline%{(.-)%}$")
+    if underlined then
+      return pandoc.Underline({ pandoc.Str(underlined) })
+    end
     return pandoc.Str(mbox_content)
   end
 
