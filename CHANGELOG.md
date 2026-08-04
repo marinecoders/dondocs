@@ -5,6 +5,18 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.118] — 2026-08-03
+
+### Fixed
+
+- **A new-page endorsement no longer prints its subject over the seal.** With
+  "show subject line on continuation pages" turned on, the subject was also
+  appearing at the top of the endorsement's own first page, across the
+  letterhead — on a sheet that already carries the real Subj: line in its
+  address block. The page number stays where Ch 9 Figure 9-2 puts it: an
+  endorsement continues the basic letter's sequence, so its first sheet is
+  numbered, unlike a letter's.
+
 ## [1.2.117] — 2026-08-03
 
 ### Fixed
