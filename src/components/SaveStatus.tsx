@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from 'react';
-import { Check, Loader2, AlertCircle, FolderSync } from 'lucide-react';
+import { Check, Loader2, AlertCircle, FolderSync, HardDrive } from 'lucide-react';
 import { useUIStore } from '@/stores/uiStore';
-import { useBackupStore } from '@/stores/backupStore';
+import { useBackupStore, type BackupStatus } from '@/stores/backupStore';
 
 function savedAgo(ts: number): string {
   const s = Math.floor((Date.now() - ts) / 1000);
@@ -21,8 +21,19 @@ function savedAgo(ts: number): string {
  * When the synced auto-backup is connected AND has actually written, a
  * second "Backed up" segment appears — the durable confidence signal that the
  * account is mirrored to a file outside the browser, not just to its storage.
- * Failure states are deliberately NOT rendered here (BackupNotice owns them);
- * this indicator only ever affirms what is true.
+ *
+ * With no working backup it says so instead: "Local only". That is the state
+ * most people are in, and it is the one that cost a user their library when an
+ * enterprise Windows update wiped the browser profile — the banners that were
+ * supposed to warn about it never fire, because `persisted()` returns true and
+ * `beforeinstallprompt` says nothing about durability. A standing word next to
+ * the save time is honest on every browser, can't be dismissed into nothing,
+ * and never interrupts. Where a backup can actually be set up it is the button
+ * that does it; where it can't (no File System Access API) it stays plain text
+ * and the tooltip points at the manual export instead of a dead end.
+ *
+ * Diagnosis stays out of here: 'error' and 'needs-permission' say "Local only"
+ * like any other unbacked state, and BackupNotice explains and fixes them.
  */
 export function SaveStatus({ className }: { className?: string }) {
   const lastSavedAt = useUIStore((s) => s.lastSavedAt);
@@ -30,6 +41,7 @@ export function SaveStatus({ className }: { className?: string }) {
   const backupStatus = useBackupStore((s) => s.status);
   const lastBackupAt = useBackupStore((s) => s.lastBackupAt);
   const backupFileName = useBackupStore((s) => s.fileName);
+  const setupBackup = useBackupStore((s) => s.setupBackup);
   const [, refresh] = useReducer((n: number) => n + 1, 0);
 
   useEffect(() => {
@@ -62,8 +74,11 @@ export function SaveStatus({ className }: { className?: string }) {
   }
   if (lastSavedAt == null) return null;
   // Affirm the mirror only when it is live and has committed at least once
-  // this session — never on 'error'/'needs-permission' (BackupNotice's job).
+  // this session.
   const backedUp = backupStatus === 'connected' && lastBackupAt != null;
+  // Connected but not yet written is transient (the next save mirrors), so it
+  // claims neither — saying "Local only" there would be alarming and wrong.
+  const localOnly = backupStatus !== 'connected';
   return (
     <span className={`inline-flex items-center gap-1 tnum ${base}`}>
       <Check className="h-3 w-3 text-success" aria-hidden />
@@ -78,6 +93,39 @@ export function SaveStatus({ className }: { className?: string }) {
           Backed up
         </span>
       )}
+      {localOnly && (
+        <>
+          <span aria-hidden>·</span>
+          {backupStatus === 'off' ? (
+            <button
+              type="button"
+              onClick={() => void setupBackup()}
+              title={localOnlyHint(backupStatus)}
+              className="inline-flex items-center gap-1 underline decoration-dotted underline-offset-2 rounded-sm outline-none hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
+            >
+              <HardDrive className="h-3 w-3" aria-hidden />
+              Local only
+            </button>
+          ) : (
+            <span className="inline-flex items-center gap-1" title={localOnlyHint(backupStatus)}>
+              <HardDrive className="h-3 w-3" aria-hidden />
+              Local only
+            </span>
+          )}
+        </>
+      )}
     </span>
   );
+}
+
+/** Why "Local only" is showing, and the way out that this browser actually has. */
+function localOnlyHint(status: BackupStatus): string {
+  const where = 'Your documents are saved in this browser only.';
+  if (status === 'unsupported') {
+    return `${where} This browser can't keep an auto-backup file — use Download or Back up everything to keep a permanent copy.`;
+  }
+  if (status === 'off') {
+    return `${where} Set up auto-backup to mirror them to a file outside it.`;
+  }
+  return `${where} Auto-backup isn't writing — see the notice above to reconnect it.`;
 }
