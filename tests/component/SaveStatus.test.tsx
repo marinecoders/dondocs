@@ -23,6 +23,7 @@ beforeEach(() => {
     fileName: null,
     lastBackupAt: null,
     setupBackup: vi.fn(async () => {}),
+    reconnect: vi.fn(async () => {}),
   });
 });
 
@@ -54,6 +55,22 @@ describe('SaveStatus', () => {
 
   it('offers one-click setup where the browser supports it', () => {
     render(<SaveStatus />); // status: 'off'
+    fireEvent.click(screen.getByRole('button', { name: /Local only/ }));
+    expect(useBackupStore.getState().setupBackup).toHaveBeenCalledOnce();
+  });
+
+  it('carries the repair for a broken backup, which BackupNotice can be dismissed out of', () => {
+    // The strip that explains these two is dismissible; this isn't. Same
+    // mapping it uses: re-grant on the file we have, re-pick after a write
+    // failure.
+    useBackupStore.setState({ status: 'needs-permission' });
+    const { rerender } = render(<SaveStatus />);
+    fireEvent.click(screen.getByRole('button', { name: /Local only/ }));
+    expect(useBackupStore.getState().reconnect).toHaveBeenCalledOnce();
+    expect(useBackupStore.getState().setupBackup).not.toHaveBeenCalled();
+
+    useBackupStore.setState({ status: 'error' });
+    rerender(<SaveStatus />);
     fireEvent.click(screen.getByRole('button', { name: /Local only/ }));
     expect(useBackupStore.getState().setupBackup).toHaveBeenCalledOnce();
   });
