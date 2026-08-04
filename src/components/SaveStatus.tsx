@@ -111,7 +111,7 @@ export function SaveStatus({ className }: { className?: string }) {
               // control still matches "click Local only".
               aria-label={`Local only — ${fix.label}`}
               title={localOnlyHint(backupStatus)}
-              className="inline-flex items-center gap-1 underline decoration-dotted underline-offset-2 rounded-sm outline-none hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
+              className="inline-flex items-center gap-1 rounded-sm underline decoration-dotted underline-offset-2 outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
             >
               <HardDrive className="h-3 w-3" aria-hidden />
               Local only
