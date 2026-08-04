@@ -146,6 +146,26 @@
 %=============================================================================
 % Page number continues from basic letter
 
+% The endorsement's OWN first sheet. This style has to exist even though it is
+% nearly identical to documentpage: main.tex selects the opening sheet with
+%   \@ifundefined{ps@firstpage}{\thispagestyle{documentpage}}{...}
+% so leaving firstpage undefined silently opens the endorsement on the
+% continuation style — printing "Subj:" in the page header, across the
+% letterhead seal, on a sheet that already carries the real Subj: line in its
+% address block. Every other template defines firstpage; this one did not.
+%
+% Unlike a letter's firstpage, the page NUMBER stays: Ch 9 Fig 9-2 numbers the
+% endorsement's own sheet because it continues the basic letter's sequence.
+% That is why omitting the style looked harmless — the footer was wanted, and
+% the header came along with it.
+\fancypagestyle{firstpage}{%
+    \fancyhf{}%
+    \fancyhead[C]{\placeClassificationMarkings}%
+    \fancyfoot[C]{\thepage}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
 \fancypagestyle{documentpage}{%
     \fancyhf{}%
     \fancyhead[C]{\placeClassificationMarkings}%
