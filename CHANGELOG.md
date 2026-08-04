@@ -5,6 +5,18 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.119] — 2026-08-03
+
+### Changed
+
+- **The save indicator now says whether your work has a copy outside this
+  browser.** It reads "Local only" until an auto-backup is set up, and clicking
+  it sets one up. Before, it only ever said "Saved", which reads as safe — and
+  isn't, if the browser profile is wiped by something like an enterprise
+  Windows update. On browsers that can't keep an auto-backup file (Safari,
+  Firefox) it stays plain text and points at Download / Back up everything
+  instead.
+
 ## [1.2.118] — 2026-08-03
 
 ### Fixed
