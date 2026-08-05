@@ -723,6 +723,15 @@ export function generateBodyTex(store: DocumentStore): string {
     // portion marks on the primary output too). Enum-constrained, LaTeX-safe.
     const portionPrefix = para.portionMarking ? `(${para.portionMarking}) ` : '';
 
+    // The period belongs to the sentence the heading introduces, not to the
+    // heading — so a heading that introduces nothing does not get one. ¶13d
+    // says only to underline the heading and Title Case it, but the manual
+    // demonstrates the rule throughout: of its own 75 standalone Title Case
+    // headings, 69 are bare ("14. Signature Line", "a. General"), and the ones
+    // carrying a period are sentence fragments rather than headings. The
+    // Adjutant master template states it outright: "1. Format" — no period.
+    const headingDot = para.text.trim() ? '.' : '';
+
     if (para.level === 0) {
       // Level 0: Main paragraph with optional underlined header
       // Per SECNAV M-5216.5 Ch 7 ¶13d: "Underline any heading and capitalize its key words"
@@ -730,13 +739,13 @@ export function generateBodyTex(store: DocumentStore): string {
         // Business letter: 0.5" first-line indent, no numbers
         if (headerText) {
           const formattedHeader = toTitleCase(headerText);
-          parts.push(`\\vspace{12pt}\n\\noindent\\hspace{0.5in}${underlineWords(escapeLatex(formattedHeader))}.  ${portionPrefix}${processBodyText(para.text)}\n\n`);
+          parts.push(`\\vspace{12pt}\n\\noindent\\hspace{0.5in}${underlineWords(escapeLatex(formattedHeader))}${headingDot}  ${portionPrefix}${processBodyText(para.text)}\n\n`);
         } else {
           parts.push(`\\vspace{12pt}\n\\noindent\\hspace{0.5in}${portionPrefix}${processBodyText(para.text)}\n\n`);
         }
       } else if (headerText) {
         const formattedHeader = toTitleCase(headerText);
-        parts.push(`\\vspace{12pt}\n\\noindent ${label} ${underlineWords(escapeLatex(formattedHeader))}.  ${portionPrefix}${processBodyText(para.text)}\n\n`);
+        parts.push(`\\vspace{12pt}\n\\noindent ${label} ${underlineWords(escapeLatex(formattedHeader))}${headingDot}  ${portionPrefix}${processBodyText(para.text)}\n\n`);
       } else {
         parts.push(`\\vspace{12pt}\n\\noindent ${label}  ${portionPrefix}${processBodyText(para.text)}\n\n`);
       }
@@ -760,7 +769,7 @@ export function generateBodyTex(store: DocumentStore): string {
       // is also what the DOCX path does for them.
       const levelIndent = isBusinessLetter ? (para.level + 1) * 0.5 : para.level * 0.25; // Business: 0.5" per level, Others: 0.25"
       const body = headerText
-        ? `${label} ${underlineWords(escapeLatex(toTitleCase(headerText)))}. ${portionPrefix}${processBodyText(para.text)}`
+        ? `${label} ${underlineWords(escapeLatex(toTitleCase(headerText)))}${headingDot} ${portionPrefix}${processBodyText(para.text)}`
         : `${label} ${portionPrefix}${processBodyText(para.text)}`;
 
       // 12pt is one blank line at 12pt type — the same gap top-level paragraphs

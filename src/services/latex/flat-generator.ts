@@ -607,9 +607,12 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig): string {
     // Portion marking
     if (portionPrefix) paraText += portionPrefix;
 
-    // Optional underlined header
+    // Optional underlined header. The period belongs to the sentence the
+    // heading introduces, so a heading that introduces nothing does not get
+    // one — see the note in generator.ts, which this path mirrors.
     if (headerText) {
-      paraText += `${underlineWords(escapeFlat(toTitleCase(stripHeaderPunctuation(headerText))))}. `;
+      const headingDot = para.text.trim() ? '. ' : '';
+      paraText += `${underlineWords(escapeFlat(toTitleCase(stripHeaderPunctuation(headerText))))}${headingDot}`;
     }
 
     // Body text with rich text processing

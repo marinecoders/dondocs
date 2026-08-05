@@ -5,6 +5,16 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.122] — 2026-08-05
+
+### Fixed
+
+- **A paragraph heading with no text after it no longer gets a period.** A
+  heading that stands alone over its subparagraphs printed as "1. Format."
+  where it should read "1. Format" — the period belongs to the sentence the
+  heading introduces. SECNAV M-5216.5 Ch 7 sets 69 of its own 75 standalone
+  headings bare. Applies to the PDF and the Word export.
+
 ## [1.2.121] — 2026-08-04
 
 ### Fixed
