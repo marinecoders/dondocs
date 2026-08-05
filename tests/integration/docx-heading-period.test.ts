@@ -45,6 +45,8 @@ describe.skipIf(!pandocAvailable)('DOCX paragraph heading punctuation', () => {
       { text: 'The first subparagraph carries body text.', header: '', level: 1 },
       { text: 'Body text follows this heading on the same line.', header: 'General Rules', level: 0 },
       { text: '', header: 'Deadline', level: 1 },
+      { text: '', header: 'Scope.', level: 0 },
+      { text: 'The author typed the period.', header: 'Purpose.', level: 0 },
     ];
 
     const result = await compileDocxFixture(store);
@@ -64,5 +66,13 @@ describe.skipIf(!pandocAvailable)('DOCX paragraph heading punctuation', () => {
       paragraphWith(texts, 'General Rules'),
       'a heading that introduces a sentence still keeps its period',
     ).toBe('2. General Rules. Body text follows this heading on the same line.');
+
+    // Authors type the period themselves; the generator supplies its own.
+    expect(paragraphWith(texts, 'Scope'), 'a period the author typed is not kept either').toBe(
+      '3. Scope',
+    );
+    expect(paragraphWith(texts, 'Purpose'), 'and it never doubles up').toBe(
+      '4. Purpose. The author typed the period.',
+    );
   }, 120_000);
 });

@@ -14,6 +14,8 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
   where it should read "1. Format" — the period belongs to the sentence the
   heading introduces. SECNAV M-5216.5 Ch 7 sets 69 of its own 75 standalone
   headings bare. Applies to the PDF and the Word export.
+- **A period typed into the heading field no longer doubles up.** The PDF kept
+  the author's period and added its own, so "Format." printed as "Format..".
 
 ## [1.2.121] — 2026-08-04
 
