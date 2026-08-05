@@ -5,6 +5,18 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.120] — 2026-08-04
+
+### Fixed
+
+- **Subparagraphs get a full blank line before them, like every other
+  paragraph.** They were opening on half a line, so lettered and numbered
+  subparagraphs ran together on the page. SECNAV M-5216.5 Ch 7 ¶13 makes no
+  distinction — "each paragraph or subparagraph begins on the second line below
+  the previous paragraph or subparagraph" — and Figure 7-8 prints a hard return
+  between every pair it shows, down to (1)/(2). Applies to both the PDF and the
+  Word export.
+
 ## [1.2.119] — 2026-08-03
 
 ### Changed
