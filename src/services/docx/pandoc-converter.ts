@@ -916,6 +916,68 @@ function applyLetterheadStyling(xml: string, colorHex: string): string {
   return xml.substring(0, firstTblStart) + styledTable + xml.substring(tblEnd);
 }
 
+/**
+ * Turns the Lua filter's leading indent markers into real `w:ind` attributes.
+ *
+ * `dondocs.lua` cannot emit OpenXML from an inline, so `\dondocs*indent{Xin}`
+ * arrives as a run of marker characters at the head of a paragraph — six per
+ * inch. Each macro uses a distinct character so this pass can tell which kind
+ * of indent was meant:
+ *
+ *   U+00A0 nbsp    \dondocsindent       → w:left     (the whole block moves)
+ *   U+2003 em      \dondocsfirstindent  → w:firstLine (only the first line)
+ *   U+2007 figure  \dondocshangindent   → w:left + w:hanging (only the runover)
+ *
+ * The hanging variant is what a Ref:/Encl: entry needs: the designator keeps
+ * its column and a title too long for one line wraps under the entry's text,
+ * per Ch 7 ¶10c and Figure 7-1.
+ *
+ * Exported as a test seam. It is pure string-to-string, and the DOCX compile
+ * harness deliberately does not run the JSZip post-pass, so without this the
+ * conversion has no coverage at all.
+ */
+export function applyIndentMarkers(xml: string): string {
+  const kinds = [
+    { char: '\u00A0', ind: (t: number) => `<w:ind w:left="${t}"/>` },
+    { char: '\u2003', ind: (t: number) => `<w:ind w:firstLine="${t}"/>` },
+    { char: '\u2007', ind: (t: number) => `<w:ind w:left="${t}" w:hanging="${t}"/>` },
+  ];
+
+  for (const kind of kinds) {
+    const re = new RegExp(`<w:t(?:\\s[^>]*)?>(${kind.char}+)`, 'g');
+    const hits: { tStart: number; runLen: number; matchLen: number }[] = [];
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(xml)) !== null) {
+      hits.push({ tStart: m.index, runLen: m[1].length, matchLen: m[0].length });
+    }
+
+    // Back to front, so each splice leaves earlier indices valid.
+    for (let i = hits.length - 1; i >= 0; i--) {
+      const hit = hits[i];
+      const twips = Math.round((hit.runLen / 6) * 1440);
+
+      const before = xml.substring(0, hit.tStart);
+      const pStart = before.lastIndexOf('<w:p>');
+      if (pStart === -1) continue;
+      const hasPPr = before.lastIndexOf('<w:p><w:pPr>') === pStart;
+
+      // Drop the markers themselves — they are instructions, not text.
+      const runEnd = hit.tStart + hit.matchLen;
+      xml = xml.substring(0, runEnd - hit.runLen) + xml.substring(runEnd);
+
+      const indEl = kind.ind(twips);
+      if (hasPPr) {
+        const at = pStart + '<w:p><w:pPr>'.length;
+        xml = xml.substring(0, at) + indEl + xml.substring(at);
+      } else {
+        const at = pStart + '<w:p>'.length;
+        xml = xml.substring(0, at) + `<w:pPr>${indEl}</w:pPr>` + xml.substring(at);
+      }
+    }
+  }
+  return xml;
+}
+
 async function postProcessDocx(
   docxBlob: Blob,
   {
@@ -1162,97 +1224,12 @@ async function postProcessDocx(
   // by structure and applies correct proportions. Step 2 rescales all widths
   // from pandoc's 7920 to our 9360 twips. No further gridCol fixup needed.
 
-  // --- 6a. Convert leading non-breaking spaces to paragraph indentation ---
-  debug.verbose('DOCX', 'Step 6a: Converting nbsp to paragraph indentation');
-  // The Lua filter converts \hspace{Xin} to a single Str of non-breaking spaces
-  // (U+00A0), but DOCX renders nbsp inconsistently. Replace leading nbsp sequences
-  // with proper w:ind w:left for accurate paragraph indentation.
-  // Strategy: find every <w:t> that starts with nbsp, walk back to find its
-  // containing <w:p>, and inject w:ind w:left into the paragraph's pPr.
-  {
-    const nbspTRegex = /<w:t(?:\s[^>]*)?>(\u00A0+)/g;
-    let nbspMatch: RegExpExecArray | null;
-    // Collect matches in reverse order to preserve indices during replacement
-    const nbspMatches: { tStart: number; nbspLen: number; fullMatchLen: number }[] = [];
-    while ((nbspMatch = nbspTRegex.exec(xml)) !== null) {
-      nbspMatches.push({
-        tStart: nbspMatch.index,
-        nbspLen: nbspMatch[1].length,
-        fullMatchLen: nbspMatch[0].length,
-      });
-    }
-
-    debug.verbose('DOCX', `Found ${nbspMatches.length} nbsp indentation(s) to convert`);
-    for (let i = nbspMatches.length - 1; i >= 0; i--) {
-      const m = nbspMatches[i];
-      const nbspCount = m.nbspLen;
-      const twips = Math.round((nbspCount / 6) * 1440);
-
-      // Find the containing <w:p> by searching backwards from the <w:t> position
-      const beforeT = xml.substring(0, m.tStart);
-      const pStart = beforeT.lastIndexOf('<w:p>');
-      const pPrStart = beforeT.lastIndexOf('<w:p><w:pPr>');
-      if (pStart === -1) continue;
-
-      // Remove the leading nbsp characters from the <w:t> content
-      const nbspEnd = m.tStart + m.fullMatchLen;
-      xml = xml.substring(0, nbspEnd - nbspCount) + xml.substring(nbspEnd);
-
-      // Inject w:ind into the paragraph's pPr
-      const indEl = `<w:ind w:left="${twips}"/>`;
-      if (pPrStart === pStart) {
-        // Has <w:pPr> — inject after <w:pPr>
-        const pPrTagEnd = pStart + '<w:p><w:pPr>'.length;
-        xml = xml.substring(0, pPrTagEnd) + indEl + xml.substring(pPrTagEnd);
-      } else {
-        // No <w:pPr> — inject one after <w:p>
-        const pTagEnd = pStart + '<w:p>'.length;
-        xml = xml.substring(0, pTagEnd) + `<w:pPr>${indEl}</w:pPr>` + xml.substring(pTagEnd);
-      }
-    }
-  }
-
-  // --- 6a2. Convert leading em-spaces to first-line indent ---
-  // Same as 6a but for em-space (U+2003) markers from \dondocsfirstindent.
-  // These become w:ind w:firstLine (first line only) instead of w:left (all lines).
-  {
-    const emTRegex = /<w:t(?:\s[^>]*)?>(\u2003+)/g;
-    let emMatch: RegExpExecArray | null;
-    const emMatches: { tStart: number; emLen: number; fullMatchLen: number }[] = [];
-    while ((emMatch = emTRegex.exec(xml)) !== null) {
-      emMatches.push({
-        tStart: emMatch.index,
-        emLen: emMatch[1].length,
-        fullMatchLen: emMatch[0].length,
-      });
-    }
-
-    debug.verbose('DOCX', `Found ${emMatches.length} first-line indentation(s) to convert`);
-    for (let i = emMatches.length - 1; i >= 0; i--) {
-      const m = emMatches[i];
-      const emCount = m.emLen;
-      const twips = Math.round((emCount / 6) * 1440);
-
-      const beforeT = xml.substring(0, m.tStart);
-      const pStart = beforeT.lastIndexOf('<w:p>');
-      const pPrStart = beforeT.lastIndexOf('<w:p><w:pPr>');
-      if (pStart === -1) continue;
-
-      // Remove the leading em-space characters from the <w:t> content
-      const emEnd = m.tStart + m.fullMatchLen;
-      xml = xml.substring(0, emEnd - emCount) + xml.substring(emEnd);
-
-      // Inject w:ind w:firstLine into the paragraph's pPr
-      const indEl = `<w:ind w:firstLine="${twips}"/>`;
-      if (pPrStart === pStart) {
-        const pPrTagEnd = pStart + '<w:p><w:pPr>'.length;
-        xml = xml.substring(0, pPrTagEnd) + indEl + xml.substring(pPrTagEnd);
-      } else {
-        const pTagEnd = pStart + '<w:p>'.length;
-        xml = xml.substring(0, pTagEnd) + `<w:pPr>${indEl}</w:pPr>` + xml.substring(pTagEnd);
-      }
-    }
-  }
+  // --- 6a. Convert leading indent markers to w:ind ---
+  // The Lua filter cannot emit OpenXML inline, so \dondocs*indent{Xin} arrives
+  // as a run of marker characters at the start of a paragraph. Each macro uses
+  // a different character so this pass can tell them apart.
+  debug.verbose('DOCX', 'Step 6a: Converting indent markers to w:ind');
+  xml = applyIndentMarkers(xml);
 
   // --- 6b. Page header and footer ---
   // Three separate things share one mechanism: the classification marking (every

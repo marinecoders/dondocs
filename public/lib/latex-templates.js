@@ -1023,29 +1023,57 @@ const LATEX_TEMPLATES = {
 
 \\input{reference-urls}
 
+% A wrapped entry's runover lines sit under the entry's TEXT, not under its
+% (a) designator.
+%
+% SECNAV M-5216.5 Ch 7 ¶10c: "If the entry is longer than one line, line the
+% second line under the first word after the heading." Figure 7-1 measures it
+% out — Ref: at x=124, (a) at 157, "Communication" at 172, and the runover
+% "directly" at 178, i.e. under the description. The same figure proves the two
+% columns are distinct: its Encl: block starts a NEW entry, (2), under (1) at
+% the designator column, which is exactly where a runover must not go.
+%
+% \\makebox fixes where the title starts on the first line; \\hangindent puts
+% every later line at that same column. Both derive from one length, so they
+% cannot drift apart.
+%
+% Deliberately NOT a \\parbox for the title: that makes the designator and the
+% title separate boxes, and while it looks right on the page, pdftotext pulls
+% them apart — "Ref:", then "(g)", then "MCO 1500.52" in three places. Copying
+% a reference list out of the PDF, searching it, or reading it with a screen
+% reader all depend on the entry staying one run of text.
+%
+% One width for the whole block, not per entry: Figure 7-1's Encl: block shows
+% (1) and (2) with their titles starting at a common column. Sized from a
+% two-character designator, which covers (a)-(z) and (1)-(99); a wider one just
+% pushes its own title right without disturbing its neighbours.
+\\newlength{\\dondocsEntryHang}
+\\settowidth{\\dondocsEntryHang}{(00)~~}
+\\newcommand{\\dondocsEntry}[2]{%
+    \\settowidth{\\dondocsEntryHang}{#1}%
+    \\addtolength{\\dondocsEntryHang}{2\\fontdimen2\\font}%
+    \\hangindent\\dondocsEntryHang\\hangafter=1
+    \\noindent #1~~#2\\par
+}
+
 \\makeatletter
 \\newcommand{\\refitem}[2]{%
     \\ifhyperlinks
         \\@ifundefined{ref@url@#1}{%
-            (#1)~~#2\\\\%
+            \\dondocsEntry{(#1)}{#2}%
         }{%
-            (\\href{\\csname ref@url@#1\\endcsname}{\\textcolor{blue}{#1}})~~#2\\\\%
+            \\dondocsEntry{(\\href{\\csname ref@url@#1\\endcsname}{\\textcolor{blue}{#1}})}{#2}%
         }%
     \\else
-        (#1)~~#2\\\\%
+        \\dondocsEntry{(#1)}{#2}%
     \\fi
 }
-% Same as \\refitem but without trailing \\\\ — used for the last reference
+% Same as \\refitem; kept as a separate name because the generator emits it for
+% the final entry. Both end the paragraph now — the trailing \\\\ that used to
+% distinguish them would have made every entry one paragraph, and \\hangindent
+% would then have indented all but the very first line of the whole block.
 \\newcommand{\\lastrefitem}[2]{%
-    \\ifhyperlinks
-        \\@ifundefined{ref@url@#1}{%
-            (#1)~~#2%
-        }{%
-            (\\href{\\csname ref@url@#1\\endcsname}{\\textcolor{blue}{#1}})~~#2%
-        }%
-    \\else
-        (#1)~~#2%
-    \\fi
+    \\refitem{#1}{#2}%
 }
 \\makeatother
 
@@ -1072,6 +1100,13 @@ const LATEX_TEMPLATES = {
         \\noindent
         \\begin{tabular}{@{}l@{}p{5.9in}@{}}
             Ref:\\ifthenelse{\\equal{\\FontFamily}{times}}{\\hspace{4.2\\fontdimen2\\font}}{\\hspace{4\\fontdimen2\\font}} & \\begin{minipage}[t]{5.9in}
+                       % A tabular p-column runs \\@arrayparboxrestore, which
+                       % undoes the document's global \\raggedright — so this
+                       % block would justify, stretching its interword spaces.
+                       % ¶7-2.1 forbids justified text, and the stretch also
+                       % puts the first line's text somewhere \\settowidth
+                       % cannot predict, breaking the runover alignment below.
+                       \\raggedright
                        \\input{references}
                    \\end{minipage}
         \\end{tabular}%
@@ -1118,17 +1153,18 @@ const LATEX_TEMPLATES = {
         \\noindent
         \\begin{tabular}{@{}l@{}p{5.85in}@{}}
             Encl:\\hspace{3\\fontdimen2\\font} & \\begin{minipage}[t]{5.85in}
+                       \\raggedright
                        \\newcounter{encllistcount}%
                        \\setcounter{encllistcount}{0}%
                        \\loop\\ifnum\\value{encllistcount}<\\value{enclmax}%
                            \\stepcounter{encllistcount}%
                            \\@ifundefined{encl@defined@\\arabic{encllistcount}}{}{%
+                               % Same runover rule as references — ¶10c and the
+                               % Encl: block of Figure 7-1.
                                \\ifhyperlinks
-                                   (\\hyperlink{enclosure\\arabic{encllistcount}}{\\textcolor{blue}{\\arabic{encllistcount}}})~~\\csname encl@title@\\arabic{encllistcount}\\endcsname%
+                                   \\dondocsEntry{(\\hyperlink{enclosure\\arabic{encllistcount}}{\\textcolor{blue}{\\arabic{encllistcount}}})}{\\csname encl@title@\\arabic{encllistcount}\\endcsname}%
                                \\else
-                                   (\\arabic{encllistcount})~~\\csname encl@title@\\arabic{encllistcount}\\endcsname%
-                               \\fi
-                               \\ifnum\\value{encllistcount}<\\value{enclmax}\\\\%
+                                   \\dondocsEntry{(\\arabic{encllistcount})}{\\csname encl@title@\\arabic{encllistcount}\\endcsname}%
                                \\fi
                            }%
                        \\repeat
