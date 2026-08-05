@@ -763,10 +763,16 @@ export function generateBodyTex(store: DocumentStore): string {
         ? `${label} ${underlineWords(escapeLatex(toTitleCase(headerText)))}. ${portionPrefix}${processBodyText(para.text)}`
         : `${label} ${portionPrefix}${processBodyText(para.text)}`;
 
+      // 12pt is one blank line at 12pt type — the same gap top-level paragraphs
+      // get, because ¶13 draws no distinction: "each paragraph OR SUBPARAGRAPH
+      // begins on the second line below the previous paragraph or subparagraph."
+      // Figure 7-8 prints a hard return between every pair it shows, including
+      // (1)/(2) and a./b. This was 6pt, which reads as a half-height gap and is
+      // what a reviewer in the field marked up.
       if (isBusinessLetter) {
-        parts.push(`\\vspace{6pt}\n{\\leftskip=${levelIndent}in\n\\noindent ${body}\\par}\n\n`);
+        parts.push(`\\vspace{12pt}\n{\\leftskip=${levelIndent}in\n\\noindent ${body}\\par}\n\n`);
       } else {
-        parts.push(`\\vspace{6pt}\n\\noindent\\hspace*{${levelIndent}in}${body}\n\n`);
+        parts.push(`\\vspace{12pt}\n\\noindent\\hspace*{${levelIndent}in}${body}\n\n`);
       }
     }
   }

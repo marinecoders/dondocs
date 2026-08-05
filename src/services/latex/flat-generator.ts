@@ -576,8 +576,12 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig): string {
     const label = useNumbered ? labels[i] : '';
     const headerText = para.header?.trim();
     const portionPrefix = para.portionMarking ? `(${para.portionMarking}) ` : '';
-    // 12pt for level 0 paragraphs, 6pt for sub-paragraphs
-    const spacing = para.level === 0 ? '\\vspace{12pt}' : '\\vspace{6pt}';
+    // One blank line before every paragraph, at every level. ¶13 draws no
+    // distinction — "each paragraph OR SUBPARAGRAPH begins on the second line
+    // below the previous paragraph or subparagraph" — and Figure 7-8 prints a
+    // hard return between every pair, including (1)/(2). Subparagraphs used to
+    // get 6pt, half a line, which is what a reviewer in the field marked up.
+    const spacing = '\\vspace{12pt}';
 
     let paraText = '';
 
