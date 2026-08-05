@@ -5,6 +5,24 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.123] — 2026-08-05
+
+### Fixed
+
+- **An acronym in a paragraph heading keeps its capitals.** Headings were
+  lowercased after each word's first letter, so "TCCOR" printed as "Tccor",
+  "1st MarDiv" as "1st Mardiv" and "MedEvac" as "Medevac". MCO 5216.20B Ch 13
+  ¶5b keeps an acronym in capitals, and SECNAV M-5216.5 Ch 7 ¶13d asks only
+  that key words be capitalized. This covers an acronym that happens to spell
+  a small word, so "AT" and "SO" no longer come out as "at" and "so" either.
+  Ordinary headings are still Title Cased. Applies to the PDF and the Word
+  export.
+- **The Word export no longer deletes punctuation from a heading.** It stripped
+  every bracket, comma, colon and slash, so "Roles, Duties, and Limits" lost
+  its commas and "Commander/Commanding Officer" arrived welded together, while
+  the PDF kept both. Only a period the author typed at the end is dropped, the
+  same as the PDF does.
+
 ## [1.2.122] — 2026-08-05
 
 ### Fixed

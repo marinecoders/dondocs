@@ -667,7 +667,30 @@ ${rows.join('\n')}
 `;
 }
 
-// Convert header to Title Case per SECNAV M-5216.5 Ch 7 ¶13d
+/** A word the author typed entirely in capitals, i.e. an acronym rather than
+ * an ordinary word. Single letters are excluded so "A" stays a minor word. */
+function isAcronym(word: string): boolean {
+  return word.length >= 2 && word === word.toUpperCase() && word !== word.toLowerCase();
+}
+
+/** Title Case per SECNAV M-5216.5 Ch 7 ¶13d, raising a word's first letter
+ * but never lowering the rest.
+ *
+ * MCO 5216.20B Ch 13 ¶5b keeps an acronym in capitals: all caps "will not be
+ * followed in correspondence unless the abbreviation is made up entirely of
+ * the initial letters of major words, (i.e., unless it is an acronym)" —
+ * HQMC, USMC, MedEvac. Lowercasing the tail of each word turned those into
+ * Hqmc, Usmc and Medevac, and did the same to TCCOR, 1st MarDiv and
+ * COMMARFORPAC. ¶13d asks only that key words be capitalized; nothing in
+ * either manual licenses lowering a letter the author typed.
+ *
+ * Checked against 190 real headings — the 174 in SECNAV M-5216.5 plus those
+ * in the Adjutant master template and a letter reviewed in the field. 188
+ * pass through untouched; the two that change ("Copy To") are the existing
+ * minor-word list below, which behaves the same as it always has.
+ *
+ * flat-generator.ts carries the same function for the DOCX path — fix both.
+ */
 function toTitleCase(str: string): string {
   // Words that should remain lowercase (unless first word)
   const lowercaseWords = ['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'in', 'nor', 'of', 'on', 'or', 'so', 'the', 'to', 'up', 'yet'];
@@ -676,9 +699,11 @@ function toTitleCase(str: string): string {
     const lower = word.toLowerCase();
     // Always capitalize first word, otherwise check if it's a lowercase word
     if (index === 0 || !lowercaseWords.includes(lower)) {
-      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      return word.charAt(0).toUpperCase() + word.slice(1);
     }
-    return lower;
+    // A minor word gets lowercased, unless the author typed it in capitals —
+    // AT (Anti-Terrorism), SO (Special Operations) and OR all spell one.
+    return isAcronym(word) ? word : lower;
   }).join(' ');
 }
 

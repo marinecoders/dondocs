@@ -159,10 +159,16 @@ function capitalizeWord(word: string | undefined): string {
   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
 
-/** Strip punctuation from paragraph headers per SECNAV formatting rules.
- * Dashes (-, –, —) are preserved; all other punctuation is removed. */
+/** Drop a period the author typed at the end of a heading; the generator
+ * supplies its own when body text follows.
+ *
+ * This used to delete every ( ) , . ; : ! ? ' " / \ in the heading, citing a
+ * SECNAV rule that does not exist — Ch 7 ¶13d is the only heading rule and it
+ * covers the underline and the capitalization, nothing else. The PDF path
+ * never stripped any of it, so "Roles, Duties, and Limits" lost its commas in
+ * Word only, and "Commander/Commanding Officer" came out welded together. */
 function stripHeaderPunctuation(text: string): string {
-  return text.replace(/[(),.;:!?'"/\\]/g, '').replace(/\s+/g, ' ').trim();
+  return text.replace(/\.$/, '').replace(/\s+/g, ' ').trim();
 }
 
 /** Underline entire header text using ulem's \uline for proper positioning. */
@@ -170,14 +176,25 @@ function underlineWords(text: string): string {
   return `\\uline{${text}}`;
 }
 
+/** A word the author typed entirely in capitals, i.e. an acronym rather than
+ * an ordinary word. Single letters are excluded so "A" stays a minor word. */
+function isAcronym(word: string): boolean {
+  return word.length >= 2 && word === word.toUpperCase() && word !== word.toLowerCase();
+}
+
+/** Title Case that raises a word's first letter but never lowers the rest.
+ * MCO 5216.20B Ch 13 ¶5b keeps acronyms in capitals; see the fuller note on
+ * the twin of this function in generator.ts, which serves the PDF path. */
 function toTitleCase(str: string): string {
   const lowercaseWords = ['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'in', 'nor', 'of', 'on', 'or', 'so', 'the', 'to', 'up', 'yet'];
   return str.split(' ').map((word, index) => {
     const lower = word.toLowerCase();
     if (index === 0 || !lowercaseWords.includes(lower)) {
-      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      return word.charAt(0).toUpperCase() + word.slice(1);
     }
-    return lower;
+    // A minor word gets lowercased, unless the author typed it in capitals —
+    // AT (Anti-Terrorism), SO (Special Operations) and OR all spell one.
+    return isAcronym(word) ? word : lower;
   }).join(' ');
 }
 
