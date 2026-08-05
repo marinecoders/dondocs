@@ -453,6 +453,22 @@ local function handle_raw_inline(el)
     return pandoc.List({})
   end
 
+  -- \dondocshangindent{Xin} → hanging indent (w:ind w:left + w:hanging)
+  -- Third marker in the same family as \dondocsindent and
+  -- \dondocsfirstindent, with its own character (U+2007 FIGURE SPACE) so
+  -- step 6a3 in pandoc-converter.ts can tell the three apart. Used by Ref:
+  -- and Encl: entries, whose runover lines belong under the entry text.
+  local gin = text:match("^\\dondocshangindent%{([%d%.]+)in%}$")
+  if gin then
+    local inches = tonumber(gin)
+    if inches and inches > 0 then
+      local count = math.floor(inches * 6 + 0.5)
+      local figStr = string.rep("\u{2007}", count)
+      return pandoc.Str(figStr)
+    end
+    return pandoc.List({})
+  end
+
   -- \rule{Xin}{Xpt} → inline horizontal line (approximated with underscores)
   -- Used for MOA/MOU overscored signatures. The block-level \rule{\textwidth}
   -- variant is handled in handle_raw_block; this handles fixed-width rules inline.

@@ -5,6 +5,17 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.121] — 2026-08-04
+
+### Fixed
+
+- **A long reference or enclosure now wraps under its own text.** Titles too
+  long for one line used to continue at the "(a)" column — the column that
+  starts a *new* entry, so a continuation read as one. SECNAV M-5216.5 Ch 7
+  ¶10c lines the second line up "under the first word after the heading", and
+  Figure 7-1 shows both lists that way. Applies to the reference list and the
+  enclosure list, in the PDF and the Word export.
+
 ## [1.2.120] — 2026-08-04
 
 ### Fixed

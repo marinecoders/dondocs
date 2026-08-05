@@ -502,6 +502,25 @@ ${trimLastRow(rows)}
 `;
 }
 
+/**
+ * Marks a Ref:/Encl: entry for a hanging indent, so a title too long for one
+ * line wraps under its own text instead of under the "(a)" designator.
+ *
+ * Ch 7 ¶10c: "line the second line under the first word after the heading."
+ * Figure 7-1 measures it out, and its Encl: block shows the designator column
+ * is where a NEW entry starts — precisely where a runover must not.
+ *
+ * 0.28in is what the PDF measures out to — it derives the hang per entry with
+ * \settowidth on the designator plus its two spaces, which lands at 20pt.
+ *
+ * Word will not get exactly that. The Lua filter carries the distance as a run
+ * of marker characters at six per inch, so the value quantizes: everything from
+ * roughly 0.25in to 0.41in becomes two markers, i.e. 480 twips (0.333in). That
+ * is the closest representable step to the PDF's 0.278in, and it is a shared
+ * limitation of all three indent macros rather than anything specific here.
+ */
+const ENTRY_HANG = '\\dondocshangindent{0.28in}';
+
 /** References using tabular for proper hanging-indent alignment.
  * Colon spacing per SECNAV Ch 7 ¶10c: Ref=4sp */
 function buildReferences(references: Reference[]): string {
@@ -511,9 +530,9 @@ function buildReferences(references: Reference[]): string {
   for (let i = 0; i < references.length; i++) {
     const ref = references[i];
     if (i === 0) {
-      rows.push(`Ref:\\hspace{4\\fontdimen2\\font} & (${ref.letter})~~${escapeTabular(ref.title)} \\\\`);
+      rows.push(`Ref:\\hspace{4\\fontdimen2\\font} & ${ENTRY_HANG}(${ref.letter})~~${escapeTabular(ref.title)} \\\\`);
     } else {
-      rows.push(` & (${ref.letter})~~${escapeTabular(ref.title)} \\\\`);
+      rows.push(` & ${ENTRY_HANG}(${ref.letter})~~${escapeTabular(ref.title)} \\\\`);
     }
   }
 
@@ -539,9 +558,9 @@ function buildEnclosures(enclosures: Enclosure[], startNumber = 1): string {
     // numbering (Ch 9 ¶4); it is 1 for everything that opens its own sequence.
     const n = startNumber + i;
     if (i === 0) {
-      rows.push(`Encl:\\hspace{3\\fontdimen2\\font} & (${n})~~${escapeTabular(encl.title)} \\\\`);
+      rows.push(`Encl:\\hspace{3\\fontdimen2\\font} & ${ENTRY_HANG}(${n})~~${escapeTabular(encl.title)} \\\\`);
     } else {
-      rows.push(` & (${n})~~${escapeTabular(encl.title)} \\\\`);
+      rows.push(` & ${ENTRY_HANG}(${n})~~${escapeTabular(encl.title)} \\\\`);
     }
   }
 
