@@ -24,6 +24,10 @@ export const HEADING_CASES: { typed: string; rendered: string }[] = [
   { typed: 'Conditions-Based Securing Matrix', rendered: 'Conditions-Based Securing Matrix' },
   // Commas survive the Word export too; they used to be deleted there only.
   { typed: 'Roles, Duties, and Limits', rendered: 'Roles, Duties, and Limits' },
+  // An acronym that spells a minor word ("at", "so") is still an acronym.
+  { typed: 'Force Protection and AT Measures', rendered: 'Force Protection and AT Measures' },
+  { typed: 'Coordination With SO Units', rendered: 'Coordination With SO Units' },
   // Ordinary prose still gets Title Cased, minor words still stay down.
   { typed: 'scope of this policy', rendered: 'Scope of This Policy' },
+  { typed: 'rules for a unit', rendered: 'Rules for a Unit' },
 ];
