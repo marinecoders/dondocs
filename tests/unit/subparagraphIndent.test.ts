@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { subparagraphIndentIn, ancestorLabelsPerParagraph, labelWidthMilliEm } from '@/services/latex/subparagraphIndent';
+import { subparagraphIndentIn, ancestorLabelsPerParagraph, labelWidthMilliEm, visibleLabel } from '@/services/latex/subparagraphIndent';
 
 const pt = (inches: number) => inches * 72;
 
@@ -43,6 +43,18 @@ describe('subparagraph indent', () => {
     // label and threw.
     expect(ancestorLabelsPerParagraph(['a.'], [1])).toEqual([[]]);
     expect(subparagraphIndentIn([], 'times', 12)).toBe(0);
+  });
+
+  it('measures the label, not the markup wrapped around it', () => {
+    // The DOCX path emits \\mbox{(1)} and \\mbox{\\uline{a.}}. Counting the
+    // backslashes and braces made the indent four times too wide, and no
+    // integration test caught it because they only assert that each level is
+    // deeper than the last.
+    expect(visibleLabel('\\mbox{1.}')).toBe('1.');
+    expect(visibleLabel('\\mbox{\\uline{a.}}')).toBe('a.');
+    expect(labelWidthMilliEm('\\mbox{1.}', 'times')).toBe(labelWidthMilliEm('1.', 'times'));
+    expect(subparagraphIndentIn(['\\mbox{1.}'], 'times', 12))
+      .toBeCloseTo(subparagraphIndentIn(['1.'], 'times', 12), 10);
   });
 
   it('picks up the ancestor actually used, not a nominal one', () => {

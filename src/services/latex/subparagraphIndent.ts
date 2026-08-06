@@ -51,10 +51,22 @@ function charWidth(ch: string, font: LabelFont): number {
   return TIMES[ch] ?? TIMES['0'];
 }
 
+/**
+ * The characters a label actually prints.
+ *
+ * The DOCX path wraps its labels for the renderer — `\mbox{(1)}`, and
+ * `\mbox{\uline{a.}}` at the levels Figure 7-8 underlines — so the raw string
+ * carries markup that sets no type. Measuring it counted the backslashes and
+ * braces and came out four times too wide.
+ */
+export function visibleLabel(label: string): string {
+  return label.replace(/\\[a-zA-Z]+\s*/g, '').replace(/[{}]/g, '');
+}
+
 /** Width of a whole label ("1.", "(12)", "a.") in 1/1000 em. */
 export function labelWidthMilliEm(label: string, font: LabelFont): number {
   let total = 0;
-  for (const ch of label) total += charWidth(ch, font);
+  for (const ch of visibleLabel(label)) total += charWidth(ch, font);
   return total;
 }
 

@@ -595,7 +595,8 @@ ${trimLastRow(rows)}
 /** Body paragraphs using \mbox{} to protect labels from pandoc list detection.
  *
  * Indentation per SECNAV M-5216.5 Ch 7 ¶13:
- *   Standard: level 0 = flush left; subparagraphs indent 0.25in per level
+ *   Standard: level 0 = flush left; each subparagraph's label aligns under
+ *     its parent's text, so the step is the parent label's width (Figure 7-8)
  *   Business: level 0 = 0.5in first-line indent; subparagraphs += 0.5in per level
  */
 /** The body face and size a document actually renders in, matching the
