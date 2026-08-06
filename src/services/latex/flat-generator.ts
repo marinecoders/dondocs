@@ -19,6 +19,7 @@ import { DOC_TYPE_CONFIG } from '@/types/document';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
 import { enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
 import { paragraphMark, delimitParagraphMark, isUnderlinedLevel } from './paragraphLabel';
+import { subparagraphIndentIn, ancestorLabelsPerParagraph, type LabelFont } from './subparagraphIndent';
 import {
   resolveAppendedEndorsement,
   appendedEndorsementSigner,
@@ -594,13 +595,26 @@ ${trimLastRow(rows)}
 /** Body paragraphs using \mbox{} to protect labels from pandoc list detection.
  *
  * Indentation per SECNAV M-5216.5 Ch 7 ¶13:
- *   Standard: level 0 = flush left; subparagraphs indent 0.25in per level
+ *   Standard: level 0 = flush left; each subparagraph's label aligns under
+ *     its parent's text, so the step is the parent label's width (Figure 7-8)
  *   Business: level 0 = 0.5in first-line indent; subparagraphs += 0.5in per level
  */
-function buildBody(paragraphs: Paragraph[], config: DocTypeConfig): string {
+/** The body face and size a document actually renders in, matching the
+ *  defaults buildPreamble applies. The subparagraph indent depends on both,
+ *  because it is measured from the width of the paragraph labels. */
+function bodyFont(data: Partial<DocumentData> | undefined): LabelFont {
+  return (data?.fontFamily || 'times') === 'courier' ? 'courier' : 'times';
+}
+
+function bodySizePt(data: Partial<DocumentData> | undefined): number {
+  return parseFloat(data?.fontSize || '12pt') || 12;
+}
+
+function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFont, fontSizePt: number): string {
   if (paragraphs.length === 0) return '';
 
   const labels = calculateLabels(paragraphs);
+  const ancestors = ancestorLabelsPerParagraph(labels, paragraphs.map((p) => p.level));
   const useNumbered = config.compliance.numberedParagraphs;
   // Push-then-join across paragraphs (the cross-paragraph accumulator is
   // the one that grows unbounded — within a single paragraph the
@@ -641,7 +655,11 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig): string {
     const isBusiness = config.uiMode === 'business';
     const indentIn = isBusiness
       ? (para.level + 1) * 0.5   // Business: 0.5in per level, starting at 0.5in
-      : para.level * 0.25;        // Standard: 0.25in per level (level 0 = flush left)
+      // Standard: align this subparagraph's label under its parent's text, per
+      // Figure 7-8 — the step is the parent's label plus its gap, not a
+      // constant. See subparagraphIndent.ts; generator.ts computes the same
+      // number for the PDF so the two exports agree.
+      : subparagraphIndentIn(ancestors[i], font, fontSizePt);
     // Standard correspondence indents the subparagraph's FIRST LINE only.
     // SECNAV M-5216.5 Ch 7 ¶13: "When using a subparagraph, the first line is
     // always indented the appropriate number of spaces depending on the level
@@ -1264,7 +1282,7 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
-  content += buildBody(store.paragraphs, config);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
   content += buildSignature(data, config);
   // Between the signature and Distribution/Copy to — Ch 9 Figure 9-1 puts the
   // "Copy to:" block last on the sheet, below the endorsement.
@@ -1315,7 +1333,7 @@ function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): strin
     content += `${config.subjectPrefix}${escapeFlat(subjectText)}\n\n`;
   }
 
-  content += buildBody(store.paragraphs, config);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
   content += buildBusinessSignature(data);
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
@@ -1344,7 +1362,7 @@ function buildMemoLayout(store: DocumentStore, config: DocTypeConfig): string {
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
-  content += buildBody(store.paragraphs, config);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
   if (config.hasDecisionBlock) content += buildDecisionBlock();
   content += buildSignature(data, config);
   content += buildDistribution(store.distributions);
@@ -1375,7 +1393,7 @@ Subj:\\hspace{3\\fontdimen2\\font} & ${maybeUnderline(escapeTabularWrapped(data.
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
-  content += buildBody(store.paragraphs, config);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
   content += buildDualSignature(data, 'moa');
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
@@ -1398,7 +1416,7 @@ function buildJointLayout(store: DocumentStore, config: DocTypeConfig): string {
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
-  content += buildBody(store.paragraphs, config);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
   content += buildDualSignature(data, 'joint');
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
@@ -1449,7 +1467,7 @@ ${trimLastRow(rows)}
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
-  content += buildBody(store.paragraphs, config);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
   content += buildDualSignature(data, 'joint_memo');
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
@@ -1504,7 +1522,7 @@ function buildStandardMemorandumLayout(store: DocumentStore, config: DocTypeConf
   }
 
   // Body paragraphs
-  content += buildBody(store.paragraphs, config);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
 
   // Signature block (executive style: right half, no close)
   content += buildSignature(data, config);
@@ -1553,7 +1571,7 @@ function buildActionMemorandumLayout(store: DocumentStore, config: DocTypeConfig
   }
 
   // Body paragraphs
-  content += buildBody(store.paragraphs, config);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
 
   // Coordination section
   if (data.coordination?.trim()) {
@@ -1609,7 +1627,7 @@ function buildInfoMemorandumLayout(store: DocumentStore, config: DocTypeConfig):
   }
 
   // Body paragraphs
-  content += buildBody(store.paragraphs, config);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
 
   // Coordination section
   if (data.coordination?.trim()) {

@@ -446,7 +446,11 @@ local function handle_raw_inline(el)
   if fin then
     local inches = tonumber(fin)
     if inches and inches > 0 then
-      local count = math.floor(inches * 6 + 0.5)
+      -- 72 per inch, i.e. one marker per point. The subparagraph indent is
+      -- derived from label width (Figure 7-8) and lands on values like 0.194in
+      -- that 6 per inch could not express. pandoc keeps a run this long in a
+      -- single Str, so the post-pass regex still sees one <w:t>.
+      local count = math.floor(inches * 72 + 0.5)
       local emStr = string.rep("\u{2003}", count)
       return pandoc.Str(emStr)
     end
