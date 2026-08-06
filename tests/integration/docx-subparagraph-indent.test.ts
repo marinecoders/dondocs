@@ -94,7 +94,10 @@ describe.skipIf(!pandocAvailable)('DOCX subparagraph indentation', () => {
 
   it('deepens the first-line indent with each level', async () => {
     const store = buildBaseline('naval_letter');
+    // A subparagraph aligns under its parent's text, so the fixture needs the
+    // parent: opening a document at level 1 leaves nothing to align to.
     store.paragraphs = [
+      { text: 'LVL0 zero.', level: 0 },
       { text: 'LVL1 one.', level: 1 },
       { text: 'LVL2 two.', level: 2 },
     ];

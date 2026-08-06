@@ -33,7 +33,7 @@ describe('applyIndentMarkers', () => {
 
   it('turns em-spaces into a first-line indent', () => {
     const out = applyIndentMarkers(para(EM.repeat(3)));
-    expect(out).toContain('<w:ind w:firstLine="720"/>');
+    expect(out).toContain('<w:ind w:firstLine="60"/>');
     expect(out).not.toContain(EM);
   });
 
@@ -50,7 +50,9 @@ describe('applyIndentMarkers', () => {
     const doc = para(NBSP.repeat(3), 'block') + para(EM.repeat(3), 'first') + para(FIG.repeat(3), 'hang');
     const out = applyIndentMarkers(doc);
     expect((out.match(/w:ind w:left="720"\/>/g) || []).length).toBe(1);
-    expect((out.match(/w:firstLine="720"/g) || []).length).toBe(1);
+    // Em-space markers run at 72 per inch, so three of them are 3pt, not half
+    // an inch — the other two kinds are still 6 per inch.
+    expect((out.match(/w:firstLine="60"/g) || []).length).toBe(1);
     expect((out.match(/w:hanging="720"/g) || []).length).toBe(1);
   });
 

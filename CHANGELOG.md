@@ -5,6 +5,21 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.124] — 2026-08-05
+
+### Fixed
+
+- **A subparagraph now lines up under the paragraph above it.** SECNAV
+  M-5216.5 Figure 7-8 says to "indent each new subdivision to align with the
+  first letter of the paragraph above", so the step is the width of the
+  parent's label, not a constant. We used a flat 0.25in, which at Courier 12pt
+  put the first level three character cells in where the figure puts it seven,
+  and drifted further with every level. Each label now starts within 0.1pt of
+  its parent's text, in both fonts and both exports.
+- **The PDF and the Word export print the same gap after a paragraph label.**
+  LaTeX collapsed the PDF's two spaces into one while Word emitted two, so the
+  same document came out differently spaced in each.
+
 ## [1.2.123] — 2026-08-05
 
 ### Fixed

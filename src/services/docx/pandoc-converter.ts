@@ -937,9 +937,11 @@ function applyLetterheadStyling(xml: string, colorHex: string): string {
  * conversion has no coverage at all.
  */
 export function applyIndentMarkers(xml: string): string {
-  const kinds = [
+  const kinds: { char: string; ind: (t: number) => string; per?: number }[] = [
     { char: '\u00A0', ind: (t: number) => `<w:ind w:left="${t}"/>` },
-    { char: '\u2003', ind: (t: number) => `<w:ind w:firstLine="${t}"/>` },
+    // 72 markers per inch — see the note in dondocs.lua. The other two kinds
+    // still run at 6, which is all their whole-inch values ever needed.
+    { char: '\u2003', ind: (t: number) => `<w:ind w:firstLine="${t}"/>`, per: 72 },
     { char: '\u2007', ind: (t: number) => `<w:ind w:left="${t}" w:hanging="${t}"/>` },
   ];
 
@@ -954,7 +956,7 @@ export function applyIndentMarkers(xml: string): string {
     // Back to front, so each splice leaves earlier indices valid.
     for (let i = hits.length - 1; i >= 0; i--) {
       const hit = hits[i];
-      const twips = Math.round((hit.runLen / 6) * 1440);
+      const twips = Math.round((hit.runLen / (kind.per ?? 6)) * 1440);
 
       const before = xml.substring(0, hit.tStart);
       const pStart = before.lastIndexOf('<w:p>');
