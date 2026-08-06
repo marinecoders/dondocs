@@ -932,49 +932,45 @@ ${trimLastRow(rows)}
 /** Copy-to list using address-style tabular (label | content).
  * The Lua filter detects "Copy to:" as an address label and applies
  * the correct label/content column proportions (11.5% / 88.5%). */
-function buildCopyTo(copyTos: CopyTo[]): string {
-  if (copyTos.length === 0) return '';
-
-  const rows: string[] = [];
-  for (let i = 0; i < copyTos.length; i++) {
-    if (i === 0) {
-      rows.push(`Copy to: & ${escapeTabular(copyTos[i].text)} \\\\`);
-    } else {
-      rows.push(` & ${escapeTabular(copyTos[i].text)} \\\\`);
-    }
-  }
-
+/** A label on its own line, then each entry on its own line at the left
+ *  margin. Used by both the "Copy to:" and "Distribution:" blocks, which
+ *  SECNAV Ch 7 15c formats identically ("Use this format for the
+ *  'Distribution:' lines as well"). */
+function marginBlock(label: string, entries: string[]): string {
+  const lines = entries.map((e) => `\\noindent ${escapeTabular(e)}\\par`).join('\n');
   return `\\vspace{12pt}
-\\noindent
-\\begin{tabular}{@{}l@{\\hspace{2\\fontdimen2\\font}}p{5.5in}@{}}
-${trimLastRow(rows)}
-\\end{tabular}
+\\noindent ${label}\\par
+${lines}
 
 `;
+}
+
+/** "Copy to:" on its own line with every addressee flush beneath it.
+ *
+ * SECNAV M-5216.5 Ch 7 15b puts "Copy to:" at the left margin, and 15c says
+ * the addressees are "listed in a single column at the left margin and single
+ * spaced below the 'Copy to:' line". The manual renders a Copy to block five
+ * times across Ch 7 and every one looks like that:
+ *
+ *     Copy to:
+ *     CNO (N1, N2, N3/5)
+ *     COMNAVPERSCOM (PERS 313C, PERS 49)
+ *
+ * This was a two-column tabular, which put the label in column one and every
+ * addressee in column two -- the first one beside the label instead of below
+ * it, and all of them 47pt in from the margin. */
+function buildCopyTo(copyTos: CopyTo[]): string {
+  if (copyTos.length === 0) return '';
+  return marginBlock('Copy to:', copyTos.map((c) => c.text));
 }
 
 /** Distribution list using address-style tabular (label | content).
  * Mirrors buildCopyTo but with "Distribution:" label for action addressees. */
 function buildDistribution(distributions: Distribution[]): string {
   if (distributions.length === 0) return '';
-
-  const rows: string[] = [];
-  for (let i = 0; i < distributions.length; i++) {
-    if (i === 0) {
-      rows.push(`Distribution: & ${escapeTabular(distributions[i].text)} \\\\`);
-    } else {
-      rows.push(` & ${escapeTabular(distributions[i].text)} \\\\`);
-    }
-  }
-
-  return `\\vspace{12pt}
-\\noindent
-\\begin{tabular}{@{}l@{\\hspace{2\\fontdimen2\\font}}p{5.5in}@{}}
-${trimLastRow(rows)}
-\\end{tabular}
-
-`;
+  return marginBlock('Distribution:', distributions.map((d) => d.text));
 }
+
 
 /** CUI marking block */
 function buildCUIBlock(data: Partial<DocumentData>): string {
