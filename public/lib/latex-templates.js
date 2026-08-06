@@ -1298,13 +1298,14 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\setHasDistribution}{\\global\\hasdistributiontrue}
 
 % Print distribution list
+% SECNAV M-5216.5 Ch 7 15c lists the addressees "in a single column at the
+% left margin and single spaced below" the label line, and the manual renders
+% it that way five times in Ch 7. A tabular put the first addressee beside the
+% label and every one of them 47pt in from the margin.
 \\newcommand{\\printDistribution}{%
     \\ifhasdistribution
         \\vspace{12pt}
-        \\noindent
-        \\begin{tabular}{@{}l@{}p{5.85in}@{}}
-            \\DistributionRows
-        \\end{tabular}%
+        \\DistributionRows
     \\fi
 }
 
@@ -1320,13 +1321,14 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\setHasCopyTo}{\\global\\hascopytotrue}
 
 % Print copy-to list
+% SECNAV M-5216.5 Ch 7 15c lists the addressees "in a single column at the
+% left margin and single spaced below" the label line, and the manual renders
+% it that way five times in Ch 7. A tabular put the first addressee beside the
+% label and every one of them 47pt in from the margin.
 \\newcommand{\\printCopyTo}{%
     \\ifhascopyto
         \\vspace{12pt}
-        \\noindent
-        \\begin{tabular}{@{}l@{}p{5.85in}@{}}
-            \\CopyToRows
-        \\end{tabular}%
+        \\CopyToRows
     \\fi
 }
 

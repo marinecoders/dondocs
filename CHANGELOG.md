@@ -5,6 +5,17 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.125] — 2026-08-06
+
+### Fixed
+
+- **"Copy to:" and "Distribution:" addressees now sit at the left margin.**
+  SECNAV M-5216.5 Ch 7 ¶15c lists them "in a single column at the left margin
+  and single spaced below" the label line, and the manual renders a Copy to
+  block that way five times in Ch 7. Both exports built a two-column table, so
+  the first addressee sat beside the label instead of below it, and every one
+  of them was 47pt in from the margin. Applies to the PDF and the Word export.
+
 ## [1.2.124] — 2026-08-05
 
 ### Fixed
