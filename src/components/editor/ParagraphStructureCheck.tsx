@@ -27,8 +27,9 @@ export function ParagraphStructureCheck() {
           <ListTree className="mt-0.5 h-4 w-4 shrink-0 text-warning" aria-hidden />
           <div className="space-y-1 text-sm">
             <p className="font-medium">Check paragraph structure</p>
-            {findings.map((f) => (
-              <p key={f.message} className="text-muted-foreground">
+            {findings.map((f, i) => (
+              <p key={i} className="text-muted-foreground">
+                <span className="sr-only">Warning: </span>
                 {f.message}
               </p>
             ))}

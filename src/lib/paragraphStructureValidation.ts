@@ -23,8 +23,14 @@ import { outlineParagraphs } from '@/services/latex/paragraphLabel';
  * Pure and leaf, so every rule is exhaustively unit-testable.
  */
 
+/**
+ * No severity field: both rules are advisory by nature — a lone subparagraph
+ * and an inconsistent heading are things to fix, not things that make the
+ * document unshippable. `ClassificationFinding` carries one because an
+ * under-marked paragraph genuinely outranks an over-marked one; here there is
+ * nothing for a caller to branch on.
+ */
 export interface ParagraphStructureFinding {
-  severity: 'error' | 'warning';
   message: string;
 }
 
@@ -75,7 +81,6 @@ export function validateParagraphStructure(
       const only = outline[indices[0]].citation;
       const parent = parentIndex === null ? null : outline[parentIndex].citation;
       findings.push({
-        severity: 'warning',
         message: parent
           ? `Paragraph ${only} is the only subparagraph of ${parent}. Ch 7 ¶13 requires a `
             + `second one — add another, or fold ${only} back into ${parent}.`
@@ -92,7 +97,6 @@ export function validateParagraphStructure(
     const bare = written.filter((i) => !hasHeading(paragraphs[i]));
     if (headed.length > 0 && bare.length > 0) {
       findings.push({
-        severity: 'warning',
         message:
           `${headed.length === 1 ? 'Paragraph' : 'Paragraphs'} `
           + `${list(headed.map((i) => outline[i].citation))} `
