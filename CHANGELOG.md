@@ -5,6 +5,19 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.126] — 2026-08-06
+
+### Added
+
+- **The editor flags two paragraph-structure rules it used to let through.**
+  SECNAV M-5216.5 Ch 7 ¶13 requires a second subparagraph wherever there is a
+  first ("if there is a paragraph 1a, there must be a paragraph 1b"), and ¶13d
+  asks for headings to be consistent across siblings. Neither was checked, so a
+  letter with a lone 1a, or with a heading on 1a but not 1b, exported without
+  comment. The check reads the paragraph model rather than either export, so it
+  covers the PDF and the Word document alike, and it sits under the paragraph
+  editor as an advisory notice — it never blocks an export.
+
 ## [1.2.125] — 2026-08-06
 
 ### Fixed

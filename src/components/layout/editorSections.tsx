@@ -13,6 +13,7 @@ import { ReferencesManager } from '@/components/editor/ReferencesManager';
 import { EnclosuresManager } from '@/components/editor/EnclosuresManager';
 import { BlockParagraphsEditor } from '@/components/editor/BlockParagraphsEditor';
 import { AcronymCheck } from '@/components/editor/AcronymCheck';
+import { ParagraphStructureCheck } from '@/components/editor/ParagraphStructureCheck';
 import { CopyToManager } from '@/components/editor/CopyToManager';
 import { DistributionManager } from '@/components/editor/DistributionManager';
 import { EndorsementBasicLetterSection } from '@/components/editor/EndorsementBasicLetterSection';
@@ -335,6 +336,7 @@ export function renderEditorSection(id: string, config: DocTypeConfig): ReactNod
       return (
         <div className="space-y-3">
           <BlockParagraphsEditor />
+          <ParagraphStructureCheck />
           <AcronymCheck />
         </div>
       );
