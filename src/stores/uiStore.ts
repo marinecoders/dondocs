@@ -50,6 +50,7 @@ interface UIState {
   findReplaceOpen: boolean;
   templateLoaderOpen: boolean;
   piiWarningOpen: boolean;
+  structureWarningOpen: boolean;
   documentGuideOpen: boolean;
   /** The Document Guide's active tab, in the store so the activation checklist
    *  can deep-link to a tab before opening it. */
@@ -77,6 +78,7 @@ interface UIState {
   setFindReplaceOpen: (open: boolean) => void;
   setTemplateLoaderOpen: (open: boolean) => void;
   setPiiWarningOpen: (open: boolean) => void;
+  setStructureWarningOpen: (open: boolean) => void;
   setDocumentGuideOpen: (open: boolean) => void;
   setDocumentGuideTab: (tab: UIState['documentGuideTab']) => void;
 
@@ -171,6 +173,7 @@ export const useUIStore = create<UIState>()(
       findReplaceOpen: false,
       templateLoaderOpen: false,
       piiWarningOpen: false,
+      structureWarningOpen: false,
       documentGuideOpen: false,
       documentGuideTab: 'browse',
       shareModal: null,
@@ -190,6 +193,7 @@ export const useUIStore = create<UIState>()(
       setFindReplaceOpen: (open) => set({ findReplaceOpen: open }),
       setTemplateLoaderOpen: (open) => set({ templateLoaderOpen: open }),
       setPiiWarningOpen: (open) => set({ piiWarningOpen: open }),
+      setStructureWarningOpen: (open) => set({ structureWarningOpen: open }),
       setDocumentGuideOpen: (open) => set({ documentGuideOpen: open }),
       setDocumentGuideTab: (tab) => set({ documentGuideTab: tab }),
 
@@ -247,7 +251,10 @@ export const useUIStore = create<UIState>()(
         historyDocId: null,
         shareModal: null,
         // piiWarningOpen is not closed by Escape, to avoid dismissing a security
-        // warning by accident.
+        // warning by accident. structureWarningOpen is left out for a different
+        // reason: the export it interrupted is parked in a ref, and closing the
+        // flag without running the modal's own cancel would strand it. Its
+        // Dialog handles Escape itself, which does route through cancel.
       }),
     }),
     {

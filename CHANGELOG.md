@@ -5,6 +5,19 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.127] — 2026-08-06
+
+### Added
+
+- **Downloading a letter with paragraph-structure findings asks first.** The
+  Ch 7 ¶13/¶13d findings already sat under the paragraph editor; they now also
+  appear when you hit Download, which is the moment that reliably has your
+  attention. It is a confirmation, not a gate — "Download anyway" is right
+  there, because a lone subparagraph is what a work-in-progress looks like and
+  drafts get circulated for comment all the time. Runs ahead of the PII check
+  so the privacy warning stays the last thing seen, and covers both the PDF and
+  the Word export.
+
 ## [1.2.126] — 2026-08-06
 
 ### Added
