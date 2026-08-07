@@ -30,6 +30,11 @@ import { TourOverlay } from '@/components/tour/TourOverlay';
 import { ActivationChecklist } from '@/components/onboarding/ActivationChecklist';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { PIIWarningModal } from '@/components/modals/PIIWarningModal';
+import { ParagraphStructureModal } from '@/components/modals/ParagraphStructureModal';
+import {
+  validateParagraphStructure,
+  type ParagraphStructureFinding,
+} from '@/lib/paragraphStructureValidation';
 import { LogViewerModal } from '@/components/modals/LogViewerModal';
 import { EnclosureErrorModal } from '@/components/modals/EnclosureErrorModal';
 import { ShareModal } from '@/components/modals/ShareModal';
@@ -330,6 +335,12 @@ function App() {
 
   // PII detection state
   const [piiDetectionResult, setPiiDetectionResult] = useState<PIIDetectionResult | null>(null);
+  // Ch 7 ¶13/¶13d findings parked for the pre-export review, plus which export
+  // asked for it. `structureAckRef` is a one-shot token: "Download anyway" sets
+  // it, the re-entered handler consumes it, so the next export is checked again.
+  const [structureFindings, setStructureFindings] = useState<ParagraphStructureFinding[] | null>(null);
+  const pendingStructureExportRef = useRef<'pdf' | 'docx' | null>(null);
+  const structureAckRef = useRef(false);
   const pendingDownloadRef = useRef<GeneratedFiles | null>(null);
 
   // Enclosure error state
@@ -1368,6 +1379,21 @@ function App() {
 
     console.log('Manual download click');
 
+    // Ch 7 ¶13/¶13d review, ahead of the PII check so the privacy warning stays
+    // the last thing seen before the file is written. Never blocks — the modal's
+    // "Download anyway" re-enters here with the ack token set.
+    if (structureAckRef.current) {
+      structureAckRef.current = false;
+    } else {
+      const structure = validateParagraphStructure(useDocumentStore.getState().paragraphs);
+      if (structure.length > 0) {
+        pendingStructureExportRef.current = 'pdf';
+        setStructureFindings(structure);
+        useUIStore.getState().setStructureWarningOpen(true);
+        return;
+      }
+    }
+
     // Check for PII before downloading
     const currentStore = useDocumentStore.getState();
     const piiResult = detectPII(currentStore);
@@ -1474,6 +1500,21 @@ ${texFiles['body.tex'] || '% No body content'}
 
   const handleDownloadDocx = useCallback(async () => {
     useUIStore.getState().setValidationVisible(true);
+    // Ch 7 ¶13/¶13d review, ahead of the PII check so the privacy warning stays
+    // the last thing seen before the file is written. Never blocks — the modal's
+    // "Download anyway" re-enters here with the ack token set.
+    if (structureAckRef.current) {
+      structureAckRef.current = false;
+    } else {
+      const structure = validateParagraphStructure(useDocumentStore.getState().paragraphs);
+      if (structure.length > 0) {
+        pendingStructureExportRef.current = 'docx';
+        setStructureFindings(structure);
+        useUIStore.getState().setStructureWarningOpen(true);
+        return;
+      }
+    }
+
     // Check for PII before downloading
     const piiResult = detectPII(useDocumentStore.getState());
     if (piiResult.found) {
@@ -1499,6 +1540,24 @@ ${texFiles['body.tex'] || '% No body content'}
       });
     }
   }, [executeDocxDownload, setPiiWarningOpen, addLogDirect]);
+
+  // Pre-export structure review outcomes. Defined after both download handlers
+  // because "Download anyway" re-enters whichever one was interrupted.
+  const handleProceedWithStructure = useCallback(() => {
+    const kind = pendingStructureExportRef.current;
+    pendingStructureExportRef.current = null;
+    setStructureFindings(null);
+    structureAckRef.current = true;
+    if (kind === 'pdf') handleDownloadPdf();
+    else if (kind === 'docx') void handleDownloadDocx();
+  }, [handleDownloadPdf, handleDownloadDocx]);
+
+  const handleCancelStructureReview = useCallback(() => {
+    // Drop the parked export; the drafter went back to the paragraphs. The ack
+    // token stays false so the next attempt is checked again.
+    pendingStructureExportRef.current = null;
+    setStructureFindings(null);
+  }, []);
 
   /**
    * Re-run the last failed download. The error phase carries the target
@@ -2009,6 +2068,11 @@ ${texFiles['body.tex'] || '% No body content'}
         detectionResult={piiDetectionResult}
         onCancel={handleCancelPIIDownload}
         onProceed={handleProceedWithPII}
+      />
+      <ParagraphStructureModal
+        findings={structureFindings}
+        onCancel={handleCancelStructureReview}
+        onProceed={handleProceedWithStructure}
       />
       <LogViewerModal />
       <EnclosureErrorModal
