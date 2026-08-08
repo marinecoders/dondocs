@@ -457,6 +457,13 @@ export function processBodyText(text: string): string {
   // the fill-in line the user typed instead of killing the compile.
   //
   // Compile-level proof: tests/integration/latex-compile-underscore.test.ts
+  //
+  // codeql[js/incomplete-sanitization]: false positive — this introduces a `\`
+  // deliberately, and it cannot be paired with a user-supplied one: the sentinel
+  // pass far above already turned every input backslash into
+  // `\textbackslash{}`, so the only backslashes present at this point are ones
+  // this function emitted. Locked by the neutralisation test in
+  // tests/unit/escaper-underscore.test.ts.
   result = result.replace(/_/g, '\\_');
 
   // Restore placeholders with highlighted LaTeX rendering
