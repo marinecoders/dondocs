@@ -123,6 +123,8 @@ async function handleRequest(
 
   try {
     const file = await renderToFile(body, defaults, root);
+    // stdout is fine here: this module is reached only from server.ts. Do not
+    // import it into an MCP entry, where stdout is the protocol channel.
     console.log(`  ${file.format}  ${file.bytes} bytes  ->  ${file.path}`);
     return json(200, { ok: true, v: CONTRACT, files: [file] });
   } catch (err) {

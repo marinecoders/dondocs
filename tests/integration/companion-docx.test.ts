@@ -9,8 +9,12 @@
  */
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
 import { mkdtemp, readdir, writeFile, chmod, rm } from 'node:fs/promises';
+import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+
+/** Sync so it can gate `describe`, which is decided at collection time. */
+const hasPandoc = spawnSync('pandoc', ['--version']).status === 0;
 
 const LETTER = {
   docType: 'naval_letter',
@@ -23,10 +27,11 @@ async function scratchDirs(): Promise<string[]> {
   return (await readdir(tmpdir())).filter((n) => n.startsWith('dondocs-companion-'));
 }
 
-describe('scratch directories', () => {
+// Needs a working pandoc. Skipped rather than returned early: a test that
+// returns reports PASS while proving nothing, which is worse than a red one.
+describe.skipIf(!hasPandoc)('scratch directories', () => {
   it('leaves none behind after a successful conversion', async () => {
-    const { renderDocx, systemPandocVersion } = await import('../../companion/renderDocx');
-    if (!(await systemPandocVersion())) { return; } // pandoc absent; nothing to prove
+    const { renderDocx } = await import('../../companion/renderDocx');
 
     const before = await scratchDirs();
     const bytes = await renderDocx(LETTER as never);
@@ -81,9 +86,11 @@ describe('a wedged pandoc', () => {
   beforeAll(async () => {
     // A pandoc that never exits. Without a timeout the promise never settles
     // and the caller waits forever — an agent with no timeout of its own hangs.
+    // `read` is a shell builtin blocking on a stdin pipe nobody writes to, so
+    // the fixture needs nothing on PATH; `sleep 300` would depend on coreutils.
     fakeBin = await mkdtemp(join(tmpdir(), 'fake-pandoc-'));
     const script = join(fakeBin, 'pandoc');
-    await writeFile(script, '#!/bin/sh\nsleep 300\n');
+    await writeFile(script, '#!/bin/sh\nread line\n');
     await chmod(script, 0o755);
     originalPath = process.env.PATH;
     process.env.PATH = `${fakeBin}:${process.env.PATH}`;
