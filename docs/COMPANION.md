@@ -76,7 +76,7 @@ A unit is a property of the box, not of the request. Put yours in
     "department": "usmc",
     "seal": "dow"
   },
-  "signature": { "first": "R", "last": "CHIOFALO", "rank": "Major", "title": "Officer in Charge" },
+  "signature": { "first": "A", "middle": "B", "last": "SMITH", "rank": "Major", "title": "Officer in Charge" },
   "ssic": "5216",
   "originatorCode": "S-6"
 }

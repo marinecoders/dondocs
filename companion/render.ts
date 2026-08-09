@@ -5,10 +5,7 @@
  * list, no prefix stripping. All of that is `prepareEngine` / `compileDocument`,
  * shared with the app. What is here is the host-specific part — start the
  * engine, read the assets off disk.
- *
- *   npx vite-node companion/render.ts -- out.pdf
  */
-import { writeFile } from 'node:fs/promises';
 import { generateAllLatexFiles } from '@/services/latex/generator';
 import { prepareEngine, compileDocument } from '@/services/latex/renderDocument';
 import { createNodeEngine, loadAssets } from './nodeEngine';
@@ -25,20 +22,4 @@ export async function renderPdf(input: LetterInput, defaults: CompanionDefaults 
   } finally {
     await engine.dispose();
   }
-}
-
-// Direct invocation renders a sample so the path can be exercised by hand.
-// vite-node rewrites argv, so key off an explicit flag rather than argv[1].
-if (process.env.DONDOCS_RENDER_SAMPLE) {
-  const out = process.env.DONDOCS_RENDER_SAMPLE;
-  const pdf = await renderPdf({
-    docType: 'naval_letter',
-    subject: 'RENDERED THROUGH THE SHARED CORE',
-    paragraphs: [
-      { text: 'This letter was produced headlessly, with no browser involved.', level: 0 },
-      { text: 'The compile sequence came from renderDocument, the same one the app uses.', level: 1 },
-    ],
-  });
-  await writeFile(out, pdf);
-  console.log(`  wrote ${out} (${pdf.byteLength} bytes)`);
 }
