@@ -15,6 +15,7 @@
  */
 
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, DocTypeConfig } from '@/types/document';
+import { composeSenderSymbol } from './senderSymbol';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
 import { enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
@@ -388,7 +389,11 @@ function buildLetterhead(data: Partial<DocumentData>): string {
 function buildSSICBlock(data: Partial<DocumentData>, alignRight = true): string {
   const items: string[] = [];
   if (data.ssic) items.push(escapeTabular(data.ssic));
-  if (data.serial) items.push(escapeTabular(data.serial));
+  // The originator's code shares this line with the serial, so compose the two
+  // the way the PDF path does — otherwise Word and PDF disagree about the
+  // sender's symbols (SECNAV M-5216.5 Ch 7 para 2a(2)).
+  const senderSymbol = composeSenderSymbol(data.officeCode, data.serial);
+  if (senderSymbol) items.push(escapeTabular(senderSymbol));
   if (data.date) items.push(escapeTabular(data.date));
 
   if (items.length === 0) return '';

@@ -25,6 +25,18 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
   Nothing in the app changes: the companion is developer tooling, its dependencies
   are dev-only, and none of it ships in the PWA bundle.
 
+## [1.2.130] — 2026-08-09
+
+- **The originator's code now appears on the letter.** The office code was
+  collected in the editor — with a lookup modal — stored, and then never printed:
+  no generator code and no template referenced it. It renders in the sender's
+  symbols block now, where SECNAV M-5216.5 Ch 7 ¶2a(2) puts it: fused with the
+  serial as `Ser Code 13/271`, or alone under the SSIC when there is no serial.
+- **A serial number is prefixed with `Ser`.** A bare `001` used to sit under the
+  SSIC. The manual's examples are `Ser Code 13/271` and `Ser N00J/S20`; `Code`
+  precedes an all-numeric code and is dropped when the code starts with a letter.
+  A serial already typed as `Ser 12/001` is left as the author wrote it.
+
 ## [1.2.128] — 2026-08-08
 
 ### Fixed

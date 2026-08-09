@@ -66,7 +66,9 @@ async function rendered(text: string): Promise<string> {
   return stdout;
 }
 
-describe.skipIf(!toolchain)(`lone underscore in body text ${describeToolchainRequirement()}`, () => {
+describeToolchainRequirement('lone underscore in body text');
+
+describe.skipIf(!toolchain)('lone underscore in body text', () => {
   it('compiles a snake_case identifier', async () => {
     const text = await rendered('Send the user_id to the help desk.');
     expect(text).toContain('help desk');
