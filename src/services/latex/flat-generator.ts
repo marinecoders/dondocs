@@ -1070,13 +1070,19 @@ function buildMOASSICBlock(data: Partial<DocumentData>): string {
   // Junior command on LEFT (signs first)
   const leftItems: string[] = [];
   if (data.juniorSSIC) leftItems.push(escapeTabular(data.juniorSSIC));
-  if (data.juniorSerial) leftItems.push(escapeTabular(data.juniorSerial));
+  // Compose both sides the way the PDF templates do, or Word and PDF disagree
+  // about this block on every joint/MOA document. The junior command has no
+  // office code of its own — the document's officeCode belongs to the
+  // originator, which is the senior side.
+  const juniorSymbol = composeSenderSymbol(undefined, data.juniorSerial);
+  if (juniorSymbol) leftItems.push(escapeTabular(juniorSymbol));
   if (data.juniorDate) leftItems.push(escapeTabular(data.juniorDate));
 
   // Senior command on RIGHT (signs last)
   const rightItems: string[] = [];
   if (data.seniorSSIC || data.ssic) rightItems.push(escapeTabular(data.seniorSSIC || data.ssic));
-  if (data.seniorSerial || data.serial) rightItems.push(escapeTabular(data.seniorSerial || data.serial));
+  const seniorSymbol = composeSenderSymbol(data.officeCode, data.seniorSerial || data.serial);
+  if (seniorSymbol) rightItems.push(escapeTabular(seniorSymbol));
   if (data.seniorDate || data.date) rightItems.push(escapeTabular(data.seniorDate || data.date));
 
   const maxRows = Math.max(leftItems.length, rightItems.length);
@@ -1189,14 +1195,19 @@ function buildJointSSICBlock(data: Partial<DocumentData>): string {
   const leftItems: string[] = [];
   if (data.jointJuniorCode) leftItems.push(escapeTabular(data.jointJuniorCode));
   if (data.jointJuniorSSIC) leftItems.push(escapeTabular(data.jointJuniorSSIC));
-  if (data.jointJuniorSerial) leftItems.push(escapeTabular(data.jointJuniorSerial));
+  // Fig 7-4 shows "Ser 02/318" on this line — the same code/serial fusion as a
+  // single-command letter. The line above holds the command's short title
+  // (NAVSUP/NAVSEA), which is a different field and stays as it is.
+  const jointJuniorSymbol = composeSenderSymbol(undefined, data.jointJuniorSerial);
+  if (jointJuniorSymbol) leftItems.push(escapeTabular(jointJuniorSymbol));
   if (data.jointJuniorDate) leftItems.push(escapeTabular(data.jointJuniorDate));
 
   // Senior command on RIGHT (signs last)
   const rightItems: string[] = [];
   if (data.jointSeniorCode) rightItems.push(escapeTabular(data.jointSeniorCode));
   if (data.ssic) rightItems.push(escapeTabular(data.ssic));
-  if (data.serial) rightItems.push(escapeTabular(data.serial));
+  const jointSeniorSymbol = composeSenderSymbol(data.officeCode, data.serial);
+  if (jointSeniorSymbol) rightItems.push(escapeTabular(jointSeniorSymbol));
   if (data.date) rightItems.push(escapeTabular(data.date));
 
   const maxRows = Math.max(leftItems.length, rightItems.length);

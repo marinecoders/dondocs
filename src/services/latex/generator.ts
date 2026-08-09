@@ -475,7 +475,7 @@ function generateMOASignatoryTex(store: DocumentStore): string {
 % Junior Command (Signs First - Left Side) - uses Junior-prefixed fields
 \\renewcommand{\\JuniorCommandName}{${escapeLatex(data.juniorCommandName)}}
 \\renewcommand{\\JuniorSSIC}{${escapeLatex(data.juniorSSIC)}}
-\\renewcommand{\\JuniorSerial}{${escapeLatex(data.juniorSerial)}}
+\\renewcommand{\\JuniorSerial}{${escapeLatex(composeSenderSymbol(undefined, data.juniorSerial))}}
 \\renewcommand{\\JuniorDate}{${escapeLatex(data.juniorDate)}}
 \\renewcommand{\\JuniorSignatoryName}{${escapeLatex(juniorAbbrev)}}
 \\renewcommand{\\JuniorSignatoryRank}{${escapeLatex(data.juniorSigRank)}}
@@ -533,7 +533,7 @@ function generateJointLetterSignatoryTex(store: DocumentStore): string {
 \\renewcommand{\\JuniorCommandZip}{${escapeLatex(data.jointJuniorZip)}}
 \\renewcommand{\\JuniorCommandCode}{${escapeLatex(data.jointJuniorCode)}}
 \\renewcommand{\\JuniorSSIC}{${escapeLatex(data.jointJuniorSSIC)}}
-\\renewcommand{\\JuniorSerial}{${escapeLatex(data.jointJuniorSerial)}}
+\\renewcommand{\\JuniorSerial}{${escapeLatex(composeSenderSymbol(undefined, data.jointJuniorSerial))}}
 \\renewcommand{\\JuniorDate}{${escapeLatex(data.jointJuniorDate)}}
 \\renewcommand{\\JuniorFromLine}{${escapeLatex(data.jointJuniorFrom)}}
 \\renewcommand{\\JuniorSignatoryName}{${escapeLatex(juniorFullName.toUpperCase())}}
