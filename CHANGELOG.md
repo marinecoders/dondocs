@@ -5,6 +5,18 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.128] — 2026-08-08
+
+### Fixed
+
+- **A word with an underscore no longer breaks the PDF.** `user_id`,
+  `report_final.docx`, `first_last@usmc.mil` — anything with a single underscore
+  in a body paragraph failed to export, with no PDF produced. Underscores are
+  left alone during escaping because `__text__` is the underline marker, but
+  only the paired form is a marker; a lone one reached LaTeX raw, opened math
+  mode, and killed the compile. `__underline__` and fill-in rules like
+  `Signature: __________` are unaffected. Word exports were never affected.
+
 ## [1.2.127] — 2026-08-06
 
 ### Added
