@@ -51,8 +51,7 @@ curl -X POST http://127.0.0.1:7712/generate -H 'content-type: application/json' 
 
 **It answers with a path, never the document.** Agent harnesses clip tool output,
 often to a few thousand characters, and that one-paragraph letter is 248 KB —
-about 338,000 characters of base64. Bytes would arrive truncated and corrupt. A path is
-sixty characters and the user gets a real file they can open.
+roughly 338,000 characters as base64. A path is sixty and opens a real file.
 
 **Status carries the outcome.** A caller derives success from the HTTP status, so
 a bad request is a 4xx and never a 200 with an error inside it. `400` means the
@@ -104,15 +103,13 @@ Any agent that can make an HTTP request can use the companion — no SDK, no
 client library. Point its HTTP tool at `http://127.0.0.1:7712/generate` with the
 JSON above.
 
-Two things make this work without special handling. Loopback addresses are
-normally exempt from proxy configuration, so the call goes direct. And the
-response is small — a path, not a document — so it survives whatever output
-limit the harness applies.
+It works without special handling because loopback addresses are normally exempt
+from proxy configuration, and because the response is a path rather than a
+document, so it survives whatever output limit the harness applies.
 
-If the agent's tooling is extensible, a named tool wrapping that request reads
-better than a raw HTTP call: the model then sees a described input schema
-instead of having to be told the URL and payload shape every time. Whether that
-is possible depends on the harness. Where it is not, the raw HTTP call works.
+If the harness allows custom tools, one wrapping that request beats a raw HTTP
+call — the model gets a described schema instead of being told the URL and
+payload shape every time. Where it does not, the raw call is fine.
 
 ## Using it from an MCP client
 
@@ -160,15 +157,13 @@ anything that is not a protocol message.
 ## DOCX is converted by a different pandoc
 
 The app vendors a pandoc 3.9 WASM build; the companion spawns whatever pandoc is
-on `PATH`. Output can therefore differ from a browser export in ways this code
-cannot see. `GET /health` reports both versions and says so when they disagree —
-the obligation here is honesty rather than a silent difference.
+on `PATH`, so output can differ from a browser export in ways this code cannot
+see. `GET /health` reports both versions and flags a mismatch.
 
-This is pre-existing rather than new: `tests/_helpers/compileDocx.ts`, the repo's
-production-faithful DOCX harness, spawns system pandoc for the same reason.
-`pandoc-converter.ts` is browser-bound (window.location, fetch, Blob, dynamic
-URL import) and cannot be imported into Node. Closing the gap means porting it
-behind a port the way `LatexEngine` was, which is its own project.
+Not a new compromise: `tests/_helpers/compileDocx.ts` spawns system pandoc too,
+because `pandoc-converter.ts` is browser-bound (window.location, fetch, Blob,
+dynamic URL import) and will not import into Node. Closing the gap means porting
+it behind a port the way `LatexEngine` was — its own project.
 
 If pandoc is absent, `GET /health` says so and DOCX requests fail cleanly. PDF is
 unaffected.

@@ -92,8 +92,7 @@ describe('the MCP server', () => {
     expect(tool, `tools: ${tools.map((t) => t.name).join(', ')}`).toBeDefined();
 
     const props = tool!.inputSchema.properties as Record<string, unknown>;
-    // The published field names are the whole point of MCP over raw HTTP: a
-    // model reads these instead of inventing unitCity/unitState/unitZip.
+    // Publishing the field names is what MCP buys over a raw HTTP call.
     expect(Object.keys(props)).toEqual(expect.arrayContaining(['docType', 'subject', 'paragraphs', 'unit']));
     expect(tool!.inputSchema.required).toContain('docType');
     // The address must be one string, which is the trap that bit us before.

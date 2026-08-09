@@ -3,23 +3,15 @@
  *
  *   npm run companion:mcp
  *
- * Same renderer, second front door. `server.ts` serves clients that speak HTTP;
- * this serves clients that speak MCP — Claude Desktop and the MCP-aware editors
- * — and both go through `renderToFile`, so the sandbox and the output format
- * cannot drift apart.
+ * Second front door onto the same renderer: `server.ts` serves HTTP clients,
+ * this serves MCP ones. Both go through `renderToFile` and `validateLetter`, so
+ * neither the sandbox nor the rules can drift between them.
  *
- * Two things MCP buys that the HTTP endpoint cannot:
+ * MCP earns its keep two ways HTTP cannot — the client runs the process itself,
+ * so there is nothing to leave running, and the input schema is published, so a
+ * model reads the field names instead of guessing them.
  *
- *   - The client starts and stops this process itself. Nobody has to remember
- *     to leave a server running, and a forgotten companion stops being a
- *     confusing connection error.
- *   - The input schema is published, so a model reads the real field names
- *     instead of guessing them. That is not a nicety: an early version of this
- *     work invented `unitCity`/`unitState`/`unitZip`, fields that exist nowhere
- *     in the app, and the address silently never rendered.
- *
- * stdout is the JSON-RPC channel. Anything written there that is not a protocol
- * message corrupts the session, so every diagnostic here goes to stderr.
+ * stdout is the JSON-RPC channel; every diagnostic here goes to stderr.
  */
 import { McpServer } from '@modelcontextprotocol/server';
 import { serveStdio } from '@modelcontextprotocol/server/stdio';

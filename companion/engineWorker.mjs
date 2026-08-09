@@ -119,7 +119,7 @@ parentPort.on('message', (data) => {
   }
 });
 
-// Load the engine unmodified — this is the whole point of the spike.
+// Load the engine unmodified; a patched copy would drift from the browser's.
 const require = createRequire(import.meta.url);
 try {
   // The repo is "type": "module", so a .js sibling is parsed as ESM and the

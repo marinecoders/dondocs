@@ -4,10 +4,10 @@
  *   npx vite-node companion/server.ts
  *   POST http://127.0.0.1:7712/generate  {v, docType, format, content, out?}
  *
- * Binds 127.0.0.1 ONLY. That is the architectural point rather than a default:
- * a local address skips the site proxy, the DoD CA bundle and SSPI entirely, so
- * the call never meets the machinery that makes .mil networking hard. Anything
- * that would put this on a routable interface has left the premise.
+ * Binds 127.0.0.1 ONLY, and that is the design rather than a default: a local
+ * address skips the site proxy, the DoD CA bundle and SSPI, so the call never
+ * meets the machinery that makes .mil networking hard. Putting this on a
+ * routable interface would give that up.
  *
  * This file is the entry point and nothing imports it, so starting the listener
  * at module scope is safe. The request path lives in `handler.ts` precisely so
