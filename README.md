@@ -384,6 +384,21 @@ For instructions on adding a new form template — flattening XFA, defining box 
 
 ---
 
+## Companion (headless rendering)
+
+A local service that renders correspondence from JSON, so an agent or a script on
+the same machine can produce a letter without a browser. It runs the same
+generator the app does, over HTTP or MCP.
+
+```bash
+npm run companion       # HTTP on 127.0.0.1:7712
+npm run companion:mcp   # MCP over stdio
+```
+
+Contract, configuration and client setup: **[docs/COMPANION.md](docs/COMPANION.md)**.
+
+---
+
 ## Development
 
 ### Prerequisites

@@ -5,6 +5,26 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.129] — 2026-08-08
+
+### Added
+
+- **Headless rendering.** A local companion service renders correspondence from
+  JSON, so a script or an agent on the same machine can produce a naval letter,
+  standard letter or memorandum as PDF or DOCX without opening a browser. It runs
+  the same generator the app does — the document rules live behind a `LatexEngine`
+  port that the browser satisfies with its WASM worker and the companion with a
+  Node worker thread, so there is no second implementation to drift.
+
+  Two front doors: `npm run companion` serves HTTP on `127.0.0.1:7712`, and
+  `npm run companion:mcp` speaks MCP over stdio for clients that prefer it. Both
+  share one render step and one set of validation rules. Output is written under
+  `~/Documents/DonDocs` by default and the service answers with a path rather than
+  the document. See [docs/COMPANION.md](docs/COMPANION.md).
+
+  Nothing in the app changes: the companion is developer tooling, its dependencies
+  are dev-only, and none of it ships in the PWA bundle.
+
 ## [1.2.128] — 2026-08-08
 
 ### Fixed
