@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { debug } from '@/lib/debug';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { LATEX } from '@/lib/constants';
+import { compileDocument, prepareEngine, LatexCompileError } from '@/services/latex/renderDocument';
 
 // Import the engine class - we'll load these as global scripts
 declare global {
@@ -76,7 +77,6 @@ export function useLatexEngine() {
   // perf audit). The chain swallows errors when storing back to the ref
   // so a failed compile doesn't poison the queue, but callers still see
   // the original error via the returned Promise.
-  const compileQueueRef = useRef<Promise<unknown>>(Promise.resolve());
 
   const initEngine = useCallback(async () => {
     // Prevent double initialization in StrictMode
@@ -130,110 +130,23 @@ export function useLatexEngine() {
       engine.setTexliveEndpoint(texliveUrl);
       debug.log('Engine', 'TexLive endpoint set', { url: texliveUrl });
 
-      // Create virtual filesystem directories
-      for (const dir of LATEX.MEMFS_DIRECTORIES) {
-        engine.makeMemFSFolder(dir);
-      }
-      debug.log('Engine', 'Virtual filesystem directories created', { dirs: LATEX.MEMFS_DIRECTORIES });
-
-      // Preload TeX Live packages (text files like .cls, .sty, .cfg)
+      // Gather the assets. This is the half that is genuinely browser-specific:
+      // the bundles arrive as globals from <script> tags, the fonts are base64,
+      // and the seals come over fetch. A headless host reads all of it from disk.
       debug.time('PreloadPackages');
-      if (window.TEXLIVE_PACKAGES) {
-        debug.log('Engine', `Preloading ${window.TEXLIVE_PACKAGES.length} TeX Live packages...`);
-        for (const pkg of window.TEXLIVE_PACKAGES) {
-          engine.preloadTexliveFile(pkg.format, pkg.filename, pkg.content);
-        }
-      }
+      const fonts = [
+        ...(window.TEXLIVE_FONTS ?? []),
+        ...(window.TEXLIVE_TYPE1_FONTS ?? []),
+        ...(window.TEXLIVE_VF_FONTS ?? []),
+      ].map((f) => ({ format: f.format, filename: f.filename, content: base64ToUint8Array(f.content) }));
 
-      // Preload TFM font metrics (format 3, base64 encoded)
-      if (window.TEXLIVE_FONTS) {
-        debug.log('Engine', `Preloading ${window.TEXLIVE_FONTS.length} TFM font metrics...`);
-        for (const font of window.TEXLIVE_FONTS) {
-          const bytes = base64ToUint8Array(font.content);
-          engine.preloadTexliveFile(font.format, font.filename, bytes);
-        }
-      }
-
-      // Preload Type1 fonts (format 4, base64 encoded)
-      if (window.TEXLIVE_TYPE1_FONTS) {
-        debug.log('Engine', `Preloading ${window.TEXLIVE_TYPE1_FONTS.length} Type1 fonts...`);
-        for (const font of window.TEXLIVE_TYPE1_FONTS) {
-          const bytes = base64ToUint8Array(font.content);
-          engine.preloadTexliveFile(font.format, font.filename, bytes);
-        }
-      }
-
-      // Preload Virtual fonts (format 2, base64 encoded)
-      if (window.TEXLIVE_VF_FONTS) {
-        debug.log('Engine', `Preloading ${window.TEXLIVE_VF_FONTS.length} Virtual fonts...`);
-        for (const font of window.TEXLIVE_VF_FONTS) {
-          const bytes = base64ToUint8Array(font.content);
-          engine.preloadTexliveFile(font.format, font.filename, bytes);
-        }
-      }
-
-      // Preload null stub file - must happen with other preloads (before wait)
-      // This prevents 404 errors when LaTeX packages try to \input{null}
-      // Only 'null' and 'null.tex' work - tex/ prefixed paths cause FS errors
-      const nullStubContent = '% null stub file - prevents 404 errors\n\\endinput\n';
-      const nullPaths = ['null', 'null.tex'];
-      const nullFormats = [0, 10, 26, 27, 32, 39];
-      for (const format of nullFormats) {
-        for (const nullPath of nullPaths) {
-          engine.preloadTexliveFile(format, nullPath, nullStubContent);
-        }
-      }
-      debug.log('Engine', 'Null stub preloaded', { paths: nullPaths, formats: nullFormats });
-
-      debug.timeEnd('PreloadPackages');
-
-      // No wait needed here either. `preloadTexliveFile` posts a message to
-      // the worker, which handles `cmd:'preloadtex'` synchronously
-      // (FS.writeFile + cache update — no async work). Worker postMessage
-      // queues are FIFO, so any subsequent postMessage we send (writefile
-      // for templates, setmainfile, compilelatex) will be processed strictly
-      // *after* the preloads it follows. The previous 2000 ms blind
-      // setTimeout cost a flat 2 s on every cold start with no functional
-      // benefit.
-
-      // Write LaTeX templates
-      // Templates are stored with 'tex/' prefix but need to be written to root for SwiftLaTeX
-      debug.time('WriteTemplates');
-      if (window.LATEX_TEMPLATES) {
-        const templateCount = Object.keys(window.LATEX_TEMPLATES).length;
-        debug.log('Engine', `Writing ${templateCount} LaTeX templates...`);
-        for (const [path, content] of Object.entries(window.LATEX_TEMPLATES)) {
-          // Strip 'tex/' prefix if present - SwiftLaTeX expects files in root
-          let targetPath = path.startsWith('tex/') ? path.slice(4) : path;
-          // Also strip 'templates/' prefix - \input{\DocumentType} expects files at root
-          targetPath = targetPath.startsWith('templates/') ? targetPath.slice(10) : targetPath;
-          engine.writeMemFSFile(targetPath, content);
-        }
-      }
-      debug.timeEnd('WriteTemplates');
-
-      // Write null stub file to memfs as backup (preloading happened earlier)
-      // Some LaTeX packages try to \input{null} - we also write to memfs in case preload fails
-      for (const nullPath of nullPaths) {
-        engine.writeMemFSFile(nullPath, nullStubContent);
-      }
-      debug.log('Engine', 'Null stub files written to memfs');
-
-      // Load seal images into virtual filesystem.
-      //
-      // Fetched in parallel — they're served from the same origin and are
-      // independent files, so there's no reason to do four sequential RTTs.
-      // Combined with the PNG optimization (~86% size reduction), cold-start
-      // network cost on a slow connection drops from seconds to a few hundred
-      // milliseconds.
-      debug.log('Engine', 'Loading seal images...', { files: LATEX.SEAL_FILES });
+      const seals: Record<string, Uint8Array> = {};
       await Promise.all(
         LATEX.SEAL_FILES.map(async (sealFile) => {
           try {
             const response = await fetch(`${BASE_PATH}attachments/${sealFile}`);
             if (response.ok) {
-              const arrayBuffer = await response.arrayBuffer();
-              engine.writeMemFSFile(`attachments/${sealFile}`, new Uint8Array(arrayBuffer));
+              seals[sealFile] = new Uint8Array(await response.arrayBuffer());
               debug.log('Engine', `Loaded seal: ${sealFile}`);
             } else {
               debug.warn('Engine', `Seal file not found: ${sealFile}`, { status: response.status });
@@ -243,6 +156,21 @@ export function useLatexEngine() {
           }
         })
       );
+
+      // The order these land in is load-bearing and lives in one place now.
+      prepareEngine(engine, {
+        packages: window.TEXLIVE_PACKAGES,
+        fonts,
+        templates: window.LATEX_TEMPLATES,
+        seals,
+      });
+      debug.timeEnd('PreloadPackages');
+      debug.log('Engine', 'Filesystem prepared', {
+        packages: window.TEXLIVE_PACKAGES?.length ?? 0,
+        fonts: fonts.length,
+        templates: Object.keys(window.LATEX_TEMPLATES ?? {}).length,
+        seals: Object.keys(seals).length,
+      });
 
       engineRef.current = engine;
       debug.timeEnd('EngineInit');
@@ -284,7 +212,7 @@ export function useLatexEngine() {
       // either flips the worker's Busy flag.
       const doCompile = async (): Promise<Uint8Array | null> => {
       const engine = engineRef.current;
-      if (!engine || !engine.isReady()) {
+      if (!engine) {
         debug.error('Compile', 'Engine not ready');
         throw new Error('Engine not ready');
       }
@@ -292,37 +220,27 @@ export function useLatexEngine() {
       debug.time('Compile');
       debug.log('Compile', 'Starting compilation', { fileCount: Object.keys(files).length });
 
-      // Write all files to virtual filesystem
-      for (const [path, content] of Object.entries(files)) {
-        debug.log('Compile', `Writing file: ${path}`, {
-          size: typeof content === 'string' ? content.length : content.byteLength,
-        });
-        engine.writeMemFSFile(path, content);
-      }
+      // The write -> setMainFile -> compile sequence lives in renderDocument so
+      // the headless host runs the identical path. What stays here is the part
+      // that is genuinely the hook's: engine lifecycle, React state, and the
+      // log analysis below.
+      let result: { status: number; log: string };
+      try {
+        const pdf = await compileDocument(engine, files);
+        debug.timeEnd('Compile');
+        debug.log('Compile', 'Compilation successful', { pdfSize: pdf.byteLength });
+        return pdf;
+      } catch (err) {
+        debug.timeEnd('Compile');
+        if (!(err instanceof LatexCompileError)) { throw err; }
 
-      // Set main file and compile
-      engine.setEngineMainFile(LATEX.MAIN_FILE);
-      debug.log('Compile', 'Main file set, starting LaTeX compilation...');
-
-      const result = await engine.compileLaTeX();
-      debug.timeEnd('Compile');
-
-      debug.log('Compile', 'Compilation result', {
-        status: result.status,
-        pdfSize: result.pdf?.byteLength,
-        logLength: result.log?.length,
-      });
-
-      if (result.status === 0 && result.pdf) {
-        debug.log('Compile', 'Compilation successful', { pdfSize: result.pdf.byteLength });
-        return result.pdf;
-      }
-
-      // Check for fatal error requiring reset
-      if (result.log?.includes('Fatal format file error')) {
-        debug.error('Compile', 'Fatal format file error - resetting engine');
-        await resetEngine();
-        throw new Error('ENGINE_RESET_NEEDED');
+        // A corrupt format file needs the engine rebuilt, not a retry.
+        if (err.needsReset) {
+          debug.error('Compile', 'Fatal format file error - resetting engine');
+          await resetEngine();
+          throw new Error('ENGINE_RESET_NEEDED', { cause: err });
+        }
+        result = { status: err.status, log: err.log };
       }
 
       // ========== DETAILED ERROR ANALYSIS ==========
@@ -433,15 +351,9 @@ export function useLatexEngine() {
       error.compileLog = formattedLog;
       throw error;
       };
-      // Chain after any prior compile so engine.compileLaTeX() runs
-      // strictly serialized. We strip prior errors with `.catch()`
-      // before chaining doCompile so a failed compile doesn't poison
-      // the next caller. We then store back a swallowed-error version
-      // so the queue keeps moving, but return the original `next` so
-      // this caller still sees its own error.
-      const next = compileQueueRef.current.catch(() => undefined).then(doCompile);
-      compileQueueRef.current = next.catch(() => undefined);
-      return next;
+      // Serialization lives with the engine in renderDocument, so every host
+      // gets it — not just this one.
+      return doCompile();
     },
     [resetEngine]
   );
