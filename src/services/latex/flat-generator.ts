@@ -126,20 +126,28 @@ function processText(text: string): string {
     return key;
   });
 
-  // Escape LaTeX specials.
-  // codeql[js/incomplete-sanitization]: false positive — the first replace
-  // converts every `\` from input to `\textbackslash{}`, so subsequent replaces
-  // that add `\<char>` tokens don't double-escape original input backslashes.
+  // Escape LaTeX specials. ORDER MATTERS, same as escapeFlat/escapeTabular:
+  // a replacement that INTRODUCES { } must land after the { } escaping, or its
+  // own braces get escaped too. `\` went straight to `\textbackslash{}` here and
+  // came out `\textbackslash\{\}`, which pandoc renders as a literal `\{}` — so a
+  // Windows path in body text reached Word wrong while the PDF was fine.
+  // Underscore is deliberately not escaped: `__text__` is the underline marker
+  // convertRichText consumes below.
+  // codeql[js/incomplete-sanitization]: false positive — sentinel pattern
+  // (first replace) escapes all `\` from input before subsequent replaces add their own.
   result = result
-    .replace(/\\/g, '\\textbackslash{}')
+    .replace(/\\/g, 'ZZZTEXTBACKSLASHZZZ')
     .replace(/&/g, '\\&')
     .replace(/%/g, '\\%')
     .replace(/\$/g, '\\$')
     .replace(/#/g, '\\#')
+    .replace(/~/g, 'ZZZTILDEZZZ')
+    .replace(/\^/g, 'ZZZCARETZZZ')
     .replace(/\{/g, '\\{')
     .replace(/\}/g, '\\}')
-    .replace(/~/g, '\\textasciitilde{}')
-    .replace(/\^/g, '\\textasciicircum{}');
+    .replace(/ZZZTEXTBACKSLASHZZZ/g, '\\textbackslash{}')
+    .replace(/ZZZTILDEZZZ/g, '\\textasciitilde{}')
+    .replace(/ZZZCARETZZZ/g, '\\textasciicircum{}');
 
   // Convert rich text markers
   result = convertRichText(result);
