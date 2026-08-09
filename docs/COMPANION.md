@@ -82,6 +82,10 @@ A unit is a property of the box, not of the request. Put yours in
 }
 ```
 
+`originatorCode` is carried into the app's `officeCode`, which the app stores
+but no template currently renders — it is accepted so the value is not dropped,
+not because it reaches the page.
+
 A missing file is normal, not an error — built-in fallbacks keep a fresh install
 rendering. Precedence is **request > config > fallback** at every field, so a
 caller can override the unit for one letter without editing anything.

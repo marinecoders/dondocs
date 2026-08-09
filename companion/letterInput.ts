@@ -74,6 +74,11 @@ export interface LetterInput {
   ssic?: string;
   serial?: string;
   date?: string;
+  /**
+   * Maps to the app's `officeCode`. The app collects and stores it but no
+   * template emits it, so it will not appear on the page today; it is accepted
+   * so a caller's data survives rather than being silently dropped.
+   */
   originatorCode?: string;
 
   from?: string;
