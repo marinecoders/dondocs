@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.companion.tsbuildinfo",
+    "target": "ES2022",
+    /* Runs under Node, but type-checks app code written for the browser: the
+       shared core reaches modules that reference `window` and import.meta.env.
+       DOM and vite/client are here to describe THAT code, not because the
+       companion touches either — it runs under vite-node, which supplies the
+       env, and never enters the browser-only branches. */
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["node", "vite/client"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "skipLibCheck": true,
+
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+
+    /* The companion imports the app's shared core through the same alias. */
+    "paths": { "@/*": ["./src/*"] }
+  },
+  /* The ambient vite `define` globals the shared app code refers to. */
+  "include": ["companion", "src/types/build-constants.d.ts"]
+}

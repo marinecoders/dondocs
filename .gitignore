@@ -114,3 +114,4 @@ public/pwa-maskable-512.png
 
 # Generated supply-chain artifact (npm run sbom); produced fresh in CI.
 sbom.cdx.json
+companion-out.pdf
