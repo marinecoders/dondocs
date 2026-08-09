@@ -1,4 +1,5 @@
 import { escapeLatex, escapeLatexUrl, processBodyText, formatSubjectForLatex, formatAddressForLatex } from './escaper';
+import { composeSenderSymbol } from './senderSymbol';
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
@@ -142,8 +143,12 @@ ${(() => {
   // and SwiftLaTeX silently swallowed the unknown control sequence
   // while xelatex (the integration matrix's engine) rejected it. See
   // tests/regressions/pr-066-setInReplyReferTo-undefined-macro.test.ts.
+  // The originator's code lives on this line too, fused with the serial when
+  // there is one (SECNAV M-5216.5 Ch 7 para 2a(2)). It used to be collected and
+  // never printed.
+  const senderSymbol = composeSenderSymbol(data.officeCode, serial);
   tex += `\\setSSIC{${config.ssic ? escapeLatex(ssic) : ''}}
-\\setSerial{${config.ssic ? escapeLatex(serial) : ''}}
+\\setSerial{${config.ssic ? escapeLatex(senderSymbol) : ''}}
 \\setDocumentDate{${escapeLatex(docDate)}}
 ${isBusinessLetter ? `\\setBusinessDate{${escapeLatex(docDate)}}` : '% Not a business letter'}
 
@@ -470,7 +475,7 @@ function generateMOASignatoryTex(store: DocumentStore): string {
 % Junior Command (Signs First - Left Side) - uses Junior-prefixed fields
 \\renewcommand{\\JuniorCommandName}{${escapeLatex(data.juniorCommandName)}}
 \\renewcommand{\\JuniorSSIC}{${escapeLatex(data.juniorSSIC)}}
-\\renewcommand{\\JuniorSerial}{${escapeLatex(data.juniorSerial)}}
+\\renewcommand{\\JuniorSerial}{${escapeLatex(composeSenderSymbol(undefined, data.juniorSerial))}}
 \\renewcommand{\\JuniorDate}{${escapeLatex(data.juniorDate)}}
 \\renewcommand{\\JuniorSignatoryName}{${escapeLatex(juniorAbbrev)}}
 \\renewcommand{\\JuniorSignatoryRank}{${escapeLatex(data.juniorSigRank)}}
@@ -528,7 +533,7 @@ function generateJointLetterSignatoryTex(store: DocumentStore): string {
 \\renewcommand{\\JuniorCommandZip}{${escapeLatex(data.jointJuniorZip)}}
 \\renewcommand{\\JuniorCommandCode}{${escapeLatex(data.jointJuniorCode)}}
 \\renewcommand{\\JuniorSSIC}{${escapeLatex(data.jointJuniorSSIC)}}
-\\renewcommand{\\JuniorSerial}{${escapeLatex(data.jointJuniorSerial)}}
+\\renewcommand{\\JuniorSerial}{${escapeLatex(composeSenderSymbol(undefined, data.jointJuniorSerial))}}
 \\renewcommand{\\JuniorDate}{${escapeLatex(data.jointJuniorDate)}}
 \\renewcommand{\\JuniorFromLine}{${escapeLatex(data.jointJuniorFrom)}}
 \\renewcommand{\\JuniorSignatoryName}{${escapeLatex(juniorFullName.toUpperCase())}}
