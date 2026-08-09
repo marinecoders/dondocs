@@ -26,7 +26,7 @@ function store(docType: string) {
     formData: {
       docType, fontSize: '12pt', fontFamily: 'times', pageNumbering: 'none', department: 'usmc',
       unitLine1: 'UNIT', unitAddress: 'ADDR', sealType: 'dow', letterheadColor: 'blue',
-      ssic: '5216', serial: '271', officeCode: '13', date: '7 Sep 06',
+      ssic: '5216', serial: '271', officeCode: 'Code 13', date: '7 Sep 06',
       seniorSSIC: '5216', seniorSerial: '271', seniorDate: '7 Sep 06',
       juniorSSIC: '5216', juniorSerial: '099', juniorDate: '7 Sep 06',
       jointJuniorSSIC: '5216', jointJuniorSerial: '099', jointJuniorDate: '7 Sep 06',

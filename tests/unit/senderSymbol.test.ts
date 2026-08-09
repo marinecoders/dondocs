@@ -6,27 +6,40 @@
  *     5216            5800            5216
  *     Code 13         N00J            Ser Code 13/271
  *
- * Those three shapes are the contract: code alone under the SSIC, code alone
- * when it already starts with a letter, and code fused with a serial.
+ * Two shapes are the contract: the code alone under the SSIC, and the code fused
+ * with a serial as `Ser <code>/<serial>`. The code itself is printed as the
+ * activity writes it — see senderSymbol.ts on why "Code" is not added here.
  */
 import { describe, it, expect } from 'vitest';
 import { composeSenderSymbol } from '@/services/latex/senderSymbol';
 
 describe("the manual's examples", () => {
-  it('renders a numeric code alone as "Code 13"', () => {
-    expect(composeSenderSymbol('13', '')).toBe('Code 13');
+  // The code prints as the activity writes it — ¶2a(2) leaves its makeup to the
+  // command. A bare numeric code is the norm across the manual's examples.
+  it.each([
+    ['02', '318', 'Ser 02/318'],
+    ['00', '451', 'Ser 00/451'],
+    ['301', '403', 'Ser 301/403'],
+    ['945', '321', 'Ser 945/321'],
+    ['N00J', 'S20', 'Ser N00J/S20'],
+    ['N1', '123', 'Ser N1/123'],
+    ['09B33', '6U317731', 'Ser 09B33/6U317731'],
+    ['DDG 78', '437', 'Ser DDG 78/437'],
+    ['SSN 756', '001', 'Ser SSN 756/001'],
+  ])('fuses %s with %s as "%s"', (code, serial, expected) => {
+    expect(composeSenderSymbol(code, serial)).toBe(expected);
   });
 
-  it('renders an alphanumeric code alone as "N00J" — no "Code" prefix', () => {
+  it('reaches "Ser Code 13/271" when the activity writes its code that way', () => {
+    // Prefixing "Code" automatically would rewrite the eight bare-numeric
+    // examples above; ¶7a's "Code" rule is for the "To:" line, not this one.
+    expect(composeSenderSymbol('Code 13', '271')).toBe('Ser Code 13/271');
+    expect(composeSenderSymbol('Code 10', '049')).toBe('Ser Code 10/049');
+  });
+
+  it('leaves a code alone under the SSIC when there is no serial', () => {
     expect(composeSenderSymbol('N00J', '')).toBe('N00J');
-  });
-
-  it('fuses code and serial as "Ser Code 13/271"', () => {
-    expect(composeSenderSymbol('13', '271')).toBe('Ser Code 13/271');
-  });
-
-  it('fuses an alphanumeric code as "Ser N00J/S20"', () => {
-    expect(composeSenderSymbol('N00J', 'S20')).toBe('Ser N00J/S20');
+    expect(composeSenderSymbol('Code 13', '')).toBe('Code 13');
   });
 });
 
@@ -44,6 +57,11 @@ describe('partial input', () => {
   it('ignores surrounding whitespace', () => {
     expect(composeSenderSymbol('  S-6  ', '  042  ')).toBe('Ser S-6/042');
   });
+
+  it('does not rewrite a numeric code', () => {
+    // "02" stays "02" — the manual prints it bare.
+    expect(composeSenderSymbol('02', '318')).not.toContain('Code');
+  });
 });
 
 describe('a value the user already composed', () => {
@@ -58,10 +76,6 @@ describe('a value the user already composed', () => {
     expect(composeSenderSymbol('', 'ser N00/1')).toBe('ser N00/1');
     // "Serial" is not the marker — treat it as a value needing the prefix.
     expect(composeSenderSymbol('', 'Serial')).toBe('Ser Serial');
-  });
-
-  it('does not double the "Code" prefix when the user typed it', () => {
-    expect(composeSenderSymbol('Code 13', '271')).toBe('Ser Code 13/271');
   });
 });
 

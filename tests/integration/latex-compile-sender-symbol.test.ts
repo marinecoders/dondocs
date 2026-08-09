@@ -60,7 +60,7 @@ describeToolchainRequirement("the sender's symbols block");
 describe.skipIf(!hasPdfToolchain)("the sender's symbols block", () => {
   it('prints the office code fused with the serial', async () => {
     // SECNAV M-5216.5 Ch 7 para 2a(2): "Ser Code 13/271" under the SSIC.
-    const text = await rendered({ officeCode: '13', serial: '271' });
+    const text = await rendered({ officeCode: 'Code 13', serial: '271' });
     expect(text).toContain('5216');
     expect(text).toContain('Ser Code 13/271');
   }, 180_000);
@@ -94,7 +94,7 @@ describe.skipIf(!hasPdfToolchain)("the sender's symbols block — DOCX path", ()
   it('composes the same line in Word as in the PDF', async () => {
     // The two generators build this block separately; they used to agree only
     // because both printed the serial bare.
-    const result = await compileDocxFixture(store({ officeCode: '13', serial: '271' }));
+    const result = await compileDocxFixture(store({ officeCode: 'Code 13', serial: '271' }));
     expect(result.ok, result.log.slice(0, 400)).toBe(true);
     const { value } = await mammoth.extractRawText({ buffer: Buffer.from(result.docxBytes!) });
     expect(value).toContain('Ser Code 13/271');
