@@ -5,6 +5,20 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.131] — 2026-08-09
+
+### Fixed
+
+- **A backslash in your text now survives into Word.** A Windows path in body
+  text — `C:\Users\smith\budget.xlsx` — arrived as `C:\{}Users\{}smith\{}…`. The
+  escaping pass replaced `\` first and then escaped braces, catching the braces
+  its own replacement had just added. The document opened without complaint, so
+  the only sign was the wrong text on the page.
+- **An enclosure titled with a path no longer kills the PDF.** The same
+  backslash reached a template macro that expanded its argument, and expanding
+  `\textbackslash` ran away until TeX exhausted its input stack — no PDF at all,
+  just `TeX capacity exceeded`. The title is bound without expansion now.
+
 ## [1.2.129] — 2026-08-08
 
 ### Added

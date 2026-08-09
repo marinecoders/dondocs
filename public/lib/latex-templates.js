@@ -1213,7 +1213,11 @@ const LATEX_TEMPLATES = {
             \\stepcounter{inclcount}%
             \\@ifundefined{encl@defined@\\arabic{inclcount}}{}{%
                 \\edef\\currentfile{\\csname encl@file@\\arabic{inclcount}\\endcsname}%
-                \\xdef\\currentencltitle{\\csname encl@title@\\arabic{inclcount}\\endcsname}%
+                % \\let, not \\xdef: the title is only ever typeset, and a user
+                % title carrying a backslash arrives here as the fragile
+                % \\textbackslash, which \\xdef expands until TeX runs out of input
+                % stack ("TeX capacity exceeded") and the whole letter fails.
+                \\expandafter\\global\\expandafter\\let\\expandafter\\currentencltitle\\csname encl@title@\\arabic{inclcount}\\endcsname%
                 \\xdef\\currentenclnum{\\arabic{inclcount}}%
                 % Reset page counter for this enclosure
                 \\setcounter{enclpagenum}{1}%
