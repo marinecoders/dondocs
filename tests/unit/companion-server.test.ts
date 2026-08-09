@@ -113,6 +113,19 @@ describe('malformed input is 400, never 500', () => {
     expect(json.errors?.join(' ')).toMatch(/exceeds/);
   });
 
+  it('does not poison the connection for the request that follows', async () => {
+    // Abandoning an oversized body leaves unread bytes in the socket. Node's
+    // fetch keeps connections alive, so the server used to parse those
+    // leftovers as the NEXT request and the following call died with
+    // ECONNRESET. Linux surfaced it; macOS tolerated it.
+    const big = await post(JSON.stringify({ ...VALID, subject: 'x'.repeat(1_100_000) }));
+    expect(big.status).toBe(400);
+
+    const next = await post(JSON.stringify({ docType: 'invoice', format: 'rtf', paragraphs: 'not an array' }));
+    expect(next.status).toBe(400);
+    expect(next.json.errors!.length).toBeGreaterThanOrEqual(3);
+  });
+
   it('rejects a mismatched contract version', async () => {
     const { status, json } = await post(JSON.stringify({ ...VALID, v: 99 }));
     expect(status).toBe(400);

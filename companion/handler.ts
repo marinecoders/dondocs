@@ -30,12 +30,17 @@ interface GenerateRequest extends LetterInput {
   v?: number;
 }
 
+/** Thrown when a caller sends more than the cap; the socket cannot be reused. */
+class BodyTooLargeError extends Error {
+  constructor(limit: number) { super(`request body exceeds ${limit} bytes`); this.name = 'BodyTooLargeError'; }
+}
+
 async function readBody(req: IncomingMessage): Promise<string> {
   const chunks: Buffer[] = [];
   let size = 0;
   for await (const chunk of req) {
     size += (chunk as Buffer).length;
-    if (size > MAX_BODY) { throw new Error(`request body exceeds ${MAX_BODY} bytes`); }
+    if (size > MAX_BODY) { throw new BodyTooLargeError(MAX_BODY); }
     chunks.push(chunk as Buffer);
   }
   return Buffer.concat(chunks).toString('utf-8');
@@ -112,6 +117,17 @@ async function handleRequest(
   try {
     body = JSON.parse(await readBody(req));
   } catch (err) {
+    // Abandoning an oversized body mid-stream leaves unread bytes in the socket.
+    // On a keep-alive connection the server parses those leftovers as the NEXT
+    // request, which arrives as a connection reset for whatever the caller sends
+    // second. Answer, then close: the response is delivered and the poisoned
+    // socket is not reused.
+    if (err instanceof BodyTooLargeError) {
+      res.setHeader('Connection', 'close');
+      json(400, { ok: false, v: CONTRACT, errors: [err.message] });
+      req.destroy();
+      return;
+    }
     return json(400, { ok: false, v: CONTRACT, errors: [err instanceof Error ? err.message : 'invalid JSON'] });
   }
 
