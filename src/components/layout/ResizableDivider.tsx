@@ -24,6 +24,14 @@ export function ResizableDivider({ onResize, containerRef, currentWidth }: Resiz
 
       e.preventDefault();
 
+      // A release outside the window is never delivered to the page, so
+      // without this the drag stays live: the panel follows the cursor with
+      // nothing held and the overlay keeps swallowing clicks.
+      if (e.buttons === 0) {
+        setIsDragging(false);
+        return;
+      }
+
       const container = containerRef.current;
       const containerRect = container.getBoundingClientRect();
       const containerWidth = containerRect.width;

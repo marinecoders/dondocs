@@ -5,6 +5,18 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.138] — 2026-08-10
+
+### Fixed
+
+- **A drag that ends off-screen no longer leaves the app stuck.** Release the
+  mouse outside the window while dragging the sidebar's edge, the split between
+  the outline and Recents, or the preview divider, and the page never heard
+  about it: the panel went on following the cursor with no button held, behind
+  an invisible layer that swallowed every click until you clicked again. The
+  same applied when the browser took the gesture over, which is how a touch
+  drag ends when it turns into a scroll.
+
 ## [1.2.137] — 2026-08-10
 
 ### Added
