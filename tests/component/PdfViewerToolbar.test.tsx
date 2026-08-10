@@ -116,6 +116,18 @@ describe('PdfViewerToolbar trailing actions', () => {
     expect(screen.getByRole('menuitem', { name: 'Exit fullscreen' })).toBeInTheDocument();
   });
 
+  // The trigger is hidden by container query rather than unmounted, so an open
+  // menu survives the panel widening past the threshold — anchored to a
+  // display:none button, it strands in the corner of the viewport.
+  it('closes the overflow menu on a window resize', async () => {
+    setup();
+    await openOverflowMenu();
+
+    fireEvent(window, new Event('resize'));
+
+    await waitFor(() => expect(screen.queryByRole('menu')).not.toBeInTheDocument());
+  });
+
   it('drops the fullscreen entry from both variants when no handler is given', async () => {
     setup({ fullscreen: null });
     expect(screen.queryByRole('button', { name: /fullscreen/i })).not.toBeInTheDocument();

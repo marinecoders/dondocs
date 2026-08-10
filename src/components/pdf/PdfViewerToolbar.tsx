@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   ChevronDown,
   ChevronUp,
@@ -103,6 +104,19 @@ export function PdfViewerToolbar({
   fullscreen,
   className,
 }: PdfViewerToolbarProps) {
+  // The overflow trigger is hidden by container query, not unmounted, so a
+  // window resize that widens the panel past the threshold would leave the
+  // menu open with nothing to anchor to — it strands in the corner of the
+  // viewport. Close it instead; past that width every action it holds is a
+  // button in the row anyway.
+  const [overflowOpen, setOverflowOpen] = useState(false);
+  useEffect(() => {
+    if (!overflowOpen) return;
+    const close = () => setOverflowOpen(false);
+    window.addEventListener('resize', close);
+    return () => window.removeEventListener('resize', close);
+  }, [overflowOpen]);
+
   // Uncontrolled input keyed by the current page: it remounts (and re-seeds)
   // whenever the page changes from scrolling/buttons, while typing stays local
   // until Enter/blur commits — no set-state-in-effect syncing needed.
@@ -227,7 +241,7 @@ export function PdfViewerToolbar({
           Tooltip, and nesting that inside DropdownMenuTrigger asChild breaks the
           ref. The menu names its own items, so no label is lost. */}
       <div className="@[520px]:hidden">
-        <DropdownMenu>
+        <DropdownMenu open={overflowOpen} onOpenChange={setOverflowOpen}>
           <DropdownMenuTrigger asChild>
             <Button
               type="button"
