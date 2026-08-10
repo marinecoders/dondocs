@@ -5,6 +5,18 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.136] — 2026-08-10
+
+### Fixed
+
+- **The New button no longer gets squeezed off the Recents header.** The
+  sidebar's width is set in pixels but the row inside it is sized in text, so
+  turning up the browser's font size — or narrowing the sidebar — grew the row
+  inside a box that stayed put, and the New button, being last, was the part
+  that ran off the edge. It now gives way in order: the word "New" drops to
+  leave the plus on its own, and past that the controls take their own line.
+  The heading no longer truncates and nothing is cut off.
+
 ## [1.2.135] — 2026-08-09
 
 ### Fixed
