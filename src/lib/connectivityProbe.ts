@@ -56,22 +56,37 @@ export function isProbeableUrl(url: string): boolean {
 }
 
 /**
- * `fetchImpl` is injectable so the two-request sequence can be driven in a
- * test without a network or a live server.
+ * A request that is dropped rather than refused never rejects on its own, so
+ * without a deadline the probe reports nothing at all — the one outcome worse
+ * than a wrong verdict. Both requests share this budget, so it also bounds how
+ * long the whole check can take.
  */
-export async function runProbe(
-  url: string,
-  token?: string,
-  fetchImpl: typeof fetch = fetch
-): Promise<ProbeResult> {
+export const PROBE_TIMEOUT_MS = 15_000;
+
+export interface ProbeOptions {
+  /** Sent as a bearer, which is what makes the request preflight. */
+  token?: string;
+  /** Injectable so the two-request sequence can be driven without a network. */
+  fetchImpl?: typeof fetch;
+  /** Lets a caller that has stopped caring about the answer end the run. */
+  signal?: AbortSignal;
+  /** Overridable so a test can reach the deadline without waiting for it. */
+  timeoutMs?: number;
+}
+
+export async function runProbe(url: string, options: ProbeOptions = {}): Promise<ProbeResult> {
+  const { token, fetchImpl = fetch, signal, timeoutMs = PROBE_TIMEOUT_MS } = options;
   const started = performance.now();
   const since = () => Math.round(performance.now() - started);
+  const deadline = AbortSignal.timeout(timeoutMs);
+  const abort = signal ? AbortSignal.any([signal, deadline]) : deadline;
 
   try {
     const response = await fetchImpl(url, {
       // A bearer token makes this a preflighted request, which is the case
       // worth testing: it is the one a real API call would make.
       headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      signal: abort,
     });
     const headers: Record<string, string> = {};
     response.headers.forEach((value, key) => {
@@ -89,16 +104,29 @@ export async function runProbe(
       headers,
     };
   } catch (primaryError) {
-    const error = primaryError instanceof Error ? primaryError.message : String(primaryError);
+    // A browser's own words for a timeout vary and none of them say how long
+    // it waited, which is the part a reader needs to tell a slow path from a
+    // dead one.
+    const timedOut = primaryError instanceof DOMException && primaryError.name === 'TimeoutError';
+    const error = timedOut
+      ? `No response within ${timeoutMs / 1000} s`
+      : primaryError instanceof Error
+        ? primaryError.message
+        : String(primaryError);
     let originResolved = false;
-    try {
-      // GET with no headers on purpose: `no-cors` strips anything that would
-      // preflight, so asking for more here would only fail for a second
-      // reason and muddy the answer. Reachability is all this needs.
-      await fetchImpl(new URL(url).origin, { mode: 'no-cors' });
-      originResolved = true;
-    } catch {
-      // Leave it false. Both attempts failing is itself the finding.
+    // Nothing left to ask once the budget is spent or the caller has gone: a
+    // second request on a dead signal can only fail, and would report as
+    // evidence what is really just the abort arriving twice.
+    if (!abort.aborted) {
+      try {
+        // GET with no headers on purpose: `no-cors` strips anything that would
+        // preflight, so asking for more here would only fail for a second
+        // reason and muddy the answer. Reachability is all this needs.
+        await fetchImpl(new URL(url).origin, { mode: 'no-cors', signal: abort });
+        originResolved = true;
+      } catch {
+        // Leave it false. Both attempts failing is itself the finding.
+      }
     }
     return {
       verdict: classifyProbe({ primaryResolved: false, error, originResolved }),
