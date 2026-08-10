@@ -5,6 +5,17 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.132] — 2026-08-09
+
+### Fixed
+
+- **Typing `ZZZTEXTBACKSLASHZZZ` no longer produces a backslash.** The DOCX
+  escaping pass used placeholder strings to stop a replacement being escaped a
+  second time, and those placeholders were themselves typeable. Each special
+  character is now rewritten in a single pass, so no placeholder is needed and
+  the ordering hazard that produced the `\{}` bug in 1.2.131 cannot recur.
+  Output is byte-for-byte unchanged for every other input.
+
 ## [1.2.131] — 2026-08-09
 
 ### Fixed

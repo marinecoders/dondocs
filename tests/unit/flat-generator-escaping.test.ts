@@ -74,3 +74,43 @@ describe('backslash escaping in the DOCX generator', () => {
     expect(tex).toContain('\\uline{deadline}');
   });
 });
+
+describe('the escaping pass rewrites each character exactly once', () => {
+  // The chained form needed sentinels to keep a replacement from being caught
+  // by a later step. Those sentinels were themselves typeable: entering
+  // ZZZTEXTBACKSLASHZZZ produced a backslash in the document. A single pass
+  // needs no sentinels, so the strings are ordinary text again.
+  it.each([
+    'ZZZTEXTBACKSLASHZZZ',
+    'ZZZDOLLARZZZ',
+    'ZZZTILDEZZZ',
+    'ZZZCARETZZZ',
+  ])('passes %s through as literal text', (sentinel) => {
+    for (const tex of [
+      latexFor({ body: `before ${sentinel} after` }),
+      latexFor({ enclosure: `Encl ${sentinel}` }),
+    ]) {
+      expect(tex).toContain(sentinel);
+      expect(tex).not.toContain('\\textbackslash{}');
+      expect(tex).not.toContain('{\\char36}');
+      expect(tex).not.toContain('\\textasciitilde{}');
+      expect(tex).not.toContain('\\textasciicircum{}');
+    }
+  });
+
+  it('never emits a replacement that has been escaped a second time', () => {
+    // The failure this whole area exists to prevent, stated as an invariant
+    // rather than as one example.
+    const hostile = '\\ & % $ # { } ~ ^ \\\\ {} C:\\dir\\file';
+    for (const tex of [
+      latexFor({ body: hostile }),
+      latexFor({ enclosure: hostile }),
+      latexFor({ reference: hostile }),
+    ]) {
+      expect(tex).not.toContain('\\textbackslash\\{\\}');
+      expect(tex).not.toContain('\\textasciitilde\\{\\}');
+      expect(tex).not.toContain('\\textasciicircum\\{\\}');
+      expect(tex).not.toContain('{\\char36\\}');
+    }
+  });
+});
