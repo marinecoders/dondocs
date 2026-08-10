@@ -92,6 +92,10 @@ const BODY_ESCAPES: Readonly<Record<string, string>> = {
  * unrepresentable: output is never rescanned, so nothing can escape twice.
  * The character class is derived from the table's own keys, so the two cannot
  * drift apart.
+ *
+ * Keys must be single characters. Every one-character key is safe to prefix
+ * with `\` inside a class, punctuation included; a two-character key would not
+ * be, since `'bc'` becomes `[\bc]` and `\b` there means backspace.
  */
 function buildEscaper(map: Readonly<Record<string, string>>) {
   const pattern = new RegExp(`[${Object.keys(map).map((ch) => `\\${ch}`).join('')}]`, 'g');
