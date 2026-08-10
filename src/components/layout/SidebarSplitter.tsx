@@ -47,6 +47,14 @@ export function SidebarSplitter({
 
     const onMove = (e: PointerEvent) => {
       e.preventDefault();
+      // A release outside the window is never delivered to the page, so without
+      // this the drag stays live: the panel follows the cursor with nothing
+      // held and the overlay keeps swallowing clicks. The next move is where
+      // we find out the button is gone.
+      if (e.buttons === 0) {
+        onUp();
+        return;
+      }
       setMoved(true);
       const g = geometry();
       if (g) setHeight(resolveSplitDrag(e.clientY, g.top, g.containerHeight));
@@ -60,12 +68,16 @@ export function SidebarSplitter({
     document.body.style.userSelect = 'none';
     document.addEventListener('pointermove', onMove);
     document.addEventListener('pointerup', onUp);
+    // The browser can take the gesture instead of ending it — a touch that
+    // becomes a scroll, an interrupted drag. No pointerup follows.
+    document.addEventListener('pointercancel', onUp);
 
     return () => {
       document.body.style.cursor = '';
       document.body.style.userSelect = '';
       document.removeEventListener('pointermove', onMove);
       document.removeEventListener('pointerup', onUp);
+      document.removeEventListener('pointercancel', onUp);
     };
   }, [isDragging, geometry, setHeight]);
 
