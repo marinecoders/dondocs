@@ -41,58 +41,87 @@ interface DocumentStore {
 
 // --- Utility functions ---
 
-function escapeFlat(str: string | undefined | null): string {
-  if (!str) return '';
-  // Note: $ uses {\char36} instead of \$ to avoid TS1 font encoding requirement
-  // in SwiftLaTeX. Pandoc also handles {\char36} correctly for DOCX.
-  // ORDER MATTERS: Use placeholders for replacements that introduce { }
-  // so they don't get re-escaped by the { } escaping step.
-  // codeql[js/incomplete-sanitization]: false positive — sentinel pattern
-  // (first replace) escapes all `\` from input before subsequent replaces add their own.
-  return str
-    .replace(/\\/g, 'ZZZTEXTBACKSLASHZZZ')
-    .replace(/&/g, '\\&')
-    .replace(/%/g, '\\%')
-    .replace(/#/g, '\\#')
-    .replace(/_/g, '\\_')
-    .replace(/\$/g, 'ZZZDOLLARZZZ')
-    .replace(/~/g, 'ZZZTILDEZZZ')
-    .replace(/\^/g, 'ZZZCARETZZZ')
-    .replace(/\{/g, '\\{')
-    .replace(/\}/g, '\\}')
-    .replace(/ZZZTEXTBACKSLASHZZZ/g, '\\textbackslash{}')
-    .replace(/ZZZDOLLARZZZ/g, '{\\char36}')
-    .replace(/ZZZTILDEZZZ/g, '\\textasciitilde{}')
-    .replace(/ZZZCARETZZZ/g, '\\textasciicircum{}');
+/**
+ * Every LaTeX special and what it becomes.
+ *
+ * `$` is `{\char36}`, carried over from the PDF escaper where it avoids
+ * SwiftLaTeX's TS1 font encoding requirement.
+ *
+ * KNOWN BUG, pre-dating this table: pandoc does not understand `{\char36}` and
+ * drops it, so a `$` in any field escaped here — subject, from, to, via,
+ * references, enclosures, copy-to, distribution — is silently missing from the
+ * Word export. `\$`, which body text uses, survives. Nothing that goes through
+ * this file is ever compiled by SwiftLaTeX (generateFlatLatex output only ever
+ * reaches pandoc), so the workaround buys nothing here. Fixing it is a
+ * behaviour change and belongs in its own commit.
+ */
+const LATEX_ESCAPES: Readonly<Record<string, string>> = {
+  '\\': '\\textbackslash{}',
+  '&': '\\&',
+  '%': '\\%',
+  '#': '\\#',
+  '_': '\\_',
+  '$': '{\\char36}',
+  '~': '\\textasciitilde{}',
+  '^': '\\textasciicircum{}',
+  '{': '\\{',
+  '}': '\\}',
+};
+
+/**
+ * Body text escapes two characters differently.
+ *
+ * `_` is absent on purpose: `__text__` is the underline marker convertRichText
+ * consumes further down, so escaping it here would kill the markup. `$` stays
+ * `\$` because body text is not subject to the tabular path's encoding concern.
+ */
+const BODY_ESCAPES: Readonly<Record<string, string>> = {
+  '\\': '\\textbackslash{}',
+  '&': '\\&',
+  '%': '\\%',
+  '#': '\\#',
+  '$': '\\$',
+  '~': '\\textasciitilde{}',
+  '^': '\\textasciicircum{}',
+  '{': '\\{',
+  '}': '\\}',
+};
+
+/**
+ * Build a single-pass escaper from a table.
+ *
+ * One pass is the point. The previous chained form replaced each special in
+ * turn, so a replacement that introduced `{ }` — `\textbackslash{}` — was then
+ * caught by the later `{ }` step and came out `\textbackslash\{\}`, which
+ * pandoc renders as a literal `\{}`. Sentinels papered over that ordering, at
+ * the cost of a string a user could type and have substituted.
+ *
+ * Replacing every special in a single traversal makes the whole class of bug
+ * unrepresentable: output is never rescanned, so nothing can escape twice.
+ * The character class is derived from the table's own keys, so the two cannot
+ * drift apart.
+ *
+ * Keys must be single characters. Every one-character key is safe to prefix
+ * with `\` inside a class, punctuation included; a two-character key would not
+ * be, since `'bc'` becomes `[\bc]` and `\b` there means backspace.
+ */
+function buildEscaper(map: Readonly<Record<string, string>>) {
+  const pattern = new RegExp(`[${Object.keys(map).map((ch) => `\\${ch}`).join('')}]`, 'g');
+  return (str: string | undefined | null): string =>
+    str ? str.replace(pattern, (ch) => map[ch]) : '';
 }
+
+const escapeFlat = buildEscaper(LATEX_ESCAPES);
 
 /** Escape for use inside tabular cells. User CONTENT ampersands must be
  * escaped (\&) — the old "& is the column separator" rationale applied to
  * the table SYNTAX our code emits, not to cell text. Unescaped, a unit name
  * like "H&S Battalion" became a phantom alignment tab that corrupted the
  * DOCX table (the PDF path always escaped it). */
-function escapeTabular(str: string | undefined | null): string {
-  if (!str) return '';
-  // ORDER MATTERS: Use placeholders for replacements that introduce { }
-  // so they don't get re-escaped by the { } escaping step.
-  // codeql[js/incomplete-sanitization]: false positive — sentinel pattern
-  // (first replace) escapes all `\` from input before subsequent replaces add their own.
-  return str
-    .replace(/\\/g, 'ZZZTEXTBACKSLASHZZZ')
-    .replace(/&/g, '\\&')
-    .replace(/%/g, '\\%')
-    .replace(/#/g, '\\#')
-    .replace(/_/g, '\\_')
-    .replace(/\$/g, 'ZZZDOLLARZZZ')
-    .replace(/~/g, 'ZZZTILDEZZZ')
-    .replace(/\^/g, 'ZZZCARETZZZ')
-    .replace(/\{/g, '\\{')
-    .replace(/\}/g, '\\}')
-    .replace(/ZZZTEXTBACKSLASHZZZ/g, '\\textbackslash{}')
-    .replace(/ZZZDOLLARZZZ/g, '{\\char36}')
-    .replace(/ZZZTILDEZZZ/g, '\\textasciitilde{}')
-    .replace(/ZZZCARETZZZ/g, '\\textasciicircum{}');
-}
+const escapeTabular = buildEscaper(LATEX_ESCAPES);
+
+/** Escape body paragraph text — see BODY_ESCAPES for the two differences. */
+const escapeBody = buildEscaper(BODY_ESCAPES);
 
 /** Convert rich text markers to standard LaTeX */
 function convertRichText(text: string): string {
@@ -126,28 +155,7 @@ function processText(text: string): string {
     return key;
   });
 
-  // Escape LaTeX specials. ORDER MATTERS, same as escapeFlat/escapeTabular:
-  // a replacement that INTRODUCES { } must land after the { } escaping, or its
-  // own braces get escaped too. `\` went straight to `\textbackslash{}` here and
-  // came out `\textbackslash\{\}`, which pandoc renders as a literal `\{}` — so a
-  // Windows path in body text reached Word wrong while the PDF was fine.
-  // Underscore is deliberately not escaped: `__text__` is the underline marker
-  // convertRichText consumes below.
-  // codeql[js/incomplete-sanitization]: false positive — sentinel pattern
-  // (first replace) escapes all `\` from input before subsequent replaces add their own.
-  result = result
-    .replace(/\\/g, 'ZZZTEXTBACKSLASHZZZ')
-    .replace(/&/g, '\\&')
-    .replace(/%/g, '\\%')
-    .replace(/\$/g, '\\$')
-    .replace(/#/g, '\\#')
-    .replace(/~/g, 'ZZZTILDEZZZ')
-    .replace(/\^/g, 'ZZZCARETZZZ')
-    .replace(/\{/g, '\\{')
-    .replace(/\}/g, '\\}')
-    .replace(/ZZZTEXTBACKSLASHZZZ/g, '\\textbackslash{}')
-    .replace(/ZZZTILDEZZZ/g, '\\textasciitilde{}')
-    .replace(/ZZZCARETZZZ/g, '\\textasciicircum{}');
+  result = escapeBody(result);
 
   // Convert rich text markers
   result = convertRichText(result);
