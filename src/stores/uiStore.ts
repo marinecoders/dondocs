@@ -103,6 +103,9 @@ interface UIState {
   referenceLibraryOpen: boolean;
   aboutModalOpen: boolean;
   nistModalOpen: boolean;
+  /** Endpoint reachability check. Deliberately absent from `partialize`:
+   *  nothing it holds is worth carrying across a reload. */
+  connectivityModalOpen: boolean;
   batchModalOpen: boolean;
   importLetterModalOpen: boolean;
   commandPaletteOpen: boolean;
@@ -130,6 +133,7 @@ interface UIState {
   setShareModal: (mode: 'share' | 'import' | null) => void;
   setReferenceLibraryOpen: (open: boolean) => void;
   setAboutModalOpen: (open: boolean) => void;
+  setConnectivityModalOpen: (open: boolean) => void;
   setNistModalOpen: (open: boolean) => void;
   setBatchModalOpen: (open: boolean) => void;
   setImportLetterModalOpen: (open: boolean) => void;
@@ -236,6 +240,7 @@ export const useUIStore = create<UIState>()(
       referenceLibraryOpen: false,
       aboutModalOpen: false,
       nistModalOpen: false,
+      connectivityModalOpen: false,
       batchModalOpen: false,
       importLetterModalOpen: false,
       commandPaletteOpen: false,
@@ -255,6 +260,7 @@ export const useUIStore = create<UIState>()(
       setShareModal: (mode) => set({ shareModal: mode }),
       setReferenceLibraryOpen: (open) => set({ referenceLibraryOpen: open }),
       setAboutModalOpen: (open) => set({ aboutModalOpen: open }),
+      setConnectivityModalOpen: (open) => set({ connectivityModalOpen: open }),
       setNistModalOpen: (open) => set({ nistModalOpen: open }),
       setBatchModalOpen: (open) => set({ batchModalOpen: open }),
       setImportLetterModalOpen: (open) => set({ importLetterModalOpen: open }),
