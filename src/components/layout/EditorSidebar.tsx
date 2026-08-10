@@ -264,10 +264,17 @@ export function EditorSidebar() {
       </div>
 
       {/* Recent: document library */}
-      <div className="flex min-h-0 flex-1 flex-col pt-2">
-        <div className="flex items-center justify-between px-3 pb-1.5">
-          <span className="text-2xs font-semibold tracking-[0.06em] uppercase text-muted-foreground">Recent</span>
-          <div className="flex items-center gap-1">
+      <div className="@container flex min-h-0 flex-1 flex-col pt-2">
+        {/* The sidebar's width is in pixels but this row is sized in rem, so a
+            larger browser font size grows the row inside a box that does not
+            move. It gives way in order: the word "New" goes first (below), and
+            past that the controls wrap to their own line. Nothing truncates and
+            nothing is cut off — losing the New button is what used to happen. */}
+        <div className="flex flex-wrap items-center justify-between gap-2 px-3 pb-1.5">
+          <span className="shrink-0 text-2xs font-semibold tracking-[0.06em] uppercase text-muted-foreground">
+            Recent
+          </span>
+          <div className="flex shrink-0 items-center gap-1">
             <IconTip label={sort === 'recent' ? 'Sorted by most recent — switch to A–Z' : 'Sorted A–Z — switch to most recent'}>
               <button
                 type="button"
@@ -295,10 +302,16 @@ export function EditorSidebar() {
               ref={newBtnRef}
               type="button"
               onClick={newDocument}
+              aria-label="New document"
+              title="New document"
               className="inline-flex items-center gap-1 rounded-md border border-border bg-card px-2 py-1 text-xs text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-[3px] focus-visible:ring-ring/50"
             >
               <Plus className="h-3.5 w-3.5" />
-              New
+              {/* em, not px: the row is rem-sized, so what decides whether the
+                  word fits is the sidebar's width measured in font sizes, not
+                  in pixels. Below that ratio the plus stands on its own — the
+                  two controls beside it are already icon-only. */}
+              <span className="hidden @[13em]:inline">New</span>
             </button>
           </div>
         </div>
