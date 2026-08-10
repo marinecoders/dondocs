@@ -5,19 +5,6 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
-## [1.2.139] — 2026-08-10
-
-### Added
-
-- **An endpoint check, under the menu.** Enter an address and it sends one
-  request from the browser and reports what came back, in the page rather than
-  the console. It separates the two problems that look identical from
-  JavaScript: an endpoint that answered but would not let the browser read the
-  response, and one that never answered at all. An address that is dropped
-  rather than refused gives up after fifteen seconds and says so, instead of
-  waiting forever. The address is typed in, not built in, and nothing it is
-  given is stored: closing the dialog ends the run and takes the token with it.
-
 ## [1.2.138] — 2026-08-10
 
 ### Fixed
