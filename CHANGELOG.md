@@ -5,6 +5,17 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.133] — 2026-08-09
+
+### Fixed
+
+- **A dollar sign no longer disappears from the Word export.** `$` was escaped
+  as `{\char36}` everywhere except body text — a form carried over from the PDF
+  generator, where it works around a font-encoding limit. Pandoc does not
+  understand it and drops it, so `FY25 $5M BUDGET REQUEST` in a subject line,
+  reference or enclosure title reached Word as `FY25 5M BUDGET REQUEST`. The PDF
+  was always correct, and nothing reported an error.
+
 ## [1.2.132] — 2026-08-09
 
 ### Fixed

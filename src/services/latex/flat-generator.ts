@@ -44,16 +44,13 @@ interface DocumentStore {
 /**
  * Every LaTeX special and what it becomes.
  *
- * `$` is `{\char36}`, carried over from the PDF escaper where it avoids
- * SwiftLaTeX's TS1 font encoding requirement.
- *
- * KNOWN BUG, pre-dating this table: pandoc does not understand `{\char36}` and
- * drops it, so a `$` in any field escaped here — subject, from, to, via,
- * references, enclosures, copy-to, distribution — is silently missing from the
- * Word export. `\$`, which body text uses, survives. Nothing that goes through
- * this file is ever compiled by SwiftLaTeX (generateFlatLatex output only ever
- * reaches pandoc), so the workaround buys nothing here. Fixing it is a
- * behaviour change and belongs in its own commit.
+ * `$` is `\$`, not the `{\char36}` the PDF escaper uses. That form exists to
+ * dodge SwiftLaTeX's TS1 font encoding requirement, and it came across with the
+ * rest of this table — but pandoc does not understand the primitive and drops
+ * it, so every `$` outside body text went missing from the Word export.
+ * Nothing generated here is compiled by SwiftLaTeX; it goes to pandoc, or to a
+ * user who downloads the flat source and compiles it with a real LaTeX, where
+ * `\$` is equally correct.
  */
 const LATEX_ESCAPES: Readonly<Record<string, string>> = {
   '\\': '\\textbackslash{}',
@@ -61,7 +58,7 @@ const LATEX_ESCAPES: Readonly<Record<string, string>> = {
   '%': '\\%',
   '#': '\\#',
   '_': '\\_',
-  '$': '{\\char36}',
+  '$': '\\$',
   '~': '\\textasciitilde{}',
   '^': '\\textasciicircum{}',
   '{': '\\{',
