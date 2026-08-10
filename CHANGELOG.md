@@ -5,6 +5,26 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.137] — 2026-08-10
+
+### Added
+
+- **The sidebar's two halves can be resized against each other.** Drag the line
+  between the section outline and Recents, the way you already drag the
+  sidebar's outer edge; arrow keys move it too, and double-clicking puts it back
+  to fitting the outline's content. The position is remembered.
+
+### Fixed
+
+- **A short window no longer squeezes Recents out of existence.** The outline
+  took its content height and never gave any of it back, so everything the
+  window lost came out of Recents — at a 500px-tall window that left it 40px,
+  with its search box below the bottom edge. The outline now scrolls and is
+  capped so Recents always keeps enough room for its header, search and a row.
+- **Double-clicking a sidebar divider resets it.** The width handle has offered
+  this since it was added, but it never fired: the handle suppressed the mouse
+  events a double-click is built from, and the drag overlay swallowed the rest.
+
 ## [1.2.136] — 2026-08-10
 
 ### Fixed
