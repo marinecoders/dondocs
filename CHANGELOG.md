@@ -5,6 +5,19 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.135] — 2026-08-09
+
+### Fixed
+
+- **The preview toolbar no longer cuts off its own buttons.** On a 1280-wide
+  screen with the preview at its default width, Fullscreen, Download PDF and
+  Open in browser tab were clipped off the right edge — not scrolled, hidden,
+  with nothing to say they existed. Download has a copy in the header, but the
+  other two had no other route anywhere in the app. Every common laptop width
+  was affected. Those three and the two fit-mode buttons now collapse into a
+  single overflow menu when the preview is narrow, and sit out in the open when
+  there is room for them; the zoom percentage yields first, as it did before.
+
 ## [1.2.134] — 2026-08-09
 
 ### Changed
