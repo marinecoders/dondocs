@@ -8,12 +8,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { IconTip } from '@/components/ui/icon-tip';
 import { SectionRail } from './SectionRail';
+import { SidebarResizer } from './SidebarResizer';
 import { getSectionError, getFormSectionError, useEditorSections, ERROR_BEARING_IDS } from './editorSections';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
 import { useDocumentsStore, searchableText, type DocumentMeta } from '@/stores/documentsStore';
 import { docTypeChip } from '@/types/document';
-import { useUIStore } from '@/stores/uiStore';
+import { useUIStore, SIDEBAR_WIDTH } from '@/stores/uiStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 
 function relTime(ts: number): string {
@@ -77,6 +78,7 @@ function buildGroups(metas: DocumentMeta[], sort: RecentsSort): { label: string;
 export function EditorSidebar() {
   const isMobile = useUIStore((s) => s.isMobile);
   const collapsed = useUIStore((s) => s.sidebarCollapsed);
+  const sidebarWidth = useUIStore((s) => s.sidebarWidth);
   const toggleSidebar = useUIStore((s) => s.toggleSidebar);
   const validationVisible = useUIStore((s) => s.validationVisible);
 
@@ -200,9 +202,11 @@ export function EditorSidebar() {
 
   if (collapsed) {
     return (
+      <>
       <nav
         aria-label="Documents"
-        className="hidden sm:flex w-[52px] shrink-0 flex-col items-center gap-1 border-r border-border bg-muted/30 py-2"
+        style={{ width: SIDEBAR_WIDTH.collapsed }}
+        className="hidden sm:flex shrink-0 flex-col items-center gap-1 border-r border-border bg-muted/30 py-2"
       >
         <button
           type="button"
@@ -222,14 +226,19 @@ export function EditorSidebar() {
           <Plus className="h-4 w-4" />
         </button>
       </nav>
+      {/* Still mounted while collapsed: dragging it back out is how you reopen. */}
+      <SidebarResizer />
+      </>
     );
   }
 
   return (
+    <>
     <nav
       ref={navRef}
       aria-label="Documents"
-      className="hidden sm:flex w-[248px] shrink-0 flex-col border-r border-border bg-muted/30"
+      style={{ width: sidebarWidth }}
+      className="hidden sm:flex shrink-0 flex-col border-r border-border bg-muted/30"
     >
       <span aria-live="polite" className="sr-only">{announce}</span>
 
@@ -550,5 +559,7 @@ export function EditorSidebar() {
         </div>
       </div>
     </nav>
+    <SidebarResizer />
+    </>
   );
 }

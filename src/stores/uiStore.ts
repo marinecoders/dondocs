@@ -6,6 +6,39 @@ import type { StorageHealth } from '@/lib/documentsDb';
 export type DensityMode = 'compact' | 'comfortable' | 'spacious';
 export type ColorScheme = 'default' | 'navy' | 'usmc';
 
+/**
+ * Sidebar geometry, in px.
+ *
+ * `min` is where the widest section label ("Classification") still fits beside
+ * its icon; `max` keeps the editor column usable on a 1280 screen once the
+ * preview is open. `collapsed` is the icon rail, which the resizer snaps to
+ * rather than treating as a separate mode — see SidebarResizer.
+ */
+export const SIDEBAR_WIDTH = {
+  min: 200,
+  max: 420,
+  default: 248,
+  collapsed: 52,
+  /** Drag narrower than this and it snaps shut instead of leaving a stub. */
+  snapThreshold: 160,
+} as const;
+
+/**
+ * What a pointer `x` px from the viewport's left edge means for the sidebar.
+ *
+ * Collapsing is the bottom of this range rather than a separate mode: drag past
+ * the threshold and it snaps to the rail, drag back out and the width returns.
+ * Lives here beside the geometry it depends on, and stays pure so the behaviour
+ * is testable without a DOM.
+ */
+export function resolveSidebarDrag(x: number): { collapsed: boolean; width?: number } {
+  if (x < SIDEBAR_WIDTH.snapThreshold) return { collapsed: true };
+  return {
+    collapsed: false,
+    width: Math.max(SIDEBAR_WIDTH.min, Math.min(SIDEBAR_WIDTH.max, x)),
+  };
+}
+
 /** The system's preferred color scheme, for first-time users with no preference set. */
 function getSystemTheme(): 'dark' | 'light' {
   if (typeof window !== 'undefined' && window.matchMedia) {
@@ -84,6 +117,13 @@ interface UIState {
 
   // Documents sidebar (recents + section outline)
   sidebarCollapsed: boolean;
+  /**
+   * Sidebar width in px. Pixels rather than a percentage because its content is
+   * text at a fixed size — a section label needs the same room on a 13" laptop
+   * as on a 27" display, where a percentage would give it three times as much.
+   */
+  sidebarWidth: number;
+  setSidebarWidth: (width: number) => void;
   setSidebarCollapsed: (collapsed: boolean) => void;
   toggleSidebar: () => void;
 
@@ -199,6 +239,11 @@ export const useUIStore = create<UIState>()(
 
       // Documents sidebar - expanded by default on desktop
       sidebarCollapsed: false,
+      // 248 was the hard-coded width before this became adjustable, so an
+      // existing user sees nothing move until they drag it.
+      sidebarWidth: SIDEBAR_WIDTH.default,
+      setSidebarWidth: (width) =>
+        set({ sidebarWidth: Math.max(SIDEBAR_WIDTH.min, Math.min(SIDEBAR_WIDTH.max, width)) }),
       setSidebarCollapsed: (collapsed) => set({ sidebarCollapsed: collapsed }),
       toggleSidebar: () => set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed })),
 
@@ -270,6 +315,7 @@ export const useUIStore = create<UIState>()(
         pdfThumbnailsOpen: state.pdfThumbnailsOpen,
         fullQualityPreview: state.fullQualityPreview,
         sidebarCollapsed: state.sidebarCollapsed,
+        sidebarWidth: state.sidebarWidth,
         storageNoticeDismissed: state.storageNoticeDismissed,
       }),
     }
