@@ -14,6 +14,10 @@ export function SidebarResizer() {
   const setWidth = useUIStore((s) => s.setSidebarWidth);
   const setCollapsed = useUIStore((s) => s.setSidebarCollapsed);
   const [isDragging, setIsDragging] = useState(false);
+  // The overlay only belongs over the page once the pointer has actually
+  // moved. Mounted on pointerdown it swallowed the mouseup, so the press
+  // never became a click and the dblclick reset never fired.
+  const [moved, setMoved] = useState(false);
   // The width to come back to. A drag that ends collapsed passes through every
   // width on its way in, and without this the last frame before the snap — a
   // width nobody chose — would be what reopening restores.
@@ -28,9 +32,12 @@ export function SidebarResizer() {
     [setCollapsed, setWidth],
   );
 
+  // No preventDefault here: it suppresses the compatibility mouse events, and
+  // with them the dblclick that resets the width — which is why that reset had
+  // never actually worked. Selection is held off with select-none on the handle
+  // and user-select on the body while dragging.
   const handlePointerDown = useCallback(
     (e: React.PointerEvent) => {
-      e.preventDefault();
       e.stopPropagation();
       widthBeforeDrag.current = width;
       setIsDragging(true);
@@ -44,10 +51,12 @@ export function SidebarResizer() {
     // The sidebar starts at the viewport's left edge, so clientX is the width.
     const onMove = (e: PointerEvent) => {
       e.preventDefault();
+      setMoved(true);
       apply(e.clientX);
     };
     const onUp = () => {
       setIsDragging(false);
+      setMoved(false);
       // Landed collapsed: put back the width the drag started from, so
       // reopening returns to what the user had rather than to the last
       // width the pointer happened to cross.
@@ -72,7 +81,7 @@ export function SidebarResizer() {
   return (
     <>
       {/* Keeps pointer events off the PDF iframe mid-drag. */}
-      {isDragging && <div className="fixed inset-0 z-50 cursor-col-resize" />}
+      {isDragging && moved && <div className="fixed inset-0 z-50 cursor-col-resize" />}
       <div
         onPointerDown={handlePointerDown}
         onDoubleClick={() => {
@@ -98,7 +107,7 @@ export function SidebarResizer() {
            use negative margins that reach over this strip, and at equal z the
            later sibling won, so half the grab area was dead. Still far below
            the z-50 overlays. */
-        className="group relative z-20 hidden shrink-0 cursor-col-resize rounded outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 sm:block"
+        className="group relative z-20 hidden shrink-0 cursor-col-resize select-none rounded outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 sm:block"
         role="separator"
         aria-orientation="vertical"
         aria-label="Resize sidebar. Drag, or use the left and right arrow keys."

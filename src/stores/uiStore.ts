@@ -39,6 +39,32 @@ export function resolveSidebarDrag(x: number): { collapsed: boolean; width?: num
   };
 }
 
+/**
+ * The sidebar's other axis: how its height is split between the section
+ * outline on top and Recents underneath.
+ *
+ * Only the floors live here. The outline's height is otherwise CSS — content
+ * height by default, capped so Recents always keeps `minRecents` — because the
+ * cap has to hold when the window resizes, not only when someone drags.
+ */
+export const SIDEBAR_SPLIT = {
+  /** The outline's floor: its label row and a couple of sections. */
+  minOutline: 96,
+  /** Recents' floor: header + search + one row, which is where it stops being a list. */
+  minRecents: 140,
+} as const;
+
+/**
+ * The outline height for a pointer `y`, given where the outline starts and how
+ * much room the sidebar has. Pure, like resolveSidebarDrag, so the clamping is
+ * testable without a DOM — and clamped against the container rather than a
+ * constant, since the ceiling moves with the window.
+ */
+export function resolveSplitDrag(y: number, outlineTop: number, containerHeight: number): number {
+  const ceiling = Math.max(SIDEBAR_SPLIT.minOutline, containerHeight - SIDEBAR_SPLIT.minRecents);
+  return Math.max(SIDEBAR_SPLIT.minOutline, Math.min(ceiling, y - outlineTop));
+}
+
 /** The system's preferred color scheme, for first-time users with no preference set. */
 function getSystemTheme(): 'dark' | 'light' {
   if (typeof window !== 'undefined' && window.matchMedia) {
@@ -124,6 +150,9 @@ interface UIState {
    */
   sidebarWidth: number;
   setSidebarWidth: (width: number) => void;
+  /** Outline height in px; null means fit its content, which is the default. */
+  outlineHeight: number | null;
+  setOutlineHeight: (height: number | null) => void;
   setSidebarCollapsed: (collapsed: boolean) => void;
   toggleSidebar: () => void;
 
@@ -244,6 +273,9 @@ export const useUIStore = create<UIState>()(
       sidebarWidth: SIDEBAR_WIDTH.default,
       setSidebarWidth: (width) =>
         set({ sidebarWidth: Math.max(SIDEBAR_WIDTH.min, Math.min(SIDEBAR_WIDTH.max, width)) }),
+      outlineHeight: null,
+      setOutlineHeight: (height) =>
+        set({ outlineHeight: height === null ? null : Math.max(SIDEBAR_SPLIT.minOutline, height) }),
       setSidebarCollapsed: (collapsed) => set({ sidebarCollapsed: collapsed }),
       toggleSidebar: () => set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed })),
 
@@ -316,6 +348,7 @@ export const useUIStore = create<UIState>()(
         fullQualityPreview: state.fullQualityPreview,
         sidebarCollapsed: state.sidebarCollapsed,
         sidebarWidth: state.sidebarWidth,
+        outlineHeight: state.outlineHeight,
         storageNoticeDismissed: state.storageNoticeDismissed,
       }),
     }
