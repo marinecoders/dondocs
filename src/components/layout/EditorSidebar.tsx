@@ -256,6 +256,11 @@ export function EditorSidebar() {
         style={{
           height: outlineHeight ?? undefined,
           maxHeight: `calc(100% - ${SIDEBAR_SPLIT.minRecents}px)`,
+          // min beats max in CSS, which is the precedence resolveSplitDrag
+          // uses too: in a sidebar too short for both floors the outline keeps
+          // its own. Without this the cap alone squeezed it to 8px at a 200px
+          // window and the outline became unreachable.
+          minHeight: SIDEBAR_SPLIT.minOutline,
         }}
         className="shrink-0 overflow-y-auto px-2 pb-2"
       >
