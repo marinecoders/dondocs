@@ -5,6 +5,19 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.134] — 2026-08-09
+
+### Changed
+
+- **The sidebar resizes.** It was a fixed 248px — a fifth of a 1280px screen,
+  whether you were reading the section outline or not — and the only alternative
+  was collapsing it to an icon rail that dropped both the outline and Recents.
+  Drag its right edge to any width between 200 and 420px; the width is
+  remembered like the preview panel's. Dragging past the low end snaps to the
+  rail and dragging back out restores the width you had, so collapsing is part
+  of the same gesture rather than a separate mode. Double-click resets it, and
+  the arrow keys move it 16px at a time.
+
 ## [1.2.133] — 2026-08-09
 
 ### Fixed
