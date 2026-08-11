@@ -55,7 +55,7 @@ export interface BackupBundle {
   exportedAt: number;
   documents: unknown[];
   profiles: { profiles: Record<string, Profile>; selectedProfile: string | null };
-  forms: { navmc10274: unknown; navmc11811: unknown };
+  forms: { navmc10274: unknown; navmc11811: unknown; configFormValues?: unknown; configFormRows?: unknown };
   snippets: Snippet[];
   userTemplates: Record<string, UserTemplate>;
   attachments: BackupAttachment[];
@@ -227,7 +227,7 @@ export async function buildBackup(): Promise<string> {
     exportedAt: Date.now(),
     documents: docs,
     profiles: { profiles: profile.profiles, selectedProfile: profile.selectedProfile },
-    forms: { navmc10274: form.navmc10274, navmc11811: form.navmc11811 },
+    forms: { navmc10274: form.navmc10274, navmc11811: form.navmc11811, configFormValues: form.configFormValues, configFormRows: form.configFormRows },
     snippets: useSnippetsStore.getState().snippets,
     userTemplates: useUserTemplatesStore.getState().templates,
     attachments,
@@ -327,13 +327,20 @@ async function runRestore(json: string): Promise<RestoreResult> {
     });
   }
 
-  // Live NAVMC form buffer: single state, replaced when the backup carries it.
+  // Live NAVMC form buffer. The two single-buffer forms are one known form each,
+  // so replacing them when the backup carries them is safe. configFormValues/
+  // configFormRows are dictionaries keyed by form id, one entry per form the
+  // user has touched, so they merge non-destructively (add-only-missing, keep
+  // local) — a restore must never clobber a config form the user has in
+  // progress but the bundle lacks, per this module's contract.
   let formsRestored = false;
   const forms = parsed.forms as BackupBundle['forms'] | undefined;
-  if (forms && (forms.navmc10274 || forms.navmc11811)) {
+  if (forms && (forms.navmc10274 || forms.navmc11811 || forms.configFormValues || forms.configFormRows)) {
     useFormStore.setState((s) => ({
       navmc10274: (forms.navmc10274 as typeof s.navmc10274) ?? s.navmc10274,
       navmc11811: (forms.navmc11811 as typeof s.navmc11811) ?? s.navmc11811,
+      configFormValues: mergeRecord(s.configFormValues, forms.configFormValues as typeof s.configFormValues).merged,
+      configFormRows: mergeRecord(s.configFormRows, forms.configFormRows as typeof s.configFormRows).merged,
     }));
     formsRestored = true;
   }

@@ -5,6 +5,54 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.139] — 2026-08-10
+
+### Added
+
+- **Forms are now described as data, not code.** A form is defined entirely by a
+  `form.json` sitting beside its template pages: the editor sections, the field
+  widgets, saving, the live preview and the PDF export all run through one
+  generic pipeline. Adding a form takes no TypeScript. **No new forms ship in
+  this release** — this is the machinery they arrive on, and the two hand-built
+  forms (NAVMC 10274 and NAVMC 118(11)) keep their own editors.
+- **Roster tables.** A form can declare a repeated-row region: one set of column
+  boxes describes row 1 and is stamped down the page at a fixed stride. The
+  editor gives you a spreadsheet you tab across, capped at the number of rows the
+  printed form actually has, and the entries save and ride the backup bundle like
+  any other field. A mostly-checkbox section renders as a compact checklist
+  instead of a stack of labelled boxes.
+- **A searchable form catalog.** Pick a form by number, title or nickname, or
+  browse the full list. Hand-checked forms sort above automatically prepared
+  ones, and an automatically prepared form carries a plain notice in the editor:
+  it was prepared by machine, it has not been checked by a person, and the
+  exported PDF should be compared against the official form before signing.
+- **The form import toolchain** (`scripts/`, for maintainers — nothing in it runs
+  in the app). One command takes an official form from the DON forms registry to
+  a registered, review-ready template: fetch, decrypt, flatten headlessly with no
+  Adobe, harvest every field box out of the original, and promote it to a live
+  form. It works on any form family in the registry, not just NAVMC.
+
+  It is built to refuse rather than guess. It will not stage Adobe's "please
+  wait" placeholder as a form, or a page that rendered blank, or a source whose
+  pages are not the document the template was flattened from. When it does drop
+  or move a field it says so and the batch counts it, because a 76-field form
+  imported with 45 fields and reported as a success is the failure that matters.
+  Every import writes overlay images with each harvested box drawn on the page
+  it belongs to, at that page's own size, so a person can see whether a box sits
+  on its blank; the pipeline's own tests check those boxes against the ink on
+  the rendered page rather than against the arithmetic that produced them.
+  Re-running the
+  harvester after an improvement updates only geometry, so a form someone has
+  reviewed by hand never silently reverts. Two imports running at once cannot
+  drop each other's rows from the catalog.
+
+### Changed
+
+- Form template pages are revalidated in the background instead of being pinned
+  for 90 days. A form you have opened still opens instantly offline — the
+  air-gapped promise is unchanged — but a corrected template now reaches you on
+  the next online load instead of months later. The old pinned cache is dropped
+  when the new service worker activates.
 ## [1.2.138] — 2026-08-10
 
 ### Fixed

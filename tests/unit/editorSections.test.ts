@@ -4,8 +4,10 @@ import {
   getFormSectionError,
   getSectionError,
   completenessFrom,
+  configFormCompleteness,
   ERROR_BEARING_IDS,
 } from '@/components/layout/editorSections';
+import type { FormConfig } from '@/types/formConfig';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 
 const ids = (docType: string) =>
@@ -187,5 +189,47 @@ describe('getFormSectionError — forms parity', () => {
     // Two-column remarks: either column alone is valid; right-only must NOT error.
     expect(getFormSectionError('navmc_118_11', 'content', { remarksText: '', remarksTextRight: 'right' })).toBe(false);
     expect(getFormSectionError('navmc_118_11', 'content', { remarksText: '', remarksTextRight: '' })).toBe(true);
+  });
+});
+
+describe('configFormCompleteness — a required radio group is one question', () => {
+  const box = { left: 0, top: 0, width: 10, height: 10 };
+  const form = (fields: FormConfig['fields']): FormConfig => ({
+    id: 'f', label: 'F', directory: 'F', pages: ['page1.pdf'], sections: [], fields,
+  });
+
+  // The AcroForm /Ff required bit lives on the parent and every kid inherits
+  // it, so three options were three separate requirements — and picking one
+  // clears the others, which made "Ready to sign" unreachable by construction.
+  const sex = form({
+    male: { type: 'radio', label: 'Male', page: 1, box, group: 'sex', required: true },
+    female: { type: 'radio', label: 'Female', page: 1, box, group: 'sex', required: true },
+    other: { type: 'radio', label: 'Other', page: 1, box, group: 'sex', required: true },
+  });
+
+  it('counts the group once, not once per option', () => {
+    expect(configFormCompleteness(sex, {}).required).toBe(1);
+  });
+
+  it('is satisfied by any one option, which is all a radio group allows', () => {
+    expect(configFormCompleteness(sex, { female: true }).isReady).toBe(true);
+    expect(configFormCompleteness(sex, {}).isReady).toBe(false);
+  });
+
+  it('still counts an ungrouped radio and a plain field on their own', () => {
+    const mixed = form({
+      name: { type: 'text', label: 'Name', page: 1, box, required: true },
+      loner: { type: 'radio', label: 'Ack', page: 1, box, required: true },
+      optional: { type: 'text', label: 'Note', page: 1, box },
+      ...sex.fields,
+    });
+    expect(configFormCompleteness(mixed, {}).required).toBe(3);
+    expect(configFormCompleteness(mixed, { name: 'A', loner: true, male: true }).isReady).toBe(true);
+  });
+
+  it('treats an empty string and false as unfilled, but 0-length group as nothing required', () => {
+    const one = form({ name: { type: 'text', label: 'N', page: 1, box, required: true } });
+    expect(configFormCompleteness(one, { name: '' }).isReady).toBe(false);
+    expect(configFormCompleteness(form({}), {}).required).toBe(0);
   });
 });

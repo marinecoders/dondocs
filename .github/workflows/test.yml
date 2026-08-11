@@ -36,7 +36,7 @@ jobs:
         # and what Cloudflare Pages runs by default. The codebase ships to
         # browsers, not Node, so the only Node-specific surface is the
         # build / test tooling. Single version is enough.
-        task: [unit, typecheck, lint]
+        task: [unit, typecheck, lint, scripts]
         # Lint is now a gate: the baseline is clean (0 errors). The
         # `eslint-plugin-security` follow-up is still open. Bundle-size
         # and `npm audit` gates already exist (see the `build` and
@@ -54,12 +54,44 @@ jobs:
       - name: install
         run: npm ci
 
+      # Only the `scripts` task needs these. harvest-fields.py does
+      # `from pypdf import PdfReader` at module scope and sys.exit()s if it is
+      # missing, so test-harvest-geometry.py and test-harvest-xfa.py cannot even
+      # import the module under test without them. Pillow comes along for the
+      # overlay renderer in the same module.
+      - name: python deps
+        if: matrix.task == 'scripts'
+        run: python3 -m pip install --quiet pypdf pillow
+
+      # test-harvest-ink.py drives the real flatten + harvest and measures the
+      # rendered pixels, so it needs the same toolchain the pipeline needs. It
+      # skips cleanly when these are absent, which would mean the one test that
+      # checks coordinates against reality silently never runs in CI — so
+      # install them rather than letting it opt out.
+      - name: pdf toolchain
+        if: matrix.task == 'scripts'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq qpdf poppler-utils
+
       - name: run task
         run: |
           case "${{ matrix.task }}" in
             unit)      npm test ;;
             typecheck) npx tsc --noEmit ;;
             lint)      npm run lint ;;
+            # The form-import pipeline is Python, and its tests were running
+            # nowhere: the self-contained scripts under scripts/test-*.py, which
+            # only ever ran when someone remembered to. They cover the form
+            # import pipeline end to end — the naming rules that decide what
+            # folder a form is filed under, the XFA harvest path no committed
+            # form exercises, page-box normalization that was refusing real DON
+            # forms, harvested boxes measured against the rendered ink, the
+            # catalog's concurrent writes, and promote's merge semantics. None of
+            # it is reachable from vitest, so it needs its own task rather than a
+            # mention in the unit job. The glob picks up new files by itself.
+            # Most of them load harvest-fields.py, which exits at import without
+            # pypdf, so the deps step above is required — a bare runner would
+            # fail on the import, not the assertions.
+            scripts)   for t in scripts/test-*.py; do echo "== $t"; python3 "$t" || exit 1; done ;;
           esac
 
   coverage:

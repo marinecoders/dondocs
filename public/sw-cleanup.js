@@ -12,6 +12,10 @@ const RETIRED_CACHES = [
   'pandoc-wasm-cache-v2',
   'pandoc-wasm-cdn-cache-v1',
   'wasi-shim-cdn-cache-v1',
+  // form-templates went CacheFirst(v1) -> StaleWhileRevalidate(v2): drop the v1
+  // cache so re-harvested PDFs pinned under the old CacheFirst rule are evicted
+  // instead of serving stale geometry for up to 90 days.
+  'form-templates-cache-v1',
 ];
 
 self.addEventListener('activate', (event) => {

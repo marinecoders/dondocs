@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { Shield, Settings2, Eraser, FileStack, ClipboardList, FolderOpen } from 'lucide-react';
+import { Shield, Settings2, Eraser, FileStack, ClipboardList, FolderOpen, LibraryBig } from 'lucide-react';
+import { FormPicker } from '@/components/editor/FormPicker';
+import { FormCatalogModal } from '@/components/modals/FormCatalogModal';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { HelpTip } from '@/components/ui/help-tip';
@@ -25,10 +27,11 @@ import {
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
-import { DOC_TYPE_CONFIG, DOC_TYPE_LABELS, DOC_TYPE_CATEGORIES, FORM_TYPE_LABELS, FORM_TYPE_CATEGORIES, type DocumentCategory, type DocumentMode, type FormType } from '@/types/document';
+import { DOC_TYPE_CONFIG, DOC_TYPE_LABELS, DOC_TYPE_CATEGORIES, type DocumentCategory, type DocumentMode } from '@/types/document';
 import { Badge } from '@/components/ui/badge';
 
 export function DocumentTypeSelector() {
+  const [catalogOpen, setCatalogOpen] = useState(false);
   const {
     formType, setFormType,
     documentCategory, setDocumentCategory,
@@ -248,31 +251,33 @@ export function DocumentTypeSelector() {
       {!isCorrespondence && (
         <>
         <div className="space-y-2">
-          <Label>Form Type</Label>
-          <Select value={formType} onValueChange={(v) => setFormType(v as FormType)}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select form type" />
-            </SelectTrigger>
-            <SelectContent>
-              {FORM_TYPE_CATEGORIES.map((cat) => (
-                <SelectGroup key={cat.category}>
-                  <SelectLabel>{cat.category}</SelectLabel>
-                  {cat.types.map((type) => (
-                    <SelectItem key={type} value={type}>
-                      {FORM_TYPE_LABELS[type]}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="flex items-center justify-between">
+            <Label>Form Type</Label>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="h-7 gap-1.5 text-xs"
+              onClick={() => setCatalogOpen(true)}
+            >
+              <LibraryBig className="h-3.5 w-3.5" aria-hidden />
+              Browse all
+            </Button>
+          </div>
+          <FormPicker value={formType} onSelect={(v) => setFormType(v)} />
         </div>
 
         <div className="border-l-2 border-border pl-3 text-xs">
           <div className="text-muted-foreground">
-            Select a form type above to edit. The form editor will appear below.
+            Search by number, title, or nickname — or browse the full catalog.
           </div>
         </div>
+
+        <FormCatalogModal
+          open={catalogOpen}
+          onOpenChange={setCatalogOpen}
+          onSelect={(v) => setFormType(v)}
+        />
         </>
       )}
 
