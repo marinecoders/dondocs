@@ -1,8 +1,11 @@
 import { escapeLatex, escapeLatexUrl, processBodyText, formatSubjectForLatex, formatAddressForLatex } from './escaper';
+import { composeSenderSymbol } from './senderSymbol';
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
+import { paragraphMark, delimitParagraphMark, isUnderlinedLevel } from './paragraphLabel';
+import { subparagraphIndentIn, ancestorLabelsPerParagraph, type LabelFont } from './subparagraphIndent';
 import { safeUrl } from '@/lib/url-safety';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
 import { formatViaLines } from '@/lib/viaLines';
@@ -53,14 +56,11 @@ function validatedPocEmail(raw: string | undefined | null): string {
 }
 
 function getParagraphLabel(level: number, count: number): string {
-  const patterns = [
-    (n: number) => `${n}.`,
-    (n: number) => `${String.fromCharCode(96 + n)}.`,
-    (n: number) => `(${n})`,
-    (n: number) => `(${String.fromCharCode(96 + n)})`,
-  ];
-  const pattern = patterns[level % 4];
-  return pattern(count);
+  const mark = paragraphMark(level, count);
+  // Fig 7-8 underlines the counter itself at levels 4+; the period and the
+  // parentheses stay plain, so the delimiter goes on outside the \uline.
+  const underlined = isUnderlinedLevel(level) ? `\\uline{${mark}}` : mark;
+  return delimitParagraphMark(level, underlined);
 }
 
 function calculateLabels(paragraphs: Paragraph[]): string[] {
@@ -143,8 +143,12 @@ ${(() => {
   // and SwiftLaTeX silently swallowed the unknown control sequence
   // while xelatex (the integration matrix's engine) rejected it. See
   // tests/regressions/pr-066-setInReplyReferTo-undefined-macro.test.ts.
+  // The originator's code lives on this line too, fused with the serial when
+  // there is one (SECNAV M-5216.5 Ch 7 para 2a(2)). It used to be collected and
+  // never printed.
+  const senderSymbol = composeSenderSymbol(data.officeCode, serial);
   tex += `\\setSSIC{${config.ssic ? escapeLatex(ssic) : ''}}
-\\setSerial{${config.ssic ? escapeLatex(serial) : ''}}
+\\setSerial{${config.ssic ? escapeLatex(senderSymbol) : ''}}
 \\setDocumentDate{${escapeLatex(docDate)}}
 ${isBusinessLetter ? `\\setBusinessDate{${escapeLatex(docDate)}}` : '% Not a business letter'}
 
@@ -368,7 +372,7 @@ export function generateSignatoryTex(store: DocumentStore): string {
     // "1." must align with the letter's "1."; \hspace here put the text 2.3pt
     // further right than the body above it.
     const body = ack.paragraphs
-      .map((text, i) => `\\noindent ${i + 1}.  ${escapeLatex(text)}\\par\\vspace{12pt}`)
+      .map((text, i) => `\\noindent ${i + 1}.~~${escapeLatex(text)}\\par\\vspace{12pt}`)
       .join('');
     appendedEndorsementTex = `\\setAppendedEndorsement
     {${escapeLatex(ack.from)}}
@@ -471,7 +475,7 @@ function generateMOASignatoryTex(store: DocumentStore): string {
 % Junior Command (Signs First - Left Side) - uses Junior-prefixed fields
 \\renewcommand{\\JuniorCommandName}{${escapeLatex(data.juniorCommandName)}}
 \\renewcommand{\\JuniorSSIC}{${escapeLatex(data.juniorSSIC)}}
-\\renewcommand{\\JuniorSerial}{${escapeLatex(data.juniorSerial)}}
+\\renewcommand{\\JuniorSerial}{${escapeLatex(composeSenderSymbol(undefined, data.juniorSerial))}}
 \\renewcommand{\\JuniorDate}{${escapeLatex(data.juniorDate)}}
 \\renewcommand{\\JuniorSignatoryName}{${escapeLatex(juniorAbbrev)}}
 \\renewcommand{\\JuniorSignatoryRank}{${escapeLatex(data.juniorSigRank)}}
@@ -529,7 +533,7 @@ function generateJointLetterSignatoryTex(store: DocumentStore): string {
 \\renewcommand{\\JuniorCommandZip}{${escapeLatex(data.jointJuniorZip)}}
 \\renewcommand{\\JuniorCommandCode}{${escapeLatex(data.jointJuniorCode)}}
 \\renewcommand{\\JuniorSSIC}{${escapeLatex(data.jointJuniorSSIC)}}
-\\renewcommand{\\JuniorSerial}{${escapeLatex(data.jointJuniorSerial)}}
+\\renewcommand{\\JuniorSerial}{${escapeLatex(composeSenderSymbol(undefined, data.jointJuniorSerial))}}
 \\renewcommand{\\JuniorDate}{${escapeLatex(data.jointJuniorDate)}}
 \\renewcommand{\\JuniorFromLine}{${escapeLatex(data.jointJuniorFrom)}}
 \\renewcommand{\\JuniorSignatoryName}{${escapeLatex(juniorFullName.toUpperCase())}}
@@ -624,13 +628,13 @@ export function generateCopyToTex(store: DocumentStore): string {
     return '% No copy-to recipients\n';
   }
 
-  // Build pre-built tabular rows: first row has "Copy to:" label, rest are continuation
-  const rows = store.copyTos.map((ct, i) => {
-    if (i === 0) {
-      return `    Copy to:\\hspace{2\\fontdimen2\\font} & ${escapeLatex(ct.text)} \\\\`;
-    }
-    return `     & ${escapeLatex(ct.text)} \\\\`;
-  });
+  // Label on its own line, every addressee flush beneath it. SECNAV M-5216.5
+  // Ch 7 15c: listed "in a single column at the left margin and single spaced
+  // below the 'Copy to:' line", which is how the manual renders it in all five
+  // of its own Ch 7 examples. A tabular put the first addressee beside the
+  // label and all of them 47pt in from the margin.
+  const rows = ['    \\noindent Copy to:\\par']
+    .concat(store.copyTos.map((ct) => `    \\noindent ${escapeLatex(ct.text)}\\par`));
 
   return `%=============================================================================
 % COPY TO - Generated by dondocs
@@ -649,13 +653,10 @@ export function generateDistributionTex(store: DocumentStore): string {
     return '% No distribution recipients\n';
   }
 
-  // Build pre-built tabular rows: first row has "Distribution:" label, rest are continuation
-  const rows = store.distributions.map((d, i) => {
-    if (i === 0) {
-      return `    Distribution:\\hspace{2\\fontdimen2\\font} & ${escapeLatex(d.text)} \\\\`;
-    }
-    return `     & ${escapeLatex(d.text)} \\\\`;
-  });
+  // Same shape as the copy-to block: 15c ends "Use this format for the
+  // 'Distribution:' lines as well."
+  const rows = ['    \\noindent Distribution:\\par']
+    .concat(store.distributions.map((d) => `    \\noindent ${escapeLatex(d.text)}\\par`));
 
   return `%=============================================================================
 % DISTRIBUTION - Generated by dondocs
@@ -669,7 +670,30 @@ ${rows.join('\n')}
 `;
 }
 
-// Convert header to Title Case per SECNAV M-5216.5 Ch 7 ¶13d
+/** A word the author typed entirely in capitals, i.e. an acronym rather than
+ * an ordinary word. Single letters are excluded so "A" stays a minor word. */
+function isAcronym(word: string): boolean {
+  return word.length >= 2 && word === word.toUpperCase() && word !== word.toLowerCase();
+}
+
+/** Title Case per SECNAV M-5216.5 Ch 7 ¶13d, raising a word's first letter
+ * but never lowering the rest.
+ *
+ * MCO 5216.20B Ch 13 ¶5b keeps an acronym in capitals: all caps "will not be
+ * followed in correspondence unless the abbreviation is made up entirely of
+ * the initial letters of major words, (i.e., unless it is an acronym)" —
+ * HQMC, USMC, MedEvac. Lowercasing the tail of each word turned those into
+ * Hqmc, Usmc and Medevac, and did the same to TCCOR, 1st MarDiv and
+ * COMMARFORPAC. ¶13d asks only that key words be capitalized; nothing in
+ * either manual licenses lowering a letter the author typed.
+ *
+ * Checked against 190 real headings — the 174 in SECNAV M-5216.5 plus those
+ * in the Adjutant master template and a letter reviewed in the field. 188
+ * pass through untouched; the two that change ("Copy To") are the existing
+ * minor-word list below, which behaves the same as it always has.
+ *
+ * flat-generator.ts carries the same function for the DOCX path — fix both.
+ */
 function toTitleCase(str: string): string {
   // Words that should remain lowercase (unless first word)
   const lowercaseWords = ['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'in', 'nor', 'of', 'on', 'or', 'so', 'the', 'to', 'up', 'yet'];
@@ -678,9 +702,11 @@ function toTitleCase(str: string): string {
     const lower = word.toLowerCase();
     // Always capitalize first word, otherwise check if it's a lowercase word
     if (index === 0 || !lowercaseWords.includes(lower)) {
-      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      return word.charAt(0).toUpperCase() + word.slice(1);
     }
-    return lower;
+    // A minor word gets lowercased, unless the author typed it in capitals —
+    // AT (Anti-Terrorism), SO (Special Operations) and OR all spell one.
+    return isAcronym(word) ? word : lower;
   }).join(' ');
 }
 
@@ -691,6 +717,11 @@ function underlineWords(text: string): string {
 
 export function generateBodyTex(store: DocumentStore): string {
   const labels = calculateLabels(store.paragraphs);
+  // Where each subparagraph's label must sit: under its parent's text, per
+  // Figure 7-8. flat-generator.ts computes the identical number for Word.
+  const ancestors = ancestorLabelsPerParagraph(labels, store.paragraphs.map((p) => p.level));
+  const bodyFont: LabelFont = (store.formData.fontFamily || 'times') === 'courier' ? 'courier' : 'times';
+  const bodySizePt = parseFloat(store.formData.fontSize || '12pt') || 12;
   const config = DOC_TYPE_CONFIG[store.docType] || DOC_TYPE_CONFIG.naval_letter;
 
   // Business letters (Ch 11 ¶6, "Do not number main paragraphs") and executive
@@ -725,33 +756,79 @@ export function generateBodyTex(store: DocumentStore): string {
     // portion marks on the primary output too). Enum-constrained, LaTeX-safe.
     const portionPrefix = para.portionMarking ? `(${para.portionMarking}) ` : '';
 
+    // The two spaces belong to the label. Business letters and executive
+    // correspondence number nothing, so an empty label must not leave the gap
+    // behind — it would push the first line right of its own wrapped lines.
+    const labelGap = label ? `${label}~~` : '';
+
+    // The period belongs to the sentence the heading introduces, not to the
+    // heading — so a heading that introduces nothing does not get one. ¶13d
+    // says only to underline the heading and Title Case it, but the manual
+    // demonstrates the rule throughout: of its own 75 standalone Title Case
+    // headings, 69 are bare ("14. Signature Line", "a. General"), and the ones
+    // carrying a period are sentence fragments rather than headings. The
+    // Adjutant master template states it outright: "1. Format" — no period.
+    const headingDot = para.text.trim() ? '.' : '';
+
+    // Authors type the period themselves out of habit, and the generator adds
+    // its own, so "Format." printed as "Format..". Drop a trailing one — the
+    // DOCX path has always done this. Costs the period on a heading that ends
+    // in an abbreviation, which is the rarer case by far.
+    const formattedHeader = headerText ? toTitleCase(headerText.replace(/\.$/, '')) : '';
+
     if (para.level === 0) {
       // Level 0: Main paragraph with optional underlined header
       // Per SECNAV M-5216.5 Ch 7 ¶13d: "Underline any heading and capitalize its key words"
       if (isBusinessLetter) {
         // Business letter: 0.5" first-line indent, no numbers
         if (headerText) {
-          const formattedHeader = toTitleCase(headerText);
-          parts.push(`\\vspace{12pt}\n\\noindent\\hspace{0.5in}${underlineWords(escapeLatex(formattedHeader))}.  ${portionPrefix}${processBodyText(para.text)}\n\n`);
+          parts.push(`\\vspace{12pt}\n\\noindent\\hspace{0.5in}${underlineWords(escapeLatex(formattedHeader))}${headingDot}~~${portionPrefix}${processBodyText(para.text)}\n\n`);
         } else {
           parts.push(`\\vspace{12pt}\n\\noindent\\hspace{0.5in}${portionPrefix}${processBodyText(para.text)}\n\n`);
         }
       } else if (headerText) {
-        const formattedHeader = toTitleCase(headerText);
-        parts.push(`\\vspace{12pt}\n\\noindent ${label} ${underlineWords(escapeLatex(formattedHeader))}.  ${portionPrefix}${processBodyText(para.text)}\n\n`);
+        parts.push(`\\vspace{12pt}\n\\noindent ${labelGap}${underlineWords(escapeLatex(formattedHeader))}${headingDot}~~${portionPrefix}${processBodyText(para.text)}\n\n`);
       } else {
-        parts.push(`\\vspace{12pt}\n\\noindent ${label}  ${portionPrefix}${processBodyText(para.text)}\n\n`);
+        parts.push(`\\vspace{12pt}\n\\noindent ${labelGap}${portionPrefix}${processBodyText(para.text)}\n\n`);
       }
     } else {
-      // Subparagraphs: Use leftskip for proper continuation line wrapping
-      // Per SECNAV Ch 7 ¶13: continuation lines return to label position
-      const levelIndent = isBusinessLetter ? (para.level + 1) * 0.5 : para.level * 0.25; // Business: 0.5" per level, Others: 0.25"
+      // Subparagraphs indent their FIRST LINE only.
+      //
+      // SECNAV M-5216.5 Ch 7 ¶13: "Start all continuation lines at the left
+      // margin... When using a subparagraph, the first line is always indented
+      // the appropriate number of spaces depending on the level of
+      // subparagraphing. All other lines of a subparagraph continue at the left
+      // margin. Do not indent the continuation lines of a subparagraph."
+      // Figure 7-8 shows the same shape.
+      //
+      // This was `\leftskip`, which shifts EVERY line of the paragraph — the
+      // comment here claimed ¶13 wanted continuation lines at the label
+      // position, which is the opposite of what ¶13 says. `\hspace*` indents
+      // only the line it sits on, matching the DOCX path's
+      // \dondocsfirstindent → w:ind w:firstLine.
+      //
+      // Business letters keep the block indent (Ch 11 has no such rule), which
+      // is also what the DOCX path does for them.
+      // The step is the parent's label width plus its gap, not a constant:
+      // Figure 7-8 prints a subdivision under "10." further right than one
+      // under "1." for exactly that reason. See subparagraphIndent.ts.
+      const levelIndent = isBusinessLetter
+        ? (para.level + 1) * 0.5
+        : subparagraphIndentIn(ancestors[i], bodyFont, bodySizePt);
+      const body = headerText
+        ? `${labelGap}${underlineWords(escapeLatex(formattedHeader))}${headingDot}~~${portionPrefix}${processBodyText(para.text)}`
+        : `${labelGap}${portionPrefix}${processBodyText(para.text)}`;
 
-      if (headerText) {
-        const formattedHeader = toTitleCase(headerText);
-        parts.push(`\\vspace{6pt}\n{\\leftskip=${levelIndent}in\n\\noindent ${label} ${underlineWords(escapeLatex(formattedHeader))}. ${portionPrefix}${processBodyText(para.text)}\\par}\n\n`);
+      // 12pt is one blank line at 12pt type — the same gap top-level paragraphs
+      // get, because ¶13 draws no distinction: "each paragraph OR SUBPARAGRAPH
+      // begins on the second line below the previous paragraph or subparagraph."
+      // Figure 7-8 prints a hard return between every pair it shows, including
+      // (1)/(2) and a./b. This was 6pt, which reads as a half-height gap and is
+      // what a reviewer in the field marked up.
+      if (isBusinessLetter) {
+        parts.push(`\\vspace{12pt}\n{\\leftskip=${levelIndent}in\n\\noindent ${body}\\par}\n\n`);
       } else {
-        parts.push(`\\vspace{6pt}\n{\\leftskip=${levelIndent}in\n\\noindent ${label} ${portionPrefix}${processBodyText(para.text)}\\par}\n\n`);
+        parts.push(`\\vspace{12pt}\n\\noindent\\hspace*{${levelIndent}in}${body}\n\n`);
       }
     }
   }

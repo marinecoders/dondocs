@@ -6,6 +6,65 @@ import type { StorageHealth } from '@/lib/documentsDb';
 export type DensityMode = 'compact' | 'comfortable' | 'spacious';
 export type ColorScheme = 'default' | 'navy' | 'usmc';
 
+/**
+ * Sidebar geometry, in px.
+ *
+ * `min` is where the widest section label ("Classification") still fits beside
+ * its icon; `max` keeps the editor column usable on a 1280 screen once the
+ * preview is open. `collapsed` is the icon rail, which the resizer snaps to
+ * rather than treating as a separate mode — see SidebarResizer.
+ */
+export const SIDEBAR_WIDTH = {
+  min: 200,
+  max: 420,
+  default: 248,
+  collapsed: 52,
+  /** Drag narrower than this and it snaps shut instead of leaving a stub. */
+  snapThreshold: 160,
+} as const;
+
+/**
+ * What a pointer `x` px from the viewport's left edge means for the sidebar.
+ *
+ * Collapsing is the bottom of this range rather than a separate mode: drag past
+ * the threshold and it snaps to the rail, drag back out and the width returns.
+ * Lives here beside the geometry it depends on, and stays pure so the behaviour
+ * is testable without a DOM.
+ */
+export function resolveSidebarDrag(x: number): { collapsed: boolean; width?: number } {
+  if (x < SIDEBAR_WIDTH.snapThreshold) return { collapsed: true };
+  return {
+    collapsed: false,
+    width: Math.max(SIDEBAR_WIDTH.min, Math.min(SIDEBAR_WIDTH.max, x)),
+  };
+}
+
+/**
+ * The sidebar's other axis: how its height is split between the section
+ * outline on top and Recents underneath.
+ *
+ * Only the floors live here. The outline's height is otherwise CSS — content
+ * height by default, capped so Recents always keeps `minRecents` — because the
+ * cap has to hold when the window resizes, not only when someone drags.
+ */
+export const SIDEBAR_SPLIT = {
+  /** The outline's floor: its label row and a couple of sections. */
+  minOutline: 96,
+  /** Recents' floor: header + search + one row, which is where it stops being a list. */
+  minRecents: 140,
+} as const;
+
+/**
+ * The outline height for a pointer `y`, given where the outline starts and how
+ * much room the sidebar has. Pure, like resolveSidebarDrag, so the clamping is
+ * testable without a DOM — and clamped against the container rather than a
+ * constant, since the ceiling moves with the window.
+ */
+export function resolveSplitDrag(y: number, outlineTop: number, containerHeight: number): number {
+  const ceiling = Math.max(SIDEBAR_SPLIT.minOutline, containerHeight - SIDEBAR_SPLIT.minRecents);
+  return Math.max(SIDEBAR_SPLIT.minOutline, Math.min(ceiling, y - outlineTop));
+}
+
 /** The system's preferred color scheme, for first-time users with no preference set. */
 function getSystemTheme(): 'dark' | 'light' {
   if (typeof window !== 'undefined' && window.matchMedia) {
@@ -44,12 +103,16 @@ interface UIState {
   referenceLibraryOpen: boolean;
   aboutModalOpen: boolean;
   nistModalOpen: boolean;
+  /** Endpoint reachability check. Deliberately absent from `partialize`:
+   *  nothing it holds is worth carrying across a reload. */
+  connectivityModalOpen: boolean;
   batchModalOpen: boolean;
   importLetterModalOpen: boolean;
   commandPaletteOpen: boolean;
   findReplaceOpen: boolean;
   templateLoaderOpen: boolean;
   piiWarningOpen: boolean;
+  structureWarningOpen: boolean;
   documentGuideOpen: boolean;
   /** The Document Guide's active tab, in the store so the activation checklist
    *  can deep-link to a tab before opening it. */
@@ -70,6 +133,7 @@ interface UIState {
   setShareModal: (mode: 'share' | 'import' | null) => void;
   setReferenceLibraryOpen: (open: boolean) => void;
   setAboutModalOpen: (open: boolean) => void;
+  setConnectivityModalOpen: (open: boolean) => void;
   setNistModalOpen: (open: boolean) => void;
   setBatchModalOpen: (open: boolean) => void;
   setImportLetterModalOpen: (open: boolean) => void;
@@ -77,11 +141,22 @@ interface UIState {
   setFindReplaceOpen: (open: boolean) => void;
   setTemplateLoaderOpen: (open: boolean) => void;
   setPiiWarningOpen: (open: boolean) => void;
+  setStructureWarningOpen: (open: boolean) => void;
   setDocumentGuideOpen: (open: boolean) => void;
   setDocumentGuideTab: (tab: UIState['documentGuideTab']) => void;
 
   // Documents sidebar (recents + section outline)
   sidebarCollapsed: boolean;
+  /**
+   * Sidebar width in px. Pixels rather than a percentage because its content is
+   * text at a fixed size — a section label needs the same room on a 13" laptop
+   * as on a 27" display, where a percentage would give it three times as much.
+   */
+  sidebarWidth: number;
+  setSidebarWidth: (width: number) => void;
+  /** Outline height in px; null means fit its content, which is the default. */
+  outlineHeight: number | null;
+  setOutlineHeight: (height: number | null) => void;
   setSidebarCollapsed: (collapsed: boolean) => void;
   toggleSidebar: () => void;
 
@@ -165,12 +240,14 @@ export const useUIStore = create<UIState>()(
       referenceLibraryOpen: false,
       aboutModalOpen: false,
       nistModalOpen: false,
+      connectivityModalOpen: false,
       batchModalOpen: false,
       importLetterModalOpen: false,
       commandPaletteOpen: false,
       findReplaceOpen: false,
       templateLoaderOpen: false,
       piiWarningOpen: false,
+      structureWarningOpen: false,
       documentGuideOpen: false,
       documentGuideTab: 'browse',
       shareModal: null,
@@ -183,6 +260,7 @@ export const useUIStore = create<UIState>()(
       setShareModal: (mode) => set({ shareModal: mode }),
       setReferenceLibraryOpen: (open) => set({ referenceLibraryOpen: open }),
       setAboutModalOpen: (open) => set({ aboutModalOpen: open }),
+      setConnectivityModalOpen: (open) => set({ connectivityModalOpen: open }),
       setNistModalOpen: (open) => set({ nistModalOpen: open }),
       setBatchModalOpen: (open) => set({ batchModalOpen: open }),
       setImportLetterModalOpen: (open) => set({ importLetterModalOpen: open }),
@@ -190,11 +268,20 @@ export const useUIStore = create<UIState>()(
       setFindReplaceOpen: (open) => set({ findReplaceOpen: open }),
       setTemplateLoaderOpen: (open) => set({ templateLoaderOpen: open }),
       setPiiWarningOpen: (open) => set({ piiWarningOpen: open }),
+      setStructureWarningOpen: (open) => set({ structureWarningOpen: open }),
       setDocumentGuideOpen: (open) => set({ documentGuideOpen: open }),
       setDocumentGuideTab: (tab) => set({ documentGuideTab: tab }),
 
       // Documents sidebar - expanded by default on desktop
       sidebarCollapsed: false,
+      // 248 was the hard-coded width before this became adjustable, so an
+      // existing user sees nothing move until they drag it.
+      sidebarWidth: SIDEBAR_WIDTH.default,
+      setSidebarWidth: (width) =>
+        set({ sidebarWidth: Math.max(SIDEBAR_WIDTH.min, Math.min(SIDEBAR_WIDTH.max, width)) }),
+      outlineHeight: null,
+      setOutlineHeight: (height) =>
+        set({ outlineHeight: height === null ? null : Math.max(SIDEBAR_SPLIT.minOutline, height) }),
       setSidebarCollapsed: (collapsed) => set({ sidebarCollapsed: collapsed }),
       toggleSidebar: () => set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed })),
 
@@ -247,7 +334,10 @@ export const useUIStore = create<UIState>()(
         historyDocId: null,
         shareModal: null,
         // piiWarningOpen is not closed by Escape, to avoid dismissing a security
-        // warning by accident.
+        // warning by accident. structureWarningOpen is left out for a different
+        // reason: the export it interrupted is parked in a ref, and closing the
+        // flag without running the modal's own cancel would strand it. Its
+        // Dialog handles Escape itself, which does route through cancel.
       }),
     }),
     {
@@ -263,6 +353,8 @@ export const useUIStore = create<UIState>()(
         pdfThumbnailsOpen: state.pdfThumbnailsOpen,
         fullQualityPreview: state.fullQualityPreview,
         sidebarCollapsed: state.sidebarCollapsed,
+        sidebarWidth: state.sidebarWidth,
+        outlineHeight: state.outlineHeight,
         storageNoticeDismissed: state.storageNoticeDismissed,
       }),
     }

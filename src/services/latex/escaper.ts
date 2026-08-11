@@ -395,8 +395,10 @@ export function processBodyText(text: string): string {
     .replace(/ZZZTILDEZZZ/g, '\\textasciitilde{}')
     .replace(/ZZZCARETZZZ/g, '\\textasciicircum{}');
 
-  // Note: Don't escape _ or * as they're used for formatting
-  // The rich text conversion will handle them
+  // Note: `_` and `*` are NOT escaped here — they carry the rich-text markers
+  // (`*italic*`, `**bold**`, `__underline__`) that convertRichTextToLatex reads
+  // further down. It consumes the paired forms; a lone `_` survives and is
+  // escaped immediately after that call, since only pairs are markers.
 
   // Map non-ASCII symbols (§, ¶, ©, °, …) to bundled-font LaTeX so a single
   // such character in a paragraph can't fatal the offline compile. Runs after
@@ -425,10 +427,44 @@ export function processBodyText(text: string): string {
     .replace(/^\n+|\n+$/g, '')
     .replace(/\n{2,}/g, 'ZZZBLANKLINEZZZ')
     .replace(/\n/g, '\\\\\n')
-    .replace(/ZZZBLANKLINEZZZ/g, '\\\\[\\baselineskip]\n');
+    .replace(/ZZZBLANKLINEZZZ/g, '\\\\[\\baselineskip]\n')
+    // A line break whose next line opens with `[` is read as `\\`'s optional
+    // vertical-space argument, so the user's bracket is swallowed and the
+    // compile dies on "Missing number, treated as zero". The default body
+    // placeholder starts with `[`, so pressing Enter above it was enough.
+    // `{}` ends the optional-argument scan. The `\\[\baselineskip]` emitted
+    // just above keeps its argument — its bracket is on the same line as its
+    // `\\`, so this pattern cannot match it.
+    .replace(/\\\\\n\[/g, '\\\\\n{}[');
 
   // Then convert rich text markers
   result = convertRichTextToLatex(result);
+
+  // Escape whatever underscores are LEFT.
+  //
+  // The escaping pass above deliberately skips `_` because `__text__` is the
+  // underline marker. But only the PAIRED form is a marker — a lone `_` in
+  // `user_id` or `report_final.docx` means nothing here, and reaching LaTeX raw
+  // it opens math mode: `! Missing $ inserted.` and no PDF at all. Ordinary
+  // correspondence is full of them (snake_case, filenames, email locals), so
+  // every one of those exports was failing.
+  //
+  // Running after the marker conversion is what makes this safe: a real
+  // `__text__` has already become `\uline{text}`, and the commands that
+  // conversion introduces contain no underscores. Anything still here is
+  // literal — including a run like `Signature: __________`, which the
+  // `[^_]+?` inner group intentionally leaves alone and which now renders as
+  // the fill-in line the user typed instead of killing the compile.
+  //
+  // Compile-level proof: tests/integration/latex-compile-underscore.test.ts
+  //
+  // codeql[js/incomplete-sanitization]: false positive — this introduces a `\`
+  // deliberately, and it cannot be paired with a user-supplied one: the sentinel
+  // pass far above already turned every input backslash into
+  // `\textbackslash{}`, so the only backslashes present at this point are ones
+  // this function emitted. Locked by the neutralisation test in
+  // tests/unit/escaper-underscore.test.ts.
+  result = result.replace(/_/g, '\\_');
 
   // Restore placeholders with highlighted LaTeX rendering
   // Escape underscores in the placeholder name for LaTeX text mode

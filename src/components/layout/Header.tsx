@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect, type ChangeEvent, type ReactNode } from 'react';
-import { Moon, Sun, Download, FileText, Braces, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2, Lightbulb, FolderOpen, Rocket, FolderSync, AlertTriangle, MonitorDown } from 'lucide-react';
+import { Moon, Sun, Download, FileText, Braces, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2, Lightbulb, FolderOpen, Rocket, FolderSync, AlertTriangle, MonitorDown, Radio } from 'lucide-react';
 import { GithubIcon } from '@/components/icons/GithubIcon';
 import { Button } from '@/components/ui/button';
 import { Kbd } from '@/components/ui/kbd';
@@ -181,6 +181,7 @@ export function Header({
   const density = useUIStore((s) => s.density);
   const setDensity = useUIStore((s) => s.setDensity);
   const setAboutModalOpen = useUIStore((s) => s.setAboutModalOpen);
+  const setConnectivityModalOpen = useUIStore((s) => s.setConnectivityModalOpen);
   const setNistModalOpen = useUIStore((s) => s.setNistModalOpen);
   const setBatchModalOpen = useUIStore((s) => s.setBatchModalOpen);
   const setImportLetterModalOpen = useUIStore((s) => s.setImportLetterModalOpen);
@@ -1094,6 +1095,10 @@ export function Header({
               <DropdownMenuItem onClick={() => useLogStore.getState().setOpen(true)}>
                 <ScrollText className="h-4 w-4 mr-2" />
                 View Logs
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setConnectivityModalOpen(true)}>
+                <Radio className="h-4 w-4 mr-2" />
+                Endpoint Check
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <div className="px-2 py-1.5">

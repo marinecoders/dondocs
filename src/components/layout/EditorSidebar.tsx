@@ -8,12 +8,14 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { IconTip } from '@/components/ui/icon-tip';
 import { SectionRail } from './SectionRail';
+import { SidebarResizer } from './SidebarResizer';
+import { SidebarSplitter } from './SidebarSplitter';
 import { getSectionError, getFormSectionError, useEditorSections, ERROR_BEARING_IDS } from './editorSections';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
 import { useDocumentsStore, searchableText, type DocumentMeta } from '@/stores/documentsStore';
 import { docTypeChip } from '@/types/document';
-import { useUIStore } from '@/stores/uiStore';
+import { useUIStore, SIDEBAR_WIDTH, SIDEBAR_SPLIT } from '@/stores/uiStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 
 function relTime(ts: number): string {
@@ -77,6 +79,8 @@ function buildGroups(metas: DocumentMeta[], sort: RecentsSort): { label: string;
 export function EditorSidebar() {
   const isMobile = useUIStore((s) => s.isMobile);
   const collapsed = useUIStore((s) => s.sidebarCollapsed);
+  const sidebarWidth = useUIStore((s) => s.sidebarWidth);
+  const outlineHeight = useUIStore((s) => s.outlineHeight);
   const toggleSidebar = useUIStore((s) => s.toggleSidebar);
   const validationVisible = useUIStore((s) => s.validationVisible);
 
@@ -128,6 +132,7 @@ export function EditorSidebar() {
   const announceSeq = useRef(0);
   const navRef = useRef<HTMLElement>(null);
   const newBtnRef = useRef<HTMLButtonElement>(null);
+  const outlineRef = useRef<HTMLDivElement>(null);
   const [renamingId, setRenamingId] = useState<string | null>(null);
   const [renameValue, setRenameValue] = useState('');
   // Re-render once a minute so relative timestamps ("just now" → "1m ago") stay
@@ -200,9 +205,11 @@ export function EditorSidebar() {
 
   if (collapsed) {
     return (
+      <>
       <nav
         aria-label="Documents"
-        className="hidden sm:flex w-[52px] shrink-0 flex-col items-center gap-1 border-r border-border bg-muted/30 py-2"
+        style={{ width: SIDEBAR_WIDTH.collapsed }}
+        className="hidden sm:flex shrink-0 flex-col items-center gap-1 border-r border-border bg-muted/30 py-2"
       >
         <button
           type="button"
@@ -222,19 +229,41 @@ export function EditorSidebar() {
           <Plus className="h-4 w-4" />
         </button>
       </nav>
+      {/* Still mounted while collapsed: dragging it back out is how you reopen. */}
+      <SidebarResizer />
+      </>
     );
   }
 
   return (
+    <>
     <nav
       ref={navRef}
       aria-label="Documents"
-      className="hidden sm:flex w-[248px] shrink-0 flex-col border-r border-border bg-muted/30"
+      style={{ width: sidebarWidth }}
+      className="hidden sm:flex shrink-0 flex-col border-r border-border bg-muted/30"
     >
       <span aria-live="polite" className="sr-only">{announce}</span>
 
-      {/* On this page: section outline (collapse control shares the label row) */}
-      <div className="px-2 pb-2 border-b border-border">
+      {/* On this page: section outline (collapse control shares the label row).
+          Height is the user's if they have dragged the splitter, otherwise its
+          content — but capped either way so Recents keeps its floor. The cap is
+          CSS rather than JS because it has to hold when the window resizes, not
+          only when someone drags: before it, a short window left Recents 40px
+          with its search box scrolled out of sight. */}
+      <div
+        ref={outlineRef}
+        style={{
+          height: outlineHeight ?? undefined,
+          maxHeight: `calc(100% - ${SIDEBAR_SPLIT.minRecents}px)`,
+          // min beats max in CSS, which is the precedence resolveSplitDrag
+          // uses too: in a sidebar too short for both floors the outline keeps
+          // its own. Without this the cap alone squeezed it to 8px at a 200px
+          // window and the outline became unreachable.
+          minHeight: SIDEBAR_SPLIT.minOutline,
+        }}
+        className="shrink-0 overflow-y-auto px-2 pb-2"
+      >
         <div className="flex items-center justify-between px-2.5 pt-2 pb-1">
           <span className="text-2xs font-semibold tracking-[0.06em] uppercase text-muted-foreground">
             On this page
@@ -254,11 +283,20 @@ export function EditorSidebar() {
         )}
       </div>
 
+      <SidebarSplitter outlineRef={outlineRef} />
+
       {/* Recent: document library */}
-      <div className="flex min-h-0 flex-1 flex-col pt-2">
-        <div className="flex items-center justify-between px-3 pb-1.5">
-          <span className="text-2xs font-semibold tracking-[0.06em] uppercase text-muted-foreground">Recent</span>
-          <div className="flex items-center gap-1">
+      <div className="@container flex min-h-0 flex-1 flex-col pt-2">
+        {/* The sidebar's width is in pixels but this row is sized in rem, so a
+            larger browser font size grows the row inside a box that does not
+            move. It gives way in order: the word "New" goes first (below), and
+            past that the controls wrap to their own line. Nothing truncates and
+            nothing is cut off — losing the New button is what used to happen. */}
+        <div className="flex flex-wrap items-center justify-between gap-2 px-3 pb-1.5">
+          <span className="shrink-0 text-2xs font-semibold tracking-[0.06em] uppercase text-muted-foreground">
+            Recent
+          </span>
+          <div className="flex shrink-0 items-center gap-1">
             <IconTip label={sort === 'recent' ? 'Sorted by most recent — switch to A–Z' : 'Sorted A–Z — switch to most recent'}>
               <button
                 type="button"
@@ -286,10 +324,16 @@ export function EditorSidebar() {
               ref={newBtnRef}
               type="button"
               onClick={newDocument}
+              aria-label="New document"
+              title="New document"
               className="inline-flex items-center gap-1 rounded-md border border-border bg-card px-2 py-1 text-xs text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-[3px] focus-visible:ring-ring/50"
             >
               <Plus className="h-3.5 w-3.5" />
-              New
+              {/* em, not px: the row is rem-sized, so what decides whether the
+                  word fits is the sidebar's width measured in font sizes, not
+                  in pixels. Below that ratio the plus stands on its own — the
+                  two controls beside it are already icon-only. */}
+              <span className="hidden @[13em]:inline">New</span>
             </button>
           </div>
         </div>
@@ -550,5 +594,7 @@ export function EditorSidebar() {
         </div>
       </div>
     </nav>
+    <SidebarResizer />
+    </>
   );
 }

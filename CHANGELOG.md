@@ -5,7 +5,7 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
-## [1.2.115] — 2026-08-01
+## [1.2.139] — 2026-08-10
 
 ### Added
 
@@ -53,6 +53,346 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
   air-gapped promise is unchanged — but a corrected template now reaches you on
   the next online load instead of months later. The old pinned cache is dropped
   when the new service worker activates.
+## [1.2.138] — 2026-08-10
+
+### Fixed
+
+- **A drag that ends off-screen no longer leaves the app stuck.** Release the
+  mouse outside the window while dragging the sidebar's edge, the split between
+  the outline and Recents, or the preview divider, and the page never heard
+  about it: the panel went on following the cursor with no button held, behind
+  an invisible layer that swallowed every click until you clicked again. The
+  same applied when the browser took the gesture over, which is how a touch
+  drag ends when it turns into a scroll.
+
+## [1.2.137] — 2026-08-10
+
+### Added
+
+- **The sidebar's two halves can be resized against each other.** Drag the line
+  between the section outline and Recents, the way you already drag the
+  sidebar's outer edge; arrow keys move it too, and double-clicking puts it back
+  to fitting the outline's content. The position is remembered.
+
+### Fixed
+
+- **A short window no longer squeezes Recents out of existence.** The outline
+  took its content height and never gave any of it back, so everything the
+  window lost came out of Recents — at a 500px-tall window that left it 40px,
+  with its search box below the bottom edge. The outline now scrolls and is
+  capped so Recents always keeps enough room for its header, search and a row.
+- **Double-clicking a sidebar divider resets it.** The width handle has offered
+  this since it was added, but it never fired: the handle suppressed the mouse
+  events a double-click is built from, and the drag overlay swallowed the rest.
+
+## [1.2.136] — 2026-08-10
+
+### Fixed
+
+- **The New button no longer gets squeezed off the Recents header.** The
+  sidebar's width is set in pixels but the row inside it is sized in text, so
+  turning up the browser's font size — or narrowing the sidebar — grew the row
+  inside a box that stayed put, and the New button, being last, was the part
+  that ran off the edge. It now gives way in order: the word "New" drops to
+  leave the plus on its own, and past that the controls take their own line.
+  The heading no longer truncates and nothing is cut off.
+
+## [1.2.135] — 2026-08-09
+
+### Fixed
+
+- **The preview toolbar no longer cuts off its own buttons.** On a 1280-wide
+  screen with the preview at its default width, Fullscreen, Download PDF and
+  Open in browser tab were clipped off the right edge — not scrolled, hidden,
+  with nothing to say they existed. Download has a copy in the header, but the
+  other two had no other route anywhere in the app. Every common laptop width
+  was affected. Those three and the two fit-mode buttons now collapse into a
+  single overflow menu when the preview is narrow, and sit out in the open when
+  there is room for them; the zoom percentage yields first, as it did before.
+
+## [1.2.134] — 2026-08-09
+
+### Changed
+
+- **The sidebar resizes.** It was a fixed 248px — a fifth of a 1280px screen,
+  whether you were reading the section outline or not — and the only alternative
+  was collapsing it to an icon rail that dropped both the outline and Recents.
+  Drag its right edge to any width between 200 and 420px; the width is
+  remembered like the preview panel's. Dragging past the low end snaps to the
+  rail and dragging back out restores the width you had, so collapsing is part
+  of the same gesture rather than a separate mode. Double-click resets it, and
+  the arrow keys move it 16px at a time.
+
+## [1.2.133] — 2026-08-09
+
+### Fixed
+
+- **A dollar sign no longer disappears from the Word export.** `$` was escaped
+  as `{\char36}` everywhere except body text — a form carried over from the PDF
+  generator, where it works around a font-encoding limit. Pandoc does not
+  understand it and drops it, so `FY25 $5M BUDGET REQUEST` in a subject line,
+  reference or enclosure title reached Word as `FY25 5M BUDGET REQUEST`. The PDF
+  was always correct, and nothing reported an error.
+
+## [1.2.132] — 2026-08-09
+
+### Fixed
+
+- **Typing `ZZZTEXTBACKSLASHZZZ` no longer produces a backslash.** The DOCX
+  escaping pass used placeholder strings to stop a replacement being escaped a
+  second time, and those placeholders were themselves typeable. Each special
+  character is now rewritten in a single pass, so no placeholder is needed and
+  the ordering hazard that produced the `\{}` bug in 1.2.131 cannot recur.
+  Output is byte-for-byte unchanged for every other input.
+
+## [1.2.131] — 2026-08-09
+
+### Fixed
+
+- **A backslash in your text now survives into Word.** A Windows path in body
+  text — `C:\Users\smith\budget.xlsx` — arrived as `C:\{}Users\{}smith\{}…`. The
+  escaping pass replaced `\` first and then escaped braces, catching the braces
+  its own replacement had just added. The document opened without complaint, so
+  the only sign was the wrong text on the page.
+- **An enclosure titled with a path no longer kills the PDF.** The same
+  backslash reached a template macro that expanded its argument, and expanding
+  `\textbackslash` ran away until TeX exhausted its input stack — no PDF at all,
+  just `TeX capacity exceeded`. The title is bound without expansion now.
+
+## [1.2.129] — 2026-08-08
+
+### Added
+
+- **Headless rendering.** A local companion service renders correspondence from
+  JSON, so a script or an agent on the same machine can produce a naval letter,
+  standard letter or memorandum as PDF or DOCX without opening a browser. It runs
+  the same generator the app does — the document rules live behind a `LatexEngine`
+  port that the browser satisfies with its WASM worker and the companion with a
+  Node worker thread, so there is no second implementation to drift.
+
+  Two front doors: `npm run companion` serves HTTP on `127.0.0.1:7712`, and
+  `npm run companion:mcp` speaks MCP over stdio for clients that prefer it. Both
+  share one render step and one set of validation rules. Output is written under
+  `~/Documents/DonDocs` by default and the service answers with a path rather than
+  the document. See [docs/COMPANION.md](docs/COMPANION.md).
+
+  Nothing in the app changes: the companion is developer tooling, its dependencies
+  are dev-only, and none of it ships in the PWA bundle.
+
+## [1.2.130] — 2026-08-09
+
+- **The originator's code now appears on the letter.** The office code was
+  collected in the editor — with a lookup modal — stored, and then never printed:
+  no generator code and no template referenced it. It renders in the sender's
+  symbols block now, where SECNAV M-5216.5 Ch 7 ¶2a(2) puts it: fused with the
+  serial as `Ser Code 13/271`, or alone under the SSIC when there is no serial.
+- **A serial number is prefixed with `Ser`.** A bare `001` used to sit under the
+  SSIC; the manual's examples are `Ser 02/318`, `Ser N00J/S20`, `Ser Code 13/271`.
+  The office code prints exactly as your activity writes it — ¶2a(2) leaves its
+  makeup to the command — so an activity using `Code 13` enters `Code 13`. A
+  serial already typed as `Ser 12/001` is left as the author wrote it.
+
+## [1.2.128] — 2026-08-08
+
+### Fixed
+
+- **A word with an underscore no longer breaks the PDF.** `user_id`,
+  `report_final.docx`, `first_last@usmc.mil` — anything with a single underscore
+  in a body paragraph failed to export, with no PDF produced. Underscores are
+  left alone during escaping because `__text__` is the underline marker, but
+  only the paired form is a marker; a lone one reached LaTeX raw, opened math
+  mode, and killed the compile. `__underline__` and fill-in rules like
+  `Signature: __________` are unaffected. Word exports were never affected.
+
+## [1.2.127] — 2026-08-06
+
+### Added
+
+- **Downloading a letter with paragraph-structure findings asks first.** The
+  Ch 7 ¶13/¶13d findings already sat under the paragraph editor; they now also
+  appear when you hit Download, which is the moment that reliably has your
+  attention. It is a confirmation, not a gate — "Download anyway" is right
+  there, because a lone subparagraph is what a work-in-progress looks like and
+  drafts get circulated for comment all the time. Runs ahead of the PII check
+  so the privacy warning stays the last thing seen, and covers both the PDF and
+  the Word export.
+
+## [1.2.126] — 2026-08-06
+
+### Added
+
+- **The editor flags two paragraph-structure rules it used to let through.**
+  SECNAV M-5216.5 Ch 7 ¶13 requires a second subparagraph wherever there is a
+  first ("if there is a paragraph 1a, there must be a paragraph 1b"), and ¶13d
+  asks for headings to be consistent across siblings. Neither was checked, so a
+  letter with a lone 1a, or with a heading on 1a but not 1b, exported without
+  comment. The check reads the paragraph model rather than either export, so it
+  covers the PDF and the Word document alike, and it sits under the paragraph
+  editor as an advisory notice — it never blocks an export.
+
+## [1.2.125] — 2026-08-06
+
+### Fixed
+
+- **"Copy to:" and "Distribution:" addressees now sit at the left margin.**
+  SECNAV M-5216.5 Ch 7 ¶15c lists them "in a single column at the left margin
+  and single spaced below" the label line, and the manual renders a Copy to
+  block that way five times in Ch 7. Both exports built a two-column table, so
+  the first addressee sat beside the label instead of below it, and every one
+  of them was 47pt in from the margin. Applies to the PDF and the Word export.
+
+## [1.2.124] — 2026-08-05
+
+### Fixed
+
+- **A subparagraph now lines up under the paragraph above it.** SECNAV
+  M-5216.5 Figure 7-8 says to "indent each new subdivision to align with the
+  first letter of the paragraph above", so the step is the width of the
+  parent's label, not a constant. We used a flat 0.25in, which at Courier 12pt
+  put the first level three character cells in where the figure puts it seven,
+  and drifted further with every level. Each label now starts within 0.1pt of
+  its parent's text, in both fonts and both exports.
+- **The PDF and the Word export print the same gap after a paragraph label.**
+  LaTeX collapsed the PDF's two spaces into one while Word emitted two, so the
+  same document came out differently spaced in each.
+
+## [1.2.123] — 2026-08-05
+
+### Fixed
+
+- **An acronym in a paragraph heading keeps its capitals.** Headings were
+  lowercased after each word's first letter, so "TCCOR" printed as "Tccor",
+  "1st MarDiv" as "1st Mardiv" and "MedEvac" as "Medevac". MCO 5216.20B Ch 13
+  ¶5b keeps an acronym in capitals, and SECNAV M-5216.5 Ch 7 ¶13d asks only
+  that key words be capitalized. This covers an acronym that happens to spell
+  a small word, so "AT" and "SO" no longer come out as "at" and "so" either.
+  Ordinary headings are still Title Cased. Applies to the PDF and the Word
+  export.
+- **The Word export no longer deletes punctuation from a heading.** It stripped
+  every bracket, comma, colon and slash, so "Roles, Duties, and Limits" lost
+  its commas and "Commander/Commanding Officer" arrived welded together, while
+  the PDF kept both. Only a period the author typed at the end is dropped, the
+  same as the PDF does.
+
+## [1.2.122] — 2026-08-05
+
+### Fixed
+
+- **A paragraph heading with no text after it no longer gets a period.** A
+  heading that stands alone over its subparagraphs printed as "1. Format."
+  where it should read "1. Format" — the period belongs to the sentence the
+  heading introduces. SECNAV M-5216.5 Ch 7 sets 69 of its own 75 standalone
+  headings bare. Applies to the PDF and the Word export.
+- **A period typed into the heading field no longer doubles up.** The PDF kept
+  the author's period and added its own, so "Format." printed as "Format..".
+
+## [1.2.121] — 2026-08-04
+
+### Fixed
+
+- **A long reference or enclosure now wraps under its own text.** Titles too
+  long for one line used to continue at the "(a)" column — the column that
+  starts a *new* entry, so a continuation read as one. SECNAV M-5216.5 Ch 7
+  ¶10c lines the second line up "under the first word after the heading", and
+  Figure 7-1 shows both lists that way. Applies to the reference list and the
+  enclosure list, in the PDF and the Word export.
+
+## [1.2.120] — 2026-08-04
+
+### Fixed
+
+- **Subparagraphs get a full blank line before them, like every other
+  paragraph.** They were opening on half a line, so lettered and numbered
+  subparagraphs ran together on the page. SECNAV M-5216.5 Ch 7 ¶13 makes no
+  distinction — "each paragraph or subparagraph begins on the second line below
+  the previous paragraph or subparagraph" — and Figure 7-8 prints a hard return
+  between every pair it shows, down to (1)/(2). Applies to both the PDF and the
+  Word export.
+
+## [1.2.119] — 2026-08-03
+
+### Changed
+
+- **The save indicator now says whether your work has a copy outside this
+  browser.** It reads "Local only" until an auto-backup is set up, and clicking
+  it sets one up. Before, it only ever said "Saved", which reads as safe — and
+  isn't, if the browser profile is wiped by something like an enterprise
+  Windows update. On browsers that can't keep an auto-backup file (Safari,
+  Firefox) it stays plain text and points at Download / Back up everything
+  instead.
+
+## [1.2.118] — 2026-08-03
+
+### Fixed
+
+- **A new-page endorsement no longer prints its subject over the seal.** With
+  "show subject line on continuation pages" turned on, the subject was also
+  appearing at the top of the endorsement's own first page, across the
+  letterhead — on a sheet that already carries the real Subj: line in its
+  address block. The page number stays where Ch 9 Figure 9-2 puts it: an
+  endorsement continues the basic letter's sequence, so its first sheet is
+  numbered, unlike a letter's.
+
+## [1.2.117] — 2026-08-03
+
+### Fixed
+
+- **Word exports carry the subject line on continuation pages**, with a clear
+  line between it and the text below, as Ch 7 ¶16 requires ("continue the text
+  beginning on the second line below the subject") — matching the spacing the
+  PDF already produced. SECNAV
+  M-5216.5 Ch 7 ¶16 requires the subject to be repeated at the top of every page
+  after the first. The PDF has always done this — gated on the "Show subject
+  line on continuation pages" setting — but the Word export ignored the setting
+  entirely. Memoranda and business letters get the "SUBJECT:" label their PDF
+  uses; letters and endorsements get "Subj:".
+
+- **Word exports are page numbered.** Ch 7 ¶17: no number on the first page of a
+  letter, then centred half an inch from the bottom starting at 2. Word files
+  had no page numbers at all. An endorsement continues the basic letter's
+  sequence, so it starts at its own number and its first sheet is numbered too,
+  per Ch 9 Figure 9-2.
+
+## [1.2.116] — 2026-08-03
+
+### Fixed
+
+- **The SSIC, serial and date sit at the right margin in Word again.** They were
+  landing in the middle of the page — the block was being laid out as if it were
+  a signature block, which is centred, rather than the right-aligned
+  identification block SECNAV M-5216.5 Ch 7 puts in the upper right. The PDF was
+  always correct; only the Word export was affected.
+
+## [1.2.115] — 2026-08-03
+
+### Fixed
+
+- **Subparagraphs indent only their first line.** Wrapped lines were being
+  pushed right along with the first, so a subparagraph sat as an indented
+  block. SECNAV M-5216.5 Ch 7 ¶13 is explicit: "All other lines of a
+  subparagraph continue at the left margin. Do not indent the continuation
+  lines of a subparagraph." Both the PDF and the Word export were wrong, in
+  different ways. Business letters keep the block indent — Ch 11 has no
+  equivalent rule.
+
+- **Paragraph labels are underlined where the manual underlines them.** Figure
+  7-8 runs the 1. / a. / (1) / (a) cycle twice and underlines the counter the
+  second time through, on the numeral or letter only — never the period or the
+  parentheses. The PDF underlined nothing; Word underlined whole labels,
+  punctuation included. The two exports now agree with the figure and with each
+  other.
+
+- **Deep paragraph labels no longer print as LaTeX in Word.** A label below the
+  fourth level came out as the literal characters `\uline{1.}` in front of the
+  paragraph.
+
+- **A line break above a bracketed line no longer breaks the PDF.** Pressing
+  Enter on the line above text starting with "[" — which the starting body
+  placeholder does — produced no PDF at all.
+
+- **Paragraph letters continue past "z".** The 27th subparagraph at a lettered
+  level was labelled "{", and beyond the 52nd the label became an invisible
+  character. It now continues aa, ab, and so on.
 
 ## [1.2.114] — 2026-07-19
 

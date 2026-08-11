@@ -15,9 +15,12 @@
  */
 
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, DocTypeConfig } from '@/types/document';
+import { composeSenderSymbol } from './senderSymbol';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
 import { enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
+import { paragraphMark, delimitParagraphMark, isUnderlinedLevel } from './paragraphLabel';
+import { subparagraphIndentIn, ancestorLabelsPerParagraph, type LabelFont } from './subparagraphIndent';
 import {
   resolveAppendedEndorsement,
   appendedEndorsementSigner,
@@ -38,58 +41,84 @@ interface DocumentStore {
 
 // --- Utility functions ---
 
-function escapeFlat(str: string | undefined | null): string {
-  if (!str) return '';
-  // Note: $ uses {\char36} instead of \$ to avoid TS1 font encoding requirement
-  // in SwiftLaTeX. Pandoc also handles {\char36} correctly for DOCX.
-  // ORDER MATTERS: Use placeholders for replacements that introduce { }
-  // so they don't get re-escaped by the { } escaping step.
-  // codeql[js/incomplete-sanitization]: false positive — sentinel pattern
-  // (first replace) escapes all `\` from input before subsequent replaces add their own.
-  return str
-    .replace(/\\/g, 'ZZZTEXTBACKSLASHZZZ')
-    .replace(/&/g, '\\&')
-    .replace(/%/g, '\\%')
-    .replace(/#/g, '\\#')
-    .replace(/_/g, '\\_')
-    .replace(/\$/g, 'ZZZDOLLARZZZ')
-    .replace(/~/g, 'ZZZTILDEZZZ')
-    .replace(/\^/g, 'ZZZCARETZZZ')
-    .replace(/\{/g, '\\{')
-    .replace(/\}/g, '\\}')
-    .replace(/ZZZTEXTBACKSLASHZZZ/g, '\\textbackslash{}')
-    .replace(/ZZZDOLLARZZZ/g, '{\\char36}')
-    .replace(/ZZZTILDEZZZ/g, '\\textasciitilde{}')
-    .replace(/ZZZCARETZZZ/g, '\\textasciicircum{}');
+/**
+ * Every LaTeX special and what it becomes.
+ *
+ * `$` is `\$`, not the `{\char36}` the PDF escaper uses. That form exists to
+ * dodge SwiftLaTeX's TS1 font encoding requirement, and it came across with the
+ * rest of this table — but pandoc does not understand the primitive and drops
+ * it, so every `$` outside body text went missing from the Word export.
+ * Nothing generated here is compiled by SwiftLaTeX; it goes to pandoc, or to a
+ * user who downloads the flat source and compiles it with a real LaTeX, where
+ * `\$` is equally correct.
+ */
+const LATEX_ESCAPES: Readonly<Record<string, string>> = {
+  '\\': '\\textbackslash{}',
+  '&': '\\&',
+  '%': '\\%',
+  '#': '\\#',
+  '_': '\\_',
+  '$': '\\$',
+  '~': '\\textasciitilde{}',
+  '^': '\\textasciicircum{}',
+  '{': '\\{',
+  '}': '\\}',
+};
+
+/**
+ * Body text escapes two characters differently.
+ *
+ * `_` is absent on purpose: `__text__` is the underline marker convertRichText
+ * consumes further down, so escaping it here would kill the markup. `$` stays
+ * `\$` because body text is not subject to the tabular path's encoding concern.
+ */
+const BODY_ESCAPES: Readonly<Record<string, string>> = {
+  '\\': '\\textbackslash{}',
+  '&': '\\&',
+  '%': '\\%',
+  '#': '\\#',
+  '$': '\\$',
+  '~': '\\textasciitilde{}',
+  '^': '\\textasciicircum{}',
+  '{': '\\{',
+  '}': '\\}',
+};
+
+/**
+ * Build a single-pass escaper from a table.
+ *
+ * One pass is the point. The previous chained form replaced each special in
+ * turn, so a replacement that introduced `{ }` — `\textbackslash{}` — was then
+ * caught by the later `{ }` step and came out `\textbackslash\{\}`, which
+ * pandoc renders as a literal `\{}`. Sentinels papered over that ordering, at
+ * the cost of a string a user could type and have substituted.
+ *
+ * Replacing every special in a single traversal makes the whole class of bug
+ * unrepresentable: output is never rescanned, so nothing can escape twice.
+ * The character class is derived from the table's own keys, so the two cannot
+ * drift apart.
+ *
+ * Keys must be single characters. Every one-character key is safe to prefix
+ * with `\` inside a class, punctuation included; a two-character key would not
+ * be, since `'bc'` becomes `[\bc]` and `\b` there means backspace.
+ */
+function buildEscaper(map: Readonly<Record<string, string>>) {
+  const pattern = new RegExp(`[${Object.keys(map).map((ch) => `\\${ch}`).join('')}]`, 'g');
+  return (str: string | undefined | null): string =>
+    str ? str.replace(pattern, (ch) => map[ch]) : '';
 }
+
+const escapeFlat = buildEscaper(LATEX_ESCAPES);
 
 /** Escape for use inside tabular cells. User CONTENT ampersands must be
  * escaped (\&) — the old "& is the column separator" rationale applied to
  * the table SYNTAX our code emits, not to cell text. Unescaped, a unit name
  * like "H&S Battalion" became a phantom alignment tab that corrupted the
  * DOCX table (the PDF path always escaped it). */
-function escapeTabular(str: string | undefined | null): string {
-  if (!str) return '';
-  // ORDER MATTERS: Use placeholders for replacements that introduce { }
-  // so they don't get re-escaped by the { } escaping step.
-  // codeql[js/incomplete-sanitization]: false positive — sentinel pattern
-  // (first replace) escapes all `\` from input before subsequent replaces add their own.
-  return str
-    .replace(/\\/g, 'ZZZTEXTBACKSLASHZZZ')
-    .replace(/&/g, '\\&')
-    .replace(/%/g, '\\%')
-    .replace(/#/g, '\\#')
-    .replace(/_/g, '\\_')
-    .replace(/\$/g, 'ZZZDOLLARZZZ')
-    .replace(/~/g, 'ZZZTILDEZZZ')
-    .replace(/\^/g, 'ZZZCARETZZZ')
-    .replace(/\{/g, '\\{')
-    .replace(/\}/g, '\\}')
-    .replace(/ZZZTEXTBACKSLASHZZZ/g, '\\textbackslash{}')
-    .replace(/ZZZDOLLARZZZ/g, '{\\char36}')
-    .replace(/ZZZTILDEZZZ/g, '\\textasciitilde{}')
-    .replace(/ZZZCARETZZZ/g, '\\textasciicircum{}');
-}
+const escapeTabular = buildEscaper(LATEX_ESCAPES);
+
+/** Escape body paragraph text — see BODY_ESCAPES for the two differences. */
+const escapeBody = buildEscaper(BODY_ESCAPES);
 
 /** Convert rich text markers to standard LaTeX */
 function convertRichText(text: string): string {
@@ -123,20 +152,7 @@ function processText(text: string): string {
     return key;
   });
 
-  // Escape LaTeX specials.
-  // codeql[js/incomplete-sanitization]: false positive — the first replace
-  // converts every `\` from input to `\textbackslash{}`, so subsequent replaces
-  // that add `\<char>` tokens don't double-escape original input backslashes.
-  result = result
-    .replace(/\\/g, '\\textbackslash{}')
-    .replace(/&/g, '\\&')
-    .replace(/%/g, '\\%')
-    .replace(/\$/g, '\\$')
-    .replace(/#/g, '\\#')
-    .replace(/\{/g, '\\{')
-    .replace(/\}/g, '\\}')
-    .replace(/~/g, '\\textasciitilde{}')
-    .replace(/\^/g, '\\textasciicircum{}');
+  result = escapeBody(result);
 
   // Convert rich text markers
   result = convertRichText(result);
@@ -158,10 +174,16 @@ function capitalizeWord(word: string | undefined): string {
   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
 
-/** Strip punctuation from paragraph headers per SECNAV formatting rules.
- * Dashes (-, –, —) are preserved; all other punctuation is removed. */
+/** Drop a period the author typed at the end of a heading; the generator
+ * supplies its own when body text follows.
+ *
+ * This used to delete every ( ) , . ; : ! ? ' " / \ in the heading, citing a
+ * SECNAV rule that does not exist — Ch 7 ¶13d is the only heading rule and it
+ * covers the underline and the capitalization, nothing else. The PDF path
+ * never stripped any of it, so "Roles, Duties, and Limits" lost its commas in
+ * Word only, and "Commander/Commanding Officer" came out welded together. */
 function stripHeaderPunctuation(text: string): string {
-  return text.replace(/[(),.;:!?'"/\\]/g, '').replace(/\s+/g, ' ').trim();
+  return text.replace(/\.$/, '').replace(/\s+/g, ' ').trim();
 }
 
 /** Underline entire header text using ulem's \uline for proper positioning. */
@@ -169,14 +191,25 @@ function underlineWords(text: string): string {
   return `\\uline{${text}}`;
 }
 
+/** A word the author typed entirely in capitals, i.e. an acronym rather than
+ * an ordinary word. Single letters are excluded so "A" stays a minor word. */
+function isAcronym(word: string): boolean {
+  return word.length >= 2 && word === word.toUpperCase() && word !== word.toLowerCase();
+}
+
+/** Title Case that raises a word's first letter but never lowers the rest.
+ * MCO 5216.20B Ch 13 ¶5b keeps acronyms in capitals; see the fuller note on
+ * the twin of this function in generator.ts, which serves the PDF path. */
 function toTitleCase(str: string): string {
   const lowercaseWords = ['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'in', 'nor', 'of', 'on', 'or', 'so', 'the', 'to', 'up', 'yet'];
   return str.split(' ').map((word, index) => {
     const lower = word.toLowerCase();
     if (index === 0 || !lowercaseWords.includes(lower)) {
-      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      return word.charAt(0).toUpperCase() + word.slice(1);
     }
-    return lower;
+    // A minor word gets lowercased, unless the author typed it in capitals —
+    // AT (Anti-Terrorism), SO (Special Operations) and OR all spell one.
+    return isAcronym(word) ? word : lower;
   }).join(' ');
 }
 
@@ -195,15 +228,23 @@ function buildFullName(first: string | undefined, middle: string | undefined, la
 /** Generate paragraph label per SECNAV Ch 7 ¶13, Figure 7-8.
  * Levels 0-3: 1./a./(1)/(a) — plain
  * Levels 4-7: same pattern but underlined (spec levels 5-8) */
+/**
+ * A paragraph label, ready to drop into the .tex.
+ *
+ * `\mbox` keeps pandoc from reading a label like "1." at the start of a line as
+ * an ordered-list marker; the Lua filter unwraps it again for DOCX. It wraps the
+ * counter only, so the period and parentheses stay outside it — which is also
+ * what puts the underline on just the counter, per Fig 7-8.
+ */
 function getParagraphLabel(level: number, count: number): string {
-  const patterns = [
-    (n: number) => `${n}.`,
-    (n: number) => `${String.fromCharCode(96 + n)}.`,
-    (n: number) => `(${n})`,
-    (n: number) => `(${String.fromCharCode(96 + n)})`,
-  ];
-  const label = patterns[level % 4](count);
-  return level >= 4 ? `\\uline{${label}}` : label;
+  const mark = paragraphMark(level, count);
+  if (!isUnderlinedLevel(level)) {
+    return `\\mbox{${delimitParagraphMark(level, mark)}}`;
+  }
+  // Underlined levels put the punctuation outside both the \uline and the
+  // \mbox: Fig 7-8 underlines the counter alone, and keeping the \mbox content
+  // to exactly `\uline{1}` is what lets the Lua filter recognise and unwrap it.
+  return delimitParagraphMark(level, `\\mbox{\\uline{${mark}}}`);
 }
 
 function calculateLabels(paragraphs: Paragraph[]): string[] {
@@ -361,15 +402,25 @@ function buildLetterhead(data: Partial<DocumentData>): string {
 function buildSSICBlock(data: Partial<DocumentData>, alignRight = true): string {
   const items: string[] = [];
   if (data.ssic) items.push(escapeTabular(data.ssic));
-  if (data.serial) items.push(escapeTabular(data.serial));
+  // The originator's code shares this line with the serial, so compose the two
+  // the way the PDF path does — otherwise Word and PDF disagree about the
+  // sender's symbols (SECNAV M-5216.5 Ch 7 para 2a(2)).
+  const senderSymbol = composeSenderSymbol(data.officeCode, data.serial);
+  if (senderSymbol) items.push(escapeTabular(senderSymbol));
   if (data.date) items.push(escapeTabular(data.date));
 
   if (items.length === 0) return '';
 
   if (alignRight) {
     const rows = items.map(item => ` & ${item} \\\\`).join('\n');
+    // The second column MUST be `r`, not `l`: dondocs.lua classifies a 2-column
+    // table by its second column's alignment, and only AlignRight reaches the
+    // SSIC branch (75/25). As `l` this fell through to has_empty_first_column()
+    // and was formatted as a *signature block* — an even 50/50 split that put
+    // the SSIC, serial and date in the middle of the Word page instead of at
+    // the right margin. buildInReplyTo() below has always used `r`.
     return `\\noindent
-\\begin{tabularx}{\\textwidth}{@{}X@{}l@{}}
+\\begin{tabularx}{\\textwidth}{@{}Xr@{}}
 ${rows}
 \\end{tabularx}
 
@@ -487,6 +538,25 @@ ${trimLastRow(rows)}
 `;
 }
 
+/**
+ * Marks a Ref:/Encl: entry for a hanging indent, so a title too long for one
+ * line wraps under its own text instead of under the "(a)" designator.
+ *
+ * Ch 7 ¶10c: "line the second line under the first word after the heading."
+ * Figure 7-1 measures it out, and its Encl: block shows the designator column
+ * is where a NEW entry starts — precisely where a runover must not.
+ *
+ * 0.28in is what the PDF measures out to — it derives the hang per entry with
+ * \settowidth on the designator plus its two spaces, which lands at 20pt.
+ *
+ * Word will not get exactly that. The Lua filter carries the distance as a run
+ * of marker characters at six per inch, so the value quantizes: everything from
+ * roughly 0.25in to 0.41in becomes two markers, i.e. 480 twips (0.333in). That
+ * is the closest representable step to the PDF's 0.278in, and it is a shared
+ * limitation of all three indent macros rather than anything specific here.
+ */
+const ENTRY_HANG = '\\dondocshangindent{0.28in}';
+
 /** References using tabular for proper hanging-indent alignment.
  * Colon spacing per SECNAV Ch 7 ¶10c: Ref=4sp */
 function buildReferences(references: Reference[]): string {
@@ -496,9 +566,9 @@ function buildReferences(references: Reference[]): string {
   for (let i = 0; i < references.length; i++) {
     const ref = references[i];
     if (i === 0) {
-      rows.push(`Ref:\\hspace{4\\fontdimen2\\font} & (${ref.letter})~~${escapeTabular(ref.title)} \\\\`);
+      rows.push(`Ref:\\hspace{4\\fontdimen2\\font} & ${ENTRY_HANG}(${ref.letter})~~${escapeTabular(ref.title)} \\\\`);
     } else {
-      rows.push(` & (${ref.letter})~~${escapeTabular(ref.title)} \\\\`);
+      rows.push(` & ${ENTRY_HANG}(${ref.letter})~~${escapeTabular(ref.title)} \\\\`);
     }
   }
 
@@ -524,9 +594,9 @@ function buildEnclosures(enclosures: Enclosure[], startNumber = 1): string {
     // numbering (Ch 9 ¶4); it is 1 for everything that opens its own sequence.
     const n = startNumber + i;
     if (i === 0) {
-      rows.push(`Encl:\\hspace{3\\fontdimen2\\font} & (${n})~~${escapeTabular(encl.title)} \\\\`);
+      rows.push(`Encl:\\hspace{3\\fontdimen2\\font} & ${ENTRY_HANG}(${n})~~${escapeTabular(encl.title)} \\\\`);
     } else {
-      rows.push(` & (${n})~~${escapeTabular(encl.title)} \\\\`);
+      rows.push(` & ${ENTRY_HANG}(${n})~~${escapeTabular(encl.title)} \\\\`);
     }
   }
 
@@ -543,13 +613,26 @@ ${trimLastRow(rows)}
 /** Body paragraphs using \mbox{} to protect labels from pandoc list detection.
  *
  * Indentation per SECNAV M-5216.5 Ch 7 ¶13:
- *   Standard: level 0 = flush left; subparagraphs indent 0.25in per level
+ *   Standard: level 0 = flush left; each subparagraph's label aligns under
+ *     its parent's text, so the step is the parent label's width (Figure 7-8)
  *   Business: level 0 = 0.5in first-line indent; subparagraphs += 0.5in per level
  */
-function buildBody(paragraphs: Paragraph[], config: DocTypeConfig): string {
+/** The body face and size a document actually renders in, matching the
+ *  defaults buildPreamble applies. The subparagraph indent depends on both,
+ *  because it is measured from the width of the paragraph labels. */
+function bodyFont(data: Partial<DocumentData> | undefined): LabelFont {
+  return (data?.fontFamily || 'times') === 'courier' ? 'courier' : 'times';
+}
+
+function bodySizePt(data: Partial<DocumentData> | undefined): number {
+  return parseFloat(data?.fontSize || '12pt') || 12;
+}
+
+function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFont, fontSizePt: number): string {
   if (paragraphs.length === 0) return '';
 
   const labels = calculateLabels(paragraphs);
+  const ancestors = ancestorLabelsPerParagraph(labels, paragraphs.map((p) => p.level));
   const useNumbered = config.compliance.numberedParagraphs;
   // Push-then-join across paragraphs (the cross-paragraph accumulator is
   // the one that grows unbounded — within a single paragraph the
@@ -561,17 +644,24 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig): string {
     const label = useNumbered ? labels[i] : '';
     const headerText = para.header?.trim();
     const portionPrefix = para.portionMarking ? `(${para.portionMarking}) ` : '';
-    // 12pt for level 0 paragraphs, 6pt for sub-paragraphs
-    const spacing = para.level === 0 ? '\\vspace{12pt}' : '\\vspace{6pt}';
+    // One blank line before every paragraph, at every level. ¶13 draws no
+    // distinction — "each paragraph OR SUBPARAGRAPH begins on the second line
+    // below the previous paragraph or subparagraph" — and Figure 7-8 prints a
+    // hard return between every pair, including (1)/(2). Subparagraphs used to
+    // get 6pt, half a line, which is what a reviewer in the field marked up.
+    const spacing = '\\vspace{12pt}';
 
     let paraText = '';
 
     // Portion marking
     if (portionPrefix) paraText += portionPrefix;
 
-    // Optional underlined header
+    // Optional underlined header. The period belongs to the sentence the
+    // heading introduces, so a heading that introduces nothing does not get
+    // one — see the note in generator.ts, which this path mirrors.
     if (headerText) {
-      paraText += `${underlineWords(escapeFlat(toTitleCase(stripHeaderPunctuation(headerText))))}. `;
+      const headingDot = para.text.trim() ? '. ' : '';
+      paraText += `${underlineWords(escapeFlat(toTitleCase(stripHeaderPunctuation(headerText))))}${headingDot}`;
     }
 
     // Body text with rich text processing
@@ -583,8 +673,21 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig): string {
     const isBusiness = config.uiMode === 'business';
     const indentIn = isBusiness
       ? (para.level + 1) * 0.5   // Business: 0.5in per level, starting at 0.5in
-      : para.level * 0.25;        // Standard: 0.25in per level (level 0 = flush left)
-    const indentCmd = indentIn > 0 ? `\\dondocsindent{${indentIn.toFixed(2)}in}` : '';
+      // Standard: align this subparagraph's label under its parent's text, per
+      // Figure 7-8 — the step is the parent's label plus its gap, not a
+      // constant. See subparagraphIndent.ts; generator.ts computes the same
+      // number for the PDF so the two exports agree.
+      : subparagraphIndentIn(ancestors[i], font, fontSizePt);
+    // Standard correspondence indents the subparagraph's FIRST LINE only.
+    // SECNAV M-5216.5 Ch 7 ¶13: "When using a subparagraph, the first line is
+    // always indented the appropriate number of spaces depending on the level
+    // of subparagraphing. All other lines of a subparagraph continue at the
+    // left margin. Do not indent the continuation lines of a subparagraph."
+    // Figure 7-8 shows the same shape. This was \dondocsindent (w:ind w:left),
+    // which indents every line of the paragraph including the wrapped ones.
+    // Business letters keep the block indent — Ch 11 has no such rule.
+    const indentMacro = isBusiness ? 'dondocsindent' : 'dondocsfirstindent';
+    const indentCmd = indentIn > 0 ? `\\${indentMacro}{${indentIn.toFixed(2)}in}` : '';
 
     if (isBusiness) {
       // Business letter: first-line indent for level 0, full indent for deeper levels
@@ -593,9 +696,9 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig): string {
         : indentCmd;
       bodyParts.push(`${spacing}\n${bizIndentCmd}${paraText}\n\n`);
     } else if (label) {
-      // Use \mbox{} to protect labels like "1." from pandoc's list marker detection.
-      // The Lua filter's RawInline handler converts \mbox{} to plain text for DOCX.
-      bodyParts.push(`${spacing}\n${indentCmd}\\mbox{${label}}~~${paraText}\n\n`);
+      // getParagraphLabel already carries the \mbox that hides the marker from
+      // pandoc's list detection, so the label goes in as-is.
+      bodyParts.push(`${spacing}\n${indentCmd}${label}~~${paraText}\n\n`);
     } else {
       // No label (unnumbered paragraphs, e.g. endorsements)
       bodyParts.push(`${spacing}\n${indentCmd}${paraText}\n\n`);
@@ -847,49 +950,45 @@ ${trimLastRow(rows)}
 /** Copy-to list using address-style tabular (label | content).
  * The Lua filter detects "Copy to:" as an address label and applies
  * the correct label/content column proportions (11.5% / 88.5%). */
-function buildCopyTo(copyTos: CopyTo[]): string {
-  if (copyTos.length === 0) return '';
-
-  const rows: string[] = [];
-  for (let i = 0; i < copyTos.length; i++) {
-    if (i === 0) {
-      rows.push(`Copy to: & ${escapeTabular(copyTos[i].text)} \\\\`);
-    } else {
-      rows.push(` & ${escapeTabular(copyTos[i].text)} \\\\`);
-    }
-  }
-
+/** A label on its own line, then each entry on its own line at the left
+ *  margin. Used by both the "Copy to:" and "Distribution:" blocks, which
+ *  SECNAV Ch 7 15c formats identically ("Use this format for the
+ *  'Distribution:' lines as well"). */
+function marginBlock(label: string, entries: string[]): string {
+  const lines = entries.map((e) => `\\noindent ${escapeTabular(e)}\\par`).join('\n');
   return `\\vspace{12pt}
-\\noindent
-\\begin{tabular}{@{}l@{\\hspace{2\\fontdimen2\\font}}p{5.5in}@{}}
-${trimLastRow(rows)}
-\\end{tabular}
+\\noindent ${label}\\par
+${lines}
 
 `;
+}
+
+/** "Copy to:" on its own line with every addressee flush beneath it.
+ *
+ * SECNAV M-5216.5 Ch 7 15b puts "Copy to:" at the left margin, and 15c says
+ * the addressees are "listed in a single column at the left margin and single
+ * spaced below the 'Copy to:' line". The manual renders a Copy to block five
+ * times across Ch 7 and every one looks like that:
+ *
+ *     Copy to:
+ *     CNO (N1, N2, N3/5)
+ *     COMNAVPERSCOM (PERS 313C, PERS 49)
+ *
+ * This was a two-column tabular, which put the label in column one and every
+ * addressee in column two -- the first one beside the label instead of below
+ * it, and all of them 47pt in from the margin. */
+function buildCopyTo(copyTos: CopyTo[]): string {
+  if (copyTos.length === 0) return '';
+  return marginBlock('Copy to:', copyTos.map((c) => c.text));
 }
 
 /** Distribution list using address-style tabular (label | content).
  * Mirrors buildCopyTo but with "Distribution:" label for action addressees. */
 function buildDistribution(distributions: Distribution[]): string {
   if (distributions.length === 0) return '';
-
-  const rows: string[] = [];
-  for (let i = 0; i < distributions.length; i++) {
-    if (i === 0) {
-      rows.push(`Distribution: & ${escapeTabular(distributions[i].text)} \\\\`);
-    } else {
-      rows.push(` & ${escapeTabular(distributions[i].text)} \\\\`);
-    }
-  }
-
-  return `\\vspace{12pt}
-\\noindent
-\\begin{tabular}{@{}l@{\\hspace{2\\fontdimen2\\font}}p{5.5in}@{}}
-${trimLastRow(rows)}
-\\end{tabular}
-
-`;
+  return marginBlock('Distribution:', distributions.map((d) => d.text));
 }
+
 
 /** CUI marking block */
 function buildCUIBlock(data: Partial<DocumentData>): string {
@@ -984,13 +1083,19 @@ function buildMOASSICBlock(data: Partial<DocumentData>): string {
   // Junior command on LEFT (signs first)
   const leftItems: string[] = [];
   if (data.juniorSSIC) leftItems.push(escapeTabular(data.juniorSSIC));
-  if (data.juniorSerial) leftItems.push(escapeTabular(data.juniorSerial));
+  // Compose both sides the way the PDF templates do, or Word and PDF disagree
+  // about this block on every joint/MOA document. The junior command has no
+  // office code of its own — the document's officeCode belongs to the
+  // originator, which is the senior side.
+  const juniorSymbol = composeSenderSymbol(undefined, data.juniorSerial);
+  if (juniorSymbol) leftItems.push(escapeTabular(juniorSymbol));
   if (data.juniorDate) leftItems.push(escapeTabular(data.juniorDate));
 
   // Senior command on RIGHT (signs last)
   const rightItems: string[] = [];
   if (data.seniorSSIC || data.ssic) rightItems.push(escapeTabular(data.seniorSSIC || data.ssic));
-  if (data.seniorSerial || data.serial) rightItems.push(escapeTabular(data.seniorSerial || data.serial));
+  const seniorSymbol = composeSenderSymbol(data.officeCode, data.seniorSerial || data.serial);
+  if (seniorSymbol) rightItems.push(escapeTabular(seniorSymbol));
   if (data.seniorDate || data.date) rightItems.push(escapeTabular(data.seniorDate || data.date));
 
   const maxRows = Math.max(leftItems.length, rightItems.length);
@@ -1103,14 +1208,19 @@ function buildJointSSICBlock(data: Partial<DocumentData>): string {
   const leftItems: string[] = [];
   if (data.jointJuniorCode) leftItems.push(escapeTabular(data.jointJuniorCode));
   if (data.jointJuniorSSIC) leftItems.push(escapeTabular(data.jointJuniorSSIC));
-  if (data.jointJuniorSerial) leftItems.push(escapeTabular(data.jointJuniorSerial));
+  // Fig 7-4 shows "Ser 02/318" on this line — the same code/serial fusion as a
+  // single-command letter. The line above holds the command's short title
+  // (NAVSUP/NAVSEA), which is a different field and stays as it is.
+  const jointJuniorSymbol = composeSenderSymbol(undefined, data.jointJuniorSerial);
+  if (jointJuniorSymbol) leftItems.push(escapeTabular(jointJuniorSymbol));
   if (data.jointJuniorDate) leftItems.push(escapeTabular(data.jointJuniorDate));
 
   // Senior command on RIGHT (signs last)
   const rightItems: string[] = [];
   if (data.jointSeniorCode) rightItems.push(escapeTabular(data.jointSeniorCode));
   if (data.ssic) rightItems.push(escapeTabular(data.ssic));
-  if (data.serial) rightItems.push(escapeTabular(data.serial));
+  const jointSeniorSymbol = composeSenderSymbol(data.officeCode, data.serial);
+  if (jointSeniorSymbol) rightItems.push(escapeTabular(jointSeniorSymbol));
   if (data.date) rightItems.push(escapeTabular(data.date));
 
   const maxRows = Math.max(leftItems.length, rightItems.length);
@@ -1197,7 +1307,7 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
-  content += buildBody(store.paragraphs, config);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
   content += buildSignature(data, config);
   // Between the signature and Distribution/Copy to — Ch 9 Figure 9-1 puts the
   // "Copy to:" block last on the sheet, below the endorsement.
@@ -1248,7 +1358,7 @@ function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): strin
     content += `${config.subjectPrefix}${escapeFlat(subjectText)}\n\n`;
   }
 
-  content += buildBody(store.paragraphs, config);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
   content += buildBusinessSignature(data);
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
@@ -1277,7 +1387,7 @@ function buildMemoLayout(store: DocumentStore, config: DocTypeConfig): string {
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
-  content += buildBody(store.paragraphs, config);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
   if (config.hasDecisionBlock) content += buildDecisionBlock();
   content += buildSignature(data, config);
   content += buildDistribution(store.distributions);
@@ -1308,7 +1418,7 @@ Subj:\\hspace{3\\fontdimen2\\font} & ${maybeUnderline(escapeTabularWrapped(data.
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
-  content += buildBody(store.paragraphs, config);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
   content += buildDualSignature(data, 'moa');
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
@@ -1331,7 +1441,7 @@ function buildJointLayout(store: DocumentStore, config: DocTypeConfig): string {
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
-  content += buildBody(store.paragraphs, config);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
   content += buildDualSignature(data, 'joint');
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
@@ -1382,7 +1492,7 @@ ${trimLastRow(rows)}
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
-  content += buildBody(store.paragraphs, config);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
   content += buildDualSignature(data, 'joint_memo');
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
@@ -1437,7 +1547,7 @@ function buildStandardMemorandumLayout(store: DocumentStore, config: DocTypeConf
   }
 
   // Body paragraphs
-  content += buildBody(store.paragraphs, config);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
 
   // Signature block (executive style: right half, no close)
   content += buildSignature(data, config);
@@ -1486,7 +1596,7 @@ function buildActionMemorandumLayout(store: DocumentStore, config: DocTypeConfig
   }
 
   // Body paragraphs
-  content += buildBody(store.paragraphs, config);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
 
   // Coordination section
   if (data.coordination?.trim()) {
@@ -1542,7 +1652,7 @@ function buildInfoMemorandumLayout(store: DocumentStore, config: DocTypeConfig):
   }
 
   // Body paragraphs
-  content += buildBody(store.paragraphs, config);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
 
   // Coordination section
   if (data.coordination?.trim()) {

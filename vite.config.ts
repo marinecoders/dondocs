@@ -85,10 +85,14 @@ function texliveMiddleware(): Plugin {
   return {
     name: 'texlive-middleware',
     configureServer(server) {
-      // Log summary on server start
-      console.log('\n[texlive] TeX Live middleware active');
-      console.log('[texlive] Missing files will return 301 (not found)');
-      console.log('[texlive] Use DONDOCS.texlive.summary() in browser console to see request summary\n');
+      // stderr, not stdout. These are diagnostics, and they still reach the
+      // terminal either way — but `vite-node` runs this hook too, and the MCP
+      // companion (companion/mcp.ts) speaks JSON-RPC over stdout. A banner on
+      // stdout corrupts that channel and the client drops the connection.
+      // Proof: tests/integration/companion-mcp.test.ts parses every stdout line.
+      console.error('\n[texlive] TeX Live middleware active');
+      console.error('[texlive] Missing files will return 301 (not found)');
+      console.error('[texlive] Use DONDOCS.texlive.summary() in browser console to see request summary\n');
 
       server.middlewares.use((req, res, next) => {
         const url = req.url || '';
@@ -104,14 +108,14 @@ function texliveMiddleware(): Plugin {
 
           // For known stub files, return the stub content
           if (filename === 'null' || filename === 'null.tex') {
-            console.log(`[texlive] ✓ STUB   ${fileKey} → null stub`);
+            console.error(`[texlive] ✓ STUB   ${fileKey} → null stub`);
             res.setHeader('Content-Type', 'text/plain');
             res.end('% null stub file\n\\endinput\n');
             return;
           }
 
           if (filename === 'ppnull.def') {
-            console.log(`[texlive] ✓ STUB   ${fileKey} → ppnull stub`);
+            console.error(`[texlive] ✓ STUB   ${fileKey} → ppnull stub`);
             res.setHeader('Content-Type', 'text/plain');
             res.end('% ppnull.def stub\n\\endinput\n');
             return;
@@ -119,7 +123,7 @@ function texliveMiddleware(): Plugin {
 
           // For .aux files - return 301 (generated during compilation, not a package)
           if (filename.endsWith('.aux')) {
-            console.log(`[texlive] ✗ 301    ${fileKey} → aux file (generated, not a package)`);
+            console.error(`[texlive] ✗ 301    ${fileKey} → aux file (generated, not a package)`);
             res.statusCode = 301;
             res.end('');
             return;
@@ -129,7 +133,7 @@ function texliveMiddleware(): Plugin {
           const staticPath = path.join(__dirname, 'public', 'lib', 'texlive', 'pdftex', format, filename);
           if (!fs.existsSync(staticPath)) {
             missingFiles.add(fileKey);
-            console.log(`[texlive] ✗ 301    ${fileKey} → MISSING (${formatName})`);
+            console.error(`[texlive] ✗ 301    ${fileKey} → MISSING (${formatName})`);
             res.statusCode = 301;
             res.end('');
             return;
@@ -137,7 +141,7 @@ function texliveMiddleware(): Plugin {
 
           // File exists, let Vite serve it
           servedFiles.add(fileKey);
-          console.log(`[texlive] ✓ 200    ${fileKey} → served (${formatName})`);
+          console.error(`[texlive] ✓ 200    ${fileKey} → served (${formatName})`);
         }
 
         // Handle enc directory
@@ -148,13 +152,13 @@ function texliveMiddleware(): Plugin {
           const staticPath = path.join(__dirname, 'public', 'lib', 'texlive', 'pdftex', 'enc', filename);
           if (!fs.existsSync(staticPath)) {
             missingFiles.add(fileKey);
-            console.log(`[texlive] ✗ 301    ${fileKey} → MISSING (encoding)`);
+            console.error(`[texlive] ✗ 301    ${fileKey} → MISSING (encoding)`);
             res.statusCode = 301;
             res.end('');
             return;
           }
           servedFiles.add(fileKey);
-          console.log(`[texlive] ✓ 200    ${fileKey} → served (encoding)`);
+          console.error(`[texlive] ✓ 200    ${fileKey} → served (encoding)`);
         }
 
         // Handle pfb directory
@@ -165,18 +169,18 @@ function texliveMiddleware(): Plugin {
           const staticPath = path.join(__dirname, 'public', 'lib', 'texlive', 'pdftex', 'pfb', filename);
           if (!fs.existsSync(staticPath)) {
             missingFiles.add(fileKey);
-            console.log(`[texlive] ✗ 301    ${fileKey} → MISSING (pfb font)`);
+            console.error(`[texlive] ✗ 301    ${fileKey} → MISSING (pfb font)`);
             res.statusCode = 301;
             res.end('');
             return;
           }
           servedFiles.add(fileKey);
-          console.log(`[texlive] ✓ 200    ${fileKey} → served (pfb font)`);
+          console.error(`[texlive] ✓ 200    ${fileKey} → served (pfb font)`);
         }
 
         // Catch /tex/null requests (internal TeX paths)
         if (url === '/tex/null' || url.endsWith('/tex/null')) {
-          console.log(`[texlive] ✓ STUB   /tex/null → null stub`);
+          console.error(`[texlive] ✓ STUB   /tex/null → null stub`);
           res.setHeader('Content-Type', 'text/plain');
           res.end('% null stub file\n\\endinput\n');
           return;

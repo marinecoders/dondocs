@@ -1023,29 +1023,57 @@ const LATEX_TEMPLATES = {
 
 \\input{reference-urls}
 
+% A wrapped entry's runover lines sit under the entry's TEXT, not under its
+% (a) designator.
+%
+% SECNAV M-5216.5 Ch 7 ¶10c: "If the entry is longer than one line, line the
+% second line under the first word after the heading." Figure 7-1 measures it
+% out — Ref: at x=124, (a) at 157, "Communication" at 172, and the runover
+% "directly" at 178, i.e. under the description. The same figure proves the two
+% columns are distinct: its Encl: block starts a NEW entry, (2), under (1) at
+% the designator column, which is exactly where a runover must not go.
+%
+% \\makebox fixes where the title starts on the first line; \\hangindent puts
+% every later line at that same column. Both derive from one length, so they
+% cannot drift apart.
+%
+% Deliberately NOT a \\parbox for the title: that makes the designator and the
+% title separate boxes, and while it looks right on the page, pdftotext pulls
+% them apart — "Ref:", then "(g)", then "MCO 1500.52" in three places. Copying
+% a reference list out of the PDF, searching it, or reading it with a screen
+% reader all depend on the entry staying one run of text.
+%
+% One width for the whole block, not per entry: Figure 7-1's Encl: block shows
+% (1) and (2) with their titles starting at a common column. Sized from a
+% two-character designator, which covers (a)-(z) and (1)-(99); a wider one just
+% pushes its own title right without disturbing its neighbours.
+\\newlength{\\dondocsEntryHang}
+\\settowidth{\\dondocsEntryHang}{(00)~~}
+\\newcommand{\\dondocsEntry}[2]{%
+    \\settowidth{\\dondocsEntryHang}{#1}%
+    \\addtolength{\\dondocsEntryHang}{2\\fontdimen2\\font}%
+    \\hangindent\\dondocsEntryHang\\hangafter=1
+    \\noindent #1~~#2\\par
+}
+
 \\makeatletter
 \\newcommand{\\refitem}[2]{%
     \\ifhyperlinks
         \\@ifundefined{ref@url@#1}{%
-            (#1)~~#2\\\\%
+            \\dondocsEntry{(#1)}{#2}%
         }{%
-            (\\href{\\csname ref@url@#1\\endcsname}{\\textcolor{blue}{#1}})~~#2\\\\%
+            \\dondocsEntry{(\\href{\\csname ref@url@#1\\endcsname}{\\textcolor{blue}{#1}})}{#2}%
         }%
     \\else
-        (#1)~~#2\\\\%
+        \\dondocsEntry{(#1)}{#2}%
     \\fi
 }
-% Same as \\refitem but without trailing \\\\ — used for the last reference
+% Same as \\refitem; kept as a separate name because the generator emits it for
+% the final entry. Both end the paragraph now — the trailing \\\\ that used to
+% distinguish them would have made every entry one paragraph, and \\hangindent
+% would then have indented all but the very first line of the whole block.
 \\newcommand{\\lastrefitem}[2]{%
-    \\ifhyperlinks
-        \\@ifundefined{ref@url@#1}{%
-            (#1)~~#2%
-        }{%
-            (\\href{\\csname ref@url@#1\\endcsname}{\\textcolor{blue}{#1}})~~#2%
-        }%
-    \\else
-        (#1)~~#2%
-    \\fi
+    \\refitem{#1}{#2}%
 }
 \\makeatother
 
@@ -1072,6 +1100,13 @@ const LATEX_TEMPLATES = {
         \\noindent
         \\begin{tabular}{@{}l@{}p{5.9in}@{}}
             Ref:\\ifthenelse{\\equal{\\FontFamily}{times}}{\\hspace{4.2\\fontdimen2\\font}}{\\hspace{4\\fontdimen2\\font}} & \\begin{minipage}[t]{5.9in}
+                       % A tabular p-column runs \\@arrayparboxrestore, which
+                       % undoes the document's global \\raggedright — so this
+                       % block would justify, stretching its interword spaces.
+                       % ¶7-2.1 forbids justified text, and the stretch also
+                       % puts the first line's text somewhere \\settowidth
+                       % cannot predict, breaking the runover alignment below.
+                       \\raggedright
                        \\input{references}
                    \\end{minipage}
         \\end{tabular}%
@@ -1118,17 +1153,18 @@ const LATEX_TEMPLATES = {
         \\noindent
         \\begin{tabular}{@{}l@{}p{5.85in}@{}}
             Encl:\\hspace{3\\fontdimen2\\font} & \\begin{minipage}[t]{5.85in}
+                       \\raggedright
                        \\newcounter{encllistcount}%
                        \\setcounter{encllistcount}{0}%
                        \\loop\\ifnum\\value{encllistcount}<\\value{enclmax}%
                            \\stepcounter{encllistcount}%
                            \\@ifundefined{encl@defined@\\arabic{encllistcount}}{}{%
+                               % Same runover rule as references — ¶10c and the
+                               % Encl: block of Figure 7-1.
                                \\ifhyperlinks
-                                   (\\hyperlink{enclosure\\arabic{encllistcount}}{\\textcolor{blue}{\\arabic{encllistcount}}})~~\\csname encl@title@\\arabic{encllistcount}\\endcsname%
+                                   \\dondocsEntry{(\\hyperlink{enclosure\\arabic{encllistcount}}{\\textcolor{blue}{\\arabic{encllistcount}}})}{\\csname encl@title@\\arabic{encllistcount}\\endcsname}%
                                \\else
-                                   (\\arabic{encllistcount})~~\\csname encl@title@\\arabic{encllistcount}\\endcsname%
-                               \\fi
-                               \\ifnum\\value{encllistcount}<\\value{enclmax}\\\\%
+                                   \\dondocsEntry{(\\arabic{encllistcount})}{\\csname encl@title@\\arabic{encllistcount}\\endcsname}%
                                \\fi
                            }%
                        \\repeat
@@ -1177,7 +1213,11 @@ const LATEX_TEMPLATES = {
             \\stepcounter{inclcount}%
             \\@ifundefined{encl@defined@\\arabic{inclcount}}{}{%
                 \\edef\\currentfile{\\csname encl@file@\\arabic{inclcount}\\endcsname}%
-                \\xdef\\currentencltitle{\\csname encl@title@\\arabic{inclcount}\\endcsname}%
+                % \\let, not \\xdef: the title is only ever typeset, and a user
+                % title carrying a backslash arrives here as the fragile
+                % \\textbackslash, which \\xdef expands until TeX runs out of input
+                % stack ("TeX capacity exceeded") and the whole letter fails.
+                \\expandafter\\global\\expandafter\\let\\expandafter\\currentencltitle\\csname encl@title@\\arabic{inclcount}\\endcsname%
                 \\xdef\\currentenclnum{\\arabic{inclcount}}%
                 % Reset page counter for this enclosure
                 \\setcounter{enclpagenum}{1}%
@@ -1262,13 +1302,14 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\setHasDistribution}{\\global\\hasdistributiontrue}
 
 % Print distribution list
+% SECNAV M-5216.5 Ch 7 15c lists the addressees "in a single column at the
+% left margin and single spaced below" the label line, and the manual renders
+% it that way five times in Ch 7. A tabular put the first addressee beside the
+% label and every one of them 47pt in from the margin.
 \\newcommand{\\printDistribution}{%
     \\ifhasdistribution
         \\vspace{12pt}
-        \\noindent
-        \\begin{tabular}{@{}l@{}p{5.85in}@{}}
-            \\DistributionRows
-        \\end{tabular}%
+        \\DistributionRows
     \\fi
 }
 
@@ -1284,13 +1325,14 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\setHasCopyTo}{\\global\\hascopytotrue}
 
 % Print copy-to list
+% SECNAV M-5216.5 Ch 7 15c lists the addressees "in a single column at the
+% left margin and single spaced below" the label line, and the manual renders
+% it that way five times in Ch 7. A tabular put the first addressee beside the
+% label and every one of them 47pt in from the margin.
 \\newcommand{\\printCopyTo}{%
     \\ifhascopyto
         \\vspace{12pt}
-        \\noindent
-        \\begin{tabular}{@{}l@{}p{5.85in}@{}}
-            \\CopyToRows
-        \\end{tabular}%
+        \\CopyToRows
     \\fi
 }
 
@@ -4196,6 +4238,26 @@ const LATEX_TEMPLATES = {
 %                              PAGE STYLE
 %=============================================================================
 % Page number continues from basic letter
+
+% The endorsement's OWN first sheet. This style has to exist even though it is
+% nearly identical to documentpage: main.tex selects the opening sheet with
+%   \\@ifundefined{ps@firstpage}{\\thispagestyle{documentpage}}{...}
+% so leaving firstpage undefined silently opens the endorsement on the
+% continuation style — printing "Subj:" in the page header, across the
+% letterhead seal, on a sheet that already carries the real Subj: line in its
+% address block. Every other template defines firstpage; this one did not.
+%
+% Unlike a letter's firstpage, the page NUMBER stays: Ch 9 Fig 9-2 numbers the
+% endorsement's own sheet because it continues the basic letter's sequence.
+% That is why omitting the style looked harmless — the footer was wanted, and
+% the header came along with it.
+\\fancypagestyle{firstpage}{%
+    \\fancyhf{}%
+    \\fancyhead[C]{\\placeClassificationMarkings}%
+    \\fancyfoot[C]{\\thepage}%
+    \\renewcommand{\\headrulewidth}{0pt}%
+    \\renewcommand{\\footrulewidth}{0pt}%
+}
 
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%

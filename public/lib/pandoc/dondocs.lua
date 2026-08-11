@@ -388,6 +388,16 @@ local function handle_raw_inline(el)
   -- \mbox{content} → just the content as plain text
   local mbox_content = text:match("^\\mbox%{(.-)%}$")
   if mbox_content then
+    -- ...unless the content is itself markup. Paragraph labels below the
+    -- fourth level arrive as \mbox{\uline{1.}}, and returning that verbatim
+    -- printed the literal characters "\uline{1.}" in front of the paragraph.
+    -- Only \uline needs unwrapping here: it is the one command the generator
+    -- puts inside an \mbox, and pandoc reads a bare \uline correctly on its
+    -- own — the \mbox is what hides it.
+    local underlined = mbox_content:match("^\\uline%{(.-)%}$")
+    if underlined then
+      return pandoc.Underline({ pandoc.Str(underlined) })
+    end
     return pandoc.Str(mbox_content)
   end
 
@@ -436,9 +446,29 @@ local function handle_raw_inline(el)
   if fin then
     local inches = tonumber(fin)
     if inches and inches > 0 then
-      local count = math.floor(inches * 6 + 0.5)
+      -- 72 per inch, i.e. one marker per point. The subparagraph indent is
+      -- derived from label width (Figure 7-8) and lands on values like 0.194in
+      -- that 6 per inch could not express. pandoc keeps a run this long in a
+      -- single Str, so the post-pass regex still sees one <w:t>.
+      local count = math.floor(inches * 72 + 0.5)
       local emStr = string.rep("\u{2003}", count)
       return pandoc.Str(emStr)
+    end
+    return pandoc.List({})
+  end
+
+  -- \dondocshangindent{Xin} → hanging indent (w:ind w:left + w:hanging)
+  -- Third marker in the same family as \dondocsindent and
+  -- \dondocsfirstindent, with its own character (U+2007 FIGURE SPACE) so
+  -- step 6a3 in pandoc-converter.ts can tell the three apart. Used by Ref:
+  -- and Encl: entries, whose runover lines belong under the entry text.
+  local gin = text:match("^\\dondocshangindent%{([%d%.]+)in%}$")
+  if gin then
+    local inches = tonumber(gin)
+    if inches and inches > 0 then
+      local count = math.floor(inches * 6 + 0.5)
+      local figStr = string.rep("\u{2007}", count)
+      return pandoc.Str(figStr)
     end
     return pandoc.List({})
   end
