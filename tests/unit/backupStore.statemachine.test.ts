@@ -28,6 +28,8 @@ interface FakeHandle {
   queryPermission: (o: { mode: string }) => Promise<string>;
   requestPermission: (o: { mode: string }) => Promise<string>;
   createWritable: () => Promise<{ write: (d: string) => Promise<void>; close: () => Promise<void> }>;
+  /** Asked after a failed write to tell a missing file from a refused one. */
+  getFile: () => Promise<unknown>;
 }
 
 function makeHandle(perm: FakeHandle['perm'] = 'granted', name = 'dondocs-library.json'): FakeHandle {
@@ -46,6 +48,7 @@ function makeHandle(perm: FakeHandle['perm'] = 'granted', name = 'dondocs-librar
       },
       close: async () => {},
     }),
+    getFile: async () => ({ size: 1 }),
   };
   return h;
 }
@@ -139,6 +142,41 @@ describe('backupStore permission state machine', () => {
     await store.getState().writeNow();
     expect(store.getState().status).toBe('error'); // not a silent stale mirror
     expect(store.getState().lastBackupAt).toBe(before); // no fake success stamp
+  });
+
+  it('offers a new file only after confirming the old one is really gone', async () => {
+    const handle = makeHandle('granted');
+    const store = await loadStore(vi.fn(async () => handle));
+    await store.getState().setupBackup();
+
+    handle.createWritable = async () => {
+      throw new DOMException('file gone', 'NotFoundError');
+    };
+    handle.getFile = async () => {
+      throw new DOMException('gone', 'NotFoundError');
+    };
+    await store.getState().writeNow();
+
+    expect(store.getState().status).toBe('error');
+    expect(store.getState().fileMissing).toBe(true);
+  });
+
+  it('does not call a file missing when it is still there and the write was refused', async () => {
+    // The case that made users re-map: the write is blocked from outside, the
+    // file is untouched, and offering a new one fixes nothing. The write error
+    // alone cannot tell these apart, so the file is asked directly.
+    const handle = makeHandle('granted');
+    const store = await loadStore(vi.fn(async () => handle));
+    await store.getState().setupBackup();
+
+    handle.createWritable = async () => {
+      throw new DOMException('blocked by policy', 'InvalidStateError');
+    };
+    // getFile still answers: the file is fine.
+    await store.getState().writeNow();
+
+    expect(store.getState().status).toBe('error');
+    expect(store.getState().fileMissing).toBe(false);
   });
 
   it('recovers to connected when a later write succeeds after an error', async () => {

@@ -29,6 +29,27 @@ import { debug } from '@/lib/debug';
  */
 export type BackupStatus = 'off' | 'connected' | 'needs-permission' | 'error' | 'unsupported';
 
+/** The three ways a stalled mirror can be restarted. */
+export type BackupAction = 'reconnect' | 'setup' | 'retry';
+
+/**
+ * Which one this situation actually calls for. Kept here, and pure, so the
+ * notice strip and the save chip cannot offer different answers to the same
+ * state — and so the reasoning is testable without rendering anything.
+ *
+ * The distinction that matters: only a file that is genuinely missing is fixed
+ * by choosing another one. A write the system refused — ransomware protection
+ * or a policy standing between the browser and that folder — leaves the file
+ * perfectly good, and sending the user back to the file picker there teaches
+ * them to re-map something that was never broken.
+ */
+export function backupAction(status: BackupStatus, fileMissing: boolean): BackupAction | null {
+  if (status === 'needs-permission') return 'reconnect';
+  if (status === 'off') return 'setup';
+  if (status === 'error') return fileMissing ? 'setup' : 'retry';
+  return null; // 'connected' has nothing to fix; 'unsupported' has no way out.
+}
+
 const isSupported =
   typeof window !== 'undefined' && typeof (window as unknown as { showSaveFilePicker?: unknown }).showSaveFilePicker === 'function';
 
@@ -64,6 +85,25 @@ async function buildBackupJson(): Promise<string | null> {
   }
 }
 
+/**
+ * Whether the backing file is gone — asked directly, not inferred.
+ *
+ * `getFile()` rejects with NotFoundError once the entry no longer exists, which
+ * is a fact about the file. Reading it off the write error instead is a guess:
+ * a browser can refuse a write for reasons that say nothing about whether the
+ * file is there, and the reverse holds too, so the two questions have to be
+ * asked separately.
+ */
+export async function isFileMissing(handle: FileSystemFileHandle | null): Promise<boolean> {
+  if (!handle) return false;
+  try {
+    await handle.getFile();
+    return false;
+  } catch (err) {
+    return (err as Error)?.name === 'NotFoundError';
+  }
+}
+
 async function writeToHandle(handle: FileSystemFileHandle, json: string): Promise<void> {
   const writable = await handle.createWritable();
   await writable.write(json);
@@ -71,11 +111,50 @@ async function writeToHandle(handle: FileSystemFileHandle, json: string): Promis
 }
 
 // The live handle lives outside the store (not serializable UI state).
+/** Stable id so the browser reopens the folder the user chose last time, even
+ *  when we no longer hold a handle. Must be <=32 chars of [A-Za-z0-9_-]. */
+const PICKER_ID = 'dondocs-backup';
+
+/**
+ * Re-picking a backup file should land where the last one lived. `startIn` with
+ * a file handle opens that file's own folder, and carrying its name forward
+ * means a re-pick targets the same file instead of quietly starting a second
+ * one alongside it. `id` covers the case where the handle is gone: the browser
+ * remembers the directory itself.
+ *
+ * The hints are an optimization, never a gate — if a browser rejects one, the
+ * user still gets a picker.
+ */
+export async function pickFile(
+  picker: (o: unknown) => Promise<FileSystemFileHandle>,
+  previous: FileSystemFileHandle | null
+): Promise<FileSystemFileHandle> {
+  const base = {
+    id: PICKER_ID,
+    suggestedName: previous?.name ?? 'dondocs-backup.json',
+    types: [{ description: 'DonDocs backup', accept: { 'application/json': ['.json'] } }],
+  };
+  if (!previous) return picker(base);
+  try {
+    return await picker({ ...base, startIn: previous });
+  } catch (err) {
+    // The user closing the dialog is an answer; anything else means the hint
+    // itself was refused, so ask again without it.
+    if ((err as Error)?.name === 'AbortError') throw err;
+    debug.error('Backup', 'picker rejected startIn; retrying without it', err);
+    return picker(base);
+  }
+}
+
 let handleRef: FileSystemFileHandle | null = null;
 
 interface BackupState {
   status: BackupStatus;
   fileName: string | null;
+  /** Set only when a failed write was followed by asking the file directly and
+   *  finding it gone. Decides whether the way out is a new file or a block to
+   *  lift — never assumed from the write error alone. */
+  fileMissing: boolean;
   lastBackupAt: number | null;
   /** On app load: reconnect a previously-chosen file from IndexedDB. */
   init: () => Promise<void>;
@@ -92,6 +171,7 @@ interface BackupState {
 export const useBackupStore = create<BackupState>((set, get) => ({
   status: isSupported ? 'off' : 'unsupported',
   fileName: null,
+  fileMissing: false,
   lastBackupAt: null,
 
   init: async () => {
@@ -109,13 +189,10 @@ export const useBackupStore = create<BackupState>((set, get) => ({
       const picker = (window as unknown as {
         showSaveFilePicker: (o: unknown) => Promise<FileSystemFileHandle>;
       }).showSaveFilePicker;
-      const handle = await picker({
-        suggestedName: 'dondocs-backup.json',
-        types: [{ description: 'DonDocs backup', accept: { 'application/json': ['.json'] } }],
-      });
+      const handle = await pickFile(picker, handleRef);
       handleRef = handle;
       await idbSetBackupHandle(handle);
-      set({ fileName: handle.name, status: 'connected' });
+      set({ fileName: handle.name, status: 'connected', fileMissing: false });
       await get().writeNow();
     } catch (err) {
       // AbortError = the user dismissed the file picker; that's not a failure.
@@ -139,7 +216,7 @@ export const useBackupStore = create<BackupState>((set, get) => ({
   disable: async () => {
     handleRef = null;
     await idbClearBackupHandle();
-    set({ status: isSupported ? 'off' : 'unsupported', fileName: null, lastBackupAt: null });
+    set({ status: isSupported ? 'off' : 'unsupported', fileName: null, lastBackupAt: null, fileMissing: false });
   },
 
   writeNow: async () => {
@@ -156,11 +233,11 @@ export const useBackupStore = create<BackupState>((set, get) => ({
       if (json === null) {
         // Account read failed — keep the existing backup file intact and do NOT
         // advance lastBackupAt; claiming success here would be a lie.
-        set({ status: 'error' });
+        set({ status: 'error', fileMissing: false });
         return;
       }
       await writeToHandle(handleRef, json);
-      set({ lastBackupAt: Date.now(), status: 'connected' });
+      set({ lastBackupAt: Date.now(), status: 'connected', fileMissing: false });
       // A committed mirror write is a real backup → credit the checklist row.
       useOnboardingStore.getState().markComplete('first_backup');
     } catch (err) {
@@ -168,7 +245,11 @@ export const useBackupStore = create<BackupState>((set, get) => ({
       // (file moved/deleted/locked, disk full) is a write fault. Either way the
       // mirror stopped updating — say so instead of staying 'connected'.
       const name = (err as Error)?.name;
-      set({ status: name === 'NotAllowedError' || name === 'SecurityError' ? 'needs-permission' : 'error' });
+      if (name === 'NotAllowedError' || name === 'SecurityError') {
+        set({ status: 'needs-permission', fileMissing: false });
+      } else {
+        set({ status: 'error', fileMissing: await isFileMissing(handleRef) });
+      }
       debug.error('Backup', 'write failed', err);
     }
   },

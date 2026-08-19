@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AlertTriangle, X } from 'lucide-react';
-import { useBackupStore, type BackupStatus } from '@/stores/backupStore';
+import { backupAction, useBackupStore, type BackupStatus } from '@/stores/backupStore';
 
 /**
  * Slim, dismissible strip shown when the synced backup file has stopped
@@ -16,6 +16,8 @@ export function BackupNotice() {
   const fileName = useBackupStore((s) => s.fileName);
   const reconnect = useBackupStore((s) => s.reconnect);
   const setupBackup = useBackupStore((s) => s.setupBackup);
+  const writeNow = useBackupStore((s) => s.writeNow);
+  const fileMissing = useBackupStore((s) => s.fileMissing);
   // Per-status dismissal: hiding the "needs-permission" strip shouldn't also
   // suppress a later, different "error" — mirrors StorageNotice's per-level rule.
   const [dismissedStatus, setDismissedStatus] = useState<BackupStatus | null>(null);
@@ -23,14 +25,31 @@ export function BackupNotice() {
   const degraded = status === 'needs-permission' || status === 'error';
   if (!degraded || status === dismissedStatus) return null;
 
-  const needsPermission = status === 'needs-permission';
-  const message = needsPermission
-    ? 'Auto-backup is paused — reconnect to keep your synced backup current.'
-    : "Auto-backup couldn't write to your file, so your backup may be out of date.";
-  // A permission drop is fixed by re-granting; a write fault usually means the
-  // file is gone/unwritable, so re-picking one is the honest recovery.
-  const actionLabel = needsPermission ? 'Reconnect' : 'Choose file';
-  const onAction = needsPermission ? reconnect : setupBackup;
+  const action = backupAction(status, fileMissing);
+  if (!action) return null;
+
+  // One mapping, chosen in the store, worded here.
+  const { message, actionLabel, onAction } = {
+    reconnect: {
+      message: 'Auto-backup is paused — reconnect to keep your synced backup current.',
+      actionLabel: 'Reconnect',
+      onAction: reconnect,
+    },
+    setup: {
+      message: "Auto-backup can't find your backup file — it may have been moved or deleted.",
+      actionLabel: 'Choose file',
+      onAction: setupBackup,
+    },
+    // Naming the usual culprit beats a retry button on its own: on Windows this
+    // is nearly always ransomware protection standing between the browser and
+    // that folder, which no amount of retrying fixes.
+    retry: {
+      message:
+        "Auto-backup couldn't write to your file, so your backup may be out of date. If this keeps happening, check whether ransomware protection is blocking your browser from that folder.",
+      actionLabel: 'Try again',
+      onAction: writeNow,
+    },
+  }[action];
 
   // A failed write means the backup is silently stale — announce it assertively;
   // a permission drop on relaunch is expected and stays polite.

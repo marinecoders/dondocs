@@ -5,6 +5,24 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.140] — 2026-08-10
+
+### Fixed
+
+- **Re-choosing your backup file no longer means finding it again.** The picker
+  now opens in the folder your last backup lived in and offers its name, so
+  re-selecting it is a couple of clicks rather than a hunt through the file
+  tree. Where the browser can, it also remembers that folder on its own, which
+  covers the case where the link to the file is lost entirely.
+- **A blocked write no longer poses as a missing file.** Auto-backup used to
+  answer every failed write by offering to pick a new file, which is only the
+  right answer when the old one is actually gone. When something outside the
+  browser refuses the write — ransomware protection or a policy standing
+  between the browser and that folder — the file is fine, and choosing another
+  one changes nothing. That case now says what happened and offers to try
+  again, and the notice names the usual culprit so it can be fixed where it
+  actually lives.
+
 ## [1.2.138] — 2026-08-10
 
 ### Fixed

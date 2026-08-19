@@ -22,8 +22,10 @@ beforeEach(() => {
     status: 'off',
     fileName: null,
     lastBackupAt: null,
+    fileMissing: false,
     setupBackup: vi.fn(async () => {}),
     reconnect: vi.fn(async () => {}),
+    writeNow: vi.fn(async () => {}),
   });
 });
 
@@ -60,19 +62,26 @@ describe('SaveStatus', () => {
   });
 
   it('carries the repair for a broken backup, which BackupNotice can be dismissed out of', () => {
-    // The strip that explains these two is dismissible; this isn't. Same
-    // mapping it uses: re-grant on the file we have, re-pick after a write
-    // failure.
+    // The strip that explains these is dismissible; this isn't. It shares the
+    // store's mapping, so the two can never offer different answers.
     useBackupStore.setState({ status: 'needs-permission' });
     const { rerender } = render(<SaveStatus />);
     fireEvent.click(screen.getByRole('button', { name: /Local only/ }));
     expect(useBackupStore.getState().reconnect).toHaveBeenCalledOnce();
     expect(useBackupStore.getState().setupBackup).not.toHaveBeenCalled();
 
-    useBackupStore.setState({ status: 'error' });
+    // A file that is really gone is the one case a new file fixes.
+    useBackupStore.setState({ status: 'error', fileMissing: true });
     rerender(<SaveStatus />);
     fireEvent.click(screen.getByRole('button', { name: /Local only/ }));
     expect(useBackupStore.getState().setupBackup).toHaveBeenCalledOnce();
+
+    // A write something else refused leaves the file good; re-picking is noise.
+    useBackupStore.setState({ status: 'error', fileMissing: false });
+    rerender(<SaveStatus />);
+    fireEvent.click(screen.getByRole('button', { name: /Local only/ }));
+    expect(useBackupStore.getState().writeNow).toHaveBeenCalledOnce();
+    expect(useBackupStore.getState().setupBackup).toHaveBeenCalledOnce(); // still just the one
   });
 
   it('is plain text — not a dead button — where auto-backup is impossible', () => {
