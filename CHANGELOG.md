@@ -5,7 +5,7 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
-## [1.2.140] — 2026-08-10
+## [1.2.139] — 2026-08-10
 
 ### Fixed
 
