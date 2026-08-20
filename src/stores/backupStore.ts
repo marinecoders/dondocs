@@ -30,7 +30,7 @@ import { debug } from '@/lib/debug';
 export type BackupStatus = 'off' | 'connected' | 'needs-permission' | 'error' | 'unsupported';
 
 /** The three ways a stalled mirror can be restarted. */
-export type BackupAction = 'reconnect' | 'setup' | 'retry';
+type BackupAction = 'reconnect' | 'setup' | 'retry';
 
 /**
  * Which one this situation actually calls for. Kept here, and pure, so the
@@ -110,7 +110,6 @@ async function writeToHandle(handle: FileSystemFileHandle, json: string): Promis
   await writable.close();
 }
 
-// The live handle lives outside the store (not serializable UI state).
 /** Stable id so the browser reopens the folder the user chose last time, even
  *  when we no longer hold a handle. Must be <=32 chars of [A-Za-z0-9_-]. */
 const PICKER_ID = 'dondocs-backup';
@@ -146,6 +145,7 @@ export async function pickFile(
   }
 }
 
+// The live handle lives outside the store (not serializable UI state).
 let handleRef: FileSystemFileHandle | null = null;
 
 interface BackupState {
@@ -241,9 +241,9 @@ export const useBackupStore = create<BackupState>((set, get) => ({
       // A committed mirror write is a real backup → credit the checklist row.
       useOnboardingStore.getState().markComplete('first_backup');
     } catch (err) {
-      // Permission revoked mid-write reads as NotAllowedError; everything else
-      // (file moved/deleted/locked, disk full) is a write fault. Either way the
-      // mirror stopped updating — say so instead of staying 'connected'.
+      // Permission revoked mid-write reads as NotAllowedError. Anything else
+      // stopped the mirror too, but the way out depends on something the error
+      // does not say, so the file is asked directly rather than guessed at.
       const name = (err as Error)?.name;
       if (name === 'NotAllowedError' || name === 'SecurityError') {
         set({ status: 'needs-permission', fileMissing: false });

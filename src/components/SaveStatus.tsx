@@ -84,8 +84,8 @@ export function SaveStatus({ className }: { className?: string }) {
   // claims neither — saying "Local only" there would be alarming and wrong.
   const localOnly = backupStatus !== 'connected';
   // Wherever a backup can still be arranged, the chip is the control that does
-  // it. BackupNotice offers the same two actions but is dismissible, so the way
-  // out can't depend on that strip being on screen. Only 'unsupported' has no
+  // it. BackupNotice offers the same repairs but is dismissible, so the way out
+  // can't depend on that strip being on screen. Only 'unsupported' has no
   // action — offering one there would be a dead end.
   const fix = backupFix(backupStatus, fileMissing, { setupBackup, reconnect, writeNow });
   return (
@@ -112,14 +112,14 @@ export function SaveStatus({ className }: { className?: string }) {
               // Keeps the visible text as the start of the name, so voice
               // control still matches "click Local only".
               aria-label={`Local only — ${fix.label}`}
-              title={localOnlyHint(backupStatus)}
+              title={localOnlyHint(backupStatus, fileMissing)}
               className="inline-flex items-center gap-1 rounded-sm underline decoration-dotted underline-offset-2 outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
             >
               <HardDrive className="h-3 w-3" aria-hidden />
               Local only
             </button>
           ) : (
-            <span className="inline-flex items-center gap-1" title={localOnlyHint(backupStatus)}>
+            <span className="inline-flex items-center gap-1" title={localOnlyHint(backupStatus, fileMissing)}>
               <HardDrive className="h-3 w-3" aria-hidden />
               Local only
             </span>
@@ -157,7 +157,7 @@ function backupFix(
 }
 
 /** Why "Local only" is showing, and the way out that this browser actually has. */
-function localOnlyHint(status: BackupStatus): string {
+function localOnlyHint(status: BackupStatus, fileMissing: boolean): string {
   const where = 'Your documents are saved in this browser only.';
   if (status === 'unsupported') {
     return `${where} This browser can't keep an auto-backup file — use Download or Back up everything to keep a permanent copy.`;
@@ -166,7 +166,9 @@ function localOnlyHint(status: BackupStatus): string {
     return `${where} Auto-backup is paused until you re-grant access to its file.`;
   }
   if (status === 'error') {
-    return `${where} Auto-backup couldn't write to its file — something may be blocking access to that folder.`;
+    return fileMissing
+      ? `${where} Auto-backup can't find its file — pick a new one.`
+      : `${where} Auto-backup couldn't write to its file — something may be blocking access to that folder.`;
   }
   return `${where} Set up auto-backup to mirror them to a file outside it.`;
 }

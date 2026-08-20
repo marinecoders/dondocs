@@ -84,6 +84,21 @@ describe('SaveStatus', () => {
     expect(useBackupStore.getState().setupBackup).toHaveBeenCalledOnce(); // still just the one
   });
 
+  it('explains the failure the same way the button repairs it', () => {
+    // A tooltip saying "something is blocking access" above a button labelled
+    // "choose a new backup file" tells the user two different stories about one
+    // state. The hint has to follow the same fact the action does.
+    useBackupStore.setState({ status: 'error', fileMissing: true });
+    const { rerender } = render(<SaveStatus />);
+    expect(screen.getByRole('button', { name: /choose a new backup file/i })).toBeTruthy();
+    expect(screen.getByTitle(/can't find its file/i)).toBeTruthy();
+
+    useBackupStore.setState({ status: 'error', fileMissing: false });
+    rerender(<SaveStatus />);
+    expect(screen.getByRole('button', { name: /try backing up again/i })).toBeTruthy();
+    expect(screen.getByTitle(/blocking access/i)).toBeTruthy();
+  });
+
   it('is plain text — not a dead button — where auto-backup is impossible', () => {
     // Safari/Firefox have no File System Access API. Advertising an action the
     // browser cannot perform is the failure mode the install banner avoids too.

@@ -2,14 +2,35 @@ import { useState } from 'react';
 import { AlertTriangle, X } from 'lucide-react';
 import { backupAction, useBackupStore, type BackupStatus } from '@/stores/backupStore';
 
+/** What each repair says. The choice of which is made in the store. */
+const NOTICE_COPY = {
+  reconnect: {
+    message: 'Auto-backup is paused — reconnect to keep your synced backup current.',
+    actionLabel: 'Reconnect',
+  },
+  setup: {
+    message: "Auto-backup can't find your backup file — it may have been moved or deleted.",
+    actionLabel: 'Choose file',
+  },
+  // Naming the usual culprit beats a retry button on its own: on Windows this is
+  // nearly always ransomware protection standing between the browser and that
+  // folder, which no amount of retrying fixes.
+  retry: {
+    message:
+      "Auto-backup couldn't write to your file. If this keeps happening, ransomware protection may be blocking your browser from that folder.",
+    actionLabel: 'Try again',
+  },
+} as const;
+
 /**
  * Slim, dismissible strip shown when the synced backup file has stopped
  * updating — either the browser dropped write permission on restart
  * ('needs-permission', which happens on EVERY relaunch by design: browsers
  * revoke file-write grants when the app fully closes and require a fresh user
- * gesture) or a write failed ('error', e.g. the file was moved/deleted). The
- * status otherwise lived only inside the Save menu, so a returning user had no
- * way to know their backup had quietly paused. One click here re-arms it.
+ * gesture) or a write failed ('error', whether because the file is gone or
+ * because something refused the write). The status otherwise lived only inside
+ * the Save menu, so a returning user had no way to know their backup had
+ * quietly paused. One click here re-arms it.
  */
 export function BackupNotice() {
   const status = useBackupStore((s) => s.status);
@@ -22,34 +43,12 @@ export function BackupNotice() {
   // suppress a later, different "error" — mirrors StorageNotice's per-level rule.
   const [dismissedStatus, setDismissedStatus] = useState<BackupStatus | null>(null);
 
-  const degraded = status === 'needs-permission' || status === 'error';
-  if (!degraded || status === dismissedStatus) return null;
-
   const action = backupAction(status, fileMissing);
-  if (!action) return null;
+  // 'off' has an action — set one up — but no business interrupting anyone.
+  if (!action || status === 'off' || status === dismissedStatus) return null;
 
-  // One mapping, chosen in the store, worded here.
-  const { message, actionLabel, onAction } = {
-    reconnect: {
-      message: 'Auto-backup is paused — reconnect to keep your synced backup current.',
-      actionLabel: 'Reconnect',
-      onAction: reconnect,
-    },
-    setup: {
-      message: "Auto-backup can't find your backup file — it may have been moved or deleted.",
-      actionLabel: 'Choose file',
-      onAction: setupBackup,
-    },
-    // Naming the usual culprit beats a retry button on its own: on Windows this
-    // is nearly always ransomware protection standing between the browser and
-    // that folder, which no amount of retrying fixes.
-    retry: {
-      message:
-        "Auto-backup couldn't write to your file, so your backup may be out of date. If this keeps happening, check whether ransomware protection is blocking your browser from that folder.",
-      actionLabel: 'Try again',
-      onAction: writeNow,
-    },
-  }[action];
+  const { message, actionLabel } = NOTICE_COPY[action];
+  const onAction = { reconnect, setup: setupBackup, retry: writeNow }[action];
 
   // A failed write means the backup is silently stale — announce it assertively;
   // a permission drop on relaunch is expected and stays polite.
