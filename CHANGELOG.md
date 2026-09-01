@@ -5,7 +5,7 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
-## [1.2.139] — 2026-08-10
+## [1.2.140] — 2026-09-01
 
 ### Fixed
 
@@ -22,6 +22,18 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
   one changes nothing. That case now says what happened and offers to try
   again, and the notice names the usual culprit so it can be fixed where it
   actually lives.
+## [1.2.139] — 2026-09-01
+
+### Fixed
+
+- **The subject line repeated on later pages no longer runs into the text.**
+  With "Show subject line on continuation pages" turned on, a subject long
+  enough to take more than one line printed straight through the first
+  paragraph of the page, and its second and third lines started back at the
+  left margin instead of lining up under the subject. Both are fixed: the
+  repeated line now wraps the way it does on page one, and the text below it
+  starts two lines down, as SECNAV M-5216.5 Ch 7 ¶16 requires. Page one is
+  untouched.
 
 ## [1.2.138] — 2026-08-10
 

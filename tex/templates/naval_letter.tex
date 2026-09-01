@@ -155,7 +155,7 @@
 \fancypagestyle{documentpage}{%
     \fancyhf{}%
     \fancyhead[C]{\placeClassificationMarkings}%
-    \fancyhead[L]{\ifdefempty{\ContinuationSubject}{}{\applyDocumentFontSize Subj:~~\ContinuationSubject}}%
+    \fancyhead[L]{\printContinuationSubject}%
     \fancyfoot[C]{\thepage}%  % Just the number, no "of X"
     \renewcommand{\headrulewidth}{0pt}%
     \renewcommand{\footrulewidth}{0pt}%

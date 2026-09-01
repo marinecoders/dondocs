@@ -192,7 +192,7 @@
 \fancypagestyle{documentpage}{%
     \fancyhf{}%
     \fancyhead[C]{\placeClassificationMarkings}%
-    \fancyhead[L]{\ifdefempty{\ContinuationSubject}{}{\applyDocumentFontSize Subj:~~\ContinuationSubject}}%
+    \fancyhead[L]{\printContinuationSubject}%
     \fancyfoot[C]{\thepage}%
     \renewcommand{\headrulewidth}{0pt}%
     \renewcommand{\footrulewidth}{0pt}%
