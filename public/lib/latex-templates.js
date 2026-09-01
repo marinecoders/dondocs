@@ -615,8 +615,17 @@ const LATEX_TEMPLATES = {
 }
 
 % The first page carries no repeated subject, so it gives back the space the
-% header reserved for the others.
-\\newcommand{\\dondocsFirstPageOffset}{\\vspace*{-\\dondocsContExtra}}
+% header reserved for the others — both halves of it. The negative skip starts
+% its text where it started before; \\enlargethispage returns the height that
+% came off \\textheight, without which page one keeps its original starting
+% point but still sets a full \\textheight of material and runs that much into
+% the bottom margin (measured: 79pt of margin became 51pt).
+\\newcommand{\\dondocsFirstPageOffset}{%
+    \\ifdim\\dondocsContExtra>0pt
+        \\enlargethispage{-\\dondocsContExtra}%
+        \\vspace*{-\\dondocsContExtra}%
+    \\fi
+}
 
 
 %-----------------------------------------------------------------------------
@@ -1553,7 +1562,6 @@ const LATEX_TEMPLATES = {
 % inputs so \\setStartingPageNumber from document.tex has taken effect, and
 % before any content so sheet 1 carries the continued number.
 \\setcounter{page}{\\StartingPageNumber}
-
 
 %=============================================================================
 % LOAD FORMAT-SPECIFIC MODULE

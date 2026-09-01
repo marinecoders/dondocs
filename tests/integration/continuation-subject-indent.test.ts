@@ -97,17 +97,26 @@ describe.skipIf(!toolchain)('continuation subject', () => {
     expect(firstBody.y - lastHeader.y).toBeGreaterThanOrEqual(20);
   }, 180000);
 
-  it('does not move page one, which carries no repeated subject', async () => {
+  it('does not move page one, top or bottom', async () => {
     // The height is reserved through headheight, which is page geometry and so
-    // applies to every page. Page one hands it back; if it ever stops doing so,
-    // the letterhead and sender's symbols drift off their measured positions.
+    // applies to every page. Page one hands it back — both halves. Checking the
+    // first few rows is not enough: an earlier version of this fix started page
+    // one's text in the right place and still set a full \textheight from
+    // there, running 28pt into the bottom margin (79pt of margin became 51pt)
+    // and pulling an extra paragraph onto the page. Only the bottom showed it.
     const [off, on] = await Promise.all([
-      render('naval_letter', LONG_SUBJECT, false).then((p) => lines(p, 1)),
-      render('naval_letter', LONG_SUBJECT, true).then((p) => lines(p, 1)),
+      render('naval_letter', LONG_SUBJECT, false),
+      render('naval_letter', LONG_SUBJECT, true),
     ]);
-    const shape = (rs: { y: number; x: number }[]) =>
-      rs.slice(0, 8).map((r) => `${r.y}/${Math.round(r.x)}`).join(' ');
-    expect(shape(on)).toBe(shape(off));
+    const [offRows, onRows] = [await lines(off, 1), await lines(on, 1)];
+
+    const first = (rs: { y: number }[]) => Math.round(rs[0].y);
+    const last = (rs: { y: number }[]) => Math.round(rs[rs.length - 1].y);
+
+    expect(first(onRows)).toBe(first(offRows));
+    // The last line, and how much fits, are what an over-long page changes.
+    expect(last(onRows)).toBe(last(offRows));
+    expect(onRows.length).toBe(offRows.length);
   }, 240000);
 
   it('labels the executive formats SUBJECT: and indents to match', async () => {
