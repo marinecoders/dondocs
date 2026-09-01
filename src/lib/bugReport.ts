@@ -20,9 +20,10 @@ export function safeReportUrl(): string {
 
 /** One-line warning placed at the top of every prefilled issue body. */
 export const BUG_REPORT_PRIVACY_NOTICE =
-  '> ⚠️ This issue is filed on **public GitHub**. Do not paste CUI, FOUO, ' +
-  'or any document content. Logs may contain your letter text — review ' +
-  'before pasting.';
+  '> ⚠️ This issue is filed on **public GitHub**. Do not paste names, EDIPIs, ' +
+  'unit rosters, CUI, or any document content — in the text, in screenshots, ' +
+  'or in attachments. Logs may contain your letter text — review before ' +
+  'pasting. A made-up example reproduces nearly every bug just as well.';
 
 /** Markdown block instructing the user to paste logs manually (never auto-embedded). */
 export const BUG_REPORT_LOG_PROMPT =
