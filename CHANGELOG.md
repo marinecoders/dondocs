@@ -5,6 +5,20 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.141] — 2026-09-01
+
+### Changed
+
+- **Every way of filing a report now says not to include personal information.**
+  The repository is public, so a bug report can carry a name, an EDIPI or a unit
+  roster somewhere it cannot be taken back — in the text, in a screenshot, or in
+  an attachment. Each issue template, the new pull request template and the
+  in-app report flows now say so in the same words, and point at the way out:
+  a made-up example reproduces nearly every bug just as well.
+- **Blank issues are turned off.** They bypassed every template, and with it every
+  warning, which made the notice optional in practice. Reporting a security
+  vulnerability moves to its own link so that route stays private.
+
 ## [1.2.140] — 2026-09-01
 
 ### Fixed

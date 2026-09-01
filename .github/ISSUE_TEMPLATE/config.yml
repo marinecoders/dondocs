@@ -1,2 +1,8 @@
-blank_issues_enabled: true
-contact_links: []
+# Blank issues are disabled so every report goes through a template — each one
+# carries the "this repository is public, do not include PII/CUI" notice, and a
+# blank issue would silently bypass it.
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/marinecoders/dondocs/security/advisories/new
+    about: Report privately, never as a public issue. Do not include CUI, PII, or real document content.
