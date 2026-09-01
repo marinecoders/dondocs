@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from 'react';
 import { Check, Loader2, AlertCircle, FolderSync, HardDrive } from 'lucide-react';
 import { useUIStore } from '@/stores/uiStore';
-import { useBackupStore, type BackupStatus } from '@/stores/backupStore';
+import { backupAction, useBackupStore, type BackupStatus } from '@/stores/backupStore';
 
 function savedAgo(ts: number): string {
   const s = Math.floor((Date.now() - ts) / 1000);
@@ -44,6 +44,8 @@ export function SaveStatus({ className }: { className?: string }) {
   const backupFileName = useBackupStore((s) => s.fileName);
   const setupBackup = useBackupStore((s) => s.setupBackup);
   const reconnect = useBackupStore((s) => s.reconnect);
+  const writeNow = useBackupStore((s) => s.writeNow);
+  const fileMissing = useBackupStore((s) => s.fileMissing);
   const [, refresh] = useReducer((n: number) => n + 1, 0);
 
   useEffect(() => {
@@ -82,10 +84,10 @@ export function SaveStatus({ className }: { className?: string }) {
   // claims neither — saying "Local only" there would be alarming and wrong.
   const localOnly = backupStatus !== 'connected';
   // Wherever a backup can still be arranged, the chip is the control that does
-  // it. BackupNotice offers the same two actions but is dismissible, so the way
-  // out can't depend on that strip being on screen. Only 'unsupported' has no
+  // it. BackupNotice offers the same repairs but is dismissible, so the way out
+  // can't depend on that strip being on screen. Only 'unsupported' has no
   // action — offering one there would be a dead end.
-  const fix = backupFix(backupStatus, { setupBackup, reconnect });
+  const fix = backupFix(backupStatus, fileMissing, { setupBackup, reconnect, writeNow });
   return (
     <span className={`inline-flex items-center gap-1 tnum ${base}`}>
       <Check className="h-3 w-3 text-success" aria-hidden />
@@ -110,14 +112,14 @@ export function SaveStatus({ className }: { className?: string }) {
               // Keeps the visible text as the start of the name, so voice
               // control still matches "click Local only".
               aria-label={`Local only — ${fix.label}`}
-              title={localOnlyHint(backupStatus)}
+              title={localOnlyHint(backupStatus, fileMissing)}
               className="inline-flex items-center gap-1 rounded-sm underline decoration-dotted underline-offset-2 outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
             >
               <HardDrive className="h-3 w-3" aria-hidden />
               Local only
             </button>
           ) : (
-            <span className="inline-flex items-center gap-1" title={localOnlyHint(backupStatus)}>
+            <span className="inline-flex items-center gap-1" title={localOnlyHint(backupStatus, fileMissing)}>
               <HardDrive className="h-3 w-3" aria-hidden />
               Local only
             </span>
@@ -131,18 +133,31 @@ export function SaveStatus({ className }: { className?: string }) {
 /** The repair the chip offers, or null where this browser has none. */
 function backupFix(
   status: BackupStatus,
-  actions: { setupBackup: () => Promise<void>; reconnect: () => Promise<void> },
+  fileMissing: boolean,
+  actions: {
+    setupBackup: () => Promise<void>;
+    reconnect: () => Promise<void>;
+    writeNow: () => Promise<void>;
+  },
 ): { run: () => Promise<void>; label: string } | null {
-  // Same mapping BackupNotice uses: a dropped permission is re-granted on the
-  // file we already have; a write failure needs a different file.
-  if (status === 'needs-permission') return { run: actions.reconnect, label: 'reconnect auto-backup' };
-  if (status === 'error') return { run: actions.setupBackup, label: 'choose a new backup file' };
-  if (status === 'off') return { run: actions.setupBackup, label: 'set up auto-backup' };
-  return null; // 'unsupported'
+  // The decision lives in the store so this chip and BackupNotice cannot answer
+  // the same state differently; only the wording is chosen here.
+  switch (backupAction(status, fileMissing)) {
+    case 'reconnect':
+      return { run: actions.reconnect, label: 'reconnect auto-backup' };
+    case 'setup':
+      return status === 'off'
+        ? { run: actions.setupBackup, label: 'set up auto-backup' }
+        : { run: actions.setupBackup, label: 'choose a new backup file' };
+    case 'retry':
+      return { run: actions.writeNow, label: 'try backing up again' };
+    default:
+      return null; // 'connected' | 'unsupported'
+  }
 }
 
 /** Why "Local only" is showing, and the way out that this browser actually has. */
-function localOnlyHint(status: BackupStatus): string {
+function localOnlyHint(status: BackupStatus, fileMissing: boolean): string {
   const where = 'Your documents are saved in this browser only.';
   if (status === 'unsupported') {
     return `${where} This browser can't keep an auto-backup file — use Download or Back up everything to keep a permanent copy.`;
@@ -151,7 +166,9 @@ function localOnlyHint(status: BackupStatus): string {
     return `${where} Auto-backup is paused until you re-grant access to its file.`;
   }
   if (status === 'error') {
-    return `${where} Auto-backup can't write to its file — pick a new one.`;
+    return fileMissing
+      ? `${where} Auto-backup can't find its file — pick a new one.`
+      : `${where} Auto-backup couldn't write to its file — something may be blocking access to that folder.`;
   }
   return `${where} Set up auto-backup to mirror them to a file outside it.`;
 }
