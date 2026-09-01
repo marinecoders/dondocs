@@ -567,6 +567,66 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\ContinuationSubject}{}
 \\newcommand{\\setContinuationSubject}[1]{\\renewcommand{\\ContinuationSubject}{#1}}
 
+% Ch 7 para 16: "Repeat the subject line at the top of each page ... Continue
+% the text beginning on the second line below the subject."
+%
+% Two things follow that a one-line \\fancyhead cannot give. The repeated line
+% has to wrap the way it does on page one — continuation lines under the
+% subject text, not back at the margin — so it is built from the same
+% tabular the first page uses. And the body has to clear it, which means the
+% header must reserve the height it actually occupies; at headheight=15pt a
+% subject that wraps prints straight through the first body line.
+%
+% headheight is a page-geometry length, so growing it moves every page's text
+% down, including page one, which has no repeated subject and whose letterhead
+% and sender's symbols are positioned to spec. \\dondocsContExtra records the
+% growth so the first page can take it back.
+
+\\newsavebox{\\dondocsContBox}
+\\newlength{\\dondocsContExtra}
+\\setlength{\\dondocsContExtra}{0pt}
+
+% Templates declare their own label ("Subj:" for letters, "SUBJECT:" for the
+% executive formats) and nothing else; the measuring and the first-page
+% give-back happen here, once.
+\\newcommand{\\ContinuationLabel}{Subj:}
+\\newcommand{\\setContinuationLabel}[1]{\\renewcommand{\\ContinuationLabel}{#1}}
+
+\\newcommand{\\printContinuationSubject}{%
+    \\ifdefempty{\\ContinuationSubject}{}{%
+        \\applyDocumentFontSize
+        \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}%
+            \\ContinuationLabel\\hspace{3\\fontdimen2\\font} & \\ContinuationSubject%
+        \\end{tabular}%
+    }%
+}
+
+% Measured once the subject and font size are known, before the first page is
+% shipped out.
+\\newcommand{\\dondocsReserveContHead}{%
+    \\ifdefempty{\\ContinuationSubject}{}{%
+        \\sbox\\dondocsContBox{\\printContinuationSubject}%
+        \\setlength{\\dondocsContExtra}{%
+            \\dimexpr\\ht\\dondocsContBox+\\dp\\dondocsContBox+\\baselineskip-\\headheight\\relax}%
+        \\ifdim\\dondocsContExtra<0pt \\setlength{\\dondocsContExtra}{0pt}\\fi
+        \\addtolength{\\headheight}{\\dondocsContExtra}%
+        \\addtolength{\\textheight}{-\\dondocsContExtra}%
+    }%
+}
+
+% The first page carries no repeated subject, so it gives back the space the
+% header reserved for the others — both halves of it. The negative skip starts
+% its text where it started before; \\enlargethispage returns the height that
+% came off \\textheight, without which page one keeps its original starting
+% point but still sets a full \\textheight of material and runs that much into
+% the bottom margin (measured: 79pt of margin became 51pt).
+\\newcommand{\\dondocsFirstPageOffset}{%
+    \\ifdim\\dondocsContExtra>0pt
+        \\enlargethispage{-\\dondocsContExtra}%
+        \\vspace*{-\\dondocsContExtra}%
+    \\fi
+}
+
 
 %-----------------------------------------------------------------------------
 % Business Letter Fields
@@ -1530,6 +1590,14 @@ const LATEX_TEMPLATES = {
 % PAGE 1 - LETTERHEAD AND HEADER BLOCKS
 %=============================================================================
 
+% Reserve the height the repeated subject actually needs, then hand it back on
+% page one, which has no repeated subject. Every input it depends on is in by
+% now — the subject from \\input{document}, the font from \\applyFontSettings,
+% the label from the format module — and nothing has been typeset yet, which
+% is the other half of the requirement.
+\\dondocsReserveContHead
+\\dondocsFirstPageOffset
+
 \\printLetterhead
 % Ensure font size is applied before address blocks
 \\applyDocumentFontSize
@@ -1729,10 +1797,14 @@ const LATEX_TEMPLATES = {
     \\renewcommand{\\footrulewidth}{0pt}%
 }
 
+% Executive formats label it SUBJECT:. Set at load, before the height
+% of the repeated line is measured.
+\\setContinuationLabel{SUBJECT:}
+
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\ifdefempty{\\ContinuationSubject}{}{\\applyDocumentFontSize SUBJECT:~~\\ContinuationSubject}}%
+    \\fancyhead[L]{\\printContinuationSubject}%
     \\fancyfoot[C]{\\thepage}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
@@ -1929,10 +2001,14 @@ const LATEX_TEMPLATES = {
     \\renewcommand{\\footrulewidth}{0pt}%
 }
 
+% Executive formats label it SUBJECT:. Set at load, before the height
+% of the repeated line is measured.
+\\setContinuationLabel{SUBJECT:}
+
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\ifdefempty{\\ContinuationSubject}{}{\\applyDocumentFontSize SUBJECT:~~\\ContinuationSubject}}%
+    \\fancyhead[L]{\\printContinuationSubject}%
     \\fancyfoot[C]{\\thepage}% Page number centered
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
@@ -2106,7 +2182,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\ifdefempty{\\ContinuationSubject}{}{\\applyDocumentFontSize Subj:~~\\ContinuationSubject}}%
+    \\fancyhead[L]{\\printContinuationSubject}%
     \\fancyfoot[C]{\\thepage}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
@@ -2249,10 +2325,14 @@ const LATEX_TEMPLATES = {
     \\renewcommand{\\footrulewidth}{0pt}%
 }
 
+% Executive formats label it SUBJECT:. Set at load, before the height
+% of the repeated line is measured.
+\\setContinuationLabel{SUBJECT:}
+
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\ifdefempty{\\ContinuationSubject}{}{\\applyDocumentFontSize SUBJECT:~~\\ContinuationSubject}}%
+    \\fancyhead[L]{\\printContinuationSubject}%
     \\fancyfoot[C]{\\thepage}% Page number centered
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
@@ -2402,10 +2482,14 @@ const LATEX_TEMPLATES = {
     \\renewcommand{\\footrulewidth}{0pt}%
 }
 
+% Executive formats label it SUBJECT:. Set at load, before the height
+% of the repeated line is measured.
+\\setContinuationLabel{SUBJECT:}
+
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\ifdefempty{\\ContinuationSubject}{}{\\applyDocumentFontSize SUBJECT:~~\\ContinuationSubject}}%
+    \\fancyhead[L]{\\printContinuationSubject}%
     \\fancyfoot[C]{\\thepage}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
@@ -2542,10 +2626,14 @@ const LATEX_TEMPLATES = {
     \\renewcommand{\\footrulewidth}{0pt}%
 }
 
+% Executive formats label it SUBJECT:. Set at load, before the height
+% of the repeated line is measured.
+\\setContinuationLabel{SUBJECT:}
+
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\ifdefempty{\\ContinuationSubject}{}{\\applyDocumentFontSize SUBJECT:~~\\ContinuationSubject}}%
+    \\fancyhead[L]{\\printContinuationSubject}%
     \\fancyfoot[C]{\\thepage}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
@@ -2746,7 +2834,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\ifdefempty{\\ContinuationSubject}{}{\\applyDocumentFontSize Subj:~~\\ContinuationSubject}}%
+    \\fancyhead[L]{\\printContinuationSubject}%
     \\fancyfoot[C]{\\thepage}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
@@ -2942,7 +3030,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\ifdefempty{\\ContinuationSubject}{}{\\applyDocumentFontSize Subj:~~\\ContinuationSubject}}%
+    \\fancyhead[L]{\\printContinuationSubject}%
     \\fancyfoot[C]{\\thepage}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
@@ -3101,7 +3189,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\ifdefempty{\\ContinuationSubject}{}{\\applyDocumentFontSize Subj:~~\\ContinuationSubject}}%
+    \\fancyhead[L]{\\printContinuationSubject}%
     \\fancyfoot[C]{\\thepage}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
@@ -3252,7 +3340,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\ifdefempty{\\ContinuationSubject}{}{\\applyDocumentFontSize Subj:~~\\ContinuationSubject}}%
+    \\fancyhead[L]{\\printContinuationSubject}%
     \\fancyfoot[C]{\\thepage}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
@@ -3378,7 +3466,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\ifdefempty{\\ContinuationSubject}{}{\\applyDocumentFontSize Subj:~~\\ContinuationSubject}}%
+    \\fancyhead[L]{\\printContinuationSubject}%
     \\fancyfoot[C]{\\thepage}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
@@ -3553,7 +3641,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\ifdefempty{\\ContinuationSubject}{}{\\applyDocumentFontSize Subj:~~\\ContinuationSubject}}%
+    \\fancyhead[L]{\\printContinuationSubject}%
     \\fancyfoot[C]{\\thepage}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
@@ -3726,7 +3814,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\ifdefempty{\\ContinuationSubject}{}{\\applyDocumentFontSize Subj:~~\\ContinuationSubject}}%
+    \\fancyhead[L]{\\printContinuationSubject}%
     \\fancyfoot[C]{\\thepage}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
@@ -3920,7 +4008,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\ifdefempty{\\ContinuationSubject}{}{\\applyDocumentFontSize Subj:~~\\ContinuationSubject}}%
+    \\fancyhead[L]{\\printContinuationSubject}%
     \\fancyfoot[C]{\\thepage}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
@@ -4084,7 +4172,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\ifdefempty{\\ContinuationSubject}{}{\\applyDocumentFontSize Subj:~~\\ContinuationSubject}}%
+    \\fancyhead[L]{\\printContinuationSubject}%
     \\fancyfoot[C]{\\thepage}%  % Just the number, no "of X"
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
@@ -4262,7 +4350,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\ifdefempty{\\ContinuationSubject}{}{\\applyDocumentFontSize Subj:~~\\ContinuationSubject}}%
+    \\fancyhead[L]{\\printContinuationSubject}%
     \\fancyfoot[C]{\\thepage}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
@@ -4417,7 +4505,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\ifdefempty{\\ContinuationSubject}{}{\\applyDocumentFontSize Subj:~~\\ContinuationSubject}}%
+    \\fancyhead[L]{\\printContinuationSubject}%
     \\fancyfoot[C]{\\thepage}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
@@ -4789,7 +4877,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\ifdefempty{\\ContinuationSubject}{}{\\applyDocumentFontSize Subj:~~\\ContinuationSubject}}%
+    \\fancyhead[L]{\\printContinuationSubject}%
     \\fancyfoot[C]{\\thepage}%  % Just the number, no "of X"
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
@@ -4954,10 +5042,14 @@ const LATEX_TEMPLATES = {
     \\renewcommand{\\footrulewidth}{0pt}%
 }
 
+% Executive formats label it SUBJECT:. Set at load, before the height
+% of the repeated line is measured.
+\\setContinuationLabel{SUBJECT:}
+
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\ifdefempty{\\ContinuationSubject}{}{\\applyDocumentFontSize SUBJECT:~~\\ContinuationSubject}}%
+    \\fancyhead[L]{\\printContinuationSubject}%
     \\fancyfoot[C]{\\thepage}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%

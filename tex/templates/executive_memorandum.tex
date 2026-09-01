@@ -141,10 +141,14 @@
     \renewcommand{\footrulewidth}{0pt}%
 }
 
+% Executive formats label it SUBJECT:. Set at load, before the height
+% of the repeated line is measured.
+\setContinuationLabel{SUBJECT:}
+
 \fancypagestyle{documentpage}{%
     \fancyhf{}%
     \fancyhead[C]{\placeClassificationMarkings}%
-    \fancyhead[L]{\ifdefempty{\ContinuationSubject}{}{\applyDocumentFontSize SUBJECT:~~\ContinuationSubject}}%
+    \fancyhead[L]{\printContinuationSubject}%
     \fancyfoot[C]{\thepage}%
     \renewcommand{\headrulewidth}{0pt}%
     \renewcommand{\footrulewidth}{0pt}%
