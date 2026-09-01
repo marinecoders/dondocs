@@ -6,6 +6,11 @@ labels: enhancement, application
 assignees: ''
 ---
 
+> **This repository is public.** Do not include names, EDIPIs, unit rosters,
+> CUI, or any other personal information — in the text below, in screenshots, or
+> in attachments. Redact it, or reproduce the problem with made-up sample
+> content; an invented example works just as well for nearly every report.
+
 ## Is your feature request related to a problem?
 
 A clear description of the problem. Ex: "I'm always frustrated when [...]"

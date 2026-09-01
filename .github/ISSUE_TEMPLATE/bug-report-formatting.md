@@ -6,6 +6,11 @@ labels: bug, formatting
 assignees: ''
 ---
 
+> **This repository is public.** Do not include names, EDIPIs, unit rosters,
+> CUI, or any other personal information — in the text below, in screenshots, or
+> in attachments. Redact it, or reproduce the problem with made-up sample
+> content; an invented example works just as well for nearly every report.
+
 ## Describe the formatting issue
 
 A clear description of what is wrong with the output (e.g., wrong margins, broken spacing, incorrect font, non-compliant layout).
@@ -26,6 +31,7 @@ Describe or show how it currently looks.
 ## Sample or screenshot
 
 If possible, attach a redacted PDF snippet or screenshot of the problem area.
+Check it for names and unit information before you upload it.
 
 ## Environment
 

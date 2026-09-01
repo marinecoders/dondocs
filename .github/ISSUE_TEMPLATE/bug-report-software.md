@@ -6,6 +6,11 @@ labels: bug, software
 assignees: ''
 ---
 
+> **This repository is public.** Do not include names, EDIPIs, unit rosters,
+> CUI, or any other personal information — in the text below, in screenshots, or
+> in attachments. Redact it, or reproduce the problem with made-up sample
+> content; an invented example works just as well for nearly every report.
+
 ## Describe the bug
 
 A clear and concise description of what the bug is.

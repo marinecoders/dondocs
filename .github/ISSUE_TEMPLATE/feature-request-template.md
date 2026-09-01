@@ -6,6 +6,11 @@ labels: enhancement, template
 assignees: ''
 ---
 
+> **This repository is public.** Do not include names, EDIPIs, unit rosters,
+> CUI, or any other personal information — in the text below, in screenshots, or
+> in attachments. Redact it, or reproduce the problem with made-up sample
+> content; an invented example works just as well for nearly every report.
+
 ## Template name / type
 
 What kind of document should this template produce? (e.g., "Award - NAM", "Personnel - TAD Request", "Memorandum for Record - Meeting")
@@ -25,4 +30,6 @@ Any specific formatting or wording requirements (margins, fonts, required paragr
 
 ## Additional context
 
-Screenshots of a redacted sample, links to forms or instructions, or other details that would help implement this template.
+Screenshots of a redacted sample, links to forms or instructions, or other details
+that would help implement this template. Check any sample for names and unit
+information before you upload it.
