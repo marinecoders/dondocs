@@ -274,6 +274,8 @@ function App() {
   const paragraphs = useDocumentStore((s) => s.paragraphs);
   const copyTos = useDocumentStore((s) => s.copyTos);
   const distributions = useDocumentStore((s) => s.distributions);
+  const endItems = useDocumentStore((s) => s.endItems);
+  const publicationTables = useDocumentStore((s) => s.publicationTables);
   const documentCategory = useDocumentStore((s) => s.documentCategory);
   const formType = useDocumentStore((s) => s.formType);
   const applySnapshot = useDocumentStore((s) => s.applySnapshot);
@@ -756,6 +758,8 @@ function App() {
     paragraphs,
     copyTos,
     distributions,
+    endItems,
+    publicationTables,
     fullQualityPreview,
   ]);
 
@@ -1500,6 +1504,9 @@ ${texFiles['body.tex'] || '% No body content'}
   }, []);
 
   const handleDownloadDocx = useCallback(async () => {
+    // Publication types are delivered as PDF; the menu hides DOCX for them
+    // and the shortcut and palette land here.
+    if (DOC_TYPE_CONFIG[useDocumentStore.getState().docType]?.pdfOnly) return;
     useUIStore.getState().setValidationVisible(true);
     // Ch 7 ¶13/¶13d review, ahead of the PII check so the privacy warning stays
     // the last thing seen before the file is written. Never blocks — the modal's

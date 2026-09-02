@@ -44,6 +44,7 @@ import { useLogStore } from '@/stores/logStore';
 import { useTourStore } from '@/stores/tourStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { safeReportUrl, BUG_REPORT_PRIVACY_NOTICE, BUG_REPORT_LOG_PROMPT } from '@/lib/bugReport';
+import { DOC_TYPE_CONFIG, type Paragraph } from '@/types/document';
 
 interface HeaderProps {
   onDownloadPdf?: () => void;
@@ -306,6 +307,9 @@ export function Header({
     }
   }, [hasVariables, setBatchModalOpen, onDownloadPdf]);
 
+  const docType = useDocumentStore((s) => s.docType);
+  const pdfOnly = !!DOC_TYPE_CONFIG[docType]?.pdfOnly;
+
   const handleSaveProgress = useCallback(() => {
     try {
       const ds = useDocumentStore.getState();
@@ -326,6 +330,8 @@ export function Header({
         paragraphs: ds.paragraphs,
         copyTos: ds.copyTos,
         distributions: ds.distributions,
+        endItems: ds.endItems,
+        publicationTables: ds.publicationTables,
         savedAt: new Date().toISOString(),
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
@@ -386,7 +392,11 @@ export function Header({
         });
         // loadTemplate doesn't cover distributions; set it explicitly so the
         // loaded draft doesn't inherit the previously-open document's list.
-        useDocumentStore.setState({ distributions: data.distributions || [] });
+        useDocumentStore.setState({
+          distributions: data.distributions || [],
+          endItems: data.endItems || [],
+          publicationTables: data.publicationTables || {},
+        });
         useDocumentsStore.getState().openLoadedAsNew();
         flashSaveStatus('Loaded!');
       } else {
@@ -452,6 +462,8 @@ export function Header({
         paragraphs: ds.paragraphs,
         copyTos: ds.copyTos,
         distributions: ds.distributions,
+        endItems: ds.endItems,
+        publicationTables: ds.publicationTables,
         // NAVMC form field data lives in a separate store; include it so a
         // forms draft round-trips (Export is the only durable copy for forms).
         forms: (() => {
@@ -555,16 +567,23 @@ export function Header({
               data: base64ToUint8Array(encl.file.data).buffer as ArrayBuffer,
             } : undefined,
           })) || [],
-          paragraphs: data.paragraphs?.map((para: { text: string; level?: number; header?: string; portionMarking?: string }) => ({
+          paragraphs: data.paragraphs?.map((para: Partial<Paragraph> & { text: string }) => ({
             text: para.text,
             level: para.level || 0,
             header: para.header,
             portionMarking: para.portionMarking,
+            tableKey: para.tableKey,
+            callout: para.callout,
+            procedure: para.procedure,
           })) || [],
           copyTos: data.copyTos || [],
         });
         // loadTemplate doesn't cover distributions; restore it explicitly.
-        useDocumentStore.setState({ distributions: data.distributions || [] });
+        useDocumentStore.setState({
+          distributions: data.distributions || [],
+          endItems: data.endItems || [],
+          publicationTables: data.publicationTables || {},
+        });
 
         // Restore NAVMC form field data (separate store; shallow-merges the
         // navmc10274/navmc11811/includeCoverPage slices that were exported).
@@ -950,8 +969,9 @@ export function Header({
                   <DropdownMenuShortcut>{formatShortcut('mod D')}</DropdownMenuShortcut>
                 )}
               </DropdownMenuItem>
-              {/* LaTeX and DOCX only available for correspondence */}
-              {!isFormsMode && (
+              {/* LaTeX and DOCX only available for correspondence; publication
+                  types are delivered as PDF and offer no DOCX at all. */}
+              {!isFormsMode && !pdfOnly && (
                 <>
                   <DropdownMenuItem
                     onClick={onDownloadDocx}

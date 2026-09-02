@@ -777,6 +777,8 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       paragraphs: snapshot.paragraphs,
       copyTos: snapshot.copyTos,
       distributions: snapshot.distributions || [],
+      endItems: snapshot.endItems ?? [],
+      publicationTables: snapshot.publicationTables ?? {},
     };
   }),
 
@@ -791,6 +793,8 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       paragraphs: state.paragraphs,
       copyTos: state.copyTos,
       distributions: state.distributions,
+      endItems: state.endItems,
+      publicationTables: state.publicationTables,
     };
   },
 }));
@@ -828,6 +832,8 @@ useDocumentStore.subscribe((state: DocumentState) => {
         paragraphs: state.paragraphs,
         copyTos: state.copyTos,
         distributions: state.distributions,
+        endItems: state.endItems,
+        publicationTables: state.publicationTables,
       };
       useHistoryStore.getState().saveSnapshot(snapshot);
       debug.log('Store', 'Snapshot saved to history');

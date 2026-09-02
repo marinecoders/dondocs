@@ -363,6 +363,7 @@ export interface DocTypeConfig {
   topSpacing?: string;                 // extra top spacing (e.g., '1in') for non-letterhead docs
   subjectPrefix?: string;              // prefix before subject in body (e.g., 'SUBJECT: ')
   hasDecisionBlock?: boolean;          // default false — true adds APPROVE/DISAPPROVE block
+  pdfOnly?: boolean;                   // default false — true offers no DOCX (the PDF is the delivery medium)
   // Optional field indicators — shown in compliant mode to note "not required" per SECNAV
   optionalLetterhead?: boolean;        // true = letterhead shown but marked "(optional)" in compliant mode
   optionalSSIC?: boolean;              // true = SSIC shown but marked "(optional)" in compliant mode
@@ -564,6 +565,7 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
   i_type: {
     letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false,
     signature: 'full', uiMode: 'memo', showSignatureRankTitle: true, topSpacing: '1in',
+    pdfOnly: true,
     regulations: {
       fontSize: '12pt', fontSizeOptions: ['12pt'], fontFamily: 'times',
       authority: 'MIL-STD-38784C', ref: '\u00a74.7',
