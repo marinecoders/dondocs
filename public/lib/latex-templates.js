@@ -2621,7 +2621,8 @@ const LATEX_TEMPLATES = {
 % same columns and widths, so they share this rather than drifting apart.
 \\newcommand{\\printEndItemTable}[1]{%
     \\renewcommand{\\arraystretch}{1.4}%
-    \\begin{tabular}{|p{1.5in}|p{1.2in}|p{1.2in}|p{1.5in}|}
+    % The template's column grid, scaled to the text block less column padding.
+    \\begin{tabular}{|p{1.87in}|p{1.26in}|p{1.15in}|p{1.55in}|}
         \\hline
         \\textbf{NSN} & \\textbf{TAMCN} & \\textbf{ID} & \\textbf{MODEL} \\\\
         \\hline
@@ -2726,14 +2727,14 @@ const LATEX_TEMPLATES = {
               VA, CMC PPO WASHINGTON DC, CMC I WASHINGTON DC, CMC L WASHINGTON
               DC, and CMC DCI WASHINGTON DC. Individuals may report potential
               hazards to Marine Corps Systems Command System Safety at
-              smb\\_mcsc\\_safety@usmc.mil and/or to Commandant of the Marine
-              Corps Safety Division (CMC SD) at hqmc\\_safety\\_division@usmc.mil.
+              \\href{mailto:smb_mcsc_safety@usmc.mil}{smb\\_mcsc\\_safety@usmc.mil} and/or to Commandant of the Marine
+              Corps Safety Division (CMC SD) at \\href{mailto:hqmc_safety_division@usmc.mil}{hqmc\\_safety\\_division@usmc.mil}.
 
         \\item All significant hazards that have the potential to affect other
               commands and require widespread dissemination shall be reported
               via a Hazard Report per MCO 5100.29\\_.
 
-        \\item Use TDM-Publications portal, at https://app.mcboss.usmc.mil/, as
+        \\item Use TDM-Publications portal, at \\href{https://app.mcboss.usmc.mil/}{https://app.mcboss.usmc.mil/}, as
               your central resource for all publication feedback and support.
               Please use this single portal to:
               \\begin{enumerate}[label=\\alph*., leftmargin=*, itemsep=6pt, topsep=6pt]
