@@ -2571,13 +2571,37 @@ const LATEX_TEMPLATES = {
 
 
 %=============================================================================
-%                        CONTROL MARKINGS BLOCK
+%                     AUTHENTICATION (SIGNATURE) PAGE
 %=============================================================================
-% No From/To: an I-Type is issued to the fleet, not addressed to anyone. What
-% would be the addressing block carries the control markings instead, matching
-% where every other format puts them so the shared CUI macros keep working.
+% main.tex runs this where a letter puts its From/To block: after the title,
+% before the body. That is where the authentication page belongs -- in an
+% I-Type it is front matter, not a closing sign-off -- so it is built here and
+% \\printSignature below is left empty.
+%
+% Everything but the issuing command and the signer is fixed regulatory text,
+% reproduced from the MARCORSYSCOM template rather than left to an author to
+% retype. That is the point of generating the page: the MCO references, the
+% Automated Message Handling System routing and the reporting addresses cannot
+% drift or be edited by accident.
+
+% Which I-Type this is, as it reads in the authentication sentence. MI is the
+% only flavour wired today; SI/TI/LI set this and change nothing else.
+\\newcommand{\\PublicationTypeName}{Modification Instruction}
+
+% Recording the completion of a modification applies to MIs alone. The spacing
+% above OFFICIAL is the same whether or not it appears.
+\\newif\\ifRecordingInstruction
+\\RecordingInstructiontrue
 
 \\newcommand{\\printAddressBlock}{%
+    \\noindent\\MakeUppercase{\\UnitName}\\par
+    \\optionalLine{\\UnitLineTwo}%
+    \\optionalLine{\\UnitLineThree}%
+    \\optionalLine{\\UnitLineFour}%
+    \\par\\vspace{12pt}%
+    \\noindent\\DocumentDate
+    \\par\\vspace{12pt}%
+    %
     \\ifCUIEnabled
         \\noindent
         Controlled by: \\CUIControlledBy\\\\
@@ -2588,7 +2612,6 @@ const LATEX_TEMPLATES = {
         \\noindent\\CUIDistStatement
         \\par\\vspace{12pt}%
     \\fi
-    %
     \\ifClassifiedEnabled
         \\noindent
         Classified by: \\ClassifiedBy\\\\
@@ -2598,32 +2621,65 @@ const LATEX_TEMPLATES = {
         \\printPOCLine
         \\par\\vspace{12pt}%
     \\fi
-}
+    %
+    \\begin{enumerate}[label=\\arabic*., leftmargin=*, itemsep=12pt, topsep=0pt]
+        \\item This \\PublicationTypeName{} is authenticated for Marine Corps use
+              and is effective upon receipt.
 
+        \\item Per MCO 5100.34\\_, Commanders, Commanding Officers, and
+              Officers-In-Charge shall identify and report situations that
+              negatively affect safety of operation via the Automated Message
+              Handling System to: COMMARCORSYSCOM QUANTICO VA, PAE MC QUANTICO
+              VA, CMC PPO WASHINGTON DC, CMC I WASHINGTON DC, CMC L WASHINGTON
+              DC, and CMC DCI WASHINGTON DC. Individuals may report potential
+              hazards to Marine Corps Systems Command System Safety at
+              smb\\_mcsc\\_safety@usmc.mil and/or to Commandant of the Marine
+              Corps Safety Division (CMC SD) at hqmc\\_safety\\_division@usmc.mil.
 
-%=============================================================================
-%                          AUTHENTICATION BLOCK
-%=============================================================================
-% The template mandates the spacing exactly: two blank lines before OFFICIAL,
-% four between OFFICIAL and the printed name, and two between the organisation
-% title and DISTRIBUTION. At 12pt a blank line is 12pt, so the vspaces below
-% are those counts made literal -- this is the sort of rule an author is asked
-% to maintain by hand in Word, and the reason to generate the page at all.
+        \\item All significant hazards that have the potential to affect other
+              commands and require widespread dissemination shall be reported
+              via a Hazard Report per MCO 5100.29\\_.
 
-\\newcommand{\\printSignature}{%
-    \\par\\vspace{24pt}%      two blank lines
+        \\item Use TDM-Publications portal, at https://app.mcboss.usmc.mil/, as
+              your central resource for all publication feedback and support.
+              Please use this single portal to:
+              \\begin{enumerate}[label=\\alph*., leftmargin=*, itemsep=6pt, topsep=6pt]
+                  \\item Submit a Change Request to report discrepancies or
+                        suggest changes.
+                  \\item Access Knowledge Base Articles (KBA) for self-help and
+                        guidance (including the Change Request Process).
+                  \\item Open a Support Case for any further questions not
+                        addressed by the KBA.
+              \\end{enumerate}
+
+        \\ifRecordingInstruction
+            \\item Record completion of this modification in accordance with
+                  current Marine Corps directives.
+        \\fi
+    \\end{enumerate}
+    %
+    % Mandated spacing: two blank lines before OFFICIAL, four between it and
+    % the printed name, two before DISTRIBUTION.
+    \\par\\vspace{24pt}%
     \\noindent OFFICIAL
-    \\par\\vspace{48pt}%      four blank lines
+    \\par\\vspace{48pt}%
     \\noindent
     \\ifNotEmptyElse{\\SignatoryAbbrev}{\\MakeUppercase{\\SignatoryAbbrev}\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
-    % Signing authority then controlling office, per the template's
-    % OFFICIAL block -- the reverse of the rank-then-title order the
-    % correspondence formats use.
     \\optionalLine{\\SignatoryTitle}%
     \\optionalLine{\\SignatoryRank}%
-    \\par\\vspace{24pt}%      two blank lines
+    \\par\\vspace{24pt}%
     \\noindent DISTRIBUTION: EDO
+    \\par\\newpage
 }
+
+
+%=============================================================================
+%                        NO CLOSING SIGNATURE
+%=============================================================================
+% The publication is authenticated on its front matter above. main.tex calls
+% this after the body, where a letter signs off; an I-Type has nothing to add.
+
+\\newcommand{\\printSignature}{}
 
 
 %=============================================================================
