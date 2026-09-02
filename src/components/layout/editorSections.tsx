@@ -1,13 +1,14 @@
 import { useMemo, type ReactNode } from 'react';
 import {
   FileText, Building2, Send, Shield, List, BookOpen, Paperclip, User, Users, Layers,
-  PenLine, Hash, ClipboardList, CornerDownRight, BookMarked, type LucideIcon,
+  PenLine, Hash, ClipboardList, CornerDownRight, BookMarked, Table, type LucideIcon,
 } from 'lucide-react';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
 import { LetterheadSection } from '@/components/editor/LetterheadSection';
 import { AddressingSection } from '@/components/editor/AddressingSection';
 import { ITypeCoverSection } from '@/components/editor/ITypeCoverSection';
+import { PublicationTablesSection } from '@/components/editor/PublicationTablesSection';
 import { ClassificationSection } from '@/components/editor/ClassificationSection';
 import { SignatureSection } from '@/components/editor/SignatureSection';
 import { ReferencesManager } from '@/components/editor/ReferencesManager';
@@ -71,6 +72,7 @@ export function getEditorSections(config: DocTypeConfig, docType: string): Edito
       { id: 'cover', label: 'Cover', icon: BookMarked },
       classification,
       body,
+      { id: 'tables', label: 'Tables', icon: Table },
       references,
       enclosures,
       signature,
@@ -348,6 +350,8 @@ export function renderEditorSection(id: string, config: DocTypeConfig): ReactNod
       return <EndorsementBasicLetterSection />;
     case 'cover':
       return <ITypeCoverSection />;
+    case 'tables':
+      return <PublicationTablesSection />;
     case 'classification':
       return <ClassificationSection />;
     case 'body':
