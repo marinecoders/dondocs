@@ -1,12 +1,13 @@
 import { useMemo, type ReactNode } from 'react';
 import {
   FileText, Building2, Send, Shield, List, BookOpen, Paperclip, User, Users, Layers,
-  PenLine, Hash, ClipboardList, CornerDownRight, type LucideIcon,
+  PenLine, Hash, ClipboardList, CornerDownRight, BookMarked, type LucideIcon,
 } from 'lucide-react';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
 import { LetterheadSection } from '@/components/editor/LetterheadSection';
 import { AddressingSection } from '@/components/editor/AddressingSection';
+import { ITypeCoverSection } from '@/components/editor/ITypeCoverSection';
 import { ClassificationSection } from '@/components/editor/ClassificationSection';
 import { SignatureSection } from '@/components/editor/SignatureSection';
 import { ReferencesManager } from '@/components/editor/ReferencesManager';
@@ -66,7 +67,14 @@ export function getEditorSections(config: DocTypeConfig, docType: string): Edito
   // is fixed in the format module. Gated on docType for the same reason as the
   // MFR above: it shares uiMode:'memo' but not the memo section set.
   if (docType === 'i_type') {
-    return [classification, body, references, enclosures, signature];
+    return [
+      { id: 'cover', label: 'Cover', icon: BookMarked },
+      classification,
+      body,
+      references,
+      enclosures,
+      signature,
+    ];
   }
 
   switch (config.uiMode) {
@@ -338,6 +346,8 @@ export function renderEditorSection(id: string, config: DocTypeConfig): ReactNod
       return <AddressingSection config={config} />;
     case 'basic':
       return <EndorsementBasicLetterSection />;
+    case 'cover':
+      return <ITypeCoverSection />;
     case 'classification':
       return <ClassificationSection />;
     case 'body':
