@@ -884,14 +884,16 @@ function generateCallout(kind: CalloutKind, text: string): string {
   // The box is one line of its own paragraph, so every glue between it and
   // what follows sits behind a penalty; a `center` environment adds glue of
   // its own after the box, and a break there stranded the callout at the
-  // foot of a page. None of the three kinds may end a page.
-  return `\\par\\vspace{12pt}\\nopagebreak[4]
+  // foot of a page. A warning or caution precedes what it applies to and
+  // may not end a page; a note may follow its subject, so it is free.
+  const keep = kind === 'note' ? '' : '\\nopagebreak[4]';
+  return `\\par\\vspace{12pt}
 \\noindent\\makebox[\\textwidth]{\\begin{minipage}{\\dimexpr\\textwidth-0.5in\\relax}
 \\centering\\textbf{${kind.toUpperCase()}}\\par\\vspace{6pt}
 ${centred ? '\\centering' : '\\raggedright'}
 ${body}\\par
 \\end{minipage}}
-\\par\\nopagebreak[4]\\vspace{6pt}\\nopagebreak[4]
+\\par${keep}\\vspace{6pt}${keep}
 
 `;
 }

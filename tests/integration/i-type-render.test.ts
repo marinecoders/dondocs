@@ -208,11 +208,11 @@ describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () =
     expect(ti[1]).not.toMatch(/Record completion/);
   });
 
-  it('never leaves a callout at the foot of a page', async () => {
+  it('never leaves a warning or caution at the foot of a page', async () => {
     const many = await renderPages((s) => {
       Object.assign(s.formData as Record<string, unknown>, { date: '15 Dec 24', subject: 'TITLE', shortTitle: 'MI 1' });
       s.paragraphs = Array.from({ length: 30 }, (_, i) => [
-        { text: `Mind the pinch point at station ${i}.`, level: 0, callout: (['caution', 'warning', 'note'] as const)[i % 3] },
+        { text: `Mind the pinch point at station ${i}.`, level: 0, callout: (['caution', 'warning'] as const)[i % 2] },
         { text: `Fit part ${i} and torque it to the value in the table.`, level: 0, procedure: true },
       ]).flat();
     });
