@@ -86,6 +86,9 @@ export interface Paragraph {
   /** A procedural step. Its carry-over lines block under the first letter of
    *  the step rather than returning to the margin (MIL-STD-38784C 4.7.11.5.3). */
   procedure?: boolean;
+  /** Starts an appendix, lettered in order; the heading is its title. Pages
+   *  number A-1, A-2 and paragraph numbers restart (MIL-STD-38784C 4.7.4.1.4). */
+  appendix?: boolean;
   portionMarking?: PortionMarking;
 }
 

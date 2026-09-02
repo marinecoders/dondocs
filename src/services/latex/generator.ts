@@ -100,6 +100,12 @@ function calculateLabels(paragraphs: Paragraph[]): string[] {
       labels.push('');
       continue;
     }
+    // An appendix is numbered afresh: everything before it is done with.
+    if (para.appendix) {
+      counters.fill(0);
+      labels.push('');
+      continue;
+    }
     for (let i = para.level + 1; i < 8; i++) {
       counters[i] = 0;
     }
@@ -907,6 +913,7 @@ export function generateBodyTex(store: DocumentStore): string {
 `,
   ];
 
+  let appendixCount = 0;
   for (let i = 0; i < store.paragraphs.length; i++) {
     const para = store.paragraphs[i];
     const label = useNumberedParagraphs ? labels[i] : '';
@@ -919,6 +926,18 @@ export function generateBodyTex(store: DocumentStore): string {
     // A safety callout replaces the paragraph rather than decorating it.
     if (para.callout) {
       parts.push(generateCallout(para.callout, para.text));
+      continue;
+    }
+
+    // An appendix opens on its own page, lettered in order, titled by its
+    // heading; its text, if any, leads unnumbered. Only a publication type
+    // defines the macro, so elsewhere the flag is ignored.
+    if (para.appendix && store.docType === 'i_type') {
+      const letter = String.fromCharCode(65 + appendixCount++);
+      parts.push(`\\startAppendix{${letter}}{${escapeLatex(headerText || '')}}\n`);
+      if (para.text.trim()) {
+        parts.push(`\\noindent ${portionPrefix}${processBodyText(para.text)}\\par\n\n`);
+      }
       continue;
     }
 

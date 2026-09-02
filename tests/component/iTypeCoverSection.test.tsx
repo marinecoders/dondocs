@@ -55,4 +55,18 @@ describe('publication checks', () => {
     render(<ITypeCoverSection />);
     expect(screen.getByText(/needs a sibling/i)).toBeTruthy();
   });
+
+  it('names an appendix that has no title', () => {
+    useDocumentStore.setState({
+      formData: { ...useDocumentStore.getState().formData, miUrgency: 'normal' },
+      paragraphs: [
+        { text: 'Body.', level: 0 },
+        { text: '', level: 0, header: 'Torque Values', appendix: true },
+        { text: '', level: 0, appendix: true },
+      ],
+    });
+    render(<ITypeCoverSection />);
+    expect(screen.getByText(/Appendix B has no title/)).toBeTruthy();
+    expect(screen.queryByText(/Appendix A has no title/)).toBeNull();
+  });
 });

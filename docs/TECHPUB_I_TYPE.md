@@ -217,6 +217,8 @@ I-Types **must be digitally signed**.
 ### Appendices and enclosures
 
 Appendices paginate `A-1`, with short title and date centred in the header.
+Modelled as an **Appendix** block kind on the paragraph editor: the heading is
+the title, pages number `A-1`, `A-2`, and paragraph numbers restart.
 Enclosures put "Enclosure 1" in the footer above the page number. Both follow
 MIL-DTL-28999 for examples.
 

@@ -44,16 +44,18 @@ const BLOCK_KINDS = [
   { value: 'warning', short: 'WARN', name: 'WARNING — injury or death' },
   { value: 'caution', short: 'CAUT', name: 'CAUTION — damage to equipment' },
   { value: 'note', short: 'NOTE', name: 'NOTE' },
+  { value: 'appendix', short: 'APPX', name: 'Appendix — lettered A, B, C; heading is its title' },
 ] as const;
 
-function blockKind(callout: CalloutKind | undefined, procedure: boolean | undefined): string {
-  return callout ?? (procedure ? 'step' : 'paragraph');
+function blockKind(callout: CalloutKind | undefined, procedure: boolean | undefined, appendix: boolean | undefined): string {
+  return callout ?? (appendix ? 'appendix' : procedure ? 'step' : 'paragraph');
 }
 
 function setBlockKind(value: string): Partial<Paragraph> {
   return {
     callout: value === 'warning' || value === 'caution' || value === 'note' ? (value as CalloutKind) : undefined,
     procedure: value === 'step' ? true : undefined,
+    appendix: value === 'appendix' ? true : undefined,
   };
 }
 
@@ -86,6 +88,7 @@ interface BlockRowProps {
   showBlockKind: boolean;
   callout: CalloutKind | undefined;
   procedure: boolean | undefined;
+  appendix: boolean | undefined;
   disableIndent: boolean;
   /** Whether a deeper indent is currently legal (≤ one level below the block
    *  above). Drives the button's disabled state; the store also enforces it. */
@@ -108,6 +111,7 @@ const BlockRow = memo(function BlockRow({
   showBlockKind,
   callout,
   procedure,
+  appendix,
   disableIndent,
   canIndent,
   requestFocus,
@@ -261,16 +265,16 @@ const BlockRow = memo(function BlockRow({
               <DropdownMenuTrigger asChild>
                 <button
                   type="button"
-                  aria-label={`Block kind: ${blockKind(callout, procedure)}. Change`}
-                  title="A technical publication paragraph can be a safety callout or a procedural step"
+                  aria-label={`Block kind: ${blockKind(callout, procedure, appendix)}. Change`}
+                  title="A technical publication paragraph can be a safety callout, a procedural step, or the start of an appendix"
                   className="shrink-0 rounded-sm px-1 font-serif text-serif-body font-semibold text-muted-foreground outline-none transition-colors hover:bg-accent/50 focus-visible:ring-[3px] focus-visible:ring-ring/50"
                 >
-                  {BLOCK_KINDS.find((k) => k.value === blockKind(callout, procedure))?.short}
+                  {BLOCK_KINDS.find((k) => k.value === blockKind(callout, procedure, appendix))?.short}
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="min-w-48">
                 <DropdownMenuRadioGroup
-                  value={blockKind(callout, procedure)}
+                  value={blockKind(callout, procedure, appendix)}
                   onValueChange={(v) => updateParagraph(index, setBlockKind(v))}
                 >
                   {BLOCK_KINDS.map((k) => (
@@ -503,6 +507,7 @@ export function BlockParagraphsEditor() {
               showBlockKind={showBlockKind}
               callout={p.callout}
               procedure={p.procedure}
+              appendix={p.appendix}
               disableIndent={disableNumbered}
               canIndent={canIndentAt(paragraphs, i)}
               requestFocus={requestFocus}

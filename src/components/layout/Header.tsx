@@ -575,6 +575,7 @@ export function Header({
             tableKey: para.tableKey,
             callout: para.callout,
             procedure: para.procedure,
+            appendix: para.appendix,
           })) || [],
           copyTos: data.copyTos || [],
         });

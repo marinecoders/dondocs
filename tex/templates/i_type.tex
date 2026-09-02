@@ -279,6 +279,19 @@
     \MakeUppercase{\TimeCompliance}%
 }
 
+% An appendix starts on a fresh page, numbered A-1, A-2 in the footer, with
+% its letter and title centred above the text (MIL-STD-38784C 4.7.4.1.4).
+\newcommand{\startAppendix}[2]{%
+    \clearpage
+    \setcounter{page}{1}%
+    \renewcommand{\thepage}{#1-\arabic{page}}%
+    \begin{center}
+        \textbf{APPENDIX #1}\\[6pt]
+        \textbf{\MakeUppercase{#2}}
+    \end{center}
+    \vspace{12pt}%
+}
+
 % Page one is the cover; main.tex applies `firstpage`, so that is the cover.
 \fancypagestyle{firstpage}{%
     \fancyhf{}%

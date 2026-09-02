@@ -70,6 +70,7 @@ function snapshotsEqual(a: DocumentSnapshot | null, b: DocumentSnapshot | null):
     if (a.paragraphs[i].callout !== b.paragraphs[i].callout) return false;
     if (a.paragraphs[i].procedure !== b.paragraphs[i].procedure) return false;
     if (a.paragraphs[i].tableKey !== b.paragraphs[i].tableKey) return false;
+    if (a.paragraphs[i].appendix !== b.paragraphs[i].appendix) return false;
   }
 
   // Check references

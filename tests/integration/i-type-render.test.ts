@@ -6,6 +6,7 @@ import { tmpdir } from 'node:os';
 import { buildBaseline } from '../_helpers/compileMatrix';
 import { compileFixture } from '../_helpers/compileLatex';
 import type { TestStore } from '../_helpers/compileMatrix';
+import type { Paragraph } from '@/types/document';
 
 // The I-Type's rules are typographic, so they are proved on the rendered
 // page rather than on the LaTeX that produced it: the compile matrix already
@@ -115,5 +116,16 @@ describe.skipIf(!hasPdftotext)('I-Type renders per the template', () => {
     const body = pages.join('\n');
     expect(body).toMatch(/Description/);
     expect(body).not.toMatch(/\bItem\b\s+Description/);
+  });
+
+  it('starts an appendix on its own page, lettered and titled, numbered A-1', async () => {
+    const own = await renderPages((s) => {
+      Object.assign(s.formData as Record<string, unknown>, { date: '15 Dec 24', shortTitle: 'MI 12345A-24/1', subject: 'TITLE' });
+      (s.paragraphs as Paragraph[]).push({ text: 'Values apply at 20 C.', level: 0, header: 'Torque Values', appendix: true });
+    });
+    const last = own[own.length - 1];
+    expect(last).toMatch(/APPENDIX A/);
+    expect(last).toMatch(/TORQUE VALUES/);
+    expect(last).toMatch(/\bA-1\b/);
   });
 });

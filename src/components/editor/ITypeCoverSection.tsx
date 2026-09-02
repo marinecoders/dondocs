@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useDocumentStore } from '@/stores/documentStore';
 import { validateTimeCompliance } from '@/lib/timeCompliance';
 import { validateProcedureSteps } from '@/lib/procedureSteps';
+import { validateAppendixTitles } from '@/lib/appendixTitles';
 import { validateNomenclature, validateLongTitle } from '@/lib/publicationTitle';
 import { validateNsnConsistency } from '@/lib/nsnConsistency';
 
@@ -49,6 +50,7 @@ export function ITypeCoverSection() {
     ...validateLongTitle(subject),
     ...validateTimeCompliance(urgency, completionDate, new Date()),
     ...validateProcedureSteps(paragraphs),
+    ...validateAppendixTitles(paragraphs),
     // Every NSN in the publication, cover and tables alike, must use one form.
     ...validateNsnConsistency([
       ...endItems.map((e) => e.nsn),
