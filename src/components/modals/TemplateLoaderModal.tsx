@@ -95,9 +95,11 @@ export function TemplateLoaderModal() {
       store.removeParagraph(i);
     }
 
-    // Add template paragraphs
-    selectedTemplate.paragraphs.forEach((para) => {
+    // Add template paragraphs. Paragraphs are cleared above, so the index a
+    // paragraph lands at is its position in the template.
+    selectedTemplate.paragraphs.forEach((para, index) => {
       store.addParagraph(para.text, para.level);
+      if (para.header) store.updateParagraph(index, { header: para.header });
     });
 
     // Clear existing references by removing from the end
