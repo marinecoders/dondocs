@@ -2509,6 +2509,131 @@ const LATEX_TEMPLATES = {
     \\renewcommand{\\footrulewidth}{0pt}%
 }
 `,
+  'tex/templates/i_type.tex': `
+%=============================================================================
+%
+%                   I-TYPE (INSTRUCTIONAL) PUBLICATION MODULE
+%
+%=============================================================================
+%
+% References:
+%   - MIL-STD-38784C (General Style and Format Requirements for Technical
+%     Manuals), PDF output requirements
+%   - MARCORSYSCOM I-Type template
+%
+% One module serves MI (Modification), SI (Supply), TI (Technical) and LI
+% (Lubrication) Instructions. They share a skeleton and differ only in which
+% optional paragraphs appear, so the type is a label here rather than a fork.
+%
+% An I-Type is a directive, not correspondence: it has no From/To, it is
+% identified by a PCN rather than an SSIC, and it is authenticated rather than
+% signed off. Hence the empty addressing block below.
+%
+% Phase 1 scope is the frame -- title block, CUI markings and the
+% authentication block. The numbered paragraph model, the nine materiel tables
+% and the WARNING/CAUTION/NOTE environments follow; see
+% docs/TECHPUB_I_TYPE.md.
+%
+%=============================================================================
+
+
+%=============================================================================
+%                            TITLE BLOCK
+%=============================================================================
+% Long Title is centred and all caps per the MARCORSYSCOM template. The four
+% line cap and the no-acronyms rule are author-facing, so they are enforced in
+% the editor rather than silently truncated here.
+
+\\newcommand{\\printDateAndTitle}{%
+    \\hfill \\DocumentDate\\par
+    \\vspace{12pt}%
+    \\begin{center}
+        \\MakeUppercase{\\SubjectLine}
+    \\end{center}
+    \\par\\vspace{12pt}%
+}
+
+
+%=============================================================================
+%                        CONTROL MARKINGS BLOCK
+%=============================================================================
+% No From/To: an I-Type is issued to the fleet, not addressed to anyone. What
+% would be the addressing block carries the control markings instead, matching
+% where every other format puts them so the shared CUI macros keep working.
+
+\\newcommand{\\printAddressBlock}{%
+    \\ifCUIEnabled
+        \\noindent
+        Controlled by: \\CUIControlledBy\\\\
+        CUI Category: \\CUICategory\\\\
+        Limited Dissemination Control: \\CUIDissemination\\\\
+        \\printPOCLine%
+        \\par\\vspace{12pt}%
+        \\noindent\\CUIDistStatement
+        \\par\\vspace{12pt}%
+    \\fi
+    %
+    \\ifClassifiedEnabled
+        \\noindent
+        Classified by: \\ClassifiedBy\\\\
+        Derived from: \\DerivedFrom\\\\
+        Reason: \\ClassificationReason\\\\
+        Declassify on: \\DeclassifyOn\\\\
+        \\printPOCLine
+        \\par\\vspace{12pt}%
+    \\fi
+}
+
+
+%=============================================================================
+%                          AUTHENTICATION BLOCK
+%=============================================================================
+% The template mandates the spacing exactly: two blank lines before OFFICIAL,
+% four between OFFICIAL and the printed name, and two between the organisation
+% title and DISTRIBUTION. At 12pt a blank line is 12pt, so the vspaces below
+% are those counts made literal -- this is the sort of rule an author is asked
+% to maintain by hand in Word, and the reason to generate the page at all.
+
+\\newcommand{\\printSignature}{%
+    \\par\\vspace{24pt}%      two blank lines
+    \\noindent OFFICIAL
+    \\par\\vspace{48pt}%      four blank lines
+    \\noindent
+    \\ifNotEmptyElse{\\SignatoryAbbrev}{\\MakeUppercase{\\SignatoryAbbrev}\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
+    % Signing authority then controlling office, per the template's
+    % OFFICIAL block -- the reverse of the rank-then-title order the
+    % correspondence formats use.
+    \\optionalLine{\\SignatoryTitle}%
+    \\optionalLine{\\SignatoryRank}%
+    \\par\\vspace{24pt}%      two blank lines
+    \\noindent DISTRIBUTION: EDO
+}
+
+
+%=============================================================================
+%                              PAGE STYLE
+%=============================================================================
+% Page numbers are centred in the footer per the MARCORSYSCOM template. Note
+% this differs from MIL-STD-38784C PDF output (bold, lower right); the
+% customer's own template is treated as authoritative -- see
+% docs/TECHPUB_I_TYPE.md.
+
+\\fancypagestyle{firstpage}{%
+    \\fancyhf{}%
+    \\fancyhead[C]{\\placeClassificationMarkings}%
+    \\fancyfoot[C]{}%
+    \\renewcommand{\\headrulewidth}{0pt}%
+    \\renewcommand{\\footrulewidth}{0pt}%
+}
+
+\\fancypagestyle{documentpage}{%
+    \\fancyhf{}%
+    \\fancyhead[C]{\\placeClassificationMarkings}%
+    \\fancyfoot[C]{\\thepage}%
+    \\renewcommand{\\headrulewidth}{0pt}%
+    \\renewcommand{\\footrulewidth}{0pt}%
+}
+`,
   'tex/templates/information_memorandum.tex': `
 %=============================================================================
 %

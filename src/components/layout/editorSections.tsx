@@ -61,6 +61,14 @@ export function getEditorSections(config: DocTypeConfig, docType: string): Edito
     ];
   }
 
+  // I-Type (Instructional) publication: a directive to the fleet, so there is
+  // nobody to address it to and no copy-to or distribution list -- DISTRIBUTION
+  // is fixed in the format module. Gated on docType for the same reason as the
+  // MFR above: it shares uiMode:'memo' but not the memo section set.
+  if (docType === 'i_type') {
+    return [classification, body, references, enclosures, signature];
+  }
+
   switch (config.uiMode) {
     case 'moa':
       // MOA: the two signing commands are the "Parties"; agreements don't carry a

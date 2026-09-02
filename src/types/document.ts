@@ -504,6 +504,16 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
     regulations: { fontSize: '12pt', fontFamily: 'times', fontFamilyRequired: true, ref: 'Ch 12 ¶4' },
     compliance: EXECUTIVE_COMPLIANCE,
   },
+  // I-Type (Instructional) technical publication -- MI/SI/TI/LI. A directive
+  // to the fleet rather than correspondence: no From/To, no Via, identified by
+  // a PCN rather than an SSIC, and authenticated rather than signed off.
+  // MIL-STD-38784C governs the format; see docs/TECHPUB_I_TYPE.md.
+  i_type: {
+    letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false,
+    signature: 'full', uiMode: 'memo', showSignatureRankTitle: true, topSpacing: '1in',
+    regulations: { fontSize: '12pt', fontSizeOptions: ['12pt'], fontFamily: 'times', ref: 'MIL-STD-38784C' },
+    compliance: DEFAULT_COMPLIANCE,
+  },
 };
 
 // Labels for document types visible in the UI
@@ -528,6 +538,7 @@ export const DOC_TYPE_LABELS: Record<string, string> = {
   standard_memorandum: 'Standard Memorandum (HqDON)',
   action_memorandum: 'Action Memorandum',
   information_memorandum: 'Information Memorandum',
+  i_type: 'I-Type Instruction (MI/SI/TI/LI)',
 };
 
 /**
@@ -556,6 +567,7 @@ export const DOC_TYPE_CHIP: Record<string, string> = {
   standard_memorandum: 'MEMO',
   action_memorandum: 'MEMO',
   information_memorandum: 'MEMO',
+  i_type: 'I-TYPE',
 };
 
 /** The Recents type chip for a doc type (falls back to a generic code). */
