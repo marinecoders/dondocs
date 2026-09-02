@@ -24,6 +24,13 @@ export interface EnclosureError {
   kind?: 'enclosure' | 'basicLetter';
 }
 
+export type EnclosureLabelStyle = 'corner' | 'footer';
+
+export interface MergeOptions {
+  /** Where each enclosure page carries its label. Defaults to the corner. */
+  enclosureLabel?: EnclosureLabelStyle;
+}
+
 export interface MergeResult {
   pdfBytes: Uint8Array;
   errors: EnclosureError[];
@@ -1097,8 +1104,10 @@ export async function mergeEnclosures(
   enclosures: EnclosureData[],
   classification?: ClassificationInfo,
   includeHyperlinks = false,
-  referenceUrls: ReferenceUrlData[] = []
+  referenceUrls: ReferenceUrlData[] = [],
+  options: MergeOptions = {}
 ): Promise<MergeResult> {
+  const labelStyle: EnclosureLabelStyle = options.enclosureLabel ?? 'corner';
   debug.log('MergeEnclosures', 'Called with', enclosures.length, 'enclosures, hyperlinks:', includeHyperlinks, 'references:', referenceUrls.length);
 
   const errors: EnclosureError[] = [];
@@ -1125,7 +1134,7 @@ export async function mergeEnclosures(
     try {
       // Add optional cover/placeholder page before the enclosure content
       if (enclosure.hasCoverPage) {
-        addCoverPage(mainPdf, enclosure, helveticaBold, helvetica, classification);
+        addCoverPage(mainPdf, enclosure, helveticaBold, helvetica, classification, labelStyle);
       }
 
       if (enclosure.data) {
@@ -1141,13 +1150,13 @@ export async function mergeEnclosures(
             error: validationError ?? 'Unknown validation error'
           });
           // Create an error placeholder page
-          addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, validationError ?? 'Unknown validation error');
+          addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, validationError ?? 'Unknown validation error', labelStyle);
           continue;
         }
 
         // PDF enclosure — pass the already-loaded PDFDocument so we don't
         // re-parse the same bytes.
-        const result = await addPdfEnclosure(mainPdf, enclosure, enclosurePdf, helveticaBold, helvetica, classification);
+        const result = await addPdfEnclosure(mainPdf, enclosure, enclosurePdf, helveticaBold, helvetica, classification, labelStyle);
         if (result.error) {
           errors.push(result.error);
         }
@@ -1164,7 +1173,7 @@ export async function mergeEnclosures(
       });
       // Create an error placeholder page only if there was supposed to be PDF content
       if (enclosure.data) {
-        addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, errorMessage);
+        addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, errorMessage, labelStyle);
       }
     }
   }
@@ -1226,7 +1235,8 @@ async function addPdfEnclosure(
   enclosurePdf: PDFDocument,
   helveticaBold: Awaited<ReturnType<typeof mainPdf.embedFont>>,
   helvetica: Awaited<ReturnType<typeof mainPdf.embedFont>>,
-  classification?: ClassificationInfo
+  classification?: ClassificationInfo,
+  labelStyle: EnclosureLabelStyle = 'corner'
 ): Promise<AddEnclosureResult> {
   if (!enclosure.data) return { pagesAdded: 0, pagesFailed: 0 };
 
@@ -1343,7 +1353,7 @@ async function addPdfEnclosure(
       }
 
       // Add enclosure label at bottom right
-      addEnclosureLabel(page, enclosure.number, helveticaBold);
+      addEnclosureLabel(page, enclosure.number, helveticaBold, labelStyle);
 
       // Add page number for multi-page enclosures (bottom center)
       if (pageCount > 1) {
@@ -1367,7 +1377,7 @@ async function addPdfEnclosure(
   // If all pages failed, create a placeholder page
   if (pagesAdded === 0 && pagesFailed > 0) {
     const errorMessage = failedPageErrors.join('; ');
-    addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, errorMessage);
+    addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, errorMessage, labelStyle);
 
     return {
       pagesAdded: 0,
@@ -1471,7 +1481,8 @@ function addPlaceholderPage(
   helvetica: Awaited<ReturnType<typeof mainPdf.embedFont>>,
   isError = false,
   classification?: ClassificationInfo,
-  errorDetails?: string
+  errorDetails?: string,
+  labelStyle: EnclosureLabelStyle = 'corner'
 ): void {
   const page = mainPdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 
@@ -1565,7 +1576,7 @@ function addPlaceholderPage(
   }
 
   // Add enclosure label at bottom right
-  addEnclosureLabel(page, enclosure.number, helveticaBold);
+  addEnclosureLabel(page, enclosure.number, helveticaBold, labelStyle);
 
   // Add classification marking at bottom
   if (classification?.marking) {
@@ -1581,7 +1592,8 @@ function addCoverPage(
   enclosure: EnclosureData,
   helveticaBold: Awaited<ReturnType<typeof mainPdf.embedFont>>,
   helvetica: Awaited<ReturnType<typeof mainPdf.embedFont>>,
-  classification?: ClassificationInfo
+  classification?: ClassificationInfo,
+  labelStyle: EnclosureLabelStyle = 'corner'
 ): void {
   const page = mainPdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 
@@ -1648,7 +1660,7 @@ function addCoverPage(
   }
 
   // Add enclosure label at bottom right
-  addEnclosureLabel(page, enclosure.number, helveticaBold);
+  addEnclosureLabel(page, enclosure.number, helveticaBold, labelStyle);
 
   // Add classification marking at bottom
   if (classification?.marking) {
@@ -1657,15 +1669,29 @@ function addCoverPage(
 }
 
 /**
- * Adds enclosure label at bottom right of page
+ * Adds the enclosure label: "Enclosure (1)" at bottom right (correspondence),
+ * or "Enclosure 1" centred just above the page number (technical publications).
  */
 function addEnclosureLabel(
   page: PDFPage,
   enclosureNumber: number,
-  font: Awaited<ReturnType<PDFDocument['embedFont']>>
+  font: Awaited<ReturnType<PDFDocument['embedFont']>>,
+  style: EnclosureLabelStyle = 'corner'
 ): void {
-  const labelText = `Enclosure (${enclosureNumber})`;
   const fontSize = 10;
+  if (style === 'footer') {
+    const labelText = `Enclosure ${enclosureNumber}`;
+    const textWidth = font.widthOfTextAtSize(labelText, fontSize);
+    page.drawText(labelText, {
+      x: (PAGE_WIDTH - textWidth) / 2,
+      y: 36 + 14, // one line above the page number (see addPageNumber)
+      size: fontSize,
+      font,
+      color: rgb(0, 0, 0),
+    });
+    return;
+  }
+  const labelText = `Enclosure (${enclosureNumber})`;
   const textWidth = font.widthOfTextAtSize(labelText, fontSize);
 
   page.drawText(labelText, {

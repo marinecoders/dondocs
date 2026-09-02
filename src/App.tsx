@@ -559,7 +559,7 @@ function App() {
       let lastBasicPageIndex: number | undefined;
       if (generatedEnclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
         const classification = getClassificationInfo(currentStore.formData.classLevel);
-        const mergeResult = await mergeEnclosures(out, generatedEnclosures, classification, includeHyperlinks, referenceUrls);
+        const mergeResult = await mergeEnclosures(out, generatedEnclosures, classification, includeHyperlinks, referenceUrls, { enclosureLabel: DOC_TYPE_CONFIG[currentStore.docType]?.enclosureLabel });
         out = mergeResult.pdfBytes;
         lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
       }
@@ -887,7 +887,7 @@ function App() {
       if (generatedEnclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
         onProgress?.({ kind: 'pdf-merging-enclosures' });
         const classification = getClassificationInfo(currentStore.formData.classLevel);
-        const mergeResult = await mergeEnclosures(pdfBytes, generatedEnclosures, classification, includeHyperlinks, referenceUrls);
+        const mergeResult = await mergeEnclosures(pdfBytes, generatedEnclosures, classification, includeHyperlinks, referenceUrls, { enclosureLabel: DOC_TYPE_CONFIG[currentStore.docType]?.enclosureLabel });
         pdfBytes = mergeResult.pdfBytes;
         lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
         if (mergeResult.hasErrors) exportErrors.push(...mergeResult.errors);
@@ -1112,7 +1112,7 @@ function App() {
       if (enclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
         onProgress?.({ kind: 'pdf-merging-enclosures' });
         const classification = getClassificationInfo(currentStore.formData.classLevel);
-        const mergeResult = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls);
+        const mergeResult = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls, { enclosureLabel: DOC_TYPE_CONFIG[currentStore.docType]?.enclosureLabel });
         pdfBytes = mergeResult.pdfBytes;
         lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
         if (mergeResult.hasErrors) exportErrors.push(...mergeResult.errors);
@@ -1803,12 +1803,13 @@ ${texFiles['body.tex'] || '% No body content'}
           kbd: formatShortcut('mod D'),
           onRun: () => commandDownloadTriggers.pdf(),
         },
-        {
+        // Publication types are delivered as PDF (see DocTypeConfig.pdfOnly).
+        ...(DOC_TYPE_CONFIG[docType]?.pdfOnly ? [] : [{
           id: 'download-docx',
           label: 'Download Word (.docx)',
           icon: Download,
           onRun: () => commandDownloadTriggers.docx(),
-        },
+        }]),
         {
           id: 'save-draft',
           label: 'Save draft now',
@@ -1952,7 +1953,7 @@ ${texFiles['body.tex'] || '% No body content'}
     groups.push({ label: 'Insert', items: insertItems });
 
     return groups;
-  }, [outlineSections, allDocs, currentDocId, isInstalled]);
+  }, [outlineSections, allDocs, currentDocId, isInstalled, docType]);
 
   return (
     <TooltipProvider>
