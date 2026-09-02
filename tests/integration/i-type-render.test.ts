@@ -259,6 +259,38 @@ describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () =
     expect(ti[1]).not.toMatch(/Record completion/);
   });
 
+  it('numbers an odd last page for the blank verso print would leave, and an even one plainly', async () => {
+    // Cover, authentication page, one body page: page 3, odd, with nothing after it.
+    const odd = await renderPages((s) => {
+      Object.assign(s.formData as Record<string, unknown>, { date: '15 Dec 24', subject: 'TITLE', shortTitle: 'MI 1' });
+      s.paragraphs = [{ text: 'To provide instructions.', level: 0, header: 'Purpose' }];
+    });
+    expect(odd.length).toBe(3);
+    expect(odd[2]).toMatch(/3\/\(4 blank\)/);
+    expect(odd[1]).not.toMatch(/blank/);
+
+    // The same body followed by an appendix: the body page is no longer last,
+    // and the appendix, ending on A-1, is.
+    const withAppendix = await renderPages((s) => {
+      Object.assign(s.formData as Record<string, unknown>, { date: '15 Dec 24', subject: 'TITLE', shortTitle: 'MI 1' });
+      s.paragraphs = [
+        { text: 'To provide instructions.', level: 0, header: 'Purpose' },
+        { text: 'Values apply at 20 C.', level: 0, header: 'Torque Values', appendix: true },
+      ];
+    });
+    expect(withAppendix[2]).not.toMatch(/blank/);
+    expect(withAppendix[3]).toMatch(/A-1\/\(A-2 blank\)/);
+
+    // Enough body to end on an even page: the number stands alone.
+    const even = await renderPages((s) => {
+      Object.assign(s.formData as Record<string, unknown>, { date: '15 Dec 24', subject: 'TITLE', shortTitle: 'MI 1' });
+      s.paragraphs = Array.from({ length: 60 }, (_, i) => ({ text: `Paragraph ${i} of the instruction, long enough to take a line or two of the page each time it is set.`, level: 0 }));
+    });
+    const last = even[even.length - 1];
+    if (even.length % 2 === 0) expect(last).not.toMatch(/blank/);
+    else expect(last).toMatch(new RegExp(`${even.length}\\/\\(${even.length + 1} blank\\)`));
+  });
+
   it('never leaves a warning or caution at the foot of a page', async () => {
     const many = await renderPages((s) => {
       Object.assign(s.formData as Record<string, unknown>, { date: '15 Dec 24', subject: 'TITLE', shortTitle: 'MI 1' });
