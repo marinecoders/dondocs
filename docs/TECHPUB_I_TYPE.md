@@ -189,9 +189,12 @@ typographic requirement here that needs real thought in LaTeX.
 
 ### Procedures
 
-Steps are **blocked text** — subsequent lines align with the first line of the
-step, the opposite of every other paragraph, which returns to the left margin.
-Nesting runs to **five subparagraph levels**.
+Steps are **blocked text** — carry-over lines start under the first letter of
+the step, the opposite of every other paragraph, which returns to the left
+margin. §4.7.11.5.3 caps nesting at **four levels**, requires at least two of
+each subdivision (a step a. needs a step b.), and gives steps no titles. The
+five levels the MARCORSYSCOM template shows belong to its MIL-STD-40051
+example, which is the other standard.
 
 The MIL-STD-40051 variant instead opens with a structured **INITIAL SETUP**
 block — Test Equipment, Tools, Special Tools, Material/Parts, Mandatory
@@ -259,7 +262,7 @@ the nested "consisting of" indentation and the End Item overflow page.
 **4 — Safety callouts.** WARNING / CAUTION / NOTE environments, including
 single-line centring and the never-at-page-bottom constraint.
 
-**5 — Procedures.** Blocked text, five nesting levels, MIL-STD-38784 layout.
+**5 — Procedures.** Blocked text, four nesting levels, MIL-STD-38784 layout.
 
 Ship MI first. SI/TI/LI are the same skeleton — the Recording Instruction is
 MI-only — so they are configuration, not new work.

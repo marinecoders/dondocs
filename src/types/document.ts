@@ -83,6 +83,9 @@ export interface Paragraph {
   /** Renders as a safety callout rather than a numbered paragraph. WARNING is
    *  risk to people, CAUTION risk to equipment, NOTE neither. */
   callout?: CalloutKind;
+  /** A procedural step. Its carry-over lines block under the first letter of
+   *  the step rather than returning to the margin (MIL-STD-38784C 4.7.11.5.3). */
+  procedure?: boolean;
   portionMarking?: PortionMarking;
 }
 

@@ -51,6 +51,10 @@ interface DocumentStore {
  *  rather than being deleted; a further item overflows to the next page. */
 const END_ITEM_ROWS = 6;
 
+/** Width reserved for a step label, so carry-over lines block under the text
+ *  rather than under the label. Wide enough for the deepest form, "(a)". */
+const PROCEDURE_LABEL_WIDTH = '0.35in';
+
 function validatedPocEmail(raw: string | undefined | null): string {
   if (!raw) return '';
   // The user might paste `mailto:foo@bar.com` — strip the prefix so
@@ -882,6 +886,20 @@ export function generateBodyTex(store: DocumentStore): string {
     // A safety callout replaces the paragraph rather than decorating it.
     if (para.callout) {
       parts.push(generateCallout(para.callout, para.text));
+      continue;
+    }
+
+    // A procedural step blocks: carry-over lines start under the first letter
+    // of the step rather than returning to the margin, which is the opposite
+    // of every other paragraph (MIL-STD-38784C 4.7.11.5.3). Steps are indented
+    // from the margin and their substeps align under the text above them.
+    if (para.procedure) {
+      const stepIndent = 0.25 + para.level * 0.25;
+      parts.push(
+        `\\vspace{6pt}\n{\\leftskip=${stepIndent}in\n` +
+          `\\noindent\\hangindent=${PROCEDURE_LABEL_WIDTH}\\hangafter=1 ` +
+          `${label}  ${portionPrefix}${processBodyText(para.text)}\\par}\n\n`
+      );
       continue;
     }
 
