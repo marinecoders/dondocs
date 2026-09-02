@@ -145,6 +145,8 @@ describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () =
         date: '15 Dec 24', subject: 'INSTALLATION OF THE RAIL', shortTitle: 'MI 12345A-24/1',
         unitLine1: 'UNITED STATES MARINE CORPS', unitLine2: 'MARINE CORPS SYSTEMS COMMAND',
         pocEmail: 'john.doe@usmc.mil',
+        sigFirst: 'J.', sigLast: 'DOE', sigTitle: 'Program Manager, Infantry Weapons', sigRank: 'Colonel, U.S. Marine Corps',
+        controllingOffice: 'PM IW',
         classLevel: 'cui', cuiControlledBy: 'DOD', cuiCategory: 'CTI', cuiDissemination: 'FEDCON', cuiDistStatement: 'D',
       });
       s.references = [{ letter: 'a', title: 'TM 12345A-OI/1' }];
@@ -191,6 +193,15 @@ describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () =
 
   it('lists appendices and enclosures under DISTRIBUTION', () => {
     expect(pages[1]).toMatch(/DISTRIBUTION: EDO\s+Appendix A: Torque Values\s+Enclosure \(1\): Parts Diagram/);
+  });
+
+  it('signs with name, signing authority, and controlling office -- and no rank line', () => {
+    expect(pages[1]).toMatch(/OFFICIAL\s+J\. A\. DOE\s+Program Manager, Infantry Weapons\s+PM IW\s+DISTRIBUTION: EDO/);
+    expect(pages[1]).not.toMatch(/Colonel/);
+  });
+
+  it('composes Controlled by from entity, signing authority, and controlling office', () => {
+    expect(pages[0]).toMatch(/Controlled by: DOD, Program Manager, Infantry Weapons PM IW/);
   });
 
   it('prints no letter-style Ref: or Encl: list', () => {

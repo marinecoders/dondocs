@@ -106,4 +106,10 @@ describe('what the cover prints but the letter sections used to own', () => {
     render(<ITypeCoverSection />);
     expect(screen.getByRole('combobox', { name: 'Publication type' }).textContent).toMatch(/Modification Instruction/);
   });
+
+  it('types the controlling office into the store', () => {
+    render(<ITypeCoverSection />);
+    fireEvent.change(screen.getByRole('textbox', { name: 'Controlling office' }), { target: { value: 'PM IW' } });
+    expect(useDocumentStore.getState().formData.controllingOffice).toBe('PM IW');
+  });
 });

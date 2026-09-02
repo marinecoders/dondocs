@@ -47,6 +47,7 @@ export function ITypeCoverSection() {
   const unitLine1 = useDocumentStore((s) => s.formData.unitLine1 ?? '');
   const unitLine2 = useDocumentStore((s) => s.formData.unitLine2 ?? '');
   const unitAddress = useDocumentStore((s) => s.formData.unitAddress ?? '');
+  const controllingOffice = useDocumentStore((s) => s.formData.controllingOffice ?? '');
 
   // Both sets of rules answer "does this publication hold together", so they
   // surface in one place rather than sending the drafter hunting.
@@ -314,6 +315,29 @@ export function ITypeCoverSection() {
           value={unitAddress}
           onChange={(e) => setField('unitAddress', e.target.value)}
           placeholder="2200 LESTER STREET, QUANTICO, VA 22134"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="controllingOffice">
+          <span className="flex items-center gap-2">
+            Controlling office
+            <HelpTip>
+              <p className="font-medium mb-1">Controlling office</p>
+              <p className="text-xs">
+                Closes the signature block, under the signing official's name
+                and title, and the cover's "Controlled by" line. The signing
+                authority is the title given in the Signature section.
+              </p>
+            </HelpTip>
+          </span>
+        </Label>
+        <Input
+          id="controllingOffice"
+          aria-label="Controlling office"
+          value={controllingOffice}
+          onChange={(e) => setField('controllingOffice', e.target.value)}
+          placeholder="PM Infantry Weapons"
         />
       </div>
     </div>

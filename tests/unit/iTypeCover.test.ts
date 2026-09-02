@@ -47,4 +47,9 @@ describe('I-Type cover', () => {
     expect(named('TI')).toContain('\\setPublicationTypeName{Technical Instruction}');
     expect(named('TI')).toContain('\\RecordingInstructionfalse');
   });
+
+  it('carries the controlling office', () => {
+    const tex = generateDocumentTex({ ...store([]), formData: { docType: 'i_type', controllingOffice: 'PM IW' } } as never);
+    expect(tex).toContain('\\setControllingOffice{PM IW}');
+  });
 });

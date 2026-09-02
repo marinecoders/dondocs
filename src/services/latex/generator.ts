@@ -348,6 +348,7 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
       ...store.enclosures.map((e, i) => `Enclosure (${i + 1}): ${escapeLatex(e.title || '')}`),
     ];
     tex += `\\setAttachmentList{${attachments.join('\\par\\noindent ')}}\n`;
+    tex += `\\setControllingOffice{${escapeLatex(data.controllingOffice || '')}}\n`;
     tex += data.exportRestricted ? '\\ExportRestrictedtrue\n' : '\\ExportRestrictedfalse\n';
     // The distribution statement prints in full on the cover, letter and text
     // together, as the standard words it.

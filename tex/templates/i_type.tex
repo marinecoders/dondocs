@@ -204,7 +204,7 @@
     \noindent
     \ifNotEmptyElse{\SignatoryAbbrev}{\MakeUppercase{\SignatoryAbbrev}\\}{\ifNotEmpty{\SignatoryName}{\MakeUppercase{\SignatoryName}\\}}%
     \optionalLine{\SignatoryTitle}%
-    \optionalLine{\SignatoryRank}%
+    \optionalLine{\ControllingOffice}%
     \par\vspace{24pt}%
     \noindent DISTRIBUTION: EDO
     \ifNotEmpty{\AttachmentList}{\par\vspace{12pt}\noindent\AttachmentList}%
@@ -240,7 +240,7 @@
     \begin{minipage}{\textwidth}
         \raggedright
         \ifCUIEnabled
-            Controlled by: \CUIControlledBy\\
+            Controlled by: \CUIControlledBy\ifNotEmpty{\SignatoryTitle}{, \SignatoryTitle}\ifNotEmpty{\ControllingOffice}{ \ControllingOffice}\\
             CUI Category: \CUICategory\\
             Distribution/Dissemination Control: \CUIDissemination%
             \ifNotEmpty{\POCEmail}{\\\printPOCLine}\\[6pt]

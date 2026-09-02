@@ -349,6 +349,8 @@ const LATEX_TEMPLATES = {
 % under DISTRIBUTION on the authentication page.
 \\newcommand{\\AttachmentList}{}
 \\newcommand{\\setAttachmentList}[1]{\\renewcommand{\\AttachmentList}{#1}}
+\\newcommand{\\ControllingOffice}{}
+\\newcommand{\\setControllingOffice}[1]{\\renewcommand{\\ControllingOffice}{#1}}
 \\newcommand{\\Supersedure}{}
 \\newcommand{\\setSupersedure}[1]{\\renewcommand{\\Supersedure}{#1}}
 \\newcommand{\\TimeCompliance}{}
@@ -2751,7 +2753,7 @@ const LATEX_TEMPLATES = {
     \\noindent
     \\ifNotEmptyElse{\\SignatoryAbbrev}{\\MakeUppercase{\\SignatoryAbbrev}\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
     \\optionalLine{\\SignatoryTitle}%
-    \\optionalLine{\\SignatoryRank}%
+    \\optionalLine{\\ControllingOffice}%
     \\par\\vspace{24pt}%
     \\noindent DISTRIBUTION: EDO
     \\ifNotEmpty{\\AttachmentList}{\\par\\vspace{12pt}\\noindent\\AttachmentList}%
@@ -2787,7 +2789,7 @@ const LATEX_TEMPLATES = {
     \\begin{minipage}{\\textwidth}
         \\raggedright
         \\ifCUIEnabled
-            Controlled by: \\CUIControlledBy\\\\
+            Controlled by: \\CUIControlledBy\\ifNotEmpty{\\SignatoryTitle}{, \\SignatoryTitle}\\ifNotEmpty{\\ControllingOffice}{ \\ControllingOffice}\\\\
             CUI Category: \\CUICategory\\\\
             Distribution/Dissemination Control: \\CUIDissemination%
             \\ifNotEmpty{\\POCEmail}{\\\\\\printPOCLine}\\\\[6pt]

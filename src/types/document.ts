@@ -175,6 +175,8 @@ export interface DocumentData {
    *  run a year by default and say nothing. */
   /** Which I-Type this is; defaults to a Modification Instruction. */
   publicationType?: 'MI' | 'SI' | 'TI' | 'LI';
+  /** The office that controls the publication; closes the signature block and the Controlled by line. */
+  controllingOffice?: string;
   miUrgency?: 'urgent' | 'normal';
   /** Completion date an URGENT instruction must give. */
   miCompletionDate?: string;
