@@ -26,6 +26,22 @@
 
 
 %=============================================================================
+%                             NO LETTERHEAD
+%=============================================================================
+% main.tex calls \printLetterhead unconditionally, which is right for
+% correspondence: a letter is issued by a command and says so at the top. A
+% technical publication is not -- it is identified by its nomenclature, short
+% title and PCN, and its cover carries the Marine Corps seal at a fixed 2 x 2
+% inches rather than a unit's address block.
+%
+% Overridden here rather than gated in main.tex so the twenty correspondence
+% formats keep the behaviour they were written against. The cover page
+% replaces this with the seal; see docs/TECHPUB_I_TYPE.md.
+
+\renewcommand{\printLetterhead}{}
+
+
+%=============================================================================
 %                            TITLE BLOCK
 %=============================================================================
 % Long Title is centred and all caps per the MARCORSYSCOM template. The four

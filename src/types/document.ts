@@ -300,6 +300,9 @@ export interface DocTypeConfig {
     fontFamily: string;
     fontFamilyRequired?: boolean;  // true = lock to fontFamily in compliant mode (Ch 12 exec docs)
                                    // When absent/false = font family is RECOMMENDED, not required
+    /** Governing publication. Defaults to SECNAV M-5216.5, which governs all
+     *  correspondence; technical publications answer to a different standard. */
+    authority?: string;
     ref: string;
   };
   // Layout fields — single source of truth for both PDF and DOCX generators
@@ -511,7 +514,10 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
   i_type: {
     letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false,
     signature: 'full', uiMode: 'memo', showSignatureRankTitle: true, topSpacing: '1in',
-    regulations: { fontSize: '12pt', fontSizeOptions: ['12pt'], fontFamily: 'times', ref: 'MIL-STD-38784C' },
+    regulations: {
+      fontSize: '12pt', fontSizeOptions: ['12pt'], fontFamily: 'times',
+      authority: 'MIL-STD-38784C', ref: '\u00a74.7',
+    },
     compliance: DEFAULT_COMPLIANCE,
   },
 };
