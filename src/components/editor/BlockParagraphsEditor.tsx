@@ -28,13 +28,35 @@ import { HelpTip } from '@/components/ui/help-tip';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useSnippetsStore } from '@/stores/snippetsStore';
 import { showAppAlert } from '@/stores/alertStore';
-import { DOC_TYPE_CONFIG, type PortionMarking } from '@/types/document';
+import { DOC_TYPE_CONFIG, type PortionMarking, type CalloutKind, type Paragraph } from '@/types/document';
 import { calculateLabels, canIndentAt } from '@/lib/paragraphUtils';
 import { cn } from '@/lib/utils';
 
 // Per-paragraph portion marks (official CNSI/ISOO palette; brighter variants in
 // dark mode). The gutter chip opens a menu to pick any marking directly — no
 // more clicking through the whole cycle to step back one level.
+/** What a technical publication paragraph can be. The two underlying fields
+ *  are mutually exclusive in practice -- a step is not also a warning -- so the
+ *  editor offers one choice rather than two checkboxes that can disagree. */
+const BLOCK_KINDS = [
+  { value: 'paragraph', short: '¶', name: 'Paragraph' },
+  { value: 'step', short: 'Step', name: 'Procedural step' },
+  { value: 'warning', short: 'WARN', name: 'WARNING — injury or death' },
+  { value: 'caution', short: 'CAUT', name: 'CAUTION — damage to equipment' },
+  { value: 'note', short: 'NOTE', name: 'NOTE' },
+] as const;
+
+function blockKind(callout: CalloutKind | undefined, procedure: boolean | undefined): string {
+  return callout ?? (procedure ? 'step' : 'paragraph');
+}
+
+function setBlockKind(value: string): Partial<Paragraph> {
+  return {
+    callout: value === 'warning' || value === 'caution' || value === 'note' ? (value as CalloutKind) : undefined,
+    procedure: value === 'step' ? true : undefined,
+  };
+}
+
 const PORTION_MARKS: { value: PortionMarking; label: string; name: string; color: string }[] = [
   { value: 'U', label: '(U)', name: 'Unclassified', color: 'text-[#007A33] dark:text-[#3DBE6B]' },
   { value: 'CUI', label: '(CUI)', name: 'Controlled Unclassified', color: 'text-[#502B85] dark:text-[#9572D4]' },
@@ -61,6 +83,9 @@ interface BlockRowProps {
   label: string;
   autoFocus: boolean;
   showPortionMarking: boolean;
+  showBlockKind: boolean;
+  callout: CalloutKind | undefined;
+  procedure: boolean | undefined;
   disableIndent: boolean;
   /** Whether a deeper indent is currently legal (≤ one level below the block
    *  above). Drives the button's disabled state; the store also enforces it. */
@@ -80,6 +105,9 @@ const BlockRow = memo(function BlockRow({
   label,
   autoFocus,
   showPortionMarking,
+  showBlockKind,
+  callout,
+  procedure,
   disableIndent,
   canIndent,
   requestFocus,
@@ -228,6 +256,33 @@ const BlockRow = memo(function BlockRow({
           />
         )}
         <div className="flex items-baseline gap-1">
+          {showBlockKind && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  type="button"
+                  aria-label={`Block kind: ${blockKind(callout, procedure)}. Change`}
+                  title="A technical publication paragraph can be a safety callout or a procedural step"
+                  className="shrink-0 rounded-sm px-1 font-serif text-serif-body font-semibold text-muted-foreground outline-none transition-colors hover:bg-accent/50 focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                >
+                  {BLOCK_KINDS.find((k) => k.value === blockKind(callout, procedure))?.short}
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="min-w-48">
+                <DropdownMenuRadioGroup
+                  value={blockKind(callout, procedure)}
+                  onValueChange={(v) => updateParagraph(index, setBlockKind(v))}
+                >
+                  {BLOCK_KINDS.map((k) => (
+                    <DropdownMenuRadioItem key={k.value} value={k.value} className="gap-2">
+                      <span className="w-16 shrink-0 font-serif font-semibold">{k.short}</span>
+                      <span className="text-muted-foreground">{k.name}</span>
+                    </DropdownMenuRadioItem>
+                  ))}
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
           {showPortionMarking && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -375,6 +430,8 @@ export function BlockParagraphsEditor() {
   );
 
   const showPortionMarking = !!classLevel && classLevel !== 'unclassified';
+  // Only a technical publication has callouts and steps.
+  const showBlockKind = docType === 'i_type';
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
   const disableNumbered = documentMode === 'compliant' && !config.compliance.numberedParagraphs;
 
@@ -443,6 +500,9 @@ export function BlockParagraphsEditor() {
               label={disableNumbered ? '' : labels[i]}
               autoFocus={focusIndex === i}
               showPortionMarking={showPortionMarking}
+              showBlockKind={showBlockKind}
+              callout={p.callout}
+              procedure={p.procedure}
               disableIndent={disableNumbered}
               canIndent={canIndentAt(paragraphs, i)}
               requestFocus={requestFocus}

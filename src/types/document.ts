@@ -168,6 +168,11 @@ export interface DocumentData {
   /** Technical publication cover: the equipment this publication covers.
    *  Two lines at most. Empty for correspondence. */
   nomenclature?: string;
+  /** URGENT modification instructions must complete inside a year; NORMAL ones
+   *  run a year by default and say nothing. */
+  miUrgency?: 'urgent' | 'normal';
+  /** Completion date an URGENT instruction must give. */
+  miCompletionDate?: string;
 
   // Endorsements only (same_page_endorsement, new_page_endorsement)
   // Per SECNAV M-5216.5 Ch 9 §2.1.b -- endorsement line format is:

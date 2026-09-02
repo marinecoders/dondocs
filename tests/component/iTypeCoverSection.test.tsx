@@ -30,3 +30,29 @@ describe('ITypeCoverSection', () => {
     expect(screen.queryByRole('button', { name: /add end item/i })).toBeNull();
   });
 });
+
+describe('publication checks', () => {
+  it('asks an URGENT instruction for a completion date, and says so until it has one', () => {
+    useDocumentStore.setState({ formData: { ...useDocumentStore.getState().formData, miUrgency: 'urgent', miCompletionDate: '' } });
+    render(<ITypeCoverSection />);
+    expect(screen.getByText(/must give a completion date/i)).toBeTruthy();
+  });
+
+  it('says nothing for a NORMAL instruction', () => {
+    useDocumentStore.setState({ formData: { ...useDocumentStore.getState().formData, miUrgency: 'normal', miCompletionDate: '' } });
+    render(<ITypeCoverSection />);
+    expect(screen.queryByText(/must give a completion date/i)).toBeNull();
+  });
+
+  it('surfaces a lone substep from the paragraphs', () => {
+    useDocumentStore.setState({
+      formData: { ...useDocumentStore.getState().formData, miUrgency: 'normal' },
+      paragraphs: [
+        { text: 'Step.', level: 0, procedure: true },
+        { text: 'Only substep.', level: 1, procedure: true },
+      ],
+    });
+    render(<ITypeCoverSection />);
+    expect(screen.getByText(/needs a sibling/i)).toBeTruthy();
+  });
+});

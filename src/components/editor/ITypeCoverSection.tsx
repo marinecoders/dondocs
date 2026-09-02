@@ -3,7 +3,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { HelpTip } from '@/components/ui/help-tip';
+import { Notice } from '@/components/ui/notice';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useDocumentStore } from '@/stores/documentStore';
+import { validateTimeCompliance } from '@/lib/timeCompliance';
+import { validateProcedureSteps } from '@/lib/procedureSteps';
 
 /** The standard prints this many rows whatever the publication covers, so the
  *  editor stops offering more once they are used up. */
@@ -24,6 +28,16 @@ export function ITypeCoverSection() {
   const addEndItem = useDocumentStore((s) => s.addEndItem);
   const updateEndItem = useDocumentStore((s) => s.updateEndItem);
   const removeEndItem = useDocumentStore((s) => s.removeEndItem);
+  const urgency = useDocumentStore((s) => s.formData.miUrgency ?? 'normal');
+  const completionDate = useDocumentStore((s) => s.formData.miCompletionDate ?? '');
+  const paragraphs = useDocumentStore((s) => s.paragraphs);
+
+  // Both sets of rules answer "does this publication hold together", so they
+  // surface in one place rather than sending the drafter hunting.
+  const findings = [
+    ...validateTimeCompliance(urgency, completionDate, new Date()),
+    ...validateProcedureSteps(paragraphs),
+  ];
 
   const columns = [
     { key: 'nsn', label: 'NSN' },
@@ -34,6 +48,40 @@ export function ITypeCoverSection() {
 
   return (
     <div className="space-y-4">
+      {findings.length > 0 && (
+        <div className="space-y-2" aria-live="polite">
+          {findings.map((f, i) => (
+            <Notice key={i} variant={f.severity === 'error' ? 'error' : 'warning'}>
+              <span className={f.severity === 'error' ? 'text-destructive' : 'text-warning'}>
+                <span className="sr-only">{f.severity === 'error' ? 'Error: ' : 'Warning: '}</span>
+                {f.message}
+              </span>
+            </Notice>
+          ))}
+        </div>
+      )}
+
+      <div className="space-y-2">
+        <Label htmlFor="miUrgency">Time compliance</Label>
+        <Select value={urgency} onValueChange={(v) => setField('miUrgency', v as 'urgent' | 'normal')}>
+          <SelectTrigger id="miUrgency" aria-label="Time compliance">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="normal">NORMAL — one year</SelectItem>
+            <SelectItem value="urgent">URGENT — under one year</SelectItem>
+          </SelectContent>
+        </Select>
+        {urgency === 'urgent' && (
+          <Input
+            type="date"
+            aria-label="Completion date"
+            value={completionDate}
+            onChange={(e) => setField('miCompletionDate', e.target.value)}
+          />
+        )}
+      </div>
+
       <div className="space-y-2">
         <Label htmlFor="nomenclature">
           <span className="flex items-center gap-2">
