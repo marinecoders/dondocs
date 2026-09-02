@@ -108,7 +108,10 @@ export async function compileDocxFixture(store: TestStore): Promise<DocxCompileR
   // Same metadata production builds: layout proportions for the Lua filter's
   // table-width pass, plus the font size it scales \baselineskip spacing by.
   const metadata: Record<string, string> = {
-    ...layoutToMetadata(LAYOUT),
+    ...layoutToMetadata(LAYOUT, {
+      family: store.formData.fontFamily,
+      sizePt: parseInt(String(store.formData.fontSize || '12pt'), 10) || 12,
+    }),
     'font-size-pt': String(parseInt(store.formData.fontSize || '12pt', 10) || 12),
   };
 
