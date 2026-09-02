@@ -52,6 +52,19 @@
 % the same shape as one covering six. A seventh item moves the whole list to
 % the back of the cover page and leaves "See Next Page" in its stead.
 
+% The End Item table, drawn from a row set. The cover and its back use the
+% same columns and widths, so they share this rather than drifting apart.
+\newcommand{\printEndItemTable}[1]{%
+    \renewcommand{\arraystretch}{1.4}%
+    \begin{tabular}{|p{1.5in}|p{1.2in}|p{1.2in}|p{1.5in}|}
+        \hline
+        \textbf{NSN} & \textbf{TAMCN} & \textbf{ID} & \textbf{MODEL} \\
+        \hline
+        #1 \\
+        \hline
+    \end{tabular}%
+}
+
 \newcommand{\printDateAndTitle}{%
     \begin{center}
         % Fixed at 2 x 2 inches. The framed fallback keeps the layout honest
@@ -64,22 +77,22 @@
         \par\vspace{24pt}%
         {\large\bfseries\MakeUppercase{\Nomenclature}}\par
         \vspace{24pt}%
-        %
-        \renewcommand{\arraystretch}{1.4}%
-        \begin{tabular}{|p{1.5in}|p{1.2in}|p{1.2in}|p{1.5in}|}
-            \hline
-            \textbf{NSN} & \textbf{TAMCN} & \textbf{ID} & \textbf{MODEL} \\
-            \hline
-            \ifEndItemOverflow
-                \multicolumn{4}{|c|}{See Next Page} \\
-                \hline
-            \else
-                \EndItemRows \\
-                \hline
-            \fi
-        \end{tabular}
+        \ifEndItemOverflow
+            % Seven or more end items do not fit the cover; the list moves to
+            % its back and the cover says so.
+            \printEndItemTable{\multicolumn{4}{|c|}{See Next Page}}%
+        \else
+            \printEndItemTable{\EndItemRows}%
+        \fi
     \end{center}
     \newpage
+    %
+    \ifEndItemOverflow
+        \begin{center}
+            \printEndItemTable{\EndItemOverflowRows}%
+        \end{center}
+        \newpage
+    \fi
 }
 
 

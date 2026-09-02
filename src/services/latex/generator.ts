@@ -293,6 +293,16 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     tex += `\\setNomenclature{${escapeLatex(data.nomenclature || '')}}\n`;
     tex += `\\setEndItemRows{${rows}}\n`;
     tex += overflow ? '\\EndItemOverflowtrue\n' : '\\EndItemOverflowfalse\n';
+    // When the cover defers, every end item is listed on its back -- there is
+    // no six-row cap there, and no blank rows to keep.
+    if (overflow) {
+      const all = items
+        .map((item) =>
+          [item.nsn, item.tamcn, item.id, item.model].map((v) => escapeLatex(v || '')).join(' & ')
+        )
+        .join(' \\\\ \\hline ');
+      tex += `\\setEndItemOverflowRows{${all}}\n`;
+    }
   }
 
   return tex;

@@ -23,7 +23,15 @@ describe('I-Type cover', () => {
     const tex = generateDocumentTex(store(Array.from({ length: 7 }, (_, i) => item(i + 1))));
     expect(tex).toContain('\\EndItemOverflowtrue');
     // Nothing is listed on the cover itself in the overflow case.
-    expect(tex).not.toContain('NSN1 & T1');
+    expect(tex).not.toContain('\\setEndItemRows{NSN1');
+  });
+
+  it('lists every end item on the back of the cover when it overflows', () => {
+    const tex = generateDocumentTex(store(Array.from({ length: 7 }, (_, i) => item(i + 1))));
+    const overflow = tex.match(/\\setEndItemOverflowRows\{([^}]*)\}/)?.[1] ?? '';
+    // All seven, and no blank padding rows -- the six-row rule is the cover's.
+    for (let n = 1; n <= 7; n++) expect(overflow).toContain(`NSN${n} & T${n}`);
+    expect(overflow.split('\\\\').length).toBe(7);
   });
 
   it('carries the nomenclature', () => {
