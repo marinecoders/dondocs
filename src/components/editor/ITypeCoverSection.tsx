@@ -6,6 +6,8 @@ import { HelpTip } from '@/components/ui/help-tip';
 import { Notice } from '@/components/ui/notice';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DatePicker } from '@/components/ui/date-picker';
+import { InputWithVariables } from '@/components/ui/variable-autocomplete';
 import { useDocumentStore } from '@/stores/documentStore';
 import { validateTimeCompliance } from '@/lib/timeCompliance';
 import { validateProcedureSteps } from '@/lib/procedureSteps';
@@ -39,6 +41,10 @@ export function ITypeCoverSection() {
   const pcn = useDocumentStore((s) => s.formData.pcn ?? '');
   const supersedure = useDocumentStore((s) => s.formData.supersedure ?? '');
   const exportRestricted = useDocumentStore((s) => s.formData.exportRestricted ?? false);
+  const date = useDocumentStore((s) => s.formData.date ?? '');
+  const unitLine1 = useDocumentStore((s) => s.formData.unitLine1 ?? '');
+  const unitLine2 = useDocumentStore((s) => s.formData.unitLine2 ?? '');
+  const unitAddress = useDocumentStore((s) => s.formData.unitAddress ?? '');
 
   // Both sets of rules answer "does this publication hold together", so they
   // surface in one place rather than sending the drafter hunting.
@@ -83,6 +89,38 @@ export function ITypeCoverSection() {
           ))}
         </div>
       )}
+
+      <div className="space-y-2">
+        <Label htmlFor="subject">
+          <span className="flex items-center gap-2">
+            Long title
+            <HelpTip>
+              <p className="font-medium mb-1">Long title</p>
+              <p className="text-xs">
+                What the publication is about, printed in the cover header above
+                the time compliance line. All caps, four lines at most, and no
+                acronyms.
+              </p>
+            </HelpTip>
+          </span>
+        </Label>
+        <InputWithVariables
+          id="subject"
+          aria-label="Long title"
+          value={subject}
+          onValueChange={(v) => setField('subject', v)}
+          placeholder="INSTALLATION OF THE STOCK ACCESSORY RAIL"
+          className="uppercase"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="date">Date</Label>
+        <DatePicker id="date" value={date} onChange={(v) => setField('date', v)} dateFormat="military" />
+        <p className="text-xs text-muted-foreground">
+          Printed as the month and year on the cover, and in full on the pages after it.
+        </p>
+      </div>
 
       <div className="space-y-2">
         <Label htmlFor="shortTitle">Short title</Label>
@@ -227,6 +265,40 @@ export function ITypeCoverSection() {
             Add end item
           </Button>
         )}
+      </div>
+
+      <div className="space-y-2">
+        <span className="flex items-center gap-2 text-sm font-medium">
+          Issuing command
+          <HelpTip>
+            <p className="font-medium mb-1">Issuing command</p>
+            <p className="text-xs">
+              Heads the authentication page. An I-Type carries no letterhead, so
+              these lines are printed as text rather than under a seal.
+            </p>
+          </HelpTip>
+        </span>
+        <Input
+          id="unitLine1"
+          aria-label="Issuing command"
+          value={unitLine1}
+          onChange={(e) => setField('unitLine1', e.target.value)}
+          placeholder="MARINE CORPS SYSTEMS COMMAND"
+        />
+        <Input
+          id="unitLine2"
+          aria-label="Issuing command, second line"
+          value={unitLine2}
+          onChange={(e) => setField('unitLine2', e.target.value)}
+          placeholder="Second line, only for a long command name"
+        />
+        <Input
+          id="unitAddress"
+          aria-label="Issuing command address"
+          value={unitAddress}
+          onChange={(e) => setField('unitAddress', e.target.value)}
+          placeholder="2200 LESTER STREET, QUANTICO, VA 22134"
+        />
       </div>
     </div>
   );

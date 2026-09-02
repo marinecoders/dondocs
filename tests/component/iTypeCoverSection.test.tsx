@@ -70,3 +70,35 @@ describe('publication checks', () => {
     expect(screen.queryByText(/Appendix A has no title/)).toBeNull();
   });
 });
+
+// The I-Type's rail carries no addressing or letterhead section — the letter's
+// homes for the long title, the date, and the issuing command. All three print
+// on the cover or the authentication page, so the Cover section carries them
+// itself; without these they exist in the store with no way to fill them in.
+describe('what the cover prints but the letter sections used to own', () => {
+  it('types the long title into the store', () => {
+    render(<ITypeCoverSection />);
+    fireEvent.change(screen.getByRole('textbox', { name: 'Long title' }), {
+      target: { value: 'INSTALLATION OF THE STOCK ACCESSORY RAIL' },
+    });
+    expect(useDocumentStore.getState().formData.subject).toBe('INSTALLATION OF THE STOCK ACCESSORY RAIL');
+  });
+
+  it('offers a date field — the cover date and the page headers derive from it', () => {
+    render(<ITypeCoverSection />);
+    expect(screen.getByLabelText(/^date$/i)).toBeTruthy();
+  });
+
+  it('types the issuing command lines that head the authentication page', () => {
+    render(<ITypeCoverSection />);
+    fireEvent.change(screen.getByRole('textbox', { name: 'Issuing command' }), {
+      target: { value: 'MARINE CORPS SYSTEMS COMMAND' },
+    });
+    fireEvent.change(screen.getByRole('textbox', { name: 'Issuing command address' }), {
+      target: { value: '2200 LESTER STREET, QUANTICO, VA 22134' },
+    });
+    const { unitLine1, unitAddress } = useDocumentStore.getState().formData;
+    expect(unitLine1).toBe('MARINE CORPS SYSTEMS COMMAND');
+    expect(unitAddress).toBe('2200 LESTER STREET, QUANTICO, VA 22134');
+  });
+});
