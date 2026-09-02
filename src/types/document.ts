@@ -30,6 +30,11 @@ export interface EndItem {
 
 /** One row of a technical publication table, keyed by that table's column
  *  keys. `level` nests a "consisting of" item beneath its parent. */
+/** MIL-STD-38784C safety callouts. A WARNING covers long-term health hazards,
+ *  injury or death; a CAUTION damage to equipment or loss of mission
+ *  effectiveness; a NOTE is neither, and may follow what it refers to. */
+export type CalloutKind = 'warning' | 'caution' | 'note';
+
 export interface PublicationTableRow {
   values: Record<string, string>;
   level?: number;
@@ -75,6 +80,9 @@ export interface Paragraph {
   /** A technical publication paragraph may carry one of its fixed tables; the
    *  key names which. Absent on correspondence, which has none. */
   tableKey?: string;
+  /** Renders as a safety callout rather than a numbered paragraph. WARNING is
+   *  risk to people, CAUTION risk to equipment, NOTE neither. */
+  callout?: CalloutKind;
   portionMarking?: PortionMarking;
 }
 

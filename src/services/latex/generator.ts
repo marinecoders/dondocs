@@ -1,7 +1,7 @@
 import { escapeLatex, escapeLatexUrl, processBodyText, formatSubjectForLatex, formatAddressForLatex } from './escaper';
 import { composeSenderSymbol } from './senderSymbol';
 import { tableSpec } from '@/data/techpub/tables';
-import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, EndItem, PublicationTableRow } from '@/types/document';
+import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, EndItem, PublicationTableRow, CalloutKind } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
@@ -77,6 +77,13 @@ function calculateLabels(paragraphs: Paragraph[]): string[] {
   const counters = [0, 0, 0, 0, 0, 0, 0, 0];
 
   for (const para of paragraphs) {
+    // A safety callout is not a numbered paragraph: it takes no label and does
+    // not advance the count, so the steps around it stay consecutive. The empty
+    // label keeps this array aligned with `paragraphs` by index.
+    if (para.callout) {
+      labels.push('');
+      continue;
+    }
     for (let i = para.level + 1; i < 8; i++) {
       counters[i] = 0;
     }
@@ -798,6 +805,39 @@ function generatePublicationTable(tableKey: string, rows: PublicationTableRow[])
 `;
 }
 
+/**
+ * A safety callout: WARNING, CAUTION or NOTE.
+ *
+ * MIL-STD-38784C sets the shape. Both margins inset a quarter inch, the header
+ * uppercase and bold, the body not bold. A WARNING is always entirely
+ * uppercase; a CAUTION and a NOTE read in sentence case. Warnings and cautions
+ * appear above the step they apply to and must never sit at the foot of a page
+ * away from it.
+ *
+ * "Any single line warning, caution, or note is centred." Whether the text
+ * takes one line is a typesetting fact we do not have here, so it is estimated
+ * from the character count against the callout's width -- comfortably inside a
+ * line at 12pt, and left-justified otherwise, which is the safe direction to be
+ * wrong in.
+ */
+function generateCallout(kind: CalloutKind, text: string): string {
+  const SINGLE_LINE_CHARS = 70;
+  const body = kind === 'warning' ? `\\MakeUppercase{${processBodyText(text)}}` : processBodyText(text);
+  const centred = text.trim().length <= SINGLE_LINE_CHARS;
+  return `\\vspace{12pt}
+\\begin{center}
+\\begin{minipage}{\\dimexpr\\textwidth-0.5in\\relax}
+\\centering\\textbf{${kind.toUpperCase()}}\\par\\vspace{6pt}
+${centred ? '\\centering' : '\\raggedright'}
+${body}\\par
+\\end{minipage}
+\\end{center}
+\\vspace{6pt}
+${kind === 'note' ? '' : '\\nopagebreak[4]'}
+
+`;
+}
+
 export function generateBodyTex(store: DocumentStore): string {
   const labels = calculateLabels(store.paragraphs);
   // Where each subparagraph's label must sit: under its parent's text, per
@@ -838,6 +878,12 @@ export function generateBodyTex(store: DocumentStore): string {
     // DOCX path; the PDF silently dropped it (DoDM 5200.01 V2 requires
     // portion marks on the primary output too). Enum-constrained, LaTeX-safe.
     const portionPrefix = para.portionMarking ? `(${para.portionMarking}) ` : '';
+
+    // A safety callout replaces the paragraph rather than decorating it.
+    if (para.callout) {
+      parts.push(generateCallout(para.callout, para.text));
+      continue;
+    }
 
     // The two spaces belong to the label. Business letters and executive
     // correspondence number nothing, so an empty label must not leave the gap
