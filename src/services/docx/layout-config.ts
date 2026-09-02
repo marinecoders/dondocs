@@ -32,8 +32,36 @@ export interface LayoutProportions {
 
 const SEAL_COL_IN = 1.25; // 1in seal + 0.25in padding
 const SIG_INDENT_IN = 3.25; // SECNAV spec signature indent
-const ADDR_LABEL_IN = 0.50; // From:/To:/Subj: label + gap (tighter, matches PDF auto-fit)
 const COPYTO_LABEL_IN = 0.66; // Copy to: label + gap (tighter, matches PDF auto-fit)
+
+/**
+ * Width of the widest address label, as a multiple of the point size.
+ *
+ * The PDF sets this column as `l`, so it fits whichever of "From:", "To:",
+ * "Via:" and "Subj:" is widest once its padding spaces are counted (2, 6, 5
+ * and 3). Word's column is fixed, so the width is worked out here — and it
+ * cannot be a single number: Times pads the four to about the same width,
+ * while Courier is monospaced at 0.6em, which puts "To:" and its six spaces at
+ * nearly twice that.
+ *
+ * From the font metrics, per em: in Times "From:" is 2.5 plus two spaces at
+ * 0.25, so 3.0 exactly — which at 12pt is 36pt, the full half inch the column
+ * used to be, with nothing left over. In Courier every glyph and space is 0.6,
+ * so "To:" with six spaces is 5.4.
+ */
+const LABEL_WIDTH_PER_PT: Record<string, number> = {
+  times: 3.0,
+  courier: 5.4,
+};
+
+/** Slack, so rounding cannot push a label onto a second line in its own cell. */
+const LABEL_SLACK_PT = 2;
+
+/** The address label column, as a fraction of the text width. */
+export function addressLabelFraction(fontFamily?: string, fontSizePt = 12): number {
+  const perPt = LABEL_WIDTH_PER_PT[fontFamily ?? 'times'] ?? LABEL_WIDTH_PER_PT.times;
+  return (perPt * fontSizePt + LABEL_SLACK_PT) / 72 / TEXT_WIDTH_IN;
+}
 
 export const LAYOUT: LayoutProportions = {
   letterhead: {
@@ -46,8 +74,8 @@ export const LAYOUT: LayoutProportions = {
     rightCol: 0.25,
   },
   address: {
-    labelCol: ADDR_LABEL_IN / TEXT_WIDTH_IN,
-    contentCol: 1 - ADDR_LABEL_IN / TEXT_WIDTH_IN,
+    labelCol: addressLabelFraction(),
+    contentCol: 1 - addressLabelFraction(),
   },
   copyTo: {
     labelCol: COPYTO_LABEL_IN / TEXT_WIDTH_IN,
@@ -68,15 +96,21 @@ export const LAYOUT: LayoutProportions = {
  * Keys use kebab-case to match pandoc metadata conventions.
  * Values are stringified numbers (pandoc metadata is always strings).
  */
-export function layoutToMetadata(layout: LayoutProportions = LAYOUT): Record<string, string> {
+export function layoutToMetadata(
+  layout: LayoutProportions = LAYOUT,
+  font?: { family?: string; sizePt?: number },
+): Record<string, string> {
+  // Sized to the chosen face when one is known; the stored proportion is the
+  // Times fallback for callers that have no font to hand.
+  const addrLabel = font ? addressLabelFraction(font.family, font.sizePt) : layout.address.labelCol;
   return {
     'lh-seal': layout.letterhead.sealCol.toFixed(3),
     'lh-center': layout.letterhead.centerCol.toFixed(3),
     'lh-spacer': layout.letterhead.spacerCol.toFixed(3),
     'ssic-left': layout.ssic.leftCol.toFixed(3),
     'ssic-right': layout.ssic.rightCol.toFixed(3),
-    'addr-label': layout.address.labelCol.toFixed(3),
-    'addr-content': layout.address.contentCol.toFixed(3),
+    'addr-label': addrLabel.toFixed(3),
+    'addr-content': (1 - addrLabel).toFixed(3),
     'copyto-label': layout.copyTo.labelCol.toFixed(3),
     'copyto-content': layout.copyTo.contentCol.toFixed(3),
     'sig-left': layout.signature.leftCol.toFixed(3),

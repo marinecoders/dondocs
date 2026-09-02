@@ -1521,7 +1521,10 @@ export async function convertLatexToDocx(
   debug.verbose('DOCX', `Seal image loaded: ${seal.path} (${(seal.blob.size / 1024).toFixed(1)} KB)`);
 
   const metadata: Record<string, string> = {
-    ...layoutToMetadata(LAYOUT),
+    ...layoutToMetadata(LAYOUT, {
+      family: fontFamily,
+      sizePt: parseInt(fontSize || '12pt', 10) || 12,
+    }),
     // Pass font size (in pt) so the Lua filter can scale \baselineskip spacing
     'font-size-pt': String(parseInt(fontSize || '12pt', 10) || 12),
   };

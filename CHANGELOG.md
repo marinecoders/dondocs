@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.143] — 2026-09-01
+
+### Fixed
+
+- **The From, To and Subject block no longer breaks up in Word.** Word used a
+  half-inch column for the labels no matter what font the document was set in.
+  That is barely enough for Times and far too little for Courier, so the labels
+  wrapped and the block came apart. The column is now sized to the font.
+
 ## [1.2.142] — 2026-09-01
 
 ### Fixed
