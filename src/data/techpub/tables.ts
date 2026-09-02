@@ -6,8 +6,8 @@
  * columns. Six of the eight share one shape, so they are described here as
  * data and rendered by one routine rather than eight.
  *
- * Widths are the printable text block (6.5in) less the rules, so a table never
- * runs into the margin.
+ * Widths are proportions: the generator scales them to the text block less
+ * the padding each column adds, so a table ends at the right margin.
  */
 
 export interface PublicationTableColumn {

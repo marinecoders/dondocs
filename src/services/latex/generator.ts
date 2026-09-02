@@ -60,6 +60,10 @@ const END_ITEM_ROWS = 6;
  *  rather than under the label. Wide enough for the deepest form, "(a)". */
 const PROCEDURE_LABEL_WIDTH = '0.35in';
 
+/** The text block of a letter page and LaTeX's default column padding. */
+const TEXT_WIDTH_IN = 6.5;
+const TABCOLSEP_IN = 6 / 72;
+
 function validatedPocEmail(raw: string | undefined | null): string {
   if (!raw) return '';
   // The user might paste `mailto:foo@bar.com` — strip the prefix so
@@ -839,7 +843,12 @@ function generatePublicationTable(tableKey: string, rows: PublicationTableRow[])
     { first: '0.1in', hang: '0.18in' },
     { first: '0.28in', hang: '0.18in' },
   ];
-  const colSpec = spec.columns.map((c) => `p{${c.width}}`).join('|');
+  // Column widths are proportions of the text block less the padding each
+  // column adds on both sides, so the table ends at the right margin.
+  const padding = spec.columns.length * 2 * TABCOLSEP_IN;
+  const proportion = spec.columns.reduce((sum, c) => sum + parseFloat(c.width), 0);
+  const scale = (TEXT_WIDTH_IN - padding) / proportion;
+  const colSpec = spec.columns.map((c) => `p{${(parseFloat(c.width) * scale).toFixed(2)}in}`).join('|');
   const head = spec.columns.map((c) => `\\textbf{${escapeLatex(c.label)}}`).join(' & ');
   const descriptionIndex = spec.columns.findIndex((c) => c.key === 'description');
   const cellText = (text: string, level: number) => {
@@ -868,7 +877,7 @@ function generatePublicationTable(tableKey: string, rows: PublicationTableRow[])
       lines.push(cells.join(' & '));
     }
   });
-  // \\raggedright in a cell turns \\\\ into a line break; rows end with the
+  // \raggedright in a cell turns \\ into a line break; rows end with the
   // form no cell setting can capture.
   const body = lines.join(' \\tabularnewline \\hline\n    ');
 

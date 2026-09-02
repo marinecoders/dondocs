@@ -2589,6 +2589,17 @@ const LATEX_TEMPLATES = {
 
 \\renewcommand{\\printLetterhead}{}
 
+% The template's header begins 0.6in from the top edge and its footer ends
+% 0.18in from the bottom; the banners sit there, not at correspondence's
+% quarter inch, and the page number moves up to stay above the lower one.
+\\renewcommand{\\placeClassificationMarkings}{%
+    \\ifClassificationEnabled
+        \\begin{textblock*}{6.5in}(1in, 0.6in)\\centering\\ClassificationMarking\\end{textblock*}%
+        \\begin{textblock*}{6.5in}(1in, 10.65in)\\centering\\ClassificationMarking\\end{textblock*}%
+    \\fi
+}
+\\setlength{\\footskip}{0.43in}
+
 % Enclosures are listed under DISTRIBUTION on the authentication page, not
 % in a letter's Encl: block. The entries themselves stay registered: the
 % merge that appends the files reads them.
@@ -2620,6 +2631,12 @@ const LATEX_TEMPLATES = {
 }
 
 \\newcommand{\\printDateAndTitle}{%
+    % The cover's four-line header is 55pt taller than the other pages', and
+    % LaTeX sets the text block below the header, so this page's block ends
+    % 55pt lower than the bottom margin -- close to where the template's
+    % footer ends. Trimmed so \\vfill below lands the notices just above the
+    % lower banner.
+    \\enlargethispage{-12pt}%
     \\begin{center}
         % The Marine Corps seal, fixed at 2 x 2 inches -- the template names it,
         % so the letterhead's seal choice does not apply. The framed fallback
@@ -2671,9 +2688,6 @@ const LATEX_TEMPLATES = {
 % retype. That is the point of generating the page: the MCO references, the
 % Automated Message Handling System routing and the reporting addresses cannot
 % drift or be edited by accident.
-
-% Which I-Type this is, as it reads in the authentication sentence. MI is the
-% only flavour wired today; SI/TI/LI set this and change nothing else.
 
 % Recording the completion of a modification applies to MIs alone. The spacing
 % above OFFICIAL is the same whether or not it appears.
@@ -2787,7 +2801,10 @@ const LATEX_TEMPLATES = {
 % template places it.
 \\newcommand{\\printCoverFooter}{%
     \\footnotesize
-    \\begin{minipage}{\\textwidth}
+    % Bottom-aligned: a centred minipage carries half its height as depth,
+    % which the page builder does not count, so the block overhung the page
+    % bottom by that much and its last lines were cut off.
+    \\begin{minipage}[b]{\\textwidth}
         \\raggedright
         \\ifCUIEnabled
             Controlled by: \\CUIControlledBy\\ifNotEmpty{\\SignatoryTitle}{, \\SignatoryTitle}\\ifNotEmpty{\\ControllingOffice}{ \\ControllingOffice}\\\\

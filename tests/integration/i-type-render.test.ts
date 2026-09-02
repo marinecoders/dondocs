@@ -33,6 +33,15 @@ async function renderDocument(mutate: (s: Record<string, unknown>) => void, extr
 
 const renderPages = async (mutate: (s: Record<string, unknown>) => void) => (await renderDocument(mutate)).pages;
 
+/** Every text line on a page with its box, in points from the page's top-left. */
+function lineBoxes(pdf: string, page: number): { x0: number; y0: number; x1: number; y1: number; text: string }[] {
+  const html = spawnSync('pdftotext', ['-bbox-layout', '-f', String(page), '-l', String(page), pdf, '-'], { encoding: 'utf8' }).stdout;
+  return Array.from(html.matchAll(/<line xMin="([\d.]+)" yMin="([\d.]+)" xMax="([\d.]+)" yMax="([\d.]+)">([\s\S]*?)<\/line>/g)).map((m) => ({
+    x0: Number(m[1]), y0: Number(m[2]), x1: Number(m[3]), y1: Number(m[4]),
+    text: Array.from(m[5].matchAll(/>([^<]+)<\/word>/g)).map((w) => w[1]).join(' '),
+  }));
+}
+
 describe.skipIf(!hasPdftotext)('I-Type renders per the template', () => {
   let pages: string[];
 
@@ -243,6 +252,26 @@ describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () =
 
   it("labels a parent item's parts with a Consisting of: row", () => {
     expect(pages.join('\n')).toMatch(/KIT, ACCESSORY RAIL[\s\S]*Consisting of:[\s\S]*RAIL, 1913/);
+  });
+
+  it('keeps the margins the template sets: one inch at the sides, banners at its header and footer', () => {
+    const IN = 72;
+    for (let page = 1; page <= pages.length; page++) {
+      const lines = lineBoxes(pdf, page);
+      const banners = lines.filter((l) => l.text === 'CUI');
+      expect(banners.length).toBe(2);
+      // Header begins 0.6in from the top; the footer ends 0.18in from the bottom.
+      expect(Math.abs(banners[0].y0 - 0.6 * IN)).toBeLessThan(3);
+      expect(Math.abs(792 - banners[1].y1 - 0.18 * IN)).toBeLessThan(4);
+      // One inch at the left and right, tables included.
+      for (const l of lines.filter((l) => l.text !== 'CUI')) {
+        expect(l.x0).toBeGreaterThanOrEqual(IN - 1);
+        expect(l.x1).toBeLessThanOrEqual(612 - IN + 1);
+      }
+      // Nothing below the banner: the page number and, on the cover, the PCN.
+      const lowest = Math.max(...lines.filter((l) => l.text !== 'CUI').map((l) => l.y1));
+      expect(lowest).toBeLessThanOrEqual(banners[1].y0 + 1);
+    }
   });
 
   it('prints no letter-style Ref: or Encl: list', () => {
