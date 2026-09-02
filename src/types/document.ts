@@ -28,6 +28,13 @@ export interface EndItem {
   model: string;
 }
 
+/** One row of a technical publication table, keyed by that table's column
+ *  keys. `level` nests a "consisting of" item beneath its parent. */
+export interface PublicationTableRow {
+  values: Record<string, string>;
+  level?: number;
+}
+
 export interface Reference {
   letter: string;
   title: string;
@@ -65,6 +72,9 @@ export interface Paragraph {
   text: string;
   level: number;
   header?: string; // Optional paragraph heading (underlined per Ch 7 ¶13d)
+  /** A technical publication paragraph may carry one of its fixed tables; the
+   *  key names which. Absent on correspondence, which has none. */
+  tableKey?: string;
   portionMarking?: PortionMarking;
 }
 

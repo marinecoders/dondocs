@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { modificationInstruction } from '@/data/templates/technical';
 import { LETTER_TEMPLATES } from '@/data/templates';
 import { DOC_TYPE_CONFIG } from '@/types/document';
+import { tableSpec } from '@/data/techpub/tables';
 
 // MIL-STD-38784C fixes both the titles and their order; an author fills the
 // paragraphs in and removes the ones that do not apply, but changes nothing
@@ -24,8 +25,18 @@ const CANONICAL_TITLES = [
 ];
 
 describe('Modification Instruction template', () => {
-  it('keeps the standard’s paragraph titles, in order', () => {
-    expect(modificationInstruction.paragraphs.map((p) => p.header)).toEqual(CANONICAL_TITLES);
+  it('keeps the standard’s numbered paragraph titles, in order', () => {
+    // The standard fixes the numbered paragraphs. Sub-headings beneath them
+    // (the four materiel tables, the two tooling ones) are structure within a
+    // paragraph, not entries in the list.
+    const numbered = modificationInstruction.paragraphs.filter((p) => p.level === 0);
+    expect(numbered.map((p) => p.header)).toEqual(CANONICAL_TITLES);
+  });
+
+  it('gives every table-bearing paragraph a table that exists', () => {
+    for (const p of modificationInstruction.paragraphs) {
+      if (p.tableKey) expect(tableSpec(p.tableKey), p.tableKey).toBeDefined();
+    }
   });
 
   it('targets a registered document type', () => {

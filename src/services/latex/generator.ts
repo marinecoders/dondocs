@@ -1,6 +1,7 @@
 import { escapeLatex, escapeLatexUrl, processBodyText, formatSubjectForLatex, formatAddressForLatex } from './escaper';
 import { composeSenderSymbol } from './senderSymbol';
-import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, EndItem } from '@/types/document';
+import { tableSpec } from '@/data/techpub/tables';
+import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, EndItem, PublicationTableRow } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
@@ -21,6 +22,8 @@ interface DocumentStore {
   references: Reference[];
   /** Technical publication cover rows; absent for correspondence. */
   endItems?: EndItem[];
+  /** Rows of the publication's fixed tables, keyed by table. */
+  publicationTables?: Record<string, PublicationTableRow[]>;
   enclosures: Enclosure[];
   paragraphs: Paragraph[];
   copyTos: CopyTo[];
@@ -752,6 +755,49 @@ function underlineWords(text: string): string {
   return `\\uline{${text}}`;
 }
 
+/**
+ * One of the publication's fixed tables, drawn from its column set.
+ *
+ * "Consisting of" rows sit under their parent: the standard indents the first
+ * line and hangs the rest, at 0.1in for the first level and 0.28in for the
+ * second. An empty table prints nothing -- a table that does not apply is
+ * removed, unlike the End Item table on the cover which keeps its six rows.
+ */
+function generatePublicationTable(tableKey: string, rows: PublicationTableRow[]): string {
+  const spec = tableSpec(tableKey);
+  if (!spec || rows.length === 0) return '';
+
+  const CONSISTING_INDENT = ['0in', '0.1in', '0.28in'];
+  const colSpec = spec.columns.map((c) => `p{${c.width}}`).join('|');
+  const head = spec.columns.map((c) => `\\textbf{${escapeLatex(c.label)}}`).join(' & ');
+
+  const body = rows
+    .map((row) => {
+      const indent = CONSISTING_INDENT[Math.min(row.level ?? 0, CONSISTING_INDENT.length - 1)];
+      return spec.columns
+        .map((c, i) => {
+          const cell = escapeLatex(row.values[c.key] ?? '');
+          // Only the description carries the nesting; indenting every column
+          // would break the grid.
+          return i === 1 && indent !== '0in' ? `\\hspace{${indent}}${cell}` : cell;
+        })
+        .join(' & ');
+    })
+    .join(' \\\\ \\hline\n    ');
+
+  return `\\vspace{6pt}
+\\noindent\\renewcommand{\\arraystretch}{1.3}
+\\begin{tabular}{|${colSpec}|}
+    \\hline
+    ${head} \\\\
+    \\hline
+    ${body} \\\\ \\hline
+\\end{tabular}
+\\par\\vspace{12pt}
+
+`;
+}
+
 export function generateBodyTex(store: DocumentStore): string {
   const labels = calculateLabels(store.paragraphs);
   // Where each subparagraph's label must sit: under its parent's text, per
@@ -867,6 +913,11 @@ export function generateBodyTex(store: DocumentStore): string {
       } else {
         parts.push(`\\vspace{12pt}\n\\noindent\\hspace*{${levelIndent}in}${body}\n\n`);
       }
+    }
+
+    // A publication paragraph may carry one of its fixed tables.
+    if (para.tableKey) {
+      parts.push(generatePublicationTable(para.tableKey, store.publicationTables?.[para.tableKey] ?? []));
     }
   }
 

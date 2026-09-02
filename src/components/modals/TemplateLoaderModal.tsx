@@ -99,7 +99,9 @@ export function TemplateLoaderModal() {
     // paragraph lands at is its position in the template.
     selectedTemplate.paragraphs.forEach((para, index) => {
       store.addParagraph(para.text, para.level);
-      if (para.header) store.updateParagraph(index, { header: para.header });
+      if (para.header || para.tableKey) {
+        store.updateParagraph(index, { header: para.header, tableKey: para.tableKey });
+      }
     });
 
     // Clear existing references by removing from the end

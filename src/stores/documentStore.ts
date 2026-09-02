@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { format, parse, isValid } from 'date-fns';
 import type { Reference, Enclosure, FileRef, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, DocumentCategory, FormType,
-  EndItem,
+  EndItem, PublicationTableRow,
 } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { loadAttachment, persistAttachment } from '@/lib/attachments';
@@ -29,6 +29,7 @@ export interface SerializedSession {
   formData: Partial<DocumentData>;
   references: Reference[];
   endItems: EndItem[];
+  publicationTables: Record<string, PublicationTableRow[]>;
   // `file` bytes live in the attachments store; `fileRef` is the durable handle
   // that rehydrates them on load. `hasFile` stays for legacy sessions written
   // before fileRef existed (they had bytes in memory but nothing to recover).
@@ -94,6 +95,7 @@ export interface DocumentState {
   formData: Partial<DocumentData>;
   references: Reference[];
   endItems: EndItem[];
+  publicationTables: Record<string, PublicationTableRow[]>;
   enclosures: Enclosure[];
   paragraphs: Paragraph[];
   copyTos: CopyTo[];
@@ -109,6 +111,9 @@ export interface DocumentState {
   resetForm: () => void;
 
   // Actions - References
+  addTableRow: (tableKey: string) => void;
+  updateTableRow: (tableKey: string, index: number, values: Record<string, string>) => void;
+  removeTableRow: (tableKey: string, index: number) => void;
   addEndItem: () => void;
   updateEndItem: (index: number, updates: Partial<EndItem>) => void;
   removeEndItem: (index: number) => void;
@@ -245,6 +250,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   formData: { ...DEFAULT_FORM_DATA },
   references: [...DEFAULT_REFERENCES],
   endItems: [],
+  publicationTables: {},
   enclosures: [...DEFAULT_ENCLOSURES],
   paragraphs: [...DEFAULT_PARAGRAPHS],
   copyTos: [
@@ -364,6 +370,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     formData: { ...DEFAULT_FORM_DATA },
     references: [...DEFAULT_REFERENCES],
   endItems: [],
+  publicationTables: {},
     enclosures: [...DEFAULT_ENCLOSURES],
     paragraphs: [...DEFAULT_PARAGRAPHS],
     copyTos: [
@@ -376,6 +383,29 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   },
 
   // References
+  addTableRow: (tableKey) => set((state) => ({
+    publicationTables: {
+      ...state.publicationTables,
+      [tableKey]: [...(state.publicationTables[tableKey] ?? []), { values: {} }],
+    },
+  })),
+
+  updateTableRow: (tableKey, index, values) => set((state) => ({
+    publicationTables: {
+      ...state.publicationTables,
+      [tableKey]: (state.publicationTables[tableKey] ?? []).map((row, i) =>
+        i === index ? { ...row, values: { ...row.values, ...values } } : row
+      ),
+    },
+  })),
+
+  removeTableRow: (tableKey, index) => set((state) => ({
+    publicationTables: {
+      ...state.publicationTables,
+      [tableKey]: (state.publicationTables[tableKey] ?? []).filter((_, i) => i !== index),
+    },
+  })),
+
   addEndItem: () => set((state) => ({
     endItems: [...state.endItems, { nsn: '', tamcn: '', id: '', model: '' }],
   })),
@@ -845,6 +875,7 @@ function saveSessionToStorage(state: DocumentState): void {
       },
       references: state.references,
       endItems: state.endItems,
+      publicationTables: state.publicationTables,
       enclosures: state.enclosures.map(enc => ({
         title: enc.title,
         pageStyle: enc.pageStyle,
@@ -940,6 +971,7 @@ export function restoreSession(): boolean {
       formData: restoredFormData,
       references: session.references,
       endItems: session.endItems ?? [],
+      publicationTables: session.publicationTables ?? {},
       enclosures: session.enclosures.map(enc => ({
         title: enc.title,
         pageStyle: enc.pageStyle,
@@ -983,6 +1015,7 @@ export function serializeSession(state: DocumentState): SerializedSession {
     docType: state.docType,
     formType: state.formType,
     endItems: state.endItems,
+    publicationTables: state.publicationTables,
     formData: {
       ...state.formData,
       signatureImage: undefined,
@@ -1024,6 +1057,7 @@ export function loadSharedSession(session: SerializedSession): void {
     formData: sharedFormData,
     references: session.references ?? [],
     endItems: session.endItems ?? [],
+    publicationTables: session.publicationTables ?? {},
     enclosures: (session.enclosures ?? []).map(enc => ({
       title: enc.title,
       pageStyle: enc.pageStyle,

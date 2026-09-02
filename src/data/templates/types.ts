@@ -5,6 +5,8 @@ export interface TemplateParagraph {
    *  their paragraphs from a fixed set, so the title is part of the template
    *  rather than something the author types. */
   header?: string;
+  /** Names the fixed table this paragraph carries, if any. */
+  tableKey?: string;
 }
 
 export interface TemplateReference {
