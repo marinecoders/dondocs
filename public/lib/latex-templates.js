@@ -333,6 +333,8 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\setEndItemOverflowRows}[1]{\\renewcommand{\\EndItemOverflowRows}{#1}}
 \\newcommand{\\ShortTitle}{}
 \\newcommand{\\setShortTitle}[1]{\\renewcommand{\\ShortTitle}{#1}}
+\\newcommand{\\CoverDate}{}
+\\newcommand{\\setCoverDate}[1]{\\renewcommand{\\CoverDate}{#1}}
 \\newcommand{\\PCN}{}
 \\newcommand{\\setPCN}[1]{\\renewcommand{\\PCN}{#1}}
 \\newcommand{\\Supersedure}{}
@@ -2688,8 +2690,11 @@ const LATEX_TEMPLATES = {
     \\fi
     %
     \\begin{enumerate}[label=\\arabic*., leftmargin=*, itemsep=12pt, topsep=0pt]
-        \\item This \\PublicationTypeName{} is authenticated for Marine Corps use
-              and is effective upon receipt.
+        % The template's "appropriate publication" is the type AND its number
+        % ("Technical Manual, TM #####X-##/#,"), so the short title rides
+        % inside the sentence rather than only in the header.
+        \\item This \\PublicationTypeName\\ifNotEmpty{\\ShortTitle}{, \\ShortTitle,} is
+              authenticated for Marine Corps use and is effective upon receipt.
 
         \\item Per MCO 5100.34\\_, Commanders, Commanding Officers, and
               Officers-In-Charge shall identify and report situations that
@@ -2727,7 +2732,14 @@ const LATEX_TEMPLATES = {
     % the printed name, two before DISTRIBUTION.
     \\par\\vspace{24pt}%
     \\noindent OFFICIAL
-    \\par\\vspace{48pt}%
+    % An I-Type must be digitally signed. The field is placed inside the four
+    % mandated blank lines between OFFICIAL and the printed name, which is
+    % exactly the room the template leaves for it.
+    \\ifHasDigitalSigField
+        \\par\\DigitalSignatureBox
+    \\else
+        \\par\\vspace{48pt}%
+    \\fi
     \\noindent
     \\ifNotEmptyElse{\\SignatoryAbbrev}{\\MakeUppercase{\\SignatoryAbbrev}\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
     \\optionalLine{\\SignatoryTitle}%
@@ -2792,7 +2804,7 @@ const LATEX_TEMPLATES = {
 % footer above. The footer needs the room reserved or it overprints the table.
 \\fancypagestyle{coverpage}{%
     \\fancyhf{}%
-    \\fancyhead[L]{\\footnotesize\\DocumentDate}%
+    \\fancyhead[L]{\\footnotesize\\CoverDate}%
     \\fancyhead[R]{\\footnotesize\\ShortTitle}%
     \\fancyhead[C]{%
         \\footnotesize\\placeClassificationMarkings\\\\[4pt]
@@ -2809,7 +2821,7 @@ const LATEX_TEMPLATES = {
 % Page one is the cover; main.tex applies \`firstpage\`, so that is the cover.
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
-    \\fancyhead[L]{\\footnotesize\\DocumentDate}%
+    \\fancyhead[L]{\\footnotesize\\CoverDate}%
     \\fancyhead[R]{\\footnotesize\\ShortTitle}%
     \\fancyhead[C]{%
         \\footnotesize\\placeClassificationMarkings\\\\[4pt]

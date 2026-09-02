@@ -9,6 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useDocumentStore } from '@/stores/documentStore';
 import { validateTimeCompliance } from '@/lib/timeCompliance';
 import { validateProcedureSteps } from '@/lib/procedureSteps';
+import { validateNomenclature, validateLongTitle } from '@/lib/publicationTitle';
+import { validateNsnConsistency } from '@/lib/nsnConsistency';
 
 /** The standard prints this many rows whatever the publication covers, so the
  *  editor stops offering more once they are used up. */
@@ -39,9 +41,23 @@ export function ITypeCoverSection() {
 
   // Both sets of rules answer "does this publication hold together", so they
   // surface in one place rather than sending the drafter hunting.
+  const subject = useDocumentStore((s) => s.formData.subject ?? '');
+  const signatureType = useDocumentStore((s) => s.formData.signatureType ?? 'none');
+  const tables = useDocumentStore((s) => s.publicationTables);
   const findings = [
+    ...validateNomenclature(nomenclature),
+    ...validateLongTitle(subject),
     ...validateTimeCompliance(urgency, completionDate, new Date()),
     ...validateProcedureSteps(paragraphs),
+    // Every NSN in the publication, cover and tables alike, must use one form.
+    ...validateNsnConsistency([
+      ...endItems.map((e) => e.nsn),
+      ...Object.values(tables).flat().map((r) => r.values.nsn ?? ''),
+    ]),
+    // "I-Types must be digitally signed."
+    ...(signatureType === 'digital'
+      ? []
+      : [{ severity: 'warning' as const, message: 'An I-Type must be digitally signed. Choose a digital signature in the Signature section.' }]),
   ];
 
   const columns = [

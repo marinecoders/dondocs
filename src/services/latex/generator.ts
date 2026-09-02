@@ -10,6 +10,7 @@ import { subparagraphIndentIn, ancestorLabelsPerParagraph, type LabelFont } from
 import { safeUrl } from '@/lib/url-safety';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
 import { formatViaLines } from '@/lib/viaLines';
+import { parse as parseDate, isValid as isValidDate, format as formatDate } from 'date-fns';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
 import {
   resolveAppendedEndorsement,
@@ -318,6 +319,12 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     tex += `\\setNomenclature{${escapeLatex(data.nomenclature || '')}}\n`;
     tex += `\\setEndItemRows{${rows}}\n`;
     tex += overflow ? '\\EndItemOverflowtrue\n' : '\\EndItemOverflowfalse\n';
+    // The cover header carries the anticipated month and year of signature
+    // ("JULY 2026"), not the day-level correspondence date the rest of the
+    // document uses. Derived from the same date so the two cannot disagree.
+    const signed = parseDate(data.date || '', 'd MMM yy', new Date());
+    const coverDate = isValidDate(signed) ? formatDate(signed, 'MMMM yyyy').toUpperCase() : '';
+    tex += `\\setCoverDate{${escapeLatex(coverDate)}}\n`;
     tex += `\\setShortTitle{${escapeLatex(data.shortTitle || '')}}\n`;
     tex += `\\setPCN{${escapeLatex(data.pcn || '')}}\n`;
     tex += `\\setSupersedure{${escapeLatex(data.supersedure || '')}}\n`;
@@ -795,7 +802,13 @@ function underlineWords(text: string): string {
  * removed, unlike the End Item table on the cover which keeps its six rows.
  */
 function generatePublicationTable(tableKey: string, rows: PublicationTableRow[]): string {
-  const spec = tableSpec(tableKey);
+  const fullSpec = tableSpec(tableKey);
+  if (!fullSpec) return '';
+  // "If Item Numbers are not needed in tables, remove column." Derived from the
+  // rows rather than asked: a table where no row carries an item number prints
+  // without the column.
+  const itemUsed = rows.some((r) => (r.values.item ?? '').trim() !== '');
+  const spec = itemUsed ? fullSpec : { ...fullSpec, columns: fullSpec.columns.filter((c) => c.key !== 'item') };
   if (!spec || rows.length === 0) return '';
 
   const CONSISTING_INDENT = ['0in', '0.1in', '0.28in'];
@@ -918,7 +931,7 @@ export function generateBodyTex(store: DocumentStore): string {
       parts.push(
         `\\vspace{6pt}\n{\\leftskip=${stepIndent}in\n` +
           `\\noindent\\hangindent=${PROCEDURE_LABEL_WIDTH}\\hangafter=1 ` +
-          `${label}  ${portionPrefix}${processBodyText(para.text)}\\par}\n\n`
+          `\\textbf{${label}}  ${portionPrefix}${processBodyText(para.text)}\\par}\n\n`
       );
       continue;
     }
@@ -926,7 +939,10 @@ export function generateBodyTex(store: DocumentStore): string {
     // The two spaces belong to the label. Business letters and executive
     // correspondence number nothing, so an empty label must not leave the gap
     // behind — it would push the first line right of its own wrapped lines.
-    const labelGap = label ? `${label}~~` : '';
+    // A technical publication sets its paragraph numbers in bold (the
+    // MARCORSYSCOM template); correspondence does not.
+    const shownLabel = store.docType === 'i_type' && label ? `\\textbf{${label}}` : label;
+    const labelGap = shownLabel ? `${shownLabel}~~` : '';
 
     // The period belongs to the sentence the heading introduces, not to the
     // heading — so a heading that introduces nothing does not get one. ¶13d
