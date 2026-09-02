@@ -3,6 +3,7 @@ import { composeSenderSymbol } from './senderSymbol';
 import { tableSpec } from '@/data/techpub/tables';
 import { publicationTypeName } from '@/data/techpub/publicationTypes';
 import { composeDistributionStatement } from '@/data/techpub/distributionStatements';
+import { formatPublicationDate } from '@/lib/publicationDate';
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, EndItem, PublicationTableRow, CalloutKind } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
@@ -139,6 +140,8 @@ ${(() => {
   const ssic = isMOAMode ? data.seniorSSIC : data.ssic;
   const serial = isMOAMode ? data.seniorSerial : data.serial;
   const docDate = isMOAMode ? data.seniorDate : data.date;
+  // A publication prints its date in full ("30 April 2025"); a letter as stored.
+  const printedDate = store.docType === 'i_type' ? formatPublicationDate(docDate || '') : docDate;
 
   // For business letters and executive correspondence, set BusinessDate,
   // BusinessRecipientAddress, etc. Both use the same template address/salutation pattern.
@@ -178,7 +181,7 @@ ${(() => {
   const senderSymbol = composeSenderSymbol(data.officeCode, serial);
   tex += `\\setSSIC{${config.ssic ? escapeLatex(ssic) : ''}}
 \\setSerial{${config.ssic ? escapeLatex(senderSymbol) : ''}}
-\\setDocumentDate{${escapeLatex(docDate)}}
+\\setDocumentDate{${escapeLatex(printedDate)}}
 ${isBusinessLetter ? `\\setBusinessDate{${escapeLatex(docDate)}}` : '% Not a business letter'}
 
 ${data.inReplyTo ? '\\enableInReplyReferTo' : '% No In Reply Refer To'}
@@ -827,31 +830,54 @@ function generatePublicationTable(tableKey: string, rows: PublicationTableRow[])
   const spec = itemUsed ? fullSpec : { ...fullSpec, columns: fullSpec.columns.filter((c) => c.key !== 'item') };
   if (!spec || rows.length === 0) return '';
 
-  const CONSISTING_INDENT = ['0in', '0.1in', '0.28in'];
+  // First-line and hanging indents the template gives a parent item and its
+  // first- and second-level "consisting of" items. Cells set ragged: a
+  // justified line in a narrow cell stretches its word spaces.
+  const INDENT = [
+    { first: '0in', hang: '0.1in' },
+    { first: '0.1in', hang: '0.18in' },
+    { first: '0.28in', hang: '0.18in' },
+  ];
   const colSpec = spec.columns.map((c) => `p{${c.width}}`).join('|');
   const head = spec.columns.map((c) => `\\textbf{${escapeLatex(c.label)}}`).join(' & ');
+  const descriptionIndex = spec.columns.findIndex((c) => c.key === 'description');
+  const cellText = (text: string, level: number) => {
+    const { first, hang } = INDENT[Math.min(level, INDENT.length - 1)];
+    return `\\raggedright\\hangindent=${hang}\\hangafter=1 \\hspace*{${first}}${text}`;
+  };
+  const emptyCells = (n: number) => Array.from({ length: n }, () => '\\raggedright ');
 
-  const body = rows
-    .map((row) => {
-      const indent = CONSISTING_INDENT[Math.min(row.level ?? 0, CONSISTING_INDENT.length - 1)];
-      return spec.columns
-        .map((c, i) => {
-          const cell = escapeLatex(row.values[c.key] ?? '');
-          // Only the description carries the nesting; indenting every column
-          // would break the grid.
-          return i === 1 && indent !== '0in' ? `\\hspace{${indent}}${cell}` : cell;
-        })
-        .join(' & ');
-    })
-    .join(' \\\\ \\hline\n    ');
+  const lines: string[] = [];
+  rows.forEach((row, r) => {
+    const level = row.level ?? 0;
+    lines.push(spec.columns
+      .map((c, i) => {
+        const cell = escapeLatex(row.values[c.key] ?? '');
+        // Only the description carries the nesting; indenting every column
+        // would break the grid.
+        return i === descriptionIndex ? cellText(cell, level) : `\\raggedright ${cell}`;
+      })
+      .join(' & '));
+    // A parent item is followed by a "Consisting of:" row at its items'
+    // indent, as the template lays the parts list out.
+    const next = rows[r + 1];
+    if (next && (next.level ?? 0) > level) {
+      const cells = emptyCells(spec.columns.length);
+      cells[descriptionIndex] = cellText('Consisting of:', next.level ?? 0);
+      lines.push(cells.join(' & '));
+    }
+  });
+  // \\raggedright in a cell turns \\\\ into a line break; rows end with the
+  // form no cell setting can capture.
+  const body = lines.join(' \\tabularnewline \\hline\n    ');
 
   return `\\vspace{6pt}
 \\noindent\\renewcommand{\\arraystretch}{1.3}
 \\begin{tabular}{|${colSpec}|}
     \\hline
-    ${head} \\\\
+    ${head} \\tabularnewline
     \\hline
-    ${body} \\\\ \\hline
+    ${body} \\tabularnewline \\hline
 \\end{tabular}
 \\par\\vspace{12pt}
 
@@ -926,6 +952,9 @@ export function generateBodyTex(store: DocumentStore): string {
 `,
   ];
 
+  // The instruction closes with END OF INSTRUCTION, before any appendix.
+  const END_OF_INSTRUCTION = '\\par\\vspace{12pt}\n\\begin{center}\\textbf{END OF INSTRUCTION}\\end{center}\n\n';
+  let ended = false;
   let appendixCount = 0;
   for (let i = 0; i < store.paragraphs.length; i++) {
     const para = store.paragraphs[i];
@@ -946,6 +975,7 @@ export function generateBodyTex(store: DocumentStore): string {
     // heading; its text, if any, leads unnumbered. Only a publication type
     // defines the macro, so elsewhere the flag is ignored.
     if (para.appendix && store.docType === 'i_type') {
+      if (!ended) { parts.push(END_OF_INSTRUCTION); ended = true; }
       const letter = String.fromCharCode(65 + appendixCount++);
       parts.push(`\\startAppendix{${letter}}{${escapeLatex(headerText || '')}}\n`);
       if (para.text.trim()) {
@@ -1052,6 +1082,7 @@ export function generateBodyTex(store: DocumentStore): string {
       parts.push(generatePublicationTable(para.tableKey, store.publicationTables?.[para.tableKey] ?? []));
     }
   }
+  if (store.docType === 'i_type' && !ended && store.paragraphs.length > 0) parts.push(END_OF_INSTRUCTION);
 
   return parts.join('');
 }

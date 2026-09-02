@@ -2679,6 +2679,7 @@ const LATEX_TEMPLATES = {
 % above OFFICIAL is the same whether or not it appears.
 
 \\newcommand{\\printAddressBlock}{%
+    \\thispagestyle{authpage}%
     \\noindent\\MakeUppercase{\\UnitName}\\par
     \\optionalLine{\\UnitLineTwo}%
     \\optionalLine{\\UnitLineThree}%
@@ -2792,22 +2793,24 @@ const LATEX_TEMPLATES = {
             Controlled by: \\CUIControlledBy\\ifNotEmpty{\\SignatoryTitle}{, \\SignatoryTitle}\\ifNotEmpty{\\ControllingOffice}{ \\ControllingOffice}\\\\
             CUI Category: \\CUICategory\\\\
             Distribution/Dissemination Control: \\CUIDissemination%
-            \\ifNotEmpty{\\POCEmail}{\\\\\\printPOCLine}\\\\[6pt]
+            \\ifNotEmpty{\\POCEmail}{\\\\\\printPOCLine}\\par\\vspace{6pt}
         \\fi
-        \\ifNotEmpty{\\Supersedure}{\\Supersedure\\\\[6pt]}%
-        \\ifNotEmpty{\\DistStatementFull}{\\DistStatementFull\\\\[6pt]}%
+        \\ifNotEmpty{\\Supersedure}{\\noindent\\Supersedure\\par\\vspace{6pt}}%
+        \\ifNotEmpty{\\DistStatementFull}{\\noindent\\DistStatementFull\\par\\vspace{6pt}}%
+        % One blank line above and below the warning, as the template places it.
         \\ifExportRestricted
+            \\vspace{6pt}\\noindent
             WARNING: This document contains technical data whose export is
             restricted by the Arms Export Control Act (Section 2751 of Title
             22, United States Code) or the Export Control Reform Act of 2018
             (Chapter 58 Sections 4801-4852 of Title 50, United States Code).
             Violations of these export laws are subject to severe criminal
             penalties. Disseminate in accordance with provisions of DoD
-            Directive 5230.25 and DoD Instruction 2040.02.\\\\[6pt]
+            Directive 5230.25 and DoD Instruction 2040.02.\\par\\vspace{12pt}
         \\fi
-        DESTRUCTION NOTICE: Destroy by making this publication unreadable,
+        \\noindent DESTRUCTION NOTICE: Destroy by making this publication unreadable,
         indecipherable, and unrecoverable IAW DoDI 5200.48.%
-        \\ifNotEmpty{\\PCN}{\\\\[6pt]PCN \\PCN}%
+        \\ifNotEmpty{\\PCN}{\\par\\vspace{6pt}\\noindent PCN \\PCN}%
     \\end{minipage}%
 }
 
@@ -2832,6 +2835,7 @@ const LATEX_TEMPLATES = {
 % its letter and title centred above the text (MIL-STD-38784C 4.7.4.1.4).
 \\newcommand{\\startAppendix}[2]{%
     \\clearpage
+    \\pagestyle{appendixpage}%
     \\setcounter{page}{1}%
     \\renewcommand{\\thepage}{#1-\\arabic{page}}%
     \\begin{center}
@@ -2853,6 +2857,33 @@ const LATEX_TEMPLATES = {
 
 % Every page after the cover runs the short title and date, with the CUI
 % banner above them and the page number centred below.
+% The authentication page: the short title at the right, and no date -- the
+% date is in its body.
+\\fancypagestyle{authpage}{%
+    \\fancyhf{}%
+    \\fancyhead[C]{\\placeClassificationMarkings}%
+    \\fancyhead[R]{\\footnotesize\\ShortTitle}%
+    \\fancyfoot[C]{\\thepage}%
+    \\renewcommand{\\headrulewidth}{0pt}%
+    \\renewcommand{\\footrulewidth}{0pt}%
+    \\setlength{\\headheight}{26pt}%
+}
+
+% Appendix pages centre the short title and date in the header, on one line
+% so the head stays the height of every other page's: a taller head moves
+% the text block, and the page number with it, down onto the banner.
+\\fancypagestyle{appendixpage}{%
+    \\fancyhf{}%
+    \\fancyhead[C]{%
+        \\ifClassificationEnabled\\placeClassificationMarkings\\\\\\fi
+        \\footnotesize\\ShortTitle\\hspace{2em}\\DocumentDate%
+    }%
+    \\fancyfoot[C]{\\thepage}%
+    \\renewcommand{\\headrulewidth}{0pt}%
+    \\renewcommand{\\footrulewidth}{0pt}%
+    \\setlength{\\headheight}{26pt}%
+}
+
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%

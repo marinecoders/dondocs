@@ -26,9 +26,18 @@ export interface EnclosureError {
 
 export type EnclosureLabelStyle = 'corner' | 'footer';
 
+/** The short title and date a technical publication centres in the header of
+ *  every enclosure page, under the marking. */
+export interface PublicationHeader {
+  line1: string;
+  line2: string;
+}
+
 export interface MergeOptions {
   /** Where each enclosure page carries its label. Defaults to the corner. */
   enclosureLabel?: EnclosureLabelStyle;
+  /** Centred at the top of each enclosure page when given. */
+  header?: PublicationHeader;
 }
 
 export interface MergeResult {
@@ -1134,7 +1143,7 @@ export async function mergeEnclosures(
     try {
       // Add optional cover/placeholder page before the enclosure content
       if (enclosure.hasCoverPage) {
-        addCoverPage(mainPdf, enclosure, helveticaBold, helvetica, classification, labelStyle);
+        addCoverPage(mainPdf, enclosure, helveticaBold, helvetica, classification, labelStyle, options.header);
       }
 
       if (enclosure.data) {
@@ -1150,13 +1159,13 @@ export async function mergeEnclosures(
             error: validationError ?? 'Unknown validation error'
           });
           // Create an error placeholder page
-          addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, validationError ?? 'Unknown validation error', labelStyle);
+          addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, validationError ?? 'Unknown validation error', labelStyle, options.header);
           continue;
         }
 
         // PDF enclosure — pass the already-loaded PDFDocument so we don't
         // re-parse the same bytes.
-        const result = await addPdfEnclosure(mainPdf, enclosure, enclosurePdf, helveticaBold, helvetica, classification, labelStyle);
+        const result = await addPdfEnclosure(mainPdf, enclosure, enclosurePdf, helveticaBold, helvetica, classification, labelStyle, options.header);
         if (result.error) {
           errors.push(result.error);
         }
@@ -1173,7 +1182,7 @@ export async function mergeEnclosures(
       });
       // Create an error placeholder page only if there was supposed to be PDF content
       if (enclosure.data) {
-        addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, errorMessage, labelStyle);
+        addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, errorMessage, labelStyle, options.header);
       }
     }
   }
@@ -1236,7 +1245,8 @@ async function addPdfEnclosure(
   helveticaBold: Awaited<ReturnType<typeof mainPdf.embedFont>>,
   helvetica: Awaited<ReturnType<typeof mainPdf.embedFont>>,
   classification?: ClassificationInfo,
-  labelStyle: EnclosureLabelStyle = 'corner'
+  labelStyle: EnclosureLabelStyle = 'corner',
+  header?: PublicationHeader
 ): Promise<AddEnclosureResult> {
   if (!enclosure.data) return { pagesAdded: 0, pagesFailed: 0 };
 
@@ -1354,6 +1364,7 @@ async function addPdfEnclosure(
 
       // Add enclosure label at bottom right
       addEnclosureLabel(page, enclosure.number, helveticaBold, labelStyle);
+      if (header) addPublicationHeader(page, helvetica, header);
 
       // Add page number for multi-page enclosures (bottom center)
       if (pageCount > 1) {
@@ -1377,7 +1388,7 @@ async function addPdfEnclosure(
   // If all pages failed, create a placeholder page
   if (pagesAdded === 0 && pagesFailed > 0) {
     const errorMessage = failedPageErrors.join('; ');
-    addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, errorMessage, labelStyle);
+    addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, errorMessage, labelStyle, header);
 
     return {
       pagesAdded: 0,
@@ -1482,7 +1493,8 @@ function addPlaceholderPage(
   isError = false,
   classification?: ClassificationInfo,
   errorDetails?: string,
-  labelStyle: EnclosureLabelStyle = 'corner'
+  labelStyle: EnclosureLabelStyle = 'corner',
+  header?: PublicationHeader
 ): void {
   const page = mainPdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 
@@ -1577,6 +1589,7 @@ function addPlaceholderPage(
 
   // Add enclosure label at bottom right
   addEnclosureLabel(page, enclosure.number, helveticaBold, labelStyle);
+  if (header) addPublicationHeader(page, helvetica, header);
 
   // Add classification marking at bottom
   if (classification?.marking) {
@@ -1593,7 +1606,8 @@ function addCoverPage(
   helveticaBold: Awaited<ReturnType<typeof mainPdf.embedFont>>,
   helvetica: Awaited<ReturnType<typeof mainPdf.embedFont>>,
   classification?: ClassificationInfo,
-  labelStyle: EnclosureLabelStyle = 'corner'
+  labelStyle: EnclosureLabelStyle = 'corner',
+  header?: PublicationHeader
 ): void {
   const page = mainPdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 
@@ -1661,11 +1675,24 @@ function addCoverPage(
 
   // Add enclosure label at bottom right
   addEnclosureLabel(page, enclosure.number, helveticaBold, labelStyle);
+  if (header) addPublicationHeader(page, helvetica, header);
 
   // Add classification marking at bottom
   if (classification?.marking) {
     addClassificationMarking(page, classification.marking, helveticaBold, 'bottom');
   }
+}
+
+/** The short title and date, centred under the top marking, on a technical
+ *  publication's enclosure pages. */
+function addPublicationHeader(page: PDFPage, font: Awaited<ReturnType<PDFDocument['embedFont']>>, header: PublicationHeader): void {
+  const fontSize = 10;
+  [header.line1, header.line2].forEach((line, i) => {
+    if (!line) return;
+    const width = font.widthOfTextAtSize(line, fontSize);
+    // Under the marking at PAGE_HEIGHT - 24 (see addClassificationMarking).
+    page.drawText(line, { x: (PAGE_WIDTH - width) / 2, y: PAGE_HEIGHT - 40 - i * 13, size: fontSize, font, color: rgb(0, 0, 0) });
+  });
 }
 
 /**

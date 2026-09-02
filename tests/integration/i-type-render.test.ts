@@ -97,10 +97,11 @@ describe.skipIf(!hasPdftotext)('I-Type renders per the template', () => {
     expect(pages.join('\n')).toMatch(/5\. Record completion of this modification/);
   });
 
-  it('runs the short title and date on every page after the cover', () => {
+  it('runs the short title and the full date on every page after the cover', () => {
     for (const p of pages.slice(1)) {
       expect(p).toMatch(/MI 12345A-24\/1/);
-      expect(p).toMatch(/15 Dec 24/);
+      expect(p).toMatch(/15 December 2024/);
+      expect(p).not.toMatch(/15 Dec 24/);
     }
   });
 
@@ -153,8 +154,13 @@ describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () =
       s.enclosures = [{ title: 'Parts Diagram' }];
       s.paragraphs = [
         { text: 'To provide instructions.', level: 0, header: 'Purpose' },
+        { text: '', level: 0, header: 'Materiel Required', tableKey: 'materielRequired' },
         { text: 'Values apply at 20 C.', level: 0, header: 'Torque Values', appendix: true },
       ];
+      s.publicationTables = { materielRequired: [
+        { values: { item: '1', description: 'KIT, ACCESSORY RAIL', nsn: '1005-01-566-1300', pn: 'KIT-AR-1', qty: '1' } },
+        { values: { item: '1a', description: 'RAIL, 1913', nsn: '1005-01-566-1301', pn: 'RL-1913', qty: '1' }, level: 1 },
+      ] };
     }));
   }, 90_000);
 
@@ -184,7 +190,7 @@ describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () =
 
   it('heads the authentication page with service, command, and date', () => {
     expect(pages[1]).toMatch(/UNITED STATES MARINE CORPS\s+MARINE CORPS SYSTEMS COMMAND/);
-    expect(pages[1]).toMatch(/15 Dec 24/);
+    expect(pages[1]).toMatch(/15 December 2024/);
   });
 
   it('closes item 4 with the point of contact for content questions', () => {
@@ -209,6 +215,33 @@ describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () =
 
   it('composes Controlled by from entity, signing authority, and controlling office', () => {
     expect(pages[0]).toMatch(/Controlled by: DOD, Program Manager, Infantry Weapons PM IW/);
+  });
+
+  it('dates the authentication page in full, with the short title alone in its header', () => {
+    expect(pages[1]).toMatch(/15 December 2024/);
+    expect(pages[1]).not.toMatch(/15 Dec 24/);
+  });
+
+  it('closes the instruction with END OF INSTRUCTION, before the appendix', () => {
+    const body = pages.findIndex((p) => /END OF INSTRUCTION/.test(p));
+    const appendix = pages.findIndex((p) => /APPENDIX A/.test(p));
+    expect(body).toBeGreaterThanOrEqual(0);
+    expect(body).toBeLessThan(appendix);
+  });
+
+  it('centres the short title and date in an appendix header, above the appendix title', () => {
+    // pdftotext may split the centred pair at its gap; both precede the title.
+    const lines = pages[pages.length - 1].split('\n').map((l) => l.trim()).filter(Boolean);
+    const title = lines.indexOf('APPENDIX A');
+    const short = lines.findIndex((l) => /MI 12345A-24\/1/.test(l));
+    const date = lines.findIndex((l) => /15 December 2024/.test(l));
+    expect(short).toBeGreaterThanOrEqual(0);
+    expect(date).toBeGreaterThanOrEqual(0);
+    expect(Math.max(short, date)).toBeLessThan(title);
+  });
+
+  it("labels a parent item's parts with a Consisting of: row", () => {
+    expect(pages.join('\n')).toMatch(/KIT, ACCESSORY RAIL[\s\S]*Consisting of:[\s\S]*RAIL, 1913/);
   });
 
   it('prints no letter-style Ref: or Encl: list', () => {

@@ -48,6 +48,11 @@ describe('I-Type cover', () => {
     expect(named('TI')).toContain('\\RecordingInstructionfalse');
   });
 
+  it('prints its date in full', () => {
+    const tex = generateDocumentTex({ ...store([]), formData: { docType: 'i_type', date: '15 Dec 24' } } as never);
+    expect(tex).toContain('\\setDocumentDate{15 December 2024}');
+  });
+
   it('carries the controlling office', () => {
     const tex = generateDocumentTex({ ...store([]), formData: { docType: 'i_type', controllingOffice: 'PM IW' } } as never);
     expect(tex).toContain('\\setControllingOffice{PM IW}');

@@ -14,6 +14,8 @@
  * without rendering anything. Advisory — the drafter decides.
  */
 
+import type { Paragraph } from '@/types/document';
+
 export type MiUrgency = 'urgent' | 'normal';
 
 export interface TimeComplianceFinding {
@@ -56,4 +58,15 @@ export function validateTimeCompliance(
     return [{ severity: 'warning', message: 'The completion date has already passed.' }];
   }
   return [];
+}
+
+/** "When MI is NORMAL the time compliance period is one year unless otherwise
+ *  indicated and paragraph is omitted." A NORMAL instruction that still carries
+ *  the paragraph is asked to drop it. Advisory. */
+export function validateTimeComplianceParagraph(urgency: MiUrgency, paragraphs: Paragraph[]): TimeComplianceFinding[] {
+  if (urgency !== 'normal') return [];
+  const carries = paragraphs.some((p) => /^time compliance period$/i.test((p.header ?? '').trim()));
+  return carries
+    ? [{ severity: 'warning', message: 'A NORMAL Modification Instruction omits the Time Compliance Period paragraph; remove it, or issue the instruction as URGENT.' }]
+    : [];
 }

@@ -38,6 +38,10 @@ export function PublicationTablesSection() {
 
   return (
     <div className="space-y-6">
+      <p className="text-xs text-muted-foreground">
+        An item with no NSN gives its CAGE code under the part number, as 74024019 (1CSL0).
+        Indent an item to list it as consisting of the one above.
+      </p>
       {carried.map(({ key, heading }) => {
         const spec = tableSpec(key);
         if (!spec) return null;

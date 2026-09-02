@@ -93,6 +93,7 @@ import { useLatexEngine, useServiceWorker, useInstallPrompt, promptInstall } fro
 import { useInstallStore } from '@/stores/installStore';
 import { usePandocIdlePrefetch } from '@/hooks/usePandocIdlePrefetch';
 import { generateAllLatexFiles, type GeneratedFiles } from '@/services/latex/generator';
+import { formatPublicationDate } from '@/lib/publicationDate';
 import { generateFlatLatex } from '@/services/latex/flat-generator';
 import { convertLatexToDocx } from '@/services/docx/pandoc-converter';
 import { pageStartNumber } from '@/lib/endorsement';
@@ -230,6 +231,16 @@ const commandDownloadTriggers: { pdf: () => void; docx: () => void } = {
   pdf: () => {},
   docx: () => {},
 };
+
+// A technical publication labels its enclosure pages in the footer and centres
+// its short title and date in their headers; correspondence keeps the corner
+// label and no header.
+function mergeOptionsFor(store: ReturnType<typeof useDocumentStore.getState>) {
+  const enclosureLabel = DOC_TYPE_CONFIG[store.docType]?.enclosureLabel;
+  return enclosureLabel === 'footer'
+    ? { enclosureLabel, header: { line1: store.formData.shortTitle || '', line2: formatPublicationDate(store.formData.date || '') } }
+    : { enclosureLabel };
+}
 
 function App() {
   // Prefetch the Pandoc WASM module (~58 MB) during browser idle time so the
@@ -559,7 +570,7 @@ function App() {
       let lastBasicPageIndex: number | undefined;
       if (generatedEnclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
         const classification = getClassificationInfo(currentStore.formData.classLevel);
-        const mergeResult = await mergeEnclosures(out, generatedEnclosures, classification, includeHyperlinks, referenceUrls, { enclosureLabel: DOC_TYPE_CONFIG[currentStore.docType]?.enclosureLabel });
+        const mergeResult = await mergeEnclosures(out, generatedEnclosures, classification, includeHyperlinks, referenceUrls, mergeOptionsFor(currentStore));
         out = mergeResult.pdfBytes;
         lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
       }
@@ -887,7 +898,7 @@ function App() {
       if (generatedEnclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
         onProgress?.({ kind: 'pdf-merging-enclosures' });
         const classification = getClassificationInfo(currentStore.formData.classLevel);
-        const mergeResult = await mergeEnclosures(pdfBytes, generatedEnclosures, classification, includeHyperlinks, referenceUrls, { enclosureLabel: DOC_TYPE_CONFIG[currentStore.docType]?.enclosureLabel });
+        const mergeResult = await mergeEnclosures(pdfBytes, generatedEnclosures, classification, includeHyperlinks, referenceUrls, mergeOptionsFor(currentStore));
         pdfBytes = mergeResult.pdfBytes;
         lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
         if (mergeResult.hasErrors) exportErrors.push(...mergeResult.errors);
@@ -1112,7 +1123,7 @@ function App() {
       if (enclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
         onProgress?.({ kind: 'pdf-merging-enclosures' });
         const classification = getClassificationInfo(currentStore.formData.classLevel);
-        const mergeResult = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls, { enclosureLabel: DOC_TYPE_CONFIG[currentStore.docType]?.enclosureLabel });
+        const mergeResult = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls, mergeOptionsFor(currentStore));
         pdfBytes = mergeResult.pdfBytes;
         lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
         if (mergeResult.hasErrors) exportErrors.push(...mergeResult.errors);

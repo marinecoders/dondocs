@@ -9,7 +9,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { DatePicker } from '@/components/ui/date-picker';
 import { InputWithVariables } from '@/components/ui/variable-autocomplete';
 import { useDocumentStore } from '@/stores/documentStore';
-import { validateTimeCompliance } from '@/lib/timeCompliance';
+import { validateTimeCompliance, validateTimeComplianceParagraph } from '@/lib/timeCompliance';
+import { validatePublicationDate } from '@/lib/publicationDate';
+import { validateMajorItemsOrder } from '@/lib/majorItemsOrder';
 import { validateProcedureSteps } from '@/lib/procedureSteps';
 import { validateAppendixTitles } from '@/lib/appendixTitles';
 import { validateNomenclature, validateLongTitle } from '@/lib/publicationTitle';
@@ -58,6 +60,9 @@ export function ITypeCoverSection() {
     ...validateNomenclature(nomenclature),
     ...validateLongTitle(subject),
     ...validateTimeCompliance(urgency, completionDate, new Date()),
+    ...validateTimeComplianceParagraph(urgency, paragraphs),
+    ...validatePublicationDate(date),
+    ...validateMajorItemsOrder(tables.majorItems ?? []),
     ...validateProcedureSteps(paragraphs),
     ...validateAppendixTitles(paragraphs),
     // Every NSN in the publication, cover and tables alike, must use one form.
@@ -135,7 +140,8 @@ export function ITypeCoverSection() {
         <Label htmlFor="date">Date</Label>
         <DatePicker id="date" value={date} onChange={(v) => setField('date', v)} dateFormat="military" />
         <p className="text-xs text-muted-foreground">
-          Printed as the month and year on the cover, and in full on the pages after it.
+          The last working day of the month of anticipated signature. Printed as the
+          month and year on the cover, and in full on the pages after it.
         </p>
       </div>
 
@@ -169,7 +175,7 @@ export function ITypeCoverSection() {
           id="supersedure"
           value={supersedure}
           onChange={(e) => setField('supersedure', e.target.value)}
-          placeholder="Leave empty if this supersedes nothing"
+          placeholder="SUPERSEDURE NOTICE: This publication supersedes MI 12344A-24/1 dated 1 Jan 2025."
         />
       </div>
 
