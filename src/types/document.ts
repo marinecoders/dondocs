@@ -263,6 +263,9 @@ export interface DocumentData {
 
   // Continuation subject on page 2+
   showSubjectOnContinuation: boolean;
+  /** Ch 9 lets a same-page endorsement omit the subject when the whole page is
+   *  photocopied. Omitting is the norm, so this is opt-in. */
+  includeEndorsementSubject: boolean;
 
   // Underline subject line in generated PDF/DOCX
   underlineSubject: boolean;
