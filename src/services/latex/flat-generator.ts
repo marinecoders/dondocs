@@ -519,7 +519,10 @@ function buildAddressBlock(data: Partial<DocumentData>, config: DocTypeConfig): 
     }
   }
 
-  if (data.subject && !config.skipSubject) {
+  // skipSubject is the same-page endorsement's default, not a prohibition.
+  // Ch 9: the author "may omit" the subject when the whole page is photocopied.
+  const wantsSubject = !config.skipSubject || !!data.includeEndorsementSubject;
+  if (data.subject && wantsSubject) {
     // 12pt space before Subj (matches PDF's \tabularnewline[12pt] in templates)
     // Use explicit empty spacer row because pandoc ignores \\[12pt] row spacing
     if (rows.length > 0) {

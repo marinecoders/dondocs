@@ -208,6 +208,7 @@ const EXAMPLE_FORM_DATA: Partial<DocumentData> = {
   includeHyperlinks: false,
   // Subject underline - default to OFF
   underlineSubject: false,
+  includeEndorsementSubject: false,
   // Business letter fields
   salutation: 'Dear Sir or Madam:',
   complimentaryClose: 'Sincerely,',
@@ -626,6 +627,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
           pageNumbering: 'none',
           includeHyperlinks: false,
           underlineSubject: false,
+          includeEndorsementSubject: false,
           inReplyTo: false,
           inReplyToText: '',
           // Business letter fields

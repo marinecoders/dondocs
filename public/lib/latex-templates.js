@@ -487,6 +487,20 @@ const LATEX_TEMPLATES = {
 
 
 %-----------------------------------------------------------------------------
+% Endorsement subject line (same-page, optional)
+%-----------------------------------------------------------------------------
+% Ch 9: "as long as the entire page will be photocopied, you may omit the SSIC,
+% subject and the basic letter's identification symbols." May, not must, so the
+% author sets it. Figure 9-1 adds that the same elements are required on every
+% new-page endorsement, which is why only the same-page format reads this.
+
+\\newif\\ifEndorsementSubjectEnabled
+\\EndorsementSubjectEnabledfalse
+
+\\newcommand{\\enableEndorsementSubject}{\\EndorsementSubjectEnabledtrue}
+
+
+%-----------------------------------------------------------------------------
 % Date
 %-----------------------------------------------------------------------------
 
@@ -4596,10 +4610,15 @@ const LATEX_TEMPLATES = {
         \\ifdefempty{\\ViaLineThree}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineThree}}%
         \\ifdefempty{\\ViaLineFour}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineFour}}%
     \\fi
+    \\def\\@subjrow{}%
+    \\ifEndorsementSubjectEnabled
+        \\def\\@subjrow{\\tabularnewline[12pt] Subj:\\hspace{3\\fontdimen2\\font} & \\SubjectLine}%
+    \\fi
     \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}
         From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline
         To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
         \\@viarows%
+        \\@subjrow%
     \\end{tabular}%
     %
     % CUI block

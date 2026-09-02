@@ -153,6 +153,7 @@ ${(() => {
 ${isBusinessLetter ? `\\setBusinessDate{${escapeLatex(docDate)}}` : '% Not a business letter'}
 
 ${data.inReplyTo ? '\\enableInReplyReferTo' : '% No In Reply Refer To'}
+${data.includeEndorsementSubject ? '\\enableEndorsementSubject' : '% Endorsement subject omitted (Ch 9)'}
 
 \\setFrom
     {${formatAddressForLatex(fromLine)}}
