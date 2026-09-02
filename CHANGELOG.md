@@ -5,7 +5,7 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
-## [1.2.142] — 2026-09-01
+## [1.2.143] — 2026-09-01
 
 ### Fixed
 
@@ -13,6 +13,17 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
   half-inch column for the labels no matter what font the document was set in.
   That is barely enough for Times and far too little for Courier, so the labels
   wrapped and the block came apart. The column is now sized to the font.
+
+## [1.2.142] — 2026-09-01
+
+### Fixed
+
+- **A same-page endorsement can carry the subject line.** The subject box took
+  what you typed and then left it out of both the PDF and the Word file, with
+  no way to turn it on. SECNAV M-5216.5 Ch 9 leaves that to you: the subject
+  may be left out when the whole page will be photocopied, and is required
+  otherwise. There is now a tick box under the subject, off by default, so
+  existing documents keep the layout they have.
 
 ## [1.2.141] — 2026-09-01
 

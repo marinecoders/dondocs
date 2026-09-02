@@ -142,6 +142,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
   // ordinal AND a basic-letter identifier per SECNAV M-5216.5 Ch 9 §2.1.b.
   // Render dedicated UI when this doc type is selected.
   const isEndorsement = docType === 'same_page_endorsement' || docType === 'new_page_endorsement';
+  const isSamePageEndorsement = docType === 'same_page_endorsement';
 
   const handleSSICSelect = (code: string) => {
     setField('ssic', code);
@@ -517,6 +518,26 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                 className="uppercase"
               />
             </div>
+
+            {isSamePageEndorsement && (
+              <div className="flex items-start space-x-2 pt-1">
+                <Checkbox
+                  id="includeEndorsementSubject"
+                  className="mt-0.5"
+                  checked={formData.includeEndorsementSubject || false}
+                  onCheckedChange={(checked) => setField('includeEndorsementSubject', !!checked)}
+                />
+                <div className="space-y-0.5">
+                  <Label htmlFor="includeEndorsementSubject" className="text-sm font-normal cursor-pointer">
+                    Include the subject line
+                  </Label>
+                  <p className="text-xs text-muted-foreground">
+                    SECNAV M-5216.5 Ch 9 lets a same-page endorsement leave out the subject when the
+                    whole page will be photocopied. Turn this on if it will not be.
+                  </p>
+                </div>
+              </div>
+            )}
 
             {/* Subject underline option */}
             <div className="flex items-center space-x-2 pt-1">

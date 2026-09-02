@@ -474,6 +474,20 @@
 
 
 %-----------------------------------------------------------------------------
+% Endorsement subject line (same-page, optional)
+%-----------------------------------------------------------------------------
+% Ch 9: "as long as the entire page will be photocopied, you may omit the SSIC,
+% subject and the basic letter's identification symbols." May, not must, so the
+% author sets it. Figure 9-1 adds that the same elements are required on every
+% new-page endorsement, which is why only the same-page format reads this.
+
+\newif\ifEndorsementSubjectEnabled
+\EndorsementSubjectEnabledfalse
+
+\newcommand{\enableEndorsementSubject}{\EndorsementSubjectEnabledtrue}
+
+
+%-----------------------------------------------------------------------------
 % Date
 %-----------------------------------------------------------------------------
 
