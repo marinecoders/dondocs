@@ -331,6 +331,17 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\setEndItemRows}[1]{\\renewcommand{\\EndItemRows}{#1}}
 \\newcommand{\\EndItemOverflowRows}{}
 \\newcommand{\\setEndItemOverflowRows}[1]{\\renewcommand{\\EndItemOverflowRows}{#1}}
+\\newcommand{\\ShortTitle}{}
+\\newcommand{\\setShortTitle}[1]{\\renewcommand{\\ShortTitle}{#1}}
+\\newcommand{\\PCN}{}
+\\newcommand{\\setPCN}[1]{\\renewcommand{\\PCN}{#1}}
+\\newcommand{\\Supersedure}{}
+\\newcommand{\\setSupersedure}[1]{\\renewcommand{\\Supersedure}{#1}}
+\\newcommand{\\TimeCompliance}{}
+\\newcommand{\\setTimeCompliance}[1]{\\renewcommand{\\TimeCompliance}{#1}}
+\\newcommand{\\DistStatementFull}{}
+\\newcommand{\\setDistStatementFull}[1]{\\renewcommand{\\DistStatementFull}{#1}}
+\\newif\\ifExportRestricted
 \\newif\\ifEndItemOverflow
 
 
@@ -2607,6 +2618,12 @@ const LATEX_TEMPLATES = {
             \\printEndItemTable{\\EndItemRows}%
         \\fi
     \\end{center}
+    % The notices sit at the foot of the cover. They live in the page body
+    % rather than a fancyhdr footer because a footer is typeset at a fixed
+    % baseline and grows downward off the page; this block is tall and must
+    % grow upward from the bottom margin.
+    \\vfill
+    \\printCoverFooter
     \\newpage
     %
     \\ifEndItemOverflow
@@ -2738,20 +2755,85 @@ const LATEX_TEMPLATES = {
 % customer's own template is treated as authoritative -- see
 % docs/TECHPUB_I_TYPE.md.
 
-\\fancypagestyle{firstpage}{%
+% The cover footer carries the CUI designation block and the notices that
+% travel with the publication. Every line of it is regulatory text the author
+% must not retype: the destruction notice is fixed, the distribution statement
+% comes from the letter chosen, and the export warning appears only when the
+% technical data is restricted -- between the statement and the notice, as the
+% template places it.
+\\newcommand{\\printCoverFooter}{%
+    \\footnotesize
+    \\begin{minipage}{\\textwidth}
+        \\raggedright
+        \\ifCUIEnabled
+            Controlled by: \\CUIControlledBy\\\\
+            CUI Category: \\CUICategory\\\\
+            Distribution/Dissemination Control: \\CUIDissemination\\\\
+            \\printPOCLine\\\\[6pt]
+        \\fi
+        \\ifNotEmpty{\\Supersedure}{\\Supersedure\\\\[6pt]}%
+        \\ifNotEmpty{\\DistStatementFull}{\\DistStatementFull\\\\[6pt]}%
+        \\ifExportRestricted
+            WARNING: This document contains technical data whose export is
+            restricted by the Arms Export Control Act (Section 2751 of Title
+            22, United States Code) or the Export Control Reform Act of 2018
+            (Chapter 58 Sections 4801-4852 of Title 50, United States Code).
+            Violations of these export laws are subject to severe criminal
+            penalties. Disseminate in accordance with provisions of DoD
+            Directive 5230.25 and DoD Instruction 2040.02.\\\\[6pt]
+        \\fi
+        DESTRUCTION NOTICE: Destroy by making this publication unreadable,
+        indecipherable, and unrecoverable IAW DoDI 5200.48.%
+        \\ifNotEmpty{\\PCN}{\\\\[6pt]PCN \\PCN}%
+    \\end{minipage}%
+}
+
+% Cover page. Four header lines, as the template lays them out, and the tall
+% footer above. The footer needs the room reserved or it overprints the table.
+\\fancypagestyle{coverpage}{%
     \\fancyhf{}%
-    \\fancyhead[C]{\\placeClassificationMarkings}%
+    \\fancyhead[L]{\\footnotesize\\DocumentDate}%
+    \\fancyhead[R]{\\footnotesize\\ShortTitle}%
+    \\fancyhead[C]{%
+        \\footnotesize\\placeClassificationMarkings\\\\[4pt]
+        U.S. MARINE CORPS \\MakeUppercase{\\PublicationTypeName}\\\\
+        \\MakeUppercase{\\SubjectLine}\\\\
+        \\MakeUppercase{\\TimeCompliance}%
+    }%
     \\fancyfoot[C]{}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
+    \\setlength{\\headheight}{58pt}%
 }
 
+% Page one is the cover; main.tex applies \`firstpage\`, so that is the cover.
+\\fancypagestyle{firstpage}{%
+    \\fancyhf{}%
+    \\fancyhead[L]{\\footnotesize\\DocumentDate}%
+    \\fancyhead[R]{\\footnotesize\\ShortTitle}%
+    \\fancyhead[C]{%
+        \\footnotesize\\placeClassificationMarkings\\\\[4pt]
+        U.S. MARINE CORPS \\MakeUppercase{\\PublicationTypeName}\\\\
+        \\MakeUppercase{\\SubjectLine}\\\\
+        \\MakeUppercase{\\TimeCompliance}%
+    }%
+    \\fancyfoot[C]{}%
+    \\renewcommand{\\headrulewidth}{0pt}%
+    \\renewcommand{\\footrulewidth}{0pt}%
+    \\setlength{\\headheight}{58pt}%
+}
+
+% Every page after the cover runs the short title and date, with the CUI
+% banner above them and the page number centred below.
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
+    \\fancyhead[L]{\\footnotesize\\ShortTitle}%
+    \\fancyhead[R]{\\footnotesize\\DocumentDate}%
     \\fancyfoot[C]{\\thepage}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
+    \\setlength{\\headheight}{26pt}%
 }
 `,
   'tex/templates/information_memorandum.tex': `

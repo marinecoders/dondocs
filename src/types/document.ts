@@ -173,6 +173,17 @@ export interface DocumentData {
   miUrgency?: 'urgent' | 'normal';
   /** Completion date an URGENT instruction must give. */
   miCompletionDate?: string;
+  /** Short Title from the PCN request, e.g. "XI 12345A-12/1". Runs in the
+   *  header of every page. */
+  shortTitle?: string;
+  /** Publication Control Number, printed in the cover footer only. */
+  pcn?: string;
+  /** Supersedure notice, when this publication replaces an earlier one. */
+  supersedure?: string;
+  /** The technical data is export-restricted, which adds the Arms Export
+   *  Control Act warning between the distribution statement and the
+   *  destruction notice. */
+  exportRestricted?: boolean;
 
   // Endorsements only (same_page_endorsement, new_page_endorsement)
   // Per SECNAV M-5216.5 Ch 9 §2.1.b -- endorsement line format is:

@@ -51,6 +51,17 @@ interface DocumentStore {
  *  rather than being deleted; a further item overflows to the next page. */
 const END_ITEM_ROWS = 6;
 
+/** Distribution statements as they print on a technical publication cover
+ *  (DoDI 5230.24). The editor stores only the letter. */
+const DISTRIBUTION_STATEMENT_TEXT: Record<string, string> = {
+  A: 'DISTRIBUTION STATEMENT A: Approved for public release; distribution is unlimited.',
+  B: 'DISTRIBUTION STATEMENT B: Distribution authorized to U.S. Government agencies only.',
+  C: 'DISTRIBUTION STATEMENT C: Distribution authorized to U.S. Government agencies and their contractors.',
+  D: 'DISTRIBUTION STATEMENT D: Distribution authorized to the Department of Defense and U.S. DoD contractors only.',
+  E: 'DISTRIBUTION STATEMENT E: Distribution authorized to DoD Components only.',
+  F: 'DISTRIBUTION STATEMENT F: Further dissemination only as directed by the controlling DoD office.',
+};
+
 /** Width reserved for a step label, so carry-over lines block under the text
  *  rather than under the label. Wide enough for the deepest form, "(a)". */
 const PROCEDURE_LABEL_WIDTH = '0.35in';
@@ -307,6 +318,15 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     tex += `\\setNomenclature{${escapeLatex(data.nomenclature || '')}}\n`;
     tex += `\\setEndItemRows{${rows}}\n`;
     tex += overflow ? '\\EndItemOverflowtrue\n' : '\\EndItemOverflowfalse\n';
+    tex += `\\setShortTitle{${escapeLatex(data.shortTitle || '')}}\n`;
+    tex += `\\setPCN{${escapeLatex(data.pcn || '')}}\n`;
+    tex += `\\setSupersedure{${escapeLatex(data.supersedure || '')}}\n`;
+    tex += `\\setTimeCompliance{${escapeLatex((data.miUrgency || 'normal').toUpperCase())}}\n`;
+    tex += data.exportRestricted ? '\\ExportRestrictedtrue\n' : '\\ExportRestrictedfalse\n';
+    // The distribution statement prints in full on the cover, letter and text
+    // together, as the standard words it.
+    const dist = DISTRIBUTION_STATEMENT_TEXT[(data.cuiDistStatement || '').trim().charAt(0).toUpperCase()];
+    tex += `\\setDistStatementFull{${dist ? escapeLatex(dist) : ''}}\n`;
     // When the cover defers, every end item is listed on its back -- there is
     // no six-row cap there, and no blank rows to keep.
     if (overflow) {

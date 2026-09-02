@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { HelpTip } from '@/components/ui/help-tip';
 import { Notice } from '@/components/ui/notice';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useDocumentStore } from '@/stores/documentStore';
 import { validateTimeCompliance } from '@/lib/timeCompliance';
@@ -31,6 +32,10 @@ export function ITypeCoverSection() {
   const urgency = useDocumentStore((s) => s.formData.miUrgency ?? 'normal');
   const completionDate = useDocumentStore((s) => s.formData.miCompletionDate ?? '');
   const paragraphs = useDocumentStore((s) => s.paragraphs);
+  const shortTitle = useDocumentStore((s) => s.formData.shortTitle ?? '');
+  const pcn = useDocumentStore((s) => s.formData.pcn ?? '');
+  const supersedure = useDocumentStore((s) => s.formData.supersedure ?? '');
+  const exportRestricted = useDocumentStore((s) => s.formData.exportRestricted ?? false);
 
   // Both sets of rules answer "does this publication hold together", so they
   // surface in one place rather than sending the drafter hunting.
@@ -60,6 +65,54 @@ export function ITypeCoverSection() {
           ))}
         </div>
       )}
+
+      <div className="space-y-2">
+        <Label htmlFor="shortTitle">Short title</Label>
+        <Input
+          id="shortTitle"
+          value={shortTitle}
+          onChange={(e) => setField('shortTitle', e.target.value)}
+          placeholder="MI 12345A-24/1"
+        />
+        <p className="text-xs text-muted-foreground">
+          From the PCN request. Runs in the header of every page.
+        </p>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="pcn">PCN</Label>
+        <Input
+          id="pcn"
+          value={pcn}
+          onChange={(e) => setField('pcn', e.target.value)}
+          placeholder="184 123456 00"
+        />
+        <p className="text-xs text-muted-foreground">Printed at the foot of the cover only.</p>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="supersedure">Supersedure notice</Label>
+        <Input
+          id="supersedure"
+          value={supersedure}
+          onChange={(e) => setField('supersedure', e.target.value)}
+          placeholder="Leave empty if this supersedes nothing"
+        />
+      </div>
+
+      <label className="flex items-center gap-2 text-sm">
+        <Checkbox
+          checked={exportRestricted}
+          onCheckedChange={(v) => setField('exportRestricted', v === true)}
+        />
+        Technical data is export-restricted
+        <HelpTip>
+          <p className="text-xs">
+            Adds the Arms Export Control Act warning between the distribution
+            statement and the destruction notice, where the standard places it.
+          </p>
+        </HelpTip>
+      </label>
 
       <div className="space-y-2">
         <Label htmlFor="miUrgency">Time compliance</Label>
