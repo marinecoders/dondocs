@@ -71,4 +71,29 @@ describe('I-Type cover', () => {
     const tex = generateDocumentTex({ ...store([]), formData: { docType: 'i_type', controllingOffice: 'PM IW' } } as never);
     expect(tex).toContain('\\setControllingOffice{PM IW}');
   });
+
+  it('numbers a figure afresh inside an appendix, with its letter, and drops a trailing period', () => {
+    const fig = (text: string) => ({ text, level: 0, figure: { fileRef: { id: 'x', name: 'r.png', size: 1, type: 'image/png' }, name: 'r.png', type: 'image/png' } });
+    const tex = generateBodyTex({
+      ...store([]), formData: { docType: 'i_type' },
+      paragraphs: [fig('Rail alignment.'), { text: 'Values.', level: 0, header: 'Torque Values', appendix: true }, fig('Torque chart')],
+    } as never);
+    expect(tex).toContain('Figure 1. Rail alignment\n');
+    expect(tex).toContain('Figure A-1. Torque chart');
+    // Files are numbered in sequence whatever the label says.
+    expect(tex).toContain('attachments/figure-2.png');
+  });
+
+  it('sets a parts table as a longtable that repeats its boxhead under a Continued line', () => {
+    const tex = generateBodyTex({
+      ...store([]), formData: { docType: 'i_type' },
+      paragraphs: [{ text: '', level: 0, header: 'Materiel Required', tableKey: 'materielRequired' }],
+      publicationTables: { materielRequired: [{ values: { description: 'KIT', nsn: '1', pn: '2', qty: '1' } }] },
+    } as never);
+    expect(tex).toContain('\\begin{longtable}[l]');
+    expect(tex).toContain('\\textit{Materiel Required -- Continued}');
+    expect(tex).toContain('\\endhead');
+    // No closing rule at the foot of a continued table; one at the last.
+    expect(tex).toMatch(/\\endfoot\s+\\hline\s+\\endlastfoot/);
+  });
 });

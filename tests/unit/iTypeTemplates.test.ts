@@ -38,4 +38,13 @@ describe('figures', () => {
       'Figure 1 has no title. Its text is the title that prints under it.',
     ]);
   });
+
+  it('warns when an image will print soft, from its pixel size', () => {
+    const fileRef = { id: 'x', name: 'r.png', size: 1, type: 'image/png' };
+    const soft = validateFigures([{ text: 'Rail', level: 0, figure: { fileRef, width: 640, height: 480 } }]);
+    expect(soft[0].message).toMatch(/640 by 480 pixels and prints at about 98 dpi/);
+    // 1600px across 6.5in is 246 dpi; a tall image prints narrower, so its dpi is higher.
+    expect(validateFigures([{ text: 'Rail', level: 0, figure: { fileRef, width: 1600, height: 1200 } }])).toEqual([]);
+    expect(validateFigures([{ text: 'Rail', level: 0, figure: { fileRef, width: 600, height: 2400 } }])).toEqual([]);
+  });
 });

@@ -825,7 +825,7 @@ function underlineWords(text: string): string {
  * second. An empty table prints nothing -- a table that does not apply is
  * removed, unlike the End Item table on the cover which keeps its six rows.
  */
-function generatePublicationTable(tableKey: string, rows: PublicationTableRow[]): string {
+function generatePublicationTable(tableKey: string, rows: PublicationTableRow[], heading: string): string {
   const fullSpec = tableSpec(tableKey);
   if (!fullSpec) return '';
   // "If Item Numbers are not needed in tables, remove column." Derived from the
@@ -881,15 +881,24 @@ function generatePublicationTable(tableKey: string, rows: PublicationTableRow[])
   // form no cell setting can capture.
   const body = lines.join(' \\tabularnewline \\hline\n    ');
 
+  // A parts list can run to pages, so the table may break between rows. On a
+  // continuation the title and "Continued" and the boxhead are repeated, the
+  // closing rule is omitted at the foot of a continued table and the opening
+  // rule at the head of its continuation (MIL-STD-38784C 4.7.9.2, 4.7.9.3).
+  const continued = `\\multicolumn{${spec.columns.length}}{@{}l@{}}{\\textit{${escapeLatex(heading)} -- Continued}} \\tabularnewline\n    ${head} \\tabularnewline\n    \\hline\n    \\endhead`;
   return `\\vspace{6pt}
-\\noindent\\renewcommand{\\arraystretch}{1.3}
-\\begin{tabular}{|${colSpec}|}
+{\\renewcommand{\\arraystretch}{1.3}\\setlength{\\LTpre}{0pt}\\setlength{\\LTpost}{12pt}
+\\begin{longtable}[l]{|${colSpec}|}
     \\hline
     ${head} \\tabularnewline
     \\hline
-    ${body} \\tabularnewline \\hline
-\\end{tabular}
-\\par\\vspace{12pt}
+    \\endfirsthead
+    ${continued}
+    \\endfoot
+    \\hline
+    \\endlastfoot
+    ${body} \\tabularnewline
+\\end{longtable}}
 
 `;
 }
@@ -966,7 +975,11 @@ export function generateBodyTex(store: DocumentStore): string {
   const END_OF_INSTRUCTION = '\\par\\vspace{12pt}\n\\begin{center}\\textbf{END OF INSTRUCTION}\\end{center}\n\n';
   let ended = false;
   let appendixCount = 0;
+  // Figures number consecutively, and afresh within each appendix with its
+  // letter in front (MIL-STD-38784C 4.7.4.1.4): Figure 2, then Figure A-1.
   let figureCount = 0;
+  let figureSeq = 0;
+  let appendixLetter = '';
   for (let i = 0; i < store.paragraphs.length; i++) {
     const para = store.paragraphs[i];
     const label = useNumberedParagraphs ? labels[i] : '';
@@ -980,12 +993,15 @@ export function generateBodyTex(store: DocumentStore): string {
     // fallback stands in until the image is loaded, as the seal's does.
     if (para.figure && store.docType === 'i_type') {
       const n = ++figureCount;
-      const file = figureFile(n, para.figure.type, para.figure.name);
+      const file = figureFile(++figureSeq, para.figure.type, para.figure.name);
+      const label = appendixLetter ? `${appendixLetter}-${n}` : String(n);
+      // (M) A title carries no period at the end (4.7.9.1).
+      const title = processBodyText(para.text.trim().replace(/\.$/, ''));
       parts.push(
         `\\par\\vspace{12pt}\n\\begin{center}\n` +
           `\\IfFileExists{${file}}{\\includegraphics[width=\\textwidth,height=5in,keepaspectratio]{${file}}}` +
-          `{\\framebox[3in][c]{\\parbox[c][1.5in][c]{2.8in}{\\centering\\scriptsize Figure ${n}\\\\(add image)}}}\\\\[6pt]\n` +
-          `Figure ${n}. ${processBodyText(para.text)}\n\\end{center}\n\\vspace{12pt}\n\n`
+          `{\\framebox[3in][c]{\\parbox[c][1.5in][c]{2.8in}{\\centering\\scriptsize Figure ${label}\\\\(add image)}}}\\\\[6pt]\n` +
+          `Figure ${label}. ${title}\n\\end{center}\n\\vspace{12pt}\n\n`
       );
       continue;
     }
@@ -1002,6 +1018,8 @@ export function generateBodyTex(store: DocumentStore): string {
     if (para.appendix && store.docType === 'i_type') {
       if (!ended) { parts.push(END_OF_INSTRUCTION); ended = true; }
       const letter = String.fromCharCode(65 + appendixCount++);
+      appendixLetter = letter;
+      figureCount = 0;
       parts.push(`\\startAppendix{${letter}}{${escapeLatex(headerText || '')}}\n`);
       if (para.text.trim()) {
         parts.push(`\\noindent ${portionPrefix}${processBodyText(para.text)}\\par\n\n`);
@@ -1104,7 +1122,7 @@ export function generateBodyTex(store: DocumentStore): string {
 
     // A publication paragraph may carry one of its fixed tables.
     if (para.tableKey) {
-      parts.push(generatePublicationTable(para.tableKey, store.publicationTables?.[para.tableKey] ?? []));
+      parts.push(generatePublicationTable(para.tableKey, store.publicationTables?.[para.tableKey] ?? [], headerText || ''));
     }
   }
   if (store.docType === 'i_type' && !ended && store.paragraphs.length > 0) parts.push(END_OF_INSTRUCTION);

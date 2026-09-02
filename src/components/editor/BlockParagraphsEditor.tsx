@@ -334,7 +334,10 @@ const BlockRow = memo(function BlockRow({
                     const file = e.target.files?.[0];
                     if (!file) return;
                     const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, await file.arrayBuffer());
-                    updateParagraph(index, { figure: { fileRef, name: file.name, type: file.type } });
+                    // The pixel size decides whether the print will look soft.
+                    const bitmap = await createImageBitmap(file).catch(() => null);
+                    updateParagraph(index, { figure: { fileRef, name: file.name, type: file.type, width: bitmap?.width, height: bitmap?.height } });
+                    bitmap?.close();
                   }}
                 />
                 <span>{figure.name ?? 'No image yet'}</span>

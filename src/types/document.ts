@@ -92,7 +92,7 @@ export interface Paragraph {
   /** A figure: an image placed in the body, numbered in order, titled by the
    *  paragraph's text ("Figure 1. Rail alignment"). The image lives in the
    *  attachments store; `fileRef` is its durable handle. */
-  figure?: { fileRef?: FileRef; name?: string; type?: string };
+  figure?: { fileRef?: FileRef; name?: string; type?: string; width?: number; height?: number };
   portionMarking?: PortionMarking;
 }
 

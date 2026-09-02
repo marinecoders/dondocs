@@ -308,6 +308,24 @@ describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () =
     expect(images.length).toBeGreaterThanOrEqual(2);
   });
 
+  it('carries a long parts list and a long end item list across pages, every row kept', async () => {
+    const { pages, pdf: out } = await renderDocument((s) => {
+      Object.assign(s.formData as Record<string, unknown>, { date: '15 Dec 24', subject: 'TITLE', shortTitle: 'MI 1' });
+      s.endItems = Array.from({ length: 39 }, (_, i) => ({ nsn: `1005-01-566-${1000 + i}`, tamcn: `A${i}G`, id: `I${i}`, model: `M${i}` }));
+      s.paragraphs = [{ text: '', level: 0, header: 'Materiel Required', tableKey: 'materielRequired' }];
+      s.publicationTables = { materielRequired: Array.from({ length: 60 }, (_, i) => ({ values: { item: String(i + 1), description: `PART NUMBER ${i + 1} OF THE KIT`, nsn: `5305-00-123-${4000 + i}`, pn: `PN-${i + 1}`, qty: '1' } })) };
+    });
+    const body = pages.join('\n');
+    for (const n of [1, 30, 43, 44, 60]) expect(body).toMatch(new RegExp(`PART NUMBER ${n} OF THE KIT`));
+    expect(body).toMatch(/1005-01-566-1038/);
+    expect(body).toMatch(/Materiel Required -- Continued|Materiel Required – Continued|Materiel Required — Continued/);
+    // Nothing is placed below the page's bottom margin on any page.
+    for (let page = 1; page <= pages.length; page++) {
+      const lowest = Math.max(...lineBoxes(out, page).filter((l) => l.text !== 'CUI').map((l) => l.y1));
+      expect(lowest).toBeLessThanOrEqual(792 - 0.3 * 72);
+    }
+  });
+
   it('never leaves a warning or caution at the foot of a page', async () => {
     const many = await renderPages((s) => {
       Object.assign(s.formData as Record<string, unknown>, { date: '15 Dec 24', subject: 'TITLE', shortTitle: 'MI 1' });

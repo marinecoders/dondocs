@@ -216,6 +216,7 @@ const LATEX_TEMPLATES = {
 %-----------------------------------------------------------------------------
 
 \\usepackage{tabularx}
+\\usepackage{longtable}  % technical publication tables break across pages
 \\usepackage{array}
 
 
@@ -2619,6 +2620,28 @@ const LATEX_TEMPLATES = {
 
 % The End Item table, drawn from a row set. The cover and its back use the
 % same columns and widths, so they share this rather than drifting apart.
+% The back of the cover lists every end item and may run to pages: the
+% boxhead is repeated on each, the closing rule omitted at the foot of a
+% continued table and the opening rule at the head of its continuation
+% (MIL-STD-38784C 4.7.9.2, 4.7.9.3).
+\\newcommand{\\printEndItemOverflowTable}{%
+    \\renewcommand{\\arraystretch}{1.4}%
+    \\setlength{\\LTpre}{0pt}\\setlength{\\LTpost}{0pt}%
+    \\begin{longtable}{|p{1.87in}|p{1.26in}|p{1.15in}|p{1.55in}|}
+        \\hline
+        \\textbf{NSN} & \\textbf{TAMCN} & \\textbf{ID} & \\textbf{MODEL} \\tabularnewline
+        \\hline
+        \\endfirsthead
+        \\textbf{NSN} & \\textbf{TAMCN} & \\textbf{ID} & \\textbf{MODEL} \\tabularnewline
+        \\hline
+        \\endhead
+        \\endfoot
+        \\hline
+        \\endlastfoot
+        \\EndItemOverflowRows \\tabularnewline
+    \\end{longtable}%
+}
+
 \\newcommand{\\printEndItemTable}[1]{%
     \\renewcommand{\\arraystretch}{1.4}%
     % The template's column grid, scaled to the text block less column padding.
@@ -2668,9 +2691,7 @@ const LATEX_TEMPLATES = {
     \\newpage
     %
     \\ifEndItemOverflow
-        \\begin{center}
-            \\printEndItemTable{\\EndItemOverflowRows}%
-        \\end{center}
+        \\printEndItemOverflowTable
         \\newpage
     \\fi
 }
