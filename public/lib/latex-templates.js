@@ -2780,8 +2780,8 @@ const LATEX_TEMPLATES = {
         \\ifCUIEnabled
             Controlled by: \\CUIControlledBy\\\\
             CUI Category: \\CUICategory\\\\
-            Distribution/Dissemination Control: \\CUIDissemination\\\\
-            \\printPOCLine\\\\[6pt]
+            Distribution/Dissemination Control: \\CUIDissemination%
+            \\ifNotEmpty{\\POCEmail}{\\\\\\printPOCLine}\\\\[6pt]
         \\fi
         \\ifNotEmpty{\\Supersedure}{\\Supersedure\\\\[6pt]}%
         \\ifNotEmpty{\\DistStatementFull}{\\DistStatementFull\\\\[6pt]}%
@@ -2800,22 +2800,14 @@ const LATEX_TEMPLATES = {
     \\end{minipage}%
 }
 
-% Cover page. Four header lines, as the template lays them out, and the tall
-% footer above. The footer needs the room reserved or it overprints the table.
-\\fancypagestyle{coverpage}{%
-    \\fancyhf{}%
-    \\fancyhead[L]{\\footnotesize\\CoverDate}%
-    \\fancyhead[R]{\\footnotesize\\ShortTitle}%
-    \\fancyhead[C]{%
-        \\footnotesize\\placeClassificationMarkings\\\\[4pt]
-        U.S. MARINE CORPS \\MakeUppercase{\\PublicationTypeName}\\\\
-        \\MakeUppercase{\\SubjectLine}\\\\
-        \\MakeUppercase{\\TimeCompliance}%
-    }%
-    \\fancyfoot[C]{}%
-    \\renewcommand{\\headrulewidth}{0pt}%
-    \\renewcommand{\\footrulewidth}{0pt}%
-    \\setlength{\\headheight}{58pt}%
+% The four cover header lines. The long title is guarded: a fresh document
+% has no subject yet, and a bare \\\\ on an empty line is a fatal error that
+% would kill the preview before the first keystroke.
+\\newcommand{\\printCoverBanner}{%
+    \\footnotesize\\placeClassificationMarkings\\\\[4pt]
+    U.S. MARINE CORPS \\MakeUppercase{\\PublicationTypeName}\\\\
+    \\ifNotEmpty{\\SubjectLine}{\\MakeUppercase{\\SubjectLine}\\\\}%
+    \\MakeUppercase{\\TimeCompliance}%
 }
 
 % Page one is the cover; main.tex applies \`firstpage\`, so that is the cover.
@@ -2823,12 +2815,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[L]{\\footnotesize\\CoverDate}%
     \\fancyhead[R]{\\footnotesize\\ShortTitle}%
-    \\fancyhead[C]{%
-        \\footnotesize\\placeClassificationMarkings\\\\[4pt]
-        U.S. MARINE CORPS \\MakeUppercase{\\PublicationTypeName}\\\\
-        \\MakeUppercase{\\SubjectLine}\\\\
-        \\MakeUppercase{\\TimeCompliance}%
-    }%
+    \\fancyhead[C]{\\printCoverBanner}%
     \\fancyfoot[C]{}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
