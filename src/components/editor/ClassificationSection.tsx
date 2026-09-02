@@ -16,7 +16,7 @@ import {
 } from '@/lib/domainClassification';
 import { useEffect, useMemo, useState } from 'react';
 import { getClassificationConfig } from '@/config/classification';
-import { validateClassificationMarkings } from '@/lib/classificationValidation';
+import { validateClassificationMarkings, validateDistributionStatement } from '@/lib/classificationValidation';
 
 // Official CNSI/ISOO banner colors (EO 13526, 32 CFR 2001/2002, DoDM 5200.01,
 // CAPCO Register, ISOO directive). Hex codes match the dodcui.mil/ISOO table:
@@ -93,6 +93,20 @@ export function ClassificationSection() {
   const markingFindings = useMemo(
     () => validateClassificationMarkings(classLevel, paragraphs),
     [classLevel, paragraphs]
+  );
+  // A technical publication's Distribution Statement decides whether it is
+  // controlled, so the two markings have to agree. Scoped to publications:
+  // correspondence carries a distribution statement for other reasons.
+  const docType = useDocumentStore((s) => s.docType);
+  const distributionFindings = useMemo(
+    () => (docType === 'i_type'
+      ? validateDistributionStatement(classLevel, formData.cuiDistStatement)
+      : []),
+    [docType, classLevel, formData.cuiDistStatement]
+  );
+  const findings = useMemo(
+    () => [...markingFindings, ...distributionFindings],
+    [markingFindings, distributionFindings]
   );
   const [configOverride, setConfigOverride] = useState<{ restriction?: ClassificationRestriction; message?: string } | null>(null);
   const [configLoaded, setConfigLoaded] = useState(false);
@@ -222,11 +236,12 @@ export function ClassificationSection() {
               </Select>
             </div>
 
-            {/* Banner ↔ portion-marking consistency findings. aria-live so a
-                new under-marking is announced without stealing focus. */}
-            {markingFindings.length > 0 && (
+            {/* Marking consistency findings: banner ↔ portion markings, and for
+                a technical publication its Distribution Statement. aria-live so
+                a new under-marking is announced without stealing focus. */}
+            {findings.length > 0 && (
               <div className="space-y-2" aria-live="polite">
-                {markingFindings.map((finding, i) => {
+                {findings.map((finding, i) => {
                   const accent = finding.severity === 'error' ? 'text-destructive' : 'text-warning';
                   return (
                     <Notice key={i} variant={finding.severity === 'error' ? 'error' : 'warning'}>

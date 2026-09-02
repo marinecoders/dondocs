@@ -124,3 +124,60 @@ export function validateClassificationMarkings(
 
   return findings;
 }
+
+
+/**
+ * Sensitivity a Distribution Statement implies.
+ *
+ * MIL-STD-38784C technical publications carry a Distribution Statement per
+ * DoDI 5230.24, and the statement decides whether the publication is
+ * controlled: A is cleared for public release, everything from B down restricts
+ * who may hold it. The MARCORSYSCOM template tabulates exactly this, and warns
+ * that choosing the wrong sensitivity label breaks transmission of the
+ * document — so it is derived here rather than asked for twice and allowed to
+ * disagree with itself.
+ */
+export type SensitivityLabel = 'Uncontrolled / General' | 'Controlled / CUI';
+
+export function sensitivityFor(distributionStatement: string): SensitivityLabel | null {
+  const letter = distributionStatement.trim().charAt(0).toUpperCase();
+  if (letter === 'A') return 'Uncontrolled / General';
+  // Explicit membership, not a substring test: ''.charAt(0) is '', and every
+  // string contains the empty string, so an unchosen statement would read as
+  // controlled.
+  if (['B', 'C', 'D', 'E', 'F'].includes(letter)) return 'Controlled / CUI';
+  return null; // nothing chosen yet
+}
+
+/**
+ * Does the overall marking agree with what the Distribution Statement implies?
+ * Advisory like the rest of this module: a restricted distribution on an
+ * unmarked document is the case worth catching, since the content is
+ * controlled whether or not anyone marked it.
+ */
+export function validateDistributionStatement(
+  classLevel: string,
+  distributionStatement: string | undefined
+): ClassificationFinding[] {
+  const implied = sensitivityFor(distributionStatement ?? '');
+  if (!implied) return [];
+
+  const letter = (distributionStatement ?? '').trim().charAt(0).toUpperCase();
+  const marked = bannerRank(classLevel);
+
+  if (implied === 'Controlled / CUI' && marked === 0) {
+    return [{
+      severity: 'error',
+      message: `Distribution Statement ${letter} restricts who may hold this publication, so it is controlled — but the document is marked ${bannerLabel(classLevel)}. Mark it CUI, or choose Statement A if it is cleared for public release.`,
+    }];
+  }
+
+  if (implied === 'Uncontrolled / General' && marked > 0) {
+    return [{
+      severity: 'warning',
+      message: `Distribution Statement A clears this publication for public release, but it is marked ${bannerLabel(classLevel)}. One of the two is wrong.`,
+    }];
+  }
+
+  return [];
+}
