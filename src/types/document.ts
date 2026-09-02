@@ -173,6 +173,8 @@ export interface DocumentData {
   nomenclature?: string;
   /** URGENT modification instructions must complete inside a year; NORMAL ones
    *  run a year by default and say nothing. */
+  /** Which I-Type this is; defaults to a Modification Instruction. */
+  publicationType?: 'MI' | 'SI' | 'TI' | 'LI';
   miUrgency?: 'urgent' | 'normal';
   /** Completion date an URGENT instruction must give. */
   miCompletionDate?: string;

@@ -73,7 +73,8 @@ export function getEditorSections(config: DocTypeConfig, docType: string): Edito
       classification,
       body,
       { id: 'tables', label: 'Tables', icon: Table },
-      references,
+      // No "Ref:" list: affected publications are named in paragraph 5, and
+      // the template's own References row belongs to the procedures table.
       enclosures,
       signature,
     ];

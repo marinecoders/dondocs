@@ -14,6 +14,7 @@ import { validateProcedureSteps } from '@/lib/procedureSteps';
 import { validateAppendixTitles } from '@/lib/appendixTitles';
 import { validateNomenclature, validateLongTitle } from '@/lib/publicationTitle';
 import { validateNsnConsistency } from '@/lib/nsnConsistency';
+import { PUBLICATION_TYPES, type PublicationTypeCode } from '@/data/techpub/publicationTypes';
 
 /** The standard prints this many rows whatever the publication covers, so the
  *  editor stops offering more once they are used up. */
@@ -42,6 +43,7 @@ export function ITypeCoverSection() {
   const supersedure = useDocumentStore((s) => s.formData.supersedure ?? '');
   const exportRestricted = useDocumentStore((s) => s.formData.exportRestricted ?? false);
   const date = useDocumentStore((s) => s.formData.date ?? '');
+  const publicationType = useDocumentStore((s) => s.formData.publicationType ?? 'MI');
   const unitLine1 = useDocumentStore((s) => s.formData.unitLine1 ?? '');
   const unitLine2 = useDocumentStore((s) => s.formData.unitLine2 ?? '');
   const unitAddress = useDocumentStore((s) => s.formData.unitAddress ?? '');
@@ -89,6 +91,20 @@ export function ITypeCoverSection() {
           ))}
         </div>
       )}
+
+      <div className="space-y-2">
+        <Label htmlFor="publicationType">Publication type</Label>
+        <Select value={publicationType} onValueChange={(v) => setField('publicationType', v as PublicationTypeCode)}>
+          <SelectTrigger id="publicationType" aria-label="Publication type">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {(Object.keys(PUBLICATION_TYPES) as PublicationTypeCode[]).map((code) => (
+              <SelectItem key={code} value={code}>{code} — {PUBLICATION_TYPES[code]}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
       <div className="space-y-2">
         <Label htmlFor="subject">
@@ -273,8 +289,8 @@ export function ITypeCoverSection() {
           <HelpTip>
             <p className="font-medium mb-1">Issuing command</p>
             <p className="text-xs">
-              Heads the authentication page. An I-Type carries no letterhead, so
-              these lines are printed as text rather than under a seal.
+              Service, command, and address, heading the authentication page. An
+              I-Type carries no letterhead, so these print as text.
             </p>
           </HelpTip>
         </span>
@@ -283,14 +299,14 @@ export function ITypeCoverSection() {
           aria-label="Issuing command"
           value={unitLine1}
           onChange={(e) => setField('unitLine1', e.target.value)}
-          placeholder="MARINE CORPS SYSTEMS COMMAND"
+          placeholder="UNITED STATES MARINE CORPS"
         />
         <Input
           id="unitLine2"
           aria-label="Issuing command, second line"
           value={unitLine2}
           onChange={(e) => setField('unitLine2', e.target.value)}
-          placeholder="Second line, only for a long command name"
+          placeholder="MARINE CORPS SYSTEMS COMMAND"
         />
         <Input
           id="unitAddress"

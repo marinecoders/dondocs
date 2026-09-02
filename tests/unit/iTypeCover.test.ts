@@ -37,4 +37,14 @@ describe('I-Type cover', () => {
   it('carries the nomenclature', () => {
     expect(generateDocumentTex(store([]))).toContain('\\setNomenclature{COMBAT OPERATIONS CENTER}');
   });
+
+  it('names the publication type, and asks only a modification to record completion', () => {
+    const named = (publicationType?: string) => generateDocumentTex({
+      ...store([]), formData: { docType: 'i_type', publicationType },
+    } as never);
+    expect(named(undefined)).toContain('\\setPublicationTypeName{Modification Instruction}');
+    expect(named(undefined)).toContain('\\RecordingInstructiontrue');
+    expect(named('TI')).toContain('\\setPublicationTypeName{Technical Instruction}');
+    expect(named('TI')).toContain('\\RecordingInstructionfalse');
+  });
 });

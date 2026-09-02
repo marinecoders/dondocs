@@ -101,4 +101,9 @@ describe('what the cover prints but the letter sections used to own', () => {
     expect(unitLine1).toBe('MARINE CORPS SYSTEMS COMMAND');
     expect(unitAddress).toBe('2200 LESTER STREET, QUANTICO, VA 22134');
   });
+
+  it('offers the four publication types, defaulting to a modification', () => {
+    render(<ITypeCoverSection />);
+    expect(screen.getByRole('combobox', { name: 'Publication type' }).textContent).toMatch(/Modification Instruction/);
+  });
 });

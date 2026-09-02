@@ -324,6 +324,18 @@
 \newcommand{\setCoverDate}[1]{\renewcommand{\CoverDate}{#1}}
 \newcommand{\PCN}{}
 \newcommand{\setPCN}[1]{\renewcommand{\PCN}{#1}}
+
+% Technical publication (I-Type) setters, driven by the generator before the
+% module is input; the module only reads them.
+\newcommand{\PublicationTypeName}{Modification Instruction}
+\newcommand{\setPublicationTypeName}[1]{\renewcommand{\PublicationTypeName}{#1}}
+% Recording the completion of a modification applies to MIs alone.
+\newif\ifRecordingInstruction
+\RecordingInstructiontrue
+% "Appendix A: title" and "Enclosure (1): title", one per line, listed
+% under DISTRIBUTION on the authentication page.
+\newcommand{\AttachmentList}{}
+\newcommand{\setAttachmentList}[1]{\renewcommand{\AttachmentList}{#1}}
 \newcommand{\Supersedure}{}
 \newcommand{\setSupersedure}[1]{\renewcommand{\Supersedure}{#1}}
 \newcommand{\TimeCompliance}{}

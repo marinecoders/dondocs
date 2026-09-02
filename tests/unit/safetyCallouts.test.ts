@@ -34,11 +34,10 @@ describe('safety callouts', () => {
     expect(body([{ text: long, level: 0, callout: 'note' }])).toContain('\\raggedright');
   });
 
-  it('keeps a warning and a caution with what follows, but not a note', () => {
-    expect(body([{ text: 'a', level: 0, callout: 'warning' }])).toContain('\\nopagebreak');
-    expect(body([{ text: 'a', level: 0, callout: 'caution' }])).toContain('\\nopagebreak');
-    // A note may follow what it refers to, so it has no such constraint.
-    expect(body([{ text: 'a', level: 0, callout: 'note' }])).not.toContain('\\nopagebreak');
+  it('keeps every callout with what follows -- none may end a page', () => {
+    for (const kind of ['warning', 'caution', 'note'] as const) {
+      expect(body([{ text: 'a', level: 0, callout: kind }])).toContain('\\nopagebreak');
+    }
   });
 
   it('names the callout in its own heading', () => {

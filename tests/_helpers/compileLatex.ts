@@ -28,7 +28,7 @@
  * could verify the bundle is in sync if that becomes a concern.
  */
 import { spawn } from 'node:child_process';
-import { mkdtemp, writeFile, readFile, readdir } from 'node:fs/promises';
+import { mkdtemp, mkdir, writeFile, readFile, readdir, copyFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -171,6 +171,15 @@ export async function compileFixture(store: TestStore): Promise<CompileResult> {
     let target = path.startsWith('tex/') ? path.slice(4) : path;
     target = target.startsWith('templates/') ? target.slice(10) : target;
     await writeFile(join(workDir, target), content);
+  }
+
+  // The seal images, where `\includegraphics{attachments/...}` looks for
+  // them, so a cover can be proved to carry its seal rather than the
+  // framed fallback.
+  const attachmentsDir = join(REPO_ROOT, 'public', 'attachments');
+  await mkdir(join(workDir, 'attachments'));
+  for (const f of await readdir(attachmentsDir)) {
+    if (f.endsWith('.png')) await copyFile(join(attachmentsDir, f), join(workDir, 'attachments', f));
   }
 
   // Write all generated runtime files at the working directory root —

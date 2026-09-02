@@ -337,6 +337,18 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\setCoverDate}[1]{\\renewcommand{\\CoverDate}{#1}}
 \\newcommand{\\PCN}{}
 \\newcommand{\\setPCN}[1]{\\renewcommand{\\PCN}{#1}}
+
+% Technical publication (I-Type) setters, driven by the generator before the
+% module is input; the module only reads them.
+\\newcommand{\\PublicationTypeName}{Modification Instruction}
+\\newcommand{\\setPublicationTypeName}[1]{\\renewcommand{\\PublicationTypeName}{#1}}
+% Recording the completion of a modification applies to MIs alone.
+\\newif\\ifRecordingInstruction
+\\RecordingInstructiontrue
+% "Appendix A: title" and "Enclosure (1): title", one per line, listed
+% under DISTRIBUTION on the authentication page.
+\\newcommand{\\AttachmentList}{}
+\\newcommand{\\setAttachmentList}[1]{\\renewcommand{\\AttachmentList}{#1}}
 \\newcommand{\\Supersedure}{}
 \\newcommand{\\setSupersedure}[1]{\\renewcommand{\\Supersedure}{#1}}
 \\newcommand{\\TimeCompliance}{}
@@ -2575,6 +2587,11 @@ const LATEX_TEMPLATES = {
 
 \\renewcommand{\\printLetterhead}{}
 
+% Enclosures are listed under DISTRIBUTION on the authentication page, not
+% in a letter's Encl: block. The entries themselves stay registered: the
+% merge that appends the files reads them.
+\\renewcommand{\\printEnclosureList}{}
+
 
 %=============================================================================
 %                              COVER PAGE
@@ -2602,12 +2619,14 @@ const LATEX_TEMPLATES = {
 
 \\newcommand{\\printDateAndTitle}{%
     \\begin{center}
-        % Fixed at 2 x 2 inches. The framed fallback keeps the layout honest
-        % when the seal file is absent rather than collapsing the page.
-        \\IfFileExists{attachments/\\SealFile}{%
-            \\includegraphics[width=2in,height=2in,keepaspectratio]{attachments/\\SealFile}%
+        % The Marine Corps seal, fixed at 2 x 2 inches -- the template names it,
+        % so the letterhead's seal choice does not apply. The framed fallback
+        % keeps the layout honest when the file is absent rather than
+        % collapsing the page.
+        \\IfFileExists{attachments/usmc-seal.png}{%
+            \\includegraphics[width=2in,height=2in,keepaspectratio]{attachments/usmc-seal.png}%
         }{%
-            \\framebox[2in][c]{\\parbox[c][2in][c]{1.9in}{\\centering\\scriptsize Seal\\\\(add \\SealFile)}}%
+            \\framebox[2in][c]{\\parbox[c][2in][c]{1.9in}{\\centering\\scriptsize Seal\\\\(add usmc-seal.png)}}%
         }%
         \\par\\vspace{24pt}%
         {\\large\\bfseries\\MakeUppercase{\\Nomenclature}}\\par
@@ -2653,12 +2672,9 @@ const LATEX_TEMPLATES = {
 
 % Which I-Type this is, as it reads in the authentication sentence. MI is the
 % only flavour wired today; SI/TI/LI set this and change nothing else.
-\\newcommand{\\PublicationTypeName}{Modification Instruction}
 
 % Recording the completion of a modification applies to MIs alone. The spacing
 % above OFFICIAL is the same whether or not it appears.
-\\newif\\ifRecordingInstruction
-\\RecordingInstructiontrue
 
 \\newcommand{\\printAddressBlock}{%
     \\noindent\\MakeUppercase{\\UnitName}\\par
@@ -2669,16 +2685,6 @@ const LATEX_TEMPLATES = {
     \\noindent\\DocumentDate
     \\par\\vspace{12pt}%
     %
-    \\ifCUIEnabled
-        \\noindent
-        Controlled by: \\CUIControlledBy\\\\
-        CUI Category: \\CUICategory\\\\
-        Limited Dissemination Control: \\CUIDissemination\\\\
-        \\printPOCLine%
-        \\par\\vspace{12pt}%
-        \\noindent\\CUIDistStatement
-        \\par\\vspace{12pt}%
-    \\fi
     \\ifClassifiedEnabled
         \\noindent
         Classified by: \\ClassifiedBy\\\\
@@ -2721,6 +2727,8 @@ const LATEX_TEMPLATES = {
                   \\item Open a Support Case for any further questions not
                         addressed by the KBA.
               \\end{enumerate}
+              For concerns/issues with the content/procedures contact
+              \\ifNotEmptyElse{\\POCEmail}{\\POCEmail}{the designated Program Office representative}.
 
         \\ifRecordingInstruction
             \\item Record completion of this modification in accordance with
@@ -2746,6 +2754,7 @@ const LATEX_TEMPLATES = {
     \\optionalLine{\\SignatoryRank}%
     \\par\\vspace{24pt}%
     \\noindent DISTRIBUTION: EDO
+    \\ifNotEmpty{\\AttachmentList}{\\par\\vspace{12pt}\\noindent\\AttachmentList}%
     \\par\\newpage
 }
 
@@ -2809,6 +2818,9 @@ const LATEX_TEMPLATES = {
     % before it is fatal.
     \\footnotesize
     \\ifClassificationEnabled\\placeClassificationMarkings\\\\[4pt]\\fi
+    % Date left, short title right, on the first line -- a fancyhdr side
+    % cell would sit on the last line instead.
+    \\makebox[\\textwidth]{\\CoverDate\\hfill\\ShortTitle}\\\\
     U.S. MARINE CORPS \\MakeUppercase{\\PublicationTypeName}\\\\
     \\ifNotEmpty{\\SubjectLine}{\\MakeUppercase{\\SubjectLine}\\\\}%
     \\MakeUppercase{\\TimeCompliance}%
@@ -2830,13 +2842,11 @@ const LATEX_TEMPLATES = {
 % Page one is the cover; main.tex applies \`firstpage\`, so that is the cover.
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
-    \\fancyhead[L]{\\footnotesize\\CoverDate}%
-    \\fancyhead[R]{\\footnotesize\\ShortTitle}%
     \\fancyhead[C]{\\printCoverBanner}%
     \\fancyfoot[C]{}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
-    \\setlength{\\headheight}{58pt}%
+    \\setlength{\\headheight}{70pt}%
 }
 
 % Every page after the cover runs the short title and date, with the CUI
