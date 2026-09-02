@@ -181,3 +181,24 @@ export function validateDistributionStatement(
 
   return [];
 }
+
+/**
+ * Statements B through F are not complete as a letter: the template's own
+ * wording carries "(category) (date of determination)" and names the
+ * controlling DoD office, and says the author fills them in. Names what is
+ * still missing. Advisory.
+ */
+export function validateDistributionFillIns(
+  distributionStatement: string | undefined,
+  fill: { reason?: string; date?: string; office?: string }
+): ClassificationFinding[] {
+  const letter = (distributionStatement ?? '').trim().charAt(0).toUpperCase();
+  if (!['B', 'C', 'D', 'E', 'F'].includes(letter)) return [];
+  const missing: string[] = [];
+  if (letter !== 'F' && !fill.reason?.trim()) missing.push('a reason');
+  if (!fill.date?.trim()) missing.push('a date of determination');
+  if (!fill.office?.trim()) missing.push('the controlling office (on the Cover)');
+  if (missing.length === 0) return [];
+  const list = missing.length === 1 ? missing[0] : `${missing.slice(0, -1).join(', ')} and ${missing[missing.length - 1]}`;
+  return [{ severity: 'warning', message: `Distribution Statement ${letter} still needs ${list}.` }];
+}

@@ -146,7 +146,7 @@ describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () =
         unitLine1: 'UNITED STATES MARINE CORPS', unitLine2: 'MARINE CORPS SYSTEMS COMMAND',
         pocEmail: 'john.doe@usmc.mil',
         sigFirst: 'J.', sigLast: 'DOE', sigTitle: 'Program Manager, Infantry Weapons', sigRank: 'Colonel, U.S. Marine Corps',
-        controllingOffice: 'PM IW',
+        controllingOffice: 'PM IW', distReason: 'Critical Technology', distDate: '2024-12-01',
         classLevel: 'cui', cuiControlledBy: 'DOD', cuiCategory: 'CTI', cuiDissemination: 'FEDCON', cuiDistStatement: 'D',
       });
       s.references = [{ letter: 'a', title: 'TM 12345A-OI/1' }];
@@ -198,6 +198,13 @@ describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () =
   it('signs with name, signing authority, and controlling office -- and no rank line', () => {
     expect(pages[1]).toMatch(/OFFICIAL\s+J\. A\. DOE\s+Program Manager, Infantry Weapons\s+PM IW\s+DISTRIBUTION: EDO/);
     expect(pages[1]).not.toMatch(/Colonel/);
+  });
+
+  it('prints the distribution statement with its reason, date, and controlling office', () => {
+    // pdftotext wraps where the page does; the words are what matter.
+    const sentence = 'DISTRIBUTION STATEMENT D: Distribution authorized to the Department of Defense and U.S. DoD contractors only (Critical Technology) (1 December 2024). Other requests must be referred to PM IW.';
+    const wrapped = new RegExp(sentence.split(' ').map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('\\s+'));
+    expect(pages[0]).toMatch(wrapped);
   });
 
   it('composes Controlled by from entity, signing authority, and controlling office', () => {

@@ -262,6 +262,11 @@ export interface DocumentData {
   cuiCategory: string;
   cuiDissemination: string;
   cuiDistStatement: string;
+  /** Fill-ins for Distribution Statements B through F on a technical
+   *  publication (DoDI 5230.24): why distribution is restricted, and the date
+   *  of that determination. The controlling office is `controllingOffice`. */
+  distReason?: string;
+  distDate?: string;
   pocEmail: string;
 
   // MOA/MOU fields

@@ -332,8 +332,10 @@ export function ITypeCoverSection() {
               <p className="font-medium mb-1">Controlling office</p>
               <p className="text-xs">
                 Closes the signature block, under the signing official's name
-                and title, and the cover's "Controlled by" line. The signing
-                authority is the title given in the Signature section.
+                and title; names the office in the cover's "Controlled by"
+                line and the one its Distribution Statement refers requests
+                to. The signing authority is the title given in the Signature
+                section.
               </p>
             </HelpTip>
           </span>

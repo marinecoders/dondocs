@@ -2,6 +2,7 @@ import { escapeLatex, escapeLatexUrl, processBodyText, formatSubjectForLatex, fo
 import { composeSenderSymbol } from './senderSymbol';
 import { tableSpec } from '@/data/techpub/tables';
 import { publicationTypeName } from '@/data/techpub/publicationTypes';
+import { composeDistributionStatement } from '@/data/techpub/distributionStatements';
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, EndItem, PublicationTableRow, CalloutKind } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
@@ -52,17 +53,6 @@ interface DocumentStore {
 /** The End Item table prints exactly this many rows. Unused ones stay blank
  *  rather than being deleted; a further item overflows to the next page. */
 const END_ITEM_ROWS = 6;
-
-/** Distribution statements as they print on a technical publication cover
- *  (DoDI 5230.24). The editor stores only the letter. */
-const DISTRIBUTION_STATEMENT_TEXT: Record<string, string> = {
-  A: 'DISTRIBUTION STATEMENT A: Approved for public release; distribution is unlimited.',
-  B: 'DISTRIBUTION STATEMENT B: Distribution authorized to U.S. Government agencies only.',
-  C: 'DISTRIBUTION STATEMENT C: Distribution authorized to U.S. Government agencies and their contractors.',
-  D: 'DISTRIBUTION STATEMENT D: Distribution authorized to the Department of Defense and U.S. DoD contractors only.',
-  E: 'DISTRIBUTION STATEMENT E: Distribution authorized to DoD Components only.',
-  F: 'DISTRIBUTION STATEMENT F: Further dissemination only as directed by the controlling DoD office.',
-};
 
 /** Width reserved for a step label, so carry-over lines block under the text
  *  rather than under the label. Wide enough for the deepest form, "(a)". */
@@ -350,10 +340,15 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     tex += `\\setAttachmentList{${attachments.join('\\par\\noindent ')}}\n`;
     tex += `\\setControllingOffice{${escapeLatex(data.controllingOffice || '')}}\n`;
     tex += data.exportRestricted ? '\\ExportRestrictedtrue\n' : '\\ExportRestrictedfalse\n';
-    // The distribution statement prints in full on the cover, letter and text
-    // together, as the standard words it.
-    const dist = DISTRIBUTION_STATEMENT_TEXT[(data.cuiDistStatement || '').trim().charAt(0).toUpperCase()];
-    tex += `\\setDistStatementFull{${dist ? escapeLatex(dist) : ''}}\n`;
+    // The distribution statement prints in full on the cover: letter, text,
+    // the reason and date of determination, and the office requests go to.
+    const determined = parseDate(data.distDate || '', 'yyyy-MM-dd', new Date());
+    const dist = composeDistributionStatement(data.cuiDistStatement || '', {
+      reason: data.distReason,
+      date: isValidDate(determined) ? formatDate(determined, 'd MMMM yyyy') : '',
+      office: data.controllingOffice,
+    });
+    tex += `\\setDistStatementFull{${escapeLatex(dist)}}\n`;
     // When the cover defers, every end item is listed on its back -- there is
     // no six-row cap there, and no blank rows to keep.
     if (overflow) {

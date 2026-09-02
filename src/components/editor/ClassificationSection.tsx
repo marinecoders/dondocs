@@ -16,7 +16,8 @@ import {
 } from '@/lib/domainClassification';
 import { useEffect, useMemo, useState } from 'react';
 import { getClassificationConfig } from '@/config/classification';
-import { validateClassificationMarkings, validateDistributionStatement } from '@/lib/classificationValidation';
+import { validateClassificationMarkings, validateDistributionStatement, validateDistributionFillIns } from '@/lib/classificationValidation';
+import { DISTRIBUTION_REASONS } from '@/data/techpub/distributionStatements';
 
 // Official CNSI/ISOO banner colors (EO 13526, 32 CFR 2001/2002, DoDM 5200.01,
 // CAPCO Register, ISOO directive). Hex codes match the dodcui.mil/ISOO table:
@@ -100,9 +101,14 @@ export function ClassificationSection() {
   const docType = useDocumentStore((s) => s.docType);
   const distributionFindings = useMemo(
     () => (docType === 'i_type'
-      ? validateDistributionStatement(classLevel, formData.cuiDistStatement)
+      ? [
+          ...validateDistributionStatement(classLevel, formData.cuiDistStatement),
+          ...validateDistributionFillIns(formData.cuiDistStatement, {
+            reason: formData.distReason, date: formData.distDate, office: formData.controllingOffice,
+          }),
+        ]
       : []),
-    [docType, classLevel, formData.cuiDistStatement]
+    [docType, classLevel, formData.cuiDistStatement, formData.distReason, formData.distDate, formData.controllingOffice]
   );
   const findings = useMemo(
     () => [...markingFindings, ...distributionFindings],
@@ -513,6 +519,40 @@ export function ClassificationSection() {
                     </SelectContent>
                   </Select>
                 </div>
+
+                {/* On a publication the statement prints in full, and B through
+                    F carry the reason and date of determination the template
+                    leaves for the author. The office it refers requests to is
+                    the Cover's controlling office. */}
+                {docType === 'i_type' && ['B', 'C', 'D', 'E'].includes(formData.cuiDistStatement || '') && (
+                  <div className="space-y-2">
+                    <Label htmlFor="distReason">Reason for restriction</Label>
+                    <Select
+                      value={formData.distReason || ''}
+                      onValueChange={(v) => setField('distReason', v)}
+                    >
+                      <SelectTrigger id="distReason" aria-label="Reason for restriction">
+                        <SelectValue placeholder="Select reason…" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {DISTRIBUTION_REASONS.map((r) => (
+                          <SelectItem key={r} value={r}>{r}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+                {docType === 'i_type' && ['B', 'C', 'D', 'E', 'F'].includes(formData.cuiDistStatement || '') && (
+                  <div className="space-y-2">
+                    <Label htmlFor="distDate">Date of determination</Label>
+                    <Input
+                      id="distDate"
+                      type="date"
+                      value={formData.distDate || ''}
+                      onChange={(e) => setField('distDate', e.target.value)}
+                    />
+                  </div>
+                )}
               </div>
             )}
 
