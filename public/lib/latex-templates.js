@@ -323,6 +323,14 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\DocumentType}{}
 \\newcommand{\\setDocumentType}[1]{\\renewcommand{\\DocumentType}{#1}}
 
+% Technical publication cover. Empty for correspondence, which has no cover
+% page; document.tex only sets these for an I-Type.
+\\newcommand{\\Nomenclature}{}
+\\newcommand{\\setNomenclature}[1]{\\renewcommand{\\Nomenclature}{#1}}
+\\newcommand{\\EndItemRows}{}
+\\newcommand{\\setEndItemRows}[1]{\\renewcommand{\\EndItemRows}{#1}}
+\\newif\\ifEndItemOverflow
+
 
 %=============================================================================
 %                       ENDORSEMENT CONFIGURATION
@@ -2554,19 +2562,44 @@ const LATEX_TEMPLATES = {
 
 
 %=============================================================================
-%                            TITLE BLOCK
+%                              COVER PAGE
 %=============================================================================
-% Long Title is centred and all caps per the MARCORSYSCOM template. The four
-% line cap and the no-acronyms rule are author-facing, so they are enforced in
-% the editor rather than silently truncated here.
+% Seal, nomenclature, then the End Item table. main.tex calls this where a
+% letter prints its date and subject, which is where an I-Type's cover belongs.
+%
+% The table always prints six rows: the standard keeps unused ones blank rather
+% than deleting them, so the cover of a publication covering two end items has
+% the same shape as one covering six. A seventh item moves the whole list to
+% the back of the cover page and leaves "See Next Page" in its stead.
 
 \\newcommand{\\printDateAndTitle}{%
-    \\hfill \\DocumentDate\\par
-    \\vspace{12pt}%
     \\begin{center}
-        \\MakeUppercase{\\SubjectLine}
+        % Fixed at 2 x 2 inches. The framed fallback keeps the layout honest
+        % when the seal file is absent rather than collapsing the page.
+        \\IfFileExists{attachments/\\SealFile}{%
+            \\includegraphics[width=2in,height=2in,keepaspectratio]{attachments/\\SealFile}%
+        }{%
+            \\framebox[2in][c]{\\parbox[c][2in][c]{1.9in}{\\centering\\scriptsize Seal\\\\(add \\SealFile)}}%
+        }%
+        \\par\\vspace{24pt}%
+        {\\large\\bfseries\\MakeUppercase{\\Nomenclature}}\\par
+        \\vspace{24pt}%
+        %
+        \\renewcommand{\\arraystretch}{1.4}%
+        \\begin{tabular}{|p{1.5in}|p{1.2in}|p{1.2in}|p{1.5in}|}
+            \\hline
+            \\textbf{NSN} & \\textbf{TAMCN} & \\textbf{ID} & \\textbf{MODEL} \\\\
+            \\hline
+            \\ifEndItemOverflow
+                \\multicolumn{4}{|c|}{See Next Page} \\\\
+                \\hline
+            \\else
+                \\EndItemRows \\\\
+                \\hline
+            \\fi
+        \\end{tabular}
     \\end{center}
-    \\par\\vspace{12pt}%
+    \\newpage
 }
 
 

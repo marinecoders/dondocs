@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { format, parse, isValid } from 'date-fns';
-import type { Reference, Enclosure, FileRef, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, DocumentCategory, FormType } from '@/types/document';
+import type { Reference, Enclosure, FileRef, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, DocumentCategory, FormType,
+  EndItem,
+} from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { loadAttachment, persistAttachment } from '@/lib/attachments';
 import { useHistoryStore } from './historyStore';
@@ -26,6 +28,7 @@ export interface SerializedSession {
   formType: FormType;
   formData: Partial<DocumentData>;
   references: Reference[];
+  endItems: EndItem[];
   // `file` bytes live in the attachments store; `fileRef` is the durable handle
   // that rehydrates them on load. `hasFile` stays for legacy sessions written
   // before fileRef existed (they had bytes in memory but nothing to recover).
@@ -90,6 +93,7 @@ export interface DocumentState {
   formType: FormType;
   formData: Partial<DocumentData>;
   references: Reference[];
+  endItems: EndItem[];
   enclosures: Enclosure[];
   paragraphs: Paragraph[];
   copyTos: CopyTo[];
@@ -105,6 +109,9 @@ export interface DocumentState {
   resetForm: () => void;
 
   // Actions - References
+  addEndItem: () => void;
+  updateEndItem: (index: number, updates: Partial<EndItem>) => void;
+  removeEndItem: (index: number) => void;
   addReference: (title: string, url?: string) => void;
   updateReference: (index: number, updates: Partial<Reference>) => void;
   removeReference: (index: number) => void;
@@ -237,6 +244,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   formType: 'navmc_10274',
   formData: { ...DEFAULT_FORM_DATA },
   references: [...DEFAULT_REFERENCES],
+  endItems: [],
   enclosures: [...DEFAULT_ENCLOSURES],
   paragraphs: [...DEFAULT_PARAGRAPHS],
   copyTos: [
@@ -355,6 +363,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     docType: 'naval_letter',
     formData: { ...DEFAULT_FORM_DATA },
     references: [...DEFAULT_REFERENCES],
+  endItems: [],
     enclosures: [...DEFAULT_ENCLOSURES],
     paragraphs: [...DEFAULT_PARAGRAPHS],
     copyTos: [
@@ -367,6 +376,18 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   },
 
   // References
+  addEndItem: () => set((state) => ({
+    endItems: [...state.endItems, { nsn: '', tamcn: '', id: '', model: '' }],
+  })),
+
+  updateEndItem: (index, updates) => set((state) => ({
+    endItems: state.endItems.map((item, i) => (i === index ? { ...item, ...updates } : item)),
+  })),
+
+  removeEndItem: (index) => set((state) => ({
+    endItems: state.endItems.filter((_, i) => i !== index),
+  })),
+
   addReference: (title, url) => set((state) => ({
     references: [
       ...state.references,
@@ -823,6 +844,7 @@ function saveSessionToStorage(state: DocumentState): void {
         signatureImage: undefined,
       },
       references: state.references,
+      endItems: state.endItems,
       enclosures: state.enclosures.map(enc => ({
         title: enc.title,
         pageStyle: enc.pageStyle,
@@ -917,6 +939,7 @@ export function restoreSession(): boolean {
       formType: session.formType || 'navmc_10274',
       formData: restoredFormData,
       references: session.references,
+      endItems: session.endItems ?? [],
       enclosures: session.enclosures.map(enc => ({
         title: enc.title,
         pageStyle: enc.pageStyle,
@@ -959,6 +982,7 @@ export function serializeSession(state: DocumentState): SerializedSession {
     documentCategory: state.documentCategory,
     docType: state.docType,
     formType: state.formType,
+    endItems: state.endItems,
     formData: {
       ...state.formData,
       signatureImage: undefined,
@@ -999,6 +1023,7 @@ export function loadSharedSession(session: SerializedSession): void {
     formType: session.formType ?? 'navmc_10274',
     formData: sharedFormData,
     references: session.references ?? [],
+    endItems: session.endItems ?? [],
     enclosures: (session.enclosures ?? []).map(enc => ({
       title: enc.title,
       pageStyle: enc.pageStyle,

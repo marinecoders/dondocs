@@ -1,6 +1,6 @@
 import { escapeLatex, escapeLatexUrl, processBodyText, formatSubjectForLatex, formatAddressForLatex } from './escaper';
 import { composeSenderSymbol } from './senderSymbol';
-import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution } from '@/types/document';
+import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, EndItem } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
@@ -19,6 +19,8 @@ interface DocumentStore {
   docType: string;
   formData: Partial<DocumentData>;
   references: Reference[];
+  /** Technical publication cover rows; absent for correspondence. */
+  endItems?: EndItem[];
   enclosures: Enclosure[];
   paragraphs: Paragraph[];
   copyTos: CopyTo[];
@@ -42,6 +44,10 @@ interface DocumentStore {
  * the prior behavior for unset/missing pocEmail; the LaTeX template
  * already handles `\setPOC{}` with empty content gracefully.
  */
+/** The End Item table prints exactly this many rows. Unused ones stay blank
+ *  rather than being deleted; a further item overflows to the next page. */
+const END_ITEM_ROWS = 6;
+
 function validatedPocEmail(raw: string | undefined | null): string {
   if (!raw) return '';
   // The user might paste `mailto:foo@bar.com` — strip the prefix so
@@ -267,6 +273,26 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
       tex += `\\renewcommand{\\EndorsementSerial}{${escapeLatex(data.serial || '')}}\n`;
       tex += `\\renewcommand{\\EndorsementDate}{${escapeLatex(data.date || '')}}\n`;
     }
+  }
+
+  // Technical publication cover. The End Item table always prints six rows --
+  // the standard keeps unused ones blank rather than deleting them -- and a
+  // seventh item moves the whole list to the back of the cover page.
+  if (store.docType === 'i_type') {
+    const items = store.endItems ?? [];
+    const overflow = items.length > END_ITEM_ROWS;
+    const shown = overflow ? [] : items.slice(0, END_ITEM_ROWS);
+    const rows = Array.from({ length: END_ITEM_ROWS }, (_, i) => {
+      const item = shown[i];
+      return item
+        ? [item.nsn, item.tamcn, item.id, item.model].map((v) => escapeLatex(v || '')).join(' & ')
+        : ' & & & ';
+    // Each row is ruled, as in the source table -- six visibly distinct rows
+    // whether or not they carry an end item.
+    }).join(' \\\\ \\hline ');
+    tex += `\\setNomenclature{${escapeLatex(data.nomenclature || '')}}\n`;
+    tex += `\\setEndItemRows{${rows}}\n`;
+    tex += overflow ? '\\EndItemOverflowtrue\n' : '\\EndItemOverflowfalse\n';
   }
 
   return tex;

@@ -18,6 +18,16 @@ export const FORM_TYPE_CATEGORIES: { category: string; types: FormType[] }[] = [
   },
 ];
 
+/** One row of a technical publication's End Item table. The table always
+ *  prints six rows -- unused ones stay blank rather than being removed -- and
+ *  a seventh item moves the whole list to the back of the cover page. */
+export interface EndItem {
+  nsn: string;
+  tamcn: string;
+  id: string;
+  model: string;
+}
+
 export interface Reference {
   letter: string;
   title: string;
@@ -134,6 +144,9 @@ export interface DocumentData {
   to: string;
   via: string;
   subject: string;
+  /** Technical publication cover: the equipment this publication covers.
+   *  Two lines at most. Empty for correspondence. */
+  nomenclature?: string;
 
   // Endorsements only (same_page_endorsement, new_page_endorsement)
   // Per SECNAV M-5216.5 Ch 9 §2.1.b -- endorsement line format is:

@@ -310,6 +310,14 @@
 \newcommand{\DocumentType}{}
 \newcommand{\setDocumentType}[1]{\renewcommand{\DocumentType}{#1}}
 
+% Technical publication cover. Empty for correspondence, which has no cover
+% page; document.tex only sets these for an I-Type.
+\newcommand{\Nomenclature}{}
+\newcommand{\setNomenclature}[1]{\renewcommand{\Nomenclature}{#1}}
+\newcommand{\EndItemRows}{}
+\newcommand{\setEndItemRows}[1]{\renewcommand{\EndItemRows}{#1}}
+\newif\ifEndItemOverflow
+
 
 %=============================================================================
 %                       ENDORSEMENT CONFIGURATION
