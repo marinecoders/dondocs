@@ -31,7 +31,8 @@ async function renderDocument(mutate: (s: Record<string, unknown>) => void, extr
   return { pages, pdf };
 }
 
-const renderPages = async (mutate: (s: Record<string, unknown>) => void) => (await renderDocument(mutate)).pages;
+const renderPages = async (mutate: (s: Record<string, unknown>) => void, extraFiles: Record<string, Uint8Array> = {}) =>
+  (await renderDocument(mutate, extraFiles)).pages;
 
 /** Every text line on a page with its box, in points from the page's top-left. */
 function lineBoxes(pdf: string, page: number): { x0: number; y0: number; x1: number; y1: number; text: string }[] {
@@ -324,6 +325,24 @@ describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () =
       const lowest = Math.max(...lineBoxes(out, page).filter((l) => l.text !== 'CUI').map((l) => l.y1));
       expect(lowest).toBeLessThanOrEqual(792 - 0.3 * 72);
     }
+  });
+
+  it('places a PDF page as a figure', async () => {
+    const { PDFDocument, StandardFonts } = await import('pdf-lib');
+    const doc = await PDFDocument.create();
+    const page = doc.addPage([400, 300]);
+    page.drawText('DRAWING 1', { x: 40, y: 150, size: 24, font: await doc.embedFont(StandardFonts.Helvetica) });
+    const drawing = await doc.save();
+    const pages = await renderPages((s) => {
+      Object.assign(s.formData as Record<string, unknown>, { date: '15 Dec 24', subject: 'TITLE', shortTitle: 'MI 1' });
+      s.paragraphs = [
+        { text: 'To provide instructions.', level: 0, header: 'Purpose' },
+        { text: 'Rail drawing', level: 0, figure: { fileRef: { id: 'd', name: 'rail.pdf', size: drawing.length, type: 'application/pdf' }, name: 'rail.pdf', type: 'application/pdf' } },
+      ];
+    }, { 'attachments/figure-1.pdf': drawing });
+    const body = pages.join('\n');
+    expect(body).toMatch(/DRAWING 1/);
+    expect(body).toMatch(/Figure 1\. Rail drawing/);
   });
 
   it('never leaves a warning or caution at the foot of a page', async () => {

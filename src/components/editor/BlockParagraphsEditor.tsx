@@ -327,15 +327,25 @@ const BlockRow = memo(function BlockRow({
               <div className="mb-1 flex items-center gap-2 font-sans text-xs text-muted-foreground">
                 <input
                   type="file"
-                  accept="image/png,image/jpeg"
+                  accept="image/png,image/jpeg,application/pdf"
                   aria-label={`Image for figure ${label || index + 1}`}
                   className="text-xs"
                   onChange={async (e) => {
                     const file = e.target.files?.[0];
                     if (!file) return;
-                    const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, await file.arrayBuffer());
-                    // The pixel size decides whether the print will look soft.
-                    const bitmap = await createImageBitmap(file).catch(() => null);
+                    // A photo is decoded with its EXIF orientation applied and
+                    // re-encoded: pdfTeX ignores the orientation tag, so a portrait
+                    // phone photo would print on its side, and the re-encoding drops
+                    // the camera and location tags with it. The pixel size decides
+                    // whether the print will look soft. A PDF is kept as it is.
+                    const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' }).catch(() => null);
+                    let bytes: ArrayBuffer = await file.arrayBuffer();
+                    if (bitmap && file.type === 'image/jpeg' && typeof OffscreenCanvas !== 'undefined') {
+                      const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
+                      canvas.getContext('2d')?.drawImage(bitmap, 0, 0);
+                      bytes = await (await canvas.convertToBlob({ type: 'image/jpeg', quality: 0.92 })).arrayBuffer();
+                    }
+                    const fileRef = await persistAttachment({ name: file.name, size: bytes.byteLength, type: file.type }, bytes);
                     updateParagraph(index, { figure: { fileRef, name: file.name, type: file.type, width: bitmap?.width, height: bitmap?.height } });
                     bitmap?.close();
                   }}

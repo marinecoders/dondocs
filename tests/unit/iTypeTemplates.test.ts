@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { modificationInstruction, supplyInstruction, technicalInstruction, lubricationInstruction } from '@/data/templates/technical';
 import { LETTER_TEMPLATES } from '@/data/templates';
-import { validateFigures } from '@/lib/figures';
+import { validateFigures, figureFile } from '@/lib/figures';
 
 describe('the four I-Type templates', () => {
   it('name their publication type', () => {
@@ -34,7 +34,7 @@ describe('figures', () => {
       { text: 'Rail alignment', level: 0, figure: { fileRef: { id: 'x', name: 'r.png', size: 1, type: 'image/png' } } },
     ]);
     expect(findings.map((f) => f.message)).toEqual([
-      'Figure 1 has no image. Choose a PNG or JPEG for it.',
+      'Figure 1 has no image. Choose a PNG, JPEG, or PDF for it.',
       'Figure 1 has no title. Its text is the title that prints under it.',
     ]);
   });
@@ -46,5 +46,12 @@ describe('figures', () => {
     // 1600px across 6.5in is 246 dpi; a tall image prints narrower, so its dpi is higher.
     expect(validateFigures([{ text: 'Rail', level: 0, figure: { fileRef, width: 1600, height: 1200 } }])).toEqual([]);
     expect(validateFigures([{ text: 'Rail', level: 0, figure: { fileRef, width: 600, height: 2400 } }])).toEqual([]);
+  });
+
+  it('places a PDF page as a figure, and names the formats it takes', () => {
+    expect(figureFile(2, 'application/pdf', 'drawing.pdf')).toBe('attachments/figure-2.pdf');
+    expect(figureFile(3, undefined, 'scan.PDF')).toBe('attachments/figure-3.pdf');
+    expect(figureFile(4, 'image/jpeg', 'photo.jpg')).toBe('attachments/figure-4.jpg');
+    expect(validateFigures([{ text: 'x', level: 0, figure: {} }])[0].message).toMatch(/PNG, JPEG, or PDF/);
   });
 });
