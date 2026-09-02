@@ -597,4 +597,8 @@ export const DOC_TYPE_CATEGORIES: { category: string; types: string[] }[] = [
     category: 'Executive',
     types: ['executive_correspondence', 'standard_memorandum', 'action_memorandum', 'information_memorandum'],
   },
+  {
+    category: 'Technical Publications',
+    types: ['i_type'],
+  },
 ];
