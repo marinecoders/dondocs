@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { buildBaseline, applyFlags } from '../_helpers/compileMatrix';
 import { compileFixture } from '../_helpers/compileLatex';
 import type { TestStore } from '../_helpers/compileMatrix';
+import { useDocumentStore } from '@/stores/documentStore';
 
 // A Marine who has just picked the I-Type has typed nothing yet. The cover
 // must still compile with every field blank, or the preview dies before the
@@ -41,6 +42,15 @@ describe('I-Type compiles before anything is filled in', () => {
     const store = applyFlags(base, { classLevel: 'cui' }) as unknown as Record<string, unknown>;
     Object.assign(store.formData as Record<string, unknown>, { pocEmail: '' });
     const r = await compileFixture(store as unknown as TestStore);
+    expect(r.ok, r.errors.slice(0, 4).join('\n')).toBe(true);
+  });
+
+  it('the store exactly as a user first sees it', async () => {
+    // Not a fixture: the live store after Reset and picking the type. Fixtures
+    // fill in what they need, which is how an empty-line failure hid.
+    useDocumentStore.getState().resetForm();
+    useDocumentStore.getState().setDocType('i_type');
+    const r = await compileFixture(useDocumentStore.getState() as unknown as TestStore);
     expect(r.ok, r.errors.slice(0, 4).join('\n')).toBe(true);
   });
 });

@@ -269,7 +269,11 @@
 % has no subject yet, and a bare \\ on an empty line is a fatal error that
 % would kill the preview before the first keystroke.
 \newcommand{\printCoverBanner}{%
-    \footnotesize\placeClassificationMarkings\\[4pt]
+    % The marking line exists only when there is a marking. An unclassified
+    % document expands the macro to nothing, and a line break with nothing
+    % before it is fatal.
+    \footnotesize
+    \ifClassificationEnabled\placeClassificationMarkings\\[4pt]\fi
     U.S. MARINE CORPS \MakeUppercase{\PublicationTypeName}\\
     \ifNotEmpty{\SubjectLine}{\MakeUppercase{\SubjectLine}\\}%
     \MakeUppercase{\TimeCompliance}%
