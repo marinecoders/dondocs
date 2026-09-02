@@ -94,6 +94,7 @@ import { useInstallStore } from '@/stores/installStore';
 import { usePandocIdlePrefetch } from '@/hooks/usePandocIdlePrefetch';
 import { generateAllLatexFiles, type GeneratedFiles } from '@/services/latex/generator';
 import { formatPublicationDate } from '@/lib/publicationDate';
+import { loadAttachment } from '@/lib/attachments';
 import { generateFlatLatex } from '@/services/latex/flat-generator';
 import { convertLatexToDocx } from '@/services/docx/pandoc-converter';
 import { pageStartNumber } from '@/lib/endorsement';
@@ -235,6 +236,15 @@ const commandDownloadTriggers: { pdf: () => void; docx: () => void } = {
 // A technical publication labels its enclosure pages in the footer and centres
 // its short title and date in their headers; correspondence keeps the corner
 // label and no header.
+// A figure's bytes live in the attachments store; place them where the body
+// names them. A figure whose bytes are gone keeps its framed fallback.
+async function addFigureFiles(files: Record<string, string | Uint8Array>, figures: GeneratedFiles['figures']): Promise<void> {
+  for (const f of figures) {
+    const bytes = await loadAttachment(f.ref.id);
+    if (bytes) files[f.file] = new Uint8Array(bytes);
+  }
+}
+
 function mergeOptionsFor(store: ReturnType<typeof useDocumentStore.getState>) {
   const enclosureLabel = DOC_TYPE_CONFIG[store.docType]?.enclosureLabel;
   return enclosureLabel === 'footer'
@@ -612,13 +622,14 @@ function App() {
       // Read the full store via getState() at compile time; the debounce dep
       // array already handles when to re-compile, so the state here is current.
       const currentStore = useDocumentStore.getState();
-      const { texFiles, enclosures: generatedEnclosures, includeHyperlinks, signatureImage, referenceUrls } = generateAllLatexFiles(currentStore);
+      const { texFiles, enclosures: generatedEnclosures, includeHyperlinks, signatureImage, referenceUrls, figures } = generateAllLatexFiles(currentStore);
 
       // Build files object including signature image if present
       const files: Record<string, string | Uint8Array> = { ...texFiles };
       if (signatureImage) {
         files['attachments/signature.png'] = signatureImage;
       }
+      await addFigureFiles(files, figures);
 
       let pdfBytes = await compile(files);
 
@@ -870,13 +881,14 @@ function App() {
     await rehydrateEnclosureFiles();
     // Snapshot fresh state at download time via getState().
     const currentStore = useDocumentStore.getState();
-    const { texFiles, enclosures: generatedEnclosures, includeHyperlinks, signatureImage, referenceUrls } = generateAllLatexFiles(currentStore);
+    const { texFiles, enclosures: generatedEnclosures, includeHyperlinks, signatureImage, referenceUrls, figures } = generateAllLatexFiles(currentStore);
 
     // Build files object including signature image if present
     const files: Record<string, string | Uint8Array> = { ...texFiles };
     if (signatureImage) {
       files['attachments/signature.png'] = signatureImage;
     }
+    await addFigureFiles(files, figures);
 
     onProgress?.({ kind: 'pdf-compiling' });
     let pdfBytes = await compile(files);
@@ -1099,12 +1111,13 @@ function App() {
     if (!pendingDownloadRef.current) return false;
 
     const currentStore = useDocumentStore.getState();
-    const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls } = pendingDownloadRef.current;
+    const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls, figures } = pendingDownloadRef.current;
 
     const files: Record<string, string | Uint8Array> = { ...texFiles };
     if (signatureImage) {
       files['attachments/signature.png'] = signatureImage;
     }
+    await addFigureFiles(files, figures);
 
     onProgress?.({ kind: 'pdf-compiling' });
     let pdfBytes = await compile(files);
@@ -1415,8 +1428,8 @@ function App() {
     const piiResult = detectPII(currentStore);
     if (piiResult.found) {
       // Store the generated files for later use
-      const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls } = generateAllLatexFiles(currentStore);
-      pendingDownloadRef.current = { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls };
+      const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls, figures } = generateAllLatexFiles(currentStore);
+      pendingDownloadRef.current = { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls, figures };
       setPiiDetectionResult(piiResult);
       setPiiWarningOpen(true);
       return;

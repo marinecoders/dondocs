@@ -45,6 +45,33 @@ import { useTourStore } from '@/stores/tourStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { safeReportUrl, BUG_REPORT_PRIVACY_NOTICE, BUG_REPORT_LOG_PROMPT } from '@/lib/bugReport';
 import { DOC_TYPE_CONFIG, type Paragraph } from '@/types/document';
+import { loadAttachment, persistAttachment } from '@/lib/attachments';
+
+// A figure's image lives in the attachments store. A draft file carries it as
+// base64, as it carries enclosure files, so the draft opens whole on another
+// machine; the bytes go back into the store on import and never into state.
+type DraftParagraph = Partial<Paragraph> & { text: string; figure?: NonNullable<Paragraph['figure']> & { data?: string } };
+
+async function embedFigureData(paragraphs: Paragraph[]): Promise<DraftParagraph[]> {
+  return Promise.all(paragraphs.map(async (p) => {
+    if (!p.figure?.fileRef) return p;
+    const bytes = await loadAttachment(p.figure.fileRef.id);
+    return bytes ? { ...p, figure: { ...p.figure, data: uint8ArrayToBase64(new Uint8Array(bytes)) } } : p;
+  }));
+}
+
+async function restoreFigureData(paragraphs: DraftParagraph[]): Promise<DraftParagraph[]> {
+  return Promise.all(paragraphs.map(async (p) => {
+    if (!p.figure?.data) return p;
+    const { data, ...figure } = p.figure;
+    const bytes = base64ToUint8Array(data);
+    const fileRef = await persistAttachment(
+      { name: figure.name ?? 'figure', size: bytes.length, type: figure.type ?? 'image/png' },
+      bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer,
+    );
+    return { ...p, figure: { ...figure, fileRef } };
+  }));
+}
 
 interface HeaderProps {
   onDownloadPdf?: () => void;
@@ -434,7 +461,7 @@ export function Header({
   }, [redo, applySnapshot]);
 
   // Export entire document state to a JSON file
-  const handleExportDraft = useCallback(() => {
+  const handleExportDraft = useCallback(async () => {
     try {
       const ds = useDocumentStore.getState();
       const dataToExport = {
@@ -459,7 +486,7 @@ export function Header({
             data: uint8ArrayToBase64(arrayBufferToUint8Array(encl.file.data)),
           } : null,
         })),
-        paragraphs: ds.paragraphs,
+        paragraphs: await embedFigureData(ds.paragraphs),
         copyTos: ds.copyTos,
         distributions: ds.distributions,
         endItems: ds.endItems,
@@ -500,7 +527,7 @@ export function Header({
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       try {
         const ds = useDocumentStore.getState();
         const content = e.target?.result as string;
@@ -567,7 +594,7 @@ export function Header({
               data: base64ToUint8Array(encl.file.data).buffer as ArrayBuffer,
             } : undefined,
           })) || [],
-          paragraphs: data.paragraphs?.map((para: Partial<Paragraph> & { text: string }) => ({
+          paragraphs: (await restoreFigureData(data.paragraphs ?? [])).map((para) => ({
             text: para.text,
             level: para.level || 0,
             header: para.header,
@@ -576,6 +603,7 @@ export function Header({
             callout: para.callout,
             procedure: para.procedure,
             appendix: para.appendix,
+            figure: para.figure,
           })) || [],
           copyTos: data.copyTos || [],
         });

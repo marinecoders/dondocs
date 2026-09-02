@@ -35,6 +35,7 @@ export const QUESTIONS: Record<string, Question> = {
       { label: 'A letter, memo, or other written correspondence', value: 'correspondence', help: 'Anything sent to a command, person, or business.' },
       { label: 'A Marine Corps personnel / service-record form', value: 'usmc_form', help: 'Page 11 (NAVMC 118(11)) or an administrative-action form. Marine Corps only.' },
       { label: 'A record of a counseling, event, or decision for the file', value: 'record', help: 'No one receives it — it just goes in the file.' },
+      { label: 'A technical publication directing work on fielded equipment', value: 'techpub', help: 'A Modification, Supply, Technical, or Lubrication Instruction (MI/SI/TI/LI), issued under a PCN.' },
     ],
   },
   formType: {
@@ -171,6 +172,13 @@ export function getRecommendations(answers: Record<string, string>): FinderResul
   // USMC-only Page 11 here; that lives behind the explicit form path (R0).
   if (category === 'record') {
     add('mfr', 'high', 'Per Ch 10: Memorandum for the Record documents meetings, decisions, or events for the official record');
+    return top3();
+  }
+
+  // R1a — Technical publications. Not correspondence: an I-Type is a directive
+  // to the fleet, authenticated on its front matter, under MIL-STD-38784C.
+  if (category === 'techpub') {
+    add('i_type', 'high', 'Per MIL-STD-38784C: an I-Type instruction (MI/SI/TI/LI) directs a modification, supply, technical, or lubrication action on fielded equipment');
     return top3();
   }
 

@@ -19,6 +19,7 @@ export const modificationInstruction: LetterTemplate = {
   category: 'Technical Publications',
   description: 'Directs a modification to fielded equipment, with a time compliance period',
   docType: 'i_type',
+  publicationType: 'MI',
   subject: 'INSERT LONG TITLE HERE',
   paragraphs: [
     {

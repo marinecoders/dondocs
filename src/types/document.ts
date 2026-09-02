@@ -89,6 +89,10 @@ export interface Paragraph {
   /** Starts an appendix, lettered in order; the heading is its title. Pages
    *  number A-1, A-2 and paragraph numbers restart (MIL-STD-38784C 4.7.4.1.4). */
   appendix?: boolean;
+  /** A figure: an image placed in the body, numbered in order, titled by the
+   *  paragraph's text ("Figure 1. Rail alignment"). The image lives in the
+   *  attachments store; `fileRef` is its durable handle. */
+  figure?: { fileRef?: FileRef; name?: string; type?: string };
   portionMarking?: PortionMarking;
 }
 

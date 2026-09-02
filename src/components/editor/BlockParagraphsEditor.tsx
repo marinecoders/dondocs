@@ -28,6 +28,7 @@ import { HelpTip } from '@/components/ui/help-tip';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useSnippetsStore } from '@/stores/snippetsStore';
 import { showAppAlert } from '@/stores/alertStore';
+import { persistAttachment } from '@/lib/attachments';
 import { DOC_TYPE_CONFIG, type PortionMarking, type CalloutKind, type Paragraph } from '@/types/document';
 import { calculateLabels, canIndentAt } from '@/lib/paragraphUtils';
 import { cn } from '@/lib/utils';
@@ -45,10 +46,11 @@ const BLOCK_KINDS = [
   { value: 'caution', short: 'CAUT', name: 'CAUTION — damage to equipment' },
   { value: 'note', short: 'NOTE', name: 'NOTE' },
   { value: 'appendix', short: 'APPX', name: 'Appendix — lettered A, B, C; heading is its title' },
+  { value: 'figure', short: 'FIG', name: 'Figure — an image with a numbered title; the text is the title' },
 ] as const;
 
-function blockKind(callout: CalloutKind | undefined, procedure: boolean | undefined, appendix: boolean | undefined): string {
-  return callout ?? (appendix ? 'appendix' : procedure ? 'step' : 'paragraph');
+function blockKind(callout: CalloutKind | undefined, procedure: boolean | undefined, appendix: boolean | undefined, figure?: Paragraph['figure']): string {
+  return callout ?? (figure ? 'figure' : appendix ? 'appendix' : procedure ? 'step' : 'paragraph');
 }
 
 function setBlockKind(value: string): Partial<Paragraph> {
@@ -56,6 +58,7 @@ function setBlockKind(value: string): Partial<Paragraph> {
     callout: value === 'warning' || value === 'caution' || value === 'note' ? (value as CalloutKind) : undefined,
     procedure: value === 'step' ? true : undefined,
     appendix: value === 'appendix' ? true : undefined,
+    figure: value === 'figure' ? {} : undefined,
   };
 }
 
@@ -89,6 +92,7 @@ interface BlockRowProps {
   callout: CalloutKind | undefined;
   procedure: boolean | undefined;
   appendix: boolean | undefined;
+  figure: Paragraph['figure'];
   disableIndent: boolean;
   /** Whether a deeper indent is currently legal (≤ one level below the block
    *  above). Drives the button's disabled state; the store also enforces it. */
@@ -112,6 +116,7 @@ const BlockRow = memo(function BlockRow({
   callout,
   procedure,
   appendix,
+  figure,
   disableIndent,
   canIndent,
   requestFocus,
@@ -265,16 +270,16 @@ const BlockRow = memo(function BlockRow({
               <DropdownMenuTrigger asChild>
                 <button
                   type="button"
-                  aria-label={`Block kind: ${blockKind(callout, procedure, appendix)}. Change`}
+                  aria-label={`Block kind: ${blockKind(callout, procedure, appendix, figure)}. Change`}
                   title="A technical publication paragraph can be a safety callout, a procedural step, or the start of an appendix"
                   className="shrink-0 rounded-sm px-1 font-serif text-serif-body font-semibold text-muted-foreground outline-none transition-colors hover:bg-accent/50 focus-visible:ring-[3px] focus-visible:ring-ring/50"
                 >
-                  {BLOCK_KINDS.find((k) => k.value === blockKind(callout, procedure, appendix))?.short}
+                  {BLOCK_KINDS.find((k) => k.value === blockKind(callout, procedure, appendix, figure))?.short}
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="min-w-48">
                 <DropdownMenuRadioGroup
-                  value={blockKind(callout, procedure, appendix)}
+                  value={blockKind(callout, procedure, appendix, figure)}
                   onValueChange={(v) => updateParagraph(index, setBlockKind(v))}
                 >
                   {BLOCK_KINDS.map((k) => (
@@ -318,12 +323,29 @@ const BlockRow = memo(function BlockRow({
             </DropdownMenu>
           )}
           <div className="min-w-0 flex-1 font-serif text-serif-body">
+            {figure && (
+              <div className="mb-1 flex items-center gap-2 font-sans text-xs text-muted-foreground">
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg"
+                  aria-label={`Image for figure ${label || index + 1}`}
+                  className="text-xs"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, await file.arrayBuffer());
+                    updateParagraph(index, { figure: { fileRef, name: file.name, type: file.type } });
+                  }}
+                />
+                <span>{figure.name ?? 'No image yet'}</span>
+              </div>
+            )}
             <VariableChipEditor
               blockMode
               autoFocus={autoFocus}
               value={text}
               onChange={(t) => updateParagraph(index, { text: t })}
-              placeholder="Type your paragraph…  ⏎ new · ⇥ indent · @ insert"
+              placeholder={figure ? 'Figure title…' : 'Type your paragraph…  ⏎ new · ⇥ indent · @ insert'}
               onEnterBlock={onEnter}
               onIndentBlock={disableIndent ? undefined : () => indentParagraph(index)}
               onOutdentBlock={disableIndent ? undefined : () => outdentParagraph(index)}
@@ -508,6 +530,7 @@ export function BlockParagraphsEditor() {
               callout={p.callout}
               procedure={p.procedure}
               appendix={p.appendix}
+              figure={p.figure}
               disableIndent={disableNumbered}
               canIndent={canIndentAt(paragraphs, i)}
               requestFocus={requestFocus}

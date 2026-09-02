@@ -12,6 +12,9 @@ import { useDocumentStore } from '@/stores/documentStore';
 import { validateTimeCompliance, validateTimeComplianceParagraph } from '@/lib/timeCompliance';
 import { validatePublicationDate } from '@/lib/publicationDate';
 import { validateMajorItemsOrder } from '@/lib/majorItemsOrder';
+import { validateFigures } from '@/lib/figures';
+import { unfilled } from '@/lib/requiredField';
+import { useUIStore } from '@/stores/uiStore';
 import { validateProcedureSteps } from '@/lib/procedureSteps';
 import { validateAppendixTitles } from '@/lib/appendixTitles';
 import { validateNomenclature, validateLongTitle } from '@/lib/publicationTitle';
@@ -50,6 +53,7 @@ export function ITypeCoverSection() {
   const unitLine2 = useDocumentStore((s) => s.formData.unitLine2 ?? '');
   const unitAddress = useDocumentStore((s) => s.formData.unitAddress ?? '');
   const controllingOffice = useDocumentStore((s) => s.formData.controllingOffice ?? '');
+  const validationVisible = useUIStore((s) => s.validationVisible);
 
   // Both sets of rules answer "does this publication hold together", so they
   // surface in one place rather than sending the drafter hunting.
@@ -65,6 +69,7 @@ export function ITypeCoverSection() {
     ...validateMajorItemsOrder(tables.majorItems ?? []),
     ...validateProcedureSteps(paragraphs),
     ...validateAppendixTitles(paragraphs),
+    ...validateFigures(paragraphs),
     // Every NSN in the publication, cover and tables alike, must use one form.
     ...validateNsnConsistency([
       ...endItems.map((e) => e.nsn),
@@ -129,6 +134,7 @@ export function ITypeCoverSection() {
         <InputWithVariables
           id="subject"
           aria-label="Long title"
+          aria-invalid={validationVisible && unfilled(subject) ? true : undefined}
           value={subject}
           onValueChange={(v) => setField('subject', v)}
           placeholder="INSTALLATION OF THE STOCK ACCESSORY RAIL"
@@ -149,6 +155,7 @@ export function ITypeCoverSection() {
         <Label htmlFor="shortTitle">Short title</Label>
         <Input
           id="shortTitle"
+          aria-invalid={validationVisible && unfilled(shortTitle) ? true : undefined}
           value={shortTitle}
           onChange={(e) => setField('shortTitle', e.target.value)}
           placeholder="MI 12345A-24/1"
@@ -236,6 +243,7 @@ export function ITypeCoverSection() {
         <Input
           id="nomenclature"
           aria-label="Nomenclature"
+          aria-invalid={validationVisible && unfilled(nomenclature) ? true : undefined}
           value={nomenclature}
           onChange={(e) => setField('nomenclature', e.target.value)}
           placeholder="COMBAT OPERATIONS CENTER, AN/TSQ-239(V)4"

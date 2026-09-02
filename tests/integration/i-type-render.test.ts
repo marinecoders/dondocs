@@ -3,6 +3,7 @@ import { spawnSync } from 'node:child_process';
 import { writeFileSync, mkdtempSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
+import { readFileSync } from 'node:fs';
 import { buildBaseline } from '../_helpers/compileMatrix';
 import { compileFixture } from '../_helpers/compileLatex';
 import type { TestStore } from '../_helpers/compileMatrix';
@@ -16,10 +17,10 @@ import type { Paragraph } from '@/types/document';
 
 const hasPdftotext = spawnSync('pdftotext', ['-v']).status !== null;
 
-async function renderDocument(mutate: (s: Record<string, unknown>) => void): Promise<{ pages: string[]; pdf: string }> {
+async function renderDocument(mutate: (s: Record<string, unknown>) => void, extraFiles: Record<string, Uint8Array> = {}): Promise<{ pages: string[]; pdf: string }> {
   const store = buildBaseline('i_type' as never) as unknown as Record<string, unknown>;
   mutate(store);
-  const r = await compileFixture(store as unknown as TestStore);
+  const r = await compileFixture(store as unknown as TestStore, extraFiles);
   expect(r.ok, r.errors.slice(0, 4).join('\n')).toBe(true);
   const pdf = join(mkdtempSync(join(tmpdir(), 'itype-')), 'o.pdf');
   writeFileSync(pdf, r.pdfBytes!);
@@ -257,6 +258,25 @@ describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () =
     expect(ti[0]).toMatch(/U\.S\. MARINE CORPS TECHNICAL INSTRUCTION/);
     expect(ti[1]).toMatch(/This Technical Instruction, TI 12345A-24\/1, is\s+authenticated/);
     expect(ti[1]).not.toMatch(/Record completion/);
+  });
+
+  it('places a figure image with its numbered title beneath', async () => {
+    const image = new Uint8Array(readFileSync(join(process.cwd(), 'public', 'attachments', 'usmc-seal.png')));
+    const { pages, pdf: out } = await renderDocument((s) => {
+      Object.assign(s.formData as Record<string, unknown>, { date: '15 Dec 24', subject: 'TITLE', shortTitle: 'MI 1' });
+      s.paragraphs = [
+        { text: 'To provide instructions.', level: 0, header: 'Purpose' },
+        { text: 'Rail alignment', level: 0, figure: { fileRef: { id: 'f', name: 'rail.png', size: image.length, type: 'image/png' }, name: 'rail.png', type: 'image/png' } },
+        { text: 'Remove the stock.', level: 0 },
+      ];
+    }, { 'attachments/figure-1.png': image });
+    const body = pages.join('\n');
+    expect(body).toMatch(/Figure 1\. Rail alignment/);
+    expect(body).not.toMatch(/add image/);
+    expect(body).toMatch(/2\.\s+Remove the stock/);
+    // The seal on the cover and the figure in the body.
+    const images = spawnSync('pdfimages', ['-list', out], { encoding: 'utf8' }).stdout.split('\n').filter((l) => /\bimage\b/.test(l));
+    expect(images.length).toBeGreaterThanOrEqual(2);
   });
 
   it('never leaves a warning or caution at the foot of a page', async () => {

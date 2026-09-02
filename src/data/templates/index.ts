@@ -33,7 +33,7 @@ import {
 import { letterOfInstructionOps } from './operations';
 
 // Technical Publications
-import { modificationInstruction } from './technical';
+import { modificationInstruction, supplyInstruction, technicalInstruction, lubricationInstruction } from './technical';
 
 export const LETTER_TEMPLATES: LetterTemplate[] = [
   // Personnel
@@ -56,6 +56,9 @@ export const LETTER_TEMPLATES: LetterTemplate[] = [
   letterOfInstructionOps,
   // Technical Publications
   modificationInstruction,
+  supplyInstruction,
+  technicalInstruction,
+  lubricationInstruction,
 ];
 
 export type { LetterTemplate, TemplateParagraph, TemplateReference } from './types';

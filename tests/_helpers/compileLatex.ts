@@ -155,7 +155,7 @@ function runPdflatex(cwd: string, mainFile: string): Promise<{
  * `\pageref{LastPage}` resolution for compile-error detection. If a
  * future test wants accurate page counts, run xelatex twice.
  */
-export async function compileFixture(store: TestStore): Promise<CompileResult> {
+export async function compileFixture(store: TestStore, extraFiles: Record<string, Uint8Array> = {}): Promise<CompileResult> {
   const { texFiles } = generateAllLatexFiles(store);
   const templates = await loadTemplates();
 
@@ -184,6 +184,10 @@ export async function compileFixture(store: TestStore): Promise<CompileResult> {
 
   // Write all generated runtime files at the working directory root —
   // that's where the templates' `\input{document.tex}` etc. look.
+  // Files the body names beyond the generated TeX, such as figure images.
+  for (const [name, bytes] of Object.entries(extraFiles)) {
+    await writeFile(join(workDir, name), bytes);
+  }
   for (const [name, content] of Object.entries(texFiles)) {
     await writeFile(join(workDir, name), content);
   }

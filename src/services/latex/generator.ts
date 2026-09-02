@@ -4,7 +4,8 @@ import { tableSpec } from '@/data/techpub/tables';
 import { publicationTypeName } from '@/data/techpub/publicationTypes';
 import { composeDistributionStatement } from '@/data/techpub/distributionStatements';
 import { formatPublicationDate } from '@/lib/publicationDate';
-import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, EndItem, PublicationTableRow, CalloutKind } from '@/types/document';
+import { figureFile } from '@/lib/figures';
+import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, EndItem, PublicationTableRow, CalloutKind, FileRef } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
@@ -88,7 +89,7 @@ function calculateLabels(paragraphs: Paragraph[]): string[] {
     // A safety callout is not a numbered paragraph: it takes no label and does
     // not advance the count, so the steps around it stay consecutive. The empty
     // label keeps this array aligned with `paragraphs` by index.
-    if (para.callout) {
+    if (para.callout || para.figure) {
       labels.push('');
       continue;
     }
@@ -956,6 +957,7 @@ export function generateBodyTex(store: DocumentStore): string {
   const END_OF_INSTRUCTION = '\\par\\vspace{12pt}\n\\begin{center}\\textbf{END OF INSTRUCTION}\\end{center}\n\n';
   let ended = false;
   let appendixCount = 0;
+  let figureCount = 0;
   for (let i = 0; i < store.paragraphs.length; i++) {
     const para = store.paragraphs[i];
     const label = useNumberedParagraphs ? labels[i] : '';
@@ -964,6 +966,20 @@ export function generateBodyTex(store: DocumentStore): string {
     // DOCX path; the PDF silently dropped it (DoDM 5200.01 V2 requires
     // portion marks on the primary output too). Enum-constrained, LaTeX-safe.
     const portionPrefix = para.portionMarking ? `(${para.portionMarking}) ` : '';
+
+    // A figure: the image, then its numbered title beneath. The framed
+    // fallback stands in until the image is loaded, as the seal's does.
+    if (para.figure && store.docType === 'i_type') {
+      const n = ++figureCount;
+      const file = figureFile(n, para.figure.type, para.figure.name);
+      parts.push(
+        `\\par\\vspace{12pt}\n\\begin{center}\n` +
+          `\\IfFileExists{${file}}{\\includegraphics[width=\\textwidth,height=5in,keepaspectratio]{${file}}}` +
+          `{\\framebox[3in][c]{\\parbox[c][1.5in][c]{2.8in}{\\centering\\scriptsize Figure ${n}\\\\(add image)}}}\\\\[6pt]\n` +
+          `Figure ${n}. ${processBodyText(para.text)}\n\\end{center}\n\\vspace{12pt}\n\n`
+      );
+      continue;
+    }
 
     // A safety callout replaces the paragraph rather than decorating it.
     if (para.callout) {
@@ -1189,6 +1205,9 @@ export interface GeneratedFiles {
   includeHyperlinks: boolean;
   signatureImage?: Uint8Array; // PNG data for signature image
   referenceUrls: ReferenceUrlData[]; // URLs for reference hyperlinks
+  /** Figure images to place, by the file the body names and the attachment
+   *  that holds the bytes. The caller loads and supplies them. */
+  figures: { file: string; ref: FileRef }[];
 }
 
 export function generateAllLatexFiles(store: DocumentStore): GeneratedFiles {
@@ -1232,5 +1251,14 @@ export function generateAllLatexFiles(store: DocumentStore): GeneratedFiles {
     .filter((r) => r.url?.trim())
     .map((r) => ({ letter: r.letter, url: r.url! }));
 
-  return { texFiles, enclosures, includeHyperlinks: !!store.formData.includeHyperlinks, signatureImage, referenceUrls };
+  const figures: GeneratedFiles['figures'] = [];
+  if (store.docType === 'i_type') {
+    let n = 0;
+    for (const p of store.paragraphs) {
+      if (!p.figure) continue;
+      n++;
+      if (p.figure.fileRef) figures.push({ file: figureFile(n, p.figure.type, p.figure.name), ref: p.figure.fileRef });
+    }
+  }
+  return { texFiles, enclosures, includeHyperlinks: !!store.formData.includeHyperlinks, signatureImage, referenceUrls, figures };
 }

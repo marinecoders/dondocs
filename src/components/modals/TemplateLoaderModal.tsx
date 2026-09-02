@@ -88,6 +88,10 @@ export function TemplateLoaderModal() {
     if (selectedTemplate.ssic) {
       store.setField('ssic', selectedTemplate.ssic);
     }
+    // A technical publication template names which I-Type it is.
+    if (selectedTemplate.publicationType) {
+      store.setField('publicationType', selectedTemplate.publicationType);
+    }
 
     // Clear existing paragraphs by removing from the end (avoids index shifting issues)
     const currentParagraphCount = store.paragraphs.length;

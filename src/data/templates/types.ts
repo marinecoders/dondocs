@@ -25,4 +25,6 @@ export interface LetterTemplate {
   paragraphs: TemplateParagraph[];
   references?: TemplateReference[];
   ssic?: string;
+  /** Which I-Type a technical publication template is. */
+  publicationType?: 'MI' | 'SI' | 'TI' | 'LI';
 }

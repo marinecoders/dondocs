@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { generateDocumentTex } from '@/services/latex/generator';
+import { generateDocumentTex, generateBodyTex } from '@/services/latex/generator';
 
 const store = (endItems: Array<Record<string, string>>) => ({
   docType: 'i_type',
@@ -51,6 +51,20 @@ describe('I-Type cover', () => {
   it('prints its date in full', () => {
     const tex = generateDocumentTex({ ...store([]), formData: { docType: 'i_type', date: '15 Dec 24' } } as never);
     expect(tex).toContain('\\setDocumentDate{15 December 2024}');
+  });
+
+  it('places a figure with its numbered title, and does not number it as a paragraph', () => {
+    const tex = generateBodyTex({
+      ...store([]), formData: { docType: 'i_type' },
+      paragraphs: [
+        { text: 'To provide instructions.', level: 0, header: 'Purpose' },
+        { text: 'Rail alignment', level: 0, figure: { fileRef: { id: 'x', name: 'rail.png', size: 1, type: 'image/png' }, name: 'rail.png', type: 'image/png' } },
+        { text: 'Remove the stock.', level: 0 },
+      ],
+    } as never);
+    expect(tex).toContain('\\includegraphics[width=\\textwidth,height=5in,keepaspectratio]{attachments/figure-1.png}');
+    expect(tex).toContain('Figure 1. Rail alignment');
+    expect(tex).toContain('\\textbf{2.}~~Remove the stock.');
   });
 
   it('carries the controlling office', () => {
