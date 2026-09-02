@@ -173,19 +173,22 @@ export function ITypeCoverSection() {
         />
       </div>
 
-      <label className="flex items-center gap-2 text-sm">
+      <div className="flex items-center gap-2">
         <Checkbox
+          id="exportRestricted"
           checked={exportRestricted}
           onCheckedChange={(v) => setField('exportRestricted', v === true)}
         />
-        Technical data is export-restricted
+        <Label htmlFor="exportRestricted" className="text-sm font-normal cursor-pointer">
+          Technical data is export-restricted
+        </Label>
         <HelpTip>
           <p className="text-xs">
             Adds the Arms Export Control Act warning between the distribution
             statement and the destruction notice, where the standard places it.
           </p>
         </HelpTip>
-      </label>
+      </div>
 
       <div className="space-y-2">
         <Label htmlFor="miUrgency">Time compliance</Label>
@@ -199,12 +202,15 @@ export function ITypeCoverSection() {
           </SelectContent>
         </Select>
         {urgency === 'urgent' && (
-          <Input
-            type="date"
-            aria-label="Completion date"
-            value={completionDate}
-            onChange={(e) => setField('miCompletionDate', e.target.value)}
-          />
+          <div className="space-y-2 pt-1">
+            <Label htmlFor="miCompletionDate">Completion date</Label>
+            <Input
+              id="miCompletionDate"
+              type="date"
+              value={completionDate}
+              onChange={(e) => setField('miCompletionDate', e.target.value)}
+            />
+          </div>
         )}
       </div>
 

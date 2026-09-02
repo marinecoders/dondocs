@@ -28,13 +28,13 @@ export interface EndItem {
   model: string;
 }
 
-/** One row of a technical publication table, keyed by that table's column
- *  keys. `level` nests a "consisting of" item beneath its parent. */
 /** MIL-STD-38784C safety callouts. A WARNING covers long-term health hazards,
  *  injury or death; a CAUTION damage to equipment or loss of mission
  *  effectiveness; a NOTE is neither, and may follow what it refers to. */
 export type CalloutKind = 'warning' | 'caution' | 'note';
 
+/** One row of a technical publication table, keyed by that table's column
+ *  keys. `level` nests a "consisting of" item beneath its parent. */
 export interface PublicationTableRow {
   values: Record<string, string>;
   level?: number;
@@ -171,12 +171,13 @@ export interface DocumentData {
   /** Technical publication cover: the equipment this publication covers.
    *  Two lines at most. Empty for correspondence. */
   nomenclature?: string;
-  /** URGENT modification instructions must complete inside a year; NORMAL ones
-   *  run a year by default and say nothing. */
   /** Which I-Type this is; defaults to a Modification Instruction. */
   publicationType?: 'MI' | 'SI' | 'TI' | 'LI';
-  /** The office that controls the publication; closes the signature block and the Controlled by line. */
+  /** The office that controls the publication; closes the signature block
+   *  and the cover's Controlled by line. */
   controllingOffice?: string;
+  /** URGENT modification instructions must complete inside a year; NORMAL ones
+   *  run a year by default and say nothing. */
   miUrgency?: 'urgent' | 'normal';
   /** Completion date an URGENT instruction must give. */
   miCompletionDate?: string;

@@ -1,9 +1,9 @@
 # I-Type technical publications — build plan
 
 Scoping notes for the first MIL-STD-38784C document type, from the templates
-MARCORSYSCOM sent. Branch: `feat/techpub-i-type`, local only.
+MARCORSYSCOM sent. Branch: `feat/techpub-i-type`.
 
-Status: **planned, nothing built.** Written against a full read of
+Status: **built** (PR #270). This is the design record it was built from; where the template read differently from these notes, the template won, and the PR's commit messages say where. Written against a full read of
 `1. I-Type Template.docx` and MIL-STD-38784C.
 
 ---

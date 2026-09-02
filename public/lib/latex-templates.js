@@ -2566,10 +2566,10 @@ const LATEX_TEMPLATES = {
 % identified by a PCN rather than an SSIC, and it is authenticated rather than
 % signed off. Hence the empty addressing block below.
 %
-% Phase 1 scope is the frame -- title block, CUI markings and the
-% authentication block. The numbered paragraph model, the nine materiel tables
-% and the WARNING/CAUTION/NOTE environments follow; see
-% docs/TECHPUB_I_TYPE.md.
+% This module is the frame: the cover and its notices, the authentication
+% page, and the page styles. The paragraph numbering, the materiel tables,
+% the WARNING/CAUTION/NOTE boxes, the procedural steps and the appendices are
+% emitted by the generator into the body; see docs/TECHPUB_I_TYPE.md.
 %
 %=============================================================================
 
