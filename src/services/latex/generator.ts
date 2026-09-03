@@ -326,13 +326,13 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     const items = store.endItems ?? [];
     const overflow = items.length > END_ITEM_ROWS;
     const shown = overflow ? [] : items.slice(0, END_ITEM_ROWS);
+    // Each row is ruled, as in the source table -- six visibly distinct rows
+    // whether or not they carry an end item.
     const rows = Array.from({ length: END_ITEM_ROWS }, (_, i) => {
       const item = shown[i];
       return item
         ? [item.nsn, item.tamcn, item.id, item.model].map((v) => escapeLatex(v || '')).join(' & ')
         : ' & & & ';
-    // Each row is ruled, as in the source table -- six visibly distinct rows
-    // whether or not they carry an end item.
     }).join(' \\\\ \\hline ');
     tex += `\\setNomenclature{${escapeLatex(data.nomenclature || '')}}\n`;
     tex += `\\setEndItemRows{${rows}}\n`;
@@ -840,13 +840,12 @@ function underlineWords(text: string): string {
  */
 function generatePublicationTable(tableKey: string, rows: PublicationTableRow[], heading: string): string {
   const fullSpec = tableSpec(tableKey);
-  if (!fullSpec) return '';
+  if (!fullSpec || rows.length === 0) return '';
   // "If Item Numbers are not needed in tables, remove column." Derived from the
   // rows rather than asked: a table where no row carries an item number prints
   // without the column.
   const itemUsed = rows.some((r) => (r.values.item ?? '').trim() !== '');
   const spec = itemUsed ? fullSpec : { ...fullSpec, columns: fullSpec.columns.filter((c) => c.key !== 'item') };
-  if (!spec || rows.length === 0) return '';
 
   // First-line and hanging indents the template gives a parent item and its
   // first- and second-level "consisting of" items. Cells set ragged: a
@@ -868,7 +867,6 @@ function generatePublicationTable(tableKey: string, rows: PublicationTableRow[],
     const { first, hang } = INDENT[Math.min(level, INDENT.length - 1)];
     return `\\raggedright\\hangindent=${hang}\\hangafter=1 \\hspace*{${first}}${text}`;
   };
-  const emptyCells = (n: number) => Array.from({ length: n }, () => '\\raggedright ');
 
   const lines: string[] = [];
   rows.forEach((row, r) => {
@@ -889,7 +887,7 @@ function generatePublicationTable(tableKey: string, rows: PublicationTableRow[],
     // indent, as the template lays the parts list out.
     const next = rows[r + 1];
     if (next && (next.level ?? 0) > level) {
-      const cells = emptyCells(spec.columns.length);
+      const cells = Array.from({ length: spec.columns.length }, () => '\\raggedright ');
       cells[descriptionIndex] = cellText('Consisting of:', next.level ?? 0);
       lines.push(cells.join(' & '));
     }
@@ -994,8 +992,11 @@ export function generateBodyTex(store: DocumentStore): string {
   let appendixCount = 0;
   // Figures number consecutively, and afresh within each appendix with its
   // letter in front (MIL-STD-38784C 4.7.4.1.4): Figure 2, then Figure A-1.
-  let figureCount = 0;
-  let figureSeq = 0;
+  let printedFigureNumber = 0;
+  // The image file is named by position in the document and never restarts.
+  // generateAllLatexFiles counts the same way when it collects the bytes, so
+  // if the two ever drift a figure prints someone else's image.
+  let figureFileIndex = 0;
   let appendixLetter = '';
   for (let i = 0; i < store.paragraphs.length; i++) {
     const para = store.paragraphs[i];
@@ -1009,10 +1010,10 @@ export function generateBodyTex(store: DocumentStore): string {
     // A figure: the image, then its numbered title beneath. The framed
     // fallback stands in until the image is loaded, as the seal's does.
     if (para.figure && store.docType === 'i_type') {
-      const n = ++figureCount;
-      const file = figureFile(++figureSeq, para.figure.type, para.figure.name);
-      const label = appendixLetter ? `${appendixLetter}-${n}` : String(n);
-      // (M) A title carries no period at the end (4.7.9.1).
+      const file = figureFile(++figureFileIndex, para.figure.type, para.figure.name);
+      const number = ++printedFigureNumber;
+      const label = appendixLetter ? `${appendixLetter}-${number}` : String(number);
+      // A figure title carries no period at the end (MIL-STD-38784C 4.7.9.1).
       const title = processBodyText(para.text.trim().replace(/\.$/, ''));
       parts.push(
         `\\par\\vspace{12pt}\n\\begin{center}\n` +
@@ -1036,7 +1037,7 @@ export function generateBodyTex(store: DocumentStore): string {
       if (!ended) { parts.push(END_OF_INSTRUCTION); ended = true; }
       const letter = String.fromCharCode(65 + appendixCount++);
       appendixLetter = letter;
-      figureCount = 0;
+      printedFigureNumber = 0;
       parts.push(`\\startAppendix{${letter}}{${escapeLatex(headerText || '')}}\n`);
       if (para.text.trim()) {
         parts.push(`\\noindent ${portionPrefix}${processBodyText(para.text)}\\par\n\n`);
@@ -1298,11 +1299,11 @@ export function generateAllLatexFiles(store: DocumentStore): GeneratedFiles {
 
   const figures: GeneratedFiles['figures'] = [];
   if (store.docType === 'i_type') {
-    let n = 0;
+    let figureFileIndex = 0;
     for (const p of store.paragraphs) {
       if (!p.figure) continue;
-      n++;
-      if (p.figure.fileRef) figures.push({ file: figureFile(n, p.figure.type, p.figure.name), ref: p.figure.fileRef });
+      figureFileIndex++;
+      if (p.figure.fileRef) figures.push({ file: figureFile(figureFileIndex, p.figure.type, p.figure.name), ref: p.figure.fileRef });
     }
   }
   return { texFiles, enclosures, includeHyperlinks: !!store.formData.includeHyperlinks, signatureImage, referenceUrls, figures };

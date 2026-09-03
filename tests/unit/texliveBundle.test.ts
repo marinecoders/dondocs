@@ -40,8 +40,4 @@ describe('curated TeX Live bundle', () => {
       expect(existsSync(join(process.cwd(), 'public', 'lib', 'texlive', 'pdftex', '26', `${pkg}.sty`)), `${pkg}.sty is not in public/lib/texlive`).toBe(true);
     }
   });
-
-  it('carries longtable, which a technical publication\'s parts lists break with', () => {
-    expect(carries('longtable.sty')).toBe(true);
-  });
 });

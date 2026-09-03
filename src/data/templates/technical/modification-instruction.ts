@@ -9,9 +9,10 @@ import type { LetterTemplate } from '../types';
  * fills them in, removes the ones that do not apply, and changes nothing else.
  * Numbering closes over whatever is removed on its own.
  *
- * SI, TI and LI share this skeleton; only the Recording Instruction on the
- * signature page is MI-only. Tables belong to the paragraphs that carry them
- * (Major Items, Components, Materiel, Special Tools) and are still to come.
+ * SI, TI and LI share this skeleton less the Time Compliance Period, which
+ * belongs to a modification (i-type-instructions.ts); the Recording
+ * Instruction on the signature page is likewise MI-only. A table belongs to
+ * the paragraph that carries it, named by `tableKey` from I_TYPE_TABLES.
  */
 export const modificationInstruction: LetterTemplate = {
   id: 'modification-instruction',

@@ -7,17 +7,19 @@ import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { buildBaseline } from '../_helpers/compileMatrix';
 import { compileFixture } from '../_helpers/compileLatex';
 import type { TestStore } from '../_helpers/compileMatrix';
+import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfToolchain';
 
 // One Modification Instruction with everything the template and the
 // specification provide for, read back page by page in the order the
 // document must present them. The other I-Type suites prove each part on its
 // own; this one proves they stand together as a document.
 
-const hasPdftotext = spawnSync('pdftotext', ['-v']).status !== null;
 
 const fig = (name: string, type: string, size: number) => ({ fileRef: { id: name, name, size, type }, name, type });
 
-describe.skipIf(!hasPdftotext)('a complete Modification Instruction, end to end', () => {
+describeToolchainRequirement('i-type-full-document');
+
+describe.skipIf(!hasPdfToolchain)('a complete Modification Instruction, end to end', () => {
   let pages: string[];
   let pdf: string;
 
@@ -99,7 +101,7 @@ describe.skipIf(!hasPdftotext)('a complete Modification Instruction, end to end'
     };
     const r = await compileFixture(s as unknown as TestStore, { 'attachments/figure-1.png': seal, 'attachments/figure-2.pdf': drawing, 'attachments/figure-3.png': seal });
     expect(r.ok, r.errors.slice(0, 5).join('\n')).toBe(true);
-    pdf = join(process.env.ITYPE_OUT ?? mkdtempSync(join(tmpdir(), 'itype-full-')), 'full.pdf');
+    pdf = join(mkdtempSync(join(tmpdir(), 'itype-full-')), 'full.pdf');
     writeFileSync(pdf, r.pdfBytes!);
     const n = Number(/Pages:\s+(\d+)/.exec(spawnSync('pdfinfo', [pdf], { encoding: 'utf8' }).stdout)?.[1] ?? 0);
     pages = Array.from({ length: n }, (_, i) => spawnSync('pdftotext', ['-f', String(i + 1), '-l', String(i + 1), pdf, '-'], { encoding: 'utf8' }).stdout);

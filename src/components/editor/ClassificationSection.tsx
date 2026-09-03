@@ -82,6 +82,27 @@ const DISTRIBUTION_STATEMENTS = [
   { value: 'F', label: 'F - Further dissemination only as directed' },
 ];
 
+/** The Distribution Statement picker. Three call sites render it -- a
+ *  publication at any classification level, and a CUI or custom-marked letter
+ *  at that level -- so each passes its own id for its Label to point at. */
+function DistributionStatementField({ id, value, onChange }: { id: string; value: string; onChange: (v: string) => void }) {
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={id}>Distribution Statement</Label>
+      <Select value={value} onValueChange={onChange}>
+        <SelectTrigger id={id} aria-label="Distribution Statement">
+          <SelectValue placeholder="Select statement…" />
+        </SelectTrigger>
+        <SelectContent>
+          {DISTRIBUTION_STATEMENTS.map((stmt) => (
+            <SelectItem key={stmt.value} value={stmt.value}>{stmt.label}</SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
+
 export function ClassificationSection() {
   const { formData, setField } = useDocumentStore();
   const paragraphs = useDocumentStore((s) => s.paragraphs);
@@ -392,22 +413,11 @@ export function ClassificationSection() {
                 </div>
 
                 {!isPublication && (
-                  <div className="space-y-2">
-                    <Label htmlFor="customCuiDistStatement">Distribution Statement</Label>
-                    <Select
-                      value={formData.cuiDistStatement || ''}
-                      onValueChange={(v) => setField('cuiDistStatement', v)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select statement…" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {DISTRIBUTION_STATEMENTS.map((stmt) => (
-                          <SelectItem key={stmt.value} value={stmt.value}>{stmt.label}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  <DistributionStatementField
+                    id="customCuiDistStatement"
+                    value={formData.cuiDistStatement || ''}
+                    onChange={(v) => setField('cuiDistStatement', v)}
+                  />
                 )}
 
                 <div className="space-y-2">
@@ -474,26 +484,17 @@ export function ClassificationSection() {
               <div className="space-y-4 p-3 rounded-md border bg-muted/30">
                 <p className="text-sm font-medium">Distribution</p>
 
-                <div className="space-y-2">
-                  <Label htmlFor="pubDistStatement">Distribution Statement</Label>
-                  <Select
-                    value={formData.cuiDistStatement || ''}
-                    onValueChange={(v) => setField('cuiDistStatement', v)}
-                  >
-                    <SelectTrigger id="pubDistStatement" aria-label="Distribution Statement">
-                      <SelectValue placeholder="Select statement…" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {DISTRIBUTION_STATEMENTS.map((stmt) => (
-                        <SelectItem key={stmt.value} value={stmt.value}>{stmt.label}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+                <DistributionStatementField
+                  id="pubDistStatement"
+                  value={formData.cuiDistStatement || ''}
+                  onChange={(v) => setField('cuiDistStatement', v)}
+                />
 
-                {/* B through F print the reason and the date of determination
-                    the template leaves for the author. The office they refer
-                    requests to is the Cover's controlling office. */}
+                {/* B through E print a reason and a date of determination; F
+                    prints a date only. Both are fill-ins DoDI 5230.24 leaves
+                    to the author, and the office is the Cover's controlling
+                    office -- B through E refer other requests to it, F directs
+                    further dissemination by it. */}
                 {['B', 'C', 'D', 'E'].includes(formData.cuiDistStatement || '') && (
                   <div className="space-y-2">
                     <Label htmlFor="distReason">Reason for restriction</Label>
@@ -569,22 +570,11 @@ export function ClassificationSection() {
                 </div>
 
                 {!isPublication && (
-                  <div className="space-y-2">
-                    <Label htmlFor="cuiDistStatement">Distribution Statement</Label>
-                    <Select
-                      value={formData.cuiDistStatement || ''}
-                      onValueChange={(v) => setField('cuiDistStatement', v)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select statement…" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {DISTRIBUTION_STATEMENTS.map((stmt) => (
-                          <SelectItem key={stmt.value} value={stmt.value}>{stmt.label}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  <DistributionStatementField
+                    id="cuiDistStatement"
+                    value={formData.cuiDistStatement || ''}
+                    onChange={(v) => setField('cuiDistStatement', v)}
+                  />
                 )}
               </div>
             )}

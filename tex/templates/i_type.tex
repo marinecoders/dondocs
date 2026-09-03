@@ -68,8 +68,9 @@
 % the same shape as one covering six. A seventh item moves the whole list to
 % the back of the cover page and leaves "See Next Page" in its stead.
 
-% The End Item table, drawn from a row set. The cover and its back use the
-% same columns and widths, so they share this rather than drifting apart.
+% The End Item table, drawn from a row set. The cover sets it as a tabular;
+% its back as a longtable. The column widths and the boxhead are written out
+% in both -- change one, change the other.
 % The back of the cover lists every end item and may run to pages: the
 % boxhead is repeated on each, the closing rule omitted at the foot of a
 % continued table and the opening rule at the head of its continuation
@@ -372,7 +373,6 @@
 % its letter and title centred above the text (MIL-STD-38784C 4.7.4.1.4).
 \newcommand{\startAppendix}[2]{%
     \clearpage
-    \pagestyle{appendixpage}%
     \setcounter{page}{1}%
     \renewcommand{\thepage}{#1-\arabic{page}}%
     \begin{center}
@@ -392,8 +392,6 @@
     \dondocsMeasureCoverHead
 }
 
-% Every page after the cover runs the short title and date, with the CUI
-% banner above them and the page number centred below.
 % The authentication page: the short title at the right, and no date -- the
 % date is in its body.
 \fancypagestyle{authpage}{%
@@ -406,21 +404,11 @@
     \setlength{\headheight}{26pt}%
 }
 
-% Appendix pages centre the short title and date in the header, on one line
-% so the head stays the height of every other page's: a taller head moves
-% the text block, and the page number with it, down onto the banner.
-\fancypagestyle{appendixpage}{%
-    \fancyhf{}%
-    \fancyhead[C]{%
-        \ifClassificationEnabled\placeClassificationMarkings\\\fi
-        \footnotesize\bfseries\ShortTitle\hspace{2em}\DocumentDate%
-    }%
-    \fancyfoot[C]{\thepage}%
-    \renewcommand{\headrulewidth}{0pt}%
-    \renewcommand{\footrulewidth}{0pt}%
-    \setlength{\headheight}{26pt}%
-}
-
+% Every page after the cover, appendices included, centres the short title and
+% date in the header with the CUI banner above them and the page number below
+% -- on one line so the head stays the height of every other page's: a taller
+% head moves the text block, and the page number with it, down onto the
+% banner. An appendix differs only in \thepage, which \startAppendix sets.
 \fancypagestyle{documentpage}{%
     \fancyhf{}%
     \fancyhead[C]{%

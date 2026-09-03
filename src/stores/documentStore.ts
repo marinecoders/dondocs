@@ -110,7 +110,7 @@ export interface DocumentState {
   setFormData: (data: Partial<DocumentData>) => void;
   resetForm: () => void;
 
-  // Actions - References
+  // Actions - Publication tables and end items
   addTableRow: (tableKey: string) => void;
   updateTableRow: (tableKey: string, index: number, values: Record<string, string>) => void;
   removeTableRow: (tableKey: string, index: number) => void;
@@ -118,6 +118,8 @@ export interface DocumentState {
   addEndItem: () => void;
   updateEndItem: (index: number, updates: Partial<EndItem>) => void;
   removeEndItem: (index: number) => void;
+
+  // Actions - References
   addReference: (title: string, url?: string) => void;
   updateReference: (index: number, updates: Partial<Reference>) => void;
   removeReference: (index: number) => void;
@@ -370,8 +372,8 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     docType: 'naval_letter',
     formData: { ...DEFAULT_FORM_DATA },
     references: [...DEFAULT_REFERENCES],
-  endItems: [],
-  publicationTables: {},
+    endItems: [],
+    publicationTables: {},
     enclosures: [...DEFAULT_ENCLOSURES],
     paragraphs: [...DEFAULT_PARAGRAPHS],
     copyTos: [
@@ -383,7 +385,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     });
   },
 
-  // References
+  // Publication tables and end items
   addTableRow: (tableKey) => set((state) => ({
     publicationTables: {
       ...state.publicationTables,
@@ -428,6 +430,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     endItems: state.endItems.filter((_, i) => i !== index),
   })),
 
+  // References
   addReference: (title, url) => set((state) => ({
     references: [
       ...state.references,

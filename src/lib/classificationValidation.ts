@@ -137,7 +137,7 @@ export function validateClassificationMarkings(
  * document — so it is derived here rather than asked for twice and allowed to
  * disagree with itself.
  */
-import { DISTRIBUTION_REASONS_BY_STATEMENT } from '@/data/techpub/distributionStatements';
+import { DISTRIBUTION_STATEMENTS_BY_REASON } from '@/data/techpub/distributionStatements';
 
 export type SensitivityLabel = 'Uncontrolled / General' | 'Controlled / CUI';
 
@@ -210,7 +210,7 @@ export function validateReasonForStatement(distributionStatement: string | undef
   const letter = (distributionStatement ?? '').trim().charAt(0).toUpperCase();
   const chosen = reason?.trim();
   if (!chosen || !['B', 'C', 'D', 'E'].includes(letter)) return [];
-  const allowed = DISTRIBUTION_REASONS_BY_STATEMENT[chosen];
+  const allowed = DISTRIBUTION_STATEMENTS_BY_REASON[chosen];
   if (!allowed) return [{ severity: 'warning', message: `"${chosen}" is not a reason DoDI 5230.24 lists; choose one of its reasons.` }];
   return allowed.includes(letter)
     ? []

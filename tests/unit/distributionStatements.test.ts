@@ -33,10 +33,10 @@ describe('composeDistributionStatement', () => {
 
   it('is empty when nothing is chosen', () => {
     expect(composeDistributionStatement('')).toBe('');
-    expect(DISTRIBUTION_REASONS).toContain('Export Controlled');
   });
 
   it('offers each statement the reasons the instruction pairs it with', () => {
+    expect(DISTRIBUTION_REASONS).toContain('Export Controlled');
     expect(reasonsFor('E')).toContain('Direct Military Support');
     expect(reasonsFor('D')).not.toContain('Direct Military Support');
     expect(reasonsFor('C')).not.toContain('Test and Evaluation');

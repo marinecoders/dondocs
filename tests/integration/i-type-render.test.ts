@@ -8,6 +8,7 @@ import { buildBaseline } from '../_helpers/compileMatrix';
 import { compileFixture } from '../_helpers/compileLatex';
 import type { TestStore } from '../_helpers/compileMatrix';
 import type { Paragraph } from '@/types/document';
+import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfToolchain';
 
 // The I-Type's rules are typographic, so they are proved on the rendered
 // page rather than on the LaTeX that produced it: the compile matrix already
@@ -15,7 +16,6 @@ import type { Paragraph } from '@/types/document';
 // while proving nothing about what a Marine sees. These read the PDF back
 // with pdftotext and check the rules the MARCORSYSCOM template states.
 
-const hasPdftotext = spawnSync('pdftotext', ['-v']).status !== null;
 
 async function renderDocument(mutate: (s: Record<string, unknown>) => void, extraFiles: Record<string, Uint8Array> = {}): Promise<{ pages: string[]; pdf: string }> {
   const store = buildBaseline('i_type' as never) as unknown as Record<string, unknown>;
@@ -43,7 +43,15 @@ function lineBoxes(pdf: string, page: number): { x0: number; y0: number; x1: num
   }));
 }
 
-describe.skipIf(!hasPdftotext)('I-Type renders per the template', () => {
+describeToolchainRequirement('i-type-render');
+
+/** Every word on a page with its left edge, in points from the page's left. */
+function wordBoxes(pdf: string, page: number): { x0: number; text: string }[] {
+  const xml = spawnSync('pdftotext', ['-bbox', '-f', String(page), '-l', String(page), pdf, '-'], { encoding: 'utf8' }).stdout;
+  return Array.from(xml.matchAll(/<word xMin="([\d.]+)"[^>]*>([^<]+)<\/word>/g)).map((m) => ({ x0: Number(m[1]), text: m[2] }));
+}
+
+describe.skipIf(!hasPdfToolchain)('I-Type renders per the template', () => {
   let pages: string[];
 
   beforeAll(async () => {
@@ -157,7 +165,7 @@ describe.skipIf(!hasPdftotext)('I-Type renders per the template', () => {
 
 // What the MARCORSYSCOM template settles beyond the standard: read off the
 // template's own header, footer, and authentication page.
-describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () => {
+describe.skipIf(!hasPdfToolchain)('I-Type follows the template page for page', () => {
   let pages: string[];
   let pdf: string;
 
@@ -328,7 +336,7 @@ describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () =
       s.publicationTables = { materielRequired: Array.from({ length: 60 }, (_, i) => ({ values: { item: String(i + 1), description: `PART NUMBER ${i + 1} OF THE KIT`, nsn: `5305-00-123-${4000 + i}`, pn: `PN-${i + 1}`, qty: '1' } })) };
     });
     const body = pages.join('\n');
-    for (const n of [1, 30, 43, 44, 60]) expect(body).toMatch(new RegExp(`PART NUMBER ${n} OF THE KIT`));
+    for (let n = 1; n <= 60; n++) expect(body, `row ${n} of the parts list is missing`).toMatch(new RegExp(`PART NUMBER ${n} OF THE KIT`));
     expect(body).toMatch(/1005-01-566-1038/);
     expect(body).toMatch(/Materiel Required -- Continued|Materiel Required – Continued|Materiel Required — Continued/);
     // Nothing is placed below the page's bottom margin on any page.
@@ -372,21 +380,23 @@ describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () =
   });
 });
 
-describe.skipIf(!hasPdftotext)('I-Type stays inside its page', () => {
+describe.skipIf(!hasPdfToolchain)('I-Type stays inside its page', () => {
   // A part number is one token with no space or hyphen to break at, and TeX
   // will not hyphenate a word containing digits. Over ~24 characters it used
   // to print through the next column and, past ~38, off the sheet.
   it('breaks an over-long part number inside its own column', async () => {
-    const { pdf: out } = await renderDocument((s) => {
+    const { pages, pdf: out } = await renderDocument((s) => {
       Object.assign(s.formData as Record<string, unknown>, { date: '15 Dec 24', subject: 'TITLE', shortTitle: 'MI 1' });
       s.paragraphs = [{ text: '', level: 0, header: 'Materiel Required', tableKey: 'materielRequired' }];
       s.publicationTables = {
         materielRequired: [{ values: { item: '1', description: 'KIT, ACCESSORY RAIL', nsn: '1005015661300', pn: 'MS3367100000000ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', qty: '1' } }],
       };
     });
-    for (let page = 1; page <= 3; page++) {
+    // 1in margins on a 8.5in page: the text block ends 1in from the right.
+    const rightEdge = 612 - 72;
+    for (let page = 1; page <= pages.length; page++) {
       for (const line of lineBoxes(out, page)) {
-        expect(line.x1, `"${line.text.slice(0, 30)}" runs past the right margin on page ${page}`).toBeLessThanOrEqual(540.5);
+        expect(line.x1, `"${line.text.slice(0, 30)}" runs past the right margin on page ${page}`).toBeLessThanOrEqual(rightEdge + 0.5);
       }
     }
   });
@@ -461,9 +471,13 @@ describe.skipIf(!hasPdftotext)('I-Type stays inside its page', () => {
     // Aligned right: the wider label starts further left by exactly its extra
     // width. Left-aligned labels shared a left edge, which is the defect.
     expect(ten.label.x0, 'the two-digit label is not aligned right').toBeLessThan(nine.label.x0 - 1);
-    // Blocked: both carry-over lines start at the same place, under the first
-    // letter of their step's text rather than at a fixed offset from the
-    // margin that lands under neither.
-    expect(Math.abs(nine.carryOver.x0 - ten.carryOver.x0)).toBeLessThan(0.5);
+    // Blocked: each carry-over starts under the first letter of its OWN step's
+    // text. Comparing the two against each other proves nothing -- the hanging
+    // indent never depended on the label's width -- so measure each against
+    // where its step's text actually begins.
+    const words = [1, 2, 3].flatMap((p) => wordBoxes(out, p));
+    const textStart = (label: string) => words[words.findIndex((w) => w.text === label) + 1].x0;
+    expect(Math.abs(nine.carryOver.x0 - textStart('9.')), "step 9's carry-over does not block under its text").toBeLessThan(0.5);
+    expect(Math.abs(ten.carryOver.x0 - textStart('10.')), "step 10's carry-over does not block under its text").toBeLessThan(0.5);
   });
 });

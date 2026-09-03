@@ -4,8 +4,7 @@ import {
 import {
   SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy, } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import {
-  GripVertical, Plus, Trash2, ChevronRight, ChevronLeft, ArrowUp, ArrowDown, AlertTriangle, Library } from 'lucide-react';
+import { GripVertical, Plus, Trash2, ChevronRight, ChevronLeft, ArrowUp, ArrowDown, AlertTriangle, Library, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { IconTip } from '@/components/ui/icon-tip';
 import { Input } from '@/components/ui/input';
@@ -26,7 +25,7 @@ import {
 import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
 import { HelpTip } from '@/components/ui/help-tip';
 import { useDocumentStore } from '@/stores/documentStore';
-import { I_TYPE_TABLES } from '@/data/techpub/tables';
+import { I_TYPE_TABLES, tableSpec } from '@/data/techpub/tables';
 import { useSnippetsStore } from '@/stores/snippetsStore';
 import { showAppAlert } from '@/stores/alertStore';
 import { persistAttachment } from '@/lib/attachments';
@@ -34,12 +33,10 @@ import { DOC_TYPE_CONFIG, type PortionMarking, type CalloutKind, type Paragraph 
 import { calculateLabels, canIndentAt } from '@/lib/paragraphUtils';
 import { cn } from '@/lib/utils';
 
-// Per-paragraph portion marks (official CNSI/ISOO palette; brighter variants in
-// dark mode). The gutter chip opens a menu to pick any marking directly — no
-// more clicking through the whole cycle to step back one level.
-/** What a technical publication paragraph can be. The two underlying fields
- *  are mutually exclusive in practice -- a step is not also a warning -- so the
- *  editor offers one choice rather than two checkboxes that can disagree. */
+/** What a technical publication paragraph can be. `callout`, `procedure`,
+ *  `appendix` and `figure` are separate optional fields on Paragraph but are
+ *  mutually exclusive in practice -- a step is not also a warning -- so the
+ *  editor offers one choice rather than four flags that can disagree. */
 const BLOCK_KINDS = [
   { value: 'paragraph', short: '¶', name: 'Paragraph' },
   { value: 'step', short: 'Step', name: 'Procedural step' },
@@ -50,11 +47,13 @@ const BLOCK_KINDS = [
   { value: 'figure', short: 'FIG', name: 'Figure — an image with a numbered title; the text is the title' },
 ] as const;
 
-function blockKind(callout: CalloutKind | undefined, procedure: boolean | undefined, appendix: boolean | undefined, figure?: Paragraph['figure']): string {
+type BlockKind = (typeof BLOCK_KINDS)[number]['value'];
+
+function blockKind(callout: CalloutKind | undefined, procedure: boolean | undefined, appendix: boolean | undefined, figure?: Paragraph['figure']): BlockKind {
   return callout ?? (figure ? 'figure' : appendix ? 'appendix' : procedure ? 'step' : 'paragraph');
 }
 
-function setBlockKind(value: string): Partial<Paragraph> {
+function setBlockKind(value: BlockKind): Partial<Paragraph> {
   return {
     callout: value === 'warning' || value === 'caution' || value === 'note' ? (value as CalloutKind) : undefined,
     procedure: value === 'step' ? true : undefined,
@@ -63,6 +62,9 @@ function setBlockKind(value: string): Partial<Paragraph> {
   };
 }
 
+// Per-paragraph portion marks (official CNSI/ISOO palette; brighter variants in
+// dark mode). The gutter chip opens a menu to pick any marking directly — no
+// more clicking through the whole cycle to step back one level.
 const PORTION_MARKS: { value: PortionMarking; label: string; name: string; color: string }[] = [
   { value: 'U', label: '(U)', name: 'Unclassified', color: 'text-[#007A33] dark:text-[#3DBE6B]' },
   { value: 'CUI', label: '(CUI)', name: 'Controlled Unclassified', color: 'text-[#502B85] dark:text-[#9572D4]' },
@@ -212,6 +214,9 @@ const BlockRow = memo(function BlockRow({
     return false;
   }, [index, removeParagraph, updateParagraph, outdentParagraph, requestFocus]);
 
+  // The table this paragraph carries, by the name the template gives it.
+  const attachedTable = tableKey ? tableSpec(tableKey)?.name ?? tableKey : undefined;
+
   // Fall back to rendering the raw stored value (never the (U) palette default),
   // so a marking outside the palette is shown honestly rather than mislabeled.
   const mark =
@@ -283,7 +288,7 @@ const BlockRow = memo(function BlockRow({
               <DropdownMenuContent align="start" className="min-w-48">
                 <DropdownMenuRadioGroup
                   value={blockKind(callout, procedure, appendix, figure)}
-                  onValueChange={(v) => updateParagraph(index, setBlockKind(v))}
+                  onValueChange={(v) => updateParagraph(index, setBlockKind(v as BlockKind))}
                 >
                   {BLOCK_KINDS.map((k) => (
                     <DropdownMenuRadioItem key={k.value} value={k.value} className="gap-2">
@@ -328,32 +333,36 @@ const BlockRow = memo(function BlockRow({
           <div className="min-w-0 flex-1 font-serif text-serif-body">
             {figure && (
               <div className="mb-1 flex items-center gap-2 font-sans text-xs text-muted-foreground">
-                <input
-                  type="file"
-                  accept="image/png,image/jpeg,application/pdf"
-                  aria-label={`Image for figure ${label || index + 1}`}
-                  className="text-xs"
-                  onChange={async (e) => {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-                    // A photo is decoded with its EXIF orientation applied and
-                    // re-encoded: pdfTeX ignores the orientation tag, so a portrait
-                    // phone photo would print on its side, and the re-encoding drops
-                    // the camera and location tags with it. The pixel size decides
-                    // whether the print will look soft. A PDF is kept as it is.
-                    const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' }).catch(() => null);
-                    let bytes: ArrayBuffer = await file.arrayBuffer();
-                    if (bitmap && file.type === 'image/jpeg' && typeof OffscreenCanvas !== 'undefined') {
-                      const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
-                      canvas.getContext('2d')?.drawImage(bitmap, 0, 0);
-                      bytes = await (await canvas.convertToBlob({ type: 'image/jpeg', quality: 0.92 })).arrayBuffer();
-                    }
-                    const fileRef = await persistAttachment({ name: file.name, size: bytes.byteLength, type: file.type }, bytes);
-                    updateParagraph(index, { figure: { fileRef, name: file.name, type: file.type, width: bitmap?.width, height: bitmap?.height } });
-                    bitmap?.close();
-                  }}
-                />
-                <span>{figure.name ?? 'No image yet'}</span>
+                <label className="flex cursor-pointer items-center gap-1.5 rounded-md border border-dashed border-border px-2 py-1 transition-colors hover:bg-secondary/30 focus-within:ring-[3px] focus-within:ring-ring/50">
+                  <Upload className="h-3.5 w-3.5" aria-hidden="true" />
+                  <span>{figure.fileRef ? 'Replace image' : 'Choose image'}</span>
+                  <input
+                    type="file"
+                    accept="image/png,image/jpeg,application/pdf"
+                    aria-label={`Image for figure ${label || index + 1}`}
+                    className="sr-only"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      // A photo is decoded with its EXIF orientation applied and
+                      // re-encoded: pdfTeX ignores the orientation tag, so a portrait
+                      // phone photo would print on its side, and the re-encoding drops
+                      // the camera and location tags with it. The pixel size decides
+                      // whether the print will look soft. A PDF is kept as it is.
+                      const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' }).catch(() => null);
+                      let bytes: ArrayBuffer = await file.arrayBuffer();
+                      if (bitmap && file.type === 'image/jpeg' && typeof OffscreenCanvas !== 'undefined') {
+                        const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
+                        canvas.getContext('2d')?.drawImage(bitmap, 0, 0);
+                        bytes = await (await canvas.convertToBlob({ type: 'image/jpeg', quality: 0.92 })).arrayBuffer();
+                      }
+                      const fileRef = await persistAttachment({ name: file.name, size: bytes.byteLength, type: file.type }, bytes);
+                      updateParagraph(index, { figure: { fileRef, name: file.name, type: file.type, width: bitmap?.width, height: bitmap?.height } });
+                      bitmap?.close();
+                    }}
+                  />
+                </label>
+                <span className="truncate">{figure.name ?? 'No image yet'}</span>
               </div>
             )}
             <VariableChipEditor
@@ -395,11 +404,11 @@ const BlockRow = memo(function BlockRow({
               <DropdownMenuTrigger asChild>
                 <button
                   type="button"
-                  aria-label={tableKey ? `Table: ${I_TYPE_TABLES.find((t) => t.key === tableKey)?.name ?? tableKey}. Change` : 'Attach a table'}
+                  aria-label={attachedTable ? `Table: ${attachedTable}. Change` : 'Attach a table'}
                   title="Attach a table"
                   className="h-6 rounded-md px-1.5 text-xs font-medium text-muted-foreground outline-none hover:bg-accent hover:text-accent-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
                 >
-                  {tableKey ? I_TYPE_TABLES.find((t) => t.key === tableKey)?.name ?? tableKey : '+ table'}
+                  {attachedTable ?? '+ table'}
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="min-w-56">
@@ -413,7 +422,7 @@ const BlockRow = memo(function BlockRow({
                     // Title the paragraph with the table's own heading when it
                     // has none: the template pairs the two, and an untitled
                     // table paragraph prints a bare number.
-                    const name = I_TYPE_TABLES.find((t) => t.key === v)?.name;
+                    const name = tableSpec(v)?.name;
                     updateParagraph(index, header ? { tableKey: v } : { tableKey: v, header: name });
                     if (!header) setWantsHeader(true);
                   }}

@@ -14,4 +14,4 @@ export const PUBLICATION_TYPES: Record<PublicationTypeCode, string> = {
 };
 
 export const publicationTypeName = (code: string | undefined): string =>
-  PUBLICATION_TYPES[(code as PublicationTypeCode) ?? 'MI'] ?? PUBLICATION_TYPES.MI;
+  PUBLICATION_TYPES[code as PublicationTypeCode] ?? PUBLICATION_TYPES.MI;

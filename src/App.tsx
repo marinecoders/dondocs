@@ -233,9 +233,6 @@ const commandDownloadTriggers: { pdf: () => void; docx: () => void } = {
   docx: () => {},
 };
 
-// A technical publication labels its enclosure pages in the footer and centres
-// its short title and date in their headers; correspondence keeps the corner
-// label and no header.
 // A figure's bytes live in the attachments store; place them where the body
 // names them. A figure whose bytes are gone keeps its framed fallback.
 async function addFigureFiles(files: Record<string, string | Uint8Array>, figures: GeneratedFiles['figures']): Promise<void> {
@@ -245,6 +242,9 @@ async function addFigureFiles(files: Record<string, string | Uint8Array>, figure
   }
 }
 
+// A technical publication labels its enclosure pages in the footer and centres
+// its short title and date in their headers; correspondence keeps the corner
+// label and no header.
 function mergeOptionsFor(store: ReturnType<typeof useDocumentStore.getState>) {
   const enclosureLabel = DOC_TYPE_CONFIG[store.docType]?.enclosureLabel;
   return enclosureLabel === 'footer'

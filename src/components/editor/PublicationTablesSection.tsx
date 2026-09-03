@@ -59,7 +59,7 @@ export function PublicationTablesSection() {
 
             {rows.map((row, index) => (
               <div key={index} className="flex items-end gap-2">
-                {spec.columns.map((col, ci) => (
+                {spec.columns.map((col) => (
                   <div key={col.key} className="flex-1 space-y-1">
                     {index === 0 && (
                       <Label className="text-2xs text-muted-foreground">{col.label}</Label>
@@ -70,7 +70,7 @@ export function PublicationTablesSection() {
                       aria-label={`${col.label}, ${heading ?? key} row ${index + 1}`}
                       // The description carries the nesting, so indent it to
                       // match what prints.
-                      style={ci === 1 && row.level ? { marginLeft: `${row.level * 12}px` } : undefined}
+                      style={col.key === 'description' && row.level ? { marginLeft: `${row.level * 12}px` } : undefined}
                     />
                   </div>
                 ))}

@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { DatePicker } from '@/components/ui/date-picker';
 import { InputWithVariables } from '@/components/ui/variable-autocomplete';
 import { useDocumentStore } from '@/stores/documentStore';
+import { tableSpec } from '@/data/techpub/tables';
 import { validateTimeCompliance, validateTimeComplianceParagraph } from '@/lib/timeCompliance';
 import { validatePublicationDate } from '@/lib/publicationDate';
 import { validateMajorItemsOrder } from '@/lib/majorItemsOrder';
@@ -60,11 +61,12 @@ export function ITypeCoverSection() {
   const controllingOffice = useDocumentStore((s) => s.formData.controllingOffice ?? '');
   const validationVisible = useUIStore((s) => s.validationVisible);
 
-  // Both sets of rules answer "does this publication hold together", so they
-  // surface in one place rather than sending the drafter hunting.
   const subject = useDocumentStore((s) => s.formData.subject ?? '');
   const signatureType = useDocumentStore((s) => s.formData.signatureType ?? 'none');
   const tables = useDocumentStore((s) => s.publicationTables);
+
+  // Every rule that answers "does this publication hold together" surfaces in
+  // one place rather than sending the drafter hunting.
   const findings = [
     ...validateNomenclature(nomenclature),
     ...validateLongTitle(subject),
@@ -79,7 +81,7 @@ export function ITypeCoverSection() {
     ...validateTiWording(publicationType, paragraphs),
     ...validateNomenclatureCase(tables.majorItems ?? [], 'Major Items Affected'),
     ...validateNomenclatureCase(tables.components ?? [], 'Components Affected'),
-    ...Object.entries(tables).flatMap(([key, rows]) => validateItemNumbers(rows, key)),
+    ...Object.entries(tables).flatMap(([key, rows]) => validateItemNumbers(rows, tableSpec(key)?.name ?? key)),
     ...validateReadingGrade(paragraphs),
     ...validateProcedureSteps(paragraphs),
     ...validateAppendixTitles(paragraphs),

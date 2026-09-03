@@ -5,12 +5,12 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { PDFDocument } from 'pdf-lib';
 import { mergeEnclosures, type EnclosureData } from '@/services/pdf/mergeEnclosures';
+import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfToolchain';
 
 // The label is read back off the rendered page. A correspondence enclosure
 // keeps "Enclosure (1)" in the corner; a technical publication carries
 // "Enclosure 1" centred in the footer, as MIL-STD-38784C lays it out.
 
-const hasPdftotext = spawnSync('pdftotext', ['-v']).status !== null;
 
 async function onePagePdf(): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
@@ -26,7 +26,9 @@ async function mergedPageText(style?: 'corner' | 'footer', header?: { line1: str
   return spawnSync('pdftotext', ['-f', '2', '-l', '2', '-layout', pdf, '-'], { encoding: 'utf8' }).stdout;
 }
 
-describe.skipIf(!hasPdftotext)('enclosure label placement', () => {
+describeToolchainRequirement('enclosure-label-style');
+
+describe.skipIf(!hasPdfToolchain)('enclosure label placement', () => {
   it('correspondence keeps the parenthesised corner label', async () => {
     expect(await mergedPageText()).toMatch(/Enclosure \(1\)/);
   });

@@ -16,9 +16,9 @@ describe('safety callouts', () => {
       { text: 'Second step.', level: 0 },
     ]);
     // The steps either side stay 1 and 2 — the callout consumed nothing.
-    expect(tex).toContain('1.');
-    expect(tex).toContain('2.');
-    expect(tex).not.toContain('3.');
+    expect(tex).toContain('\\textbf{1.}');
+    expect(tex).toContain('\\textbf{2.}');
+    expect(tex).not.toContain('\\textbf{3.}');
   });
 
   it('sets a warning entirely in upper case, and the others in sentence case', () => {

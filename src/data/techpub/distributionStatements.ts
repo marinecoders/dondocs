@@ -7,7 +7,7 @@
 
 /** The reasons the instruction allows, and the statements each may go with:
  *  Direct Military Support only with E; a handful only with B or E. */
-export const DISTRIBUTION_REASONS_BY_STATEMENT: Record<string, readonly string[]> = {
+export const DISTRIBUTION_STATEMENTS_BY_REASON: Record<string, readonly string[]> = {
   'Controlled Technical Information': ['B', 'C', 'D', 'E'],
   'Contractor Performance Evaluation': ['B', 'E'],
   'Critical Technology': ['B', 'C', 'D', 'E'],
@@ -24,11 +24,11 @@ export const DISTRIBUTION_REASONS_BY_STATEMENT: Record<string, readonly string[]
   'Vulnerability Information': ['B', 'C', 'D', 'E'],
 };
 
-export const DISTRIBUTION_REASONS = Object.keys(DISTRIBUTION_REASONS_BY_STATEMENT);
+export const DISTRIBUTION_REASONS = Object.keys(DISTRIBUTION_STATEMENTS_BY_REASON);
 
 /** The reasons a statement may carry. */
 export const reasonsFor = (letter: string): string[] =>
-  DISTRIBUTION_REASONS.filter((r) => DISTRIBUTION_REASONS_BY_STATEMENT[r].includes(letter.trim().charAt(0).toUpperCase()));
+  DISTRIBUTION_REASONS.filter((r) => DISTRIBUTION_STATEMENTS_BY_REASON[r].includes(letter.trim().charAt(0).toUpperCase()));
 
 export interface DistributionFillIns {
   reason?: string;

@@ -604,7 +604,7 @@ export function Header({
             procedure: para.procedure,
             appendix: para.appendix,
             figure: para.figure,
-          })) || [],
+          })),
           copyTos: data.copyTos || [],
         });
         // loadTemplate doesn't cover distributions; restore it explicitly.
