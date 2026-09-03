@@ -28,4 +28,10 @@ describe('document type registration', () => {
       expect(DOC_TYPE_CHIP[type], `${type} has no chip`).toBeTruthy();
     }
   });
+
+  it('delivers the I-Type as PDF, with enclosure labels in the footer', () => {
+    expect(DOC_TYPE_CONFIG.i_type.pdfOnly).toBe(true);
+    expect(DOC_TYPE_CONFIG.i_type.enclosureLabel).toBe('footer');
+    expect(DOC_TYPE_CONFIG.i_type.regulations.authority).toBe('MIL-STD-38784C');
+  });
 });
