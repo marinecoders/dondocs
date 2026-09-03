@@ -13,6 +13,11 @@ import { validateTimeCompliance, validateTimeComplianceParagraph } from '@/lib/t
 import { validatePublicationDate } from '@/lib/publicationDate';
 import { validateMajorItemsOrder } from '@/lib/majorItemsOrder';
 import { validateFigures } from '@/lib/figures';
+import { validateIdentifiers } from '@/lib/identifiers';
+import {
+  validateHeadingAcronyms, validateCalloutOrder, validateUrgencyByType, validateTiWording,
+  validateNomenclatureCase, validateItemNumbers, validateReadingGrade,
+} from '@/lib/publicationRules';
 import { unfilled } from '@/lib/requiredField';
 import { useUIStore } from '@/stores/uiStore';
 import { validateProcedureSteps } from '@/lib/procedureSteps';
@@ -67,6 +72,15 @@ export function ITypeCoverSection() {
     ...validateTimeComplianceParagraph(urgency, paragraphs),
     ...validatePublicationDate(date),
     ...validateMajorItemsOrder(tables.majorItems ?? []),
+    ...validateIdentifiers({ pcn, shortTitle, publicationType, endItems, majorItems: tables.majorItems ?? [] }),
+    ...validateHeadingAcronyms(paragraphs),
+    ...validateCalloutOrder(paragraphs),
+    ...validateUrgencyByType(publicationType, urgency),
+    ...validateTiWording(publicationType, paragraphs),
+    ...validateNomenclatureCase(tables.majorItems ?? [], 'Major Items Affected'),
+    ...validateNomenclatureCase(tables.components ?? [], 'Components Affected'),
+    ...Object.entries(tables).flatMap(([key, rows]) => validateItemNumbers(rows, key)),
+    ...validateReadingGrade(paragraphs),
     ...validateProcedureSteps(paragraphs),
     ...validateAppendixTitles(paragraphs),
     ...validateFigures(paragraphs),
@@ -124,9 +138,10 @@ export function ITypeCoverSection() {
             <HelpTip>
               <p className="font-medium mb-1">Long title</p>
               <p className="text-xs">
-                What the publication is about, printed in the cover header above
-                the time compliance line. All caps, four lines at most, and no
-                acronyms.
+                The official nomenclature, the model, and a short descriptor of
+                the work -- Installation, Replacement, Software Upgrade -- printed
+                in the cover header above the time compliance line. All caps, four
+                lines at most, and no acronyms.
               </p>
             </HelpTip>
           </span>
@@ -182,7 +197,7 @@ export function ITypeCoverSection() {
           id="supersedure"
           value={supersedure}
           onChange={(e) => setField('supersedure', e.target.value)}
-          placeholder="SUPERSEDURE NOTICE: This publication supersedes MI 12344A-24/1 dated 1 Jan 2025."
+          placeholder="SUPERSEDURE NOTICE: This publication supersedes MI 12344A-24/1 dated JANUARY 2025."
         />
       </div>
 

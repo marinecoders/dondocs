@@ -16,8 +16,8 @@ import {
 } from '@/lib/domainClassification';
 import { useEffect, useMemo, useState } from 'react';
 import { getClassificationConfig } from '@/config/classification';
-import { validateClassificationMarkings, validateDistributionStatement, validateDistributionFillIns } from '@/lib/classificationValidation';
-import { DISTRIBUTION_REASONS } from '@/data/techpub/distributionStatements';
+import { validateClassificationMarkings, validateDistributionStatement, validateDistributionFillIns, validateReasonForStatement } from '@/lib/classificationValidation';
+import { reasonsFor } from '@/data/techpub/distributionStatements';
 
 // Official CNSI/ISOO banner colors (EO 13526, 32 CFR 2001/2002, DoDM 5200.01,
 // CAPCO Register, ISOO directive). Hex codes match the dodcui.mil/ISOO table:
@@ -106,6 +106,7 @@ export function ClassificationSection() {
           ...validateDistributionFillIns(formData.cuiDistStatement, {
             reason: formData.distReason, date: formData.distDate, office: formData.controllingOffice,
           }),
+          ...validateReasonForStatement(formData.cuiDistStatement, formData.distReason),
         ]
       : []),
     [docType, classLevel, formData.cuiDistStatement, formData.distReason, formData.distDate, formData.controllingOffice]
@@ -535,7 +536,7 @@ export function ClassificationSection() {
                         <SelectValue placeholder="Select reason…" />
                       </SelectTrigger>
                       <SelectContent>
-                        {DISTRIBUTION_REASONS.map((r) => (
+                        {reasonsFor(formData.cuiDistStatement || '').map((r) => (
                           <SelectItem key={r} value={r}>{r}</SelectItem>
                         ))}
                       </SelectContent>

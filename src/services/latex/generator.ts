@@ -865,7 +865,11 @@ function generatePublicationTable(tableKey: string, rows: PublicationTableRow[],
         const cell = escapeLatex(row.values[c.key] ?? '');
         // Only the description carries the nesting; indenting every column
         // would break the grid.
-        return i === descriptionIndex ? cellText(cell, level) : `\\raggedright ${cell}`;
+        if (i === descriptionIndex) return cellText(cell, level);
+        // "74024019 (1CSL0)": an item with no NSN gives its CAGE centred in
+        // parentheses under the PN.
+        const cage = c.key === 'pn' ? /^(.*\S)\s+\((\w+)\)$/.exec(row.values.pn ?? '') : null;
+        return cage ? `\\raggedright ${escapeLatex(cage[1])}\\par\\centering(${escapeLatex(cage[2])})` : `\\raggedright ${cell}`;
       })
       .join(' & '));
     // A parent item is followed by a "Consisting of:" row at its items'
@@ -1001,7 +1005,7 @@ export function generateBodyTex(store: DocumentStore): string {
         `\\par\\vspace{12pt}\n\\begin{center}\n` +
           `\\IfFileExists{${file}}{\\includegraphics[width=\\textwidth,height=5in,keepaspectratio]{${file}}}` +
           `{\\framebox[3in][c]{\\parbox[c][1.5in][c]{2.8in}{\\centering\\scriptsize Figure ${label}\\\\(add image)}}}\\\\[6pt]\n` +
-          `Figure ${label}. ${title}\n\\end{center}\n\\vspace{12pt}\n\n`
+          `\\textbf{Figure ${label}.\\hspace{2\\fontdimen2\\font}${title}}\n\\end{center}\n\\vspace{12pt}\n\n`
       );
       continue;
     }

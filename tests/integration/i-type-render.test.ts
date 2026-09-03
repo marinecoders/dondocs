@@ -82,7 +82,7 @@ describe.skipIf(!hasPdftotext)('I-Type renders per the template', () => {
   });
 
   it('carries the fixed notices at the foot of the cover', () => {
-    expect(pages[0]).toMatch(/DISTRIBUTION STATEMENT D: Distribution authorized to the Department of Defense/);
+    expect(pages[0]).toMatch(/DISTRIBUTION STATEMENT D: Distribution authorized to Department of Defense/);
     expect(pages[0]).toMatch(/Arms Export Control Act/);
     expect(pages[0]).toMatch(/DESTRUCTION NOTICE: Destroy by making this publication unreadable/);
     expect(pages[0]).toMatch(/PCN 184 123456 00/);
@@ -219,7 +219,7 @@ describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () =
 
   it('prints the distribution statement with its reason, date, and controlling office', () => {
     // pdftotext wraps where the page does; the words are what matter.
-    const sentence = 'DISTRIBUTION STATEMENT D: Distribution authorized to the Department of Defense and U.S. DoD contractors only (Critical Technology) (1 December 2024). Other requests must be referred to PM IW.';
+    const sentence = 'DISTRIBUTION STATEMENT D: Distribution authorized to Department of Defense and U.S. DoD contractors only (Critical Technology) (1 December 2024). Other requests for this document must be referred to PM IW.';
     const wrapped = new RegExp(sentence.split(' ').map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('\\s+'));
     expect(pages[0]).toMatch(wrapped);
   });

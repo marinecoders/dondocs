@@ -63,7 +63,7 @@ describe('I-Type cover', () => {
       ],
     } as never);
     expect(tex).toContain('\\includegraphics[width=\\textwidth,height=5in,keepaspectratio]{attachments/figure-1.png}');
-    expect(tex).toContain('Figure 1. Rail alignment');
+    expect(tex).toContain('Rail alignment}');
     expect(tex).toContain('\\textbf{2.}~~Remove the stock.');
   });
 
@@ -78,8 +78,8 @@ describe('I-Type cover', () => {
       ...store([]), formData: { docType: 'i_type' },
       paragraphs: [fig('Rail alignment.'), { text: 'Values.', level: 0, header: 'Torque Values', appendix: true }, fig('Torque chart')],
     } as never);
-    expect(tex).toContain('Figure 1. Rail alignment\n');
-    expect(tex).toContain('Figure A-1. Torque chart');
+    expect(tex).toContain('\\textbf{Figure 1.\\hspace{2\\fontdimen2\\font}Rail alignment}');
+    expect(tex).toContain('\\textbf{Figure A-1.\\hspace{2\\fontdimen2\\font}Torque chart}');
     // Files are numbered in sequence whatever the label says.
     expect(tex).toContain('attachments/figure-2.png');
   });
@@ -95,5 +95,14 @@ describe('I-Type cover', () => {
     expect(tex).toContain('\\endhead');
     // No closing rule at the foot of a continued table; one at the last.
     expect(tex).toMatch(/\\endfoot\s+\\hline\s+\\endlastfoot/);
+  });
+
+  it('centres a CAGE code under the part number', () => {
+    const tex = generateBodyTex({
+      ...store([]), formData: { docType: 'i_type' },
+      paragraphs: [{ text: '', level: 0, header: 'Materiel Required', tableKey: 'materielRequired' }],
+      publicationTables: { materielRequired: [{ values: { description: 'CAP, Blank', nsn: '', pn: '74024019 (1CSL0)', qty: '4' } }] },
+    } as never);
+    expect(tex).toContain('74024019\\par\\centering(1CSL0)');
   });
 });
