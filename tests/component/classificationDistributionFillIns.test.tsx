@@ -58,6 +58,34 @@ describe('ClassificationSection distribution fill-ins', () => {
     expect(screen.queryByRole('combobox', { name: 'Reason for restriction' })).toBeNull();
   });
 
+  // MIL-STD-38784C 4.9.1.10: every technical manual carries a distribution
+  // statement on its cover, whatever its classification. The control used to
+  // live inside the CUI block, so an unclassified publication -- the ordinary
+  // Statement A case -- had no way to set one and its cover printed none.
+  it('offers a publication its Distribution Statement at every classification level', async () => {
+    for (const level of ['unclassified', 'cui', 'secret']) {
+      useDocumentStore.getState().resetForm();
+      useDocumentStore.getState().setDocType('i_type');
+      useDocumentStore.getState().setField('classLevel', level);
+      const { unmount } = render(<ClassificationSection />);
+      fireEvent.click(screen.getByText('Classification'));
+      expect(
+        await screen.findByRole('combobox', { name: 'Distribution Statement' }),
+        `no Distribution Statement control at ${level}`
+      ).toBeTruthy();
+      unmount();
+    }
+  });
+
+  it('asks an unclassified publication with Statement D for its fill-ins', async () => {
+    useDocumentStore.getState().setDocType('i_type');
+    useDocumentStore.getState().setField('cuiDistStatement', 'D');
+    render(<ClassificationSection />);
+    fireEvent.click(screen.getByText('Classification'));
+    expect(await screen.findByRole('combobox', { name: 'Reason for restriction' })).toBeTruthy();
+    expect(screen.getByLabelText('Date of determination')).toBeTruthy();
+  });
+
   it('asks a letter nothing', async () => {
     useDocumentStore.getState().setDocType('naval_letter');
     cuiWith('D');

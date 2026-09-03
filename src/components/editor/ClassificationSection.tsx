@@ -172,6 +172,12 @@ export function ClassificationSection() {
 
   const isCustom = classLevel === 'custom';
 
+  // MIL-STD-38784C 4.9.1.10: every technical manual carries a distribution
+  // statement on its cover, at any classification. Gating the control on CUI
+  // left an unclassified Statement A publication -- the commonest kind -- with
+  // no way to set one, and its cover printed no statement at all.
+  const isPublication = docType === 'i_type';
+
   // Both POC-email inputs bind the same field and only one shows at a time, so
   // one validity check covers both. Flag a non-empty value that isn't a basic
   // address; an empty field is a normal "not filled in yet" state.
@@ -385,22 +391,24 @@ export function ClassificationSection() {
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="customCuiDistStatement">Distribution Statement</Label>
-                  <Select
-                    value={formData.cuiDistStatement || ''}
-                    onValueChange={(v) => setField('cuiDistStatement', v)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select statement…" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {DISTRIBUTION_STATEMENTS.map((stmt) => (
-                        <SelectItem key={stmt.value} value={stmt.value}>{stmt.label}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+                {!isPublication && (
+                  <div className="space-y-2">
+                    <Label htmlFor="customCuiDistStatement">Distribution Statement</Label>
+                    <Select
+                      value={formData.cuiDistStatement || ''}
+                      onValueChange={(v) => setField('cuiDistStatement', v)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select statement…" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {DISTRIBUTION_STATEMENTS.map((stmt) => (
+                          <SelectItem key={stmt.value} value={stmt.value}>{stmt.label}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
 
                 <div className="space-y-2">
                   <Label htmlFor="customClassifiedBy">Classified By</Label>
@@ -462,6 +470,62 @@ export function ClassificationSection() {
               </div>
             )}
 
+            {isPublication && (
+              <div className="space-y-4 p-3 rounded-md border bg-muted/30">
+                <p className="text-sm font-medium">Distribution</p>
+
+                <div className="space-y-2">
+                  <Label htmlFor="pubDistStatement">Distribution Statement</Label>
+                  <Select
+                    value={formData.cuiDistStatement || ''}
+                    onValueChange={(v) => setField('cuiDistStatement', v)}
+                  >
+                    <SelectTrigger id="pubDistStatement" aria-label="Distribution Statement">
+                      <SelectValue placeholder="Select statement…" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {DISTRIBUTION_STATEMENTS.map((stmt) => (
+                        <SelectItem key={stmt.value} value={stmt.value}>{stmt.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* B through F print the reason and the date of determination
+                    the template leaves for the author. The office they refer
+                    requests to is the Cover's controlling office. */}
+                {['B', 'C', 'D', 'E'].includes(formData.cuiDistStatement || '') && (
+                  <div className="space-y-2">
+                    <Label htmlFor="distReason">Reason for restriction</Label>
+                    <Select
+                      value={formData.distReason || ''}
+                      onValueChange={(v) => setField('distReason', v)}
+                    >
+                      <SelectTrigger id="distReason" aria-label="Reason for restriction">
+                        <SelectValue placeholder="Select reason…" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {reasonsFor(formData.cuiDistStatement || '').map((r) => (
+                          <SelectItem key={r} value={r}>{r}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+                {['B', 'C', 'D', 'E', 'F'].includes(formData.cuiDistStatement || '') && (
+                  <div className="space-y-2">
+                    <Label htmlFor="distDate">Date of determination</Label>
+                    <Input
+                      id="distDate"
+                      type="date"
+                      value={formData.distDate || ''}
+                      onChange={(e) => setField('distDate', e.target.value)}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* CUI fields, shown only when CUI is the selected level. */}
             {isCUI && (
               <div className="space-y-4 p-3 rounded-md border bg-muted/30">
@@ -504,54 +568,22 @@ export function ClassificationSection() {
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="cuiDistStatement">Distribution Statement</Label>
-                  <Select
-                    value={formData.cuiDistStatement || ''}
-                    onValueChange={(v) => setField('cuiDistStatement', v)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select statement…" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {DISTRIBUTION_STATEMENTS.map((stmt) => (
-                        <SelectItem key={stmt.value} value={stmt.value}>{stmt.label}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* On a publication the statement prints in full, and B through
-                    F carry the reason and date of determination the template
-                    leaves for the author. The office it refers requests to is
-                    the Cover's controlling office. */}
-                {docType === 'i_type' && ['B', 'C', 'D', 'E'].includes(formData.cuiDistStatement || '') && (
+                {!isPublication && (
                   <div className="space-y-2">
-                    <Label htmlFor="distReason">Reason for restriction</Label>
+                    <Label htmlFor="cuiDistStatement">Distribution Statement</Label>
                     <Select
-                      value={formData.distReason || ''}
-                      onValueChange={(v) => setField('distReason', v)}
+                      value={formData.cuiDistStatement || ''}
+                      onValueChange={(v) => setField('cuiDistStatement', v)}
                     >
-                      <SelectTrigger id="distReason" aria-label="Reason for restriction">
-                        <SelectValue placeholder="Select reason…" />
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select statement…" />
                       </SelectTrigger>
                       <SelectContent>
-                        {reasonsFor(formData.cuiDistStatement || '').map((r) => (
-                          <SelectItem key={r} value={r}>{r}</SelectItem>
+                        {DISTRIBUTION_STATEMENTS.map((stmt) => (
+                          <SelectItem key={stmt.value} value={stmt.value}>{stmt.label}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
-                  </div>
-                )}
-                {docType === 'i_type' && ['B', 'C', 'D', 'E', 'F'].includes(formData.cuiDistStatement || '') && (
-                  <div className="space-y-2">
-                    <Label htmlFor="distDate">Date of determination</Label>
-                    <Input
-                      id="distDate"
-                      type="date"
-                      value={formData.distDate || ''}
-                      onChange={(e) => setField('distDate', e.target.value)}
-                    />
                   </div>
                 )}
               </div>

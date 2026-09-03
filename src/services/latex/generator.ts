@@ -60,6 +60,15 @@ const END_ITEM_ROWS = 6;
  *  rather than under the label. Wide enough for the deepest form, "(a)". */
 const PROCEDURE_LABEL_WIDTH = '0.35in';
 
+/** A part number or NSN is a single token with no space or hyphen for TeX to
+ *  break at, and TeX will not hyphenate a word containing digits -- so one
+ *  longer than its column prints through the next column and off the sheet.
+ *  These characters are the ones `escapeLatex` passes through untouched, so a
+ *  breakpoint inserted between them cannot split an escape sequence. */
+const UNBREAKABLE_RUN = /[A-Za-z0-9()./,]{12,}/g;
+const breakLongTokens = (escaped: string) =>
+  escaped.replace(UNBREAKABLE_RUN, (run) => run.split('').join('\\discretionary{}{}{}'));
+
 /** The text block of a letter page and LaTeX's default column padding. */
 const TEXT_WIDTH_IN = 6.5;
 const TABCOLSEP_IN = 6 / 72;
@@ -85,9 +94,11 @@ function getParagraphLabel(level: number, count: number): string {
   return delimitParagraphMark(level, underlined);
 }
 
-function calculateLabels(paragraphs: Paragraph[]): string[] {
+function calculateLabels(paragraphs: Paragraph[], letteredAppendices = false): string[] {
   const labels: string[] = [];
   const counters = [0, 0, 0, 0, 0, 0, 0, 0];
+  let appendixLetter = '';
+  let appendixCount = 0;
 
   for (const para of paragraphs) {
     // A safety callout is not a numbered paragraph: it takes no label and does
@@ -100,6 +111,7 @@ function calculateLabels(paragraphs: Paragraph[]): string[] {
     // An appendix is numbered afresh: everything before it is done with.
     if (para.appendix) {
       counters.fill(0);
+      if (letteredAppendices) appendixLetter = String.fromCharCode(65 + appendixCount++);
       labels.push('');
       continue;
     }
@@ -107,7 +119,8 @@ function calculateLabels(paragraphs: Paragraph[]): string[] {
       counters[i] = 0;
     }
     counters[para.level]++;
-    labels.push(getParagraphLabel(para.level, counters[para.level]));
+    const label = getParagraphLabel(para.level, counters[para.level]);
+    labels.push(appendixLetter && para.level === 0 ? `${appendixLetter}-${label}` : label);
   }
 
   return labels;
@@ -862,14 +875,14 @@ function generatePublicationTable(tableKey: string, rows: PublicationTableRow[],
     const level = row.level ?? 0;
     lines.push(spec.columns
       .map((c, i) => {
-        const cell = escapeLatex(row.values[c.key] ?? '');
+        const cell = breakLongTokens(escapeLatex(row.values[c.key] ?? ''));
         // Only the description carries the nesting; indenting every column
         // would break the grid.
         if (i === descriptionIndex) return cellText(cell, level);
         // "74024019 (1CSL0)": an item with no NSN gives its CAGE centred in
         // parentheses under the PN.
         const cage = c.key === 'pn' ? /^(.*\S)\s+\((\w+)\)$/.exec(row.values.pn ?? '') : null;
-        return cage ? `\\raggedright ${escapeLatex(cage[1])}\\par\\centering(${escapeLatex(cage[2])})` : `\\raggedright ${cell}`;
+        return cage ? `\\raggedright ${breakLongTokens(escapeLatex(cage[1]))}\\par\\centering(${escapeLatex(cage[2])})` : `\\raggedright ${cell}`;
       })
       .join(' & '));
     // A parent item is followed by a "Consisting of:" row at its items'
@@ -944,7 +957,7 @@ ${body}\\par
 }
 
 export function generateBodyTex(store: DocumentStore): string {
-  const labels = calculateLabels(store.paragraphs);
+  const labels = calculateLabels(store.paragraphs, store.docType === 'i_type');
   // Where each subparagraph's label must sit: under its parent's text, per
   // Figure 7-8. flat-generator.ts computes the identical number for Word.
   const ancestors = ancestorLabelsPerParagraph(labels, store.paragraphs.map((p) => p.level));
@@ -1004,7 +1017,7 @@ export function generateBodyTex(store: DocumentStore): string {
       parts.push(
         `\\par\\vspace{12pt}\n\\begin{center}\n` +
           `\\IfFileExists{${file}}{\\includegraphics[width=\\textwidth,height=5in,keepaspectratio]{${file}}}` +
-          `{\\framebox[3in][c]{\\parbox[c][1.5in][c]{2.8in}{\\centering\\scriptsize Figure ${label}\\\\(add image)}}}\\\\[6pt]\n` +
+          `{\\framebox[3in][c]{\\parbox[c][1.5in][c]{2.8in}{\\centering\\scriptsize Figure ${label}\\\\(add image)}}}\\\\*[6pt]\n` +
           `\\textbf{Figure ${label}.\\hspace{2\\fontdimen2\\font}${title}}\n\\end{center}\n\\vspace{12pt}\n\n`
       );
       continue;
@@ -1039,8 +1052,9 @@ export function generateBodyTex(store: DocumentStore): string {
       const stepIndent = 0.25 + para.level * 0.25;
       parts.push(
         `\\vspace{6pt}\n{\\leftskip=${stepIndent}in\n` +
-          `\\noindent\\hangindent=${PROCEDURE_LABEL_WIDTH}\\hangafter=1 ` +
-          `\\textbf{${label}}  ${portionPrefix}${processBodyText(para.text)}\\par}\n\n`
+          `\\noindent\\hangindent=\\dimexpr${PROCEDURE_LABEL_WIDTH}+2\\fontdimen2\\font\\relax\\hangafter=1 ` +
+          `\\makebox[${PROCEDURE_LABEL_WIDTH}][r]{\\textbf{${label}}}\\hspace{2\\fontdimen2\\font}` +
+          `${portionPrefix}${processBodyText(para.text)}\\par}\n\n`
       );
       continue;
     }

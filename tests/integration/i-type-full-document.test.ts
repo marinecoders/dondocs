@@ -128,8 +128,8 @@ describe.skipIf(!hasPdftotext)('a complete Modification Instruction, end to end'
 
   it('authenticates on page three: command, full date, the five paragraphs, signature, distribution, attachments', () => {
     order(pages[2], 'MI 12345A-24/1', 'UNITED STATES MARINE CORPS', 'MARINE CORPS SYSTEMS COMMAND', '2200 LESTER STREET', '31 December 2024',
-      /1\.\s+This Modification Instruction, MI 12345A-24\/1, is/, /2\.\s+Per MCO 5100\.34/, /3\.\s+All significant hazards/, /4\.\s+Use TDM-Publications portal/,
-      'For concerns/issues with the content/procedures contact john.doe@usmc.mil', /5\.\s+Record completion/,
+      /1\.\s+This Modification Instruction, MI 12345A-24\/1, is/, /2\.\s+Per MCO 5100\.34/, /All significant hazards/, /3\.\s+Use TDM-Publications portal/,
+      /4\.\s+For concerns\/issues with the content\/procedures contact\s+Equipment/, /5\.\s+GCSS-MC Recording/,
       'OFFICIAL', 'J. A. DOE', 'Program Manager, Infantry Weapons', 'GWS', 'DISTRIBUTION: EDO', 'Appendix A: Torque Values', 'Enclosure (1): Parts Diagram');
     expect(pages[2]).not.toMatch(/Colonel|Controlled by/);
   });

@@ -104,8 +104,18 @@ describe.skipIf(!hasPdftotext)('I-Type renders per the template', () => {
     expect(body).toMatch(/This Modification Instruction, MI 12345A-24\/1, is\s+authenticated for Marine Corps use/);
   });
 
-  it('records the modification — the MI-only paragraph', () => {
-    expect(pages.join('\n')).toMatch(/5\. Record completion of this modification/);
+  it('records the modification — the MI-only paragraph, in the template\'s words', () => {
+    expect(pages.join('\n')).toMatch(/5\.\s+GCSS-MC Recording\. Ensure appropriate records are updated/);
+  });
+
+  it('leaves the hazard-report sentence unnumbered, as the template does', () => {
+    // The template gives this paragraph no numbering properties, so the list
+    // runs 1, 2, [hazards], 3, 4 -- and the MI item it hardcodes as "5." only
+    // lands on 5 if the POC sentence is numbered 4.
+    const auth = pages.find((p) => /authenticated for Marine Corps use/.test(p))!;
+    expect(auth).toMatch(/All significant hazards[\s\S]*?Hazard Report per MCO 5100\.29/);
+    expect(auth).not.toMatch(/3\.\s+All significant hazards/);
+    expect(auth).toMatch(/3\.\s+Use TDM-Publications portal/);
   });
 
   it('runs the short title and the full date on every page after the cover', () => {
@@ -204,8 +214,9 @@ describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () =
     expect(pages[1]).toMatch(/15 December 2024/);
   });
 
-  it('closes item 4 with the point of contact for content questions', () => {
-    expect(pages[1]).toMatch(/For concerns\/issues with the content\/procedures contact\s+john\.doe@usmc\.mil/);
+  it('numbers the point of contact as item 4, with the role the template fixes', () => {
+    const auth = pages.find((p) => /authenticated for Marine Corps use/.test(p))!;
+    expect(auth).toMatch(/4\.\s+For\s+concerns\/issues\s+with\s+the\s+content\/procedures\s+contact\s+Equipment\s+Specialist\s+or\s+designated\s+Program\s+Office\s+representative,\s+john\.doe@usmc\.mil/);
   });
 
   it('lists appendices and enclosures under DISTRIBUTION', () => {
@@ -287,7 +298,7 @@ describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () =
     });
     expect(ti[0]).toMatch(/U\.S\. MARINE CORPS TECHNICAL INSTRUCTION/);
     expect(ti[1]).toMatch(/This Technical Instruction, TI 12345A-24\/1, is\s+authenticated/);
-    expect(ti[1]).not.toMatch(/Record completion/);
+    expect(ti[1]).not.toMatch(/GCSS-MC Recording/);
   });
 
   it('places a figure image with its numbered title beneath', async () => {
@@ -358,5 +369,101 @@ describe.skipIf(!hasPdftotext)('I-Type follows the template page for page', () =
       const lines = page.split('\n').map((l) => l.trim()).filter((l) => l && !/^(CUI|\d+|[A-Z]-\d+)$/.test(l));
       expect(lines[lines.length - 1]).toMatch(/^\d+\.\s+Fit part/);
     }
+  });
+});
+
+describe.skipIf(!hasPdftotext)('I-Type stays inside its page', () => {
+  // A part number is one token with no space or hyphen to break at, and TeX
+  // will not hyphenate a word containing digits. Over ~24 characters it used
+  // to print through the next column and, past ~38, off the sheet.
+  it('breaks an over-long part number inside its own column', async () => {
+    const { pdf: out } = await renderDocument((s) => {
+      Object.assign(s.formData as Record<string, unknown>, { date: '15 Dec 24', subject: 'TITLE', shortTitle: 'MI 1' });
+      s.paragraphs = [{ text: '', level: 0, header: 'Materiel Required', tableKey: 'materielRequired' }];
+      s.publicationTables = {
+        materielRequired: [{ values: { item: '1', description: 'KIT, ACCESSORY RAIL', nsn: '1005015661300', pn: 'MS3367100000000ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', qty: '1' } }],
+      };
+    });
+    for (let page = 1; page <= 3; page++) {
+      for (const line of lineBoxes(out, page)) {
+        expect(line.x1, `"${line.text.slice(0, 30)}" runs past the right margin on page ${page}`).toBeLessThanOrEqual(540.5);
+      }
+    }
+  });
+
+  // MIL-STD-38784C 4.7.4.1.4: an appendix numbers its paragraphs within the
+  // appendix, prefixed by its letter. Only the primary level takes it.
+  it("prefixes an appendix's paragraphs with its letter", async () => {
+    const pages = await renderPages((s) => {
+      Object.assign(s.formData as Record<string, unknown>, { date: '15 Dec 24', subject: 'TITLE', shortTitle: 'MI 1' });
+      s.paragraphs = [
+        { text: 'Install the rail.', level: 0, header: 'Procedures' },
+        { text: '', level: 0, header: 'Torque Values', appendix: true },
+        { text: 'Rail screws are torqued to 25 inch-pounds.', level: 0, header: 'Rail Screws' },
+        { text: 'Check each screw in turn.', level: 1 },
+        { text: 'Action screws are torqued to 65 inch-pounds.', level: 0, header: 'Action Screws' },
+      ];
+    });
+    const appendix = pages.find((p) => /APPENDIX A/.test(p))!;
+    expect(appendix).toMatch(/A-1\.\s+Rail Screws/);
+    expect(appendix).toMatch(/A-2\.\s+Action Screws/);
+    // Subparagraphs hang off the primary unprefixed, as figure 10 sets them.
+    expect(appendix).toMatch(/a\.\s+Check each screw/);
+    // The body's own paragraphs are untouched.
+    expect(pages.find((p) => /1\.\s+Procedures/.test(p))).toBeTruthy();
+  });
+
+  // 4.7.10.1: the title is centred below its illustration. A plain \\ in a
+  // center environment carries no penalty, so a figure landing at the foot of
+  // a page left its title stranded at the top of the next one.
+  it('keeps a figure title on the page with its illustration', async () => {
+    const image = new Uint8Array(readFileSync(join(process.cwd(), 'public', 'attachments', 'usmc-seal.png')));
+    const { pdf: out } = await renderDocument((s) => {
+      Object.assign(s.formData as Record<string, unknown>, { date: '15 Dec 24', subject: 'TITLE', shortTitle: 'MI 1' });
+      s.paragraphs = [
+        ...Array.from({ length: 24 }, () => ({
+          text: 'Filler text that fills the measure of the page so the figure below lands at the foot of it and has to decide whether to take its title along.',
+          level: 0,
+        })),
+        { text: 'Rail alignment', level: 0, figure: { fileRef: { id: 'f1' }, name: 'rail.png', type: 'image/png' } },
+      ];
+    }, { 'attachments/figure-1.png': image });
+    const imagePages = spawnSync('pdfimages', ['-list', out], { encoding: 'utf8' })
+      .stdout.split('\n').filter((l) => /\bimage\b/.test(l))
+      .map((l) => Number(l.trim().split(/\s+/)[0]));
+    const figurePage = Math.max(...imagePages);
+    const caption = spawnSync('pdftotext', ['-f', String(figurePage), '-l', String(figurePage), out, '-'], { encoding: 'utf8' }).stdout;
+    expect(caption, `the title left the illustration behind on page ${figurePage}`).toMatch(/Figure 1\.\s+Rail alignment/);
+  });
+
+  // 4.7.11.5.3 and figure 11: step labels are aligned right, so a two-digit
+  // label ends where a one-digit label ends, and carry-over lines start under
+  // the first letter of the step rather than at a fixed offset.
+  it('aligns step labels right and blocks their carry-over lines', async () => {
+    const { pdf: out } = await renderDocument((s) => {
+      Object.assign(s.formData as Record<string, unknown>, { date: '15 Dec 24', subject: 'TITLE', shortTitle: 'MI 1' });
+      s.paragraphs = Array.from({ length: 11 }, (_, i) => ({
+        text: i === 8 || i === 9
+          ? `Step ${i + 1} runs long enough to wrap onto a second line so the carry-over can be measured against the first letter of the step text above it.`
+          : `Step ${i + 1}.`,
+        level: 0,
+        procedure: true,
+      }));
+    });
+    const all = [1, 2, 3].flatMap((p) => lineBoxes(out, p));
+    const at = (re: RegExp) => {
+      const i = all.findIndex((l) => re.test(l.text));
+      return { label: all[i], carryOver: all[i + 1] };
+    };
+    const nine = at(/^9\.\s/);
+    const ten = at(/^10\.\s/);
+    expect(nine.label && ten.label, 'steps 9 and 10 were not both rendered').toBeTruthy();
+    // Aligned right: the wider label starts further left by exactly its extra
+    // width. Left-aligned labels shared a left edge, which is the defect.
+    expect(ten.label.x0, 'the two-digit label is not aligned right').toBeLessThan(nine.label.x0 - 1);
+    // Blocked: both carry-over lines start at the same place, under the first
+    // letter of their step's text rather than at a fixed offset from the
+    // margin that lands under neither.
+    expect(Math.abs(nine.carryOver.x0 - ten.carryOver.x0)).toBeLessThan(0.5);
   });
 });
