@@ -5,6 +5,26 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.144] — 2026-09-02
+
+### Added
+
+- **I-Type technical publications.** The first MIL-STD-38784C document type:
+  Modification, Supply, Technical and Lubrication Instructions, the form in
+  which a change reaches equipment already in the fleet. Built page for page
+  against the MARCORSYSCOM template: the cover with the Marine Corps seal,
+  nomenclature and six-row End Item table; the authentication page with its
+  fixed safety and feedback paragraphs, OFFICIAL and DISTRIBUTION; the thirteen
+  fixed paragraph titles with the parts tables their paragraphs carry, which
+  break across pages; WARNING, CAUTION and NOTE; blocked procedural steps;
+  figures with numbered titles; lettered appendices numbered A-1; distribution
+  statements composed per DoDI 5230.24 with their reason, date and controlling
+  office; CUI markings, the export warning and the destruction notice. The
+  editor checks the rules the template states — the long title's length and
+  acronyms, the time compliance period, step depth and siblings, NSN form,
+  the date, the digital signature — and says what a figure or statement still
+  lacks. Delivered as PDF, which the standard names as the medium.
+
 ## [1.2.143] — 2026-09-01
 
 ### Fixed

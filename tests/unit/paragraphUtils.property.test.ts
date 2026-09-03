@@ -300,3 +300,17 @@ describe('isValidLevel / clampLevel / canIndent / canOutdent', () => {
     expect(canOutdent(MAX_DEPTH)).toBe(true);
   });
 });
+
+// The editor's gutter numbers what the page numbers. A technical publication's
+// callouts and figures take no number, and an appendix starts over.
+describe('calculateLabels on a technical publication', () => {
+  it('gives a callout or figure no label and keeps the count', () => {
+    expect(calculateLabels([
+      { level: 0 }, { level: 0, callout: 'warning' }, { level: 0, figure: {} }, { level: 0 },
+    ])).toEqual(['1.', '', '', '2.']);
+  });
+
+  it('numbers afresh after an appendix', () => {
+    expect(calculateLabels([{ level: 0 }, { level: 0 }, { level: 0, appendix: true }, { level: 0 }])).toEqual(['1.', '2.', '', '1.']);
+  });
+});

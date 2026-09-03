@@ -18,6 +18,28 @@ export const FORM_TYPE_CATEGORIES: { category: string; types: FormType[] }[] = [
   },
 ];
 
+/** One row of a technical publication's End Item table. The table always
+ *  prints six rows -- unused ones stay blank rather than being removed -- and
+ *  a seventh item moves the whole list to the back of the cover page. */
+export interface EndItem {
+  nsn: string;
+  tamcn: string;
+  id: string;
+  model: string;
+}
+
+/** MIL-STD-38784C safety callouts. A WARNING covers long-term health hazards,
+ *  injury or death; a CAUTION damage to equipment or loss of mission
+ *  effectiveness; a NOTE is neither, and may follow what it refers to. */
+export type CalloutKind = 'warning' | 'caution' | 'note';
+
+/** One row of a technical publication table, keyed by that table's column
+ *  keys. `level` nests a "consisting of" item beneath its parent. */
+export interface PublicationTableRow {
+  values: Record<string, string>;
+  level?: number;
+}
+
 export interface Reference {
   letter: string;
   title: string;
@@ -55,6 +77,22 @@ export interface Paragraph {
   text: string;
   level: number;
   header?: string; // Optional paragraph heading (underlined per Ch 7 ¶13d)
+  /** A technical publication paragraph may carry one of its fixed tables; the
+   *  key names which. Absent on correspondence, which has none. */
+  tableKey?: string;
+  /** Renders as a safety callout rather than a numbered paragraph. WARNING is
+   *  risk to people, CAUTION risk to equipment, NOTE neither. */
+  callout?: CalloutKind;
+  /** A procedural step. Its carry-over lines block under the first letter of
+   *  the step rather than returning to the margin (MIL-STD-38784C 4.7.11.5.3). */
+  procedure?: boolean;
+  /** Starts an appendix, lettered in order; the heading is its title. Pages
+   *  number A-1, A-2 and paragraph numbers restart (MIL-STD-38784C 4.7.4.1.4). */
+  appendix?: boolean;
+  /** A figure: an image placed in the body, numbered in order, titled by the
+   *  paragraph's text ("Figure 1. Rail alignment"). The image lives in the
+   *  attachments store; `fileRef` is its durable handle. */
+  figure?: { fileRef?: FileRef; name?: string; type?: string; width?: number; height?: number };
   portionMarking?: PortionMarking;
 }
 
@@ -134,6 +172,30 @@ export interface DocumentData {
   to: string;
   via: string;
   subject: string;
+  /** Technical publication cover: the equipment this publication covers.
+   *  Two lines at most. Empty for correspondence. */
+  nomenclature?: string;
+  /** Which I-Type this is; defaults to a Modification Instruction. */
+  publicationType?: 'MI' | 'SI' | 'TI' | 'LI';
+  /** The office that controls the publication; closes the signature block
+   *  and the cover's Controlled by line. */
+  controllingOffice?: string;
+  /** URGENT modification instructions must complete inside a year; NORMAL ones
+   *  run a year by default and say nothing. */
+  miUrgency?: 'urgent' | 'normal';
+  /** Completion date an URGENT instruction must give. */
+  miCompletionDate?: string;
+  /** Short Title from the PCN request, e.g. "XI 12345A-12/1". Runs in the
+   *  header of every page. */
+  shortTitle?: string;
+  /** Publication Control Number, printed in the cover footer only. */
+  pcn?: string;
+  /** Supersedure notice, when this publication replaces an earlier one. */
+  supersedure?: string;
+  /** The technical data is export-restricted, which adds the Arms Export
+   *  Control Act warning between the distribution statement and the
+   *  destruction notice. */
+  exportRestricted?: boolean;
 
   // Endorsements only (same_page_endorsement, new_page_endorsement)
   // Per SECNAV M-5216.5 Ch 9 §2.1.b -- endorsement line format is:
@@ -204,6 +266,11 @@ export interface DocumentData {
   cuiCategory: string;
   cuiDissemination: string;
   cuiDistStatement: string;
+  /** Fill-ins for Distribution Statements B through F on a technical
+   *  publication (DoDI 5230.24): why distribution is restricted, and the date
+   *  of that determination. The controlling office is `controllingOffice`. */
+  distReason?: string;
+  distDate?: string;
   pocEmail: string;
 
   // MOA/MOU fields
@@ -300,6 +367,9 @@ export interface DocTypeConfig {
     fontFamily: string;
     fontFamilyRequired?: boolean;  // true = lock to fontFamily in compliant mode (Ch 12 exec docs)
                                    // When absent/false = font family is RECOMMENDED, not required
+    /** Governing publication. Defaults to SECNAV M-5216.5, which governs all
+     *  correspondence; technical publications answer to a different standard. */
+    authority?: string;
     ref: string;
   };
   // Layout fields — single source of truth for both PDF and DOCX generators
@@ -310,6 +380,9 @@ export interface DocTypeConfig {
   topSpacing?: string;                 // extra top spacing (e.g., '1in') for non-letterhead docs
   subjectPrefix?: string;              // prefix before subject in body (e.g., 'SUBJECT: ')
   hasDecisionBlock?: boolean;          // default false — true adds APPROVE/DISAPPROVE block
+  pdfOnly?: boolean;                   // default false — true offers no DOCX (the PDF is the delivery medium)
+  enclosureLabel?: 'corner' | 'footer'; // default 'corner' — "Enclosure (1)" bottom right (SECNAV);
+                                       // 'footer' — "Enclosure 1" centred above the page number (MIL-STD-38784C)
   // Optional field indicators — shown in compliant mode to note "not required" per SECNAV
   optionalLetterhead?: boolean;        // true = letterhead shown but marked "(optional)" in compliant mode
   optionalSSIC?: boolean;              // true = SSIC shown but marked "(optional)" in compliant mode
@@ -504,6 +577,21 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
     regulations: { fontSize: '12pt', fontFamily: 'times', fontFamilyRequired: true, ref: 'Ch 12 ¶4' },
     compliance: EXECUTIVE_COMPLIANCE,
   },
+  // I-Type (Instructional) technical publication -- MI/SI/TI/LI. A directive
+  // to the fleet rather than correspondence: no From/To, no Via, identified by
+  // a PCN rather than an SSIC, and authenticated rather than signed off.
+  // MIL-STD-38784C governs the format; see docs/TECHPUB_I_TYPE.md.
+  i_type: {
+    letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false,
+    signature: 'full', uiMode: 'memo', showSignatureRankTitle: true, topSpacing: '1in',
+    pdfOnly: true,
+    enclosureLabel: 'footer',
+    regulations: {
+      fontSize: '12pt', fontSizeOptions: ['12pt'], fontFamily: 'times',
+      authority: 'MIL-STD-38784C', ref: '\u00a74.7',
+    },
+    compliance: DEFAULT_COMPLIANCE,
+  },
 };
 
 // Labels for document types visible in the UI
@@ -528,6 +616,7 @@ export const DOC_TYPE_LABELS: Record<string, string> = {
   standard_memorandum: 'Standard Memorandum (HqDON)',
   action_memorandum: 'Action Memorandum',
   information_memorandum: 'Information Memorandum',
+  i_type: 'I-Type Instruction (MI/SI/TI/LI)',
 };
 
 /**
@@ -556,6 +645,7 @@ export const DOC_TYPE_CHIP: Record<string, string> = {
   standard_memorandum: 'MEMO',
   action_memorandum: 'MEMO',
   information_memorandum: 'MEMO',
+  i_type: 'I-TYPE',
 };
 
 /** The Recents type chip for a doc type (falls back to a generic code). */
@@ -584,5 +674,9 @@ export const DOC_TYPE_CATEGORIES: { category: string; types: string[] }[] = [
   {
     category: 'Executive',
     types: ['executive_correspondence', 'standard_memorandum', 'action_memorandum', 'information_memorandum'],
+  },
+  {
+    category: 'Technical Publications',
+    types: ['i_type'],
   },
 ];

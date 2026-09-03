@@ -4,8 +4,7 @@ import {
 import {
   SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy, } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import {
-  GripVertical, Plus, Trash2, ChevronRight, ChevronLeft, ArrowUp, ArrowDown, AlertTriangle, Library } from 'lucide-react';
+import { GripVertical, Plus, Trash2, ChevronRight, ChevronLeft, ArrowUp, ArrowDown, AlertTriangle, Library, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { IconTip } from '@/components/ui/icon-tip';
 import { Input } from '@/components/ui/input';
@@ -26,11 +25,42 @@ import {
 import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
 import { HelpTip } from '@/components/ui/help-tip';
 import { useDocumentStore } from '@/stores/documentStore';
+import { I_TYPE_TABLES, tableSpec } from '@/data/techpub/tables';
 import { useSnippetsStore } from '@/stores/snippetsStore';
 import { showAppAlert } from '@/stores/alertStore';
-import { DOC_TYPE_CONFIG, type PortionMarking } from '@/types/document';
+import { persistAttachment } from '@/lib/attachments';
+import { DOC_TYPE_CONFIG, type PortionMarking, type CalloutKind, type Paragraph } from '@/types/document';
 import { calculateLabels, canIndentAt } from '@/lib/paragraphUtils';
 import { cn } from '@/lib/utils';
+
+/** What a technical publication paragraph can be. `callout`, `procedure`,
+ *  `appendix` and `figure` are separate optional fields on Paragraph but are
+ *  mutually exclusive in practice -- a step is not also a warning -- so the
+ *  editor offers one choice rather than four flags that can disagree. */
+const BLOCK_KINDS = [
+  { value: 'paragraph', short: '¶', name: 'Paragraph' },
+  { value: 'step', short: 'Step', name: 'Procedural step' },
+  { value: 'warning', short: 'WARN', name: 'WARNING — injury or death' },
+  { value: 'caution', short: 'CAUT', name: 'CAUTION — damage to equipment' },
+  { value: 'note', short: 'NOTE', name: 'NOTE' },
+  { value: 'appendix', short: 'APPX', name: 'Appendix — lettered A, B, C; heading is its title' },
+  { value: 'figure', short: 'FIG', name: 'Figure — an image with a numbered title; the text is the title' },
+] as const;
+
+type BlockKind = (typeof BLOCK_KINDS)[number]['value'];
+
+function blockKind(callout: CalloutKind | undefined, procedure: boolean | undefined, appendix: boolean | undefined, figure?: Paragraph['figure']): BlockKind {
+  return callout ?? (figure ? 'figure' : appendix ? 'appendix' : procedure ? 'step' : 'paragraph');
+}
+
+function setBlockKind(value: BlockKind): Partial<Paragraph> {
+  return {
+    callout: value === 'warning' || value === 'caution' || value === 'note' ? (value as CalloutKind) : undefined,
+    procedure: value === 'step' ? true : undefined,
+    appendix: value === 'appendix' ? true : undefined,
+    figure: value === 'figure' ? {} : undefined,
+  };
+}
 
 // Per-paragraph portion marks (official CNSI/ISOO palette; brighter variants in
 // dark mode). The gutter chip opens a menu to pick any marking directly — no
@@ -61,6 +91,12 @@ interface BlockRowProps {
   label: string;
   autoFocus: boolean;
   showPortionMarking: boolean;
+  showBlockKind: boolean;
+  callout: CalloutKind | undefined;
+  procedure: boolean | undefined;
+  appendix: boolean | undefined;
+  figure: Paragraph['figure'];
+  tableKey: string | undefined;
   disableIndent: boolean;
   /** Whether a deeper indent is currently legal (≤ one level below the block
    *  above). Drives the button's disabled state; the store also enforces it. */
@@ -80,6 +116,12 @@ const BlockRow = memo(function BlockRow({
   label,
   autoFocus,
   showPortionMarking,
+  showBlockKind,
+  callout,
+  procedure,
+  appendix,
+  figure,
+  tableKey,
   disableIndent,
   canIndent,
   requestFocus,
@@ -172,6 +214,9 @@ const BlockRow = memo(function BlockRow({
     return false;
   }, [index, removeParagraph, updateParagraph, outdentParagraph, requestFocus]);
 
+  // The table this paragraph carries, by the name the template gives it.
+  const attachedTable = tableKey ? tableSpec(tableKey)?.name ?? tableKey : undefined;
+
   // Fall back to rendering the raw stored value (never the (U) palette default),
   // so a marking outside the palette is shown honestly rather than mislabeled.
   const mark =
@@ -228,6 +273,33 @@ const BlockRow = memo(function BlockRow({
           />
         )}
         <div className="flex items-baseline gap-1">
+          {showBlockKind && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  type="button"
+                  aria-label={`Block kind: ${blockKind(callout, procedure, appendix, figure)}. Change`}
+                  title="A technical publication paragraph can be a safety callout, a procedural step, or the start of an appendix"
+                  className="shrink-0 rounded-sm px-1 font-serif text-serif-body font-semibold text-muted-foreground outline-none transition-colors hover:bg-accent/50 focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                >
+                  {BLOCK_KINDS.find((k) => k.value === blockKind(callout, procedure, appendix, figure))?.short}
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="min-w-48">
+                <DropdownMenuRadioGroup
+                  value={blockKind(callout, procedure, appendix, figure)}
+                  onValueChange={(v) => updateParagraph(index, setBlockKind(v as BlockKind))}
+                >
+                  {BLOCK_KINDS.map((k) => (
+                    <DropdownMenuRadioItem key={k.value} value={k.value} className="gap-2">
+                      <span className="w-16 shrink-0 font-serif font-semibold">{k.short}</span>
+                      <span className="text-muted-foreground">{k.name}</span>
+                    </DropdownMenuRadioItem>
+                  ))}
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
           {showPortionMarking && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -259,12 +331,46 @@ const BlockRow = memo(function BlockRow({
             </DropdownMenu>
           )}
           <div className="min-w-0 flex-1 font-serif text-serif-body">
+            {figure && (
+              <div className="mb-1 flex items-center gap-2 font-sans text-xs text-muted-foreground">
+                <label className="flex cursor-pointer items-center gap-1.5 rounded-md border border-dashed border-border px-2 py-1 transition-colors hover:bg-secondary/30 focus-within:ring-[3px] focus-within:ring-ring/50">
+                  <Upload className="h-3.5 w-3.5" aria-hidden="true" />
+                  <span>{figure.fileRef ? 'Replace image' : 'Choose image'}</span>
+                  <input
+                    type="file"
+                    accept="image/png,image/jpeg,application/pdf"
+                    aria-label={`Image for figure ${label || index + 1}`}
+                    className="sr-only"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      // A photo is decoded with its EXIF orientation applied and
+                      // re-encoded: pdfTeX ignores the orientation tag, so a portrait
+                      // phone photo would print on its side, and the re-encoding drops
+                      // the camera and location tags with it. The pixel size decides
+                      // whether the print will look soft. A PDF is kept as it is.
+                      const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' }).catch(() => null);
+                      let bytes: ArrayBuffer = await file.arrayBuffer();
+                      if (bitmap && file.type === 'image/jpeg' && typeof OffscreenCanvas !== 'undefined') {
+                        const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
+                        canvas.getContext('2d')?.drawImage(bitmap, 0, 0);
+                        bytes = await (await canvas.convertToBlob({ type: 'image/jpeg', quality: 0.92 })).arrayBuffer();
+                      }
+                      const fileRef = await persistAttachment({ name: file.name, size: bytes.byteLength, type: file.type }, bytes);
+                      updateParagraph(index, { figure: { fileRef, name: file.name, type: file.type, width: bitmap?.width, height: bitmap?.height } });
+                      bitmap?.close();
+                    }}
+                  />
+                </label>
+                <span className="truncate">{figure.name ?? 'No image yet'}</span>
+              </div>
+            )}
             <VariableChipEditor
               blockMode
               autoFocus={autoFocus}
               value={text}
               onChange={(t) => updateParagraph(index, { text: t })}
-              placeholder="Type your paragraph…  ⏎ new · ⇥ indent · @ insert"
+              placeholder={figure ? 'Figure title…' : 'Type your paragraph…  ⏎ new · ⇥ indent · @ insert'}
               onEnterBlock={onEnter}
               onIndentBlock={disableIndent ? undefined : () => indentParagraph(index)}
               onOutdentBlock={disableIndent ? undefined : () => outdentParagraph(index)}
@@ -288,6 +394,50 @@ const BlockRow = memo(function BlockRow({
             >
               + heading
             </button>
+          )}
+          {/* The eight tables MIL-STD-38784C fixes for an I-Type. A table is
+              carried by the paragraph that introduces it, so it is attached
+              here rather than being a block kind of its own -- the paragraph
+              keeps its number and title and the table prints beneath. */}
+          {showBlockKind && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  type="button"
+                  aria-label={attachedTable ? `Table: ${attachedTable}. Change` : 'Attach a table'}
+                  title="Attach a table"
+                  className="h-6 rounded-md px-1.5 text-xs font-medium text-muted-foreground outline-none hover:bg-accent hover:text-accent-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                >
+                  {attachedTable ?? '+ table'}
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="min-w-56">
+                <DropdownMenuRadioGroup
+                  value={tableKey ?? 'none'}
+                  onValueChange={(v) => {
+                    if (v === 'none') {
+                      updateParagraph(index, { tableKey: undefined });
+                      return;
+                    }
+                    // Title the paragraph with the table's own heading when it
+                    // has none: the template pairs the two, and an untitled
+                    // table paragraph prints a bare number.
+                    const name = tableSpec(v)?.name;
+                    updateParagraph(index, header ? { tableKey: v } : { tableKey: v, header: name });
+                    if (!header) setWantsHeader(true);
+                  }}
+                >
+                  <DropdownMenuRadioItem value="none" className="text-muted-foreground">
+                    No table
+                  </DropdownMenuRadioItem>
+                  {I_TYPE_TABLES.map((t) => (
+                    <DropdownMenuRadioItem key={t.key} value={t.key}>
+                      {t.name}
+                    </DropdownMenuRadioItem>
+                  ))}
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
           )}
           {!disableIndent && (
             <>
@@ -375,6 +525,8 @@ export function BlockParagraphsEditor() {
   );
 
   const showPortionMarking = !!classLevel && classLevel !== 'unclassified';
+  // Only a technical publication has callouts and steps.
+  const showBlockKind = docType === 'i_type';
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
   const disableNumbered = documentMode === 'compliant' && !config.compliance.numberedParagraphs;
 
@@ -443,6 +595,12 @@ export function BlockParagraphsEditor() {
               label={disableNumbered ? '' : labels[i]}
               autoFocus={focusIndex === i}
               showPortionMarking={showPortionMarking}
+              showBlockKind={showBlockKind}
+              callout={p.callout}
+              procedure={p.procedure}
+              appendix={p.appendix}
+              figure={p.figure}
+              tableKey={p.tableKey}
               disableIndent={disableNumbered}
               canIndent={canIndentAt(paragraphs, i)}
               requestFocus={requestFocus}

@@ -16,7 +16,8 @@ import {
 } from '@/lib/domainClassification';
 import { useEffect, useMemo, useState } from 'react';
 import { getClassificationConfig } from '@/config/classification';
-import { validateClassificationMarkings } from '@/lib/classificationValidation';
+import { validateClassificationMarkings, validateDistributionStatement, validateDistributionFillIns, validateReasonForStatement } from '@/lib/classificationValidation';
+import { reasonsFor } from '@/data/techpub/distributionStatements';
 
 // Official CNSI/ISOO banner colors (EO 13526, 32 CFR 2001/2002, DoDM 5200.01,
 // CAPCO Register, ISOO directive). Hex codes match the dodcui.mil/ISOO table:
@@ -81,6 +82,27 @@ const DISTRIBUTION_STATEMENTS = [
   { value: 'F', label: 'F - Further dissemination only as directed' },
 ];
 
+/** The Distribution Statement picker. Three call sites render it -- a
+ *  publication at any classification level, and a CUI or custom-marked letter
+ *  at that level -- so each passes its own id for its Label to point at. */
+function DistributionStatementField({ id, value, onChange }: { id: string; value: string; onChange: (v: string) => void }) {
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={id}>Distribution Statement</Label>
+      <Select value={value} onValueChange={onChange}>
+        <SelectTrigger id={id} aria-label="Distribution Statement">
+          <SelectValue placeholder="Select statement…" />
+        </SelectTrigger>
+        <SelectContent>
+          {DISTRIBUTION_STATEMENTS.map((stmt) => (
+            <SelectItem key={stmt.value} value={stmt.value}>{stmt.label}</SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
+
 export function ClassificationSection() {
   const { formData, setField } = useDocumentStore();
   const paragraphs = useDocumentStore((s) => s.paragraphs);
@@ -93,6 +115,26 @@ export function ClassificationSection() {
   const markingFindings = useMemo(
     () => validateClassificationMarkings(classLevel, paragraphs),
     [classLevel, paragraphs]
+  );
+  // A technical publication's Distribution Statement decides whether it is
+  // controlled, so the two markings have to agree. Scoped to publications:
+  // correspondence carries a distribution statement for other reasons.
+  const docType = useDocumentStore((s) => s.docType);
+  const distributionFindings = useMemo(
+    () => (docType === 'i_type'
+      ? [
+          ...validateDistributionStatement(classLevel, formData.cuiDistStatement),
+          ...validateDistributionFillIns(formData.cuiDistStatement, {
+            reason: formData.distReason, date: formData.distDate, office: formData.controllingOffice,
+          }),
+          ...validateReasonForStatement(formData.cuiDistStatement, formData.distReason),
+        ]
+      : []),
+    [docType, classLevel, formData.cuiDistStatement, formData.distReason, formData.distDate, formData.controllingOffice]
+  );
+  const findings = useMemo(
+    () => [...markingFindings, ...distributionFindings],
+    [markingFindings, distributionFindings]
   );
   const [configOverride, setConfigOverride] = useState<{ restriction?: ClassificationRestriction; message?: string } | null>(null);
   const [configLoaded, setConfigLoaded] = useState(false);
@@ -150,6 +192,12 @@ export function ClassificationSection() {
   const isCUI = classLevel === 'cui';
 
   const isCustom = classLevel === 'custom';
+
+  // MIL-STD-38784C 4.9.1.10: every technical manual carries a distribution
+  // statement on its cover, at any classification. Gating the control on CUI
+  // left an unclassified Statement A publication -- the commonest kind -- with
+  // no way to set one, and its cover printed no statement at all.
+  const isPublication = docType === 'i_type';
 
   // Both POC-email inputs bind the same field and only one shows at a time, so
   // one validity check covers both. Flag a non-empty value that isn't a basic
@@ -222,11 +270,12 @@ export function ClassificationSection() {
               </Select>
             </div>
 
-            {/* Banner ↔ portion-marking consistency findings. aria-live so a
-                new under-marking is announced without stealing focus. */}
-            {markingFindings.length > 0 && (
+            {/* Marking consistency findings: banner ↔ portion markings, and for
+                a technical publication its Distribution Statement. aria-live so
+                a new under-marking is announced without stealing focus. */}
+            {findings.length > 0 && (
               <div className="space-y-2" aria-live="polite">
-                {markingFindings.map((finding, i) => {
+                {findings.map((finding, i) => {
                   const accent = finding.severity === 'error' ? 'text-destructive' : 'text-warning';
                   return (
                     <Notice key={i} variant={finding.severity === 'error' ? 'error' : 'warning'}>
@@ -363,22 +412,13 @@ export function ClassificationSection() {
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="customCuiDistStatement">Distribution Statement</Label>
-                  <Select
+                {!isPublication && (
+                  <DistributionStatementField
+                    id="customCuiDistStatement"
                     value={formData.cuiDistStatement || ''}
-                    onValueChange={(v) => setField('cuiDistStatement', v)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select statement…" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {DISTRIBUTION_STATEMENTS.map((stmt) => (
-                        <SelectItem key={stmt.value} value={stmt.value}>{stmt.label}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+                    onChange={(v) => setField('cuiDistStatement', v)}
+                  />
+                )}
 
                 <div className="space-y-2">
                   <Label htmlFor="customClassifiedBy">Classified By</Label>
@@ -440,6 +480,53 @@ export function ClassificationSection() {
               </div>
             )}
 
+            {isPublication && (
+              <div className="space-y-4 p-3 rounded-md border bg-muted/30">
+                <p className="text-sm font-medium">Distribution</p>
+
+                <DistributionStatementField
+                  id="pubDistStatement"
+                  value={formData.cuiDistStatement || ''}
+                  onChange={(v) => setField('cuiDistStatement', v)}
+                />
+
+                {/* B through E print a reason and a date of determination; F
+                    prints a date only. Both are fill-ins DoDI 5230.24 leaves
+                    to the author, and the office is the Cover's controlling
+                    office -- B through E refer other requests to it, F directs
+                    further dissemination by it. */}
+                {['B', 'C', 'D', 'E'].includes(formData.cuiDistStatement || '') && (
+                  <div className="space-y-2">
+                    <Label htmlFor="distReason">Reason for restriction</Label>
+                    <Select
+                      value={formData.distReason || ''}
+                      onValueChange={(v) => setField('distReason', v)}
+                    >
+                      <SelectTrigger id="distReason" aria-label="Reason for restriction">
+                        <SelectValue placeholder="Select reason…" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {reasonsFor(formData.cuiDistStatement || '').map((r) => (
+                          <SelectItem key={r} value={r}>{r}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+                {['B', 'C', 'D', 'E', 'F'].includes(formData.cuiDistStatement || '') && (
+                  <div className="space-y-2">
+                    <Label htmlFor="distDate">Date of determination</Label>
+                    <Input
+                      id="distDate"
+                      type="date"
+                      value={formData.distDate || ''}
+                      onChange={(e) => setField('distDate', e.target.value)}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* CUI fields, shown only when CUI is the selected level. */}
             {isCUI && (
               <div className="space-y-4 p-3 rounded-md border bg-muted/30">
@@ -482,22 +569,13 @@ export function ClassificationSection() {
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="cuiDistStatement">Distribution Statement</Label>
-                  <Select
+                {!isPublication && (
+                  <DistributionStatementField
+                    id="cuiDistStatement"
                     value={formData.cuiDistStatement || ''}
-                    onValueChange={(v) => setField('cuiDistStatement', v)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select statement…" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {DISTRIBUTION_STATEMENTS.map((stmt) => (
-                        <SelectItem key={stmt.value} value={stmt.value}>{stmt.label}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+                    onChange={(v) => setField('cuiDistStatement', v)}
+                  />
+                )}
               </div>
             )}
 
