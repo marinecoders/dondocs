@@ -108,7 +108,7 @@ export function useLatexEngine() {
         // Versioned like the templates: the service worker keeps lib/ scripts
         // cache-first, so a bundle that gains a package needs a new URL or an
         // installed browser compiles against the old one.
-        loadScript('/lib/texlive-packages.js?v=2'),
+        loadScript('/lib/texlive-packages.js?v=3'),
       ]);
       debug.timeEnd('ScriptLoad');
 
