@@ -12,8 +12,8 @@
 %% reports for it can be opened at https://latex-project.org/bugs/
 %% (but please observe conditions on bug reports sent to that address!)
 %% 
-%% Copyright (C) 1993-2025
-%% The LaTeX Project and any individual authors listed elsewhere
+%% Copyright (C) 1993-2020
+%% The LaTeX3 Project and any individual authors listed elsewhere
 %% in this file.
 %% 
 %% This file was generated from file(s) of the Standard LaTeX `Tools Bundle'.
@@ -36,14 +36,8 @@
 %% 
 %% File: longtable.dtx Copyright (C) 1990-2020 David Carlisle
 \NeedsTeXFormat{LaTeX2e}[1995/06/01]
-
-\DeclareRelease{}{1994-06-01}{longtable-2020-01-07.sty}
-
-\DeclareRelease{v4.13}{2020-01-02}{longtable-2020-01-07.sty}
-\DeclareCurrentRelease{}{2020-02-07}
-
 \ProvidesPackage{longtable}
-          [2025-10-13 v4.24 Multi-page Table package (DPC)]
+          [2020/01/07 v4.13 Multi-page Table package (DPC)]
 \def\LT@err{\PackageError{longtable}}
 \def\LT@warn{\PackageWarning{longtable}}
 \def\LT@final@warn{%
@@ -62,19 +56,16 @@
 \newskip\LTright      \LTright=\fill
 \newskip\LTpre        \LTpre=\bigskipamount
 \newskip\LTpost       \LTpost=\bigskipamount
-\newcount\LTchunksize \LTchunksize=200
+\newcount\LTchunksize \LTchunksize=20
 \let\c@LTchunksize\LTchunksize
 \newdimen\LTcapwidth  \LTcapwidth=4in
-\providecommand\LTcaptype{table}
 \newbox\LT@head
 \newbox\LT@firsthead
 \newbox\LT@foot
 \newbox\LT@lastfoot
-\newbox\LT@gbox
 \newcount\LT@cols
 \newcount\LT@rows
 \newcounter{LT@tables}
-\providecommand\theHLT@tables{\theLT@tables}
 \newcounter{LT@chunks}[LT@tables]
 \ifx\c@table\undefined
   \newcounter{table}
@@ -83,15 +74,10 @@
 \ifx\tablename\undefined
   \def\tablename{Table}
 \fi
-\ifx\ext@table\undefined
-  \def\ext@table{lot}
-\fi
 \newtoks\LT@p@ftn
 \mathchardef\LT@end@pen=30000
 \def\longtable{%
   \par
-  \if@noskipsec\mbox{}\par\fi
-  \@nobreakfalse
   \ifx\multicols\@undefined
   \else
      \ifnum\col@number>\@ne
@@ -101,22 +87,10 @@
   \if@twocolumn
     \LT@err{longtable not in 1-column mode}\@ehc
   \fi
-  \UseTaggingSocket{tbl/vmode/begin}%
   \begingroup
   \@ifnextchar[\LT@array{\LT@array[x]}}
-\ExplSyntaxOn
 \def\LT@array[#1]#2{%
-  \UseTaggingSocket{tbl/init}
-  \tl_if_empty:eTF { \LTcaptype }
-    {
-      \tl_gset:Ne \@currentHref {LT@tables.\theHLT@tables}
-    }
-    {
-      \@kernel@refstepcounter{\LTcaptype}\stepcounter{LT@tables}
-      \tl_gset:Ne \@currentHref {\LTcaptype.\cs_if_exist_use:c {theH\LTcaptype}}
-    }
-  \tbl_gzero_row_count:
-  \UseTaggingSocket{tbl/longtable/init}
+  \refstepcounter{table}\stepcounter{LT@tables}%
   \if l#1%
     \LTleft\z@ \LTright\fill
   \else\if r#1%
@@ -130,8 +104,7 @@
   \def\@tabarray{%
     \let\hline\LT@@hl
     \LT@@tabarray}%
-  \let\\\LT@tabularcr
-  \let\tabularnewline\\%
+  \let\\\LT@tabularcr\let\tabularnewline\\%
   \def\newpage{\noalign{\break}}%
   \def\pagebreak{\noalign{\ifnum`}=0\fi\@testopt{\LT@no@pgbk-}4}%
   \def\nopagebreak{\noalign{\ifnum`}=0\fi\@testopt\LT@no@pgbk4}%
@@ -148,8 +121,7 @@
   \else
     \advance\@tempdima\extrarowheight
     \col@sep\tabcolsep
-    \let\@startpbox@action\LT@startpbox
-    \let\LT@LL@FM@cr\@arraycr
+    \let\@startpbox\LT@startpbox\let\LT@LL@FM@cr\@arraycr
   \fi
   \setbox\@arstrutbox\hbox{\vrule
     \@height \arraystretch \@tempdima
@@ -158,93 +130,50 @@
   \let\@sharp##\let\protect\relax
    \begingroup
     \@mkpream{#2}%
-    \tbl_count_table_cols:
     \xdef\LT@bchunk{%
-      \tbl_inbetween_rows:
        \global\advance\c@LT@chunks\@ne
        \global\LT@rows\z@\setbox\z@\vbox\bgroup
        \LT@setprevdepth
        \tabskip\LTleft \noexpand\halign to\hsize\bgroup
-       \tabskip\z@ \@arstrut
-       \UseTaggingSocket{tbl/row/begin}%
-       \tbl_init_cell_data_for_row:
-       \@preamble \tabskip\LTright \cr}%
+      \tabskip\z@ \@arstrut \@preamble \tabskip\LTright \cr}%
   \endgroup
   \expandafter\LT@nofcols\LT@bchunk&\LT@nofcols
   \LT@make@row
   \m@th\let\par\@empty
-  \everycr{%
-    \noalign{%
-      \__tbl_trace:n {--longtable-->~chunk~row:~ \the\LT@rows \space
-                   row:~ \the\g__tbl_row_int   \space
-                   column:~ \the\g__tbl_col_int
-      }
-      \tbl_if_row_was_started:T
-          {
-            \UseTaggingSocket{tbl/row/end}
-            \tbl_inbetween_rows:
-          }
-      \int_compare:nNnT \LT@rows < \LTchunksize
-         { \tbl_gincr_row_count: }   % next is row about to start
-    }%
-  }%
-  \lineskip\z@\baselineskip\z@
+  \everycr{}\lineskip\z@\baselineskip\z@
   \LT@bchunk}
-\ExplSyntaxOff
 \def\LT@no@pgbk#1[#2]{\penalty #1\@getpen{#2}\ifnum`{=0\fi}}
-\ExplSyntaxOn
 \def\LT@start{%
   \let\LT@start\endgraf
   \endgraf\penalty\z@\vskip\LTpre\endgraf
-   \ifdim \pagetotal<\pagegoal \else
-      \dimen@=\pageshrink
-      \advance \dimen@ 1sp %
-      \kern\dimen@\penalty 9999\endgraf \kern-\dimen@
-   \fi
   \dimen@\pagetotal
   \advance\dimen@ \ht\ifvoid\LT@firsthead\LT@head\else\LT@firsthead\fi
   \advance\dimen@ \dp\ifvoid\LT@firsthead\LT@head\else\LT@firsthead\fi
   \advance\dimen@ \ht\LT@foot
-  \edef\LT@reset@vfuzz{\vfuzz\the\vfuzz\vbadness\the\vbadness\relax}%
+  \dimen@ii\vfuzz
   \vfuzz\maxdimen
-  \vbadness\@M
-  \setbox\tw@\copy\z@
-  \setbox\tw@\vsplit\tw@ to \ht\@arstrutbox
-  \setbox\tw@\vbox{\unvbox\tw@}%
-  \LT@reset@vfuzz
+    \setbox\tw@\copy\z@
+    \setbox\tw@\vsplit\tw@ to \ht\@arstrutbox
+    \setbox\tw@\vbox{\unvbox\tw@}%
+  \vfuzz\dimen@ii
   \advance\dimen@ \ht
         \ifdim\ht\@arstrutbox>\ht\tw@\@arstrutbox\else\tw@\fi
   \advance\dimen@\dp
         \ifdim\dp\@arstrutbox>\dp\tw@\@arstrutbox\else\tw@\fi
   \advance\dimen@ -\pagegoal
-  \ifdim \dimen@>\z@
-    \vfil\break
-  \else
-    \ifdim\pageshrink>\z@\pageshrink\z@\fi
-  \fi
- \global\@colroom\@colht
+  \ifdim \dimen@>\z@\vfil\break\fi
+      \global\@colroom\@colht
   \ifvoid\LT@foot\else
-    \global\advance\vsize-\ht\LT@foot
+    \advance\vsize-\ht\LT@foot
     \global\advance\@colroom-\ht\LT@foot
     \dimen@\pagegoal\advance\dimen@-\ht\LT@foot\pagegoal\dimen@
     \maxdepth\z@
   \fi
-  \tl_if_empty:eTF{\LTcaptype}
-    {
-      \MakeLinkTarget{LT@tables}
-    }
-    {
-      \MakeLinkTarget{\LTcaptype}
-    }
   \ifvoid\LT@firsthead\copy\LT@head\else\box\LT@firsthead\fi\nobreak
-  \UseTaggingSocket{tbl/longtable/head}
   \output{\LT@output}}
-\ExplSyntaxOff
-\ExplSyntaxOn
 \def\endlongtable{%
-  \tbl_crcr:n {endlongtable}
+  \crcr
   \noalign{%
-    \UseTaggingSocket{tbl/longtable/finalize}
     \let\LT@entry\LT@entry@chop
     \xdef\LT@save@row{\LT@save@row}}%
   \LT@echunk
@@ -259,29 +188,16 @@
   \fi
   \ifx\LT@save@row\LT@@save@row
   \else
-    \LT@warn{Column~ widths~ have~ changed\MessageBreak
-             in~
-               \tl_if_empty:eTF{\LTcaptype}
-                 {longtable~ \theLT@tables}
-                 {\LTcaptype\c_space_tl\use:c{the\LTcaptype}}
-             }
+    \LT@warn{Column \@width s have changed\MessageBreak
+             in table \thetable}%
     \LT@final@warn
   \fi
   \endgraf\penalty -\LT@end@pen
-  \ifvoid\LT@foot\else
-    \global\advance\vsize\ht\LT@foot
-    \global\advance\@colroom\ht\LT@foot
-    \ifdim\pagegoal<\maxdimen
-      \dimen@\pagegoal\advance\dimen@\ht\LT@foot\pagegoal\dimen@
-    \fi
-  \fi
   \endgroup
   \global\@mparbottom\z@
+  \pagegoal\vsize
   \endgraf\penalty\z@\addvspace\LTpost
-  \ifvoid\footins\else\insert\footins{}\fi
-  \UseTaggingSocket{tbl/vmode/end}%
-}
-\ExplSyntaxOff
+  \ifvoid\footins\else\insert\footins{}\fi}
 \def\LT@nofcols#1&{%
   \futurelet\@let@token\LT@n@fcols}
 \def\LT@n@fcols{%
@@ -291,7 +207,7 @@
   \else
     \expandafter\LT@nofcols
   \fi}
-\protected\def\LT@tabularcr{%
+\def\LT@tabularcr{%
   \relax\iffalse{\fi\ifnum0=`}\fi
   \@ifstar
     {\def\crcr{\LT@crcr\noalign{\nobreak}}\let\cr\crcr
@@ -299,20 +215,17 @@
     {\LT@t@bularcr}}
 \let\LT@crcr\crcr
 \let\LT@setprevdepth\relax
-\ExplSyntaxOn
 \def\LT@t@bularcr{%
   \global\advance\LT@rows\@ne
   \ifnum\LT@rows=\LTchunksize
-    \tbl_count_missing_cells:n {echunk}
     \gdef\LT@setprevdepth{%
-      \prevdepth\z@
+      \prevdepth\z@\global
       \global\let\LT@setprevdepth\relax}%
     \expandafter\LT@xtabularcr
   \else
     \ifnum0=`{}\fi
     \expandafter\LT@LL@FM@cr
   \fi}
-\ExplSyntaxOff
 \def\LT@xtabularcr{%
   \@ifnextchar[\LT@argtabularcr\LT@ntabularcr}
 \def\LT@ntabularcr{%
@@ -336,7 +249,7 @@
   \LT@bchunk}
 \def\LT@echunk{%
   \crcr\LT@save@row\cr\egroup
-  \global\setbox\LT@gbox\lastbox
+  \global\setbox\@ne\lastbox
     \unskip
   \egroup}
 \def\LT@entry#1#2{%
@@ -394,7 +307,7 @@
 \let\setlongtables\relax
 \def\LT@get@widths{%
   \setbox\tw@\hbox{%
-    \unhbox\LT@gbox
+    \unhbox\@ne
     \let\LT@old@row\LT@save@row
     \global\let\LT@save@row\@empty
     \count@\LT@cols
@@ -431,7 +344,6 @@
   \noalign{\ifnum0=`}\fi
     \penalty\@M
     \futurelet\@let@token\LT@@hline}
-\ExplSyntaxOn
 \def\LT@@hline{%
   \ifx\@let@token\hline
     \global\let\@gtempa\@gobble
@@ -443,38 +355,27 @@
   \ifnum0=`{\fi}%
   \multispan\LT@cols
      \unskip\leaders\hrule\@height\arrayrulewidth\hfill\cr
-  \noalign{
-    \tbl_gdecr_row_count:
-    \LT@sep}
+  \noalign{\LT@sep}%
   \multispan\LT@cols
      \unskip\leaders\hrule\@height\arrayrulewidth\hfill\cr
-  \noalign{
-    \tbl_gdecr_row_count:
-    \penalty\@M}
+  \noalign{\penalty\@M}%
   \@gtempa}
 \def\LT@caption{%
   \noalign\bgroup
     \@ifnextchar[{\egroup\LT@c@ption\@firstofone}\LT@capti@n}
-\def\LT@c@ption#1[#2]#3{
-  \tl_if_empty:eTF{\LTcaptype}
-    {\LT@makecaption\@gobble{}{#3}}
-    {\LT@makecaption#1{\csname fnum@\LTcaptype\endcsname}{#3}
-    \def\@tempa{#2}
-    \ifx\@tempa\@empty\else
-      {\let\\\space
-      \addcontentsline
-        {\@nameuse{ext@\LTcaptype}}
-        {\LTcaptype}
-        {\protect\numberline{\@nameuse{the\LTcaptype}}{#2}}}
-    \fi}}
-\ExplSyntaxOff
+\def\LT@c@ption#1[#2]#3{%
+  \LT@makecaption#1\fnum@table{#3}%
+  \def\@tempa{#2}%
+  \ifx\@tempa\@empty\else
+     {\let\\\space
+     \addcontentsline{lot}{table}{\protect\numberline{\thetable}{#2}}}%
+  \fi}
 \def\LT@capti@n{%
   \@ifstar
     {\egroup\LT@c@ption\@gobble[]}%
     {\egroup\@xdblarg{\LT@c@ption\@firstofone}}}
 \def\LT@makecaption#1#2#3{%
   \LT@mcol\LT@cols c{\hbox to\z@{\hss\parbox[t]\LTcapwidth{%
-    \reset@font
     \sbox\@tempboxa{#1{#2: }#3}%
     \ifdim\wd\@tempboxa>\hsize
       #1{#2: }#3%
@@ -483,79 +384,44 @@
     \fi
     \endgraf\vskip\baselineskip}%
   \hss}}}
-\ExplSyntaxOn
 \def\LT@output{%
   \ifnum\outputpenalty <-\@Mi
     \ifnum\outputpenalty > -\LT@end@pen
-      \LT@err{floats~ and~ marginpars~ not~ allowed~ in~ a~ longtable}\@ehc
+      \LT@err{floats and marginpars not allowed in a longtable}\@ehc
     \else
       \setbox\z@\vbox{\unvbox\@cclv}%
       \ifdim \ht\LT@lastfoot>\ht\LT@foot
         \dimen@\pagegoal
-        \advance\dimen@\ht\LT@foot
         \advance\dimen@-\ht\LT@lastfoot
         \ifdim\dimen@<\ht\z@
           \setbox\@cclv\vbox{\unvbox\z@\copy\LT@foot\vss}%
           \@makecol
-          \@expl@@@mark@update@singlecol@structures@@
           \@outputpage
-          \global\vsize\@colroom
           \setbox\z@\vbox{\box\LT@head}%
         \fi
       \fi
-        \unvbox\z@\box\ifvoid\LT@lastfoot\LT@foot\else\LT@lastfoot\fi
-        \UseTaggingSocket{tbl/longtable/foot}
+      \global\@colroom\@colht
+      \global\vsize\@colht
+      \vbox
+        {\unvbox\z@\box\ifvoid\LT@lastfoot\LT@foot\else\LT@lastfoot\fi}%
     \fi
   \else
     \setbox\@cclv\vbox{\unvbox\@cclv\copy\LT@foot\vss}%
-    \UseTaggingSocket{tbl/longtable/foot}
     \@makecol
-    \@expl@@@mark@update@singlecol@structures@@
     \@outputpage
       \global\vsize\@colroom
     \copy\LT@head\nobreak
   \fi}
-\ExplSyntaxOff
-\ExplSyntaxOn
 \def\LT@end@hd@ft#1{%
-  \tbl_if_row_was_started:TF
-     {
-       \tbl_count_missing_cells:n {head/foot}
-       \int_step_inline:nn
-         { \LT@rows + 1 }
-         {
-           \seq_gput_left:ce
-             {g__tbl_\cs_to_str:N #1 _rows_seq }
-             { \int_eval:n {\g__tbl_row_int + 1 - ##1 } }
-         }
-       \int_gset:Nn \LT@rows { \LTchunksize }
-     }
-
-     {
-       \crcr
-       \noalign{
-       \int_step_inline:nn
-         { \LT@rows }
-         {
-           \seq_gput_left:ce
-             {g__tbl_\cs_to_str:N #1 _rows_seq }
-             { \int_eval:n {\g__tbl_row_int - ##1 } }
-         }
-         \tbl_gdecr_row_count:         % undo the increment
-         \int_gset:Nn \LT@rows { \LTchunksize }
-       }
-     }
   \LT@echunk
   \ifx\LT@start\endgraf
     \LT@err
-     {Longtable~ head~ or~ foot~ not~ at~ start~ of~ table}%
-     {Increase~ LTchunksize}%
+     {Longtable head or foot not at start of table}%
+     {Increase LTchunksize}%
   \fi
   \setbox#1\box\z@
-  \__tbl_trace:n {-->>~ Saving~\noexpand#1}
   \LT@get@widths
   \LT@bchunk}
-\ExplSyntaxOff
 \def\endfirsthead{\LT@end@hd@ft\LT@firsthead}
 \def\endhead{\LT@end@hd@ft\LT@head}
 \def\endfoot{\LT@end@hd@ft\LT@foot}
@@ -566,10 +432,7 @@
     \let\@footnotetext\LT@p@ftntext
     \setlength\hsize{#1}%
     \@arrayparboxrestore
-    \everypar{%
-      \vrule \@height \ht\@arstrutbox \@width \z@
-      \everypar{}}%
-    }
+    \vrule \@height \ht\@arstrutbox \@width \z@}
 \def\LT@endpbox{%
   \@finalstrut\@arstrutbox
   \color@endgroup
@@ -577,15 +440,9 @@
   \the\LT@p@ftn
   \global\LT@p@ftn{}%
   \hfil}
-\long\def\LT@p@ftntext#1{%
+\def\LT@p@ftntext#1{%
   \edef\@tempa{\the\LT@p@ftn\noexpand\footnotetext[\the\c@footnote]}%
   \global\LT@p@ftn\expandafter{\@tempa{#1}}}%
-\ExplSyntaxOn
-   \seq_new:N \g__tbl_LT@firsthead_rows_seq
-   \seq_new:N \g__tbl_LT@head_rows_seq
-   \seq_new:N \g__tbl_LT@lastfoot_rows_seq
-   \seq_new:N \g__tbl_LT@foot_rows_seq
-\ExplSyntaxOff
 \endinput
 %%
 %% End of file `longtable.sty'.
