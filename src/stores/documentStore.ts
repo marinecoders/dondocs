@@ -706,6 +706,11 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
         enclosures: [],
         copyTos: [],
         distributions: [],
+        // A publication's end items and table rows are document content like
+        // the paragraphs above. Left behind, the previous publication's parts
+        // lists reappeared under the next one's headings.
+        endItems: [],
+        publicationTables: {},
       };
     });
   },

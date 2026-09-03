@@ -26,6 +26,7 @@ import {
 import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
 import { HelpTip } from '@/components/ui/help-tip';
 import { useDocumentStore } from '@/stores/documentStore';
+import { I_TYPE_TABLES } from '@/data/techpub/tables';
 import { useSnippetsStore } from '@/stores/snippetsStore';
 import { showAppAlert } from '@/stores/alertStore';
 import { persistAttachment } from '@/lib/attachments';
@@ -93,6 +94,7 @@ interface BlockRowProps {
   procedure: boolean | undefined;
   appendix: boolean | undefined;
   figure: Paragraph['figure'];
+  tableKey: string | undefined;
   disableIndent: boolean;
   /** Whether a deeper indent is currently legal (≤ one level below the block
    *  above). Drives the button's disabled state; the store also enforces it. */
@@ -117,6 +119,7 @@ const BlockRow = memo(function BlockRow({
   procedure,
   appendix,
   figure,
+  tableKey,
   disableIndent,
   canIndent,
   requestFocus,
@@ -383,6 +386,50 @@ const BlockRow = memo(function BlockRow({
               + heading
             </button>
           )}
+          {/* The eight tables MIL-STD-38784C fixes for an I-Type. A table is
+              carried by the paragraph that introduces it, so it is attached
+              here rather than being a block kind of its own -- the paragraph
+              keeps its number and title and the table prints beneath. */}
+          {showBlockKind && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  type="button"
+                  aria-label={tableKey ? `Table: ${I_TYPE_TABLES.find((t) => t.key === tableKey)?.name ?? tableKey}. Change` : 'Attach a table'}
+                  title="Attach a table"
+                  className="h-6 rounded-md px-1.5 text-xs font-medium text-muted-foreground outline-none hover:bg-accent hover:text-accent-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                >
+                  {tableKey ? I_TYPE_TABLES.find((t) => t.key === tableKey)?.name ?? tableKey : '+ table'}
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="min-w-56">
+                <DropdownMenuRadioGroup
+                  value={tableKey ?? 'none'}
+                  onValueChange={(v) => {
+                    if (v === 'none') {
+                      updateParagraph(index, { tableKey: undefined });
+                      return;
+                    }
+                    // Title the paragraph with the table's own heading when it
+                    // has none: the template pairs the two, and an untitled
+                    // table paragraph prints a bare number.
+                    const name = I_TYPE_TABLES.find((t) => t.key === v)?.name;
+                    updateParagraph(index, header ? { tableKey: v } : { tableKey: v, header: name });
+                    if (!header) setWantsHeader(true);
+                  }}
+                >
+                  <DropdownMenuRadioItem value="none" className="text-muted-foreground">
+                    No table
+                  </DropdownMenuRadioItem>
+                  {I_TYPE_TABLES.map((t) => (
+                    <DropdownMenuRadioItem key={t.key} value={t.key}>
+                      {t.name}
+                    </DropdownMenuRadioItem>
+                  ))}
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
           {!disableIndent && (
             <>
               <IconTip label="Outdent (Shift+Tab)">
@@ -544,6 +591,7 @@ export function BlockParagraphsEditor() {
               procedure={p.procedure}
               appendix={p.appendix}
               figure={p.figure}
+              tableKey={p.tableKey}
               disableIndent={disableNumbered}
               canIndent={canIndentAt(paragraphs, i)}
               requestFocus={requestFocus}

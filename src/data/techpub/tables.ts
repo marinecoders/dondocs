@@ -21,6 +21,9 @@ export interface PublicationTableColumn {
 export interface PublicationTableSpec {
   /** Store key, and the value a paragraph names to carry this table. */
   key: string;
+  /** The paragraph title the template pairs this table with. The editor
+   *  offers it by this name, and titles the paragraph with it. */
+  name: string;
   columns: PublicationTableColumn[];
   /** Parts lists nest: an item may consist of others, indented beneath it. */
   nestable?: boolean;
@@ -47,6 +50,7 @@ const REQUIRED_COLUMNS: PublicationTableColumn[] = [
 export const I_TYPE_TABLES: PublicationTableSpec[] = [
   {
     key: 'majorItems',
+    name: 'Major Items Affected',
     columns: [
       { key: 'description', label: 'Description', width: '2.60in' },
       { key: 'nsn', label: 'NSN', width: '1.71in' },
@@ -56,6 +60,7 @@ export const I_TYPE_TABLES: PublicationTableSpec[] = [
   },
   {
     key: 'components',
+    name: 'Components Affected',
     columns: [
       { key: 'item', label: 'Item', width: '0.35in' },
       { key: 'description', label: 'Description', width: '2.25in' },
@@ -64,12 +69,12 @@ export const I_TYPE_TABLES: PublicationTableSpec[] = [
     ],
     nestable: true,
   },
-  { key: 'materielRequired', columns: REQUIRED_COLUMNS, nestable: true },
-  { key: 'materielDiscarded', columns: MATERIEL_COLUMNS },
-  { key: 'materielRetained', columns: MATERIEL_COLUMNS },
-  { key: 'materielBulk', columns: MATERIEL_COLUMNS },
-  { key: 'specialTools', columns: MATERIEL_COLUMNS },
-  { key: 'jigsFixtures', columns: MATERIEL_COLUMNS },
+  { key: 'materielRequired', name: 'Materiel Required', columns: REQUIRED_COLUMNS, nestable: true },
+  { key: 'materielDiscarded', name: 'Materiel Discarded', columns: MATERIEL_COLUMNS },
+  { key: 'materielRetained', name: 'Materiel Retained', columns: MATERIEL_COLUMNS },
+  { key: 'materielBulk', name: 'Bulk and Consumable Materiel', columns: MATERIEL_COLUMNS },
+  { key: 'specialTools', name: 'Special Tools', columns: MATERIEL_COLUMNS },
+  { key: 'jigsFixtures', name: 'Jigs and Fixtures', columns: MATERIEL_COLUMNS },
 ];
 
 export const tableSpec = (key: string): PublicationTableSpec | undefined =>
