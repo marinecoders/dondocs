@@ -13,7 +13,9 @@
 import { readFile } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
+import { format } from 'date-fns';
 import { canonicalizeUnitAddress } from '../src/lib/unitAddress';
+import { DOC_TYPE_CONFIG } from '../src/types/document';
 
 export interface ParagraphInput {
   text: string;
@@ -139,11 +141,15 @@ function referenceLetter(index: number): string {
   return out;
 }
 
-/** Today, formatted the way a naval letter dates itself: `8 Aug 26`. */
-function today(): string {
-  const d = new Date();
-  const month = d.toLocaleString('en-US', { month: 'short' });
-  return `${d.getDate()} ${month} ${String(d.getFullYear()).slice(2)}`;
+/**
+ * Today, in the format the doc type's chapter prescribes: `8 Aug 26` for a
+ * naval letter, `August 8, 2026` for business and executive correspondence
+ * (Ch 11, Ch 12). The two patterns mirror `src/components/ui/date-picker.tsx`,
+ * which the companion cannot import without dragging in React.
+ */
+function today(docType: string): string {
+  const spelled = DOC_TYPE_CONFIG[docType]?.compliance?.dateFormat === 'spelled';
+  return format(new Date(), spelled ? 'MMMM d, yyyy' : 'd MMM yy');
 }
 
 /** The store shape the generators consume. */
@@ -177,6 +183,7 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
   const unit = { ...defaults.unit, ...input.unit };
   const sig = { ...defaults.signature, ...input.signature };
   const docType = templateFor(input.docType);
+  const date = input.date ?? today(docType);
 
   return {
     docType,
@@ -197,18 +204,26 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
 
       ssic: input.ssic ?? defaults.ssic ?? '5216',
       serial: input.serial ?? '',
-      date: input.date ?? today(),
+      date,
       originatorCode: input.originatorCode ?? defaults.originatorCode ?? '',
       officeCode: input.originatorCode ?? defaults.originatorCode ?? '',
 
       from: input.from ?? '',
       to: input.to ?? '',
-      // Executive memoranda read `memorandumFor`, not `to` (generator.ts,
-      // isExecutiveMode). Feeding both keeps one request field right for every
-      // doc type; letters ignore this one.
-      memorandumFor: input.to ?? '',
       via: (input.via ?? []).join('\n'),
       subject: input.subject ?? '',
+      // Several uiModes read the basics under their own names: executive
+      // memoranda take the addressee from `memorandumFor`, joint documents take
+      // from/to/subject from `joint*`, and agreements take the subject from
+      // `moaSubject` and the date from `seniorDate` (generator.ts, lines
+      // 112-126 and 208). Feeding every alias keeps one set of request fields
+      // right for every type; a type ignores the aliases it does not read.
+      memorandumFor: input.to ?? '',
+      jointSeniorFrom: input.from ?? '',
+      jointTo: input.to ?? '',
+      jointSubject: input.subject ?? '',
+      moaSubject: input.subject ?? '',
+      seniorDate: date,
 
       sigFirst: sig.first ?? '',
       sigMiddle: sig.middle ?? '',
