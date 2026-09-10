@@ -15,6 +15,9 @@
  */
 import { McpServer } from '@modelcontextprotocol/server';
 import { serveStdio } from '@modelcontextprotocol/server/stdio';
+import * as z from 'zod';
+import { LETTER_TEMPLATES } from '../src/data/templates';
+import { lookupUnits } from './unitLookup';
 import { loadDefaults } from './letterInput';
 import { letterSchema } from './letterSchema';
 import { OutsideSandboxError, DEFAULT_ROOT } from './outputPath';
@@ -28,6 +31,61 @@ const defaults = await loadDefaults();
 
 const handle = serveStdio(() => {
   const server = new McpServer({ name: 'dondocs', version: '1' });
+
+  server.registerTool('dondocs_template_list', {
+    title: 'List letter templates',
+    description: 'List all available letter templates with their ID, name, category, and description. '
+      + 'Choose a template matching the user\'s intent, then call dondocs_template_get with its ID. '
+      + 'Ask the user if multiple matches are plausible; explain when no template fits.',
+    inputSchema: z.object({}).strict(),
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+  }, async () => ({
+    content: [{ type: 'text' as const, text: JSON.stringify(
+      LETTER_TEMPLATES.map(({ id, name, category, description }) => ({ id, name, category, description })),
+    ) }],
+  }));
+
+  server.registerTool('dondocs_template_get', {
+    title: 'Get a letter template',
+    description: 'Return the complete letter template for an ID from dondocs_template_list. '
+      + 'Use it as a starting draft: ask the user for bracketed placeholders and missing correspondence details. '
+      + 'Interpret each placeholder in context, preserve supplied facts, and never invent missing information. '
+      + 'When ready, pass the completed letter fields to dondocs_letter; omit template metadata (id, name, category, description).',
+    inputSchema: z.object({ id: z.string().min(1).describe('Exact template ID from dondocs_template_list.') }).strict(),
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+  }, async ({ id }) => {
+    const template = LETTER_TEMPLATES.find((entry) => entry.id === id);
+    if (!template) {
+      return {
+        content: [{ type: 'text' as const, text: `Unknown template ID: ${id}. Call dondocs_template_list to find available IDs.` }],
+        isError: true,
+      };
+    }
+    return { content: [{ type: 'text' as const, text: JSON.stringify(template) }] };
+  });
+
+  server.registerTool('dondocs_unit_lookup', {
+    title: 'Find a unit mailing address',
+    description: 'Search the bundled unit directory by recorded name, abbreviation, MCC, or location. No alias expansion. '
+      + 'Pass a selected match\'s unit object directly to dondocs_letter. '
+      + 'If multiple units match, ask the user which unit or location they mean; MCC is not always unique. '
+      + 'If truncated, narrow the query. If no matches, ask for another name, MCC, or location.',
+    inputSchema: z.object({
+      query: z.string().trim().min(1).max(200).describe('For example Marine Innovation Unit, Marine Innovation Unit Newburgh, 2/23, or SVP.'),
+      limit: z.number().int().min(1).max(50).default(20),
+    }).strict(),
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+  }, async ({ query, limit }) => {
+    try {
+      const result = await lookupUnits(query, limit);
+      return { content: [{ type: 'text' as const, text: JSON.stringify(result) }] };
+    } catch (err) {
+      return {
+        content: [{ type: 'text' as const, text: `Unit lookup failed: ${err instanceof Error ? err.message : String(err)}. Retry the lookup; if it continues to fail, provide the unit name and mailing address directly to dondocs_letter.` }],
+        isError: true,
+      };
+    }
+  });
 
   server.registerTool(
     'dondocs_letter',

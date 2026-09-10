@@ -8,6 +8,7 @@
  */
 import { describe, it, expect } from 'vitest';
 import { toStore, type CompanionDefaults } from '../../companion/letterInput';
+import { splitAddressForLetterhead } from '../../src/lib/unitAddress';
 
 const FORM = (store: ReturnType<typeof toStore>) => store.formData as Record<string, unknown>;
 
@@ -36,7 +37,7 @@ describe('precedence', () => {
     // Overriding just the name must not wipe the configured address.
     const f = FORM(toStore({ docType: 'naval_letter', unit: { name: '8TH COMM BN' } }, CONFIG));
     expect(f.unitName).toBe('8TH COMM BN');
-    expect(f.unitAddress).toBe('QUANTICO VA 22134');
+    expect(f.unitAddress).toBe('QUANTICO, VA 22134');
   });
 
   it('falls back to something renderable with no config at all', () => {
@@ -126,17 +127,36 @@ describe('date', () => {
 });
 
 describe('unit address', () => {
+  it.each(['request', 'config'] as const)('splits the Newburgh lookup address into two letterhead lines from %s', (source) => {
+    const unit = { address: '10 MCDONALD ST, NEWBURGH NY 12550-5012' };
+    const f = FORM(toStore(
+      { docType: 'naval_letter', ...(source === 'request' ? { unit } : {}) },
+      source === 'config' ? { unit } : {},
+    ));
+    expect(splitAddressForLetterhead(f.unitAddress as string)).toEqual({
+      line1: '10 MCDONALD ST',
+      line2: 'NEWBURGH, NY 12550-5012',
+    });
+  });
+
+  it('preserves military post office formatting', () => {
+    const f = FORM(toStore({ docType: 'naval_letter', unit: { address: 'UNIT 35602, FPO AP 96604-5602' } }));
+    expect(splitAddressForLetterhead(f.unitAddress as string)).toEqual({
+      line1: 'UNIT 35602', line2: 'FPO AP 96604-5602',
+    });
+  });
+
   // The first version invented unitCity/unitState/unitZip. Those fields exist
   // nowhere in the app, so the address silently never reached the letterhead.
   // The generator reads ONE `unitAddress` string and splits it itself.
   it('maps a whole address string to unitAddress', () => {
     const f = FORM(toStore({ docType: 'naval_letter', unit: { address: 'PSC BOX 20004, CAMP LEJEUNE NC 28542' } }));
-    expect(f.unitAddress).toBe('PSC BOX 20004, CAMP LEJEUNE NC 28542');
+    expect(f.unitAddress).toBe('PSC BOX 20004, CAMP LEJEUNE, NC 28542');
   });
 
   it('composes city/state/zip into one address line', () => {
     const f = FORM(toStore({ docType: 'naval_letter', unit: { city: 'CAMP LEJEUNE', state: 'NC', zip: '28542' } }));
-    expect(f.unitAddress).toBe('CAMP LEJEUNE NC 28542');
+    expect(f.unitAddress).toBe('CAMP LEJEUNE, NC 28542');
   });
 
   it('prefers an explicit address over the parts', () => {

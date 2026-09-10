@@ -5,6 +5,28 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.146] — 2026-09-10
+
+### Added
+
+- **The companion can look up a unit's mailing address.** Search the bundled
+  directory by name, abbreviation, MCC or location and get back a letterhead
+  block ready to pass straight into a letter, so an address no longer has to be
+  typed by hand. `GET /units?query=...` over HTTP, `dondocs_unit_lookup` over MCP.
+
+- **Letter templates are readable from the companion.** List the bundled
+  templates and fetch one by ID, then fill its bracketed placeholders and send
+  the result to be rendered. `GET /templates` and `GET /templates/{id}` over
+  HTTP, `dondocs_template_list` and `dondocs_template_get` over MCP. Templates
+  come from the same registry the application uses, so registering a new one
+  exposes it to both.
+
+### Fixed
+
+- **Templates no longer carry invented contact details.** Several shipped with a
+  placeholder phone number, email address and duty station written as though they
+  were real. They are bracketed now, so it is obvious what has to be supplied.
+
 ## [1.2.145] — 2026-09-10
 
 ### Fixed

@@ -115,6 +115,34 @@ If the harness allows custom tools, one wrapping that request beats a raw HTTP
 call — the model gets a described schema instead of being told the URL and
 payload shape every time. Where it does not, the raw call is fine.
 
+## Browsing templates over HTTP
+
+For unit addresses, use `GET /units?query=Marine%20Innovation%20Unit%20Newburgh&limit=20`.
+`query` is required (1–200 characters after trimming); `limit` defaults to 20
+and must be an integer from 1 to 50, matching the MCP lookup limits.
+The response is `{ ok: true, v: 1, source, lastUpdated, total, truncated, matches }`.
+Each match contains `mcc` and a `unit` object that can be passed to `/generate`.
+No matches returns HTTP 200 with an empty `matches` array. Invalid inputs return
+HTTP 400 with `{ ok: false, v: 1, errors: [...] }`.
+This route uses the same `lookupUnits()` implementation as `dondocs_unit_lookup`.
+
+`GET /templates` returns `{ ok: true, v: 1, templates: [...] }`, where each
+entry contains a registered template's `id`, `name`, `category`, and `description`.
+`GET /templates/{id}` returns `{ ok: true, v: 1, template: {...} }` with the full template.
+These read-only routes use the same registry as the application and MCP tools.
+Unknown IDs return HTTP 404 with an `errors` array.
+
+From PowerShell, with the companion running:
+
+```powershell
+Invoke-RestMethod -Uri 'http://127.0.0.1:7712/templates'
+
+Invoke-RestMethod -Uri 'http://127.0.0.1:7712/templates/report-findings' |
+    ConvertTo-Json -Depth 10
+```
+
+Restart the companion after adding or changing registered templates.
+
 ## Using it from an MCP client
 
 There is a second front door for clients that speak MCP rather than HTTP —
@@ -146,9 +174,39 @@ check your client's own docs, since the location and key differ between them:
 }
 ```
 
-One tool is exposed, `dondocs_letter`. It takes the same fields as `/generate`
+`dondocs_template_list` takes no arguments and returns a JSON array containing
+every bundled letter template's `id`, `name`, `category`, and `description`.
+Call `dondocs_template_get` with `{"id":"report-findings"}` to retrieve the full
+template, including its document type, subject, paragraphs, and any references
+and SSIC. Both tools are read-only. An unknown ID returns a tool error directing
+the agent back to the catalog.
+
+The agent chooses a matching template, works with the user to fill bracketed
+placeholders and correspondence details, then passes completed letter fields to
+`dondocs_letter` (excluding template metadata). If multiple templates fit, ask
+the user to choose; if none fit, explain that no matching template is available.
+Both tools use `LETTER_TEMPLATES` in `src/data/templates/index.ts`, just like the
+application. Register new templates there and restart the MCP server to expose
+them; no MCP tool changes are needed.
+
+`dondocs_letter` takes the same fields as `/generate`
 and returns the path it wrote. A filename outside the output root comes back as
 a tool error the model can read and retry, not a protocol failure.
+
+`dondocs_unit_lookup` searches the bundled address directory without giving the
+agent filesystem access. Call it with `{"query":"Marine Innovation Unit"}` (name, abbreviation,
+MCC, or location). It returns `matches`, `total`, `truncated`, and directory
+source/date metadata. Results default to 20; optional `limit` accepts 1–50.
+Each match contains an MCC and a `unit` object ready for `dondocs_letter`.
+
+For example, MIU returns several locations. Ask which location the user means,
+then narrow with `{"query":"Marine Innovation Unit Newburgh"}`. Pass that match's `unit` object
+unchanged in the letter request. No additional lookup or identifier is needed.
+MCC values are searchable but are not always unique. When results are truncated,
+narrow the query; when no units match, ask for another name, MCC, or location.
+An unambiguous result can be used immediately. Search uses only values recorded
+in the directory; there is no alias expansion. If an acronym is not recorded,
+search its full name or ask the user what it stands for.
 
 **stdout belongs to the protocol.** Anything printed there that is not a JSON-RPC
 message corrupts the session and the client drops the connection. Two things in
