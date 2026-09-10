@@ -157,7 +157,7 @@ export type GeneratorStore = Record<string, unknown>;
  * registry calls it `standard_memorandum`. The published name is unchanged, only
  * the lookup.
  */
-const TEMPLATE_FOR: Record<string, string> = {
+export const TEMPLATE_FOR: Record<string, string> = {
   memorandum: 'standard_memorandum',
 };
 

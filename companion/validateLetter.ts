@@ -9,9 +9,15 @@
  * Transport-specific concerns stay out — the HTTP contract version belongs to
  * HTTP, and MCP gets argument types from its published schema.
  */
-import type { LetterInput } from './letterInput';
+import { TEMPLATE_FOR, type LetterInput } from './letterInput';
+import { DOC_TYPE_CONFIG } from '../src/types/document';
 
-export const DOC_TYPES = ['naval_letter', 'standard_letter', 'memorandum', 'same_page_endorsement'];
+/**
+ * Every doc type the app defines, plus the friendly aliases `templateFor`
+ * translates. Derived so the companion cannot advertise a type the app lacks or
+ * lag behind one it gains; the tool schema's enum derives from this in turn.
+ */
+export const DOC_TYPES = [...Object.keys(DOC_TYPE_CONFIG), ...Object.keys(TEMPLATE_FOR)];
 export const FORMATS = ['pdf', 'docx'];
 
 /** Everything wrong with a request, so one round-trip is enough to fix it. */
