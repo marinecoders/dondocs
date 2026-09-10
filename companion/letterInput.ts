@@ -13,6 +13,7 @@
 import { readFile } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
+import { canonicalizeUnitAddress } from '../src/lib/unitAddress';
 
 export interface ParagraphInput {
   text: string;
@@ -185,11 +186,10 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       unitName: unit.name ?? unit.line1 ?? 'UNITED STATES MARINE CORPS',
       unitLine1: unit.line1 ?? unit.name ?? 'UNITED STATES MARINE CORPS',
       unitLine2: unit.line2 ?? '',
-      // Accept either the whole address or the parts, and compose the parts the
-      // way a letterhead reads: "CITY ST ZIP".
-      unitAddress: unit.address
-        ?? [unit.city, unit.state, unit.zip].filter(Boolean).join(' ')
-        ?? '',
+      // Normalize tool/config addresses to the comma layout the letterhead
+      // splitter expects, just as the web app does when loading an address.
+      unitAddress: canonicalizeUnitAddress(unit.address
+        ?? [unit.city, unit.state, unit.zip].filter(Boolean).join(' ')),
       department: unit.department ?? 'usmc',
       seal: unit.seal ?? 'dow',
       sealType: unit.seal ?? 'dow',
