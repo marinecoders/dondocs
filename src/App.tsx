@@ -106,6 +106,7 @@ import { addSignatureField, addDualSignatureFields, type DualSignatureFieldConfi
 import { DOC_TYPE_CONFIG, type DocumentData } from '@/types/document';
 import { detectPII, type PIIDetectionResult } from '@/services/pii/detector';
 import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
+import { prefersMobileLayout, readLayoutEnvironment } from '@/utils/device/layout';
 
 // Helper to get classification marking for enclosures
 /**
@@ -394,24 +395,9 @@ function App() {
   // embedded PDF preview doesn't work well there.
   useEffect(() => {
     const checkMobile = () => {
-      const width = window.innerWidth;
-      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-      // Detect iPad specifically (works for iPadOS which reports as Macintosh)
-      const isIPad = /iPad/i.test(navigator.userAgent) ||
-        (/Macintosh/i.test(navigator.userAgent) && isTouchDevice);
-
-      // Consider mobile if:
-      // 1. Width < 768px (phones)
-      // 2. Width < 1024px AND touch device (small tablets)
-      // 3. Any iPad (regardless of screen size - they have PDF issues)
-      // 4. Any touch device under 1366px (covers most tablets)
-      const isMobileOrTablet = width < 768 ||
-        (width < 1024 && isTouchDevice) ||
-        isIPad ||
-        (width < 1366 && isTouchDevice);
-
-      console.log('[device] width:', width, 'touch:', isTouchDevice, 'iPad:', isIPad, 'mobile:', isMobileOrTablet);
+      const environment = readLayoutEnvironment();
+      const { width } = environment;
+      const isMobileOrTablet = prefersMobileLayout(environment);
       setIsMobile(isMobileOrTablet);
 
       // Only set preview visibility on initial setup, not on every resize

@@ -5,6 +5,34 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.145] — 2026-09-10
+
+### Fixed
+
+- **A touchscreen laptop is no longer served the phone layout.** The layout was
+  chosen by testing touch capability against a width threshold, and a Windows
+  laptop with a touch panel satisfies both halves: those high-DPI panels ship at
+  150–200% display scaling, so a 1920- or 2560-wide screen reports about 1280
+  CSS px. Every one of them lost the editor sidebar, which the mobile layout
+  hides outright. Touch is a capability, not a form factor, so the decision now
+  asks the platform — Windows is not a mobile operating system whatever its
+  touchscreen reports.
+
+  The pointer media features look like the principled answer and are not: both
+  misreport on exactly this hardware (Chromium 40277167, Mozilla 1638556), so a
+  rule resting on them would have left the bug in place on some of the machines
+  it was meant to fix.
+
+- **A narrow window is no longer mistaken for a mobile device.** The same
+  assumption sat one level down in device detection, where it decides the PDF
+  delivery path, the install prompt and the welcome modal — so a touchscreen
+  laptop with its window snapped to half a screen was handed all three as if it
+  were a phone. The fallback existed to catch an iPad in desktop mode, which
+  reports itself as a Mac, and was bad at that too: an iPad in landscape is
+  wider than the 1024px it tested, so the case it was written for slipped
+  through while a PC was caught. It now asks the iPad detector, which reads the
+  touch-point signal that survives desktop mode.
+
 ## [1.2.144] — 2026-09-10
 
 ### Fixed

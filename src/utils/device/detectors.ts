@@ -34,8 +34,12 @@ export function detectIPad(ua: string): boolean {
   // Explicit iPad in user agent
   if (/iPad/i.test(ua)) return true;
   
-  // iPadOS desktop mode: Reports as Macintosh but has touch
-  if (/Macintosh/i.test(ua) && typeof window !== 'undefined' && 'ontouchstart' in window) {
+  // iPadOS desktop mode: reports as Macintosh but has touch. `ontouchstart` is
+  // absent in that mode -- suppressing it is what "desktop mode" means -- so
+  // maxTouchPoints is the signal that actually catches it. No Mac reports touch
+  // points: trackpads and the Touch Bar both report 0.
+  if (/Macintosh/i.test(ua) && typeof window !== 'undefined'
+      && ('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
     return true;
   }
   
@@ -63,23 +67,25 @@ export function detectAndroid(ua: string): boolean {
   return /Android/i.test(ua);
 }
 
+/** The user agent announces a phone or tablet outright. */
+export function detectMobileUserAgent(ua: string): boolean {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+}
+
 /**
  * Detect if running on any mobile device
- * 
+ *
  * Includes phones AND tablets. For phone-only detection, use isIPhone && !isIPad
  */
 export function detectMobile(ua: string): boolean {
-  // Check user agent patterns
-  const uaIsMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
-  
-  // Also check touch support + small screen as fallback
-  if (typeof window !== 'undefined') {
-    const hasTouch = 'ontouchstart' in window;
-    const isSmallScreen = window.innerWidth < 1024;
-    if (hasTouch && isSmallScreen) return true;
-  }
-  
-  return uaIsMobile;
+  if (detectMobileUserAgent(ua)) return true;
+  // The one mobile device the user agent does not announce: an iPad in
+  // desktop mode, which calls itself a Mac. This stood as "has touch and a
+  // window under 1024px", which caught a touchscreen Windows laptop with its
+  // window snapped to half a screen -- handing a PC the mobile PDF path, the
+  // mobile install prompt and the mobile welcome -- while missing the iPad it
+  // was there for, since an iPad in landscape is wider than 1024.
+  return detectIPad(ua);
 }
 
 /**
