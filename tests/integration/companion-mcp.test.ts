@@ -43,7 +43,7 @@ function notify(method: string, params?: unknown) {
 
 beforeAll(async () => {
   root = await mkdtemp(join(tmpdir(), 'dondocs-mcp-'));
-  child = spawn('npx', ['vite-node', 'companion/mcp.ts'], {
+  child = spawn(process.execPath, [resolve('node_modules/vite-node/dist/cli.mjs'), 'companion/mcp.ts'], {
     cwd: resolve(import.meta.dirname, '..', '..'),
     env: { ...process.env, DONDOCS_OUT_ROOT: root, DONDOCS_CONFIG: '/nonexistent/companion.config.json' },
   }) as ChildProcessWithoutNullStreams;
@@ -179,7 +179,9 @@ describe('the MCP server', () => {
     // two non-protocol lines this file never saw, because it spawns differently.
     // A launch form the docs recommend is part of the contract.
     const repo = resolve(import.meta.dirname, '..', '..');
-    const proc = spawn('npm', ['--prefix', repo, 'run', '--silent', 'companion:mcp'], {
+    const npmCli = process.env.npm_execpath;
+    expect(npmCli, 'Run this suite through npm run test:integration').toBeTruthy();
+    const proc = spawn(process.execPath, [npmCli!, '--prefix', repo, 'run', '--silent', 'companion:mcp'], {
       env: { ...process.env, DONDOCS_OUT_ROOT: root, DONDOCS_CONFIG: '/nonexistent/companion.config.json' },
     }) as ChildProcessWithoutNullStreams;
 
