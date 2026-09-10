@@ -5,6 +5,33 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.144] — 2026-09-10
+
+### Fixed
+
+- **Classification markings no longer go missing from a companion document.**
+  A request carrying a classification produced a marked document over the HTTP
+  endpoint and an unmarked one over MCP, and both reported success. The MCP tool
+  schema never published the field, so it was discarded on the way in and the
+  document rendered unclassified. The schema now publishes it, along with the
+  point of contact and the `formData` escape hatch, and both front doors derive
+  their field list from one definition so they cannot disagree again.
+
+- **A field the schema does not recognise is now refused by name.** An
+  unrecognised key used to be dropped in silence, so a misspelled field looked
+  like a successful render. The request is rejected and the offending key is
+  named.
+
+- **Memoranda render.** `memorandum` was offered as a document type but no
+  template of that name exists, so every PDF failed on the doc-type lookup while
+  DOCX — which reads no doc-type template — appeared to work. It now resolves to
+  the standard memorandum template, and the addressee reaches the
+  `MEMORANDUM FOR` line instead of being dropped.
+
+- **A failed render says what the compiler rejected.** Failures reported only
+  `LaTeX compilation failed (status 1)`. The log always held the cause; its first
+  error line now rides back with the message.
+
 ## [1.2.143] — 2026-09-01
 
 ### Fixed
