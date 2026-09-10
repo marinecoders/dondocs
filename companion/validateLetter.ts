@@ -11,7 +11,7 @@
  */
 import type { LetterInput } from './letterInput';
 
-export const DOC_TYPES = ['naval_letter', 'standard_letter', 'memorandum'];
+export const DOC_TYPES = ['naval_letter', 'standard_letter', 'memorandum', 'same_page_endorsement'];
 export const FORMATS = ['pdf', 'docx'];
 
 /** Everything wrong with a request, so one round-trip is enough to fix it. */

@@ -5,8 +5,8 @@
  * advertised for the life of the feature without ever producing a PDF; DOCX
  * reads no doc-type template, so it succeeded and the type looked healthy.
  *
- * The second suite needs no toolchain: a doc type the app does not define cannot
- * render, and that is knowable without compiling anything.
+ * The set comparisons that need no toolchain live in
+ * tests/unit/companion-doc-types.test.ts.
  *
  * @vitest-environment node
  */
@@ -15,10 +15,9 @@ import { mkdtemp, rm, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { loadDefaults, templateFor, type CompanionDefaults } from '../../companion/letterInput';
+import { loadDefaults, type CompanionDefaults } from '../../companion/letterInput';
 import { renderToFile } from '../../companion/renderToFile';
 import { DOC_TYPES, FORMATS } from '../../companion/validateLetter';
-import { DOC_TYPE_CONFIG } from '../../src/types/document';
 
 /** DOCX needs pandoc; PDF does not. Skipping is honest, silence is not. */
 const hasPandoc = spawnSync('pandoc', ['--version'], { encoding: 'utf-8' }).status === 0;
@@ -75,13 +74,4 @@ describe('the advertised surface', () => {
     // is a few kilobytes, a real letter far more.
     expect(bytes.byteLength).toBeGreaterThan(4_000);
   }, 200_000);
-});
-
-describe('the advertised docTypes exist', () => {
-  // No compile, no toolchain. The cheap half of the suite above.
-  it.each(DOC_TYPES)('%s is a doc type the app defines', (docType) => {
-    const known = Object.keys(DOC_TYPE_CONFIG);
-    const resolved = templateFor(docType);
-    expect(known, `${docType} resolves to ${resolved}, which the app does not define`).toContain(resolved);
-  });
 });

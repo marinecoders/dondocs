@@ -5,6 +5,17 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.147] — 2026-09-10
+
+### Fixed
+
+- **The appointment acknowledgement template renders from the companion.** It
+  is an endorsement, and the companion accepted only letters and memoranda, so
+  an agent that fetched the template and sent it back to be rendered was refused
+  on the last step. `same_page_endorsement` is now accepted, and a test holds
+  every bundled template's document type against the list the companion accepts
+  so a template cannot ship in that state again.
+
 ## [1.2.146] — 2026-09-10
 
 ### Added
