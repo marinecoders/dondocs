@@ -92,7 +92,7 @@ const handle = serveStdio(() => {
     {
       title: 'Write a naval letter',
       description:
-        'Render SECNAV M-5216.5 correspondence — naval letter, standard letter, memorandum or same-page endorsement — to a PDF or DOCX file. '
+        'Render SECNAV M-5216.5 correspondence — every letter, memorandum, endorsement and agreement type the app defines; see the docType enum — to a PDF or DOCX file. '
         + 'Formatting, letterhead, seal, paragraph numbering and the signature block are handled for you; supply content only. '
         + 'Returns the path to the written file, not the document itself. '
         + `Files are written under ${ROOT}.`,
