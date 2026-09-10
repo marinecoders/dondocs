@@ -78,16 +78,14 @@ export function detectMobileUserAgent(ua: string): boolean {
  * Includes phones AND tablets. For phone-only detection, use isIPhone && !isIPad
  */
 export function detectMobile(ua: string): boolean {
-  const uaIsMobile = detectMobileUserAgent(ua);
-  
-  // Also check touch support + small screen as fallback
-  if (typeof window !== 'undefined') {
-    const hasTouch = 'ontouchstart' in window;
-    const isSmallScreen = window.innerWidth < 1024;
-    if (hasTouch && isSmallScreen) return true;
-  }
-  
-  return uaIsMobile;
+  if (detectMobileUserAgent(ua)) return true;
+  // The one mobile device the user agent does not announce: an iPad in
+  // desktop mode, which calls itself a Mac. This stood as "has touch and a
+  // window under 1024px", which caught a touchscreen Windows laptop with its
+  // window snapped to half a screen -- handing a PC the mobile PDF path, the
+  // mobile install prompt and the mobile welcome -- while missing the iPad it
+  // was there for, since an iPad in landscape is wider than 1024.
+  return detectIPad(ua);
 }
 
 /**
