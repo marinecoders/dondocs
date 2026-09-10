@@ -1,3 +1,10 @@
+/**
+ * Search the bundled unit directory for a letterhead block.
+ *
+ * Matching is AND across whitespace-separated terms over the recorded name,
+ * abbreviation, MCC, address and parent unit. No alias expansion. `total` is the
+ * count before `limit` is applied, so `truncated` tells a caller to narrow.
+ */
 import { formatLetterhead, loadUnitDirectory } from '../src/data/unitDirectory';
 
 export async function lookupUnits(query: string, limit = 20) {
