@@ -68,6 +68,17 @@ export interface SignatureInput {
   byDirectionAuthority?: string;
 }
 
+export interface PartyInput {
+  name: string;
+  from?: string;
+  code?: string;
+  zip?: string;
+  ssic?: string;
+  serial?: string;
+  date?: string;
+  signature?: { name: string; rank?: string; title?: string };
+}
+
 export interface LetterInput {
   docType: string;
   format?: 'pdf' | 'docx';
@@ -97,8 +108,25 @@ export interface LetterInput {
   distribution?: string[];
 
   signature?: SignatureInput;
-  classification?: { level?: string; pocEmail?: string };
+  classification?: {
+    level?: string; pocEmail?: string; custom?: string;
+    classifiedBy?: string; derivedFrom?: string; declassifyOn?: string; reason?: string;
+    cui?: { category?: string; controlledBy?: string; dissemination?: string; distStatement?: string };
+  };
   pocEmail?: string;
+
+  /** The two sides of a joint letter, joint memorandum, MOA or MOU. */
+  parties?: { senior: PartyInput; junior: PartyInput; commonLocation?: string };
+  endorsement?: { ordinal: string; basicLetterId: string; includeSubject?: boolean };
+
+  salutation?: string;
+  complimentaryClose?: string;
+  attnLine?: string;
+  throughLine?: string;
+  inReplyTo?: boolean;
+  coordination?: string;
+  preparedBy?: string;
+  pageNumbering?: 'none' | 'simple' | 'xofy';
 
   /**
    * Anything this interface does not name. Merged last, so a caller can reach a
@@ -173,6 +201,32 @@ export function templateFor(docType: string): string {
   return TEMPLATE_FOR[docType] ?? docType;
 }
 
+/** Both flat families for the two parties, from the one published shape. */
+function partyFields(input: LetterInput): Record<string, unknown> {
+  const p = input.parties;
+  if (!p) { return {}; }
+  const s = p.senior, j = p.junior;
+  return {
+    // joint_letter / joint_memorandum
+    jointSeniorName: s.name, jointSeniorFrom: s.from ?? input.from ?? '',
+    jointSeniorCode: s.code ?? '', jointSeniorZip: s.zip ?? '',
+    jointSeniorSigName: s.signature?.name ?? '', jointSeniorSigTitle: s.signature?.title ?? '',
+    jointJuniorName: j.name, jointJuniorFrom: j.from ?? '',
+    jointJuniorCode: j.code ?? '', jointJuniorZip: j.zip ?? '',
+    jointJuniorSSIC: j.ssic ?? '', jointJuniorSerial: j.serial ?? '', jointJuniorDate: j.date ?? '',
+    jointJuniorSigName: j.signature?.name ?? '', jointJuniorSigTitle: j.signature?.title ?? '',
+    jointCommonLocation: p.commonLocation ?? '',
+    // moa / mou
+    seniorCommandName: s.name, juniorCommandName: j.name,
+    seniorSSIC: s.ssic ?? '', seniorSerial: s.serial ?? '',
+    juniorSSIC: j.ssic ?? '', juniorSerial: j.serial ?? '', juniorDate: j.date ?? '',
+    seniorSigName: s.signature?.name ?? '', seniorSigRank: s.signature?.rank ?? '', seniorSigTitle: s.signature?.title ?? '',
+    juniorSigName: j.signature?.name ?? '', juniorSigRank: j.signature?.rank ?? '', juniorSigTitle: j.signature?.title ?? '',
+    // seniorDate is routed from the document date above; a party date overrides it.
+    ...(s.date ? { seniorDate: s.date } : {}),
+  };
+}
+
 /**
  * Fold request over machine defaults over built-in fallbacks.
  *
@@ -235,6 +289,38 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
 
       classLevel: input.classification?.level ?? 'unclassified',
       pocEmail: input.pocEmail ?? input.classification?.pocEmail ?? '',
+      customClassification: input.classification?.custom ?? '',
+      classifiedBy: input.classification?.classifiedBy ?? '',
+      derivedFrom: input.classification?.derivedFrom ?? '',
+      declassifyOn: input.classification?.declassifyOn ?? '',
+      classReason: input.classification?.reason ?? '',
+      classifiedPocEmail: input.classification?.pocEmail ?? '',
+      cuiCategory: input.classification?.cui?.category ?? '',
+      cuiControlledBy: input.classification?.cui?.controlledBy ?? '',
+      cuiDissemination: input.classification?.cui?.dissemination ?? '',
+      cuiDistStatement: input.classification?.cui?.distStatement ?? '',
+
+      salutation: input.salutation ?? 'Dear Sir or Madam:',
+      complimentaryClose: input.complimentaryClose ?? 'Sincerely,',
+      attnLine: input.attnLine ?? '',
+      throughLine: input.throughLine ?? '',
+      inReplyTo: input.inReplyTo ?? false,
+      coordination: input.coordination ?? '',
+      preparedBy: input.preparedBy ?? '',
+      pageNumbering: input.pageNumbering ?? 'none',
+
+      // Endorsements: the generator can also parse these out of a subject like
+      // "FIRST ENDORSEMENT on ...", so these are the explicit form.
+      endorsementOrdinal: input.endorsement?.ordinal ?? '',
+      basicLetterId: input.endorsement?.basicLetterId ?? '',
+      includeEndorsementSubject: input.endorsement?.includeSubject ?? false,
+
+      // The two parties, fed to BOTH flat families the app keeps. Joint
+      // documents read joint*; agreements read senior*/junior*. Each type
+      // ignores the family it does not use, so populating both from one shape
+      // costs nothing and needs no branching on uiMode. Where a party carries a
+      // from line it overrides the plain one routed above.
+      ...partyFields(input),
 
       fontFamily: 'times',
       fontSize: '12pt',

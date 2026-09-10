@@ -43,6 +43,44 @@ const classification = z.object({
   level: z.enum(['unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci'])
     .optional().describe('Document-level classification. Defaults to unclassified.'),
   pocEmail: z.string().optional().describe('CUI point of contact.'),
+  custom: z.string().optional().describe('Banner text for a marking outside the list, e.g. a caveat.'),
+  classifiedBy: z.string().optional(), derivedFrom: z.string().optional(),
+  declassifyOn: z.string().optional(), reason: z.string().optional(),
+  cui: z.object({
+    category: z.string().optional(), controlledBy: z.string().optional(),
+    dissemination: z.string().optional(), distStatement: z.string().optional(),
+  }).optional().describe('The CUI designation block. Only read when level is cui.'),
+});
+
+/** One side of a two-party document. */
+const party = z.object({
+  name: z.string().describe('The command, in caps as it should print, e.g. "COMMANDANT OF THE MARINE CORPS".'),
+  from: z.string().optional().describe('Joint letters: this party\'s From: line.'),
+  code: z.string().optional().describe('Joint letters: originator code.'),
+  zip: z.string().optional().describe('Joint letters: ZIP shown under the command.'),
+  ssic: z.string().optional(), serial: z.string().optional(),
+  date: z.string().optional().describe('Agreements: the date this party signed.'),
+  signature: z.object({
+    name: z.string().describe('Joint documents print this as given, e.g. "D. R. SMITH". Agreements (moa, mou) reduce a full name to initial and surname, so give "David R. Smith" there.'),
+    rank: z.string().optional(), title: z.string().optional(),
+  }).optional(),
+});
+
+/**
+ * The two parties to a joint letter, joint memorandum, MOA or MOU. The app
+ * stores these under two different flat families; publishing one shape means
+ * a caller learns one concept, and toStore maps it to whichever the type reads.
+ */
+const parties = z.object({
+  senior: party,
+  junior: party,
+  commonLocation: z.string().optional().describe('Joint letters: a shared location line, e.g. "Washington, D.C.".'),
+});
+
+const endorsement = z.object({
+  ordinal: z.string().describe('FIRST, SECOND, THIRD ...'),
+  basicLetterId: z.string().describe('The letter being endorsed, e.g. "CO 1st Bn ltr 5216 of 8 Sep 26".'),
+  includeSubject: z.boolean().optional().describe('Repeat the Subj: line. Off by default per Ch 9.'),
 });
 
 export const letterSchema = z.object({
@@ -77,6 +115,19 @@ export const letterSchema = z.object({
   classification: classification.optional()
     .describe('Omit for an unclassified document. The banner is the higher of this and any portion mark.'),
   pocEmail: z.string().optional().describe('CUI point of contact, shown in the CUI designation block.'),
+
+  parties: parties.optional().describe('Required for joint_letter, joint_memorandum, moa and mou; ignored elsewhere.'),
+  endorsement: endorsement.optional().describe('For same_page_endorsement and new_page_endorsement.'),
+
+  salutation: z.string().optional().describe('Business letters. Defaults to "Dear Sir or Madam:".'),
+  complimentaryClose: z.string().optional().describe('Business letters. Defaults to "Sincerely,".'),
+  attnLine: z.string().optional().describe('Executive correspondence: an ATTN line.'),
+  throughLine: z.string().optional().describe('Executive correspondence: a THROUGH line.'),
+  inReplyTo: z.boolean().optional().describe('Standard letters: print the "In Reply Refer To" line.'),
+  coordination: z.string().optional().describe('Information memoranda: the coordination line.'),
+  preparedBy: z.string().optional().describe('Information memoranda: who prepared it, e.g. "CAPT J. Smith, USN".'),
+  pageNumbering: z.enum(['none', 'simple', 'xofy']).optional().describe('Defaults to none.'),
+
   formData: z.record(z.string(), z.unknown()).optional()
     .describe('Escape hatch for a generator field this schema does not name yet. Merged last.'),
 // Stripping an unnamed field silently is how a classification marking went
