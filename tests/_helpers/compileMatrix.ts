@@ -56,6 +56,7 @@ export const ALL_DOC_TYPES = [
   'standard_memorandum',
   'action_memorandum',
   'information_memorandum',
+  'i_type',
 ] as const;
 
 export type DocType = typeof ALL_DOC_TYPES[number];
@@ -359,7 +360,7 @@ export function applyFlags(base: TestStore, flags: FlagOverrides): TestStore {
       store.formData.cuiControlledBy = 'DOD';
       store.formData.cuiCategory = 'PRVCY';
       store.formData.cuiDissemination = 'FEDCON';
-      store.formData.cuiDistStatement = 'Distribution authorized to DoD and DoD contractors only.';
+      store.formData.cuiDistStatement = 'D';
     } else if (flags.classLevel !== 'unclassified') {
       store.formData.classifiedBy = 'OPNAVINST 5510.1';
       store.formData.derivedFrom = 'Multiple Sources';

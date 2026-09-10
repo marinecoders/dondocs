@@ -32,6 +32,9 @@ import {
 // Operations
 import { letterOfInstructionOps } from './operations';
 
+// Technical Publications
+import { modificationInstruction, supplyInstruction, technicalInstruction, lubricationInstruction } from './technical';
+
 export const LETTER_TEMPLATES: LetterTemplate[] = [
   // Personnel
   pftWaiver,
@@ -51,6 +54,11 @@ export const LETTER_TEMPLATES: LetterTemplate[] = [
   appointmentInvestigatingOfficer,
   // Operations
   letterOfInstructionOps,
+  // Technical Publications
+  modificationInstruction,
+  supplyInstruction,
+  technicalInstruction,
+  lubricationInstruction,
 ];
 
 export type { LetterTemplate, TemplateParagraph, TemplateReference } from './types';

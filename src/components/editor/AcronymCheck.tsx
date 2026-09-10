@@ -20,7 +20,7 @@ export function AcronymCheck() {
     const body = paragraphs.map((p) => p.text ?? '').join('\n');
     // Directives must define every acronym (¶17a); no directive doc type exists
     // yet, so this stays lenient today.
-    return findUndefinedAcronyms(body, { strict: docType === 'directive' });
+    return findUndefinedAcronyms(body, { strict: docType === 'directive' || docType === 'i_type' });
   }, [paragraphs, docType]);
 
   if (findings.length === 0) return null;

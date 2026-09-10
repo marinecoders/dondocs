@@ -151,7 +151,7 @@ export function DocumentTypeSelector() {
                 </SelectContent>
               </Select>
               <p className="text-xs text-muted-foreground">
-                SECNAV M-5216.5 {config.regulations.ref} permits{' '}
+                {config.regulations.authority ?? 'SECNAV M-5216.5'} {config.regulations.ref} permits{' '}
                 {config.regulations.fontSizeOptions.join(' / ')}.
               </p>
             </div>
@@ -166,7 +166,7 @@ export function DocumentTypeSelector() {
             <div className="border-l-2 border-border pl-3 text-xs">
               <div className="flex items-center gap-2 mb-2">
                 <Badge variant="outline" className="text-xs">
-                  SECNAV M-5216.5 {config.regulations.ref}
+                  {config.regulations.authority ?? 'SECNAV M-5216.5'} {config.regulations.ref}
                 </Badge>
               </div>
               <div className="text-muted-foreground space-y-0.5">

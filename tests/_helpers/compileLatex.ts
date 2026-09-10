@@ -28,7 +28,7 @@
  * could verify the bundle is in sync if that becomes a concern.
  */
 import { spawn } from 'node:child_process';
-import { mkdtemp, writeFile, readFile, readdir } from 'node:fs/promises';
+import { mkdtemp, mkdir, writeFile, readFile, readdir, copyFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -155,7 +155,7 @@ function runPdflatex(cwd: string, mainFile: string): Promise<{
  * `\pageref{LastPage}` resolution for compile-error detection. If a
  * future test wants accurate page counts, run xelatex twice.
  */
-export async function compileFixture(store: TestStore): Promise<CompileResult> {
+export async function compileFixture(store: TestStore, extraFiles: Record<string, Uint8Array> = {}): Promise<CompileResult> {
   const { texFiles } = generateAllLatexFiles(store);
   const templates = await loadTemplates();
 
@@ -173,8 +173,21 @@ export async function compileFixture(store: TestStore): Promise<CompileResult> {
     await writeFile(join(workDir, target), content);
   }
 
+  // The seal images, where `\includegraphics{attachments/...}` looks for
+  // them, so a cover can be proved to carry its seal rather than the
+  // framed fallback.
+  const attachmentsDir = join(REPO_ROOT, 'public', 'attachments');
+  await mkdir(join(workDir, 'attachments'));
+  for (const f of await readdir(attachmentsDir)) {
+    if (f.endsWith('.png')) await copyFile(join(attachmentsDir, f), join(workDir, 'attachments', f));
+  }
+
   // Write all generated runtime files at the working directory root —
   // that's where the templates' `\input{document.tex}` etc. look.
+  // Files the body names beyond the generated TeX, such as figure images.
+  for (const [name, bytes] of Object.entries(extraFiles)) {
+    await writeFile(join(workDir, name), bytes);
+  }
   for (const [name, content] of Object.entries(texFiles)) {
     await writeFile(join(workDir, name), content);
   }

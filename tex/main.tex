@@ -203,6 +203,7 @@
 %-----------------------------------------------------------------------------
 
 \usepackage{tabularx}
+\usepackage{longtable}  % technical publication tables break across pages
 \usepackage{array}
 
 
@@ -309,6 +310,43 @@
 
 \newcommand{\DocumentType}{}
 \newcommand{\setDocumentType}[1]{\renewcommand{\DocumentType}{#1}}
+
+% Technical publication cover. Empty for correspondence, which has no cover
+% page; document.tex only sets these for an I-Type.
+\newcommand{\Nomenclature}{}
+\newcommand{\setNomenclature}[1]{\renewcommand{\Nomenclature}{#1}}
+\newcommand{\EndItemRows}{}
+\newcommand{\setEndItemRows}[1]{\renewcommand{\EndItemRows}{#1}}
+\newcommand{\EndItemOverflowRows}{}
+\newcommand{\setEndItemOverflowRows}[1]{\renewcommand{\EndItemOverflowRows}{#1}}
+\newcommand{\ShortTitle}{}
+\newcommand{\setShortTitle}[1]{\renewcommand{\ShortTitle}{#1}}
+\newcommand{\CoverDate}{}
+\newcommand{\setCoverDate}[1]{\renewcommand{\CoverDate}{#1}}
+\newcommand{\PCN}{}
+\newcommand{\setPCN}[1]{\renewcommand{\PCN}{#1}}
+
+% Technical publication (I-Type) setters, driven by the generator before the
+% module is input; the module only reads them.
+\newcommand{\PublicationTypeName}{Modification Instruction}
+\newcommand{\setPublicationTypeName}[1]{\renewcommand{\PublicationTypeName}{#1}}
+% Recording the completion of a modification applies to MIs alone.
+\newif\ifRecordingInstruction
+\RecordingInstructiontrue
+% "Appendix A: title" and "Enclosure (1): title", one per line, listed
+% under DISTRIBUTION on the authentication page.
+\newcommand{\AttachmentList}{}
+\newcommand{\setAttachmentList}[1]{\renewcommand{\AttachmentList}{#1}}
+\newcommand{\ControllingOffice}{}
+\newcommand{\setControllingOffice}[1]{\renewcommand{\ControllingOffice}{#1}}
+\newcommand{\Supersedure}{}
+\newcommand{\setSupersedure}[1]{\renewcommand{\Supersedure}{#1}}
+\newcommand{\TimeCompliance}{}
+\newcommand{\setTimeCompliance}[1]{\renewcommand{\TimeCompliance}{#1}}
+\newcommand{\DistStatementFull}{}
+\newcommand{\setDistStatementFull}[1]{\renewcommand{\DistStatementFull}{#1}}
+\newif\ifExportRestricted
+\newif\ifEndItemOverflow
 
 
 %=============================================================================

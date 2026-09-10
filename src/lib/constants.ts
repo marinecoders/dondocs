@@ -154,7 +154,7 @@ export const LATEX = {
     DEF: 32,
     CLO: 39,
   },
-  SEAL_FILES: ['dod-seal.png', 'dow-seal.png', 'dod-seal-bw.png', 'dow-seal-bw.png'],
+  SEAL_FILES: ['dod-seal.png', 'dow-seal.png', 'dod-seal-bw.png', 'dow-seal-bw.png', 'usmc-seal.png'],
   MEMFS_DIRECTORIES: ['formats', 'attachments', 'enclosures', 'templates'],
 } as const;
 

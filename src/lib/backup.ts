@@ -117,19 +117,28 @@ export function mergeById<T extends { id: string }>(
 }
 
 /**
- * Every distinct enclosure attachment id referenced by a set of document
- * records, so a backup embeds exactly the blobs its documents point at (no
- * orphaned bytes from since-removed enclosures). Tolerant of the loose
- * `unknown[]` shape that comes back from a parsed library file.
+ * Every distinct attachment id referenced by a set of document records --
+ * enclosures, a publication's figure images and an endorsement's basic letter
+ * -- so a backup embeds exactly the blobs its documents point at (no orphaned
+ * bytes from since-removed enclosures). Tolerant of the loose `unknown[]`
+ * shape that comes back from a parsed library file.
  */
 export function collectAttachmentIds(docs: unknown[]): string[] {
   const ids = new Set<string>();
   for (const doc of docs) {
-    const session = (doc as { session?: { enclosures?: unknown; formData?: { basicLetterFileRef?: { id?: unknown } } } })?.session;
+    const session = (doc as { session?: { enclosures?: unknown; paragraphs?: unknown; formData?: { basicLetterFileRef?: { id?: unknown } } } })?.session;
     const enclosures = session?.enclosures;
     if (Array.isArray(enclosures)) {
       for (const enc of enclosures) {
         const id = (enc as { fileRef?: { id?: unknown } })?.fileRef?.id;
+        if (typeof id === 'string' && id) ids.add(id);
+      }
+    }
+    // A publication's figures are attachments too, referenced from paragraphs.
+    const paragraphs = session?.paragraphs;
+    if (Array.isArray(paragraphs)) {
+      for (const para of paragraphs) {
+        const id = (para as { figure?: { fileRef?: { id?: unknown } } })?.figure?.fileRef?.id;
         if (typeof id === 'string' && id) ids.add(id);
       }
     }

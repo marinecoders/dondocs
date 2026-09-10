@@ -105,7 +105,10 @@ export function useLatexEngine() {
       // Load templates and packages
       await Promise.all([
         loadScript('/lib/latex-templates.js?v=12'),
-        loadScript('/lib/texlive-packages.js'),
+        // Versioned like the templates: the service worker keeps lib/ scripts
+        // cache-first, so a bundle that gains a package needs a new URL or an
+        // installed browser compiles against the old one.
+        loadScript('/lib/texlive-packages.js?v=4'),
       ]);
       debug.timeEnd('ScriptLoad');
 

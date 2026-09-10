@@ -11,6 +11,7 @@ const DOC_TYPE_ICONS: Record<string, LucideIcon> = {
   plain_paper_memorandum: File, letterhead_memorandum: FileText, decision_memorandum: Scale,
   executive_memorandum: Award, joint_memorandum: Users, moa: ScrollText, mou: FileSignature,
   executive_correspondence: Star, navmc_10274: ClipboardList, navmc_118_11: ClipboardList,
+  i_type: BookMarked,
 };
 const GROUP_ICONS: Record<string, LucideIcon> = { correspondence: FileText, forms: ClipboardList };
 const CATEGORY_ICONS: Record<string, LucideIcon> = {

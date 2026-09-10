@@ -88,6 +88,10 @@ export function TemplateLoaderModal() {
     if (selectedTemplate.ssic) {
       store.setField('ssic', selectedTemplate.ssic);
     }
+    // A technical publication template names which I-Type it is.
+    if (selectedTemplate.publicationType) {
+      store.setField('publicationType', selectedTemplate.publicationType);
+    }
 
     // Clear existing paragraphs by removing from the end (avoids index shifting issues)
     const currentParagraphCount = store.paragraphs.length;
@@ -95,9 +99,13 @@ export function TemplateLoaderModal() {
       store.removeParagraph(i);
     }
 
-    // Add template paragraphs
-    selectedTemplate.paragraphs.forEach((para) => {
+    // Add template paragraphs. Paragraphs are cleared above, so the index a
+    // paragraph lands at is its position in the template.
+    selectedTemplate.paragraphs.forEach((para, index) => {
       store.addParagraph(para.text, para.level);
+      if (para.header || para.tableKey) {
+        store.updateParagraph(index, { header: para.header, tableKey: para.tableKey });
+      }
     });
 
     // Clear existing references by removing from the end

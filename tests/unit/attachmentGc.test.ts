@@ -55,7 +55,7 @@ async function clearAll() {
   }
   const atts = (await idbGetAllAttachments()) ?? [];
   for (const a of atts) await idbDeleteAttachment(a.id);
-  useDocumentStore.setState({ enclosures: [] });
+  useDocumentStore.setState({ enclosures: [], paragraphs: [] });
   useDocumentsStore.setState({ docs: {} });
 }
 
@@ -196,6 +196,36 @@ describe('sweepOrphanedAttachments', () => {
     expect(deleted).toBe(0);
     expect(await idbGetAttachment('att_a')).toBeTruthy();
     expect(await idbGetAttachment('att_b')).toBeTruthy();
+  });
+
+  // A technical publication's figures are attachments referenced from
+  // paragraphs, not from the enclosure list. Unmarked, the first sweep after
+  // a restart deleted the bytes of every figure in the library.
+  it('keeps a figure image referenced by a saved publication', async () => {
+    await idbPutAttachment(att('fig-id'));
+    await idbPutDocument({
+      id: 'pub',
+      meta: { id: 'pub', title: 'MI', docType: 'i_type', updatedAt: 1 },
+      session: {
+        docType: 'i_type',
+        paragraphs: [{ text: 'Rail alignment', level: 0, figure: { fileRef: { id: 'fig-id', name: 'f.png', size: 3, type: 'image/png' } } }],
+        references: [], enclosures: [], copyTos: [], distributions: [],
+      },
+    } as unknown as StoredDocument);
+    expect(await collectLiveAttachmentIds()).toContain('fig-id');
+    await sweepOrphanedAttachments();
+    expect(await idbGetAttachment('fig-id')).toBeTruthy();
+  });
+
+  it('keeps a figure image that exists only in the live session', async () => {
+    await idbPutAttachment(att('live-fig'));
+    useDocumentStore.setState({
+      paragraphs: [{ text: 'Torque chart', level: 0, figure: { fileRef: { id: 'live-fig', name: 'f.png', size: 3, type: 'image/png' } } }] as never,
+    });
+
+    expect(await collectLiveAttachmentIds()).toContain('live-fig');
+    await sweepOrphanedAttachments();
+    expect(await idbGetAttachment('live-fig')).toBeTruthy();
   });
 });
 
