@@ -19,6 +19,7 @@ import { renderToFile } from './renderToFile';
 import { RenderTimeoutError } from './limits';
 import { validateLetter, DOC_TYPES, FORMATS } from './validateLetter';
 import { acceptedFields } from './letterSchema';
+import { LETTER_TEMPLATES } from '../src/data/templates';
 
 /** The contract version. Bump when the request or response shape changes. */
 export const CONTRACT = 1;
@@ -84,6 +85,24 @@ async function handleRequest(
     res.end(JSON.stringify(payload));
   };
 
+  const pathname = (req.url ?? '/').split('?')[0];
+  if (req.method === 'GET' && pathname === '/templates') {
+    return json(200, LETTER_TEMPLATES.map(({ id, name, category, description }) => ({ id, name, category, description })));
+  }
+  if (req.method === 'GET' && pathname.startsWith('/templates/')) {
+    let id: string;
+    try {
+      id = decodeURIComponent(pathname.slice('/templates/'.length));
+    } catch {
+      return json(400, { ok: false, v: CONTRACT, errors: ['Invalid template ID encoding.'] });
+    }
+    const template = LETTER_TEMPLATES.find((entry) => entry.id === id);
+    if (!template) {
+      return json(404, { ok: false, v: CONTRACT, errors: [`Unknown template ID: ${id}. GET /templates to find available IDs.`] });
+    }
+    return json(200, template);
+  }
+
   // Capabilities, so a client can configure itself without being told.
   if (req.method === 'GET' && (req.url === '/' || req.url === '/health')) {
     // Report the DOCX converter honestly. A caller comparing output against a
@@ -111,7 +130,7 @@ async function handleRequest(
     });
   }
   if (req.method !== 'POST' || req.url !== '/generate') {
-    return json(404, { ok: false, v: CONTRACT, errors: ['POST /generate, or GET / for capabilities'] });
+    return json(404, { ok: false, v: CONTRACT, errors: ['POST /generate, GET /templates, GET /templates/{id}, or GET / for capabilities'] });
   }
 
   let body: GenerateRequest;

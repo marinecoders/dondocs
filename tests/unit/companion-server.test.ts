@@ -22,6 +22,7 @@ import { mkdtemp, readdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createHandler, validate } from '../../companion/handler';
+import { LETTER_TEMPLATES } from '../../src/data/templates';
 
 let server: Server;
 let base: string;
@@ -79,6 +80,38 @@ describe('capabilities', () => {
     // a note. Silence here is the failure mode: a caller comparing against a
     // browser export would have no idea the converter differs.
     if (!body.docx.matchesApp) { expect(body.docx.note).toBeTruthy(); }
+  });
+});
+
+describe('template routes', () => {
+  it('lists only catalog metadata and retrieves every full template', async () => {
+    const res = await fetch(`${base}/templates`);
+    expect(res.status).toBe(200);
+    expect(res.headers.get('content-type')).toContain('application/json');
+    expect(await res.json()).toEqual(LETTER_TEMPLATES.map(({ id, name, category, description }) => ({
+      id, name, category, description,
+    })));
+    for (const template of LETTER_TEMPLATES) {
+      const full = await fetch(`${base}/templates/${encodeURIComponent(template.id)}`);
+      expect(full.status).toBe(200);
+      expect(await full.json()).toEqual(template);
+    }
+  });
+
+  it('returns a helpful 404 for an unknown ID', async () => {
+    const res = await fetch(`${base}/templates/no-such-template`);
+    expect(res.status).toBe(404);
+    expect(await res.json()).toMatchObject({ ok: false, v: 1, errors: [expect.stringContaining('GET /templates')] });
+  });
+
+  it('rejects malformed ID encoding and remains usable', async () => {
+    expect((await fetch(`${base}/templates/%ZZ`)).status).toBe(400);
+    expect((await fetch(`${base}/templates?source=cli`)).status).toBe(200);
+  });
+
+  it('does not accept POST for template routes', async () => {
+    expect((await post('{}', '/templates')).status).toBe(404);
+    expect((await post('{}', `/templates/${LETTER_TEMPLATES[0].id}`)).status).toBe(404);
   });
 });
 

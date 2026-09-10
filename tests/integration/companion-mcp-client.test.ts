@@ -16,6 +16,7 @@ import { mkdtemp, rm, readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
+import { LETTER_TEMPLATES } from '../../src/data/templates';
 
 const REPO = resolve(import.meta.dirname, '..', '..');
 
@@ -63,11 +64,13 @@ describe('a protocol client', () => {
     await expect(client.ping()).resolves.toBeDefined();
   });
 
-  it('publishes one tool whose schema names the fields that matter', async () => {
+  it('publishes letter and lookup tools with their input schemas', async () => {
     const { tools } = await client.listTools();
-    expect(tools.map((t) => t.name)).toEqual(['dondocs_letter']);
+    expect(tools.map((t) => t.name).sort()).toEqual([
+      'dondocs_letter', 'dondocs_template_get', 'dondocs_template_list', 'dondocs_unit_lookup',
+    ]);
 
-    const schema = tools[0].inputSchema as {
+    const schema = tools.find((t) => t.name === 'dondocs_letter')!.inputSchema as {
       properties?: Record<string, unknown>;
       required?: string[];
       additionalProperties?: boolean;
@@ -78,6 +81,58 @@ describe('a protocol client', () => {
     expect(schema.required).toContain('docType');
     expect(schema.additionalProperties, 'an unnamed field must be refused, not stripped').toBe(false);
   }, 60_000);
+
+  it('lists template metadata and retrieves every complete template', async () => {
+    const { tools } = await client.listTools();
+    for (const name of ['dondocs_template_list', 'dondocs_template_get']) {
+      expect(tools.find((tool) => tool.name === name)?.annotations).toMatchObject({
+        readOnlyHint: true, idempotentHint: true, destructiveHint: false, openWorldHint: false,
+      });
+    }
+    const result = await client.callTool({ name: 'dondocs_template_list', arguments: {} });
+    expect(isError(result), text(result)).toBe(false);
+    expect(JSON.parse(text(result))).toEqual(LETTER_TEMPLATES.map(({ id, name, category, description }) => ({
+      id, name, category, description,
+    })));
+    for (const template of LETTER_TEMPLATES) {
+      const full = await client.callTool({ name: 'dondocs_template_get', arguments: { id: template.id } });
+      expect(isError(full), text(full)).toBe(false);
+      expect(JSON.parse(text(full))).toEqual(template);
+    }
+  });
+
+  it('returns a recoverable error for an unknown template ID', async () => {
+    const result = await client.callTool({ name: 'dondocs_template_get', arguments: { id: 'no-such-template' } });
+    expect(isError(result)).toBe(true);
+    expect(text(result)).toMatch(/Unknown template ID.*dondocs_template_list/);
+    await expect(client.ping()).resolves.toBeDefined();
+  });
+
+  it('looks up MIU, narrows by location, and renders the returned letterhead', async () => {
+    const lookup = async (query: string, limit = 20) => {
+      const response = await client.callTool({ name: 'dondocs_unit_lookup', arguments: { query, limit } });
+      expect(isError(response), text(response)).toBe(false);
+      return JSON.parse(text(response));
+    };
+    const all = await lookup('marine innovation unit');
+    expect(all.total).toBe(7);
+    expect(all.matches.map((m: { mcc: string }) => m.mcc)).toContain('SVP');
+    const selected = await lookup('Marine Innovation Unit Newburgh');
+    expect(selected.total).toBe(1);
+    expect(selected.matches[0].unit.address).toBe('10 MCDONALD ST, NEWBURGH NY 12550-5012');
+    expect((await lookup('SVP')).matches).toEqual(selected.matches);
+    expect((await lookup('016')).total).toBeGreaterThan(1);
+    expect(await lookup('Marine Innovation Unit', 2)).toMatchObject({ total: 7, truncated: true });
+    expect((await lookup('MIU')).matches).toEqual([]);
+    expect((await lookup('no-such-unit-xyz')).matches).toEqual([]);
+    const result = await client.callTool({ name: 'dondocs_letter', arguments: {
+      docType: 'naval_letter', subject: 'LOOKUP CHECK', out: 'lookup.pdf',
+      unit: selected.matches[0].unit,
+      paragraphs: [{ text: 'Letterhead supplied by the directory lookup.' }],
+    } });
+    expect(isError(result), text(result)).toBe(false);
+    expect((await readFile(pathOf(result)!)).subarray(0, 4).toString()).toBe('%PDF');
+  }, 200_000);
 
   it('renders a real PDF', async () => {
     const res = await client.callTool({ name: 'dondocs_letter', arguments: {
