@@ -88,7 +88,7 @@ const CASES: Array<[string, Record<string, unknown>]> = [
   ['a joint letter with both parties', {
     docType: 'joint_letter', subject: 'JOINT', to: 'SECNAV', paragraphs: [{ text: 'x' }],
     parties: {
-      senior: { name: 'CMC', from: 'Commandant', code: 'PP&O', zip: '20380', signature: { name: 'D. R. SMITH', title: 'General' } },
+      senior: { name: 'CMC', from: 'Commandant', code: 'PP&O', zip: '20380', ssic: '1000', serial: '0001', signature: { name: 'D. R. SMITH', title: 'General' } },
       junior: { name: 'CNO', from: 'Chief of Naval Operations', ssic: '1000', serial: '0001', date: '15 Jan 26', signature: { name: 'M. K. JONES', title: 'Admiral' } },
       commonLocation: 'Washington, D.C.',
     },

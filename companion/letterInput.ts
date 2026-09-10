@@ -218,12 +218,9 @@ function partyFields(input: LetterInput): Record<string, unknown> {
     jointCommonLocation: p.commonLocation ?? '',
     // moa / mou
     seniorCommandName: s.name, juniorCommandName: j.name,
-    seniorSSIC: s.ssic ?? '', seniorSerial: s.serial ?? '',
     juniorSSIC: j.ssic ?? '', juniorSerial: j.serial ?? '', juniorDate: j.date ?? '',
     seniorSigName: s.signature?.name ?? '', seniorSigRank: s.signature?.rank ?? '', seniorSigTitle: s.signature?.title ?? '',
     juniorSigName: j.signature?.name ?? '', juniorSigRank: j.signature?.rank ?? '', juniorSigTitle: j.signature?.title ?? '',
-    // seniorDate is routed from the document date above; a party date overrides it.
-    ...(s.date ? { seniorDate: s.date } : {}),
   };
 }
 
@@ -237,7 +234,14 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
   const unit = { ...defaults.unit, ...input.unit };
   const sig = { ...defaults.signature, ...input.signature };
   const docType = templateFor(input.docType);
-  const date = input.date ?? today(docType);
+  // The senior party's identifying block outranks the plain fields: joint
+  // documents read the senior column from data.ssic/serial/date (generator.ts
+  // 110-112) while agreements read seniorSSIC/seniorSerial/seniorDate, so the
+  // party value has to land in both places to reach both.
+  const senior = input.parties?.senior;
+  const date = senior?.date ?? input.date ?? today(docType);
+  const ssic = senior?.ssic ?? input.ssic ?? defaults.ssic ?? '5216';
+  const serial = senior?.serial ?? input.serial ?? '';
 
   return {
     docType,
@@ -256,8 +260,8 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       sealType: unit.seal ?? 'dow',
       letterheadColor: unit.letterheadColor ?? 'blue',
 
-      ssic: input.ssic ?? defaults.ssic ?? '5216',
-      serial: input.serial ?? '',
+      ssic,
+      serial,
       date,
       originatorCode: input.originatorCode ?? defaults.originatorCode ?? '',
       officeCode: input.originatorCode ?? defaults.originatorCode ?? '',
@@ -277,6 +281,8 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       jointTo: input.to ?? '',
       jointSubject: input.subject ?? '',
       moaSubject: input.subject ?? '',
+      seniorSSIC: ssic,
+      seniorSerial: serial,
       seniorDate: date,
 
       sigFirst: sig.first ?? '',
@@ -294,7 +300,7 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       derivedFrom: input.classification?.derivedFrom ?? '',
       declassifyOn: input.classification?.declassifyOn ?? '',
       classReason: input.classification?.reason ?? '',
-      classifiedPocEmail: input.classification?.pocEmail ?? '',
+      classifiedPocEmail: input.classification?.pocEmail ?? input.pocEmail ?? '',
       cuiCategory: input.classification?.cui?.category ?? '',
       cuiControlledBy: input.classification?.cui?.controlledBy ?? '',
       cuiDissemination: input.classification?.cui?.dissemination ?? '',

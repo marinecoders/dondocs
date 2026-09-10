@@ -56,12 +56,15 @@ describe.skipIf(!hasPdfToolchain)('previously hollow doc types carry their conte
     const text = await textOf({ docType: 'joint_letter', to: 'Secretary of the Navy', subject: 'JOINT POLICY', paragraphs: [{ text: 'Body.' }], parties });
     for (const s of ['COMMANDANT OF THE MARINE CORPS', 'CHIEF OF NAVAL OPERATIONS', 'WASHINGTON, D.C.',
                      'From: Commandant of the Marine Corps', 'To:   Secretary of the Navy', 'Subj: JOINT POLICY',
-                     'PP&O', 'N00', 'Ser 0002']) {
+                     'PP&O', 'N00', 'Ser 0001', 'Ser 0002']) {
       expect(text, `missing ${JSON.stringify(s)}`).toContain(s);
     }
     // These were the symptom: an empty From/To/Subj and "()" where the commands go.
     expect(text).not.toMatch(/From:\s*\n/);
     expect(text).not.toContain('()');
+    // The senior column takes the senior party's block, not the document default.
+    // It was passed above and rendered 5216 for a while without anyone asserting.
+    expect(text).not.toContain('5216');
   }, 120_000);
 
   it.each(['moa', 'mou'])('%s names both parties in the BETWEEN block and signs for both', async (docType) => {

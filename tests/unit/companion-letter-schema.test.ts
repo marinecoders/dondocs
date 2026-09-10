@@ -145,6 +145,14 @@ describe('parties', () => {
     expect(f.juniorDate).toBe('15 Jan 26');
   });
 
+  it('lets the senior block win the plain ssic, serial and date for both families', () => {
+    const f = toStore({ ...base, docType: 'joint_letter', ssic: '5216', serial: '9999', date: '1 Jan 26', parties } as LetterInput, {}).formData as Record<string, unknown>;
+    // joint types read the plain names for the senior column
+    expect([f.ssic, f.serial]).toEqual(['1000', '0001']);
+    // agreements read the senior* names; same source
+    expect([f.seniorSSIC, f.seniorSerial]).toEqual(['1000', '0001']);
+  });
+
   it('lets a party from line override the plain one', () => {
     const f = toStore({ ...base, docType: 'joint_letter', from: 'Plain From', parties } as LetterInput, {}).formData as Record<string, unknown>;
     expect(f.jointSeniorFrom).toBe('Senior From');
@@ -181,6 +189,11 @@ describe('endorsement and furniture', () => {
     const f = toStore({ ...base, salutation: 'Dear X:', complimentaryClose: 'V/r,', coordination: 'C', preparedBy: 'P' } as LetterInput, {}).formData as Record<string, unknown>;
     expect([f.salutation, f.complimentaryClose, f.coordination, f.preparedBy]).toEqual(['Dear X:', 'V/r,', 'C', 'P']);
   });
+  it('feeds the classification POC from the top-level pocEmail too', () => {
+    const f = toStore({ ...base, pocEmail: 'top@example.mil', classification: { level: 'secret' } } as LetterInput, {}).formData as Record<string, unknown>;
+    expect(f.classifiedPocEmail).toBe('top@example.mil');
+  });
+
   it('maps the classification detail block', () => {
     const f = toStore({ ...base, classification: { level: 'secret', classifiedBy: 'CB', derivedFrom: 'DF', declassifyOn: 'DO', reason: '1.4(a)', cui: { category: 'PRVCY' } } } as LetterInput, {}).formData as Record<string, unknown>;
     expect([f.classifiedBy, f.derivedFrom, f.declassifyOn, f.classReason, f.cuiCategory]).toEqual(['CB', 'DF', 'DO', '1.4(a)', 'PRVCY']);

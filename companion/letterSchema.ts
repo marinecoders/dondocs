@@ -96,7 +96,8 @@ export const letterSchema = z.object({
   via: z.array(z.string()).optional().describe('Each via is its own numbered line.'),
 
   ssic: z.string().optional(), serial: z.string().optional(),
-  date: z.string().optional().describe('Naval format, e.g. "8 Aug 26". Defaults to today.'),
+  date: z.string().optional()
+    .describe('Defaults to today in the format the type prescribes: "8 Aug 26" for letters and memoranda, "August 8, 2026" for business and executive correspondence. Match that form if you supply one.'),
   originatorCode: z.string().optional(),
 
   paragraphs: z.array(paragraph).optional(),
@@ -121,8 +122,8 @@ export const letterSchema = z.object({
 
   salutation: z.string().optional().describe('Business letters. Defaults to "Dear Sir or Madam:".'),
   complimentaryClose: z.string().optional().describe('Business letters. Defaults to "Sincerely,".'),
-  attnLine: z.string().optional().describe('Executive correspondence: an ATTN line.'),
-  throughLine: z.string().optional().describe('Executive correspondence: a THROUGH line.'),
+  attnLine: z.string().optional().describe('Executive correspondence, DOCX output only: an ATTN line.'),
+  throughLine: z.string().optional().describe('Executive correspondence, DOCX output only: a THROUGH line.'),
   inReplyTo: z.boolean().optional().describe('Standard letters: print the "In Reply Refer To" line.'),
   coordination: z.string().optional().describe('Information memoranda: the coordination line.'),
   preparedBy: z.string().optional().describe('Information memoranda: who prepared it, e.g. "CAPT J. Smith, USN".'),
