@@ -396,8 +396,8 @@ function App() {
   useEffect(() => {
     const checkMobile = () => {
       const environment = readLayoutEnvironment();
+      const { width } = environment;
       const isMobileOrTablet = prefersMobileLayout(environment);
-      const width = environment.width;
       setIsMobile(isMobileOrTablet);
 
       // Only set preview visibility on initial setup, not on every resize

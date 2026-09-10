@@ -8,6 +8,8 @@
  * device is — for the PDF delivery decisions that genuinely need it.
  */
 
+import { detectIPad } from './detectors';
+
 /** Below this a viewport has no room for the sidebar, whatever is driving it. */
 const PHONE_WIDTH = 768;
 
@@ -43,14 +45,13 @@ export function prefersMobileLayout({ width, isIPad, touchPrimary }: LayoutEnvir
 
 /** Read the current window's layout environment. */
 export function readLayoutEnvironment(): LayoutEnvironment {
+  // Guarded because a test environment may not implement matchMedia; without
+  // it the queries throw and every viewport would read as a desktop.
   const matches = (query: string) =>
     typeof window.matchMedia === 'function' && window.matchMedia(query).matches;
-  const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   return {
     width: window.innerWidth,
-    // iPadOS reports itself as a Mac; no Mac has a touchscreen, so touch plus
-    // a Mac user agent is an iPad.
-    isIPad: /iPad/i.test(navigator.userAgent) || (/Macintosh/i.test(navigator.userAgent) && hasTouch),
+    isIPad: detectIPad(navigator.userAgent),
     touchPrimary: matches('(pointer: coarse)') && !matches('(any-pointer: fine)'),
   };
 }

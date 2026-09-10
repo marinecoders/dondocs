@@ -34,8 +34,12 @@ export function detectIPad(ua: string): boolean {
   // Explicit iPad in user agent
   if (/iPad/i.test(ua)) return true;
   
-  // iPadOS desktop mode: Reports as Macintosh but has touch
-  if (/Macintosh/i.test(ua) && typeof window !== 'undefined' && 'ontouchstart' in window) {
+  // iPadOS desktop mode: reports as Macintosh but has touch. `ontouchstart` is
+  // absent in that mode -- suppressing it is what "desktop mode" means -- so
+  // maxTouchPoints is the signal that actually catches it. No Mac reports touch
+  // points: trackpads and the Touch Bar both report 0.
+  if (/Macintosh/i.test(ua) && typeof window !== 'undefined'
+      && ('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
     return true;
   }
   
