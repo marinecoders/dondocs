@@ -67,14 +67,18 @@ export function detectAndroid(ua: string): boolean {
   return /Android/i.test(ua);
 }
 
+/** The user agent announces a phone or tablet outright. */
+export function detectMobileUserAgent(ua: string): boolean {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+}
+
 /**
  * Detect if running on any mobile device
- * 
+ *
  * Includes phones AND tablets. For phone-only detection, use isIPhone && !isIPad
  */
 export function detectMobile(ua: string): boolean {
-  // Check user agent patterns
-  const uaIsMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+  const uaIsMobile = detectMobileUserAgent(ua);
   
   // Also check touch support + small screen as fallback
   if (typeof window !== 'undefined') {
