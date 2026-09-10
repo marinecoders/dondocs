@@ -76,6 +76,11 @@ const CASES: Array<[string, Record<string, unknown>]> = [
     docType: 'memorandum', subject: 'MEMO', to: 'Commanding General',
     paragraphs: [{ text: 'Body.' }],
   }],
+  ['an endorsement', {
+    docType: 'same_page_endorsement', subject: 'FIRST ENDORSEMENT on CO ltr 5216 of 8 Sep 26',
+    from: 'Sergeant A. B. Marine, USMC', to: 'Commanding Officer',
+    paragraphs: [{ text: 'I have read and understand the references listed above.' }],
+  }],
 ];
 
 describe('transport parity', () => {

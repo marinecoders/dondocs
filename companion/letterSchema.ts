@@ -10,6 +10,7 @@
  * No import side effects, so a test can reach it — `mcp.ts` starts a server.
  */
 import * as z from 'zod';
+import { DOC_TYPES } from './validateLetter';
 
 const paragraph = z.object({
   text: z.string().describe('The paragraph text. Plain prose — numbering is applied for you.'),
@@ -45,7 +46,9 @@ const classification = z.object({
 });
 
 export const letterSchema = z.object({
-  docType: z.enum(['naval_letter', 'standard_letter', 'memorandum', 'same_page_endorsement']),
+  // Derived, not restated: this list and validateLetter's are the same gate,
+  // and a second copy is how one door came to accept what the other refused.
+  docType: z.enum(DOC_TYPES as [string, ...string[]]),
   format: z.enum(['pdf', 'docx']).optional().describe('Defaults to pdf.'),
   out: z.string().optional().describe('Filename inside the output root. Defaults to a slug of the subject.'),
 
