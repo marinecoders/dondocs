@@ -88,13 +88,16 @@ describe('template routes', () => {
     const res = await fetch(`${base}/templates`);
     expect(res.status).toBe(200);
     expect(res.headers.get('content-type')).toContain('application/json');
-    expect(await res.json()).toEqual(LETTER_TEMPLATES.map(({ id, name, category, description }) => ({
-      id, name, category, description,
-    })));
+    expect(await res.json()).toEqual({
+      ok: true, v: 1,
+      templates: LETTER_TEMPLATES.map(({ id, name, category, description }) => ({
+        id, name, category, description,
+      })),
+    });
     for (const template of LETTER_TEMPLATES) {
       const full = await fetch(`${base}/templates/${encodeURIComponent(template.id)}`);
       expect(full.status).toBe(200);
-      expect(await full.json()).toEqual(template);
+      expect(await full.json()).toEqual({ ok: true, v: 1, template });
     }
   });
 

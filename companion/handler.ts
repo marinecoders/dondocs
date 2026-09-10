@@ -87,7 +87,10 @@ async function handleRequest(
 
   const pathname = (req.url ?? '/').split('?')[0];
   if (req.method === 'GET' && pathname === '/templates') {
-    return json(200, LETTER_TEMPLATES.map(({ id, name, category, description }) => ({ id, name, category, description })));
+    return json(200, {
+      ok: true, v: CONTRACT,
+      templates: LETTER_TEMPLATES.map(({ id, name, category, description }) => ({ id, name, category, description })),
+    });
   }
   if (req.method === 'GET' && pathname.startsWith('/templates/')) {
     let id: string;
@@ -100,7 +103,7 @@ async function handleRequest(
     if (!template) {
       return json(404, { ok: false, v: CONTRACT, errors: [`Unknown template ID: ${id}. GET /templates to find available IDs.`] });
     }
-    return json(200, template);
+    return json(200, { ok: true, v: CONTRACT, template });
   }
 
   // Capabilities, so a client can configure itself without being told.

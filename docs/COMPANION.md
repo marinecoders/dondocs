@@ -117,8 +117,9 @@ payload shape every time. Where it does not, the raw call is fine.
 
 ## Browsing templates over HTTP
 
-`GET /templates` returns an array of every registered template's `id`, `name`,
-`category`, and `description`. `GET /templates/{id}` returns the full template.
+`GET /templates` returns `{ ok: true, v: 1, templates: [...] }`, where each
+entry contains a registered template's `id`, `name`, `category`, and `description`.
+`GET /templates/{id}` returns `{ ok: true, v: 1, template: {...} }` with the full template.
 These read-only routes use the same registry as the application and MCP tools.
 Unknown IDs return HTTP 404 with an `errors` array.
 
