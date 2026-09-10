@@ -118,6 +118,43 @@ describe('template routes', () => {
   });
 });
 
+describe('unit lookup route', () => {
+  it('finds the Newburgh letterhead by name and MCC', async () => {
+    const res = await fetch(`${base}/units?query=Marine%20Innovation%20Unit%20Newburgh`);
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body).toMatchObject({
+      ok: true, v: 1, source: expect.any(String), lastUpdated: expect.any(String),
+      total: 1, truncated: false,
+      matches: [{ mcc: 'SVP', unit: { address: '10 MCDONALD ST, NEWBURGH NY 12550-5012', department: 'usmc' } }],
+    });
+    const byMcc = await (await fetch(`${base}/units?query=SVP`)).json();
+    expect(byMcc.matches).toEqual(body.matches);
+  });
+
+  it('limits results while reporting the full count', async () => {
+    const body = await (await fetch(`${base}/units?query=Marine+Innovation+Unit&limit=2`)).json();
+    expect(body).toMatchObject({ ok: true, v: 1, total: 7, truncated: true });
+    expect(body.matches).toHaveLength(2);
+  });
+
+  it('returns a successful empty result for no matches', async () => {
+    const res = await fetch(`${base}/units?query=no-such-unit-xyz`);
+    expect(res.status).toBe(200);
+    expect(await res.json()).toMatchObject({ ok: true, v: 1, total: 0, truncated: false, matches: [] });
+  });
+
+  it.each(['', '?query=', '?query=%20', `?query=${'x'.repeat(201)}`, '?query=SVP&limit=0', '?query=SVP&limit=51', '?query=SVP&limit=1.5', '?query=SVP&limit=no', '?query=SVP&limit='])('rejects invalid input %s', async (suffix) => {
+    const res = await fetch(`${base}/units${suffix}`);
+    expect(res.status).toBe(400);
+    expect(await res.json()).toMatchObject({ ok: false, v: 1, errors: expect.any(Array) });
+  });
+
+  it('does not accept POST', async () => {
+    expect((await post('{}', '/units?query=SVP')).status).toBe(404);
+  });
+});
+
 describe('routing', () => {
   it('404s an unknown path', async () => {
     const { status, json } = await post(JSON.stringify(VALID), '/render');

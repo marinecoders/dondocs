@@ -117,6 +117,15 @@ payload shape every time. Where it does not, the raw call is fine.
 
 ## Browsing templates over HTTP
 
+For unit addresses, use `GET /units?query=Marine%20Innovation%20Unit%20Newburgh&limit=20`.
+`query` is required (1–200 characters after trimming); `limit` defaults to 20
+and must be an integer from 1 to 50, matching the MCP lookup limits.
+The response is `{ ok: true, v: 1, source, lastUpdated, total, truncated, matches }`.
+Each match contains `mcc` and a `unit` object that can be passed to `/generate`.
+No matches returns HTTP 200 with an empty `matches` array. Invalid inputs return
+HTTP 400 with `{ ok: false, v: 1, errors: [...] }`.
+This route uses the same `lookupUnits()` implementation as `dondocs_unit_lookup`.
+
 `GET /templates` returns `{ ok: true, v: 1, templates: [...] }`, where each
 entry contains a registered template's `id`, `name`, `category`, and `description`.
 `GET /templates/{id}` returns `{ ok: true, v: 1, template: {...} }` with the full template.

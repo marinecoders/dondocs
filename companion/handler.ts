@@ -20,6 +20,7 @@ import { RenderTimeoutError } from './limits';
 import { validateLetter, DOC_TYPES, FORMATS } from './validateLetter';
 import { acceptedFields } from './letterSchema';
 import { LETTER_TEMPLATES } from '../src/data/templates';
+import { lookupUnits } from './unitLookup';
 
 /** The contract version. Bump when the request or response shape changes. */
 export const CONTRACT = 1;
@@ -86,6 +87,20 @@ async function handleRequest(
   };
 
   const pathname = (req.url ?? '/').split('?')[0];
+  if (req.method === 'GET' && pathname === '/units') {
+    const params = new URLSearchParams((req.url ?? '').split('?').slice(1).join('?'));
+    const query = (params.get('query') ?? '').trim();
+    const limit = params.has('limit') ? Number(params.get('limit')) : 20;
+    const errors: string[] = [];
+    if (!query || query.length > 200) { errors.push('query must contain 1 to 200 characters.'); }
+    if (!Number.isInteger(limit) || limit < 1 || limit > 50) { errors.push('limit must be an integer from 1 to 50.'); }
+    if (errors.length) { return json(400, { ok: false, v: CONTRACT, errors }); }
+    try {
+      return json(200, { ok: true, v: CONTRACT, ...await lookupUnits(query, limit) });
+    } catch (err) {
+      return json(500, { ok: false, v: CONTRACT, errors: [err instanceof Error ? err.message : String(err)] });
+    }
+  }
   if (req.method === 'GET' && pathname === '/templates') {
     return json(200, {
       ok: true, v: CONTRACT,
@@ -134,7 +149,7 @@ async function handleRequest(
     });
   }
   if (req.method !== 'POST' || pathname !== '/generate') {
-    return json(404, { ok: false, v: CONTRACT, errors: ['POST /generate, GET /templates, GET /templates/{id}, or GET / for capabilities'] });
+    return json(404, { ok: false, v: CONTRACT, errors: ['POST /generate, GET /units?query=..., GET /templates, GET /templates/{id}, or GET / for capabilities'] });
   }
 
   let body: GenerateRequest;

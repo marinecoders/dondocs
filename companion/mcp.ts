@@ -76,8 +76,15 @@ const handle = serveStdio(() => {
     }).strict(),
     annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   }, async ({ query, limit }) => {
-    const result = await lookupUnits(query, limit);
-    return { content: [{ type: 'text' as const, text: JSON.stringify(result) }] };
+    try {
+      const result = await lookupUnits(query, limit);
+      return { content: [{ type: 'text' as const, text: JSON.stringify(result) }] };
+    } catch (err) {
+      return {
+        content: [{ type: 'text' as const, text: `Unit lookup failed: ${err instanceof Error ? err.message : String(err)}. Retry the lookup; if it continues to fail, provide the unit name and mailing address directly to dondocs_letter.` }],
+        isError: true,
+      };
+    }
   });
 
   server.registerTool(
