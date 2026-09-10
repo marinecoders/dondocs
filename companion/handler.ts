@@ -127,7 +127,6 @@ async function handleRequest(
       // Derived from the schema MCP publishes, not restated. The two lists were
       // hand-maintained and disagreed in both directions.
       accepts: acceptedFields(),
-      accepts: acceptedFields(),
       routes: ['POST /generate', 'GET /templates', 'GET /templates/{id}', 'GET /health'],
     });
   }
