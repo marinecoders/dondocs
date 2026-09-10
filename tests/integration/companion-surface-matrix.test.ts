@@ -19,6 +19,7 @@ import { loadDefaults, templateFor, type CompanionDefaults } from '../../compani
 import { renderToFile } from '../../companion/renderToFile';
 import { DOC_TYPES, FORMATS } from '../../companion/validateLetter';
 import { DOC_TYPE_CONFIG } from '../../src/types/document';
+import { LETTER_TEMPLATES } from '../../src/data/templates';
 
 /** DOCX needs pandoc; PDF does not. Skipping is honest, silence is not. */
 const hasPandoc = spawnSync('pandoc', ['--version'], { encoding: 'utf-8' }).status === 0;
@@ -84,4 +85,18 @@ describe('the advertised docTypes exist', () => {
     const resolved = templateFor(docType);
     expect(known, `${docType} resolves to ${resolved}, which the app does not define`).toContain(resolved);
   });
+});
+
+describe('every bundled template is renderable', () => {
+  // The mirror of the suite above: that one holds what we advertise against
+  // what the app defines; this holds what we hand out against what we accept.
+  // dondocs_template_get returns a template for an agent to fill in and send to
+  // dondocs_letter, so a template naming a docType outside DOC_TYPES is a dead
+  // end the agent only discovers on the last step.
+  it.each(LETTER_TEMPLATES.map((t) => [t.id, t.docType] as const))(
+    '%s asks for a docType the companion accepts (%s)',
+    (id, docType) => {
+      expect(DOC_TYPES, `template ${id} names ${docType}, which dondocs_letter rejects`).toContain(docType);
+    },
+  );
 });

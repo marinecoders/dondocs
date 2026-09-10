@@ -45,7 +45,7 @@ const classification = z.object({
 });
 
 export const letterSchema = z.object({
-  docType: z.enum(['naval_letter', 'standard_letter', 'memorandum']),
+  docType: z.enum(['naval_letter', 'standard_letter', 'memorandum', 'same_page_endorsement']),
   format: z.enum(['pdf', 'docx']).optional().describe('Defaults to pdf.'),
   out: z.string().optional().describe('Filename inside the output root. Defaults to a slug of the subject.'),
 
