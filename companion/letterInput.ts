@@ -149,6 +149,24 @@ function today(): string {
 export type GeneratorStore = Record<string, unknown>;
 
 /**
+ * The published docType where it differs from the template the generator loads.
+ *
+ * `main.tex` resolves the type through `\input{\DocumentType}`, so the value has
+ * to name a file in `tex/templates/`. There is no `memorandum.tex`; the app's
+ * registry calls it `standard_memorandum`. The published name is unchanged, only
+ * the lookup.
+ */
+const TEMPLATE_FOR: Record<string, string> = {
+  memorandum: 'standard_memorandum',
+};
+
+/** The template a published docType loads. Exported so a test can check the
+ *  advertised list against the app's registry without restating the mapping. */
+export function templateFor(docType: string): string {
+  return TEMPLATE_FOR[docType] ?? docType;
+}
+
+/**
  * Fold request over machine defaults over built-in fallbacks.
  *
  * Precedence is request > config > fallback at every field, so a caller can
@@ -157,11 +175,12 @@ export type GeneratorStore = Record<string, unknown>;
 export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): GeneratorStore {
   const unit = { ...defaults.unit, ...input.unit };
   const sig = { ...defaults.signature, ...input.signature };
+  const docType = templateFor(input.docType);
 
   return {
-    docType: input.docType,
+    docType,
     formData: {
-      docType: input.docType,
+      docType,
 
       unitName: unit.name ?? unit.line1 ?? 'UNITED STATES MARINE CORPS',
       unitLine1: unit.line1 ?? unit.name ?? 'UNITED STATES MARINE CORPS',
@@ -184,6 +203,10 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
 
       from: input.from ?? '',
       to: input.to ?? '',
+      // Executive memoranda read `memorandumFor`, not `to` (generator.ts,
+      // isExecutiveMode). Feeding both keeps one request field right for every
+      // doc type; letters ignore this one.
+      memorandumFor: input.to ?? '',
       via: (input.via ?? []).join('\n'),
       subject: input.subject ?? '',
 
