@@ -122,7 +122,7 @@ async function handleRequest(
   }
 
   // Capabilities, so a client can configure itself without being told.
-  if (req.method === 'GET' && (req.url === '/' || req.url === '/health')) {
+  if (req.method === 'GET' && (pathname === '/' || pathname === '/health')) {
     // Report the DOCX converter honestly. A caller comparing output against a
     // browser export needs to know it is not the same pandoc.
     const pandoc = await systemPandocVersion();
