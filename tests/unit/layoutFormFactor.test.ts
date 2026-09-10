@@ -3,8 +3,9 @@ import { prefersMobileLayout, readLayoutEnvironment } from '@/utils/device/layou
 
 describe('which layout a viewport gets', () => {
   it('keeps a touchscreen laptop on the desktop layout', () => {
-    // 1920x1200 at 150%, or 2560x1600 at 200%: under the old 1366 threshold,
-    // and reporting touch. Windows is not a mobile platform.
+    // The reported machine: 1280 CSS px once display scaling is applied, so
+    // under the old 1366 threshold, and reporting touch. Windows is not a
+    // mobile platform, which is the only question now asked.
     expect(prefersMobileLayout({ width: 1280, isIPad: false, isMobilePlatform: false })).toBe(false);
   });
 
