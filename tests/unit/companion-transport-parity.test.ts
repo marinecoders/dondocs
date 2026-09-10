@@ -81,6 +81,37 @@ const CASES: Array<[string, Record<string, unknown>]> = [
     from: 'Sergeant A. B. Marine, USMC', to: 'Commanding Officer',
     paragraphs: [{ text: 'I have read and understand the references listed above.' }],
   }],
+  ['an endorsement with the explicit object', {
+    docType: 'same_page_endorsement', subject: 'APPOINTMENT', from: 'Sgt A', to: 'CO',
+    paragraphs: [{ text: 'x' }], endorsement: { ordinal: 'SECOND', basicLetterId: 'CO ltr 5216', includeSubject: true },
+  }],
+  ['a joint letter with both parties', {
+    docType: 'joint_letter', subject: 'JOINT', to: 'SECNAV', paragraphs: [{ text: 'x' }],
+    parties: {
+      senior: { name: 'CMC', from: 'Commandant', code: 'PP&O', zip: '20380', signature: { name: 'D. R. SMITH', title: 'General' } },
+      junior: { name: 'CNO', from: 'Chief of Naval Operations', ssic: '1000', serial: '0001', date: '15 Jan 26', signature: { name: 'M. K. JONES', title: 'Admiral' } },
+      commonLocation: 'Washington, D.C.',
+    },
+  }],
+  ['an MOA with both parties', {
+    docType: 'moa', subject: 'AGREEMENT', paragraphs: [{ text: 'x' }],
+    parties: {
+      senior: { name: 'USMC', ssic: '1000', serial: '0001', signature: { name: 'David R. Smith', rank: 'General', title: 'CMC' } },
+      junior: { name: 'USN', ssic: '1000', serial: '0002', date: '15 Jan 26', signature: { name: 'Mary K. Jones', rank: 'Admiral', title: 'CNO' } },
+    },
+  }],
+  ['a business letter with furniture', {
+    docType: 'business_letter', subject: 'Thanks', to: 'Mr. Doe', paragraphs: [{ text: 'x' }],
+    salutation: 'Dear Mr. Doe:', complimentaryClose: 'Very respectfully,', pageNumbering: 'simple',
+  }],
+  ['an information memorandum', {
+    docType: 'information_memorandum', subject: 'Readiness', from: 'Dir', to: 'CMC', paragraphs: [{ text: 'x' }],
+    coordination: 'DC PP&O', preparedBy: 'CAPT Smith', attnLine: 'ATTN', throughLine: 'THRU',
+  }],
+  ['a classified letter with the detail block', {
+    docType: 'naval_letter', subject: 'S', paragraphs: [{ text: 'x' }],
+    classification: { level: 'secret', classifiedBy: 'CB', derivedFrom: 'DF', declassifyOn: '20360910', reason: '1.4(a)', cui: { category: 'PRVCY', controlledBy: 'USMC' } },
+  }],
 ];
 
 describe('transport parity', () => {

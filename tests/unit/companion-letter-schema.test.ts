@@ -119,6 +119,74 @@ describe('field precedence', () => {
   });
 });
 
+describe('parties', () => {
+  const parties = {
+    senior: { name: 'SENIOR CMD', from: 'Senior From', code: 'S1', zip: '20380', ssic: '1000', serial: '0001', signature: { name: 'A. Senior', rank: 'General', title: 'Senior Title' } },
+    junior: { name: 'JUNIOR CMD', from: 'Junior From', code: 'J1', zip: '20350', ssic: '1000', serial: '0002', date: '15 Jan 26', signature: { name: 'B. Junior', rank: 'Admiral', title: 'Junior Title' } },
+    commonLocation: 'Washington, D.C.',
+  };
+  const fd = (docType: string) => toStore({ ...base, docType, parties } as LetterInput, {}).formData as Record<string, unknown>;
+
+  it('feeds the joint family', () => {
+    const f = fd('joint_letter');
+    expect(f.jointSeniorName).toBe('SENIOR CMD');
+    expect(f.jointSeniorFrom).toBe('Senior From');
+    expect(f.jointSeniorSigName).toBe('A. Senior');
+    expect(f.jointJuniorDate).toBe('15 Jan 26');
+    expect(f.jointCommonLocation).toBe('Washington, D.C.');
+  });
+
+  it('feeds the agreement family from the same input', () => {
+    const f = fd('moa');
+    expect(f.seniorCommandName).toBe('SENIOR CMD');
+    expect(f.juniorCommandName).toBe('JUNIOR CMD');
+    expect(f.seniorSigRank).toBe('General');
+    expect(f.juniorSigTitle).toBe('Junior Title');
+    expect(f.juniorDate).toBe('15 Jan 26');
+  });
+
+  it('lets a party from line override the plain one', () => {
+    const f = toStore({ ...base, docType: 'joint_letter', from: 'Plain From', parties } as LetterInput, {}).formData as Record<string, unknown>;
+    expect(f.jointSeniorFrom).toBe('Senior From');
+  });
+
+  it('routes the plain fields to every alias when no parties are given', () => {
+    const f = toStore({ ...base, docType: 'joint_letter', from: 'F', to: 'T', subject: 'S' } as LetterInput, {}).formData as Record<string, unknown>;
+    expect(f.jointSeniorFrom).toBe('F');
+    expect(f.jointTo).toBe('T');
+    expect(f.jointSubject).toBe('S');
+    expect(f.moaSubject).toBe('S');
+  });
+});
+
+describe('date default by type', () => {
+  const d = (docType: string) => (toStore({ ...base, docType } as LetterInput, {}).formData as Record<string, unknown>).date as string;
+  it('naval letters get d MMM yy', () => { expect(d('naval_letter')).toMatch(/^\d{1,2} [A-Z][a-z]{2} \d{2}$/); });
+  it('business letters get MMMM d, yyyy', () => { expect(d('business_letter')).toMatch(/^[A-Z][a-z]+ \d{1,2}, \d{4}$/); });
+  it('executive memoranda get MMMM d, yyyy', () => { expect(d('standard_memorandum')).toMatch(/^[A-Z][a-z]+ \d{1,2}, \d{4}$/); });
+  it('seniorDate follows the document date', () => {
+    const f = toStore({ ...base, docType: 'moa', date: '1 Jan 26' } as LetterInput, {}).formData as Record<string, unknown>;
+    expect(f.seniorDate).toBe('1 Jan 26');
+  });
+});
+
+describe('endorsement and furniture', () => {
+  it('maps the endorsement object', () => {
+    const f = toStore({ ...base, docType: 'same_page_endorsement', endorsement: { ordinal: 'SECOND', basicLetterId: 'ID', includeSubject: true } } as LetterInput, {}).formData as Record<string, unknown>;
+    expect(f.endorsementOrdinal).toBe('SECOND');
+    expect(f.basicLetterId).toBe('ID');
+    expect(f.includeEndorsementSubject).toBe(true);
+  });
+  it('maps salutation, close, coordination and preparedBy', () => {
+    const f = toStore({ ...base, salutation: 'Dear X:', complimentaryClose: 'V/r,', coordination: 'C', preparedBy: 'P' } as LetterInput, {}).formData as Record<string, unknown>;
+    expect([f.salutation, f.complimentaryClose, f.coordination, f.preparedBy]).toEqual(['Dear X:', 'V/r,', 'C', 'P']);
+  });
+  it('maps the classification detail block', () => {
+    const f = toStore({ ...base, classification: { level: 'secret', classifiedBy: 'CB', derivedFrom: 'DF', declassifyOn: 'DO', reason: '1.4(a)', cui: { category: 'PRVCY' } } } as LetterInput, {}).formData as Record<string, unknown>;
+    expect([f.classifiedBy, f.derivedFrom, f.declassifyOn, f.classReason, f.cuiCategory]).toEqual(['CB', 'DF', 'DO', '1.4(a)', 'PRVCY']);
+  });
+});
+
 describe('templateFor', () => {
   it('translates memorandum to the template that exists', () => {
     expect(templateFor('memorandum')).toBe('standard_memorandum');
