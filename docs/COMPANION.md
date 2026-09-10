@@ -139,7 +139,7 @@ check your client's own docs, since the location and key differ between them:
   "mcpServers": {
     "dondocs": {
       "command": "npm",
-      "args": ["--prefix", "/absolute/path/to/dondocs", "run", "companion:mcp"],
+      "args": ["--prefix", "/absolute/path/to/dondocs", "run", "--silent", "companion:mcp"],
       "env": { "DONDOCS_OUT_ROOT": "/Users/you/Documents/DonDocs" }
     }
   }
@@ -157,6 +157,12 @@ worker's own logging — and both now go to stderr. If you add logging anywhere
 the companion can reach, use `console.error`.
 `tests/integration/companion-mcp.test.ts` parses every stdout line and fails on
 anything that is not a protocol message.
+
+That is why `--silent` is in the registration above. `npm run` announces the
+script on **stdout**, so without it every session opens with two non-protocol
+lines. Clients tried here skipped them and connected, but that is their leniency
+rather than the contract. Registering the entry point directly, instead of
+through a package manager, avoids the question.
 
 ## DOCX is converted by a different pandoc
 
