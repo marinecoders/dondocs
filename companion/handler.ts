@@ -18,6 +18,7 @@ import { DEFAULT_ROOT, OutsideSandboxError } from './outputPath';
 import { renderToFile } from './renderToFile';
 import { RenderTimeoutError } from './limits';
 import { validateLetter, DOC_TYPES, FORMATS } from './validateLetter';
+import { acceptedFields } from './letterSchema';
 
 /** The contract version. Bump when the request or response shape changes. */
 export const CONTRACT = 1;
@@ -104,9 +105,9 @@ async function handleRequest(
           }
         : { pandoc: null, vendoredByApp: VENDORED_PANDOC, matchesApp: false,
             note: 'pandoc is not installed, so docx requests will fail. pdf is unaffected.' },
-      accepts: ['unit', 'ssic', 'serial', 'date', 'originatorCode', 'from', 'to', 'via',
-                'subject', 'paragraphs', 'references', 'enclosures', 'copyTo',
-                'distribution', 'signature', 'classification', 'pocEmail', 'formData'],
+      // Derived from the schema MCP publishes, not restated. The two lists were
+      // hand-maintained and disagreed in both directions.
+      accepts: acceptedFields(),
     });
   }
   if (req.method !== 'POST' || req.url !== '/generate') {
