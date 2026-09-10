@@ -131,7 +131,7 @@ async function handleRequest(
       routes: ['POST /generate', 'GET /templates', 'GET /templates/{id}', 'GET /health'],
     });
   }
-  if (req.method !== 'POST' || req.url !== '/generate') {
+  if (req.method !== 'POST' || pathname !== '/generate') {
     return json(404, { ok: false, v: CONTRACT, errors: ['POST /generate, GET /templates, GET /templates/{id}, or GET / for capabilities'] });
   }
 
