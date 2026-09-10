@@ -15,6 +15,8 @@
  */
 import { McpServer } from '@modelcontextprotocol/server';
 import { serveStdio } from '@modelcontextprotocol/server/stdio';
+import * as z from 'zod';
+import { lookupUnits } from './unitLookup';
 import { loadDefaults } from './letterInput';
 import { letterSchema } from './letterSchema';
 import { OutsideSandboxError, DEFAULT_ROOT } from './outputPath';
@@ -28,6 +30,22 @@ const defaults = await loadDefaults();
 
 const handle = serveStdio(() => {
   const server = new McpServer({ name: 'dondocs', version: '1' });
+
+  server.registerTool('dondocs_unit_lookup', {
+    title: 'Find a unit mailing address',
+    description: 'Search the bundled unit directory by recorded name, abbreviation, MCC, or location. No alias expansion. '
+      + 'Pass a selected match\'s unit object directly to dondocs_letter. '
+      + 'If multiple units match, ask the user which unit or location they mean; MCC is not always unique. '
+      + 'If truncated, narrow the query. If no matches, ask for another name, MCC, or location.',
+    inputSchema: z.object({
+      query: z.string().trim().min(1).max(200).describe('For example Marine Innovation Unit, Marine Innovation Unit Newburgh, 2/23, or SVP.'),
+      limit: z.number().int().min(1).max(50).default(20),
+    }).strict(),
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+  }, async ({ query, limit }) => {
+    const result = await lookupUnits(query, limit);
+    return { content: [{ type: 'text' as const, text: JSON.stringify(result) }] };
+  });
 
   server.registerTool(
     'dondocs_letter',
