@@ -25,6 +25,7 @@ let stderr = '';
 const stdoutJunk: string[] = [];
 const pending = new Map<number, (msg: Record<string, unknown>) => void>();
 let nextId = 1;
+let negotiated = '';
 
 /** One JSON-RPC round trip. */
 function call(method: string, params?: unknown, timeoutMs = 180_000): Promise<Record<string, unknown>> {
@@ -74,17 +75,26 @@ beforeAll(async () => {
   });
 
   const init = await call('initialize', {
+    // A revision this hand-written driver speaks — a floor, not a claim about
+    // what the server prefers. companion-mcp-client.test.ts covers negotiation.
     protocolVersion: '2025-06-18',
     capabilities: {},
     clientInfo: { name: 'dondocs-test', version: '1' },
   });
   expect(init.error, JSON.stringify(init.error)).toBeUndefined();
+  negotiated = (init.result as { protocolVersion?: string })?.protocolVersion ?? '';
   notify('notifications/initialized');
 }, 200_000);
 
 afterAll(() => { child?.kill(); });
 
 describe('the MCP server', () => {
+  it('answers the handshake with a protocol version', () => {
+    // Shape, not value. The server is free to settle on a revision newer than
+    // the one this driver opened with.
+    expect(negotiated).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  });
+
   it('advertises dondocs_letter with a usable schema', async () => {
     const res = await call('tools/list');
     const tools = (res.result as { tools: Array<{ name: string; description: string; inputSchema: Record<string, unknown> }> }).tools;
@@ -162,6 +172,40 @@ describe('the MCP server', () => {
     expect(result.isError, JSON.stringify(res)).toBe(true);
     expect(result.content[0].text).toMatch(/nothing to render/);
   }, 60_000);
+
+  it('keeps stdout clean when launched the way the docs say to launch it', async () => {
+    // The suite above spawns the entry point directly. docs/COMPANION.md hands
+    // out an `npm run` command, and `npm run` announces the script on STDOUT —
+    // two non-protocol lines this file never saw, because it spawns differently.
+    // A launch form the docs recommend is part of the contract.
+    const repo = resolve(import.meta.dirname, '..', '..');
+    const proc = spawn('npm', ['--prefix', repo, 'run', '--silent', 'companion:mcp'], {
+      env: { ...process.env, DONDOCS_OUT_ROOT: root, DONDOCS_CONFIG: '/nonexistent/companion.config.json' },
+    }) as ChildProcessWithoutNullStreams;
+
+    try {
+      const lines: string[] = [];
+      proc.stdout.on('data', (d: Buffer) => { lines.push(...d.toString().split('\n')); });
+      proc.stdin.write(`${JSON.stringify({
+        jsonrpc: '2.0', id: 1, method: 'initialize',
+        params: { protocolVersion: '2025-06-18', capabilities: {}, clientInfo: { name: 'launch-form', version: '1' } },
+      })}\n`);
+
+      // Long enough for the banner to land if it is going to: npm prints it
+      // before the child starts, so it would arrive ahead of any reply.
+      const deadline = Date.now() + 60_000;
+      while (Date.now() < deadline && !lines.some((l) => l.includes('"result"'))) {
+        await new Promise((r) => setTimeout(r, 100));
+      }
+
+      const junk = lines.map((l) => l.trim()).filter(Boolean).filter((l) => {
+        try { JSON.parse(l); return false; } catch { return true; }
+      });
+      expect(junk, `non-protocol stdout from the documented launch form:\n${junk.join('\n')}`).toEqual([]);
+    } finally {
+      proc.kill();
+    }
+  }, 90_000);
 
   it('keeps stdout clean — diagnostics go to stderr', () => {
     // The whole session ran above. Anything on stdout that was not a protocol
