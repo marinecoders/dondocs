@@ -81,6 +81,9 @@ describe('a protocol client', () => {
       expect(instructions).toContain(id);
     }
     expect(instructions).toMatch(/revise .*\bout\b/);
+    // The desktop app puts a file in the chat only when the model calls its
+    // present_files tool; "share it if you can" was not enough to make it.
+    expect(instructions).toContain('present_files');
   });
 
   it('answers ping', async () => {
@@ -384,8 +387,9 @@ describe('a protocol client', () => {
     } });
     expect(isError(res), text(res)).toBe(false);
     expect(text(res)).toMatch(/^Wrote DOCX/);
-    // The name to pass as `out` to replace this file, and the request to share it.
-    expect(text(res)).toMatch(/\nShare the file .*out "client\.docx"/);
+    // The host tool that puts a card in the chat, and the name to pass as
+    // `out` to replace this file.
+    expect(text(res)).toMatch(/\nShow it in the chat with present_files .*out "client\.docx"/);
     expect(structured(res)).toMatchObject({ format: 'docx', path: expect.stringMatching(/client\.docx$/) });
     expect(blocks(res, 'resource_link')[0]).toMatchObject({
       mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',

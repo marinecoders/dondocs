@@ -305,9 +305,10 @@ application. Register new templates there and restart the MCP server to expose
 them; no MCP tool changes are needed.
 
 `dondocs_letter` takes the same fields as `/generate`
-and returns the path it wrote, then on a second line the `out` that replaces
-that file and a request to share it. A filename outside the output root comes
-back as a tool error the model can read and retry, not a protocol failure.
+and returns the path it wrote, then on a second line the host tool that puts
+the file in the chat and the `out` that replaces that file. A filename outside
+the output root comes back as a tool error the model can read and retry, not a
+protocol failure.
 
 `dondocs_unit_lookup` searches the bundled address directory without giving the
 agent filesystem access. Call it with `{"query":"Marine Innovation Unit"}` (name, abbreviation,
@@ -341,11 +342,14 @@ is the conversation. So the server is arranged for the fewest calls:
   once the facts are in hand and to revise by rendering again with `out` set to
   the name the result reports, rather than drafting in chat and then sending
   the same text as a call.
-- The result asks the model to share the file when it has a tool that can. A
-  host shows the text of a tool result and, at best, the `resource_link`; the
-  document card the desktop app shows comes from its file extension reading
-  the file on disk. There is no card without a file, so choose an output
-  folder that extension may read.
+- The result names the host tool that puts the file in the chat. The desktop
+  app shows a tool result's text; it does not render the `resource_link`,
+  and an embedded document it forwards to the model as an image, which the
+  API refuses. Its card comes from a tool of its own, `present_files`, which
+  takes the path and reads the file through the Filesystem extension. The
+  model calls it when the result names it; asked to share the file if a tool
+  of its own could, it did not. There is no card without a file, so choose
+  an output folder that extension may read.
 
 From the user's own words that is one DonDocs call and the share; from a
 template, two.
@@ -358,8 +362,8 @@ unaffected.
 
 - **Instructions.** `initialize` carries a paragraph on how the tools fit
   together: look the unit up or rely on the defaults, start from one of the
-  named templates or not, render once the facts are in hand, share the file,
-  revise with `out`. Hosts pass it to the model as context.
+  named templates or not, render once the facts are in hand, present the
+  file, revise with `out`. Hosts pass it to the model as context.
 - **Machine defaults.** `dondocs://defaults` is what the config file sets for
   a render that omits `unit`, `signature`, `ssic` or `originatorCode`, plus
   the path of that file. A null unit or SSIC falls back to the built-in
@@ -372,7 +376,8 @@ unaffected.
 - **A link to the file.** `dondocs_letter` also returns a `resource_link` to
   the written file (`file://` URI, MIME type, size) to clients on protocol
   revision 2025-06-18 or later, where the block exists; older clients get the
-  text block alone.
+  text block alone. The desktop app does not render it; see the round trips
+  section for what does put the file in its chat.
 - **Templates as resources.** The bundled templates are listed under
   `dondocs://templates/{id}`, titled by name. Reading one returns the same JSON
   as `dondocs_template_get`; the `id` completes.
