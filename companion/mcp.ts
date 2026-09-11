@@ -14,8 +14,10 @@
  * stdout is the JSON-RPC channel; every diagnostic here goes to stderr.
  */
 import {
-  McpServer, ProtocolError, ProtocolErrorCode, ResourceNotFoundError, ResourceTemplate, completable, inputRequired, inputResponse,
+  CLIENT_CAPABILITIES_META_KEY, LATEST_PROTOCOL_VERSION, McpServer, PROTOCOL_VERSION_META_KEY, ProtocolError, ProtocolErrorCode,
+  ResourceNotFoundError, ResourceTemplate, completable, inputRequired, inputResponse,
 } from '@modelcontextprotocol/server';
+import type { ClientCapabilities, ServerContext } from '@modelcontextprotocol/server';
 import { serveStdio } from '@modelcontextprotocol/server/stdio';
 import { basename } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -37,12 +39,31 @@ const MIME = {
   docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 } as const;
 
-/** Whether the client can put a form in front of the user. A bare
- * `elicitation: {}` means form mode, per the 2025 revisions. */
-const clientCanElicit = (server: McpServer): boolean => {
-  const declared = server.server.getClientCapabilities()?.elicitation;
+// The SDK negotiates every revision it lists but does not translate results,
+// so anything a revision does not define has to be left out for that client.
+// 2025-era connections negotiate once at initialize; 2026-07-28 requests
+// carry the revision and the client's capabilities in their _meta envelope.
+const envelope = (ctx: ServerContext) => (ctx.mcpReq.envelope ?? {}) as Record<string, unknown>;
+const revisionOf = (server: McpServer, ctx: ServerContext): string =>
+  (envelope(ctx)[PROTOCOL_VERSION_META_KEY] as string | undefined)
+  ?? server.server.getNegotiatedProtocolVersion() ?? LATEST_PROTOCOL_VERSION;
+
+/** Whether the client can put a form in front of the user. Elicitation dates
+ * from 2025-06-18; a bare `elicitation: {}` means form mode. */
+const clientCanElicit = (server: McpServer, ctx: ServerContext): boolean => {
+  if (revisionOf(server, ctx) < '2025-06-18') { return false; }
+  const declared = ((envelope(ctx)[CLIENT_CAPABILITIES_META_KEY] as ClientCapabilities | undefined)
+    ?? server.server.getClientCapabilities())?.elicitation;
   return !!declared && (declared.form !== undefined || declared.url === undefined);
 };
+
+/** Wraps prompt arguments so a request without the optional `arguments`
+ * member reads as {}: the SDK validates the missing member as undefined,
+ * which an object schema refuses even when every field is optional. */
+const optionalArgs = <T extends z.ZodObject>(schema: T): T => ({
+  shape: schema.shape,
+  '~standard': { ...schema['~standard'], validate: (value: unknown) => schema['~standard'].validate(value ?? {}) },
+}) as unknown as T;
 
 const TEMPLATE_URI = 'dondocs://templates/{id}';
 const templateUri = (id: string) => TEMPLATE_URI.replace('{id}', id);
@@ -119,13 +140,13 @@ const handle = serveStdio(() => {
   server.registerPrompt('draft_letter', {
     title: 'Draft a naval letter',
     description: 'Draft correspondence of a given document type, optionally from a bundled template, and render it with dondocs_letter.',
-    argsSchema: z.object({
+    argsSchema: optionalArgs(z.object({
       docType: completable(
         z.enum(DOC_TYPES as [string, ...string[]]).describe('Document type; defaults to the template\'s own.'),
         (value) => DOC_TYPES.filter((type) => type.startsWith(value)),
       ).optional(),
       template: completable(z.string().describe('Template ID from dondocs_template_list.'), templateIds).optional(),
-    }),
+    })),
   }, async ({ docType, template: id }) => {
     const template = id === undefined ? undefined : LETTER_TEMPLATES.find((entry) => entry.id === id);
     if (id !== undefined && !template) { throw new ProtocolError(ProtocolErrorCode.InvalidParams, `Unknown template ID: ${id}`); }
@@ -192,22 +213,22 @@ const handle = serveStdio(() => {
       // Several matches and a client that can ask: put the choice to the user
       // instead of the model. The retry carries the answer; a decline, or an
       // answer outside the list, leaves the list as it was.
-      if (result.total > 1 && !result.truncated && clientCanElicit(server)) {
+      if (result.total > 1 && !result.truncated && clientCanElicit(server, ctx)) {
         const answer = inputResponse(ctx.mcpReq.inputResponses, 'unit');
         const chosen = answer.kind === 'elicit' && answer.action === 'accept' ? String(answer.content?.unit ?? '') : '';
         const picked = /^\d+$/.test(chosen) ? result.matches[Number(chosen)] : undefined;
         if (picked) {
           result = { ...result, total: 1, truncated: false, matches: [picked] };
         } else if (answer.kind === 'missing') {
+          const indices = result.matches.map((_, i) => String(i));
+          const titles = result.matches.map((m) => `${m.unit.name}, ${m.unit.address}${m.mcc ? ` (${m.mcc})` : ''}`);
+          // Titled choices are `oneOf` from 2025-11-25; before that, `enum` with `enumNames`.
+          const unit = revisionOf(server, ctx) >= '2025-11-25'
+            ? { type: 'string' as const, title: 'Unit', oneOf: indices.map((i, k) => ({ const: i, title: titles[k] })) }
+            : { type: 'string' as const, title: 'Unit', enum: indices, enumNames: titles };
           return inputRequired({ inputRequests: { unit: inputRequired.elicit({
             message: `${result.total} units match "${query}". Which one?`,
-            requestedSchema: {
-              type: 'object',
-              properties: { unit: { type: 'string', title: 'Unit', oneOf: result.matches.map((m, i) => ({
-                const: String(i), title: `${m.unit.name}, ${m.unit.address}${m.mcc ? ` (${m.mcc})` : ''}`,
-              })) } },
-              required: ['unit'],
-            },
+            requestedSchema: { type: 'object', properties: { unit }, required: ['unit'] },
           }) } });
         }
       }
@@ -240,7 +261,7 @@ const handle = serveStdio(() => {
         openWorldHint: false,
       },
     },
-    async (input) => {
+    async (input, ctx) => {
       // The schema catches wrong types; these are the rules it cannot express —
       // chiefly that a letter with neither subject nor body is a blank page, not
       // a document. The HTTP transport enforces the identical set.
@@ -251,20 +272,23 @@ const handle = serveStdio(() => {
 
       try {
         const file = await renderToFile(input, defaults, ROOT);
+        // A host that renders links lets the user open the file from the
+        // reply. The block dates from 2025-06-18; an older client rejects
+        // the whole result over it.
+        const link = revisionOf(server, ctx) >= '2025-06-18' ? [{
+          type: 'resource_link' as const,
+          uri: pathToFileURL(file.path).href,
+          name: basename(file.path),
+          mimeType: MIME[file.format],
+          size: file.bytes,
+        }] : [];
         return {
           content: [
             {
               type: 'text' as const,
               text: `Wrote ${file.format.toUpperCase()} (${file.bytes.toLocaleString()} bytes) to ${file.path}`,
             },
-            // A host that renders links lets the user open the file from the reply.
-            {
-              type: 'resource_link' as const,
-              uri: pathToFileURL(file.path).href,
-              name: basename(file.path),
-              mimeType: MIME[file.format],
-              size: file.bytes,
-            },
+            ...link,
           ],
           structuredContent: file,
         };
