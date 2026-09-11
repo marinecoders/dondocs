@@ -228,13 +228,28 @@ check your client's own docs, since the location and key differ between them:
 {
   "mcpServers": {
     "dondocs": {
-      "command": "npm",
-      "args": ["--prefix", "/absolute/path/to/dondocs", "run", "--silent", "companion:mcp"],
+      "command": "node",
+      "args": [
+        "/absolute/path/to/dondocs/node_modules/vite-node/dist/cli.mjs",
+        "--root", "/absolute/path/to/dondocs",
+        "/absolute/path/to/dondocs/companion/mcp.ts"
+      ],
       "env": { "DONDOCS_OUT_ROOT": "/Users/you/Documents/DonDocs" }
     }
   }
 }
 ```
+
+That runs the entry point directly from a checkout in which `npm install` has
+been run. `--root` is required: a client launches the server from its own
+working directory, and without it module resolution fails. The equivalent
+through npm is `npm --prefix /absolute/path/to/dondocs run --silent
+companion:mcp`; see the note on stdout below for why `--silent` matters.
+
+A config file that is not JSON, or not the documented shape, stops the server
+before it answers `initialize`. A client shows that as a disconnect with
+nothing on the protocol; the reason is on stderr, which most clients keep in
+their MCP log.
 
 `dondocs_template_list` takes no arguments and returns a JSON array containing
 every bundled letter template's `id`, `name`, `category`, and `description`.
@@ -261,8 +276,9 @@ MCC, or location). It returns `matches`, `total`, `truncated`, and directory
 source/date metadata. Results default to 20; optional `limit` accepts 1–50.
 Each match contains an MCC and a `unit` object ready for `dondocs_letter`.
 
-For example, MIU returns several locations. Ask which location the user means,
-then narrow with `{"query":"Marine Innovation Unit Newburgh"}`. Pass that match's `unit` object
+For example, `Marine Innovation Unit` returns seven locations (`MIU` returns
+none: acronyms are not expanded). Ask which location the user means, then
+narrow with `{"query":"Marine Innovation Unit Newburgh"}`. Pass that match's `unit` object
 unchanged in the letter request. No additional lookup or identifier is needed.
 MCC values are searchable but are not always unique. When results are truncated,
 narrow the query; when no units match, ask for another name, MCC, or location.
@@ -327,11 +343,11 @@ the companion can reach, use `console.error`.
 `tests/integration/companion-mcp.test.ts` parses every stdout line and fails on
 anything that is not a protocol message.
 
-That is why `--silent` is in the registration above. `npm run` announces the
-script on **stdout**, so without it every session opens with two non-protocol
-lines. Clients tried here skipped them and connected, but that is their leniency
-rather than the contract. Registering the entry point directly, instead of
-through a package manager, avoids the question.
+That is why the registration above runs the entry point directly. `npm run`
+announces the script on **stdout**, so a registration through npm needs
+`--silent` or every session opens with two non-protocol lines. Clients tried
+here skipped them and connected, but that is their leniency rather than the
+contract.
 
 ## DOCX is converted by a different pandoc
 
