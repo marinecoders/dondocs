@@ -387,9 +387,10 @@ describe('a protocol client', () => {
     } });
     expect(isError(res), text(res)).toBe(false);
     expect(text(res)).toMatch(/^Wrote DOCX/);
-    // The host tool that puts a card in the chat, and the name to pass as
-    // `out` to replace this file.
-    expect(text(res)).toMatch(/\nShow it in the chat with present_files .*out "client\.docx"/);
+    // The host tool that puts a card in the chat, asked for without an
+    // "if available" the model can take as a no when the tool is not yet
+    // loaded, and the name to pass as `out` to replace this file.
+    expect(text(res)).toMatch(/\nShow it in the chat: call present_files .*loading that tool first.*out "client\.docx"/);
     expect(structured(res)).toMatchObject({ format: 'docx', path: expect.stringMatching(/client\.docx$/) });
     expect(blocks(res, 'resource_link')[0]).toMatchObject({
       mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
