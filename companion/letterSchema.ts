@@ -30,7 +30,7 @@ export const unit = z.object({
   letterheadColor: z.enum(['blue', 'black']).optional(),
 });
 
-const signature = z.object({
+export const signature = z.object({
   first: z.string().optional(), middle: z.string().optional(), last: z.string().optional(),
   rank: z.string().optional(), title: z.string().optional(),
   byDirection: z.boolean().optional(),

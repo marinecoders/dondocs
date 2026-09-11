@@ -7,12 +7,10 @@
  * naval letter actually needs, each checked by the schema before it reaches
  * the generator; nothing else gets through.
  *
- * Defaults come from a config file so an agent does not restate its own unit on
- * every call — the unit is a property of the machine, not of the request.
+ * Defaults come from a config file (`defaults.ts`) so an agent does not restate
+ * its own unit on every call: the unit is a property of the machine, not of the
+ * request.
  */
-import { readFile } from 'node:fs/promises';
-import { homedir } from 'node:os';
-import { join } from 'node:path';
 import { format } from 'date-fns';
 import { canonicalizeUnitAddress } from '../src/lib/unitAddress';
 import { DOC_TYPE_CONFIG } from '../src/types/document';
@@ -131,22 +129,6 @@ export interface CompanionDefaults {
   signature?: SignatureInput;
   ssic?: string;
   originatorCode?: string;
-}
-
-/** Where machine defaults are read from. */
-export const CONFIG_PATH = process.env.DONDOCS_CONFIG ?? join(homedir(), '.dondocs', 'companion.config.json');
-
-/**
- * Read machine defaults. A missing file is normal, not an error — the built-in
- * fallbacks below keep a fresh install working before anyone configures it.
- */
-export async function loadDefaults(): Promise<CompanionDefaults> {
-  try {
-    return JSON.parse(await readFile(CONFIG_PATH, 'utf-8')) as CompanionDefaults;
-  } catch (err) {
-    if ((err as NodeJS.ErrnoException).code === 'ENOENT') { return {}; }
-    throw new Error(`${CONFIG_PATH} is not readable JSON: ${(err as Error).message}`, { cause: err });
-  }
 }
 
 /** `a`, `b` … `z`, then `aa`. Matches how the app letters references. */

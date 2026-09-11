@@ -14,7 +14,8 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { loadDefaults, type CompanionDefaults, type LetterInput } from '../../companion/letterInput';
+import { loadDefaults } from '../../companion/defaults';
+import type { CompanionDefaults, LetterInput } from '../../companion/letterInput';
 import { renderToFile } from '../../companion/renderToFile';
 import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfToolchain';
 

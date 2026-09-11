@@ -16,7 +16,7 @@
 import { createServer } from 'node:http';
 import { createHandler, CONTRACT, ROOT } from './handler';
 import { systemPandocVersion, VENDORED_PANDOC } from './renderDocx';
-import { CONFIG_PATH, loadDefaults } from './letterInput';
+import { CONFIG_PATH, loadDefaults } from './defaults';
 
 const PORT = Number(process.env.DONDOCS_PORT ?? 7712);
 

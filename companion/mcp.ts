@@ -24,7 +24,7 @@ import { pathToFileURL } from 'node:url';
 import * as z from 'zod';
 import { LETTER_TEMPLATES } from '../src/data/templates';
 import { lookupUnits } from './unitLookup';
-import { CONFIG_PATH, loadDefaults } from './letterInput';
+import { CONFIG_PATH, loadDefaults } from './defaults';
 import { letterSchema } from './letterSchema';
 import { OutsideSandboxError, DEFAULT_ROOT } from './outputPath';
 import { renderToFile } from './renderToFile';
