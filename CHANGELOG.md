@@ -5,6 +5,20 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.154] — 2026-09-11
+
+### Added
+
+- **An installable companion.** `npm run build:companion` bundles the MCP
+  and HTTP entries with everything they import and copies the render assets
+  beside them, so `node dist-companion/companion/mcp.mjs` runs on a machine
+  with Node and nothing else. `npm run build:mcpb` packs that as an MCP
+  Bundle (`dondocs-<version>.mcpb`) that a desktop client installs by opening
+  the file; each release now carries the bundle and its SHA-256. The render
+  assets are found from the built file or the source tree alike. A cold-run
+  suite starts both the built file and the unpacked bundle from an empty
+  directory and renders through them.
+
 ## [1.2.153] — 2026-09-11
 
 ### Fixed

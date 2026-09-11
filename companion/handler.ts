@@ -24,7 +24,7 @@ import { lookupUnits } from './unitLookup';
 
 /** The contract version. Bump when the request or response shape changes. */
 export const CONTRACT = 1;
-export const ROOT = process.env.DONDOCS_OUT_ROOT ?? DEFAULT_ROOT;
+export const ROOT = process.env.DONDOCS_OUT_ROOT || DEFAULT_ROOT;
 /** A letter is kilobytes; anything past this is a runaway caller, not a document. */
 const MAX_BODY = 1_000_000;
 

@@ -15,7 +15,8 @@ import { signature, unit } from './letterSchema';
 import type { CompanionDefaults } from './letterInput';
 
 /** Where machine defaults are read from. */
-export const CONFIG_PATH = process.env.DONDOCS_CONFIG ?? join(homedir(), '.dondocs', 'companion.config.json');
+// `||`, not `??`: a client that lets the user leave the field blank passes ''.
+export const CONFIG_PATH = process.env.DONDOCS_CONFIG || join(homedir(), '.dondocs', 'companion.config.json');
 
 const configSchema = z.object({
   unit: unit.optional(),

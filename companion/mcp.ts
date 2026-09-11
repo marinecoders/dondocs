@@ -32,7 +32,7 @@ import { renderResult, templateListResult, templateResult, unitLookupResult } fr
 import { DOC_TYPES, ENDORSEMENT_TYPES, validateLetter } from './validateLetter';
 import { systemPandocVersion, VENDORED_PANDOC } from './renderDocx';
 
-const ROOT = process.env.DONDOCS_OUT_ROOT ?? DEFAULT_ROOT;
+const ROOT = process.env.DONDOCS_OUT_ROOT || DEFAULT_ROOT;
 
 const MIME = {
   pdf: 'application/pdf',

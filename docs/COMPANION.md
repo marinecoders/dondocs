@@ -220,9 +220,38 @@ over the HTTP endpoint: nothing to leave running, and no confusing connection
 error when someone forgets. The other is that the input schema is published, so
 the model reads the real field names instead of guessing them.
 
-Register it with the client. For Claude Desktop that is
-`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS —
-check your client's own docs, since the location and key differ between them:
+There are three ways to install it, in order of least setup.
+
+**The bundle.** Each release carries `dondocs-<version>.mcpb`, the built
+server packed as an MCP Bundle, with its SHA-256 beside it. A client that
+takes bundles (the desktop apps for macOS and Windows do) installs it when you
+open the file, asks for the output folder, and runs it with the Node it ships,
+so nothing else is installed. PDF needs nothing more; DOCX needs `pandoc` on
+PATH. To build it yourself: `npm run build:companion && npm run build:mcpb`
+writes `dist-mcpb/dondocs-<version>.mcpb`.
+
+**The built file.** `npm run build:companion` writes `dist-companion/`: the
+two entries bundled with everything they import, beside the render assets.
+Register the MCP entry with any client that runs a command:
+
+```json
+{
+  "mcpServers": {
+    "dondocs": {
+      "command": "node",
+      "args": ["/absolute/path/to/dondocs/dist-companion/companion/mcp.mjs"],
+      "env": { "DONDOCS_OUT_ROOT": "/Users/you/Documents/DonDocs" }
+    }
+  }
+}
+```
+
+The file needs only Node 20 or later; `node_modules` is not consulted.
+`dist-companion/companion/server.mjs` is the HTTP door built the same way.
+The package also declares the entry as the `dondocs-mcp` bin, for `npm link`.
+
+**From source**, for development. This runs the TypeScript entry through
+vite-node from a checkout in which `npm install` has been run:
 
 ```json
 {
@@ -240,11 +269,14 @@ check your client's own docs, since the location and key differ between them:
 }
 ```
 
-That runs the entry point directly from a checkout in which `npm install` has
-been run. `--root` is required: a client launches the server from its own
-working directory, and without it module resolution fails. The equivalent
-through npm is `npm --prefix /absolute/path/to/dondocs run --silent
-companion:mcp`; see the note on stdout below for why `--silent` matters.
+`--root` is required: a client launches the server from its own working
+directory, and without it module resolution fails. The equivalent through npm
+is `npm --prefix /absolute/path/to/dondocs run --silent companion:mcp`; see the
+note on stdout below for why `--silent` matters.
+
+Where the client keeps its registration differs: the desktop app reads
+`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS;
+check your client's own docs.
 
 A config file that is not JSON, or not the documented shape, stops the server
 before it answers `initialize`. A client shows that as a disconnect with
