@@ -13,7 +13,7 @@
  *
  * stdout is the JSON-RPC channel; every diagnostic here goes to stderr.
  */
-import { McpServer, ResourceNotFoundError, ResourceTemplate } from '@modelcontextprotocol/server';
+import { McpServer, ProtocolError, ProtocolErrorCode, ResourceNotFoundError, ResourceTemplate, completable } from '@modelcontextprotocol/server';
 import { serveStdio } from '@modelcontextprotocol/server/stdio';
 import { basename } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -25,7 +25,7 @@ import { letterSchema } from './letterSchema';
 import { OutsideSandboxError, DEFAULT_ROOT } from './outputPath';
 import { renderToFile } from './renderToFile';
 import { renderResult, templateListResult, templateResult, unitLookupResult } from './resultSchema';
-import { validateLetter } from './validateLetter';
+import { DOC_TYPES, validateLetter } from './validateLetter';
 import { systemPandocVersion, VENDORED_PANDOC } from './renderDocx';
 
 const ROOT = process.env.DONDOCS_OUT_ROOT ?? DEFAULT_ROOT;
@@ -77,6 +77,46 @@ const handle = serveStdio(() => {
     const template = LETTER_TEMPLATES.find((entry) => entry.id === id);
     if (!template) { throw new ResourceNotFoundError(uri.href); }
     return { contents: [{ uri: uri.href, mimeType: 'application/json', text: JSON.stringify(template) }] };
+  });
+
+  // A starting point a host can offer by name. Both arguments complete, so a
+  // user picks a type or a template without knowing the ids.
+  server.registerPrompt('draft_letter', {
+    title: 'Draft a naval letter',
+    description: 'Draft correspondence of a given document type, optionally from a bundled template, and render it with dondocs_letter.',
+    argsSchema: z.object({
+      docType: completable(
+        z.enum(DOC_TYPES as [string, ...string[]]).describe('Document type; defaults to the template\'s own.'),
+        (value) => DOC_TYPES.filter((type) => type.startsWith(value)),
+      ).optional(),
+      template: completable(z.string().describe('Template ID from dondocs_template_list.'), templateIds).optional(),
+    }),
+  }, async ({ docType, template: id }) => {
+    const template = id === undefined ? undefined : LETTER_TEMPLATES.find((entry) => entry.id === id);
+    if (id !== undefined && !template) { throw new ProtocolError(ProtocolErrorCode.InvalidParams, `Unknown template ID: ${id}`); }
+    const type = docType ?? template?.docType;
+    const text = [
+      type
+        ? `Draft a document of type "${type}" with DonDocs.`
+        : 'Draft naval correspondence with DonDocs. Ask me which document type fits before writing; dondocs_letter lists them in its docType enum.',
+      template
+        ? `Start from the "${template.name}" template attached below: keep its structure, fill each bracketed placeholder from what I tell you, and ask for anything it needs that I have not given.`
+        : 'Ask me for the subject and what the letter needs to say, then write the paragraphs.',
+      'Look the originating unit up with dondocs_unit_lookup rather than guessing an address, and confirm the addressee with me.',
+      `Render with dondocs_letter${type ? ` using docType "${type}"` : ''} and tell me the path of the file it wrote.`,
+    ].join(' ');
+    return {
+      messages: [
+        { role: 'user' as const, content: { type: 'text' as const, text } },
+        ...(template ? [{
+          role: 'user' as const,
+          content: {
+            type: 'resource' as const,
+            resource: { uri: templateUri(template.id), mimeType: 'application/json', text: JSON.stringify(template) },
+          },
+        }] : []),
+      ],
+    };
   });
 
   server.registerTool('dondocs_template_get', {

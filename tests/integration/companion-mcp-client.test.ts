@@ -145,6 +145,49 @@ describe('a protocol client', () => {
     expect((await client.complete({ ref, argument: { name: 'id', value: '' } })).completion.values).toHaveLength(LETTER_TEMPLATES.length);
   });
 
+  it('offers a draft_letter prompt whose arguments complete', async () => {
+    expect(client.getServerCapabilities()?.prompts).toBeDefined();
+    const { prompts } = await client.listPrompts();
+    expect(prompts.map((p) => p.name)).toEqual(['draft_letter']);
+    const args = prompts[0].arguments ?? [];
+    expect(args.map((a) => a.name).sort()).toEqual(['docType', 'template']);
+    expect(args.every((a) => !a.required), 'both arguments are optional').toBe(true);
+
+    const ref = { type: 'ref/prompt' as const, name: 'draft_letter' };
+    const types = (await client.complete({ ref, argument: { name: 'docType', value: 'joint_' } })).completion.values;
+    expect(types.sort()).toEqual(['joint_letter', 'joint_memorandum']);
+    const ids = (await client.complete({ ref, argument: { name: 'template', value: 'award' } })).completion.values;
+    expect(ids).toEqual(LETTER_TEMPLATES.map((t) => t.id).filter((id) => id.startsWith('award')));
+    expect(ids.length).toBeGreaterThan(0);
+  });
+
+  it('builds the prompt from a document type, or from a template with the template embedded', async () => {
+    const bare = await client.getPrompt({ name: 'draft_letter', arguments: { docType: 'joint_letter' } });
+    expect(bare.messages).toHaveLength(1);
+    expect(bare.messages[0].role).toBe('user');
+    const instructions = (bare.messages[0].content as { text: string }).text;
+    expect(instructions).toContain('joint_letter');
+    expect(instructions).toContain('dondocs_unit_lookup');
+    expect(instructions).toContain('dondocs_letter');
+
+    const template = LETTER_TEMPLATES.find((t) => t.id === 'report-findings')!;
+    const from = await client.getPrompt({ name: 'draft_letter', arguments: { template: template.id } });
+    expect(from.messages).toHaveLength(2);
+    expect((from.messages[0].content as { text: string }).text).toContain(template.docType);
+    expect(from.messages[1].content).toMatchObject({
+      type: 'resource',
+      resource: { uri: `dondocs://templates/${template.id}`, mimeType: 'application/json' },
+    });
+    expect(JSON.parse((from.messages[1].content as { resource: { text: string } }).resource.text)).toEqual(template);
+
+    // Both bad arguments are invalid params, whichever side rejects them.
+    await expect(client.getPrompt({ name: 'draft_letter', arguments: { template: 'no-such-template' } })).rejects.toMatchObject({
+      code: -32602, message: expect.stringContaining('no-such-template'),
+    });
+    await expect(client.getPrompt({ name: 'draft_letter', arguments: { docType: 'sonnet' } })).rejects.toMatchObject({ code: -32602 });
+    await expect(client.ping()).resolves.toBeDefined();
+  });
+
   it('returns a recoverable error for an unknown template ID', async () => {
     const result = await client.callTool({ name: 'dondocs_template_get', arguments: { id: 'no-such-template' } });
     expect(isError(result)).toBe(true);
