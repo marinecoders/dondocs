@@ -306,6 +306,13 @@ describe('a protocol client', () => {
     } }).then((r) => r, (e: Error) => ({ isError: true, content: [{ text: e.message }] }));
     expect(isError(res)).toBe(true);
     expect(text(res)).toMatch(/clasification/);
+
+    // Inside an object as well: a stripped portion mark is a missing marking.
+    const nested = await client.callTool({ name: 'dondocs_letter', arguments: {
+      docType: 'naval_letter', subject: 'TYPO', paragraphs: [{ text: 'x', portionMarkng: 'S' }],
+    } }).then((r) => r, (e: Error) => ({ isError: true, content: [{ text: e.message }] }));
+    expect(isError(nested)).toBe(true);
+    expect(text(nested)).toMatch(/portionMarkng/);
   }, 60_000);
 
   it('refuses a path outside the output root and writes nothing', async () => {

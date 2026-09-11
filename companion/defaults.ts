@@ -18,8 +18,8 @@ import type { CompanionDefaults } from './letterInput';
 export const CONFIG_PATH = process.env.DONDOCS_CONFIG ?? join(homedir(), '.dondocs', 'companion.config.json');
 
 const configSchema = z.object({
-  unit: unit.strict().optional(),
-  signature: signature.strict().optional(),
+  unit: unit.optional(),
+  signature: signature.optional(),
   ssic: z.string().optional(),
   originatorCode: z.string().optional(),
 }).strict();

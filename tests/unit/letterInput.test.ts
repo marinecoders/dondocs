@@ -13,7 +13,7 @@ import { splitAddressForLetterhead } from '../../src/lib/unitAddress';
 const FORM = (store: ReturnType<typeof toStore>) => store.formData as Record<string, unknown>;
 
 const CONFIG: CompanionDefaults = {
-  unit: { name: 'MARINE INNOVATION UNIT', city: 'QUANTICO', state: 'VA', zip: '22134' },
+  unit: { name: 'MARINE INNOVATION UNIT', address: 'QUANTICO, VA 22134' },
   signature: { first: 'R', last: 'CHIOFALO', rank: 'Major', title: 'Officer in Charge' },
   ssic: '5216',
   originatorCode: 'S-6',
@@ -169,20 +169,8 @@ describe('unit address', () => {
     expect(f.unitAddress).toBe('PSC BOX 20004, CAMP LEJEUNE, NC 28542');
   });
 
-  it('composes city/state/zip into one address line', () => {
-    const f = FORM(toStore({ docType: 'naval_letter', unit: { city: 'CAMP LEJEUNE', state: 'NC', zip: '28542' } }));
-    expect(f.unitAddress).toBe('CAMP LEJEUNE, NC 28542');
-  });
-
-  it('prefers an explicit address over the parts', () => {
-    const f = FORM(toStore({ docType: 'naval_letter', unit: { address: 'ONE LINE', city: 'IGNORED' } }));
-    expect(f.unitAddress).toBe('ONE LINE');
-  });
-
-  it('never emits a field the app does not have', () => {
-    const f = FORM(toStore({ docType: 'naval_letter', unit: { city: 'X', state: 'Y', zip: 'Z' } }, CONFIG));
-    expect(f).not.toHaveProperty('unitCity');
-    expect(f).not.toHaveProperty('unitState');
-    expect(f).not.toHaveProperty('unitZip');
+  it('leaves the address empty when none is given: the parts were never published', () => {
+    const f = FORM(toStore({ docType: 'naval_letter', unit: { name: 'X' } }));
+    expect(f.unitAddress).toBe('');
   });
 });

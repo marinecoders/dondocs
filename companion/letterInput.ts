@@ -47,10 +47,7 @@ export interface UnitInput {
    * earlier version invented those and the address silently never rendered.
    */
   address?: string;
-  city?: string;
-  state?: string;
-  zip?: string;
-  /** usmc | navy — drives the letterhead wording. */
+  /** usmc | navy | dod — the department heading. */
   department?: string;
   /** dow | dod — which seal is drawn. */
   seal?: string;
@@ -231,8 +228,7 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       unitLine2: unit.line2 ?? '',
       // Normalize tool/config addresses to the comma layout the letterhead
       // splitter expects, just as the web app does when loading an address.
-      unitAddress: canonicalizeUnitAddress(unit.address
-        ?? [unit.city, unit.state, unit.zip].filter(Boolean).join(' ')),
+      unitAddress: canonicalizeUnitAddress(unit.address ?? ''),
       department: unit.department ?? 'usmc',
       seal: unit.seal ?? 'dow',
       sealType: unit.seal ?? 'dow',
