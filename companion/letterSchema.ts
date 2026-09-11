@@ -19,7 +19,7 @@ const paragraph = z.object({
   header: z.string().optional().describe('Bold run-in heading before the text.'),
   portionMarking: z.enum(PORTION_MARKINGS as [string, ...string[]]).optional()
     .describe('Printed as "(S) " before the text. The banner rises to the highest mark in the document.'),
-});
+}).strict();
 
 export const unit = z.object({
   name: z.string().optional().describe('The unit line printed under the department heading, e.g. "1ST MARINE DIVISION".'),
@@ -31,14 +31,14 @@ export const unit = z.object({
     .describe('The heading: UNITED STATES MARINE CORPS, DEPARTMENT OF THE NAVY, or DEPARTMENT OF DEFENSE. Defaults to usmc.'),
   seal: z.enum(['dow', 'dod']).optional(),
   letterheadColor: z.enum(['blue', 'black']).optional(),
-});
+}).strict();
 
 export const signature = z.object({
   first: z.string().optional(), middle: z.string().optional(), last: z.string().optional(),
   rank: z.string().optional(), title: z.string().optional(),
   byDirection: z.boolean().optional(),
   byDirectionAuthority: z.string().optional().describe('The authority cited beneath a by-direction signature.'),
-});
+}).strict();
 
 /** The generator renders a marking only for a level it recognises; anything else
  *  comes out unmarked. Publishing the list stops a caller inventing one. */
@@ -52,8 +52,8 @@ const classification = z.object({
   cui: z.object({
     category: z.string().optional(), controlledBy: z.string().optional(),
     dissemination: z.string().optional(), distStatement: z.string().optional(),
-  }).optional().describe('The CUI designation block. Only read when level is cui.'),
-});
+  }).strict().optional().describe('The CUI designation block. Only read when level is cui.'),
+}).strict();
 
 /** One side of a two-party document. */
 const party = z.object({
@@ -66,8 +66,8 @@ const party = z.object({
   signature: z.object({
     name: z.string().describe('Joint documents print this as given, e.g. "D. R. SMITH". Agreements (moa, mou) reduce a full name to initial and surname, so give "David R. Smith" there.'),
     rank: z.string().optional(), title: z.string().optional(),
-  }).optional(),
-});
+  }).strict().optional(),
+}).strict();
 
 /**
  * The two parties to a joint letter, joint memorandum, MOA or MOU. The app
@@ -78,13 +78,13 @@ const parties = z.object({
   senior: party,
   junior: party,
   commonLocation: z.string().optional().describe('Joint letters: a shared location line, e.g. "Washington, D.C.".'),
-});
+}).strict();
 
 const endorsement = z.object({
   ordinal: z.string().describe('FIRST, SECOND, THIRD ...'),
   basicLetterId: z.string().describe('The letter being endorsed, e.g. "CO 1st Bn ltr 5216 of 8 Sep 26".'),
   includeSubject: z.boolean().optional().describe('Repeat the Subj: line. Off by default per Ch 9.'),
-});
+}).strict();
 
 export const letterSchema = z.object({
   // Derived, not restated: this list and validateLetter's are the same gate,
@@ -107,8 +107,8 @@ export const letterSchema = z.object({
   references: z.array(z.object({
     letter: z.string().regex(/^[a-z]{1,2}$/).optional().describe('One or two lowercase letters. Assigned a, b … in order when omitted.'),
     title: z.string(),
-  })).optional().describe('Lettered (a), (b) … in the order given.'),
-  enclosures: z.array(z.object({ title: z.string() })).optional(),
+  }).strict()).optional().describe('Lettered (a), (b) … in the order given.'),
+  enclosures: z.array(z.object({ title: z.string() }).strict()).optional(),
   copyTo: z.array(z.string()).optional(),
   distribution: z.array(z.string()).optional(),
 
@@ -132,7 +132,7 @@ export const letterSchema = z.object({
   pageNumbering: z.enum(['none', 'simple', 'xofy']).optional().describe('Defaults to none.'),
 // Stripping an unnamed field silently is how a classification marking went
 // missing from a document that asked for one; refusing it by name is how a
-// caller finds out.
+// caller finds out. Every nested object above is strict for the same reason.
 }).strict();
 
 /** Top-level field names, for the capability probe. Derived, never re-typed. */

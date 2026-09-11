@@ -5,6 +5,32 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.153] — 2026-09-11
+
+### Fixed
+
+- **The HTTP door refuses a key it does not publish**, by name, as the MCP
+  door has since 1.2.144. It used to strip one silently, so a misspelled
+  classification rendered an unmarked document with a 200. The same rule now
+  applies inside every nested object on both doors: a misspelled portion mark
+  or address key is refused rather than dropped.
+- The compile-matrix guard that fails CI when the PDF toolchain is missing
+  sat inside the block it guarded, so a missing poppler skipped both. It runs
+  unconditionally now.
+- Tests that could pass without proving their claim: the concurrency case
+  reads each file's own text back, the launch-form case requires an
+  initialize reply, DOCX over MCP and the elicitation capability matrix are
+  covered.
+- Docs: the MCP registration snippet is a launch form that works from any
+  working directory; the lookup example uses the spelled-out unit name; a
+  malformed config's effect on a client is described; the test READMEs list
+  the integration and companion suites.
+
+### Changed
+
+- `unit.city`, `unit.state` and `unit.zip` are gone from the companion's
+  input type; the request never published them and the config refuses them.
+
 ## [1.2.152] — 2026-09-11
 
 ### Added

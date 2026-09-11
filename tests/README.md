@@ -4,10 +4,21 @@ Run with `npm test` (one-shot) or `npm run test:watch` (watcher).
 
 ```
 tests/
-├── unit/         pure-function unit + property tests (fast-check)
-├── regressions/  one file per closed user-reported issue
-└── _helpers/     fixtures shared across the suites
+├── unit/           pure-function unit + property tests (fast-check)
+├── regressions/    one file per closed user-reported issue
+├── component/      React components
+├── fuzz/           generated inputs against the generators
+├── combinatorial/  the pairwise matrix builder, unit-tested
+├── cartesian/      the full-matrix harness (`run.ts`, its own workflow, not a vitest suite)
+├── integration/    compiles real documents and drives the companion end to end
+└── _helpers/       fixtures shared across the suites
 ```
+
+`npm test` runs everything but `integration/`. That suite compiles with the
+real toolchain and drives the companion over HTTP and MCP; run it with
+`npm run test:integration` after installing xelatex, pandoc and poppler
+(`pdftotext`). Where a tool is missing the affected cases skip locally and
+fail in CI, so a dropped dependency cannot turn into a green run.
 
 ## Layout philosophy
 

@@ -205,10 +205,20 @@ describe('malformed input is 400, never 500', () => {
     expect(json.errors?.join(' ')).toMatch(/contract version 99/);
   });
 
+  it('refuses a key it does not publish, by name, as the MCP door does', async () => {
+    // Stripping it silently is how a misspelled classification rendered an
+    // unmarked document with a 200.
+    const { status, json } = await post(JSON.stringify({
+      docType: 'naval_letter', subject: 'TYPO', paragraphs: [{ text: 'x' }], clasification: { level: 'secret' },
+    }));
+    expect(status).toBe(400);
+    expect(json.errors!.join(' ')).toMatch(/clasification/);
+  });
+
   it('reports every problem at once rather than one per round-trip', async () => {
     const { status, json } = await post(JSON.stringify({ docType: 'invoice', format: 'rtf', paragraphs: 'not an array' }));
     expect(status).toBe(400);
-    // docType + format + paragraphs shape + nothing-to-render.
+    // docType + format + paragraphs shape, each named.
     expect(json.errors!.length).toBeGreaterThanOrEqual(3);
   });
 });
@@ -261,10 +271,11 @@ describe('validate() directly', () => {
       subject: 'S',
       paragraphs: [{ text: 'ok' }, { text: 42 } as never],
     });
-    expect(problems.join(' ')).toMatch(/paragraphs\[1\]\.text/);
+    // The schema names it first, in its own path form, the same as the MCP door.
+    expect(problems.join(' ')).toMatch(/paragraphs\.1\.text/);
   });
 
   it('rejects an array where an object belongs', () => {
-    expect(validate({ ...VALID, unit: [] as never }).join(' ')).toMatch(/unit must be an object/);
+    expect(validate({ ...VALID, unit: [] as never }).join(' ')).toMatch(/unit: .*expected object/);
   });
 });

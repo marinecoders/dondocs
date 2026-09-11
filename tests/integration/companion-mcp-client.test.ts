@@ -17,7 +17,11 @@ import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { spawnSync } from 'node:child_process';
 import { LETTER_TEMPLATES } from '../../src/data/templates';
+import { hasPdfToolchain } from '../_helpers/pdfToolchain';
+
+const hasPandoc = spawnSync('pandoc', ['--version'], { encoding: 'utf-8' }).status === 0;
 
 const REPO = resolve(import.meta.dirname, '..', '..');
 
@@ -306,6 +310,13 @@ describe('a protocol client', () => {
     } }).then((r) => r, (e: Error) => ({ isError: true, content: [{ text: e.message }] }));
     expect(isError(res)).toBe(true);
     expect(text(res)).toMatch(/clasification/);
+
+    // Inside an object as well: a stripped portion mark is a missing marking.
+    const nested = await client.callTool({ name: 'dondocs_letter', arguments: {
+      docType: 'naval_letter', subject: 'TYPO', paragraphs: [{ text: 'x', portionMarkng: 'S' }],
+    } }).then((r) => r, (e: Error) => ({ isError: true, content: [{ text: e.message }] }));
+    expect(isError(nested)).toBe(true);
+    expect(text(nested)).toMatch(/portionMarkng/);
   }, 60_000);
 
   it('refuses a path outside the output root and writes nothing', async () => {
@@ -328,8 +339,34 @@ describe('a protocol client', () => {
     })));
     expect(results.every((r) => !isError(r)), results.map(text).join(' | ')).toBe(true);
     // The engine cannot compile two documents at once; the queue that serialises
-    // them must still return three distinct files.
+    // them must still return three distinct files, each with its own content.
+    // Distinct paths alone prove nothing: each call named its own `out`.
     expect(new Set(results.map(pathOf)).size).toBe(3);
+    if (hasPdfToolchain) {
+      for (const [i, res] of results.entries()) {
+        const page = spawnSync('pdftotext', ['-layout', pathOf(res)!, '-'], { encoding: 'utf-8' }).stdout;
+        expect(page, `file ${i + 1} carries another call's text`).toContain(`CONCURRENT ${i + 1}`);
+      }
+    }
+  }, 200_000);
+
+  it('renders a DOCX with the format in the structured result and the link', async () => {
+    if (!hasPandoc) {
+      console.warn('[companion-mcp-client] pandoc missing - DOCX case SKIPPED locally.');
+      expect(Boolean(process.env.CI), 'CI must install pandoc; without it this case proves nothing.').toBe(false);
+      return;
+    }
+    const res = await client.callTool({ name: 'dondocs_letter', arguments: {
+      docType: 'naval_letter', format: 'docx', out: 'client.docx', subject: 'DOCX OVER MCP',
+      from: 'F', to: 'T', paragraphs: [{ text: 'Converted by pandoc.' }],
+    } });
+    expect(isError(res), text(res)).toBe(false);
+    expect(text(res)).toMatch(/^Wrote DOCX/);
+    expect(structured(res)).toMatchObject({ format: 'docx', path: expect.stringMatching(/client\.docx$/) });
+    expect(blocks(res, 'resource_link')[0]).toMatchObject({
+      mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    });
+    expect((await readFile(pathOf(res)!)).subarray(0, 2).toString('latin1')).toBe('PK');
   }, 200_000);
 
   it('stays usable after every failure above', async () => {

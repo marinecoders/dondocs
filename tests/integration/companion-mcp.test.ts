@@ -173,15 +173,15 @@ describe('the MCP server', () => {
     expect(result.content[0].text).toMatch(/nothing to render/);
   }, 60_000);
 
-  it('keeps stdout clean when launched the way the docs say to launch it', async () => {
-    // The suite above spawns the entry point directly. docs/COMPANION.md hands
-    // out an `npm run` command, and `npm run` announces the script on STDOUT —
-    // two non-protocol lines this file never saw, because it spawns differently.
-    // A launch form the docs recommend is part of the contract.
+  it('starts and keeps stdout clean when launched the way the docs say to launch it', async () => {
+    // The suite above spawns from the repo. docs/COMPANION.md hands out a
+    // launch form a client runs from its own working directory, with `--root`
+    // so modules resolve; that form is part of the contract.
     const repo = resolve(import.meta.dirname, '..', '..');
-    const npmCli = process.env.npm_execpath;
-    expect(npmCli, 'Run this suite through npm run test:integration').toBeTruthy();
-    const proc = spawn(process.execPath, [npmCli!, '--prefix', repo, 'run', '--silent', 'companion:mcp'], {
+    const proc = spawn(process.execPath, [
+      join(repo, 'node_modules', 'vite-node', 'dist', 'cli.mjs'), '--root', repo, join(repo, 'companion', 'mcp.ts'),
+    ], {
+      cwd: tmpdir(),
       env: { ...process.env, DONDOCS_OUT_ROOT: root, DONDOCS_CONFIG: '/nonexistent/companion.config.json' },
     }) as ChildProcessWithoutNullStreams;
 
@@ -193,13 +193,13 @@ describe('the MCP server', () => {
         params: { protocolVersion: '2025-06-18', capabilities: {}, clientInfo: { name: 'launch-form', version: '1' } },
       })}\n`);
 
-      // Long enough for the banner to land if it is going to: npm prints it
-      // before the child starts, so it would arrive ahead of any reply.
       const deadline = Date.now() + 60_000;
       while (Date.now() < deadline && !lines.some((l) => l.includes('"result"'))) {
         await new Promise((r) => setTimeout(r, 100));
       }
 
+      // A server that never started would leave stdout clean too.
+      expect(lines.some((l) => l.includes('"result"')), 'no initialize reply from the documented launch form').toBe(true);
       const junk = lines.map((l) => l.trim()).filter(Boolean).filter((l) => {
         try { JSON.parse(l); return false; } catch { return true; }
       });
