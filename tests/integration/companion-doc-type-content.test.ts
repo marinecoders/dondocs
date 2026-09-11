@@ -50,8 +50,11 @@ const parties = {
   commonLocation: 'Washington, D.C.',
 };
 
+// Outside the skipped block, so a missing toolchain fails CI instead of
+// skipping the guard along with the suite it guards.
+describeToolchainRequirement('companion-doc-type-content');
+
 describe.skipIf(!hasPdfToolchain)('previously hollow doc types carry their content', () => {
-  describeToolchainRequirement('companion-doc-type-content');
 
   it('joint_letter names both commands, both signatories, and From/To/Subj', async () => {
     const text = await textOf({ docType: 'joint_letter', to: 'Secretary of the Navy', subject: 'JOINT POLICY', paragraphs: [{ text: 'Body.' }], parties });
