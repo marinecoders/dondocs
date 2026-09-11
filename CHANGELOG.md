@@ -5,6 +5,22 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.155] — 2026-09-11
+
+### Fixed
+
+- **A repeated subject no longer writes over the earlier letter.** With `out`
+  omitted the default name is numbered when taken (`subject-2.pdf`); a given
+  `out` still replaces, as its description says. `dondocs_letter` no longer
+  claims to be idempotent.
+- **`MIU` finds the Marine Innovation Unit.** Its seven directory entries
+  carried the full name as their abbreviation, so the abbreviation everyone
+  types found nothing, in the companion and in the app's unit lookup alike.
+- **The From line is asked for.** Letters, endorsements and memoranda print
+  `From:` even when the request omits it, the MFR included, so an omitted
+  line came out as an empty label. The field descriptions, the
+  `draft_letter` prompt and the server instructions now say so.
+
 ## [1.2.154] — 2026-09-11
 
 ### Added
