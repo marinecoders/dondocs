@@ -42,7 +42,7 @@
     "output_dir": {
       "type": "directory",
       "title": "Output folder",
-      "description": "Where rendered letters are written. Nothing is written anywhere else.",
+      "description": "Where rendered letters are written; nothing is written anywhere else. Pick a folder your file tools may read, so the assistant can show a letter in the chat.",
       "required": true,
       "default": "${DOCUMENTS}/DonDocs"
     },

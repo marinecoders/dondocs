@@ -119,7 +119,9 @@ banner rises to the highest mark in the document.
 ## Machine defaults
 
 A unit is a property of the box, not of the request. Put yours in
-`~/.dondocs/companion.config.json` and an agent stops restating it on every call:
+`~/.dondocs/companion.config.json` and an agent stops restating it on every
+call. Set it first: without it every letter starts with a unit lookup, and the
+signer has to be given each time.
 
 ```json
 {
@@ -289,8 +291,10 @@ their MCP log.
 every bundled letter template's `id`, `name`, `category`, and `description`.
 Call `dondocs_template_get` with `{"id":"report-findings"}` to retrieve the full
 template, including its document type, subject, paragraphs, and any references
-and SSIC. Both tools are read-only. An unknown ID returns a tool error directing
-the agent back to the catalog.
+and SSIC. Both tools are read-only. The IDs are an enum on `dondocs_template_get`
+and are named in the instructions, so a model whose user asked for a PFT waiver
+calls the get and skips the list; an unknown ID returns a tool error naming the
+valid ones.
 
 The agent chooses a matching template, works with the user to fill bracketed
 placeholders and correspondence details, then passes completed letter fields to
@@ -301,8 +305,9 @@ application. Register new templates there and restart the MCP server to expose
 them; no MCP tool changes are needed.
 
 `dondocs_letter` takes the same fields as `/generate`
-and returns the path it wrote. A filename outside the output root comes back as
-a tool error the model can read and retry, not a protocol failure.
+and returns the path it wrote, then on a second line the `out` that replaces
+that file and a request to share it. A filename outside the output root comes
+back as a tool error the model can read and retry, not a protocol failure.
 
 `dondocs_unit_lookup` searches the bundled address directory without giving the
 agent filesystem access. Call it with `{"query":"Marine Innovation Unit"}` (name, abbreviation,
@@ -319,6 +324,32 @@ An unambiguous result can be used immediately. Search uses only values recorded
 in the directory; there is no alias expansion. If an acronym is not recorded,
 search its full name or ask the user what it stands for.
 
+### Round trips
+
+The server's share of a letter is small: the process starts in 0.2 s, a lookup
+takes 14 ms and a PDF render 0.3 to 0.4 s. A letter through the desktop app
+still took six minutes of wall clock in testing: each tool call is a model
+turn, a host may ask the person to allow each tool the first time, and the rest
+is the conversation. So the server is arranged for the fewest calls:
+
+- With a defaults file there is nothing to look up, and the instructions say
+  to omit `unit`.
+- The template IDs are an enum on `dondocs_template_get` and are named in the
+  instructions, so `dondocs_template_list` is for when the user's wording does
+  not point to one.
+- The render tool's description, the instructions and the result say to render
+  once the facts are in hand and to revise by rendering again with `out` set to
+  the name the result reports, rather than drafting in chat and then sending
+  the same text as a call.
+- The result asks the model to share the file when it has a tool that can. A
+  host shows the text of a tool result and, at best, the `resource_link`; the
+  document card the desktop app shows comes from its file extension reading
+  the file on disk. There is no card without a file, so choose an output
+  folder that extension may read.
+
+From the user's own words that is one DonDocs call and the share; from a
+template, two.
+
 ### Beyond tools
 
 The server also sends instructions and publishes resources, a prompt,
@@ -326,8 +357,9 @@ completions, and structured results. A client that only calls tools is
 unaffected.
 
 - **Instructions.** `initialize` carries a paragraph on how the tools fit
-  together: look the unit up or rely on the defaults, start from a template
-  or not, then render. Hosts pass it to the model as context.
+  together: look the unit up or rely on the defaults, start from one of the
+  named templates or not, render once the facts are in hand, share the file,
+  revise with `out`. Hosts pass it to the model as context.
 - **Machine defaults.** `dondocs://defaults` is what the config file sets for
   a render that omits `unit`, `signature`, `ssic` or `originatorCode`, plus
   the path of that file. A null unit or SSIC falls back to the built-in
@@ -364,8 +396,8 @@ Every field that reaches the `.tex` is escaped, a reference `letter` must be
 one or two lowercase letters, and there is no pass-through for unnamed
 generator fields (`formData` used to be one, and could overwrite the
 classification banner). Output goes only inside the root: `..`, absolute
-paths, the root itself, and paths through a symlink are refused before
-anything renders. A render that overruns `DONDOCS_RENDER_TIMEOUT_MS` is
+paths elsewhere, the root itself, and paths through a symlink are refused
+before anything renders. A render that overruns `DONDOCS_RENDER_TIMEOUT_MS` is
 cancelled and its engine disposed.
 
 **stdout belongs to the protocol.** Anything printed there that is not a JSON-RPC

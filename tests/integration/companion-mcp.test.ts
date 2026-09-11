@@ -128,7 +128,8 @@ describe('the MCP server', () => {
 
     const text = result.content[0].text;
     expect(text).toMatch(/^Wrote PDF/);
-    const path = text.match(/ to (.+)$/)![1];
+    // The first line names the file; the second says what to do with it.
+    const path = text.split('\n')[0].match(/ to (.+)$/)![1];
     expect(path.startsWith(root)).toBe(true);
 
     // A path is only worth returning if it names a real document.

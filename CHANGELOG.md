@@ -5,6 +5,21 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.156] — 2026-09-11
+
+### Changed
+
+- **Fewer round trips per letter over MCP.** A letter through the desktop app
+  took six minutes of wall clock, of which the server was busy for 0.4 s; the
+  rest was one model turn per tool call. The template IDs are now an enum on
+  `dondocs_template_get` and named in the instructions, so the list call is
+  optional and an unknown ID is answered with the valid ones. The render
+  tool's description, the instructions and the result say to render once the
+  facts are in hand rather than drafting in chat first, to share the file
+  when a tool can, and to revise with `out` set to the name the result now
+  reports. The docs say to set the defaults file first and why the document
+  card in a chat needs a file on disk.
+
 ## [1.2.155] — 2026-09-11
 
 ### Fixed
