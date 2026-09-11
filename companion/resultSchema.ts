@@ -14,7 +14,7 @@ export const renderResult = z.object({
   bytes: z.number().int().nonnegative(),
 });
 
-export const templateSummary = z.object({
+const templateSummary = z.object({
   id: z.string(),
   name: z.string(),
   category: z.string(),

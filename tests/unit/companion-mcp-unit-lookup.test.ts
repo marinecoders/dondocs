@@ -15,11 +15,16 @@ vi.mock('../../companion/letterInput', async (importOriginal) => ({
 }));
 vi.mock('../../companion/renderToFile', () => ({ renderToFile: vi.fn() }));
 vi.mock('../../companion/renderDocx', () => ({ systemPandocVersion: async () => 'test', VENDORED_PANDOC: 'test' }));
-vi.mock('@modelcontextprotocol/server', () => ({
+// Only what registration touches; the tool under test is reached through the
+// callback the real module hands to registerTool.
+vi.mock('@modelcontextprotocol/server', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@modelcontextprotocol/server')>()),
   McpServer: class {
     registerTool(name: string, _config: unknown, callback: (args: { query: string; limit: number }) => Promise<unknown>) {
       mocks.callbacks.set(name, callback);
     }
+    registerResource() {}
+    registerPrompt() {}
   },
 }));
 vi.mock('@modelcontextprotocol/server/stdio', () => ({

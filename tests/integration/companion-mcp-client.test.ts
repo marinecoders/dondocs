@@ -113,6 +113,38 @@ describe('a protocol client', () => {
     }
   });
 
+  it('publishes every template as a resource a host can attach without a tool call', async () => {
+    expect(client.getServerCapabilities()?.resources).toBeDefined();
+    const { resourceTemplates } = await client.listResourceTemplates();
+    expect(resourceTemplates.map((t) => t.uriTemplate)).toEqual(['dondocs://templates/{id}']);
+
+    const { resources } = await client.listResources();
+    expect(resources.map((r) => r.uri).sort()).toEqual(LETTER_TEMPLATES.map((t) => `dondocs://templates/${t.id}`).sort());
+    const listed = resources.find((r) => r.uri === 'dondocs://templates/report-findings')!;
+    expect(listed).toMatchObject({ name: 'report-findings', mimeType: 'application/json' });
+    expect(listed.title).toBe(LETTER_TEMPLATES.find((t) => t.id === 'report-findings')!.name);
+
+    const { contents } = await client.readResource({ uri: 'dondocs://templates/report-findings' });
+    expect(contents).toHaveLength(1);
+    expect(contents[0]).toMatchObject({ uri: 'dondocs://templates/report-findings', mimeType: 'application/json' });
+    expect(JSON.parse((contents[0] as { text: string }).text)).toEqual(LETTER_TEMPLATES.find((t) => t.id === 'report-findings'));
+
+    // Invalid params, naming the URI, not an internal error.
+    await expect(client.readResource({ uri: 'dondocs://templates/no-such-template' })).rejects.toMatchObject({
+      code: -32602, message: expect.stringContaining('dondocs://templates/no-such-template'),
+    });
+    await expect(client.ping()).resolves.toBeDefined();
+  });
+
+  it('completes a template id from a prefix', async () => {
+    expect(client.getServerCapabilities()?.completions).toBeDefined();
+    const ref = { type: 'ref/resource' as const, uri: 'dondocs://templates/{id}' };
+    const { completion } = await client.complete({ ref, argument: { name: 'id', value: 'app' } });
+    expect(completion.values.sort()).toEqual(LETTER_TEMPLATES.map((t) => t.id).filter((id) => id.startsWith('app')).sort());
+    expect(completion.values.length).toBeGreaterThan(1);
+    expect((await client.complete({ ref, argument: { name: 'id', value: '' } })).completion.values).toHaveLength(LETTER_TEMPLATES.length);
+  });
+
   it('returns a recoverable error for an unknown template ID', async () => {
     const result = await client.callTool({ name: 'dondocs_template_get', arguments: { id: 'no-such-template' } });
     expect(isError(result)).toBe(true);

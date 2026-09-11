@@ -13,7 +13,7 @@
  *
  * stdout is the JSON-RPC channel; every diagnostic here goes to stderr.
  */
-import { McpServer } from '@modelcontextprotocol/server';
+import { McpServer, ResourceNotFoundError, ResourceTemplate } from '@modelcontextprotocol/server';
 import { serveStdio } from '@modelcontextprotocol/server/stdio';
 import { basename } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -35,6 +35,10 @@ const MIME = {
   docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 } as const;
 
+const TEMPLATE_URI = 'dondocs://templates/{id}';
+const templateUri = (id: string) => TEMPLATE_URI.replace('{id}', id);
+const templateIds = (prefix: string) => LETTER_TEMPLATES.map((t) => t.id).filter((id) => id.startsWith(prefix));
+
 const defaults = await loadDefaults();
 
 const handle = serveStdio(() => {
@@ -54,6 +58,25 @@ const handle = serveStdio(() => {
       content: [{ type: 'text' as const, text: JSON.stringify(templates) }],
       structuredContent: { templates },
     };
+  });
+
+  // The same templates as resources, so a host can list and attach one
+  // without a tool call. The tools stay: a model driving the flow needs them.
+  server.registerResource('template', new ResourceTemplate(TEMPLATE_URI, {
+    list: () => ({
+      resources: LETTER_TEMPLATES.map(({ id, name, description }) => ({
+        uri: templateUri(id), name: id, title: name, description, mimeType: 'application/json',
+      })),
+    }),
+    complete: { id: templateIds },
+  }), {
+    title: 'Letter template',
+    description: 'A bundled letter template: document type, subject, paragraphs with bracketed placeholders, references.',
+    mimeType: 'application/json',
+  }, async (uri, { id }) => {
+    const template = LETTER_TEMPLATES.find((entry) => entry.id === id);
+    if (!template) { throw new ResourceNotFoundError(uri.href); }
+    return { contents: [{ uri: uri.href, mimeType: 'application/json', text: JSON.stringify(template) }] };
   });
 
   server.registerTool('dondocs_template_get', {
