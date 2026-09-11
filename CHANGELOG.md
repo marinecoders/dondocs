@@ -5,6 +5,51 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.152] — 2026-09-11
+
+### Added
+
+- **Portion marks.** `paragraphs[].portionMarking` (U, CUI, FOUO, C, S, TS)
+  is printed before the paragraph and raises the banner to the highest mark,
+  as the classification description had promised without a field to carry it.
+- **A `dod` department.** The letterhead heading can be DEPARTMENT OF DEFENSE,
+  and the unit lookup reports it for DOD entries.
+
+### Fixed
+
+- **A custom classification banner renders.** `classification.custom` was
+  accepted and ignored. It now selects the custom level on its own; giving it
+  with a level is refused, since the generator prints one or the other, and a
+  level outside the list is refused over HTTP as it already was over MCP.
+- **One unit line under the department heading.** A navy unit printed UNITED
+  STATES MARINE CORPS under DEPARTMENT OF THE NAVY, and a fresh install
+  printed the Marine Corps line twice. `name` and `line1` are the same line,
+  a request beats the config across both spellings, and there is no fallback
+  under a heading that already says it.
+- **An endorsement without its ordinal and basic letter is refused** instead
+  of rendering a bare ENDORSEMENT heading.
+- **The config file is validated at startup.** A file containing `null`, a
+  wrong-typed field, or a key the request could not set stops the companion
+  with the path and field named; it used to load and fail every render.
+- **A bad `out` is refused before rendering** (a NUL byte, a path component
+  over 255 bytes), and a write that fails is reported as `could not write
+  <path>` rather than as a render failure.
+- **The server exits when the client leaves.** A startup timer in the engine
+  kept the process alive for a minute after stdin closed; a worker that
+  misses that deadline is now terminated.
+- **A bad `DONDOCS_RENDER_TIMEOUT_MS` is ignored** with a note on stderr;
+  it used to become NaN and abandon every render at once.
+- `dondocs_letter` declares `destructiveHint`, since it replaces the file at
+  `out`; `attnLine`, `throughLine`, `coordination` and `preparedBy` say which
+  types print them.
+
+### Changed
+
+- `references[].url` is no longer accepted; nothing past the companion
+  rendered it.
+- The subject-form endorsement (`FIRST ENDORSEMENT on ...` as the subject,
+  without the `endorsement` block) is withdrawn; the block is required.
+
 ## [1.2.151] — 2026-09-11
 
 ### Fixed

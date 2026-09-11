@@ -109,6 +109,11 @@ Endorsements take the ordinal and the letter being endorsed under
 `endorsement`, and are refused without it: a bare ENDORSEMENT heading is not a
 document.
 
+Classification is `classification.level`, or `classification.custom` for a
+banner outside the list, printed as given; not both. A paragraph may carry a
+`portionMarking` (U, CUI, FOUO, C, S, TS), printed before its text, and the
+banner rises to the highest mark in the document.
+
 ## Machine defaults
 
 A unit is a property of the box, not of the request. Put yours in
@@ -133,8 +138,13 @@ A unit is a property of the box, not of the request. Put yours in
 with the serial on the types that carry an SSIC.
 
 A missing file is normal, not an error — built-in fallbacks keep a fresh install
-rendering. Precedence is **request > config > fallback** at every field, so a
-caller can override the unit for one letter without editing anything.
+rendering. A file that exists but is not this shape (a wrong type, a key the
+request could not set either) stops the companion at startup with the path and
+the field named, the same as a file that is not JSON. Precedence is
+**request > config > fallback** at every field, so a caller can override the
+unit for one letter without editing anything. The unit line under the
+department heading is `name` (or `line1`, the app's name for the same line);
+with neither, only the heading prints.
 
 `GET /health` reports the loaded `unit` and `signature`; over MCP the same
 values, plus `ssic`, `originatorCode` and the config path, are the
@@ -145,7 +155,8 @@ Override the location with `DONDOCS_CONFIG`, the port with `DONDOCS_PORT`, and
 the output root with `DONDOCS_OUT_ROOT`.
 
 `DONDOCS_RENDER_TIMEOUT_MS` bounds a render — 45s, covering both formats and
-both transports. The number is set against the caller's patience rather than
+both transports. A value that is not a positive number is ignored with a note
+on stderr. The number is set against the caller's patience rather than
 ours: agent HTTP tools commonly allow about a minute per call, so a companion
 that waited as long would expire at the same moment and hand the model an opaque
 transport timeout instead of a message naming what was slow.
