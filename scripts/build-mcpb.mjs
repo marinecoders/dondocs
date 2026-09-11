@@ -40,8 +40,12 @@ manifest.version = version;
 writeFileSync(join(STAGE, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
 
 const mcpb = join(OUT, `dondocs-${version}.mcpb`);
-execFileSync('npx', ['--yes', '@anthropic-ai/mcpb@2.1.2', 'validate', join(STAGE, 'manifest.json')], { stdio: 'inherit' });
-execFileSync('npx', ['--yes', '@anthropic-ai/mcpb@2.1.2', 'pack', STAGE, mcpb], { stdio: 'inherit' });
+// The CLI is fetched by version rather than kept as a devDependency: its
+// interactive `init` pulls in a `tmp` release with a high advisory, and the
+// repo's audit gate has no exceptions. `validate` and `pack` never touch it.
+const MCPB = ['--yes', '@anthropic-ai/mcpb@2.1.2'];
+execFileSync('npx', [...MCPB, 'validate', join(STAGE, 'manifest.json')], { stdio: 'inherit' });
+execFileSync('npx', [...MCPB, 'pack', STAGE, mcpb], { stdio: 'inherit' });
 const sha = createHash('sha256').update(readFileSync(mcpb)).digest('hex');
 writeFileSync(`${mcpb}.sha256`, `${sha}  ${basename(mcpb)}\n`);
 console.log(`${mcpb}\nsha256 ${sha}`);
