@@ -27,10 +27,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
 
       - name: Resolve version
         id: v
         run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      # The companion as a client installs it: the built server packed as an
+      # MCP Bundle, with its checksum beside it.
+      - name: Build the MCP Bundle
+        run: |
+          npm ci
+          npm run build:companion
+          npm run build:mcpb
 
       - name: Create release if it doesn't exist
         env:
@@ -50,4 +62,6 @@ jobs:
           if [ ! -s notes.md ]; then
             printf 'Release %s\n' "$tag" > notes.md
           fi
-          gh release create "$tag" --target "${{ github.sha }}" --title "$tag" --notes-file notes.md
+          gh release create "$tag" --target "${{ github.sha }}" --title "$tag" --notes-file notes.md \
+            "dist-mcpb/dondocs-${{ steps.v.outputs.version }}.mcpb" \
+            "dist-mcpb/dondocs-${{ steps.v.outputs.version }}.mcpb.sha256"
