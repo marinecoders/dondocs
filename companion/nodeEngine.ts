@@ -113,6 +113,9 @@ export async function createNodeEngine(): Promise<LatexEngine & { dispose(): Pro
   let pendingCompile: ((r: CompileResult) => void) | null = null;
   let compileFailed: ((e: Error) => void) | null = null;
 
+  // The deadline lives only as long as this wait: armed past it, it would hold
+  // the process open for a minute after the client has gone.
+  let deadline: NodeJS.Timeout | undefined;
   await new Promise<void>((resolve, reject) => {
     const onReady = (msg: WorkerReply) => {
       if (msg?.result === 'ok' || msg?.cmd === 'ready' || msg?.cmd === 'r') {
@@ -123,8 +126,12 @@ export async function createNodeEngine(): Promise<LatexEngine & { dispose(): Pro
     };
     worker.on('message', onReady);
     worker.once('error', reject);
-    setTimeout(() => reject(new Error('engine did not become ready within 60s')), 60_000);
-  });
+    deadline = setTimeout(() => {
+      reject(new Error('engine did not become ready within 60s'));
+      // No caller ever receives this engine, so nothing else can dispose it.
+      void worker.terminate();
+    }, 60_000);
+  }).finally(() => clearTimeout(deadline));
 
   worker.on('message', (msg: WorkerReply) => {
     if (msg?.pdf && pendingCompile) {
