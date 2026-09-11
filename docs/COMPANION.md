@@ -156,7 +156,9 @@ values, plus `ssic`, `originatorCode` and the config path, are the
 edit to the file shows after a restart.
 
 Override the location with `DONDOCS_CONFIG`, the port with `DONDOCS_PORT`, and
-the output root with `DONDOCS_OUT_ROOT`.
+the output root with `DONDOCS_OUT_ROOT`. A root that still holds a host
+placeholder such as `${DOCUMENTS}/DonDocs` is ignored with a note on stderr
+and the default used.
 
 `DONDOCS_RENDER_TIMEOUT_MS` bounds a render — 45s, covering both formats and
 both transports. A value that is not a positive number is ignored with a note
@@ -229,9 +231,12 @@ There are three ways to install it, in order of least setup.
 **The bundle.** Each release carries `dondocs-<version>.mcpb`, the built
 server packed as an MCP Bundle, with its SHA-256 beside it. A client that
 takes bundles (the desktop apps for macOS and Windows do) installs it when you
-open the file, asks for the output folder, and runs it with the Node it ships,
-so nothing else is installed. PDF needs nothing more; DOCX needs `pandoc` on
-PATH. To build it yourself: `npm run build:companion && npm run build:mcpb`
+open the file and runs it with the Node it ships, so nothing else is
+installed. It is on as soon as it is installed: letters go to
+`Documents/DonDocs` until the Output folder setting says otherwise. (The
+desktop app leaves an extension off after install while any of its settings
+is marked required, default or no default, so none of ours is.) PDF needs
+nothing more; DOCX needs `pandoc` on PATH. To build it yourself: `npm run build:companion && npm run build:mcpb`
 writes `dist-mcpb/dondocs-<version>.mcpb`.
 
 **The built file.** `npm run build:companion` writes `dist-companion/`: the
