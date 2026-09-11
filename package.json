@@ -10,6 +10,7 @@
     "companion": "vite-node companion/server.ts",
     "companion:mcp": "vite-node companion/mcp.ts",
     "build:companion": "vite build --config vite.companion.config.ts",
+    "build:mcpb": "node scripts/build-mcpb.mjs",
     "vendor-assets": "node scripts/vendor-assets.mjs",
     "generate-icons": "node scripts/generate-icons.mjs",
     "prebuild": "node scripts/vendor-assets.mjs && node scripts/generate-icons.mjs",

@@ -1,0 +1,85 @@
+{
+  "manifest_version": "0.3",
+  "name": "dondocs",
+  "display_name": "DonDocs",
+  "version": "0.0.0",
+  "description": "Render SECNAV M-5216.5 naval correspondence to PDF or DOCX from a chat: every letter, memorandum, endorsement and agreement type, with a unit directory and letter templates.",
+  "long_description": "DonDocs renders naval correspondence the way the manual prescribes: letterhead, seal, paragraph numbering, signature block, classification banners. The assistant supplies the content; the bundle writes a PDF or DOCX into the folder you choose. It runs entirely on this machine and reaches no network. DOCX output needs pandoc on PATH; PDF needs nothing else.",
+  "author": {
+    "name": "Marine Coders",
+    "url": "https://github.com/marinecoders"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marinecoders/dondocs"
+  },
+  "homepage": "https://github.com/marinecoders/dondocs",
+  "license": "MIT",
+  "icon": "icon.png",
+  "keywords": [
+    "naval correspondence",
+    "SECNAV M-5216.5",
+    "USMC",
+    "letters",
+    "PDF",
+    "DOCX"
+  ],
+  "server": {
+    "type": "node",
+    "entry_point": "companion/mcp.mjs",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/companion/mcp.mjs"
+      ],
+      "env": {
+        "DONDOCS_OUT_ROOT": "${user_config.output_dir}",
+        "DONDOCS_CONFIG": "${user_config.config_path}"
+      }
+    }
+  },
+  "user_config": {
+    "output_dir": {
+      "type": "directory",
+      "title": "Output folder",
+      "description": "Where rendered letters are written. Nothing is written anywhere else.",
+      "required": true,
+      "default": "${DOCUMENTS}/DonDocs"
+    },
+    "config_path": {
+      "type": "file",
+      "title": "Machine defaults file",
+      "description": "Optional companion.config.json with your unit, signer, SSIC and originator code, so they need not be given on every letter. Leave blank to use ~/.dondocs/companion.config.json if it exists.",
+      "required": false
+    }
+  },
+  "tools": [
+    {
+      "name": "dondocs_letter",
+      "description": "Render a letter, memorandum, endorsement or agreement to PDF or DOCX"
+    },
+    {
+      "name": "dondocs_unit_lookup",
+      "description": "Find a unit's letterhead and mailing address in the bundled directory"
+    },
+    {
+      "name": "dondocs_template_list",
+      "description": "List the bundled letter templates"
+    },
+    {
+      "name": "dondocs_template_get",
+      "description": "Fetch a template as a starting draft"
+    }
+  ],
+  "compatibility": {
+    "platforms": [
+      "darwin",
+      "win32",
+      "linux"
+    ],
+    "runtimes": {
+      "node": ">=20"
+    }
+  },
+  "prompts_generated": true
+}
