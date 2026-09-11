@@ -22,7 +22,7 @@ import { pathToFileURL } from 'node:url';
 import * as z from 'zod';
 import { LETTER_TEMPLATES } from '../src/data/templates';
 import { lookupUnits } from './unitLookup';
-import { loadDefaults } from './letterInput';
+import { CONFIG_PATH, loadDefaults } from './letterInput';
 import { letterSchema } from './letterSchema';
 import { OutsideSandboxError, DEFAULT_ROOT } from './outputPath';
 import { renderToFile } from './renderToFile';
@@ -50,8 +50,34 @@ const templateIds = (prefix: string) => LETTER_TEMPLATES.map((t) => t.id).filter
 
 const defaults = await loadDefaults();
 
+// Handed to the model at connect time: the order the tools go in, which no
+// single tool description can say.
+const INSTRUCTIONS = `DonDocs renders SECNAV M-5216.5 correspondence with dondocs_letter; files are written under ${ROOT}. `
+  + 'Before calling it, settle the originating unit: omit unit to use the machine defaults (read dondocs://defaults to see them), '
+  + 'or find one with dondocs_unit_lookup. '
+  + 'To start from a template, read dondocs://templates/{id} or use dondocs_template_list and dondocs_template_get. '
+  + 'Then call dondocs_letter with the content.';
+
 const handle = serveStdio(() => {
-  const server = new McpServer({ name: 'dondocs', version: '1' });
+  const server = new McpServer({ name: 'dondocs', version: '1' }, { instructions: INSTRUCTIONS });
+
+  // What the config file sets for a render that omits `unit` or `signature`,
+  // and where to change it. The snapshot the renders use, so an edit shows
+  // after a restart. Nulls fall through to toStore's built-in fallbacks.
+  server.registerResource('defaults', 'dondocs://defaults', {
+    title: 'Machine defaults',
+    description: 'The unit, signature, SSIC and originator code the config file sets for a letter that omits them, as loaded at startup, and the path of that file. '
+      + 'A null unit or SSIC falls back to a UNITED STATES MARINE CORPS letterhead and SSIC 5216; a null signature or originator code leaves that block empty.',
+    mimeType: 'application/json',
+  }, async (uri) => ({
+    contents: [{ uri: uri.href, mimeType: 'application/json', text: JSON.stringify({
+      path: CONFIG_PATH,
+      unit: defaults.unit ?? null,
+      signature: defaults.signature ?? null,
+      ssic: defaults.ssic ?? null,
+      originatorCode: defaults.originatorCode ?? null,
+    }) }],
+  }));
 
   server.registerTool('dondocs_template_list', {
     title: 'List letter templates',
@@ -111,7 +137,7 @@ const handle = serveStdio(() => {
       template
         ? `Start from the "${template.name}" template attached below: keep its structure, fill each bracketed placeholder from what I tell you, and ask for anything it needs that I have not given.`
         : 'Ask me for the subject and what the letter needs to say, then write the paragraphs.',
-      'Look the originating unit up with dondocs_unit_lookup rather than guessing an address, and confirm the addressee with me.',
+      'For the originating unit, use the machine defaults (dondocs://defaults) or look it up with dondocs_unit_lookup; do not guess an address. Confirm the addressee with me.',
       `Render with dondocs_letter${type ? ` using docType "${type}"` : ''} and tell me the path of the file it wrote.`,
     ].join(' ');
     return {

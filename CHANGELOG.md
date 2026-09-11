@@ -5,6 +5,16 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.150] — 2026-09-10
+
+### Added
+
+- **MCP: server instructions and a defaults resource.** The companion tells a
+  connecting client how its tools fit together (look the unit up or use the
+  defaults, start from a template or not, then render), and publishes the
+  machine defaults a render will use as `dondocs://defaults`, with the path of
+  the config file that sets them.
+
 ## [1.2.149] — 2026-09-10
 
 ### Added

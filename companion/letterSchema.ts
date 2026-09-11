@@ -110,8 +110,8 @@ export const letterSchema = z.object({
   copyTo: z.array(z.string()).optional(),
   distribution: z.array(z.string()).optional(),
 
-  unit: unit.optional().describe('Omit to use the machine defaults from ~/.dondocs/companion.config.json.'),
-  signature: signature.optional().describe('Omit to use the machine defaults.'),
+  unit: unit.optional().describe('Omit to use the machine defaults; dondocs://defaults (MCP) or GET /health (HTTP) show them.'),
+  signature: signature.optional().describe('Omit to use the machine defaults; dondocs://defaults (MCP) or GET /health (HTTP) show them.'),
 
   classification: classification.optional()
     .describe('Omit for an unclassified document. The banner is the higher of this and any portion mark.'),
