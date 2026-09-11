@@ -81,7 +81,7 @@ const INSTRUCTIONS = `DonDocs renders SECNAV M-5216.5 correspondence with dondoc
   + 'or find one with dondocs_unit_lookup. Give the From and To lines: letters, endorsements and memoranda print the labels even when they are empty. '
   + `To start from a template, call dondocs_template_get with one of ${TEMPLATE_IDS.join(', ')}, or read dondocs://templates/{id}; dondocs_template_list describes them. `
   + 'A render takes under a second, so call dondocs_letter once the facts are in hand rather than drafting in chat first; '
-  + 'share the file it names with the user when a tool of yours can, and revise by calling it again with the out it reports.';
+  + 'show the user the file it names with present_files when that tool is available, and revise by calling it again with the out it reports.';
 
 const handle = serveStdio(() => {
   const server = new McpServer({ name: 'dondocs', version: '1' }, { instructions: INSTRUCTIONS });
@@ -166,7 +166,7 @@ const handle = serveStdio(() => {
       ...(type && ENDORSEMENT_TYPES.includes(type)
         ? ['Ask me for the endorsement ordinal (FIRST, SECOND ...) and the identification of the letter being endorsed, and pass them as endorsement.ordinal and endorsement.basicLetterId; the render is refused without them.']
         : []),
-      `Render with dondocs_letter${type ? ` using docType "${type}"` : ''} and tell me the path of the file it wrote.`,
+      `Render with dondocs_letter${type ? ` using docType "${type}"` : ''}; its result says how to show me the file.`,
     ].join(' ');
     return {
       messages: [
@@ -257,7 +257,7 @@ const handle = serveStdio(() => {
       description:
         'Render SECNAV M-5216.5 correspondence, every letter, memorandum, endorsement and agreement type the app defines (see the docType enum), to a PDF or DOCX file. '
         + 'Formatting, letterhead, seal, paragraph numbering and the signature block are handled for you; supply content only. '
-        + 'Returns the path to the written file, not the document itself. '
+        + 'Returns the path to the written file, not the document itself; show the file to the user with present_files when that tool is available. '
         + `Files are written under ${ROOT}. `
         + 'A render takes under a second: call this once the facts are in hand, and to revise call it again with out set to the name it reports, which replaces that file.',
       inputSchema: letterSchema,
@@ -300,7 +300,7 @@ const handle = serveStdio(() => {
             {
               type: 'text' as const,
               text: `Wrote ${file.format.toUpperCase()} (${file.bytes.toLocaleString()} bytes) to ${file.path}\n`
-                + `Share the file with the user if a tool of yours can, else give the path. To revise, call again with out "${out}" to replace it.`,
+                + `Show it in the chat with present_files (file_path as above) if that tool is available; otherwise give the path. To revise, call again with out "${out}" to replace it.`,
             },
             ...link,
           ],
