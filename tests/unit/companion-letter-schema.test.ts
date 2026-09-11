@@ -11,6 +11,7 @@ import * as z from 'zod';
 import { letterSchema, acceptedFields } from '../../companion/letterSchema';
 import { toStore, templateFor } from '../../companion/letterInput';
 import type { LetterInput } from '../../companion/letterInput';
+import { PORTION_MARKINGS } from '../../companion/validateLetter';
 import { generateAllLatexFiles } from '../../src/services/latex/generator';
 import { generateFlatLatex } from '../../src/services/latex/flat-generator';
 
@@ -246,5 +247,28 @@ describe('templateFor', () => {
   it('routes the addressee to the field executive memoranda read', () => {
     const store = toStore({ ...base, docType: 'memorandum', to: 'Commanding General' } as LetterInput, {});
     expect((store.formData as Record<string, unknown>).memorandumFor).toBe('Commanding General');
+  });
+});
+
+describe('portion marks', () => {
+  // The renderer prefixes each paragraph and raises the banner to the highest
+  // mark; the request never carried the field, so the promise in the
+  // classification description was empty.
+  it.each(PORTION_MARKINGS)('publishes %s and keeps it', (mark) => {
+    const r = letterSchema.safeParse({ ...base, paragraphs: [{ text: 'b', portionMarking: mark }] });
+    expect(r.success, JSON.stringify(r.error?.issues)).toBe(true);
+    expect((r.data as { paragraphs: Array<{ portionMarking?: string }> }).paragraphs[0].portionMarking).toBe(mark);
+  });
+
+  it('refuses a mark outside the list', () => {
+    expect(letterSchema.safeParse({ ...base, paragraphs: [{ text: 'b', portionMarking: 'X' }] }).success).toBe(false);
+  });
+
+  it('reaches the generator and raises the banner above the document level', () => {
+    const store = toStore({ ...base, classification: { level: 'cui' }, paragraphs: [{ text: 'Secret paragraph.', portionMarking: 'S' }] } as LetterInput, {});
+    expect((store.paragraphs as Array<{ portionMarking?: string }>)[0].portionMarking).toBe('S');
+    const tex = generateAllLatexFiles(store as never).texFiles;
+    expect(tex['classification.tex']).toMatch(/SECRET/);
+    expect(Object.values(tex).join('\n')).toContain('(S) ');
   });
 });

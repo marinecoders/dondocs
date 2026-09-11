@@ -21,6 +21,8 @@ export interface ParagraphInput {
   level?: number;
   /** Bold run-in heading before the text. */
   header?: string;
+  /** Printed as "(S) " before the text; the banner rises to the highest mark. */
+  portionMarking?: string;
 }
 
 export interface ReferenceInput {
@@ -309,7 +311,11 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
     },
 
     paragraphs: (input.paragraphs?.length ? input.paragraphs : [{ text: '', level: 0 }])
-      .map((p) => ({ text: p.text, level: p.level ?? 0, ...(p.header ? { header: p.header } : {}) })),
+      .map((p) => ({
+        text: p.text, level: p.level ?? 0,
+        ...(p.header ? { header: p.header } : {}),
+        ...(p.portionMarking ? { portionMarking: p.portionMarking } : {}),
+      })),
 
     references: (input.references ?? []).map((r, i) => ({
       letter: r.letter ?? referenceLetter(i),

@@ -10,7 +10,7 @@
  * @vitest-environment node
  */
 import { describe, it, expect } from 'vitest';
-import { validateLetter, DOC_TYPES, FORMATS, CLASSIFICATION_LEVELS } from '../../companion/validateLetter';
+import { validateLetter, DOC_TYPES, FORMATS, CLASSIFICATION_LEVELS, PORTION_MARKINGS } from '../../companion/validateLetter';
 
 const OK = { docType: 'naval_letter', subject: 'SUBJECT' } as const;
 
@@ -126,5 +126,16 @@ describe('classification', () => {
 
   it('accepts a custom banner alone', () => {
     expect(validateLetter({ ...OK, classification: { custom: 'X' } })).toEqual([]);
+  });
+});
+
+describe('portion marks', () => {
+  it('lists the marks the generator prints', () => {
+    expect(PORTION_MARKINGS).toEqual(['U', 'CUI', 'FOUO', 'C', 'S', 'TS']);
+  });
+
+  it('refuses a mark outside the list by paragraph: the generator places it in the .tex as given', () => {
+    const body = { ...OK, paragraphs: [{ text: 'a' }, { text: 'b', portionMarking: '\\input{x}' }] } as never;
+    expect(validateLetter(body).join(' ')).toMatch(/paragraphs\[1\]\.portionMarking/);
   });
 });

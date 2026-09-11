@@ -21,6 +21,8 @@ export const DOC_TYPES = [...Object.keys(DOC_TYPE_CONFIG), ...Object.keys(TEMPLA
 export const FORMATS = ['pdf', 'docx'];
 /** The levels the generator marks; anything else renders unmarked. */
 export const CLASSIFICATION_LEVELS = ['unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci'];
+/** Paragraph portion marks, placed in the .tex as given, so nothing else may pass. */
+export const PORTION_MARKINGS = ['U', 'CUI', 'FOUO', 'C', 'S', 'TS'];
 
 /** Everything wrong with a request, so one round-trip is enough to fix it. */
 export function validateLetter(body: Partial<LetterInput>): string[] {
@@ -49,6 +51,9 @@ export function validateLetter(body: Partial<LetterInput>): string[] {
   if (Array.isArray(body.paragraphs)) {
     body.paragraphs.forEach((para, i) => {
       if (typeof para?.text !== 'string') { problems.push(`paragraphs[${i}].text must be a string`); }
+      if (para?.portionMarking !== undefined && !PORTION_MARKINGS.includes(para.portionMarking)) {
+        problems.push(`paragraphs[${i}].portionMarking must be one of ${PORTION_MARKINGS.join(', ')}`);
+      }
     });
   }
   for (const [name, value] of [['unit', body.unit], ['signature', body.signature]] as const) {

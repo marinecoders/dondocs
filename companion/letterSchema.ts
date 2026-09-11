@@ -10,13 +10,15 @@
  * No import side effects, so a test can reach it — `mcp.ts` starts a server.
  */
 import * as z from 'zod';
-import { CLASSIFICATION_LEVELS, DOC_TYPES } from './validateLetter';
+import { CLASSIFICATION_LEVELS, DOC_TYPES, PORTION_MARKINGS } from './validateLetter';
 
 const paragraph = z.object({
   text: z.string().describe('The paragraph text. Plain prose — numbering is applied for you.'),
   level: z.number().int().min(0).max(7).optional()
     .describe('0 = "1.", 1 = "a.", 2 = "(1)" … through Figure 7-8\'s eight levels. Defaults to 0.'),
   header: z.string().optional().describe('Bold run-in heading before the text.'),
+  portionMarking: z.enum(PORTION_MARKINGS as [string, ...string[]]).optional()
+    .describe('Printed as "(S) " before the text. The banner rises to the highest mark in the document.'),
 });
 
 export const unit = z.object({
@@ -113,7 +115,7 @@ export const letterSchema = z.object({
   signature: signature.optional().describe('Omit to use the machine defaults; dondocs://defaults (MCP) or GET /health (HTTP) show them.'),
 
   classification: classification.optional()
-    .describe('Omit for an unclassified document. The banner is the higher of this and any portion mark.'),
+    .describe('Omit for an unclassified document. The banner is the higher of level and any paragraphs[].portionMarking; a custom banner is printed as given and not raised.'),
   pocEmail: z.string().optional().describe('CUI point of contact, shown in the CUI designation block.'),
 
   parties: parties.optional().describe('Required for joint_letter, joint_memorandum, moa and mou; ignored elsewhere.'),
