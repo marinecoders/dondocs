@@ -5,6 +5,18 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.158] — 2026-09-11
+
+### Fixed
+
+- **The bundle is on as soon as it is installed.** The Output folder setting
+  was marked required, and the desktop app leaves an extension off after
+  install while any setting is required, default or no default, so every
+  install began with a search for the switch. The setting is optional now,
+  with the same `Documents/DonDocs` default. A root that reaches the server
+  with the host's placeholder unexpanded is ignored, with a note on stderr,
+  rather than made into a folder of that name.
+
 ## [1.2.157] — 2026-09-11
 
 ### Fixed
