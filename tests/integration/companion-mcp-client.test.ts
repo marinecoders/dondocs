@@ -71,7 +71,7 @@ describe('a protocol client', () => {
   it('tells the model how the tools fit together', () => {
     const instructions = client.getInstructions() ?? '';
     expect(instructions).toContain(root);
-    for (const name of ['dondocs_unit_lookup', 'dondocs_template_get', 'dondocs_letter', 'dondocs://defaults']) {
+    for (const name of ['dondocs_unit_lookup', 'dondocs_template_get', 'dondocs_letter', 'dondocs://defaults', 'From']) {
       expect(instructions).toContain(name);
     }
   });
@@ -95,13 +95,18 @@ describe('a protocol client', () => {
     // classification was missing here while the HTTP door honoured it.
     expect(props).toEqual(expect.arrayContaining(['docType', 'subject', 'paragraphs', 'unit', 'classification']));
     expect(schema.required).toContain('docType');
+    // Every letter and memorandum layout prints From:, the MFR included; a
+    // request that omits it gets an empty label, so the description says so.
+    for (const field of ['from', 'to']) {
+      expect((schema.properties![field] as { description: string }).description, field).toMatch(/memorand/i);
+    }
     expect(schema.additionalProperties, 'an unnamed field must be refused, not stripped').toBe(false);
     // It replaces the file at `out`, which is not the additive-only behaviour
     // destructiveHint false denotes.
     expect(tools.find((t) => t.name === 'dondocs_letter')!.annotations).toMatchObject({
-      readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: false,
+      readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: false,
     });
-    expect((schema.properties!.out as { description: string }).description).toMatch(/replaced/);
+    expect((schema.properties!.out as { description: string }).description).toMatch(/replace/);
   }, 60_000);
 
   it('publishes an output schema for every tool', async () => {
@@ -200,6 +205,7 @@ describe('a protocol client', () => {
     expect(bare.messages[0].role).toBe('user');
     const instructions = (bare.messages[0].content as { text: string }).text;
     expect(instructions).toContain('joint_letter');
+    expect(instructions).toMatch(/From and To/);
     expect(instructions).toContain('dondocs_unit_lookup');
     expect(instructions).toContain('dondocs_letter');
 
@@ -253,7 +259,7 @@ describe('a protocol client', () => {
     expect((await lookup('SVP')).matches).toEqual(selected.matches);
     expect((await lookup('016')).total).toBeGreaterThan(1);
     expect(await lookup('Marine Innovation Unit', 2)).toMatchObject({ total: 7, truncated: true });
-    expect((await lookup('MIU')).matches).toEqual([]);
+    expect((await lookup('MIU')).matches).toEqual(all.matches);
     expect((await lookup('no-such-unit-xyz')).matches).toEqual([]);
     const result = await client.callTool({ name: 'dondocs_letter', arguments: {
       docType: 'naval_letter', subject: 'LOOKUP CHECK', out: 'lookup.pdf',

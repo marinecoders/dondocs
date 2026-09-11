@@ -62,8 +62,10 @@ Requests are capped at 1 MB, and `out` is resolved inside the output root and
 refused if it escapes. `out` is chosen by a model composing JSON, so
 `../../../../etc/passwd` is a realistic input rather than a hypothetical one.
 A file already at `out` is replaced; the MCP tool says so with
-`destructiveHint`. A write that fails is reported as `could not write <path>`,
-not as a render failure.
+`destructiveHint`. With `out` omitted the name is a slug of the subject, and
+a name already taken gets the next number (`subject-2.pdf`), so a repeated
+subject never writes over an earlier letter. A write that fails is reported
+as `could not write <path>`, not as a render failure.
 
 ## Document types
 
@@ -308,9 +310,8 @@ MCC, or location). It returns `matches`, `total`, `truncated`, and directory
 source/date metadata. Results default to 20; optional `limit` accepts 1–50.
 Each match contains an MCC and a `unit` object ready for `dondocs_letter`.
 
-For example, `Marine Innovation Unit` returns seven locations (`MIU` returns
-none: acronyms are not expanded). Ask which location the user means, then
-narrow with `{"query":"Marine Innovation Unit Newburgh"}`. Pass that match's `unit` object
+For example, `MIU` or `Marine Innovation Unit` returns seven locations. Ask
+which location the user means, then narrow with `{"query":"MIU Newburgh"}`. Pass that match's `unit` object
 unchanged in the letter request. No additional lookup or identifier is needed.
 MCC values are searchable but are not always unique. When results are truncated,
 narrow the query; when no units match, ask for another name, MCC, or location.

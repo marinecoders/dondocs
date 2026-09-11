@@ -29,6 +29,31 @@ export interface RenderedFile {
   bytes: number;
 }
 
+/** `name.pdf`, then `name-2.pdf`, `name-3.pdf` ... */
+function numbered(name: string, i: number): string {
+  if (i === 1) { return name; }
+  const dot = name.lastIndexOf('.');
+  return `${name.slice(0, dot)}-${i}${name.slice(dot)}`;
+}
+
+/**
+ * The default name never replaces a file: the same subject rendered again
+ * takes the next free number. The name is claimed by the write itself
+ * (exclusive create), so two renders of one subject at once cannot land on
+ * the same file. A given `out` replaces, as its description says.
+ */
+async function writeFree(name: string, root: string, bytes: Uint8Array): Promise<string> {
+  for (let i = 1; ; i++) {
+    const target = resolveOutputPath(numbered(name, i), root);
+    try {
+      await writeFile(target, bytes, { flag: 'wx' });
+      return target;
+    } catch (err) {
+      if ((err as NodeJS.ErrnoException).code !== 'EEXIST') { throw new OutputWriteError(target, err); }
+    }
+  }
+}
+
 /**
  * Throws `OutsideSandboxError` when `input.out` escapes `root` — before any
  * rendering happens, so a refused request costs nothing and writes nothing.
@@ -39,7 +64,9 @@ export async function renderToFile(
   root: string,
 ): Promise<RenderedFile> {
   const format = input.format ?? 'pdf';
-  const target = resolveOutputPath(input.out ?? filenameFor(input.subject, format), root);
+  // A given `out` is checked before the render; the default name is a slug
+  // and cannot escape, so it is resolved at the write.
+  const named = input.out === undefined ? undefined : resolveOutputPath(input.out, root);
 
   // Bound the render against the caller's patience rather than our own, and
   // cancel the work when the deadline wins: a wedged compile would otherwise
@@ -57,11 +84,13 @@ export async function renderToFile(
     format === 'pdf' ? renderPdf(input, defaults, { signal: abort.signal }) : renderDocx(input, defaults),
     deadline,
   ]).finally(() => clearTimeout(timer));
+  let target = named ?? root;
   try {
-    await mkdir(dirname(target), { recursive: true });
-    await writeFile(target, bytes);
+    await mkdir(named ? dirname(named) : root, { recursive: true });
+    if (named) { await writeFile(named, bytes); }
+    else { target = await writeFree(filenameFor(input.subject, format), root, bytes); }
   } catch (err) {
-    throw new OutputWriteError(target, err);
+    throw err instanceof OutputWriteError ? err : new OutputWriteError(target, err);
   }
 
   return { format, path: target, bytes: bytes.byteLength };
