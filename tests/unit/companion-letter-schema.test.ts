@@ -7,6 +7,7 @@
  * dropped.
  */
 import { describe, it, expect } from 'vitest';
+import * as z from 'zod';
 import { letterSchema, acceptedFields } from '../../companion/letterSchema';
 import { toStore, templateFor } from '../../companion/letterInput';
 import type { LetterInput } from '../../companion/letterInput';
@@ -46,6 +47,11 @@ describe('the published schema', () => {
     // It was merged last, so it could overwrite any generator field the schema
     // guards with an enum, the classification banner included.
     expect(letterSchema.safeParse({ ...base, formData: { fontSize: '10pt' } }).success).toBe(false);
+  });
+
+  it('publishes no reference url, since the companion never renders one', () => {
+    const item = z.toJSONSchema(letterSchema).properties!.references as { items: { properties: Record<string, unknown> } };
+    expect(Object.keys(item.items.properties).sort()).toEqual(['letter', 'title']);
   });
 
   it('accepts only a letter for a reference letter', () => {

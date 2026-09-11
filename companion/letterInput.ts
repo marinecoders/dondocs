@@ -27,7 +27,6 @@ export interface ReferenceInput {
   /** (a), (b) … assigned in order when omitted, which is what a caller expects. */
   letter?: string;
   title: string;
-  url?: string;
 }
 
 export interface EnclosureInput {
@@ -313,7 +312,6 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
     references: (input.references ?? []).map((r, i) => ({
       letter: r.letter ?? referenceLetter(i),
       title: r.title,
-      ...(r.url ? { url: r.url } : {}),
     })),
     enclosures: (input.enclosures ?? []).map((e) => ({ title: e.title })),
     copyTos: (input.copyTo ?? []).map((text) => ({ text })),

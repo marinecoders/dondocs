@@ -104,7 +104,6 @@ export const letterSchema = z.object({
   references: z.array(z.object({
     letter: z.string().regex(/^[a-z]{1,2}$/).optional().describe('One or two lowercase letters. Assigned a, b … in order when omitted.'),
     title: z.string(),
-    url: z.string().optional(),
   })).optional().describe('Lettered (a), (b) … in the order given.'),
   enclosures: z.array(z.object({ title: z.string() })).optional(),
   copyTo: z.array(z.string()).optional(),

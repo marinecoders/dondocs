@@ -72,9 +72,9 @@ describe('collections', () => {
     expect((s.references as Array<{ letter: string }>)[0].letter).toBe('z');
   });
 
-  it('carries a reference url through when given', () => {
-    const s = toStore({ docType: 'naval_letter', references: [{ title: 'T', url: 'https://example.mil/x' }] });
-    expect((s.references as Array<{ url?: string }>)[0].url).toBe('https://example.mil/x');
+  it('does not carry a reference url: nothing the companion runs renders one', () => {
+    const s = toStore({ docType: 'naval_letter', references: [{ title: 'T', url: 'https://example.mil/x' } as never] });
+    expect(s.references).toEqual([{ letter: 'a', title: 'T' }]);
   });
 
   it('rolls past z into aa', () => {

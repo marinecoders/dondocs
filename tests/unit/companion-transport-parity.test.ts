@@ -56,7 +56,7 @@ const CASES: Array<[string, Record<string, unknown>]> = [
     via: ['First Via', 'Second Via'],
     ssic: '1500', serial: '001', date: '8 Aug 26', originatorCode: 'S-6',
     paragraphs: [{ text: 'One.', level: 0, header: 'Background' }, { text: 'Two.', level: 1 }],
-    references: [{ letter: 'a', title: 'Ref one', url: 'https://example.mil' }, { title: 'Ref two' }],
+    references: [{ letter: 'a', title: 'Ref one' }, { title: 'Ref two' }],
     enclosures: [{ title: 'Encl one' }],
     copyTo: ['Copy A'], distribution: ['Dist A'],
     unit: {
