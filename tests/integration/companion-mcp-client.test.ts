@@ -30,9 +30,9 @@ let root: string;
 
 const text = (r: unknown): string =>
   ((r as { content?: Array<{ text?: string }> }).content ?? []).map((c) => c.text ?? '').join('');
-const pathOf = (r: unknown): string | undefined => (text(r).match(/ to (.+)$/) ?? [])[1];
 const isError = (r: unknown): boolean => (r as { isError?: boolean }).isError === true;
 const structured = (r: unknown): unknown => (r as { structuredContent?: unknown }).structuredContent;
+const pathOf = (r: unknown): string | undefined => (structured(r) as { path?: string } | undefined)?.path;
 const blocks = (r: unknown, type: string): Array<Record<string, unknown>> =>
   ((r as { content?: Array<Record<string, unknown>> }).content ?? []).filter((c) => c.type === type);
 
@@ -74,6 +74,13 @@ describe('a protocol client', () => {
     for (const name of ['dondocs_unit_lookup', 'dondocs_template_get', 'dondocs_letter', 'dondocs://defaults', 'From']) {
       expect(instructions).toContain(name);
     }
+    // Each tool call is a model turn. The ids are here so a template needs one
+    // call, not a list and then a get; the revise sentence so a second draft is
+    // a render, not a rewrite in chat.
+    for (const { id } of LETTER_TEMPLATES) {
+      expect(instructions).toContain(id);
+    }
+    expect(instructions).toMatch(/revise .*\bout\b/);
   });
 
   it('answers ping', async () => {
@@ -123,6 +130,12 @@ describe('a protocol client', () => {
         readOnlyHint: true, idempotentHint: true, destructiveHint: false, openWorldHint: false,
       });
     }
+    // The ids are an enum on the get tool, so a model that knows which template
+    // it wants skips the list.
+    const idSchema = (tools.find((tool) => tool.name === 'dondocs_template_get')!.inputSchema as {
+      properties: { id: { enum?: string[] } };
+    }).properties.id;
+    expect(idSchema.enum).toEqual(LETTER_TEMPLATES.map((t) => t.id));
     const result = await client.callTool({ name: 'dondocs_template_list', arguments: {} });
     expect(isError(result), text(result)).toBe(false);
     const summaries = LETTER_TEMPLATES.map(({ id, name, category, description }) => ({ id, name, category, description }));
@@ -239,7 +252,10 @@ describe('a protocol client', () => {
   it('returns a recoverable error for an unknown template ID', async () => {
     const result = await client.callTool({ name: 'dondocs_template_get', arguments: { id: 'no-such-template' } });
     expect(isError(result)).toBe(true);
-    expect(text(result)).toMatch(/Unknown template ID.*dondocs_template_list/);
+    // Naming the valid ids saves the model a list call.
+    for (const { id } of LETTER_TEMPLATES) {
+      expect(text(result)).toContain(id);
+    }
     await expect(client.ping()).resolves.toBeDefined();
   });
 
@@ -368,6 +384,8 @@ describe('a protocol client', () => {
     } });
     expect(isError(res), text(res)).toBe(false);
     expect(text(res)).toMatch(/^Wrote DOCX/);
+    // The name to pass as `out` to replace this file, and the request to share it.
+    expect(text(res)).toMatch(/\nShare the file .*out "client\.docx"/);
     expect(structured(res)).toMatchObject({ format: 'docx', path: expect.stringMatching(/client\.docx$/) });
     expect(blocks(res, 'resource_link')[0]).toMatchObject({
       mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',

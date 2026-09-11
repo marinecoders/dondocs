@@ -19,7 +19,7 @@ import {
 } from '@modelcontextprotocol/server';
 import type { ClientCapabilities, ServerContext } from '@modelcontextprotocol/server';
 import { serveStdio } from '@modelcontextprotocol/server/stdio';
-import { basename } from 'node:path';
+import { basename, relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import * as z from 'zod';
 import { LETTER_TEMPLATES } from '../src/data/templates';
@@ -68,16 +68,20 @@ const optionalArgs = <T extends z.ZodObject>(schema: T): T => ({
 const TEMPLATE_URI = 'dondocs://templates/{id}';
 const templateUri = (id: string) => TEMPLATE_URI.replace('{id}', id);
 const templateIds = (prefix: string) => LETTER_TEMPLATES.map((t) => t.id).filter((id) => id.startsWith(prefix));
+const TEMPLATE_IDS = templateIds('') as [string, ...string[]];
 
 const defaults = await loadDefaults();
 
 // Handed to the model at connect time: the order the tools go in, which no
-// single tool description can say.
+// single tool description can say. Every call is a model turn, so the
+// template ids are here and the render is asked for early: a letter from the
+// user's own words is one call, from a template two.
 const INSTRUCTIONS = `DonDocs renders SECNAV M-5216.5 correspondence with dondocs_letter; files are written under ${ROOT}. `
-  + 'Before calling it, settle the originating unit: omit unit to use the machine defaults (read dondocs://defaults to see them), '
+  + 'Settle the originating unit first: omit unit to use the machine defaults (read dondocs://defaults to see them), '
   + 'or find one with dondocs_unit_lookup. Give the From and To lines: letters, endorsements and memoranda print the labels even when they are empty. '
-  + 'To start from a template, read dondocs://templates/{id} or use dondocs_template_list and dondocs_template_get. '
-  + 'Then call dondocs_letter with the content.';
+  + `To start from a template, call dondocs_template_get with one of ${TEMPLATE_IDS.join(', ')}, or read dondocs://templates/{id}; dondocs_template_list describes them. `
+  + 'A render takes under a second, so call dondocs_letter once the facts are in hand rather than drafting in chat first; '
+  + 'share the file it names with the user when a tool of yours can, and revise by calling it again with the out it reports.';
 
 const handle = serveStdio(() => {
   const server = new McpServer({ name: 'dondocs', version: '1' }, { instructions: INSTRUCTIONS });
@@ -102,9 +106,9 @@ const handle = serveStdio(() => {
 
   server.registerTool('dondocs_template_list', {
     title: 'List letter templates',
-    description: 'List all available letter templates with their ID, name, category, and description. '
-      + 'Choose a template matching the user\'s intent, then call dondocs_template_get with its ID. '
-      + 'Ask the user if multiple matches are plausible; explain when no template fits.',
+    description: 'List the bundled letter templates with their ID, name, category and description. '
+      + 'dondocs_template_get names the IDs itself, so when the user\'s wording points to one, skip this and call that. '
+      + 'Ask the user if several templates fit; explain when none does.',
     inputSchema: z.object({}).strict(),
     outputSchema: templateListResult,
     annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
@@ -180,19 +184,20 @@ const handle = serveStdio(() => {
 
   server.registerTool('dondocs_template_get', {
     title: 'Get a letter template',
-    description: 'Return the complete letter template for an ID from dondocs_template_list. '
+    description: 'Return the complete letter template for an ID; dondocs_template_list describes each. '
       + 'Use it as a starting draft: ask the user for bracketed placeholders and missing correspondence details. '
       + 'Interpret each placeholder in context, preserve supplied facts, and never invent missing information. '
       + 'When ready, pass the completed letter fields to dondocs_letter; omit template metadata (id, name, category, description). '
       + 'An endorsement template also needs endorsement.ordinal and endorsement.basicLetterId.',
-    inputSchema: z.object({ id: z.string().min(1).describe('Exact template ID from dondocs_template_list.') }).strict(),
+    inputSchema: z.object({ id: z.enum(TEMPLATE_IDS).describe('Template ID.') }).strict(),
     outputSchema: templateResult,
     annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   }, async ({ id }) => {
     const template = LETTER_TEMPLATES.find((entry) => entry.id === id);
+    // The enum refuses an unknown id before this runs, with the same list.
     if (!template) {
       return {
-        content: [{ type: 'text' as const, text: `Unknown template ID: ${id}. Call dondocs_template_list to find available IDs.` }],
+        content: [{ type: 'text' as const, text: `Unknown template ID: ${id}. The IDs are ${TEMPLATE_IDS.join(', ')}.` }],
         isError: true,
       };
     }
@@ -250,10 +255,11 @@ const handle = serveStdio(() => {
     {
       title: 'Write a naval letter',
       description:
-        'Render SECNAV M-5216.5 correspondence — every letter, memorandum, endorsement and agreement type the app defines; see the docType enum — to a PDF or DOCX file. '
+        'Render SECNAV M-5216.5 correspondence, every letter, memorandum, endorsement and agreement type the app defines (see the docType enum), to a PDF or DOCX file. '
         + 'Formatting, letterhead, seal, paragraph numbering and the signature block are handled for you; supply content only. '
         + 'Returns the path to the written file, not the document itself. '
-        + `Files are written under ${ROOT}.`,
+        + `Files are written under ${ROOT}. `
+        + 'A render takes under a second: call this once the facts are in hand, and to revise call it again with out set to the name it reports, which replaces that file.',
       inputSchema: letterSchema,
       outputSchema: renderResult,
       annotations: {
@@ -286,11 +292,15 @@ const handle = serveStdio(() => {
           mimeType: MIME[file.format],
           size: file.bytes,
         }] : [];
+        // The name `out` takes to replace this file: the path relative to
+        // the root, which is what the caller gave or what the subject became.
+        const out = relative(resolve(ROOT), file.path);
         return {
           content: [
             {
               type: 'text' as const,
-              text: `Wrote ${file.format.toUpperCase()} (${file.bytes.toLocaleString()} bytes) to ${file.path}`,
+              text: `Wrote ${file.format.toUpperCase()} (${file.bytes.toLocaleString()} bytes) to ${file.path}\n`
+                + `Share the file with the user if a tool of yours can, else give the path. To revise, call again with out "${out}" to replace it.`,
             },
             ...link,
           ],
