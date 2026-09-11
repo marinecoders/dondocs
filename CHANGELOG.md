@@ -5,6 +5,18 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.157] — 2026-09-11
+
+### Fixed
+
+- **The letter appears in the chat.** The desktop app puts a file in the
+  chat only when the model calls its own `present_files` tool on the path,
+  and "share the file if a tool of yours can" did not make it do so. The
+  render result, the tool description and the instructions now name the
+  tool. Returning the document itself is not an option there: the app
+  forwards an embedded document to the model as an image, which the API
+  refuses.
+
 ## [1.2.156] — 2026-09-11
 
 ### Changed
