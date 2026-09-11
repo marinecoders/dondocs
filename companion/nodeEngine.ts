@@ -17,10 +17,9 @@ import { fileURLToPath } from 'node:url';
 import type { LatexEngine, CompileResult, TexlivePackage } from '@/services/latex/latexEngine';
 import type { EngineAssets } from '@/services/latex/renderDocument';
 import { LATEX } from '@/lib/constants';
+import { ATTACHMENTS, LIB } from './assets';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const LIB = join(HERE, '..', 'public', 'lib');
-const ATTACHMENTS = join(HERE, '..', 'public', 'attachments');
 
 interface WorkerReply {
   result?: string;
