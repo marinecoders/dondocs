@@ -13,7 +13,9 @@
  *
  * stdout is the JSON-RPC channel; every diagnostic here goes to stderr.
  */
-import { McpServer, ProtocolError, ProtocolErrorCode, ResourceNotFoundError, ResourceTemplate, completable } from '@modelcontextprotocol/server';
+import {
+  McpServer, ProtocolError, ProtocolErrorCode, ResourceNotFoundError, ResourceTemplate, completable, inputRequired, inputResponse,
+} from '@modelcontextprotocol/server';
 import { serveStdio } from '@modelcontextprotocol/server/stdio';
 import { basename } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -34,6 +36,13 @@ const MIME = {
   pdf: 'application/pdf',
   docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 } as const;
+
+/** Whether the client can put a form in front of the user. A bare
+ * `elicitation: {}` means form mode, per the 2025 revisions. */
+const clientCanElicit = (server: McpServer): boolean => {
+  const declared = server.server.getClientCapabilities()?.elicitation;
+  return !!declared && (declared.form !== undefined || declared.url === undefined);
+};
 
 const TEMPLATE_URI = 'dondocs://templates/{id}';
 const templateUri = (id: string) => TEMPLATE_URI.replace('{id}', id);
@@ -143,7 +152,7 @@ const handle = serveStdio(() => {
     title: 'Find a unit mailing address',
     description: 'Search the bundled unit directory by recorded name, abbreviation, MCC, or location. No alias expansion. '
       + 'Pass a selected match\'s unit object directly to dondocs_letter. '
-      + 'If multiple units match, ask the user which unit or location they mean; MCC is not always unique. '
+      + 'If the result still lists several units, ask the user which unit or location they mean; MCC is not always unique. '
       + 'If truncated, narrow the query. If no matches, ask for another name, MCC, or location.',
     inputSchema: z.object({
       query: z.string().trim().min(1).max(200).describe('For example Marine Innovation Unit, Marine Innovation Unit Newburgh, 2/23, or SVP.'),
@@ -151,9 +160,31 @@ const handle = serveStdio(() => {
     }).strict(),
     outputSchema: unitLookupResult,
     annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
-  }, async ({ query, limit }) => {
+  }, async ({ query, limit }, ctx) => {
     try {
-      const result = await lookupUnits(query, limit);
+      let result = await lookupUnits(query, limit);
+      // Several matches and a client that can ask: put the choice to the user
+      // instead of the model. The retry carries the answer; a decline, or an
+      // answer outside the list, leaves the list as it was.
+      if (result.total > 1 && !result.truncated && clientCanElicit(server)) {
+        const answer = inputResponse(ctx.mcpReq.inputResponses, 'unit');
+        const chosen = answer.kind === 'elicit' && answer.action === 'accept' ? String(answer.content?.unit ?? '') : '';
+        const picked = /^\d+$/.test(chosen) ? result.matches[Number(chosen)] : undefined;
+        if (picked) {
+          result = { ...result, total: 1, truncated: false, matches: [picked] };
+        } else if (answer.kind === 'missing') {
+          return inputRequired({ inputRequests: { unit: inputRequired.elicit({
+            message: `${result.total} units match "${query}". Which one?`,
+            requestedSchema: {
+              type: 'object',
+              properties: { unit: { type: 'string', title: 'Unit', oneOf: result.matches.map((m, i) => ({
+                const: String(i), title: `${m.unit.name}, ${m.unit.address}${m.mcc ? ` (${m.mcc})` : ''}`,
+              })) } },
+              required: ['unit'],
+            },
+          }) } });
+        }
+      }
       return { content: [{ type: 'text' as const, text: JSON.stringify(result) }], structuredContent: result };
     } catch (err) {
       return {
