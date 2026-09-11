@@ -46,9 +46,11 @@ describe('precedence', () => {
     expect(f.ssic).toBe('5216');
   });
 
-  it('lets formData outrank every named field', () => {
-    const f = FORM(toStore({ docType: 'naval_letter', subject: 'NAMED', formData: { subject: 'ESCAPE HATCH' } }, CONFIG));
-    expect(f.subject).toBe('ESCAPE HATCH');
+  it('has no escape hatch past the named fields', () => {
+    // `formData` used to be merged last, which let a caller overwrite any
+    // generator field the schema guards with an enum.
+    const f = FORM(toStore({ docType: 'naval_letter', subject: 'NAMED', formData: { subject: 'ESCAPE HATCH' } } as never, CONFIG));
+    expect(f.subject).toBe('NAMED');
   });
 });
 

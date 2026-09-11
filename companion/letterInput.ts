@@ -4,8 +4,8 @@
  * `DocumentData` carries ~100 fields, most of them specific to one document
  * type. Exposing all of them would make the contract unreadable for an agent
  * and would break every time the app adds a field. So this names the fields a
- * naval letter actually needs, and keeps `formData` as an escape hatch for
- * anything else rather than blocking a caller on choices made here.
+ * naval letter actually needs, each checked by the schema before it reaches
+ * the generator; nothing else gets through.
  *
  * Defaults come from a config file so an agent does not restate its own unit on
  * every call — the unit is a property of the machine, not of the request.
@@ -123,12 +123,6 @@ export interface LetterInput {
   coordination?: string;
   preparedBy?: string;
   pageNumbering?: 'none' | 'simple' | 'xofy';
-
-  /**
-   * Anything this interface does not name. Merged last, so a caller can reach a
-   * field the companion has not learned about yet without waiting for a release.
-   */
-  formData?: Record<string, unknown>;
 }
 
 /** Defaults for the machine — unit, signer, department. */
@@ -329,9 +323,6 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       fontSize: '12pt',
       includeHyperlinks: false,
       showSubjectOnContinuation: true,
-
-      // Last, deliberately: the escape hatch outranks everything above it.
-      ...(input.formData ?? {}),
     },
 
     paragraphs: (input.paragraphs?.length ? input.paragraphs : [{ text: '', level: 0 }])
