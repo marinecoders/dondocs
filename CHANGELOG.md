@@ -5,6 +5,16 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.160] — 2026-09-11
+
+### Fixed
+
+- **A DOCX hygiene test that failed on its neighbours.** It listed the
+  system temp directory before and after a conversion, so a scratch
+  directory from any other suite rendering at the same moment counted as a
+  leak. It now records the directories its own render creates and checks
+  those are gone.
+
 ## [1.2.159] — 2026-09-11
 
 ### Fixed

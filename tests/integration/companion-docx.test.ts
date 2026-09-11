@@ -8,10 +8,29 @@
  * @vitest-environment node
  */
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
-import { mkdtemp, readdir, writeFile, chmod, rm } from 'node:fs/promises';
+import { mkdtemp, writeFile, chmod, rm } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { basename, join } from 'node:path';
+
+// Every scratch directory this worker creates, in order. Listing the system
+// temp directory before and after a render used to stand in for this, and
+// failed whenever another suite rendered a DOCX at the same moment: the
+// surface matrix renders every type in this process, the client and dist
+// suites in children, all into the same directory.
+const { created } = vi.hoisted(() => ({ created: [] as string[] }));
+vi.mock('node:fs/promises', async (importOriginal) => {
+  const real = await importOriginal<typeof import('node:fs/promises')>();
+  return {
+    ...real,
+    mkdtemp: async (...args: Parameters<typeof real.mkdtemp>) => {
+      const dir = await real.mkdtemp(...args);
+      created.push(dir);
+      return dir;
+    },
+  };
+});
 
 /** Sync so it can gate `describe`, which is decided at collection time. */
 const hasPandoc = spawnSync('pandoc', ['--version']).status === 0;
@@ -22,9 +41,11 @@ const LETTER = {
   paragraphs: [{ text: 'Body.' }],
 };
 
-/** Scratch directories renderDocx creates, by prefix. */
-async function scratchDirs(): Promise<string[]> {
-  return (await readdir(tmpdir())).filter((n) => n.startsWith('dondocs-companion-'));
+/** Runs `render` and returns the scratch directories it made, whether or not they still exist. */
+async function scratchOf(render: () => Promise<unknown>): Promise<string[]> {
+  const from = created.length;
+  await render();
+  return created.slice(from).filter((d) => basename(d).startsWith('dondocs-companion-'));
 }
 
 // Needs a working pandoc. Skipped rather than returned early: a test that
@@ -33,14 +54,14 @@ describe.skipIf(!hasPandoc)('scratch directories', () => {
   it('leaves none behind after a successful conversion', async () => {
     const { renderDocx } = await import('../../companion/renderDocx');
 
-    const before = await scratchDirs();
-    const bytes = await renderDocx(LETTER as never);
+    let bytes: Uint8Array = new Uint8Array();
+    const scratch = await scratchOf(async () => { bytes = await renderDocx(LETTER as never); });
     // Sanity: a real docx, so we know the conversion actually ran.
     expect(bytes.byteLength).toBeGreaterThan(1000);
     expect(Buffer.from(bytes.subarray(0, 2)).toString()).toBe('PK');
 
-    const after = await scratchDirs();
-    expect(after.filter((d) => !before.includes(d))).toEqual([]);
+    expect(scratch).toHaveLength(1);
+    expect(existsSync(scratch[0])).toBe(false);
   }, 120_000);
 
 });
@@ -73,9 +94,9 @@ describe('a pandoc that exits non-zero', () => {
   it('leaves no scratch directory behind', async () => {
     // Cleanup that only runs on success is not cleanup.
     const { renderDocx } = await import('../../companion/renderDocx');
-    const before = await scratchDirs();
-    await expect(renderDocx(LETTER as never)).rejects.toThrow();
-    expect((await scratchDirs()).filter((d) => !before.includes(d))).toEqual([]);
+    const scratch = await scratchOf(() => expect(renderDocx(LETTER as never)).rejects.toThrow());
+    expect(scratch).toHaveLength(1);
+    expect(existsSync(scratch[0])).toBe(false);
   }, 60_000);
 });
 
@@ -122,9 +143,9 @@ describe('a wedged pandoc', () => {
     vi.resetModules();
     const { renderDocx } = await import('../../companion/renderDocx');
 
-    const before = await scratchDirs();
-    await expect(renderDocx(LETTER as never)).rejects.toThrow();
-    expect((await scratchDirs()).filter((d) => !before.includes(d))).toEqual([]);
+    const scratch = await scratchOf(() => expect(renderDocx(LETTER as never)).rejects.toThrow());
+    expect(scratch).toHaveLength(1);
+    expect(existsSync(scratch[0])).toBe(false);
 
     delete process.env.DONDOCS_RENDER_TIMEOUT_MS;
     vi.resetModules();
