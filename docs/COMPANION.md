@@ -62,8 +62,10 @@ Requests are capped at 1 MB, and `out` is resolved inside the output root and
 refused if it escapes. `out` is chosen by a model composing JSON, so
 `../../../../etc/passwd` is a realistic input rather than a hypothetical one.
 A file already at `out` is replaced; the MCP tool says so with
-`destructiveHint`. A write that fails is reported as `could not write <path>`,
-not as a render failure.
+`destructiveHint`. With `out` omitted the name is a slug of the subject, and
+a name already taken gets the next number (`subject-2.pdf`), so a repeated
+subject never writes over an earlier letter. A write that fails is reported
+as `could not write <path>`, not as a render failure.
 
 ## Document types
 

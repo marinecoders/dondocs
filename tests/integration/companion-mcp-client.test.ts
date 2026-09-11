@@ -104,9 +104,9 @@ describe('a protocol client', () => {
     // It replaces the file at `out`, which is not the additive-only behaviour
     // destructiveHint false denotes.
     expect(tools.find((t) => t.name === 'dondocs_letter')!.annotations).toMatchObject({
-      readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: false,
+      readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: false,
     });
-    expect((schema.properties!.out as { description: string }).description).toMatch(/replaced/);
+    expect((schema.properties!.out as { description: string }).description).toMatch(/replace/);
   }, 60_000);
 
   it('publishes an output schema for every tool', async () => {

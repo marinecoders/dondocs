@@ -91,7 +91,7 @@ export const letterSchema = z.object({
   // and a second copy is how one door came to accept what the other refused.
   docType: z.enum(DOC_TYPES as [string, ...string[]]),
   format: z.enum(['pdf', 'docx']).optional().describe('Defaults to pdf.'),
-  out: z.string().optional().describe('Filename inside the output root. Defaults to a slug of the subject. An existing file there is replaced.'),
+  out: z.string().optional().describe('Filename inside the output root. Defaults to a slug of the subject, numbered if that name is taken. Give out to replace a file.'),
 
   subject: z.string().optional().describe('The Subj: line. Conventionally all caps.'),
   from: z.string().optional().describe('The From: line, e.g. "Commanding Officer, 1st Battalion, 6th Marines". Letters, endorsements and memoranda print the label even when this is omitted, the MFR included; business letters and agreements have no From line.'),
