@@ -92,6 +92,12 @@ describe('a protocol client', () => {
     expect(props).toEqual(expect.arrayContaining(['docType', 'subject', 'paragraphs', 'unit', 'classification']));
     expect(schema.required).toContain('docType');
     expect(schema.additionalProperties, 'an unnamed field must be refused, not stripped').toBe(false);
+    // It replaces the file at `out`, which is not the additive-only behaviour
+    // destructiveHint false denotes.
+    expect(tools.find((t) => t.name === 'dondocs_letter')!.annotations).toMatchObject({
+      readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: false,
+    });
+    expect((schema.properties!.out as { description: string }).description).toMatch(/replaced/);
   }, 60_000);
 
   it('publishes an output schema for every tool', async () => {

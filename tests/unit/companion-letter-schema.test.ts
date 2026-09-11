@@ -276,3 +276,22 @@ describe('portion marks', () => {
     expect(Object.values(tex).join('\n')).toContain('(S) ');
   });
 });
+
+describe('type-scoped fields', () => {
+  // The description names the types that print the field, checked against
+  // what the DOCX generator emits so neither can go stale alone.
+  const EXECUTIVE = ['standard_memorandum', 'action_memorandum', 'information_memorandum', 'executive_correspondence'];
+  it.each([
+    ['attnLine', 'ATTN:', ['standard_memorandum']],
+    ['throughLine', 'THROUGH:', ['standard_memorandum']],
+    ['coordination', 'COORDINATION:', ['action_memorandum', 'information_memorandum']],
+    ['preparedBy', 'Prepared by:', ['action_memorandum', 'information_memorandum']],
+  ] as const)('%s prints where its description says', (field, marker, printedBy) => {
+    for (const docType of EXECUTIVE) {
+      const tex = generateFlatLatex(toStore({ ...base, docType, format: 'docx', [field]: 'SCOPED VALUE' } as LetterInput, {}) as never);
+      expect(tex.includes(marker), `${docType} ${field}`).toBe(printedBy.includes(docType));
+    }
+    const description = letterSchema.shape[field].description ?? '';
+    for (const docType of printedBy) { expect(description).toContain(docType); }
+  });
+});

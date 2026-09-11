@@ -91,7 +91,7 @@ export const letterSchema = z.object({
   // and a second copy is how one door came to accept what the other refused.
   docType: z.enum(DOC_TYPES as [string, ...string[]]),
   format: z.enum(['pdf', 'docx']).optional().describe('Defaults to pdf.'),
-  out: z.string().optional().describe('Filename inside the output root. Defaults to a slug of the subject.'),
+  out: z.string().optional().describe('Filename inside the output root. Defaults to a slug of the subject. An existing file there is replaced.'),
 
   subject: z.string().optional().describe('The Subj: line. Conventionally all caps.'),
   from: z.string().optional().describe('The From: line, e.g. "Commanding Officer, 1st Battalion, 6th Marines".'),
@@ -124,11 +124,11 @@ export const letterSchema = z.object({
 
   salutation: z.string().optional().describe('Business letters. Defaults to "Dear Sir or Madam:".'),
   complimentaryClose: z.string().optional().describe('Business letters. Defaults to "Sincerely,".'),
-  attnLine: z.string().optional().describe('Executive correspondence, DOCX output only: an ATTN line.'),
-  throughLine: z.string().optional().describe('Executive correspondence, DOCX output only: a THROUGH line.'),
+  attnLine: z.string().optional().describe('standard_memorandum (alias memorandum), DOCX output only: an ATTN line.'),
+  throughLine: z.string().optional().describe('standard_memorandum (alias memorandum), DOCX output only: a THROUGH line, printed in capitals.'),
   inReplyTo: z.boolean().optional().describe('Standard letters: print the "In Reply Refer To" line.'),
-  coordination: z.string().optional().describe('Information memoranda: the coordination line.'),
-  preparedBy: z.string().optional().describe('Information memoranda: who prepared it, e.g. "CAPT J. Smith, USN".'),
+  coordination: z.string().optional().describe('information_memorandum, and action_memorandum in DOCX output: the coordination line.'),
+  preparedBy: z.string().optional().describe('information_memorandum, and action_memorandum in DOCX output: who prepared it, e.g. "CAPT J. Smith, USN".'),
   pageNumbering: z.enum(['none', 'simple', 'xofy']).optional().describe('Defaults to none.'),
 // Stripping an unnamed field silently is how a classification marking went
 // missing from a document that asked for one; refusing it by name is how a

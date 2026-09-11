@@ -257,10 +257,10 @@ const handle = serveStdio(() => {
       inputSchema: letterSchema,
       outputSchema: renderResult,
       annotations: {
-        // It writes a file and nothing else; re-running with the same `out`
-        // replaces that file rather than accumulating.
+        // It writes one file, replacing whatever is at `out`; the same
+        // request writes the same file again.
         readOnlyHint: false,
-        destructiveHint: false,
+        destructiveHint: true,
         idempotentHint: true,
         openWorldHint: false,
       },

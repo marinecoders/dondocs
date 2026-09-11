@@ -61,6 +61,9 @@ round-trip is enough to fix it. `500` means rendering genuinely failed.
 Requests are capped at 1 MB, and `out` is resolved inside the output root and
 refused if it escapes. `out` is chosen by a model composing JSON, so
 `../../../../etc/passwd` is a realistic input rather than a hypothetical one.
+A file already at `out` is replaced; the MCP tool says so with
+`destructiveHint`. A write that fails is reported as `could not write <path>`,
+not as a render failure.
 
 ## Document types
 
@@ -73,7 +76,7 @@ list here is illustrative rather than authoritative:
 | Letters | `naval_letter`, `standard_letter`, `multiple_address_letter` | none |
 | Business | `business_letter`, `executive_correspondence` | `salutation`, `complimentaryClose` |
 | Memoranda | `mfr`, `mf`, `plain_paper_memorandum`, `letterhead_memorandum`, `decision_memorandum`, `executive_memorandum` | none |
-| Executive | `standard_memorandum` (alias `memorandum`), `action_memorandum`, `information_memorandum` | `attnLine`, `throughLine`; info memo: `coordination`, `preparedBy` |
+| Executive | `standard_memorandum` (alias `memorandum`), `action_memorandum`, `information_memorandum` | standard memo: `attnLine`, `throughLine` (DOCX only); info memo: `coordination`, `preparedBy` (action memo too, DOCX only) |
 | Endorsements | `same_page_endorsement`, `new_page_endorsement` | `endorsement: { ordinal, basicLetterId }` |
 | Two-party | `joint_letter`, `joint_memorandum`, `moa`, `mou` | `parties: { senior, junior }` |
 
