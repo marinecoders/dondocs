@@ -5,6 +5,19 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.149] — 2026-09-10
+
+### Added
+
+- **MCP: structured results, template resources, a prompt, and a unit picker.**
+  Every companion tool declares an output schema and returns
+  `structuredContent` beside its text; `dondocs_letter` also returns a
+  `resource_link` to the written file. The bundled templates are readable as
+  `dondocs://templates/{id}`. A `draft_letter` prompt takes a document type or
+  a template id, both with completion. When a lookup matches several units and
+  the client supports elicitation, `dondocs_unit_lookup` asks the user which
+  one; otherwise it returns the list as before.
+
 ## [1.2.148] — 2026-09-10
 
 ### Added

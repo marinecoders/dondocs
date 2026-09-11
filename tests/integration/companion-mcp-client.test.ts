@@ -16,6 +16,7 @@ import { mkdtemp, rm, readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { LETTER_TEMPLATES } from '../../src/data/templates';
 
 const REPO = resolve(import.meta.dirname, '..', '..');
@@ -27,6 +28,9 @@ const text = (r: unknown): string =>
   ((r as { content?: Array<{ text?: string }> }).content ?? []).map((c) => c.text ?? '').join('');
 const pathOf = (r: unknown): string | undefined => (text(r).match(/ to (.+)$/) ?? [])[1];
 const isError = (r: unknown): boolean => (r as { isError?: boolean }).isError === true;
+const structured = (r: unknown): unknown => (r as { structuredContent?: unknown }).structuredContent;
+const blocks = (r: unknown, type: string): Array<Record<string, unknown>> =>
+  ((r as { content?: Array<Record<string, unknown>> }).content ?? []).filter((c) => c.type === type);
 
 beforeAll(async () => {
   root = await mkdtemp(join(tmpdir(), 'dondocs-client-'));
@@ -82,6 +86,13 @@ describe('a protocol client', () => {
     expect(schema.additionalProperties, 'an unnamed field must be refused, not stripped').toBe(false);
   }, 60_000);
 
+  it('publishes an output schema for every tool', async () => {
+    const { tools } = await client.listTools();
+    for (const tool of tools) {
+      expect(tool.outputSchema, `${tool.name} returns a text block the model has to parse`).toBeDefined();
+    }
+  });
+
   it('lists template metadata and retrieves every complete template', async () => {
     const { tools } = await client.listTools();
     for (const name of ['dondocs_template_list', 'dondocs_template_get']) {
@@ -91,14 +102,90 @@ describe('a protocol client', () => {
     }
     const result = await client.callTool({ name: 'dondocs_template_list', arguments: {} });
     expect(isError(result), text(result)).toBe(false);
-    expect(JSON.parse(text(result))).toEqual(LETTER_TEMPLATES.map(({ id, name, category, description }) => ({
-      id, name, category, description,
-    })));
+    const summaries = LETTER_TEMPLATES.map(({ id, name, category, description }) => ({ id, name, category, description }));
+    expect(JSON.parse(text(result))).toEqual(summaries);
+    expect(structured(result)).toEqual({ templates: summaries });
     for (const template of LETTER_TEMPLATES) {
       const full = await client.callTool({ name: 'dondocs_template_get', arguments: { id: template.id } });
       expect(isError(full), text(full)).toBe(false);
       expect(JSON.parse(text(full))).toEqual(template);
+      expect(structured(full)).toEqual(template);
     }
+  });
+
+  it('publishes every template as a resource a host can attach without a tool call', async () => {
+    expect(client.getServerCapabilities()?.resources).toBeDefined();
+    const { resourceTemplates } = await client.listResourceTemplates();
+    expect(resourceTemplates.map((t) => t.uriTemplate)).toEqual(['dondocs://templates/{id}']);
+
+    const { resources } = await client.listResources();
+    expect(resources.map((r) => r.uri).sort()).toEqual(LETTER_TEMPLATES.map((t) => `dondocs://templates/${t.id}`).sort());
+    const listed = resources.find((r) => r.uri === 'dondocs://templates/report-findings')!;
+    expect(listed).toMatchObject({ name: 'report-findings', mimeType: 'application/json' });
+    expect(listed.title).toBe(LETTER_TEMPLATES.find((t) => t.id === 'report-findings')!.name);
+
+    const { contents } = await client.readResource({ uri: 'dondocs://templates/report-findings' });
+    expect(contents).toHaveLength(1);
+    expect(contents[0]).toMatchObject({ uri: 'dondocs://templates/report-findings', mimeType: 'application/json' });
+    expect(JSON.parse((contents[0] as { text: string }).text)).toEqual(LETTER_TEMPLATES.find((t) => t.id === 'report-findings'));
+
+    // Invalid params, naming the URI, not an internal error.
+    await expect(client.readResource({ uri: 'dondocs://templates/no-such-template' })).rejects.toMatchObject({
+      code: -32602, message: expect.stringContaining('dondocs://templates/no-such-template'),
+    });
+    await expect(client.ping()).resolves.toBeDefined();
+  });
+
+  it('completes a template id from a prefix', async () => {
+    expect(client.getServerCapabilities()?.completions).toBeDefined();
+    const ref = { type: 'ref/resource' as const, uri: 'dondocs://templates/{id}' };
+    const { completion } = await client.complete({ ref, argument: { name: 'id', value: 'app' } });
+    expect(completion.values.sort()).toEqual(LETTER_TEMPLATES.map((t) => t.id).filter((id) => id.startsWith('app')).sort());
+    expect(completion.values.length).toBeGreaterThan(1);
+    expect((await client.complete({ ref, argument: { name: 'id', value: '' } })).completion.values).toHaveLength(LETTER_TEMPLATES.length);
+  });
+
+  it('offers a draft_letter prompt whose arguments complete', async () => {
+    expect(client.getServerCapabilities()?.prompts).toBeDefined();
+    const { prompts } = await client.listPrompts();
+    expect(prompts.map((p) => p.name)).toEqual(['draft_letter']);
+    const args = prompts[0].arguments ?? [];
+    expect(args.map((a) => a.name).sort()).toEqual(['docType', 'template']);
+    expect(args.every((a) => !a.required), 'both arguments are optional').toBe(true);
+
+    const ref = { type: 'ref/prompt' as const, name: 'draft_letter' };
+    const types = (await client.complete({ ref, argument: { name: 'docType', value: 'joint_' } })).completion.values;
+    expect(types.sort()).toEqual(['joint_letter', 'joint_memorandum']);
+    const ids = (await client.complete({ ref, argument: { name: 'template', value: 'award' } })).completion.values;
+    expect(ids).toEqual(LETTER_TEMPLATES.map((t) => t.id).filter((id) => id.startsWith('award')));
+    expect(ids.length).toBeGreaterThan(0);
+  });
+
+  it('builds the prompt from a document type, or from a template with the template embedded', async () => {
+    const bare = await client.getPrompt({ name: 'draft_letter', arguments: { docType: 'joint_letter' } });
+    expect(bare.messages).toHaveLength(1);
+    expect(bare.messages[0].role).toBe('user');
+    const instructions = (bare.messages[0].content as { text: string }).text;
+    expect(instructions).toContain('joint_letter');
+    expect(instructions).toContain('dondocs_unit_lookup');
+    expect(instructions).toContain('dondocs_letter');
+
+    const template = LETTER_TEMPLATES.find((t) => t.id === 'report-findings')!;
+    const from = await client.getPrompt({ name: 'draft_letter', arguments: { template: template.id } });
+    expect(from.messages).toHaveLength(2);
+    expect((from.messages[0].content as { text: string }).text).toContain(template.docType);
+    expect(from.messages[1].content).toMatchObject({
+      type: 'resource',
+      resource: { uri: `dondocs://templates/${template.id}`, mimeType: 'application/json' },
+    });
+    expect(JSON.parse((from.messages[1].content as { resource: { text: string } }).resource.text)).toEqual(template);
+
+    // Both bad arguments are invalid params, whichever side rejects them.
+    await expect(client.getPrompt({ name: 'draft_letter', arguments: { template: 'no-such-template' } })).rejects.toMatchObject({
+      code: -32602, message: expect.stringContaining('no-such-template'),
+    });
+    await expect(client.getPrompt({ name: 'draft_letter', arguments: { docType: 'sonnet' } })).rejects.toMatchObject({ code: -32602 });
+    await expect(client.ping()).resolves.toBeDefined();
   });
 
   it('returns a recoverable error for an unknown template ID', async () => {
@@ -112,6 +199,7 @@ describe('a protocol client', () => {
     const lookup = async (query: string, limit = 20) => {
       const response = await client.callTool({ name: 'dondocs_unit_lookup', arguments: { query, limit } });
       expect(isError(response), text(response)).toBe(false);
+      expect(structured(response)).toEqual(JSON.parse(text(response)));
       return JSON.parse(text(response));
     };
     const all = await lookup('marine innovation unit');
@@ -146,6 +234,12 @@ describe('a protocol client', () => {
     expect(file?.startsWith(root)).toBe(true);
     const bytes = await readFile(file!);
     expect(bytes.subarray(0, 4).toString()).toBe('%PDF');
+
+    expect(structured(res)).toEqual({ format: 'pdf', path: file, bytes: bytes.byteLength });
+    // A host that renders links lets the user open the file from the reply.
+    expect(blocks(res, 'resource_link')).toEqual([expect.objectContaining({
+      uri: pathToFileURL(file!).href, name: 'client.pdf', mimeType: 'application/pdf', size: bytes.byteLength,
+    })]);
   }, 200_000);
 
   it('carries a classification into the document', async () => {
