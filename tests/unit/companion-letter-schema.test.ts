@@ -295,3 +295,25 @@ describe('type-scoped fields', () => {
     for (const docType of printedBy) { expect(description).toContain(docType); }
   });
 });
+
+describe('nested objects are strict too', () => {
+  // A misspelled key inside an object was stripped, while the same typo at
+  // the top level was refused. One rule now.
+  it.each([
+    ['paragraphs[0].portionMarkng', { paragraphs: [{ text: 'x', portionMarkng: 'S' }] }],
+    ['unit.adress', { unit: { adress: 'PSC BOX 1' } }],
+    ['signature.lastname', { signature: { lastname: 'SMITH' } }],
+    ['classification.levle', { classification: { levle: 'secret' } }],
+    ['classification.cui.categroy', { classification: { level: 'cui', cui: { categroy: 'PRVCY' } } }],
+    ['parties.senior.nmae', { docType: 'moa', parties: { senior: { nmae: 'A', signature: { name: 'a' } }, junior: { name: 'B', signature: { name: 'b' } } } }],
+    ['parties.senior.signature.ttile', { docType: 'moa', parties: { senior: { name: 'A', signature: { name: 'a', ttile: 'CO' } }, junior: { name: 'B', signature: { name: 'b' } } } }],
+    ['endorsement.ordnial', { docType: 'same_page_endorsement', endorsement: { ordnial: 'FIRST', basicLetterId: 'x' } }],
+    ['references[0].titel', { references: [{ titel: 'R' }] }],
+    ['enclosures[0].name', { enclosures: [{ title: 'E', name: 'x' }] }],
+  ])('refuses %s by name', (label, extra) => {
+    const r = letterSchema.safeParse({ ...base, ...extra });
+    expect(r.success, label).toBe(false);
+    const key = label.split('.').pop()!.replace(/\[\d+\]$/, '');
+    expect(JSON.stringify(r.error?.issues), label).toContain(key);
+  });
+});
