@@ -64,6 +64,14 @@ describe('a protocol client', () => {
     expect(client.getServerCapabilities()?.tools).toBeDefined();
   });
 
+  it('tells the model how the tools fit together', () => {
+    const instructions = client.getInstructions() ?? '';
+    expect(instructions).toContain(root);
+    for (const name of ['dondocs_unit_lookup', 'dondocs_template_get', 'dondocs_letter', 'dondocs://defaults']) {
+      expect(instructions).toContain(name);
+    }
+  });
+
   it('answers ping', async () => {
     await expect(client.ping()).resolves.toBeDefined();
   });
@@ -119,7 +127,12 @@ describe('a protocol client', () => {
     expect(resourceTemplates.map((t) => t.uriTemplate)).toEqual(['dondocs://templates/{id}']);
 
     const { resources } = await client.listResources();
-    expect(resources.map((r) => r.uri).sort()).toEqual(LETTER_TEMPLATES.map((t) => `dondocs://templates/${t.id}`).sort());
+    expect(resources.map((r) => r.uri).sort()).toEqual(
+      ['dondocs://defaults', ...LETTER_TEMPLATES.map((t) => `dondocs://templates/${t.id}`)].sort(),
+    );
+    expect(resources.find((r) => r.uri === 'dondocs://defaults')).toMatchObject({
+      name: 'defaults', title: 'Machine defaults', mimeType: 'application/json',
+    });
     const listed = resources.find((r) => r.uri === 'dondocs://templates/report-findings')!;
     expect(listed).toMatchObject({ name: 'report-findings', mimeType: 'application/json' });
     expect(listed.title).toBe(LETTER_TEMPLATES.find((t) => t.id === 'report-findings')!.name);
@@ -134,6 +147,16 @@ describe('a protocol client', () => {
       code: -32602, message: expect.stringContaining('dondocs://templates/no-such-template'),
     });
     await expect(client.ping()).resolves.toBeDefined();
+  });
+
+  it('reports the configured defaults and the file that sets them', async () => {
+    const { contents } = await client.readResource({ uri: 'dondocs://defaults' });
+    expect(contents[0]).toMatchObject({ uri: 'dondocs://defaults', mimeType: 'application/json' });
+    // No config file in this suite, so every default is absent and the path
+    // tells the user where to put one.
+    expect(JSON.parse((contents[0] as { text: string }).text)).toEqual({
+      path: '/nonexistent/companion.config.json', unit: null, signature: null, ssic: null, originatorCode: null,
+    });
   });
 
   it('completes a template id from a prefix', async () => {

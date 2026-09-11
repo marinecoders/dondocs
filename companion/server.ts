@@ -16,7 +16,7 @@
 import { createServer } from 'node:http';
 import { createHandler, CONTRACT, ROOT } from './handler';
 import { systemPandocVersion, VENDORED_PANDOC } from './renderDocx';
-import { loadDefaults } from './letterInput';
+import { CONFIG_PATH, loadDefaults } from './letterInput';
 
 const PORT = Number(process.env.DONDOCS_PORT ?? 7712);
 
@@ -46,5 +46,5 @@ server.listen(PORT, '127.0.0.1', () => {
     else if (v !== VENDORED_PANDOC) { console.warn(`  docx uses system pandoc ${v}; the app vendors ${VENDORED_PANDOC} — output may differ`); }
   });
   const unit = defaults.unit?.name ?? defaults.unit?.line1;
-  console.log(unit ? `  unit defaults: ${unit}` : '  no unit defaults configured (set ~/.dondocs/companion.config.json)');
+  console.log(unit ? `  unit defaults: ${unit}` : `  no unit defaults configured (set ${CONFIG_PATH})`);
 });

@@ -88,11 +88,7 @@ export interface LetterInput {
   ssic?: string;
   serial?: string;
   date?: string;
-  /**
-   * Maps to the app's `officeCode`. The app collects and stores it but no
-   * template emits it, so it will not appear on the page today; it is accepted
-   * so a caller's data survives rather than being silently dropped.
-   */
+  /** Maps to the app's `officeCode`, printed on the sender-symbol line with the serial. */
   originatorCode?: string;
 
   from?: string;
@@ -143,7 +139,8 @@ export interface CompanionDefaults {
   originatorCode?: string;
 }
 
-const CONFIG_PATH = process.env.DONDOCS_CONFIG ?? join(homedir(), '.dondocs', 'companion.config.json');
+/** Where machine defaults are read from. */
+export const CONFIG_PATH = process.env.DONDOCS_CONFIG ?? join(homedir(), '.dondocs', 'companion.config.json');
 
 /**
  * Read machine defaults. A missing file is normal, not an error — the built-in
