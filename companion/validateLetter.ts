@@ -19,6 +19,8 @@ import { DOC_TYPE_CONFIG } from '../src/types/document';
  */
 export const DOC_TYPES = [...Object.keys(DOC_TYPE_CONFIG), ...Object.keys(TEMPLATE_FOR)];
 export const FORMATS = ['pdf', 'docx'];
+/** The levels the generator marks; anything else renders unmarked. */
+export const CLASSIFICATION_LEVELS = ['unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci'];
 
 /** Everything wrong with a request, so one round-trip is enough to fix it. */
 export function validateLetter(body: Partial<LetterInput>): string[] {
@@ -53,6 +55,14 @@ export function validateLetter(body: Partial<LetterInput>): string[] {
     if (value !== undefined && (typeof value !== 'object' || Array.isArray(value))) {
       problems.push(`${name} must be an object`);
     }
+  }
+  const level = body.classification?.level;
+  if (level !== undefined && !CLASSIFICATION_LEVELS.includes(level)) {
+    problems.push(`classification.level must be one of ${CLASSIFICATION_LEVELS.join(', ')}`);
+  }
+  // The generator prints either the level's marking or the custom text.
+  if (level && body.classification?.custom) {
+    problems.push('classification.custom is the banner itself; give it instead of classification.level');
   }
 
   // A letter with neither a subject nor a body renders a page with a letterhead

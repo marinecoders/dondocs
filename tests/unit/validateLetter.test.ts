@@ -10,7 +10,7 @@
  * @vitest-environment node
  */
 import { describe, it, expect } from 'vitest';
-import { validateLetter, DOC_TYPES, FORMATS } from '../../companion/validateLetter';
+import { validateLetter, DOC_TYPES, FORMATS, CLASSIFICATION_LEVELS } from '../../companion/validateLetter';
 
 const OK = { docType: 'naval_letter', subject: 'SUBJECT' } as const;
 
@@ -108,5 +108,23 @@ describe('reporting', () => {
     const problems = validateLetter(OK);
     expect(Array.isArray(problems)).toBe(true);
     expect(problems).toHaveLength(0);
+  });
+});
+
+describe('classification', () => {
+  it('lists the levels the generator renders', () => {
+    expect(CLASSIFICATION_LEVELS).toEqual(['unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci']);
+  });
+
+  it('refuses a level outside the list, which would render unmarked', () => {
+    expect(validateLetter({ ...OK, classification: { level: 'SECRET' } } as never).join(' ')).toMatch(/classification\.level/);
+  });
+
+  it('refuses a custom banner alongside a level: the generator prints one or the other', () => {
+    expect(validateLetter({ ...OK, classification: { level: 'secret', custom: 'X' } }).join(' ')).toMatch(/classification\.custom/);
+  });
+
+  it('accepts a custom banner alone', () => {
+    expect(validateLetter({ ...OK, classification: { custom: 'X' } })).toEqual([]);
   });
 });

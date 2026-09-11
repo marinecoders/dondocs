@@ -10,7 +10,7 @@
  * No import side effects, so a test can reach it — `mcp.ts` starts a server.
  */
 import * as z from 'zod';
-import { DOC_TYPES } from './validateLetter';
+import { CLASSIFICATION_LEVELS, DOC_TYPES } from './validateLetter';
 
 const paragraph = z.object({
   text: z.string().describe('The paragraph text. Plain prose — numbering is applied for you.'),
@@ -40,10 +40,10 @@ export const signature = z.object({
 /** The generator renders a marking only for a level it recognises; anything else
  *  comes out unmarked. Publishing the list stops a caller inventing one. */
 const classification = z.object({
-  level: z.enum(['unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci'])
+  level: z.enum(CLASSIFICATION_LEVELS as [string, ...string[]])
     .optional().describe('Document-level classification. Defaults to unclassified.'),
   pocEmail: z.string().optional().describe('CUI point of contact.'),
-  custom: z.string().optional().describe('Banner text for a marking outside the list, e.g. a caveat.'),
+  custom: z.string().optional().describe('Banner text for a marking outside the list, printed as given. Give this instead of level, not with it.'),
   classifiedBy: z.string().optional(), derivedFrom: z.string().optional(),
   declassifyOn: z.string().optional(), reason: z.string().optional(),
   cui: z.object({

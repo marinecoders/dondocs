@@ -265,7 +265,9 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       byDirection: sig.byDirection ?? false,
       byDirectionAuthority: sig.byDirectionAuthority ?? '',
 
-      classLevel: input.classification?.level ?? 'unclassified',
+      // A custom banner is its own level: the generators print it only under
+      // classLevel 'custom', which no published level names.
+      classLevel: input.classification?.level ?? (input.classification?.custom ? 'custom' : 'unclassified'),
       pocEmail: input.pocEmail ?? input.classification?.pocEmail ?? '',
       customClassification: input.classification?.custom ?? '',
       classifiedBy: input.classification?.classifiedBy ?? '',

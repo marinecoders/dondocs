@@ -11,6 +11,8 @@ import * as z from 'zod';
 import { letterSchema, acceptedFields } from '../../companion/letterSchema';
 import { toStore, templateFor } from '../../companion/letterInput';
 import type { LetterInput } from '../../companion/letterInput';
+import { generateAllLatexFiles } from '../../src/services/latex/generator';
+import { generateFlatLatex } from '../../src/services/latex/flat-generator';
 
 const base = { docType: 'naval_letter', subject: 'S', paragraphs: [{ text: 'body' }] };
 
@@ -77,6 +79,19 @@ describe('classification levels', () => {
   it.each(RENDERABLE)('%s reaches the generator as classLevel', (level) => {
     const store = toStore({ ...base, classification: { level } } as LetterInput, {});
     expect((store.formData as Record<string, unknown>).classLevel).toBe(level);
+  });
+
+  it('reaches the generator as custom when only banner text is given', () => {
+    // The generators print a custom banner only under classLevel 'custom',
+    // which no published level names; the text alone has to select it.
+    const fd = toStore({ ...base, classification: { custom: 'MY CAVEAT BANNER' } } as LetterInput, {}).formData as Record<string, unknown>;
+    expect([fd.classLevel, fd.customClassification]).toEqual(['custom', 'MY CAVEAT BANNER']);
+  });
+
+  it('renders the custom text as the banner in both generators', () => {
+    const store = toStore({ ...base, classification: { custom: 'MY CAVEAT BANNER' } } as LetterInput, {});
+    expect(generateAllLatexFiles(store as never).texFiles['classification.tex']).toContain('\\setCustomClassification{MY CAVEAT BANNER}');
+    expect(generateFlatLatex(store as never)).toContain('MY CAVEAT BANNER');
   });
 
   it('rejects a level the generator would silently ignore', () => {

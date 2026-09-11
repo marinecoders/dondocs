@@ -71,6 +71,10 @@ const CASES: Array<[string, Record<string, unknown>]> = [
     classification: { level: 'confidential', pocEmail: 'poc@example.mil' },
     pocEmail: 'top@example.mil',
   }],
+  ['a custom marking', {
+    docType: 'naval_letter', subject: 'CAVEAT', paragraphs: [{ text: 'x' }],
+    classification: { custom: 'MY CAVEAT BANNER' },
+  }],
   ['a memorandum', {
     docType: 'memorandum', subject: 'MEMO', to: 'Commanding General',
     paragraphs: [{ text: 'Body.' }],
@@ -130,6 +134,14 @@ describe('transport parity', () => {
       const { store } = run(body);
       const formData = (store as Record<string, Record<string, unknown>>).formData;
       expect(formData.classLevel, `${door} dropped the classification`).toBe('secret');
+    }
+  });
+
+  it('carries a custom marking through both doors as its own level', () => {
+    const body = { docType: 'naval_letter', subject: 'CAVEAT', paragraphs: [{ text: 'x' }], classification: { custom: 'MY CAVEAT BANNER' } };
+    for (const [door, run] of [['http', throughHttp], ['schema', throughSchema]] as const) {
+      const formData = (run(body).store as Record<string, Record<string, unknown>>).formData;
+      expect(formData.classLevel, `${door} lost the custom marking`).toBe('custom');
     }
   });
 
