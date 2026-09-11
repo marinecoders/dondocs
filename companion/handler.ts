@@ -18,7 +18,7 @@ import { DEFAULT_ROOT, OutsideSandboxError } from './outputPath';
 import { renderToFile } from './renderToFile';
 import { RenderTimeoutError } from './limits';
 import { validateLetter, DOC_TYPES, FORMATS } from './validateLetter';
-import { acceptedFields } from './letterSchema';
+import { acceptedFields, letterSchema } from './letterSchema';
 import { LETTER_TEMPLATES } from '../src/data/templates';
 import { lookupUnits } from './unitLookup';
 
@@ -50,16 +50,24 @@ async function readBody(req: IncomingMessage): Promise<string> {
 }
 
 /**
- * HTTP-level validation: the contract version, then the shared letter rules.
- * The content rules live in validateLetter so the MCP transport enforces the
- * identical set — they diverged once and MCP rendered empty letters.
+ * HTTP-level validation: the contract version, then the published schema,
+ * then the shared letter rules. The schema is the one MCP publishes, so a key
+ * it does not name is refused here as it is there; the content rules live in
+ * validateLetter so both doors enforce the identical set.
  */
 export function validate(body: GenerateRequest): string[] {
   const problems: string[] = [];
   if (body.v !== undefined && body.v !== CONTRACT) {
     problems.push(`unsupported contract version ${body.v}; this companion speaks v${CONTRACT}`);
   }
-  return [...problems, ...validateLetter(body)];
+  // `v` is this door's own field, not part of the letter. The content rules
+  // run on what the schema accepted, the order the MCP door uses.
+  const { v: _v, ...letter } = body;
+  const parsed = letterSchema.safeParse(letter);
+  if (!parsed.success) {
+    return [...problems, ...parsed.error.issues.map((i) => `${i.path.join('.') || 'request'}: ${i.message}`)];
+  }
+  return [...problems, ...validateLetter(parsed.data as unknown as LetterInput)];
 }
 
 /**
