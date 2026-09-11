@@ -103,8 +103,8 @@ given; agreements reduce a full name to initial and surname, so give
 ```
 
 Endorsements take the ordinal and the letter being endorsed under
-`endorsement`. Without it the companion falls back to parsing a subject of the
-form `FIRST ENDORSEMENT on <basic letter>`.
+`endorsement`, and are refused without it: a bare ENDORSEMENT heading is not a
+document.
 
 ## Machine defaults
 

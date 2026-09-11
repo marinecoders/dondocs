@@ -120,7 +120,7 @@ export const letterSchema = z.object({
   pocEmail: z.string().optional().describe('CUI point of contact, shown in the CUI designation block.'),
 
   parties: parties.optional().describe('Required for joint_letter, joint_memorandum, moa and mou; ignored elsewhere.'),
-  endorsement: endorsement.optional().describe('For same_page_endorsement and new_page_endorsement.'),
+  endorsement: endorsement.optional().describe('Required for same_page_endorsement and new_page_endorsement; ignored elsewhere.'),
 
   salutation: z.string().optional().describe('Business letters. Defaults to "Dear Sir or Madam:".'),
   complimentaryClose: z.string().optional().describe('Business letters. Defaults to "Sincerely,".'),

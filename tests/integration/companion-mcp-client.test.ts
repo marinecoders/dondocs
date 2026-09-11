@@ -204,6 +204,15 @@ describe('a protocol client', () => {
     expect(JSON.parse((from.messages[1].content as { resource: { text: string } }).resource.text)).toEqual(template);
 
     // Both bad arguments are invalid params, whichever side rejects them.
+    // An endorsement is refused without its ordinal and basic letter, so the
+    // prompt for an endorsement template has to ask for them up front.
+    const endorsement = await client.getPrompt({ name: 'draft_letter', arguments: { template: 'appointment-acknowledgement' } });
+    const ask = (endorsement.messages[0].content as { text: string }).text;
+    expect(ask).toContain('endorsement.ordinal');
+    expect(ask).toContain('endorsement.basicLetterId');
+    const plain = (from.messages[0].content as { text: string }).text;
+    expect(plain).not.toContain('endorsement.ordinal');
+
     await expect(client.getPrompt({ name: 'draft_letter', arguments: { template: 'no-such-template' } })).rejects.toMatchObject({
       code: -32602, message: expect.stringContaining('no-such-template'),
     });

@@ -23,6 +23,8 @@ export const FORMATS = ['pdf', 'docx'];
 export const CLASSIFICATION_LEVELS = ['unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci'];
 /** Paragraph portion marks, placed in the .tex as given, so nothing else may pass. */
 export const PORTION_MARKINGS = ['U', 'CUI', 'FOUO', 'C', 'S', 'TS'];
+/** The types whose heading is the ordinal and the letter being endorsed. */
+export const ENDORSEMENT_TYPES = ['same_page_endorsement', 'new_page_endorsement'];
 
 /** Everything wrong with a request, so one round-trip is enough to fix it. */
 export function validateLetter(body: Partial<LetterInput>): string[] {
@@ -60,6 +62,11 @@ export function validateLetter(body: Partial<LetterInput>): string[] {
     if (value !== undefined && (typeof value !== 'object' || Array.isArray(value))) {
       problems.push(`${name} must be an object`);
     }
+  }
+  // A bare "ENDORSEMENT" heading looks rendered and says nothing.
+  if (ENDORSEMENT_TYPES.includes(body.docType as string)
+    && !(body.endorsement?.ordinal && body.endorsement?.basicLetterId)) {
+    problems.push(`${body.docType} needs endorsement.ordinal (FIRST, SECOND ...) and endorsement.basicLetterId, the letter being endorsed`);
   }
   const level = body.classification?.level;
   if (level !== undefined && !CLASSIFICATION_LEVELS.includes(level)) {

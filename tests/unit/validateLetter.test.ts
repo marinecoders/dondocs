@@ -10,13 +10,16 @@
  * @vitest-environment node
  */
 import { describe, it, expect } from 'vitest';
-import { validateLetter, DOC_TYPES, FORMATS, CLASSIFICATION_LEVELS, PORTION_MARKINGS } from '../../companion/validateLetter';
+import { validateLetter, DOC_TYPES, FORMATS, CLASSIFICATION_LEVELS, PORTION_MARKINGS, ENDORSEMENT_TYPES } from '../../companion/validateLetter';
 
 const OK = { docType: 'naval_letter', subject: 'SUBJECT' } as const;
 
+const ENDORSED = { ordinal: 'FIRST', basicLetterId: 'CO 1st Bn ltr 5216 of 8 Sep 26' };
+
 describe('docType', () => {
   it.each(DOC_TYPES)('accepts %s', (docType) => {
-    expect(validateLetter({ ...OK, docType })).toEqual([]);
+    const body = ENDORSEMENT_TYPES.includes(docType) ? { ...OK, docType, endorsement: ENDORSED } : { ...OK, docType };
+    expect(validateLetter(body)).toEqual([]);
   });
 
   it('names the offending value and the allowed set', () => {
@@ -137,5 +140,26 @@ describe('portion marks', () => {
   it('refuses a mark outside the list by paragraph: the generator places it in the .tex as given', () => {
     const body = { ...OK, paragraphs: [{ text: 'a' }, { text: 'b', portionMarking: '\\input{x}' }] } as never;
     expect(validateLetter(body).join(' ')).toMatch(/paragraphs\[1\]\.portionMarking/);
+  });
+});
+
+describe('endorsements', () => {
+  // A bare "ENDORSEMENT" heading looks rendered and says nothing, the same
+  // failure the blank-page rule refuses.
+  it('names the two endorsement types', () => {
+    expect(ENDORSEMENT_TYPES).toEqual(['same_page_endorsement', 'new_page_endorsement']);
+  });
+
+  it.each(ENDORSEMENT_TYPES)('%s needs its ordinal and the letter being endorsed', (docType) => {
+    const problems = validateLetter({ ...OK, docType }).join(' ');
+    expect(problems).toMatch(/endorsement\.ordinal/);
+    expect(problems).toMatch(/endorsement\.basicLetterId/);
+    expect(validateLetter({ ...OK, docType, endorsement: { ordinal: 'FIRST' } }).join(' ')).toMatch(/basicLetterId/);
+    expect(validateLetter({ ...OK, docType, endorsement: 'FIRST' } as never).join(' ')).toMatch(/endorsement/);
+    expect(validateLetter({ ...OK, docType, endorsement: ENDORSED })).toEqual([]);
+  });
+
+  it('ignores the block on any other type', () => {
+    expect(validateLetter({ ...OK, endorsement: ENDORSED })).toEqual([]);
   });
 });

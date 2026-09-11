@@ -80,9 +80,10 @@ const CASES: Array<[string, Record<string, unknown>]> = [
     paragraphs: [{ text: 'Body.' }],
   }],
   ['an endorsement', {
-    docType: 'same_page_endorsement', subject: 'FIRST ENDORSEMENT on CO ltr 5216 of 8 Sep 26',
+    docType: 'same_page_endorsement', subject: 'APPOINTMENT',
     from: 'Sergeant A. B. Marine, USMC', to: 'Commanding Officer',
     paragraphs: [{ text: 'I have read and understand the references listed above.' }],
+    endorsement: { ordinal: 'FIRST', basicLetterId: 'CO ltr 5216 of 8 Sep 26' },
   }],
   ['an endorsement with the explicit object', {
     docType: 'same_page_endorsement', subject: 'APPOINTMENT', from: 'Sgt A', to: 'CO',

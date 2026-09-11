@@ -29,7 +29,7 @@ import { letterSchema } from './letterSchema';
 import { OutsideSandboxError, DEFAULT_ROOT } from './outputPath';
 import { renderToFile } from './renderToFile';
 import { renderResult, templateListResult, templateResult, unitLookupResult } from './resultSchema';
-import { DOC_TYPES, validateLetter } from './validateLetter';
+import { DOC_TYPES, ENDORSEMENT_TYPES, validateLetter } from './validateLetter';
 import { systemPandocVersion, VENDORED_PANDOC } from './renderDocx';
 
 const ROOT = process.env.DONDOCS_OUT_ROOT ?? DEFAULT_ROOT;
@@ -159,6 +159,9 @@ const handle = serveStdio(() => {
         ? `Start from the "${template.name}" template attached below: keep its structure, fill each bracketed placeholder from what I tell you, and ask for anything it needs that I have not given.`
         : 'Ask me for the subject and what the letter needs to say, then write the paragraphs.',
       'For the originating unit, use the machine defaults (dondocs://defaults) or look it up with dondocs_unit_lookup; do not guess an address. Confirm the addressee with me.',
+      ...(type && ENDORSEMENT_TYPES.includes(type)
+        ? ['Ask me for the endorsement ordinal (FIRST, SECOND ...) and the identification of the letter being endorsed, and pass them as endorsement.ordinal and endorsement.basicLetterId; the render is refused without them.']
+        : []),
       `Render with dondocs_letter${type ? ` using docType "${type}"` : ''} and tell me the path of the file it wrote.`,
     ].join(' ');
     return {
@@ -180,7 +183,8 @@ const handle = serveStdio(() => {
     description: 'Return the complete letter template for an ID from dondocs_template_list. '
       + 'Use it as a starting draft: ask the user for bracketed placeholders and missing correspondence details. '
       + 'Interpret each placeholder in context, preserve supplied facts, and never invent missing information. '
-      + 'When ready, pass the completed letter fields to dondocs_letter; omit template metadata (id, name, category, description).',
+      + 'When ready, pass the completed letter fields to dondocs_letter; omit template metadata (id, name, category, description). '
+      + 'An endorsement template also needs endorsement.ordinal and endorsement.basicLetterId.',
     inputSchema: z.object({ id: z.string().min(1).describe('Exact template ID from dondocs_template_list.') }).strict(),
     outputSchema: templateResult,
     annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
