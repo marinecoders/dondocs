@@ -5,6 +5,21 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.148] — 2026-09-10
+
+### Added
+
+- **The companion renders every document type the app defines.** It accepted
+  four; the app has twenty, and the renderer handled all of them the whole time.
+  The list now derives from the app's registry, and the seven types that
+  rendered with blank lines or bracketed placeholders carry their content: joint
+  letters and memoranda, MOAs and MOUs take both sides under `parties`;
+  endorsements take their ordinal and basic letter under `endorsement`;
+  business letters take a salutation and close; information memoranda take
+  coordination and prepared-by lines. The plain `from`, `to`, `subject` and
+  `date` fields work for every type, and the date defaults to the format the
+  type's chapter prescribes rather than always the naval one.
+
 ## [1.2.147] — 2026-09-10
 
 ### Fixed

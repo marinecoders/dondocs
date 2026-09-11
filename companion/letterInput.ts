@@ -13,7 +13,9 @@
 import { readFile } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
+import { format } from 'date-fns';
 import { canonicalizeUnitAddress } from '../src/lib/unitAddress';
+import { DOC_TYPE_CONFIG } from '../src/types/document';
 
 export interface ParagraphInput {
   text: string;
@@ -66,6 +68,17 @@ export interface SignatureInput {
   byDirectionAuthority?: string;
 }
 
+export interface PartyInput {
+  name: string;
+  from?: string;
+  code?: string;
+  zip?: string;
+  ssic?: string;
+  serial?: string;
+  date?: string;
+  signature?: { name: string; rank?: string; title?: string };
+}
+
 export interface LetterInput {
   docType: string;
   format?: 'pdf' | 'docx';
@@ -95,8 +108,25 @@ export interface LetterInput {
   distribution?: string[];
 
   signature?: SignatureInput;
-  classification?: { level?: string; pocEmail?: string };
+  classification?: {
+    level?: string; pocEmail?: string; custom?: string;
+    classifiedBy?: string; derivedFrom?: string; declassifyOn?: string; reason?: string;
+    cui?: { category?: string; controlledBy?: string; dissemination?: string; distStatement?: string };
+  };
   pocEmail?: string;
+
+  /** The two sides of a joint letter, joint memorandum, MOA or MOU. */
+  parties?: { senior: PartyInput; junior: PartyInput; commonLocation?: string };
+  endorsement?: { ordinal: string; basicLetterId: string; includeSubject?: boolean };
+
+  salutation?: string;
+  complimentaryClose?: string;
+  attnLine?: string;
+  throughLine?: string;
+  inReplyTo?: boolean;
+  coordination?: string;
+  preparedBy?: string;
+  pageNumbering?: 'none' | 'simple' | 'xofy';
 
   /**
    * Anything this interface does not name. Merged last, so a caller can reach a
@@ -139,11 +169,15 @@ function referenceLetter(index: number): string {
   return out;
 }
 
-/** Today, formatted the way a naval letter dates itself: `8 Aug 26`. */
-function today(): string {
-  const d = new Date();
-  const month = d.toLocaleString('en-US', { month: 'short' });
-  return `${d.getDate()} ${month} ${String(d.getFullYear()).slice(2)}`;
+/**
+ * Today, in the format the doc type's chapter prescribes: `8 Aug 26` for a
+ * naval letter, `August 8, 2026` for business and executive correspondence
+ * (Ch 11, Ch 12). The two patterns mirror `src/components/ui/date-picker.tsx`,
+ * which the companion cannot import without dragging in React.
+ */
+function today(docType: string): string {
+  const spelled = DOC_TYPE_CONFIG[docType]?.compliance?.dateFormat === 'spelled';
+  return format(new Date(), spelled ? 'MMMM d, yyyy' : 'd MMM yy');
 }
 
 /** The store shape the generators consume. */
@@ -157,7 +191,7 @@ export type GeneratorStore = Record<string, unknown>;
  * registry calls it `standard_memorandum`. The published name is unchanged, only
  * the lookup.
  */
-const TEMPLATE_FOR: Record<string, string> = {
+export const TEMPLATE_FOR: Record<string, string> = {
   memorandum: 'standard_memorandum',
 };
 
@@ -165,6 +199,29 @@ const TEMPLATE_FOR: Record<string, string> = {
  *  advertised list against the app's registry without restating the mapping. */
 export function templateFor(docType: string): string {
   return TEMPLATE_FOR[docType] ?? docType;
+}
+
+/** Both flat families for the two parties, from the one published shape. */
+function partyFields(input: LetterInput): Record<string, unknown> {
+  const p = input.parties;
+  if (!p) { return {}; }
+  const s = p.senior, j = p.junior;
+  return {
+    // joint_letter / joint_memorandum
+    jointSeniorName: s.name, jointSeniorFrom: s.from ?? input.from ?? '',
+    jointSeniorCode: s.code ?? '', jointSeniorZip: s.zip ?? '',
+    jointSeniorSigName: s.signature?.name ?? '', jointSeniorSigTitle: s.signature?.title ?? '',
+    jointJuniorName: j.name, jointJuniorFrom: j.from ?? '',
+    jointJuniorCode: j.code ?? '', jointJuniorZip: j.zip ?? '',
+    jointJuniorSSIC: j.ssic ?? '', jointJuniorSerial: j.serial ?? '', jointJuniorDate: j.date ?? '',
+    jointJuniorSigName: j.signature?.name ?? '', jointJuniorSigTitle: j.signature?.title ?? '',
+    jointCommonLocation: p.commonLocation ?? '',
+    // moa / mou
+    seniorCommandName: s.name, juniorCommandName: j.name,
+    juniorSSIC: j.ssic ?? '', juniorSerial: j.serial ?? '', juniorDate: j.date ?? '',
+    seniorSigName: s.signature?.name ?? '', seniorSigRank: s.signature?.rank ?? '', seniorSigTitle: s.signature?.title ?? '',
+    juniorSigName: j.signature?.name ?? '', juniorSigRank: j.signature?.rank ?? '', juniorSigTitle: j.signature?.title ?? '',
+  };
 }
 
 /**
@@ -177,6 +234,14 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
   const unit = { ...defaults.unit, ...input.unit };
   const sig = { ...defaults.signature, ...input.signature };
   const docType = templateFor(input.docType);
+  // The senior party's identifying block outranks the plain fields: joint
+  // documents read the senior column from data.ssic/serial/date (generator.ts
+  // 110-112) while agreements read seniorSSIC/seniorSerial/seniorDate, so the
+  // party value has to land in both places to reach both.
+  const senior = input.parties?.senior;
+  const date = senior?.date ?? input.date ?? today(docType);
+  const ssic = senior?.ssic ?? input.ssic ?? defaults.ssic ?? '5216';
+  const serial = senior?.serial ?? input.serial ?? '';
 
   return {
     docType,
@@ -195,20 +260,30 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       sealType: unit.seal ?? 'dow',
       letterheadColor: unit.letterheadColor ?? 'blue',
 
-      ssic: input.ssic ?? defaults.ssic ?? '5216',
-      serial: input.serial ?? '',
-      date: input.date ?? today(),
+      ssic,
+      serial,
+      date,
       originatorCode: input.originatorCode ?? defaults.originatorCode ?? '',
       officeCode: input.originatorCode ?? defaults.originatorCode ?? '',
 
       from: input.from ?? '',
       to: input.to ?? '',
-      // Executive memoranda read `memorandumFor`, not `to` (generator.ts,
-      // isExecutiveMode). Feeding both keeps one request field right for every
-      // doc type; letters ignore this one.
-      memorandumFor: input.to ?? '',
       via: (input.via ?? []).join('\n'),
       subject: input.subject ?? '',
+      // Several uiModes read the basics under their own names: executive
+      // memoranda take the addressee from `memorandumFor`, joint documents take
+      // from/to/subject from `joint*`, and agreements take the subject from
+      // `moaSubject` and the date from `seniorDate` (generator.ts, lines
+      // 112-126 and 208). Feeding every alias keeps one set of request fields
+      // right for every type; a type ignores the aliases it does not read.
+      memorandumFor: input.to ?? '',
+      jointSeniorFrom: input.from ?? '',
+      jointTo: input.to ?? '',
+      jointSubject: input.subject ?? '',
+      moaSubject: input.subject ?? '',
+      seniorSSIC: ssic,
+      seniorSerial: serial,
+      seniorDate: date,
 
       sigFirst: sig.first ?? '',
       sigMiddle: sig.middle ?? '',
@@ -220,6 +295,38 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
 
       classLevel: input.classification?.level ?? 'unclassified',
       pocEmail: input.pocEmail ?? input.classification?.pocEmail ?? '',
+      customClassification: input.classification?.custom ?? '',
+      classifiedBy: input.classification?.classifiedBy ?? '',
+      derivedFrom: input.classification?.derivedFrom ?? '',
+      declassifyOn: input.classification?.declassifyOn ?? '',
+      classReason: input.classification?.reason ?? '',
+      classifiedPocEmail: input.classification?.pocEmail ?? input.pocEmail ?? '',
+      cuiCategory: input.classification?.cui?.category ?? '',
+      cuiControlledBy: input.classification?.cui?.controlledBy ?? '',
+      cuiDissemination: input.classification?.cui?.dissemination ?? '',
+      cuiDistStatement: input.classification?.cui?.distStatement ?? '',
+
+      salutation: input.salutation ?? 'Dear Sir or Madam:',
+      complimentaryClose: input.complimentaryClose ?? 'Sincerely,',
+      attnLine: input.attnLine ?? '',
+      throughLine: input.throughLine ?? '',
+      inReplyTo: input.inReplyTo ?? false,
+      coordination: input.coordination ?? '',
+      preparedBy: input.preparedBy ?? '',
+      pageNumbering: input.pageNumbering ?? 'none',
+
+      // Endorsements: the generator can also parse these out of a subject like
+      // "FIRST ENDORSEMENT on ...", so these are the explicit form.
+      endorsementOrdinal: input.endorsement?.ordinal ?? '',
+      basicLetterId: input.endorsement?.basicLetterId ?? '',
+      includeEndorsementSubject: input.endorsement?.includeSubject ?? false,
+
+      // The two parties, fed to BOTH flat families the app keeps. Joint
+      // documents read joint*; agreements read senior*/junior*. Each type
+      // ignores the family it does not use, so populating both from one shape
+      // costs nothing and needs no branching on uiMode. Where a party carries a
+      // from line it overrides the plain one routed above.
+      ...partyFields(input),
 
       fontFamily: 'times',
       fontSize: '12pt',

@@ -62,6 +62,50 @@ Requests are capped at 1 MB, and `out` is resolved inside the output root and
 refused if it escapes. `out` is chosen by a model composing JSON, so
 `../../../../etc/passwd` is a realistic input rather than a hypothetical one.
 
+## Document types
+
+`docType` accepts every type the app defines — the enum in the tool schema and
+`docTypes` in `GET /health` are both derived from the app's registry, so the
+list here is illustrative rather than authoritative:
+
+| Family | Types | Extra fields |
+|---|---|---|
+| Letters | `naval_letter`, `standard_letter`, `multiple_address_letter` | none |
+| Business | `business_letter`, `executive_correspondence` | `salutation`, `complimentaryClose` |
+| Memoranda | `mfr`, `mf`, `plain_paper_memorandum`, `letterhead_memorandum`, `decision_memorandum`, `executive_memorandum` | none |
+| Executive | `standard_memorandum` (alias `memorandum`), `action_memorandum`, `information_memorandum` | `attnLine`, `throughLine`; info memo: `coordination`, `preparedBy` |
+| Endorsements | `same_page_endorsement`, `new_page_endorsement` | `endorsement: { ordinal, basicLetterId }` |
+| Two-party | `joint_letter`, `joint_memorandum`, `moa`, `mou` | `parties: { senior, junior }` |
+
+The plain `from`, `to`, `subject` and `date` fields work for every type; the
+companion routes them to whatever the type reads. The date defaults to the
+format the type's chapter prescribes — `8 Aug 26` for a naval letter,
+`August 8, 2026` for business and executive correspondence — when omitted.
+
+Two-party documents take both sides under `parties`. Each party carries the
+command name, an optional identifying block (`from`, `code`, `zip`, `ssic`,
+`serial`, `date`) and a `signature`. Joint documents print the signer's name as
+given; agreements reduce a full name to initial and surname, so give
+`"David R. Smith"` rather than `"D. R. SMITH"` there.
+
+```json
+{
+  "docType": "moa",
+  "subject": "AGREEMENT ON JOINT OPERATIONS",
+  "paragraphs": [{ "text": "..." }],
+  "parties": {
+    "senior": { "name": "COMMANDANT OF THE MARINE CORPS", "ssic": "1000", "serial": "0001",
+                "signature": { "name": "David R. Smith", "rank": "General", "title": "Commandant of the Marine Corps" } },
+    "junior": { "name": "CHIEF OF NAVAL OPERATIONS", "ssic": "1000", "serial": "0002", "date": "15 Jan 26",
+                "signature": { "name": "Mary K. Jones", "rank": "Admiral", "title": "Chief of Naval Operations" } }
+  }
+}
+```
+
+Endorsements take the ordinal and the letter being endorsed under
+`endorsement`. Without it the companion falls back to parsing a subject of the
+form `FIRST ENDORSEMENT on <basic letter>`.
+
 ## Machine defaults
 
 A unit is a property of the box, not of the request. Put yours in
