@@ -14,7 +14,7 @@
 import type { IncomingMessage, ServerResponse, RequestListener } from 'node:http';
 import { systemPandocVersion, VENDORED_PANDOC } from './renderDocx';
 import type { CompanionDefaults, LetterInput } from './letterInput';
-import { DEFAULT_ROOT, OutsideSandboxError } from './outputPath';
+import { OutsideSandboxError, outputRoot } from './outputPath';
 import { renderToFile } from './renderToFile';
 import { RenderTimeoutError } from './limits';
 import { validateLetter, DOC_TYPES, FORMATS } from './validateLetter';
@@ -24,7 +24,7 @@ import { lookupUnits } from './unitLookup';
 
 /** The contract version. Bump when the request or response shape changes. */
 export const CONTRACT = 1;
-export const ROOT = process.env.DONDOCS_OUT_ROOT || DEFAULT_ROOT;
+export const ROOT = outputRoot();
 /** A letter is kilobytes; anything past this is a runaway caller, not a document. */
 const MAX_BODY = 1_000_000;
 
