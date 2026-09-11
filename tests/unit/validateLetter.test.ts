@@ -163,3 +163,24 @@ describe('endorsements', () => {
     expect(validateLetter({ ...OK, endorsement: ENDORSED })).toEqual([]);
   });
 });
+
+describe('out', () => {
+  // These fail at the write, after a full render, with an errno the model
+  // cannot act on; refusing them up front names the field.
+  it('refuses a NUL byte', () => {
+    expect(validateLetter({ ...OK, out: 'x\u0000y.pdf' }).join(' ')).toMatch(/out.*NUL/);
+  });
+
+  it('refuses a path component over 255 bytes', () => {
+    expect(validateLetter({ ...OK, out: 'a'.repeat(256) + '.pdf' }).join(' ')).toMatch(/out.*255/);
+    expect(validateLetter({ ...OK, out: 'sub/' + 'a'.repeat(256) + '.pdf' }).join(' ')).toMatch(/out.*255/);
+  });
+
+  it('accepts a long path of legal components', () => {
+    expect(validateLetter({ ...OK, out: `${'a'.repeat(200)}/${'b'.repeat(200)}.pdf` })).toEqual([]);
+  });
+
+  it('refuses a non-string over the door that has no schema', () => {
+    expect(validateLetter({ ...OK, out: 5 } as never).join(' ')).toMatch(/out must be a string/);
+  });
+});

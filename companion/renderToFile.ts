@@ -14,6 +14,14 @@ import type { CompanionDefaults, LetterInput } from './letterInput';
 import { filenameFor, resolveOutputPath } from './outputPath';
 import { RENDER_TIMEOUT_MS, RenderTimeoutError } from './limits';
 
+/** The document rendered; putting it at `path` did not. */
+export class OutputWriteError extends Error {
+  constructor(path: string, cause: unknown) {
+    super(`could not write ${path}: ${cause instanceof Error ? cause.message : String(cause)}`, { cause });
+    this.name = 'OutputWriteError';
+  }
+}
+
 export interface RenderedFile {
   format: 'pdf' | 'docx';
   /** Absolute path, always inside `root`. */
@@ -49,8 +57,12 @@ export async function renderToFile(
     format === 'pdf' ? renderPdf(input, defaults, { signal: abort.signal }) : renderDocx(input, defaults),
     deadline,
   ]).finally(() => clearTimeout(timer));
-  await mkdir(dirname(target), { recursive: true });
-  await writeFile(target, bytes);
+  try {
+    await mkdir(dirname(target), { recursive: true });
+    await writeFile(target, bytes);
+  } catch (err) {
+    throw new OutputWriteError(target, err);
+  }
 
   return { format, path: target, bytes: bytes.byteLength };
 }

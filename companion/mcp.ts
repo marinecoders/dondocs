@@ -27,7 +27,7 @@ import { lookupUnits } from './unitLookup';
 import { CONFIG_PATH, loadDefaults } from './defaults';
 import { letterSchema } from './letterSchema';
 import { OutsideSandboxError, DEFAULT_ROOT } from './outputPath';
-import { renderToFile } from './renderToFile';
+import { OutputWriteError, renderToFile } from './renderToFile';
 import { renderResult, templateListResult, templateResult, unitLookupResult } from './resultSchema';
 import { DOC_TYPES, ENDORSEMENT_TYPES, validateLetter } from './validateLetter';
 import { systemPandocVersion, VENDORED_PANDOC } from './renderDocx';
@@ -301,7 +301,8 @@ const handle = serveStdio(() => {
         // chose a bad `out`; anything else is ours and the message says so.
         const message = err instanceof OutsideSandboxError
           ? `${err.message}. Choose a filename inside the output root instead.`
-          : `Render failed: ${err instanceof Error ? err.message : String(err)}`;
+          : err instanceof OutputWriteError ? err.message
+            : `Render failed: ${err instanceof Error ? err.message : String(err)}`;
         return { content: [{ type: 'text' as const, text: message }], isError: true };
       }
     },

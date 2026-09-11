@@ -63,6 +63,14 @@ export function validateLetter(body: Partial<LetterInput>): string[] {
       problems.push(`${name} must be an object`);
     }
   }
+  // Refused here rather than at the write, after a full render, with an errno.
+  if (body.out !== undefined) {
+    if (typeof body.out !== 'string') { problems.push('out must be a string'); }
+    else if (body.out.includes('\0')) { problems.push('out must not contain a NUL byte'); }
+    else if (body.out.split(/[/\\]/).some((part) => Buffer.byteLength(part) > 255)) {
+      problems.push('out: no path component may exceed 255 bytes');
+    }
+  }
   // A bare "ENDORSEMENT" heading looks rendered and says nothing.
   if (ENDORSEMENT_TYPES.includes(body.docType as string)
     && !(body.endorsement?.ordinal && body.endorsement?.basicLetterId)) {
