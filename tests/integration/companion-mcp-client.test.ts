@@ -71,7 +71,7 @@ describe('a protocol client', () => {
   it('tells the model how the tools fit together', () => {
     const instructions = client.getInstructions() ?? '';
     expect(instructions).toContain(root);
-    for (const name of ['dondocs_unit_lookup', 'dondocs_template_get', 'dondocs_letter', 'dondocs://defaults']) {
+    for (const name of ['dondocs_unit_lookup', 'dondocs_template_get', 'dondocs_letter', 'dondocs://defaults', 'From']) {
       expect(instructions).toContain(name);
     }
   });
@@ -95,6 +95,11 @@ describe('a protocol client', () => {
     // classification was missing here while the HTTP door honoured it.
     expect(props).toEqual(expect.arrayContaining(['docType', 'subject', 'paragraphs', 'unit', 'classification']));
     expect(schema.required).toContain('docType');
+    // Every letter and memorandum layout prints From:, the MFR included; a
+    // request that omits it gets an empty label, so the description says so.
+    for (const field of ['from', 'to']) {
+      expect((schema.properties![field] as { description: string }).description, field).toMatch(/memorand/i);
+    }
     expect(schema.additionalProperties, 'an unnamed field must be refused, not stripped').toBe(false);
     // It replaces the file at `out`, which is not the additive-only behaviour
     // destructiveHint false denotes.
@@ -200,6 +205,7 @@ describe('a protocol client', () => {
     expect(bare.messages[0].role).toBe('user');
     const instructions = (bare.messages[0].content as { text: string }).text;
     expect(instructions).toContain('joint_letter');
+    expect(instructions).toMatch(/From and To/);
     expect(instructions).toContain('dondocs_unit_lookup');
     expect(instructions).toContain('dondocs_letter');
 

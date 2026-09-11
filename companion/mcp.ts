@@ -75,7 +75,7 @@ const defaults = await loadDefaults();
 // single tool description can say.
 const INSTRUCTIONS = `DonDocs renders SECNAV M-5216.5 correspondence with dondocs_letter; files are written under ${ROOT}. `
   + 'Before calling it, settle the originating unit: omit unit to use the machine defaults (read dondocs://defaults to see them), '
-  + 'or find one with dondocs_unit_lookup. '
+  + 'or find one with dondocs_unit_lookup. Give the From and To lines: letters, endorsements and memoranda print the labels even when they are empty. '
   + 'To start from a template, read dondocs://templates/{id} or use dondocs_template_list and dondocs_template_get. '
   + 'Then call dondocs_letter with the content.';
 
@@ -156,8 +156,8 @@ const handle = serveStdio(() => {
         ? `Draft a document of type "${type}" with DonDocs.`
         : 'Draft naval correspondence with DonDocs. Ask me which document type fits before writing; dondocs_letter lists them in its docType enum.',
       template
-        ? `Start from the "${template.name}" template attached below: keep its structure, fill each bracketed placeholder from what I tell you, and ask for anything it needs that I have not given.`
-        : 'Ask me for the subject and what the letter needs to say, then write the paragraphs.',
+        ? `Start from the "${template.name}" template attached below: keep its structure, fill each bracketed placeholder from what I tell you, and ask for the From and To lines and anything else it needs that I have not given.`
+        : 'Ask me for the From and To lines, the subject, and what the letter needs to say, then write the paragraphs.',
       'For the originating unit, use the machine defaults (dondocs://defaults) or look it up with dondocs_unit_lookup; do not guess an address. Confirm the addressee with me.',
       ...(type && ENDORSEMENT_TYPES.includes(type)
         ? ['Ask me for the endorsement ordinal (FIRST, SECOND ...) and the identification of the letter being endorsed, and pass them as endorsement.ordinal and endorsement.basicLetterId; the render is refused without them.']

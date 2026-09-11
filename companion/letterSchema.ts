@@ -94,8 +94,8 @@ export const letterSchema = z.object({
   out: z.string().optional().describe('Filename inside the output root. Defaults to a slug of the subject. An existing file there is replaced.'),
 
   subject: z.string().optional().describe('The Subj: line. Conventionally all caps.'),
-  from: z.string().optional().describe('The From: line, e.g. "Commanding Officer, 1st Battalion, 6th Marines".'),
-  to: z.string().optional(),
+  from: z.string().optional().describe('The From: line, e.g. "Commanding Officer, 1st Battalion, 6th Marines". Letters, endorsements and memoranda print the label even when this is omitted, the MFR included; business letters and agreements have no From line.'),
+  to: z.string().optional().describe('The To: line, or the MEMORANDUM FOR addressee of the executive types. Printed even when omitted, except by the MFR and the multiple-address letter; business letters and agreements have no To line.'),
   via: z.array(z.string()).optional().describe('Each via is its own numbered line.'),
 
   ssic: z.string().optional(), serial: z.string().optional(),
