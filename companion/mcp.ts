@@ -15,6 +15,8 @@
  */
 import { McpServer } from '@modelcontextprotocol/server';
 import { serveStdio } from '@modelcontextprotocol/server/stdio';
+import { basename } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import * as z from 'zod';
 import { LETTER_TEMPLATES } from '../src/data/templates';
 import { lookupUnits } from './unitLookup';
@@ -22,10 +24,16 @@ import { loadDefaults } from './letterInput';
 import { letterSchema } from './letterSchema';
 import { OutsideSandboxError, DEFAULT_ROOT } from './outputPath';
 import { renderToFile } from './renderToFile';
+import { renderResult, templateListResult, templateResult, unitLookupResult } from './resultSchema';
 import { validateLetter } from './validateLetter';
 import { systemPandocVersion, VENDORED_PANDOC } from './renderDocx';
 
 const ROOT = process.env.DONDOCS_OUT_ROOT ?? DEFAULT_ROOT;
+
+const MIME = {
+  pdf: 'application/pdf',
+  docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+} as const;
 
 const defaults = await loadDefaults();
 
@@ -38,12 +46,15 @@ const handle = serveStdio(() => {
       + 'Choose a template matching the user\'s intent, then call dondocs_template_get with its ID. '
       + 'Ask the user if multiple matches are plausible; explain when no template fits.',
     inputSchema: z.object({}).strict(),
+    outputSchema: templateListResult,
     annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
-  }, async () => ({
-    content: [{ type: 'text' as const, text: JSON.stringify(
-      LETTER_TEMPLATES.map(({ id, name, category, description }) => ({ id, name, category, description })),
-    ) }],
-  }));
+  }, async () => {
+    const templates = LETTER_TEMPLATES.map(({ id, name, category, description }) => ({ id, name, category, description }));
+    return {
+      content: [{ type: 'text' as const, text: JSON.stringify(templates) }],
+      structuredContent: { templates },
+    };
+  });
 
   server.registerTool('dondocs_template_get', {
     title: 'Get a letter template',
@@ -52,6 +63,7 @@ const handle = serveStdio(() => {
       + 'Interpret each placeholder in context, preserve supplied facts, and never invent missing information. '
       + 'When ready, pass the completed letter fields to dondocs_letter; omit template metadata (id, name, category, description).',
     inputSchema: z.object({ id: z.string().min(1).describe('Exact template ID from dondocs_template_list.') }).strict(),
+    outputSchema: templateResult,
     annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   }, async ({ id }) => {
     const template = LETTER_TEMPLATES.find((entry) => entry.id === id);
@@ -61,7 +73,7 @@ const handle = serveStdio(() => {
         isError: true,
       };
     }
-    return { content: [{ type: 'text' as const, text: JSON.stringify(template) }] };
+    return { content: [{ type: 'text' as const, text: JSON.stringify(template) }], structuredContent: template };
   });
 
   server.registerTool('dondocs_unit_lookup', {
@@ -74,11 +86,12 @@ const handle = serveStdio(() => {
       query: z.string().trim().min(1).max(200).describe('For example Marine Innovation Unit, Marine Innovation Unit Newburgh, 2/23, or SVP.'),
       limit: z.number().int().min(1).max(50).default(20),
     }).strict(),
+    outputSchema: unitLookupResult,
     annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   }, async ({ query, limit }) => {
     try {
       const result = await lookupUnits(query, limit);
-      return { content: [{ type: 'text' as const, text: JSON.stringify(result) }] };
+      return { content: [{ type: 'text' as const, text: JSON.stringify(result) }], structuredContent: result };
     } catch (err) {
       return {
         content: [{ type: 'text' as const, text: `Unit lookup failed: ${err instanceof Error ? err.message : String(err)}. Retry the lookup; if it continues to fail, provide the unit name and mailing address directly to dondocs_letter.` }],
@@ -97,6 +110,7 @@ const handle = serveStdio(() => {
         + 'Returns the path to the written file, not the document itself. '
         + `Files are written under ${ROOT}.`,
       inputSchema: letterSchema,
+      outputSchema: renderResult,
       annotations: {
         // It writes a file and nothing else; re-running with the same `out`
         // replaces that file rather than accumulating.
@@ -118,10 +132,21 @@ const handle = serveStdio(() => {
       try {
         const file = await renderToFile(input, defaults, ROOT);
         return {
-          content: [{
-            type: 'text' as const,
-            text: `Wrote ${file.format.toUpperCase()} (${file.bytes.toLocaleString()} bytes) to ${file.path}`,
-          }],
+          content: [
+            {
+              type: 'text' as const,
+              text: `Wrote ${file.format.toUpperCase()} (${file.bytes.toLocaleString()} bytes) to ${file.path}`,
+            },
+            // A host that renders links lets the user open the file from the reply.
+            {
+              type: 'resource_link' as const,
+              uri: pathToFileURL(file.path).href,
+              name: basename(file.path),
+              mimeType: MIME[file.format],
+              size: file.bytes,
+            },
+          ],
+          structuredContent: file,
         };
       } catch (err) {
         // Hand the model something it can act on. A sandbox refusal means it

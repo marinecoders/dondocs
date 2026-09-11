@@ -46,6 +46,7 @@ describe('MCP unit lookup failures', () => {
     mocks.lookup.mockResolvedValueOnce(result);
     await expect(call({ query: 'SVP', limit: 20 })).resolves.toEqual({
       content: [{ type: 'text', text: JSON.stringify(result) }],
+      structuredContent: result,
     });
     expect(mocks.lookup).toHaveBeenLastCalledWith('SVP', 20);
   });

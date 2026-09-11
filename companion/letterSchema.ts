@@ -19,7 +19,7 @@ const paragraph = z.object({
   header: z.string().optional().describe('Bold run-in heading before the text.'),
 });
 
-const unit = z.object({
+export const unit = z.object({
   name: z.string().optional(),
   line1: z.string().optional().describe('First letterhead line; defaults to the department wording.'),
   line2: z.string().optional().describe('Second letterhead line, e.g. the parent command.'),

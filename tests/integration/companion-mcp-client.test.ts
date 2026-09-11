@@ -16,6 +16,7 @@ import { mkdtemp, rm, readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { LETTER_TEMPLATES } from '../../src/data/templates';
 
 const REPO = resolve(import.meta.dirname, '..', '..');
@@ -27,6 +28,9 @@ const text = (r: unknown): string =>
   ((r as { content?: Array<{ text?: string }> }).content ?? []).map((c) => c.text ?? '').join('');
 const pathOf = (r: unknown): string | undefined => (text(r).match(/ to (.+)$/) ?? [])[1];
 const isError = (r: unknown): boolean => (r as { isError?: boolean }).isError === true;
+const structured = (r: unknown): unknown => (r as { structuredContent?: unknown }).structuredContent;
+const blocks = (r: unknown, type: string): Array<Record<string, unknown>> =>
+  ((r as { content?: Array<Record<string, unknown>> }).content ?? []).filter((c) => c.type === type);
 
 beforeAll(async () => {
   root = await mkdtemp(join(tmpdir(), 'dondocs-client-'));
@@ -82,6 +86,13 @@ describe('a protocol client', () => {
     expect(schema.additionalProperties, 'an unnamed field must be refused, not stripped').toBe(false);
   }, 60_000);
 
+  it('publishes an output schema for every tool', async () => {
+    const { tools } = await client.listTools();
+    for (const tool of tools) {
+      expect(tool.outputSchema, `${tool.name} returns a text block the model has to parse`).toBeDefined();
+    }
+  });
+
   it('lists template metadata and retrieves every complete template', async () => {
     const { tools } = await client.listTools();
     for (const name of ['dondocs_template_list', 'dondocs_template_get']) {
@@ -91,13 +102,14 @@ describe('a protocol client', () => {
     }
     const result = await client.callTool({ name: 'dondocs_template_list', arguments: {} });
     expect(isError(result), text(result)).toBe(false);
-    expect(JSON.parse(text(result))).toEqual(LETTER_TEMPLATES.map(({ id, name, category, description }) => ({
-      id, name, category, description,
-    })));
+    const summaries = LETTER_TEMPLATES.map(({ id, name, category, description }) => ({ id, name, category, description }));
+    expect(JSON.parse(text(result))).toEqual(summaries);
+    expect(structured(result)).toEqual({ templates: summaries });
     for (const template of LETTER_TEMPLATES) {
       const full = await client.callTool({ name: 'dondocs_template_get', arguments: { id: template.id } });
       expect(isError(full), text(full)).toBe(false);
       expect(JSON.parse(text(full))).toEqual(template);
+      expect(structured(full)).toEqual(template);
     }
   });
 
@@ -112,6 +124,7 @@ describe('a protocol client', () => {
     const lookup = async (query: string, limit = 20) => {
       const response = await client.callTool({ name: 'dondocs_unit_lookup', arguments: { query, limit } });
       expect(isError(response), text(response)).toBe(false);
+      expect(structured(response)).toEqual(JSON.parse(text(response)));
       return JSON.parse(text(response));
     };
     const all = await lookup('marine innovation unit');
@@ -146,6 +159,12 @@ describe('a protocol client', () => {
     expect(file?.startsWith(root)).toBe(true);
     const bytes = await readFile(file!);
     expect(bytes.subarray(0, 4).toString()).toBe('%PDF');
+
+    expect(structured(res)).toEqual({ format: 'pdf', path: file, bytes: bytes.byteLength });
+    // A host that renders links lets the user open the file from the reply.
+    expect(blocks(res, 'resource_link')).toEqual([expect.objectContaining({
+      uri: pathToFileURL(file!).href, name: 'client.pdf', mimeType: 'application/pdf', size: bytes.byteLength,
+    })]);
   }, 200_000);
 
   it('carries a classification into the document', async () => {
