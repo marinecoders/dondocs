@@ -252,6 +252,30 @@ An unambiguous result can be used immediately. Search uses only values recorded
 in the directory; there is no alias expansion. If an acronym is not recorded,
 search its full name or ask the user what it stands for.
 
+### Beyond tools
+
+The server also publishes resources, a prompt, completions, and structured
+results. A client that only calls tools is unaffected.
+
+- **Structured results.** Every tool declares an `outputSchema` and returns the
+  same data as `structuredContent` beside its text block. `dondocs_letter`
+  returns `{ format, path, bytes }`; the lookup returns its matches, each with
+  a `unit` that is a subset of what `dondocs_letter` accepts.
+- **A link to the file.** `dondocs_letter` also returns a `resource_link` to
+  the written file (`file://` URI, MIME type, size).
+- **Templates as resources.** The bundled templates are listed under
+  `dondocs://templates/{id}`, titled by name. Reading one returns the same JSON
+  as `dondocs_template_get`; the `id` completes.
+- **A `draft_letter` prompt.** Optional `docType` and `template`, both with
+  completion. Returns the instructions to draft and render that letter; with a
+  template, the prompt embeds it as a resource.
+- **A unit picker.** When a lookup matches several units and the client has
+  declared form elicitation, `dondocs_unit_lookup` asks the user which one and
+  returns only that match. Declining, or a client without forms, gets the
+  list. Truncated results are not offered as a picker; narrow the query.
+
+Nothing is logged over the protocol; diagnostics go to stderr.
+
 **stdout belongs to the protocol.** Anything printed there that is not a JSON-RPC
 message corrupts the session and the client drops the connection. Two things in
 this repo used to do exactly that — the vite texlive banner and the engine
