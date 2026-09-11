@@ -33,16 +33,20 @@ export async function renderToFile(
   const format = input.format ?? 'pdf';
   const target = resolveOutputPath(input.out ?? filenameFor(input.subject, format), root);
 
-  // Bound the render against the caller's patience rather than our own. The
-  // losing branch does not cancel the work — the engine finishes and disposes
-  // on its own — but the caller stops waiting and is told why, which is the
-  // part that matters to an agent with no timeout of its own.
+  // Bound the render against the caller's patience rather than our own, and
+  // cancel the work when the deadline wins: a wedged compile would otherwise
+  // keep its worker for the life of the process.
+  const abort = new AbortController();
   let timer: NodeJS.Timeout | undefined;
   const deadline = new Promise<never>((_, reject) => {
-    timer = setTimeout(() => reject(new RenderTimeoutError(format, RENDER_TIMEOUT_MS)), RENDER_TIMEOUT_MS);
+    timer = setTimeout(() => {
+      // Reject first so the caller gets the timeout, not the abort's own error.
+      reject(new RenderTimeoutError(format, RENDER_TIMEOUT_MS));
+      abort.abort();
+    }, RENDER_TIMEOUT_MS);
   });
   const bytes = await Promise.race([
-    format === 'pdf' ? renderPdf(input, defaults) : renderDocx(input, defaults),
+    format === 'pdf' ? renderPdf(input, defaults, { signal: abort.signal }) : renderDocx(input, defaults),
     deadline,
   ]).finally(() => clearTimeout(timer));
   await mkdir(dirname(target), { recursive: true });
