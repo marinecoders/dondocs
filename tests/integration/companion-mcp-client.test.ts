@@ -259,7 +259,7 @@ describe('a protocol client', () => {
     expect((await lookup('SVP')).matches).toEqual(selected.matches);
     expect((await lookup('016')).total).toBeGreaterThan(1);
     expect(await lookup('Marine Innovation Unit', 2)).toMatchObject({ total: 7, truncated: true });
-    expect((await lookup('MIU')).matches).toEqual([]);
+    expect((await lookup('MIU')).matches).toEqual(all.matches);
     expect((await lookup('no-such-unit-xyz')).matches).toEqual([]);
     const result = await client.callTool({ name: 'dondocs_letter', arguments: {
       docType: 'naval_letter', subject: 'LOOKUP CHECK', out: 'lookup.pdf',
