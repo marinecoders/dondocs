@@ -200,6 +200,8 @@ describe('the MCP server', () => {
         await new Promise((r) => setTimeout(r, 100));
       }
 
+      // A server that never started would leave stdout clean too.
+      expect(lines.some((l) => l.includes('"result"')), 'no initialize reply from the documented launch form').toBe(true);
       const junk = lines.map((l) => l.trim()).filter(Boolean).filter((l) => {
         try { JSON.parse(l); return false; } catch { return true; }
       });

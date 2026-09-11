@@ -83,6 +83,18 @@ describe('a client that can show a form', () => {
     expect(asked).toHaveLength(0);
   }, 60_000);
 
+  it.each([
+    ['cancel', () => ({ action: 'cancel' as const })],
+    ['an accept without the key', () => ({ action: 'accept' as const, content: {} })],
+  ])('treats %s as a decline', async (_label, reply) => {
+    asked = [];
+    answer = reply;
+    const res = await lookup(QUERY);
+    expect(isError(res)).toBe(false);
+    expect(asked).toHaveLength(1);
+    expect(structured(res).matches).toHaveLength(7);
+  }, 60_000);
+
   it('treats an answer outside the offered choices as a decline', async () => {
     asked = [];
     answer = () => ({ action: 'accept', content: { unit: '99' } });
@@ -91,4 +103,28 @@ describe('a client that can show a form', () => {
     expect(structured(res).matches).toHaveLength(7);
     await expect(client.ping()).resolves.toBeDefined();
   }, 60_000);
+});
+
+describe('a client that declares url elicitation only', () => {
+  // A form is the only thing the picker can ask for; a url-only client
+  // must get the list, never a question it cannot show.
+  it('is not asked', async () => {
+    const urlOnly = new Client({ name: 'dondocs-url-only', version: '1' }, { capabilities: { elicitation: { url: {} } } });
+    let askedUrlOnly = 0;
+    urlOnly.setRequestHandler('elicitation/create', async () => { askedUrlOnly += 1; return { action: 'decline' }; });
+    await urlOnly.connect(new StdioClientTransport({
+      command: process.execPath,
+      args: [join(REPO, 'node_modules', 'vite-node', 'dist', 'cli.mjs'), 'companion/mcp.ts'],
+      cwd: REPO,
+      env: { ...process.env, DONDOCS_CONFIG: '/nonexistent/companion.config.json' },
+      stderr: 'pipe',
+    }));
+    try {
+      const res = await urlOnly.callTool({ name: 'dondocs_unit_lookup', arguments: { query: QUERY } });
+      expect(askedUrlOnly).toBe(0);
+      expect(structured(res).matches).toHaveLength(7);
+    } finally {
+      await urlOnly.close();
+    }
+  }, 200_000);
 });
