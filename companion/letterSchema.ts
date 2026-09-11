@@ -22,12 +22,13 @@ const paragraph = z.object({
 });
 
 export const unit = z.object({
-  name: z.string().optional(),
-  line1: z.string().optional().describe('First letterhead line; defaults to the department wording.'),
+  name: z.string().optional().describe('The unit line printed under the department heading, e.g. "1ST MARINE DIVISION".'),
+  line1: z.string().optional().describe('The same line under the app\'s field name; name wins when both are given.'),
   line2: z.string().optional().describe('Second letterhead line, e.g. the parent command.'),
   address: z.string().optional()
     .describe('The whole mailing address as ONE string, e.g. "PSC BOX 20004, QUANTICO VA 22134". Do not split it.'),
-  department: z.enum(['usmc', 'navy']).optional(),
+  department: z.enum(['usmc', 'navy', 'dod']).optional()
+    .describe('The heading: UNITED STATES MARINE CORPS, DEPARTMENT OF THE NAVY, or DEPARTMENT OF DEFENSE. Defaults to usmc.'),
   seal: z.enum(['dow', 'dod']).optional(),
   letterheadColor: z.enum(['blue', 'black']).optional(),
 });

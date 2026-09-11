@@ -206,6 +206,10 @@ function partyFields(input: LetterInput): Record<string, unknown> {
  */
 export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): GeneratorStore {
   const unit = { ...defaults.unit, ...input.unit };
+  // One printed line under the department heading, under either field name;
+  // resolved per source so a request name beats a configured line1. No
+  // fallback: the heading already says UNITED STATES MARINE CORPS.
+  const unitLine = input.unit?.name ?? input.unit?.line1 ?? defaults.unit?.name ?? defaults.unit?.line1 ?? '';
   const sig = { ...defaults.signature, ...input.signature };
   const docType = templateFor(input.docType);
   // The senior party's identifying block outranks the plain fields: joint
@@ -222,8 +226,8 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
     formData: {
       docType,
 
-      unitName: unit.name ?? unit.line1 ?? 'UNITED STATES MARINE CORPS',
-      unitLine1: unit.line1 ?? unit.name ?? 'UNITED STATES MARINE CORPS',
+      unitName: unitLine,
+      unitLine1: unitLine,
       unitLine2: unit.line2 ?? '',
       // Normalize tool/config addresses to the comma layout the letterhead
       // splitter expects, just as the web app does when loading an address.

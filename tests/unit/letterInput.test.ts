@@ -42,8 +42,21 @@ describe('precedence', () => {
 
   it('falls back to something renderable with no config at all', () => {
     const f = FORM(toStore({ docType: 'naval_letter' }));
-    expect(f.unitName).toBe('UNITED STATES MARINE CORPS');
+    // The department heading already says UNITED STATES MARINE CORPS; a
+    // second copy under it is not a unit line.
+    expect(f.unitLine1).toBe('');
     expect(f.ssic).toBe('5216');
+  });
+
+  it('does not print the Marine Corps line under a Navy heading', () => {
+    const f = FORM(toStore({ docType: 'naval_letter', unit: { department: 'navy', address: '2000 NAVY PENTAGON, WASHINGTON DC 20350' } }));
+    expect(f.department).toBe('navy');
+    expect(f.unitLine1).toBe('');
+  });
+
+  it('lets a request name beat a configured line1, the same line under another spelling', () => {
+    const f = FORM(toStore({ docType: 'naval_letter', unit: { name: 'REQUEST NAME' } }, { unit: { line1: 'CONFIG LINE' } }));
+    expect(f.unitLine1).toBe('REQUEST NAME');
   });
 
   it('has no escape hatch past the named fields', () => {
