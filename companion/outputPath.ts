@@ -13,6 +13,22 @@ import { dirname, resolve, join, sep } from 'node:path';
 /** Default root. Somewhere a person would actually look for a letter. */
 export const DEFAULT_ROOT = join(homedir(), 'Documents', 'DonDocs');
 
+/**
+ * The root DONDOCS_OUT_ROOT names, or the default. A bundle host fills the
+ * variable from a setting whose default is written with a placeholder
+ * (`${DOCUMENTS}/DonDocs`); should that arrive unexpanded, it is not a
+ * directory to create under wherever the host launched us.
+ */
+export function outputRoot(value: string | undefined = process.env.DONDOCS_OUT_ROOT): string {
+  if (!value) { return DEFAULT_ROOT; }
+  if (/\$\{[^}]*\}/.test(value)) {
+    // stderr: under MCP, stdout is the protocol.
+    console.error(`ignoring DONDOCS_OUT_ROOT=${JSON.stringify(value)}: unexpanded placeholder; using ${DEFAULT_ROOT}`);
+    return DEFAULT_ROOT;
+  }
+  return value;
+}
+
 export class OutsideSandboxError extends Error {
   constructor(requested: string, root: string) {
     super(`refusing to write outside the output root: ${requested} is not inside ${root}`);

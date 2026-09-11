@@ -26,13 +26,13 @@ import { LETTER_TEMPLATES } from '../src/data/templates';
 import { lookupUnits } from './unitLookup';
 import { CONFIG_PATH, loadDefaults } from './defaults';
 import { letterSchema } from './letterSchema';
-import { OutsideSandboxError, DEFAULT_ROOT } from './outputPath';
+import { OutsideSandboxError, outputRoot } from './outputPath';
 import { OutputWriteError, renderToFile } from './renderToFile';
 import { renderResult, templateListResult, templateResult, unitLookupResult } from './resultSchema';
 import { DOC_TYPES, ENDORSEMENT_TYPES, validateLetter } from './validateLetter';
 import { systemPandocVersion, VENDORED_PANDOC } from './renderDocx';
 
-const ROOT = process.env.DONDOCS_OUT_ROOT || DEFAULT_ROOT;
+const ROOT = outputRoot();
 
 const MIME = {
   pdf: 'application/pdf',

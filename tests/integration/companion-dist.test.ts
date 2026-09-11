@@ -191,6 +191,11 @@ describe('the MCP Bundle', () => {
     const manifest = JSON.parse(await readFile(join(unpacked, 'manifest.json'), 'utf-8'));
     expect(manifest.version).toBe(version);
     expect(manifest.server.mcp_config.args).toEqual(['${__dirname}/companion/mcp.mjs']);
+    // The desktop app installs an extension with a required setting switched
+    // off, default or no default, until the person saves the settings page.
+    for (const [key, field] of Object.entries<{ required?: boolean }>(manifest.user_config)) {
+      expect(field.required, `${key} would leave the extension off after install`).not.toBe(true);
+    }
     expect(existsSync(join(unpacked, manifest.server.entry_point))).toBe(true);
     expect(existsSync(join(MCPB_DIR, `dondocs-${version}.mcpb.sha256`))).toBe(true);
   });
