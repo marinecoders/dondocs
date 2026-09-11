@@ -8,7 +8,14 @@
  * Renders measure 0.87s (PDF) and 0.49s (DOCX), so 45s is not a performance
  * ceiling — it is a wedged-process detector.
  */
-export const RENDER_TIMEOUT_MS = Number(process.env.DONDOCS_RENDER_TIMEOUT_MS ?? 45_000);
+const DEFAULT_MS = 45_000;
+const override = process.env.DONDOCS_RENDER_TIMEOUT_MS;
+const parsed = override === undefined ? DEFAULT_MS : Number(override);
+if (!(Number.isFinite(parsed) && parsed > 0)) {
+  // stderr: under MCP, stdout is the protocol.
+  console.error(`ignoring DONDOCS_RENDER_TIMEOUT_MS=${JSON.stringify(override)}; using ${DEFAULT_MS}ms`);
+}
+export const RENDER_TIMEOUT_MS = Number.isFinite(parsed) && parsed > 0 ? parsed : DEFAULT_MS;
 
 export class RenderTimeoutError extends Error {
   constructor(format: string, ms: number) {

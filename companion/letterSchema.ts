@@ -10,27 +10,30 @@
  * No import side effects, so a test can reach it — `mcp.ts` starts a server.
  */
 import * as z from 'zod';
-import { DOC_TYPES } from './validateLetter';
+import { CLASSIFICATION_LEVELS, DOC_TYPES, PORTION_MARKINGS } from './validateLetter';
 
 const paragraph = z.object({
   text: z.string().describe('The paragraph text. Plain prose — numbering is applied for you.'),
   level: z.number().int().min(0).max(7).optional()
     .describe('0 = "1.", 1 = "a.", 2 = "(1)" … through Figure 7-8\'s eight levels. Defaults to 0.'),
   header: z.string().optional().describe('Bold run-in heading before the text.'),
+  portionMarking: z.enum(PORTION_MARKINGS as [string, ...string[]]).optional()
+    .describe('Printed as "(S) " before the text. The banner rises to the highest mark in the document.'),
 });
 
 export const unit = z.object({
-  name: z.string().optional(),
-  line1: z.string().optional().describe('First letterhead line; defaults to the department wording.'),
+  name: z.string().optional().describe('The unit line printed under the department heading, e.g. "1ST MARINE DIVISION".'),
+  line1: z.string().optional().describe('The same line under the app\'s field name; name wins when both are given.'),
   line2: z.string().optional().describe('Second letterhead line, e.g. the parent command.'),
   address: z.string().optional()
     .describe('The whole mailing address as ONE string, e.g. "PSC BOX 20004, QUANTICO VA 22134". Do not split it.'),
-  department: z.enum(['usmc', 'navy']).optional(),
+  department: z.enum(['usmc', 'navy', 'dod']).optional()
+    .describe('The heading: UNITED STATES MARINE CORPS, DEPARTMENT OF THE NAVY, or DEPARTMENT OF DEFENSE. Defaults to usmc.'),
   seal: z.enum(['dow', 'dod']).optional(),
   letterheadColor: z.enum(['blue', 'black']).optional(),
 });
 
-const signature = z.object({
+export const signature = z.object({
   first: z.string().optional(), middle: z.string().optional(), last: z.string().optional(),
   rank: z.string().optional(), title: z.string().optional(),
   byDirection: z.boolean().optional(),
@@ -40,10 +43,10 @@ const signature = z.object({
 /** The generator renders a marking only for a level it recognises; anything else
  *  comes out unmarked. Publishing the list stops a caller inventing one. */
 const classification = z.object({
-  level: z.enum(['unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci'])
+  level: z.enum(CLASSIFICATION_LEVELS as [string, ...string[]])
     .optional().describe('Document-level classification. Defaults to unclassified.'),
   pocEmail: z.string().optional().describe('CUI point of contact.'),
-  custom: z.string().optional().describe('Banner text for a marking outside the list, e.g. a caveat.'),
+  custom: z.string().optional().describe('Banner text for a marking outside the list, printed as given. Give this instead of level, not with it.'),
   classifiedBy: z.string().optional(), derivedFrom: z.string().optional(),
   declassifyOn: z.string().optional(), reason: z.string().optional(),
   cui: z.object({
@@ -88,7 +91,7 @@ export const letterSchema = z.object({
   // and a second copy is how one door came to accept what the other refused.
   docType: z.enum(DOC_TYPES as [string, ...string[]]),
   format: z.enum(['pdf', 'docx']).optional().describe('Defaults to pdf.'),
-  out: z.string().optional().describe('Filename inside the output root. Defaults to a slug of the subject.'),
+  out: z.string().optional().describe('Filename inside the output root. Defaults to a slug of the subject. An existing file there is replaced.'),
 
   subject: z.string().optional().describe('The Subj: line. Conventionally all caps.'),
   from: z.string().optional().describe('The From: line, e.g. "Commanding Officer, 1st Battalion, 6th Marines".'),
@@ -104,7 +107,6 @@ export const letterSchema = z.object({
   references: z.array(z.object({
     letter: z.string().regex(/^[a-z]{1,2}$/).optional().describe('One or two lowercase letters. Assigned a, b … in order when omitted.'),
     title: z.string(),
-    url: z.string().optional(),
   })).optional().describe('Lettered (a), (b) … in the order given.'),
   enclosures: z.array(z.object({ title: z.string() })).optional(),
   copyTo: z.array(z.string()).optional(),
@@ -114,19 +116,19 @@ export const letterSchema = z.object({
   signature: signature.optional().describe('Omit to use the machine defaults; dondocs://defaults (MCP) or GET /health (HTTP) show them.'),
 
   classification: classification.optional()
-    .describe('Omit for an unclassified document. The banner is the higher of this and any portion mark.'),
+    .describe('Omit for an unclassified document. The banner is the higher of level and any paragraphs[].portionMarking; a custom banner is printed as given and not raised.'),
   pocEmail: z.string().optional().describe('CUI point of contact, shown in the CUI designation block.'),
 
   parties: parties.optional().describe('Required for joint_letter, joint_memorandum, moa and mou; ignored elsewhere.'),
-  endorsement: endorsement.optional().describe('For same_page_endorsement and new_page_endorsement.'),
+  endorsement: endorsement.optional().describe('Required for same_page_endorsement and new_page_endorsement; ignored elsewhere.'),
 
   salutation: z.string().optional().describe('Business letters. Defaults to "Dear Sir or Madam:".'),
   complimentaryClose: z.string().optional().describe('Business letters. Defaults to "Sincerely,".'),
-  attnLine: z.string().optional().describe('Executive correspondence, DOCX output only: an ATTN line.'),
-  throughLine: z.string().optional().describe('Executive correspondence, DOCX output only: a THROUGH line.'),
+  attnLine: z.string().optional().describe('standard_memorandum (alias memorandum), DOCX output only: an ATTN line.'),
+  throughLine: z.string().optional().describe('standard_memorandum (alias memorandum), DOCX output only: a THROUGH line, printed in capitals.'),
   inReplyTo: z.boolean().optional().describe('Standard letters: print the "In Reply Refer To" line.'),
-  coordination: z.string().optional().describe('Information memoranda: the coordination line.'),
-  preparedBy: z.string().optional().describe('Information memoranda: who prepared it, e.g. "CAPT J. Smith, USN".'),
+  coordination: z.string().optional().describe('information_memorandum, and action_memorandum in DOCX output: the coordination line.'),
+  preparedBy: z.string().optional().describe('information_memorandum, and action_memorandum in DOCX output: who prepared it, e.g. "CAPT J. Smith, USN".'),
   pageNumbering: z.enum(['none', 'simple', 'xofy']).optional().describe('Defaults to none.'),
 // Stripping an unnamed field silently is how a classification marking went
 // missing from a document that asked for one; refusing it by name is how a

@@ -15,7 +15,8 @@ import { mkdtemp, rm, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { loadDefaults, type CompanionDefaults } from '../../companion/letterInput';
+import { loadDefaults } from '../../companion/defaults';
+import type { CompanionDefaults } from '../../companion/letterInput';
 import { renderToFile } from '../../companion/renderToFile';
 import { DOC_TYPES, FORMATS } from '../../companion/validateLetter';
 

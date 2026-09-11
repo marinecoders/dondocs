@@ -56,7 +56,7 @@ const CASES: Array<[string, Record<string, unknown>]> = [
     via: ['First Via', 'Second Via'],
     ssic: '1500', serial: '001', date: '8 Aug 26', originatorCode: 'S-6',
     paragraphs: [{ text: 'One.', level: 0, header: 'Background' }, { text: 'Two.', level: 1 }],
-    references: [{ letter: 'a', title: 'Ref one', url: 'https://example.mil' }, { title: 'Ref two' }],
+    references: [{ letter: 'a', title: 'Ref one' }, { title: 'Ref two' }],
     enclosures: [{ title: 'Encl one' }],
     copyTo: ['Copy A'], distribution: ['Dist A'],
     unit: {
@@ -71,14 +71,19 @@ const CASES: Array<[string, Record<string, unknown>]> = [
     classification: { level: 'confidential', pocEmail: 'poc@example.mil' },
     pocEmail: 'top@example.mil',
   }],
+  ['a custom marking', {
+    docType: 'naval_letter', subject: 'CAVEAT', paragraphs: [{ text: 'x' }],
+    classification: { custom: 'MY CAVEAT BANNER' },
+  }],
   ['a memorandum', {
     docType: 'memorandum', subject: 'MEMO', to: 'Commanding General',
     paragraphs: [{ text: 'Body.' }],
   }],
   ['an endorsement', {
-    docType: 'same_page_endorsement', subject: 'FIRST ENDORSEMENT on CO ltr 5216 of 8 Sep 26',
+    docType: 'same_page_endorsement', subject: 'APPOINTMENT',
     from: 'Sergeant A. B. Marine, USMC', to: 'Commanding Officer',
     paragraphs: [{ text: 'I have read and understand the references listed above.' }],
+    endorsement: { ordinal: 'FIRST', basicLetterId: 'CO ltr 5216 of 8 Sep 26' },
   }],
   ['an endorsement with the explicit object', {
     docType: 'same_page_endorsement', subject: 'APPOINTMENT', from: 'Sgt A', to: 'CO',
@@ -130,6 +135,14 @@ describe('transport parity', () => {
       const { store } = run(body);
       const formData = (store as Record<string, Record<string, unknown>>).formData;
       expect(formData.classLevel, `${door} dropped the classification`).toBe('secret');
+    }
+  });
+
+  it('carries a custom marking through both doors as its own level', () => {
+    const body = { docType: 'naval_letter', subject: 'CAVEAT', paragraphs: [{ text: 'x' }], classification: { custom: 'MY CAVEAT BANNER' } };
+    for (const [door, run] of [['http', throughHttp], ['schema', throughSchema]] as const) {
+      const formData = (run(body).store as Record<string, Record<string, unknown>>).formData;
+      expect(formData.classLevel, `${door} lost the custom marking`).toBe('custom');
     }
   });
 

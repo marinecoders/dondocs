@@ -30,6 +30,12 @@ describe('the published result schemas', () => {
     }
   });
 
+  it('carry a DOD directory entry with its department, so the letterhead heading follows', async () => {
+    const result = await lookupUnits('DEFENSE INFORMATION SCHOOL');
+    expect(result.matches[0].unit.department).toBe('dod');
+    expect(unitLookupResult.safeParse(result).success).toBe(true);
+  });
+
   it('accept a render result and refuse a format the renderer cannot produce', () => {
     expect(renderResult.safeParse({ format: 'pdf', path: '/out/letter.pdf', bytes: 12_345 }).success).toBe(true);
     expect(renderResult.safeParse({ format: 'docx', path: '/out/letter.docx', bytes: 0 }).success).toBe(true);

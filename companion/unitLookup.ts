@@ -32,7 +32,8 @@ export async function lookupUnits(query: string, limit = 20) {
           line2: letterhead.line2,
           address: letterhead.address,
           ...(service === 'USMC' ? { department: 'usmc' as const }
-            : service === 'USN' || service === 'NAVY' ? { department: 'navy' as const } : {}),
+            : service === 'USN' || service === 'NAVY' ? { department: 'navy' as const }
+              : service === 'DOD' ? { department: 'dod' as const } : {}),
         },
       };
     }),

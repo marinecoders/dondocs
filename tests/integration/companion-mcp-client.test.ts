@@ -92,6 +92,12 @@ describe('a protocol client', () => {
     expect(props).toEqual(expect.arrayContaining(['docType', 'subject', 'paragraphs', 'unit', 'classification']));
     expect(schema.required).toContain('docType');
     expect(schema.additionalProperties, 'an unnamed field must be refused, not stripped').toBe(false);
+    // It replaces the file at `out`, which is not the additive-only behaviour
+    // destructiveHint false denotes.
+    expect(tools.find((t) => t.name === 'dondocs_letter')!.annotations).toMatchObject({
+      readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: false,
+    });
+    expect((schema.properties!.out as { description: string }).description).toMatch(/replaced/);
   }, 60_000);
 
   it('publishes an output schema for every tool', async () => {
@@ -204,6 +210,15 @@ describe('a protocol client', () => {
     expect(JSON.parse((from.messages[1].content as { resource: { text: string } }).resource.text)).toEqual(template);
 
     // Both bad arguments are invalid params, whichever side rejects them.
+    // An endorsement is refused without its ordinal and basic letter, so the
+    // prompt for an endorsement template has to ask for them up front.
+    const endorsement = await client.getPrompt({ name: 'draft_letter', arguments: { template: 'appointment-acknowledgement' } });
+    const ask = (endorsement.messages[0].content as { text: string }).text;
+    expect(ask).toContain('endorsement.ordinal');
+    expect(ask).toContain('endorsement.basicLetterId');
+    const plain = (from.messages[0].content as { text: string }).text;
+    expect(plain).not.toContain('endorsement.ordinal');
+
     await expect(client.getPrompt({ name: 'draft_letter', arguments: { template: 'no-such-template' } })).rejects.toMatchObject({
       code: -32602, message: expect.stringContaining('no-such-template'),
     });

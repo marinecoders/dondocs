@@ -7,12 +7,7 @@ const mocks = vi.hoisted(() => ({
 }));
 
 vi.mock('../../companion/unitLookup', () => ({ lookupUnits: mocks.lookup }));
-// Spread the real module: validateLetter imports TEMPLATE_FOR from here, and a
-// mock that names only loadDefaults would make that import undefined.
-vi.mock('../../companion/letterInput', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('../../companion/letterInput')>()),
-  loadDefaults: async () => ({}),
-}));
+vi.mock('../../companion/defaults', () => ({ CONFIG_PATH: '/nonexistent', loadDefaults: async () => ({}) }));
 vi.mock('../../companion/renderToFile', () => ({ renderToFile: vi.fn() }));
 vi.mock('../../companion/renderDocx', () => ({ systemPandocVersion: async () => 'test', VENDORED_PANDOC: 'test' }));
 // Only what registration touches; the tool under test is reached through the

@@ -61,6 +61,9 @@ round-trip is enough to fix it. `500` means rendering genuinely failed.
 Requests are capped at 1 MB, and `out` is resolved inside the output root and
 refused if it escapes. `out` is chosen by a model composing JSON, so
 `../../../../etc/passwd` is a realistic input rather than a hypothetical one.
+A file already at `out` is replaced; the MCP tool says so with
+`destructiveHint`. A write that fails is reported as `could not write <path>`,
+not as a render failure.
 
 ## Document types
 
@@ -73,7 +76,7 @@ list here is illustrative rather than authoritative:
 | Letters | `naval_letter`, `standard_letter`, `multiple_address_letter` | none |
 | Business | `business_letter`, `executive_correspondence` | `salutation`, `complimentaryClose` |
 | Memoranda | `mfr`, `mf`, `plain_paper_memorandum`, `letterhead_memorandum`, `decision_memorandum`, `executive_memorandum` | none |
-| Executive | `standard_memorandum` (alias `memorandum`), `action_memorandum`, `information_memorandum` | `attnLine`, `throughLine`; info memo: `coordination`, `preparedBy` |
+| Executive | `standard_memorandum` (alias `memorandum`), `action_memorandum`, `information_memorandum` | standard memo: `attnLine`, `throughLine` (DOCX only); info memo: `coordination`, `preparedBy` (action memo too, DOCX only) |
 | Endorsements | `same_page_endorsement`, `new_page_endorsement` | `endorsement: { ordinal, basicLetterId }` |
 | Two-party | `joint_letter`, `joint_memorandum`, `moa`, `mou` | `parties: { senior, junior }` |
 
@@ -103,8 +106,13 @@ given; agreements reduce a full name to initial and surname, so give
 ```
 
 Endorsements take the ordinal and the letter being endorsed under
-`endorsement`. Without it the companion falls back to parsing a subject of the
-form `FIRST ENDORSEMENT on <basic letter>`.
+`endorsement`, and are refused without it: a bare ENDORSEMENT heading is not a
+document.
+
+Classification is `classification.level`, or `classification.custom` for a
+banner outside the list, printed as given; not both. A paragraph may carry a
+`portionMarking` (U, CUI, FOUO, C, S, TS), printed before its text, and the
+banner rises to the highest mark in the document.
 
 ## Machine defaults
 
@@ -130,8 +138,13 @@ A unit is a property of the box, not of the request. Put yours in
 with the serial on the types that carry an SSIC.
 
 A missing file is normal, not an error — built-in fallbacks keep a fresh install
-rendering. Precedence is **request > config > fallback** at every field, so a
-caller can override the unit for one letter without editing anything.
+rendering. A file that exists but is not this shape (a wrong type, a key the
+request could not set either) stops the companion at startup with the path and
+the field named, the same as a file that is not JSON. Precedence is
+**request > config > fallback** at every field, so a caller can override the
+unit for one letter without editing anything. The unit line under the
+department heading is `name` (or `line1`, the app's name for the same line);
+with neither, only the heading prints.
 
 `GET /health` reports the loaded `unit` and `signature`; over MCP the same
 values, plus `ssic`, `originatorCode` and the config path, are the
@@ -142,7 +155,8 @@ Override the location with `DONDOCS_CONFIG`, the port with `DONDOCS_PORT`, and
 the output root with `DONDOCS_OUT_ROOT`.
 
 `DONDOCS_RENDER_TIMEOUT_MS` bounds a render — 45s, covering both formats and
-both transports. The number is set against the caller's patience rather than
+both transports. A value that is not a positive number is ignored with a note
+on stderr. The number is set against the caller's patience rather than
 ours: agent HTTP tools commonly allow about a minute per call, so a companion
 that waited as long would expire at the same moment and hand the model an opaque
 transport timeout instead of a message naming what was slow.

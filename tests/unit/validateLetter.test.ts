@@ -10,13 +10,16 @@
  * @vitest-environment node
  */
 import { describe, it, expect } from 'vitest';
-import { validateLetter, DOC_TYPES, FORMATS } from '../../companion/validateLetter';
+import { validateLetter, DOC_TYPES, FORMATS, CLASSIFICATION_LEVELS, PORTION_MARKINGS, ENDORSEMENT_TYPES } from '../../companion/validateLetter';
 
 const OK = { docType: 'naval_letter', subject: 'SUBJECT' } as const;
 
+const ENDORSED = { ordinal: 'FIRST', basicLetterId: 'CO 1st Bn ltr 5216 of 8 Sep 26' };
+
 describe('docType', () => {
   it.each(DOC_TYPES)('accepts %s', (docType) => {
-    expect(validateLetter({ ...OK, docType })).toEqual([]);
+    const body = ENDORSEMENT_TYPES.includes(docType) ? { ...OK, docType, endorsement: ENDORSED } : { ...OK, docType };
+    expect(validateLetter(body)).toEqual([]);
   });
 
   it('names the offending value and the allowed set', () => {
@@ -108,5 +111,76 @@ describe('reporting', () => {
     const problems = validateLetter(OK);
     expect(Array.isArray(problems)).toBe(true);
     expect(problems).toHaveLength(0);
+  });
+});
+
+describe('classification', () => {
+  it('lists the levels the generator renders', () => {
+    expect(CLASSIFICATION_LEVELS).toEqual(['unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci']);
+  });
+
+  it('refuses a level outside the list, which would render unmarked', () => {
+    expect(validateLetter({ ...OK, classification: { level: 'SECRET' } } as never).join(' ')).toMatch(/classification\.level/);
+  });
+
+  it('refuses a custom banner alongside a level: the generator prints one or the other', () => {
+    expect(validateLetter({ ...OK, classification: { level: 'secret', custom: 'X' } }).join(' ')).toMatch(/classification\.custom/);
+  });
+
+  it('accepts a custom banner alone', () => {
+    expect(validateLetter({ ...OK, classification: { custom: 'X' } })).toEqual([]);
+  });
+});
+
+describe('portion marks', () => {
+  it('lists the marks the generator prints', () => {
+    expect(PORTION_MARKINGS).toEqual(['U', 'CUI', 'FOUO', 'C', 'S', 'TS']);
+  });
+
+  it('refuses a mark outside the list by paragraph: the generator places it in the .tex as given', () => {
+    const body = { ...OK, paragraphs: [{ text: 'a' }, { text: 'b', portionMarking: '\\input{x}' }] } as never;
+    expect(validateLetter(body).join(' ')).toMatch(/paragraphs\[1\]\.portionMarking/);
+  });
+});
+
+describe('endorsements', () => {
+  // A bare "ENDORSEMENT" heading looks rendered and says nothing, the same
+  // failure the blank-page rule refuses.
+  it('names the two endorsement types', () => {
+    expect(ENDORSEMENT_TYPES).toEqual(['same_page_endorsement', 'new_page_endorsement']);
+  });
+
+  it.each(ENDORSEMENT_TYPES)('%s needs its ordinal and the letter being endorsed', (docType) => {
+    const problems = validateLetter({ ...OK, docType }).join(' ');
+    expect(problems).toMatch(/endorsement\.ordinal/);
+    expect(problems).toMatch(/endorsement\.basicLetterId/);
+    expect(validateLetter({ ...OK, docType, endorsement: { ordinal: 'FIRST' } }).join(' ')).toMatch(/basicLetterId/);
+    expect(validateLetter({ ...OK, docType, endorsement: 'FIRST' } as never).join(' ')).toMatch(/endorsement/);
+    expect(validateLetter({ ...OK, docType, endorsement: ENDORSED })).toEqual([]);
+  });
+
+  it('ignores the block on any other type', () => {
+    expect(validateLetter({ ...OK, endorsement: ENDORSED })).toEqual([]);
+  });
+});
+
+describe('out', () => {
+  // These fail at the write, after a full render, with an errno the model
+  // cannot act on; refusing them up front names the field.
+  it('refuses a NUL byte', () => {
+    expect(validateLetter({ ...OK, out: 'x\u0000y.pdf' }).join(' ')).toMatch(/out.*NUL/);
+  });
+
+  it('refuses a path component over 255 bytes', () => {
+    expect(validateLetter({ ...OK, out: 'a'.repeat(256) + '.pdf' }).join(' ')).toMatch(/out.*255/);
+    expect(validateLetter({ ...OK, out: 'sub/' + 'a'.repeat(256) + '.pdf' }).join(' ')).toMatch(/out.*255/);
+  });
+
+  it('accepts a long path of legal components', () => {
+    expect(validateLetter({ ...OK, out: `${'a'.repeat(200)}/${'b'.repeat(200)}.pdf` })).toEqual([]);
+  });
+
+  it('refuses a non-string over the door that has no schema', () => {
+    expect(validateLetter({ ...OK, out: 5 } as never).join(' ')).toMatch(/out must be a string/);
   });
 });

@@ -7,12 +7,10 @@
  * naval letter actually needs, each checked by the schema before it reaches
  * the generator; nothing else gets through.
  *
- * Defaults come from a config file so an agent does not restate its own unit on
- * every call — the unit is a property of the machine, not of the request.
+ * Defaults come from a config file (`defaults.ts`) so an agent does not restate
+ * its own unit on every call: the unit is a property of the machine, not of the
+ * request.
  */
-import { readFile } from 'node:fs/promises';
-import { homedir } from 'node:os';
-import { join } from 'node:path';
 import { format } from 'date-fns';
 import { canonicalizeUnitAddress } from '../src/lib/unitAddress';
 import { DOC_TYPE_CONFIG } from '../src/types/document';
@@ -23,13 +21,14 @@ export interface ParagraphInput {
   level?: number;
   /** Bold run-in heading before the text. */
   header?: string;
+  /** Printed as "(S) " before the text; the banner rises to the highest mark. */
+  portionMarking?: string;
 }
 
 export interface ReferenceInput {
   /** (a), (b) … assigned in order when omitted, which is what a caller expects. */
   letter?: string;
   title: string;
-  url?: string;
 }
 
 export interface EnclosureInput {
@@ -133,22 +132,6 @@ export interface CompanionDefaults {
   originatorCode?: string;
 }
 
-/** Where machine defaults are read from. */
-export const CONFIG_PATH = process.env.DONDOCS_CONFIG ?? join(homedir(), '.dondocs', 'companion.config.json');
-
-/**
- * Read machine defaults. A missing file is normal, not an error — the built-in
- * fallbacks below keep a fresh install working before anyone configures it.
- */
-export async function loadDefaults(): Promise<CompanionDefaults> {
-  try {
-    return JSON.parse(await readFile(CONFIG_PATH, 'utf-8')) as CompanionDefaults;
-  } catch (err) {
-    if ((err as NodeJS.ErrnoException).code === 'ENOENT') { return {}; }
-    throw new Error(`${CONFIG_PATH} is not readable JSON: ${(err as Error).message}`, { cause: err });
-  }
-}
-
 /** `a`, `b` … `z`, then `aa`. Matches how the app letters references. */
 function referenceLetter(index: number): string {
   let n = index;
@@ -223,6 +206,10 @@ function partyFields(input: LetterInput): Record<string, unknown> {
  */
 export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): GeneratorStore {
   const unit = { ...defaults.unit, ...input.unit };
+  // One printed line under the department heading, under either field name;
+  // resolved per source so a request name beats a configured line1. No
+  // fallback: the heading already says UNITED STATES MARINE CORPS.
+  const unitLine = input.unit?.name ?? input.unit?.line1 ?? defaults.unit?.name ?? defaults.unit?.line1 ?? '';
   const sig = { ...defaults.signature, ...input.signature };
   const docType = templateFor(input.docType);
   // The senior party's identifying block outranks the plain fields: joint
@@ -239,8 +226,8 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
     formData: {
       docType,
 
-      unitName: unit.name ?? unit.line1 ?? 'UNITED STATES MARINE CORPS',
-      unitLine1: unit.line1 ?? unit.name ?? 'UNITED STATES MARINE CORPS',
+      unitName: unitLine,
+      unitLine1: unitLine,
       unitLine2: unit.line2 ?? '',
       // Normalize tool/config addresses to the comma layout the letterhead
       // splitter expects, just as the web app does when loading an address.
@@ -284,7 +271,9 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       byDirection: sig.byDirection ?? false,
       byDirectionAuthority: sig.byDirectionAuthority ?? '',
 
-      classLevel: input.classification?.level ?? 'unclassified',
+      // A custom banner is its own level: the generators print it only under
+      // classLevel 'custom', which no published level names.
+      classLevel: input.classification?.level ?? (input.classification?.custom ? 'custom' : 'unclassified'),
       pocEmail: input.pocEmail ?? input.classification?.pocEmail ?? '',
       customClassification: input.classification?.custom ?? '',
       classifiedBy: input.classification?.classifiedBy ?? '',
@@ -326,12 +315,15 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
     },
 
     paragraphs: (input.paragraphs?.length ? input.paragraphs : [{ text: '', level: 0 }])
-      .map((p) => ({ text: p.text, level: p.level ?? 0, ...(p.header ? { header: p.header } : {}) })),
+      .map((p) => ({
+        text: p.text, level: p.level ?? 0,
+        ...(p.header ? { header: p.header } : {}),
+        ...(p.portionMarking ? { portionMarking: p.portionMarking } : {}),
+      })),
 
     references: (input.references ?? []).map((r, i) => ({
       letter: r.letter ?? referenceLetter(i),
       title: r.title,
-      ...(r.url ? { url: r.url } : {}),
     })),
     enclosures: (input.enclosures ?? []).map((e) => ({ title: e.title })),
     copyTos: (input.copyTo ?? []).map((text) => ({ text })),

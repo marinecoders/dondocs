@@ -7,9 +7,13 @@
  * dropped.
  */
 import { describe, it, expect } from 'vitest';
+import * as z from 'zod';
 import { letterSchema, acceptedFields } from '../../companion/letterSchema';
 import { toStore, templateFor } from '../../companion/letterInput';
 import type { LetterInput } from '../../companion/letterInput';
+import { PORTION_MARKINGS } from '../../companion/validateLetter';
+import { generateAllLatexFiles } from '../../src/services/latex/generator';
+import { generateFlatLatex } from '../../src/services/latex/flat-generator';
 
 const base = { docType: 'naval_letter', subject: 'S', paragraphs: [{ text: 'body' }] };
 
@@ -48,6 +52,15 @@ describe('the published schema', () => {
     expect(letterSchema.safeParse({ ...base, formData: { fontSize: '10pt' } }).success).toBe(false);
   });
 
+  it.each(['usmc', 'navy', 'dod'])('accepts the %s department heading', (department) => {
+    expect(letterSchema.safeParse({ ...base, unit: { department } }).success).toBe(true);
+  });
+
+  it('publishes no reference url, since the companion never renders one', () => {
+    const item = z.toJSONSchema(letterSchema).properties!.references as { items: { properties: Record<string, unknown> } };
+    expect(Object.keys(item.items.properties).sort()).toEqual(['letter', 'title']);
+  });
+
   it('accepts only a letter for a reference letter', () => {
     // The letter is placed in the .tex verbatim by the generator.
     for (const letter of ['a', 'z', 'aa']) {
@@ -71,6 +84,19 @@ describe('classification levels', () => {
   it.each(RENDERABLE)('%s reaches the generator as classLevel', (level) => {
     const store = toStore({ ...base, classification: { level } } as LetterInput, {});
     expect((store.formData as Record<string, unknown>).classLevel).toBe(level);
+  });
+
+  it('reaches the generator as custom when only banner text is given', () => {
+    // The generators print a custom banner only under classLevel 'custom',
+    // which no published level names; the text alone has to select it.
+    const fd = toStore({ ...base, classification: { custom: 'MY CAVEAT BANNER' } } as LetterInput, {}).formData as Record<string, unknown>;
+    expect([fd.classLevel, fd.customClassification]).toEqual(['custom', 'MY CAVEAT BANNER']);
+  });
+
+  it('renders the custom text as the banner in both generators', () => {
+    const store = toStore({ ...base, classification: { custom: 'MY CAVEAT BANNER' } } as LetterInput, {});
+    expect(generateAllLatexFiles(store as never).texFiles['classification.tex']).toContain('\\setCustomClassification{MY CAVEAT BANNER}');
+    expect(generateFlatLatex(store as never)).toContain('MY CAVEAT BANNER');
   });
 
   it('rejects a level the generator would silently ignore', () => {
@@ -225,5 +251,47 @@ describe('templateFor', () => {
   it('routes the addressee to the field executive memoranda read', () => {
     const store = toStore({ ...base, docType: 'memorandum', to: 'Commanding General' } as LetterInput, {});
     expect((store.formData as Record<string, unknown>).memorandumFor).toBe('Commanding General');
+  });
+});
+
+describe('portion marks', () => {
+  // The renderer prefixes each paragraph and raises the banner to the highest
+  // mark; the request never carried the field, so the promise in the
+  // classification description was empty.
+  it.each(PORTION_MARKINGS)('publishes %s and keeps it', (mark) => {
+    const r = letterSchema.safeParse({ ...base, paragraphs: [{ text: 'b', portionMarking: mark }] });
+    expect(r.success, JSON.stringify(r.error?.issues)).toBe(true);
+    expect((r.data as { paragraphs: Array<{ portionMarking?: string }> }).paragraphs[0].portionMarking).toBe(mark);
+  });
+
+  it('refuses a mark outside the list', () => {
+    expect(letterSchema.safeParse({ ...base, paragraphs: [{ text: 'b', portionMarking: 'X' }] }).success).toBe(false);
+  });
+
+  it('reaches the generator and raises the banner above the document level', () => {
+    const store = toStore({ ...base, classification: { level: 'cui' }, paragraphs: [{ text: 'Secret paragraph.', portionMarking: 'S' }] } as LetterInput, {});
+    expect((store.paragraphs as Array<{ portionMarking?: string }>)[0].portionMarking).toBe('S');
+    const tex = generateAllLatexFiles(store as never).texFiles;
+    expect(tex['classification.tex']).toMatch(/SECRET/);
+    expect(Object.values(tex).join('\n')).toContain('(S) ');
+  });
+});
+
+describe('type-scoped fields', () => {
+  // The description names the types that print the field, checked against
+  // what the DOCX generator emits so neither can go stale alone.
+  const EXECUTIVE = ['standard_memorandum', 'action_memorandum', 'information_memorandum', 'executive_correspondence'];
+  it.each([
+    ['attnLine', 'ATTN:', ['standard_memorandum']],
+    ['throughLine', 'THROUGH:', ['standard_memorandum']],
+    ['coordination', 'COORDINATION:', ['action_memorandum', 'information_memorandum']],
+    ['preparedBy', 'Prepared by:', ['action_memorandum', 'information_memorandum']],
+  ] as const)('%s prints where its description says', (field, marker, printedBy) => {
+    for (const docType of EXECUTIVE) {
+      const tex = generateFlatLatex(toStore({ ...base, docType, format: 'docx', [field]: 'SCOPED VALUE' } as LetterInput, {}) as never);
+      expect(tex.includes(marker), `${docType} ${field}`).toBe(printedBy.includes(docType));
+    }
+    const description = letterSchema.shape[field].description ?? '';
+    for (const docType of printedBy) { expect(description).toContain(docType); }
   });
 });
