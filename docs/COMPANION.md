@@ -352,9 +352,10 @@ is the conversation. So the server is arranged for the fewest calls:
   and an embedded document it forwards to the model as an image, which the
   API refuses. Its card comes from a tool of its own, `present_files`, which
   takes the path and reads the file through the Filesystem extension. The
-  model calls it when the result names it; asked to share the file if a tool
-  of its own could, it did not. There is no card without a file, so choose
-  an output folder that extension may read.
+  model calls it when the result asks for the call outright and says to load
+  the tool first; asked for it "if available", or to share the file if a
+  tool of its own could, it sometimes gave the path instead. There is no
+  card without a file, so choose an output folder that extension may read.
 
 From the user's own words that is one DonDocs call and the share; from a
 template, two.
