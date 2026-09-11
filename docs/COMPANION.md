@@ -275,7 +275,9 @@ unaffected.
   returns `{ format, path, bytes }`; the lookup returns its matches, each with
   a `unit` that is a subset of what `dondocs_letter` accepts.
 - **A link to the file.** `dondocs_letter` also returns a `resource_link` to
-  the written file (`file://` URI, MIME type, size).
+  the written file (`file://` URI, MIME type, size) to clients on protocol
+  revision 2025-06-18 or later, where the block exists; older clients get the
+  text block alone.
 - **Templates as resources.** The bundled templates are listed under
   `dondocs://templates/{id}`, titled by name. Reading one returns the same JSON
   as `dondocs_template_get`; the `id` completes.
@@ -285,9 +287,23 @@ unaffected.
 - **A unit picker.** When a lookup matches several units and the client has
   declared form elicitation, `dondocs_unit_lookup` asks the user which one and
   returns only that match. Declining, or a client without forms, gets the
-  list. Truncated results are not offered as a picker; narrow the query.
+  list. Truncated results are not offered as a picker; narrow the query. The
+  choices are a titled `oneOf` on 2025-11-25 and later, `enum` with
+  `enumNames` before that; on 2026-07-28 the question travels in band and the
+  client's capabilities are read from each request.
 
 Nothing is logged over the protocol; diagnostics go to stderr.
+
+### What a caller cannot do
+
+The caller is a model assembling JSON, so the request is treated as hostile.
+Every field that reaches the `.tex` is escaped, a reference `letter` must be
+one or two lowercase letters, and there is no pass-through for unnamed
+generator fields (`formData` used to be one, and could overwrite the
+classification banner). Output goes only inside the root: `..`, absolute
+paths, the root itself, and paths through a symlink are refused before
+anything renders. A render that overruns `DONDOCS_RENDER_TIMEOUT_MS` is
+cancelled and its engine disposed.
 
 **stdout belongs to the protocol.** Anything printed there that is not a JSON-RPC
 message corrupts the session and the client drops the connection. Two things in

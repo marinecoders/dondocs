@@ -102,7 +102,7 @@ export const letterSchema = z.object({
 
   paragraphs: z.array(paragraph).optional(),
   references: z.array(z.object({
-    letter: z.string().optional().describe('Assigned (a), (b) … in order when omitted.'),
+    letter: z.string().regex(/^[a-z]{1,2}$/).optional().describe('One or two lowercase letters. Assigned a, b … in order when omitted.'),
     title: z.string(),
     url: z.string().optional(),
   })).optional().describe('Lettered (a), (b) … in the order given.'),
@@ -128,12 +128,9 @@ export const letterSchema = z.object({
   coordination: z.string().optional().describe('Information memoranda: the coordination line.'),
   preparedBy: z.string().optional().describe('Information memoranda: who prepared it, e.g. "CAPT J. Smith, USN".'),
   pageNumbering: z.enum(['none', 'simple', 'xofy']).optional().describe('Defaults to none.'),
-
-  formData: z.record(z.string(), z.unknown()).optional()
-    .describe('Escape hatch for a generator field this schema does not name yet. Merged last.'),
 // Stripping an unnamed field silently is how a classification marking went
-// missing from a document that asked for one. `formData` is the way through for
-// anything this schema does not name.
+// missing from a document that asked for one; refusing it by name is how a
+// caller finds out.
 }).strict();
 
 /** Top-level field names, for the capability probe. Derived, never re-typed. */

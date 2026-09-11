@@ -25,7 +25,7 @@ vi.mock('@modelcontextprotocol/server', async (importOriginal) => ({
     }
     registerResource() {}
     registerPrompt() {}
-    server = { getClientCapabilities: () => undefined };
+    server = { getClientCapabilities: () => undefined, getNegotiatedProtocolVersion: () => undefined };
   },
 }));
 vi.mock('@modelcontextprotocol/server/stdio', () => ({

@@ -49,7 +49,7 @@ export function validateLetter(body: Partial<LetterInput>): string[] {
       if (typeof para?.text !== 'string') { problems.push(`paragraphs[${i}].text must be a string`); }
     });
   }
-  for (const [name, value] of [['unit', body.unit], ['signature', body.signature], ['formData', body.formData]] as const) {
+  for (const [name, value] of [['unit', body.unit], ['signature', body.signature]] as const) {
     if (value !== undefined && (typeof value !== 'object' || Array.isArray(value))) {
       problems.push(`${name} must be an object`);
     }

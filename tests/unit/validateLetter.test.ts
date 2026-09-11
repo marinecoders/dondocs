@@ -73,7 +73,7 @@ describe('collection shapes', () => {
       expect(problems.join(' ')).toMatch(new RegExp(`${field} must be an array, got string`));
     });
 
-  it.each(['unit', 'signature', 'formData'])('rejects an array where %s should be an object', (field) => {
+  it.each(['unit', 'signature'])('rejects an array where %s should be an object', (field) => {
     expect(validateLetter({ ...OK, [field]: [] } as never).join(' ')).toMatch(`${field} must be an object`);
   });
 

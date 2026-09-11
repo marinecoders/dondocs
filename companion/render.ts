@@ -26,8 +26,17 @@ export function firstTexError(log: string): string {
   return line ? line.replace(/^!\s*/, '').trim().slice(0, 200) : '';
 }
 
-export async function renderPdf(input: LetterInput, defaults: CompanionDefaults = {}): Promise<Uint8Array> {
+export async function renderPdf(
+  input: LetterInput,
+  defaults: CompanionDefaults = {},
+  { signal }: { signal?: AbortSignal } = {},
+): Promise<Uint8Array> {
   const engine = await createNodeEngine();
+  // Abort disposes the engine, which rejects the compile in flight; nothing
+  // keeps spinning after the caller has stopped waiting. The signal may have
+  // fired while the engine was still starting.
+  if (signal?.aborted) { await engine.dispose(); throw new Error('render aborted'); }
+  signal?.addEventListener('abort', () => { void engine.dispose(); }, { once: true });
   try {
     prepareEngine(engine, await loadAssets());
     const { texFiles } = generateAllLatexFiles(toStore(input, defaults) as never);

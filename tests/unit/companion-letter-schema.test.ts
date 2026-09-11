@@ -36,16 +36,26 @@ describe('the published schema', () => {
     const r = letterSchema.safeParse({
       ...base,
       unit: { line1: 'FIRST', letterheadColor: 'black' },
-      references: [{ letter: '(a)', title: 'Ref' }],
+      references: [{ letter: 'a', title: 'Ref' }],
       signature: { byDirection: true, byDirectionAuthority: 'By direction' },
     });
     expect(r.success, JSON.stringify(r.error?.issues)).toBe(true);
   });
 
-  it('keeps formData open as the escape hatch', () => {
-    // Strictness needs this: a generator field the schema has not learned yet
-    // still needs a way through.
-    expect(letterSchema.safeParse({ ...base, formData: { fontSize: '10pt' } }).success).toBe(true);
+  it('no longer offers formData', () => {
+    // It was merged last, so it could overwrite any generator field the schema
+    // guards with an enum, the classification banner included.
+    expect(letterSchema.safeParse({ ...base, formData: { fontSize: '10pt' } }).success).toBe(false);
+  });
+
+  it('accepts only a letter for a reference letter', () => {
+    // The letter is placed in the .tex verbatim by the generator.
+    for (const letter of ['a', 'z', 'aa']) {
+      expect(letterSchema.safeParse({ ...base, references: [{ letter, title: 'R' }] }).success, letter).toBe(true);
+    }
+    for (const letter of ['(a)', 'a}\\input{x}', '1', 'A', '']) {
+      expect(letterSchema.safeParse({ ...base, references: [{ letter, title: 'R' }] }).success, letter).toBe(false);
+    }
   });
 });
 
@@ -82,7 +92,7 @@ describe('acceptedFields', () => {
 
   it('includes the fields whose absence caused the drift', () => {
     expect(acceptedFields()).toEqual(
-      expect.arrayContaining(['classification', 'pocEmail', 'formData', 'format', 'out']),
+      expect.arrayContaining(['classification', 'pocEmail', 'format', 'out']),
     );
   });
 });
@@ -99,12 +109,6 @@ describe('field precedence', () => {
   it('falls back to the nested pocEmail', () => {
     const store = toStore({ ...base, classification: { level: 'cui', pocEmail: 'nested@example.mil' } } as LetterInput, {});
     expect((store.formData as Record<string, unknown>).pocEmail).toBe('nested@example.mil');
-  });
-
-  it('lets formData outrank every named field', () => {
-    // toStore documents this as "merged last, deliberately".
-    const store = toStore({ ...base, ssic: '5216', formData: { ssic: '1500' } } as LetterInput, {});
-    expect((store.formData as Record<string, unknown>).ssic).toBe('1500');
   });
 
   it('prefers a request unit over the machine default', () => {

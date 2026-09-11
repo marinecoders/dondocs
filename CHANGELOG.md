@@ -5,6 +5,32 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.151] — 2026-09-11
+
+### Fixed
+
+- **The MCP server answers each client in its own protocol revision.**
+  `dondocs_letter` sent a `resource_link` block to every client, and clients on
+  revisions before 2025-06-18 rejected the whole result after the file was
+  written. The block is now sent only where it exists. The unit picker offers
+  its choices as `enum`/`enumNames` before 2025-11-25 and as a titled `oneOf`
+  from then on, fires for 2026-07-28 clients that carry their capabilities per
+  request, and `prompts/get` accepts a request without an `arguments` member.
+
+### Security
+
+- **Model-supplied text can no longer reach LaTeX unescaped.** A reference
+  `letter` was placed in the `.tex` verbatim, and `formData` was merged over
+  every named field, so a caller could run TeX of its choosing, alter the
+  classification banner, or pull a local file into a DOCX. The letter is
+  escaped and constrained to one or two lowercase letters, and `formData` is
+  gone from the companion's request.
+- **The output sandbox checks where a path lands, not how it looks.** A path
+  through a symlink inside the root, a filename that is itself a symlink, and
+  the root itself (which turned the output directory into a file) are refused.
+- **A render that overruns its deadline is cancelled.** The pdfTeX worker used
+  to keep spinning for the life of the process; it is now disposed.
+
 ## [1.2.150] — 2026-09-10
 
 ### Added
