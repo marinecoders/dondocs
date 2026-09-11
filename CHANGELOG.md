@@ -5,6 +5,16 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.159] — 2026-09-11
+
+### Fixed
+
+- **The card, every time.** The render result asked for `present_files` "if
+  that tool is available", and in a chat where the tool was not yet loaded
+  the model took that as a no and gave the path. The result, the tool
+  description and the instructions now ask for the call outright and say to
+  load the tool first when it is not loaded.
+
 ## [1.2.158] — 2026-09-11
 
 ### Fixed
