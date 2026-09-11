@@ -126,13 +126,17 @@ A unit is a property of the box, not of the request. Put yours in
 }
 ```
 
-`originatorCode` is carried into the app's `officeCode`, which the app stores
-but no template currently renders — it is accepted so the value is not dropped,
-not because it reaches the page.
+`originatorCode` is the app's `officeCode`, printed on the sender-symbol line
+with the serial on the types that carry an SSIC.
 
 A missing file is normal, not an error — built-in fallbacks keep a fresh install
 rendering. Precedence is **request > config > fallback** at every field, so a
 caller can override the unit for one letter without editing anything.
+
+`GET /health` reports the loaded `unit` and `signature`; over MCP the same
+values, plus `ssic`, `originatorCode` and the config path, are the
+`dondocs://defaults` resource. Both show the snapshot taken at startup, so an
+edit to the file shows after a restart.
 
 Override the location with `DONDOCS_CONFIG`, the port with `DONDOCS_PORT`, and
 the output root with `DONDOCS_OUT_ROOT`.
@@ -254,9 +258,18 @@ search its full name or ask the user what it stands for.
 
 ### Beyond tools
 
-The server also publishes resources, a prompt, completions, and structured
-results. A client that only calls tools is unaffected.
+The server also sends instructions and publishes resources, a prompt,
+completions, and structured results. A client that only calls tools is
+unaffected.
 
+- **Instructions.** `initialize` carries a paragraph on how the tools fit
+  together: look the unit up or rely on the defaults, start from a template
+  or not, then render. Hosts pass it to the model as context.
+- **Machine defaults.** `dondocs://defaults` is what the config file sets for
+  a render that omits `unit`, `signature`, `ssic` or `originatorCode`, plus
+  the path of that file. A null unit or SSIC falls back to the built-in
+  letterhead and SSIC 5216; a null signature or originator code prints
+  nothing.
 - **Structured results.** Every tool declares an `outputSchema` and returns the
   same data as `structuredContent` beside its text block. `dondocs_letter`
   returns `{ format, path, bytes }`; the lookup returns its matches, each with
