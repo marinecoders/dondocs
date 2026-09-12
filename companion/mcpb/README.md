@@ -15,8 +15,7 @@ the file named under "Machine defaults file"; see `docs/COMPANION.md` in the
 repository for its shape. Set it first: without it every letter starts with a
 unit lookup, and the signer has to be given each time.
 
-A finished letter appears in the chat as a card the assistant makes by
-reading the file it wrote, so choose an output folder the Filesystem
-extension may read.
+A finished letter appears in the chat as a card: the first page, the
+size, and a Download button. The file is also kept in the output folder.
 
 Source and issues: https://github.com/marinecoders/dondocs

@@ -46,7 +46,7 @@ curl -X POST http://127.0.0.1:7712/generate -H 'content-type: application/json' 
 ```
 
 ```json
-{ "ok": true, "v": 1, "files": [{ "format": "pdf", "path": "/Users/you/Documents/DonDocs/request-for-additional-range-time.pdf", "bytes": 253832 }] }
+{ "ok": true, "v": 1, "files": [{ "format": "pdf", "path": "/Users/you/Documents/DonDocs/request-for-additional-range-time.pdf", "out": "request-for-additional-range-time.pdf", "bytes": 253832 }] }
 ```
 
 **It answers with a path, never the document.** Agent harnesses clip tool output,
@@ -347,24 +347,25 @@ is the conversation. So the server is arranged for the fewest calls:
   once the facts are in hand and to revise by rendering again with `out` set to
   the name the result reports, rather than drafting in chat and then sending
   the same text as a call.
-- The result names the host tool that puts the file in the chat. The desktop
-  app shows a tool result's text; it does not render the `resource_link`,
-  and an embedded document it forwards to the model as an image, which the
-  API refuses. Its card comes from a tool of its own, `present_files`, which
-  takes the path and reads the file through the Filesystem extension. The
-  model calls it when the result asks for the call outright and says to load
-  the tool first; asked for it "if available", or to share the file if a
-  tool of its own could, it sometimes gave the path instead. There is no
-  card without a file, so choose an output folder that extension may read.
+- The built server carries a card of its own (below), so a host that
+  renders MCP Apps shows the letter in place of the text with no further
+  call. Any other host shows a tool result's text and nothing else: the
+  desktop app does not render the `resource_link`, and an embedded document
+  it forwards to the model as an image, which the API refuses. There the
+  card is the app's own `present_files` tool, which takes the path and reads
+  the file through the Filesystem extension, and the result asks for that
+  call outright, saying to load the tool first; asked for it "if available",
+  or to share the file if a tool of its own could, the model sometimes gave
+  the path instead. That card needs a file the extension may read, so choose
+  the output folder accordingly.
 
-From the user's own words that is one DonDocs call and the share; from a
-template, two.
+From the user's own words that is one DonDocs call; from a template, two.
 
 ### Beyond tools
 
 The server also sends instructions and publishes resources, a prompt,
-completions, and structured results. A client that only calls tools is
-unaffected.
+completions, structured results, and a page for hosts that render one. A
+client that only calls tools is unaffected.
 
 - **Instructions.** `initialize` carries a paragraph on how the tools fit
   together: look the unit up or rely on the defaults, start from one of the
@@ -377,13 +378,30 @@ unaffected.
   nothing.
 - **Structured results.** Every tool declares an `outputSchema` and returns the
   same data as `structuredContent` beside its text block. `dondocs_letter`
-  returns `{ format, path, bytes }`; the lookup returns its matches, each with
-  a `unit` that is a subset of what `dondocs_letter` accepts.
+  returns `{ format, path, out, bytes }`, `out` being the name that replaces
+  the file when passed back; the lookup returns its matches, each with a
+  `unit` that is a subset of what `dondocs_letter` accepts.
 - **A link to the file.** `dondocs_letter` also returns a `resource_link` to
   the written file (`file://` URI, MIME type, size) to clients on protocol
   revision 2025-06-18 or later, where the block exists; older clients get the
-  text block alone. The desktop app does not render it; see the round trips
-  section for what does put the file in its chat.
+  text block alone. The desktop app does not render it; the card below does
+  that job there.
+- **The letter as a card.** `dondocs_letter` carries `_meta.ui.resourceUri`
+  naming `ui://dondocs/letter.html`, a page (MIME
+  `text/html;profile=mcp-app`) a host that renders MCP Apps shows in place
+  of the text: the subject, format, size and page count, the first page of a
+  PDF drawn by pdf.js, and a Download button that hands the bytes to the
+  host's own save dialog. The page reads the file back through
+  `dondocs://files/{out}`, a blob resource of a file this server wrote in
+  this session and nothing else in the root, so nothing of the document
+  enters the model's context and the root, which a person may point at a
+  broad folder, is not opened to reads. The page is
+  built into `dist-companion/companion/app/letter.html` beside the entry and
+  loads nothing from the network; a source run has no page and says so on
+  stderr, and its results ask for the host's file tool instead. A host that
+  renders pages announces it at `initialize` (`extensions` carrying
+  `io.modelcontextprotocol/ui`); the render result's second line tells such
+  a host the card is there, and any other how to show the file.
 - **Templates as resources.** The bundled templates are listed under
   `dondocs://templates/{id}`, titled by name. Reading one returns the same JSON
   as `dondocs_template_get`; the `id` completes.
