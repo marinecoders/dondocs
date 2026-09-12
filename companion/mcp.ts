@@ -19,14 +19,17 @@ import {
 } from '@modelcontextprotocol/server';
 import type { ClientCapabilities, ServerContext } from '@modelcontextprotocol/server';
 import { serveStdio } from '@modelcontextprotocol/server/stdio';
-import { basename, relative, resolve } from 'node:path';
+import { readFile } from 'node:fs/promises';
+import { basename, extname } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import * as z from 'zod';
 import { LETTER_TEMPLATES } from '../src/data/templates';
 import { lookupUnits } from './unitLookup';
 import { CONFIG_PATH, loadDefaults } from './defaults';
 import { letterSchema } from './letterSchema';
-import { OutsideSandboxError, outputRoot } from './outputPath';
+import { OutsideSandboxError, outputRoot, resolveOutputPath } from './outputPath';
+import { getUiCapability, registerAppResource, RESOURCE_MIME_TYPE, RESOURCE_URI_META_KEY } from '@modelcontextprotocol/ext-apps/server';
+import { APP_URI, loadAppPage } from './appPage';
 import { OutputWriteError, renderToFile } from './renderToFile';
 import { renderResult, templateListResult, templateResult, unitLookupResult } from './resultSchema';
 import { DOC_TYPES, ENDORSEMENT_TYPES, validateLetter } from './validateLetter';
@@ -60,6 +63,12 @@ const clientCanElicit = (server: McpServer, ctx: ServerContext): boolean => {
 /** Wraps prompt arguments so a request without the optional `arguments`
  * member reads as {}: the SDK validates the missing member as undefined,
  * which an object schema refuses even when every field is optional. */
+// Whether the host renders MCP Apps: it says so at initialize, or, on
+// 2026-07-28, in each request's envelope.
+const clientRendersPages = (server: McpServer, ctx: ServerContext): boolean => getUiCapability(
+  (envelope(ctx)[CLIENT_CAPABILITIES_META_KEY] as ClientCapabilities | undefined) ?? server.server.getClientCapabilities(),
+) !== undefined;
+
 const optionalArgs = <T extends z.ZodObject>(schema: T): T => ({
   shape: schema.shape,
   '~standard': { ...schema['~standard'], validate: (value: unknown) => schema['~standard'].validate(value ?? {}) },
@@ -81,7 +90,7 @@ const INSTRUCTIONS = `DonDocs renders SECNAV M-5216.5 correspondence with dondoc
   + 'or find one with dondocs_unit_lookup. Give the From and To lines: letters, endorsements and memoranda print the labels even when they are empty. '
   + `To start from a template, call dondocs_template_get with one of ${TEMPLATE_IDS.join(', ')}, or read dondocs://templates/{id}; dondocs_template_list describes them. `
   + 'A render takes under a second, so call dondocs_letter once the facts are in hand rather than drafting in chat first; '
-  + 'show the user the file it names by calling present_files on that path, loading the tool first if it is not loaded, and revise by calling dondocs_letter again with the out it reports.';
+  + 'show the user the file as its result says, and revise by calling dondocs_letter again with the out it reports.';
 
 const handle = serveStdio(() => {
   const server = new McpServer({ name: 'dondocs', version: '1' }, { instructions: INSTRUCTIONS });
@@ -138,6 +147,37 @@ const handle = serveStdio(() => {
     if (!template) { throw new ResourceNotFoundError(uri.href); }
     return { contents: [{ uri: uri.href, mimeType: 'application/json', text: JSON.stringify(template) }] };
   });
+
+  // A rendered file, for the page below to read back through the host. Only
+  // what this process wrote: the root is a write sandbox a person may point
+  // at a broad folder, and a read of anything under it would be a way out
+  // for whatever the model was talked into asking for. Nothing is listed.
+  const FILE_MIME: Record<string, string> = { '.pdf': MIME.pdf, '.docx': MIME.docx };
+  const written = new Set<string>();
+  server.registerResource('file', new ResourceTemplate('dondocs://files/{out}', { list: undefined }), {
+    title: 'Rendered letter',
+    description: 'A file dondocs_letter wrote in this session, by the out it reported.',
+  }, async (uri, { out }) => {
+    // The template matcher hands the segment over as written; a nested name
+    // arrives percent-encoded, since a bare slash would not match.
+    let path: string;
+    try { path = resolveOutputPath(decodeURIComponent(String(out)), ROOT); } catch { throw new ResourceNotFoundError(uri.href); }
+    if (!written.has(path)) { throw new ResourceNotFoundError(uri.href); }
+    let bytes: Buffer;
+    try { bytes = await readFile(path); } catch { throw new ResourceNotFoundError(uri.href); }
+    return { contents: [{ uri: uri.href, mimeType: FILE_MIME[extname(path)] ?? 'application/octet-stream', blob: bytes.toString('base64') }] };
+  });
+
+  // The card a page-rendering host shows in place of the text: a built file
+  // beside the entry, so a source run offers none and says so once.
+  const page = loadAppPage();
+  if (page) {
+    registerAppResource(server, 'letter-page', APP_URI, { title: 'Letter card' }, async () => ({
+      contents: [{ uri: APP_URI, mimeType: RESOURCE_MIME_TYPE, text: page }],
+    }));
+  } else {
+    console.error('dondocs: no built page beside the entry; render results are text only');
+  }
 
   // A starting point a host can offer by name. Both arguments complete, so a
   // user picks a type or a template without knowing the ids.
@@ -257,11 +297,14 @@ const handle = serveStdio(() => {
       description:
         'Render SECNAV M-5216.5 correspondence, every letter, memorandum, endorsement and agreement type the app defines (see the docType enum), to a PDF or DOCX file. '
         + 'Formatting, letterhead, seal, paragraph numbering and the signature block are handled for you; supply content only. '
-        + 'Returns the path to the written file, not the document itself; show the file to the user by calling present_files on that path, loading the tool first if it is not loaded. '
+        + 'Returns the path to the written file, not the document itself; the result says how to show the file to the user. '
         + `Files are written under ${ROOT}. `
         + 'A render takes under a second: call this once the facts are in hand, and to revise call it again with out set to the name it reports, which replaces that file.',
       inputSchema: letterSchema,
       outputSchema: renderResult,
+      // The link to the page under both keys hosts have read it from, as the
+      // SDK's registerAppTool writes it.
+      ...(page ? { _meta: { ui: { resourceUri: APP_URI }, [RESOURCE_URI_META_KEY]: APP_URI } } : {}),
       annotations: {
         // It writes one file. A given `out` replaces whatever is there; with
         // `out` omitted the same request adds a numbered file each time.
@@ -282,6 +325,7 @@ const handle = serveStdio(() => {
 
       try {
         const file = await renderToFile(input, defaults, ROOT);
+        written.add(file.path);
         // A host that renders links lets the user open the file from the
         // reply. The block dates from 2025-06-18; an older client rejects
         // the whole result over it.
@@ -292,16 +336,15 @@ const handle = serveStdio(() => {
           mimeType: MIME[file.format],
           size: file.bytes,
         }] : [];
-        // The name `out` takes to replace this file: the path relative to
-        // the root, which is what the caller gave or what the subject became.
-        const out = relative(resolve(ROOT), file.path);
         return {
           content: [
             {
               type: 'text' as const,
               text: `Wrote ${file.format.toUpperCase()} (${file.bytes.toLocaleString()} bytes) to ${file.path}\n`
-                + 'Show it in the chat: call present_files with the path above, loading that tool first if it is not loaded; give the path only when no such tool exists. '
-                + `To revise, call again with out "${out}" to replace it.`,
+                + (page && clientRendersPages(server, ctx)
+                  ? 'The letter is shown in the chat as a card. '
+                  : 'Show it in the chat: call present_files with the path above, loading that tool first if it is not loaded; give the path only when no such tool exists. ')
+                + `To revise, call again with out "${file.out}" to replace it.`,
             },
             ...link,
           ],

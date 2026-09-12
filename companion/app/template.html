@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Letter</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --fg: #1a1a1a; --muted: #5f5f5f; --bg: #ffffff; --line: #d9d9d9; --accent: #1f4e79; --accent-fg: #ffffff;
+    font: 14px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  :root[data-theme="dark"] { --fg: #ececec; --muted: #a3a3a3; --bg: #1e1e1e; --line: #3a3a3a; --accent: #7fb2e5; --accent-fg: #101010; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --fg: #ececec; --muted: #a3a3a3; --bg: #1e1e1e; --line: #3a3a3a; --accent: #7fb2e5; --accent-fg: #101010; }
+  }
+  html, body { margin: 0; background: var(--bg); color: var(--fg); }
+  .card { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 10px; }
+  .head { display: flex; align-items: center; gap: 12px; }
+  .icon { width: 36px; height: 44px; border: 1.5px solid var(--muted); border-radius: 4px; flex: none; position: relative; }
+  .icon::after { content: attr(data-ext); position: absolute; left: 0; right: 0; bottom: 4px; text-align: center; font-size: 10px; font-weight: 700; color: var(--muted); }
+  .title { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .meta { color: var(--muted); font-size: 12px; }
+  .grow { flex: 1; min-width: 0; }
+  button { font: inherit; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--accent); background: var(--accent); color: var(--accent-fg); cursor: pointer; }
+  button:disabled { opacity: .5; cursor: default; }
+  .preview { display: none; justify-content: center; }
+  .preview canvas { max-width: 100%; height: auto; border: 1px solid var(--line); background: #fff; }
+  .status { color: var(--muted); font-size: 12px; min-height: 1em; }
+</style>
+</head>
+<body>
+<main class="card" id="card">
+  <div class="head">
+    <div class="icon" id="icon" data-ext=""></div>
+    <div class="grow">
+      <div class="title" id="title">Rendering the letter</div>
+      <div class="meta" id="meta"></div>
+    </div>
+    <button id="download" disabled>Download</button>
+  </div>
+  <div class="preview" id="preview"><canvas id="page"></canvas></div>
+  <div class="status" id="status"></div>
+</main>
+<!-- letter.js -->
+</body>
+</html>

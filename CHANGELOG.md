@@ -5,6 +5,25 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.161] — 2026-09-11
+
+### Added
+
+- **The letter as a card in the chat.** `dondocs_letter` now carries an MCP
+  App: a page a host that renders one shows in place of the text, with the
+  subject, format, size and page count, the first page of a PDF drawn by
+  pdf.js, and a Download button that hands the bytes to the host's own save
+  dialog. The page reads the file back through a new `dondocs://files/{out}`
+  resource, which serves only what this server wrote in this session, so
+  nothing of the document enters the model's context and nothing else in
+  the output folder can be read; the page loads nothing from the network. The desktop app renders such pages for
+  local servers, so the card no longer depends on the model calling
+  `present_files`; hosts without page support get the same result text as
+  before. The page is built into the bundle; a source run has none.
+- **`out` in the render result.** `dondocs_letter`'s structured result and
+  the HTTP `files[]` entry carry `out`, the name that replaces the file when
+  passed back, beside `path`.
+
 ## [1.2.160] — 2026-09-11
 
 ### Fixed

@@ -12,10 +12,10 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { Client } from '@modelcontextprotocol/client';
 import { StdioClientTransport } from '@modelcontextprotocol/client/stdio';
-import { mkdtemp, rm, readFile } from 'node:fs/promises';
+import { mkdtemp, rm, readFile, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { basename, join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { LETTER_TEMPLATES } from '../../src/data/templates';
@@ -81,9 +81,10 @@ describe('a protocol client', () => {
       expect(instructions).toContain(id);
     }
     expect(instructions).toMatch(/revise .*\bout\b/);
-    // The desktop app puts a file in the chat only when the model calls its
-    // present_files tool; "share it if you can" was not enough to make it.
-    expect(instructions).toContain('present_files');
+    // Which host tool shows the file depends on the host, so the result says
+    // it and the instructions point at the result.
+    expect(instructions).not.toContain('present_files');
+    expect(instructions).toMatch(/result says/);
   });
 
   it('answers ping', async () => {
@@ -155,7 +156,7 @@ describe('a protocol client', () => {
   it('publishes every template as a resource a host can attach without a tool call', async () => {
     expect(client.getServerCapabilities()?.resources).toBeDefined();
     const { resourceTemplates } = await client.listResourceTemplates();
-    expect(resourceTemplates.map((t) => t.uriTemplate)).toEqual(['dondocs://templates/{id}']);
+    expect(resourceTemplates.map((t) => t.uriTemplate).sort()).toEqual(['dondocs://files/{out}', 'dondocs://templates/{id}']);
 
     const { resources } = await client.listResources();
     expect(resources.map((r) => r.uri).sort()).toEqual(
@@ -302,7 +303,7 @@ describe('a protocol client', () => {
     const bytes = await readFile(file!);
     expect(bytes.subarray(0, 4).toString()).toBe('%PDF');
 
-    expect(structured(res)).toEqual({ format: 'pdf', path: file, bytes: bytes.byteLength });
+    expect(structured(res)).toEqual({ format: 'pdf', path: file, out: basename(file!), bytes: bytes.byteLength });
     // A host that renders links lets the user open the file from the reply.
     expect(blocks(res, 'resource_link')).toEqual([expect.objectContaining({
       uri: pathToFileURL(file!).href, name: 'client.pdf', mimeType: 'application/pdf', size: bytes.byteLength,
@@ -397,6 +398,69 @@ describe('a protocol client', () => {
     });
     expect((await readFile(pathOf(res)!)).subarray(0, 2).toString('latin1')).toBe('PK');
   }, 200_000);
+
+  it('serves a rendered file as a resource, for a page in the chat to read', async () => {
+    const res = await client.callTool({ name: 'dondocs_letter', arguments: {
+      docType: 'naval_letter', out: 'drafts/read-back.pdf', subject: 'READ BACK',
+      from: 'F', to: 'T', paragraphs: [{ text: 'Read through the resource.' }],
+    } });
+    expect(isError(res), text(res)).toBe(false);
+    const out = (structured(res) as { out: string }).out;
+    expect(out).toBe('drafts/read-back.pdf');
+    // The page builds the URI from the result, with the nested name encoded.
+    const uri = `dondocs://files/${encodeURIComponent(out)}`;
+    const { contents } = await client.readResource({ uri });
+    expect(contents).toHaveLength(1);
+    expect(contents[0]).toMatchObject({ uri, mimeType: 'application/pdf' });
+    const blob = Buffer.from((contents[0] as { blob: string }).blob, 'base64');
+    expect(blob.equals(await readFile(pathOf(res)!))).toBe(true);
+    // Only what this server wrote: not a path outside the root, not a name
+    // nothing was rendered to, and not a file someone else put in the root,
+    // which a person may have pointed at a folder full of their own files.
+    await writeFile(join(root, 'planted.pdf'), '%PDF-1.4 not ours');
+    for (const bad of ['../../etc/hosts', 'no-such-letter.pdf', 'planted.pdf']) {
+      await expect(client.readResource({ uri: `dondocs://files/${encodeURIComponent(bad)}` })).rejects.toMatchObject({
+        code: -32602, message: expect.stringContaining(bad.split('/').pop()!),
+      });
+    }
+    await expect(client.ping()).resolves.toBeDefined();
+  }, 200_000);
+
+  it('asks even a page-rendering host to present the file when there is no page', async () => {
+    // The built server carries a page and tells a host that renders pages
+    // the card is already there (the dist suite covers that). From source
+    // there is no page, so a host's page support changes nothing: the result
+    // still asks for present_files, or the model would wait for a card.
+    const pages = new Client({ name: 'dondocs-pages', version: '1' }, {
+      capabilities: { extensions: { 'io.modelcontextprotocol/ui': { mimeTypes: ['text/html;profile=mcp-app'] } } },
+    });
+    await pages.connect(new StdioClientTransport({
+      command: process.execPath,
+      args: [join(REPO, 'node_modules', 'vite-node', 'dist', 'cli.mjs'), 'companion/mcp.ts'],
+      cwd: REPO,
+      env: { ...process.env, DONDOCS_OUT_ROOT: root, DONDOCS_CONFIG: '/nonexistent/companion.config.json' },
+      stderr: 'pipe',
+    }));
+    try {
+      const args = { docType: 'naval_letter', out: 'host.pdf', subject: 'BY HOST', from: 'F', to: 'T', paragraphs: [{ text: 'Body.' }] };
+      const withPages = await pages.callTool({ name: 'dondocs_letter', arguments: args });
+      expect(isError(withPages), text(withPages)).toBe(false);
+      expect(text(withPages)).toMatch(/\nShow it in the chat: call present_files .*out "host\.pdf"/);
+    } finally {
+      await pages.close();
+    }
+  }, 200_000);
+
+  it('carries no page from a source run: that is the built server\'s', async () => {
+    // The page is built into dist-companion beside the entry. Run from
+    // source there is none, so the tool must not point at one.
+    const { tools } = await client.listTools();
+    const meta = tools.find((t) => t.name === 'dondocs_letter')!._meta as Record<string, unknown> | undefined;
+    expect(meta?.ui).toBeUndefined();
+    expect(meta?.['ui/resourceUri']).toBeUndefined();
+    const { resources } = await client.listResources();
+    expect(resources.filter((r) => r.uri.startsWith('ui://'))).toEqual([]);
+  });
 
   it('stays usable after every failure above', async () => {
     const res = await client.callTool({ name: 'dondocs_letter', arguments: {
