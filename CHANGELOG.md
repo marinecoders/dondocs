@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.164] — 2026-09-12
+
+### Fixed
+
+- **Subj: keeps its blank line under a wrapped To:.** An addressee long
+  enough to run to a second line pulled the subject up against it. Every
+  letter and memorandum template now opens the gap the same way however
+  many lines the addressee takes.
+
 ## [1.2.163] — 2026-09-12
 
 ### Added
