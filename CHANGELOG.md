@@ -5,6 +5,19 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.164] — 2026-09-12
+
+### Added
+
+- **Edit a rendered letter in the browser.** The card gained an Edit
+  button that opens the letter in the web editor with every field filled
+  in, so an EDIPI or a date can be fixed by hand instead of annotating a
+  PDF. The letter travels in the URL's fragment, which no browser sends to
+  a server, and the editor clears it from the address bar once it has
+  loaded. `DONDOCS_APP_URL`, a setting on the bundle, says where the
+  editor is; clear it and no link is offered. Nothing above CUI is handed
+  over.
+
 ## [1.2.163] — 2026-09-12
 
 ### Added
