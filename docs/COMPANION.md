@@ -387,11 +387,16 @@ client that only calls tools is unaffected.
   text block alone. The desktop app does not render it; the card below does
   that job there.
 - **The letter as a card.** `dondocs_letter` carries `_meta.ui.resourceUri`
-  naming `ui://dondocs/letter.html`, a page (MIME
+  naming `ui://dondocs/letter.<hash>.html` (the hash is the page's own, so
+  a changed page is a new name to a host that keeps pages by URI), a page
+  (MIME
   `text/html;profile=mcp-app`) a host that renders MCP Apps shows in place
-  of the text: the subject, format, size and page count, the first page of a
-  PDF drawn by pdf.js, and a Download button that hands the bytes to the
-  host's own save dialog. The page reads the file back through
+  of the text: the subject, format, size and page count, the pages of a PDF
+  drawn by pdf.js one at a time behind a pager (arrow keys work too), and a
+  Download button that hands the bytes to the host's own save dialog. One
+  page at a time keeps the card the same height whatever the host does with
+  later size reports, and a page is scaled to fit the height the host
+  allows when it says. The page reads the file back through
   `dondocs://files/{out}`, a blob resource of a file this server wrote in
   this session and nothing else in the root, so nothing of the document
   enters the model's context and the root, which a person may point at a
@@ -401,7 +406,12 @@ client that only calls tools is unaffected.
   stderr, and its results ask for the host's file tool instead. A host that
   renders pages announces it at `initialize` (`extensions` carrying
   `io.modelcontextprotocol/ui`); the render result's second line tells such
-  a host the card is there, and any other how to show the file.
+  a host the card is there, and any other how to show the file. After it
+  draws, the card writes one line to the console the host keeps (the
+  desktop app's `claude.ai-web.log`): its build time, the page count, and
+  what the host told it. The desktop app keeps the page it read for as long
+  as it runs, through server restarts and reinstalls, so after an update
+  quit and reopen the app before expecting a changed card.
 - **Templates as resources.** The bundled templates are listed under
   `dondocs://templates/{id}`, titled by name. Reading one returns the same JSON
   as `dondocs_template_get`; the `id` completes.
