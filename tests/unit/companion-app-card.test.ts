@@ -5,7 +5,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { base64Of, bytesOf, fileOf, fileUri, fitScale, mostVisible, nameOf, sizeOf, titleOf } from '../../companion/app/card';
+import { base64Of, bytesOf, fileOf, fileUri, fitScale, handoffUri, mostVisible, nameOf, sizeOf, titleOf } from '../../companion/app/card';
 
 describe('the letter card', () => {
   it('takes a render result and refuses anything else', () => {
@@ -20,6 +20,7 @@ describe('the letter card', () => {
   it('reads a nested name back through one encoded segment', () => {
     expect(fileUri('request-for-cft-waiver.pdf')).toBe('dondocs://files/request-for-cft-waiver.pdf');
     expect(fileUri('drafts/v2.pdf')).toBe('dondocs://files/drafts%2Fv2.pdf');
+    expect(handoffUri('drafts/v2.pdf')).toBe('dondocs://handoff/drafts%2Fv2.pdf');
   });
 
   it('names and titles the file from out', () => {

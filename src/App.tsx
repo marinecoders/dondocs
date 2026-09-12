@@ -47,6 +47,8 @@ import {
   type DownloadProgressPhase,
 } from '@/components/modals/downloadProgressTypes';
 import { parseShareUrl } from '@/lib/shareCrypto';
+import { decodeHandoff, parseHandoffUrl } from '@/lib/localHandoff';
+import { showAppAlert } from '@/stores/alertStore';
 import { BrowserCompatibilityNotice } from '@/components/BrowserCompatibilityNotice';
 import { AppAlertDialog } from '@/components/AppAlertDialog';
 import { StorageNotice } from '@/components/StorageNotice';
@@ -55,7 +57,7 @@ import { BackupNotice } from '@/components/BackupNotice';
 import { InstallNotice } from '@/components/InstallNotice';
 import { probeStorageHealth, requestPersistentStorage } from '@/lib/documentsDb';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore, getSavedSession, rehydrateEnclosureFiles } from '@/stores/documentStore';
+import { useDocumentStore, getSavedSession, rehydrateEnclosureFiles, loadSharedSession, type SerializedSession } from '@/stores/documentStore';
 import { useFormStore, FORMS_PERSIST_KEY } from '@/stores/formStore';
 import { lastWriteFailed } from '@/lib/compressedStorage';
 import { useHistoryStore } from '@/stores/historyStore';
@@ -363,6 +365,25 @@ function App() {
     }
   }, [sharePayloadFromHash, setShareModal]);
 
+  // A letter handed over by the local companion (#d=) needs no password:
+  // the fragment never left the machine. Read it and clear the address bar
+  // at once, so the letter is not left sitting in the browser's history;
+  // applying it waits for hydration below, which would otherwise resume the
+  // last document over the top of it.
+  const pendingHandoff = useRef<SerializedSession | null>(null);
+  useEffect(() => {
+    const payload = parseHandoffUrl(window.location.href);
+    if (!payload) { return; }
+    const u = window.location;
+    window.history.replaceState(null, '', u.pathname + u.search);
+    const session = decodeHandoff(payload);
+    if (session) { pendingHandoff.current = session; return; }
+    showAppAlert({
+      title: 'That link could not be opened',
+      message: 'The letter in the link is incomplete or was altered on the way. Render it again and use the new link.',
+    });
+  }, []);
+
   // Apply theme to document
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
@@ -437,6 +458,17 @@ function App() {
       applySelectedProfile();
       useDocumentsStore.getState().markBaseline();
     };
+    // A letter handed over in the URL outranks both a resumed document and a
+    // freshly seeded one: the person followed a link to this exact letter.
+    // It goes last, once hydration has stopped writing to the store.
+    const applyHandoff = () => {
+      const session = pendingHandoff.current;
+      if (cancelled || !session) return false;
+      pendingHandoff.current = null;
+      useDocumentsStore.getState().syncCurrent();
+      loadSharedSession(session);
+      return true;
+    };
     // If the user was last working on a NAVMC form, return them to that view
     // after init (the form field data itself is rehydrated by formStore's own
     // persist; init only resumes correspondence). Read before init runs.
@@ -453,6 +485,7 @@ function App() {
       .getState()
       .init()
       .then((resumed) => {
+        if (applyHandoff()) return;
         if (!resumed) seedFreshStart();
         restoreFormsView();
       })
@@ -460,6 +493,7 @@ function App() {
       // if it ever does, degrade to a usable seeded document instead of an
       // unhandled rejection that leaves the editor unseeded.
       .catch(() => {
+        if (applyHandoff()) return;
         seedFreshStart();
         restoreFormsView();
       })

@@ -30,12 +30,16 @@ import { letterSchema } from './letterSchema';
 import { OutsideSandboxError, outputRoot, resolveOutputPath } from './outputPath';
 import { getUiCapability, registerAppResource, RESOURCE_MIME_TYPE, RESOURCE_URI_META_KEY } from '@modelcontextprotocol/ext-apps/server';
 import { loadAppPage } from './appPage';
+import { editorOrigin, handoffUrl } from './handoff';
 import { OutputWriteError, renderToFile } from './renderToFile';
 import { renderResult, templateListResult, templateResult, unitLookupResult } from './resultSchema';
 import { DOC_TYPES, ENDORSEMENT_TYPES, validateLetter } from './validateLetter';
 import { systemPandocVersion, VENDORED_PANDOC } from './renderDocx';
 
 const ROOT = outputRoot();
+// Where the web editor is served, for the handoff link a rendered letter
+// carries. Unset, or unusable, means no link is offered at all.
+const APP_URL = editorOrigin(process.env.DONDOCS_APP_URL);
 
 const MIME = {
   pdf: 'application/pdf',
@@ -154,6 +158,10 @@ const handle = serveStdio(() => {
   // for whatever the model was talked into asking for. Nothing is listed.
   const FILE_MIME: Record<string, string> = { '.pdf': MIME.pdf, '.docx': MIME.docx };
   const written = new Set<string>();
+  // The editor link for each file rendered here, built at render time from
+  // the letter's own fields. Absent when there is no editor configured or
+  // the letter may not travel in a URL.
+  const handoffs = new Map<string, string>();
   server.registerResource('file', new ResourceTemplate('dondocs://files/{out}', { list: undefined }), {
     title: 'Rendered letter',
     description: 'A file dondocs_letter wrote in this session, by the out it reported.',
@@ -166,6 +174,21 @@ const handle = serveStdio(() => {
     let bytes: Buffer;
     try { bytes = await readFile(path); } catch { throw new ResourceNotFoundError(uri.href); }
     return { contents: [{ uri: uri.href, mimeType: FILE_MIME[extname(path)] ?? 'application/octet-stream', blob: bytes.toString('base64') }] };
+  });
+
+  // The link that opens a rendered letter in the web editor. The card reads
+  // it and opens it; it never reaches the model, which has no use for a
+  // kilobyte of base64 and every reason not to carry the letter twice.
+  server.registerResource('handoff', new ResourceTemplate('dondocs://handoff/{out}', { list: undefined }), {
+    title: 'Edit in the browser',
+    description: 'The URL that opens a letter dondocs_letter wrote in this session in the web editor.',
+    mimeType: 'application/json',
+  }, async (uri, { out }) => {
+    let path: string;
+    try { path = resolveOutputPath(decodeURIComponent(String(out)), ROOT); } catch { throw new ResourceNotFoundError(uri.href); }
+    const url = handoffs.get(path);
+    if (!url) { throw new ResourceNotFoundError(uri.href); }
+    return { contents: [{ uri: uri.href, mimeType: 'application/json', text: JSON.stringify({ url }) }] };
   });
 
   // The card a page-rendering host shows in place of the text: a built file
@@ -326,6 +349,10 @@ const handle = serveStdio(() => {
       try {
         const file = await renderToFile(input, defaults, ROOT);
         written.add(file.path);
+        // Set or clear: a re-render to the same name that may not travel
+        // must not leave the previous letter's link behind it.
+        const editable = handoffUrl(input, defaults, APP_URL);
+        if (editable) { handoffs.set(file.path, editable); } else { handoffs.delete(file.path); }
         // A host that renders links lets the user open the file from the
         // reply. The block dates from 2025-06-18; an older client rejects
         // the whole result over it.

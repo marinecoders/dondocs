@@ -9,7 +9,7 @@
 import { App } from '@modelcontextprotocol/ext-apps';
 import * as pdfjs from 'pdfjs-dist';
 import * as pdfjsWorker from 'pdfjs-dist/build/pdf.worker.mjs';
-import { base64Of, bytesOf, fileOf, fileUri, fitScale, MIME, mostVisible, nameOf, sizeOf, titleOf, type RenderedFile } from './card';
+import { base64Of, bytesOf, fileOf, fileUri, fitScale, handoffUri, MIME, mostVisible, nameOf, sizeOf, titleOf, type RenderedFile } from './card';
 
 // The sandbox's policy allows no worker, so pdf.js runs on its main thread:
 // with the worker module already here it creates none.
@@ -22,6 +22,7 @@ const icon = el<HTMLDivElement>('icon');
 const status = el<HTMLDivElement>('status');
 const download = el<HTMLButtonElement>('download');
 const expand = el<HTMLButtonElement>('expand');
+const edit = el<HTMLButtonElement>('edit');
 const preview = el<HTMLDivElement>('preview');
 const stage = el<HTMLDivElement>('stage');
 const pager = el<HTMLDivElement>('pager');
@@ -91,6 +92,8 @@ let scrolledTo: number | undefined;
 // Set once the reader scrolls, so a build still drawing stops putting them
 // back where it started.
 let scrolledByUser = false;
+// The editor link for the letter on show, when the server offers one.
+let editorLink: string | undefined;
 
 app.ontoolinput = ({ arguments: args }) => {
   const s = (args as { subject?: unknown } | undefined)?.subject;
@@ -123,6 +126,26 @@ download.addEventListener('click', async () => {
   }
 });
 
+/**
+ * The link that opens this letter in the web editor, when the server has
+ * one to give. Fetched with the file rather than on the click, so the
+ * click is a bare gesture: hosts open a new tab only for those, and one
+ * that waits on a round trip can lose the activation.
+ */
+async function loadEditorLink(out: string): Promise<void> {
+  editorLink = undefined;
+  edit.hidden = true;
+  try {
+    const { contents } = await app.readServerResource({ uri: handoffUri(out) });
+    const text = contents[0] && 'text' in contents[0] ? String(contents[0].text) : '';
+    const url = (JSON.parse(text) as { url?: unknown }).url;
+    if (typeof url === 'string' && url) { editorLink = url; edit.hidden = false; }
+  } catch {
+    // No link on offer: no editor configured, or a letter that may not
+    // travel in one. The card is complete without it.
+  }
+}
+
 async function show(result: Parameters<NonNullable<App['ontoolresult']>>[0]): Promise<void> {
   const file = fileOf(result);
   if (!file) {
@@ -143,6 +166,7 @@ async function show(result: Parameters<NonNullable<App['ontoolresult']>>[0]): Pr
     download.disabled = false;
     status.textContent = '';
     if (file.format === 'pdf') { await openPdf(bytes); }
+    await loadEditorLink(file.out);
   } catch (err) {
     status.textContent = `Preview unavailable: ${err instanceof Error ? err.message : String(err)}. The file is at ${file.path}.`;
   }
@@ -341,6 +365,18 @@ async function requestMode(wanted: Mode): Promise<void> {
   }
 }
 
+edit.addEventListener('click', () => {
+  if (!editorLink) { return; }
+  // The result is not proof either way: the spec says a granted request
+  // "does not indicate whether the browser actually opened the tab", and
+  // this host answered isError while opening the tab regardless. So the
+  // card claims nothing about it, and speaks up only when the request
+  // itself failed to reach the host.
+  void app.openLink({ url: editorLink }).then(
+    ({ isError }) => { if (isError) { console.warn('dondocs card: the host reported an error opening the editor'); } },
+    (err: unknown) => { status.textContent = `Could not open the editor: ${err instanceof Error ? err.message : String(err)}`; },
+  );
+});
 expand.addEventListener('click', () => { if (hostOffersFullscreen()) { void requestMode('fullscreen'); } });
 prev.addEventListener('click', () => { void showPage(pageNo - 1); });
 next.addEventListener('click', () => { void showPage(pageNo + 1); });

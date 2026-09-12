@@ -16,8 +16,12 @@ repository for its shape. Set it first: without it every letter starts with a
 unit lookup, and the signer has to be given each time.
 
 A finished letter appears in the chat as a card: its pages, the size, a
-Download button, and an expand button that opens the whole letter
-fullscreen. The file is also kept in the output folder. After
+Download button, an expand button that opens the whole letter fullscreen,
+and an Edit button that opens it in the DonDocs web editor with every
+field filled in, for anything easier typed than dictated. Set "Web editor
+address" to your own deployment, or clear it to drop that button; letters
+above CUI are never handed over. The file is also kept in the output
+folder. After
 updating the extension, quit and reopen the app: it keeps the card it has
 already read for as long as it runs.
 

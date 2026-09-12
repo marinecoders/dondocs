@@ -15,6 +15,7 @@ import { existsSync, readdirSync } from 'node:fs';
 import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
+import { inflateSync } from 'node:zlib';
 import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfToolchain';
 
 const REPO = resolve(import.meta.dirname, '..', '..');
@@ -22,6 +23,8 @@ const BUILT = join(REPO, 'dist-companion');
 const MCPB_DIR = join(REPO, 'dist-mcpb');
 const hasPandoc = spawnSync('pandoc', ['--version'], { encoding: 'utf-8' }).status === 0;
 const version = JSON.parse(await readFile(join(REPO, 'package.json'), 'utf-8')).version as string;
+/** The editor these cold runs are told about, for the handoff link. */
+const EDITOR = 'https://dondocs.example.test';
 
 type Msg = Record<string, unknown> & { result?: Record<string, unknown> & { isError?: boolean; content?: Array<{ text?: string }>; structuredContent?: Record<string, unknown> }; error?: { message: string } };
 
@@ -36,7 +39,7 @@ class Cold {
   constructor(entry: string, cwd: string, out: string) {
     this.child = spawn(process.execPath, [entry], {
       cwd,
-      env: { PATH: process.env.PATH ?? '', HOME: process.env.HOME ?? '', DONDOCS_OUT_ROOT: out, DONDOCS_CONFIG: '/nonexistent/companion.config.json' },
+      env: { PATH: process.env.PATH ?? '', HOME: process.env.HOME ?? '', DONDOCS_OUT_ROOT: out, DONDOCS_CONFIG: '/nonexistent/companion.config.json', DONDOCS_APP_URL: EDITOR },
     }) as ChildProcessWithoutNullStreams;
     this.child.stderr.on('data', (d: Buffer) => { this.stderr += d.toString(); });
     let buffer = '';
@@ -167,6 +170,20 @@ function rendersEverything(label: string, entry: () => string) {
       } finally {
         pages.close();
       }
+    }, 200_000);
+
+    it('hands a rendered letter to the editor the setting names', async () => {
+      const res = await server.call('tools/call', { name: 'dondocs_letter', arguments: {
+        docType: 'naval_letter', subject: 'COLD HANDOFF', out: 'handoff.pdf', from: 'F', to: 'T', paragraphs: [{ text: 'Body.' }],
+      } });
+      expect(res.result?.isError, text(res)).toBeFalsy();
+      const read = await server.call('resources/read', { uri: 'dondocs://handoff/handoff.pdf' });
+      const [content] = read.result!.contents as Array<{ text: string }>;
+      const { url } = JSON.parse(content.text) as { url: string };
+      expect(url.startsWith(`${EDITOR}/#d=`)).toBe(true);
+      // The letter the editor will open, not merely a link that parses.
+      const session = JSON.parse(inflateSync(Buffer.from(url.slice(url.indexOf('#d=') + 3), 'base64url')).toString('utf-8'));
+      expect(session.formData.subject).toBe('COLD HANDOFF');
     }, 200_000);
 
     it('keeps stdout to the protocol', () => {
