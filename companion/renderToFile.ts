@@ -7,7 +7,7 @@
  * quietly grow two different security postures.
  */
 import { mkdir, writeFile } from 'node:fs/promises';
-import { dirname } from 'node:path';
+import { dirname, relative, resolve } from 'node:path';
 import { renderPdf } from './render';
 import { renderDocx } from './renderDocx';
 import type { CompanionDefaults, LetterInput } from './letterInput';
@@ -26,6 +26,8 @@ export interface RenderedFile {
   format: 'pdf' | 'docx';
   /** Absolute path, always inside `root`. */
   path: string;
+  /** The same file as `out` names it: relative to the root, so a second call with it replaces this one. */
+  out: string;
   bytes: number;
 }
 
@@ -93,5 +95,5 @@ export async function renderToFile(
     throw err instanceof OutputWriteError ? err : new OutputWriteError(target, err);
   }
 
-  return { format, path: target, bytes: bytes.byteLength };
+  return { format, path: target, out: relative(resolve(root), target), bytes: bytes.byteLength };
 }

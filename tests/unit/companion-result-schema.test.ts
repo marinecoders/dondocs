@@ -37,8 +37,10 @@ describe('the published result schemas', () => {
   });
 
   it('accept a render result and refuse a format the renderer cannot produce', () => {
-    expect(renderResult.safeParse({ format: 'pdf', path: '/out/letter.pdf', bytes: 12_345 }).success).toBe(true);
-    expect(renderResult.safeParse({ format: 'docx', path: '/out/letter.docx', bytes: 0 }).success).toBe(true);
+    expect(renderResult.safeParse({ format: 'pdf', path: '/out/letter.pdf', out: 'letter.pdf', bytes: 12_345 }).success).toBe(true);
+    expect(renderResult.safeParse({ format: 'docx', path: '/out/letter.docx', out: 'letter.docx', bytes: 0 }).success).toBe(true);
+    // `out` is what a caller passes back to replace the file; a result without it is not the contract.
+    expect(renderResult.safeParse({ format: 'pdf', path: '/out/letter.pdf', bytes: 1 }).success).toBe(false);
     expect(renderResult.safeParse({ format: 'odt', path: '/out/letter.odt', bytes: 1 }).success).toBe(false);
   });
 });

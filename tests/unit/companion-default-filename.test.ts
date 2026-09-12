@@ -24,6 +24,15 @@ describe('the default filename', () => {
     expect([first, second, third].map((f) => f.path.slice(root.length + 1)))
       .toEqual(['same-subject.pdf', 'same-subject-2.pdf', 'same-subject-3.pdf']);
     expect((await readFile(first.path)).toString()).toBe('%PDF render 1');
+    // The name that replaces the file when passed back as `out`.
+    expect([first, second, third].map((f) => f.out)).toEqual(['same-subject.pdf', 'same-subject-2.pdf', 'same-subject-3.pdf']);
+  });
+
+  it('reports a nested out as given, relative to the root', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'dondocs-names-'));
+    const file = await renderToFile({ docType: 'naval_letter', subject: 'NESTED', out: 'drafts/v2.pdf' }, {}, root);
+    expect(file.out).toBe(join('drafts', 'v2.pdf'));
+    expect(file.path).toBe(join(root, 'drafts', 'v2.pdf'));
   });
 
   it('gives concurrent renders of one subject distinct files', async () => {

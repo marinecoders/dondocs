@@ -11,6 +11,7 @@ import { unit } from './letterSchema';
 export const renderResult = z.object({
   format: z.enum(['pdf', 'docx']),
   path: z.string().describe('Absolute path of the written file.'),
+  out: z.string().describe('The same file as out names it, relative to the output root; pass it back to replace the file.'),
   bytes: z.number().int().nonnegative(),
 });
 
