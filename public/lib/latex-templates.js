@@ -2098,7 +2098,8 @@ const LATEX_TEMPLATES = {
         From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline
         To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
         \\@viarows
-        \\tabularnewline[12pt]%
+        % \\noalign, not \\\\[12pt]: the optional space is swallowed when the row above wraps
+        \\tabularnewline\\noalign{\\vskip 12pt}%
         Subj:\\hspace{3\\fontdimen2\\font} & \\SubjectLine%
     \\end{tabular}%
     %
@@ -2409,7 +2410,8 @@ const LATEX_TEMPLATES = {
         From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline
         To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
         \\@viarows
-        \\tabularnewline[12pt]%
+        % \\noalign, not \\\\[12pt]: the optional space is swallowed when the row above wraps
+        \\tabularnewline\\noalign{\\vskip 12pt}%
         Subj:\\hspace{3\\fontdimen2\\font} & \\SubjectLine%
     \\end{tabular}%
     %
@@ -2770,7 +2772,8 @@ const LATEX_TEMPLATES = {
               & \\JuniorFromLine\\tabularnewline
         To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
         \\@viarows
-        \\tabularnewline[12pt]%
+        % \\noalign, not \\\\[12pt]: the optional space is swallowed when the row above wraps
+        \\tabularnewline\\noalign{\\vskip 12pt}%
         Subj:\\hspace{3\\fontdimen2\\font} & \\SubjectLine%
     \\end{tabular}%
     %
@@ -2966,7 +2969,8 @@ const LATEX_TEMPLATES = {
               & \\JuniorFromLine\\tabularnewline
         To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
         \\@viarows
-        \\tabularnewline[12pt]%
+        % \\noalign, not \\\\[12pt]: the optional space is swallowed when the row above wraps
+        \\tabularnewline\\noalign{\\vskip 12pt}%
         Subj:\\hspace{3\\fontdimen2\\font} & \\SubjectLine%
     \\end{tabular}%
     %
@@ -3123,7 +3127,8 @@ const LATEX_TEMPLATES = {
         From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline
         To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
         \\@viarows
-        \\tabularnewline[12pt]%
+        % \\noalign, not \\\\[12pt]: the optional space is swallowed when the row above wraps
+        \\tabularnewline\\noalign{\\vskip 12pt}%
         Subj:\\hspace{3\\fontdimen2\\font} & \\SubjectLine%
     \\end{tabular}%
     %
@@ -3401,7 +3406,8 @@ const LATEX_TEMPLATES = {
     \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}%
         From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}%
         \\ifdefempty{\\ToLine}{}{\\tabularnewline To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}}%
-        \\tabularnewline[12pt]%
+        % \\noalign, not \\\\[12pt]: the optional space is swallowed when the row above wraps
+        \\tabularnewline\\noalign{\\vskip 12pt}%
         Subj:\\hspace{3\\fontdimen2\\font} & \\SubjectLine%
     \\end{tabular}%
     %
@@ -3926,7 +3932,8 @@ const LATEX_TEMPLATES = {
         \\ifdefempty{\\ToLine}{}{%
             To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}}%
         \\@viarows
-        \\tabularnewline[12pt]%
+        % \\noalign, not \\\\[12pt]: the optional space is swallowed when the row above wraps
+        \\tabularnewline\\noalign{\\vskip 12pt}%
         Subj:\\hspace{3\\fontdimen2\\font} & \\SubjectLine%
     \\end{tabular}%
     %
@@ -4099,7 +4106,8 @@ const LATEX_TEMPLATES = {
         From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline%
         To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
         \\@viarows
-        \\tabularnewline[12pt]%
+        % \\noalign, not \\\\[12pt]: the optional space is swallowed when the row above wraps
+        \\tabularnewline\\noalign{\\vskip 12pt}%
         Subj:\\hspace{3\\fontdimen2\\font} & \\SubjectLine%
     \\end{tabular}%
     \\endgroup
@@ -4276,7 +4284,8 @@ const LATEX_TEMPLATES = {
         From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline
         To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
         \\@viarows
-        \\tabularnewline[12pt]%
+        % \\noalign, not \\\\[12pt]: the optional space is swallowed when the row above wraps
+        \\tabularnewline\\noalign{\\vskip 12pt}%
         Subj:\\hspace{3\\fontdimen2\\font} & \\SubjectLine%
     \\end{tabular}%
     %
@@ -4432,7 +4441,8 @@ const LATEX_TEMPLATES = {
         From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline
         To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
         \\@viarows
-        \\tabularnewline[12pt]%
+        % \\noalign, not \\\\[12pt]: the optional space is swallowed when the row above wraps
+        \\tabularnewline\\noalign{\\vskip 12pt}%
         Subj:\\hspace{3\\fontdimen2\\font} & \\SubjectLine%
     \\end{tabular}%
     %
@@ -4809,7 +4819,8 @@ const LATEX_TEMPLATES = {
         From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline%
         To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
         \\@viarows
-        \\tabularnewline[12pt]%
+        % \\noalign, not \\\\[12pt]: the optional space is swallowed when the row above wraps
+        \\tabularnewline\\noalign{\\vskip 12pt}%
         Subj:\\hspace{3\\fontdimen2\\font} & \\SubjectLine%
     \\end{tabular}%
     \\endgroup
