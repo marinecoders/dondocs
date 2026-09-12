@@ -148,6 +148,8 @@ function rendersEverything(label: string, entry: () => string) {
       // pasted the slot's own text wherever the bundle said `$&`.
       expect(page.text).not.toContain('<!-- letter.js -->');
       expect(page.text).toContain('WorkerMessageHandler');
+      // Fullscreen is declared to the host, so it offers the mode.
+      expect(page.text).toContain('fullscreen');
       expect(page.text).toContain('dondocs://files/');
       expect(page.text).not.toMatch(/<(script|link|img)[^>]+(src|href)="https?:/);
     });

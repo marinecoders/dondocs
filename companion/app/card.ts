@@ -57,3 +57,23 @@ export function base64Of(bytes: Uint8Array): string {
   }
   return btoa(binary);
 }
+
+/** The scale that fits a page of `natural` size into `width`, and into `maxHeight` when given. */
+export function fitScale(natural: { width: number; height: number }, width: number, maxHeight?: number): number {
+  const w = natural.width > 0 ? natural.width : 612;
+  const h = natural.height > 0 ? natural.height : 792;
+  let scale = width / w;
+  if (maxHeight !== undefined) { scale = Math.min(scale, maxHeight / h); }
+  return Math.max(scale, 0.05);
+}
+
+/** The 1-based page whose box shows most of itself in a viewport of `height`; the first on a tie, or with none. */
+export function mostVisible(rects: Array<{ top: number; bottom: number }>, height: number): number {
+  let best = 1;
+  let most = 0;
+  rects.forEach((r, i) => {
+    const seen = Math.min(r.bottom, height) - Math.max(r.top, 0);
+    if (seen > most) { most = seen; best = i + 1; }
+  });
+  return best;
+}

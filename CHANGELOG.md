@@ -5,6 +5,24 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.163] — 2026-09-12
+
+### Added
+
+- **The card opens fullscreen.** Where the host offers it, an expand button
+  gives the letter the whole window: its pages in a scroll of their own,
+  the pager following the scroll, Download still to hand, and the host's
+  close returning to the card on the page last read. Twenty pages at most,
+  each canvas being a page at device resolution; a longer file says so and
+  carries them all in the download. The inline card is unchanged.
+
+### Fixed
+
+- **A card that is off screen finishes what it starts.** Layout steps
+  waited on an animation frame, which a browser withholds from a document
+  it is not displaying, so a switch begun while the card was scrolled away
+  never completed. Nothing in the card waits on a frame now.
+
 ## [1.2.162] — 2026-09-12
 
 ### Changed
