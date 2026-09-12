@@ -420,6 +420,18 @@ client that only calls tools is unaffected.
   what the host told it. The desktop app keeps the page it read for as long
   as it runs, through server restarts and reinstalls, so after an update
   quit and reopen the app before expecting a changed card.
+- **Edit in the browser.** A rendered letter carries a link that opens it
+  in the web editor with every field populated, for the one thing a PDF is
+  a poor place to fix. The card shows an Edit button beside Download; the
+  host confirms the destination before opening it, as it does for any
+  local server. The letter travels in the URL's fragment as
+  base64url(DEFLATE(session)), which no browser sends to a server, and the
+  editor strips it from the address bar as soon as it has loaded it. The
+  link is a resource, `dondocs://handoff/{out}`, read by the card and not
+  by the model. `DONDOCS_APP_URL` says where the editor is, defaulting in
+  the bundle to `https://dondocs.marines.dev`; clear it and no link is
+  offered. Nothing above CUI is handed over: a classified letter has no
+  business in a browser's history, so it gets no link at all.
 - **Templates as resources.** The bundled templates are listed under
   `dondocs://templates/{id}`, titled by name. Reading one returns the same JSON
   as `dondocs_template_get`; the `id` completes.
