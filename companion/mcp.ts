@@ -29,7 +29,7 @@ import { CONFIG_PATH, loadDefaults } from './defaults';
 import { letterSchema } from './letterSchema';
 import { OutsideSandboxError, outputRoot, resolveOutputPath } from './outputPath';
 import { getUiCapability, registerAppResource, RESOURCE_MIME_TYPE, RESOURCE_URI_META_KEY } from '@modelcontextprotocol/ext-apps/server';
-import { APP_URI, loadAppPage } from './appPage';
+import { loadAppPage } from './appPage';
 import { OutputWriteError, renderToFile } from './renderToFile';
 import { renderResult, templateListResult, templateResult, unitLookupResult } from './resultSchema';
 import { DOC_TYPES, ENDORSEMENT_TYPES, validateLetter } from './validateLetter';
@@ -172,8 +172,8 @@ const handle = serveStdio(() => {
   // beside the entry, so a source run offers none and says so once.
   const page = loadAppPage();
   if (page) {
-    registerAppResource(server, 'letter-page', APP_URI, { title: 'Letter card' }, async () => ({
-      contents: [{ uri: APP_URI, mimeType: RESOURCE_MIME_TYPE, text: page }],
+    registerAppResource(server, 'letter-page', page.uri, { title: 'Letter card' }, async () => ({
+      contents: [{ uri: page.uri, mimeType: RESOURCE_MIME_TYPE, text: page.html }],
     }));
   } else {
     console.error('dondocs: no built page beside the entry; render results are text only');
@@ -304,7 +304,7 @@ const handle = serveStdio(() => {
       outputSchema: renderResult,
       // The link to the page under both keys hosts have read it from, as the
       // SDK's registerAppTool writes it.
-      ...(page ? { _meta: { ui: { resourceUri: APP_URI }, [RESOURCE_URI_META_KEY]: APP_URI } } : {}),
+      ...(page ? { _meta: { ui: { resourceUri: page.uri }, [RESOURCE_URI_META_KEY]: page.uri } } : {}),
       annotations: {
         // It writes one file. A given `out` replaces whatever is there; with
         // `out` omitted the same request adds a numbered file each time.
