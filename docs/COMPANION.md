@@ -396,7 +396,15 @@ client that only calls tools is unaffected.
   Download button that hands the bytes to the host's own save dialog. One
   page at a time keeps the card the same height whatever the host does with
   later size reports, and a page is scaled to fit the height the host
-  allows when it says. The page reads the file back through
+  allows when it says. Where the host offers fullscreen, an expand button
+  opens the pages in a scroll of their own (twenty at most, a longer file
+  saying so), the pager following the scroll; the host's own close returns
+  to the card, on the page last read. The
+  desktop app gives fullscreen a fixed height, which the page fills, and
+  reports a bottom safe-area inset for the composer, which the scroll
+  clears. Nothing
+  in the card waits on an animation frame: a browser withholds those from a
+  card that is not on screen, which would leave a switch half-done. The page reads the file back through
   `dondocs://files/{out}`, a blob resource of a file this server wrote in
   this session and nothing else in the root, so nothing of the document
   enters the model's context and the root, which a person may point at a
