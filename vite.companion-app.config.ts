@@ -17,7 +17,9 @@ const OUT = resolve(HERE, 'dist-companion', 'companion', 'app');
 
 export default defineConfig({
   define: {
-    __APP_VERSION__: JSON.stringify(pkg.version), __GIT_SHA__: JSON.stringify(''), __BUILD_TIME__: JSON.stringify(''),
+    // The build time names the page in the host's console log, where a
+    // stale copy is otherwise indistinguishable from the one just installed.
+    __APP_VERSION__: JSON.stringify(pkg.version), __GIT_SHA__: JSON.stringify(''), __BUILD_TIME__: JSON.stringify(new Date().toISOString()),
     // pdf.js reads its own script URL to locate a worker file; there is none to locate.
     'import.meta.url': 'undefined',
   },

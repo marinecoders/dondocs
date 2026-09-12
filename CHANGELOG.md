@@ -5,6 +5,19 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.162] — 2026-09-12
+
+### Changed
+
+- **The card shows every page.** It drew the first page of a PDF and said
+  how many there were; it now pages through them, with buttons and the
+  arrow keys, each page drawn when first shown. The card stays one page
+  tall: the desktop app sizes the frame once and does not follow later
+  growth. The page's URI carries its own hash, and after drawing the card
+  writes one line to the host's console (build time, page count, what the
+  host told it). The desktop app keeps the page it has read for as long as
+  it runs, so after an update, quit and reopen the app.
+
 ## [1.2.161] — 2026-09-11
 
 ### Added

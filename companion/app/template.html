@@ -26,6 +26,9 @@
   button:disabled { opacity: .5; cursor: default; }
   .preview { display: none; justify-content: center; }
   .preview canvas { max-width: 100%; height: auto; border: 1px solid var(--line); background: #fff; }
+  .pager { display: none; align-items: center; gap: 6px; flex: none; }
+  .pager button { padding: 4px 9px; background: transparent; color: var(--fg); border-color: var(--line); }
+  .pager span { color: var(--muted); font-size: 12px; min-width: 4em; text-align: center; }
   .status { color: var(--muted); font-size: 12px; min-height: 1em; }
 </style>
 </head>
@@ -37,10 +40,15 @@
       <div class="title" id="title">Rendering the letter</div>
       <div class="meta" id="meta"></div>
     </div>
+    <div class="pager" id="pager">
+      <button id="prev" aria-label="Previous page">&#8249;</button>
+      <span id="pageno"></span>
+      <button id="next" aria-label="Next page">&#8250;</button>
+    </div>
     <button id="download" disabled>Download</button>
   </div>
-  <div class="preview" id="preview"><canvas id="page"></canvas></div>
   <div class="status" id="status"></div>
+  <div class="preview" id="preview"></div>
 </main>
 <!-- letter.js -->
 </body>

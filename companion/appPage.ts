@@ -7,16 +7,27 @@
  * at `dist-companion/companion/app/letter.html`, beside the built entry. A
  * source run has no such file and offers no page; the tools work the same.
  */
+import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 
-export const APP_URI = 'ui://dondocs/letter.html';
+export interface AppPage {
+  /**
+   * `ui://dondocs/letter.<hash>.html`, the hash being the page's own: a
+   * host may keep a page it has read by its URI, so a changed page is a
+   * changed name.
+   */
+  uri: string;
+  html: string;
+}
 
-/** The built page, or undefined when this is a source run. */
-export function loadAppPage(): string | undefined {
+/** The built page beside the entry, or undefined when this is a source run. */
+export function loadAppPage(): AppPage | undefined {
   const path = join(HERE, 'app', 'letter.html');
-  return existsSync(path) ? readFileSync(path, 'utf-8') : undefined;
+  if (!existsSync(path)) { return undefined; }
+  const html = readFileSync(path, 'utf-8');
+  return { uri: `ui://dondocs/letter.${createHash('sha256').update(html).digest('hex').slice(0, 8)}.html`, html };
 }

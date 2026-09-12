@@ -21,7 +21,20 @@ const icon = el<HTMLDivElement>('icon');
 const status = el<HTMLDivElement>('status');
 const download = el<HTMLButtonElement>('download');
 const preview = el<HTMLDivElement>('preview');
-const canvas = el<HTMLCanvasElement>('page');
+const pager = el<HTMLDivElement>('pager');
+const pageno = el<HTMLSpanElement>('pageno');
+const prev = el<HTMLButtonElement>('prev');
+const next = el<HTMLButtonElement>('next');
+
+/** Drawn pages kept; each is tens of megabytes, and a letter is a few pages. */
+const CACHE = 6;
+/**
+ * The page's height on screen when the host does not say how tall the
+ * frame may be. The desktop app sizes the frame from an early reading of
+ * the document and does not follow later growth, so the card is one page
+ * tall with its controls in the header, and never grows.
+ */
+const DEFAULT_PAGE_HEIGHT = 900;
 
 const app = new App({ name: 'dondocs-letter', version: __APP_VERSION__ }, {}, { autoResize: true });
 
@@ -32,6 +45,9 @@ const applyTheme = (theme: string | undefined) => {
 
 let subject: string | undefined;
 let current: { file: RenderedFile; bytes: Uint8Array } | undefined;
+let doc: pdfjs.PDFDocumentProxy | undefined;
+let pageNo = 1;
+const drawn = new Map<number, HTMLCanvasElement>();
 
 app.ontoolinput = ({ arguments: args }) => {
   const s = (args as { subject?: unknown } | undefined)?.subject;
@@ -78,30 +94,84 @@ async function show(result: Parameters<NonNullable<App['ontoolresult']>>[0]): Pr
     current = { file, bytes };
     download.disabled = false;
     status.textContent = '';
-    if (file.format === 'pdf') { await drawFirstPage(bytes); }
+    if (file.format === 'pdf') { await openPdf(bytes); }
   } catch (err) {
     status.textContent = `Preview unavailable: ${err instanceof Error ? err.message : String(err)}. The file is at ${file.path}.`;
   }
 }
 
-async function drawFirstPage(bytes: Uint8Array): Promise<void> {
+/** The height the host allows the card, when it says (the desktop app says 5000). */
+function heightAllowed(): number | undefined {
+  const dims = app.getHostContext()?.containerDimensions as { height?: number; maxHeight?: number } | undefined;
+  return dims?.height ?? dims?.maxHeight;
+}
+
+async function openPdf(bytes: Uint8Array): Promise<void> {
   // pdf.js takes ownership of the buffer it is handed; copy so the download keeps its own.
-  const doc = await pdfjs.getDocument({ data: bytes.slice(), isEvalSupported: false }).promise;
-  const page = await doc.getPage(1);
+  doc = await pdfjs.getDocument({ data: bytes.slice(), isEvalSupported: false }).promise;
+  meta.textContent += ` · ${doc.numPages} ${doc.numPages === 1 ? 'page' : 'pages'}`;
+  drawn.clear();
+  await showPage(1);
+  if (doc.numPages > 1) { pager.style.display = 'flex'; }
+  // The host keeps the page's console; this line says which build drew
+  // the card and what the host told it, which nothing else records.
+  console.warn(`dondocs card built ${__BUILD_TIME__}: ${doc.numPages} pages, pager ${doc.numPages > 1 ? 'on' : 'off'}, host ${JSON.stringify(hostFacts())}`);
+}
+
+function hostFacts(): Record<string, unknown> {
+  const ctx = app.getHostContext();
+  return { displayMode: ctx?.displayMode, modes: ctx?.availableDisplayModes, container: ctx?.containerDimensions, width: document.documentElement.clientWidth };
+}
+
+async function showPage(n: number): Promise<void> {
+  if (!doc) { return; }
+  pageNo = n;
+  pageno.textContent = `${n} / ${doc.numPages}`;
+  prev.disabled = n <= 1;
+  next.disabled = n >= doc.numPages;
+  let canvas = drawn.get(n);
+  if (!canvas) {
+    status.textContent = `Drawing page ${n}`;
+    canvas = await drawPage(n);
+    drawn.set(n, canvas);
+    if (drawn.size > CACHE) { drawn.delete(drawn.keys().next().value!); }
+  }
+  // A click during the draw moved on; that page's draw will show itself.
+  if (pageNo !== n) { return; }
+  status.textContent = '';
+  preview.replaceChildren(canvas);
+  preview.style.display = 'flex';
+}
+
+async function drawPage(n: number): Promise<HTMLCanvasElement> {
+  const page = await doc!.getPage(n);
+  const natural = page.getViewport({ scale: 1 });
   const width = Math.max(320, Math.min(720, document.documentElement.clientWidth - 32));
-  const scale = width / page.getViewport({ scale: 1 }).width;
+  let scale = width / natural.width;
+  // Within the height the host allows, less the header and the margins.
+  const allowed = heightAllowed();
+  scale = Math.min(scale, (allowed ? Math.max(200, allowed - 110) : DEFAULT_PAGE_HEIGHT) / natural.height);
   const viewport = page.getViewport({ scale: scale * (window.devicePixelRatio || 1) });
+  const canvas = document.createElement('canvas');
   canvas.width = viewport.width;
   canvas.height = viewport.height;
-  canvas.style.width = `${width}px`;
+  canvas.style.width = `${Math.round(natural.width * scale)}px`;
+  canvas.setAttribute('aria-label', `Page ${n} of ${doc!.numPages}`);
   // The print intent draws the same page but continues by promise, not by
   // requestAnimationFrame, which a browser withholds from a sandboxed frame
   // it has scrolled out of view; the display intent would then draw only
   // once the card was looked at.
   await page.render({ canvas, viewport, intent: 'print' }).promise;
-  preview.style.display = 'flex';
-  meta.textContent += ` · ${doc.numPages} ${doc.numPages === 1 ? 'page' : 'pages'}`;
+  return canvas;
 }
+
+prev.addEventListener('click', () => { void showPage(pageNo - 1); });
+next.addEventListener('click', () => { void showPage(pageNo + 1); });
+document.addEventListener('keydown', (e) => {
+  if (!doc || doc.numPages < 2) { return; }
+  if (e.key === 'ArrowRight' && pageNo < doc.numPages) { void showPage(pageNo + 1); }
+  if (e.key === 'ArrowLeft' && pageNo > 1) { void showPage(pageNo - 1); }
+});
 
 app.connect().then(
   () => applyTheme(app.getHostContext()?.theme),

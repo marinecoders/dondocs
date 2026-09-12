@@ -131,10 +131,13 @@ function rendersEverything(label: string, entry: () => string) {
     it('carries the letter card page, self-contained, and points the render tool at it', async () => {
       const { result } = await server.call('tools/list', {});
       const letter = (result!.tools as Array<{ name: string; _meta?: { ui?: { resourceUri?: string }; 'ui/resourceUri'?: string } }>).find((t) => t.name === 'dondocs_letter')!;
-      // Both keys, as the SDK writes them: hosts on the earlier draft read the flat one.
-      expect(letter._meta?.ui?.resourceUri).toBe('ui://dondocs/letter.html');
-      expect(letter._meta?.['ui/resourceUri']).toBe('ui://dondocs/letter.html');
-      const read = await server.call('resources/read', { uri: 'ui://dondocs/letter.html' });
+      // Both keys, as the SDK writes them: hosts on the earlier draft read
+      // the flat one. The name carries the page's own hash: a host keeps a
+      // page by its URI across reinstalls, so a changed page needs a new one.
+      const uri = letter._meta?.ui?.resourceUri;
+      expect(uri).toMatch(/^ui:\/\/dondocs\/letter\.[0-9a-f]{8}\.html$/);
+      expect(letter._meta?.['ui/resourceUri']).toBe(uri);
+      const read = await server.call('resources/read', { uri });
       const [page] = read.result!.contents as Array<{ mimeType: string; text: string }>;
       expect(page.mimeType).toBe('text/html;profile=mcp-app');
       // The sandbox loads nothing from the network: the bridge, pdf.js and
