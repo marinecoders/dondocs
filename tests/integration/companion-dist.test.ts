@@ -68,9 +68,9 @@ class Cold {
   close() { this.child.kill(); }
 }
 
-async function handshake(entry: string, cwd: string, out: string): Promise<Cold> {
+async function handshake(entry: string, cwd: string, out: string, capabilities: Record<string, unknown> = {}): Promise<Cold> {
   const server = new Cold(entry, cwd, out);
-  const init = await server.call('initialize', { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'cold', version: '1' } });
+  const init = await server.call('initialize', { protocolVersion: '2025-11-25', capabilities, clientInfo: { name: 'cold', version: '1' } });
   expect(init.error, server.stderr).toBeUndefined();
   server.notify('notifications/initialized');
   return server;
@@ -126,6 +126,42 @@ function rendersEverything(label: string, entry: () => string) {
       } });
       expect(res.result?.isError, text(res)).toBeFalsy();
       expect((await readFile(res.result!.structuredContent!.path as string)).subarray(0, 2).toString('latin1')).toBe('PK');
+    }, 200_000);
+
+    it('carries the letter card page, self-contained, and points the render tool at it', async () => {
+      const { result } = await server.call('tools/list', {});
+      const letter = (result!.tools as Array<{ name: string; _meta?: { ui?: { resourceUri?: string }; 'ui/resourceUri'?: string } }>).find((t) => t.name === 'dondocs_letter')!;
+      // Both keys, as the SDK writes them: hosts on the earlier draft read the flat one.
+      expect(letter._meta?.ui?.resourceUri).toBe('ui://dondocs/letter.html');
+      expect(letter._meta?.['ui/resourceUri']).toBe('ui://dondocs/letter.html');
+      const read = await server.call('resources/read', { uri: 'ui://dondocs/letter.html' });
+      const [page] = read.result!.contents as Array<{ mimeType: string; text: string }>;
+      expect(page.mimeType).toBe('text/html;profile=mcp-app');
+      // The sandbox loads nothing from the network: the bridge, pdf.js and
+      // its worker are in the file, and the page reads the letter back
+      // through the files resource.
+      expect(page.text).toContain('<script');
+      // The slot is filled by a replacer function; a string replacement once
+      // pasted the slot's own text wherever the bundle said `$&`.
+      expect(page.text).not.toContain('<!-- letter.js -->');
+      expect(page.text).toContain('WorkerMessageHandler');
+      expect(page.text).toContain('dondocs://files/');
+      expect(page.text).not.toMatch(/<(script|link|img)[^>]+(src|href)="https?:/);
+    });
+
+    it('tells a host that renders pages the letter is in the chat, and any other to present the file', async () => {
+      const pages = await handshake(entry(), cwd, out, { extensions: { 'io.modelcontextprotocol/ui': { mimeTypes: ['text/html;profile=mcp-app'] } } });
+      try {
+        const args = { docType: 'naval_letter', subject: 'BY HOST', out: 'host.pdf', from: 'F', to: 'T', paragraphs: [{ text: 'Body.' }] };
+        const card = await pages.call('tools/call', { name: 'dondocs_letter', arguments: args });
+        expect(card.result?.isError, text(card)).toBeFalsy();
+        expect(text(card)).toMatch(/\nThe letter is shown in the chat as a card\. .*out "host\.pdf"/);
+        expect(text(card)).not.toContain('present_files');
+        const plain = await server.call('tools/call', { name: 'dondocs_letter', arguments: args });
+        expect(text(plain)).toMatch(/\nShow it in the chat: call present_files/);
+      } finally {
+        pages.close();
+      }
     }, 200_000);
 
     it('keeps stdout to the protocol', () => {
