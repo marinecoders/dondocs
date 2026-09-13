@@ -6,7 +6,7 @@
  */
 import * as z from 'zod';
 import type { LetterTemplate } from '../src/data/templates/types';
-import { unit } from './letterSchema';
+import { signature, unit } from './letterSchema';
 
 export const renderResult = z.object({
   format: z.enum(['pdf', 'docx']),
@@ -43,4 +43,13 @@ export const unitLookupResult = z.object({
     mcc: z.string().nullable(),
     unit: unit.pick({ name: true, line2: true, address: true, department: true }),
   })),
+});
+
+/** What the machine defaults hold once saved; the same shape the config file keeps. */
+export const defaultsResult = z.object({
+  path: z.string().describe('The config file the values were written to.'),
+  unit: unit.optional(),
+  signature: signature.optional(),
+  ssic: z.string().optional(),
+  originatorCode: z.string().optional(),
 });

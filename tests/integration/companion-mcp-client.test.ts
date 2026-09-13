@@ -97,7 +97,7 @@ describe('a protocol client', () => {
   it('publishes letter and lookup tools with their input schemas', async () => {
     const { tools } = await client.listTools();
     expect(tools.map((t) => t.name).sort()).toEqual([
-      'dondocs_letter', 'dondocs_template_get', 'dondocs_template_list', 'dondocs_unit_lookup',
+      'dondocs_letter', 'dondocs_save_defaults', 'dondocs_template_get', 'dondocs_template_list', 'dondocs_unit_lookup',
     ]);
 
     const schema = tools.find((t) => t.name === 'dondocs_letter')!.inputSchema as {

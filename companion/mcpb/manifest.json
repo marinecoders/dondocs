@@ -77,6 +77,10 @@
     {
       "name": "dondocs_template_get",
       "description": "Fetch a template as a starting draft"
+    },
+    {
+      "name": "dondocs_save_defaults",
+      "description": "Save the unit and signer this machine uses, so later letters need no lookup"
     }
   ],
   "compatibility": {

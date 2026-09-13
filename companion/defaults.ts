@@ -7,9 +7,9 @@
  * shapes, so a config cannot set anything a request cannot, and a typo is
  * named at startup instead of being dropped at render time.
  */
-import { readFile } from 'node:fs/promises';
+import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import { homedir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import * as z from 'zod';
 import { signature, unit } from './letterSchema';
 import type { CompanionDefaults } from './letterInput';
@@ -18,7 +18,7 @@ import type { CompanionDefaults } from './letterInput';
 // `||`, not `??`: a client that lets the user leave the field blank passes ''.
 export const CONFIG_PATH = process.env.DONDOCS_CONFIG || join(homedir(), '.dondocs', 'companion.config.json');
 
-const configSchema = z.object({
+export const configSchema = z.object({
   unit: unit.optional(),
   signature: signature.optional(),
   ssic: z.string().optional(),
@@ -44,5 +44,41 @@ export async function loadDefaults(path: string = CONFIG_PATH): Promise<Companio
     const issues = parsed.error.issues.map((i) => `${i.path.join('.') || 'top level'}: ${i.message}`).join('; ');
     throw new Error(`${path} is not a valid companion config: ${issues}`);
   }
+  return parsed.data;
+}
+
+/** A field set to null is being taken back; anything absent is left as it was. */
+export type DefaultsPatch = {
+  [K in keyof CompanionDefaults]?: CompanionDefaults[K] | null;
+};
+
+/**
+ * Write machine defaults, merged over whatever is already on disk.
+ *
+ * Validated against the same schema `loadDefaults` reads, because a file
+ * that does not fit stops the companion at its next start: a bad save
+ * here would be a broken install later. The write lands in one move, by
+ * renaming a temporary file in the same directory over the target, so an
+ * interrupted one cannot leave half a config behind either.
+ */
+export async function saveDefaults(patch: DefaultsPatch, path: string = CONFIG_PATH): Promise<CompanionDefaults> {
+  const current = await loadDefaults(path);
+  const merged: Record<string, unknown> = { ...current };
+  for (const [key, value] of Object.entries(patch)) {
+    if (value === null) { delete merged[key]; } else if (value !== undefined) { merged[key] = value; }
+  }
+
+  const parsed = configSchema.safeParse(merged);
+  if (!parsed.success) {
+    const issues = parsed.error.issues.map((i) => `${i.path.join('.') || 'top level'}: ${i.message}`).join('; ');
+    throw new Error(`refusing to write ${path}: ${issues}`);
+  }
+
+  // Indented: the file is documented as one a person may edit by hand.
+  const json = `${JSON.stringify(parsed.data, null, 2)}\n`;
+  const temp = `${path}.${process.pid}.tmp`;
+  await mkdir(dirname(path), { recursive: true });
+  await writeFile(temp, json, 'utf-8');
+  await rename(temp, path);
   return parsed.data;
 }
