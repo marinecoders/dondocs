@@ -21,6 +21,9 @@ export function fileOf(result: { structuredContent?: unknown; isError?: boolean 
 /** The resource the page reads the file back from; a nested name is one segment once encoded. */
 export const fileUri = (out: string): string => `dondocs://files/${encodeURIComponent(out)}`;
 
+/** The resource carrying the link that opens this letter in the web editor. */
+export const handoffUri = (out: string): string => `dondocs://handoff/${encodeURIComponent(out)}`;
+
 export const MIME: Record<RenderedFile['format'], string> = {
   pdf: 'application/pdf',
   docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',

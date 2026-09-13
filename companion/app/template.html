@@ -38,6 +38,14 @@
   .pager button { padding: 4px 9px; background: transparent; color: var(--fg); border-color: var(--line); }
   .pager span { color: var(--muted); font-size: 12px; min-width: 4em; text-align: center; }
   .ghost { background: transparent; color: var(--fg); border-color: var(--line); padding: 4px 9px; }
+  /* The card is as wide as the host makes it, down to a phone. Where the
+     words will not fit beside the rest of the header, the glyph carries
+     the button and its label lives in aria-label and the tooltip. */
+  .narrow { display: none; }
+  @media (max-width: 560px) {
+    .wide { display: none; }
+    .narrow { display: inline; }
+  }
   .status { color: var(--muted); font-size: 12px; min-height: 1em; }
 </style>
 </head>
@@ -54,6 +62,7 @@
       <span id="pageno"></span>
       <button id="next" aria-label="Next page">&#8250;</button>
     </div>
+    <button id="edit" class="ghost" hidden aria-label="Edit in browser"><span class="wide">Edit in browser</span><span class="narrow" aria-hidden="true">&#x2197;</span></button>
     <button id="expand" class="ghost" hidden aria-label="Open fullscreen" title="Fullscreen">&#x2922;</button>
     <button id="download" disabled>Download</button>
   </div>

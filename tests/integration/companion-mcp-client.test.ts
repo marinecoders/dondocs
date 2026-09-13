@@ -18,12 +18,15 @@ import { tmpdir } from 'node:os';
 import { basename, join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { spawnSync } from 'node:child_process';
+import { inflateSync } from 'node:zlib';
 import { LETTER_TEMPLATES } from '../../src/data/templates';
 import { hasPdfToolchain } from '../_helpers/pdfToolchain';
 
 const hasPandoc = spawnSync('pandoc', ['--version'], { encoding: 'utf-8' }).status === 0;
 
 const REPO = resolve(import.meta.dirname, '..', '..');
+/** The editor these tests configure, for the handoff link. */
+const EDITOR = 'https://dondocs.example.test';
 
 let client: Client;
 let root: string;
@@ -45,7 +48,7 @@ beforeAll(async () => {
     command: process.execPath,
     args: [join(REPO, 'node_modules', 'vite-node', 'dist', 'cli.mjs'), 'companion/mcp.ts'],
     cwd: REPO,
-    env: { ...process.env, DONDOCS_OUT_ROOT: root, DONDOCS_CONFIG: '/nonexistent/companion.config.json' },
+    env: { ...process.env, DONDOCS_OUT_ROOT: root, DONDOCS_CONFIG: '/nonexistent/companion.config.json', DONDOCS_APP_URL: EDITOR },
     stderr: 'pipe',
   }));
 }, 200_000);
@@ -156,7 +159,9 @@ describe('a protocol client', () => {
   it('publishes every template as a resource a host can attach without a tool call', async () => {
     expect(client.getServerCapabilities()?.resources).toBeDefined();
     const { resourceTemplates } = await client.listResourceTemplates();
-    expect(resourceTemplates.map((t) => t.uriTemplate).sort()).toEqual(['dondocs://files/{out}', 'dondocs://templates/{id}']);
+    expect(resourceTemplates.map((t) => t.uriTemplate).sort()).toEqual(
+      ['dondocs://files/{out}', 'dondocs://handoff/{out}', 'dondocs://templates/{id}'],
+    );
 
     const { resources } = await client.listResources();
     expect(resources.map((r) => r.uri).sort()).toEqual(
@@ -426,6 +431,43 @@ describe('a protocol client', () => {
     await expect(client.ping()).resolves.toBeDefined();
   }, 200_000);
 
+  it('offers a link that opens a rendered letter in the editor, and only for its own', async () => {
+    const res = await client.callTool({ name: 'dondocs_letter', arguments: {
+      docType: 'naval_letter', out: 'handoff.pdf', subject: 'EDIT ME',
+      from: 'Corporal R. Chiofalo, USMC', to: 'T', paragraphs: [{ text: 'Fix the EDIPI.' }],
+    } });
+    expect(isError(res), text(res)).toBe(false);
+    const out = (structured(res) as { out: string }).out;
+    const { contents } = await client.readResource({ uri: `dondocs://handoff/${encodeURIComponent(out)}` });
+    const { url } = JSON.parse((contents[0] as { text: string }).text) as { url: string };
+    expect(url.startsWith(`${EDITOR}/#d=`)).toBe(true);
+    // The letter itself, as the editor will read it: inflate and look.
+    const session = JSON.parse(inflateSync(Buffer.from(new URL(url).hash.slice(3), 'base64url')).toString('utf-8'));
+    expect(session.formData).toMatchObject({ subject: 'EDIT ME', from: 'Corporal R. Chiofalo, USMC' });
+    expect(session.paragraphs[0]).toMatchObject({ text: 'Fix the EDIPI.' });
+
+    // Only what this server rendered, the same rule the file resource keeps.
+    for (const bad of ['../../etc/hosts', 'never-rendered.pdf']) {
+      await expect(client.readResource({ uri: `dondocs://handoff/${encodeURIComponent(bad)}` })).rejects.toMatchObject({
+        code: -32602, message: expect.stringContaining(bad.split('/').pop()!),
+      });
+    }
+    await expect(client.ping()).resolves.toBeDefined();
+  }, 200_000);
+
+  it('offers no editor link for a letter that must not sit in a browser history', async () => {
+    const res = await client.callTool({ name: 'dondocs_letter', arguments: {
+      docType: 'naval_letter', out: 'classified.pdf', subject: 'NOT FOR A URL',
+      from: 'F', to: 'T', paragraphs: [{ text: 'Body.' }],
+      classification: { level: 'secret', classifiedBy: 'Original Classification Authority', derivedFrom: 'SCG 1-1' },
+    } });
+    expect(isError(res), text(res)).toBe(false);
+    const out = (structured(res) as { out: string }).out;
+    // The file is there to read; the link is not there to follow.
+    await expect(client.readResource({ uri: `dondocs://files/${encodeURIComponent(out)}` })).resolves.toBeDefined();
+    await expect(client.readResource({ uri: `dondocs://handoff/${encodeURIComponent(out)}` })).rejects.toMatchObject({ code: -32602 });
+  }, 200_000);
+
   it('asks even a page-rendering host to present the file when there is no page', async () => {
     // The built server carries a page and tells a host that renders pages
     // the card is already there (the dist suite covers that). From source
@@ -438,7 +480,7 @@ describe('a protocol client', () => {
       command: process.execPath,
       args: [join(REPO, 'node_modules', 'vite-node', 'dist', 'cli.mjs'), 'companion/mcp.ts'],
       cwd: REPO,
-      env: { ...process.env, DONDOCS_OUT_ROOT: root, DONDOCS_CONFIG: '/nonexistent/companion.config.json' },
+      env: { ...process.env, DONDOCS_OUT_ROOT: root, DONDOCS_CONFIG: '/nonexistent/companion.config.json', DONDOCS_APP_URL: EDITOR },
       stderr: 'pipe',
     }));
     try {

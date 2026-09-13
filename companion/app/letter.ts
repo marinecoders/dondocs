@@ -9,7 +9,7 @@
 import { App } from '@modelcontextprotocol/ext-apps';
 import * as pdfjs from 'pdfjs-dist';
 import * as pdfjsWorker from 'pdfjs-dist/build/pdf.worker.mjs';
-import { base64Of, bytesOf, fileOf, fileUri, fitScale, MIME, mostVisible, nameOf, sizeOf, titleOf, type RenderedFile } from './card';
+import { base64Of, bytesOf, fileOf, fileUri, fitScale, handoffUri, MIME, mostVisible, nameOf, sizeOf, titleOf, type RenderedFile } from './card';
 
 // The sandbox's policy allows no worker, so pdf.js runs on its main thread:
 // with the worker module already here it creates none.
@@ -22,6 +22,7 @@ const icon = el<HTMLDivElement>('icon');
 const status = el<HTMLDivElement>('status');
 const download = el<HTMLButtonElement>('download');
 const expand = el<HTMLButtonElement>('expand');
+const edit = el<HTMLButtonElement>('edit');
 const preview = el<HTMLDivElement>('preview');
 const stage = el<HTMLDivElement>('stage');
 const pager = el<HTMLDivElement>('pager');
@@ -66,6 +67,17 @@ const applySafeArea = (insets: { bottom?: number } | undefined) => {
 const hostOffersFullscreen = (): boolean => app.getHostContext()?.availableDisplayModes?.includes('fullscreen') ?? false;
 
 /**
+ * Whether the host opens external links. A host that declares its
+ * capabilities and omits this one cannot, so the editor is not offered; a
+ * host that declares none at all is taken at face value and asked, since
+ * an unanswered request costs only a message.
+ */
+const hostOpensLinks = (): boolean => {
+  const caps = app.getHostCapabilities();
+  return caps === undefined || caps.openLinks !== undefined;
+};
+
+/**
  * A turn of the event loop, so a style change and the host's own resize are
  * settled before sizes are read. Deliberately not requestAnimationFrame: a
  * browser withholds frames from a document it is not displaying, and this
@@ -91,6 +103,8 @@ let scrolledTo: number | undefined;
 // Set once the reader scrolls, so a build still drawing stops putting them
 // back where it started.
 let scrolledByUser = false;
+// The editor link for the letter on show, when the server offers one.
+let editorLink: string | undefined;
 
 app.ontoolinput = ({ arguments: args }) => {
   const s = (args as { subject?: unknown } | undefined)?.subject;
@@ -109,6 +123,7 @@ app.onhostcontextchanged = (ctx) => {
 
 download.addEventListener('click', async () => {
   if (!current) { return; }
+  status.textContent = '';
   download.disabled = true;
   try {
     const { file, bytes } = current;
@@ -122,6 +137,33 @@ download.addEventListener('click', async () => {
     download.disabled = false;
   }
 });
+
+/**
+ * The link that opens this letter in the web editor, when the server has
+ * one to give. Fetched with the file rather than on the click, so the
+ * click is a bare gesture: hosts open a new tab only for those, and one
+ * that waits on a round trip can lose the activation.
+ */
+async function loadEditorLink(out: string): Promise<void> {
+  editorLink = undefined;
+  edit.hidden = true;
+  try {
+    const { contents } = await app.readServerResource({ uri: handoffUri(out) });
+    const text = contents[0] && 'text' in contents[0] ? String(contents[0].text) : '';
+    const url = (JSON.parse(text) as { url?: unknown }).url;
+    if (typeof url === 'string' && url && hostOpensLinks()) {
+      editorLink = url;
+      // Name the destination on the button itself: the host puts the whole
+      // URL in a confirmation dialog, and a kilobyte of base64 is only
+      // recognisable if the reader was told where they are going.
+      edit.title = `Open this letter in the DonDocs editor at ${new URL(url).host}`;
+      edit.hidden = false;
+    }
+  } catch {
+    // No link on offer: no editor configured, or a letter that may not
+    // travel in one. The card is complete without it.
+  }
+}
 
 async function show(result: Parameters<NonNullable<App['ontoolresult']>>[0]): Promise<void> {
   const file = fileOf(result);
@@ -142,6 +184,9 @@ async function show(result: Parameters<NonNullable<App['ontoolresult']>>[0]): Pr
     current = { file, bytes };
     download.disabled = false;
     status.textContent = '';
+    // Before the preview: a PDF that will not draw is exactly when the
+    // editor is worth offering, and drawing is what might throw.
+    await loadEditorLink(file.out);
     if (file.format === 'pdf') { await openPdf(bytes); }
   } catch (err) {
     status.textContent = `Preview unavailable: ${err instanceof Error ? err.message : String(err)}. The file is at ${file.path}.`;
@@ -157,6 +202,7 @@ function heightAllowed(): number | undefined {
 function hostFacts(): Record<string, unknown> {
   const ctx = app.getHostContext();
   return {
+    capabilities: app.getHostCapabilities(),
     displayMode: ctx?.displayMode, modes: ctx?.availableDisplayModes, container: ctx?.containerDimensions,
     safeArea: ctx?.safeAreaInsets, width: document.documentElement.clientWidth, height: document.documentElement.clientHeight,
   };
@@ -341,6 +387,19 @@ async function requestMode(wanted: Mode): Promise<void> {
   }
 }
 
+edit.addEventListener('click', () => {
+  if (!editorLink) { return; }
+  // Clear first: the answer below belongs to this click, and a line left
+  // over from a cancelled one would read as a verdict on this one.
+  status.textContent = '';
+  // `isError` is the host declining or the person cancelling the dialog,
+  // which the SDK does not tell apart. Either way nothing opened, and
+  // saying so plainly beats a silence they cannot interpret.
+  void app.openLink({ url: editorLink }).then(
+    ({ isError }) => { if (isError) { status.textContent = 'The editor was not opened.'; } },
+    (err: unknown) => { status.textContent = `Could not open the editor: ${err instanceof Error ? err.message : String(err)}`; },
+  );
+});
 expand.addEventListener('click', () => { if (hostOffersFullscreen()) { void requestMode('fullscreen'); } });
 prev.addEventListener('click', () => { void showPage(pageNo - 1); });
 next.addEventListener('click', () => { void showPage(pageNo + 1); });

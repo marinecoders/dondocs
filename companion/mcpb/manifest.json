@@ -34,7 +34,8 @@
       ],
       "env": {
         "DONDOCS_OUT_ROOT": "${user_config.output_dir}",
-        "DONDOCS_CONFIG": "${user_config.config_path}"
+        "DONDOCS_CONFIG": "${user_config.config_path}",
+        "DONDOCS_APP_URL": "${user_config.app_url}"
       }
     }
   },
@@ -51,6 +52,13 @@
       "title": "Machine defaults file",
       "description": "Optional companion.config.json with your unit, signer, SSIC and originator code, so they need not be given on every letter. Leave blank to use ~/.dondocs/companion.config.json if it exists.",
       "required": false
+    },
+    "app_url": {
+      "type": "string",
+      "title": "Web editor address",
+      "description": "Where the DonDocs web app is served. A finished letter carries an Edit in browser link there, so a field can be fixed by hand. Clear it to switch the link off.",
+      "required": false,
+      "default": "https://dondocs.marines.dev"
     }
   },
   "tools": [
