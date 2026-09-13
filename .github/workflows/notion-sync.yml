@@ -1,0 +1,43 @@
+name: notion-sync
+
+# Mirror issues and pull requests into the Notion Tasks database, one row
+# each, keyed on the GitHub URL. Never the body — see the script header.
+#
+# Needs two things set on the repo:
+#   secret   NOTION_TOKEN     an internal integration token that the Tasks
+#                             database has been shared with
+#   variable NOTION_TASKS_DS  the Tasks data source id
+#
+# "Run workflow" backfills everything currently open.
+
+on:
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled]
+  pull_request:
+    types: [opened, edited, closed, reopened, ready_for_review, converted_to_draft, labeled, unlabeled]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+concurrency:
+  group: notion-sync-${{ github.event.pull_request.number || github.event.issue.number || 'backfill' }}
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: .github/scripts
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+      - run: node .github/scripts/notion-sync.mjs
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_TASKS_DS: ${{ vars.NOTION_TASKS_DS }}
+          GITHUB_TOKEN: ${{ github.token }}
