@@ -1,6 +1,7 @@
 import 'fake-indexeddb/auto';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { idbPutDocument, idbGetAllDocuments, idbDeleteDocument, type StoredDocument } from '@/lib/documentsDb';
+import { documentsRead } from '../_helpers/documentsDb';
 import { importLibrary, useDocumentsStore } from '@/stores/documentsStore';
 
 const rec = (id: string, updatedAt: number): StoredDocument =>
@@ -20,7 +21,7 @@ const rec = (id: string, updatedAt: number): StoredDocument =>
 const libraryJson = (records: unknown[]) => JSON.stringify({ kind: 'dondocs-library', version: 1, docs: records });
 
 async function clearDb() {
-  for (const r of await idbGetAllDocuments()) await idbDeleteDocument(r.id);
+  for (const r of documentsRead(await idbGetAllDocuments())) await idbDeleteDocument(r.id);
 }
 
 describe('importLibrary — conflict-aware backup restore', () => {
@@ -43,7 +44,7 @@ describe('importLibrary — conflict-aware backup restore', () => {
     expect(imported).toBe(2); // B (replace) + C (new)
     expect(skipped).toBe(1); // A (older backup)
 
-    const byId = new Map((await idbGetAllDocuments()).map((r) => [r.id, r.meta.updatedAt]));
+    const byId = new Map(documentsRead(await idbGetAllDocuments()).map((r) => [r.id, r.meta.updatedAt]));
     expect(byId.get('A')).toBe(100); // local copy kept — not clobbered by the older backup
     expect(byId.get('B')).toBe(200); // replaced by the newer backup
     expect(byId.get('C')).toBe(10); // brand-new imported

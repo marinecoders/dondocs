@@ -15,6 +15,7 @@ import {
   requestPersistentStorage,
   type StoredDocument,
 } from '@/lib/documentsDb';
+import { documentsRead } from '../_helpers/documentsDb';
 
 // Minimal but structurally-valid stored document. Tests use unique ids so they
 // don't depend on a clean DB (the module caches one connection for the run).
@@ -39,11 +40,11 @@ describe('documentsDb (fake-indexeddb)', () => {
 
   it('round-trips put → getAll → delete, confirming a committed put with true', async () => {
     expect(await idbPutDocument(doc('rt-1'))).toBe(true);
-    const all = await idbGetAllDocuments();
+    const all = documentsRead(await idbGetAllDocuments());
     expect(all.find((d) => d.id === 'rt-1')?.meta.title).toBe('Doc rt-1');
 
     await idbDeleteDocument('rt-1');
-    expect((await idbGetAllDocuments()).find((d) => d.id === 'rt-1')).toBeUndefined();
+    expect(documentsRead(await idbGetAllDocuments()).find((d) => d.id === 'rt-1')).toBeUndefined();
   });
 
   it('returns false (never a false-positive true) when the write cannot commit', async () => {
@@ -53,7 +54,7 @@ describe('documentsDb (fake-indexeddb)', () => {
     // so a false here is what prevents data loss on a non-durable write.
     const bad = { id: 'bad-1', meta: {}, session: () => {} } as unknown as StoredDocument;
     expect(await idbPutDocument(bad)).toBe(false);
-    expect((await idbGetAllDocuments()).find((d) => d.id === 'bad-1')).toBeUndefined();
+    expect(documentsRead(await idbGetAllDocuments()).find((d) => d.id === 'bad-1')).toBeUndefined();
   });
 
   it('round-trips the current-document pointer and clears it with null', async () => {

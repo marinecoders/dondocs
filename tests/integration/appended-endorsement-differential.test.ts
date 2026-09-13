@@ -17,7 +17,7 @@ import { describe, it, expect } from 'vitest';
 import { PDFParse } from 'pdf-parse';
 import mammoth from 'mammoth';
 import { compileFixture } from '../_helpers/compileLatex';
-import { compileDocxFixture } from '../_helpers/compileDocx';
+import { compileDocxFixture, formatDocxFailure } from '../_helpers/compileDocx';
 import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfToolchain';
 import { canAppendEndorsement } from '@/lib/appendedEndorsement';
 import { DOC_TYPE_CONFIG } from '@/types/document';
@@ -101,7 +101,7 @@ describe('appended acknowledgement — PDF ⇿ DOCX', () => {
       compileDocxFixture(store),
     ]);
     expect(pdfResult.ok, `xelatex failed; work dir: ${pdfResult.workDir}`).toBe(true);
-    expect(docxResult.ok, `pandoc failed: ${docxResult.stderr ?? ''}`).toBe(true);
+    expect(docxResult.ok, formatDocxFailure(docType, docxResult)).toBe(true);
 
     const pdfText = await extractPdfText(pdfResult.pdfBytes!);
     const docxText = await extractDocxText(docxResult.docxBytes!);

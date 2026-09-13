@@ -17,7 +17,8 @@ vi.mock('react-pdf', async () => {
         void: n,
       }),
   });
-  function Document({ file, onLoadSuccess, children }: never) {
+  type DocumentProps = { file: string; onLoadSuccess?: (doc: ReturnType<typeof makeDoc>) => void; children?: React.ReactNode };
+  function Document({ file, onLoadSuccess, children }: DocumentProps) {
     React.useEffect(() => {
       let alive = true;
       // Two pages for every doc; async like the real parser.
@@ -31,7 +32,8 @@ vi.mock('react-pdf', async () => {
     }, [file]);
     return React.createElement('div', { 'data-testid': `doc:${file}` }, children);
   }
-  function Page({ pageNumber, width, onRenderSuccess }: never) {
+  type PageProps = { pageNumber: number; width?: number; onRenderSuccess?: () => void };
+  function Page({ pageNumber, width, onRenderSuccess }: PageProps) {
     React.useEffect(() => {
       const t = setTimeout(() => onRenderSuccess?.(), 0);
       return () => clearTimeout(t);

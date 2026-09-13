@@ -39,7 +39,7 @@ describe('HelpTip — accessible help affordance', () => {
   it('does NOT nest a button inside the editor’s static accordion header', () => {
     const { container } = render(
       <AccordionStaticProvider>
-        <Accordion>
+        <Accordion type="single" collapsible>
           <AccordionItem value="letterhead">
             <AccordionTrigger>
               Letterhead <HelpTip>Unit name, address, seal.</HelpTip>

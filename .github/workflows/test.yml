@@ -58,7 +58,10 @@ jobs:
         run: |
           case "${{ matrix.task }}" in
             unit)      npm test ;;
-            typecheck) npx tsc --noEmit ;;
+            # `tsc -b`, not `tsc --noEmit`: the root config is a solution
+            # file, and plain tsc does not follow project references, so
+            # `--noEmit` here compiled nothing and passed on anything.
+            typecheck) npx tsc -b ;;
             lint)      npm run lint ;;
           esac
 

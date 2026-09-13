@@ -5,6 +5,23 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.167] — 2026-09-13
+
+### Fixed
+
+- **The typecheck job now typechecks.** `tsconfig.json` lists projects
+  rather than files, and plain `tsc` does not follow project references,
+  so the job's `tsc --noEmit` compiled nothing and passed on anything,
+  a blatant type error in `src` included. It builds the solution instead,
+  and a test asserts it keeps doing so.
+- **The test files are in a project.** None of the three that existed
+  covered `tests/`, so the suite went unchecked entirely; a fourth covers
+  it. Of the 42 errors that were hiding, most were loose typing, but some
+  were not: a pandoc failure message that could never say what went wrong,
+  four `summarizeRestore` cases missing a field the function reads (its
+  routing-rule branch had no coverage at all and now has a case), and a
+  test importing a type that no longer exists.
+
 ## [1.2.166] — 2026-09-13
 
 ### Added

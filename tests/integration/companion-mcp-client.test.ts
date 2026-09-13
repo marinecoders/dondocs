@@ -139,7 +139,7 @@ describe('a protocol client', () => {
     }
     // The ids are an enum on the get tool, so a model that knows which template
     // it wants skips the list.
-    const idSchema = (tools.find((tool) => tool.name === 'dondocs_template_get')!.inputSchema as {
+    const idSchema = (tools.find((tool) => tool.name === 'dondocs_template_get')!.inputSchema as unknown as {
       properties: { id: { enum?: string[] } };
     }).properties.id;
     expect(idSchema.enum).toEqual(LETTER_TEMPLATES.map((t) => t.id));

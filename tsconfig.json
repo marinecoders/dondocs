@@ -3,7 +3,8 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" },
-    { "path": "./tsconfig.companion.json" }
+    { "path": "./tsconfig.companion.json" },
+    { "path": "./tsconfig.tests.json" }
   ],
   "compilerOptions": {
     "paths": {

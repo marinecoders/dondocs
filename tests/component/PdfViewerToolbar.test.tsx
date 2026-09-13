@@ -11,7 +11,10 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 // menu carries the same three actions the buttons do, and both routes call the
 // same handlers. The widths themselves are measured in the browser.
 
-function setup(overrides: Partial<React.ComponentProps<typeof PdfViewerToolbar>> = {}) {
+// Generic in the overrides so a case that does not replace a prop keeps the
+// default's own type rather than the component's wider one: `fullscreen` is
+// nullable on the component and never null here unless a case says so.
+function setup<T extends Partial<React.ComponentProps<typeof PdfViewerToolbar>>>(overrides: T = {} as T) {
   const props = {
     page: 1,
     pageCount: 2,

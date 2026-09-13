@@ -154,7 +154,7 @@ describe('endorsements', () => {
     const problems = validateLetter({ ...OK, docType }).join(' ');
     expect(problems).toMatch(/endorsement\.ordinal/);
     expect(problems).toMatch(/endorsement\.basicLetterId/);
-    expect(validateLetter({ ...OK, docType, endorsement: { ordinal: 'FIRST' } }).join(' ')).toMatch(/basicLetterId/);
+    expect(validateLetter({ ...OK, docType, endorsement: { ordinal: 'FIRST' } } as never).join(' ')).toMatch(/basicLetterId/);
     expect(validateLetter({ ...OK, docType, endorsement: 'FIRST' } as never).join(' ')).toMatch(/endorsement/);
     expect(validateLetter({ ...OK, docType, endorsement: ENDORSED })).toEqual([]);
   });

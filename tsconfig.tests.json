@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.tests.tsbuildinfo",
+    "target": "ES2023",
+    /* The suite spans both other worlds: component tests render React into
+       happy-dom, companion tests read the filesystem. One project with the
+       union of both is enough. Splitting it into an app-tests and a
+       node-tests project would only buy a wrong-global error earlier than
+       vitest already gives it at run time. */
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "types": ["node", "vite/client", "vite-plugin-pwa/react"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    /* A few tests import a build script from `scripts/`, which is plain
+       `.mjs`. Types are inferred from it; it is not checked here. */
+    "allowJs": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+
+    /* Path alias */
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  /* The ambient vite `define` globals the shared app code refers to. */
+  "include": ["tests", "src/types/build-constants.d.ts"]
+}
