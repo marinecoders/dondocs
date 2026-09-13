@@ -101,6 +101,23 @@ describe('settling the machine defaults', () => {
     expect(existsSync(config)).toBe(false);
   }, 200_000);
 
+  it('treats a form sent back blank as no answer, and asks again next time', async () => {
+    // Every field is optional, so a host will happily accept an untouched
+    // form. Storing that would be an empty signature block nobody asked
+    // for, and the question would never come round again.
+    answer = () => ({ action: 'accept', content: {} });
+    const res = await save({ unit: UNIT });
+    expect(isError(res), text(res)).toBe(false);
+    expect(text(res)).toMatch(/Nothing saved/);
+    expect(existsSync(config)).toBe(false);
+
+    asked = [];
+    answer = () => ({ action: 'accept', content: SIGNER });
+    await save({ unit: UNIT });
+    expect(asked).toHaveLength(1);
+    expect(await onFile()).toEqual({ unit: UNIT, signature: SIGNER });
+  }, 200_000);
+
   it('does not ask again once a signature is stored', async () => {
     answer = () => ({ action: 'accept', content: SIGNER });
     await save({ unit: UNIT });

@@ -14,9 +14,10 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
   omit, so a fresh install stops opening every letter with a unit lookup.
   The unit comes from a `dondocs_unit_lookup` match and the signature block
   is put to the person as a form where the client can show one, rather than
-  being transcribed by the model. It merges over what is stored, `null`
-  clears a field, and a config the companion could not load is refused
-  before anything is written.
+  being transcribed by the model; a form sent back untouched counts as no
+  answer rather than an empty signature. It merges over what is stored,
+  `null` clears a field, and a config the companion could not load is
+  refused before anything is written.
 
 ## [1.2.165] — 2026-09-12
 

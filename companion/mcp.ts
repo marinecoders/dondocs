@@ -167,20 +167,24 @@ const handle = serveStdio(() => {
           requestedSchema: signatureForm,
         }) } });
       }
+      const given = acceptedContent(ctx.mcpReq.inputResponses, 'signature', signatureForm);
+      // A declared outputSchema binds every result that is not an error, so
+      // an answer that saves nothing still says what stands.
+      const unchanged = {
+        content: [{ type: 'text' as const, text: 'Nothing saved: the signature block was not filled in. Call again with signature to set it, or leave it unset.' }],
+        structuredContent: { path: CONFIG_PATH, ...defaults },
+      };
       // Declined and malformed both read as no content, so the action is
       // what tells the user which of the two happened.
-      const given = acceptedContent(ctx.mcpReq.inputResponses, 'signature', signatureForm);
-      if (answer.kind === 'elicit' && answer.action !== 'accept') {
-        // A declared outputSchema binds every result that is not an error,
-        // so say what stands rather than answering with prose alone.
-        return {
-          content: [{ type: 'text' as const, text: 'Nothing saved: the signature block was not filled in. Call again with signature to set it, or leave it unset.' }],
-          structuredContent: { path: CONFIG_PATH, ...defaults },
-        };
-      }
       if (!given) {
-        return { content: [{ type: 'text' as const, text: 'Nothing saved: that signature block was not in the expected shape. Call again with signature.' }], isError: true };
+        return answer.kind === 'elicit' && answer.action !== 'accept'
+          ? unchanged
+          : { content: [{ type: 'text' as const, text: 'Nothing saved: that signature block was not in the expected shape. Call again with signature.' }], isError: true };
       }
+      // An accept with every field blank is someone clicking past the form,
+      // not a signature. Storing it would leave an empty block on the
+      // letterhead and stop the tool ever asking again.
+      if (!Object.values(given).some((value) => value?.trim())) { return unchanged; }
       signer = given;
     }
 

@@ -7,11 +7,17 @@
  * one move, and leave the old file alone when the new one is wrong.
  */
 // @vitest-environment node
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { mkdtemp, readFile, readdir, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { loadDefaults, saveDefaults } from '../../companion/defaults';
+
+let refuseRename = false;
+vi.mock('node:fs/promises', async (real) => {
+  const fs = await real<typeof import('node:fs/promises')>();
+  return { ...fs, rename: (from: string, to: string) => (refuseRename ? Promise.reject(new Error('refused')) : fs.rename(from, to)) };
+});
 
 let dir: string;
 let path: string;
@@ -59,6 +65,19 @@ describe('saving the machine defaults', () => {
   it('leaves nothing behind when the write is refused', async () => {
     await expect(saveDefaults({ unit: { department: 'space force' } } as never, path)).rejects.toThrow();
     expect(await readdir(dir)).toEqual([]);
+  });
+
+  it('takes its temporary file back when the move cannot land', async () => {
+    // The one failure that happens after the temporary file exists, so the
+    // one that could leave it beside a config a person keeps. Nothing in a
+    // filesystem refuses a rename on demand, hence the stub.
+    refuseRename = true;
+    try {
+      await expect(saveDefaults({ unit: UNIT }, path)).rejects.toThrow(/refused/);
+    } finally {
+      refuseRename = false;
+    }
+    expect(await readdir(join(dir, 'nested'))).toEqual([]);
   });
 
   it('replaces a file already there rather than appending to it', async () => {

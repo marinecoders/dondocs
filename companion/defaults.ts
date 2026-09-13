@@ -7,7 +7,7 @@
  * shapes, so a config cannot set anything a request cannot, and a typo is
  * named at startup instead of being dropped at render time.
  */
-import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { dirname, join } from 'node:path';
 import * as z from 'zod';
@@ -47,6 +47,8 @@ export async function loadDefaults(path: string = CONFIG_PATH): Promise<Companio
   return parsed.data;
 }
 
+let saves = 0;
+
 /** A field set to null is being taken back; anything absent is left as it was. */
 export type DefaultsPatch = {
   [K in keyof CompanionDefaults]?: CompanionDefaults[K] | null;
@@ -76,9 +78,17 @@ export async function saveDefaults(patch: DefaultsPatch, path: string = CONFIG_P
 
   // Indented: the file is documented as one a person may edit by hand.
   const json = `${JSON.stringify(parsed.data, null, 2)}\n`;
-  const temp = `${path}.${process.pid}.tmp`;
+  // The pid separates two companions, the counter two saves inside one.
+  const temp = `${path}.${process.pid}.${saves++}.tmp`;
   await mkdir(dirname(path), { recursive: true });
-  await writeFile(temp, json, 'utf-8');
-  await rename(temp, path);
+  try {
+    await writeFile(temp, json, 'utf-8');
+    await rename(temp, path);
+  } catch (err) {
+    // A write that stops partway, or a rename that cannot land, would leave
+    // the temporary file beside the config a person keeps. Take it back.
+    await rm(temp, { force: true });
+    throw err;
+  }
   return parsed.data;
 }
