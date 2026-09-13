@@ -10,10 +10,12 @@ templates as resources, and a `draft_letter` prompt.
 
 PDF output needs nothing else. DOCX output needs `pandoc` on PATH.
 
-Machine defaults (your unit, signer, SSIC, originator code) can be set once in
-the file named under "Machine defaults file"; see `docs/COMPANION.md` in the
-repository for its shape. Set it first: without it every letter starts with a
-unit lookup, and the signer has to be given each time.
+Machine defaults (your unit, signer, SSIC, originator code) are worth
+settling first: without them every letter starts with a unit lookup and the
+signer has to be given again. Ask for it in the chat, "set up my DonDocs
+defaults", and answer the questions; the file is written for you. "Machine
+defaults file" says where it goes, and `docs/COMPANION.md` in the repository
+gives its shape for anyone who would rather write it by hand.
 
 A finished letter appears in the chat as a card: its pages, the size, a
 Download button, an expand button that opens the whole letter fullscreen,
