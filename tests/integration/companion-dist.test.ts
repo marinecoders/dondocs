@@ -98,10 +98,10 @@ function rendersEverything(label: string, entry: () => string) {
       for (const dir of [cwd, out]) { if (dir) { await rm(dir, { recursive: true, force: true }); } }
     });
 
-    it('lists the four tools', async () => {
+    it('lists its tools', async () => {
       const { result } = await server.call('tools/list', {});
       expect((result!.tools as Array<{ name: string }>).map((t) => t.name).sort()).toEqual([
-        'dondocs_letter', 'dondocs_template_get', 'dondocs_template_list', 'dondocs_unit_lookup',
+        'dondocs_letter', 'dondocs_save_defaults', 'dondocs_template_get', 'dondocs_template_list', 'dondocs_unit_lookup',
       ]);
     });
 

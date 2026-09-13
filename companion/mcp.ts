@@ -15,7 +15,7 @@
  */
 import {
   CLIENT_CAPABILITIES_META_KEY, LATEST_PROTOCOL_VERSION, McpServer, PROTOCOL_VERSION_META_KEY, ProtocolError, ProtocolErrorCode,
-  ResourceNotFoundError, ResourceTemplate, completable, inputRequired, inputResponse,
+  ResourceNotFoundError, ResourceTemplate, acceptedContent, completable, inputRequired, inputResponse,
 } from '@modelcontextprotocol/server';
 import type { ClientCapabilities, ServerContext } from '@modelcontextprotocol/server';
 import { serveStdio } from '@modelcontextprotocol/server/stdio';
@@ -25,14 +25,14 @@ import { pathToFileURL } from 'node:url';
 import * as z from 'zod';
 import { LETTER_TEMPLATES } from '../src/data/templates';
 import { lookupUnits } from './unitLookup';
-import { CONFIG_PATH, loadDefaults } from './defaults';
-import { letterSchema } from './letterSchema';
+import { CONFIG_PATH, loadDefaults, saveDefaults } from './defaults';
+import { letterSchema, signature, signatureForm, unit } from './letterSchema';
 import { OutsideSandboxError, outputRoot, resolveOutputPath } from './outputPath';
 import { getUiCapability, registerAppResource, RESOURCE_MIME_TYPE, RESOURCE_URI_META_KEY } from '@modelcontextprotocol/ext-apps/server';
 import { loadAppPage } from './appPage';
 import { editorOrigin, handoffUrl } from './handoff';
 import { OutputWriteError, renderToFile } from './renderToFile';
-import { renderResult, templateListResult, templateResult, unitLookupResult } from './resultSchema';
+import { defaultsResult, renderResult, templateListResult, templateResult, unitLookupResult } from './resultSchema';
 import { DOC_TYPES, ENDORSEMENT_TYPES, validateLetter } from './validateLetter';
 import { systemPandocVersion, VENDORED_PANDOC } from './renderDocx';
 
@@ -83,7 +83,7 @@ const templateUri = (id: string) => TEMPLATE_URI.replace('{id}', id);
 const templateIds = (prefix: string) => LETTER_TEMPLATES.map((t) => t.id).filter((id) => id.startsWith(prefix));
 const TEMPLATE_IDS = templateIds('') as [string, ...string[]];
 
-const defaults = await loadDefaults();
+let defaults = await loadDefaults();
 
 // Handed to the model at connect time: the order the tools go in, which no
 // single tool description can say. Every call is a model turn, so the
@@ -91,7 +91,8 @@ const defaults = await loadDefaults();
 // user's own words is one call, from a template two.
 const INSTRUCTIONS = `DonDocs renders SECNAV M-5216.5 correspondence with dondocs_letter; files are written under ${ROOT}. `
   + 'Settle the originating unit first: omit unit to use the machine defaults (read dondocs://defaults to see them), '
-  + 'or find one with dondocs_unit_lookup. Give the From and To lines: letters, endorsements and memoranda print the labels even when they are empty. '
+  + 'or find one with dondocs_unit_lookup. When that resource holds no unit or signature, offer to settle them once with dondocs_save_defaults before writing the first letter. '
+  + 'Give the From and To lines: letters, endorsements and memoranda print the labels even when they are empty. '
   + `To start from a template, call dondocs_template_get with one of ${TEMPLATE_IDS.join(', ')}, or read dondocs://templates/{id}; dondocs_template_list describes them. `
   + 'A render takes under a second, so call dondocs_letter once the facts are in hand rather than drafting in chat first; '
   + 'show the user the file as its result says, and revise by calling dondocs_letter again with the out it reports.';
@@ -131,6 +132,73 @@ const handle = serveStdio(() => {
       content: [{ type: 'text' as const, text: JSON.stringify(templates) }],
       structuredContent: { templates },
     };
+  });
+
+  // Set the unit and signer once, so every later letter is one call. The
+  // signer is asked for rather than taken from the model: it is the
+  // person's own name and rank, and they are the one who knows it.
+  server.registerTool('dondocs_save_defaults', {
+    title: 'Save the machine defaults',
+    description: 'Write the unit, signer, SSIC and originator code this machine uses when a letter omits them, so later letters need no unit lookup. '
+      + 'Pass the unit object from a dondocs_unit_lookup match. Read dondocs://defaults first and confirm with the user before replacing values already set. '
+      + 'Omit signature to have the user asked for it directly where the client can; pass null to any field to clear it.',
+    inputSchema: z.object({
+      unit: unit.nullable().optional().describe('The letterhead unit, as dondocs_unit_lookup returns it.'),
+      signature: signature.nullable().optional().describe('The signature block. Omit to ask the user.'),
+      ssic: z.string().nullable().optional(),
+      originatorCode: z.string().nullable().optional(),
+    }).strict(),
+    outputSchema: defaultsResult,
+    annotations: {
+      // It replaces a file, and saving the same values twice changes nothing.
+      readOnlyHint: false,
+      destructiveHint: true,
+      idempotentHint: true,
+      openWorldHint: false,
+    },
+  }, async (input, ctx) => {
+    let signer = input.signature;
+    // Nothing given, nothing stored, and a client that can ask: ask.
+    if (signer === undefined && !defaults.signature && clientCanElicit(server, ctx)) {
+      const answer = inputResponse(ctx.mcpReq.inputResponses, 'signature');
+      if (answer.kind === 'missing') {
+        return inputRequired({ inputRequests: { signature: inputRequired.elicit({
+          message: 'Who signs letters from this machine?',
+          requestedSchema: signatureForm,
+        }) } });
+      }
+      const given = acceptedContent(ctx.mcpReq.inputResponses, 'signature', signatureForm);
+      // A declared outputSchema binds every result that is not an error, so
+      // an answer that saves nothing still says what stands.
+      const unchanged = {
+        content: [{ type: 'text' as const, text: 'Nothing saved: the signature block was not filled in. Call again with signature to set it, or leave it unset.' }],
+        structuredContent: { path: CONFIG_PATH, ...defaults },
+      };
+      // Declined and malformed both read as no content, so the action is
+      // what tells the user which of the two happened.
+      if (!given) {
+        return answer.kind === 'elicit' && answer.action !== 'accept'
+          ? unchanged
+          : { content: [{ type: 'text' as const, text: 'Nothing saved: that signature block was not in the expected shape. Call again with signature.' }], isError: true };
+      }
+      // An accept with every field blank is someone clicking past the form,
+      // not a signature. Storing it would leave an empty block on the
+      // letterhead and stop the tool ever asking again.
+      if (!Object.values(given).some((value) => value?.trim())) { return unchanged; }
+      signer = given;
+    }
+
+    try {
+      const saved = await saveDefaults({ ...input, signature: signer }, CONFIG_PATH);
+      defaults = saved;
+      const result = { path: CONFIG_PATH, ...saved };
+      return { content: [{ type: 'text' as const, text: `Saved to ${CONFIG_PATH}. Later letters may omit these.\n${JSON.stringify(saved)}` }], structuredContent: result };
+    } catch (err) {
+      return {
+        content: [{ type: 'text' as const, text: `${err instanceof Error ? err.message : String(err)}. Nothing was written; the defaults are unchanged.` }],
+        isError: true,
+      };
+    }
   });
 
   // The same templates as resources, so a host can list and attach one
@@ -225,7 +293,7 @@ const handle = serveStdio(() => {
       template
         ? `Start from the "${template.name}" template attached below: keep its structure, fill each bracketed placeholder from what I tell you, and ask for the From and To lines and anything else it needs that I have not given.`
         : 'Ask me for the From and To lines, the subject, and what the letter needs to say, then write the paragraphs.',
-      'For the originating unit, use the machine defaults (dondocs://defaults) or look it up with dondocs_unit_lookup; do not guess an address. Confirm the addressee with me.',
+      'For the originating unit, use the machine defaults (dondocs://defaults) or look it up with dondocs_unit_lookup; do not guess an address. If the defaults hold no unit or signature, offer to settle them once with dondocs_save_defaults. Confirm the addressee with me.',
       ...(type && ENDORSEMENT_TYPES.includes(type)
         ? ['Ask me for the endorsement ordinal (FIRST, SECOND ...) and the identification of the letter being endorsed, and pass them as endorsement.ordinal and endorsement.basicLetterId; the render is refused without them.']
         : []),
@@ -287,7 +355,8 @@ const handle = serveStdio(() => {
       // answer outside the list, leaves the list as it was.
       if (result.total > 1 && !result.truncated && clientCanElicit(server, ctx)) {
         const answer = inputResponse(ctx.mcpReq.inputResponses, 'unit');
-        const chosen = answer.kind === 'elicit' && answer.action === 'accept' ? String(answer.content?.unit ?? '') : '';
+        // Validated rather than coerced: the answer comes from the client.
+        const chosen = acceptedContent(ctx.mcpReq.inputResponses, 'unit', z.object({ unit: z.string() }))?.unit ?? '';
         const picked = /^\d+$/.test(chosen) ? result.matches[Number(chosen)] : undefined;
         if (picked) {
           result = { ...result, total: 1, truncated: false, matches: [picked] };

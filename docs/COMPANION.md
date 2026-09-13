@@ -118,10 +118,20 @@ banner rises to the highest mark in the document.
 
 ## Machine defaults
 
-A unit is a property of the box, not of the request. Put yours in
-`~/.dondocs/companion.config.json` and an agent stops restating it on every
-call. Set it first: without it every letter starts with a unit lookup, and the
-signer has to be given each time.
+A unit is a property of the box, not of the request. Settle yours once and
+an agent stops restating it on every call; until then every letter starts
+with a unit lookup and the signer has to be given again.
+
+The short way is to ask: "set up my DonDocs defaults". `dondocs_save_defaults`
+takes the unit object from a `dondocs_unit_lookup` match, asks the person
+directly for the signature block where the client can show a form, and
+writes the file below. It merges over what is there, so one field can be
+changed on its own, and `null` clears one. A value that would not load is
+refused and nothing is written, since a config the companion cannot parse
+stops it at its next start.
+
+The file itself is `~/.dondocs/companion.config.json`, written indented and
+meant to be readable:
 
 ```json
 {

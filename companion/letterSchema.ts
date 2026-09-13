@@ -40,6 +40,23 @@ export const signature = z.object({
   byDirectionAuthority: z.string().optional().describe('The authority cited beneath a by-direction signature.'),
 }).strict();
 
+/**
+ * The signature fields as a form to put in front of a person.
+ *
+ * Not `.strict()`: an elicitation schema may not carry
+ * `additionalProperties`, and the SDK refuses the request outright when it
+ * does. The answer is validated against this same shape, for the same
+ * reason in reverse: a host that returns a field of its own would fail a
+ * strict check and lose everything the person typed.
+ */
+export const signatureForm = z.object({
+  rank: z.string().optional().describe('Rank or grade, e.g. "Corporal".'),
+  first: z.string().optional().describe('First name or initial.'),
+  middle: z.string().optional().describe('Middle initial.'),
+  last: z.string().optional().describe('Last name, printed in caps.'),
+  title: z.string().optional().describe('Billet under the name, e.g. "Admin Chief".'),
+});
+
 /** The generator renders a marking only for a level it recognises; anything else
  *  comes out unmarked. Publishing the list stops a caller inventing one. */
 const classification = z.object({
