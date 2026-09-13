@@ -25,25 +25,25 @@ function store(classLevel: string, paragraphs: Paragraph[]) {
 
 describe('deriveOverallClassLevel', () => {
   it('returns the document level when no portion outranks it', () => {
-    expect(deriveOverallClassLevel('secret', [{ text: 'x', level: 0, portionMarking: 'C' }])).toBe('secret');
+    expect(deriveOverallClassLevel('secret', [{ portionMarking: 'C' }])).toBe('secret');
     expect(deriveOverallClassLevel('unclassified', [])).toBe('unclassified');
   });
 
   it('raises to the highest portion mark', () => {
-    expect(deriveOverallClassLevel('cui', [{ text: 'x', level: 0, portionMarking: 'S' }])).toBe('secret');
-    expect(deriveOverallClassLevel('unclassified', [{ text: 'x', level: 0, portionMarking: 'TS' }])).toBe('top_secret');
+    expect(deriveOverallClassLevel('cui', [{ portionMarking: 'S' }])).toBe('secret');
+    expect(deriveOverallClassLevel('unclassified', [{ portionMarking: 'TS' }])).toBe('top_secret');
     expect(deriveOverallClassLevel('confidential', [
-      { text: 'a', level: 0, portionMarking: 'U' },
-      { text: 'b', level: 1, portionMarking: 'S' },
+      { portionMarking: 'U' },
+      { portionMarking: 'S' },
     ])).toBe('secret');
   });
 
   it('maps retired FOUO portions to CUI', () => {
-    expect(deriveOverallClassLevel('unclassified', [{ text: 'x', level: 0, portionMarking: 'FOUO' }])).toBe('cui');
+    expect(deriveOverallClassLevel('unclassified', [{ portionMarking: 'FOUO' }])).toBe('cui');
   });
 
   it('never derives over custom (unrankable free text)', () => {
-    expect(deriveOverallClassLevel('custom', [{ text: 'x', level: 0, portionMarking: 'TS' }])).toBe('custom');
+    expect(deriveOverallClassLevel('custom', [{ portionMarking: 'TS' }])).toBe('custom');
   });
 });
 

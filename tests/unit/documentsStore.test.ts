@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isMeaningful, deriveTitle, sameContent, profileFormPatch, importShouldReplace, searchableText } from '@/stores/documentsStore';
+import { isMeaningful, deriveTitle, sameContent, profileFormPatch, importShouldReplace, searchableText, type DocumentEntry } from '@/stores/documentsStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import { docTypeChip, type Profile } from '@/types/document';
 
@@ -139,9 +139,9 @@ describe('searchableText — Recents search matches more than the title', () => 
     session: mkSession({
       formData: { subject: 'REQUEST FOR SPECIAL LIBERTY', to: 'Commanding Officer', ssic: '1710' },
       paragraphs: [{ text: 'Request approval for weekend liberty.', level: 0 }],
-      references: [{ title: 'MCO 1050.3J', url: '' }],
+      references: [{ letter: 'a', title: 'MCO 1050.3J', url: '' }],
     }),
-  } as Parameters<typeof searchableText>[0];
+  } as unknown as DocumentEntry;
 
   it('matches on the recipient, SSIC, body, and references — not just the title', () => {
     const text = searchableText(entry);

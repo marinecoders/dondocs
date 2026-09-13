@@ -22,8 +22,10 @@ const defaults: CompanionDefaults = {
 
 /** What the HTTP door does with a body before rendering it. */
 function throughHttp(body: Record<string, unknown>) {
-  const problems = validate(body as LetterInput);
-  return { problems, store: problems.length ? null : toStore(body as LetterInput, defaults) };
+  // Parsed JSON asserted into shape, the way handler.ts does before validating.
+  const input = body as unknown as LetterInput;
+  const problems = validate(input);
+  return { problems, store: problems.length ? null : toStore(input, defaults) };
 }
 
 /** What the tool transport does: parse against the published schema, then the
@@ -156,7 +158,7 @@ describe('transport parity', () => {
       unit: { name: 'U' }, signature: { last: 'L' },
       classification: { level: 'secret' }, pocEmail: 'p@example.mil',
     };
-    const store = toStore(populated as LetterInput, {});
+    const store = toStore(populated as unknown as LetterInput, {});
     const seen = JSON.stringify(store);
     for (const marker of ['S', 'F', 'T', 'V', '1500', '001', '8 Aug 26', 'OC', 'P', 'R', 'E', 'C', 'D', 'U', 'L', 'secret', 'p@example.mil']) {
       expect(seen, `no field carried ${JSON.stringify(marker)} into the store`).toContain(marker);

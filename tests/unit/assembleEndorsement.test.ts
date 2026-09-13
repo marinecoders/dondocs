@@ -104,7 +104,7 @@ describe('assembleEndorsement', () => {
 
   it('accepts an ArrayBuffer as well as a Uint8Array', async () => {
     const letter = await makePdf(['L']);
-    const buf = letter.buffer.slice(letter.byteOffset, letter.byteOffset + letter.byteLength);
+    const buf = letter.slice().buffer;
     const result = await assembleEndorsement(await makePdf(['E']), buf);
     expect(result.ok).toBe(true);
   });

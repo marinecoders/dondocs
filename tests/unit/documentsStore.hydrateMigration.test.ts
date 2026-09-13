@@ -2,6 +2,7 @@ import 'fake-indexeddb/auto';
 import { describe, it, expect } from 'vitest';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { idbPutDocument, idbGetAllDocuments } from '@/lib/documentsDb';
+import { documentsRead } from '../_helpers/documentsDb';
 
 // Legacy FOUO markings must fold to CUI in the PERSISTED registry on hydration —
 // not only in the live store when the doc is opened — so opening an untouched
@@ -35,7 +36,7 @@ describe('documentsStore hydration — legacy FOUO folds to CUI without churn', 
     expect(entry.meta.updatedAt).toBe(4242);
 
     // Persisted back to IndexedDB as CUI, still at the original updatedAt.
-    const stored = (await idbGetAllDocuments()).find((r) => r.id === 'legacy-fouo');
+    const stored = documentsRead(await idbGetAllDocuments()).find((r) => r.id === 'legacy-fouo');
     expect(stored?.session.paragraphs[0].portionMarking).toBe('CUI');
     expect(stored?.meta.updatedAt).toBe(4242);
   });

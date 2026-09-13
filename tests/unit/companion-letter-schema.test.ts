@@ -288,8 +288,10 @@ describe('type-scoped fields', () => {
     ['preparedBy', 'Prepared by:', ['action_memorandum', 'information_memorandum']],
   ] as const)('%s prints where its description says', (field, marker, printedBy) => {
     for (const docType of EXECUTIVE) {
-      const tex = generateFlatLatex(toStore({ ...base, docType, format: 'docx', [field]: 'SCOPED VALUE' } as LetterInput, {}) as never);
-      expect(tex.includes(marker), `${docType} ${field}`).toBe(printedBy.includes(docType));
+      const scoped: Record<string, string> = { [field]: 'SCOPED VALUE' };
+      const tex = generateFlatLatex(toStore({ ...base, docType, format: 'docx', ...scoped } as LetterInput, {}) as never);
+      // `printedBy` is a literal tuple; the docType being searched for is not.
+      expect(tex.includes(marker), `${docType} ${field}`).toBe((printedBy as readonly string[]).includes(docType));
     }
     const description = letterSchema.shape[field].description ?? '';
     for (const docType of printedBy) { expect(description).toContain(docType); }

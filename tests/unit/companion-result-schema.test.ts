@@ -32,7 +32,8 @@ describe('the published result schemas', () => {
 
   it('carry a DOD directory entry with its department, so the letterhead heading follows', async () => {
     const result = await lookupUnits('DEFENSE INFORMATION SCHOOL');
-    expect(result.matches[0].unit.department).toBe('dod');
+    const { unit } = result.matches[0];
+    expect('department' in unit && unit.department).toBe('dod');
     expect(unitLookupResult.safeParse(result).success).toBe(true);
   });
 

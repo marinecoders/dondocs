@@ -58,7 +58,7 @@ export interface DocumentMeta {
   pinned?: boolean;
 }
 
-interface DocumentEntry {
+export interface DocumentEntry {
   meta: DocumentMeta;
   session: SerializedSession;
 }

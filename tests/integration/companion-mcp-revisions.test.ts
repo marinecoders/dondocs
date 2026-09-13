@@ -29,8 +29,10 @@ class Wire {
   /** Requests the server sent us (elicitation), in order. */
   readonly serverRequests: Msg[] = [];
   answer: Msg = { action: 'decline' };
+  readonly root: string;
 
-  constructor(readonly root: string) {
+  constructor(root: string) {
+    this.root = root;
     this.child = spawn(process.execPath, [join(REPO, 'node_modules', 'vite-node', 'dist', 'cli.mjs'), 'companion/mcp.ts'], {
       cwd: REPO,
       env: { ...process.env, DONDOCS_OUT_ROOT: root, DONDOCS_CONFIG: '/nonexistent/companion.config.json' },

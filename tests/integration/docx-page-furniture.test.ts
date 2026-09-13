@@ -251,7 +251,7 @@ describe.skipIf(!pandocAvailable)('continuation subject recovery', () => {
     ['action_memorandum', 'SUBJECT:'],
     ['information_memorandum', 'SUBJECT:'],
     ['business_letter', 'SUBJECT:'],
-  ])('recovers the subject and its label from a %s (%s)', async (docType, expectedLabel) => {
+  ] as const)('recovers the subject and its label from a %s (%s)', async (docType, expectedLabel) => {
     const store = buildBaseline(docType);
     store.formData.subject = SUBJECT;
     const result = await compileDocxFixture(store);
