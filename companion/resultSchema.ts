@@ -24,11 +24,15 @@ const templateSummary = z.object({
 
 export const templateListResult = z.object({ templates: z.array(templateSummary) });
 
-// A field added to LetterTemplate is a compile error here.
+// Keep this response schema in step with LetterTemplate.
 export const templateResult = templateSummary.extend({
   docType: z.string(),
   subject: z.string(),
-  paragraphs: z.array(z.object({ text: z.string(), level: z.number().int() })),
+  paragraphs: z.array(z.object({
+    text: z.string(), level: z.number().int(),
+    header: z.string().optional(), tableKey: z.string().optional(),
+  })),
+  publicationType: z.enum(['MI', 'SI', 'TI', 'LI']).optional(),
   references: z.array(z.object({ letter: z.string(), title: z.string(), url: z.string().optional() })).optional(),
   ssic: z.string().optional(),
 }) satisfies z.ZodType<LetterTemplate>;
