@@ -45,6 +45,13 @@ export function iTypeExportErrors(store: Publication): string[] {
   if (d.signatureType !== 'digital') errors.push('Select a digital signature for the authentication page.');
   if (!/^[A-F]$/.test(d.cuiDistStatement ?? '')) errors.push('Select Distribution Statement A, B, C, D, E, or F.');
   if (d.cuiDistStatement === 'A' && !['unclassified', 'custom'].includes(deriveOverallClassLevel(d.classLevel, store.paragraphs))) errors.push('Statement A conflicts with the selected controlled or classified markings. Resolve the release determination before export.');
+  if (d.cuiDistStatement === 'A' && (d.exportRestricted || d.distReason === 'Export Controlled')) errors.push('Export-controlled information cannot use Distribution Statement A.');
+  if (d.distReason === 'Export Controlled' && !d.exportRestricted) errors.push('Include the export-control warning for Export Controlled information.');
+  if (deriveOverallClassLevel(d.classLevel, store.paragraphs) === 'cui') {
+    if (!d.cuiControlledBy?.trim()) errors.push('Enter the organization responsible for the CUI designation.');
+    if (!d.cuiCategory?.trim()) errors.push('Enter the CUI categories.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.pocEmail ?? '')) errors.push('Enter the originating office mailbox for the CUI designation block.');
+  }
   errors.push(...validateDistributionFillIns(d.cuiDistStatement, { reason: d.distReason, date: d.distDate, office: d.controllingOffice }).map((f) => f.message));
   errors.push(...validateReasonForStatement(d.cuiDistStatement, d.distReason).map((f) => f.message));
   if (d.cuiDistStatement && d.cuiDistStatement !== 'A' && !isValid(parseISO(d.distDate ?? ''))) errors.push('Enter a valid distribution determination date.');

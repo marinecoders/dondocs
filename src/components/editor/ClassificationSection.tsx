@@ -116,9 +116,7 @@ export function ClassificationSection() {
     () => validateClassificationMarkings(classLevel, paragraphs),
     [classLevel, paragraphs]
   );
-  // A technical publication's Distribution Statement decides whether it is
-  // controlled, so the two markings have to agree. Scoped to publications:
-  // correspondence carries a distribution statement for other reasons.
+  // Distribution restrictions and classification are separate determinations.
   const docType = useDocumentStore((s) => s.docType);
   const distributionFindings = useMemo(
     () => (docType === 'i_type'

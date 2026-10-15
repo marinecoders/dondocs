@@ -244,8 +244,8 @@ describe.skipIf(!hasPdfToolchain)('I-Type follows the template page for page', (
     expect(pages[0]).toMatch(wrapped);
   });
 
-  it('composes Controlled by from entity, signing authority, and controlling office', () => {
-    expect(pages[0]).toMatch(/Controlled by: DOD, Program Manager, Infantry Weapons PM IW/);
+  it('identifies the organization and office controlling the CUI', () => {
+    expect(pages[0]).toMatch(/Controlled by: DOD, PM IW/);
   });
 
   it('dates the authentication page in full, with the short title alone in its header', () => {

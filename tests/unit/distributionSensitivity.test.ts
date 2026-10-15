@@ -1,23 +1,21 @@
 import { describe, it, expect } from 'vitest';
-import { sensitivityFor, validateDistributionStatement } from '@/lib/classificationValidation';
+import { distributionAccess, validateDistributionStatement } from '@/lib/classificationValidation';
 
-describe('distribution statement → sensitivity', () => {
-  it('maps A to uncontrolled and B–F to controlled', () => {
-    expect(sensitivityFor('A')).toBe('Uncontrolled / General');
+describe('distribution access', () => {
+  it('distinguishes public release from restricted distribution', () => {
+    expect(distributionAccess('A')).toBe('Public release');
     for (const l of ['B', 'C', 'D', 'E', 'F']) {
-      expect(sensitivityFor(l), l).toBe('Controlled / CUI');
+      expect(distributionAccess(l), l).toBe('Restricted distribution');
     }
   });
 
   it('has no opinion until a statement is chosen', () => {
-    expect(sensitivityFor('')).toBeNull();
-    expect(sensitivityFor('Z')).toBeNull();
+    expect(distributionAccess('')).toBeNull();
+    expect(distributionAccess('Z')).toBeNull();
   });
 
-  it('catches a restricted distribution left unmarked', () => {
-    const [f] = validateDistributionStatement('unclassified', 'D');
-    expect(f.severity).toBe('error');
-    expect(f.message).toMatch(/controlled/i);
+  it('permits unclassified restricted-distribution documents', () => {
+    for (const letter of ['B', 'C', 'D', 'E', 'F']) expect(validateDistributionStatement('unclassified', letter)).toEqual([]);
   });
 
   it('catches a public-release statement on a marked document', () => {

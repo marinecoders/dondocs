@@ -120,7 +120,7 @@ describe.skipIf(!hasPdfToolchain)('a complete Modification Instruction, end to e
   it('opens with the cover, its header lines and footer notices in the template\'s order', () => {
     order(pages[0], 'CUI', 'DECEMBER 2024', 'MI 12345A-24/1', 'U.S. MARINE CORPS MODIFICATION INSTRUCTION', 'INSTALLATION OF THE STOCK ACCESSORY RAIL AND CHEEK PIECE', 'URGENT',
       'RIFLE, 7.62MM, M40A6', 'NSN', 'See Next Page',
-      'Controlled by: DOD, Program Manager, Infantry Weapons GWS', 'CUI Category: CTI', 'Distribution/Dissemination Control: FEDCON', 'POC: john.doe@usmc.mil',
+      'Controlled by: DOD, GWS', 'CUI Category: CTI', 'Distribution Statement: D', 'POC: john.doe@usmc.mil',
       'SUPERSEDURE NOTICE', 'DISTRIBUTION STATEMENT D', 'Critical Technology', '1 December 2024', 'referred to GWS', 'WARNING: This document contains technical data', 'DESTRUCTION NOTICE', 'PCN 184 123456 00');
   });
 

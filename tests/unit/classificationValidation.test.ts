@@ -89,3 +89,12 @@ describe('validateClassificationMarkings — no-ops', () => {
     expect(validateClassificationMarkings('cui', [para('a', 'CUI'), para('b', 'CUI')])).toEqual([]);
   });
 });
+
+describe('optional CUI portion markings', () => {
+  it('accepts a CUI document without portion markings', () => {
+    expect(validateClassificationMarkings('cui', [para('Instructions.'), para('More instructions.')])).toEqual([]);
+  });
+  it('checks consistency when portion markings are used', () => {
+    expect(validateClassificationMarkings('cui', [para('Instructions.', 'CUI'), para('More instructions.')]).some((f) => /Mark every paragraph/.test(f.message))).toBe(true);
+  });
+});

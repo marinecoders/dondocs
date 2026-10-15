@@ -329,10 +329,12 @@
     \begin{minipage}[b]{\textwidth}
         \raggedright
         \ifCUIEnabled
-            Controlled by: \CUIControlledBy\ifNotEmpty{\SignatoryTitle}{, \SignatoryTitle}\ifNotEmpty{\ControllingOffice}{ \ControllingOffice}\\
+            \noindent\hfill\begin{minipage}{0.65\textwidth}\raggedright
+            Controlled by: \CUIControlledBy\ifNotEmpty{\ControllingOffice}{, \ControllingOffice}\\
             CUI Category: \CUICategory\\
-            Distribution/Dissemination Control: \CUIDissemination%
-            \ifNotEmpty{\POCEmail}{\\\printPOCLine}\par\vspace{6pt}
+            Distribution Statement: \CUIDistStatement%
+            \ifNotEmpty{\POCEmail}{\\\printPOCLine}\par
+            \end{minipage}\par\vspace{6pt}
         \fi
         \ifNotEmpty{\Supersedure}{\noindent\Supersedure\par\vspace{6pt}}%
         \ifNotEmpty{\DistStatementFull}{\noindent\DistStatementFull\par\vspace{6pt}}%

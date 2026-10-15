@@ -120,3 +120,18 @@ describe('final publication checks', () => {
     expect(iTypeExportErrors(s).join(' ')).toContain('each item needs a number');
   });
 });
+
+describe('publication distribution and CUI designation', () => {
+  it('allows restricted unclassified information without assigning CUI', () => {
+    const s = baseline(); Object.assign(s.formData, { classLevel: 'unclassified', cuiDistStatement: 'D', distDate: '2026-10-15', distReason: 'Software Documentation' });
+    expect(iTypeExportErrors(s)).toEqual([]);
+  });
+  it('requires CUI designation fields and rejects export-controlled public release', () => {
+    const s = baseline(); Object.assign(s.formData, { classLevel: 'cui', cuiDistStatement: 'D', distDate: '2026-10-15', distReason: 'Controlled Technical Information', cuiCategory: '', cuiControlledBy: '', pocEmail: '' });
+    expect(iTypeExportErrors(s).join(' ')).toContain('CUI categories');
+    Object.assign(s.formData, { cuiCategory: 'CTI', cuiControlledBy: 'USMC', pocEmail: 'office@example.mil' });
+    expect(iTypeExportErrors(s)).toEqual([]);
+    Object.assign(s.formData, { classLevel: 'unclassified', cuiDistStatement: 'A', exportRestricted: true });
+    expect(iTypeExportErrors(s).join(' ')).toContain('cannot use Distribution Statement A');
+  });
+});
