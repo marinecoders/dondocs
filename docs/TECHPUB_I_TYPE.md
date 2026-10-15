@@ -103,3 +103,7 @@ layout cases.
 Run the unit/component suite, the targeted integration suites, and the solution
 build before updating the PR. Regenerate `public/lib/latex-templates.js` with
 `node build-templates.mjs` whenever the TeX source changes.
+
+The [requirements and acceptance record](ITYPE_REQUIREMENTS.md) tracks the next
+checks and unresolved authority decisions. No approved tailoring record or license
+to distribute Times New Roman has been supplied.
