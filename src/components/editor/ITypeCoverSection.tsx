@@ -54,6 +54,8 @@ export function ITypeCoverSection() {
   const supersedure = useDocumentStore((s) => s.formData.supersedure ?? '');
   const exportRestricted = useDocumentStore((s) => s.formData.exportRestricted ?? false);
   const date = useDocumentStore((s) => s.formData.date ?? '');
+  const signingDate = useDocumentStore((s) => s.formData.publicationSigningDate ?? '');
+  const closedDates = useDocumentStore((s) => s.formData.publicationClosedDates ?? '');
   const publicationType = useDocumentStore((s) => s.formData.publicationType ?? 'MI');
   const unitLine1 = useDocumentStore((s) => s.formData.unitLine1 ?? '');
   const unitLine2 = useDocumentStore((s) => s.formData.unitLine2 ?? '');
@@ -72,7 +74,7 @@ export function ITypeCoverSection() {
     ...validateLongTitle(subject),
     ...validateTimeCompliance(urgency, completionDate, publicationDate(date)),
     ...validateTimeComplianceParagraph(urgency, paragraphs),
-    ...validatePublicationDate(date),
+    ...validatePublicationDate(date, signingDate, closedDates),
     ...validateMajorItemsOrder(tables.majorItems ?? []),
     ...validateIdentifiers({ pcn, shortTitle, publicationType, endItems, majorItems: tables.majorItems ?? [] }),
     ...validateHeadingAcronyms(paragraphs),
@@ -162,8 +164,13 @@ export function ITypeCoverSection() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="date">Date</Label>
+        <Label htmlFor="date">Effective date</Label>
         <DatePicker id="date" value={date} onChange={(v) => setField('date', v)} dateFormat="military" />
+        <Label htmlFor="publicationSigningDate">Signing date (planned or actual)</Label>
+        <Input id="publicationSigningDate" type="date" value={signingDate} onChange={(e) => setField('publicationSigningDate', e.target.value)} />
+        <Label htmlFor="publicationClosedDates">Additional office closure dates</Label>
+        <Input id="publicationClosedDates" value={closedDates} placeholder="YYYY-MM-DD, YYYY-MM-DD" onChange={(e) => setField('publicationClosedDates', e.target.value)} />
+        <p className="text-xs text-muted-foreground">Uses a Monday–Friday calendar with observed U.S. federal holidays. Add other office closures. Recheck the effective date if the signing month changes.</p>
         <p className="text-xs text-muted-foreground">
           The last working day of the month of anticipated signature. Printed as the
           month and year on the cover, and in full on the pages after it.

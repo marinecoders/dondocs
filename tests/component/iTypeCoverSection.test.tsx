@@ -86,7 +86,7 @@ describe('what the cover prints but the letter sections used to own', () => {
 
   it('offers a date field — the cover date and the page headers derive from it', () => {
     render(<ITypeCoverSection />);
-    expect(screen.getByLabelText(/^date$/i)).toBeTruthy();
+    expect(screen.getByLabelText(/^effective date$/i)).toBeTruthy();
   });
 
   it('types the issuing command lines that head the authentication page', () => {

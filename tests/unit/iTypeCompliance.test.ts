@@ -14,7 +14,7 @@ import { technicalInstruction, supplyInstruction, lubricationInstruction } from 
 const step = (level: number): Paragraph => ({ level, text: 'Inspect the bracket.', procedure: true });
 const baseline = () => ({ ...useDocumentStore.getState(), docType: 'i_type', paragraphs: [{ level: 0, header: 'Purpose', text: 'Install the bracket.' }, { level: 0, header: 'Administrative Instructions', text: `For questions or concerns with the content or procedures in this Modification Instruction (MI) contact office@example.mil. ${DISCREPANCY_NOTICE} ${MI_REPORTING}` }],
   formData: { ...useDocumentStore.getState().formData, shortTitle: 'MI 12345A-26/1', pcn: '184 123456 00', nomenclature: 'SUPPORT EQUIPMENT', subject: 'INSTALL THE BRACKET',
-    date: '30 Oct 26', unitLine1: 'MARINE CORPS SYSTEMS COMMAND', sigLast: 'DOE', controllingOffice: 'Program Office', cuiDistStatement: 'A', signatureType: 'digital' as const,
+    date: '30 Oct 26', publicationSigningDate: '2026-10-15', unitLine1: 'MARINE CORPS SYSTEMS COMMAND', sigLast: 'DOE', controllingOffice: 'Program Office', cuiDistStatement: 'A', signatureType: 'digital' as const,
     fontFamily: 'times', fontSize: '12pt', miUrgency: 'normal' as const, publicationType: 'MI' as const, miCompletionDate: '' },
 });
 
@@ -100,5 +100,23 @@ describe('figure integrity', () => {
     const b = generateAllLatexFiles(s);
     expect(a.figures[0].file).not.toBe(b.figures[0].file);
     await expect(validateFigureFiles({ ...b.texFiles, [a.figures[0].file]: new Uint8Array([1]) })).rejects.toThrow(/missing from this document/);
+  });
+});
+
+describe('final publication checks', () => {
+  it('rejects a midmonth date and missing signing date', () => {
+    const s = baseline(); s.formData.date = '15 Oct 26';
+    expect(iTypeExportErrors(s).join(' ')).toContain('last working day');
+    s.formData.date = '30 Oct 26'; s.formData.publicationSigningDate = '';
+    expect(iTypeExportErrors(s).join(' ')).toContain('signing date');
+  });
+  it('rejects skipped or missing item numbers and unattached tables', () => {
+    const s = baseline();
+    s.publicationTables = { materielRequired: [{ values: { item: '1', description: 'BRACKET' } }, { values: { item: '3', description: 'BOLT' } }] };
+    expect(iTypeExportErrors(s).join(' ')).toContain('exactly one paragraph');
+    s.paragraphs.push({ level: 0, header: 'Materiel Required', text: '', tableKey: 'materielRequired' } as typeof s.paragraphs[number]);
+    expect(iTypeExportErrors(s).join(' ')).toContain('they read 1, 3');
+    s.publicationTables.materielRequired[1].values.item = '';
+    expect(iTypeExportErrors(s).join(' ')).toContain('each item needs a number');
   });
 });

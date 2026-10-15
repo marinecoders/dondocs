@@ -137,6 +137,8 @@ export interface Profile {
 }
 
 export interface DocumentData {
+  publicationSigningDate?: string;
+  publicationClosedDates?: string;
   // Document type
   docType: string;
 

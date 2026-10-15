@@ -42,3 +42,17 @@ describe('time compliance paragraph', () => {
     expect(validateTimeComplianceParagraph('urgent', [tcp])).toEqual([]);
   });
 });
+
+describe('publication working calendar', () => {
+  it('excludes Memorial Day and next-year New Year observances', () => {
+    expect(lastWorkingDay(new Date(2027, 4, 1)).getDate()).toBe(28);
+    expect(lastWorkingDay(new Date(2021, 11, 1)).getDate()).toBe(30);
+    expect(validatePublicationDate('31 May 27', '2027-05-15')).not.toEqual([]);
+    expect(validatePublicationDate('28 May 27', '2027-05-15')).toEqual([]);
+  });
+  it('uses the signing month and explicit office closures', () => {
+    expect(validatePublicationDate('30 Oct 26', '2026-11-02')).not.toEqual([]);
+    expect(validatePublicationDate('29 Oct 26', '2026-10-15', '2026-10-30')).toEqual([]);
+    expect(validatePublicationDate('30 Oct 26', '2026-10-15', '2026-02-30')).not.toEqual([]);
+  });
+});

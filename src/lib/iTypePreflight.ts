@@ -1,3 +1,6 @@
+import { validatePublicationDate } from './publicationDate';
+import { validateMajorItemsOrder } from './majorItemsOrder';
+import { tableSpec } from '@/data/techpub/tables';
 import { validateIdentifiers } from './identifiers';
 import { deriveOverallClassLevel } from './overallClassification';
 import { isValid, parseISO } from 'date-fns';
@@ -6,7 +9,7 @@ import { validateDistributionFillIns, validateReasonForStatement } from './class
 import { publicationDate, validateTimeCompliance, withTimeCompliance } from './timeCompliance';
 import { validateFigures } from './figures';
 import { validateProcedureSteps } from './procedureSteps';
-import { validateCalloutOrder, validateUrgencyByType, validatePublicationStructure } from './publicationRules';
+import { validateCalloutOrder, validateUrgencyByType, validatePublicationStructure, validateItemNumbers } from './publicationRules';
 
 interface Publication {
   docType: string;
@@ -26,6 +29,18 @@ export function iTypeExportErrors(store: Publication): string[] {
   }
   errors.push(...validateIdentifiers({ pcn: d.pcn, shortTitle: d.shortTitle, publicationType: d.publicationType, endItems: store.endItems ?? [], majorItems: store.publicationTables?.majorItems ?? [] }).map((f) => f.message));
   if (!isValid(publicationDate(d.date ?? ''))) errors.push('Enter a valid publication date.');
+  if (!d.publicationSigningDate?.trim()) errors.push('Enter the planned or actual signing date.');
+  errors.push(...validatePublicationDate(d.date ?? '', d.publicationSigningDate, d.publicationClosedDates).map((f) => f.message));
+  errors.push(...validateMajorItemsOrder(store.publicationTables?.majorItems ?? []).map((f) => f.message));
+  for (const [key, rows] of Object.entries(store.publicationTables ?? {})) {
+    if (!rows.some((r) => Object.values(r.values).some((v) => v.trim()))) continue;
+    const spec = tableSpec(key);
+    if (!spec) { errors.push(`Unknown publication table: ${key}.`); continue; }
+    const attached = store.paragraphs.filter((p) => p.tableKey === key);
+    if (attached.length !== 1) errors.push(`${spec.name} must be attached to exactly one paragraph.`);
+    if (spec.columns.some((c) => c.key === 'item')) errors.push(...validateItemNumbers(rows, spec.name, key === 'materielRequired').map((f) => f.message));
+    if (rows.some((r) => Object.values(r.values).some((v) => v.trim()) && !r.values.description?.trim())) errors.push(`${spec.name}: every populated row needs a description.`);
+  }
   if (d.fontFamily !== 'times' || d.fontSize !== '12pt') errors.push('I-Type text requires Times at 12 points.');
   if (d.signatureType !== 'digital') errors.push('Select a digital signature for the authentication page.');
   if (!/^[A-F]$/.test(d.cuiDistStatement ?? '')) errors.push('Select Distribution Statement A, B, C, D, E, or F.');
