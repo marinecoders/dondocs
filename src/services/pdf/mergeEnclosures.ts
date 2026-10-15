@@ -1,4 +1,6 @@
-import { PDFDocument, rgb, StandardFonts, PDFPage, PDFName, PDFArray, PDFNumber, PDFRef, PDFRawStream, PDFDict, PDFString, degrees } from 'pdf-lib';
+import { appendPublicationOutline } from './publicationDestinations';
+import type { PDFObject } from 'pdf-lib';
+import { PDFDocument, rgb, StandardFonts, PDFPage, PDFName, PDFArray, PDFNumber, PDFRef, PDFRawStream, PDFDict, PDFString, PDFHexString, degrees } from 'pdf-lib';
 import pako from 'pako';
 import { debug } from '@/lib/debug';
 import { safeUrl } from '@/lib/url-safety';
@@ -585,7 +587,19 @@ function createNamedDestinations(pdfDoc: PDFDocument): void {
   const sortedEntries = Array.from(enclosurePageMap.entries())
     .sort((a, b) => a[0] - b[0]); // Sort by enclosure number
 
-  const namesArray: (PDFString | PDFArray)[] = [];
+  const destinations = new Map<string, PDFObject>();
+  const priorNames = pdfDoc.catalog.lookup(PDFName.of('Names'));
+  const collect = (node: PDFDict) => {
+    const names = node.lookup(PDFName.of('Names'));
+    if (names instanceof PDFArray) for (let i = 0; i < names.size(); i += 2) {
+      const key = names.lookup(i);
+      if (key instanceof PDFString || key instanceof PDFHexString) destinations.set(key.decodeText(), names.get(i + 1));
+    }
+    const kids = node.lookup(PDFName.of('Kids'));
+    if (kids instanceof PDFArray) for (let i = 0; i < kids.size(); i++) collect(kids.lookup(i, PDFDict));
+  };
+  const priorDests = priorNames instanceof PDFDict ? priorNames.lookup(PDFName.of('Dests')) : undefined;
+  if (priorDests instanceof PDFDict) collect(priorDests);
 
   for (const [encNum, pageIndex] of sortedEntries) {
     if (pageIndex >= pages.length) {
@@ -607,13 +621,12 @@ function createNamedDestinations(pdfDoc: PDFDocument): void {
       PDFNumber.of(0)  // null zoom = keep current
     ]);
 
-    namesArray.push(PDFString.of(destName));
-    namesArray.push(destArray as PDFArray);
+    destinations.set(destName, destArray);
 
     debug.log('Hyperlinks', `Created named destination '${destName}' -> page ${pageIndex + 1}`);
   }
 
-  if (namesArray.length === 0) {
+  if (destinations.size === 0) {
     debug.log('Hyperlinks', 'No valid destinations to create');
     return;
   }
@@ -621,7 +634,7 @@ function createNamedDestinations(pdfDoc: PDFDocument): void {
   // Create the Dests name tree
   // A simple name tree has: { Names: [...] }
   const destsDict = context.obj({
-    Names: context.obj(namesArray)
+    Names: context.obj([...destinations].sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0).flatMap(([name, dest]) => [PDFString.of(name), dest]))
   });
 
   // Get or create the Names dictionary in the catalog
@@ -1131,8 +1144,8 @@ export async function mergeEnclosures(
 
   // Load the main document
   const mainPdf = await PDFDocument.load(mainPdfBytes);
-  const helveticaBold = await mainPdf.embedFont(StandardFonts.HelveticaBold);
-  const helvetica = await mainPdf.embedFont(StandardFonts.Helvetica);
+  const helveticaBold = await mainPdf.embedFont(labelStyle === 'footer' ? StandardFonts.TimesRomanBold : StandardFonts.HelveticaBold);
+  const helvetica = await mainPdf.embedFont(labelStyle === 'footer' ? StandardFonts.TimesRoman : StandardFonts.Helvetica);
 
   // Record the number of pages in the main document BEFORE adding enclosures
   const mainPageCount = mainPdf.getPageCount();
@@ -1184,6 +1197,13 @@ export async function mergeEnclosures(
       if (enclosure.data) {
         addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, errorMessage, labelStyle, options.header);
       }
+    }
+  }
+
+  if (labelStyle === 'footer') {
+    for (const enclosure of enclosures) {
+      const page = enclosurePageMap.get(enclosure.number);
+      if (page !== undefined) appendPublicationOutline(mainPdf, `Enclosure ${enclosure.number}. ${enclosure.title}`, page);
     }
   }
 
@@ -1364,11 +1384,11 @@ async function addPdfEnclosure(
 
       // Add enclosure label at bottom right
       addEnclosureLabel(page, enclosure.number, helveticaBold, labelStyle);
-      if (header) addPublicationHeader(page, helvetica, header);
+      if (header) addPublicationHeader(page, helveticaBold, header);
 
       // Add page number for multi-page enclosures (bottom center)
-      if (pageCount > 1) {
-        addPageNumber(page, i + 1, helveticaBold);
+      if (pageCount > 1 || labelStyle === 'footer') {
+        addPageNumber(page, i + 1, labelStyle === 'footer' ? helvetica : helveticaBold, labelStyle === 'footer' ? 12 : 10);
       }
 
       // Add classification marking at bottom
@@ -1589,7 +1609,7 @@ function addPlaceholderPage(
 
   // Add enclosure label at bottom right
   addEnclosureLabel(page, enclosure.number, helveticaBold, labelStyle);
-  if (header) addPublicationHeader(page, helvetica, header);
+  if (header) addPublicationHeader(page, helveticaBold, header);
 
   // Add classification marking at bottom
   if (classification?.marking) {
@@ -1675,7 +1695,7 @@ function addCoverPage(
 
   // Add enclosure label at bottom right
   addEnclosureLabel(page, enclosure.number, helveticaBold, labelStyle);
-  if (header) addPublicationHeader(page, helvetica, header);
+  if (header) addPublicationHeader(page, helveticaBold, header);
 
   // Add classification marking at bottom
   if (classification?.marking) {
@@ -1687,12 +1707,9 @@ function addCoverPage(
  *  publication's enclosure pages. */
 function addPublicationHeader(page: PDFPage, font: Awaited<ReturnType<PDFDocument['embedFont']>>, header: PublicationHeader): void {
   const fontSize = 10;
-  [header.line1, header.line2].forEach((line, i) => {
-    if (!line) return;
-    const width = font.widthOfTextAtSize(line, fontSize);
-    // Under the marking at PAGE_HEIGHT - 24 (see addClassificationMarking).
-    page.drawText(line, { x: (PAGE_WIDTH - width) / 2, y: PAGE_HEIGHT - 40 - i * 13, size: fontSize, font, color: rgb(0, 0, 0) });
-  });
+  const line = [header.line1, header.line2].filter(Boolean).join('    ');
+  const width = font.widthOfTextAtSize(line, fontSize);
+  page.drawText(line, { x: (PAGE_WIDTH - width) / 2, y: PAGE_HEIGHT - 58, size: fontSize, font, color: rgb(0, 0, 0) });
 }
 
 /**
@@ -1736,10 +1753,10 @@ function addEnclosureLabel(
 function addPageNumber(
   page: PDFPage,
   pageNum: number,
-  font: Awaited<ReturnType<PDFDocument['embedFont']>>
+  font: Awaited<ReturnType<PDFDocument['embedFont']>>,
+  fontSize = 10
 ): void {
   const pageNumText = `${pageNum}`;
-  const fontSize = 10;
   const textWidth = font.widthOfTextAtSize(pageNumText, fontSize);
 
   page.drawText(pageNumText, {

@@ -8,8 +8,8 @@ export const figureExtension = (mime: string | undefined, name: string | undefin
   EXTENSIONS[mime ?? ''] ?? (/\.jpe?g$/i.test(name ?? '') ? 'jpg' : /\.pdf$/i.test(name ?? '') ? 'pdf' : 'png');
 
 /** The file a figure is placed from, by its number in the document. */
-export const figureFile = (n: number, mime?: string, name?: string): string =>
-  `attachments/figure-${n}.${figureExtension(mime, name)}`;
+export const figureFile = (n: number, mime?: string, name?: string, id?: string): string =>
+  `attachments/figure-${n}${id ? '-' + Array.from(id).map((c) => c.codePointAt(0)!.toString(16).padStart(6, '0')).join('') : ''}.${figureExtension(mime, name)}`;
 
 /** A figure prints at text width, or narrower when its height would pass 5in. */
 const PRINT_WIDTH_IN = 6.5;

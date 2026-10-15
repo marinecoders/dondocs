@@ -1,3 +1,6 @@
+import { iTypeExportErrors } from '@/lib/iTypePreflight';
+import { loadFigureFiles } from '@/services/latex/figureAssets';
+import { publicationMarking } from '@/lib/publicationMarking';
 import { useEffect, useCallback, useMemo, useState, useRef, lazy, Suspense } from 'react';
 import { Header } from '@/components/layout/Header';
 import { FormPanel } from '@/components/layout/FormPanel';
@@ -104,7 +107,7 @@ import { generateNavmc10274Pdf, loadNavmc10274Templates } from '@/services/pdf/n
 import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/navmc11811Generator';
 import { applyPlaceholdersToNavmc11811, buildNavmc11811DefaultValues } from '@/lib/placeholders';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
-import type { ClassificationInfo, EnclosureError } from '@/services/pdf/mergeEnclosures';
+import type { EnclosureError } from '@/services/pdf/mergeEnclosures';
 import { assembleEndorsement, shouldAssembleBasicLetter } from '@/services/pdf/assembleEndorsement';
 import { addSignatureField, addDualSignatureFields, type DualSignatureFieldConfig, type SignatureFieldConfig } from '@/services/pdf/addSignatureField';
 import { DOC_TYPE_CONFIG, type DocumentData } from '@/types/document';
@@ -143,32 +146,6 @@ function basicLetterError(error: string): EnclosureError {
   return { enclosureNumber: 0, title: 'Basic letter', error, kind: 'basicLetter' };
 }
 
-function getClassificationInfo(
-  classLevel: string | undefined,
-  customClassification?: string
-): ClassificationInfo | undefined {
-  if (!classLevel || classLevel === 'unclassified') {
-    return undefined;
-  }
-
-  // Handle custom classification
-  if (classLevel === 'custom' && customClassification) {
-    return { level: classLevel, marking: customClassification };
-  }
-
-  const markingMap: Record<string, string> = {
-    cui: 'CUI',
-    confidential: 'CONFIDENTIAL',
-    secret: 'SECRET',
-    top_secret: 'TOP SECRET',
-    top_secret_sci: 'TOP SECRET//SCI',
-  };
-
-  const marking = markingMap[classLevel];
-  if (!marking) return undefined;
-
-  return { level: classLevel, marking };
-}
 
 /**
  * Build signatory name configuration for signature field positioning.
@@ -236,13 +213,9 @@ const commandDownloadTriggers: { pdf: () => void; docx: () => void } = {
   docx: () => {},
 };
 
-// A figure's bytes live in the attachments store; place them where the body
-// names them. A figure whose bytes are gone keeps its framed fallback.
+// Resolve every figure before compiling so a previous render cannot supply its bytes.
 async function addFigureFiles(files: Record<string, string | Uint8Array>, figures: GeneratedFiles['figures']): Promise<void> {
-  for (const f of figures) {
-    const bytes = await loadAttachment(f.ref.id);
-    if (bytes) files[f.file] = new Uint8Array(bytes);
-  }
+  await loadFigureFiles(files, figures, loadAttachment);
 }
 
 // A technical publication labels its enclosure pages in the footer and centres
@@ -599,7 +572,7 @@ function App() {
       let out = (await assembleBasicLetter(pdfBytes, currentStore.docType, currentStore.formData)).pdfBytes;
       let lastBasicPageIndex: number | undefined;
       if (generatedEnclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
-        const classification = getClassificationInfo(currentStore.formData.classLevel);
+        const classification = publicationMarking(currentStore.formData, currentStore.paragraphs);
         const mergeResult = await mergeEnclosures(out, generatedEnclosures, classification, includeHyperlinks, referenceUrls, mergeOptionsFor(currentStore));
         out = mergeResult.pdfBytes;
         lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
@@ -727,6 +700,10 @@ function App() {
       // Clear reset flag on success
       isResettingRef.current = false;
     } catch (err) {
+      setPdfUrl((previous) => {
+        if (previous) URL.revokeObjectURL(previous);
+        return null;
+      });
       console.error('Compilation error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Compilation failed';
       // Get compile log directly from error if available (for immediate access)
@@ -901,6 +878,8 @@ function App() {
     await rehydrateEnclosureFiles();
     // Snapshot fresh state at download time via getState().
     const currentStore = useDocumentStore.getState();
+    const errors = iTypeExportErrors(currentStore);
+    if (errors.length) throw new Error(errors.join('\n'));
     const { texFiles, enclosures: generatedEnclosures, includeHyperlinks, signatureImage, referenceUrls, figures } = generateAllLatexFiles(currentStore);
 
     // Build files object including signature image if present
@@ -929,12 +908,13 @@ function App() {
       let lastBasicPageIndex: number | undefined;
       if (generatedEnclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
         onProgress?.({ kind: 'pdf-merging-enclosures' });
-        const classification = getClassificationInfo(currentStore.formData.classLevel);
+        const classification = publicationMarking(currentStore.formData, currentStore.paragraphs);
         const mergeResult = await mergeEnclosures(pdfBytes, generatedEnclosures, classification, includeHyperlinks, referenceUrls, mergeOptionsFor(currentStore));
         pdfBytes = mergeResult.pdfBytes;
         lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
         if (mergeResult.hasErrors) exportErrors.push(...mergeResult.errors);
       }
+      if (currentStore.docType === 'i_type' && exportErrors.length) throw new Error(exportErrors.map((e) => e.error).join('\n'));
       // Track export errors for user notification (download context)
       if (exportErrors.length > 0) {
         setEnclosureErrors(exportErrors);
@@ -1131,7 +1111,9 @@ function App() {
     if (!pendingDownloadRef.current) return false;
 
     const currentStore = useDocumentStore.getState();
-    const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls, figures } = pendingDownloadRef.current;
+    const errors = iTypeExportErrors(currentStore);
+    if (errors.length) throw new Error(errors.join('\n'));
+    const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls, figures } = generateAllLatexFiles(currentStore);
 
     const files: Record<string, string | Uint8Array> = { ...texFiles };
     if (signatureImage) {
@@ -1155,12 +1137,13 @@ function App() {
       let lastBasicPageIndex: number | undefined;
       if (enclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
         onProgress?.({ kind: 'pdf-merging-enclosures' });
-        const classification = getClassificationInfo(currentStore.formData.classLevel);
+        const classification = publicationMarking(currentStore.formData, currentStore.paragraphs);
         const mergeResult = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls, mergeOptionsFor(currentStore));
         pdfBytes = mergeResult.pdfBytes;
         lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
         if (mergeResult.hasErrors) exportErrors.push(...mergeResult.errors);
       }
+      if (currentStore.docType === 'i_type' && exportErrors.length) throw new Error(exportErrors.map((e) => e.error).join('\n'));
       // Track export errors for user notification (PII download context)
       if (exportErrors.length > 0) {
         setEnclosureErrors(exportErrors);
@@ -1423,6 +1406,13 @@ function App() {
     // Prevent clicks while download is in progress (including during retry)
     if (downloadInProgressRef.current) {
       console.log('Download already in progress, ignoring click');
+      return;
+    }
+
+    const publicationErrors = iTypeExportErrors(useDocumentStore.getState());
+    if (publicationErrors.length) {
+      setDownloadProgress({ kind: 'error', target: 'pdf', title: 'Complete the I-Type before export',
+        message: publicationErrors.join('\n'), retryable: false, reportable: false });
       return;
     }
 

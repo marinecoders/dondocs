@@ -245,6 +245,11 @@ const DEFAULT_FORM_DATA = EXAMPLE_FORM_DATA;
 const DEFAULT_REFERENCES = EXAMPLE_REFERENCES;
 const DEFAULT_PARAGRAPHS = EXAMPLE_PARAGRAPHS;
 
+function publicationFont(docType: string, mode: DocumentMode, data: Partial<DocumentData>): Partial<DocumentData> {
+  return docType === 'i_type' && mode === 'compliant'
+    ? { ...data, fontFamily: 'times', fontSize: '12pt' } : data;
+}
+
 export const useDocumentStore = create<DocumentState>((set, get) => ({
   documentMode: 'compliant',
   documentCategory: 'correspondence',
@@ -347,6 +352,14 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
 
   setField: (key, value) => set((state) => {
     const formData = { ...state.formData, [key]: value };
+    if (key === 'publicationType' && value !== 'MI') {
+      formData.miUrgency = 'normal';
+      formData.miCompletionDate = '';
+    }
+    if (state.docType === 'i_type' && state.documentMode === 'compliant') {
+      formData.fontFamily = 'times';
+      formData.fontSize = '12pt';
+    }
     // The start letter shifts every reference after it, so re-letter in the
     // same commit — otherwise the rows keep the previous sequence on screen.
     if (key === 'startingReferenceLetter') {
@@ -362,7 +375,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   }),
 
   setFormData: (data) => set((state) => ({
-    formData: { ...state.formData, ...data },
+    formData: publicationFont(state.docType, state.documentMode, { ...state.formData, ...data }),
   })),
 
   resetForm: () => {
@@ -727,7 +740,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     });
     useUIStore.getState().setValidationVisible(false);
     set((state) => {
-      const formData = data.formData ? { ...state.formData, ...data.formData } : state.formData;
+      const formData = publicationFont(state.docType, state.documentMode, { ...state.formData, ...data.formData });
       // A template describes a document; it never carries an uploaded basic
       // letter. Without this, spreading the old formData stapled the previous
       // document's letter onto whatever loads next. Keyed on the REF, not the
@@ -779,7 +792,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     return {
       documentMode: snapshot.documentMode,
       docType: snapshot.docType,
-      formData: snapshot.formData,
+      formData: publicationFont(snapshot.docType, snapshot.documentMode, snapshot.formData),
       references: snapshot.references,
       enclosures,
       paragraphs: snapshot.paragraphs,
@@ -992,7 +1005,7 @@ export function restoreSession(): boolean {
       documentCategory: session.documentCategory || 'correspondence',
       docType: session.docType,
       formType: session.formType || 'navmc_10274',
-      formData: restoredFormData,
+      formData: publicationFont(session.docType, session.documentMode, restoredFormData),
       references: session.references,
       endItems: session.endItems ?? [],
       publicationTables: session.publicationTables ?? {},
@@ -1078,7 +1091,7 @@ export function loadSharedSession(session: SerializedSession): void {
     documentCategory: session.documentCategory ?? 'correspondence',
     docType: session.docType,
     formType: session.formType ?? 'navmc_10274',
-    formData: sharedFormData,
+    formData: publicationFont(session.docType, session.documentMode, sharedFormData),
     references: session.references ?? [],
     endItems: session.endItems ?? [],
     publicationTables: session.publicationTables ?? {},

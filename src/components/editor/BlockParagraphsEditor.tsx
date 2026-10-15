@@ -1,3 +1,4 @@
+import { validateFigureAsset } from '@/services/latex/figureAssets';
 import { memo, useCallback, useMemo, useState } from 'react';
 import {
   DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent, } from '@dnd-kit/core';
@@ -139,6 +140,7 @@ const BlockRow = memo(function BlockRow({
   // populated externally — e.g. a Backspace-merge moving a heading up into this
   // (headerless) block — shows immediately, without a setState-in-effect.
   const [wantsHeader, setWantsHeader] = useState(false);
+  const [figureError, setFigureError] = useState('');
   const showHeader = !!header || wantsHeader;
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
@@ -344,6 +346,15 @@ const BlockRow = memo(function BlockRow({
                     onChange={async (e) => {
                       const file = e.target.files?.[0];
                       if (!file) return;
+                      setFigureError('');
+                      try {
+                        const extension = file.type === 'application/pdf' ? 'pdf' : file.type === 'image/jpeg' ? 'jpg' : 'png';
+                        await validateFigureAsset(new Uint8Array(await file.arrayBuffer()), `figure.${extension}`);
+                      } catch (error) {
+                        setFigureError(error instanceof Error ? error.message : 'Cannot read this figure.');
+                        e.target.value = '';
+                        return;
+                      }
                       // A photo is decoded with its EXIF orientation applied and
                       // re-encoded: pdfTeX ignores the orientation tag, so a portrait
                       // phone photo would print on its side, and the re-encoding drops
@@ -363,6 +374,15 @@ const BlockRow = memo(function BlockRow({
                   />
                 </label>
                 <span className="truncate">{figure.name ?? 'No image yet'}</span>
+                <label className="flex items-center gap-1">
+                  Graphic marking
+                  <select aria-label="Graphic portion marking" value={figure.portionMarking ?? ''}
+                    onChange={(e) => updateParagraph(index, { figure: { ...figure, portionMarking: (e.target.value || undefined) as PortionMarking | undefined } })}>
+                    <option value="">Same as caption</option>
+                    {PORTION_MARKS.map((mark) => <option key={mark.value} value={mark.value}>{mark.label}</option>)}
+                  </select>
+                </label>
+                {figureError && <span role="alert" className="text-destructive">{figureError}</span>}
               </div>
             )}
             <VariableChipEditor

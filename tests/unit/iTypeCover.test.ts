@@ -1,12 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { generateDocumentTex, generateBodyTex } from '@/services/latex/generator';
 
-const store = (endItems: Array<Record<string, string>>) => ({
+const store = (endItems: Array<{ nsn: string; tamcn: string; id: string; model: string }>) => ({
   docType: 'i_type',
   formData: { docType: 'i_type', nomenclature: 'COMBAT OPERATIONS CENTER' },
   references: [], enclosures: [], paragraphs: [], copyTos: [], distributions: [],
   endItems,
-}) as never;
+});
 
 const item = (n: number) => ({ nsn: `NSN${n}`, tamcn: `T${n}`, id: `I${n}`, model: `M${n}` });
 
@@ -14,7 +14,7 @@ describe('I-Type cover', () => {
   it('always prints six rows, keeping unused ones blank', () => {
     const tex = generateDocumentTex(store([item(1), item(2)]));
     // Five row separators means six rows, however few end items there are.
-    expect(tex.match(/\\hline/g)?.length).toBe(5);
+    expect(tex.match(/\\setEndItemRows\{([^}]*)\}/)?.[1].match(/\\hline/g)?.length).toBe(5);
     expect(tex).toContain('NSN1 & T1 & I1 & M1');
     expect(tex).toContain('\\EndItemOverflowfalse');
   });
@@ -62,7 +62,7 @@ describe('I-Type cover', () => {
         { text: 'Remove the stock.', level: 0 },
       ],
     } as never);
-    expect(tex).toContain('\\includegraphics[width=\\textwidth,height=5in,keepaspectratio]{attachments/figure-1.png}');
+    expect(tex).toContain('\\includegraphics[width=\\textwidth,height=5in,keepaspectratio]{attachments/figure-1-000078.png}');
     expect(tex).toContain('Rail alignment}');
     expect(tex).toContain('\\textbf{2.}~~Remove the stock.');
   });
@@ -81,7 +81,7 @@ describe('I-Type cover', () => {
     expect(tex).toContain('\\textbf{Figure 1.\\hspace{2\\fontdimen2\\font}Rail alignment}');
     expect(tex).toContain('\\textbf{Figure A-1.\\hspace{2\\fontdimen2\\font}Torque chart}');
     // Files are numbered in sequence whatever the label says.
-    expect(tex).toContain('attachments/figure-2.png');
+    expect(tex).toContain('attachments/figure-2-000078.png');
   });
 
   it('sets a parts table as a longtable that repeats its boxhead under a Continued line', () => {
@@ -91,7 +91,7 @@ describe('I-Type cover', () => {
       publicationTables: { materielRequired: [{ values: { description: 'KIT', nsn: '1', pn: '2', qty: '1' } }] },
     } as never);
     expect(tex).toContain('\\begin{longtable}[l]');
-    expect(tex).toContain('\\textit{Materiel Required -- Continued}');
+    expect(tex).toContain('\\textit{Table 1. Materiel Required -- Continued}');
     expect(tex).toContain('\\endhead');
     // No closing rule at the foot of a continued table; one at the last.
     expect(tex).toMatch(/\\endfoot\s+\\hline\s+\\endlastfoot/);

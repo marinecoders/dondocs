@@ -483,6 +483,7 @@ export function ClassificationSection() {
             {isPublication && (
               <div className="space-y-4 p-3 rounded-md border bg-muted/30">
                 <p className="text-sm font-medium">Distribution</p>
+                <p className="text-xs text-muted-foreground">Select Statement A only after written public-release approval from the acquiring organization. Selecting a statement does not grant release authority.</p>
 
                 <DistributionStatementField
                   id="pubDistStatement"

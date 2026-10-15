@@ -1,3 +1,4 @@
+import { figureFile } from '@/lib/figures';
 import { describe, it, expect, beforeAll } from 'vitest';
 import { spawnSync } from 'node:child_process';
 import { writeFileSync, mkdtempSync, readFileSync } from 'node:fs';
@@ -6,7 +7,7 @@ import { tmpdir } from 'node:os';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { buildBaseline } from '../_helpers/compileMatrix';
 import { compileFixture } from '../_helpers/compileLatex';
-import type { TestStore } from '../_helpers/compileMatrix';
+import type { TestStore } from '../_helpers/compileLatex';
 import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfToolchain';
 
 // One Modification Instruction with everything the template and the
@@ -99,7 +100,7 @@ describe.skipIf(!hasPdfToolchain)('a complete Modification Instruction, end to e
       specialTools: [{ values: { description: 'WRENCH, TORQUE, 10-150 IN-LB', nsn: '5120-01-234-5678', pn: 'TW-150', qty: '1' } }],
       jigsFixtures: [{ values: { description: 'FIXTURE, STOCK', nsn: '', pn: 'FX-1 (1CSL0)', qty: '1' } }],
     };
-    const r = await compileFixture(s as unknown as TestStore, { 'attachments/figure-1.png': seal, 'attachments/figure-2.pdf': drawing, 'attachments/figure-3.png': seal });
+    const r = await compileFixture(s as unknown as TestStore, { [figureFile(1, 'image/png', '', 'rail.png')]: seal, [figureFile(2, 'application/pdf', '', 'rail.pdf')]: drawing, [figureFile(3, 'image/png', '', 'chart.png')]: seal });
     expect(r.ok, r.errors.slice(0, 5).join('\n')).toBe(true);
     pdf = join(mkdtempSync(join(tmpdir(), 'itype-full-')), 'full.pdf');
     writeFileSync(pdf, r.pdfBytes!);

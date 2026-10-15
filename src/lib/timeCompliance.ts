@@ -1,72 +1,53 @@
-/**
- * Time Compliance Period on a Modification Instruction.
- *
- * MIL-STD-38784C, via the MARCORSYSCOM template: "Only URGENT Modification
- * Instructions must have completion date of less than one year. When an MI is
- * NORMAL the time compliance period is one year unless otherwise indicated and
- * the paragraph is omitted."
- *
- * So the urgency decides whether a date is required at all, and an URGENT MI
- * that quietly gives itself more than a year is the case worth catching: it
- * reads as urgent to the fleet while behaving like a normal one.
- *
- * Pure and leaf, like the classification checks, so the rules are testable
- * without rendering anything. Advisory — the drafter decides.
- */
-
+import { addYears, format, isValid, parse, parseISO, startOfDay } from 'date-fns';
 import type { Paragraph } from '@/types/document';
 
 export type MiUrgency = 'urgent' | 'normal';
-
 export interface TimeComplianceFinding {
   severity: 'error' | 'warning';
   message: string;
 }
 
-/** Days in the compliance ceiling. Leap years shift this by a day; a boundary
- *  case that close is the drafter's call, not something to fail them on. */
-const ONE_YEAR_DAYS = 365;
+export function publicationDate(date: string): Date {
+  return parse(date.trim(), 'd MMM yy', new Date());
+}
 
+/** MIL-DTL-28999D 3.3.2.4: completion must precede the calendar-year anniversary. */
 export function validateTimeCompliance(
   urgency: MiUrgency,
   completionDate: string | undefined,
-  today: Date
+  issued: Date
 ): TimeComplianceFinding[] {
   if (urgency !== 'urgent') return [];
-
-  const raw = (completionDate ?? '').trim();
-  if (!raw) {
-    return [{
-      severity: 'error',
-      message: 'An URGENT Modification Instruction must give a completion date.',
-    }];
-  }
-
-  const due = new Date(raw);
-  if (Number.isNaN(due.getTime())) {
-    return [{ severity: 'error', message: `"${raw}" is not a date the completion period can be read from.` }];
-  }
-
-  const days = Math.round((due.getTime() - today.getTime()) / 86_400_000);
-  if (days > ONE_YEAR_DAYS) {
-    return [{
-      severity: 'error',
-      message: 'An URGENT Modification Instruction must complete within one year. Shorten the period, or issue it as NORMAL.',
-    }];
-  }
-  if (days < 0) {
-    return [{ severity: 'warning', message: 'The completion date has already passed.' }];
+  const error = (message: string): TimeComplianceFinding[] => [{ severity: 'error', message }];
+  if (!completionDate?.trim()) return error('An URGENT Modification Instruction must give a completion date.');
+  const due = parseISO(completionDate.trim());
+  if (!isValid(due)) return error('Enter a valid completion date.');
+  if (!isValid(issued)) return error('Enter a valid publication date before setting the compliance period.');
+  const start = startOfDay(issued);
+  if (startOfDay(due) < start) return error('The completion date precedes the publication date.');
+  if (startOfDay(due) >= addYears(start, 1)) {
+    return error('An URGENT Modification Instruction must complete in less than one year from the publication date.');
   }
   return [];
 }
 
-/** "When MI is NORMAL the time compliance period is one year unless otherwise
- *  indicated and paragraph is omitted." A NORMAL instruction that still carries
- *  the paragraph is asked to drop it. Advisory. */
+/** The date field is the source for urgent MIs; stored paragraph dates cannot override it. */
+export function withTimeCompliance(paragraphs: Paragraph[], urgency: MiUrgency, completionDate?: string): Paragraph[] {
+  if (urgency !== 'urgent') return paragraphs;
+  const match = (p: Paragraph) => /^time compliance period\.?$/i.test(p.header?.trim() ?? '');
+  const due = parseISO(completionDate ?? '');
+  const text = `Complete this modification by ${isValid(due) ? format(due, 'd MMMM yyyy') : '[COMPLETION DATE REQUIRED]'}.`;
+  const first = paragraphs.findIndex(match);
+  const result = paragraphs.filter((p, i) => !match(p) || i === first).map((p) => match(p) ? { ...p, text } : p);
+  if (first < 0) {
+    const index = result.findIndex((p) => p.level === 0 && !/^(Purpose|Administrative Instructions)$/i.test(p.header ?? ''));
+    result.splice(index < 0 ? result.length : index, 0, { level: 0, header: 'Time Compliance Period', text });
+  }
+  return result;
+}
+
 export function validateTimeComplianceParagraph(urgency: MiUrgency, paragraphs: Paragraph[]): TimeComplianceFinding[] {
-  if (urgency !== 'normal') return [];
-  const carries = paragraphs.some((p) => /^time compliance period$/i.test((p.header ?? '').trim()));
-  return carries
-    ? [{ severity: 'warning', message: 'A NORMAL Modification Instruction omits the Time Compliance Period paragraph; remove it, or issue the instruction as URGENT.' }]
+  return urgency === 'normal' && paragraphs.some((p) => /^time compliance period$/i.test(p.header?.trim() ?? ''))
+    ? [{ severity: 'warning', message: 'A NORMAL MI omits Time Compliance Period unless a different period is specified.' }]
     : [];
 }

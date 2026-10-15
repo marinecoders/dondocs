@@ -10,14 +10,14 @@ import { DatePicker } from '@/components/ui/date-picker';
 import { InputWithVariables } from '@/components/ui/variable-autocomplete';
 import { useDocumentStore } from '@/stores/documentStore';
 import { tableSpec } from '@/data/techpub/tables';
-import { validateTimeCompliance, validateTimeComplianceParagraph } from '@/lib/timeCompliance';
+import { publicationDate, validateTimeCompliance, validateTimeComplianceParagraph } from '@/lib/timeCompliance';
 import { validatePublicationDate } from '@/lib/publicationDate';
 import { validateMajorItemsOrder } from '@/lib/majorItemsOrder';
 import { validateFigures } from '@/lib/figures';
 import { validateIdentifiers } from '@/lib/identifiers';
 import {
   validateHeadingAcronyms, validateCalloutOrder, validateUrgencyByType, validateTiWording,
-  validateNomenclatureCase, validateItemNumbers, validateReadingGrade,
+  validateNomenclatureCase, validateItemNumbers, validateReadingGrade, validatePublicationStructure,
 } from '@/lib/publicationRules';
 import { unfilled } from '@/lib/requiredField';
 import { useUIStore } from '@/stores/uiStore';
@@ -70,7 +70,7 @@ export function ITypeCoverSection() {
   const findings = [
     ...validateNomenclature(nomenclature),
     ...validateLongTitle(subject),
-    ...validateTimeCompliance(urgency, completionDate, new Date()),
+    ...validateTimeCompliance(urgency, completionDate, publicationDate(date)),
     ...validateTimeComplianceParagraph(urgency, paragraphs),
     ...validatePublicationDate(date),
     ...validateMajorItemsOrder(tables.majorItems ?? []),
@@ -83,6 +83,7 @@ export function ITypeCoverSection() {
     ...validateNomenclatureCase(tables.components ?? [], 'Components Affected'),
     ...Object.entries(tables).flatMap(([key, rows]) => validateItemNumbers(rows, tableSpec(key)?.name ?? key)),
     ...validateReadingGrade(paragraphs),
+    ...validatePublicationStructure(paragraphs),
     ...validateProcedureSteps(paragraphs),
     ...validateAppendixTitles(paragraphs),
     ...validateFigures(paragraphs),
@@ -106,6 +107,7 @@ export function ITypeCoverSection() {
 
   return (
     <div className="space-y-4">
+      <p className="text-sm text-muted-foreground">Uses the supplied MARCORSYSCOM template. Publication-office review is still required for format tailoring, release authorization, and final authentication.</p>
       {findings.length > 0 && (
         <div className="space-y-2" aria-live="polite">
           {findings.map((f, i) => (
@@ -237,9 +239,11 @@ export function ITypeCoverSection() {
             <Input
               id="miCompletionDate"
               type="date"
+              aria-describedby="completionDateHelp"
               value={completionDate}
               onChange={(e) => setField('miCompletionDate', e.target.value)}
             />
+            <p id="completionDateHelp" className="text-xs text-muted-foreground">This date fills the Time Compliance Period in the PDF and takes precedence over dates typed in that paragraph.</p>
           </div>
         )}
       </div>

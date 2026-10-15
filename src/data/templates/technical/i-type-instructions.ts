@@ -16,7 +16,13 @@ function iType(code: 'SI' | 'TI' | 'LI', id: string, name: string, description: 
     name,
     description,
     publicationType: code,
-    paragraphs: modificationInstruction.paragraphs.filter((p) => !MI_ONLY.has(p.header ?? '')),
+    paragraphs: modificationInstruction.paragraphs
+      .filter((p) => !MI_ONLY.has(p.header ?? ''))
+      .map((p) => ({ ...p, text: p.text
+        .replace(/modification instruction/gi, `${{ SI: 'supply', TI: 'technical', LI: 'lubrication' }[code]} instruction`)
+        .replace(/THE MODIFICATION/g, { SI: 'THE SUPPLY ACTION', TI: 'THE TECHNICAL ACTION', LI: 'THE LUBRICATION TASK' }[code])
+        .replace(/the modification/g, { SI: 'the supply action', TI: 'the technical action', LI: 'the lubrication task' }[code]),
+      })),
   };
 }
 

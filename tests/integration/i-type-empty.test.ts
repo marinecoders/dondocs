@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { buildBaseline, applyFlags } from '../_helpers/compileMatrix';
 import { compileFixture } from '../_helpers/compileLatex';
-import type { TestStore } from '../_helpers/compileMatrix';
+import type { TestStore } from '../_helpers/compileLatex';
 import { useDocumentStore } from '@/stores/documentStore';
 
 // A Marine who has just picked the I-Type has typed nothing yet. The cover

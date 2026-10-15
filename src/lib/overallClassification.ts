@@ -42,7 +42,7 @@ const PORTION_TO_LEVEL: Record<PortionMarking, ClassificationLevel> = {
  */
 export function deriveOverallClassLevel(
   classLevel: string | undefined,
-  paragraphs: Array<Pick<Paragraph, 'portionMarking'>>
+  paragraphs: Array<Pick<Paragraph, 'portionMarking' | 'figure'>>
 ): string {
   const docLevel = classLevel || 'unclassified';
   if (docLevel === 'custom' || !(docLevel in LEVEL_RANK)) return docLevel;
@@ -50,12 +50,14 @@ export function deriveOverallClassLevel(
   let maxRank = LEVEL_RANK[docLevel];
   let maxLevel = docLevel;
   for (const para of paragraphs) {
-    if (!para.portionMarking) continue;
-    const level = PORTION_TO_LEVEL[para.portionMarking];
-    const rank = level ? LEVEL_RANK[level] : undefined;
-    if (rank !== undefined && rank > maxRank) {
-      maxRank = rank;
-      maxLevel = level;
+    for (const mark of [para.portionMarking, para.figure?.portionMarking]) {
+      if (!mark) continue;
+      const level = PORTION_TO_LEVEL[mark];
+      const rank = level ? LEVEL_RANK[level] : undefined;
+      if (rank !== undefined && rank > maxRank) {
+        maxRank = rank;
+        maxLevel = level;
+      }
     }
   }
   return maxLevel;

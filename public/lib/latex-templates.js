@@ -2657,29 +2657,13 @@ const LATEX_TEMPLATES = {
     \\end{tabular}%
 }
 
-\\newcommand{\\printDateAndTitle}{%
-    % The cover's header is much taller than the other pages', and LaTeX sets
-    % the text block below the header, so this page's block ends that much
-    % lower than the bottom margin -- close to where the template's footer
-    % ends. Trimmed so \\vfill below lands the notices just above the lower
-    % banner, and scaled with the measured head so a tall banner does not push
-    % the notices onto it (-12pt at the 70pt head this was tuned on).
-    %
-    % Measured here rather than left to the page style: a \\thispagestyle body
-    % is executed by the output routine at shipout, long after the page has
-    % been filled, so reading \\headheight during collection would read the
-    % previous style's 26pt and \\enlargethispage would grow the page instead
-    % of trimming it.
-    \\dondocsMeasureCoverHead
-    % Trim only; never grow. A banner shorter than the 70pt this was tuned on
-    % leaves the notices where they already sat, and growing the page to chase
-    % it pushed them through the bottom margin.
-    \\ifdim\\headheight>70pt
-        \\enlargethispage{-\\dimexpr\\headheight-58pt\\relax}%
-    \\else
-        \\enlargethispage{-12pt}%
-    \\fi
-    \\begin{center}
+
+\\newsavebox{\\dondocsCoverBody}
+\\newsavebox{\\dondocsCoverNotices}
+\\newdimen\\dondocsCoverAvailable
+\\newcommand{\\dondocsBuildCoverBody}{%
+  \\sbox{\\dondocsCoverBody}{\\begin{minipage}{\\textwidth}
+\\begin{center}
         % The Marine Corps seal, fixed at 2 x 2 inches -- the template names it,
         % so the letterhead's seal choice does not apply. The framed fallback
         % keeps the layout honest when the file is absent rather than
@@ -2700,17 +2684,48 @@ const LATEX_TEMPLATES = {
             \\printEndItemTable{\\EndItemRows}%
         \\fi
     \\end{center}
-    % The notices sit at the foot of the cover. They live in the page body
-    % rather than a fancyhdr footer because a footer is typeset at a fixed
-    % baseline that moves with the header's height, while \\vfill pins this
-    % block just above the lower banner whatever the banner above costs.
+  \\end{minipage}}%
+}
+
+\\newcommand{\\printDateAndTitle}{%
+    % The cover's header is much taller than the other pages', and LaTeX sets
+    % the text block below the header, so this page's block ends that much
+    % lower than the bottom margin -- close to where the template's footer
+    % ends. Trimmed so \\vfill below lands the notices just above the lower
+    % banner, and scaled with the measured head so a tall banner does not push
+    % the notices onto it (-12pt at the 70pt head this was tuned on).
     %
-    % Known limit: the block is one unbreakable box at the end of the page,
-    % so an end item table tall enough to fill the cover on its own carries
-    % it to the following page. Six rows of ordinary model designators leave
-    % room to spare; six rows that each wrap to three lines do not.
+    % Measured here rather than left to the page style: a \\thispagestyle body
+    % is executed by the output routine at shipout, long after the page has
+    % been filled, so reading \\headheight during collection would read the
+    % previous style's 26pt and \\enlargethispage would grow the page instead
+    % of trimming it.
+    \\dondocsBookmark{0}{Cover}{itype.cover}
+    \\dondocsMeasureCoverHead
+    % Trim only; never grow. A banner shorter than the 70pt this was tuned on
+    % leaves the notices where they already sat, and growing the page to chase
+    % it pushed them through the bottom margin.
+    \\ifdim\\headheight>70pt
+        \\enlargethispage{-\\dimexpr\\headheight-58pt\\relax}%
+    \\else
+        \\enlargethispage{-12pt}%
+    \\fi
+    \\sbox{\\dondocsCoverNotices}{\\printCoverFooter}%
+    \\dondocsBuildCoverBody
+    \\dondocsCoverAvailable=\\dimexpr\\textheight-24pt\\relax
+    \\ifdim\\headheight>70pt
+      \\advance\\dondocsCoverAvailable by -\\dimexpr\\headheight-70pt\\relax
+    \\fi
+    \\ifdim\\dimexpr\\ht\\dondocsCoverBody+\\dp\\dondocsCoverBody+\\ht\\dondocsCoverNotices+\\dp\\dondocsCoverNotices>\\dondocsCoverAvailable
+      \\EndItemOverflowtrue
+      \\dondocsBuildCoverBody
+    \\fi
+    \\ifdim\\dimexpr\\ht\\dondocsCoverBody+\\dp\\dondocsCoverBody+\\ht\\dondocsCoverNotices+\\dp\\dondocsCoverNotices>\\dondocsCoverAvailable
+      \\PackageError{I-Type}{Cover content exceeds one page; shorten the title or notices}{Mandatory notices and PCN must remain on the cover.}
+    \\fi
+    \\noindent\\usebox{\\dondocsCoverBody}\\par
     \\vfill
-    \\printCoverFooter
+    \\noindent\\usebox{\\dondocsCoverNotices}\\par
     \\newpage
     % \\headheight is a global register and the cover's banner is far taller
     % than every other page's head. The cover has shipped by now, so hand the
@@ -2743,13 +2758,15 @@ const LATEX_TEMPLATES = {
 % above OFFICIAL is the same whether or not it appears.
 
 \\newcommand{\\printAddressBlock}{%
+    \\begingroup\\fontsize{12}{12}\\selectfont
     \\thispagestyle{authpage}%
-    \\noindent\\MakeUppercase{\\UnitName}\\par
+    \\dondocsBookmark{0}{Authentication}{itype.authentication}
+    {\\centering\\MakeUppercase{\\UnitName}\\par
     \\optionalLine{\\UnitLineTwo}%
     \\optionalLine{\\UnitLineThree}%
-    \\optionalLine{\\UnitLineFour}%
+    \\optionalLine{\\UnitLineFour}\\par}%
     \\par\\vspace{12pt}%
-    \\noindent\\DocumentDate
+    {\\raggedleft\\DocumentDate\\par}
     \\par\\vspace{12pt}%
     %
     \\ifClassifiedEnabled
@@ -2813,12 +2830,12 @@ const LATEX_TEMPLATES = {
     % Mandated spacing: two blank lines before OFFICIAL, four between it and
     % the printed name, two before DISTRIBUTION.
     \\par\\vspace{24pt}%
-    \\noindent OFFICIAL
+    \\noindent\\uline{OFFICIAL}
     % An I-Type must be digitally signed. The field is placed inside the four
     % mandated blank lines between OFFICIAL and the printed name, which is
     % exactly the room the template leaves for it.
     \\ifHasDigitalSigField
-        \\par\\DigitalSignatureBox
+        \\par\\hypertarget{DIGSIG_FIELD_MARKER}{}\\vspace{48pt}
     \\else
         \\par\\vspace{48pt}%
     \\fi
@@ -2829,7 +2846,7 @@ const LATEX_TEMPLATES = {
     \\par\\vspace{24pt}%
     \\noindent DISTRIBUTION: EDO
     \\ifNotEmpty{\\AttachmentList}{\\par\\vspace{12pt}\\noindent\\AttachmentList}%
-    \\par\\newpage
+    \\par\\newpage\\endgroup
 }
 
 
@@ -2857,7 +2874,7 @@ const LATEX_TEMPLATES = {
 % technical data is restricted -- between the statement and the notice, as the
 % template places it.
 \\newcommand{\\printCoverFooter}{%
-    \\footnotesize
+    \\begingroup\\footnotesize
     % Bottom-aligned: a centred minipage carries half its height as depth,
     % which the page builder does not count, so the block overhung the page
     % bottom by that much and its last lines were cut off.
@@ -2886,6 +2903,7 @@ const LATEX_TEMPLATES = {
         indecipherable, and unrecoverable IAW DoDI 5200.48.%
         \\ifNotEmpty{\\PCN}{\\par\\vspace{6pt}\\noindent PCN \\PCN}%
     \\end{minipage}%
+    \\endgroup
 }
 
 % The four cover header lines. The long title is guarded: a fresh document
@@ -2900,7 +2918,7 @@ const LATEX_TEMPLATES = {
     % document expands the macro to nothing, and a line break with nothing
     % before it is fatal.
     \\footnotesize
-    \\ifClassificationEnabled#1\\\\[4pt]\\fi
+    \\ifClassificationEnabled\\strut#1\\\\[4pt]\\fi
     % Date left, short title right, on the first line -- a fancyhdr side
     % cell would sit on the last line instead.
     \\makebox[\\textwidth]{\\CoverDate\\hfill\\ShortTitle}\\\\
@@ -2923,10 +2941,12 @@ const LATEX_TEMPLATES = {
 
 % An appendix starts on a fresh page, numbered A-1, A-2 in the footer, with
 % its letter and title centred above the text (MIL-STD-38784C 4.7.4.1.4).
+\\newcommand{\\dondocsAppendixNavigation}{}
 \\newcommand{\\startAppendix}[2]{%
     \\clearpage
     \\setcounter{page}{1}%
     \\renewcommand{\\thepage}{#1-\\arabic{page}}%
+    \\dondocsAppendixNavigation
     \\begin{center}
         \\textbf{APPENDIX #1}\\\\[6pt]
         \\textbf{\\MakeUppercase{#2}}
@@ -2964,7 +2984,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{%
-        \\ifClassificationEnabled\\placeClassificationMarkings\\\\\\fi
+        \\ifClassificationEnabled\\strut\\placeClassificationMarkings\\\\\\fi
         \\footnotesize\\bfseries\\ShortTitle\\hspace{2em}\\DocumentDate%
     }%
     \\fancyfoot[C]{\\thepage}%
@@ -2972,6 +2992,31 @@ const LATEX_TEMPLATES = {
     \\renewcommand{\\footrulewidth}{0pt}%
     \\setlength{\\headheight}{26pt}%
 }
+
+
+\\newcommand{\\dondocsBookmark}[3]{%
+  \\hypertarget{#3}{}%
+  \\pdfannot width 0pt height 0pt depth 0pt {/Subtype /Link /Border [0 0 0] /NM (#3)}%
+  \\begingroup
+    \\pdfstringdef\\dondocsBookmarkTitle{#2}%
+    \\pdfoutline goto name {#3} count #1 {\\dondocsBookmarkTitle}%
+  \\endgroup
+}
+
+% Reserve a measured block and the first lines of the content it introduces.
+\\newcommand{\\dondocsNeedspace}[1]{%
+  \\par
+  \\ifdim\\dimexpr#1\\relax>\\textheight
+    \\PackageError{I-Type}{A heading or safety group is too tall for one page}{Shorten or divide the group before export.}%
+  \\fi
+  \\ifdim\\pagegoal<\\maxdimen
+    \\ifdim\\dimexpr\\pagegoal-\\pagetotal\\relax<\\dimexpr#1\\relax
+      \\newpage
+    \\fi
+  \\fi
+}
+\\newsavebox{\\dondocsSafetyGroup}
+\\newsavebox{\\dondocsTableStart}
 `,
   'tex/templates/information_memorandum.tex': `
 %=============================================================================

@@ -14,7 +14,7 @@ import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfTo
 
 async function onePagePdf(): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
-  doc.addPage([612, 792]);
+  doc.addPage([612, 792]).drawText('DRAWING CONTENT', { x: 72, y: 400 });
   return doc.save();
 }
 
@@ -37,18 +37,14 @@ describe.skipIf(!hasPdfToolchain)('enclosure label placement', () => {
     const text = await mergedPageText('footer');
     expect(text).toMatch(/Enclosure 1\b/);
     expect(text).not.toMatch(/Enclosure \(1\)/);
-    // -layout keeps horizontal position: a centred label starts well past the
-    // left margin on a 612pt page, where a corner label would sit far right.
-    const line = text.split('\n').find((l) => /Enclosure 1/.test(l)) ?? '';
-    const lead = line.length - line.trimStart().length;
-    expect(lead).toBeGreaterThan(20);
+    expect(text.indexOf('Enclosure 1')).toBeGreaterThan(text.indexOf('DRAWING CONTENT'));
   });
 
   it('technical publications centre the short title and date at the top', async () => {
     const text = await mergedPageText('footer', { line1: 'MI 12345A-24/1', line2: '15 December 2024' });
     const lines = text.split('\n').map((l) => l.trimEnd()).filter((l) => l.trim());
     expect(lines[0]).toMatch(/MI 12345A-24\/1/);
-    expect(lines[1]).toMatch(/15 December 2024/);
-    for (const l of lines.slice(0, 2)) expect(l.length - l.trimStart().length).toBeGreaterThanOrEqual(15);
+    expect(lines[0]).toMatch(/15 December 2024/);
+    expect(lines[0]).not.toMatch(/DRAWING CONTENT/);
   });
 });

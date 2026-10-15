@@ -1,3 +1,4 @@
+import { figureFile } from '@/lib/figures';
 import { describe, it, expect, beforeAll } from 'vitest';
 import { spawnSync } from 'node:child_process';
 import { writeFileSync, mkdtempSync } from 'node:fs';
@@ -6,7 +7,7 @@ import { tmpdir } from 'node:os';
 import { readFileSync } from 'node:fs';
 import { buildBaseline } from '../_helpers/compileMatrix';
 import { compileFixture } from '../_helpers/compileLatex';
-import type { TestStore } from '../_helpers/compileMatrix';
+import type { TestStore } from '../_helpers/compileLatex';
 import type { Paragraph } from '@/types/document';
 import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfToolchain';
 
@@ -62,7 +63,7 @@ describe.skipIf(!hasPdfToolchain)('I-Type renders per the template', () => {
         subject: 'INSTALLATION OF THE STOCK ACCESSORY RAIL',
         shortTitle: 'MI 12345A-24/1',
         pcn: '184 123456 00',
-        miUrgency: 'urgent',
+        miUrgency: 'urgent', miCompletionDate: '2025-06-30',
         exportRestricted: true,
         supersedure: 'SUPERSEDURE NOTICE: This publication supersedes MI 12344A-24/1 dated 1 Jan 2025.',
         signatureType: 'digital',
@@ -141,7 +142,7 @@ describe.skipIf(!hasPdfToolchain)('I-Type renders per the template', () => {
   it('does not number a callout, and keeps the steps consecutive around it', () => {
     const body = pages.join('\n');
     expect(body).toMatch(/1\.\s+Purpose/);
-    expect(body).toMatch(/3\.\s+Remove the stud/);
+    expect(body).toMatch(/4\.\s+Remove the stud/);
     expect(body).not.toMatch(/\d\.\s+DO NOT EXCEED/);
   });
 
@@ -318,7 +319,7 @@ describe.skipIf(!hasPdfToolchain)('I-Type follows the template page for page', (
         { text: 'Rail alignment', level: 0, figure: { fileRef: { id: 'f', name: 'rail.png', size: image.length, type: 'image/png' }, name: 'rail.png', type: 'image/png' } },
         { text: 'Remove the stock.', level: 0 },
       ];
-    }, { 'attachments/figure-1.png': image });
+    }, { [figureFile(1, 'image/png', '', 'f')]: image });
     const body = pages.join('\n');
     expect(body).toMatch(/Figure 1\. Rail alignment/);
     expect(body).not.toMatch(/add image/);
@@ -336,7 +337,7 @@ describe.skipIf(!hasPdfToolchain)('I-Type follows the template page for page', (
       s.publicationTables = { materielRequired: Array.from({ length: 60 }, (_, i) => ({ values: { item: String(i + 1), description: `PART NUMBER ${i + 1} OF THE KIT`, nsn: `5305-00-123-${4000 + i}`, pn: `PN-${i + 1}`, qty: '1' } })) };
     });
     const body = pages.join('\n');
-    for (let n = 1; n <= 60; n++) expect(body, `row ${n} of the parts list is missing`).toMatch(new RegExp(`PART NUMBER ${n} OF THE KIT`));
+    for (let n = 1; n <= 60; n++) expect(body, `row ${n} of the parts list is missing`).toMatch(new RegExp(`PART\\s+NUMBER\\s+${n}\\s+OF\\s+THE\\s+KIT`));
     expect(body).toMatch(/1005-01-566-1038/);
     expect(body).toMatch(/Materiel Required -- Continued|Materiel Required – Continued|Materiel Required — Continued/);
     // Nothing is placed below the page's bottom margin on any page.
@@ -358,7 +359,7 @@ describe.skipIf(!hasPdfToolchain)('I-Type follows the template page for page', (
         { text: 'To provide instructions.', level: 0, header: 'Purpose' },
         { text: 'Rail drawing', level: 0, figure: { fileRef: { id: 'd', name: 'rail.pdf', size: drawing.length, type: 'application/pdf' }, name: 'rail.pdf', type: 'application/pdf' } },
       ];
-    }, { 'attachments/figure-1.pdf': drawing });
+    }, { [figureFile(1, 'application/pdf', '', 'd')]: drawing });
     const body = pages.join('\n');
     expect(body).toMatch(/DRAWING 1/);
     expect(body).toMatch(/Figure 1\. Rail drawing/);
@@ -435,9 +436,9 @@ describe.skipIf(!hasPdfToolchain)('I-Type stays inside its page', () => {
           text: 'Filler text that fills the measure of the page so the figure below lands at the foot of it and has to decide whether to take its title along.',
           level: 0,
         })),
-        { text: 'Rail alignment', level: 0, figure: { fileRef: { id: 'f1' }, name: 'rail.png', type: 'image/png' } },
+        { text: 'Rail alignment', level: 0, figure: { fileRef: { id: 'f' }, name: 'rail.png', type: 'image/png' } },
       ];
-    }, { 'attachments/figure-1.png': image });
+    }, { [figureFile(1, 'image/png', '', 'f')]: image });
     const imagePages = spawnSync('pdfimages', ['-list', out], { encoding: 'utf8' })
       .stdout.split('\n').filter((l) => /\bimage\b/.test(l))
       .map((l) => Number(l.trim().split(/\s+/)[0]));

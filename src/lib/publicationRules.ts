@@ -18,7 +18,7 @@ const warn = (message: string): RuleFinding => ({ severity: 'warning', message }
 export function validateHeadingAcronyms(paragraphs: Paragraph[]): RuleFinding[] {
   const hits = paragraphs
     .map((p) => p.header?.trim() ?? '')
-    .filter((h) => h && h !== h.toUpperCase())
+    .filter(Boolean)
     .flatMap((h) => findUndefinedAcronyms(h, { strict: true }).map((a) => `${a.acronym} in "${h}"`));
   return hits.length ? [warn(`Paragraph headings use no acronyms: ${hits.join('; ')}.`)] : [];
 }
@@ -79,7 +79,7 @@ export function validateItemNumbers(rows: PublicationTableRow[], table: string):
 /** 3.1.3: "The reading grade level shall be at the ninth grade level." A
  *  Flesch-Kincaid estimate over the body; nomenclature inflates it, so only a
  *  clear excess is reported, with the estimate. */
-export const GRADE_CEILING = 12;
+export const GRADE_CEILING = 9;
 
 function syllables(word: string): number {
   const w = word.toLowerCase().replace(/[^a-z]/g, '');
@@ -102,4 +102,28 @@ export function validateReadingGrade(paragraphs: Paragraph[]): RuleFinding[] {
   return grade !== null && grade > GRADE_CEILING
     ? [warn(`The body reads at about grade ${Math.round(grade)}; the specification asks for the ninth grade. Shorter sentences and plainer words bring it down.`)]
     : [];
+}
+
+const PRIMARY_TITLES = [
+  'Purpose', 'Administrative Instructions', 'Time Compliance Period', 'Information',
+  'Technical Manuals Affected', 'Major Items Affected', 'Components Affected',
+  'Materiel Affected', 'Special Tools, Jigs, and Fixtures Required', 'Special Instructions',
+  'Supply Action', 'Skill and Time Required', 'Procedures',
+];
+
+/** Applicable fixed paragraphs retain their titles and relative order. Named
+ * procedures may follow the fixed introductory paragraphs. */
+export function validatePublicationStructure(paragraphs: Paragraph[]): RuleFinding[] {
+  const body = paragraphs.slice(0, paragraphs.findIndex((p) => p.appendix) < 0 ? paragraphs.length : paragraphs.findIndex((p) => p.appendix));
+  const primary = body.filter((p) => p.level === 0 && !p.callout && !p.figure && !p.procedure);
+  const normalize = (title?: string) => (title ?? '').trim().replace(/\.$/, '').toLowerCase();
+  if (normalize(primary[0]?.header) !== 'purpose') return [warn('The instruction must begin with the Purpose paragraph.')];
+  let previous = -1;
+  for (const p of primary) {
+    const index = PRIMARY_TITLES.findIndex((title) => normalize(title) === normalize(p.header));
+    if (index < 0) continue; // A procedure may be titled by the action it directs.
+    if (index <= previous) return [warn(`"${p.header}" repeats or is out of the prescribed paragraph order.`)];
+    previous = index;
+  }
+  return [];
 }

@@ -35,7 +35,7 @@ describe('major items order', () => {
 describe('time compliance paragraph', () => {
   const tcp = { text: 'One year.', level: 0, header: 'Time Compliance Period' };
   it('is omitted on a NORMAL instruction', () => {
-    expect(validateTimeComplianceParagraph('normal', [tcp])[0].message).toMatch(/omits the Time Compliance Period/);
+    expect(validateTimeComplianceParagraph('normal', [tcp])[0].message).toMatch(/omits Time Compliance Period/);
     expect(validateTimeComplianceParagraph('normal', [])).toEqual([]);
   });
   it('stays on an URGENT one', () => {

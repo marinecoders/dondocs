@@ -7,8 +7,9 @@ import {
 const p = (text: string, extra: object = {}) => ({ text, level: 0, ...extra });
 
 describe('MIL-DTL-28999D text rules', () => {
-  it('keeps acronyms out of headings, and leaves all-caps headings alone', () => {
+  it('keeps acronyms out of headings, including entirely uppercase acronyms', () => {
     expect(validateHeadingAcronyms([p('', { header: 'GCSS-MC Reporting' })])[0].message).toMatch(/GCSS-MC in "GCSS-MC Reporting"/);
+    expect(validateHeadingAcronyms([p('', { header: 'GCSS-MC' })])).not.toEqual([]);
     expect(validateHeadingAcronyms([p('', { header: 'Purpose' }), p('', { header: 'PROCEDURES' })])).toEqual([]);
   });
 

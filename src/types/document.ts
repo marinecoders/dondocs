@@ -92,7 +92,7 @@ export interface Paragraph {
   /** A figure: an image placed in the body, numbered in order, titled by the
    *  paragraph's text ("Figure 1. Rail alignment"). The image lives in the
    *  attachments store; `fileRef` is its durable handle. */
-  figure?: { fileRef?: FileRef; name?: string; type?: string; width?: number; height?: number };
+  figure?: { fileRef?: FileRef; name?: string; type?: string; width?: number; height?: number; portionMarking?: PortionMarking };
   portionMarking?: PortionMarking;
 }
 
@@ -587,7 +587,7 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
     pdfOnly: true,
     enclosureLabel: 'footer',
     regulations: {
-      fontSize: '12pt', fontSizeOptions: ['12pt'], fontFamily: 'times',
+      fontSize: '12pt', fontSizeOptions: ['12pt'], fontFamily: 'times', fontFamilyRequired: true,
       authority: 'MIL-STD-38784C', ref: '\u00a74.7',
     },
     compliance: DEFAULT_COMPLIANCE,

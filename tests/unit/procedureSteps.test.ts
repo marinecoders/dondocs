@@ -24,8 +24,8 @@ describe('procedural steps', () => {
     expect(deep.some((f) => /no deeper/i.test(f.message))).toBe(true);
   });
 
-  it('objects to a titled step', () => {
+  it('permits titled steps in the Marine Corps profile', () => {
     const f = validateProcedureSteps([step(0, { header: 'Removal' }), step(0)]);
-    expect(f.some((x) => /carry no titles/i.test(x.message))).toBe(true);
+    expect(f).toEqual([]);
   });
 });
