@@ -17,10 +17,9 @@ import { fileURLToPath } from 'node:url';
 import type { LatexEngine, CompileResult, TexlivePackage } from '@/services/latex/latexEngine';
 import type { EngineAssets } from '@/services/latex/renderDocument';
 import { LATEX } from '@/lib/constants';
+import { ATTACHMENTS, LIB } from './assets';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const LIB = join(HERE, '..', 'public', 'lib');
-const ATTACHMENTS = join(HERE, '..', 'public', 'attachments');
 
 interface WorkerReply {
   result?: string;
@@ -109,9 +108,13 @@ export async function createNodeEngine(): Promise<LatexEngine & { dispose(): Pro
   worker.stderr.pipe(process.stderr);
 
   let ready = false;
+  let disposed = false;
   let pendingCompile: ((r: CompileResult) => void) | null = null;
   let compileFailed: ((e: Error) => void) | null = null;
 
+  // The deadline lives only as long as this wait: armed past it, it would hold
+  // the process open for a minute after the client has gone.
+  let deadline: NodeJS.Timeout | undefined;
   await new Promise<void>((resolve, reject) => {
     const onReady = (msg: WorkerReply) => {
       if (msg?.result === 'ok' || msg?.cmd === 'ready' || msg?.cmd === 'r') {
@@ -122,8 +125,12 @@ export async function createNodeEngine(): Promise<LatexEngine & { dispose(): Pro
     };
     worker.on('message', onReady);
     worker.once('error', reject);
-    setTimeout(() => reject(new Error('engine did not become ready within 60s')), 60_000);
-  });
+    deadline = setTimeout(() => {
+      reject(new Error('engine did not become ready within 60s'));
+      // No caller ever receives this engine, so nothing else can dispose it.
+      void worker.terminate();
+    }, 60_000);
+  }).finally(() => clearTimeout(deadline));
 
   worker.on('message', (msg: WorkerReply) => {
     if (msg?.pdf && pendingCompile) {
@@ -147,10 +154,17 @@ export async function createNodeEngine(): Promise<LatexEngine & { dispose(): Pro
     setEngineMainFile: (path) => { worker.postMessage({ cmd: 'setmainfile', url: path }); },
     compileLaTeX: () =>
       new Promise<CompileResult>((resolve, reject) => {
+        if (disposed) { reject(new Error('engine disposed')); return; }
         pendingCompile = resolve;
         compileFailed = reject;
         worker.postMessage({ cmd: 'compilelatex' });
       }),
-    dispose: async () => { await worker.terminate(); },
+    dispose: async () => {
+      disposed = true;
+      // Settle a compile in flight so its caller's chain finishes.
+      compileFailed?.(new Error('engine disposed'));
+      pendingCompile = compileFailed = null;
+      await worker.terminate();
+    },
   };
 }

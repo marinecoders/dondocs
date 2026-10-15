@@ -20,6 +20,6 @@ export const letterOfInstructionOps: LetterTemplate = {
     { text: 'Timeline: [KEY DATES/TIMES]', level: 2 },
     { text: 'Uniform: [IF APPLICABLE]', level: 2 },
     { text: 'Admin/Logistics. [DESCRIBE SUPPORT REQUIREMENTS]', level: 0 },
-    { text: 'Command/Signal. POC is SSgt J. Doe at j.doe@usmc.mil / (415) 555-1776.', level: 0 },
+    { text: 'Command/Signal. POC is [RANK] [FULL NAME] at [EMAIL] / [PHONE].', level: 0 },
   ],
 };

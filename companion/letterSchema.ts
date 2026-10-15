@@ -1,0 +1,159 @@
+/**
+ * The request shape, defined once.
+ *
+ * The tool schema, the `accepts` array `GET /health` advertises and the fields
+ * `toStore` reads were three hand-maintained copies of one list, and they
+ * drifted: `classification` was honoured over HTTP and absent from the tool
+ * schema, so a request asking for SECRET rendered unmarked. The other two now
+ * derive from this.
+ *
+ * No import side effects, so a test can reach it — `mcp.ts` starts a server.
+ */
+import * as z from 'zod';
+import { CLASSIFICATION_LEVELS, DOC_TYPES, PORTION_MARKINGS } from './validateLetter';
+
+const paragraph = z.object({
+  text: z.string().describe('The paragraph text. Plain prose — numbering is applied for you.'),
+  level: z.number().int().min(0).max(7).optional()
+    .describe('0 = "1.", 1 = "a.", 2 = "(1)" … through Figure 7-8\'s eight levels. Defaults to 0.'),
+  header: z.string().optional().describe('Bold run-in heading before the text.'),
+  portionMarking: z.enum(PORTION_MARKINGS as [string, ...string[]]).optional()
+    .describe('Printed as "(S) " before the text. The banner rises to the highest mark in the document.'),
+}).strict();
+
+export const unit = z.object({
+  name: z.string().optional().describe('The unit line printed under the department heading, e.g. "1ST MARINE DIVISION".'),
+  line1: z.string().optional().describe('The same line under the app\'s field name; name wins when both are given.'),
+  line2: z.string().optional().describe('Second letterhead line, e.g. the parent command.'),
+  address: z.string().optional()
+    .describe('The whole mailing address as ONE string, e.g. "PSC BOX 20004, QUANTICO VA 22134". Do not split it.'),
+  department: z.enum(['usmc', 'navy', 'dod']).optional()
+    .describe('The heading: UNITED STATES MARINE CORPS, DEPARTMENT OF THE NAVY, or DEPARTMENT OF DEFENSE. Defaults to usmc.'),
+  seal: z.enum(['dow', 'dod']).optional(),
+  letterheadColor: z.enum(['blue', 'black']).optional(),
+}).strict();
+
+export const signature = z.object({
+  first: z.string().optional(), middle: z.string().optional(), last: z.string().optional(),
+  rank: z.string().optional(), title: z.string().optional(),
+  byDirection: z.boolean().optional(),
+  byDirectionAuthority: z.string().optional().describe('The authority cited beneath a by-direction signature.'),
+}).strict();
+
+/**
+ * The signature fields as a form to put in front of a person.
+ *
+ * Not `.strict()`: an elicitation schema may not carry
+ * `additionalProperties`, and the SDK refuses the request outright when it
+ * does. The answer is validated against this same shape, for the same
+ * reason in reverse: a host that returns a field of its own would fail a
+ * strict check and lose everything the person typed.
+ */
+export const signatureForm = z.object({
+  rank: z.string().optional().describe('Rank or grade, e.g. "Corporal".'),
+  first: z.string().optional().describe('First name or initial.'),
+  middle: z.string().optional().describe('Middle initial.'),
+  last: z.string().optional().describe('Last name, printed in caps.'),
+  title: z.string().optional().describe('Billet under the name, e.g. "Admin Chief".'),
+});
+
+/** The generator renders a marking only for a level it recognises; anything else
+ *  comes out unmarked. Publishing the list stops a caller inventing one. */
+const classification = z.object({
+  level: z.enum(CLASSIFICATION_LEVELS as [string, ...string[]])
+    .optional().describe('Document-level classification. Defaults to unclassified.'),
+  pocEmail: z.string().optional().describe('CUI point of contact.'),
+  custom: z.string().optional().describe('Banner text for a marking outside the list, printed as given. Give this instead of level, not with it.'),
+  classifiedBy: z.string().optional(), derivedFrom: z.string().optional(),
+  declassifyOn: z.string().optional(), reason: z.string().optional(),
+  cui: z.object({
+    category: z.string().optional(), controlledBy: z.string().optional(),
+    dissemination: z.string().optional(), distStatement: z.string().optional(),
+  }).strict().optional().describe('The CUI designation block. Only read when level is cui.'),
+}).strict();
+
+/** One side of a two-party document. */
+const party = z.object({
+  name: z.string().describe('The command, in caps as it should print, e.g. "COMMANDANT OF THE MARINE CORPS".'),
+  from: z.string().optional().describe('Joint letters: this party\'s From: line.'),
+  code: z.string().optional().describe('Joint letters: originator code.'),
+  zip: z.string().optional().describe('Joint letters: ZIP shown under the command.'),
+  ssic: z.string().optional(), serial: z.string().optional(),
+  date: z.string().optional().describe('Agreements: the date this party signed.'),
+  signature: z.object({
+    name: z.string().describe('Joint documents print this as given, e.g. "D. R. SMITH". Agreements (moa, mou) reduce a full name to initial and surname, so give "David R. Smith" there.'),
+    rank: z.string().optional(), title: z.string().optional(),
+  }).strict().optional(),
+}).strict();
+
+/**
+ * The two parties to a joint letter, joint memorandum, MOA or MOU. The app
+ * stores these under two different flat families; publishing one shape means
+ * a caller learns one concept, and toStore maps it to whichever the type reads.
+ */
+const parties = z.object({
+  senior: party,
+  junior: party,
+  commonLocation: z.string().optional().describe('Joint letters: a shared location line, e.g. "Washington, D.C.".'),
+}).strict();
+
+const endorsement = z.object({
+  ordinal: z.string().describe('FIRST, SECOND, THIRD ...'),
+  basicLetterId: z.string().describe('The letter being endorsed, e.g. "CO 1st Bn ltr 5216 of 8 Sep 26".'),
+  includeSubject: z.boolean().optional().describe('Repeat the Subj: line. Off by default per Ch 9.'),
+}).strict();
+
+export const letterSchema = z.object({
+  // Derived, not restated: this list and validateLetter's are the same gate,
+  // and a second copy is how one door came to accept what the other refused.
+  docType: z.enum(DOC_TYPES as [string, ...string[]]),
+  format: z.enum(['pdf', 'docx']).optional().describe('Defaults to pdf.'),
+  out: z.string().optional().describe('Filename inside the output root. Defaults to a slug of the subject, numbered if that name is taken. Give out to replace a file.'),
+
+  subject: z.string().optional().describe('The Subj: line. Conventionally all caps.'),
+  from: z.string().optional().describe('The From: line, e.g. "Commanding Officer, 1st Battalion, 6th Marines". Letters, endorsements and memoranda print the label even when this is omitted, the MFR included; business letters and agreements have no From line.'),
+  to: z.string().optional().describe('The To: line, or the MEMORANDUM FOR addressee of the executive types. Printed even when omitted, except by the MFR and the multiple-address letter; business letters and agreements have no To line.'),
+  via: z.array(z.string()).optional().describe('Each via is its own numbered line.'),
+
+  ssic: z.string().optional(), serial: z.string().optional(),
+  date: z.string().optional()
+    .describe('Defaults to today in the format the type prescribes: "8 Aug 26" for letters and memoranda, "August 8, 2026" for business and executive correspondence. Match that form if you supply one.'),
+  originatorCode: z.string().optional(),
+
+  paragraphs: z.array(paragraph).optional(),
+  references: z.array(z.object({
+    letter: z.string().regex(/^[a-z]{1,2}$/).optional().describe('One or two lowercase letters. Assigned a, b … in order when omitted.'),
+    title: z.string(),
+  }).strict()).optional().describe('Lettered (a), (b) … in the order given.'),
+  enclosures: z.array(z.object({ title: z.string() }).strict()).optional(),
+  copyTo: z.array(z.string()).optional(),
+  distribution: z.array(z.string()).optional(),
+
+  unit: unit.optional().describe('Omit to use the machine defaults; dondocs://defaults (MCP) or GET /health (HTTP) show them.'),
+  signature: signature.optional().describe('Omit to use the machine defaults; dondocs://defaults (MCP) or GET /health (HTTP) show them.'),
+
+  classification: classification.optional()
+    .describe('Omit for an unclassified document. The banner is the higher of level and any paragraphs[].portionMarking; a custom banner is printed as given and not raised.'),
+  pocEmail: z.string().optional().describe('CUI point of contact, shown in the CUI designation block.'),
+
+  parties: parties.optional().describe('Required for joint_letter, joint_memorandum, moa and mou; ignored elsewhere.'),
+  endorsement: endorsement.optional().describe('Required for same_page_endorsement and new_page_endorsement; ignored elsewhere.'),
+
+  salutation: z.string().optional().describe('Business letters. Defaults to "Dear Sir or Madam:".'),
+  complimentaryClose: z.string().optional().describe('Business letters. Defaults to "Sincerely,".'),
+  attnLine: z.string().optional().describe('standard_memorandum (alias memorandum), DOCX output only: an ATTN line.'),
+  throughLine: z.string().optional().describe('standard_memorandum (alias memorandum), DOCX output only: a THROUGH line, printed in capitals.'),
+  inReplyTo: z.boolean().optional().describe('Standard letters: print the "In Reply Refer To" line.'),
+  coordination: z.string().optional().describe('information_memorandum, and action_memorandum in DOCX output: the coordination line.'),
+  preparedBy: z.string().optional().describe('information_memorandum, and action_memorandum in DOCX output: who prepared it, e.g. "CAPT J. Smith, USN".'),
+  pageNumbering: z.enum(['none', 'simple', 'xofy']).optional().describe('Defaults to none.'),
+// Stripping an unnamed field silently is how a classification marking went
+// missing from a document that asked for one; refusing it by name is how a
+// caller finds out. Every nested object above is strict for the same reason.
+}).strict();
+
+/** Top-level field names, for the capability probe. Derived, never re-typed. */
+export function acceptedFields(): string[] {
+  const props = (z.toJSONSchema(letterSchema) as { properties?: Record<string, unknown> }).properties ?? {};
+  return Object.keys(props);
+}

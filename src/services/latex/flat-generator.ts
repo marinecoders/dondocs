@@ -569,9 +569,9 @@ function buildReferences(references: Reference[]): string {
   for (let i = 0; i < references.length; i++) {
     const ref = references[i];
     if (i === 0) {
-      rows.push(`Ref:\\hspace{4\\fontdimen2\\font} & ${ENTRY_HANG}(${ref.letter})~~${escapeTabular(ref.title)} \\\\`);
+      rows.push(`Ref:\\hspace{4\\fontdimen2\\font} & ${ENTRY_HANG}(${escapeTabular(ref.letter)})~~${escapeTabular(ref.title)} \\\\`);
     } else {
-      rows.push(` & ${ENTRY_HANG}(${ref.letter})~~${escapeTabular(ref.title)} \\\\`);
+      rows.push(` & ${ENTRY_HANG}(${escapeTabular(ref.letter)})~~${escapeTabular(ref.title)} \\\\`);
     }
   }
 

@@ -23,13 +23,12 @@
 import { spawn } from 'node:child_process';
 import { mkdtemp, writeFile, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 import { generateFlatLatex } from '@/services/latex/flat-generator';
 import { toStore, type CompanionDefaults, type LetterInput } from './letterInput';
 import { RENDER_TIMEOUT_MS } from './limits';
+import { LIB } from './assets';
 
-const LIB = join(dirname(fileURLToPath(import.meta.url)), '..', 'public', 'lib');
 
 /** The pandoc the app vendors, for comparison against whatever is on PATH. */
 export const VENDORED_PANDOC = '3.9';
@@ -64,6 +63,10 @@ export async function renderDocx(input: LetterInput, defaults: CompanionDefaults
     await writeFile(join(dir, 'in.tex'), tex, 'utf-8');
 
     await new Promise<void>((resolve, reject) => {
+      // Not `--sandbox`: the Debian build (pandoc-data split out) cannot find
+      // its own docx data files under it and exits 97. Every field in the
+      // .tex is escaped upstream, which is what keeps a caller's text from
+      // naming a file here.
       const pandoc = spawn('pandoc', [
         'in.tex', '-f', 'latex+raw_tex', '-o', 'out.docx',
         '--lua-filter', join(LIB, 'pandoc', 'dondocs.lua'),

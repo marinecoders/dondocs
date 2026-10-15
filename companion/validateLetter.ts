@@ -9,10 +9,22 @@
  * Transport-specific concerns stay out — the HTTP contract version belongs to
  * HTTP, and MCP gets argument types from its published schema.
  */
-import type { LetterInput } from './letterInput';
+import { TEMPLATE_FOR, type LetterInput } from './letterInput';
+import { DOC_TYPE_CONFIG } from '../src/types/document';
 
-export const DOC_TYPES = ['naval_letter', 'standard_letter', 'memorandum'];
+/**
+ * Every doc type the app defines, plus the friendly aliases `templateFor`
+ * translates. Derived so the companion cannot advertise a type the app lacks or
+ * lag behind one it gains; the tool schema's enum derives from this in turn.
+ */
+export const DOC_TYPES = [...Object.keys(DOC_TYPE_CONFIG), ...Object.keys(TEMPLATE_FOR)];
 export const FORMATS = ['pdf', 'docx'];
+/** The levels the generator marks; anything else renders unmarked. */
+export const CLASSIFICATION_LEVELS = ['unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci'];
+/** Paragraph portion marks, placed in the .tex as given, so nothing else may pass. */
+export const PORTION_MARKINGS = ['U', 'CUI', 'FOUO', 'C', 'S', 'TS'];
+/** The types whose heading is the ordinal and the letter being endorsed. */
+export const ENDORSEMENT_TYPES = ['same_page_endorsement', 'new_page_endorsement'];
 
 /** Everything wrong with a request, so one round-trip is enough to fix it. */
 export function validateLetter(body: Partial<LetterInput>): string[] {
@@ -41,12 +53,36 @@ export function validateLetter(body: Partial<LetterInput>): string[] {
   if (Array.isArray(body.paragraphs)) {
     body.paragraphs.forEach((para, i) => {
       if (typeof para?.text !== 'string') { problems.push(`paragraphs[${i}].text must be a string`); }
+      if (para?.portionMarking !== undefined && !PORTION_MARKINGS.includes(para.portionMarking)) {
+        problems.push(`paragraphs[${i}].portionMarking must be one of ${PORTION_MARKINGS.join(', ')}`);
+      }
     });
   }
-  for (const [name, value] of [['unit', body.unit], ['signature', body.signature], ['formData', body.formData]] as const) {
+  for (const [name, value] of [['unit', body.unit], ['signature', body.signature]] as const) {
     if (value !== undefined && (typeof value !== 'object' || Array.isArray(value))) {
       problems.push(`${name} must be an object`);
     }
+  }
+  // Refused here rather than at the write, after a full render, with an errno.
+  if (body.out !== undefined) {
+    if (typeof body.out !== 'string') { problems.push('out must be a string'); }
+    else if (body.out.includes('\0')) { problems.push('out must not contain a NUL byte'); }
+    else if (body.out.split(/[/\\]/).some((part) => Buffer.byteLength(part) > 255)) {
+      problems.push('out: no path component may exceed 255 bytes');
+    }
+  }
+  // A bare "ENDORSEMENT" heading looks rendered and says nothing.
+  if (ENDORSEMENT_TYPES.includes(body.docType as string)
+    && !(body.endorsement?.ordinal && body.endorsement?.basicLetterId)) {
+    problems.push(`${body.docType} needs endorsement.ordinal (FIRST, SECOND ...) and endorsement.basicLetterId, the letter being endorsed`);
+  }
+  const level = body.classification?.level;
+  if (level !== undefined && !CLASSIFICATION_LEVELS.includes(level)) {
+    problems.push(`classification.level must be one of ${CLASSIFICATION_LEVELS.join(', ')}`);
+  }
+  // The generator prints either the level's marking or the custom text.
+  if (level && body.classification?.custom) {
+    problems.push('classification.custom is the banner itself; give it instead of classification.level');
   }
 
   // A letter with neither a subject nor a body renders a page with a letterhead

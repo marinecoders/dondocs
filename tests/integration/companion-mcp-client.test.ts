@@ -1,0 +1,515 @@
+/**
+ * The server driven by the published protocol client.
+ *
+ * `companion-mcp.test.ts` writes the JSON-RPC frames itself, which is how it can
+ * prove stdout carries nothing but protocol. A driver written against the same
+ * reading of the spec as the server shares its blind spots, so this one covers
+ * what that cannot: version negotiation, capabilities, ping, concurrent calls
+ * and shutdown.
+ *
+ * @vitest-environment node
+ */
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { Client } from '@modelcontextprotocol/client';
+import { StdioClientTransport } from '@modelcontextprotocol/client/stdio';
+import { mkdtemp, rm, readFile, writeFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { basename, join, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { spawnSync } from 'node:child_process';
+import { inflateSync } from 'node:zlib';
+import { LETTER_TEMPLATES } from '../../src/data/templates';
+import { hasPdfToolchain } from '../_helpers/pdfToolchain';
+
+const hasPandoc = spawnSync('pandoc', ['--version'], { encoding: 'utf-8' }).status === 0;
+
+const REPO = resolve(import.meta.dirname, '..', '..');
+/** The editor these tests configure, for the handoff link. */
+const EDITOR = 'https://dondocs.example.test';
+
+let client: Client;
+let root: string;
+
+const text = (r: unknown): string =>
+  ((r as { content?: Array<{ text?: string }> }).content ?? []).map((c) => c.text ?? '').join('');
+const isError = (r: unknown): boolean => (r as { isError?: boolean }).isError === true;
+const structured = (r: unknown): unknown => (r as { structuredContent?: unknown }).structuredContent;
+const pathOf = (r: unknown): string | undefined => (structured(r) as { path?: string } | undefined)?.path;
+const blocks = (r: unknown, type: string): Array<Record<string, unknown>> =>
+  ((r as { content?: Array<Record<string, unknown>> }).content ?? []).filter((c) => c.type === type);
+
+beforeAll(async () => {
+  root = await mkdtemp(join(tmpdir(), 'dondocs-client-'));
+  client = new Client({ name: 'dondocs-conformance', version: '1' }, { capabilities: {} });
+  await client.connect(new StdioClientTransport({
+    // Run the entry directly rather than through a package manager, so the
+    // child is the server and not a wrapper that owns its stdio.
+    command: process.execPath,
+    args: [join(REPO, 'node_modules', 'vite-node', 'dist', 'cli.mjs'), 'companion/mcp.ts'],
+    cwd: REPO,
+    env: { ...process.env, DONDOCS_OUT_ROOT: root, DONDOCS_CONFIG: '/nonexistent/companion.config.json', DONDOCS_APP_URL: EDITOR },
+    stderr: 'pipe',
+  }));
+}, 200_000);
+
+afterAll(async () => {
+  await client?.close();
+  if (root) { await rm(root, { recursive: true, force: true }); }
+});
+
+describe('a protocol client', () => {
+  it('negotiates a protocol version both sides agree on', () => {
+    const negotiated = client.getNegotiatedProtocolVersion();
+    // Asserted, not pinned — a hardcoded revision goes stale unnoticed.
+    expect(typeof negotiated).toBe('string');
+    expect(negotiated).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  });
+
+  it('reports its identity and tool capability', () => {
+    expect(client.getServerVersion()?.name).toBe('dondocs');
+    expect(client.getServerCapabilities()?.tools).toBeDefined();
+  });
+
+  it('tells the model how the tools fit together', () => {
+    const instructions = client.getInstructions() ?? '';
+    expect(instructions).toContain(root);
+    for (const name of ['dondocs_unit_lookup', 'dondocs_template_get', 'dondocs_letter', 'dondocs://defaults', 'From']) {
+      expect(instructions).toContain(name);
+    }
+    // Each tool call is a model turn. The ids are here so a template needs one
+    // call, not a list and then a get; the revise sentence so a second draft is
+    // a render, not a rewrite in chat.
+    for (const { id } of LETTER_TEMPLATES) {
+      expect(instructions).toContain(id);
+    }
+    expect(instructions).toMatch(/revise .*\bout\b/);
+    // Which host tool shows the file depends on the host, so the result says
+    // it and the instructions point at the result.
+    expect(instructions).not.toContain('present_files');
+    expect(instructions).toMatch(/result says/);
+  });
+
+  it('answers ping', async () => {
+    await expect(client.ping()).resolves.toBeDefined();
+  });
+
+  it('publishes letter and lookup tools with their input schemas', async () => {
+    const { tools } = await client.listTools();
+    expect(tools.map((t) => t.name).sort()).toEqual([
+      'dondocs_letter', 'dondocs_save_defaults', 'dondocs_template_get', 'dondocs_template_list', 'dondocs_unit_lookup',
+    ]);
+
+    const schema = tools.find((t) => t.name === 'dondocs_letter')!.inputSchema as {
+      properties?: Record<string, unknown>;
+      required?: string[];
+      additionalProperties?: boolean;
+    };
+    const props = Object.keys(schema.properties ?? {});
+    // classification was missing here while the HTTP door honoured it.
+    expect(props).toEqual(expect.arrayContaining(['docType', 'subject', 'paragraphs', 'unit', 'classification']));
+    expect(schema.required).toContain('docType');
+    // Every letter and memorandum layout prints From:, the MFR included; a
+    // request that omits it gets an empty label, so the description says so.
+    for (const field of ['from', 'to']) {
+      expect((schema.properties![field] as { description: string }).description, field).toMatch(/memorand/i);
+    }
+    expect(schema.additionalProperties, 'an unnamed field must be refused, not stripped').toBe(false);
+    // It replaces the file at `out`, which is not the additive-only behaviour
+    // destructiveHint false denotes.
+    expect(tools.find((t) => t.name === 'dondocs_letter')!.annotations).toMatchObject({
+      readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: false,
+    });
+    expect((schema.properties!.out as { description: string }).description).toMatch(/replace/);
+  }, 60_000);
+
+  it('publishes an output schema for every tool', async () => {
+    const { tools } = await client.listTools();
+    for (const tool of tools) {
+      expect(tool.outputSchema, `${tool.name} returns a text block the model has to parse`).toBeDefined();
+    }
+  });
+
+  it('lists template metadata and retrieves every complete template', async () => {
+    const { tools } = await client.listTools();
+    for (const name of ['dondocs_template_list', 'dondocs_template_get']) {
+      expect(tools.find((tool) => tool.name === name)?.annotations).toMatchObject({
+        readOnlyHint: true, idempotentHint: true, destructiveHint: false, openWorldHint: false,
+      });
+    }
+    // The ids are an enum on the get tool, so a model that knows which template
+    // it wants skips the list.
+    const idSchema = (tools.find((tool) => tool.name === 'dondocs_template_get')!.inputSchema as unknown as {
+      properties: { id: { enum?: string[] } };
+    }).properties.id;
+    expect(idSchema.enum).toEqual(LETTER_TEMPLATES.map((t) => t.id));
+    const result = await client.callTool({ name: 'dondocs_template_list', arguments: {} });
+    expect(isError(result), text(result)).toBe(false);
+    const summaries = LETTER_TEMPLATES.map(({ id, name, category, description }) => ({ id, name, category, description }));
+    expect(JSON.parse(text(result))).toEqual(summaries);
+    expect(structured(result)).toEqual({ templates: summaries });
+    for (const template of LETTER_TEMPLATES) {
+      const full = await client.callTool({ name: 'dondocs_template_get', arguments: { id: template.id } });
+      expect(isError(full), text(full)).toBe(false);
+      expect(JSON.parse(text(full))).toEqual(template);
+      expect(structured(full)).toEqual(template);
+    }
+  });
+
+  it('publishes every template as a resource a host can attach without a tool call', async () => {
+    expect(client.getServerCapabilities()?.resources).toBeDefined();
+    const { resourceTemplates } = await client.listResourceTemplates();
+    expect(resourceTemplates.map((t) => t.uriTemplate).sort()).toEqual(
+      ['dondocs://files/{out}', 'dondocs://handoff/{out}', 'dondocs://templates/{id}'],
+    );
+
+    const { resources } = await client.listResources();
+    expect(resources.map((r) => r.uri).sort()).toEqual(
+      ['dondocs://defaults', ...LETTER_TEMPLATES.map((t) => `dondocs://templates/${t.id}`)].sort(),
+    );
+    expect(resources.find((r) => r.uri === 'dondocs://defaults')).toMatchObject({
+      name: 'defaults', title: 'Machine defaults', mimeType: 'application/json',
+    });
+    const listed = resources.find((r) => r.uri === 'dondocs://templates/report-findings')!;
+    expect(listed).toMatchObject({ name: 'report-findings', mimeType: 'application/json' });
+    expect(listed.title).toBe(LETTER_TEMPLATES.find((t) => t.id === 'report-findings')!.name);
+
+    const { contents } = await client.readResource({ uri: 'dondocs://templates/report-findings' });
+    expect(contents).toHaveLength(1);
+    expect(contents[0]).toMatchObject({ uri: 'dondocs://templates/report-findings', mimeType: 'application/json' });
+    expect(JSON.parse((contents[0] as { text: string }).text)).toEqual(LETTER_TEMPLATES.find((t) => t.id === 'report-findings'));
+
+    // Invalid params, naming the URI, not an internal error.
+    await expect(client.readResource({ uri: 'dondocs://templates/no-such-template' })).rejects.toMatchObject({
+      code: -32602, message: expect.stringContaining('dondocs://templates/no-such-template'),
+    });
+    await expect(client.ping()).resolves.toBeDefined();
+  });
+
+  it('reports the configured defaults and the file that sets them', async () => {
+    const { contents } = await client.readResource({ uri: 'dondocs://defaults' });
+    expect(contents[0]).toMatchObject({ uri: 'dondocs://defaults', mimeType: 'application/json' });
+    // No config file in this suite, so every default is absent and the path
+    // tells the user where to put one.
+    expect(JSON.parse((contents[0] as { text: string }).text)).toEqual({
+      path: '/nonexistent/companion.config.json', unit: null, signature: null, ssic: null, originatorCode: null,
+    });
+  });
+
+  it('completes a template id from a prefix', async () => {
+    expect(client.getServerCapabilities()?.completions).toBeDefined();
+    const ref = { type: 'ref/resource' as const, uri: 'dondocs://templates/{id}' };
+    const { completion } = await client.complete({ ref, argument: { name: 'id', value: 'app' } });
+    expect(completion.values.sort()).toEqual(LETTER_TEMPLATES.map((t) => t.id).filter((id) => id.startsWith('app')).sort());
+    expect(completion.values.length).toBeGreaterThan(1);
+    expect((await client.complete({ ref, argument: { name: 'id', value: '' } })).completion.values).toHaveLength(LETTER_TEMPLATES.length);
+  });
+
+  it('offers a draft_letter prompt whose arguments complete', async () => {
+    expect(client.getServerCapabilities()?.prompts).toBeDefined();
+    const { prompts } = await client.listPrompts();
+    expect(prompts.map((p) => p.name)).toEqual(['draft_letter']);
+    const args = prompts[0].arguments ?? [];
+    expect(args.map((a) => a.name).sort()).toEqual(['docType', 'template']);
+    expect(args.every((a) => !a.required), 'both arguments are optional').toBe(true);
+
+    const ref = { type: 'ref/prompt' as const, name: 'draft_letter' };
+    const types = (await client.complete({ ref, argument: { name: 'docType', value: 'joint_' } })).completion.values;
+    expect(types.sort()).toEqual(['joint_letter', 'joint_memorandum']);
+    const ids = (await client.complete({ ref, argument: { name: 'template', value: 'award' } })).completion.values;
+    expect(ids).toEqual(LETTER_TEMPLATES.map((t) => t.id).filter((id) => id.startsWith('award')));
+    expect(ids.length).toBeGreaterThan(0);
+  });
+
+  it('builds the prompt from a document type, or from a template with the template embedded', async () => {
+    const bare = await client.getPrompt({ name: 'draft_letter', arguments: { docType: 'joint_letter' } });
+    expect(bare.messages).toHaveLength(1);
+    expect(bare.messages[0].role).toBe('user');
+    const instructions = (bare.messages[0].content as { text: string }).text;
+    expect(instructions).toContain('joint_letter');
+    expect(instructions).toMatch(/From and To/);
+    expect(instructions).toContain('dondocs_unit_lookup');
+    expect(instructions).toContain('dondocs_letter');
+
+    const template = LETTER_TEMPLATES.find((t) => t.id === 'report-findings')!;
+    const from = await client.getPrompt({ name: 'draft_letter', arguments: { template: template.id } });
+    expect(from.messages).toHaveLength(2);
+    expect((from.messages[0].content as { text: string }).text).toContain(template.docType);
+    expect(from.messages[1].content).toMatchObject({
+      type: 'resource',
+      resource: { uri: `dondocs://templates/${template.id}`, mimeType: 'application/json' },
+    });
+    expect(JSON.parse((from.messages[1].content as { resource: { text: string } }).resource.text)).toEqual(template);
+
+    // Both bad arguments are invalid params, whichever side rejects them.
+    // An endorsement is refused without its ordinal and basic letter, so the
+    // prompt for an endorsement template has to ask for them up front.
+    const endorsement = await client.getPrompt({ name: 'draft_letter', arguments: { template: 'appointment-acknowledgement' } });
+    const ask = (endorsement.messages[0].content as { text: string }).text;
+    expect(ask).toContain('endorsement.ordinal');
+    expect(ask).toContain('endorsement.basicLetterId');
+    const plain = (from.messages[0].content as { text: string }).text;
+    expect(plain).not.toContain('endorsement.ordinal');
+
+    await expect(client.getPrompt({ name: 'draft_letter', arguments: { template: 'no-such-template' } })).rejects.toMatchObject({
+      code: -32602, message: expect.stringContaining('no-such-template'),
+    });
+    await expect(client.getPrompt({ name: 'draft_letter', arguments: { docType: 'sonnet' } })).rejects.toMatchObject({ code: -32602 });
+    await expect(client.ping()).resolves.toBeDefined();
+  });
+
+  it('returns a recoverable error for an unknown template ID', async () => {
+    const result = await client.callTool({ name: 'dondocs_template_get', arguments: { id: 'no-such-template' } });
+    expect(isError(result)).toBe(true);
+    // Naming the valid ids saves the model a list call.
+    for (const { id } of LETTER_TEMPLATES) {
+      expect(text(result)).toContain(id);
+    }
+    await expect(client.ping()).resolves.toBeDefined();
+  });
+
+  it('looks up MIU, narrows by location, and renders the returned letterhead', async () => {
+    const lookup = async (query: string, limit = 20) => {
+      const response = await client.callTool({ name: 'dondocs_unit_lookup', arguments: { query, limit } });
+      expect(isError(response), text(response)).toBe(false);
+      expect(structured(response)).toEqual(JSON.parse(text(response)));
+      return JSON.parse(text(response));
+    };
+    const all = await lookup('marine innovation unit');
+    expect(all.total).toBe(7);
+    expect(all.matches.map((m: { mcc: string }) => m.mcc)).toContain('SVP');
+    const selected = await lookup('Marine Innovation Unit Newburgh');
+    expect(selected.total).toBe(1);
+    expect(selected.matches[0].unit.address).toBe('10 MCDONALD ST, NEWBURGH NY 12550-5012');
+    expect((await lookup('SVP')).matches).toEqual(selected.matches);
+    expect((await lookup('016')).total).toBeGreaterThan(1);
+    expect(await lookup('Marine Innovation Unit', 2)).toMatchObject({ total: 7, truncated: true });
+    expect((await lookup('MIU')).matches).toEqual(all.matches);
+    expect((await lookup('no-such-unit-xyz')).matches).toEqual([]);
+    const result = await client.callTool({ name: 'dondocs_letter', arguments: {
+      docType: 'naval_letter', subject: 'LOOKUP CHECK', out: 'lookup.pdf',
+      unit: selected.matches[0].unit,
+      paragraphs: [{ text: 'Letterhead supplied by the directory lookup.' }],
+    } });
+    expect(isError(result), text(result)).toBe(false);
+    expect((await readFile(pathOf(result)!)).subarray(0, 4).toString()).toBe('%PDF');
+  }, 200_000);
+
+  it('renders a real PDF', async () => {
+    const res = await client.callTool({ name: 'dondocs_letter', arguments: {
+      docType: 'naval_letter', out: 'client.pdf', subject: 'PROTOCOL CLIENT CHECK',
+      from: 'Commanding Officer, Test Unit', to: 'Commanding General, Test Command',
+      paragraphs: [{ text: 'Rendered through the published client.' }],
+    } });
+    expect(isError(res), text(res)).toBe(false);
+
+    const file = pathOf(res);
+    expect(file?.startsWith(root)).toBe(true);
+    const bytes = await readFile(file!);
+    expect(bytes.subarray(0, 4).toString()).toBe('%PDF');
+
+    expect(structured(res)).toEqual({ format: 'pdf', path: file, out: basename(file!), bytes: bytes.byteLength });
+    // A host that renders links lets the user open the file from the reply.
+    expect(blocks(res, 'resource_link')).toEqual([expect.objectContaining({
+      uri: pathToFileURL(file!).href, name: 'client.pdf', mimeType: 'application/pdf', size: bytes.byteLength,
+    })]);
+  }, 200_000);
+
+  it('carries a classification into the document', async () => {
+    const res = await client.callTool({ name: 'dondocs_letter', arguments: {
+      docType: 'naval_letter', out: 'marked.pdf', subject: 'MARKED',
+      from: 'F', to: 'T', paragraphs: [{ text: 'Body.' }],
+      classification: { level: 'secret' },
+    } });
+    expect(isError(res), text(res)).toBe(false);
+    // Size is a proxy the toolchain always has: the banner adds page furniture
+    // to every page. The text-level assertion lives with the pdftotext suites.
+    const marked = (await readFile(pathOf(res)!)).byteLength;
+
+    const plain = await client.callTool({ name: 'dondocs_letter', arguments: {
+      docType: 'naval_letter', out: 'plain.pdf', subject: 'MARKED',
+      from: 'F', to: 'T', paragraphs: [{ text: 'Body.' }],
+    } });
+    const unmarked = (await readFile(pathOf(plain)!)).byteLength;
+    expect(marked, 'a classified document rendered byte-identical to an unclassified one').not.toBe(unmarked);
+  }, 200_000);
+
+  it('refuses a field it does not publish', async () => {
+    const res = await client.callTool({ name: 'dondocs_letter', arguments: {
+      docType: 'naval_letter', subject: 'TYPO', paragraphs: [{ text: 'x' }],
+      clasification: { level: 'secret' },
+    } }).then((r) => r, (e: Error) => ({ isError: true, content: [{ text: e.message }] }));
+    expect(isError(res)).toBe(true);
+    expect(text(res)).toMatch(/clasification/);
+
+    // Inside an object as well: a stripped portion mark is a missing marking.
+    const nested = await client.callTool({ name: 'dondocs_letter', arguments: {
+      docType: 'naval_letter', subject: 'TYPO', paragraphs: [{ text: 'x', portionMarkng: 'S' }],
+    } }).then((r) => r, (e: Error) => ({ isError: true, content: [{ text: e.message }] }));
+    expect(isError(nested)).toBe(true);
+    expect(text(nested)).toMatch(/portionMarkng/);
+  }, 60_000);
+
+  it('refuses a path outside the output root and writes nothing', async () => {
+    const res = await client.callTool({ name: 'dondocs_letter', arguments: {
+      docType: 'naval_letter', subject: 'ESCAPE', out: '../../../../tmp/pwned.pdf',
+      paragraphs: [{ text: 'x' }],
+    } });
+    expect(isError(res)).toBe(true);
+    expect(text(res)).toMatch(/outside the output root/);
+    expect(existsSync('/tmp/pwned.pdf')).toBe(false);
+  }, 60_000);
+
+  it('handles concurrent calls without crossing them', async () => {
+    const results = await Promise.all([1, 2, 3].map((n) => client.callTool({
+      name: 'dondocs_letter',
+      arguments: {
+        docType: 'naval_letter', out: `conc-${n}.pdf`, subject: `CONCURRENT ${n}`,
+        from: 'F', to: 'T', paragraphs: [{ text: `Render ${n}.` }],
+      },
+    })));
+    expect(results.every((r) => !isError(r)), results.map(text).join(' | ')).toBe(true);
+    // The engine cannot compile two documents at once; the queue that serialises
+    // them must still return three distinct files, each with its own content.
+    // Distinct paths alone prove nothing: each call named its own `out`.
+    expect(new Set(results.map(pathOf)).size).toBe(3);
+    if (hasPdfToolchain) {
+      for (const [i, res] of results.entries()) {
+        const page = spawnSync('pdftotext', ['-layout', pathOf(res)!, '-'], { encoding: 'utf-8' }).stdout;
+        expect(page, `file ${i + 1} carries another call's text`).toContain(`CONCURRENT ${i + 1}`);
+      }
+    }
+  }, 200_000);
+
+  it('renders a DOCX with the format in the structured result and the link', async () => {
+    if (!hasPandoc) {
+      console.warn('[companion-mcp-client] pandoc missing - DOCX case SKIPPED locally.');
+      expect(Boolean(process.env.CI), 'CI must install pandoc; without it this case proves nothing.').toBe(false);
+      return;
+    }
+    const res = await client.callTool({ name: 'dondocs_letter', arguments: {
+      docType: 'naval_letter', format: 'docx', out: 'client.docx', subject: 'DOCX OVER MCP',
+      from: 'F', to: 'T', paragraphs: [{ text: 'Converted by pandoc.' }],
+    } });
+    expect(isError(res), text(res)).toBe(false);
+    expect(text(res)).toMatch(/^Wrote DOCX/);
+    // The host tool that puts a card in the chat, asked for without an
+    // "if available" the model can take as a no when the tool is not yet
+    // loaded, and the name to pass as `out` to replace this file.
+    expect(text(res)).toMatch(/\nShow it in the chat: call present_files .*loading that tool first.*out "client\.docx"/);
+    expect(structured(res)).toMatchObject({ format: 'docx', path: expect.stringMatching(/client\.docx$/) });
+    expect(blocks(res, 'resource_link')[0]).toMatchObject({
+      mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    });
+    expect((await readFile(pathOf(res)!)).subarray(0, 2).toString('latin1')).toBe('PK');
+  }, 200_000);
+
+  it('serves a rendered file as a resource, for a page in the chat to read', async () => {
+    const res = await client.callTool({ name: 'dondocs_letter', arguments: {
+      docType: 'naval_letter', out: 'drafts/read-back.pdf', subject: 'READ BACK',
+      from: 'F', to: 'T', paragraphs: [{ text: 'Read through the resource.' }],
+    } });
+    expect(isError(res), text(res)).toBe(false);
+    const out = (structured(res) as { out: string }).out;
+    expect(out).toBe('drafts/read-back.pdf');
+    // The page builds the URI from the result, with the nested name encoded.
+    const uri = `dondocs://files/${encodeURIComponent(out)}`;
+    const { contents } = await client.readResource({ uri });
+    expect(contents).toHaveLength(1);
+    expect(contents[0]).toMatchObject({ uri, mimeType: 'application/pdf' });
+    const blob = Buffer.from((contents[0] as { blob: string }).blob, 'base64');
+    expect(blob.equals(await readFile(pathOf(res)!))).toBe(true);
+    // Only what this server wrote: not a path outside the root, not a name
+    // nothing was rendered to, and not a file someone else put in the root,
+    // which a person may have pointed at a folder full of their own files.
+    await writeFile(join(root, 'planted.pdf'), '%PDF-1.4 not ours');
+    for (const bad of ['../../etc/hosts', 'no-such-letter.pdf', 'planted.pdf']) {
+      await expect(client.readResource({ uri: `dondocs://files/${encodeURIComponent(bad)}` })).rejects.toMatchObject({
+        code: -32602, message: expect.stringContaining(bad.split('/').pop()!),
+      });
+    }
+    await expect(client.ping()).resolves.toBeDefined();
+  }, 200_000);
+
+  it('offers a link that opens a rendered letter in the editor, and only for its own', async () => {
+    const res = await client.callTool({ name: 'dondocs_letter', arguments: {
+      docType: 'naval_letter', out: 'handoff.pdf', subject: 'EDIT ME',
+      from: 'Corporal R. Chiofalo, USMC', to: 'T', paragraphs: [{ text: 'Fix the EDIPI.' }],
+    } });
+    expect(isError(res), text(res)).toBe(false);
+    const out = (structured(res) as { out: string }).out;
+    const { contents } = await client.readResource({ uri: `dondocs://handoff/${encodeURIComponent(out)}` });
+    const { url } = JSON.parse((contents[0] as { text: string }).text) as { url: string };
+    expect(url.startsWith(`${EDITOR}/#d=`)).toBe(true);
+    // The letter itself, as the editor will read it: inflate and look.
+    const session = JSON.parse(inflateSync(Buffer.from(new URL(url).hash.slice(3), 'base64url')).toString('utf-8'));
+    expect(session.formData).toMatchObject({ subject: 'EDIT ME', from: 'Corporal R. Chiofalo, USMC' });
+    expect(session.paragraphs[0]).toMatchObject({ text: 'Fix the EDIPI.' });
+
+    // Only what this server rendered, the same rule the file resource keeps.
+    for (const bad of ['../../etc/hosts', 'never-rendered.pdf']) {
+      await expect(client.readResource({ uri: `dondocs://handoff/${encodeURIComponent(bad)}` })).rejects.toMatchObject({
+        code: -32602, message: expect.stringContaining(bad.split('/').pop()!),
+      });
+    }
+    await expect(client.ping()).resolves.toBeDefined();
+  }, 200_000);
+
+  it('offers no editor link for a letter that must not sit in a browser history', async () => {
+    const res = await client.callTool({ name: 'dondocs_letter', arguments: {
+      docType: 'naval_letter', out: 'classified.pdf', subject: 'NOT FOR A URL',
+      from: 'F', to: 'T', paragraphs: [{ text: 'Body.' }],
+      classification: { level: 'secret', classifiedBy: 'Original Classification Authority', derivedFrom: 'SCG 1-1' },
+    } });
+    expect(isError(res), text(res)).toBe(false);
+    const out = (structured(res) as { out: string }).out;
+    // The file is there to read; the link is not there to follow.
+    await expect(client.readResource({ uri: `dondocs://files/${encodeURIComponent(out)}` })).resolves.toBeDefined();
+    await expect(client.readResource({ uri: `dondocs://handoff/${encodeURIComponent(out)}` })).rejects.toMatchObject({ code: -32602 });
+  }, 200_000);
+
+  it('asks even a page-rendering host to present the file when there is no page', async () => {
+    // The built server carries a page and tells a host that renders pages
+    // the card is already there (the dist suite covers that). From source
+    // there is no page, so a host's page support changes nothing: the result
+    // still asks for present_files, or the model would wait for a card.
+    const pages = new Client({ name: 'dondocs-pages', version: '1' }, {
+      capabilities: { extensions: { 'io.modelcontextprotocol/ui': { mimeTypes: ['text/html;profile=mcp-app'] } } },
+    });
+    await pages.connect(new StdioClientTransport({
+      command: process.execPath,
+      args: [join(REPO, 'node_modules', 'vite-node', 'dist', 'cli.mjs'), 'companion/mcp.ts'],
+      cwd: REPO,
+      env: { ...process.env, DONDOCS_OUT_ROOT: root, DONDOCS_CONFIG: '/nonexistent/companion.config.json', DONDOCS_APP_URL: EDITOR },
+      stderr: 'pipe',
+    }));
+    try {
+      const args = { docType: 'naval_letter', out: 'host.pdf', subject: 'BY HOST', from: 'F', to: 'T', paragraphs: [{ text: 'Body.' }] };
+      const withPages = await pages.callTool({ name: 'dondocs_letter', arguments: args });
+      expect(isError(withPages), text(withPages)).toBe(false);
+      expect(text(withPages)).toMatch(/\nShow it in the chat: call present_files .*out "host\.pdf"/);
+    } finally {
+      await pages.close();
+    }
+  }, 200_000);
+
+  it('carries no page from a source run: that is the built server\'s', async () => {
+    // The page is built into dist-companion beside the entry. Run from
+    // source there is none, so the tool must not point at one.
+    const { tools } = await client.listTools();
+    const meta = tools.find((t) => t.name === 'dondocs_letter')!._meta as Record<string, unknown> | undefined;
+    expect(meta?.ui).toBeUndefined();
+    expect(meta?.['ui/resourceUri']).toBeUndefined();
+    const { resources } = await client.listResources();
+    expect(resources.filter((r) => r.uri.startsWith('ui://'))).toEqual([]);
+  });
+
+  it('stays usable after every failure above', async () => {
+    const res = await client.callTool({ name: 'dondocs_letter', arguments: {
+      docType: 'naval_letter', out: 'after.pdf', subject: 'STILL ALIVE',
+      from: 'F', to: 'T', paragraphs: [{ text: 'The session survived.' }],
+    } });
+    expect(isError(res), text(res)).toBe(false);
+    await expect(client.ping()).resolves.toBeDefined();
+  }, 200_000);
+});

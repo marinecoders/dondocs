@@ -8,11 +8,12 @@
  */
 import { describe, it, expect } from 'vitest';
 import { toStore, type CompanionDefaults } from '../../companion/letterInput';
+import { splitAddressForLetterhead } from '../../src/lib/unitAddress';
 
 const FORM = (store: ReturnType<typeof toStore>) => store.formData as Record<string, unknown>;
 
 const CONFIG: CompanionDefaults = {
-  unit: { name: 'MARINE INNOVATION UNIT', city: 'QUANTICO', state: 'VA', zip: '22134' },
+  unit: { name: 'MARINE INNOVATION UNIT', address: 'QUANTICO, VA 22134' },
   signature: { first: 'R', last: 'CHIOFALO', rank: 'Major', title: 'Officer in Charge' },
   ssic: '5216',
   originatorCode: 'S-6',
@@ -36,18 +37,33 @@ describe('precedence', () => {
     // Overriding just the name must not wipe the configured address.
     const f = FORM(toStore({ docType: 'naval_letter', unit: { name: '8TH COMM BN' } }, CONFIG));
     expect(f.unitName).toBe('8TH COMM BN');
-    expect(f.unitAddress).toBe('QUANTICO VA 22134');
+    expect(f.unitAddress).toBe('QUANTICO, VA 22134');
   });
 
   it('falls back to something renderable with no config at all', () => {
     const f = FORM(toStore({ docType: 'naval_letter' }));
-    expect(f.unitName).toBe('UNITED STATES MARINE CORPS');
+    // The department heading already says UNITED STATES MARINE CORPS; a
+    // second copy under it is not a unit line.
+    expect(f.unitLine1).toBe('');
     expect(f.ssic).toBe('5216');
   });
 
-  it('lets formData outrank every named field', () => {
-    const f = FORM(toStore({ docType: 'naval_letter', subject: 'NAMED', formData: { subject: 'ESCAPE HATCH' } }, CONFIG));
-    expect(f.subject).toBe('ESCAPE HATCH');
+  it('does not print the Marine Corps line under a Navy heading', () => {
+    const f = FORM(toStore({ docType: 'naval_letter', unit: { department: 'navy', address: '2000 NAVY PENTAGON, WASHINGTON DC 20350' } }));
+    expect(f.department).toBe('navy');
+    expect(f.unitLine1).toBe('');
+  });
+
+  it('lets a request name beat a configured line1, the same line under another spelling', () => {
+    const f = FORM(toStore({ docType: 'naval_letter', unit: { name: 'REQUEST NAME' } }, { unit: { line1: 'CONFIG LINE' } }));
+    expect(f.unitLine1).toBe('REQUEST NAME');
+  });
+
+  it('has no escape hatch past the named fields', () => {
+    // `formData` used to be merged last, which let a caller overwrite any
+    // generator field the schema guards with an enum.
+    const f = FORM(toStore({ docType: 'naval_letter', subject: 'NAMED', formData: { subject: 'ESCAPE HATCH' } } as never, CONFIG));
+    expect(f.subject).toBe('NAMED');
   });
 });
 
@@ -69,9 +85,9 @@ describe('collections', () => {
     expect((s.references as Array<{ letter: string }>)[0].letter).toBe('z');
   });
 
-  it('carries a reference url through when given', () => {
-    const s = toStore({ docType: 'naval_letter', references: [{ title: 'T', url: 'https://example.mil/x' }] });
-    expect((s.references as Array<{ url?: string }>)[0].url).toBe('https://example.mil/x');
+  it('does not carry a reference url: nothing the companion runs renders one', () => {
+    const s = toStore({ docType: 'naval_letter', references: [{ title: 'T', url: 'https://example.mil/x' } as never] });
+    expect(s.references).toEqual([{ letter: 'a', title: 'T' }]);
   });
 
   it('rolls past z into aa', () => {
@@ -126,28 +142,35 @@ describe('date', () => {
 });
 
 describe('unit address', () => {
+  it.each(['request', 'config'] as const)('splits the Newburgh lookup address into two letterhead lines from %s', (source) => {
+    const unit = { address: '10 MCDONALD ST, NEWBURGH NY 12550-5012' };
+    const f = FORM(toStore(
+      { docType: 'naval_letter', ...(source === 'request' ? { unit } : {}) },
+      source === 'config' ? { unit } : {},
+    ));
+    expect(splitAddressForLetterhead(f.unitAddress as string)).toEqual({
+      line1: '10 MCDONALD ST',
+      line2: 'NEWBURGH, NY 12550-5012',
+    });
+  });
+
+  it('preserves military post office formatting', () => {
+    const f = FORM(toStore({ docType: 'naval_letter', unit: { address: 'UNIT 35602, FPO AP 96604-5602' } }));
+    expect(splitAddressForLetterhead(f.unitAddress as string)).toEqual({
+      line1: 'UNIT 35602', line2: 'FPO AP 96604-5602',
+    });
+  });
+
   // The first version invented unitCity/unitState/unitZip. Those fields exist
   // nowhere in the app, so the address silently never reached the letterhead.
   // The generator reads ONE `unitAddress` string and splits it itself.
   it('maps a whole address string to unitAddress', () => {
     const f = FORM(toStore({ docType: 'naval_letter', unit: { address: 'PSC BOX 20004, CAMP LEJEUNE NC 28542' } }));
-    expect(f.unitAddress).toBe('PSC BOX 20004, CAMP LEJEUNE NC 28542');
+    expect(f.unitAddress).toBe('PSC BOX 20004, CAMP LEJEUNE, NC 28542');
   });
 
-  it('composes city/state/zip into one address line', () => {
-    const f = FORM(toStore({ docType: 'naval_letter', unit: { city: 'CAMP LEJEUNE', state: 'NC', zip: '28542' } }));
-    expect(f.unitAddress).toBe('CAMP LEJEUNE NC 28542');
-  });
-
-  it('prefers an explicit address over the parts', () => {
-    const f = FORM(toStore({ docType: 'naval_letter', unit: { address: 'ONE LINE', city: 'IGNORED' } }));
-    expect(f.unitAddress).toBe('ONE LINE');
-  });
-
-  it('never emits a field the app does not have', () => {
-    const f = FORM(toStore({ docType: 'naval_letter', unit: { city: 'X', state: 'Y', zip: 'Z' } }, CONFIG));
-    expect(f).not.toHaveProperty('unitCity');
-    expect(f).not.toHaveProperty('unitState');
-    expect(f).not.toHaveProperty('unitZip');
+  it('leaves the address empty when none is given: the parts were never published', () => {
+    const f = FORM(toStore({ docType: 'naval_letter', unit: { name: 'X' } }));
+    expect(f.unitAddress).toBe('');
   });
 });

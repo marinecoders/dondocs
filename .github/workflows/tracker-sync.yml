@@ -1,0 +1,47 @@
+name: tracker-sync
+
+# Mirror issues and pull requests into the project's task tracker, one row
+# each, keyed on the GitHub URL. Never the body — see the script header.
+#
+# Everything about the tracker is repo secrets, so the repo says nothing
+# about which one it is and the run logs mask it:
+#   TRACKER_TOKEN        API token the Tasks collection has been shared with
+#   TRACKER_API_URL      base URL of the tracker's API
+#   TRACKER_API_HEADERS  JSON object of extra headers the API wants
+#   TRACKER_TASKS_ID     the Tasks collection id
+#
+# "Run workflow" backfills everything currently open.
+
+on:
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled]
+  pull_request:
+    types: [opened, edited, closed, reopened, ready_for_review, converted_to_draft, labeled, unlabeled]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+concurrency:
+  group: tracker-sync-${{ github.event.pull_request.number || github.event.issue.number || 'backfill' }}
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: .github/scripts
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+      - run: node .github/scripts/tracker-sync.mjs
+        env:
+          TRACKER_TOKEN: ${{ secrets.TRACKER_TOKEN }}
+          TRACKER_API_URL: ${{ secrets.TRACKER_API_URL }}
+          TRACKER_API_HEADERS: ${{ secrets.TRACKER_API_HEADERS }}
+          TRACKER_TASKS_ID: ${{ secrets.TRACKER_TASKS_ID }}
+          GITHUB_TOKEN: ${{ github.token }}

@@ -22,6 +22,7 @@ import { mkdtemp, readdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createHandler, validate } from '../../companion/handler';
+import { LETTER_TEMPLATES } from '../../src/data/templates';
 
 let server: Server;
 let base: string;
@@ -82,6 +83,78 @@ describe('capabilities', () => {
   });
 });
 
+describe('template routes', () => {
+  it('lists only catalog metadata and retrieves every full template', async () => {
+    const res = await fetch(`${base}/templates`);
+    expect(res.status).toBe(200);
+    expect(res.headers.get('content-type')).toContain('application/json');
+    expect(await res.json()).toEqual({
+      ok: true, v: 1,
+      templates: LETTER_TEMPLATES.map(({ id, name, category, description }) => ({
+        id, name, category, description,
+      })),
+    });
+    for (const template of LETTER_TEMPLATES) {
+      const full = await fetch(`${base}/templates/${encodeURIComponent(template.id)}`);
+      expect(full.status).toBe(200);
+      expect(await full.json()).toEqual({ ok: true, v: 1, template });
+    }
+  });
+
+  it('returns a helpful 404 for an unknown ID', async () => {
+    const res = await fetch(`${base}/templates/no-such-template`);
+    expect(res.status).toBe(404);
+    expect(await res.json()).toMatchObject({ ok: false, v: 1, errors: [expect.stringContaining('GET /templates')] });
+  });
+
+  it('rejects malformed ID encoding and remains usable', async () => {
+    expect((await fetch(`${base}/templates/%ZZ`)).status).toBe(400);
+    expect((await fetch(`${base}/templates?source=cli`)).status).toBe(200);
+  });
+
+  it('does not accept POST for template routes', async () => {
+    expect((await post('{}', '/templates')).status).toBe(404);
+    expect((await post('{}', `/templates/${LETTER_TEMPLATES[0].id}`)).status).toBe(404);
+  });
+});
+
+describe('unit lookup route', () => {
+  it('finds the Newburgh letterhead by name and MCC', async () => {
+    const res = await fetch(`${base}/units?query=Marine%20Innovation%20Unit%20Newburgh`);
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body).toMatchObject({
+      ok: true, v: 1, source: expect.any(String), lastUpdated: expect.any(String),
+      total: 1, truncated: false,
+      matches: [{ mcc: 'SVP', unit: { address: '10 MCDONALD ST, NEWBURGH NY 12550-5012', department: 'usmc' } }],
+    });
+    const byMcc = await (await fetch(`${base}/units?query=SVP`)).json();
+    expect(byMcc.matches).toEqual(body.matches);
+  });
+
+  it('limits results while reporting the full count', async () => {
+    const body = await (await fetch(`${base}/units?query=Marine+Innovation+Unit&limit=2`)).json();
+    expect(body).toMatchObject({ ok: true, v: 1, total: 7, truncated: true });
+    expect(body.matches).toHaveLength(2);
+  });
+
+  it('returns a successful empty result for no matches', async () => {
+    const res = await fetch(`${base}/units?query=no-such-unit-xyz`);
+    expect(res.status).toBe(200);
+    expect(await res.json()).toMatchObject({ ok: true, v: 1, total: 0, truncated: false, matches: [] });
+  });
+
+  it.each(['', '?query=', '?query=%20', `?query=${'x'.repeat(201)}`, '?query=SVP&limit=0', '?query=SVP&limit=51', '?query=SVP&limit=1.5', '?query=SVP&limit=no', '?query=SVP&limit='])('rejects invalid input %s', async (suffix) => {
+    const res = await fetch(`${base}/units${suffix}`);
+    expect(res.status).toBe(400);
+    expect(await res.json()).toMatchObject({ ok: false, v: 1, errors: expect.any(Array) });
+  });
+
+  it('does not accept POST', async () => {
+    expect((await post('{}', '/units?query=SVP')).status).toBe(404);
+  });
+});
+
 describe('routing', () => {
   it('404s an unknown path', async () => {
     const { status, json } = await post(JSON.stringify(VALID), '/render');
@@ -132,10 +205,20 @@ describe('malformed input is 400, never 500', () => {
     expect(json.errors?.join(' ')).toMatch(/contract version 99/);
   });
 
+  it('refuses a key it does not publish, by name, as the MCP door does', async () => {
+    // Stripping it silently is how a misspelled classification rendered an
+    // unmarked document with a 200.
+    const { status, json } = await post(JSON.stringify({
+      docType: 'naval_letter', subject: 'TYPO', paragraphs: [{ text: 'x' }], clasification: { level: 'secret' },
+    }));
+    expect(status).toBe(400);
+    expect(json.errors!.join(' ')).toMatch(/clasification/);
+  });
+
   it('reports every problem at once rather than one per round-trip', async () => {
     const { status, json } = await post(JSON.stringify({ docType: 'invoice', format: 'rtf', paragraphs: 'not an array' }));
     expect(status).toBe(400);
-    // docType + format + paragraphs shape + nothing-to-render.
+    // docType + format + paragraphs shape, each named.
     expect(json.errors!.length).toBeGreaterThanOrEqual(3);
   });
 });
@@ -188,10 +271,11 @@ describe('validate() directly', () => {
       subject: 'S',
       paragraphs: [{ text: 'ok' }, { text: 42 } as never],
     });
-    expect(problems.join(' ')).toMatch(/paragraphs\[1\]\.text/);
+    // The schema names it first, in its own path form, the same as the MCP door.
+    expect(problems.join(' ')).toMatch(/paragraphs\.1\.text/);
   });
 
   it('rejects an array where an object belongs', () => {
-    expect(validate({ ...VALID, unit: [] as never }).join(' ')).toMatch(/unit must be an object/);
+    expect(validate({ ...VALID, unit: [] as never }).join(' ')).toMatch(/unit: .*expected object/);
   });
 });

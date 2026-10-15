@@ -5,7 +5,10 @@
  * rather than an attack scenario — these are the cases that must be refused
  * before anything is written.
  */
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { mkdtemp, mkdir, rm, symlink, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { resolveOutputPath, filenameFor, OutsideSandboxError } from '../../companion/outputPath';
 
 const ROOT = '/tmp/dondocs-root';
@@ -42,6 +45,58 @@ describe('resolveOutputPath', () => {
 
   it('normalises a redundant but harmless path', () => {
     expect(resolveOutputPath('./sub/../letter.pdf', ROOT)).toBe('/tmp/dondocs-root/letter.pdf');
+  });
+
+  it('refuses the root itself', () => {
+    // Writing the bytes at the root path turns the output directory into a
+    // file and breaks every later render.
+    for (const requested of ['', '.', './', 'sub/..']) {
+      expect(() => resolveOutputPath(requested, ROOT), JSON.stringify(requested)).toThrow(OutsideSandboxError);
+    }
+  });
+});
+
+describe('resolveOutputPath on a real directory', () => {
+  let root: string;
+  let outside: string;
+
+  beforeAll(async () => {
+    const base = await mkdtemp(join(tmpdir(), 'dondocs-sandbox-'));
+    root = join(base, 'root');
+    outside = join(base, 'outside');
+    await mkdir(join(root, 'plain'), { recursive: true });
+    await mkdir(outside);
+    await symlink(outside, join(root, 'door'));
+    await writeFile(join(outside, 'target.pdf'), 'x');
+    await symlink(join(outside, 'target.pdf'), join(root, 'alias.pdf'));
+    // Dangling links: nothing exists at the far end yet, so a write there
+    // would create the file outside the root.
+    await symlink(join(outside, 'not-yet.pdf'), join(root, 'dangling.pdf'));
+    await symlink(join(outside, 'no-such-dir'), join(root, 'dangling-dir'));
+  });
+  afterAll(async () => { await rm(join(root, '..'), { recursive: true, force: true }); });
+
+  it('still allows a real subdirectory', () => {
+    expect(resolveOutputPath('plain/letter.pdf', root)).toBe(join(root, 'plain', 'letter.pdf'));
+  });
+
+  it('refuses a path through a symlinked directory that leaves the root', () => {
+    // Lexically inside the root; on disk it lands in `outside`.
+    expect(() => resolveOutputPath('door/letter.pdf', root)).toThrow(OutsideSandboxError);
+  });
+
+  it('refuses a filename that is itself a symlink', () => {
+    expect(() => resolveOutputPath('alias.pdf', root)).toThrow(OutsideSandboxError);
+  });
+
+  it('refuses a dangling symlink, as a filename or as a directory on the way', () => {
+    expect(() => resolveOutputPath('dangling.pdf', root)).toThrow(OutsideSandboxError);
+    expect(() => resolveOutputPath('dangling-dir/letter.pdf', root)).toThrow(OutsideSandboxError);
+  });
+
+  it('allows a new file under a root that does not exist yet', () => {
+    const fresh = join(root, '..', 'not-yet');
+    expect(resolveOutputPath('letter.pdf', fresh)).toBe(join(fresh, 'letter.pdf'));
   });
 });
 

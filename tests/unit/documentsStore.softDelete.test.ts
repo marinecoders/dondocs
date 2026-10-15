@@ -2,6 +2,7 @@ import 'fake-indexeddb/auto';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { idbPutDocument, idbGetAllDocuments, idbDeleteDocument } from '@/lib/documentsDb';
+import { documentsRead } from '../_helpers/documentsDb';
 
 const entry = (id: string, updatedAt = 1) => ({
   meta: { id, title: `D ${id}`, docType: 'naval_letter', updatedAt },
@@ -17,7 +18,7 @@ const entry = (id: string, updatedAt = 1) => ({
 const tick = () => new Promise((r) => setTimeout(r, 5));
 
 async function clearDb() {
-  for (const r of await idbGetAllDocuments()) await idbDeleteDocument(r.id);
+  for (const r of documentsRead(await idbGetAllDocuments())) await idbDeleteDocument(r.id);
 }
 
 // Regression guard: previously the IDB record was deleted only by the 6s purge
@@ -41,14 +42,14 @@ describe('documentsStore soft delete — eager purge closes the resurrection win
     await tick(); // let the fire-and-forget idbDeleteDocument commit
 
     // Immediately gone from IndexedDB — a reload's idbGetAllDocuments won't see it.
-    expect((await idbGetAllDocuments()).find((r) => r.id === 'd1')).toBeUndefined();
+    expect(documentsRead(await idbGetAllDocuments()).find((r) => r.id === 'd1')).toBeUndefined();
     // ...but still undoable from the in-memory copy.
     expect(useDocumentsStore.getState().pendingDelete?.ids).toEqual(['d1']);
 
     useDocumentsStore.getState().restoreDeleted();
     await tick();
 
-    expect((await idbGetAllDocuments()).find((r) => r.id === 'd1')).toBeDefined();
+    expect(documentsRead(await idbGetAllDocuments()).find((r) => r.id === 'd1')).toBeDefined();
     expect(useDocumentsStore.getState().docs.d1).toBeDefined();
   });
 });

@@ -61,13 +61,30 @@ npx vitest run --config vitest.integration.config.ts tests/integration/different
 If a binary is missing, the corresponding tests skip with a console
 warning rather than failing — so a fresh checkout doesn't false-fail.
 
-## Three test files in this directory
+## The compile matrix
 
 | File | What it does | Fixtures | Wall time |
 |------|--------------|---------:|----------:|
 | `latex-compile.test.ts` | Compiles each pairwise fixture with xelatex; asserts PDF > 1000 bytes | 380 | ~3-4 min |
 | `docx-compile.test.ts` | Compiles each pairwise fixture with pandoc; asserts DOCX > 2000 bytes | 380 | ~30 s |
 | `differential.test.ts` | For 10 curated fixtures, compiles BOTH paths, extracts text via `pdf-parse` + `mammoth`, asserts a distinctive token appears in BOTH outputs (catches one-path-drops-content bugs) | 10 | ~7 s |
+
+## The companion
+
+These drive `companion/` as a client would, and need `pdftotext` (poppler)
+where they read a page back.
+
+| File | What it does |
+|------|--------------|
+| `companion-surface-matrix.test.ts` | Every advertised docType in both formats renders a real file |
+| `companion-doc-type-content.test.ts` | The types that once rendered hollow carry their content (pdftotext) |
+| `companion-docx.test.ts` | The pandoc path: timeouts, scratch cleanup, error reporting |
+| `companion-agent-contract.test.ts` | The HTTP door's request contract |
+| `companion-mcp.test.ts` | Raw JSON-RPC over stdio: handshake, stdout hygiene, the documented launch form |
+| `companion-mcp-client.test.ts` | The published client SDK: tools, resources, prompts, completions, structured results |
+| `companion-mcp-revisions.test.ts` | Each protocol revision gets answers in its own vocabulary |
+| `companion-mcp-elicit.test.ts` | The unit picker with clients that can and cannot show a form |
+| `companion-mcp-defaults.test.ts` | The config file, the defaults resource, and a render that uses them |
 
 ## Architecture
 

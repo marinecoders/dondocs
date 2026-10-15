@@ -7,6 +7,7 @@ import {
   collectAttachmentIds,
   summarizeRestore,
   BACKUP_KIND,
+  type RestoreResult,
 } from '@/lib/backup';
 
 describe('mergeRecord (non-destructive)', () => {
@@ -75,25 +76,42 @@ describe('collectAttachmentIds', () => {
 });
 
 describe('summarizeRestore', () => {
+  // Every bucket at rest, so each case names only the ones it turns on and
+  // a bucket added later is one edit rather than one per case.
+  const NOTHING: RestoreResult = {
+    documents: { imported: 0, skipped: 0 },
+    profilesAdded: 0, snippetsAdded: 0, templatesAdded: 0,
+    formsRestored: false, attachmentsAdded: 0, snapshotDocs: 0, routingRulesAdded: 0,
+  };
+
   it('lists only the buckets that changed', () => {
     expect(
-      summarizeRestore({ documents: { imported: 3, skipped: 1 }, profilesAdded: 2, snippetsAdded: 0, templatesAdded: 1, formsRestored: true, attachmentsAdded: 0, snapshotDocs: 0 }),
+      summarizeRestore({ ...NOTHING, documents: { imported: 3, skipped: 1 }, profilesAdded: 2, templatesAdded: 1, formsRestored: true }),
     ).toBe('Restored 3 docs, 2 profiles, 1 template, form fields · kept 1 newer');
     expect(
-      summarizeRestore({ documents: { imported: 1, skipped: 0 }, profilesAdded: 0, snippetsAdded: 0, templatesAdded: 0, formsRestored: false, attachmentsAdded: 0, snapshotDocs: 0 }),
+      summarizeRestore({ ...NOTHING, documents: { imported: 1, skipped: 0 } }),
     ).toBe('Restored 1 doc');
   });
 
   it('reports restored attachments', () => {
     expect(
-      summarizeRestore({ documents: { imported: 2, skipped: 0 }, profilesAdded: 0, snippetsAdded: 0, templatesAdded: 0, formsRestored: false, attachmentsAdded: 3, snapshotDocs: 0 }),
+      summarizeRestore({ ...NOTHING, documents: { imported: 2, skipped: 0 }, attachmentsAdded: 3 }),
     ).toBe('Restored 2 docs, 3 attachments');
   });
 
   it('reports restored version history', () => {
     expect(
-      summarizeRestore({ documents: { imported: 2, skipped: 0 }, profilesAdded: 0, snippetsAdded: 0, templatesAdded: 0, formsRestored: false, attachmentsAdded: 0, snapshotDocs: 2 }),
+      summarizeRestore({ ...NOTHING, documents: { imported: 2, skipped: 0 }, snapshotDocs: 2 }),
     ).toBe('Restored 2 docs, version history');
+  });
+
+  it('reports restored routing rules, singular and plural', () => {
+    expect(
+      summarizeRestore({ ...NOTHING, documents: { imported: 1, skipped: 0 }, routingRulesAdded: 1 }),
+    ).toBe('Restored 1 doc, 1 routing rule');
+    expect(
+      summarizeRestore({ ...NOTHING, documents: { imported: 1, skipped: 0 }, routingRulesAdded: 4 }),
+    ).toBe('Restored 1 doc, 4 routing rules');
   });
 });
 
@@ -108,7 +126,7 @@ describe('mergeSnapshots', () => {
   it('keeps the LOCAL copy when a timestamp exists in both (backup cannot clobber)', () => {
     const merged = mergeSnapshots([snap(5, 'local')], [snap(5, 'backup')]);
     expect(merged).toHaveLength(1);
-    expect((merged[0].session as { subject: string }).subject).toBe('local');
+    expect((merged[0].session as unknown as { subject: string }).subject).toBe('local');
   });
 
   it('caps at MAX_SNAPSHOTS (10), keeping the newest', () => {

@@ -5,7 +5,7 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
-## [1.2.144] — 2026-09-02
+## [Unreleased]
 
 ### Added
 
@@ -24,6 +24,422 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
   acronyms, the time compliance period, step depth and siblings, NSN form,
   the date, the digital signature — and says what a figure or statement still
   lacks. Delivered as PDF, which the standard names as the medium.
+
+## [1.2.167] — 2026-09-13
+
+### Fixed
+
+- **The typecheck job now typechecks.** `tsconfig.json` lists projects
+  rather than files, and plain `tsc` does not follow project references,
+  so the job's `tsc --noEmit` compiled nothing and passed on anything,
+  a blatant type error in `src` included. It builds the solution instead,
+  and a test asserts it keeps doing so.
+- **The test files are in a project.** None of the three that existed
+  covered `tests/`, so the suite went unchecked entirely; a fourth covers
+  it. Of the 42 errors that were hiding, most were loose typing, but some
+  were not: a pandoc failure message that could never say what went wrong,
+  four `summarizeRestore` cases missing a field the function reads (its
+  routing-rule branch had no coverage at all and now has a case), and a
+  test importing a type that no longer exists.
+
+## [1.2.166] — 2026-09-13
+
+### Added
+
+- **The machine defaults can be settled by asking.** `dondocs_save_defaults`
+  writes the unit, signer, SSIC and originator code that later letters may
+  omit, so a fresh install stops opening every letter with a unit lookup.
+  The unit comes from a `dondocs_unit_lookup` match and the signature block
+  is put to the person as a form where the client can show one, rather than
+  being transcribed by the model; a form sent back untouched counts as no
+  answer rather than an empty signature. It merges over what is stored,
+  `null` clears a field, and a config the companion could not load is
+  refused before anything is written.
+
+## [1.2.165] — 2026-09-12
+
+### Added
+
+- **Edit a rendered letter in the browser.** The card gained an Edit in
+  browser button that opens the letter in the web editor with every field
+  filled in, so an EDIPI or a date can be fixed by hand instead of
+  annotating a PDF. It appears only where the host says it opens links,
+  and names the destination in its tooltip. The letter travels in the
+  URL's fragment, which no browser sends to a server, and the editor
+  clears it from the address bar once it has loaded. `DONDOCS_APP_URL`, a setting on the bundle, says where the
+  editor is; clear it and no link is offered. Nothing above CUI is handed
+  over.
+
+## [1.2.164] — 2026-09-12
+
+### Fixed
+
+- **Subj: keeps its blank line under a wrapped To:.** An addressee long
+  enough to run to a second line pulled the subject up against it. Every
+  letter and memorandum template now opens the gap the same way however
+  many lines the addressee takes.
+
+## [1.2.163] — 2026-09-12
+
+### Added
+
+- **The card opens fullscreen.** Where the host offers it, an expand button
+  gives the letter the whole window: its pages in a scroll of their own,
+  the pager following the scroll, Download still to hand, and the host's
+  close returning to the card on the page last read. Twenty pages at most,
+  each canvas being a page at device resolution; a longer file says so and
+  carries them all in the download. The inline card is unchanged.
+
+### Fixed
+
+- **A card that is off screen finishes what it starts.** Layout steps
+  waited on an animation frame, which a browser withholds from a document
+  it is not displaying, so a switch begun while the card was scrolled away
+  never completed. Nothing in the card waits on a frame now.
+
+## [1.2.162] — 2026-09-12
+
+### Changed
+
+- **The card shows every page.** It drew the first page of a PDF and said
+  how many there were; it now pages through them, with buttons and the
+  arrow keys, each page drawn when first shown. The card stays one page
+  tall: the desktop app sizes the frame once and does not follow later
+  growth. The page's URI carries its own hash, and after drawing the card
+  writes one line to the host's console (build time, page count, what the
+  host told it). The desktop app keeps the page it has read for as long as
+  it runs, so after an update, quit and reopen the app.
+
+## [1.2.161] — 2026-09-11
+
+### Added
+
+- **The letter as a card in the chat.** `dondocs_letter` now carries an MCP
+  App: a page a host that renders one shows in place of the text, with the
+  subject, format, size and page count, the first page of a PDF drawn by
+  pdf.js, and a Download button that hands the bytes to the host's own save
+  dialog. The page reads the file back through a new `dondocs://files/{out}`
+  resource, which serves only what this server wrote in this session, so
+  nothing of the document enters the model's context and nothing else in
+  the output folder can be read; the page loads nothing from the network. The desktop app renders such pages for
+  local servers, so the card no longer depends on the model calling
+  `present_files`; hosts without page support get the same result text as
+  before. The page is built into the bundle; a source run has none.
+- **`out` in the render result.** `dondocs_letter`'s structured result and
+  the HTTP `files[]` entry carry `out`, the name that replaces the file when
+  passed back, beside `path`.
+
+## [1.2.160] — 2026-09-11
+
+### Fixed
+
+- **A DOCX hygiene test that failed on its neighbours.** It listed the
+  system temp directory before and after a conversion, so a scratch
+  directory from any other suite rendering at the same moment counted as a
+  leak. It now records the directories its own render creates and checks
+  those are gone.
+
+## [1.2.159] — 2026-09-11
+
+### Fixed
+
+- **The card, every time.** The render result asked for `present_files` "if
+  that tool is available", and in a chat where the tool was not yet loaded
+  the model took that as a no and gave the path. The result, the tool
+  description and the instructions now ask for the call outright and say to
+  load the tool first when it is not loaded.
+
+## [1.2.158] — 2026-09-11
+
+### Fixed
+
+- **The bundle is on as soon as it is installed.** The Output folder setting
+  was marked required, and the desktop app leaves an extension off after
+  install while any setting is required, default or no default, so every
+  install began with a search for the switch. The setting is optional now,
+  with the same `Documents/DonDocs` default. A root that reaches the server
+  with the host's placeholder unexpanded is ignored, with a note on stderr,
+  rather than made into a folder of that name.
+
+## [1.2.157] — 2026-09-11
+
+### Fixed
+
+- **The letter appears in the chat.** The desktop app puts a file in the
+  chat only when the model calls its own `present_files` tool on the path,
+  and "share the file if a tool of yours can" did not make it do so. The
+  render result, the tool description and the instructions now name the
+  tool. Returning the document itself is not an option there: the app
+  forwards an embedded document to the model as an image, which the API
+  refuses.
+
+## [1.2.156] — 2026-09-11
+
+### Changed
+
+- **Fewer round trips per letter over MCP.** A letter through the desktop app
+  took six minutes of wall clock, of which the server was busy for 0.4 s; the
+  rest was one model turn per tool call. The template IDs are now an enum on
+  `dondocs_template_get` and named in the instructions, so the list call is
+  optional and an unknown ID is answered with the valid ones. The render
+  tool's description, the instructions and the result say to render once the
+  facts are in hand rather than drafting in chat first, to share the file
+  when a tool can, and to revise with `out` set to the name the result now
+  reports. The docs say to set the defaults file first and why the document
+  card in a chat needs a file on disk.
+
+## [1.2.155] — 2026-09-11
+
+### Fixed
+
+- **A repeated subject no longer writes over the earlier letter.** With `out`
+  omitted the default name is numbered when taken (`subject-2.pdf`); a given
+  `out` still replaces, as its description says. `dondocs_letter` no longer
+  claims to be idempotent.
+- **`MIU` finds the Marine Innovation Unit.** Its seven directory entries
+  carried the full name as their abbreviation, so the abbreviation everyone
+  types found nothing, in the companion and in the app's unit lookup alike.
+- **The From line is asked for.** Letters, endorsements and memoranda print
+  `From:` even when the request omits it, the MFR included, so an omitted
+  line came out as an empty label. The field descriptions, the
+  `draft_letter` prompt and the server instructions now say so.
+
+## [1.2.154] — 2026-09-11
+
+### Added
+
+- **An installable companion.** `npm run build:companion` bundles the MCP
+  and HTTP entries with everything they import and copies the render assets
+  beside them, so `node dist-companion/companion/mcp.mjs` runs on a machine
+  with Node and nothing else. `npm run build:mcpb` packs that as an MCP
+  Bundle (`dondocs-<version>.mcpb`) that a desktop client installs by opening
+  the file; each release now carries the bundle and its SHA-256. The render
+  assets are found from the built file or the source tree alike. A cold-run
+  suite starts both the built file and the unpacked bundle from an empty
+  directory and renders through them.
+
+## [1.2.153] — 2026-09-11
+
+### Fixed
+
+- **The HTTP door refuses a key it does not publish**, by name, as the MCP
+  door has since 1.2.144. It used to strip one silently, so a misspelled
+  classification rendered an unmarked document with a 200. The same rule now
+  applies inside every nested object on both doors: a misspelled portion mark
+  or address key is refused rather than dropped.
+- The compile-matrix guard that fails CI when the PDF toolchain is missing
+  sat inside the block it guarded, so a missing poppler skipped both. It runs
+  unconditionally now.
+- Tests that could pass without proving their claim: the concurrency case
+  reads each file's own text back, the launch-form case requires an
+  initialize reply, DOCX over MCP and the elicitation capability matrix are
+  covered.
+- Docs: the MCP registration snippet is a launch form that works from any
+  working directory; the lookup example uses the spelled-out unit name; a
+  malformed config's effect on a client is described; the test READMEs list
+  the integration and companion suites.
+
+### Changed
+
+- `unit.city`, `unit.state` and `unit.zip` are gone from the companion's
+  input type; the request never published them and the config refuses them.
+
+## [1.2.152] — 2026-09-11
+
+### Added
+
+- **Portion marks.** `paragraphs[].portionMarking` (U, CUI, FOUO, C, S, TS)
+  is printed before the paragraph and raises the banner to the highest mark,
+  as the classification description had promised without a field to carry it.
+- **A `dod` department.** The letterhead heading can be DEPARTMENT OF DEFENSE,
+  and the unit lookup reports it for DOD entries.
+
+### Fixed
+
+- **A custom classification banner renders.** `classification.custom` was
+  accepted and ignored. It now selects the custom level on its own; giving it
+  with a level is refused, since the generator prints one or the other, and a
+  level outside the list is refused over HTTP as it already was over MCP.
+- **One unit line under the department heading.** A navy unit printed UNITED
+  STATES MARINE CORPS under DEPARTMENT OF THE NAVY, and a fresh install
+  printed the Marine Corps line twice. `name` and `line1` are the same line,
+  a request beats the config across both spellings, and there is no fallback
+  under a heading that already says it.
+- **An endorsement without its ordinal and basic letter is refused** instead
+  of rendering a bare ENDORSEMENT heading.
+- **The config file is validated at startup.** A file containing `null`, a
+  wrong-typed field, or a key the request could not set stops the companion
+  with the path and field named; it used to load and fail every render.
+- **A bad `out` is refused before rendering** (a NUL byte, a path component
+  over 255 bytes), and a write that fails is reported as `could not write
+  <path>` rather than as a render failure.
+- **The server exits when the client leaves.** A startup timer in the engine
+  kept the process alive for a minute after stdin closed; a worker that
+  misses that deadline is now terminated.
+- **A bad `DONDOCS_RENDER_TIMEOUT_MS` is ignored** with a note on stderr;
+  it used to become NaN and abandon every render at once.
+- `dondocs_letter` declares `destructiveHint`, since it replaces the file at
+  `out`; `attnLine`, `throughLine`, `coordination` and `preparedBy` say which
+  types print them.
+
+### Changed
+
+- `references[].url` is no longer accepted; nothing past the companion
+  rendered it.
+- The subject-form endorsement (`FIRST ENDORSEMENT on ...` as the subject,
+  without the `endorsement` block) is withdrawn; the block is required.
+
+## [1.2.151] — 2026-09-11
+
+### Fixed
+
+- **The MCP server answers each client in its own protocol revision.**
+  `dondocs_letter` sent a `resource_link` block to every client, and clients on
+  revisions before 2025-06-18 rejected the whole result after the file was
+  written. The block is now sent only where it exists. The unit picker offers
+  its choices as `enum`/`enumNames` before 2025-11-25 and as a titled `oneOf`
+  from then on, fires for 2026-07-28 clients that carry their capabilities per
+  request, and `prompts/get` accepts a request without an `arguments` member.
+
+### Security
+
+- **Model-supplied text can no longer reach LaTeX unescaped.** A reference
+  `letter` was placed in the `.tex` verbatim, and `formData` was merged over
+  every named field, so a caller could run TeX of its choosing, alter the
+  classification banner, or pull a local file into a DOCX. The letter is
+  escaped and constrained to one or two lowercase letters, and `formData` is
+  gone from the companion's request.
+- **The output sandbox checks where a path lands, not how it looks.** A path
+  through a symlink inside the root, a filename that is itself a symlink, and
+  the root itself (which turned the output directory into a file) are refused.
+- **A render that overruns its deadline is cancelled.** The pdfTeX worker used
+  to keep spinning for the life of the process; it is now disposed.
+
+## [1.2.150] — 2026-09-10
+
+### Added
+
+- **MCP: server instructions and a defaults resource.** The companion tells a
+  connecting client how its tools fit together (look the unit up or use the
+  defaults, start from a template or not, then render), and publishes the
+  machine defaults a render will use as `dondocs://defaults`, with the path of
+  the config file that sets them.
+
+## [1.2.149] — 2026-09-10
+
+### Added
+
+- **MCP: structured results, template resources, a prompt, and a unit picker.**
+  Every companion tool declares an output schema and returns
+  `structuredContent` beside its text; `dondocs_letter` also returns a
+  `resource_link` to the written file. The bundled templates are readable as
+  `dondocs://templates/{id}`. A `draft_letter` prompt takes a document type or
+  a template id, both with completion. When a lookup matches several units and
+  the client supports elicitation, `dondocs_unit_lookup` asks the user which
+  one; otherwise it returns the list as before.
+
+## [1.2.148] — 2026-09-10
+
+### Added
+
+- **The companion renders every document type the app defines.** It accepted
+  four; the app has twenty, and the renderer handled all of them the whole time.
+  The list now derives from the app's registry, and the seven types that
+  rendered with blank lines or bracketed placeholders carry their content: joint
+  letters and memoranda, MOAs and MOUs take both sides under `parties`;
+  endorsements take their ordinal and basic letter under `endorsement`;
+  business letters take a salutation and close; information memoranda take
+  coordination and prepared-by lines. The plain `from`, `to`, `subject` and
+  `date` fields work for every type, and the date defaults to the format the
+  type's chapter prescribes rather than always the naval one.
+
+## [1.2.147] — 2026-09-10
+
+### Fixed
+
+- **The appointment acknowledgement template renders from the companion.** It
+  is an endorsement, and the companion accepted only letters and memoranda, so
+  an agent that fetched the template and sent it back to be rendered was refused
+  on the last step. `same_page_endorsement` is now accepted, and a test holds
+  every bundled template's document type against the list the companion accepts
+  so a template cannot ship in that state again.
+
+## [1.2.146] — 2026-09-10
+
+### Added
+
+- **The companion can look up a unit's mailing address.** Search the bundled
+  directory by name, abbreviation, MCC or location and get back a letterhead
+  block ready to pass straight into a letter, so an address no longer has to be
+  typed by hand. `GET /units?query=...` over HTTP, `dondocs_unit_lookup` over MCP.
+
+- **Letter templates are readable from the companion.** List the bundled
+  templates and fetch one by ID, then fill its bracketed placeholders and send
+  the result to be rendered. `GET /templates` and `GET /templates/{id}` over
+  HTTP, `dondocs_template_list` and `dondocs_template_get` over MCP. Templates
+  come from the same registry the application uses, so registering a new one
+  exposes it to both.
+
+### Fixed
+
+- **Templates no longer carry invented contact details.** Several shipped with a
+  placeholder phone number, email address and duty station written as though they
+  were real. They are bracketed now, so it is obvious what has to be supplied.
+
+## [1.2.145] — 2026-09-10
+
+### Fixed
+
+- **A touchscreen laptop is no longer served the phone layout.** The layout was
+  chosen by testing touch capability against a width threshold, and a Windows
+  laptop with a touch panel satisfies both halves: those high-DPI panels ship at
+  150–200% display scaling, so a 1920- or 2560-wide screen reports about 1280
+  CSS px. Every one of them lost the editor sidebar, which the mobile layout
+  hides outright. Touch is a capability, not a form factor, so the decision now
+  asks the platform — Windows is not a mobile operating system whatever its
+  touchscreen reports.
+
+  The pointer media features look like the principled answer and are not: both
+  misreport on exactly this hardware (Chromium 40277167, Mozilla 1638556), so a
+  rule resting on them would have left the bug in place on some of the machines
+  it was meant to fix.
+
+- **A narrow window is no longer mistaken for a mobile device.** The same
+  assumption sat one level down in device detection, where it decides the PDF
+  delivery path, the install prompt and the welcome modal — so a touchscreen
+  laptop with its window snapped to half a screen was handed all three as if it
+  were a phone. The fallback existed to catch an iPad in desktop mode, which
+  reports itself as a Mac, and was bad at that too: an iPad in landscape is
+  wider than the 1024px it tested, so the case it was written for slipped
+  through while a PC was caught. It now asks the iPad detector, which reads the
+  touch-point signal that survives desktop mode.
+
+## [1.2.144] — 2026-09-10
+
+### Fixed
+
+- **Classification markings no longer go missing from a companion document.**
+  A request carrying a classification produced a marked document over the HTTP
+  endpoint and an unmarked one over MCP, and both reported success. The MCP tool
+  schema never published the field, so it was discarded on the way in and the
+  document rendered unclassified. The schema now publishes it, along with the
+  point of contact and the `formData` escape hatch, and both front doors derive
+  their field list from one definition so they cannot disagree again.
+
+- **A field the schema does not recognise is now refused by name.** An
+  unrecognised key used to be dropped in silence, so a misspelled field looked
+  like a successful render. The request is rejected and the offending key is
+  named.
+
+- **Memoranda render.** `memorandum` was offered as a document type but no
+  template of that name exists, so every PDF failed on the doc-type lookup while
+  DOCX — which reads no doc-type template — appeared to work. It now resolves to
+  the standard memorandum template, and the addressee reaches the
+  `MEMORANDUM FOR` line instead of being dropped.
+
+- **A failed render says what the compiler rejected.** Failures reported only
+  `LaTeX compilation failed (status 1)`. The log always held the cause; its first
+  error line now rides back with the message.
 
 ## [1.2.143] — 2026-09-01
 

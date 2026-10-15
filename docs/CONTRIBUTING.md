@@ -83,6 +83,17 @@ npm run build
 npm run lint
 ```
 
+### Typecheck
+
+```bash
+npx tsc -b
+```
+
+`tsconfig.json` lists the projects rather than the files, so `tsc -b`
+is the command that checks anything: plain `tsc` does not follow project
+references. The four projects are the app (`src`), the build configs, the
+companion, and the tests, so this covers `tests/` too.
+
 ---
 
 ## Project Structure
@@ -356,8 +367,6 @@ Add support for joint memorandum format
 - Implement dual signature block per SECNAV Ch 7
 - Add junior command configuration
 - Update generator.ts for joint document types
-
-Co-Authored-By: Claude <noreply@anthropic.com>
 ```
 
 Format:

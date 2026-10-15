@@ -13,89 +13,400 @@
  *
  * stdout is the JSON-RPC channel; every diagnostic here goes to stderr.
  */
-import { McpServer } from '@modelcontextprotocol/server';
+import {
+  CLIENT_CAPABILITIES_META_KEY, LATEST_PROTOCOL_VERSION, McpServer, PROTOCOL_VERSION_META_KEY, ProtocolError, ProtocolErrorCode,
+  ResourceNotFoundError, ResourceTemplate, acceptedContent, completable, inputRequired, inputResponse,
+} from '@modelcontextprotocol/server';
+import type { ClientCapabilities, ServerContext } from '@modelcontextprotocol/server';
 import { serveStdio } from '@modelcontextprotocol/server/stdio';
+import { readFile } from 'node:fs/promises';
+import { basename, extname } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import * as z from 'zod';
-import { loadDefaults } from './letterInput';
-import { OutsideSandboxError, DEFAULT_ROOT } from './outputPath';
-import { renderToFile } from './renderToFile';
-import { validateLetter } from './validateLetter';
+import { LETTER_TEMPLATES } from '../src/data/templates';
+import { lookupUnits } from './unitLookup';
+import { CONFIG_PATH, loadDefaults, saveDefaults } from './defaults';
+import { letterSchema, signature, signatureForm, unit } from './letterSchema';
+import { OutsideSandboxError, outputRoot, resolveOutputPath } from './outputPath';
+import { getUiCapability, registerAppResource, RESOURCE_MIME_TYPE, RESOURCE_URI_META_KEY } from '@modelcontextprotocol/ext-apps/server';
+import { loadAppPage } from './appPage';
+import { editorOrigin, handoffUrl } from './handoff';
+import { OutputWriteError, renderToFile } from './renderToFile';
+import { defaultsResult, renderResult, templateListResult, templateResult, unitLookupResult } from './resultSchema';
+import { DOC_TYPES, ENDORSEMENT_TYPES, validateLetter } from './validateLetter';
 import { systemPandocVersion, VENDORED_PANDOC } from './renderDocx';
 
-const ROOT = process.env.DONDOCS_OUT_ROOT ?? DEFAULT_ROOT;
+const ROOT = outputRoot();
+// Where the web editor is served, for the handoff link a rendered letter
+// carries. Unset, or unusable, means no link is offered at all.
+const APP_URL = editorOrigin(process.env.DONDOCS_APP_URL);
 
-const paragraph = z.object({
-  text: z.string().describe('The paragraph text. Plain prose — numbering is applied for you.'),
-  level: z.number().int().min(0).max(7).optional()
-    .describe('0 = "1.", 1 = "a.", 2 = "(1)" … through Figure 7-8\'s eight levels. Defaults to 0.'),
-  header: z.string().optional().describe('Bold run-in heading before the text.'),
-});
+const MIME = {
+  pdf: 'application/pdf',
+  docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+} as const;
 
-const unit = z.object({
-  name: z.string().optional(),
-  line2: z.string().optional().describe('Second letterhead line, e.g. the parent command.'),
-  address: z.string().optional()
-    .describe('The whole mailing address as ONE string, e.g. "PSC BOX 20004, QUANTICO VA 22134". Do not split it.'),
-  department: z.enum(['usmc', 'navy']).optional(),
-  seal: z.enum(['dow', 'dod']).optional(),
-});
+// The SDK negotiates every revision it lists but does not translate results,
+// so anything a revision does not define has to be left out for that client.
+// 2025-era connections negotiate once at initialize; 2026-07-28 requests
+// carry the revision and the client's capabilities in their _meta envelope.
+const envelope = (ctx: ServerContext) => (ctx.mcpReq.envelope ?? {}) as Record<string, unknown>;
+const revisionOf = (server: McpServer, ctx: ServerContext): string =>
+  (envelope(ctx)[PROTOCOL_VERSION_META_KEY] as string | undefined)
+  ?? server.server.getNegotiatedProtocolVersion() ?? LATEST_PROTOCOL_VERSION;
 
-const signature = z.object({
-  first: z.string().optional(), middle: z.string().optional(), last: z.string().optional(),
-  rank: z.string().optional(), title: z.string().optional(),
-  byDirection: z.boolean().optional(),
-});
+/** Whether the client can put a form in front of the user. Elicitation dates
+ * from 2025-06-18; a bare `elicitation: {}` means form mode. */
+const clientCanElicit = (server: McpServer, ctx: ServerContext): boolean => {
+  if (revisionOf(server, ctx) < '2025-06-18') { return false; }
+  const declared = ((envelope(ctx)[CLIENT_CAPABILITIES_META_KEY] as ClientCapabilities | undefined)
+    ?? server.server.getClientCapabilities())?.elicitation;
+  return !!declared && (declared.form !== undefined || declared.url === undefined);
+};
 
-const letterInput = z.object({
-  docType: z.enum(['naval_letter', 'standard_letter', 'memorandum']),
-  format: z.enum(['pdf', 'docx']).optional().describe('Defaults to pdf.'),
-  out: z.string().optional().describe('Filename inside the output root. Defaults to a slug of the subject.'),
+/** Wraps prompt arguments so a request without the optional `arguments`
+ * member reads as {}: the SDK validates the missing member as undefined,
+ * which an object schema refuses even when every field is optional. */
+// Whether the host renders MCP Apps: it says so at initialize, or, on
+// 2026-07-28, in each request's envelope.
+const clientRendersPages = (server: McpServer, ctx: ServerContext): boolean => getUiCapability(
+  (envelope(ctx)[CLIENT_CAPABILITIES_META_KEY] as ClientCapabilities | undefined) ?? server.server.getClientCapabilities(),
+) !== undefined;
 
-  subject: z.string().optional().describe('The Subj: line. Conventionally all caps.'),
-  from: z.string().optional().describe('The From: line, e.g. "Commanding Officer, 1st Battalion, 6th Marines".'),
-  to: z.string().optional(),
-  via: z.array(z.string()).optional().describe('Each via is its own numbered line.'),
+const optionalArgs = <T extends z.ZodObject>(schema: T): T => ({
+  shape: schema.shape,
+  '~standard': { ...schema['~standard'], validate: (value: unknown) => schema['~standard'].validate(value ?? {}) },
+}) as unknown as T;
 
-  ssic: z.string().optional(), serial: z.string().optional(),
-  date: z.string().optional().describe('Naval format, e.g. "8 Aug 26". Defaults to today.'),
-  originatorCode: z.string().optional(),
+const TEMPLATE_URI = 'dondocs://templates/{id}';
+const templateUri = (id: string) => TEMPLATE_URI.replace('{id}', id);
+const templateIds = (prefix: string) => LETTER_TEMPLATES.map((t) => t.id).filter((id) => id.startsWith(prefix));
+const TEMPLATE_IDS = templateIds('') as [string, ...string[]];
 
-  paragraphs: z.array(paragraph).optional(),
-  references: z.array(z.object({ title: z.string(), url: z.string().optional() })).optional()
-    .describe('Lettered (a), (b) … in the order given.'),
-  enclosures: z.array(z.object({ title: z.string() })).optional(),
-  copyTo: z.array(z.string()).optional(),
-  distribution: z.array(z.string()).optional(),
+let defaults = await loadDefaults();
 
-  unit: unit.optional().describe('Omit to use the machine defaults from ~/.dondocs/companion.config.json.'),
-  signature: signature.optional().describe('Omit to use the machine defaults.'),
-});
-
-const defaults = await loadDefaults();
+// Handed to the model at connect time: the order the tools go in, which no
+// single tool description can say. Every call is a model turn, so the
+// template ids are here and the render is asked for early: a letter from the
+// user's own words is one call, from a template two.
+const INSTRUCTIONS = `DonDocs renders SECNAV M-5216.5 correspondence with dondocs_letter; files are written under ${ROOT}. `
+  + 'Settle the originating unit first: omit unit to use the machine defaults (read dondocs://defaults to see them), '
+  + 'or find one with dondocs_unit_lookup. When that resource holds no unit or signature, offer to settle them once with dondocs_save_defaults before writing the first letter. '
+  + 'Give the From and To lines: letters, endorsements and memoranda print the labels even when they are empty. '
+  + `To start from a template, call dondocs_template_get with one of ${TEMPLATE_IDS.join(', ')}, or read dondocs://templates/{id}; dondocs_template_list describes them. `
+  + 'A render takes under a second, so call dondocs_letter once the facts are in hand rather than drafting in chat first; '
+  + 'show the user the file as its result says, and revise by calling dondocs_letter again with the out it reports.';
 
 const handle = serveStdio(() => {
-  const server = new McpServer({ name: 'dondocs', version: '1' });
+  const server = new McpServer({ name: 'dondocs', version: '1' }, { instructions: INSTRUCTIONS });
+
+  // What the config file sets for a render that omits `unit` or `signature`,
+  // and where to change it. The snapshot the renders use, so an edit shows
+  // after a restart. Nulls fall through to toStore's built-in fallbacks.
+  server.registerResource('defaults', 'dondocs://defaults', {
+    title: 'Machine defaults',
+    description: 'The unit, signature, SSIC and originator code the config file sets for a letter that omits them, as loaded at startup, and the path of that file. '
+      + 'A null unit or SSIC falls back to a UNITED STATES MARINE CORPS letterhead and SSIC 5216; a null signature or originator code leaves that block empty.',
+    mimeType: 'application/json',
+  }, async (uri) => ({
+    contents: [{ uri: uri.href, mimeType: 'application/json', text: JSON.stringify({
+      path: CONFIG_PATH,
+      unit: defaults.unit ?? null,
+      signature: defaults.signature ?? null,
+      ssic: defaults.ssic ?? null,
+      originatorCode: defaults.originatorCode ?? null,
+    }) }],
+  }));
+
+  server.registerTool('dondocs_template_list', {
+    title: 'List letter templates',
+    description: 'List the bundled letter templates with their ID, name, category and description. '
+      + 'dondocs_template_get names the IDs itself, so when the user\'s wording points to one, skip this and call that. '
+      + 'Ask the user if several templates fit; explain when none does.',
+    inputSchema: z.object({}).strict(),
+    outputSchema: templateListResult,
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+  }, async () => {
+    const templates = LETTER_TEMPLATES.map(({ id, name, category, description }) => ({ id, name, category, description }));
+    return {
+      content: [{ type: 'text' as const, text: JSON.stringify(templates) }],
+      structuredContent: { templates },
+    };
+  });
+
+  // Set the unit and signer once, so every later letter is one call. The
+  // signer is asked for rather than taken from the model: it is the
+  // person's own name and rank, and they are the one who knows it.
+  server.registerTool('dondocs_save_defaults', {
+    title: 'Save the machine defaults',
+    description: 'Write the unit, signer, SSIC and originator code this machine uses when a letter omits them, so later letters need no unit lookup. '
+      + 'Pass the unit object from a dondocs_unit_lookup match. Read dondocs://defaults first and confirm with the user before replacing values already set. '
+      + 'Omit signature to have the user asked for it directly where the client can; pass null to any field to clear it.',
+    inputSchema: z.object({
+      unit: unit.nullable().optional().describe('The letterhead unit, as dondocs_unit_lookup returns it.'),
+      signature: signature.nullable().optional().describe('The signature block. Omit to ask the user.'),
+      ssic: z.string().nullable().optional(),
+      originatorCode: z.string().nullable().optional(),
+    }).strict(),
+    outputSchema: defaultsResult,
+    annotations: {
+      // It replaces a file, and saving the same values twice changes nothing.
+      readOnlyHint: false,
+      destructiveHint: true,
+      idempotentHint: true,
+      openWorldHint: false,
+    },
+  }, async (input, ctx) => {
+    let signer = input.signature;
+    // Nothing given, nothing stored, and a client that can ask: ask.
+    if (signer === undefined && !defaults.signature && clientCanElicit(server, ctx)) {
+      const answer = inputResponse(ctx.mcpReq.inputResponses, 'signature');
+      if (answer.kind === 'missing') {
+        return inputRequired({ inputRequests: { signature: inputRequired.elicit({
+          message: 'Who signs letters from this machine?',
+          requestedSchema: signatureForm,
+        }) } });
+      }
+      const given = acceptedContent(ctx.mcpReq.inputResponses, 'signature', signatureForm);
+      // A declared outputSchema binds every result that is not an error, so
+      // an answer that saves nothing still says what stands.
+      const unchanged = {
+        content: [{ type: 'text' as const, text: 'Nothing saved: the signature block was not filled in. Call again with signature to set it, or leave it unset.' }],
+        structuredContent: { path: CONFIG_PATH, ...defaults },
+      };
+      // Declined and malformed both read as no content, so the action is
+      // what tells the user which of the two happened.
+      if (!given) {
+        return answer.kind === 'elicit' && answer.action !== 'accept'
+          ? unchanged
+          : { content: [{ type: 'text' as const, text: 'Nothing saved: that signature block was not in the expected shape. Call again with signature.' }], isError: true };
+      }
+      // An accept with every field blank is someone clicking past the form,
+      // not a signature. Storing it would leave an empty block on the
+      // letterhead and stop the tool ever asking again.
+      if (!Object.values(given).some((value) => value?.trim())) { return unchanged; }
+      signer = given;
+    }
+
+    try {
+      const saved = await saveDefaults({ ...input, signature: signer }, CONFIG_PATH);
+      defaults = saved;
+      const result = { path: CONFIG_PATH, ...saved };
+      return { content: [{ type: 'text' as const, text: `Saved to ${CONFIG_PATH}. Later letters may omit these.\n${JSON.stringify(saved)}` }], structuredContent: result };
+    } catch (err) {
+      return {
+        content: [{ type: 'text' as const, text: `${err instanceof Error ? err.message : String(err)}. Nothing was written; the defaults are unchanged.` }],
+        isError: true,
+      };
+    }
+  });
+
+  // The same templates as resources, so a host can list and attach one
+  // without a tool call. The tools stay: a model driving the flow needs them.
+  server.registerResource('template', new ResourceTemplate(TEMPLATE_URI, {
+    list: () => ({
+      resources: LETTER_TEMPLATES.map(({ id, name, description }) => ({
+        uri: templateUri(id), name: id, title: name, description, mimeType: 'application/json',
+      })),
+    }),
+    complete: { id: templateIds },
+  }), {
+    title: 'Letter template',
+    description: 'A bundled letter template: document type, subject, paragraphs with bracketed placeholders, references.',
+    mimeType: 'application/json',
+  }, async (uri, { id }) => {
+    const template = LETTER_TEMPLATES.find((entry) => entry.id === id);
+    if (!template) { throw new ResourceNotFoundError(uri.href); }
+    return { contents: [{ uri: uri.href, mimeType: 'application/json', text: JSON.stringify(template) }] };
+  });
+
+  // A rendered file, for the page below to read back through the host. Only
+  // what this process wrote: the root is a write sandbox a person may point
+  // at a broad folder, and a read of anything under it would be a way out
+  // for whatever the model was talked into asking for. Nothing is listed.
+  const FILE_MIME: Record<string, string> = { '.pdf': MIME.pdf, '.docx': MIME.docx };
+  const written = new Set<string>();
+  // The editor link for each file rendered here, built at render time from
+  // the letter's own fields. Absent when there is no editor configured or
+  // the letter may not travel in a URL.
+  const handoffs = new Map<string, string>();
+  server.registerResource('file', new ResourceTemplate('dondocs://files/{out}', { list: undefined }), {
+    title: 'Rendered letter',
+    description: 'A file dondocs_letter wrote in this session, by the out it reported.',
+  }, async (uri, { out }) => {
+    // The template matcher hands the segment over as written; a nested name
+    // arrives percent-encoded, since a bare slash would not match.
+    let path: string;
+    try { path = resolveOutputPath(decodeURIComponent(String(out)), ROOT); } catch { throw new ResourceNotFoundError(uri.href); }
+    if (!written.has(path)) { throw new ResourceNotFoundError(uri.href); }
+    let bytes: Buffer;
+    try { bytes = await readFile(path); } catch { throw new ResourceNotFoundError(uri.href); }
+    return { contents: [{ uri: uri.href, mimeType: FILE_MIME[extname(path)] ?? 'application/octet-stream', blob: bytes.toString('base64') }] };
+  });
+
+  // The link that opens a rendered letter in the web editor. The card reads
+  // it and opens it; it never reaches the model, which has no use for a
+  // kilobyte of base64 and every reason not to carry the letter twice.
+  server.registerResource('handoff', new ResourceTemplate('dondocs://handoff/{out}', { list: undefined }), {
+    title: 'Edit in the browser',
+    description: 'The web editor URL for a letter dondocs_letter wrote in this session.',
+    mimeType: 'application/json',
+  }, async (uri, { out }) => {
+    let path: string;
+    try { path = resolveOutputPath(decodeURIComponent(String(out)), ROOT); } catch { throw new ResourceNotFoundError(uri.href); }
+    const url = handoffs.get(path);
+    if (!url) { throw new ResourceNotFoundError(uri.href); }
+    return { contents: [{ uri: uri.href, mimeType: 'application/json', text: JSON.stringify({ url }) }] };
+  });
+
+  // The card a page-rendering host shows in place of the text: a built file
+  // beside the entry, so a source run offers none and says so once.
+  const page = loadAppPage();
+  if (page) {
+    registerAppResource(server, 'letter-page', page.uri, { title: 'Letter card' }, async () => ({
+      contents: [{ uri: page.uri, mimeType: RESOURCE_MIME_TYPE, text: page.html }],
+    }));
+  } else {
+    console.error('dondocs: no built page beside the entry; render results are text only');
+  }
+
+  // A starting point a host can offer by name. Both arguments complete, so a
+  // user picks a type or a template without knowing the ids.
+  server.registerPrompt('draft_letter', {
+    title: 'Draft a naval letter',
+    description: 'Draft correspondence of a given document type, optionally from a bundled template, and render it with dondocs_letter.',
+    argsSchema: optionalArgs(z.object({
+      docType: completable(
+        z.enum(DOC_TYPES as [string, ...string[]]).describe('Document type; defaults to the template\'s own.'),
+        (value) => DOC_TYPES.filter((type) => type.startsWith(value)),
+      ).optional(),
+      template: completable(z.string().describe('Template ID from dondocs_template_list.'), templateIds).optional(),
+    })),
+  }, async ({ docType, template: id }) => {
+    const template = id === undefined ? undefined : LETTER_TEMPLATES.find((entry) => entry.id === id);
+    if (id !== undefined && !template) { throw new ProtocolError(ProtocolErrorCode.InvalidParams, `Unknown template ID: ${id}`); }
+    const type = docType ?? template?.docType;
+    const text = [
+      type
+        ? `Draft a document of type "${type}" with DonDocs.`
+        : 'Draft naval correspondence with DonDocs. Ask me which document type fits before writing; dondocs_letter lists them in its docType enum.',
+      template
+        ? `Start from the "${template.name}" template attached below: keep its structure, fill each bracketed placeholder from what I tell you, and ask for the From and To lines and anything else it needs that I have not given.`
+        : 'Ask me for the From and To lines, the subject, and what the letter needs to say, then write the paragraphs.',
+      'For the originating unit, use the machine defaults (dondocs://defaults) or look it up with dondocs_unit_lookup; do not guess an address. If the defaults hold no unit or signature, offer to settle them once with dondocs_save_defaults. Confirm the addressee with me.',
+      ...(type && ENDORSEMENT_TYPES.includes(type)
+        ? ['Ask me for the endorsement ordinal (FIRST, SECOND ...) and the identification of the letter being endorsed, and pass them as endorsement.ordinal and endorsement.basicLetterId; the render is refused without them.']
+        : []),
+      `Render with dondocs_letter${type ? ` using docType "${type}"` : ''}; its result says how to show me the file.`,
+    ].join(' ');
+    return {
+      messages: [
+        { role: 'user' as const, content: { type: 'text' as const, text } },
+        ...(template ? [{
+          role: 'user' as const,
+          content: {
+            type: 'resource' as const,
+            resource: { uri: templateUri(template.id), mimeType: 'application/json', text: JSON.stringify(template) },
+          },
+        }] : []),
+      ],
+    };
+  });
+
+  server.registerTool('dondocs_template_get', {
+    title: 'Get a letter template',
+    description: 'Return the complete letter template for an ID; dondocs_template_list describes each. '
+      + 'Use it as a starting draft: ask the user for bracketed placeholders and missing correspondence details. '
+      + 'Interpret each placeholder in context, preserve supplied facts, and never invent missing information. '
+      + 'When ready, pass the completed letter fields to dondocs_letter; omit template metadata (id, name, category, description). '
+      + 'An endorsement template also needs endorsement.ordinal and endorsement.basicLetterId.',
+    inputSchema: z.object({ id: z.enum(TEMPLATE_IDS).describe('Template ID.') }).strict(),
+    outputSchema: templateResult,
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+  }, async ({ id }) => {
+    const template = LETTER_TEMPLATES.find((entry) => entry.id === id);
+    // The enum refuses an unknown id before this runs, with the same list.
+    if (!template) {
+      return {
+        content: [{ type: 'text' as const, text: `Unknown template ID: ${id}. The IDs are ${TEMPLATE_IDS.join(', ')}.` }],
+        isError: true,
+      };
+    }
+    return { content: [{ type: 'text' as const, text: JSON.stringify(template) }], structuredContent: template };
+  });
+
+  server.registerTool('dondocs_unit_lookup', {
+    title: 'Find a unit mailing address',
+    description: 'Search the bundled unit directory by recorded name, abbreviation, MCC, or location. No alias expansion. '
+      + 'Pass a selected match\'s unit object directly to dondocs_letter. '
+      + 'If the result still lists several units, ask the user which unit or location they mean; MCC is not always unique. '
+      + 'If truncated, narrow the query. If no matches, ask for another name, MCC, or location.',
+    inputSchema: z.object({
+      query: z.string().trim().min(1).max(200).describe('For example Marine Innovation Unit, Marine Innovation Unit Newburgh, 2/23, or SVP.'),
+      limit: z.number().int().min(1).max(50).default(20),
+    }).strict(),
+    outputSchema: unitLookupResult,
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+  }, async ({ query, limit }, ctx) => {
+    try {
+      let result = await lookupUnits(query, limit);
+      // Several matches and a client that can ask: put the choice to the user
+      // instead of the model. The retry carries the answer; a decline, or an
+      // answer outside the list, leaves the list as it was.
+      if (result.total > 1 && !result.truncated && clientCanElicit(server, ctx)) {
+        const answer = inputResponse(ctx.mcpReq.inputResponses, 'unit');
+        // Validated rather than coerced: the answer comes from the client.
+        const chosen = acceptedContent(ctx.mcpReq.inputResponses, 'unit', z.object({ unit: z.string() }))?.unit ?? '';
+        const picked = /^\d+$/.test(chosen) ? result.matches[Number(chosen)] : undefined;
+        if (picked) {
+          result = { ...result, total: 1, truncated: false, matches: [picked] };
+        } else if (answer.kind === 'missing') {
+          const indices = result.matches.map((_, i) => String(i));
+          const titles = result.matches.map((m) => `${m.unit.name}, ${m.unit.address}${m.mcc ? ` (${m.mcc})` : ''}`);
+          // Titled choices are `oneOf` from 2025-11-25; before that, `enum` with `enumNames`.
+          const unit = revisionOf(server, ctx) >= '2025-11-25'
+            ? { type: 'string' as const, title: 'Unit', oneOf: indices.map((i, k) => ({ const: i, title: titles[k] })) }
+            : { type: 'string' as const, title: 'Unit', enum: indices, enumNames: titles };
+          return inputRequired({ inputRequests: { unit: inputRequired.elicit({
+            message: `${result.total} units match "${query}". Which one?`,
+            requestedSchema: { type: 'object', properties: { unit }, required: ['unit'] },
+          }) } });
+        }
+      }
+      return { content: [{ type: 'text' as const, text: JSON.stringify(result) }], structuredContent: result };
+    } catch (err) {
+      return {
+        content: [{ type: 'text' as const, text: `Unit lookup failed: ${err instanceof Error ? err.message : String(err)}. Retry the lookup; if it continues to fail, provide the unit name and mailing address directly to dondocs_letter.` }],
+        isError: true,
+      };
+    }
+  });
 
   server.registerTool(
     'dondocs_letter',
     {
       title: 'Write a naval letter',
       description:
-        'Render SECNAV M-5216.5 correspondence — naval letter, standard letter or memorandum — to a PDF or DOCX file. '
+        'Render SECNAV M-5216.5 correspondence, every letter, memorandum, endorsement and agreement type the app defines (see the docType enum), to a PDF or DOCX file. '
         + 'Formatting, letterhead, seal, paragraph numbering and the signature block are handled for you; supply content only. '
-        + 'Returns the path to the written file, not the document itself. '
-        + `Files are written under ${ROOT}.`,
-      inputSchema: letterInput,
+        + 'Returns the path to the written file, not the document itself; the result says how to show the file to the user. '
+        + `Files are written under ${ROOT}. `
+        + 'A render takes under a second: call this once the facts are in hand, and to revise call it again with out set to the name it reports, which replaces that file.',
+      inputSchema: letterSchema,
+      outputSchema: renderResult,
+      // The link to the page under both keys hosts have read it from, as the
+      // SDK's registerAppTool writes it.
+      ...(page ? { _meta: { ui: { resourceUri: page.uri }, [RESOURCE_URI_META_KEY]: page.uri } } : {}),
       annotations: {
-        // It writes a file and nothing else; re-running with the same `out`
-        // replaces that file rather than accumulating.
+        // It writes one file. A given `out` replaces whatever is there; with
+        // `out` omitted the same request adds a numbered file each time.
         readOnlyHint: false,
-        destructiveHint: false,
-        idempotentHint: true,
+        destructiveHint: true,
+        idempotentHint: false,
         openWorldHint: false,
       },
     },
-    async (input) => {
+    async (input, ctx) => {
       // The schema catches wrong types; these are the rules it cannot express —
       // chiefly that a letter with neither subject nor body is a blank page, not
       // a document. The HTTP transport enforces the identical set.
@@ -106,18 +417,42 @@ const handle = serveStdio(() => {
 
       try {
         const file = await renderToFile(input, defaults, ROOT);
+        written.add(file.path);
+        // Set or clear: a re-render to the same name that may not travel
+        // must not leave the previous letter's link behind it.
+        const editable = handoffUrl(input, defaults, APP_URL);
+        if (editable) { handoffs.set(file.path, editable); } else { handoffs.delete(file.path); }
+        // A host that renders links lets the user open the file from the
+        // reply. The block dates from 2025-06-18; an older client rejects
+        // the whole result over it.
+        const link = revisionOf(server, ctx) >= '2025-06-18' ? [{
+          type: 'resource_link' as const,
+          uri: pathToFileURL(file.path).href,
+          name: basename(file.path),
+          mimeType: MIME[file.format],
+          size: file.bytes,
+        }] : [];
         return {
-          content: [{
-            type: 'text' as const,
-            text: `Wrote ${file.format.toUpperCase()} (${file.bytes.toLocaleString()} bytes) to ${file.path}`,
-          }],
+          content: [
+            {
+              type: 'text' as const,
+              text: `Wrote ${file.format.toUpperCase()} (${file.bytes.toLocaleString()} bytes) to ${file.path}\n`
+                + (page && clientRendersPages(server, ctx)
+                  ? `The letter is shown in the chat as a card${editable ? ', with an Edit in browser button that opens it in the DonDocs editor' : ''}. `
+                  : 'Show it in the chat: call present_files with the path above, loading that tool first if it is not loaded; give the path only when no such tool exists. ')
+                + `To revise, call again with out "${file.out}" to replace it.`,
+            },
+            ...link,
+          ],
+          structuredContent: file,
         };
       } catch (err) {
         // Hand the model something it can act on. A sandbox refusal means it
         // chose a bad `out`; anything else is ours and the message says so.
         const message = err instanceof OutsideSandboxError
           ? `${err.message}. Choose a filename inside the output root instead.`
-          : `Render failed: ${err instanceof Error ? err.message : String(err)}`;
+          : err instanceof OutputWriteError ? err.message
+            : `Render failed: ${err instanceof Error ? err.message : String(err)}`;
         return { content: [{ type: 'text' as const, text: message }], isError: true };
       }
     },

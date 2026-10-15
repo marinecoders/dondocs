@@ -10,7 +10,8 @@ vi.mock('react-pdf', async () => {
     getPage: () =>
       Promise.resolve({ getViewport: ({ scale }: { scale: number }) => ({ width: 612 * scale, height: 792 * scale }) }),
   });
-  function Document({ file, onLoadSuccess, children }: never) {
+  type DocumentProps = { file: string; onLoadSuccess?: (doc: ReturnType<typeof makeDoc>) => void; children?: React.ReactNode };
+  function Document({ file, onLoadSuccess, children }: DocumentProps) {
     React.useEffect(() => {
       let alive = true;
       void Promise.resolve().then(() => alive && onLoadSuccess?.(makeDoc(1)));
@@ -22,7 +23,8 @@ vi.mock('react-pdf', async () => {
     }, [file]);
     return React.createElement('div', { 'data-testid': `doc:${file}` }, children);
   }
-  function Page({ pageNumber, onRenderSuccess }: never) {
+  type PageProps = { pageNumber: number; onRenderSuccess?: () => void };
+  function Page({ pageNumber, onRenderSuccess }: PageProps) {
     React.useEffect(() => {
       const t = setTimeout(() => onRenderSuccess?.(), 0);
       return () => clearTimeout(t);

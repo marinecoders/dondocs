@@ -43,7 +43,7 @@ export default defineConfig({
     // xelatex / pandoc and take minutes to run. They have their own
     // config (`vitest.integration.config.ts`) and run via
     // `npm run test:integration`.
-    exclude: ['tests/integration/**', 'node_modules/**', 'dist/**'],
+    exclude: ['tests/integration/**', 'node_modules/**', 'dist/**', 'dist-companion/**', 'dist-mcpb/**'],
     setupFiles: ['./tests/_helpers/setup.ts'],
     // Property-based tests can be iteration-heavy; bump the default per-test
     // timeout so a thorough fast-check run doesn't false-fail on slower CI

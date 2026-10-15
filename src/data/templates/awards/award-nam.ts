@@ -13,7 +13,7 @@ export const awardNam: LetterTemplate = {
     { text: 'Background. [Provide context about the Marine\'s duties and responsibilities during the award period.]', level: 0 },
     { text: 'Justification. [Describe specific achievements that warrant recognition. Use quantifiable metrics where possible. Focus on actions that exceeded normal expectations. Examples: led X Marines, trained X personnel, saved X dollars, improved readiness by X percent, etc.]', level: 0 },
     { text: 'Impact. [Explain the positive impact these achievements had on unit readiness, mission accomplishment, or Marine Corps operations.]', level: 0 },
-    { text: 'Point of Contact. Point of contact for this matter is the undersigned at (415) 555-1776 / j.doe@usmc.mil.', level: 0 },
+    { text: 'Point of Contact. Point of contact for this matter is the undersigned at [PHONE] / [EMAIL].', level: 0 },
   ],
   references: [
     { letter: 'a', title: 'SECNAVINST 1650.1H' },
