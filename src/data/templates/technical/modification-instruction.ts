@@ -1,19 +1,6 @@
+import { DISCREPANCY_NOTICE, MI_REPORTING, publicationSection } from '@/data/techpub/sections';
 import type { LetterTemplate } from '../types';
 
-/**
- * Modification Instruction (MI) — the I-Type that directs a change to
- * equipment already in the fleet.
- *
- * The paragraphs below are not a suggested starting point the way a letter
- * template is. MIL-STD-38784C fixes their titles and their order: an author
- * fills them in, removes the ones that do not apply, and changes nothing else.
- * Numbering closes over whatever is removed on its own.
- *
- * SI, TI and LI share this skeleton less the Time Compliance Period, which
- * belongs to a modification (i-type-instructions.ts); the Recording
- * Instruction on the signature page is likewise MI-only. A table belongs to
- * the paragraph that carries it, named by `tableKey` from I_TYPE_TABLES.
- */
 export const modificationInstruction: LetterTemplate = {
   id: 'modification-instruction',
   name: 'Modification Instruction (MI)',
@@ -30,9 +17,11 @@ export const modificationInstruction: LetterTemplate = {
     },
     {
       header: 'Administrative Instructions',
-      text: 'For concerns or issues with the content or procedures contact [EQUIPMENT SPECIALIST OR PROGRAM OFFICE REPRESENTATIVE], [EMAIL], [PHONE]. [Remove this paragraph if not needed.]',
+      text: 'For questions or concerns with the content or procedures in this Modification Instruction (MI) contact [PHONE OR SECTION MAILBOX EMAIL].',
       level: 0,
     },
+    { header: 'Notice of Discrepancies', text: DISCREPANCY_NOTICE, level: 1 },
+    { header: 'Reporting Instructions', text: MI_REPORTING, level: 1 },
     {
       header: 'Time Compliance Period',
       text: 'Complete this modification by [DATE]. [Only an MI is marked URGENT, for safety, with a completion date less than a year out. A NORMAL MI runs one year and this paragraph is omitted unless the period differs.]',
@@ -101,5 +90,5 @@ export const modificationInstruction: LetterTemplate = {
       text: '[Title the procedure by the action it directs. Identify parts by their item number from Materiel Required, never by size or weight.]',
       level: 0,
     },
-  ],
+  ].map((p) => ({ ...p, publicationSection: publicationSection(p) })),
 };

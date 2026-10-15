@@ -1,3 +1,4 @@
+import { PUBLICATION_SECTIONS, publicationSection, sectionTitle, DISCREPANCY_NOTICE, MI_REPORTING, type PublicationSection } from '@/data/techpub/sections';
 import type { Paragraph, PublicationTableRow } from '@/types/document';
 import { findUndefinedAcronyms } from '@/lib/acronyms';
 
@@ -104,26 +105,44 @@ export function validateReadingGrade(paragraphs: Paragraph[]): RuleFinding[] {
     : [];
 }
 
-const PRIMARY_TITLES = [
-  'Purpose', 'Administrative Instructions', 'Time Compliance Period', 'Information',
-  'Technical Manuals Affected', 'Major Items Affected', 'Components Affected',
-  'Materiel Affected', 'Special Tools, Jigs, and Fixtures Required', 'Special Instructions',
-  'Supply Action', 'Skill and Time Required', 'Procedures',
+const SECTION_ORDER: PublicationSection[][] = [
+  ['purpose'], ['administration'], ['supersedure'], ['timeCompliance'], ['information'],
+  ['manuals'], ['majorItems'], ['components'],
+  ['materiel', 'materielRequired', 'materielDiscarded', 'materielRetained', 'materielBulk'],
+  ['tooling', 'specialTools', 'jigsFixtures'], ['specialInstructions'], ['supply'], ['skill'], ['procedures'],
 ];
 
-/** Applicable fixed paragraphs retain their titles and relative order. Named
- * procedures may follow the fixed introductory paragraphs. */
-export function validatePublicationStructure(paragraphs: Paragraph[]): RuleFinding[] {
-  const body = paragraphs.slice(0, paragraphs.findIndex((p) => p.appendix) < 0 ? paragraphs.length : paragraphs.findIndex((p) => p.appendix));
+export function validatePublicationStructure(paragraphs: Paragraph[], type = 'MI'): RuleFinding[] {
+  const appendix = paragraphs.findIndex((p) => p.appendix);
+  const body = appendix < 0 ? paragraphs : paragraphs.slice(0, appendix);
   const primary = body.filter((p) => p.level === 0 && !p.callout && !p.figure && !p.procedure);
-  const normalize = (title?: string) => (title ?? '').trim().replace(/\.$/, '').toLowerCase();
-  if (normalize(primary[0]?.header) !== 'purpose') return [warn('The instruction must begin with the Purpose paragraph.')];
+  const findings: RuleFinding[] = [];
+  if (publicationSection(primary[0] ?? {}) !== 'purpose') findings.push(warn('The instruction must begin with the Purpose paragraph.'));
+  const admin = primary.find((p) => publicationSection(p) === 'administration');
+  if (!admin) findings.push(warn('Administrative Instructions is required.'));
   let previous = -1;
   for (const p of primary) {
-    const index = PRIMARY_TITLES.findIndex((title) => normalize(title) === normalize(p.header));
-    if (index < 0) continue; // A procedure may be titled by the action it directs.
-    if (index <= previous) return [warn(`"${p.header}" repeats or is out of the prescribed paragraph order.`)];
+    const key = publicationSection(p);
+    const index = SECTION_ORDER.findIndex((group) => key && group.includes(key));
+    if (index < 0) {
+      findings.push(warn(`Identify the publication section for "${p.header || 'Untitled paragraph'}". Select Procedures for an action-specific procedure title.`));
+      continue;
+    }
+    if (index < previous || (index === previous && key !== 'procedures')) findings.push(warn(`"${p.header}" repeats or is out of the prescribed paragraph order.`));
     previous = index;
+    if (key !== 'procedures' && sectionTitle(p.header) !== sectionTitle(PUBLICATION_SECTIONS[key!])) findings.push(warn(`Restore the heading "${PUBLICATION_SECTIONS[key!]}".`));
+    if (key === 'procedures' && !p.header?.trim()) findings.push(warn('Give the procedure a title describing its action.'));
+    if (key === 'timeCompliance' && type !== 'MI') findings.push(warn('Only an MI may contain a Time Compliance Period.'));
   }
-  return [];
+  if (admin) {
+    const start = body.indexOf(admin);
+    const next = body.findIndex((p, i) => i > start && p.level === 0 && !p.callout && !p.figure);
+    const text = body.slice(start, next < 0 ? body.length : next).map((p) => p.text).join(' ');
+    const normalize = (value: string) => value.replace(/[“”]/g, '"').replace(/\s+/g, ' ').trim();
+    if (!normalize(text).includes(normalize(DISCREPANCY_NOTICE))) findings.push(warn('Include the prescribed NAVMC 10772 notice in Administrative Instructions.'));
+    if (type === 'MI' && !normalize(text).includes(normalize(MI_REPORTING))) findings.push(warn('Include the prescribed MI reporting instructions in Administrative Instructions.'));
+    if (type !== 'MI' && text.includes(MI_REPORTING)) findings.push(warn('Remove the MI reporting instructions from this publication type.'));
+    if (!/contact\s+[^.]*([\w.+-]+@[\w.-]+\.[a-z]{2,}|\+?[\d(][\d ()-]{6,})/i.test(admin.text)) findings.push(warn('Administrative Instructions needs a contact phone number or section mailbox email.'));
+  }
+  return findings;
 }

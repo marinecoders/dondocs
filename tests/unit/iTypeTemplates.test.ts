@@ -16,7 +16,7 @@ describe('the four I-Type templates', () => {
     expect(headers(modificationInstruction)).toContain('Time Compliance Period');
     for (const t of [supplyInstruction, technicalInstruction, lubricationInstruction]) {
       expect(headers(t)).not.toContain('Time Compliance Period');
-      expect(headers(t)).toEqual(headers(modificationInstruction).filter((h) => h !== 'Time Compliance Period'));
+      expect(headers(t)).toEqual(headers(modificationInstruction).filter((h) => !['Time Compliance Period', 'Reporting Instructions'].includes(h ?? '')));
       expect(t.docType).toBe('i_type');
     }
   });

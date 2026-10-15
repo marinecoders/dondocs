@@ -83,7 +83,7 @@ export function ITypeCoverSection() {
     ...validateNomenclatureCase(tables.components ?? [], 'Components Affected'),
     ...Object.entries(tables).flatMap(([key, rows]) => validateItemNumbers(rows, tableSpec(key)?.name ?? key)),
     ...validateReadingGrade(paragraphs),
-    ...validatePublicationStructure(paragraphs),
+    ...validatePublicationStructure(paragraphs, publicationType),
     ...validateProcedureSteps(paragraphs),
     ...validateAppendixTitles(paragraphs),
     ...validateFigures(paragraphs),

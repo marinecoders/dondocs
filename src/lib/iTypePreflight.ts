@@ -42,7 +42,7 @@ export function iTypeExportErrors(store: Publication): string[] {
   errors.push(...validateProcedureSteps(store.paragraphs).map((f) => f.message));
   errors.push(...validateCalloutOrder(store.paragraphs).map((f) => f.message));
   const paragraphs = withTimeCompliance(store.paragraphs, d.miUrgency ?? 'normal', d.miCompletionDate);
-  errors.push(...validatePublicationStructure(paragraphs).map((f) => f.message));
+  errors.push(...validatePublicationStructure(paragraphs, d.publicationType).map((f) => f.message));
   const fields = [d.shortTitle, d.pcn, d.nomenclature, d.subject, d.unitLine1, d.unitLine2, d.unitAddress,
     d.sigFirst, d.sigMiddle, d.sigLast, d.sigTitle, d.controllingOffice, d.pocEmail, d.supersedure,
     d.classifiedBy, d.derivedFrom, d.classReason, d.declassifyOn, d.customClassification];

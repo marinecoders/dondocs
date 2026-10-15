@@ -1,3 +1,4 @@
+import { PUBLICATION_SECTIONS, publicationSection, type PublicationSection } from '@/data/techpub/sections';
 import { validateFigureAsset } from '@/services/latex/figureAssets';
 import { memo, useCallback, useMemo, useState } from 'react';
 import {
@@ -56,6 +57,7 @@ function blockKind(callout: CalloutKind | undefined, procedure: boolean | undefi
 
 function setBlockKind(value: BlockKind): Partial<Paragraph> {
   return {
+    publicationSection: undefined,
     callout: value === 'warning' || value === 'caution' || value === 'note' ? (value as CalloutKind) : undefined,
     procedure: value === 'step' ? true : undefined,
     appendix: value === 'appendix' ? true : undefined,
@@ -128,6 +130,7 @@ const BlockRow = memo(function BlockRow({
   requestFocus,
 }: BlockRowProps) {
   const updateParagraph = useDocumentStore((s) => s.updateParagraph);
+  const section = useDocumentStore((s) => publicationSection(s.paragraphs[index] ?? {}));
   const removeParagraph = useDocumentStore((s) => s.removeParagraph);
   const indentParagraph = useDocumentStore((s) => s.indentParagraph);
   const outdentParagraph = useDocumentStore((s) => s.outdentParagraph);
@@ -262,6 +265,26 @@ const BlockRow = memo(function BlockRow({
       </div>
 
       <div className="min-w-0">
+        {showBlockKind && level === 0 && !callout && !procedure && !appendix && !figure && (
+          <label className="mb-1 flex items-center gap-2 text-xs text-muted-foreground">
+            Section
+            <select
+              aria-label={`Publication section ${index + 1}`}
+              className="max-w-full rounded border border-input bg-background p-1"
+              value={section ?? ''}
+              onChange={(e) => {
+                const key = e.target.value as PublicationSection;
+                updateParagraph(index, {
+                  publicationSection: key || undefined,
+                  ...(key ? { header: key === 'procedures' && header ? header : PUBLICATION_SECTIONS[key] } : {}),
+                });
+              }}
+            >
+              <option value="">Choose section</option>
+              {Object.entries(PUBLICATION_SECTIONS).map(([key, title]) => <option key={key} value={key}>{title}</option>)}
+            </select>
+          </label>
+        )}
         {showHeader && (
           <Input
             value={header || ''}

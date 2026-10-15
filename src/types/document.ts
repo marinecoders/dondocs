@@ -1,3 +1,4 @@
+import type { PublicationSection } from '@/data/techpub/sections';
 export type DocumentMode = 'compliant' | 'custom';
 
 // Top-level document category: correspondence (letters, memos, etc.) or forms (6105, Page 11, etc.)
@@ -74,6 +75,7 @@ export interface Enclosure {
 export type PortionMarking = 'U' | 'CUI' | 'FOUO' | 'C' | 'S' | 'TS';
 
 export interface Paragraph {
+  publicationSection?: PublicationSection;
   text: string;
   level: number;
   header?: string; // Optional paragraph heading (underlined per Ch 7 ¶13d)

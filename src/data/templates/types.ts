@@ -1,4 +1,6 @@
+import type { PublicationSection } from '@/data/techpub/sections';
 export interface TemplateParagraph {
+  publicationSection?: PublicationSection;
   text: string;
   level: number;
   /** Underlined paragraph heading (Ch 7 ¶13d). Technical publications name

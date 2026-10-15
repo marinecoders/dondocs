@@ -1,3 +1,4 @@
+import { PUBLICATION_SECTIONS, type PublicationSection } from '../src/data/techpub/sections';
 /**
  * What each MCP tool returns, as a schema.
  *
@@ -31,6 +32,7 @@ export const templateResult = templateSummary.extend({
   paragraphs: z.array(z.object({
     text: z.string(), level: z.number().int(),
     header: z.string().optional(), tableKey: z.string().optional(),
+    publicationSection: z.enum(Object.keys(PUBLICATION_SECTIONS) as [PublicationSection, ...PublicationSection[]]).optional(),
   })),
   publicationType: z.enum(['MI', 'SI', 'TI', 'LI']).optional(),
   references: z.array(z.object({ letter: z.string(), title: z.string(), url: z.string().optional() })).optional(),

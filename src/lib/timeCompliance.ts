@@ -1,3 +1,4 @@
+import { publicationSection } from '@/data/techpub/sections';
 import { addYears, format, isValid, parse, parseISO, startOfDay } from 'date-fns';
 import type { Paragraph } from '@/types/document';
 
@@ -34,14 +35,14 @@ export function validateTimeCompliance(
 /** The date field is the source for urgent MIs; stored paragraph dates cannot override it. */
 export function withTimeCompliance(paragraphs: Paragraph[], urgency: MiUrgency, completionDate?: string): Paragraph[] {
   if (urgency !== 'urgent') return paragraphs;
-  const match = (p: Paragraph) => /^time compliance period\.?$/i.test(p.header?.trim() ?? '');
+  const match = (p: Paragraph) => publicationSection(p) === 'timeCompliance';
   const due = parseISO(completionDate ?? '');
   const text = `Complete this modification by ${isValid(due) ? format(due, 'd MMMM yyyy') : '[COMPLETION DATE REQUIRED]'}.`;
   const first = paragraphs.findIndex(match);
   const result = paragraphs.filter((p, i) => !match(p) || i === first).map((p) => match(p) ? { ...p, text } : p);
   if (first < 0) {
-    const index = result.findIndex((p) => p.level === 0 && !/^(Purpose|Administrative Instructions)$/i.test(p.header ?? ''));
-    result.splice(index < 0 ? result.length : index, 0, { level: 0, header: 'Time Compliance Period', text });
+    const index = result.findIndex((p) => p.level === 0 && !['purpose', 'administration', 'supersedure'].includes(publicationSection(p) ?? ''));
+    result.splice(index < 0 ? result.length : index, 0, { level: 0, publicationSection: 'timeCompliance', header: 'Time Compliance Period', text });
   }
   return result;
 }

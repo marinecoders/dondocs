@@ -1,3 +1,4 @@
+import { DISCREPANCY_NOTICE, MI_REPORTING } from '@/data/techpub/sections';
 import { describe, it, expect, vi } from 'vitest';
 import { PDFDocument } from 'pdf-lib';
 import { publicationDate, validateTimeCompliance, withTimeCompliance } from '@/lib/timeCompliance';
@@ -11,7 +12,7 @@ import type { Paragraph } from '@/types/document';
 import { technicalInstruction, supplyInstruction, lubricationInstruction } from '@/data/templates/technical/i-type-instructions';
 
 const step = (level: number): Paragraph => ({ level, text: 'Inspect the bracket.', procedure: true });
-const baseline = () => ({ ...useDocumentStore.getState(), docType: 'i_type', paragraphs: [{ level: 0, header: 'Purpose', text: 'Install the bracket.' }],
+const baseline = () => ({ ...useDocumentStore.getState(), docType: 'i_type', paragraphs: [{ level: 0, header: 'Purpose', text: 'Install the bracket.' }, { level: 0, header: 'Administrative Instructions', text: `For questions or concerns with the content or procedures in this Modification Instruction (MI) contact office@example.mil. ${DISCREPANCY_NOTICE} ${MI_REPORTING}` }],
   formData: { ...useDocumentStore.getState().formData, shortTitle: 'MI 12345A-26/1', pcn: '184 123456 00', nomenclature: 'SUPPORT EQUIPMENT', subject: 'INSTALL THE BRACKET',
     date: '30 Oct 26', unitLine1: 'MARINE CORPS SYSTEMS COMMAND', sigLast: 'DOE', controllingOffice: 'Program Office', cuiDistStatement: 'A', signatureType: 'digital' as const,
     fontFamily: 'times', fontSize: '12pt', miUrgency: 'normal' as const, publicationType: 'MI' as const, miCompletionDate: '' },

@@ -7,7 +7,7 @@ import { modificationInstruction } from './modification-instruction';
  * belongs to a modification, and the Recording Instruction on the signature
  * page follows the publication type on its own.
  */
-const MI_ONLY = new Set(['Time Compliance Period']);
+const MI_ONLY = new Set(['Time Compliance Period', 'Reporting Instructions']);
 
 function iType(code: 'SI' | 'TI' | 'LI', id: string, name: string, description: string): LetterTemplate {
   return {
@@ -19,6 +19,7 @@ function iType(code: 'SI' | 'TI' | 'LI', id: string, name: string, description: 
     paragraphs: modificationInstruction.paragraphs
       .filter((p) => !MI_ONLY.has(p.header ?? ''))
       .map((p) => ({ ...p, text: p.text
+        .replace(/\(MI\)/g, `(${code})`)
         .replace(/modification instruction/gi, `${{ SI: 'supply', TI: 'technical', LI: 'lubrication' }[code]} instruction`)
         .replace(/THE MODIFICATION/g, { SI: 'THE SUPPLY ACTION', TI: 'THE TECHNICAL ACTION', LI: 'THE LUBRICATION TASK' }[code])
         .replace(/the modification/g, { SI: 'the supply action', TI: 'the technical action', LI: 'the lubrication task' }[code]),
