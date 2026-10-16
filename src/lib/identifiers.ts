@@ -21,9 +21,9 @@ export interface IdentifierFinding {
 }
 
 const PCN = /^\d{3} ?\d{6} ?\d{2}$/;
-const SHORT_TITLE = /^(MI|SI|TI|LI) \d{5}[A-Z]-\d{2}\/\d+$/;
+const SHORT_TITLE = /^(MI|SI|TI|LI) (?:\d{5}[A-HJ-NP-Z]?|\d{4})-\d{2}\/\d+$/;
 const TAMCN = /^[A-Z]\d{5}[A-Z]$/;
-const ID_NO = /^\d{5}[A-Z]$/;
+const ID_NO = /^\d{5}[A-HJ-NP-Z]$/;
 const NSN = /^(\d{4}-\d{2}-\d{3}-\d{4}|\d{13})$/;
 
 const warn = (message: string): IdentifierFinding => ({ severity: 'warning', message });
@@ -42,7 +42,7 @@ export function validateIdentifiers(input: {
   const title = (input.shortTitle ?? '').trim();
   if (title) {
     if (!SHORT_TITLE.test(title)) {
-      findings.push(warn('A short title reads as the type, the I.D. number, the year and a sequence, as MI 12345A-24/1.'));
+      findings.push(warn('Use the publication type, assigned ID/FSC/SSIC basic number, year and sequence, as MI 12345A-24/1. ID suffixes exclude I and O.'));
     } else if (input.publicationType && !title.startsWith(`${input.publicationType} `)) {
       findings.push(warn(`The short title names a ${title.slice(0, 2)} but the publication type is ${input.publicationType}.`));
     }
@@ -59,6 +59,6 @@ export function validateIdentifiers(input: {
   const tamcn = bad('tamcn', TAMCN);
   if (tamcn.length) findings.push(warn(`A TAMCN is seven positions, as A02557G: ${tamcn.join(', ')}.`));
   const id = bad('id', ID_NO);
-  if (id.length) findings.push(warn(`An I.D. number is five digits and a letter, as 11031A: ${id.join(', ')}.`));
+  if (id.length) findings.push(warn(`An I.D. number is five digits and a letter other than I or O, as 11031A: ${id.join(', ')}.`));
   return findings;
 }

@@ -4,6 +4,13 @@ import { validateIdentifiers } from '@/lib/identifiers';
 const ok = { pcn: '184 123456 00', shortTitle: 'MI 12345A-24/1', publicationType: 'MI', endItems: [{ nsn: '5895-01-520-4360', tamcn: 'A02557G', id: '11031A', model: 'V4' }], majorItems: [] };
 
 describe('validateIdentifiers', () => {
+  it.each(['MI 12345-26/1', 'TI 6115-26/2', 'LI 4790-26/1', 'SI 12345-26/1'])('accepts assigned basic-number form %s', (shortTitle) => {
+    expect(validateIdentifiers({ ...ok, shortTitle, publicationType: shortTitle.slice(0, 2) })).toEqual([]);
+  });
+  it.each(['I', 'O'])('rejects %s as an ID suffix', (suffix) => {
+    expect(validateIdentifiers({ ...ok, shortTitle: `MI 12345${suffix}-26/1` }).join(' ')).not.toBe('');
+    expect(validateIdentifiers({ ...ok, endItems: [{ ...ok.endItems[0], id: `12345${suffix}` }] })).toHaveLength(1);
+  });
   it('accepts the template\'s own examples, with or without spaces in the PCN', () => {
     expect(validateIdentifiers(ok)).toEqual([]);
     expect(validateIdentifiers({ ...ok, pcn: '18412345600' })).toEqual([]);
@@ -14,10 +21,10 @@ describe('validateIdentifiers', () => {
     const m = validateIdentifiers({ ...ok, pcn: '1234', shortTitle: 'MI-12345', endItems: [{ nsn: '5895-520', tamcn: 'A0255G', id: '1103', model: '' }] }).map((f) => f.message);
     expect(m).toEqual([
       'A PCN is eleven digits, as 184 123456 00.',
-      'A short title reads as the type, the I.D. number, the year and a sequence, as MI 12345A-24/1.',
+      'Use the publication type, assigned ID/FSC/SSIC basic number, year and sequence, as MI 12345A-24/1. ID suffixes exclude I and O.',
       'An NSN is thirteen digits, as 5895-01-520-4360: 5895-520.',
       'A TAMCN is seven positions, as A02557G: A0255G.',
-      'An I.D. number is five digits and a letter, as 11031A: 1103.',
+      'An I.D. number is five digits and a letter other than I or O, as 11031A: 1103.',
     ]);
   });
 
