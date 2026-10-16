@@ -1,5 +1,6 @@
 import { validatePublicationReferences, REFERENCE_TOKEN } from './publicationReferences';
 import { iTypeClassificationErrors } from './iTypeClassification';
+import { validatePublicationTableRows } from './publicationTableValidation';
 import { validatePublicationDate } from './publicationDate';
 import { validateMajorItemsOrder } from './majorItemsOrder';
 import { tableSpec } from '@/data/techpub/tables';
@@ -39,6 +40,7 @@ export function iTypeExportErrors(store: Publication): string[] {
     if (!rows.some((r) => Object.values(r.values).some((v) => v.trim()))) continue;
     const spec = tableSpec(key);
     if (!spec) { errors.push(`Unknown publication table: ${key}.`); continue; }
+    errors.push(...validatePublicationTableRows(key, rows));
     const attached = store.paragraphs.filter((p) => p.tableKey === key);
     if (attached.length !== 1) errors.push(`${spec.name} must be attached to exactly one paragraph.`);
     if (spec.columns.some((c) => c.key === 'item')) errors.push(...validateItemNumbers(rows, spec.name, key === 'materielRequired').map((f) => f.message));

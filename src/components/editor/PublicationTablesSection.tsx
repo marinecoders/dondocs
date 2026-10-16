@@ -1,6 +1,7 @@
 import { Plus, Trash2, Indent, Outdent } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PublicationTableCell } from './PublicationTableCell';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useDocumentStore } from '@/stores/documentStore';
 import { tableSpec } from '@/data/techpub/tables';
@@ -23,6 +24,7 @@ export function PublicationTablesSection() {
   const updateTableRow = useDocumentStore((s) => s.updateTableRow);
   const removeTableRow = useDocumentStore((s) => s.removeTableRow);
   const setTableRowLevel = useDocumentStore((s) => s.setTableRowLevel);
+  const setTableRowDetails = useDocumentStore((s) => s.setTableRowDetails);
 
   const carried = paragraphs.flatMap((p, paragraphIndex) =>
     p.tableKey ? [{ key: p.tableKey, heading: p.header, paragraph: p, paragraphIndex }] : []
@@ -58,7 +60,8 @@ export function PublicationTablesSection() {
             )}
 
             {rows.map((row, index) => (
-              <div key={index} className="flex items-end gap-2">
+              <div key={index} className="space-y-2">
+              <div className="flex items-end gap-2">
                 {spec.columns.map((col) => (
                   <div key={col.key} className="flex-1 space-y-1" style={col.key === 'description' && row.level ? { marginLeft: `${row.level * 12}px` } : undefined}>
                     {index === 0 && (
@@ -108,6 +111,20 @@ export function PublicationTablesSection() {
                 >
                   <Trash2 className="h-4 w-4" aria-hidden />
                 </Button>
+              </div>
+              {key === 'materielRequired' && <details className="text-xs">
+                <summary>Identification exception</summary>
+                <p>Only when no NSN, part number or CAGE is assigned, describe the identifying marks or explain how to identify the item.</p>
+                <Input aria-label={`Identification exception, row ${index + 1}`} value={row.identificationException ?? ''}
+                  onChange={(e) => setTableRowDetails(key, index, { identificationException: e.target.value })} />
+              </details>}
+              {key === 'specialTools' && <div className="space-y-1 text-xs">
+                <label><input type="checkbox" checked={!!row.openPurchase} onChange={(e) => setTableRowDetails(key, index, { openPurchase: e.target.checked ? { manufacturer: '', address: '' } : undefined })} /> Open purchase, row {index + 1}</label>
+                {row.openPurchase && <>
+                  <Input aria-label={`Manufacturer, row ${index + 1}`} value={row.openPurchase.manufacturer} onChange={(e) => setTableRowDetails(key, index, { openPurchase: { ...row.openPurchase!, manufacturer: e.target.value } })} />
+                  <Input aria-label={`Manufacturer address, row ${index + 1}`} value={row.openPurchase.address} onChange={(e) => setTableRowDetails(key, index, { openPurchase: { ...row.openPurchase!, address: e.target.value } })} />
+                </>}
+              </div>}
               </div>
             ))}
 

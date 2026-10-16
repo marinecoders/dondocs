@@ -888,7 +888,10 @@ function generatePublicationTable(tableKey: string, rows: PublicationTableRow[],
         const cell = renderCell(raw);
         // Only the description carries the nesting; indenting every column
         // would break the grid.
-        if (i === descriptionIndex) return cellText(cell, level);
+        if (i === descriptionIndex) {
+          const details = [row.identificationException, row.openPurchase?.manufacturer, row.openPurchase?.address].filter(Boolean).map((value) => renderCell(value!));
+          return cellText([cell, ...details].join('\\par '), level);
+        }
         // "74024019 (1CSL0)": an item with no NSN gives its CAGE centred in
         // parentheses under the PN.
         const cage = c.key === 'pn' ? /^(.*\S)\s+\((\w+)\)$/.exec(raw.replace(FOOTNOTE_REFERENCE_TOKEN, '').trim()) : null;

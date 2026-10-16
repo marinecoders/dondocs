@@ -39,6 +39,8 @@ export type CalloutKind = 'warning' | 'caution' | 'note';
 export interface PublicationTableRow {
   values: Record<string, string>;
   level?: number;
+  identificationException?: string;
+  openPurchase?: { manufacturer: string; address: string };
 }
 
 export interface Reference {

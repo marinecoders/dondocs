@@ -115,6 +115,7 @@ export interface DocumentState {
   addTableRow: (tableKey: string) => void;
   updateTableRow: (tableKey: string, index: number, values: Record<string, string>) => void;
   removeTableRow: (tableKey: string, index: number) => void;
+  setTableRowDetails: (tableKey: string, index: number, details: Pick<PublicationTableRow, 'identificationException' | 'openPurchase'>) => void;
   setTableRowLevel: (tableKey: string, index: number, level: number) => void;
   addEndItem: () => void;
   updateEndItem: (index: number, updates: Partial<EndItem>) => void;
@@ -415,6 +416,10 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
         i === index ? { ...row, values: { ...row.values, ...values } } : row
       ),
     },
+  })),
+
+  setTableRowDetails: (tableKey, index, details) => set((state) => ({
+    publicationTables: { ...state.publicationTables, [tableKey]: (state.publicationTables[tableKey] ?? []).map((row, i) => i === index ? { ...row, ...details } : row) },
   })),
 
   setTableRowLevel: (tableKey, index, level) => set((state) => ({
