@@ -745,6 +745,8 @@ export function VariableChipEditor({
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
+        // Registered explicitly below; StarterKit v3 also includes underline.
+        underline: false,
         heading: false,
         blockquote: false,
         codeBlock: false,
