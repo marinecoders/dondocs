@@ -17,6 +17,19 @@ describe('publication references', () => {
     expect(publicationReferenceText(reference.text, after)).toContain('paragraph 3');
     expect(publicationReferenceText(reference.text, after)).toContain('itype.p.2');
   });
+  it('retains references through snapshot restore and paragraph moves', () => {
+    const original = useDocumentStore.getState();
+    try {
+      useDocumentStore.setState({ paragraphs: [reference, target], docType: 'i_type' });
+      const snapshot = JSON.parse(JSON.stringify(useDocumentStore.getState().getSnapshot()));
+      useDocumentStore.setState({ paragraphs: [] });
+      useDocumentStore.getState().applySnapshot(snapshot);
+      useDocumentStore.getState().reorderParagraphs(1, 0);
+      const restored = useDocumentStore.getState().paragraphs;
+      expect(validatePublicationReferences(restored)).toEqual([]);
+      expect(publicationReferenceText(reference.text, publicationReferences(restored))).toContain('paragraph 1');
+    } finally { useDocumentStore.setState(original); }
+  });
   it('flags typed references that have no link', () => {
     expect(validatePublicationReferences([{ ...reference, text: 'See paragraph 2.' }, target]).join(' ')).toContain('Use Insert');
     expect(validatePublicationReferences([reference, target])).toEqual([]);

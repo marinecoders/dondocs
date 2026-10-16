@@ -23,9 +23,9 @@ describe('safety callouts', () => {
 
   it('sets a warning entirely in upper case, and the others in sentence case', () => {
     expect(body([{ text: 'Mind the torque.', level: 0, callout: 'warning' }]))
-      .toContain('\\MakeUppercase{');
+      .toContain('MIND THE TORQUE.');
     expect(body([{ text: 'Mind the torque.', level: 0, callout: 'caution' }]))
-      .not.toContain('\\MakeUppercase{');
+      .not.toContain('MIND THE TORQUE.');
   });
 
   it('centres a single line and left-justifies a long one', () => {

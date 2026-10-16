@@ -54,7 +54,7 @@ preserves the existing destination tree. Signature-field insertion retains it.
   selecting it does not supply the required written approval.
 - Export checks required identification and signature fields, font settings,
   unresolved template prompts, missing figure references, procedure subdivisions,
-  callout order, and the relative order of fixed paragraphs. Draft previews remain available while fields are incomplete.
+  callout order, and required sections with their prescribed order and administrative content. Draft previews remain available while fields are incomplete.
 - Every referenced figure must resolve to valid bytes for the current compile.
   Attachment-specific filenames and a compile-level check prevent a reused engine
   from substituting an older drawing. A failed preview clears the previous PDF.
@@ -66,6 +66,35 @@ preserves the existing destination tree. Signature-field insertion retains it.
   publication headers use Times Bold 10 and numerals use Times 12.
 - Readability remains an estimate, with a ninth-grade warning threshold.
   Acronym checking includes uppercase headings. Neither replaces editorial review.
+
+## Authoring and references
+
+Choose a paragraph's Section to identify prescribed content. Procedures may have
+an action-specific title; the section identity remains when the title changes.
+Older documents with recognized headings still load without rewriting their text.
+Ambiguous headings must be identified before export.
+
+The effective date is checked against the planned or actual signing month. The
+calendar excludes weekends and observed U.S. federal holidays. Enter additional
+office closures on the cover form. This assumes a Monday–Friday office workweek;
+a different office calendar still requires review. Recheck the date when signing
+moves to another month.
+
+Use the editor's Insert menu (`@`) to add paragraph, figure, table or table-footnote
+references. References retain their target when paragraphs move; their displayed
+numbers update. A deleted target blocks export. Typed internal references must be
+replaced with linked references. For an external publication, provide its URL and
+review the cited location. Table footnotes are entered on the paragraph carrying
+the table. Reference links are blue and underlined in the PDF.
+
+Distribution restrictions do not establish a CUI designation. Unclassified
+restricted-distribution documents are allowed. CUI portion markings are optional;
+if used, apply them consistently. The CUI designation block identifies the
+organization, office, category, distribution statement and office mailbox. It does
+not print an additional LDC alongside the distribution statement.
+
+The renderer checks the actual four-line long-title limit. Nimbus Roman and the
+supplied template's unresolved layout differences remain as listed below.
 
 ## Decisions still required before format approval
 
@@ -94,6 +123,8 @@ table pagination, markings, procedure spacing, bookmark destinations, enclosure
 numbering, and signature placement. It also reuses an engine across drawing changes
 to check missing and multi-page figure rejection.
 
+`tests/unit/publicationStructure.test.ts` and `tests/unit/publicationReferences.test.ts` cover section identity, subtype content, references, deleted targets and snapshot restoration. `tests/component/publicationAuthoring.test.tsx` checks the corresponding editor controls.
+
 `tests/unit/iTypeCompliance.test.ts` covers export checks, calendar and leap-year
 boundaries, stale date replacement, procedure parent boundaries, subtype changes,
 font selection, separate graphic markings, and attachment resolution. Existing
@@ -107,3 +138,7 @@ build before updating the PR. Regenerate `public/lib/latex-templates.js` with
 The [requirements and acceptance record](ITYPE_REQUIREMENTS.md) tracks the next
 checks and unresolved authority decisions. No approved tailoring record or license
 to distribute Times New Roman has been supplied.
+
+I-Type export requires the web editor. The companion can retrieve its templates,
+but rejects PDF and DOCX export until its input contract supports the publication
+fields and preflight checks.

@@ -12,22 +12,22 @@ check, manual review, or written approval that applies to the publication.
 
 | Requirement | Authority | Acceptance evidence / remaining work |
 |---|---|---|
-| Subtype, required sections, conditional sections, prescribed administrative text | DTL §§3.3.2.1–3.3.2.15 | Validate section identity, order and content for MI, TI, SI and LI. Preserve permitted omissions, promoted subsections and action-specific procedure titles. |
-| Effective date | DTL §3.3.1.4 | Last working day of signing month; account for observed federal holidays and office closures. Signing remains an external action. |
-| Table contents and numbering | DTL §§3.3.2.7–3.3.2.10 | Validate applicable item sequences and required identifiers. Official nomenclature, completeness and applicability require technical review. |
+| Subtype, required sections, conditional sections, prescribed administrative text | DTL §§3.3.2.1–3.3.2.15 | `publicationStructure.test.ts` and production MI/TI/SI/LI fixtures check section identity, mandatory administrative content, order and valid variants. Technical applicability remains a review item. |
+| Effective date | DTL §3.3.1.4 | `publicationDate.test.ts` covers signing month, observed holidays and additional closures. Final export enforces the result. Assumes a Monday–Friday office calendar; actual signing remains external. |
+| Table contents and numbering | DTL §§3.3.2.7–3.3.2.10 | `iTypeCompliance.test.ts` checks applicable item sequences, descriptions, table attachment and identifier shapes. Official nomenclature, completeness and applicability require technical review. |
 | Wording and reading level | DTL §§3.1.2–3.1.3, 3.3.2.14 | Editorial review of acronyms, ninth-grade coverage, subtype wording and part references. Heuristic warnings are not proof of compliance. |
 | Safety callouts | DTL §3.1.4.3 | PDF tests for order and keeping callouts with their text. Technical review establishes hazard content and applicability. |
-| Internal references | STD §4.8.1 | Linked paragraph, figure, table and table-footnote references; verify destinations after PDF assembly. External publication references need a valid available source. |
+| Internal references | STD §4.8.1 | `publicationReferences.test.ts` and production PDF tests check linked paragraph, figure, table and table-footnote references, renumbering, saved-document restoration and destinations after enclosure merging/signature-field insertion. External publication references need a valid available source. |
 | Font | DTL §3.1.1 | OPEN: renderer embeds Nimbus Roman, not Times New Roman. Obtain a distributable font license or approved substitution before format acceptance. |
 | Cover, authentication, supersedure | DTL §§3.2, 3.3.1, 3.3.2.3, 3.3.2.16–18; supplied template | OPEN: resolve conflicting placement and order with the acquiring activity. Do not treat a template as a waiver. |
 | Headers, pagination, blank pages and enclosures | DTL §§3.1.6–8, 3.3.1.3; STD §§4.1, 4.7.4 | OPEN: resolve template differences and paper/PDF delivery requirements before changing the layout. |
-| Titles and tables | DTL §§3.1.4, 3.3.1.6 | Measure the four-line long-title limit in TeX. Exact template geometry and numbered table-title placement remain subject to format review. |
-| Distribution statements | DTL §3.1.9.1; DoDI 5230.24 (2023) | Separate distribution from classification. Verify complete statement/reason matrix against the full current issuance; record public-release approval outside the editor. |
-| CUI and classified markings | DoDI 5200.48; DoDM 5200.01 | Correct optional CUI portion-marking guidance. Review required blocks, notices, separate graphic/caption markings and enclosures against current authorities. |
+| Titles and tables | DTL §§3.1.4, 3.3.1.6 | Production PDF tests enforce the four-line long-title limit using TeX line counts. Exact template geometry and numbered table-title placement remain subject to format review. |
+| Distribution statements | DTL §3.1.9.1; DoDI 5230.24 (2023) | `distributionSensitivity.test.ts` permits unclassified restricted distribution; export rejects Statement A with export-controlled or CUI/classified content. Verify complete statement/reason matrix against the full current issuance; record public-release approval outside the editor. |
+| CUI and classified markings | DoDI 5200.48; DoDM 5200.01 | `classificationValidation.test.ts` checks optional CUI portion markings. The designation block uses the distribution statement instead of an additional LDC; production tests inspect the resulting PDF. Review required blocks, notices, separate graphic/caption markings and enclosures against current authorities. |
 | Publication management and authentication | MCO 5215.17D | OPEN: full-text review still required. MCPEL lists the order as current; official PDF retrieval returned HTTP 403 during verification. |
 | Technical validation and verification | DTL §§4.1–4.2 and acquisition requirements | Retain required technical validation, verification and signing/release records. Software cannot approve equipment procedures. |
 | Deliverables and sensitivity labels | Contract/acquisition requirements; supplied template | OPEN: establish required authoring/final formats and downstream labeling/protection. Visible PDF banners do not apply Microsoft sensitivity labels. |
-| Template API compatibility | DonDocs companion contract | Every bundled template validates against the published response schema without dropping publication fields. |
+| Template API compatibility | DonDocs companion contract | `companion-mcp-client.test.ts` retrieves every bundled template through a validating protocol client. Companion exports reject I-Type because its input contract lacks publication fields and preflight checks. |
 
 ## Verification sequence
 
@@ -44,3 +44,16 @@ check, manual review, or written approval that applies to the publication.
 - [MCO 5215.17D listing](https://www.marines.mil/News/Publications/MCPEL/Search/5215/)
 - [DoDI 5230.24](https://www.esd.whs.mil/Portals/54/Documents/DD/issuances/dodi/523024p.pdf)
 - [DoD CUI portion marking](https://www.dodcui.mil/Training/Portion-Marking/)
+
+## Review limits
+
+No full-compliance declaration is made. Font and template-layout decisions remain
+open, as do the complete current marking-authority review, publication-office
+approval and publication-specific technical validation. The user confirmed that
+no tailoring record or distributable Times New Roman license is available.
+
+Additional marking guidance used for the corrections:
+
+- [Distribution statements and CUI are separate](https://www.dodcui.mil/Home/Marking-Tips-for-CUI-Documents/Distribution-Statements/)
+- [CUI designation indicator block](https://www.dodcui.mil/Home/Marking-Tips-for-CUI-Documents/CUI-Designation-Indicator-Block/)
+- [Observed federal holidays](https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/)

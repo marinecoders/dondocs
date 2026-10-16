@@ -6,7 +6,7 @@ import { modificationInstruction } from '@/data/templates/technical/modification
 import { technicalInstruction, supplyInstruction, lubricationInstruction } from '@/data/templates/technical/i-type-instructions';
 
 const purpose: Paragraph = { level: 0, header: 'Purpose', text: 'Inspect the equipment.' };
-const admin = (type = 'MI'): Paragraph => ({ level: 0, header: 'Administrative Instructions', text: `For questions or concerns with the content or procedures in this instruction contact office@example.mil. ${DISCREPANCY_NOTICE} ${type === 'MI' ? MI_REPORTING : ''}` });
+const admin = (type = 'MI'): Paragraph => ({ level: 0, header: 'Administrative Instructions', text: `For questions or concerns with the content or procedures in this ${{ MI: 'Modification', TI: 'Technical', SI: 'Supply', LI: 'Lubrication' }[type]} Instruction (${type}) contact office@example.mil. ${DISCREPANCY_NOTICE} ${type === 'MI' ? MI_REPORTING : ''}` });
 
 describe('publication structure', () => {
   it('rejects missing administration, misspelled headings and deleted prescribed content', () => {
@@ -19,7 +19,7 @@ describe('publication structure', () => {
     expect(findings.map((f) => f.message)).toContain('Restore the heading "Administrative Instructions".');
   });
   it('permits promoted subsections and action-specific procedures', () => {
-    expect(validatePublicationStructure([purpose, admin(), { level: 0, header: 'Materiel Required', text: 'None.' }, { level: 0, header: 'Inspection', publicationSection: 'procedures', text: 'Inspect the bracket.' }])).toEqual([]);
+    expect(validatePublicationStructure([purpose, admin(), { level: 0, header: 'Materiel Required', text: 'None.' }, { level: 0, header: 'Skill and Time Required', text: 'Equipment technician, 0.5 hours.' }, { level: 0, header: 'Inspection', publicationSection: 'procedures', text: 'Inspect the bracket.' }])).toEqual([]);
   });
   it('keeps MI reporting out of other subtypes', () => {
     for (const type of ['TI', 'SI', 'LI']) {

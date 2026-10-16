@@ -1,3 +1,6 @@
+import { DISCREPANCY_NOTICE, MI_REPORTING } from '@/data/techpub/sections';
+import { PUBLICATION_TYPES } from '@/data/techpub/publicationTypes';
+import { iTypeExportErrors } from '@/lib/iTypePreflight';
 import { publicationMarking } from '@/lib/publicationMarking';
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
@@ -21,7 +24,7 @@ const output = mkdtempSync(join(tmpdir(), 'itype-compliance-'));
 type Publication = TestStore & { endItems: EndItem[]; publicationTables: Record<string, PublicationTableRow[]> };
 function baseline(): Publication {
   const s = buildBaseline('i_type' as never) as Publication;
-  Object.assign(s.formData, { date: '30 Oct 26', shortTitle: 'MI 12345A-26/1', subject: 'INSTALL THE ACCESSORY BRACKET', nomenclature: 'SUPPORT EQUIPMENT', pcn: '184 123456 00',
+  Object.assign(s.formData, { date: '30 Oct 26', publicationSigningDate: '2026-10-15', shortTitle: 'MI 12345A-26/1', subject: 'INSTALL THE ACCESSORY BRACKET', nomenclature: 'SUPPORT EQUIPMENT', pcn: '184 123456 00',
     publicationType: 'MI', miUrgency: 'normal', classLevel: 'unclassified', cuiDistStatement: 'A', fontFamily: 'times', fontSize: '12pt',
     signatureType: 'digital', sigFirst: 'J', sigMiddle: 'A', sigLast: 'DOE', sigTitle: 'Program Manager', controllingOffice: 'Program Office', pocEmail: 'review@example.mil' });
   s.references = []; s.enclosures = []; s.copyTos = []; s.distributions = [];
@@ -74,19 +77,46 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
     expect(official.transform[5] - name.transform[5]).toBeGreaterThanOrEqual(48 * 72 / 72.27);
   }, 60_000);
 
+  it.each(['MI', 'TI', 'SI', 'LI'] as const)('exports a complete %s through the production engine', async (type) => {
+    const s = baseline();
+    Object.assign(s.formData, { publicationType: type, shortTitle: `${type} 12345A-26/1` });
+    const action = { MI: 'Install the bracket', TI: 'Inspect the bracket', SI: 'Request the bracket', LI: 'Lubricate the bracket' }[type];
+    s.paragraphs = [
+      { level: 0, header: 'Purpose', text: `${action}.` },
+      { level: 0, header: 'Administrative Instructions', text: '' },
+      { level: 1, header: 'Point of Contact', text: `For questions or concerns with the content or procedures in this ${PUBLICATION_TYPES[type]} (${type}) contact office@example.mil.` },
+      { level: 1, header: 'Notice of Discrepancies', text: DISCREPANCY_NOTICE },
+      ...(type === 'MI' ? [{ level: 1, header: 'Reporting Instructions', text: MI_REPORTING }] : []),
+      { level: 0, header: 'Skill and Time Required', text: 'Equipment technician, 0.5 hours.' },
+      { level: 0, header: action, publicationSection: 'procedures', text: 'Follow the steps below.' },
+      { level: 1, procedure: true, text: `${action}.` },
+      { level: 1, procedure: true, text: 'Record completion.' },
+    ];
+    expect(iTypeExportErrors(s)).toEqual([]);
+    const text = pages(await production(s), `accepted-${type}`).join(' ');
+    expect(text).toContain(PUBLICATION_TYPES[type].toUpperCase());
+    expect(text).toContain('NAVMC 10772');
+    expect(text.includes('will not manually add')).toBe(type === 'MI');
+  }, 60_000);
+
   it('resolves internal paragraph, table and footnote links after assembly', async () => {
     const s = baseline();
     const id = 'ABCDEF0123456789ABCDEF0123456789';
+    const figureId = 'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB';
+    const image = new Uint8Array(readFileSync('public/attachments/usmc-seal.png'));
     s.paragraphs = [
-      { level: 0, header: 'Purpose', text: `See {{PUBREF_P_${id}}}, {{PUBREF_T_${id}}}, and {{PUBREF_N_${id}_A}}. Source: https://example.mil/CaseSensitive.` },
+      { level: 0, header: 'Purpose', text: `See {{PUBREF_P_${id}}}, {{PUBREF_T_${id}}}, and {{PUBREF_N_${id}_A}}. See {{PUBREF_F_${figureId}}}. Source: https://example.mil/CaseSensitive.` },
       ...Array.from({ length: 18 }, () => ({ level: 0, text: 'Inspect the equipment. '.repeat(14) })),
       { level: 0, header: 'Materiel Required', text: 'Use the listed parts.', referenceId: id, tableKey: 'materielRequired', tableFootnotes: [{ id: 'a', text: 'Install two bolts.' }] },
+      { level: 0, referenceId: figureId, text: 'Synthetic drawing', figure: { name: 'figure.png', type: 'image/png', fileRef: { id: 'reference-figure', name: 'figure.png', type: 'image/png', size: image.length } } },
     ];
     s.publicationTables = { materielRequired: [{ values: { item: '1', description: 'BOLT', qty: '2' } }] };
-    const base = await production(s);
-    const attachment = await PDFDocument.create(); attachment.addPage();
+    const files = generateAllLatexFiles(s);
+    const base = await production(s, { [files.figures[0].file]: image });
+    const attachment = await PDFDocument.create(); attachment.addPage().drawText('SYNTHETIC ENCLOSURE');
     const enclosureBytes = await attachment.save();
     const merged = await mergeEnclosures(base, [{ number: 1, title: 'Drawing', data: enclosureBytes.buffer as ArrayBuffer, pageStyle: 'fit' }], undefined, true, [], { enclosureLabel: 'footer', header: { line1: s.formData.shortTitle!, line2: '30 October 2026' } });
+    expect(merged.hasErrors).toBe(false);
     const bytes = await addSignatureField(merged.pdfBytes, { signatoryName: 'J. A. DOE', lastBasicPageIndex: merged.basicPageCount! - 1 });
     writeFileSync(join(output, 'cross-references.pdf'), bytes);
     const doc = await getDocument({ data: bytes.slice() }).promise;
@@ -98,7 +128,7 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
         if (typeof annotation.dest === 'string' && annotation.dest.startsWith('itype.')) linked.push(annotation.dest);
       }
     }
-    for (const destination of ['itype.p.19', 'itype.table.19', 'itype.note.19.A']) {
+    for (const destination of ['itype.p.19', 'itype.table.19', 'itype.note.19.A', 'itype.figure.20']) {
       expect(linked).toContain(destination);
       const target = await doc.getDestination(destination);
       expect(target).not.toBeNull();

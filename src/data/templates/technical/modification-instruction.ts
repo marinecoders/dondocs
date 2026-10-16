@@ -17,9 +17,10 @@ export const modificationInstruction: LetterTemplate = {
     },
     {
       header: 'Administrative Instructions',
-      text: 'For questions or concerns with the content or procedures in this Modification Instruction (MI) contact [PHONE OR SECTION MAILBOX EMAIL].',
+      text: '',
       level: 0,
     },
+    { header: 'Point of Contact', text: 'For questions or concerns with the content or procedures in this Modification Instruction (MI) contact [PHONE OR SECTION MAILBOX EMAIL].', level: 1 },
     { header: 'Notice of Discrepancies', text: DISCREPANCY_NOTICE, level: 1 },
     { header: 'Reporting Instructions', text: MI_REPORTING, level: 1 },
     {

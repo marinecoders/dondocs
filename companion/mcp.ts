@@ -297,7 +297,9 @@ const handle = serveStdio(() => {
       ...(type && ENDORSEMENT_TYPES.includes(type)
         ? ['Ask me for the endorsement ordinal (FIRST, SECOND ...) and the identification of the letter being endorsed, and pass them as endorsement.ordinal and endorsement.basicLetterId; the render is refused without them.']
         : []),
-      `Render with dondocs_letter${type ? ` using docType "${type}"` : ''}; its result says how to show me the file.`,
+      type === 'i_type'
+        ? 'Complete and export this I-Type publication in the DonDocs web editor; the companion cannot perform its publication checks.'
+        : `Render with dondocs_letter${type ? ` using docType "${type}"` : ''}; its result says how to show me the file.`,
     ].join(' ');
     return {
       messages: [
@@ -318,7 +320,7 @@ const handle = serveStdio(() => {
     description: 'Return the complete letter template for an ID; dondocs_template_list describes each. '
       + 'Use it as a starting draft: ask the user for bracketed placeholders and missing correspondence details. '
       + 'Interpret each placeholder in context, preserve supplied facts, and never invent missing information. '
-      + 'When ready, pass the completed letter fields to dondocs_letter; omit template metadata (id, name, category, description). '
+      + 'I-Type templates require the DonDocs web editor for completion and export. For other types, pass the completed letter fields to dondocs_letter; omit template metadata (id, name, category, description). '
       + 'An endorsement template also needs endorsement.ordinal and endorsement.basicLetterId.',
     inputSchema: z.object({ id: z.enum(TEMPLATE_IDS).describe('Template ID.') }).strict(),
     outputSchema: templateResult,

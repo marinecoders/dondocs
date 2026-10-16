@@ -136,6 +136,8 @@ export function validatePublicationStructure(paragraphs: Paragraph[], type = 'MI
     if (key === 'procedures' && !p.header?.trim()) findings.push(warn('Give the procedure a title describing its action.'));
     if (key === 'timeCompliance' && type !== 'MI') findings.push(warn('Only an MI may contain a Time Compliance Period.'));
   }
+  if (body.some((p) => p.procedure || publicationSection(p) === 'procedures') && !primary.some((p) => publicationSection(p) === 'skill')) findings.push(warn('Procedures require Skill and Time Required.'));
+  if (!primary[0]?.text.trim()) findings.push(warn('Enter the purpose of the instruction.'));
   if (admin) {
     const start = body.indexOf(admin);
     const next = body.findIndex((p, i) => i > start && p.level === 0 && !p.callout && !p.figure);
@@ -144,7 +146,9 @@ export function validatePublicationStructure(paragraphs: Paragraph[], type = 'MI
     if (!normalize(text).includes(normalize(DISCREPANCY_NOTICE))) findings.push(warn('Include the prescribed NAVMC 10772 notice in Administrative Instructions.'));
     if (type === 'MI' && !normalize(text).includes(normalize(MI_REPORTING))) findings.push(warn('Include the prescribed MI reporting instructions in Administrative Instructions.'));
     if (type !== 'MI' && text.includes(MI_REPORTING)) findings.push(warn('Remove the MI reporting instructions from this publication type.'));
-    if (!/contact\s+[^.]*([\w.+-]+@[\w.-]+\.[a-z]{2,}|\+?[\d(][\d ()-]{6,})/i.test(admin.text)) findings.push(warn('Administrative Instructions needs a contact phone number or section mailbox email.'));
+    const typeName = ({ MI: 'Modification', TI: 'Technical', SI: 'Supply', LI: 'Lubrication' } as Record<string, string>)[type];
+    if (!normalize(text).toLowerCase().includes(`for questions or concerns with the content or procedures in this ${typeName} instruction (${type}) contact`.toLowerCase())) findings.push(warn('Use the prescribed point-of-contact sentence for this instruction type.'));
+    if (!/contact\s+[^.]*([\w.+-]+@[\w.-]+\.[a-z]{2,}|\+?[\d(][\d ()-]{6,})/i.test(text)) findings.push(warn('Administrative Instructions needs a contact phone number or section mailbox email.'));
   }
   return findings;
 }
