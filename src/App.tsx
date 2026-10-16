@@ -1464,6 +1464,7 @@ ${texFiles['body.tex'] || '% No body content'}
   // Global keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (!workspaceReady) return;
       const isMod = e.ctrlKey || e.metaKey;
       const target = e.target as HTMLElement;
       const isInInput = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA';
@@ -1570,6 +1571,7 @@ ${texFiles['body.tex'] || '% No body content'}
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [
     closeAllModals,
+    workspaceReady,
     handleDownloadPdf,
     pdfUrl,
     setTemplateLoaderOpen,
