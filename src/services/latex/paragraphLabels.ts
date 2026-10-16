@@ -41,4 +41,3 @@ export function calculateLabels(paragraphs: Paragraph[], letteredAppendices = fa
 
   return labels;
 }
-
