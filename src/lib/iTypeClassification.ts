@@ -3,7 +3,15 @@ import type { DocumentData, Paragraph } from '@/types/document';
 import { deriveOverallClassLevel } from './overallClassification';
 
 export function iTypeClassificationErrors(data: Partial<DocumentData>, paragraphs: Paragraph[]): string[] {
+  if (data.classLevel === 'custom') {
+    const controlledPortion = paragraphs.some((p) => [p.portionMarking, p.figure?.portionMarking].some((mark) => mark && mark !== 'U'));
+    const controlledBanner = /\b(CUI|FOUO|CONFIDENTIAL|SECRET|SCI|FOR OFFICIAL USE ONLY)\b/i.test(data.customClassification ?? '');
+    return controlledPortion || controlledBanner
+      ? ['Custom I-Type banners are for unclassified content. Select the appropriate CUI or classified level for these markings.']
+      : [];
+  }
   const level = deriveOverallClassLevel(data.classLevel, paragraphs);
+  if (!['unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci'].includes(level)) return ['Select a recognized I-Type classification level.'];
   if (!['confidential', 'secret', 'top_secret', 'top_secret_sci'].includes(level)) return [];
   const errors: string[] = [];
   if (!['original', 'derivative'].includes(data.classificationBasis ?? '')) errors.push('Select original or derivative classification.');

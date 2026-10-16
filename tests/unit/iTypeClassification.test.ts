@@ -6,6 +6,16 @@ const data: Partial<DocumentData> = { classLevel: 'secret', classificationBasis:
 const paragraphs: Paragraph[] = [{ level: 0, text: 'Synthetic content.', portionMarking: 'S' }];
 
 describe('I-Type classification authority', () => {
+  it('rejects custom banners that bypass controlled markings', () => {
+    const custom = { classLevel: 'custom', customClassification: 'TRAINING' };
+    expect(iTypeClassificationErrors(custom, paragraphs).join(' ')).toContain('Custom I-Type');
+    expect(iTypeClassificationErrors(custom, [{ ...paragraphs[0], portionMarking: 'U', figure: { portionMarking: 'S' } }]).join(' ')).toContain('Custom I-Type');
+    for (const customClassification of ['CUI', 'TOP SECRET', 'FOR OFFICIAL USE ONLY']) {
+      expect(iTypeClassificationErrors({ ...custom, customClassification }, []).join(' ')).toContain('Custom I-Type');
+    }
+    expect(iTypeClassificationErrors(custom, [{ ...paragraphs[0], portionMarking: 'U' }])).toEqual([]);
+    expect(iTypeClassificationErrors({ classLevel: 'unknown' }, []).join(' ')).toContain('recognized');
+  });
   it('requires the applicable original or derivative fields', () => {
     expect(iTypeClassificationErrors(data, paragraphs)).toEqual([]);
     expect(iTypeClassificationErrors({ ...data, derivedFrom: '' }, paragraphs).join(' ')).toContain('source');
