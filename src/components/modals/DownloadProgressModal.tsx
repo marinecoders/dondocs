@@ -259,7 +259,7 @@ export function DownloadProgressModal({ phase, onClose, onRetry }: DownloadProgr
       }}
     >
       <DialogContent
-        className="sm:max-w-md w-[calc(100vw-2rem)] overflow-hidden"
+        className="sm:max-w-md w-[calc(100vw-2rem)] overflow-x-hidden"
         // Non-error: block all dismissal so the user can't accidentally kill
         // a long-running operation. Error: allow Escape + click-outside.
         onInteractOutside={(e) => {
@@ -270,7 +270,7 @@ export function DownloadProgressModal({ phase, onClose, onRetry }: DownloadProgr
         }}
         showCloseButton={isError}
       >
-        <div className="flex flex-col gap-4 overflow-hidden">
+        <div className="flex min-w-0 flex-col gap-4">
           <DialogHeader className="min-w-0">
             <DialogTitle className="flex items-center gap-2 min-w-0">
               {phase && phaseIcon(phase)}
