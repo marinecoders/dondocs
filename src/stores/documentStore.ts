@@ -12,7 +12,7 @@ import { compressedParse, compressedStringify } from '@/lib/compressedStorage';
 import { referenceStartIndex } from '@/lib/endorsement';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { normalizeLevels, migratePortionMarkings } from '@/lib/paragraphUtils';
-import { serializeForm, loadFormSession, type FormSession } from './formStore';
+import { serializeForm, loadFormSession, useFormStore, type FormSession } from './formStore';
 
 // Session persistence keys
 const SESSION_STORAGE_KEY = STORAGE_KEYS.DOCUMENT_SESSION;
@@ -690,7 +690,9 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   },
 
   // History (Undo/Redo)
-  applySnapshot: (snapshot) => set((state) => {
+  applySnapshot: (snapshot) => {
+    if (snapshot.documentCategory === 'forms') loadFormSession(snapshot.formType!, snapshot.forms);
+    set((state) => {
     // Re-graft live enclosure file bytes. History snapshots omit `file` (too
     // large to keep 50 copies of), so a wholesale replace would destroy attached
     // PDFs on every undo/redo. Match same-index-same-title first, then any unused
@@ -710,6 +712,8 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       return e;
     });
     return {
+      documentCategory: snapshot.documentCategory ?? state.documentCategory,
+      formType: snapshot.formType ?? state.formType,
       documentMode: snapshot.documentMode,
       docType: snapshot.docType,
       formData: snapshot.formData,
@@ -719,12 +723,17 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       copyTos: snapshot.copyTos,
       distributions: snapshot.distributions || [],
     };
-  }),
+    });
+    void rehydrateEnclosureFiles();
+  },
 
   getSnapshot: (): DocumentSnapshot => {
     const state = get();
     return {
       documentMode: state.documentMode,
+      documentCategory: state.documentCategory,
+      formType: state.formType,
+      forms: state.documentCategory === 'forms' ? serializeForm(state.formType) : undefined,
       docType: state.docType,
       formData: state.formData,
       references: state.references,
@@ -760,16 +769,7 @@ useDocumentStore.subscribe((state: DocumentState) => {
 
   saveTimeout = setTimeout(() => {
     try {
-      const snapshot: DocumentSnapshot = {
-        documentMode: state.documentMode,
-        docType: state.docType,
-        formData: state.formData,
-        references: state.references,
-        enclosures: state.enclosures,
-        paragraphs: state.paragraphs,
-        copyTos: state.copyTos,
-        distributions: state.distributions,
-      };
+      const snapshot = useDocumentStore.getState().getSnapshot();
       useHistoryStore.getState().saveSnapshot(snapshot);
       debug.log('Store', 'Snapshot saved to history');
     } catch (err) {
@@ -806,6 +806,14 @@ if (typeof document !== 'undefined') {
   });
   window.addEventListener('pagehide', flushSessionSave);
 }
+
+useFormStore.subscribe(() => {
+  if (useDocumentStore.getState().documentCategory !== 'forms') return;
+  if (saveTimeout) clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(() => {
+    useHistoryStore.getState().saveSnapshot(useDocumentStore.getState().getSnapshot());
+  }, TIMING.HISTORY_SNAPSHOT_DEBOUNCE);
+});
 
 /**
  * Saves the current document state to localStorage for session restore.

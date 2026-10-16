@@ -3,7 +3,9 @@ import { History, RotateCcw } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentsStore } from '@/stores/documentsStore';
+import { SessionChanges } from '@/components/SessionChanges';
+import { getSerializedSession } from '@/stores/documentStore';
+import { useDocumentsStore, deriveTitle } from '@/stores/documentsStore';
 import { idbGetSnapshots, type DocSnapshot } from '@/lib/documentsDb';
 
 function fmt(ts: number): string {
@@ -26,6 +28,8 @@ export function VersionHistoryModal() {
   const setDocId = useUIStore((s) => s.setHistoryDocId);
   const restoreSnapshot = useDocumentsStore((s) => s.restoreSnapshot);
   const [snaps, setSnaps] = useState<DocSnapshot[]>([]);
+  const [selected, setSelected] = useState<DocSnapshot | null>(null);
+  const [restoring, setRestoring] = useState(false);
   const [restoreFailed, setRestoreFailed] = useState(false);
 
   useEffect(() => {
@@ -43,13 +47,14 @@ export function VersionHistoryModal() {
     <Dialog
       open={docId != null}
       onOpenChange={(o) => {
-        if (!o) {
+        if (!o && !restoring) {
+          setSelected(null);
           setDocId(null);
           setRestoreFailed(false); // stale warning must not greet the next open
         }
       }}
     >
-      <DialogContent className="max-w-md">
+      <DialogContent className="sm:max-w-3xl max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-base">
             <History className="h-4 w-4" /> Version history
@@ -70,12 +75,12 @@ export function VersionHistoryModal() {
           <ul className="max-h-[60vh] space-y-1 overflow-y-auto">
             {snaps.map((snap, i) => (
               <li
-                key={snap.ts}
+                key={`${snap.ts}-${i}`}
                 className="flex items-center justify-between gap-2 rounded-md border border-border px-3 py-2"
               >
                 <span className="min-w-0 text-sm">
                   <span className="block truncate text-foreground">
-                    {snap.session.formData?.subject?.trim() || 'Untitled version'}
+                    {deriveTitle(snap.session)}
                   </span>
                   <span className="block text-2xs text-muted-foreground tnum">
                     {fmt(snap.ts)}
@@ -85,23 +90,26 @@ export function VersionHistoryModal() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={async () => {
-                    // restoreSnapshot only proceeds once the safety copy of the
-                    // current draft has committed — if it can't, nothing was
-                    // restored, so keep the modal open and say why.
-                    if (await restoreSnapshot(snap.session)) {
-                      setDocId(null);
-                    } else {
-                      setRestoreFailed(true);
-                    }
-                  }}
+                  disabled={restoring}
+                  onClick={() => setSelected(snap)}
                 >
-                  <RotateCcw className="mr-1 h-3.5 w-3.5" /> Restore
+                  Compare
                 </Button>
               </li>
             ))}
           </ul>
         )}
+        {selected && <div className="space-y-4 border-t border-border pt-4">
+          <p className="text-sm">Restoring creates a safety version first, so you can return to your current work.</p>
+          <SessionChanges before={getSerializedSession()} after={selected.session} />
+          <Button disabled={restoring} onClick={async () => {
+            if (useDocumentsStore.getState().currentId !== docId) { setRestoreFailed(true); return; }
+            setRestoring(true);
+            const ok = await restoreSnapshot(selected.session);
+            setRestoring(false);
+            if (ok) { setDocId(null); setSelected(null); } else setRestoreFailed(true);
+          }}><RotateCcw className="mr-2 h-4 w-4" />{restoring ? 'Saving safety version…' : 'Restore selected version'}</Button>
+        </div>}
       </DialogContent>
     </Dialog>
   );
