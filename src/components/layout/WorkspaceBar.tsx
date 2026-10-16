@@ -8,6 +8,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useEditorSections } from './editorSections';
 import { SaveStatus } from '@/components/SaveStatus';
+import { ReadinessMeter } from './ReadinessMeter';
 
 function DraftName({ title }: { title: string }) {
   const [editing, setEditing] = useState(false);
@@ -54,6 +55,7 @@ export function WorkspaceBar() {
       </DropdownMenu>
       <Button variant="ghost" size="sm" className="h-11 sm:h-8 px-2" onClick={() => useUIStore.getState().setShareModal('share')}><Link2 className="mr-1.5 h-4 w-4" />Share</Button>
       <Button variant="ghost" size="sm" className="h-11 sm:h-8 px-2" aria-pressed={!mobile && preview} onClick={() => mobile ? useUIStore.getState().setMobilePreviewOpen(true) : useUIStore.getState().togglePreview()}><PanelRight className="mr-1.5 h-4 w-4" />{!mobile && preview ? 'Hide preview' : 'Preview'}</Button>
+      <ReadinessMeter />
     </div>
   </div>;
 }

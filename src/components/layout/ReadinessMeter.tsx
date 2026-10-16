@@ -6,7 +6,7 @@ import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useDocumentCompleteness } from './editorSections';
 
 /**
- * Compact "Drafting → Ready to sign" readiness ring shown in the preview header.
+ * Required-field completeness, available independently of the preview.
  *
  * Driven by useDocumentCompleteness — the same getSectionError / getFormSectionError
  * rule the navigation-rail dots use — so the meter and the rail can never
@@ -21,7 +21,7 @@ export function ReadinessMeter() {
   const jump = useEditorOutlineStore((s) => s.jump);
 
   // Fire one restrained "arrival" beat the moment the document crosses from
-  // Drafting to Ready to sign (edge-triggered so it never loops while ready).
+  // incomplete to complete (edge-triggered so it never loops while complete).
   const [justReady, setJustReady] = useState(false);
   const prevReady = useRef(isReady);
   useEffect(() => {
@@ -40,7 +40,7 @@ export function ReadinessMeter() {
 
   const r = 8;
   const circumference = 2 * Math.PI * r;
-  const label = isReady ? 'Ready to sign' : 'Drafting';
+  const label = isReady ? 'Required fields complete' : `${missing.length} incomplete section${missing.length === 1 ? '' : 's'}`;
   const canJump = !isReady && missing.length > 0;
 
   const inner = (
@@ -80,14 +80,14 @@ export function ReadinessMeter() {
   );
 
   return (
-    <div className="flex items-center gap-2 text-xs">
+    <div className="flex flex-wrap items-center gap-2 text-xs">
       {documentMode === 'compliant' && (
         <span
           className="hidden items-center gap-1 rounded-full border border-border px-1.5 py-0.5 text-2xs font-medium text-muted-foreground md:inline-flex"
           title="Built to the SECNAV M-5216.5 / MCO 5216.19A compliant format"
         >
           <ShieldCheck className="h-3 w-3" aria-hidden="true" />
-          Compliant
+          Compliant mode
         </span>
       )}
 
@@ -96,8 +96,8 @@ export function ReadinessMeter() {
           <button
             type="button"
             onClick={() => jump(missing[0])}
-            aria-label={`Document readiness: Drafting, ${complete} of ${required} required sections complete. Jump to the first incomplete section.`}
-            className="flex items-center gap-1.5 rounded outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
+            aria-label={`Required fields: ${complete} of ${required} sections complete. Jump to the first incomplete section.`}
+            className="flex min-h-11 sm:min-h-8 items-center gap-1.5 rounded outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
           >
             {inner}
           </button>
@@ -105,8 +105,8 @@ export function ReadinessMeter() {
       ) : (
         <div
           className="flex items-center gap-1.5"
-          title={`${complete} of ${required} required sections complete`}
-          aria-label={`Document readiness: ${label}, ${complete} of ${required} required sections complete`}
+          title="Required fields are filled. Review the generated document, attachments, and signatures before use."
+          aria-label={`${label}. Review the generated document, attachments, and signatures before use.`}
         >
           {inner}
         </div>

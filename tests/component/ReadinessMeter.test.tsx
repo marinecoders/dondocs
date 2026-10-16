@@ -1,5 +1,5 @@
 /**
- * Component tests for <ReadinessMeter> (the preview "Drafting → Ready to sign"
+ * Component tests for <ReadinessMeter> (the workspace required-field
  * ring). It reads useDocumentCompleteness, which derives from the same
  * getSectionError rule the rail dots use — so these also guard that the meter
  * and the rail agree about "done".
@@ -37,14 +37,14 @@ describe('ReadinessMeter — driven by the single completeness rule', () => {
     configure({ unitLine1: '', from: '', to: '', subject: '', sigLast: '' }, []);
   });
 
-  it('reads "Drafting" while required sections are unfilled', () => {
+  it('offers the incomplete sections without claiming document readiness', () => {
     renderMeter();
-    const meter = screen.getByLabelText(/Document readiness/i);
-    expect(meter.getAttribute('aria-label')).toMatch(/Drafting/);
-    expect(screen.getByText('Drafting')).toBeTruthy();
+    const meter = screen.getByRole('button', { name: /Required fields:/ });
+    expect(meter.getAttribute('aria-label')).toMatch(/0 of 4/);
+    expect(screen.getByText('4 incomplete sections')).toBeTruthy();
   });
 
-  it('flips to "Ready to sign" once every required section is satisfied', () => {
+  it('only affirms required fields once every required section is satisfied', () => {
     configure(
       {
         unitLine1: '1ST BATTALION, 6TH MARINES',
@@ -56,11 +56,12 @@ describe('ReadinessMeter — driven by the single completeness rule', () => {
       [{ text: 'The Marine requests special liberty.' }]
     );
     renderMeter();
-    expect(screen.getByText('Ready to sign')).toBeTruthy();
+    expect(screen.getByText('Required fields complete')).toBeTruthy();
+    expect(screen.queryByText('Ready to sign')).not.toBeInTheDocument();
   });
 
   it('shows the Compliant pill in compliant mode', () => {
     renderMeter();
-    expect(screen.getByText('Compliant')).toBeTruthy();
+    expect(screen.getByText('Compliant mode')).toBeTruthy();
   });
 });

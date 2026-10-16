@@ -2,7 +2,6 @@ import { lazy, Suspense, useEffect } from 'react';
 import { Loader2, AlertCircle, Eye, Paperclip } from 'lucide-react';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
-import { ReadinessMeter } from './ReadinessMeter';
 
 // The in-app viewer (react-pdf + pdf.js) is its own chunk: the desktop shell
 // stays pdf.js-free until a preview actually exists. The warm-up effect below
@@ -84,9 +83,6 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
           )}
         </div>
         <div className="flex items-center gap-3">
-          {/* Readiness ring — driven by the single documentCompleteness rule, so
-              it can't contradict the rail's section dots. */}
-          <ReadinessMeter />
           {enclosureCount > 0 && !fullQualityPreview && !previewEnhanced && (
             <div className="flex items-center gap-1 text-xs text-muted-foreground" title="Enclosures are included in the downloaded PDF. The preview upgrades to show them once you pause.">
               <Paperclip className="h-3 w-3" />
