@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
+import { useState } from 'react';
 import userEvent from '@testing-library/user-event';
 import { FileText, Settings } from 'lucide-react';
 import { CommandPalette, type CommandGroup } from '@/components/modals/CommandPalette';
@@ -33,5 +34,40 @@ describe('workspace search navigation', () => {
     await user.tab();
     expect(screen.getByRole('button', { name: 'All' })).toHaveFocus();
     expect(screen.getByRole('option')).toHaveAttribute('aria-selected', 'true');
+  });
+});
+
+describe('expanded workspace search', () => {
+  it('inspects a form result before opening it and preserves the query for section navigation', async () => {
+    const user = userEvent.setup();
+    const onRun = vi.fn();
+    const onClose = vi.fn();
+    render(<CommandPalette open presentation="workspace" onClose={onClose} groups={[
+      { label: 'Documents', scope: 'Documents', items: [{ id: 'letter', label: 'Training letter', icon: FileText, onRun }] },
+      { label: 'Forms', scope: 'Forms', items: [{ id: 'form', label: 'Counseling draft', icon: FileText, onRun, searchFields: [{ text: 'Harbor training review', label: 'Entry content', sectionId: 'content' }] }] },
+    ]} />);
+    await user.click(screen.getByRole('button', { name: 'Forms' }));
+    await user.type(screen.getByRole('combobox'), 'harbor');
+    await user.click(screen.getByRole('option'));
+    expect(onRun).not.toHaveBeenCalled();
+    const detail = within(screen.getByRole('complementary', { name: 'Selected result' }));
+    expect(detail.getByText('Harbor training review')).toBeVisible();
+    await user.click(detail.getByRole('button', { name: 'Open result' }));
+    expect(onClose).toHaveBeenCalledOnce();
+    expect(onRun).toHaveBeenCalledWith('harbor');
+  });
+
+  it('returns focus to the workspace launcher when Escape closes search', async () => {
+    const user = userEvent.setup();
+    function Workspace() {
+      const [open, setOpen] = useState(false);
+      return <><button onClick={() => setOpen(true)}>Search</button>{open && <CommandPalette open presentation="workspace" onClose={() => setOpen(false)} groups={[]} />}</>;
+    }
+    render(<Workspace />);
+    await user.click(screen.getByRole('button', { name: 'Search' }));
+    expect(screen.getByRole('combobox')).toHaveFocus();
+    await user.keyboard('{Escape}');
+    expect(screen.queryByRole('combobox')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Search' })).toHaveFocus();
   });
 });

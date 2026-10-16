@@ -83,6 +83,7 @@ export function EditorSidebar() {
   const sidebarWidth = useUIStore((s) => s.sidebarWidth);
   const [showFilter, setShowFilter] = useState(false);
   const showOutline = useUIStore((s) => s.sidebarOutlineVisible);
+  const searchOpen = useUIStore((s) => s.commandPaletteOpen);
   const outlineHeight = useUIStore((s) => s.outlineHeight);
   const toggleSidebar = useUIStore((s) => s.toggleSidebar);
   const validationVisible = useUIStore((s) => s.validationVisible);
@@ -91,7 +92,7 @@ export function EditorSidebar() {
   const { sections, config, isFormsMode, formType } = useEditorSections();
 
   const activeId = useEditorOutlineStore((s) => s.activeId);
-  const jump = useEditorOutlineStore((s) => s.jump);
+  const jump = (id: string) => { useUIStore.getState().setCommandPaletteOpen(false); useEditorOutlineStore.getState().jump(id); };
   const effectiveActive = sections.some((s) => s.id === activeId) ? activeId : sections[0]?.id ?? null;
 
   // Error dots: primitive selectors so typing only re-renders the sidebar when
@@ -105,7 +106,7 @@ export function EditorSidebar() {
     if (!validationVisible || !isFormsMode) return '';
     const data = formType === 'navmc_10274' ? s.navmc10274 : formType === 'navmc_118_11' ? s.navmc11811 : null;
     if (!data) return '';
-    return sections.filter((sec) => getFormSectionError(formType, sec.id, data)).join(',');
+    return sections.filter((sec) => getFormSectionError(formType, sec.id, data)).map((sec) => sec.id).join(',');
   });
   const errorSignature = isFormsMode ? formErrorSignature : docErrorSignature;
   const errorIds = useMemo(() => {
@@ -117,8 +118,10 @@ export function EditorSidebar() {
   // ── Recents (bottom) ───────────────────────────────────────────────────────
   const docs = useDocumentsStore((s) => s.docs);
   const currentId = useDocumentsStore((s) => s.currentId);
-  const newDocument = useDocumentsStore((s) => s.newDocument);
-  const switchTo = useDocumentsStore((s) => s.switchTo);
+  const createDocument = useDocumentsStore((s) => s.newDocument);
+  const openDocument = useDocumentsStore((s) => s.switchTo);
+  const newDocument: typeof createDocument = (kind) => { useUIStore.getState().setCommandPaletteOpen(false); createDocument(kind); };
+  const switchTo: typeof openDocument = (id) => { useUIStore.getState().setCommandPaletteOpen(false); openDocument(id); };
   const remove = useDocumentsStore((s) => s.remove);
   const hydrated = useDocumentsStore((s) => s.hydrated);
   const removeMany = useDocumentsStore((s) => s.removeMany);
@@ -262,7 +265,7 @@ export function EditorSidebar() {
         {[
           { label: 'Search', icon: Search, run: () => useUIStore.getState().setCommandPaletteOpen(true) },
           { label: 'Templates', icon: FolderOpen, run: () => useUIStore.getState().setTemplateLoaderOpen(true) },
-        ].map(({ label, icon: Icon, run }) => <button key={label} type="button" onClick={run} className="flex min-h-9 w-full items-center gap-2.5 rounded-md px-3 text-[13px] hover:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-ring"><Icon className="h-4 w-4" />{label}</button>)}
+        ].map(({ label, icon: Icon, run }) => <button key={label} type="button" onClick={run} aria-current={label === 'Search' && searchOpen ? 'page' : undefined} className="flex min-h-9 w-full items-center gap-2.5 rounded-md px-3 text-[13px] hover:bg-sidebar-accent aria-[current=page]:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-ring"><Icon className="h-4 w-4" />{label}</button>)}
       </div>
       {showOutline && <>
       {/* On this page: section outline (collapse control shares the label row).

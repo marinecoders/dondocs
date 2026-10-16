@@ -41,11 +41,11 @@ export function sessionSearchFields(session: SerializedSession): SearchField[] {
     }
     return fields;
   }
-  const heading = ['moa', 'joint', 'joint_memo', 'executive', 'addressing'].find((id) => labels.has(id))!;
+  const heading = ['moa', 'joint', 'joint_memo', 'executive', 'addressing', 'cover'].find((id) => labels.has(id))!;
   for (const [key, value] of Object.entries(session.formData ?? {})) {
     if (typeof value !== 'string') continue;
     const section = /^(class|cui|customClassification|derivedFrom|declassifyOn|pocEmail)/i.test(key) ? 'classification'
-      : /^(department|unit|seal|letterhead|inReplyTo)/.test(key) ? 'letterhead'
+      : /^(department|unit|seal|letterhead|inReplyTo)/.test(key) ? (labels.has('cover') ? 'cover' : 'letterhead')
         : /^(sig|byDirection|officeCode|complimentaryClose|endorsement(Sig|Body|From|To|Date|Serial))/.test(key) ? (labels.has('signature') ? 'signature' : heading)
           : /^(basicLetter|endorsementOrdinal)/.test(key) ? 'basic'
             : /^(font|page|starting|docType)/.test(key) ? 'type'
@@ -53,6 +53,8 @@ export function sessionSearchFields(session: SerializedSession): SearchField[] {
     add(section, value);
   }
   add('body', session.paragraphs);
+  add('cover', session.endItems);
+  add('tables', session.publicationTables);
   add('references', session.references);
   add('enclosures', session.enclosures);
   add('copyto', session.copyTos);

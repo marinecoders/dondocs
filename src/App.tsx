@@ -1661,9 +1661,9 @@ ${texFiles['body.tex'] || '% No body content'}
     }
 
     const documents = Object.values(allDocs).sort((a, b) => b.meta.updatedAt - a.meta.updatedAt);
-    groups.push({
-      label: 'Documents', scope: 'Documents',
-      items: documents.map(({ meta, session }) => {
+    for (const forms of [false, true]) groups.push({
+      label: forms ? 'Forms' : 'Documents', scope: forms ? 'Forms' : 'Documents',
+      items: documents.filter(({ session }) => (session.documentCategory === 'forms') === forms).map(({ meta, session }) => {
         const searchFields = sessionSearchFields(session);
         return {
           id: `switch-${meta.id}`, label: meta.title, icon: FileText, searchFields,
@@ -1942,6 +1942,8 @@ ${texFiles['body.tex'] || '% No body content'}
       <div className="flex flex-1 min-h-0 overflow-hidden">
         <EditorSidebar />
         <div className="flex flex-1 min-w-0 flex-col overflow-hidden">
+          {commandPaletteOpen && <CommandPalette open presentation="workspace" onClose={() => setCommandPaletteOpen(false)} groups={commandGroups} />}
+          <div className="flex flex-1 min-h-0 flex-col overflow-hidden" style={{ display: commandPaletteOpen ? 'none' : undefined }}>
       <Header
         onDownloadPdf={handleDownloadPdf}
         onDownloadTex={handleDownloadTex}
@@ -1965,7 +1967,7 @@ ${texFiles['body.tex'] || '% No body content'}
       <SettingsModal />
       <HelpModal />
 
-        <main id="main-content" ref={mainContainerRef} className="flex flex-1 min-w-0 overflow-hidden">
+        <main id={commandPaletteOpen ? undefined : 'main-content'} ref={mainContainerRef} className="flex flex-1 min-w-0 overflow-hidden">
         {/* Form Panel - takes remaining space when preview is visible */}
         <div
           className="min-w-0 overflow-hidden"
@@ -2011,6 +2013,7 @@ ${texFiles['body.tex'] || '% No body content'}
           <ReadinessMeter />
           <span className="hidden md:inline">Unofficial · Beta</span>
         </div>
+          </div>
         </div>
       </div>
 
@@ -2034,13 +2037,6 @@ ${texFiles['body.tex'] || '% No body content'}
       <AboutModal />
       <NISTComplianceModal />
       <ImportLetterModal />
-      {commandPaletteOpen && (
-        <CommandPalette
-          open
-          onClose={() => setCommandPaletteOpen(false)}
-          groups={commandGroups}
-        />
-      )}
       <BatchModal compile={compile} isEngineReady={isReady} waitForReady={waitForReady} />
       <FindReplaceModal />
       <TemplateLoaderModal />

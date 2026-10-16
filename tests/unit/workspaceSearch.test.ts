@@ -42,4 +42,10 @@ describe('workspace full-text search', () => {
     expect(findSearchMatch(fields, 'senior')?.field.sectionId).toBe('joint');
     expect(findSearchMatch(fields, 'hidden')).toBeUndefined();
   });
+  it('routes technical-publication cover fields and end items to the cover', () => {
+    const fields = sessionSearchFields(session({ docType: 'i_type', formData: { subject: 'Radar maintenance', unitLine1: 'Test issuing command' }, endItems: [{ nsn: '5820-01-234-5678', tamcn: '', id: '', model: 'Training receiver' }] }));
+    expect(findSearchMatch(fields, 'radar')?.field.sectionId).toBe('cover');
+    expect(findSearchMatch(fields, 'issuing')?.field.sectionId).toBe('cover');
+    expect(findSearchMatch(fields, 'receiver')?.field.sectionId).toBe('cover');
+  });
 });
