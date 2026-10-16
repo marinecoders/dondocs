@@ -4,6 +4,8 @@ import { safeLocalStorage } from '@/lib/compressedStorage';
 import type { StorageHealth } from '@/lib/documentsDb';
 import { resolveTheme, type Theme } from '@/lib/appearance';
 
+export type EditorLayout = 'focused' | 'scroll';
+
 export type DensityMode = 'compact' | 'comfortable' | 'spacious';
 
 /**
@@ -74,6 +76,9 @@ function getSystemTheme(): 'dark' | 'light' {
 }
 
 interface UIState {
+  editorLayout: EditorLayout;
+  setEditorLayout: (layout: EditorLayout) => void;
+
   // Theme
   theme: Theme;
   setTheme: (theme: Theme) => void;
@@ -175,7 +180,7 @@ interface UIState {
   setHelpOpen: (open: boolean) => void;
   welcomeOpen: boolean;
   setWelcomeOpen: (open: boolean) => void;
-  documentPositions: Record<string, { top: number; section: string | null; previewPage?: number }>;
+  documentPositions: Record<string, { top: number; section: string | null; previewPage?: number; layout?: EditorLayout }>;
   rememberPosition: (id: string, top: number, section: string | null) => void;
   rememberPreviewPage: (id: string, page: number) => void;
   trashOpen: boolean;
@@ -221,6 +226,8 @@ interface UIState {
 export const useUIStore = create<UIState>()(
   persist(
     (set) => ({
+      editorLayout: 'focused',
+      setEditorLayout: (editorLayout) => set({ editorLayout }),
       // Theme - detect system preference for first-time users
       theme: getSystemTheme(),
       setTheme: (theme) => set({ theme }),
@@ -311,7 +318,7 @@ export const useUIStore = create<UIState>()(
       rememberPosition: (id, top, section) => set((s) => {
         const positions = { ...s.documentPositions };
         delete positions[id];
-        positions[id] = { ...s.documentPositions[id], top, section };
+        positions[id] = { ...s.documentPositions[id], top, section, layout: s.editorLayout };
         return { documentPositions: Object.fromEntries(Object.entries(positions).slice(-200)) };
       }),
       rememberPreviewPage: (id, page) => set((s) => {
@@ -387,6 +394,7 @@ export const useUIStore = create<UIState>()(
         documentPositions: state.documentPositions,
         theme: state.theme,
         density: state.density,
+        editorLayout: state.editorLayout,
         previewVisible: state.previewVisible,
         previewWidth: state.previewWidth,
         pdfThumbnailsOpen: state.pdfThumbnailsOpen,

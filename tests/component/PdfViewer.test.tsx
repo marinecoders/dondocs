@@ -72,13 +72,14 @@ beforeAll(() => {
 
 describe('PdfViewer', () => {
   it('restores a document page and retains its independent editor position', async () => {
+    useUIStore.getState().setEditorLayout('scroll');
     useUIStore.getState().rememberPosition('draft-page-test', 480, 'body');
     useUIStore.getState().rememberPreviewPage('draft-page-test', 2);
     const scroll = vi.spyOn(Element.prototype, 'scrollTo').mockImplementation(() => {});
     const { unmount } = render(<TooltipProvider><PdfViewer pdfUrl="blob:position" documentId="draft-page-test" /></TooltipProvider>);
     await waitFor(() => expect(screen.getByLabelText('Page number')).toHaveValue('2'));
     await waitFor(() => expect(scroll).toHaveBeenCalled());
-    expect(useUIStore.getState().documentPositions['draft-page-test']).toEqual({ top: 480, section: 'body', previewPage: 2 });
+    expect(useUIStore.getState().documentPositions['draft-page-test']).toEqual({ top: 480, section: 'body', previewPage: 2, layout: 'scroll' });
     unmount();
     scroll.mockRestore();
   });

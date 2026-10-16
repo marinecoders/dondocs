@@ -22,6 +22,11 @@ export function FormPanel() {
 
 function FocusedEditor({ documentId }: { documentId: string | null }) {
   const { sections, config, isFormsMode, formType } = useEditorSections();
+  const scrollMode = useUIStore((s) => s.editorLayout === 'scroll');
+  const previousMode = useRef(scrollMode);
+  const initialPlacement = useRef(true);
+  const jumpPinned = useRef(false);
+  const activeRef = useRef<string | null>(null);
   const saved = useRef(documentId ? useUIStore.getState().documentPositions[documentId] : undefined);
   const [section, setSection] = useState(() => {
     const requested = useEditorOutlineStore.getState().pendingJump;
@@ -35,27 +40,86 @@ function FocusedEditor({ documentId }: { documentId: string | null }) {
   const jumpTo = useCallback((id: string) => {
     if (!sections.some((s) => s.id === id)) return;
     focusSection.current = true;
+    jumpPinned.current = true;
     setSection(id);
     useEditorOutlineStore.getState().setActiveId(id);
     // Also focus an already selected section when it is chosen again.
-    requestAnimationFrame(() => scrollWrapRef.current?.querySelector<HTMLElement>(`#sec-${id}`)?.focus({ preventScroll: true }));
-  }, [sections]);
+    requestAnimationFrame(() => {
+      const target = scrollWrapRef.current?.querySelector<HTMLElement>(`#sec-${id}`);
+      target?.focus({ preventScroll: true });
+      if (scrollMode) target?.scrollIntoView({ block: 'start' });
+    });
+  }, [sections, scrollMode]);
 
   useLayoutEffect(() => {
     const root = scrollWrapRef.current?.querySelector<HTMLElement>('[data-slot="scroll-area-viewport"]');
     if (!root) return;
+    activeRef.current = active;
     useEditorOutlineStore.getState().setActiveId(active);
-    root.scrollTop = saved.current?.section === active ? saved.current.top : 0;
+    const modeChanged = previousMode.current !== scrollMode;
+    const savedLayout = saved.current?.layout ?? 'focused';
+    let restoreFrame: number | undefined;
+    if (!scrollMode) {
+      root.scrollTop = savedLayout === 'focused' && saved.current?.section === active ? saved.current.top : 0;
+    } else if (saved.current && savedLayout === 'scroll' && !modeChanged) {
+      jumpPinned.current = true;
+      const top = saved.current.top;
+      root.scrollTop = top;
+      restoreFrame = requestAnimationFrame(() => { root.scrollTop = top; });
+    } else if (modeChanged || initialPlacement.current) {
+      jumpPinned.current = true;
+      root.querySelector<HTMLElement>(`#sec-${active}`)?.scrollIntoView({ block: 'start' });
+    }
+    initialPlacement.current = false;
+    previousMode.current = scrollMode;
     saved.current = undefined;
     if (focusSection.current) {
       root.querySelector<HTMLElement>(`#sec-${active}`)?.focus({ preventScroll: true });
       focusSection.current = false;
     }
-    const remember = () => { if (documentId) useUIStore.getState().rememberPosition(documentId, root.scrollTop, active); };
-    root.addEventListener('scroll', remember, { passive: true });
+    return () => { if (restoreFrame !== undefined) cancelAnimationFrame(restoreFrame); };
+  }, [active, scrollMode]);
+
+  useEffect(() => {
+    const root = scrollWrapRef.current?.querySelector<HTMLElement>('[data-slot="scroll-area-viewport"]');
+    if (!root) return;
+    const remember = () => {
+      if (documentId) useUIStore.getState().rememberPosition(documentId, root.scrollTop, activeRef.current);
+    };
+    const onScroll = () => {
+      if (scrollMode && !jumpPinned.current) {
+        const threshold = root.getBoundingClientRect().top + 80;
+        let nearest = sections[0].id;
+        for (const entry of sections) {
+          const el = root.querySelector<HTMLElement>(`#sec-${entry.id}`);
+          if (el && el.getBoundingClientRect().top <= threshold) nearest = entry.id;
+        }
+        if (root.scrollHeight > root.clientHeight && root.scrollTop + root.clientHeight >= root.scrollHeight - 2) nearest = sections[sections.length - 1].id;
+        activeRef.current = nearest;
+        setSection(nearest);
+      }
+      remember();
+    };
+    const releasePin = () => { jumpPinned.current = false; };
+    root.addEventListener('scroll', onScroll, { passive: true });
+    root.addEventListener('wheel', releasePin, { passive: true });
+    root.addEventListener('touchmove', releasePin, { passive: true });
+    root.addEventListener('keydown', releasePin);
     window.addEventListener('pagehide', remember);
     remember();
-    return () => { remember(); root.removeEventListener('scroll', remember); window.removeEventListener('pagehide', remember); };
+    return () => {
+      remember();
+      root.removeEventListener('scroll', onScroll);
+      root.removeEventListener('wheel', releasePin);
+      root.removeEventListener('touchmove', releasePin);
+      root.removeEventListener('keydown', releasePin);
+      window.removeEventListener('pagehide', remember);
+    };
+  }, [scrollMode, sections, documentId]);
+
+  useEffect(() => {
+    const root = scrollWrapRef.current?.querySelector<HTMLElement>('[data-slot="scroll-area-viewport"]');
+    if (root && documentId) useUIStore.getState().rememberPosition(documentId, root.scrollTop, active);
   }, [active, documentId]);
 
   useEffect(() => {
@@ -74,7 +138,7 @@ function FocusedEditor({ documentId }: { documentId: string | null }) {
     <div ref={scrollWrapRef} className="flex-1 min-h-0 overflow-hidden">
       <ScrollArea className="h-full">
         <div className="mx-auto w-full max-w-[760px] px-4 sm:px-5 pt-4 pb-12">
-          <EditorSectionContext.Provider value={active}>
+          <EditorSectionContext.Provider value={scrollMode ? null : active}>
             <AccordionStaticProvider>
               <SectionShell id="type"><DocumentTypeSelector /></SectionShell>
               {isFormsMode ? <>

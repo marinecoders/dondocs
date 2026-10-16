@@ -30,7 +30,7 @@ import { SSICLookupModal } from '@/components/modals/SSICLookupModal';
 import { UnitLookupModal } from '@/components/modals/UnitLookupModal';
 import { FormReferenceLibraryModal } from '@/components/modals/FormReferenceLibraryModal';
 import { NAVMC_10274_PLACEHOLDERS } from '@/lib/constants';
-import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
+import { useVisibleEditorSection } from '@/components/layout/EditorSectionContext';
 import type { UnitInfo } from '@/data/unitDirectory';
 import type { FormSignatureBlock } from '@/types/signature';
 import { SignatureStylePicker } from './SignatureStylePicker';
@@ -48,7 +48,7 @@ const COMMON_FORM_VARS = ['NAME', 'DATE'];
 
 export function Form6105Section() {
   const { navmc10274, setNavmc10274Field, resetNavmc10274, clearNavmc10274, includeCoverPage, setIncludeCoverPage } = useFormStore();
-  const activeId = useEditorOutlineStore((s) => s.activeId);
+  const activeId = useVisibleEditorSection();
 
   // The active profile's signature name in the abbreviated form signature
   // blocks use (initials + SURNAME), offered as a one-click fill for the
@@ -163,7 +163,7 @@ export function Form6105Section() {
 
   return (
     <div className="space-y-4">
-      <div hidden={activeId !== 'type'} className="space-y-4">
+      <div hidden={activeId !== null && activeId !== 'type'} className="space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-lg font-semibold">

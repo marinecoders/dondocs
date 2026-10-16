@@ -58,6 +58,7 @@ export function SettingsModal() {
   const open = useUIStore((s) => s.settingsOpen);
   const section = useUIStore((s) => s.settingsSection);
   const theme = useUIStore((s) => s.theme);
+  const editorLayout = useUIStore((s) => s.editorLayout);
   const density = useUIStore((s) => s.density);
   const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
   const selectedAppearance = useRef<HTMLInputElement>(null);
@@ -92,6 +93,8 @@ export function SettingsModal() {
           <p className="mt-3 text-xs text-muted-foreground">Classic restores the original navy-tinted surfaces and red accents. Appearance never changes your exported documents.</p>
         </fieldset>
         <label className="block space-y-2 text-sm"><span className="block font-medium">Density</span><select className="h-11 w-full rounded-md border border-input bg-background px-3" value={density} onChange={(e) => useUIStore.getState().setDensity(e.target.value as DensityMode)}><option value="compact">Compact</option><option value="comfortable">Comfortable</option><option value="spacious">Spacious</option></select></label>
+        <label className="block space-y-2 text-sm"><span className="block font-medium">Editor layout</span><select className="h-11 w-full rounded-md border border-input bg-background px-3" value={editorLayout} onChange={(e) => useUIStore.getState().setEditorLayout(e.target.value === 'scroll' ? 'scroll' : 'focused')}><option value="focused">Focused — one section at a time</option><option value="scroll">Scroll — all sections together</option></select></label>
+        <p className="text-xs text-muted-foreground">Switch layouts anytime beside Contents. Your document and export stay the same.</p>
         <p className="text-xs text-muted-foreground">Animations follow your device’s reduced-motion preference.</p>
       </section>
       <section className="border-t pt-4 space-y-3" aria-labelledby="settings-preview">

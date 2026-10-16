@@ -26,7 +26,7 @@ export function HelpModal() {
         <Button variant="outline" onClick={() => navigate(() => useUIStore.getState().setSettingsOpen(true, 'backup'))}>Backup & restore</Button>
         <Button variant="outline" onClick={() => navigate(() => useUIStore.getState().setTrashOpen(true))}>Recover deleted drafts</Button>
       </div>
-      <p className="text-sm text-muted-foreground">Use Contents to reach document sections. Required-field checks identify incomplete sections; review the generated output before sharing or downloading.</p>
+      <p className="text-sm text-muted-foreground">Use Contents to reach document sections. Scroll shows the full editor; Focused shows one section at a time. Required-field checks identify incomplete sections; review the generated output before sharing or downloading.</p>
       <section aria-labelledby="help-shortcuts" className="space-y-3">
         <h3 id="help-shortcuts" className="font-medium">Keyboard shortcuts</h3>
         <dl className="space-y-2 text-sm">{shortcuts.map(([label, keys]) => <div key={label} className="flex flex-wrap justify-between gap-2"><dt>{label}</dt><dd className="font-mono text-muted-foreground">{formatShortcut(keys)}</dd></div>)}</dl>

@@ -47,7 +47,7 @@ beforeEach(() => {
   Element.prototype.scrollIntoView = vi.fn();
   useDocumentsStore.setState({ currentId: 'parity-draft', docs: {}, baseline: null, hydrated: true });
   useDocumentStore.getState().resetForm();
-  useUIStore.setState({ documentPositions: {}, isMobile: false, documentGuideOpen: false });
+  useUIStore.setState({ documentPositions: {}, editorLayout: 'focused', isMobile: false, documentGuideOpen: false });
   useEditorOutlineStore.setState({ pendingJump: null, activeId: null });
 });
 
@@ -55,7 +55,8 @@ it('accounts for the complete correspondence registry and both forms', () => {
   expect(Object.keys(routes).sort()).toEqual([...Object.keys(DOC_TYPE_LABELS), 'navmc_10274', 'navmc_118_11'].sort());
 });
 
-it.each(Object.entries(routes))('makes every original %s section visible, focusable and usable', async (type, sectionIds) => {
+it.each(Object.entries(routes).flatMap(([type, sections]) => (['focused', 'scroll'] as const).map((layout) => ({ type, sections, layout }))))('makes every original $type section usable in $layout mode', async ({ type, sections: sectionIds, layout }) => {
+  useUIStore.getState().setEditorLayout(layout);
   if (type === 'navmc_10274' || type === 'navmc_118_11') {
     useDocumentStore.setState({ documentCategory: 'forms', formType: type });
   } else useDocumentStore.setState({ documentCategory: 'correspondence', docType: type });
@@ -73,7 +74,8 @@ it.each(Object.entries(routes))('makes every original %s section visible, focusa
     await act(async () => { await new Promise((resolve) => requestAnimationFrame(resolve)); });
     expect(section).toHaveFocus();
     for (const other of expected.filter((candidate) => candidate !== id)) {
-      expect(container.querySelector(`#sec-${other}`)).not.toBeVisible();
+      if (layout === 'focused') expect(container.querySelector(`#sec-${other}`)).not.toBeVisible();
+      else expect(container.querySelector(`#sec-${other}`)).toBeVisible();
     }
   }
 });

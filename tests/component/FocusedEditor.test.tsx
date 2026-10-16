@@ -11,7 +11,7 @@ beforeEach(() => {
   Element.prototype.scrollIntoView = vi.fn();
   useDocumentsStore.setState({ currentId: 'draft-one', docs: {} });
   useDocumentStore.setState({ documentCategory: 'correspondence', docType: 'naval_letter', paragraphs: [{ text: 'Keep this paragraph.', level: 0 }] });
-  useUIStore.setState({ documentPositions: {}, isMobile: false });
+  useUIStore.setState({ documentPositions: {}, editorLayout: 'focused', isMobile: false });
   useEditorOutlineStore.setState({ pendingJump: null, activeId: null });
 });
 
@@ -61,4 +61,48 @@ describe('focused workspace editor', () => {
     expect(document.getElementById('sec-type')).toBeVisible();
     expect(document.getElementById('sec-signatures')).not.toBeVisible();
   });
+});
+
+it('switches between scroll and focused layouts without remounting or losing field edits', async () => {
+  openEditor();
+  const subject = screen.getByRole('textbox', { name: 'Subject' });
+  fireEvent.change(subject, { target: { value: 'Keep this across layouts' } });
+  fireEvent.click(screen.getByRole('button', { name: 'Scroll mode' }));
+  expect(screen.getByRole('button', { name: 'Scroll mode' })).toHaveAttribute('aria-pressed', 'true');
+  expect(document.getElementById('sec-addressing')).toBeVisible();
+  expect(document.getElementById('sec-body')).toBeVisible();
+  expect(document.getElementById('sec-signature')).toBeVisible();
+  expect(document.getElementById('body-subject')).toBe(subject);
+  expect(subject).toHaveValue('Keep this across layouts');
+  selectSection('signature');
+  await waitFor(() => expect(document.getElementById('sec-signature')).toHaveFocus());
+  expect(Element.prototype.scrollIntoView).toHaveBeenCalled();
+  fireEvent.click(screen.getByRole('button', { name: 'Focused mode' }));
+  expect(document.getElementById('sec-signature')).toBeVisible();
+  expect(subject).not.toBeVisible();
+  selectSection('body');
+  expect(screen.getByRole('textbox', { name: 'Subject' })).toBe(subject);
+  expect(subject).toHaveValue('Keep this across layouts');
+});
+
+it.each(['navmc_10274', 'navmc_118_11'] as const)('shows %s setup/reset controls with all fields in scroll mode', (formType) => {
+  useDocumentStore.setState({ documentCategory: 'forms', formType });
+  openEditor();
+  fireEvent.click(screen.getByRole('button', { name: 'Scroll mode' }));
+  expect(screen.getByRole('button', { name: 'Reset' })).toBeVisible();
+  expect(document.getElementById('sec-type')).toBeVisible();
+  expect(document.getElementById('sec-content')).toBeVisible();
+  expect(document.getElementById('sec-signatures')).toBeVisible();
+  fireEvent.click(screen.getByRole('button', { name: 'Focused mode' }));
+  expect(screen.queryByRole('button', { name: 'Reset' })).not.toBeInTheDocument();
+});
+
+it('persists the layout choice across rehydration without changing document data', async () => {
+  openEditor();
+  const before = useDocumentStore.getState().formData;
+  fireEvent.click(screen.getByRole('button', { name: 'Scroll mode' }));
+  expect(JSON.parse(localStorage.getItem('dondocs_ui')!).state.editorLayout).toBe('scroll');
+  await act(() => useUIStore.persist.rehydrate());
+  expect(useUIStore.getState().editorLayout).toBe('scroll');
+  expect(useDocumentStore.getState().formData).toBe(before);
 });

@@ -19,7 +19,7 @@ import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
 import { AbbreviationHelper } from '@/components/editor/AbbreviationHelper';
 import { DatePicker } from '@/components/ui/date-picker';
 import { useFormStore } from '@/stores/formStore';
-import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
+import { useVisibleEditorSection } from '@/components/layout/EditorSectionContext';
 import { NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
 import { SignatureStylePicker } from './SignatureStylePicker';
 import { AddSignatureBlockMenu } from './AddSignatureBlockMenu';
@@ -109,7 +109,7 @@ export function Form11811Section() {
         document.getElementById(`p11-sig-${index}-statement`)?.focus()
       )
     );
-  const activeId = useEditorOutlineStore((s) => s.activeId);
+  const activeId = useVisibleEditorSection();
 
   // Fit report from the generator's own metrics, debounced behind typing. The
   // columns are one physical page — text past a column's capacity is NOT
@@ -151,7 +151,7 @@ export function Form11811Section() {
 
   return (
     <div className="space-y-4">
-      <div hidden={activeId !== 'type'} className="space-y-4">
+      <div hidden={activeId !== null && activeId !== 'type'} className="space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-lg font-semibold">
