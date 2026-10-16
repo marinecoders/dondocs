@@ -1,3 +1,4 @@
+import { showAppAlert } from '@/stores/alertStore';
 import { sessionSearchFields } from '@/lib/workspaceSearch';
 import { create } from 'zustand';
 import { compressedParse } from '@/lib/compressedStorage';
@@ -614,6 +615,7 @@ function initAfterHydration(
     applyProfileSignature();
     set({ baseline: session });
     useUIStore.getState().setValidationVisible(false);
+    useUIStore.getState().setLastSavedAt(docs[currentId].meta.updatedAt);
     debug.log('Documents', 'Resumed current document', { id: currentId });
     return true;
   }
@@ -958,18 +960,29 @@ if (typeof document !== 'undefined') {
 // actively typing in is never clobbered.
 if (typeof BroadcastChannel !== 'undefined') {
   docsChannel = new BroadcastChannel('dondocs-docs');
-  docsChannel.onmessage = () => {
+  docsChannel.onmessage = (event: MessageEvent<{ type?: string; id?: string }>) => {
     void idbGetAllDocuments().then((records) => {
-      if (records === null) return; // read failed — keep this tab's list rather than blanking it
-      const loaded: Record<string, DocumentEntry> = {};
-      for (const r of records) loaded[r.id] = { meta: r.meta, session: r.session };
-      const { currentId, docs } = useDocumentsStore.getState();
-      // Keep this tab's live current doc even if it isn't persisted yet, and
-      // don't resurrect a doc this tab has soft-deleted (still in IDB pending).
-      if (currentId && docs[currentId] && !loaded[currentId]) loaded[currentId] = docs[currentId];
-      useDocumentsStore.setState(partitionDocuments(loaded));
+      if (records !== null) reconcileDocuments(records, event.data?.type === 'delete' ? event.data.id : undefined);
     });
   };
+}
+
+/** Follow deletion from another tab without resurrecting its old identity. */
+export function reconcileDocuments(records: StoredDocument[], permanentlyDeletedId?: string): void {
+  const loaded: Record<string, DocumentEntry> = {};
+  for (const record of records) loaded[record.id] = { meta: record.meta, session: record.session };
+  const { currentId, docs, baseline } = useDocumentsStore.getState();
+  const removed = !!currentId && (!!loaded[currentId]?.meta.deletedAt || permanentlyDeletedId === currentId && !loaded[currentId]);
+  if (currentId && docs[currentId] && !loaded[currentId] && !removed) loaded[currentId] = docs[currentId];
+  const partitioned = partitionDocuments(loaded);
+  useDocumentsStore.setState(partitioned);
+  if (!removed) return;
+  if (baseline && !sameContent(baseline, getSerializedSession())) {
+    useDocumentsStore.getState().openLoadedAsNew();
+    showAppAlert({ title: 'Edits kept in a new draft', message: 'This document was deleted in another tab. Your newer edits were kept as a separate draft.' });
+  } else {
+    reopenAfterRemoval(partitioned.docs, useDocumentsStore.setState, useDocumentsStore.getState().markBaseline);
+  }
 }
 
 // ── Whole-library backup ────────────────────────────────────────────────────
@@ -991,6 +1004,7 @@ export function importShouldReplace(existingUpdatedAt: number | undefined, incom
  *  backup file. When the registry couldn't be read at all this session,
  *  refuse (the caller shows "Backup failed") rather than fabricate success. */
 export async function exportLibrary(): Promise<string> {
+  useDocumentsStore.getState().syncCurrent();
   const { docs, trash, hydrated } = useDocumentsStore.getState();
   if (!hydrated || useUIStore.getState().storageHealth === 'unreadable') {
     throw new Error('Saved documents could not be read — a backup now would be incomplete');
