@@ -10,14 +10,16 @@
  * No import side effects, so a test can reach it — `mcp.ts` starts a server.
  */
 import * as z from 'zod';
+import { publicationSchema, publicationParagraph, attachmentSchema } from './publicationSchema';
 import { CLASSIFICATION_LEVELS, DOC_TYPES, PORTION_MARKINGS } from './validateLetter';
 
-const paragraph = z.object({
+export const paragraph = z.object({
+  ...publicationParagraph,
   text: z.string().describe('The paragraph text. Plain prose — numbering is applied for you.'),
   level: z.number().int().min(0).max(7).optional()
     .describe('0 = "1.", 1 = "a.", 2 = "(1)" … through Figure 7-8\'s eight levels. Defaults to 0.'),
   header: z.string().optional().describe('Bold run-in heading before the text.'),
-  portionMarking: z.enum(PORTION_MARKINGS as [string, ...string[]]).optional()
+  portionMarking: z.enum(PORTION_MARKINGS).optional()
     .describe('Printed as "(S) " before the text. The banner rises to the highest mark in the document.'),
 }).strict();
 
@@ -64,6 +66,7 @@ const classification = z.object({
     .optional().describe('Document-level classification. Defaults to unclassified.'),
   pocEmail: z.string().optional().describe('CUI point of contact.'),
   custom: z.string().optional().describe('Banner text for a marking outside the list, printed as given. Give this instead of level, not with it.'),
+  basis: z.enum(['original', 'derivative']).optional(),
   classifiedBy: z.string().optional(), derivedFrom: z.string().optional(),
   declassifyOn: z.string().optional(), reason: z.string().optional(),
   cui: z.object({
@@ -120,12 +123,16 @@ export const letterSchema = z.object({
     .describe('Defaults to today in the format the type prescribes: "8 Aug 26" for letters and memoranda, "August 8, 2026" for business and executive correspondence. Match that form if you supply one.'),
   originatorCode: z.string().optional(),
 
+  publication: publicationSchema.optional(),
+  attachments: z.array(attachmentSchema).max(32).optional().describe('I-Type figure and enclosure files, referenced by ID.'),
   paragraphs: z.array(paragraph).optional(),
   references: z.array(z.object({
     letter: z.string().regex(/^[a-z]{1,2}$/).optional().describe('One or two lowercase letters. Assigned a, b … in order when omitted.'),
-    title: z.string(),
+    title: z.string(), url: z.url().optional(),
   }).strict()).optional().describe('Lettered (a), (b) … in the order given.'),
-  enclosures: z.array(z.object({ title: z.string() }).strict()).optional(),
+  enclosures: z.array(z.object({ title: z.string(), fileId: z.string().optional(),
+    pageStyle: z.enum(['border', 'fullpage', 'fit']).optional(),
+  }).strict()).optional(),
   copyTo: z.array(z.string()).optional(),
   distribution: z.array(z.string()).optional(),
 

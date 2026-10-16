@@ -181,7 +181,7 @@ describe('malformed input is 400, never 500', () => {
 
   it('rejects a body past the cap without reading it all into memory', async () => {
     // 1 MB + slop. The cap exists so a runaway caller cannot balloon the process.
-    const { status, json } = await post(JSON.stringify({ ...VALID, subject: 'x'.repeat(1_100_000) }));
+    const { status, json } = await post(JSON.stringify({ ...VALID, subject: 'x'.repeat(16_100_000) }));
     expect(status).toBe(400);
     expect(json.errors?.join(' ')).toMatch(/exceeds/);
   });
@@ -191,7 +191,7 @@ describe('malformed input is 400, never 500', () => {
     // fetch keeps connections alive, so the server used to parse those
     // leftovers as the NEXT request and the following call died with
     // ECONNRESET. Linux surfaced it; macOS tolerated it.
-    const big = await post(JSON.stringify({ ...VALID, subject: 'x'.repeat(1_100_000) }));
+    const big = await post(JSON.stringify({ ...VALID, subject: 'x'.repeat(16_100_000) }));
     expect(big.status).toBe(400);
 
     const next = await post(JSON.stringify({ docType: 'invoice', format: 'rtf', paragraphs: 'not an array' }));

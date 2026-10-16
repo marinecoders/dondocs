@@ -53,11 +53,11 @@ describe('the default filename', () => {
   });
 });
 
-it.each(['pdf', 'docx'] as const)('refuses I-Type %s before rendering or writing', async (format) => {
+it.each(['pdf', 'docx'] as const)('refuses incomplete I-Type %s before rendering or writing', async (format) => {
   const root = await mkdtemp(join(tmpdir(), 'dondocs-itype-'));
   const before = n;
   await expect(renderToFile({ docType: 'i_type', subject: 'TEST', format }, {}, root))
-    .rejects.toThrow('I-Type export requires the DonDocs web editor');
+    .rejects.toThrow('I-Type export requires publication metadata.');
   expect(n).toBe(before);
   expect(await readdir(root)).toEqual([]);
 });

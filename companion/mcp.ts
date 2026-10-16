@@ -18,7 +18,7 @@ import {
   ResourceNotFoundError, ResourceTemplate, acceptedContent, completable, inputRequired, inputResponse,
 } from '@modelcontextprotocol/server';
 import type { ClientCapabilities, ServerContext } from '@modelcontextprotocol/server';
-import { serveStdio } from '@modelcontextprotocol/server/stdio';
+import { serveStdio, StdioServerTransport } from '@modelcontextprotocol/server/stdio';
 import { readFile } from 'node:fs/promises';
 import { basename, extname } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -35,6 +35,9 @@ import { OutputWriteError, renderToFile } from './renderToFile';
 import { defaultsResult, renderResult, templateListResult, templateResult, unitLookupResult } from './resultSchema';
 import { DOC_TYPES, ENDORSEMENT_TYPES, validateLetter } from './validateLetter';
 import { systemPandocVersion, VENDORED_PANDOC } from './renderDocx';
+
+// Shared PDF helpers log diagnostics; stdout belongs to JSON-RPC.
+console.log = console.error;
 
 const ROOT = outputRoot();
 // Where the web editor is served, for the handoff link a rendered letter
@@ -89,12 +92,13 @@ let defaults = await loadDefaults();
 // single tool description can say. Every call is a model turn, so the
 // template ids are here and the render is asked for early: a letter from the
 // user's own words is one call, from a template two.
-const INSTRUCTIONS = `DonDocs renders SECNAV M-5216.5 correspondence with dondocs_letter; files are written under ${ROOT}. `
+const INSTRUCTIONS = `DonDocs renders SECNAV M-5216.5 correspondence and I-Type technical publications with dondocs_letter; files are written under ${ROOT}. `
   + 'Settle the originating unit first: omit unit to use the machine defaults (read dondocs://defaults to see them), '
   + 'or find one with dondocs_unit_lookup. When that resource holds no unit or signature, offer to settle them once with dondocs_save_defaults before writing the first letter. '
   + 'Give the From and To lines: letters, endorsements and memoranda print the labels even when they are empty. '
   + `To start from a template, call dondocs_template_get with one of ${TEMPLATE_IDS.join(', ')}, or read dondocs://templates/{id}; dondocs_template_list describes them. `
-  + 'A render takes under a second, so call dondocs_letter once the facts are in hand rather than drafting in chat first; '
+  + 'I-Type (MI/TI/SI/LI) requires publication metadata and PDF format; it has no From/To lines. Supply attachments as base64 with IDs used by figures and enclosures. '
+  + 'Call dondocs_letter once the facts are in hand rather than drafting in chat first; '
   + 'show the user the file as its result says, and revise by calling dondocs_letter again with the out it reports.';
 
 const handle = serveStdio(() => {
@@ -119,8 +123,8 @@ const handle = serveStdio(() => {
   }));
 
   server.registerTool('dondocs_template_list', {
-    title: 'List letter templates',
-    description: 'List the bundled letter templates with their ID, name, category and description. '
+    title: 'List document templates',
+    description: 'List the bundled document templates with their ID, name, category and description. '
       + 'dondocs_template_get names the IDs itself, so when the user\'s wording points to one, skip this and call that. '
       + 'Ask the user if several templates fit; explain when none does.',
     inputSchema: z.object({}).strict(),
@@ -211,8 +215,8 @@ const handle = serveStdio(() => {
     }),
     complete: { id: templateIds },
   }), {
-    title: 'Letter template',
-    description: 'A bundled letter template: document type, subject, paragraphs with bracketed placeholders, references.',
+    title: 'Document template',
+    description: 'A bundled document template: document type, subject, paragraphs with bracketed placeholders, references.',
     mimeType: 'application/json',
   }, async (uri, { id }) => {
     const template = LETTER_TEMPLATES.find((entry) => entry.id === id);
@@ -273,8 +277,8 @@ const handle = serveStdio(() => {
   // A starting point a host can offer by name. Both arguments complete, so a
   // user picks a type or a template without knowing the ids.
   server.registerPrompt('draft_letter', {
-    title: 'Draft a naval letter',
-    description: 'Draft correspondence of a given document type, optionally from a bundled template, and render it with dondocs_letter.',
+    title: 'Draft a document',
+    description: 'Draft correspondence or an I-Type publication, optionally from a bundled template, and render it with dondocs_letter.',
     argsSchema: optionalArgs(z.object({
       docType: completable(
         z.enum(DOC_TYPES as [string, ...string[]]).describe('Document type; defaults to the template\'s own.'),
@@ -290,15 +294,17 @@ const handle = serveStdio(() => {
       type
         ? `Draft a document of type "${type}" with DonDocs.`
         : 'Draft naval correspondence with DonDocs. Ask me which document type fits before writing; dondocs_letter lists them in its docType enum.',
-      template
+      type === 'i_type'
+        ? 'Start from the appropriate I-Type template. Ask for publication metadata, the effective date, issuing command, signer and missing technical content. I-Type has no From/To lines. Render with dondocs_letter as PDF after completing the publication fields.'
+        : template
         ? `Start from the "${template.name}" template attached below: keep its structure, fill each bracketed placeholder from what I tell you, and ask for the From and To lines and anything else it needs that I have not given.`
         : 'Ask me for the From and To lines, the subject, and what the letter needs to say, then write the paragraphs.',
-      'For the originating unit, use the machine defaults (dondocs://defaults) or look it up with dondocs_unit_lookup; do not guess an address. If the defaults hold no unit or signature, offer to settle them once with dondocs_save_defaults. Confirm the addressee with me.',
+      type === 'i_type' ? 'Use the supplied issuing command and authorized signer; do not invent publication identifiers or release determinations.' : 'For the originating unit, use the machine defaults (dondocs://defaults) or look it up with dondocs_unit_lookup; do not guess an address. If the defaults hold no unit or signature, offer to settle them once with dondocs_save_defaults. Confirm the addressee with me.',
       ...(type && ENDORSEMENT_TYPES.includes(type)
         ? ['Ask me for the endorsement ordinal (FIRST, SECOND ...) and the identification of the letter being endorsed, and pass them as endorsement.ordinal and endorsement.basicLetterId; the render is refused without them.']
         : []),
       type === 'i_type'
-        ? 'Complete and export this I-Type publication in the DonDocs web editor; the companion cannot perform its publication checks.'
+        ? 'Use publication.type for MI, TI, SI or LI. The same publication checks as the web editor apply before PDF export.'
         : `Render with dondocs_letter${type ? ` using docType "${type}"` : ''}; its result says how to show me the file.`,
     ].join(' ');
     return {
@@ -316,11 +322,11 @@ const handle = serveStdio(() => {
   });
 
   server.registerTool('dondocs_template_get', {
-    title: 'Get a letter template',
-    description: 'Return the complete letter template for an ID; dondocs_template_list describes each. '
+    title: 'Get a document template',
+    description: 'Return the complete document template for an ID; dondocs_template_list describes each. '
       + 'Use it as a starting draft: ask the user for bracketed placeholders and missing correspondence details. '
       + 'Interpret each placeholder in context, preserve supplied facts, and never invent missing information. '
-      + 'I-Type templates require the DonDocs web editor for completion and export. For other types, pass the completed letter fields to dondocs_letter; omit template metadata (id, name, category, description). '
+      + 'Pass completed fields to dondocs_letter; omit template metadata (id, name, category, description). For I-Type, move publicationType into publication.type, complete the other publication fields, and select PDF. '
       + 'An endorsement template also needs endorsement.ordinal and endorsement.basicLetterId.',
     inputSchema: z.object({ id: z.enum(TEMPLATE_IDS).describe('Template ID.') }).strict(),
     outputSchema: templateResult,
@@ -387,13 +393,13 @@ const handle = serveStdio(() => {
   server.registerTool(
     'dondocs_letter',
     {
-      title: 'Write a naval letter',
+      title: 'Write a document',
       description:
-        'Render SECNAV M-5216.5 correspondence, every letter, memorandum, endorsement and agreement type the app defines (see the docType enum), to a PDF or DOCX file. '
+        'Render SECNAV M-5216.5 correspondence, every letter, memorandum, endorsement and agreement type the app defines (see the docType enum), to a PDF or DOCX file. I-Type MI/TI/SI/LI publications support PDF only, with required publication metadata and the web editor’s export checks. '
         + 'Formatting, letterhead, seal, paragraph numbering and the signature block are handled for you; supply content only. '
         + 'Returns the path to the written file, not the document itself; the result says how to show the file to the user. '
         + `Files are written under ${ROOT}. `
-        + 'A render takes under a second: call this once the facts are in hand, and to revise call it again with out set to the name it reports, which replaces that file.',
+        + 'Call this once the facts are in hand, and to revise call it again with out set to the name it reports, which replaces that file.',
       inputSchema: letterSchema,
       outputSchema: renderResult,
       // The link to the page under both keys hosts have read it from, as the
@@ -412,7 +418,7 @@ const handle = serveStdio(() => {
       // The schema catches wrong types; these are the rules it cannot express —
       // chiefly that a letter with neither subject nor body is a blank page, not
       // a document. The HTTP transport enforces the identical set.
-      const problems = validateLetter(input);
+      const problems = validateLetter(input, defaults);
       if (problems.length) {
         return { content: [{ type: 'text' as const, text: problems.join('; ') }], isError: true };
       }
@@ -461,6 +467,9 @@ const handle = serveStdio(() => {
   );
 
   return server;
+}, {
+  // Match the HTTP request limit, with room for attachment metadata and document text.
+  transport: new StdioServerTransport(process.stdin, process.stdout, { maxBufferSize: 16_000_000 }),
 });
 
 // stderr, never stdout — stdout belongs to the protocol.

@@ -23,7 +23,8 @@ vi.mock('@modelcontextprotocol/server', async (importOriginal) => ({
     server = { getClientCapabilities: () => undefined, getNegotiatedProtocolVersion: () => undefined };
   },
 }));
-vi.mock('@modelcontextprotocol/server/stdio', () => ({
+vi.mock('@modelcontextprotocol/server/stdio', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@modelcontextprotocol/server/stdio')>()),
   serveStdio: (factory: () => unknown) => { factory(); return { close: vi.fn() }; },
 }));
 
