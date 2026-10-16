@@ -5,6 +5,7 @@
 @layer utilities {
   .dark .text-primary { color: var(--primary-text); }
   .dark .text-destructive { color: var(--destructive-text); }
+  .dark [data-slot="dropdown-menu-item"][data-variant="destructive"] { color: var(--destructive-text); }
 }
 
 /* Self-hosted Geist (latin), vendored from @fontsource-variable/geist so the
