@@ -4,13 +4,17 @@ import { tableSpec } from '@/data/techpub/tables';
 
 const MATERIEL = ['materielRequired', 'materielDiscarded', 'materielRetained', 'materielBulk'];
 
+export const hasPublicationTableContent = (row: PublicationTableRow): boolean =>
+  Object.values(row.values).some((value) => !!value.trim()) || !!row.identificationException?.trim() || !!row.openPurchase;
+
 export function validatePublicationTableRows(key: string, rows: PublicationTableRow[], identifierMode?: 'stock' | 'software'): string[] {
   const errors: string[] = [];
   const name = tableSpec(key)?.name ?? key;
   rows.forEach((row, index) => {
     const cell = (column: string) => (row.values[column] ?? '').replace(REFERENCE_TOKEN, '').trim();
-    if (!Object.values(row.values).some((value) => value.trim()) || /^(consisting of|includes):?$/i.test(cell('description'))) return;
+    if (!hasPublicationTableContent(row) || /^(consisting of|includes):?$/i.test(cell('description'))) return;
     const prefix = `${name}, row ${index + 1}:`;
+    if (!cell('description')) errors.push(`${prefix} enter the item description.`);
     const nsn = cell('nsn'), pn = cell('pn');
     if (identifierMode === 'software') {
       if (!cell('softwareVersion')) errors.push(`${prefix} enter the current software/firmware version.`);

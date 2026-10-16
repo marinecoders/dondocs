@@ -5,6 +5,11 @@ import { useDocumentStore } from '@/stores/documentStore';
 
 const row = { values: { item: '1', description: 'BOLT', pn: 'ABC123 (1AB23)', nsn: '', qty: '2' } };
 describe('publication table content', () => {
+  it('does not treat identification details alone as an empty row', () => {
+    const errors = validatePublicationTableRows('materielRequired', [{ values: {}, identificationException: 'Unmarked shim.' }]);
+    expect(errors.join(' ')).toContain('description');
+    expect(errors.join(' ')).toContain('quantity');
+  });
   it('keeps software versions separate from stock identifiers', () => {
     const software = { values: { ...row.values, pn: '', softwareVersion: 'v2.4.1' } };
     expect(validatePublicationTableRows('materielRequired', [software], 'software')).toEqual([]);

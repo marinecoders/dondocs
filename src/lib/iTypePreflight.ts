@@ -1,6 +1,6 @@
 import { validatePublicationReferences, referenceFreeText } from './publicationReferences';
 import { iTypeClassificationErrors } from './iTypeClassification';
-import { validatePublicationTableRows } from './publicationTableValidation';
+import { validatePublicationTableRows, hasPublicationTableContent } from './publicationTableValidation';
 import { validatePublicationDate } from './publicationDate';
 import { validateMajorItemsOrder } from './majorItemsOrder';
 import { tableSpec } from '@/data/techpub/tables';
@@ -37,7 +37,7 @@ export function iTypeExportErrors(store: Publication): string[] {
   errors.push(...validatePublicationDate(d.date ?? '', d.publicationSigningDate, d.publicationClosedDates).map((f) => f.message));
   errors.push(...validateMajorItemsOrder(store.publicationTables?.majorItems ?? []).map((f) => f.message));
   for (const [key, rows] of Object.entries(store.publicationTables ?? {})) {
-    if (!rows.some((r) => Object.values(r.values).some((v) => v.trim()))) continue;
+    if (!rows.some(hasPublicationTableContent)) continue;
     const spec = tableSpec(key);
     if (!spec) { errors.push(`Unknown publication table: ${key}.`); continue; }
     const attached = store.paragraphs.filter((p) => p.tableKey === key);
