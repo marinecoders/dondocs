@@ -169,6 +169,8 @@ interface UIState {
   mobileDocsOpen: boolean;
   setMobileDocsOpen: (open: boolean) => void;
   // Version-history modal: the document id whose snapshots to show (null = closed).
+  trashOpen: boolean;
+  setTrashOpen: (open: boolean) => void;
   historyDocId: string | null;
   setHistoryDocId: (id: string | null) => void;
 
@@ -292,6 +294,8 @@ export const useUIStore = create<UIState>()(
       setMobilePreviewOpen: (open) => set({ mobilePreviewOpen: open }),
       mobileDocsOpen: false,
       setMobileDocsOpen: (open) => set({ mobileDocsOpen: open }),
+      trashOpen: false,
+      setTrashOpen: (open) => set({ trashOpen: open }),
       historyDocId: null,
       setHistoryDocId: (id) => set({ historyDocId: id }),
 

@@ -56,6 +56,8 @@ export interface DocumentMeta {
   name?: string;
   /** Pinned to the top of Recents (survives content edits — see metaFor). */
   pinned?: boolean;
+  /** In Trash until the user restores or permanently deletes this record. */
+  deletedAt?: number;
 }
 
 export interface DocumentEntry {
@@ -65,6 +67,9 @@ export interface DocumentEntry {
 
 interface DocumentsState {
   docs: Record<string, DocumentEntry>;
+  trash: Record<string, DocumentEntry>;
+  restoreFromTrash: (id: string) => void;
+  permanentlyDelete: (id: string) => Promise<boolean>;
   currentId: string | null;
   /** True once the registry has been read out of IndexedDB. */
   hydrated: boolean;
@@ -95,8 +100,7 @@ interface DocumentsState {
   /** Open an existing document by id. */
   switchTo: (id: string) => void;
   /** Soft-delete a document; if it was open, fall back to the newest remaining
-   *  or a blank one. The IDB record + entry are kept ~6s so the delete can be
-   *  undone (see pendingDelete / restoreDeleted). */
+   *  or a blank one. Trash retains the complete entry and version history. */
   remove: (id: string) => void;
   /** Soft-delete several documents at once (bulk select), sharing one undo
    *  window. Reopens a fallback doc if the current one was among them. */
@@ -512,73 +516,42 @@ function ensureHydrated(
           loaded[r.id] = { meta: r.meta, session: r.session };
         }
       }
-      set({ docs: loaded, currentId: cid, hydrated: true });
+      set({ ...partitionDocuments(loaded), currentId: cid, hydrated: true });
     })();
     // If hydration rejects, drop the cached promise so a later init() can retry
     // rather than being wedged on a permanently-rejected promise for the page
     // lifetime (mirrors openDb's dbPromise reset).
-    hydratePromise.catch(() => {
-      hydratePromise = null;
-    });
+    void hydratePromise.then(() => { hydratePromise = null; }, () => { hydratePromise = null; });
   }
   return hydratePromise;
 }
 
-// Soft-delete bookkeeping: the kept entries + their purge timer live outside the
-// store (live entries / a timer handle, not serializable state). A batch (bulk
-// delete) shares one timer and one undo affordance.
+function partitionDocuments(entries: Record<string, DocumentEntry>) {
+  const docs: Record<string, DocumentEntry> = {};
+  const trash: Record<string, DocumentEntry> = {};
+  for (const [id, entry] of Object.entries(entries)) {
+    (entry.meta.deletedAt ? trash : docs)[id] = entry;
+  }
+  return { docs, trash };
+}
+
+// The short Undo notification expires; the document and history do not.
 let purgeTimer: ReturnType<typeof setTimeout> | null = null;
-let pendingEntries: DocumentEntry[] = [];
-
-// Finalize a lapsed/superseded purge. The document records were already removed
-// in beginPending (so a tab close mid-window can't resurrect them); only the
-// version-history snapshots remain — clean them up now that the undo window has
-// truly closed, so an undo *within* the window still keeps its history.
-function finalizePurge(): void {
-  for (const e of pendingEntries) {
-    void idbDeleteSnapshots(e.meta.id);
-  }
-  pendingEntries = [];
-  // The undo window has closed and the deleted docs' snapshots are gone, so any
-  // blobs they alone referenced are now unreachable — reclaim them. Dynamically
-  // imported to avoid a static cycle (attachmentGc imports this module for the
-  // pending-delete roots). Fire-and-forget; the sweep is self-guarded.
-  void import('@/lib/attachmentGc').then((m) => void m.sweepOrphanedAttachments());
-}
-
-/**
- * Sessions of documents currently staged for an undoable delete. Consumed by
- * the attachment collector so a blob referenced only by an about-to-be-restored
- * doc is never reaped inside the 6s undo window. Empty when nothing is pending.
- */
 export function getPendingDeleteSessions(): SerializedSession[] {
-  return pendingEntries.map((e) => e.session);
+  return Object.values(useDocumentsStore.getState().trash).map((e) => e.session);
 }
-
-// Stage entries for a 6s-undoable delete. The document records are hard-deleted
-// IMMEDIATELY (not on the timer): a deferred delete never runs if the tab is
-// closed/reloaded during the window, so the "deleted" doc would reappear from
-// IndexedDB on next load. The undo keeps only an in-memory copy — restoreDeleted()
-// re-persists it. Snapshots are left until finalizePurge so an undo keeps history.
 function beginPending(entries: DocumentEntry[], set: (partial: Partial<DocumentsState>) => void): void {
-  if (entries.length === 0) return;
-  if (purgeTimer) {
-    clearTimeout(purgeTimer);
-    finalizePurge();
-  }
+  if (!entries.length) return;
+  if (purgeTimer) clearTimeout(purgeTimer);
+  const trash = { ...useDocumentsStore.getState().trash };
   for (const e of entries) {
-    void idbDeleteDocument(e.meta.id);
-    broadcastDocs({ type: 'delete', id: e.meta.id });
+    const removed = { ...e, meta: { ...e.meta, deletedAt: Date.now(), updatedAt: Date.now() } };
+    trash[e.meta.id] = removed;
+    persistEntry(removed);
   }
-  scheduleBackup(); // reflect the deletion in the synced backup file right away
-  pendingEntries = entries;
   const title = entries.length === 1 ? entries[0].meta.title : `${entries.length} documents`;
-  set({ pendingDelete: { ids: entries.map((e) => e.meta.id), title } });
-  purgeTimer = setTimeout(() => {
-    finalizePurge();
-    purgeTimer = null;
-    set({ pendingDelete: null });
-  }, 6000);
+  set({ trash, pendingDelete: { ids: entries.map((e) => e.meta.id), title } });
+  purgeTimer = setTimeout(() => { set({ pendingDelete: null }); purgeTimer = null; }, 6000);
 }
 
 // Shared "the open doc was deleted" fallback: reopen the newest remaining doc,
@@ -695,6 +668,7 @@ function initAfterHydration(
 
 export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   docs: {},
+  trash: {},
   currentId: null,
   hydrated: false,
   baseline: null,
@@ -723,7 +697,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
 
   syncCurrent: (source) => {
     const { currentId, docs, baseline } = get();
-    if (!currentId) return;
+    if (!currentId || get().trash[currentId]) return;
     const session = source ? serializeSession(source) : getSerializedSession();
 
     const prev = docs[currentId];
@@ -759,11 +733,15 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
 
   saveCurrent: () => {
     const { currentId, docs } = get();
-    if (!currentId) return;
+    if (!currentId || get().trash[currentId]) return;
     const session = getSerializedSession();
     // Force-add when absent, but skip a no-op Save so it doesn't re-sort.
     const prev = docs[currentId];
-    if (prev && sameContent(prev.session, session)) return;
+    if (prev && sameContent(prev.session, session)) {
+      persistEntry(prev);
+      void maybeSnapshot(currentId, session, true);
+      return;
+    }
     const entry = { meta: metaFor(currentId, session, prev?.meta), session };
     // Keep baseline in lockstep with what this tab persisted (see syncCurrent).
     set({ docs: { ...docs, [currentId]: entry }, baseline: session });
@@ -816,20 +794,20 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   },
 
   remove: (id) => {
+    if (id === get().currentId) get().syncCurrent();
     const { docs, currentId } = get();
     const entry = docs[id];
     const next = { ...docs };
     delete next[id];
     set({ docs: next });
-    // Soft delete: the IDB record is removed now, but the entry is kept in memory
-    // ~6s so an accidental delete can be undone. A current-but-unsaved doc has no
-    // entry — nothing to keep, but we still reopen the newest below.
+    // A current-but-unsaved starter has no record to move to Trash.
     if (entry) beginPending([entry], set);
     if (id !== currentId) return;
     reopenAfterRemoval(next, set, get().markBaseline);
   },
 
   removeMany: (ids) => {
+    if (get().currentId && ids.includes(get().currentId!)) get().syncCurrent();
     const { docs, currentId } = get();
     const entries = ids.map((id) => docs[id]).filter((e): e is DocumentEntry => !!e);
     if (entries.length === 0) return;
@@ -861,23 +839,33 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   },
 
   restoreDeleted: () => {
-    if (pendingEntries.length === 0) return;
-    if (purgeTimer) {
-      clearTimeout(purgeTimer);
-      purgeTimer = null;
-    }
-    const entries = pendingEntries;
-    pendingEntries = [];
-    // The IDB records were hard-deleted eagerly in beginPending; re-list them in
-    // memory and persist to re-add them to IndexedDB. Snapshots were left intact
-    // during the window, so version history survives the undo.
-    set((s) => {
-      const docs = { ...s.docs };
-      for (const e of entries) docs[e.meta.id] = e;
-      return { docs, pendingDelete: null };
-    });
-    for (const e of entries) persistEntry(e);
-    debug.log('Documents', 'Restored deleted document(s)', { ids: entries.map((e) => e.meta.id) });
+    for (const id of get().pendingDelete?.ids ?? []) get().restoreFromTrash(id);
+    if (purgeTimer) clearTimeout(purgeTimer);
+    set({ pendingDelete: null });
+  },
+
+  restoreFromTrash: (id) => {
+    const entry = get().trash[id];
+    if (!entry) return;
+    const { deletedAt: _deletedAt, ...meta } = entry.meta;
+    const restored = { ...entry, meta: { ...meta, updatedAt: Date.now() } };
+    const trash = { ...get().trash };
+    delete trash[id];
+    set({ trash, docs: { ...get().docs, [id]: restored } });
+    persistEntry(restored);
+  },
+
+  permanentlyDelete: async (id) => {
+    if (!get().trash[id]) return false;
+    if (!await idbDeleteDocument(id)) return false;
+    await idbDeleteSnapshots(id);
+    const trash = { ...get().trash };
+    delete trash[id];
+    set({ trash });
+    broadcastDocs({ type: 'delete', id });
+    scheduleBackup();
+    void import('@/lib/attachmentGc').then((m) => void m.sweepOrphanedAttachments());
+    return true;
   },
 
   renameDocument: (id, name) => {
@@ -896,6 +884,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   },
 
   duplicateDocument: (id) => {
+    if (id === get().currentId) get().syncCurrent();
     const { docs } = get();
     const entry = docs[id];
     if (!entry) return;
@@ -924,7 +913,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     // written, restore nothing and let the caller say so.
     if (currentId) {
       const ok = await maybeSnapshot(currentId, getSerializedSession(), true);
-      if (!ok) return false;
+      if (!ok || get().currentId !== currentId) return false;
     }
     loadSharedSession(session);
     get().markBaseline();
@@ -984,8 +973,7 @@ if (typeof BroadcastChannel !== 'undefined') {
       // Keep this tab's live current doc even if it isn't persisted yet, and
       // don't resurrect a doc this tab has soft-deleted (still in IDB pending).
       if (currentId && docs[currentId] && !loaded[currentId]) loaded[currentId] = docs[currentId];
-      for (const e of pendingEntries) delete loaded[e.meta.id];
-      useDocumentsStore.setState({ docs: loaded });
+      useDocumentsStore.setState(partitionDocuments(loaded));
     });
   };
 }
@@ -1009,11 +997,11 @@ export function importShouldReplace(existingUpdatedAt: number | undefined, incom
  *  backup file. When the registry couldn't be read at all this session,
  *  refuse (the caller shows "Backup failed") rather than fabricate success. */
 export async function exportLibrary(): Promise<string> {
-  const { docs, hydrated } = useDocumentsStore.getState();
+  const { docs, trash, hydrated } = useDocumentsStore.getState();
   if (!hydrated || useUIStore.getState().storageHealth === 'unreadable') {
     throw new Error('Saved documents could not be read — a backup now would be incomplete');
   }
-  const records: StoredDocument[] = Object.values(docs).map((e) => ({
+  const records: StoredDocument[] = Object.values({ ...docs, ...trash }).map((e) => ({
     id: e.meta.id,
     meta: e.meta,
     session: e.session,
@@ -1063,9 +1051,9 @@ export async function importLibrary(json: string): Promise<{ imported: number; s
   if (all !== null) {
     for (const r of all) loaded[r.id] = { meta: r.meta, session: r.session };
   } else {
-    Object.assign(loaded, useDocumentsStore.getState().docs);
+    Object.assign(loaded, useDocumentsStore.getState().docs, useDocumentsStore.getState().trash);
     for (const e of applied) loaded[e.meta.id] = e;
   }
-  useDocumentsStore.setState({ docs: loaded });
+  useDocumentsStore.setState(partitionDocuments(loaded));
   return { imported, skipped };
 }

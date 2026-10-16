@@ -86,6 +86,7 @@ export function MobileRecents() {
             </div>
           )}
 
+          <button type="button" className="mx-4 mt-2 min-h-10 text-sm text-left" onClick={() => { setOpen(false); useUIStore.getState().setTrashOpen(true); }}>Open Trash</button>
           <ul className="max-h-[60vh] overflow-y-auto p-2">
             {metas.length === 0 ? (
               <li className="px-3 py-8 text-center">

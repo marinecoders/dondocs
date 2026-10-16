@@ -24,7 +24,7 @@ function freshLiveDoc(): void {
 describe('documentsStore — registry state machine', () => {
   beforeEach(() => {
     // Reset both stores so each test is isolated.
-    useDocumentsStore.setState({ docs: {}, currentId: null, hydrated: true, baseline: null });
+    useDocumentsStore.setState({ docs: {}, trash: {}, currentId: null, hydrated: true, baseline: null });
     freshLiveDoc();
   });
 
@@ -251,6 +251,7 @@ describe('documentsStore — registry state machine', () => {
       currentId: 'd1',
       docs: { d1: { meta: { id: 'd1', title: 'ORIGINAL', docType: s.docType, updatedAt: 1 }, session: s } },
     });
+    useDocumentStore.getState().setFormData({ subject: 'ORIGINAL' });
     useDocumentsStore.getState().duplicateDocument('d1');
     const docs = useDocumentsStore.getState().docs;
     expect(Object.keys(docs)).toHaveLength(2);

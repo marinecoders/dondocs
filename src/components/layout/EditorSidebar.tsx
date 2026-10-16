@@ -228,7 +228,8 @@ export function EditorSidebar() {
         >
           <Plus className="h-4 w-4" />
         </button>
-      </nav>
+        <button type="button" onClick={() => useUIStore.getState().setTrashOpen(true)} className="flex min-h-10 items-center gap-2 border-t border-border px-3 text-sm text-muted-foreground hover:bg-muted" aria-label="Trash"><Trash2 className="h-4 w-4" />{!collapsed && 'Trash'}</button>
+    </nav>
       {/* Still mounted while collapsed: dragging it back out is how you reopen. */}
       <SidebarResizer />
       </>
@@ -593,6 +594,7 @@ export function EditorSidebar() {
           )}
         </div>
       </div>
+      <button type="button" onClick={() => useUIStore.getState().setTrashOpen(true)} className="flex min-h-10 items-center gap-2 border-t border-border px-3 text-sm text-muted-foreground hover:bg-muted" aria-label="Trash"><Trash2 className="h-4 w-4" />{!collapsed && 'Trash'}</button>
     </nav>
     <SidebarResizer />
     </>

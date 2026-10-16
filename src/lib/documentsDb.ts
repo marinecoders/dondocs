@@ -124,12 +124,14 @@ export async function idbPutDocument(doc: StoredDocument): Promise<boolean> {
   }
 }
 
-export async function idbDeleteDocument(id: string): Promise<void> {
-  if (!hasIndexedDb) return;
+export async function idbDeleteDocument(id: string): Promise<boolean> {
+  if (!hasIndexedDb) return false;
   try {
     await run(DOCS_STORE, 'readwrite', (s) => s.delete(id));
+    return true;
   } catch (err) {
     debug.error('DocumentsDb', 'delete failed', err);
+    return false;
   }
 }
 
