@@ -32,6 +32,8 @@ import {
 import { showAppAlert } from '@/stores/alertStore';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore, getSerializedSession, loadSharedSession, persistUnsavedEnclosures } from '@/stores/documentStore';
+import { useFormStore } from '@/stores/formStore';
+import { detectPlaceholders } from '@/lib/placeholders';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { restoreBackup, summarizeRestore } from '@/lib/backup';
 import { downloadWorkspaceBackup } from '@/lib/backupDownload';
@@ -256,25 +258,16 @@ export function Header({
   // Does the document contain any {{VARIABLE}} placeholders? Reads via
   // getState() at click time, so the callback has no store dependencies.
   const hasVariables = useCallback(() => {
-    const variablePattern = /\{\{[A-Z0-9_]+\}\}/;
-    const { formData, paragraphs } = useDocumentStore.getState();
-
-    const fieldsToCheck = [
-      formData.subject,
-      formData.from,
-      formData.to,
-      formData.via,
-    ];
-
-    for (const field of fieldsToCheck) {
-      if (field && variablePattern.test(field)) return true;
+    const { documentCategory, formType, formData, paragraphs } = useDocumentStore.getState();
+    if (documentCategory === 'forms') {
+      const forms = useFormStore.getState();
+      const active = formType === 'navmc_118_11' ? forms.navmc11811 : forms.navmc10274;
+      return Object.values(active).some((value) => typeof value === 'string' && detectPlaceholders(value).length > 0)
+        || active.signatureBlocks.some((block) => detectPlaceholders(`${block.name} ${block.statement}`).length > 0);
     }
-
-    for (const para of paragraphs) {
-      if (variablePattern.test(para.text)) return true;
-    }
-
-    return false;
+    return [formData.subject, formData.from, formData.to, formData.via,
+      ...paragraphs.flatMap((paragraph) => [paragraph.text, paragraph.header ?? ''])]
+      .some((value) => detectPlaceholders(value ?? '').length > 0);
   }, []);
 
   // Handle download PDF - redirect to batch mode if variables detected
@@ -315,13 +308,22 @@ export function Header({
   }, []);
 
   const handleReset = useCallback(() => {
-    resetForm();
-    localStorage.removeItem(STORAGE_KEY);
+    const { documentCategory, formType } = useDocumentStore.getState();
+    if (documentCategory === 'forms') {
+      const forms = useFormStore.getState();
+      if (formType === 'navmc_118_11') forms.resetNavmc11811();
+      else forms.resetNavmc10274();
+    } else resetForm();
     setShowResetDialog(false);
   }, [resetForm]);
 
   const handleClearFields = useCallback(() => {
-    clearFieldsExceptLetterhead();
+    const { documentCategory, formType } = useDocumentStore.getState();
+    if (documentCategory === 'forms') {
+      const forms = useFormStore.getState();
+      if (formType === 'navmc_118_11') forms.clearNavmc11811();
+      else forms.clearNavmc10274();
+    } else clearFieldsExceptLetterhead();
     setShowClearFieldsDialog(false);
   }, [clearFieldsExceptLetterhead]);
 
@@ -603,7 +605,7 @@ export function Header({
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => setShowClearFieldsDialog(true)} className="text-warning">
                 <Eraser className="h-4 w-4 mr-2" />
-                Clear fields (keep letterhead)
+                {isFormsMode ? 'Clear form fields' : 'Clear fields (keep letterhead)'}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setShowResetDialog(true)} variant="destructive">
                 <RotateCcw className="h-4 w-4 mr-2" />
@@ -720,8 +722,9 @@ export function Header({
           <AlertDialogHeader>
             <AlertDialogTitle>Reset All Fields?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will clear all form data, references, enclosures, and paragraphs.
-              Any saved progress will also be deleted. This action cannot be undone.
+              {isFormsMode
+                ? 'This replaces the active form with its sample values. Other documents and saved backups are unchanged.'
+                : 'This replaces the active correspondence with the sample naval letter, including its letterhead and content. Other documents and saved backups are unchanged.'}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -739,9 +742,9 @@ export function Header({
           <AlertDialogHeader>
             <AlertDialogTitle>Clear All Fields?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will clear all document content including addressing, signature, paragraphs,
-              references, enclosures, and copy-tos. Your letterhead information (unit name,
-              address, seal, and font settings) will be preserved.
+              {isFormsMode
+                ? 'This clears all fields and signatures in the active form. Other documents are unchanged.'
+                : 'This clears all document content including addressing, signature, paragraphs, references, enclosures, and copy-tos. Your letterhead information (unit name, address, seal, and font settings) will be preserved.'}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

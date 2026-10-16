@@ -1486,6 +1486,10 @@ ${texFiles['body.tex'] || '% No body content'}
     }
   }, [downloadProgress, handleDownloadPdf, handleDownloadDocx]);
 
+  const currentPreviewUrl = documentCategory === 'forms'
+    ? (formPdfDocumentId === currentDocId ? formPdfUrl : null)
+    : (pdfDocumentId === currentDocId ? pdfUrl : null);
+
   // Global keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -1526,9 +1530,9 @@ ${texFiles['body.tex'] || '% No body content'}
       // Ctrl/Cmd + P - Print (trigger browser print on the PDF)
       if (isMod && e.key === 'p') {
         e.preventDefault();
-        if (pdfUrl) {
-          // Open PDF in new tab for printing
-          const printWindow = window.open(pdfUrl, '_blank');
+        if (currentPreviewUrl) {
+          // Print the active document's preview, including NAVMC forms.
+          const printWindow = window.open(currentPreviewUrl, '_blank');
           if (printWindow) {
             // { once: true } so the listener auto-removes after firing,
             // otherwise each popup window stays pinned by the closure.
@@ -1598,7 +1602,7 @@ ${texFiles['body.tex'] || '% No body content'}
     closeAllModals,
     workspaceReady,
     handleDownloadPdf,
-    pdfUrl,
+    currentPreviewUrl,
     setTemplateLoaderOpen,
     setReferenceLibraryOpen,
     setFindReplaceOpen,
@@ -1903,9 +1907,6 @@ ${texFiles['body.tex'] || '% No body content'}
     </main>;
   }
 
-  const currentPreviewUrl = documentCategory === 'forms'
-    ? (formPdfDocumentId === currentDocId ? formPdfUrl : null)
-    : (pdfDocumentId === currentDocId ? pdfUrl : null);
   const correspondenceChanged = renderedCorrespondence?.docType !== docType || renderedCorrespondence?.formData !== formData
     || renderedCorrespondence?.paragraphs !== paragraphs || renderedCorrespondence?.references !== references
     || renderedCorrespondence?.enclosures !== enclosures || renderedCorrespondence?.copyTos !== copyTos

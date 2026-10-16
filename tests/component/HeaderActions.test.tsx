@@ -6,6 +6,7 @@ import { Header } from '@/components/layout/Header';
 import { AppAlertDialog } from '@/components/AppAlertDialog';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { useAlertStore } from '@/stores/alertStore';
+import { useFormStore } from '@/stores/formStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
 import { STORAGE_KEYS } from '@/lib/constants';
@@ -15,7 +16,10 @@ vi.mock('@/lib/backupDownload', () => ({ downloadWorkspaceBackup: vi.fn() }));
 
 beforeEach(() => {
   useAlertStore.setState({ open: false, current: null, queue: [] });
-  useUIStore.setState({ saveMenuOpen: false });
+  useUIStore.setState({ saveMenuOpen: false, batchModalOpen: false });
+  useDocumentStore.setState({ documentCategory: 'correspondence', formType: 'navmc_10274' });
+  useFormStore.getState().clearNavmc10274();
+  useFormStore.getState().clearNavmc11811();
   useDocumentStore.getState().resetForm();
   useDocumentStore.getState().setField('subject', 'Keep my draft');
   localStorage.removeItem(STORAGE_KEYS.DOCUMENT);
@@ -79,5 +83,47 @@ describe('document action error feedback', () => {
     await chooseAction('Back up everything');
     expect(await screen.findByRole('status')).toHaveTextContent('Backup download started');
     expect(screen.getByRole('status')).not.toHaveClass('sr-only');
+  });
+});
+
+describe('active form actions', () => {
+  it.each(['navmc_10274', 'navmc_118_11'] as const)('clears and resets only %s, preserving saved drafts', async (formType) => {
+    useDocumentStore.setState({ documentCategory: 'forms', formType });
+    useFormStore.getState().setNavmc10274Field('natureOfAction', 'AA text');
+    useFormStore.getState().setNavmc11811Field('remarksText', 'Remarks text');
+    localStorage.setItem(STORAGE_KEYS.DOCUMENT, 'saved draft sentinel');
+    render(<TooltipProvider><Header isFormsMode /></TooltipProvider>);
+    await chooseAction('Clear form fields');
+    await userEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+    expect(useFormStore.getState().navmc10274.natureOfAction).toBe('AA text');
+    await chooseAction('Clear form fields');
+    await userEvent.click(screen.getByRole('button', { name: 'Clear fields' }));
+    const active = () => formType === 'navmc_10274' ? useFormStore.getState().navmc10274.natureOfAction : useFormStore.getState().navmc11811.remarksText;
+    expect(active()).toBe('');
+    await chooseAction('Reset all fields');
+    await userEvent.click(screen.getByRole('button', { name: 'Reset everything' }));
+    expect(active()).not.toBe('');
+    expect(useDocumentStore.getState().formData.subject).toBe('Keep my draft');
+    expect(formType === 'navmc_10274' ? useFormStore.getState().navmc11811.remarksText : useFormStore.getState().navmc10274.natureOfAction)
+      .toBe(formType === 'navmc_10274' ? 'Remarks text' : 'AA text');
+    expect(localStorage.getItem(STORAGE_KEYS.DOCUMENT)).toBe('saved draft sentinel');
+  });
+
+  it('checks variables in the active form, including lowercase signature variables', async () => {
+    useDocumentStore.setState({ documentCategory: 'forms' });
+    useDocumentStore.getState().setField('subject', '{{HIDDEN_LETTER}}');
+    const download = vi.fn();
+    render(<TooltipProvider><Header isFormsMode onDownloadPdf={download} /></TooltipProvider>);
+    const clickDownload = async () => {
+      await userEvent.click(screen.getByRole('button', { name: 'Download' }));
+      await userEvent.click(screen.getByRole('menuitem', { name: /PDF/ }));
+    };
+    await clickDownload();
+    expect(download).toHaveBeenCalledTimes(1);
+    expect(useUIStore.getState().batchModalOpen).toBe(false);
+    useFormStore.getState().setNavmc10274Field('signatureBlocks', [{ name: '{{name}}', statement: '' }]);
+    await clickDownload();
+    expect(download).toHaveBeenCalledTimes(1);
+    expect(useUIStore.getState().batchModalOpen).toBe(true);
   });
 });
