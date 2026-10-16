@@ -5,23 +5,16 @@ import { ProfileBar } from '@/components/editor/ProfileBar';
 import { DocumentTypeSelector } from '@/components/editor/DocumentTypeSelector';
 import { Form6105Section } from '@/components/editor/Form6105Section';
 import { Form11811Section } from '@/components/editor/Form11811Section';
-import { BackgroundBeams } from '@/components/effects/BackgroundBeams';
 import { SectionShell } from './SectionShell';
 import { renderEditorSection, useEditorSections } from './editorSections';
 import { useUIStore } from '@/stores/uiStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
-import { useReducedMotion } from '@/hooks';
-
-const marineCodersLogo = `${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`;
 
 export function FormPanel() {
   // Section list shared with the sidebar outline (single source of truth).
   const { sections, config, isFormsMode, formType } = useEditorSections();
   const previewVisible = useUIStore((s) => s.previewVisible);
   const isMobile = useUIStore((s) => s.isMobile);
-  // OS reduce-motion preference; stops the animated beams (SMIL animation the
-  // CSS reduced-motion rule doesn't cover).
-  const prefersReducedMotion = useReducedMotion();
   // The outline is shown beside the editor only on desktop multi-section docs.
   const spyEnabled = !isMobile && sections.length > 1;
 
@@ -121,26 +114,7 @@ export function FormPanel() {
   }, [jumpTo]);
 
   return (
-    <div className={`relative flex flex-col h-full bg-card overflow-hidden w-full ${!isMobile ? 'border-r border-border' : ''}`}>
-      {/* Branded editor backdrop — animated beams + a faint centered EGA seal,
-          scoped to this column so the motion lives in the editor and the form
-          content scrolls above it (z-10). */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        <BackgroundBeams
-          className="absolute inset-0 opacity-60 dark:opacity-50"
-          reducedMotion={isMobile}
-          prefersReducedMotion={prefersReducedMotion}
-        />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <img
-            src={marineCodersLogo}
-            alt=""
-            className="w-[78%] max-w-[480px] opacity-[0.05] dark:opacity-[0.06] invert dark:invert-0"
-          />
-        </div>
-      </div>
-
-      <div className="relative z-10 flex flex-1 min-h-0 flex-col">
+    <div className={`flex flex-col h-full bg-card overflow-hidden w-full ${!isMobile ? 'border-r border-border' : ''}`}>
       <ProfileBar />
 
       <div ref={scrollWrapRef} className="flex-1 min-h-0 overflow-hidden">
@@ -172,7 +146,6 @@ export function FormPanel() {
             </AccordionStaticProvider>
           </div>
         </ScrollArea>
-      </div>
       </div>
     </div>
   );
