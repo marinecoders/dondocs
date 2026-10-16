@@ -60,11 +60,12 @@ export function SettingsModal() {
   const theme = useUIStore((s) => s.theme);
   const density = useUIStore((s) => s.density);
   const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
+  const selectedAppearance = useRef<HTMLInputElement>(null);
   const backupHeading = useRef<HTMLHeadingElement>(null);
   const previewHeading = useRef<HTMLHeadingElement>(null);
   return <Dialog open={open} onOpenChange={(value) => useUIStore.getState().setSettingsOpen(value)}>
     <DialogContent className="sm:max-w-xl" onOpenAutoFocus={(event) => {
-      const target = section === 'backup' ? backupHeading.current : section === 'preview' ? previewHeading.current : null;
+      const target = section === 'backup' ? backupHeading.current : section === 'preview' ? previewHeading.current : selectedAppearance.current;
       if (target) { event.preventDefault(); target.focus(); }
     }}>
       <DialogHeader className="pr-8">
@@ -76,7 +77,7 @@ export function SettingsModal() {
           <legend className="mb-2 text-sm font-medium">Appearance</legend>
           <div className="grid grid-cols-3 gap-2">
             {THEMES.map(({ value, label, description }) => <label key={value} className="relative cursor-pointer">
-              <input type="radio" name="appearance" value={value} aria-label={label} checked={theme === value}
+              <input ref={theme === value ? selectedAppearance : undefined} type="radio" name="appearance" value={value} aria-label={label} checked={theme === value}
                 onChange={() => useUIStore.getState().setTheme(value)} className="peer sr-only" />
               <span className="block rounded-md border border-border p-2 peer-checked:border-ring peer-checked:ring-1 peer-checked:ring-ring peer-focus-visible:outline-2 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-ring">
                 <span aria-hidden="true" className={`appearance-swatch appearance-swatch-${value}`}>

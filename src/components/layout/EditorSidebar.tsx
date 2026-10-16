@@ -73,9 +73,8 @@ function buildGroups(metas: DocumentMeta[], sort: RecentsSort): { label: string;
 }
 
 /**
- * The editor's left sidebar (desktop only). Two stacked zones:
- *   On this page: the current document's section outline, fixed on top.
- *   Recent: the document library, grouped by recency, scrolling beneath.
+ * Desktop document library, with an optional section outline above Recents.
+ * Workspace utilities remain anchored below the scrolling document list.
  */
 export function EditorSidebar() {
   const isMobile = useUIStore((s) => s.isMobile);
@@ -138,6 +137,7 @@ export function EditorSidebar() {
   const announceSeq = useRef(0);
   const navRef = useRef<HTMLElement>(null);
   const newBtnRef = useRef<HTMLButtonElement>(null);
+  const filterToggleRef = useRef<HTMLButtonElement>(null);
   const outlineRef = useRef<HTMLDivElement>(null);
   const [renamingId, setRenamingId] = useState<string | null>(null);
   const [renameValue, setRenameValue] = useState('');
@@ -372,12 +372,19 @@ export function EditorSidebar() {
               </button>
             </div>
           </div>
-        ) : (
+        ) : showFilter ? (
           <div className="px-2 pb-2">
-            <div hidden={!showFilter} className="flex items-center gap-2 rounded-md border border-border bg-card px-2.5 py-1.5">
+            <div id="document-filter" className="flex items-center gap-2 rounded-md border border-border bg-card px-2.5 py-1.5">
               <Search className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
               <input
-                autoFocus={showFilter} value={query}
+                autoFocus value={query}
+                onKeyDown={(event) => {
+                  if (event.key !== 'Escape') return;
+                  event.stopPropagation();
+                  setShowFilter(false);
+                  setQuery('');
+                  filterToggleRef.current?.focus();
+                }}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search documents"
                 aria-label="Search documents"
@@ -385,7 +392,7 @@ export function EditorSidebar() {
               />
             </div>
           </div>
-        )}
+        ) : null}
 
         {pendingDelete && (
           <div className="mx-2 mb-2 flex items-center justify-between gap-2 rounded-md border border-border bg-muted/60 px-2.5 py-1.5 text-xs">
@@ -594,7 +601,7 @@ export function EditorSidebar() {
           )}
         </div>
       </div>
-      <button type="button" onClick={() => { setShowFilter((v) => !v); if (showFilter) setQuery(''); }} aria-expanded={showFilter} className="mx-3 mb-4 flex min-h-9 items-center gap-2.5 rounded-md px-3 text-[13px] hover:bg-sidebar-accent"><FolderOpen className="h-4 w-4" />All documents</button>
+      <button ref={filterToggleRef} type="button" onClick={() => { setShowFilter((v) => !v); if (showFilter) setQuery(''); }} aria-expanded={showFilter} aria-controls={showFilter ? "document-filter" : undefined} className="mx-3 mb-4 flex min-h-9 items-center gap-2.5 rounded-md px-3 text-[13px] hover:bg-sidebar-accent"><Search className="h-4 w-4" />Filter documents</button>
       <div className="shrink-0 px-3 pb-3 pt-4 space-y-0.5">
         {[
           { label: 'Profiles', icon: UserRound, run: () => useUIStore.getState().setProfileModalOpen(true) },

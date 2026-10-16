@@ -612,7 +612,7 @@ export function Header({
       </div>
       <div className="flex min-w-0 flex-wrap items-center gap-1 px-4 sm:px-6 pb-2 text-xs">
         <DocumentNavigation />
-        <Button variant="ghost" size="sm" className="h-10 sm:h-8 px-2" onClick={openHistory} disabled={!currentId}><History className="h-3.5 w-3.5" />History</Button>
+        <Button variant="ghost" size="sm" className="ml-auto h-10 sm:h-8 px-2" onClick={openHistory} disabled={!currentId}><History className="h-3.5 w-3.5" />History</Button>
         <Button data-tour="batch" variant="ghost" size="sm" className="h-10 sm:h-8 px-2" onClick={() => setBatchModalOpen(true)}><Layers className="h-3.5 w-3.5" />Batch</Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

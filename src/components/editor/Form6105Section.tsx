@@ -368,7 +368,7 @@ export function Form6105Section() {
         {/* Content Section */}
         <AccordionItem value="content" id="sec-content" tabIndex={-1} data-section="content">
           <AccordionTrigger className="hover:no-underline">
-            <span className="font-medium">Counseling Content</span>
+            <span className="font-medium">Action Details</span>
           </AccordionTrigger>
           <AccordionContent className="space-y-4 pt-2">
             <div className="space-y-2">

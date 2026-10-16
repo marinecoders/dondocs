@@ -11,7 +11,7 @@ export function DocumentNavigation() {
   const formType = useDocumentStore((s) => s.formType);
   const selectKind = useDocumentsStore((s) => s.selectKind);
 
-  return <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-1">
+  return <div className="flex min-w-0 flex-1 basis-full flex-wrap items-center gap-x-3 gap-y-1 lg:basis-auto">
     <nav aria-label="Document category" data-tour="category" className="flex shrink-0 items-center gap-1 rounded-md bg-muted p-1">
       {(['correspondence', 'forms'] as const).map((kind) => <button
         key={kind}
@@ -25,7 +25,7 @@ export function DocumentNavigation() {
       aria-label="Switch form"
       value={formType}
       onChange={(event) => selectKind('forms', event.target.value as FormType)}
-      className="h-10 w-full min-w-0 rounded-md border border-border bg-background px-2 text-xs focus-visible:outline-2 focus-visible:outline-ring sm:h-8 sm:w-60"
+      className="h-10 min-w-[150px] flex-1 rounded-md border border-border bg-background px-2 text-xs focus-visible:outline-2 focus-visible:outline-ring sm:h-8 sm:w-60 sm:flex-none"
     >
       {FORM_TYPE_CATEGORIES.map((group) => <optgroup key={group.category} label={group.category}>
         {group.types.map((type) => <option key={type} value={type}>{FORM_TYPE_LABELS[type]}</option>)}
@@ -34,7 +34,7 @@ export function DocumentNavigation() {
       type="button"
       onClick={() => useEditorOutlineStore.getState().jump('type')}
       aria-label={`Document type: ${DOC_TYPE_LABELS[docType]}. Change type`}
-      className="flex h-10 max-w-full min-w-0 items-center gap-1 rounded-md px-1 text-left text-xs text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring sm:h-8"
+      className="flex h-10 max-w-full min-w-0 flex-1 items-center gap-1 rounded-md px-1 text-left text-xs text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring sm:h-8 sm:flex-none"
     ><span className="truncate">{DOC_TYPE_LABELS[docType]}</span><ChevronDown className="h-3 w-3 shrink-0" aria-hidden="true" /></button>}
   </div>;
 }

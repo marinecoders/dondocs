@@ -14,7 +14,7 @@ function savedAgo(ts: number): string {
 
 /**
  * Passive "Saved · <time>" indicator reflecting the real last persist (the
- * registry write for correspondence, formStore's persist for forms). Renders
+ * document registry write, including NAVMC forms). Renders
  * nothing until the first save. Replaces the old manual-save toast theater so
  * the UI honestly shows that work is being kept automatically.
  *
@@ -90,12 +90,14 @@ export function SaveStatus({ className }: { className?: string }) {
   // action — offering one there would be a dead end.
   const fix = backupFix(backupStatus, fileMissing, { setupBackup, reconnect, writeNow });
   return (
-    <span className={`inline-flex items-center gap-1 tnum ${base}`}>
-      <Check className="h-3 w-3 text-success" aria-hidden />
-      Saved · {savedAgo(lastSavedAt)}
+    <span className={`inline-flex flex-wrap items-center gap-x-1 tnum ${base}`}>
+      <span className="inline-flex items-center gap-1 whitespace-nowrap" title={`Saved ${savedAgo(lastSavedAt)}`}>
+        <Check className="h-3 w-3 shrink-0 text-success" aria-hidden />
+        Saved<span className="hidden sm:inline"> · {savedAgo(lastSavedAt)}</span>
+      </span>
       {backedUp && (
         <span
-          className="inline-flex items-center gap-1"
+          className="inline-flex items-center gap-1 whitespace-nowrap"
           title={`Auto-backup is on — your account mirrors to ${backupFileName ?? 'your backup file'} after every save. Last backup ${savedAgo(lastBackupAt)}.`}
         >
           <span aria-hidden>·</span>
@@ -104,7 +106,7 @@ export function SaveStatus({ className }: { className?: string }) {
         </span>
       )}
       {localOnly && (
-        <>
+        <span className="inline-flex items-center gap-1 whitespace-nowrap">
           <span aria-hidden>·</span>
           {fix ? (
             <button
@@ -114,18 +116,18 @@ export function SaveStatus({ className }: { className?: string }) {
               // control still matches "click Local only".
               aria-label={`Local only — ${fix.label}`}
               title={localOnlyHint(backupStatus, fileMissing)}
-              className="inline-flex items-center gap-1 rounded-sm underline decoration-dotted underline-offset-2 outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
+              className="inline-flex items-center gap-1 whitespace-nowrap rounded-sm underline decoration-dotted underline-offset-2 outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
             >
-              <HardDrive className="h-3 w-3" aria-hidden />
+              <HardDrive className="hidden h-3 w-3 shrink-0 sm:block" aria-hidden />
               Local only
             </button>
           ) : (
-            <span className="inline-flex items-center gap-1" title={localOnlyHint(backupStatus, fileMissing)}>
-              <HardDrive className="h-3 w-3" aria-hidden />
+            <span className="inline-flex items-center gap-1 whitespace-nowrap" title={localOnlyHint(backupStatus, fileMissing)}>
+              <HardDrive className="hidden h-3 w-3 shrink-0 sm:block" aria-hidden />
               Local only
             </span>
           )}
-        </>
+        </span>
       )}
     </span>
   );

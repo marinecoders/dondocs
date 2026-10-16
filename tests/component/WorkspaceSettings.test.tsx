@@ -16,9 +16,11 @@ beforeEach(() => {
 
 describe('workspace settings and help', () => {
   it('offers exactly three appearances and persists the choice', async () => {
+    useUIStore.getState().setTheme('classic');
     useUIStore.getState().setSettingsOpen(true);
     render(<SettingsModal />);
     expect(screen.getAllByRole('radio')).toHaveLength(3);
+    expect(screen.getByRole('radio', { name: 'Classic' })).toHaveFocus();
     for (const theme of ['Dark', 'Classic', 'Light']) {
       await userEvent.click(screen.getByRole('radio', { name: theme }));
       expect(screen.getByRole('radio', { name: theme })).toBeChecked();

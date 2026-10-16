@@ -1932,75 +1932,75 @@ ${texFiles['body.tex'] || '% No body content'}
         <div className="flex flex-1 min-w-0 flex-col overflow-hidden">
           {commandPaletteOpen && <CommandPalette open presentation="workspace" onClose={() => setCommandPaletteOpen(false)} groups={commandGroups} />}
           <div className="flex flex-1 min-h-0 flex-col overflow-hidden" style={{ display: commandPaletteOpen ? 'none' : undefined }}>
-      <Header
-        onDownloadPdf={handleDownloadPdf}
-        onDownloadTex={handleDownloadTex}
-        onDownloadDocx={handleDownloadDocx}
-        onDownloadFlatTex={handleDownloadFlatTex}
-        onRefreshPreview={documentCategory === 'forms' ? () => setFormRefresh((n) => n + 1) : compilePdf}
-        isCompiling={previewBusy}
-        isDocxGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('docx-')}
-        isPdfGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('pdf-')}
-        isFormsMode={documentCategory === 'forms'}
-      />
+            <Header
+              onDownloadPdf={handleDownloadPdf}
+              onDownloadTex={handleDownloadTex}
+              onDownloadDocx={handleDownloadDocx}
+              onDownloadFlatTex={handleDownloadFlatTex}
+              onRefreshPreview={documentCategory === 'forms' ? () => setFormRefresh((n) => n + 1) : compilePdf}
+              isCompiling={previewBusy}
+              isDocxGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('docx-')}
+              isPdfGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('pdf-')}
+              isFormsMode={documentCategory === 'forms'}
+            />
 
-      <StorageNotice placement="header" />
-      <ConnectivityModal />
-      <BackupNotice />
-      <InstallNotice />
+            <StorageNotice placement="header" />
+            <ConnectivityModal />
+            <BackupNotice />
+            <InstallNotice />
 
-        <MobileRecents />
-        <VersionHistoryModal />
-      <TrashModal />
-      <SettingsModal />
-      <HelpModal />
+            <MobileRecents />
+            <VersionHistoryModal />
+            <TrashModal />
+            <SettingsModal />
+            <HelpModal />
 
-        <main id={commandPaletteOpen ? undefined : 'main-content'} ref={mainContainerRef} className="flex flex-1 min-w-0 overflow-hidden">
-        {/* Form Panel - takes remaining space when preview is visible */}
-        <div
-          className="min-w-0 overflow-hidden"
-          style={{
-            // shrink=1 so the panels absorb the divider's width; with shrink=0 the
-            // preview's right edge got clipped.
-            flex: previewVisible && !isMobile ? `1 1 ${100 - previewWidth}%` : '1 1 100%',
-          }}
-        >
-          <FormPanel />
-        </div>
+            <main id={commandPaletteOpen ? undefined : 'main-content'} ref={mainContainerRef} className="flex flex-1 min-w-0 overflow-hidden">
+              {/* Form Panel - takes remaining space when preview is visible */}
+              <div
+                className="min-w-0 overflow-hidden"
+                style={{
+                  // shrink=1 so the panels absorb the divider's width; with shrink=0 the
+                  // preview's right edge got clipped.
+                  flex: previewVisible && !isMobile ? `1 1 ${100 - previewWidth}%` : '1 1 100%',
+                }}
+              >
+                <FormPanel />
+              </div>
 
-        {/* Resizable divider - only show on desktop when preview is visible */}
-        {previewVisible && !isMobile && (
-          <ResizableDivider
-            onResize={setPreviewWidth}
-            containerRef={mainContainerRef}
-            currentWidth={previewWidth}
-          />
-        )}
+              {/* Resizable divider - only show on desktop when preview is visible */}
+              {previewVisible && !isMobile && (
+                <ResizableDivider
+                  onResize={setPreviewWidth}
+                  containerRef={mainContainerRef}
+                  currentWidth={previewWidth}
+                />
+              )}
 
-        {/* Preview Panel - width controlled by previewWidth */}
-        <div
-          className="min-w-0 overflow-hidden"
-          style={{
-            flex: previewVisible && !isMobile ? `1 1 ${previewWidth}%` : undefined,
-            display: previewVisible || isMobile ? 'block' : 'none',
-          }}
-        >
-          <PreviewPanel
-            documentId={currentDocId ?? undefined}
-            onDownloadPdf={handleDownloadPdf}
-            pdfUrl={currentPreviewUrl}
-            isCompiling={previewBusy}
-            isWarmingUp={documentCategory === 'forms' ? false : !isReady}
-            previewEnhanced={documentCategory === 'forms' ? true : previewEnhanced}
-            error={documentCategory === 'forms' ? formError : (compileError || engineError)}
-          />
-        </div>
-        </main>
-        <StorageNotice placement="footer" />
-        <div className="workspace-reviewbar flex shrink-0 flex-wrap items-center justify-between gap-2 border-t border-border px-4 sm:px-6 py-1.5 text-xs text-muted-foreground">
-          <ReadinessMeter />
-          <span className="hidden md:inline">Unofficial · Beta</span>
-        </div>
+              {/* Preview Panel - width controlled by previewWidth */}
+              <div
+                className="min-w-0 overflow-hidden"
+                style={{
+                  flex: previewVisible && !isMobile ? `1 1 ${previewWidth}%` : undefined,
+                  display: previewVisible || isMobile ? 'block' : 'none',
+                }}
+              >
+                <PreviewPanel
+                  documentId={currentDocId ?? undefined}
+                  onDownloadPdf={handleDownloadPdf}
+                  pdfUrl={currentPreviewUrl}
+                  isCompiling={previewBusy}
+                  isWarmingUp={documentCategory === 'forms' ? false : !isReady}
+                  previewEnhanced={documentCategory === 'forms' ? true : previewEnhanced}
+                  error={documentCategory === 'forms' ? formError : (compileError || engineError)}
+                />
+              </div>
+            </main>
+            <StorageNotice placement="footer" />
+            <div className="workspace-reviewbar flex shrink-0 flex-wrap items-center justify-between gap-2 border-t border-border px-4 sm:px-6 py-1.5 text-xs text-muted-foreground">
+              <ReadinessMeter />
+              <span className="hidden md:inline">Unofficial · Beta</span>
+            </div>
           </div>
         </div>
       </div>

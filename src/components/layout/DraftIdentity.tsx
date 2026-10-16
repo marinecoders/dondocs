@@ -25,6 +25,6 @@ export function DraftIdentity() {
   const title = entry?.meta.title ?? deriveTitle(getSerializedSession());
   return <div className="flex-1 min-w-0">
     <DraftName key={id} title={title} />
-    <div className="mt-0.5 text-[11px] text-muted-foreground"><SaveStatus />{!entry && <span>New draft · Local workspace</span>}</div>
+    <div className="mt-0.5 text-[11px] text-muted-foreground"><SaveStatus className="text-[11px] text-muted-foreground" />{!entry && <span>New draft · Local workspace</span>}</div>
   </div>;
 }
