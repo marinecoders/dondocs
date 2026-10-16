@@ -7,7 +7,7 @@ import { SessionPreview } from '@/components/SessionPreview';
  */
 
 import { useState, useCallback } from 'react';
-import { Link2, Copy, Check, Loader2, ShieldAlert, AlertTriangle } from 'lucide-react';
+import { Link2, Copy, Check, Loader2, AlertTriangle } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -181,21 +181,10 @@ export function ShareModal({
           </div>
         )}
         {received && <div className="space-y-2 rounded-md border p-3"><SessionPreview session={received} /><p className="text-xs text-muted-foreground">Opens as a new document. Your current draft stays in Recents.</p></div>}
-        <div
-          className="flex gap-3 rounded-md border border-warning/40 bg-warning/10 px-3 py-2.5 text-sm text-warning"
-          role="status"
-          aria-live="polite"
-        >
-          <ShieldAlert className="h-5 w-5 flex-shrink-0 mt-0.5 text-warning" />
-          <div>
-            <p className="font-medium mb-0.5">How encryption works</p>
-            <p className="text-muted-foreground">
-              Encryption is done in your browser only. Your password is never sent to any server.
-              The link contains data encrypted with AES-GCM using a key derived from your password (PBKDF2).
-              Share the link and the password separately; anyone with both can decrypt and open the document.
-            </p>
-          </div>
-        </div>
+        <details className="text-sm text-muted-foreground">
+          <summary className="cursor-pointer py-1">How sharing works</summary>
+          <p className="mt-2">The link holds an encrypted copy made in your browser. Send the password separately. A shared link cannot be revoked, and changes to your draft do not update it.</p>
+        </details>
 
         <div className="flex flex-col gap-4 py-2">
           {isImport && !received && !initialPayload && (

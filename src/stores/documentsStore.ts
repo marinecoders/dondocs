@@ -353,10 +353,9 @@ function broadcastDocs(msg: { type: 'put' | 'delete'; id: string }): void {
 
 function persistEntry(entry: DocumentEntry): void {
   const ui = useUIStore.getState();
-  // No durable store (private mode / blocked): the in-memory doc IS the doc and
-  // StorageNotice already warns — mark optimistically saved, not an error.
+  // Memory-only work must never be presented as a successful durable save.
   if (!isIdbAvailable()) {
-    ui.markSaved();
+    ui.setSaveStatus('error');
     return;
   }
   // Reflect the real write outcome (drives "Saving…" → "Saved" / "Couldn't save")
@@ -364,11 +363,11 @@ function persistEntry(entry: DocumentEntry): void {
   ui.setSaveStatus('saving');
   void idbPutDocument({ id: entry.meta.id, meta: entry.meta, session: entry.session }).then((ok) => {
     if (ok) {
-      ui.markSaved();
+      if (useDocumentsStore.getState().currentId === entry.meta.id && sameContent(getSerializedSession(), entry.session)) ui.markSaved();
       broadcastDocs({ type: 'put', id: entry.meta.id });
       // Mirror the change to the synced backup file (no-op unless one is set up).
       scheduleBackup();
-    } else {
+    } else if (useDocumentsStore.getState().currentId === entry.meta.id) {
       ui.setSaveStatus('error');
     }
   });
@@ -913,6 +912,16 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
 // makes those a no-op.
 let syncTimer: ReturnType<typeof setTimeout> | null = null;
 const scheduleSync = () => {
+  const registry = useDocumentsStore.getState();
+  const entry = registry.currentId ? registry.docs[registry.currentId] : undefined;
+  const reference = entry?.session ?? registry.baseline;
+  if (registry.hydrated && reference) {
+    const live = getSerializedSession();
+    const changed = entry ? !sameContent(reference, live) : hasContentDrift(reference, live);
+    const ui = useUIStore.getState();
+    if (changed) ui.setSaveStatus('pending');
+    else if (ui.saveStatus === 'pending') ui.setSaveStatus(ui.lastSavedAt == null ? 'idle' : 'saved');
+  }
   if (syncTimer) clearTimeout(syncTimer);
   syncTimer = setTimeout(() => useDocumentsStore.getState().syncCurrent(), 1500);
 };

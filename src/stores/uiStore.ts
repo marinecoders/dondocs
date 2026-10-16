@@ -189,9 +189,9 @@ interface UIState {
   lastSavedAt: number | null;
   // In-flight persistence state, so the indicator can show "Saving…" and a real
   // "Couldn't save" instead of always claiming "Saved".
-  saveStatus: 'idle' | 'saving' | 'saved' | 'error';
+  saveStatus: 'idle' | 'pending' | 'saving' | 'saved' | 'error';
   markSaved: () => void;
-  setSaveStatus: (s: 'idle' | 'saving' | 'saved' | 'error') => void;
+  setSaveStatus: (s: 'idle' | 'pending' | 'saving' | 'saved' | 'error') => void;
   // Point the indicator at a specific time (a switched-in doc's last save) or
   // null (a brand-new, never-saved doc) so "Saved · …" reflects THIS document.
   setLastSavedAt: (ts: number | null) => void;

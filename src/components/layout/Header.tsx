@@ -493,7 +493,7 @@ export function Header({
               decoding="sync"
               className="h-7 lg:h-8 w-auto shrink-0 invert dark:invert-0"
             />
-            <div className="flex flex-col min-w-0">
+            <div className="sr-only min-[400px]:not-sr-only min-[400px]:flex min-[400px]:flex-col min-w-0">
               <h1 className="text-base font-semibold tracking-[-0.01em] text-foreground leading-tight truncate">
                 DonDocs
               </h1>
@@ -523,7 +523,7 @@ export function Header({
             type="button"
             onClick={() => setCommandPaletteOpen(true)}
             aria-label="Search or jump to…"
-            className="flex lg:hidden h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted outline-none focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+            className="flex lg:hidden shrink-0 h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted outline-none focus-visible:ring-ring/50 focus-visible:ring-[3px]"
           >
             <Search className="h-4 w-4" aria-hidden="true" />
           </button>
@@ -551,7 +551,7 @@ export function Header({
               onClick={handleUndo}
               disabled={!canUndo}
               aria-label="Undo"
-              className="h-8 w-8"
+              className="hidden min-[400px]:inline-flex h-8 w-8"
             >
               <Undo2 className="h-4 w-4" aria-hidden="true" />
             </Button>
@@ -563,7 +563,7 @@ export function Header({
               onClick={handleRedo}
               disabled={!canRedo}
               aria-label="Redo"
-              className="h-8 w-8"
+              className="hidden min-[400px]:inline-flex h-8 w-8"
             >
               <Redo2 className="h-4 w-4" aria-hidden="true" />
             </Button>
@@ -621,7 +621,7 @@ export function Header({
             }}
           >
             <DropdownMenuTrigger asChild>
-              <Button data-tour="save" variant="outline" size="sm" className="h-8 px-2 lg:px-3">
+              <Button data-tour="save" aria-label="Save" variant="outline" size="sm" className="h-8 px-2 lg:px-3">
                 <Save className="h-4 w-4 lg:mr-2" />
                 <span className="hidden lg:inline">Save</span>
               </Button>
@@ -727,7 +727,7 @@ export function Header({
           {/* Download dropdown - always visible but compact on smaller screens */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button data-tour="download" variant="default" size="sm" className="h-8 px-2 lg:px-3">
+              <Button data-tour="download" aria-label="Download" variant="default" size="sm" className="h-8 px-2 lg:px-3">
                 <Download className="h-4 w-4 lg:mr-2" />
                 <span className="hidden lg:inline">Download</span>
               </Button>
@@ -917,6 +917,8 @@ export function Header({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-52">
               {/* Quick actions */}
+              <DropdownMenuItem className="min-[400px]:hidden" onClick={handleUndo} disabled={!canUndo}><Undo2 className="h-4 w-4 mr-2" />Undo</DropdownMenuItem>
+              <DropdownMenuItem className="min-[400px]:hidden" onClick={handleRedo} disabled={!canRedo}><Redo2 className="h-4 w-4 mr-2" />Redo</DropdownMenuItem>
               <DropdownMenuItem onClick={onRefreshPreview} disabled={isCompiling}>
                 <RefreshCw className={`h-4 w-4 mr-2 ${isCompiling ? 'animate-spin' : ''}`} />
                 Refresh Preview

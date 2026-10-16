@@ -2,8 +2,7 @@ import { X, Loader2, AlertCircle, ScrollText, Download, FileText } from 'lucide-
 import { Button } from '@/components/ui/button';
 import { useUIStore } from '@/stores/uiStore';
 import { useLogStore } from '@/stores/logStore';
-import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
-import { debug } from '@/lib/debug';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 // Static import on purpose: this modal is itself lazy-loaded from App, and the
 // desktop panel dynamically imports the same viewer — Rollup therefore emits
 // PdfViewer (react-pdf + pdf.js) as one shared chunk used by both surfaces.
@@ -16,7 +15,7 @@ interface MobilePreviewModalProps {
   pdfUrl: string | null;
   isCompiling: boolean;
   error: string | null;
-  onDownloadPdf?: () => void;
+  onDownloadPdf: () => void;
 }
 
 /**
@@ -25,7 +24,7 @@ interface MobilePreviewModalProps {
  * renders), which brings zoom, page navigation, and the flicker-free
  * recompile swap to mobile.
  */
-export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreviewModalProps) {
+export function MobilePreviewModal({ pdfUrl, isCompiling, error, onDownloadPdf }: MobilePreviewModalProps) {
   // Individual selectors — modal only re-renders on its own flag changing.
   const mobilePreviewOpen = useUIStore((s) => s.mobilePreviewOpen);
   const setMobilePreviewOpen = useUIStore((s) => s.setMobilePreviewOpen);
@@ -39,23 +38,10 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
     setLogViewerOpen(true);
   };
 
-  // Download via the centralized platform-aware utility (iOS needs a window
-  // pre-opened inside the user gesture).
-  const handleDownload = async () => {
-    if (!pdfUrl) return;
-    const preOpenedWindow = preOpenWindowForIOS();
-    try {
-      const response = await fetch(pdfUrl);
-      const blob = await response.blob();
-      await downloadPdfBlob(blob, 'correspondence.pdf', preOpenedWindow);
-    } catch (err) {
-      debug.error('MobilePreview', 'Download failed:', err);
-      if (preOpenedWindow) {
-        preOpenedWindow.location.href = pdfUrl;
-      } else {
-        window.open(pdfUrl, '_blank');
-      }
-    }
+  // Use the full export path, including enclosures and final signatures.
+  const handleDownload = () => {
+    setMobilePreviewOpen(false);
+    onDownloadPdf();
   };
 
   if (!mobilePreviewOpen) return null;
@@ -66,8 +52,9 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
     // pad by the safe-area insets — without this the title and Download/Logs/
     // Close controls render behind the clock/dynamic island in a standalone
     // install, and the viewer's bottom edge sits under the home indicator.
-    <div
-      className="fixed inset-0 z-50 bg-background flex flex-col"
+    <Dialog open={mobilePreviewOpen} onOpenChange={setMobilePreviewOpen}>
+    <DialogContent showCloseButton={false} aria-describedby={undefined}
+      className="fixed inset-0 left-0 top-0 z-50 h-dvh w-screen max-w-none sm:max-w-none translate-x-0 translate-y-0 bg-background flex flex-col rounded-none border-0 p-0 gap-0"
       style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
     >
       {/* Header */}
@@ -75,21 +62,22 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
         className="flex items-center justify-between px-3 py-2 border-b border-border bg-card shrink-0"
         style={{ paddingTop: 'max(0.5rem, env(safe-area-inset-top, 0px))' }}
       >
-        <span className="font-semibold text-sm">PDF Preview</span>
+        <DialogTitle className="font-semibold text-sm">PDF preview</DialogTitle>
         <div className="flex items-center gap-1">
-          {pdfUrl && !isCompiling && (
-            <Button variant="default" size="sm" onClick={handleDownload} className="h-8 px-3">
+          {pdfUrl && !isCompiling && !displayError && (
+            <Button variant="default" size="sm" onClick={handleDownload} className="h-11 px-3">
               <Download className="h-4 w-4 mr-1.5" />
               Download
             </Button>
           )}
-          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleOpenLogs}>
+          <Button variant="ghost" size="icon" className="h-11 w-11" aria-label="View preview logs" onClick={handleOpenLogs}>
             <ScrollText className="h-4 w-4" />
           </Button>
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8"
+            className="h-11 w-11"
+            aria-label="Close preview"
             onClick={() => setMobilePreviewOpen(false)}
           >
             <X className="h-4 w-4" />
@@ -141,6 +129,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error }: MobilePreview
           </div>
         )}
       </div>
-    </div>
+    </DialogContent>
+    </Dialog>
   );
 }

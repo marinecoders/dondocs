@@ -49,11 +49,11 @@ export function WorkspaceBar() {
       </DropdownMenu>
     </div>
     <div className="flex flex-wrap items-center gap-1.5">
-      <DropdownMenu><DropdownMenuTrigger asChild><Button variant="outline" size="sm"><List className="mr-1.5 h-4 w-4" />Contents</Button></DropdownMenuTrigger>
+      <DropdownMenu><DropdownMenuTrigger asChild><Button variant="outline" size="sm" className="h-11 sm:h-8 px-2"><List className="mr-1.5 h-4 w-4" />Contents</Button></DropdownMenuTrigger>
         <DropdownMenuContent className="max-h-[60vh] overflow-y-auto" onCloseAutoFocus={(e) => { if (pendingSection.current) { e.preventDefault(); useEditorOutlineStore.getState().jump(pendingSection.current); pendingSection.current = null; } }}>{sections.map((s) => <DropdownMenuItem key={s.id} onSelect={() => { pendingSection.current = s.id; }} aria-current={active === s.id ? 'location' : undefined}>{s.label}</DropdownMenuItem>)}</DropdownMenuContent>
       </DropdownMenu>
-      <Button variant="ghost" size="sm" onClick={() => useUIStore.getState().setShareModal('share')}><Link2 className="mr-1.5 h-4 w-4" />Share</Button>
-      <Button variant="ghost" size="sm" aria-pressed={!mobile && preview} onClick={() => mobile ? useUIStore.getState().setMobilePreviewOpen(true) : useUIStore.getState().togglePreview()}><PanelRight className="mr-1.5 h-4 w-4" />{!mobile && preview ? 'Hide preview' : 'Preview'}</Button>
+      <Button variant="ghost" size="sm" className="h-11 sm:h-8 px-2" onClick={() => useUIStore.getState().setShareModal('share')}><Link2 className="mr-1.5 h-4 w-4" />Share</Button>
+      <Button variant="ghost" size="sm" className="h-11 sm:h-8 px-2" aria-pressed={!mobile && preview} onClick={() => mobile ? useUIStore.getState().setMobilePreviewOpen(true) : useUIStore.getState().togglePreview()}><PanelRight className="mr-1.5 h-4 w-4" />{!mobile && preview ? 'Hide preview' : 'Preview'}</Button>
     </div>
   </div>;
 }

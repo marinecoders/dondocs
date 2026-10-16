@@ -1,3 +1,5 @@
+import { prepareBatchCorrespondence } from '@/lib/batchDocument';
+import { finishCorrespondencePdf } from '@/services/pdf/finishCorrespondencePdf';
 import { memo, useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { Plus, Trash2, Download, AlertCircle, FileText, Variable, CheckCircle, XCircle, Copy, Lightbulb, Eye, Loader2, Settings, ArrowRight } from 'lucide-react';
 import {
@@ -34,7 +36,6 @@ import { debug } from '@/lib/debug';
 import { BATCH_PLACEHOLDERS, NAVMC_10274_PLACEHOLDERS, NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
 import {
   detectPlaceholders,
-  replacePlaceholders,
   applyPlaceholdersToNavmc10274,
   applyPlaceholdersToNavmc11811,
   type PlaceholderValues,
@@ -383,40 +384,8 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   // which would change createModifiedStore, which would change
   // generatePdfForRow, which would change handlePreview, which is a prop of
   // BatchModalRow and would defeat its memo.
-  const createModifiedStore = useCallback((values: PlaceholderValue) => {
-    const store = useBatchStore.getState().source ?? getSerializedSession();
-    return {
-      docType: store.docType,
-      formData: {
-        ...store.formData,
-        to: replacePlaceholders(store.formData.to || '', values),
-        from: replacePlaceholders(store.formData.from || '', values),
-        via: replacePlaceholders(store.formData.via || '', values),
-        subject: replacePlaceholders(store.formData.subject || '', values),
-        serial: replacePlaceholders(store.formData.serial || '', values),
-      },
-      references: store.references.map((ref) => ({
-        ...ref,
-        title: replacePlaceholders(ref.title, values),
-      })),
-      enclosures: store.enclosures.map((encl) => ({
-        ...encl,
-        title: replacePlaceholders(encl.title, values),
-      })),
-      paragraphs: store.paragraphs.map((para) => ({
-        ...para,
-        text: replacePlaceholders(para.text, values),
-      })),
-      copyTos: store.copyTos.map((ct) => ({
-        ...ct,
-        text: replacePlaceholders(ct.text, values),
-      })),
-      distributions: store.distributions.map((d) => ({
-        ...d,
-        text: replacePlaceholders(d.text, values),
-      })),
-    };
-  }, []);
+  const createModifiedStore = useCallback((values: PlaceholderValue) =>
+    prepareBatchCorrespondence(useBatchStore.getState().source ?? getSerializedSession(), values), []);
 
   // Create modified NAVMC form data with placeholder replacements.
   // Same getState() pattern as createModifiedStore — keeps identity stable.
@@ -448,7 +417,8 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
           modifiedData,
           navmc10274Templates.page1,
           navmc10274Templates.page2,
-          navmc10274Templates.page3
+          navmc10274Templates.page3,
+          { includeCoverPage: (useBatchStore.getState().source ?? getSerializedSession()).forms?.includeCoverPage ?? false }
         );
       } else if (formType === 'navmc_118_11') {
         if (!navmc11811Template) {
@@ -461,16 +431,20 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     }
 
     // Correspondence mode: use LaTeX compilation, retrying on ENGINE_RESET_NEEDED
-    const modifiedStore = createModifiedStore(values);
-    const { texFiles } = generateAllLatexFiles(modifiedStore);
+    const modifiedStore = await createModifiedStore(values);
+    const generated = generateAllLatexFiles(modifiedStore);
+    const files: Record<string, string | Uint8Array> = { ...generated.texFiles };
+    if (generated.signatureImage) files['attachments/signature.png'] = generated.signatureImage;
 
     for (let retryCount = 0; retryCount <= MAX_RETRIES; retryCount++) {
       try {
-        const pdf = await compile(texFiles);
+        const pdf = await compile(files);
         if (!pdf) {
           throw new Error('PDF compilation failed');
         }
-        return pdf;
+        const finished = await finishCorrespondencePdf(pdf, modifiedStore.docType, modifiedStore.formData, generated);
+        if (finished.errors.length) throw new Error(finished.errors.map((error) => `${error.title}: ${error.error}`).join('; '));
+        return finished.pdfBytes;
       } catch (err) {
         if (err instanceof Error && err.message === 'ENGINE_RESET_NEEDED' && retryCount < MAX_RETRIES) {
           debug.log('Batch', `Engine reset detected, waiting for ready and retrying (attempt ${retryCount + 1}/${MAX_RETRIES})...`);
@@ -1105,6 +1079,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
           <div className="border-t border-border px-6 py-3 text-sm space-y-2" aria-live="polite">
             {source && <p>Job: {jobTitle}. Uses the document as it was when generation started.</p>}
+            <p>Jobs and results are stored in this browser and are excluded from workspace backups. Download files you need to keep.</p>
             {isGenerating && <p>Closing this panel keeps the job running. Keep this tab open.</p>}
             {jobStatus === 'interrupted' && <p>Recovered after interruption. Completed rows are kept; review the interrupted row before retrying it.</p>}
             {recoveryError && <p role="alert" className="text-destructive">{recoveryError}</p>}
