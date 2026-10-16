@@ -1,13 +1,12 @@
-import { ChevronDown } from 'lucide-react';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
-import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
-import { DOC_TYPE_LABELS, FORM_TYPE_CATEGORIES, FORM_TYPE_LABELS, type FormType } from '@/types/document';
+import { DOC_TYPE_CATEGORIES, DOC_TYPE_LABELS, FORM_TYPE_CATEGORIES, FORM_TYPE_LABELS, type FormType } from '@/types/document';
 
 /** Category changes resume a separate draft; they never convert the open one. */
 export function DocumentNavigation() {
   const category = useDocumentStore((s) => s.documentCategory);
   const docType = useDocumentStore((s) => s.docType);
+  const setDocType = useDocumentStore((s) => s.setDocType);
   const formType = useDocumentStore((s) => s.formType);
   const selectKind = useDocumentsStore((s) => s.selectKind);
 
@@ -30,11 +29,15 @@ export function DocumentNavigation() {
       {FORM_TYPE_CATEGORIES.map((group) => <optgroup key={group.category} label={group.category}>
         {group.types.map((type) => <option key={type} value={type}>{FORM_TYPE_LABELS[type]}</option>)}
       </optgroup>)}
-    </select> : <button
-      type="button"
-      onClick={() => useEditorOutlineStore.getState().jump('type')}
-      aria-label={`Document type: ${DOC_TYPE_LABELS[docType]}. Change type`}
-      className="flex h-10 max-w-full min-w-0 flex-1 items-center gap-1 rounded-md px-1 text-left text-xs text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring sm:h-8 sm:flex-none"
-    ><span className="truncate">{DOC_TYPE_LABELS[docType]}</span><ChevronDown className="h-3 w-3 shrink-0" aria-hidden="true" /></button>}
+    </select> : <select
+      aria-label="Correspondence type"
+      value={docType}
+      onChange={(event) => setDocType(event.target.value)}
+      className="h-10 min-w-[150px] max-w-full flex-1 rounded-md border border-border bg-background px-2 text-xs focus-visible:outline-2 focus-visible:outline-ring sm:h-8 sm:w-72 sm:flex-none"
+    >
+      {DOC_TYPE_CATEGORIES.map((group) => <optgroup key={group.category} label={group.category}>
+        {group.types.map((type) => <option key={type} value={type}>{DOC_TYPE_LABELS[type]}</option>)}
+      </optgroup>)}
+    </select>}
   </div>;
 }
