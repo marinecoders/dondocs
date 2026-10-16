@@ -1,5 +1,6 @@
 import { DISCREPANCY_NOTICE, MI_REPORTING } from '@/data/techpub/sections';
 import { PUBLICATION_TYPES } from '@/data/techpub/publicationTypes';
+import { I_TYPE_TABLES } from '@/data/techpub/tables';
 import { iTypeExportErrors } from '@/lib/iTypePreflight';
 import { publicationMarking } from '@/lib/publicationMarking';
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
@@ -203,6 +204,10 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
       expect((left + right) / 2).toBeCloseTo(306, 0);
       const rules = (await pdfRules(bytes, page)).filter((r) => r.right - r.left > 400);
       for (const rule of rules) expect(rule.weight).toBeCloseTo(0.75, 2);
+      for (const rule of rules) {
+        expect(rule.left).toBeCloseTo(72, 2);
+        expect(rule.right).toBeCloseTo(540, 2);
+      }
       expect(rules).toHaveLength(page === 3 || page === text.length ? 2 : 1);
       const lastRow = Math.min(...items.filter((item) => item.str === 'BOLT').map((item) => item.transform[5]));
       expect(rules.some((rule) => rule.top < lastRow)).toBe(page === text.length);
@@ -219,17 +224,48 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
     const coverRules = (await pdfRules(bytes, 1)).filter((r) => r.right - r.left > 400);
     expect(coverRules.length).toBeGreaterThan(0);
     for (const rule of coverRules) expect(rule.weight).toBeCloseTo(0.75, 2);
+    for (const rule of coverRules) {
+      expect(rule.left).toBeCloseTo(72, 2);
+      expect(rule.right).toBeCloseTo(540, 2);
+    }
     const tablePages = text.flatMap((page, i) => page.includes('MODEL-') ? [i + 1] : []);
     expect(tablePages.length).toBeGreaterThan(1);
     for (const page of tablePages) {
       const rules = (await pdfRules(bytes, page)).filter((r) => r.right - r.left > 400);
       for (const rule of rules) expect(rule.weight).toBeCloseTo(0.75, 2);
+      for (const rule of rules) {
+        expect(rule.left).toBeCloseTo(72, 2);
+        expect(rule.right).toBeCloseTo(540, 2);
+      }
       const last = page === tablePages.at(-1);
       expect(rules).toHaveLength(page === tablePages[0] || last ? 2 : 1);
       const items = await textItems(bytes, page);
       const lastRow = Math.min(...items.filter((item) => item.str.startsWith('MODEL-')).map((item) => item.transform[5]));
       expect(rules.some((rule) => rule.top < lastRow)).toBe(last);
     }
+  }, 60_000);
+
+  it.each([
+    ['stock', true], ['stock', false], ['software', true], ['software', false],
+  ] as const)('fits every %s table within the text block (item column: %s)', async (mode, itemUsed) => {
+    const s = baseline();
+    s.paragraphs = I_TYPE_TABLES.map((table) => ({ level: 0, header: table.name, text: '', tableKey: table.key, tableIdentifierMode: mode }));
+    s.publicationTables = Object.fromEntries(I_TYPE_TABLES.map((table) => [table.key, [{ values: {
+      item: itemUsed ? '1' : '', description: 'BOLT', nsn: '1005-01-566-1100', softwareVersion: 'v2.4.1', pn: 'ABC123', qty: '2', tamcn: 'A02550G', id: '11030A',
+    } }]]));
+    const bytes = await production(s);
+    const text = pages(bytes, `table-widths-${mode}-${itemUsed}`);
+    let horizontalRules = 0;
+    for (let page = 1; page <= text.length; page++) {
+      const rules = (await pdfRules(bytes, page)).filter((r) => r.right - r.left > 400);
+      for (const rule of rules) {
+        expect(rule.left).toBeCloseTo(72, 2);
+        expect(rule.right).toBeCloseTo(540, 2);
+        expect(rule.weight).toBeCloseTo(0.75, 2);
+      }
+      horizontalRules += rules.length;
+    }
+    expect(horizontalRules).toBeGreaterThanOrEqual(8 + 3 * I_TYPE_TABLES.length);
   }, 60_000);
 
   it.each([false, true])('rejects an oversized later table row or component group (nested: %s)', async (nested) => {

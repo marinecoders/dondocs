@@ -74,10 +74,6 @@ const UNBREAKABLE_RUN = /[A-Za-z0-9()./,]{12,}/g;
 const breakLongTokens = (escaped: string) =>
   escaped.replace(UNBREAKABLE_RUN, (run) => run.split('').join('\\discretionary{}{}{}'));
 
-/** The text block of a letter page and LaTeX's default column padding. */
-const TEXT_WIDTH_IN = 6.5;
-const TABCOLSEP_IN = 6 / 72;
-
 function validatedPocEmail(raw: string | undefined | null): string {
   if (!raw) return '';
   // The user might paste `mailto:foo@bar.com` — strip the prefix so
@@ -826,12 +822,12 @@ function generatePublicationTable(tableKey: string, rows: PublicationTableRow[],
     { first: '0.1in', hang: '0.18in' },
     { first: '0.28in', hang: '0.18in' },
   ];
-  // Column widths are proportions of the text block less the padding each
-  // column adds on both sides, so the table ends at the right margin.
-  const padding = spec.columns.length * 2 * TABCOLSEP_IN;
+  // TeX subtracts the actual padding and rules. The final column receives
+  // the remainder so rounding cannot move the table beyond the text block.
   const proportion = spec.columns.reduce((sum, c) => sum + parseFloat(c.width), 0);
-  const scale = (TEXT_WIDTH_IN - padding) / proportion;
-  const colSpec = spec.columns.map((c) => `p{${(parseFloat(c.width) * scale).toFixed(2)}in}`).join('|');
+  const widths = spec.columns.slice(0, -1).map((c) => `${(parseFloat(c.width) / proportion).toFixed(6)}\\dondocsTableWidth`);
+  const colSpec = [...widths, `\\dimexpr\\dondocsTableWidth-${widths.join('-')}\\relax`].map((width) => `p{${width}}`).join('|');
+  const setWidth = `\\dondocsSetTableWidth{${spec.columns.length}}`;
   const head = spec.columns.map((c) => c.key === 'softwareVersion'
     ? '\\raggedright\\textbf{Current\\newline Software/\\allowbreak Firmware\\newline (S/F) Version}'
     : `\\textbf{${escapeLatex(c.label)}}`).join(' & ');
@@ -895,7 +891,7 @@ ${group.join('\n')}
   \\PackageError{I-Type}{${escapeLatex(fullSpec.name)} row group ${index + 1} exceeds one page; shorten or divide its content}{Each row and its attached component heading must fit below the repeated table heading.}
 \\fi
 `).join('');
-    return `${checks}\\setbox\\dondocsTableStart=\\vbox{\\hsize=\\textwidth
+    return `${setWidth}${checks}\\setbox\\dondocsTableStart=\\vbox{\\hsize=\\textwidth
 {\\renewcommand{\\arraystretch}{1.3}\\begin{tabular}{|${colSpec}|}
 \\hline ${head} \\tabularnewline \\hline
 ${lines.slice(0, firstGroupLines).join('\n')}
@@ -912,6 +908,7 @@ ${lines.slice(0, firstGroupLines).join('\n')}
   const continued = `${continuedTitle}\n    ${head} \\tabularnewline\n    \\hline\n    \\endhead`;
   return `\\vspace{6pt}
 {\\renewcommand{\\arraystretch}{1.3}\\setlength{\\LTpre}{0pt}\\setlength{\\LTpost}{12pt}
+${setWidth}
 \\begin{longtable}[l]{|${colSpec}|}
     \\hline
     ${head} \\tabularnewline

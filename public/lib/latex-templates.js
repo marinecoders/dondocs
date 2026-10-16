@@ -2604,6 +2604,10 @@ const LATEX_TEMPLATES = {
 \\setlength{\\footskip}{0.43in}
 % MIL-STD-38784C Table I: 0.75-point table rules (PDF points).
 \\setlength{\\arrayrulewidth}{0.75bp}
+\\newdimen\\dondocsTableWidth
+\\newcommand{\\dondocsSetTableWidth}[1]{%
+    \\dondocsTableWidth=\\dimexpr\\textwidth-#1\\tabcolsep-#1\\tabcolsep-#1\\arrayrulewidth-\\arrayrulewidth\\relax
+}
 
 % Enclosures are listed under DISTRIBUTION on the authentication page, not
 % in a letter's Encl: block. The entries themselves stay registered: the
@@ -2631,8 +2635,9 @@ const LATEX_TEMPLATES = {
 % (MIL-STD-38784C 4.7.9.2, 4.7.9.3).
 \\newcommand{\\printEndItemOverflowTable}{%
     \\renewcommand{\\arraystretch}{1.4}%
+    \\dondocsSetTableWidth{4}%
     \\setlength{\\LTpre}{0pt}\\setlength{\\LTpost}{0pt}%
-    \\begin{longtable}{|p{1.87in}|p{1.26in}|p{1.15in}|p{1.55in}|}
+    \\begin{longtable}{|p{0.320755\\dondocsTableWidth}|p{0.216123\\dondocsTableWidth}|p{0.197256\\dondocsTableWidth}|p{\\dimexpr\\dondocsTableWidth-0.320755\\dondocsTableWidth-0.216123\\dondocsTableWidth-0.197256\\dondocsTableWidth\\relax}|}
         \\hline
         \\textbf{NSN} & \\textbf{TAMCN} & \\textbf{ID} & \\textbf{MODEL} \\tabularnewline
         \\hline
@@ -2649,8 +2654,8 @@ const LATEX_TEMPLATES = {
 
 \\newcommand{\\printEndItemTable}[1]{%
     \\renewcommand{\\arraystretch}{1.4}%
-    % The template's column grid, scaled to the text block less column padding.
-    \\begin{tabular}{|p{1.87in}|p{1.26in}|p{1.15in}|p{1.55in}|}
+    \\dondocsSetTableWidth{4}%
+    \\begin{tabular}{|p{0.320755\\dondocsTableWidth}|p{0.216123\\dondocsTableWidth}|p{0.197256\\dondocsTableWidth}|p{\\dimexpr\\dondocsTableWidth-0.320755\\dondocsTableWidth-0.216123\\dondocsTableWidth-0.197256\\dondocsTableWidth\\relax}|}
         \\hline
         \\textbf{NSN} & \\textbf{TAMCN} & \\textbf{ID} & \\textbf{MODEL} \\\\
         \\hline
