@@ -50,6 +50,7 @@ vi.mock('react-pdf', async () => {
 
 import PdfViewer from '@/components/pdf/PdfViewer';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { useUIStore } from '@/stores/uiStore';
 
 // The viewer always lives under the app-level TooltipProvider; mirror that.
 function renderViewer(url: string) {
@@ -70,6 +71,26 @@ beforeAll(() => {
 });
 
 describe('PdfViewer', () => {
+  it('restores a document page and retains its independent editor position', async () => {
+    useUIStore.getState().rememberPosition('draft-page-test', 480, 'body');
+    useUIStore.getState().rememberPreviewPage('draft-page-test', 2);
+    const scroll = vi.spyOn(Element.prototype, 'scrollTo').mockImplementation(() => {});
+    const { unmount } = render(<TooltipProvider><PdfViewer pdfUrl="blob:position" documentId="draft-page-test" /></TooltipProvider>);
+    await waitFor(() => expect(screen.getByLabelText('Page number')).toHaveValue('2'));
+    await waitFor(() => expect(scroll).toHaveBeenCalled());
+    expect(useUIStore.getState().documentPositions['draft-page-test']).toEqual({ top: 480, section: 'body', previewPage: 2 });
+    unmount();
+    scroll.mockRestore();
+  });
+
+  it('routes the viewer download through the complete document export when available', async () => {
+    const download = vi.fn();
+    render(<TooltipProvider><PdfViewer pdfUrl="blob:download" onDownloadPdf={download} /></TooltipProvider>);
+    await waitFor(() => expect(screen.getByText('of 2')).toBeTruthy());
+    fireEvent.click(screen.getByLabelText('Download PDF'));
+    expect(download).toHaveBeenCalledOnce();
+  });
+
   it('renders the toolbar with a tabular page indicator once the doc loads', async () => {
     renderViewer('blob:test/1');
     await waitFor(() => expect(screen.getByText('of 2')).toBeTruthy());

@@ -167,6 +167,7 @@ function App() {
   // the slices that should invalidate the debounced compile; other setter calls
   // no longer wake App. compilePdf reads the full store via getState() at call time.
   const docType = useDocumentStore((s) => s.docType);
+  const currentDocId = useDocumentsStore((s) => s.currentId);
   const formData = useDocumentStore((s) => s.formData);
   const references = useDocumentStore((s) => s.references);
   const enclosures = useDocumentStore((s) => s.enclosures);
@@ -192,6 +193,9 @@ function App() {
 
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [formPdfUrl, setFormPdfUrl] = useState<string | null>(null);
+  const [pdfDocumentId, setPdfDocumentId] = useState<string | null>(null);
+  const [formPdfDocumentId, setFormPdfDocumentId] = useState<string | null>(null);
+  const [renderedCorrespondence, setRenderedCorrespondence] = useState<ReturnType<typeof useDocumentStore.getState> | null>(null);
   const [isCompiling, setIsCompiling] = useState(false);
   const [compileError, setCompileError] = useState<string | null>(null);
   // Full compile-failure log from SwiftLaTeX. Drives the compile-error modal,
@@ -456,6 +460,8 @@ function App() {
   const compilePdf = useCallback(async () => {
     if (useBatchStore.getState().status === 'running') return;
     if (!isReady) return;
+    if (useDocumentStore.getState().documentCategory === 'forms') return;
+    const previewDocumentId = useDocumentsStore.getState().currentId;
     // Invalidate any pending idle upgrade and stamp this compile so a late idle
     // pass from a previous edit can't swap in a stale PDF.
     cancelIdleEnhance();
@@ -473,6 +479,7 @@ function App() {
       // streaming back from the attachments store; make sure they're present
       // before the pipeline reads file.data (no-op once already hydrated).
       await rehydrateEnclosureFiles();
+      if (previewDocumentId !== useDocumentsStore.getState().currentId || gen !== previewGenRef.current) return;
       // Read the full store via getState() at compile time; the debounce dep
       // array already handles when to re-compile, so the state here is current.
       const currentStore = useDocumentStore.getState();
@@ -504,6 +511,7 @@ function App() {
         if (fullQualityPreview && hasEnhancements) {
           pdfBytes = await enhancePreviewPdf(pdfBytes, currentStore);
         }
+        if (previewDocumentId !== useDocumentsStore.getState().currentId || gen !== previewGenRef.current) return;
 
         // Revoke the old URL on a delay: the viewer double-buffers document
         // swaps, so an in-flight load of the outgoing URL may still be reading
@@ -520,6 +528,8 @@ function App() {
         const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         setPdfUrl(url);
+        setPdfDocumentId(previewDocumentId);
+        setRenderedCorrespondence(currentStore);
         setPreviewEnhanced(fullQualityPreview && hasEnhancements);
         // Success: clear any held-over log and reset the modal dedup guard so a
         // future failure (including a re-break of the same error) pops again.
@@ -533,7 +543,7 @@ function App() {
           const runIdleEnhance = () => {
             idleEnhanceRef.current = null;
             if (gen !== previewGenRef.current) return; // a newer compile superseded us
-            void enhancePreviewPdf(basePdfBytes, useDocumentStore.getState())
+            void enhancePreviewPdf(basePdfBytes, currentStore)
               .then((enhanced) => {
                 if (gen !== previewGenRef.current) return; // went stale during the async work
                 const enhancedUrl = URL.createObjectURL(
@@ -560,6 +570,7 @@ function App() {
       // Clear reset flag on success
       isResettingRef.current = false;
     } catch (err) {
+      if (previewDocumentId !== useDocumentsStore.getState().currentId || gen !== previewGenRef.current) return;
       console.error('Compilation error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Compilation failed';
       // Get compile log directly from error if available (for immediate access)
@@ -578,7 +589,7 @@ function App() {
         }
       }
     } finally {
-      setIsCompiling(false);
+      if (gen === previewGenRef.current) setIsCompiling(false);
     }
     // documentStore is read via getState() inside, so it's not a dep; only the
     // values closed over are. pdfUrl is captured for revocation.
@@ -603,7 +614,7 @@ function App() {
 
   // Debounced compilation on document changes
   useEffect(() => {
-    if (!isReady || batchRunning) return;
+    if (!isReady || batchRunning || documentCategory === 'forms') return;
 
     if (compileTimeoutRef.current) {
       clearTimeout(compileTimeoutRef.current);
@@ -619,6 +630,9 @@ function App() {
       }
       // A pending edit supersedes any queued idle upgrade from the last compile.
       cancelIdleEnhance();
+      // This is a generation counter, intentionally invalidated at cleanup.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      ++previewGenRef.current;
     };
     // Deps are the slices that should invalidate a re-compile. compilePdf is not
     // a dep: it reads documentStore via getState(), and a new compilePdf identity
@@ -626,6 +640,8 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isReady,
+    currentDocId,
+    documentCategory,
     batchRunning,
     docType,
     formData,
@@ -645,6 +661,13 @@ function App() {
   } | null>(null);
   const [navmc11811Template, setNavmc11811Template] = useState<ArrayBuffer | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
+  const [errorDocumentId, setErrorDocumentId] = useState(currentDocId);
+  // A previous draft's failure must not appear on the newly selected draft.
+  if (errorDocumentId !== currentDocId) {
+    setErrorDocumentId(currentDocId);
+    setCompileError(null);
+    setFormError(null);
+  }
   const [formRefresh, setFormRefresh] = useState(0);
   const [renderedForm, setRenderedForm] = useState<{ type: string; data: unknown; cover: boolean } | null>(null);
   const activeFormData = formType === 'navmc_10274' ? navmc10274 : navmc11811;
@@ -705,6 +728,7 @@ function App() {
         if (cancelled) return;
         if (pdfBytes) {
           setRenderedForm({ type: formType, data: formType === 'navmc_10274' ? navmc10274 : navmc11811, cover: includeCoverPage });
+          setFormPdfDocumentId(currentDocId);
           const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
           const url = URL.createObjectURL(blob);
 
@@ -728,7 +752,7 @@ function App() {
         clearTimeout(formCompileTimeoutRef.current);
       }
     };
-  }, [documentCategory, formType, navmc10274, navmc11811, navmc10274Templates, navmc11811Template, includeCoverPage, formRefresh]);
+  }, [currentDocId, documentCategory, formType, navmc10274, navmc11811, navmc10274Templates, navmc11811Template, includeCoverPage, formRefresh]);
 
   // Track if download is in progress to prevent double downloads
   const downloadInProgressRef = useRef(false);
@@ -1572,7 +1596,6 @@ ${texFiles['body.tex'] || '% No body content'}
     if (commandPaletteOpen) useDocumentsStore.getState().syncCurrent();
   }, [commandPaletteOpen]);
   const allDocs = useDocumentsStore((s) => s.docs);
-  const currentDocId = useDocumentsStore((s) => s.currentId);
   const userTemplates = useUserTemplatesStore((s) => s.templates);
   const commandGroups = useMemo<CommandGroup[]>(() => {
     const groups: CommandGroup[] = [];
@@ -1836,6 +1859,15 @@ ${texFiles['body.tex'] || '% No body content'}
     return groups;
   }, [outlineSections, allDocs, currentDocId, isInstalled, userTemplates]);
 
+  const currentPreviewUrl = documentCategory === 'forms'
+    ? (formPdfDocumentId === currentDocId ? formPdfUrl : null)
+    : (pdfDocumentId === currentDocId ? pdfUrl : null);
+  const correspondenceChanged = renderedCorrespondence?.docType !== docType || renderedCorrespondence?.formData !== formData
+    || renderedCorrespondence?.paragraphs !== paragraphs || renderedCorrespondence?.references !== references
+    || renderedCorrespondence?.enclosures !== enclosures || renderedCorrespondence?.copyTos !== copyTos
+    || renderedCorrespondence?.distributions !== distributions || pdfDocumentId !== currentDocId;
+  const previewBusy = documentCategory === 'forms' ? formIsCompiling : isCompiling || !isReady || (!compileError && correspondenceChanged);
+
   return (
     <TooltipProvider>
     {/* h-screen-dvh (index.css): the shell sizes to the VISIBLE viewport on
@@ -1858,7 +1890,7 @@ ${texFiles['body.tex'] || '% No body content'}
         onDownloadDocx={handleDownloadDocx}
         onDownloadFlatTex={handleDownloadFlatTex}
         onRefreshPreview={documentCategory === 'forms' ? () => setFormRefresh((n) => n + 1) : compilePdf}
-        isCompiling={isCompiling}
+        isCompiling={previewBusy}
         isDocxGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('docx-')}
         isPdfGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('pdf-')}
         isFormsMode={documentCategory === 'forms'}
@@ -1911,8 +1943,10 @@ ${texFiles['body.tex'] || '% No body content'}
           }}
         >
           <PreviewPanel
-            pdfUrl={documentCategory === 'forms' ? formPdfUrl : pdfUrl}
-            isCompiling={documentCategory === 'forms' ? formIsCompiling : (isCompiling || !isReady)}
+            documentId={currentDocId ?? undefined}
+            onDownloadPdf={handleDownloadPdf}
+            pdfUrl={currentPreviewUrl}
+            isCompiling={previewBusy}
             isWarmingUp={documentCategory === 'forms' ? false : !isReady}
             previewEnhanced={documentCategory === 'forms' ? true : previewEnhanced}
             error={documentCategory === 'forms' ? formError : (compileError || engineError)}
@@ -1930,8 +1964,9 @@ ${texFiles['body.tex'] || '% No body content'}
       {mobilePreviewOpen && (
         <Suspense fallback={null}>
           <MobilePreviewModal
-            pdfUrl={documentCategory === 'forms' ? formPdfUrl : pdfUrl}
-            isCompiling={documentCategory === 'forms' ? formIsCompiling : (isCompiling || !isReady)}
+            documentId={currentDocId ?? undefined}
+            pdfUrl={currentPreviewUrl}
+            isCompiling={previewBusy}
             error={documentCategory === 'forms' ? formError : (compileError || engineError)}
             onDownloadPdf={handleDownloadPdf}
           />

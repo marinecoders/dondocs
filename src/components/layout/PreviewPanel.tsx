@@ -18,9 +18,11 @@ interface PreviewPanelProps {
    *  signature (full quality), so the "encl. in download" note can stand down. */
   previewEnhanced?: boolean;
   error: string | null;
+  documentId?: string;
+  onDownloadPdf?: () => void;
 }
 
-export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, previewEnhanced = false, error }: PreviewPanelProps) {
+export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, previewEnhanced = false, error, documentId, onDownloadPdf }: PreviewPanelProps) {
   // Individual selectors so this panel only re-renders when one of these
   // four fields actually changes (not on any other UI-store update).
   const previewVisible = useUIStore((s) => s.previewVisible);
@@ -113,7 +115,7 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
           <>
             <Suspense fallback={null /* the mat behind is already painted */}>
               <div className="absolute inset-0" title="Document preview">
-                <PdfViewer pdfUrl={pdfUrl} />
+                <PdfViewer key={documentId} documentId={documentId} pdfUrl={pdfUrl} onDownloadPdf={onDownloadPdf} />
               </div>
             </Suspense>
             {/* While recompiling, the stale PDF stays visible and unobscured —

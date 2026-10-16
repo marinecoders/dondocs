@@ -176,8 +176,9 @@ interface UIState {
   setSettingsOpen: (open: boolean, section?: 'appearance' | 'preview' | 'backup') => void;
   helpOpen: boolean;
   setHelpOpen: (open: boolean) => void;
-  documentPositions: Record<string, { top: number; section: string | null }>;
+  documentPositions: Record<string, { top: number; section: string | null; previewPage?: number }>;
   rememberPosition: (id: string, top: number, section: string | null) => void;
+  rememberPreviewPage: (id: string, page: number) => void;
   trashOpen: boolean;
   setTrashOpen: (open: boolean) => void;
   historyDocId: string | null;
@@ -314,7 +315,13 @@ export const useUIStore = create<UIState>()(
       rememberPosition: (id, top, section) => set((s) => {
         const positions = { ...s.documentPositions };
         delete positions[id];
-        positions[id] = { top, section };
+        positions[id] = { ...s.documentPositions[id], top, section };
+        return { documentPositions: Object.fromEntries(Object.entries(positions).slice(-200)) };
+      }),
+      rememberPreviewPage: (id, page) => set((s) => {
+        const positions = { ...s.documentPositions };
+        delete positions[id];
+        positions[id] = { ...(s.documentPositions[id] ?? { top: 0, section: null }), previewPage: Math.max(1, Math.floor(page)) };
         return { documentPositions: Object.fromEntries(Object.entries(positions).slice(-200)) };
       }),
       trashOpen: false,

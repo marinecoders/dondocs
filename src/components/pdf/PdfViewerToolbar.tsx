@@ -41,6 +41,7 @@ interface PdfViewerToolbarProps {
   onZoomFitPage: () => void;
   onOpenInTab: () => void;
   onDownload: () => void;
+  downloadLabel?: string;
   fullscreen?: { isFullscreen: boolean; toggle: () => void } | null;
   className?: string;
 }
@@ -101,6 +102,7 @@ export function PdfViewerToolbar({
   onZoomFitPage,
   onOpenInTab,
   onDownload,
+  downloadLabel = 'Download PDF',
   fullscreen,
   className,
 }: PdfViewerToolbarProps) {
@@ -218,7 +220,7 @@ export function PdfViewerToolbar({
             {fullscreen.isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
           </ToolButton>
         )}
-        <ToolButton label="Download PDF" onClick={onDownload}>
+        <ToolButton label={downloadLabel} onClick={onDownload}>
           <Download className="h-4 w-4" />
         </ToolButton>
         <ToolButton label="Open in browser tab" onClick={onOpenInTab}>
@@ -275,7 +277,7 @@ export function PdfViewerToolbar({
             )}
             <DropdownMenuItem onSelect={onDownload}>
               <Download className="h-4 w-4" aria-hidden="true" />
-              Download PDF
+              {downloadLabel}
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={onOpenInTab}>
               <ExternalLink className="h-4 w-4" aria-hidden="true" />

@@ -18,6 +18,8 @@ export interface PdfViewerProps {
   className?: string;
   /** Hide the fullscreen control (the mobile modal is already fullscreen). */
   showFullscreen?: boolean;
+  documentId?: string;
+  onDownloadPdf?: () => void;
 }
 
 /**
@@ -38,7 +40,7 @@ export interface PdfViewerProps {
  *   3. the old gen N layer sticks around ~180ms with a fade-out class (skipped
  *      under prefers-reduced-motion), then unmounts.
  */
-export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: PdfViewerProps) {
+export default function PdfViewer({ pdfUrl, className, showFullscreen = true, documentId, onDownloadPdf }: PdfViewerProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   // The column the pages actually live in — this is what fit modes must track
   // (it shrinks when the thumbnail rail opens; the root does not).
@@ -52,7 +54,8 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
   const { state, onIncomingLoaded, onIncomingReady, onIncomingFailed } = usePdfDocumentSwap(pdfUrl);
 
   const [docMeta, setDocMeta] = useState<{ numPages: number; baseWidth: number; baseAspect: number } | null>(null);
-  const [pageInView, setPageInView] = useState(1);
+  const [initialPage] = useState(() => documentId ? useUIStore.getState().documentPositions[documentId]?.previewPage ?? 1 : 1);
+  const [pageInView, setPageInView] = useState(initialPage);
   const [loadFailed, setLoadFailed] = useState(false);
   // The active layer's scroll position at the moment an incoming document was
   // staged — the hidden layer pre-renders around it. Captured in an effect
@@ -118,6 +121,12 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
   );
 
   const handleActiveFailed = useCallback(() => setLoadFailed(true), []);
+  const rememberPage = useCallback((page: number) => {
+    // Ignore the first empty layer's provisional page-one notification.
+    if (!docMeta) return;
+    setPageInView(page);
+    if (documentId) useUIStore.getState().rememberPreviewPage(documentId, page);
+  }, [documentId, docMeta]);
 
   const openInTab = useCallback(() => {
     window.open(pdfUrl, '_blank', 'noopener');
@@ -269,7 +278,8 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
         onZoomFitWidth={zoomFitWidth}
         onZoomFitPage={zoomFitPage}
         onOpenInTab={openInTab}
-        onDownload={downloadPdf}
+        onDownload={onDownloadPdf ?? downloadPdf}
+        downloadLabel={onDownloadPdf ? 'Download PDF' : 'Download preview PDF'}
         fullscreen={showFullscreen && fullscreen.available ? fullscreen : null}
       />
       <div className="flex min-h-0 flex-1">
@@ -307,10 +317,11 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true }: 
               pageWidth={pageWidth}
               dprCap={dprCap}
               visible
+              initialPage={state.active.gen === 1 ? initialPage : 1}
               thumbPortalTarget={thumbTarget}
               currentPage={pageInView}
               onDocMeta={handleDocMeta}
-              onPageInView={setPageInView}
+              onPageInView={rememberPage}
               onFailed={handleActiveFailed}
             />
           ),

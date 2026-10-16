@@ -39,7 +39,7 @@ describe('workspace settings and help', () => {
     render(<><HelpModal /><SettingsModal /></>);
     await userEvent.click(screen.getByRole('button', { name: 'Backup & restore' }));
     await waitFor(() => expect(screen.getByRole('heading', { name: 'Backup & restore' })).toHaveFocus());
-    expect(screen.queryByRole('dialog', { name: 'Help', exact: true })).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog', { name: 'Help' })).not.toBeInTheDocument();
     expect(screen.getByRole('dialog', { name: 'Settings' })).toBeInTheDocument();
   });
 });

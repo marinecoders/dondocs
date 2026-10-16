@@ -16,6 +16,7 @@ interface MobilePreviewModalProps {
   isCompiling: boolean;
   error: string | null;
   onDownloadPdf: () => void;
+  documentId?: string;
 }
 
 /**
@@ -24,7 +25,7 @@ interface MobilePreviewModalProps {
  * renders), which brings zoom, page navigation, and the flicker-free
  * recompile swap to mobile.
  */
-export function MobilePreviewModal({ pdfUrl, isCompiling, error, onDownloadPdf }: MobilePreviewModalProps) {
+export function MobilePreviewModal({ pdfUrl, isCompiling, error, onDownloadPdf, documentId }: MobilePreviewModalProps) {
   // Individual selectors — modal only re-renders on its own flag changing.
   const mobilePreviewOpen = useUIStore((s) => s.mobilePreviewOpen);
   const setMobilePreviewOpen = useUIStore((s) => s.setMobilePreviewOpen);
@@ -115,7 +116,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error, onDownloadPdf }
         )}
 
         {/* The modal is already full-screen — hide the redundant fullscreen control. */}
-        {pdfUrl && !isCompiling && <PdfViewer pdfUrl={pdfUrl} showFullscreen={false} />}
+        {pdfUrl && !isCompiling && <PdfViewer key={documentId} documentId={documentId} pdfUrl={pdfUrl} showFullscreen={false} onDownloadPdf={handleDownload} />}
 
         {!pdfUrl && !displayError && !isCompiling && (
           <div className="flex flex-col items-center justify-center h-full gap-4">
