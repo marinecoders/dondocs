@@ -56,6 +56,7 @@ function SortableEnclosure({
   onUpdateCoverPage,
   onUpdateCoverDescription,
 }: SortableEnclosureProps) {
+  const isPublication = useDocumentStore((state) => state.docType === 'i_type');
   const {
     attributes,
     listeners,
@@ -143,8 +144,8 @@ function SortableEnclosure({
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="border">85% with Border</SelectItem>
-                    <SelectItem value="fullpage">Full Page (No Margins)</SelectItem>
+                    <SelectItem value="border">{isPublication ? 'Fit with Border' : '85% with Border'}</SelectItem>
+                    <SelectItem value="fullpage">{isPublication ? 'Full Page (Reserve Margins)' : 'Full Page (No Margins)'}</SelectItem>
                     <SelectItem value="fit">Fit to Margins</SelectItem>
                   </SelectContent>
                 </Select>

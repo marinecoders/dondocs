@@ -1455,7 +1455,8 @@ function calculatePageLayout(
   pageHeight = PAGE_HEIGHT,
   publication = false
 ): { scale: number; x: number; y: number; drawBorder: boolean } {
-  switch (style) {
+  // Publication identifiers need their own space, even for imported full-page settings.
+  switch (publication && style === 'fullpage' ? 'fit' : style) {
     case 'fullpage': {
       // Scale to fill the entire page (no margins)
       const scaleX = pageWidth / srcWidth;
