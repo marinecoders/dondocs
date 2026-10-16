@@ -94,4 +94,3 @@ export function getFormSections(formType: FormType): EditorSection[] {
       return [];
   }
 }
-

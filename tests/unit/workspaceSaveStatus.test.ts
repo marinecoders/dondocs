@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest';
 import * as db from '@/lib/documentsDb';
-import { useDocumentsStore } from '@/stores/documentsStore';
+import { useDocumentsStore, exportLibrary } from '@/stores/documentsStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
 beforeEach(() => {
@@ -10,6 +10,11 @@ beforeEach(() => {
 });
 afterEach(() => vi.restoreAllMocks());
 describe('truthful save feedback', () => {
+  it('includes an edit made immediately before a backup', async () => {
+    useDocumentStore.getState().setField('subject', 'Last-second change');
+    const backup = JSON.parse(await exportLibrary());
+    expect(backup.docs[0].session.formData.subject).toBe('Last-second change');
+  });
   it('does not mark newer edits saved when an earlier write finishes', async () => {
     let finish!: (value: boolean) => void;
     vi.spyOn(db, 'idbPutDocument').mockImplementationOnce(() => new Promise((resolve) => { finish = resolve; }));

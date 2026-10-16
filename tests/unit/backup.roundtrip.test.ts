@@ -29,7 +29,7 @@ import { useDocumentsStore } from '@/stores/documentsStore';
 import { useUIStore } from '@/stores/uiStore';
 import { useRoutingStore } from '@/stores/routingStore';
 import type { Profile } from '@/types/document';
-import type { SerializedSession } from '@/stores/documentStore';
+import { getSerializedSession, loadSharedSession, type SerializedSession } from '@/stores/documentStore';
 
 const session = (over: Partial<SerializedSession> = {}): SerializedSession => ({
   documentMode: 'compliant',
@@ -45,6 +45,16 @@ const session = (over: Partial<SerializedSession> = {}): SerializedSession => ({
   timestamp: 1,
   ...over,
 });
+
+function openDocumentFixture(id: string): void {
+  const entry = useDocumentsStore.getState().docs[id];
+  loadSharedSession(entry.session);
+  const liveSession = getSerializedSession();
+  useDocumentsStore.setState((state) => ({
+    baseline: liveSession,
+    docs: { ...state.docs, [id]: { ...entry, session: liveSession } },
+  }));
+}
 
 // A distinctive base64 "signature image" — the exact field silently lost before
 // the full-account backup existed. Must survive the JSON round-trip intact.
@@ -118,6 +128,9 @@ describe('full-account backup round-trip (saves EVERYTHING)', () => {
         },
       },
     });
+
+    // Match a real open editor: backup flushes pending edits before exporting.
+    openDocumentFixture('doc-1');
 
     // ── Build the backup, then confirm the bundle actually carries each store ──
     const json = await buildBackup();
@@ -213,6 +226,7 @@ describe('full-account backup round-trip (saves EVERYTHING)', () => {
         },
       },
     });
+    openDocumentFixture('doc-h');
     // Two version-history entries; the older one referenced snapRef's file.
     await idbAddSnapshot('doc-h', { ts: 100, session: session({ formData: { subject: 'EARLIER DRAFT' } }) });
     await idbAddSnapshot('doc-h', {
