@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
-import type { EditorSection } from './editorSections';
+import type { EditorSection } from '@/lib/editorSections';
 
 /**
  * Section outline for the document form. Lists the current doc type's sections

@@ -19,6 +19,7 @@ export function FormPanel() {
   const isMobile = useUIStore((s) => s.isMobile);
   // The outline is shown beside the editor only on desktop multi-section docs.
   const spyEnabled = sections.length > 1;
+  const pendingJump = useEditorOutlineStore((s) => s.pendingJump);
   const documentId = useDocumentsStore((s) => s.currentId);
 
   // The active section lives in the shared outline store; FormPanel runs the
@@ -139,6 +140,17 @@ export function FormPanel() {
     useEditorOutlineStore.getState().registerJump(jumpTo);
     return () => useEditorOutlineStore.getState().registerJump(null);
   }, [jumpTo]);
+
+  // Apply search navigation after the destination document has rendered and
+  // restored its normal scroll position. Dialog focus restoration runs first.
+  useEffect(() => {
+    if (!pendingJump || pendingJump.documentId !== documentId) return;
+    const frame = requestAnimationFrame(() => {
+      jumpTo(pendingJump.sectionId);
+      useEditorOutlineStore.getState().clearPendingJump();
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [pendingJump, documentId, jumpTo]);
 
   return (
     <div className={`flex flex-col h-full bg-card overflow-hidden w-full ${!isMobile ? 'border-r border-border' : ''}`}>

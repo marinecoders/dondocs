@@ -1,6 +1,6 @@
+import { getEditorSections } from '@/lib/editorSections';
 import { describe, it, expect } from 'vitest';
 import {
-  getEditorSections,
   getFormSectionError,
   getSectionError,
   completenessFrom,

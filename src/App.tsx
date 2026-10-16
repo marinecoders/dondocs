@@ -69,6 +69,9 @@ import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useEditorSections } from '@/components/layout/editorSections';
 import { CommandPalette, type CommandGroup } from '@/components/modals/CommandPalette';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { sessionSearchFields, findSearchMatch } from '@/lib/workspaceSearch';
+import { useUserTemplatesStore } from '@/stores/userTemplatesStore';
+import { LETTER_TEMPLATES } from '@/data/templates';
 import { formatShortcut } from '@/lib/platform';
 import {
   CornerDownRight,
@@ -91,6 +94,9 @@ import {
   MoonStar,
   PanelRight,
   MonitorDown,
+  Settings,
+  Trash2,
+  CircleHelp,
 } from 'lucide-react';
 import { useLogStore } from '@/stores/logStore';
 import { useLatexEngine, useServiceWorker, useInstallPrompt, promptInstall } from '@/hooks';
@@ -107,7 +113,7 @@ import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
 import type { ClassificationInfo, EnclosureError } from '@/services/pdf/mergeEnclosures';
 import { assembleEndorsement, shouldAssembleBasicLetter } from '@/services/pdf/assembleEndorsement';
 import { addSignatureField, addDualSignatureFields, type DualSignatureFieldConfig, type SignatureFieldConfig } from '@/services/pdf/addSignatureField';
-import { DOC_TYPE_CONFIG, type DocumentData } from '@/types/document';
+import { DOC_TYPE_CONFIG, DOC_TYPE_LABELS, FORM_TYPE_LABELS, type DocumentData } from '@/types/document';
 import { detectPII, type PIIDetectionResult } from '@/services/pii/detector';
 import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
 import { prefersMobileLayout, readLayoutEnvironment } from '@/utils/device/layout';
@@ -1696,44 +1702,70 @@ ${texFiles['body.tex'] || '% No body content'}
   // Command palette (⌘K) groups, wired to the real Zustand actions. getState() is
   // read inside each onRun so the actions are always current; the only render-time
   // dependency is the section outline (the "Jump to section" group).
+  useEffect(() => {
+    if (commandPaletteOpen) useDocumentsStore.getState().syncCurrent();
+  }, [commandPaletteOpen]);
   const allDocs = useDocumentsStore((s) => s.docs);
   const currentDocId = useDocumentsStore((s) => s.currentId);
+  const userTemplates = useUserTemplatesStore((s) => s.templates);
   const commandGroups = useMemo<CommandGroup[]>(() => {
     const groups: CommandGroup[] = [];
 
     if (outlineSections.length > 0) {
       groups.push({
         label: 'Jump to section',
+        scope: 'Sections',
         items: outlineSections.map((s) => ({
           id: `jump-${s.id}`,
           label: s.label,
           icon: CornerDownRight,
-          onRun: () => useEditorOutlineStore.getState().jump(s.id),
+          onRun: () => { if (currentDocId) useEditorOutlineStore.getState().requestJump(currentDocId, s.id); },
         })),
       });
     }
 
-    // Switch to a recent document — Recents are otherwise unreachable by keyboard.
-    const recentDocs = Object.values(allDocs)
-      .map((d) => d.meta)
-      .filter((m) => m.id !== currentDocId)
-      .sort((a, b) => b.updatedAt - a.updatedAt)
-      .slice(0, 12);
-    if (recentDocs.length > 0) {
-      groups.push({
-        label: 'Switch to document',
-        items: recentDocs.map((m) => ({
-          id: `switch-${m.id}`,
-          label: m.title,
-          icon: FileText,
-          onRun: () => useDocumentsStore.getState().switchTo(m.id),
+    const documents = Object.values(allDocs).sort((a, b) => b.meta.updatedAt - a.meta.updatedAt);
+    groups.push({
+      label: 'Documents', scope: 'Documents',
+      items: documents.map(({ meta, session }) => {
+        const searchFields = sessionSearchFields(session);
+        return {
+          id: `switch-${meta.id}`, label: meta.title, icon: FileText, searchFields,
+          hint: session.documentCategory === 'forms' ? FORM_TYPE_LABELS[session.formType ?? 'navmc_10274'] : DOC_TYPE_LABELS[session.docType],
+          onRun: (query: string) => {
+            useDocumentsStore.getState().switchTo(meta.id);
+            const match = findSearchMatch(searchFields, query);
+            if (match) useEditorOutlineStore.getState().requestJump(meta.id, match.field.sectionId);
+          },
+        };
+      }),
+    });
+    const openTemplate = (name: string) => {
+      useUIStore.getState().setTemplateSearch(name);
+      useUIStore.getState().setTemplateLoaderOpen(true);
+    };
+    groups.push({
+      label: 'Templates', scope: 'Templates',
+      items: [
+        ...Object.values(userTemplates).map((t) => ({
+          id: `template-user-${t.id}`, label: t.name, icon: FileDown, hint: 'Your template',
+          searchFields: sessionSearchFields(t.session), onRun: () => openTemplate(t.name),
         })),
-      });
-    }
+        ...LETTER_TEMPLATES.map((t) => ({
+          id: `template-${t.id}`, label: t.name, icon: FileDown, hint: t.category,
+          searchFields: [{ text: [t.description, t.subject, t.ssic, ...t.paragraphs.map((p) => p.text)].join(' '), sectionId: 'body', label: 'Template' }],
+          onRun: () => openTemplate(t.name),
+        })),
+      ],
+    });
 
     groups.push({
       label: 'Create',
       items: [
+        ...Object.entries(FORM_TYPE_LABELS).map(([kind, label]) => ({
+          id: `new-${kind}`, label: `New ${label}`, icon: FileText,
+          onRun: () => useDocumentsStore.getState().newDocument(kind as keyof typeof FORM_TYPE_LABELS),
+        })),
         {
           id: 'new-document',
           label: 'New document',
@@ -1869,8 +1901,11 @@ ${texFiles['body.tex'] || '% No body content'}
     }
 
     groups.push({
-      label: 'View',
+      label: 'Settings', scope: 'Settings',
       items: [
+        { id: 'settings', label: 'Settings', hint: 'Appearance, density and preview', icon: Settings, onRun: () => useUIStore.getState().setSettingsOpen(true) },
+        { id: 'trash', label: 'Trash — recover deleted drafts', icon: Trash2, onRun: () => useUIStore.getState().setTrashOpen(true) },
+        { id: 'help', label: 'Help and keyboard shortcuts', icon: CircleHelp, onRun: () => useUIStore.getState().setAboutModalOpen(true) },
         {
           id: 'toggle-theme',
           label: 'Toggle light / dark theme',
@@ -1909,7 +1944,7 @@ ${texFiles['body.tex'] || '% No body content'}
         id: 'lookup-ssic',
         label: 'Look up SSIC code…',
         icon: Hash,
-        onRun: () => useEditorOutlineStore.getState().jump('addressing'),
+        onRun: () => { if (currentDocId) useEditorOutlineStore.getState().requestJump(currentDocId, 'addressing'); },
       });
     }
     if (outlineSections.some((s) => s.id === 'enclosures')) {
@@ -1917,7 +1952,7 @@ ${texFiles['body.tex'] || '% No body content'}
         id: 'attach-enclosure',
         label: 'Attach enclosure…',
         icon: Paperclip,
-        onRun: () => useEditorOutlineStore.getState().jump('enclosures'),
+        onRun: () => { if (currentDocId) useEditorOutlineStore.getState().requestJump(currentDocId, 'enclosures'); },
       });
     }
     insertItems.push({
@@ -1929,7 +1964,7 @@ ${texFiles['body.tex'] || '% No body content'}
     groups.push({ label: 'Insert', items: insertItems });
 
     return groups;
-  }, [outlineSections, allDocs, currentDocId, isInstalled]);
+  }, [outlineSections, allDocs, currentDocId, isInstalled, userTemplates]);
 
   return (
     <TooltipProvider>
@@ -1939,10 +1974,6 @@ ${texFiles['body.tex'] || '% No body content'}
         and preview toolbar under it — with a 100vh fallback for pre-dvh
         engines. */}
     <div className="flex flex-col h-screen-dvh bg-background relative overflow-hidden">
-      {/* The Marine Coders EGA seal (and the animated beams) live inside the
-          editor column (FormPanel) as a single, contained brand watermark. The
-          previous full-viewport seal here duplicated it behind the sidebar and
-          header at some zoom levels, so it was removed. */}
       {/* Skip link for keyboard navigation - WCAG 2.4.1 */}
       <a
         href="#main-content"

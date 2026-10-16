@@ -1,3 +1,4 @@
+import { sessionSearchFields } from '@/lib/workspaceSearch';
 import { create } from 'zustand';
 import { compressedParse } from '@/lib/compressedStorage';
 import { DOC_TYPE_LABELS, FORM_TYPE_LABELS, type FormType, type DocumentCategory } from '@/types/document';
@@ -229,24 +230,8 @@ export function deriveTitle(s: SerializedSession): string {
  * title alone.
  */
 export function searchableText(entry: DocumentEntry): string {
-  const s = entry.session;
-  const fd = s.formData ?? {};
-  const parts: (string | undefined)[] = [
-    entry.meta.title,
-    entry.meta.name,
-    ...(s.forms ? Object.values(s.forms).flatMap((form) => typeof form === 'object' ? Object.values(form).filter((v): v is string => typeof v === 'string') : []) : []),
-    fd.subject,
-    fd.to,
-    fd.from,
-    fd.via,
-    fd.ssic,
-    ...(s.paragraphs ?? []).flatMap((p) => [p.text, p.header]),
-    ...(s.references ?? []).map((r) => r.title),
-    ...(s.enclosures ?? []).map((e) => e.title),
-    ...(s.copyTos ?? []).map((c) => c.text),
-    ...(s.distributions ?? []).map((d) => d.text),
-  ];
-  return parts.filter(Boolean).join(' ').toLowerCase();
+  return [entry.meta.title, entry.meta.name, ...sessionSearchFields(entry.session).map((field) => field.text)]
+    .filter(Boolean).join(' ').toLocaleLowerCase();
 }
 
 /**

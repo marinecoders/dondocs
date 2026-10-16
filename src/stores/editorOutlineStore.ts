@@ -13,6 +13,9 @@ let jumpHandler: ((id: string) => void) | null = null;
 interface EditorOutlineState {
   /** The section currently in view, as computed by FormPanel's scroll-spy. */
   activeId: string | null;
+  pendingJump: { documentId: string; sectionId: string } | null;
+  requestJump: (documentId: string, sectionId: string) => void;
+  clearPendingJump: () => void;
   setActiveId: (id: string | null) => void;
   /** FormPanel registers the function that actually scrolls its viewport. */
   registerJump: (fn: ((id: string) => void) | null) => void;
@@ -22,6 +25,9 @@ interface EditorOutlineState {
 
 export const useEditorOutlineStore = create<EditorOutlineState>((set, get) => ({
   activeId: null,
+  pendingJump: null,
+  requestJump: (documentId, sectionId) => set({ pendingJump: { documentId, sectionId } }),
+  clearPendingJump: () => set({ pendingJump: null }),
   setActiveId: (id) => set((s) => (s.activeId === id ? s : { activeId: id })),
   registerJump: (fn) => {
     jumpHandler = fn;

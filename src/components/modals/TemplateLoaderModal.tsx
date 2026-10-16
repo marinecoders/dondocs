@@ -35,7 +35,8 @@ export function TemplateLoaderModal() {
   // an empty, unloadable template. Only offer it for correspondence documents.
   const isForms = useDocumentStore((s) => s.documentCategory === 'forms');
 
-  const [searchQuery, setSearchQuery] = useState('');
+  const searchQuery = useUIStore((s) => s.templateSearch);
+  const setSearchQuery = useUIStore((s) => s.setTemplateSearch);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<LetterTemplate | null>(null);
   // A user template is selected instead of a built-in (mutually exclusive).

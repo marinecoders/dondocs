@@ -1,3 +1,4 @@
+import { matchesSearch } from '@/lib/workspaceSearch';
 import { useMemo, useState, useRef, useEffect } from 'react';
 import { PanelLeftClose, PanelLeftOpen, Plus, FolderOpen, Layers, Settings, HelpCircle, Search, Trash2, MoreHorizontal, Copy, Pencil, Undo2, History, Pin, PinOff, ArrowDownAZ, Clock, CheckSquare, Check, X } from 'lucide-react';
 import {
@@ -153,7 +154,7 @@ export function EditorSidebar() {
     // Full-text: match the whole document (subject, recipient, routing, SSIC,
     // body, headings, refs/encls), not just the title.
     const metas = Object.values(docs)
-      .filter((d) => (q ? searchableText(d).includes(q) : true))
+      .filter((d) => (q ? matchesSearch(searchableText(d), q) : true))
       .map((d) => d.meta);
     return buildGroups(metas, sort);
   }, [docs, query, sort]);
