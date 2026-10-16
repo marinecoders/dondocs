@@ -21,22 +21,28 @@ export async function resolvePublicationDestinations(bytes: Uint8Array): Promise
     }
   }
   if (!anchors.size) return bytes;
-  const names = pdf.catalog.lookup(PDFName.of('Names'), PDFDict);
-  const destinations = names.lookup(PDFName.of('Dests'), PDFDict);
+  let names = pdf.catalog.lookup(PDFName.of('Names'));
+  if (!(names instanceof PDFDict)) {
+    names = pdf.context.obj({});
+    pdf.catalog.set(PDFName.of('Names'), names);
+  }
+  const entries = new Map<string, import('pdf-lib').PDFObject>();
   const visit = (node: PDFDict) => {
-    const entries = node.lookup(PDFName.of('Names'));
-    if (entries instanceof PDFArray) {
-      for (let i = 0; i < entries.size(); i += 2) {
-        const name = entries.lookup(i);
-        if (!(name instanceof PDFString)) continue;
-        const destination = anchors.get(name.decodeText());
-        if (destination) entries.set(i + 1, destination);
+    const values = node.lookup(PDFName.of('Names'));
+    if (values instanceof PDFArray) {
+      for (let i = 0; i < values.size(); i += 2) {
+        const name = values.lookup(i);
+        if (name instanceof PDFString || name instanceof PDFHexString) entries.set(name.decodeText(), values.get(i + 1));
       }
     }
     const children = node.lookup(PDFName.of('Kids'));
     if (children instanceof PDFArray) for (let i = 0; i < children.size(); i++) visit(children.lookup(i, PDFDict));
   };
-  visit(destinations);
+  const destinations = (names as PDFDict).lookup(PDFName.of('Dests'));
+  if (destinations instanceof PDFDict) visit(destinations);
+  for (const [name, destination] of anchors) entries.set(name, destination);
+  const sorted = [...entries].sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0);
+  (names as PDFDict).set(PDFName.of('Dests'), pdf.context.obj({ Names: sorted.flatMap(([name, destination]) => [PDFString.of(name), destination]) }));
   return pdf.save();
 }
 

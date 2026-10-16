@@ -131,6 +131,7 @@ const BlockRow = memo(function BlockRow({
 }: BlockRowProps) {
   const updateParagraph = useDocumentStore((s) => s.updateParagraph);
   const section = useDocumentStore((s) => publicationSection(s.paragraphs[index] ?? {}));
+  const footnotes = useDocumentStore((s) => s.paragraphs[index]?.tableFootnotes);
   const removeParagraph = useDocumentStore((s) => s.removeParagraph);
   const indentParagraph = useDocumentStore((s) => s.indentParagraph);
   const outdentParagraph = useDocumentStore((s) => s.outdentParagraph);
@@ -423,6 +424,23 @@ const BlockRow = memo(function BlockRow({
             />
           </div>
         </div>
+
+        {showBlockKind && tableKey && (
+          <div className="my-2 space-y-2">
+            {(footnotes ?? []).map((note, noteIndex) => (
+              <div key={note.id} className="flex items-center gap-2">
+                <span className="text-xs">Footnote {note.id}</span>
+                <Input aria-label={`Table footnote ${note.id}`} value={note.text} onChange={(e) => updateParagraph(index, { tableFootnotes: footnotes!.map((n, j) => j === noteIndex ? { ...n, text: e.target.value } : n) })} />
+                <Button variant="ghost" size="sm" aria-label={`Remove footnote ${note.id}`} onClick={() => updateParagraph(index, { tableFootnotes: footnotes!.filter((_, j) => j !== noteIndex) })}><Trash2 className="h-3 w-3" /></Button>
+              </div>
+            ))}
+            <Button variant="outline" size="sm" onClick={() => {
+              let number = 1;
+              while ((footnotes ?? []).some((n) => n.id === String(number))) number++;
+              updateParagraph(index, { tableFootnotes: [...(footnotes ?? []), { id: String(number), text: '' }] });
+            }}>Add table footnote</Button>
+          </div>
+        )}
 
         {/* Hover controls — kept out of the way until you reach for them.
             Order matches the prototype: + heading, nest, move, then the

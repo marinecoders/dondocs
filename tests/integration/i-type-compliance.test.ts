@@ -74,6 +74,45 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
     expect(official.transform[5] - name.transform[5]).toBeGreaterThanOrEqual(48 * 72 / 72.27);
   }, 60_000);
 
+  it('resolves internal paragraph, table and footnote links after assembly', async () => {
+    const s = baseline();
+    const id = 'ABCDEF0123456789ABCDEF0123456789';
+    s.paragraphs = [
+      { level: 0, header: 'Purpose', text: `See {{PUBREF_P_${id}}}, {{PUBREF_T_${id}}}, and {{PUBREF_N_${id}_A}}. Source: https://example.mil/CaseSensitive.` },
+      ...Array.from({ length: 18 }, () => ({ level: 0, text: 'Inspect the equipment. '.repeat(14) })),
+      { level: 0, header: 'Materiel Required', text: 'Use the listed parts.', referenceId: id, tableKey: 'materielRequired', tableFootnotes: [{ id: 'a', text: 'Install two bolts.' }] },
+    ];
+    s.publicationTables = { materielRequired: [{ values: { item: '1', description: 'BOLT', qty: '2' } }] };
+    const base = await production(s);
+    const attachment = await PDFDocument.create(); attachment.addPage();
+    const enclosureBytes = await attachment.save();
+    const merged = await mergeEnclosures(base, [{ number: 1, title: 'Drawing', data: enclosureBytes.buffer as ArrayBuffer, pageStyle: 'fit' }], undefined, true, [], { enclosureLabel: 'footer', header: { line1: s.formData.shortTitle!, line2: '30 October 2026' } });
+    const bytes = await addSignatureField(merged.pdfBytes, { signatoryName: 'J. A. DOE', lastBasicPageIndex: merged.basicPageCount! - 1 });
+    writeFileSync(join(output, 'cross-references.pdf'), bytes);
+    const doc = await getDocument({ data: bytes.slice() }).promise;
+    const linked = [];
+    const urls: string[] = [];
+    for (let page = 1; page <= doc.numPages; page++) {
+      for (const annotation of await (await doc.getPage(page)).getAnnotations()) {
+        if (annotation.url) urls.push(annotation.url);
+        if (typeof annotation.dest === 'string' && annotation.dest.startsWith('itype.')) linked.push(annotation.dest);
+      }
+    }
+    for (const destination of ['itype.p.19', 'itype.table.19', 'itype.note.19.A']) {
+      expect(linked).toContain(destination);
+      const target = await doc.getDestination(destination);
+      expect(target).not.toBeNull();
+      expect(await doc.getPageIndex(target![0])).toBeGreaterThan(1);
+    }
+    expect(urls).toContain('https://example.mil/CaseSensitive');
+    await doc.destroy();
+  }, 60_000);
+
+  it('rejects a long title exceeding four rendered lines', async () => {
+    const s = baseline(); s.formData.subject = 'LONG PUBLICATION TITLE '.repeat(45);
+    await expect(production(s)).rejects.toThrow(/long title exceeds four lines/);
+  }, 60_000);
+
   it('keeps notices and PCN on the cover when six wrapping rows require continuation', async () => {
     const s = baseline();
     Object.assign(s.formData, { classLevel: 'cui', cuiDistStatement: 'D', distReason: 'Critical Technology', distDate: '2026-10-01', cuiControlledBy: 'DOD', cuiCategory: 'CTI', cuiDissemination: 'FEDCON', exportRestricted: true,

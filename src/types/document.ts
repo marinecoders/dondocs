@@ -75,6 +75,8 @@ export interface Enclosure {
 export type PortionMarking = 'U' | 'CUI' | 'FOUO' | 'C' | 'S' | 'TS';
 
 export interface Paragraph {
+  referenceId?: string;
+  tableFootnotes?: { id: string; text: string }[];
   publicationSection?: PublicationSection;
   text: string;
   level: number;

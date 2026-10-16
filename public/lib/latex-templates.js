@@ -2864,7 +2864,7 @@ const LATEX_TEMPLATES = {
 %=============================================================================
 % Page numbers are centred in the footer per the MARCORSYSCOM template. Note
 % this differs from MIL-STD-38784C PDF output (bold, lower right); the
-% customer's own template is treated as authoritative -- see
+% template differences remain unresolved -- see
 % docs/TECHPUB_I_TYPE.md.
 
 % The cover footer carries the CUI designation block and the notices that
@@ -2915,6 +2915,7 @@ const LATEX_TEMPLATES = {
 % header, a strut when the head is being measured. The marking is a
 % textblock*, which is absolutely positioned and so contributes no height --
 % but the line break after it does, which is why the measurement needs it.
+\\newbox\\dondocsTitleBox
 \\newcommand{\\dondocsCoverBannerLines}[1]{%
     % The marking line exists only when there is a marking. An unclassified
     % document expands the macro to nothing, and a line break with nothing
@@ -2925,7 +2926,13 @@ const LATEX_TEMPLATES = {
     % cell would sit on the last line instead.
     \\makebox[\\textwidth]{\\CoverDate\\hfill\\ShortTitle}\\\\
     U.S. MARINE CORPS \\MakeUppercase{\\PublicationTypeName}\\\\
-    \\ifNotEmpty{\\SubjectLine}{\\MakeUppercase{\\SubjectLine}\\\\}%
+    \\ifNotEmpty{\\SubjectLine}{%
+      \\setbox\\dondocsTitleBox=\\vbox{\\hsize=\\textwidth\\centering
+        \\MakeUppercase{\\SubjectLine}\\par
+        \\ifnum\\prevgraf>4\\relax
+          \\errmessage{I-Type long title exceeds four lines. Shorten the title}%
+        \\fi}%
+      \\MakeUppercase{\\SubjectLine}\\\\}%
     \\MakeUppercase{\\TimeCompliance}%
 }
 
@@ -2995,6 +3002,29 @@ const LATEX_TEMPLATES = {
     \\setlength{\\headheight}{26pt}%
 }
 
+
+\\newsavebox{\\dondocsReferenceBox}
+\\newcommand{\\dondocsReferenceLink}[2]{%
+  \\sbox{\\dondocsReferenceBox}{\\textcolor{blue}{\\uline{#2}}}%
+  \\leavevmode\\pdfannot width \\wd\\dondocsReferenceBox height \\ht\\dondocsReferenceBox depth \\dp\\dondocsReferenceBox
+    {/Subtype /Link /Border [0 0 0] /A << /S /GoTo /D (#1) >>}%
+  \\usebox{\\dondocsReferenceBox}%
+}
+\\newcommand{\\dondocsExternalLink}[2]{%
+  \\sbox{\\dondocsReferenceBox}{\\textcolor{blue}{\\uline{#2}}}%
+  \\ifdim\\wd\\dondocsReferenceBox>\\linewidth
+    \\errmessage{Publication reference URL exceeds the line width}%
+  \\fi
+  \\pdfstringdef\\dondocsReferenceURL{#1}%
+  \\leavevmode\\pdfannot width \\wd\\dondocsReferenceBox height \\ht\\dondocsReferenceBox depth \\dp\\dondocsReferenceBox
+    {/Subtype /Link /Border [0 0 0] /A << /S /URI /URI (\\dondocsReferenceURL) >>}%
+  \\usebox{\\dondocsReferenceBox}%
+}
+
+\\newcommand{\\dondocsReferenceAnchor}[1]{%
+  \\hypertarget{#1}{}%
+  \\pdfannot width 0pt height 0pt depth 0pt {/Subtype /Link /Border [0 0 0] /NM (#1)}%
+}
 
 \\newcommand{\\dondocsBookmark}[3]{%
   \\hypertarget{#3}{}%

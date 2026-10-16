@@ -1,3 +1,4 @@
+import { validatePublicationReferences, REFERENCE_TOKEN } from './publicationReferences';
 import { validatePublicationDate } from './publicationDate';
 import { validateMajorItemsOrder } from './majorItemsOrder';
 import { tableSpec } from '@/data/techpub/tables';
@@ -65,10 +66,11 @@ export function iTypeExportErrors(store: Publication): string[] {
   errors.push(...validateCalloutOrder(store.paragraphs).map((f) => f.message));
   const paragraphs = withTimeCompliance(store.paragraphs, d.miUrgency ?? 'normal', d.miCompletionDate);
   errors.push(...validatePublicationStructure(paragraphs, d.publicationType).map((f) => f.message));
+  errors.push(...validatePublicationReferences(paragraphs, store.publicationTables));
   const fields = [d.shortTitle, d.pcn, d.nomenclature, d.subject, d.unitLine1, d.unitLine2, d.unitAddress,
     d.sigFirst, d.sigMiddle, d.sigLast, d.sigTitle, d.controllingOffice, d.pocEmail, d.supersedure,
     d.classifiedBy, d.derivedFrom, d.classReason, d.declassifyOn, d.customClassification];
-  const content = JSON.stringify({ fields, paragraphs, endItems: store.endItems, tables: store.publicationTables });
+  const content = JSON.stringify({ fields, paragraphs: paragraphs.map((p) => ({ ...p, text: p.text.replace(REFERENCE_TOKEN, ''), tableFootnotes: p.tableFootnotes?.map((n) => ({ ...n, text: n.text.replace(REFERENCE_TOKEN, '') })) })), endItems: store.endItems, tables: store.publicationTables });
   if (/\[[A-Za-z][^\]\n]{1,250}\]|\{\{[^}]+\}\}|INSERT LONG TITLE HERE/.test(content)) errors.push('Replace the remaining template prompts and variables before export.');
   return [...new Set(errors)];
 }

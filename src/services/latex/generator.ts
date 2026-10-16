@@ -1,3 +1,5 @@
+import { publicationReferences } from '@/lib/publicationReferences';
+import { publicationReferenceText } from './publicationReferenceText';
 import { publicationNavigation, navigationTex } from './publicationNavigation';
 import { escapeLatex, escapeLatexUrl, processBodyText, formatSubjectForLatex, formatAddressForLatex } from './escaper';
 import { composeSenderSymbol } from './senderSymbol';
@@ -951,9 +953,9 @@ ${lines.slice(0, firstGroupLines).join('\n')}
  * line at 12pt, and left-justified otherwise, which is the safe direction to be
  * wrong in.
  */
-function generateCallout(kind: CalloutKind, text: string, keepWithNext = false): string {
+function generateCallout(kind: CalloutKind, text: string, keepWithNext = false, formatBody?: (text: string, uppercase: boolean) => string): string {
   const SINGLE_LINE_CHARS = 70;
-  const body = kind === 'warning' ? `\\MakeUppercase{${processBodyText(text)}}` : processBodyText(text);
+  const body = formatBody ? formatBody(text, kind === 'warning') : kind === 'warning' ? `\\MakeUppercase{${processBodyText(text)}}` : processBodyText(text);
   const centred = text.trim().length <= SINGLE_LINE_CHARS;
   // The box is one line of its own paragraph, so every glue between it and
   // what follows sits behind a penalty; a `center` environment adds glue of
@@ -976,6 +978,8 @@ export function generateBodyTex(store: DocumentStore): string {
   if (store.docType === 'i_type' && (store.formData.publicationType ?? 'MI') === 'MI') {
     store = { ...store, paragraphs: withTimeCompliance(store.paragraphs, store.formData.miUrgency ?? 'normal', store.formData.miCompletionDate) };
   }
+  const crossReferences = publicationReferences(store.paragraphs, store.publicationTables);
+  const bodyText = store.docType === 'i_type' ? (text: string) => publicationReferenceText(text, crossReferences) : processBodyText;
   const navigation = store.docType === 'i_type' ? publicationNavigation(store.paragraphs, store.publicationTables, toTitleCase) : new Map();
   const labels = calculateLabels(store.paragraphs, store.docType === 'i_type');
   // Where each subparagraph's label must sit: under its parent's text, per
@@ -1035,7 +1039,7 @@ export function generateBodyTex(store: DocumentStore): string {
       const label = appendixLetter ? `${appendixLetter}-${number}` : String(number);
       // A figure title carries no period at the end (MIL-STD-38784C 4.7.9.1).
       const graphicMark = para.figure.portionMarking ?? para.portionMarking;
-      const title = portionPrefix + processBodyText(para.text.trim().replace(/\.$/, ''));
+      const title = portionPrefix + bodyText(para.text.trim().replace(/\.$/, ''));
       parts.push(
         `\\par\\vspace{12pt}\n\\begin{center}\n${navigationTex(navigation.get(`itype.figure.${i}`))}${graphicMark ? `(${graphicMark})\\\\*` : ""}` +
           `\\IfFileExists{${file}}{\\includegraphics[width=\\textwidth,height=5in,keepaspectratio]{${file}}}` +
@@ -1052,7 +1056,7 @@ export function generateBodyTex(store: DocumentStore): string {
         while (end + 1 < store.paragraphs.length && store.paragraphs[end + 1].callout) end++;
         const group = store.paragraphs.slice(i, end + 1);
         const safety = group.some((p) => p.callout !== 'note');
-        const content = group.map((p) => generateCallout(p.callout!, `${p.portionMarking ? `(${p.portionMarking}) ` : ''}${p.text}`, safety)).join('');
+        const content = group.map((p) => generateCallout(p.callout!, `${p.portionMarking ? `(${p.portionMarking}) ` : ''}${p.text}`, safety, (text, uppercase) => publicationReferenceText(text, crossReferences, uppercase))).join('');
         if (safety) {
           parts.push(`\\setbox\\dondocsSafetyGroup=\\vbox{\\hsize=\\textwidth ${content}}\n`);
           parts.push(`\\dondocsNeedspace{\\ht\\dondocsSafetyGroup+\\dp\\dondocsSafetyGroup+4\\baselineskip}\n`);
@@ -1076,7 +1080,7 @@ export function generateBodyTex(store: DocumentStore): string {
       parts.push(`\\renewcommand{\\dondocsAppendixNavigation}{${navigationTex(navigation.get(`itype.p.${i}`))}}\n`);
       parts.push(`\\startAppendix{${letter}}{${escapeLatex(headerText || '')}}\n`);
       if (para.text.trim()) {
-        parts.push(`\\noindent ${portionPrefix}${processBodyText(para.text)}\\par\n\n`);
+        parts.push(`\\noindent ${portionPrefix}${bodyText(para.text)}\\par\n\n`);
       }
       continue;
     }
@@ -1087,12 +1091,12 @@ export function generateBodyTex(store: DocumentStore): string {
     // from the margin and their substeps align under the text above them.
     if (para.procedure) {
       const stepIndent = 0.25 + para.level * 0.25;
-      parts.push(navigationTex(navigation.get(`itype.p.${i}`)));
+      parts.push(navigationTex(navigation.get(`itype.p.${i}`)) || (store.docType === 'i_type' ? `\\dondocsReferenceAnchor{itype.p.${i}}\n` : ''));
       parts.push(
         `\\vspace{12pt}\n{\\leftskip=${stepIndent}in\n` +
           `\\noindent\\hangindent=\\dimexpr${PROCEDURE_LABEL_WIDTH}+2\\fontdimen2\\font\\relax\\hangafter=1 ` +
           `\\makebox[${PROCEDURE_LABEL_WIDTH}][r]{\\textbf{${label}}}\\hspace{2\\fontdimen2\\font}` +
-          `${portionPrefix}${headerText ? escapeLatex(toTitleCase(headerText.replace(/\.$/, ''))) + '. ' : ''}${processBodyText(para.text)}\\par}\n\n`
+          `${portionPrefix}${headerText ? escapeLatex(toTitleCase(headerText.replace(/\.$/, ''))) + '. ' : ''}${bodyText(para.text)}\\par}\n\n`
       );
       continue;
     }
@@ -1124,21 +1128,21 @@ export function generateBodyTex(store: DocumentStore): string {
       parts.push(generatePublicationTable(para.tableKey, store.publicationTables[para.tableKey], headerText || '', true));
     }
     if (store.docType === 'i_type' && headerText && !para.tableKey) parts.push('\\dondocsNeedspace{4\\baselineskip}\n');
-    parts.push(navigationTex(navigation.get(`itype.p.${i}`)));
+    parts.push(navigationTex(navigation.get(`itype.p.${i}`)) || (store.docType === 'i_type' ? `\\dondocsReferenceAnchor{itype.p.${i}}\n` : ''));
     if (para.level === 0) {
       // Level 0: Main paragraph with optional underlined header
       // Per SECNAV M-5216.5 Ch 7 ¶13d: "Underline any heading and capitalize its key words"
       if (isBusinessLetter) {
         // Business letter: 0.5" first-line indent, no numbers
         if (headerText) {
-          parts.push(`\\vspace{12pt}\n\\noindent\\hspace{0.5in}${underlineWords(escapeLatex(formattedHeader))}${headingDot}~~${portionPrefix}${processBodyText(para.text)}\n\n`);
+          parts.push(`\\vspace{12pt}\n\\noindent\\hspace{0.5in}${underlineWords(escapeLatex(formattedHeader))}${headingDot}~~${portionPrefix}${bodyText(para.text)}\n\n`);
         } else {
-          parts.push(`\\vspace{12pt}\n\\noindent\\hspace{0.5in}${portionPrefix}${processBodyText(para.text)}\n\n`);
+          parts.push(`\\vspace{12pt}\n\\noindent\\hspace{0.5in}${portionPrefix}${bodyText(para.text)}\n\n`);
         }
       } else if (headerText) {
-        parts.push(`\\vspace{12pt}\n\\noindent ${labelGap}${underlineWords(escapeLatex(formattedHeader))}${headingDot}~~${portionPrefix}${processBodyText(para.text)}\n\n`);
+        parts.push(`\\vspace{12pt}\n\\noindent ${labelGap}${underlineWords(escapeLatex(formattedHeader))}${headingDot}~~${portionPrefix}${bodyText(para.text)}\n\n`);
       } else {
-        parts.push(`\\vspace{12pt}\n\\noindent ${labelGap}${portionPrefix}${processBodyText(para.text)}\n\n`);
+        parts.push(`\\vspace{12pt}\n\\noindent ${labelGap}${portionPrefix}${bodyText(para.text)}\n\n`);
       }
     } else {
       // Subparagraphs indent their FIRST LINE only.
@@ -1165,8 +1169,8 @@ export function generateBodyTex(store: DocumentStore): string {
         ? (para.level + 1) * 0.5
         : subparagraphIndentIn(ancestors[i], bodyFont, bodySizePt);
       const body = headerText
-        ? `${labelGap}${underlineWords(escapeLatex(formattedHeader))}${headingDot}~~${portionPrefix}${processBodyText(para.text)}`
-        : `${labelGap}${portionPrefix}${processBodyText(para.text)}`;
+        ? `${labelGap}${underlineWords(escapeLatex(formattedHeader))}${headingDot}~~${portionPrefix}${bodyText(para.text)}`
+        : `${labelGap}${portionPrefix}${bodyText(para.text)}`;
 
       // 12pt is one blank line at 12pt type — the same gap top-level paragraphs
       // get, because ¶13 draws no distinction: "each paragraph OR SUBPARAGRAPH
@@ -1188,6 +1192,10 @@ export function generateBodyTex(store: DocumentStore): string {
       parts.push(navigationTex(entry));
       if (entry) parts.push(`\\noindent\\textbf{${escapeLatex(entry.title)}}\\par\\nopagebreak[4]\n`);
       parts.push(generatePublicationTable(para.tableKey, store.publicationTables?.[para.tableKey] ?? [], entry?.title || headerText || ''));
+      for (const note of para.tableFootnotes ?? []) {
+        if (!/^[a-z0-9]+$/i.test(note.id)) continue;
+        parts.push(`\\par\\noindent\\dondocsReferenceAnchor{itype.note.${i}.${note.id.toUpperCase()}}\\textbf{${escapeLatex(note.id)}} ${bodyText(note.text)}\\par\n`);
+      }
     }
   }
   if (store.docType === 'i_type' && !ended && store.paragraphs.length > 0) parts.push(END_OF_INSTRUCTION);
