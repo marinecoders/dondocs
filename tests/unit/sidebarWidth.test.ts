@@ -49,9 +49,9 @@ describe('sidebarWidth in the store', () => {
     useUIStore.setState({ sidebarWidth: SIDEBAR_WIDTH.default, sidebarCollapsed: false });
   });
 
-  it('starts at the width the sidebar was hard-coded to', () => {
-    // An existing user sees nothing move until they drag it.
-    expect(useUIStore.getState().sidebarWidth).toBe(248);
+  it('starts with the prototype workspace width', () => {
+    // Stored user widths remain independent of the new workspace default.
+    expect(useUIStore.getState().sidebarWidth).toBe(208);
   });
 
   it('clamps whatever it is handed', () => {

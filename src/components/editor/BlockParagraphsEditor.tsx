@@ -1,3 +1,7 @@
+import { InputWithVariables } from '@/components/ui/variable-autocomplete';
+import { Label } from '@/components/ui/label';
+import { useUIStore } from '@/stores/uiStore';
+import { unfilled } from '@/lib/requiredField';
 import { PUBLICATION_SECTIONS, publicationSection, type PublicationSection } from '@/data/techpub/sections';
 import { validateFigureAsset } from '@/services/latex/figureAssets';
 import { memo, useCallback, useMemo, useState } from 'react';
@@ -31,7 +35,7 @@ import { I_TYPE_TABLES, tableSpec } from '@/data/techpub/tables';
 import { useSnippetsStore } from '@/stores/snippetsStore';
 import { showAppAlert } from '@/stores/alertStore';
 import { persistAttachment } from '@/lib/attachments';
-import { DOC_TYPE_CONFIG, type PortionMarking, type CalloutKind, type Paragraph } from '@/types/document';
+import { DOC_TYPE_CONFIG, DOC_TYPE_LABELS, type PortionMarking, type CalloutKind, type Paragraph } from '@/types/document';
 import { calculateLabels, canIndentAt } from '@/lib/paragraphUtils';
 import { cn } from '@/lib/utils';
 
@@ -412,6 +416,7 @@ const BlockRow = memo(function BlockRow({
             )}
             <VariableChipEditor
               blockMode
+              ariaLabel={`Paragraph ${index + 1}`}
               autoFocus={autoFocus}
               value={text}
               onChange={(t) => updateParagraph(index, { text: t })}
@@ -554,6 +559,9 @@ const BlockRow = memo(function BlockRow({
 export function BlockParagraphsEditor() {
   const documentMode = useDocumentStore((s) => s.documentMode);
   const docType = useDocumentStore((s) => s.docType);
+  const subject = useDocumentStore((s) => s.formData.subject);
+  const setField = useDocumentStore((s) => s.setField);
+  const validationVisible = useUIStore((s) => s.validationVisible);
   const classLevel = useDocumentStore((s) => s.formData.classLevel);
   const paragraphs = useDocumentStore((s) => s.paragraphs);
   const addParagraph = useDocumentStore((s) => s.addParagraph);
@@ -614,7 +622,7 @@ export function BlockParagraphsEditor() {
       <AccordionItem value="paragraphs">
         <AccordionTrigger>
           <div className="flex items-center gap-2">
-            <span>Body Paragraphs</span>
+            <span>Paragraphs</span>
             <span className="text-xs font-normal text-muted-foreground tnum">
               ({totalWords} {totalWords === 1 ? 'word' : 'words'})
             </span>
@@ -631,7 +639,12 @@ export function BlockParagraphsEditor() {
           </div>
         </AccordionTrigger>
         <AccordionContent>
-      <p className="mb-3 text-xs text-muted-foreground">Flows like the letter. ⏎ new · ⇥ indent · @ insert · drag to reorder.</p>
+      <p className="-mt-3 mb-6 text-xs text-muted-foreground">{DOC_TYPE_LABELS[docType] ?? 'Document content'}</p>
+      {docType !== 'i_type' && <div className="mb-7 space-y-2">
+        <Label htmlFor="body-subject" className="text-xs">{docType.includes('endorsement') ? "Subject (basic letter's subject)" : 'Subject'}</Label>
+        <InputWithVariables id="body-subject" value={subject ?? ''} onValueChange={(value) => setField('subject', value)} aria-invalid={validationVisible && unfilled(subject) ? true : undefined} placeholder="Enter the printed subject" className="uppercase text-xs" />
+      </div>}
+      <p className="mb-5 border-b border-border pb-3 text-xs text-muted-foreground">Enter adds a paragraph · Tab indents · @ inserts a variable</p>
       {disableNumbered && (
         <div className="mb-3 flex items-start gap-2 rounded-lg border border-destructive/20 bg-destructive/5 p-3 text-sm">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />

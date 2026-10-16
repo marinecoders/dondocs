@@ -58,7 +58,7 @@ interface ChecklistRow {
  * first_document/first_backup milestones, the 8 feature walkthroughs). Only the
  * launcher's own dismissed/celebrated lifecycle is persisted.
  */
-export function ActivationChecklist() {
+export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boolean }) {
   const completed = useOnboardingStore((s) => s.completed);
   const profiles = useProfileStore((s) => s.profiles);
   const backupStatus = useBackupStore((s) => s.status);
@@ -256,14 +256,14 @@ export function ActivationChecklist() {
   );
 
   // The first-run tour owns the screen.
-  if (tourActive) return null;
+  if (tourActive || (dialogOnly && !sheetOpen)) return null;
   // A finished celebration retires the launcher for good.
   if (celebrated) return null;
 
   // ── Mobile: bottom sheet, opened from the menu's "Getting started" ────────
   // No floating launcher (the Preview FAB owns the corner) and the `dismissed`
   // flag doesn't apply — the sheet only ever appears when explicitly opened.
-  if (isMobile) {
+  if (isMobile || dialogOnly) {
     return (
       <Dialog open={sheetOpen} onOpenChange={setSheetOpen}>
         <DialogContent

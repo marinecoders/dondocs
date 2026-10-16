@@ -31,7 +31,6 @@ import { UnitLookupModal } from '@/components/modals/UnitLookupModal';
 import { FormReferenceLibraryModal } from '@/components/modals/FormReferenceLibraryModal';
 import { NAVMC_10274_PLACEHOLDERS } from '@/lib/constants';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
-import { cn } from '@/lib/utils';
 import type { UnitInfo } from '@/data/unitDirectory';
 import type { FormSignatureBlock } from '@/types/signature';
 import { SignatureStylePicker } from './SignatureStylePicker';
@@ -41,15 +40,6 @@ import { arrayMove } from '@dnd-kit/sortable';
 import { standardSignaturePair } from '@/lib/signaturePresets';
 import { showAppConfirm } from '@/stores/alertStore';
 
-// Active-section left-rule for a form AccordionItem, matching the letter
-// sections (FormPanel's SectionShell). activeId only changes at section
-// boundaries, so this re-renders the form infrequently.
-function sectionRule(active: boolean): string {
-  return cn(
-    'border-l-2 -ml-3 pl-3 transition-colors duration-200',
-    active ? 'border-l-muted-foreground/30' : 'border-l-transparent'
-  );
-}
 
 // Names to sort first in the @ autocomplete. This only reorders entries that
 // exist in `placeholders` (NAVMC_10274_PLACEHOLDERS = NAME, DATE), so any name
@@ -173,6 +163,7 @@ export function Form6105Section() {
 
   return (
     <div className="space-y-4">
+      <div hidden={activeId !== 'type'} className="space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-lg font-semibold">
@@ -218,9 +209,10 @@ export function Form6105Section() {
         </Label>
       </div>
 
+      </div>
       <Accordion type="multiple" className="space-y-2">
         {/* Header Section */}
-        <AccordionItem value="header" id="sec-header" tabIndex={-1} data-section="header" className={sectionRule(activeId === 'header')}>
+        <AccordionItem value="header" id="sec-header" tabIndex={-1} data-section="header">
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">Header Information</span>
           </AccordionTrigger>
@@ -271,7 +263,7 @@ export function Form6105Section() {
         </AccordionItem>
 
         {/* Addressing Section */}
-        <AccordionItem value="addressing" id="sec-addressing" tabIndex={-1} data-section="addressing" className={sectionRule(activeId === 'addressing')}>
+        <AccordionItem value="addressing" id="sec-addressing" tabIndex={-1} data-section="addressing">
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">Addressing</span>
           </AccordionTrigger>
@@ -374,7 +366,7 @@ export function Form6105Section() {
         </AccordionItem>
 
         {/* Content Section */}
-        <AccordionItem value="content" id="sec-content" tabIndex={-1} data-section="content" className={sectionRule(activeId === 'content')}>
+        <AccordionItem value="content" id="sec-content" tabIndex={-1} data-section="content">
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">Counseling Content</span>
           </AccordionTrigger>
@@ -429,7 +421,7 @@ export function Form6105Section() {
             name signed 3 lines below the text (printed on the form itself); a
             counseling action typically adds the Marine's acknowledgement as a
             second block, and sometimes a witness as a third. */}
-        <AccordionItem value="signatures" id="sec-signatures" tabIndex={-1} data-section="signatures" className={sectionRule(activeId === 'signatures')}>
+        <AccordionItem value="signatures" id="sec-signatures" tabIndex={-1} data-section="signatures">
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">Signatures</span>
           </AccordionTrigger>
@@ -555,7 +547,7 @@ export function Form6105Section() {
         </AccordionItem>
 
         {/* References Section */}
-        <AccordionItem value="references" id="sec-references" tabIndex={-1} data-section="references" className={sectionRule(activeId === 'references')}>
+        <AccordionItem value="references" id="sec-references" tabIndex={-1} data-section="references">
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">References & Distribution</span>
           </AccordionTrigger>

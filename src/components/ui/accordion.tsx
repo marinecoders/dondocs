@@ -1,3 +1,4 @@
+import { useVisibleEditorSection } from '@/components/layout/EditorSectionContext';
 import * as React from "react"
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import { ChevronDownIcon } from "lucide-react"
@@ -35,6 +36,7 @@ function AccordionItem({
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Item>) {
   const isStatic = React.useContext(AccordionStaticContext)
+  const visibleSection = useVisibleEditorSection()
   const cls = cn("border border-border rounded-lg bg-card/60 backdrop-blur-sm px-3 shadow-sm", className)
   if (isStatic) {
     // Editor sections are one flat surface separated by hairlines, not bordered
@@ -42,7 +44,7 @@ function AccordionItem({
     // className is still merged (e.g. the forms' active-section left-rule).
     // Forward id + data-* so the navigation rail can anchor to each.
     return (
-      <div data-slot="accordion-item" id={id} tabIndex={props.tabIndex} className={cn("border-t border-border pt-6 pb-6", className)} {...dataAttrs(props)}>
+      <div hidden={visibleSection !== null && !!id?.startsWith("sec-") && id !== `sec-${visibleSection}`} data-slot="accordion-item" id={id} tabIndex={props.tabIndex} className={cn("border-t border-border pt-6 pb-6", className)} {...dataAttrs(props)}>
         {children}
       </div>
     )

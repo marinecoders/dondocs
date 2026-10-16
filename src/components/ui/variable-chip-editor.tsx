@@ -641,6 +641,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
 
 // Main editor component
 interface VariableChipEditorProps {
+  ariaLabel?: string;
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
@@ -688,6 +689,7 @@ export function VariableChipEditor({
   value,
   onChange,
   placeholder = 'Type @ to insert variables...',
+  ariaLabel,
   className,
   rows = 3,
   tabInsertsSpaces = false,
@@ -766,6 +768,9 @@ export function VariableChipEditor({
     parseOptions: { preserveWhitespace: 'full' },
     editorProps: {
       attributes: {
+        role: 'textbox',
+        'aria-multiline': 'true',
+        ...(ariaLabel ? { 'aria-label': ariaLabel } : {}),
         // `whitespace-pre-wrap` overrides Tailwind's `prose` default
         // (white-space: normal) so multiple spaces typed by the user —
         // both via the Space key and via the Tab handler below — render

@@ -1,5 +1,6 @@
-import { FolderOpen, Plus, Trash2, Undo2, Pin, PinOff } from 'lucide-react';
+import { Plus, Trash2, Undo2, Pin, PinOff } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { docTypeChip } from '@/types/document';
@@ -15,10 +16,8 @@ function relTime(ts: number): string {
 }
 
 /**
- * Mobile-only Recents: a floating "Documents" button that opens a dialog list
- * of saved documents (switch / new / delete with undo). The desktop sidebar is
- * hidden on small screens, so without this the document library is unreachable
- * on phones.
+ * Mobile workspace library, opened from the document header in place of the
+ * desktop sidebar. Includes workspace tools and document recovery actions.
  */
 export function MobileRecents() {
   const isMobile = useUIStore((s) => s.isMobile);
@@ -42,35 +41,33 @@ export function MobileRecents() {
 
   return (
     <>
-      {!open && (
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          aria-label="Documents"
-          className="fixed bottom-6 left-4 z-50 flex items-center gap-2 rounded-full border border-border bg-card px-4 py-3 text-sm font-medium text-foreground shadow-xl transition-colors hover:bg-muted"
-          style={{ marginBottom: 'env(safe-area-inset-bottom, 0px)' }}
-        >
-          <FolderOpen className="h-5 w-5" aria-hidden="true" />
-          Documents
-        </button>
-      )}
-
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-md gap-0 p-0">
           <DialogHeader className="flex-row items-center justify-between space-y-0 border-b border-border px-4 py-3">
             <DialogTitle className="text-base">Documents</DialogTitle>
-            <button
-              type="button"
-              onClick={() => {
-                newDocument();
-                setOpen(false);
-              }}
-              className="mr-6 inline-flex items-center gap-1 rounded-md border border-border bg-card px-2 py-1 text-xs hover:bg-muted"
-            >
-              <Plus className="h-3.5 w-3.5" /> New
-            </button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button type="button" className="mr-6 inline-flex min-h-11 items-center gap-1 rounded-md border border-border bg-card px-3 text-xs hover:bg-muted">
+                  <Plus className="h-3.5 w-3.5" /> New document
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onSelect={() => { newDocument(); setOpen(false); }}>New correspondence</DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => { newDocument('navmc_10274'); setOpen(false); }}>New NAVMC 10274</DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => { newDocument('navmc_118_11'); setOpen(false); }}>New NAVMC 118 (11)</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </DialogHeader>
 
+          <div className="flex flex-wrap gap-1 border-b border-border px-3 py-2">
+            {[
+              { label: 'Search', run: () => useUIStore.getState().setCommandPaletteOpen(true) },
+              { label: 'Templates', run: () => useUIStore.getState().setTemplateLoaderOpen(true) },
+              { label: 'Profiles', run: () => useUIStore.getState().setProfileModalOpen(true) },
+              { label: 'Settings', run: () => useUIStore.getState().setSettingsOpen(true) },
+              { label: 'Help', run: () => useUIStore.getState().setHelpOpen(true) },
+            ].map(({ label, run }) => <button key={label} type="button" className="min-h-11 rounded px-2 text-sm hover:bg-muted" onClick={() => { setOpen(false); run(); }}>{label}</button>)}
+          </div>
           {pendingDelete && (
             <div className="mx-2 mt-2 flex items-center justify-between gap-2 rounded-md border border-border bg-muted/60 px-2.5 py-1.5 text-xs">
               <span className="min-w-0 flex-1 truncate text-muted-foreground">

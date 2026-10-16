@@ -7,10 +7,13 @@ import { useUIStore } from '@/stores/uiStore';
  * best-effort (the browser may clear it). The honest counterpart to the
  * local-only persistence model. One-time: the dismissal is persisted.
  */
-export function StorageNotice() {
+export function StorageNotice({ placement = 'all' }: { placement?: 'all' | 'header' | 'footer' }) {
   const storageHealth = useUIStore((s) => s.storageHealth);
   const dismissedLevel = useUIStore((s) => s.storageNoticeDismissed);
   const dismiss = useUIStore((s) => s.dismissStorageNotice);
+
+  if (placement === 'header' && storageHealth === 'evictable') return null;
+  if (placement === 'footer' && storageHealth !== 'evictable') return null;
 
   // Suppress only when the user dismissed THIS health level; a later, more
   // serious level (evictable -> unavailable) still surfaces.
@@ -34,7 +37,7 @@ export function StorageNotice() {
   return (
     <div
       role={role}
-      className="flex items-start gap-2 border-b border-b-warning/30 border-l-2 border-l-warning bg-warning/10 px-4 py-1 text-xs text-foreground"
+      className={`flex shrink-0 items-start gap-2 px-4 sm:px-6 py-2 text-xs ${placement === 'footer' ? 'border-t border-border text-muted-foreground' : 'border-b border-warning/30 bg-warning/10 text-foreground'}`}
     >
       <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-warning" />
       <p className="min-w-0 flex-1">

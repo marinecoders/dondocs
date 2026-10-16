@@ -3,6 +3,7 @@ import { loadFigureFiles } from '@/services/latex/figureAssets';
 import { publicationMarking } from '@/lib/publicationMarking';
 import { useEffect, useCallback, useMemo, useState, useRef, lazy, Suspense } from 'react';
 import { Header } from '@/components/layout/Header';
+import { ReadinessMeter } from '@/components/layout/ReadinessMeter';
 import { FormPanel } from '@/components/layout/FormPanel';
 import { EditorSidebar } from '@/components/layout/EditorSidebar';
 import { MobileRecents } from '@/components/layout/MobileRecents';
@@ -1938,6 +1939,9 @@ ${texFiles['body.tex'] || '% No body content'}
         Skip to main content
       </a>
 
+      <div className="flex flex-1 min-h-0 overflow-hidden">
+        <EditorSidebar />
+        <div className="flex flex-1 min-w-0 flex-col overflow-hidden">
       <Header
         onDownloadPdf={handleDownloadPdf}
         onDownloadTex={handleDownloadTex}
@@ -1950,16 +1954,11 @@ ${texFiles['body.tex'] || '% No body content'}
         isFormsMode={documentCategory === 'forms'}
       />
 
-      <StorageNotice />
+      <StorageNotice placement="header" />
       <ConnectivityModal />
       <BackupNotice />
       <InstallNotice />
 
-      <div className="flex flex-1 overflow-hidden">
-        {/* Document workspace (desktop). Sits beside the main editor so the
-            resize-divider math inside <main> is unaffected. */}
-        <EditorSidebar />
-        {/* Mobile-only Recents (floating button + dialog); desktop sidebar is hidden on phones. */}
         <MobileRecents />
         <VersionHistoryModal />
       <TrashModal />
@@ -2007,6 +2006,12 @@ ${texFiles['body.tex'] || '% No body content'}
           />
         </div>
         </main>
+        <StorageNotice placement="footer" />
+        <div className="workspace-reviewbar flex shrink-0 flex-wrap items-center justify-between gap-2 border-t border-border px-4 sm:px-6 py-1.5 text-xs text-muted-foreground">
+          <ReadinessMeter />
+          <span className="hidden md:inline">Unofficial · Beta</span>
+        </div>
+        </div>
       </div>
 
       {/* Modals */}
@@ -2042,7 +2047,7 @@ ${texFiles['body.tex'] || '% No body content'}
       <DocumentGuideModal />
       <WelcomeModal />
       <TourOverlay />
-      <ActivationChecklist />
+      <ActivationChecklist dialogOnly />
       <PIIWarningModal
         detectionResult={piiDetectionResult}
         onCancel={handleCancelPIIDownload}

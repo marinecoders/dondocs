@@ -17,7 +17,7 @@ export type ColorScheme = 'default' | 'navy' | 'usmc';
 export const SIDEBAR_WIDTH = {
   min: 200,
   max: 420,
-  default: 248,
+  default: 208,
   collapsed: 52,
   /** Drag narrower than this and it snaps shut instead of leaving a stub. */
   snapThreshold: 160,
@@ -149,6 +149,8 @@ interface UIState {
 
   // Documents sidebar (recents + section outline)
   sidebarCollapsed: boolean;
+  sidebarOutlineVisible: boolean;
+  toggleSidebarOutline: () => void;
   /**
    * Sidebar width in px. Pixels rather than a percentage because its content is
    * text at a fixed size — a section label needs the same room on a 13" laptop
@@ -240,8 +242,8 @@ export const useUIStore = create<UIState>()(
       setDensity: (density) => set({ density }),
 
       // Preview - hidden by default, form gets full width
-      previewVisible: false,
-      previewWidth: 35,
+      previewVisible: true,
+      previewWidth: 40,
       togglePreview: () => set((state) => ({ previewVisible: !state.previewVisible })),
       setPreviewVisible: (visible) => set({ previewVisible: visible }),
       setPreviewWidth: (width) => set({ previewWidth: Math.max(20, Math.min(80, width)) }),
@@ -290,6 +292,8 @@ export const useUIStore = create<UIState>()(
 
       // Documents sidebar - expanded by default on desktop
       sidebarCollapsed: false,
+      sidebarOutlineVisible: false,
+      toggleSidebarOutline: () => set((s) => ({ sidebarOutlineVisible: !s.sidebarOutlineVisible, sidebarCollapsed: false })),
       // 248 was the hard-coded width before this became adjustable, so an
       // existing user sees nothing move until they drag it.
       sidebarWidth: SIDEBAR_WIDTH.default,
@@ -396,6 +400,7 @@ export const useUIStore = create<UIState>()(
         pdfThumbnailsOpen: state.pdfThumbnailsOpen,
         fullQualityPreview: state.fullQualityPreview,
         sidebarCollapsed: state.sidebarCollapsed,
+        sidebarOutlineVisible: state.sidebarOutlineVisible,
         sidebarWidth: state.sidebarWidth,
         outlineHeight: state.outlineHeight,
         storageNoticeDismissed: state.storageNoticeDismissed,

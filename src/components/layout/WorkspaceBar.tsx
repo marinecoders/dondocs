@@ -1,61 +1,29 @@
-import { useState, useRef } from 'react';
-import { Copy, History, Link2, List, MoreHorizontal, PanelRight, Plus } from 'lucide-react';
+import { useState } from 'react';
+import { List, UserRound } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { useDocumentsStore, deriveTitle } from '@/stores/documentsStore';
-import { getSerializedSession } from '@/stores/documentStore';
+import { ProfileBar } from '@/components/editor/ProfileBar';
 import { useUIStore } from '@/stores/uiStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useEditorSections } from './editorSections';
-import { SaveStatus } from '@/components/SaveStatus';
-import { ReadinessMeter } from './ReadinessMeter';
 
-function DraftName({ title }: { title: string }) {
-  const [editing, setEditing] = useState(false);
-  const [name, setName] = useState(title);
-  const save = () => {
-    const docs = useDocumentsStore.getState();
-    docs.saveCurrent();
-    if (docs.currentId) docs.renameDocument(docs.currentId, name);
-    setEditing(false);
-  };
-  return editing ? <input autoFocus aria-label="Draft name" value={name} maxLength={160}
-    className="min-w-0 w-full rounded border border-input bg-background px-2 py-1 text-sm focus-visible:outline-2 focus-visible:outline-ring"
-    onChange={(e) => setName(e.target.value)} onBlur={save}
-    onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur(); if (e.key === 'Escape') { setName(title); setEditing(false); } }} />
-    : <button type="button" className="max-w-full truncate rounded text-left text-sm font-semibold hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring" title="Rename draft (does not change the printed subject)" onClick={() => { setName(title); setEditing(true); }}>{title}</button>;
-}
-
-export function WorkspaceBar() {
-  const id = useDocumentsStore((s) => s.currentId);
-  const entry = useDocumentsStore((s) => id ? s.docs[id] : undefined);
-  const { sections } = useEditorSections();
-  const pendingSection = useRef<string | null>(null);
-  const active = useEditorOutlineStore((s) => s.activeId);
-  const preview = useUIStore((s) => s.previewVisible);
+/** Section navigation is separate from the workspace document library. */
+export function WorkspaceBar({ activeSection }: { activeSection: string }) {
+  const { sections, isFormsMode } = useEditorSections();
+  const [profileOpen, setProfileOpen] = useState(false);
+  const showOutline = useUIStore((s) => s.sidebarOutlineVisible);
   const mobile = useUIStore((s) => s.isMobile);
-  const title = entry?.meta.title ?? deriveTitle(getSerializedSession());
-  const checkpoint = () => { useDocumentsStore.getState().saveCurrent(); return useDocumentsStore.getState().currentId; };
-  return <div className="border-b border-border px-3 sm:px-4 py-3 space-y-2 shrink-0">
-    <div className="flex min-w-0 items-center gap-2">
-      <div className="flex-1 min-w-0"><DraftName key={id} title={title} /><div className="flex flex-wrap items-center gap-x-2 text-xs text-muted-foreground"><span>Draft name</span><SaveStatus /></div></div>
-      <DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label="Document actions"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem onSelect={() => useDocumentsStore.getState().newDocument()}><Plus />New correspondence</DropdownMenuItem>
-          <DropdownMenuItem onSelect={() => useDocumentsStore.getState().newDocument('navmc_10274')}><Plus />New NAVMC 10274</DropdownMenuItem>
-          <DropdownMenuItem onSelect={() => useDocumentsStore.getState().newDocument('navmc_118_11')}><Plus />New NAVMC 118 (11)</DropdownMenuItem>
-          <DropdownMenuItem onSelect={() => { const current = checkpoint(); if (current) useDocumentsStore.getState().duplicateDocument(current); }}><Copy />Duplicate draft</DropdownMenuItem>
-          <DropdownMenuItem onSelect={() => { const current = checkpoint(); if (current) useUIStore.getState().setHistoryDocId(current); }}><History />Version history</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+  return <div className="shrink-0">
+    <div className="flex items-center gap-2 px-4 sm:px-6 pt-5 pb-2">
+      <label htmlFor="workspace-section" className="text-xs text-muted-foreground">Contents</label>
+      <select id="workspace-section" aria-label="Document section" value={activeSection}
+        onChange={(event) => useEditorOutlineStore.getState().jump(event.target.value)}
+        className="h-10 sm:h-8 min-w-0 max-w-[65%] rounded-md border border-border bg-card px-2 text-xs focus-visible:outline-2 focus-visible:outline-ring">
+        {sections.map((section) => <option key={section.id} value={section.id}>{section.label}</option>)}
+      </select>
+      {!mobile && <Button variant="ghost" size="icon-sm" aria-label={showOutline ? 'Hide contents outline' : 'Show contents outline'} aria-pressed={showOutline} onClick={() => useUIStore.getState().toggleSidebarOutline()}><List className="h-3.5 w-3.5" /></Button>}
+      <div className="flex-1" />
+      {!isFormsMode && <Button variant="ghost" size="sm" className="h-10 sm:h-8 px-2 text-xs" aria-expanded={profileOpen} onClick={() => setProfileOpen((open) => !open)}><UserRound className="h-3.5 w-3.5" />Profile</Button>}
     </div>
-    <div className="flex flex-wrap items-center gap-1.5">
-      <DropdownMenu><DropdownMenuTrigger asChild><Button variant="outline" size="sm" className="h-11 sm:h-8 px-2"><List className="mr-1.5 h-4 w-4" />Contents</Button></DropdownMenuTrigger>
-        <DropdownMenuContent className="max-h-[60vh] overflow-y-auto" onCloseAutoFocus={(e) => { if (pendingSection.current) { e.preventDefault(); useEditorOutlineStore.getState().jump(pendingSection.current); pendingSection.current = null; } }}>{sections.map((s) => <DropdownMenuItem key={s.id} onSelect={() => { pendingSection.current = s.id; }} aria-current={active === s.id ? 'location' : undefined}>{s.label}</DropdownMenuItem>)}</DropdownMenuContent>
-      </DropdownMenu>
-      <Button variant="ghost" size="sm" className="h-11 sm:h-8 px-2" onClick={() => useUIStore.getState().setShareModal('share')}><Link2 className="mr-1.5 h-4 w-4" />Share</Button>
-      <Button variant="ghost" size="sm" className="h-11 sm:h-8 px-2" aria-pressed={!mobile && preview} onClick={() => mobile ? useUIStore.getState().setMobilePreviewOpen(true) : useUIStore.getState().togglePreview()}><PanelRight className="mr-1.5 h-4 w-4" />{!mobile && preview ? 'Hide preview' : 'Preview'}</Button>
-      <ReadinessMeter />
-    </div>
+    {!isFormsMode && profileOpen && <div className="px-3 sm:px-5 pb-2"><ProfileBar /></div>}
   </div>;
 }

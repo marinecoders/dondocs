@@ -2,7 +2,7 @@ import { useRef, useState, type ChangeEvent } from 'react';
 import { Settings } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { useUIStore, type DensityMode } from '@/stores/uiStore';
+import { useUIStore, type ColorScheme, type DensityMode } from '@/stores/uiStore';
 import { backupAction, useBackupStore } from '@/stores/backupStore';
 import { downloadWorkspaceBackup } from '@/lib/backupDownload';
 import { restoreBackup, summarizeRestore } from '@/lib/backup';
@@ -57,6 +57,7 @@ export function SettingsModal() {
   const open = useUIStore((s) => s.settingsOpen);
   const section = useUIStore((s) => s.settingsSection);
   const theme = useUIStore((s) => s.theme);
+  const colorScheme = useUIStore((s) => s.colorScheme);
   const density = useUIStore((s) => s.density);
   const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
   const backupHeading = useRef<HTMLHeadingElement>(null);
@@ -72,6 +73,7 @@ export function SettingsModal() {
       </DialogHeader>
       <section className="space-y-3" aria-label="Appearance">
         <label className="block space-y-2 text-sm"><span className="block font-medium">Appearance</span><select className="h-11 w-full rounded-md border border-input bg-background px-3" value={theme} onChange={(e) => useUIStore.getState().setTheme(e.target.value as 'light' | 'dark')}><option value="light">Light</option><option value="dark">Dark</option></select></label>
+        <label className="block space-y-2 text-sm"><span className="block font-medium">Colors</span><select className="h-11 w-full rounded-md border border-input bg-background px-3" value={colorScheme} onChange={(e) => useUIStore.getState().setColorScheme(e.target.value as ColorScheme)}><option value="default">Workspace</option><option value="navy">Navy</option><option value="usmc">USMC</option></select></label>
         <label className="block space-y-2 text-sm"><span className="block font-medium">Density</span><select className="h-11 w-full rounded-md border border-input bg-background px-3" value={density} onChange={(e) => useUIStore.getState().setDensity(e.target.value as DensityMode)}><option value="compact">Compact</option><option value="comfortable">Comfortable</option><option value="spacious">Spacious</option></select></label>
         <p className="text-xs text-muted-foreground">Animations follow your device’s reduced-motion preference.</p>
       </section>

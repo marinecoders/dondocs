@@ -1,8 +1,9 @@
+import { DraftIdentity } from './DraftIdentity';
+import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useState, useCallback, useRef, useEffect, type ChangeEvent, type ReactNode } from 'react';
-import { Check, Moon, Sun, Download, FileText, Braces, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Loader2, Lightbulb, FolderOpen, Rocket, FolderSync, AlertTriangle, MonitorDown, Radio } from 'lucide-react';
+import { PanelLeft, MoreHorizontal, Copy, History, Wrench, ChevronDown, Check, Moon, Sun, Download, FileText, Braces, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, FileDown, FileUp, ScrollText, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Loader2, Lightbulb, FolderOpen, Rocket, FolderSync, AlertTriangle, MonitorDown, Radio } from 'lucide-react';
 import { GithubIcon } from '@/components/icons/GithubIcon';
 import { Button } from '@/components/ui/button';
-import { Kbd } from '@/components/ui/kbd';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { formatShortcut, isMac } from '@/lib/platform';
 
@@ -48,7 +49,7 @@ import { useLogStore } from '@/stores/logStore';
 import { useTourStore } from '@/stores/tourStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { safeReportUrl, BUG_REPORT_PRIVACY_NOTICE, BUG_REPORT_LOG_PROMPT } from '@/lib/bugReport';
-import { DOC_TYPE_CONFIG } from '@/types/document';
+import { DOC_TYPE_CONFIG, DOC_TYPE_LABELS, FORM_TYPE_LABELS } from '@/types/document';
 
 interface HeaderProps {
   onDownloadPdf?: () => void;
@@ -67,8 +68,6 @@ interface HeaderProps {
 const GITHUB_REPO_URL = 'https://github.com/marinecoders/dondocs';
 const GITHUB_NEW_ISSUE_URL = 'https://github.com/marinecoders/dondocs/issues/new';
 const STORAGE_KEY = STORAGE_KEYS.DOCUMENT;
-// Marine Coders seal: same-origin SVG, already preloaded for the watermark.
-const marineCodersLogo = `${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`;
 
 /**
  * Build a prefilled "New issue" URL for the Help-menu bug report button.
@@ -196,16 +195,9 @@ export function Header({
   const previewVisible = useUIStore((s) => s.previewVisible);
   const togglePreview = useUIStore((s) => s.togglePreview);
   // Reopen the getting-started checklist. Hidden once onboarding is finished.
-  // Desktop un-hides the floating card; on mobile (no floating launcher — the
-  // Preview FAB owns that corner) it opens the checklist's bottom sheet.
+  // Getting started is an explicit Help action on every screen size.
   const checklistCelebrated = useOnboardingStore((s) => s.checklistCelebrated);
-  const reopenChecklist = () => {
-    if (useUIStore.getState().isMobile) {
-      useUIStore.getState().setChecklistSheetOpen(true);
-    } else {
-      useOnboardingStore.getState().setChecklistDismissed(false);
-    }
-  };
+  const reopenChecklist = () => useUIStore.getState().setChecklistSheetOpen(true);
 
   // Actions only, no document-state subscription. The handlers below read the
   // full document via useDocumentStore.getState() at call time, so Header
@@ -247,15 +239,6 @@ export function Header({
       }
     };
   }, []);
-  // Seed banner-dismissed from localStorage via a lazy initializer so the
-  // banner doesn't flash before an effect could close it.
-  const [bannerDismissed, setBannerDismissed] = useState<boolean>(() => {
-    try {
-      return localStorage.getItem('dondocs-banner-dismissed') === 'true';
-    } catch {
-      return false; // localStorage unavailable (private browsing)
-    }
-  });
   const fileInputRef = useRef<HTMLInputElement>(null);
   const libraryInputRef = useRef<HTMLInputElement>(null);
 
@@ -269,13 +252,6 @@ export function Header({
   const reconnectBackup = useBackupStore((s) => s.reconnect);
   const disableBackup = useBackupStore((s) => s.disable);
   const writeBackupNow = useBackupStore((s) => s.writeNow);
-
-  const dismissBanner = useCallback(() => {
-    setBannerDismissed(true);
-    try {
-      localStorage.setItem('dondocs-banner-dismissed', 'true');
-    } catch { /* localStorage unavailable */ }
-  }, []);
 
   // Does the document contain any {{VARIABLE}} placeholders? Reads via
   // getState() at click time, so the callback has no store dependencies.
@@ -448,169 +424,82 @@ export function Header({
     event.target.value = '';
   }, [flashSaveStatus]);
 
+  const currentId = useDocumentsStore((s) => s.currentId);
+  const formType = useDocumentStore((s) => s.formType);
+  const sidebarCollapsed = useUIStore((s) => s.sidebarCollapsed);
+  const openHistory = () => { const ds = useDocumentsStore.getState(); ds.saveCurrent(); if (ds.currentId) useUIStore.getState().setHistoryDocId(ds.currentId); };
+
   return (
-    <header className="border-b border-border bg-card">
-      {/* Dismissable beta release banner */}
-      {!bannerDismissed && (
-        <div className="bg-warning/10 text-warning text-xs font-medium py-0.5 text-center tracking-wide relative border-b border-warning/20">
-          Not an official DoW website. Beta release — report issues on GitHub.
-          <button
-            onClick={dismissBanner}
-            className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-warning/20 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 transition-colors"
-            aria-label="Dismiss banner"
-          >
-            <X className="h-3 w-3" />
-          </button>
-        </div>
-      )}
-      <div className="px-density-2 sm:px-density-4 py-density-2 sm:py-density-3">
-      {/* Hidden file input for importing drafts */}
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleImportDraft}
-        accept=".json"
-        className="hidden"
-      />
-      {/* Hidden file input for importing a whole-library backup */}
-      <input
-        type="file"
-        ref={libraryInputRef}
-        onChange={handleImportLibrary}
-        accept=".json"
-        className="hidden"
-      />
-      <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 lg:gap-3 min-w-0">
-          <div className="flex items-center gap-2.5">
-            {/* Brand mark. The seal SVG is solid white, so invert it on the
-                light header and leave it white in dark mode. */}
-            <img
-              src={marineCodersLogo}
-              alt="Marine Coders"
-              decoding="sync"
-              className="h-7 lg:h-8 w-auto shrink-0 invert dark:invert-0"
-            />
-            <div className="sr-only min-[400px]:not-sr-only min-[400px]:flex min-[400px]:flex-col min-w-0">
-              <h1 className="text-base font-semibold tracking-[-0.01em] text-foreground leading-tight truncate">
-                DonDocs
-              </h1>
-              <span className="text-xs text-foreground/70 hidden sm:block leading-tight truncate">Naval correspondence &amp; forms</span>
-            </div>
-          </div>
-
-        </div>
-
-        <div className="flex items-center gap-1 sm:gap-2">
-          {/* Aria-live region for transient action toasts - WCAG 4.1.3 */}
-          <div aria-live="polite" aria-atomic="true" className="sr-only">
-            {saveStatus}
-          </div>
-          {/* Transient action toast only (e.g. "Exported!", "Loaded!"). The
-              passive "Saved · <time>" indicator lives in the ProfileBar per the
-              design, so it isn't duplicated in the header chrome. */}
-          {saveStatus && (
-            <span className="text-xs text-muted-foreground hidden lg:inline" aria-hidden="true">
-              {saveStatus}
-            </span>
-          )}
-
-          {/* Mobile: an icon-only entry to the same palette (there's no ⌘K on
-              touch, so without this the palette is unreachable on phones). */}
-          <button
-            type="button"
-            onClick={() => setCommandPaletteOpen(true)}
-            aria-label="Search or jump to…"
-            className="flex lg:hidden shrink-0 h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted outline-none focus-visible:ring-ring/50 focus-visible:ring-[3px]"
-          >
-            <Search className="h-4 w-4" aria-hidden="true" />
-          </button>
-
-          {/* ⌘K command palette trigger — Linear/Raycast search affordance.
-              The palette is also reachable via the global ⌘K keybinding; this
-              pill is the discoverable entry point. */}
-          <button
-            type="button"
-            onClick={() => setCommandPaletteOpen(true)}
-            aria-label="Open command palette"
-            className="hidden lg:flex h-8 min-w-[180px] items-center gap-2 rounded-md border border-border bg-transparent pl-2.5 pr-2 text-muted-foreground transition-colors hover:bg-muted outline-none focus-visible:ring-ring/50 focus-visible:ring-[3px]"
-          >
-            <Search className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-            <span className="flex-1 text-left text-xs">Search or jump…</span>
-            <Kbd>{formatShortcut('mod K')}</Kbd>
-          </button>
-          <div aria-hidden="true" className="hidden lg:block w-px h-5 self-center bg-border mx-1" />
-
-          {/* Undo/Redo buttons - always visible */}
-          <HeaderTip label={`Undo (${formatShortcut('mod Z')})`}>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleUndo}
-              disabled={!canUndo}
-              aria-label="Undo"
-              className="hidden min-[400px]:inline-flex h-8 w-8"
-            >
-              <Undo2 className="h-4 w-4" aria-hidden="true" />
-            </Button>
-          </HeaderTip>
-          <HeaderTip label={`Redo (${formatShortcut(REDO_SHORTCUT)})`}>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleRedo}
-              disabled={!canRedo}
-              aria-label="Redo"
-              className="hidden min-[400px]:inline-flex h-8 w-8"
-            >
-              <Redo2 className="h-4 w-4" aria-hidden="true" />
-            </Button>
-          </HeaderTip>
-
-          {/* Group divider, only at xl where the full toolbar shows. */}
-          <div aria-hidden="true" className="hidden xl:block w-px h-5 self-center bg-border mx-1" />
-
-          {/* Refresh - hidden below xl, in hamburger menu */}
-          <HeaderTip label="Refresh preview">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onRefreshPreview}
-              disabled={isCompiling}
-              aria-label="Refresh preview"
-              className="h-8 w-8 hidden xl:flex"
-            >
-              <RefreshCw className={`h-4 w-4 ${isCompiling ? 'animate-spin' : ''}`} aria-hidden="true" />
-            </Button>
-          </HeaderTip>
-
-          {/* Preview toggle - hidden below xl and on mobile devices */}
-          {!isMobile && (
-            <HeaderTip label={`${previewVisible ? 'Hide' : 'Show'} preview (${formatShortcut('mod E')})`}>
-              <Button
-                variant={previewVisible ? "secondary" : "ghost"}
-                size="sm"
-                onClick={togglePreview}
-                aria-label={previewVisible ? "Hide preview" : "Show preview"}
-                className="h-8 px-2 sm:px-3 hidden xl:flex"
-              >
-                {previewVisible ? (
-                  <PanelRightClose className="h-4 w-4 xl:mr-2" aria-hidden="true" />
-                ) : (
-                  <PanelRight className="h-4 w-4 xl:mr-2" aria-hidden="true" />
-                )}
-                <span className="hidden 2xl:inline">Preview</span>
+    <header className="workspace-header shrink-0 border-b border-border bg-background">
+      <input type="file" ref={fileInputRef} onChange={handleImportDraft} accept=".json" className="hidden" />
+      <input type="file" ref={libraryInputRef} onChange={handleImportLibrary} accept=".json" className="hidden" />
+      <div className="flex min-w-0 items-center gap-2 px-3 sm:px-5 py-3 sm:min-h-[76px]">
+        <HeaderTip label={isMobile ? 'Open workspace' : sidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'}>
+          <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8 shrink-0" aria-label={isMobile ? 'Open workspace' : sidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'} onClick={() => isMobile ? useUIStore.getState().setMobileDocsOpen(true) : useUIStore.getState().toggleSidebar()}><PanelLeft className="h-4 w-4" /></Button>
+        </HeaderTip>
+        <DraftIdentity />
+        <div aria-live="polite" className="sr-only">{saveStatus}</div>
+        {(sidebarCollapsed || isMobile) && <Button variant="ghost" size="icon" className="hidden sm:inline-flex" aria-label="Search workspace" onClick={() => setCommandPaletteOpen(true)}><Search className="h-4 w-4" /></Button>}
+        <Button variant="ghost" size="sm" className="hidden sm:inline-flex h-8 px-3" onClick={() => setShareModal('share')}>Share</Button>
+        <Button variant="ghost" size="sm" className="h-10 sm:h-8 px-2 sm:px-3" aria-label="Preview" aria-pressed={isMobile ? undefined : previewVisible} onClick={() => isMobile ? useUIStore.getState().setMobilePreviewOpen(true) : togglePreview()}><PanelRight className="h-4 w-4 sm:hidden" /><span className="hidden sm:inline">Preview</span></Button>
+          {/* Download dropdown - always visible but compact on smaller screens */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button data-tour="download" aria-label="Download" variant="default" size="sm" className="h-10 sm:h-8 px-3">
+                <Download className="h-4 w-4 sm:hidden" />
+                <span className="hidden sm:inline">Download</span>
               </Button>
-            </HeaderTip>
-          )}
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                onClick={handleDownloadPdf}
+                disabled={isPdfGenerating}
+                // Block re-entry while the PDF pipeline runs; the modal doesn't
+                // stop a second click on the dropdown item.
+              >
+                {isPdfGenerating ? (
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                ) : (
+                  <FileText className="h-4 w-4 mr-2" />
+                )}
+                {isPdfGenerating ? 'Generating PDF…' : 'Download PDF'}
+                {!isPdfGenerating && (
+                  <DropdownMenuShortcut>{formatShortcut('mod D')}</DropdownMenuShortcut>
+                )}
+              </DropdownMenuItem>
+              {/* LaTeX and DOCX only available for correspondence; publication
+                  types are delivered as PDF and offer no DOCX at all. */}
+              {!isFormsMode && !pdfOnly && (
+                <>
+                  <DropdownMenuItem
+                    onClick={onDownloadDocx}
+                    disabled={isDocxGenerating}
+                    // Radix sets pointer-events:none on disabled items, so a
+                    // second click can't fire while pandoc is running.
+                  >
+                    {isDocxGenerating ? (
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    ) : (
+                      <FileText className="h-4 w-4 mr-2" />
+                    )}
+                    {isDocxGenerating ? 'Generating DOCX…' : 'Download DOCX'}
+                  </DropdownMenuItem>
+                  {/* Code exports are a secondary tier: separated + muted with a
+                      Braces glyph so they read below the document exports. */}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={onDownloadTex} className="text-muted-foreground">
+                    <Braces className="h-4 w-4 mr-2" />
+                    Download LaTeX
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={onDownloadFlatTex} className="text-muted-foreground">
+                    <Braces className="h-4 w-4 mr-2" />
+                    Download Flat LaTeX (Pandoc)
+                  </DropdownMenuItem>
+                </>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
-          <div aria-hidden="true" className="hidden xl:block w-px h-5 self-center bg-border mx-1" />
-
-          {/* Save/Load dropdown - always visible but compact on smaller screens.
-              Controlled through uiStore so the backup walkthrough can open it and
-              spotlight the items inside; while a tour is running, dismissal
-              requests (outside click/focus, Escape) are refused so the
-              spotlighted item can't vanish mid-step. */}
           <DropdownMenu
             open={saveMenuOpen}
             onOpenChange={(open) => {
@@ -619,13 +508,13 @@ export function Header({
             }}
           >
             <DropdownMenuTrigger asChild>
-              <Button data-tour="save" aria-label="Save" variant="outline" size="sm" className="h-8 px-2 lg:px-3">
-                <Save className="h-4 w-4 lg:mr-2" />
-                <span className="hidden lg:inline">Save</span>
+              <Button data-tour="save" aria-label="Document actions" variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8">
+                <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-60">
               <DropdownMenuLabel className="text-xs text-muted-foreground font-normal">Draft (this browser)</DropdownMenuLabel>
+              <DropdownMenuItem onClick={() => { const ds = useDocumentsStore.getState(); ds.saveCurrent(); if (ds.currentId) ds.duplicateDocument(ds.currentId); }}><Copy className="h-4 w-4 mr-2" />Duplicate draft</DropdownMenuItem>
               <DropdownMenuItem onClick={handleSaveProgress}>
                 <Save className="h-4 w-4 mr-2" />
                 Save draft
@@ -722,205 +611,23 @@ export function Header({
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Download dropdown - always visible but compact on smaller screens */}
+
+      </div>
+      <div className="flex min-w-0 flex-wrap items-center gap-1 px-4 sm:px-6 pb-2 text-xs">
+        <button type="button" onClick={() => useEditorOutlineStore.getState().jump('type')} className="max-w-full truncate rounded-md px-1 py-2 text-left text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring" title="Change document type">{isFormsMode ? FORM_TYPE_LABELS[formType] : DOC_TYPE_LABELS[docType]}<ChevronDown className="ml-1 inline h-3 w-3" /></button>
+        <div className="flex-1" />
+        <Button variant="ghost" size="sm" className="h-10 sm:h-8 px-2" onClick={openHistory} disabled={!currentId}><History className="h-3.5 w-3.5" />History</Button>
+        <Button data-tour="batch" variant="ghost" size="sm" className="h-10 sm:h-8 px-2" onClick={() => setBatchModalOpen(true)}><Layers className="h-3.5 w-3.5" />Batch</Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button data-tour="download" aria-label="Download" variant="default" size="sm" className="h-8 px-2 lg:px-3">
-                <Download className="h-4 w-4 lg:mr-2" />
-                <span className="hidden lg:inline">Download</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                onClick={handleDownloadPdf}
-                disabled={isPdfGenerating}
-                // Block re-entry while the PDF pipeline runs; the modal doesn't
-                // stop a second click on the dropdown item.
-              >
-                {isPdfGenerating ? (
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                ) : (
-                  <FileText className="h-4 w-4 mr-2" />
-                )}
-                {isPdfGenerating ? 'Generating PDF…' : 'Download PDF'}
-                {!isPdfGenerating && (
-                  <DropdownMenuShortcut>{formatShortcut('mod D')}</DropdownMenuShortcut>
-                )}
-              </DropdownMenuItem>
-              {/* LaTeX and DOCX only available for correspondence; publication
-                  types are delivered as PDF and offer no DOCX at all. */}
-              {!isFormsMode && !pdfOnly && (
-                <>
-                  <DropdownMenuItem
-                    onClick={onDownloadDocx}
-                    disabled={isDocxGenerating}
-                    // Radix sets pointer-events:none on disabled items, so a
-                    // second click can't fire while pandoc is running.
-                  >
-                    {isDocxGenerating ? (
-                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    ) : (
-                      <FileText className="h-4 w-4 mr-2" />
-                    )}
-                    {isDocxGenerating ? 'Generating DOCX…' : 'Download DOCX'}
-                  </DropdownMenuItem>
-                  {/* Code exports are a secondary tier: separated + muted with a
-                      Braces glyph so they read below the document exports. */}
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={onDownloadTex} className="text-muted-foreground">
-                    <Braces className="h-4 w-4 mr-2" />
-                    Download LaTeX
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={onDownloadFlatTex} className="text-muted-foreground">
-                    <Braces className="h-4 w-4 mr-2" />
-                    Download Flat LaTeX (Pandoc)
-                  </DropdownMenuItem>
-                </>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <div aria-hidden="true" className="hidden xl:block w-px h-5 self-center bg-border mx-1" />
-
-          {/* Guide button - hidden below xl */}
-          <HeaderTip label="When to use each document type">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-8 px-2 xl:px-3 hidden xl:flex"
-              onClick={() => setDocumentGuideOpen(true)}
-              aria-label="Document type guide"
-            >
-              <Compass className="h-4 w-4 xl:mr-2" />
-              <span className="hidden 2xl:inline">Guide</span>
-            </Button>
-          </HeaderTip>
-
-          {/* Find & Replace button - hidden below xl */}
-          <HeaderTip label={`Find & Replace (${formatShortcut('mod H')})`}>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-8 px-2 xl:px-3 hidden xl:flex"
-              onClick={() => setFindReplaceOpen(true)}
-              aria-label="Find and replace"
-            >
-              <Search className="h-4 w-4 xl:mr-2" />
-              <span className="hidden 2xl:inline">Find</span>
-            </Button>
-          </HeaderTip>
-
-          {/* Batch Generation button - hidden below xl */}
-          <HeaderTip label="Generate multiple documents with variables">
-            <Button
-              data-tour="batch"
-              variant="ghost"
-              size="sm"
-              className="h-8 px-2 xl:px-3 hidden xl:flex"
-              onClick={() => setBatchModalOpen(true)}
-              aria-label="Batch generate"
-            >
-              <Layers className="h-4 w-4 xl:mr-2" />
-              <span className="hidden 2xl:inline">Batch</span>
-            </Button>
-          </HeaderTip>
-
-          {/* Help dropdown - hidden below xl */}
-          <DropdownMenu>
-            <HeaderTip label="Help & info">
-              <DropdownMenuTrigger asChild>
-                <Button data-tour="help" variant="ghost" size="icon" aria-label="Help & info" className="h-8 w-8 hidden xl:flex">
-                  <HelpCircle className="h-4 w-4" aria-hidden="true" />
-                </Button>
-              </DropdownMenuTrigger>
-            </HeaderTip>
-            <DropdownMenuContent align="end" className="w-72">
-              <DropdownMenuItem onClick={() => useTourStore.getState().start()}>
-                <Compass className="h-4 w-4 mr-2" />
-                Take the Tour
-              </DropdownMenuItem>
-              {!checklistCelebrated && (
-                <DropdownMenuItem onClick={reopenChecklist}>
-                  <Rocket className="h-4 w-4 mr-2" />
-                  Getting started
-                </DropdownMenuItem>
-              )}
-              {!isInstalled && (
-                <DropdownMenuItem onClick={() => void promptInstall()}>
-                  <MonitorDown className="h-4 w-4 mr-2" />
-                  Install app
-                </DropdownMenuItem>
-              )}
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => setNistModalOpen(true)}>
-                <Shield className="h-4 w-4 mr-2" />
-                NIST 800-171 Compliance
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setAboutModalOpen(true)}>
-                <Info className="h-4 w-4 mr-2" />
-                About
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => useUIStore.getState().setHelpOpen(true)}>
-                <HelpCircle className="h-4 w-4 mr-2" />Help & keyboard shortcuts
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => window.open(GITHUB_REPO_URL, '_blank', 'noopener,noreferrer')}>
-                <GithubIcon className="h-4 w-4 mr-2" />
-                View on GitHub
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => window.open(buildBugReportUrl(), '_blank', 'noopener,noreferrer')}>
-                <Bug className="h-4 w-4 mr-2" />
-                Report a Bug
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => window.open(buildFeatureRequestUrl(), '_blank', 'noopener,noreferrer')}>
-                <Lightbulb className="h-4 w-4 mr-2" />
-                Suggest a Feature
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => useLogStore.getState().setOpen(true)}>
-                <ScrollText className="h-4 w-4 mr-2" />
-                View Logs
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setConnectivityModalOpen(true)}>
-                <Radio className="h-4 w-4 mr-2" />
-                Endpoint Check
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <div className="px-2 py-1.5">
-                <h4 className="font-medium text-sm mb-2 flex items-center">
-                  <Keyboard className="h-4 w-4 mr-2" />
-                  Keyboard Shortcuts
-                </h4>
-                <div className="grid grid-cols-2 gap-1 text-xs">
-                  <div className="text-muted-foreground">Download PDF</div>
-                  <div className="font-mono text-right">{formatShortcut('mod D')}</div>
-                  <div className="text-muted-foreground">Save Draft</div>
-                  <div className="font-mono text-right">{formatShortcut('mod S')}</div>
-                  <div className="text-muted-foreground">Find & Replace</div>
-                  <div className="font-mono text-right">{formatShortcut('mod H')}</div>
-                  <div className="text-muted-foreground">Toggle Preview</div>
-                  <div className="font-mono text-right">{formatShortcut('mod E')}</div>
-                  <div className="text-muted-foreground">Undo / Redo</div>
-                  <div className="font-mono text-right">{formatShortcut('mod Z')} / {formatShortcut(REDO_SHORTCUT)}</div>
-                </div>
-              </div>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <HeaderTip label="Settings">
-            <Button data-tour="appearance" variant="ghost" size="icon" aria-label="Settings" aria-haspopup="dialog" className="h-9 w-9" onClick={(event) => { event.currentTarget.focus(); useUIStore.getState().setSettingsOpen(true); }}><Settings className="h-4 w-4" /></Button>
-          </HeaderTip>
-
-          {/* Hamburger menu - visible below xl breakpoint (1280px) */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" aria-label="Open menu" className="h-8 w-8 xl:hidden">
-                <Menu className="h-4 w-4" aria-hidden="true" />
+              <Button variant="ghost" size="sm" aria-label="Document tools" className="h-10 sm:h-8 px-2">
+                <Wrench className="h-3.5 w-3.5" aria-hidden="true" />Tools
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-52">
               {/* Quick actions */}
-              <DropdownMenuItem className="min-[400px]:hidden" onClick={handleUndo} disabled={!canUndo}><Undo2 className="h-4 w-4 mr-2" />Undo</DropdownMenuItem>
-              <DropdownMenuItem className="min-[400px]:hidden" onClick={handleRedo} disabled={!canRedo}><Redo2 className="h-4 w-4 mr-2" />Redo</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleUndo} disabled={!canUndo}><Undo2 className="h-4 w-4 mr-2" />Undo</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleRedo} disabled={!canRedo}><Redo2 className="h-4 w-4 mr-2" />Redo<DropdownMenuShortcut>{formatShortcut(REDO_SHORTCUT)}</DropdownMenuShortcut></DropdownMenuItem>
               <DropdownMenuItem onClick={onRefreshPreview} disabled={isCompiling}>
                 <RefreshCw className={`h-4 w-4 mr-2 ${isCompiling ? 'animate-spin' : ''}`} />
                 Refresh Preview
@@ -947,6 +654,8 @@ export function Header({
                 Find & Replace
               </DropdownMenuItem>
               <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => setConnectivityModalOpen(true)}><Radio className="h-4 w-4 mr-2" />Endpoint Check</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => useUIStore.getState().setSettingsOpen(true)}><Settings className="h-4 w-4 mr-2" />Settings</DropdownMenuItem>
               {/* Appearance section */}
               <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Appearance</div>
               <DropdownMenuItem onClick={toggleTheme}>
@@ -1001,11 +710,7 @@ export function Header({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        </div>
       </div>
-
-      </div>
-
       <Dialog open={!!reviewedDraft} onOpenChange={(open) => { if (!open && !openingDraft) setReviewedDraft(null); }}>
         <DialogContent className="sm:max-w-lg max-h-[85dvh] overflow-y-auto">
           <DialogHeader><DialogTitle>Review draft</DialogTitle><DialogDescription>Open a separate editable copy. Your current document stays in Recents.</DialogDescription></DialogHeader>
