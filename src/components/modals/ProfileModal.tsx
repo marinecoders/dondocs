@@ -37,7 +37,9 @@ import { SSICLookupModal } from '@/components/modals/SSICLookupModal';
 import { useUIStore } from '@/stores/uiStore';
 import { showAppAlert } from '@/stores/alertStore';
 import { useProfileStore } from '@/stores/profileStore';
-import { useDocumentStore } from '@/stores/documentStore';
+import { useDocumentStore, getSerializedSession } from '@/stores/documentStore';
+import { useDocumentsStore, profileFormPatch } from '@/stores/documentsStore';
+import { SessionChanges } from '@/components/SessionChanges';
 import type { Profile, SignatureImage } from '@/types/document';
 import type { UnitInfo } from '@/data/unitDirectory';
 import { ALL_SERVICE_RANKS, formatRank } from '@/data/ranks';
@@ -178,7 +180,13 @@ export function ProfileModal() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileModalOpen]);
 
-  const handleSave = () => {
+  const [applyToDocument, setApplyToDocument] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const isCorrespondence = useDocumentStore((s) => s.documentCategory === 'correspondence');
+  const currentSession = getSerializedSession();
+  const proposedSession = { ...currentSession, formData: { ...currentSession.formData, ...profileFormPatch(formState) } };
+
+  const handleSave = async () => {
     if (!profileName.trim()) {
       showAppAlert({ title: 'Name required', message: 'Please enter a profile name.' });
       return;
@@ -186,45 +194,29 @@ export function ProfileModal() {
 
     const trimmedName = profileName.trim();
 
-    const formFields = {
-      department: formState.department,
-      unitLine1: formState.unitLine1,
-      unitLine2: formState.unitLine2,
-      unitAddress: formState.unitAddress,
-      ssic: formState.ssic,
-      from: formState.from,
-      sigFirst: formState.sigFirst,
-      sigMiddle: formState.sigMiddle,
-      sigLast: formState.sigLast,
-      sigRank: formState.sigRank,
-      sigTitle: formState.sigTitle,
-      byDirection: formState.byDirection,
-      byDirectionAuthority: formState.byDirectionAuthority,
-      cuiControlledBy: formState.cuiControlledBy,
-      pocEmail: formState.pocEmail,
-      signatureImage: formState.signatureImage,
-    };
-
     // The persist write throws if localStorage is full; zustand has already
     // applied the in-memory change, so warn the user rather than crash silently.
+    setSaving(true);
     try {
+      if (applyToDocument && isCorrespondence) {
+        const ok = await useDocumentsStore.getState().restoreSnapshot(proposedSession);
+        if (!ok) throw new Error('Could not save a recovery version. Your document has not changed.');
+      }
       if (isEditing && selectedProfile) {
         updateProfile(selectedProfile, formState);
       } else {
         addProfile(trimmedName, formState);
         selectProfile(trimmedName);
       }
-      useDocumentStore.getState().setFormData(formFields);
     } catch (err) {
       console.error('Failed to save profile (storage may be full)', err);
       showAppAlert({
         title: "Couldn't save this profile",
         message:
-          "Your browser's local storage is full. " +
-          'Try a smaller signature image, or delete an old profile, then save again.',
+          err instanceof Error ? err.message : 'Check browser storage and try again.',
       });
       return; // keep the modal open so the user can adjust and retry
-    }
+    } finally { setSaving(false); }
 
     setProfileModalOpen(false);
   };
@@ -712,13 +704,17 @@ export function ProfileModal() {
             </div>
           </div>
 
+          <div className="px-6 py-3 border-t space-y-2">
+            {isCorrespondence ? <label className="flex items-center gap-2 text-sm"><Checkbox checked={applyToDocument} onCheckedChange={(checked) => setApplyToDocument(checked === true)} />Also apply to the current document</label> : <p className="text-sm text-muted-foreground">Save this profile for use in documents. The current form is unchanged.</p>}
+            {applyToDocument && isCorrespondence && <details><summary className="cursor-pointer text-sm">Review document changes</summary><div className="max-h-48 overflow-y-auto mt-2"><SessionChanges before={currentSession} after={proposedSession} /></div></details>}
+          </div>
           {/* Sticky Footer */}
           <DialogFooter className="bg-background px-6 py-4 border-t shrink-0">
             <Button variant="outline" onClick={handleClose}>
               Cancel
             </Button>
-            <Button data-tour="profile-save" onClick={handleSave}>
-              {isEditing ? 'Save Changes' : 'Create Profile'}
+            <Button data-tour="profile-save" disabled={saving} onClick={() => void handleSave()}>
+              {saving ? 'Saving…' : applyToDocument && isCorrespondence ? 'Save and apply' : 'Save profile'}
             </Button>
           </DialogFooter>
         </DialogContent>

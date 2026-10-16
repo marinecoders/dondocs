@@ -11,14 +11,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore, getSerializedSessionForShare, loadSharedSession } from '@/stores/documentStore';
-import { useDocumentsStore } from '@/stores/documentsStore';
+import { getSerializedSessionForShare, loadSharedSession } from '@/stores/documentStore';
+import { useDocumentsStore, profileFormPatch } from '@/stores/documentsStore';
 import { useUserTemplatesStore } from '@/stores/userTemplatesStore';
 import { showAppAlert } from '@/stores/alertStore';
 import { useProfileStore } from '@/stores/profileStore';
 import { LETTER_TEMPLATES, type LetterTemplate } from '@/data/templates';
-import { DOC_TYPE_LABELS } from '@/types/document';
-import { canonicalizeUnitAddress } from '@/lib/unitAddress';
+import { DOC_TYPE_LABELS, FORM_TYPE_LABELS } from '@/types/document';
+import { templateSession } from '@/lib/templateSession';
+import { SessionPreview } from '@/components/SessionPreview';
+import { sessionSearchFields, matchesSearch } from '@/lib/workspaceSearch';
 
 const CATEGORIES = [...new Set(LETTER_TEMPLATES.map(t => t.category))];
 
@@ -30,11 +32,6 @@ export function TemplateLoaderModal() {
   const userTemplates = useUserTemplatesStore((s) => s.templates);
   const saveTemplate = useUserTemplatesStore((s) => s.saveTemplate);
   const deleteTemplate = useUserTemplatesStore((s) => s.deleteTemplate);
-  // A SerializedSession carries only correspondence content — NAVMC form fields
-  // live in a separate store — so "save as template" while on a form would make
-  // an empty, unloadable template. Only offer it for correspondence documents.
-  const isForms = useDocumentStore((s) => s.documentCategory === 'forms');
-
   const searchQuery = useUIStore((s) => s.templateSearch);
   const setSearchQuery = useUIStore((s) => s.setTemplateSearch);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -48,7 +45,7 @@ export function TemplateLoaderModal() {
     () =>
       Object.values(userTemplates)
         .filter((t) =>
-          !searchQuery ? true : t.name.toLowerCase().includes(searchQuery.toLowerCase())
+          matchesSearch([t.name, ...sessionSearchFields(t.session).map((f) => f.text)].join(' '), searchQuery)
         )
         .sort((a, b) => b.createdAt - a.createdAt),
     [userTemplates, searchQuery]
@@ -70,98 +67,11 @@ export function TemplateLoaderModal() {
   const handleLoadTemplate = () => {
     if (!selectedTemplate) return;
 
-    // Non-destructive: preserve the doc currently open in Recents before the
-    // template overwrites the live store, then re-home the templated result as
-    // its own new document. Loading a template no longer discards your work.
     useDocumentsStore.getState().syncCurrent();
-
-    const store = useDocumentStore.getState();
-
-    // Set document type
-    store.setDocType(selectedTemplate.docType);
-
-    // Set subject
-    if (selectedTemplate.subject) {
-      store.setField('subject', selectedTemplate.subject);
-    }
-
-    // Set SSIC if available
-    if (selectedTemplate.ssic) {
-      store.setField('ssic', selectedTemplate.ssic);
-    }
-
-    // Clear existing paragraphs by removing from the end (avoids index shifting issues)
-    const currentParagraphCount = store.paragraphs.length;
-    for (let i = currentParagraphCount - 1; i >= 0; i--) {
-      store.removeParagraph(i);
-    }
-
-    // Add template paragraphs
-    selectedTemplate.paragraphs.forEach((para) => {
-      store.addParagraph(para.text, para.level);
-    });
-
-    // Clear existing references by removing from the end
-    const currentRefCount = store.references.length;
-    for (let i = currentRefCount - 1; i >= 0; i--) {
-      store.removeReference(i);
-    }
-
-    // Add template references
-    if (selectedTemplate.references) {
-      selectedTemplate.references.forEach((ref) => {
-        store.addReference(ref.title, ref.url);
-      });
-    }
-
-    // Clear existing enclosures
-    const currentEnclCount = store.enclosures.length;
-    for (let i = currentEnclCount - 1; i >= 0; i--) {
-      store.removeEnclosure(i);
-    }
-
-    // Clear existing copy-tos
-    const currentCopyToCount = store.copyTos.length;
-    for (let i = currentCopyToCount - 1; i >= 0; i--) {
-      store.removeCopyTo(i);
-    }
-
-    // Apply selected profile on top of template (profile always wins)
-    const profileStore = useProfileStore.getState();
-    const { selectedProfile, profiles } = profileStore;
-    if (selectedProfile && profiles[selectedProfile]) {
-      const profile = profiles[selectedProfile];
-      store.setFormData({
-        department: profile.department,
-        unitLine1: profile.unitLine1,
-        unitLine2: profile.unitLine2,
-        // Canonicalize on read (see App.tsx for rationale).
-        unitAddress: canonicalizeUnitAddress(profile.unitAddress),
-        ssic: profile.ssic,
-        from: profile.from,
-        sigFirst: profile.sigFirst,
-        sigMiddle: profile.sigMiddle,
-        sigLast: profile.sigLast,
-        sigRank: profile.sigRank,
-        sigTitle: profile.sigTitle,
-        byDirection: profile.byDirection,
-        byDirectionAuthority: profile.byDirectionAuthority,
-        cuiControlledBy: profile.cuiControlledBy,
-        pocEmail: profile.pocEmail,
-        signatureImage: profile.signatureImage,
-      });
-    }
-
-    // Re-home the templated document as its own new Recents entry (fresh id,
-    // baseline, promoted) and reset validation, matching the load-draft flow.
+    loadSharedSession(selectedSession!);
     useDocumentsStore.getState().openLoadedAsNew();
     useUIStore.getState().setValidationVisible(false);
-
-    // Close modal and reset state
-    setTemplateLoaderOpen(false);
-    setSelectedTemplate(null);
-    setSearchQuery('');
-    setSelectedCategory(null);
+    handleClose();
   };
 
   // Load a user-saved template: restore its full session as a new document,
@@ -178,7 +88,6 @@ export function TemplateLoaderModal() {
 
   const handleSaveTemplate = () => {
     if (savingName === null) return;
-    if (useDocumentStore.getState().documentCategory === 'forms') return; // guarded below too
     // compressedLocalStorage rethrows on quota; zustand has already applied the
     // in-memory add, so warn rather than crash to the ErrorBoundary — and keep the
     // name field open so the user can retry after freeing space.
@@ -204,8 +113,13 @@ export function TemplateLoaderModal() {
     setSelectedCategory(null);
   };
 
+  const profiles = useProfileStore((s) => s.profiles);
+  const selectedProfile = useProfileStore((s) => s.selectedProfile);
+  const selectedSession = selectedUserId ? userTemplates[selectedUserId]?.session
+    : selectedTemplate ? templateSession(selectedTemplate, selectedProfile && profiles[selectedProfile] ? profileFormPatch(profiles[selectedProfile]) : {}) : null;
+
   return (
-    <Dialog open={templateLoaderOpen} onOpenChange={setTemplateLoaderOpen}>
+    <Dialog open={templateLoaderOpen} onOpenChange={(open) => { if (!open) handleClose(); }}>
       <DialogContent className="sm:max-w-2xl max-h-[85vh] flex flex-col p-0 gap-0 overflow-hidden">
         <DialogHeader className="bg-background px-6 py-4 border-b shrink-0 z-10">
           <DialogTitle className="flex items-center gap-2">
@@ -232,30 +146,28 @@ export function TemplateLoaderModal() {
           {/* Category filters */}
           <div className="flex flex-wrap gap-2">
             <Badge
+              asChild
               variant={selectedCategory === null ? 'default' : 'outline'}
               className="cursor-pointer hover:bg-primary/80"
               onClick={() => setSelectedCategory(null)}
             >
-              All
+              <button type="button" aria-pressed={selectedCategory === null}>All</button>
             </Badge>
             {CATEGORIES.map((category) => (
               <Badge
                 key={category}
+                asChild
                 variant={selectedCategory === category ? 'default' : 'outline'}
                 className="cursor-pointer hover:bg-primary/80"
                 onClick={() => setSelectedCategory(category)}
               >
-                {category}
+                <button type="button" aria-pressed={selectedCategory === category}>{category}</button>
               </Badge>
             ))}
           </div>
 
-          {/* Save the open document as a reusable template — correspondence only. */}
-          {isForms ? (
-            <p className="text-xs text-muted-foreground">
-              Templates capture correspondence. Switch to a letter or memo to save one.
-            </p>
-          ) : savingName === null ? (
+          <p className="text-xs text-muted-foreground">Saved templates keep text and typed names. Attached files and signature images are excluded.</p>
+          {savingName === null ? (
             <Button variant="outline" size="sm" onClick={() => setSavingName('')}>
               <Star className="mr-1.5 h-3.5 w-3.5" /> Save current as template
             </Button>
@@ -304,7 +216,7 @@ export function TemplateLoaderModal() {
                         setSelectedUserId(t.id);
                         setSelectedTemplate(null);
                       }}
-                      className="flex min-w-0 flex-1 items-start gap-3 text-left outline-none"
+                      className="flex min-w-0 flex-1 items-start gap-3 rounded text-left focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       <Star className="mt-0.5 h-5 w-5 shrink-0 text-primary/70" />
                       <div className="min-w-0 flex-1">
@@ -314,7 +226,7 @@ export function TemplateLoaderModal() {
                         </div>
                         <div className="mt-1">
                           <Badge variant="secondary" className="text-xs">
-                            {DOC_TYPE_LABELS[t.docType] ?? t.docType}
+                            {FORM_TYPE_LABELS[t.docType as keyof typeof FORM_TYPE_LABELS] ?? DOC_TYPE_LABELS[t.docType] ?? t.docType}
                           </Badge>
                         </div>
                       </div>
@@ -326,7 +238,7 @@ export function TemplateLoaderModal() {
                         if (selectedUserId === t.id) setSelectedUserId(null);
                       }}
                       aria-label={`Delete ${t.name}`}
-                      className="shrink-0 rounded p-1.5 text-muted-foreground opacity-0 outline-none transition-opacity hover:text-destructive focus-visible:opacity-100 group-hover:opacity-100"
+                      className="shrink-0 rounded p-2 text-muted-foreground hover:text-destructive focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -339,7 +251,7 @@ export function TemplateLoaderModal() {
             )}
             {filteredTemplates.length === 0 ? (
               <div className="text-center text-muted-foreground py-8">
-                No templates found matching your search.
+                No built-in templates match this search.
               </div>
             ) : (
               filteredTemplates.map((template) => (
@@ -392,13 +304,7 @@ export function TemplateLoaderModal() {
         {(selectedTemplate || selectedUserId) && (
           <div className="p-4 border-t bg-muted/50 shrink-0 z-10">
             <div className="text-sm">
-              <span className="font-medium">Preview:</span>
-              <p className="text-muted-foreground mt-1">
-                {selectedTemplate
-                  ? selectedTemplate.subject || '(No subject - endorsement)'
-                  : (selectedUserId && userTemplates[selectedUserId]?.session.formData?.subject) ||
-                    (selectedUserId ? userTemplates[selectedUserId]?.name : '')}
-              </p>
+              {selectedSession && <SessionPreview session={selectedSession} />}
               <p className="text-xs text-muted-foreground mt-2">
                 Opens as a new document — your current one is kept in Recents.
               </p>

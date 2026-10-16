@@ -40,7 +40,7 @@ export const useUserTemplatesStore = create<UserTemplatesState>()(
         const template: UserTemplate = {
           id,
           name: name.trim() || 'Untitled template',
-          docType: session.docType,
+          docType: session.documentCategory === 'forms' ? session.formType : session.docType,
           createdAt: Date.now(),
           session,
         };

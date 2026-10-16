@@ -1,3 +1,4 @@
+import { SessionPreview } from '@/components/SessionPreview';
 /**
  * Share Modal
  *
@@ -24,7 +25,7 @@ import {
   buildShareUrl,
   parseShareUrl,
 } from '@/lib/shareCrypto';
-import { getSerializedSessionForShare, loadSharedSession, useDocumentStore } from '@/stores/documentStore';
+import { getSerializedSessionForShare, loadSharedSession, type SerializedSession } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { parseSharedSession } from '@/lib/sharedSession';
 import { detectPII, getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
@@ -47,6 +48,8 @@ export function ShareModal({
   initialPayload = null,
   onImportComplete,
 }: ShareModalProps) {
+  const [snapshot] = useState(() => mode === 'share' ? getSerializedSessionForShare() : null);
+  const [received, setReceived] = useState<SerializedSession | null>(null);
   const [password, setPassword] = useState('');
   const [shareLink, setShareLink] = useState('');
   const [pasteLink, setPasteLink] = useState(initialPayload ? '' : '');
@@ -65,7 +68,7 @@ export function ShareModal({
     setPiiFindings(null);
     setWorking(true);
     try {
-      const session = getSerializedSessionForShare();
+      const session = snapshot!;
       const encrypted = await encryptSharePayload(session, password);
       const url = buildShareUrl(encrypted);
       setShareLink(url);
@@ -84,7 +87,7 @@ export function ShareModal({
     } finally {
       setWorking(false);
     }
-  }, [password]);
+  }, [password, snapshot]);
 
   const handleGenerateLink = useCallback(() => {
     setError(null);
@@ -94,14 +97,14 @@ export function ShareModal({
     }
     // Scan before the document can leave the device; warn once, then let the
     // user decide (the payload is still password-encrypted either way).
-    const session = getSerializedSessionForShare();
-    const pii = detectPII(session.forms ? { formData: {}, paragraphs: [{ text: JSON.stringify(session.forms) }], copyTos: [], references: [] } : useDocumentStore.getState());
+    const session = snapshot!;
+    const pii = detectPII(session.forms ? { formData: {}, paragraphs: [{ text: JSON.stringify(session.forms) }], copyTos: [], references: [] } : session);
     if (pii.found) {
       setPiiFindings(pii);
       return;
     }
     void doGenerate();
-  }, [password, doGenerate]);
+  }, [password, doGenerate, snapshot]);
 
   const handleImport = useCallback(async () => {
     setError(null);
@@ -117,23 +120,27 @@ export function ShareModal({
     setWorking(true);
     try {
       const data = await decryptSharePayload(payload, password);
-      const session = parseSharedSession(data);
-      useDocumentsStore.getState().syncCurrent();
-      loadSharedSession(session);
-      useDocumentsStore.getState().openLoadedAsNew();
-      onImportComplete?.();
-      onOpenChange(false);
+      setReceived(parseSharedSession(data));
       setPassword('');
-      setPasteLink('');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Wrong password or invalid link');
     } finally {
       setWorking(false);
     }
-  }, [payloadFromInput, password, onOpenChange, onImportComplete]);
+  }, [payloadFromInput, password]);
+
+  const openReceived = () => {
+    if (!received) return;
+    useDocumentsStore.getState().syncCurrent();
+    loadSharedSession(received);
+    useDocumentsStore.getState().openLoadedAsNew();
+    onImportComplete?.();
+    onOpenChange(false);
+  };
 
   const handleOpenChange = useCallback(
     (next: boolean) => {
+      if (working) return;
       if (!next) {
         setPassword('');
         setShareLink('');
@@ -143,7 +150,7 @@ export function ShareModal({
       }
       onOpenChange(next);
     },
-    [onOpenChange]
+    [onOpenChange, working]
   );
 
   const isImport = mode === 'import';
@@ -153,7 +160,7 @@ export function ShareModal({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-md w-[calc(100vw-2rem)]">
+      <DialogContent className="sm:max-w-lg w-[calc(100vw-2rem)] max-h-[85dvh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Link2 className="h-5 w-5 text-primary" />
@@ -169,10 +176,11 @@ export function ShareModal({
         {!isImport && (
           <div className="rounded-md border border-border p-3 text-sm space-y-1">
             <p className="font-medium">What the recipient receives</p>
-            <p>Current document fields, text, references and typed signer names.</p>
+            {snapshot && <SessionPreview session={snapshot} />}
             <p className="text-muted-foreground">Excluded: attached PDFs, basic-letter files, signature images, version history and other drafts. Send necessary files separately.</p>
           </div>
         )}
+        {received && <div className="space-y-2 rounded-md border p-3"><SessionPreview session={received} /><p className="text-xs text-muted-foreground">Opens as a new document. Your current draft stays in Recents.</p></div>}
         <div
           className="flex gap-3 rounded-md border border-warning/40 bg-warning/10 px-3 py-2.5 text-sm text-warning"
           role="status"
@@ -190,7 +198,7 @@ export function ShareModal({
         </div>
 
         <div className="flex flex-col gap-4 py-2">
-          {isImport && !initialPayload && (
+          {isImport && !received && !initialPayload && (
             <div className="space-y-2">
               <Label htmlFor="share-paste-link">Share link</Label>
               <Input
@@ -203,13 +211,13 @@ export function ShareModal({
               />
             </div>
           )}
-          {isImport && initialPayload && (
+          {isImport && !received && initialPayload && (
             <p className="text-sm text-muted-foreground">
               Opening document from link. Enter the password below.
             </p>
           )}
 
-          <div data-tour="share-password" className="space-y-2">
+          {!received && <div data-tour="share-password" className="space-y-2">
             <Label htmlFor="share-password">
               {isImport ? 'Password' : 'Password for this link'}
             </Label>
@@ -226,8 +234,9 @@ export function ShareModal({
                 }
               }}
               autoComplete={isImport ? 'current-password' : 'new-password'}
+              disabled={working}
             />
-          </div>
+          </div>}
 
           {!isImport && shareLink && (
             <div className="space-y-2">
@@ -295,8 +304,8 @@ export function ShareModal({
           </Button>
           {isImport ? (
             <Button
-              onClick={handleImport}
-              disabled={!canSubmit || working}
+              onClick={received ? openReceived : handleImport}
+              disabled={(!received && !canSubmit) || working}
             >
               {working ? (
                 <>
@@ -304,7 +313,7 @@ export function ShareModal({
                   Opening…
                 </>
               ) : (
-                'Open document'
+                received ? 'Open as new document' : 'Decrypt and review'
               )}
             </Button>
           ) : (

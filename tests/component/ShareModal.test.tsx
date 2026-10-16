@@ -30,7 +30,7 @@ vi.mock('@/lib/shareCrypto', () => ({
 }));
 vi.mock('@/stores/documentsStore', () => ({ useDocumentsStore: { getState: () => ({ syncCurrent: vi.fn(), openLoadedAsNew: vi.fn() }) } }));
 vi.mock('@/stores/documentStore', () => ({
-  getSerializedSessionForShare: vi.fn(() => ({ docType: 'naval_letter' })),
+  getSerializedSessionForShare: vi.fn(() => ({ docType: 'naval_letter', formData: {}, paragraphs: [], copyTos: [], references: [] })),
   loadSharedSession: vi.fn(),
   // The share flow scans the live document for PII before building a link;
   // a clean (empty) document lets the happy path generate straight through.
@@ -60,10 +60,10 @@ describe('ShareModal — share mode', () => {
     await user.type(screen.getByLabelText('Password for this link'), 'hunter2');
     await user.click(screen.getByRole('button', { name: /generate link/i }));
 
-    expect(encryptSharePayload).toHaveBeenCalledWith({ docType: 'naval_letter' }, 'hunter2');
+    expect(encryptSharePayload).toHaveBeenCalledWith(vi.mocked(getSerializedSessionForShare).mock.results[0].value, 'hunter2');
     expect(buildShareUrl).toHaveBeenCalledWith('ENCRYPTED');
     expect(writeText).toHaveBeenCalledWith('https://dondocs.app/#s=ENCRYPTED');
-    expect(getSerializedSessionForShare).toHaveBeenCalledTimes(2);
+    expect(getSerializedSessionForShare).toHaveBeenCalledTimes(1);
     // The generated link is surfaced for the user to copy/share.
     expect(await screen.findByDisplayValue('https://dondocs.app/#s=ENCRYPTED')).toBeInTheDocument();
   });
@@ -93,9 +93,11 @@ describe('ShareModal — import mode', () => {
     );
 
     await user.type(screen.getByLabelText('Password'), 'hunter2');
-    await user.click(screen.getByRole('button', { name: /open document/i }));
+    await user.click(screen.getByRole('button', { name: /decrypt and review/i }));
 
     expect(decryptSharePayload).toHaveBeenCalledWith('PAYLOAD', 'hunter2');
+    expect(loadSharedSession).not.toHaveBeenCalled();
+    await user.click(screen.getByRole('button', { name: 'Open as new document' }));
     expect(loadSharedSession).toHaveBeenCalledWith(session);
     expect(onImportComplete).toHaveBeenCalledTimes(1);
     expect(onOpenChange).toHaveBeenCalledWith(false);
@@ -108,7 +110,7 @@ describe('ShareModal — import mode', () => {
     render(<ShareModal open mode="import" initialPayload="PAYLOAD" onOpenChange={vi.fn()} />);
 
     await user.type(screen.getByLabelText('Password'), 'wrongpass');
-    await user.click(screen.getByRole('button', { name: /open document/i }));
+    await user.click(screen.getByRole('button', { name: /decrypt and review/i }));
 
     expect(await screen.findByText('decryption failed')).toBeInTheDocument();
     expect(loadSharedSession).not.toHaveBeenCalled();

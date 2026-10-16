@@ -2104,7 +2104,7 @@ ${texFiles['body.tex'] || '% No body content'}
       />
       {/* RestoreSessionModal retired: the registry auto-resumes the last open
           document, and Recents replaces the old "restore?" prompt. */}
-      <ShareModal
+      {shareModal !== null && <ShareModal
         open={shareModal !== null}
         onOpenChange={(open) => {
           if (!open) {
@@ -2119,7 +2119,7 @@ ${texFiles['body.tex'] || '% No body content'}
           const u = window.location;
           window.history.replaceState(null, '', u.pathname + u.search);
         }}
-      />
+      />}
       <UpdatePromptModal
         open={showUpdatePrompt}
         onConfirm={confirmUpdate}

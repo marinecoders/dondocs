@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { SessionChanges } from '@/components/SessionChanges';
 import { Plus, Pencil, Trash2, Upload, Download, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { IconTip } from '@/components/ui/icon-tip';
@@ -15,68 +18,45 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useProfileStore } from '@/stores/profileStore';
-import { useDocumentStore } from '@/stores/documentStore';
+import { getSerializedSession, type SerializedSession } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
 import { showAppAlert, showAppConfirm } from '@/stores/alertStore';
 import { debug } from '@/lib/debug';
-import { profileFormPatch } from '@/stores/documentsStore';
+import { profileFormPatch, useDocumentsStore } from '@/stores/documentsStore';
 import { readFileAsText, triggerDownload } from '@/lib/encoding';
-
-// Example form data for one-time mode (no profile)
-const EXAMPLE_FORM_DATA = {
-  department: 'usmc',
-  unitLine1: '1ST BATTALION, 6TH MARINES',
-  unitLine2: '2D MARINE DIVISION, II MEF',
-  unitAddress: 'PSC BOX 20123, CAMP LEJEUNE, NC 28542-0123',
-  ssic: '1000',
-  from: 'Commanding Officer, 1st Battalion, 6th Marines',
-  sigFirst: 'John',
-  sigMiddle: 'A',
-  sigLast: 'DOE',
-  sigRank: 'Lieutenant Colonel',
-  sigTitle: 'Commanding Officer',
-  byDirection: false,
-  byDirectionAuthority: '',
-  cuiControlledBy: '',
-  pocEmail: 'john.doe@usmc.mil',
-};
 
 export function ProfileBar() {
   const { profiles, selectedProfile, selectProfile, deleteProfile, importProfiles } = useProfileStore();
-  const { setFormData } = useDocumentStore();
+  const [pending, setPending] = useState<{ name: string; before: SerializedSession; after: SerializedSession } | null>(null);
+  const [applying, setApplying] = useState(false);
+  const [applyError, setApplyError] = useState('');
   const setProfileModalOpen = useUIStore((s) => s.setProfileModalOpen);
 
   const profileNames = Object.keys(profiles).sort();
 
   const handleProfileChange = (name: string) => {
-    // selectProfile persists the whole profile blob via compressedLocalStorage,
-    // which rethrows on quota — guard so switching profiles under storage
-    // pressure degrades (logs) instead of throwing out of the event handler.
-    try {
-      if (name === '__none__') {
-        selectProfile(null);
-        // Only seed the example letterhead when the document is still pristine,
-        // so picking "No Profile" mid-edit never overwrites work already typed.
-        const ds = useDocumentStore.getState();
-        const subject = (ds.formData.subject ?? '').trim();
-        const pristine =
-          (!subject || /^\[.*\]$/.test(subject)) &&
-          ds.paragraphs.every((p) => !(p.text ?? '').trim());
-        if (pristine) setFormData(EXAMPLE_FORM_DATA);
-        return;
-      }
-      selectProfile(name);
-      const profile = profiles[name];
-      if (profile) {
-        // Shared mapper — applies the signature block only when the profile has
-        // a signer, so picking the signer-less default profile from this
-        // dropdown no longer blanks an existing signature (matches the New-doc
-        // path in applySelectedProfile).
-        setFormData(profileFormPatch(profile));
-      }
-    } catch (err) {
-      debug.error('Profile', 'Failed to switch profile (storage may be full)', err);
+    setApplyError('');
+    if (name === '__none__') {
+      try { selectProfile(null); }
+      catch { showAppAlert({ title: 'Could not save profile preference', message: 'Browser storage is full. Your document has not changed.' }); }
+      return;
     }
+    const profile = profiles[name];
+    if (!profile) return;
+    const before = getSerializedSession();
+    setPending({ name, before, after: { ...before, formData: { ...before.formData, ...profileFormPatch(profile) } } });
+  };
+  const applyProfile = async () => {
+    if (!pending) return;
+    setApplying(true);
+    try {
+      const restored = await useDocumentsStore.getState().restoreSnapshot(pending.after);
+      if (!restored) { setApplyError('Could not save a recovery version. Your document has not changed.'); return; }
+      selectProfile(pending.name);
+      setPending(null);
+    } catch {
+      setApplyError('Could not save the profile preference. Check browser storage and try again.');
+    } finally { setApplying(false); }
   };
 
   const handleDelete = async () => {
@@ -133,6 +113,7 @@ export function ProfileBar() {
   };
 
   return (
+    <>
     <div data-tour="profiles" className="flex flex-wrap items-center gap-1.5 px-3 py-1.5 border-b border-border bg-secondary/20">
       <Select value={selectedProfile || '__none__'} onValueChange={handleProfileChange}>
         <SelectTrigger size="sm" aria-label="Apply profile" className="w-[180px] max-w-full text-xs">
@@ -220,5 +201,14 @@ export function ProfileBar() {
 
 
     </div>
+    <Dialog open={!!pending} onOpenChange={(open) => { if (!open && !applying) setPending(null); }}>
+      <DialogContent className="sm:max-w-2xl max-h-[85dvh] flex flex-col">
+        <DialogHeader><DialogTitle>Apply {pending?.name}</DialogTitle><DialogDescription>Review the fields this profile changes. A recovery version is saved first; your document text stays intact.</DialogDescription></DialogHeader>
+        <div className="min-h-0 overflow-y-auto">{pending && <SessionChanges before={pending.before} after={pending.after} />}</div>
+        {applyError && <p role="alert" className="text-sm text-destructive">{applyError}</p>}
+        <DialogFooter><Button variant="outline" disabled={applying} onClick={() => setPending(null)}>Cancel</Button><Button disabled={applying} onClick={() => void applyProfile()}>{applying ? 'Applying…' : 'Apply profile'}</Button></DialogFooter>
+      </DialogContent>
+    </Dialog>
+    </>
   );
 }
