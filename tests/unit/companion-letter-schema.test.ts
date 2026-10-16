@@ -56,9 +56,9 @@ describe('the published schema', () => {
     expect(letterSchema.safeParse({ ...base, unit: { department } }).success).toBe(true);
   });
 
-  it('publishes no reference url, since the companion never renders one', () => {
+  it('publishes reference URLs for publication PDF links', () => {
     const item = z.toJSONSchema(letterSchema).properties!.references as { items: { properties: Record<string, unknown> } };
-    expect(Object.keys(item.items.properties).sort()).toEqual(['letter', 'title']);
+    expect(Object.keys(item.items.properties).sort()).toEqual(['letter', 'title', 'url']);
   });
 
   it('accepts only a letter for a reference letter', () => {

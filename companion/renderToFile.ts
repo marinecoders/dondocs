@@ -11,7 +11,8 @@ import { dirname, relative, resolve } from 'node:path';
 import { renderPdf } from './render';
 import { renderDocx } from './renderDocx';
 import type { CompanionDefaults, LetterInput } from './letterInput';
-import { ITYPE_EDITOR_REQUIRED } from './validateLetter';
+import { validateLetter } from './validateLetter';
+import { letterSchema } from './letterSchema';
 import { filenameFor, resolveOutputPath } from './outputPath';
 import { RENDER_TIMEOUT_MS, RenderTimeoutError } from './limits';
 
@@ -66,7 +67,11 @@ export async function renderToFile(
   defaults: CompanionDefaults,
   root: string,
 ): Promise<RenderedFile> {
-  if (input.docType === 'i_type') throw new Error(ITYPE_EDITOR_REQUIRED);
+  if (input.docType === 'i_type') {
+    input = letterSchema.parse(input);
+    const errors = validateLetter(input, defaults);
+    if (errors.length) throw new Error(errors.join('\n'));
+  }
   const format = input.format ?? 'pdf';
   // A given `out` is checked before the render; the default name is a slug
   // and cannot escape, so it is resolved at the write.

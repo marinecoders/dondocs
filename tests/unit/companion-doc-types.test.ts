@@ -35,9 +35,9 @@ describe('bundled templates identify their supported export path', () => {
     (id, docType) => {
       if (docType === 'i_type') {
         expect(validateLetter({ docType, subject: 'TEST' })).toContain(
-          'I-Type export requires the DonDocs web editor and its publication checks.',
+          'I-Type export requires publication metadata.',
         );
-        expect(letterSchema.safeParse({ docType, subject: 'TEST' }).success).toBe(false);
+        expect(letterSchema.safeParse({ docType, subject: 'TEST' }).success).toBe(true);
         return;
       }
       expect(DOC_TYPES, `template ${id} names ${docType}, which dondocs_letter rejects`).toContain(docType);

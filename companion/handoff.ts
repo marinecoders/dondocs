@@ -11,6 +11,7 @@
  * letter passes through the model's context, and so the encoding has one
  * home that a test can check against the app's own decoder.
  */
+import { deriveOverallClassLevel } from '../src/lib/overallClassification';
 import { deflateSync } from 'node:zlib';
 import { toStore, type CompanionDefaults, type LetterInput } from './letterInput';
 
@@ -27,9 +28,11 @@ const MAY_TRAVEL: readonly string[] = ['unclassified', 'cui'];
 
 /** Whether this letter may travel in a URL at all. */
 function mayHandOff(input: LetterInput): boolean {
+  // Attachment bytes cannot travel in the editor's session URL. Do not offer a lossy draft.
+  if (input.attachments?.length) return false;
   const { level, custom } = input.classification ?? {};
   if (custom) { return false; }
-  return level === undefined || MAY_TRAVEL.includes(level);
+  return MAY_TRAVEL.includes(deriveOverallClassLevel(level ?? 'unclassified', input.paragraphs ?? []));
 }
 
 /**

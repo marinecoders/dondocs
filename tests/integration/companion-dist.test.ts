@@ -9,6 +9,8 @@
  *
  * @vitest-environment node
  */
+import { PDFDocument } from 'pdf-lib';
+import { companionPublication } from '../_helpers/companionPublication';
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { execFileSync, spawn, spawnSync, type ChildProcessWithoutNullStreams } from 'node:child_process';
 import { existsSync, readdirSync } from 'node:fs';
@@ -116,6 +118,14 @@ function rendersEverything(label: string, entry: () => string) {
       if (hasPdfToolchain) {
         expect(execFileSync('pdftotext', ['-layout', path, '-']).toString()).toContain('COLD RUN');
       }
+    }, 200_000);
+
+    it('renders an I-Type with the bundled seal and authentication field', async () => {
+      const res = await server.call('tools/call', { name: 'dondocs_letter', arguments: { ...companionPublication(), out: 'instruction.pdf' } });
+      expect(res.result?.isError, text(res)).toBeFalsy();
+      const pdf = await PDFDocument.load(await readFile(res.result!.structuredContent!.path as string));
+      expect(pdf.getForm().getFields().map((field) => field.getName())).toContain('Signature1');
+      expect(pdf.getPageCount()).toBeGreaterThanOrEqual(3);
     }, 200_000);
 
     it('renders a DOCX when pandoc is present', async () => {

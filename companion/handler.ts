@@ -17,7 +17,7 @@ import type { CompanionDefaults, LetterInput } from './letterInput';
 import { OutsideSandboxError, outputRoot } from './outputPath';
 import { renderToFile } from './renderToFile';
 import { RenderTimeoutError } from './limits';
-import { validateLetter, DOC_TYPES, FORMATS } from './validateLetter';
+import { validateLetter, DOC_TYPES, FORMATS, formatsFor } from './validateLetter';
 import { acceptedFields, letterSchema } from './letterSchema';
 import { LETTER_TEMPLATES } from '../src/data/templates';
 import { lookupUnits } from './unitLookup';
@@ -25,8 +25,8 @@ import { lookupUnits } from './unitLookup';
 /** The contract version. Bump when the request or response shape changes. */
 export const CONTRACT = 1;
 export const ROOT = outputRoot();
-/** A letter is kilobytes; anything past this is a runaway caller, not a document. */
-const MAX_BODY = 1_000_000;
+/** Allow publication drawings while bounding request memory. */
+const MAX_BODY = 16_000_000;
 
 
 interface GenerateRequest extends LetterInput {
@@ -55,7 +55,7 @@ async function readBody(req: IncomingMessage): Promise<string> {
  * it does not name is refused here as it is there; the content rules live in
  * validateLetter so both doors enforce the identical set.
  */
-export function validate(body: GenerateRequest): string[] {
+export function validate(body: GenerateRequest, defaults: CompanionDefaults = {}): string[] {
   const problems: string[] = [];
   if (body.v !== undefined && body.v !== CONTRACT) {
     problems.push(`unsupported contract version ${body.v}; this companion speaks v${CONTRACT}`);
@@ -67,7 +67,7 @@ export function validate(body: GenerateRequest): string[] {
   if (!parsed.success) {
     return [...problems, ...parsed.error.issues.map((i) => `${i.path.join('.') || 'request'}: ${i.message}`)];
   }
-  return [...problems, ...validateLetter(parsed.data as unknown as LetterInput)];
+  return [...problems, ...validateLetter(parsed.data as unknown as LetterInput, defaults)];
 }
 
 /**
@@ -153,6 +153,7 @@ async function handleRequest(
       // Derived from the schema MCP publishes, not restated. The two lists were
       // hand-maintained and disagreed in both directions.
       accepts: acceptedFields(),
+      formatsByDocType: Object.fromEntries(DOC_TYPES.map((type) => [type, formatsFor(type)])),
       routes: ['POST /generate', 'GET /units?query=...', 'GET /templates', 'GET /templates/{id}', 'GET /health'],
     });
   }
@@ -181,11 +182,12 @@ async function handleRequest(
   // Answer 4xx on a bad request. Agent HTTP tools generally derive success from
   // the STATUS alone and hand the body to the model as text, so a 200 carrying an
   // error object would read as a document that rendered fine.
-  const problems = validate(body);
+  const problems = validate(body, defaults);
   if (problems.length) { return json(400, { ok: false, v: CONTRACT, errors: problems }); }
 
   try {
-    const file = await renderToFile(body, defaults, root);
+    const { v: _v, ...letter } = body;
+    const file = await renderToFile(letter, defaults, root);
     // stdout is fine here: this module is reached only from server.ts. Do not
     // import it into an MCP entry, where stdout is the protocol channel.
     console.log(`  ${file.format}  ${file.bytes} bytes  ->  ${file.path}`);
