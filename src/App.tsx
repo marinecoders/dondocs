@@ -4,6 +4,7 @@ import { FormPanel } from '@/components/layout/FormPanel';
 import { EditorSidebar } from '@/components/layout/EditorSidebar';
 import { MobileRecents } from '@/components/layout/MobileRecents';
 import { SettingsModal } from '@/components/modals/SettingsModal';
+import { HelpModal } from '@/components/modals/HelpModal';
 import { TrashModal } from '@/components/modals/TrashModal';
 import { VersionHistoryModal } from '@/components/modals/VersionHistoryModal';
 import { PreviewPanel } from '@/components/layout/PreviewPanel';
@@ -1767,9 +1768,9 @@ ${texFiles['body.tex'] || '% No body content'}
     groups.push({
       label: 'Settings', scope: 'Settings',
       items: [
-        { id: 'settings', label: 'Settings', hint: 'Appearance, density and preview', icon: Settings, onRun: () => useUIStore.getState().setSettingsOpen(true) },
-        { id: 'trash', label: 'Trash — recover deleted drafts', icon: Trash2, onRun: () => useUIStore.getState().setTrashOpen(true) },
-        { id: 'help', label: 'Help and keyboard shortcuts', icon: CircleHelp, onRun: () => useUIStore.getState().setAboutModalOpen(true) },
+        { id: 'settings', label: 'Settings — appearance and density', hint: 'Theme, text spacing and reduced motion', icon: Settings, onRun: () => useUIStore.getState().setSettingsOpen(true) },
+        { id: 'backup-settings', label: 'Backup and restore settings', hint: 'Auto-backup, reconnect, download and restore a backup', icon: Settings, onRun: () => useUIStore.getState().setSettingsOpen(true, 'backup') },
+        { id: 'preview-settings', label: 'Preview quality settings', hint: 'Full-quality preview, attachments and signatures', icon: Settings, onRun: () => useUIStore.getState().setSettingsOpen(true, 'preview') },
         {
           id: 'toggle-theme',
           label: 'Toggle light / dark theme',
@@ -1790,6 +1791,11 @@ ${texFiles['body.tex'] || '% No body content'}
         },
       ],
     });
+
+    groups.push({ label: 'Help and recovery', scope: 'Actions', items: [
+      { id: 'trash', label: 'Trash — recover deleted drafts', icon: Trash2, onRun: () => useUIStore.getState().setTrashOpen(true) },
+      { id: 'help', label: 'Help and keyboard shortcuts', icon: CircleHelp, onRun: () => useUIStore.getState().setHelpOpen(true) },
+    ] });
 
     const insertItems: CommandGroup['items'] = [
       {
@@ -1872,6 +1878,7 @@ ${texFiles['body.tex'] || '% No body content'}
         <VersionHistoryModal />
       <TrashModal />
       <SettingsModal />
+      <HelpModal />
 
         <main id="main-content" ref={mainContainerRef} className="flex flex-1 min-w-0 overflow-hidden">
         {/* Form Panel - takes remaining space when preview is visible */}

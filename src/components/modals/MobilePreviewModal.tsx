@@ -54,7 +54,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error, onDownloadPdf }
     // install, and the viewer's bottom edge sits under the home indicator.
     <Dialog open={mobilePreviewOpen} onOpenChange={setMobilePreviewOpen}>
     <DialogContent showCloseButton={false} aria-describedby={undefined}
-      className="fixed inset-0 left-0 top-0 z-50 h-dvh w-screen max-w-none sm:max-w-none translate-x-0 translate-y-0 bg-background flex flex-col rounded-none border-0 p-0 gap-0"
+      className="fixed inset-0 left-0 top-0 z-50 h-dvh max-h-none w-screen max-w-none sm:max-w-none translate-x-0 translate-y-0 bg-background flex flex-col rounded-none border-0 p-0 gap-0"
       style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
     >
       {/* Header */}

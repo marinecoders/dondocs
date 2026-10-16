@@ -606,7 +606,7 @@ export function EditorSidebar() {
       <button type="button" onClick={() => useUIStore.getState().setTrashOpen(true)} className="flex min-h-10 items-center gap-2 border-t border-border px-3 text-sm text-muted-foreground hover:bg-muted" aria-label="Trash"><Trash2 className="h-4 w-4" />{!collapsed && 'Trash'}</button>
       <div className="flex shrink-0 border-t border-border">
         <button type="button" className="flex min-h-10 flex-1 items-center gap-2 px-3 text-sm text-muted-foreground hover:bg-muted" onClick={() => useUIStore.getState().setSettingsOpen(true)}><Settings className="h-4 w-4" />Settings</button>
-        <button type="button" className="flex min-h-10 flex-1 items-center gap-2 px-3 text-sm text-muted-foreground hover:bg-muted" onClick={() => useUIStore.getState().setDocumentGuideOpen(true)}><HelpCircle className="h-4 w-4" />Help</button>
+        <button type="button" className="flex min-h-10 flex-1 items-center gap-2 px-3 text-sm text-muted-foreground hover:bg-muted" onClick={() => useUIStore.getState().setHelpOpen(true)}><HelpCircle className="h-4 w-4" />Help</button>
       </div>
     </nav>
     <SidebarResizer />

@@ -83,6 +83,11 @@ function DialogContent({
           onCloseAutoFocus?.(event)
           if (event.defaultPrevented) return
           const target = returnFocus.current?.isConnected ? returnFocus.current : returnMenuTrigger.current
+          const nextDialog = document.querySelector('[data-slot="dialog-content"][data-state="open"]')
+          if (nextDialog && target && !nextDialog.contains(target)) {
+            event.preventDefault()
+            return
+          }
           if (target?.isConnected && target !== document.body) {
             event.preventDefault()
             target.focus({ preventScroll: true })

@@ -32,7 +32,8 @@ import { showAppAlert } from '@/stores/alertStore';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore, getSerializedSession, loadSharedSession, persistUnsavedEnclosures } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
-import { buildBackup, restoreBackup, summarizeRestore } from '@/lib/backup';
+import { restoreBackup, summarizeRestore } from '@/lib/backup';
+import { downloadWorkspaceBackup } from '@/lib/backupDownload';
 import { useBackupStore } from '@/stores/backupStore';
 import { useInstallStore } from '@/stores/installStore';
 import { promptInstall } from '@/hooks/useInstallPrompt';
@@ -410,21 +411,8 @@ export function Header({
   // one) — a safety net against browser-storage eviction.
   const handleExportLibrary = useCallback(async () => {
     try {
-      // Full-account bundle: documents + profiles/signatures + snippets +
-      // templates + live NAVMC forms — not just documents.
-      const json = await buildBackup();
-      const blob = new Blob([json], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `dondocs-backup-${new Date().toISOString().split('T')[0]}.json`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      flashSaveStatus('Backed up everything!');
-      // First real backup → credit the getting-started checklist row.
-      useOnboardingStore.getState().markComplete('first_backup');
+      await downloadWorkspaceBackup();
+      flashSaveStatus('Backup download started');
     } catch (err) {
       console.error('Failed to export backup:', err);
       flashSaveStatus('Backup failed');
@@ -861,6 +849,9 @@ export function Header({
                 <Info className="h-4 w-4 mr-2" />
                 About
               </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => useUIStore.getState().setHelpOpen(true)}>
+                <HelpCircle className="h-4 w-4 mr-2" />Help & keyboard shortcuts
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => window.open(GITHUB_REPO_URL, '_blank', 'noopener,noreferrer')}>
                 <GithubIcon className="h-4 w-4 mr-2" />
@@ -953,6 +944,9 @@ export function Header({
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               {/* Help section */}
+              <DropdownMenuItem onClick={() => useUIStore.getState().setHelpOpen(true)}>
+                <HelpCircle className="h-4 w-4 mr-2" />Help & keyboard shortcuts
+              </DropdownMenuItem>
               <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Help</div>
               <DropdownMenuItem onClick={() => useTourStore.getState().start()}>
                 <Compass className="h-4 w-4 mr-2" />

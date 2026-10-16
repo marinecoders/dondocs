@@ -172,7 +172,10 @@ interface UIState {
   setMobileDocsOpen: (open: boolean) => void;
   // Version-history modal: the document id whose snapshots to show (null = closed).
   settingsOpen: boolean;
-  setSettingsOpen: (open: boolean) => void;
+  settingsSection: 'appearance' | 'preview' | 'backup';
+  setSettingsOpen: (open: boolean, section?: 'appearance' | 'preview' | 'backup') => void;
+  helpOpen: boolean;
+  setHelpOpen: (open: boolean) => void;
   documentPositions: Record<string, { top: number; section: string | null }>;
   rememberPosition: (id: string, top: number, section: string | null) => void;
   trashOpen: boolean;
@@ -303,7 +306,10 @@ export const useUIStore = create<UIState>()(
       mobileDocsOpen: false,
       setMobileDocsOpen: (open) => set({ mobileDocsOpen: open }),
       settingsOpen: false,
-      setSettingsOpen: (open) => set({ settingsOpen: open }),
+      settingsSection: 'appearance',
+      setSettingsOpen: (open, section = 'appearance') => set({ settingsOpen: open, settingsSection: section }),
+      helpOpen: false,
+      setHelpOpen: (open) => set({ helpOpen: open }),
       documentPositions: {},
       rememberPosition: (id, top, section) => set((s) => {
         const positions = { ...s.documentPositions };
@@ -339,6 +345,9 @@ export const useUIStore = create<UIState>()(
 
       // Close all modals
       closeAllModals: () => set({
+        settingsOpen: false,
+        helpOpen: false,
+        trashOpen: false,
         profileModalOpen: false,
         restoreModalOpen: false,
         referenceLibraryOpen: false,
