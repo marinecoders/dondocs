@@ -359,6 +359,30 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
     expect(first.transform[5] - second.transform[5]).toBeGreaterThan(25);
   }, 60_000);
 
+  it.each([false, true])('anchors the signature when the name repeats in the body and appendix (cover overflow: %s)', async (overflow) => {
+    const s = baseline();
+    if (overflow) s.endItems = Array.from({ length: 7 }, () => ({ ...s.endItems[0] }));
+    s.paragraphs[0].text = 'Technical reviewer: J. A. DOE.';
+    s.paragraphs.push({ level: 0, header: 'Review Record', appendix: true, text: 'Technical reviewer: J. A. DOE.' });
+    const basic = await production(s);
+    const drawing = await PDFDocument.create(); drawing.addPage().drawText('J. A. DOE');
+    const enclosure = await drawing.save();
+    const merged = await mergeEnclosures(basic, [{ number: 1, title: 'Drawing', data: enclosure.buffer as ArrayBuffer, pageStyle: 'fit' }], publicationMarking(s.formData, s.paragraphs), true, [], { enclosureLabel: 'footer', header: { line1: s.formData.shortTitle!, line2: '' } });
+    expect(merged.errors).toEqual([]);
+    const signed = await addSignatureField(merged.pdfBytes, { signatoryName: 'J. A. DOE', lastBasicPageIndex: merged.basicPageCount! - 1 });
+    const pdf = await PDFDocument.load(signed);
+    const widget = pdf.getForm().getFields()[0].acroField.getWidgets()[0];
+    const authIndex = overflow ? 2 : 1;
+    expect(widget.P()?.toString()).toBe(pdf.getPage(authIndex).ref.toString());
+    const items = await textItems(signed, authIndex + 1);
+    const name = items.find((item) => item.str === 'J. A. DOE')!;
+    const official = items.find((item) => item.str === 'OFFICIAL')!;
+    const rect = widget.getRectangle();
+    expect(rect.x).toBeCloseTo(name.transform[4] - 2, 0);
+    expect(rect.y).toBeGreaterThan(name.transform[5]);
+    expect(rect.y + rect.height).toBeLessThan(official.transform[5]);
+  }, 60_000);
+
   it('preserves destinations, custom banners, enclosure numbering, and the signature page after merging', async () => {
     const s = baseline(); Object.assign(s.formData, { classLevel: 'custom', customClassification: 'SYNTHETIC TEST BANNER' });
     s.paragraphs.push({ level: 0, header: 'Materiel Required', text: '', tableKey: 'materielRequired' }, { level: 0, header: 'Reference Data', appendix: true, text: 'Appendix content.' });

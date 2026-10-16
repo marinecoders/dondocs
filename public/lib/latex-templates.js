@@ -2837,7 +2837,7 @@ const LATEX_TEMPLATES = {
     \\else
         \\par\\vspace{48pt}%
     \\fi
-    \\noindent
+    \\noindent\\dondocsReferenceAnchor{itype.signature}%
     \\ifNotEmptyElse{\\SignatoryAbbrev}{\\MakeUppercase{\\SignatoryAbbrev}\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
     \\optionalLine{\\SignatoryTitle}%
     \\optionalLine{\\ControllingOffice}%

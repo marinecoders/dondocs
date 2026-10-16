@@ -1,4 +1,4 @@
-import { PDFDocument, PDFName, PDFDict, PDFArray, PDFString, PDFNumber, PDFRawStream, decodePDFRawStream } from 'pdf-lib';
+import { PDFDocument, PDFName, PDFDict, PDFArray, PDFString, PDFHexString, PDFNumber, PDFRawStream, decodePDFRawStream } from 'pdf-lib';
 
 /**
  * Signature field configuration
@@ -331,9 +331,43 @@ function calculateFallbackPosition(
   return { x, y };
 }
 
-/**
- * Find signatory position - tries text search first, then falls back to calculated position
- */
+/** Use the rendered I-Type signature slot instead of searching for a name. */
+function publicationSignaturePosition(pdfDoc: PDFDocument, lastPageIndex: number) {
+  const names = pdfDoc.catalog.lookup(PDFName.of('Names'));
+  const destinations = names instanceof PDFDict ? names.lookup(PDFName.of('Dests')) : undefined;
+  let signature: PDFArray | undefined;
+  let isPublication = false;
+  const visit = (node: PDFDict) => {
+    const entries = node.lookup(PDFName.of('Names'));
+    if (entries instanceof PDFArray) {
+      for (let i = 0; i < entries.size(); i += 2) {
+        const key = entries.lookup(i);
+        if (!(key instanceof PDFString || key instanceof PDFHexString)) continue;
+        const name = key.decodeText();
+        if (name === 'itype.authentication') isPublication = true;
+        if (name === 'itype.signature') signature = entries.lookup(i + 1, PDFArray);
+      }
+    }
+    const children = node.lookup(PDFName.of('Kids'));
+    if (children instanceof PDFArray) {
+      for (let i = 0; i < children.size(); i++) visit(children.lookup(i, PDFDict));
+    }
+  };
+  if (destinations instanceof PDFDict) visit(destinations);
+  if (!signature) {
+    if (isPublication) throw new Error('The I-Type signature location is missing. Regenerate the PDF before signing.');
+    return null;
+  }
+  const pageRef = signature.get(0).toString();
+  const pageIndex = pdfDoc.getPages().findIndex((page) => page.ref.toString() === pageRef);
+  if (pageIndex < 0 || pageIndex > lastPageIndex) throw new Error('The I-Type signature location is outside the publication.');
+  return {
+    pageIndex,
+    x: signature.lookup(2, PDFNumber).asNumber() + SIGNATURE_FIELD_X_OFFSET,
+    y: signature.lookup(3, PDFNumber).asNumber() + SIGNATURE_FIELD_OFFSET,
+  };
+}
+
 function findSignatoryPosition(
   pdfDoc: PDFDocument,
   signatoryName: string | undefined,
@@ -349,6 +383,10 @@ function findSignatoryPosition(
     pages.length - 1
   );
   const lastPage = pages[lastPageIndex];
+
+  // I-Type authentication precedes the body; repeated names are not signature locations.
+  const publicationPosition = publicationSignaturePosition(pdfDoc, lastPageIndex);
+  if (publicationPosition) return publicationPosition;
 
   // Try text-based search if signatory name provided
   if (signatoryName?.trim()) {
