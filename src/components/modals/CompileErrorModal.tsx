@@ -102,8 +102,8 @@ export function CompileErrorModal({ open, error, compileLog, onClose }: CompileE
 
   return (
     <Dialog open={open} onOpenChange={(nextOpen) => { if (!nextOpen) onClose(); }}>
-      <DialogContent className="sm:max-w-md w-[calc(100vw-2rem)] overflow-hidden">
-        <div className="flex flex-col gap-4 overflow-hidden">
+      <DialogContent className="sm:max-w-md w-[calc(100vw-2rem)] overflow-x-hidden">
+        <div className="flex min-w-0 flex-col gap-4">
           <DialogHeader className="min-w-0">
             <DialogTitle className="flex items-center gap-2 min-w-0">
               <AlertCircle className="h-5 w-5 text-destructive flex-shrink-0" />

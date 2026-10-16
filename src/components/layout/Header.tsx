@@ -295,9 +295,9 @@ export function Header({
       useDocumentsStore.getState().saveCurrent();
     } catch (err) {
       console.error('Failed to save progress:', err);
-      flashSaveStatus('Save failed');
+      showAppAlert({ title: 'Could not save draft', message: 'Browser storage could not save this draft. Your current work is still open. Export it to a file before reloading, then check available browser storage.' });
     }
-  }, [flashSaveStatus]);
+  }, []);
 
   const handleLoadProgress = useCallback(() => {
     try {
@@ -306,13 +306,13 @@ export function Header({
         setReviewedDraft(parseDraftFile(JSON.parse(saved), true));
         setDraftError('');
       } else {
-        flashSaveStatus('No saved data');
+        showAppAlert({ title: 'No saved draft', message: 'There is no manually saved draft to open. Your current document has not changed. Choose a document from the sidebar or import a draft file.' });
       }
     } catch (err) {
       console.error('Failed to load progress:', err);
-      flashSaveStatus('Load failed');
+      showAppAlert({ title: 'Could not open saved draft', message: 'The saved draft could not be read. Your current document has not changed. Try another draft or restore a backup.' });
     }
-  }, [flashSaveStatus]);
+  }, []);
 
   const handleReset = useCallback(() => {
     resetForm();
@@ -346,7 +346,6 @@ export function Header({
       flashSaveStatus('Exported!');
     } catch (err) {
       showAppAlert({ title: 'Could not export draft', message: err instanceof Error ? err.message : 'Export failed' });
-      flashSaveStatus('Export failed', 5000);
     }
   }, [flashSaveStatus]);
 
@@ -358,9 +357,9 @@ export function Header({
       setReviewedDraft(parseDraftFile(JSON.parse(await file.text())));
       setDraftError('');
     } catch {
-      flashSaveStatus('Invalid draft — nothing was changed', 5000);
+      showAppAlert({ title: 'Could not import draft', message: 'This file is not a valid DonDocs draft. Choose a JSON draft exported by DonDocs. Nothing was changed.' });
     }
-  }, [flashSaveStatus]);
+  }, []);
 
   const openReviewedDraft = async () => {
     if (!reviewedDraft) return;
@@ -401,27 +400,25 @@ export function Header({
       flashSaveStatus('Backup download started');
     } catch (err) {
       console.error('Failed to export backup:', err);
-      flashSaveStatus('Backup failed');
+      showAppAlert({ title: 'Could not back up workspace', message: 'The backup file could not be created. Your documents are still open. Check browser storage and try again before reloading.' });
     }
   }, [flashSaveStatus]);
 
   const handleImportLibrary = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = async (e) => {
+    event.target.value = '';
+    void (async () => {
       try {
         // Branches on file kind: full backups restore everything, legacy
         // docs-only files still restore documents. Merges non-destructively.
-        const result = await restoreBackup(e.target?.result as string);
+        const result = await restoreBackup(await file.text());
         flashSaveStatus(summarizeRestore(result));
       } catch (err) {
         console.error('Failed to restore backup:', err);
-        flashSaveStatus('Restore failed');
+        showAppAlert({ title: 'Could not restore backup', message: 'The backup could not be read or fully restored. Check the file and available browser storage, then try again. Existing documents were not deleted.' });
       }
-    };
-    reader.readAsText(file);
-    event.target.value = '';
+    })();
   }, [flashSaveStatus]);
 
   const currentId = useDocumentsStore((s) => s.currentId);
@@ -430,14 +427,13 @@ export function Header({
 
   return (
     <header className="workspace-header shrink-0 border-b border-border bg-background">
-      <input type="file" ref={fileInputRef} onChange={handleImportDraft} accept=".json" className="hidden" />
-      <input type="file" ref={libraryInputRef} onChange={handleImportLibrary} accept=".json" className="hidden" />
+      <input type="file" aria-label="Import draft file" ref={fileInputRef} onChange={handleImportDraft} accept=".json" className="hidden" />
+      <input type="file" aria-label="Restore workspace backup file" ref={libraryInputRef} onChange={handleImportLibrary} accept=".json" className="hidden" />
       <div className="flex min-w-0 items-center gap-2 border-b border-border px-3 sm:px-5 py-3 sm:min-h-[76px]">
         <HeaderTip label={isMobile ? 'Open workspace' : sidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'}>
           <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8 shrink-0" aria-label={isMobile ? 'Open workspace' : sidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'} onClick={() => isMobile ? useUIStore.getState().setMobileDocsOpen(true) : useUIStore.getState().toggleSidebar()}><PanelLeft className="h-4 w-4" /></Button>
         </HeaderTip>
         <DraftIdentity />
-        <div aria-live="polite" className="sr-only">{saveStatus}</div>
         {(sidebarCollapsed || isMobile) && <Button variant="ghost" size="icon" className="hidden sm:inline-flex" aria-label="Search workspace" onClick={() => setCommandPaletteOpen(true)}><Search className="h-4 w-4" /></Button>}
         <Button variant="ghost" size="sm" className="hidden sm:inline-flex h-8 px-3" onClick={() => setShareModal('share')}>Share</Button>
         <Button variant="ghost" size="sm"
@@ -618,6 +614,7 @@ export function Header({
 
 
       </div>
+      {saveStatus && <div role="status" className="border-b border-border px-4 sm:px-5 py-2 text-xs text-foreground">{saveStatus}</div>}
       <div className="flex min-w-0 flex-wrap items-center gap-1 px-4 sm:px-5 py-2 text-xs">
         <DocumentNavigation />
         <Button variant="ghost" size="sm" className="ml-auto h-10 sm:h-8 px-2" onClick={openHistory} disabled={!currentId}><History className="h-3.5 w-3.5" />History</Button>
