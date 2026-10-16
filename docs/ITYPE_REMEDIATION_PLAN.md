@@ -36,3 +36,26 @@ The export-control release-accompanying notice, detailed original/derivative
 classification exceptions, current local publication orders and handbook, and
 program-specific technical/release records remain separate review requirements.
 Generic validation must not be described as full compliance or approval.
+
+## Implementation record
+
+The thirteen planned implementation commits are complete:
+
+1. `8d479a7a` — export-control combinations.
+2. `72fc6f41` — classification authority on the cover.
+3. `964d1423` — conflicting custom markings.
+4. `bb5ed4c8` — destruction notices.
+5. `fbff6516` — table-cell footnotes.
+6. `e567f6ba` — short-title formats.
+7. `9c9c6fec` — materiel data.
+8. `34671358` — untitled steps.
+9. `a982cc9d` — procedure placement.
+10. `4a32a541` — skills/time content.
+11. `dc6ef9c5` — bookmarks and references.
+12. `a1b0cbe6` — table-title alignment.
+13. `be4e5355` — software/firmware version columns.
+
+Final regression review also covered rows containing only identification details
+and updated rendering assertions for the corrected titles and bookmark labels.
+The requirements record distinguishes these implemented checks from remaining
+publication-authority decisions and technical-content review.

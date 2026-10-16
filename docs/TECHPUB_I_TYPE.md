@@ -70,9 +70,14 @@ preserves the existing destination tree. Signature-field insertion retains it.
 ## Authoring and references
 
 Choose a paragraph's Section to identify prescribed content. Procedures may have
-an action-specific title; the section identity remains when the title changes.
+an action-specific heading on their containing paragraph; individual procedure
+steps must be untitled and remain in the body, outside appendices.
 Older documents with recognized headings still load without rewriting their text.
 Ambiguous headings must be identified before export.
+
+Enter each required skill with its MOS or title and a numeric time in hours.
+Separate entries with semicolons or newlines. Times below one hour use tenths
+of an hour. Technical reviewers must confirm the selected skills and task times.
 
 The effective date is checked against the planned or actual signing month. The
 calendar excludes weekends and observed U.S. federal holidays. Enter additional
@@ -80,18 +85,36 @@ office closures on the cover form. This assumes a Monday–Friday office workwee
 a different office calendar still requires review. Recheck the date when signing
 moves to another month.
 
-Use the editor's Insert menu (`@`) to add paragraph, figure, table or table-footnote
+Use the editor's Insert menu (`@`) to add paragraph, figure or table
 references. References retain their target when paragraphs move; their displayed
 numbers update. A deleted target blocks export. Typed internal references must be
-replaced with linked references. For an external publication, provide its URL and
-review the cited location. Table footnotes are entered on the paragraph carrying
-the table. Reference links are blue and underlined in the PDF.
+replaced with linked references. Cite external publications using
+`[publication and location](https://source)` and review the cited location.
+Enter table footnotes on the paragraph carrying the table, then use the cell's
+footnote selector to insert a superscript reference. A note may only be cited
+inside its own table. Deleting a numeric footnote removes its references and
+renumbers the remaining notes. Reference links are blue and underlined in the PDF.
+
+Materiel rows require quantities and applicable identification. Use the explicit
+identification-exception field for a required-materiel item that cannot be
+identified by NSN or part number, and record manufacturer and address for an
+open-purchase special tool. For MI software or firmware tables, select the version
+column and enter the current version. Switching modes preserves existing data;
+clear incompatible stock identifiers or return to stock mode before export.
 
 Distribution restrictions do not establish a CUI designation. Unclassified
 restricted-distribution documents are allowed. CUI portion markings are optional;
 if used, apply them consistently. The CUI designation block identifies the
 organization, office, category, distribution statement and office mailbox. It does
 not print an additional LDC alongside the distribution statement.
+
+Classified publications require an original or derivative classification basis,
+the corresponding authority information, declassification instructions and
+portion markings. The authority block appears on the cover. Custom banners cannot
+substitute for controlled or classified markings. Export-control warnings require
+an applicable B–E distribution statement with Export Controlled as its reason;
+that reason also requires the warning. Review the separate release-accompanying
+notice before dissemination.
 
 The renderer checks the actual four-line long-title limit. Nimbus Roman and the
 supplied template's unresolved layout differences remain as listed below.
