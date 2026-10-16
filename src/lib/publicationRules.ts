@@ -1,4 +1,5 @@
 import { REFERENCE_TOKEN } from './publicationReferences';
+import { validateSkillEntries } from './publicationSkills';
 import { PUBLICATION_SECTIONS, publicationSection, sectionTitle, DISCREPANCY_NOTICE, MI_REPORTING, type PublicationSection } from '@/data/techpub/sections';
 import type { Paragraph, PublicationTableRow } from '@/types/document';
 import { findUndefinedAcronyms } from '@/lib/acronyms';
@@ -150,6 +151,14 @@ export function validatePublicationStructure(paragraphs: Paragraph[], type = 'MI
     if (key === 'timeCompliance' && type !== 'MI') findings.push(warn('Only an MI may contain a Time Compliance Period.'));
   }
   if (body.some((p) => p.procedure || publicationSection(p) === 'procedures') && !primary.some((p) => publicationSection(p) === 'skill')) findings.push(warn('Procedures require Skill and Time Required.'));
+  const skill = primary.find((p) => publicationSection(p) === 'skill');
+  if (skill) {
+    const start = body.indexOf(skill);
+    const next = body.findIndex((p, i) => i > start && p.level === 0 && !p.callout && !p.figure);
+    const children = body.slice(start + 1, next < 0 ? body.length : next).filter((p) => !p.callout && !p.figure && p.text.trim());
+    const entries = children.length ? children.map((p) => `${p.header ?? ''} ${p.text}`) : [skill.text];
+    findings.push(...validateSkillEntries(entries).map(warn));
+  }
   if (!primary[0]?.text.trim()) findings.push(warn('Enter the purpose of the instruction.'));
   if (admin) {
     const start = body.indexOf(admin);
