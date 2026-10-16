@@ -1,11 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { iTypeClassificationErrors } from '@/lib/iTypeClassification';
+import { iTypeClassificationErrors, iTypeDestructionNotice } from '@/lib/iTypeClassification';
 import type { DocumentData, Paragraph } from '@/types/document';
 
 const data: Partial<DocumentData> = { classLevel: 'secret', classificationBasis: 'derivative', classifiedBy: 'Synthetic reviewer, Program Office', derivedFrom: 'Synthetic guide, 20261015', declassifyOn: '20361015' };
 const paragraphs: Paragraph[] = [{ level: 0, text: 'Synthetic content.', portionMarking: 'S' }];
 
 describe('I-Type classification authority', () => {
+  it('selects destruction instructions for the actual sensitivity', () => {
+    expect(iTypeDestructionNotice(data, paragraphs)).toContain('DoDM 5200.01, Volume 3');
+    expect(iTypeDestructionNotice({ classLevel: 'unclassified' }, paragraphs)).toContain('DoDM 5200.01');
+    expect(iTypeDestructionNotice({ classLevel: 'cui', cuiDistStatement: 'D' }, [])).toContain('DoDI 5200.48');
+    for (const cuiDistStatement of ['B', 'C', 'D', 'E', 'F']) expect(iTypeDestructionNotice({ classLevel: 'unclassified', cuiDistStatement }, [])).toContain('prevent disclosure');
+    expect(iTypeDestructionNotice({ classLevel: 'unclassified', cuiDistStatement: 'A' }, [])).toBe('');
+  });
   it('rejects custom banners that bypass controlled markings', () => {
     const custom = { classLevel: 'custom', customClassification: 'TRAINING' };
     expect(iTypeClassificationErrors(custom, paragraphs).join(' ')).toContain('Custom I-Type');

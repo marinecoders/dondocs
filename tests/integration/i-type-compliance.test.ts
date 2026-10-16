@@ -69,6 +69,8 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
     const text = pages(await production(s), `authority-${classificationBasis}`);
     expect(text[0]).toContain('Classified By: Synthetic reviewer');
     expect(text[0]).toContain('Declassify On: 20361015');
+    expect(text[0]).toContain('DoDM 5200.01, Volume 3');
+    expect(text[0]).not.toContain('DoDI 5200.48');
     expect(text[0].includes('Derived From: Synthetic guide')).toBe(classificationBasis === 'derivative');
     expect(text[0].includes('Reason: 1.4(a)')).toBe(classificationBasis === 'original');
     expect(text[1]).not.toContain('Classified By:');

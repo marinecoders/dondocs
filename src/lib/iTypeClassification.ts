@@ -2,6 +2,17 @@ import { isValid, parse } from 'date-fns';
 import type { DocumentData, Paragraph } from '@/types/document';
 import { deriveOverallClassLevel } from './overallClassification';
 
+export function iTypeDestructionNotice(data: Partial<DocumentData>, paragraphs: Paragraph[]): string {
+  const level = deriveOverallClassLevel(data.classLevel, paragraphs);
+  if (['confidential', 'secret', 'top_secret', 'top_secret_sci'].includes(level)) {
+    return 'DESTRUCTION NOTICE: Destroy in accordance with DoDM 5200.01, Volume 3.';
+  }
+  if (level === 'cui') return 'DESTRUCTION NOTICE: Destroy by making this publication unreadable, indecipherable, and unrecoverable in accordance with DoDI 5200.48.';
+  return ['B', 'C', 'D', 'E', 'F'].includes(data.cuiDistStatement ?? '')
+    ? 'DESTRUCTION NOTICE: Destroy by any method that will prevent disclosure of contents or reconstruction of this document.'
+    : '';
+}
+
 export function iTypeClassificationErrors(data: Partial<DocumentData>, paragraphs: Paragraph[]): string[] {
   if (data.classLevel === 'custom') {
     const controlledPortion = paragraphs.some((p) => [p.portionMarking, p.figure?.portionMarking].some((mark) => mark && mark !== 'U'));

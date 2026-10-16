@@ -349,8 +349,7 @@
             penalties. Disseminate in accordance with provisions of DoD
             Directive 5230.25 and DoD Instruction 2040.02.\par\vspace{12pt}
         \fi
-        \noindent DESTRUCTION NOTICE: Destroy by making this publication unreadable,
-        indecipherable, and unrecoverable IAW DoDI 5200.48.%
+        \ifNotEmpty{\ITypeDestructionNotice}{\noindent\ITypeDestructionNotice}%
         \ifNotEmpty{\PCN}{\par\vspace{6pt}\noindent PCN \PCN}%
     \end{minipage}%
     \endgroup

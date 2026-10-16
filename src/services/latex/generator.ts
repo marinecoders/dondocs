@@ -1,4 +1,5 @@
 import { publicationReferences } from '@/lib/publicationReferences';
+import { iTypeDestructionNotice } from '@/lib/iTypeClassification';
 import { publicationReferenceText } from './publicationReferenceText';
 import { publicationNavigation, navigationTex } from './publicationNavigation';
 import { escapeLatex, escapeLatexUrl, processBodyText, formatSubjectForLatex, formatAddressForLatex } from './escaper';
@@ -366,6 +367,7 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     tex += `\\setAttachmentList{${attachments.join('\\par\\noindent ')}}\n`;
     tex += `\\setControllingOffice{${escapeLatex(data.controllingOffice || '')}}\n`;
     tex += data.exportRestricted ? '\\ExportRestrictedtrue\n' : '\\ExportRestrictedfalse\n';
+    tex += `\\def\\ITypeDestructionNotice{${escapeLatex(iTypeDestructionNotice(data, store.paragraphs))}}\n`;
     // The distribution statement prints in full on the cover: letter, text,
     // the reason and date of determination, and the office requests go to.
     const determined = parseDate(data.distDate || '', 'yyyy-MM-dd', new Date());
