@@ -33,13 +33,15 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore } from '@/stores/documentStore';
+import { loadSharedSession } from '@/stores/documentStore';
+import { useDocumentsStore } from '@/stores/documentsStore';
+import { exampleSession } from '@/lib/exampleSession';
 import { useTourStore } from '@/stores/tourStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import type { TourStep } from '@/components/tour/tourSteps';
 import { DOCUMENT_TYPE_GUIDES, GUIDE_CATEGORIES, GUIDE_GROUPS, type DocumentTypeGuide } from '@/data/documentGuide';
 import { EXAMPLE_DOCUMENTS, EXAMPLE_CATEGORIES, type ExampleDocument } from '@/data/exampleDocuments';
-import { DOC_TYPE_LABELS, type DocumentData } from '@/types/document';
+import { DOC_TYPE_LABELS } from '@/types/document';
 
 import {
   getNextQuestion,
@@ -351,58 +353,10 @@ function ExamplesTab({ onClose }: { onClose: () => void }) {
   const handleLoadExample = () => {
     if (!selectedExample) return;
 
-    const store = useDocumentStore.getState();
-
-    // Set document type
-    store.setDocType(selectedExample.docType);
-
-    // Set form data fields
-    Object.entries(selectedExample.formData).forEach(([key, value]) => {
-      store.setField(key as keyof DocumentData, value);
-    });
-
-    // Clear existing paragraphs by removing from the end
-    const currentParagraphCount = store.paragraphs.length;
-    for (let i = currentParagraphCount - 1; i >= 0; i--) {
-      store.removeParagraph(i);
-    }
-
-    // Add example paragraphs
-    selectedExample.paragraphs.forEach((para) => {
-      store.addParagraph(para.text, para.level);
-    });
-
-    // Clear existing references by removing from the end
-    const currentRefCount = store.references.length;
-    for (let i = currentRefCount - 1; i >= 0; i--) {
-      store.removeReference(i);
-    }
-
-    // Add example references
-    if (selectedExample.references) {
-      selectedExample.references.forEach((ref) => {
-        store.addReference(ref.title, ref.url);
-      });
-    }
-
-    // Clear existing enclosures
-    const currentEnclCount = store.enclosures.length;
-    for (let i = currentEnclCount - 1; i >= 0; i--) {
-      store.removeEnclosure(i);
-    }
-
-    // Clear existing copy-tos
-    const currentCopyToCount = store.copyTos.length;
-    for (let i = currentCopyToCount - 1; i >= 0; i--) {
-      store.removeCopyTo(i);
-    }
-
-    // Add example copy-tos
-    if (selectedExample.copyTos) {
-      selectedExample.copyTos.forEach((copyTo) => {
-        store.addCopyTo(copyTo.text);
-      });
-    }
+    useDocumentsStore.getState().syncCurrent();
+    loadSharedSession(exampleSession(selectedExample));
+    useDocumentsStore.getState().openLoadedAsNew();
+    useUIStore.getState().setValidationVisible(false);
 
     // Close modal
     onClose();
@@ -503,7 +457,7 @@ function ExamplesTab({ onClose }: { onClose: () => void }) {
             Load This Example
           </Button>
           <p className="text-xs text-muted-foreground text-center">
-            This will replace your current document with the example content.
+            Opens the example as a new draft. Your current document stays in the workspace.
           </p>
         </div>
       )}
