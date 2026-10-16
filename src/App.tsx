@@ -1408,7 +1408,8 @@ ${texFiles['body.tex'] || '% No body content'}
   const handleDownloadDocx = useCallback(async () => {
     // Publication types are delivered as PDF; the menu hides DOCX for them
     // and the shortcut and palette land here.
-    if (DOC_TYPE_CONFIG[useDocumentStore.getState().docType]?.pdfOnly) return;
+    const activeDocument = useDocumentStore.getState();
+    if (activeDocument.documentCategory === 'forms' || DOC_TYPE_CONFIG[activeDocument.docType]?.pdfOnly) return;
     useUIStore.getState().setValidationVisible(true);
     // Ch 7 ¶13/¶13d review, ahead of the PII check so the privacy warning stays
     // the last thing seen before the file is written. Never blocks — the modal's
@@ -1741,7 +1742,7 @@ ${texFiles['body.tex'] || '% No body content'}
           onRun: () => commandDownloadTriggers.pdf(),
         },
         // Publication types are delivered as PDF (see DocTypeConfig.pdfOnly).
-        ...(DOC_TYPE_CONFIG[docType]?.pdfOnly ? [] : [{
+        ...(documentCategory === 'forms' || DOC_TYPE_CONFIG[docType]?.pdfOnly ? [] : [{
           id: 'download-docx',
           label: 'Download Word (.docx)',
           icon: Download,
@@ -1861,7 +1862,7 @@ ${texFiles['body.tex'] || '% No body content'}
       { id: 'help', label: 'Help and keyboard shortcuts', icon: CircleHelp, onRun: () => useUIStore.getState().setHelpOpen(true) },
     ] });
 
-    const insertItems: CommandGroup['items'] = [
+    const insertItems: CommandGroup['items'] = documentCategory === 'forms' ? [] : [
       {
         id: 'insert-reference',
         label: 'Insert reference…',
@@ -1873,7 +1874,7 @@ ${texFiles['body.tex'] || '% No body content'}
     // that section exists for the current doc type (it's absent for MOAs, joint
     // letters, and the NAVMC forms), so the command never fires a dead jump that
     // would briefly hide the section-rail indicator.
-    if (outlineSections.some((s) => s.id === 'addressing')) {
+    if (documentCategory !== 'forms' && outlineSections.some((s) => s.id === 'addressing')) {
       insertItems.push({
         id: 'lookup-ssic',
         label: 'Look up SSIC code…',
@@ -1898,7 +1899,7 @@ ${texFiles['body.tex'] || '% No body content'}
     groups.push({ label: 'Insert', items: insertItems });
 
     return groups;
-  }, [outlineSections, allDocs, currentDocId, isInstalled, userTemplates, docType]);
+  }, [outlineSections, allDocs, currentDocId, isInstalled, userTemplates, docType, documentCategory]);
 
   if (!workspaceReady) {
     return <main className="flex h-screen-dvh flex-col items-center justify-center gap-3 bg-background text-foreground">
@@ -1933,6 +1934,10 @@ ${texFiles['body.tex'] || '% No body content'}
       <div className="flex flex-1 min-h-0 overflow-hidden">
         <EditorSidebar />
         <div className="flex flex-1 min-w-0 flex-col overflow-hidden">
+          <StorageNotice placement="header" />
+          <ConnectivityModal />
+          <BackupNotice />
+          <InstallNotice />
           {commandPaletteOpen && <CommandPalette open presentation="workspace" onClose={() => setCommandPaletteOpen(false)} groups={commandGroups} />}
           <div className="flex flex-1 min-h-0 flex-col overflow-hidden" style={{ display: commandPaletteOpen ? 'none' : undefined }}>
             <Header
@@ -1946,11 +1951,6 @@ ${texFiles['body.tex'] || '% No body content'}
               isPdfGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('pdf-')}
               isFormsMode={documentCategory === 'forms'}
             />
-
-            <StorageNotice placement="header" />
-            <ConnectivityModal />
-            <BackupNotice />
-            <InstallNotice />
 
             <MobileRecents />
             <VersionHistoryModal />
@@ -1999,12 +1999,12 @@ ${texFiles['body.tex'] || '% No body content'}
                 />
               </div>
             </main>
-            <StorageNotice placement="footer" />
             <div className="workspace-reviewbar flex shrink-0 flex-wrap items-center justify-between gap-2 border-t border-border px-4 sm:px-6 py-1.5 text-xs text-muted-foreground">
               <ReadinessMeter />
               <span className="hidden md:inline">Unofficial · Beta</span>
             </div>
           </div>
+          <StorageNotice placement="footer" />
         </div>
       </div>
 
