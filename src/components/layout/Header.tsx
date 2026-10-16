@@ -896,7 +896,7 @@ export function Header({
           </DropdownMenu>
 
           <HeaderTip label="Settings">
-            <Button data-tour="appearance" variant="ghost" size="icon" aria-label="Settings" className="h-9 w-9" onClick={() => useUIStore.getState().setSettingsOpen(true)}><Settings className="h-4 w-4" /></Button>
+            <Button data-tour="appearance" variant="ghost" size="icon" aria-label="Settings" aria-haspopup="dialog" className="h-9 w-9" onClick={(event) => { event.currentTarget.focus(); useUIStore.getState().setSettingsOpen(true); }}><Settings className="h-4 w-4" /></Button>
           </HeaderTip>
 
           {/* Hamburger menu - visible below xl breakpoint (1280px) */}

@@ -1,6 +1,12 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Filled buttons and text on dark surfaces need different contrast levels. */
+@layer utilities {
+  .dark .text-primary { color: var(--primary-text); }
+  .dark .text-destructive { color: var(--destructive-text); }
+}
+
 /* Self-hosted Geist (latin), vendored from @fontsource-variable/geist so the
    primary subset can be <link rel="preload">ed in index.html — eliminates the
    FOUT / text reflow the late-loading webfont caused on first paint. */
@@ -417,6 +423,8 @@
 
 /* Dark mode default — Marines.dev branded */
 .dark {
+  --primary-text: oklch(0.72 0.15 25);
+  --destructive-text: oklch(0.72 0.15 25);
   /* Elevation ladder — each surface is a clear perceptual step up from the
      canvas so panels read as lifted, and popovers/menus sit ABOVE cards
      (previously card and popover were identical, so nothing popped). */
