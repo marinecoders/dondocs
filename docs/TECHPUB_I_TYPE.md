@@ -26,14 +26,23 @@ distribution statement, applicable notices, and PCN. Unused cover rows remain
 blank. The renderer measures the table and notices; if the cover would overflow,
 it moves the entire end-item list to a continuation page. If the remaining cover
 content still does not fit, compilation stops with an error.
+The PCN sits immediately above the bold page-1 numeral at the right edge.
+Succeeding short titles and bold page numbers align left on even pages and right
+on odd pages, using the printed page sequence, including appendices.
 
 The authentication page centers the command and address, right-aligns the date,
 and leaves four blank lines for the signature. The digital-signature field occupies
 that space. An authorized signer must still sign the resulting PDF.
 
 Body text uses the renderer's Times-compatible font at 12 points. Paragraph and
-procedure spacing, warning groups, table headings, and initial parent/component
-rows have layout constraints. Tables have numbered titles. Figures have numbered
+procedure spacing, warning groups, table headings, and parent/component
+rows have layout constraints. Every indivisible body-table row/group is measured;
+an oversized group stops compilation with instructions to shorten or divide it.
+Tables have numbered titles approximately 18 points above the grid, 0.75-point
+rules, and widths calculated from the actual text width, padding and rule widths.
+Body and overflow tables omit internal horizontal row separators, leave continued
+pages open at the bottom, and close once at the end. The cover retains six ruled rows.
+Figures have numbered
 captions and may carry separate graphic and caption portion markings. Appendices
 restart figure and table numbering with their letter.
 
@@ -62,8 +71,15 @@ preserves the existing destination tree. Signature-field insertion retains it.
   as figures; attach the complete drawing as an enclosure. The check also runs on
   imported documents and direct renderer calls.
 - Missing or invalid enclosures block I-Type download. Custom and derived markings
-  pass through to appended enclosure pages. One-page enclosures receive page numbers;
-  publication headers use Times Bold 10 and numerals use Times 12.
+  pass through to appended enclosure pages. Attached source documents receive the
+  short title in the upper-right margin and the enclosure label above the numeral
+  on their first page only. Every page receives a bold 12-point numeral at the
+  applicable outer edge. The short title uses Times Bold 10.
+- All enclosure fitting modes reserve space for added identifiers. Large and
+  rotated pages retain an appropriate output area; the border mode is bounded by
+  that area instead of always using 85% scale. Review source readability after
+  reduction. Added enclosure cover pages are unsupported for I-Type; remove an
+  imported cover-page setting before export.
 - Readability remains an estimate, with a ninth-grade warning threshold.
   Acronym checking includes uppercase headings. Neither replaces editorial review.
 
@@ -124,9 +140,8 @@ supplied template's unresolved layout differences remain as listed below.
 | Topic | Implemented profile | Required decision |
 |---|---|---|
 | Cover and authentication order | Supplied template's separate cover and authentication page | Reconcile with MIL-DTL-28999D §§3.2 and 3.3.1.1, including cover-header and supersedure placement. |
-| Page numbers | Centered footer | Resolve the template, MIL-DTL-28999D §3.1.6, and MIL-STD-38784C PDF pagination differences. |
-| Enclosures | Repeated centered publication header and enclosure footer | Reconcile with MIL-DTL-28999D §3.1.8.1 first-page identification and short-title placement. |
-| Tables | Supplied column sets, proportional widths, numbered bold titles | Confirm exact geometry and the template's otherwise untitled table examples against MIL-DTL-28999D §3.1.4. |
+| Reproduction area | 6.5-inch text block with one-inch side margins; tables fit that width | Establish the applicable paper/PDF profile under MIL-STD-38784C §5.3.3 and Table II alongside the I-Type layout. |
+| External documents | First-page source identification, reserved margins, no added wrappers | Review existing source identifiers, page numbering, markings and readability for each attachment. |
 | Font | Embedded Nimbus Roman, a Times-compatible font | Confirm an approved substitute for the specified Times New Roman, or supply a distributable licensed font. |
 | Delivery | PDF | Confirm required authoring, review, and final delivery formats and blank-page conventions. |
 | Sensitivity labels | Visible PDF markings | Establish the downstream labeling/protection process; visible banners are not Microsoft sensitivity-label metadata or encryption. |
@@ -145,6 +160,9 @@ size, authentication alignment and signature space, cover notices, safety groups
 table pagination, markings, procedure spacing, bookmark destinations, enclosure
 numbering, and signature placement. It also reuses an engine across drawing changes
 to check missing and multi-page figure rejection.
+Rule coordinates verify continuation feet, table widths, line weight and caption
+spacing. `i-type-enclosure-geometry.test.ts` checks large and rotated pages and
+source content occupying the areas where identifiers would otherwise collide.
 
 `tests/unit/publicationStructure.test.ts` and `tests/unit/publicationReferences.test.ts` cover section identity, subtype content, references, deleted targets and snapshot restoration. `tests/component/publicationAuthoring.test.tsx` checks the corresponding editor controls.
 

@@ -59,3 +59,32 @@ Final regression review also covered rows containing only identification details
 and updated rendering assertions for the corrected titles and bookmark labels.
 The requirements record distinguishes these implemented checks from remaining
 publication-authority decisions and technical-content review.
+
+## Header, enclosure and table audit
+
+The follow-up audit at `c466d37d` identified ten layout defects. The user
+approved all ten corrections, with font licensing still deferred.
+
+| Finding | Commit | Result |
+|---|---|---|
+| T1: oversized body-table rows | `5f309dd4` | Measure every indivisible row/group and reject content that cannot fit below the repeated heading. |
+| E2: clipped wide enclosures | `2fa8c849` | Bound scaling by the output area and account for source size and rotation. |
+| E3: source/identifier collisions | `0c8a832d` | Reserve identifier margins in every I-Type enclosure mode. |
+| H1: running short-title alignment | `e9965bed` | Align left on even printed pages and right on odd pages, including appendices. |
+| H2: page numerals and PCN | `879b9491` | Use bold outer-edge numerals and place the PCN immediately above page 1. |
+| E1: external-document identification | `0b44b2e0` | Put the upper-right short title and enclosure number on the source's first page only; reject added wrappers. |
+| T2: continued closing rules | `af05a0d2` | Omit internal horizontal row separators and close only the final page. Preserve the fixed cover grid. |
+| T3: rule weight | `fd918822` | Set I-Type rules to 0.75 PDF point. |
+| T5: table widths | `cffd49b9` | Subtract actual TeX padding and rules; allocate the final column's remainder exactly. |
+| T4: caption spacing | `462e3cfc` | Restore 18-point initial spacing and verify both initial and continued caption gaps. |
+
+Final enclosure review also preserved landscape page proportions and added
+checks for 0°, 90°, 180° and 270° rotations. PDF checks cover all eight column sets,
+stock/software variants, omitted item columns, long end-item lists, and occupied
+source margins. Rendered pages were inspected for cover notices and PCN, odd/even
+identifiers, initial/continued/final tables, and wide/rotated enclosures.
+
+These changes retain PDF output without inserted blank pages and the existing
+6.5-inch text block. Paper delivery, the reproduction-area profile, cover and
+authentication order, and publication-specific approval remain open in the
+[requirements record](ITYPE_REQUIREMENTS.md).
