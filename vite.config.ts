@@ -74,7 +74,7 @@ function texliveMiddleware(): Plugin {
     '4': 'type1 (pfb fonts)',
     '10': 'cfg (config)',
     '11': 'map (font map)',
-    '26': 'tex (source)',
+    '26': 'tex (source: .tex, .sty, .cls -- what the engine asks for on a miss)',
     '27': 'sty (style)',
     '28': 'cls (class)',
     '32': 'def (definitions)',
@@ -365,7 +365,7 @@ export default defineConfig({
                   // Reject HTML responses (Cloudflare SPA returns HTML for 404s)
                   cacheWillUpdate: async ({ response }) => {
                     const contentType = response.headers.get('content-type') || '';
-                    if (contentType.includes('text/html')) {
+                    if (response.status !== 200 || contentType.includes('text/html')) {
                       console.warn('[SW] Rejecting HTML response for tex file');
                       return null;
                     }
@@ -387,7 +387,13 @@ export default defineConfig({
             urlPattern: /\/lib\/texlive\/.*/,
             handler: 'CacheFirst',
             options: {
-              cacheName: 'texlive-cache-v3', // v3: with HTML rejection plugin
+              // v4: v3 stored 404s. Its plugin refused text/html, but Pages
+              // serves its 404 page as text/plain -- and once a rule has a
+              // cacheWillUpdate plugin, workbox no longer applies its own
+              // 200-only default. A package missing at the moment a client
+              // first asked for it stayed missing in that browser for 30
+              // days. Retired in public/sw-cleanup.js.
+              cacheName: 'texlive-cache-v4',
               expiration: {
                 maxEntries: 500,
                 maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
@@ -397,7 +403,7 @@ export default defineConfig({
                   // Reject HTML responses (Cloudflare SPA returns HTML for 404s)
                   cacheWillUpdate: async ({ response }) => {
                     const contentType = response.headers.get('content-type') || '';
-                    if (contentType.includes('text/html')) {
+                    if (response.status !== 200 || contentType.includes('text/html')) {
                       console.warn('[SW] Rejecting HTML response for texlive file');
                       return null; // Don't cache HTML
                     }

@@ -1,14 +1,25 @@
+import { publicationReferences, FOOTNOTE_REFERENCE_TOKEN, type PublicationReference } from '@/lib/publicationReferences';
+import { iTypeDestructionNotice } from '@/lib/iTypeClassification';
+import { publicationReferenceText } from './publicationReferenceText';
+import { publicationNavigation, navigationTex } from './publicationNavigation';
 import { escapeLatex, escapeLatexUrl, processBodyText, formatSubjectForLatex, formatAddressForLatex } from './escaper';
 import { composeSenderSymbol } from './senderSymbol';
-import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution } from '@/types/document';
+import { tableSpec } from '@/data/techpub/tables';
+import { publicationTypeName } from '@/data/techpub/publicationTypes';
+import { composeDistributionStatement } from '@/data/techpub/distributionStatements';
+import { formatPublicationDate } from '@/lib/publicationDate';
+import { withTimeCompliance } from '@/lib/timeCompliance';
+import { figureFile } from '@/lib/figures';
+import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, EndItem, PublicationTableRow, CalloutKind, FileRef } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
-import { paragraphMark, delimitParagraphMark, isUnderlinedLevel } from './paragraphLabel';
+import { calculateLabels } from './paragraphLabels';
 import { subparagraphIndentIn, ancestorLabelsPerParagraph, type LabelFont } from './subparagraphIndent';
 import { safeUrl } from '@/lib/url-safety';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
 import { formatViaLines } from '@/lib/viaLines';
+import { parse as parseDate, isValid as isValidDate, format as formatDate } from 'date-fns';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
 import {
   resolveAppendedEndorsement,
@@ -19,6 +30,10 @@ interface DocumentStore {
   docType: string;
   formData: Partial<DocumentData>;
   references: Reference[];
+  /** Technical publication cover rows; absent for correspondence. */
+  endItems?: EndItem[];
+  /** Rows of the publication's fixed tables, keyed by table. */
+  publicationTables?: Record<string, PublicationTableRow[]>;
   enclosures: Enclosure[];
   paragraphs: Paragraph[];
   copyTos: CopyTo[];
@@ -42,6 +57,23 @@ interface DocumentStore {
  * the prior behavior for unset/missing pocEmail; the LaTeX template
  * already handles `\setPOC{}` with empty content gracefully.
  */
+/** The End Item table prints exactly this many rows. Unused ones stay blank
+ *  rather than being deleted; a further item overflows to the next page. */
+const END_ITEM_ROWS = 6;
+
+/** Width reserved for a step label, so carry-over lines block under the text
+ *  rather than under the label. Wide enough for the deepest form, "(a)". */
+const PROCEDURE_LABEL_WIDTH = '0.35in';
+
+/** A part number or NSN is a single token with no space or hyphen for TeX to
+ *  break at, and TeX will not hyphenate a word containing digits -- so one
+ *  longer than its column prints through the next column and off the sheet.
+ *  These characters are the ones `escapeLatex` passes through untouched, so a
+ *  breakpoint inserted between them cannot split an escape sequence. */
+const UNBREAKABLE_RUN = /[A-Za-z0-9()./,]{12,}/g;
+const breakLongTokens = (escaped: string) =>
+  escaped.replace(UNBREAKABLE_RUN, (run) => run.split('').join('\\discretionary{}{}{}'));
+
 function validatedPocEmail(raw: string | undefined | null): string {
   if (!raw) return '';
   // The user might paste `mailto:foo@bar.com` — strip the prefix so
@@ -53,29 +85,6 @@ function validatedPocEmail(raw: string | undefined | null): string {
     return safe.slice('mailto:'.length);
   }
   return '';
-}
-
-function getParagraphLabel(level: number, count: number): string {
-  const mark = paragraphMark(level, count);
-  // Fig 7-8 underlines the counter itself at levels 4+; the period and the
-  // parentheses stay plain, so the delimiter goes on outside the \uline.
-  const underlined = isUnderlinedLevel(level) ? `\\uline{${mark}}` : mark;
-  return delimitParagraphMark(level, underlined);
-}
-
-function calculateLabels(paragraphs: Paragraph[]): string[] {
-  const labels: string[] = [];
-  const counters = [0, 0, 0, 0, 0, 0, 0, 0];
-
-  for (const para of paragraphs) {
-    for (let i = para.level + 1; i < 8; i++) {
-      counters[i] = 0;
-    }
-    counters[para.level]++;
-    labels.push(getParagraphLabel(para.level, counters[para.level]));
-  }
-
-  return labels;
 }
 
 export function generateDocumentTex(store: DocumentStore): string {
@@ -110,6 +119,8 @@ ${(() => {
   const ssic = isMOAMode ? data.seniorSSIC : data.ssic;
   const serial = isMOAMode ? data.seniorSerial : data.serial;
   const docDate = isMOAMode ? data.seniorDate : data.date;
+  // A publication prints its date in full ("30 April 2025"); a letter as stored.
+  const printedDate = store.docType === 'i_type' ? formatPublicationDate(docDate || '') : docDate;
 
   // For business letters and executive correspondence, set BusinessDate,
   // BusinessRecipientAddress, etc. Both use the same template address/salutation pattern.
@@ -149,7 +160,7 @@ ${(() => {
   const senderSymbol = composeSenderSymbol(data.officeCode, serial);
   tex += `\\setSSIC{${config.ssic ? escapeLatex(ssic) : ''}}
 \\setSerial{${config.ssic ? escapeLatex(senderSymbol) : ''}}
-\\setDocumentDate{${escapeLatex(docDate)}}
+\\setDocumentDate{${escapeLatex(printedDate)}}
 ${isBusinessLetter ? `\\setBusinessDate{${escapeLatex(docDate)}}` : '% Not a business letter'}
 
 ${data.inReplyTo ? '\\enableInReplyReferTo' : '% No In Reply Refer To'}
@@ -266,6 +277,70 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     if (store.docType === 'same_page_endorsement') {
       tex += `\\renewcommand{\\EndorsementSerial}{${escapeLatex(data.serial || '')}}\n`;
       tex += `\\renewcommand{\\EndorsementDate}{${escapeLatex(data.date || '')}}\n`;
+    }
+  }
+
+  // Technical publication cover. The End Item table always prints six rows --
+  // the standard keeps unused ones blank rather than deleting them -- and a
+  // seventh item moves the whole list to the back of the cover page.
+  if (store.docType === 'i_type') {
+    const items = store.endItems ?? [];
+    const overflow = items.length > END_ITEM_ROWS;
+    const shown = overflow ? [] : items.slice(0, END_ITEM_ROWS);
+    // Each row is ruled, as in the source table -- six visibly distinct rows
+    // whether or not they carry an end item.
+    const rows = Array.from({ length: END_ITEM_ROWS }, (_, i) => {
+      const item = shown[i];
+      return item
+        ? [item.nsn, item.tamcn, item.id, item.model].map((v) => escapeLatex(v || '')).join(' & ')
+        : ' & & & ';
+    }).join(' \\\\ \\hline ');
+    tex += `\\setNomenclature{${escapeLatex(data.nomenclature || '')}}\n`;
+    tex += `\\setEndItemRows{${rows}}\n`;
+    tex += overflow ? '\\EndItemOverflowtrue\n' : '\\EndItemOverflowfalse\n';
+    // The cover header carries the anticipated month and year of signature
+    // ("JULY 2026"), not the day-level correspondence date the rest of the
+    // document uses. Derived from the same date so the two cannot disagree.
+    const signed = parseDate(data.date || '', 'd MMM yy', new Date());
+    const coverDate = isValidDate(signed) ? formatDate(signed, 'MMMM yyyy').toUpperCase() : '';
+    tex += `\\setCoverDate{${escapeLatex(coverDate)}}\n`;
+    tex += `\\setShortTitle{${escapeLatex(data.shortTitle || '')}}\n`;
+    tex += `\\setPCN{${escapeLatex(data.pcn || '')}}\n`;
+    tex += `\\setSupersedure{${escapeLatex(data.supersedure || '')}}\n`;
+    tex += `\\setTimeCompliance{${escapeLatex(((data.publicationType ?? 'MI') === 'MI' ? data.miUrgency || 'normal' : 'normal').toUpperCase())}}\n`;
+    // The type names itself on the cover and the authentication page; only a
+    // modification asks the unit to record its completion.
+    tex += `\\setPublicationTypeName{${escapeLatex(publicationTypeName(data.publicationType))}}\n`;
+    tex += (data.publicationType ?? 'MI') === 'MI' ? '\\RecordingInstructiontrue\n' : '\\RecordingInstructionfalse\n';
+    // Appendices and enclosures are listed under DISTRIBUTION on the
+    // authentication page, lettered as \startAppendix letters them.
+    const attachments = [
+      ...store.paragraphs.filter((p) => p.appendix).map((p, i) =>
+        `Appendix ${String.fromCharCode(65 + i)}: ${escapeLatex(p.header?.trim() || '')}`),
+      ...store.enclosures.map((e, i) => `Enclosure (${i + 1}): ${escapeLatex(e.title || '')}`),
+    ];
+    tex += `\\setAttachmentList{${attachments.join('\\par\\noindent ')}}\n`;
+    tex += `\\setControllingOffice{${escapeLatex(data.controllingOffice || '')}}\n`;
+    tex += data.exportRestricted ? '\\ExportRestrictedtrue\n' : '\\ExportRestrictedfalse\n';
+    tex += `\\def\\ITypeDestructionNotice{${escapeLatex(iTypeDestructionNotice(data, store.paragraphs))}}\n`;
+    // The distribution statement prints in full on the cover: letter, text,
+    // the reason and date of determination, and the office requests go to.
+    const determined = parseDate(data.distDate || '', 'yyyy-MM-dd', new Date());
+    const dist = composeDistributionStatement(data.cuiDistStatement || '', {
+      reason: data.distReason,
+      date: isValidDate(determined) ? formatDate(determined, 'd MMMM yyyy') : '',
+      office: data.controllingOffice,
+    });
+    tex += `\\setDistStatementFull{${escapeLatex(dist)}}\n`;
+    // When the cover defers, every end item is listed on its back -- there is
+    // no six-row cap there, and no blank rows to keep.
+    {
+      const all = items
+        .map((item) =>
+          [item.nsn, item.tamcn, item.id, item.model].map((v) => escapeLatex(v || '')).join(' & ')
+        )
+        .join(' \\\\ ');
+      tex += `\\setEndItemOverflowRows{${all}}\n`;
     }
   }
 
@@ -549,7 +624,8 @@ ${signatureConfigTex}
 
 export function generateFlagsTex(store: DocumentStore): string {
   let flags = '% Flags - Generated by dondocs\n';
-  if (store.references.length > 0) {
+  // An I-Type names its affected publications in a paragraph, not a Ref: list.
+  if (store.references.length > 0 && store.docType !== 'i_type') {
     flags += '\\setHasReferences\n';
   }
   if (store.enclosures.length > 0) {
@@ -716,8 +792,182 @@ function underlineWords(text: string): string {
   return `\\uline{${text}}`;
 }
 
+/**
+ * One of the publication's fixed tables, drawn from its column set.
+ *
+ * "Consisting of" rows sit under their parent: the standard indents the first
+ * line and hangs the rest, at 0.1in for the first level and 0.28in for the
+ * second. An empty table prints nothing -- a table that does not apply is
+ * removed, unlike the End Item table on the cover which keeps its six rows.
+ */
+function tableTitleTex(title: string): string {
+  const match = /^(Table \S+)\s+(.+)$/.exec(title);
+  return match ? `${escapeLatex(match[1])}\\hspace{2\\fontdimen2\\font}${escapeLatex(match[2])}` : escapeLatex(title);
+}
+
+function generatePublicationTable(tableKey: string, rows: PublicationTableRow[], heading: string, measure = false, references: PublicationReference[] = [], identifierMode?: 'stock' | 'software'): string {
+  const fullSpec = tableSpec(tableKey, identifierMode);
+  if (!fullSpec || rows.length === 0) return '';
+  // "If Item Numbers are not needed in tables, remove column." Derived from the
+  // rows rather than asked: a table where no row carries an item number prints
+  // without the column.
+  const itemUsed = rows.some((r) => (r.values.item ?? '').trim() !== '');
+  const spec = itemUsed ? fullSpec : { ...fullSpec, columns: fullSpec.columns.filter((c) => c.key !== 'item') };
+
+  // First-line and hanging indents the template gives a parent item and its
+  // first- and second-level "consisting of" items. Cells set ragged: a
+  // justified line in a narrow cell stretches its word spaces.
+  const INDENT = [
+    { first: '0in', hang: '0.1in' },
+    { first: '0.1in', hang: '0.18in' },
+    { first: '0.28in', hang: '0.18in' },
+  ];
+  // TeX subtracts the actual padding and rules. The final column receives
+  // the remainder so rounding cannot move the table beyond the text block.
+  const proportion = spec.columns.reduce((sum, c) => sum + parseFloat(c.width), 0);
+  const widths = spec.columns.slice(0, -1).map((c) => `${(parseFloat(c.width) / proportion).toFixed(6)}\\dondocsTableWidth`);
+  const colSpec = [...widths, `\\dimexpr\\dondocsTableWidth-${widths.join('-')}\\relax`].map((width) => `p{${width}}`).join('|');
+  const setWidth = `\\dondocsSetTableWidth{${spec.columns.length}}`;
+  const head = spec.columns.map((c) => c.key === 'softwareVersion'
+    ? '\\raggedright\\textbf{Current\\newline Software/\\allowbreak Firmware\\newline (S/F) Version}'
+    : `\\textbf{${escapeLatex(c.label)}}`).join(' & ');
+  const descriptionIndex = spec.columns.findIndex((c) => c.key === 'description');
+  const cellText = (text: string, level: number) => {
+    const { first, hang } = INDENT[Math.min(level, INDENT.length - 1)];
+    return `\\raggedright\\hangindent=${hang}\\hangafter=1 \\hspace*{${first}}${text}`;
+  };
+
+  // Keep parent/component boundaries together. Body rows have no horizontal
+  // rules, so a continuation ends open and only the final foot closes it.
+  const lines: string[] = [];
+  const groups: string[][] = [];
+  let groupStart = 0;
+  let firstGroupLines = 0;
+  rows.forEach((row, r) => {
+    const level = row.level ?? 0;
+    lines.push(spec.columns
+      .map((c, i) => {
+        const renderCell = (value: string) => publicationReferenceText(value, references, false, (text) => text.split(/(ZZZPUBLICATIONLINK\d+ZZZ)/).map((part) => /^ZZZPUBLICATIONLINK\d+ZZZ$/.test(part) ? part : breakLongTokens(escapeLatex(part))).join(''));
+        const raw = row.values[c.key] ?? '';
+        const cell = renderCell(raw);
+        // Only the description carries the nesting; indenting every column
+        // would break the grid.
+        if (i === descriptionIndex) {
+          const details = [row.identificationException, row.openPurchase?.manufacturer, row.openPurchase?.address].filter(Boolean).map((value) => renderCell(value!));
+          return cellText([cell, ...details].join('\\par '), level);
+        }
+        // "74024019 (1CSL0)": an item with no NSN gives its CAGE centred in
+        // parentheses under the PN.
+        const cage = c.key === 'pn' ? /^(.*\S)\s+\((\w+)\)$/.exec(raw.replace(FOOTNOTE_REFERENCE_TOKEN, '').trim()) : null;
+        return cage ? `\\raggedright ${breakLongTokens(escapeLatex(cage[1]))}\\par\\centering(${escapeLatex(cage[2])})${renderCell((raw.match(FOOTNOTE_REFERENCE_TOKEN) ?? []).join(''))}` : `\\raggedright ${cell}`;
+      })
+      .join(' & ') + ((rows[r + 1]?.level ?? 0) > level ? ' \\tabularnewline*' : ' \\tabularnewline'));
+    // A parent item is followed by a "Consisting of:" row at its items'
+    // indent, as the template lays the parts list out.
+    const next = rows[r + 1];
+    if (next && (next.level ?? 0) > level) {
+      const cells = Array.from({ length: spec.columns.length }, () => '\\raggedright ');
+      cells[descriptionIndex] = cellText('Consisting of:', next.level ?? 0);
+      lines.push(cells.join(' & ') + ' \\tabularnewline*');
+    } else {
+      if (!firstGroupLines) firstGroupLines = lines.length;
+      groups.push(lines.slice(groupStart));
+      groupStart = lines.length;
+    }
+  });
+  // \raggedright in a cell turns \\ into a line break; rows end with the
+  // form no cell setting can capture.
+  const body = lines.join('\n    ');
+  const continuedTitle = `\\multicolumn{${spec.columns.length}}{@{}p{\\textwidth}@{}}{\\centering\\textbf{${tableTitleTex(heading)} -- Continued}\\par} \\tabularnewline`;
+  if (measure) {
+    const checks = groups.map((group, index) => `
+\\setbox\\dondocsTableGroup=\\vbox{\\hsize=\\textwidth
+{\\renewcommand{\\arraystretch}{1.3}\\begin{tabular}{|${colSpec}|}
+${continuedTitle}
+${head} \\tabularnewline \\hline
+${group.join('\n')}
+\\end{tabular}}}
+\\ifdim\\dimexpr\\ht\\dondocsTableGroup+\\dp\\dondocsTableGroup+2\\baselineskip\\relax>\\textheight
+  \\PackageError{I-Type}{${escapeLatex(fullSpec.name)} row group ${index + 1} exceeds one page; shorten or divide its content}{Each row and its attached component heading must fit below the repeated table heading.}
+\\fi
+`).join('');
+    return `${setWidth}${checks}\\setbox\\dondocsTableStart=\\vbox{\\hsize=\\textwidth
+{\\renewcommand{\\arraystretch}{1.3}\\begin{tabular}{|${colSpec}|}
+\\hline ${head} \\tabularnewline \\hline
+${lines.slice(0, firstGroupLines).join('\n')}
+\\end{tabular}}}
+\\dondocsNeedspace{\\ht\\dondocsTableStart+\\dp\\dondocsTableStart+6\\baselineskip+18bp}
+`;
+  }
+
+
+  // A parts list can run to pages, so the table may break between rows. On a
+  // continuation the title and "Continued" and the boxhead are repeated, the
+  // closing rule is omitted at the foot of a continued table and the opening
+  // rule at the head of its continuation (MIL-STD-38784C 4.7.9.2, 4.7.9.3).
+  const continued = `${continuedTitle}\n    ${head} \\tabularnewline\n    \\hline\n    \\endhead`;
+  return `\\vspace{18bp}
+{\\renewcommand{\\arraystretch}{1.3}\\setlength{\\LTpre}{0pt}\\setlength{\\LTpost}{12pt}
+${setWidth}
+\\begin{longtable}[l]{|${colSpec}|}
+    \\hline
+    ${head} \\tabularnewline
+    \\hline
+    \\endfirsthead
+    ${continued}
+    \\endfoot
+    \\hline
+    \\endlastfoot
+    ${body}
+\\end{longtable}}
+
+`;
+}
+
+/**
+ * A safety callout: WARNING, CAUTION or NOTE.
+ *
+ * MIL-STD-38784C sets the shape. Both margins inset a quarter inch, the header
+ * uppercase and bold, the body not bold. A WARNING is always entirely
+ * uppercase; a CAUTION and a NOTE read in sentence case. Warnings and cautions
+ * appear above the step they apply to and must never sit at the foot of a page
+ * away from it.
+ *
+ * "Any single line warning, caution, or note is centred." Whether the text
+ * takes one line is a typesetting fact we do not have here, so it is estimated
+ * from the character count against the callout's width -- comfortably inside a
+ * line at 12pt, and left-justified otherwise, which is the safe direction to be
+ * wrong in.
+ */
+function generateCallout(kind: CalloutKind, text: string, keepWithNext = false, formatBody?: (text: string, uppercase: boolean) => string): string {
+  const SINGLE_LINE_CHARS = 70;
+  const body = formatBody ? formatBody(text, kind === 'warning') : kind === 'warning' ? `\\MakeUppercase{${processBodyText(text)}}` : processBodyText(text);
+  const centred = text.trim().length <= SINGLE_LINE_CHARS;
+  // The box is one line of its own paragraph, so every glue between it and
+  // what follows sits behind a penalty; a `center` environment adds glue of
+  // its own after the box, and a break there stranded the callout at the
+  // foot of a page. A warning or caution precedes what it applies to and
+  // may not end a page; a note may follow its subject, so it is free.
+  const keep = kind === 'note' && !keepWithNext ? '' : '\\nopagebreak[4]';
+  return `\\par\\vspace{12pt}
+\\noindent\\makebox[\\textwidth]{\\begin{minipage}{\\dimexpr\\textwidth-0.5in\\relax}
+\\centering\\textbf{${kind.toUpperCase()}}\\par\\vspace{6pt}
+${centred ? '\\centering' : '\\raggedright'}
+${body}\\par
+\\end{minipage}}
+\\par${keep}\\vspace{6pt}${keep}
+
+`;
+}
+
 export function generateBodyTex(store: DocumentStore): string {
-  const labels = calculateLabels(store.paragraphs);
+  if (store.docType === 'i_type' && (store.formData.publicationType ?? 'MI') === 'MI') {
+    store = { ...store, paragraphs: withTimeCompliance(store.paragraphs, store.formData.miUrgency ?? 'normal', store.formData.miCompletionDate) };
+  }
+  const crossReferences = publicationReferences(store.paragraphs, store.publicationTables);
+  const bodyText = store.docType === 'i_type' ? (text: string) => publicationReferenceText(text, crossReferences) : processBodyText;
+  const navigation = store.docType === 'i_type' ? publicationNavigation(store.paragraphs, store.publicationTables, toTitleCase) : new Map();
+  const labels = calculateLabels(store.paragraphs, store.docType === 'i_type');
   // Where each subparagraph's label must sit: under its parent's text, per
   // Figure 7-8. flat-generator.ts computes the identical number for Word.
   const ancestors = ancestorLabelsPerParagraph(labels, store.paragraphs.map((p) => p.level));
@@ -748,6 +998,16 @@ export function generateBodyTex(store: DocumentStore): string {
 `,
   ];
 
+  // The instruction closes with END OF INSTRUCTION, before any appendix.
+  const END_OF_INSTRUCTION = '\\par\\vspace{12pt}\n\\begin{center}\\textbf{END OF INSTRUCTION}\\end{center}\n\n';
+  let ended = false;
+  let appendixCount = 0;
+  // Figures number consecutively, and afresh within each appendix with its
+  // letter in front (MIL-STD-38784C 4.7.4.1.4): Figure 2, then Figure A-1.
+  let printedFigureNumber = 0;
+  // The position and attachment identity must match generateAllLatexFiles.
+  let figureFileIndex = 0;
+  let appendixLetter = '';
   for (let i = 0; i < store.paragraphs.length; i++) {
     const para = store.paragraphs[i];
     const label = useNumberedParagraphs ? labels[i] : '';
@@ -757,10 +1017,83 @@ export function generateBodyTex(store: DocumentStore): string {
     // portion marks on the primary output too). Enum-constrained, LaTeX-safe.
     const portionPrefix = para.portionMarking ? `(${para.portionMarking}) ` : '';
 
+    // A figure: the image, then its numbered title beneath. The framed
+    // fallback stands in until the image is loaded, as the seal's does.
+    if (para.figure && store.docType === 'i_type') {
+      const file = figureFile(++figureFileIndex, para.figure.type, para.figure.name, para.figure.fileRef?.id);
+      const number = ++printedFigureNumber;
+      const label = appendixLetter ? `${appendixLetter}-${number}` : String(number);
+      // A figure title carries no period at the end (MIL-STD-38784C 4.7.9.1).
+      const graphicMark = para.figure.portionMarking ?? para.portionMarking;
+      const title = portionPrefix + bodyText(para.text.trim().replace(/\.$/, ''));
+      parts.push(
+        `\\par\\vspace{12pt}\n\\begin{center}\n${navigationTex(navigation.get(`itype.figure.${i}`))}${graphicMark ? `(${graphicMark})\\\\*` : ""}` +
+          `\\IfFileExists{${file}}{\\includegraphics[width=\\textwidth,height=5in,keepaspectratio]{${file}}}` +
+          `{\\framebox[3in][c]{\\parbox[c][1.5in][c]{2.8in}{\\centering\\scriptsize Figure ${label}\\\\(add image)}}}\\\\*[6pt]\n` +
+          `\\textbf{Figure ${label}.\\hspace{2\\fontdimen2\\font}${title}}\n\\end{center}\n\\vspace{12pt}\n\n`
+      );
+      continue;
+    }
+
+    // A safety callout replaces the paragraph rather than decorating it.
+    if (para.callout) {
+      if (store.docType === 'i_type') {
+        let end = i;
+        while (end + 1 < store.paragraphs.length && store.paragraphs[end + 1].callout) end++;
+        const group = store.paragraphs.slice(i, end + 1);
+        const safety = group.some((p) => p.callout !== 'note');
+        const content = group.map((p) => generateCallout(p.callout!, `${p.portionMarking ? `(${p.portionMarking}) ` : ''}${p.text}`, safety, (text, uppercase) => publicationReferenceText(text, crossReferences, uppercase))).join('');
+        if (safety) {
+          parts.push(`\\setbox\\dondocsSafetyGroup=\\vbox{\\hsize=\\textwidth ${content}}\n`);
+          parts.push(`\\dondocsNeedspace{\\ht\\dondocsSafetyGroup+\\dp\\dondocsSafetyGroup+4\\baselineskip}\n`);
+        }
+        parts.push(content);
+        i = end;
+      } else {
+        parts.push(generateCallout(para.callout, `${portionPrefix}${para.text}`));
+      }
+      continue;
+    }
+
+    // An appendix opens on its own page, lettered in order, titled by its
+    // heading; its text, if any, leads unnumbered. Only a publication type
+    // defines the macro, so elsewhere the flag is ignored.
+    if (para.appendix && store.docType === 'i_type') {
+      if (!ended) { parts.push(END_OF_INSTRUCTION); ended = true; }
+      const letter = String.fromCharCode(65 + appendixCount++);
+      appendixLetter = letter;
+      printedFigureNumber = 0;
+      parts.push(`\\renewcommand{\\dondocsAppendixNavigation}{${navigationTex(navigation.get(`itype.p.${i}`))}}\n`);
+      parts.push(`\\startAppendix{${letter}}{${escapeLatex(headerText || '')}}\n`);
+      if (para.text.trim()) {
+        parts.push(`\\noindent ${portionPrefix}${bodyText(para.text)}\\par\n\n`);
+      }
+      continue;
+    }
+
+    // A procedural step blocks: carry-over lines start under the first letter
+    // of the step rather than returning to the margin, which is the opposite
+    // of every other paragraph (MIL-STD-38784C 4.7.11.5.3). Steps are indented
+    // from the margin and their substeps align under the text above them.
+    if (para.procedure) {
+      const stepIndent = 0.25 + para.level * 0.25;
+      parts.push(navigationTex(navigation.get(`itype.p.${i}`)) || (store.docType === 'i_type' ? `\\dondocsReferenceAnchor{itype.p.${i}}\n` : ''));
+      parts.push(
+        `\\vspace{12pt}\n{\\leftskip=${stepIndent}in\n` +
+          `\\noindent\\hangindent=\\dimexpr${PROCEDURE_LABEL_WIDTH}+2\\fontdimen2\\font\\relax\\hangafter=1 ` +
+          `\\makebox[${PROCEDURE_LABEL_WIDTH}][r]{\\textbf{${label}}}\\hspace{2\\fontdimen2\\font}` +
+          `${portionPrefix}${headerText ? escapeLatex(toTitleCase(headerText.replace(/\.$/, ''))) + '. ' : ''}${bodyText(para.text)}\\par}\n\n`
+      );
+      continue;
+    }
+
     // The two spaces belong to the label. Business letters and executive
     // correspondence number nothing, so an empty label must not leave the gap
     // behind — it would push the first line right of its own wrapped lines.
-    const labelGap = label ? `${label}~~` : '';
+    // A technical publication sets its paragraph numbers in bold (the
+    // MARCORSYSCOM template); correspondence does not.
+    const shownLabel = store.docType === 'i_type' && label ? `\\textbf{${label}}` : label;
+    const labelGap = shownLabel ? `${shownLabel}~~` : '';
 
     // The period belongs to the sentence the heading introduces, not to the
     // heading — so a heading that introduces nothing does not get one. ¶13d
@@ -777,20 +1110,25 @@ export function generateBodyTex(store: DocumentStore): string {
     // in an abbreviation, which is the rarer case by far.
     const formattedHeader = headerText ? toTitleCase(headerText.replace(/\.$/, '')) : '';
 
+    if (store.docType === 'i_type' && para.tableKey && store.publicationTables?.[para.tableKey]?.length) {
+      parts.push(generatePublicationTable(para.tableKey, store.publicationTables[para.tableKey], navigation.get(`itype.table.${i}`)?.title || headerText || '', true, crossReferences, para.tableIdentifierMode));
+    }
+    if (store.docType === 'i_type' && headerText && !para.tableKey) parts.push('\\dondocsNeedspace{4\\baselineskip}\n');
+    parts.push(navigationTex(navigation.get(`itype.p.${i}`)) || (store.docType === 'i_type' ? `\\dondocsReferenceAnchor{itype.p.${i}}\n` : ''));
     if (para.level === 0) {
       // Level 0: Main paragraph with optional underlined header
       // Per SECNAV M-5216.5 Ch 7 ¶13d: "Underline any heading and capitalize its key words"
       if (isBusinessLetter) {
         // Business letter: 0.5" first-line indent, no numbers
         if (headerText) {
-          parts.push(`\\vspace{12pt}\n\\noindent\\hspace{0.5in}${underlineWords(escapeLatex(formattedHeader))}${headingDot}~~${portionPrefix}${processBodyText(para.text)}\n\n`);
+          parts.push(`\\vspace{12pt}\n\\noindent\\hspace{0.5in}${underlineWords(escapeLatex(formattedHeader))}${headingDot}~~${portionPrefix}${bodyText(para.text)}\n\n`);
         } else {
-          parts.push(`\\vspace{12pt}\n\\noindent\\hspace{0.5in}${portionPrefix}${processBodyText(para.text)}\n\n`);
+          parts.push(`\\vspace{12pt}\n\\noindent\\hspace{0.5in}${portionPrefix}${bodyText(para.text)}\n\n`);
         }
       } else if (headerText) {
-        parts.push(`\\vspace{12pt}\n\\noindent ${labelGap}${underlineWords(escapeLatex(formattedHeader))}${headingDot}~~${portionPrefix}${processBodyText(para.text)}\n\n`);
+        parts.push(`\\vspace{12pt}\n\\noindent ${labelGap}${underlineWords(escapeLatex(formattedHeader))}${headingDot}~~${portionPrefix}${bodyText(para.text)}\n\n`);
       } else {
-        parts.push(`\\vspace{12pt}\n\\noindent ${labelGap}${portionPrefix}${processBodyText(para.text)}\n\n`);
+        parts.push(`\\vspace{12pt}\n\\noindent ${labelGap}${portionPrefix}${bodyText(para.text)}\n\n`);
       }
     } else {
       // Subparagraphs indent their FIRST LINE only.
@@ -817,8 +1155,8 @@ export function generateBodyTex(store: DocumentStore): string {
         ? (para.level + 1) * 0.5
         : subparagraphIndentIn(ancestors[i], bodyFont, bodySizePt);
       const body = headerText
-        ? `${labelGap}${underlineWords(escapeLatex(formattedHeader))}${headingDot}~~${portionPrefix}${processBodyText(para.text)}`
-        : `${labelGap}${portionPrefix}${processBodyText(para.text)}`;
+        ? `${labelGap}${underlineWords(escapeLatex(formattedHeader))}${headingDot}~~${portionPrefix}${bodyText(para.text)}`
+        : `${labelGap}${portionPrefix}${bodyText(para.text)}`;
 
       // 12pt is one blank line at 12pt type — the same gap top-level paragraphs
       // get, because ¶13 draws no distinction: "each paragraph OR SUBPARAGRAPH
@@ -832,7 +1170,21 @@ export function generateBodyTex(store: DocumentStore): string {
         parts.push(`\\vspace{12pt}\n\\noindent\\hspace*{${levelIndent}in}${body}\n\n`);
       }
     }
+
+    // A publication paragraph may carry one of its fixed tables.
+    if (para.tableKey) {
+      const entry = navigation.get(`itype.table.${i}`);
+      if (entry) parts.push('\\dondocsNeedspace{\\ht\\dondocsTableStart+\\dp\\dondocsTableStart+2\\baselineskip+18bp}\n');
+      parts.push(navigationTex(entry));
+      if (entry) parts.push(`{\\centering\\textbf{${tableTitleTex(entry.title)}}\\par}\\nopagebreak[4]\n`);
+      parts.push(generatePublicationTable(para.tableKey, store.publicationTables?.[para.tableKey] ?? [], entry?.title || headerText || '', false, crossReferences, para.tableIdentifierMode));
+      for (const note of para.tableFootnotes ?? []) {
+        if (!/^[a-z0-9]+$/i.test(note.id)) continue;
+        parts.push(`\\par\\noindent\\hspace*{5\\fontdimen2\\font}\\dondocsReferenceAnchor{itype.note.${i}.${note.id.toUpperCase()}}${escapeLatex(note.id)}\\hspace{2\\fontdimen2\\font}${bodyText(note.text)}\\par\n`);
+      }
+    }
   }
+  if (store.docType === 'i_type' && !ended && store.paragraphs.length > 0) parts.push(END_OF_INSTRUCTION);
 
   return parts.join('');
 }
@@ -911,6 +1263,7 @@ export function generateClassificationTex(store: DocumentStore): string {
 %=============================================================================
 
 \\setClassification{${marking}}
+${store.docType === 'i_type' ? `\\def\\ITypeClassificationBasis{${data.classificationBasis === 'original' ? 'original' : 'derivative'}}` : ''}
 \\setClassifiedBy{${escapeLatex(data.classifiedBy)}}
 \\setDerivedFrom{${escapeLatex(data.derivedFrom)}}
 \\setDeclassifyOn{${escapeLatex(data.declassifyOn)}}
@@ -939,6 +1292,9 @@ export interface GeneratedFiles {
   includeHyperlinks: boolean;
   signatureImage?: Uint8Array; // PNG data for signature image
   referenceUrls: ReferenceUrlData[]; // URLs for reference hyperlinks
+  /** Figure images to place, by the file the body names and the attachment
+   *  that holds the bytes. The caller loads and supplies them. */
+  figures: { file: string; ref: FileRef }[];
 }
 
 export function generateAllLatexFiles(store: DocumentStore): GeneratedFiles {
@@ -982,5 +1338,14 @@ export function generateAllLatexFiles(store: DocumentStore): GeneratedFiles {
     .filter((r) => r.url?.trim())
     .map((r) => ({ letter: r.letter, url: r.url! }));
 
-  return { texFiles, enclosures, includeHyperlinks: !!store.formData.includeHyperlinks, signatureImage, referenceUrls };
+  const figures: GeneratedFiles['figures'] = [];
+  if (store.docType === 'i_type') {
+    let figureFileIndex = 0;
+    for (const p of store.paragraphs) {
+      if (!p.figure) continue;
+      figureFileIndex++;
+      if (p.figure.fileRef) figures.push({ file: figureFile(figureFileIndex, p.figure.type, p.figure.name, p.figure.fileRef.id), ref: p.figure.fileRef });
+    }
+  }
+  return { texFiles, enclosures, includeHyperlinks: !!store.formData.includeHyperlinks, signatureImage, referenceUrls, figures };
 }

@@ -8,7 +8,7 @@
  * the one that needs pdflatex.
  */
 import { describe, it, expect } from 'vitest';
-import { DOC_TYPES } from '../../companion/validateLetter';
+import { DOC_TYPES, validateLetter } from '../../companion/validateLetter';
 import { templateFor } from '../../companion/letterInput';
 import { letterSchema } from '../../companion/letterSchema';
 import { DOC_TYPE_CONFIG } from '../../src/types/document';
@@ -24,15 +24,22 @@ describe('the advertised docTypes exist', () => {
   });
 });
 
-describe('every bundled template is renderable', () => {
+describe('bundled templates identify their supported export path', () => {
   // The mirror of the suite above: that one holds what we advertise against
   // what the app defines; this holds what we hand out against what we accept.
   // dondocs_template_get returns a template for an agent to fill in and send to
   // dondocs_letter, so a template naming a docType outside DOC_TYPES is a dead
   // end the agent only discovers on the last step.
   it.each(LETTER_TEMPLATES.map((t) => [t.id, t.docType] as const))(
-    '%s asks for a docType the companion accepts (%s)',
+    '%s has a supported export path (%s)',
     (id, docType) => {
+      if (docType === 'i_type') {
+        expect(validateLetter({ docType, subject: 'TEST' })).toContain(
+          'I-Type export requires the DonDocs web editor and its publication checks.',
+        );
+        expect(letterSchema.safeParse({ docType, subject: 'TEST' }).success).toBe(false);
+        return;
+      }
       expect(DOC_TYPES, `template ${id} names ${docType}, which dondocs_letter rejects`).toContain(docType);
     },
   );

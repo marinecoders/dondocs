@@ -1,6 +1,9 @@
+import { withoutTableFootnote } from '@/lib/tableFootnotes';
 import { create } from 'zustand';
 import { format, parse, isValid } from 'date-fns';
-import type { Reference, Enclosure, FileRef, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, DocumentCategory, FormType } from '@/types/document';
+import type { Reference, Enclosure, FileRef, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, DocumentCategory, FormType,
+  EndItem, PublicationTableRow,
+} from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { loadAttachment, persistAttachment } from '@/lib/attachments';
 import { useHistoryStore } from './historyStore';
@@ -26,6 +29,8 @@ export interface SerializedSession {
   formType: FormType;
   formData: Partial<DocumentData>;
   references: Reference[];
+  endItems: EndItem[];
+  publicationTables: Record<string, PublicationTableRow[]>;
   // `file` bytes live in the attachments store; `fileRef` is the durable handle
   // that rehydrates them on load. `hasFile` stays for legacy sessions written
   // before fileRef existed (they had bytes in memory but nothing to recover).
@@ -90,6 +95,8 @@ export interface DocumentState {
   formType: FormType;
   formData: Partial<DocumentData>;
   references: Reference[];
+  endItems: EndItem[];
+  publicationTables: Record<string, PublicationTableRow[]>;
   enclosures: Enclosure[];
   paragraphs: Paragraph[];
   copyTos: CopyTo[];
@@ -103,6 +110,16 @@ export interface DocumentState {
   setField: <K extends keyof DocumentData>(key: K, value: DocumentData[K]) => void;
   setFormData: (data: Partial<DocumentData>) => void;
   resetForm: () => void;
+
+  // Actions - Publication tables and end items
+  addTableRow: (tableKey: string) => void;
+  updateTableRow: (tableKey: string, index: number, values: Record<string, string>) => void;
+  removeTableRow: (tableKey: string, index: number) => void;
+  setTableRowDetails: (tableKey: string, index: number, details: Pick<PublicationTableRow, 'identificationException' | 'openPurchase'>) => void;
+  setTableRowLevel: (tableKey: string, index: number, level: number) => void;
+  addEndItem: () => void;
+  updateEndItem: (index: number, updates: Partial<EndItem>) => void;
+  removeEndItem: (index: number) => void;
 
   // Actions - References
   addReference: (title: string, url?: string) => void;
@@ -121,6 +138,7 @@ export interface DocumentState {
   /** Insert several paragraphs (a split paste) after `afterIndex` in one edit. */
   insertParagraphs: (afterIndex: number, texts: string[], level: number) => void;
   updateParagraph: (index: number, updates: Partial<Paragraph>) => void;
+  removeTableFootnote: (index: number, noteIndex: number) => void;
   removeParagraph: (index: number) => void;
   reorderParagraphs: (fromIndex: number, toIndex: number) => void;
   indentParagraph: (index: number) => void;
@@ -230,6 +248,11 @@ const DEFAULT_FORM_DATA = EXAMPLE_FORM_DATA;
 const DEFAULT_REFERENCES = EXAMPLE_REFERENCES;
 const DEFAULT_PARAGRAPHS = EXAMPLE_PARAGRAPHS;
 
+function publicationFont(docType: string, mode: DocumentMode, data: Partial<DocumentData>): Partial<DocumentData> {
+  return docType === 'i_type' && mode === 'compliant'
+    ? { ...data, fontFamily: 'times', fontSize: '12pt' } : data;
+}
+
 export const useDocumentStore = create<DocumentState>((set, get) => ({
   documentMode: 'compliant',
   documentCategory: 'correspondence',
@@ -237,6 +260,8 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   formType: 'navmc_10274',
   formData: { ...DEFAULT_FORM_DATA },
   references: [...DEFAULT_REFERENCES],
+  endItems: [],
+  publicationTables: {},
   enclosures: [...DEFAULT_ENCLOSURES],
   paragraphs: [...DEFAULT_PARAGRAPHS],
   copyTos: [
@@ -330,6 +355,14 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
 
   setField: (key, value) => set((state) => {
     const formData = { ...state.formData, [key]: value };
+    if (key === 'publicationType' && value !== 'MI') {
+      formData.miUrgency = 'normal';
+      formData.miCompletionDate = '';
+    }
+    if (state.docType === 'i_type' && state.documentMode === 'compliant') {
+      formData.fontFamily = 'times';
+      formData.fontSize = '12pt';
+    }
     // The start letter shifts every reference after it, so re-letter in the
     // same commit — otherwise the rows keep the previous sequence on screen.
     if (key === 'startingReferenceLetter') {
@@ -345,7 +378,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   }),
 
   setFormData: (data) => set((state) => ({
-    formData: { ...state.formData, ...data },
+    formData: publicationFont(state.docType, state.documentMode, { ...state.formData, ...data }),
   })),
 
   resetForm: () => {
@@ -355,6 +388,8 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     docType: 'naval_letter',
     formData: { ...DEFAULT_FORM_DATA },
     references: [...DEFAULT_REFERENCES],
+    endItems: [],
+    publicationTables: {},
     enclosures: [...DEFAULT_ENCLOSURES],
     paragraphs: [...DEFAULT_PARAGRAPHS],
     copyTos: [
@@ -365,6 +400,55 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     distributions: [],
     });
   },
+
+  // Publication tables and end items
+  addTableRow: (tableKey) => set((state) => ({
+    publicationTables: {
+      ...state.publicationTables,
+      [tableKey]: [...(state.publicationTables[tableKey] ?? []), { values: {} }],
+    },
+  })),
+
+  updateTableRow: (tableKey, index, values) => set((state) => ({
+    publicationTables: {
+      ...state.publicationTables,
+      [tableKey]: (state.publicationTables[tableKey] ?? []).map((row, i) =>
+        i === index ? { ...row, values: { ...row.values, ...values } } : row
+      ),
+    },
+  })),
+
+  setTableRowDetails: (tableKey, index, details) => set((state) => ({
+    publicationTables: { ...state.publicationTables, [tableKey]: (state.publicationTables[tableKey] ?? []).map((row, i) => i === index ? { ...row, ...details } : row) },
+  })),
+
+  setTableRowLevel: (tableKey, index, level) => set((state) => ({
+    publicationTables: {
+      ...state.publicationTables,
+      [tableKey]: (state.publicationTables[tableKey] ?? []).map((row, i) =>
+        i === index ? { ...row, level: Math.max(0, level) } : row
+      ),
+    },
+  })),
+
+  removeTableRow: (tableKey, index) => set((state) => ({
+    publicationTables: {
+      ...state.publicationTables,
+      [tableKey]: (state.publicationTables[tableKey] ?? []).filter((_, i) => i !== index),
+    },
+  })),
+
+  addEndItem: () => set((state) => ({
+    endItems: [...state.endItems, { nsn: '', tamcn: '', id: '', model: '' }],
+  })),
+
+  updateEndItem: (index, updates) => set((state) => ({
+    endItems: state.endItems.map((item, i) => (i === index ? { ...item, ...updates } : item)),
+  })),
+
+  removeEndItem: (index) => set((state) => ({
+    endItems: state.endItems.filter((_, i) => i !== index),
+  })),
 
   // References
   addReference: (title, url) => set((state) => ({
@@ -443,6 +527,8 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     newParas.splice(afterIndex + 1, 0, ...texts.map((text) => ({ text, level })));
     return { paragraphs: normalizeLevels(newParas) };
   }),
+
+  removeTableFootnote: (index, noteIndex) => set((state) => withoutTableFootnote(state.paragraphs, state.publicationTables, index, noteIndex)),
 
   updateParagraph: (index, updates) => set((state) => ({
     paragraphs: state.paragraphs.map((p, i) => (i === index ? { ...p, ...updates } : p)),
@@ -645,6 +731,11 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
         enclosures: [],
         copyTos: [],
         distributions: [],
+        // A publication's end items and table rows are document content like
+        // the paragraphs above. Left behind, the previous publication's parts
+        // lists reappeared under the next one's headings.
+        endItems: [],
+        publicationTables: {},
       };
     });
   },
@@ -658,7 +749,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     });
     useUIStore.getState().setValidationVisible(false);
     set((state) => {
-      const formData = data.formData ? { ...state.formData, ...data.formData } : state.formData;
+      const formData = publicationFont(state.docType, state.documentMode, { ...state.formData, ...data.formData });
       // A template describes a document; it never carries an uploaded basic
       // letter. Without this, spreading the old formData stapled the previous
       // document's letter onto whatever loads next. Keyed on the REF, not the
@@ -710,12 +801,14 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     return {
       documentMode: snapshot.documentMode,
       docType: snapshot.docType,
-      formData: snapshot.formData,
+      formData: publicationFont(snapshot.docType, snapshot.documentMode, snapshot.formData),
       references: snapshot.references,
       enclosures,
       paragraphs: snapshot.paragraphs,
       copyTos: snapshot.copyTos,
       distributions: snapshot.distributions || [],
+      endItems: snapshot.endItems ?? [],
+      publicationTables: snapshot.publicationTables ?? {},
     };
   }),
 
@@ -730,6 +823,8 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       paragraphs: state.paragraphs,
       copyTos: state.copyTos,
       distributions: state.distributions,
+      endItems: state.endItems,
+      publicationTables: state.publicationTables,
     };
   },
 }));
@@ -767,6 +862,8 @@ useDocumentStore.subscribe((state: DocumentState) => {
         paragraphs: state.paragraphs,
         copyTos: state.copyTos,
         distributions: state.distributions,
+        endItems: state.endItems,
+        publicationTables: state.publicationTables,
       };
       useHistoryStore.getState().saveSnapshot(snapshot);
       debug.log('Store', 'Snapshot saved to history');
@@ -823,6 +920,8 @@ function saveSessionToStorage(state: DocumentState): void {
         signatureImage: undefined,
       },
       references: state.references,
+      endItems: state.endItems,
+      publicationTables: state.publicationTables,
       enclosures: state.enclosures.map(enc => ({
         title: enc.title,
         pageStyle: enc.pageStyle,
@@ -915,8 +1014,10 @@ export function restoreSession(): boolean {
       documentCategory: session.documentCategory || 'correspondence',
       docType: session.docType,
       formType: session.formType || 'navmc_10274',
-      formData: restoredFormData,
+      formData: publicationFont(session.docType, session.documentMode, restoredFormData),
       references: session.references,
+      endItems: session.endItems ?? [],
+      publicationTables: session.publicationTables ?? {},
       enclosures: session.enclosures.map(enc => ({
         title: enc.title,
         pageStyle: enc.pageStyle,
@@ -959,6 +1060,8 @@ export function serializeSession(state: DocumentState): SerializedSession {
     documentCategory: state.documentCategory,
     docType: state.docType,
     formType: state.formType,
+    endItems: state.endItems,
+    publicationTables: state.publicationTables,
     formData: {
       ...state.formData,
       signatureImage: undefined,
@@ -997,8 +1100,10 @@ export function loadSharedSession(session: SerializedSession): void {
     documentCategory: session.documentCategory ?? 'correspondence',
     docType: session.docType,
     formType: session.formType ?? 'navmc_10274',
-    formData: sharedFormData,
+    formData: publicationFont(session.docType, session.documentMode, sharedFormData),
     references: session.references ?? [],
+    endItems: session.endItems ?? [],
+    publicationTables: session.publicationTables ?? {},
     enclosures: (session.enclosures ?? []).map(enc => ({
       title: enc.title,
       pageStyle: enc.pageStyle,

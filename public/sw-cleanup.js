@@ -12,6 +12,7 @@ const RETIRED_CACHES = [
   'pandoc-wasm-cache-v2',
   'pandoc-wasm-cdn-cache-v1',
   'wasi-shim-cdn-cache-v1',
+  'texlive-cache-v3', // cached 404s as packages; see the texlive rule in vite.config.ts
 ];
 
 self.addEventListener('activate', (event) => {

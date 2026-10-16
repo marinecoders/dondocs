@@ -12,12 +12,10 @@
 import { TEMPLATE_FOR, type LetterInput } from './letterInput';
 import { DOC_TYPE_CONFIG } from '../src/types/document';
 
-/**
- * Every doc type the app defines, plus the friendly aliases `templateFor`
- * translates. Derived so the companion cannot advertise a type the app lacks or
- * lag behind one it gains; the tool schema's enum derives from this in turn.
- */
-export const DOC_TYPES = [...Object.keys(DOC_TYPE_CONFIG), ...Object.keys(TEMPLATE_FOR)];
+/** I-Type needs publication fields and preflight checks that this API lacks. */
+export const ITYPE_EDITOR_REQUIRED = 'I-Type export requires the DonDocs web editor and its publication checks.';
+export const DOC_TYPES = [...Object.keys(DOC_TYPE_CONFIG), ...Object.keys(TEMPLATE_FOR)]
+  .filter((type) => type !== 'i_type');
 export const FORMATS = ['pdf', 'docx'];
 /** The levels the generator marks; anything else renders unmarked. */
 export const CLASSIFICATION_LEVELS = ['unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci'];
@@ -30,7 +28,9 @@ export const ENDORSEMENT_TYPES = ['same_page_endorsement', 'new_page_endorsement
 export function validateLetter(body: Partial<LetterInput>): string[] {
   const problems: string[] = [];
 
-  if (!DOC_TYPES.includes(body.docType as string)) {
+  if (body.docType === 'i_type') {
+    problems.push(ITYPE_EDITOR_REQUIRED);
+  } else if (!DOC_TYPES.includes(body.docType as string)) {
     problems.push(`unknown docType ${JSON.stringify(body.docType)}; expected one of ${DOC_TYPES.join(', ')}`);
   }
   if (body.format !== undefined && !FORMATS.includes(body.format)) {

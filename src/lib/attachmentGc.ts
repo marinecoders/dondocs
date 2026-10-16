@@ -46,12 +46,24 @@ import { getPendingDeleteSessions, useDocumentsStore } from '@/stores/documentsS
 import { isRestoreInProgress } from '@/lib/backup';
 import { debug } from '@/lib/debug';
 
-/** Every enclosure `fileRef.id` plus the basic-letter ref in one session. */
+/** Every enclosure and figure `fileRef.id` plus the basic-letter ref in one session. */
 function collectSessionRefs(session: SerializedSession | undefined, into: Set<string>): void {
   // An endorsement's basic-letter PDF is stored as an attachment; keep it
   // reachable so the GC doesn't sweep it out from under a saved endorsement.
   const blId = session?.formData?.basicLetterFileRef?.id;
   if (typeof blId === 'string' && blId) into.add(blId);
+
+  // A publication's figure images hang off paragraphs, not the enclosure list.
+  // This walk must precede the enclosures guard below: a publication has
+  // figures and no enclosures array at all, and returning early left every
+  // figure unmarked for the sweep to delete.
+  const paragraphs = session?.paragraphs;
+  if (Array.isArray(paragraphs)) {
+    for (const para of paragraphs) {
+      const id = para?.figure?.fileRef?.id;
+      if (typeof id === 'string' && id) into.add(id);
+    }
+  }
 
   const enclosures = session?.enclosures;
   if (!Array.isArray(enclosures)) return;
@@ -105,7 +117,7 @@ export async function collectLiveAttachmentIds(): Promise<Set<string> | null> {
   // bytes before the save made them reachable.
   const liveState = useDocumentStore.getState();
   collectSessionRefs(
-    { enclosures: liveState.enclosures, formData: liveState.formData } as SerializedSession,
+    { enclosures: liveState.enclosures, formData: liveState.formData, paragraphs: liveState.paragraphs } as SerializedSession,
     live
   );
 

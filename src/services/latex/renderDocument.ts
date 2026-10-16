@@ -1,3 +1,5 @@
+import { resolvePublicationDestinations } from '../pdf/publicationDestinations';
+import { validateFigureFiles } from './figureAssets';
 /**
  * The LaTeX compile sequence, held once.
  *
@@ -116,6 +118,8 @@ async function runCompile(
     throw new Error('Engine not ready');
   }
 
+  await validateFigureFiles(files);
+
   for (const [path, content] of Object.entries(files)) {
     engine.writeMemFSFile(path, content);
   }
@@ -124,7 +128,8 @@ async function runCompile(
   const result = await engine.compileLaTeX();
 
   if (result.status === 0 && result.pdf) {
-    return result.pdf;
+    return typeof files['document.tex'] === 'string' && files['document.tex'].includes('\\setDocumentType{i_type}')
+      ? resolvePublicationDestinations(result.pdf) : result.pdf;
   }
   throw new LatexCompileError(result.status, result.log ?? '');
 }

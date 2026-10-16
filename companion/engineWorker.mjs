@@ -76,6 +76,9 @@ globalThis.fetch = async (input, init) => {
 
 // Node has no XHR; the engine uses it to pull texlive packages on demand.
 // Serve them from the vendored tree instead, so the spike stays offline.
+// With DONDOCS_TEXLIVE_BUNDLE_ONLY set, only the format file is served: that
+// is what an offline browser has -- the preloaded bundle and nothing else.
+const BUNDLE_ONLY = process.env.DONDOCS_TEXLIVE_BUNDLE_ONLY === '1';
 globalThis.XMLHttpRequest = class {
   open(_m, url) { this._url = String(url); }
   get responseType() { return this._rt || ''; }
@@ -97,7 +100,7 @@ globalThis.XMLHttpRequest = class {
       // texlive/pdftex/10/swiftlatexpdftex.fmt and the vendored tree is nested
       // exactly that way. Flattening to the basename loses the /10/ segment.
       const rel = this._url.replace(/^\.?\//, '').split('?')[0];
-      const hit = findTexFile(rel);
+      const hit = BUNDLE_ONLY && !rel.endsWith('.fmt') ? null : findTexFile(rel);
       if (!hit) throw new Error('not found: ' + rel);
       this.response = readFileSync(hit);
       if (this._rt === 'arraybuffer') {

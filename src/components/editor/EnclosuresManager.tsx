@@ -56,6 +56,7 @@ function SortableEnclosure({
   onUpdateCoverPage,
   onUpdateCoverDescription,
 }: SortableEnclosureProps) {
+  const isPublication = useDocumentStore((state) => state.docType === 'i_type');
   const {
     attributes,
     listeners,
@@ -143,8 +144,8 @@ function SortableEnclosure({
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="border">85% with Border</SelectItem>
-                    <SelectItem value="fullpage">Full Page (No Margins)</SelectItem>
+                    <SelectItem value="border">{isPublication ? 'Fit with Border' : '85% with Border'}</SelectItem>
+                    <SelectItem value="fullpage">{isPublication ? 'Full Page (Reserve Margins)' : 'Full Page (No Margins)'}</SelectItem>
                     <SelectItem value="fit">Fit to Margins</SelectItem>
                   </SelectContent>
                 </Select>
@@ -163,17 +164,16 @@ function SortableEnclosure({
             </label>
           )}
 
-          {/* Cover/placeholder page option - always visible */}
-          <div className="flex items-center gap-2 pt-1">
+          {(!isPublication || enclosure.hasCoverPage) && <div className="flex items-center gap-2 pt-1">
             <Checkbox
               id={`cover-${index}`}
               checked={enclosure.hasCoverPage || false}
               onCheckedChange={(checked) => onUpdateCoverPage(checked === true)}
             />
             <Label htmlFor={`cover-${index}`} className="text-xs text-muted-foreground cursor-pointer">
-              {enclosure.file ? 'Add cover page before PDF' : 'Add placeholder / cover page'}
+              {isPublication ? 'Added cover page (remove for I-Type export)' : enclosure.file ? 'Add cover page before PDF' : 'Add placeholder / cover page'}
             </Label>
-          </div>
+          </div>}
           {enclosure.hasCoverPage && (
             <Textarea
               placeholder="Optional description for page…"
