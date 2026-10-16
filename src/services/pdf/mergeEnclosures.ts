@@ -28,8 +28,7 @@ export interface EnclosureError {
 
 export type EnclosureLabelStyle = 'corner' | 'footer';
 
-/** The short title and date a technical publication centres in the header of
- *  every enclosure page, under the marking. */
+/** Source-document identification on the first enclosure page. */
 export interface PublicationHeader {
   line1: string;
   line2: string;
@@ -38,7 +37,7 @@ export interface PublicationHeader {
 export interface MergeOptions {
   /** Where each enclosure page carries its label. Defaults to the corner. */
   enclosureLabel?: EnclosureLabelStyle;
-  /** Centred at the top of each enclosure page when given. */
+  /** Right-aligned on the first page of an attached publication document. */
   header?: PublicationHeader;
 }
 
@@ -1154,6 +1153,9 @@ export async function mergeEnclosures(
   // Process each enclosure in order
   for (const enclosure of enclosures) {
     try {
+      if (labelStyle === 'footer' && enclosure.hasCoverPage) {
+        throw new Error('Remove the added enclosure cover page. I-Type enclosures identify the attached document on its first page.');
+      }
       // Add optional cover/placeholder page before the enclosure content
       if (enclosure.hasCoverPage) {
         addCoverPage(mainPdf, enclosure, helveticaBold, helvetica, classification, labelStyle, options.header);
@@ -1386,8 +1388,10 @@ async function addPdfEnclosure(
       }
 
       // Add enclosure label at bottom right
-      addEnclosureLabel(page, enclosure.number, helveticaBold, labelStyle);
-      if (header) addPublicationHeader(page, helveticaBold, header);
+      if (labelStyle !== 'footer' || i === 0) {
+        addEnclosureLabel(page, enclosure.number, helveticaBold, labelStyle);
+        if (header) addPublicationHeader(page, helveticaBold, header);
+      }
 
       // Add page number for multi-page enclosures (bottom center)
       if (pageCount > 1 || labelStyle === 'footer') {
@@ -1710,18 +1714,17 @@ function addCoverPage(
   }
 }
 
-/** The short title and date, centred under the top marking, on a technical
- *  publication's enclosure pages. */
+/** DTL 3.1.8.1 identifies the attached source document on its first page. */
 function addPublicationHeader(page: PDFPage, font: Awaited<ReturnType<PDFDocument['embedFont']>>, header: PublicationHeader): void {
   const fontSize = 10;
-  const line = [header.line1, header.line2].filter(Boolean).join('    ');
+  const line = header.line1;
   const width = font.widthOfTextAtSize(line, fontSize);
-  page.drawText(line, { x: (page.getWidth() - width) / 2, y: page.getHeight() - 58, size: fontSize, font, color: rgb(0, 0, 0) });
+  page.drawText(line, { x: page.getWidth() - MARGIN - width, y: page.getHeight() - 58, size: fontSize, font, color: rgb(0, 0, 0) });
 }
 
 /**
  * Adds the enclosure label: "Enclosure (1)" at bottom right (correspondence),
- * or "Enclosure 1" centred just above the page number (technical publications).
+ * or above the first page number (technical publications).
  */
 function addEnclosureLabel(
   page: PDFPage,
@@ -1731,10 +1734,10 @@ function addEnclosureLabel(
 ): void {
   const fontSize = 10;
   if (style === 'footer') {
-    const labelText = `Enclosure ${enclosureNumber}`;
+    const labelText = `Enclosure (${enclosureNumber})`;
     const textWidth = font.widthOfTextAtSize(labelText, fontSize);
     page.drawText(labelText, {
-      x: (page.getWidth() - textWidth) / 2,
+      x: page.getWidth() - MARGIN - textWidth,
       y: 36 + 14, // one line above the page number (see addPageNumber)
       size: fontSize,
       font,

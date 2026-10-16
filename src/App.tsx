@@ -218,9 +218,7 @@ async function addFigureFiles(files: Record<string, string | Uint8Array>, figure
   await loadFigureFiles(files, figures, loadAttachment);
 }
 
-// A technical publication labels its enclosure pages in the footer and centres
-// its short title and date in their headers; correspondence keeps the corner
-// label and no header.
+// I-Type attachments carry first-page identification and outer-edge numbers.
 function mergeOptionsFor(store: ReturnType<typeof useDocumentStore.getState>) {
   const enclosureLabel = DOC_TYPE_CONFIG[store.docType]?.enclosureLabel;
   return enclosureLabel === 'footer'

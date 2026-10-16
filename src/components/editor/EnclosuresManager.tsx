@@ -164,17 +164,16 @@ function SortableEnclosure({
             </label>
           )}
 
-          {/* Cover/placeholder page option - always visible */}
-          <div className="flex items-center gap-2 pt-1">
+          {(!isPublication || enclosure.hasCoverPage) && <div className="flex items-center gap-2 pt-1">
             <Checkbox
               id={`cover-${index}`}
               checked={enclosure.hasCoverPage || false}
               onCheckedChange={(checked) => onUpdateCoverPage(checked === true)}
             />
             <Label htmlFor={`cover-${index}`} className="text-xs text-muted-foreground cursor-pointer">
-              {enclosure.file ? 'Add cover page before PDF' : 'Add placeholder / cover page'}
+              {isPublication ? 'Added cover page (remove for I-Type export)' : enclosure.file ? 'Add cover page before PDF' : 'Add placeholder / cover page'}
             </Label>
-          </div>
+          </div>}
           {enclosure.hasCoverPage && (
             <Textarea
               placeholder="Optional description for page…"

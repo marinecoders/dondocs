@@ -7,9 +7,7 @@ import { PDFDocument } from 'pdf-lib';
 import { mergeEnclosures, type EnclosureData } from '@/services/pdf/mergeEnclosures';
 import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfToolchain';
 
-// The label is read back off the rendered page. A correspondence enclosure
-// keeps "Enclosure (1)" in the corner; a technical publication carries
-// "Enclosure 1" centred in the footer, as MIL-STD-38784C lays it out.
+// Read identifiers back from the rendered enclosure page.
 
 
 async function onePagePdf(): Promise<Uint8Array> {
@@ -33,18 +31,17 @@ describe.skipIf(!hasPdfToolchain)('enclosure label placement', () => {
     expect(await mergedPageText()).toMatch(/Enclosure \(1\)/);
   });
 
-  it('technical publications label the footer, no parentheses', async () => {
+  it('technical publications identify the first page above its number', async () => {
     const text = await mergedPageText('footer');
-    expect(text).toMatch(/Enclosure 1\b/);
-    expect(text).not.toMatch(/Enclosure \(1\)/);
-    expect(text.indexOf('Enclosure 1')).toBeGreaterThan(text.indexOf('DRAWING CONTENT'));
+    expect(text).toMatch(/Enclosure \(1\)/);
+    expect(text.indexOf('Enclosure (1)')).toBeGreaterThan(text.indexOf('DRAWING CONTENT'));
   });
 
-  it('technical publications centre the short title and date at the top', async () => {
+  it('technical publications print the short title without a repeated date', async () => {
     const text = await mergedPageText('footer', { line1: 'MI 12345A-24/1', line2: '15 December 2024' });
     const lines = text.split('\n').map((l) => l.trimEnd()).filter((l) => l.trim());
     expect(lines[0]).toMatch(/MI 12345A-24\/1/);
-    expect(lines[0]).toMatch(/15 December 2024/);
+    expect(lines[0]).not.toMatch(/15 December 2024/);
     expect(lines[0]).not.toMatch(/DRAWING CONTENT/);
   });
 });

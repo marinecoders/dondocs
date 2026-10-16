@@ -14,6 +14,12 @@ async function source(width: number, height: number, rotation = 0) {
 }
 
 describe('I-Type enclosure geometry', () => {
+  it('rejects an added wrapper before the identified source document', async () => {
+    const result = await mergeEnclosures(await source(612, 792), [{ number: 1, title: 'Drawing', data: (await source(612, 792)).buffer as ArrayBuffer, hasCoverPage: true }], undefined, false, [], { enclosureLabel: 'footer' });
+    expect(result.hasErrors).toBe(true);
+    expect(result.errors[0].error).toContain('Remove the added enclosure cover page');
+  });
+
   it.each(['border', 'fit', 'fullpage'] as const)('reserves added margin data outside source content in %s mode', async (pageStyle) => {
     const attachment = await PDFDocument.create();
     const sheet = attachment.addPage([612, 792]);

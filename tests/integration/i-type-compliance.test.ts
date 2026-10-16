@@ -303,16 +303,17 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
       const text = pages(signed, `enclosure-${count}`);
       for (let i = 0; i < count; i++) {
         const page = text.length - count + i;
-        expect(text[page]).toContain('SYNTHETIC TEST BANNER'); expect(text[page]).toMatch(new RegExp(`Enclosure 1\\s+${i + 1}\\s+SYNTHETIC`));
+        expect(text[page]).toContain('SYNTHETIC TEST BANNER');
+        expect(text[page].includes('Enclosure (1)')).toBe(i === 0);
         const items = await textItems(signed, page + 1);
         expect(items.find((item) => item.str === String(i + 1))?.height).toBe(12);
-        const label = items.find((item) => item.str === 'Enclosure 1')!;
-        expect(label.transform[4] + label.width / 2).toBeCloseTo(306, 0);
+        const number = items.find((item) => item.str === String(i + 1))!;
+        expect(i % 2 ? number.transform[4] : number.transform[4] + number.width).toBeCloseTo(i % 2 ? 72 : 540, 0);
+        const label = items.find((item) => item.str === 'Enclosure (1)');
+        if (i === 0) expect(label!.transform[4] + label!.width).toBeCloseTo(540, 0);
         const header = items.filter((item) => item.str.includes('MI 12345A') || item.str.includes('30 October 2026'));
-        expect(header.length).toBeGreaterThan(0);
-        const left = Math.min(...header.map((item) => item.transform[4]));
-        const right = Math.max(...header.map((item) => item.transform[4] + item.width));
-        expect((left + right) / 2).toBeCloseTo(306, 0);
+        expect(header.length).toBe(i === 0 ? 1 : 0);
+        if (i === 0) expect(header[0].transform[4] + header[0].width).toBeCloseTo(540, 0);
       }
       const pdf = await getDocument({ data: signed.slice(), useSystemFonts: false }).promise;
       try {
