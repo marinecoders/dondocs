@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Shield, Settings2, Eraser, FileStack, ClipboardList, FolderOpen } from 'lucide-react';
+import { Shield, Settings2, Eraser, FolderOpen } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { HelpTip } from '@/components/ui/help-tip';
@@ -26,7 +26,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { useUIStore } from '@/stores/uiStore';
-import { DOC_TYPE_CONFIG, DOC_TYPE_LABELS, DOC_TYPE_CATEGORIES, FORM_TYPE_LABELS, FORM_TYPE_CATEGORIES, type DocumentCategory, type DocumentMode, type FormType } from '@/types/document';
+import { DOC_TYPE_CONFIG, DOC_TYPE_LABELS, DOC_TYPE_CATEGORIES, FORM_TYPE_LABELS, FORM_TYPE_CATEGORIES, type DocumentMode, type FormType } from '@/types/document';
 import { Badge } from '@/components/ui/badge';
 
 export function DocumentTypeSelector() {
@@ -63,23 +63,6 @@ export function DocumentTypeSelector() {
         </HelpTip>
       </h3>
 
-      {/* Category Tabs - Correspondence vs Forms (at the top) */}
-      <div data-tour="category" className="space-y-2">
-        <Label>Category</Label>
-        <Tabs value={documentCategory} onValueChange={(v) => selectKind(v as DocumentCategory, formType)}>
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="correspondence" className="flex items-center gap-2">
-              <FileStack className="h-4 w-4" />
-              Correspondence
-            </TabsTrigger>
-            <TabsTrigger value="forms" className="flex items-center gap-2">
-              <ClipboardList className="h-4 w-4" />
-              Forms
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
-      </div>
-
       {/* Correspondence Settings — prototype order: Type → Format mode → regs → fonts → actions */}
       {isCorrespondence && (
       <div className="space-y-density-4">
@@ -107,9 +90,7 @@ export function DocumentTypeSelector() {
           </Select>
         </div>
 
-        {/* Format mode - segmented control (a quiet neutral toggle like the
-            Category control above it, not two filled buttons — keeps the one
-            scarlet primary rule), with an inline mode hint. */}
+        {/* Format mode uses a segmented control with an inline explanation. */}
         <div className="space-y-2">
           <Label>Format mode</Label>
           <Tabs value={documentMode} onValueChange={(v) => setDocumentMode(v as DocumentMode)}>
@@ -255,7 +236,7 @@ export function DocumentTypeSelector() {
         <div className="space-y-2">
           <Label>Form Type</Label>
           <Select value={formType} onValueChange={(v) => selectKind('forms', v as FormType)}>
-            <SelectTrigger className="w-full">
+            <SelectTrigger aria-label="Form Type" className="w-full">
               <SelectValue placeholder="Select form type" />
             </SelectTrigger>
             <SelectContent>

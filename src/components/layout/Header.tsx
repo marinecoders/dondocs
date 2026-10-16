@@ -1,7 +1,7 @@
 import { DraftIdentity } from './DraftIdentity';
-import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
+import { DocumentNavigation } from './DocumentNavigation';
 import { useState, useCallback, useRef, useEffect, type ChangeEvent, type ReactNode } from 'react';
-import { PanelLeft, MoreHorizontal, Copy, History, Wrench, ChevronDown, Check, Moon, Sun, Download, FileText, Braces, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, FileDown, FileUp, ScrollText, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Loader2, Lightbulb, FolderOpen, Rocket, FolderSync, AlertTriangle, MonitorDown, Radio } from 'lucide-react';
+import { PanelLeft, MoreHorizontal, Copy, History, Wrench, Check, Download, FileText, Braces, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, FileDown, FileUp, ScrollText, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Loader2, Lightbulb, FolderOpen, Rocket, FolderSync, AlertTriangle, MonitorDown, Radio } from 'lucide-react';
 import { GithubIcon } from '@/components/icons/GithubIcon';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -49,7 +49,7 @@ import { useLogStore } from '@/stores/logStore';
 import { useTourStore } from '@/stores/tourStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { safeReportUrl, BUG_REPORT_PRIVACY_NOTICE, BUG_REPORT_LOG_PROMPT } from '@/lib/bugReport';
-import { DOC_TYPE_CONFIG, DOC_TYPE_LABELS, FORM_TYPE_LABELS } from '@/types/document';
+import { DOC_TYPE_CONFIG } from '@/types/document';
 
 interface HeaderProps {
   onDownloadPdf?: () => void;
@@ -180,8 +180,6 @@ export function Header({
   // One selector per field so Zustand only re-renders on that field's change,
   // not on every store update (this header is ~40 buttons + dropdowns). Setters
   // are stable, so selecting them is free. Same for the document + history stores.
-  const theme = useUIStore((s) => s.theme);
-  const toggleTheme = useUIStore((s) => s.toggleTheme);
   const setAboutModalOpen = useUIStore((s) => s.setAboutModalOpen);
   const setConnectivityModalOpen = useUIStore((s) => s.setConnectivityModalOpen);
   const setNistModalOpen = useUIStore((s) => s.setNistModalOpen);
@@ -425,7 +423,6 @@ export function Header({
   }, [flashSaveStatus]);
 
   const currentId = useDocumentsStore((s) => s.currentId);
-  const formType = useDocumentStore((s) => s.formType);
   const sidebarCollapsed = useUIStore((s) => s.sidebarCollapsed);
   const openHistory = () => { const ds = useDocumentsStore.getState(); ds.saveCurrent(); if (ds.currentId) useUIStore.getState().setHistoryDocId(ds.currentId); };
 
@@ -614,8 +611,7 @@ export function Header({
 
       </div>
       <div className="flex min-w-0 flex-wrap items-center gap-1 px-4 sm:px-6 pb-2 text-xs">
-        <button type="button" onClick={() => useEditorOutlineStore.getState().jump('type')} className="max-w-full truncate rounded-md px-1 py-2 text-left text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring" title="Change document type">{isFormsMode ? FORM_TYPE_LABELS[formType] : DOC_TYPE_LABELS[docType]}<ChevronDown className="ml-1 inline h-3 w-3" /></button>
-        <div className="flex-1" />
+        <DocumentNavigation />
         <Button variant="ghost" size="sm" className="h-10 sm:h-8 px-2" onClick={openHistory} disabled={!currentId}><History className="h-3.5 w-3.5" />History</Button>
         <Button data-tour="batch" variant="ghost" size="sm" className="h-10 sm:h-8 px-2" onClick={() => setBatchModalOpen(true)}><Layers className="h-3.5 w-3.5" />Batch</Button>
           <DropdownMenu>
@@ -656,12 +652,6 @@ export function Header({
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => setConnectivityModalOpen(true)}><Radio className="h-4 w-4 mr-2" />Endpoint Check</DropdownMenuItem>
               <DropdownMenuItem onClick={() => useUIStore.getState().setSettingsOpen(true)}><Settings className="h-4 w-4 mr-2" />Settings</DropdownMenuItem>
-              {/* Appearance section */}
-              <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Appearance</div>
-              <DropdownMenuItem onClick={toggleTheme}>
-                {theme === 'dark' ? <Sun className="h-4 w-4 mr-2" /> : <Moon className="h-4 w-4 mr-2" />}
-                {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-              </DropdownMenuItem>
               <DropdownMenuSeparator />
               {/* Help section */}
               <DropdownMenuItem onClick={() => useUIStore.getState().setHelpOpen(true)}>

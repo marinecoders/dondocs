@@ -69,6 +69,8 @@ export interface DocumentEntry {
 
 interface DocumentsState {
   docs: Record<string, DocumentEntry>;
+  /** Last viewed drafts for category navigation in this workspace session. */
+  lastKindIds: Partial<Record<DocumentCategory | FormType, string>>;
   trash: Record<string, DocumentEntry>;
   restoreFromTrash: (id: string) => void;
   permanentlyDelete: (id: string) => Promise<boolean>;
@@ -654,6 +656,7 @@ function initAfterHydration(
 
 export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   docs: {},
+  lastKindIds: {},
   trash: {},
   currentId: null,
   hydrated: false,
@@ -685,6 +688,12 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     const { currentId, docs, baseline } = get();
     if (!currentId || get().trash[currentId]) return;
     const session = source ? serializeSession(source) : getSerializedSession();
+    const category = session.documentCategory ?? 'correspondence';
+    const kind = category === 'forms' ? session.formType ?? 'navmc_10274' : category;
+    const remembered = get().lastKindIds;
+    if (remembered[category] !== currentId || remembered[kind] !== currentId) {
+      set({ lastKindIds: { ...remembered, [category]: currentId, [kind]: currentId } });
+    }
 
     const prev = docs[currentId];
     if (!prev) {
@@ -753,15 +762,17 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     debug.log('Documents', 'New document', { id });
   },
 
-  selectKind: (category, formType = 'navmc_10274') => {
+  selectKind: (category, formType) => {
     const current = useDocumentStore.getState();
-    if (current.documentCategory === category && (category !== 'forms' || current.formType === formType)) return;
+    if (current.documentCategory === category && (category !== 'forms' || !formType || current.formType === formType)) return;
     get().syncCurrent();
-    const previous = Object.values(get().docs)
-      .filter(({ session }) => session.documentCategory === category && (category !== 'forms' || session.formType === formType))
-      .sort((a, b) => b.meta.updatedAt - a.meta.updatedAt)[0];
+    const candidates = Object.values(get().docs)
+      .filter(({ session }) => session.documentCategory === category && (category !== 'forms' || !formType || session.formType === formType));
+    const remembered = get().lastKindIds[category === 'forms' && formType ? formType : category];
+    const previous = candidates.find(({ meta }) => meta.id === remembered)
+      ?? candidates.sort((a, b) => b.meta.updatedAt - a.meta.updatedAt)[0];
     if (previous) get().switchTo(previous.meta.id);
-    else get().newDocument(category === 'forms' ? formType : undefined);
+    else get().newDocument(category === 'forms' ? formType ?? 'navmc_10274' : undefined);
   },
 
   switchTo: (id) => {
