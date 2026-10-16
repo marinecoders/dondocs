@@ -474,6 +474,18 @@
 
 
 .workspace-header [data-slot="button"] { font-size: 0.75rem; font-weight: 500; box-shadow: none; }
+/* Restore the original EGA watermark only in Classic's editor background. */
+:root[data-theme="classic"] .workspace-editor { position: relative; isolation: isolate; }
+:root[data-theme="classic"] .workspace-editor::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url('/attachments/marine-coders-logo.svg') center / min(78%, 480px) auto no-repeat;
+  filter: invert(1);
+  opacity: 0.05;
+}
 .workspace-editor [data-slot="accordion-item"] { border-top: 0; padding-top: 0; }
 .workspace-editor [data-slot="accordion-trigger"] { padding-bottom: 1.25rem; font-size: 1.375rem; font-weight: 500; letter-spacing: -0.025em; }
 .workspace-editor [data-slot="accordion-trigger"] svg { display: none; }
