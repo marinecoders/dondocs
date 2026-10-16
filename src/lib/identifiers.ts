@@ -1,3 +1,4 @@
+import { REFERENCE_TOKEN } from './publicationReferences';
 import type { EndItem, PublicationTableRow } from '@/types/document';
 
 /**
@@ -49,7 +50,7 @@ export function validateIdentifiers(input: {
 
   const items = [
     ...input.endItems.map((e) => ({ nsn: e.nsn, tamcn: e.tamcn, id: e.id })),
-    ...input.majorItems.map((r) => ({ nsn: r.values.nsn ?? '', tamcn: r.values.tamcn ?? '', id: r.values.id ?? '' })),
+    ...input.majorItems.map((r) => ({ nsn: (r.values.nsn ?? '').replace(REFERENCE_TOKEN, ''), tamcn: (r.values.tamcn ?? '').replace(REFERENCE_TOKEN, ''), id: (r.values.id ?? '').replace(REFERENCE_TOKEN, '') })),
   ];
   const bad = (key: 'nsn' | 'tamcn' | 'id', re: RegExp) =>
     items.map((i) => i[key].trim()).filter((v) => v && !re.test(v));

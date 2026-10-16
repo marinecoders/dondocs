@@ -1,4 +1,4 @@
-import { publicationReferences } from '@/lib/publicationReferences';
+import { publicationReferences, FOOTNOTE_REFERENCE_TOKEN, type PublicationReference } from '@/lib/publicationReferences';
 import { iTypeDestructionNotice } from '@/lib/iTypeClassification';
 import { publicationReferenceText } from './publicationReferenceText';
 import { publicationNavigation, navigationTex } from './publicationNavigation';
@@ -845,7 +845,7 @@ function underlineWords(text: string): string {
  * second. An empty table prints nothing -- a table that does not apply is
  * removed, unlike the End Item table on the cover which keeps its six rows.
  */
-function generatePublicationTable(tableKey: string, rows: PublicationTableRow[], heading: string, measure = false): string {
+function generatePublicationTable(tableKey: string, rows: PublicationTableRow[], heading: string, measure = false, references: PublicationReference[] = []): string {
   const fullSpec = tableSpec(tableKey);
   if (!fullSpec || rows.length === 0) return '';
   // "If Item Numbers are not needed in tables, remove column." Derived from the
@@ -883,14 +883,16 @@ function generatePublicationTable(tableKey: string, rows: PublicationTableRow[],
     const level = row.level ?? 0;
     lines.push(spec.columns
       .map((c, i) => {
-        const cell = breakLongTokens(escapeLatex(row.values[c.key] ?? ''));
+        const renderCell = (value: string) => publicationReferenceText(value, references, false, (text) => text.split(/(ZZZPUBLICATIONLINK\d+ZZZ)/).map((part) => /^ZZZPUBLICATIONLINK\d+ZZZ$/.test(part) ? part : breakLongTokens(escapeLatex(part))).join(''));
+        const raw = row.values[c.key] ?? '';
+        const cell = renderCell(raw);
         // Only the description carries the nesting; indenting every column
         // would break the grid.
         if (i === descriptionIndex) return cellText(cell, level);
         // "74024019 (1CSL0)": an item with no NSN gives its CAGE centred in
         // parentheses under the PN.
-        const cage = c.key === 'pn' ? /^(.*\S)\s+\((\w+)\)$/.exec(row.values.pn ?? '') : null;
-        return cage ? `\\raggedright ${breakLongTokens(escapeLatex(cage[1]))}\\par\\centering(${escapeLatex(cage[2])})` : `\\raggedright ${cell}`;
+        const cage = c.key === 'pn' ? /^(.*\S)\s+\((\w+)\)$/.exec(raw.replace(FOOTNOTE_REFERENCE_TOKEN, '').trim()) : null;
+        return cage ? `\\raggedright ${breakLongTokens(escapeLatex(cage[1]))}\\par\\centering(${escapeLatex(cage[2])})${renderCell((raw.match(FOOTNOTE_REFERENCE_TOKEN) ?? []).join(''))}` : `\\raggedright ${cell}`;
       })
       .join(' & ') + ((rows[r + 1]?.level ?? 0) > level ? ' \\tabularnewline* \\noalign{\\nobreak\\hrule height\\arrayrulewidth\\nobreak}' : ' \\tabularnewline \\hline'));
     // A parent item is followed by a "Consisting of:" row at its items'
@@ -1127,7 +1129,7 @@ export function generateBodyTex(store: DocumentStore): string {
     const formattedHeader = headerText ? toTitleCase(headerText.replace(/\.$/, '')) : '';
 
     if (store.docType === 'i_type' && para.tableKey && store.publicationTables?.[para.tableKey]?.length) {
-      parts.push(generatePublicationTable(para.tableKey, store.publicationTables[para.tableKey], headerText || '', true));
+      parts.push(generatePublicationTable(para.tableKey, store.publicationTables[para.tableKey], headerText || '', true, crossReferences));
     }
     if (store.docType === 'i_type' && headerText && !para.tableKey) parts.push('\\dondocsNeedspace{4\\baselineskip}\n');
     parts.push(navigationTex(navigation.get(`itype.p.${i}`)) || (store.docType === 'i_type' ? `\\dondocsReferenceAnchor{itype.p.${i}}\n` : ''));
@@ -1193,10 +1195,10 @@ export function generateBodyTex(store: DocumentStore): string {
       if (entry) parts.push('\\dondocsNeedspace{\\ht\\dondocsTableStart+\\dp\\dondocsTableStart+2\\baselineskip}\n');
       parts.push(navigationTex(entry));
       if (entry) parts.push(`\\noindent\\textbf{${escapeLatex(entry.title)}}\\par\\nopagebreak[4]\n`);
-      parts.push(generatePublicationTable(para.tableKey, store.publicationTables?.[para.tableKey] ?? [], entry?.title || headerText || ''));
+      parts.push(generatePublicationTable(para.tableKey, store.publicationTables?.[para.tableKey] ?? [], entry?.title || headerText || '', false, crossReferences));
       for (const note of para.tableFootnotes ?? []) {
         if (!/^[a-z0-9]+$/i.test(note.id)) continue;
-        parts.push(`\\par\\noindent\\dondocsReferenceAnchor{itype.note.${i}.${note.id.toUpperCase()}}\\textbf{${escapeLatex(note.id)}} ${bodyText(note.text)}\\par\n`);
+        parts.push(`\\par\\noindent\\hspace*{5\\fontdimen2\\font}\\dondocsReferenceAnchor{itype.note.${i}.${note.id.toUpperCase()}}${escapeLatex(note.id)}\\hspace{2\\fontdimen2\\font}${bodyText(note.text)}\\par\n`);
       }
     }
   }

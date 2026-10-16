@@ -1,6 +1,6 @@
 import { Plus, Trash2, Indent, Outdent } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { PublicationTableCell } from './PublicationTableCell';
 import { Label } from '@/components/ui/label';
 import { useDocumentStore } from '@/stores/documentStore';
 import { tableSpec } from '@/data/techpub/tables';
@@ -24,8 +24,8 @@ export function PublicationTablesSection() {
   const removeTableRow = useDocumentStore((s) => s.removeTableRow);
   const setTableRowLevel = useDocumentStore((s) => s.setTableRowLevel);
 
-  const carried = paragraphs.flatMap((p) =>
-    p.tableKey ? [{ key: p.tableKey, heading: p.header }] : []
+  const carried = paragraphs.flatMap((p, paragraphIndex) =>
+    p.tableKey ? [{ key: p.tableKey, heading: p.header, paragraph: p, paragraphIndex }] : []
   );
 
   if (carried.length === 0) {
@@ -42,7 +42,7 @@ export function PublicationTablesSection() {
         An item with no NSN gives its CAGE code under the part number, as 74024019 (1CSL0).
         Indent an item to list it as consisting of the one above.
       </p>
-      {carried.map(({ key, heading }) => {
+      {carried.map(({ key, heading, paragraph, paragraphIndex }) => {
         const spec = tableSpec(key);
         if (!spec) return null;
         const rows = tables[key] ?? [];
@@ -60,17 +60,23 @@ export function PublicationTablesSection() {
             {rows.map((row, index) => (
               <div key={index} className="flex items-end gap-2">
                 {spec.columns.map((col) => (
-                  <div key={col.key} className="flex-1 space-y-1">
+                  <div key={col.key} className="flex-1 space-y-1" style={col.key === 'description' && row.level ? { marginLeft: `${row.level * 12}px` } : undefined}>
                     {index === 0 && (
                       <Label className="text-2xs text-muted-foreground">{col.label}</Label>
                     )}
-                    <Input
+                    <PublicationTableCell
                       value={row.values[col.key] ?? ''}
-                      onChange={(e) => updateTableRow(key, index, { [col.key]: e.target.value })}
-                      aria-label={`${col.label}, ${heading ?? key} row ${index + 1}`}
-                      // The description carries the nesting, so indent it to
-                      // match what prints.
-                      style={col.key === 'description' && row.level ? { marginLeft: `${row.level * 12}px` } : undefined}
+                      onChange={(value) => updateTableRow(key, index, { [col.key]: value })}
+                      label={`${col.label}, ${heading ?? key} row ${index + 1}`}
+                      paragraph={paragraph}
+                      ensureReferenceId={() => {
+                        const state = useDocumentStore.getState();
+                        const existing = state.paragraphs[paragraphIndex].referenceId;
+                        if (existing) return existing;
+                        const id = crypto.randomUUID().replace(/-/g, '').toUpperCase();
+                        state.updateParagraph(paragraphIndex, { referenceId: id });
+                        return id;
+                      }}
                     />
                   </div>
                 ))}

@@ -431,7 +431,7 @@ const BlockRow = memo(function BlockRow({
               <div key={note.id} className="flex items-center gap-2">
                 <span className="text-xs">Footnote {note.id}</span>
                 <Input aria-label={`Table footnote ${note.id}`} value={note.text} onChange={(e) => updateParagraph(index, { tableFootnotes: footnotes!.map((n, j) => j === noteIndex ? { ...n, text: e.target.value } : n) })} />
-                <Button variant="ghost" size="sm" aria-label={`Remove footnote ${note.id}`} onClick={() => updateParagraph(index, { tableFootnotes: footnotes!.filter((_, j) => j !== noteIndex) })}><Trash2 className="h-3 w-3" /></Button>
+                <Button variant="ghost" size="sm" aria-label={`Remove footnote ${note.id}`} onClick={() => useDocumentStore.getState().removeTableFootnote(index, noteIndex)}><Trash2 className="h-3 w-3" /></Button>
               </div>
             ))}
             <Button variant="outline" size="sm" onClick={() => {

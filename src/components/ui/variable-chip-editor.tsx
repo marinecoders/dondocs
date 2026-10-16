@@ -457,7 +457,7 @@ const VariableExtension = VariableNode.extend({
           const customVars = getCustomVariables();
           const allVars: VariableItem[] = [
             ...getDocFieldItems(),
-            ...getCrossReferenceItems(),
+            ...getCrossReferenceItems().filter((item) => item.publicationTarget?.kind !== 'N'),
             ...customVars,
             ...BATCH_PLACEHOLDERS.map(p => ({ ...p })),
           ];

@@ -1,3 +1,4 @@
+import { withoutTableFootnote } from '@/lib/tableFootnotes';
 import { create } from 'zustand';
 import { format, parse, isValid } from 'date-fns';
 import type { Reference, Enclosure, FileRef, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, DocumentCategory, FormType,
@@ -136,6 +137,7 @@ export interface DocumentState {
   /** Insert several paragraphs (a split paste) after `afterIndex` in one edit. */
   insertParagraphs: (afterIndex: number, texts: string[], level: number) => void;
   updateParagraph: (index: number, updates: Partial<Paragraph>) => void;
+  removeTableFootnote: (index: number, noteIndex: number) => void;
   removeParagraph: (index: number) => void;
   reorderParagraphs: (fromIndex: number, toIndex: number) => void;
   indentParagraph: (index: number) => void;
@@ -520,6 +522,8 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     newParas.splice(afterIndex + 1, 0, ...texts.map((text) => ({ text, level })));
     return { paragraphs: normalizeLevels(newParas) };
   }),
+
+  removeTableFootnote: (index, noteIndex) => set((state) => withoutTableFootnote(state.paragraphs, state.publicationTables, index, noteIndex)),
 
   updateParagraph: (index, updates) => set((state) => ({
     paragraphs: state.paragraphs.map((p, i) => (i === index ? { ...p, ...updates } : p)),

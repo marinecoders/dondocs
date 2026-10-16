@@ -4,12 +4,35 @@ import { publicationReferences, validatePublicationReferences } from '@/lib/publ
 import { publicationReferenceText } from '@/services/latex/publicationReferenceText';
 import { generateBodyTex } from '@/services/latex/generator';
 import { useDocumentStore } from '@/stores/documentStore';
+import { withoutTableFootnote } from '@/lib/tableFootnotes';
 
 const id = 'ABCDEF0123456789ABCDEF0123456789';
 const target: Paragraph = { level: 0, header: 'Inspection', text: 'Inspect the bracket.', referenceId: id };
 const reference: Paragraph = { level: 0, header: 'Purpose', text: `See {{PUBREF_P_${id}}}.` };
 
 describe('publication references', () => {
+  it('links table-cell notes as superscripts and rejects body or foreign-table citations', () => {
+    const note = `{{PUBREF_N_${id}_1}}`;
+    const p: Paragraph = { ...target, tableKey: 'materielRequired', tableFootnotes: [{ id: '1', text: 'Quantity per assembly.' }] };
+    const tables = { materielRequired: [{ values: { description: `BOLT${note}` } }] };
+    expect(validatePublicationReferences([p], tables)).toEqual([]);
+    const refs = publicationReferences([p], tables);
+    expect(publicationReferenceText(note, refs)).toBe('\\textsuperscript{\\dondocsReferenceLink{itype.note.0.1}{1}}');
+    expect(validatePublicationReferences([{ ...p, text: note }], tables).join(' ')).toContain('only within');
+    expect(validatePublicationReferences([p, { level: 0, text: '', tableKey: 'components' }], { ...tables, components: [{ values: { description: note } }] }).join(' ')).toContain('only within');
+    expect(validatePublicationReferences([{ ...p, tableFootnotes: [{ id: '1', text: 'One.' }, { id: '3', text: 'Three.' }] }], tables).join(' ')).toContain('consecutively');
+    const tex = generateBodyTex({ ...useDocumentStore.getState(), docType: 'i_type', paragraphs: [p], publicationTables: tables });
+    expect(tex).toContain('BOLT\\textsuperscript{\\dondocsReferenceLink{itype.note.0.1}{1}}');
+    expect(tex).toContain('\\hspace*{5\\fontdimen2\\font}');
+  });
+  it('renumbers remaining notes and their citations atomically when a note is removed', () => {
+    const p = { ...target, tableKey: 'materielRequired', tableFootnotes: [1, 2, 3].map((n) => ({ id: String(n), text: `Note ${n}.` })) };
+    const tables = { materielRequired: [{ values: { description: `BOLT{{PUBREF_N_${id}_2}}{{PUBREF_N_${id}_3}}` } }] };
+    const updated = withoutTableFootnote([p], tables, 0, 1);
+    expect(updated.paragraphs[0].tableFootnotes).toEqual([{ id: '1', text: 'Note 1.' }, { id: '2', text: 'Note 3.' }]);
+    expect(updated.publicationTables.materielRequired[0].values.description).toBe(`BOLT{{PUBREF_N_${id}_2}}`);
+    expect(validatePublicationReferences(updated.paragraphs, updated.publicationTables)).toEqual([]);
+  });
   it('keeps a reference attached to its target after renumbering', () => {
     const before = publicationReferences([reference, target]);
     const after = publicationReferences([reference, { level: 0, text: 'Extra paragraph.' }, target]);

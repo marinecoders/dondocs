@@ -119,12 +119,12 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
     const figureId = 'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB';
     const image = new Uint8Array(readFileSync('public/attachments/usmc-seal.png'));
     s.paragraphs = [
-      { level: 0, header: 'Purpose', text: `See {{PUBREF_P_${id}}}, {{PUBREF_T_${id}}}, and {{PUBREF_N_${id}_A}}. See {{PUBREF_F_${figureId}}}. Source: https://example.mil/CaseSensitive.` },
+      { level: 0, header: 'Purpose', text: `See {{PUBREF_P_${id}}} and {{PUBREF_T_${id}}}. See {{PUBREF_F_${figureId}}}. Source: https://example.mil/CaseSensitive.` },
       ...Array.from({ length: 18 }, () => ({ level: 0, text: 'Inspect the equipment. '.repeat(14) })),
-      { level: 0, header: 'Materiel Required', text: 'Use the listed parts.', referenceId: id, tableKey: 'materielRequired', tableFootnotes: [{ id: 'a', text: 'Install two bolts.' }] },
+      { level: 0, header: 'Materiel Required', text: 'Use the listed parts.', referenceId: id, tableKey: 'materielRequired', tableFootnotes: [{ id: 'a', text: 'Quantity is per assembly.' }] },
       { level: 0, referenceId: figureId, text: 'Synthetic drawing', figure: { name: 'figure.png', type: 'image/png', fileRef: { id: 'reference-figure', name: 'figure.png', type: 'image/png', size: image.length } } },
     ];
-    s.publicationTables = { materielRequired: [{ values: { item: '1', description: 'BOLT', qty: '2' } }] };
+    s.publicationTables = { materielRequired: [{ values: { item: '1', description: `BOLT{{PUBREF_N_${id}_A}}`, qty: '2' } }] };
     const files = generateAllLatexFiles(s);
     const base = await production(s, { [files.figures[0].file]: image });
     const attachment = await PDFDocument.create(); attachment.addPage().drawText('SYNTHETIC ENCLOSURE');

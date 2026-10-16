@@ -1,3 +1,4 @@
+import { REFERENCE_TOKEN } from './publicationReferences';
 import { PUBLICATION_SECTIONS, publicationSection, sectionTitle, DISCREPANCY_NOTICE, MI_REPORTING, type PublicationSection } from '@/data/techpub/sections';
 import type { Paragraph, PublicationTableRow } from '@/types/document';
 import { findUndefinedAcronyms } from '@/lib/acronyms';
@@ -70,7 +71,7 @@ export function validateNomenclatureCase(rows: PublicationTableRow[], table: str
 /** 3.3.2.9.4: "numbers shall be consecutive" — 1, 2, 3, kit items included. */
 export function validateItemNumbers(rows: PublicationTableRow[], table: string, required = false): RuleFinding[] {
   const entries = rows.filter((r) => Object.values(r.values).some((v) => v.trim()) && !/^(consisting of|includes):?$/i.test((r.values.description ?? '').trim()));
-  const items = entries.map((r) => (r.values.item ?? '').trim());
+  const items = entries.map((r) => (r.values.item ?? '').replace(REFERENCE_TOKEN, '').trim());
   if (!required && items.every((item) => !item)) return [];
   if (items.some((item) => !item)) return [warn(`${table}: each item needs a number when the table uses item numbers.`)];
   const expected = items.map((_, i) => String(i + 1));

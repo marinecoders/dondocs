@@ -9,6 +9,7 @@ export interface PublicationReference {
   label: string;
   destination: string;
 }
+export const FOOTNOTE_REFERENCE_TOKEN = /\{\{PUBREF_N_[A-Z0-9_]+\}\}/g;
 export const REFERENCE_TOKEN = /\{\{PUBREF_[A-Z0-9_]+\}\}/g;
 export const referenceName = (kind: string, id: string, note?: string) => `PUBREF_${kind}_${id}${note ? `_${note.toUpperCase()}` : ''}`;
 
@@ -55,7 +56,18 @@ export function validatePublicationReferences(paragraphs: Paragraph[], tables: R
     const notes = p.tableFootnotes ?? [];
     if (notes.length && (!p.tableKey || !tables[p.tableKey]?.length || p.figure || p.callout || p.appendix || p.procedure)) errors.push('Table footnotes need a populated table on an ordinary paragraph.');
     if (new Set(notes.map((n) => n.id.toUpperCase())).size !== notes.length || notes.some((n) => !/^[a-z0-9]+$/i.test(n.id) || !n.text.trim())) errors.push('Table footnotes need unique letter or number labels and text.');
-    for (const text of [p.text, ...notes.map((n) => n.text)]) {
+    const numeric = notes.every((n) => /^\d+$/.test(n.id));
+    if (numeric && notes.some((n, i) => n.id !== String(i + 1))) errors.push('Number table footnotes consecutively from 1 within each table.');
+    const proseFields = [p.text, ...notes.map((n) => n.text)];
+    if (proseFields.some((text) => (text.match(FOOTNOTE_REFERENCE_TOKEN) ?? []).length)) errors.push('Reference table footnotes only within their own table cells.');
+    const cellFields = p.tableKey ? (tables[p.tableKey] ?? []).flatMap((row) => Object.values(row.values)) : [];
+    const ownNotes = new Set(notes.map((n) => referenceName('N', p.referenceId ?? '', n.id)));
+    for (const text of cellFields) {
+      for (const token of text.match(FOOTNOTE_REFERENCE_TOKEN) ?? []) {
+        if (!ownNotes.has(token.slice(2, -2))) errors.push('Reference table footnotes only within their own table cells.');
+      }
+    }
+    for (const text of [...proseFields, ...cellFields]) {
       const prose = text.replace(REFERENCE_TOKEN, '');
       if (/\b(?:paragraph|figure|table)\s+(?:[A-Z]-)?\d+[a-z]?(?:\([a-z0-9]+\))*/i.test(prose) && !/https?:\/\//i.test(prose)) {
         errors.push('Use Insert to link typed paragraph, figure or table references. For an external publication, include its source URL and verify the cited location.');

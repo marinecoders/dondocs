@@ -13,6 +13,16 @@ const withParagraph = (tableKey: string, header: string) =>
 beforeEach(() => useDocumentStore.setState({ paragraphs: [], publicationTables: {} }));
 
 describe('PublicationTablesSection', () => {
+  it('inserts a footnote without exposing the stored reference token in the cell', () => {
+    useDocumentStore.setState({ paragraphs: [{ text: '', level: 0, header: 'Materiel Required', tableKey: 'materielRequired', tableFootnotes: [{ id: '1', text: 'Quantity per assembly.' }] }], publicationTables: { materielRequired: [{ values: { description: 'BOLT' } }] } });
+    render(<PublicationTablesSection />);
+    fireEvent.change(screen.getByLabelText('Add footnote to Description, Materiel Required row 1'), { target: { value: '1' } });
+    const state = useDocumentStore.getState();
+    expect(state.publicationTables.materielRequired[0].values.description).toBe(`BOLT{{PUBREF_N_${state.paragraphs[0].referenceId}_1}}`);
+    expect(screen.getByLabelText('Description, Materiel Required row 1')).toHaveValue('BOLT');
+    fireEvent.click(screen.getByLabelText('Remove footnote 1 from Description, Materiel Required row 1'));
+    expect(useDocumentStore.getState().publicationTables.materielRequired[0].values.description).toBe('BOLT');
+  });
   it('shows only the tables the paragraphs carry', () => {
     withParagraph('materielRequired', 'Materiel Required');
     render(<PublicationTablesSection />);
