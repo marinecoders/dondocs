@@ -3,6 +3,7 @@ import { Header } from '@/components/layout/Header';
 import { FormPanel } from '@/components/layout/FormPanel';
 import { EditorSidebar } from '@/components/layout/EditorSidebar';
 import { MobileRecents } from '@/components/layout/MobileRecents';
+import { SettingsModal } from '@/components/modals/SettingsModal';
 import { TrashModal } from '@/components/modals/TrashModal';
 import { VersionHistoryModal } from '@/components/modals/VersionHistoryModal';
 import { PreviewPanel } from '@/components/layout/PreviewPanel';
@@ -1975,6 +1976,7 @@ ${texFiles['body.tex'] || '% No body content'}
         <MobileRecents />
         <VersionHistoryModal />
       <TrashModal />
+      <SettingsModal />
 
         <main id="main-content" ref={mainContainerRef} className="flex flex-1 min-w-0 overflow-hidden">
         {/* Form Panel - takes remaining space when preview is visible */}

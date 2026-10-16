@@ -169,6 +169,10 @@ interface UIState {
   mobileDocsOpen: boolean;
   setMobileDocsOpen: (open: boolean) => void;
   // Version-history modal: the document id whose snapshots to show (null = closed).
+  settingsOpen: boolean;
+  setSettingsOpen: (open: boolean) => void;
+  documentPositions: Record<string, { top: number; section: string | null }>;
+  rememberPosition: (id: string, top: number, section: string | null) => void;
   trashOpen: boolean;
   setTrashOpen: (open: boolean) => void;
   historyDocId: string | null;
@@ -294,6 +298,15 @@ export const useUIStore = create<UIState>()(
       setMobilePreviewOpen: (open) => set({ mobilePreviewOpen: open }),
       mobileDocsOpen: false,
       setMobileDocsOpen: (open) => set({ mobileDocsOpen: open }),
+      settingsOpen: false,
+      setSettingsOpen: (open) => set({ settingsOpen: open }),
+      documentPositions: {},
+      rememberPosition: (id, top, section) => set((s) => {
+        const positions = { ...s.documentPositions };
+        delete positions[id];
+        positions[id] = { top, section };
+        return { documentPositions: Object.fromEntries(Object.entries(positions).slice(-200)) };
+      }),
       trashOpen: false,
       setTrashOpen: (open) => set({ trashOpen: open }),
       historyDocId: null,
@@ -349,6 +362,7 @@ export const useUIStore = create<UIState>()(
       // Guarded storage so a boot-time set() can't throw under blocked site data.
       storage: createJSONStorage(() => safeLocalStorage),
       partialize: (state) => ({
+        documentPositions: state.documentPositions,
         theme: state.theme,
         colorScheme: state.colorScheme,
         density: state.density,

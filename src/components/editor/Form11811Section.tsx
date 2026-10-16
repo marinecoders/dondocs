@@ -197,7 +197,7 @@ export function Form11811Section() {
 
       <Accordion type="multiple" className="space-y-2">
         {/* Marine Identification */}
-        <AccordionItem value="marine" id="sec-marine" data-section="marine" className={sectionRule(activeId === 'marine')}>
+        <AccordionItem value="marine" id="sec-marine" tabIndex={-1} data-section="marine" className={sectionRule(activeId === 'marine')}>
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">Marine Identification</span>
           </AccordionTrigger>
@@ -279,7 +279,7 @@ export function Form11811Section() {
         </AccordionItem>
 
         {/* Entry Content */}
-        <AccordionItem value="content" id="sec-content" data-section="content" className={sectionRule(activeId === 'content')}>
+        <AccordionItem value="content" id="sec-content" tabIndex={-1} data-section="content" className={sectionRule(activeId === 'content')}>
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">6105 Entry Content</span>
           </AccordionTrigger>
@@ -341,7 +341,7 @@ export function Form11811Section() {
         </AccordionItem>
 
         {/* Signatures — close the 6105 entry (counselor + counseled Marine) */}
-        <AccordionItem value="signatures" id="sec-signatures" data-section="signatures" className={sectionRule(activeId === 'signatures')}>
+        <AccordionItem value="signatures" id="sec-signatures" tabIndex={-1} data-section="signatures" className={sectionRule(activeId === 'signatures')}>
           <AccordionTrigger>Signatures</AccordionTrigger>
           <AccordionContent>
             <div className="space-y-4 pt-1">

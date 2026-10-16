@@ -16,7 +16,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useProfileStore } from '@/stores/profileStore';
 import { useDocumentStore } from '@/stores/documentStore';
-import { SaveStatus } from '@/components/SaveStatus';
 import { useUIStore } from '@/stores/uiStore';
 import { showAppAlert, showAppConfirm } from '@/stores/alertStore';
 import { debug } from '@/lib/debug';
@@ -134,9 +133,9 @@ export function ProfileBar() {
   };
 
   return (
-    <div data-tour="profiles" className="flex items-center gap-1.5 px-3 py-1.5 border-b border-border bg-secondary/20">
+    <div data-tour="profiles" className="flex flex-wrap items-center gap-1.5 px-3 py-1.5 border-b border-border bg-secondary/20">
       <Select value={selectedProfile || '__none__'} onValueChange={handleProfileChange}>
-        <SelectTrigger size="sm" className="w-[200px] text-xs">
+        <SelectTrigger size="sm" aria-label="Apply profile" className="w-[180px] max-w-full text-xs">
           <SelectValue placeholder="Select profile" />
         </SelectTrigger>
         <SelectContent>
@@ -219,7 +218,7 @@ export function ProfileBar() {
 
       <div className="flex-1" />
 
-      <SaveStatus />
+
     </div>
   );
 }

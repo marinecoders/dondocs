@@ -42,7 +42,7 @@ function AccordionItem({
     // className is still merged (e.g. the forms' active-section left-rule).
     // Forward id + data-* so the navigation rail can anchor to each.
     return (
-      <div data-slot="accordion-item" id={id} className={cn("border-t border-border pt-6 pb-6", className)} {...dataAttrs(props)}>
+      <div data-slot="accordion-item" id={id} tabIndex={props.tabIndex} className={cn("border-t border-border pt-6 pb-6", className)} {...dataAttrs(props)}>
         {children}
       </div>
     )

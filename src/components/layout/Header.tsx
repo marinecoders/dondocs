@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect, type ChangeEvent, type ReactNode } from 'react';
-import { Moon, Sun, Download, FileText, Braces, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2, Lightbulb, FolderOpen, Rocket, FolderSync, AlertTriangle, MonitorDown, Radio } from 'lucide-react';
+import { Check, Moon, Sun, Download, FileText, Braces, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Loader2, Lightbulb, FolderOpen, Rocket, FolderSync, AlertTriangle, MonitorDown, Radio } from 'lucide-react';
 import { GithubIcon } from '@/components/icons/GithubIcon';
 import { Button } from '@/components/ui/button';
 import { Kbd } from '@/components/ui/kbd';
@@ -178,8 +178,6 @@ export function Header({
   // are stable, so selecting them is free. Same for the document + history stores.
   const theme = useUIStore((s) => s.theme);
   const toggleTheme = useUIStore((s) => s.toggleTheme);
-  const density = useUIStore((s) => s.density);
-  const setDensity = useUIStore((s) => s.setDensity);
   const setAboutModalOpen = useUIStore((s) => s.setAboutModalOpen);
   const setConnectivityModalOpen = useUIStore((s) => s.setConnectivityModalOpen);
   const setNistModalOpen = useUIStore((s) => s.setNistModalOpen);
@@ -192,8 +190,6 @@ export function Header({
   const isMobile = useUIStore((s) => s.isMobile);
   const previewVisible = useUIStore((s) => s.previewVisible);
   const togglePreview = useUIStore((s) => s.togglePreview);
-  const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
-  const setFullQualityPreview = useUIStore((s) => s.setFullQualityPreview);
   // Reopen the getting-started checklist. Hidden once onboarding is finished.
   // Desktop un-hides the floating card; on mobile (no floating launcher — the
   // Preview FAB owns that corner) it opens the checklist's bottom sheet.
@@ -625,21 +621,7 @@ export function Header({
               <span className="text-xs text-foreground/70 hidden sm:block leading-tight truncate">Naval correspondence &amp; forms</span>
             </div>
           </div>
-          {/* NIST 800-171 Compliance Badge - icon only below lg, full badge on lg+ */}
-          <HeaderTip label="NIST 800-171 compliance — learn more">
-            <button
-              type="button"
-              onClick={() => setNistModalOpen(true)}
-              aria-label="NIST 800-171 compliance"
-              // Demoted to a quiet neutral chip: neutral border + muted text so it
-              // reads as a status marker, not a call to action. Only the shield
-              // carries the success tint. Faint muted bg on hover, neutral focus ring.
-              className="flex items-center justify-center gap-1.5 rounded-md border border-border text-muted-foreground text-xs cursor-pointer hover:bg-muted transition-colors p-1.5 lg:px-2 lg:py-1 shrink-0 outline-none focus-visible:ring-ring/50 focus-visible:ring-[3px]"
-            >
-              <Shield className="h-4 w-4 lg:h-3 lg:w-3 text-success" />
-              <span className="hidden lg:inline">NIST 800-171</span>
-            </button>
-          </HeaderTip>
+
         </div>
 
         <div className="flex items-center gap-1 sm:gap-2">
@@ -1043,62 +1025,9 @@ export function Header({
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Appearance dropdown - hidden below xl */}
-          <DropdownMenu>
-            <HeaderTip label="Appearance">
-              <DropdownMenuTrigger asChild>
-                <Button data-tour="appearance" variant="ghost" size="icon" aria-label="Appearance settings" className="h-8 w-8 hidden xl:flex">
-                  <Settings className="h-4 w-4" aria-hidden="true" />
-                </Button>
-              </DropdownMenuTrigger>
-            </HeaderTip>
-            <DropdownMenuContent align="end" className="w-48">
-              {/* Theme */}
-              <DropdownMenuItem onClick={toggleTheme} className="flex items-center justify-between">
-                <div className="flex items-center">
-                  {theme === 'dark' ? <Sun className="h-4 w-4 mr-2" /> : <Moon className="h-4 w-4 mr-2" />}
-                  {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              {/* Density */}
-              <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Density</div>
-              <DropdownMenuItem onClick={() => setDensity('compact')} className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <Minimize2 className="h-4 w-4 mr-2" />
-                  Compact
-                </div>
-                {density === 'compact' && <Check className="h-4 w-4" />}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setDensity('comfortable')} className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <SlidersHorizontal className="h-4 w-4 mr-2" />
-                  Comfortable
-                </div>
-                {density === 'comfortable' && <Check className="h-4 w-4" />}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setDensity('spacious')} className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <Maximize2 className="h-4 w-4 mr-2" />
-                  Spacious
-                </div>
-                {density === 'spacious' && <Check className="h-4 w-4" />}
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              {/* Preview quality */}
-              <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Preview</div>
-              <DropdownMenuItem onClick={() => setFullQualityPreview(!fullQualityPreview)} className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <Zap className="h-4 w-4 mr-2" />
-                  Full Quality
-                </div>
-                {fullQualityPreview && <Check className="h-4 w-4" />}
-              </DropdownMenuItem>
-              <p className="px-2 pb-1.5 text-xs text-muted-foreground leading-tight">
-                Includes enclosures, hyperlinks, and signatures in live preview. May slow compilation.
-              </p>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <HeaderTip label="Settings">
+            <Button data-tour="appearance" variant="ghost" size="icon" aria-label="Settings" className="h-9 w-9" onClick={() => useUIStore.getState().setSettingsOpen(true)}><Settings className="h-4 w-4" /></Button>
+          </HeaderTip>
 
           {/* Hamburger menu - visible below xl breakpoint (1280px) */}
           <DropdownMenu>

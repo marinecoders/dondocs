@@ -1,5 +1,5 @@
 import { useMemo, useState, useRef, useEffect } from 'react';
-import { PanelLeftClose, PanelLeftOpen, Plus, Search, Trash2, MoreHorizontal, Copy, Pencil, Undo2, History, Pin, PinOff, ArrowDownAZ, Clock, CheckSquare, Check, X } from 'lucide-react';
+import { PanelLeftClose, PanelLeftOpen, Plus, FolderOpen, Layers, Settings, HelpCircle, Search, Trash2, MoreHorizontal, Copy, Pencil, Undo2, History, Pin, PinOff, ArrowDownAZ, Clock, CheckSquare, Check, X } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -246,6 +246,14 @@ export function EditorSidebar() {
     >
       <span aria-live="polite" className="sr-only">{announce}</span>
 
+      <div className="shrink-0 border-b border-border p-2 space-y-0.5">
+        {[
+          { label: 'Search workspace', icon: Search, run: () => useUIStore.getState().setCommandPaletteOpen(true) },
+          { label: 'Templates', icon: FolderOpen, run: () => useUIStore.getState().setTemplateLoaderOpen(true) },
+          { label: 'Batch jobs', icon: Layers, run: () => useUIStore.getState().setBatchModalOpen(true) },
+        ].map(({ label, icon: Icon, run }) => <button key={label} type="button" onClick={run} className="flex min-h-9 w-full items-center gap-2 rounded-md px-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring"><Icon className="h-4 w-4" />{label}</button>)}
+      </div>
+
       {/* On this page: section outline (collapse control shares the label row).
           Height is the user's if they have dragged the splitter, otherwise its
           content — but capped either way so Recents keeps its floor. The cap is
@@ -256,7 +264,7 @@ export function EditorSidebar() {
         ref={outlineRef}
         style={{
           height: outlineHeight ?? undefined,
-          maxHeight: `calc(100% - ${SIDEBAR_SPLIT.minRecents}px)`,
+          maxHeight: `calc(100% - ${SIDEBAR_SPLIT.minRecents + 212}px)`,
           // min beats max in CSS, which is the precedence resolveSplitDrag
           // uses too: in a sidebar too short for both floors the outline keeps
           // its own. Without this the cap alone squeezed it to 8px at a 200px
@@ -267,7 +275,7 @@ export function EditorSidebar() {
       >
         <div className="flex items-center justify-between px-2.5 pt-2 pb-1">
           <span className="text-2xs font-semibold tracking-[0.06em] uppercase text-muted-foreground">
-            On this page
+            Contents
           </span>
           <button
             type="button"
@@ -595,6 +603,10 @@ export function EditorSidebar() {
         </div>
       </div>
       <button type="button" onClick={() => useUIStore.getState().setTrashOpen(true)} className="flex min-h-10 items-center gap-2 border-t border-border px-3 text-sm text-muted-foreground hover:bg-muted" aria-label="Trash"><Trash2 className="h-4 w-4" />{!collapsed && 'Trash'}</button>
+      <div className="flex shrink-0 border-t border-border">
+        <button type="button" className="flex min-h-10 flex-1 items-center gap-2 px-3 text-sm text-muted-foreground hover:bg-muted" onClick={() => useUIStore.getState().setSettingsOpen(true)}><Settings className="h-4 w-4" />Settings</button>
+        <button type="button" className="flex min-h-10 flex-1 items-center gap-2 px-3 text-sm text-muted-foreground hover:bg-muted" onClick={() => useUIStore.getState().setDocumentGuideOpen(true)}><HelpCircle className="h-4 w-4" />Help</button>
+      </div>
     </nav>
     <SidebarResizer />
     </>

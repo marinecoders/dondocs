@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { AccordionStaticProvider } from '@/components/ui/accordion';
+import { WorkspaceBar } from './WorkspaceBar';
+import { useDocumentsStore } from '@/stores/documentsStore';
 import { ProfileBar } from '@/components/editor/ProfileBar';
 import { DocumentTypeSelector } from '@/components/editor/DocumentTypeSelector';
 import { Form6105Section } from '@/components/editor/Form6105Section';
@@ -16,7 +18,8 @@ export function FormPanel() {
   const previewVisible = useUIStore((s) => s.previewVisible);
   const isMobile = useUIStore((s) => s.isMobile);
   // The outline is shown beside the editor only on desktop multi-section docs.
-  const spyEnabled = !isMobile && sections.length > 1;
+  const spyEnabled = sections.length > 1;
+  const documentId = useDocumentsStore((s) => s.currentId);
 
   // The active section lives in the shared outline store; FormPanel runs the
   // scroll-spy that feeds it but does NOT read it here, so scrolling re-renders
@@ -92,6 +95,30 @@ export function FormPanel() {
     };
   }, [sections, spyEnabled]);
 
+  // Preserve the editor's own scroll position, independent of global panes.
+  useEffect(() => {
+    if (!documentId) return;
+    const root = scrollWrapRef.current?.querySelector<HTMLElement>('[data-slot="scroll-area-viewport"]');
+    if (!root) return;
+    const saved = useUIStore.getState().documentPositions[documentId];
+    let top = saved?.top ?? 0;
+    let section = saved?.section ?? null;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const flush = () => { clearTimeout(timer); useUIStore.getState().rememberPosition(documentId, top, section); };
+    const frame = requestAnimationFrame(() => {
+      root.scrollTop = top;
+      useEditorOutlineStore.getState().setActiveId(section);
+    });
+    const remember = () => {
+      top = root.scrollTop;
+      section = useEditorOutlineStore.getState().activeId;
+      clearTimeout(timer); timer = setTimeout(flush, 500);
+    };
+    root.addEventListener('scroll', remember, { passive: true });
+    window.addEventListener('pagehide', flush);
+    return () => { cancelAnimationFrame(frame); root.removeEventListener('scroll', remember); window.removeEventListener('pagehide', flush); flush(); };
+  }, [documentId]);
+
   // Instant jump to a section. Stable so it registers once with the outline
   // store for the sidebar to call.
   const jumpTo = useCallback((id: string) => {
@@ -115,7 +142,8 @@ export function FormPanel() {
 
   return (
     <div className={`flex flex-col h-full bg-card overflow-hidden w-full ${!isMobile ? 'border-r border-border' : ''}`}>
-      <ProfileBar />
+      <WorkspaceBar />
+      {!isFormsMode && <ProfileBar />}
 
       <div ref={scrollWrapRef} className="flex-1 min-h-0 overflow-hidden">
         <ScrollArea className="h-full">
