@@ -120,6 +120,18 @@ export function validatePublicationStructure(paragraphs: Paragraph[], type = 'MI
   const body = appendix < 0 ? paragraphs : paragraphs.slice(0, appendix);
   const primary = body.filter((p) => p.level === 0 && !p.callout && !p.figure && !p.procedure);
   const findings: RuleFinding[] = [];
+  let inAppendix = false;
+  let inProcedure = false;
+  for (const p of paragraphs) {
+    if (p.appendix) inAppendix = true;
+    if (p.callout || p.figure) continue;
+    if (inAppendix && (p.procedure || publicationSection(p) === 'procedures')) {
+      findings.push(warn('Place authored procedures in the I-Type body, not an appendix.'));
+    } else if (p.procedure && (!inProcedure || p.level === 0)) {
+      findings.push(warn('Place each procedural step beneath an action-specific Procedures heading.'));
+    }
+    if (!p.procedure && p.level === 0) inProcedure = !inAppendix && publicationSection(p) === 'procedures';
+  }
   if (publicationSection(primary[0] ?? {}) !== 'purpose') findings.push(warn('The instruction must begin with the Purpose paragraph.'));
   const admin = primary.find((p) => publicationSection(p) === 'administration');
   if (!admin) findings.push(warn('Administrative Instructions is required.'));

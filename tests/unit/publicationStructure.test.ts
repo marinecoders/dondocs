@@ -9,6 +9,15 @@ const purpose: Paragraph = { level: 0, header: 'Purpose', text: 'Inspect the equ
 const admin = (type = 'MI'): Paragraph => ({ level: 0, header: 'Administrative Instructions', text: `For questions or concerns with the content or procedures in this ${{ MI: 'Modification', TI: 'Technical', SI: 'Supply', LI: 'Lubrication' }[type]} Instruction (${type}) contact office@example.mil. ${DISCREPANCY_NOTICE} ${type === 'MI' ? MI_REPORTING : ''}` });
 
 describe('publication structure', () => {
+  it('keeps authored procedures beneath a body procedure heading', () => {
+    const steps: Paragraph[] = [{ level: 1, procedure: true, text: 'Inspect the bracket.' }, { level: 1, procedure: true, text: 'Record the result.' }];
+    const skill: Paragraph = { level: 0, header: 'Skill and Time Required', text: 'Equipment technician, 0.5 hours.' };
+    const heading: Paragraph = { level: 0, header: 'Inspect the bracket', publicationSection: 'procedures', text: '' };
+    const appendix: Paragraph = { level: 0, header: 'Reference data', appendix: true, text: '' };
+    expect(validatePublicationStructure([purpose, admin(), skill, heading, ...steps, appendix, { level: 0, text: 'Reference data.' }])).toEqual([]);
+    expect(validatePublicationStructure([purpose, admin(), appendix, heading, ...steps]).map((f) => f.message).join(' ')).toContain('not an appendix');
+    expect(validatePublicationStructure([purpose, admin(), skill, ...steps]).map((f) => f.message).join(' ')).toContain('beneath an action-specific');
+  });
   it('rejects missing administration, misspelled headings and deleted prescribed content', () => {
     expect(validatePublicationStructure([purpose]).map((f) => f.message).join(' ')).toContain('Administrative Instructions is required');
     expect(validatePublicationStructure([purpose, { ...admin(), header: 'Administrativ Instructions' }])).not.toEqual([]);
