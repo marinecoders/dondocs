@@ -432,7 +432,7 @@ export function Header({
     <header className="workspace-header shrink-0 border-b border-border bg-background">
       <input type="file" ref={fileInputRef} onChange={handleImportDraft} accept=".json" className="hidden" />
       <input type="file" ref={libraryInputRef} onChange={handleImportLibrary} accept=".json" className="hidden" />
-      <div className="flex min-w-0 items-center gap-2 px-3 sm:px-5 py-3 sm:min-h-[76px]">
+      <div className="flex min-w-0 items-center gap-2 border-b border-border px-3 sm:px-5 py-3 sm:min-h-[76px]">
         <HeaderTip label={isMobile ? 'Open workspace' : sidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'}>
           <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8 shrink-0" aria-label={isMobile ? 'Open workspace' : sidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'} onClick={() => isMobile ? useUIStore.getState().setMobileDocsOpen(true) : useUIStore.getState().toggleSidebar()}><PanelLeft className="h-4 w-4" /></Button>
         </HeaderTip>
@@ -618,7 +618,7 @@ export function Header({
 
 
       </div>
-      <div className="flex min-w-0 flex-wrap items-center gap-1 px-4 sm:px-6 pb-2 text-xs">
+      <div className="flex min-w-0 flex-wrap items-center gap-1 px-4 sm:px-5 py-2 text-xs">
         <DocumentNavigation />
         <Button variant="ghost" size="sm" className="ml-auto h-10 sm:h-8 px-2" onClick={openHistory} disabled={!currentId}><History className="h-3.5 w-3.5" />History</Button>
         <Button data-tour="batch" variant="ghost" size="sm" className="h-10 sm:h-8 px-2" onClick={() => setBatchModalOpen(true)}><Layers className="h-3.5 w-3.5" />Batch</Button>

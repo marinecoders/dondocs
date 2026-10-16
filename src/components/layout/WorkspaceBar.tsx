@@ -13,7 +13,7 @@ export function WorkspaceBar({ activeSection }: { activeSection: string }) {
   const showOutline = useUIStore((s) => s.sidebarOutlineVisible);
   const mobile = useUIStore((s) => s.isMobile);
   return <div className="shrink-0">
-    <div className="flex items-center gap-2 px-4 sm:px-6 pt-5 pb-2">
+    <div className="flex items-center gap-2 px-4 sm:px-5 pt-6 pb-2">
       <label htmlFor="workspace-section" className="text-xs text-muted-foreground">Contents</label>
       <select id="workspace-section" aria-label="Document section" value={activeSection}
         onChange={(event) => useEditorOutlineStore.getState().jump(event.target.value)}

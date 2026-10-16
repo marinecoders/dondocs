@@ -252,9 +252,9 @@ export function EditorSidebar() {
     >
       <span aria-live="polite" className="sr-only">{announce}</span>
 
-      <div className="shrink-0 px-3 pt-6 pb-4">
-        <div className="mb-7 flex items-center gap-2 px-2 text-[17px] font-semibold tracking-tight"><img src={`${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`} alt="Marine Coders" className="h-7 w-auto brightness-0 dark:invert" /><span>DonDocs</span></div>
-        <DropdownMenu><DropdownMenuTrigger asChild><button ref={newBtnRef} type="button" className="mb-3 flex min-h-9 w-full items-center gap-2 rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground hover:opacity-90"><Plus className="h-4 w-4" />New document</button></DropdownMenuTrigger>
+      <div className="shrink-0 px-3 pt-5 pb-4">
+        <div className="mb-6 flex items-center gap-2 px-2 text-[17px] font-semibold tracking-tight"><img src={`${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`} alt="Marine Coders" className="h-7 w-auto brightness-0 dark:invert" /><span>DonDocs</span></div>
+        <DropdownMenu><DropdownMenuTrigger asChild><button ref={newBtnRef} type="button" className="mb-2 flex min-h-9 w-full items-center gap-2 rounded-md bg-primary px-3 text-[13px] font-medium text-primary-foreground hover:opacity-90"><Plus className="h-4 w-4" />New document</button></DropdownMenuTrigger>
           <DropdownMenuContent align="start">
             <DropdownMenuItem onSelect={() => newDocument()}>New correspondence</DropdownMenuItem>
             <DropdownMenuItem onSelect={() => newDocument('navmc_10274')}>New NAVMC 10274</DropdownMenuItem>
@@ -311,11 +311,7 @@ export function EditorSidebar() {
       </>}
       {/* Recent: document library */}
       <div className="@container flex min-h-0 flex-1 flex-col pt-2">
-        {/* The sidebar's width is in pixels but this row is sized in rem, so a
-            larger browser font size grows the row inside a box that does not
-            move. It gives way in order: the word "New" goes first (below), and
-            past that the controls wrap to their own line. Nothing truncates and
-            nothing is cut off — losing the New button is what used to happen. */}
+        {/* Keep sorting and selection reachable when text size increases. */}
         <div className="flex flex-wrap items-center justify-between gap-2 px-3 pb-1.5">
           <span className="shrink-0 text-xs font-medium text-muted-foreground">
             Recent
@@ -468,18 +464,9 @@ export function EditorSidebar() {
                       <li
                         key={m.id}
                         className={`group relative flex items-center rounded-md pr-1 transition-colors ${
-                          // Active (non-select) already shows the 3px scarlet bar +
-                          // text-primary like the section rail above, so no row fill
-                          // here — the fill is reserved for the selection-checked state.
-                          selectMode && isSelected ? 'bg-primary/10' : 'hover:bg-muted/60'
+                          selectMode && isSelected ? 'bg-primary/10' : active && !selectMode ? 'bg-sidebar-accent' : 'hover:bg-sidebar-accent/60'
                         }`}
                       >
-                        {active && !selectMode && (
-                          <span
-                            aria-hidden="true"
-                            className="absolute left-0 top-1/2 h-4 w-[3px] -translate-y-1/2 rounded-r-[3px] bg-primary"
-                          />
-                        )}
                         {selectMode ? (
                           /* Selection mode: the whole row toggles a checkbox. Uses a
                              plain span (not the Radix Checkbox) so we don't nest a
@@ -524,16 +511,14 @@ export function EditorSidebar() {
                             data-doc-id={m.id}
                             onClick={() => switchTo(m.id)}
                             aria-current={active ? 'true' : undefined}
-                            className="flex min-w-0 flex-1 items-center gap-2 rounded-md px-2.5 py-1.5 text-left outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                            title={`${m.title} · ${docTypeChip(m.docType)} · ${relTime(m.updatedAt)}`}
+                            className="flex min-h-10 min-w-0 flex-1 items-center gap-2 rounded-md px-2.5 py-2 text-left outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
                           >
                             <span className="min-w-0 flex-1">
-                              <span
-                                title={m.title}
-                                className="block line-clamp-2 break-words text-[13px] leading-5 text-foreground"
-                              >
+                              <span className={`block line-clamp-2 break-words text-xs leading-5 text-foreground ${active ? 'font-medium' : ''}`}>
                                 {m.title}
                               </span>
-                              <span className="block whitespace-nowrap text-2xs text-muted-foreground tnum">
+                              <span className="sr-only">
                                 {docTypeChip(m.docType)} · {relTime(m.updatedAt)}
                               </span>
                             </span>
@@ -599,9 +584,9 @@ export function EditorSidebar() {
               </div>
             ))
           )}
+          <button ref={filterToggleRef} type="button" onClick={() => { setShowFilter((v) => !v); if (showFilter) setQuery(''); }} aria-expanded={showFilter} aria-controls={showFilter ? "document-filter" : undefined} className="mt-2 flex min-h-9 w-full items-center gap-2.5 rounded-md px-2.5 text-xs hover:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-ring"><Search className="h-3.5 w-3.5" />Filter documents</button>
         </div>
       </div>
-      <button ref={filterToggleRef} type="button" onClick={() => { setShowFilter((v) => !v); if (showFilter) setQuery(''); }} aria-expanded={showFilter} aria-controls={showFilter ? "document-filter" : undefined} className="mx-3 mb-4 flex min-h-9 items-center gap-2.5 rounded-md px-3 text-[13px] hover:bg-sidebar-accent"><Search className="h-4 w-4" />Filter documents</button>
       <div className="shrink-0 px-3 pb-3 pt-4 space-y-0.5">
         {[
           { label: 'Profiles', icon: UserRound, run: () => useUIStore.getState().setProfileModalOpen(true) },

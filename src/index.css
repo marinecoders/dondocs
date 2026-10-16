@@ -492,19 +492,18 @@
 .workspace-editor [data-slot="accordion-trigger"] button svg { display: block; }
 .workspace-editor [data-slot="input"], .workspace-editor [data-slot="textarea"], .workspace-editor [data-slot="select-trigger"] { box-shadow: none; }
 .workspace-editor [data-slot="accordion-content"] { padding-top: 0; }
-.workspace-editor .font-serif { font-size: 1rem; line-height: 1.8; }
+.workspace-editor .font-serif { font-size: 0.9375rem; line-height: 1.75; }
 .workspace-editor [hidden], nav[aria-label="Documents"] [hidden] { display: none !important; }
 .workspace-preview { background: var(--preview-mat); }
-.workspace-preview > div:first-child { background: var(--preview-mat); }
-
-.workspace-preview [aria-label="Document preview"] { background: var(--preview-mat); }
+.workspace-preview .pdf-viewer { background: var(--preview-mat); }
 .workspace-editor [data-section="body"] [data-slot="accordion-item"] { padding-bottom: 0; }
 .workspace-editor [data-section="body"] [data-slot="accordion-trigger"] { padding-bottom: 1.5rem; }
 @media (hover: none) {
   .workspace-editor .group .opacity-0 { opacity: 1; }
 }
 
-.workspace-editor [data-section="body"] .tiptap { font-size: 1rem; line-height: 1.85; }
+.workspace-editor [data-section="body"] .tiptap { font-size: 0.9375rem; line-height: 1.75; }
+.workspace-paragraph:focus-within { background: color-mix(in srgb, var(--card) 50%, transparent); }
 
 /* Small, literal previews keep appearance choices recognizable in every theme. */
 .appearance-swatch { display: flex; height: 64px; overflow: hidden; border: 1px solid #dedfd9; border-radius: 3px; background: #fbfbfa; }

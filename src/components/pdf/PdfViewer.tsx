@@ -20,6 +20,8 @@ export interface PdfViewerProps {
   showFullscreen?: boolean;
   documentId?: string;
   onDownloadPdf?: () => void;
+  /** Optional workspace title/status, sharing the viewer's existing toolbar. */
+  toolbarLabel?: React.ReactNode;
 }
 
 /**
@@ -40,7 +42,7 @@ export interface PdfViewerProps {
  *   3. the old gen N layer sticks around ~180ms with a fade-out class (skipped
  *      under prefers-reduced-motion), then unmounts.
  */
-export default function PdfViewer({ pdfUrl, className, showFullscreen = true, documentId, onDownloadPdf }: PdfViewerProps) {
+export default function PdfViewer({ pdfUrl, className, showFullscreen = true, documentId, onDownloadPdf, toolbarLabel }: PdfViewerProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   // The column the pages actually live in — this is what fit modes must track
   // (it shrinks when the thumbnail rail opens; the root does not).
@@ -256,11 +258,12 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true, do
     <div
       ref={rootRef}
       className={cn(
-        'flex h-full flex-col bg-[color-mix(in_oklab,var(--muted)_60%,var(--background))]',
+        'pdf-viewer flex h-full flex-col bg-[color-mix(in_oklab,var(--muted)_60%,var(--background))]',
         className
       )}
     >
       <PdfViewerToolbar
+        label={toolbarLabel}
         page={pageInView}
         pageCount={docMeta?.numPages ?? 0}
         zoomPercent={Math.round(effectiveScale * 100)}
