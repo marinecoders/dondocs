@@ -176,6 +176,8 @@ interface UIState {
   setSettingsOpen: (open: boolean, section?: 'appearance' | 'preview' | 'backup') => void;
   helpOpen: boolean;
   setHelpOpen: (open: boolean) => void;
+  welcomeOpen: boolean;
+  setWelcomeOpen: (open: boolean) => void;
   documentPositions: Record<string, { top: number; section: string | null; previewPage?: number }>;
   rememberPosition: (id: string, top: number, section: string | null) => void;
   rememberPreviewPage: (id: string, page: number) => void;
@@ -311,6 +313,8 @@ export const useUIStore = create<UIState>()(
       setSettingsOpen: (open, section = 'appearance') => set({ settingsOpen: open, settingsSection: section }),
       helpOpen: false,
       setHelpOpen: (open) => set({ helpOpen: open }),
+      welcomeOpen: false,
+      setWelcomeOpen: (open) => set({ welcomeOpen: open }),
       documentPositions: {},
       rememberPosition: (id, top, section) => set((s) => {
         const positions = { ...s.documentPositions };
@@ -354,6 +358,7 @@ export const useUIStore = create<UIState>()(
       closeAllModals: () => set({
         settingsOpen: false,
         helpOpen: false,
+        welcomeOpen: false,
         trashOpen: false,
         profileModalOpen: false,
         restoreModalOpen: false,

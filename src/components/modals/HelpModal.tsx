@@ -27,6 +27,7 @@ export function HelpModal() {
       </section>
       <p className="text-xs text-muted-foreground">Saved drafts live in this browser. A share link is a password-protected snapshot; attached files and images are excluded.</p>
       <Button variant="ghost" className="justify-self-start" onClick={() => navigate(() => useUIStore.getState().setAboutModalOpen(true))}>About DonDocs</Button>
+      <Button variant="ghost" className="justify-self-start" onClick={() => navigate(() => useUIStore.getState().setWelcomeOpen(true))}>Welcome letter & optional tour</Button>
     </DialogContent>
   </Dialog>;
 }
