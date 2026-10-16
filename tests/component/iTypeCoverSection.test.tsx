@@ -22,12 +22,18 @@ describe('ITypeCoverSection', () => {
     expect(useDocumentStore.getState().endItems[0].nsn).toBe('5895-01-520-4360');
   });
 
-  it('stops offering more once the six printed rows are used', () => {
+  it('adds and edits a seventh end item for the cover continuation', () => {
     useDocumentStore.setState({
       endItems: Array.from({ length: 6 }, () => ({ nsn: '', tamcn: '', id: '', model: '' })),
     });
     render(<ITypeCoverSection />);
-    expect(screen.queryByRole('button', { name: /add end item/i })).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: /add end item/i }));
+    fireEvent.change(screen.getByLabelText('MODEL, end item 7'), { target: { value: 'RADIO' } });
+    expect(useDocumentStore.getState().endItems).toHaveLength(7);
+    expect(useDocumentStore.getState().endItems[6].model).toBe('RADIO');
+    expect(screen.getByText(/list will print on a continuation page/)).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: /add end item/i }));
+    expect(useDocumentStore.getState().endItems).toHaveLength(8);
   });
 });
 

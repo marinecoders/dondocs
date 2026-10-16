@@ -27,10 +27,6 @@ import { validateNomenclature, validateLongTitle } from '@/lib/publicationTitle'
 import { validateNsnConsistency } from '@/lib/nsnConsistency';
 import { PUBLICATION_TYPES, type PublicationTypeCode } from '@/data/techpub/publicationTypes';
 
-/** The standard prints this many rows whatever the publication covers, so the
- *  editor stops offering more once they are used up. */
-const END_ITEM_ROWS = 6;
-
 /**
  * Cover page of a technical publication: what the equipment is called, and the
  * end items the publication applies to.
@@ -324,12 +320,15 @@ export function ITypeCoverSection() {
           </div>
         ))}
 
-        {endItems.length < END_ITEM_ROWS && (
-          <Button type="button" variant="outline" size="sm" onClick={addEndItem}>
-            <Plus className="h-4 w-4 mr-2" aria-hidden />
-            Add end item
-          </Button>
+        {endItems.length > 6 && (
+          <p className="text-xs text-muted-foreground">
+            The end-item list will print on a continuation page after the cover.
+          </p>
         )}
+        <Button type="button" variant="outline" size="sm" onClick={addEndItem}>
+          <Plus className="h-4 w-4 mr-2" aria-hidden />
+          Add end item
+        </Button>
       </div>
 
       <div className="space-y-2">
