@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 import { compressedParse } from '@/lib/compressedStorage';
-import { DOC_TYPE_LABELS } from '@/types/document';
+import { DOC_TYPE_LABELS, FORM_TYPE_LABELS, type FormType, type DocumentCategory } from '@/types/document';
 import {
   useDocumentStore,
-  getSerializedSessionForShare,
+  getSerializedSession,
   serializeSession,
   getSavedSession,
   loadSharedSession,
@@ -29,6 +29,7 @@ import {
   idbSetMigratedIds,
   type StoredDocument,
 } from '@/lib/documentsDb';
+import { useFormStore, loadFormSession, serializeForm, FORMS_PERSIST_KEY } from './formStore';
 import { scheduleBackup } from './backupStore';
 import { debug } from '@/lib/debug';
 
@@ -42,8 +43,7 @@ import { debug } from '@/lib/debug';
  * document store's serialize/apply helpers. This store is authoritative for which
  * document is open: init loads the current one (auto-resume).
  *
- * v1 scope: correspondence only. Forms field data lives in a separate store and
- * isn't part of SerializedSession.
+ * Correspondence and each filled form share this lifecycle.
  */
 
 export interface DocumentMeta {
@@ -90,7 +90,8 @@ interface DocumentsState {
   /** Force the current document into Recents now (the explicit Save button). */
   saveCurrent: () => void;
   /** Start a blank correspondence document and make it current. */
-  newDocument: () => void;
+  newDocument: (formType?: FormType) => void;
+  selectKind: (category: DocumentCategory, formType?: FormType) => void;
   /** Open an existing document by id. */
   switchTo: (id: string) => void;
   /** Soft-delete a document; if it was open, fall back to the newest remaining
@@ -146,6 +147,7 @@ const isPlaceholder = (v: string): boolean => /^\[.*\]$/.test(v);
 // only for the legacy single-session migration on first load (no baseline to
 // diff against); the live promotion path uses hasContentDrift() below.
 export function isMeaningful(s: SerializedSession): boolean {
+  if (s.documentCategory === 'forms') return !!s.forms;
   const subj = (s.formData?.subject ?? '').trim();
   if (subj !== '' && !isPlaceholder(subj)) return true;
   return (
@@ -163,6 +165,7 @@ export function isMeaningful(s: SerializedSession): boolean {
 // "has work"; instead we diff these fields against the doc's starting baseline, so
 // only fields the USER changed from that starting point count.
 function contentFingerprint(s: SerializedSession): string {
+  if (s.documentCategory === 'forms') return JSON.stringify(s.forms ?? {});
   const fd = s.formData ?? {};
   return JSON.stringify([
     fd.subject ?? '',
@@ -194,6 +197,13 @@ export function hasContentDrift(baseline: SerializedSession, session: Serialized
 // Recomputed on every save.
 export function deriveTitle(s: SerializedSession): string {
   const clip = (t: string) => (t.length > 70 ? `${t.slice(0, 69)}…` : t);
+  if (s.documentCategory === 'forms') {
+    const form = s.forms;
+    const title = s.formType === 'navmc_118_11'
+      ? [form?.navmc11811?.lastName, form?.navmc11811?.firstName].filter(Boolean).join(', ')
+      : form?.navmc10274?.natureOfAction;
+    return clip(title?.trim() || `${FORM_TYPE_LABELS[s.formType]} draft`);
+  }
   const subj = (s.formData?.subject ?? '').trim();
   if (subj !== '' && !isPlaceholder(subj)) return clip(subj);
   // No usable subject yet — fall through so an in-progress draft still reads as
@@ -220,6 +230,7 @@ export function searchableText(entry: DocumentEntry): string {
   const parts: (string | undefined)[] = [
     entry.meta.title,
     entry.meta.name,
+    ...(s.forms ? Object.values(s.forms).flatMap((form) => typeof form === 'object' ? Object.values(form).filter((v): v is string => typeof v === 'string') : []) : []),
     fd.subject,
     fd.to,
     fd.from,
@@ -229,6 +240,7 @@ export function searchableText(entry: DocumentEntry): string {
     ...(s.references ?? []).map((r) => r.title),
     ...(s.enclosures ?? []).map((e) => e.title),
     ...(s.copyTos ?? []).map((c) => c.text),
+    ...(s.distributions ?? []).map((d) => d.text),
   ];
   return parts.filter(Boolean).join(' ').toLowerCase();
 }
@@ -240,7 +252,7 @@ export function searchableText(entry: DocumentEntry): string {
  *  NAVMC forms build their own names; this brings correspondence to parity.
  */
 export function correspondenceFilename(ext: string, session?: SerializedSession): string {
-  const s = session ?? getSerializedSessionForShare();
+  const s = session ?? getSerializedSession();
   const slug =
     deriveTitle(s)
       .toLowerCase()
@@ -270,7 +282,7 @@ export function sameContent(a: SerializedSession, b: SerializedSession): boolean
 function applyProfileSignature(): void {
   const { selectedProfile, profiles } = useProfileStore.getState();
   const sig = selectedProfile ? profiles[selectedProfile]?.signatureImage : undefined;
-  if (sig) useDocumentStore.getState().setFormData({ signatureImage: sig });
+  if (sig && useDocumentStore.getState().formData.signatureImage === undefined) useDocumentStore.getState().setFormData({ signatureImage: sig });
 }
 
 /**
@@ -329,7 +341,7 @@ function metaFor(id: string, session: SerializedSession, prev?: DocumentMeta): D
     id,
     // A user-set name wins and survives Subject edits; otherwise auto-derive.
     title: prev?.name?.trim() || deriveTitle(session),
-    docType: session.docType,
+    docType: session.documentCategory === 'forms' ? session.formType : session.docType,
     updatedAt: Date.now(),
     name: prev?.name,
     // Preserve the pin across content saves — metaFor rebuilds meta on every
@@ -434,6 +446,35 @@ export async function migrateLegacyRegistry(): Promise<void> {
   }
 }
 
+// Upgrade the two legacy form slots once. Keep their original storage intact;
+// the migration ledger prevents a deleted or edited migrated draft reappearing.
+async function migrateLegacyForms(): Promise<void> {
+  const ledger = new Set(await idbGetMigratedIds());
+  if (ledger.has('forms-registry-v1')) return;
+  let exists: boolean;
+  try { exists = !!localStorage.getItem(FORMS_PERSIST_KEY); } catch { return; }
+  const records = await idbGetAllDocuments();
+  if (!records) return;
+  let complete = true;
+  if (exists) {
+    const lastSession = getSavedSession();
+    for (const formType of ['navmc_10274', 'navmc_118_11'] as const) {
+      const id = `legacy-form-${formType}`;
+      if (ledger.has(id)) continue;
+      const session = { ...serializeSession(useDocumentStore.getState()),
+        documentCategory: 'forms' as const, formType, forms: serializeForm(formType),
+        formData: {}, references: [], enclosures: [], paragraphs: [], copyTos: [], distributions: [],
+      };
+      if (records.some((r) => r.id === id) || await idbPutDocument({ id, meta: metaFor(id, session), session })) {
+        ledger.add(id);
+        if (lastSession?.documentCategory === 'forms' && lastSession.formType === formType) await idbSetCurrentId(id);
+      } else complete = false;
+    }
+  }
+  if (complete) ledger.add('forms-registry-v1');
+  await idbSetMigratedIds([...ledger]);
+}
+
 // Shared hydration promise so concurrent init() calls read the registry once.
 let hydratePromise: Promise<void> | null = null;
 function ensureHydrated(
@@ -444,6 +485,7 @@ function ensureHydrated(
   if (!hydratePromise) {
     hydratePromise = (async () => {
       await migrateLegacyRegistry();
+      await migrateLegacyForms();
       const [records, cid] = await Promise.all([idbGetAllDocuments(), idbGetCurrentId()]);
       if (records === null) {
         // The registry exists but can't be read. Never proceed as if the library
@@ -659,8 +701,8 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   pendingDelete: null,
 
   markBaseline: () => {
-    const session = getSerializedSessionForShare();
-    set({ baseline: session.documentCategory === 'forms' ? null : session });
+    const session = getSerializedSession();
+    set({ baseline: session });
   },
 
   init: async () => {
@@ -682,9 +724,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   syncCurrent: (source) => {
     const { currentId, docs, baseline } = get();
     if (!currentId) return;
-    const session = source ? serializeSession(source) : getSerializedSessionForShare();
-    // Forms aren't part of SerializedSession yet.
-    if (session.documentCategory === 'forms') return;
+    const session = source ? serializeSession(source) : getSerializedSession();
 
     const prev = docs[currentId];
     if (!prev) {
@@ -720,10 +760,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   saveCurrent: () => {
     const { currentId, docs } = get();
     if (!currentId) return;
-    const session = getSerializedSessionForShare();
-    // Forms field data isn't part of SerializedSession yet; leave it to the
-    // legacy save.
-    if (session.documentCategory === 'forms') return;
+    const session = getSerializedSession();
     // Force-add when absent, but skip a no-op Save so it doesn't re-sort.
     const prev = docs[currentId];
     if (prev && sameContent(prev.session, session)) return;
@@ -735,18 +772,32 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     void maybeSnapshot(currentId, session, true); // explicit Save = a deliberate checkpoint
   },
 
-  newDocument: () => {
+  newDocument: (formType) => {
     get().syncCurrent(); // preserve the document being left
     const id = newId();
     set({ currentId: id });
     persistCurrentId(id);
     const ds = useDocumentStore.getState();
-    ds.setDocumentCategory('correspondence');
     ds.resetForm();
-    applySelectedProfile();
+    ds.setDocumentCategory(formType ? 'forms' : 'correspondence');
+    if (formType) {
+      ds.setFormType(formType);
+      loadFormSession(formType);
+    } else applySelectedProfile();
     get().markBaseline();
     useUIStore.getState().setLastSavedAt(null); // brand-new doc isn't saved yet
     debug.log('Documents', 'New document', { id });
+  },
+
+  selectKind: (category, formType = 'navmc_10274') => {
+    const current = useDocumentStore.getState();
+    if (current.documentCategory === category && (category !== 'forms' || current.formType === formType)) return;
+    get().syncCurrent();
+    const previous = Object.values(get().docs)
+      .filter(({ session }) => session.documentCategory === category && (category !== 'forms' || session.formType === formType))
+      .sort((a, b) => b.meta.updatedAt - a.meta.updatedAt)[0];
+    if (previous) get().switchTo(previous.meta.id);
+    else get().newDocument(category === 'forms' ? formType : undefined);
   },
 
   switchTo: (id) => {
@@ -855,7 +906,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       id: copyId,
       title: copyName,
       name: copyName,
-      docType: entry.session.docType,
+      docType: entry.meta.docType,
       updatedAt: Date.now(),
     };
     const dup: DocumentEntry = { meta, session: entry.session };
@@ -872,7 +923,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     // safety copy — silently destroying the pre-restore draft. If it can't be
     // written, restore nothing and let the caller say so.
     if (currentId) {
-      const ok = await maybeSnapshot(currentId, getSerializedSessionForShare(), true);
+      const ok = await maybeSnapshot(currentId, getSerializedSession(), true);
       if (!ok) return false;
     }
     loadSharedSession(session);
@@ -887,15 +938,13 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
 // one-directional. loadSharedSession/resetForm also fire this, but sameContent()
 // makes those a no-op.
 let syncTimer: ReturnType<typeof setTimeout> | null = null;
-useDocumentStore.subscribe((state, prev) => {
-  // Flush immediately when the category flips correspondence -> forms: the prior
-  // state still holds the user's unsaved letter, which the debounced,
-  // forms-skipping sync would drop.
-  if (prev.documentCategory === 'correspondence' && state.documentCategory === 'forms') {
-    useDocumentsStore.getState().syncCurrent(prev);
-  }
+const scheduleSync = () => {
   if (syncTimer) clearTimeout(syncTimer);
   syncTimer = setTimeout(() => useDocumentsStore.getState().syncCurrent(), 1500);
+};
+useDocumentStore.subscribe(scheduleSync);
+useFormStore.subscribe(() => {
+  if (useDocumentStore.getState().documentCategory === 'forms') scheduleSync();
 });
 
 // Flush the pending registry sync when the page is hidden so the last edits

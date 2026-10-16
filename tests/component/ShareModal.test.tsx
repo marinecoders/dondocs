@@ -28,6 +28,7 @@ vi.mock('@/lib/shareCrypto', () => ({
   buildShareUrl: vi.fn((p: string) => `https://dondocs.app/#s=${p}`),
   parseShareUrl: vi.fn((s: string) => (s.includes('#s=') ? s.split('#s=')[1] : null)),
 }));
+vi.mock('@/stores/documentsStore', () => ({ useDocumentsStore: { getState: () => ({ syncCurrent: vi.fn(), openLoadedAsNew: vi.fn() }) } }));
 vi.mock('@/stores/documentStore', () => ({
   getSerializedSessionForShare: vi.fn(() => ({ docType: 'naval_letter' })),
   loadSharedSession: vi.fn(),
@@ -62,7 +63,7 @@ describe('ShareModal — share mode', () => {
     expect(encryptSharePayload).toHaveBeenCalledWith({ docType: 'naval_letter' }, 'hunter2');
     expect(buildShareUrl).toHaveBeenCalledWith('ENCRYPTED');
     expect(writeText).toHaveBeenCalledWith('https://dondocs.app/#s=ENCRYPTED');
-    expect(getSerializedSessionForShare).toHaveBeenCalledTimes(1);
+    expect(getSerializedSessionForShare).toHaveBeenCalledTimes(2);
     // The generated link is surfaced for the user to copy/share.
     expect(await screen.findByDisplayValue('https://dondocs.app/#s=ENCRYPTED')).toBeInTheDocument();
   });
@@ -78,7 +79,8 @@ describe('ShareModal — import mode', () => {
     const user = userEvent.setup();
     const onOpenChange = vi.fn();
     const onImportComplete = vi.fn();
-    vi.mocked(decryptSharePayload).mockResolvedValue({ docType: 'naval_letter' });
+    const session = { docType: 'naval_letter', documentMode: 'compliant', documentCategory: 'correspondence', formType: 'navmc_10274', formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [], timestamp: 0 };
+    vi.mocked(decryptSharePayload).mockResolvedValue(session);
 
     render(
       <ShareModal
@@ -94,7 +96,7 @@ describe('ShareModal — import mode', () => {
     await user.click(screen.getByRole('button', { name: /open document/i }));
 
     expect(decryptSharePayload).toHaveBeenCalledWith('PAYLOAD', 'hunter2');
-    expect(loadSharedSession).toHaveBeenCalledWith({ docType: 'naval_letter' });
+    expect(loadSharedSession).toHaveBeenCalledWith(session);
     expect(onImportComplete).toHaveBeenCalledTimes(1);
     expect(onOpenChange).toHaveBeenCalledWith(false);
   });

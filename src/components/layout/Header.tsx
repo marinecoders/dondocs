@@ -29,7 +29,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore, persistUnsavedEnclosures } from '@/stores/documentStore';
+import { useDocumentStore, getSerializedSession, loadSharedSession, persistUnsavedEnclosures } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { buildBackup, restoreBackup, summarizeRestore } from '@/lib/backup';
@@ -308,33 +308,8 @@ export function Header({
 
   const handleSaveProgress = useCallback(() => {
     try {
-      const ds = useDocumentStore.getState();
-      const dataToSave = {
-        documentMode: ds.documentMode,
-        docType: ds.docType,
-        formData: ds.formData,
-        references: ds.references,
-        // Save enclosure metadata only, not the file data (too large for localStorage)
-        enclosures: ds.enclosures.map(encl => ({
-          title: encl.title,
-          pageStyle: encl.pageStyle,
-          hasCoverPage: encl.hasCoverPage,
-          coverPageDescription: encl.coverPageDescription,
-          hasFile: !!encl.file,
-          fileName: encl.file?.name,
-        })),
-        paragraphs: ds.paragraphs,
-        copyTos: ds.copyTos,
-        distributions: ds.distributions,
-        savedAt: new Date().toISOString(),
-      };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
-      // Also promote into Recents so an explicit Save shows in the sidebar list.
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(getSerializedSession()));
       useDocumentsStore.getState().saveCurrent();
-      // Correspondence: the ambient "Saved · <time>" indicator in the ProfileBar
-      // is the single source of truth — no redundant "Saved!" toast. Forms aren't
-      // persisted yet, so they still get an explicit heads-up.
-      if (ds.documentCategory === 'forms') flashSaveStatus("Form drafts aren't saved yet");
     } catch (err) {
       console.error('Failed to save progress:', err);
       flashSaveStatus('Save failed');
@@ -348,45 +323,8 @@ export function Header({
         // Preserve the open document before overwriting the live store, so the
         // loaded draft opens as its own Recents entry instead of clobbering it.
         useDocumentsStore.getState().syncCurrent();
-        const ds = useDocumentStore.getState();
         const data = JSON.parse(saved);
-        // Saved drafts are correspondence-only; reset the category so the loaded
-        // doc is coherent and saveCurrent() can promote it to Recents.
-        ds.setDocumentCategory('correspondence');
-        ds.setDocumentMode?.(data.documentMode || 'compliant');
-        if (data.docType) {
-          ds.setDocType(data.docType);
-        }
-        if (data.formData) {
-          // Canonicalize unitAddress on read (see App.tsx for rationale).
-          const formData = data.formData.unitAddress
-            ? { ...data.formData, unitAddress: canonicalizeUnitAddress(data.formData.unitAddress) }
-            : data.formData;
-          ds.setFormData(formData);
-        }
-        // Restore the body and lists too; otherwise the loaded draft keeps the
-        // previously-open document's paragraphs/references/enclosures/copyTos.
-        // Enclosure file bytes aren't saved, so the user re-attaches PDFs.
-        ds.loadTemplate({
-          references: data.references || [],
-          enclosures: (data.enclosures || []).map((encl: {
-            title: string;
-            pageStyle?: string;
-            hasCoverPage?: boolean;
-            coverPageDescription?: string;
-          }) => ({
-            title: encl.title,
-            pageStyle: encl.pageStyle,
-            hasCoverPage: encl.hasCoverPage,
-            coverPageDescription: encl.coverPageDescription,
-            file: undefined,
-          })),
-          paragraphs: data.paragraphs || [],
-          copyTos: data.copyTos || [],
-        });
-        // loadTemplate doesn't cover distributions; set it explicitly so the
-        // loaded draft doesn't inherit the previously-open document's list.
-        useDocumentStore.setState({ distributions: data.distributions || [] });
+        loadSharedSession({ ...data, documentCategory: data.documentCategory ?? 'correspondence' });
         useDocumentsStore.getState().openLoadedAsNew();
         flashSaveStatus('Loaded!');
       } else {

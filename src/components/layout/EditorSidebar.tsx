@@ -222,7 +222,7 @@ export function EditorSidebar() {
         </button>
         <button
           type="button"
-          onClick={newDocument}
+          onClick={() => newDocument()}
           aria-label="New document" title="New document"
           className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
         >
@@ -323,7 +323,7 @@ export function EditorSidebar() {
             <button
               ref={newBtnRef}
               type="button"
-              onClick={newDocument}
+              onClick={() => newDocument()}
               aria-label="New document"
               title="New document"
               className="inline-flex items-center gap-1 rounded-md border border-border bg-card px-2 py-1 text-xs text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-[3px] focus-visible:ring-ring/50"
@@ -414,7 +414,7 @@ export function EditorSidebar() {
                 <div className="mt-3 flex flex-col gap-1">
                   <button
                     type="button"
-                    onClick={newDocument}
+                    onClick={() => newDocument()}
                     className="rounded-md px-2.5 py-1.5 text-left text-sm text-foreground outline-none hover:bg-muted focus-visible:ring-[3px] focus-visible:ring-ring/50"
                   >
                     Start a naval letter

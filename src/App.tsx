@@ -57,9 +57,8 @@ import { BackupNotice } from '@/components/BackupNotice';
 import { InstallNotice } from '@/components/InstallNotice';
 import { probeStorageHealth, requestPersistentStorage } from '@/lib/documentsDb';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore, getSavedSession, rehydrateEnclosureFiles, loadSharedSession, type SerializedSession } from '@/stores/documentStore';
-import { useFormStore, FORMS_PERSIST_KEY } from '@/stores/formStore';
-import { lastWriteFailed } from '@/lib/compressedStorage';
+import { useDocumentStore, rehydrateEnclosureFiles, loadSharedSession, type SerializedSession } from '@/stores/documentStore';
+import { useFormStore } from '@/stores/formStore';
 import { useHistoryStore } from '@/stores/historyStore';
 import { useDocumentsStore, applySelectedProfile, correspondenceFilename } from '@/stores/documentsStore';
 import { useBackupStore } from '@/stores/backupStore';
@@ -469,25 +468,12 @@ function App() {
       loadSharedSession(session);
       return true;
     };
-    // If the user was last working on a NAVMC form, return them to that view
-    // after init (the form field data itself is rehydrated by formStore's own
-    // persist; init only resumes correspondence). Read before init runs.
-    const lastSession = getSavedSession();
-    const resumeFormType =
-      lastSession?.documentCategory === 'forms' ? lastSession.formType : null;
-    const restoreFormsView = () => {
-      if (cancelled || !resumeFormType) return;
-      const ds = useDocumentStore.getState();
-      ds.setDocumentCategory('forms');
-      ds.setFormType(resumeFormType);
-    };
     void useDocumentsStore
       .getState()
       .init()
       .then((resumed) => {
         if (applyHandoff()) return;
         if (!resumed) seedFreshStart();
-        restoreFormsView();
       })
       // Hydration shouldn't reject (storage failures are caught internally), but
       // if it ever does, degrade to a usable seeded document instead of an
@@ -495,7 +481,6 @@ function App() {
       .catch(() => {
         if (applyHandoff()) return;
         seedFreshStart();
-        restoreFormsView();
       })
       // Probe how durable storage is only AFTER hydration/migration settles, so a
       // returning user's just-migrated docs are already in IndexedDB and the
@@ -532,33 +517,6 @@ function App() {
       cancelled = true;
     };
     // Only run on initial mount
-  }, []);
-
-  // Forms persist on every edit (formStore's own persist middleware); reflect
-  // that in the "Saved" indicator the same way the correspondence registry
-  // write does, so the signal is honest in both categories. Debounced so the
-  // passive indicator wakes once per typing pause rather than on every keystroke.
-  useEffect(() => {
-    let t: ReturnType<typeof setTimeout> | undefined;
-    const unsub = useFormStore.subscribe(() => {
-      clearTimeout(t);
-      t = setTimeout(() => {
-        // Verify the write actually landed before claiming "Saved". Forms
-        // persist through safeLocalStorage, which swallows quota/security
-        // errors by design — and storageHealth measures IndexedDB, not
-        // localStorage, so it can read healthy while the form write failed.
-        if (lastWriteFailed(FORMS_PERSIST_KEY)) {
-          useUIStore.getState().setSaveStatus('error');
-          return;
-        }
-        if (useUIStore.getState().storageHealth === 'unavailable') return;
-        useUIStore.getState().markSaved();
-      }, 800);
-    });
-    return () => {
-      clearTimeout(t);
-      unsub();
-    };
   }, []);
 
   // Compile PDF

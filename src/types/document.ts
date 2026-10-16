@@ -560,6 +560,8 @@ export const DOC_TYPE_CHIP: Record<string, string> = {
 
 /** The Recents type chip for a doc type (falls back to a generic code). */
 export function docTypeChip(docType: string): string {
+  if (docType === 'navmc_10274') return 'AA';
+  if (docType === 'navmc_118_11') return '6105';
   return DOC_TYPE_CHIP[docType] ?? 'DOC';
 }
 

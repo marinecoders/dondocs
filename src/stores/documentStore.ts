@@ -12,6 +12,7 @@ import { compressedParse, compressedStringify } from '@/lib/compressedStorage';
 import { referenceStartIndex } from '@/lib/endorsement';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { normalizeLevels, migratePortionMarkings } from '@/lib/paragraphUtils';
+import { serializeForm, loadFormSession, type FormSession } from './formStore';
 
 // Session persistence keys
 const SESSION_STORAGE_KEY = STORAGE_KEYS.DOCUMENT_SESSION;
@@ -34,6 +35,7 @@ export interface SerializedSession {
   copyTos: CopyTo[];
   distributions: Distribution[];
   timestamp: number;
+  forms?: FormSession;
 }
 
 // Military date format per SECNAV M-5216.5: "4 Jan 26" (day month 2-digit year)
@@ -812,30 +814,7 @@ if (typeof document !== 'undefined') {
 function saveSessionToStorage(state: DocumentState): void {
   try {
     // Create serializable session (excluding file data)
-    const session: SerializedSession = {
-      documentMode: state.documentMode,
-      documentCategory: state.documentCategory,
-      docType: state.docType,
-      formType: state.formType,
-      formData: {
-        ...state.formData,
-        // Exclude signature image from session storage
-        signatureImage: undefined,
-      },
-      references: state.references,
-      enclosures: state.enclosures.map(enc => ({
-        title: enc.title,
-        pageStyle: enc.pageStyle,
-        hasCoverPage: enc.hasCoverPage,
-        coverPageDescription: enc.coverPageDescription,
-        hasFile: !!enc.file,
-        fileRef: enc.fileRef,
-      })),
-      paragraphs: state.paragraphs,
-      copyTos: state.copyTos,
-      distributions: state.distributions,
-      timestamp: Date.now(),
-    };
+    const session = serializeSession(state);
 
     // Compressed write, prefixed so the read path can tell it from legacy
     // plain-JSON sessions.
@@ -904,34 +883,7 @@ export function restoreSession(): boolean {
     const session = getSavedSession();
     if (!session) return false;
 
-    // Canonicalize unitAddress on read so legacy sessions with the 1-comma form
-    // "STREET, CITY STATE ZIP" render correctly on the letterhead.
-    const restoredFormData = session.formData?.unitAddress
-      ? { ...session.formData, unitAddress: canonicalizeUnitAddress(session.formData.unitAddress) }
-      : session.formData;
-
-    useDocumentStore.setState({
-      documentMode: session.documentMode,
-      documentCategory: session.documentCategory || 'correspondence',
-      docType: session.docType,
-      formType: session.formType || 'navmc_10274',
-      formData: restoredFormData,
-      references: session.references,
-      enclosures: session.enclosures.map(enc => ({
-        title: enc.title,
-        pageStyle: enc.pageStyle,
-        hasCoverPage: enc.hasCoverPage,
-        coverPageDescription: enc.coverPageDescription,
-        fileRef: enc.fileRef,
-        // Bytes are streamed back in asynchronously below (rehydrateEnclosureFiles).
-        file: undefined,
-      })),
-      paragraphs: migratePortionMarkings(session.paragraphs),
-      copyTos: session.copyTos,
-      distributions: session.distributions || [],
-    });
-
-    void rehydrateEnclosureFiles();
+    loadSharedSession(session);
     debug.log('Store', 'Session restored from localStorage');
     return true;
   } catch (err) {
@@ -945,6 +897,20 @@ export function restoreSession(): boolean {
  * Excludes file data and signature images.
  */
 export function getSerializedSessionForShare(): SerializedSession {
+  const session = getSerializedSession();
+  // Local attachment handles have no meaning on a recipient's device. Never
+  // resolve a remote handle against that device's unrelated attachment store.
+  session.formData = { ...session.formData, signatureImage: undefined, basicLetterFileRef: undefined };
+  session.enclosures = session.enclosures.map(({ fileRef: _ref, ...enclosure }) => enclosure);
+  if (session.forms) {
+    for (const form of [session.forms.navmc10274, session.forms.navmc11811]) {
+      if (form) form.signatureBlocks = form.signatureBlocks.map(({ image: _image, ...block }) => block);
+    }
+  }
+  return session;
+}
+
+export function getSerializedSession(): SerializedSession {
   return serializeSession(useDocumentStore.getState());
 }
 
@@ -954,6 +920,14 @@ export function getSerializedSessionForShare(): SerializedSession {
  * preserve a correspondence document the instant the user flips to the Forms tab.
  */
 export function serializeSession(state: DocumentState): SerializedSession {
+  if (state.documentCategory === 'forms') {
+    return {
+      documentMode: state.documentMode, documentCategory: 'forms',
+      docType: state.docType, formType: state.formType,
+      forms: serializeForm(state.formType), formData: {}, references: [],
+      enclosures: [], paragraphs: [], copyTos: [], distributions: [], timestamp: Date.now(),
+    };
+  }
   return {
     documentMode: state.documentMode,
     documentCategory: state.documentCategory,
@@ -961,7 +935,6 @@ export function serializeSession(state: DocumentState): SerializedSession {
     formType: state.formType,
     formData: {
       ...state.formData,
-      signatureImage: undefined,
       // Bytes live in the attachments store; keep only basicLetterFileRef so the
       // serialized session stays light and JSON-safe (rehydrated on load).
       basicLetterFile: undefined,
@@ -987,6 +960,8 @@ export function serializeSession(state: DocumentState): SerializedSession {
  * Enclosure file data is not included in shares; titles and metadata are restored.
  */
 export function loadSharedSession(session: SerializedSession): void {
+  useHistoryStore.getState().clearHistory();
+  if (session.documentCategory === 'forms') loadFormSession(session.formType, session.forms);
   // Canonicalize unitAddress on read (see restoreSession for rationale).
   const sharedFormData = session.formData?.unitAddress
     ? { ...session.formData, unitAddress: canonicalizeUnitAddress(session.formData.unitAddress) }

@@ -25,7 +25,8 @@ import {
   parseShareUrl,
 } from '@/lib/shareCrypto';
 import { getSerializedSessionForShare, loadSharedSession, useDocumentStore } from '@/stores/documentStore';
-import type { SerializedSession } from '@/stores/documentStore';
+import { useDocumentsStore } from '@/stores/documentsStore';
+import { parseSharedSession } from '@/lib/sharedSession';
 import { detectPII, getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
 
 export type ShareModalMode = 'share' | 'import';
@@ -93,7 +94,8 @@ export function ShareModal({
     }
     // Scan before the document can leave the device; warn once, then let the
     // user decide (the payload is still password-encrypted either way).
-    const pii = detectPII(useDocumentStore.getState());
+    const session = getSerializedSessionForShare();
+    const pii = detectPII(session.forms ? { formData: {}, paragraphs: [{ text: JSON.stringify(session.forms) }], copyTos: [], references: [] } : useDocumentStore.getState());
     if (pii.found) {
       setPiiFindings(pii);
       return;
@@ -115,7 +117,10 @@ export function ShareModal({
     setWorking(true);
     try {
       const data = await decryptSharePayload(payload, password);
-      loadSharedSession(data as SerializedSession);
+      const session = parseSharedSession(data);
+      useDocumentsStore.getState().syncCurrent();
+      loadSharedSession(session);
+      useDocumentsStore.getState().openLoadedAsNew();
       onImportComplete?.();
       onOpenChange(false);
       setPassword('');
@@ -157,10 +162,17 @@ export function ShareModal({
           <DialogDescription>
             {isImport
               ? 'Paste the share link and enter the password to load the document.'
-              : 'Set a password and generate a link. Anyone with the link and password can open this document. Enclosure files are not included.'}
+              : 'Set a password and generate a link. Anyone with the link and password can open this document. The link is a snapshot; later edits are not shared.'}
           </DialogDescription>
         </DialogHeader>
 
+        {!isImport && (
+          <div className="rounded-md border border-border p-3 text-sm space-y-1">
+            <p className="font-medium">What the recipient receives</p>
+            <p>Current document fields, text, references and typed signer names.</p>
+            <p className="text-muted-foreground">Excluded: attached PDFs, basic-letter files, signature images, version history and other drafts. Send necessary files separately.</p>
+          </div>
+        )}
         <div
           className="flex gap-3 rounded-md border border-warning/40 bg-warning/10 px-3 py-2.5 text-sm text-warning"
           role="status"
