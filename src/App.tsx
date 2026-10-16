@@ -1642,6 +1642,11 @@ ${texFiles['body.tex'] || '% No body content'}
   useEffect(() => {
     if (commandPaletteOpen) useDocumentsStore.getState().syncCurrent();
   }, [commandPaletteOpen]);
+  // A template, import, or sidebar action can open a draft while Search is
+  // displayed. Return to its editor instead of leaving the new draft hidden.
+  useEffect(() => {
+    useUIStore.getState().setCommandPaletteOpen(false);
+  }, [currentDocId]);
   const allDocs = useDocumentsStore((s) => s.docs);
   const userTemplates = useUserTemplatesStore((s) => s.templates);
   const commandGroups = useMemo<CommandGroup[]>(() => {
