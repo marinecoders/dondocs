@@ -2609,10 +2609,10 @@ const LATEX_TEMPLATES = {
     \\dondocsTableWidth=\\dimexpr\\textwidth-#1\\tabcolsep-#1\\tabcolsep-#1\\arrayrulewidth-\\arrayrulewidth\\relax
 }
 
-% Enclosures are listed under DISTRIBUTION on the authentication page, not
-% in a letter's Encl: block. The entries themselves stay registered: the
-% merge that appends the files reads them.
-\\renewcommand{\\printEnclosureList}{}
+% The supplied template lists attachments before the first body paragraph.
+\\renewcommand{\\printEnclosureList}{%
+    \\ifNotEmpty{\\AttachmentList}{\\noindent\\AttachmentList\\par\\vspace{12pt}}%
+}
 
 
 %=============================================================================
@@ -2849,7 +2849,6 @@ const LATEX_TEMPLATES = {
     \\optionalLine{\\ControllingOffice}%
     \\par\\vspace{24pt}%
     \\noindent DISTRIBUTION: EDO
-    \\ifNotEmpty{\\AttachmentList}{\\par\\vspace{12pt}\\noindent\\AttachmentList}%
     \\par\\newpage\\endgroup
 }
 

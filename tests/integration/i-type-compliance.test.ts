@@ -375,6 +375,22 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
     expect(first.transform[5] - second.transform[5]).toBeGreaterThan(25);
   }, 60_000);
 
+  it.each([false, true])('keeps the attachment list with the body after long authentication details (cover overflow: %s)', async (overflow) => {
+    const s = baseline();
+    if (overflow) s.endItems = Array.from({ length: 7 }, () => ({ ...s.endItems[0] }));
+    s.formData.sigTitle = 'Program Manager, Expeditionary Communications and Advanced Tactical Information Systems';
+    s.formData.controllingOffice = 'Program Management Office for Expeditionary Communications and Advanced Tactical Information Systems';
+    for (let i = 0; i < 4; i++) s.paragraphs.push({ level: 0, appendix: true, header: `Supporting Reference Data ${i + 1}`, text: 'Reference values.' });
+    const text = pages(await production(s), `attachment-list-${overflow}`);
+    const bodyIndex = overflow ? 3 : 2;
+    expect(text).toHaveLength(bodyIndex + 5);
+    expect(text[bodyIndex - 1]).toContain('DISTRIBUTION: EDO');
+    expect(text[bodyIndex - 1]).not.toContain('Appendix A:');
+    for (let i = 0; i < 4; i++) expect(text[bodyIndex]).toContain(`Appendix ${'ABCD'[i]}: Supporting Reference Data ${i + 1}`);
+    expect(text[bodyIndex]).toContain('Purpose');
+    expect(text[bodyIndex].indexOf('Appendix D:')).toBeLessThan(text[bodyIndex].indexOf('Purpose'));
+  }, 60_000);
+
   it.each([false, true])('anchors the signature when the name repeats in the body and appendix (cover overflow: %s)', async (overflow) => {
     const s = baseline();
     if (overflow) s.endItems = Array.from({ length: 7 }, () => ({ ...s.endItems[0] }));

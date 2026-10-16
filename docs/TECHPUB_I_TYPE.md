@@ -31,8 +31,14 @@ Succeeding short titles and bold page numbers align left on even pages and right
 on odd pages, using the printed page sequence, including appendices.
 
 The authentication page centers the command and address, right-aligns the date,
-and leaves four blank lines for the signature. The digital-signature field occupies
-that space. An authorized signer must still sign the resulting PDF.
+and leaves four blank lines for the signature. The digital-signature field uses
+an explicit PDF destination in that space, so names repeated in the body or appendices cannot redirect it. A missing
+signature destination blocks export. An authorized signer must still sign the
+resulting PDF.
+
+Appendix and enclosure lists appear before the first body paragraph, as in the
+supplied template, and flow with the body instead of extending the authentication
+page.
 
 Body text uses the renderer's Times-compatible font at 12 points. Paragraph and
 procedure spacing, warning groups, table headings, and parent/component
@@ -132,7 +138,9 @@ an applicable B–E distribution statement with Export Controlled as its reason;
 that reason also requires the warning. Review the separate release-accompanying
 notice before dissemination.
 
-The renderer checks the actual four-line long-title limit. Nimbus Roman and the
+The editor allows more than six end items and explains when the list moves
+behind the cover. The renderer checks the actual two-line nomenclature and
+four-line long-title limits without shrinking either font. Nimbus Roman and the
 supplied template's unresolved layout differences remain as listed below.
 
 ## Decisions still required before format approval

@@ -226,8 +226,10 @@ describe.skipIf(!hasPdfToolchain)('I-Type front matter and page layout', () => {
     expect(auth).toMatch(/4\.\s+For\s+concerns\/issues\s+with\s+the\s+content\/procedures\s+contact\s+Equipment\s+Specialist\s+or\s+designated\s+Program\s+Office\s+representative,\s+john\.doe@usmc\.mil/);
   });
 
-  it('lists appendices and enclosures under DISTRIBUTION', () => {
-    expect(pages[1]).toMatch(/DISTRIBUTION: EDO\s+Appendix A: Torque Values\s+Enclosure \(1\): Parts Diagram/);
+  it('lists appendices and enclosures before the first body paragraph', () => {
+    expect(pages[1]).toContain('DISTRIBUTION: EDO');
+    expect(pages[1]).not.toContain('Appendix A:');
+    expect(pages[2]).toMatch(/Appendix A: Torque Values\s+Enclosure \(1\): Parts Diagram\s+1\.\s+Purpose/);
   });
 
   it('signs with name, signing authority, and controlling office -- and no rank line', () => {
