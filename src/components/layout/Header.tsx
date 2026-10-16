@@ -28,18 +28,21 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { showAppAlert } from '@/stores/alertStore';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore, getSerializedSession, loadSharedSession, persistUnsavedEnclosures } from '@/stores/documentStore';
-import { useFormStore } from '@/stores/formStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { buildBackup, restoreBackup, summarizeRestore } from '@/lib/backup';
 import { useBackupStore } from '@/stores/backupStore';
 import { useInstallStore } from '@/stores/installStore';
 import { promptInstall } from '@/hooks/useInstallPrompt';
 import { useHistoryStore } from '@/stores/historyStore';
-import { uint8ArrayToBase64, base64ToUint8Array, arrayBufferToUint8Array } from '@/lib/encoding';
+import { triggerDownload } from '@/lib/encoding';
+import { buildDraftFile, parseDraftFile, type ReviewedDraft } from '@/lib/draftFile';
+import { persistAttachment } from '@/lib/attachments';
+import { SessionPreview } from '@/components/SessionPreview';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { STORAGE_KEYS } from '@/lib/constants';
-import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { useLogStore } from '@/stores/logStore';
 import { useTourStore } from '@/stores/tourStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
@@ -215,6 +218,9 @@ export function Header({
   // Undo/Redo enabled state updates when past/future change.
   const canUndo = useHistoryStore((s) => s.past.length > 0);
   const canRedo = useHistoryStore((s) => s.future.length > 0);
+  const [reviewedDraft, setReviewedDraft] = useState<ReviewedDraft | null>(null);
+  const [openingDraft, setOpeningDraft] = useState(false);
+  const [draftError, setDraftError] = useState('');
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [showClearFieldsDialog, setShowClearFieldsDialog] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
@@ -316,13 +322,8 @@ export function Header({
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
-        // Preserve the open document before overwriting the live store, so the
-        // loaded draft opens as its own Recents entry instead of clobbering it.
-        useDocumentsStore.getState().syncCurrent();
-        const data = JSON.parse(saved);
-        loadSharedSession({ ...data, documentCategory: data.documentCategory ?? 'correspondence' });
-        useDocumentsStore.getState().openLoadedAsNew();
-        flashSaveStatus('Loaded!');
+        setReviewedDraft(parseDraftFile(JSON.parse(saved), true));
+        setDraftError('');
       } else {
         flashSaveStatus('No saved data');
       }
@@ -357,175 +358,53 @@ export function Header({
     }
   }, [redo, applySnapshot]);
 
-  // Export entire document state to a JSON file
-  const handleExportDraft = useCallback(() => {
+  const handleExportDraft = useCallback(async () => {
     try {
-      const ds = useDocumentStore.getState();
-      const dataToExport = {
-        version: '1.0',
-        exportedAt: new Date().toISOString(),
-        documentMode: ds.documentMode,
-        documentCategory: ds.documentCategory,
-        docType: ds.docType,
-        formType: ds.formType,
-        formData: ds.formData,
-        references: ds.references,
-        // Include enclosure file data as base64 for full restoration
-        enclosures: ds.enclosures.map(encl => ({
-          title: encl.title,
-          pageStyle: encl.pageStyle,
-          hasCoverPage: encl.hasCoverPage,
-          coverPageDescription: encl.coverPageDescription,
-          file: encl.file ? {
-            name: encl.file.name,
-            size: encl.file.size,
-            // Convert ArrayBuffer to base64 for JSON serialization
-            data: uint8ArrayToBase64(arrayBufferToUint8Array(encl.file.data)),
-          } : null,
-        })),
-        paragraphs: ds.paragraphs,
-        copyTos: ds.copyTos,
-        distributions: ds.distributions,
-        // NAVMC form field data lives in a separate store; include it so a
-        // forms draft round-trips (Export is the only durable copy for forms).
-        forms: (() => {
-          const fs = useFormStore.getState();
-          return {
-            navmc10274: fs.navmc10274,
-            navmc11811: fs.navmc11811,
-            includeCoverPage: fs.includeCoverPage,
-          };
-        })(),
-      };
-
-      const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      const date = new Date().toISOString().split('T')[0];
-      a.download = `dondocs-draft-${date}.json`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-
+      const data = await buildDraftFile();
+      triggerDownload(new TextEncoder().encode(JSON.stringify(data, null, 2)), `dondocs-draft-${new Date().toISOString().split('T')[0]}.json`, 'application/json');
       flashSaveStatus('Exported!');
     } catch (err) {
-      console.error('Failed to export draft:', err);
-      flashSaveStatus('Export failed');
+      showAppAlert({ title: 'Could not export draft', message: err instanceof Error ? err.message : 'Export failed' });
+      flashSaveStatus('Export failed', 5000);
     }
   }, [flashSaveStatus]);
 
-  // Import document state from a JSON file
-  const handleImportDraft = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+  const handleImportDraft = useCallback(async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const ds = useDocumentStore.getState();
-        const content = e.target?.result as string;
-        const data = JSON.parse(content);
-
-        // Validate it's a dondocs draft file
-        if (!data.version || !data.docType) {
-          throw new Error('Invalid draft file format');
-        }
-
-        // Preserve the currently-open document before overwriting the live
-        // store, so the import opens as its own Recents entry instead of
-        // clobbering (and then silently overwriting) the open doc — mirrors
-        // handleLoadProgress.
-        useDocumentsStore.getState().syncCurrent();
-
-        // Apply document mode
-        if (data.documentMode) {
-          ds.setDocumentMode?.(data.documentMode);
-        }
-
-        // Apply document category
-        if (data.documentCategory) {
-          ds.setDocumentCategory(data.documentCategory);
-        }
-
-        // Apply document type
-        if (data.docType) {
-          ds.setDocType(data.docType);
-        }
-
-        // Apply form type
-        if (data.formType) {
-          ds.setFormType(data.formType);
-        }
-
-        // Apply form data
-        if (data.formData) {
-          // Canonicalize unitAddress on read (see App.tsx for rationale).
-          const formData = data.formData.unitAddress
-            ? { ...data.formData, unitAddress: canonicalizeUnitAddress(data.formData.unitAddress) }
-            : data.formData;
-          ds.setFormData(formData);
-        }
-
-        // Use loadTemplate for bulk loading (handles references, enclosures, paragraphs, copyTos)
-        ds.loadTemplate({
-          references: data.references || [],
-          enclosures: data.enclosures?.map((encl: {
-            title: string;
-            pageStyle?: string;
-            hasCoverPage?: boolean;
-            coverPageDescription?: string;
-            file?: { name: string; size: number; data: string } | null;
-          }) => ({
-            title: encl.title,
-            pageStyle: encl.pageStyle,
-            hasCoverPage: encl.hasCoverPage,
-            coverPageDescription: encl.coverPageDescription,
-            file: encl.file ? {
-              name: encl.file.name,
-              size: encl.file.size,
-              // Convert base64 back to ArrayBuffer
-              data: base64ToUint8Array(encl.file.data).buffer as ArrayBuffer,
-            } : undefined,
-          })) || [],
-          paragraphs: data.paragraphs?.map((para: { text: string; level?: number; header?: string; portionMarking?: string }) => ({
-            text: para.text,
-            level: para.level || 0,
-            header: para.header,
-            portionMarking: para.portionMarking,
-          })) || [],
-          copyTos: data.copyTos || [],
-        });
-        // loadTemplate doesn't cover distributions; restore it explicitly.
-        useDocumentStore.setState({ distributions: data.distributions || [] });
-
-        // Restore NAVMC form field data (separate store; shallow-merges the
-        // navmc10274/navmc11811/includeCoverPage slices that were exported).
-        if (data.forms) {
-          useFormStore.setState(data.forms);
-        }
-
-        // Register the import as its own Recents entry under a fresh id rather
-        // than overwriting the previously-open document.
-        useDocumentsStore.getState().openLoadedAsNew();
-
-        // The draft's enclosure bytes arrived inline; persist them to the
-        // attachments store so they survive a reload and a full backup, just
-        // like a file attached through the UI.
-        void persistUnsavedEnclosures();
-
-        flashSaveStatus('Imported!');
-      } catch (err) {
-        console.error('Failed to import draft:', err);
-        flashSaveStatus('Import failed');
-      }
-    };
-
-    reader.readAsText(file);
-    // Reset the input so the same file can be selected again
     event.target.value = '';
+    if (!file) return;
+    try {
+      setReviewedDraft(parseDraftFile(JSON.parse(await file.text())));
+      setDraftError('');
+    } catch {
+      flashSaveStatus('Invalid draft — nothing was changed', 5000);
+    }
   }, [flashSaveStatus]);
+
+  const openReviewedDraft = async () => {
+    if (!reviewedDraft) return;
+    setOpeningDraft(true);
+    try {
+      const session = structuredClone(reviewedDraft.session);
+      if (reviewedDraft.basicLetter) {
+        const file = reviewedDraft.basicLetter;
+        session.formData.basicLetterFileRef = await persistAttachment({ name: file.name, size: file.size, type: 'application/pdf' }, file.data);
+      }
+      useDocumentsStore.getState().syncCurrent();
+      loadSharedSession(session);
+      useDocumentStore.setState((state) => ({
+        formData: reviewedDraft.basicLetter ? { ...state.formData, basicLetterFile: reviewedDraft.basicLetter } : state.formData,
+        enclosures: state.enclosures.map((enclosure, i) => ({ ...enclosure, file: reviewedDraft.files[i] ?? enclosure.file })),
+      }));
+      useDocumentsStore.getState().openLoadedAsNew();
+      await persistUnsavedEnclosures();
+      useDocumentsStore.getState().syncCurrent();
+      setReviewedDraft(null);
+      flashSaveStatus('Imported!');
+    } catch {
+      setDraftError('Could not finish opening the draft. Check browser storage and try again.');
+    } finally { setOpeningDraft(false); }
+  };
 
   // Whole-library backup: export/import EVERY saved document (not just the open
   // one) — a safety net against browser-storage eviction.
@@ -1120,6 +999,14 @@ export function Header({
 
       </div>
 
+      <Dialog open={!!reviewedDraft} onOpenChange={(open) => { if (!open && !openingDraft) setReviewedDraft(null); }}>
+        <DialogContent className="sm:max-w-lg max-h-[85dvh] overflow-y-auto">
+          <DialogHeader><DialogTitle>Review draft</DialogTitle><DialogDescription>Open a separate editable copy. Your current document stays in Recents.</DialogDescription></DialogHeader>
+          {reviewedDraft && <><SessionPreview session={reviewedDraft.session} /><p className="text-sm text-muted-foreground">{reviewedDraft.session.enclosures.filter((e, i) => e.fileRef || reviewedDraft.files[i]).length} attached files{reviewedDraft.basicLetter || reviewedDraft.session.formData.basicLetterFileRef ? ' and a basic letter' : ''} included.</p></>}
+          {draftError && <p role="alert" className="text-sm text-destructive">{draftError}</p>}
+          <DialogFooter><Button variant="outline" disabled={openingDraft} onClick={() => setReviewedDraft(null)}>Cancel</Button><Button disabled={openingDraft} onClick={() => void openReviewedDraft()}>{openingDraft ? 'Opening…' : 'Open as new document'}</Button></DialogFooter>
+        </DialogContent>
+      </Dialog>
       {/* Reset confirmation dialog */}
       <AlertDialog open={showResetDialog} onOpenChange={setShowResetDialog}>
         <AlertDialogContent>
