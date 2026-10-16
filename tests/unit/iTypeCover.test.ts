@@ -91,7 +91,7 @@ describe('I-Type cover', () => {
       publicationTables: { materielRequired: [{ values: { description: 'KIT', nsn: '1', pn: '2', qty: '1' } }] },
     } as never);
     expect(tex).toContain('\\begin{longtable}[l]');
-    expect(tex).toContain('\\textit{Table 1. Materiel Required -- Continued}');
+    expect(tex).toContain('\\centering\\textbf{Table 1.\\hspace{2\\fontdimen2\\font}Materiel Required -- Continued}');
     expect(tex).toContain('\\endhead');
     // No closing rule at the foot of a continued table; one at the last.
     expect(tex).toMatch(/\\endfoot\s+\\hline\s+\\endlastfoot/);

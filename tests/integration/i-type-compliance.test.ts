@@ -64,7 +64,7 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
 
   it.each(['derivative', 'original'] as const)('puts %s classification authority on the cover', async (classificationBasis) => {
     const s = baseline();
-    Object.assign(s.formData, { classLevel: 'secret', classificationBasis, classifiedBy: 'Synthetic reviewer, Program Office', derivedFrom: 'Synthetic guide', classReason: '1.4(a)', declassifyOn: '20361015' });
+    Object.assign(s.formData, { classLevel: 'secret', classificationBasis, classifiedBy: 'Synthetic reviewer, Program Office', derivedFrom: 'Synthetic guide', classReason: '1.4(a)', declassifyOn: '20361015', cuiDistStatement: 'D', distReason: 'Software Documentation', distDate: '2026-10-15' });
     s.paragraphs[0].portionMarking = 'S';
     const text = pages(await production(s), `authority-${classificationBasis}`);
     expect(text[0]).toContain('Classified By: Synthetic reviewer');
@@ -283,7 +283,7 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
       const pdf = await getDocument({ data: signed.slice(), useSystemFonts: false }).promise;
       try {
         const outline = await pdf.getOutline(); expect(outline?.map((entry) => entry.title)).toContain('Enclosure 1. Drawing');
-        const table = outline!.find((entry) => entry.title === 'Materiel Required')!;
+        const table = outline!.find((entry) => entry.title === '2. Materiel Required')!;
         expect(table.count).toBeLessThan(0); expect(table.items[0].title).toBe('Table 1. Materiel Required');
         const destinations = await pdf.getDestinations();
         expect(await pdf.getPageIndex(destinations['itype.authentication'][0])).toBe(1);
