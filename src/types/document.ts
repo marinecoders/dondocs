@@ -590,7 +590,7 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
   // I-Type (Instructional) technical publication -- MI/SI/TI/LI. A directive
   // to the fleet rather than correspondence: no From/To, no Via, identified by
   // a PCN rather than an SSIC, and authenticated rather than signed off.
-  // MIL-STD-38784C governs the format; see docs/TECHPUB_I_TYPE.md.
+  // MIL-DTL-28999D governs I-Type content; MIL-STD-38784C supplies general format.
   i_type: {
     letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false,
     signature: 'full', uiMode: 'memo', showSignatureRankTitle: true, topSpacing: '1in',
@@ -598,7 +598,7 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
     enclosureLabel: 'footer',
     regulations: {
       fontSize: '12pt', fontSizeOptions: ['12pt'], fontFamily: 'times', fontFamilyRequired: true,
-      authority: 'MIL-STD-38784C', ref: '\u00a74.7',
+      authority: 'MIL-DTL-28999D(MC) / MIL-STD-38784C', ref: '\u00a73 / \u00a74.7',
     },
     compliance: DEFAULT_COMPLIANCE,
   },

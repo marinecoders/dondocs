@@ -32,6 +32,6 @@ describe('document type registration', () => {
   it('delivers the I-Type as PDF, with enclosure labels in the footer', () => {
     expect(DOC_TYPE_CONFIG.i_type.pdfOnly).toBe(true);
     expect(DOC_TYPE_CONFIG.i_type.enclosureLabel).toBe('footer');
-    expect(DOC_TYPE_CONFIG.i_type.regulations.authority).toBe('MIL-STD-38784C');
+    expect(DOC_TYPE_CONFIG.i_type.regulations.authority).toBe('MIL-DTL-28999D(MC) / MIL-STD-38784C');
   });
 });
