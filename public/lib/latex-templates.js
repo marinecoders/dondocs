@@ -216,6 +216,7 @@ const LATEX_TEMPLATES = {
 %-----------------------------------------------------------------------------
 
 \\usepackage{tabularx}
+\\usepackage{longtable}  % technical publication tables break across pages
 \\usepackage{array}
 
 
@@ -322,6 +323,43 @@ const LATEX_TEMPLATES = {
 
 \\newcommand{\\DocumentType}{}
 \\newcommand{\\setDocumentType}[1]{\\renewcommand{\\DocumentType}{#1}}
+
+% Technical publication cover. Empty for correspondence, which has no cover
+% page; document.tex only sets these for an I-Type.
+\\newcommand{\\Nomenclature}{}
+\\newcommand{\\setNomenclature}[1]{\\renewcommand{\\Nomenclature}{#1}}
+\\newcommand{\\EndItemRows}{}
+\\newcommand{\\setEndItemRows}[1]{\\renewcommand{\\EndItemRows}{#1}}
+\\newcommand{\\EndItemOverflowRows}{}
+\\newcommand{\\setEndItemOverflowRows}[1]{\\renewcommand{\\EndItemOverflowRows}{#1}}
+\\newcommand{\\ShortTitle}{}
+\\newcommand{\\setShortTitle}[1]{\\renewcommand{\\ShortTitle}{#1}}
+\\newcommand{\\CoverDate}{}
+\\newcommand{\\setCoverDate}[1]{\\renewcommand{\\CoverDate}{#1}}
+\\newcommand{\\PCN}{}
+\\newcommand{\\setPCN}[1]{\\renewcommand{\\PCN}{#1}}
+
+% Technical publication (I-Type) setters, driven by the generator before the
+% module is input; the module only reads them.
+\\newcommand{\\PublicationTypeName}{Modification Instruction}
+\\newcommand{\\setPublicationTypeName}[1]{\\renewcommand{\\PublicationTypeName}{#1}}
+% Recording the completion of a modification applies to MIs alone.
+\\newif\\ifRecordingInstruction
+\\RecordingInstructiontrue
+% "Appendix A: title" and "Enclosure (1): title", one per line, listed
+% under DISTRIBUTION on the authentication page.
+\\newcommand{\\AttachmentList}{}
+\\newcommand{\\setAttachmentList}[1]{\\renewcommand{\\AttachmentList}{#1}}
+\\newcommand{\\ControllingOffice}{}
+\\newcommand{\\setControllingOffice}[1]{\\renewcommand{\\ControllingOffice}{#1}}
+\\newcommand{\\Supersedure}{}
+\\newcommand{\\setSupersedure}[1]{\\renewcommand{\\Supersedure}{#1}}
+\\newcommand{\\TimeCompliance}{}
+\\newcommand{\\setTimeCompliance}[1]{\\renewcommand{\\TimeCompliance}{#1}}
+\\newcommand{\\DistStatementFull}{}
+\\newcommand{\\setDistStatementFull}[1]{\\renewcommand{\\DistStatementFull}{#1}}
+\\newif\\ifExportRestricted
+\\newif\\ifEndItemOverflow
 
 
 %=============================================================================
@@ -2510,6 +2548,524 @@ const LATEX_TEMPLATES = {
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
+`,
+  'tex/templates/i_type.tex': `
+%=============================================================================
+%
+%                   I-TYPE (INSTRUCTIONAL) PUBLICATION MODULE
+%
+%=============================================================================
+%
+% References:
+%   - MIL-STD-38784C (General Style and Format Requirements for Technical
+%     Manuals), PDF output requirements
+%   - MARCORSYSCOM I-Type template
+%
+% One module serves MI (Modification), SI (Supply), TI (Technical) and LI
+% (Lubrication) Instructions. They share a skeleton and differ only in which
+% optional paragraphs appear, so the type is a label here rather than a fork.
+%
+% An I-Type is a directive, not correspondence: it has no From/To, it is
+% identified by a PCN rather than an SSIC, and it is authenticated rather than
+% signed off. Hence the empty addressing block below.
+%
+% This module is the frame: the cover and its notices, the authentication
+% page, and the page styles. The paragraph numbering, the materiel tables,
+% the WARNING/CAUTION/NOTE boxes, the procedural steps and the appendices are
+% emitted by the generator into the body.
+%
+%=============================================================================
+
+
+%=============================================================================
+%                             NO LETTERHEAD
+%=============================================================================
+% main.tex calls \\printLetterhead unconditionally, which is right for
+% correspondence: a letter is issued by a command and says so at the top. A
+% technical publication is not -- it is identified by its nomenclature, short
+% title and PCN, and its cover carries the Marine Corps seal at a fixed 2 x 2
+% inches rather than a unit's address block.
+%
+% Overridden here rather than gated in main.tex so the twenty correspondence
+% formats keep the behaviour they were written against. The cover page
+% replaces this with the seal.
+
+\\renewcommand{\\printLetterhead}{}
+
+% The template's header begins 0.6in from the top edge and its footer ends
+% 0.18in from the bottom; the banners sit there, not at correspondence's
+% quarter inch, and the page number moves up to stay above the lower one.
+\\renewcommand{\\placeClassificationMarkings}{%
+    \\ifClassificationEnabled
+        \\begin{textblock*}{6.5in}(1in, 0.6in)\\centering\\ClassificationMarking\\end{textblock*}%
+        \\begin{textblock*}{6.5in}(1in, 10.65in)\\centering\\ClassificationMarking\\end{textblock*}%
+    \\fi
+}
+\\setlength{\\footskip}{0.43in}
+% MIL-STD-38784C Table I: 0.75-point table rules (PDF points).
+\\setlength{\\arrayrulewidth}{0.75bp}
+\\newdimen\\dondocsTableWidth
+\\newcommand{\\dondocsSetTableWidth}[1]{%
+    \\dondocsTableWidth=\\dimexpr\\textwidth-#1\\tabcolsep-#1\\tabcolsep-#1\\arrayrulewidth-\\arrayrulewidth\\relax
+}
+
+% The supplied template lists attachments before the first body paragraph.
+\\renewcommand{\\printEnclosureList}{%
+    \\ifNotEmpty{\\AttachmentList}{\\noindent\\AttachmentList\\par\\vspace{12pt}}%
+}
+
+
+%=============================================================================
+%                              COVER PAGE
+%=============================================================================
+% Seal, nomenclature, then the End Item table. main.tex calls this where a
+% letter prints its date and subject, which is where an I-Type's cover belongs.
+%
+% The table always prints six rows: the standard keeps unused ones blank rather
+% than deleting them, so the cover of a publication covering two end items has
+% the same shape as one covering six. A seventh item moves the whole list to
+% the back of the cover page and leaves "See Next Page" in its stead.
+
+% The End Item table, drawn from a row set. The cover sets it as a tabular;
+% its back as a longtable. The column widths and the boxhead are written out
+% in both -- change one, change the other.
+% The back of the cover lists every end item and may run to pages: the
+% boxhead is repeated on each, the closing rule omitted at the foot of a
+% continued table and the opening rule at the head of its continuation
+% (MIL-STD-38784C 4.7.9.2, 4.7.9.3).
+\\newcommand{\\printEndItemOverflowTable}{%
+    \\renewcommand{\\arraystretch}{1.4}%
+    \\dondocsSetTableWidth{4}%
+    \\setlength{\\LTpre}{0pt}\\setlength{\\LTpost}{0pt}%
+    \\begin{longtable}{|p{0.320755\\dondocsTableWidth}|p{0.216123\\dondocsTableWidth}|p{0.197256\\dondocsTableWidth}|p{\\dimexpr\\dondocsTableWidth-0.320755\\dondocsTableWidth-0.216123\\dondocsTableWidth-0.197256\\dondocsTableWidth\\relax}|}
+        \\hline
+        \\textbf{NSN} & \\textbf{TAMCN} & \\textbf{ID} & \\textbf{MODEL} \\tabularnewline
+        \\hline
+        \\endfirsthead
+        \\textbf{NSN} & \\textbf{TAMCN} & \\textbf{ID} & \\textbf{MODEL} \\tabularnewline
+        \\hline
+        \\endhead
+        \\endfoot
+        \\hline
+        \\endlastfoot
+        \\EndItemOverflowRows \\tabularnewline
+    \\end{longtable}%
+}
+
+\\newcommand{\\printEndItemTable}[1]{%
+    \\renewcommand{\\arraystretch}{1.4}%
+    \\dondocsSetTableWidth{4}%
+    \\begin{tabular}{|p{0.320755\\dondocsTableWidth}|p{0.216123\\dondocsTableWidth}|p{0.197256\\dondocsTableWidth}|p{\\dimexpr\\dondocsTableWidth-0.320755\\dondocsTableWidth-0.216123\\dondocsTableWidth-0.197256\\dondocsTableWidth\\relax}|}
+        \\hline
+        \\textbf{NSN} & \\textbf{TAMCN} & \\textbf{ID} & \\textbf{MODEL} \\\\
+        \\hline
+        #1 \\\\
+        \\hline
+    \\end{tabular}%
+}
+
+
+\\newsavebox{\\dondocsCoverBody}
+\\newsavebox{\\dondocsCoverNotices}
+\\newsavebox{\\dondocsNomenclatureBox}
+\\newdimen\\dondocsCoverAvailable
+\\newcommand{\\dondocsBuildCoverBody}{%
+  \\sbox{\\dondocsCoverBody}{\\begin{minipage}{\\textwidth}
+\\begin{center}
+        % The Marine Corps seal, fixed at 2 x 2 inches -- the template names it,
+        % so the letterhead's seal choice does not apply. The framed fallback
+        % keeps the layout honest when the file is absent rather than
+        % collapsing the page.
+        \\IfFileExists{attachments/usmc-seal.png}{%
+            \\includegraphics[width=2in,height=2in,keepaspectratio]{attachments/usmc-seal.png}%
+        }{%
+            \\framebox[2in][c]{\\parbox[c][2in][c]{1.9in}{\\centering\\scriptsize Seal\\\\(add usmc-seal.png)}}%
+        }%
+        \\par\\vspace{24pt}%
+        \\setbox\\dondocsNomenclatureBox=\\vbox{\\hsize=\\textwidth\\centering
+            \\large\\bfseries\\MakeUppercase{\\Nomenclature}\\par
+            \\ifnum\\prevgraf>2\\relax
+                \\errmessage{I-Type nomenclature exceeds two lines. Shorten it or move detail into the end item table}%
+            \\fi}%
+        \\usebox{\\dondocsNomenclatureBox}\\par
+        \\vspace{24pt}%
+        \\ifEndItemOverflow
+            % Seven or more end items do not fit the cover; the list moves to
+            % its back and the cover says so.
+            \\printEndItemTable{\\multicolumn{4}{|c|}{See Next Page}}%
+        \\else
+            \\printEndItemTable{\\EndItemRows}%
+        \\fi
+    \\end{center}
+  \\end{minipage}}%
+}
+
+\\newcommand{\\printDateAndTitle}{%
+    % The cover's header is much taller than the other pages', and LaTeX sets
+    % the text block below the header, so this page's block ends that much
+    % lower than the bottom margin -- close to where the template's footer
+    % ends. Trimmed so \\vfill below lands the notices just above the lower
+    % banner, and scaled with the measured head so a tall banner does not push
+    % the notices onto it (-12pt at the 70pt head this was tuned on).
+    %
+    % Measured here rather than left to the page style: a \\thispagestyle body
+    % is executed by the output routine at shipout, long after the page has
+    % been filled, so reading \\headheight during collection would read the
+    % previous style's 26pt and \\enlargethispage would grow the page instead
+    % of trimming it.
+    \\dondocsBookmark{0}{Cover}{itype.cover}
+    \\dondocsMeasureCoverHead
+    % Trim only; never grow. A banner shorter than the 70pt this was tuned on
+    % leaves the notices where they already sat, and growing the page to chase
+    % it pushed them through the bottom margin.
+    \\ifdim\\headheight>70pt
+        \\enlargethispage{-\\dimexpr\\headheight-58pt\\relax}%
+    \\else
+        \\enlargethispage{-12pt}%
+    \\fi
+    \\sbox{\\dondocsCoverNotices}{\\printCoverFooter}%
+    \\dondocsBuildCoverBody
+    \\dondocsCoverAvailable=\\dimexpr\\textheight-24pt\\relax
+    \\ifdim\\headheight>70pt
+      \\advance\\dondocsCoverAvailable by -\\dimexpr\\headheight-70pt\\relax
+    \\fi
+    \\ifdim\\dimexpr\\ht\\dondocsCoverBody+\\dp\\dondocsCoverBody+\\ht\\dondocsCoverNotices+\\dp\\dondocsCoverNotices>\\dondocsCoverAvailable
+      \\EndItemOverflowtrue
+      \\dondocsBuildCoverBody
+    \\fi
+    \\ifdim\\dimexpr\\ht\\dondocsCoverBody+\\dp\\dondocsCoverBody+\\ht\\dondocsCoverNotices+\\dp\\dondocsCoverNotices>\\dondocsCoverAvailable
+      \\PackageError{I-Type}{Cover content exceeds one page; shorten the title or notices}{Mandatory notices and PCN must remain on the cover.}
+    \\fi
+    \\noindent\\usebox{\\dondocsCoverBody}\\par
+    \\vfill
+    \\noindent\\usebox{\\dondocsCoverNotices}\\par
+    \\newpage
+    % \\headheight is a global register and the cover's banner is far taller
+    % than every other page's head. The cover has shipped by now, so hand the
+    % register back -- left at the cover's value it pushes every following
+    % page's text block, and its footer, down with it.
+    \\setlength{\\headheight}{26pt}%
+    %
+    \\ifEndItemOverflow
+        \\printEndItemOverflowTable
+        \\newpage
+    \\fi
+}
+
+
+%=============================================================================
+%                     AUTHENTICATION (SIGNATURE) PAGE
+%=============================================================================
+% main.tex runs this where a letter puts its From/To block: after the title,
+% before the body. That is where the authentication page belongs -- in an
+% I-Type it is front matter, not a closing sign-off -- so it is built here and
+% \\printSignature below is left empty.
+%
+% Everything but the issuing command and the signer is fixed regulatory text,
+% reproduced from the MARCORSYSCOM template rather than left to an author to
+% retype. That is the point of generating the page: the MCO references, the
+% Automated Message Handling System routing and the reporting addresses cannot
+% drift or be edited by accident.
+
+% Recording the completion of a modification applies to MIs alone. The spacing
+% above OFFICIAL is the same whether or not it appears.
+
+\\newcommand{\\printAddressBlock}{%
+    \\begingroup\\fontsize{12}{12}\\selectfont
+    \\thispagestyle{authpage}%
+    \\dondocsBookmark{0}{Authentication}{itype.authentication}
+    {\\centering\\MakeUppercase{\\UnitName}\\par
+    \\optionalLine{\\UnitLineTwo}%
+    \\optionalLine{\\UnitLineThree}%
+    \\optionalLine{\\UnitLineFour}\\par}%
+    \\par\\vspace{12pt}%
+    {\\raggedleft\\DocumentDate\\par}
+    \\par\\vspace{12pt}%
+    %
+    %
+    \\begin{enumerate}[label=\\arabic*., leftmargin=*, itemsep=12pt, topsep=0pt]
+        % The template's "appropriate publication" is the type AND its number
+        % ("Technical Manual, TM #####X-##/#,"), so the short title rides
+        % inside the sentence rather than only in the header.
+        \\item This \\PublicationTypeName\\ifNotEmpty{\\ShortTitle}{, \\ShortTitle,} is
+              authenticated for Marine Corps use and is effective upon receipt.
+
+        \\item Per MCO 5100.34\\_, Commanders, Commanding Officers, and
+              Officers-In-Charge shall identify and report situations that
+              negatively affect safety of operation via the Automated Message
+              Handling System to: COMMARCORSYSCOM QUANTICO VA, PAE MC QUANTICO
+              VA, CMC PPO WASHINGTON DC, CMC I WASHINGTON DC, CMC L WASHINGTON
+              DC, and CMC DCI WASHINGTON DC. Individuals may report potential
+              hazards to Marine Corps Systems Command System Safety at
+              \\href{mailto:smb_mcsc_safety@usmc.mil}{smb\\_mcsc\\_safety@usmc.mil} and/or to Commandant of the Marine
+              Corps Safety Division (CMC SD) at \\href{mailto:hqmc_safety_division@usmc.mil}{hqmc\\_safety\\_division@usmc.mil}.
+
+    \\end{enumerate}
+    %
+    % The template gives this sentence no numbering properties and no indent:
+    % it is an unnumbered continuation at the margin between items 2 and 3.
+    \\par\\vspace{12pt}%
+    \\noindent All significant hazards that have the potential to affect other
+    commands and require widespread dissemination shall be reported via a
+    Hazard Report per MCO 5100.29\\_.
+    \\par\\vspace{12pt}%
+    \\begin{enumerate}[label=\\arabic*., leftmargin=*, itemsep=12pt, topsep=0pt, start=3]
+        \\item Use TDM-Publications portal, at \\href{https://app.mcboss.usmc.mil/}{https://app.mcboss.usmc.mil/}, as
+              your central resource for all publication feedback and support.
+              Please use this single portal to:
+              \\begin{enumerate}[label=\\alph*., leftmargin=*, itemsep=6pt, topsep=6pt]
+                  \\item Submit a Change Request to report discrepancies or
+                        suggest changes.
+                  \\item Access Knowledge Base Articles (KBA) for self-help and
+                        guidance (including the Change Request Process).
+                  \\item Open a Support Case for any further questions not
+                        addressed by the KBA.
+              \\end{enumerate}
+
+        \\item For concerns/issues with the content/procedures contact Equipment
+              Specialist or designated Program Office representative\\ifNotEmpty{\\POCEmail}{, \\POCEmail}.
+
+        \\ifRecordingInstruction
+            \\item GCSS-MC Recording. Ensure appropriate records are updated in
+                  accordance with (IAW) GCSS-MC User Manual 4000-125, Vol 3.
+        \\fi
+    \\end{enumerate}
+    %
+    % Mandated spacing: two blank lines before OFFICIAL, four between it and
+    % the printed name, two before DISTRIBUTION.
+    \\par\\vspace{24pt}%
+    \\noindent\\uline{OFFICIAL}
+    % An I-Type must be digitally signed. The field is placed inside the four
+    % mandated blank lines between OFFICIAL and the printed name, which is
+    % exactly the room the template leaves for it.
+    \\ifHasDigitalSigField
+        \\par\\hypertarget{DIGSIG_FIELD_MARKER}{}\\vspace{48pt}
+    \\else
+        \\par\\vspace{48pt}%
+    \\fi
+    \\noindent\\dondocsReferenceAnchor{itype.signature}%
+    \\ifNotEmptyElse{\\SignatoryAbbrev}{\\MakeUppercase{\\SignatoryAbbrev}\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
+    \\optionalLine{\\SignatoryTitle}%
+    \\optionalLine{\\ControllingOffice}%
+    \\par\\vspace{24pt}%
+    \\noindent DISTRIBUTION: EDO
+    \\par\\newpage\\endgroup
+}
+
+
+%=============================================================================
+%                        NO CLOSING SIGNATURE
+%=============================================================================
+% The publication is authenticated on its front matter above. main.tex calls
+% this after the body, where a letter signs off; an I-Type has nothing to add.
+
+\\newcommand{\\printSignature}{}
+
+
+%=============================================================================
+%                              PAGE STYLE
+%=============================================================================
+% The I-Type detail specification controls page-number placement (3.1.6).
+
+% The cover footer carries the CUI designation block and the notices that
+% travel with the publication. Every line of it is regulatory text the author
+% must not retype: the destruction notice is fixed, the distribution statement
+% comes from the letter chosen, and the export warning appears only when the
+% technical data is restricted -- between the statement and the notice, as the
+% template places it.
+\\newcommand{\\printCoverFooter}{%
+    \\begingroup\\footnotesize
+    % Bottom-aligned: a centred minipage carries half its height as depth,
+    % which the page builder does not count, so the block overhung the page
+    % bottom by that much and its last lines were cut off.
+    \\begin{minipage}[b]{\\textwidth}
+        \\raggedright
+        \\ifClassifiedEnabled
+            \\noindent Classified By: \\ClassifiedBy\\\\
+            \\ifdefstring{\\ITypeClassificationBasis}{original}{%
+                Reason: \\ClassificationReason\\\\
+            }{%
+                Derived From: \\DerivedFrom\\\\
+            }%
+            Declassify On: \\DeclassifyOn\\par\\vspace{6pt}%
+        \\fi
+        \\ifCUIEnabled
+            \\noindent\\hfill\\begin{minipage}{0.65\\textwidth}\\raggedright
+            Controlled by: \\CUIControlledBy\\ifNotEmpty{\\ControllingOffice}{, \\ControllingOffice}\\\\
+            CUI Category: \\CUICategory\\\\
+            Distribution Statement: \\CUIDistStatement%
+            \\ifNotEmpty{\\POCEmail}{\\\\\\printPOCLine}\\par
+            \\end{minipage}\\par\\vspace{6pt}
+        \\fi
+        \\ifNotEmpty{\\Supersedure}{\\noindent\\Supersedure\\par\\vspace{6pt}}%
+        \\ifNotEmpty{\\DistStatementFull}{\\noindent\\DistStatementFull\\par\\vspace{6pt}}%
+        % One blank line above and below the warning, as the template places it.
+        \\ifExportRestricted
+            \\vspace{6pt}\\noindent
+            WARNING: This document contains technical data whose export is
+            restricted by the Arms Export Control Act (Section 2751 of Title
+            22, United States Code) or the Export Control Reform Act of 2018
+            (Chapter 58 Sections 4801-4852 of Title 50, United States Code).
+            Violations of these export laws are subject to severe criminal
+            penalties. Disseminate in accordance with provisions of DoD
+            Directive 5230.25 and DoD Instruction 2040.02.\\par\\vspace{12pt}
+        \\fi
+        \\ifNotEmpty{\\ITypeDestructionNotice}{\\noindent\\ITypeDestructionNotice}%
+        \\par\\vspace{6pt}%
+        {\\raggedleft\\ifNotEmpty{\\PCN}{PCN \\PCN\\\\}%
+        \\fontsize{12}{12}\\selectfont\\bfseries\\thepage\\par}%
+    \\end{minipage}%
+    \\endgroup
+}
+
+% The four cover header lines. The long title is guarded: a fresh document
+% has no subject yet, and a bare \\\\ on an empty line is a fatal error that
+% would kill the preview before the first keystroke.
+% #1 stands in for the classification marking: the marking itself in the
+% header, a strut when the head is being measured. The marking is a
+% textblock*, which is absolutely positioned and so contributes no height --
+% but the line break after it does, which is why the measurement needs it.
+\\newbox\\dondocsTitleBox
+\\newcommand{\\dondocsCoverBannerLines}[1]{%
+    % The marking line exists only when there is a marking. An unclassified
+    % document expands the macro to nothing, and a line break with nothing
+    % before it is fatal.
+    \\footnotesize
+    \\ifClassificationEnabled\\strut#1\\\\[4pt]\\fi
+    % Date left, short title right, on the first line -- a fancyhdr side
+    % cell would sit on the last line instead.
+    \\makebox[\\textwidth]{\\CoverDate\\hfill\\ShortTitle}\\\\
+    U.S. MARINE CORPS \\MakeUppercase{\\PublicationTypeName}\\\\
+    \\ifNotEmpty{\\SubjectLine}{%
+      \\setbox\\dondocsTitleBox=\\vbox{\\hsize=\\textwidth\\centering
+        \\MakeUppercase{\\SubjectLine}\\par
+        \\ifnum\\prevgraf>4\\relax
+          \\errmessage{I-Type long title exceeds four lines. Shorten the title}%
+        \\fi}%
+      \\MakeUppercase{\\SubjectLine}\\\\}%
+    \\MakeUppercase{\\TimeCompliance}%
+}
+
+\\newcommand{\\printCoverBanner}{\\dondocsCoverBannerLines{\\placeClassificationMarkings}}
+
+% The banner is as tall as its long title wraps, and the template permits four
+% title lines. A fixed head was 21pt short of that with a CUI marking and the
+% overflow printed across the Marine Corps seal, so measure it. LaTeX sets the
+% text block below the head, so the cover's body moves down with it.
+\\newsavebox{\\dondocsCoverHead}
+\\newcommand{\\dondocsMeasureCoverHead}{%
+    \\sbox{\\dondocsCoverHead}{\\parbox{\\textwidth}{\\centering\\dondocsCoverBannerLines{\\strut}}}%
+    \\setlength{\\headheight}{\\dimexpr\\ht\\dondocsCoverHead+\\dp\\dondocsCoverHead+2pt\\relax}%
+}
+
+% An appendix starts on a fresh page, numbered A-1, A-2 in the footer, with
+% its letter and title centred above the text (MIL-STD-38784C 4.7.4.1.4).
+\\newcommand{\\dondocsAppendixNavigation}{}
+\\newcommand{\\startAppendix}[2]{%
+    \\clearpage
+    \\setcounter{page}{1}%
+    \\renewcommand{\\thepage}{#1-\\arabic{page}}%
+    \\dondocsAppendixNavigation
+    \\begin{center}
+        \\textbf{APPENDIX #1}\\\\[6pt]
+        \\textbf{\\MakeUppercase{#2}}
+    \\end{center}
+    \\vspace{12pt}%
+}
+
+% Page one is the cover; main.tex applies \`firstpage\`, so that is the cover.
+\\fancypagestyle{firstpage}{%
+    \\fancyhf{}%
+    \\fancyhead[C]{\\printCoverBanner}%
+    \\fancyfoot[C]{}%
+    \\renewcommand{\\headrulewidth}{0pt}%
+    \\renewcommand{\\footrulewidth}{0pt}%
+    \\dondocsMeasureCoverHead
+}
+
+% The detail specification places short titles at the outer edge (3.3.1.3).
+\\newcommand{\\dondocsRunningTitle}{%
+    \\ifodd\\value{page}%
+        \\makebox[\\textwidth][r]{\\footnotesize\\bfseries\\ShortTitle}%
+    \\else
+        \\makebox[\\textwidth][l]{\\footnotesize\\bfseries\\ShortTitle}%
+    \\fi
+}
+\\newcommand{\\dondocsPageNumber}{%
+    \\ifodd\\value{page}%
+        \\makebox[\\textwidth][r]{\\bfseries\\thepage}%
+    \\else
+        \\makebox[\\textwidth][l]{\\bfseries\\thepage}%
+    \\fi
+}
+
+\\fancypagestyle{authpage}{%
+    \\fancyhf{}%
+    \\fancyhead[C]{\\placeClassificationMarkings\\dondocsRunningTitle}%
+    \\fancyfoot[C]{\\dondocsPageNumber}%
+    \\renewcommand{\\headrulewidth}{0pt}%
+    \\renewcommand{\\footrulewidth}{0pt}%
+    \\setlength{\\headheight}{26pt}%
+}
+
+% Appendix numbering restarts the page counter, including header parity.
+\\fancypagestyle{documentpage}{%
+    \\fancyhf{}%
+    \\fancyhead[C]{\\placeClassificationMarkings\\dondocsRunningTitle}%
+    \\fancyfoot[C]{\\dondocsPageNumber}%
+    \\renewcommand{\\headrulewidth}{0pt}%
+    \\renewcommand{\\footrulewidth}{0pt}%
+    \\setlength{\\headheight}{26pt}%
+}
+
+
+\\newsavebox{\\dondocsReferenceBox}
+\\newcommand{\\dondocsReferenceLink}[2]{%
+  \\sbox{\\dondocsReferenceBox}{\\textcolor{blue}{\\uline{#2}}}%
+  \\leavevmode\\pdfannot width \\wd\\dondocsReferenceBox height \\ht\\dondocsReferenceBox depth \\dp\\dondocsReferenceBox
+    {/Subtype /Link /Border [0 0 0] /A << /S /GoTo /D (#1) >>}%
+  \\usebox{\\dondocsReferenceBox}%
+}
+\\newcommand{\\dondocsExternalLink}[2]{%
+  \\sbox{\\dondocsReferenceBox}{\\textcolor{blue}{\\uline{#2}}}%
+  \\ifdim\\wd\\dondocsReferenceBox>\\linewidth
+    \\errmessage{Publication reference URL exceeds the line width}%
+  \\fi
+  \\pdfstringdef\\dondocsReferenceURL{#1}%
+  \\leavevmode\\pdfannot width \\wd\\dondocsReferenceBox height \\ht\\dondocsReferenceBox depth \\dp\\dondocsReferenceBox
+    {/Subtype /Link /Border [0 0 0] /A << /S /URI /URI (\\dondocsReferenceURL) >>}%
+  \\usebox{\\dondocsReferenceBox}%
+}
+
+\\newcommand{\\dondocsReferenceAnchor}[1]{%
+  \\hypertarget{#1}{}%
+  \\pdfannot width 0pt height 0pt depth 0pt {/Subtype /Link /Border [0 0 0] /NM (#1)}%
+}
+
+\\newcommand{\\dondocsBookmark}[3]{%
+  \\hypertarget{#3}{}%
+  \\pdfannot width 0pt height 0pt depth 0pt {/Subtype /Link /Border [0 0 0] /NM (#3)}%
+  \\begingroup
+    \\pdfstringdef\\dondocsBookmarkTitle{#2}%
+    \\pdfoutline goto name {#3} count #1 {\\dondocsBookmarkTitle}%
+  \\endgroup
+}
+
+% Reserve a measured block and the first lines of the content it introduces.
+\\newcommand{\\dondocsNeedspace}[1]{%
+  \\par
+  \\ifdim\\dimexpr#1\\relax>\\textheight
+    \\PackageError{I-Type}{A heading or safety group is too tall for one page}{Shorten or divide the group before export.}%
+  \\fi
+  \\ifdim\\pagegoal<\\maxdimen
+    \\ifdim\\dimexpr\\pagegoal-\\pagetotal\\relax<\\dimexpr#1\\relax
+      \\newpage
+    \\fi
+  \\fi
+}
+\\newsavebox{\\dondocsSafetyGroup}
+\\newsavebox{\\dondocsTableStart}
+\\newsavebox{\\dondocsTableGroup}
 `,
   'tex/templates/information_memorandum.tex': `
 %=============================================================================

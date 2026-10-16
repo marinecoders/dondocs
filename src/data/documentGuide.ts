@@ -519,6 +519,31 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     ],
     reference: 'MCO P1070.12K',
   },
+  // TECHNICAL PUBLICATIONS
+  {
+    id: 'i_type',
+    name: 'I-Type Instruction (MI/SI/TI/LI)',
+    category: 'Technical Publications',
+    summary: 'A Marine Corps technical publication that directs a modification, supply, technical, or lubrication action on fielded equipment. A directive to the fleet rather than correspondence: it is authenticated on its front matter and identified by a PCN.',
+    whenToUse: [
+      'A Modification Instruction (MI) directing a change to equipment already fielded',
+      'A Supply Instruction (SI), Technical Instruction (TI), or Lubrication Instruction (LI) on that equipment',
+      'Any instruction MARCORSYSCOM issues under a Publication Control Number',
+    ],
+    keyFeatures: [
+      'Cover with the Marine Corps seal, nomenclature, and the six-row End Item table',
+      'Authentication page with the fixed safety and feedback paragraphs, OFFICIAL, and DISTRIBUTION: EDO',
+      'The thirteen fixed paragraph titles, with the parts tables their paragraphs carry',
+      'WARNING, CAUTION, and NOTE callouts; blocked procedural steps; figures; lettered appendices',
+      'Distribution statement, CUI markings, and export warning per DoDI 5230.24',
+    ],
+    commonExamples: [
+      'Installing an accessory rail on a fielded rifle',
+      'A kit retrofit across a family of trailers',
+      'A lubrication schedule change for a vehicle',
+    ],
+    reference: 'MIL-STD-38784C; MARCORSYSCOM I-Type template',
+  },
 ];
 
 // Top-level guide groups (Correspondence vs Forms)
@@ -537,6 +562,8 @@ export const GUIDE_CATEGORIES = [
   { id: 'Executive', name: 'Executive', description: 'Senior-level correspondence', group: 'correspondence' },
   // Forms categories
   { id: 'Forms', name: 'NAVMC Forms', description: 'Marine Corps forms', group: 'forms' },
+  // Technical publications
+  { id: 'Technical Publications', name: 'Technical Publications', description: 'MIL-STD-38784C technical publications', group: 'correspondence' },
 ];
 
 export function getGuidesByCategory(category: string): DocumentTypeGuide[] {

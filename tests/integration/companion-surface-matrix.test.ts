@@ -18,7 +18,8 @@ import { spawnSync } from 'node:child_process';
 import { loadDefaults } from '../../companion/defaults';
 import type { CompanionDefaults } from '../../companion/letterInput';
 import { renderToFile } from '../../companion/renderToFile';
-import { DOC_TYPES, FORMATS } from '../../companion/validateLetter';
+import { companionPublication } from '../_helpers/companionPublication';
+import { DOC_TYPES, FORMATS, formatsFor } from '../../companion/validateLetter';
 
 /** DOCX needs pandoc; PDF does not. Skipping is honest, silence is not. */
 const hasPandoc = spawnSync('pandoc', ['--version'], { encoding: 'utf-8' }).status === 0;
@@ -40,7 +41,7 @@ afterAll(async () => {
   if (root) { await rm(root, { recursive: true, force: true }); }
 });
 
-const MATRIX = DOC_TYPES.flatMap((docType) => FORMATS.map((format) => [docType, format] as const));
+const MATRIX = DOC_TYPES.flatMap((docType) => formatsFor(docType).map((format) => [docType, format] as const));
 
 describe('the advertised surface', () => {
   it('advertises at least one docType and one format', () => {
@@ -56,7 +57,7 @@ describe('the advertised surface', () => {
     }
 
     const file = await renderToFile(
-      {
+      docType === 'i_type' ? companionPublication() : {
         docType,
         format: format as 'pdf' | 'docx',
         out: `${docType}.${format}`,

@@ -11,10 +11,11 @@ const inlineFile = z.object({ name: z.string(), size: z.number(), data: z.string
 const shape = z.object({
   formData: z.record(z.string(), z.unknown()),
   enclosures: z.array(z.object({ file: inlineFile.nullish(), fileRef: ref.optional() }).passthrough()),
+  paragraphs: z.array(z.object({ figure: z.object({ data: z.string().optional(), fileRef: ref.optional(), name: z.string().optional(), type: z.string().optional() }).passthrough().optional() }).passthrough()),
   forms: z.object({ navmc10274: z.record(z.string(), z.unknown()).optional(), navmc11811: z.record(z.string(), z.unknown()).optional() }).passthrough().optional(),
 }).passthrough();
 type InlineFile = z.infer<typeof inlineFile>;
-export interface ReviewedDraft { session: SerializedSession; files: Array<Enclosure['file']>; basicLetter?: NonNullable<Enclosure['file']> }
+export interface ReviewedDraft { session: SerializedSession; files: Array<Enclosure['file']>; figures: Array<Enclosure['file']>; basicLetter?: NonNullable<Enclosure['file']> }
 const decode = (file: InlineFile): NonNullable<Enclosure['file']> => {
   const bytes = base64ToUint8Array(file.data);
   return { name: file.name, size: bytes.byteLength, data: bytes.buffer as ArrayBuffer };
@@ -36,7 +37,12 @@ export function parseDraftFile(value: unknown, localHandles = false): ReviewedDr
   });
   if (localHandles && raw.formData.basicLetterFileRef) session.formData.basicLetterFileRef = ref.parse(raw.formData.basicLetterFileRef);
   const basicLetter = raw.formData.basicLetterFile ? decode(inlineFile.parse(raw.formData.basicLetterFile)) : undefined;
-  return { session, files, basicLetter };
+  const figures = raw.paragraphs.map((paragraph, index) => {
+    const figure = paragraph.figure;
+    if (localHandles && figure?.fileRef && session.paragraphs[index].figure) session.paragraphs[index].figure!.fileRef = figure.fileRef;
+    return figure?.data ? decode({ name: figure.name ?? 'figure', size: 0, data: figure.data }) : undefined;
+  });
+  return { session, files, figures, basicLetter };
 }
 
 /** A portable copy of only the active document, including binary attachments. */
@@ -54,5 +60,11 @@ export async function buildDraftFile(): Promise<unknown> {
     return { ...text, file: await pack(live.enclosures[index]?.file, fileRef) };
   }));
   const { basicLetterFileRef, ...formData } = session.formData;
-  return { version: '1.1', ...session, enclosures, formData: { ...formData, basicLetterFile: await pack(live.formData.basicLetterFile, basicLetterFileRef) } };
+  const paragraphs = await Promise.all(session.paragraphs.map(async (paragraph) => {
+    if (!paragraph.figure) return paragraph;
+    const { fileRef, ...figure } = paragraph.figure;
+    const packed = await pack(undefined, fileRef);
+    return { ...paragraph, figure: { ...figure, data: packed?.data } };
+  }));
+  return { version: '1.1', ...session, paragraphs, enclosures, formData: { ...formData, basicLetterFile: await pack(live.formData.basicLetterFile, basicLetterFileRef) } };
 }

@@ -48,6 +48,7 @@ import { useLogStore } from '@/stores/logStore';
 import { useTourStore } from '@/stores/tourStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { safeReportUrl, BUG_REPORT_PRIVACY_NOTICE, BUG_REPORT_LOG_PROMPT } from '@/lib/bugReport';
+import { DOC_TYPE_CONFIG } from '@/types/document';
 
 interface HeaderProps {
   onDownloadPdf?: () => void;
@@ -309,6 +310,9 @@ export function Header({
     }
   }, [hasVariables, setBatchModalOpen, onDownloadPdf]);
 
+  const docType = useDocumentStore((s) => s.docType);
+  const pdfOnly = !!DOC_TYPE_CONFIG[docType]?.pdfOnly;
+
   const handleSaveProgress = useCallback(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(getSerializedSession()));
@@ -387,6 +391,12 @@ export function Header({
     setOpeningDraft(true);
     try {
       const session = structuredClone(reviewedDraft.session);
+      for (const [index, file] of reviewedDraft.figures.entries()) {
+        if (file) {
+          const figure = session.paragraphs[index].figure!;
+          figure.fileRef = await persistAttachment({ name: file.name, size: file.size, type: figure.type ?? 'image/png' }, file.data);
+        }
+      }
       if (reviewedDraft.basicLetter) {
         const file = reviewedDraft.basicLetter;
         session.formData.basicLetterFileRef = await persistAttachment({ name: file.name, size: file.size, type: 'application/pdf' }, file.data);
@@ -737,8 +747,9 @@ export function Header({
                   <DropdownMenuShortcut>{formatShortcut('mod D')}</DropdownMenuShortcut>
                 )}
               </DropdownMenuItem>
-              {/* LaTeX and DOCX only available for correspondence */}
-              {!isFormsMode && (
+              {/* LaTeX and DOCX only available for correspondence; publication
+                  types are delivered as PDF and offer no DOCX at all. */}
+              {!isFormsMode && !pdfOnly && (
                 <>
                   <DropdownMenuItem
                     onClick={onDownloadDocx}

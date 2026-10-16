@@ -44,6 +44,7 @@ export function DocumentTypeSelector() {
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
   const isCompliant = documentMode === 'compliant';
   const isCorrespondence = documentCategory === 'correspondence';
+  const isPublication = isCorrespondence && docType === 'i_type';
 
   return (
     <div className="space-y-density-4">
@@ -55,9 +56,9 @@ export function DocumentTypeSelector() {
         <HelpTip>
           <p className="font-medium mb-1">Document Type</p>
           <p className="text-xs">
-            DonDocs builds Marine correspondence (letters, memos) and NAVMC
-            forms. The editor reconfigures its sections per category and type,
-            per SECNAV M-5216.5 / MCO 5216.19A.
+            {isPublication
+              ? 'I-Type publications follow MIL-DTL-28999D(MC), with MIL-STD-38784C for general style and format.'
+              : 'DonDocs builds Marine correspondence (letters, memos) and NAVMC forms. The editor reconfigures its sections per category and type, per SECNAV M-5216.5 / MCO 5216.19A.'}
           </p>
         </HelpTip>
       </h3>
@@ -125,7 +126,9 @@ export function DocumentTypeSelector() {
           </Tabs>
           <p className="text-xs text-muted-foreground">
             {isCompliant
-              ? 'Strictly adheres to SECNAV M-5216.5 formatting requirements.'
+              ? isPublication
+                ? 'Formats I-Type publications for compliance with MIL-DTL-28999D(MC) and MIL-STD-38784C.'
+                : 'Strictly adheres to SECNAV M-5216.5 formatting requirements.'
               : 'Customize fonts and formatting to your preferences.'}
           </p>
         </div>
@@ -153,7 +156,7 @@ export function DocumentTypeSelector() {
                 </SelectContent>
               </Select>
               <p className="text-xs text-muted-foreground">
-                SECNAV M-5216.5 {config.regulations.ref} permits{' '}
+                {config.regulations.authority ?? 'SECNAV M-5216.5'} {config.regulations.ref} permits{' '}
                 {config.regulations.fontSizeOptions.join(' / ')}.
               </p>
             </div>
@@ -168,7 +171,7 @@ export function DocumentTypeSelector() {
             <div className="border-l-2 border-border pl-3 text-xs">
               <div className="flex items-center gap-2 mb-2">
                 <Badge variant="outline" className="text-xs">
-                  SECNAV M-5216.5 {config.regulations.ref}
+                  {config.regulations.authority ?? 'SECNAV M-5216.5'} {config.regulations.ref}
                 </Badge>
               </div>
               <div className="text-muted-foreground space-y-0.5">

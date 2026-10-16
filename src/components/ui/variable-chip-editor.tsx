@@ -1,3 +1,4 @@
+import { publicationReferences, referenceName } from '@/lib/publicationReferences';
 import { useEditor, EditorContent, ReactRenderer } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
@@ -53,6 +54,7 @@ export function rescanDocumentVariables() {
 
 // Add a custom variable to the store (for immediate suggestion)
 export function addCustomVariable(name: string) {
+  if (name.startsWith('PUBREF_')) return;
   const upperName = name.toUpperCase();
   const defaultNames: Set<string> = new Set(BATCH_PLACEHOLDERS.map(p => p.name));
   if (!defaultNames.has(upperName)) {
@@ -62,7 +64,7 @@ export function addCustomVariable(name: string) {
 
 // Get all custom variables as VariableItems
 function getCustomVariables(): VariableItem[] {
-  return Array.from(customVariablesStore).map(name => ({
+  return Array.from(customVariablesStore).filter((name) => !name.startsWith('PUBREF_')).map(name => ({
     name,
     label: name.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase()),
     category: 'Custom',
@@ -70,14 +72,18 @@ function getCustomVariables(): VariableItem[] {
   }));
 }
 
-// Cross-references to the current document's references and enclosures. Selecting
-// one inserts the literal "reference (a)" / "enclosure (1)" text the letter uses
-// — no token, no pipeline change. Empty in forms mode (those live in formStore),
-// so the @ menu naturally scopes these to correspondence.
+// Correspondence references insert text; publication references retain a target ID.
 function getCrossReferenceItems(): VariableItem[] {
   const items: VariableItem[] = [];
   try {
-    const { references, enclosures } = useDocumentStore.getState();
+    const { references, enclosures, paragraphs, publicationTables, docType } = useDocumentStore.getState();
+    if (docType === 'i_type') {
+      items.push(...publicationReferences(paragraphs, publicationTables).map((r) => ({
+        name: r.name, label: r.label, category: 'Cross-reference',
+        example: paragraphs[r.index].header || paragraphs[r.index].text.slice(0, 36),
+        publicationTarget: { index: r.index, kind: r.kind, note: r.note },
+      })));
+    }
     references.forEach((r, i) => {
       const letter = r.letter || String.fromCharCode(97 + i);
       items.push({
@@ -175,6 +181,7 @@ interface VariableItem {
   /** When set, picking this item inserts this literal text instead of a
    *  resolving variable chip (used for reference/enclosure cross-refs). */
   insertText?: string;
+  publicationTarget?: { index: number; kind: string; note?: string };
 }
 
 // Per-item icon for the @ insert menu — gives each row a glyph (icon + name +
@@ -253,7 +260,14 @@ const VariableNode = Node.create({
       span.appendChild(at);
       span.appendChild(document.createTextNode(node.attrs.label || node.attrs.name));
 
-      return { dom: span };
+      const refreshReference = () => {
+        if (!String(node.attrs.name).startsWith('PUBREF_')) return;
+        const target = getCrossReferenceItems().find((item) => item.name === node.attrs.name);
+        span.lastChild!.textContent = target?.label ?? 'Missing reference';
+      };
+      refreshReference();
+      const unsubscribe = String(node.attrs.name).startsWith('PUBREF_') ? useDocumentStore.subscribe(refreshReference) : undefined;
+      return { dom: span, destroy: () => unsubscribe?.() };
     };
   },
 });
@@ -443,7 +457,7 @@ const VariableExtension = VariableNode.extend({
           const customVars = getCustomVariables();
           const allVars: VariableItem[] = [
             ...getDocFieldItems(),
-            ...getCrossReferenceItems(),
+            ...getCrossReferenceItems().filter((item) => item.publicationTarget?.kind !== 'N'),
             ...customVars,
             ...BATCH_PLACEHOLDERS.map(p => ({ ...p })),
           ];
@@ -471,6 +485,19 @@ const VariableExtension = VariableNode.extend({
         command: ({ editor, range, props }) => {
           // Cross-reference items insert literal text ("reference (a)"), not a
           // resolving variable chip.
+          if (props.publicationTarget) {
+            const { index, kind, note } = props.publicationTarget;
+            const state = useDocumentStore.getState();
+            const target = state.paragraphs[index];
+            if (!target) return;
+            const id = target.referenceId ?? crypto.randomUUID().replace(/-/g, '').toUpperCase();
+            if (!target.referenceId) state.updateParagraph(index, { referenceId: id });
+            editor.chain().focus().deleteRange(range).insertContent([
+              { type: 'variable', attrs: { name: referenceName(kind, id, note), label: props.label } },
+              { type: 'text', text: ' ' },
+            ]).run();
+            return;
+          }
           if (props.insertText) {
             editor.chain().focus().deleteRange(range).insertContent(`${props.insertText} `).run();
             return;
@@ -552,7 +579,7 @@ import {
 
 const editorToText = editorToTextPure;
 const textToEditorHtml = (text: string) =>
-  textToEditorHtmlPure(text, { getCustomVariables, addCustomVariable });
+  textToEditorHtmlPure(text, { getCustomVariables: () => [...getCustomVariables(), ...getCrossReferenceItems()], addCustomVariable });
 
 // Formatting toolbar for the editor
 interface EditorToolbarProps {

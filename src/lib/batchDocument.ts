@@ -22,6 +22,7 @@ export async function prepareBatchCorrespondence(session: SerializedSession, val
   })));
   return {
     docType: session.docType, formData, enclosures,
+    endItems: session.endItems ?? [], publicationTables: session.publicationTables ?? {},
     paragraphs: session.paragraphs.map((p) => ({ ...p, text: replacePlaceholders(p.text, values), header: p.header ? replacePlaceholders(p.header, values) : undefined })),
     references: session.references.map((r) => ({ ...r, title: replacePlaceholders(r.title, values), url: r.url ? replacePlaceholders(r.url, values) : undefined })),
     copyTos: session.copyTos.map((c) => ({ ...c, text: replacePlaceholders(c.text, values) })),

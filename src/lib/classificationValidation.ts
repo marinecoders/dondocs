@@ -85,9 +85,8 @@ export function validateClassificationMarkings(
     });
   }
 
-  // 2. A classified/CUI banner with no portion markings at all. Classified and
-  //    CUI documents must be portion-marked.
-  if (banner >= 1 && marked.length === 0) {
+  // Classified documents require portion markings; they are optional for CUI.
+  if (banner >= 2 && marked.length === 0) {
     findings.push({
       severity: 'warning',
       message: `This document is marked ${bannerLabel(classLevel)} but no paragraphs carry a portion marking. Mark each paragraph with its classification.`,
@@ -123,4 +122,53 @@ export function validateClassificationMarkings(
   }
 
   return findings;
+}
+
+
+import { DISTRIBUTION_STATEMENTS_BY_REASON } from '@/data/techpub/distributionStatements';
+
+export function distributionAccess(statement: string): 'Public release' | 'Restricted distribution' | null {
+  const letter = statement.trim().toUpperCase();
+  if (letter === 'A') return 'Public release';
+  return ['B', 'C', 'D', 'E', 'F'].includes(letter) ? 'Restricted distribution' : null;
+}
+
+/** DoDI 5230.24: distribution restrictions do not establish a CUI designation. */
+export function validateDistributionStatement(classLevel: string, statement: string | undefined): ClassificationFinding[] {
+  return distributionAccess(statement ?? '') === 'Public release' && bannerRank(classLevel) > 0
+    ? [{ severity: 'warning', message: `Distribution Statement A requires public release approval and conflicts with the ${bannerLabel(classLevel)} marking. Resolve the release determination.` }]
+    : [];
+}
+
+/**
+ * Statements B through F are not complete as a letter: the template's own
+ * wording carries "(category) (date of determination)" and names the
+ * controlling DoD office, and says the author fills them in. Names what is
+ * still missing. Advisory.
+ */
+export function validateDistributionFillIns(
+  distributionStatement: string | undefined,
+  fill: { reason?: string; date?: string; office?: string }
+): ClassificationFinding[] {
+  const letter = (distributionStatement ?? '').trim().charAt(0).toUpperCase();
+  if (!['B', 'C', 'D', 'E', 'F'].includes(letter)) return [];
+  const missing: string[] = [];
+  if (letter !== 'F' && !fill.reason?.trim()) missing.push('a reason');
+  if (!fill.date?.trim()) missing.push('a date of determination');
+  if (!fill.office?.trim()) missing.push('the controlling office (on the Cover)');
+  if (missing.length === 0) return [];
+  const list = missing.length === 1 ? missing[0] : `${missing.slice(0, -1).join(', ')} and ${missing[missing.length - 1]}`;
+  return [{ severity: 'warning', message: `Distribution Statement ${letter} still needs ${list}.` }];
+}
+
+/** DoDI 5230.24 pairs each reason with the statements it may go with. */
+export function validateReasonForStatement(distributionStatement: string | undefined, reason: string | undefined): ClassificationFinding[] {
+  const letter = (distributionStatement ?? '').trim().charAt(0).toUpperCase();
+  const chosen = reason?.trim();
+  if (!chosen || !['B', 'C', 'D', 'E'].includes(letter)) return [];
+  const allowed = DISTRIBUTION_STATEMENTS_BY_REASON[chosen];
+  if (!allowed) return [{ severity: 'warning', message: `"${chosen}" is not a reason DoDI 5230.24 lists; choose one of its reasons.` }];
+  return allowed.includes(letter)
+    ? []
+    : [{ severity: 'warning', message: `${chosen} goes with Statement ${allowed.join(' or ')}, not ${letter}.` }];
 }

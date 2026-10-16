@@ -1,0 +1,70 @@
+// @vitest-environment happy-dom
+import { describe, it, expect, beforeEach } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { PublicationTablesSection } from '@/components/editor/PublicationTablesSection';
+import { useDocumentStore } from '@/stores/documentStore';
+
+const withParagraph = (tableKey: string, header: string) =>
+  useDocumentStore.setState({
+    paragraphs: [{ text: '', level: 0, header, tableKey }],
+    publicationTables: {},
+  });
+
+beforeEach(() => useDocumentStore.setState({ paragraphs: [], publicationTables: {} }));
+
+describe('PublicationTablesSection', () => {
+  it('edits and restores a software-version table without reinterpreting an NSN', () => {
+    withParagraph('majorItems', 'Major Items Affected');
+    render(<PublicationTablesSection />);
+    fireEvent.click(screen.getByRole('button', { name: /add row/i }));
+    fireEvent.change(screen.getByLabelText('Identifier mode, Major Items Affected'), { target: { value: 'software' } });
+    fireEvent.change(screen.getByLabelText('Current Software/Firmware (S/F) Version, Major Items Affected row 1'), { target: { value: 'v2.4.1' } });
+    const snapshot = JSON.parse(JSON.stringify(useDocumentStore.getState().getSnapshot()));
+    useDocumentStore.getState().applySnapshot(snapshot);
+    expect(useDocumentStore.getState().paragraphs[0].tableIdentifierMode).toBe('software');
+    expect(useDocumentStore.getState().publicationTables.majorItems[0].values).toMatchObject({ softwareVersion: 'v2.4.1' });
+  });
+  it('inserts a footnote without exposing the stored reference token in the cell', () => {
+    useDocumentStore.setState({ paragraphs: [{ text: '', level: 0, header: 'Materiel Required', tableKey: 'materielRequired', tableFootnotes: [{ id: '1', text: 'Quantity per assembly.' }] }], publicationTables: { materielRequired: [{ values: { description: 'BOLT' } }] } });
+    render(<PublicationTablesSection />);
+    fireEvent.change(screen.getByLabelText('Add footnote to Description, Materiel Required row 1'), { target: { value: '1' } });
+    const state = useDocumentStore.getState();
+    expect(state.publicationTables.materielRequired[0].values.description).toBe(`BOLT{{PUBREF_N_${state.paragraphs[0].referenceId}_1}}`);
+    expect(screen.getByLabelText('Description, Materiel Required row 1')).toHaveValue('BOLT');
+    fireEvent.click(screen.getByLabelText('Remove footnote 1 from Description, Materiel Required row 1'));
+    expect(useDocumentStore.getState().publicationTables.materielRequired[0].values.description).toBe('BOLT');
+  });
+  it('shows only the tables the paragraphs carry', () => {
+    withParagraph('materielRequired', 'Materiel Required');
+    render(<PublicationTablesSection />);
+    expect(screen.getByText('Materiel Required')).toBeTruthy();
+    expect(screen.queryByText('Special Tools')).toBeNull();
+  });
+
+  it('adds a row using the table’s own columns', () => {
+    withParagraph('majorItems', 'Major Items Affected');
+    render(<PublicationTablesSection />);
+    fireEvent.click(screen.getByRole('button', { name: /add row/i }));
+    // Major Items has TAMCN; the materiel shape does not.
+    fireEvent.change(screen.getByLabelText(/TAMCN, Major Items Affected row 1/i), { target: { value: 'A02557G' } });
+    expect(useDocumentStore.getState().publicationTables.majorItems[0].values.tamcn).toBe('A02557G');
+  });
+
+  it('nests a consisting-of row and stops at the second level', () => {
+    withParagraph('materielRequired', 'Materiel Required');
+    render(<PublicationTablesSection />);
+    fireEvent.click(screen.getByRole('button', { name: /add row/i }));
+    const indent = screen.getByRole('button', { name: /indent row 1/i });
+    fireEvent.click(indent);
+    fireEvent.click(indent);
+    expect(useDocumentStore.getState().publicationTables.materielRequired[0].level).toBe(2);
+    expect(indent).toBeDisabled();
+  });
+
+  it('offers no nesting on a table that does not nest', () => {
+    withParagraph('materielDiscarded', 'Materiel Discarded');
+    render(<PublicationTablesSection />);
+    fireEvent.click(screen.getByRole('button', { name: /add row/i }));
+    expect(screen.queryByRole('button', { name: /indent row/i })).toBeNull();
+  });
+});

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import type { FormSession } from './formStore';
-import type { Reference, Enclosure, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, DocumentCategory, FormType } from '@/types/document';
+import type { Reference, Enclosure, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, DocumentCategory, FormType, EndItem, PublicationTableRow } from '@/types/document';
 
 // Snapshot of document state (only the data parts, not actions)
 export interface DocumentSnapshot {
@@ -15,6 +15,8 @@ export interface DocumentSnapshot {
   paragraphs: Paragraph[];
   copyTos: CopyTo[];
   distributions: Distribution[];
+  endItems: EndItem[];
+  publicationTables: Record<string, PublicationTableRow[]>;
 }
 
 interface HistoryState {
@@ -60,6 +62,10 @@ function cloneSnapshot(snapshot: DocumentSnapshot): DocumentSnapshot {
     paragraphs: snapshot.paragraphs.map(p => ({ ...p })),
     copyTos: snapshot.copyTos.map(c => ({ ...c })),
     distributions: (snapshot.distributions || []).map(d => ({ ...d })),
+    endItems: (snapshot.endItems || []).map(e => ({ ...e })),
+    publicationTables: Object.fromEntries(
+      Object.entries(snapshot.publicationTables || {}).map(([key, rows]) => [key, rows.map(r => ({ ...r, values: { ...r.values } }))]),
+    ),
   };
 }
 

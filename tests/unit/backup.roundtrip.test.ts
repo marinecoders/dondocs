@@ -38,6 +38,8 @@ const session = (over: Partial<SerializedSession> = {}): SerializedSession => ({
   formType: 'navmc_10274',
   formData: {},
   references: [],
+  endItems: [],
+  publicationTables: {},
   enclosures: [],
   paragraphs: [],
   copyTos: [],

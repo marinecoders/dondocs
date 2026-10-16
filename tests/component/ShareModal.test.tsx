@@ -98,7 +98,7 @@ describe('ShareModal — import mode', () => {
     expect(decryptSharePayload).toHaveBeenCalledWith('PAYLOAD', 'hunter2');
     expect(loadSharedSession).not.toHaveBeenCalled();
     await user.click(screen.getByRole('button', { name: 'Open as new document' }));
-    expect(loadSharedSession).toHaveBeenCalledWith(session);
+    expect(loadSharedSession).toHaveBeenCalledWith({ ...session, endItems: [], publicationTables: {} });
     expect(onImportComplete).toHaveBeenCalledTimes(1);
     expect(onOpenChange).toHaveBeenCalledWith(false);
   });

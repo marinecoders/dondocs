@@ -30,6 +30,19 @@ describe('portable draft review', () => {
     expect(JSON.stringify(exported)).not.toContain('Unrelated');
     expect(parseDraftFile(exported).session.forms?.navmc10274?.signatureBlocks[0].image).toContain('YWJj');
   });
+  it('carries technical publication structure and figure bytes without external local handles', async () => {
+    const data = new Uint8Array([1, 2, 3, 4]).buffer;
+    const fileRef = await persistAttachment({ name: 'figure.png', size: 4, type: 'image/png' }, data);
+    useDocumentStore.setState({ docType: 'i_type', endItems: [{ nsn: 'NSN', tamcn: 'T', id: 'I', model: 'M' }], publicationTables: { majorItems: [{ values: { name: 'Example' } }] }, paragraphs: [{ text: 'Figure title', level: 0, procedure: true, figure: { fileRef, name: 'figure.png', type: 'image/png' } }] });
+    const exported = JSON.parse(JSON.stringify(await buildDraftFile()));
+    expect(JSON.stringify(exported)).not.toContain(fileRef.id);
+    const parsed = parseDraftFile(exported);
+    expect(parsed.figures[0]?.data).toEqual(data);
+    expect(parsed.session.paragraphs[0].procedure).toBe(true);
+    expect(parsed.session.paragraphs[0].figure?.fileRef).toBeUndefined();
+    expect(parsed.session.endItems?.[0].model).toBe('M');
+    expect(parsed.session.publicationTables?.majorItems[0].values.name).toBe('Example');
+  });
   it('rejects malformed content before any editor mutation', () => {
     const before = getSerializedSession();
     expect(() => parseDraftFile({ ...before, enclosures: [{ title: 'Broken', file: { name: 'broken.pdf', size: 3, data: {} } }] })).toThrow();

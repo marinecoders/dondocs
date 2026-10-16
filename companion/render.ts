@@ -6,6 +6,10 @@
  * shared with the app. What is here is the host-specific part — start the
  * engine, read the assets off disk.
  */
+import { iTypeExportErrors } from '../src/lib/iTypePreflight';
+import { loadFigureFiles } from '../src/services/latex/figureAssets';
+import { assemblePublicationPdf } from './publicationPdf';
+import { attachment } from './publicationInput';
 import { generateAllLatexFiles } from '@/services/latex/generator';
 import { prepareEngine, compileDocument, LatexCompileError } from '@/services/latex/renderDocument';
 import { createNodeEngine, loadAssets } from './nodeEngine';
@@ -31,6 +35,9 @@ export async function renderPdf(
   defaults: CompanionDefaults = {},
   { signal }: { signal?: AbortSignal } = {},
 ): Promise<Uint8Array> {
+  const store = toStore(input, defaults);
+  const errors = iTypeExportErrors(store);
+  if (errors.length) throw new Error(errors.join('\n'));
   const engine = await createNodeEngine();
   // Abort disposes the engine, which rejects the compile in flight; nothing
   // keeps spinning after the caller has stopped waiting. The signal may have
@@ -39,8 +46,13 @@ export async function renderPdf(
   signal?.addEventListener('abort', () => { void engine.dispose(); }, { once: true });
   try {
     prepareEngine(engine, await loadAssets());
-    const { texFiles } = generateAllLatexFiles(toStore(input, defaults) as never);
-    return await compileDocument(engine, texFiles);
+    const generated = generateAllLatexFiles(store);
+    const files: Record<string, string | Uint8Array> = { ...generated.texFiles };
+    if (input.docType === 'i_type') {
+      await loadFigureFiles(files, generated.figures, async (id) => Buffer.from(attachment(input, id).dataBase64, 'base64'));
+    }
+    const pdf = await compileDocument(engine, files);
+    return input.docType === 'i_type' ? await assemblePublicationPdf(pdf, generated, store) : pdf;
   } catch (err) {
     // Here rather than in each transport: neither front door should have to know
     // what TeX is. `needsReset` keeps its sentinel — that one is matched, not read.

@@ -7,6 +7,7 @@ export function templateSession(template: LetterTemplate, profile: Partial<Docum
   return {
     documentMode: 'compliant', documentCategory: 'correspondence', docType: template.docType, formType: 'navmc_10274',
     formData: { fontSize: '12pt', fontFamily: 'times', pageNumbering: 'none', ...profile, docType: template.docType,
+      ...(template.publicationType ? { publicationType: template.publicationType } : {}),
       subject: template.subject, ...(template.ssic ? { ssic: template.ssic } : {}) },
     paragraphs: structuredClone(template.paragraphs), references: structuredClone(template.references ?? []),
     enclosures: [], copyTos: [], distributions: [], timestamp: Date.now(),

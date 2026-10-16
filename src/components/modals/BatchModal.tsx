@@ -1,3 +1,6 @@
+import { iTypeExportErrors } from '@/lib/iTypePreflight';
+import { loadFigureFiles } from '@/services/latex/figureAssets';
+import { loadAttachment } from '@/lib/attachments';
 import { prepareBatchCorrespondence } from '@/lib/batchDocument';
 import { finishCorrespondencePdf } from '@/services/pdf/finishCorrespondencePdf';
 import { memo, useState, useCallback, useMemo, useEffect, useRef } from 'react';
@@ -432,9 +435,12 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
     // Correspondence mode: use LaTeX compilation, retrying on ENGINE_RESET_NEEDED
     const modifiedStore = await createModifiedStore(values);
+    const errors = iTypeExportErrors(modifiedStore);
+    if (errors.length) throw new Error(errors.join('\n'));
     const generated = generateAllLatexFiles(modifiedStore);
     const files: Record<string, string | Uint8Array> = { ...generated.texFiles };
     if (generated.signatureImage) files['attachments/signature.png'] = generated.signatureImage;
+    await loadFigureFiles(files, generated.figures, loadAttachment);
 
     for (let retryCount = 0; retryCount <= MAX_RETRIES; retryCount++) {
       try {
@@ -442,7 +448,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
         if (!pdf) {
           throw new Error('PDF compilation failed');
         }
-        const finished = await finishCorrespondencePdf(pdf, modifiedStore.docType, modifiedStore.formData, generated);
+        const finished = await finishCorrespondencePdf(pdf, modifiedStore.docType, modifiedStore.formData, generated, modifiedStore.paragraphs);
         if (finished.errors.length) throw new Error(finished.errors.map((error) => `${error.title}: ${error.error}`).join('; '));
         return finished.pdfBytes;
       } catch (err) {

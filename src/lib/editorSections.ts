@@ -1,4 +1,4 @@
-import { Building2, Send, Shield, List, BookOpen, Paperclip, User, Users, Layers, PenLine, Hash, ClipboardList, CornerDownRight, type LucideIcon } from 'lucide-react';
+import { Building2, Send, Shield, List, BookOpen, Paperclip, User, Users, Layers, PenLine, Hash, ClipboardList, CornerDownRight, BookMarked, Table, type LucideIcon } from 'lucide-react';
 import type { DocTypeConfig, FormType } from '@/types/document';
 
 export interface EditorSection {
@@ -32,6 +32,8 @@ export function getEditorSections(config: DocTypeConfig, docType: string): Edito
       signature,
     ];
   }
+
+  if (docType === 'i_type') return [{ id: 'cover', label: 'Cover', icon: BookMarked }, classification, body, { id: 'tables', label: 'Tables', icon: Table }, enclosures, signature];
 
   switch (config.uiMode) {
     case 'moa':

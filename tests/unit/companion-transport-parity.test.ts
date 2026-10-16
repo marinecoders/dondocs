@@ -135,7 +135,7 @@ describe('transport parity', () => {
     // The regression itself: classLevel 'unclassified' renders no banner.
     for (const [door, run] of [['http', throughHttp], ['schema', throughSchema]] as const) {
       const { store } = run(body);
-      const formData = (store as Record<string, Record<string, unknown>>).formData;
+      const formData = (store as unknown as Record<string, Record<string, unknown>>).formData;
       expect(formData.classLevel, `${door} dropped the classification`).toBe('secret');
     }
   });
@@ -143,7 +143,7 @@ describe('transport parity', () => {
   it('carries a custom marking through both doors as its own level', () => {
     const body = { docType: 'naval_letter', subject: 'CAVEAT', paragraphs: [{ text: 'x' }], classification: { custom: 'MY CAVEAT BANNER' } };
     for (const [door, run] of [['http', throughHttp], ['schema', throughSchema]] as const) {
-      const formData = (run(body).store as Record<string, Record<string, unknown>>).formData;
+      const formData = (run(body).store as unknown as Record<string, Record<string, unknown>>).formData;
       expect(formData.classLevel, `${door} lost the custom marking`).toBe('custom');
     }
   });

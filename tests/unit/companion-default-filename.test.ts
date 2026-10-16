@@ -52,3 +52,12 @@ describe('the default filename', () => {
     expect((await readFile(again.path)).toString()).toMatch(/render \d+$/);
   });
 });
+
+it.each(['pdf', 'docx'] as const)('refuses incomplete I-Type %s before rendering or writing', async (format) => {
+  const root = await mkdtemp(join(tmpdir(), 'dondocs-itype-'));
+  const before = n;
+  await expect(renderToFile({ docType: 'i_type', subject: 'TEST', format }, {}, root))
+    .rejects.toThrow('I-Type export requires publication metadata.');
+  expect(n).toBe(before);
+  expect(await readdir(root)).toEqual([]);
+});

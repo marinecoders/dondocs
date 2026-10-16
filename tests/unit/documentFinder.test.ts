@@ -1,13 +1,13 @@
 /**
  * The Document Finder is a branching interview that maps a user's answers to one
  * or more recommended document types. Its whole job is coverage: a clerk who
- * doesn't know what they need must still be steerable to ANY of the 19 types.
+ * doesn't know what they need must still be steerable to ANY of the 20 types.
  *
  * A prior version of the decision tree silently stranded four types —
  * joint_letter, joint_memorandum, navmc_10274, navmc_118_11 — unreachable across
  * all answer combinations. These tests enumerate every reachable answer path
  * (respecting the conditional skips in the flow) and assert that:
- *   - every one of the 19 catalogued types is recommended somewhere,
+ *   - every one of the 20 catalogued types is recommended somewhere,
  *   - the four formerly-dead types each get a high-confidence path,
  *   - every recommended id is real, every leaf returns 1-3 results, and the
  *     first result is always the high-confidence "best match".
@@ -56,8 +56,8 @@ describe('document finder — coverage', () => {
     expect(leaves.length).toBeGreaterThan(50);
   });
 
-  it('the catalogue has all 19 expected types', () => {
-    expect(ALL_IDS).toHaveLength(19);
+  it('the catalogue has all 20 expected types', () => {
+    expect(ALL_IDS).toHaveLength(20);
   });
 
   it('every catalogued document type is reachable', () => {
@@ -92,11 +92,11 @@ describe('document finder — result invariants', () => {
     }
   });
 
-  it('every best-match reason cites a SECNAV chapter or MCO', () => {
+  it('every best-match reason cites a SECNAV chapter, MCO, or MIL-STD', () => {
     // High-confidence picks must justify themselves with doctrine; the medium
     // "alternative" reasons are phrased as guidance ("Use X instead if …").
     for (const r of everyResult.filter((x) => x.confidence === 'high')) {
-      expect(r.reason).toMatch(/^Per (Ch \d+|MCO P1070\.12K):/);
+      expect(r.reason).toMatch(/^Per (Ch \d+|MCO P1070\.12K|MIL-STD-38784C):/);
     }
   });
 });

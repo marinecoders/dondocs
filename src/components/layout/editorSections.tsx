@@ -4,6 +4,8 @@ import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
 import { LetterheadSection } from '@/components/editor/LetterheadSection';
 import { AddressingSection } from '@/components/editor/AddressingSection';
+import { ITypeCoverSection } from '@/components/editor/ITypeCoverSection';
+import { PublicationTablesSection } from '@/components/editor/PublicationTablesSection';
 import { ClassificationSection } from '@/components/editor/ClassificationSection';
 import { SignatureSection } from '@/components/editor/SignatureSection';
 import { ReferencesManager } from '@/components/editor/ReferencesManager';
@@ -235,6 +237,10 @@ export function renderEditorSection(id: string, config: DocTypeConfig): ReactNod
       return <AddressingSection config={config} />;
     case 'basic':
       return <EndorsementBasicLetterSection />;
+    case 'cover':
+      return <ITypeCoverSection />;
+    case 'tables':
+      return <PublicationTablesSection />;
     case 'classification':
       return <ClassificationSection />;
     case 'body':

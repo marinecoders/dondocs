@@ -11,19 +11,15 @@
  * its own unit on every call: the unit is a property of the machine, not of the
  * request.
  */
+import type * as z from 'zod';
+import type { letterSchema, paragraph } from './letterSchema';
+import type { Paragraph } from '../src/types/document';
+import { publicationFields, publicationParagraphs, publicationEnclosures } from './publicationInput';
 import { format } from 'date-fns';
 import { canonicalizeUnitAddress } from '../src/lib/unitAddress';
 import { DOC_TYPE_CONFIG } from '../src/types/document';
 
-export interface ParagraphInput {
-  text: string;
-  /** 0 = "1.", 1 = "a.", 2 = "(1)" … up to Figure 7-8's eight levels. */
-  level?: number;
-  /** Bold run-in heading before the text. */
-  header?: string;
-  /** Printed as "(S) " before the text; the banner rises to the highest mark. */
-  portionMarking?: string;
-}
+export type ParagraphInput = z.infer<typeof paragraph>;
 
 export interface ReferenceInput {
   /** (a), (b) … assigned in order when omitted, which is what a caller expects. */
@@ -51,7 +47,7 @@ export interface UnitInput {
   department?: string;
   /** dow | dod — which seal is drawn. */
   seal?: string;
-  letterheadColor?: string;
+  letterheadColor?: 'blue' | 'black';
 }
 
 export interface SignatureInput {
@@ -75,51 +71,7 @@ export interface PartyInput {
   signature?: { name: string; rank?: string; title?: string };
 }
 
-export interface LetterInput {
-  docType: string;
-  format?: 'pdf' | 'docx';
-  out?: string;
-
-  unit?: UnitInput;
-  ssic?: string;
-  serial?: string;
-  date?: string;
-  /** Maps to the app's `officeCode`, printed on the sender-symbol line with the serial. */
-  originatorCode?: string;
-
-  from?: string;
-  to?: string;
-  /** Each via is its own numbered line; the generator formats them. */
-  via?: string[];
-  subject?: string;
-
-  paragraphs?: ParagraphInput[];
-  references?: ReferenceInput[];
-  enclosures?: EnclosureInput[];
-  copyTo?: string[];
-  distribution?: string[];
-
-  signature?: SignatureInput;
-  classification?: {
-    level?: string; pocEmail?: string; custom?: string;
-    classifiedBy?: string; derivedFrom?: string; declassifyOn?: string; reason?: string;
-    cui?: { category?: string; controlledBy?: string; dissemination?: string; distStatement?: string };
-  };
-  pocEmail?: string;
-
-  /** The two sides of a joint letter, joint memorandum, MOA or MOU. */
-  parties?: { senior: PartyInput; junior: PartyInput; commonLocation?: string };
-  endorsement?: { ordinal: string; basicLetterId: string; includeSubject?: boolean };
-
-  salutation?: string;
-  complimentaryClose?: string;
-  attnLine?: string;
-  throughLine?: string;
-  inReplyTo?: boolean;
-  coordination?: string;
-  preparedBy?: string;
-  pageNumbering?: 'none' | 'simple' | 'xofy';
-}
+export type LetterInput = z.infer<typeof letterSchema>;
 
 /** Defaults for the machine — unit, signer, department. */
 export interface CompanionDefaults {
@@ -152,7 +104,8 @@ function today(docType: string): string {
 }
 
 /** The store shape the generators consume. */
-export type GeneratorStore = Record<string, unknown>;
+type CoreStore = Parameters<typeof import('../src/services/latex/generator').generateAllLatexFiles>[0];
+export type GeneratorStore = Omit<CoreStore, 'formData'> & { formData: CoreStore['formData'] & Record<string, unknown> };
 
 /**
  * The published docType where it differs from the template the generator loads.
@@ -306,22 +259,25 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
 
       fontFamily: 'times',
       fontSize: '12pt',
-      includeHyperlinks: false,
+      includeHyperlinks: input.publication?.includeHyperlinks ?? false,
       showSubjectOnContinuation: true,
+      classificationBasis: input.classification?.basis,
+      ...publicationFields(input),
     },
 
-    paragraphs: (input.paragraphs?.length ? input.paragraphs : [{ text: '', level: 0 }])
-      .map((p) => ({
-        text: p.text, level: p.level ?? 0,
-        ...(p.header ? { header: p.header } : {}),
-        ...(p.portionMarking ? { portionMarking: p.portionMarking } : {}),
-      })),
+    paragraphs: input.docType === 'i_type' ? publicationParagraphs(input) :
+      (input.paragraphs?.length ? input.paragraphs : [{ text: '', level: 0 }])
+        .map((p) => ({ ...p, level: p.level ?? 0 })) as Paragraph[],
+    endItems: input.publication?.endItems ?? [],
+    publicationTables: Object.fromEntries(Object.entries(input.publication?.tables ?? {}).map(([key, rows]) =>
+      [key, rows.map((row) => ({ ...row, values: Object.fromEntries(Object.entries(row.values).filter((entry): entry is [string, string] => entry[1] !== undefined)) }))])),
 
     references: (input.references ?? []).map((r, i) => ({
       letter: r.letter ?? referenceLetter(i),
       title: r.title,
+      ...(r.url ? { url: r.url } : {}),
     })),
-    enclosures: (input.enclosures ?? []).map((e) => ({ title: e.title })),
+    enclosures: input.docType === 'i_type' ? publicationEnclosures(input) : (input.enclosures ?? []).map((e) => ({ title: e.title })),
     copyTos: (input.copyTo ?? []).map((text) => ({ text })),
     distributions: (input.distribution ?? []).map((text) => ({ text })),
   };

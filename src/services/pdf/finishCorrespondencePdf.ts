@@ -1,4 +1,6 @@
-import { DOC_TYPE_CONFIG, type DocumentData } from '@/types/document';
+import { publicationMarking } from '@/lib/publicationMarking';
+import { formatPublicationDate } from '@/lib/publicationDate';
+import { DOC_TYPE_CONFIG, type DocumentData, type Paragraph } from '@/types/document';
 import type { GeneratedFiles } from '@/services/latex/generator';
 import { mergeEnclosures, type ClassificationInfo, type EnclosureError } from './mergeEnclosures';
 import { assembleEndorsement, shouldAssembleBasicLetter } from './assembleEndorsement';
@@ -119,13 +121,13 @@ export function getDualSignatoryConfig(formData: Partial<DocumentData>, uiMode: 
 }
 
 /** The same assembly sequence is used by single downloads and batch results. */
-export async function finishCorrespondencePdf(pdf: Uint8Array, docType: string, formData: Partial<DocumentData>, generated: GeneratedFiles): Promise<{ pdfBytes: Uint8Array; errors: EnclosureError[] }> {
+export async function finishCorrespondencePdf(pdf: Uint8Array, docType: string, formData: Partial<DocumentData>, generated: GeneratedFiles, paragraphs: Paragraph[] = []): Promise<{ pdfBytes: Uint8Array; errors: EnclosureError[] }> {
   const assembled = await assembleBasicLetter(pdf, docType, formData);
   let pdfBytes = assembled.pdfBytes;
   const errors = assembled.error ? [basicLetterError(assembled.error)] : [];
   let lastBasicPageIndex: number | undefined;
   if (generated.enclosures.length || (generated.includeHyperlinks && generated.referenceUrls.length)) {
-    const merged = await mergeEnclosures(pdfBytes, generated.enclosures, getClassificationInfo(formData.classLevel, formData.customClassification), generated.includeHyperlinks, generated.referenceUrls);
+    const merged = await mergeEnclosures(pdfBytes, generated.enclosures, publicationMarking(formData, paragraphs), generated.includeHyperlinks, generated.referenceUrls, { enclosureLabel: DOC_TYPE_CONFIG[docType]?.enclosureLabel, ...(DOC_TYPE_CONFIG[docType]?.enclosureLabel === 'footer' ? { header: { line1: formData.shortTitle || '', line2: formatPublicationDate(formData.date || '') } } : {}) });
     pdfBytes = merged.pdfBytes;
     lastBasicPageIndex = merged.basicPageCount !== undefined ? merged.basicPageCount - 1 : undefined;
     if (merged.hasErrors) errors.push(...merged.errors);

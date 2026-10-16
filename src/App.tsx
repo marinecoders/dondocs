@@ -1,3 +1,6 @@
+import { iTypeExportErrors } from '@/lib/iTypePreflight';
+import { loadFigureFiles } from '@/services/latex/figureAssets';
+import { publicationMarking } from '@/lib/publicationMarking';
 import { useEffect, useCallback, useMemo, useState, useRef, lazy, Suspense } from 'react';
 import { Header } from '@/components/layout/Header';
 import { FormPanel } from '@/components/layout/FormPanel';
@@ -104,6 +107,8 @@ import { useLatexEngine, useServiceWorker, useInstallPrompt, promptInstall } fro
 import { useInstallStore } from '@/stores/installStore';
 import { usePandocIdlePrefetch } from '@/hooks/usePandocIdlePrefetch';
 import { generateAllLatexFiles, type GeneratedFiles } from '@/services/latex/generator';
+import { formatPublicationDate } from '@/lib/publicationDate';
+import { loadAttachment } from '@/lib/attachments';
 import { generateFlatLatex } from '@/services/latex/flat-generator';
 import { convertLatexToDocx } from '@/services/docx/pandoc-converter';
 import { pageStartNumber } from '@/lib/endorsement';
@@ -113,7 +118,7 @@ import { applyPlaceholdersToNavmc11811, buildNavmc11811DefaultValues } from '@/l
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
 import type { EnclosureError } from '@/services/pdf/mergeEnclosures';
 import { shouldAssembleBasicLetter } from '@/services/pdf/assembleEndorsement';
-import { assembleBasicLetter, basicLetterError, getClassificationInfo, getSignatoryConfig, getDualSignatoryConfig, finishCorrespondencePdf } from '@/services/pdf/finishCorrespondencePdf';
+import { assembleBasicLetter, basicLetterError, getSignatoryConfig, getDualSignatoryConfig, finishCorrespondencePdf } from '@/services/pdf/finishCorrespondencePdf';
 import { addSignatureField, addDualSignatureFields } from '@/services/pdf/addSignatureField';
 import { DOC_TYPE_CONFIG, DOC_TYPE_LABELS, FORM_TYPE_LABELS } from '@/types/document';
 import { detectPII, type PIIDetectionResult } from '@/services/pii/detector';
@@ -129,6 +134,19 @@ const commandDownloadTriggers: { pdf: () => void; docx: () => void } = {
   pdf: () => {},
   docx: () => {},
 };
+
+// Resolve every figure before compiling so a previous render cannot supply its bytes.
+async function addFigureFiles(files: Record<string, string | Uint8Array>, figures: GeneratedFiles['figures']): Promise<void> {
+  await loadFigureFiles(files, figures, loadAttachment);
+}
+
+// I-Type attachments carry first-page identification and outer-edge numbers.
+function mergeOptionsFor(store: ReturnType<typeof useDocumentStore.getState>) {
+  const enclosureLabel = DOC_TYPE_CONFIG[store.docType]?.enclosureLabel;
+  return enclosureLabel === 'footer'
+    ? { enclosureLabel, header: { line1: store.formData.shortTitle || '', line2: formatPublicationDate(store.formData.date || '') } }
+    : { enclosureLabel };
+}
 
 function App() {
   // Prefetch the Pandoc WASM module (~58 MB) during browser idle time so the
@@ -175,6 +193,8 @@ function App() {
   const paragraphs = useDocumentStore((s) => s.paragraphs);
   const copyTos = useDocumentStore((s) => s.copyTos);
   const distributions = useDocumentStore((s) => s.distributions);
+  const endItems = useDocumentStore((s) => s.endItems);
+  const publicationTables = useDocumentStore((s) => s.publicationTables);
   const documentCategory = useDocumentStore((s) => s.documentCategory);
   const formType = useDocumentStore((s) => s.formType);
   const applySnapshot = useDocumentStore((s) => s.applySnapshot);
@@ -437,8 +457,8 @@ function App() {
       let out = (await assembleBasicLetter(pdfBytes, currentStore.docType, currentStore.formData)).pdfBytes;
       let lastBasicPageIndex: number | undefined;
       if (generatedEnclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
-        const classification = getClassificationInfo(currentStore.formData.classLevel);
-        const mergeResult = await mergeEnclosures(out, generatedEnclosures, classification, includeHyperlinks, referenceUrls);
+        const classification = publicationMarking(currentStore.formData, currentStore.paragraphs);
+        const mergeResult = await mergeEnclosures(out, generatedEnclosures, classification, includeHyperlinks, referenceUrls, mergeOptionsFor(currentStore));
         out = mergeResult.pdfBytes;
         lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
       }
@@ -485,13 +505,14 @@ function App() {
       // Read the full store via getState() at compile time; the debounce dep
       // array already handles when to re-compile, so the state here is current.
       const currentStore = useDocumentStore.getState();
-      const { texFiles, enclosures: generatedEnclosures, includeHyperlinks, signatureImage, referenceUrls } = generateAllLatexFiles(currentStore);
+      const { texFiles, enclosures: generatedEnclosures, includeHyperlinks, signatureImage, referenceUrls, figures } = generateAllLatexFiles(currentStore);
 
       // Build files object including signature image if present
       const files: Record<string, string | Uint8Array> = { ...texFiles };
       if (signatureImage) {
         files['attachments/signature.png'] = signatureImage;
       }
+      await addFigureFiles(files, figures);
 
       let pdfBytes = await compile(files);
 
@@ -653,6 +674,8 @@ function App() {
     paragraphs,
     copyTos,
     distributions,
+    endItems,
+    publicationTables,
     fullQualityPreview,
   ]);
 
@@ -771,22 +794,26 @@ function App() {
     await rehydrateEnclosureFiles();
     // Snapshot fresh state at download time via getState().
     const currentStore = useDocumentStore.getState();
+    const errors = iTypeExportErrors(currentStore);
+    if (errors.length) throw new Error(errors.join('\n'));
     const generated = generateAllLatexFiles(currentStore);
-    const { texFiles, signatureImage } = generated;
+    const { texFiles, signatureImage, figures } = generated;
 
     // Build files object including signature image if present
     const files: Record<string, string | Uint8Array> = { ...texFiles };
     if (signatureImage) {
       files['attachments/signature.png'] = signatureImage;
     }
+    await addFigureFiles(files, figures);
 
     onProgress?.({ kind: 'pdf-compiling' });
     let pdfBytes = await compile(files);
 
     if (pdfBytes) {
       onProgress?.({ kind: 'pdf-merging-enclosures' });
-      const finished = await finishCorrespondencePdf(pdfBytes, currentStore.docType, currentStore.formData, generated);
+      const finished = await finishCorrespondencePdf(pdfBytes, currentStore.docType, currentStore.formData, generated, currentStore.paragraphs);
       pdfBytes = finished.pdfBytes;
+      if (currentStore.docType === 'i_type' && finished.errors.length) throw new Error(finished.errors.map((e) => e.error).join('\n'));
       if (finished.errors.length) {
         setEnclosureErrors(finished.errors);
         setShowEnclosureErrors(true);
@@ -968,12 +995,15 @@ function App() {
     if (!pendingDownloadRef.current) return false;
 
     const currentStore = useDocumentStore.getState();
-    const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls } = pendingDownloadRef.current;
+    const errors = iTypeExportErrors(currentStore);
+    if (errors.length) throw new Error(errors.join('\n'));
+    const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls, figures } = generateAllLatexFiles(currentStore);
 
     const files: Record<string, string | Uint8Array> = { ...texFiles };
     if (signatureImage) {
       files['attachments/signature.png'] = signatureImage;
     }
+    await addFigureFiles(files, figures);
 
     onProgress?.({ kind: 'pdf-compiling' });
     let pdfBytes = await compile(files);
@@ -991,12 +1021,13 @@ function App() {
       let lastBasicPageIndex: number | undefined;
       if (enclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
         onProgress?.({ kind: 'pdf-merging-enclosures' });
-        const classification = getClassificationInfo(currentStore.formData.classLevel);
-        const mergeResult = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls);
+        const classification = publicationMarking(currentStore.formData, currentStore.paragraphs);
+        const mergeResult = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls, mergeOptionsFor(currentStore));
         pdfBytes = mergeResult.pdfBytes;
         lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
         if (mergeResult.hasErrors) exportErrors.push(...mergeResult.errors);
       }
+      if (currentStore.docType === 'i_type' && exportErrors.length) throw new Error(exportErrors.map((e) => e.error).join('\n'));
       // Track export errors for user notification (PII download context)
       if (exportErrors.length > 0) {
         setEnclosureErrors(exportErrors);
@@ -1262,6 +1293,13 @@ function App() {
       return;
     }
 
+    const publicationErrors = iTypeExportErrors(useDocumentStore.getState());
+    if (publicationErrors.length) {
+      setDownloadProgress({ kind: 'error', target: 'pdf', title: 'Complete the I-Type before export',
+        message: publicationErrors.join('\n'), retryable: false, reportable: false });
+      return;
+    }
+
     console.log('Manual download click');
 
     // Ch 7 ¶13/¶13d review, ahead of the PII check so the privacy warning stays
@@ -1284,8 +1322,8 @@ function App() {
     const piiResult = detectPII(currentStore);
     if (piiResult.found) {
       // Store the generated files for later use
-      const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls } = generateAllLatexFiles(currentStore);
-      pendingDownloadRef.current = { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls };
+      const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls, figures } = generateAllLatexFiles(currentStore);
+      pendingDownloadRef.current = { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls, figures };
       setPiiDetectionResult(piiResult);
       setPiiWarningOpen(true);
       return;
@@ -1384,6 +1422,9 @@ ${texFiles['body.tex'] || '% No body content'}
   }, []);
 
   const handleDownloadDocx = useCallback(async () => {
+    // Publication types are delivered as PDF; the menu hides DOCX for them
+    // and the shortcut and palette land here.
+    if (DOC_TYPE_CONFIG[useDocumentStore.getState().docType]?.pdfOnly) return;
     useUIStore.getState().setValidationVisible(true);
     // Ch 7 ¶13/¶13d review, ahead of the PII check so the privacy warning stays
     // the last thing seen before the file is written. Never blocks — the modal's
@@ -1706,12 +1747,13 @@ ${texFiles['body.tex'] || '% No body content'}
           kbd: formatShortcut('mod D'),
           onRun: () => commandDownloadTriggers.pdf(),
         },
-        {
+        // Publication types are delivered as PDF (see DocTypeConfig.pdfOnly).
+        ...(DOC_TYPE_CONFIG[docType]?.pdfOnly ? [] : [{
           id: 'download-docx',
           label: 'Download Word (.docx)',
           icon: Download,
           onRun: () => commandDownloadTriggers.docx(),
-        },
+        }]),
         {
           id: 'save-draft',
           label: 'Save draft now',
@@ -1862,7 +1904,7 @@ ${texFiles['body.tex'] || '% No body content'}
     groups.push({ label: 'Insert', items: insertItems });
 
     return groups;
-  }, [outlineSections, allDocs, currentDocId, isInstalled, userTemplates]);
+  }, [outlineSections, allDocs, currentDocId, isInstalled, userTemplates, docType]);
 
   if (!workspaceReady) {
     return <main className="flex h-screen-dvh flex-col items-center justify-center gap-3 bg-background text-foreground">

@@ -34,6 +34,11 @@ export function getParagraphLabel(level: number, count: number): string {
 export interface ParagraphLike {
   level: number;
   text?: string;
+  /** A safety callout or a figure takes no number and does not advance the
+   *  count; an appendix numbers afresh. Technical publications only. */
+  callout?: string;
+  figure?: object;
+  appendix?: boolean;
 }
 
 /**
@@ -45,6 +50,18 @@ export function calculateLabels(paragraphs: ParagraphLike[]): string[] {
   const counters = new Array(PARAGRAPH.MAX_DEPTH + 1).fill(0);
 
   for (const para of paragraphs) {
+    // A callout or figure is not a numbered paragraph: an empty label keeps
+    // this array aligned with `paragraphs` by index, and the count stands.
+    if (para.callout || para.figure) {
+      labels.push('');
+      continue;
+    }
+    // An appendix is numbered afresh: everything before it is done with.
+    if (para.appendix) {
+      counters.fill(0);
+      labels.push('');
+      continue;
+    }
     // Reset counters for deeper levels when we move back up
     for (let i = para.level + 1; i <= PARAGRAPH.MAX_DEPTH; i++) {
       counters[i] = 0;
