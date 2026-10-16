@@ -1391,7 +1391,7 @@ async function addPdfEnclosure(
 
       // Add page number for multi-page enclosures (bottom center)
       if (pageCount > 1 || labelStyle === 'footer') {
-        addPageNumber(page, i + 1, labelStyle === 'footer' ? helvetica : helveticaBold, labelStyle === 'footer' ? 12 : 10);
+        addPageNumber(page, i + 1, helveticaBold, labelStyle === 'footer' ? 12 : 10, labelStyle === 'footer');
       }
 
       // Add classification marking at bottom
@@ -1755,19 +1755,20 @@ function addEnclosureLabel(
 }
 
 /**
- * Adds page number at bottom center of page
+ * Correspondence uses centered numbers; publications use the outer edge.
  */
 function addPageNumber(
   page: PDFPage,
   pageNum: number,
   font: Awaited<ReturnType<PDFDocument['embedFont']>>,
-  fontSize = 10
+  fontSize = 10,
+  publication = false
 ): void {
   const pageNumText = `${pageNum}`;
   const textWidth = font.widthOfTextAtSize(pageNumText, fontSize);
 
   page.drawText(pageNumText, {
-    x: (page.getWidth() - textWidth) / 2,
+    x: publication ? (pageNum % 2 ? page.getWidth() - MARGIN - textWidth : MARGIN) : (page.getWidth() - textWidth) / 2,
     y: 36, // 0.5 inch from bottom
     size: fontSize,
     font,

@@ -105,7 +105,15 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
       const title = items.find((i) => i.str.includes('12345A-26/1') && i.transform[5] > 700)!;
       expect(title, `header on page ${page}`).toBeDefined();
       expect(printed % 2 ? title.transform[4] + title.width : title.transform[4]).toBeCloseTo(printed % 2 ? 540 : 72, 0);
+      expect(printed % 2 ? number.transform[4] + number.width : number.transform[4]).toBeCloseTo(printed % 2 ? 540 : 72, 0);
+      expect(number.fontName).toBe(title.fontName);
     }
+    const cover = await textItems(bytes, 1);
+    const number = cover.find((i) => i.str === '1' && i.transform[5] < 100)!;
+    const pcn = cover.find((i) => i.str.includes('PCN 184'))!;
+    expect(number.transform[4] + number.width).toBeCloseTo(540, 0);
+    expect(pcn.transform[4] + pcn.width).toBeCloseTo(540, 0);
+    expect(pcn.transform[5] - number.transform[5]).toBeCloseTo(12 * 72 / 72.27, 0);
   }, 60_000);
 
   it.each(['MI', 'TI', 'SI', 'LI'] as const)('exports a complete %s through the production engine', async (type) => {

@@ -2853,10 +2853,7 @@ const LATEX_TEMPLATES = {
 %=============================================================================
 %                              PAGE STYLE
 %=============================================================================
-% Page numbers are centred in the footer per the MARCORSYSCOM template. Note
-% this differs from MIL-STD-38784C PDF output (bold, lower right); the
-% template differences remain unresolved -- see
-% docs/TECHPUB_I_TYPE.md.
+% The I-Type detail specification controls page-number placement (3.1.6).
 
 % The cover footer carries the CUI designation block and the notices that
 % travel with the publication. Every line of it is regulatory text the author
@@ -2902,7 +2899,9 @@ const LATEX_TEMPLATES = {
             Directive 5230.25 and DoD Instruction 2040.02.\\par\\vspace{12pt}
         \\fi
         \\ifNotEmpty{\\ITypeDestructionNotice}{\\noindent\\ITypeDestructionNotice}%
-        \\ifNotEmpty{\\PCN}{\\par\\vspace{6pt}\\noindent PCN \\PCN}%
+        \\par\\vspace{6pt}%
+        {\\raggedleft\\ifNotEmpty{\\PCN}{PCN \\PCN\\\\}%
+        \\fontsize{12}{12}\\selectfont\\bfseries\\thepage\\par}%
     \\end{minipage}%
     \\endgroup
 }
@@ -2980,11 +2979,18 @@ const LATEX_TEMPLATES = {
         \\makebox[\\textwidth][l]{\\footnotesize\\bfseries\\ShortTitle}%
     \\fi
 }
+\\newcommand{\\dondocsPageNumber}{%
+    \\ifodd\\value{page}%
+        \\makebox[\\textwidth][r]{\\bfseries\\thepage}%
+    \\else
+        \\makebox[\\textwidth][l]{\\bfseries\\thepage}%
+    \\fi
+}
 
 \\fancypagestyle{authpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings\\dondocsRunningTitle}%
-    \\fancyfoot[C]{\\thepage}%
+    \\fancyfoot[C]{\\dondocsPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
     \\setlength{\\headheight}{26pt}%
@@ -2994,7 +3000,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings\\dondocsRunningTitle}%
-    \\fancyfoot[C]{\\thepage}%
+    \\fancyfoot[C]{\\dondocsPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
     \\setlength{\\headheight}{26pt}%
