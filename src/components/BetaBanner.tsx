@@ -12,14 +12,14 @@ export function BetaBanner() {
 
   if (dismissed) return null;
 
-  return <aside aria-label="Unofficial website notice" className="flex shrink-0 items-center gap-2 border-b border-warning/20 bg-warning/10 px-3 py-1 text-xs text-warning">
-    <p className="flex-1 text-center leading-relaxed">
+  return <aside aria-label="Unofficial website notice" className="flex shrink-0 items-center gap-2 border-b border-warning/20 bg-warning/10 px-3 text-xs text-warning">
+    <p className="flex-1 text-center leading-4">
       <span className="font-medium">Not an official DoW website.</span>{' '}
       Beta release — report issues on{' '}
       <a href="https://github.com/marinecoders/dondocs/issues" target="_blank" rel="noopener noreferrer" className="rounded-sm underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">GitHub</a>.
     </p>
     <button type="button" aria-label="Dismiss unofficial website banner"
-      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md hover:bg-warning/15 focus-visible:outline-2 focus-visible:outline-ring sm:h-7 sm:w-7"
+      className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md hover:bg-warning/15 focus-visible:outline-2 focus-visible:outline-ring"
       onClick={() => {
         setDismissed(true);
         try { localStorage.setItem(DISMISSED_KEY, 'true'); }
