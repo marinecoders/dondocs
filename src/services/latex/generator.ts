@@ -844,6 +844,8 @@ function generatePublicationTable(tableKey: string, rows: PublicationTableRow[],
   // longtable's hline permits a break inside the rule. Use a plain rule at
   // protected parent/component boundaries so its penalty cannot split the group.
   const lines: string[] = [];
+  const groups: string[][] = [];
+  let groupStart = 0;
   let firstGroupLines = 0;
   rows.forEach((row, r) => {
     const level = row.level ?? 0;
@@ -871,15 +873,29 @@ function generatePublicationTable(tableKey: string, rows: PublicationTableRow[],
       const cells = Array.from({ length: spec.columns.length }, () => '\\raggedright ');
       cells[descriptionIndex] = cellText('Consisting of:', next.level ?? 0);
       lines.push(cells.join(' & ') + ' \\tabularnewline* \\noalign{\\nobreak\\hrule height\\arrayrulewidth\\nobreak}');
-    } else if (!firstGroupLines) {
-      firstGroupLines = lines.length;
+    } else {
+      if (!firstGroupLines) firstGroupLines = lines.length;
+      groups.push(lines.slice(groupStart));
+      groupStart = lines.length;
     }
   });
   // \raggedright in a cell turns \\ into a line break; rows end with the
   // form no cell setting can capture.
   const body = lines.join('\n    ');
+  const continuedTitle = `\\multicolumn{${spec.columns.length}}{@{}p{\\textwidth}@{}}{\\centering\\textbf{${tableTitleTex(heading)} -- Continued}\\par} \\tabularnewline`;
   if (measure) {
-    return `\\setbox\\dondocsTableStart=\\vbox{\\hsize=\\textwidth
+    const checks = groups.map((group, index) => `
+\\setbox\\dondocsTableGroup=\\vbox{\\hsize=\\textwidth
+{\\renewcommand{\\arraystretch}{1.3}\\begin{tabular}{|${colSpec}|}
+${continuedTitle}
+${head} \\tabularnewline \\hline
+${group.join('\n')}
+\\end{tabular}}}
+\\ifdim\\dimexpr\\ht\\dondocsTableGroup+\\dp\\dondocsTableGroup+2\\baselineskip\\relax>\\textheight
+  \\PackageError{I-Type}{${escapeLatex(fullSpec.name)} row group ${index + 1} exceeds one page; shorten or divide its content}{Each row and its attached component heading must fit below the repeated table heading.}
+\\fi
+`).join('');
+    return `${checks}\\setbox\\dondocsTableStart=\\vbox{\\hsize=\\textwidth
 {\\renewcommand{\\arraystretch}{1.3}\\begin{tabular}{|${colSpec}|}
 \\hline ${head} \\tabularnewline \\hline
 ${lines.slice(0, firstGroupLines).join('\n')}
@@ -893,7 +909,7 @@ ${lines.slice(0, firstGroupLines).join('\n')}
   // continuation the title and "Continued" and the boxhead are repeated, the
   // closing rule is omitted at the foot of a continued table and the opening
   // rule at the head of its continuation (MIL-STD-38784C 4.7.9.2, 4.7.9.3).
-  const continued = `\\multicolumn{${spec.columns.length}}{@{}p{\\textwidth}@{}}{\\centering\\textbf{${tableTitleTex(heading)} -- Continued}\\par} \\tabularnewline\n    ${head} \\tabularnewline\n    \\hline\n    \\endhead`;
+  const continued = `${continuedTitle}\n    ${head} \\tabularnewline\n    \\hline\n    \\endhead`;
   return `\\vspace{6pt}
 {\\renewcommand{\\arraystretch}{1.3}\\setlength{\\LTpre}{0pt}\\setlength{\\LTpost}{12pt}
 \\begin{longtable}[l]{|${colSpec}|}
@@ -1098,7 +1114,7 @@ export function generateBodyTex(store: DocumentStore): string {
     const formattedHeader = headerText ? toTitleCase(headerText.replace(/\.$/, '')) : '';
 
     if (store.docType === 'i_type' && para.tableKey && store.publicationTables?.[para.tableKey]?.length) {
-      parts.push(generatePublicationTable(para.tableKey, store.publicationTables[para.tableKey], headerText || '', true, crossReferences, para.tableIdentifierMode));
+      parts.push(generatePublicationTable(para.tableKey, store.publicationTables[para.tableKey], navigation.get(`itype.table.${i}`)?.title || headerText || '', true, crossReferences, para.tableIdentifierMode));
     }
     if (store.docType === 'i_type' && headerText && !para.tableKey) parts.push('\\dondocsNeedspace{4\\baselineskip}\n');
     parts.push(navigationTex(navigation.get(`itype.p.${i}`)) || (store.docType === 'i_type' ? `\\dondocsReferenceAnchor{itype.p.${i}}\n` : ''));

@@ -3048,6 +3048,7 @@ const LATEX_TEMPLATES = {
 }
 \\newsavebox{\\dondocsSafetyGroup}
 \\newsavebox{\\dondocsTableStart}
+\\newsavebox{\\dondocsTableGroup}
 `,
   'tex/templates/information_memorandum.tex': `
 %=============================================================================

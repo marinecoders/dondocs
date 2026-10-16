@@ -180,6 +180,15 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
     expect(titles).toBeGreaterThan(1);
   }, 60_000);
 
+  it.each([false, true])('rejects an oversized later table row or component group (nested: %s)', async (nested) => {
+    const s = baseline();
+    s.paragraphs.push({ level: 0, header: 'Materiel Required', text: 'Use the listed parts.', tableKey: 'materielRequired' });
+    const row = (description: string, level = 0) => ({ level, values: { description, pn: 'ABC123 (1AB23)', qty: '1' } });
+    s.publicationTables = { materielRequired: [row('BOLT'), row(nested ? 'ASSEMBLY' : 'Detailed component description. '.repeat(150)),
+      ...(nested ? [row('Detailed component description. '.repeat(150), 1)] : [])] };
+    await expect(production(s)).rejects.toThrow(/row group 2 exceeds one page/);
+  }, 60_000);
+
   it('prints software versions under the version heading', async () => {
     const s = baseline();
     s.paragraphs.push({ level: 0, header: 'Major Items Affected', text: 'Update the software.', tableKey: 'majorItems', tableIdentifierMode: 'software' });
