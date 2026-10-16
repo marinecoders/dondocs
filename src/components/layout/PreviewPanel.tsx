@@ -23,11 +23,9 @@ interface PreviewPanelProps {
 }
 
 export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, previewEnhanced = false, error, documentId, onDownloadPdf }: PreviewPanelProps) {
-  // Individual selectors so this panel only re-renders when one of these
-  // four fields actually changes (not on any other UI-store update).
+  // Individual selectors avoid re-rendering for unrelated UI-store updates.
   const previewVisible = useUIStore((s) => s.previewVisible);
   const isMobile = useUIStore((s) => s.isMobile);
-  const setMobilePreviewOpen = useUIStore((s) => s.setMobilePreviewOpen);
   const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
   const enclosureCount = useDocumentStore((s) => s.enclosures.length);
 
@@ -42,22 +40,10 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
   // Filter out engine reset message - it's not a user-facing error
   const displayError = error === 'ENGINE_RESET_NEEDED' ? null : error;
 
-  // Mobile: show floating button
-  if (isMobile) {
-    return (
-      <button
-        className="fixed bottom-6 right-4 z-50 shadow-xl bg-primary text-primary-foreground px-5 py-3 rounded-full flex items-center gap-2 hover:bg-primary/90 transition-colors text-sm font-medium"
-        style={{ marginBottom: 'env(safe-area-inset-bottom, 0px)' }}
-        onClick={() => setMobilePreviewOpen(true)}
-        aria-label="Preview PDF"
-      >
-        <Eye className="h-5 w-5" aria-hidden="true" />
-        Preview PDF
-      </button>
-    );
-  }
+  // The persistent WorkspaceBar opens the full-screen preview on mobile.
+  if (isMobile) return null;
 
-  // Desktop: if preview is hidden, render nothing (toggle is in Header now)
+  // Desktop: if preview is hidden, render nothing (toggle is in WorkspaceBar).
   if (!previewVisible) {
     return null;
   }
