@@ -60,6 +60,7 @@ import { probeStorageHealth, requestPersistentStorage } from '@/lib/documentsDb'
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore, rehydrateEnclosureFiles, loadSharedSession, type SerializedSession } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
+import { useBatchStore } from '@/stores/batchStore';
 import { useHistoryStore } from '@/stores/historyStore';
 import { useDocumentsStore, applySelectedProfile, correspondenceFilename } from '@/stores/documentsStore';
 import { useBackupStore } from '@/stores/backupStore';
@@ -556,7 +557,9 @@ function App() {
     []
   );
 
+  const batchRunning = useBatchStore((s) => s.status === 'running');
   const compilePdf = useCallback(async () => {
+    if (useBatchStore.getState().status === 'running') return;
     if (!isReady) return;
     // Invalidate any pending idle upgrade and stamp this compile so a late idle
     // pass from a previous edit can't swap in a stale PDF.
@@ -705,7 +708,7 @@ function App() {
 
   // Debounced compilation on document changes
   useEffect(() => {
-    if (!isReady) return;
+    if (!isReady || batchRunning) return;
 
     if (compileTimeoutRef.current) {
       clearTimeout(compileTimeoutRef.current);
@@ -728,6 +731,7 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isReady,
+    batchRunning,
     docType,
     formData,
     references,

@@ -21,13 +21,17 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore } from '@/stores/documentStore';
+import { useBatchStore, runBatchJob, type BatchRow } from '@/stores/batchStore';
+import { getBatchOutput } from '@/lib/documentsDb';
+import { deriveTitle } from '@/stores/documentsStore';
+import { showAppConfirm } from '@/stores/alertStore';
+import { useDocumentStore, getSerializedSession } from '@/stores/documentStore';
 import { useFormStore, type NavmcForm10274Data, type Navmc11811Data } from '@/stores/formStore';
 import { generateAllLatexFiles } from '@/services/latex/generator';
 import { generateNavmc10274Pdf, loadNavmc10274Templates } from '@/services/pdf/navmc10274Generator';
 import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/navmc11811Generator';
 import { debug } from '@/lib/debug';
-import { TIMING, BATCH_PLACEHOLDERS, NAVMC_10274_PLACEHOLDERS, NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
+import { BATCH_PLACEHOLDERS, NAVMC_10274_PLACEHOLDERS, NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
 import {
   detectPlaceholders,
   replacePlaceholders,
@@ -66,20 +70,6 @@ const FIELD_LABELS: Record<string, string> = {
   remarksText: 'Remarks (Left)',
   remarksTextRight: 'Remarks (Right)',
 };
-
-interface BatchRow {
-  id: string;
-  values: PlaceholderValue;
-  status?: 'pending' | 'generating' | 'success' | 'error';
-  error?: string;
-}
-
-interface BatchResults {
-  succeeded: number;
-  failed: number;
-  total: number;
-  errors: Array<{ index: number; error: string }>;
-}
 
 interface BatchModalProps {
   compile: (files: Record<string, string | Uint8Array>) => Promise<Uint8Array | null>;
@@ -151,7 +141,7 @@ const BatchModalRow = memo(function BatchModalRow({
             onChange={(e) => updateRowValue(row.id, placeholder, e.target.value)}
             placeholder={placeholder.substring(0, 8)}
             className="h-7 w-24 text-xs"
-            disabled={isGenerating}
+            disabled={isGenerating || row.status === 'success'}
           />
         </td>
       ))}
@@ -164,6 +154,7 @@ const BatchModalRow = memo(function BatchModalRow({
             onClick={() => handlePreview(row)}
             disabled={!isReadyToGenerate || isGenerating || isPreviewing}
             title="Preview document"
+            aria-label={`Preview row ${idx + 1}`}
           >
             {isPreviewing ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -175,8 +166,9 @@ const BatchModalRow = memo(function BatchModalRow({
             variant="ghost"
             size="icon"
             className="h-7 w-7 text-destructive"
+            aria-label={`Remove row ${idx + 1}`}
             onClick={() => removeRow(row.id)}
-            disabled={!canRemove || isGenerating}
+            disabled={!canRemove || isGenerating || row.status === 'success'}
           >
             <Trash2 className="h-4 w-4" />
           </Button>
@@ -190,6 +182,13 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   // Individual selectors — modal only re-renders on its own flag changing.
   const batchModalOpen = useUIStore((s) => s.batchModalOpen);
   const setBatchModalOpen = useUIStore((s) => s.setBatchModalOpen);
+  const source = useBatchStore((s) => s.source);
+  const jobStatus = useBatchStore((s) => s.status);
+  const jobTitle = useBatchStore((s) => s.title);
+  const savedPlaceholders = useBatchStore((s) => s.placeholders);
+  const recoveryError = useBatchStore((s) => s.recoveryError);
+  const stopRequested = useBatchStore((s) => s.stopRequested);
+
   // Individual selectors. The useMemo for `detectedPlaceholders` below is the
   // ONLY render-phase read of store data in this component, so we subscribe
   // just to the slices it actually uses. All other reads are inside
@@ -198,25 +197,38 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   // keeps callback identity stable, which in turn keeps BatchModalRow's memo
   // effective — otherwise every documentStore keystroke would churn
   // `handlePreview` (passed as a prop), defeating the row memo.
-  const formData = useDocumentStore((s) => s.formData);
-  const paragraphs = useDocumentStore((s) => s.paragraphs);
-  const references = useDocumentStore((s) => s.references);
-  const enclosures = useDocumentStore((s) => s.enclosures);
-  const copyTos = useDocumentStore((s) => s.copyTos);
-  const documentCategory = useDocumentStore((s) => s.documentCategory);
-  const formType = useDocumentStore((s) => s.formType);
+  const liveformData = useDocumentStore((s) => s.formData);
+  const formData = source?.formData ?? liveformData;
+  const liveparagraphs = useDocumentStore((s) => s.paragraphs);
+  const paragraphs = source?.paragraphs ?? liveparagraphs;
+  const livereferences = useDocumentStore((s) => s.references);
+  const references = source?.references ?? livereferences;
+  const liveenclosures = useDocumentStore((s) => s.enclosures);
+  const enclosures = source?.enclosures ?? liveenclosures;
+  const livecopyTos = useDocumentStore((s) => s.copyTos);
+  const copyTos = source?.copyTos ?? livecopyTos;
+  const livedocumentCategory = useDocumentStore((s) => s.documentCategory);
+  const documentCategory = source?.documentCategory ?? livedocumentCategory;
+  const liveformType = useDocumentStore((s) => s.formType);
+  const formType = source?.formType ?? liveformType;
   const setDocField = useDocumentStore((s) => s.setField);
   const addParagraph = useDocumentStore((s) => s.addParagraph);
-  const navmc10274 = useFormStore((s) => s.navmc10274);
-  const navmc11811 = useFormStore((s) => s.navmc11811);
+  const livenavmc10274 = useFormStore((s) => s.navmc10274);
+  const navmc10274 = source?.forms?.navmc10274 ?? livenavmc10274;
+  const livenavmc11811 = useFormStore((s) => s.navmc11811);
+  const navmc11811 = source?.forms?.navmc11811 ?? livenavmc11811;
   const setNavmc10274Field = useFormStore((s) => s.setNavmc10274Field);
   const setNavmc11811Field = useFormStore((s) => s.setNavmc11811Field);
 
-  const [rows, setRows] = useState<BatchRow[]>([
-    { id: '1', values: {}, status: 'pending' },
-  ]);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [lastResults, setLastResults] = useState<BatchResults | null>(null);
+  const rows = useBatchStore((s) => s.rows);
+  const setRows = useBatchStore((s) => s.setRows);
+  const isGenerating = jobStatus === 'running';
+  const lastResults = source ? {
+    succeeded: rows.filter((r) => r.status === 'success').length,
+    failed: rows.filter((r) => r.status === 'error').length,
+    total: rows.length,
+    errors: rows.flatMap((r, i) => r.error ? [{ index: i + 1, error: r.error }] : []),
+  } : null;
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewingRow, setPreviewingRow] = useState<string | null>(null);
   const [previewError, setPreviewError] = useState<string | null>(null);
@@ -279,6 +291,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
   // Detect all placeholders from current document (correspondence) or form (forms mode)
   const detectedPlaceholders = useMemo(() => {
+    if (source) return savedPlaceholders;
     const allText: string[] = [];
 
     if (isFormsMode) {
@@ -340,18 +353,18 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
     const allPlaceholders = allText.flatMap((text) => detectPlaceholders(text));
     return [...new Set(allPlaceholders)];
-  }, [formData, paragraphs, references, enclosures, copyTos, navmc10274, navmc11811, isFormsMode, formType]);
+  }, [formData, paragraphs, references, enclosures, copyTos, navmc10274, navmc11811, isFormsMode, formType, source, savedPlaceholders]);
 
   const addRow = useCallback(() => {
     setRows((prev) => [
       ...prev,
       { id: Date.now().toString(), values: {}, status: 'pending' },
     ]);
-  }, []);
+  }, [setRows]);
 
   const removeRow = useCallback((id: string) => {
     setRows((prev) => prev.filter((row) => row.id !== id));
-  }, []);
+  }, [setRows]);
 
   const updateRowValue = useCallback((rowId: string, placeholder: string, value: string) => {
     setRows((prev) =>
@@ -361,7 +374,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
           : row
       )
     );
-  }, []);
+  }, [setRows]);
 
   // Create modified store with placeholder replacements (for correspondence).
   //
@@ -371,7 +384,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   // generatePdfForRow, which would change handlePreview, which is a prop of
   // BatchModalRow and would defeat its memo.
   const createModifiedStore = useCallback((values: PlaceholderValue) => {
-    const store = useDocumentStore.getState();
+    const store = useBatchStore.getState().source ?? getSerializedSession();
     return {
       docType: store.docType,
       formData: {
@@ -411,11 +424,11 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   // helpers in @/lib/placeholders so the batch and normal-download paths
   // can't drift apart (issue #13 was caused by exactly that drift).
   const createModifiedNavmc10274 = useCallback((values: PlaceholderValue): NavmcForm10274Data => {
-    return applyPlaceholdersToNavmc10274(useFormStore.getState().navmc10274, values);
+    return applyPlaceholdersToNavmc10274(useBatchStore.getState().source?.forms?.navmc10274 ?? useFormStore.getState().navmc10274, values);
   }, []);
 
   const createModifiedNavmc11811 = useCallback((values: PlaceholderValue): Navmc11811Data => {
-    return applyPlaceholdersToNavmc11811(useFormStore.getState().navmc11811, values);
+    return applyPlaceholdersToNavmc11811(useBatchStore.getState().source?.forms?.navmc11811 ?? useFormStore.getState().navmc11811, values);
   }, []);
 
   // Generate PDF for a single row with retry logic for ENGINE_RESET_NEEDED.
@@ -494,7 +507,8 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     setPreviewingRow(row.id);
     setPreviewError(null);
     try {
-      const pdf = await generatePdfForRow(row.values);
+      const pdf = row.outputId ? await getBatchOutput(row.outputId) : await generatePdfForRow(row.values);
+      if (!pdf) throw new Error('The saved result is unavailable. Keep your downloaded copy.');
       const blob = new Blob([new Uint8Array(pdf)], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
 
@@ -521,79 +535,18 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     setPreviewUrl(null);
   }, [previewUrl]);
 
-  const handleGenerateBatch = useCallback(async () => {
-    if (rows.length === 0 || !isReadyToGenerate) return;
-
-    setIsGenerating(true);
-    setLastResults(null);
-
-    const results: BatchResults = {
-      succeeded: 0,
-      failed: 0,
-      total: rows.length,
-      errors: [],
-    };
-
-    debug.log('Batch', 'Starting batch generation', { rowCount: rows.length });
-    debug.time('BatchGeneration');
-
-    // Reset all row statuses
-    setRows((prev) => prev.map((row) => ({ ...row, status: 'pending' as const, error: undefined })));
-
-    // For each row, generate a separate PDF
-    for (let i = 0; i < rows.length; i++) {
-      const row = rows[i];
-
-      // Mark as generating
-      setRows((prev) =>
-        prev.map((r) => (r.id === row.id ? { ...r, status: 'generating' as const } : r))
-      );
-
-      try {
-        debug.log('Batch', `Generating PDF ${i + 1}/${rows.length}`, row.values);
-
-        const pdf = await generatePdfForRow(row.values);
-
-        // Download the PDF
-        const blob = new Blob([new Uint8Array(pdf)], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-
-        // Generate filename from row values or index
-        const filenameHint = row.values[detectedPlaceholders[0]] || `document_${i + 1}`;
-        const sanitizedFilename = filenameHint.replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 50);
-        a.download = `${sanitizedFilename}.pdf`;
-        a.click();
-        URL.revokeObjectURL(url);
-
-        // Mark row as successful
-        setRows((prev) =>
-          prev.map((r) => (r.id === row.id ? { ...r, status: 'success' as const } : r))
-        );
-        results.succeeded++;
-        debug.log('Batch', `Document ${i + 1} generated successfully`);
-
-        // Small delay between downloads
-        await new Promise((resolve) => setTimeout(resolve, TIMING.BATCH_DOWNLOAD_DELAY));
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Unknown error';
-        debug.error('Batch', `Failed to generate document ${i + 1}`, err);
-
-        // Mark row as failed
-        setRows((prev) =>
-          prev.map((r) => (r.id === row.id ? { ...r, status: 'error' as const, error: errorMessage } : r))
-        );
-        results.failed++;
-        results.errors.push({ index: i + 1, error: errorMessage });
-      }
-    }
-
-    debug.timeEnd('BatchGeneration');
-    debug.log('Batch', 'Batch generation complete', results);
-    setLastResults(results);
-    setIsGenerating(false);
-  }, [rows, isReadyToGenerate, generatePdfForRow, detectedPlaceholders]);
+  const downloadResult = (pdf: Uint8Array, filename: string) => {
+    const url = URL.createObjectURL(new Blob([new Uint8Array(pdf)], { type: 'application/pdf' }));
+    const link = document.createElement('a');
+    link.href = url; link.download = filename; link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 30_000);
+  };
+  const handleGenerateBatch = (retryFailed = false) => {
+    if (!isReadyToGenerate || isGenerating) return;
+    const session = source ?? getSerializedSession();
+    void runBatchJob({ source: session, title: deriveTitle(session), placeholders: detectedPlaceholders,
+      retryFailed, generate: generatePdfForRow, download: downloadResult });
+  };
 
   // Detect if a row looks like headers (all non-numeric, reasonable length)
   const looksLikeHeaders = useCallback((columns: string[]): boolean => {
@@ -644,7 +597,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
       setRows(newRows);
     }
     setShowColumnMapping(false);
-  }, [rawPastedData, columnHeaders, columnMappings]);
+  }, [rawPastedData, columnHeaders, columnMappings, setRows]);
 
   const handlePasteData = useCallback((e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
@@ -698,12 +651,13 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
         setRows(newRows);
       }
     }
-  }, [detectedPlaceholders, looksLikeHeaders]);
+  }, [detectedPlaceholders, looksLikeHeaders, setRows]);
 
   // Handle adding a variable to the document.
   // Reads live state via getState() at click time (not stale render-time snapshot),
   // and uses the stable setter refs bound at the top of the component.
   const handleAddVariable = useCallback(() => {
+    if (useBatchStore.getState().source) { setAddStatus('Start a new batch to change its source document.'); return; }
     if (!selectedVariable || !targetField) return;
 
     const variableText = `{{${selectedVariable}}}`;
@@ -820,6 +774,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
   return (
     <>
+      {isGenerating && !batchModalOpen && <button type="button" className="fixed bottom-6 right-4 z-50 rounded-md border border-border bg-card px-4 py-3 text-sm shadow-lg" onClick={() => setBatchModalOpen(true)}>Batch running · {lastResults?.succeeded ?? 0}/{rows.length} generated</button>}
       <Dialog open={batchModalOpen} onOpenChange={setBatchModalOpen}>
         <DialogContent className="sm:max-w-3xl max-h-[85vh] flex flex-col p-0 gap-0 overflow-hidden">
           <DialogHeader className="bg-card px-6 py-4 border-b border-border/50 shrink-0">
@@ -1015,6 +970,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                       placeholder={`Paste tab-separated data here. Each row becomes a document.\nColumns should match: ${detectedPlaceholders.join(', ')}`}
                       rows={3}
                       onPaste={handlePasteData}
+                      disabled={isGenerating || !!source}
                       className="font-mono text-xs"
                     />
                     <p className="text-xs text-muted-foreground">
@@ -1068,7 +1024,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                           variant="ghost"
                           onClick={() => setShowColumnMapping(false)}
                         >
-                          Cancel
+                          Close panel
                         </Button>
                       </div>
                     </div>
@@ -1077,7 +1033,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                   <div className="space-y-2">
                     <div className="flex items-center justify-between sticky top-0 bg-background z-10 py-1">
                       <Label>Documents to Generate ({rows.length})</Label>
-                      <Button variant="outline" size="sm" onClick={addRow}>
+                      <Button variant="outline" size="sm" onClick={addRow} disabled={isGenerating || !!source}>
                         <Plus className="h-4 w-4 mr-1" />
                         Add Row
                       </Button>
@@ -1126,7 +1082,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                             <AlertCircle className="h-5 w-5 text-warning" />
                           )}
                           <span className="font-medium">
-                            Generation Complete: {lastResults.succeeded}/{lastResults.total} succeeded
+                            {jobStatus === 'running' ? 'Generating' : jobStatus === 'complete' ? 'Complete' : 'Paused'}: {lastResults.succeeded}/{lastResults.total} generated
                           </span>
                         </div>
                         {lastResults.errors.length > 0 && (
@@ -1147,14 +1103,32 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
             </div>
           </div>
 
+          <div className="border-t border-border px-6 py-3 text-sm space-y-2" aria-live="polite">
+            {source && <p>Job: {jobTitle}. Uses the document as it was when generation started.</p>}
+            {isGenerating && <p>Closing this panel keeps the job running. Keep this tab open.</p>}
+            {jobStatus === 'interrupted' && <p>Recovered after interruption. Completed rows are kept; review the interrupted row before retrying it.</p>}
+            {recoveryError && <p role="alert" className="text-destructive">{recoveryError}</p>}
+            {rows.some((r) => r.outputId) && <div className="flex max-h-32 overflow-y-auto flex-wrap gap-2">
+              {rows.filter((r) => r.outputId).map((r) => <Button key={r.id} size="sm" variant="outline" onClick={async () => {
+                const data = await getBatchOutput(r.outputId!);
+                if (data) downloadResult(data, r.filename!);
+                else useBatchStore.setState({ recoveryError: 'This result is no longer available in browser storage.' });
+              }}>Download {r.filename}</Button>)}
+            </div>}
+          </div>
           <DialogFooter className="bg-card px-6 py-4 border-t border-border/50 shrink-0">
             <Button variant="outline" onClick={() => setBatchModalOpen(false)}>
-              Cancel
+              Close panel
             </Button>
+            {isGenerating && <Button variant="outline" disabled={stopRequested} onClick={() => useBatchStore.getState().stop()}>{stopRequested ? 'Stopping after this file…' : 'Stop after current file'}</Button>}
+            {!isGenerating && rows.some((r) => r.status === 'error') && <Button variant="outline" disabled={!isReadyToGenerate} onClick={() => handleGenerateBatch(true)}>Retry failed rows</Button>}
+            {!isGenerating && source && <Button variant="ghost" onClick={async () => {
+              if (await showAppConfirm({ title: 'Start a new batch?', message: 'The current job and saved results will be cleared. Download any files you need first.', confirmLabel: 'Start new batch' })) useBatchStore.getState().reset();
+            }}>New batch</Button>}
             <Button
               data-tour="batch-generate"
-              onClick={handleGenerateBatch}
-              disabled={hasNoPlaceholders || isGenerating || rows.length === 0 || !isReadyToGenerate}
+              onClick={() => handleGenerateBatch()}
+              disabled={hasNoPlaceholders || isGenerating || !rows.some((r) => !r.status || r.status === 'pending') || !isReadyToGenerate}
               className="tracking-wide"
             >
               {isGenerating ? (
@@ -1165,7 +1139,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
               ) : (
                 <>
                   <Download className="h-4 w-4 mr-2" />
-                  Generate {rows.length} PDFs
+                  {source ? 'Resume remaining' : `Generate ${rows.length} PDFs`}
                 </>
               )}
             </Button>

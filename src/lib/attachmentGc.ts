@@ -40,6 +40,7 @@ import {
   idbGetAllAttachments,
   idbDeleteAttachment,
 } from '@/lib/documentsDb';
+import { useBatchStore } from '@/stores/batchStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { getPendingDeleteSessions, useDocumentsStore } from '@/stores/documentsStore';
@@ -82,6 +83,8 @@ export async function collectLiveAttachmentIds(): Promise<Set<string> | null> {
   if (persisted === null) return null; // read failure — refuse to sweep on partial knowledge
 
   const live = new Set<string>();
+  const batchSource = useBatchStore.getState().source;
+  if (batchSource) collectSessionRefs(batchSource, live);
 
   // (a) registry documents — union of persisted (IDB) and in-memory, keyed by id
   // so a doc present in both is visited once for its snapshot ring.
