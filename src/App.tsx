@@ -1,3 +1,4 @@
+import { applyTheme, THEMES } from '@/lib/appearance';
 import { iTypeExportErrors } from '@/lib/iTypePreflight';
 import { loadFigureFiles } from '@/services/latex/figureAssets';
 import { publicationMarking } from '@/lib/publicationMarking';
@@ -157,7 +158,6 @@ function App() {
   // Individual selectors so Zustand only re-renders App on the specific field's
   // change, not on every store update. Setters are stable, so selecting them is free.
   const theme = useUIStore((s) => s.theme);
-  const colorScheme = useUIStore((s) => s.colorScheme);
   const density = useUIStore((s) => s.density);
   const [workspaceReady, setWorkspaceReady] = useState(false);
   const isMobile = useUIStore((s) => s.isMobile);
@@ -306,30 +306,12 @@ function App() {
     });
   }, []);
 
-  // Apply theme to document
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-    // Keep the browser/PWA chrome color in step with the app theme. The static
-    // theme-color metas key off prefers-color-scheme, but the app theme is
-    // user-controlled and independent — so override both metas' content to the
-    // active canvas color, else the status bar mistints when they disagree.
-    const canvas = theme === 'dark' ? '#0b0d11' : '#f1f6fa';
-    document
-      .querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
-      .forEach((m) => {
-        m.content = canvas;
-      });
-  }, [theme]);
+  useEffect(() => applyTheme(theme), [theme]);
 
   // Apply density to document
   useEffect(() => {
     document.documentElement.dataset.density = density;
   }, [density]);
-
-  // Apply color scheme to document
-  useEffect(() => {
-    document.documentElement.dataset.scheme = colorScheme;
-  }, [colorScheme]);
 
   // Track if initial setup has been done
   const initialSetupDoneRef = useRef(false);
@@ -1847,12 +1829,13 @@ ${texFiles['body.tex'] || '% No body content'}
         { id: 'settings', label: 'Settings — appearance and density', hint: 'Theme, text spacing and reduced motion', icon: Settings, onRun: () => useUIStore.getState().setSettingsOpen(true) },
         { id: 'backup-settings', label: 'Backup and restore settings', hint: 'Auto-backup, reconnect, download and restore a backup', icon: Settings, onRun: () => useUIStore.getState().setSettingsOpen(true, 'backup') },
         { id: 'preview-settings', label: 'Preview quality settings', hint: 'Full-quality preview, attachments and signatures', icon: Settings, onRun: () => useUIStore.getState().setSettingsOpen(true, 'preview') },
-        {
-          id: 'toggle-theme',
-          label: 'Toggle light / dark theme',
+        ...THEMES.map(({ value, label, description }) => ({
+          id: `theme-${value}`,
+          label: `Use ${label.toLowerCase()} appearance`,
+          hint: description,
           icon: MoonStar,
-          onRun: () => useUIStore.getState().toggleTheme(),
-        },
+          onRun: () => useUIStore.getState().setTheme(value),
+        })),
         {
           id: 'toggle-preview',
           label: 'Toggle preview panel',

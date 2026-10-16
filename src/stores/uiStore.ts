@@ -2,9 +2,9 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { safeLocalStorage } from '@/lib/compressedStorage';
 import type { StorageHealth } from '@/lib/documentsDb';
+import { resolveTheme, type Theme } from '@/lib/appearance';
 
 export type DensityMode = 'compact' | 'comfortable' | 'spacious';
-export type ColorScheme = 'default' | 'navy' | 'usmc';
 
 /**
  * Sidebar geometry, in px.
@@ -75,13 +75,8 @@ function getSystemTheme(): 'dark' | 'light' {
 
 interface UIState {
   // Theme
-  theme: 'dark' | 'light';
-  toggleTheme: () => void;
-  setTheme: (theme: 'dark' | 'light') => void;
-
-  // Color Scheme
-  colorScheme: ColorScheme;
-  setColorScheme: (scheme: ColorScheme) => void;
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
 
   // Density
   density: DensityMode;
@@ -228,20 +223,13 @@ export const useUIStore = create<UIState>()(
     (set) => ({
       // Theme - detect system preference for first-time users
       theme: getSystemTheme(),
-      toggleTheme: () => set((state) => ({
-        theme: state.theme === 'dark' ? 'light' : 'dark',
-      })),
       setTheme: (theme) => set({ theme }),
-
-      // Color Scheme - Default (Marines.dev branded: USMC Red primary, navy backgrounds)
-      colorScheme: 'default',
-      setColorScheme: (colorScheme) => set({ colorScheme }),
 
       // Density - default comfortable
       density: 'comfortable',
       setDensity: (density) => set({ density }),
 
-      // Preview - hidden by default, form gets full width
+      // Preview starts beside the editor; each pane can be resized or hidden.
       previewVisible: true,
       previewWidth: 40,
       togglePreview: () => set((state) => ({ previewVisible: !state.previewVisible })),
@@ -388,12 +376,16 @@ export const useUIStore = create<UIState>()(
     }),
     {
       name: 'dondocs_ui',
+      version: 1,
+      migrate: (persisted) => {
+        const { colorScheme, ...preferences } = (persisted ?? {}) as Record<string, unknown>;
+        return { ...preferences, theme: resolveTheme({ ...preferences, colorScheme }, getSystemTheme()) };
+      },
       // Guarded storage so a boot-time set() can't throw under blocked site data.
       storage: createJSONStorage(() => safeLocalStorage),
       partialize: (state) => ({
         documentPositions: state.documentPositions,
         theme: state.theme,
-        colorScheme: state.colorScheme,
         density: state.density,
         previewVisible: state.previewVisible,
         previewWidth: state.previewWidth,

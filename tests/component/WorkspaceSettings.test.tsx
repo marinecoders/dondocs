@@ -10,11 +10,23 @@ vi.mock('@/lib/backupDownload', () => ({ downloadWorkspaceBackup: vi.fn() }));
 
 beforeEach(() => {
   vi.mocked(downloadWorkspaceBackup).mockReset();
-  useUIStore.setState({ settingsOpen: false, helpOpen: false, settingsSection: 'appearance' });
+  useUIStore.setState({ settingsOpen: false, helpOpen: false, settingsSection: 'appearance', theme: 'light' });
   useBackupStore.setState({ status: 'unsupported', fileName: null, fileMissing: false });
 });
 
 describe('workspace settings and help', () => {
+  it('offers exactly three appearances and persists the choice', async () => {
+    useUIStore.getState().setSettingsOpen(true);
+    render(<SettingsModal />);
+    expect(screen.getAllByRole('radio')).toHaveLength(3);
+    for (const theme of ['Dark', 'Classic', 'Light']) {
+      await userEvent.click(screen.getByRole('radio', { name: theme }));
+      expect(screen.getByRole('radio', { name: theme })).toBeChecked();
+      expect(useUIStore.getState().theme).toBe(theme.toLowerCase());
+      expect(JSON.parse(localStorage.getItem('dondocs_ui')!).state.theme).toBe(theme.toLowerCase());
+    }
+    expect(screen.queryByRole('combobox', { name: 'Colors' })).not.toBeInTheDocument();
+  });
   it('keeps failed backup feedback actionable without claiming success', async () => {
     vi.mocked(downloadWorkspaceBackup).mockRejectedValue(new Error('Saved documents could not be read'));
     useUIStore.getState().setSettingsOpen(true, 'backup');

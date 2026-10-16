@@ -1,8 +1,9 @@
 import { useRef, useState, type ChangeEvent } from 'react';
 import { Settings } from 'lucide-react';
+import { THEMES } from '@/lib/appearance';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { useUIStore, type ColorScheme, type DensityMode } from '@/stores/uiStore';
+import { useUIStore, type DensityMode } from '@/stores/uiStore';
 import { backupAction, useBackupStore } from '@/stores/backupStore';
 import { downloadWorkspaceBackup } from '@/lib/backupDownload';
 import { restoreBackup, summarizeRestore } from '@/lib/backup';
@@ -57,7 +58,6 @@ export function SettingsModal() {
   const open = useUIStore((s) => s.settingsOpen);
   const section = useUIStore((s) => s.settingsSection);
   const theme = useUIStore((s) => s.theme);
-  const colorScheme = useUIStore((s) => s.colorScheme);
   const density = useUIStore((s) => s.density);
   const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
   const backupHeading = useRef<HTMLHeadingElement>(null);
@@ -72,8 +72,24 @@ export function SettingsModal() {
         <DialogDescription>Workspace preferences are saved on this device.</DialogDescription>
       </DialogHeader>
       <section className="space-y-3" aria-label="Appearance">
-        <label className="block space-y-2 text-sm"><span className="block font-medium">Appearance</span><select className="h-11 w-full rounded-md border border-input bg-background px-3" value={theme} onChange={(e) => useUIStore.getState().setTheme(e.target.value as 'light' | 'dark')}><option value="light">Light</option><option value="dark">Dark</option></select></label>
-        <label className="block space-y-2 text-sm"><span className="block font-medium">Colors</span><select className="h-11 w-full rounded-md border border-input bg-background px-3" value={colorScheme} onChange={(e) => useUIStore.getState().setColorScheme(e.target.value as ColorScheme)}><option value="default">Workspace</option><option value="navy">Navy</option><option value="usmc">USMC</option></select></label>
+        <fieldset>
+          <legend className="mb-2 text-sm font-medium">Appearance</legend>
+          <div className="grid grid-cols-3 gap-2">
+            {THEMES.map(({ value, label, description }) => <label key={value} className="relative cursor-pointer">
+              <input type="radio" name="appearance" value={value} aria-label={label} checked={theme === value}
+                onChange={() => useUIStore.getState().setTheme(value)} className="peer sr-only" />
+              <span className="block rounded-md border border-border p-2 peer-checked:border-ring peer-checked:ring-1 peer-checked:ring-ring peer-focus-visible:outline-2 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-ring">
+                <span aria-hidden="true" className={`appearance-swatch appearance-swatch-${value}`}>
+                  <span className="appearance-swatch-sidebar" />
+                  <span className="appearance-swatch-page"><span /><span /><span /></span>
+                </span>
+                <span className="mt-2 block text-center text-sm font-medium">{label}</span>
+              </span>
+              <span className="sr-only">{description}</span>
+            </label>)}
+          </div>
+          <p className="mt-3 text-xs text-muted-foreground">Classic restores the original navy-tinted surfaces and red accents. Appearance never changes your exported documents.</p>
+        </fieldset>
         <label className="block space-y-2 text-sm"><span className="block font-medium">Density</span><select className="h-11 w-full rounded-md border border-input bg-background px-3" value={density} onChange={(e) => useUIStore.getState().setDensity(e.target.value as DensityMode)}><option value="compact">Compact</option><option value="comfortable">Comfortable</option><option value="spacious">Spacious</option></select></label>
         <p className="text-xs text-muted-foreground">Animations follow your device’s reduced-motion preference.</p>
       </section>
