@@ -109,7 +109,7 @@ export function getSectionError(
       return fromError || toError || unfilled(formData.subject);
     }
     case 'body':
-      return !paragraphs.some((p) => (p.text ?? '').trim());
+      return !paragraphs.some((p) => !unfilled(p.text));
     case 'signature':
       return unfilled(formData.sigLast);
     case 'executive':
