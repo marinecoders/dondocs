@@ -3,6 +3,11 @@ import { Button } from '@/components/ui/button';
 import { useUIStore } from '@/stores/uiStore';
 import { formatShortcut, isMac } from '@/lib/platform';
 
+import { useLogStore } from '@/stores/logStore';
+import { useInstallStore } from '@/stores/installStore';
+import { promptInstall } from '@/hooks/useInstallPrompt';
+import { buildBugReportUrl, buildFeatureRequestUrl, GITHUB_REPO_URL } from '@/lib/supportLinks';
+
 const shortcuts = [
   ['Search workspace', 'mod K'], ['Save a checkpoint', 'mod S'],
   ['Download PDF', 'mod D'], ['Find and replace', 'mod H'],
@@ -10,10 +15,11 @@ const shortcuts = [
 ];
 
 export function HelpModal() {
+  const installed = useInstallStore((s) => s.isInstalled);
   const open = useUIStore((s) => s.helpOpen);
   const navigate = (action: () => void) => { useUIStore.getState().setHelpOpen(false); action(); };
   return <Dialog open={open} onOpenChange={(value) => useUIStore.getState().setHelpOpen(value)}>
-    <DialogContent className="sm:max-w-lg">
+    <DialogContent className="sm:max-w-lg max-h-[85dvh] overflow-y-auto">
       <DialogHeader className="pr-8"><DialogTitle>Help</DialogTitle><DialogDescription>Document guidance, keyboard shortcuts, and recovery.</DialogDescription></DialogHeader>
       <div className="flex flex-wrap gap-2">
         <Button variant="outline" onClick={() => navigate(() => useUIStore.getState().setDocumentGuideOpen(true))}>Document type guide</Button>
@@ -26,6 +32,19 @@ export function HelpModal() {
         <dl className="space-y-2 text-sm">{shortcuts.map(([label, keys]) => <div key={label} className="flex flex-wrap justify-between gap-2"><dt>{label}</dt><dd className="font-mono text-muted-foreground">{formatShortcut(keys)}</dd></div>)}</dl>
       </section>
       <p className="text-xs text-muted-foreground">Saved drafts live in this browser. A share link is a password-protected snapshot; attached files and images are excluded.</p>
+      <section aria-labelledby="help-support" className="space-y-3">
+        <h3 id="help-support" className="font-medium">Support & diagnostics</h3>
+        <div className="flex flex-wrap gap-2">
+          <Button variant="outline" onClick={() => navigate(() => useLogStore.getState().setOpen(true))}>View logs</Button>
+          <Button variant="outline" onClick={() => navigate(() => useUIStore.getState().setConnectivityModalOpen(true))}>Endpoint check</Button>
+          <Button variant="outline" onClick={() => navigate(() => useUIStore.getState().setNistModalOpen(true))}>NIST 800-171</Button>
+          {!installed && <Button variant="outline" onClick={() => void promptInstall()}>Install app</Button>}
+          <Button variant="outline" onClick={() => window.open(buildBugReportUrl(), '_blank', 'noopener,noreferrer')}>Report bug</Button>
+          <Button variant="outline" onClick={() => window.open(buildFeatureRequestUrl(), '_blank', 'noopener,noreferrer')}>Suggest feature</Button>
+          <Button variant="outline" onClick={() => window.open(GITHUB_REPO_URL, '_blank', 'noopener,noreferrer')}>GitHub project</Button>
+        </div>
+        <p className="text-xs text-muted-foreground">Reports open a draft on public GitHub for you to review and submit. Document text and logs are not attached automatically.</p>
+      </section>
       <Button variant="ghost" className="justify-self-start" onClick={() => navigate(() => useUIStore.getState().setAboutModalOpen(true))}>About DonDocs</Button>
       <Button variant="ghost" className="justify-self-start" onClick={() => navigate(() => useUIStore.getState().setWelcomeOpen(true))}>Welcome letter & optional tour</Button>
     </DialogContent>

@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { beforeEach, expect, it, vi } from 'vitest';
-import { act, fireEvent, render, screen, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { FormPanel } from '@/components/layout/FormPanel';
 import { DocumentGuideModal } from '@/components/modals/DocumentGuideModal';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -8,6 +8,8 @@ import { useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { useFormStore } from '@/stores/formStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
+import { useTourStore } from '@/stores/tourStore';
+import { TOUR_STEPS } from '@/components/tour/tourSteps';
 import { useUIStore } from '@/stores/uiStore';
 import { EXAMPLE_DOCUMENTS } from '@/data/exampleDocuments';
 import { DOC_TYPE_LABELS } from '@/types/document';
@@ -99,4 +101,36 @@ it.each(['correspondence', 'navmc_10274', 'navmc_118_11'] as const)('opens guide
   expect(useDocumentStore.getState().references).toEqual(example.references);
   expect(useDocumentStore.getState().distributions).toEqual([]);
   expect(useUIStore.getState().documentGuideOpen).toBe(false);
+});
+
+it.each(['enclosures', 'signature', 'classification'])('reveals the hidden %s section for an optional walkthrough', async (section) => {
+  useDocumentStore.setState({ documentCategory: 'correspondence', docType: 'naval_letter' });
+  useUIStore.setState({ documentGuideOpen: true, documentGuideTab: 'features' });
+  render(<TooltipProvider><FormPanel /><DocumentGuideModal /></TooltipProvider>);
+  const feature = section === 'enclosures' ? /^Enclosures/ : section === 'signature' ? /^Signature Signature/ : /^Classification & portion marks/;
+  fireEvent.click(screen.getByRole('button', { name: feature }));
+  fireEvent.click(screen.getByRole('button', { name: 'Walk me through it' }));
+  await waitFor(() => expect(useTourStore.getState().completionKey).toBe(section));
+  act(() => useTourStore.getState().steps[0].action?.());
+  expect(document.getElementById(`sec-${section}`)).toBeVisible();
+  expect(document.getElementById('sec-body')).not.toBeVisible();
+  act(() => useTourStore.getState().end());
+});
+
+it('does not offer a letter-only enclosure walkthrough while a form is open', () => {
+  useDocumentStore.setState({ documentCategory: 'forms', formType: 'navmc_10274' });
+  useUIStore.setState({ documentGuideOpen: true, documentGuideTab: 'features' });
+  render(<TooltipProvider><DocumentGuideModal /></TooltipProvider>);
+  fireEvent.click(screen.getByRole('button', { name: /^Enclosures/ }));
+  expect(screen.getByRole('button', { name: /This walkthrough needs/ })).toBeDisabled();
+  expect(useDocumentStore.getState().documentCategory).toBe('forms');
+});
+
+it.each(['correspondence', 'forms'] as const)('reveals type and template targets in %s during the intro tour', (documentCategory) => {
+  useDocumentStore.setState({ documentCategory, docType: 'naval_letter', formType: 'navmc_10274' });
+  render(<TooltipProvider><FormPanel /></TooltipProvider>);
+  for (const target of ['doctype', 'templates']) {
+    act(() => TOUR_STEPS.find((step) => step.target === `[data-tour="${target}"]`)!.action?.());
+    expect(document.querySelector(`[data-tour="${target}"]`)).toBeVisible();
+  }
 });

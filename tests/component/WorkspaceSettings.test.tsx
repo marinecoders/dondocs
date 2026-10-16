@@ -3,6 +3,8 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SettingsModal } from '@/components/modals/SettingsModal';
 import { HelpModal } from '@/components/modals/HelpModal';
+import { useDocumentStore } from '@/stores/documentStore';
+import { useLogStore } from '@/stores/logStore';
 import { useUIStore } from '@/stores/uiStore';
 import { useBackupStore } from '@/stores/backupStore';
 import { downloadWorkspaceBackup } from '@/lib/backupDownload';
@@ -56,4 +58,29 @@ describe('workspace settings and help', () => {
     expect(screen.queryByRole('dialog', { name: 'Help' })).not.toBeInTheDocument();
     expect(screen.getByRole('dialog', { name: 'Settings' })).toBeInTheDocument();
   });
+});
+
+it.each(['View logs', 'Endpoint check', 'NIST 800-171'])('keeps %s reachable directly from Help', async (label) => {
+  useUIStore.setState({ helpOpen: true, connectivityModalOpen: false, nistModalOpen: false });
+  useLogStore.getState().setOpen(false);
+  render(<HelpModal />);
+  await userEvent.click(screen.getByRole('button', { name: label }));
+  expect(useUIStore.getState().helpOpen).toBe(false);
+  if (label === 'View logs') expect(useLogStore.getState().isOpen).toBe(true);
+  if (label === 'Endpoint check') expect(useUIStore.getState().connectivityModalOpen).toBe(true);
+  if (label === 'NIST 800-171') expect(useUIStore.getState().nistModalOpen).toBe(true);
+});
+
+it.each(['Report bug', 'Suggest feature'])('opens a reviewable %s draft without sending document content', async (label) => {
+  const open = vi.spyOn(window, 'open').mockReturnValue(null);
+  useDocumentStore.getState().setField('subject', 'UNRELATED_PRIVATE_CONTENT');
+  useUIStore.getState().setHelpOpen(true);
+  render(<HelpModal />);
+  await userEvent.click(screen.getByRole('button', { name: label }));
+  const url = new URL(String(open.mock.calls[0][0]));
+  expect(url.pathname).toBe('/marinecoders/dondocs/issues/new');
+  expect(url.searchParams.get('body')).toContain('public GitHub');
+  expect(url.searchParams.get('body')).not.toContain('UNRELATED_PRIVATE_CONTENT');
+  expect(open).toHaveBeenCalledWith(expect.any(String), '_blank', 'noopener,noreferrer');
+  open.mockRestore();
 });

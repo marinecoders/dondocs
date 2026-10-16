@@ -62,17 +62,18 @@ describe('tourStore', () => {
   });
 
   it('start() drops steps whose target is absent from the current layout', () => {
-    // Mount every target except the two Header controls that are hidden below xl.
+    // Mount every target except Tools, which anchors both settings/help steps.
     mountTargets(
       TOUR_STEPS.map((s) => s.target).filter(
-        (t): t is string => !!t && t !== '[data-tour="appearance"]' && t !== '[data-tour="help"]'
+        (t): t is string => !!t && t !== '[data-tour="tools"]'
       )
     );
     useTourStore.getState().start();
     const steps = useTourStore.getState().steps;
     expect(steps).toHaveLength(TOUR_STEPS.length - 2);
-    expect(steps.some((s) => s.target === '[data-tour="appearance"]')).toBe(false);
-    expect(steps.some((s) => s.target === '[data-tour="help"]')).toBe(false);
+    expect(steps.some((s) => s.target === '[data-tour="tools"]')).toBe(false);
+    // Steps that reveal their hidden editor targets remain available.
+    expect(steps.filter((s) => s.action)).toHaveLength(2);
   });
 
   it('startSteps() spotlights ad-hoc steps without marking the first-run tour seen', () => {

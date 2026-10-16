@@ -1,3 +1,12 @@
+import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
+import { useUIStore } from '@/stores/uiStore';
+
+/** Reveal a focused editor section without changing the document. */
+export function revealTourSection(id: string): void {
+  useUIStore.getState().setCommandPaletteOpen(false);
+  useEditorOutlineStore.getState().jump(id);
+}
+
 /**
  * Steps for the guided product tour.
  *
@@ -30,22 +39,24 @@ export const TOUR_STEPS: TourStep[] = [
   {
     target: '[data-tour="doctype"]',
     title: 'Pick the format',
+    action: () => revealTourSection('type'),
     body: 'Each document type is set up to match its governing instruction, so the layout is correct from the first keystroke.',
   },
   {
     target: '[data-tour="templates"]',
     title: 'Or start from a template',
+    action: () => revealTourSection('type'),
     body: 'Load a ready-made document for common formats instead of starting from a blank page.',
   },
   {
     target: '[data-tour="download"]',
     title: 'Export when ready',
-    body: 'Generate a print-ready PDF or a Word file. Everything compiles in your browser; nothing leaves your device.',
+    body: 'Generate a print-ready PDF, or Word for supported correspondence formats. Everything compiles in your browser; nothing leaves your device.',
   },
   {
     target: '[data-tour="save"]',
     title: 'Save your work',
-    body: 'Your draft autosaves in this browser; use Download or Share to keep a permanent copy. Save keeps a named copy you can reload later.',
+    body: 'Your draft autosaves in this browser; use Document actions to save a checkpoint, export a draft file, or create a password-protected share snapshot. A share link excludes attachments.',
   },
   {
     target: '[data-tour="save"]',
@@ -53,22 +64,20 @@ export const TOUR_STEPS: TourStep[] = [
     body: 'This menu is also your safety net: "Back up everything" downloads one file with all your documents, profiles, signatures, and settings — restore it on any machine. On desktop Chrome or Edge, auto-backup can keep a file current after every save.',
   },
   {
-    target: '[data-tour="appearance"]',
+    target: '[data-tour="tools"]',
     title: 'Make it yours',
-    body: 'Switch between light and dark mode and adjust the spacing here.',
+    body: 'Open Tools → Settings (also in the sidebar) for Light, Dark, Classic, spacing, preview preferences, and backups.',
   },
   {
-    target: '[data-tour="help"]',
+    target: '[data-tour="tools"]',
     title: 'Help lives here',
-    body: 'Guides, keyboard shortcuts, bug reports, and feature ideas are all in this menu, and you can replay this tour from here anytime.',
+    body: 'Open Tools → Help & keyboard shortcuts (or sidebar Help) for guides, recovery, diagnostics, and feedback. The welcome letter offers this optional tour.',
   },
 ];
 
 /**
  * Drop steps whose target isn't in the current layout, so the tour never
- * spotlights an element the user can't see. Two Header controls (appearance,
- * help) are `hidden xl:flex`, so on sub-1280px widths their steps would
- * otherwise fall back to a centered card describing invisible buttons. A step
+ * spotlights an element the user can't see. Controls may be hidden by the responsive layout or focused editor. A step
  * with no target (a centered card) or an `action` (which mounts its own target)
  * is always kept — only steps that name an element already absent are removed.
  */

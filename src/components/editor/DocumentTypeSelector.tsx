@@ -233,7 +233,7 @@ export function DocumentTypeSelector() {
       {/* Forms Selector */}
       {!isCorrespondence && (
         <>
-        <div className="space-y-2">
+        <div data-tour="doctype" className="space-y-2">
           <Label>Form Type</Label>
           <Select value={formType} onValueChange={(v) => selectKind('forms', v as FormType)}>
             <SelectTrigger aria-label="Form Type" className="w-full">
@@ -259,6 +259,9 @@ export function DocumentTypeSelector() {
             Select a form type, then choose a section from Contents to start editing.
           </div>
         </div>
+        <Button data-tour="templates" variant="outline" size="sm" onClick={() => setTemplateLoaderOpen(true)}>
+          <FolderOpen className="h-4 w-4 mr-2" />Templates
+        </Button>
         </>
       )}
 
