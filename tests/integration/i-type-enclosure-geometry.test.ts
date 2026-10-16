@@ -40,14 +40,25 @@ describe('I-Type enclosure geometry', () => {
     } finally { await pdf.destroy(); }
   });
 
-  it.each([[1224, 792, 0], [792, 1224, 90], [612, 792, 0]])('keeps border-mode edge content visible (%s × %s, rotation %s)', async (width, height, rotation) => {
+  it.each([
+    [1224, 792, 0, 1224, 792], [792, 1224, 90, 1224, 792],
+    [612, 792, 0, 612, 792], [792, 612, 0, 792, 612],
+    [612, 792, 90, 792, 612], [612, 792, 180, 612, 792], [612, 792, 270, 792, 612],
+  ])('keeps border-mode edge content visible (%s × %s, rotation %s)', async (width, height, rotation, outputWidth, outputHeight) => {
     const result = await mergeEnclosures(await source(612, 792), [{ number: 1, title: 'Drawing', data: (await source(width, height, rotation)).buffer as ArrayBuffer, pageStyle: 'border' }], undefined, false, [], { enclosureLabel: 'footer', header: { line1: 'MI 12345A-26/1', line2: '30 October 2026' } });
     expect(result.errors).toEqual([]);
     const pdf = await getDocument({ data: result.pdfBytes.slice() }).promise;
     try {
       const page = await pdf.getPage(2);
       const viewport = page.getViewport({ scale: 1 });
-      const items = (await page.getTextContent()).items.filter((i) => 'str' in i && /EDGE/.test(i.str));
+      expect([viewport.width, viewport.height]).toEqual([outputWidth, outputHeight]);
+      const text = (await page.getTextContent()).items.filter((i) => 'str' in i);
+      for (const value of ['MI 12345A-26/1', 'Enclosure (1)', '1']) {
+        const identifier = text.find((item) => item.str === value)!;
+        expect(identifier.transform[4] + identifier.width).toBeCloseTo(outputWidth - 72, 0);
+      }
+      expect(text.find((item) => item.str === 'MI 12345A-26/1')!.transform[5]).toBe(outputHeight - 58);
+      const items = text.filter((i) => /EDGE/.test(i.str));
       expect(items).toHaveLength(2);
       for (const item of items) {
         if (!('str' in item)) continue;

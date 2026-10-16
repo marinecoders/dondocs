@@ -1313,8 +1313,9 @@ async function addPdfEnclosure(
       }
 
       const publication = labelStyle === 'footer';
-      const outputWidth = publication ? Math.max(PAGE_WIDTH, visualWidth) : PAGE_WIDTH;
-      const outputHeight = publication ? Math.max(PAGE_HEIGHT, visualHeight) : PAGE_HEIGHT;
+      const landscape = visualWidth > visualHeight;
+      const outputWidth = publication ? Math.max(landscape ? PAGE_HEIGHT : PAGE_WIDTH, visualWidth) : PAGE_WIDTH;
+      const outputHeight = publication ? Math.max(landscape ? PAGE_WIDTH : PAGE_HEIGHT, visualHeight) : PAGE_HEIGHT;
       const page = mainPdf.addPage([outputWidth, outputHeight]);
 
       // Record first page for hyperlink navigation
@@ -1393,7 +1394,7 @@ async function addPdfEnclosure(
         if (header) addPublicationHeader(page, helveticaBold, header);
       }
 
-      // Add page number for multi-page enclosures (bottom center)
+      // Publications number every page; correspondence numbers multi-page enclosures.
       if (pageCount > 1 || labelStyle === 'footer') {
         addPageNumber(page, i + 1, helveticaBold, labelStyle === 'footer' ? 12 : 10, labelStyle === 'footer');
       }
