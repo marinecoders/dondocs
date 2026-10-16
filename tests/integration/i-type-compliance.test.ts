@@ -47,7 +47,11 @@ async function local(s: Publication, extra: Record<string, Uint8Array> = {}): Pr
 async function textItems(bytes: Uint8Array, page: number) {
   const pdf = await getDocument({ data: bytes.slice(), useSystemFonts: false }).promise;
   try {
-    return (await (await pdf.getPage(page)).getTextContent()).items.filter((item) => 'str' in item);
+    const content = await (await pdf.getPage(page)).getTextContent();
+    return content.items.filter((item) => 'str' in item).map((item) => ({ ...item,
+      // Font-box bottom, not the outline of individual glyphs.
+      bottom: item.transform[5] + content.styles[item.fontName].descent * item.height,
+    }));
   } finally { await pdf.destroy(); }
 }
 
@@ -202,7 +206,12 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
       const left = Math.min(...line.map((item) => item.transform[4]));
       const right = Math.max(...line.map((item) => item.transform[4] + item.width));
       expect((left + right) / 2).toBeCloseTo(306, 0);
-      const rules = (await pdfRules(bytes, page)).filter((r) => r.right - r.left > 400);
+      const allRules = await pdfRules(bytes, page);
+      const rules = allRules.filter((r) => r.right - r.left > 400);
+      const gridTop = Math.max(...allRules.filter((r) => r.top - r.bottom > 10).map((r) => r.top));
+      // Table I permits slight leading variations; use a one-point tolerance
+      // for font-box metrics on both the initial and continued title.
+      expect(Math.abs(label.bottom - gridTop - 18)).toBeLessThan(1);
       for (const rule of rules) expect(rule.weight).toBeCloseTo(0.75, 2);
       for (const rule of rules) {
         expect(rule.left).toBeCloseTo(72, 2);

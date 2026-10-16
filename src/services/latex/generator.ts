@@ -896,7 +896,7 @@ ${group.join('\n')}
 \\hline ${head} \\tabularnewline \\hline
 ${lines.slice(0, firstGroupLines).join('\n')}
 \\end{tabular}}}
-\\dondocsNeedspace{\\ht\\dondocsTableStart+\\dp\\dondocsTableStart+6\\baselineskip}
+\\dondocsNeedspace{\\ht\\dondocsTableStart+\\dp\\dondocsTableStart+6\\baselineskip+18bp}
 `;
   }
 
@@ -906,7 +906,7 @@ ${lines.slice(0, firstGroupLines).join('\n')}
   // closing rule is omitted at the foot of a continued table and the opening
   // rule at the head of its continuation (MIL-STD-38784C 4.7.9.2, 4.7.9.3).
   const continued = `${continuedTitle}\n    ${head} \\tabularnewline\n    \\hline\n    \\endhead`;
-  return `\\vspace{6pt}
+  return `\\vspace{18bp}
 {\\renewcommand{\\arraystretch}{1.3}\\setlength{\\LTpre}{0pt}\\setlength{\\LTpost}{12pt}
 ${setWidth}
 \\begin{longtable}[l]{|${colSpec}|}
@@ -1174,7 +1174,7 @@ export function generateBodyTex(store: DocumentStore): string {
     // A publication paragraph may carry one of its fixed tables.
     if (para.tableKey) {
       const entry = navigation.get(`itype.table.${i}`);
-      if (entry) parts.push('\\dondocsNeedspace{\\ht\\dondocsTableStart+\\dp\\dondocsTableStart+2\\baselineskip}\n');
+      if (entry) parts.push('\\dondocsNeedspace{\\ht\\dondocsTableStart+\\dp\\dondocsTableStart+2\\baselineskip+18bp}\n');
       parts.push(navigationTex(entry));
       if (entry) parts.push(`{\\centering\\textbf{${tableTitleTex(entry.title)}}\\par}\\nopagebreak[4]\n`);
       parts.push(generatePublicationTable(para.tableKey, store.publicationTables?.[para.tableKey] ?? [], entry?.title || headerText || '', false, crossReferences, para.tableIdentifierMode));
