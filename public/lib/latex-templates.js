@@ -2602,6 +2602,8 @@ const LATEX_TEMPLATES = {
     \\fi
 }
 \\setlength{\\footskip}{0.43in}
+% MIL-STD-38784C Table I: 0.75-point table rules (PDF points).
+\\setlength{\\arrayrulewidth}{0.75bp}
 
 % Enclosures are listed under DISTRIBUTION on the authentication page, not
 % in a letter's Encl: block. The entries themselves stay registered: the

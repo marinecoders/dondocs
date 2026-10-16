@@ -202,6 +202,7 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
       const right = Math.max(...line.map((item) => item.transform[4] + item.width));
       expect((left + right) / 2).toBeCloseTo(306, 0);
       const rules = (await pdfRules(bytes, page)).filter((r) => r.right - r.left > 400);
+      for (const rule of rules) expect(rule.weight).toBeCloseTo(0.75, 2);
       expect(rules).toHaveLength(page === 3 || page === text.length ? 2 : 1);
       const lastRow = Math.min(...items.filter((item) => item.str === 'BOLT').map((item) => item.transform[5]));
       expect(rules.some((rule) => rule.top < lastRow)).toBe(page === text.length);
@@ -215,10 +216,14 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
     s.endItems = Array.from({ length: 100 }, (_, i) => ({ ...s.endItems[0], model: `MODEL-${i + 1}` }));
     const bytes = await production(s);
     const text = pages(bytes, 'end-item-rules');
+    const coverRules = (await pdfRules(bytes, 1)).filter((r) => r.right - r.left > 400);
+    expect(coverRules.length).toBeGreaterThan(0);
+    for (const rule of coverRules) expect(rule.weight).toBeCloseTo(0.75, 2);
     const tablePages = text.flatMap((page, i) => page.includes('MODEL-') ? [i + 1] : []);
     expect(tablePages.length).toBeGreaterThan(1);
     for (const page of tablePages) {
       const rules = (await pdfRules(bytes, page)).filter((r) => r.right - r.left > 400);
+      for (const rule of rules) expect(rule.weight).toBeCloseTo(0.75, 2);
       const last = page === tablePages.at(-1);
       expect(rules).toHaveLength(page === tablePages[0] || last ? 2 : 1);
       const items = await textItems(bytes, page);
