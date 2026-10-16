@@ -140,6 +140,7 @@ function App() {
   const theme = useUIStore((s) => s.theme);
   const colorScheme = useUIStore((s) => s.colorScheme);
   const density = useUIStore((s) => s.density);
+  const [workspaceReady, setWorkspaceReady] = useState(false);
   const isMobile = useUIStore((s) => s.isMobile);
   const setIsMobile = useUIStore((s) => s.setIsMobile);
   // Gate the lazy MobilePreviewModal; chunk fetches on first open only.
@@ -391,6 +392,7 @@ function App() {
       // importantly, stops the browser evicting the service worker's precache
       // (the root of the recurring unstyled-shell loop).
       .finally(() => {
+        if (!cancelled) setWorkspaceReady(true);
         void requestPersistentStorage()
           .catch(() => false)
           .then(() => probeStorageHealth())
@@ -614,7 +616,7 @@ function App() {
 
   // Debounced compilation on document changes
   useEffect(() => {
-    if (!isReady || batchRunning || documentCategory === 'forms') return;
+    if (!workspaceReady || !isReady || batchRunning || documentCategory === 'forms') return;
 
     if (compileTimeoutRef.current) {
       clearTimeout(compileTimeoutRef.current);
@@ -640,6 +642,7 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isReady,
+    workspaceReady,
     currentDocId,
     documentCategory,
     batchRunning,
@@ -1858,6 +1861,13 @@ ${texFiles['body.tex'] || '% No body content'}
 
     return groups;
   }, [outlineSections, allDocs, currentDocId, isInstalled, userTemplates]);
+
+  if (!workspaceReady) {
+    return <main className="flex h-screen-dvh flex-col items-center justify-center gap-3 bg-background text-foreground">
+      <img src={`${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`} alt="Marine Coders" className="h-10 w-10 brightness-0 dark:invert" />
+      <p role="status" className="text-sm text-muted-foreground">Opening workspace…</p>
+    </main>;
+  }
 
   const currentPreviewUrl = documentCategory === 'forms'
     ? (formPdfDocumentId === currentDocId ? formPdfUrl : null)
