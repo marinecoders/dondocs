@@ -387,6 +387,7 @@ export function Form6105Section() {
             <div className="space-y-2">
               <Label htmlFor="supplementalInfo">12. Supplemental Information</Label>
               <VariableChipEditor
+                ariaLabel="12. Supplemental Information"
                 value={navmc10274.supplementalInfo}
                 onChange={(v) => setNavmc10274Field('supplementalInfo', v)}
                 placeholder="Full counseling statement (type @ or click + for variables)…"
@@ -403,6 +404,7 @@ export function Form6105Section() {
             <div className="space-y-2">
               <Label htmlFor="proposedAction">Proposed/Recommended Action</Label>
               <VariableChipEditor
+                ariaLabel="Proposed/Recommended Action"
                 value={navmc10274.proposedAction}
                 onChange={(v) => setNavmc10274Field('proposedAction', v)}
                 placeholder="e.g., 'Request entry of adverse Page 11 (6105) entry per MCO 1610.7A' (type @ or click + for variables)"

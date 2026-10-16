@@ -141,6 +141,7 @@ const BatchModalRow = memo(function BatchModalRow({
       {detectedPlaceholders.map((placeholder) => (
         <td key={placeholder} className="px-1 py-1">
           <Input
+            aria-label={`Row ${idx + 1}: ${placeholder}`}
             value={row.values[placeholder] || ''}
             onChange={(e) => updateRowValue(row.id, placeholder, e.target.value)}
             placeholder={placeholder.substring(0, 8)}

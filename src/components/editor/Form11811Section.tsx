@@ -280,6 +280,7 @@ export function Form11811Section() {
               <div className="space-y-2">
                 <Label htmlFor="remarksText">Administrative Remarks (Left)</Label>
                 <VariableChipEditor
+                  ariaLabel="Administrative Remarks (Left)"
                   value={navmc11811.remarksText}
                   onChange={(v) => setNavmc11811Field('remarksText', v)}
                   placeholder="Type @ or click + for variables. Example: On {{ENTRY_DATE}}, {{NAME}} [describe the incident]…"
@@ -296,6 +297,7 @@ export function Form11811Section() {
               <div className="space-y-2">
                 <Label htmlFor="remarksTextRight">Administrative Remarks (Right)</Label>
                 <VariableChipEditor
+                  ariaLabel="Administrative Remarks (Right)"
                   value={navmc11811.remarksTextRight || ''}
                   onChange={(v) => setNavmc11811Field('remarksTextRight', v)}
                   placeholder="[Continuation or additional entry…] (type @ or click + for variables)"
