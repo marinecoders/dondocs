@@ -15,7 +15,7 @@ import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfTo
 // page rather than on the LaTeX that produced it: the compile matrix already
 // shows every fixture compiles, and a string test on generated TeX passes
 // while proving nothing about what a Marine sees. These read the PDF back
-// with pdftotext and check the rules the MARCORSYSCOM template states.
+// with pdftotext and check the template with the governing I-Type corrections.
 
 
 async function renderDocument(mutate: (s: Record<string, unknown>) => void, extraFiles: Record<string, Uint8Array> = {}): Promise<{ pages: string[]; pdf: string }> {
@@ -127,10 +127,10 @@ describe.skipIf(!hasPdfToolchain)('I-Type renders per the template', () => {
     expect(auth).toMatch(/3\.\s+Use TDM-Publications portal/);
   });
 
-  it('runs the short title and the full date on every page after the cover', () => {
+  it('runs the short title after the cover and keeps the full date on authentication', () => {
     for (const p of pages.slice(1)) {
       expect(p).toMatch(/MI 12345A-24\/1/);
-      expect(p).toMatch(/15 December 2024/);
+      expect(p.includes('15 December 2024')).toBe(p.includes('authenticated for Marine Corps use'));
       expect(p).not.toMatch(/15 Dec 24/);
     }
   });
@@ -164,9 +164,7 @@ describe.skipIf(!hasPdfToolchain)('I-Type renders per the template', () => {
   });
 });
 
-// What the MARCORSYSCOM template settles beyond the standard: read off the
-// template's own header, footer, and authentication page.
-describe.skipIf(!hasPdfToolchain)('I-Type follows the template page for page', () => {
+describe.skipIf(!hasPdfToolchain)('I-Type front matter and page layout', () => {
   let pages: string[];
   let pdf: string;
 
@@ -260,15 +258,14 @@ describe.skipIf(!hasPdfToolchain)('I-Type follows the template page for page', (
     expect(body).toBeLessThan(appendix);
   });
 
-  it('centres the short title and date in an appendix header, above the appendix title', () => {
-    // pdftotext may split the centred pair at its gap; both precede the title.
-    const lines = pages[pages.length - 1].split('\n').map((l) => l.trim()).filter(Boolean);
-    const title = lines.indexOf('APPENDIX A');
-    const short = lines.findIndex((l) => /MI 12345A-24\/1/.test(l));
-    const date = lines.findIndex((l) => /15 December 2024/.test(l));
-    expect(short).toBeGreaterThanOrEqual(0);
-    expect(date).toBeGreaterThanOrEqual(0);
-    expect(Math.max(short, date)).toBeLessThan(title);
+  it('right-aligns the short title above the title on appendix page A-1', () => {
+    const lines = lineBoxes(pdf, pages.length);
+    const title = lines.find((l) => l.text === 'APPENDIX A')!;
+    const short = lines.find((l) => l.text === 'MI 12345A-24/1')!;
+    expect(short.x1).toBeCloseTo(540, 0);
+    expect(short.y1).toBeLessThan(title.y0);
+    expect(pages.at(-1)).toContain('A-1');
+    expect(pages.at(-1)).not.toContain('15 December 2024');
   });
 
   it("labels a parent item's parts with a Consisting of: row", () => {

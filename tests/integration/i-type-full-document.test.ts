@@ -166,7 +166,8 @@ describe.skipIf(!hasPdfToolchain)('a complete Modification Instruction, end to e
 
   it('ends with the appendix, lettered, titled, numbered A-1, its figure numbered with the letter', () => {
     const last = pages[pages.length - 1];
-    order(last, 'MI 12345A-24/1', '31 December 2024', 'APPENDIX A', 'TORQUE VALUES', 'Rail screws 25 in-lb', /Figure A-1\.\s+Torque chart/, 'A-1');
+    order(last, 'MI 12345A-24/1', 'APPENDIX A', 'TORQUE VALUES', 'Rail screws 25 in-lb', /Figure A-1\.\s+Torque chart/, 'A-1');
+    expect(last).not.toContain('31 December 2024');
   });
 
   it('places every image: the seal, two raster figures, and keeps every page inside the margins', () => {
