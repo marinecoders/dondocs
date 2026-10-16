@@ -5,16 +5,6 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
-## [Unreleased]
-
-### Added
-
-- I-Type publication drafts for MI, SI, TI, and LI, with cover and authentication
-  pages, parts tables, procedures, figures, appendices, enclosures, and PDF bookmarks.
-  Export checks reject incomplete distribution data, invalid urgent periods,
-  missing drawings, and multi-page figure uploads. The format requires the
-  publication-office decisions recorded in `docs/TECHPUB_I_TYPE.md` before approval.
-
 ## [1.2.167] — 2026-09-13
 
 ### Fixed

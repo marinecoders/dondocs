@@ -2572,7 +2572,7 @@ const LATEX_TEMPLATES = {
 % This module is the frame: the cover and its notices, the authentication
 % page, and the page styles. The paragraph numbering, the materiel tables,
 % the WARNING/CAUTION/NOTE boxes, the procedural steps and the appendices are
-% emitted by the generator into the body; see docs/TECHPUB_I_TYPE.md.
+% emitted by the generator into the body.
 %
 %=============================================================================
 
@@ -2588,7 +2588,7 @@ const LATEX_TEMPLATES = {
 %
 % Overridden here rather than gated in main.tex so the twenty correspondence
 % formats keep the behaviour they were written against. The cover page
-% replaces this with the seal; see docs/TECHPUB_I_TYPE.md.
+% replaces this with the seal.
 
 \\renewcommand{\\printLetterhead}{}
 
