@@ -12,6 +12,7 @@ import { spawnSync } from 'node:child_process';
 import { buildBaseline } from '../_helpers/compileMatrix';
 import { compileFixture, type TestStore } from '../_helpers/compileLatex';
 import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfToolchain';
+import { pdfRules } from '../_helpers/pdfRules';
 import { generateAllLatexFiles } from '@/services/latex/generator';
 import { compileDocument, prepareEngine, LatexCompileError } from '@/services/latex/renderDocument';
 import { createNodeEngine, loadAssets } from '../../companion/nodeEngine';
@@ -184,7 +185,7 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
     await expect(production(s)).rejects.toThrow(/long title exceeds four lines/);
   }, 60_000);
 
-  it('centers table titles on initial and continuation pages', async () => {
+  it('centers table titles and closes only the final table page', async () => {
     const s = baseline();
     s.paragraphs.push({ level: 0, header: 'Materiel Required', text: 'Use the listed parts.', tableKey: 'materielRequired' });
     s.publicationTables = { materielRequired: Array.from({ length: 80 }, (_, i) => ({ values: { item: String(i + 1), description: 'BOLT', pn: 'ABC123 (1AB23)', qty: '2' } })) };
@@ -200,9 +201,30 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
       const left = Math.min(...line.map((item) => item.transform[4]));
       const right = Math.max(...line.map((item) => item.transform[4] + item.width));
       expect((left + right) / 2).toBeCloseTo(306, 0);
+      const rules = (await pdfRules(bytes, page)).filter((r) => r.right - r.left > 400);
+      expect(rules).toHaveLength(page === 3 || page === text.length ? 2 : 1);
+      const lastRow = Math.min(...items.filter((item) => item.str === 'BOLT').map((item) => item.transform[5]));
+      expect(rules.some((rule) => rule.top < lastRow)).toBe(page === text.length);
       titles++;
     }
     expect(titles).toBeGreaterThan(1);
+  }, 60_000);
+
+  it('leaves continued end-item lists open and closes the last page once', async () => {
+    const s = baseline();
+    s.endItems = Array.from({ length: 100 }, (_, i) => ({ ...s.endItems[0], model: `MODEL-${i + 1}` }));
+    const bytes = await production(s);
+    const text = pages(bytes, 'end-item-rules');
+    const tablePages = text.flatMap((page, i) => page.includes('MODEL-') ? [i + 1] : []);
+    expect(tablePages.length).toBeGreaterThan(1);
+    for (const page of tablePages) {
+      const rules = (await pdfRules(bytes, page)).filter((r) => r.right - r.left > 400);
+      const last = page === tablePages.at(-1);
+      expect(rules).toHaveLength(page === tablePages[0] || last ? 2 : 1);
+      const items = await textItems(bytes, page);
+      const lastRow = Math.min(...items.filter((item) => item.str.startsWith('MODEL-')).map((item) => item.transform[5]));
+      expect(rules.some((rule) => rule.top < lastRow)).toBe(last);
+    }
   }, 60_000);
 
   it.each([false, true])('rejects an oversized later table row or component group (nested: %s)', async (nested) => {

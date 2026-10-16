@@ -343,7 +343,7 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
         .map((item) =>
           [item.nsn, item.tamcn, item.id, item.model].map((v) => escapeLatex(v || '')).join(' & ')
         )
-        .join(' \\\\ \\hline ');
+        .join(' \\\\ ');
       tex += `\\setEndItemOverflowRows{${all}}\n`;
     }
   }
@@ -841,8 +841,8 @@ function generatePublicationTable(tableKey: string, rows: PublicationTableRow[],
     return `\\raggedright\\hangindent=${hang}\\hangafter=1 \\hspace*{${first}}${text}`;
   };
 
-  // longtable's hline permits a break inside the rule. Use a plain rule at
-  // protected parent/component boundaries so its penalty cannot split the group.
+  // Keep parent/component boundaries together. Body rows have no horizontal
+  // rules, so a continuation ends open and only the final foot closes it.
   const lines: string[] = [];
   const groups: string[][] = [];
   let groupStart = 0;
@@ -865,14 +865,14 @@ function generatePublicationTable(tableKey: string, rows: PublicationTableRow[],
         const cage = c.key === 'pn' ? /^(.*\S)\s+\((\w+)\)$/.exec(raw.replace(FOOTNOTE_REFERENCE_TOKEN, '').trim()) : null;
         return cage ? `\\raggedright ${breakLongTokens(escapeLatex(cage[1]))}\\par\\centering(${escapeLatex(cage[2])})${renderCell((raw.match(FOOTNOTE_REFERENCE_TOKEN) ?? []).join(''))}` : `\\raggedright ${cell}`;
       })
-      .join(' & ') + ((rows[r + 1]?.level ?? 0) > level ? ' \\tabularnewline* \\noalign{\\nobreak\\hrule height\\arrayrulewidth\\nobreak}' : ' \\tabularnewline \\hline'));
+      .join(' & ') + ((rows[r + 1]?.level ?? 0) > level ? ' \\tabularnewline*' : ' \\tabularnewline'));
     // A parent item is followed by a "Consisting of:" row at its items'
     // indent, as the template lays the parts list out.
     const next = rows[r + 1];
     if (next && (next.level ?? 0) > level) {
       const cells = Array.from({ length: spec.columns.length }, () => '\\raggedright ');
       cells[descriptionIndex] = cellText('Consisting of:', next.level ?? 0);
-      lines.push(cells.join(' & ') + ' \\tabularnewline* \\noalign{\\nobreak\\hrule height\\arrayrulewidth\\nobreak}');
+      lines.push(cells.join(' & ') + ' \\tabularnewline*');
     } else {
       if (!firstGroupLines) firstGroupLines = lines.length;
       groups.push(lines.slice(groupStart));
