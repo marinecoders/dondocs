@@ -85,6 +85,6 @@ source margins. Rendered pages were inspected for cover notices and PCN, odd/eve
 identifiers, initial/continued/final tables, and wide/rotated enclosures.
 
 These changes retain PDF output without inserted blank pages and the existing
-6.5-inch text block. Paper delivery, the reproduction-area profile, cover and
-authentication order, and publication-specific approval remain open in the
-[requirements record](ITYPE_REQUIREMENTS.md).
+6.5-inch text block. The supplied cover and front authentication page are
+retained. Paper delivery, the reproduction-area profile and publication-specific
+approval remain open in the [requirements record](ITYPE_REQUIREMENTS.md).

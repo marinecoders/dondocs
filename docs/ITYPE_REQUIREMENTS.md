@@ -1,10 +1,10 @@
 # I-Type requirements and acceptance
 
-The baseline is MIL-DTL-28999D(MC), 10 February 2020, with MIL-STD-38784C,
-4 September 2024. Detail-specification requirements take precedence over its
-references under section 2.4, subject to the contract. The supplied MARCORSYSCOM
-template and email do not establish approved tailoring. No tailoring record or
-license to distribute Times New Roman has been supplied.
+The supplied MARCORSYSCOM `1. I-Type Template.docx` is the working layout
+reference for the MVP. Retain its cover and separate front authentication page.
+Reconciliation with MIL-DTL-28999D(MC) and MIL-STD-38784C is deferred; the
+specification references below record the prior audit, not a decision to replace
+the supplied layout. Font licensing remains deferred.
 
 This table tracks the requirements examined in PR #270. It is not a complete
 certification of the specifications. A requirement is closed only by a cited
@@ -19,7 +19,7 @@ check, manual review, or written approval that applies to the publication.
 | Safety callouts | DTL §3.1.4.3 | PDF tests for order and keeping callouts with their text. Technical review establishes hazard content and applicability. |
 | Internal references | STD §4.8.1 | `publicationReferences.test.ts` and production PDF tests check linked paragraph, figure, table and table-footnote references, renumbering, saved-document restoration and destinations after enclosure merging/signature-field insertion. Footnotes are cited inside their own table cells with linked superscripts and consecutive numeric labels. Deleting a note updates remaining citations. Bookmarks include printed paragraph labels; unrelated URLs do not exempt unlinked internal references. External citations support `[publication and location](https://source)`; source availability and location accuracy require review. |
 | Font | DTL §3.1.1 | OPEN: renderer embeds Nimbus Roman, not Times New Roman. Obtain a distributable font license or approved substitution before format acceptance. |
-| Cover, authentication, supersedure | DTL §§3.2, 3.3.1, 3.3.2.3, 3.3.2.16–18; supplied template | OPEN: resolve conflicting placement and order with the acquiring activity. Do not treat a template as a waiver. |
+| Cover, authentication, supersedure | DTL §§3.2, 3.3.1, 3.3.2.3, 3.3.2.16–18; supplied template | Retain the supplied template’s cover and front authentication page. The proposed DTL restructuring is not planned. Authority reconciliation is deferred. |
 | Headers and pagination | DTL §§3.1.6, 3.3.1.3; STD §4.7.2.2.1 | Production PDF tests check short titles and bold page numbers at the left on even pages and right on odd pages, including cover-list overflow and appendix numbering. Page 1 prints its PCN immediately above its numeral. Classification banners remain separate. |
 | External enclosures | DTL §3.1.8.1; STD §§4.7.1, 4.8.9 | Attached source documents receive an upper-right short title and an enclosure number above their first page number, on the first page only. Added wrapper pages block export. PDF tests check wide and rotated content, all three fitting modes, and reserved identifier margins. Source-specific numbering, markings and readability still require review. |
 | Blank pages and reproduction area | DTL §3.1.6; STD §§4.1, 4.7.4, 5.3.3 and Table II | OPEN: establish paper versus PDF delivery and the applicable page-area profile. Current PDF output adds no blank pages and retains the 6.5-inch text block. |
@@ -51,9 +51,10 @@ check, manual review, or written approval that applies to the publication.
 
 ## Review limits
 
-No full-compliance declaration is made. Font and template-layout decisions remain
-open, as do the complete current marking-authority review, publication-office
-approval and publication-specific technical validation. The user confirmed that
+No full-compliance declaration is made. The supplied template is selected for
+the MVP layout; authority reconciliation and font licensing are deferred. The
+complete current marking-authority review, publication-office approval and
+publication-specific technical validation remain open. The user confirmed that
 no tailoring record or distributable Times New Roman license is available.
 
 Additional marking guidance used for the corrections:
@@ -67,3 +68,21 @@ Current ALPS-HDBK-004 and MCSCO 4130.2 copies, applicable local policy and progr
 records are still needed to complete their review. The software-version column
 implements the explicit DTL requirement without claiming the unverified reporting
 workflow. Software authorization is outside this I-Type document audit.
+
+## MVP layout decision
+
+Keep the supplied template's cover, six-row end-item grid and separate front
+authentication page. Do not move authentication to the end of the body or
+replace the cover with the arrangement illustrated in MIL-DTL-28999D.
+
+Both sources address MI, TI, SI and LI technical publications. The template
+itself references MIL-DTL-28999 for appendices and enclosures, while Figure 1
+of that specification directs authors to obtain the latest I-Type template.
+The observed layout differences do not establish which arrangement the
+publication office currently requires. That authority review is deferred.
+
+Earlier header, pagination, enclosure and table corrections remain implemented.
+Their verification is recorded above; selecting the supplied cover layout does
+not establish that every rendered detail now matches the Word template.
+
+The browser acceptance pass and font licensing remain deferred.
