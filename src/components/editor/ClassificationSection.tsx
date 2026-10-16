@@ -585,6 +585,17 @@ export function ClassificationSection() {
               <div className="space-y-4 p-3 rounded-md border bg-muted/30">
                 <p className="text-sm font-medium text-destructive">Classified Configuration</p>
 
+                {isPublication && <div className="space-y-2">
+                  <Label htmlFor="classificationBasis">Classification basis</Label>
+                  <Select value={formData.classificationBasis ?? ''} onValueChange={(v) => { if (v === 'original' || v === 'derivative') setField('classificationBasis', v); }}>
+                    <SelectTrigger id="classificationBasis"><SelectValue placeholder="Select basis" /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="derivative">Derivative classification</SelectItem>
+                      <SelectItem value="original">Original classification</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>}
+
                 <div className="space-y-2">
                   <Label htmlFor="classifiedBy">Classified By</Label>
                   <Input

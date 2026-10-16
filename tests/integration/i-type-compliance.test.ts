@@ -62,6 +62,18 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
     }
   };
 
+  it.each(['derivative', 'original'] as const)('puts %s classification authority on the cover', async (classificationBasis) => {
+    const s = baseline();
+    Object.assign(s.formData, { classLevel: 'secret', classificationBasis, classifiedBy: 'Synthetic reviewer, Program Office', derivedFrom: 'Synthetic guide', classReason: '1.4(a)', declassifyOn: '20361015' });
+    s.paragraphs[0].portionMarking = 'S';
+    const text = pages(await production(s), `authority-${classificationBasis}`);
+    expect(text[0]).toContain('Classified By: Synthetic reviewer');
+    expect(text[0]).toContain('Declassify On: 20361015');
+    expect(text[0].includes('Derived From: Synthetic guide')).toBe(classificationBasis === 'derivative');
+    expect(text[0].includes('Reason: 1.4(a)')).toBe(classificationBasis === 'original');
+    expect(text[1]).not.toContain('Classified By:');
+  }, 60_000);
+
   it('renders 12-point body text and keeps authentication on one page', async () => {
     const bytes = await production(baseline());
     const text = pages(bytes, 'font-auth');

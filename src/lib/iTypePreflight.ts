@@ -1,4 +1,5 @@
 import { validatePublicationReferences, REFERENCE_TOKEN } from './publicationReferences';
+import { iTypeClassificationErrors } from './iTypeClassification';
 import { validatePublicationDate } from './publicationDate';
 import { validateMajorItemsOrder } from './majorItemsOrder';
 import { tableSpec } from '@/data/techpub/tables';
@@ -25,6 +26,7 @@ export function iTypeExportErrors(store: Publication): string[] {
   if (store.docType !== 'i_type') return [];
   const d = store.formData;
   const errors: string[] = [];
+  errors.push(...iTypeClassificationErrors(d, store.paragraphs));
   for (const [key, label] of Object.entries({ shortTitle: 'Short title', pcn: 'PCN', nomenclature: 'Nomenclature', subject: 'Long title', unitLine1: 'Issuing command', sigLast: 'Signatory', controllingOffice: 'Controlling office' })) {
     if (!String(d[key as keyof DocumentData] ?? '').trim()) errors.push(`${label} is required.`);
   }

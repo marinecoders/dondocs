@@ -1277,6 +1277,7 @@ export function generateClassificationTex(store: DocumentStore): string {
 %=============================================================================
 
 \\setClassification{${marking}}
+${store.docType === 'i_type' ? `\\def\\ITypeClassificationBasis{${data.classificationBasis === 'original' ? 'original' : 'derivative'}}` : ''}
 \\setClassifiedBy{${escapeLatex(data.classifiedBy)}}
 \\setDerivedFrom{${escapeLatex(data.derivedFrom)}}
 \\setDeclassifyOn{${escapeLatex(data.declassifyOn)}}

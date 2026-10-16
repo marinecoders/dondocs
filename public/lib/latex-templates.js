@@ -2769,15 +2769,6 @@ const LATEX_TEMPLATES = {
     {\\raggedleft\\DocumentDate\\par}
     \\par\\vspace{12pt}%
     %
-    \\ifClassifiedEnabled
-        \\noindent
-        Classified by: \\ClassifiedBy\\\\
-        Derived from: \\DerivedFrom\\\\
-        Reason: \\ClassificationReason\\\\
-        Declassify on: \\DeclassifyOn\\\\
-        \\printPOCLine
-        \\par\\vspace{12pt}%
-    \\fi
     %
     \\begin{enumerate}[label=\\arabic*., leftmargin=*, itemsep=12pt, topsep=0pt]
         % The template's "appropriate publication" is the type AND its number
@@ -2880,6 +2871,15 @@ const LATEX_TEMPLATES = {
     % bottom by that much and its last lines were cut off.
     \\begin{minipage}[b]{\\textwidth}
         \\raggedright
+        \\ifClassifiedEnabled
+            \\noindent Classified By: \\ClassifiedBy\\\\
+            \\ifdefstring{\\ITypeClassificationBasis}{original}{%
+                Reason: \\ClassificationReason\\\\
+            }{%
+                Derived From: \\DerivedFrom\\\\
+            }%
+            Declassify On: \\DeclassifyOn\\par\\vspace{6pt}%
+        \\fi
         \\ifCUIEnabled
             \\noindent\\hfill\\begin{minipage}{0.65\\textwidth}\\raggedright
             Controlled by: \\CUIControlledBy\\ifNotEmpty{\\ControllingOffice}{, \\ControllingOffice}\\\\

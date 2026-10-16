@@ -262,6 +262,7 @@ export interface DocumentData {
   classLevel: string;
   customClassification: string;
   classifiedBy: string;
+  classificationBasis?: 'original' | 'derivative';
   derivedFrom: string;
   declassifyOn: string;
   classReason: string;
