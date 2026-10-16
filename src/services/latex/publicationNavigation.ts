@@ -33,7 +33,7 @@ export function publicationNavigation(paragraphs: Paragraph[], tables: Record<st
       add(`itype.p.${i}`, `${labels[i]} ${headingCase(p.header.trim().replace(/\.$/, ''))}`, headingDepth);
     }
     if (p.tableKey && tables[p.tableKey]?.length) {
-      add(`itype.table.${i}`, `Table ${appendix ? appendix + '-' : ''}${++table}. ${p.header?.trim().replace(/\.$/, '') ?? ''}`, headingDepth + 1);
+      add(`itype.table.${i}`, `Table ${appendix ? appendix + '-' : ''}${++table}.  ${headingCase(p.header?.trim().replace(/\.$/, '') ?? '')}`, headingDepth + 1);
     }
   });
   const parents: PublicationDestination[] = [];

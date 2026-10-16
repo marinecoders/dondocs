@@ -804,6 +804,11 @@ function underlineWords(text: string): string {
  * second. An empty table prints nothing -- a table that does not apply is
  * removed, unlike the End Item table on the cover which keeps its six rows.
  */
+function tableTitleTex(title: string): string {
+  const match = /^(Table \S+)\s+(.+)$/.exec(title);
+  return match ? `${escapeLatex(match[1])}\\hspace{2\\fontdimen2\\font}${escapeLatex(match[2])}` : escapeLatex(title);
+}
+
 function generatePublicationTable(tableKey: string, rows: PublicationTableRow[], heading: string, measure = false, references: PublicationReference[] = []): string {
   const fullSpec = tableSpec(tableKey);
   if (!fullSpec || rows.length === 0) return '';
@@ -886,7 +891,7 @@ ${lines.slice(0, firstGroupLines).join('\n')}
   // continuation the title and "Continued" and the boxhead are repeated, the
   // closing rule is omitted at the foot of a continued table and the opening
   // rule at the head of its continuation (MIL-STD-38784C 4.7.9.2, 4.7.9.3).
-  const continued = `\\multicolumn{${spec.columns.length}}{@{}l@{}}{\\textit{${escapeLatex(heading)} -- Continued}} \\tabularnewline\n    ${head} \\tabularnewline\n    \\hline\n    \\endhead`;
+  const continued = `\\multicolumn{${spec.columns.length}}{@{}p{\\textwidth}@{}}{\\centering\\textbf{${tableTitleTex(heading)} -- Continued}\\par} \\tabularnewline\n    ${head} \\tabularnewline\n    \\hline\n    \\endhead`;
   return `\\vspace{6pt}
 {\\renewcommand{\\arraystretch}{1.3}\\setlength{\\LTpre}{0pt}\\setlength{\\LTpost}{12pt}
 \\begin{longtable}[l]{|${colSpec}|}
@@ -1156,7 +1161,7 @@ export function generateBodyTex(store: DocumentStore): string {
       const entry = navigation.get(`itype.table.${i}`);
       if (entry) parts.push('\\dondocsNeedspace{\\ht\\dondocsTableStart+\\dp\\dondocsTableStart+2\\baselineskip}\n');
       parts.push(navigationTex(entry));
-      if (entry) parts.push(`\\noindent\\textbf{${escapeLatex(entry.title)}}\\par\\nopagebreak[4]\n`);
+      if (entry) parts.push(`{\\centering\\textbf{${tableTitleTex(entry.title)}}\\par}\\nopagebreak[4]\n`);
       parts.push(generatePublicationTable(para.tableKey, store.publicationTables?.[para.tableKey] ?? [], entry?.title || headerText || '', false, crossReferences));
       for (const note of para.tableFootnotes ?? []) {
         if (!/^[a-z0-9]+$/i.test(note.id)) continue;

@@ -159,6 +159,27 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
     await expect(production(s)).rejects.toThrow(/long title exceeds four lines/);
   }, 60_000);
 
+  it('centers table titles on initial and continuation pages', async () => {
+    const s = baseline();
+    s.paragraphs.push({ level: 0, header: 'Materiel Required', text: 'Use the listed parts.', tableKey: 'materielRequired' });
+    s.publicationTables = { materielRequired: Array.from({ length: 80 }, (_, i) => ({ values: { item: String(i + 1), description: 'BOLT', pn: 'ABC123 (1AB23)', qty: '2' } })) };
+    const bytes = await production(s);
+    const text = pages(bytes, 'centered-table-titles');
+    expect(text.join(' ')).toContain('Continued');
+    let titles = 0;
+    for (let page = 3; page <= text.length; page++) {
+      const items = await textItems(bytes, page);
+      const label = items.find((item) => item.str.startsWith('Table 1.'));
+      if (!label) continue;
+      const line = items.filter((item) => Math.abs(item.transform[5] - label.transform[5]) < 0.1 && item.str.trim());
+      const left = Math.min(...line.map((item) => item.transform[4]));
+      const right = Math.max(...line.map((item) => item.transform[4] + item.width));
+      expect((left + right) / 2).toBeCloseTo(306, 0);
+      titles++;
+    }
+    expect(titles).toBeGreaterThan(1);
+  }, 60_000);
+
   it('keeps notices and PCN on the cover when six wrapping rows require continuation', async () => {
     const s = baseline();
     Object.assign(s.formData, { classLevel: 'cui', cuiDistStatement: 'D', distReason: 'Critical Technology', distDate: '2026-10-01', cuiControlledBy: 'DOD', cuiCategory: 'CTI', cuiDissemination: 'FEDCON', exportRestricted: true,
