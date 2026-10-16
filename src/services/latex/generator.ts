@@ -809,8 +809,8 @@ function tableTitleTex(title: string): string {
   return match ? `${escapeLatex(match[1])}\\hspace{2\\fontdimen2\\font}${escapeLatex(match[2])}` : escapeLatex(title);
 }
 
-function generatePublicationTable(tableKey: string, rows: PublicationTableRow[], heading: string, measure = false, references: PublicationReference[] = []): string {
-  const fullSpec = tableSpec(tableKey);
+function generatePublicationTable(tableKey: string, rows: PublicationTableRow[], heading: string, measure = false, references: PublicationReference[] = [], identifierMode?: 'stock' | 'software'): string {
+  const fullSpec = tableSpec(tableKey, identifierMode);
   if (!fullSpec || rows.length === 0) return '';
   // "If Item Numbers are not needed in tables, remove column." Derived from the
   // rows rather than asked: a table where no row carries an item number prints
@@ -832,7 +832,9 @@ function generatePublicationTable(tableKey: string, rows: PublicationTableRow[],
   const proportion = spec.columns.reduce((sum, c) => sum + parseFloat(c.width), 0);
   const scale = (TEXT_WIDTH_IN - padding) / proportion;
   const colSpec = spec.columns.map((c) => `p{${(parseFloat(c.width) * scale).toFixed(2)}in}`).join('|');
-  const head = spec.columns.map((c) => `\\textbf{${escapeLatex(c.label)}}`).join(' & ');
+  const head = spec.columns.map((c) => c.key === 'softwareVersion'
+    ? '\\raggedright\\textbf{Current\\newline Software/\\allowbreak Firmware\\newline (S/F) Version}'
+    : `\\textbf{${escapeLatex(c.label)}}`).join(' & ');
   const descriptionIndex = spec.columns.findIndex((c) => c.key === 'description');
   const cellText = (text: string, level: number) => {
     const { first, hang } = INDENT[Math.min(level, INDENT.length - 1)];
@@ -1096,7 +1098,7 @@ export function generateBodyTex(store: DocumentStore): string {
     const formattedHeader = headerText ? toTitleCase(headerText.replace(/\.$/, '')) : '';
 
     if (store.docType === 'i_type' && para.tableKey && store.publicationTables?.[para.tableKey]?.length) {
-      parts.push(generatePublicationTable(para.tableKey, store.publicationTables[para.tableKey], headerText || '', true, crossReferences));
+      parts.push(generatePublicationTable(para.tableKey, store.publicationTables[para.tableKey], headerText || '', true, crossReferences, para.tableIdentifierMode));
     }
     if (store.docType === 'i_type' && headerText && !para.tableKey) parts.push('\\dondocsNeedspace{4\\baselineskip}\n');
     parts.push(navigationTex(navigation.get(`itype.p.${i}`)) || (store.docType === 'i_type' ? `\\dondocsReferenceAnchor{itype.p.${i}}\n` : ''));
@@ -1162,7 +1164,7 @@ export function generateBodyTex(store: DocumentStore): string {
       if (entry) parts.push('\\dondocsNeedspace{\\ht\\dondocsTableStart+\\dp\\dondocsTableStart+2\\baselineskip}\n');
       parts.push(navigationTex(entry));
       if (entry) parts.push(`{\\centering\\textbf{${tableTitleTex(entry.title)}}\\par}\\nopagebreak[4]\n`);
-      parts.push(generatePublicationTable(para.tableKey, store.publicationTables?.[para.tableKey] ?? [], entry?.title || headerText || '', false, crossReferences));
+      parts.push(generatePublicationTable(para.tableKey, store.publicationTables?.[para.tableKey] ?? [], entry?.title || headerText || '', false, crossReferences, para.tableIdentifierMode));
       for (const note of para.tableFootnotes ?? []) {
         if (!/^[a-z0-9]+$/i.test(note.id)) continue;
         parts.push(`\\par\\noindent\\hspace*{5\\fontdimen2\\font}\\dondocsReferenceAnchor{itype.note.${i}.${note.id.toUpperCase()}}${escapeLatex(note.id)}\\hspace{2\\fontdimen2\\font}${bodyText(note.text)}\\par\n`);

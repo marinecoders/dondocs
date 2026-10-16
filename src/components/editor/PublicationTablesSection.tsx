@@ -45,13 +45,22 @@ export function PublicationTablesSection() {
         Indent an item to list it as consisting of the one above.
       </p>
       {carried.map(({ key, heading, paragraph, paragraphIndex }) => {
-        const spec = tableSpec(key);
+        const spec = tableSpec(key, paragraph.tableIdentifierMode);
         if (!spec) return null;
         const rows = tables[key] ?? [];
 
         return (
           <div key={key} className="space-y-2">
             <span className="text-sm font-medium">{heading ?? key}</span>
+            <label className="flex items-center gap-2 text-xs">
+              Identifiers
+              <select aria-label={`Identifier mode, ${heading ?? key}`} value={paragraph.tableIdentifierMode ?? 'stock'}
+                onChange={(e) => useDocumentStore.getState().updateParagraph(paragraphIndex, { tableIdentifierMode: e.target.value === 'software' ? 'software' : 'stock' })}>
+                <option value="stock">Stock identifiers</option>
+                <option value="software">Software/firmware version (MI)</option>
+              </select>
+            </label>
+            {paragraph.tableIdentifierMode === 'software' && <p className="text-xs text-muted-foreground">Use this alternative only when no NSN, part number or CAGE is assigned. Clear any stock identifiers before export.</p>}
 
             {rows.length === 0 && (
               <p className="text-xs text-muted-foreground">

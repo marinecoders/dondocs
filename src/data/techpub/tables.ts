@@ -77,5 +77,10 @@ export const I_TYPE_TABLES: PublicationTableSpec[] = [
   { key: 'jigsFixtures', name: 'Jigs and Fixtures', columns: MATERIEL_COLUMNS },
 ];
 
-export const tableSpec = (key: string): PublicationTableSpec | undefined =>
-  I_TYPE_TABLES.find((t) => t.key === key);
+export function tableSpec(key: string, identifierMode?: 'stock' | 'software'): PublicationTableSpec | undefined {
+  const spec = I_TYPE_TABLES.find((t) => t.key === key);
+  if (!spec || identifierMode !== 'software') return spec;
+  return { ...spec, columns: spec.columns.map((column) => column.key === 'nsn'
+    ? { ...column, key: 'softwareVersion', label: 'Current Software/Firmware (S/F) Version' }
+    : column) };
+}

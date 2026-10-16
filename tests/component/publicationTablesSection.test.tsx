@@ -13,6 +13,17 @@ const withParagraph = (tableKey: string, header: string) =>
 beforeEach(() => useDocumentStore.setState({ paragraphs: [], publicationTables: {} }));
 
 describe('PublicationTablesSection', () => {
+  it('edits and restores a software-version table without reinterpreting an NSN', () => {
+    withParagraph('majorItems', 'Major Items Affected');
+    render(<PublicationTablesSection />);
+    fireEvent.click(screen.getByRole('button', { name: /add row/i }));
+    fireEvent.change(screen.getByLabelText('Identifier mode, Major Items Affected'), { target: { value: 'software' } });
+    fireEvent.change(screen.getByLabelText('Current Software/Firmware (S/F) Version, Major Items Affected row 1'), { target: { value: 'v2.4.1' } });
+    const snapshot = JSON.parse(JSON.stringify(useDocumentStore.getState().getSnapshot()));
+    useDocumentStore.getState().applySnapshot(snapshot);
+    expect(useDocumentStore.getState().paragraphs[0].tableIdentifierMode).toBe('software');
+    expect(useDocumentStore.getState().publicationTables.majorItems[0].values).toMatchObject({ softwareVersion: 'v2.4.1' });
+  });
   it('inserts a footnote without exposing the stored reference token in the cell', () => {
     useDocumentStore.setState({ paragraphs: [{ text: '', level: 0, header: 'Materiel Required', tableKey: 'materielRequired', tableFootnotes: [{ id: '1', text: 'Quantity per assembly.' }] }], publicationTables: { materielRequired: [{ values: { description: 'BOLT' } }] } });
     render(<PublicationTablesSection />);

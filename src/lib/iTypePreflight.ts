@@ -40,8 +40,10 @@ export function iTypeExportErrors(store: Publication): string[] {
     if (!rows.some((r) => Object.values(r.values).some((v) => v.trim()))) continue;
     const spec = tableSpec(key);
     if (!spec) { errors.push(`Unknown publication table: ${key}.`); continue; }
-    errors.push(...validatePublicationTableRows(key, rows));
     const attached = store.paragraphs.filter((p) => p.tableKey === key);
+    const identifierMode = attached[0]?.tableIdentifierMode;
+    errors.push(...validatePublicationTableRows(key, rows, identifierMode));
+    if (identifierMode === 'software' && (d.publicationType ?? 'MI') !== 'MI') errors.push('Software and firmware changes require a Modification Instruction (MI).');
     if (attached.length !== 1) errors.push(`${spec.name} must be attached to exactly one paragraph.`);
     if (spec.columns.some((c) => c.key === 'item')) errors.push(...validateItemNumbers(rows, spec.name, key === 'materielRequired').map((f) => f.message));
     if (rows.some((r) => Object.values(r.values).some((v) => v.trim()) && !r.values.description?.trim())) errors.push(`${spec.name}: every populated row needs a description.`);

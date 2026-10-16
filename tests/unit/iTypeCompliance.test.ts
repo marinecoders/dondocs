@@ -19,6 +19,16 @@ const baseline = () => ({ ...useDocumentStore.getState(), docType: 'i_type', par
 });
 
 describe('I-Type export checks', () => {
+  it('exports the software-version alternative only in an MI', () => {
+    const s = baseline();
+    s.paragraphs.push({ level: 0, header: 'Major Items Affected', text: '', tableKey: 'majorItems', tableIdentifierMode: 'software' } as typeof s.paragraphs[number]);
+    s.publicationTables = { majorItems: [{ values: { description: 'CONTROLLER SOFTWARE', softwareVersion: 'v2.4.1', id: '12345A', tamcn: 'A02557G' } }] };
+    expect(iTypeExportErrors(s)).toEqual([]);
+    Object.assign(s.formData, { publicationType: 'TI', shortTitle: 'TI 12345A-26/1' });
+    expect(iTypeExportErrors(s).join(' ')).toContain('Software and firmware changes require');
+    s.publicationTables.majorItems[0].values.softwareVersion = '';
+    expect(iTypeExportErrors(s).join(' ')).toContain('current software/firmware version');
+  });
   it('requires a complete distribution statement and a valid date', () => {
     const s = baseline();
     expect(iTypeExportErrors(s)).toEqual([]);

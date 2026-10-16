@@ -86,6 +86,7 @@ export interface Paragraph {
   /** A technical publication paragraph may carry one of its fixed tables; the
    *  key names which. Absent on correspondence, which has none. */
   tableKey?: string;
+  tableIdentifierMode?: 'stock' | 'software';
   /** Renders as a safety callout rather than a numbered paragraph. WARNING is
    *  risk to people, CAUTION risk to equipment, NOTE neither. */
   callout?: CalloutKind;

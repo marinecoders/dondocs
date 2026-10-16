@@ -5,6 +5,12 @@ import { useDocumentStore } from '@/stores/documentStore';
 
 const row = { values: { item: '1', description: 'BOLT', pn: 'ABC123 (1AB23)', nsn: '', qty: '2' } };
 describe('publication table content', () => {
+  it('keeps software versions separate from stock identifiers', () => {
+    const software = { values: { ...row.values, pn: '', softwareVersion: 'v2.4.1' } };
+    expect(validatePublicationTableRows('materielRequired', [software], 'software')).toEqual([]);
+    expect(validatePublicationTableRows('materielRequired', [{ values: { ...software.values, pn: 'ABC123' } }], 'software').join(' ')).toContain('without assigned');
+    expect(validatePublicationTableRows('materielRequired', [software], 'stock').join(' ')).toContain('select the software/firmware');
+  });
   it('requires quantity and a CAGE when no NSN is assigned', () => {
     expect(validatePublicationTableRows('materielRequired', [row])).toEqual([]);
     expect(validatePublicationTableRows('materielRequired', [{ values: { ...row.values, pn: 'ABC123', qty: '' } }])).toHaveLength(2);

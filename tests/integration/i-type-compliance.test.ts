@@ -180,6 +180,17 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
     expect(titles).toBeGreaterThan(1);
   }, 60_000);
 
+  it('prints software versions under the version heading', async () => {
+    const s = baseline();
+    s.paragraphs.push({ level: 0, header: 'Major Items Affected', text: 'Update the software.', tableKey: 'majorItems', tableIdentifierMode: 'software' });
+    s.publicationTables = { majorItems: [{ values: { description: 'CONTROLLER SOFTWARE', softwareVersion: 'v2.4.1', id: '12345A', tamcn: 'A02557G' } }] };
+    const text = pages(await production(s), 'software-version');
+    expect(text[2]).toContain('v2.4.1');
+    expect(text[2]).toContain('Software/Firmware');
+    expect(text[2]).toContain('(S/F) Version');
+    expect(text[2]).not.toMatch(/\bNSN\b/);
+  }, 60_000);
+
   it('keeps notices and PCN on the cover when six wrapping rows require continuation', async () => {
     const s = baseline();
     Object.assign(s.formData, { classLevel: 'cui', cuiDistStatement: 'D', distReason: 'Critical Technology', distDate: '2026-10-01', cuiControlledBy: 'DOD', cuiCategory: 'CTI', cuiDissemination: 'FEDCON', exportRestricted: true,
