@@ -40,14 +40,14 @@ export function UpdatePromptModal({ open, onConfirm, onDismiss }: UpdatePromptMo
               <span>Update Available</span>
             </DialogTitle>
             <DialogDescription className="break-words">
-              A new version of the app is available. Your work will be automatically
-              restored after the update.
+              A new version of the app is available. After updating, the workspace
+              reopens your last saved draft.
             </DialogDescription>
           </DialogHeader>
 
           <Notice variant="info" className="text-xs text-muted-foreground break-words">
-            <strong>Note:</strong> PDF enclosure files and signature images will need
-            to be re-attached after the update.
+            Saved documents and their attachments stay in this browser. Use
+            Backup &amp; restore in Settings to keep an external copy.
           </Notice>
 
           <DialogFooter className="flex-col sm:flex-row gap-2 flex-shrink-0">
