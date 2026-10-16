@@ -18,7 +18,7 @@ import {
   ResourceNotFoundError, ResourceTemplate, acceptedContent, completable, inputRequired, inputResponse,
 } from '@modelcontextprotocol/server';
 import type { ClientCapabilities, ServerContext } from '@modelcontextprotocol/server';
-import { serveStdio } from '@modelcontextprotocol/server/stdio';
+import { serveStdio, StdioServerTransport } from '@modelcontextprotocol/server/stdio';
 import { readFile } from 'node:fs/promises';
 import { basename, extname } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -467,6 +467,9 @@ const handle = serveStdio(() => {
   );
 
   return server;
+}, {
+  // Match the HTTP request limit, with room for attachment metadata and document text.
+  transport: new StdioServerTransport(process.stdin, process.stdout, { maxBufferSize: 16_000_000 }),
 });
 
 // stderr, never stdout — stdout belongs to the protocol.

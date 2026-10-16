@@ -46,6 +46,12 @@ export function publicationEnclosures(input: LetterInput): Enclosure[] {
 
 export function publicationInputErrors(input: LetterInput): string[] {
   const errors: string[] = [];
+  for (const [index, paragraph] of (input.paragraphs ?? []).entries()) {
+    const blocks = [paragraph.figure, paragraph.callout, paragraph.procedure, paragraph.appendix, paragraph.tableKey];
+    if (blocks.filter(Boolean).length > 1) {
+      errors.push(`Paragraph ${index + 1}: choose only one of figure, callout, procedure, appendix or table.`);
+    }
+  }
   for (const [key, rows] of Object.entries(input.publication?.tables ?? {})) {
     const mode = input.paragraphs?.find((p) => p.tableKey === key)?.tableIdentifierMode;
     const spec = tableSpec(key, mode);
