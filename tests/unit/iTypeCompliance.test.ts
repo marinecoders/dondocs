@@ -122,6 +122,20 @@ describe('final publication checks', () => {
 });
 
 describe('publication distribution and CUI designation', () => {
+  it('requires matching export-control warnings, reasons and statements', () => {
+    const s = baseline();
+    Object.assign(s.formData, { exportRestricted: true, distDate: '2026-10-15', distReason: 'Export Controlled' });
+    for (const statement of ['B', 'C', 'D', 'E']) {
+      s.formData.cuiDistStatement = statement;
+      expect(iTypeExportErrors(s)).toEqual([]);
+    }
+    s.formData.cuiDistStatement = 'F';
+    expect(iTypeExportErrors(s).join(' ')).toContain('warning requires');
+    s.formData.cuiDistStatement = 'D'; s.formData.distReason = 'Software Documentation';
+    expect(iTypeExportErrors(s).join(' ')).toContain('warning requires');
+    s.formData.distReason = 'Export Controlled'; s.formData.exportRestricted = false;
+    expect(iTypeExportErrors(s).join(' ')).toContain('Include the export-control warning');
+  });
   it('allows restricted unclassified information without assigning CUI', () => {
     const s = baseline(); Object.assign(s.formData, { classLevel: 'unclassified', cuiDistStatement: 'D', distDate: '2026-10-15', distReason: 'Software Documentation' });
     expect(iTypeExportErrors(s)).toEqual([]);

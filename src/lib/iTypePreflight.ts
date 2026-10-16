@@ -48,6 +48,9 @@ export function iTypeExportErrors(store: Publication): string[] {
   if (d.cuiDistStatement === 'A' && !['unclassified', 'custom'].includes(deriveOverallClassLevel(d.classLevel, store.paragraphs))) errors.push('Statement A conflicts with the selected controlled or classified markings. Resolve the release determination before export.');
   if (d.cuiDistStatement === 'A' && (d.exportRestricted || d.distReason === 'Export Controlled')) errors.push('Export-controlled information cannot use Distribution Statement A.');
   if (d.distReason === 'Export Controlled' && !d.exportRestricted) errors.push('Include the export-control warning for Export Controlled information.');
+  if (d.exportRestricted && (!['B', 'C', 'D', 'E'].includes(d.cuiDistStatement ?? '') || d.distReason !== 'Export Controlled')) {
+    errors.push('The export-control warning requires Distribution Statement B, C, D, or E with the reason Export Controlled.');
+  }
   if (deriveOverallClassLevel(d.classLevel, store.paragraphs) === 'cui') {
     if (!d.cuiControlledBy?.trim()) errors.push('Enter the organization responsible for the CUI designation.');
     if (!d.cuiCategory?.trim()) errors.push('Enter the CUI categories.');
