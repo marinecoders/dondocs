@@ -1310,7 +1310,10 @@ async function addPdfEnclosure(
         throw new Error(`Page ${i + 1} has no content stream (empty or malformed page)`);
       }
 
-      const page = mainPdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
+      const publication = labelStyle === 'footer';
+      const outputWidth = publication ? Math.max(PAGE_WIDTH, visualWidth) : PAGE_WIDTH;
+      const outputHeight = publication ? Math.max(PAGE_HEIGHT, visualHeight) : PAGE_HEIGHT;
+      const page = mainPdf.addPage([outputWidth, outputHeight]);
 
       // Record first page for hyperlink navigation
       if (pagesAdded === 0 && !enclosure.hasCoverPage) {
@@ -1328,7 +1331,7 @@ async function addPdfEnclosure(
       const { scale, x, y, drawBorder } = calculatePageLayout(
         visualWidth,
         visualHeight,
-        style
+        style, outputWidth, outputHeight, publication
       );
 
       // ============================================================
@@ -1447,20 +1450,23 @@ async function addPdfEnclosure(
 function calculatePageLayout(
   srcWidth: number,
   srcHeight: number,
-  style: 'border' | 'fullpage' | 'fit'
+  style: 'border' | 'fullpage' | 'fit',
+  pageWidth = PAGE_WIDTH,
+  pageHeight = PAGE_HEIGHT,
+  publication = false
 ): { scale: number; x: number; y: number; drawBorder: boolean } {
   switch (style) {
     case 'fullpage': {
       // Scale to fill the entire page (no margins)
-      const scaleX = PAGE_WIDTH / srcWidth;
-      const scaleY = PAGE_HEIGHT / srcHeight;
+      const scaleX = pageWidth / srcWidth;
+      const scaleY = pageHeight / srcHeight;
       const scale = Math.min(scaleX, scaleY);
       const scaledWidth = srcWidth * scale;
       const scaledHeight = srcHeight * scale;
       return {
         scale,
-        x: (PAGE_WIDTH - scaledWidth) / 2,
-        y: (PAGE_HEIGHT - scaledHeight) / 2,
+        x: (pageWidth - scaledWidth) / 2,
+        y: (pageHeight - scaledHeight) / 2,
         drawBorder: false,
       };
     }
@@ -1468,8 +1474,8 @@ function calculatePageLayout(
     case 'fit': {
       // Fit within margins (1 inch on all sides, plus space for header)
       const headerSpace = 36; // 0.5 inch for header
-      const availWidth = PAGE_WIDTH - 2 * MARGIN;
-      const availHeight = PAGE_HEIGHT - 2 * MARGIN - headerSpace;
+      const availWidth = pageWidth - 2 * MARGIN;
+      const availHeight = pageHeight - 2 * MARGIN - headerSpace;
       const scaleX = availWidth / srcWidth;
       const scaleY = availHeight / srcHeight;
       const scale = Math.min(scaleX, scaleY);
@@ -1477,7 +1483,7 @@ function calculatePageLayout(
       const scaledHeight = srcHeight * scale;
       return {
         scale,
-        x: (PAGE_WIDTH - scaledWidth) / 2,
+        x: (pageWidth - scaledWidth) / 2,
         y: MARGIN + (availHeight - scaledHeight) / 2,
         drawBorder: false,
       };
@@ -1486,15 +1492,15 @@ function calculatePageLayout(
     case 'border':
     default: {
       // 85% scale with border, centered
-      const scale = 0.85;
-      const scaledWidth = srcWidth * scale;
-      const scaledHeight = srcHeight * scale;
       // Adjust vertical position to account for header
       const headerSpace = 36;
-      const availHeight = PAGE_HEIGHT - headerSpace - MARGIN;
+      const availHeight = pageHeight - headerSpace - (publication ? 2 : 1) * MARGIN;
+      const scale = publication ? Math.min(0.85, (pageWidth - 2 * MARGIN) / srcWidth, availHeight / srcHeight) : 0.85;
+      const scaledWidth = srcWidth * scale;
+      const scaledHeight = srcHeight * scale;
       return {
         scale,
-        x: (PAGE_WIDTH - scaledWidth) / 2,
+        x: (pageWidth - scaledWidth) / 2,
         y: MARGIN + (availHeight - scaledHeight) / 2,
         drawBorder: true,
       };
@@ -1709,7 +1715,7 @@ function addPublicationHeader(page: PDFPage, font: Awaited<ReturnType<PDFDocumen
   const fontSize = 10;
   const line = [header.line1, header.line2].filter(Boolean).join('    ');
   const width = font.widthOfTextAtSize(line, fontSize);
-  page.drawText(line, { x: (PAGE_WIDTH - width) / 2, y: PAGE_HEIGHT - 58, size: fontSize, font, color: rgb(0, 0, 0) });
+  page.drawText(line, { x: (page.getWidth() - width) / 2, y: page.getHeight() - 58, size: fontSize, font, color: rgb(0, 0, 0) });
 }
 
 /**
@@ -1727,7 +1733,7 @@ function addEnclosureLabel(
     const labelText = `Enclosure ${enclosureNumber}`;
     const textWidth = font.widthOfTextAtSize(labelText, fontSize);
     page.drawText(labelText, {
-      x: (PAGE_WIDTH - textWidth) / 2,
+      x: (page.getWidth() - textWidth) / 2,
       y: 36 + 14, // one line above the page number (see addPageNumber)
       size: fontSize,
       font,
@@ -1739,7 +1745,7 @@ function addEnclosureLabel(
   const textWidth = font.widthOfTextAtSize(labelText, fontSize);
 
   page.drawText(labelText, {
-    x: PAGE_WIDTH - MARGIN - textWidth, // Right-aligned with 1 inch margin
+    x: page.getWidth() - MARGIN - textWidth, // Right-aligned with 1 inch margin
     y: MARGIN - 18, // Below the 1 inch margin (0.25 inch from bottom margin)
     size: fontSize,
     font,
@@ -1760,7 +1766,7 @@ function addPageNumber(
   const textWidth = font.widthOfTextAtSize(pageNumText, fontSize);
 
   page.drawText(pageNumText, {
-    x: (PAGE_WIDTH - textWidth) / 2,
+    x: (page.getWidth() - textWidth) / 2,
     y: 36, // 0.5 inch from bottom
     size: fontSize,
     font,
@@ -1781,11 +1787,11 @@ function addClassificationMarking(
   const textWidth = font.widthOfTextAtSize(marking, fontSize);
 
   const y = position === 'top'
-    ? PAGE_HEIGHT - 24  // 1/3 inch from top
+    ? page.getHeight() - 24  // 1/3 inch from top
     : 18;               // 1/4 inch from bottom
 
   page.drawText(marking, {
-    x: (PAGE_WIDTH - textWidth) / 2,
+    x: (page.getWidth() - textWidth) / 2,
     y,
     size: fontSize,
     font,
