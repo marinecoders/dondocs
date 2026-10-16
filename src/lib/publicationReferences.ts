@@ -1,5 +1,6 @@
 import type { Paragraph, PublicationTableRow } from '@/types/document';
 import { paragraphMark } from '@/services/latex/paragraphLabel';
+import { safeUrl } from './url-safety';
 
 export interface PublicationReference {
   index: number;
@@ -11,6 +12,8 @@ export interface PublicationReference {
 }
 export const FOOTNOTE_REFERENCE_TOKEN = /\{\{PUBREF_N_[A-Z0-9_]+\}\}/g;
 export const REFERENCE_TOKEN = /\{\{PUBREF_[A-Z0-9_]+\}\}/g;
+export const EXTERNAL_PUBLICATION_LINK = /\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g;
+export const referenceFreeText = (text: string) => text.replace(REFERENCE_TOKEN, '').replace(EXTERNAL_PUBLICATION_LINK, (match, _label, url) => safeUrl(url) ? '' : match);
 export const referenceName = (kind: string, id: string, note?: string) => `PUBREF_${kind}_${id}${note ? `_${note.toUpperCase()}` : ''}`;
 
 export function publicationReferences(paragraphs: Paragraph[], tables: Record<string, PublicationTableRow[]> = {}): PublicationReference[] {
@@ -68,9 +71,9 @@ export function validatePublicationReferences(paragraphs: Paragraph[], tables: R
       }
     }
     for (const text of [...proseFields, ...cellFields]) {
-      const prose = text.replace(REFERENCE_TOKEN, '');
-      if (/\b(?:paragraph|figure|table)\s+(?:[A-Z]-)?\d+[a-z]?(?:\([a-z0-9]+\))*/i.test(prose) && !/https?:\/\//i.test(prose)) {
-        errors.push('Use Insert to link typed paragraph, figure or table references. For an external publication, include its source URL and verify the cited location.');
+      const prose = referenceFreeText(text);
+      if (/\b(?:paragraph|figure|table)\s+(?:[A-Z]-)?\d+[a-z]?(?:\([a-z0-9]+\))*/i.test(prose)) {
+        errors.push('Use Insert for internal paragraph, figure or table references. Link an external citation as [publication and location](https://source) and verify the location.');
       }
       for (const token of text.match(REFERENCE_TOKEN) ?? []) {
         if (!targets.has(token.slice(2, -2))) errors.push('A publication reference has no target. Reinsert it or restore the deleted target.');

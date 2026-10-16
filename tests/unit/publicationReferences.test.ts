@@ -5,12 +5,26 @@ import { publicationReferenceText } from '@/services/latex/publicationReferenceT
 import { generateBodyTex } from '@/services/latex/generator';
 import { useDocumentStore } from '@/stores/documentStore';
 import { withoutTableFootnote } from '@/lib/tableFootnotes';
+import { publicationNavigation } from '@/services/latex/publicationNavigation';
 
 const id = 'ABCDEF0123456789ABCDEF0123456789';
 const target: Paragraph = { level: 0, header: 'Inspection', text: 'Inspect the bracket.', referenceId: id };
 const reference: Paragraph = { level: 0, header: 'Purpose', text: `See {{PUBREF_P_${id}}}.` };
 
 describe('publication references', () => {
+  it('includes printed paragraph labels in bookmarks, including appendices', () => {
+    const paragraphs: Paragraph[] = [target, { ...target, level: 1 }, { level: 0, appendix: true, header: 'Data', text: '' }, target];
+    const navigation = publicationNavigation(paragraphs);
+    expect(navigation.get('itype.p.0')?.title).toBe('1. Inspection');
+    expect(navigation.get('itype.p.1')?.title).toBe('a. Inspection');
+    expect(navigation.get('itype.p.3')?.title).toBe('A-1. Inspection');
+  });
+  it('does not exempt internal references because another URL is present', () => {
+    expect(validatePublicationReferences([{ ...reference, text: 'See paragraph 2. Source: https://example.mil.' }, target]).join(' ')).toContain('Use Insert');
+    const text = 'See [Example Manual, TM 123, paragraph 2](https://example.mil/Manual#paragraph-2).';
+    expect(validatePublicationReferences([{ ...reference, text }])).toEqual([]);
+    expect(publicationReferenceText(text, [])).toContain('\\dondocsExternalLink{https://example.mil/Manual\\#paragraph-2}{Example Manual, TM 123, paragraph 2}');
+  });
   it('links table-cell notes as superscripts and rejects body or foreign-table citations', () => {
     const note = `{{PUBREF_N_${id}_1}}`;
     const p: Paragraph = { ...target, tableKey: 'materielRequired', tableFootnotes: [{ id: '1', text: 'Quantity per assembly.' }] };

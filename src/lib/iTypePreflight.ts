@@ -1,4 +1,4 @@
-import { validatePublicationReferences, REFERENCE_TOKEN } from './publicationReferences';
+import { validatePublicationReferences, referenceFreeText } from './publicationReferences';
 import { iTypeClassificationErrors } from './iTypeClassification';
 import { validatePublicationTableRows } from './publicationTableValidation';
 import { validatePublicationDate } from './publicationDate';
@@ -77,7 +77,7 @@ export function iTypeExportErrors(store: Publication): string[] {
   const fields = [d.shortTitle, d.pcn, d.nomenclature, d.subject, d.unitLine1, d.unitLine2, d.unitAddress,
     d.sigFirst, d.sigMiddle, d.sigLast, d.sigTitle, d.controllingOffice, d.pocEmail, d.supersedure,
     d.classifiedBy, d.derivedFrom, d.classReason, d.declassifyOn, d.customClassification];
-  const content = JSON.stringify({ fields, paragraphs: paragraphs.map((p) => ({ ...p, text: p.text.replace(REFERENCE_TOKEN, ''), tableFootnotes: p.tableFootnotes?.map((n) => ({ ...n, text: n.text.replace(REFERENCE_TOKEN, '') })) })), endItems: store.endItems, tables: Object.fromEntries(Object.entries(store.publicationTables ?? {}).map(([key, rows]) => [key, rows.map((r) => ({ ...r, values: Object.fromEntries(Object.entries(r.values).map(([column, value]) => [column, value.replace(REFERENCE_TOKEN, '')])) }))])) });
+  const content = JSON.stringify({ fields, paragraphs: paragraphs.map((p) => ({ ...p, text: referenceFreeText(p.text), tableFootnotes: p.tableFootnotes?.map((n) => ({ ...n, text: referenceFreeText(n.text) })) })), endItems: store.endItems, tables: Object.fromEntries(Object.entries(store.publicationTables ?? {}).map(([key, rows]) => [key, rows.map((r) => ({ ...r, values: Object.fromEntries(Object.entries(r.values).map(([column, value]) => [column, referenceFreeText(value)])) }))])) });
   if (/\[[A-Za-z][^\]\n]{1,250}\]|\{\{[^}]+\}\}|INSERT LONG TITLE HERE/.test(content)) errors.push('Replace the remaining template prompts and variables before export.');
   return [...new Set(errors)];
 }

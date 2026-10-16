@@ -134,6 +134,8 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
     const bytes = await addSignatureField(merged.pdfBytes, { signatoryName: 'J. A. DOE', lastBasicPageIndex: merged.basicPageCount! - 1 });
     writeFileSync(join(output, 'cross-references.pdf'), bytes);
     const doc = await getDocument({ data: bytes.slice() }).promise;
+    const outline = await doc.getOutline();
+    expect(JSON.stringify(outline)).toContain('1. Purpose');
     const linked = [];
     const urls: string[] = [];
     for (let page = 1; page <= doc.numPages; page++) {

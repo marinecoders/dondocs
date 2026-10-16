@@ -14,7 +14,7 @@ import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distributio
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
-import { paragraphMark, delimitParagraphMark, isUnderlinedLevel } from './paragraphLabel';
+import { calculateLabels } from './paragraphLabels';
 import { subparagraphIndentIn, ancestorLabelsPerParagraph, type LabelFont } from './subparagraphIndent';
 import { safeUrl } from '@/lib/url-safety';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
@@ -89,47 +89,6 @@ function validatedPocEmail(raw: string | undefined | null): string {
     return safe.slice('mailto:'.length);
   }
   return '';
-}
-
-function getParagraphLabel(level: number, count: number): string {
-  const mark = paragraphMark(level, count);
-  // Fig 7-8 underlines the counter itself at levels 4+; the period and the
-  // parentheses stay plain, so the delimiter goes on outside the \uline.
-  const underlined = isUnderlinedLevel(level) ? `\\uline{${mark}}` : mark;
-  return delimitParagraphMark(level, underlined);
-}
-
-function calculateLabels(paragraphs: Paragraph[], letteredAppendices = false): string[] {
-  const labels: string[] = [];
-  const counters = [0, 0, 0, 0, 0, 0, 0, 0];
-  let appendixLetter = '';
-  let appendixCount = 0;
-
-  for (const para of paragraphs) {
-    // A safety callout is not a numbered paragraph: it takes no label and does
-    // not advance the count, so the steps around it stay consecutive. The empty
-    // label keeps this array aligned with `paragraphs` by index.
-    if (para.callout || para.figure) {
-      labels.push('');
-      continue;
-    }
-    // An appendix is numbered afresh: everything before it is done with.
-    if (para.appendix) {
-      counters.fill(0);
-      if (letteredAppendices) appendixLetter = String.fromCharCode(65 + appendixCount++);
-      labels.push('');
-      continue;
-    }
-    for (let i = para.level + 1; i < 8; i++) {
-      counters[i] = 0;
-    }
-    counters[para.level]++;
-    const label = letteredAppendices && para.procedure && para.level === 4
-      ? `\\uline{${counters[para.level]}}` : getParagraphLabel(para.level, counters[para.level]);
-    labels.push(appendixLetter && para.level === 0 ? `${appendixLetter}-${label}` : label);
-  }
-
-  return labels;
 }
 
 export function generateDocumentTex(store: DocumentStore): string {

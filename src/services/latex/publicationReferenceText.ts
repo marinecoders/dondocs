@@ -1,5 +1,5 @@
 import type { PublicationReference } from '@/lib/publicationReferences';
-import { REFERENCE_TOKEN } from '@/lib/publicationReferences';
+import { REFERENCE_TOKEN, EXTERNAL_PUBLICATION_LINK } from '@/lib/publicationReferences';
 import { escapeLatex, escapeLatexUrl, processBodyText } from './escaper';
 import { safeUrl } from '@/lib/url-safety';
 
@@ -13,6 +13,8 @@ export function publicationReferenceText(text: string, references: PublicationRe
     const link = `\\dondocsReferenceLink{${target.destination}}{${escapeLatex(label)}}`;
     return save(target.kind === 'N' ? `\\textsuperscript{${link}}` : link);
   });
+  protectedText = protectedText.replace(EXTERNAL_PUBLICATION_LINK, (match, label, url) => safeUrl(url)
+    ? save(`\\dondocsExternalLink{${escapeLatexUrl(url)}}{${escapeLatex(uppercase ? label.toUpperCase() : label)}}`) : match);
   protectedText = protectedText.replace(/https?:\/\/[^\s<>“”]+/g, (candidate) => {
     const url = candidate.replace(/[.,;:!?)]+$/, '');
     const suffix = candidate.slice(url.length);

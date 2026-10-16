@@ -1,3 +1,4 @@
+import { calculateLabels } from './paragraphLabels';
 import type { Paragraph, PublicationTableRow } from '@/types/document';
 import { escapeLatex } from './escaper';
 
@@ -11,6 +12,7 @@ export interface PublicationDestination {
 /** Use the same figure/table counters as the printed publication. */
 export function publicationNavigation(paragraphs: Paragraph[], tables: Record<string, PublicationTableRow[]> = {}, headingCase = (title: string) => title): Map<string, PublicationDestination> {
   const entries: PublicationDestination[] = [];
+  const labels = calculateLabels(paragraphs, true, false);
   let appendix = '';
   let appendixCount = 0;
   let figure = 0;
@@ -28,7 +30,7 @@ export function publicationNavigation(paragraphs: Paragraph[], tables: Record<st
       add(`itype.figure.${i}`, `Figure ${appendix ? appendix + '-' : ''}${++figure}. ${p.text.trim().replace(/\.$/, '')}`, headingDepth + 1);
     } else if (!p.callout && p.header?.trim()) {
       headingDepth = p.level + (appendix ? 1 : 0);
-      add(`itype.p.${i}`, headingCase(p.header.trim().replace(/\.$/, '')), headingDepth);
+      add(`itype.p.${i}`, `${labels[i]} ${headingCase(p.header.trim().replace(/\.$/, ''))}`, headingDepth);
     }
     if (p.tableKey && tables[p.tableKey]?.length) {
       add(`itype.table.${i}`, `Table ${appendix ? appendix + '-' : ''}${++table}. ${p.header?.trim().replace(/\.$/, '') ?? ''}`, headingDepth + 1);
