@@ -2667,6 +2667,7 @@ const LATEX_TEMPLATES = {
 
 \\newsavebox{\\dondocsCoverBody}
 \\newsavebox{\\dondocsCoverNotices}
+\\newsavebox{\\dondocsNomenclatureBox}
 \\newdimen\\dondocsCoverAvailable
 \\newcommand{\\dondocsBuildCoverBody}{%
   \\sbox{\\dondocsCoverBody}{\\begin{minipage}{\\textwidth}
@@ -2681,7 +2682,12 @@ const LATEX_TEMPLATES = {
             \\framebox[2in][c]{\\parbox[c][2in][c]{1.9in}{\\centering\\scriptsize Seal\\\\(add usmc-seal.png)}}%
         }%
         \\par\\vspace{24pt}%
-        {\\large\\bfseries\\MakeUppercase{\\Nomenclature}}\\par
+        \\setbox\\dondocsNomenclatureBox=\\vbox{\\hsize=\\textwidth\\centering
+            \\large\\bfseries\\MakeUppercase{\\Nomenclature}\\par
+            \\ifnum\\prevgraf>2\\relax
+                \\errmessage{I-Type nomenclature exceeds two lines. Shorten it or move detail into the end item table}%
+            \\fi}%
+        \\usebox{\\dondocsNomenclatureBox}\\par
         \\vspace{24pt}%
         \\ifEndItemOverflow
             % Seven or more end items do not fit the cover; the list moves to

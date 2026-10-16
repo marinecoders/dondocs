@@ -185,6 +185,22 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
     await doc.destroy();
   }, 60_000);
 
+  it('accepts two rendered nomenclature lines without shrinking the font', async () => {
+    const s = baseline();
+    s.formData.nomenclature = 'TACTICAL COMMUNICATIONS SUPPORT EQUIPMENT, TRANSPORTABLE RADIO RELAY SYSTEM';
+    const bytes = await production(s);
+    const items = await textItems(bytes, 1);
+    const nomenclature = items.filter((item) => /TACTICAL|TRANSPORTABLE/.test(item.str));
+    expect(nomenclature).toHaveLength(2);
+    for (const line of nomenclature) expect(line.height).toBeCloseTo(14.4 * 72 / 72.27, 2);
+  }, 60_000);
+
+  it('rejects nomenclature exceeding two rendered lines', async () => {
+    const s = baseline();
+    s.formData.nomenclature = 'TACTICAL COMMUNICATIONS SUPPORT EQUIPMENT, TRANSPORTABLE MULTICHANNEL RADIO RELAY AND NETWORK MANAGEMENT SYSTEM WITH ENVIRONMENTAL CONTROL AND AUXILIARY POWER ASSEMBLIES';
+    await expect(production(s)).rejects.toThrow(/nomenclature exceeds two lines/);
+  }, 60_000);
+
   it('rejects a long title exceeding four rendered lines', async () => {
     const s = baseline(); s.formData.subject = 'LONG PUBLICATION TITLE '.repeat(45);
     await expect(production(s)).rejects.toThrow(/long title exceeds four lines/);
