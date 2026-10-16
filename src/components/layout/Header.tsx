@@ -191,6 +191,8 @@ export function Header({
   const setShareModal = useUIStore((s) => s.setShareModal);
   const isMobile = useUIStore((s) => s.isMobile);
   const previewVisible = useUIStore((s) => s.previewVisible);
+  const mobilePreviewOpen = useUIStore((s) => s.mobilePreviewOpen);
+  const previewOpen = isMobile ? mobilePreviewOpen : previewVisible;
   const togglePreview = useUIStore((s) => s.togglePreview);
   // Reopen the getting-started checklist. Hidden once onboarding is finished.
   // Getting started is an explicit Help action on every screen size.
@@ -438,7 +440,13 @@ export function Header({
         <div aria-live="polite" className="sr-only">{saveStatus}</div>
         {(sidebarCollapsed || isMobile) && <Button variant="ghost" size="icon" className="hidden sm:inline-flex" aria-label="Search workspace" onClick={() => setCommandPaletteOpen(true)}><Search className="h-4 w-4" /></Button>}
         <Button variant="ghost" size="sm" className="hidden sm:inline-flex h-8 px-3" onClick={() => setShareModal('share')}>Share</Button>
-        <Button variant="ghost" size="sm" className="h-10 sm:h-8 px-2 sm:px-3" aria-label="Preview" aria-pressed={isMobile ? undefined : previewVisible} onClick={() => isMobile ? useUIStore.getState().setMobilePreviewOpen(true) : togglePreview()}><PanelRight className="h-4 w-4 sm:hidden" /><span className="hidden sm:inline">Preview</span></Button>
+        <Button variant="ghost" size="sm"
+          className="h-10 sm:h-8 px-2 sm:px-3 border border-transparent data-[active=true]:border-primary/20 data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:hover:bg-primary/15"
+          aria-label="Preview" aria-pressed={isMobile ? undefined : previewOpen}
+          aria-haspopup={isMobile ? 'dialog' : undefined} aria-expanded={isMobile ? previewOpen : undefined}
+          data-active={previewOpen}
+          onClick={() => isMobile ? useUIStore.getState().setMobilePreviewOpen(true) : togglePreview()}
+        ><PanelRight className="h-4 w-4 sm:hidden" /><span className="hidden sm:inline">Preview</span></Button>
           {/* Download dropdown - always visible but compact on smaller screens */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

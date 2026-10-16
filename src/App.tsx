@@ -4,6 +4,7 @@ import { loadFigureFiles } from '@/services/latex/figureAssets';
 import { publicationMarking } from '@/lib/publicationMarking';
 import { useEffect, useCallback, useMemo, useState, useRef, lazy, Suspense } from 'react';
 import { Header } from '@/components/layout/Header';
+import { BetaBanner } from '@/components/BetaBanner';
 import { ReadinessMeter } from '@/components/layout/ReadinessMeter';
 import { FormPanel } from '@/components/layout/FormPanel';
 import { EditorSidebar } from '@/components/layout/EditorSidebar';
@@ -1927,6 +1928,7 @@ ${texFiles['body.tex'] || '% No body content'}
         Skip to main content
       </a>
 
+      <BetaBanner />
       <div className="flex flex-1 min-h-0 overflow-hidden">
         <EditorSidebar />
         <div className="flex flex-1 min-w-0 flex-col overflow-hidden">
