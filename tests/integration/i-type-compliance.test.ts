@@ -91,6 +91,23 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
     expect(official.transform[5] - name.transform[5]).toBeGreaterThanOrEqual(48 * 72 / 72.27);
   }, 60_000);
 
+  it.each([false, true])('aligns running short titles by printed page number (cover overflow: %s)', async (overflow) => {
+    const s = baseline();
+    if (overflow) s.endItems = Array.from({ length: 8 }, () => ({ ...s.endItems[0] }));
+    s.paragraphs[0].text = 'Inspect the equipment and record the condition. '.repeat(140);
+    s.paragraphs.push({ level: 0, header: 'Reference Data', appendix: true, text: 'Reference values. '.repeat(160) });
+    const bytes = await production(s);
+    const count = pages(bytes, `running-heads-${overflow}`).length;
+    for (let page = 2; page <= count; page++) {
+      const items = await textItems(bytes, page);
+      const number = items.find((i) => i.transform[5] < 45 && /^(?:A-)?\d+$/.test(i.str))!;
+      const printed = Number(number.str.split('-').at(-1));
+      const title = items.find((i) => i.str.includes('12345A-26/1') && i.transform[5] > 700)!;
+      expect(title, `header on page ${page}`).toBeDefined();
+      expect(printed % 2 ? title.transform[4] + title.width : title.transform[4]).toBeCloseTo(printed % 2 ? 540 : 72, 0);
+    }
+  }, 60_000);
+
   it.each(['MI', 'TI', 'SI', 'LI'] as const)('exports a complete %s through the production engine', async (type) => {
     const s = baseline();
     Object.assign(s.formData, { publicationType: type, shortTitle: `${type} 12345A-26/1` });
