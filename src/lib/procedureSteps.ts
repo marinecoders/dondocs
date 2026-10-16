@@ -9,6 +9,7 @@ export const MAX_STEP_DEPTH = 4;
 /** Count subdivisions within each procedure, retaining the non-step parent boundaries. */
 export function validateProcedureSteps(paragraphs: Paragraph[]): ProcedureFinding[] {
   const findings: ProcedureFinding[] = [];
+  if (paragraphs.some((p) => p.procedure && p.header?.trim())) findings.push({ severity: 'error', message: 'Procedural steps must not have titles. Put the action heading on the containing Procedures paragraph.' });
   let root: number | undefined;
   const counts = new Map<number, number>();
   let lone = false;

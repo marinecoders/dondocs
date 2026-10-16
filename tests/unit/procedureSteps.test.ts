@@ -24,8 +24,9 @@ describe('procedural steps', () => {
     expect(deep.some((f) => /no deeper/i.test(f.message))).toBe(true);
   });
 
-  it('permits titled steps in the Marine Corps profile', () => {
+  it('rejects titles on steps while permitting a containing action heading', () => {
     const f = validateProcedureSteps([step(0, { header: 'Removal' }), step(0)]);
-    expect(f).toEqual([]);
+    expect(f[0].message).toContain('must not have titles');
+    expect(validateProcedureSteps([{ level: 0, header: 'Remove the bracket', text: '', publicationSection: 'procedures' }, step(1), step(1)])).toEqual([]);
   });
 });

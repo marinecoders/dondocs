@@ -266,6 +266,7 @@ const BlockRow = memo(function BlockRow({
       </div>
 
       <div className="min-w-0">
+        {showBlockKind && procedure && header?.trim() && <p className="text-xs text-destructive">Steps do not have titles. Move this heading to the containing procedure and clear the step heading.</p>}
         {showBlockKind && level === 0 && !callout && !procedure && !appendix && !figure && (
           <label className="mb-1 flex items-center gap-2 text-xs text-muted-foreground">
             Section
