@@ -1,3 +1,4 @@
+import { DOC_TYPE_LABELS, FORM_TYPE_LABELS } from '@/types/document';
 import { iTypeExportErrors } from '@/lib/iTypePreflight';
 import { loadFigureFiles } from '@/services/latex/figureAssets';
 import { loadAttachment } from '@/lib/attachments';
@@ -758,11 +759,11 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
       {isGenerating && !batchModalOpen && <button type="button" className="fixed bottom-6 right-4 z-50 rounded-md border border-border bg-card px-4 py-3 text-sm shadow-lg" onClick={() => setBatchModalOpen(true)}>Batch running · {lastResults?.succeeded ?? 0}/{rows.length} generated</button>}
       <Dialog open={batchModalOpen} onOpenChange={setBatchModalOpen}>
         <DialogContent className="sm:max-w-3xl max-h-[85vh] flex flex-col p-0 gap-0 overflow-hidden">
-          <DialogHeader className="bg-card px-6 py-4 border-b border-border/50 shrink-0">
+          <DialogHeader className="bg-card px-4 sm:px-6 py-4 pr-10 border-b border-border/50 shrink-0">
             <DialogTitle className="flex items-center gap-2 tracking-wide">
               <FileText className="h-5 w-5 text-primary" />
               Batch Generation {isFormsMode && '(Forms)'}
-              {!isReadyToGenerate && (
+              {!isReadyToGenerate && (!source || rows.some((r) => r.status !== 'success')) && (
                 <Badge variant="secondary" className="ml-2">
                   <Loader2 className="h-3 w-3 mr-1 animate-spin" />
                   {isFormsMode ? 'Loading templates...' : 'Engine loading...'}
@@ -772,6 +773,14 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
             <DialogDescription className="sr-only">
               Generate multiple documents with different placeholder values
             </DialogDescription>
+            {source && <div className="space-y-1 text-sm">
+              <p className="font-medium" role="status">
+                {isGenerating ? 'Generating' : jobStatus === 'complete' ? 'Batch complete' : jobStatus === 'interrupted' ? 'Interrupted batch' : 'Paused batch'}
+                {' · '}{lastResults?.succeeded}/{rows.length} generated{lastResults?.failed ? ` · ${lastResults.failed} failed` : ''}
+              </p>
+              <p className="truncate text-xs text-muted-foreground" title={jobTitle}>Source: {jobTitle}</p>
+              <p className="text-xs text-muted-foreground">{isFormsMode ? FORM_TYPE_LABELS[formType] : DOC_TYPE_LABELS[source.docType]} · Saved when generation started</p>
+            </div>}
           </DialogHeader>
 
           {/* Preview Error Alert */}
@@ -784,7 +793,9 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
           <div className="flex-1 min-h-0 overflow-auto">
             <div className="p-6 space-y-4 min-w-0">
-              {/* Add Variable to Document — always visible.
+              {/* Add Variable stays visible throughout setup. Saved jobs freeze
+                  their source and expose only the applicable row actions.
+                  Add Variable to Document — always visible during setup.
                   Previously this lived inside the `hasNoPlaceholders` branch
                   below, which meant clicking Add caused `detectedPlaceholders`
                   to recalculate, `hasNoPlaceholders` to flip false, and the
@@ -793,7 +804,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                   already has placeholders, and the inline `addStatus` toast
                   surfaces the action's effect now that the UI no longer
                   visually changes around it. */}
-              <div data-tour="batch-addvar" className="space-y-3 rounded-lg border border-border/50 bg-muted/20 p-4">
+              {!source && <div data-tour="batch-addvar" className="space-y-3 rounded-lg border border-border/50 bg-muted/20 p-4">
                 <div className="flex items-center gap-2">
                   <Plus className="h-4 w-4 text-primary" />
                   <Label>Add Variable to Document</Label>
@@ -885,7 +896,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                     </span>
                   )}
                 </div>
-              </div>
+              </div>}
 
               {hasNoPlaceholders ? (
                 <div className="space-y-4">
@@ -945,7 +956,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                     </div>
                   </div>
 
-                  <div className="space-y-2">
+                  {!source && <div className="space-y-2">
                     <Label>Paste Data (Tab-separated)</Label>
                     <Textarea
                       placeholder={`Paste tab-separated data here. Each row becomes a document.\nColumns should match: ${detectedPlaceholders.join(', ')}`}
@@ -957,10 +968,10 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                     <p className="text-xs text-muted-foreground">
                       Tip: Copy data from Excel or a spreadsheet and paste here.
                     </p>
-                  </div>
+                  </div>}
 
                   {/* Column Mapping UI */}
-                  {showColumnMapping && columnHeaders.length > 0 && (
+                  {!source && showColumnMapping && columnHeaders.length > 0 && (
                     <div className="space-y-3 border border-border/50 rounded-lg p-4 bg-muted/20 shadow-sm">
                       <div className="flex items-center gap-2">
                         <Settings className="h-4 w-4 text-primary" />
@@ -1013,11 +1024,11 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
                   <div className="space-y-2">
                     <div className="flex items-center justify-between sticky top-0 bg-background z-10 py-1">
-                      <Label>Documents to Generate ({rows.length})</Label>
-                      <Button variant="outline" size="sm" onClick={addRow} disabled={isGenerating || !!source}>
+                      <Label>{source ? 'Batch rows' : 'Documents to generate'} ({rows.length})</Label>
+                      {!source && <Button variant="outline" size="sm" onClick={addRow} disabled={isGenerating}>
                         <Plus className="h-4 w-4 mr-1" />
                         Add Row
-                      </Button>
+                      </Button>}
                     </div>
 
                     <div className="border border-border/50 rounded-lg overflow-x-auto shadow-sm">
@@ -1054,7 +1065,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                     </div>
 
                     {/* Results Summary */}
-                    {lastResults && (
+                    {lastResults && lastResults.errors.length > 0 && (
                       <div className={`p-4 rounded-lg border shadow-sm transition-colors duration-300 ${lastResults.failed > 0 ? 'border-warning/30 bg-warning/10' : 'border-success/30 bg-success/10'}`}>
                         <div className="flex items-center gap-2 mb-2">
                           {lastResults.failed === 0 ? (
@@ -1085,11 +1096,11 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
           </div>
 
           <div className="border-t border-border px-6 py-3 text-sm space-y-2" aria-live="polite">
-            {source && <p>Job: {jobTitle}. Uses the document as it was when generation started.</p>}
             <p>Jobs and results are stored in this browser and are excluded from workspace backups. Download files you need to keep.</p>
             {isGenerating && <p>Closing this panel keeps the job running. Keep this tab open.</p>}
             {jobStatus === 'interrupted' && <p>Recovered after interruption. Completed rows are kept; review the interrupted row before retrying it.</p>}
             {recoveryError && <p role="alert" className="text-destructive">{recoveryError}</p>}
+            {rows.some((r) => r.outputId) && <p className="font-medium">Generated files</p>}
             {rows.some((r) => r.outputId) && <div className="flex max-h-32 overflow-y-auto flex-wrap gap-2">
               {rows.filter((r) => r.outputId).map((r) => <Button key={r.id} size="sm" variant="outline" onClick={async () => {
                 const data = await getBatchOutput(r.outputId!);
@@ -1107,7 +1118,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
             {!isGenerating && source && <Button variant="ghost" onClick={async () => {
               if (await showAppConfirm({ title: 'Start a new batch?', message: 'The current job and saved results will be cleared. Download any files you need first.', confirmLabel: 'Start new batch' })) useBatchStore.getState().reset();
             }}>New batch</Button>}
-            <Button
+            {(!source || isGenerating || rows.some((r) => !r.status || r.status === 'pending')) && <Button
               data-tour="batch-generate"
               onClick={() => handleGenerateBatch()}
               disabled={hasNoPlaceholders || isGenerating || !rows.some((r) => !r.status || r.status === 'pending') || !isReadyToGenerate}
@@ -1124,7 +1135,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                   {source ? 'Resume remaining' : `Generate ${rows.length} PDFs`}
                 </>
               )}
-            </Button>
+            </Button>}
           </DialogFooter>
         </DialogContent>
       </Dialog>
