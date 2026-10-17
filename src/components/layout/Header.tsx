@@ -319,7 +319,12 @@ export function Header({
 
   const currentId = useDocumentsStore((s) => s.currentId);
   const sidebarCollapsed = useUIStore((s) => s.sidebarCollapsed);
-  const openHistory = () => { const ds = useDocumentsStore.getState(); ds.saveCurrent(); if (ds.currentId) useUIStore.getState().setHistoryDocId(ds.currentId); };
+  const openHistory = () => {
+    const ds = useDocumentsStore.getState();
+    // Flush actual edits without creating a deliberate checkpoint just to view history.
+    ds.syncCurrent();
+    if (ds.currentId) useUIStore.getState().setHistoryDocId(ds.currentId);
+  };
 
   return (
     <header className="workspace-header shrink-0 border-b border-border bg-background">

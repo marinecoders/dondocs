@@ -69,7 +69,7 @@ export function VersionHistoryModal() {
         {snaps.length === 0 ? (
           <p className="py-6 text-center text-xs text-muted-foreground">
             No saved versions yet. Versions are captured automatically as you keep editing and each
-            time you Save.
+            time you Save checkpoint.
           </p>
         ) : (
           <ul className="max-h-[60vh] space-y-1 overflow-y-auto">

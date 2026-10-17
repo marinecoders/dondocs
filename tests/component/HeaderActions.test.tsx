@@ -9,6 +9,8 @@ import { useAlertStore } from '@/stores/alertStore';
 import { useFormStore } from '@/stores/formStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
+import { useDocumentsStore } from '@/stores/documentsStore';
+import { idbGetSnapshots } from '@/lib/documentsDb';
 import { STORAGE_KEYS } from '@/lib/constants';
 import { downloadWorkspaceBackup } from '@/lib/backupDownload';
 
@@ -126,4 +128,25 @@ describe('active form actions', () => {
     expect(download).toHaveBeenCalledTimes(1);
     expect(useUIStore.getState().batchModalOpen).toBe(true);
   });
+});
+
+
+it('viewing History preserves existing versions and flushes pending edits without forced checkpoints', async () => {
+  useDocumentsStore.getState().newDocument();
+  useDocumentStore.getState().setField('subject', 'Original subject');
+  useDocumentsStore.getState().saveCurrent();
+  const id = useDocumentsStore.getState().currentId!;
+  await waitFor(async () => expect((await idbGetSnapshots(id)).length).toBeGreaterThan(0));
+  const versions = await idbGetSnapshots(id);
+  renderHeader();
+  for (let i = 0; i < 12; i++) {
+    await userEvent.click(screen.getByRole('button', { name: 'History', exact: true }));
+  }
+  expect(useUIStore.getState().historyDocId).toBe(id);
+  expect(await idbGetSnapshots(id)).toEqual(versions);
+  useDocumentStore.getState().setField('subject', 'Pending edit');
+  await userEvent.click(screen.getByRole('button', { name: 'History', exact: true }));
+  expect(useDocumentsStore.getState().docs[id].session.formData.subject).toBe('Pending edit');
+  expect(useDocumentStore.getState().formData.subject).toBe('Pending edit');
+  expect(await idbGetSnapshots(id)).toEqual(versions); // autosave interval, not a forced checkpoint
 });
