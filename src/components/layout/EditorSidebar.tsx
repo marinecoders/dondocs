@@ -6,6 +6,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { IconTip } from '@/components/ui/icon-tip';
@@ -357,7 +359,7 @@ export function EditorSidebar() {
                 disabled={selected.size === 0}
                 className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 font-medium text-destructive outline-none hover:bg-destructive/10 focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:opacity-40 disabled:hover:bg-transparent"
               >
-                <Trash2 className="h-3.5 w-3.5" /> Delete
+                <Trash2 className="h-3.5 w-3.5" /> Move to Trash
               </button>
               <button
                 type="button"
@@ -542,7 +544,9 @@ export function EditorSidebar() {
                                 <MoreHorizontal className="h-3.5 w-3.5" />
                               </button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="w-40">
+                            <DropdownMenuContent align="end" className="w-64">
+                              <DropdownMenuLabel className="break-words whitespace-normal text-xs font-normal text-muted-foreground">{m.title}</DropdownMenuLabel>
+                              <DropdownMenuSeparator />
                               <DropdownMenuItem onSelect={() => togglePin(m.id)}>
                                 {m.pinned ? (
                                   <><PinOff className="h-3.5 w-3.5" /> Unpin</>
@@ -573,7 +577,7 @@ export function EditorSidebar() {
                                 onSelect={() => handleDelete(m)}
                                 className="text-destructive focus:bg-destructive/10 focus:text-destructive"
                               >
-                                <Trash2 className="h-3.5 w-3.5" /> Delete
+                                <Trash2 className="h-3.5 w-3.5" /> Move to Trash
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>

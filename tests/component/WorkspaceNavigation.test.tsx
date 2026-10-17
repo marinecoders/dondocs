@@ -8,6 +8,7 @@ import { Header } from '@/components/layout/Header';
 import { HelpModal } from '@/components/modals/HelpModal';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { useUIStore } from '@/stores/uiStore';
+import { useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { useTourStore } from '@/stores/tourStore';
@@ -69,4 +70,31 @@ it('distinguishes individual draft files from the whole workspace backup', async
   expect(screen.getByText('Workspace backup')).toBeVisible();
   expect(screen.getByRole('menuitem', { name: 'Back up everything' })).toBeVisible();
   expect(screen.getByText('Drafts autosave. A checkpoint keeps a manual copy until you save another.')).toBeVisible();
+});
+
+
+it('provides mobile document actions, renames without changing subject, and keeps Trash undo', async () => {
+  useDocumentsStore.getState().newDocument();
+  useDocumentStore.getState().setField('subject', 'Printed subject');
+  useDocumentsStore.getState().saveCurrent();
+  const id = useDocumentsStore.getState().currentId!;
+  const title = useDocumentsStore.getState().docs[id].meta.title;
+  useUIStore.setState({ isMobile: true, mobileDocsOpen: true });
+  render(<MobileRecents />);
+  await userEvent.click(screen.getByRole('button', { name: `Actions for ${title}` }));
+  for (const name of ['Pin', 'Rename', 'Duplicate', 'Version history', 'Move to Trash']) {
+    expect(screen.getByRole('menuitem', { name })).toBeVisible();
+  }
+  await userEvent.click(screen.getByRole('menuitem', { name: 'Rename' }));
+  const name = screen.getByRole('textbox', { name: 'Draft name' });
+  expect(name).toHaveFocus();
+  await userEvent.clear(name);
+  await userEvent.type(name, 'Short draft name{Enter}');
+  expect(useDocumentsStore.getState().docs[id].meta.title).toBe('Short draft name');
+  expect(useDocumentStore.getState().formData.subject).toBe('Printed subject');
+  await userEvent.click(screen.getByRole('button', { name: 'Actions for Short draft name' }));
+  await userEvent.click(screen.getByRole('menuitem', { name: 'Move to Trash' }));
+  expect(useDocumentsStore.getState().docs[id]).toBeUndefined();
+  await userEvent.click(screen.getByRole('button', { name: 'Undo' }));
+  expect(useDocumentsStore.getState().docs[id].meta.title).toBe('Short draft name');
 });

@@ -1,7 +1,8 @@
+import { useRef, useState } from 'react';
 import { WORKSPACE_DESTINATIONS } from './workspaceNavigation';
-import { Plus, Trash2, Undo2, Pin, PinOff, Search, FileDown } from 'lucide-react';
+import { Plus, Trash2, Undo2, Pin, PinOff, Search, FileDown, MoreHorizontal, Pencil, Copy, History } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { docTypeChip } from '@/types/document';
@@ -32,6 +33,14 @@ export function MobileRecents() {
   const togglePin = useDocumentsStore((s) => s.togglePin);
   const pendingDelete = useDocumentsStore((s) => s.pendingDelete);
   const restoreDeleted = useDocumentsStore((s) => s.restoreDeleted);
+
+  const [renamingId, setRenamingId] = useState<string | null>(null);
+  const [name, setName] = useState('');
+  const pendingRename = useRef<{ id: string; name: string } | null>(null);
+  const commitName = (id: string) => {
+    useDocumentsStore.getState().renameDocument(id, name);
+    setRenamingId(null);
+  };
 
   if (!isMobile) return null;
 
@@ -106,7 +115,11 @@ export function MobileRecents() {
                     key={m.id}
                     className={`flex items-center rounded-md pr-1 ${active ? 'bg-primary/10' : ''}`}
                   >
-                    <button
+                    {renamingId === m.id ? <input autoFocus aria-label="Draft name" value={name} maxLength={160}
+                      className="min-w-0 flex-1 rounded border border-input bg-background px-3 py-3 text-sm"
+                      onChange={(e) => setName(e.target.value)} onBlur={() => commitName(m.id)}
+                      onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur(); if (e.key === 'Escape') { e.stopPropagation(); setRenamingId(null); } }}
+                    /> : <button
                       type="button"
                       onClick={() => {
                         switchTo(m.id);
@@ -126,7 +139,7 @@ export function MobileRecents() {
                       <span className="min-w-0 flex-1">
                         <span
                           title={m.title}
-                          className={`block truncate text-sm ${active ? 'text-primary' : 'text-foreground'}`}
+                          className={`workspace-document-title text-sm leading-5 ${active ? 'text-primary' : 'text-foreground'}`}
                         >
                           {m.title}
                         </span>
@@ -135,23 +148,32 @@ export function MobileRecents() {
                         </span>
                       </span>
                       {m.pinned && <Pin className="h-3.5 w-3.5 shrink-0 text-primary/70" aria-label="Pinned" />}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => togglePin(m.id)}
-                      aria-label={m.pinned ? `Unpin ${m.title}` : `Pin ${m.title}`}
-                      className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                    >
-                      {m.pinned ? <PinOff className="h-4 w-4" /> : <Pin className="h-4 w-4" />}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => remove(m.id)}
-                      aria-label={`Remove ${m.title}`}
-                      className="ml-0.5 inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:text-destructive focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
+                    </button>}
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button type="button" aria-label={`Actions for ${m.title}`} className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-64" onCloseAutoFocus={(event) => {
+                        const pending = pendingRename.current;
+                        if (pending) {
+                          event.preventDefault();
+                          pendingRename.current = null;
+                          setName(pending.name);
+                          setRenamingId(pending.id);
+                        }
+                      }}>
+                        <DropdownMenuLabel className="break-words whitespace-normal text-xs font-normal text-muted-foreground">{m.title}</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onSelect={() => togglePin(m.id)}>{m.pinned ? <PinOff /> : <Pin />}{m.pinned ? 'Unpin' : 'Pin'}</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => { pendingRename.current = { id: m.id, name: m.name ?? m.title }; }}><Pencil />Rename</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => { useDocumentsStore.getState().duplicateDocument(m.id); setOpen(false); }}><Copy />Duplicate</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => { switchTo(m.id); setOpen(false); useUIStore.getState().setHistoryDocId(m.id); }}><History />Version history</DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem variant="destructive" onSelect={() => remove(m.id)}><Trash2 />Move to Trash</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </li>
                 );
               })
