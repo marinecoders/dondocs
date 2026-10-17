@@ -1,11 +1,13 @@
 // @vitest-environment happy-dom
 import { describe, it, expect } from 'vitest';
-import { act, render, screen } from '@testing-library/react';
+import 'fake-indexeddb/auto';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { EditorSidebar } from '@/components/layout/EditorSidebar';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { useUIStore } from '@/stores/uiStore';
+import { useDocumentsStore } from '@/stores/documentsStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
 
@@ -46,4 +48,21 @@ describe('Recents header', () => {
     expect(screen.getByRole('button', { name: 'Action details' })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Action details needs attention' })).not.toBeInTheDocument();
   });
+});
+it('focuses desktop rename after its menu closes and cancels without changing the draft', async () => {
+  useUIStore.setState({ isMobile: false, sidebarCollapsed: false, sidebarOutlineVisible: false });
+  useDocumentsStore.setState({ currentId: null, docs: {}, hydrated: true });
+  useDocumentsStore.getState().newDocument();
+  useDocumentStore.getState().setField('subject', 'Desktop rename QA');
+  useDocumentsStore.getState().saveCurrent();
+  const id = useDocumentsStore.getState().currentId!;
+  const title = useDocumentsStore.getState().docs[id].meta.title;
+  render(<TooltipProvider><EditorSidebar /></TooltipProvider>);
+  await userEvent.click(screen.getByRole('button', { name: `Actions for ${title}` }));
+  await userEvent.click(screen.getByRole('menuitem', { name: 'Rename' }));
+  const input = screen.getByRole('textbox', { name: `Rename ${title}` });
+  expect(input).toHaveFocus();
+  await userEvent.type(input, ' canceled{Escape}');
+  await waitFor(() => expect(screen.getByRole('button', { name: `Actions for ${title}` })).toHaveFocus());
+  expect(useDocumentsStore.getState().docs[id].meta.title).toBe(title);
 });

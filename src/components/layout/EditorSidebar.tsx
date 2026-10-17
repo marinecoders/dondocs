@@ -144,6 +144,12 @@ export function EditorSidebar() {
   const outlineRef = useRef<HTMLDivElement>(null);
   const [renamingId, setRenamingId] = useState<string | null>(null);
   const [renameValue, setRenameValue] = useState('');
+  const pendingRename = useRef<{ id: string; name: string } | null>(null);
+  const actionButtons = useRef(new Map<string, HTMLButtonElement>());
+  const finishRename = (id: string, restoreFocus: boolean) => {
+    setRenamingId(null);
+    if (restoreFocus) requestAnimationFrame(() => actionButtons.current.get(id)?.focus());
+  };
   // Re-render once a minute so relative timestamps ("just now" → "1m ago") stay
   // fresh on their own, without depending on an unrelated state change.
   const [, setNowTick] = useState(0);
@@ -152,9 +158,9 @@ export function EditorSidebar() {
     return () => clearInterval(t);
   }, []);
 
-  const commitRename = (id: string) => {
+  const commitRename = (id: string, restoreFocus = false) => {
     renameDocument(id, renameValue);
-    setRenamingId(null);
+    finishRename(id, restoreFocus);
   };
 
   const groups = useMemo(() => {
@@ -501,8 +507,8 @@ export function EditorSidebar() {
                             onChange={(e) => setRenameValue(e.target.value)}
                             onBlur={() => commitRename(m.id)}
                             onKeyDown={(e) => {
-                              if (e.key === 'Enter') commitRename(m.id);
-                              else if (e.key === 'Escape') setRenamingId(null);
+                              if (e.key === 'Enter') commitRename(m.id, true);
+                              else if (e.key === 'Escape') { e.stopPropagation(); finishRename(m.id, true); }
                             }}
                             aria-label={`Rename ${m.title}`}
                             className="min-w-0 flex-1 rounded-md border border-border bg-card px-2.5 py-1.5 text-sm text-foreground outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
@@ -535,6 +541,7 @@ export function EditorSidebar() {
                             <DropdownMenuTrigger asChild>
                               <button
                                 type="button"
+                                ref={(node) => { if (node) actionButtons.current.set(m.id, node); else actionButtons.current.delete(m.id); }}
                                 aria-label={`Actions for ${m.title}`}
                                 // Rest at 40% (not fully hidden) and reveal on
                                 // row-level hover/focus so tabbing doesn't pop each
@@ -544,7 +551,15 @@ export function EditorSidebar() {
                                 <MoreHorizontal className="h-3.5 w-3.5" />
                               </button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="w-64">
+                            <DropdownMenuContent align="end" className="w-64" onCloseAutoFocus={(event) => {
+                              const pending = pendingRename.current;
+                              if (pending) {
+                                event.preventDefault();
+                                pendingRename.current = null;
+                                setRenameValue(pending.name);
+                                setRenamingId(pending.id);
+                              }
+                            }}>
                               <DropdownMenuLabel className="break-words whitespace-normal text-xs font-normal text-muted-foreground">{m.title}</DropdownMenuLabel>
                               <DropdownMenuSeparator />
                               <DropdownMenuItem onSelect={() => togglePin(m.id)}>
@@ -556,8 +571,7 @@ export function EditorSidebar() {
                               </DropdownMenuItem>
                               <DropdownMenuItem
                                 onSelect={() => {
-                                  setRenameValue(m.name ?? m.title);
-                                  setRenamingId(m.id);
+                                  pendingRename.current = { id: m.id, name: m.name ?? m.title };
                                 }}
                               >
                                 <Pencil className="h-3.5 w-3.5" /> Rename
