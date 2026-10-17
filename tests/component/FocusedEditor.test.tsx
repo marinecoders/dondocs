@@ -106,3 +106,15 @@ it('persists the layout choice across rehydration without changing document data
   expect(useUIStore.getState().editorLayout).toBe('scroll');
   expect(useDocumentStore.getState().formData).toBe(before);
 });
+
+
+it.each(['navmc_10274', 'navmc_118_11'] as const)('resumes a deliberately selected setup section for %s', (formType) => {
+  useDocumentStore.setState({ documentCategory: 'forms', formType });
+  const view = openEditor();
+  selectSection('type');
+  view.unmount();
+  openEditor();
+  expect(screen.getByRole('combobox', { name: 'Document section' })).toHaveValue('type');
+  expect(screen.getByRole('button', { name: 'Reset', exact: true })).toBeVisible();
+  expect(screen.getByRole('button', { name: 'Templates', exact: true })).toBeVisible();
+});

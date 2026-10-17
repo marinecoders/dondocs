@@ -153,10 +153,10 @@ export function Form11811Section() {
     <div className="space-y-4">
       <div hidden={activeId !== null && activeId !== 'type'} className="space-y-4">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-lg font-semibold">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 text-sm font-medium">
           <ClipboardList className="h-5 w-5" />
-          NAVMC 118(11) - Administrative Remarks
+          Form options
         </div>
         <div className="flex gap-2">
           <DropdownMenu>

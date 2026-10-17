@@ -256,7 +256,7 @@ export function DocumentTypeSelector() {
 
         <div className="border-l-2 border-border pl-3 text-xs">
           <div className="text-muted-foreground">
-            Select a form type, then choose a section from Contents to start editing.
+            Use Contents to edit fields. Switching forms keeps your other drafts.
           </div>
         </div>
         <Button data-tour="templates" variant="outline" size="sm" onClick={() => setTemplateLoaderOpen(true)}>
