@@ -117,3 +117,6 @@ sbom.cdx.json
 
 dist-companion
 dist-mcpb
+
+playwright-report/
+test-results/

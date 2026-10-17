@@ -227,6 +227,7 @@ function mergeOptionsFor(store: ReturnType<typeof useDocumentStore.getState>) {
 }
 
 function App() {
+  const [editorReady, setEditorReady] = useState(false);
   // Prefetch the Pandoc WASM module (~58 MB) during browser idle time so the
   // first DOCX export skips the download wait. Skips slow/data-saver connections.
   usePandocIdlePrefetch();
@@ -499,6 +500,7 @@ function App() {
       // importantly, stops the browser evicting the service worker's precache
       // (the root of the recurring unstyled-shell loop).
       .finally(() => {
+        if (!cancelled) setEditorReady(true);
         void requestPersistentStorage()
           .catch(() => false)
           .then(() => probeStorageHealth())
@@ -1986,6 +1988,8 @@ ${texFiles['body.tex'] || '% No body content'}
 
     return groups;
   }, [outlineSections, allDocs, currentDocId, isInstalled, docType]);
+
+  if (!editorReady) return <div role="status" className="flex h-screen-dvh items-center justify-center">Opening your documents…</div>;
 
   return (
     <TooltipProvider>
