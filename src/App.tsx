@@ -60,11 +60,13 @@ import { BackupNotice } from '@/components/BackupNotice';
 import { InstallNotice } from '@/components/InstallNotice';
 import { probeStorageHealth, requestPersistentStorage } from '@/lib/documentsDb';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore, getSavedSession, rehydrateEnclosureFiles, loadSharedSession, type SerializedSession } from '@/stores/documentStore';
+import { useDocumentStore, getSavedSession, rehydrateEnclosureFiles, type SerializedSession } from '@/stores/documentStore';
 import { useFormStore, FORMS_PERSIST_KEY } from '@/stores/formStore';
+import { diagnosticText } from '@/services/forms/model';
+import { renderForm } from '@/services/forms/render';
 import { lastWriteFailed } from '@/lib/compressedStorage';
 import { useHistoryStore } from '@/stores/historyStore';
-import { useDocumentsStore, applySelectedProfile, correspondenceFilename } from '@/stores/documentsStore';
+import { useDocumentsStore, applySelectedProfile, correspondenceFilename, restoreBuiltInFormView, openSessionAsNew } from '@/stores/documentsStore';
 import { useBackupStore } from '@/stores/backupStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useEditorSections } from '@/components/layout/editorSections';
@@ -279,6 +281,7 @@ function App() {
   const navmc10274 = useFormStore((s) => s.navmc10274);
   const navmc11811 = useFormStore((s) => s.navmc11811);
   const includeCoverPage = useFormStore((s) => s.includeCoverPage);
+  const genericForm = useDocumentStore(s => s.genericForm);
   // Individual selectors across the remaining stores too.
   const undo = useHistoryStore((s) => s.undo);
   const redo = useHistoryStore((s) => s.redo);
@@ -291,6 +294,10 @@ function App() {
 
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [formPdfUrl, setFormPdfUrl] = useState<string | null>(null);
+  // A form preview that fails must SAY so. It used to fall through to the empty
+  // state — "your document preview will appear here" — which reads as "you have
+  // not filled anything in yet" on a form that is actually broken.
+  const [formPreviewError, setFormPreviewError] = useState<string | null>(null);
   const [isCompiling, setIsCompiling] = useState(false);
   const [compileError, setCompileError] = useState<string | null>(null);
   // Full compile-failure log from SwiftLaTeX. Drives the compile-error modal,
@@ -460,21 +467,15 @@ function App() {
       const session = pendingHandoff.current;
       if (cancelled || !session) return false;
       pendingHandoff.current = null;
-      useDocumentsStore.getState().syncCurrent();
-      loadSharedSession(session);
+      openSessionAsNew(session);
       return true;
     };
     // If the user was last working on a NAVMC form, return them to that view
     // after init (the form field data itself is rehydrated by formStore's own
     // persist; init only resumes correspondence). Read before init runs.
     const lastSession = getSavedSession();
-    const resumeFormType =
-      lastSession?.documentCategory === 'forms' ? lastSession.formType : null;
     const restoreFormsView = () => {
-      if (cancelled || !resumeFormType) return;
-      const ds = useDocumentStore.getState();
-      ds.setDocumentCategory('forms');
-      ds.setFormType(resumeFormType);
+      if (!cancelled) restoreBuiltInFormView(lastSession);
     };
     void useDocumentsStore
       .getState()
@@ -537,6 +538,7 @@ function App() {
   useEffect(() => {
     let t: ReturnType<typeof setTimeout> | undefined;
     const unsub = useFormStore.subscribe(() => {
+      if (useDocumentStore.getState().genericForm && useDocumentStore.getState().documentCategory === 'forms') return;
       clearTimeout(t);
       t = setTimeout(() => {
         // Verify the write actually landed before claiming "Saved". Forms
@@ -811,6 +813,12 @@ function App() {
   // Generate form preview based on selected form type
   useEffect(() => {
     if (documentCategory !== 'forms') return;
+    let alive = true;
+    queueMicrotask(() => {
+      if (!alive) return;
+      setFormPreviewError(null);
+      setFormPdfUrl(previous => { if (previous) URL.revokeObjectURL(previous); return null; });
+    });
 
     if (formCompileTimeoutRef.current) {
       clearTimeout(formCompileTimeoutRef.current);
@@ -819,6 +827,7 @@ function App() {
     formCompileTimeoutRef.current = setTimeout(async () => {
       try {
         let pdfBytes: Uint8Array | null = null;
+        let previewIssue: string | null = null;
 
         if (formType === 'navmc_10274' && navmc10274Templates) {
           pdfBytes = await generateNavmc10274Pdf(
@@ -837,9 +846,19 @@ function App() {
             resolved,
             navmc11811Template
           );
+        } else {
+          // Config-driven forms (form.json): the registry resolves the type,
+          // the generic renderer draws it. Null for unknown types.
+          if (genericForm?.definition.formId === formType) {
+            const result = await renderForm(genericForm, 'preview');
+            pdfBytes = result.bytes;
+            previewIssue = result.diagnostics.map(i => diagnosticText(genericForm.definition, i)).join('\n') || null;
+          }
         }
 
+        if (!alive) return;
         if (pdfBytes) {
+          setFormPreviewError(previewIssue);
           const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
           const url = URL.createObjectURL(blob);
 
@@ -853,16 +872,19 @@ function App() {
           });
         }
       } catch (err) {
+        if (!alive) return;
         console.error('Form PDF generation error:', err);
+        setFormPreviewError(err instanceof Error ? err.message : String(err));
       }
     }, 500); // Faster debounce for forms since no LaTeX compilation
 
     return () => {
+      alive = false;
       if (formCompileTimeoutRef.current) {
         clearTimeout(formCompileTimeoutRef.current);
       }
     };
-  }, [documentCategory, formType, navmc10274, navmc11811, navmc10274Templates, navmc11811Template]);
+  }, [documentCategory, formType, navmc10274, navmc11811, genericForm, navmc10274Templates, navmc11811Template]);
 
   // Track if download is in progress to prevent double downloads
   const downloadInProgressRef = useRef(false);
@@ -1351,6 +1373,11 @@ function App() {
         );
         const lastName = navmc11811.lastName || 'Marine';
         filename = `NAVMC-118-11-${lastName}-${navmc11811.entryDate || 'entry'}.pdf`;
+      } else {
+        if (genericForm?.definition.formId === formType) {
+          pdfBytes = (await renderForm(genericForm, 'export')).bytes;
+          filename = `${genericForm.definition.formId}-form.pdf`;
+        }
       }
 
       if (pdfBytes) {
@@ -1367,13 +1394,31 @@ function App() {
         useOnboardingStore.getState().markComplete('first_document');
       } else {
         console.error('No PDF generated - missing templates or unsupported form type');
+        setDownloadProgress({
+          kind: 'error',
+          target: 'pdf',
+          title: 'Nothing to download',
+          message:
+            'This form produced no PDF. Its template pages or form.json may be missing — reload, and tell us which form if it keeps happening.',
+        });
       }
     } catch (err) {
+      // Until now this only reached the console: the button did nothing, said
+      // nothing, and left the user to guess. Config-driven forms make that far
+      // easier to hit than the two built-ins ever did — a form.json that fails
+      // its shape check, or a template page that 404s, lands here.
       console.error('Form PDF download error:', err);
+      setDownloadProgress({
+        kind: 'error',
+        target: 'pdf',
+        title: 'Form PDF download failed',
+        message: err instanceof Error ? err.message : String(err),
+        reportable: true,
+      });
     } finally {
       downloadInProgressRef.current = false;
     }
-  }, [formType, navmc10274, navmc11811, includeCoverPage, navmc10274Templates, navmc11811Template]);
+  }, [formType, navmc10274, navmc11811, includeCoverPage, navmc10274Templates, navmc11811Template, genericForm]);
 
   const handleDownloadPdf = useCallback(() => {
     // Reveal validation now, so the section rail's error dots appear on Generate.
@@ -2071,7 +2116,7 @@ ${texFiles['body.tex'] || '% No body content'}
             isCompiling={documentCategory === 'forms' ? false : (isCompiling || !isReady)}
             isWarmingUp={documentCategory === 'forms' ? false : !isReady}
             previewEnhanced={documentCategory === 'forms' ? true : previewEnhanced}
-            error={documentCategory === 'forms' ? null : (compileError || engineError)}
+            error={documentCategory === 'forms' ? formPreviewError : (compileError || engineError)}
           />
         </div>
         </main>
@@ -2088,7 +2133,7 @@ ${texFiles['body.tex'] || '% No body content'}
           <MobilePreviewModal
             pdfUrl={documentCategory === 'forms' ? formPdfUrl : pdfUrl}
             isCompiling={documentCategory === 'forms' ? false : (isCompiling || !isReady)}
-            error={documentCategory === 'forms' ? null : (compileError || engineError)}
+            error={documentCategory === 'forms' ? formPreviewError : (compileError || engineError)}
             onDownloadPdf={handleDownloadPdf}
           />
         </Suspense>

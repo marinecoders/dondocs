@@ -1,3 +1,4 @@
+import { formErrorSections } from '@/services/forms/model';
 import { useMemo, useState, useRef, useEffect } from 'react';
 import { PanelLeftClose, PanelLeftOpen, Plus, Search, Trash2, MoreHorizontal, Copy, Pencil, Undo2, History, Pin, PinOff, ArrowDownAZ, Clock, CheckSquare, Check, X } from 'lucide-react';
 import {
@@ -102,9 +103,10 @@ export function EditorSidebar() {
     if (!validationVisible || !isFormsMode) return '';
     const data = formType === 'navmc_10274' ? s.navmc10274 : formType === 'navmc_118_11' ? s.navmc11811 : null;
     if (!data) return '';
-    return sections.filter((sec) => getFormSectionError(formType, sec.id, data)).join(',');
+    return sections.filter((sec) => getFormSectionError(formType, sec.id, data)).map(sec => sec.id).join(',');
   });
-  const errorSignature = isFormsMode ? formErrorSignature : docErrorSignature;
+  const genericErrors = useDocumentStore(s => validationVisible && isFormsMode && s.genericForm?.definition.formId === formType ? formErrorSections(s.genericForm).join(',') : '');
+  const errorSignature = isFormsMode ? genericErrors || formErrorSignature : docErrorSignature;
   const errorIds = useMemo(() => {
     if (!errorSignature) return new Set<string>();
     const flagged = new Set(errorSignature.split(','));

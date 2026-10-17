@@ -17,6 +17,7 @@ import { useDocumentCompleteness } from './editorSections';
  */
 export function ReadinessMeter() {
   const { ratio, isReady, complete, required, missing } = useDocumentCompleteness();
+  const isGenericForm = useDocumentStore(s => s.documentCategory === 'forms' && !!s.genericForm);
   const documentMode = useDocumentStore((s) => s.documentMode);
   const jump = useEditorOutlineStore((s) => s.jump);
 
@@ -36,11 +37,11 @@ export function ReadinessMeter() {
 
   // Nothing required yet (e.g. a doc type with no hard-required sections) — no
   // meaningful progress to show.
-  if (required === 0) return null;
+  if (required === 0 && !isGenericForm) return null;
 
   const r = 8;
   const circumference = 2 * Math.PI * r;
-  const label = isReady ? 'Ready to sign' : 'Drafting';
+  const label = isReady ? isGenericForm ? 'Fields complete' : 'Ready to sign' : 'Drafting';
   const canJump = !isReady && missing.length > 0;
 
   const inner = (
@@ -81,7 +82,7 @@ export function ReadinessMeter() {
 
   return (
     <div className="flex items-center gap-2 text-xs">
-      {documentMode === 'compliant' && (
+      {documentMode === 'compliant' && !isGenericForm && (
         <span
           className="hidden items-center gap-1 rounded-full border border-border px-1.5 py-0.5 text-2xs font-medium text-muted-foreground md:inline-flex"
           title="Built to the SECNAV M-5216.5 / MCO 5216.19A compliant format"

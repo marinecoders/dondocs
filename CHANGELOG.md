@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.177] — 2026-10-17
+
+### Changed
+
+- Add the form library, answer editor, and shared preview and export rendering.
+
 ## [1.2.176] — 2026-10-17
 
 ### Changed
