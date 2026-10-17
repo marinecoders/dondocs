@@ -1,5 +1,7 @@
+import { waitForStorage, DocumentWrites, WRITE_JOURNAL_KEY, type PendingDocumentWrite } from '@/lib/documentWrites';
 import { create } from 'zustand';
-import { compressedParse } from '@/lib/compressedStorage';
+import { useFormStore, FORMS_PERSIST_KEY } from './formStore';
+import { compressedParse, lastWriteFailed } from '@/lib/compressedStorage';
 import { DOC_TYPE_LABELS } from '@/types/document';
 import {
   useDocumentStore,
@@ -7,6 +9,8 @@ import {
   serializeSession,
   getSavedSession,
   loadSharedSession,
+  isApplyingSession,
+  replaceSessionState,
   clearSavedSession,
   type SerializedSession,
   type DocumentState,
@@ -19,7 +23,7 @@ import type { Profile } from '@/types/document';
 import {
   idbGetAllDocuments,
   idbPutDocument,
-  isIdbAvailable,
+  idbWriteDocument,
   idbDeleteDocument,
   idbAddSnapshot,
   idbDeleteSnapshots,
@@ -31,6 +35,7 @@ import {
 } from '@/lib/documentsDb';
 import { scheduleBackup } from './backupStore';
 import { debug } from '@/lib/debug';
+import { showAppAlert } from './alertStore';
 
 /**
  * Multi-document registry behind the Recents list. Each document is a
@@ -42,8 +47,7 @@ import { debug } from '@/lib/debug';
  * document store's serialize/apply helpers. This store is authoritative for which
  * document is open: init loads the current one (auto-resume).
  *
- * v1 scope: correspondence only. Forms field data lives in a separate store and
- * isn't part of SerializedSession.
+ * Generic forms use pinned instances. Built-in forms retain their legacy store.
  */
 
 export interface DocumentMeta {
@@ -68,6 +72,7 @@ interface DocumentsState {
   currentId: string | null;
   /** True once the registry has been read out of IndexedDB. */
   hydrated: boolean;
+  recoveryCount: number;
   /**
    * The current document's content when it became current (loaded, switched to,
    * or reset). A not-yet-in-Recents document enters Recents once live content
@@ -257,11 +262,16 @@ export function correspondenceFilename(ext: string, session?: SerializedSession)
 // load, so without ignoring it an attachment-bearing document would re-sort to
 // the top of Recents on every reload.
 export function sameContent(a: SerializedSession, b: SerializedSession): boolean {
+  // Restores and older exporters can reorder object keys without editing data.
+  const canonical = (value: unknown) => JSON.stringify(value, (_key, item) =>
+    item && typeof item === 'object' && !Array.isArray(item)
+      ? Object.fromEntries(Object.entries(item).sort(([a], [b]) => a.localeCompare(b)))
+      : item);
   const strip = ({ timestamp: _t, enclosures, ...rest }: SerializedSession) => ({
     ...rest,
     enclosures: (enclosures ?? []).map(({ hasFile: _h, ...e }) => e),
   });
-  return JSON.stringify(strip(a)) === JSON.stringify(strip(b));
+  return canonical(strip(a)) === canonical(strip(b));
 }
 
 // The signature image is a profile-level asset excluded from the serialized
@@ -350,28 +360,52 @@ function broadcastDocs(msg: { type: 'put' | 'delete'; id: string }): void {
   }
 }
 
-function persistEntry(entry: DocumentEntry): void {
-  const ui = useUIStore.getState();
-  // No durable store (private mode / blocked): the in-memory doc IS the doc and
-  // StorageNotice already warns — mark optimistically saved, not an error.
-  if (!isIdbAvailable()) {
-    ui.markSaved();
-    return;
+const storedEntry = (entry: DocumentEntry): StoredDocument => ({ id: entry.meta.id, ...entry });
+const writes = new DocumentWrites(idbWriteDocument, (id, committed) => {
+  const state = useDocumentsStore.getState();
+  if (state.currentId === id) {
+    const ui = useUIStore.getState();
+    if (writes.failure(id)) ui.setSaveStatus('error');
+    else if (writes.has(id) && !writes.recoveryAvailable()) useUIStore.setState({ saveStatus: 'error', saveWarning: 'Reload recovery is unavailable. Keep this tab open until Saved appears.' });
+    else if (writes.has(id)) ui.setSaveStatus('saving');
+    else if (committed && sameContent(committed.session, getSerializedSessionForShare())) ui.markSaved();
   }
-  // Reflect the real write outcome (drives "Saving…" → "Saved" / "Couldn't save")
-  // instead of optimistically claiming saved before the put resolves.
-  ui.setSaveStatus('saving');
-  void idbPutDocument({ id: entry.meta.id, meta: entry.meta, session: entry.session }).then((ok) => {
-    if (ok) {
-      ui.markSaved();
-      broadcastDocs({ type: 'put', id: entry.meta.id });
-      // Mirror the change to the synced backup file (no-op unless one is set up).
-      scheduleBackup();
-    } else {
-      ui.setSaveStatus('error');
-    }
-  });
+  if (writes.failure(id) === 'conflict' || writes.failure(id) === 'missing-document') {
+    const after = writes.latest().find(record => record.id === id);
+    if (after) retainRecoveryCopy(after);
+  }
+  if (committed) {
+    broadcastDocs({ type: 'put', id });
+    scheduleBackup();
+  }
+});
+
+function persistEntry(entry: DocumentEntry, before?: DocumentEntry): void {
+  writes.enqueue(before ? storedEntry(before) : null, storedEntry(entry));
 }
+
+/** Reload only after all writes, including edits made during the wait, commit. */
+export async function flushDocumentWrites(): Promise<void> {
+  await waitForStorage(flushPendingDocumentWrites());
+}
+
+async function flushPendingDocumentWrites(): Promise<void> {
+  if (lastWriteFailed(FORMS_PERSIST_KEY)) {
+    useFormStore.setState({});
+    if (lastWriteFailed(FORMS_PERSIST_KEY)) throw new Error('Your form changes could not be saved. Download a backup before updating.');
+  }
+  for (;;) {
+    useDocumentsStore.getState().syncCurrent();
+    if (!await writes.flush()) throw new Error('Your latest changes could not be saved. Retry Save or download a backup before updating.');
+    const { currentId, docs } = useDocumentsStore.getState();
+    if (currentId && docs[currentId] && !await idbSetCurrentId(currentId)) throw new Error('The open document could not be saved for reopening. Retry before updating.');
+    if (useDocumentsStore.getState().currentId !== currentId) continue;
+    const live = getSerializedSessionForShare();
+    if (!currentId || !docs[currentId] || live.documentCategory === 'forms'
+      || sameContent(docs[currentId].session, live)) return;
+  }
+}
+
 function persistCurrentId(id: string | null): void {
   void idbSetCurrentId(id);
 }
@@ -434,6 +468,91 @@ export async function migrateLegacyRegistry(): Promise<void> {
   }
 }
 
+const RECOVERY_KEY = 'dondocs-recovery-copies';
+interface RecoveryCopy { copyId: string; after: StoredDocument }
+let recoveryCopies: RecoveryCopy[] = [];
+function retainRecoveryCopy(after: StoredDocument): void {
+  const existing = recoveryCopies.find(copy => copy.after.id === after.id);
+  if (existing) existing.after = after;
+  else recoveryCopies.push({ copyId: newId(), after });
+  try { sessionStorage.setItem(RECOVERY_KEY, JSON.stringify(recoveryCopies)); } catch { /* The write journal remains available. */ }
+  useDocumentsStore.setState({ recoveryCount: recoveryCopies.length });
+}
+
+async function recoverInterruptedSave(): Promise<void> {
+  try {
+    const copies = JSON.parse(sessionStorage.getItem(RECOVERY_KEY) ?? '[]');
+    if (!Array.isArray(copies) || copies.some(copy => !copy.copyId || !copy.after?.session)) throw new Error('Invalid recovery copies');
+    recoveryCopies = copies;
+    const pending: PendingDocumentWrite[] = JSON.parse(sessionStorage.getItem(WRITE_JOURNAL_KEY) ?? '[]');
+    // Read recovery records written by the previous release too.
+    const legacy = sessionStorage.getItem('dondocs-interrupted-save');
+    if (legacy) {
+      const { before, after } = JSON.parse(legacy);
+      pending.push({ before, versions: [after] });
+    }
+    for (const item of pending) {
+      const after = item.versions.at(-1);
+      if (!after?.id || after.meta?.id !== after.id || !after.session
+        || item.versions.some(v => v.id !== after.id)
+        || (item.before && item.before.id !== after.id)) throw new Error('Invalid recovery record');
+      const result = await idbWriteDocument(item.before, after, item.versions, true);
+
+      if (result === 'committed') broadcastDocs({ type: 'put', id: after.id });
+      if (result === 'conflict' || result === 'missing-document' || result === 'failed') {
+        if (!recoveryCopies.some(copy => JSON.stringify(copy.after) === JSON.stringify(after))) {
+          recoveryCopies.push({ copyId: newId(), after });
+        }
+      }
+    }
+    // Preserve conflicts before removing the write journal, including on quota errors.
+    sessionStorage.setItem(RECOVERY_KEY, JSON.stringify(recoveryCopies));
+    sessionStorage.removeItem(WRITE_JOURNAL_KEY);
+    sessionStorage.removeItem('dondocs-interrupted-save');
+  } catch (error) {
+    // Keep the raw journal separate so subsequent edits cannot replace it.
+    try {
+      const raw = sessionStorage.getItem(WRITE_JOURNAL_KEY);
+      if (raw) sessionStorage.setItem(`dondocs-recovery-unreadable-${Date.now()}`, raw);
+    } catch { /* Storage remains unavailable; leave the original untouched. */ }
+    debug.error('Documents', 'Recovery retained for retry', error);
+    showAppAlert({ title: 'Recovery needs attention', message: 'An interrupted edit could not be recovered. Its recovery data remains in this tab. Keep this tab open and retry after storage is available.' });
+  }
+  useDocumentsStore.setState({ recoveryCount: recoveryCopies.length });
+  if (recoveryCopies.length) showAppAlert({ title: 'Recovered edits need your review', message: 'A saved document changed or was deleted while edits were pending. Use Save → Open recovered copies to keep those edits as separate documents.' });
+}
+
+export async function openRecoveredCopies(): Promise<void> {
+  useDocumentsStore.getState().syncCurrent();
+  await writes.flush();
+  const firstCopyId = recoveryCopies[0]?.copyId;
+  for (const copy of recoveryCopies) {
+    const meta = { ...copy.after.meta, id: copy.copyId, title: `Recovered: ${copy.after.meta.title}`, name: `Recovered: ${copy.after.meta.title}` };
+    const record = { ...copy.after, id: copy.copyId, meta };
+    const outcome = await idbWriteDocument(null, record);
+    if (outcome !== 'committed' && outcome !== 'already-committed') throw new Error('Recovery copies could not be saved. The originals remain available for retry.');
+    useDocumentsStore.setState(state => ({ docs: { ...state.docs, [record.id]: { meta, session: record.session } } }));
+    broadcastDocs({ type: 'put', id: record.id });
+  }
+  const originals = await idbGetAllDocuments();
+  if (originals === null) throw new Error('Recovery copies were saved, but the library could not be refreshed. Retry opening recovered copies.');
+  const persisted = new Map(originals.map(record => [record.id, record]));
+  useDocumentsStore.setState(state => {
+    const docs = { ...state.docs };
+    for (const copy of recoveryCopies) {
+      if (writes.failure(copy.after.id) === 'conflict' || writes.failure(copy.after.id) === 'missing-document') writes.cancel(copy.after.id);
+      const original = persisted.get(copy.after.id);
+      if (original) docs[original.id] = { meta: original.meta, session: original.session };
+      else delete docs[copy.after.id];
+    }
+    return { docs };
+  });
+  if (firstCopyId) useDocumentsStore.getState().switchTo(firstCopyId);
+  sessionStorage.removeItem(RECOVERY_KEY);
+  recoveryCopies = [];
+  useDocumentsStore.setState({ recoveryCount: 0 });
+}
+
 // Shared hydration promise so concurrent init() calls read the registry once.
 let hydratePromise: Promise<void> | null = null;
 function ensureHydrated(
@@ -444,6 +563,7 @@ function ensureHydrated(
   if (!hydratePromise) {
     hydratePromise = (async () => {
       await migrateLegacyRegistry();
+      await recoverInterruptedSave();
       const [records, cid] = await Promise.all([idbGetAllDocuments(), idbGetCurrentId()]);
       if (records === null) {
         // The registry exists but can't be read. Never proceed as if the library
@@ -525,6 +645,7 @@ function beginPending(entries: DocumentEntry[], set: (partial: Partial<Documents
     finalizePurge();
   }
   for (const e of entries) {
+    writes.cancel(e.meta.id);
     void idbDeleteDocument(e.meta.id);
     broadcastDocs({ type: 'delete', id: e.meta.id });
   }
@@ -539,6 +660,20 @@ function beginPending(entries: DocumentEntry[], set: (partial: Partial<Documents
   }, 6000);
 }
 
+function tryLoadSavedSession(session: SerializedSession): boolean {
+  try {
+    loadSharedSession(session);
+    return true;
+  } catch (error) {
+    debug.warn('Documents', 'Could not load saved document', error);
+    showAppAlert({
+      title: 'Saved document could not be opened',
+      message: 'The saved copy remains in your library. Back up everything to keep a recovery copy, then try opening it with the latest version of DonDocs.',
+    });
+    return false;
+  }
+}
+
 // Shared "the open doc was deleted" fallback: reopen the newest remaining doc,
 // else seed a fresh blank. `remaining` is the docs map after the deletion.
 function reopenAfterRemoval(
@@ -550,10 +685,9 @@ function reopenAfterRemoval(
   // a crash recovery can't hand back a document the user just deleted.
   clearSavedSession();
   const newest = Object.values(remaining).sort((a, b) => b.meta.updatedAt - a.meta.updatedAt)[0];
-  if (newest) {
+  if (newest && tryLoadSavedSession(newest.session)) {
     set({ currentId: newest.meta.id, baseline: newest.session });
     persistCurrentId(newest.meta.id);
-    loadSharedSession(newest.session);
     applyProfileSignature();
     useUIStore.getState().setLastSavedAt(newest.meta.updatedAt);
   } else {
@@ -561,9 +695,11 @@ function reopenAfterRemoval(
     set({ currentId: fresh });
     persistCurrentId(fresh);
     const ds = useDocumentStore.getState();
-    ds.setDocumentCategory('correspondence');
-    ds.resetForm();
-    applySelectedProfile();
+    replaceSessionState(() => {
+      ds.setDocumentCategory('correspondence');
+      ds.resetForm();
+      applySelectedProfile();
+    });
     markBaseline();
     useUIStore.getState().setLastSavedAt(null);
   }
@@ -608,10 +744,14 @@ function initAfterHydration(
         session = { ...session, formData: { ...session.formData, unitAddress: canon } };
         const entry = { ...docs[currentId], session };
         set({ docs: { ...docs, [currentId]: entry } });
-        persistEntry(entry);
+        persistEntry(entry, docs[currentId]);
       }
     }
-    loadSharedSession(session);
+    if (!tryLoadSavedSession(session)) {
+      // Never attach a blank editor to the saved record that failed to load.
+      set({ currentId: newId(), baseline: null });
+      return false;
+    }
     applyProfileSignature();
     set({ baseline: session });
     useUIStore.getState().setValidationVisible(false);
@@ -634,7 +774,10 @@ function initAfterHydration(
     set({ currentId: id, docs: { ...docs, [id]: entry } });
     persistEntry(entry);
     persistCurrentId(id);
-    loadSharedSession(legacy);
+    if (!tryLoadSavedSession(legacy)) {
+      set({ currentId: newId(), baseline: null });
+      return false;
+    }
     applyProfileSignature();
     set({ baseline: legacy });
     debug.log('Documents', 'Migrated legacy session as first document', { id });
@@ -655,6 +798,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   docs: {},
   currentId: null,
   hydrated: false,
+  recoveryCount: 0,
   baseline: null,
   pendingDelete: null,
 
@@ -683,7 +827,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     const { currentId, docs, baseline } = get();
     if (!currentId) return;
     const session = source ? serializeSession(source) : getSerializedSessionForShare();
-    // Forms aren't part of SerializedSession yet.
+    // Built-in forms still use their separate legacy store.
     if (session.documentCategory === 'forms') return;
 
     const prev = docs[currentId];
@@ -692,9 +836,14 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       // starting baseline (subject, body, recipient, references, enclosures,
       // copy-tos, distribution). A pristine starter, or one only changed in
       // letterhead / form / type / font, stays out until the user writes something.
-      if (!baseline || !hasContentDrift(baseline, session)) return;
+      if (!baseline || !hasContentDrift(baseline, session)) {
+        if (!source) useUIStore.getState().setSaveStatus('idle');
+        return;
+      }
     } else if (sameContent(prev.session, session)) {
-      // Already in Recents and unchanged. Removal is explicit (delete).
+      // Retry failed content even when the editor has not changed.
+      if (writes.failure(currentId)) writes.retry(currentId);
+      else if (!source && !writes.has(currentId)) useUIStore.getState().setLastSavedAt(prev.meta.updatedAt);
       return;
     } else if (baseline && sameContent(baseline, session)) {
       // The live document matches what THIS tab last loaded/persisted — the
@@ -706,11 +855,9 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       return;
     }
     const entry = { meta: metaFor(currentId, session, prev?.meta), session };
-    // Advance the baseline to what we just persisted: "baseline" means the last
-    // state THIS tab loaded or wrote, which is exactly the reference the stale-
-    // flush guard above needs (not the state from load time).
+    // Track the editor snapshot separately from the write queue’s committed base.
     set({ docs: { ...docs, [currentId]: entry }, baseline: session });
-    persistEntry(entry);
+    persistEntry(entry, prev);
     // First time this doc reaches Recents: pin it as the resume pointer (init no
     // longer persists ids eagerly, so this is where a real doc becomes resumable).
     if (!prev) persistCurrentId(currentId);
@@ -721,16 +868,15 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     const { currentId, docs } = get();
     if (!currentId) return;
     const session = getSerializedSessionForShare();
-    // Forms field data isn't part of SerializedSession yet; leave it to the
-    // legacy save.
+    // Built-in forms still use their separate legacy store.
     if (session.documentCategory === 'forms') return;
     // Force-add when absent, but skip a no-op Save so it doesn't re-sort.
     const prev = docs[currentId];
-    if (prev && sameContent(prev.session, session)) return;
+    if (prev && sameContent(prev.session, session)) { writes.retry(currentId); return; }
     const entry = { meta: metaFor(currentId, session, prev?.meta), session };
     // Keep baseline in lockstep with what this tab persisted (see syncCurrent).
     set({ docs: { ...docs, [currentId]: entry }, baseline: session });
-    persistEntry(entry);
+    persistEntry(entry, prev);
     if (!prev) persistCurrentId(currentId); // make a just-saved fresh doc resumable
     void maybeSnapshot(currentId, session, true); // explicit Save = a deliberate checkpoint
   },
@@ -741,26 +887,32 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     set({ currentId: id });
     persistCurrentId(id);
     const ds = useDocumentStore.getState();
-    ds.setDocumentCategory('correspondence');
-    ds.resetForm();
-    applySelectedProfile();
+    replaceSessionState(() => {
+      ds.setDocumentCategory('correspondence');
+      ds.resetForm();
+      applySelectedProfile();
+    });
     get().markBaseline();
     useUIStore.getState().setLastSavedAt(null); // brand-new doc isn't saved yet
     debug.log('Documents', 'New document', { id });
   },
 
   switchTo: (id) => {
-    if (id === get().currentId) return;
     const entry = get().docs[id];
     if (!entry) return;
+    const current = useDocumentStore.getState();
+    if (id === get().currentId
+      && current.documentCategory === (entry.session.documentCategory ?? 'correspondence')
+      && current.formType === entry.session.formType) return;
     get().syncCurrent(); // preserve the document being left
+    if (!tryLoadSavedSession(entry.session)) return;
     set({ currentId: id, baseline: entry.session });
     persistCurrentId(id);
-    loadSharedSession(entry.session);
     applyProfileSignature();
     useUIStore.getState().setValidationVisible(false);
     // Point the "Saved" indicator at THIS doc's last save, not the one we left.
     useUIStore.getState().setLastSavedAt(entry.meta.updatedAt);
+    if (writes.has(id)) useUIStore.getState().setSaveStatus(writes.failure(id) ? 'error' : 'saving');
     debug.log('Documents', 'Switched document', { id });
   },
 
@@ -796,7 +948,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     const meta: DocumentMeta = { ...entry.meta, pinned: !entry.meta.pinned };
     const updated = { ...entry, meta };
     set({ docs: { ...docs, [id]: updated } });
-    persistEntry(updated);
+    persistEntry(updated, entry);
   },
 
   openLoadedAsNew: () => {
@@ -841,7 +993,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     };
     const updated = { ...entry, meta };
     set({ docs: { ...docs, [id]: updated } });
-    persistEntry(updated);
+    persistEntry(updated, entry);
   },
 
   duplicateDocument: (id) => {
@@ -888,12 +1040,18 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
 // makes those a no-op.
 let syncTimer: ReturnType<typeof setTimeout> | null = null;
 useDocumentStore.subscribe((state, prev) => {
+  if (isApplyingSession()) {
+    if (syncTimer) clearTimeout(syncTimer);
+    syncTimer = null;
+    return;
+  }
   // Flush immediately when the category flips correspondence -> forms: the prior
   // state still holds the user's unsaved letter, which the debounced,
   // forms-skipping sync would drop.
-  if (prev.documentCategory === 'correspondence' && state.documentCategory === 'forms') {
+  if (prev.documentCategory !== state.documentCategory || prev.formType !== state.formType) {
     useDocumentsStore.getState().syncCurrent(prev);
   }
+  if (!isApplyingSession() && useDocumentsStore.getState().currentId) useUIStore.getState().setSaveStatus('saving');
   if (syncTimer) clearTimeout(syncTimer);
   syncTimer = setTimeout(() => useDocumentsStore.getState().syncCurrent(), 1500);
 });
@@ -934,7 +1092,8 @@ if (typeof BroadcastChannel !== 'undefined') {
       const { currentId, docs } = useDocumentsStore.getState();
       // Keep this tab's live current doc even if it isn't persisted yet, and
       // don't resurrect a doc this tab has soft-deleted (still in IDB pending).
-      if (currentId && docs[currentId] && !loaded[currentId]) loaded[currentId] = docs[currentId];
+      if (currentId && docs[currentId]) loaded[currentId] = docs[currentId];
+      for (const record of writes.latest()) loaded[record.id] = { meta: record.meta, session: record.session };
       for (const e of pendingEntries) delete loaded[e.meta.id];
       useDocumentsStore.setState({ docs: loaded });
     });
@@ -960,16 +1119,35 @@ export function importShouldReplace(existingUpdatedAt: number | undefined, incom
  *  backup file. When the registry couldn't be read at all this session,
  *  refuse (the caller shows "Backup failed") rather than fabricate success. */
 export async function exportLibrary(): Promise<string> {
-  const { docs, hydrated } = useDocumentsStore.getState();
+  const { hydrated, baseline } = useDocumentsStore.getState();
   if (!hydrated || useUIStore.getState().storageHealth === 'unreadable') {
     throw new Error('Saved documents could not be read — a backup now would be incomplete');
   }
-  const records: StoredDocument[] = Object.values(docs).map((e) => ({
+  if (baseline) useDocumentsStore.getState().syncCurrent();
+  const { docs } = useDocumentsStore.getState();
+  let records: StoredDocument[] = Object.values(docs).map((e) => ({
     id: e.meta.id,
     meta: e.meta,
     session: e.session,
   }));
+  if (recoveryCopies.length) {
+    const originals = await idbGetAllDocuments();
+    if (originals === null) throw new Error('Conflicted originals could not be read; backup cancelled');
+    const conflictedIds = new Set(recoveryCopies.map(copy => copy.after.id));
+    records = [...records.filter(record => !conflictedIds.has(record.id)), ...originals.filter(record => conflictedIds.has(record.id))];
+  }
+  for (const copy of recoveryCopies) {
+    if (!records.some(record => record.id === copy.copyId)) records.push({ ...copy.after, id: copy.copyId, meta: { ...copy.after.meta, id: copy.copyId, title: `Recovered: ${copy.after.meta.title}` } });
+  }
   return JSON.stringify({ kind: 'dondocs-library', version: 1, docs: records });
+}
+
+/** External sessions must not inherit the open document's library ID. */
+export function openSessionAsNew(session: SerializedSession): void {
+  const documents = useDocumentsStore.getState();
+  documents.syncCurrent();
+  loadSharedSession(session);
+  documents.openLoadedAsNew();
 }
 
 /** Merge a library backup into IndexedDB and refresh the in-memory registry.

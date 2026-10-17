@@ -181,6 +181,7 @@ interface UIState {
   lastSavedAt: number | null;
   // In-flight persistence state, so the indicator can show "Saving…" and a real
   // "Couldn't save" instead of always claiming "Saved".
+  saveWarning: string | null;
   saveStatus: 'idle' | 'saving' | 'saved' | 'error';
   markSaved: () => void;
   setSaveStatus: (s: 'idle' | 'saving' | 'saved' | 'error') => void;
@@ -301,9 +302,10 @@ export const useUIStore = create<UIState>()(
 
       // Auto-save indicator
       lastSavedAt: null,
+      saveWarning: null,
       saveStatus: 'idle',
-      markSaved: () => set({ lastSavedAt: Date.now(), saveStatus: 'saved' }),
-      setSaveStatus: (s) => set({ saveStatus: s }),
+      markSaved: () => set({ lastSavedAt: Date.now(), saveStatus: 'saved', saveWarning: null }),
+      setSaveStatus: (s) => set({ saveStatus: s, saveWarning: null }),
       setLastSavedAt: (ts) => set({ lastSavedAt: ts, saveStatus: ts == null ? 'idle' : 'saved' }),
 
       // Validation visibility
