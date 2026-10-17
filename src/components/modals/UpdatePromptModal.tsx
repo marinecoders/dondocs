@@ -46,8 +46,8 @@ export function UpdatePromptModal({ open, onConfirm, onDismiss }: UpdatePromptMo
           </DialogHeader>
 
           <Notice variant="info" className="text-xs text-muted-foreground break-words">
-            <strong>Note:</strong> PDF enclosure files and signature images will need
-            to be re-attached after the update.
+            Saved documents and attachments stay in this browser. Refresh any other
+            DonDocs tabs before editing forms in the new version.
           </Notice>
 
           <DialogFooter className="flex-col sm:flex-row gap-2 flex-shrink-0">

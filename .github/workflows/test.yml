@@ -346,10 +346,11 @@ jobs:
           path: sbom.cdx.json
           retention-days: 90
 
-  browser:
-    name: browser
+  browser-upgrade:
+    name: browser upgrade
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v6
@@ -359,11 +360,22 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run build
-      - run: npm run test:browser
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: .upgrade-base
+      - name: build previous release
+        working-directory: .upgrade-base
+        run: npm ci && npm run build
+      - name: verify upgrade
+        run: npm run test:upgrade
+        env:
+          UPGRADE_OLD_BUILD: ${{ github.workspace }}/.upgrade-base/dist
       - uses: actions/upload-artifact@v7
         if: failure()
         with:
-          name: browser-failure
+          name: browser-upgrade-failure
           path: |
             playwright-report/
             test-results/
+          retention-days: 14

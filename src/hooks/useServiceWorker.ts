@@ -1,3 +1,5 @@
+import { flushDocumentWrites } from '@/stores/documentsStore';
+import { showAppAlert } from '@/stores/alertStore';
 /**
  * PWA service-worker registration and update handling (vite-plugin-pwa's
  * useRegisterSW in prompt mode). Fresh visits (within 5s) auto-update silently;
@@ -20,12 +22,23 @@ export function useServiceWorker() {
   // The live registration, so the focus/reconnect listeners below can trigger an
   // immediate update check (not just wait for the next 60s tick).
   const registrationRef = useRef<ServiceWorkerRegistration | null>(null);
+  const reloading = useRef(false);
+  const activationCleanup = useRef<(() => void) | null>(null);
+  const reloadOnce = useCallback(() => {
+    if (reloading.current) return;
+    reloading.current = true;
+    void flushDocumentWrites().then(() => window.location.reload()).catch(error => {
+      reloading.current = false;
+      showAppAlert({ title: 'Update paused', message: error instanceof Error ? error.message : String(error) });
+    });
+  }, []);
 
   const {
     needRefresh: [needRefresh],
     offlineReady: [offlineReady],
     updateServiceWorker,
   } = useRegisterSW({
+    onNeedReload: reloadOnce,
     onRegisteredSW(swUrl, registration) {
       console.log('[SW] Registered:', swUrl);
 
@@ -37,7 +50,7 @@ export function useServiceWorker() {
           clearInterval(updateIntervalRef.current);
         }
         updateIntervalRef.current = setInterval(() => {
-          registration.update();
+          void registration.update().catch(() => {});
         }, 60 * 1000);
       }
     },
@@ -46,9 +59,50 @@ export function useServiceWorker() {
     },
   });
 
+  const activateUpdate = useCallback(async (update: ((reload?: boolean) => Promise<void>) | null) => {
+    await flushDocumentWrites();
+    // Resolve the live registration at confirmation time; the prompt can arrive
+    // before the registration callback exposes the waiting worker.
+    const registration = await navigator.serviceWorker?.getRegistration?.() ?? registrationRef.current;
+    const offered = registration?.waiting ?? registration?.installing ?? registration?.active;
+    if (offered) {
+      activationCleanup.current?.();
+      const activated = () => {
+        if (offered.state !== 'activated') return;
+        activationCleanup.current?.();
+        reloadOnce();
+      };
+      offered.addEventListener('statechange', activated);
+      activationCleanup.current = () => offered.removeEventListener('statechange', activated);
+      activated();
+    }
+    await update?.(true);
+  }, [reloadOnce]);
+
+  // A first-install tab is uncontrolled until navigation. Without clientsClaim,
+  // activating an update does not send it controllerchange. Observe the offered
+  // worker as well so this tab reloads once activation has actually completed.
+  useEffect(() => {
+    const worker = navigator.serviceWorker;
+    if (!needRefresh || !worker) return;
+    const registration = registrationRef.current;
+    const waiting = registration?.waiting ?? registration?.installing ?? registration?.active;
+    const onStateChange = () => {
+      if (waiting?.state === 'activated') reloadOnce();
+    };
+    worker.addEventListener('controllerchange', reloadOnce);
+    waiting?.addEventListener('statechange', onStateChange);
+    onStateChange();
+    return () => {
+      worker.removeEventListener('controllerchange', reloadOnce);
+      waiting?.removeEventListener('statechange', onStateChange);
+    };
+  }, [needRefresh, reloadOnce]);
+
   // Clean up the update-check interval on unmount.
   useEffect(() => {
     return () => {
+      activationCleanup.current?.();
       if (updateIntervalRef.current) {
         clearInterval(updateIntervalRef.current);
         updateIntervalRef.current = null;
@@ -107,18 +161,22 @@ export function useServiceWorker() {
       } else {
         // Fresh visit - auto-update silently
         console.log('[SW] Update available, auto-updating (fresh visit)');
-        updateServiceWorkerRef.current?.(true);
+        void activateUpdate(updateServiceWorkerRef.current).catch(error => {
+          showAppAlert({ title: 'Update paused', message: String(error) });
+        });
       }
     }
-  }, [needRefresh, isActiveSession]);
+  }, [needRefresh, isActiveSession, activateUpdate]);
 
   // User confirms the update, so reload. documentsStore.init auto-resumes the open
   // document, so there's no restore prompt to pre-empt.
   const confirmUpdate = useCallback(() => {
     console.log('[SW] User confirmed update, reloading');
     setShowUpdatePrompt(false);
-    updateServiceWorker(true);
-  }, [updateServiceWorker]);
+    void activateUpdate(updateServiceWorker).catch(error => {
+      showAppAlert({ title: 'Update paused', message: String(error) });
+    });
+  }, [updateServiceWorker, activateUpdate]);
 
   // User dismisses update prompt (update later)
   const dismissUpdatePrompt = useCallback(() => {

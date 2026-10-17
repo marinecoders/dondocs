@@ -34,6 +34,7 @@ export default defineConfig({
     alias: {
       // Mirror vite.config.ts's `@` alias so test imports match production.
       '@': path.resolve(__dirname, './src'),
+      'virtual:pwa-register/react': path.resolve(__dirname, './tests/_helpers/pwaRegister.ts'),
     },
   },
   test: {
