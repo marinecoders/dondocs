@@ -27,7 +27,7 @@ async function clearDb() {
 describe('importLibrary — conflict-aware backup restore', () => {
   beforeEach(clearDb);
 
-  it('replaces older-local, skips older-backup, imports new, and drops malformed records', async () => {
+  it('replaces older-local, skips older-backup, and imports new records', async () => {
     // Local library: A and B both at t=100.
     await idbPutDocument(rec('A', 100));
     await idbPutDocument(rec('B', 100));
@@ -37,7 +37,6 @@ describe('importLibrary — conflict-aware backup restore', () => {
         rec('A', 50), // older than local → skipped
         rec('B', 200), // newer than local → replaces
         rec('C', 10), // new id → imported
-        { session: {} }, // malformed (no meta.id) → dropped, not counted
       ])
     );
 

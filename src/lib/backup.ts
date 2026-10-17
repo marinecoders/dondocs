@@ -8,16 +8,18 @@
  * saved snippets, user templates, and in-progress NAVMC form fields (each lives
  * in its own persisted store). This module produces a versioned bundle
  * (`dondocs-backup` v2) that includes all of them, and restores them
- * NON-DESTRUCTIVELY so re-importing an old backup can never clobber newer local
- * work.
+ * with newer-wins document merging. Explicit restore replaces the two live
+ * NAVMC buffers when present; those buffers have no per-draft timestamps.
  *
  * Everything here is a local browser operation (JSON build + merge into
  * localStorage/IndexedDB) — no network, air-gap safe.
  */
+import { lastWriteFailed } from '@/lib/compressedStorage';
+import { validateBackup, validateBackupSession, MAX_BACKUP_BYTES } from './backupValidation';
 import type { Profile } from '@/types/document';
 import { exportLibrary, importLibrary } from '@/stores/documentsStore';
 import { useProfileStore } from '@/stores/profileStore';
-import { useFormStore } from '@/stores/formStore';
+import { useFormStore, FORMS_PERSIST_KEY, normalizeNavmc10274, normalizeNavmc11811 } from '@/stores/formStore';
 import { useSnippetsStore, type Snippet } from '@/stores/snippetsStore';
 import { useUserTemplatesStore, type UserTemplate } from '@/stores/userTemplatesStore';
 import { useRoutingStore, sanitizeOverrides } from '@/stores/routingStore';
@@ -55,7 +57,7 @@ export interface BackupBundle {
   exportedAt: number;
   documents: unknown[];
   profiles: { profiles: Record<string, Profile>; selectedProfile: string | null };
-  forms: { navmc10274: unknown; navmc11811: unknown };
+  forms: { navmc10274: unknown; navmc11811: unknown; includeCoverPage?: boolean };
   snippets: Snippet[];
   userTemplates: Record<string, UserTemplate>;
   attachments: BackupAttachment[];
@@ -66,7 +68,8 @@ export interface BackupBundle {
 }
 
 export interface RestoreResult {
-  documents: { imported: number; skipped: number };
+  documents: { imported: number; skipped: number; issues?: string[] };
+  issues?: string[];
   profilesAdded: number;
   snippetsAdded: number;
   templatesAdded: number;
@@ -174,6 +177,7 @@ export function mergeSnapshots(
 
 /** Parse + shape-check a backup file; returns the discriminated kind. */
 export function classifyBackup(json: string): { kind: string; parsed: Record<string, unknown> } {
+  if (json.length > MAX_BACKUP_BYTES) throw new Error('Backup exceeds the 100 MB import limit');
   let parsed: unknown;
   try {
     parsed = JSON.parse(json);
@@ -205,7 +209,7 @@ export async function buildBackup(): Promise<string> {
   for (const doc of docs) {
     const id = (doc as { id?: unknown })?.id;
     if (typeof id !== 'string') continue;
-    const ring = await idbGetSnapshots(id);
+    const ring = await idbGetSnapshots(id, true);
     if (ring.length) snapshots[id] = ring;
   }
 
@@ -218,7 +222,7 @@ export async function buildBackup(): Promise<string> {
   const attachments: BackupAttachment[] = [];
   for (const id of collectAttachmentIds([...docs, ...snapshotEntries])) {
     const rec = await idbGetAttachment(id);
-    if (!rec) continue; // a missing blob just means that enclosure won't restore its file
+    if (!rec) throw new Error(`Attachment ${id} could not be read. The backup was not created.`);
     attachments.push({
       id: rec.id,
       name: rec.name,
@@ -236,7 +240,7 @@ export async function buildBackup(): Promise<string> {
     exportedAt: Date.now(),
     documents: docs,
     profiles: { profiles: profile.profiles, selectedProfile: profile.selectedProfile },
-    forms: { navmc10274: form.navmc10274, navmc11811: form.navmc11811 },
+    forms: { navmc10274: form.navmc10274, navmc11811: form.navmc11811, includeCoverPage: form.includeCoverPage },
     snippets: useSnippetsStore.getState().snippets,
     userTemplates: useUserTemplatesStore.getState().templates,
     attachments,
@@ -250,11 +254,11 @@ export async function buildBackup(): Promise<string> {
 // A restore writes documents BEFORE their blobs (below), so at every instant a
 // written blob already has a referencing doc and would survive a sweep anyway —
 // this flag is belt-and-suspenders against any future reordering of the steps.
-let restoreInProgress = false;
+let restoresInProgress = 0;
 
 /** True while {@link restoreBackup} is running. Read by the attachment GC. */
 export function isRestoreInProgress(): boolean {
-  return restoreInProgress;
+  return restoresInProgress > 0;
 }
 
 /**
@@ -264,11 +268,11 @@ export function isRestoreInProgress(): boolean {
  * bring back the backed-up form fields).
  */
 export async function restoreBackup(json: string): Promise<RestoreResult> {
-  restoreInProgress = true;
+  restoresInProgress++;
   try {
     return await runRestore(json);
   } finally {
-    restoreInProgress = false;
+    restoresInProgress--;
   }
 }
 
@@ -281,6 +285,37 @@ async function runRestore(json: string): Promise<RestoreResult> {
     return { documents, profilesAdded: 0, snippetsAdded: 0, templatesAdded: 0, formsRestored: false, attachmentsAdded: 0, snapshotDocs: 0, routingRulesAdded: 0 };
   }
 
+  validateBackup(parsed);
+
+  // Decode every attachment before changing any local state.
+  const decoded = new Map<string, ArrayBuffer>();
+  if (parsed.attachments !== undefined && !Array.isArray(parsed.attachments)) throw new Error('Invalid attachments');
+  for (const a of (parsed.attachments ?? []) as BackupAttachment[]) {
+    if (!a || typeof a.id !== 'string' || !a.id || typeof a.data !== 'string' || decoded.has(a.id)) throw new Error('Invalid or duplicate attachment');
+    const bytes = base64ToUint8Array(a.data);
+    if (typeof a.size !== 'number' || a.size !== bytes.byteLength) throw new Error(`Attachment ${a.id} has an invalid size`);
+    decoded.set(a.id, bytes.buffer as ArrayBuffer);
+  }
+  if (parsed.snapshots !== undefined && (!parsed.snapshots || typeof parsed.snapshots !== 'object' || Array.isArray(parsed.snapshots))) throw new Error('Invalid history');
+  for (const ring of Object.values(parsed.snapshots ?? {})) {
+    if (!Array.isArray(ring)) throw new Error('Invalid history ring');
+    for (const snapshot of ring) {
+      if (!snapshot?.session || !Number.isFinite(snapshot.ts)) throw new Error('Invalid history entry');
+      validateBackupSession(snapshot.session);
+    }
+  }
+  const issues: string[] = [];
+  const persistCategory = (label: string, write: () => void, key?: string): boolean => {
+    try {
+      write();
+      if (key && lastWriteFailed(key)) throw new Error('Storage write failed');
+      return true;
+    } catch {
+      issues.push(`${label} could not be saved; keep this tab open and retry the backup`);
+      return false;
+    }
+  };
+
   // Documents: importLibrary expects `{ docs }`; the v2 bundle stores them under
   // `documents`. Reuse its newer-wins merge + safety guards.
   const documents = Array.isArray(parsed.documents)
@@ -292,59 +327,69 @@ async function runRestore(json: string): Promise<RestoreResult> {
   let profilesAdded = 0;
   const backupProfiles = (parsed.profiles as BackupBundle['profiles'] | undefined)?.profiles;
   if (backupProfiles) {
-    useProfileStore.setState((s) => {
-      const { merged, added } = mergeRecord(s.profiles, backupProfiles);
-      profilesAdded = added;
-      const backupSelected = (parsed.profiles as BackupBundle['profiles']).selectedProfile;
-      return {
-        profiles: merged,
-        selectedProfile: s.selectedProfile ?? (typeof backupSelected === 'string' ? backupSelected : null),
-      };
-    });
+    if (!persistCategory('Profiles', () => {
+      useProfileStore.setState((s) => {
+        const { merged, added } = mergeRecord(s.profiles, backupProfiles);
+        profilesAdded = added;
+        const backupSelected = (parsed.profiles as BackupBundle['profiles']).selectedProfile;
+        return {
+          profiles: merged,
+          selectedProfile: s.selectedProfile ?? (typeof backupSelected === 'string' ? backupSelected : null),
+        };
+      });
+    })) profilesAdded = 0;
   }
 
   // Snippets: add by id.
   let snippetsAdded = 0;
-  useSnippetsStore.setState((s) => {
-    const { merged, added } = mergeById(s.snippets, parsed.snippets as Snippet[] | undefined);
-    snippetsAdded = added;
-    return { snippets: merged };
-  });
+  if (!persistCategory('Snippets', () => {
+    useSnippetsStore.setState((s) => {
+      const { merged, added } = mergeById(s.snippets, parsed.snippets as Snippet[] | undefined);
+      snippetsAdded = added;
+      return { snippets: merged };
+    });
+  })) snippetsAdded = 0;
 
   // User templates: add by id.
   let templatesAdded = 0;
-  useUserTemplatesStore.setState((s) => {
-    const { merged, added } = mergeRecord(s.templates, parsed.userTemplates as Record<string, UserTemplate> | undefined);
-    templatesAdded = added;
-    return { templates: merged };
-  });
+  if (!persistCategory('Templates', () => {
+    useUserTemplatesStore.setState((s) => {
+      const { merged, added } = mergeRecord(s.templates, parsed.userTemplates as Record<string, UserTemplate> | undefined);
+      templatesAdded = added;
+      return { templates: merged };
+    });
+  })) templatesAdded = 0;
 
   // Unit routing overrides: a shared config wins on conflicts (an admin chief's
   // backup is the authority for the command's routing); local-only entries stay.
   let routingRulesAdded = 0;
   const incomingRouting = sanitizeOverrides(parsed.routingOverrides);
   if (Object.keys(incomingRouting).length > 0) {
-    useRoutingStore.setState((s) => {
-      const merged = { ...s.overrides };
-      for (const [id, dest] of Object.entries(incomingRouting)) {
-        if (merged[id] !== dest) {
-          merged[id] = dest;
-          routingRulesAdded++;
+    if (!persistCategory('Routing rules', () => {
+      useRoutingStore.setState((s) => {
+        const merged = { ...s.overrides };
+        for (const [id, dest] of Object.entries(incomingRouting)) {
+          if (merged[id] !== dest) {
+            merged[id] = dest;
+            routingRulesAdded++;
+          }
         }
-      }
-      return { overrides: merged };
-    });
+        return { overrides: merged };
+      });
+    }, 'dondocs_routing')) routingRulesAdded = 0;
   }
 
-  // Live NAVMC form buffer: single state, replaced when the backup carries it.
+  // Explicit restore replaces the two live NAVMC buffers, normalizing old fields.
   let formsRestored = false;
   const forms = parsed.forms as BackupBundle['forms'] | undefined;
-  if (forms && (forms.navmc10274 || forms.navmc11811)) {
-    useFormStore.setState((s) => ({
-      navmc10274: (forms.navmc10274 as typeof s.navmc10274) ?? s.navmc10274,
-      navmc11811: (forms.navmc11811 as typeof s.navmc11811) ?? s.navmc11811,
-    }));
-    formsRestored = true;
+  if (forms && (forms.navmc10274 || forms.navmc11811 || typeof forms.includeCoverPage === 'boolean')) {
+    formsRestored = persistCategory('Form fields', () => {
+      useFormStore.setState((s) => ({
+        navmc10274: forms.navmc10274 ? normalizeNavmc10274(forms.navmc10274 as Partial<typeof s.navmc10274>) : s.navmc10274,
+        navmc11811: forms.navmc11811 ? normalizeNavmc11811(forms.navmc11811 as Partial<typeof s.navmc11811>) : s.navmc11811,
+        includeCoverPage: typeof forms.includeCoverPage === 'boolean' ? forms.includeCoverPage : s.includeCoverPage,
+      }));
+    }, FORMS_PERSIST_KEY);
   }
 
   // Enclosure attachments: content is immutable per id, so add any the local DB
@@ -354,15 +399,20 @@ async function runRestore(json: string): Promise<RestoreResult> {
   if (Array.isArray(backupAttachments)) {
     for (const a of backupAttachments as BackupAttachment[]) {
       if (!a || typeof a.id !== 'string' || typeof a.data !== 'string') continue;
-      if (await idbGetAttachment(a.id)) continue; // already have these bytes
+      const existing = await idbGetAttachment(a.id);
+      if (existing) {
+        if (uint8ArrayToBase64(arrayBufferToUint8Array(existing.data)) !== a.data) issues.push(`Attachment ${a.id} differs from the local copy; kept local bytes`);
+        continue;
+      }
       const rec: StoredAttachment = {
         id: a.id,
         name: typeof a.name === 'string' ? a.name : '',
         type: typeof a.type === 'string' ? a.type : '',
         size: typeof a.size === 'number' ? a.size : 0,
-        data: base64ToUint8Array(a.data).buffer as ArrayBuffer,
+        data: decoded.get(a.id)!,
       };
-      if (await idbPutAttachment(rec)) attachmentsAdded++;
+      if (await idbPutAttachment(rec, true)) attachmentsAdded++;
+      else issues.push(`Attachment ${a.id} could not be saved`);
     }
   }
 
@@ -375,13 +425,19 @@ async function runRestore(json: string): Promise<RestoreResult> {
   if (backupSnapshots && typeof backupSnapshots === 'object') {
     for (const [docId, snaps] of Object.entries(backupSnapshots as Record<string, unknown>)) {
       if (!Array.isArray(snaps)) continue;
-      const existing = await idbGetSnapshots(docId);
-      const merged = mergeSnapshots(existing, snaps as DocSnapshot[]);
-      if (merged.length && (await idbSetSnapshots(docId, merged))) snapshotDocs++;
+      if (snaps.length) {
+        if (await idbSetSnapshots(docId, snaps as DocSnapshot[], true)) snapshotDocs++;
+        else issues.push(`History for ${docId} could not be saved`);
+      }
     }
   }
 
-  return { documents, profilesAdded, snippetsAdded, templatesAdded, formsRestored, attachmentsAdded, snapshotDocs, routingRulesAdded };
+  const history = Object.values((parsed.snapshots ?? {}) as Record<string, DocSnapshot[]>).flat();
+  for (const id of collectAttachmentIds([...(Array.isArray(parsed.documents) ? parsed.documents : []), ...history])) {
+    if (!await idbGetAttachment(id) && !issues.some(issue => issue.startsWith(`Attachment ${id} `))) issues.push(`Attachment ${id} is missing from the backup and local storage`);
+  }
+  issues.push(...(documents.issues ?? []));
+  return { documents, profilesAdded, snippetsAdded, templatesAdded, formsRestored, attachmentsAdded, snapshotDocs, routingRulesAdded, ...(issues.length ? { issues } : {}) };
 }
 
 /** One-line human summary of a restore, for the save-status toast. */
@@ -396,5 +452,6 @@ export function summarizeRestore(r: RestoreResult): string {
   if (r.formsRestored) parts.push('form fields');
   if (r.routingRulesAdded) parts.push(`${r.routingRulesAdded} routing rule${r.routingRulesAdded === 1 ? '' : 's'}`);
   const kept = r.documents.skipped > 0 ? ` · kept ${r.documents.skipped} newer` : '';
-  return `Restored ${parts.join(', ')}${kept}`;
+  const issues = r.issues ?? r.documents.issues ?? [];
+  return issues.length ? `Partially restored ${parts.join(', ')}${kept}. ${issues.join('; ')}. Keep the backup and retry.` : `Restored ${parts.join(', ')}${kept}`;
 }

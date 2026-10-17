@@ -76,7 +76,7 @@ async function reloadDuringUpdate(page: Page) {
   try { await page.reload(); }
   catch (error) {
     // The worker's own reload may supersede the requested navigation.
-    if (!(error instanceof Error) || !error.message.includes('ERR_ABORTED')) throw error;
+    if (!(error instanceof Error) || !/(?:ERR_ABORTED|NS_BINDING_ABORTED)/.test(error.message)) throw error;
     await page.waitForLoadState('domcontentloaded');
   }
 }

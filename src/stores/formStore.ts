@@ -144,6 +144,20 @@ const EMPTY_NAVMC_11811: Navmc11811Data = {
   box11: '',
 };
 
+export function normalizeNavmc10274(data: Partial<NavmcForm10274Data>, defaults = EMPTY_NAVMC_10274): NavmcForm10274Data {
+  return {
+    ...defaults, ...data,
+    signatureBlocks: Array.isArray(data.signatureBlocks) ? data.signatureBlocks.map(migrateSignatureBlock) : [],
+  };
+}
+
+export function normalizeNavmc11811(data: Partial<Navmc11811Data>, defaults = EMPTY_NAVMC_11811): Navmc11811Data {
+  return {
+    ...defaults, ...data,
+    signatureBlocks: Array.isArray(data.signatureBlocks) ? data.signatureBlocks.map(migrateSignatureBlock) : [],
+  };
+}
+
 const DEFAULT_NAVMC_10274: NavmcForm10274Data = {
   actionNo: '001-25',
   ssicFileNo: '1610',

@@ -1155,10 +1155,24 @@ export function openSessionAsNew(session: SerializedSession): void {
  *  the newer (higher updatedAt) copy wins, so restoring an old backup can't
  *  silently clobber work you've done since. Returns how many were imported and
  *  how many were skipped as older. Throws on a malformed file. */
-export async function importLibrary(json: string): Promise<{ imported: number; skipped: number }> {
+export async function importLibrary(json: string): Promise<{ imported: number; skipped: number; issues?: string[] }> {
   const parsed = JSON.parse(json) as { docs?: unknown };
   const records = parsed?.docs;
   if (!Array.isArray(records)) throw new Error('Not a DonDocs library file');
+
+  const ids = new Set<string>();
+  for (const record of records) {
+    if (!record?.meta || typeof record.meta.id !== 'string' || !record.meta.id
+      || (record.id !== undefined && record.id !== record.meta.id)
+      || !record.session || typeof record.session !== 'object' || Array.isArray(record.session)
+      || !Number.isFinite(record.meta.updatedAt ?? 0)) throw new Error('Invalid document in backup');
+    if (ids.has(record.meta.id)) throw new Error(`Duplicate document ID: ${record.meta.id}`);
+    ids.add(record.meta.id);
+
+  }
+
+  const live = useDocumentsStore.getState();
+  if (live.hydrated && live.baseline) live.syncCurrent();
 
   // Snapshot the current updatedAt per id so we only overwrite with something
   // at least as new. If that read fails, ABORT: with an empty conflict map an
@@ -1167,8 +1181,14 @@ export async function importLibrary(json: string): Promise<{ imported: number; s
   if (current === null) {
     throw new Error('Could not read the current library — import cancelled to protect newer local copies');
   }
+  const committed = new Map(current.map(record => [record.id, record]));
+  const issues: string[] = [];
   const existing = new Map<string, number>();
   for (const r of current) existing.set(r.id, r.meta?.updatedAt ?? 0);
+  // Pending or failed local writes still represent work the user can see.
+  for (const entry of Object.values(useDocumentsStore.getState().docs)) {
+    existing.set(entry.meta.id, Math.max(existing.get(entry.meta.id) ?? 0, entry.meta.updatedAt));
+  }
 
   let imported = 0;
   let skipped = 0;
@@ -1179,9 +1199,21 @@ export async function importLibrary(json: string): Promise<{ imported: number; s
       skipped++; // the copy already here is newer — keep it
       continue;
     }
-    if (await idbPutDocument({ id: r.meta.id, meta: r.meta, session: r.session })) {
+    const before = committed.get(r.meta.id) ?? null;
+    const after = { id: r.meta.id, meta: r.meta, session: r.session };
+    if (writes.has(r.meta.id) || (before && before.meta.updatedAt === r.meta.updatedAt && JSON.stringify(before) !== JSON.stringify(after))) {
+      skipped++;
+      issues.push(`Document ${r.meta.id} conflicts with local edits; kept local copy`);
+      continue;
+    }
+    const outcome = await idbWriteDocument(before, after);
+    if (outcome === 'committed' || outcome === 'already-committed') {
       imported++;
       applied.push({ meta: r.meta, session: r.session });
+      broadcastDocs({ type: 'put', id: r.meta.id });
+    } else {
+      skipped++;
+      issues.push(`Document ${r.meta.id}: ${outcome === 'failed' ? 'could not be saved' : 'changed during restore; kept local copy'}`);
     }
   }
   // Re-read the merged set so the Recents list reflects the import immediately.
@@ -1191,10 +1223,13 @@ export async function importLibrary(json: string): Promise<{ imported: number; s
   const loaded: Record<string, DocumentEntry> = {};
   if (all !== null) {
     for (const r of all) loaded[r.id] = { meta: r.meta, session: r.session };
+    for (const entry of Object.values(useDocumentsStore.getState().docs)) {
+      if (!loaded[entry.meta.id] || entry.meta.updatedAt > loaded[entry.meta.id].meta.updatedAt) loaded[entry.meta.id] = entry;
+    }
   } else {
     Object.assign(loaded, useDocumentsStore.getState().docs);
     for (const e of applied) loaded[e.meta.id] = e;
   }
   useDocumentsStore.setState({ docs: loaded });
-  return { imported, skipped };
+  return { imported, skipped, ...(issues.length ? { issues } : {}) };
 }
