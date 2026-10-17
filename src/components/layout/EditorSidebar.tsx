@@ -594,7 +594,7 @@ export function EditorSidebar() {
       </div>
       <div className="shrink-0 px-3 pb-3 pt-4 space-y-0.5">
         {WORKSPACE_DESTINATIONS.map(({ label, icon: Icon, run }) => <button key={label} type="button" onClick={(event) => { event.currentTarget.focus(); run(); }} className="flex min-h-9 w-full items-center gap-2.5 rounded-md px-3 text-[13px] hover:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-ring"><Icon className="h-4 w-4" />{label}</button>)}
-        <p className="px-3 pt-3 text-[11px] text-muted-foreground">Local workspace · Unofficial beta</p>
+        <p className="px-3 pt-3 text-[11px] text-muted-foreground">Local workspace</p>
       </div>
     </nav>
     <SidebarResizer />

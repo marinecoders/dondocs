@@ -2000,7 +2000,6 @@ ${texFiles['body.tex'] || '% No body content'}
             </main>
             <div className="workspace-reviewbar flex shrink-0 flex-wrap items-center justify-between gap-2 border-t border-border px-4 sm:px-6 py-1.5 text-xs text-muted-foreground">
               <ReadinessMeter />
-              <span className="hidden md:inline">Unofficial · Beta</span>
             </div>
           </div>
           <StorageNotice placement="footer" />

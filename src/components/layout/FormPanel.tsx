@@ -137,7 +137,7 @@ function FocusedEditor({ documentId }: { documentId: string | null }) {
     <WorkspaceBar activeSection={active} />
     <div ref={scrollWrapRef} className="flex-1 min-h-0 overflow-hidden">
       <ScrollArea className="h-full">
-        <div className="mx-auto w-full max-w-[760px] px-4 sm:px-5 pt-4 pb-12">
+        <div className="workspace-fields mx-auto w-full max-w-[760px] px-4 sm:px-5 pt-4 pb-12">
           <EditorSectionContext.Provider value={scrollMode ? null : active}>
             <AccordionStaticProvider>
               <SectionShell id="type"><DocumentTypeSelector /></SectionShell>

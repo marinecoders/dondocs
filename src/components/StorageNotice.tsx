@@ -28,7 +28,7 @@ export function StorageNotice({ placement = 'all' }: { placement?: 'all' | 'head
   const suffix =
     storageHealth === 'unreadable'
       ? 'Reloading usually fixes it; if not, restore from a backup file.'
-      : 'Use Download or Share to keep a permanent copy.';
+      : 'Keep an external backup or downloaded copy.';
 
   // A blocked/unreadable store is a data-durability problem, so announce it
   // assertively; the benign "best-effort" heads-up stays polite.
@@ -41,7 +41,8 @@ export function StorageNotice({ placement = 'all' }: { placement?: 'all' | 'head
     >
       <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-warning" />
       <p className="min-w-0 flex-1">
-        {message} <span className="text-muted-foreground">{suffix}</span>
+        {message} <span className="text-muted-foreground">{suffix}</span>{' '}
+        <button type="button" className="inline-flex min-h-6 items-center rounded underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-ring" onClick={() => useUIStore.getState().setSettingsOpen(true, 'backup')}>Backup options</button>
       </p>
       <button
         type="button"
