@@ -1,3 +1,4 @@
+import { formErrorSections } from '@/services/forms/model';
 import { useMemo, type ReactNode } from 'react';
 import {
   FileText, Building2, Send, Shield, List, BookOpen, Paperclip, User, Users, Layers,
@@ -5,6 +6,8 @@ import {
 } from 'lucide-react';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
+import { configFormOutline, useFormConfigFor } from '@/services/formRegistry';
+import type { FormConfig, FormValues } from '@/types/formConfig';
 import { LetterheadSection } from '@/components/editor/LetterheadSection';
 import { AddressingSection } from '@/components/editor/AddressingSection';
 import { ITypeCoverSection } from '@/components/editor/ITypeCoverSection';
@@ -158,14 +161,25 @@ export function useEditorSections(): {
   const docType = useDocumentStore((s) => s.docType);
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
   const isFormsMode = documentCategory === 'forms';
+  // Config-driven forms carry their outline in form.json; null for the
+  // built-in forms and while the config loads (the rail fills in when it does).
+  const formConfig = useFormConfigFor(formType);
   const sections = useMemo(
     () => [
       // Document Type leads the outline (matches the prototype's first rail
       // section); it's always rendered at the top of the editor in both modes.
       { id: 'type', label: 'Document Type', icon: FileText },
-      ...(isFormsMode ? getFormSections(formType) : getEditorSections(config, docType)),
+      ...(isFormsMode
+        ? formConfig
+          ? configFormOutline(formConfig).map((e) => ({
+              id: e.id,
+              label: e.label,
+              icon: e.kind === 'rowGroup' ? Users : ClipboardList,
+            }))
+          : getFormSections(formType)
+        : getEditorSections(config, docType)),
     ],
-    [isFormsMode, formType, docType] // eslint-disable-line react-hooks/exhaustive-deps
+    [isFormsMode, formType, docType, formConfig] // eslint-disable-line react-hooks/exhaustive-deps
   );
   return { sections, config, isFormsMode, formType };
 }
@@ -318,6 +332,38 @@ export function completenessFrom(requiredIds: string[], isError: (id: string) =>
 }
 
 /**
+ * "How done is this config form" — every required field filled, with each
+ * required radio group counted ONCE.
+ *
+ * A radio group is one question. The author marks the group mandatory and the
+ * AcroForm /Ff bit is inherited by every kid, so counting the kids separately
+ * demanded that all three options be picked at the same time — mutually
+ * exclusive by construction, so the form could never reach ready and the meter
+ * sat permanently short.
+ *
+ * Exported for its own test: the hook below cannot be called outside React.
+ */
+export function configFormCompleteness(
+  config: FormConfig | null | undefined,
+  values: FormValues | undefined,
+): DocumentCompleteness {
+  const filled = (key: string) => {
+    const v = values?.[key];
+    return !(v === undefined || v === '' || v === false);
+  };
+  // One unit per requirement: a grouped radio contributes its group, everything
+  // else contributes itself. A field key can never collide with a `group:` id —
+  // harvested keys are camelCase with no punctuation.
+  const units = new Map<string, string[]>();
+  for (const [key, f] of Object.entries(config?.fields ?? {})) {
+    if (!f.required || f.type === 'signature') continue;
+    const id = f.type === 'radio' && f.group ? `group:${f.group}` : key;
+    units.set(id, [...(units.get(id) ?? []), key]);
+  }
+  return completenessFrom([...units.keys()], (id) => !(units.get(id) ?? []).some(filled));
+}
+
+/**
  * Single source of truth for "how done is this document," derived from the same
  * getSectionError / getFormSectionError rules the rail dots use — so the
  * readiness meter and the rail can never disagree.
@@ -328,17 +374,31 @@ export function useDocumentCompleteness(): DocumentCompleteness {
   const paragraphs = useDocumentStore((s) => s.paragraphs);
   const navmc10274 = useFormStore((s) => s.navmc10274);
   const navmc11811 = useFormStore((s) => s.navmc11811);
+  // Config-driven forms carry `required` on the fields the author marked
+  // mandatory; the meter tracks how many are filled.
+  const instance = useDocumentStore(s => s.genericForm);
   const idKey = sections.map((s) => s.id).join(',');
   return useMemo(() => {
     const ids = idKey ? idKey.split(',') : [];
     if (isFormsMode) {
-      const data = formType === 'navmc_10274' ? navmc10274 : formType === 'navmc_118_11' ? navmc11811 : null;
-      const required = (FORM_ERROR_BEARING_IDS[formType] ?? []).filter((id) => ids.includes(id));
-      return completenessFrom(required, (id) => (data ? getFormSectionError(formType, id, data) : false));
+      if (formType === 'navmc_10274' || formType === 'navmc_118_11') {
+        const data = formType === 'navmc_10274' ? navmc10274 : navmc11811;
+        const required = (FORM_ERROR_BEARING_IDS[formType] ?? []).filter((id) => ids.includes(id));
+        return completenessFrom(required, (id) => getFormSectionError(formType, id, data));
+      }
+      if (instance?.definition.formId === formType) {
+        const d = instance.definition;
+        const errors = formErrorSections(instance);
+        const required = d.sections.filter(s => s.fields.some(key => d.fields[key].requiredAt === 'export')).map(s => s.id);
+        for (const [key, group] of Object.entries(d.rowGroups)) if (instance.rows[key]?.length && Object.values(group.columns).some(f => f.requiredAt === 'export')) required.push(key);
+        if (!required.length && !errors.length) return { required: 0, complete: 0, ratio: 1, isReady: true, missing: [] };
+        return completenessFrom([...new Set([...required, ...errors])], key => errors.includes(key));
+      }
+      return completenessFrom([], () => false);
     }
     const required = ids.filter((id) => (ERROR_BEARING_IDS as readonly string[]).includes(id));
     return completenessFrom(required, (id) => getSectionError(id, formData, paragraphs, config));
-  }, [idKey, isFormsMode, formType, navmc10274, navmc11811, formData, paragraphs, config]);
+  }, [idKey, isFormsMode, formType, navmc10274, navmc11811, formData, paragraphs, config, instance]);
 }
 
 export function renderEditorSection(id: string, config: DocTypeConfig): ReactNode {

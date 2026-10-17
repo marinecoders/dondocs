@@ -4,6 +4,7 @@ import { AccordionStaticProvider } from '@/components/ui/accordion';
 import { ProfileBar } from '@/components/editor/ProfileBar';
 import { DocumentTypeSelector } from '@/components/editor/DocumentTypeSelector';
 import { Form6105Section } from '@/components/editor/Form6105Section';
+import { GenericFormSection } from '@/components/editor/GenericFormSection';
 import { Form11811Section } from '@/components/editor/Form11811Section';
 import { BackgroundBeams } from '@/components/effects/BackgroundBeams';
 import { SectionShell } from './SectionShell';
@@ -159,6 +160,9 @@ export function FormPanel() {
                 <>
                   {formType === 'navmc_10274' && <Form6105Section />}
                   {formType === 'navmc_118_11' && <Form11811Section />}
+                  {formType !== 'navmc_10274' && formType !== 'navmc_118_11' && (
+                    <GenericFormSection key={formType} formType={formType} />
+                  )}
                 </>
               ) : (
                 sections

@@ -1,7 +1,6 @@
 import { publicationReferences, referenceName } from '@/lib/publicationReferences';
 import { useEditor, EditorContent, ReactRenderer } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import Underline from '@tiptap/extension-underline';
 import { Node, mergeAttributes } from '@tiptap/core';
 import Suggestion from '@tiptap/suggestion';
 import { forwardRef, useEffect, useImperativeHandle, useState, useCallback, useRef } from 'react';
@@ -751,7 +750,6 @@ export function VariableChipEditor({
         listItem: false,
         horizontalRule: false,
       }),
-      Underline,
       VariableExtension,
     ],
     content: textToEditorHtml(value),

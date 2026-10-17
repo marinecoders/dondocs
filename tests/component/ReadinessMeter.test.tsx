@@ -5,9 +5,12 @@
  * and the rail agree about "done".
  */
 import { describe, it, expect, beforeEach } from 'vitest';
-import { render, screen, cleanup } from '@testing-library/react';
+import { act, fireEvent, render, screen, cleanup } from '@testing-library/react';
 import { ReadinessMeter } from '@/components/layout/ReadinessMeter';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { fixtureInstance } from '../_helpers/formFixture';
+import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
+import { vi } from 'vitest';
 import { useDocumentStore } from '@/stores/documentStore';
 
 // The meter's "jump to first incomplete" control is wrapped in IconTip, which
@@ -63,4 +66,29 @@ describe('ReadinessMeter — driven by the single completeness rule', () => {
     renderMeter();
     expect(screen.getByText('Compliant')).toBeTruthy();
   });
+  it('routes generic form errors to sections and includes invalid optional answers', () => {
+    const instance = fixtureInstance();
+    instance.answers.name = '';
+    useDocumentStore.setState({ documentCategory: 'forms', formType: 'fixture', genericForm: instance });
+    const jump = vi.fn(); useEditorOutlineStore.setState({ jump });
+    renderMeter();
+    fireEvent.click(screen.getByRole('button', { name: /Document readiness/ }));
+    expect(jump).toHaveBeenCalledWith('identity');
+    expect(screen.queryByText('Compliant')).toBeNull();
+    act(() => useDocumentStore.setState({ genericForm: { ...instance, answers: { ...instance.answers, name: '000123', a: 'invalid boolean' } } }));
+    expect(screen.getByText('Drafting')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: /Document readiness/ }));
+    expect(jump).toHaveBeenLastCalledWith('decision');
+  });
+
+  it('recognizes a valid optional-only form without claiming it is ready for signing', () => {
+    const instance = fixtureInstance();
+    for (const field of Object.values(instance.definition.fields)) delete field.requiredAt;
+    instance.answers = {};
+    useDocumentStore.setState({ documentCategory: 'forms', formType: 'fixture', genericForm: instance });
+    renderMeter();
+    expect(screen.getByText('Fields complete')).toBeTruthy();
+    expect(screen.queryByText('Ready to sign')).toBeNull();
+  });
+
 });

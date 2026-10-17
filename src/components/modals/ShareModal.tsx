@@ -24,7 +24,8 @@ import {
   buildShareUrl,
   parseShareUrl,
 } from '@/lib/shareCrypto';
-import { getSerializedSessionForShare, loadSharedSession, useDocumentStore } from '@/stores/documentStore';
+import { getSerializedSessionForShare, useDocumentStore } from '@/stores/documentStore';
+import { openSessionAsNew } from '@/stores/documentsStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import { detectPII, getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
 
@@ -115,7 +116,7 @@ export function ShareModal({
     setWorking(true);
     try {
       const data = await decryptSharePayload(payload, password);
-      loadSharedSession(data as SerializedSession);
+      openSessionAsNew(data as SerializedSession);
       onImportComplete?.();
       onOpenChange(false);
       setPassword('');

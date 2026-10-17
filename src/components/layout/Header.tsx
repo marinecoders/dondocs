@@ -1,5 +1,5 @@
-import { MAX_BACKUP_BYTES } from '@/lib/backupValidation';
 import { showAppAlert } from '@/stores/alertStore';
+import { importForm } from '@/services/forms/documents';
 import { useState, useCallback, useRef, useEffect, type ChangeEvent, type ReactNode } from 'react';
 import { Moon, Sun, Download, FileText, Braces, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2, Lightbulb, FolderOpen, Rocket, FolderSync, AlertTriangle, MonitorDown, Radio } from 'lucide-react';
 import { GithubIcon } from '@/components/icons/GithubIcon';
@@ -31,9 +31,10 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore, persistUnsavedEnclosures } from '@/stores/documentStore';
-import { useFormStore } from '@/stores/formStore';
-import { openRecoveredCopies, useDocumentsStore } from '@/stores/documentsStore';
+import { useDocumentStore, persistUnsavedEnclosures, replaceSessionState } from '@/stores/documentStore';
+import { useFormStore, normalizeNavmc10274, normalizeNavmc11811 } from '@/stores/formStore';
+import { useDocumentsStore, openRecoveredCopies } from '@/stores/documentsStore';
+import { MAX_BACKUP_BYTES } from '@/lib/backupValidation';
 import { buildBackup, restoreBackup, summarizeRestore } from '@/lib/backup';
 import { useBackupStore } from '@/stores/backupStore';
 import { useInstallStore } from '@/stores/installStore';
@@ -343,6 +344,11 @@ export function Header({
   const handleSaveProgress = useCallback(() => {
     try {
       const ds = useDocumentStore.getState();
+      if (ds.documentCategory === 'forms' && ds.genericForm) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ genericForm: ds.genericForm }));
+        useDocumentsStore.getState().saveCurrent();
+        return;
+      }
       const dataToSave = {
         documentMode: ds.documentMode,
         docType: ds.docType,
@@ -368,9 +374,8 @@ export function Header({
       // Also promote into Recents so an explicit Save shows in the sidebar list.
       useDocumentsStore.getState().saveCurrent();
       // Correspondence: the ambient "Saved · <time>" indicator in the ProfileBar
-      // is the single source of truth — no redundant "Saved!" toast. Forms aren't
-      // persisted yet, so they still get an explicit heads-up.
-      if (ds.documentCategory === 'forms') flashSaveStatus("Form drafts aren't saved yet");
+      // is the single source of truth. Built-in form drafts still use the legacy store.
+      if (ds.documentCategory === 'forms' && !ds.genericForm) flashSaveStatus("Form drafts aren't saved yet");
     } catch (err) {
       console.error('Failed to save progress:', err);
       flashSaveStatus('Save failed');
@@ -386,48 +391,51 @@ export function Header({
         useDocumentsStore.getState().syncCurrent();
         const ds = useDocumentStore.getState();
         const data = JSON.parse(saved);
-        // Saved drafts are correspondence-only; reset the category so the loaded
-        // doc is coherent and saveCurrent() can promote it to Recents.
-        ds.setDocumentCategory('correspondence');
-        ds.setDocumentMode?.(data.documentMode || 'compliant');
-        if (data.docType) {
-          ds.setDocType(data.docType);
-        }
-        if (data.formData) {
-          // Canonicalize unitAddress on read (see App.tsx for rationale).
-          const formData = data.formData.unitAddress
-            ? { ...data.formData, unitAddress: canonicalizeUnitAddress(data.formData.unitAddress) }
-            : data.formData;
-          ds.setFormData(formData);
-        }
-        // Restore the body and lists too; otherwise the loaded draft keeps the
-        // previously-open document's paragraphs/references/enclosures/copyTos.
-        // Enclosure file bytes aren't saved, so the user re-attaches PDFs.
-        ds.loadTemplate({
-          references: data.references || [],
-          enclosures: (data.enclosures || []).map((encl: {
-            title: string;
-            pageStyle?: string;
-            hasCoverPage?: boolean;
-            coverPageDescription?: string;
-          }) => ({
-            title: encl.title,
-            pageStyle: encl.pageStyle,
-            hasCoverPage: encl.hasCoverPage,
-            coverPageDescription: encl.coverPageDescription,
-            file: undefined,
-          })),
-          paragraphs: data.paragraphs || [],
-          copyTos: data.copyTos || [],
+        if (data.genericForm) { importForm(data.genericForm); flashSaveStatus('Loaded!'); return; }
+        replaceSessionState(() => {
+          // Saved drafts are correspondence-only; reset the category so the loaded
+          // doc is coherent and saveCurrent() can promote it to Recents.
+          ds.setDocumentCategory('correspondence');
+          ds.setDocumentMode?.(data.documentMode || 'compliant');
+          if (data.docType) {
+            ds.setDocType(data.docType);
+          }
+          if (data.formData) {
+            // Canonicalize unitAddress on read (see App.tsx for rationale).
+            const formData = data.formData.unitAddress
+              ? { ...data.formData, unitAddress: canonicalizeUnitAddress(data.formData.unitAddress) }
+              : data.formData;
+            ds.setFormData(formData);
+          }
+          // Restore the body and lists too; otherwise the loaded draft keeps the
+          // previously-open document's paragraphs/references/enclosures/copyTos.
+          // Enclosure file bytes aren't saved, so the user re-attaches PDFs.
+          ds.loadTemplate({
+            references: data.references || [],
+            enclosures: (data.enclosures || []).map((encl: {
+              title: string;
+              pageStyle?: string;
+              hasCoverPage?: boolean;
+              coverPageDescription?: string;
+            }) => ({
+              title: encl.title,
+              pageStyle: encl.pageStyle,
+              hasCoverPage: encl.hasCoverPage,
+              coverPageDescription: encl.coverPageDescription,
+              file: undefined,
+            })),
+            paragraphs: data.paragraphs || [],
+            copyTos: data.copyTos || [],
+          });
+          // loadTemplate doesn't cover distributions; set it explicitly so the
+          // loaded draft doesn't inherit the previously-open document's list.
+          useDocumentStore.setState({
+            distributions: data.distributions || [],
+            endItems: data.endItems || [],
+            publicationTables: data.publicationTables || {},
+          });
+          useDocumentsStore.getState().openLoadedAsNew();
         });
-        // loadTemplate doesn't cover distributions; set it explicitly so the
-        // loaded draft doesn't inherit the previously-open document's list.
-        useDocumentStore.setState({
-          distributions: data.distributions || [],
-          endItems: data.endItems || [],
-          publicationTables: data.publicationTables || {},
-        });
-        useDocumentsStore.getState().openLoadedAsNew();
         flashSaveStatus('Loaded!');
       } else {
         flashSaveStatus('No saved data');
@@ -467,6 +475,14 @@ export function Header({
   const handleExportDraft = useCallback(async () => {
     try {
       const ds = useDocumentStore.getState();
+      if (ds.genericForm && ds.documentCategory === 'forms') {
+        const blob = new Blob([JSON.stringify({ version: '2.0', genericForm: ds.genericForm })], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = `${ds.formType}-draft.json`; a.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        flashSaveStatus('Exported!');
+        return;
+      }
       const dataToExport = {
         version: '1.0',
         exportedAt: new Date().toISOString(),
@@ -535,11 +551,14 @@ export function Header({
         const ds = useDocumentStore.getState();
         const content = e.target?.result as string;
         const data = JSON.parse(content);
+        if (data.genericForm) { importForm(data.genericForm); flashSaveStatus('Imported!'); return; }
 
         // Validate it's a dondocs draft file
         if (!data.version || !data.docType) {
           throw new Error('Invalid draft file format');
         }
+
+        const restoredParagraphs = await restoreFigureData(data.paragraphs ?? []);
 
         // Preserve the currently-open document before overwriting the live
         // store, so the import opens as its own Recents entry instead of
@@ -547,85 +566,100 @@ export function Header({
         // handleLoadProgress.
         useDocumentsStore.getState().syncCurrent();
 
-        // Apply document mode
-        if (data.documentMode) {
-          ds.setDocumentMode?.(data.documentMode);
-        }
+        replaceSessionState(() => {
+          // Apply document mode
+          if (data.documentMode) {
+            ds.setDocumentMode?.(data.documentMode);
+          }
 
-        // Apply document category
-        if (data.documentCategory) {
-          ds.setDocumentCategory(data.documentCategory);
-        }
+          // Apply document category
+          if (data.documentCategory) {
+            ds.setDocumentCategory(data.documentCategory);
+          }
 
-        // Apply document type
-        if (data.docType) {
-          ds.setDocType(data.docType);
-        }
+          // Apply document type
+          if (data.docType) {
+            ds.setDocType(data.docType);
+          }
 
-        // Apply form type
-        if (data.formType) {
-          ds.setFormType(data.formType);
-        }
+          // Apply form type
+          if (data.formType) {
+            ds.setFormType(data.formType);
+          }
 
-        // Apply form data
-        if (data.formData) {
-          // Canonicalize unitAddress on read (see App.tsx for rationale).
-          const formData = data.formData.unitAddress
-            ? { ...data.formData, unitAddress: canonicalizeUnitAddress(data.formData.unitAddress) }
-            : data.formData;
-          ds.setFormData(formData);
-        }
+          // Apply form data
+          if (data.formData) {
+            // Canonicalize unitAddress on read (see App.tsx for rationale).
+            const formData = data.formData.unitAddress
+              ? { ...data.formData, unitAddress: canonicalizeUnitAddress(data.formData.unitAddress) }
+              : data.formData;
+            ds.setFormData(formData);
+          }
 
-        // Use loadTemplate for bulk loading (handles references, enclosures, paragraphs, copyTos)
-        ds.loadTemplate({
-          references: data.references || [],
-          enclosures: data.enclosures?.map((encl: {
-            title: string;
-            pageStyle?: string;
-            hasCoverPage?: boolean;
-            coverPageDescription?: string;
-            file?: { name: string; size: number; data: string } | null;
-          }) => ({
-            title: encl.title,
-            pageStyle: encl.pageStyle,
-            hasCoverPage: encl.hasCoverPage,
-            coverPageDescription: encl.coverPageDescription,
-            file: encl.file ? {
-              name: encl.file.name,
-              size: encl.file.size,
-              // Convert base64 back to ArrayBuffer
-              data: base64ToUint8Array(encl.file.data).buffer as ArrayBuffer,
-            } : undefined,
-          })) || [],
-          paragraphs: (await restoreFigureData(data.paragraphs ?? [])).map((para) => ({
-            text: para.text,
-            level: para.level || 0,
-            header: para.header,
-            portionMarking: para.portionMarking,
-            tableKey: para.tableKey,
-            callout: para.callout,
-            procedure: para.procedure,
-            appendix: para.appendix,
-            figure: para.figure,
-          })),
-          copyTos: data.copyTos || [],
+          // Use loadTemplate for bulk loading (handles references, enclosures, paragraphs, copyTos)
+          ds.loadTemplate({
+            references: data.references || [],
+            enclosures: data.enclosures?.map((encl: {
+              title: string;
+              pageStyle?: string;
+              hasCoverPage?: boolean;
+              coverPageDescription?: string;
+              file?: { name: string; size: number; data: string } | null;
+            }) => ({
+              title: encl.title,
+              pageStyle: encl.pageStyle,
+              hasCoverPage: encl.hasCoverPage,
+              coverPageDescription: encl.coverPageDescription,
+              file: encl.file ? {
+                name: encl.file.name,
+                size: encl.file.size,
+                // Convert base64 back to ArrayBuffer
+                data: base64ToUint8Array(encl.file.data).buffer as ArrayBuffer,
+              } : undefined,
+            })) || [],
+            paragraphs: restoredParagraphs.map((para) => ({
+              text: para.text,
+              level: para.level || 0,
+              header: para.header,
+              portionMarking: para.portionMarking,
+              tableKey: para.tableKey,
+              callout: para.callout,
+              procedure: para.procedure,
+              appendix: para.appendix,
+              figure: para.figure,
+            })),
+            copyTos: data.copyTos || [],
+          });
+          // loadTemplate doesn't cover distributions; restore it explicitly.
+          useDocumentStore.setState({
+            distributions: data.distributions || [],
+            endItems: data.endItems || [],
+            publicationTables: data.publicationTables || {},
+          });
+
+          // Restore NAVMC form field data (separate store). The single-buffer
+          // slices are replaced when present; the config-form dictionaries merge
+          // per-id (imported form wins its own key) so loading one form's draft
+          // never wipes other config forms already in progress.
+          if (data.forms) {
+            const f = data.forms as Partial<{
+              navmc10274: unknown; navmc11811: unknown; includeCoverPage: boolean;
+              configFormValues: Record<string, unknown>; configFormRows: Record<string, unknown>;
+            }>;
+            useFormStore.setState((s) => ({
+              navmc10274: f.navmc10274 ? normalizeNavmc10274(f.navmc10274 as Partial<typeof s.navmc10274>) : s.navmc10274,
+              navmc11811: f.navmc11811 ? normalizeNavmc11811(f.navmc11811 as Partial<typeof s.navmc11811>) : s.navmc11811,
+              includeCoverPage: f.includeCoverPage ?? s.includeCoverPage,
+              configFormValues: { ...s.configFormValues, ...(f.configFormValues as typeof s.configFormValues ?? {}) },
+              configFormRows: { ...s.configFormRows, ...(f.configFormRows as typeof s.configFormRows ?? {}) },
+            }));
+          }
+
+          // Register the import as its own Recents entry under a fresh id rather
+          // than overwriting the previously-open document.
+          useDocumentsStore.getState().openLoadedAsNew();
+
         });
-        // loadTemplate doesn't cover distributions; restore it explicitly.
-        useDocumentStore.setState({
-          distributions: data.distributions || [],
-          endItems: data.endItems || [],
-          publicationTables: data.publicationTables || {},
-        });
-
-        // Restore NAVMC form field data (separate store; shallow-merges the
-        // navmc10274/navmc11811/includeCoverPage slices that were exported).
-        if (data.forms) {
-          useFormStore.setState(data.forms);
-        }
-
-        // Register the import as its own Recents entry under a fresh id rather
-        // than overwriting the previously-open document.
-        useDocumentsStore.getState().openLoadedAsNew();
 
         // The draft's enclosure bytes arrived inline; persist them to the
         // attachments store so they survive a reload and a full backup, just
@@ -660,7 +694,7 @@ export function Header({
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      flashSaveStatus('Backed up everything!');
+      flashSaveStatus('Backup downloaded');
       // First real backup → credit the getting-started checklist row.
       useOnboardingStore.getState().markComplete('first_backup');
     } catch (err) {
@@ -913,6 +947,9 @@ export function Header({
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuLabel className="text-xs text-muted-foreground font-normal">Backup file (.json)</DropdownMenuLabel>
+              <p className="max-w-72 px-2 pb-2 text-xs text-muted-foreground">
+                Form answers are included. Blank form PDFs are not; reconnect after restoring and save each form for offline use.
+              </p>
               <DropdownMenuItem onClick={handleExportDraft}>
                 <FileDown className="h-4 w-4 mr-2" />
                 Export to file

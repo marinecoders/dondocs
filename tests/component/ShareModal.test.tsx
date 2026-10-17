@@ -19,8 +19,9 @@ import {
 } from '@/lib/shareCrypto';
 import {
   getSerializedSessionForShare,
-  loadSharedSession,
 } from '@/stores/documentStore';
+import { openSessionAsNew } from '@/stores/documentsStore';
+vi.mock('@/stores/documentsStore', () => ({ openSessionAsNew: vi.fn() }));
 
 vi.mock('@/lib/shareCrypto', () => ({
   encryptSharePayload: vi.fn(),
@@ -30,7 +31,6 @@ vi.mock('@/lib/shareCrypto', () => ({
 }));
 vi.mock('@/stores/documentStore', () => ({
   getSerializedSessionForShare: vi.fn(() => ({ docType: 'naval_letter' })),
-  loadSharedSession: vi.fn(),
   // The share flow scans the live document for PII before building a link;
   // a clean (empty) document lets the happy path generate straight through.
   useDocumentStore: { getState: vi.fn(() => ({ formData: {}, paragraphs: [], copyTos: [], references: [] })) },
@@ -94,7 +94,7 @@ describe('ShareModal — import mode', () => {
     await user.click(screen.getByRole('button', { name: /open document/i }));
 
     expect(decryptSharePayload).toHaveBeenCalledWith('PAYLOAD', 'hunter2');
-    expect(loadSharedSession).toHaveBeenCalledWith({ docType: 'naval_letter' });
+    expect(openSessionAsNew).toHaveBeenCalledWith({ docType: 'naval_letter' });
     expect(onImportComplete).toHaveBeenCalledTimes(1);
     expect(onOpenChange).toHaveBeenCalledWith(false);
   });
@@ -109,6 +109,6 @@ describe('ShareModal — import mode', () => {
     await user.click(screen.getByRole('button', { name: /open document/i }));
 
     expect(await screen.findByText('decryption failed')).toBeInTheDocument();
-    expect(loadSharedSession).not.toHaveBeenCalled();
+    expect(openSessionAsNew).not.toHaveBeenCalled();
   });
 });
