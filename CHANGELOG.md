@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.178] — 2026-10-17
+
+### Changed
+
+- Add reviewed template publication, retirement, and pipeline checks. No additional official forms are published.
+
 ## [1.2.177] — 2026-10-17
 
 ### Changed
