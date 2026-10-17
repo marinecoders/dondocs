@@ -115,6 +115,6 @@ it.each(['navmc_10274', 'navmc_118_11'] as const)('resumes a deliberately select
   view.unmount();
   openEditor();
   expect(screen.getByRole('combobox', { name: 'Document section' })).toHaveValue('type');
-  expect(screen.getByRole('button', { name: 'Reset', exact: true })).toBeVisible();
-  expect(screen.getByRole('button', { name: 'Templates', exact: true })).toBeVisible();
+  expect(screen.getByRole('button', { name: 'Reset' })).toBeVisible();
+  expect(screen.getByRole('button', { name: 'Templates' })).toBeVisible();
 });

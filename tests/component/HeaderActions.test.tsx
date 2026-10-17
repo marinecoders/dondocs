@@ -140,12 +140,12 @@ it('viewing History preserves existing versions and flushes pending edits withou
   const versions = await idbGetSnapshots(id);
   renderHeader();
   for (let i = 0; i < 12; i++) {
-    await userEvent.click(screen.getByRole('button', { name: 'History', exact: true }));
+    await userEvent.click(screen.getByRole('button', { name: 'History' }));
   }
   expect(useUIStore.getState().historyDocId).toBe(id);
   expect(await idbGetSnapshots(id)).toEqual(versions);
   useDocumentStore.getState().setField('subject', 'Pending edit');
-  await userEvent.click(screen.getByRole('button', { name: 'History', exact: true }));
+  await userEvent.click(screen.getByRole('button', { name: 'History' }));
   expect(useDocumentsStore.getState().docs[id].session.formData.subject).toBe('Pending edit');
   expect(useDocumentStore.getState().formData.subject).toBe('Pending edit');
   expect(await idbGetSnapshots(id)).toEqual(versions); // autosave interval, not a forced checkpoint
