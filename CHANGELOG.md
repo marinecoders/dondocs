@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.172] — 2026-10-17
+
+### Fixed
+
+- Retain pending saves and recover interrupted or conflicting edits.
+- Report stalled saves and unavailable reload recovery.
+- Keep save status tied to committed document content.
+
 ## [1.2.171] — 2026-10-17
 
 ### Fixed

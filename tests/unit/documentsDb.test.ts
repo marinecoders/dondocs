@@ -5,6 +5,7 @@ import { describe, it, expect, afterEach } from 'vitest';
 import {
   isIdbAvailable,
   idbPutDocument,
+  idbRecoverDocument,
   idbGetAllDocuments,
   idbDeleteDocument,
   idbGetCurrentId,
@@ -167,5 +168,36 @@ describe('requestPersistentStorage', () => {
       persist: async () => true,
     });
     await expect(requestPersistentStorage()).resolves.toBe(false);
+  });
+});
+
+
+describe('interrupted save recovery', () => {
+  it('restores an edit to the same unchanged record', async () => {
+    const before = doc('recovery-match');
+    const after = { ...before, meta: { ...before.meta, title: 'Last edit', updatedAt: 2 } };
+    await idbPutDocument(before);
+    expect(await idbRecoverDocument(before, after)).toBe(true);
+    expect(documentsRead(await idbGetAllDocuments()).find(d => d.id === before.id)).toEqual(after);
+    expect(await idbRecoverDocument(before, after)).toBe(false);
+  });
+
+  it('does not overwrite a newer save or resurrect a deleted document', async () => {
+    const before = doc('recovery-conflict');
+    const after = { ...before, meta: { ...before.meta, title: 'Interrupted edit' } };
+    const newer = { ...before, meta: { ...before.meta, title: 'Other tab edit' } };
+    await idbPutDocument(newer);
+    expect(await idbRecoverDocument(before, after)).toBe(false);
+    expect(documentsRead(await idbGetAllDocuments()).find(d => d.id === before.id)).toEqual(newer);
+    await idbDeleteDocument(before.id);
+    expect(await idbRecoverDocument(before, after)).toBe(false);
+    expect(documentsRead(await idbGetAllDocuments()).find(d => d.id === before.id)).toBeUndefined();
+  });
+
+  it('rejects recovery data belonging to a different document', async () => {
+    const before = doc('recovery-identity');
+    await idbPutDocument(before);
+    expect(await idbRecoverDocument(before, doc('another-document'))).toBe(false);
+    expect(documentsRead(await idbGetAllDocuments()).find(d => d.id === before.id)).toEqual(before);
   });
 });

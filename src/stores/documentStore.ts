@@ -995,9 +995,25 @@ export function getSavedSession(): SerializedSession | null {
   }
 }
 
-/**
- * Restores a saved session to the document store.
- */
+// Suppress category-transition autosaves while replacing a whole session.
+let applyingSession = false;
+export const isApplyingSession = () => applyingSession;
+function resetDocumentHistory(): void {
+  useHistoryStore.getState().clearHistory();
+  useHistoryStore.getState().saveSnapshot(useDocumentStore.getState().getSnapshot());
+}
+
+export function replaceSessionState(update: () => void): void {
+  const wasApplying = applyingSession;
+  applyingSession = true;
+  try { update(); } finally { applyingSession = wasApplying; }
+  if (!wasApplying) resetDocumentHistory();
+}
+
+function applySessionState(state: Partial<DocumentState>): void {
+  replaceSessionState(() => useDocumentStore.setState(state));
+}
+
 export function restoreSession(): boolean {
   try {
     const session = getSavedSession();
@@ -1009,7 +1025,7 @@ export function restoreSession(): boolean {
       ? { ...session.formData, unitAddress: canonicalizeUnitAddress(session.formData.unitAddress) }
       : session.formData;
 
-    useDocumentStore.setState({
+    applySessionState({
       documentMode: session.documentMode,
       documentCategory: session.documentCategory || 'correspondence',
       docType: session.docType,
@@ -1095,7 +1111,7 @@ export function loadSharedSession(session: SerializedSession): void {
     ? { ...session.formData, unitAddress: canonicalizeUnitAddress(session.formData.unitAddress) }
     : (session.formData ?? {});
 
-  useDocumentStore.setState({
+  applySessionState({
     documentMode: session.documentMode,
     documentCategory: session.documentCategory ?? 'correspondence',
     docType: session.docType,

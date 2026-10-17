@@ -38,6 +38,7 @@ function savedAgo(ts: number): string {
  */
 export function SaveStatus({ className }: { className?: string }) {
   const lastSavedAt = useUIStore((s) => s.lastSavedAt);
+  const saveWarning = useUIStore((s) => s.saveWarning);
   const saveStatus = useUIStore((s) => s.saveStatus);
   const backupStatus = useBackupStore((s) => s.status);
   const lastBackupAt = useBackupStore((s) => s.lastBackupAt);
@@ -69,10 +70,10 @@ export function SaveStatus({ className }: { className?: string }) {
       <span
         className={`inline-flex items-center gap-1 ${className ?? 'text-xs'} text-destructive`}
         role="status"
-        title="The document couldn't be written to this browser's storage. Use Download or Share to keep a copy."
+        title={saveWarning ?? "Storage has not confirmed this save. Keep this tab open and retry Save, or download a backup."}
       >
         <AlertCircle className="h-3 w-3" aria-hidden />
-        Couldn&apos;t save
+        {saveWarning ?? <>Couldn&apos;t save</>}
       </span>
     );
   }

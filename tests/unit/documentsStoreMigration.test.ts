@@ -21,6 +21,7 @@ const idbGetMigratedIds = vi.fn();
 const idbSetMigratedIds = vi.fn();
 
 vi.mock('@/lib/documentsDb', () => ({
+  idbWriteDocument: vi.fn(),
   idbGetAllDocuments: (...args: unknown[]) => idbGetAllDocuments(...args),
   idbPutDocument: (...args: unknown[]) => idbPutDocument(...args),
   idbSetCurrentId: (...args: unknown[]) => idbSetCurrentId(...args),

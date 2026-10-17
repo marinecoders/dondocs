@@ -124,6 +124,48 @@ export async function idbPutDocument(doc: StoredDocument): Promise<boolean> {
   }
 }
 
+export type DocumentWriteOutcome = 'committed' | 'already-committed' | 'conflict' | 'missing-document' | 'failed';
+
+/** Compare and write in one transaction; ordinary saves and recovery share this contract. */
+export async function idbWriteDocument(
+  before: StoredDocument | null,
+  after: StoredDocument,
+  intermediates: StoredDocument[] = [],
+  recovering = false,
+): Promise<DocumentWriteOutcome> {
+  if (!hasIndexedDb) return 'failed';
+  if ((before && before.id !== after.id) || intermediates.some(item => item.id !== after.id)) return 'conflict';
+  maybeRequestPersist();
+  try {
+    const db = await openDb();
+    return await new Promise<DocumentWriteOutcome>((resolve, reject) => {
+      const transaction = db.transaction(DOCS_STORE, 'readwrite');
+      const store = transaction.objectStore(DOCS_STORE);
+      const request = store.get(after.id);
+      let outcome: DocumentWriteOutcome = 'conflict';
+      request.onsuccess = () => {
+        const current = request.result as StoredDocument | undefined;
+        const equal = (value: StoredDocument | null | undefined) => JSON.stringify(current ?? null) === JSON.stringify(value ?? null);
+        if (equal(after)) { outcome = 'already-committed'; return; }
+        if (!current && (before || recovering)) { outcome = 'missing-document'; return; }
+        if (!equal(before) && !intermediates.some(equal)) return;
+        store.put(after);
+        outcome = 'committed';
+      };
+      transaction.oncomplete = () => resolve(outcome);
+      transaction.onabort = () => reject(transaction.error ?? new Error('Document write aborted'));
+      transaction.onerror = () => reject(transaction.error ?? new Error('Document write failed'));
+    });
+  } catch (error) {
+    debug.error('DocumentsDb', 'Conditional document write failed', error);
+    return 'failed';
+  }
+}
+
+export async function idbRecoverDocument(before: StoredDocument, after: StoredDocument): Promise<boolean> {
+  return await idbWriteDocument(before, after, [], true) === 'committed';
+}
+
 export async function idbDeleteDocument(id: string): Promise<void> {
   if (!hasIndexedDb) return;
   try {
@@ -321,7 +363,7 @@ export interface DocSnapshot {
 
 export const MAX_SNAPSHOTS = 10;
 
-export async function idbGetSnapshots(docId: string): Promise<DocSnapshot[]> {
+export async function idbGetSnapshots(docId: string, strict = false): Promise<DocSnapshot[]> {
   if (!hasIndexedDb) return [];
   try {
     const rec = await run<{ key: string; value: DocSnapshot[] } | undefined>(
@@ -332,6 +374,7 @@ export async function idbGetSnapshots(docId: string): Promise<DocSnapshot[]> {
     return rec?.value ?? [];
   } catch (err) {
     debug.error('DocumentsDb', 'getSnapshots failed', err);
+    if (strict) throw new Error(`History for ${docId} could not be read`, { cause: err });
     return [];
   }
 }
@@ -369,10 +412,26 @@ export async function idbAddSnapshot(docId: string, snap: DocSnapshot): Promise<
 // a merged ring). Caps defensively at MAX_SNAPSHOTS; an empty ring deletes the
 // key rather than storing []. idbAddSnapshot is still the path for incremental,
 // serialized single-snapshot appends.
-export async function idbSetSnapshots(docId: string, snaps: DocSnapshot[]): Promise<boolean> {
+export async function idbSetSnapshots(docId: string, snaps: DocSnapshot[], merge = false): Promise<boolean> {
   if (!hasIndexedDb) return false;
   try {
-    if (snaps.length === 0) {
+    if (merge) {
+      const db = await openDb();
+      await new Promise<void>((resolve, reject) => {
+        const tx = db.transaction(APP_STORE, 'readwrite');
+        const store = tx.objectStore(APP_STORE);
+        const key = `snap:${docId}`;
+        const request = store.get(key);
+        request.onsuccess = () => {
+          const current: DocSnapshot[] = request.result?.value ?? [];
+          const byTime = new Map([...snaps, ...current].map(snapshot => [snapshot.ts, snapshot]));
+          store.put({ key, value: [...byTime.values()].sort((a, b) => b.ts - a.ts).slice(0, MAX_SNAPSHOTS) });
+        };
+        tx.oncomplete = () => resolve();
+        tx.onabort = () => reject(tx.error ?? new Error('History merge aborted'));
+        tx.onerror = () => reject(tx.error ?? new Error('History merge failed'));
+      });
+    } else if (snaps.length === 0) {
       await run(APP_STORE, 'readwrite', (s) => s.delete(`snap:${docId}`));
     } else {
       await run(APP_STORE, 'readwrite', (s) =>
@@ -411,11 +470,11 @@ export interface StoredAttachment {
 
 /** Confirms the blob is committed; false on any failure (callers keep the
  *  in-memory copy either way, so a failed persist just means "not durable"). */
-export async function idbPutAttachment(rec: StoredAttachment): Promise<boolean> {
+export async function idbPutAttachment(rec: StoredAttachment, onlyAbsent = false): Promise<boolean> {
   if (!hasIndexedDb) return false;
   maybeRequestPersist();
   try {
-    await run(ATTACHMENTS_STORE, 'readwrite', (s) => s.put(rec));
+    await run(ATTACHMENTS_STORE, 'readwrite', (s) => onlyAbsent ? s.add(rec) : s.put(rec));
     return true;
   } catch (err) {
     debug.error('DocumentsDb', 'putAttachment failed', err);

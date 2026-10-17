@@ -1,3 +1,4 @@
+import { showAppAlert } from '@/stores/alertStore';
 import { useState, useCallback, useRef, useEffect, type ChangeEvent, type ReactNode } from 'react';
 import { Moon, Sun, Download, FileText, Braces, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2, Lightbulb, FolderOpen, Rocket, FolderSync, AlertTriangle, MonitorDown, Radio } from 'lucide-react';
 import { GithubIcon } from '@/components/icons/GithubIcon';
@@ -31,7 +32,7 @@ import {
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore, persistUnsavedEnclosures } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
-import { useDocumentsStore } from '@/stores/documentsStore';
+import { openRecoveredCopies, useDocumentsStore } from '@/stores/documentsStore';
 import { buildBackup, restoreBackup, summarizeRestore } from '@/lib/backup';
 import { useBackupStore } from '@/stores/backupStore';
 import { useInstallStore } from '@/stores/installStore';
@@ -201,6 +202,7 @@ export function Header({
   isPdfGenerating = false,
   isFormsMode = false,
 }: HeaderProps) {
+  const recoveryCount = useDocumentsStore(s => s.recoveryCount);
   // One selector per field so Zustand only re-renders on that field's change,
   // not on every store update (this header is ~40 buttons + dropdowns). Setters
   // are stable, so selecting them is free. Same for the document + history stores.
@@ -914,6 +916,9 @@ export function Header({
                 <FileDown className="h-4 w-4 mr-2" />
                 Back up everything
               </DropdownMenuItem>
+              {recoveryCount > 0 && <DropdownMenuItem onClick={() => {
+                void openRecoveredCopies().catch(error => showAppAlert({ title: 'Recovery failed', message: String(error) }));
+              }}>Open recovered copies ({recoveryCount})</DropdownMenuItem>}
               <DropdownMenuItem data-tour="backup-restore" onClick={() => libraryInputRef.current?.click()}>
                 <FileUp className="h-4 w-4 mr-2" />
                 Restore from backup
