@@ -520,3 +520,14 @@
 .appearance-swatch-classic .appearance-swatch-sidebar { background: #eaeff5; border-color: #ced9e5; }
 .appearance-swatch-classic .appearance-swatch-page span { background: #ced9e5; }
 .appearance-swatch-classic .appearance-swatch-page span:first-child { background: #970818; }
+
+/* Bound long draft titles independently of utility ordering. Full titles remain
+   available in the accessible name and the draft rename control. */
+.workspace-document-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  max-height: 2.5rem;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
