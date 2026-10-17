@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.175] — 2026-10-17
+
+### Changed
+
+- Add versioned form definitions and verified template packages.
+
 ## [1.2.174] — 2026-10-17
 
 ### Changed

@@ -291,6 +291,12 @@ export default defineConfig({
         // users stuck on old versions). Hashed JS/CSS bundles are still
         // precached so offline + subsequent loads stay fast.
         globPatterns: ['**/*.{js,css,ico,png,svg,woff,woff2}'],
+        // Keep form template pages and thumbnails OUT of the precache manifest.
+        // A catalog of any size would sweep hundreds of entries and megabytes
+        // into every offline install via the png glob; they runtime-cache on
+        // demand instead (form-templates rule below), the same lesson as the
+        // lib/** exclusion (SW-1).
+        globIgnores: ['templates/**'],
         // Don't fall back to a precached index.html — we want NetworkFirst.
         navigateFallback: null,
         // Precache critical TeX files to ensure they're always available
@@ -309,6 +315,35 @@ export default defineConfig({
             options: {
               cacheName: 'engine-core-cache-v1',
               expiration: { maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 90 },
+            },
+          },
+          {
+            // Form template pages + thumbnails: far too many to precache once a
+            // catalog is imported. StaleWhileRevalidate — NOT CacheFirst — so a viewed form
+            // still opens instantly offline (the air-gap promise for SIPR/JWICS),
+            // yet a re-harvest that rewrites page*.pdf under the SAME filename
+            // propagates on the next online load. CacheFirst here would pin the
+            // old PDF bytes for 90 days while the box overlay (.json, SWR below)
+            // updated independently — drifting text off its boxes on a form the
+            // user already viewed. The two must revalidate on the same cadence.
+            urlPattern: /\/templates\/.*\.(pdf|png)$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'form-templates-cache-v2',
+              expiration: { maxEntries: 2500, maxAgeSeconds: 60 * 60 * 24 * 90 },
+              cacheableResponse: { statuses: [200] },
+            },
+          },
+          {
+            // Form configs + registry index: StaleWhileRevalidate so a viewed
+            // form still opens offline, but a re-harvest/redeploy propagates on
+            // the next online load instead of being pinned by CacheFirst.
+            urlPattern: /\/templates\/.*\.json$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'form-configs-cache-v1',
+              expiration: { maxEntries: 800, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              cacheableResponse: { statuses: [200] },
             },
           },
           {

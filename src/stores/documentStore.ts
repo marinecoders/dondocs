@@ -1,3 +1,4 @@
+import type { FormInstance } from '@/services/forms/model';
 import { withoutTableFootnote } from '@/lib/tableFootnotes';
 import { create } from 'zustand';
 import { format, parse, isValid } from 'date-fns';
@@ -23,6 +24,7 @@ const SESSION_MAX_AGE = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 
 // Serializable session data (excludes file ArrayBuffers)
 export interface SerializedSession {
+  genericForm?: FormInstance;
   documentMode: DocumentMode;
   documentCategory: DocumentCategory;
   docType: string;

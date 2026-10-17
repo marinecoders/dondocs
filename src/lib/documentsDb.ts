@@ -514,3 +514,17 @@ export async function idbDeleteAttachment(id: string): Promise<void> {
     debug.error('DocumentsDb', 'deleteAttachment failed', err);
   }
 }
+
+/** Includes snapshots and soft-deleted documents; a failed read forbids cache eviction. */
+export async function idbFormDefinitions(): Promise<import('@/services/forms/model').FormDefinition[] | null> {
+  if (!hasIndexedDb) return null;
+  try {
+    const docs = await run<StoredDocument[]>(DOCS_STORE, 'readonly', s => s.getAll());
+    const app = await run<Array<{ key: string; value: unknown }>>(APP_STORE, 'readonly', s => s.getAll());
+    const sessions = docs.map(d => d.session);
+    for (const entry of app) if (entry.key.startsWith('snap:') && Array.isArray(entry.value)) {
+      for (const snapshot of entry.value as DocSnapshot[]) sessions.push(snapshot.session);
+    }
+    return sessions.flatMap(s => s.genericForm ? [s.genericForm.definition] : []);
+  } catch { return null; }
+}
