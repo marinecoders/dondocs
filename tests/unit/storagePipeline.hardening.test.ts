@@ -182,7 +182,7 @@ describe('restoreBackup — legacy, in-flight flag, and malformed input', () => 
     expect(isRestoreInProgress()).toBe(false);
   });
 
-  it('skips malformed attachment entries and counts only the valid ones', async () => {
+  it('rejects malformed attachment entries before writing valid ones', async () => {
     const data = uint8ArrayToBase64(new Uint8Array([9, 9, 9]));
     const bundle = JSON.stringify({
       kind: 'dondocs-backup',
@@ -200,10 +200,9 @@ describe('restoreBackup — legacy, in-flight flag, and malformed input', () => 
       snippets: [],
       userTemplates: {},
     });
-    const result = await restoreBackup(bundle);
-    expect(result.attachmentsAdded).toBe(2);
-    expect(await idbGetAttachment('good-1')).toBeTruthy();
-    expect(await idbGetAttachment('good-2')).toBeTruthy();
+    await expect(restoreBackup(bundle)).rejects.toThrow('Invalid or duplicate attachment');
+    expect(await idbGetAttachment('good-1')).toBeNull();
+    expect(await idbGetAttachment('good-2')).toBeNull();
     expect(await idbGetAttachment('no-data')).toBeNull();
   });
 });

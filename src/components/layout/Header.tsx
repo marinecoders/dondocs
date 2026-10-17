@@ -1,3 +1,4 @@
+import { MAX_BACKUP_BYTES } from '@/lib/backupValidation';
 import { showAppAlert } from '@/stores/alertStore';
 import { useState, useCallback, useRef, useEffect, type ChangeEvent, type ReactNode } from 'react';
 import { Moon, Sun, Download, FileText, Braces, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2, Lightbulb, FolderOpen, Rocket, FolderSync, AlertTriangle, MonitorDown, Radio } from 'lucide-react';
@@ -671,16 +672,24 @@ export function Header({
   const handleImportLibrary = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
+    if (file.size > MAX_BACKUP_BYTES) {
+      showAppAlert({ title: 'Backup too large', message: 'The import limit is 100 MB. Keep the backup file; it has not been changed.' });
+      event.target.value = '';
+      return;
+    }
     const reader = new FileReader();
     reader.onload = async (e) => {
       try {
         // Branches on file kind: full backups restore everything, legacy
         // docs-only files still restore documents. Merges non-destructively.
         const result = await restoreBackup(e.target?.result as string);
-        flashSaveStatus(summarizeRestore(result));
+        const summary = summarizeRestore(result);
+        flashSaveStatus(summary);
+        if (result.issues?.length || result.documents.issues?.length) showAppAlert({ title: 'Restore incomplete', message: summary });
       } catch (err) {
         console.error('Failed to restore backup:', err);
         flashSaveStatus('Restore failed');
+        showAppAlert({ title: 'Restore failed', message: err instanceof Error ? err.message : 'The backup could not be restored. Keep the file and retry.' });
       }
     };
     reader.readAsText(file);
