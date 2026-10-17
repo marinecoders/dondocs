@@ -41,8 +41,8 @@ async function chooseAction(name: string | RegExp) {
 describe('document action error feedback', () => {
   it('shows a visible popup for a missing saved draft and returns focus to Document actions', async () => {
     renderHeader();
-    await chooseAction('Open saved draft');
-    expect(await screen.findByRole('alertdialog', { name: 'No saved draft' })).toBeVisible();
+    await chooseAction('Open saved checkpoint');
+    expect(await screen.findByRole('alertdialog', { name: 'No saved checkpoint' })).toBeVisible();
     expect(useDocumentStore.getState().formData.subject).toBe('Keep my draft');
     await userEvent.click(screen.getByRole('button', { name: 'OK' }));
     await waitFor(() => expect(screen.getByRole('button', { name: 'Document actions' })).toHaveFocus());
@@ -65,12 +65,12 @@ describe('document action error feedback', () => {
   it('reports malformed saved data and blocked manual saving', async () => {
     localStorage.setItem(STORAGE_KEYS.DOCUMENT, '{broken');
     renderHeader();
-    await chooseAction('Open saved draft');
-    expect(await screen.findByRole('alertdialog', { name: 'Could not open saved draft' })).toBeVisible();
+    await chooseAction('Open saved checkpoint');
+    expect(await screen.findByRole('alertdialog', { name: 'Could not open saved checkpoint' })).toBeVisible();
     await userEvent.click(screen.getByRole('button', { name: 'OK' }));
     vi.spyOn(localStorage, 'setItem').mockImplementation(() => { throw new Error('Quota exceeded'); });
-    await chooseAction(/^Save draft/);
-    expect(await screen.findByRole('alertdialog', { name: 'Could not save draft' })).toBeVisible();
+    await chooseAction(/^Save checkpoint/);
+    expect(await screen.findByRole('alertdialog', { name: 'Could not save checkpoint' })).toBeVisible();
     expect(useDocumentStore.getState().formData.subject).toBe('Keep my draft');
   });
 

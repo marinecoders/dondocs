@@ -1,3 +1,4 @@
+import { saveCheckpoint } from '@/lib/saveCheckpoint';
 import { applyTheme, THEMES } from '@/lib/appearance';
 import { iTypeExportErrors } from '@/lib/iTypePreflight';
 import { loadFigureFiles } from '@/services/latex/figureAssets';
@@ -1548,13 +1549,10 @@ ${texFiles['body.tex'] || '% No body content'}
         return;
       }
 
-      // Ctrl/Cmd + S - flush a real save now. Work already autosaves
-      // continuously; this forces the current document to persist immediately
-      // (correspondence -> registry; forms already persist per edit) and the
-      // passive "Saved" indicator reflects it.
+      // Ctrl/Cmd + S shares the same manual checkpoint as Document actions.
       if (isMod && e.key === 's') {
         e.preventDefault();
-        useDocumentsStore.getState().saveCurrent();
+        saveCheckpoint();
         return;
       }
 
@@ -1753,12 +1751,10 @@ ${texFiles['body.tex'] || '% No body content'}
         }]),
         {
           id: 'save-draft',
-          label: 'Save draft now',
+          label: 'Save checkpoint',
           icon: Save,
           kbd: formatShortcut('mod S'),
-          onRun: () => {
-            useDocumentsStore.getState().saveCurrent();
-              },
+          onRun: () => { saveCheckpoint(); },
         },
         {
           id: 'batch-generate',
@@ -1847,7 +1843,7 @@ ${texFiles['body.tex'] || '% No body content'}
         })),
         {
           id: 'toggle-preview',
-          label: 'Toggle preview panel',
+          label: `${(isMobile ? mobilePreviewOpen : previewVisible) ? 'Hide' : 'Show'} preview`,
           icon: PanelRight,
           onRun: () => useUIStore.getState().togglePreview(),
         },
@@ -1902,7 +1898,7 @@ ${texFiles['body.tex'] || '% No body content'}
     groups.push({ label: 'Insert', items: insertItems });
 
     return groups;
-  }, [outlineSections, allDocs, currentDocId, isInstalled, userTemplates, docType, documentCategory]);
+  }, [outlineSections, allDocs, currentDocId, isInstalled, userTemplates, docType, documentCategory, isMobile, mobilePreviewOpen, previewVisible]);
 
   if (!workspaceReady) {
     return <main className="flex h-screen-dvh flex-col items-center justify-center gap-3 bg-background text-foreground">

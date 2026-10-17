@@ -243,7 +243,9 @@ export const useUIStore = create<UIState>()(
       // Preview starts beside the editor; each pane can be resized or hidden.
       previewVisible: true,
       previewWidth: 40,
-      togglePreview: () => set((state) => ({ previewVisible: !state.previewVisible })),
+      togglePreview: () => set((state) => state.isMobile
+        ? { mobilePreviewOpen: !state.mobilePreviewOpen }
+        : { previewVisible: !state.previewVisible }),
       setPreviewVisible: (visible) => set({ previewVisible: visible }),
       setPreviewWidth: (width) => set({ previewWidth: Math.max(20, Math.min(80, width)) }),
       pdfThumbnailsOpen: false,

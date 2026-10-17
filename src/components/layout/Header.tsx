@@ -1,3 +1,4 @@
+import { saveCheckpoint } from '@/lib/saveCheckpoint';
 import { DraftIdentity } from './DraftIdentity';
 import { DocumentNavigation } from './DocumentNavigation';
 import { useState, useCallback, useRef, useEffect, type ChangeEvent, type ReactNode } from 'react';
@@ -31,7 +32,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { showAppAlert } from '@/stores/alertStore';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore, getSerializedSession, loadSharedSession, persistUnsavedEnclosures } from '@/stores/documentStore';
+import { useDocumentStore, loadSharedSession, persistUnsavedEnclosures } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
 import { detectPlaceholders } from '@/lib/placeholders';
 import { useDocumentsStore } from '@/stores/documentsStore';
@@ -197,14 +198,8 @@ export function Header({
   const pdfOnly = !!DOC_TYPE_CONFIG[docType]?.pdfOnly;
 
   const handleSaveProgress = useCallback(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(getSerializedSession()));
-      useDocumentsStore.getState().saveCurrent();
-    } catch (err) {
-      console.error('Failed to save progress:', err);
-      showAppAlert({ title: 'Could not save draft', message: 'Browser storage could not save this draft. Your current work is still open. Export it to a file before reloading, then check available browser storage.' });
-    }
-  }, []);
+    if (saveCheckpoint()) flashSaveStatus('Checkpoint saved in this browser');
+  }, [flashSaveStatus]);
 
   const handleLoadProgress = useCallback(() => {
     try {
@@ -213,11 +208,11 @@ export function Header({
         setReviewedDraft(parseDraftFile(JSON.parse(saved), true));
         setDraftError('');
       } else {
-        showAppAlert({ title: 'No saved draft', message: 'There is no manually saved draft to open. Your current document has not changed. Choose a document from the sidebar or import a draft file.' });
+        showAppAlert({ title: 'No saved checkpoint', message: 'There is no manually saved checkpoint to open. Your current document has not changed. Choose a document from the sidebar or import a draft file.' });
       }
     } catch (err) {
       console.error('Failed to load progress:', err);
-      showAppAlert({ title: 'Could not open saved draft', message: 'The saved draft could not be read. Your current document has not changed. Try another draft or restore a backup.' });
+      showAppAlert({ title: 'Could not open saved checkpoint', message: 'The saved checkpoint could not be read. Your current document has not changed. Try another draft or restore a backup.' });
     }
   }, []);
 
@@ -434,12 +429,12 @@ export function Header({
               <DropdownMenuItem onClick={() => { const ds = useDocumentsStore.getState(); ds.saveCurrent(); if (ds.currentId) ds.duplicateDocument(ds.currentId); }}><Copy className="h-4 w-4 mr-2" />Duplicate draft</DropdownMenuItem>
               <DropdownMenuItem onClick={handleSaveProgress}>
                 <Save className="h-4 w-4 mr-2" />
-                Save draft
+                Save checkpoint
                 <DropdownMenuShortcut>{formatShortcut('mod S')}</DropdownMenuShortcut>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleLoadProgress}>
                 <FolderOpen className="h-4 w-4 mr-2" />
-                Open saved draft
+                Open saved checkpoint
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuLabel className="text-xs text-muted-foreground font-normal">Share</DropdownMenuLabel>
