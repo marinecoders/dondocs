@@ -35,7 +35,7 @@ import { I_TYPE_TABLES, tableSpec } from '@/data/techpub/tables';
 import { useSnippetsStore } from '@/stores/snippetsStore';
 import { showAppAlert } from '@/stores/alertStore';
 import { persistAttachment } from '@/lib/attachments';
-import { DOC_TYPE_CONFIG, DOC_TYPE_LABELS, type PortionMarking, type CalloutKind, type Paragraph } from '@/types/document';
+import { DOC_TYPE_CONFIG, type PortionMarking, type CalloutKind, type Paragraph } from '@/types/document';
 import { calculateLabels, canIndentAt } from '@/lib/paragraphUtils';
 import { cn } from '@/lib/utils';
 
@@ -635,8 +635,7 @@ export function BlockParagraphsEditor() {
           </div>
         </AccordionTrigger>
         <AccordionContent>
-      <p className="-mt-3 mb-6 text-xs text-muted-foreground">{DOC_TYPE_LABELS[docType] ?? 'Document content'}</p>
-      {docType !== 'i_type' && <div className="mb-7 space-y-2">
+      {docType !== 'i_type' && <div className="workspace-subject mb-4 space-y-2">
         <Label htmlFor="body-subject" className="text-xs">{docType.includes('endorsement') ? "Subject (basic letter's subject)" : 'Subject'}</Label>
         <InputWithVariables id="body-subject" value={subject ?? ''} onValueChange={(value) => setField('subject', value)} aria-invalid={validationVisible && unfilled(subject) ? true : undefined} placeholder="Enter the printed subject" className="uppercase text-xs" />
       </div>}

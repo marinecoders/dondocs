@@ -330,7 +330,7 @@ export function Header({
     <header className="workspace-header shrink-0 border-b border-border bg-background">
       <input type="file" aria-label="Import draft file" ref={fileInputRef} onChange={handleImportDraft} accept=".json" className="hidden" />
       <input type="file" aria-label="Restore workspace backup file" ref={libraryInputRef} onChange={handleImportLibrary} accept=".json" className="hidden" />
-      <div className="flex min-w-0 items-center gap-2 border-b border-border px-3 sm:px-5 py-3 sm:min-h-[76px]">
+      <div className="flex min-w-0 items-center gap-2 border-b border-border px-3 sm:px-5 py-2 sm:min-h-16">
         <HeaderTip label={isMobile ? 'Open workspace' : sidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'}>
           <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8 shrink-0" data-tour="workspace-menu" aria-label={isMobile ? 'Open workspace' : sidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'} onClick={() => isMobile ? useUIStore.getState().setMobileDocsOpen(true) : useUIStore.getState().toggleSidebar()}><PanelLeft className="h-4 w-4" /></Button>
         </HeaderTip>
