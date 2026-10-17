@@ -6,7 +6,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { SessionChanges } from '@/components/SessionChanges';
 import { getSerializedSession } from '@/stores/documentStore';
 import { useDocumentsStore, deriveTitle } from '@/stores/documentsStore';
-import { idbGetSnapshots, type DocSnapshot } from '@/lib/documentsDb';
+import { idbReadSnapshots, type DocSnapshot } from '@/lib/documentsDb';
 
 function fmt(ts: number): string {
   return new Date(ts).toLocaleString(undefined, {
@@ -25,6 +25,10 @@ function fmt(ts: number): string {
  */
 export function VersionHistoryModal() {
   const docId = useUIStore((s) => s.historyDocId);
+  return docId ? <DocumentHistory key={docId} docId={docId} /> : null;
+}
+
+function DocumentHistory({ docId }: { docId: string }) {
   const setDocId = useUIStore((s) => s.setHistoryDocId);
   const restoreSnapshot = useDocumentsStore((s) => s.restoreSnapshot);
   const [snaps, setSnaps] = useState<DocSnapshot[]>([]);
@@ -32,16 +36,20 @@ export function VersionHistoryModal() {
   const [restoring, setRestoring] = useState(false);
   const [restoreFailed, setRestoreFailed] = useState(false);
 
+  const [readState, setReadState] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [readAttempt, setReadAttempt] = useState(0);
+
   useEffect(() => {
-    if (!docId) return;
     let alive = true;
-    void idbGetSnapshots(docId).then((s) => {
-      if (alive) setSnaps(s);
+    void idbReadSnapshots(docId).then((s) => {
+      if (alive) { setSnaps(s); setReadState('ready'); }
+    }).catch(() => {
+      if (alive) setReadState('error');
     });
     return () => {
       alive = false;
     };
-  }, [docId]);
+  }, [docId, readAttempt]);
 
   return (
     <Dialog
@@ -66,7 +74,14 @@ export function VersionHistoryModal() {
             again — or copy any unsaved work first.
           </p>
         )}
-        {snaps.length === 0 ? (
+        {readState === 'loading' ? (
+          <p role="status" className="py-6 text-center text-sm text-muted-foreground">Loading saved versions…</p>
+        ) : readState === 'error' ? (
+          <div className="space-y-3 py-4">
+            <p role="alert" className="text-sm">Couldn’t load saved versions. Try again. Your current document hasn’t changed.</p>
+            <Button variant="outline" onClick={() => { setReadState('loading'); setReadAttempt((attempt) => attempt + 1); }}>Retry</Button>
+          </div>
+        ) : snaps.length === 0 ? (
           <p className="py-6 text-center text-xs text-muted-foreground">
             No saved versions yet. Versions are captured automatically as you keep editing and each
             time you Save checkpoint.

@@ -1,7 +1,7 @@
 // Sets a real (in-memory) IndexedDB on the global before documentsDb evaluates,
 // so its module-load `hasIndexedDb` probe sees a store. Must be the first import.
 import 'fake-indexeddb/auto';
-import { describe, it, expect, afterEach } from 'vitest';
+import { describe, it, expect, afterEach, vi } from 'vitest';
 import {
   isIdbAvailable,
   idbPutDocument,
@@ -11,6 +11,7 @@ import {
   idbSetCurrentId,
   idbAddSnapshot,
   idbGetSnapshots,
+  idbReadSnapshots,
   idbDeleteSnapshots,
   requestPersistentStorage,
   type StoredDocument,
@@ -168,4 +169,14 @@ describe('requestPersistentStorage', () => {
     });
     await expect(requestPersistentStorage()).resolves.toBe(false);
   });
+});
+
+
+it('strict snapshot reads distinguish failure from an empty history and recover on retry', async () => {
+  expect(await idbReadSnapshots('strict-empty')).toEqual([]);
+  const read = vi.spyOn(IDBObjectStore.prototype, 'get').mockImplementationOnce(() => { throw new Error('Read denied'); });
+  try {
+    await expect(idbReadSnapshots('strict-empty')).rejects.toThrow('Read denied');
+  } finally { read.mockRestore(); }
+  expect(await idbReadSnapshots('strict-empty')).toEqual([]);
 });
