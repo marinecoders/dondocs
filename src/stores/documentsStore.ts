@@ -1,4 +1,5 @@
 import { waitForStorage, DocumentWrites, WRITE_JOURNAL_KEY, type PendingDocumentWrite } from '@/lib/documentWrites';
+import { parseFormInstance } from '@/services/forms/model';
 import { create } from 'zustand';
 import { useFormStore, FORMS_PERSIST_KEY } from './formStore';
 import { compressedParse, lastWriteFailed } from '@/lib/compressedStorage';
@@ -151,6 +152,7 @@ const isPlaceholder = (v: string): boolean => /^\[.*\]$/.test(v);
 // only for the legacy single-session migration on first load (no baseline to
 // diff against); the live promotion path uses hasContentDrift() below.
 export function isMeaningful(s: SerializedSession): boolean {
+  if (s.documentCategory === 'forms' && s.genericForm) return true;
   const subj = (s.formData?.subject ?? '').trim();
   if (subj !== '' && !isPlaceholder(subj)) return true;
   return (
@@ -168,6 +170,7 @@ export function isMeaningful(s: SerializedSession): boolean {
 // "has work"; instead we diff these fields against the doc's starting baseline, so
 // only fields the USER changed from that starting point count.
 function contentFingerprint(s: SerializedSession): string {
+  if (s.documentCategory === 'forms' && s.genericForm) return JSON.stringify(s.genericForm);
   const fd = s.formData ?? {};
   return JSON.stringify([
     fd.subject ?? '',
@@ -198,6 +201,7 @@ export function hasContentDrift(baseline: SerializedSession, session: Serialized
 // List title: the Subject line when present, else the document-type name.
 // Recomputed on every save.
 export function deriveTitle(s: SerializedSession): string {
+  if (s.documentCategory === 'forms' && s.genericForm) return s.genericForm.definition.label;
   const clip = (t: string) => (t.length > 70 ? `${t.slice(0, 69)}…` : t);
   const subj = (s.formData?.subject ?? '').trim();
   if (subj !== '' && !isPlaceholder(subj)) return clip(subj);
@@ -225,6 +229,7 @@ export function searchableText(entry: DocumentEntry): string {
   const parts: (string | undefined)[] = [
     entry.meta.title,
     entry.meta.name,
+    s.genericForm ? JSON.stringify(s.genericForm.answers) + JSON.stringify(s.genericForm.rows) : undefined,
     fd.subject,
     fd.to,
     fd.from,
@@ -267,6 +272,7 @@ export function sameContent(a: SerializedSession, b: SerializedSession): boolean
     item && typeof item === 'object' && !Array.isArray(item)
       ? Object.fromEntries(Object.entries(item).sort(([a], [b]) => a.localeCompare(b)))
       : item);
+  if ((a.documentCategory === 'forms' || b.documentCategory === 'forms') && (a.genericForm || b.genericForm)) return a.documentCategory === b.documentCategory && a.formType === b.formType && canonical(a.genericForm) === canonical(b.genericForm);
   const strip = ({ timestamp: _t, enclosures, ...rest }: SerializedSession) => ({
     ...rest,
     enclosures: (enclosures ?? []).map(({ hasFile: _h, ...e }) => e),
@@ -334,12 +340,22 @@ export function applySelectedProfile(): void {
   useDocumentStore.getState().setFormData(profileFormPatch(profile));
 }
 
+/** Restore the built-in form view hint after the document library has loaded. */
+export function restoreBuiltInFormView(session: SerializedSession | null): void {
+  if (session?.documentCategory !== 'forms' || session.genericForm || !session.formType) return;
+  const document = useDocumentStore.getState();
+  if (document.genericForm) return;
+  if (session.formType !== 'navmc_10274' && session.formType !== 'navmc_118_11') return;
+  document.setDocumentCategory('forms');
+  document.setFormType(session.formType);
+}
+
 function metaFor(id: string, session: SerializedSession, prev?: DocumentMeta): DocumentMeta {
   return {
     id,
     // A user-set name wins and survives Subject edits; otherwise auto-derive.
     title: prev?.name?.trim() || deriveTitle(session),
-    docType: session.docType,
+    docType: session.documentCategory === 'forms' && session.genericForm ? 'form' : session.docType,
     updatedAt: Date.now(),
     name: prev?.name,
     // Preserve the pin across content saves — metaFor rebuilds meta on every
@@ -401,7 +417,7 @@ async function flushPendingDocumentWrites(): Promise<void> {
     if (currentId && docs[currentId] && !await idbSetCurrentId(currentId)) throw new Error('The open document could not be saved for reopening. Retry before updating.');
     if (useDocumentsStore.getState().currentId !== currentId) continue;
     const live = getSerializedSessionForShare();
-    if (!currentId || !docs[currentId] || live.documentCategory === 'forms'
+    if (!currentId || !docs[currentId] || (live.documentCategory === 'forms' && !live.genericForm)
       || sameContent(docs[currentId].session, live)) return;
   }
 }
@@ -762,7 +778,7 @@ function initAfterHydration(
   // First load after this feature shipped: fold the legacy single session into
   // the registry so prior work isn't lost.
   const legacy = getSavedSession();
-  if (legacy && legacy.documentCategory !== 'forms' && isMeaningful(legacy)) {
+  if (legacy && (legacy.documentCategory !== 'forms' || legacy.genericForm) && isMeaningful(legacy)) {
     if (legacy.formData?.unitAddress) {
       legacy.formData = {
         ...legacy.formData,
@@ -804,7 +820,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
 
   markBaseline: () => {
     const session = getSerializedSessionForShare();
-    set({ baseline: session.documentCategory === 'forms' ? null : session });
+    set({ baseline: session.documentCategory === 'forms' && !session.genericForm ? null : session });
   },
 
   init: async () => {
@@ -828,7 +844,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     if (!currentId) return;
     const session = source ? serializeSession(source) : getSerializedSessionForShare();
     // Built-in forms still use their separate legacy store.
-    if (session.documentCategory === 'forms') return;
+    if (session.documentCategory === 'forms' && (!session.genericForm || session.genericForm.definition.formId !== session.formType)) return;
 
     const prev = docs[currentId];
     if (!prev) {
@@ -869,7 +885,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     if (!currentId) return;
     const session = getSerializedSessionForShare();
     // Built-in forms still use their separate legacy store.
-    if (session.documentCategory === 'forms') return;
+    if (session.documentCategory === 'forms' && (!session.genericForm || session.genericForm.definition.formId !== session.formType)) return;
     // Force-add when absent, but skip a no-op Save so it doesn't re-sort.
     const prev = docs[currentId];
     if (prev && sameContent(prev.session, session)) { writes.retry(currentId); return; }
@@ -903,7 +919,8 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     const current = useDocumentStore.getState();
     if (id === get().currentId
       && current.documentCategory === (entry.session.documentCategory ?? 'correspondence')
-      && current.formType === entry.session.formType) return;
+      && current.formType === entry.session.formType
+      && Boolean(current.genericForm) === Boolean(entry.session.genericForm)) return;
     get().syncCurrent(); // preserve the document being left
     if (!tryLoadSavedSession(entry.session)) return;
     set({ currentId: id, baseline: entry.session });
@@ -1007,7 +1024,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       id: copyId,
       title: copyName,
       name: copyName,
-      docType: entry.session.docType,
+      docType: entry.session.genericForm ? 'form' : entry.session.docType,
       updatedAt: Date.now(),
     };
     const dup: DocumentEntry = { meta, session: entry.session };
@@ -1048,8 +1065,16 @@ useDocumentStore.subscribe((state, prev) => {
   // Flush immediately when the category flips correspondence -> forms: the prior
   // state still holds the user's unsaved letter, which the debounced,
   // forms-skipping sync would drop.
-  if (prev.documentCategory !== state.documentCategory || prev.formType !== state.formType) {
+  const leavingGenericForm = prev.genericForm && !state.genericForm;
+  if (leavingGenericForm || prev.documentCategory !== state.documentCategory || prev.formType !== state.formType) {
     useDocumentsStore.getState().syncCurrent(prev);
+  }
+  if (leavingGenericForm && useDocumentsStore.getState().currentId) {
+    // Built-in buffers have no library record. Detach before later letter edits
+    // can reuse the generic form's ID, even when navigation passes through NAVMC.
+    const id = newId();
+    useDocumentsStore.setState({ currentId: id, baseline: serializeSession(state) });
+    persistCurrentId(id);
   }
   if (!isApplyingSession() && useDocumentsStore.getState().currentId) useUIStore.getState().setSaveStatus('saving');
   if (syncTimer) clearTimeout(syncTimer);
@@ -1168,7 +1193,10 @@ export async function importLibrary(json: string): Promise<{ imported: number; s
       || !Number.isFinite(record.meta.updatedAt ?? 0)) throw new Error('Invalid document in backup');
     if (ids.has(record.meta.id)) throw new Error(`Duplicate document ID: ${record.meta.id}`);
     ids.add(record.meta.id);
-
+    if (record?.session?.genericForm) {
+      const form = parseFormInstance(record.session.genericForm);
+      if (record.session.documentCategory !== 'forms' || record.session.formType !== form.definition.formId) throw new Error('Form type does not match the saved definition');
+    }
   }
 
   const live = useDocumentsStore.getState();

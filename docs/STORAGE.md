@@ -55,6 +55,20 @@ If a compressed payload is corrupt on read, the store falls back to defaults —
 but the raw value is stashed under `<name>.corrupt` first, so the next persist
 write can't destroy the only copy.
 
+### sessionStorage — interrupted edits
+
+`dondocs-interrupted-save` keeps a tab-local copy of an existing document's
+pending edit when the page hides. It includes the document ID and the exact
+registry record the edit started from. On reload, one IndexedDB transaction
+compares that record and restores the edit only if it is still unchanged.
+Recovery never recreates a deleted document or overwrites a newer stored record.
+The copy remains available for retry if the recovery transaction fails.
+
+This is a reload backstop, not a durable backup: session storage can be blocked,
+full, or discarded when the tab closes. It does not merge concurrent edits or
+recover a browser/process crash that never dispatches a page lifecycle event.
+Wait for **Saved** before closing a tab and keep an external backup.
+
 ## The write path
 
 ```
@@ -67,7 +81,7 @@ keystroke → documentStore (in-memory)
   │     throttled version-history snapshot (one per 3 min; Save forces one)
   └─ 2s debounce → session blob to localStorage
 
-visibilitychange / pagehide → both flushed synchronously
+visibilitychange / pagehide → synchronous recovery copy + asynchronous registry flush
 ```
 
 Invariants the write path maintains:
@@ -114,7 +128,42 @@ rewrites these to `CUI` in the stored registry record (same `updatedAt`, no
 Recents re-sort), and every load path into the live editor
 (`loadSharedSession`, `restoreSession`, `loadTemplate`) applies the same fold.
 
+**Form library**: no database version or existing storage key changes. Generic
+forms add an optional `genericForm` to document sessions, including the pinned
+definition, answers, and rows. Existing letters and the NAVMC 10274 / 118(11)
+drafts keep their storage formats. Object key order does not count as an edit.
+A generic session can also be recovered from the localStorage backstop when
+there is no matching registry document. An unreadable saved definition stays
+in the library and backup; a failed open must never attach subsequent edits to
+that record's ID. Template PDF bytes are fetched or cached separately and are
+not embedded in backups, so offline export also needs the matching PDF package.
+
+After restoring a backup on another device:
+
+1. Open each saved generic form while connected to the internet.
+2. Choose **Save for offline use** and wait for **Available offline**. This checks
+   every template page against the revision saved with the document.
+3. Export a PDF as a separate readable copy if needed. A JSON backup preserves
+   editable answers; a filled PDF preserves the rendered document.
+
+If a referenced revision is no longer hosted, keep the JSON backup and ask the
+site maintainer to restore that template revision. Do not substitute a newer
+blank: its fields may be in different positions. Browser storage can be evicted,
+so an earlier offline confirmation is not a permanent backup of the templates.
+
+
+The startup NAVMC view hint cannot override a generic document resumed from
+IndexedDB. Leaving a generic form detaches its document ID before subsequent
+letter edits, including navigation through a built-in form. Draft imports apply
+their document changes together; shared links and companion handoffs open under
+a new ID after preserving the open document.
+
 ## Multi-tab
+
+These guards apply to tabs running the same document format. Before using new
+generic forms, refresh older DonDocs tabs: a build from before the form library
+does not understand `genericForm` and can discard it when rewriting a document.
+Rolling back the app has the same limitation. Export a backup before rollback.
 
 - Registry writes broadcast over a `BroadcastChannel` (`dondocs-docs`); other
   tabs mirror the change into their Recents list. The live editor is never
@@ -130,6 +179,9 @@ Recents re-sort), and every load path into the live editor
 
 ## Backups
 
+Backup export flushes pending edits from an initialized live document into the
+registry before serializing it; it does not wait for the autosave debounce.
+
 **Manual** (`Back up everything`, `src/lib/backup.ts`): a full-account JSON
 download (kind `dondocs-backup`) covering every store, not just documents —
 the in-memory registry, profiles + signatures, saved snippets, user templates,
@@ -138,8 +190,14 @@ reference (base64-embedded, pulled from the `attachments` store). Restore is
 non-destructive: documents merge per record with newer `updatedAt` winning;
 profiles/snippets/templates add only missing entries (local always wins a
 collision); attachments add only ids not already present. A legacy docs-only
-`dondocs-library` file still restores. So an old backup can never overwrite
-newer local work.
+`dondocs-library` file still restores. Pending document edits are flushed before
+the conflict comparison, and newer in-memory copies survive a failed disk write.
+Full backup restore intentionally replaces the two live NAVMC buffers when
+present; their fields do not have per-draft timestamps. This differs from the
+document library's newer-wins merge and does not happen during an app update.
+Older NAVMC drafts and backups receive the same signature-field normalization
+as local saves. New backups also retain the cover-page option; older backups
+that omit it leave the local option unchanged.
 
 **Synced backup file** (Chromium desktop): the user picks a file once; the
 `FileSystemFileHandle` persists in IndexedDB and survives restarts. Every
@@ -195,3 +253,14 @@ guard), `documentsStore.hydrateMigration.test.ts` (FOUO fold without churn),
 `restoreSnapshot.test.ts` (safety-snapshot precondition),
 `storageSignals.test.ts` (write-outcome tracking, corrupt-payload stash), and
 `backupStore.statemachine.test.ts` (permission + error transitions).
+`formUpgrade.test.ts` covers old letters and built-in drafts, immediate backup
+after an edit, and older-backup merging. `formSessionFallback.test.ts` covers
+generic-session recovery without IndexedDB. `formUnreadableSave.test.ts`
+checks that failed opens cannot overwrite the saved record.
+`formMigrationAudit.test.ts` covers stale startup hints, navigation through
+built-in forms, old NAVMC backups, external sessions, and pending edits during
+restore (including failed writes). `HeaderDraftMigration.test.tsx` exercises
+the draft-import UI and verifies that the previous letter stays unchanged.
+
+These tests use isolated browser-storage fixtures. They do not inspect real
+users' data or certify a running old service worker against the new build.
