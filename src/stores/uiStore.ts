@@ -99,6 +99,10 @@ interface UIState {
 
   // Modals
   profileModalOpen: boolean;
+  profileManagerOpen: boolean;
+  profileEditName: string | null;
+  setProfileManagerOpen: (open: boolean) => void;
+  openProfileEditor: (name: string | null) => void;
   restoreModalOpen: boolean;
   referenceLibraryOpen: boolean;
   aboutModalOpen: boolean;
@@ -247,6 +251,8 @@ export const useUIStore = create<UIState>()(
 
       // Modals
       profileModalOpen: false,
+      profileManagerOpen: false,
+      profileEditName: null,
       restoreModalOpen: false,
       referenceLibraryOpen: false,
       aboutModalOpen: false,
@@ -268,6 +274,8 @@ export const useUIStore = create<UIState>()(
       checklistSheetOpen: false,
       setChecklistSheetOpen: (open) => set({ checklistSheetOpen: open }),
       setProfileModalOpen: (open) => set({ profileModalOpen: open }),
+      setProfileManagerOpen: (open) => set({ profileManagerOpen: open }),
+      openProfileEditor: (name) => set({ profileEditName: name, profileModalOpen: true }),
       setRestoreModalOpen: (open) => set({ restoreModalOpen: open }),
       setShareModal: (mode) => set({ shareModal: mode }),
       setReferenceLibraryOpen: (open) => set({ referenceLibraryOpen: open }),
@@ -360,6 +368,8 @@ export const useUIStore = create<UIState>()(
         welcomeOpen: false,
         trashOpen: false,
         profileModalOpen: false,
+        profileManagerOpen: false,
+        profileEditName: null,
         restoreModalOpen: false,
         referenceLibraryOpen: false,
         aboutModalOpen: false,

@@ -15,6 +15,7 @@ import { TrashModal } from '@/components/modals/TrashModal';
 import { VersionHistoryModal } from '@/components/modals/VersionHistoryModal';
 import { PreviewPanel } from '@/components/layout/PreviewPanel';
 import { ResizableDivider } from '@/components/layout/ResizableDivider';
+import { ProfileManager } from '@/components/modals/ProfileManager';
 import { ProfileModal } from '@/components/modals/ProfileModal';
 import { ReferenceLibraryModal } from '@/components/modals/ReferenceLibraryModal';
 // MobilePreviewModal renders the shared in-app PdfViewer (react-pdf + pdf.js),
@@ -1499,8 +1500,10 @@ ${texFiles['body.tex'] || '% No body content'}
       const target = e.target as HTMLElement;
       const isInInput = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA';
 
-      // Escape - Close all modals
+      // Dialogs and menus own Escape, including unsaved-change and busy guards.
+      // The global fallback must not bypass their close handlers.
       if (e.key === 'Escape') {
+        if (e.defaultPrevented || target.closest('[role="dialog"], [role="alertdialog"], [role="menu"]')) return;
         closeAllModals();
         return;
       }
@@ -1852,7 +1855,7 @@ ${texFiles['body.tex'] || '% No body content'}
           id: 'manage-profiles',
           label: 'Manage profiles…',
           icon: Users,
-          onRun: () => useUIStore.getState().setProfileModalOpen(true),
+          onRun: () => useUIStore.getState().setProfileManagerOpen(true),
         },
       ],
     });
@@ -2009,6 +2012,7 @@ ${texFiles['body.tex'] || '% No body content'}
       </div>
 
       {/* Modals */}
+      <ProfileManager />
       <ProfileModal />
       <ReferenceLibraryModal />
       {/* Lazy-mounted only while open; first open fetches the chunk, then it's

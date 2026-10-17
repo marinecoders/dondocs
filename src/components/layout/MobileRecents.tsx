@@ -63,7 +63,7 @@ export function MobileRecents() {
             {[
               { label: 'Search', run: () => useUIStore.getState().setCommandPaletteOpen(true) },
               { label: 'Templates', run: () => useUIStore.getState().setTemplateLoaderOpen(true) },
-              { label: 'Profiles', run: () => useUIStore.getState().setProfileModalOpen(true) },
+              { label: 'Profiles', run: () => useUIStore.getState().setProfileManagerOpen(true) },
               { label: 'Settings', run: () => useUIStore.getState().setSettingsOpen(true) },
               { label: 'Help', run: () => useUIStore.getState().setHelpOpen(true) },
             ].map(({ label, run }) => <button key={label} type="button" className="min-h-11 rounded px-2 text-sm hover:bg-muted" onClick={() => { setOpen(false); run(); }}>{label}</button>)}

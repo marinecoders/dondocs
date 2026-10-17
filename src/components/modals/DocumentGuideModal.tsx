@@ -484,7 +484,9 @@ interface PowerFeature {
 
 const openBatch = () => useUIStore.getState().setBatchModalOpen(true);
 const closeBatch = () => useUIStore.getState().setBatchModalOpen(false);
-const openProfileModal = () => useUIStore.getState().setProfileModalOpen(true);
+const openProfileModal = () => {
+  if (!useUIStore.getState().profileModalOpen) useUIStore.getState().openProfileEditor(null);
+};
 const openShareModal = () => useUIStore.getState().setShareModal('share');
 const closeShareModal = () => useUIStore.getState().setShareModal(null);
 const openTemplateLoader = () => useUIStore.getState().setTemplateLoaderOpen(true);
@@ -552,18 +554,18 @@ const POWER_FEATURES: PowerFeature[] = [
     key: 'profiles',
     icon: Users,
     title: 'Profiles',
-    where: 'Contents → Profile, or sidebar Profiles',
+    where: 'Sidebar → Profiles (Documents menu on mobile)',
     body: 'Save your unit letterhead and sender details once, then reuse or switch between commands without retyping.',
     steps: [
       'Fill in your letterhead and sender details once.',
-      'Open Profile beside Contents, then use + to create a profile. Sidebar Profiles also opens the editor.',
-      'Switch profiles anytime from the dropdown; edit with the pencil.',
+      'Open Profiles in the sidebar, then choose New profile.',
+      'Choose Apply to review changes to your document, or Edit to update saved details.',
     ],
     tour: [
       {
         target: '[data-tour="profile-name"]',
         title: 'Create a profile',
-        body: 'Profiles save letterhead and sender details for correspondence. Create one here, then apply it from Profile beside Contents.',
+        body: 'Profiles save letterhead and sender details for correspondence. Create one here, then apply it from Profiles in the sidebar.',
         action: openProfileModal,
       },
       {
@@ -587,7 +589,7 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="profile-save"]',
         title: 'Save and reuse',
-        body: 'Create the profile, then switch to it anytime from the selector. The pencil edits it later.',
+        body: 'Save the profile, then use Apply or Edit in Profiles whenever you need it.',
         action: openProfileModal,
       },
     ],

@@ -12,7 +12,6 @@ export { DocumentTypeSelector } from './DocumentTypeSelector';
 export { EnclosuresManager } from './EnclosuresManager';
 export { LetterheadSection } from './LetterheadSection';
 export { MOASection } from './MOASection';
-export { ProfileBar } from './ProfileBar';
 export { ReferencesManager } from './ReferencesManager';
 export { SignatureSection } from './SignatureSection';
 export { Form6105Section } from './Form6105Section';

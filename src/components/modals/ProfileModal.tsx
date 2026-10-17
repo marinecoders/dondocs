@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
 import {
@@ -91,10 +92,12 @@ export function ProfileModal() {
   // Individual selectors so the modal only re-renders on its own flag changing.
   const profileModalOpen = useUIStore((s) => s.profileModalOpen);
   const setProfileModalOpen = useUIStore((s) => s.setProfileModalOpen);
-  const { profiles, selectedProfile, addProfile, updateProfile, selectProfile } = useProfileStore();
+  const { profiles, addProfile, updateProfile, selectProfile } = useProfileStore();
+  const editName = useUIStore((s) => s.profileEditName);
   const { formData } = useDocumentStore();
 
   const [profileName, setProfileName] = useState('');
+  const [applyToDocument, setApplyToDocument] = useState(false);
   const [formState, setFormState] = useState<Profile>(EMPTY_PROFILE);
   const [showDiscardDialog, setShowDiscardDialog] = useState(false);
   const [showUnitLookup, setShowUnitLookup] = useState(false);
@@ -105,7 +108,7 @@ export function ProfileModal() {
   // Store initial state to compare for changes
   const initialStateRef = useRef<{ name: string; profile: Profile }>({ name: '', profile: EMPTY_PROFILE });
 
-  const isEditing = !!(selectedProfile && profiles[selectedProfile]);
+  const isEditing = !!(editName && profiles[editName]);
 
   // Check if there are unsaved changes
   const hasUnsavedChanges = useCallback(() => {
@@ -142,12 +145,13 @@ export function ProfileModal() {
   // reset would remount the dialog and drop the Radix open transition.
   useEffect(() => {
     if (profileModalOpen) {
-      if (isEditing && selectedProfile) {
-        const profile = profiles[selectedProfile];
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setProfileName(selectedProfile);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setApplyToDocument(false);
+      if (isEditing && editName) {
+        const profile = profiles[editName];
+        setProfileName(editName);
         setFormState({ ...EMPTY_PROFILE, ...profile });
-        initialStateRef.current = { name: selectedProfile, profile: { ...EMPTY_PROFILE, ...profile } };
+        initialStateRef.current = { name: editName, profile: { ...EMPTY_PROFILE, ...profile } };
         // Detect if profile has a custom rank
         setUseCustomRank(!isStandardMilitaryRank(profile.sigRank || ''));
       } else {
@@ -180,7 +184,6 @@ export function ProfileModal() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileModalOpen]);
 
-  const [applyToDocument, setApplyToDocument] = useState(false);
   const [saving, setSaving] = useState(false);
   const isCorrespondence = useDocumentStore((s) => s.documentCategory === 'correspondence');
   const currentSession = getSerializedSession();
@@ -193,6 +196,10 @@ export function ProfileModal() {
     }
 
     const trimmedName = profileName.trim();
+    if (!isEditing && Object.hasOwn(profiles, trimmedName)) {
+      showAppAlert({ title: 'Name already used', message: 'Choose a different name, or edit the existing profile.' });
+      return;
+    }
 
     // The persist write throws if localStorage is full; zustand has already
     // applied the in-memory change, so warn the user rather than crash silently.
@@ -202,8 +209,8 @@ export function ProfileModal() {
         const ok = await useDocumentsStore.getState().restoreSnapshot(proposedSession);
         if (!ok) throw new Error('Could not save a recovery version. Your document has not changed.');
       }
-      if (isEditing && selectedProfile) {
-        updateProfile(selectedProfile, formState);
+      if (isEditing && editName) {
+        updateProfile(editName, formState);
       } else {
         addProfile(trimmedName, formState);
         selectProfile(trimmedName);
@@ -222,12 +229,13 @@ export function ProfileModal() {
   };
 
   const handleClose = useCallback(() => {
+    if (saving) return;
     if (hasUnsavedChanges()) {
       setShowDiscardDialog(true);
     } else {
       setProfileModalOpen(false);
     }
-  }, [hasUnsavedChanges, setProfileModalOpen]);
+  }, [hasUnsavedChanges, setProfileModalOpen, saving]);
 
   const handleDiscardConfirm = () => {
     setShowDiscardDialog(false);
@@ -336,10 +344,14 @@ export function ProfileModal() {
 
   return (
     <>
-      <Dialog open={profileModalOpen} onOpenChange={() => {}}>
+      <Dialog open={profileModalOpen} onOpenChange={(open) => { if (!open) handleClose(); }}>
         <DialogContent
           className="sm:max-w-lg max-h-[90vh] flex flex-col p-0 gap-0 overflow-hidden"
           showCloseButton={false}
+          onOpenAutoFocus={(event) => {
+            event.preventDefault();
+            document.getElementById(isEditing ? 'unitLine1' : 'profileName')?.focus();
+          }}
         >
           {/* Sticky Header */}
           <DialogHeader className="bg-background px-6 py-4 border-b shrink-0">
@@ -357,6 +369,7 @@ export function ProfileModal() {
                 <span className="sr-only">Close</span>
               </Button>
             </div>
+            <DialogDescription>{isEditing ? 'Update saved letterhead and sender details.' : 'Save letterhead and sender details as your default for new correspondence.'}</DialogDescription>
           </DialogHeader>
 
           {/* Scrollable Content */}

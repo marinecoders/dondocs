@@ -102,13 +102,7 @@ export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boole
       title: 'Create your command profile',
       sub: 'Save your letterhead and signature once, reuse everywhere',
       done: profileDone,
-      // Deselect first so the modal opens in Create mode; otherwise the
-      // default profile selected on load would lock it into Edit mode and this
-      // step could never complete. Mirrors ProfileBar's create action.
-      action: () => {
-        useProfileStore.getState().selectProfile(null);
-        useUIStore.getState().setProfileModalOpen(true);
-      },
+      action: () => useUIStore.getState().openProfileEditor(null),
     },
     {
       glyph: FileText,

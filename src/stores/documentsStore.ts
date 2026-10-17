@@ -288,7 +288,7 @@ function applyProfileSignature(): void {
  * signature block is applied ONLY when the profile carries a signer, so a
  * signer-less profile (e.g. the default unit profile) never blanks the
  * document's existing signature. Shared by applySelectedProfile (New-doc / seed)
- * and the interactive ProfileBar dropdown so the two paths can't drift.
+ * and the interactive Profiles manager so the two paths can't drift.
  */
 export function profileFormPatch(profile: Profile) {
   // A profile with no signer must NOT blank the document's existing signature —

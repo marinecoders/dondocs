@@ -589,7 +589,7 @@ export function EditorSidebar() {
       </div>
       <div className="shrink-0 px-3 pb-3 pt-4 space-y-0.5">
         {[
-          { label: 'Profiles', icon: UserRound, run: () => useUIStore.getState().setProfileModalOpen(true) },
+          { label: 'Profiles', icon: UserRound, run: () => useUIStore.getState().setProfileManagerOpen(true) },
           { label: 'Backup & restore', icon: FolderSync, run: () => useUIStore.getState().setSettingsOpen(true, 'backup') },
           { label: 'Trash', icon: Trash2, run: () => useUIStore.getState().setTrashOpen(true) },
           { label: 'Settings', icon: Settings, run: () => useUIStore.getState().setSettingsOpen(true) },
