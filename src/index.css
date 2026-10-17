@@ -538,3 +538,26 @@
 .workspace-subject { margin-bottom: var(--density-space-4); }
 .workspace-editor [data-slot="accordion-item"] { padding-bottom: var(--density-space-4); }
 .workspace-editor [data-slot="accordion-content"] > .space-y-4 > :not([hidden]) ~ :not([hidden]) { margin-top: var(--density-space-4); }
+
+/* Keep paragraph commands direct, with room for touch and narrow editors. */
+.paragraph-actions > button { min-width: 32px; min-height: 32px; flex-shrink: 0; }
+@media (max-width: 639px), (any-pointer: coarse) {
+  .paragraph-actions { opacity: 1; }
+  .paragraph-actions > .paragraph-action-label,
+  .paragraph-actions > div,
+  .paragraph-actions > span { order: -1; }
+  .paragraph-actions::after { content: ''; flex-basis: 100%; order: -1; }
+  .paragraph-actions > button { min-width: 44px; min-height: 44px; }
+}
+
+/* A stationary control shared by the expanded sidebar and compact rail. */
+.workspace-sidebar-toggle { height: 32px; width: 32px; padding: 0 8px; justify-content: flex-start; }
+.workspace-sidebar-toggle-position { top: 8px; left: 10px; }
+@media (max-width: 639px), (any-pointer: coarse) {
+  .workspace-sidebar-toggle { height: 44px; width: 44px; padding: 0 14px; }
+}
+@media (any-pointer: coarse) {
+  .workspace-sidebar-toggle-position { top: 2px; left: 4px; }
+  .workspace-collapsed-rail, .workspace-sidebar-actions { padding-top: 56px; }
+  .workspace-collapsed-rail > button { min-height: 44px; min-width: 44px; }
+}

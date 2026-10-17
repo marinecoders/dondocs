@@ -1,13 +1,7 @@
 import { useEffect, useState } from 'react';
-import { ClipboardList, RotateCcw, ChevronDown, Trash2, FileText, AlertTriangle } from 'lucide-react';
+import { Trash2, AlertTriangle } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import {
   Accordion,
   AccordionContent,
@@ -19,7 +13,6 @@ import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
 import { AbbreviationHelper } from '@/components/editor/AbbreviationHelper';
 import { DatePicker } from '@/components/ui/date-picker';
 import { useFormStore } from '@/stores/formStore';
-import { useVisibleEditorSection } from '@/components/layout/EditorSectionContext';
 import { NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
 import { SignatureStylePicker } from './SignatureStylePicker';
 import { AddSignatureBlockMenu } from './AddSignatureBlockMenu';
@@ -58,7 +51,7 @@ const COMMON_FORM_VARS = ['NAME', 'DATE'];
 
 
 export function Form11811Section() {
-  const { navmc11811, setNavmc11811Field, resetNavmc11811, clearNavmc11811 } = useFormStore();
+  const { navmc11811, setNavmc11811Field } = useFormStore();
   // The counselor's initials + SURNAME from the active profile — the counselor
   // is usually the person at the app, so offer their name as a one-click fill
   // (never written silently), the same as the AA form's originator.
@@ -109,7 +102,6 @@ export function Form11811Section() {
         document.getElementById(`p11-sig-${index}-statement`)?.focus()
       )
     );
-  const activeId = useVisibleEditorSection();
 
   // Fit report from the generator's own metrics, debounced behind typing. The
   // columns are one physical page — text past a column's capacity is NOT
@@ -151,42 +143,6 @@ export function Form11811Section() {
 
   return (
     <div className="space-y-4">
-      <div hidden={activeId !== null && activeId !== 'type'} className="space-y-4">
-      {/* Header */}
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2 text-sm font-medium">
-          <ClipboardList className="h-5 w-5" />
-          Form options
-        </div>
-        <div className="flex gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
-                <RotateCcw className="h-4 w-4 mr-1" />
-                Reset
-                <ChevronDown className="h-3 w-3 ml-1" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={resetNavmc11811}>
-                <FileText className="h-4 w-4 mr-2" />
-                Reset to Example
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={clearNavmc11811}>
-                <Trash2 className="h-4 w-4 mr-2" />
-                Clear All Fields
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
-
-      <p className="text-sm text-muted-foreground">
-        Page 11 Entry (6105 Counseling) per MCO 1610.7A. Used for documenting formal counseling,
-        adverse administrative remarks, and other official entries.
-      </p>
-
-      </div>
       <Accordion type="multiple" className="space-y-2">
         {/* Marine Identification */}
         <AccordionItem value="marine" id="sec-marine" tabIndex={-1} data-section="marine">

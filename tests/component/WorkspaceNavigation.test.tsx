@@ -47,7 +47,7 @@ it('keeps Tools focused on editing, with Batch and Preview still directly availa
   expect(screen.getByRole('button', { name: 'Preview' })).toBeVisible();
   await userEvent.click(screen.getByRole('button', { name: 'Document tools' }));
   expect(screen.getAllByRole('menuitem').map((item) => item.textContent)).toEqual([
-    expect.stringContaining('Undo'), expect.stringContaining('Redo'), expect.stringContaining('Find and replace'), 'Refresh preview', 'Document type guide',
+    'Formatting…', expect.stringContaining('Undo'), expect.stringContaining('Redo'), expect.stringContaining('Find and replace'), 'Refresh preview', 'Document type guide',
   ]);
   await userEvent.click(screen.getByRole('menuitem', { name: 'Refresh preview' }));
   expect(refresh).toHaveBeenCalledOnce();
@@ -103,4 +103,16 @@ it('provides mobile document actions, renames without changing subject, and keep
   expect(useDocumentsStore.getState().docs[id]).toBeUndefined();
   await userEvent.click(screen.getByRole('button', { name: 'Undo' }));
   expect(useDocumentsStore.getState().docs[id].meta.title).toBe('Short draft name');
+});
+
+it('opens document formatting from Tools without duplicating the type picker', async () => {
+  render(<TooltipProvider><Header /></TooltipProvider>);
+  await userEvent.click(screen.getByRole('button', { name: 'Document tools' }));
+  await userEvent.click(screen.getByRole('menuitem', { name: 'Formatting…' }));
+  expect(screen.getByRole('dialog', { name: 'Document formatting' })).toBeVisible();
+  await userEvent.click(screen.getByRole('tab', { name: 'Custom' }));
+  expect(screen.getByRole('combobox', { name: 'Font family' })).toBeVisible();
+  expect(screen.queryByRole('combobox', { name: 'Document Type' })).not.toBeInTheDocument();
+  await userEvent.click(screen.getByRole('button', { name: 'Done' }));
+  expect(screen.queryByRole('dialog', { name: 'Document formatting' })).not.toBeInTheDocument();
 });

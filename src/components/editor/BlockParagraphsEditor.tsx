@@ -1,6 +1,7 @@
 import { InputWithVariables } from '@/components/ui/variable-autocomplete';
 import { Label } from '@/components/ui/label';
 import { useUIStore } from '@/stores/uiStore';
+import { getEditorSections } from '@/lib/editorSections';
 import { unfilled } from '@/lib/requiredField';
 import { PUBLICATION_SECTIONS, publicationSection, type PublicationSection } from '@/data/techpub/sections';
 import { validateFigureAsset } from '@/services/latex/figureAssets';
@@ -450,13 +451,13 @@ const BlockRow = memo(function BlockRow({
         {/* Hover controls — kept out of the way until you reach for them.
             Order matches the prototype: + heading, nest, move, then the
             per-paragraph word count and delete. */}
-        <div className="mt-0.5 flex items-center gap-0.5 opacity-0 transition-opacity focus-within:opacity-100 group-hover:opacity-100">
+        <div className="paragraph-actions mt-0.5 flex flex-wrap items-center gap-0.5 opacity-0 transition-opacity focus-within:opacity-100 group-hover:opacity-100">
           {!showHeader && (
             <button
               type="button"
               onClick={() => setWantsHeader(true)}
               title="Add heading"
-              className="h-6 rounded-md px-1.5 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+              className="paragraph-action-label h-6 rounded-md px-1.5 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground"
             >
               + heading
             </button>
@@ -472,7 +473,7 @@ const BlockRow = memo(function BlockRow({
                   type="button"
                   aria-label={attachedTable ? `Table: ${attachedTable}. Change` : 'Attach a table'}
                   title="Attach a table"
-                  className="h-6 rounded-md px-1.5 text-xs font-medium text-muted-foreground outline-none hover:bg-accent hover:text-accent-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                  className="paragraph-action-label h-6 rounded-md px-1.5 text-xs font-medium text-muted-foreground outline-none hover:bg-accent hover:text-accent-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
                 >
                   {attachedTable ?? '+ table'}
                 </button>
@@ -558,6 +559,7 @@ const BlockRow = memo(function BlockRow({
 export function BlockParagraphsEditor() {
   const documentMode = useDocumentStore((s) => s.documentMode);
   const docType = useDocumentStore((s) => s.docType);
+  const editorLayout = useUIStore((s) => s.editorLayout);
   const subject = useDocumentStore((s) => s.formData.subject);
   const setField = useDocumentStore((s) => s.setField);
   const validationVisible = useUIStore((s) => s.validationVisible);
@@ -597,6 +599,10 @@ export function BlockParagraphsEditor() {
   // Only a technical publication has callouts and steps.
   const showBlockKind = docType === 'i_type';
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
+  // Only hide this shortcut when a visible heading edits the same subject field.
+  const subjectInHeading = getEditorSections(config, docType).some((section) =>
+    ['addressing', 'executive', 'joint_memo'].includes(section.id));
+  const hideBodySubject = editorLayout === 'scroll' && subjectInHeading;
   const disableNumbered = documentMode === 'compliant' && !config.compliance.numberedParagraphs;
 
   const labels = useMemo(() => calculateLabels(paragraphs), [paragraphs]);
@@ -635,7 +641,7 @@ export function BlockParagraphsEditor() {
           </div>
         </AccordionTrigger>
         <AccordionContent>
-      {docType !== 'i_type' && <div className="workspace-subject mb-4 space-y-2">
+      {docType !== 'i_type' && <div hidden={hideBodySubject} className="workspace-subject mb-4 space-y-2">
         <Label htmlFor="body-subject" className="text-xs">{docType.includes('endorsement') ? "Subject (basic letter's subject)" : 'Subject'}</Label>
         <InputWithVariables id="body-subject" value={subject ?? ''} onValueChange={(value) => setField('subject', value)} aria-invalid={validationVisible && unfilled(subject) ? true : undefined} placeholder="Enter the printed subject" className="uppercase text-xs" />
       </div>}

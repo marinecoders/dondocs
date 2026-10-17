@@ -1,5 +1,4 @@
 import { useMemo, type ReactNode } from 'react';
-import { FileText } from 'lucide-react';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
 import { LetterheadSection } from '@/components/editor/LetterheadSection';
@@ -48,9 +47,6 @@ export function useEditorSections(): {
   const isFormsMode = documentCategory === 'forms';
   const sections = useMemo(
     () => [
-      // Document Type leads the outline (matches the prototype's first rail
-      // section); it's always rendered at the top of the editor in both modes.
-      { id: 'type', label: 'Document Type', icon: FileText },
       ...(isFormsMode ? getFormSections(formType) : getEditorSections(config, docType)),
     ],
     [isFormsMode, formType, docType] // eslint-disable-line react-hooks/exhaustive-deps

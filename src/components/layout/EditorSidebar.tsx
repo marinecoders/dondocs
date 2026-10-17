@@ -1,7 +1,7 @@
 import { WORKSPACE_DESTINATIONS } from './workspaceNavigation';
 import { matchesSearch } from '@/lib/workspaceSearch';
 import { useMemo, useState, useRef, useEffect } from 'react';
-import { PanelLeftClose, PanelLeftOpen, Plus, FolderOpen, Search, Trash2, MoreHorizontal, Copy, Pencil, Undo2, History, Pin, PinOff, ArrowDownAZ, Clock, CheckSquare, Check, X } from 'lucide-react';
+import { PanelLeft, Plus, FolderOpen, Search, Trash2, MoreHorizontal, Copy, Pencil, Undo2, History, Pin, PinOff, ArrowDownAZ, Clock, CheckSquare, Check, X } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -87,7 +87,6 @@ export function EditorSidebar() {
   const showOutline = useUIStore((s) => s.sidebarOutlineVisible);
   const searchOpen = useUIStore((s) => s.commandPaletteOpen);
   const outlineHeight = useUIStore((s) => s.outlineHeight);
-  const toggleSidebar = useUIStore((s) => s.toggleSidebar);
   const validationVisible = useUIStore((s) => s.validationVisible);
 
   // ── Section outline (top) ──────────────────────────────────────────────────
@@ -216,65 +215,67 @@ export function EditorSidebar() {
     }, 0);
   };
 
-  if (isMobile) return null;
+  const renderNewDocumentMenu = (compact: boolean) => (
+    <DropdownMenu>
+      <IconTip label="New document" side="right">
+        <DropdownMenuTrigger asChild>
+          <button ref={compact ? undefined : newBtnRef} type="button" aria-label="New document"
+            className={compact
+              ? "inline-flex h-9 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-ring"
+              : "mb-2 flex min-h-9 w-full items-center gap-2 rounded-md border border-border bg-sidebar-accent/50 px-2 text-[13px] font-medium hover:bg-sidebar-accent"}>
+            <Plus aria-hidden="true" className="h-4 w-4 shrink-0" />
+            {!compact && <span>New document</span>}
+          </button>
+        </DropdownMenuTrigger>
+      </IconTip>
+      <DropdownMenuContent side={compact ? 'right' : 'bottom'} align="start">
+        <DropdownMenuItem onSelect={() => newDocument()}>New correspondence</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => newDocument('navmc_10274')}>New NAVMC 10274</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => newDocument('navmc_118_11')}>New NAVMC 118 (11)</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => useUIStore.getState().setTemplateLoaderOpen(true)}>From template…</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 
-  if (collapsed) {
-    return (
-      <>
-      <nav
-        aria-label="Documents"
-        style={{ width: SIDEBAR_WIDTH.collapsed }}
-        className="hidden sm:flex shrink-0 flex-col items-center gap-1 border-r border-border bg-sidebar py-2"
-      >
-        <button
-          type="button"
-          onClick={toggleSidebar}
-          aria-label="Expand sidebar" title="Expand sidebar"
-          aria-expanded={false}
-          className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
-        >
-          <PanelLeftOpen className="h-4 w-4" />
-        </button>
-        <button
-          type="button"
-          onClick={() => newDocument()}
-          aria-label="New document" title="New document"
-          className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
-        >
-          <Plus className="h-4 w-4" />
-        </button>
-        <button type="button" onClick={() => useUIStore.getState().setTrashOpen(true)} className="flex min-h-10 items-center gap-2 border-t border-border px-3 text-sm text-muted-foreground hover:bg-muted" aria-label="Trash"><Trash2 className="h-4 w-4" />{!collapsed && 'Trash'}</button>
-    </nav>
-      {/* Still mounted while collapsed: dragging it back out is how you reopen. */}
-      <SidebarResizer />
-      </>
-    );
-  }
+  if (isMobile) return null;
 
   return (
     <>
+    <div className="relative hidden shrink-0 bg-sidebar sm:flex" style={{ width: collapsed ? SIDEBAR_WIDTH.collapsed : sidebarWidth }}>
+      <div hidden={collapsed} style={{ left: 52 }} className={collapsed ? "hidden" : "absolute top-2 z-30 flex h-8 items-center gap-1.5 whitespace-nowrap text-[17px] font-semibold tracking-tight"}>
+        <img src={`${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`} alt="Marine Coders" className="h-7 w-7 shrink-0 object-contain brightness-0 dark:invert" />
+        <span className={collapsed ? 'sr-only' : undefined}>DonDocs</span>
+      </div>
+      <div className="workspace-sidebar-toggle-position absolute z-30">
+        <IconTip label={collapsed ? 'Show sidebar' : 'Hide sidebar'} side="right">
+          <button type="button" className="workspace-sidebar-toggle inline-flex items-center gap-0 overflow-hidden rounded-md text-xs font-medium hover:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-ring"
+            data-open={!collapsed} data-tour="workspace-menu" aria-label={collapsed ? 'Show sidebar' : 'Hide sidebar'}
+            aria-expanded={!collapsed} aria-controls="workspace-documents"
+            onClick={() => useUIStore.getState().toggleSidebar()}>
+            <PanelLeft aria-hidden="true" className="h-4 w-4 shrink-0" />
+          </button>
+        </IconTip>
+      </div>
+    {collapsed && <nav aria-label="Document shortcuts" style={{ width: SIDEBAR_WIDTH.collapsed }} className="workspace-collapsed-rail absolute inset-y-0 left-0 flex flex-col items-center gap-1 border-r border-border pt-[52px] pb-3 pl-px">
+      {renderNewDocumentMenu(true)}
+      <IconTip label="Search workspace" side="right"><button type="button" onClick={() => useUIStore.getState().setCommandPaletteOpen(true)} className="inline-flex h-9 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-ring"><Search aria-hidden="true" className="h-4 w-4" /></button></IconTip>
+    </nav>}
     <nav
       ref={navRef}
+      id="workspace-documents"
+      hidden={collapsed}
       aria-label="Documents"
       style={{ width: sidebarWidth }}
-      className="hidden sm:flex shrink-0 flex-col bg-sidebar"
+      className={collapsed ? "hidden" : "hidden sm:flex shrink-0 flex-col bg-sidebar"}
     >
       <span aria-live="polite" className="sr-only">{announce}</span>
 
-      <div className="shrink-0 px-3 pt-5 pb-4">
-        <div className="mb-6 flex items-center gap-2 px-2 text-[17px] font-semibold tracking-tight"><img src={`${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`} alt="Marine Coders" className="h-7 w-auto brightness-0 dark:invert" /><span>DonDocs</span></div>
-        <DropdownMenu><DropdownMenuTrigger asChild><button ref={newBtnRef} type="button" className="mb-2 flex min-h-9 w-full items-center gap-2 rounded-md bg-primary px-3 text-[13px] font-medium text-primary-foreground hover:opacity-90"><Plus className="h-4 w-4" />New document</button></DropdownMenuTrigger>
-          <DropdownMenuContent align="start">
-            <DropdownMenuItem onSelect={() => newDocument()}>New correspondence</DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => newDocument('navmc_10274')}>New NAVMC 10274</DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => newDocument('navmc_118_11')}>New NAVMC 118 (11)</DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => useUIStore.getState().setTemplateLoaderOpen(true)}>From template…</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <div className="workspace-sidebar-actions shrink-0 px-2.5 pt-[52px] pb-4">
+        {renderNewDocumentMenu(false)}
         {[
           { label: 'Search', icon: Search, run: () => useUIStore.getState().setCommandPaletteOpen(true) },
           { label: 'Templates', icon: FolderOpen, run: () => useUIStore.getState().setTemplateLoaderOpen(true) },
-        ].map(({ label, icon: Icon, run }) => <button key={label} type="button" onClick={run} aria-current={label === 'Search' && searchOpen ? 'page' : undefined} className="flex min-h-9 w-full items-center gap-2.5 rounded-md px-3 text-[13px] hover:bg-sidebar-accent aria-[current=page]:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-ring"><Icon className="h-4 w-4" />{label}</button>)}
+        ].map(({ label, icon: Icon, run }) => <button key={label} data-tour={label === 'Templates' ? 'templates' : undefined} type="button" onClick={run} aria-current={label === 'Search' && searchOpen ? 'page' : undefined} className="flex min-h-9 w-full items-center gap-2 rounded-md px-2 text-[13px] hover:bg-sidebar-accent aria-[current=page]:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-ring"><Icon className="h-4 w-4" />{label}</button>)}
       </div>
       {showOutline && <>
       {/* On this page: section outline (collapse control shares the label row).
@@ -302,12 +303,12 @@ export function EditorSidebar() {
           </span>
           <button
             type="button"
-            onClick={toggleSidebar}
-            aria-label="Collapse sidebar" title="Collapse sidebar"
+            onClick={() => useUIStore.getState().toggleSidebarOutline()}
+            aria-label="Hide contents outline" title="Hide contents outline"
             aria-expanded={true}
             className="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
           >
-            <PanelLeftClose className="h-4 w-4" />
+            <X className="h-4 w-4" />
           </button>
         </div>
         {sections.length > 1 && (
@@ -432,7 +433,7 @@ export function EditorSidebar() {
               <p className="px-2.5 py-6 text-center text-xs text-muted-foreground">No matching documents.</p>
             ) : (
               <div className="px-3 py-6 text-center">
-                <p className="text-xs text-muted-foreground">Nothing here yet — start your first document.</p>
+                <p className="text-xs text-muted-foreground">No recent documents yet.</p>
                 <div className="mt-3 flex flex-col gap-1">
                   <button
                     type="button"
@@ -514,13 +515,13 @@ export function EditorSidebar() {
                             className="min-w-0 flex-1 rounded-md border border-border bg-card px-2.5 py-1.5 text-sm text-foreground outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
                           />
                         ) : (
-                          /* Open the document; sibling to the actions menu, not nested. */
+                          /* Full names remain available on hover and keyboard focus. */
+                          <IconTip label={`${m.title} · ${docTypeChip(m.docType)} · ${relTime(m.updatedAt)}`} side="right">
                           <button
                             type="button"
                             data-doc-id={m.id}
                             onClick={() => switchTo(m.id)}
                             aria-current={active ? 'true' : undefined}
-                            title={`${m.title} · ${docTypeChip(m.docType)} · ${relTime(m.updatedAt)}`}
                             className="flex min-h-10 min-w-0 flex-1 items-center gap-2 rounded-md px-2.5 py-2 text-left outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
                           >
                             <span className="min-w-0 flex-1">
@@ -533,6 +534,7 @@ export function EditorSidebar() {
                             </span>
                             {m.pinned && <Pin className="h-3 w-3 shrink-0 text-primary/70" aria-label="Pinned" />}
                           </button>
+                          </IconTip>
                         )}
                         {/* Row actions: pin / rename / duplicate / version / delete.
                             Hidden in selection mode; revealed on hover/focus otherwise. */}
@@ -607,11 +609,12 @@ export function EditorSidebar() {
         </div>
       </div>
       <div className="shrink-0 px-3 pb-3 pt-4 space-y-0.5">
-        {WORKSPACE_DESTINATIONS.map(({ label, icon: Icon, run }) => <button key={label} type="button" onClick={(event) => { event.currentTarget.focus(); run(); }} className="flex min-h-9 w-full items-center gap-2.5 rounded-md px-3 text-[13px] hover:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-ring"><Icon className="h-4 w-4" />{label}</button>)}
+        {WORKSPACE_DESTINATIONS.map(({ label, icon: Icon, run }) => <button key={label} data-tour={label === 'Templates' ? 'templates' : undefined} type="button" onClick={(event) => { event.currentTarget.focus(); run(); }} className="flex min-h-9 w-full items-center gap-2.5 rounded-md px-3 text-[13px] hover:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-ring"><Icon className="h-4 w-4" />{label}</button>)}
         <p className="px-3 pt-3 text-[11px] text-muted-foreground">Local workspace</p>
       </div>
     </nav>
-    <SidebarResizer />
+    </div>
+    {!collapsed && <SidebarResizer />}
     </>
   );
 }

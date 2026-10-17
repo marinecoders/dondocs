@@ -1,6 +1,7 @@
 import { saveCheckpoint } from '@/lib/saveCheckpoint';
 import { DraftIdentity } from './DraftIdentity';
 import { DocumentNavigation } from './DocumentNavigation';
+import { DocumentTypeSelector } from '@/components/editor/DocumentTypeSelector';
 import { useState, useCallback, useRef, useEffect, type ChangeEvent, type ReactNode } from 'react';
 import { PanelLeft, MoreHorizontal, Copy, History, Wrench, Check, Download, FileText, Braces, RefreshCw, Save, RotateCcw, Layers, Search, FileDown, FileUp, Undo2, Redo2, Eraser, Compass, PanelRight, Link2, FileInput, X, Loader2, FolderOpen, FolderSync, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -95,7 +96,6 @@ export function Header({
   const setImportLetterModalOpen = useUIStore((s) => s.setImportLetterModalOpen);
   const setDocumentGuideOpen = useUIStore((s) => s.setDocumentGuideOpen);
   const setFindReplaceOpen = useUIStore((s) => s.setFindReplaceOpen);
-  const setCommandPaletteOpen = useUIStore((s) => s.setCommandPaletteOpen);
   const setShareModal = useUIStore((s) => s.setShareModal);
   const isMobile = useUIStore((s) => s.isMobile);
   const previewVisible = useUIStore((s) => s.previewVisible);
@@ -120,6 +120,7 @@ export function Header({
   const [draftError, setDraftError] = useState('');
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [showClearFieldsDialog, setShowClearFieldsDialog] = useState(false);
+  const [formattingOpen, setFormattingOpen] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
   // Pending "clear saveStatus" timeout, tracked so we can cancel it when a new
   // flash replaces an in-flight one and clear it on unmount.
@@ -318,7 +319,7 @@ export function Header({
   }, [flashSaveStatus]);
 
   const currentId = useDocumentsStore((s) => s.currentId);
-  const sidebarCollapsed = useUIStore((s) => s.sidebarCollapsed);
+  const mobileDocsOpen = useUIStore((s) => s.mobileDocsOpen);
   const openHistory = () => {
     const ds = useDocumentsStore.getState();
     // Flush actual edits without creating a deliberate checkpoint just to view history.
@@ -331,11 +332,13 @@ export function Header({
       <input type="file" aria-label="Import draft file" ref={fileInputRef} onChange={handleImportDraft} accept=".json" className="hidden" />
       <input type="file" aria-label="Restore workspace backup file" ref={libraryInputRef} onChange={handleImportLibrary} accept=".json" className="hidden" />
       <div className="flex min-w-0 items-center gap-2 border-b border-border px-3 sm:px-5 py-2 sm:min-h-16">
-        <HeaderTip label={isMobile ? 'Open workspace' : sidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'}>
-          <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8 shrink-0" data-tour="workspace-menu" aria-label={isMobile ? 'Open workspace' : sidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'} onClick={() => isMobile ? useUIStore.getState().setMobileDocsOpen(true) : useUIStore.getState().toggleSidebar()}><PanelLeft className="h-4 w-4" /></Button>
-        </HeaderTip>
+        {isMobile ? <HeaderTip label="Open workspace">
+          <Button variant="ghost" className="workspace-sidebar-toggle shrink-0 gap-0 overflow-hidden"
+            data-tour="workspace-menu" aria-label="Open workspace" aria-expanded={mobileDocsOpen}
+            aria-haspopup="dialog" onClick={() => useUIStore.getState().setMobileDocsOpen(true)}
+          ><PanelLeft aria-hidden="true" className="h-4 w-4 shrink-0" /></Button>
+        </HeaderTip> : null}
         <DraftIdentity />
-        {(sidebarCollapsed || isMobile) && <Button variant="ghost" size="icon" className="hidden sm:inline-flex" aria-label="Search workspace" onClick={() => setCommandPaletteOpen(true)}><Search className="h-4 w-4" /></Button>}
         <Button variant="ghost" size="sm" className="hidden sm:inline-flex h-8 px-3" onClick={() => setShareModal('share')}>Share</Button>
         <Button variant="ghost" size="sm"
           className="h-10 sm:h-8 px-2 sm:px-3 border border-transparent data-[active=true]:border-primary/20 data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:hover:bg-primary/15"
@@ -527,6 +530,7 @@ export function Header({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-60">
+              {!isFormsMode && <DropdownMenuItem onClick={() => setFormattingOpen(true)}><FileText className="h-4 w-4" />Formatting…</DropdownMenuItem>}
               <DropdownMenuItem onClick={handleUndo} disabled={!canUndo}><Undo2 className="h-4 w-4" />Undo<DropdownMenuShortcut>{formatShortcut('mod Z')}</DropdownMenuShortcut></DropdownMenuItem>
               <DropdownMenuItem onClick={handleRedo} disabled={!canRedo}><Redo2 className="h-4 w-4" />Redo<DropdownMenuShortcut>{formatShortcut(REDO_SHORTCUT)}</DropdownMenuShortcut></DropdownMenuItem>
               <DropdownMenuItem onClick={() => setFindReplaceOpen(true)}><Search className="h-4 w-4" />Find and replace<DropdownMenuShortcut>{formatShortcut('mod H')}</DropdownMenuShortcut></DropdownMenuItem>
@@ -538,6 +542,13 @@ export function Header({
             </DropdownMenuContent>
           </DropdownMenu>
       </div>
+      <Dialog open={formattingOpen} onOpenChange={setFormattingOpen}>
+        <DialogContent className="sm:max-w-md max-h-[85dvh] overflow-y-auto">
+          <DialogHeader><DialogTitle>Document formatting</DialogTitle><DialogDescription>Formatting for this correspondence. Changes are applied to the current draft.</DialogDescription></DialogHeader>
+          <DocumentTypeSelector />
+          <DialogFooter><Button onClick={() => setFormattingOpen(false)}>Done</Button></DialogFooter>
+        </DialogContent>
+      </Dialog>
       <Dialog open={!!reviewedDraft} onOpenChange={(open) => { if (!open && !openingDraft) setReviewedDraft(null); }}>
         <DialogContent className="sm:max-w-lg max-h-[85dvh] overflow-y-auto">
           <DialogHeader><DialogTitle>Review draft</DialogTitle><DialogDescription>Open a separate editable copy. Your current document stays in Recents.</DialogDescription></DialogHeader>

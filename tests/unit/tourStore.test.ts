@@ -72,8 +72,8 @@ describe('tourStore', () => {
     const steps = useTourStore.getState().steps;
     expect(steps).toHaveLength(TOUR_STEPS.length - 2);
     expect(steps.some((s) => s.target === '[data-tour="workspace-menu"]')).toBe(false);
-    // Steps that reveal their hidden editor targets remain available.
-    expect(steps.filter((s) => s.action)).toHaveLength(2);
+    // Templates can reveal their sidebar target; type selection is always in the top bar.
+    expect(steps.filter((s) => s.action).map((s) => s.target)).toEqual(['[data-tour="templates"]']);
   });
 
   it('startSteps() spotlights ad-hoc steps without marking the first-run tour seen', () => {

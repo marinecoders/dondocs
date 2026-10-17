@@ -8,38 +8,13 @@ export type EditorLayout = 'focused' | 'scroll';
 
 export type DensityMode = 'compact' | 'comfortable' | 'spacious';
 
-/**
- * Sidebar geometry, in px.
- *
- * `min` is where the widest section label ("Classification") still fits beside
- * its icon; `max` keeps the editor column usable on a 1280 screen once the
- * preview is open. `collapsed` is the icon rail, which the resizer snaps to
- * rather than treating as a separate mode — see SidebarResizer.
- */
+/** Sidebar resizing bounds. Hiding is an independent, explicit action. */
 export const SIDEBAR_WIDTH = {
   min: 200,
   max: 420,
   default: 208,
   collapsed: 52,
-  /** Drag narrower than this and it snaps shut instead of leaving a stub. */
-  snapThreshold: 160,
 } as const;
-
-/**
- * What a pointer `x` px from the viewport's left edge means for the sidebar.
- *
- * Collapsing is the bottom of this range rather than a separate mode: drag past
- * the threshold and it snaps to the rail, drag back out and the width returns.
- * Lives here beside the geometry it depends on, and stays pure so the behaviour
- * is testable without a DOM.
- */
-export function resolveSidebarDrag(x: number): { collapsed: boolean; width?: number } {
-  if (x < SIDEBAR_WIDTH.snapThreshold) return { collapsed: true };
-  return {
-    collapsed: false,
-    width: Math.max(SIDEBAR_WIDTH.min, Math.min(SIDEBAR_WIDTH.max, x)),
-  };
-}
 
 /**
  * The sidebar's other axis: how its height is split between the section
@@ -58,7 +33,7 @@ export const SIDEBAR_SPLIT = {
 
 /**
  * The outline height for a pointer `y`, given where the outline starts and how
- * much room the sidebar has. Pure, like resolveSidebarDrag, so the clamping is
+ * much room the sidebar has. Pure, so the clamping is
  * testable without a DOM — and clamped against the container rather than a
  * constant, since the ceiling moves with the window.
  */

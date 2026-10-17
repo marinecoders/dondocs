@@ -60,10 +60,11 @@ describe('workspace settings and help', () => {
   });
 });
 
-it.each(['View logs', 'Endpoint check', 'NIST 800-171'])('keeps %s reachable directly from Help', async (label) => {
+it.each(['View logs', 'Endpoint check', 'NIST 800-171'])('keeps %s reachable from Help Support', async (label) => {
   useUIStore.setState({ helpOpen: true, connectivityModalOpen: false, nistModalOpen: false });
   useLogStore.getState().setOpen(false);
   render(<HelpModal />);
+  await userEvent.click(screen.getByRole('tab', { name: 'Support' }));
   await userEvent.click(screen.getByRole('button', { name: label }));
   expect(useUIStore.getState().helpOpen).toBe(false);
   if (label === 'View logs') expect(useLogStore.getState().isOpen).toBe(true);
@@ -72,15 +73,15 @@ it.each(['View logs', 'Endpoint check', 'NIST 800-171'])('keeps %s reachable dir
 });
 
 it.each(['Report bug', 'Suggest feature'])('opens a reviewable %s draft without sending document content', async (label) => {
-  const open = vi.spyOn(window, 'open').mockReturnValue(null);
   useDocumentStore.getState().setField('subject', 'UNRELATED_PRIVATE_CONTENT');
   useUIStore.getState().setHelpOpen(true);
   render(<HelpModal />);
-  await userEvent.click(screen.getByRole('button', { name: label }));
-  const url = new URL(String(open.mock.calls[0][0]));
+  await userEvent.click(screen.getByRole('tab', { name: 'Support' }));
+  const link = screen.getByRole('link', { name: `${label} (opens in a new tab)` });
+  const url = new URL(link.getAttribute('href')!);
   expect(url.pathname).toBe('/marinecoders/dondocs/issues/new');
   expect(url.searchParams.get('body')).toContain('public GitHub');
   expect(url.searchParams.get('body')).not.toContain('UNRELATED_PRIVATE_CONTENT');
-  expect(open).toHaveBeenCalledWith(expect.any(String), '_blank', 'noopener,noreferrer');
-  open.mockRestore();
+  expect(link).toHaveAttribute('target', '_blank');
+  expect(link).toHaveAttribute('rel', 'noopener noreferrer');
 });

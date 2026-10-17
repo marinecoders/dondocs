@@ -35,7 +35,7 @@ describe('Recents header', () => {
 
     const button = screen.getByRole('button', { name: 'New document' });
 
-    expect(button).toHaveTextContent('New document');
+    expect(button).toHaveAccessibleName('New document');
     expect(button).toHaveAttribute('aria-haspopup', 'menu');
   });
   it('identifies incomplete form sections in the optional outline', () => {

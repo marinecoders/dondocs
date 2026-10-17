@@ -1,6 +1,9 @@
 import 'fake-indexeddb/auto';
 import { beforeEach, expect, it, vi } from 'vitest';
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { DocumentNavigation } from '@/components/layout/DocumentNavigation';
+import { EditorSidebar } from '@/components/layout/EditorSidebar';
 import { FormPanel } from '@/components/layout/FormPanel';
 import { DocumentGuideModal } from '@/components/modals/DocumentGuideModal';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -47,7 +50,7 @@ beforeEach(() => {
   Element.prototype.scrollIntoView = vi.fn();
   useDocumentsStore.setState({ currentId: 'parity-draft', docs: {}, baseline: null, hydrated: true });
   useDocumentStore.getState().resetForm();
-  useUIStore.setState({ documentPositions: {}, editorLayout: 'focused', isMobile: false, documentGuideOpen: false });
+  useUIStore.setState({ documentPositions: {}, editorLayout: 'focused', isMobile: false, documentGuideOpen: false, sidebarOutlineVisible: false, sidebarCollapsed: true });
   useEditorOutlineStore.setState({ pendingJump: null, activeId: null });
 });
 
@@ -62,11 +65,18 @@ it.each(Object.entries(routes).flatMap(([type, sections]) => (['focused', 'scrol
   } else useDocumentStore.setState({ documentCategory: 'correspondence', docType: type });
   if (type === 'i_type') useDocumentStore.setState({ paragraphs: [{ text: '', level: 0, header: 'Materiel Required', tableKey: 'materielRequired' }] });
   const { container } = render(<TooltipProvider><FormPanel /></TooltipProvider>);
-  const picker = screen.getByRole('combobox', { name: 'Document section' });
-  const expected = ['type', ...sectionIds.split(' ')];
-  expect(within(picker).getAllByRole('option').map((option) => (option as HTMLOptionElement).value)).toEqual(expected);
+  const expected = sectionIds.split(' ');
+  const picker = screen.queryByRole('combobox', { name: 'Document section' });
+  if (layout === 'focused') expect(within(picker!).getAllByRole('option').map((option) => (option as HTMLOptionElement).value)).toEqual(expected);
+  else expect(picker).not.toBeInTheDocument();
   for (const id of expected) {
-    fireEvent.change(picker, { target: { value: id } });
+    if (layout === 'focused') fireEvent.change(picker!, { target: { value: id } });
+    else {
+      await userEvent.click(screen.getByRole('button', { name: 'Contents' }));
+      const entries = screen.getAllByRole('menuitem');
+      expect(entries).toHaveLength(expected.length);
+      await userEvent.click(entries[expected.indexOf(id)]);
+    }
     const section = container.querySelector<HTMLElement>(`#sec-${id}`)!;
     expect(section, `${type}/${id}`).toBeVisible();
     expect(section.textContent?.trim().length).toBeGreaterThan(0);
@@ -130,7 +140,7 @@ it('does not offer a letter-only enclosure walkthrough while a form is open', ()
 
 it.each(['correspondence', 'forms'] as const)('reveals type and template targets in %s during the intro tour', (documentCategory) => {
   useDocumentStore.setState({ documentCategory, docType: 'naval_letter', formType: 'navmc_10274' });
-  render(<TooltipProvider><FormPanel /></TooltipProvider>);
+  render(<TooltipProvider><DocumentNavigation /><EditorSidebar /><FormPanel /></TooltipProvider>);
   for (const target of ['doctype', 'templates']) {
     act(() => TOUR_STEPS.find((step) => step.target === `[data-tour="${target}"]`)!.action?.());
     expect(document.querySelector(`[data-tour="${target}"]`)).toBeVisible();

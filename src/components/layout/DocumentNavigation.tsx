@@ -21,6 +21,7 @@ export function DocumentNavigation() {
       >{kind === 'forms' ? 'Forms' : 'Correspondence'}</button>)}
     </nav>
     {category === 'forms' ? <select
+      data-tour="doctype"
       aria-label="Switch form"
       value={formType}
       onChange={(event) => selectKind('forms', event.target.value as FormType)}
@@ -30,6 +31,7 @@ export function DocumentNavigation() {
         {group.types.map((type) => <option key={type} value={type}>{FORM_TYPE_LABELS[type]}</option>)}
       </optgroup>)}
     </select> : <select
+      data-tour="doctype"
       aria-label="Correspondence type"
       value={docType}
       onChange={(event) => setDocType(event.target.value)}

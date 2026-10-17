@@ -1,17 +1,11 @@
 import { useState } from 'react';
-import { ClipboardList, RotateCcw, ChevronDown, Trash2, FileText } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { BookOpen, Building2, Library } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { IconTip } from '@/components/ui/icon-tip';
 import { Checkbox } from '@/components/ui/checkbox';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import {
   Accordion,
   AccordionContent,
@@ -30,7 +24,6 @@ import { SSICLookupModal } from '@/components/modals/SSICLookupModal';
 import { UnitLookupModal } from '@/components/modals/UnitLookupModal';
 import { FormReferenceLibraryModal } from '@/components/modals/FormReferenceLibraryModal';
 import { NAVMC_10274_PLACEHOLDERS } from '@/lib/constants';
-import { useVisibleEditorSection } from '@/components/layout/EditorSectionContext';
 import type { UnitInfo } from '@/data/unitDirectory';
 import type { FormSignatureBlock } from '@/types/signature';
 import { SignatureStylePicker } from './SignatureStylePicker';
@@ -47,8 +40,7 @@ import { showAppConfirm } from '@/stores/alertStore';
 const COMMON_FORM_VARS = ['NAME', 'DATE'];
 
 export function Form6105Section() {
-  const { navmc10274, setNavmc10274Field, resetNavmc10274, clearNavmc10274, includeCoverPage, setIncludeCoverPage } = useFormStore();
-  const activeId = useVisibleEditorSection();
+  const { navmc10274, setNavmc10274Field, includeCoverPage, setIncludeCoverPage } = useFormStore();
 
   // The active profile's signature name in the abbreviated form signature
   // blocks use (initials + SURNAME), offered as a one-click fill for the
@@ -163,53 +155,6 @@ export function Form6105Section() {
 
   return (
     <div className="space-y-4">
-      <div hidden={activeId !== null && activeId !== 'type'} className="space-y-4">
-      {/* Header */}
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2 text-sm font-medium">
-          <ClipboardList className="h-5 w-5" />
-          Form options
-        </div>
-        <div className="flex gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
-                <RotateCcw className="h-4 w-4 mr-1" />
-                Reset
-                <ChevronDown className="h-3 w-3 ml-1" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={resetNavmc10274}>
-                <FileText className="h-4 w-4 mr-2" />
-                Reset to Example
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={clearNavmc10274}>
-                <Trash2 className="h-4 w-4 mr-2" />
-                Clear All Fields
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
-
-      <p className="text-sm text-muted-foreground">
-        Administrative Action Form per MCO 5216.19A. Used for counseling, requests, and other administrative actions.
-      </p>
-
-      {/* Options */}
-      <div className="flex items-center gap-2 px-1">
-        <Checkbox
-          id="includeCoverPage"
-          checked={includeCoverPage}
-          onCheckedChange={(checked) => setIncludeCoverPage(checked === true)}
-        />
-        <Label htmlFor="includeCoverPage" className="text-sm cursor-pointer">
-          Include Privacy Act cover page
-        </Label>
-      </div>
-
-      </div>
       <Accordion type="multiple" className="space-y-2">
         {/* Header Section */}
         <AccordionItem value="header" id="sec-header" tabIndex={-1} data-section="header">
@@ -217,6 +162,10 @@ export function Form6105Section() {
             <span className="font-medium">Header Information</span>
           </AccordionTrigger>
           <AccordionContent className="space-y-4 pt-2">
+            <div className="flex items-center gap-2 rounded-md border border-border px-3 py-3">
+              <Checkbox id="includeCoverPage" checked={includeCoverPage} onCheckedChange={(checked) => setIncludeCoverPage(checked === true)} />
+              <Label htmlFor="includeCoverPage" className="text-sm cursor-pointer">Include Privacy Act cover page</Label>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="actionNo">1. Action No.</Label>

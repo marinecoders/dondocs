@@ -82,7 +82,7 @@ export function MobileRecents() {
               { label: 'Search', icon: Search, run: () => useUIStore.getState().setCommandPaletteOpen(true) },
               { label: 'Templates', icon: FileDown, run: () => useUIStore.getState().setTemplateLoaderOpen(true) },
               ...WORKSPACE_DESTINATIONS,
-            ].map(({ label, icon: Icon, run }) => <button key={label} type="button" className="inline-flex min-h-11 items-center gap-2 rounded px-2 text-sm hover:bg-muted" onClick={() => { setOpen(false); run(); }}><Icon className="h-4 w-4" />{label}</button>)}
+            ].map(({ label, icon: Icon, run }) => <button key={label} data-tour={label === 'Templates' ? 'templates' : undefined} type="button" className="inline-flex min-h-11 items-center gap-2 rounded px-2 text-sm hover:bg-muted" onClick={() => { setOpen(false); run(); }}><Icon className="h-4 w-4" />{label}</button>)}
           </div>
           {pendingDelete && (
             <div className="mx-2 mt-2 flex items-center justify-between gap-2 rounded-md border border-border bg-muted/60 px-2.5 py-1.5 text-xs">
@@ -102,7 +102,7 @@ export function MobileRecents() {
           <ul className="max-h-[60vh] overflow-y-auto p-2">
             {metas.length === 0 ? (
               <li className="px-3 py-8 text-center">
-                <p className="text-sm text-muted-foreground">Nothing here yet — start your first document.</p>
+                <p className="text-sm text-muted-foreground">No recent documents yet.</p>
                 <button
                   type="button"
                   onClick={() => {

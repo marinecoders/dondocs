@@ -39,13 +39,16 @@ export const TOUR_STEPS: TourStep[] = [
   {
     target: '[data-tour="doctype"]',
     title: 'Pick the format',
-    action: () => revealTourSection('type'),
     body: 'Each document type is set up to match its governing instruction, so the layout is correct from the first keystroke.',
   },
   {
     target: '[data-tour="templates"]',
     title: 'Or start from a template',
-    action: () => revealTourSection('type'),
+    action: () => {
+      const ui = useUIStore.getState();
+      if (ui.isMobile) ui.setMobileDocsOpen(true);
+      else if (ui.sidebarCollapsed) ui.toggleSidebar();
+    },
     body: 'Load a ready-made document for common formats instead of starting from a blank page.',
   },
   {
