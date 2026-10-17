@@ -1,0 +1,32 @@
+import 'fake-indexeddb/auto';
+import { expect, it } from 'vitest';
+import { useDocumentsStore, exportLibrary } from '@/stores/documentsStore';
+import { useDocumentStore } from '@/stores/documentStore';
+import { idbGetAllDocuments, idbGetSnapshots } from '@/lib/documentsDb';
+
+it('keeps complete deleted work and history across hydration, backup and restore', async () => {
+  await useDocumentsStore.getState().init();
+  const registry = useDocumentsStore.getState();
+  registry.newDocument();
+  const id = useDocumentsStore.getState().currentId!;
+  useDocumentStore.getState().setFormData({ subject: 'Recover me', signatureImage: { name: 'Signature', size: 4, data: 'data:image/png;base64,test' } });
+  registry.saveCurrent();
+  await idbGetAllDocuments();
+  registry.remove(id);
+  await idbGetAllDocuments();
+  expect(JSON.parse(await exportLibrary()).docs.find((d: { id: string }) => d.id === id).meta.deletedAt).toBeTruthy();
+  useDocumentsStore.setState({ docs: {}, trash: {}, currentId: null, hydrated: false, pendingDelete: null });
+  await registry.init();
+  expect(useDocumentsStore.getState().docs[id]).toBeUndefined();
+  expect(useDocumentsStore.getState().trash[id].session.formData.signatureImage?.data).toContain('base64,test');
+  expect((await idbGetSnapshots(id)).length).toBeGreaterThan(0);
+  registry.restoreFromTrash(id);
+  registry.switchTo(id);
+  expect(useDocumentStore.getState().formData.subject).toBe('Recover me');
+  expect(useDocumentStore.getState().formData.signatureImage?.data).toContain('base64,test');
+  registry.remove(id);
+  await idbGetAllDocuments();
+  expect(await registry.permanentlyDelete(id)).toBe(true);
+  expect((await idbGetAllDocuments())!.some((d) => d.id === id)).toBe(false);
+  expect(await idbGetSnapshots(id)).toEqual([]);
+});

@@ -1,14 +1,22 @@
+import { saveCheckpoint } from '@/lib/saveCheckpoint';
+import { applyTheme, THEMES } from '@/lib/appearance';
 import { iTypeExportErrors } from '@/lib/iTypePreflight';
 import { loadFigureFiles } from '@/services/latex/figureAssets';
 import { publicationMarking } from '@/lib/publicationMarking';
 import { useEffect, useCallback, useMemo, useState, useRef, lazy, Suspense } from 'react';
 import { Header } from '@/components/layout/Header';
+import { BetaBanner } from '@/components/BetaBanner';
+import { ReadinessMeter } from '@/components/layout/ReadinessMeter';
 import { FormPanel } from '@/components/layout/FormPanel';
 import { EditorSidebar } from '@/components/layout/EditorSidebar';
 import { MobileRecents } from '@/components/layout/MobileRecents';
+import { SettingsModal } from '@/components/modals/SettingsModal';
+import { HelpModal } from '@/components/modals/HelpModal';
+import { TrashModal } from '@/components/modals/TrashModal';
 import { VersionHistoryModal } from '@/components/modals/VersionHistoryModal';
 import { PreviewPanel } from '@/components/layout/PreviewPanel';
 import { ResizableDivider } from '@/components/layout/ResizableDivider';
+import { ProfileManager } from '@/components/modals/ProfileManager';
 import { ProfileModal } from '@/components/modals/ProfileModal';
 import { ReferenceLibraryModal } from '@/components/modals/ReferenceLibraryModal';
 // MobilePreviewModal renders the shared in-app PdfViewer (react-pdf + pdf.js),
@@ -60,9 +68,9 @@ import { BackupNotice } from '@/components/BackupNotice';
 import { InstallNotice } from '@/components/InstallNotice';
 import { probeStorageHealth, requestPersistentStorage } from '@/lib/documentsDb';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore, getSavedSession, rehydrateEnclosureFiles, loadSharedSession, type SerializedSession } from '@/stores/documentStore';
-import { useFormStore, FORMS_PERSIST_KEY } from '@/stores/formStore';
-import { lastWriteFailed } from '@/lib/compressedStorage';
+import { useDocumentStore, rehydrateEnclosureFiles, loadSharedSession, type SerializedSession } from '@/stores/documentStore';
+import { useFormStore } from '@/stores/formStore';
+import { useBatchStore } from '@/stores/batchStore';
 import { useHistoryStore } from '@/stores/historyStore';
 import { useDocumentsStore, applySelectedProfile, correspondenceFilename } from '@/stores/documentsStore';
 import { useBackupStore } from '@/stores/backupStore';
@@ -70,6 +78,9 @@ import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useEditorSections } from '@/components/layout/editorSections';
 import { CommandPalette, type CommandGroup } from '@/components/modals/CommandPalette';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { sessionSearchFields, findSearchMatch } from '@/lib/workspaceSearch';
+import { useUserTemplatesStore } from '@/stores/userTemplatesStore';
+import { LETTER_TEMPLATES } from '@/data/templates';
 import { formatShortcut } from '@/lib/platform';
 import {
   CornerDownRight,
@@ -92,6 +103,9 @@ import {
   MoonStar,
   PanelRight,
   MonitorDown,
+  Settings,
+  Trash2,
+  CircleHelp,
 } from 'lucide-react';
 import { useLogStore } from '@/stores/logStore';
 import { useLatexEngine, useServiceWorker, useInstallPrompt, promptInstall } from '@/hooks';
@@ -108,102 +122,15 @@ import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/na
 import { applyPlaceholdersToNavmc11811, buildNavmc11811DefaultValues } from '@/lib/placeholders';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
 import type { EnclosureError } from '@/services/pdf/mergeEnclosures';
-import { assembleEndorsement, shouldAssembleBasicLetter } from '@/services/pdf/assembleEndorsement';
-import { addSignatureField, addDualSignatureFields, type DualSignatureFieldConfig, type SignatureFieldConfig } from '@/services/pdf/addSignatureField';
-import { DOC_TYPE_CONFIG, type DocumentData } from '@/types/document';
+import { shouldAssembleBasicLetter } from '@/services/pdf/assembleEndorsement';
+import { assembleBasicLetter, basicLetterError, getSignatoryConfig, getDualSignatoryConfig, finishCorrespondencePdf } from '@/services/pdf/finishCorrespondencePdf';
+import { addSignatureField, addDualSignatureFields } from '@/services/pdf/addSignatureField';
+import { DOC_TYPE_CONFIG, DOC_TYPE_LABELS, FORM_TYPE_LABELS } from '@/types/document';
 import { detectPII, type PIIDetectionResult } from '@/services/pii/detector';
 import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
 import { prefersMobileLayout, readLayoutEnvironment } from '@/utils/device/layout';
 
 // Helper to get classification marking for enclosures
-/**
- * Assemble the uploaded basic letter ahead of a compiled endorsement, so the
- * exported PDF is the letter followed by the endorsement (SECNAV M-5216.5 Ch 9:
- * the endorsement continues the basic letter's page numbers, so the letter
- * reads first). A no-op for non-endorsements or when no basic-letter PDF is
- * attached. Runs before the enclosure merge, so `mergeEnclosures` treats the
- * combined [letter + endorsement] as the main document and the signature-field
- * placement (`basicPageCount - 1`) still lands on the endorsement's last page.
- * On a bad upload it returns the endorsement unchanged plus an error for the
- * caller to surface — never a silently dropped export.
- */
-async function assembleBasicLetter(
-  pdfBytes: Uint8Array,
-  docType: string,
-  formData: Partial<DocumentData>
-): Promise<{ pdfBytes: Uint8Array; error?: string }> {
-  // The gate (new-page only, letter attached) lives in assembleEndorsement.ts
-  // where it is unit-tested; see shouldAssembleBasicLetter for the reasoning.
-  if (!shouldAssembleBasicLetter(docType, formData)) return { pdfBytes };
-  const result = await assembleEndorsement(pdfBytes, formData.basicLetterFile!.data);
-  return result.ok ? { pdfBytes: result.pdfBytes } : { pdfBytes, error: result.error };
-}
-
-/** An EnclosureError-shaped entry so a failed basic-letter assembly surfaces in
- *  the same modal the enclosure merge uses — tagged so the modal doesn't call
- *  it "Enclosure (0)" or claim a placeholder page exists for it. */
-function basicLetterError(error: string): EnclosureError {
-  return { enclosureNumber: 0, title: 'Basic letter', error, kind: 'basicLetter' };
-}
-
-
-/**
- * Build signatory name configuration for signature field positioning.
- * Returns the abbreviated name format (e.g., "J. M. SMITH") used in signature blocks.
- */
-function getSignatoryConfig(formData: Partial<DocumentData>): SignatureFieldConfig {
-  // Build abbreviated name for single signatures: F. M. LASTNAME
-  const firstName = formData.sigFirst?.trim() || '';
-  const middleName = formData.sigMiddle?.trim() || '';
-  const lastName = formData.sigLast?.toUpperCase()?.trim() || '';
-
-  const abbrevName = [
-    firstName ? `${firstName[0].toUpperCase()}.` : '',
-    middleName ? `${middleName[0].toUpperCase()}.` : '',
-    lastName,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  return {
-    signatoryName: abbrevName || undefined,
-  };
-}
-
-/**
- * Build dual signatory name configuration for joint letter/MOA/MOU signature field positioning.
- * Returns junior and senior signatory names as they appear in the PDF.
- */
-function getDualSignatoryConfig(formData: Partial<DocumentData>, uiMode: string | undefined): DualSignatureFieldConfig {
-  let juniorName: string | undefined;
-  let seniorName: string | undefined;
-
-  if (uiMode === 'moa') {
-    // MOA/MOU: Junior uses full name uppercased, Senior uses "F. LASTNAME",
-    // matching how the LaTeX generator renders them.
-    juniorName = formData.juniorSigName?.toUpperCase()?.trim() || undefined;
-
-    // Senior signatory in MOA/MOU uses abbreviated form: "F. LASTNAME"
-    // e.g., "David Foster" -> "D. FOSTER"
-    const seniorFullName = formData.seniorSigName?.trim() || '';
-    if (seniorFullName) {
-      const parts = seniorFullName.split(' ');
-      const firstName = parts[0] || '';
-      const lastName = parts[parts.length - 1]?.toUpperCase() || '';
-      seniorName = firstName ? `${firstName[0].toUpperCase()}. ${lastName}` : lastName;
-    }
-  } else if (uiMode === 'joint' || uiMode === 'joint_memo') {
-    // Joint letter and joint memo share the same fields (both uppercased)
-    juniorName = formData.jointJuniorSigName?.toUpperCase()?.trim() || undefined;
-    seniorName = formData.jointSeniorSigName?.toUpperCase()?.trim() || undefined;
-  }
-
-  return {
-    juniorSignatoryName: juniorName,
-    seniorSignatoryName: seniorName,
-  };
-}
-
 // Latest download triggers, published by App in an effect. Held at module scope
 // (like editorOutlineStore's jump handler) so the command-palette groups — built
 // during render — can dispatch a download without referencing a ref-reading
@@ -234,8 +161,8 @@ function App() {
   // Individual selectors so Zustand only re-renders App on the specific field's
   // change, not on every store update. Setters are stable, so selecting them is free.
   const theme = useUIStore((s) => s.theme);
-  const colorScheme = useUIStore((s) => s.colorScheme);
   const density = useUIStore((s) => s.density);
+  const [workspaceReady, setWorkspaceReady] = useState(false);
   const isMobile = useUIStore((s) => s.isMobile);
   const setIsMobile = useUIStore((s) => s.setIsMobile);
   // Gate the lazy MobilePreviewModal; chunk fetches on first open only.
@@ -263,6 +190,7 @@ function App() {
   // the slices that should invalidate the debounced compile; other setter calls
   // no longer wake App. compilePdf reads the full store via getState() at call time.
   const docType = useDocumentStore((s) => s.docType);
+  const currentDocId = useDocumentsStore((s) => s.currentId);
   const formData = useDocumentStore((s) => s.formData);
   const references = useDocumentStore((s) => s.references);
   const enclosures = useDocumentStore((s) => s.enclosures);
@@ -290,6 +218,9 @@ function App() {
 
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [formPdfUrl, setFormPdfUrl] = useState<string | null>(null);
+  const [pdfDocumentId, setPdfDocumentId] = useState<string | null>(null);
+  const [formPdfDocumentId, setFormPdfDocumentId] = useState<string | null>(null);
+  const [renderedCorrespondence, setRenderedCorrespondence] = useState<ReturnType<typeof useDocumentStore.getState> | null>(null);
   const [isCompiling, setIsCompiling] = useState(false);
   const [compileError, setCompileError] = useState<string | null>(null);
   // Full compile-failure log from SwiftLaTeX. Drives the compile-error modal,
@@ -378,30 +309,12 @@ function App() {
     });
   }, []);
 
-  // Apply theme to document
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-    // Keep the browser/PWA chrome color in step with the app theme. The static
-    // theme-color metas key off prefers-color-scheme, but the app theme is
-    // user-controlled and independent — so override both metas' content to the
-    // active canvas color, else the status bar mistints when they disagree.
-    const canvas = theme === 'dark' ? '#0b0d11' : '#f1f6fa';
-    document
-      .querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
-      .forEach((m) => {
-        m.content = canvas;
-      });
-  }, [theme]);
+  useEffect(() => applyTheme(theme), [theme]);
 
   // Apply density to document
   useEffect(() => {
     document.documentElement.dataset.density = density;
   }, [density]);
-
-  // Apply color scheme to document
-  useEffect(() => {
-    document.documentElement.dataset.scheme = colorScheme;
-  }, [colorScheme]);
 
   // Track if initial setup has been done
   const initialSetupDoneRef = useRef(false);
@@ -463,25 +376,12 @@ function App() {
       loadSharedSession(session);
       return true;
     };
-    // If the user was last working on a NAVMC form, return them to that view
-    // after init (the form field data itself is rehydrated by formStore's own
-    // persist; init only resumes correspondence). Read before init runs.
-    const lastSession = getSavedSession();
-    const resumeFormType =
-      lastSession?.documentCategory === 'forms' ? lastSession.formType : null;
-    const restoreFormsView = () => {
-      if (cancelled || !resumeFormType) return;
-      const ds = useDocumentStore.getState();
-      ds.setDocumentCategory('forms');
-      ds.setFormType(resumeFormType);
-    };
     void useDocumentsStore
       .getState()
       .init()
       .then((resumed) => {
         if (applyHandoff()) return;
         if (!resumed) seedFreshStart();
-        restoreFormsView();
       })
       // Hydration shouldn't reject (storage failures are caught internally), but
       // if it ever does, degrade to a usable seeded document instead of an
@@ -489,7 +389,6 @@ function App() {
       .catch(() => {
         if (applyHandoff()) return;
         seedFreshStart();
-        restoreFormsView();
       })
       // Probe how durable storage is only AFTER hydration/migration settles, so a
       // returning user's just-migrated docs are already in IndexedDB and the
@@ -499,6 +398,7 @@ function App() {
       // importantly, stops the browser evicting the service worker's precache
       // (the root of the recurring unstyled-shell loop).
       .finally(() => {
+        if (!cancelled) setWorkspaceReady(true);
         void requestPersistentStorage()
           .catch(() => false)
           .then(() => probeStorageHealth())
@@ -526,33 +426,6 @@ function App() {
       cancelled = true;
     };
     // Only run on initial mount
-  }, []);
-
-  // Forms persist on every edit (formStore's own persist middleware); reflect
-  // that in the "Saved" indicator the same way the correspondence registry
-  // write does, so the signal is honest in both categories. Debounced so the
-  // passive indicator wakes once per typing pause rather than on every keystroke.
-  useEffect(() => {
-    let t: ReturnType<typeof setTimeout> | undefined;
-    const unsub = useFormStore.subscribe(() => {
-      clearTimeout(t);
-      t = setTimeout(() => {
-        // Verify the write actually landed before claiming "Saved". Forms
-        // persist through safeLocalStorage, which swallows quota/security
-        // errors by design — and storageHealth measures IndexedDB, not
-        // localStorage, so it can read healthy while the form write failed.
-        if (lastWriteFailed(FORMS_PERSIST_KEY)) {
-          useUIStore.getState().setSaveStatus('error');
-          return;
-        }
-        if (useUIStore.getState().storageHealth === 'unavailable') return;
-        useUIStore.getState().markSaved();
-      }, 800);
-    });
-    return () => {
-      clearTimeout(t);
-      unsub();
-    };
   }, []);
 
   // Compile PDF
@@ -591,8 +464,12 @@ function App() {
     []
   );
 
+  const batchRunning = useBatchStore((s) => s.status === 'running');
   const compilePdf = useCallback(async () => {
+    if (useBatchStore.getState().status === 'running') return;
     if (!isReady) return;
+    if (useDocumentStore.getState().documentCategory === 'forms') return;
+    const previewDocumentId = useDocumentsStore.getState().currentId;
     // Invalidate any pending idle upgrade and stamp this compile so a late idle
     // pass from a previous edit can't swap in a stale PDF.
     cancelIdleEnhance();
@@ -610,6 +487,7 @@ function App() {
       // streaming back from the attachments store; make sure they're present
       // before the pipeline reads file.data (no-op once already hydrated).
       await rehydrateEnclosureFiles();
+      if (previewDocumentId !== useDocumentsStore.getState().currentId || gen !== previewGenRef.current) return;
       // Read the full store via getState() at compile time; the debounce dep
       // array already handles when to re-compile, so the state here is current.
       const currentStore = useDocumentStore.getState();
@@ -642,6 +520,7 @@ function App() {
         if (fullQualityPreview && hasEnhancements) {
           pdfBytes = await enhancePreviewPdf(pdfBytes, currentStore);
         }
+        if (previewDocumentId !== useDocumentsStore.getState().currentId || gen !== previewGenRef.current) return;
 
         // Revoke the old URL on a delay: the viewer double-buffers document
         // swaps, so an in-flight load of the outgoing URL may still be reading
@@ -658,6 +537,8 @@ function App() {
         const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         setPdfUrl(url);
+        setPdfDocumentId(previewDocumentId);
+        setRenderedCorrespondence(currentStore);
         setPreviewEnhanced(fullQualityPreview && hasEnhancements);
         // Success: clear any held-over log and reset the modal dedup guard so a
         // future failure (including a re-break of the same error) pops again.
@@ -671,7 +552,7 @@ function App() {
           const runIdleEnhance = () => {
             idleEnhanceRef.current = null;
             if (gen !== previewGenRef.current) return; // a newer compile superseded us
-            void enhancePreviewPdf(basePdfBytes, useDocumentStore.getState())
+            void enhancePreviewPdf(basePdfBytes, currentStore)
               .then((enhanced) => {
                 if (gen !== previewGenRef.current) return; // went stale during the async work
                 const enhancedUrl = URL.createObjectURL(
@@ -698,10 +579,7 @@ function App() {
       // Clear reset flag on success
       isResettingRef.current = false;
     } catch (err) {
-      setPdfUrl((previous) => {
-        if (previous) URL.revokeObjectURL(previous);
-        return null;
-      });
+      if (previewDocumentId !== useDocumentsStore.getState().currentId || gen !== previewGenRef.current) return;
       console.error('Compilation error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Compilation failed';
       // Get compile log directly from error if available (for immediate access)
@@ -720,7 +598,7 @@ function App() {
         }
       }
     } finally {
-      setIsCompiling(false);
+      if (gen === previewGenRef.current) setIsCompiling(false);
     }
     // documentStore is read via getState() inside, so it's not a dep; only the
     // values closed over are. pdfUrl is captured for revocation.
@@ -745,7 +623,7 @@ function App() {
 
   // Debounced compilation on document changes
   useEffect(() => {
-    if (!isReady) return;
+    if (!workspaceReady || !isReady || batchRunning || documentCategory === 'forms') return;
 
     if (compileTimeoutRef.current) {
       clearTimeout(compileTimeoutRef.current);
@@ -761,6 +639,9 @@ function App() {
       }
       // A pending edit supersedes any queued idle upgrade from the last compile.
       cancelIdleEnhance();
+      // This is a generation counter, intentionally invalidated at cleanup.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      ++previewGenRef.current;
     };
     // Deps are the slices that should invalidate a re-compile. compilePdf is not
     // a dep: it reads documentStore via getState(), and a new compilePdf identity
@@ -768,6 +649,10 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isReady,
+    workspaceReady,
+    currentDocId,
+    documentCategory,
+    batchRunning,
     docType,
     formData,
     references,
@@ -787,6 +672,18 @@ function App() {
     page3: ArrayBuffer;
   } | null>(null);
   const [navmc11811Template, setNavmc11811Template] = useState<ArrayBuffer | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [errorDocumentId, setErrorDocumentId] = useState(currentDocId);
+  // A previous draft's failure must not appear on the newly selected draft.
+  if (errorDocumentId !== currentDocId) {
+    setErrorDocumentId(currentDocId);
+    setCompileError(null);
+    setFormError(null);
+  }
+  const [formRefresh, setFormRefresh] = useState(0);
+  const [renderedForm, setRenderedForm] = useState<{ type: string; data: unknown; cover: boolean } | null>(null);
+  const activeFormData = formType === 'navmc_10274' ? navmc10274 : navmc11811;
+  const formIsCompiling = !formError && (renderedForm?.type !== formType || renderedForm?.data !== activeFormData || renderedForm?.cover !== includeCoverPage);
 
   // Load form templates when entering forms mode
   useEffect(() => {
@@ -795,20 +692,21 @@ function App() {
       if (!navmc10274Templates) {
         loadNavmc10274Templates()
           .then(setNavmc10274Templates)
-          .catch(err => console.error('Failed to load NAVMC 10274 templates:', err));
+          .catch(() => setFormError('Could not load the NAVMC 10274 template. Check your connection, then refresh the preview.'));
       }
       // Load NAVMC 118(11) template (1 page)
       if (!navmc11811Template) {
         loadNavmc11811Template()
           .then(setNavmc11811Template)
-          .catch(err => console.error('Failed to load NAVMC 118(11) template:', err));
+          .catch(() => setFormError('Could not load the NAVMC 118 (11) template. Check your connection, then refresh the preview.'));
       }
     }
-  }, [documentCategory, navmc10274Templates, navmc11811Template]);
+  }, [documentCategory, navmc10274Templates, navmc11811Template, formRefresh]);
 
   // Generate form preview based on selected form type
   useEffect(() => {
     if (documentCategory !== 'forms') return;
+    let cancelled = false;
 
     if (formCompileTimeoutRef.current) {
       clearTimeout(formCompileTimeoutRef.current);
@@ -816,6 +714,7 @@ function App() {
 
     formCompileTimeoutRef.current = setTimeout(async () => {
       try {
+        setFormError(null);
         let pdfBytes: Uint8Array | null = null;
 
         if (formType === 'navmc_10274' && navmc10274Templates) {
@@ -823,7 +722,8 @@ function App() {
             navmc10274,
             navmc10274Templates.page1,
             navmc10274Templates.page2,
-            navmc10274Templates.page3
+            navmc10274Templates.page3,
+            { includeCoverPage }
           );
         } else if (formType === 'navmc_118_11' && navmc11811Template) {
           // Resolve cross-field placeholders ({{NAME}}, {{DATE}}, etc.) from the
@@ -837,7 +737,10 @@ function App() {
           );
         }
 
+        if (cancelled) return;
         if (pdfBytes) {
+          setRenderedForm({ type: formType, data: formType === 'navmc_10274' ? navmc10274 : navmc11811, cover: includeCoverPage });
+          setFormPdfDocumentId(currentDocId);
           const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
           const url = URL.createObjectURL(blob);
 
@@ -851,16 +754,17 @@ function App() {
           });
         }
       } catch (err) {
-        console.error('Form PDF generation error:', err);
+        if (!cancelled) setFormError(err instanceof Error ? err.message : 'Form preview failed. Refresh the preview to try again.');
       }
     }, 500); // Faster debounce for forms since no LaTeX compilation
 
     return () => {
+      cancelled = true;
       if (formCompileTimeoutRef.current) {
         clearTimeout(formCompileTimeoutRef.current);
       }
     };
-  }, [documentCategory, formType, navmc10274, navmc11811, navmc10274Templates, navmc11811Template]);
+  }, [currentDocId, documentCategory, formType, navmc10274, navmc11811, navmc10274Templates, navmc11811Template, includeCoverPage, formRefresh]);
 
   // Track if download is in progress to prevent double downloads
   const downloadInProgressRef = useRef(false);
@@ -878,7 +782,8 @@ function App() {
     const currentStore = useDocumentStore.getState();
     const errors = iTypeExportErrors(currentStore);
     if (errors.length) throw new Error(errors.join('\n'));
-    const { texFiles, enclosures: generatedEnclosures, includeHyperlinks, signatureImage, referenceUrls, figures } = generateAllLatexFiles(currentStore);
+    const generated = generateAllLatexFiles(currentStore);
+    const { texFiles, signatureImage, figures } = generated;
 
     // Build files object including signature image if present
     const files: Record<string, string | Uint8Array> = { ...texFiles };
@@ -891,46 +796,13 @@ function App() {
     let pdfBytes = await compile(files);
 
     if (pdfBytes) {
-      // Assemble the basic letter ahead of the endorsement before merging
-      // enclosures. A bad upload is surfaced (not dropped) and the endorsement
-      // still exports on its own.
-      const assembled = await assembleBasicLetter(pdfBytes, currentStore.docType, currentStore.formData);
-      pdfBytes = assembled.pdfBytes;
-      // Accumulate export problems across BOTH stages and set state once — a
-      // second setEnclosureErrors used to overwrite the basic-letter entry
-      // whenever the enclosure merge also had errors.
-      const exportErrors: EnclosureError[] = assembled.error
-        ? [basicLetterError(assembled.error)]
-        : [];
-      // Merge enclosures and/or create hyperlinks (handles both PDF and text-only enclosures, and reference URLs)
-      let lastBasicPageIndex: number | undefined;
-      if (generatedEnclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
-        onProgress?.({ kind: 'pdf-merging-enclosures' });
-        const classification = publicationMarking(currentStore.formData, currentStore.paragraphs);
-        const mergeResult = await mergeEnclosures(pdfBytes, generatedEnclosures, classification, includeHyperlinks, referenceUrls, mergeOptionsFor(currentStore));
-        pdfBytes = mergeResult.pdfBytes;
-        lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
-        if (mergeResult.hasErrors) exportErrors.push(...mergeResult.errors);
-      }
-      if (currentStore.docType === 'i_type' && exportErrors.length) throw new Error(exportErrors.map((e) => e.error).join('\n'));
-      // Track export errors for user notification (download context)
-      if (exportErrors.length > 0) {
-        setEnclosureErrors(exportErrors);
+      onProgress?.({ kind: 'pdf-merging-enclosures' });
+      const finished = await finishCorrespondencePdf(pdfBytes, currentStore.docType, currentStore.formData, generated, currentStore.paragraphs);
+      pdfBytes = finished.pdfBytes;
+      if (currentStore.docType === 'i_type' && finished.errors.length) throw new Error(finished.errors.map((e) => e.error).join('\n'));
+      if (finished.errors.length) {
+        setEnclosureErrors(finished.errors);
         setShowEnclosureErrors(true);
-      }
-
-      // Add digital signature field if requested
-      if (currentStore.formData.signatureType === 'digital') {
-        onProgress?.({ kind: 'pdf-signing' });
-        const config = DOC_TYPE_CONFIG[currentStore.docType];
-        const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
-        if (isDualSignature) {
-          const sigConfig = getDualSignatoryConfig(currentStore.formData, config?.uiMode);
-          pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes), { ...sigConfig, lastBasicPageIndex });
-        } else {
-          const sigConfig = getSignatoryConfig(currentStore.formData);
-          pdfBytes = await addSignatureField(new Uint8Array(pdfBytes), { ...sigConfig, lastBasicPageIndex });
-        }
       }
 
       onProgress?.({ kind: 'pdf-saving' });
@@ -1364,10 +1236,10 @@ function App() {
         // Exporting a form PDF also completes the checklist's first-document step.
         useOnboardingStore.getState().markComplete('first_document');
       } else {
-        console.error('No PDF generated - missing templates or unsupported form type');
+        showAppAlert({ title: 'Form is not ready to download', message: 'The form template has not loaded yet. Refresh the preview, then try again.' });
       }
     } catch (err) {
-      console.error('Form PDF download error:', err);
+      showAppAlert({ title: 'Could not download form', message: err instanceof Error ? err.message : 'Try again after refreshing the preview.' });
     } finally {
       downloadInProgressRef.current = false;
     }
@@ -1538,7 +1410,8 @@ ${texFiles['body.tex'] || '% No body content'}
   const handleDownloadDocx = useCallback(async () => {
     // Publication types are delivered as PDF; the menu hides DOCX for them
     // and the shortcut and palette land here.
-    if (DOC_TYPE_CONFIG[useDocumentStore.getState().docType]?.pdfOnly) return;
+    const activeDocument = useDocumentStore.getState();
+    if (activeDocument.documentCategory === 'forms' || DOC_TYPE_CONFIG[activeDocument.docType]?.pdfOnly) return;
     useUIStore.getState().setValidationVisible(true);
     // Ch 7 ¶13/¶13d review, ahead of the PII check so the privacy warning stays
     // the last thing seen before the file is written. Never blocks — the modal's
@@ -1616,15 +1489,22 @@ ${texFiles['body.tex'] || '% No body content'}
     }
   }, [downloadProgress, handleDownloadPdf, handleDownloadDocx]);
 
+  const currentPreviewUrl = documentCategory === 'forms'
+    ? (formPdfDocumentId === currentDocId ? formPdfUrl : null)
+    : (pdfDocumentId === currentDocId ? pdfUrl : null);
+
   // Global keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (!workspaceReady) return;
       const isMod = e.ctrlKey || e.metaKey;
       const target = e.target as HTMLElement;
       const isInInput = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA';
 
-      // Escape - Close all modals
+      // Dialogs and menus own Escape, including unsaved-change and busy guards.
+      // The global fallback must not bypass their close handlers.
       if (e.key === 'Escape') {
+        if (e.defaultPrevented || target.closest('[role="dialog"], [role="alertdialog"], [role="menu"]')) return;
         closeAllModals();
         return;
       }
@@ -1655,9 +1535,9 @@ ${texFiles['body.tex'] || '% No body content'}
       // Ctrl/Cmd + P - Print (trigger browser print on the PDF)
       if (isMod && e.key === 'p') {
         e.preventDefault();
-        if (pdfUrl) {
-          // Open PDF in new tab for printing
-          const printWindow = window.open(pdfUrl, '_blank');
+        if (currentPreviewUrl) {
+          // Print the active document's preview, including NAVMC forms.
+          const printWindow = window.open(currentPreviewUrl, '_blank');
           if (printWindow) {
             // { once: true } so the listener auto-removes after firing,
             // otherwise each popup window stays pinned by the closure.
@@ -1669,14 +1549,10 @@ ${texFiles['body.tex'] || '% No body content'}
         return;
       }
 
-      // Ctrl/Cmd + S - flush a real save now. Work already autosaves
-      // continuously; this forces the current document to persist immediately
-      // (correspondence -> registry; forms already persist per edit) and the
-      // passive "Saved" indicator reflects it.
+      // Ctrl/Cmd + S shares the same manual checkpoint as Document actions.
       if (isMod && e.key === 's') {
         e.preventDefault();
-        useDocumentsStore.getState().saveCurrent();
-        useUIStore.getState().markSaved();
+        saveCheckpoint();
         return;
       }
 
@@ -1687,7 +1563,7 @@ ${texFiles['body.tex'] || '% No body content'}
         return;
       }
 
-      // Ctrl/Cmd + H - Find & Replace
+      // Ctrl/Cmd + H - Find and replace
       if (isMod && e.key === 'h') {
         e.preventDefault();
         setFindReplaceOpen(true);
@@ -1726,8 +1602,9 @@ ${texFiles['body.tex'] || '% No body content'}
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [
     closeAllModals,
+    workspaceReady,
     handleDownloadPdf,
-    pdfUrl,
+    currentPreviewUrl,
     setTemplateLoaderOpen,
     setReferenceLibraryOpen,
     setFindReplaceOpen,
@@ -1751,44 +1628,74 @@ ${texFiles['body.tex'] || '% No body content'}
   // Command palette (⌘K) groups, wired to the real Zustand actions. getState() is
   // read inside each onRun so the actions are always current; the only render-time
   // dependency is the section outline (the "Jump to section" group).
+  useEffect(() => {
+    if (commandPaletteOpen) useDocumentsStore.getState().syncCurrent();
+  }, [commandPaletteOpen]);
+  // A template, import, or sidebar action can open a draft while Search is
+  // displayed. Return to its editor instead of leaving the new draft hidden.
+  useEffect(() => {
+    useUIStore.getState().setCommandPaletteOpen(false);
+  }, [currentDocId]);
   const allDocs = useDocumentsStore((s) => s.docs);
-  const currentDocId = useDocumentsStore((s) => s.currentId);
+  const userTemplates = useUserTemplatesStore((s) => s.templates);
   const commandGroups = useMemo<CommandGroup[]>(() => {
     const groups: CommandGroup[] = [];
 
     if (outlineSections.length > 0) {
       groups.push({
         label: 'Jump to section',
+        scope: 'Sections',
         items: outlineSections.map((s) => ({
           id: `jump-${s.id}`,
           label: s.label,
           icon: CornerDownRight,
-          onRun: () => useEditorOutlineStore.getState().jump(s.id),
+          onRun: () => { if (currentDocId) useEditorOutlineStore.getState().requestJump(currentDocId, s.id); },
         })),
       });
     }
 
-    // Switch to a recent document — Recents are otherwise unreachable by keyboard.
-    const recentDocs = Object.values(allDocs)
-      .map((d) => d.meta)
-      .filter((m) => m.id !== currentDocId)
-      .sort((a, b) => b.updatedAt - a.updatedAt)
-      .slice(0, 12);
-    if (recentDocs.length > 0) {
-      groups.push({
-        label: 'Switch to document',
-        items: recentDocs.map((m) => ({
-          id: `switch-${m.id}`,
-          label: m.title,
-          icon: FileText,
-          onRun: () => useDocumentsStore.getState().switchTo(m.id),
+    const documents = Object.values(allDocs).sort((a, b) => b.meta.updatedAt - a.meta.updatedAt);
+    for (const forms of [false, true]) groups.push({
+      label: forms ? 'Forms' : 'Documents', scope: forms ? 'Forms' : 'Documents',
+      items: documents.filter(({ session }) => (session.documentCategory === 'forms') === forms).map(({ meta, session }) => {
+        const searchFields = sessionSearchFields(session);
+        return {
+          id: `switch-${meta.id}`, label: meta.title, icon: FileText, searchFields,
+          hint: session.documentCategory === 'forms' ? FORM_TYPE_LABELS[session.formType ?? 'navmc_10274'] : DOC_TYPE_LABELS[session.docType],
+          onRun: (query: string) => {
+            useDocumentsStore.getState().switchTo(meta.id);
+            const match = findSearchMatch(searchFields, query);
+            if (match) useEditorOutlineStore.getState().requestJump(meta.id, match.field.sectionId);
+          },
+        };
+      }),
+    });
+    const openTemplate = (name: string) => {
+      useUIStore.getState().setTemplateSearch(name);
+      useUIStore.getState().setTemplateLoaderOpen(true);
+    };
+    groups.push({
+      label: 'Templates', scope: 'Templates',
+      items: [
+        ...Object.values(userTemplates).map((t) => ({
+          id: `template-user-${t.id}`, label: t.name, icon: FileDown, hint: 'Your template',
+          searchFields: sessionSearchFields(t.session), onRun: () => openTemplate(t.name),
         })),
-      });
-    }
+        ...LETTER_TEMPLATES.map((t) => ({
+          id: `template-${t.id}`, label: t.name, icon: FileDown, hint: t.category,
+          searchFields: [{ text: [t.description, t.subject, t.ssic, ...t.paragraphs.map((p) => p.text)].join(' '), sectionId: 'body', label: 'Template' }],
+          onRun: () => openTemplate(t.name),
+        })),
+      ],
+    });
 
     groups.push({
       label: 'Create',
       items: [
+        ...Object.entries(FORM_TYPE_LABELS).map(([kind, label]) => ({
+          id: `new-${kind}`, label: `New ${label}`, icon: FileText,
+          onRun: () => useDocumentsStore.getState().newDocument(kind as keyof typeof FORM_TYPE_LABELS),
+        })),
         {
           id: 'new-document',
           label: 'New document',
@@ -1836,7 +1743,7 @@ ${texFiles['body.tex'] || '% No body content'}
           onRun: () => commandDownloadTriggers.pdf(),
         },
         // Publication types are delivered as PDF (see DocTypeConfig.pdfOnly).
-        ...(DOC_TYPE_CONFIG[docType]?.pdfOnly ? [] : [{
+        ...(documentCategory === 'forms' || DOC_TYPE_CONFIG[docType]?.pdfOnly ? [] : [{
           id: 'download-docx',
           label: 'Download Word (.docx)',
           icon: Download,
@@ -1844,13 +1751,10 @@ ${texFiles['body.tex'] || '% No body content'}
         }]),
         {
           id: 'save-draft',
-          label: 'Save draft now',
+          label: 'Save checkpoint',
           icon: Save,
           kbd: formatShortcut('mod S'),
-          onRun: () => {
-            useDocumentsStore.getState().saveCurrent();
-            useUIStore.getState().markSaved();
-          },
+          onRun: () => { saveCheckpoint(); },
         },
         {
           id: 'batch-generate',
@@ -1872,7 +1776,7 @@ ${texFiles['body.tex'] || '% No body content'}
         },
         {
           id: 'find-replace',
-          label: 'Find & Replace…',
+          label: 'Find and replace…',
           icon: Search,
           kbd: formatShortcut('mod H'),
           onRun: () => useUIStore.getState().setFindReplaceOpen(true),
@@ -1925,17 +1829,21 @@ ${texFiles['body.tex'] || '% No body content'}
     }
 
     groups.push({
-      label: 'View',
+      label: 'Settings', scope: 'Settings',
       items: [
-        {
-          id: 'toggle-theme',
-          label: 'Toggle light / dark theme',
+        { id: 'settings', label: 'Settings — appearance and density', hint: 'Theme, text spacing and reduced motion', icon: Settings, onRun: () => useUIStore.getState().setSettingsOpen(true) },
+        { id: 'backup-settings', label: 'Backup and restore settings', hint: 'Auto-backup, reconnect, download and restore a backup', icon: Settings, onRun: () => useUIStore.getState().setSettingsOpen(true, 'backup') },
+        { id: 'preview-settings', label: 'Preview quality settings', hint: 'Full-quality preview, attachments and signatures', icon: Settings, onRun: () => useUIStore.getState().setSettingsOpen(true, 'preview') },
+        ...THEMES.map(({ value, label, description }) => ({
+          id: `theme-${value}`,
+          label: `Use ${label.toLowerCase()} appearance`,
+          hint: description,
           icon: MoonStar,
-          onRun: () => useUIStore.getState().toggleTheme(),
-        },
+          onRun: () => useUIStore.getState().setTheme(value),
+        })),
         {
           id: 'toggle-preview',
-          label: 'Toggle preview panel',
+          label: `${(isMobile ? mobilePreviewOpen : previewVisible) ? 'Hide' : 'Show'} preview`,
           icon: PanelRight,
           onRun: () => useUIStore.getState().togglePreview(),
         },
@@ -1943,12 +1851,17 @@ ${texFiles['body.tex'] || '% No body content'}
           id: 'manage-profiles',
           label: 'Manage profiles…',
           icon: Users,
-          onRun: () => useUIStore.getState().setProfileModalOpen(true),
+          onRun: () => useUIStore.getState().setProfileManagerOpen(true),
         },
       ],
     });
 
-    const insertItems: CommandGroup['items'] = [
+    groups.push({ label: 'Help and recovery', scope: 'Actions', items: [
+      { id: 'trash', label: 'Trash — recover deleted drafts', icon: Trash2, onRun: () => useUIStore.getState().setTrashOpen(true) },
+      { id: 'help', label: 'Help and keyboard shortcuts', icon: CircleHelp, onRun: () => useUIStore.getState().setHelpOpen(true) },
+    ] });
+
+    const insertItems: CommandGroup['items'] = documentCategory === 'forms' ? [] : [
       {
         id: 'insert-reference',
         label: 'Insert reference…',
@@ -1960,12 +1873,12 @@ ${texFiles['body.tex'] || '% No body content'}
     // that section exists for the current doc type (it's absent for MOAs, joint
     // letters, and the NAVMC forms), so the command never fires a dead jump that
     // would briefly hide the section-rail indicator.
-    if (outlineSections.some((s) => s.id === 'addressing')) {
+    if (documentCategory !== 'forms' && outlineSections.some((s) => s.id === 'addressing')) {
       insertItems.push({
         id: 'lookup-ssic',
         label: 'Look up SSIC code…',
         icon: Hash,
-        onRun: () => useEditorOutlineStore.getState().jump('addressing'),
+        onRun: () => { if (currentDocId) useEditorOutlineStore.getState().requestJump(currentDocId, 'addressing'); },
       });
     }
     if (outlineSections.some((s) => s.id === 'enclosures')) {
@@ -1973,7 +1886,7 @@ ${texFiles['body.tex'] || '% No body content'}
         id: 'attach-enclosure',
         label: 'Attach enclosure…',
         icon: Paperclip,
-        onRun: () => useEditorOutlineStore.getState().jump('enclosures'),
+        onRun: () => { if (currentDocId) useEditorOutlineStore.getState().requestJump(currentDocId, 'enclosures'); },
       });
     }
     insertItems.push({
@@ -1985,7 +1898,20 @@ ${texFiles['body.tex'] || '% No body content'}
     groups.push({ label: 'Insert', items: insertItems });
 
     return groups;
-  }, [outlineSections, allDocs, currentDocId, isInstalled, docType]);
+  }, [outlineSections, allDocs, currentDocId, isInstalled, userTemplates, docType, documentCategory, isMobile, mobilePreviewOpen, previewVisible]);
+
+  if (!workspaceReady) {
+    return <main className="flex h-screen-dvh flex-col items-center justify-center gap-3 bg-background text-foreground">
+      <img src={`${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`} alt="Marine Coders" className="h-10 w-10 brightness-0 dark:invert" />
+      <p role="status" className="text-sm text-muted-foreground">Opening workspace…</p>
+    </main>;
+  }
+
+  const correspondenceChanged = renderedCorrespondence?.docType !== docType || renderedCorrespondence?.formData !== formData
+    || renderedCorrespondence?.paragraphs !== paragraphs || renderedCorrespondence?.references !== references
+    || renderedCorrespondence?.enclosures !== enclosures || renderedCorrespondence?.copyTos !== copyTos
+    || renderedCorrespondence?.distributions !== distributions || pdfDocumentId !== currentDocId;
+  const previewBusy = documentCategory === 'forms' ? formIsCompiling : isCompiling || !isReady || (!compileError && correspondenceChanged);
 
   return (
     <TooltipProvider>
@@ -1995,10 +1921,6 @@ ${texFiles['body.tex'] || '% No body content'}
         and preview toolbar under it — with a 100vh fallback for pre-dvh
         engines. */}
     <div className="flex flex-col h-screen-dvh bg-background relative overflow-hidden">
-      {/* The Marine Coders EGA seal (and the animated beams) live inside the
-          editor column (FormPanel) as a single, contained brand watermark. The
-          previous full-viewport seal here duplicated it behind the sidebar and
-          header at some zoom levels, so it was removed. */}
       {/* Skip link for keyboard navigation - WCAG 2.4.1 */}
       <a
         href="#main-content"
@@ -2007,73 +1929,85 @@ ${texFiles['body.tex'] || '% No body content'}
         Skip to main content
       </a>
 
-      <Header
-        onDownloadPdf={handleDownloadPdf}
-        onDownloadTex={handleDownloadTex}
-        onDownloadDocx={handleDownloadDocx}
-        onDownloadFlatTex={handleDownloadFlatTex}
-        onRefreshPreview={compilePdf}
-        isCompiling={isCompiling}
-        isDocxGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('docx-')}
-        isPdfGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('pdf-')}
-        isFormsMode={documentCategory === 'forms'}
-      />
-
-      <StorageNotice />
-      <ConnectivityModal />
-      <BackupNotice />
-      <InstallNotice />
-
-      <div className="flex flex-1 overflow-hidden">
-        {/* Document workspace (desktop). Sits beside the main editor so the
-            resize-divider math inside <main> is unaffected. */}
+      <BetaBanner />
+      <div className="flex flex-1 min-h-0 overflow-hidden">
         <EditorSidebar />
-        {/* Mobile-only Recents (floating button + dialog); desktop sidebar is hidden on phones. */}
-        <MobileRecents />
-        <VersionHistoryModal />
+        <div className="flex flex-1 min-w-0 flex-col overflow-hidden">
+          <StorageNotice placement="header" />
+          <ConnectivityModal />
+          <BackupNotice />
+          <InstallNotice />
+          {commandPaletteOpen && <CommandPalette open presentation="workspace" onClose={() => setCommandPaletteOpen(false)} groups={commandGroups} />}
+          <div className="flex flex-1 min-h-0 flex-col overflow-hidden" style={{ display: commandPaletteOpen ? 'none' : undefined }}>
+            <Header
+              onDownloadPdf={handleDownloadPdf}
+              onDownloadTex={handleDownloadTex}
+              onDownloadDocx={handleDownloadDocx}
+              onDownloadFlatTex={handleDownloadFlatTex}
+              onRefreshPreview={documentCategory === 'forms' ? () => setFormRefresh((n) => n + 1) : compilePdf}
+              isCompiling={previewBusy}
+              isDocxGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('docx-')}
+              isPdfGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('pdf-')}
+              isFormsMode={documentCategory === 'forms'}
+            />
 
-        <main id="main-content" ref={mainContainerRef} className="flex flex-1 min-w-0 overflow-hidden">
-        {/* Form Panel - takes remaining space when preview is visible */}
-        <div
-          className="min-w-0 overflow-hidden"
-          style={{
-            // shrink=1 so the panels absorb the divider's width; with shrink=0 the
-            // preview's right edge got clipped.
-            flex: previewVisible && !isMobile ? `1 1 ${100 - previewWidth}%` : '1 1 100%',
-          }}
-        >
-          <FormPanel />
+            <MobileRecents />
+            <VersionHistoryModal />
+            <TrashModal />
+            <SettingsModal />
+            <HelpModal />
+
+            <main id={commandPaletteOpen ? undefined : 'main-content'} ref={mainContainerRef} className="flex flex-1 min-w-0 overflow-hidden">
+              {/* Form Panel - takes remaining space when preview is visible */}
+              <div
+                className="min-w-0 overflow-hidden"
+                style={{
+                  // shrink=1 so the panels absorb the divider's width; with shrink=0 the
+                  // preview's right edge got clipped.
+                  flex: previewVisible && !isMobile ? `1 1 ${100 - previewWidth}%` : '1 1 100%',
+                }}
+              >
+                <FormPanel />
+              </div>
+
+              {/* Resizable divider - only show on desktop when preview is visible */}
+              {previewVisible && !isMobile && (
+                <ResizableDivider
+                  onResize={setPreviewWidth}
+                  containerRef={mainContainerRef}
+                  currentWidth={previewWidth}
+                />
+              )}
+
+              {/* Preview Panel - width controlled by previewWidth */}
+              <div
+                className="min-w-0 overflow-hidden"
+                style={{
+                  flex: previewVisible && !isMobile ? `1 1 ${previewWidth}%` : undefined,
+                  display: previewVisible || isMobile ? 'block' : 'none',
+                }}
+              >
+                <PreviewPanel
+                  documentId={currentDocId ?? undefined}
+                  onDownloadPdf={handleDownloadPdf}
+                  pdfUrl={currentPreviewUrl}
+                  isCompiling={previewBusy}
+                  isWarmingUp={documentCategory === 'forms' ? false : !isReady}
+                  previewEnhanced={documentCategory === 'forms' ? true : previewEnhanced}
+                  error={documentCategory === 'forms' ? formError : (compileError || engineError)}
+                />
+              </div>
+            </main>
+            <div className="workspace-reviewbar flex shrink-0 flex-wrap items-center justify-between gap-2 border-t border-border px-4 sm:px-6 py-1.5 text-xs text-muted-foreground">
+              <ReadinessMeter />
+            </div>
+          </div>
+          <StorageNotice placement="footer" />
         </div>
-
-        {/* Resizable divider - only show on desktop when preview is visible */}
-        {previewVisible && !isMobile && (
-          <ResizableDivider
-            onResize={setPreviewWidth}
-            containerRef={mainContainerRef}
-            currentWidth={previewWidth}
-          />
-        )}
-
-        {/* Preview Panel - width controlled by previewWidth */}
-        <div
-          className="min-w-0 overflow-hidden"
-          style={{
-            flex: previewVisible && !isMobile ? `1 1 ${previewWidth}%` : undefined,
-            display: previewVisible || isMobile ? 'block' : 'none',
-          }}
-        >
-          <PreviewPanel
-            pdfUrl={documentCategory === 'forms' ? formPdfUrl : pdfUrl}
-            isCompiling={documentCategory === 'forms' ? false : (isCompiling || !isReady)}
-            isWarmingUp={documentCategory === 'forms' ? false : !isReady}
-            previewEnhanced={documentCategory === 'forms' ? true : previewEnhanced}
-            error={documentCategory === 'forms' ? null : (compileError || engineError)}
-          />
-        </div>
-        </main>
       </div>
 
       {/* Modals */}
+      <ProfileManager />
       <ProfileModal />
       <ReferenceLibraryModal />
       {/* Lazy-mounted only while open; first open fetches the chunk, then it's
@@ -2082,9 +2016,10 @@ ${texFiles['body.tex'] || '% No body content'}
       {mobilePreviewOpen && (
         <Suspense fallback={null}>
           <MobilePreviewModal
-            pdfUrl={documentCategory === 'forms' ? formPdfUrl : pdfUrl}
-            isCompiling={documentCategory === 'forms' ? false : (isCompiling || !isReady)}
-            error={documentCategory === 'forms' ? null : (compileError || engineError)}
+            documentId={currentDocId ?? undefined}
+            pdfUrl={currentPreviewUrl}
+            isCompiling={previewBusy}
+            error={documentCategory === 'forms' ? formError : (compileError || engineError)}
             onDownloadPdf={handleDownloadPdf}
           />
         </Suspense>
@@ -2092,20 +2027,13 @@ ${texFiles['body.tex'] || '% No body content'}
       <AboutModal />
       <NISTComplianceModal />
       <ImportLetterModal />
-      {commandPaletteOpen && (
-        <CommandPalette
-          open
-          onClose={() => setCommandPaletteOpen(false)}
-          groups={commandGroups}
-        />
-      )}
       <BatchModal compile={compile} isEngineReady={isReady} waitForReady={waitForReady} />
       <FindReplaceModal />
       <TemplateLoaderModal />
       <DocumentGuideModal />
       <WelcomeModal />
       <TourOverlay />
-      <ActivationChecklist />
+      <ActivationChecklist dialogOnly />
       <PIIWarningModal
         detectionResult={piiDetectionResult}
         onCancel={handleCancelPIIDownload}
@@ -2127,7 +2055,7 @@ ${texFiles['body.tex'] || '% No body content'}
       />
       {/* RestoreSessionModal retired: the registry auto-resumes the last open
           document, and Recents replaces the old "restore?" prompt. */}
-      <ShareModal
+      {shareModal !== null && <ShareModal
         open={shareModal !== null}
         onOpenChange={(open) => {
           if (!open) {
@@ -2142,7 +2070,7 @@ ${texFiles['body.tex'] || '% No body content'}
           const u = window.location;
           window.history.replaceState(null, '', u.pathname + u.search);
         }}
-      />
+      />}
       <UpdatePromptModal
         open={showUpdatePrompt}
         onConfirm={confirmUpdate}

@@ -256,7 +256,7 @@ describe('soft-delete undo window keeps attachments reachable', () => {
     // the pending-undo buffer.
     useDocumentsStore.getState().remove('target');
     await new Promise((r) => setTimeout(r, 5)); // let the eager idbDeleteDocument commit
-    expect((await idbGetAllDocuments())?.find((r) => r.id === 'target')).toBeUndefined();
+    expect((await idbGetAllDocuments())?.find((r) => r.id === 'target')?.meta.deletedAt).toBeTypeOf('number');
     expect(useDocumentsStore.getState().docs.target).toBeUndefined();
 
     // The mark set STILL includes att_pending (via the pending-delete source),

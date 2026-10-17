@@ -1,6 +1,6 @@
+import { getEditorSections } from '@/lib/editorSections';
 import { describe, it, expect } from 'vitest';
 import {
-  getEditorSections,
   getFormSectionError,
   getSectionError,
   completenessFrom,
@@ -143,6 +143,11 @@ describe('getSectionError — executive/joint-memo heading sections validate the
 
   it('treats a bracket placeholder subject as unfilled', () => {
     expect(getSectionError('executive', { subject: '[SUBJECT]' }, noParas, DOC_TYPE_CONFIG.standard_memorandum)).toBe(true);
+  });
+
+  it('does not count starter placeholder paragraphs as completed content', () => {
+    expect(getSectionError('body', {}, [{ text: '[Your content here.]' }], DOC_TYPE_CONFIG.naval_letter)).toBe(true);
+    expect(getSectionError('body', {}, [{ text: '[Your content here.]' }, { text: 'Request approved.' }], DOC_TYPE_CONFIG.naval_letter)).toBe(false);
   });
 });
 

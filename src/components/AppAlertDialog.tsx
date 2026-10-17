@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef } from 'react';
 import { useAlertStore } from '@/stores/alertStore';
 import {
   AlertDialog,
@@ -25,6 +26,10 @@ export function AppAlertDialog() {
   const open = useAlertStore((s) => s.open);
   const current = useAlertStore((s) => s.current);
   const dismiss = useAlertStore((s) => s.dismiss);
+  const initialFocus = useRef<HTMLButtonElement>(null);
+  useLayoutEffect(() => {
+    if (open) initialFocus.current?.focus({ preventScroll: true });
+  }, [open, current]);
 
   return (
     <AlertDialog
@@ -34,7 +39,10 @@ export function AppAlertDialog() {
       }}
     >
       {current && (
-        <AlertDialogContent className="z-[110]">
+        <AlertDialogContent className="z-[110]" onOpenAutoFocus={(event) => {
+          event.preventDefault();
+          initialFocus.current?.focus({ preventScroll: true });
+        }}>
           <AlertDialogHeader>
             <AlertDialogTitle>{current.title}</AlertDialogTitle>
             {/* pre-line: the migrated messages carry \n step lists */}
@@ -49,6 +57,7 @@ export function AppAlertDialog() {
             {current.confirm ? (
               <>
                 <AlertDialogCancel
+                  ref={initialFocus}
                   onClick={(e) => {
                     e.preventDefault();
                     dismiss(false);
@@ -72,6 +81,7 @@ export function AppAlertDialog() {
               </>
             ) : (
               <AlertDialogAction
+                ref={initialFocus}
                 onClick={(e) => {
                   e.preventDefault();
                   dismiss(false);

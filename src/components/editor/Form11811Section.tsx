@@ -19,8 +19,7 @@ import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
 import { AbbreviationHelper } from '@/components/editor/AbbreviationHelper';
 import { DatePicker } from '@/components/ui/date-picker';
 import { useFormStore } from '@/stores/formStore';
-import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
-import { cn } from '@/lib/utils';
+import { useVisibleEditorSection } from '@/components/layout/EditorSectionContext';
 import { NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
 import { SignatureStylePicker } from './SignatureStylePicker';
 import { AddSignatureBlockMenu } from './AddSignatureBlockMenu';
@@ -57,15 +56,6 @@ function ColumnFitLine({ fit }: { fit: Navmc11811Fit['left'] | undefined }) {
 // not in that set is inert — keep this list to what the form actually offers.
 const COMMON_FORM_VARS = ['NAME', 'DATE'];
 
-// Active-section left-rule for a form AccordionItem, matching the letter
-// sections (FormPanel's SectionShell). activeId only changes at section
-// boundaries, so this re-renders the form infrequently.
-function sectionRule(active: boolean): string {
-  return cn(
-    'border-l-2 -ml-3 pl-3 transition-colors duration-200',
-    active ? 'border-l-muted-foreground/30' : 'border-l-transparent'
-  );
-}
 
 export function Form11811Section() {
   const { navmc11811, setNavmc11811Field, resetNavmc11811, clearNavmc11811 } = useFormStore();
@@ -119,7 +109,7 @@ export function Form11811Section() {
         document.getElementById(`p11-sig-${index}-statement`)?.focus()
       )
     );
-  const activeId = useEditorOutlineStore((s) => s.activeId);
+  const activeId = useVisibleEditorSection();
 
   // Fit report from the generator's own metrics, debounced behind typing. The
   // columns are one physical page — text past a column's capacity is NOT
@@ -161,11 +151,12 @@ export function Form11811Section() {
 
   return (
     <div className="space-y-4">
+      <div hidden={activeId !== null && activeId !== 'type'} className="space-y-4">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-lg font-semibold">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 text-sm font-medium">
           <ClipboardList className="h-5 w-5" />
-          NAVMC 118(11) - Administrative Remarks
+          Form options
         </div>
         <div className="flex gap-2">
           <DropdownMenu>
@@ -195,9 +186,10 @@ export function Form11811Section() {
         adverse administrative remarks, and other official entries.
       </p>
 
+      </div>
       <Accordion type="multiple" className="space-y-2">
         {/* Marine Identification */}
-        <AccordionItem value="marine" id="sec-marine" data-section="marine" className={sectionRule(activeId === 'marine')}>
+        <AccordionItem value="marine" id="sec-marine" tabIndex={-1} data-section="marine">
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">Marine Identification</span>
           </AccordionTrigger>
@@ -279,7 +271,7 @@ export function Form11811Section() {
         </AccordionItem>
 
         {/* Entry Content */}
-        <AccordionItem value="content" id="sec-content" data-section="content" className={sectionRule(activeId === 'content')}>
+        <AccordionItem value="content" id="sec-content" tabIndex={-1} data-section="content">
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">6105 Entry Content</span>
           </AccordionTrigger>
@@ -288,6 +280,7 @@ export function Form11811Section() {
               <div className="space-y-2">
                 <Label htmlFor="remarksText">Administrative Remarks (Left)</Label>
                 <VariableChipEditor
+                  ariaLabel="Administrative Remarks (Left)"
                   value={navmc11811.remarksText}
                   onChange={(v) => setNavmc11811Field('remarksText', v)}
                   placeholder="Type @ or click + for variables. Example: On {{ENTRY_DATE}}, {{NAME}} [describe the incident]…"
@@ -304,6 +297,7 @@ export function Form11811Section() {
               <div className="space-y-2">
                 <Label htmlFor="remarksTextRight">Administrative Remarks (Right)</Label>
                 <VariableChipEditor
+                  ariaLabel="Administrative Remarks (Right)"
                   value={navmc11811.remarksTextRight || ''}
                   onChange={(v) => setNavmc11811Field('remarksTextRight', v)}
                   placeholder="[Continuation or additional entry…] (type @ or click + for variables)"
@@ -341,7 +335,7 @@ export function Form11811Section() {
         </AccordionItem>
 
         {/* Signatures — close the 6105 entry (counselor + counseled Marine) */}
-        <AccordionItem value="signatures" id="sec-signatures" data-section="signatures" className={sectionRule(activeId === 'signatures')}>
+        <AccordionItem value="signatures" id="sec-signatures" tabIndex={-1} data-section="signatures">
           <AccordionTrigger>Signatures</AccordionTrigger>
           <AccordionContent>
             <div className="space-y-4 pt-1">

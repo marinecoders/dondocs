@@ -33,13 +33,16 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore } from '@/stores/documentStore';
+import { loadSharedSession, useDocumentStore } from '@/stores/documentStore';
+import { useDocumentsStore } from '@/stores/documentsStore';
+import { exampleSession } from '@/lib/exampleSession';
 import { useTourStore } from '@/stores/tourStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
-import type { TourStep } from '@/components/tour/tourSteps';
+import { revealTourSection, type TourStep } from '@/components/tour/tourSteps';
 import { DOCUMENT_TYPE_GUIDES, GUIDE_CATEGORIES, GUIDE_GROUPS, type DocumentTypeGuide } from '@/data/documentGuide';
 import { EXAMPLE_DOCUMENTS, EXAMPLE_CATEGORIES, type ExampleDocument } from '@/data/exampleDocuments';
-import { DOC_TYPE_LABELS, type DocumentData } from '@/types/document';
+import { getEditorSections } from '@/lib/editorSections';
+import { DOC_TYPE_CONFIG, DOC_TYPE_LABELS } from '@/types/document';
 
 import {
   getNextQuestion,
@@ -351,58 +354,10 @@ function ExamplesTab({ onClose }: { onClose: () => void }) {
   const handleLoadExample = () => {
     if (!selectedExample) return;
 
-    const store = useDocumentStore.getState();
-
-    // Set document type
-    store.setDocType(selectedExample.docType);
-
-    // Set form data fields
-    Object.entries(selectedExample.formData).forEach(([key, value]) => {
-      store.setField(key as keyof DocumentData, value);
-    });
-
-    // Clear existing paragraphs by removing from the end
-    const currentParagraphCount = store.paragraphs.length;
-    for (let i = currentParagraphCount - 1; i >= 0; i--) {
-      store.removeParagraph(i);
-    }
-
-    // Add example paragraphs
-    selectedExample.paragraphs.forEach((para) => {
-      store.addParagraph(para.text, para.level);
-    });
-
-    // Clear existing references by removing from the end
-    const currentRefCount = store.references.length;
-    for (let i = currentRefCount - 1; i >= 0; i--) {
-      store.removeReference(i);
-    }
-
-    // Add example references
-    if (selectedExample.references) {
-      selectedExample.references.forEach((ref) => {
-        store.addReference(ref.title, ref.url);
-      });
-    }
-
-    // Clear existing enclosures
-    const currentEnclCount = store.enclosures.length;
-    for (let i = currentEnclCount - 1; i >= 0; i--) {
-      store.removeEnclosure(i);
-    }
-
-    // Clear existing copy-tos
-    const currentCopyToCount = store.copyTos.length;
-    for (let i = currentCopyToCount - 1; i >= 0; i--) {
-      store.removeCopyTo(i);
-    }
-
-    // Add example copy-tos
-    if (selectedExample.copyTos) {
-      selectedExample.copyTos.forEach((copyTo) => {
-        store.addCopyTo(copyTo.text);
-      });
-    }
+    useDocumentsStore.getState().syncCurrent();
+    loadSharedSession(exampleSession(selectedExample));
+    useDocumentsStore.getState().openLoadedAsNew();
+    useUIStore.getState().setValidationVisible(false);
 
     // Close modal
     onClose();
@@ -503,7 +458,7 @@ function ExamplesTab({ onClose }: { onClose: () => void }) {
             Load This Example
           </Button>
           <p className="text-xs text-muted-foreground text-center">
-            This will replace your current document with the example content.
+            Opens the example as a new draft. Your current document stays in the workspace.
           </p>
         </div>
       )}
@@ -529,8 +484,9 @@ interface PowerFeature {
 
 const openBatch = () => useUIStore.getState().setBatchModalOpen(true);
 const closeBatch = () => useUIStore.getState().setBatchModalOpen(false);
-const openProfileModal = () => useUIStore.getState().setProfileModalOpen(true);
-const closeProfileModal = () => useUIStore.getState().setProfileModalOpen(false);
+const openProfileModal = () => {
+  if (!useUIStore.getState().profileModalOpen) useUIStore.getState().openProfileEditor(null);
+};
 const openShareModal = () => useUIStore.getState().setShareModal('share');
 const closeShareModal = () => useUIStore.getState().setShareModal(null);
 const openTemplateLoader = () => useUIStore.getState().setTemplateLoaderOpen(true);
@@ -544,6 +500,7 @@ const closeSaveMenu = () => useUIStore.getState().setSaveMenuOpen(false);
 // spotlight a control inside it. Clicks the section trigger only when it is
 // currently collapsed, so re-running the step on Back never toggles it shut.
 const expandSection = (tourKey: string) => {
+  revealTourSection(tourKey);
   const item = document
     .querySelector(`[data-tour="${tourKey}"]`)
     ?.querySelector('[data-slot="accordion-item"]');
@@ -597,19 +554,19 @@ const POWER_FEATURES: PowerFeature[] = [
     key: 'profiles',
     icon: Users,
     title: 'Profiles',
-    where: 'Top-left selector',
+    where: 'Sidebar → Profiles (Documents menu on mobile)',
     body: 'Save your unit letterhead and sender details once, then reuse or switch between commands without retyping.',
     steps: [
       'Fill in your letterhead and sender details once.',
-      'Click the + by the profile selector to save them as a profile.',
-      'Switch profiles anytime from the dropdown; edit with the pencil.',
+      'Open Profiles in the sidebar, then choose New profile.',
+      'Choose Apply to review changes to your document, or Edit to update saved details.',
     ],
     tour: [
       {
-        target: '[data-tour="profile-create"]',
+        target: '[data-tour="profile-name"]',
         title: 'Create a profile',
-        body: 'Profiles save your letterhead and sender details so you never retype them. Start one with the + button.',
-        action: closeProfileModal,
+        body: 'Profiles save letterhead and sender details for correspondence. Create one here, then apply it from Profiles in the sidebar.',
+        action: openProfileModal,
       },
       {
         target: '[data-tour="profile-name"]',
@@ -632,7 +589,7 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="profile-save"]',
         title: 'Save and reuse',
-        body: 'Create the profile, then switch to it anytime from the selector. The pencil edits it later.',
+        body: 'Save the profile, then use Apply or Edit in Profiles whenever you need it.',
         action: openProfileModal,
       },
     ],
@@ -653,7 +610,7 @@ const POWER_FEATURES: PowerFeature[] = [
         target: '[data-tour="templates"]',
         title: 'Open Templates',
         body: 'Pick a document type, then open Templates to start from a ready-made document instead of a blank page.',
-        action: closeTemplateLoader,
+        action: () => { closeTemplateLoader(); revealTourSection('type'); },
       },
       {
         target: '[data-tour="template-search"]',
@@ -684,6 +641,7 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="enclosures"] [data-slot="accordion-trigger"]',
         title: 'Enclosures',
+        action: () => expandSection('enclosures'),
         body: 'Where you list enclosures on the letter and attach PDF files.',
       },
       {
@@ -715,6 +673,7 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="signature"] [data-slot="accordion-trigger"]',
         title: 'Signature block',
+        action: () => expandSection('signature'),
         body: 'How your letter is signed: typed name, an image, or a digital field.',
       },
       {
@@ -735,19 +694,19 @@ const POWER_FEATURES: PowerFeature[] = [
     key: 'share',
     icon: Link2,
     title: 'Encrypted share link',
-    where: 'Save → Create share link',
+    where: 'Document actions → Create share link',
     body: 'Send a document as a password-protected link. Nothing is stored on a server; the recipient needs both the link and the password you set.',
     steps: [
-      'Open Save → Create share link and set a password.',
+      'Open Document actions → Create share link and set a password.',
       'Generate the link. It copies to your clipboard.',
       'Send the link and password separately to the recipient.',
-      'They open it with Save → Open from share link.',
+      'They open it with Document actions → Open from share link.',
     ],
     tour: [
       {
         target: '[data-tour="save"]',
         title: 'Share starts here',
-        body: 'Open the Save menu, then Create share link, to send a password-protected copy.',
+        body: 'Open Document actions, then Create share link, to send a password-protected copy.',
         action: closeShareModal,
       },
       {
@@ -759,7 +718,7 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="share-generate"]',
         title: 'Generate the link',
-        body: 'Creates a link that copies to your clipboard. Send the link and the password separately; the recipient opens it with Save → Open from share link.',
+        body: 'Creates a link that copies to your clipboard. Send the link and the password separately; the recipient opens it with Document actions → Open from share link.',
         action: openShareModal,
       },
     ],
@@ -780,6 +739,7 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="classification"] [data-slot="accordion-trigger"]',
         title: 'Classification',
+        action: () => expandSection('classification'),
         body: 'Set the document marking and the banner that appears at the top.',
       },
       {
@@ -794,25 +754,25 @@ const POWER_FEATURES: PowerFeature[] = [
     key: 'backup',
     icon: FolderSync,
     title: 'Back up everything',
-    where: 'Save → Back up everything',
-    body: 'One file with your entire account — documents, profiles, signatures, snippets, templates, form fields, and enclosure attachments. Restore it on any machine; nothing ever touches a server.',
+    where: 'Document actions → Back up everything',
+    body: 'One file with your entire workspace — documents, profiles, signatures, snippets, templates, form fields, and enclosure attachments. Restore it on any machine; nothing ever touches a server.',
     steps: [
-      'Open Save → Back up everything to download the backup file.',
+      'Open Document actions → Back up everything to download the backup file.',
       'Keep it somewhere safe — a shared drive, USB stick, or synced folder.',
-      'On a new machine, use Save → Restore from backup to bring it all back.',
+      'On a new machine, use Document actions → Restore from backup to bring it all back.',
       'On desktop Chrome or Edge, Set up auto-backup keeps a file current after every save.',
     ],
     tour: [
       {
         target: '[data-tour="save"]',
         title: 'Your safety net',
-        body: 'Everything lives in this browser — so keep a copy outside it. All the backup tools are in this Save menu.',
+        body: 'Everything lives in this browser — so keep a copy outside it. All the backup tools are in Document actions.',
         action: closeSaveMenu,
       },
       {
         target: '[data-tour="backup-export"]',
         title: 'Back up everything',
-        body: 'Downloads one file with your whole account — documents, profiles, signatures, snippets, templates, form fields, and enclosure attachments. Keep it on a shared drive, USB stick, or synced folder.',
+        body: 'Downloads one file with your whole workspace — documents, profiles, signatures, snippets, templates, form fields, and enclosure attachments. Keep it on a shared drive, USB stick, or synced folder.',
         action: openSaveMenu,
       },
       {
@@ -844,6 +804,9 @@ export function DocumentGuideModal() {
   const [expandedGuide, setExpandedGuide] = useState<string | null>(null);
   const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
   const completed = useOnboardingStore((s) => s.completed);
+  const category = useDocumentStore((s) => s.documentCategory);
+  const docType = useDocumentStore((s) => s.docType);
+  const sectionIds = category === 'forms' ? [] : getEditorSections(DOC_TYPE_CONFIG[docType] ?? DOC_TYPE_CONFIG.naval_letter, docType).map((s) => s.id);
   const learnedCount = POWER_FEATURES.filter((f) => completed[f.key]).length;
 
   // "Show me": close the guide, then run the feature's guided walkthrough once
@@ -989,6 +952,7 @@ export function DocumentGuideModal() {
                 const Icon = f.icon;
                 const isOpen = expandedFeature === f.title;
                 const isLearned = !!completed[f.key];
+                const available = !['enclosures', 'signature', 'classification'].includes(f.key) || sectionIds.includes(f.key);
                 return (
                   <div key={f.title} className="rounded-lg border bg-card/50 overflow-hidden">
                     <button
@@ -1038,11 +1002,12 @@ export function DocumentGuideModal() {
                         </ol>
                         <button
                           type="button"
+                          disabled={!available}
                           onClick={() => handleShowMe(f.tour, f.key)}
                           className="focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
                         >
                           <MapPin className="h-3.5 w-3.5" />
-                          {f.tour.length > 1 ? 'Walk me through it' : 'Show me where'}
+                          {!available ? 'This walkthrough needs a correspondence format with this section' : f.tour.length > 1 ? 'Walk me through it' : 'Show me where'}
                         </button>
                       </div>
                     )}

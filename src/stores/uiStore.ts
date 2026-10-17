@@ -2,9 +2,11 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { safeLocalStorage } from '@/lib/compressedStorage';
 import type { StorageHealth } from '@/lib/documentsDb';
+import { resolveTheme, type Theme } from '@/lib/appearance';
+
+export type EditorLayout = 'focused' | 'scroll';
 
 export type DensityMode = 'compact' | 'comfortable' | 'spacious';
-export type ColorScheme = 'default' | 'navy' | 'usmc';
 
 /**
  * Sidebar geometry, in px.
@@ -17,7 +19,7 @@ export type ColorScheme = 'default' | 'navy' | 'usmc';
 export const SIDEBAR_WIDTH = {
   min: 200,
   max: 420,
-  default: 248,
+  default: 208,
   collapsed: 52,
   /** Drag narrower than this and it snaps shut instead of leaving a stub. */
   snapThreshold: 160,
@@ -74,14 +76,12 @@ function getSystemTheme(): 'dark' | 'light' {
 }
 
 interface UIState {
-  // Theme
-  theme: 'dark' | 'light';
-  toggleTheme: () => void;
-  setTheme: (theme: 'dark' | 'light') => void;
+  editorLayout: EditorLayout;
+  setEditorLayout: (layout: EditorLayout) => void;
 
-  // Color Scheme
-  colorScheme: ColorScheme;
-  setColorScheme: (scheme: ColorScheme) => void;
+  // Theme
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
 
   // Density
   density: DensityMode;
@@ -99,6 +99,10 @@ interface UIState {
 
   // Modals
   profileModalOpen: boolean;
+  profileManagerOpen: boolean;
+  profileEditName: string | null;
+  setProfileManagerOpen: (open: boolean) => void;
+  openProfileEditor: (name: string | null) => void;
   restoreModalOpen: boolean;
   referenceLibraryOpen: boolean;
   aboutModalOpen: boolean;
@@ -111,6 +115,8 @@ interface UIState {
   commandPaletteOpen: boolean;
   findReplaceOpen: boolean;
   templateLoaderOpen: boolean;
+  templateSearch: string;
+  setTemplateSearch: (query: string) => void;
   piiWarningOpen: boolean;
   structureWarningOpen: boolean;
   documentGuideOpen: boolean;
@@ -147,6 +153,8 @@ interface UIState {
 
   // Documents sidebar (recents + section outline)
   sidebarCollapsed: boolean;
+  sidebarOutlineVisible: boolean;
+  toggleSidebarOutline: () => void;
   /**
    * Sidebar width in px. Pixels rather than a percentage because its content is
    * text at a fixed size — a section label needs the same room on a 13" laptop
@@ -169,6 +177,18 @@ interface UIState {
   mobileDocsOpen: boolean;
   setMobileDocsOpen: (open: boolean) => void;
   // Version-history modal: the document id whose snapshots to show (null = closed).
+  settingsOpen: boolean;
+  settingsSection: 'appearance' | 'preview' | 'backup';
+  setSettingsOpen: (open: boolean, section?: 'appearance' | 'preview' | 'backup') => void;
+  helpOpen: boolean;
+  setHelpOpen: (open: boolean) => void;
+  welcomeOpen: boolean;
+  setWelcomeOpen: (open: boolean) => void;
+  documentPositions: Record<string, { top: number; section: string | null; previewPage?: number; layout?: EditorLayout }>;
+  rememberPosition: (id: string, top: number, section: string | null) => void;
+  rememberPreviewPage: (id: string, page: number) => void;
+  trashOpen: boolean;
+  setTrashOpen: (open: boolean) => void;
   historyDocId: string | null;
   setHistoryDocId: (id: string | null) => void;
 
@@ -181,9 +201,9 @@ interface UIState {
   lastSavedAt: number | null;
   // In-flight persistence state, so the indicator can show "Saving…" and a real
   // "Couldn't save" instead of always claiming "Saved".
-  saveStatus: 'idle' | 'saving' | 'saved' | 'error';
+  saveStatus: 'idle' | 'pending' | 'saving' | 'saved' | 'error';
   markSaved: () => void;
-  setSaveStatus: (s: 'idle' | 'saving' | 'saved' | 'error') => void;
+  setSaveStatus: (s: 'idle' | 'pending' | 'saving' | 'saved' | 'error') => void;
   // Point the indicator at a specific time (a switched-in doc's last save) or
   // null (a brand-new, never-saved doc) so "Saved · …" reflects THIS document.
   setLastSavedAt: (ts: number | null) => void;
@@ -210,25 +230,22 @@ interface UIState {
 export const useUIStore = create<UIState>()(
   persist(
     (set) => ({
+      editorLayout: 'focused',
+      setEditorLayout: (editorLayout) => set({ editorLayout }),
       // Theme - detect system preference for first-time users
       theme: getSystemTheme(),
-      toggleTheme: () => set((state) => ({
-        theme: state.theme === 'dark' ? 'light' : 'dark',
-      })),
       setTheme: (theme) => set({ theme }),
-
-      // Color Scheme - Default (Marines.dev branded: USMC Red primary, navy backgrounds)
-      colorScheme: 'default',
-      setColorScheme: (colorScheme) => set({ colorScheme }),
 
       // Density - default comfortable
       density: 'comfortable',
       setDensity: (density) => set({ density }),
 
-      // Preview - hidden by default, form gets full width
-      previewVisible: false,
-      previewWidth: 35,
-      togglePreview: () => set((state) => ({ previewVisible: !state.previewVisible })),
+      // Preview starts beside the editor; each pane can be resized or hidden.
+      previewVisible: true,
+      previewWidth: 40,
+      togglePreview: () => set((state) => state.isMobile
+        ? { mobilePreviewOpen: !state.mobilePreviewOpen }
+        : { previewVisible: !state.previewVisible }),
       setPreviewVisible: (visible) => set({ previewVisible: visible }),
       setPreviewWidth: (width) => set({ previewWidth: Math.max(20, Math.min(80, width)) }),
       pdfThumbnailsOpen: false,
@@ -236,6 +253,8 @@ export const useUIStore = create<UIState>()(
 
       // Modals
       profileModalOpen: false,
+      profileManagerOpen: false,
+      profileEditName: null,
       restoreModalOpen: false,
       referenceLibraryOpen: false,
       aboutModalOpen: false,
@@ -246,6 +265,7 @@ export const useUIStore = create<UIState>()(
       commandPaletteOpen: false,
       findReplaceOpen: false,
       templateLoaderOpen: false,
+      templateSearch: '',
       piiWarningOpen: false,
       structureWarningOpen: false,
       documentGuideOpen: false,
@@ -256,6 +276,8 @@ export const useUIStore = create<UIState>()(
       checklistSheetOpen: false,
       setChecklistSheetOpen: (open) => set({ checklistSheetOpen: open }),
       setProfileModalOpen: (open) => set({ profileModalOpen: open }),
+      setProfileManagerOpen: (open) => set({ profileManagerOpen: open }),
+      openProfileEditor: (name) => set({ profileEditName: name, profileModalOpen: true }),
       setRestoreModalOpen: (open) => set({ restoreModalOpen: open }),
       setShareModal: (mode) => set({ shareModal: mode }),
       setReferenceLibraryOpen: (open) => set({ referenceLibraryOpen: open }),
@@ -266,6 +288,7 @@ export const useUIStore = create<UIState>()(
       setImportLetterModalOpen: (open) => set({ importLetterModalOpen: open }),
       setCommandPaletteOpen: (open) => set({ commandPaletteOpen: open }),
       setFindReplaceOpen: (open) => set({ findReplaceOpen: open }),
+      setTemplateSearch: (templateSearch) => set({ templateSearch }),
       setTemplateLoaderOpen: (open) => set({ templateLoaderOpen: open }),
       setPiiWarningOpen: (open) => set({ piiWarningOpen: open }),
       setStructureWarningOpen: (open) => set({ structureWarningOpen: open }),
@@ -274,6 +297,8 @@ export const useUIStore = create<UIState>()(
 
       // Documents sidebar - expanded by default on desktop
       sidebarCollapsed: false,
+      sidebarOutlineVisible: false,
+      toggleSidebarOutline: () => set((s) => ({ sidebarOutlineVisible: !s.sidebarOutlineVisible, sidebarCollapsed: false })),
       // 248 was the hard-coded width before this became adjustable, so an
       // existing user sees nothing move until they drag it.
       sidebarWidth: SIDEBAR_WIDTH.default,
@@ -292,6 +317,28 @@ export const useUIStore = create<UIState>()(
       setMobilePreviewOpen: (open) => set({ mobilePreviewOpen: open }),
       mobileDocsOpen: false,
       setMobileDocsOpen: (open) => set({ mobileDocsOpen: open }),
+      settingsOpen: false,
+      settingsSection: 'appearance',
+      setSettingsOpen: (open, section = 'appearance') => set({ settingsOpen: open, settingsSection: section }),
+      helpOpen: false,
+      setHelpOpen: (open) => set({ helpOpen: open }),
+      welcomeOpen: false,
+      setWelcomeOpen: (open) => set({ welcomeOpen: open }),
+      documentPositions: {},
+      rememberPosition: (id, top, section) => set((s) => {
+        const positions = { ...s.documentPositions };
+        delete positions[id];
+        positions[id] = { ...s.documentPositions[id], top, section, layout: s.editorLayout };
+        return { documentPositions: Object.fromEntries(Object.entries(positions).slice(-200)) };
+      }),
+      rememberPreviewPage: (id, page) => set((s) => {
+        const positions = { ...s.documentPositions };
+        delete positions[id];
+        positions[id] = { ...(s.documentPositions[id] ?? { top: 0, section: null }), previewPage: Math.max(1, Math.floor(page)) };
+        return { documentPositions: Object.fromEntries(Object.entries(positions).slice(-200)) };
+      }),
+      trashOpen: false,
+      setTrashOpen: (open) => set({ trashOpen: open }),
       historyDocId: null,
       setHistoryDocId: (id) => set({ historyDocId: id }),
 
@@ -318,7 +365,13 @@ export const useUIStore = create<UIState>()(
 
       // Close all modals
       closeAllModals: () => set({
+        settingsOpen: false,
+        helpOpen: false,
+        welcomeOpen: false,
+        trashOpen: false,
         profileModalOpen: false,
+        profileManagerOpen: false,
+        profileEditName: null,
         restoreModalOpen: false,
         referenceLibraryOpen: false,
         aboutModalOpen: false,
@@ -342,17 +395,24 @@ export const useUIStore = create<UIState>()(
     }),
     {
       name: 'dondocs_ui',
+      version: 1,
+      migrate: (persisted) => {
+        const { colorScheme, ...preferences } = (persisted ?? {}) as Record<string, unknown>;
+        return { ...preferences, theme: resolveTheme({ ...preferences, colorScheme }, getSystemTheme()) };
+      },
       // Guarded storage so a boot-time set() can't throw under blocked site data.
       storage: createJSONStorage(() => safeLocalStorage),
       partialize: (state) => ({
+        documentPositions: state.documentPositions,
         theme: state.theme,
-        colorScheme: state.colorScheme,
         density: state.density,
+        editorLayout: state.editorLayout,
         previewVisible: state.previewVisible,
         previewWidth: state.previewWidth,
         pdfThumbnailsOpen: state.pdfThumbnailsOpen,
         fullQualityPreview: state.fullQualityPreview,
         sidebarCollapsed: state.sidebarCollapsed,
+        sidebarOutlineVisible: state.sidebarOutlineVisible,
         sidebarWidth: state.sidebarWidth,
         outlineHeight: state.outlineHeight,
         storageNoticeDismissed: state.storageNoticeDismissed,

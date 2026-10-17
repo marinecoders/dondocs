@@ -1,6 +1,13 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Filled buttons and text on dark surfaces need different contrast levels. */
+@layer utilities {
+  .dark .text-primary { color: var(--primary-text); }
+  .dark .text-destructive { color: var(--destructive-text); }
+  .dark [data-slot="dropdown-menu-item"][data-variant="destructive"] { color: var(--destructive-text); }
+}
+
 /* Self-hosted Geist (latin), vendored from @fontsource-variable/geist so the
    primary subset can be <link rel="preload">ed in index.html — eliminates the
    FOUT / text reflow the late-loading webfont caused on first paint. */
@@ -31,14 +38,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Theme tokens live in the unlayered `:root` (light) and `.dark` blocks
-   further down, in oklch. The legacy HSL `:root`/`.light` token block that
-   used to sit here was dead: the unlayered rules always win, and the app
-   only ever toggles the `dark` class, never `light`. */
+/* Shared layout rules; appearance tokens are defined below. */
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border outline-ring/50;
   }
 
   html, body {
@@ -61,9 +65,7 @@
     overflow: hidden;
   }
 
-  /* Custom scrollbar styling. The tokens are oklch(), so the old
-     hsl(var(--muted-foreground) / a) syntax was invalid and silently fell
-     back to the default scrollbar — use color-mix on the oklch token. */
+  /* Scrollbars follow the active appearance. */
   * {
     scrollbar-width: thin;
     scrollbar-color: color-mix(in oklab, var(--muted-foreground) 40%, transparent) transparent;
@@ -187,50 +189,149 @@
   --text-5xl--letter-spacing: -0.022em;
 }
 
+/* Three complete appearance palettes. sRGB tokens work on older managed
+   browsers too; component colors and the paper preview inherit consistently. */
 :root {
-  --radius: 0.5rem;
-  /* Marines.dev branded default — navy tint + USMC Red primary */
-  --background: oklch(0.97 0.008 250);     /* #dee4e7 light bg with navy tint */
-  --foreground: oklch(0.17 0.015 260);     /* #1a1d24 dark text */
-  --card: oklch(0.99 0.004 250);           /* Near-white with hint */
-  --card-foreground: oklch(0.17 0.015 260);
-  --popover: oklch(0.99 0.004 250);
-  --popover-foreground: oklch(0.17 0.015 260);
-  --primary: oklch(0.43 0.17 25);          /* #a6192e USMC Red */
-  --primary-foreground: oklch(0.99 0 0);   /* White on red */
-  --secondary: oklch(0.92 0.02 250);       /* Light navy tint */
-  --secondary-foreground: oklch(0.17 0.015 260);
-  --muted: oklch(0.94 0.01 250);
-  --muted-foreground: oklch(0.37 0.03 250);
-  --accent: oklch(0.94 0.01 250);          /* Neutral hover (shadcn contract) */
-  --accent-foreground: oklch(0.21 0.02 250);
-  --brand-accent: oklch(0.32 0.06 230);    /* #07405B navy — intentional brand highlight */
-  --brand-accent-foreground: oklch(0.99 0 0);
-  --destructive: oklch(0.33 0.14 25);      /* #7A131B battle red */
-  --destructive-foreground: oklch(0.99 0 0); /* label on a destructive fill */
-  --success: oklch(0.63 0.17 149);         /* ~green-600 — status/compliance tint */
-  --success-foreground: oklch(0.99 0 0);
-  --warning: oklch(0.50 0.13 65);          /* ~amber-800 — ≥4.5:1 as text on both the light canvas and its own 10% tint */
-  --warning-foreground: oklch(0.99 0 0);
-  --info: oklch(0.48 0.19 255);            /* ~blue-700 — neutral informational; ≥4.5:1 as text on the light canvas */
-  --info-foreground: oklch(0.99 0 0);
-  --border: oklch(0.88 0.02 250);          /* Navy-tinted border */
-  --input: oklch(0.95 0.01 250);
-  --ring: oklch(0.43 0.17 25);             /* USMC Red ring */
-  --chart-1: oklch(0.43 0.17 25);          /* USMC Red */
-  --chart-2: oklch(0.32 0.06 230);         /* MCSWF Blue */
-  --chart-3: oklch(0.80 0.15 85);          /* USMC Yellow */
-  --chart-4: oklch(0.40 0.16 25);          /* MCSWF Red */
-  --chart-5: oklch(0.85 0.14 85);          /* MCSWF Gold */
-  --sidebar: oklch(0.95 0.01 250);
-  --sidebar-foreground: oklch(0.17 0.015 260);
-  --sidebar-primary: oklch(0.43 0.17 25);  /* USMC Red */
-  --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.92 0.02 250);
-  --sidebar-accent-foreground: oklch(0.17 0.015 260);
-  --sidebar-border: oklch(0.88 0.02 250);
-  --sidebar-ring: oklch(0.43 0.17 25);
+  color-scheme: light;
+  --background: #fbfbfa;
+  --foreground: #252723;
+  --card: #ffffff;
+  --card-foreground: #252723;
+  --popover: #ffffff;
+  --popover-foreground: #252723;
+  --primary: #282c27;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f1ef;
+  --secondary-foreground: #252723;
+  --muted: #f1f1ef;
+  --muted-foreground: #656961;
+  --accent: #e7e8e2;
+  --accent-foreground: #252723;
+  --brand-accent: #06384b;
+  --brand-accent-foreground: #fcfcfc;
+  --destructive: #6c0008;
+  --destructive-foreground: #ffffff;
+  --success: #15803d;
+  --success-foreground: #ffffff;
+  --warning: #92400e;
+  --warning-foreground: #ffffff;
+  --info: #1d4ed8;
+  --info-foreground: #ffffff;
+  --border: #dedfd9;
+  --input: #d5d7cf;
+  --ring: #923d3e;
+  --chart-1: #970818;
+  --chart-2: #06384b;
+  --chart-3: #eab532;
+  --chart-4: #8a0314;
+  --chart-5: #f8c655;
+  --sidebar: #f1f1ef;
+  --sidebar-foreground: #252723;
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: #e7e8e2;
+  --sidebar-accent-foreground: #252723;
+  --sidebar-border: #dedfd9;
+  --sidebar-ring: var(--ring);
+  --primary-text: #923d3e;
+  --preview-mat: #e9eae7;
+  --radius: 0.375rem;
+}
 
+:root.dark {
+  color-scheme: dark;
+  --background: #191a1c;
+  --foreground: #e9eae6;
+  --card: #202123;
+  --card-foreground: #e9eae6;
+  --popover: #202123;
+  --popover-foreground: #e9eae6;
+  --primary: #e5e8df;
+  --primary-foreground: #20231d;
+  --secondary: #2b2d28;
+  --secondary-foreground: #e9eae6;
+  --muted: #242623;
+  --muted-foreground: #a1a59e;
+  --accent: #2b2d28;
+  --accent-foreground: #e9eae6;
+  --brand-accent: #eab532;
+  --brand-accent-foreground: #07090c;
+  --destructive: #b32228;
+  --destructive-foreground: #ffffff;
+  --success: #4ade80;
+  --success-foreground: #052e16;
+  --warning: #fbbf24;
+  --warning-foreground: #1c1917;
+  --info: #60a5fa;
+  --info-foreground: #0a1f3d;
+  --border: #343631;
+  --input: #454842;
+  --ring: #e19692;
+  --chart-1: #df202e;
+  --chart-2: #185d79;
+  --chart-3: #f8c655;
+  --chart-4: #b32228;
+  --chart-5: #eab532;
+  --sidebar: #141517;
+  --sidebar-foreground: #e9eae6;
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: #2b2d28;
+  --sidebar-accent-foreground: #e9eae6;
+  --sidebar-border: #343631;
+  --sidebar-ring: var(--ring);
+  --primary-text: #e19692;
+  --preview-mat: #121315;
+  --destructive-text: #eb8589;
+}
+
+/* Classic is the original DonDocs light palette, with navy tints and red actions. */
+:root[data-theme="classic"] {
+  --background: #f1f6fa;
+  --foreground: #0c1016;
+  --card: #fafcfe;
+  --card-foreground: #0c1016;
+  --popover: #fafcfe;
+  --popover-foreground: #0c1016;
+  --primary: #970818;
+  --primary-foreground: #fcfcfc;
+  --secondary: #dbe6f2;
+  --secondary-foreground: #0c1016;
+  --muted: #e6ecf2;
+  --muted-foreground: #34414f;
+  --accent: #e6ecf2;
+  --accent-foreground: #1b1d21;
+  --brand-accent: #06384b;
+  --brand-accent-foreground: #fcfcfc;
+  --destructive: #6c0008;
+  --destructive-foreground: #ffffff;
+  --success: #15803d;
+  --success-foreground: #ffffff;
+  --warning: #92400e;
+  --warning-foreground: #ffffff;
+  --info: #1d4ed8;
+  --info-foreground: #ffffff;
+  --border: #ced9e5;
+  --input: #eaeff5;
+  --ring: #970818;
+  --chart-1: #970818;
+  --chart-2: #06384b;
+  --chart-3: #eab532;
+  --chart-4: #8a0314;
+  --chart-5: #f8c655;
+  --sidebar: #eaeff5;
+  --sidebar-foreground: #0c1016;
+  --sidebar-primary: #970818;
+  --sidebar-primary-foreground: #fcfcfc;
+  --sidebar-accent: #dbe6f2;
+  --sidebar-accent-foreground: #0c1016;
+  --sidebar-border: #ced9e5;
+  --sidebar-ring: #970818;
+  --primary-text: var(--primary);
+  --preview-mat: var(--muted);
+}
+
+:root {
   /* Density spacing - Default: Comfortable */
   --density-space-1: 4px;
   --density-space-2: 8px;
@@ -264,305 +365,6 @@
   --density-space-8: 48px;
   --density-text-sm: 0.9375rem;
   --density-text-base: 1.125rem;
-}
-
-/* =============================================================================
-   COLOR SCHEMES
-   ============================================================================= */
-
-/* Navy Color Scheme - marines.dev: USMC Red primary, navy blue + gold accents */
-[data-scheme="navy"] {
-  --primary: oklch(0.43 0.17 25);   /* #a6192e USMC Red */
-  --primary-foreground: oklch(0.99 0 0);
-  --accent: oklch(0.94 0.01 250);   /* Neutral hover */
-  --accent-foreground: oklch(0.21 0.02 250);
-  --brand-accent: oklch(0.32 0.06 230);   /* #07405B mcswf-blue — brand highlight */
-  --brand-accent-foreground: oklch(0.99 0 0);
-  --ring: oklch(0.43 0.17 25);      /* USMC Red */
-}
-
-/* Navy dark mode - marines.dev: USMC Red primary, gold as accent only */
-[data-scheme="navy"].dark {
-  --background: oklch(0.14 0.008 260);  /* Dark slate */
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.20 0.008 260);        /* Slate card */
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.20 0.008 260);
-  --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.55 0.20 25);       /* Bright USMC Red — WCAG AA on dark */
-  --primary-foreground: oklch(0.98 0 0); /* White on red */
-  --secondary: oklch(0.23 0.008 260);   /* Slate */
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.23 0.008 260);
-  --muted-foreground: oklch(0.78 0.01 250);
-  --accent: oklch(0.27 0.01 260);       /* Neutral hover (lifted off card) */
-  --accent-foreground: oklch(0.96 0 0);
-  --brand-accent: oklch(0.80 0.15 85);  /* #f1b434 gold — brand highlight */
-  --brand-accent-foreground: oklch(0.14 0.008 260);
-  --destructive: oklch(0.50 0.18 25);   /* Brighter battle red — WCAG AA */
-  --border: oklch(0.28 0.008 260);
-  --input: oklch(0.23 0.008 260);
-  --ring: oklch(0.55 0.20 25);          /* Bright USMC Red ring */
-  --sidebar: oklch(0.16 0.008 260);     /* Slate sidebar */
-  --sidebar-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.55 0.20 25); /* Bright USMC Red */
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.23 0.008 260);
-  --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(0.28 0.008 260);
-}
-
-[data-scheme="navy"]:not(.dark) {
-  --background: oklch(0.92 0.01 230);   /* #dee4e7 marines.dev light bg */
-  --foreground: oklch(0.17 0.015 260);  /* #1a1d24 */
-  --card: oklch(0.99 0.005 250);
-  --card-foreground: oklch(0.17 0.015 260);
-  --popover: oklch(0.99 0.005 250);
-  --popover-foreground: oklch(0.17 0.015 260);
-  --primary: oklch(0.43 0.17 25);       /* #a6192e USMC Red */
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.92 0.03 250);
-  --secondary-foreground: oklch(0.17 0.015 260);
-  --muted: oklch(0.94 0.02 250);
-  --muted-foreground: oklch(0.33 0.05 250);
-  --accent: oklch(0.94 0.01 250);       /* Neutral hover */
-  --accent-foreground: oklch(0.21 0.02 250);
-  --brand-accent: oklch(0.58 0.12 85);  /* Gold — brand highlight */
-  --brand-accent-foreground: oklch(0.17 0.015 260);
-  --destructive: oklch(0.33 0.14 25);   /* #7A131B battle red */
-  --border: oklch(0.85 0.04 250);
-  --input: oklch(0.95 0.02 250);
-  --ring: oklch(0.43 0.17 25);          /* USMC Red */
-  --sidebar: oklch(0.95 0.02 250);
-  --sidebar-foreground: oklch(0.17 0.015 260);
-  --sidebar-primary: oklch(0.43 0.17 25);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.90 0.03 250);
-  --sidebar-accent-foreground: oklch(0.17 0.015 260);
-  --sidebar-border: oklch(0.85 0.04 250);
-}
-
-/* USMC Color Scheme - Dress Blues: Navy Blue + Blood Stripe Red */
-[data-scheme="usmc"] {
-  --primary: oklch(0.50 0.18 25);  /* Blood stripe scarlet */
-  --primary-foreground: oklch(1 0 0);  /* Pure white for max contrast */
-  --accent: oklch(0.94 0.01 250);  /* Neutral hover */
-  --accent-foreground: oklch(0.21 0.02 250);
-  --brand-accent: oklch(0.25 0.05 250);  /* Dress blue navy — brand highlight */
-  --brand-accent-foreground: oklch(0.98 0 0);
-  --ring: oklch(0.50 0.18 25);  /* Scarlet ring */
-  --destructive: oklch(0.45 0.18 25);  /* Darker red */
-}
-
-/* USMC dark mode - Dress Blues: Dark Navy + Blood Stripe Red */
-[data-scheme="usmc"].dark {
-  --background: oklch(0.14 0.008 260);  /* Dark slate */
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.20 0.008 260);        /* Slate card */
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.20 0.008 260);
-  --popover-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.50 0.18 25);   /* Brighter battle red — WCAG AA */
-  --primary: oklch(0.58 0.22 25);  /* Bright blood stripe red - visible on dark */
-  --primary-foreground: oklch(0.98 0 0);  /* White text on red */
-  --secondary: oklch(0.23 0.008 260);  /* Slate */
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.23 0.008 260);
-  --muted-foreground: oklch(0.78 0.01 250);  /* Light slate — WCAG AA */
-  --accent: oklch(0.27 0.01 260);  /* Neutral hover */
-  --accent-foreground: oklch(0.96 0 0);
-  --brand-accent: oklch(0.58 0.22 25);  /* Blood stripe red — brand highlight */
-  --brand-accent-foreground: oklch(0.98 0 0);
-  --border: oklch(0.28 0.008 260);  /* Slate border */
-  --input: oklch(0.23 0.008 260);
-  --ring: oklch(0.58 0.22 25);  /* Red ring */
-  --sidebar: oklch(0.16 0.008 260);
-  --sidebar-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.58 0.22 25);  /* Blood stripe red */
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.23 0.008 260);
-  --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(0.28 0.008 260);
-}
-
-/* USMC light mode - Dress Blues inspired: Navy accents + Blood Stripe Red */
-[data-scheme="usmc"]:not(.dark) {
-  --background: oklch(0.97 0.008 250);  /* #dee4e7 light bg */
-  --foreground: oklch(0.20 0.04 250);  /* Dark navy text */
-  --card: oklch(0.99 0.003 250);  /* Near-white */
-  --card-foreground: oklch(0.20 0.04 250);
-  --popover: oklch(0.99 0.003 250);
-  --popover-foreground: oklch(0.20 0.04 250);
-  --primary: oklch(0.50 0.20 25);  /* Blood stripe scarlet */
-  --primary-foreground: oklch(0.98 0 0);  /* White text */
-  --secondary: oklch(0.25 0.05 250);  /* Navy blue */
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.94 0.01 250);  /* Light blue-gray */
-  --muted-foreground: oklch(0.37 0.03 250);  /* Medium navy — WCAG AA */
-  --accent: oklch(0.94 0.01 250);  /* Neutral hover */
-  --accent-foreground: oklch(0.21 0.02 250);
-  --brand-accent: oklch(0.25 0.05 250);  /* Navy — brand highlight */
-  --brand-accent-foreground: oklch(0.98 0 0);
-  --border: oklch(0.88 0.02 250);  /* Light navy border */
-  --input: oklch(0.96 0.01 250);
-  --ring: oklch(0.50 0.20 25);  /* Scarlet ring */
-  --sidebar: oklch(0.96 0.01 250);
-  --sidebar-foreground: oklch(0.20 0.04 250);
-  --sidebar-primary: oklch(0.50 0.20 25);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.92 0.02 250);
-  --sidebar-accent-foreground: oklch(0.20 0.04 250);
-  --sidebar-border: oklch(0.88 0.02 250);
-}
-
-/* Dark mode default — Marines.dev branded */
-.dark {
-  /* Elevation ladder — each surface is a clear perceptual step up from the
-     canvas so panels read as lifted, and popovers/menus sit ABOVE cards
-     (previously card and popover were identical, so nothing popped). */
-  --background: oklch(0.16 0.008 260);     /* Lifted canvas — off near-pure-black for depth; APCA body-text Lc ~-103 (unchanged) */
-  --foreground: oklch(0.98 0 0);           /* White */
-  --card: oklch(0.22 0.008 260);           /* Slate card — lifted off canvas (keeps ~0.06 L separation) */
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.27 0.009 260);        /* Elevated — menus/dropdowns sit clearly above cards */
-  --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.55 0.20 25);          /* Bright USMC Red — WCAG AA on dark */
-  --primary-foreground: oklch(0.98 0 0);   /* White on red */
-  --secondary: oklch(0.23 0.008 260);      /* Dark slate */
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.23 0.008 260);
-  --muted-foreground: oklch(0.82 0.02 250); /* Slightly brighter slate — easier read on deep canvas */
-  --accent: oklch(0.27 0.01 260);          /* Neutral hover (lifted off card) */
-  --accent-foreground: oklch(0.96 0 0);
-  --brand-accent: oklch(0.80 0.15 85);     /* #f1b434 gold — brand highlight */
-  --brand-accent-foreground: oklch(0.14 0.008 260);
-  --destructive: oklch(0.50 0.18 25);      /* Brighter red — WCAG AA */
-  --destructive-foreground: oklch(0.99 0 0);
-  --success: oklch(0.79 0.18 149);         /* ~green-400 — brighter for deep canvas */
-  --success-foreground: oklch(0.20 0.04 150);
-  --warning: oklch(0.83 0.16 85);          /* ~amber-400 — bright enough as text on deep canvas */
-  --warning-foreground: oklch(0.22 0.03 85);
-  --info: oklch(0.72 0.14 255);            /* ~blue-400 — brighter for deep canvas */
-  --info-foreground: oklch(0.20 0.04 255);
-  --border: oklch(0.305 0.008 260);        /* Crisper edges for card separation */
-  --input: oklch(0.23 0.008 260);
-  --ring: oklch(0.55 0.20 25);             /* Bright USMC Red ring */
-  --chart-1: oklch(0.58 0.22 25);          /* Bright red */
-  --chart-2: oklch(0.45 0.08 230);         /* Brighter blue */
-  --chart-3: oklch(0.85 0.14 85);          /* Gold */
-  --chart-4: oklch(0.50 0.18 25);          /* Mid red */
-  --chart-5: oklch(0.80 0.15 85);          /* Yellow */
-  --sidebar: oklch(0.16 0.008 260);        /* Slate sidebar — tracks the lifted canvas */
-  --sidebar-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.55 0.20 25);  /* Bright USMC Red */
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.23 0.008 260);
-  --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(0.28 0.008 260);
-  --sidebar-ring: oklch(0.55 0.20 25);
-}
-
-/* critical #7: oklch() has no effect on Chromium/Edge < 111 (common on
-   locked-down DoD/NMCI machines), leaving the themed CSS vars unset and
-   the UI black/transparent. This sRGB fallback — computed from the same
-   oklch values — keeps the default light and dark themes fully legible on
-   those browsers. Alternate [data-scheme] palettes fall back to this
-   default, acceptable for the rare unsupported browser. */
-@supports not (color: oklch(0% 0 0)) {
-  :root {
-    --background: #f1f6fa;
-    --foreground: #0c1016;
-    --card: #fafcfe;
-    --card-foreground: #0c1016;
-    --popover: #fafcfe;
-    --popover-foreground: #0c1016;
-    --primary: #970818;
-    --primary-foreground: #fcfcfc;
-    --secondary: #dbe6f2;
-    --secondary-foreground: #0c1016;
-    --muted: #e6ecf2;
-    --muted-foreground: #34414f;
-    --accent: #e6ecf2;
-    --accent-foreground: #1b1d21;
-    --brand-accent: #06384b;
-    --brand-accent-foreground: #fcfcfc;
-    --destructive: #6c0008;
-    --destructive-foreground: #ffffff;
-    --success: #15803d;
-    --success-foreground: #ffffff;
-    --warning: #92400e;
-    --warning-foreground: #ffffff;
-    --info: #1d4ed8;
-    --info-foreground: #ffffff;
-    --border: #ced9e5;
-    --input: #eaeff5;
-    --ring: #970818;
-    --chart-1: #970818;
-    --chart-2: #06384b;
-    --chart-3: #eab532;
-    --chart-4: #8a0314;
-    --chart-5: #f8c655;
-    --sidebar: #eaeff5;
-    --sidebar-foreground: #0c1016;
-    --sidebar-primary: #970818;
-    --sidebar-primary-foreground: #fcfcfc;
-    --sidebar-accent: #dbe6f2;
-    --sidebar-accent-foreground: #0c1016;
-    --sidebar-border: #ced9e5;
-    --sidebar-ring: #970818;
-  }
-  .dark {
-    --background: #0b0d11;
-    --foreground: #f8f8f8;
-    --card: #181b1e;
-    --card-foreground: #f8f8f8;
-    --popover: #1e2125;
-    --popover-foreground: #f8f8f8;
-    --primary: #cc272e;
-    --primary-foreground: #f8f8f8;
-    --secondary: #1b1d21;
-    --secondary-foreground: #f8f8f8;
-    --muted: #1b1d21;
-    --muted-foreground: #b3b8be;
-    --accent: #262a30;
-    --accent-foreground: #f4f6f8;
-    --brand-accent: #eab532;
-    --brand-accent-foreground: #07090c;
-    --destructive: #b32228;
-    --destructive-foreground: #ffffff;
-    --success: #4ade80;
-    --success-foreground: #052e16;
-    --warning: #fbbf24;
-    --warning-foreground: #1c1917;
-    --info: #60a5fa;
-    --info-foreground: #0a1f3d;
-    --border: #2d2f33;
-    --input: #1b1d21;
-    --ring: #cc272e;
-    --chart-1: #df202e;
-    --chart-2: #185d79;
-    --chart-3: #f8c655;
-    --chart-4: #b32228;
-    --chart-5: #eab532;
-    --sidebar: #0b0d11;
-    --sidebar-foreground: #f8f8f8;
-    --sidebar-primary: #cc272e;
-    --sidebar-primary-foreground: #f8f8f8;
-    --sidebar-accent: #1b1d21;
-    --sidebar-accent-foreground: #f8f8f8;
-    --sidebar-border: #27292d;
-    --sidebar-ring: #cc272e;
-  }
-}
-
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
 }
 
 /* Density-aware utility classes */
@@ -670,3 +472,69 @@
   }
 }
 
+
+.workspace-header [data-slot="button"] { font-size: 0.75rem; font-weight: 500; box-shadow: none; }
+/* Restore the original EGA watermark only in Classic's editor background. */
+:root[data-theme="classic"] .workspace-editor { position: relative; isolation: isolate; }
+:root[data-theme="classic"] .workspace-editor::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url('/attachments/marine-coders-logo.svg') center / min(78%, 480px) auto no-repeat;
+  filter: invert(1);
+  opacity: 0.05;
+}
+.workspace-editor [data-slot="accordion-item"] { border-top: 0; padding-top: 0; }
+.workspace-editor [data-slot="accordion-trigger"] { padding-bottom: var(--density-space-4); font-size: 1.375rem; font-weight: 500; letter-spacing: -0.025em; }
+.workspace-editor [data-slot="accordion-trigger"] svg { display: none; }
+.workspace-editor [data-slot="accordion-trigger"] button svg { display: block; }
+.workspace-editor [data-slot="input"], .workspace-editor [data-slot="textarea"], .workspace-editor [data-slot="select-trigger"] { box-shadow: none; }
+.workspace-editor [data-slot="accordion-content"] { padding-top: 0; }
+.workspace-editor .font-serif { font-size: 0.9375rem; line-height: 1.75; }
+.workspace-editor [hidden], nav[aria-label="Documents"] [hidden] { display: none !important; }
+.workspace-preview { background: var(--preview-mat); }
+.workspace-preview .pdf-viewer { background: var(--preview-mat); }
+.workspace-editor [data-section="body"] [data-slot="accordion-item"] { padding-bottom: 0; }
+.workspace-editor [data-section="body"] [data-slot="accordion-trigger"] { padding-bottom: var(--density-space-4); }
+@media (hover: none) {
+  .workspace-editor .group .opacity-0 { opacity: 1; }
+}
+
+.workspace-editor [data-section="body"] .tiptap { font-size: 0.9375rem; line-height: 1.75; }
+.workspace-paragraph:focus-within { background: color-mix(in srgb, var(--card) 50%, transparent); }
+
+/* Small, literal previews keep appearance choices recognizable in every theme. */
+.appearance-swatch { display: flex; height: 64px; overflow: hidden; border: 1px solid #dedfd9; border-radius: 3px; background: #fbfbfa; }
+.appearance-swatch-sidebar { width: 25%; background: #f1f1ef; border-right: 1px solid #dedfd9; }
+.appearance-swatch-page { flex: 1; padding: 12px 10px; }
+.appearance-swatch-page span { display: block; height: 3px; margin-bottom: 6px; background: #d5d7cf; border-radius: 1px; }
+.appearance-swatch-page span:first-child { width: 60%; height: 6px; background: #282c27; }
+.appearance-swatch-page span:last-child { width: 75%; }
+.appearance-swatch-dark { background: #191a1c; border-color: #454842; }
+.appearance-swatch-dark .appearance-swatch-sidebar { background: #141517; border-color: #454842; }
+.appearance-swatch-dark .appearance-swatch-page span { background: #454842; }
+.appearance-swatch-dark .appearance-swatch-page span:first-child { background: #e5e8df; }
+.appearance-swatch-classic { background: #f1f6fa; border-color: #ced9e5; }
+.appearance-swatch-classic .appearance-swatch-sidebar { background: #eaeff5; border-color: #ced9e5; }
+.appearance-swatch-classic .appearance-swatch-page span { background: #ced9e5; }
+.appearance-swatch-classic .appearance-swatch-page span:first-child { background: #970818; }
+
+/* Bound long draft titles independently of utility ordering. Full titles remain
+   available in the accessible name and the draft rename control. */
+.workspace-document-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  max-height: 2.5rem;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+/* Density changes editor spacing, never prose metrics or control hit areas. */
+.workspace-contents { padding-top: var(--density-space-3); }
+.workspace-fields { padding-top: var(--density-space-3); }
+.workspace-subject { margin-bottom: var(--density-space-4); }
+.workspace-editor [data-slot="accordion-item"] { padding-bottom: var(--density-space-4); }
+.workspace-editor [data-slot="accordion-content"] > .space-y-4 > :not([hidden]) ~ :not([hidden]) { margin-top: var(--density-space-4); }

@@ -1,9 +1,13 @@
 import { create } from 'zustand';
-import type { Reference, Enclosure, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, EndItem, PublicationTableRow } from '@/types/document';
+import type { FormSession } from './formStore';
+import type { Reference, Enclosure, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, DocumentCategory, FormType, EndItem, PublicationTableRow } from '@/types/document';
 
 // Snapshot of document state (only the data parts, not actions)
 export interface DocumentSnapshot {
   documentMode: DocumentMode;
+  documentCategory?: DocumentCategory;
+  formType?: FormType;
+  forms?: FormSession;
   docType: string;
   formData: Partial<DocumentData>;
   references: Reference[];
@@ -39,98 +43,22 @@ interface HistoryState {
 function snapshotsEqual(a: DocumentSnapshot | null, b: DocumentSnapshot | null): boolean {
   if (a === null || b === null) return a === b;
 
-  // Quick checks
-  if (a.documentMode !== b.documentMode) return false;
-  if (a.docType !== b.docType) return false;
-  if (a.paragraphs.length !== b.paragraphs.length) return false;
-  if (a.references.length !== b.references.length) return false;
-  if (a.enclosures.length !== b.enclosures.length) return false;
-  if (a.copyTos.length !== b.copyTos.length) return false;
-  if ((a.distributions?.length || 0) !== (b.distributions?.length || 0)) return false;
-  if ((a.endItems?.length || 0) !== (b.endItems?.length || 0)) return false;
-
-  // Check formData — compare all populated keys for full change detection
-  // (covers showSubjectOnContinuation, includeHyperlinks, classification, etc.)
-  const allKeys = new Set([
-    ...Object.keys(a.formData),
-    ...Object.keys(b.formData),
-  ]) as Set<keyof DocumentData>;
-  for (const key of allKeys) {
-    // Skip signatureImage (non-serializable, large)
-    if (key === 'signatureImage') continue;
-    if (a.formData[key] !== b.formData[key]) return false;
-  }
-
-  // Check paragraphs
-  for (let i = 0; i < a.paragraphs.length; i++) {
-    if (a.paragraphs[i].text !== b.paragraphs[i].text) return false;
-    if (a.paragraphs[i].level !== b.paragraphs[i].level) return false;
-    if (a.paragraphs[i].portionMarking !== b.paragraphs[i].portionMarking) return false;
-    if (a.paragraphs[i].header !== b.paragraphs[i].header) return false;
-    if (a.paragraphs[i].callout !== b.paragraphs[i].callout) return false;
-    if (a.paragraphs[i].procedure !== b.paragraphs[i].procedure) return false;
-    if (a.paragraphs[i].tableKey !== b.paragraphs[i].tableKey) return false;
-    if (a.paragraphs[i].appendix !== b.paragraphs[i].appendix) return false;
-    if (a.paragraphs[i].figure?.fileRef?.id !== b.paragraphs[i].figure?.fileRef?.id) return false;
-  }
-
-  // Check references
-  for (let i = 0; i < a.references.length; i++) {
-    if (a.references[i].title !== b.references[i].title) return false;
-  }
-
-  // Check copyTos
-  for (let i = 0; i < a.copyTos.length; i++) {
-    if (a.copyTos[i].text !== b.copyTos[i].text) return false;
-  }
-
-  // Check distributions
-  const aDist = a.distributions || [];
-  const bDist = b.distributions || [];
-  for (let i = 0; i < aDist.length; i++) {
-    if (aDist[i].text !== bDist[i].text) return false;
-  }
-
-  // Check end items and publication tables
-  const aItems = a.endItems || [];
-  const bItems = b.endItems || [];
-  for (let i = 0; i < aItems.length; i++) {
-    if (aItems[i].nsn !== bItems[i].nsn) return false;
-    if (aItems[i].tamcn !== bItems[i].tamcn) return false;
-    if (aItems[i].id !== bItems[i].id) return false;
-    if (aItems[i].model !== bItems[i].model) return false;
-  }
-  const aTables = a.publicationTables || {};
-  const bTables = b.publicationTables || {};
-  for (const key of new Set([...Object.keys(aTables), ...Object.keys(bTables)])) {
-    const aRows = aTables[key] || [];
-    const bRows = bTables[key] || [];
-    if (aRows.length !== bRows.length) return false;
-    for (let i = 0; i < aRows.length; i++) {
-      if (aRows[i].level !== bRows[i].level) return false;
-      for (const col of new Set([...Object.keys(aRows[i].values), ...Object.keys(bRows[i].values)])) {
-        if (aRows[i].values[col] !== bRows[i].values[col]) return false;
-      }
-    }
-  }
-
-  return true;
+  if (a.enclosures.some((e, i) => e.file?.data !== b.enclosures[i]?.file?.data)) return false;
+  return JSON.stringify(a) === JSON.stringify(b);
 }
 
 // Create a clean copy of the snapshot (without non-serializable data)
 function cloneSnapshot(snapshot: DocumentSnapshot): DocumentSnapshot {
   return {
     documentMode: snapshot.documentMode,
+    documentCategory: snapshot.documentCategory,
+    formType: snapshot.formType,
+    forms: snapshot.forms ? structuredClone(snapshot.forms) : undefined,
     docType: snapshot.docType,
     formData: { ...snapshot.formData },
     references: snapshot.references.map(r => ({ ...r })),
-    enclosures: snapshot.enclosures.map(e => ({
-      title: e.title,
-      pageStyle: e.pageStyle,
-      hasCoverPage: e.hasCoverPage,
-      coverPageDescription: e.coverPageDescription,
-      // Note: We don't store file data in history (too large)
-    })),
+    // Immutable file buffers can be shared by reference across undo states.
+    enclosures: snapshot.enclosures.map(e => ({ ...e })),
     paragraphs: snapshot.paragraphs.map(p => ({ ...p })),
     copyTos: snapshot.copyTos.map(c => ({ ...c })),
     distributions: (snapshot.distributions || []).map(d => ({ ...d })),

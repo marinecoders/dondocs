@@ -9,5 +9,6 @@ export { useDocumentStore } from './documentStore';
 export { useHistoryStore, type DocumentSnapshot } from './historyStore';
 export { useLogStore, type LogEntry } from './logStore';
 export { useProfileStore } from './profileStore';
-export { useUIStore, type DensityMode, type ColorScheme } from './uiStore';
+export { useUIStore, type DensityMode } from './uiStore';
 export { useInstallStore } from './installStore';
+export type { Theme } from '@/lib/appearance';
