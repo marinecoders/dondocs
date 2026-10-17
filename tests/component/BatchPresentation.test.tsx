@@ -12,7 +12,7 @@ beforeEach(() => {
   useUIStore.setState({ batchModalOpen: true });
   useBatchStore.setState({ source: null, title: '', placeholders: [], rows: [{ id: 'one', values: {}, status: 'pending' }], status: 'idle', recoveryError: '', stopRequested: false });
 });
-const open = () => render(<BatchModal compile={vi.fn().mockResolvedValue(null)} isEngineReady={true} />);
+const open = () => render(<BatchModal compile={vi.fn().mockResolvedValue(null)} isEngineReady={true} waitForReady={vi.fn().mockResolvedValue(true)} />);
 
 it('shows completed saved-job context and downloads without inapplicable setup or resume controls', () => {
   useDocumentStore.getState().setField('subject', 'Saved source');

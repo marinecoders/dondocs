@@ -37,9 +37,14 @@ export function MobileRecents() {
   const [renamingId, setRenamingId] = useState<string | null>(null);
   const [name, setName] = useState('');
   const pendingRename = useRef<{ id: string; name: string } | null>(null);
-  const commitName = (id: string) => {
-    useDocumentsStore.getState().renameDocument(id, name);
+  const actionButtons = useRef(new Map<string, HTMLButtonElement>());
+  const finishRename = (id: string, restoreFocus: boolean) => {
     setRenamingId(null);
+    if (restoreFocus) requestAnimationFrame(() => actionButtons.current.get(id)?.focus());
+  };
+  const commitName = (id: string, restoreFocus = false) => {
+    useDocumentsStore.getState().renameDocument(id, name);
+    finishRename(id, restoreFocus);
   };
 
   if (!isMobile) return null;
@@ -52,7 +57,9 @@ export function MobileRecents() {
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-md gap-0 p-0">
+        <DialogContent className="max-w-md gap-0 p-0" onEscapeKeyDown={(event) => {
+          if (renamingId) { event.preventDefault(); finishRename(renamingId, true); }
+        }}>
           <DialogHeader className="flex-row items-center justify-between space-y-0 border-b border-border px-4 py-3">
             <DialogTitle className="text-base">Documents</DialogTitle>
             <DialogDescription className="sr-only">Recent drafts and workspace tools.</DialogDescription>
@@ -118,7 +125,7 @@ export function MobileRecents() {
                     {renamingId === m.id ? <input autoFocus aria-label="Draft name" value={name} maxLength={160}
                       className="min-w-0 flex-1 rounded border border-input bg-background px-3 py-3 text-sm"
                       onChange={(e) => setName(e.target.value)} onBlur={() => commitName(m.id)}
-                      onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur(); if (e.key === 'Escape') { e.stopPropagation(); setRenamingId(null); } }}
+                      onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); commitName(m.id, true); } if (e.key === 'Escape') { e.stopPropagation(); finishRename(m.id, true); } }}
                     /> : <button
                       type="button"
                       onClick={() => {
@@ -151,11 +158,11 @@ export function MobileRecents() {
                     </button>}
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <button type="button" aria-label={`Actions for ${m.title}`} className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring">
+                        <button ref={(node) => { if (node) actionButtons.current.set(m.id, node); else actionButtons.current.delete(m.id); }} type="button" aria-label={`Actions for ${m.title}`} className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring">
                           <MoreHorizontal className="h-4 w-4" />
                         </button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-64" onCloseAutoFocus={(event) => {
+                      <DropdownMenuContent align="end" className="w-64 [&_[role=menuitem]]:min-h-11" onCloseAutoFocus={(event) => {
                         const pending = pendingRename.current;
                         if (pending) {
                           event.preventDefault();

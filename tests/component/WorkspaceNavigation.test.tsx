@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { beforeEach, expect, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { EditorSidebar } from '@/components/layout/EditorSidebar';
 import { MobileRecents } from '@/components/layout/MobileRecents';
@@ -92,6 +92,12 @@ it('provides mobile document actions, renames without changing subject, and keep
   await userEvent.type(name, 'Short draft name{Enter}');
   expect(useDocumentsStore.getState().docs[id].meta.title).toBe('Short draft name');
   expect(useDocumentStore.getState().formData.subject).toBe('Printed subject');
+  await userEvent.click(screen.getByRole('button', { name: 'Actions for Short draft name' }));
+  await userEvent.click(screen.getByRole('menuitem', { name: 'Rename' }));
+  await userEvent.type(screen.getByRole('textbox', { name: 'Draft name' }), ' canceled{Escape}');
+  await waitFor(() => expect(screen.getByRole('button', { name: 'Actions for Short draft name' })).toHaveFocus());
+  expect(useUIStore.getState().mobileDocsOpen).toBe(true);
+  expect(useDocumentsStore.getState().docs[id].meta.title).toBe('Short draft name');
   await userEvent.click(screen.getByRole('button', { name: 'Actions for Short draft name' }));
   await userEvent.click(screen.getByRole('menuitem', { name: 'Move to Trash' }));
   expect(useDocumentsStore.getState().docs[id]).toBeUndefined();
