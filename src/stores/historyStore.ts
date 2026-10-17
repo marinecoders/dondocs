@@ -1,8 +1,10 @@
+import type { FormInstance } from '@/services/forms/model';
 import { create } from 'zustand';
 import type { Reference, Enclosure, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, EndItem, PublicationTableRow } from '@/types/document';
 
 // Snapshot of document state (only the data parts, not actions)
 export interface DocumentSnapshot {
+  genericForm?: FormInstance;
   documentMode: DocumentMode;
   docType: string;
   formData: Partial<DocumentData>;
@@ -38,6 +40,8 @@ interface HistoryState {
 // Deep equality check for snapshots (excluding non-serializable data like ArrayBuffer)
 function snapshotsEqual(a: DocumentSnapshot | null, b: DocumentSnapshot | null): boolean {
   if (a === null || b === null) return a === b;
+
+  if (JSON.stringify(a.genericForm) !== JSON.stringify(b.genericForm)) return false;
 
   // Quick checks
   if (a.documentMode !== b.documentMode) return false;
@@ -120,6 +124,7 @@ function snapshotsEqual(a: DocumentSnapshot | null, b: DocumentSnapshot | null):
 // Create a clean copy of the snapshot (without non-serializable data)
 function cloneSnapshot(snapshot: DocumentSnapshot): DocumentSnapshot {
   return {
+    genericForm: snapshot.genericForm ? structuredClone(snapshot.genericForm) : undefined,
     documentMode: snapshot.documentMode,
     docType: snapshot.docType,
     formData: { ...snapshot.formData },

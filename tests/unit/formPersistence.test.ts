@@ -1,0 +1,44 @@
+import 'fake-indexeddb/auto';
+import { it, expect } from 'vitest';
+import { waitFor } from '@testing-library/react';
+import { editForm, startForm } from '@/services/forms/documents';
+import { useDocumentStore } from '@/stores/documentStore';
+import { exportLibrary, importLibrary, useDocumentsStore } from '@/stores/documentsStore';
+import { idbDeleteDocument, idbFormDefinitions, idbGetAllDocuments, idbGetSnapshots } from '@/lib/documentsDb';
+import { fixtureDefinition } from '../_helpers/formFixture';
+
+it('persists separate forms and their snapshots, then restores a library backup', async () => {
+  useDocumentsStore.setState({ docs: {}, currentId: null, baseline: null, hydrated: true });
+  startForm(fixtureDefinition(), false);
+  const first = useDocumentsStore.getState().currentId!;
+  editForm(f => { f.answers.name = 'FIRST'; f.rows.roster = [{ id: 'row1', answers: { grade: 'e1' } }]; });
+  useDocumentsStore.getState().saveCurrent();
+  startForm(fixtureDefinition(), false);
+  const second = useDocumentsStore.getState().currentId!;
+  editForm(f => { f.answers.name = 'SECOND'; });
+  useDocumentsStore.getState().saveCurrent();
+  await waitFor(async () => {
+    const records = await idbGetAllDocuments();
+    expect(records?.find(d => d.id === first)?.session.genericForm?.answers.name).toBe('FIRST');
+    expect(records?.find(d => d.id === second)?.session.genericForm?.answers.name).toBe('SECOND');
+  });
+  await waitFor(async () => expect((await idbGetSnapshots(first)).some(s => s.session.genericForm?.answers.name === 'FIRST')).toBe(true));
+  useDocumentsStore.setState({ docs: {}, currentId: null, baseline: null, hydrated: false });
+  useDocumentStore.getState().resetForm();
+  useDocumentStore.setState({ documentCategory: 'correspondence' });
+  expect(await useDocumentsStore.getState().init()).toBe(true);
+  expect(useDocumentStore.getState().documentCategory).toBe('forms');
+  expect(useDocumentStore.getState().genericForm?.answers.name).toBe('SECOND');
+  expect(useDocumentsStore.getState().docs[second].session.genericForm?.answers.name).toBe('SECOND');
+  const backup = await exportLibrary();
+  for (const id of [first, second]) await idbDeleteDocument(id);
+  expect((await idbFormDefinitions())?.some(d => d.formId === 'fixture')).toBe(true);
+  useDocumentsStore.setState({ docs: {}, currentId: null, baseline: null });
+  expect(await importLibrary(backup)).toEqual({ imported: 2, skipped: 0 });
+  useDocumentsStore.getState().switchTo(first);
+  expect(useDocumentStore.getState().genericForm?.rows.roster).toEqual([{ id: 'row1', answers: { grade: 'e1' } }]);
+  expect(useDocumentsStore.getState().docs[second].session.genericForm?.answers.name).toBe('SECOND');
+  const malformed = JSON.parse(backup);
+  malformed.docs[0].session.genericForm.definition.placements[0].page = 99;
+  await expect(importLibrary(JSON.stringify(malformed))).rejects.toThrow(/unknown page/);
+});

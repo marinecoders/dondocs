@@ -1,4 +1,4 @@
-import type { FormInstance } from '@/services/forms/model';
+import { parseFormInstance, type FormInstance } from '@/services/forms/model';
 import { withoutTableFootnote } from '@/lib/tableFootnotes';
 import { create } from 'zustand';
 import { format, parse, isValid } from 'date-fns';
@@ -24,11 +24,11 @@ const SESSION_MAX_AGE = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 
 // Serializable session data (excludes file ArrayBuffers)
 export interface SerializedSession {
-  genericForm?: FormInstance;
   documentMode: DocumentMode;
   documentCategory: DocumentCategory;
   docType: string;
   formType: FormType;
+  genericForm?: FormInstance;
   formData: Partial<DocumentData>;
   references: Reference[];
   endItems: EndItem[];
@@ -95,6 +95,7 @@ export interface DocumentState {
   documentCategory: DocumentCategory;
   docType: string;
   formType: FormType;
+  genericForm?: FormInstance;
   formData: Partial<DocumentData>;
   references: Reference[];
   endItems: EndItem[];
@@ -260,6 +261,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   documentCategory: 'correspondence',
   docType: 'naval_letter',
   formType: 'navmc_10274',
+  genericForm: undefined,
   formData: { ...DEFAULT_FORM_DATA },
   references: [...DEFAULT_REFERENCES],
   endItems: [],
@@ -275,12 +277,17 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
 
   setDocumentCategory: (category) => {
     useUIStore.getState().setValidationVisible(false);
-    set({ documentCategory: category });
+    const leavingForm = get().genericForm && category !== 'forms';
+    set(state => ({ documentCategory: category, genericForm: leavingForm ? undefined : state.genericForm }));
+    if (leavingForm) resetDocumentHistory();
   },
 
   setFormType: (type) => {
     useUIStore.getState().setValidationVisible(false);
-    set({ formType: type });
+    const activeForm = get().genericForm;
+    const leavingForm = activeForm && activeForm.definition.formId !== type;
+    set(state => ({ formType: type, genericForm: leavingForm ? undefined : state.genericForm }));
+    if (leavingForm) resetDocumentHistory();
   },
 
   setDocumentMode: (mode) => set((state) => {
@@ -392,6 +399,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     references: [...DEFAULT_REFERENCES],
     endItems: [],
     publicationTables: {},
+    genericForm: undefined,
     enclosures: [...DEFAULT_ENCLOSURES],
     paragraphs: [...DEFAULT_PARAGRAPHS],
     copyTos: [
@@ -738,6 +746,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
         // lists reappeared under the next one's headings.
         endItems: [],
         publicationTables: {},
+        genericForm: undefined,
       };
     });
   },
@@ -811,6 +820,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       distributions: snapshot.distributions || [],
       endItems: snapshot.endItems ?? [],
       publicationTables: snapshot.publicationTables ?? {},
+      genericForm: snapshot.genericForm,
     };
   }),
 
@@ -827,6 +837,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       distributions: state.distributions,
       endItems: state.endItems,
       publicationTables: state.publicationTables,
+      genericForm: state.genericForm,
     };
   },
 }));
@@ -866,6 +877,7 @@ useDocumentStore.subscribe((state: DocumentState) => {
         distributions: state.distributions,
         endItems: state.endItems,
         publicationTables: state.publicationTables,
+        genericForm: state.genericForm,
       };
       useHistoryStore.getState().saveSnapshot(snapshot);
       debug.log('Store', 'Snapshot saved to history');
@@ -924,6 +936,7 @@ function saveSessionToStorage(state: DocumentState): void {
       references: state.references,
       endItems: state.endItems,
       publicationTables: state.publicationTables,
+      genericForm: state.genericForm,
       enclosures: state.enclosures.map(enc => ({
         title: enc.title,
         pageStyle: enc.pageStyle,
@@ -974,6 +987,7 @@ export function hasSavedSession(): boolean {
 
     // Meaningful content, not just default empty state.
     const hasContent =
+      session.genericForm ||
       (session.paragraphs && session.paragraphs.length > 0 && session.paragraphs.some(p => p.text.trim() !== '')) ||
       (session.references && session.references.length > 0) ||
       (session.formData?.subject && session.formData.subject.trim() !== '');
@@ -1016,6 +1030,12 @@ function applySessionState(state: Partial<DocumentState>): void {
   replaceSessionState(() => useDocumentStore.setState(state));
 }
 
+function parseSessionForm(session: SerializedSession): FormInstance {
+  const instance = parseFormInstance(session.genericForm);
+  if (session.documentCategory !== 'forms' || session.formType !== instance.definition.formId) throw new Error('Form does not match the saved document');
+  return instance;
+}
+
 export function restoreSession(): boolean {
   try {
     const session = getSavedSession();
@@ -1036,6 +1056,7 @@ export function restoreSession(): boolean {
       references: session.references,
       endItems: session.endItems ?? [],
       publicationTables: session.publicationTables ?? {},
+      genericForm: session.genericForm ? parseSessionForm(session) : undefined,
       enclosures: session.enclosures.map(enc => ({
         title: enc.title,
         pageStyle: enc.pageStyle,
@@ -1080,6 +1101,7 @@ export function serializeSession(state: DocumentState): SerializedSession {
     formType: state.formType,
     endItems: state.endItems,
     publicationTables: state.publicationTables,
+      genericForm: state.genericForm,
     formData: {
       ...state.formData,
       signatureImage: undefined,
@@ -1122,6 +1144,7 @@ export function loadSharedSession(session: SerializedSession): void {
     references: session.references ?? [],
     endItems: session.endItems ?? [],
     publicationTables: session.publicationTables ?? {},
+    genericForm: session.genericForm ? parseSessionForm(session) : undefined,
     enclosures: (session.enclosures ?? []).map(enc => ({
       title: enc.title,
       pageStyle: enc.pageStyle,

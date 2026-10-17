@@ -1,3 +1,4 @@
+import { parseFormInstance } from '@/services/forms/model';
 
 export const MAX_BACKUP_BYTES = 100 * 1024 * 1024;
 const MAX_ITEMS = 100_000;
@@ -13,7 +14,10 @@ export function validateBackupSession(value: unknown) {
   const data = object(value, 'session');
   for (const key of ['formData', 'publicationTables']) if (data[key] !== undefined) object(data[key], key);
   for (const key of ['enclosures', 'paragraphs', 'references', 'endItems', 'copyTos', 'distributions']) if (data[key] !== undefined && !Array.isArray(data[key])) throw new Error(`Invalid session.${key}`);
-
+  if (data.genericForm) {
+    const form = parseFormInstance(data.genericForm);
+    if (data.documentCategory !== 'forms' || data.formType !== form.definition.formId) throw new Error('Form type does not match the saved definition');
+  }
 }
 
 /** Validate present fields; older backups may legitimately omit newer sections. */

@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.176] — 2026-10-17
+
+### Changed
+
+- Save form instances with pinned definitions, history, and safe migrations.
+
 ## [1.2.175] — 2026-10-17
 
 ### Changed

@@ -5,14 +5,17 @@ export type DocumentMode = 'compliant' | 'custom';
 export type DocumentCategory = 'correspondence' | 'forms';
 
 // Form types
-export type FormType = 'navmc_10274' | 'navmc_118_11';
+/** The forms with bespoke editors/generators. Config-driven forms (form.json,
+ *  see src/types/formConfig.ts) use their registry id as the form type. */
+export type BuiltinFormType = 'navmc_10274' | 'navmc_118_11';
+export type FormType = BuiltinFormType | (string & {});
 
-export const FORM_TYPE_LABELS: Record<FormType, string> = {
+export const FORM_TYPE_LABELS: Record<BuiltinFormType, string> = {
   navmc_10274: 'NAVMC 10274 - Administrative Action',
   navmc_118_11: 'NAVMC 118 (11) - Administrative Remarks (6105)',
 };
 
-export const FORM_TYPE_CATEGORIES: { category: string; types: FormType[] }[] = [
+export const FORM_TYPE_CATEGORIES: { category: string; types: BuiltinFormType[] }[] = [
   {
     category: 'Administrative',
     types: ['navmc_10274', 'navmc_118_11'],
@@ -660,7 +663,7 @@ export const DOC_TYPE_CHIP: Record<string, string> = {
 
 /** The Recents type chip for a doc type (falls back to a generic code). */
 export function docTypeChip(docType: string): string {
-  return DOC_TYPE_CHIP[docType] ?? 'DOC';
+  return docType === 'form' ? 'FORM' : DOC_TYPE_CHIP[docType] ?? 'DOC';
 }
 
 // Categorized document types for the selector UI

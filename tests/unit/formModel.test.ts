@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { adaptLegacyForm, compileFormDefinition, diagnosticText, formErrorSections, migrateLegacyAnswers, parseFormInstance, validateAnswers } from '@/services/forms/model';
+import { migrateForm } from '@/services/forms/documents';
 import { fixtureDefinition, fixtureInstance } from '../_helpers/formFixture';
 
 describe('form contract', () => {
@@ -49,4 +50,23 @@ describe('form contract', () => {
     expect(migrateLegacyAnswers(d, { no: true }, {}).answers).toEqual({ radio_0: 'no' });
     expect(() => migrateLegacyAnswers(d, { yes: true, no: true }, {})).toThrow(/conflicting/);
   });
+  it('requires explicit migration mappings and leaves the original unchanged', () => {
+    const instance = fixtureInstance();
+    const d = fixtureDefinition(); d.definitionRevision = 'v2';
+    expect(() => migrateForm(instance, d, { from: 'v1', to: 'v2', fields: { name: 'name' } })).toThrow(/decision/);
+    const next = migrateForm(instance, d, { from: 'v1', to: 'v2', fields: { name: 'name', decision: 'decision' } });
+    expect(next.definition.definitionRevision).toBe('v2');
+    expect(instance.definition.definitionRevision).toBe('v1');
+  });
+  it('maps row columns and options explicitly, preserving row identity and refusing smaller rosters', () => {
+    const instance = fixtureInstance();
+    instance.rows.roster = [{ id: 'first', answers: { grade: 'e1' } }, { id: 'last', answers: { grade: 'e2' } }];
+    const d = fixtureDefinition(); d.definitionRevision = 'v2';
+    const mapping = { from: 'v1', to: 'v2', fields: { name: 'name', decision: 'decision' }, rowGroups: { roster: { to: 'roster', columns: { grade: 'grade' }, options: { grade: { e1: 'e2', e2: 'e1' } } } } };
+    expect(migrateForm(instance, d, mapping).rows.roster).toEqual([{ id: 'first', answers: { grade: 'e2' } }, { id: 'last', answers: { grade: 'e1' } }]);
+    expect(instance.rows.roster[0].answers.grade).toBe('e1');
+    d.rowGroups.roster.rows = d.rowGroups.roster.rows.slice(0, 1);
+    expect(() => migrateForm(instance, d, mapping)).toThrow(/holds 1 rows/);
+  });
+
 });

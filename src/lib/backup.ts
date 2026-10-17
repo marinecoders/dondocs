@@ -57,7 +57,7 @@ export interface BackupBundle {
   exportedAt: number;
   documents: unknown[];
   profiles: { profiles: Record<string, Profile>; selectedProfile: string | null };
-  forms: { navmc10274: unknown; navmc11811: unknown; includeCoverPage?: boolean };
+  forms: { navmc10274: unknown; navmc11811: unknown; includeCoverPage?: boolean; configFormValues?: unknown; configFormRows?: unknown };
   snippets: Snippet[];
   userTemplates: Record<string, UserTemplate>;
   attachments: BackupAttachment[];
@@ -240,7 +240,7 @@ export async function buildBackup(): Promise<string> {
     exportedAt: Date.now(),
     documents: docs,
     profiles: { profiles: profile.profiles, selectedProfile: profile.selectedProfile },
-    forms: { navmc10274: form.navmc10274, navmc11811: form.navmc11811, includeCoverPage: form.includeCoverPage },
+    forms: { navmc10274: form.navmc10274, navmc11811: form.navmc11811, includeCoverPage: form.includeCoverPage, configFormValues: form.configFormValues, configFormRows: form.configFormRows },
     snippets: useSnippetsStore.getState().snippets,
     userTemplates: useUserTemplatesStore.getState().templates,
     attachments,
@@ -380,14 +380,21 @@ async function runRestore(json: string): Promise<RestoreResult> {
   }
 
   // Explicit restore replaces the two live NAVMC buffers, normalizing old fields.
+  // configFormValues/
+  // configFormRows are dictionaries keyed by form id, one entry per form the
+  // user has touched, so they merge non-destructively (add-only-missing, keep
+  // local) — a restore must never clobber a config form the user has in
+  // progress but the bundle lacks, per this module's contract.
   let formsRestored = false;
   const forms = parsed.forms as BackupBundle['forms'] | undefined;
-  if (forms && (forms.navmc10274 || forms.navmc11811 || typeof forms.includeCoverPage === 'boolean')) {
+  if (forms && (forms.navmc10274 || forms.navmc11811 || forms.configFormValues || forms.configFormRows || typeof forms.includeCoverPage === 'boolean')) {
     formsRestored = persistCategory('Form fields', () => {
       useFormStore.setState((s) => ({
         navmc10274: forms.navmc10274 ? normalizeNavmc10274(forms.navmc10274 as Partial<typeof s.navmc10274>) : s.navmc10274,
         navmc11811: forms.navmc11811 ? normalizeNavmc11811(forms.navmc11811 as Partial<typeof s.navmc11811>) : s.navmc11811,
         includeCoverPage: typeof forms.includeCoverPage === 'boolean' ? forms.includeCoverPage : s.includeCoverPage,
+        configFormValues: mergeRecord(s.configFormValues, forms.configFormValues as typeof s.configFormValues).merged,
+        configFormRows: mergeRecord(s.configFormRows, forms.configFormRows as typeof s.configFormRows).merged,
       }));
     }, FORMS_PERSIST_KEY);
   }
