@@ -110,7 +110,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error, onDownloadPdf, 
             </div>
             <Button variant="outline" size="sm" onClick={handleOpenLogs}>
               <ScrollText className="h-4 w-4 mr-2" />
-              View Logs
+              View logs
             </Button>
           </div>
         )}

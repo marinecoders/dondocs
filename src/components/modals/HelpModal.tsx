@@ -1,3 +1,5 @@
+import { useTourStore } from '@/stores/tourStore';
+import { useOnboardingStore } from '@/stores/onboardingStore';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useUIStore } from '@/stores/uiStore';
@@ -15,6 +17,7 @@ const shortcuts = [
 ];
 
 export function HelpModal() {
+  const checklistCelebrated = useOnboardingStore((s) => s.checklistCelebrated);
   const installed = useInstallStore((s) => s.isInstalled);
   const open = useUIStore((s) => s.helpOpen);
   const navigate = (action: () => void) => { useUIStore.getState().setHelpOpen(false); action(); };
@@ -26,12 +29,16 @@ export function HelpModal() {
         <Button variant="outline" onClick={() => navigate(() => useUIStore.getState().setSettingsOpen(true, 'backup'))}>Backup & restore</Button>
         <Button variant="outline" onClick={() => navigate(() => useUIStore.getState().setTrashOpen(true))}>Recover deleted drafts</Button>
       </div>
+      <div className="flex flex-wrap gap-2">
+        <Button variant="outline" onClick={() => navigate(() => useTourStore.getState().start())}>Take optional tour</Button>
+        {!checklistCelebrated && <Button variant="outline" onClick={() => navigate(() => useUIStore.getState().setChecklistSheetOpen(true))}>Getting started</Button>}
+      </div>
       <p className="text-sm text-muted-foreground">Use Contents to reach document sections. Scroll shows the full editor; Focused shows one section at a time. Required-field checks identify incomplete sections; review the generated output before sharing or downloading.</p>
       <section aria-labelledby="help-shortcuts" className="space-y-3">
         <h3 id="help-shortcuts" className="font-medium">Keyboard shortcuts</h3>
         <dl className="space-y-2 text-sm">{shortcuts.map(([label, keys]) => <div key={label} className="flex flex-wrap justify-between gap-2"><dt>{label}</dt><dd className="font-mono text-muted-foreground">{formatShortcut(keys)}</dd></div>)}</dl>
       </section>
-      <p className="text-xs text-muted-foreground">Saved drafts live in this browser. A share link is a password-protected snapshot; attached files and images are excluded.</p>
+      <p className="text-xs text-muted-foreground">Drafts autosave in this browser. Save checkpoint keeps one manual copy; Open saved checkpoint reviews it before opening a separate draft. A share link is a password-protected snapshot; attached files and images are excluded.</p>
       <section aria-labelledby="help-support" className="space-y-3">
         <h3 id="help-support" className="font-medium">Support & diagnostics</h3>
         <div className="flex flex-wrap gap-2">
@@ -46,7 +53,7 @@ export function HelpModal() {
         <p className="text-xs text-muted-foreground">Reports open a draft on public GitHub for you to review and submit. Document text and logs are not attached automatically.</p>
       </section>
       <Button variant="ghost" className="justify-self-start" onClick={() => navigate(() => useUIStore.getState().setAboutModalOpen(true))}>About DonDocs</Button>
-      <Button variant="ghost" className="justify-self-start" onClick={() => navigate(() => useUIStore.getState().setWelcomeOpen(true))}>Welcome letter & optional tour</Button>
+      <Button variant="ghost" className="justify-self-start" onClick={() => navigate(() => useUIStore.getState().setWelcomeOpen(true))}>Welcome letter</Button>
     </DialogContent>
   </Dialog>;
 }

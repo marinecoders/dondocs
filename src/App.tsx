@@ -1563,7 +1563,7 @@ ${texFiles['body.tex'] || '% No body content'}
         return;
       }
 
-      // Ctrl/Cmd + H - Find & Replace
+      // Ctrl/Cmd + H - Find and replace
       if (isMod && e.key === 'h') {
         e.preventDefault();
         setFindReplaceOpen(true);
@@ -1776,7 +1776,7 @@ ${texFiles['body.tex'] || '% No body content'}
         },
         {
           id: 'find-replace',
-          label: 'Find & Replace…',
+          label: 'Find and replace…',
           icon: Search,
           kbd: formatShortcut('mod H'),
           onRun: () => useUIStore.getState().setFindReplaceOpen(true),

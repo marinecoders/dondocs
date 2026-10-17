@@ -2,8 +2,7 @@ import { saveCheckpoint } from '@/lib/saveCheckpoint';
 import { DraftIdentity } from './DraftIdentity';
 import { DocumentNavigation } from './DocumentNavigation';
 import { useState, useCallback, useRef, useEffect, type ChangeEvent, type ReactNode } from 'react';
-import { PanelLeft, MoreHorizontal, Copy, History, Wrench, Check, Download, FileText, Braces, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, FileDown, FileUp, ScrollText, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Loader2, Lightbulb, FolderOpen, Rocket, FolderSync, AlertTriangle, MonitorDown, Radio } from 'lucide-react';
-import { GithubIcon } from '@/components/icons/GithubIcon';
+import { PanelLeft, MoreHorizontal, Copy, History, Wrench, Check, Download, FileText, Braces, RefreshCw, Save, RotateCcw, Layers, Search, FileDown, FileUp, Undo2, Redo2, Eraser, Compass, PanelRight, Link2, FileInput, X, Loader2, FolderOpen, FolderSync, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { formatShortcut, isMac } from '@/lib/platform';
@@ -39,8 +38,6 @@ import { useDocumentsStore } from '@/stores/documentsStore';
 import { restoreBackup, summarizeRestore } from '@/lib/backup';
 import { downloadWorkspaceBackup } from '@/lib/backupDownload';
 import { useBackupStore } from '@/stores/backupStore';
-import { useInstallStore } from '@/stores/installStore';
-import { promptInstall } from '@/hooks/useInstallPrompt';
 import { useHistoryStore } from '@/stores/historyStore';
 import { triggerDownload } from '@/lib/encoding';
 import { buildDraftFile, parseDraftFile, type ReviewedDraft } from '@/lib/draftFile';
@@ -48,10 +45,7 @@ import { persistAttachment } from '@/lib/attachments';
 import { SessionPreview } from '@/components/SessionPreview';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { STORAGE_KEYS } from '@/lib/constants';
-import { useLogStore } from '@/stores/logStore';
 import { useTourStore } from '@/stores/tourStore';
-import { useOnboardingStore } from '@/stores/onboardingStore';
-import { buildBugReportUrl, buildFeatureRequestUrl, GITHUB_REPO_URL } from '@/lib/supportLinks';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 
 interface HeaderProps {
@@ -97,9 +91,6 @@ export function Header({
   // One selector per field so Zustand only re-renders on that field's change,
   // not on every store update (this header is ~40 buttons + dropdowns). Setters
   // are stable, so selecting them is free. Same for the document + history stores.
-  const setAboutModalOpen = useUIStore((s) => s.setAboutModalOpen);
-  const setConnectivityModalOpen = useUIStore((s) => s.setConnectivityModalOpen);
-  const setNistModalOpen = useUIStore((s) => s.setNistModalOpen);
   const setBatchModalOpen = useUIStore((s) => s.setBatchModalOpen);
   const setImportLetterModalOpen = useUIStore((s) => s.setImportLetterModalOpen);
   const setDocumentGuideOpen = useUIStore((s) => s.setDocumentGuideOpen);
@@ -111,11 +102,6 @@ export function Header({
   const mobilePreviewOpen = useUIStore((s) => s.mobilePreviewOpen);
   const previewOpen = isMobile ? mobilePreviewOpen : previewVisible;
   const togglePreview = useUIStore((s) => s.togglePreview);
-  // Reopen the getting-started checklist. Hidden once onboarding is finished.
-  // Getting started is an explicit Help action on every screen size.
-  const checklistCelebrated = useOnboardingStore((s) => s.checklistCelebrated);
-  const reopenChecklist = () => useUIStore.getState().setChecklistSheetOpen(true);
-
   // Actions only, no document-state subscription. The handlers below read the
   // full document via useDocumentStore.getState() at call time, so Header
   // doesn't re-render per keystroke.
@@ -162,7 +148,6 @@ export function Header({
   // Synced-backup file (File System Access API).
   const saveMenuOpen = useUIStore((s) => s.saveMenuOpen);
   const setSaveMenuOpen = useUIStore((s) => s.setSaveMenuOpen);
-  const isInstalled = useInstallStore((s) => s.isInstalled);
   const backupStatus = useBackupStore((s) => s.status);
   const backupFileName = useBackupStore((s) => s.fileName);
   const setupBackup = useBackupStore((s) => s.setupBackup);
@@ -342,7 +327,7 @@ export function Header({
       <input type="file" aria-label="Restore workspace backup file" ref={libraryInputRef} onChange={handleImportLibrary} accept=".json" className="hidden" />
       <div className="flex min-w-0 items-center gap-2 border-b border-border px-3 sm:px-5 py-3 sm:min-h-[76px]">
         <HeaderTip label={isMobile ? 'Open workspace' : sidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'}>
-          <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8 shrink-0" aria-label={isMobile ? 'Open workspace' : sidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'} onClick={() => isMobile ? useUIStore.getState().setMobileDocsOpen(true) : useUIStore.getState().toggleSidebar()}><PanelLeft className="h-4 w-4" /></Button>
+          <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8 shrink-0" data-tour="workspace-menu" aria-label={isMobile ? 'Open workspace' : sidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'} onClick={() => isMobile ? useUIStore.getState().setMobileDocsOpen(true) : useUIStore.getState().toggleSidebar()}><PanelLeft className="h-4 w-4" /></Button>
         </HeaderTip>
         <DraftIdentity />
         {(sidebarCollapsed || isMobile) && <Button variant="ghost" size="icon" className="hidden sm:inline-flex" aria-label="Search workspace" onClick={() => setCommandPaletteOpen(true)}><Search className="h-4 w-4" /></Button>}
@@ -394,7 +379,7 @@ export function Header({
                     ) : (
                       <FileText className="h-4 w-4 mr-2" />
                     )}
-                    {isDocxGenerating ? 'Generating DOCX…' : 'Download DOCX'}
+                    {isDocxGenerating ? 'Generating Word…' : 'Download Word (.docx)'}
                   </DropdownMenuItem>
                   {/* Code exports are a secondary tier: separated + muted with a
                       Braces glyph so they read below the document exports. */}
@@ -426,6 +411,7 @@ export function Header({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-60">
               <DropdownMenuLabel className="text-xs text-muted-foreground font-normal">Draft (this browser)</DropdownMenuLabel>
+              <p className="px-2 pb-2 text-xs text-muted-foreground">Drafts autosave. A checkpoint keeps a manual copy until you save another.</p>
               <DropdownMenuItem onClick={() => { const ds = useDocumentsStore.getState(); ds.saveCurrent(); if (ds.currentId) ds.duplicateDocument(ds.currentId); }}><Copy className="h-4 w-4 mr-2" />Duplicate draft</DropdownMenuItem>
               <DropdownMenuItem onClick={handleSaveProgress}>
                 <Save className="h-4 w-4 mr-2" />
@@ -446,20 +432,19 @@ export function Header({
                 <FileInput className="h-4 w-4 mr-2" />
                 Open from share link
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setImportLetterModalOpen(true)}>
-                <FileUp className="h-4 w-4 mr-2" />
-                Import letter from PDF or Word…
-              </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuLabel className="text-xs text-muted-foreground font-normal">Backup file (.json)</DropdownMenuLabel>
+              <DropdownMenuLabel className="text-xs text-muted-foreground font-normal">Import & export drafts</DropdownMenuLabel>
+              <DropdownMenuItem onClick={() => setImportLetterModalOpen(true)}><FileUp className="h-4 w-4 mr-2" />Import letter from PDF or Word…</DropdownMenuItem>
               <DropdownMenuItem onClick={handleExportDraft}>
                 <FileDown className="h-4 w-4 mr-2" />
-                Export to file
+                Export draft (.json)
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => fileInputRef.current?.click()}>
                 <FileUp className="h-4 w-4 mr-2" />
-                Import from file
+                Import draft (.json)
               </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel className="text-xs text-muted-foreground font-normal">Workspace backup</DropdownMenuLabel>
               <DropdownMenuItem data-tour="backup-export" onClick={handleExportLibrary}>
                 <FileDown className="h-4 w-4 mr-2" />
                 Back up everything
@@ -536,84 +521,15 @@ export function Header({
                 <Wrench className="h-3.5 w-3.5" aria-hidden="true" />Tools
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-52">
-              {/* Quick actions */}
-              <DropdownMenuItem onClick={handleUndo} disabled={!canUndo}><Undo2 className="h-4 w-4 mr-2" />Undo</DropdownMenuItem>
-              <DropdownMenuItem onClick={handleRedo} disabled={!canRedo}><Redo2 className="h-4 w-4 mr-2" />Redo<DropdownMenuShortcut>{formatShortcut(REDO_SHORTCUT)}</DropdownMenuShortcut></DropdownMenuItem>
+            <DropdownMenuContent align="end" className="w-60">
+              <DropdownMenuItem onClick={handleUndo} disabled={!canUndo}><Undo2 className="h-4 w-4" />Undo<DropdownMenuShortcut>{formatShortcut('mod Z')}</DropdownMenuShortcut></DropdownMenuItem>
+              <DropdownMenuItem onClick={handleRedo} disabled={!canRedo}><Redo2 className="h-4 w-4" />Redo<DropdownMenuShortcut>{formatShortcut(REDO_SHORTCUT)}</DropdownMenuShortcut></DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFindReplaceOpen(true)}><Search className="h-4 w-4" />Find and replace<DropdownMenuShortcut>{formatShortcut('mod H')}</DropdownMenuShortcut></DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem onClick={onRefreshPreview} disabled={isCompiling}>
-                <RefreshCw className={`h-4 w-4 mr-2 ${isCompiling ? 'animate-spin' : ''}`} />
-                Refresh Preview
+                <RefreshCw className={`h-4 w-4 ${isCompiling ? 'animate-spin' : ''}`} />Refresh preview
               </DropdownMenuItem>
-              {!isMobile && (
-                <DropdownMenuItem onClick={togglePreview}>
-                  {previewVisible ? <PanelRightClose className="h-4 w-4 mr-2" /> : <PanelRight className="h-4 w-4 mr-2" />}
-                  {previewVisible ? 'Hide Preview' : 'Show Preview'}
-                </DropdownMenuItem>
-              )}
-              <DropdownMenuSeparator />
-              {/* Tools section */}
-              <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Tools</div>
-              <DropdownMenuItem onClick={() => setDocumentGuideOpen(true)}>
-                <Compass className="h-4 w-4 mr-2" />
-                Document Guide
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setBatchModalOpen(true)}>
-                <Layers className="h-4 w-4 mr-2" />
-                Batch Generation
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFindReplaceOpen(true)}>
-                <Search className="h-4 w-4 mr-2" />
-                Find & Replace
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => setConnectivityModalOpen(true)}><Radio className="h-4 w-4 mr-2" />Endpoint Check</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => useUIStore.getState().setSettingsOpen(true)}><Settings className="h-4 w-4 mr-2" />Settings</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              {/* Help section */}
-              <DropdownMenuItem onClick={() => useUIStore.getState().setHelpOpen(true)}>
-                <HelpCircle className="h-4 w-4 mr-2" />Help & keyboard shortcuts
-              </DropdownMenuItem>
-              <div className="px-2 py-1 text-xs text-muted-foreground font-medium">Help</div>
-              <DropdownMenuItem onClick={() => useTourStore.getState().start()}>
-                <Compass className="h-4 w-4 mr-2" />
-                Take the Tour
-              </DropdownMenuItem>
-              {!checklistCelebrated && (
-                <DropdownMenuItem onClick={reopenChecklist}>
-                  <Rocket className="h-4 w-4 mr-2" />
-                  Getting started
-                </DropdownMenuItem>
-              )}
-              {!isInstalled && (
-                <DropdownMenuItem onClick={() => void promptInstall()}>
-                  <MonitorDown className="h-4 w-4 mr-2" />
-                  Install app
-                </DropdownMenuItem>
-              )}
-              <DropdownMenuItem onClick={() => setNistModalOpen(true)}>
-                <Shield className="h-4 w-4 mr-2" />
-                NIST 800-171
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setAboutModalOpen(true)}>
-                <Info className="h-4 w-4 mr-2" />
-                About
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => useLogStore.getState().setOpen(true)}>
-                <ScrollText className="h-4 w-4 mr-2" />
-                View Logs
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => window.open(GITHUB_REPO_URL, '_blank', 'noopener,noreferrer')}>
-                <GithubIcon className="h-4 w-4 mr-2" />
-                GitHub
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => window.open(buildBugReportUrl(), '_blank', 'noopener,noreferrer')}>
-                <Bug className="h-4 w-4 mr-2" />
-                Report Bug
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => window.open(buildFeatureRequestUrl(), '_blank', 'noopener,noreferrer')}>
-                <Lightbulb className="h-4 w-4 mr-2" />
-                Suggest Feature
-              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setDocumentGuideOpen(true)}><Compass className="h-4 w-4" />Document type guide</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
       </div>

@@ -64,14 +64,14 @@ export const TOUR_STEPS: TourStep[] = [
     body: 'This menu is also your safety net: "Back up everything" downloads one file with all your documents, profiles, signatures, and settings — restore it on any machine. On desktop Chrome or Edge, auto-backup can keep a file current after every save.',
   },
   {
-    target: '[data-tour="tools"]',
+    target: '[data-tour="workspace-menu"]',
     title: 'Make it yours',
-    body: 'Open Tools → Settings (also in the sidebar) for Light, Dark, Classic, spacing, preview preferences, and backups.',
+    body: 'Open Settings in the sidebar, or the Documents menu on mobile, for Light, Dark, Classic, spacing, preview preferences, and backups.',
   },
   {
-    target: '[data-tour="tools"]',
+    target: '[data-tour="workspace-menu"]',
     title: 'Help lives here',
-    body: 'Open Tools → Help & keyboard shortcuts (or sidebar Help) for guides, recovery, diagnostics, and feedback. The welcome letter offers this optional tour.',
+    body: 'Open Help in the sidebar, or the Documents menu on mobile, for guides, recovery, diagnostics, and feedback. The welcome letter offers this optional tour.',
   },
 ];
 

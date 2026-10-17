@@ -1,6 +1,7 @@
+import { WORKSPACE_DESTINATIONS } from './workspaceNavigation';
 import { matchesSearch } from '@/lib/workspaceSearch';
 import { useMemo, useState, useRef, useEffect } from 'react';
-import { PanelLeftClose, PanelLeftOpen, Plus, FolderOpen, UserRound, FolderSync, Settings, HelpCircle, Search, Trash2, MoreHorizontal, Copy, Pencil, Undo2, History, Pin, PinOff, ArrowDownAZ, Clock, CheckSquare, Check, X } from 'lucide-react';
+import { PanelLeftClose, PanelLeftOpen, Plus, FolderOpen, Search, Trash2, MoreHorizontal, Copy, Pencil, Undo2, History, Pin, PinOff, ArrowDownAZ, Clock, CheckSquare, Check, X } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -588,13 +589,7 @@ export function EditorSidebar() {
         </div>
       </div>
       <div className="shrink-0 px-3 pb-3 pt-4 space-y-0.5">
-        {[
-          { label: 'Profiles', icon: UserRound, run: () => useUIStore.getState().setProfileManagerOpen(true) },
-          { label: 'Backup & restore', icon: FolderSync, run: () => useUIStore.getState().setSettingsOpen(true, 'backup') },
-          { label: 'Trash', icon: Trash2, run: () => useUIStore.getState().setTrashOpen(true) },
-          { label: 'Settings', icon: Settings, run: () => useUIStore.getState().setSettingsOpen(true) },
-          { label: 'Help', icon: HelpCircle, run: () => useUIStore.getState().setHelpOpen(true) },
-        ].map(({ label, icon: Icon, run }) => <button key={label} type="button" onClick={(event) => { event.currentTarget.focus(); run(); }} className="flex min-h-9 w-full items-center gap-2.5 rounded-md px-3 text-[13px] hover:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-ring"><Icon className="h-4 w-4" />{label}</button>)}
+        {WORKSPACE_DESTINATIONS.map(({ label, icon: Icon, run }) => <button key={label} type="button" onClick={(event) => { event.currentTarget.focus(); run(); }} className="flex min-h-9 w-full items-center gap-2.5 rounded-md px-3 text-[13px] hover:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-ring"><Icon className="h-4 w-4" />{label}</button>)}
         <p className="px-3 pt-3 text-[11px] text-muted-foreground">Local workspace · Unofficial beta</p>
       </div>
     </nav>

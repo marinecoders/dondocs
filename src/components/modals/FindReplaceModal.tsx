@@ -157,7 +157,7 @@ export function FindReplaceModal() {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Search className="h-5 w-5" />
-            Find & Replace
+            Find and replace
           </DialogTitle>
           <DialogDescription className="sr-only">
             Search the document body for text and optionally replace matches.

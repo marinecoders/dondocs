@@ -62,16 +62,16 @@ describe('tourStore', () => {
   });
 
   it('start() drops steps whose target is absent from the current layout', () => {
-    // Mount every target except Tools, which anchors both settings/help steps.
+    // Mount every target except the workspace menu, which anchors both settings/help steps.
     mountTargets(
       TOUR_STEPS.map((s) => s.target).filter(
-        (t): t is string => !!t && t !== '[data-tour="tools"]'
+        (t): t is string => !!t && t !== '[data-tour="workspace-menu"]'
       )
     );
     useTourStore.getState().start();
     const steps = useTourStore.getState().steps;
     expect(steps).toHaveLength(TOUR_STEPS.length - 2);
-    expect(steps.some((s) => s.target === '[data-tour="tools"]')).toBe(false);
+    expect(steps.some((s) => s.target === '[data-tour="workspace-menu"]')).toBe(false);
     // Steps that reveal their hidden editor targets remain available.
     expect(steps.filter((s) => s.action)).toHaveLength(2);
   });

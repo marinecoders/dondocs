@@ -1,5 +1,6 @@
-import { Plus, Trash2, Undo2, Pin, PinOff } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { WORKSPACE_DESTINATIONS } from './workspaceNavigation';
+import { Plus, Trash2, Undo2, Pin, PinOff, Search, FileDown } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
@@ -45,6 +46,7 @@ export function MobileRecents() {
         <DialogContent className="max-w-md gap-0 p-0">
           <DialogHeader className="flex-row items-center justify-between space-y-0 border-b border-border px-4 py-3">
             <DialogTitle className="text-base">Documents</DialogTitle>
+            <DialogDescription className="sr-only">Recent drafts and workspace tools.</DialogDescription>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button type="button" className="mr-6 inline-flex min-h-11 items-center gap-1 rounded-md border border-border bg-card px-3 text-xs hover:bg-muted">
@@ -61,12 +63,10 @@ export function MobileRecents() {
 
           <div className="flex flex-wrap gap-1 border-b border-border px-3 py-2">
             {[
-              { label: 'Search', run: () => useUIStore.getState().setCommandPaletteOpen(true) },
-              { label: 'Templates', run: () => useUIStore.getState().setTemplateLoaderOpen(true) },
-              { label: 'Profiles', run: () => useUIStore.getState().setProfileManagerOpen(true) },
-              { label: 'Settings', run: () => useUIStore.getState().setSettingsOpen(true) },
-              { label: 'Help', run: () => useUIStore.getState().setHelpOpen(true) },
-            ].map(({ label, run }) => <button key={label} type="button" className="min-h-11 rounded px-2 text-sm hover:bg-muted" onClick={() => { setOpen(false); run(); }}>{label}</button>)}
+              { label: 'Search', icon: Search, run: () => useUIStore.getState().setCommandPaletteOpen(true) },
+              { label: 'Templates', icon: FileDown, run: () => useUIStore.getState().setTemplateLoaderOpen(true) },
+              ...WORKSPACE_DESTINATIONS,
+            ].map(({ label, icon: Icon, run }) => <button key={label} type="button" className="inline-flex min-h-11 items-center gap-2 rounded px-2 text-sm hover:bg-muted" onClick={() => { setOpen(false); run(); }}><Icon className="h-4 w-4" />{label}</button>)}
           </div>
           {pendingDelete && (
             <div className="mx-2 mt-2 flex items-center justify-between gap-2 rounded-md border border-border bg-muted/60 px-2.5 py-1.5 text-xs">
@@ -83,7 +83,6 @@ export function MobileRecents() {
             </div>
           )}
 
-          <button type="button" className="mx-4 mt-2 min-h-10 text-sm text-left" onClick={() => { setOpen(false); useUIStore.getState().setTrashOpen(true); }}>Open Trash</button>
           <ul className="max-h-[60vh] overflow-y-auto p-2">
             {metas.length === 0 ? (
               <li className="px-3 py-8 text-center">
