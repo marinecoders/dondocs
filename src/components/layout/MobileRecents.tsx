@@ -1,5 +1,8 @@
-import { FolderOpen, Plus, Trash2, Undo2, Pin, PinOff } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useRef, useState } from 'react';
+import { WORKSPACE_DESTINATIONS } from './workspaceNavigation';
+import { Plus, Trash2, Undo2, Pin, PinOff, Search, FileDown, MoreHorizontal, Pencil, Copy, History } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { docTypeChip } from '@/types/document';
@@ -15,10 +18,8 @@ function relTime(ts: number): string {
 }
 
 /**
- * Mobile-only Recents: a floating "Documents" button that opens a dialog list
- * of saved documents (switch / new / delete with undo). The desktop sidebar is
- * hidden on small screens, so without this the document library is unreachable
- * on phones.
+ * Mobile workspace library, opened from the document header in place of the
+ * desktop sidebar. Includes workspace tools and document recovery actions.
  */
 export function MobileRecents() {
   const isMobile = useUIStore((s) => s.isMobile);
@@ -33,6 +34,24 @@ export function MobileRecents() {
   const pendingDelete = useDocumentsStore((s) => s.pendingDelete);
   const restoreDeleted = useDocumentsStore((s) => s.restoreDeleted);
 
+  const [renamingId, setRenamingId] = useState<string | null>(null);
+  const [name, setName] = useState('');
+  const pendingRename = useRef<{ id: string; name: string } | null>(null);
+  const actionButtons = useRef(new Map<string, HTMLButtonElement>());
+  const pendingTool = useRef<(() => void) | null>(null);
+  const openTool = (run: () => void) => {
+    pendingTool.current = run;
+    setOpen(false);
+  };
+  const finishRename = (id: string, restoreFocus: boolean) => {
+    setRenamingId(null);
+    if (restoreFocus) requestAnimationFrame(() => actionButtons.current.get(id)?.focus());
+  };
+  const commitName = (id: string, restoreFocus = false) => {
+    useDocumentsStore.getState().renameDocument(id, name);
+    finishRename(id, restoreFocus);
+  };
+
   if (!isMobile) return null;
 
   // Pinned docs float to the top; the rest follow most-recent order.
@@ -42,35 +61,41 @@ export function MobileRecents() {
 
   return (
     <>
-      {!open && (
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          aria-label="Documents"
-          className="fixed bottom-6 left-4 z-50 flex items-center gap-2 rounded-full border border-border bg-card px-4 py-3 text-sm font-medium text-foreground shadow-xl transition-colors hover:bg-muted"
-          style={{ marginBottom: 'env(safe-area-inset-bottom, 0px)' }}
-        >
-          <FolderOpen className="h-5 w-5" aria-hidden="true" />
-          Documents
-        </button>
-      )}
-
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-md gap-0 p-0">
+        <DialogContent className="max-w-md gap-0 p-0" onEscapeKeyDown={(event) => {
+          if (renamingId) { event.preventDefault(); finishRename(renamingId, true); }
+        }} onCloseAutoFocus={() => {
+          const run = pendingTool.current;
+          pendingTool.current = null;
+          // Let this dialog restore focus to Open workspace before the next
+          // tool captures its launcher. The workspace's buttons are unmounting.
+          if (run) queueMicrotask(run);
+        }}>
           <DialogHeader className="flex-row items-center justify-between space-y-0 border-b border-border px-4 py-3">
             <DialogTitle className="text-base">Documents</DialogTitle>
-            <button
-              type="button"
-              onClick={() => {
-                newDocument();
-                setOpen(false);
-              }}
-              className="mr-6 inline-flex items-center gap-1 rounded-md border border-border bg-card px-2 py-1 text-xs hover:bg-muted"
-            >
-              <Plus className="h-3.5 w-3.5" /> New
-            </button>
+            <DialogDescription className="sr-only">Recent drafts and workspace tools.</DialogDescription>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button type="button" className="mr-6 inline-flex min-h-11 items-center gap-1 rounded-md border border-border bg-card px-3 text-xs hover:bg-muted">
+                  <Plus className="h-3.5 w-3.5" /> New document
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onSelect={() => { newDocument(); setOpen(false); }}>New correspondence</DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => { newDocument('navmc_10274'); setOpen(false); }}>New NAVMC 10274</DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => { newDocument('navmc_118_11'); setOpen(false); }}>New NAVMC 118 (11)</DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => openTool(() => useUIStore.getState().setFormCatalogOpen(true))}>Browse forms…</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </DialogHeader>
 
+          <div className="flex flex-wrap gap-1 border-b border-border px-3 py-2">
+            {[
+              { label: 'Search', icon: Search, run: () => useUIStore.getState().setCommandPaletteOpen(true) },
+              { label: 'Templates', icon: FileDown, run: () => useUIStore.getState().setTemplateLoaderOpen(true) },
+              ...WORKSPACE_DESTINATIONS,
+            ].map(({ label, icon: Icon, run }) => <button key={label} data-tour={label === 'Templates' ? 'templates' : undefined} type="button" className="inline-flex min-h-11 items-center gap-2 rounded px-2 text-sm hover:bg-muted" onClick={() => openTool(run)}><Icon className="h-4 w-4" />{label}</button>)}
+          </div>
           {pendingDelete && (
             <div className="mx-2 mt-2 flex items-center justify-between gap-2 rounded-md border border-border bg-muted/60 px-2.5 py-1.5 text-xs">
               <span className="min-w-0 flex-1 truncate text-muted-foreground">
@@ -86,18 +111,17 @@ export function MobileRecents() {
             </div>
           )}
 
-          <button type="button" className="mx-4 mt-2 min-h-10 text-sm text-left" onClick={() => { setOpen(false); useUIStore.getState().setTrashOpen(true); }}>Open Trash</button>
           <ul className="max-h-[60vh] overflow-y-auto p-2">
             {metas.length === 0 ? (
               <li className="px-3 py-8 text-center">
-                <p className="text-sm text-muted-foreground">Nothing here yet — start your first document.</p>
+                <p className="text-sm text-muted-foreground">No recent documents yet.</p>
                 <button
                   type="button"
                   onClick={() => {
                     newDocument();
                     setOpen(false);
                   }}
-                  className="mt-3 inline-flex items-center gap-1 rounded-md border border-border bg-card px-3 py-1.5 text-sm text-foreground hover:bg-muted"
+                  className="workspace-empty-action workspace-empty-action-primary mt-3 inline-flex items-center gap-2"
                 >
                   <Plus className="h-3.5 w-3.5" /> Start a naval letter
                 </button>
@@ -110,7 +134,11 @@ export function MobileRecents() {
                     key={m.id}
                     className={`flex items-center rounded-md pr-1 ${active ? 'bg-primary/10' : ''}`}
                   >
-                    <button
+                    {renamingId === m.id ? <input autoFocus aria-label="Draft name" value={name} maxLength={160}
+                      className="min-w-0 flex-1 rounded border border-input bg-background px-3 py-3 text-sm"
+                      onChange={(e) => setName(e.target.value)} onBlur={() => commitName(m.id)}
+                      onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); commitName(m.id, true); } if (e.key === 'Escape') { e.stopPropagation(); finishRename(m.id, true); } }}
+                    /> : <button
                       type="button"
                       onClick={() => {
                         switchTo(m.id);
@@ -130,7 +158,7 @@ export function MobileRecents() {
                       <span className="min-w-0 flex-1">
                         <span
                           title={m.title}
-                          className={`block truncate text-sm ${active ? 'text-primary' : 'text-foreground'}`}
+                          className={`workspace-document-title text-sm leading-5 ${active ? 'text-primary' : 'text-foreground'}`}
                         >
                           {m.title}
                         </span>
@@ -139,23 +167,32 @@ export function MobileRecents() {
                         </span>
                       </span>
                       {m.pinned && <Pin className="h-3.5 w-3.5 shrink-0 text-primary/70" aria-label="Pinned" />}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => togglePin(m.id)}
-                      aria-label={m.pinned ? `Unpin ${m.title}` : `Pin ${m.title}`}
-                      className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                    >
-                      {m.pinned ? <PinOff className="h-4 w-4" /> : <Pin className="h-4 w-4" />}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => remove(m.id)}
-                      aria-label={`Remove ${m.title}`}
-                      className="ml-0.5 inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:text-destructive focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
+                    </button>}
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button ref={(node) => { if (node) actionButtons.current.set(m.id, node); else actionButtons.current.delete(m.id); }} type="button" aria-label={`Actions for ${m.title}`} className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-64 [&_[role=menuitem]]:min-h-11" onCloseAutoFocus={(event) => {
+                        const pending = pendingRename.current;
+                        if (pending) {
+                          event.preventDefault();
+                          pendingRename.current = null;
+                          setName(pending.name);
+                          setRenamingId(pending.id);
+                        }
+                      }}>
+                        <DropdownMenuLabel className="break-words whitespace-normal text-xs font-normal text-muted-foreground">{m.title}</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onSelect={() => togglePin(m.id)}>{m.pinned ? <PinOff /> : <Pin />}{m.pinned ? 'Unpin' : 'Pin'}</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => { pendingRename.current = { id: m.id, name: m.name ?? m.title }; }}><Pencil />Rename</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => { useDocumentsStore.getState().duplicateDocument(m.id); setOpen(false); }}><Copy />Duplicate</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => { switchTo(m.id); openTool(() => useUIStore.getState().setHistoryDocId(m.id)); }}><History />Version history</DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem variant="destructive" onSelect={() => remove(m.id)}><Trash2 />Move to Trash</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </li>
                 );
               })

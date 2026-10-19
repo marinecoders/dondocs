@@ -32,14 +32,19 @@ export function PublicationTablesSection() {
 
   if (carried.length === 0) {
     return (
+      <>
+      <h3 className="editor-section-heading">Tables</h3>
       <p className="text-xs text-muted-foreground">
         No tables. They appear here as the paragraphs that carry them are added.
       </p>
+      </>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <>
+    <h3 className="editor-section-heading">Tables</h3>
+    <div className="editor-section-groups">
       <p className="text-xs text-muted-foreground">
         An item with no NSN gives its CAGE code under the part number, as 74024019 (1CSL0).
         Indent an item to list it as consisting of the one above.
@@ -70,12 +75,10 @@ export function PublicationTablesSection() {
 
             {rows.map((row, index) => (
               <div key={index} className="space-y-2">
-              <div className="flex items-end gap-2">
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,9rem),1fr))] items-end gap-3">
                 {spec.columns.map((col) => (
-                  <div key={col.key} className="flex-1 space-y-1" style={col.key === 'description' && row.level ? { marginLeft: `${row.level * 12}px` } : undefined}>
-                    {index === 0 && (
-                      <Label className="text-2xs text-muted-foreground">{col.label}</Label>
-                    )}
+                  <div key={col.key} className="min-w-0 space-y-1" style={col.key === 'description' && row.level ? { marginLeft: `${row.level * 12}px` } : undefined}>
+                    <Label className="text-2xs text-muted-foreground">{col.label}</Label>
                     <PublicationTableCell
                       value={row.values[col.key] ?? ''}
                       onChange={(value) => updateTableRow(key, index, { [col.key]: value })}
@@ -92,6 +95,8 @@ export function PublicationTablesSection() {
                     />
                   </div>
                 ))}
+              </div>
+              <div className="flex justify-end gap-1">
                 {spec.nestable && (
                   <>
                     <Button
@@ -145,5 +150,6 @@ export function PublicationTablesSection() {
         );
       })}
     </div>
+    </>
   );
 }

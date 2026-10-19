@@ -15,8 +15,10 @@
  */
 
 import { useEffect, useState, useCallback } from 'react';
-import { AlertTriangle, X, ExternalLink } from 'lucide-react';
+import { AlertTriangle, ExternalLink } from 'lucide-react';
 import { getDeviceInfo, type DeviceInfo } from '@/utils/device';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import { showAppAlert } from '@/stores/alertStore';
 
 // Browser icons as simple SVG components
@@ -124,34 +126,16 @@ export function BrowserCompatibilityNotice() {
     setIsVisible(false);
   }, []);
 
-  const handleOpenInSafari = useCallback(async () => {
-    console.log('[BrowserNotice] Open in Safari clicked');
-    
-    // Copy URL to clipboard so user can paste in Safari
-    const currentUrl = window.location.href;
+  const browserName = deviceInfo?.isIOS ? 'Safari' : deviceInfo?.isAndroid ? 'Chrome' : 'your browser';
+  const handleCopyInstructions = useCallback(async () => {
+    const instructions = `Open ${browserName} and paste the URL in its address bar. You can also use this app's menu or share button and choose Open in Browser.`;
     try {
-      await navigator.clipboard.writeText(currentUrl);
-      showAppAlert({
-        title: 'URL copied to clipboard',
-        message:
-          'To open in Safari:\n1. Open Safari app\n2. Paste the URL in the address bar\n\nOr:\n1. Tap the ⋮ or share button in this browser\n2. Select "Open in Safari"',
-      });
+      await navigator.clipboard.writeText(window.location.href);
+      showAppAlert({ title: 'URL copied to clipboard', message: instructions });
     } catch {
-      // Clipboard API might not work, just show instructions
-      showAppAlert({
-        title: 'Open in Safari',
-        message:
-          '1. Tap the ⋮ or share button at the top/bottom of your screen\n2. Select "Open in Safari" or "Open in Browser"',
-      });
+      showAppAlert({ title: `Open in ${browserName}`, message: `Use this app's menu or share button and choose Open in Browser, or copy the address manually. ${instructions}` });
     }
-  }, []);
-
-  const handleBackdropClick = useCallback((e: React.MouseEvent) => {
-    // Only dismiss if clicking the backdrop itself, not the modal content
-    if (e.target === e.currentTarget) {
-      handleDismiss();
-    }
-  }, [handleDismiss]);
+  }, [browserName]);
 
   if (!isVisible || !deviceInfo) {
     return null;
@@ -160,36 +144,15 @@ export function BrowserCompatibilityNotice() {
   const appName = getInAppBrowserName(deviceInfo);
 
   return (
-    <div 
-      className="fixed inset-0 z-[100] bg-black/50 flex items-center justify-center p-4"
-      onClick={handleBackdropClick}
-    >
-      <div 
-        className="bg-card border border-border rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Header */}
-        <div className="flex items-start justify-between p-4 border-b border-border">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-warning/10 rounded-full">
-              <AlertTriangle className="h-6 w-6 text-warning" />
-            </div>
-            <div>
-              <h2 className="font-semibold text-lg">Limited Browser Support</h2>
-              <p className="text-sm text-muted-foreground">Some features may not work</p>
-            </div>
-          </div>
-          <button
-            type="button"
-            className="h-8 w-8 -mt-1 -mr-1 rounded-md flex items-center justify-center hover:bg-muted transition-colors"
-            onClick={handleDismiss}
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
+    <Dialog open={isVisible} onOpenChange={(open) => { if (!open) handleDismiss(); }}>
+      <DialogContent className="sm:max-w-md max-h-[85dvh] flex flex-col gap-0 p-0 overflow-hidden">
+        <DialogHeader className="shrink-0 p-4 pr-14 border-b text-left">
+          <DialogTitle className="flex items-center gap-2"><AlertTriangle className="h-5 w-5 shrink-0 text-warning" />Limited browser support</DialogTitle>
+          <DialogDescription>Some features may not work</DialogDescription>
+        </DialogHeader>
 
         {/* Content */}
-        <div className="p-4 space-y-4">
+        <div className="min-h-0 overflow-y-auto p-4 space-y-4">
           <p className="text-sm text-muted-foreground">
             You're viewing this in <strong className="text-foreground">{appName}'s</strong> built-in browser, 
             which has limited support for some features like <strong className="text-foreground">PDF downloads</strong>.
@@ -214,33 +177,19 @@ export function BrowserCompatibilityNotice() {
           </div>
 
           <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
-            <p className="text-sm font-medium text-primary mb-1">How to open in Safari:</p>
+            <p className="text-sm font-medium text-primary mb-1">How to open in {browserName}:</p>
             <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside">
               <li>Tap the <strong>⋮</strong> or <strong>share</strong> button</li>
-              <li>Select <strong>"Open in Safari"</strong></li>
+              <li>Select <strong>Open in Browser</strong>, or copy the link and paste it in {browserName}.</li>
             </ol>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="p-4 border-t border-border flex gap-2">
-          <button
-            type="button"
-            className="flex-1 px-4 py-2 text-sm font-medium border border-border rounded-md hover:bg-muted transition-colors"
-            onClick={handleDismiss}
-          >
-            Continue Anyway
-          </button>
-          <button
-            type="button"
-            className="flex-1 px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
-            onClick={handleOpenInSafari}
-          >
-            <ExternalLink className="h-4 w-4" />
-            Copy Link & Instructions
-          </button>
-        </div>
-      </div>
-    </div>
+        <DialogFooter className="shrink-0 p-4 border-t">
+          <Button variant="outline" onClick={handleDismiss}>Continue anyway</Button>
+          <Button onClick={handleCopyInstructions}><ExternalLink className="h-4 w-4" />Copy link & instructions</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

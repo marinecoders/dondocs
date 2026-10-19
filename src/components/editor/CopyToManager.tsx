@@ -1,7 +1,6 @@
 import { Plus, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
 import {
   Accordion,
   AccordionContent,
@@ -20,9 +19,9 @@ export function CopyToManager() {
         <AccordionTrigger>
           <span className="flex items-center gap-2">
             Copy To
-            <Badge variant="secondary" className="min-w-[28px] justify-center tnum">
+            <span className="text-xs font-normal text-muted-foreground tnum">
               {copyTos.length}
-            </Badge>
+            </span>
             <HelpTip>
               <p className="font-medium mb-1">Copy To</p>
               <p className="text-xs">
@@ -36,12 +35,12 @@ export function CopyToManager() {
           </span>
         </AccordionTrigger>
         <AccordionContent>
-          <div className="pt-2 space-y-2">
+          <div className="pt-2 editor-recipient-list">
             {copyTos.length === 0 && (
               <p className="text-xs text-muted-foreground">None added.</p>
             )}
             {copyTos.map((ct, index) => (
-              <div key={index} className="flex items-center gap-2">
+              <div key={index} className="editor-recipient-row flex items-center gap-2 border-b border-border py-1">
                 <Input
                   value={ct.text}
                   onChange={(e) => updateCopyTo(index, e.target.value)}
@@ -53,7 +52,7 @@ export function CopyToManager() {
                   size="icon"
                   onClick={() => removeCopyTo(index)}
                   aria-label={`Remove copy-to recipient ${index + 1}`}
-                  className="text-destructive hover:text-destructive"
+                  className="h-11 w-11 sm:h-9 sm:w-9 text-muted-foreground hover:text-destructive"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -61,8 +60,9 @@ export function CopyToManager() {
             ))}
 
             <Button
-              variant="outline"
+              variant="ghost"
               size="sm"
+              className="mt-2 text-xs font-normal"
               onClick={() => addCopyTo('')}
             >
               <Plus className="h-4 w-4 mr-2" />

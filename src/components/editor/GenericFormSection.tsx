@@ -13,16 +13,22 @@ import { Button } from '@/components/ui/button';
 import { showAppConfirm } from '@/stores/alertStore';
 
 export function GenericFormSection({ formType }: { formType: string }) {
-  const { config: definition, error: loadError } = useFormResource(formType);
+  const { config: definition, error: loadError, retry } = useFormResource(formType);
   const instance = useDocumentStore(s => s.genericForm);
   const currentId = useDocumentsStore(s => s.currentId);
   const [error, setError] = useState('');
   useEffect(() => {
     if (!definition || instance?.definition.formId === formType) return;
-    try { startForm(definition); } catch (e) { queueMicrotask(() => setError(String(e))); }
+    try {
+      const hasSavedCopy = Object.values(useDocumentsStore.getState().docs).some(entry => entry.session.genericForm?.definition.formId === formType);
+      startForm(definition, !hasSavedCopy);
+    } catch (e) { queueMicrotask(() => setError(String(e))); }
   }, [definition, formType, instance]);
   if (!definition || !instance || instance.definition.formId !== formType) {
-    return <p role="status">{error || loadError || 'Loading form…'}</p>;
+    return error || loadError ? <div role="alert" className="space-y-3 text-sm">
+      <p>{error || loadError}</p>
+      <Button variant="outline" onClick={() => { setError(''); retry(); }}>Retry form</Button>
+    </div> : <p role="status" className="text-sm text-muted-foreground">Loading form…</p>;
   }
   return <FormInstanceEditor key={currentId} instance={instance} currentId={currentId} />;
 }
@@ -85,15 +91,11 @@ function FormInstanceEditor({ instance, currentId }: { instance: FormInstance; c
     finally { if (mounted.current) setSavingOffline(false); }
   };
 
-  const clear = async () => {
-    if (!await showAppConfirm({ title: 'Clear this form?', message: 'You can undo this change.', confirmLabel: 'Clear', destructive: true })) return;
-    if (!stillCurrent()) { reportError(new Error('The form changed before it was cleared. Try again.')); return; }
-    setError('');
-    editForm(form => { form.answers = {}; form.rows = {}; });
-  };
-
-  return <div className="space-y-4">
-    <div className="flex flex-wrap items-center gap-2">
+  return <div className="flex flex-col gap-density-4">
+    <details className="rounded-md border border-border text-sm">
+      <summary className="cursor-pointer px-3 py-2 text-muted-foreground focus-visible:outline-2 focus-visible:outline-ring">Form options</summary>
+      <div className="space-y-3 px-3 pb-3">
+      <div className="flex flex-wrap items-center gap-2">
       <label className="cursor-pointer rounded border px-3 py-2 text-sm focus-within:ring-2 focus-within:ring-ring">
         Apply revision update
         <input className="sr-only" type="file" accept=".json" aria-label="Apply revision update" onChange={event => {
@@ -106,13 +108,13 @@ function FormInstanceEditor({ instance, currentId }: { instance: FormInstance; c
       <Button variant="secondary" disabled={savingOffline} aria-busy={savingOffline} onClick={() => void saveOffline()}>
         {savingOffline ? 'Saving offline…' : offline ? 'Available offline' : 'Save for offline use'}
       </Button>
-      <Button variant="ghost" onClick={() => void clear()}>Clear</Button>
     </div>
     <p className="text-sm text-muted-foreground">
       JSON backups keep your answers and form definition, but not the blank PDF pages.
       {' '}After restoring on another device or clearing browser storage, connect to the internet and choose Save for offline use.
       {' '}Keep an exported PDF if you also need a copy you can open without DonDocs.
     </p>
+    </div></details>
     {issues.filter(issue => {
       const [key, row, column] = issue.path.split('.');
       const group = Object.hasOwn(definition.rowGroups, key) ? definition.rowGroups[key] : undefined;
@@ -125,7 +127,7 @@ function FormInstanceEditor({ instance, currentId }: { instance: FormInstance; c
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     {definition.sections.map(section => <SectionShell key={section.id} id={section.id}>
       <h3 className="mb-2 font-medium">{section.title}</h3>
-      <div className={section.editor === 'checklist' ? 'space-y-2' : 'space-y-4'}>
+      <div className={section.editor === 'checklist' ? 'flex flex-col gap-density-2' : 'flex flex-col gap-density-4'}>
         {section.fields.map(key => <div key={key} className="space-y-1">
           <label htmlFor={`answer-${key}`} className="text-sm">
             {definition.fields[key].label}{definition.fields[key].requiredAt === 'export' ? ' *' : ''}

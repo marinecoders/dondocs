@@ -90,7 +90,7 @@ const SortableReference = memo(function SortableReference({
       style={style}
       // Card-less rows (matching the design): references read lighter than the
       // carded enclosures below, separated by whitespace rather than borders.
-      className={`mb-3 ${isDragging ? 'opacity-50' : ''}`}
+      className={`editor-list-row ${isDragging ? 'opacity-50' : ''}`}
     >
       <div className="flex items-start gap-2">
         {/* Drag handle */}

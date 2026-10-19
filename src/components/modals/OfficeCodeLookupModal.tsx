@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Accordion,
   AccordionContent,
@@ -54,8 +53,8 @@ export function OfficeCodeLookupModal({ open, onOpenChange, onSelect }: OfficeCo
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg max-h-[80vh]">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-lg h-[80dvh] flex flex-col overflow-hidden">
+        <DialogHeader className="shrink-0 pr-10 text-left">
           <DialogTitle className="flex items-center gap-2">
             <Briefcase className="h-5 w-5" />
             Office Code Reference
@@ -65,9 +64,10 @@ export function OfficeCodeLookupModal({ open, onOpenChange, onSelect }: OfficeCo
           </DialogDescription>
         </DialogHeader>
 
-        <div className="relative">
+        <div className="relative shrink-0">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
+            aria-label="Search office codes"
             placeholder="Search by code or description…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -79,7 +79,7 @@ export function OfficeCodeLookupModal({ open, onOpenChange, onSelect }: OfficeCo
               variant="ghost"
               size="icon"
               className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
-              onClick={() => setSearch('')}
+              aria-label="Clear search" onClick={() => setSearch('')}
             >
               <X className="h-4 w-4" />
             </Button>
@@ -90,7 +90,7 @@ export function OfficeCodeLookupModal({ open, onOpenChange, onSelect }: OfficeCo
           {search ? `${totalResults} results found` : 'Browse or search Office codes'}
         </p>
 
-        <ScrollArea className="h-[400px] pr-4">
+        <div className="min-h-0 flex-1 overflow-y-auto pr-2">
           <Accordion type="multiple" className="w-full" defaultValue={search ? filteredCategories.map((c) => c.name) : []}>
             {filteredCategories.map((category) => (
               <AccordionItem key={category.name} value={category.name}>
@@ -136,9 +136,9 @@ export function OfficeCodeLookupModal({ open, onOpenChange, onSelect }: OfficeCo
               <p className="text-sm mt-1">Try a different search term</p>
             </div>
           )}
-        </ScrollArea>
+        </div>
 
-        <div className="text-xs text-muted-foreground border-t pt-3">
+        <div className="shrink-0 text-xs text-muted-foreground border-t pt-3">
           Reference: SECNAV M-5216.5 (Standard Naval Correspondence Office Codes)
         </div>
       </DialogContent>

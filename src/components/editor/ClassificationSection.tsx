@@ -231,7 +231,7 @@ export function ClassificationSection() {
           </div>
         </AccordionTrigger>
         <AccordionContent>
-          <div className="space-y-4 pt-2">
+          <div className="editor-field-groups pt-2">
             <p className="text-xs text-muted-foreground -mt-1">Security markings stamped top and bottom.</p>
             {/* Domain Restriction Info — only when the active domain narrows the
                 level list, so the default panel stays clean like the design. */}
@@ -311,7 +311,7 @@ export function ClassificationSection() {
                 dropdown options are filtered out, so this is the only place
                 those inputs are reachable. */}
             {isCustom && (
-              <div className="space-y-4 p-3 rounded-md border bg-muted/30">
+              <div className="editor-field-groups p-3 rounded-md border bg-muted/30">
                 <p className="text-sm font-medium">Custom Classification</p>
 
                 <Notice variant="warning" className="flex items-start gap-2">
@@ -479,7 +479,7 @@ export function ClassificationSection() {
             )}
 
             {isPublication && (
-              <div className="space-y-4 p-3 rounded-md border bg-muted/30">
+              <div className="editor-field-groups p-3 rounded-md border bg-muted/30">
                 <p className="text-sm font-medium">Distribution</p>
                 <p className="text-xs text-muted-foreground">Select Statement A only after written public-release approval from the acquiring organization. Selecting a statement does not grant release authority.</p>
 
@@ -528,7 +528,7 @@ export function ClassificationSection() {
 
             {/* CUI fields, shown only when CUI is the selected level. */}
             {isCUI && (
-              <div className="space-y-4 p-3 rounded-md border bg-muted/30">
+              <div className="editor-field-groups p-3 rounded-md border bg-muted/30">
                 <p className={`text-sm font-medium ${CUI_TEXT_COLOR}`}>CUI Configuration</p>
 
                 <div className="space-y-2">
@@ -582,7 +582,7 @@ export function ClassificationSection() {
                 Per DoD 5200.01 these accompany every classified document. On
                 non-government domains the equivalent fields live in Custom. */}
             {isClassified && (
-              <div className="space-y-4 p-3 rounded-md border bg-muted/30">
+              <div className="editor-field-groups p-3 rounded-md border bg-muted/30">
                 <p className="text-sm font-medium text-destructive">Classified Configuration</p>
 
                 {isPublication && <div className="space-y-2">

@@ -5,7 +5,7 @@ import { useOnboardingStore } from '@/stores/onboardingStore';
 const TOUR_STORAGE_KEY = 'dondocs-tour-completed';
 // Version of the TOUR CONTENT (not the app). Bump when the steps change
 // meaningfully so the first-run tour replays once for returning users.
-// v2: added the "Back up everything" step.
+// v2: added the "Download workspace backup" step.
 const TOUR_VERSION = '2';
 
 /**

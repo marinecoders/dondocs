@@ -4,9 +4,10 @@ import {
   Dialog,
   DialogContent,
   DialogFooter,
+  DialogTitle,
+  DialogDescription,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { useUIStore } from '@/stores/uiStore';
 import type { PIIDetectionResult, PIIFinding, PIIType } from '@/services/pii/detector';
@@ -154,74 +155,76 @@ export function PIIWarningModal({ detectionResult, onCancel, onProceed }: PIIWar
     <Dialog open={piiWarningOpen} onOpenChange={(open) => {
       if (!open) handleClose();
     }}>
-      <DialogContent className="sm:max-w-xl p-0 overflow-hidden" showCloseButton={false}>
+      <DialogContent className="sm:max-w-xl max-h-[85dvh] flex flex-col gap-0 p-0 overflow-hidden" showCloseButton={false}>
         {/* Warning Header — flat token color (no decorative gradient): the
             destructive/warning tokens restain per scheme and carry AA-contrast
             foregrounds, so red/amber palette drift is gone. */}
-        <div className={`px-6 py-5 ${totalHighSeverity > 0 ? 'bg-destructive text-destructive-foreground' : 'bg-warning text-warning-foreground'}`}>
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-white/20 rounded-xl">
+        <div className={`shrink-0 px-6 py-4 ${totalHighSeverity > 0 ? 'bg-destructive text-destructive-foreground' : 'bg-warning text-warning-foreground'}`}>
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-white/20 rounded-md">
               {totalHighSeverity > 0 ? (
-                <AlertTriangle className="h-8 w-8" />
+                <AlertTriangle className="h-5 w-5" />
               ) : (
-                <Shield className="h-8 w-8" />
+                <Shield className="h-5 w-5" />
               )}
             </div>
             <div>
-              <h2 className="text-xl font-bold">
+              <DialogTitle>
                 {totalHighSeverity > 0 ? 'Sensitive Data Detected!' : 'Potential PII/PHI Detected'}
-              </h2>
-              <p className="opacity-80 text-sm mt-1">
+              </DialogTitle>
+              <DialogDescription className="mt-1 text-sm text-inherit">
                 {findings.length} potential issue{findings.length !== 1 ? 's' : ''} found in your document
-              </p>
+              </DialogDescription>
             </div>
           </div>
         </div>
 
-        {/* Summary Stats */}
-        <div className="px-6 py-4 bg-muted/30 border-b">
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-            <SummaryBadge count={summary.ssn} label="SSN" severity="high" />
-            <SummaryBadge count={summary.edipi} label="EDIPI" severity="high" />
-            <SummaryBadge count={summary.dob} label="DOB" severity="medium" />
-            <SummaryBadge count={summary.phone} label="Phone" severity="low" />
-            <SummaryBadge count={summary.medicalKeywords} label="Medical" severity="medium" />
-            <SummaryBadge count={summary.emailAddresses} label="Email" severity="low" />
+        <div className="min-h-0 overflow-y-auto">
+          {/* Summary Stats */}
+          <div className="px-6 py-4 bg-muted/30 border-b">
+            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+              <SummaryBadge count={summary.ssn} label="SSN" severity="high" />
+              <SummaryBadge count={summary.edipi} label="EDIPI" severity="high" />
+              <SummaryBadge count={summary.dob} label="DOB" severity="medium" />
+              <SummaryBadge count={summary.phone} label="Phone" severity="low" />
+              <SummaryBadge count={summary.medicalKeywords} label="Medical" severity="medium" />
+              <SummaryBadge count={summary.emailAddresses} label="Email" severity="low" />
+            </div>
           </div>
-        </div>
 
-        {/* Findings List */}
-        <ScrollArea className="h-[280px]">
-          <div className="p-6 space-y-4">
-            {Object.entries(groupedFindings).map(([type, typeFindings]) => (
-              <div key={type}>
-                <h3 className="text-sm font-semibold text-muted-foreground mb-2 flex items-center gap-2">
-                  <FileWarning className="h-4 w-4" />
-                  {getPIITypeLabel(type as PIIType)} ({typeFindings.length})
-                </h3>
-                <div className="space-y-2">
-                  {typeFindings.slice(0, 5).map((finding, index) => (
-                    <FindingItem key={`${finding.field}-${index}`} finding={finding} />
-                  ))}
-                  {typeFindings.length > 5 && (
-                    <p className="text-xs text-muted-foreground text-center py-2">
-                      ...and {typeFindings.length - 5} more {getPIITypeLabel(type as PIIType).toLowerCase()} instances
-                    </p>
-                  )}
+          {/* Findings List */}
+          <div>
+            <div className="p-6 space-y-4">
+              {Object.entries(groupedFindings).map(([type, typeFindings]) => (
+                <div key={type}>
+                  <h3 className="text-sm font-semibold text-muted-foreground mb-2 flex items-center gap-2">
+                    <FileWarning className="h-4 w-4" />
+                    {getPIITypeLabel(type as PIIType)} ({typeFindings.length})
+                  </h3>
+                  <div className="space-y-2">
+                    {typeFindings.slice(0, 5).map((finding, index) => (
+                      <FindingItem key={`${finding.field}-${index}`} finding={finding} />
+                    ))}
+                    {typeFindings.length > 5 && (
+                      <p className="text-xs text-muted-foreground text-center py-2">
+                        ...and {typeFindings.length - 5} more {getPIITypeLabel(type as PIIType).toLowerCase()} instances
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </ScrollArea>
 
-        {/* Warning Message */}
-        <div className="px-6 py-3 bg-muted/50 border-t text-sm text-muted-foreground">
-          <strong>Warning:</strong> Downloading documents containing PII/PHI may violate privacy regulations.
-          Review your document carefully before proceeding.
+          {/* Warning Message */}
+          <div className="px-6 py-3 bg-muted/50 border-t text-sm text-muted-foreground">
+            <strong>Warning:</strong> Downloading documents containing PII/PHI may violate privacy regulations.
+            Review your document carefully before proceeding.
+          </div>
+
         </div>
-
         {/* Actions */}
-        <DialogFooter className="px-6 py-4 border-t gap-2 sm:gap-2">
+        <DialogFooter className="shrink-0 px-6 py-4 border-t gap-2 sm:gap-2">
           <Button variant="outline" onClick={handleClose} className="gap-2">
             <X className="h-4 w-4" />
             Cancel

@@ -29,8 +29,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <!-- Tint the mobile browser / installed-PWA chrome to match the app canvas
          in each color scheme (values mirror index.css's sRGB --background fallbacks). -->
-    <meta name="theme-color" content="#f1f6fa" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0b0d11" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#191a1c" media="(prefers-color-scheme: dark)" />
     <meta name="description" content="Free SECNAV M-5216.5 correspondence & form generator for Navy/USMC. 20 document types — naval letters, memoranda, endorsements, NAVMC forms. PDF/DOCX export, 100% browser-based, works offline." />
     <meta property="og:title" content="DonDocs - Naval Correspondence & Form Generator" />
     <meta property="og:description" content="Create SECNAV M-5216.5 compliant naval letters, memoranda, endorsements & NAVMC forms. 20 document types for Navy/USMC. PDF & DOCX export, no servers — works on NMCI and air-gapped networks." />
@@ -39,27 +39,19 @@
     <!-- Prevent theme flash by applying correct theme before first paint -->
     <script>
       (function() {
+        var theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         try {
-          // Check for saved theme in localStorage (Zustand persist storage)
-          var stored = localStorage.getItem('dondocs_ui');
-          if (stored) {
-            var parsed = JSON.parse(stored);
-            var savedTheme = parsed && parsed.state && parsed.state.theme;
-            if (savedTheme === 'dark' || savedTheme === 'light') {
-              document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-              return;
-            }
-          }
-          // No saved preference - use system preference
-          if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.classList.add('dark');
-          }
-        } catch (e) {
-          // Fallback: check system preference
-          if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.classList.add('dark');
-          }
-        }
+          var stored = JSON.parse(localStorage.getItem('dondocs_ui') || '{}');
+          var saved = stored.state || {};
+          // Keep this legacy-preference mapping in sync with resolveTheme.
+          if (saved.colorScheme === 'navy' || saved.colorScheme === 'usmc') theme = 'classic';
+          else if (saved.theme === 'dark' || saved.theme === 'light' || saved.theme === 'classic') theme = saved.theme;
+        } catch (e) { /* Blocked or corrupt storage uses the system preference. */ }
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme === 'dark' ? 'dark' : 'light';
+        var canvas = theme === 'dark' ? '#191a1c' : theme === 'classic' ? '#f1f6fa' : '#fbfbfa';
+        document.querySelectorAll('meta[name="theme-color"]').forEach(function(meta) { meta.content = canvas; });
       })();
     </script>
     <!-- Boot watchdog: self-heal a stale/broken app shell instead of leaving a

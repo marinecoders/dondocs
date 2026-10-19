@@ -1,3 +1,8 @@
+import { InputWithVariables } from '@/components/ui/variable-autocomplete';
+import { Label } from '@/components/ui/label';
+import { useUIStore } from '@/stores/uiStore';
+import { getEditorSections } from '@/lib/editorSections';
+import { unfilled } from '@/lib/requiredField';
 import { PUBLICATION_SECTIONS, publicationSection, type PublicationSection } from '@/data/techpub/sections';
 import { validateFigureAsset } from '@/services/latex/figureAssets';
 import { memo, useCallback, useMemo, useState } from 'react';
@@ -240,8 +245,7 @@ const BlockRow = memo(function BlockRow({
       ref={setNodeRef}
       style={style}
       className={cn(
-        'group relative grid grid-cols-[34px_1fr] items-start gap-1 py-1.5',
-        index === 0 ? '' : 'border-t border-border/45',
+        'workspace-paragraph group relative grid grid-cols-[23px_1fr] items-start gap-2 rounded-sm py-2 mb-4',
         isDragging && 'opacity-60'
       )}
     >
@@ -261,7 +265,7 @@ const BlockRow = memo(function BlockRow({
           levels 4–7 repeat those patterns but underlined, which is exactly what
           the LaTeX/PDF renders — mirror it here so "(a)" at level 3 and level 7
           aren't indistinguishable in the editor. */}
-      <div className="select-none pt-0.5 pr-2.5 text-right font-serif text-serif-body leading-relaxed text-muted-foreground tnum">
+      <div className="select-none pt-1 text-xs leading-6 text-muted-foreground tnum">
         <span className={level >= 4 ? 'underline' : undefined}>{label}</span>
       </div>
 
@@ -296,7 +300,7 @@ const BlockRow = memo(function BlockRow({
               if (!header) setWantsHeader(false);
             }}
             placeholder="Heading"
-            className="mb-1 h-7 border-none bg-transparent px-0 font-serif text-serif-body font-semibold underline shadow-none focus-visible:ring-0"
+            className="paragraph-heading mb-1 h-7 border-none bg-transparent px-0 font-serif text-serif-body font-semibold underline shadow-none dark:bg-transparent focus-visible:ring-0"
           />
         )}
         <div className="flex items-baseline gap-1">
@@ -412,6 +416,7 @@ const BlockRow = memo(function BlockRow({
             )}
             <VariableChipEditor
               blockMode
+              ariaLabel={`Paragraph ${index + 1}`}
               autoFocus={autoFocus}
               value={text}
               onChange={(t) => updateParagraph(index, { text: t })}
@@ -430,12 +435,12 @@ const BlockRow = memo(function BlockRow({
           <div className="my-2 space-y-2">
             {(footnotes ?? []).map((note, noteIndex) => (
               <div key={note.id} className="flex items-center gap-2">
-                <span className="text-xs">Footnote {note.id}</span>
-                <Input aria-label={`Table footnote ${note.id}`} value={note.text} onChange={(e) => updateParagraph(index, { tableFootnotes: footnotes!.map((n, j) => j === noteIndex ? { ...n, text: e.target.value } : n) })} />
-                <Button variant="ghost" size="sm" aria-label={`Remove footnote ${note.id}`} onClick={() => useDocumentStore.getState().removeTableFootnote(index, noteIndex)}><Trash2 className="h-3 w-3" /></Button>
+                <span className="shrink-0 whitespace-nowrap text-xs text-muted-foreground">Footnote {note.id}</span>
+                <Input className="min-w-0 flex-1 min-h-11 sm:min-h-0" aria-label={`Table footnote ${note.id}`} value={note.text} onChange={(e) => updateParagraph(index, { tableFootnotes: footnotes!.map((n, j) => j === noteIndex ? { ...n, text: e.target.value } : n) })} />
+                <Button variant="ghost" size="sm" className="min-h-11 min-w-11 shrink-0 sm:min-h-0 sm:min-w-0" aria-label={`Remove footnote ${note.id}`} onClick={() => useDocumentStore.getState().removeTableFootnote(index, noteIndex)}><Trash2 className="h-3 w-3" /></Button>
               </div>
             ))}
-            <Button variant="outline" size="sm" onClick={() => {
+            <Button variant="outline" size="sm" className="min-h-11 sm:min-h-0" onClick={() => {
               let number = 1;
               while ((footnotes ?? []).some((n) => n.id === String(number))) number++;
               updateParagraph(index, { tableFootnotes: [...(footnotes ?? []), { id: String(number), text: '' }] });
@@ -446,13 +451,13 @@ const BlockRow = memo(function BlockRow({
         {/* Hover controls — kept out of the way until you reach for them.
             Order matches the prototype: + heading, nest, move, then the
             per-paragraph word count and delete. */}
-        <div className="mt-0.5 flex items-center gap-0.5 opacity-0 transition-opacity focus-within:opacity-100 group-hover:opacity-100">
+        <div className="paragraph-actions mt-0.5 flex flex-wrap items-center gap-0.5 opacity-0 transition-opacity focus-within:opacity-100 group-hover:opacity-100">
           {!showHeader && (
             <button
               type="button"
               onClick={() => setWantsHeader(true)}
               title="Add heading"
-              className="h-6 rounded-md px-1.5 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+              className="paragraph-action-label h-6 rounded-md px-1.5 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground"
             >
               + heading
             </button>
@@ -468,7 +473,7 @@ const BlockRow = memo(function BlockRow({
                   type="button"
                   aria-label={attachedTable ? `Table: ${attachedTable}. Change` : 'Attach a table'}
                   title="Attach a table"
-                  className="h-6 rounded-md px-1.5 text-xs font-medium text-muted-foreground outline-none hover:bg-accent hover:text-accent-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                  className="paragraph-action-label h-6 rounded-md px-1.5 text-xs font-medium text-muted-foreground outline-none hover:bg-accent hover:text-accent-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
                 >
                   {attachedTable ?? '+ table'}
                 </button>
@@ -554,6 +559,10 @@ const BlockRow = memo(function BlockRow({
 export function BlockParagraphsEditor() {
   const documentMode = useDocumentStore((s) => s.documentMode);
   const docType = useDocumentStore((s) => s.docType);
+  const editorLayout = useUIStore((s) => s.editorLayout);
+  const subject = useDocumentStore((s) => s.formData.subject);
+  const setField = useDocumentStore((s) => s.setField);
+  const validationVisible = useUIStore((s) => s.validationVisible);
   const classLevel = useDocumentStore((s) => s.formData.classLevel);
   const paragraphs = useDocumentStore((s) => s.paragraphs);
   const addParagraph = useDocumentStore((s) => s.addParagraph);
@@ -590,6 +599,10 @@ export function BlockParagraphsEditor() {
   // Only a technical publication has callouts and steps.
   const showBlockKind = docType === 'i_type';
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
+  // Only hide this shortcut when a visible heading edits the same subject field.
+  const subjectInHeading = getEditorSections(config, docType).some((section) =>
+    ['addressing', 'executive', 'joint_memo'].includes(section.id));
+  const hideBodySubject = editorLayout === 'scroll' && subjectInHeading;
   const disableNumbered = documentMode === 'compliant' && !config.compliance.numberedParagraphs;
 
   const labels = useMemo(() => calculateLabels(paragraphs), [paragraphs]);
@@ -614,10 +627,7 @@ export function BlockParagraphsEditor() {
       <AccordionItem value="paragraphs">
         <AccordionTrigger>
           <div className="flex items-center gap-2">
-            <span>Body Paragraphs</span>
-            <span className="text-xs font-normal text-muted-foreground tnum">
-              ({totalWords} {totalWords === 1 ? 'word' : 'words'})
-            </span>
+            <span>Paragraphs</span>
             <HelpTip>
               <p className="mb-1 font-medium">Block editor</p>
               <p className="text-xs">Paragraphs flow like the printed letter, auto-numbered per SECNAV M-5216.5.</p>
@@ -631,7 +641,11 @@ export function BlockParagraphsEditor() {
           </div>
         </AccordionTrigger>
         <AccordionContent>
-      <p className="mb-3 text-xs text-muted-foreground">Flows like the letter. ⏎ new · ⇥ indent · @ insert · drag to reorder.</p>
+      {docType !== 'i_type' && <div hidden={hideBodySubject} className="workspace-subject mb-4 space-y-2">
+        <Label htmlFor="body-subject" className="text-xs">{docType.includes('endorsement') ? "Subject (basic letter's subject)" : 'Subject'}</Label>
+        <InputWithVariables id="body-subject" value={subject ?? ''} onValueChange={(value) => setField('subject', value)} aria-invalid={validationVisible && unfilled(subject) ? true : undefined} placeholder="Enter the printed subject" className="uppercase text-xs" />
+      </div>}
+      <div className="mb-3 border-b border-border" />
       {disableNumbered && (
         <div className="mb-3 flex items-start gap-2 rounded-lg border border-destructive/20 bg-destructive/5 p-3 text-sm">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
@@ -671,11 +685,11 @@ export function BlockParagraphsEditor() {
         </SortableContext>
       </DndContext>
 
-      <div className="mt-3 flex items-center gap-2 border-t border-border pt-3">
+      <div className="mt-2 flex flex-wrap items-center gap-2">
         <Button
-          variant="outline"
+          variant="ghost"
           size="sm"
-          className="border-dashed"
+          className="text-xs font-normal"
           onClick={() => {
             addParagraph('', 0, paragraphs.length - 1);
             requestFocus(paragraphs.length);
@@ -688,12 +702,12 @@ export function BlockParagraphsEditor() {
         {/* Reusable clause library — insert a saved clause or save one. */}
         <Popover open={clausesOpen} onOpenChange={setClausesOpen}>
           <PopoverTrigger asChild>
-            <Button variant="ghost" size="sm" className="text-muted-foreground">
+            <Button variant="ghost" size="sm" className="text-xs font-normal text-muted-foreground">
               <Library className="mr-1.5 h-4 w-4" />
-              Clauses
+              Clause library
             </Button>
           </PopoverTrigger>
-          <PopoverContent align="start" className="w-80 p-0">
+          <PopoverContent align="start" className="w-80 max-w-[calc(100vw-2rem)] p-0">
             <div className="border-b border-border px-3 py-2 text-2xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
               Insert a clause
             </div>
@@ -708,14 +722,14 @@ export function BlockParagraphsEditor() {
                       onClick={() => insertClause(sn.text)}
                       className="min-w-0 flex-1 rounded-md px-2 py-1.5 text-left outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
                     >
-                      <span className="block truncate text-sm text-foreground">{sn.name}</span>
+                      <span title={sn.name} className="block truncate text-sm text-foreground">{sn.name}</span>
                       <span className="block truncate text-2xs text-muted-foreground">{sn.text}</span>
                     </button>
                     <button
                       type="button"
                       onClick={() => deleteSnippet(sn.id)}
                       aria-label={`Delete clause ${sn.name}`}
-                      className="mt-1 shrink-0 rounded p-1 text-muted-foreground opacity-0 outline-none transition-opacity hover:text-destructive focus-visible:opacity-100 group-hover:opacity-100"
+                      className="shrink-0 inline-flex h-11 w-11 sm:h-8 sm:w-8 items-center justify-center rounded text-muted-foreground opacity-0 [@media(hover:none)]:opacity-100 outline-none transition-opacity hover:text-destructive focus-visible:ring-2 focus-visible:ring-ring focus-visible:opacity-100 group-hover:opacity-100"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </button>
@@ -751,8 +765,10 @@ export function BlockParagraphsEditor() {
           </PopoverContent>
         </Popover>
 
-        <div className="flex-1" />
-        <span className="text-xs text-muted-foreground tnum">
+      </div>
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-2 border-t border-border pt-4 text-[11px] text-muted-foreground">
+        <span>Enter adds a paragraph · Tab indents · @ inserts a variable</span>
+        <span className="tnum">
           {paragraphs.length} {paragraphs.length === 1 ? 'paragraph' : 'paragraphs'} · {totalWords} words
         </span>
       </div>

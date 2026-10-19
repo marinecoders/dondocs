@@ -87,7 +87,7 @@ function SortableViaItem({ id, index, value, onChange, onRemove, onLookup, canRe
       <IconTip label="Look up a unit">
         <Button
           type="button"
-          variant="outline"
+          variant="ghost"
           size="icon"
           onClick={onLookup}
           className="shrink-0"
@@ -102,7 +102,7 @@ function SortableViaItem({ id, index, value, onChange, onRemove, onLookup, canRe
         onClick={onRemove}
         disabled={!canRemove}
         aria-label={`Remove via routing ${index + 1}`}
-        className="shrink-0 text-destructive hover:text-destructive"
+        className="shrink-0 text-muted-foreground hover:text-destructive"
       >
         <Trash2 className="h-4 w-4" />
       </Button>
@@ -228,7 +228,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
             </span>
           </AccordionTrigger>
           <AccordionContent>
-            <div className="space-y-4 pt-2">
+            <div className="editor-field-groups pt-2">
               <p className="text-xs text-muted-foreground -mt-1">From, To, Via, Subject, and identifying symbols.</p>
               {/* Date Only - for business letters (no SSIC/Serial) */}
               {config.dateOnly && (
@@ -247,7 +247,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
               {/* Always show when not dateOnly; gray out SSIC/Serial when config.ssic is false */}
               {!config.dateOnly && (
                 <>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 border-b border-border pb-4">
                   <div className={`space-y-2 ${!config.ssic ? 'opacity-50 pointer-events-none select-none' : ''}`}>
                     <Label htmlFor="ssic">
                       SSIC
@@ -265,7 +265,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                       <IconTip label="Browse SSIC codes">
                         <Button
                           type="button"
-                          variant="outline"
+                          variant="ghost"
                           size="icon"
                           onClick={() => setSSICModalOpen(true)}
                         >
@@ -344,7 +344,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                   <IconTip label="Look up a unit">
                     <Button
                       type="button"
-                      variant="outline"
+                      variant="ghost"
                       size="icon"
                       onClick={() => setUnitLookup('to')}
                       className="shrink-0"
@@ -384,7 +384,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
               // Full-width stacked (From over To), matching the design — command
               // names are long, so each gets its own row rather than a cramped
               // two-up grid.
-              <div className="space-y-4">
+              <div className="editor-field-groups">
                 <div className="space-y-2">
                   <Label htmlFor="from">From</Label>
                   <InputWithVariables
@@ -410,7 +410,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                     <IconTip label="Look up a unit">
                       <Button
                         type="button"
-                        variant="outline"
+                        variant="ghost"
                         size="icon"
                         onClick={() => setUnitLookup('to')}
                         className="shrink-0"
@@ -430,8 +430,9 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                   <Label>Via</Label>
                   <Button
                     type="button"
-                    variant="outline"
+                    variant="ghost"
                     size="sm"
+                    className="text-xs font-normal"
                     onClick={addViaLine}
                     disabled={viaLines.length >= 4}
                   >

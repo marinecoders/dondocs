@@ -1,3 +1,12 @@
+import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
+import { useUIStore } from '@/stores/uiStore';
+
+/** Reveal a focused editor section without changing the document. */
+export function revealTourSection(id: string): void {
+  useUIStore.getState().setCommandPaletteOpen(false);
+  useEditorOutlineStore.getState().jump(id);
+}
+
 /**
  * Steps for the guided product tour.
  *
@@ -35,40 +44,43 @@ export const TOUR_STEPS: TourStep[] = [
   {
     target: '[data-tour="templates"]',
     title: 'Or start from a template',
+    action: () => {
+      const ui = useUIStore.getState();
+      if (ui.isMobile) ui.setMobileDocsOpen(true);
+      else if (ui.sidebarCollapsed) ui.toggleSidebar();
+    },
     body: 'Load a ready-made document for common formats instead of starting from a blank page.',
   },
   {
     target: '[data-tour="download"]',
     title: 'Export when ready',
-    body: 'Generate a print-ready PDF or a Word file. Everything compiles in your browser; nothing leaves your device.',
+    body: 'Generate a print-ready PDF, or Word for supported correspondence formats. Document generation runs in your browser.',
   },
   {
     target: '[data-tour="save"]',
     title: 'Save your work',
-    body: 'Your draft autosaves in this browser; use Download or Share to keep a permanent copy. Save keeps a named copy you can reload later.',
+    body: 'Your draft autosaves in this browser; use Document actions to save a checkpoint, export a draft file, or create a password-protected share snapshot. A share link excludes attachments.',
   },
   {
     target: '[data-tour="save"]',
-    title: 'Back up everything',
-    body: 'This menu is also your safety net: "Back up everything" downloads one file with all your documents, profiles, signatures, and settings — restore it on any machine. On desktop Chrome or Edge, auto-backup can keep a file current after every save.',
+    title: 'Download workspace backup',
+    body: 'Choose Backup & restore in this menu or the sidebar to open Settings. Download your entire workspace or restore a backup there. On desktop Chrome or Edge, auto-backup can keep a file current after every save.',
   },
   {
-    target: '[data-tour="appearance"]',
+    target: '[data-tour="workspace-menu"]',
     title: 'Make it yours',
-    body: 'Switch between light and dark mode and adjust the spacing here.',
+    body: 'Open Settings in the sidebar, or the Documents menu on mobile, for Light, Dark, Classic, spacing, preview preferences, and backups.',
   },
   {
-    target: '[data-tour="help"]',
+    target: '[data-tour="workspace-menu"]',
     title: 'Help lives here',
-    body: 'Guides, keyboard shortcuts, bug reports, and feature ideas are all in this menu, and you can replay this tour from here anytime.',
+    body: 'Open Help in the sidebar, or the Documents menu on mobile, for guides, recovery, diagnostics, and feedback. The welcome letter offers this optional tour.',
   },
 ];
 
 /**
  * Drop steps whose target isn't in the current layout, so the tour never
- * spotlights an element the user can't see. Two Header controls (appearance,
- * help) are `hidden xl:flex`, so on sub-1280px widths their steps would
- * otherwise fall back to a centered card describing invisible buttons. A step
+ * spotlights an element the user can't see. Controls may be hidden by the responsive layout or focused editor. A step
  * with no target (a centered card) or an `action` (which mounts its own target)
  * is always kept — only steps that name an element already absent are removed.
  */

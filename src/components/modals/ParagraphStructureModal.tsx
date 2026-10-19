@@ -3,9 +3,10 @@ import {
   Dialog,
   DialogContent,
   DialogFooter,
+  DialogTitle,
+  DialogDescription,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUIStore } from '@/stores/uiStore';
 import type { ParagraphStructureFinding } from '@/lib/paragraphStructureValidation';
 
@@ -51,37 +52,38 @@ export function ParagraphStructureModal({
 
   return (
     <Dialog open={open} onOpenChange={(next) => { if (!next) close(); }}>
-      <DialogContent className="sm:max-w-xl p-0 overflow-hidden" showCloseButton={false}>
-        <div className="bg-warning px-6 py-5 text-warning-foreground">
-          <div className="flex items-center gap-4">
-            <div className="rounded-xl bg-white/20 p-3">
-              <ListTree className="h-8 w-8" />
+      <DialogContent className="sm:max-w-xl max-h-[85dvh] flex flex-col gap-0 p-0 overflow-hidden" showCloseButton={false}>
+        <div className="bg-warning shrink-0 px-6 py-4 text-warning-foreground">
+          <div className="flex items-center gap-3">
+            <div className="rounded-md bg-white/20 p-2">
+              <ListTree className="h-5 w-5" />
             </div>
             <div>
-              <h2 className="text-xl font-bold">Check paragraph structure</h2>
-              <p className="mt-1 text-sm opacity-80">
+              <DialogTitle>Check paragraph structure</DialogTitle>
+              <DialogDescription className="mt-1 text-sm text-inherit">
                 {findings.length} thing{findings.length === 1 ? '' : 's'} to look at before you send this
-              </p>
+              </DialogDescription>
             </div>
           </div>
         </div>
 
-        <ScrollArea className="max-h-[280px]">
-          <div className="space-y-2 p-6">
-            {findings.map((f, i) => (
-              <div key={i} className="rounded-lg border border-warning/30 bg-warning/10 p-3 text-sm">
-                {f.message}
-              </div>
-            ))}
+        <div className="min-h-0 overflow-y-auto">
+            <div className="space-y-2 p-6">
+              {findings.map((f, i) => (
+                <div key={i} className="rounded-lg border border-warning/30 bg-warning/10 p-3 text-sm">
+                  {f.message}
+                </div>
+              ))}
+            </div>
+
+
+          <div className="border-t bg-muted/50 px-6 py-3 text-sm text-muted-foreground">
+            These are formatting rules from the correspondence manual, not blockers. Download
+            anyway if you are circulating a draft.
           </div>
-        </ScrollArea>
 
-        <div className="border-t bg-muted/50 px-6 py-3 text-sm text-muted-foreground">
-          These are formatting rules from the correspondence manual, not blockers. Download
-          anyway if you are circulating a draft.
         </div>
-
-        <DialogFooter className="gap-2 border-t px-6 py-4 sm:gap-2">
+        <DialogFooter className="shrink-0 gap-2 border-t px-6 py-4 sm:gap-2">
           <Button variant="outline" onClick={close} className="gap-2">
             <X className="h-4 w-4" />
             Go back and fix

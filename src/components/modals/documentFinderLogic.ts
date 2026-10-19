@@ -33,9 +33,20 @@ export const QUESTIONS: Record<string, Question> = {
     help: "Pick the closest — we'll narrow it down from there.",
     options: [
       { label: 'A letter, memo, or other written correspondence', value: 'correspondence', help: 'Anything sent to a command, person, or business.' },
+      { label: 'A headquarters memorandum (HqDON / OSD)', value: 'headquarters', help: 'Standard, Action, or Information Memorandum under Chapter 12.' },
       { label: 'A Marine Corps personnel / service-record form', value: 'usmc_form', help: 'Page 11 (NAVMC 118(11)) or an administrative-action form. Marine Corps only.' },
       { label: 'A record of a counseling, event, or decision for the file', value: 'record', help: 'No one receives it — it just goes in the file.' },
       { label: 'A technical publication directing work on fielded equipment', value: 'techpub', help: 'A Modification, Supply, Technical, or Lubrication Instruction (MI/SI/TI/LI), issued under a PCN.' },
+    ],
+  },
+  headquartersPurpose: {
+    id: 'headquartersPurpose',
+    question: 'What does headquarters need from this memorandum?',
+    options: [
+      { label: 'A decision, approval, or signature', value: 'action' },
+      { label: 'Information for awareness, without a requested action', value: 'information' },
+      { label: 'General formal correspondence', value: 'standard' },
+      { label: "I'm not sure", value: 'unsure' },
     ],
   },
   formType: {
@@ -114,6 +125,7 @@ export const QUESTIONS: Record<string, Question> = {
 // declarative here so the flow stays readable; getNextQuestion does the walk.
 export const FLOW: { id: string; ask: (a: Record<string, string>) => boolean }[] = [
   { id: 'category', ask: () => true },
+  { id: 'headquartersPurpose', ask: (a) => a.category === 'headquarters' },
   { id: 'formType', ask: (a) => a.category === 'usmc_form' },
   { id: 'recipient', ask: (a) => a.category === 'correspondence' },
   { id: 'jointSignature', ask: (a) => a.category === 'correspondence' && a.recipient === 'military' },
@@ -142,7 +154,7 @@ export interface FinderResult {
 // Maps a finder interview to recommended document types. Ordered, early-return
 // rules — the FIRST matching rule wins, so rule order is load-bearing (e.g. R5
 // joint sits above R6-R12; R10's MF precedence above the default letters). The
-// design covers all 19 types; see the enumeration test in
+// design covers all supported types; see the enumeration test in
 // tests/unit/documentFinder.test.ts which guards that none go unreachable.
 export function getRecommendations(answers: Record<string, string>): FinderResult[] {
   const { category, formType, recipient, jointSignature, purpose, routing, formality } = answers;
@@ -154,6 +166,22 @@ export function getRecommendations(answers: Record<string, string>): FinderResul
   // At most three cards; rule order is high-first, so the cap never drops the
   // best match. Only results[0] is badged "Best Match" in the render.
   const top3 = () => results.slice(0, 3);
+
+  // Headquarters formats are an explicit choice, not inferred from rank alone.
+  if (category === 'headquarters') {
+    if (answers.headquartersPurpose === 'action') {
+      add('action_memorandum', 'high', 'Per Ch 12: Action Memorandum to request a decision, approval, or signature');
+    } else if (answers.headquartersPurpose === 'information') {
+      add('information_memorandum', 'high', 'Per Ch 12: Information Memorandum to convey information without requesting action');
+    } else {
+      add('standard_memorandum', 'high', 'Per Ch 12: Standard Memorandum for general headquarters correspondence using MEMORANDUM FOR addressing');
+      if (answers.headquartersPurpose === 'unsure') {
+        add('action_memorandum', 'medium', 'Use an Action Memorandum when a decision, approval, or signature is needed');
+        add('information_memorandum', 'medium', 'Use an Information Memorandum for awareness without a requested action');
+      }
+    }
+    return top3();
+  }
 
   // R0 — Marine Corps forms (NAVMC). The only path that reaches the Forms group.
   if (category === 'usmc_form') {
@@ -317,6 +345,9 @@ export function getRecommendations(answers: Record<string, string>): FinderResul
 /** A short, context-independent contrast for each type, for the "How to choose"
  *  strip when a rule returns two candidates differing on one axis. */
 export const DOC_DIFFERENTIATORS: Record<string, string> = {
+  standard_memorandum: 'General HqDON / OSD correspondence',
+  action_memorandum: 'Requests headquarters action or approval',
+  information_memorandum: 'Headquarters awareness without requested action',
   moa: 'Commits specific resources or funding',
   mou: 'Frames roles & cooperation, no resources',
   same_page_endorsement: 'Brief — fits on the basic letter',

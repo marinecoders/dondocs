@@ -1,6 +1,7 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { AppAlertDialog } from '@/components/AppAlertDialog';
 import { useAlertStore, showAppAlert, showAppConfirm } from '@/stores/alertStore';
@@ -12,6 +13,34 @@ beforeEach(() => {
 });
 
 describe('AppAlertDialog', () => {
+  it('keeps focus inside a confirmation and returns to its launcher after cancellation', async () => {
+    const user = userEvent.setup();
+    render(<><button onClick={() => { void showAppConfirm({ title: 'Discard test changes?', message: 'The current test draft will be reset.' }); }}>Reset test draft</button><AppAlertDialog /></>);
+    const launcher = screen.getByRole('button', { name: 'Reset test draft' });
+    await user.click(launcher);
+    expect(screen.getByRole('button', { name: 'Cancel' })).toHaveFocus();
+    await user.tab({ shift: true });
+    expect(screen.getByRole('button', { name: 'Confirm' })).toHaveFocus();
+    await user.keyboard('{Escape}');
+    await waitFor(() => expect(launcher).toHaveFocus());
+  });
+
+  it('returns focus after the last queued alert is dismissed', async () => {
+    const user = userEvent.setup();
+    render(<><button onClick={() => {
+      showAppAlert({ title: 'First error', message: 'First operation failed.' });
+      showAppAlert({ title: 'Second error', message: 'Second operation failed.' });
+    }}>Try operations</button><AppAlertDialog /></>);
+    const launcher = screen.getByRole('button', { name: 'Try operations' });
+    await user.click(launcher);
+    expect(screen.getByRole('button', { name: 'OK' })).toHaveFocus();
+    await user.click(screen.getByRole('button', { name: 'OK' }));
+    expect(screen.getByRole('alertdialog')).toHaveAccessibleName('Second error');
+    expect(screen.getByRole('button', { name: 'OK' })).toHaveFocus();
+    await user.click(screen.getByRole('button', { name: 'OK' }));
+    await waitFor(() => expect(launcher).toHaveFocus());
+  });
+
   it('showAppAlert renders a themed dialog with title + message, OK closes it', async () => {
     render(<AppAlertDialog />);
     expect(screen.queryByRole('alertdialog')).toBeNull();

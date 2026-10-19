@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Search, X, Building2, MapPin, Loader2 } from 'lucide-react';
 import {
   Dialog,
@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { useLookupData } from '@/hooks/useLookupData';
 import { Badge } from '@/components/ui/badge';
 import {
   Accordion,
@@ -21,7 +21,6 @@ import {
   formatUnitAddress,
   loadUnitDirectory,
   type UnitInfo,
-  type UnitDirectoryDatabase,
 } from '@/data/unitDirectory';
 
 interface UnitLookupModalProps {
@@ -32,28 +31,8 @@ interface UnitLookupModalProps {
 
 export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModalProps) {
   const [search, setSearch] = useState('');
-  // The 852 KB units.json is dynamically imported on first modal open, so
-  // we hold the database in state and render a loading spinner until it
-  // resolves. Subsequent opens hit the memoized Promise instantly.
-  const [database, setDatabase] = useState<UnitDirectoryDatabase | null>(null);
-  const [loadError, setLoadError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!open || database) return;
-    let cancelled = false;
-    loadUnitDirectory()
-      .then((db) => {
-        if (!cancelled) setDatabase(db);
-      })
-      .catch((err) => {
-        if (!cancelled) {
-          setLoadError(err instanceof Error ? err.message : 'Failed to load unit directory');
-        }
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [open, database]);
+  const lookup = useLookupData(open, loadUnitDirectory);
+  const { data: database, status, retry } = lookup;
 
   // For searches, search all units; for browsing, use categories. Both
   // require the database to be loaded.
@@ -100,9 +79,9 @@ export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModa
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-2xl max-h-[85vh]">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
+      <DialogContent className="sm:max-w-2xl h-[85dvh] flex flex-col overflow-hidden">
+        <DialogHeader className="shrink-0 pr-10 text-left">
+          <DialogTitle className="flex flex-wrap items-center gap-2">
             <Building2 className="h-5 w-5" />
             Unit Directory
             {database ? (
@@ -111,7 +90,7 @@ export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModa
               </Badge>
             ) : (
               <Badge variant="outline" className="ml-2 text-xs font-normal">
-                Loading…
+                {status === 'error' ? 'Unavailable' : 'Loading…'}
               </Badge>
             )}
           </DialogTitle>
@@ -120,9 +99,10 @@ export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModa
           </DialogDescription>
         </DialogHeader>
 
-        <div className="relative">
+        <div className="relative shrink-0">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
+            aria-label="Search unit directory"
             placeholder="Search by unit name, abbreviation, MCC, or location…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -135,6 +115,7 @@ export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModa
               variant="ghost"
               size="icon"
               className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
+              aria-label="Clear search"
               onClick={() => setSearch('')}
             >
               <X className="h-4 w-4" />
@@ -143,19 +124,24 @@ export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModa
         </div>
 
         <p className="text-sm text-muted-foreground">
-          {!database
+          {status === 'error' ? 'Unit directory unavailable' : !database
             ? 'Loading unit directory…'
             : search
               ? `${totalResults.toLocaleString()} units found`
               : 'Browse or search military units'}
         </p>
 
-        <ScrollArea className="h-[450px] pr-4">
-          {loadError ? (
-            <div className="text-center py-8 text-destructive">
+        <div className="min-h-0 flex-1 overflow-y-auto pr-2">
+          {status === 'error' ? (
+            <div role="alert" className="text-center py-8">
               <Building2 className="h-12 w-12 mx-auto mb-3 opacity-50" />
               <p>Failed to load unit directory</p>
-              <p className="text-sm mt-1 text-muted-foreground">{loadError}</p>
+              <p className="text-sm mt-1 text-muted-foreground">Check your connection and try again.</p>
+              <Button variant="outline" className="mt-3" onClick={retry}>Try again</Button>
+              {lookup.status === 'error' && <details className="mt-3 text-xs text-muted-foreground">
+                <summary className="cursor-pointer">Technical details</summary>
+                <p className="mt-2 break-words">{lookup.error}</p>
+              </details>}
             </div>
           ) : !filteredResults ? (
             <div className="flex items-center justify-center py-16 text-muted-foreground">
@@ -188,9 +174,9 @@ export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModa
             </div>
           ) : (
             // Category browsing - accordion
-            <Accordion type="multiple" className="w-full">
+            <Accordion staticLayout={false} type="multiple" className="w-full">
               {filteredResults.categories.map((category) => (
-                <AccordionItem key={category.name} value={category.name}>
+                <AccordionItem key={category.name} value={category.name} className="rounded-none border-0 border-b bg-transparent px-0 shadow-none backdrop-blur-none">
                   <AccordionTrigger className="hover:no-underline">
                     <div className="flex items-center gap-3">
                       <span className="font-medium">{category.name}</span>
@@ -221,9 +207,9 @@ export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModa
               ))}
             </Accordion>
           )}
-        </ScrollArea>
+        </div>
 
-        <div className="text-xs text-muted-foreground border-t pt-3 flex justify-between">
+        <div className="shrink-0 text-xs text-muted-foreground border-t pt-3 flex flex-wrap gap-2 justify-between">
           <span>Click a unit to populate letterhead information</span>
           {database && (
             <span>v{database.UNIT_DATABASE_INFO.version} • {database.UNIT_DATABASE_INFO.lastUpdated}</span>

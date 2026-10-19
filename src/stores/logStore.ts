@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { formatConsoleMessage } from '@/lib/consoleMessage';
 
 export interface LogEntry {
   id: number;
@@ -82,7 +83,7 @@ let originalConsole: {
  * Whether the in-app log viewer should capture console.* calls.
  *
  * Capture is expensive in two ways: every console.log goes through
- * formatArg (which JSON.stringify's objects), then through a Zustand
+ * formatConsoleMessage (which JSON.stringify's objects), then through a Zustand
  * `set()` that triggers re-renders for any subscriber, then buffers
  * up to 500 entries forever. In production for users who never open
  * the LogViewer, this is pure overhead — we throw the work away.
@@ -111,7 +112,7 @@ function isDebugEnabled(): boolean {
 export function enableConsoleCapture() {
   if (originalConsole) return; // Already capturing
   // Production users who haven't opted into debug pay nothing — no
-  // wrapper, no formatArg, no Zustand set, no buffer growth. They
+  // wrapper, no formatConsoleMessage, no Zustand set, no buffer growth. They
   // also don't get to see anything in LogViewerModal, but that modal
   // is debug-only (it's hidden behind Help → View Logs which itself
   // requires debug mode to be on).
@@ -135,7 +136,7 @@ export function enableConsoleCapture() {
   // microtask, after the current render commits. Log order is preserved by the
   // entry id.
   const capture = (level: LogEntry['level'], args: unknown[]) => {
-    const message = args.map((a) => formatArg(a)).join(' ');
+    const message = formatConsoleMessage(args);
     queueMicrotask(() => store.addLog(level, message));
   };
 
@@ -175,15 +176,4 @@ export function disableConsoleCapture() {
   console.debug = originalConsole.debug;
 
   originalConsole = null;
-}
-
-function formatArg(arg: unknown): string {
-  if (typeof arg === 'string') return arg;
-  if (typeof arg === 'number' || typeof arg === 'boolean') return String(arg);
-  if (arg instanceof Error) return `${arg.name}: ${arg.message}`;
-  try {
-    return JSON.stringify(arg, null, 2);
-  } catch {
-    return String(arg);
-  }
 }

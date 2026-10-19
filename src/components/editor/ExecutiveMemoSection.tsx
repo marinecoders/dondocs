@@ -1,3 +1,4 @@
+import { EditorGuidance } from './EditorGuidance';
 import { FileText, AlertCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -55,22 +56,23 @@ export function ExecutiveMemoSection() {
         <AccordionTrigger>
           <div className="flex items-center gap-2">
             <FileText className="h-4 w-4" />
-            {memoTypeLabel}
+            Addressing
           </div>
         </AccordionTrigger>
         <AccordionContent>
-          <div className="space-y-4 pt-2">
+          <div className="editor-field-groups pt-2">
             {/* Informational banner */}
-            <div className="p-3 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg text-sm text-blue-800 dark:text-blue-200">
+            <EditorGuidance title={`${memoTypeLabel} guidance`}>
               <p className="font-medium">Per SECNAV M-5216.5 Ch 12:</p>
               <p className="text-xs mt-1">{memoDescription}</p>
+
+            </EditorGuidance>
               {isInfoMemo && (
-                <p className="text-xs mt-1 font-medium text-amber-700 dark:text-amber-300">
+                <p className="text-xs mt-1 font-medium text-warning">
                   <AlertCircle className="h-3 w-3 inline mr-1" />
                   Info Memos have no signature block — the sending official signs on the FROM line.
                 </p>
               )}
-            </div>
 
             {/* Date — spelled format per Ch 12 */}
             <div className="space-y-2">

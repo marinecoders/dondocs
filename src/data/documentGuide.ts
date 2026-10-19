@@ -470,6 +470,36 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
 
   // NAVMC FORMS (Marine Corps)
   {
+    id: 'standard_memorandum',
+    name: 'Standard Memorandum (HqDON)',
+    category: 'Executive',
+    summary: 'Headquarters memorandum with MEMORANDUM FOR addressing and a title-case subject.',
+    whenToUse: ['Headquarters correspondence using the Chapter 12 memorandum format'],
+    keyFeatures: ['Spelled-out date', 'MEMORANDUM FOR and optional THROUGH addressing', '12-point Times New Roman', 'Signature block'],
+    commonExamples: ['Headquarters policy correspondence', 'Formal staff memoranda'],
+    reference: 'SECNAV M-5216.5, Chapter 12',
+  },
+  {
+    id: 'action_memorandum',
+    name: 'Action Memorandum',
+    category: 'Executive',
+    summary: 'Present an issue and recommendation that requires a decision, approval, or signature.',
+    whenToUse: ['Forwarding material for headquarters approval or signature', 'Recommending a solution for a decision'],
+    keyFeatures: ['FOR and FROM lines', 'Coordination field', 'Prepared-by information', 'Attachments'],
+    commonExamples: ['Approval requests', 'Decision recommendations'],
+    reference: 'SECNAV M-5216.5, Chapter 12',
+  },
+  {
+    id: 'information_memorandum',
+    name: 'Information Memorandum',
+    category: 'Executive',
+    summary: 'Convey developments for awareness without requesting action.',
+    whenToUse: ['Informing headquarters about developments that do not require a decision'],
+    keyFeatures: ['FOR and FROM lines', 'Sending official signs on the FROM line', 'No separate signature block', 'Coordination and prepared-by information'],
+    commonExamples: ['Situation updates', 'Leadership information briefs'],
+    reference: 'SECNAV M-5216.5, Chapter 12',
+  },
+  {
     id: 'navmc_10274',
     name: 'NAVMC 10274 - Administrative Action',
     category: 'Forms',
@@ -549,7 +579,7 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
 // Top-level guide groups (Correspondence vs Forms)
 export const GUIDE_GROUPS = [
   { id: 'correspondence', name: 'Correspondence', description: 'Letters, memos, and official documents' },
-  { id: 'forms', name: 'Forms', description: 'Military forms (NAVMC, DD, SF)' },
+  { id: 'forms', name: 'Forms', description: 'NAVMC administrative and counseling forms' },
 ];
 
 // Categories within each group

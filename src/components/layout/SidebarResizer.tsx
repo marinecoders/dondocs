@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useUIStore, SIDEBAR_WIDTH, resolveSidebarDrag } from '@/stores/uiStore';
+import { useCallback, useEffect, useState } from 'react';
+import { useUIStore, SIDEBAR_WIDTH } from '@/stores/uiStore';
 
 /**
  * The drag handle on the sidebar's right edge.
@@ -10,27 +10,14 @@ import { useUIStore, SIDEBAR_WIDTH, resolveSidebarDrag } from '@/stores/uiStore'
  */
 export function SidebarResizer() {
   const width = useUIStore((s) => s.sidebarWidth);
-  const collapsed = useUIStore((s) => s.sidebarCollapsed);
   const setWidth = useUIStore((s) => s.setSidebarWidth);
-  const setCollapsed = useUIStore((s) => s.setSidebarCollapsed);
   const [isDragging, setIsDragging] = useState(false);
   // The overlay only belongs over the page once the pointer has actually
   // moved. Mounted on pointerdown it swallowed the mouseup, so the press
   // never became a click and the dblclick reset never fired.
   const [moved, setMoved] = useState(false);
-  // The width to come back to. A drag that ends collapsed passes through every
-  // width on its way in, and without this the last frame before the snap — a
-  // width nobody chose — would be what reopening restores.
-  const widthBeforeDrag = useRef(width);
-
-  const apply = useCallback(
-    (x: number) => {
-      const next = resolveSidebarDrag(x);
-      setCollapsed(next.collapsed);
-      if (next.width !== undefined) setWidth(next.width);
-    },
-    [setCollapsed, setWidth],
-  );
+  // Resizing only adjusts width; the explicit toggle owns hiding.
+  const apply = useCallback((x: number) => setWidth(x), [setWidth]);
 
   // No preventDefault here: it suppresses the compatibility mouse events, and
   // with them the dblclick that resets the width — which is why that reset had
@@ -39,10 +26,9 @@ export function SidebarResizer() {
   const handlePointerDown = useCallback(
     (e: React.PointerEvent) => {
       e.stopPropagation();
-      widthBeforeDrag.current = width;
       setIsDragging(true);
     },
-    [width],
+    [],
   );
 
   useEffect(() => {
@@ -65,10 +51,7 @@ export function SidebarResizer() {
     const onUp = () => {
       setIsDragging(false);
       setMoved(false);
-      // Landed collapsed: put back the width the drag started from, so
-      // reopening returns to what the user had rather than to the last
-      // width the pointer happened to cross.
-      if (useUIStore.getState().sidebarCollapsed) setWidth(widthBeforeDrag.current);
+
     };
 
     document.body.style.cursor = 'col-resize';
@@ -88,8 +71,6 @@ export function SidebarResizer() {
     };
   }, [isDragging, apply, setWidth]);
 
-  const current = collapsed ? SIDEBAR_WIDTH.collapsed : width;
-
   return (
     <>
       {/* Keeps pointer events off the PDF iframe mid-drag. */}
@@ -97,22 +78,12 @@ export function SidebarResizer() {
       <div
         onPointerDown={handlePointerDown}
         onDoubleClick={() => {
-          setCollapsed(false);
           setWidth(SIDEBAR_WIDTH.default);
         }}
         onKeyDown={(e) => {
           if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
           e.preventDefault();
           const step = e.key === 'ArrowRight' ? 16 : -16;
-          // Arrowing left off the minimum collapses, mirroring the drag.
-          if (collapsed) {
-            if (step > 0) setCollapsed(false);
-            return;
-          }
-          if (step < 0 && width + step < SIDEBAR_WIDTH.min) {
-            setCollapsed(true);
-            return;
-          }
           setWidth(width + step);
         }}
         /* z-20, one step above the editor column's own z-10: its section shells
@@ -123,8 +94,8 @@ export function SidebarResizer() {
         role="separator"
         aria-orientation="vertical"
         aria-label="Resize sidebar. Drag, or use the left and right arrow keys."
-        aria-valuenow={current}
-        aria-valuemin={SIDEBAR_WIDTH.collapsed}
+        aria-valuenow={width}
+        aria-valuemin={SIDEBAR_WIDTH.min}
         aria-valuemax={SIDEBAR_WIDTH.max}
         tabIndex={0}
       >

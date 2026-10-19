@@ -85,7 +85,7 @@ function SortableEnclosure({
     <div
       ref={setNodeRef}
       style={style}
-      className={`bg-card border border-border rounded-lg p-3 mb-2 ${
+      className={`bg-card border border-border rounded-lg p-3 editor-list-row ${
         isDragging ? 'opacity-50 shadow-lg' : ''
       }`}
     >
@@ -152,14 +152,14 @@ function SortableEnclosure({
               </div>
             </div>
           ) : (
-            <label className="flex items-center gap-2 p-2 border border-dashed border-border rounded cursor-pointer hover:bg-secondary/30 transition-colors">
+            <label className="focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 flex items-center gap-2 p-2 border border-dashed border-border rounded cursor-pointer hover:bg-secondary/30 transition-colors">
               <Upload className="h-4 w-4 text-muted-foreground" />
               <span className="text-sm text-muted-foreground">Attach PDF (optional)</span>
               <input
-                type="file"
+                type="file" aria-label="Upload enclosure PDFs"
                 accept=".pdf"
                 onChange={handleFileChange}
-                className="hidden"
+                className="sr-only"
               />
             </label>
           )}
@@ -438,7 +438,7 @@ export function EnclosuresManager() {
                 {/* Drop zone for PDFs */}
                 <label
                   data-tour="enclosure-attach"
-                  className={`flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
+                  className={`focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
                     isDraggingOver
                       ? 'border-primary bg-primary/10'
                       : 'border-border hover:border-primary/50 hover:bg-secondary/30'
@@ -452,7 +452,7 @@ export function EnclosuresManager() {
                     {isDraggingOver ? 'Drop PDF here' : 'Drag & drop PDF or click to browse'}
                   </span>
                   <input
-                    type="file"
+                    type="file" aria-label="Upload enclosure PDFs"
                     accept=".pdf"
                     multiple
                     onChange={(e) => {
@@ -463,7 +463,7 @@ export function EnclosuresManager() {
                       }
                       e.target.value = '';
                     }}
-                    className="hidden"
+                    className="sr-only"
                   />
                 </label>
               </div>

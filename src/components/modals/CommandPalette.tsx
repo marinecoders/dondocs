@@ -1,30 +1,12 @@
-import { findSearchMatch, matchesSearch, type SearchField } from '@/lib/workspaceSearch';
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
-import { createPortal } from 'react-dom';
-import { Search, SearchX, type LucideIcon } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, Search, SearchX, type LucideIcon } from 'lucide-react';
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Kbd } from '@/components/ui/kbd';
 import { cn } from '@/lib/utils';
 import { fuzzyMatch } from '@/lib/fuzzyMatch';
+import { findSearchMatch, matchesSearch, type SearchField } from '@/lib/workspaceSearch';
 
-/** Render `text` with the matched character positions emphasized. */
-function Highlighted({ text, indices }: { text: string; indices: number[] }) {
-  if (indices.length === 0) return <>{text}</>;
-  const hit = new Set(indices);
-  return (
-    <>
-      {Array.from(text, (ch, i) =>
-        hit.has(i) ? (
-          <span key={i} className="font-semibold text-current">
-            {ch}
-          </span>
-        ) : (
-          ch
-        )
-      )}
-    </>
-  );
-}
-
+export type CommandScope = 'Documents' | 'Forms' | 'Templates' | 'Sections' | 'Actions' | 'Settings';
 export interface CommandItem {
   id: string;
   label: string;
@@ -34,229 +16,165 @@ export interface CommandItem {
   searchFields?: SearchField[];
   onRun: (query: string) => void;
 }
-
 export interface CommandGroup {
   label: string;
+  scope?: CommandScope;
   items: CommandItem[];
 }
 
-/**
- * Command palette (⌘K). Generic renderer: jump / create / actions / insert rows
- * grouped under uppercase micro-labels, with keyboard nav. The command list is
- * built by the caller (App) wired to the real Zustand actions. Entrance is
- * transform-only (dd-pop-in) so it can't be left invisible by a throttled clock.
- */
-export function CommandPalette({
-  open,
-  onClose,
-  groups,
-}: {
+export function CommandPalette({ open, onClose, groups, presentation = 'dialog' }: {
   open: boolean;
   onClose: () => void;
   groups: CommandGroup[];
+  presentation?: 'dialog' | 'workspace';
 }) {
+  const workspace = presentation === 'workspace';
   const [query, setQuery] = useState('');
+  const [scope, setScope] = useState<CommandScope | 'All'>('All');
   const [sel, setSel] = useState(0);
+  const [previousFocus] = useState(() => document.activeElement as HTMLElement | null);
+  const ran = useRef(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const activeRef = useRef<HTMLDivElement>(null);
-  // Ignore mouseenter-to-select until the pointer actually moves, so scrolling
-  // a long list under a stationary cursor during keyboard nav doesn't yank the
-  // selection to whatever row slid beneath it.
   const pointerMoved = useRef(false);
-
-  // The parent mounts this only while open (see App), so each open starts from a
-  // fresh instance — no reset effect needed. Focus the search input on mount, and
-  // restore focus to whatever was focused before (the ⌘K trigger, or the field the
-  // user was in) when the palette closes, so keyboard users aren't dropped to body.
-  useEffect(() => {
-    const previouslyFocused = document.activeElement as HTMLElement | null;
-    const t = setTimeout(() => inputRef.current?.focus(), 20);
-    return () => {
-      clearTimeout(t);
-      previouslyFocused?.focus?.();
-    };
-  }, []);
-
   const q = query.trim();
-  // Subsequence-match each item against its label (then its hint), rank
-  // best-first within the group, and remember where the label matched so the
-  // matched characters can be highlighted in the row.
-  const labelHits = new Map<string, number[]>();
-  const filtered = groups
-    .map((g) => {
-      const scored = g.items
-        .map((it) => {
-          const onLabel = fuzzyMatch(it.label, q);
-          const onHint = onLabel ? null : it.hint ? fuzzyMatch(it.hint, q) : null;
-          const m = onLabel ?? onHint;
-          const contentMatch = it.searchFields && matchesSearch([it.label, it.hint, ...it.searchFields.map(field => field.text)].join(' '), q);
-          if (!m && !contentMatch) return null;
-          labelHits.set(it.id, onLabel ? onLabel.indices : []);
-          return { it, score: m?.score ?? 0 };
-        })
-        .filter((x): x is { it: CommandItem; score: number } => x !== null);
-      // Keep the authored order with no query; rank by match quality once typing.
-      if (q) scored.sort((a, b) => b.score - a.score);
-      return { ...g, items: scored.map((x) => x.it) };
-    })
-    .filter((g) => g.items.length > 0);
+  const ordered = workspace ? [...groups].sort((a, b) => {
+    const order = ['Documents', 'Forms', 'Templates', 'Sections', 'Actions', 'Settings'];
+    return order.indexOf(a.scope ?? 'Actions') - order.indexOf(b.scope ?? 'Actions');
+  }) : groups;
+  const filtered = ordered.filter((g) => scope === 'All' || (g.scope ?? 'Actions') === scope).map((group) => {
+    const items = group.items.flatMap((item) => {
+      const labelMatch = fuzzyMatch(item.label, q);
+      const hintMatch = item.hint ? fuzzyMatch(item.hint, q) : null;
+      const textMatches = item.searchFields && matchesSearch([item.label, item.hint, ...item.searchFields.map((f) => f.text)].join(' '), q);
+      if (!labelMatch && !hintMatch && !textMatches) return [];
+      const match = textMatches ? findSearchMatch(item.searchFields!, q) : undefined;
+      return [{ item, score: labelMatch?.score ?? hintMatch?.score ?? 0, match, scope: group.scope ?? 'Actions' }];
+    });
+    if (q) items.sort((a, b) => b.score - a.score);
+    return { ...group, items };
+  }).filter((g) => g.items.length);
   const flat = filtered.flatMap((g) => g.items);
   const clampedSel = Math.min(sel, Math.max(0, flat.length - 1));
-
-  // Keep the keyboard-selected row in view when arrowing through a list that
-  // overflows the scroll area (otherwise the highlight rides off-screen).
+  const selected = flat[clampedSel];
+  const selectedFields = selected?.item.searchFields?.filter((field) => field.sectionId !== 'type').slice(0, 5) ?? [];
+  const previewSections = new Map<string, { label: string; fields: SearchField[] }>();
+  for (const field of selectedFields) {
+    const section = previewSections.get(field.sectionId);
+    if (section) section.fields.push(field);
+    else previewSections.set(field.sectionId, { label: field.label, fields: [field] });
+  }
+  useEffect(() => { activeRef.current?.scrollIntoView({ block: 'nearest' }); }, [clampedSel, query, scope]);
   useEffect(() => {
-    activeRef.current?.scrollIntoView({ block: 'nearest' });
-  }, [clampedSel]);
+    if (!workspace || !open) return;
+    inputRef.current?.focus();
+    return () => { if (!ran.current && previousFocus?.isConnected) previousFocus.focus(); };
+  }, [workspace, open, previousFocus]);
 
-  const run = (it?: CommandItem) => {
-    if (it) it.onRun(q);
+  const run = (item?: CommandItem) => {
+    if (!item) return;
+    ran.current = true;
+    // Restore before dispatch: the destination's dialog or section jump owns
+    // focus afterward, rather than losing it to search cleanup.
+    previousFocus?.focus();
     onClose();
+    item.onRun(q);
   };
-
-  const onKey = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      e.preventDefault();
-      onClose();
-    } else if (e.key === 'ArrowDown') {
+  const onKey = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
       pointerMoved.current = false;
-      setSel((s) => Math.min(s + 1, flat.length - 1));
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      pointerMoved.current = false;
-      setSel((s) => Math.max(s - 1, 0));
+      setSel((s) => Math.max(0, Math.min(s + (e.key === 'ArrowDown' ? 1 : -1), flat.length - 1)));
     } else if (e.key === 'Enter') {
       e.preventDefault();
-      run(flat[clampedSel]);
-    } else if (e.key === 'Tab') {
-      pointerMoved.current = false;
-      // Focus trap: the search input is the only focusable control, and the
-      // result rows are navigated via aria-activedescendant (not Tab). Without
-      // this, Tab walks focus out of the modal into the app behind the scrim.
-      // Keep focus here and let Tab/Shift+Tab move the active row instead.
-      e.preventDefault();
-      setSel((s) =>
-        e.shiftKey ? Math.max(s - 1, 0) : Math.min(s + 1, flat.length - 1)
-      );
+      run(selected?.item);
     }
   };
-
   const listboxId = 'command-palette-listbox';
-  const activeOptionId = flat.length > 0 ? `command-palette-option-${clampedSel}` : undefined;
-
-  if (!open) return null;
-
-  let idx = -1;
-  return createPortal(
-    <div
-      onMouseDown={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Command palette"
-      // Shared modal scrim (.dd-scrim) so the palette backdrop matches every
-      // Dialog/AlertDialog overlay instead of using a one-off rgba.
-      className="dd-scrim fixed inset-0 z-[200] flex items-start justify-center"
-      style={{ paddingTop: '12vh' }}
-    >
-      <div
-        className="dd-anim w-[min(560px,92vw)] overflow-hidden rounded-lg border border-primary/10 bg-popover text-popover-foreground shadow-elevated"
-        style={{ animation: 'dd-pop-in 0.16s cubic-bezier(0.4,0,0.2,1)' }}
-        onMouseDown={(e) => e.stopPropagation()}
-        onKeyDown={onKey}
-      >
-        {/* Search row */}
-        <div className="flex items-center gap-2.5 border-b border-border px-4 py-3.5">
-          <Search className="h-[18px] w-[18px] shrink-0 text-muted-foreground" />
-          <input
-            ref={inputRef}
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setSel(0);
-            }}
-            placeholder="Search documents, actions, references…"
-            aria-label="Command search"
-            role="combobox"
-            aria-expanded={flat.length > 0}
-            aria-controls={listboxId}
-            aria-activedescendant={activeOptionId}
-            aria-autocomplete="list"
-            className="flex-1 border-none bg-transparent text-base text-foreground outline-none placeholder:text-muted-foreground"
-          />
-        </div>
-
-        {/* Results */}
-        <div
-          id={listboxId}
-          role="listbox"
-          aria-label="Commands"
-          onMouseMove={() => { pointerMoved.current = true; }}
-          className="max-h-[380px] overflow-y-auto p-1.5"
-        >
-          {flat.length === 0 ? (
-            <div className="flex min-h-[120px] flex-col items-center justify-center gap-2 px-3 py-8 text-center">
-              <SearchX className="h-6 w-6 text-muted-foreground/60" aria-hidden="true" />
-              <p className="text-sm text-muted-foreground">No commands match “{query}”.</p>
-            </div>
-          ) : (
-            filtered.map((g) => (
-              <div key={g.label} className="mb-1">
-                <div className="px-2.5 pb-1 pt-2 text-2xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
-                  {g.label}
-                </div>
-                {g.items.map((it) => {
-                  idx += 1;
-                  const active = idx === clampedSel;
-                  const Icon = it.icon;
-                  const flatIndex = flat.indexOf(it);
-                  return (
-                    <div
-                      key={it.id}
-                      id={`command-palette-option-${flatIndex}`}
-                      ref={active ? activeRef : undefined}
-                      role="option"
-                      aria-selected={active}
-                      onMouseEnter={() => { if (pointerMoved.current) setSel(flatIndex); }}
-                      onClick={() => run(it)}
-                      className={cn(
-                        'flex cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-2 transition-colors',
-                        active ? 'bg-accent text-accent-foreground' : 'text-popover-foreground hover:bg-muted'
-                      )}
-                    >
-                      <Icon className={cn('h-4 w-4 shrink-0', active ? 'text-current' : 'text-muted-foreground')} />
-                      <span className="flex-1 truncate text-sm">
-                        <Highlighted text={it.label} indices={labelHits.get(it.id) ?? []} />
-                      </span>
-                      {(it.hint || it.searchFields) && (
-                        <span className={cn('text-2xs', active ? 'text-current opacity-85' : 'text-muted-foreground')}>
-                          {findSearchMatch(it.searchFields ?? [], q)?.snippet ?? it.hint}
-                        </span>
-                      )}
-                      {it.kbd && <Kbd active={active}>{it.kbd}</Kbd>}
-                    </div>
-                  );
-                })}
-              </div>
-            ))
-          )}
-        </div>
-
-        {/* Persistent action hints + result count. */}
-        <div className="flex items-center justify-between gap-3 border-t border-primary/10 px-4 py-2 text-2xs text-muted-foreground">
-          <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1"><Kbd>↵</Kbd> Run</span>
-            <span className="flex items-center gap-1"><Kbd>↑</Kbd><Kbd>↓</Kbd> Navigate</span>
-            <span className="flex items-center gap-1"><Kbd>esc</Kbd> Close</span>
+  let index = -1;
+  const controls = <>
+    <div className={cn('flex items-center gap-2.5', workspace ? 'mx-4 sm:mx-7 mt-6 mb-3 rounded-md border border-input bg-card px-3 py-3' : 'border-b border-border px-4 py-3.5 pr-12')}>
+      <Search className="h-[18px] w-[18px] shrink-0 text-muted-foreground" aria-hidden="true" />
+      <input ref={inputRef} value={query} onChange={(e) => { setQuery(e.target.value); setSel(0); }} onKeyDown={onKey}
+        placeholder="Search documents, forms, templates…" aria-label="Command search" role="combobox" aria-expanded={true}
+        aria-controls={listboxId} aria-activedescendant={flat.length ? `command-palette-option-${clampedSel}` : undefined}
+        aria-autocomplete="list" className="min-w-0 flex-1 border-none bg-transparent text-base text-foreground outline-none placeholder:text-muted-foreground" />
+      {query && <button type="button" className="text-xs text-muted-foreground hover:text-foreground min-h-6" onClick={() => { setQuery(''); setSel(0); inputRef.current?.focus(); }}>Clear</button>}
+    </div>
+    <div className={cn('flex gap-1 overflow-x-auto border-b py-2', workspace ? 'px-4 sm:px-7' : 'px-2')} role="group" aria-label="Search scope">
+      {(['All', 'Documents', 'Forms', 'Templates', 'Sections', 'Actions', 'Settings'] as const).map((value) =>
+        <button key={value} type="button" aria-pressed={scope === value}
+          className={cn('shrink-0 rounded-md px-2.5 min-h-9 text-xs focus-visible:ring-2 focus-visible:ring-ring', scope === value ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:bg-muted')}
+          onClick={() => { setScope(value); setSel(0); inputRef.current?.focus(); }}>{value}</button>)}
+    </div>
+  </>;
+  const results = <div id={listboxId} role="listbox" aria-label="Commands" onMouseMove={() => { pointerMoved.current = true; }} className={cn('min-h-0 overflow-y-auto', workspace ? 'flex-1 px-3 sm:px-5 py-3' : 'max-h-[min(55dvh,440px)] p-1.5')}>
+    {!flat.length ? <div className="flex min-h-40 flex-col items-center justify-center gap-2 px-3 py-8 text-center">
+      <SearchX className="h-6 w-6 text-muted-foreground" aria-hidden="true" />
+      <p className="text-sm text-muted-foreground">No results for “{query}” in {scope.toLowerCase()}.</p>
+      <p className="text-xs text-muted-foreground">Try fewer words or another scope. Deleted drafts are in Trash.</p>
+    </div> : filtered.map((group) => <div key={group.label} className="mb-3" role="group" aria-label={group.label}>
+      <div aria-hidden="true" className="px-2.5 pb-2 pt-2 text-xs font-medium text-muted-foreground">{group.label}</div>
+      {group.items.map(({ item, match }) => {
+        const row = ++index;
+        const active = row === clampedSel;
+        const Icon = item.icon;
+        return <div key={item.id} id={`command-palette-option-${row}`} ref={active ? activeRef : undefined}
+          role="option" aria-selected={active}
+          onMouseEnter={() => { if (!workspace && pointerMoved.current) setSel(row); }}
+          onClick={() => { if (workspace) { setSel(row); inputRef.current?.focus({ preventScroll: true }); } else run(item); }}
+          onDoubleClick={() => { if (workspace) run(item); }}
+          className={cn('flex cursor-pointer items-start gap-3 rounded-md px-3 py-3', active ? 'bg-accent text-accent-foreground' : 'hover:bg-muted')}>
+          <Icon className="h-4 w-4 mt-0.5 shrink-0 text-muted-foreground" aria-hidden="true" />
+          <div className="min-w-0 flex-1"><p className="break-words text-sm font-medium">{item.label}</p>
+            {match && <p className="mt-1 line-clamp-2 break-words text-xs leading-5 text-muted-foreground">{match.field.label}: {match.snippet}</p>}
+            {item.hint && <p className="mt-1 text-xs text-muted-foreground">{item.hint}</p>}
           </div>
-          {flat.length > 0 && (
-            <span className="tabular-nums">
-              {flat.length} result{flat.length === 1 ? '' : 's'}
-            </span>
-          )}
-        </div>
-      </div>
-    </div>,
-    document.body
-  );
+          {item.kbd && <Kbd active={active}>{item.kbd}</Kbd>}
+        </div>;
+      })}
+    </div>)}
+  </div>;
+  const footer = <div className="flex shrink-0 flex-wrap items-center justify-between gap-2 border-t px-4 sm:px-7 py-3 text-xs text-muted-foreground">
+    <span>↑ ↓ Navigate · Enter Open · Esc Close</span>
+    <span role="status" className="tabular-nums">{flat.length} result{flat.length === 1 ? '' : 's'}</span>
+  </div>;
+
+  if (workspace) return open && <section id="main-content" aria-label="Search workspace" className="flex flex-1 min-h-0 min-w-0 flex-col bg-background" onKeyDown={(event) => { if (event.key === 'Escape') { event.stopPropagation(); onClose(); } }}>
+    <header className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b px-4 sm:px-7 py-5">
+      <div><h1 className="text-lg font-medium tracking-tight">Search workspace</h1><p className="mt-1 text-xs text-muted-foreground">Find saved work or jump to an action.</p></div>
+      <button type="button" onClick={onClose} className="inline-flex min-h-10 items-center gap-2 rounded-md px-2 text-xs text-muted-foreground hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring"><ArrowLeft className="h-3.5 w-3.5" />Back to document</button>
+    </header>
+    {controls}
+    <div className="flex flex-1 min-h-0 min-w-0">
+      {results}
+      <aside aria-label="Selected result" className="hidden md:flex w-[38%] max-w-md min-w-64 flex-col gap-5 overflow-y-auto border-l bg-card px-6 py-6">
+        {selected ? <>
+          <p className="text-xs text-muted-foreground">Selected result</p>
+          <div><h2 className="break-words text-xl font-medium tracking-tight">{selected.item.label}</h2>{selected.item.hint && <p className="mt-2 text-xs text-muted-foreground">{selected.item.hint}</p>}</div>
+          <button type="button" className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring" onClick={() => run(selected.item)}>Open result<ArrowUpRight className="h-4 w-4" /></button>
+          {selected.match ? <div className="border-y py-5"><p className="mb-2 text-xs font-medium text-muted-foreground">Match in {selected.match.field.label}</p><p className="break-words text-sm leading-7">{selected.match.field.text.length > 2000 ? selected.match.snippet : selected.match.field.text}</p></div>
+            : previewSections.size > 0 ? <div className="space-y-4 border-y py-5">
+              {Array.from(previewSections, ([sectionId, section]) => <div key={sectionId}>
+                <h3 className="text-xs font-medium text-muted-foreground">{section.label}</h3>
+                {section.fields.map((field, i) => <p key={i} className="mt-1 break-words text-sm leading-6 line-clamp-4">{field.text}</p>)}
+              </div>)}
+            </div> : <p className="text-sm text-muted-foreground">Open this result to continue in the workspace.</p>}
+          {selected.match && <p className="text-xs leading-5 text-muted-foreground">{selected.scope === 'Templates' ? 'Opens template review before applying.' : `Opens directly to ${selected.match.field.label.toLowerCase()}.`}</p>}
+        </> : <p className="text-sm text-muted-foreground">Choose a result to inspect it here.</p>}
+      </aside>
+    </div>
+    {selected && <div className="md:hidden flex shrink-0 items-center justify-between gap-3 border-t px-4 py-3"><p className="min-w-0 truncate text-xs">{selected.item.label}</p><button type="button" onClick={() => run(selected.item)} className="min-h-11 shrink-0 rounded-md bg-primary px-4 text-sm text-primary-foreground">Open result</button></div>}
+    {footer}
+  </section>;
+
+  return <Dialog open={open} onOpenChange={(value) => { if (!value) onClose(); }}>
+    <DialogContent className="gap-0 p-0 overflow-hidden sm:max-w-xl max-h-[85dvh] flex flex-col"
+      onOpenAutoFocus={(e) => { e.preventDefault(); inputRef.current?.focus(); }}
+      onCloseAutoFocus={(e) => { e.preventDefault(); if (!ran.current) previousFocus?.focus(); }}>
+      <DialogTitle className="sr-only">Search workspace</DialogTitle>
+      <DialogDescription className="sr-only">Search saved documents and forms, templates, sections, actions and settings. Use arrow keys to choose a result and Enter to open it.</DialogDescription>
+      {controls}{results}{footer}
+    </DialogContent>
+  </Dialog>;
 }

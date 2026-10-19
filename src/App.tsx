@@ -1,20 +1,23 @@
-import { shouldAssembleBasicLetter } from '@/services/pdf/assembleEndorsement';
-import { assembleBasicLetter, basicLetterError, getSignatoryConfig, getDualSignatoryConfig, finishCorrespondencePdf } from '@/services/pdf/finishCorrespondencePdf';
-import { useBatchStore } from '@/stores/batchStore';
-import { sessionSearchFields, findSearchMatch } from '@/lib/workspaceSearch';
 import { saveCheckpoint } from '@/lib/saveCheckpoint';
+import { usePageScrollLayout } from '@/hooks/usePageScrollLayout';
+import { applyTheme, THEMES } from '@/lib/appearance';
 import { iTypeExportErrors } from '@/lib/iTypePreflight';
 import { loadFigureFiles } from '@/services/latex/figureAssets';
 import { publicationMarking } from '@/lib/publicationMarking';
 import { useEffect, useCallback, useMemo, useState, useRef, lazy, Suspense } from 'react';
 import { Header } from '@/components/layout/Header';
+import { BetaBanner } from '@/components/BetaBanner';
+import { ReadinessMeter } from '@/components/layout/ReadinessMeter';
 import { FormPanel } from '@/components/layout/FormPanel';
 import { EditorSidebar } from '@/components/layout/EditorSidebar';
 import { MobileRecents } from '@/components/layout/MobileRecents';
+import { SettingsModal } from '@/components/modals/SettingsModal';
+import { HelpModal } from '@/components/modals/HelpModal';
 import { TrashModal } from '@/components/modals/TrashModal';
 import { VersionHistoryModal } from '@/components/modals/VersionHistoryModal';
 import { PreviewPanel } from '@/components/layout/PreviewPanel';
 import { ResizableDivider } from '@/components/layout/ResizableDivider';
+import { ProfileManager } from '@/components/modals/ProfileManager';
 import { ProfileModal } from '@/components/modals/ProfileModal';
 import { ReferenceLibraryModal } from '@/components/modals/ReferenceLibraryModal';
 // MobilePreviewModal renders the shared in-app PdfViewer (react-pdf + pdf.js),
@@ -66,8 +69,10 @@ import { BackupNotice } from '@/components/BackupNotice';
 import { InstallNotice } from '@/components/InstallNotice';
 import { probeStorageHealth, requestPersistentStorage } from '@/lib/documentsDb';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore, getSerializedSession, rehydrateEnclosureFiles, type SerializedSession } from '@/stores/documentStore';
+import { useDocumentStore, rehydrateEnclosureFiles, type SerializedSession } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
+import { useBatchStore } from '@/stores/batchStore';
+import { useFormCatalog } from '@/services/formCatalog';
 import { diagnosticText } from '@/services/forms/model';
 import { renderForm } from '@/services/forms/render';
 import { useHistoryStore } from '@/stores/historyStore';
@@ -77,6 +82,9 @@ import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useEditorSections } from '@/components/layout/editorSections';
 import { CommandPalette, type CommandGroup } from '@/components/modals/CommandPalette';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { sessionSearchFields, findSearchMatch } from '@/lib/workspaceSearch';
+import { useUserTemplatesStore } from '@/stores/userTemplatesStore';
+import { LETTER_TEMPLATES } from '@/data/templates';
 import { formatShortcut } from '@/lib/platform';
 import {
   CornerDownRight,
@@ -99,6 +107,9 @@ import {
   MoonStar,
   PanelRight,
   MonitorDown,
+  Settings,
+  Trash2,
+  CircleHelp,
 } from 'lucide-react';
 import { useLogStore } from '@/stores/logStore';
 import { useLatexEngine, useServiceWorker, useInstallPrompt, promptInstall } from '@/hooks';
@@ -115,12 +126,19 @@ import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/na
 import { applyPlaceholdersToNavmc11811, buildNavmc11811DefaultValues } from '@/lib/placeholders';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
 import type { EnclosureError } from '@/services/pdf/mergeEnclosures';
+import { shouldAssembleBasicLetter } from '@/services/pdf/assembleEndorsement';
+import { assembleBasicLetter, basicLetterError, getSignatoryConfig, getDualSignatoryConfig, finishCorrespondencePdf } from '@/services/pdf/finishCorrespondencePdf';
 import { addSignatureField, addDualSignatureFields } from '@/services/pdf/addSignatureField';
-import { DOC_TYPE_CONFIG } from '@/types/document';
+import { DOC_TYPE_CONFIG, DOC_TYPE_LABELS, formTypeLabel } from '@/types/document';
 import { detectPII, type PIIDetectionResult } from '@/services/pii/detector';
 import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
 import { prefersMobileLayout, readLayoutEnvironment } from '@/utils/device/layout';
 
+// Helper to get classification marking for enclosures
+// Latest download triggers, published by App in an effect. Held at module scope
+// (like editorOutlineStore's jump handler) so the command-palette groups — built
+// during render — can dispatch a download without referencing a ref-reading
+// callback during render, which the React rules forbid.
 const commandDownloadTriggers: { pdf: () => void; docx: () => void } = {
   pdf: () => {},
   docx: () => {},
@@ -140,8 +158,8 @@ function mergeOptionsFor(store: ReturnType<typeof useDocumentStore.getState>) {
 }
 
 function App() {
-  const currentDocId = useDocumentsStore((s) => s.currentId);
-  const [editorReady, setEditorReady] = useState(false);
+  const pageScroll = usePageScrollLayout();
+  const formCatalog = useFormCatalog();
   // Prefetch the Pandoc WASM module (~58 MB) during browser idle time so the
   // first DOCX export skips the download wait. Skips slow/data-saver connections.
   usePandocIdlePrefetch();
@@ -149,8 +167,8 @@ function App() {
   // Individual selectors so Zustand only re-renders App on the specific field's
   // change, not on every store update. Setters are stable, so selecting them is free.
   const theme = useUIStore((s) => s.theme);
-  const colorScheme = useUIStore((s) => s.colorScheme);
   const density = useUIStore((s) => s.density);
+  const [workspaceReady, setWorkspaceReady] = useState(false);
   const isMobile = useUIStore((s) => s.isMobile);
   const setIsMobile = useUIStore((s) => s.setIsMobile);
   // Gate the lazy MobilePreviewModal; chunk fetches on first open only.
@@ -178,6 +196,7 @@ function App() {
   // the slices that should invalidate the debounced compile; other setter calls
   // no longer wake App. compilePdf reads the full store via getState() at call time.
   const docType = useDocumentStore((s) => s.docType);
+  const currentDocId = useDocumentsStore((s) => s.currentId);
   const formData = useDocumentStore((s) => s.formData);
   const references = useDocumentStore((s) => s.references);
   const enclosures = useDocumentStore((s) => s.enclosures);
@@ -206,9 +225,6 @@ function App() {
 
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [formPdfUrl, setFormPdfUrl] = useState<string | null>(null);
-  // A form preview that fails must SAY so. It used to fall through to the empty
-  // state — "your document preview will appear here" — which reads as "you have
-  // not filled anything in yet" on a form that is actually broken.
   const [pdfDocumentId, setPdfDocumentId] = useState<string | null>(null);
   const [formPdfDocumentId, setFormPdfDocumentId] = useState<string | null>(null);
   const [renderedCorrespondence, setRenderedCorrespondence] = useState<ReturnType<typeof useDocumentStore.getState> | null>(null);
@@ -300,30 +316,12 @@ function App() {
     });
   }, []);
 
-  // Apply theme to document
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-    // Keep the browser/PWA chrome color in step with the app theme. The static
-    // theme-color metas key off prefers-color-scheme, but the app theme is
-    // user-controlled and independent — so override both metas' content to the
-    // active canvas color, else the status bar mistints when they disagree.
-    const canvas = theme === 'dark' ? '#0b0d11' : '#f1f6fa';
-    document
-      .querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
-      .forEach((m) => {
-        m.content = canvas;
-      });
-  }, [theme]);
+  useEffect(() => applyTheme(theme), [theme]);
 
   // Apply density to document
   useEffect(() => {
     document.documentElement.dataset.density = density;
   }, [density]);
-
-  // Apply color scheme to document
-  useEffect(() => {
-    document.documentElement.dataset.scheme = colorScheme;
-  }, [colorScheme]);
 
   // Track if initial setup has been done
   const initialSetupDoneRef = useRef(false);
@@ -406,7 +404,7 @@ function App() {
       // importantly, stops the browser evicting the service worker's precache
       // (the root of the recurring unstyled-shell loop).
       .finally(() => {
-        if (!cancelled) setEditorReady(true);
+        if (!cancelled) setWorkspaceReady(true);
         void requestPersistentStorage()
           .catch(() => false)
           .then(() => probeStorageHealth())
@@ -631,7 +629,7 @@ function App() {
 
   // Debounced compilation on document changes
   useEffect(() => {
-    if (!editorReady || !isReady || batchRunning || documentCategory === 'forms') return;
+    if (!workspaceReady || !isReady || batchRunning || documentCategory === 'forms') return;
 
     if (compileTimeoutRef.current) {
       clearTimeout(compileTimeoutRef.current);
@@ -657,7 +655,7 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isReady,
-    editorReady,
+    workspaceReady,
     currentDocId,
     documentCategory,
     batchRunning,
@@ -1537,12 +1535,15 @@ ${texFiles['body.tex'] || '% No body content'}
   // Global keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (!workspaceReady) return;
       const isMod = e.ctrlKey || e.metaKey;
       const target = e.target as HTMLElement;
       const isInInput = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA';
 
-      // Escape - Close all modals
+      // Dialogs and menus own Escape, including unsaved-change and busy guards.
+      // The global fallback must not bypass their close handlers.
       if (e.key === 'Escape') {
+        if (e.defaultPrevented || target.closest('[role="dialog"], [role="alertdialog"], [role="menu"]')) return;
         closeAllModals();
         return;
       }
@@ -1573,9 +1574,9 @@ ${texFiles['body.tex'] || '% No body content'}
       // Ctrl/Cmd + P - Print (trigger browser print on the PDF)
       if (isMod && e.key === 'p') {
         e.preventDefault();
-        if (pdfUrl) {
-          // Open PDF in new tab for printing
-          const printWindow = window.open(pdfUrl, '_blank');
+        if (currentPreviewUrl) {
+          // Print the active document's preview, including NAVMC forms.
+          const printWindow = window.open(currentPreviewUrl, '_blank');
           if (printWindow) {
             // { once: true } so the listener auto-removes after firing,
             // otherwise each popup window stays pinned by the closure.
@@ -1587,10 +1588,7 @@ ${texFiles['body.tex'] || '% No body content'}
         return;
       }
 
-      // Ctrl/Cmd + S - flush a real save now. Work already autosaves
-      // continuously; this forces the current document to persist immediately
-      // (correspondence -> registry; forms already persist per edit) and the
-      // passive "Saved" indicator reflects it.
+      // Ctrl/Cmd + S shares the same manual checkpoint as Document actions.
       if (isMod && e.key === 's') {
         e.preventDefault();
         saveCheckpoint();
@@ -1604,7 +1602,7 @@ ${texFiles['body.tex'] || '% No body content'}
         return;
       }
 
-      // Ctrl/Cmd + H - Find & Replace
+      // Ctrl/Cmd + H - Find and replace
       if (isMod && e.key === 'h') {
         e.preventDefault();
         setFindReplaceOpen(true);
@@ -1643,8 +1641,9 @@ ${texFiles['body.tex'] || '% No body content'}
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [
     closeAllModals,
+    workspaceReady,
     handleDownloadPdf,
-    pdfUrl,
+    currentPreviewUrl,
     setTemplateLoaderOpen,
     setReferenceLibraryOpen,
     setFindReplaceOpen,
@@ -1668,48 +1667,74 @@ ${texFiles['body.tex'] || '% No body content'}
   // Command palette (⌘K) groups, wired to the real Zustand actions. getState() is
   // read inside each onRun so the actions are always current; the only render-time
   // dependency is the section outline (the "Jump to section" group).
+  useEffect(() => {
+    if (commandPaletteOpen) useDocumentsStore.getState().syncCurrent();
+  }, [commandPaletteOpen]);
+  // A template, import, or sidebar action can open a draft while Search is
+  // displayed. Return to its editor instead of leaving the new draft hidden.
+  useEffect(() => {
+    useUIStore.getState().setCommandPaletteOpen(false);
+  }, [currentDocId]);
   const allDocs = useDocumentsStore((s) => s.docs);
+  const userTemplates = useUserTemplatesStore((s) => s.templates);
   const commandGroups = useMemo<CommandGroup[]>(() => {
     const groups: CommandGroup[] = [];
 
     if (outlineSections.length > 0) {
       groups.push({
         label: 'Jump to section',
+        scope: 'Sections',
         items: outlineSections.map((s) => ({
           id: `jump-${s.id}`,
           label: s.label,
           icon: CornerDownRight,
-          onRun: () => useEditorOutlineStore.getState().jump(s.id),
+          onRun: () => { if (currentDocId) useEditorOutlineStore.getState().requestJump(currentDocId, s.id); },
         })),
       });
     }
 
-    // Switch to a recent document — Recents are otherwise unreachable by keyboard.
-    const recentDocs = Object.values(allDocs)
-      .map((d) => d.meta)
-      .sort((a, b) => b.updatedAt - a.updatedAt)
-;
-    if (recentDocs.length > 0) {
-      groups.push({
-        label: 'Switch to document',
-        items: recentDocs.map((m) => ({
-          id: `switch-${m.id}`,
-          label: m.title,
-          icon: FileText,
-          searchFields: sessionSearchFields(m.id === currentDocId ? getSerializedSession() : allDocs[m.id].session),
-          onRun: (query) => {
-            const session = m.id === currentDocId ? getSerializedSession() : allDocs[m.id].session;
-            useDocumentsStore.getState().switchTo(m.id);
-            const match = findSearchMatch(sessionSearchFields(session), query);
-            if (match && match.field.sectionId !== 'type') useEditorOutlineStore.getState().requestJump(m.id, match.field.sectionId);
+    const documents = Object.values(allDocs).sort((a, b) => b.meta.updatedAt - a.meta.updatedAt);
+    for (const forms of [false, true]) groups.push({
+      label: forms ? 'Forms' : 'Documents', scope: forms ? 'Forms' : 'Documents',
+      items: documents.filter(({ session }) => (session.documentCategory === 'forms') === forms).map(({ meta, session }) => {
+        const searchFields = sessionSearchFields(session);
+        return {
+          id: `switch-${meta.id}`, label: meta.title, icon: FileText, searchFields,
+          hint: session.documentCategory === 'forms' ? formTypeLabel(session.formType, session.genericForm?.definition.label) : DOC_TYPE_LABELS[session.docType],
+          onRun: (query: string) => {
+            useDocumentsStore.getState().switchTo(meta.id);
+            const match = findSearchMatch(searchFields, query);
+            if (match) useEditorOutlineStore.getState().requestJump(meta.id, match.field.sectionId);
           },
+        };
+      }),
+    });
+    const openTemplate = (name: string) => {
+      useUIStore.getState().setTemplateSearch(name);
+      useUIStore.getState().setTemplateLoaderOpen(true);
+    };
+    groups.push({
+      label: 'Templates', scope: 'Templates',
+      items: [
+        ...Object.values(userTemplates).map((t) => ({
+          id: `template-user-${t.id}`, label: t.name, icon: FileDown, hint: 'Your template',
+          searchFields: sessionSearchFields(t.session), onRun: () => openTemplate(t.name),
         })),
-      });
-    }
+        ...LETTER_TEMPLATES.map((t) => ({
+          id: `template-${t.id}`, label: t.name, icon: FileDown, hint: t.category,
+          searchFields: [{ text: [t.description, t.subject, t.ssic, ...t.paragraphs.map((p) => p.text)].join(' '), sectionId: 'body', label: 'Template' }],
+          onRun: () => openTemplate(t.name),
+        })),
+      ],
+    });
 
     groups.push({
       label: 'Create',
       items: [
+        ...formCatalog.map(({ formType: kind, name: label }) => ({
+          id: `new-${kind}`, label: `New ${label}`, icon: FileText,
+          onRun: () => useDocumentsStore.getState().newDocument(kind),
+        })),
         {
           id: 'new-document',
           label: 'New document',
@@ -1757,7 +1782,7 @@ ${texFiles['body.tex'] || '% No body content'}
           onRun: () => commandDownloadTriggers.pdf(),
         },
         // Publication types are delivered as PDF (see DocTypeConfig.pdfOnly).
-        ...(DOC_TYPE_CONFIG[docType]?.pdfOnly ? [] : [{
+        ...(documentCategory === 'forms' || DOC_TYPE_CONFIG[docType]?.pdfOnly ? [] : [{
           id: 'download-docx',
           label: 'Download Word (.docx)',
           icon: Download,
@@ -1765,12 +1790,10 @@ ${texFiles['body.tex'] || '% No body content'}
         }]),
         {
           id: 'save-draft',
-          label: 'Save draft now',
+          label: 'Save checkpoint',
           icon: Save,
           kbd: formatShortcut('mod S'),
-          onRun: () => {
-            saveCheckpoint();
-          },
+          onRun: () => { saveCheckpoint(); },
         },
         {
           id: 'batch-generate',
@@ -1792,7 +1815,7 @@ ${texFiles['body.tex'] || '% No body content'}
         },
         {
           id: 'find-replace',
-          label: 'Find & Replace…',
+          label: 'Find and replace…',
           icon: Search,
           kbd: formatShortcut('mod H'),
           onRun: () => useUIStore.getState().setFindReplaceOpen(true),
@@ -1845,17 +1868,21 @@ ${texFiles['body.tex'] || '% No body content'}
     }
 
     groups.push({
-      label: 'View',
+      label: 'Settings', scope: 'Settings',
       items: [
-        {
-          id: 'toggle-theme',
-          label: 'Toggle light / dark theme',
+        { id: 'settings', label: 'Settings — appearance and density', hint: 'Theme, text spacing and reduced motion', icon: Settings, onRun: () => useUIStore.getState().setSettingsOpen(true) },
+        { id: 'backup-settings', label: 'Backup and restore settings', hint: 'Auto-backup, reconnect, download and restore a backup', icon: Settings, onRun: () => useUIStore.getState().setSettingsOpen(true, 'backup') },
+        { id: 'preview-settings', label: 'Preview quality settings', hint: 'Full-quality preview, attachments and signatures', icon: Settings, onRun: () => useUIStore.getState().setSettingsOpen(true, 'preview') },
+        ...THEMES.map(({ value, label, description }) => ({
+          id: `theme-${value}`,
+          label: `Use ${label.toLowerCase()} appearance`,
+          hint: description,
           icon: MoonStar,
-          onRun: () => useUIStore.getState().toggleTheme(),
-        },
+          onRun: () => useUIStore.getState().setTheme(value),
+        })),
         {
           id: 'toggle-preview',
-          label: 'Toggle preview panel',
+          label: `${(isMobile ? mobilePreviewOpen : previewVisible) ? 'Hide' : 'Show'} preview`,
           icon: PanelRight,
           onRun: () => useUIStore.getState().togglePreview(),
         },
@@ -1863,12 +1890,17 @@ ${texFiles['body.tex'] || '% No body content'}
           id: 'manage-profiles',
           label: 'Manage profiles…',
           icon: Users,
-          onRun: () => useUIStore.getState().setProfileModalOpen(true),
+          onRun: () => useUIStore.getState().setProfileManagerOpen(true),
         },
       ],
     });
 
-    const insertItems: CommandGroup['items'] = [
+    groups.push({ label: 'Help and recovery', scope: 'Actions', items: [
+      { id: 'trash', label: 'Trash — recover deleted drafts', icon: Trash2, onRun: () => useUIStore.getState().setTrashOpen(true) },
+      { id: 'help', label: 'Help and keyboard shortcuts', icon: CircleHelp, onRun: () => useUIStore.getState().setHelpOpen(true) },
+    ] });
+
+    const insertItems: CommandGroup['items'] = documentCategory === 'forms' ? [] : [
       {
         id: 'insert-reference',
         label: 'Insert reference…',
@@ -1880,12 +1912,12 @@ ${texFiles['body.tex'] || '% No body content'}
     // that section exists for the current doc type (it's absent for MOAs, joint
     // letters, and the NAVMC forms), so the command never fires a dead jump that
     // would briefly hide the section-rail indicator.
-    if (outlineSections.some((s) => s.id === 'addressing')) {
+    if (documentCategory !== 'forms' && outlineSections.some((s) => s.id === 'addressing')) {
       insertItems.push({
         id: 'lookup-ssic',
         label: 'Look up SSIC code…',
         icon: Hash,
-        onRun: () => useEditorOutlineStore.getState().jump('addressing'),
+        onRun: () => { if (currentDocId) useEditorOutlineStore.getState().requestJump(currentDocId, 'addressing'); },
       });
     }
     if (outlineSections.some((s) => s.id === 'enclosures')) {
@@ -1893,7 +1925,7 @@ ${texFiles['body.tex'] || '% No body content'}
         id: 'attach-enclosure',
         label: 'Attach enclosure…',
         icon: Paperclip,
-        onRun: () => useEditorOutlineStore.getState().jump('enclosures'),
+        onRun: () => { if (currentDocId) useEditorOutlineStore.getState().requestJump(currentDocId, 'enclosures'); },
       });
     }
     insertItems.push({
@@ -1905,9 +1937,14 @@ ${texFiles['body.tex'] || '% No body content'}
     groups.push({ label: 'Insert', items: insertItems });
 
     return groups;
-  }, [outlineSections, allDocs, currentDocId, isInstalled, docType]);
+  }, [outlineSections, allDocs, currentDocId, isInstalled, userTemplates, docType, documentCategory, isMobile, mobilePreviewOpen, previewVisible, formCatalog]);
 
-  if (!editorReady) return <div role="status" className="flex h-screen-dvh items-center justify-center">Opening your documents…</div>;
+  if (!workspaceReady) {
+    return <main className="flex h-screen-dvh flex-col items-center justify-center gap-3 bg-background text-foreground">
+      <img src={`${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`} alt="Marine Coders" className="h-10 w-10 brightness-0 dark:invert" />
+      <p role="status" className="text-sm text-muted-foreground">Opening workspace…</p>
+    </main>;
+  }
 
   const correspondenceChanged = renderedCorrespondence?.docType !== docType || renderedCorrespondence?.formData !== formData
     || renderedCorrespondence?.paragraphs !== paragraphs || renderedCorrespondence?.references !== references
@@ -1923,11 +1960,7 @@ ${texFiles['body.tex'] || '% No body content'}
         Safari / Chrome Android browser chrome, which pushed the bottom FABs
         and preview toolbar under it — with a 100vh fallback for pre-dvh
         engines. */}
-    <div className="flex flex-col h-screen-dvh bg-background relative overflow-hidden">
-      {/* The Marine Coders EGA seal (and the animated beams) live inside the
-          editor column (FormPanel) as a single, contained brand watermark. The
-          previous full-viewport seal here duplicated it behind the sidebar and
-          header at some zoom levels, so it was removed. */}
+    <div data-page-scroll={pageScroll || undefined} className="workspace-shell flex flex-col h-screen-dvh bg-background relative overflow-hidden">
       {/* Skip link for keyboard navigation - WCAG 2.4.1 */}
       <a
         href="#main-content"
@@ -1936,76 +1969,85 @@ ${texFiles['body.tex'] || '% No body content'}
         Skip to main content
       </a>
 
-      <Header
-        onDownloadPdf={handleDownloadPdf}
-        onDownloadTex={handleDownloadTex}
-        onDownloadDocx={handleDownloadDocx}
-        onDownloadFlatTex={handleDownloadFlatTex}
-        onRefreshPreview={() => { if (documentCategory === 'forms') { setFormError(null); setFormRefresh(n => n + 1); } else void compilePdf(); }}
-        isCompiling={previewBusy}
-        isDocxGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('docx-')}
-        isPdfGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('pdf-')}
-        isFormsMode={documentCategory === 'forms'}
-      />
-
-      <StorageNotice />
-      <ConnectivityModal />
-      <BackupNotice />
-      <InstallNotice />
-
-      <div className="flex flex-1 overflow-hidden">
-        {/* Document workspace (desktop). Sits beside the main editor so the
-            resize-divider math inside <main> is unaffected. */}
+      <BetaBanner />
+      <div className="workspace-body flex flex-1 min-h-0 overflow-hidden">
         <EditorSidebar />
-        {/* Mobile-only Recents (floating button + dialog); desktop sidebar is hidden on phones. */}
-        <MobileRecents />
-        <VersionHistoryModal />
-        <TrashModal />
+        <div className="workspace-column flex flex-1 min-w-0 flex-col overflow-hidden">
+          <StorageNotice placement="header" />
+          <ConnectivityModal />
+          <BackupNotice />
+          <InstallNotice />
+          {commandPaletteOpen && <CommandPalette open presentation="workspace" onClose={() => setCommandPaletteOpen(false)} groups={commandGroups} />}
+          <div className="workspace-document flex flex-1 min-h-0 flex-col overflow-hidden" style={{ display: commandPaletteOpen ? 'none' : undefined }}>
+            <Header
+              onDownloadPdf={handleDownloadPdf}
+              onDownloadTex={handleDownloadTex}
+              onDownloadDocx={handleDownloadDocx}
+              onDownloadFlatTex={handleDownloadFlatTex}
+              onRefreshPreview={documentCategory === 'forms' ? () => setFormRefresh((n) => n + 1) : compilePdf}
+              isCompiling={previewBusy}
+              isDocxGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('docx-')}
+              isPdfGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('pdf-')}
+              isFormsMode={documentCategory === 'forms'}
+            />
 
-        <main id="main-content" ref={mainContainerRef} className="flex flex-1 min-w-0 overflow-hidden">
-        {/* Form Panel - takes remaining space when preview is visible */}
-        <div
-          className="min-w-0 overflow-hidden"
-          style={{
-            // shrink=1 so the panels absorb the divider's width; with shrink=0 the
-            // preview's right edge got clipped.
-            flex: previewVisible && !isMobile ? `1 1 ${100 - previewWidth}%` : '1 1 100%',
-          }}
-        >
-          <FormPanel />
+            <MobileRecents />
+            <VersionHistoryModal />
+            <TrashModal />
+            <SettingsModal />
+            <HelpModal />
+
+            <main id={commandPaletteOpen ? undefined : 'main-content'} ref={mainContainerRef} className="workspace-main flex flex-1 min-w-0 overflow-hidden">
+              {/* Form Panel - takes remaining space when preview is visible */}
+              <div
+                className="workspace-form-panel min-w-0 overflow-hidden"
+                style={{
+                  // shrink=1 so the panels absorb the divider's width; with shrink=0 the
+                  // preview's right edge got clipped.
+                  flex: previewVisible && !isMobile ? `1 1 ${100 - previewWidth}%` : '1 1 100%',
+                }}
+              >
+                <FormPanel />
+              </div>
+
+              {/* Resizable divider - only show on desktop when preview is visible */}
+              {previewVisible && !isMobile && (
+                <ResizableDivider
+                  onResize={setPreviewWidth}
+                  containerRef={mainContainerRef}
+                  currentWidth={previewWidth}
+                />
+              )}
+
+              {/* Preview Panel - width controlled by previewWidth */}
+              <div
+                className="min-w-0 overflow-hidden"
+                style={{
+                  flex: previewVisible && !isMobile ? `1 1 ${previewWidth}%` : undefined,
+                  display: previewVisible || isMobile ? 'block' : 'none',
+                }}
+              >
+                <PreviewPanel
+                  documentId={currentDocId ?? undefined}
+                  onDownloadPdf={handleDownloadPdf}
+                  pdfUrl={currentPreviewUrl}
+                  isCompiling={previewBusy}
+                  isWarmingUp={documentCategory === 'forms' ? false : !isReady}
+                  previewEnhanced={documentCategory === 'forms' ? true : previewEnhanced}
+                  error={documentCategory === 'forms' ? formError : (compileError || engineError)}
+                />
+              </div>
+            </main>
+            <div className="workspace-reviewbar flex shrink-0 flex-wrap items-center justify-between gap-2 border-t border-border px-4 sm:px-6 py-1.5 text-xs text-muted-foreground">
+              <ReadinessMeter />
+            </div>
+          </div>
+          <StorageNotice placement="footer" />
         </div>
-
-        {/* Resizable divider - only show on desktop when preview is visible */}
-        {previewVisible && !isMobile && (
-          <ResizableDivider
-            onResize={setPreviewWidth}
-            containerRef={mainContainerRef}
-            currentWidth={previewWidth}
-          />
-        )}
-
-        {/* Preview Panel - width controlled by previewWidth */}
-        <div
-          className="min-w-0 overflow-hidden"
-          style={{
-            flex: previewVisible && !isMobile ? `1 1 ${previewWidth}%` : undefined,
-            display: previewVisible || isMobile ? 'block' : 'none',
-          }}
-        >
-          <PreviewPanel
-            documentId={currentDocId ?? undefined}
-            onDownloadPdf={handleDownloadPdf}
-            pdfUrl={currentPreviewUrl}
-            isCompiling={previewBusy}
-            isWarmingUp={documentCategory === 'forms' ? false : !isReady}
-            previewEnhanced={documentCategory === 'forms' ? true : previewEnhanced}
-            error={documentCategory === 'forms' ? formError : (compileError || engineError)}
-          />
-        </div>
-        </main>
       </div>
 
       {/* Modals */}
+      <ProfileManager />
       <ProfileModal />
       <ReferenceLibraryModal />
       {/* Lazy-mounted only while open; first open fetches the chunk, then it's
@@ -2025,20 +2067,13 @@ ${texFiles['body.tex'] || '% No body content'}
       <AboutModal />
       <NISTComplianceModal />
       <ImportLetterModal />
-      {commandPaletteOpen && (
-        <CommandPalette
-          open
-          onClose={() => setCommandPaletteOpen(false)}
-          groups={commandGroups}
-        />
-      )}
       <BatchModal compile={compile} isEngineReady={isReady} waitForReady={waitForReady} />
       <FindReplaceModal />
       <TemplateLoaderModal />
       <DocumentGuideModal />
       <WelcomeModal />
       <TourOverlay />
-      <ActivationChecklist />
+      <ActivationChecklist dialogOnly />
       <PIIWarningModal
         detectionResult={piiDetectionResult}
         onCancel={handleCancelPIIDownload}
@@ -2060,7 +2095,7 @@ ${texFiles['body.tex'] || '% No body content'}
       />
       {/* RestoreSessionModal retired: the registry auto-resumes the last open
           document, and Recents replaces the old "restore?" prompt. */}
-      <ShareModal
+      {shareModal !== null && <ShareModal
         open={shareModal !== null}
         onOpenChange={(open) => {
           if (!open) {
@@ -2075,7 +2110,7 @@ ${texFiles['body.tex'] || '% No body content'}
           const u = window.location;
           window.history.replaceState(null, '', u.pathname + u.search);
         }}
-      />
+      />}
       <UpdatePromptModal
         open={showUpdatePrompt}
         onConfirm={confirmUpdate}

@@ -1,10 +1,13 @@
+import { useFormCatalog } from '@/services/formCatalog';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from '@/components/ui/dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { DOC_TYPE_LABELS } from '@/types/document';
+import { LETTER_TEMPLATES } from '@/data/templates';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Shield, Zap, FileText, Lock, Plane, ExternalLink } from 'lucide-react';
@@ -14,6 +17,7 @@ import { APP_VERSION, GIT_SHA, formatBuildTime } from '@/lib/version';
 import { BASE_PATH } from '@/config/paths';
 
 export function AboutModal() {
+  const catalog = useFormCatalog();
   // Individual selectors so this modal only re-renders when its own flag
   // changes — not when any other modal toggles or an unrelated UI field
   // updates. Setters are stable from Zustand's `create()` callback.
@@ -23,18 +27,19 @@ export function AboutModal() {
 
   return (
     <Dialog open={aboutModalOpen} onOpenChange={setAboutModalOpen}>
-      <DialogContent className="sm:max-w-lg max-h-[85vh]">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-3">
+      <DialogContent className="sm:max-w-lg max-h-[85dvh] flex flex-col overflow-hidden">
+        <DialogHeader className="shrink-0 pr-10 text-left">
+          <DialogTitle className="flex flex-wrap items-center gap-3">
             <FileText className="h-5 w-5 text-primary" />
-            <span>Naval Correspondence Generator</span>
+            <span>DonDocs</span>
             <Badge variant="secondary" title={`Build ${GIT_SHA} · ${formatBuildTime()}`}>
               v{APP_VERSION}
             </Badge>
           </DialogTitle>
+          <DialogDescription>Correspondence and forms from Marine Coders.</DialogDescription>
         </DialogHeader>
 
-        <ScrollArea className="max-h-[70vh] pr-4">
+        <div className="min-h-0 overflow-y-auto pr-2">
         <div className="space-y-5">
           <p className="text-muted-foreground italic border-l-2 border-primary pl-3">
             Professional document generation for Marines, by Marines.
@@ -50,7 +55,7 @@ export function AboutModal() {
           </div>
 
           <div className="space-y-3">
-            <h4 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide">Why It's Better</h4>
+            <h4 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide">Workspace capabilities</h4>
             <ul className="space-y-2.5">
               <li className="flex items-start gap-3">
                 <FileText className="h-4 w-4 text-primary mt-0.5 shrink-0" />
@@ -61,25 +66,25 @@ export function AboutModal() {
               <li className="flex items-start gap-3">
                 <Lock className="h-4 w-4 text-primary mt-0.5 shrink-0" />
                 <span className="text-sm">
-                  <strong>Full classification support</strong> — CUI through TOP SECRET//SCI with proper markings
+                  <strong>Classification markings</strong> — Formatting options for banners and portion marks. Use only in an environment authorized for your information.
                 </span>
               </li>
               <li className="flex items-start gap-3">
                 <Zap className="h-4 w-4 text-primary mt-0.5 shrink-0" />
                 <span className="text-sm">
-                  <strong>20 document types and 11 templates</strong> with distribution lists, classification markings, and batch generation
+                  <strong>{Object.keys(DOC_TYPE_LABELS).length + catalog.length} document formats and {LETTER_TEMPLATES.length} built-in templates</strong> with distribution lists, classification markings, and batch generation
                 </span>
               </li>
               <li className="flex items-start gap-3">
                 <Shield className="h-4 w-4 text-primary mt-0.5 shrink-0" />
                 <span className="text-sm">
-                  <strong>NIST 800-171 compliant</strong> — No data ever leaves your browser
+                  <strong>Local document processing</strong> — Drafts and attachments are stored in this browser. You choose when to export, back up, or share them.
                 </span>
               </li>
               <li className="flex items-start gap-3">
                 <Plane className="h-4 w-4 text-primary mt-0.5 shrink-0" />
                 <span className="text-sm">
-                  <strong>Air-gap capable</strong> — Works completely offline on SIPR/classified networks
+                  <strong>Offline deployment support</strong> — Document generation runs locally when the required application assets are available.
                 </span>
               </li>
             </ul>
@@ -132,7 +137,7 @@ export function AboutModal() {
             </div>
           </div>
         </div>
-        </ScrollArea>
+        </div>
       </DialogContent>
     </Dialog>
   );

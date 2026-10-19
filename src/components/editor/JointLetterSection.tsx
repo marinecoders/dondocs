@@ -1,3 +1,4 @@
+import { EditorGuidance } from './EditorGuidance';
 import { useState } from 'react';
 import { Building2, BookOpen, Type, Shield } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -59,16 +60,16 @@ export function JointLetterSection() {
       {/* Joint Letter Info */}
       <Accordion type="single" collapsible defaultValue="joint-info">
         <AccordionItem value="joint-info">
-          <AccordionTrigger>Joint Letter</AccordionTrigger>
+          <AccordionTrigger>Addressing</AccordionTrigger>
           <AccordionContent>
-            <div className="space-y-4 pt-2">
-              <div className="p-3 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg text-sm text-blue-800 dark:text-blue-200">
+            <div className="editor-field-groups pt-2">
+              <EditorGuidance title="Joint letter guidance">
                 <p className="font-medium">Per SECNAV M-5216.5 Ch 2:</p>
                 <p className="text-xs mt-1">
                   A joint letter is signed by two commanding officers from different organizations.
                   Both letterheads appear side-by-side. The junior command provides the SSIC, serial, and date.
                 </p>
-              </div>
+              </EditorGuidance>
 
               {/* Common Location */}
               <div className="space-y-2">
@@ -111,14 +112,14 @@ export function JointLetterSection() {
       {/* Senior Command (Left Side) */}
       <Accordion type="single" collapsible defaultValue="senior-letterhead">
         <AccordionItem value="senior-letterhead">
-          <AccordionTrigger>
+          <AccordionTrigger data-field-group>
             <div className="flex items-center gap-2">
-              <span>Senior Command Letterhead</span>
+              <span>Senior command letterhead</span>
               <span className="text-xs text-muted-foreground font-normal">(Left Side)</span>
             </div>
           </AccordionTrigger>
           <AccordionContent>
-            <div className="space-y-4 pt-2">
+            <div className="editor-field-groups pt-2">
               <div className="flex justify-end">
                 <Button
                   type="button"
@@ -206,14 +207,14 @@ export function JointLetterSection() {
       {/* Junior Command (Right Side) */}
       <Accordion type="single" collapsible defaultValue="junior-letterhead">
         <AccordionItem value="junior-letterhead">
-          <AccordionTrigger>
+          <AccordionTrigger data-field-group>
             <div className="flex items-center gap-2">
-              <span>Junior Command Letterhead</span>
+              <span>Junior command letterhead</span>
               <span className="text-xs text-muted-foreground font-normal">(Right Side - Provides SSIC)</span>
             </div>
           </AccordionTrigger>
           <AccordionContent>
-            <div className="space-y-4 pt-2">
+            <div className="editor-field-groups pt-2">
               <div className="flex justify-end">
                 <Button
                   type="button"
@@ -345,22 +346,23 @@ export function JointLetterSection() {
       {/* Signature Options */}
       <Accordion type="single" collapsible defaultValue="signature-options">
         <AccordionItem value="signature-options">
-          <AccordionTrigger>Signature Options</AccordionTrigger>
+          <AccordionTrigger data-field-group>Signature options</AccordionTrigger>
           <AccordionContent>
-            <div className="space-y-4 pt-2">
-              <div className="p-3 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg text-sm text-blue-800 dark:text-blue-200">
+            <div className="editor-field-groups pt-2">
+              <EditorGuidance title="Joint letter guidance">
                 <p className="font-medium">Per SECNAV M-5216.5 Ch 7:</p>
                 <p className="text-xs mt-1">
                   The junior command signs FIRST (left side), then the senior command signs LAST (right side).
                   Both signatures use the same style selected below.
                 </p>
-              </div>
+              </EditorGuidance>
 
               <div className="space-y-3">
-                <Label>Signature Style (Both Signatories)</Label>
+                <p className="text-xs text-muted-foreground">Choose the style for both signatories.</p>
                 <div className="grid grid-cols-2 gap-2">
                   <Button
                     type="button"
+                    aria-pressed={(formData.signatureType || 'none') === 'none'}
                     variant={(formData.signatureType || 'none') === 'none' ? 'default' : 'outline'}
                     size="sm"
                     className="flex flex-col items-center gap-1 h-auto py-3"
@@ -371,6 +373,7 @@ export function JointLetterSection() {
                   </Button>
                   <Button
                     type="button"
+                    aria-pressed={formData.signatureType === 'digital'}
                     variant={formData.signatureType === 'digital' ? 'default' : 'outline'}
                     size="sm"
                     className="flex flex-col items-center gap-1 h-auto py-3"
@@ -387,23 +390,23 @@ export function JointLetterSection() {
                 </p>
 
                 {formData.signatureType === 'digital' && (
-                  <div className="border rounded-lg p-4 bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800">
+                  <div className="border rounded-lg p-4 bg-muted/30 border-border">
                     <div className="flex items-start gap-3">
-                      <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5" />
+                      <Shield className="h-5 w-5 text-primary mt-0.5" />
                       <div className="space-y-1">
-                        <p className="text-sm font-medium text-blue-900 dark:text-blue-200">
+                        <p className="text-sm font-medium text-foreground">
                           Dual Digital Signature Fields
                         </p>
-                        <p className="text-xs text-blue-700 dark:text-blue-300">
+                        <p className="text-xs text-muted-foreground">
                           Empty signature fields will be placed above BOTH signatory blocks.
                           After downloading, you can digitally sign using:
                         </p>
-                        <ul className="text-xs text-blue-700 dark:text-blue-300 list-disc list-inside mt-2 space-y-1">
+                        <ul className="text-xs text-muted-foreground list-disc list-inside mt-2 space-y-1">
                           <li>Adobe Acrobat with CAC/PIV</li>
                           <li>DoD PKI certificate</li>
                           <li>Other digital signature tools</li>
                         </ul>
-                        <p className="text-xs text-blue-700 dark:text-blue-300 mt-2 pt-2 border-t border-blue-200 dark:border-blue-700">
+                        <p className="text-xs text-muted-foreground mt-2 pt-2 border-t border-border">
                           <strong>Signing Order:</strong> Junior signatory signs first (left), then Senior signatory (right).
                         </p>
                       </div>
