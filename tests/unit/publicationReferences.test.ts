@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { Paragraph } from '@/types/document';
+import { DOC_TYPE_CONFIG, type Paragraph } from '@/types/document';
 import { publicationReferences, validatePublicationReferences } from '@/lib/publicationReferences';
 import { publicationReferenceText } from '@/services/latex/publicationReferenceText';
 import { generateBodyTex } from '@/services/latex/generator';
@@ -12,6 +12,24 @@ const target: Paragraph = { level: 0, header: 'Inspection', text: 'Inspect the b
 const reference: Paragraph = { level: 0, header: 'Purpose', text: `See {{PUBREF_P_${id}}}.` };
 
 describe('publication references', () => {
+  it.each(Object.keys(DOC_TYPE_CONFIG).filter(type => type !== 'i_type'))(
+    'does not emit publication tables or footnotes for %s after a format switch', (docType) => {
+      const paragraphs = [{ ...target, tableKey: 'materielRequired', tableFootnotes: [{ id: '1', text: 'Publication-only note.' }] }];
+      const tables = { materielRequired: [{ values: { description: 'PUBLICATION-ONLY-ITEM' } }] };
+      const store = { ...useDocumentStore.getState(), docType, paragraphs, publicationTables: tables };
+      const before = structuredClone({ paragraphs, tables });
+      const tex = generateBodyTex(store);
+      expect(tex).toContain('Inspect the bracket.');
+      expect(tex).not.toContain('\\dondocsReferenceAnchor');
+      expect(tex).not.toContain('Publication-only note.');
+      expect(tex).not.toContain('PUBLICATION-ONLY-ITEM');
+      expect({ paragraphs, tables }).toEqual(before);
+      const restored = generateBodyTex({ ...store, docType: 'i_type' });
+      expect(restored).toContain('\\dondocsReferenceAnchor{itype.note.0.1}');
+      expect(restored).toContain('Publication-only note.');
+      expect(restored).toContain('PUBLICATION-ONLY-ITEM');
+    },
+  );
   it('includes printed paragraph labels in bookmarks, including appendices', () => {
     const paragraphs: Paragraph[] = [target, { ...target, level: 1 }, { level: 0, appendix: true, header: 'Data', text: '' }, target];
     const navigation = publicationNavigation(paragraphs);

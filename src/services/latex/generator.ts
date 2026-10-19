@@ -1171,8 +1171,9 @@ export function generateBodyTex(store: DocumentStore): string {
       }
     }
 
-    // A publication paragraph may carry one of its fixed tables.
-    if (para.tableKey) {
+    // Type switches preserve publication metadata. Only I-Type loads the
+    // table/navigation macros; other templates must not render those blocks.
+    if (store.docType === 'i_type' && para.tableKey) {
       const entry = navigation.get(`itype.table.${i}`);
       if (entry) parts.push('\\dondocsNeedspace{\\ht\\dondocsTableStart+\\dp\\dondocsTableStart+2\\baselineskip+18bp}\n');
       parts.push(navigationTex(entry));

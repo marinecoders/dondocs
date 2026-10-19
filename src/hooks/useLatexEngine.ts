@@ -3,6 +3,7 @@ import { debug } from '@/lib/debug';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { LATEX } from '@/lib/constants';
 import { compileDocument, prepareEngine, LatexCompileError } from '@/services/latex/renderDocument';
+import { htmlResponseIndex } from '@/services/latex/logDiagnostics';
 
 // Import the engine class - we'll load these as global scripts
 declare global {
@@ -262,18 +263,17 @@ export function useLatexEngine() {
       debug.log('Compile', 'Files loaded before error:', loadedFiles.slice(-10));
 
       // Find where HTML content appears (indicates bad file fetch)
-      const htmlIndex = result.log?.indexOf('<!doctype') ?? -1;
-      const htmlLineIndex = result.log?.indexOf('<') ?? -1;
-      if (htmlIndex !== -1 || htmlLineIndex !== -1) {
-        const contextStart = Math.max(0, (htmlIndex !== -1 ? htmlIndex : htmlLineIndex) - 200);
-        const contextEnd = Math.min(result.log?.length || 0, (htmlIndex !== -1 ? htmlIndex : htmlLineIndex) + 100);
+      const htmlIndex = htmlResponseIndex(result.log ?? '');
+      if (htmlIndex !== -1) {
+        const contextStart = Math.max(0, htmlIndex - 200);
+        const contextEnd = Math.min(result.log?.length || 0, htmlIndex + 100);
         const context = result.log?.substring(contextStart, contextEnd);
         debug.error('Compile', '⚠️ HTML CONTENT DETECTED IN LATEX LOG');
         debug.error('Compile', 'Context around HTML:', context);
         errorDetails.push('HTML content detected in LaTeX log (possible missing package)');
 
         // Find which file was being loaded when HTML appeared
-        const beforeHtml = result.log?.substring(0, htmlIndex !== -1 ? htmlIndex : htmlLineIndex) || '';
+        const beforeHtml = result.log?.substring(0, htmlIndex) || '';
         const lastOpenParen = beforeHtml.lastIndexOf('(');
         const lastFile = beforeHtml.substring(lastOpenParen);
         debug.error('Compile', '🔴 FILE THAT RETURNED HTML:', lastFile.substring(0, 100));
