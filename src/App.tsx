@@ -1,3 +1,5 @@
+import { shouldAssembleBasicLetter } from '@/services/pdf/assembleEndorsement';
+import { assembleBasicLetter, basicLetterError, getSignatoryConfig, getDualSignatoryConfig, finishCorrespondencePdf } from '@/services/pdf/finishCorrespondencePdf';
 import { useBatchStore } from '@/stores/batchStore';
 import { sessionSearchFields, findSearchMatch } from '@/lib/workspaceSearch';
 import { saveCheckpoint } from '@/lib/saveCheckpoint';
@@ -113,106 +115,12 @@ import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/na
 import { applyPlaceholdersToNavmc11811, buildNavmc11811DefaultValues } from '@/lib/placeholders';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
 import type { EnclosureError } from '@/services/pdf/mergeEnclosures';
-import { assembleEndorsement, shouldAssembleBasicLetter } from '@/services/pdf/assembleEndorsement';
-import { addSignatureField, addDualSignatureFields, type DualSignatureFieldConfig, type SignatureFieldConfig } from '@/services/pdf/addSignatureField';
-import { DOC_TYPE_CONFIG, type DocumentData } from '@/types/document';
+import { addSignatureField, addDualSignatureFields } from '@/services/pdf/addSignatureField';
+import { DOC_TYPE_CONFIG } from '@/types/document';
 import { detectPII, type PIIDetectionResult } from '@/services/pii/detector';
 import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
 import { prefersMobileLayout, readLayoutEnvironment } from '@/utils/device/layout';
 
-// Helper to get classification marking for enclosures
-/**
- * Assemble the uploaded basic letter ahead of a compiled endorsement, so the
- * exported PDF is the letter followed by the endorsement (SECNAV M-5216.5 Ch 9:
- * the endorsement continues the basic letter's page numbers, so the letter
- * reads first). A no-op for non-endorsements or when no basic-letter PDF is
- * attached. Runs before the enclosure merge, so `mergeEnclosures` treats the
- * combined [letter + endorsement] as the main document and the signature-field
- * placement (`basicPageCount - 1`) still lands on the endorsement's last page.
- * On a bad upload it returns the endorsement unchanged plus an error for the
- * caller to surface — never a silently dropped export.
- */
-async function assembleBasicLetter(
-  pdfBytes: Uint8Array,
-  docType: string,
-  formData: Partial<DocumentData>
-): Promise<{ pdfBytes: Uint8Array; error?: string }> {
-  // The gate (new-page only, letter attached) lives in assembleEndorsement.ts
-  // where it is unit-tested; see shouldAssembleBasicLetter for the reasoning.
-  if (!shouldAssembleBasicLetter(docType, formData)) return { pdfBytes };
-  const result = await assembleEndorsement(pdfBytes, formData.basicLetterFile!.data);
-  return result.ok ? { pdfBytes: result.pdfBytes } : { pdfBytes, error: result.error };
-}
-
-/** An EnclosureError-shaped entry so a failed basic-letter assembly surfaces in
- *  the same modal the enclosure merge uses — tagged so the modal doesn't call
- *  it "Enclosure (0)" or claim a placeholder page exists for it. */
-function basicLetterError(error: string): EnclosureError {
-  return { enclosureNumber: 0, title: 'Basic letter', error, kind: 'basicLetter' };
-}
-
-
-/**
- * Build signatory name configuration for signature field positioning.
- * Returns the abbreviated name format (e.g., "J. M. SMITH") used in signature blocks.
- */
-function getSignatoryConfig(formData: Partial<DocumentData>): SignatureFieldConfig {
-  // Build abbreviated name for single signatures: F. M. LASTNAME
-  const firstName = formData.sigFirst?.trim() || '';
-  const middleName = formData.sigMiddle?.trim() || '';
-  const lastName = formData.sigLast?.toUpperCase()?.trim() || '';
-
-  const abbrevName = [
-    firstName ? `${firstName[0].toUpperCase()}.` : '',
-    middleName ? `${middleName[0].toUpperCase()}.` : '',
-    lastName,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  return {
-    signatoryName: abbrevName || undefined,
-  };
-}
-
-/**
- * Build dual signatory name configuration for joint letter/MOA/MOU signature field positioning.
- * Returns junior and senior signatory names as they appear in the PDF.
- */
-function getDualSignatoryConfig(formData: Partial<DocumentData>, uiMode: string | undefined): DualSignatureFieldConfig {
-  let juniorName: string | undefined;
-  let seniorName: string | undefined;
-
-  if (uiMode === 'moa') {
-    // MOA/MOU: Junior uses full name uppercased, Senior uses "F. LASTNAME",
-    // matching how the LaTeX generator renders them.
-    juniorName = formData.juniorSigName?.toUpperCase()?.trim() || undefined;
-
-    // Senior signatory in MOA/MOU uses abbreviated form: "F. LASTNAME"
-    // e.g., "David Foster" -> "D. FOSTER"
-    const seniorFullName = formData.seniorSigName?.trim() || '';
-    if (seniorFullName) {
-      const parts = seniorFullName.split(' ');
-      const firstName = parts[0] || '';
-      const lastName = parts[parts.length - 1]?.toUpperCase() || '';
-      seniorName = firstName ? `${firstName[0].toUpperCase()}. ${lastName}` : lastName;
-    }
-  } else if (uiMode === 'joint' || uiMode === 'joint_memo') {
-    // Joint letter and joint memo share the same fields (both uppercased)
-    juniorName = formData.jointJuniorSigName?.toUpperCase()?.trim() || undefined;
-    seniorName = formData.jointSeniorSigName?.toUpperCase()?.trim() || undefined;
-  }
-
-  return {
-    juniorSignatoryName: juniorName,
-    seniorSignatoryName: seniorName,
-  };
-}
-
-// Latest download triggers, published by App in an effect. Held at module scope
-// (like editorOutlineStore's jump handler) so the command-palette groups — built
-// during render — can dispatch a download without referencing a ref-reading
-// callback during render, which the React rules forbid.
 const commandDownloadTriggers: { pdf: () => void; docx: () => void } = {
   pdf: () => {},
   docx: () => {},
@@ -232,6 +140,7 @@ function mergeOptionsFor(store: ReturnType<typeof useDocumentStore.getState>) {
 }
 
 function App() {
+  const currentDocId = useDocumentsStore((s) => s.currentId);
   const [editorReady, setEditorReady] = useState(false);
   // Prefetch the Pandoc WASM module (~58 MB) during browser idle time so the
   // first DOCX export skips the download wait. Skips slow/data-saver connections.
@@ -300,7 +209,9 @@ function App() {
   // A form preview that fails must SAY so. It used to fall through to the empty
   // state — "your document preview will appear here" — which reads as "you have
   // not filled anything in yet" on a form that is actually broken.
-  const [formPreviewError, setFormPreviewError] = useState<string | null>(null);
+  const [pdfDocumentId, setPdfDocumentId] = useState<string | null>(null);
+  const [formPdfDocumentId, setFormPdfDocumentId] = useState<string | null>(null);
+  const [renderedCorrespondence, setRenderedCorrespondence] = useState<ReturnType<typeof useDocumentStore.getState> | null>(null);
   const [isCompiling, setIsCompiling] = useState(false);
   const [compileError, setCompileError] = useState<string | null>(null);
   // Full compile-failure log from SwiftLaTeX. Drives the compile-error modal,
@@ -565,6 +476,8 @@ function App() {
   const compilePdf = useCallback(async () => {
     if (useBatchStore.getState().status === 'running') return;
     if (!isReady) return;
+    if (useDocumentStore.getState().documentCategory === 'forms') return;
+    const previewDocumentId = useDocumentsStore.getState().currentId;
     // Invalidate any pending idle upgrade and stamp this compile so a late idle
     // pass from a previous edit can't swap in a stale PDF.
     cancelIdleEnhance();
@@ -582,6 +495,7 @@ function App() {
       // streaming back from the attachments store; make sure they're present
       // before the pipeline reads file.data (no-op once already hydrated).
       await rehydrateEnclosureFiles();
+      if (previewDocumentId !== useDocumentsStore.getState().currentId || gen !== previewGenRef.current) return;
       // Read the full store via getState() at compile time; the debounce dep
       // array already handles when to re-compile, so the state here is current.
       const currentStore = useDocumentStore.getState();
@@ -614,6 +528,7 @@ function App() {
         if (fullQualityPreview && hasEnhancements) {
           pdfBytes = await enhancePreviewPdf(pdfBytes, currentStore);
         }
+        if (previewDocumentId !== useDocumentsStore.getState().currentId || gen !== previewGenRef.current) return;
 
         // Revoke the old URL on a delay: the viewer double-buffers document
         // swaps, so an in-flight load of the outgoing URL may still be reading
@@ -630,6 +545,8 @@ function App() {
         const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         setPdfUrl(url);
+        setPdfDocumentId(previewDocumentId);
+        setRenderedCorrespondence(currentStore);
         setPreviewEnhanced(fullQualityPreview && hasEnhancements);
         // Success: clear any held-over log and reset the modal dedup guard so a
         // future failure (including a re-break of the same error) pops again.
@@ -643,7 +560,7 @@ function App() {
           const runIdleEnhance = () => {
             idleEnhanceRef.current = null;
             if (gen !== previewGenRef.current) return; // a newer compile superseded us
-            void enhancePreviewPdf(basePdfBytes, useDocumentStore.getState())
+            void enhancePreviewPdf(basePdfBytes, currentStore)
               .then((enhanced) => {
                 if (gen !== previewGenRef.current) return; // went stale during the async work
                 const enhancedUrl = URL.createObjectURL(
@@ -670,10 +587,7 @@ function App() {
       // Clear reset flag on success
       isResettingRef.current = false;
     } catch (err) {
-      setPdfUrl((previous) => {
-        if (previous) URL.revokeObjectURL(previous);
-        return null;
-      });
+      if (previewDocumentId !== useDocumentsStore.getState().currentId || gen !== previewGenRef.current) return;
       console.error('Compilation error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Compilation failed';
       // Get compile log directly from error if available (for immediate access)
@@ -692,7 +606,7 @@ function App() {
         }
       }
     } finally {
-      setIsCompiling(false);
+      if (gen === previewGenRef.current) setIsCompiling(false);
     }
     // documentStore is read via getState() inside, so it's not a dep; only the
     // values closed over are. pdfUrl is captured for revocation.
@@ -717,7 +631,7 @@ function App() {
 
   // Debounced compilation on document changes
   useEffect(() => {
-    if (!isReady || batchRunning) return;
+    if (!editorReady || !isReady || batchRunning || documentCategory === 'forms') return;
 
     if (compileTimeoutRef.current) {
       clearTimeout(compileTimeoutRef.current);
@@ -733,6 +647,9 @@ function App() {
       }
       // A pending edit supersedes any queued idle upgrade from the last compile.
       cancelIdleEnhance();
+      // This is a generation counter, intentionally invalidated at cleanup.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      ++previewGenRef.current;
     };
     // Deps are the slices that should invalidate a re-compile. compilePdf is not
     // a dep: it reads documentStore via getState(), and a new compilePdf identity
@@ -740,6 +657,9 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isReady,
+    editorReady,
+    currentDocId,
+    documentCategory,
     batchRunning,
     docType,
     formData,
@@ -760,34 +680,41 @@ function App() {
     page3: ArrayBuffer;
   } | null>(null);
   const [navmc11811Template, setNavmc11811Template] = useState<ArrayBuffer | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [errorDocumentId, setErrorDocumentId] = useState(currentDocId);
+  // A previous draft's failure must not appear on the newly selected draft.
+  if (errorDocumentId !== currentDocId) {
+    setErrorDocumentId(currentDocId);
+    setCompileError(null);
+    setFormError(null);
+  }
+  const [formRefresh, setFormRefresh] = useState(0);
+  const [renderedForm, setRenderedForm] = useState<{ type: string; data: unknown; cover: boolean } | null>(null);
+  const activeFormData = genericForm ?? (formType === 'navmc_10274' ? navmc10274 : navmc11811);
+  const formIsCompiling = !formError && (renderedForm?.type !== formType || renderedForm?.data !== activeFormData || renderedForm?.cover !== includeCoverPage);
 
   // Load form templates when entering forms mode
   useEffect(() => {
     if (documentCategory === 'forms') {
       // Load NAVMC 10274 templates (3 pages)
-      if (!navmc10274Templates) {
+      if (formType === 'navmc_10274' && !navmc10274Templates) {
         loadNavmc10274Templates()
           .then(setNavmc10274Templates)
-          .catch(err => console.error('Failed to load NAVMC 10274 templates:', err));
+          .catch(() => setFormError('Could not load the NAVMC 10274 template. Check your connection, then refresh the preview.'));
       }
       // Load NAVMC 118(11) template (1 page)
-      if (!navmc11811Template) {
+      if (formType === 'navmc_118_11' && !navmc11811Template) {
         loadNavmc11811Template()
           .then(setNavmc11811Template)
-          .catch(err => console.error('Failed to load NAVMC 118(11) template:', err));
+          .catch(() => setFormError('Could not load the NAVMC 118 (11) template. Check your connection, then refresh the preview.'));
       }
     }
-  }, [documentCategory, navmc10274Templates, navmc11811Template]);
+  }, [documentCategory, formType, navmc10274Templates, navmc11811Template, formRefresh]);
 
   // Generate form preview based on selected form type
   useEffect(() => {
     if (documentCategory !== 'forms') return;
-    let alive = true;
-    queueMicrotask(() => {
-      if (!alive) return;
-      setFormPreviewError(null);
-      setFormPdfUrl(previous => { if (previous) URL.revokeObjectURL(previous); return null; });
-    });
+    let cancelled = false;
 
     if (formCompileTimeoutRef.current) {
       clearTimeout(formCompileTimeoutRef.current);
@@ -795,6 +722,7 @@ function App() {
 
     formCompileTimeoutRef.current = setTimeout(async () => {
       try {
+        setFormError(null);
         let pdfBytes: Uint8Array | null = null;
         let previewIssue: string | null = null;
 
@@ -803,7 +731,8 @@ function App() {
             navmc10274,
             navmc10274Templates.page1,
             navmc10274Templates.page2,
-            navmc10274Templates.page3
+            navmc10274Templates.page3,
+            { includeCoverPage }
           );
         } else if (formType === 'navmc_118_11' && navmc11811Template) {
           // Resolve cross-field placeholders ({{NAME}}, {{DATE}}, etc.) from the
@@ -825,9 +754,11 @@ function App() {
           }
         }
 
-        if (!alive) return;
+        if (cancelled) return;
         if (pdfBytes) {
-          setFormPreviewError(previewIssue);
+          setFormError(previewIssue);
+          setRenderedForm({ type: formType, data: genericForm ?? (formType === 'navmc_10274' ? navmc10274 : navmc11811), cover: includeCoverPage });
+          setFormPdfDocumentId(currentDocId);
           const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
           const url = URL.createObjectURL(blob);
 
@@ -841,19 +772,17 @@ function App() {
           });
         }
       } catch (err) {
-        if (!alive) return;
-        console.error('Form PDF generation error:', err);
-        setFormPreviewError(err instanceof Error ? err.message : String(err));
+        if (!cancelled) setFormError(err instanceof Error ? err.message : 'Form preview failed. Refresh the preview to try again.');
       }
     }, 500); // Faster debounce for forms since no LaTeX compilation
 
     return () => {
-      alive = false;
+      cancelled = true;
       if (formCompileTimeoutRef.current) {
         clearTimeout(formCompileTimeoutRef.current);
       }
     };
-  }, [documentCategory, formType, navmc10274, navmc11811, genericForm, navmc10274Templates, navmc11811Template]);
+  }, [currentDocId, documentCategory, formType, navmc10274, navmc11811, genericForm, navmc10274Templates, navmc11811Template, includeCoverPage, formRefresh]);
 
   // Track if download is in progress to prevent double downloads
   const downloadInProgressRef = useRef(false);
@@ -871,7 +800,8 @@ function App() {
     const currentStore = useDocumentStore.getState();
     const errors = iTypeExportErrors(currentStore);
     if (errors.length) throw new Error(errors.join('\n'));
-    const { texFiles, enclosures: generatedEnclosures, includeHyperlinks, signatureImage, referenceUrls, figures } = generateAllLatexFiles(currentStore);
+    const generated = generateAllLatexFiles(currentStore);
+    const { texFiles, signatureImage, figures } = generated;
 
     // Build files object including signature image if present
     const files: Record<string, string | Uint8Array> = { ...texFiles };
@@ -884,46 +814,13 @@ function App() {
     let pdfBytes = await compile(files);
 
     if (pdfBytes) {
-      // Assemble the basic letter ahead of the endorsement before merging
-      // enclosures. A bad upload is surfaced (not dropped) and the endorsement
-      // still exports on its own.
-      const assembled = await assembleBasicLetter(pdfBytes, currentStore.docType, currentStore.formData);
-      pdfBytes = assembled.pdfBytes;
-      // Accumulate export problems across BOTH stages and set state once — a
-      // second setEnclosureErrors used to overwrite the basic-letter entry
-      // whenever the enclosure merge also had errors.
-      const exportErrors: EnclosureError[] = assembled.error
-        ? [basicLetterError(assembled.error)]
-        : [];
-      // Merge enclosures and/or create hyperlinks (handles both PDF and text-only enclosures, and reference URLs)
-      let lastBasicPageIndex: number | undefined;
-      if (generatedEnclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
-        onProgress?.({ kind: 'pdf-merging-enclosures' });
-        const classification = publicationMarking(currentStore.formData, currentStore.paragraphs);
-        const mergeResult = await mergeEnclosures(pdfBytes, generatedEnclosures, classification, includeHyperlinks, referenceUrls, mergeOptionsFor(currentStore));
-        pdfBytes = mergeResult.pdfBytes;
-        lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
-        if (mergeResult.hasErrors) exportErrors.push(...mergeResult.errors);
-      }
-      if (currentStore.docType === 'i_type' && exportErrors.length) throw new Error(exportErrors.map((e) => e.error).join('\n'));
-      // Track export errors for user notification (download context)
-      if (exportErrors.length > 0) {
-        setEnclosureErrors(exportErrors);
+      onProgress?.({ kind: 'pdf-merging-enclosures' });
+      const finished = await finishCorrespondencePdf(pdfBytes, currentStore.docType, currentStore.formData, generated, currentStore.paragraphs);
+      pdfBytes = finished.pdfBytes;
+      if (currentStore.docType === 'i_type' && finished.errors.length) throw new Error(finished.errors.map((e) => e.error).join('\n'));
+      if (finished.errors.length) {
+        setEnclosureErrors(finished.errors);
         setShowEnclosureErrors(true);
-      }
-
-      // Add digital signature field if requested
-      if (currentStore.formData.signatureType === 'digital') {
-        onProgress?.({ kind: 'pdf-signing' });
-        const config = DOC_TYPE_CONFIG[currentStore.docType];
-        const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
-        if (isDualSignature) {
-          const sigConfig = getDualSignatoryConfig(currentStore.formData, config?.uiMode);
-          pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes), { ...sigConfig, lastBasicPageIndex });
-        } else {
-          const sigConfig = getSignatoryConfig(currentStore.formData);
-          pdfBytes = await addSignatureField(new Uint8Array(pdfBytes), { ...sigConfig, lastBasicPageIndex });
-        }
       }
 
       onProgress?.({ kind: 'pdf-saving' });
@@ -1554,7 +1451,8 @@ ${texFiles['body.tex'] || '% No body content'}
   const handleDownloadDocx = useCallback(async () => {
     // Publication types are delivered as PDF; the menu hides DOCX for them
     // and the shortcut and palette land here.
-    if (DOC_TYPE_CONFIG[useDocumentStore.getState().docType]?.pdfOnly) return;
+    const activeDocument = useDocumentStore.getState();
+    if (activeDocument.documentCategory === 'forms' || DOC_TYPE_CONFIG[activeDocument.docType]?.pdfOnly) return;
     useUIStore.getState().setValidationVisible(true);
     // Ch 7 ¶13/¶13d review, ahead of the PII check so the privacy warning stays
     // the last thing seen before the file is written. Never blocks — the modal's
@@ -1631,6 +1529,10 @@ ${texFiles['body.tex'] || '% No body content'}
       handleDownloadDocx();
     }
   }, [downloadProgress, handleDownloadPdf, handleDownloadDocx]);
+
+  const currentPreviewUrl = documentCategory === 'forms'
+    ? (formPdfDocumentId === currentDocId ? formPdfUrl : null)
+    : (pdfDocumentId === currentDocId ? pdfUrl : null);
 
   // Global keyboard shortcuts
   useEffect(() => {
@@ -1767,7 +1669,6 @@ ${texFiles['body.tex'] || '% No body content'}
   // read inside each onRun so the actions are always current; the only render-time
   // dependency is the section outline (the "Jump to section" group).
   const allDocs = useDocumentsStore((s) => s.docs);
-  const currentDocId = useDocumentsStore((s) => s.currentId);
   const commandGroups = useMemo<CommandGroup[]>(() => {
     const groups: CommandGroup[] = [];
 
@@ -2008,6 +1909,13 @@ ${texFiles['body.tex'] || '% No body content'}
 
   if (!editorReady) return <div role="status" className="flex h-screen-dvh items-center justify-center">Opening your documents…</div>;
 
+  const correspondenceChanged = renderedCorrespondence?.docType !== docType || renderedCorrespondence?.formData !== formData
+    || renderedCorrespondence?.paragraphs !== paragraphs || renderedCorrespondence?.references !== references
+    || renderedCorrespondence?.enclosures !== enclosures || renderedCorrespondence?.copyTos !== copyTos
+    || renderedCorrespondence?.distributions !== distributions || pdfDocumentId !== currentDocId;
+  const previewBusy = documentCategory === 'forms' ? formIsCompiling : isCompiling || !isReady || (!compileError && correspondenceChanged);
+
+
   return (
     <TooltipProvider>
     {/* h-screen-dvh (index.css): the shell sizes to the VISIBLE viewport on
@@ -2033,8 +1941,8 @@ ${texFiles['body.tex'] || '% No body content'}
         onDownloadTex={handleDownloadTex}
         onDownloadDocx={handleDownloadDocx}
         onDownloadFlatTex={handleDownloadFlatTex}
-        onRefreshPreview={compilePdf}
-        isCompiling={isCompiling}
+        onRefreshPreview={() => { if (documentCategory === 'forms') { setFormError(null); setFormRefresh(n => n + 1); } else void compilePdf(); }}
+        isCompiling={previewBusy}
         isDocxGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('docx-')}
         isPdfGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('pdf-')}
         isFormsMode={documentCategory === 'forms'}
@@ -2085,11 +1993,13 @@ ${texFiles['body.tex'] || '% No body content'}
           }}
         >
           <PreviewPanel
-            pdfUrl={documentCategory === 'forms' ? formPdfUrl : pdfUrl}
-            isCompiling={documentCategory === 'forms' ? false : (isCompiling || !isReady)}
+            documentId={currentDocId ?? undefined}
+            onDownloadPdf={handleDownloadPdf}
+            pdfUrl={currentPreviewUrl}
+            isCompiling={previewBusy}
             isWarmingUp={documentCategory === 'forms' ? false : !isReady}
             previewEnhanced={documentCategory === 'forms' ? true : previewEnhanced}
-            error={documentCategory === 'forms' ? formPreviewError : (compileError || engineError)}
+            error={documentCategory === 'forms' ? formError : (compileError || engineError)}
           />
         </div>
         </main>
@@ -2104,9 +2014,10 @@ ${texFiles['body.tex'] || '% No body content'}
       {mobilePreviewOpen && (
         <Suspense fallback={null}>
           <MobilePreviewModal
-            pdfUrl={documentCategory === 'forms' ? formPdfUrl : pdfUrl}
-            isCompiling={documentCategory === 'forms' ? false : (isCompiling || !isReady)}
-            error={documentCategory === 'forms' ? formPreviewError : (compileError || engineError)}
+            documentId={currentDocId ?? undefined}
+            pdfUrl={currentPreviewUrl}
+            isCompiling={previewBusy}
+            error={documentCategory === 'forms' ? formError : (compileError || engineError)}
             onDownloadPdf={handleDownloadPdf}
           />
         </Suspense>

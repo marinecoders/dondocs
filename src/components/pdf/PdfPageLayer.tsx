@@ -42,6 +42,7 @@ interface PdfPageLayerProps {
   /** For the hidden layer: the active layer's scrollTop, so the pages the user
    *  is looking at are the ones pre-rendered before promotion. */
   initialScrollTop?: number;
+  initialPage?: number;
   /** Fade the layer out (promotion crossfade). */
   fadingOut?: boolean;
   /** Where the thumbnail rail lives (a sibling column). Thumbnails portal out
@@ -66,7 +67,7 @@ interface PdfPageLayerProps {
  * the viewer inside iOS's canvas memory budget.
  */
 export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(function PdfPageLayer(
-  { url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, fadingOut = false, thumbPortalTarget, currentPage, onDocMeta, onPageInView, onLoaded, onReady, onFailed },
+  { url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, initialPage = 1, fadingOut = false, thumbPortalTarget, currentPage, onDocMeta, onPageInView, onLoaded, onReady, onFailed },
   ref
 ) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -74,6 +75,7 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
   const [aspects, setAspects] = useState<number[]>([]);
   const [scrollTop, setScrollTop] = useState(initialScrollTop);
   const rafRef = useRef<number | null>(null);
+  const restoredPage = useRef(false);
   // Restore-window pages that still need to paint before this (hidden) layer
   // reports ready. Mutated as onRenderSuccess fires; null = not tracking.
   const pendingRenderRef = useRef<Set<number> | null>(null);
@@ -132,6 +134,16 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
     },
     [layout]
   );
+
+  useEffect(() => {
+    if (!visible || !layout.length || restoredPage.current) return;
+    restoredPage.current = true;
+    if (initialPage > 1) {
+      const page = Math.min(initialPage, layout.length);
+      scrollToPage(page - 1, false);
+      onPageInView?.(page);
+    }
+  }, [visible, layout.length, initialPage, scrollToPage, onPageInView]);
 
   useImperativeHandle(
     ref,

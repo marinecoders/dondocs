@@ -26,6 +26,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { cn } from '@/lib/utils';
 
 interface PdfViewerToolbarProps {
+  label?: React.ReactNode;
   page: number;
   pageCount: number;
   zoomPercent: number;
@@ -41,6 +42,7 @@ interface PdfViewerToolbarProps {
   onZoomFitPage: () => void;
   onOpenInTab: () => void;
   onDownload: () => void;
+  downloadLabel?: string;
   fullscreen?: { isFullscreen: boolean; toggle: () => void } | null;
   className?: string;
 }
@@ -87,6 +89,7 @@ function ToolButton({
 /** Slim viewer chrome in the app's design language — quiet card bar, tabular
  *  figures for the page/zoom readouts, unified tooltips. */
 export function PdfViewerToolbar({
+  label,
   page,
   pageCount,
   zoomPercent,
@@ -101,6 +104,7 @@ export function PdfViewerToolbar({
   onZoomFitPage,
   onOpenInTab,
   onDownload,
+  downloadLabel = 'Download PDF',
   fullscreen,
   className,
 }: PdfViewerToolbarProps) {
@@ -137,10 +141,12 @@ export function PdfViewerToolbar({
     // what the panel is for. Page entry and paging never yield.
     <div
       className={cn(
-        '@container flex h-9 shrink-0 items-center gap-1 overflow-hidden border-b border-border bg-card px-2',
+        '@container flex shrink-0 items-center gap-1 overflow-hidden px-2',
+        label ? 'h-12 bg-transparent' : 'h-9 border-b border-border bg-card',
         className
       )}
     >
+      {label && <div className="sr-only mr-auto min-w-0 items-center gap-2 text-xs text-muted-foreground @[360px]:not-sr-only @[360px]:flex">{label}</div>}
       {thumbnails && (
         <ToolButton
           label={thumbnails.open ? 'Hide page thumbnails' : 'Show page thumbnails'}
@@ -202,7 +208,7 @@ export function PdfViewerToolbar({
 
       {/* Wide enough for the whole row: the fit modes and the document actions
           sit out in the open. */}
-      <div className="hidden items-center gap-1 @[520px]:flex">
+      <div className={cn('hidden items-center gap-1', label ? '@[620px]:flex' : '@[520px]:flex')}>
         <ToolButton label="Fit width" onClick={onZoomFitWidth} pressed={fitMode === 'width'}>
           <MoveHorizontal className="h-4 w-4" />
         </ToolButton>
@@ -218,7 +224,7 @@ export function PdfViewerToolbar({
             {fullscreen.isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
           </ToolButton>
         )}
-        <ToolButton label="Download PDF" onClick={onDownload}>
+        <ToolButton label={downloadLabel} onClick={onDownload}>
           <Download className="h-4 w-4" />
         </ToolButton>
         <ToolButton label="Open in browser tab" onClick={onOpenInTab}>
@@ -240,7 +246,7 @@ export function PdfViewerToolbar({
           A plain Button rather than ToolButton: ToolButton wraps its Button in a
           Tooltip, and nesting that inside DropdownMenuTrigger asChild breaks the
           ref. The menu names its own items, so no label is lost. */}
-      <div className="@[520px]:hidden">
+      <div className={label ? '@[620px]:hidden' : '@[520px]:hidden'}>
         <DropdownMenu open={overflowOpen} onOpenChange={setOverflowOpen}>
           <DropdownMenuTrigger asChild>
             <Button
@@ -275,7 +281,7 @@ export function PdfViewerToolbar({
             )}
             <DropdownMenuItem onSelect={onDownload}>
               <Download className="h-4 w-4" aria-hidden="true" />
-              Download PDF
+              {downloadLabel}
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={onOpenInTab}>
               <ExternalLink className="h-4 w-4" aria-hidden="true" />
