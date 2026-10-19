@@ -1,11 +1,15 @@
 import type { FormInstance } from '@/services/forms/model';
 import { create } from 'zustand';
-import type { Reference, Enclosure, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, EndItem, PublicationTableRow } from '@/types/document';
+import type { FormSession } from './formStore';
+import type { Reference, Enclosure, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, DocumentCategory, FormType, EndItem, PublicationTableRow } from '@/types/document';
 
 // Snapshot of document state (only the data parts, not actions)
 export interface DocumentSnapshot {
   genericForm?: FormInstance;
   documentMode: DocumentMode;
+  documentCategory?: DocumentCategory;
+  formType?: FormType;
+  forms?: FormSession;
   docType: string;
   formData: Partial<DocumentData>;
   references: Reference[];
@@ -42,6 +46,9 @@ function snapshotsEqual(a: DocumentSnapshot | null, b: DocumentSnapshot | null):
   if (a === null || b === null) return a === b;
 
   if (JSON.stringify(a.genericForm) !== JSON.stringify(b.genericForm)) return false;
+
+  if (a.documentCategory !== b.documentCategory || a.formType !== b.formType) return false;
+  if (JSON.stringify(a.forms) !== JSON.stringify(b.forms)) return false;
 
   // Quick checks
   if (a.documentMode !== b.documentMode) return false;
@@ -126,16 +133,14 @@ function cloneSnapshot(snapshot: DocumentSnapshot): DocumentSnapshot {
   return {
     genericForm: snapshot.genericForm ? structuredClone(snapshot.genericForm) : undefined,
     documentMode: snapshot.documentMode,
+    documentCategory: snapshot.documentCategory,
+    formType: snapshot.formType,
+    forms: snapshot.forms ? structuredClone(snapshot.forms) : undefined,
     docType: snapshot.docType,
     formData: { ...snapshot.formData },
     references: snapshot.references.map(r => ({ ...r })),
-    enclosures: snapshot.enclosures.map(e => ({
-      title: e.title,
-      pageStyle: e.pageStyle,
-      hasCoverPage: e.hasCoverPage,
-      coverPageDescription: e.coverPageDescription,
-      // Note: We don't store file data in history (too large)
-    })),
+    // Immutable file buffers can be shared by reference across undo states.
+    enclosures: snapshot.enclosures.map(e => ({ ...e })),
     paragraphs: snapshot.paragraphs.map(p => ({ ...p })),
     copyTos: snapshot.copyTos.map(c => ({ ...c })),
     distributions: (snapshot.distributions || []).map(d => ({ ...d })),

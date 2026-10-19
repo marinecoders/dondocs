@@ -6,6 +6,7 @@ import { Header } from '@/components/layout/Header';
 import { FormPanel } from '@/components/layout/FormPanel';
 import { EditorSidebar } from '@/components/layout/EditorSidebar';
 import { MobileRecents } from '@/components/layout/MobileRecents';
+import { TrashModal } from '@/components/modals/TrashModal';
 import { VersionHistoryModal } from '@/components/modals/VersionHistoryModal';
 import { PreviewPanel } from '@/components/layout/PreviewPanel';
 import { ResizableDivider } from '@/components/layout/ResizableDivider';
@@ -60,13 +61,12 @@ import { BackupNotice } from '@/components/BackupNotice';
 import { InstallNotice } from '@/components/InstallNotice';
 import { probeStorageHealth, requestPersistentStorage } from '@/lib/documentsDb';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore, getSavedSession, rehydrateEnclosureFiles, type SerializedSession } from '@/stores/documentStore';
-import { useFormStore, FORMS_PERSIST_KEY } from '@/stores/formStore';
+import { useDocumentStore, rehydrateEnclosureFiles, type SerializedSession } from '@/stores/documentStore';
+import { useFormStore } from '@/stores/formStore';
 import { diagnosticText } from '@/services/forms/model';
 import { renderForm } from '@/services/forms/render';
-import { lastWriteFailed } from '@/lib/compressedStorage';
 import { useHistoryStore } from '@/stores/historyStore';
-import { useDocumentsStore, applySelectedProfile, correspondenceFilename, restoreBuiltInFormView, openSessionAsNew } from '@/stores/documentsStore';
+import { useDocumentsStore, applySelectedProfile, correspondenceFilename, openSessionAsNew } from '@/stores/documentsStore';
 import { useBackupStore } from '@/stores/backupStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useEditorSections } from '@/components/layout/editorSections';
@@ -470,20 +470,12 @@ function App() {
       openSessionAsNew(session);
       return true;
     };
-    // If the user was last working on a NAVMC form, return them to that view
-    // after init (the form field data itself is rehydrated by formStore's own
-    // persist; init only resumes correspondence). Read before init runs.
-    const lastSession = getSavedSession();
-    const restoreFormsView = () => {
-      if (!cancelled) restoreBuiltInFormView(lastSession);
-    };
     void useDocumentsStore
       .getState()
       .init()
       .then((resumed) => {
         if (applyHandoff()) return;
         if (!resumed) seedFreshStart();
-        restoreFormsView();
       })
       // Hydration shouldn't reject (storage failures are caught internally), but
       // if it ever does, degrade to a usable seeded document instead of an
@@ -491,7 +483,6 @@ function App() {
       .catch(() => {
         if (applyHandoff()) return;
         seedFreshStart();
-        restoreFormsView();
       })
       // Probe how durable storage is only AFTER hydration/migration settles, so a
       // returning user's just-migrated docs are already in IndexedDB and the
@@ -529,34 +520,6 @@ function App() {
       cancelled = true;
     };
     // Only run on initial mount
-  }, []);
-
-  // Forms persist on every edit (formStore's own persist middleware); reflect
-  // that in the "Saved" indicator the same way the correspondence registry
-  // write does, so the signal is honest in both categories. Debounced so the
-  // passive indicator wakes once per typing pause rather than on every keystroke.
-  useEffect(() => {
-    let t: ReturnType<typeof setTimeout> | undefined;
-    const unsub = useFormStore.subscribe(() => {
-      if (useDocumentStore.getState().genericForm && useDocumentStore.getState().documentCategory === 'forms') return;
-      clearTimeout(t);
-      t = setTimeout(() => {
-        // Verify the write actually landed before claiming "Saved". Forms
-        // persist through safeLocalStorage, which swallows quota/security
-        // errors by design — and storageHealth measures IndexedDB, not
-        // localStorage, so it can read healthy while the form write failed.
-        if (lastWriteFailed(FORMS_PERSIST_KEY)) {
-          useUIStore.getState().setSaveStatus('error');
-          return;
-        }
-        if (useUIStore.getState().storageHealth === 'unavailable') return;
-        useUIStore.getState().markSaved();
-      }, 800);
-    });
-    return () => {
-      clearTimeout(t);
-      unsub();
-    };
   }, []);
 
   // Compile PDF
@@ -2080,6 +2043,7 @@ ${texFiles['body.tex'] || '% No body content'}
         {/* Mobile-only Recents (floating button + dialog); desktop sidebar is hidden on phones. */}
         <MobileRecents />
         <VersionHistoryModal />
+        <TrashModal />
 
         <main id="main-content" ref={mainContainerRef} className="flex flex-1 min-w-0 overflow-hidden">
         {/* Form Panel - takes remaining space when preview is visible */}

@@ -16,6 +16,7 @@ import { compressedParse, compressedStringify } from '@/lib/compressedStorage';
 import { referenceStartIndex } from '@/lib/endorsement';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { normalizeLevels, migratePortionMarkings } from '@/lib/paragraphUtils';
+import { serializeForm, loadFormSession, useFormStore, type FormSession } from './formStore';
 
 // Session persistence keys
 const SESSION_STORAGE_KEY = STORAGE_KEYS.DOCUMENT_SESSION;
@@ -31,8 +32,8 @@ export interface SerializedSession {
   genericForm?: FormInstance;
   formData: Partial<DocumentData>;
   references: Reference[];
-  endItems: EndItem[];
-  publicationTables: Record<string, PublicationTableRow[]>;
+  endItems?: EndItem[];
+  publicationTables?: Record<string, PublicationTableRow[]>;
   // `file` bytes live in the attachments store; `fileRef` is the durable handle
   // that rehydrates them on load. `hasFile` stays for legacy sessions written
   // before fileRef existed (they had bytes in memory but nothing to recover).
@@ -41,6 +42,7 @@ export interface SerializedSession {
   copyTos: CopyTo[];
   distributions: Distribution[];
   timestamp: number;
+  forms?: FormSession;
 }
 
 // Military date format per SECNAV M-5216.5: "4 Jan 26" (day month 2-digit year)
@@ -790,7 +792,9 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   },
 
   // History (Undo/Redo)
-  applySnapshot: (snapshot) => set((state) => {
+  applySnapshot: (snapshot) => {
+    if (snapshot.documentCategory === 'forms' && !snapshot.genericForm) loadFormSession(snapshot.formType!, snapshot.forms);
+    set((state) => {
     // Re-graft live enclosure file bytes. History snapshots omit `file` (too
     // large to keep 50 copies of), so a wholesale replace would destroy attached
     // PDFs on every undo/redo. Match same-index-same-title first, then any unused
@@ -810,6 +814,8 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       return e;
     });
     return {
+      documentCategory: snapshot.documentCategory ?? state.documentCategory,
+      formType: snapshot.formType ?? state.formType,
       documentMode: snapshot.documentMode,
       docType: snapshot.docType,
       formData: publicationFont(snapshot.docType, snapshot.documentMode, snapshot.formData),
@@ -822,12 +828,17 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       publicationTables: snapshot.publicationTables ?? {},
       genericForm: snapshot.genericForm,
     };
-  }),
+    });
+    void rehydrateEnclosureFiles();
+  },
 
   getSnapshot: (): DocumentSnapshot => {
     const state = get();
     return {
       documentMode: state.documentMode,
+      documentCategory: state.documentCategory,
+      formType: state.formType,
+      forms: state.documentCategory === 'forms' && !state.genericForm ? serializeForm(state.formType) : undefined,
       docType: state.docType,
       formData: state.formData,
       references: state.references,
@@ -866,19 +877,7 @@ useDocumentStore.subscribe((state: DocumentState) => {
 
   saveTimeout = setTimeout(() => {
     try {
-      const snapshot: DocumentSnapshot = {
-        documentMode: state.documentMode,
-        docType: state.docType,
-        formData: state.formData,
-        references: state.references,
-        enclosures: state.enclosures,
-        paragraphs: state.paragraphs,
-        copyTos: state.copyTos,
-        distributions: state.distributions,
-        endItems: state.endItems,
-        publicationTables: state.publicationTables,
-        genericForm: state.genericForm,
-      };
+      const snapshot = useDocumentStore.getState().getSnapshot();
       useHistoryStore.getState().saveSnapshot(snapshot);
       debug.log('Store', 'Snapshot saved to history');
     } catch (err) {
@@ -916,6 +915,14 @@ if (typeof document !== 'undefined') {
   window.addEventListener('pagehide', flushSessionSave);
 }
 
+useFormStore.subscribe(() => {
+  if (useDocumentStore.getState().documentCategory !== 'forms') return;
+  if (saveTimeout) clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(() => {
+    useHistoryStore.getState().saveSnapshot(useDocumentStore.getState().getSnapshot());
+  }, TIMING.HISTORY_SNAPSHOT_DEBOUNCE);
+});
+
 /**
  * Saves the current document state to localStorage for session restore.
  * Excludes non-serializable data like file ArrayBuffers.
@@ -923,33 +930,7 @@ if (typeof document !== 'undefined') {
 function saveSessionToStorage(state: DocumentState): void {
   try {
     // Create serializable session (excluding file data)
-    const session: SerializedSession = {
-      documentMode: state.documentMode,
-      documentCategory: state.documentCategory,
-      docType: state.docType,
-      formType: state.formType,
-      formData: {
-        ...state.formData,
-        // Exclude signature image from session storage
-        signatureImage: undefined,
-      },
-      references: state.references,
-      endItems: state.endItems,
-      publicationTables: state.publicationTables,
-      genericForm: state.genericForm,
-      enclosures: state.enclosures.map(enc => ({
-        title: enc.title,
-        pageStyle: enc.pageStyle,
-        hasCoverPage: enc.hasCoverPage,
-        coverPageDescription: enc.coverPageDescription,
-        hasFile: !!enc.file,
-        fileRef: enc.fileRef,
-      })),
-      paragraphs: state.paragraphs,
-      copyTos: state.copyTos,
-      distributions: state.distributions,
-      timestamp: Date.now(),
-    };
+    const session = serializeSession(state);
 
     // Compressed write, prefixed so the read path can tell it from legacy
     // plain-JSON sessions.
@@ -1041,37 +1022,7 @@ export function restoreSession(): boolean {
     const session = getSavedSession();
     if (!session) return false;
 
-    // Canonicalize unitAddress on read so legacy sessions with the 1-comma form
-    // "STREET, CITY STATE ZIP" render correctly on the letterhead.
-    const restoredFormData = session.formData?.unitAddress
-      ? { ...session.formData, unitAddress: canonicalizeUnitAddress(session.formData.unitAddress) }
-      : session.formData;
-
-    applySessionState({
-      documentMode: session.documentMode,
-      documentCategory: session.documentCategory || 'correspondence',
-      docType: session.docType,
-      formType: session.formType || 'navmc_10274',
-      formData: publicationFont(session.docType, session.documentMode, restoredFormData),
-      references: session.references,
-      endItems: session.endItems ?? [],
-      publicationTables: session.publicationTables ?? {},
-      genericForm: session.genericForm ? parseSessionForm(session) : undefined,
-      enclosures: session.enclosures.map(enc => ({
-        title: enc.title,
-        pageStyle: enc.pageStyle,
-        hasCoverPage: enc.hasCoverPage,
-        coverPageDescription: enc.coverPageDescription,
-        fileRef: enc.fileRef,
-        // Bytes are streamed back in asynchronously below (rehydrateEnclosureFiles).
-        file: undefined,
-      })),
-      paragraphs: migratePortionMarkings(session.paragraphs),
-      copyTos: session.copyTos,
-      distributions: session.distributions || [],
-    });
-
-    void rehydrateEnclosureFiles();
+    loadSharedSession(session);
     debug.log('Store', 'Session restored from localStorage');
     return true;
   } catch (err) {
@@ -1085,6 +1036,21 @@ export function restoreSession(): boolean {
  * Excludes file data and signature images.
  */
 export function getSerializedSessionForShare(): SerializedSession {
+  const session = getSerializedSession();
+  // Local attachment handles have no meaning on a recipient's device. Never
+  // resolve a remote handle against that device's unrelated attachment store.
+  session.formData = { ...session.formData, signatureImage: undefined, basicLetterFileRef: undefined };
+  session.paragraphs = session.paragraphs.map((p) => ({ ...p, ...(p.figure ? { figure: { ...p.figure, fileRef: undefined } } : {}) }));
+  session.enclosures = session.enclosures.map(({ fileRef: _ref, ...enclosure }) => enclosure);
+  if (session.forms) {
+    for (const form of [session.forms.navmc10274, session.forms.navmc11811]) {
+      if (form) form.signatureBlocks = form.signatureBlocks.map(({ image: _image, ...block }) => block);
+    }
+  }
+  return session;
+}
+
+export function getSerializedSession(): SerializedSession {
   return serializeSession(useDocumentStore.getState());
 }
 
@@ -1094,6 +1060,14 @@ export function getSerializedSessionForShare(): SerializedSession {
  * preserve a correspondence document the instant the user flips to the Forms tab.
  */
 export function serializeSession(state: DocumentState): SerializedSession {
+  if (state.documentCategory === 'forms') {
+    return {
+      documentMode: state.documentMode, documentCategory: 'forms',
+      docType: state.docType, formType: state.formType,
+      ...(state.genericForm ? { genericForm: state.genericForm } : { forms: serializeForm(state.formType) }), formData: {}, references: [],
+      enclosures: [], paragraphs: [], copyTos: [], distributions: [], timestamp: Date.now(),
+    };
+  }
   return {
     documentMode: state.documentMode,
     documentCategory: state.documentCategory,
@@ -1104,7 +1078,6 @@ export function serializeSession(state: DocumentState): SerializedSession {
       genericForm: state.genericForm,
     formData: {
       ...state.formData,
-      signatureImage: undefined,
       // Bytes live in the attachments store; keep only basicLetterFileRef so the
       // serialized session stays light and JSON-safe (rehydrated on load).
       basicLetterFile: undefined,
@@ -1130,6 +1103,8 @@ export function serializeSession(state: DocumentState): SerializedSession {
  * Enclosure file data is not included in shares; titles and metadata are restored.
  */
 export function loadSharedSession(session: SerializedSession): void {
+  useHistoryStore.getState().clearHistory();
+  if (session.documentCategory === 'forms' && !session.genericForm) loadFormSession(session.formType, session.forms);
   // Canonicalize unitAddress on read (see restoreSession for rationale).
   const sharedFormData = session.formData?.unitAddress
     ? { ...session.formData, unitAddress: canonicalizeUnitAddress(session.formData.unitAddress) }

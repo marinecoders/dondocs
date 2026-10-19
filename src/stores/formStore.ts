@@ -139,6 +139,33 @@ interface FormStore {
   setIncludeCoverPage: (value: boolean) => void;
 }
 
+/** Only the active form travels with a document, never another draft's fields. */
+export interface FormSession {
+  navmc10274?: NavmcForm10274Data;
+  navmc11811?: Navmc11811Data;
+  includeCoverPage: boolean;
+}
+
+export function serializeForm(formType: string): FormSession {
+  const state = useFormStore.getState();
+  return structuredClone({
+    ...(formType === 'navmc_118_11'
+      ? { navmc11811: state.navmc11811 }
+      : { navmc10274: state.navmc10274 }),
+    includeCoverPage: state.includeCoverPage,
+  });
+}
+
+export function loadFormSession(formType: string, forms?: FormSession): void {
+  useFormStore.setState(formType === 'navmc_118_11' ? {
+    navmc11811: structuredClone({ ...EMPTY_NAVMC_11811, ...forms?.navmc11811 }),
+    includeCoverPage: forms?.includeCoverPage ?? false,
+  } : {
+    navmc10274: structuredClone({ ...EMPTY_NAVMC_10274, ...forms?.navmc10274 }),
+    includeCoverPage: forms?.includeCoverPage ?? false,
+  });
+}
+
 // Empty defaults for "Clear All" functionality
 const EMPTY_NAVMC_10274: NavmcForm10274Data = {
   actionNo: '',

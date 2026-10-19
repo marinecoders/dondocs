@@ -57,6 +57,7 @@ export function SaveStatus({ className }: { className?: string }) {
 
   const base = className ?? 'text-xs text-muted-foreground';
 
+  if (saveStatus === 'pending') return <span className={base} aria-live="polite">Unsaved changes</span>;
   if (saveStatus === 'saving') {
     return (
       <span className={`inline-flex items-center gap-1 ${base}`} aria-live="polite">

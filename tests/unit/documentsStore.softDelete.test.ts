@@ -21,17 +21,17 @@ async function clearDb() {
   for (const r of documentsRead(await idbGetAllDocuments())) await idbDeleteDocument(r.id);
 }
 
-// Regression guard: previously the IDB record was deleted only by the 6s purge
+// Previous behavior: the IDB record was deleted only by the 6s purge
 // timer, so closing/reloading the tab within the undo window left the record
 // behind and the "deleted" doc resurrected on next load. The record is now
 // removed eagerly; only the in-memory undo copy waits out the timer.
-describe('documentsStore soft delete — eager purge closes the resurrection window', () => {
+describe('documentsStore Trash — deletion survives reload', () => {
   beforeEach(async () => {
     await clearDb();
-    useDocumentsStore.setState({ docs: {}, currentId: null, hydrated: true, baseline: null, pendingDelete: null });
+    useDocumentsStore.setState({ docs: {}, trash: {}, currentId: null, hydrated: true, baseline: null, pendingDelete: null });
   });
 
-  it('removes the IndexedDB record immediately, and undo re-persists it', async () => {
+  it('persists a tombstone and preserves the record when Undo restores it', async () => {
     const d1 = entry('d1');
     const cur = entry('cur');
     await idbPutDocument({ id: 'd1', meta: d1.meta as never, session: d1.session as never });
@@ -42,7 +42,9 @@ describe('documentsStore soft delete — eager purge closes the resurrection win
     await tick(); // let the fire-and-forget idbDeleteDocument commit
 
     // Immediately gone from IndexedDB — a reload's idbGetAllDocuments won't see it.
-    expect(documentsRead(await idbGetAllDocuments()).find((r) => r.id === 'd1')).toBeUndefined();
+    expect(documentsRead(await idbGetAllDocuments()).find((r) => r.id === 'd1')?.meta.deletedAt).toBeTypeOf('number');
+    expect(useDocumentsStore.getState().docs.d1).toBeUndefined();
+    expect(useDocumentsStore.getState().trash.d1).toBeDefined();
     // ...but still undoable from the in-memory copy.
     expect(useDocumentsStore.getState().pendingDelete?.ids).toEqual(['d1']);
 
@@ -51,5 +53,6 @@ describe('documentsStore soft delete — eager purge closes the resurrection win
 
     expect(documentsRead(await idbGetAllDocuments()).find((r) => r.id === 'd1')).toBeDefined();
     expect(useDocumentsStore.getState().docs.d1).toBeDefined();
+    expect(useDocumentsStore.getState().docs.d1.meta.deletedAt).toBeUndefined();
   });
 });

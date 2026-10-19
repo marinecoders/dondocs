@@ -34,13 +34,14 @@ import { Badge } from '@/components/ui/badge';
 export function DocumentTypeSelector() {
   const [catalogOpen, setCatalogOpen] = useState(false);
   const {
-    formType, setFormType,
-    documentCategory, setDocumentCategory,
+    formType,
+    documentCategory,
     docType, setDocType,
     formData, setField,
     documentMode, setDocumentMode,
     clearFieldsExceptLetterhead,
   } = useDocumentStore();
+  const selectKind = useDocumentsStore((s) => s.selectKind);
   const setTemplateLoaderOpen = useUIStore((s) => s.setTemplateLoaderOpen);
   const [showClearDialog, setShowClearDialog] = useState(false);
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
@@ -68,7 +69,7 @@ export function DocumentTypeSelector() {
       {/* Category Tabs - Correspondence vs Forms (at the top) */}
       <div data-tour="category" className="space-y-2">
         <Label>Category</Label>
-        <Tabs value={documentCategory} onValueChange={(v) => { if (v === 'correspondence' && useDocumentStore.getState().genericForm) useDocumentsStore.getState().newDocument(); else setDocumentCategory(v as DocumentCategory); }}>
+        <Tabs value={documentCategory} onValueChange={(v) => selectKind(v as DocumentCategory, formType)}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="correspondence" className="flex items-center gap-2">
               <FileStack className="h-4 w-4" />
@@ -268,7 +269,7 @@ export function DocumentTypeSelector() {
               Browse all
             </Button>
           </div>
-          <FormPicker value={formType} onSelect={(v) => setFormType(v)} />
+          <FormPicker value={formType} onSelect={(v) => selectKind('forms', v)} />
         </div>
 
         <div className="border-l-2 border-border pl-3 text-xs">
@@ -280,7 +281,7 @@ export function DocumentTypeSelector() {
         <FormCatalogModal
           open={catalogOpen}
           onOpenChange={setCatalogOpen}
-          onSelect={(v) => setFormType(v)}
+          onSelect={(v) => selectKind('forms', v)}
         />
         </>
       )}

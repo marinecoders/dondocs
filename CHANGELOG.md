@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.181] — 2026-10-18
+
+### Changed
+- Save independent correspondence and form drafts with persistent Trash and safer recovery.
+
 ## [1.2.180] — 2026-10-18
 
 ### Changed
