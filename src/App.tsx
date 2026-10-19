@@ -1,3 +1,4 @@
+import { saveCheckpoint } from '@/lib/saveCheckpoint';
 import { iTypeExportErrors } from '@/lib/iTypePreflight';
 import { loadFigureFiles } from '@/services/latex/figureAssets';
 import { publicationMarking } from '@/lib/publicationMarking';
@@ -1685,8 +1686,7 @@ ${texFiles['body.tex'] || '% No body content'}
       // passive "Saved" indicator reflects it.
       if (isMod && e.key === 's') {
         e.preventDefault();
-        useDocumentsStore.getState().saveCurrent();
-        useUIStore.getState().markSaved();
+        saveCheckpoint();
         return;
       }
 
@@ -1858,8 +1858,7 @@ ${texFiles['body.tex'] || '% No body content'}
           icon: Save,
           kbd: formatShortcut('mod S'),
           onRun: () => {
-            useDocumentsStore.getState().saveCurrent();
-            useUIStore.getState().markSaved();
+            saveCheckpoint();
           },
         },
         {

@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.182] — 2026-10-18
+
+### Changed
+- Compare complete document history and preserve a safety copy before restoring versions.
+
 ## [1.2.181] — 2026-10-18
 
 ### Changed

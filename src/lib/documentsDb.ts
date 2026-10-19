@@ -365,15 +365,18 @@ export interface DocSnapshot {
 
 export const MAX_SNAPSHOTS = 10;
 
+/** Strict read for History: an unavailable/failed store must not look empty. */
+export async function idbReadSnapshots(docId: string): Promise<DocSnapshot[]> {
+  const rec = await run<{ key: string; value: DocSnapshot[] } | undefined>(
+    APP_STORE, 'readonly', (s) => s.get(`snap:${docId}`)
+  );
+  return rec?.value ?? [];
+}
+
 export async function idbGetSnapshots(docId: string, strict = false): Promise<DocSnapshot[]> {
   if (!hasIndexedDb) return [];
   try {
-    const rec = await run<{ key: string; value: DocSnapshot[] } | undefined>(
-      APP_STORE,
-      'readonly',
-      (s) => s.get(`snap:${docId}`)
-    );
-    return rec?.value ?? [];
+    return await idbReadSnapshots(docId);
   } catch (err) {
     debug.error('DocumentsDb', 'getSnapshots failed', err);
     if (strict) throw new Error(`History for ${docId} could not be read`, { cause: err });
