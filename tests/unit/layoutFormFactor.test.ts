@@ -32,6 +32,14 @@ describe('which layout a viewport gets', () => {
     expect(prefersMobileLayout({ width: 500, isIPad: false, isMobilePlatform: false })).toBe(true);
   });
 
+  it.each([768, 820, 834, 1023])('keeps a %ipx desktop-reported viewport usable without three cramped columns', (width) => {
+    expect(prefersMobileLayout({ width, isIPad: false, isMobilePlatform: false })).toBe(true);
+  });
+
+  it('restores the desktop layout at 1024px on desktop platforms', () => {
+    expect(prefersMobileLayout({ width: 1024, isIPad: false, isMobilePlatform: false })).toBe(false);
+  });
+
   it('holds the tablet boundary at 1366', () => {
     expect(prefersMobileLayout({ width: 1365, isIPad: false, isMobilePlatform: true })).toBe(true);
     expect(prefersMobileLayout({ width: 1366, isIPad: false, isMobilePlatform: true })).toBe(false);

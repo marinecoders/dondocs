@@ -236,7 +236,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
           </span>
         </AccordionTrigger>
         <AccordionContent>
-          <div className="space-y-4 pt-2">
+          <div className="editor-field-groups pt-2">
             {/* Complimentary Close - Required for business letters in compliant mode */}
             {requiresComplimentaryClose && (
               <div className="space-y-2">
@@ -258,8 +258,8 @@ export function SignatureSection({ config }: SignatureSectionProps) {
             )}
 
             {/* Name fields */}
-            <div data-tour="signature-name" className="grid grid-cols-3 gap-2 sm:gap-4">
-              <div className="space-y-2 col-span-2 sm:col-span-1">
+            <div data-tour="signature-name" className="grid grid-cols-[minmax(0,1fr)_4.5rem] sm:grid-cols-[minmax(0,1fr)_4.5rem_minmax(0,1fr)] gap-3">
+              <div className="space-y-2 min-w-0">
                 <Label htmlFor="sigFirst">First Name</Label>
                 <Input
                   id="sigFirst"
@@ -278,7 +278,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                   maxLength={3}
                 />
               </div>
-              <div className="space-y-2 col-span-3 sm:col-span-1">
+              <div className="space-y-2 min-w-0 col-span-2 sm:col-span-1">
                 <Label htmlFor="sigLast">Last Name</Label>
                 <Input
                   id="sigLast"
@@ -305,7 +305,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                   }
                 }}
               >
-                <TabsList className="grid w-full grid-cols-2">
+                <TabsList className="inline-flex max-w-full bg-transparent p-0 gap-1">
                   <TabsTrigger value="military">Military</TabsTrigger>
                   <TabsTrigger value="civilian">Civilian / Other</TabsTrigger>
                 </TabsList>
@@ -388,7 +388,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                   }
                 }}
               >
-                <TabsList className="grid w-full grid-cols-2">
+                <TabsList className="inline-flex max-w-full bg-transparent p-0 gap-1">
                   <TabsTrigger value="standard">Standard</TabsTrigger>
                   <TabsTrigger value="custom">Custom</TabsTrigger>
                 </TabsList>
@@ -432,7 +432,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                       </div>
                       <IconTip label="Search office codes">
                         <Button
-                          variant="outline"
+                          variant="ghost"
                           size="icon"
                           onClick={() => setOfficeCodeModalOpen(true)}
                         >
@@ -603,16 +603,13 @@ export function SignatureSection({ config }: SignatureSectionProps) {
             )}
 
             {/* Signature Type Selection */}
-            <div data-tour="signature-style" className="space-y-3">
+            <div data-tour="signature-style" className="space-y-3 border-t border-border pt-4">
               <Label>Signature Style</Label>
-              {/* All signature options available. Selected style reads as a
-                  tinted ring (border + 10% tint + primary text), not a solid
-                  scarlet fill — a quieter selection state that keeps Download
-                  the one scarlet primary. */}
+              {/* Compact radio group retains arrow-key navigation and all methods. */}
                 <div
                   role="radiogroup"
                   aria-label="Signature style"
-                  className="grid grid-cols-3 gap-2"
+                  className="grid grid-cols-3 gap-1 rounded-md bg-muted/30 p-1"
                 >
                     {SIGNATURE_STYLES.map((style, index) => {
                       const selected = currentSignatureStyle === style.value;
@@ -624,15 +621,15 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                           role="radio"
                           aria-checked={selected}
                           tabIndex={selected ? 0 : -1}
-                          className={`flex flex-col items-center gap-1.5 rounded-md border py-3 px-1.5 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,transform] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 active:scale-[0.98] ${
+                          className={`flex min-h-11 min-w-0 items-center justify-center gap-1.5 rounded border px-2 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,transform] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 active:scale-[0.98] ${
                             selected
-                              ? 'border-primary bg-primary/10 text-primary'
-                              : 'border-border text-foreground hover:bg-muted/40'
+                              ? 'border-border bg-background text-foreground shadow-xs'
+                              : 'border-transparent text-muted-foreground hover:bg-muted/40 hover:text-foreground'
                           }`}
                           onClick={() => selectSignatureStyle(style.value)}
                           onKeyDown={(e) => handleStyleKeyDown(e, index)}
                         >
-                          <style.Icon className="h-5 w-5" />
+                          <style.Icon className="hidden h-3.5 w-3.5 shrink-0 sm:block" />
                           <span>{style.label}</span>
                         </button>
                       );
@@ -678,7 +675,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                       onDragOver={handleDragOver}
                       onDragLeave={handleDragLeave}
                       onDrop={handleDrop}
-                      className={`flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
+                      className={`focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
                         isDragging
                           ? 'border-primary bg-primary/10'
                           : 'border-muted-foreground/25 hover:border-primary/50 hover:bg-secondary/30'
@@ -692,10 +689,10 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                         PNG, JPG, or GIF — up to {FILE_LIMITS.MAX_SIGNATURE_SIZE_MB} MB (under 500 KB keeps drafts small)
                       </span>
                       <input
-                        type="file"
+                        type="file" aria-label="Upload signature image"
                         accept="image/png,image/jpeg,image/gif"
                         onChange={handleFileChange}
-                        className="hidden"
+                        className="sr-only"
                       />
                     </label>
                   )}

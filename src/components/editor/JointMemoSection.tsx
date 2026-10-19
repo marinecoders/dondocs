@@ -1,3 +1,4 @@
+import { EditorGuidance } from './EditorGuidance';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -22,16 +23,16 @@ export function JointMemoSection() {
       {/* Joint Memorandum Info */}
       <Accordion type="single" collapsible defaultValue="joint-memo-info">
         <AccordionItem value="joint-memo-info">
-          <AccordionTrigger>Joint Memorandum</AccordionTrigger>
+          <AccordionTrigger>Addressing</AccordionTrigger>
           <AccordionContent>
-            <div className="space-y-4 pt-2">
-              <div className="p-3 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg text-sm text-blue-800 dark:text-blue-200">
+            <div className="editor-field-groups pt-2">
+              <EditorGuidance title="Joint memorandum guidance">
                 <p className="font-medium">Per SECNAV M-5216.5 Ch 12:</p>
                 <p className="text-xs mt-1">
                   A joint memorandum is signed by two officials presenting a unified position.
                   Both signatories appear side-by-side at the bottom.
                 </p>
-              </div>
+              </EditorGuidance>
 
               {/* Date */}
               <div className="space-y-2">
@@ -85,14 +86,14 @@ export function JointMemoSection() {
       {/* Senior Signatory (Right Side) */}
       <Accordion type="single" collapsible defaultValue="senior-sig">
         <AccordionItem value="senior-sig">
-          <AccordionTrigger>
+          <AccordionTrigger data-field-group>
             <div className="flex items-center gap-2">
               <span>Senior Signatory</span>
               <span className="text-xs text-muted-foreground font-normal">(Right Side)</span>
             </div>
           </AccordionTrigger>
           <AccordionContent>
-            <div className="space-y-4 pt-2">
+            <div className="editor-field-groups pt-2">
               <div className="space-y-2">
                 <Label htmlFor="jointMemoSeniorFrom">From/Position</Label>
                 <Input
@@ -132,14 +133,14 @@ export function JointMemoSection() {
       {/* Junior Signatory (Left Side) */}
       <Accordion type="single" collapsible defaultValue="junior-sig">
         <AccordionItem value="junior-sig">
-          <AccordionTrigger>
+          <AccordionTrigger data-field-group>
             <div className="flex items-center gap-2">
               <span>Junior Signatory</span>
               <span className="text-xs text-muted-foreground font-normal">(Left Side)</span>
             </div>
           </AccordionTrigger>
           <AccordionContent>
-            <div className="space-y-4 pt-2">
+            <div className="editor-field-groups pt-2">
               <div className="space-y-2">
                 <Label htmlFor="jointMemoJuniorFrom">From/Position</Label>
                 <Input

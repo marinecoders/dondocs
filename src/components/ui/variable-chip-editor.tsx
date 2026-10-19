@@ -1,3 +1,4 @@
+import { formatShortcut } from '@/lib/platform';
 import { publicationReferences, referenceName } from '@/lib/publicationReferences';
 import { useEditor, EditorContent, ReactRenderer } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -596,7 +597,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         size="sm"
         onClick={() => editor.chain().focus().toggleBold().run()}
         className={cn('h-7 w-7 p-0', editor.isActive('bold') && 'bg-primary/15 text-primary')}
-        title="Bold (Ctrl+B)"
+        title={`Bold (${formatShortcut('mod B')})`}
       >
         <Bold className="h-4 w-4" />
       </Button>
@@ -606,7 +607,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         size="sm"
         onClick={() => editor.chain().focus().toggleItalic().run()}
         className={cn('h-7 w-7 p-0', editor.isActive('italic') && 'bg-primary/15 text-primary')}
-        title="Italic (Ctrl+I)"
+        title={`Italic (${formatShortcut('mod I')})`}
       >
         <Italic className="h-4 w-4" />
       </Button>
@@ -616,7 +617,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         size="sm"
         onClick={() => editor.chain().focus().toggleUnderline().run()}
         className={cn('h-7 w-7 p-0', editor.isActive('underline') && 'bg-primary/15 text-primary')}
-        title="Underline (Ctrl+U)"
+        title={`Underline (${formatShortcut('mod U')})`}
       >
         <UnderlineIcon className="h-4 w-4" />
       </Button>
@@ -640,6 +641,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
 
 // Main editor component
 interface VariableChipEditorProps {
+  ariaLabel?: string;
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
@@ -687,6 +689,7 @@ export function VariableChipEditor({
   value,
   onChange,
   placeholder = 'Type @ to insert variables...',
+  ariaLabel,
   className,
   rows = 3,
   tabInsertsSpaces = false,
@@ -742,6 +745,8 @@ export function VariableChipEditor({
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
+        // Registered explicitly below; StarterKit v3 also includes underline.
+        underline: false,
         heading: false,
         blockquote: false,
         codeBlock: false,
@@ -764,6 +769,9 @@ export function VariableChipEditor({
     parseOptions: { preserveWhitespace: 'full' },
     editorProps: {
       attributes: {
+        role: 'textbox',
+        'aria-multiline': 'true',
+        ...(ariaLabel ? { 'aria-label': ariaLabel } : {}),
         // `whitespace-pre-wrap` overrides Tailwind's `prose` default
         // (white-space: normal) so multiple spaces typed by the user —
         // both via the Space key and via the Tab handler below — render

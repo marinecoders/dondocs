@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import { loadDefinition } from '@/services/forms/packages';
 import type { FormDefinition } from '@/services/forms/model';
 import { useDocumentStore } from '@/stores/documentStore';
@@ -25,8 +25,20 @@ export interface ConfigFormEntry {
 }
 
 let entriesPromise: Promise<ConfigFormEntry[]> | null = null;
+type CatalogState = { status: 'idle' | 'loading' | 'ready' | 'error'; entries: ConfigFormEntry[] };
+let catalogState: CatalogState = { status: 'idle', entries: [] };
+const listeners = new Set<() => void>();
+const publish = (state: CatalogState) => { catalogState = state; listeners.forEach(listener => listener()); };
+const subscribe = (listener: () => void) => { listeners.add(listener); return () => { listeners.delete(listener); }; };
+export function useFormCatalogStatus() {
+  const state = useSyncExternalStore(subscribe, () => catalogState);
+  useEffect(() => { if (catalogState.status === 'idle') void loadConfigFormEntries(); }, []);
+  return { ...state, retry: () => { void loadConfigFormEntries(); } };
+}
+
 
 export function loadConfigFormEntries(): Promise<ConfigFormEntry[]> {
+  if (!entriesPromise) publish({ ...catalogState, status: 'loading' });
   entriesPromise ??= fetch('/templates/index.json')
     .then((res) => {
       if (!res.ok) throw new Error(`templates index: ${res.status}`);
@@ -45,10 +57,12 @@ export function loadConfigFormEntries(): Promise<ConfigFormEntry[]> {
           verified: t.verified ?? false,
         }))
     )
+    .then(entries => { publish({ status: 'ready', entries }); return entries; })
     .catch(() => {
       // A missing or unreadable index just means no config forms; the
       // built-in forms are unaffected.
       entriesPromise = null;
+      publish({ ...catalogState, status: 'error' });
       return [];
     });
   return entriesPromise;
@@ -56,17 +70,7 @@ export function loadConfigFormEntries(): Promise<ConfigFormEntry[]> {
 
 /** The config-form entries, loaded once per session. */
 export function useConfigForms(): ConfigFormEntry[] {
-  const [entries, setEntries] = useState<ConfigFormEntry[]>([]);
-  useEffect(() => {
-    let alive = true;
-    loadConfigFormEntries().then((e) => {
-      if (alive) setEntries(e);
-    });
-    return () => {
-      alive = false;
-    };
-  }, []);
-  return entries;
+  return useFormCatalogStatus().entries;
 }
 
 /** Resolve a formType to its loaded config, or null for built-in forms. */
@@ -82,7 +86,9 @@ export async function configForFormType(formType: string): Promise<FormDefinitio
  * same config at the same time. Staleness is handled by keying the loaded
  * value to its formType rather than resetting state in the effect.
  */
-export function useFormResource(formType: string): { config: FormDefinition | null; error: string | null } {
+export function useFormResource(formType: string): { config: FormDefinition | null; error: string | null; retry: () => void } {
+  const [attempt, setAttempt] = useState(0);
+  const retry = () => setAttempt(value => value + 1);
   const pinned = useDocumentStore(s => s.genericForm?.definition);
   const [loaded, setLoaded] = useState<{ type: string; cfg: FormDefinition | null; error: string | null }>({ type: formType, cfg: null, error: null });
   useEffect(() => {
@@ -94,8 +100,8 @@ export function useFormResource(formType: string): { config: FormDefinition | nu
       if (alive) setLoaded({ type: formType, cfg: null, error: String(error) });
     });
     return () => { alive = false; };
-  }, [formType, pinned]);
-  return pinned?.formId === formType ? { config: pinned, error: null } : loaded.type === formType ? { config: loaded.cfg, error: loaded.error } : { config: null, error: null };
+  }, [formType, pinned, attempt]);
+  return { ...(pinned?.formId === formType ? { config: pinned, error: null } : loaded.type === formType ? { config: loaded.cfg, error: loaded.error } : { config: null, error: null }), retry };
 }
 
 export function useFormConfigFor(formType: string): FormDefinition | null {

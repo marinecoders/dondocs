@@ -105,7 +105,7 @@ describe('SaveStatus', () => {
     useBackupStore.setState({ status: 'unsupported' });
     render(<SaveStatus />);
     expect(screen.queryByRole('button', { name: /Local only/ })).toBeNull();
-    expect(screen.getByTitle(/Download or Back up everything/)).toBeTruthy();
+    expect(screen.getByTitle(/Download or Download workspace backup/)).toBeTruthy();
   });
 
   it('stays quiet until there is work to lose', () => {

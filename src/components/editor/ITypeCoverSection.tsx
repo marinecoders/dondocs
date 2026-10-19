@@ -104,7 +104,9 @@ export function ITypeCoverSection() {
   ] as const;
 
   return (
-    <div className="space-y-4">
+    <>
+    <h3 className="editor-section-heading">Cover</h3>
+    <div className="editor-field-groups">
       <p className="text-sm text-muted-foreground">Uses the supplied MARCORSYSCOM template. Publication-office review is still required for format tailoring, release authorization, and final authentication.</p>
       {findings.length > 0 && (
         <div className="space-y-2" aria-live="polite">
@@ -294,12 +296,10 @@ export function ITypeCoverSection() {
         )}
 
         {endItems.map((item, index) => (
-          <div key={index} className="flex items-end gap-2">
+          <div key={index} className="grid grid-cols-2 gap-3 sm:flex sm:items-end sm:gap-2">
             {columns.map((col) => (
-              <div key={col.key} className="flex-1 space-y-1">
-                {index === 0 && (
-                  <Label className="text-2xs text-muted-foreground">{col.label}</Label>
-                )}
+              <div key={col.key} className="min-w-0 flex-1 space-y-1">
+                <Label className={`text-2xs text-muted-foreground ${index > 0 ? 'sm:hidden' : ''}`}>{col.label}</Label>
                 <Input
                   value={item[col.key]}
                   onChange={(e) => updateEndItem(index, { [col.key]: e.target.value })}
@@ -313,7 +313,7 @@ export function ITypeCoverSection() {
               size="icon"
               onClick={() => removeEndItem(index)}
               aria-label={`Remove end item ${index + 1}`}
-              className="text-destructive hover:text-destructive"
+              className="col-span-2 justify-self-end text-destructive hover:text-destructive"
             >
               <Trash2 className="h-4 w-4" aria-hidden />
             </Button>
@@ -390,5 +390,6 @@ export function ITypeCoverSection() {
         />
       </div>
     </div>
+    </>
   );
 }

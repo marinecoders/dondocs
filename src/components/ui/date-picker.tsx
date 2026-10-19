@@ -167,6 +167,7 @@ export function DatePicker({
         />
         <PopoverTrigger asChild>
           <Button
+            aria-label="Open calendar"
             variant="ghost"
             size="icon"
             className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"

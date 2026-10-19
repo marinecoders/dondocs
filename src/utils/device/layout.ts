@@ -24,8 +24,8 @@
 
 import { detectIPad, detectMobileUserAgent } from './detectors';
 
-/** Below this a viewport has no room for the sidebar, whatever is driving it. */
-const PHONE_WIDTH = 768;
+/** Below this the sidebar, editor and preview cannot fit comfortably together. */
+const COMPACT_LAYOUT_WIDTH = 1024;
 
 /** A tablet held in landscape still gets the mobile layout up to here. */
 const TABLET_WIDTH = 1366;
@@ -40,7 +40,7 @@ export interface LayoutEnvironment {
 }
 
 export function prefersMobileLayout({ width, isIPad, isMobilePlatform }: LayoutEnvironment): boolean {
-  if (width < PHONE_WIDTH) return true;
+  if (width < COMPACT_LAYOUT_WIDTH) return true;
   // An iPad takes the mobile layout at any size: the embedded PDF preview
   // does not work there, which is why the exception exists at all.
   if (isIPad) return true;

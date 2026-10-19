@@ -1,3 +1,4 @@
+import { FormCatalogStatus } from '@/components/editor/FormCatalogStatus';
 import { useMemo, useState } from 'react';
 import { BadgeCheck, Search, Star } from 'lucide-react';
 import {
@@ -23,10 +24,12 @@ export function FormCatalogModal({
   open,
   onOpenChange,
   onSelect,
+  onCloseAutoFocus,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSelect: (formType: FormType) => void;
+  onCloseAutoFocus?: (event: Event) => void;
 }) {
   const catalog = useFormCatalog();
   const favorites = useFormStore((s) => s.favoriteForms);
@@ -53,15 +56,15 @@ export function FormCatalogModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl">
-        <DialogHeader>
+      <DialogContent onCloseAutoFocus={onCloseAutoFocus} className="flex max-h-[85dvh] sm:max-w-2xl flex-col overflow-hidden">
+        <DialogHeader className="shrink-0 pr-8 text-left">
           <DialogTitle>Form catalog</DialogTitle>
           <DialogDescription>
-            Every fillable form in DonDocs. Search by number, title, or what Marines call it
-            (&ldquo;page 11&rdquo;, &ldquo;6105&rdquo;, &ldquo;UPB&rdquo;).
+            Search published forms by number, title, or nickname.
           </DialogDescription>
         </DialogHeader>
 
+        <FormCatalogStatus />
         <div className="flex items-center gap-2 rounded-md border border-input px-3">
           <Search className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
           <Input
@@ -99,7 +102,7 @@ export function FormCatalogModal({
           ))}
         </div>
 
-        <div className="grid max-h-[50vh] grid-cols-2 gap-3 overflow-y-auto pr-1 sm:grid-cols-3">
+        <div className="grid min-h-0 grid-cols-[repeat(auto-fit,minmax(min(100%,140px),1fr))] gap-3 overflow-y-auto pr-1">
           {shown.length === 0 && (
             <p className="col-span-full py-8 text-center text-sm text-muted-foreground">
               No forms match.
@@ -155,7 +158,7 @@ export function FormCatalogModal({
                 aria-pressed={favorites.includes(f.formType)}
                 onClick={() => toggleFavorite(f.formType)}
                 className={cn(
-                  'absolute right-1.5 top-1.5 rounded p-1 outline-none transition-colors',
+                  'absolute right-1 top-1 flex h-9 w-9 items-center justify-center rounded bg-background/90 outline-none transition-colors',
                   'hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring/50',
                   favorites.includes(f.formType)
                     ? 'text-amber-500'

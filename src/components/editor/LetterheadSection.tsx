@@ -119,14 +119,14 @@ export function LetterheadSection() {
             </span>
           </AccordionTrigger>
           <AccordionContent>
-            <div className={`space-y-4 pt-2 ${isDisabled ? 'opacity-50 pointer-events-none select-none' : ''}`}>
+            <div className={`editor-field-groups pt-2 ${isDisabled ? 'opacity-50 pointer-events-none select-none' : ''}`}>
               <p className="-mt-1 text-xs text-muted-foreground">
                 Unit name, address, seal, and color that appear at the top of the page.
               </p>
               {/* Responsive row: the editor column width is independent of the
                   viewport (collapsible sidebar + resizable preview), so flex-wrap
                   lets it wrap rather than overflow at a narrow column. */}
-              <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-end gap-3">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-end gap-3 border-b border-border pb-4">
                 {/* Seal + Color wrap as one unit; sm:basis-52 drives the line
                     break and min-w-0 lets the cells shrink rather than overflow. */}
                 <div className="grid grid-cols-2 gap-3 min-w-0 sm:basis-52 sm:grow-0 sm:shrink">
@@ -222,23 +222,24 @@ export function LetterheadSection() {
                     </SelectContent>
                   </Select>
                 </div>
-
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="default"
-                  onClick={() => setUnitModalOpen(true)}
-                  className="gap-2 w-full sm:w-auto shrink-0"
-                >
-                  <Building2 className="h-4 w-4" />
-                  Browse Units
-                </Button>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="unitLine1">
-                  Unit Name{unitNameRequired && <span className="text-destructive"> *</span>}
-                </Label>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <Label htmlFor="unitLine1">
+                    Unit Name{unitNameRequired && <span className="text-destructive"> *</span>}
+                  </Label>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setUnitModalOpen(true)}
+                    className="gap-2 text-xs font-normal text-muted-foreground"
+                  >
+                    <Building2 className="h-4 w-4" />
+                    Browse Units
+                  </Button>
+                </div>
                 <Input
                   id="unitLine1"
                   value={formData.unitLine1 || ''}
@@ -340,7 +341,7 @@ export function LetterheadSection() {
                       placeholder="28533-0050"
                       maxLength={10}
                       inputMode="numeric"
-                      pattern="[0-9-]*"
+                      pattern={'[0-9\\-]*'}
                     />
                   </div>
                 </div>

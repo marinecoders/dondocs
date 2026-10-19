@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { expect, it } from 'vitest';
-import { useDocumentsStore, flushDocumentWrites, exportLibrary, openRecoveredCopies } from '@/stores/documentsStore';
+import { useDocumentsStore, flushDocumentWrites, reconcileDocuments, exportLibrary, openRecoveredCopies } from '@/stores/documentsStore';
 import { useDocumentStore, getSerializedSessionForShare } from '@/stores/documentStore';
 import { idbGetAllDocuments, idbPutDocument } from '@/lib/documentsDb';
 
@@ -12,6 +12,8 @@ it('preserves both versions in backups and opens the latest conflict as a separa
   useDocumentsStore.setState({ docs: { conflict: { meta, session } }, currentId: 'conflict', baseline: session, hydrated: true });
   const rival = { ...session, formData: { ...session.formData, subject: 'Other tab' } };
   await idbPutDocument({ id: meta.id, meta: { ...meta, title: 'Other tab', updatedAt: 2 }, session: rival });
+  reconcileDocuments((await idbGetAllDocuments())!);
+  expect(useDocumentsStore.getState().docs.conflict.session.formData.subject).toBe('Original');
   useDocumentStore.getState().setFormData({ subject: 'This tab' });
   await expect(flushDocumentWrites()).rejects.toThrow('could not be saved');
   const before = JSON.parse(await exportLibrary());

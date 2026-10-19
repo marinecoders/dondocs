@@ -27,47 +27,46 @@ export function UpdatePromptModal({ open, onConfirm, onDismiss }: UpdatePromptMo
   return (
     <Dialog open={open} onOpenChange={(o) => { if (!o) onDismiss(); }}>
       <DialogContent
-        className="sm:max-w-md w-[calc(100vw-2rem)] overflow-hidden"
+        className="sm:max-w-md w-[calc(100vw-2rem)] flex flex-col gap-6 pb-8"
         // Escape / outside stay disabled so dismissal is an explicit choice; the
         // shared corner × routes through onOpenChange above.
         onInteractOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
       >
-        <div className="flex flex-col gap-4 overflow-hidden">
-          <DialogHeader className="min-w-0">
-            <DialogTitle className="flex items-center gap-2 min-w-0">
-              <RefreshCw className="h-5 w-5 text-primary flex-shrink-0" />
-              <span>Update Available</span>
-            </DialogTitle>
-            <DialogDescription className="break-words">
-              A new version of the app is available. Your work will be automatically
-              restored after the update.
-            </DialogDescription>
-          </DialogHeader>
+        <DialogHeader className="min-w-0">
+          <DialogTitle className="flex items-center gap-2 min-w-0">
+            <RefreshCw className="h-5 w-5 text-primary flex-shrink-0" />
+            <span>Update Available</span>
+          </DialogTitle>
+          <DialogDescription className="break-words">
+            A new version of the app is available. After updating, the workspace
+            reopens your last saved draft.
+          </DialogDescription>
+        </DialogHeader>
 
-          <Notice variant="info" className="text-xs text-muted-foreground break-words">
-            Saved documents and attachments stay in this browser. Refresh any other
-            DonDocs tabs before editing forms in the new version.
-          </Notice>
+        <Notice variant="info" className="text-xs text-muted-foreground break-words">
+          Saved documents and attachments stay in this browser. Refresh other
+          DonDocs tabs before editing forms in the new version. Keep an external
+          copy using Backup &amp; restore in Settings.
+        </Notice>
 
-          <DialogFooter className="flex-col sm:flex-row gap-2 flex-shrink-0">
-            <Button
-              variant="ghost"
-              onClick={onDismiss}
-              className="flex items-center justify-center gap-2 w-full sm:w-auto text-muted-foreground"
-            >
-              <Clock className="h-4 w-4 flex-shrink-0" />
-              <span>Later</span>
-            </Button>
-            <Button
-              onClick={onConfirm}
-              className="flex items-center justify-center gap-2 w-full sm:w-auto"
-            >
-              <RefreshCw className="h-4 w-4 flex-shrink-0" />
-              <span>Update Now</span>
-            </Button>
-          </DialogFooter>
-        </div>
+        <DialogFooter className="flex-row gap-3 shrink-0 pt-2">
+          <Button
+            variant="ghost"
+            onClick={onDismiss}
+            className="flex items-center justify-center gap-2 flex-1 sm:flex-none text-muted-foreground"
+          >
+            <Clock className="h-4 w-4 flex-shrink-0" />
+            <span>Later</span>
+          </Button>
+          <Button
+            onClick={onConfirm}
+            className="flex items-center justify-center gap-2 flex-1 sm:flex-none"
+          >
+            <RefreshCw className="h-4 w-4 flex-shrink-0" />
+            <span>Update Now</span>
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

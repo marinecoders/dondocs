@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.187] — 2026-10-19
+
+### Changed
+- Redesign the DonDocs workspace with unified navigation, correspondence editing, themes, and responsive layouts.
+
 ## [1.2.186] — 2026-10-19
 
 ### Changed

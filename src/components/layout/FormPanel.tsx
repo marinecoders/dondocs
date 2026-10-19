@@ -1,195 +1,168 @@
-import { useDocumentsStore } from '@/stores/documentsStore';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { usePageScrollLayout } from '@/hooks/usePageScrollLayout';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { AccordionStaticProvider } from '@/components/ui/accordion';
-import { ProfileBar } from '@/components/editor/ProfileBar';
-import { DocumentTypeSelector } from '@/components/editor/DocumentTypeSelector';
+import { WorkspaceBar } from './WorkspaceBar';
+import { useDocumentsStore } from '@/stores/documentsStore';
+import { useDocumentStore } from '@/stores/documentStore';
 import { Form6105Section } from '@/components/editor/Form6105Section';
 import { GenericFormSection } from '@/components/editor/GenericFormSection';
 import { Form11811Section } from '@/components/editor/Form11811Section';
-import { BackgroundBeams } from '@/components/effects/BackgroundBeams';
 import { SectionShell } from './SectionShell';
 import { renderEditorSection, useEditorSections } from './editorSections';
 import { useUIStore } from '@/stores/uiStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
-import { useReducedMotion } from '@/hooks';
-
-const marineCodersLogo = `${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`;
+import { EditorSectionContext } from './EditorSectionContext';
 
 export function FormPanel() {
-  // Section list shared with the sidebar outline (single source of truth).
+  const documentId = useDocumentsStore((s) => s.currentId);
+  const category = useDocumentStore((s) => s.documentCategory);
+  const type = useDocumentStore((s) => category === 'forms' ? s.formType : s.docType);
+  return <FocusedEditor key={`${documentId ?? 'new'}:${category}:${type}`} documentId={documentId} />;
+}
+
+function FocusedEditor({ documentId }: { documentId: string | null }) {
   const { sections, config, isFormsMode, formType } = useEditorSections();
-  const previewVisible = useUIStore((s) => s.previewVisible);
-  const isMobile = useUIStore((s) => s.isMobile);
-  // OS reduce-motion preference; stops the animated beams (SMIL animation the
-  // CSS reduced-motion rule doesn't cover).
-  const prefersReducedMotion = useReducedMotion();
-  // The outline is shown beside the editor only on desktop multi-section docs.
-  const spyEnabled = !isMobile && sections.length > 1;
-
-  // The active section lives in the shared outline store; FormPanel runs the
-  // scroll-spy that feeds it but does NOT read it here, so scrolling re-renders
-  // only the affected SectionShells, not the whole panel.
-
+  const pageScroll = usePageScrollLayout();
+  const scrollMode = useUIStore((s) => s.editorLayout === 'scroll');
+  const previousMode = useRef(scrollMode);
+  const initialPlacement = useRef(true);
+  const jumpPinned = useRef(false);
+  const activeRef = useRef<string | null>(null);
+  const saved = useRef(documentId ? useUIStore.getState().documentPositions[documentId] : undefined);
+  const [section, setSection] = useState(() => {
+    const requested = useEditorOutlineStore.getState().pendingJump;
+    const id = requested?.documentId === documentId ? requested?.sectionId : (documentId ? useUIStore.getState().documentPositions[documentId]?.section : undefined);
+    return sections.some((s) => s.id === id) ? id! : isFormsMode ? 'content' : 'body';
+  });
+  const active = sections.some((s) => s.id === section) ? section : sections[0]?.id ?? 'content';
   const scrollWrapRef = useRef<HTMLDivElement>(null);
-  const viewport = () =>
-    scrollWrapRef.current?.querySelector<HTMLElement>('[data-slot="scroll-area-viewport"]') ?? null;
+  const getScrollRoot = useCallback(() => pageScroll
+    ? scrollWrapRef.current?.closest<HTMLElement>('.workspace-shell')
+    : scrollWrapRef.current?.querySelector<HTMLElement>('[data-slot="scroll-area-viewport"]'), [pageScroll]);
+  const focusSection = useRef(false);
+  const pendingJump = useEditorOutlineStore((s) => s.pendingJump);
+  const jumpTo = useCallback((id: string) => {
+    if (!sections.some((s) => s.id === id)) return;
+    focusSection.current = true;
+    jumpPinned.current = true;
+    setSection(id);
+    useEditorOutlineStore.getState().setActiveId(id);
+    // Also focus an already selected section when it is chosen again.
+    requestAnimationFrame(() => {
+      const target = scrollWrapRef.current?.querySelector<HTMLElement>(`#sec-${id}`);
+      target?.focus({ preventScroll: true });
+      if (scrollMode || pageScroll) target?.scrollIntoView({ block: 'start' });
+    });
+  }, [sections, scrollMode, pageScroll]);
 
-  // When the sidebar jumps to a section, that choice is authoritative until the
-  // user scrolls for real. Without this, jumping to a trailing section (e.g.
-  // Distribution) scrolls the viewport to its bottom, and the scroll event the
-  // jump itself fires trips the bottom-edge override below, which snaps the
-  // highlight to the LAST section (Signature) — so a short second-to-last
-  // section could never be selected. Pinning (rather than a time window) means a
-  // late layout shift or async re-render can't quietly re-fire the override and
-  // un-stick the jump; only a genuine user scroll (wheel/touch/arrow) clears it.
-  const jumpPinnedRef = useRef(false);
-
-  // Scroll-spy: the active section is the last one whose top has passed a
-  // trigger line near the top of the viewport, with a bottom-edge override so
-  // the final short sections light up at the end. Publishes to the outline store.
-  useEffect(() => {
-    if (!spyEnabled) return;
-    const root = viewport();
+  useLayoutEffect(() => {
+    const root = getScrollRoot();
     if (!root) return;
-    const setActiveId = useEditorOutlineStore.getState().setActiveId;
-    let raf = 0;
-    const compute = () => {
-      raf = 0;
-      // A jump owns the active section until the user scrolls for real, so a
-      // stray scroll event (layout shift, re-render) can't clobber it.
-      if (jumpPinnedRef.current) return;
-      // Bottom-edge override: when scrolled to the end, light the last section.
-      // Gated on the form actually overflowing, else a short doc would light the
-      // last section at the top on first paint instead of the first.
-      if (
-        root.scrollHeight - root.clientHeight > 2 &&
-        root.scrollTop + root.clientHeight >= root.scrollHeight - 2
-      ) {
-        setActiveId(sections[sections.length - 1].id);
-        return;
-      }
-      const trigger = root.getBoundingClientRect().top + Math.min(96, root.clientHeight * 0.2);
-      let current = sections[0]?.id ?? null;
-      for (const s of sections) {
-        const el = root.querySelector(`#sec-${s.id}`);
-        if (!el) continue;
-        if (el.getBoundingClientRect().top <= trigger) current = s.id;
-        else break;
-      }
-      if (current) setActiveId(current);
+    activeRef.current = active;
+    useEditorOutlineStore.getState().setActiveId(active);
+    const modeChanged = previousMode.current !== scrollMode;
+    const savedLayout = saved.current?.layout ?? 'focused';
+    let restoreFrame: number | undefined;
+    if (!scrollMode) {
+      root.scrollTop = savedLayout === 'focused' && saved.current?.section === active ? saved.current.top : 0;
+    } else if (saved.current && savedLayout === 'scroll' && !modeChanged) {
+      jumpPinned.current = true;
+      const top = saved.current.top;
+      root.scrollTop = top;
+      restoreFrame = requestAnimationFrame(() => { root.scrollTop = top; });
+    } else if (modeChanged || initialPlacement.current) {
+      jumpPinned.current = true;
+      root.querySelector<HTMLElement>(`#sec-${active}`)?.scrollIntoView({ block: 'start' });
+    }
+    initialPlacement.current = false;
+    previousMode.current = scrollMode;
+    saved.current = undefined;
+    if (focusSection.current) {
+      root.querySelector<HTMLElement>(`#sec-${active}`)?.focus({ preventScroll: true });
+      focusSection.current = false;
+    }
+    return () => { if (restoreFrame !== undefined) cancelAnimationFrame(restoreFrame); };
+  }, [active, scrollMode, getScrollRoot]);
+
+  // overflow:hidden retains scrollTop. Clear the page offset when rotating back
+  // so the normal fixed header cannot remain scrolled above the viewport.
+  useLayoutEffect(() => {
+    if (!pageScroll) {
+      const shell = scrollWrapRef.current?.closest<HTMLElement>('.workspace-shell');
+      if (shell) shell.scrollTop = 0;
+    }
+  }, [pageScroll]);
+
+  useEffect(() => {
+    const root = getScrollRoot();
+    if (!root) return;
+    const remember = () => {
+      if (documentId) useUIStore.getState().rememberPosition(documentId, root.scrollTop, activeRef.current);
     };
-    const schedule = () => {
-      if (!raf) raf = requestAnimationFrame(compute);
+    const onScroll = () => {
+      if (scrollMode && !jumpPinned.current) {
+        const threshold = root.getBoundingClientRect().top + 80;
+        let nearest = sections[0]?.id ?? 'content';
+        for (const entry of sections) {
+          const el = root.querySelector<HTMLElement>(`#sec-${entry.id}`);
+          if (el && el.getBoundingClientRect().top <= threshold) nearest = entry.id;
+        }
+        if (root.scrollHeight > root.clientHeight && root.scrollTop + root.clientHeight >= root.scrollHeight - 2) nearest = sections[sections.length - 1].id;
+        activeRef.current = nearest;
+        setSection(nearest);
+      }
+      remember();
     };
-    // A real user scroll (wheel / touch / arrow key) releases the jump pin, so
-    // the spy resumes the instant the user takes over — and, crucially, only
-    // then. Bare 'scroll' events don't release it: those also fire for the
-    // jump's own scroll and for layout shifts, neither of which is user intent.
-    const releasePin = () => { jumpPinnedRef.current = false; };
-    root.addEventListener('scroll', schedule, { passive: true });
+    const releasePin = () => { jumpPinned.current = false; };
+    root.addEventListener('scroll', onScroll, { passive: true });
     root.addEventListener('wheel', releasePin, { passive: true });
     root.addEventListener('touchmove', releasePin, { passive: true });
     root.addEventListener('keydown', releasePin);
-    schedule(); // initial sync, deferred out of the effect body
+    window.addEventListener('pagehide', remember);
+    remember();
     return () => {
-      root.removeEventListener('scroll', schedule);
+      remember();
+      root.removeEventListener('scroll', onScroll);
       root.removeEventListener('wheel', releasePin);
       root.removeEventListener('touchmove', releasePin);
       root.removeEventListener('keydown', releasePin);
-      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener('pagehide', remember);
     };
-  }, [sections, spyEnabled]);
+  }, [scrollMode, sections, documentId, getScrollRoot]);
 
-  // Instant jump to a section. Stable so it registers once with the outline
-  // store for the sidebar to call.
-  const jumpTo = useCallback((id: string) => {
-    const root = scrollWrapRef.current?.querySelector<HTMLElement>('[data-slot="scroll-area-viewport"]');
-    const el = root?.querySelector<HTMLElement>(`#sec-${id}`);
-    if (!el) return;
-    // Own the active section until the user scrolls — through the scroll this
-    // jump is about to fire, and through any later re-render or layout shift.
-    jumpPinnedRef.current = true;
-    el.scrollIntoView({ block: 'start', behavior: 'auto' });
-    // Move focus into the section so keyboard/AT users land there, not back on
-    // the rail button (WCAG 2.4.3). The wrapper is tabIndex=-1 for this.
-    el.focus({ preventScroll: true });
-    useEditorOutlineStore.getState().setActiveId(id);
-  }, []);
+  useEffect(() => {
+    const root = getScrollRoot();
+    if (root && documentId) useUIStore.getState().rememberPosition(documentId, root.scrollTop, active);
+  }, [active, documentId, getScrollRoot]);
 
   useEffect(() => {
     useEditorOutlineStore.getState().registerJump(jumpTo);
     return () => useEditorOutlineStore.getState().registerJump(null);
   }, [jumpTo]);
 
-  const documentId = useDocumentsStore((s) => s.currentId);
-  const pendingJump = useEditorOutlineStore((s) => s.pendingJump);
   useEffect(() => {
     if (!pendingJump || pendingJump.documentId !== documentId) return;
-    const frame = requestAnimationFrame(() => {
-      jumpTo(pendingJump.sectionId);
-      useEditorOutlineStore.getState().clearPendingJump();
-    });
+    const frame = requestAnimationFrame(() => { jumpTo(pendingJump.sectionId); useEditorOutlineStore.getState().clearPendingJump(); });
     return () => cancelAnimationFrame(frame);
   }, [pendingJump, documentId, jumpTo]);
 
-  return (
-    <div className={`relative flex flex-col h-full bg-card overflow-hidden w-full ${!isMobile ? 'border-r border-border' : ''}`}>
-      {/* Branded editor backdrop — animated beams + a faint centered EGA seal,
-          scoped to this column so the motion lives in the editor and the form
-          content scrolls above it (z-10). */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        <BackgroundBeams
-          className="absolute inset-0 opacity-60 dark:opacity-50"
-          reducedMotion={isMobile}
-          prefersReducedMotion={prefersReducedMotion}
-        />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <img
-            src={marineCodersLogo}
-            alt=""
-            className="w-[78%] max-w-[480px] opacity-[0.05] dark:opacity-[0.06] invert dark:invert-0"
-          />
-        </div>
-      </div>
-
-      <div className="relative z-10 flex flex-1 min-h-0 flex-col">
-      <ProfileBar />
-
-      <div ref={scrollWrapRef} className="flex-1 min-h-0 overflow-hidden">
-        <ScrollArea className="h-full">
-          <div
-            className={`p-3 sm:p-density-4 space-y-density-6 overflow-x-hidden ${isMobile ? 'pb-24' : ''} ${
-              !previewVisible ? 'max-w-4xl mx-auto' : 'max-w-full'
-            }`}
-          >
+  return <div data-editor-kind={isFormsMode ? 'forms' : 'correspondence'} className="workspace-editor flex h-full min-w-0 flex-col overflow-hidden bg-background">
+    <WorkspaceBar activeSection={active} />
+    <div ref={scrollWrapRef} className="workspace-editor-scroll flex-1 min-h-0 overflow-hidden">
+      <ScrollArea className="h-full">
+        <div className="workspace-fields mx-auto w-full max-w-[760px] px-4 sm:px-5 pt-4 pb-12">
+          <EditorSectionContext.Provider value={scrollMode ? null : active}>
             <AccordionStaticProvider>
-              {/* Document Type leads the editor as its own rail section. */}
-              <SectionShell id="type">
-                <DocumentTypeSelector />
-              </SectionShell>
-              {isFormsMode ? (
-                <>
-                  {formType === 'navmc_10274' && <Form6105Section />}
-                  {formType === 'navmc_118_11' && <Form11811Section />}
-                  {formType !== 'navmc_10274' && formType !== 'navmc_118_11' && (
-                    <GenericFormSection key={formType} formType={formType} />
-                  )}
-                </>
-              ) : (
-                sections
-                  .filter((s) => s.id !== 'type')
-                  .map((s) => (
-                    <SectionShell key={s.id} id={s.id}>
-                      {renderEditorSection(s.id, config)}
-                    </SectionShell>
-                  ))
-              )}
+              {isFormsMode ? <>
+                {formType === 'navmc_10274' && <Form6105Section />}
+                {formType === 'navmc_118_11' && <Form11811Section />}
+                {formType !== 'navmc_10274' && formType !== 'navmc_118_11' && <GenericFormSection key={formType} formType={formType} />}
+              </> : sections.map((s) => <SectionShell key={s.id} id={s.id} fieldSurface={s.id !== 'body'}>{renderEditorSection(s.id, config)}</SectionShell>)}
             </AccordionStaticProvider>
-          </div>
-        </ScrollArea>
-      </div>
-      </div>
+          </EditorSectionContext.Provider>
+        </div>
+      </ScrollArea>
     </div>
-  );
+  </div>;
 }

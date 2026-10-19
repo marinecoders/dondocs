@@ -1,13 +1,13 @@
 /**
  * The Document Finder is a branching interview that maps a user's answers to one
  * or more recommended document types. Its whole job is coverage: a clerk who
- * doesn't know what they need must still be steerable to ANY of the 20 types.
+ * doesn't know what they need must still be steerable to ANY supported type.
  *
  * A prior version of the decision tree silently stranded four types —
  * joint_letter, joint_memorandum, navmc_10274, navmc_118_11 — unreachable across
  * all answer combinations. These tests enumerate every reachable answer path
  * (respecting the conditional skips in the flow) and assert that:
- *   - every one of the 20 catalogued types is recommended somewhere,
+ *   - every catalogued type is recommended somewhere,
  *   - the four formerly-dead types each get a high-confidence path,
  *   - every recommended id is real, every leaf returns 1-3 results, and the
  *     first result is always the high-confidence "best match".
@@ -19,6 +19,7 @@ import {
   getNextQuestion,
   getRecommendations,
 } from '@/components/modals/documentFinderLogic';
+import { DOC_TYPE_LABELS, FORM_TYPE_LABELS } from '@/types/document';
 import { DOCUMENT_TYPE_GUIDES } from '@/data/documentGuide';
 
 type Answers = Record<string, string>;
@@ -56,8 +57,8 @@ describe('document finder — coverage', () => {
     expect(leaves.length).toBeGreaterThan(50);
   });
 
-  it('the catalogue has all 20 expected types', () => {
-    expect(ALL_IDS).toHaveLength(20);
+  it('the catalogue matches every supported format', () => {
+    expect([...ALL_IDS].sort()).toEqual([...Object.keys(DOC_TYPE_LABELS), ...Object.keys(FORM_TYPE_LABELS)].sort());
   });
 
   it('every catalogued document type is reachable', () => {
@@ -67,6 +68,12 @@ describe('document finder — coverage', () => {
 
   it('the four formerly-dead types each have a high-confidence path', () => {
     for (const id of ['joint_letter', 'joint_memorandum', 'navmc_10274', 'navmc_118_11']) {
+      expect(highIds.has(id)).toBe(true);
+    }
+  });
+
+  it('each headquarters format has a high-confidence path', () => {
+    for (const id of ['standard_memorandum', 'action_memorandum', 'information_memorandum']) {
       expect(highIds.has(id)).toBe(true);
     }
   });

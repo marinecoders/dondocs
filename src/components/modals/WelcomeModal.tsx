@@ -1,6 +1,3 @@
-import { useState, useEffect } from 'react';
-import { getDeviceInfo } from '@/utils/device';
-import { hasSavedSession } from '@/stores/documentStore';
 import {
   Dialog,
   DialogContent,
@@ -8,18 +5,11 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { TourButton } from '@/components/tour/TourButton';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
 import { useTourStore, hasCompletedTour } from '@/stores/tourStore';
 import { useUIStore } from '@/stores/uiStore';
 // Script face for the "Marine Coders" sign-off. Self-hosted via @fontsource
 // (same-origin, no web-font CDN) to stay air-gap safe.
 import '@fontsource/damion/400.css';
-
-const WELCOME_STORAGE_KEY = 'dondocs-welcome-shown';
-// Welcome-modal content version (not the app version). Bump it when the copy or
-// design changes so returning users see the update once.
-const WELCOME_CONTENT_VERSION = '3.0';
 
 // Banner lockup (letter masthead) and seal (chop beside the signature). Both are
 // light artwork on transparent, so brightness(0) renders them as black ink on the
@@ -38,49 +28,10 @@ const SIG_FONT = "'Damion', cursive";
 const ISSUE_DATE = '29 Dec 2025';
 
 export function WelcomeModal() {
-  const [open, setOpen] = useState(false);
-  const [dontShowAgain, setDontShowAgain] = useState(false);
-
-  useEffect(() => {
-    // Incompatible browsers get the browser notice instead of the welcome.
-    const device = getDeviceInfo();
-    if (device.isInAppBrowser) {
-      console.log('[WelcomeModal] Skipping - in-app browser detected');
-      return;
-    }
-
-    // A saved session means a returning user who's already seen the welcome.
-    if (hasSavedSession()) {
-      console.log('[WelcomeModal] Skipping - saved session exists');
-      return;
-    }
-
-    // Decide from localStorage whether to show the modal; it can't be derived
-    // during render. Reading can throw under blocked site data — treat that as
-    // "not yet seen" so a fresh user still gets the welcome and boot never crashes.
-    let stored: string | null = null;
-    try {
-      stored = localStorage.getItem(WELCOME_STORAGE_KEY);
-    } catch {
-      // blocked storage: leave stored=null so the welcome still shows
-    }
-    if (!stored || stored !== WELCOME_CONTENT_VERSION) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setOpen(true);
-      // New users land with the live preview open. Only runs for the welcome
-      // cohort, so returning users keep their own preview preference.
-      useUIStore.getState().setPreviewVisible(true);
-    }
-  }, []);
+  const open = useUIStore((state) => state.welcomeOpen);
+  const setOpen = useUIStore((state) => state.setWelcomeOpen);
 
   const finish = (startTour: boolean) => {
-    if (dontShowAgain) {
-      try {
-        localStorage.setItem(WELCOME_STORAGE_KEY, WELCOME_CONTENT_VERSION);
-      } catch {
-        /* blocked storage: the modal just reappears next visit */
-      }
-    }
     setOpen(false);
     // The tour is now opt-in: only launch it when the user explicitly asks, so a
     // new user isn't force-marched through a 7-step overlay before they can type.
@@ -142,8 +93,8 @@ export function WelcomeModal() {
                 <span>
                   DonDocs drafts Department of the Navy correspondence and forms to SECNAV M-5216.5
                   standard: naval letters, endorsements, memoranda, and NAVMC forms, all properly
-                  typeset. Everything runs in your browser. No servers, no uploads, and nothing leaves
-                  your device.
+                  typeset. Document processing runs in your browser. Your workspace is stored on this
+                  device; you choose when to export, back up, or share a document.
                 </span>
               </div>
               <div className="flex" style={{ marginBottom: '10px' }}>
@@ -186,16 +137,6 @@ export function WelcomeModal() {
 
         {/* Controls live in the chrome below the letter. */}
         <DialogFooter className="px-4 sm:px-6 py-3 sm:py-4 shrink-0 sm:items-center">
-          <div className="flex items-center gap-2 flex-1">
-            <Checkbox
-              id="dontShow"
-              checked={dontShowAgain}
-              onCheckedChange={(checked) => setDontShowAgain(!!checked)}
-            />
-            <Label htmlFor="dontShow" className="text-sm font-normal cursor-pointer">
-              Don't show this again
-            </Label>
-          </div>
           <div className="flex items-center gap-2">
             <TourButton variant="ghost" size="default" onClick={() => finish(true)}>
               Take a quick tour
@@ -212,5 +153,5 @@ export function WelcomeModal() {
 
 // Export helper to reset welcome modal (for settings/help menu)
 export function resetWelcomeModal() {
-  localStorage.removeItem(WELCOME_STORAGE_KEY);
+  useUIStore.getState().setWelcomeOpen(true);
 }

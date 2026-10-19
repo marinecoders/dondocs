@@ -1,3 +1,4 @@
+import { FormCatalogStatus } from '@/components/editor/FormCatalogStatus';
 import { useId, useMemo, useRef, useState } from 'react';
 import { BadgeCheck, Check, ChevronsUpDown, Search, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -19,9 +20,11 @@ import type { FormType } from '@/types/document';
 export function FormPicker({
   value,
   onSelect,
+  onBrowse,
 }: {
   value: FormType;
   onSelect: (formType: FormType) => void;
+  onBrowse?: (trigger: HTMLButtonElement | null) => void;
 }) {
   const catalog = useFormCatalog();
   const favorites = useFormStore((s) => s.favoriteForms);
@@ -30,7 +33,9 @@ export function FormPicker({
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [activeIndex, setActiveIndex] = useState(-1);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const openingCatalog = useRef(false);
   const listId = useId();
   const pinned = useDocumentStore(s => s.genericForm?.definition);
 
@@ -82,6 +87,7 @@ export function FormPicker({
     <Popover
       open={open}
       onOpenChange={(o) => {
+        openingCatalog.current = false;
         setOpen(o);
         setActiveIndex(-1);
         if (!o) setQuery('');
@@ -91,6 +97,7 @@ export function FormPicker({
         <Button
           type="button"
           variant="outline"
+          ref={triggerRef}
           aria-label="Form type"
           aria-expanded={open}
           className="w-full justify-between font-normal"
@@ -99,10 +106,16 @@ export function FormPicker({
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" aria-hidden />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0" align="start" onOpenAutoFocus={event => {
+      <PopoverContent className="w-[max(18rem,var(--radix-popover-trigger-width))] max-w-[calc(100vw-2rem)] p-0" align="start" onCloseAutoFocus={event => {
+        if (openingCatalog.current) {
+          event.preventDefault();
+          openingCatalog.current = false;
+        }
+      }} onOpenAutoFocus={event => {
         event.preventDefault();
         inputRef.current?.focus();
       }}>
+        <FormCatalogStatus />
         <div className="flex items-center gap-2 border-b border-border px-3">
           <Search className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
           <Input
@@ -126,7 +139,7 @@ export function FormPicker({
             }}
             placeholder="Search forms — try a number, title, or “page 11”"
             aria-label="Search forms"
-            className="h-9 border-0 px-0 shadow-none focus-visible:ring-0"
+            className="h-9 border-0 bg-transparent px-0 shadow-none dark:bg-transparent focus-visible:ring-0"
           />
         </div>
         <div id={listId} className="max-h-72 overflow-y-auto p-1" role="listbox" aria-label="Forms">
@@ -172,6 +185,14 @@ export function FormPicker({
             </div>
           ))}
         </div>
+        {onBrowse && <div className="border-t border-border p-1">
+          <Button variant="ghost" className="w-full justify-start" onClick={() => {
+            openingCatalog.current = true;
+            setOpen(false);
+            setQuery('');
+            onBrowse(triggerRef.current);
+          }}>Browse all forms…</Button>
+        </div>}
       </PopoverContent>
     </Popover>
   );

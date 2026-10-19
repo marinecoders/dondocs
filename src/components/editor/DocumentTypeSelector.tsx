@@ -1,49 +1,18 @@
-import { useDocumentsStore } from '@/stores/documentsStore';
-import { useState } from 'react';
-import { Shield, Settings2, Eraser, FileStack, ClipboardList, FolderOpen, LibraryBig } from 'lucide-react';
-import { FormPicker } from '@/components/editor/FormPicker';
-import { FormCatalogModal } from '@/components/modals/FormCatalogModal';
+import { Shield, Settings2 } from 'lucide-react';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { HelpTip } from '@/components/ui/help-tip';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useDocumentStore } from '@/stores/documentStore';
-import { useUIStore } from '@/stores/uiStore';
-import { DOC_TYPE_CONFIG, DOC_TYPE_LABELS, DOC_TYPE_CATEGORIES, type DocumentCategory, type DocumentMode } from '@/types/document';
+import { DOC_TYPE_CONFIG, type DocumentMode } from '@/types/document';
 import { Badge } from '@/components/ui/badge';
 
 export function DocumentTypeSelector() {
-  const [catalogOpen, setCatalogOpen] = useState(false);
   const {
-    formType,
     documentCategory,
-    docType, setDocType,
+    docType,
     formData, setField,
     documentMode, setDocumentMode,
-    clearFieldsExceptLetterhead,
   } = useDocumentStore();
-  const selectKind = useDocumentsStore((s) => s.selectKind);
-  const setTemplateLoaderOpen = useUIStore((s) => s.setTemplateLoaderOpen);
-  const [showClearDialog, setShowClearDialog] = useState(false);
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
   const isCompliant = documentMode === 'compliant';
   const isCorrespondence = documentCategory === 'correspondence';
@@ -51,68 +20,10 @@ export function DocumentTypeSelector() {
 
   return (
     <div className="space-y-density-4">
-      {/* Section heading — Document Type leads the editor as its own rail
-          section (prototype parity), with a help tip matching the other
-          sections' heading + HelpCircle pattern. */}
-      <h3 className="flex items-center gap-2 text-base font-semibold">
-        Document Type
-        <HelpTip>
-          <p className="font-medium mb-1">Document Type</p>
-          <p className="text-xs">
-            {isPublication
-              ? 'I-Type publications follow MIL-DTL-28999D(MC), with MIL-STD-38784C for general style and format.'
-              : 'DonDocs builds Marine correspondence (letters, memos) and NAVMC forms. The editor reconfigures its sections per category and type, per SECNAV M-5216.5 / MCO 5216.19A.'}
-          </p>
-        </HelpTip>
-      </h3>
-
-      {/* Category Tabs - Correspondence vs Forms (at the top) */}
-      <div data-tour="category" className="space-y-2">
-        <Label>Category</Label>
-        <Tabs value={documentCategory} onValueChange={(v) => selectKind(v as DocumentCategory, formType)}>
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="correspondence" className="flex items-center gap-2">
-              <FileStack className="h-4 w-4" />
-              Correspondence
-            </TabsTrigger>
-            <TabsTrigger value="forms" className="flex items-center gap-2">
-              <ClipboardList className="h-4 w-4" />
-              Forms
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
-      </div>
-
-      {/* Correspondence Settings — prototype order: Type → Format mode → regs → fonts → actions */}
+      {/* Document formatting, opened from Tools. */}
       {isCorrespondence && (
       <div className="space-y-density-4">
-        {/* Document Type Selector */}
-        {/* No field label here: the section heading above already reads
-            "Document Type"; the redundant inner label is dropped and the
-            select keeps its accessible name via aria-label. */}
-        <div data-tour="doctype" className="space-y-2">
-          <Select value={docType} onValueChange={(v) => setDocType(v)}>
-            <SelectTrigger aria-label="Document Type" className="w-full">
-              <SelectValue placeholder="Select document type" />
-            </SelectTrigger>
-            <SelectContent>
-              {DOC_TYPE_CATEGORIES.map((cat) => (
-                <SelectGroup key={cat.category}>
-                  <SelectLabel>{cat.category}</SelectLabel>
-                  {cat.types.map((type) => (
-                    <SelectItem key={type} value={type}>
-                      {DOC_TYPE_LABELS[type]}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Format mode - segmented control (a quiet neutral toggle like the
-            Category control above it, not two filled buttons — keeps the one
-            scarlet primary rule), with an inline mode hint. */}
+        {/* Format mode uses a segmented control with an inline explanation. */}
         <div className="space-y-2">
           <Label>Format mode</Label>
           <Tabs value={documentMode} onValueChange={(v) => setDocumentMode(v as DocumentMode)}>
@@ -149,7 +60,7 @@ export function DocumentTypeSelector() {
                 value={formData.fontSize || config.regulations.fontSize}
                 onValueChange={(v) => setField('fontSize', v)}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger aria-label="Font size" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -197,7 +108,7 @@ export function DocumentTypeSelector() {
                   value={formData.fontSize || '12pt'}
                   onValueChange={(v) => setField('fontSize', v)}
                 >
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger aria-label="Font size" className="w-full">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -214,7 +125,7 @@ export function DocumentTypeSelector() {
                   value={formData.fontFamily || 'times'}
                   onValueChange={(v) => setField('fontFamily', v)}
                 >
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger aria-label="Font family" className="w-full">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -227,90 +138,9 @@ export function DocumentTypeSelector() {
           </>
         )}
 
-        {/* Actions — load a template or clear content (letterhead is preserved,
-            so Clear stays an amber "caution", not a red "danger"). */}
-        <div className="flex flex-wrap gap-2 pt-1">
-          <Button
-            data-tour="templates"
-            variant="outline"
-            size="sm"
-            onClick={() => setTemplateLoaderOpen(true)}
-          >
-            <FolderOpen className="h-4 w-4 mr-2" />
-            Templates
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-orange-600 hover:bg-orange-500/10 hover:text-orange-600 dark:text-orange-400 dark:hover:bg-orange-500/15 dark:hover:text-orange-400"
-            onClick={() => setShowClearDialog(true)}
-          >
-            <Eraser className="h-4 w-4 mr-2" />
-            Clear all fields
-          </Button>
-        </div>
       </div>
       )}
 
-      {/* Forms Selector */}
-      {!isCorrespondence && (
-        <>
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <Label>Form Type</Label>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="h-7 gap-1.5 text-xs"
-              onClick={() => setCatalogOpen(true)}
-            >
-              <LibraryBig className="h-3.5 w-3.5" aria-hidden />
-              Browse all
-            </Button>
-          </div>
-          <FormPicker value={formType} onSelect={(v) => selectKind('forms', v)} />
-        </div>
-
-        <div className="border-l-2 border-border pl-3 text-xs">
-          <div className="text-muted-foreground">
-            Search by number, title, or nickname — or browse the full catalog.
-          </div>
-        </div>
-
-        <FormCatalogModal
-          open={catalogOpen}
-          onOpenChange={setCatalogOpen}
-          onSelect={(v) => selectKind('forms', v)}
-        />
-        </>
-      )}
-
-      {/* Clear fields confirmation dialog */}
-      <AlertDialog open={showClearDialog} onOpenChange={setShowClearDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Clear All Fields?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This will clear all document content including addressing, signature, paragraphs,
-              references, enclosures, and copy-tos. Your letterhead information (unit name,
-              address, seal) will be preserved.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={() => {
-                clearFieldsExceptLetterhead();
-                setShowClearDialog(false);
-              }}
-              className="bg-warning text-warning-foreground hover:bg-warning/90"
-            >
-              Clear fields
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 }

@@ -22,6 +22,7 @@ beforeEach(() => useUIStore.setState({ structureWarningOpen: true }));
 describe('ParagraphStructureModal', () => {
   it('lists every finding', () => {
     render(<ParagraphStructureModal findings={findings} onCancel={() => {}} onProceed={() => {}} />);
+    expect(screen.getByRole('dialog', { name: 'Check paragraph structure' })).toBeVisible();
     expect(screen.getByText(findings[0].message)).toBeTruthy();
     expect(screen.getByText(findings[1].message)).toBeTruthy();
   });

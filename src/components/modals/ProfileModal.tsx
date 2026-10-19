@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
 import {
@@ -37,7 +38,9 @@ import { SSICLookupModal } from '@/components/modals/SSICLookupModal';
 import { useUIStore } from '@/stores/uiStore';
 import { showAppAlert } from '@/stores/alertStore';
 import { useProfileStore } from '@/stores/profileStore';
-import { useDocumentStore } from '@/stores/documentStore';
+import { useDocumentStore, getSerializedSession } from '@/stores/documentStore';
+import { useDocumentsStore, profileFormPatch } from '@/stores/documentsStore';
+import { SessionChanges } from '@/components/SessionChanges';
 import type { Profile, SignatureImage } from '@/types/document';
 import type { UnitInfo } from '@/data/unitDirectory';
 import { ALL_SERVICE_RANKS, formatRank } from '@/data/ranks';
@@ -89,10 +92,12 @@ export function ProfileModal() {
   // Individual selectors so the modal only re-renders on its own flag changing.
   const profileModalOpen = useUIStore((s) => s.profileModalOpen);
   const setProfileModalOpen = useUIStore((s) => s.setProfileModalOpen);
-  const { profiles, selectedProfile, addProfile, updateProfile, selectProfile } = useProfileStore();
+  const { profiles, addProfile, updateProfile, selectProfile } = useProfileStore();
+  const editName = useUIStore((s) => s.profileEditName);
   const { formData } = useDocumentStore();
 
   const [profileName, setProfileName] = useState('');
+  const [applyToDocument, setApplyToDocument] = useState(false);
   const [formState, setFormState] = useState<Profile>(EMPTY_PROFILE);
   const [showDiscardDialog, setShowDiscardDialog] = useState(false);
   const [showUnitLookup, setShowUnitLookup] = useState(false);
@@ -103,7 +108,7 @@ export function ProfileModal() {
   // Store initial state to compare for changes
   const initialStateRef = useRef<{ name: string; profile: Profile }>({ name: '', profile: EMPTY_PROFILE });
 
-  const isEditing = !!(selectedProfile && profiles[selectedProfile]);
+  const isEditing = !!(editName && profiles[editName]);
 
   // Check if there are unsaved changes
   const hasUnsavedChanges = useCallback(() => {
@@ -140,12 +145,13 @@ export function ProfileModal() {
   // reset would remount the dialog and drop the Radix open transition.
   useEffect(() => {
     if (profileModalOpen) {
-      if (isEditing && selectedProfile) {
-        const profile = profiles[selectedProfile];
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setProfileName(selectedProfile);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setApplyToDocument(false);
+      if (isEditing && editName) {
+        const profile = profiles[editName];
+        setProfileName(editName);
         setFormState({ ...EMPTY_PROFILE, ...profile });
-        initialStateRef.current = { name: selectedProfile, profile: { ...EMPTY_PROFILE, ...profile } };
+        initialStateRef.current = { name: editName, profile: { ...EMPTY_PROFILE, ...profile } };
         // Detect if profile has a custom rank
         setUseCustomRank(!isStandardMilitaryRank(profile.sigRank || ''));
       } else {
@@ -178,64 +184,58 @@ export function ProfileModal() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileModalOpen]);
 
-  const handleSave = () => {
+  const [saving, setSaving] = useState(false);
+  const isCorrespondence = useDocumentStore((s) => s.documentCategory === 'correspondence');
+  const currentSession = getSerializedSession();
+  const proposedSession = { ...currentSession, formData: { ...currentSession.formData, ...profileFormPatch(formState) } };
+
+  const handleSave = async () => {
     if (!profileName.trim()) {
       showAppAlert({ title: 'Name required', message: 'Please enter a profile name.' });
       return;
     }
 
     const trimmedName = profileName.trim();
-
-    const formFields = {
-      department: formState.department,
-      unitLine1: formState.unitLine1,
-      unitLine2: formState.unitLine2,
-      unitAddress: formState.unitAddress,
-      ssic: formState.ssic,
-      from: formState.from,
-      sigFirst: formState.sigFirst,
-      sigMiddle: formState.sigMiddle,
-      sigLast: formState.sigLast,
-      sigRank: formState.sigRank,
-      sigTitle: formState.sigTitle,
-      byDirection: formState.byDirection,
-      byDirectionAuthority: formState.byDirectionAuthority,
-      cuiControlledBy: formState.cuiControlledBy,
-      pocEmail: formState.pocEmail,
-      signatureImage: formState.signatureImage,
-    };
+    if (!isEditing && Object.hasOwn(profiles, trimmedName)) {
+      showAppAlert({ title: 'Name already used', message: 'Choose a different name, or edit the existing profile.' });
+      return;
+    }
 
     // The persist write throws if localStorage is full; zustand has already
     // applied the in-memory change, so warn the user rather than crash silently.
+    setSaving(true);
     try {
-      if (isEditing && selectedProfile) {
-        updateProfile(selectedProfile, formState);
+      if (applyToDocument && isCorrespondence) {
+        const ok = await useDocumentsStore.getState().restoreSnapshot(proposedSession);
+        if (!ok) throw new Error('Could not save a recovery version. Your document has not changed.');
+      }
+      if (isEditing && editName) {
+        updateProfile(editName, formState);
       } else {
         addProfile(trimmedName, formState);
         selectProfile(trimmedName);
       }
-      useDocumentStore.getState().setFormData(formFields);
     } catch (err) {
       console.error('Failed to save profile (storage may be full)', err);
       showAppAlert({
         title: "Couldn't save this profile",
         message:
-          "Your browser's local storage is full. " +
-          'Try a smaller signature image, or delete an old profile, then save again.',
+          err instanceof Error ? err.message : 'Check browser storage and try again.',
       });
       return; // keep the modal open so the user can adjust and retry
-    }
+    } finally { setSaving(false); }
 
     setProfileModalOpen(false);
   };
 
   const handleClose = useCallback(() => {
+    if (saving) return;
     if (hasUnsavedChanges()) {
       setShowDiscardDialog(true);
     } else {
       setProfileModalOpen(false);
     }
-  }, [hasUnsavedChanges, setProfileModalOpen]);
+  }, [hasUnsavedChanges, setProfileModalOpen, saving]);
 
   const handleDiscardConfirm = () => {
     setShowDiscardDialog(false);
@@ -344,10 +344,14 @@ export function ProfileModal() {
 
   return (
     <>
-      <Dialog open={profileModalOpen} onOpenChange={() => {}}>
+      <Dialog open={profileModalOpen} onOpenChange={(open) => { if (!open) handleClose(); }}>
         <DialogContent
           className="sm:max-w-lg max-h-[90vh] flex flex-col p-0 gap-0 overflow-hidden"
           showCloseButton={false}
+          onOpenAutoFocus={(event) => {
+            event.preventDefault();
+            document.getElementById(isEditing ? 'unitLine1' : 'profileName')?.focus();
+          }}
         >
           {/* Sticky Header */}
           <DialogHeader className="bg-background px-6 py-4 border-b shrink-0">
@@ -365,6 +369,7 @@ export function ProfileModal() {
                 <span className="sr-only">Close</span>
               </Button>
             </div>
+            <DialogDescription>{isEditing ? 'Update saved letterhead and sender details.' : 'Save letterhead and sender details as your default for new correspondence.'}</DialogDescription>
           </DialogHeader>
 
           {/* Scrollable Content */}
@@ -664,7 +669,7 @@ export function ProfileModal() {
                       onDragOver={handleDragOver}
                       onDragLeave={handleDragLeave}
                       onDrop={handleDrop}
-                      className={`flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
+                      className={`focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
                         isDragging
                           ? 'border-primary bg-primary/10'
                           : 'border-muted-foreground/25 hover:border-primary/50 hover:bg-secondary/30'
@@ -675,10 +680,10 @@ export function ProfileModal() {
                         Drag & drop or click to upload
                       </span>
                       <input
-                        type="file"
+                        type="file" aria-label="Upload profile signature image"
                         accept="image/png,image/jpeg,image/gif"
                         onChange={handleSignatureFileChange}
-                        className="hidden"
+                        className="sr-only"
                       />
                     </label>
                   )}
@@ -712,13 +717,17 @@ export function ProfileModal() {
             </div>
           </div>
 
+          <div className="px-6 py-3 border-t space-y-2">
+            {isCorrespondence ? <label className="flex items-center gap-2 text-sm"><Checkbox checked={applyToDocument} onCheckedChange={(checked) => setApplyToDocument(checked === true)} />Also apply to the current document</label> : <p className="text-sm text-muted-foreground">Save this profile for use in documents. The current form is unchanged.</p>}
+            {applyToDocument && isCorrespondence && <details><summary className="cursor-pointer text-sm">Review document changes</summary><div className="max-h-48 overflow-y-auto mt-2"><SessionChanges before={currentSession} after={proposedSession} /></div></details>}
+          </div>
           {/* Sticky Footer */}
           <DialogFooter className="bg-background px-6 py-4 border-t shrink-0">
             <Button variant="outline" onClick={handleClose}>
               Cancel
             </Button>
-            <Button data-tour="profile-save" onClick={handleSave}>
-              {isEditing ? 'Save Changes' : 'Create Profile'}
+            <Button data-tour="profile-save" disabled={saving} onClick={() => void handleSave()}>
+              {saving ? 'Saving…' : applyToDocument && isCorrespondence ? 'Save and apply' : 'Save profile'}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   formatReference,
   getReferencesByCategory,
@@ -59,15 +58,16 @@ export function ReferenceLibraryPicker({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg max-h-[80vh]">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-lg h-[80dvh] flex flex-col overflow-hidden">
+        <DialogHeader className="shrink-0 pr-10 text-left">
           <DialogTitle className="flex items-center gap-2">{title}</DialogTitle>
           {description && <DialogDescription>{description}</DialogDescription>}
         </DialogHeader>
 
-        <div className="relative">
+        <div className="relative shrink-0">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
+            aria-label="Search references"
             placeholder="Search references…"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -84,7 +84,7 @@ export function ReferenceLibraryPicker({
           </p>
         )}
 
-        <ScrollArea className="h-[400px] pr-4">
+        <div className="min-h-0 flex-1 overflow-y-auto pr-2">
           {Object.entries(grouped).map(([category, refs]) => (
             <div key={category} className="mb-4">
               <h4 className="text-sm font-semibold text-muted-foreground mb-2">{category}</h4>
@@ -101,10 +101,8 @@ export function ReferenceLibraryPicker({
                         variant="ghost"
                         size="sm"
                         onClick={() => onSelect(citation)}
-                        // Hidden-until-hover on pointer devices, but always shown on
-                        // touch (no hover) and revealed on keyboard focus, so the
-                        // action is reachable by every input method.
-                        className="opacity-0 [@media(hover:none)]:opacity-100 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 transition-opacity shrink-0"
+                        aria-label={`Add ${citation}`}
+                        className="shrink-0"
                       >
                         <Plus className="h-4 w-4 mr-1" />
                         Add
@@ -121,10 +119,10 @@ export function ReferenceLibraryPicker({
               No references found matching "{searchQuery}"
             </div>
           )}
-        </ScrollArea>
+        </div>
 
         {footer && (
-          <div className="text-xs text-muted-foreground border-t pt-3">{footer}</div>
+          <div className="shrink-0 text-xs text-muted-foreground border-t pt-3">{footer}</div>
         )}
       </DialogContent>
     </Dialog>

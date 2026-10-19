@@ -1,3 +1,4 @@
+import { EditorGuidance } from './EditorGuidance';
 import { useState } from 'react';
 import { Building2, BookOpen, Shield } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -71,10 +72,10 @@ export function MOASection() {
       {/* Subject Line */}
       <Accordion type="single" collapsible defaultValue="moa-subject">
         <AccordionItem value="moa-subject">
-          <AccordionTrigger>{documentLabel}</AccordionTrigger>
+          <AccordionTrigger>Parties</AccordionTrigger>
           <AccordionContent>
-            <div className="space-y-4 pt-2">
-              <div className="p-3 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg text-sm text-blue-800 dark:text-blue-200">
+            <div className="editor-field-groups pt-2">
+              <EditorGuidance title={`${documentLabel} guidance`}>
                 <p className="font-medium">Per SECNAV M-5216.5 Ch 10:</p>
                 <p className="text-xs mt-1">
                   {docType === 'moa'
@@ -83,7 +84,7 @@ export function MOASection() {
                   {' '}The junior command signs first (left), senior command signs last (right).
                   {isCompliant && ' Letterhead is optional — plain bond with typed command titles is acceptable (Ch 10 ¶6c).'}
                 </p>
-              </div>
+              </EditorGuidance>
 
               <div className="space-y-2">
                 <Label htmlFor="moaSubject">Subject</Label>
@@ -103,14 +104,14 @@ export function MOASection() {
       {/* Senior Command (Signs Last - Right Side) */}
       <Accordion type="single" collapsible defaultValue="senior-command">
         <AccordionItem value="senior-command">
-          <AccordionTrigger>
+          <AccordionTrigger data-field-group>
             <div className="flex items-center gap-2">
-              <span>Senior Command</span>
+              <span>Senior command</span>
               <span className="text-xs text-muted-foreground font-normal">(Signs Last - Right)</span>
             </div>
           </AccordionTrigger>
           <AccordionContent>
-            <div className="space-y-4 pt-2">
+            <div className="editor-field-groups pt-2">
               {/* Command Info */}
               <div className="flex justify-end">
                 <Button
@@ -252,14 +253,14 @@ export function MOASection() {
       {/* Junior Command (Signs First - Left Side) */}
       <Accordion type="single" collapsible defaultValue="junior-command">
         <AccordionItem value="junior-command">
-          <AccordionTrigger>
+          <AccordionTrigger data-field-group>
             <div className="flex items-center gap-2">
-              <span>Junior Command</span>
+              <span>Junior command</span>
               <span className="text-xs text-muted-foreground font-normal">(Signs First - Left)</span>
             </div>
           </AccordionTrigger>
           <AccordionContent>
-            <div className="space-y-4 pt-2">
+            <div className="editor-field-groups pt-2">
               {/* Command Info */}
               <div className="flex justify-end">
                 <Button
@@ -401,9 +402,9 @@ export function MOASection() {
       {/* Signature Style */}
       <Accordion type="single" collapsible defaultValue="moa-signature">
         <AccordionItem value="moa-signature">
-          <AccordionTrigger>Signature Style</AccordionTrigger>
+          <AccordionTrigger data-field-group>Signature style</AccordionTrigger>
           <AccordionContent>
-            <div className="space-y-4 pt-2">
+            <div className="editor-field-groups pt-2">
               <div className="p-3 bg-secondary/50 rounded-lg text-sm">
                 <p className="text-muted-foreground">
                   Per SECNAV M-5216.5, MOA/MOU signatures use overscored (line above) full names.
@@ -412,10 +413,11 @@ export function MOASection() {
               </div>
 
               <div className="space-y-3">
-                <Label>Signature Style</Label>
+                <p className="text-xs text-muted-foreground">Choose the style for both signatories.</p>
                 <div className="grid grid-cols-2 gap-2">
                   <Button
                     type="button"
+                    aria-pressed={(formData.signatureType || 'none') === 'none'}
                     variant={(formData.signatureType || 'none') === 'none' ? 'default' : 'outline'}
                     size="sm"
                     className="flex flex-col items-center gap-1 h-auto py-3"
@@ -426,6 +428,7 @@ export function MOASection() {
                   </Button>
                   <Button
                     type="button"
+                    aria-pressed={formData.signatureType === 'digital'}
                     variant={formData.signatureType === 'digital' ? 'default' : 'outline'}
                     size="sm"
                     className="flex flex-col items-center gap-1 h-auto py-3"
@@ -437,18 +440,18 @@ export function MOASection() {
                 </div>
 
                 {formData.signatureType === 'digital' && (
-                  <div className="border rounded-lg p-4 bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800">
+                  <div className="border rounded-lg p-4 bg-muted/30 border-border">
                     <div className="flex items-start gap-3">
-                      <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5" />
+                      <Shield className="h-5 w-5 text-primary mt-0.5" />
                       <div className="space-y-1">
-                        <p className="text-sm font-medium text-blue-900 dark:text-blue-200">
+                        <p className="text-sm font-medium text-foreground">
                           Dual Digital Signature Fields
                         </p>
-                        <p className="text-xs text-blue-700 dark:text-blue-300">
+                        <p className="text-xs text-muted-foreground">
                           Empty signature fields will be placed above BOTH signatory blocks.
                           After downloading, both parties can digitally sign using CAC/PIV.
                         </p>
-                        <p className="text-xs text-blue-700 dark:text-blue-300 mt-2 pt-2 border-t border-blue-200 dark:border-blue-700">
+                        <p className="text-xs text-muted-foreground mt-2 pt-2 border-t border-border">
                           <strong>Signing Order:</strong> Junior signs first (left), Senior signs last (right).
                         </p>
                       </div>

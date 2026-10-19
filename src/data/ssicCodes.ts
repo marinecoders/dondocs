@@ -122,7 +122,10 @@ let cached: Promise<SSICCategory[]> | null = null;
 export function loadSsicCategories(): Promise<SSICCategory[]> {
   cached ??= import('./ssic.json').then((mod) =>
     buildCategories((mod.default ?? mod) as unknown as RawSsic)
-  );
+  ).catch((error: unknown) => {
+    cached = null;
+    throw error;
+  });
   return cached;
 }
 

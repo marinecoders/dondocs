@@ -36,12 +36,12 @@ export function DistributionManager() {
           </span>
         </AccordionTrigger>
         <AccordionContent>
-          <div className="pt-2 space-y-2">
+          <div className="pt-2 editor-recipient-list">
             {distributions.length === 0 && (
               <p className="text-xs text-muted-foreground">None added.</p>
             )}
             {distributions.map((d, index) => (
-              <div key={index} className="flex items-center gap-2">
+              <div key={index} className="editor-recipient-row flex items-center gap-2 border-b border-border py-1">
                 <Input
                   value={d.text}
                   onChange={(e) => updateDistribution(index, e.target.value)}
@@ -61,7 +61,7 @@ export function DistributionManager() {
             ))}
 
             <Button
-              variant="outline"
+              variant="ghost"
               size="sm"
               onClick={() => addDistribution('')}
             >

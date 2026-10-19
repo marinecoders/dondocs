@@ -1,134 +1,41 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Shield, Server, Lock, Wifi, Eye, Database, ExternalLink, AlertTriangle } from 'lucide-react';
-import { Notice } from '@/components/ui/notice';
+import { Shield, Database, FileOutput, Globe, ExternalLink } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useUIStore } from '@/stores/uiStore';
 
-// Check if we're on an official .mil domain
-const isOfficialDomain = typeof window !== 'undefined' && window.location.hostname.endsWith('.mil');
+const PRIVACY_DETAILS = [
+  { icon: Shield, title: 'Document processing', text: 'Document generation, PDF merging, and letter imports run in your browser.' },
+  { icon: Database, title: 'Storage on this device', text: 'Documents, history, and attachments use IndexedDB. Preferences, profiles, and other workspace settings also use localStorage. Clearing site data can remove your workspace; keep an external backup.' },
+  { icon: FileOutput, title: 'Exports, backups, and sharing', text: 'Downloads and backups create files you control. Password-protected share links contain an encrypted document snapshot; anyone with the link and password can open it. Sharing excludes attached files and signature images.' },
+  { icon: Globe, title: 'Network access', text: 'Loading or updating the app retrieves application assets. External help links open other sites, and the optional endpoint check contacts the address you provide. Local processing does not mean the browser makes no network requests.' },
+];
 
 export function NISTComplianceModal() {
-  // Individual selectors — modal only re-renders on its own flag changing.
-  const nistModalOpen = useUIStore((s) => s.nistModalOpen);
-  const setNistModalOpen = useUIStore((s) => s.setNistModalOpen);
-
+  const open = useUIStore((s) => s.nistModalOpen);
+  const setOpen = useUIStore((s) => s.setNistModalOpen);
   return (
-    <Dialog open={nistModalOpen} onOpenChange={setNistModalOpen}>
-      <DialogContent className="sm:max-w-lg max-h-[85vh]">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Shield className="h-5 w-5 text-success" />
-            NIST 800-171 Compliance
-          </DialogTitle>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className="sm:max-w-lg max-h-[85dvh] flex flex-col overflow-hidden">
+        <DialogHeader className="shrink-0 pr-10 text-left">
+          <DialogTitle>Privacy, storage & NIST 800-171</DialogTitle>
+          <DialogDescription>How this workspace handles your information.</DialogDescription>
         </DialogHeader>
-
-        <ScrollArea className="h-[400px] pr-4">
-          <div className="space-y-5">
-            <section className="space-y-2">
-              <h4 className="font-semibold">What is NIST 800-171?</h4>
-              <p className="text-sm text-muted-foreground">
-                NIST Special Publication 800-171 provides guidelines for protecting Controlled Unclassified Information (CUI) in non-federal systems. It's required for DoD contractors and anyone handling sensitive government information.
-              </p>
-            </section>
-
-            <section className="space-y-3">
-              <h4 className="font-semibold">How This Application Complies</h4>
-
-              <div className="space-y-3">
-                <div className="flex items-start gap-3 p-3 rounded-lg bg-success/10 border border-success/20">
-                  <Server className="h-4 w-4 text-success mt-0.5 shrink-0" />
-                  <div>
-                    <p className="text-sm font-medium">No Server Communication</p>
-                    <p className="text-xs text-muted-foreground">
-                      All document processing happens entirely in your browser. No data is ever transmitted to any server.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3 p-3 rounded-lg bg-success/10 border border-success/20">
-                  <Lock className="h-4 w-4 text-success mt-0.5 shrink-0" />
-                  <div>
-                    <p className="text-sm font-medium">Local Processing Only</p>
-                    <p className="text-xs text-muted-foreground">
-                      LaTeX compilation, PDF generation, and enclosure merging all run locally using WebAssembly technology.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3 p-3 rounded-lg bg-success/10 border border-success/20">
-                  <Wifi className="h-4 w-4 text-success mt-0.5 shrink-0" />
-                  <div>
-                    <p className="text-sm font-medium">Air-Gap Compatible</p>
-                    <p className="text-xs text-muted-foreground">
-                      Works on isolated networks (SIPR, JWICS) without any internet connectivity required.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3 p-3 rounded-lg bg-success/10 border border-success/20">
-                  <Eye className="h-4 w-4 text-success mt-0.5 shrink-0" />
-                  <div>
-                    <p className="text-sm font-medium">No Telemetry or Analytics</p>
-                    <p className="text-xs text-muted-foreground">
-                      Zero tracking, no cookies, no analytics. Your documents and usage patterns are completely private.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3 p-3 rounded-lg bg-success/10 border border-success/20">
-                  <Database className="h-4 w-4 text-success mt-0.5 shrink-0" />
-                  <div>
-                    <p className="text-sm font-medium">Browser-Only Storage</p>
-                    <p className="text-xs text-muted-foreground">
-                      Saved profiles and drafts are stored in your browser's localStorage. Clearing your browser data removes everything.
-                    </p>
-                  </div>
-                </div>
+        <div className="min-h-0 overflow-y-auto space-y-4 pr-1">
+          <dl className="divide-y divide-border">
+            {PRIVACY_DETAILS.map(({ icon: Icon, title, text }) => (
+              <div key={title} className="flex items-start gap-3 py-3 first:pt-0">
+                <Icon className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
+                <div><dt className="text-sm font-medium">{title}</dt><dd className="mt-1 text-sm text-muted-foreground">{text}</dd></div>
               </div>
-            </section>
-
-            <section className="space-y-2">
-              <h4 className="font-semibold">Suitable For</h4>
-              <ul className="text-sm text-muted-foreground space-y-1">
-                <li>• CUI (Controlled Unclassified Information)</li>
-                <li>• FOUO (For Official Use Only)</li>
-                <li>• Sensitive but unclassified documents</li>
-                <li>• Documents processed on government networks</li>
-              </ul>
-              {!isOfficialDomain && (
-                <Notice variant="warning" className="flex items-start gap-3 mt-3">
-                  <AlertTriangle className="h-4 w-4 text-warning mt-0.5 shrink-0" />
-                  <div>
-                    <p className="text-sm font-medium text-warning">Development Domain</p>
-                    <p className="text-xs text-muted-foreground">
-                      This application is currently hosted on a non-government domain. Do not use for official correspondence or enter sensitive information. For official use, access this application through your authorized .mil network.
-                    </p>
-                  </div>
-                </Notice>
-              )}
-            </section>
-
-            <section className="space-y-2 pt-2 border-t">
-              <p className="text-xs text-muted-foreground">
-                For official NIST 800-171 documentation, visit:{' '}
-                <a
-                  href="https://csrc.nist.gov/publications/detail/sp/800-171/rev-2/final"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline inline-flex items-center gap-1"
-                >
-                  NIST SP 800-171 Rev. 2
-                  <ExternalLink className="h-3 w-3" />
-                </a>
-              </p>
-            </section>
-          </div>
-        </ScrollArea>
+            ))}
+          </dl>
+          <section className="border-t pt-4 text-sm space-y-2">
+            <h3 className="font-medium">Authorization and compliance</h3>
+            <p className="text-muted-foreground">These product features are not a NIST compliance certification or authorization to process sensitive information. Use an environment and workflow approved by your organization. A classification marking or a .mil address alone does not establish that approval.</p>
+            <a href="https://csrc.nist.gov/pubs/sp/800/171/r3/final" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline">
+              NIST SP 800-171 <ExternalLink className="h-3.5 w-3.5" /><span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          </section>
+        </div>
       </DialogContent>
     </Dialog>
   );

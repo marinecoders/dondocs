@@ -92,13 +92,13 @@ export function LogViewerModal() {
   const getLevelColor = (level: string) => {
     switch (level) {
       case 'error':
-        return 'text-red-500';
+        return 'text-destructive';
       case 'warn':
-        return 'text-yellow-500';
+        return 'text-warning';
       case 'info':
-        return 'text-blue-500';
+        return 'text-primary';
       case 'debug':
-        return 'text-gray-400';
+        return 'text-muted-foreground';
       default:
         return 'text-foreground';
     }
@@ -106,29 +106,19 @@ export function LogViewerModal() {
 
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
-      <DialogContent className="max-w-4xl max-h-[80vh] flex flex-col">
-        <DialogHeader>
-          <DialogTitle className="flex items-center justify-between">
-            <span>Application Logs</span>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <Checkbox
-                  id="log-enabled"
-                  checked={isEnabled}
-                  onCheckedChange={(checked) => setEnabled(checked === true)}
-                />
-                <Label htmlFor="log-enabled" className="text-sm font-normal cursor-pointer">
-                  {isEnabled ? 'Logging enabled' : 'Logging disabled'}
-                </Label>
-              </div>
-            </div>
-          </DialogTitle>
-          <DialogDescription className="sr-only">
-            View and manage application console logs
-          </DialogDescription>
+      <DialogContent className="sm:max-w-4xl h-[80dvh] flex flex-col overflow-hidden">
+        <DialogHeader className="shrink-0 pr-10 text-left">
+          <DialogTitle>Application logs</DialogTitle>
+          <DialogDescription>View and manage application console logs.</DialogDescription>
         </DialogHeader>
+        <div className="flex shrink-0 items-center gap-2">
+          <Checkbox id="log-enabled" checked={isEnabled} onCheckedChange={(checked) => setEnabled(checked === true)} />
+          <Label htmlFor="log-enabled" className="text-sm font-normal cursor-pointer">
+            {isEnabled ? 'Logging enabled' : 'Logging disabled'}
+          </Label>
+        </div>
 
-        <div className="flex gap-2 mb-2">
+        <div className="flex shrink-0 flex-wrap gap-2">
           <Button variant="outline" size="sm" onClick={handleCopyLogs} disabled={logs.length === 0}>
             {copied ? <Check className="h-4 w-4 mr-2 text-success" /> : <Copy className="h-4 w-4 mr-2" />}
             {copied ? 'Copied!' : 'Copy'}
@@ -146,20 +136,20 @@ export function LogViewerModal() {
           </span>
         </div>
 
-        <div className="flex-1 overflow-auto bg-black/90 rounded-md p-3 font-mono text-xs min-h-[300px]">
+        <div className="flex-1 overflow-auto bg-muted/40 border rounded-md p-3 font-mono text-xs min-h-0">
           {!isEnabled && logs.length === 0 && (
-            <div className="text-gray-500 text-center py-8">
+            <div className="text-muted-foreground text-center py-8">
               Logging is disabled. Enable it above to capture console output.
             </div>
           )}
           {isEnabled && logs.length === 0 && (
-            <div className="text-gray-500 text-center py-8">
+            <div className="text-muted-foreground text-center py-8">
               No logs yet. Logs will appear here as they are generated.
             </div>
           )}
           {logs.map((log) => (
-            <div key={log.id} className="py-0.5 hover:bg-white/5">
-              <span className="text-gray-500">
+            <div key={log.id} className="py-0.5 hover:bg-muted">
+              <span className="text-muted-foreground">
                 {log.timestamp.toLocaleTimeString()}.{String(log.timestamp.getMilliseconds()).padStart(3, '0')}
               </span>
               {' '}
@@ -167,7 +157,7 @@ export function LogViewerModal() {
                 [{log.level.toUpperCase()}]
               </span>
               {' '}
-              <span className="text-gray-200 whitespace-pre-wrap break-all">
+              <span className="text-foreground whitespace-pre-wrap break-all">
                 {log.message}
               </span>
             </div>

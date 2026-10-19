@@ -1,5 +1,5 @@
-import { sessionSearchFields } from '@/lib/workspaceSearch';
 import { showAppAlert } from '@/stores/alertStore';
+import { sessionSearchFields } from '@/lib/workspaceSearch';
 import { create } from 'zustand';
 import { compressedParse } from '@/lib/compressedStorage';
 import { DOC_TYPE_LABELS, formTypeLabel, type FormType, type DocumentCategory } from '@/types/document';

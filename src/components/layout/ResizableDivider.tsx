@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { GripVertical } from 'lucide-react';
 
 interface ResizableDividerProps {
   onResize: (percentage: number) => void;
@@ -79,7 +78,7 @@ export function ResizableDivider({ onResize, containerRef, currentWidth }: Resiz
       )}
       <div
         onMouseDown={handleMouseDown}
-        className="relative flex-shrink-0 cursor-col-resize group rounded outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
+        className="relative z-10 w-px flex-shrink-0 cursor-col-resize group outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
         role="separator"
         aria-orientation="vertical"
         aria-label="Resize preview panel. Drag, or use the left and right arrow keys."
@@ -102,17 +101,10 @@ export function ResizableDivider({ onResize, containerRef, currentWidth }: Resiz
         <div className="absolute inset-y-0 -left-2 -right-2 cursor-col-resize" />
         {/* Visible divider line */}
         <div
-          className={`w-2.5 h-full flex items-center justify-center transition-colors ${
-            isDragging ? 'bg-primary' : 'bg-border hover:bg-primary/50'
+          className={`w-px h-full transition-colors ${
+            isDragging ? 'bg-primary' : 'bg-border group-hover:bg-primary/50'
           }`}
-        >
-          <GripVertical
-            className={`h-6 w-6 transition-colors ${
-              isDragging ? 'text-primary-foreground' : 'text-muted-foreground group-hover:text-primary'
-            }`}
-            aria-hidden="true"
-          />
-        </div>
+        />
       </div>
     </>
   );

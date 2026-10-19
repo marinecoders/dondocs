@@ -44,18 +44,45 @@ function AlertDialogOverlay({
 
 function AlertDialogContent({
   className,
+  onOpenAutoFocus,
+  onCloseAutoFocus,
   ...props
 }: React.ComponentProps<typeof AlertDialogPrimitive.Content>) {
+  const returnFocus = React.useRef<HTMLElement | null>(null)
+  const returnMenuTrigger = React.useRef<HTMLElement | null>(null)
   return (
     <AlertDialogPortal>
       <AlertDialogOverlay />
       <AlertDialogPrimitive.Content
         data-slot="alert-dialog-content"
         className={cn(
-          "bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border border-primary/10 p-6 shadow-elevated duration-200 sm:max-w-lg",
+          "bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] max-h-[calc(100dvh-2rem)] overflow-y-auto break-words translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border border-primary/10 p-6 shadow-elevated duration-200 sm:max-w-lg",
           className
         )}
         {...props}
+        onOpenAutoFocus={(event) => {
+          const active = document.activeElement
+          returnFocus.current = active instanceof HTMLElement ? active : null
+          const menuId = returnFocus.current?.closest('[role="menu"]')?.id
+          returnMenuTrigger.current = menuId
+            ? document.querySelector<HTMLElement>(`[aria-controls="${CSS.escape(menuId)}"]`)
+            : null
+          onOpenAutoFocus?.(event)
+        }}
+        onCloseAutoFocus={(event) => {
+          onCloseAutoFocus?.(event)
+          if (event.defaultPrevented) return
+          const target = returnFocus.current?.isConnected ? returnFocus.current : returnMenuTrigger.current
+          const nextDialog = document.querySelector('[data-slot="dialog-content"][data-state="open"], [data-slot="alert-dialog-content"][data-state="open"]')
+          if (nextDialog && target && !nextDialog.contains(target)) {
+            event.preventDefault()
+            return
+          }
+          if (target?.isConnected && target !== document.body) {
+            event.preventDefault()
+            target.focus({ preventScroll: true })
+          }
+        }}
       />
     </AlertDialogPortal>
   )

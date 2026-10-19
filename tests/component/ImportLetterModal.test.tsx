@@ -9,6 +9,7 @@
  */
 // @vitest-environment happy-dom
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import userEvent from '@testing-library/user-event';
 import { render, screen, fireEvent } from '@testing-library/react';
 
 // Mock the import pipeline so no PDF/DOCX engine loads; isDocxFile stays real
@@ -94,4 +95,15 @@ describe('ImportLetterModal — failed imports reach the error phase', () => {
     // Back to idle: the drop target prompt is shown again.
     expect(await screen.findByText(/Choose a PDF or Word file to import/i)).toBeTruthy();
   });
+});
+
+ it('allows keyboard users to reach and select the native upload control', async () => {
+  const user = userEvent.setup();
+  render(<ImportLetterModal />);
+  const input = screen.getByLabelText('Choose a PDF or Word file');
+  // Radix autofocus should select the first available control, including file inputs.
+  expect(input).toHaveFocus();
+  await user.tab();
+  await user.tab({ shift: true });
+  expect(input).toHaveFocus();
 });

@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { HelpCircle, ChevronDown, ChevronRight, ChevronLeft, FileText, CheckCircle2, Lightbulb, BookOpen, Sparkles, ArrowRight, RotateCcw, Search, Eye, Check, Zap, Layers, Users, FolderOpen, Paperclip, PenLine, Link2, Shield, MapPin, File, Briefcase, Mail, ClipboardCheck, ClipboardList, BookMarked, Scale, Award, ScrollText, FileSignature, Star, FolderSync, type LucideIcon } from 'lucide-react';
+import { HelpCircle, ChevronDown, ChevronRight, ChevronLeft, FileText, CheckCircle2, Lightbulb, BookOpen, Sparkles, ArrowRight, RotateCcw, Search, Eye, Check, Layers, Users, FolderOpen, Paperclip, PenLine, Link2, Shield, MapPin, File, Briefcase, Mail, ClipboardCheck, ClipboardList, BookMarked, Scale, Award, ScrollText, FileSignature, Star, FolderSync, type LucideIcon } from 'lucide-react';
 
 // Lucide icons for document types / groups / categories, keyed by id — the
 // app uses lucide everywhere else, so the guide should too (the old emoji
@@ -28,18 +28,23 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from '@/components/ui/dialog';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore } from '@/stores/documentStore';
+import { loadSharedSession, useDocumentStore } from '@/stores/documentStore';
+import { useDocumentsStore } from '@/stores/documentsStore';
+import { exampleSession } from '@/lib/exampleSession';
 import { useTourStore } from '@/stores/tourStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
-import type { TourStep } from '@/components/tour/tourSteps';
+import { revealTourSection, type TourStep } from '@/components/tour/tourSteps';
 import { DOCUMENT_TYPE_GUIDES, GUIDE_CATEGORIES, GUIDE_GROUPS, type DocumentTypeGuide } from '@/data/documentGuide';
 import { EXAMPLE_DOCUMENTS, EXAMPLE_CATEGORIES, type ExampleDocument } from '@/data/exampleDocuments';
-import { DOC_TYPE_LABELS, type DocumentData } from '@/types/document';
+import { getEditorSections } from '@/lib/editorSections';
+import { DOC_TYPE_CONFIG, DOC_TYPE_LABELS } from '@/types/document';
 
 import {
   getNextQuestion,
@@ -93,7 +98,7 @@ function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) =>
 
     return (
       <div className="p-4 space-y-4">
-        <div className="text-center pb-4 border-b">
+        <div className="text-left pb-1 border-b">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-success/10 text-success mb-3">
             <Sparkles className="h-6 w-6" />
           </div>
@@ -104,8 +109,8 @@ function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) =>
         </div>
 
         {wasUnsure && (
-          <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/5 p-3 text-xs text-muted-foreground">
-            <Lightbulb className="h-4 w-4 text-amber-500 shrink-0 mt-0.5" />
+          <div className="flex items-start gap-2 rounded-lg border border-border bg-muted/30 p-3 text-xs text-muted-foreground">
+            <Lightbulb className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
             <span>
               You weren&apos;t sure on one or more answers, so these are the most common
               formats for your situation. Open any card to see when it fits, or use
@@ -351,58 +356,10 @@ function ExamplesTab({ onClose }: { onClose: () => void }) {
   const handleLoadExample = () => {
     if (!selectedExample) return;
 
-    const store = useDocumentStore.getState();
-
-    // Set document type
-    store.setDocType(selectedExample.docType);
-
-    // Set form data fields
-    Object.entries(selectedExample.formData).forEach(([key, value]) => {
-      store.setField(key as keyof DocumentData, value);
-    });
-
-    // Clear existing paragraphs by removing from the end
-    const currentParagraphCount = store.paragraphs.length;
-    for (let i = currentParagraphCount - 1; i >= 0; i--) {
-      store.removeParagraph(i);
-    }
-
-    // Add example paragraphs
-    selectedExample.paragraphs.forEach((para) => {
-      store.addParagraph(para.text, para.level);
-    });
-
-    // Clear existing references by removing from the end
-    const currentRefCount = store.references.length;
-    for (let i = currentRefCount - 1; i >= 0; i--) {
-      store.removeReference(i);
-    }
-
-    // Add example references
-    if (selectedExample.references) {
-      selectedExample.references.forEach((ref) => {
-        store.addReference(ref.title, ref.url);
-      });
-    }
-
-    // Clear existing enclosures
-    const currentEnclCount = store.enclosures.length;
-    for (let i = currentEnclCount - 1; i >= 0; i--) {
-      store.removeEnclosure(i);
-    }
-
-    // Clear existing copy-tos
-    const currentCopyToCount = store.copyTos.length;
-    for (let i = currentCopyToCount - 1; i >= 0; i--) {
-      store.removeCopyTo(i);
-    }
-
-    // Add example copy-tos
-    if (selectedExample.copyTos) {
-      selectedExample.copyTos.forEach((copyTo) => {
-        store.addCopyTo(copyTo.text);
-      });
-    }
+    useDocumentsStore.getState().syncCurrent();
+    loadSharedSession(exampleSession(selectedExample));
+    useDocumentsStore.getState().openLoadedAsNew();
+    useUIStore.getState().setValidationVisible(false);
 
     // Close modal
     onClose();
@@ -503,7 +460,7 @@ function ExamplesTab({ onClose }: { onClose: () => void }) {
             Load This Example
           </Button>
           <p className="text-xs text-muted-foreground text-center">
-            This will replace your current document with the example content.
+            Opens the example as a new draft. Your current document stays in the workspace.
           </p>
         </div>
       )}
@@ -529,21 +486,23 @@ interface PowerFeature {
 
 const openBatch = () => useUIStore.getState().setBatchModalOpen(true);
 const closeBatch = () => useUIStore.getState().setBatchModalOpen(false);
-const openProfileModal = () => useUIStore.getState().setProfileModalOpen(true);
-const closeProfileModal = () => useUIStore.getState().setProfileModalOpen(false);
+const openProfileModal = () => {
+  if (!useUIStore.getState().profileModalOpen) useUIStore.getState().openProfileEditor(null);
+};
 const openShareModal = () => useUIStore.getState().setShareModal('share');
 const closeShareModal = () => useUIStore.getState().setShareModal(null);
 const openTemplateLoader = () => useUIStore.getState().setTemplateLoaderOpen(true);
 const closeTemplateLoader = () => useUIStore.getState().setTemplateLoaderOpen(false);
 // The Save dropdown is store-controlled (Header refuses dismissals while a tour
 // runs), so a walkthrough can hold it open and spotlight the items inside it.
-const openSaveMenu = () => useUIStore.getState().setSaveMenuOpen(true);
-const closeSaveMenu = () => useUIStore.getState().setSaveMenuOpen(false);
+const openBackupSettings = () => useUIStore.getState().setSettingsOpen(true, 'backup');
+
 
 // Expand an inline accordion section (Enclosures, etc.) so a guided step can
 // spotlight a control inside it. Clicks the section trigger only when it is
 // currently collapsed, so re-running the step on Back never toggles it shut.
 const expandSection = (tourKey: string) => {
+  revealTourSection(tourKey);
   const item = document
     .querySelector(`[data-tour="${tourKey}"]`)
     ?.querySelector('[data-slot="accordion-item"]');
@@ -597,19 +556,19 @@ const POWER_FEATURES: PowerFeature[] = [
     key: 'profiles',
     icon: Users,
     title: 'Profiles',
-    where: 'Top-left selector',
+    where: 'Sidebar → Profiles (Documents menu on mobile)',
     body: 'Save your unit letterhead and sender details once, then reuse or switch between commands without retyping.',
     steps: [
       'Fill in your letterhead and sender details once.',
-      'Click the + by the profile selector to save them as a profile.',
-      'Switch profiles anytime from the dropdown; edit with the pencil.',
+      'Open Profiles in the sidebar, then choose New profile.',
+      'Choose Apply to review changes to your document, or Edit to update saved details.',
     ],
     tour: [
       {
-        target: '[data-tour="profile-create"]',
+        target: '[data-tour="profile-name"]',
         title: 'Create a profile',
-        body: 'Profiles save your letterhead and sender details so you never retype them. Start one with the + button.',
-        action: closeProfileModal,
+        body: 'Profiles save letterhead and sender details for correspondence. Create one here, then apply it from Profiles in the sidebar.',
+        action: openProfileModal,
       },
       {
         target: '[data-tour="profile-name"]',
@@ -632,7 +591,7 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="profile-save"]',
         title: 'Save and reuse',
-        body: 'Create the profile, then switch to it anytime from the selector. The pencil edits it later.',
+        body: 'Save the profile, then use Apply or Edit in Profiles whenever you need it.',
         action: openProfileModal,
       },
     ],
@@ -641,7 +600,7 @@ const POWER_FEATURES: PowerFeature[] = [
     key: 'templates',
     icon: FolderOpen,
     title: 'Templates',
-    where: 'Next to document type',
+    where: 'Workspace sidebar → Templates',
     body: 'Start from a ready-made document for common formats instead of a blank page.',
     steps: [
       'Pick your document type.',
@@ -653,7 +612,7 @@ const POWER_FEATURES: PowerFeature[] = [
         target: '[data-tour="templates"]',
         title: 'Open Templates',
         body: 'Pick a document type, then open Templates to start from a ready-made document instead of a blank page.',
-        action: closeTemplateLoader,
+        action: () => { closeTemplateLoader(); revealTourSection('type'); },
       },
       {
         target: '[data-tour="template-search"]',
@@ -684,6 +643,7 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="enclosures"] [data-slot="accordion-trigger"]',
         title: 'Enclosures',
+        action: () => expandSection('enclosures'),
         body: 'Where you list enclosures on the letter and attach PDF files.',
       },
       {
@@ -715,6 +675,7 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="signature"] [data-slot="accordion-trigger"]',
         title: 'Signature block',
+        action: () => expandSection('signature'),
         body: 'How your letter is signed: typed name, an image, or a digital field.',
       },
       {
@@ -735,19 +696,19 @@ const POWER_FEATURES: PowerFeature[] = [
     key: 'share',
     icon: Link2,
     title: 'Encrypted share link',
-    where: 'Save → Create share link',
+    where: 'Document actions → Create share link',
     body: 'Send a document as a password-protected link. Nothing is stored on a server; the recipient needs both the link and the password you set.',
     steps: [
-      'Open Save → Create share link and set a password.',
+      'Open Document actions → Create share link and set a password.',
       'Generate the link. It copies to your clipboard.',
       'Send the link and password separately to the recipient.',
-      'They open it with Save → Open from share link.',
+      'They open it with Document actions → Open from share link.',
     ],
     tour: [
       {
         target: '[data-tour="save"]',
         title: 'Share starts here',
-        body: 'Open the Save menu, then Create share link, to send a password-protected copy.',
+        body: 'Open Document actions, then Create share link, to send a password-protected copy.',
         action: closeShareModal,
       },
       {
@@ -759,7 +720,7 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="share-generate"]',
         title: 'Generate the link',
-        body: 'Creates a link that copies to your clipboard. Send the link and the password separately; the recipient opens it with Save → Open from share link.',
+        body: 'Creates a link that copies to your clipboard. Send the link and the password separately; the recipient opens it with Document actions → Open from share link.',
         action: openShareModal,
       },
     ],
@@ -780,6 +741,7 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="classification"] [data-slot="accordion-trigger"]',
         title: 'Classification',
+        action: () => expandSection('classification'),
         body: 'Set the document marking and the banner that appears at the top.',
       },
       {
@@ -793,39 +755,39 @@ const POWER_FEATURES: PowerFeature[] = [
   {
     key: 'backup',
     icon: FolderSync,
-    title: 'Back up everything',
-    where: 'Save → Back up everything',
-    body: 'One file with your entire account — documents, profiles, signatures, snippets, templates, form fields, and enclosure attachments. Restore it on any machine; nothing ever touches a server.',
+    title: 'Download workspace backup',
+    where: 'Settings → Backup & restore',
+    body: 'One file with your entire workspace — documents, profiles, signatures, snippets, templates, form fields, and enclosure attachments. Restore it on any machine; the download is created locally.',
     steps: [
-      'Open Save → Back up everything to download the backup file.',
+      'Open Settings → Backup & restore to download the backup file.',
       'Keep it somewhere safe — a shared drive, USB stick, or synced folder.',
-      'On a new machine, use Save → Restore from backup to bring it all back.',
+      'On a new machine, use Settings → Backup & restore → Restore from backup to bring it all back.',
       'On desktop Chrome or Edge, Set up auto-backup keeps a file current after every save.',
     ],
     tour: [
       {
-        target: '[data-tour="save"]',
+        target: '#settings-backup',
         title: 'Your safety net',
-        body: 'Everything lives in this browser — so keep a copy outside it. All the backup tools are in this Save menu.',
-        action: closeSaveMenu,
+        body: 'Everything lives in this browser — so keep a copy outside it. All the backup tools are in Settings → Backup & restore.',
+        action: openBackupSettings,
       },
       {
         target: '[data-tour="backup-export"]',
-        title: 'Back up everything',
-        body: 'Downloads one file with your whole account — documents, profiles, signatures, snippets, templates, form fields, and enclosure attachments. Keep it on a shared drive, USB stick, or synced folder.',
-        action: openSaveMenu,
+        title: 'Download workspace backup',
+        body: 'Downloads one file with your whole workspace — documents, profiles, signatures, snippets, templates, form fields, and enclosure attachments. Keep it on a shared drive, USB stick, or synced folder.',
+        action: openBackupSettings,
       },
       {
         target: '[data-tour="backup-restore"]',
         title: 'Restore anywhere',
         body: 'Merges a backup file back in — on this machine or a brand-new one — without overwriting anything newer.',
-        action: openSaveMenu,
+        action: openBackupSettings,
       },
       {
         target: '[data-tour="backup-auto"]',
         title: 'Set it and forget it',
-        body: 'On desktop Chrome or Edge, auto-backup mirrors your account to a file of your choosing after every save — drop it in a synced folder and it is always current.',
-        action: openSaveMenu,
+        body: 'On desktop Chrome or Edge, auto-backup mirrors your workspace to a file of your choosing after every save — drop it in a synced folder and it is always current.',
+        action: openBackupSettings,
       },
     ],
   },
@@ -844,6 +806,9 @@ export function DocumentGuideModal() {
   const [expandedGuide, setExpandedGuide] = useState<string | null>(null);
   const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
   const completed = useOnboardingStore((s) => s.completed);
+  const category = useDocumentStore((s) => s.documentCategory);
+  const docType = useDocumentStore((s) => s.docType);
+  const sectionIds = category === 'forms' ? [] : getEditorSections(DOC_TYPE_CONFIG[docType] ?? DOC_TYPE_CONFIG.naval_letter, docType).map((s) => s.id);
   const learnedCount = POWER_FEATURES.filter((f) => completed[f.key]).length;
 
   // "Show me": close the guide, then run the feature's guided walkthrough once
@@ -897,58 +862,26 @@ export function DocumentGuideModal() {
 
   return (
     <Dialog open={documentGuideOpen} onOpenChange={setDocumentGuideOpen}>
-      <DialogContent className="sm:max-w-2xl max-h-[85vh] flex flex-col p-0 gap-0 overflow-hidden">
-        <DialogHeader className="bg-background px-6 py-4 border-b shrink-0">
+      <DialogContent className="sm:max-w-2xl h-[85dvh] flex flex-col p-0 gap-0 overflow-hidden">
+        <DialogHeader className="bg-background px-4 py-3 pr-14 border-b shrink-0 text-left">
           <DialogTitle className="flex items-center gap-2">
             <HelpCircle className="h-5 w-5 text-primary" />
             Document Guide
           </DialogTitle>
-          <p className="text-sm text-muted-foreground mt-1">
+          <DialogDescription>
             Find the right document type, learn about formats, or load an example
-          </p>
+          </DialogDescription>
         </DialogHeader>
 
-        {/* Tab switcher */}
-        <div className="px-4 py-2 border-b bg-muted/30 shrink-0">
-          <div className="flex gap-1 p-1 bg-muted rounded-lg">
-            <button
-              onClick={() => setActiveTab('browse')}
-              className={`focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                activeTab === 'browse' || activeTab === 'finder'
-                  ? 'bg-background text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              <Search className="h-4 w-4" />
-              <span>Browse</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('examples')}
-              className={`focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                activeTab === 'examples'
-                  ? 'bg-background text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              <Eye className="h-4 w-4" />
-              <span className="hidden sm:inline">Examples</span>
-              <span className="sm:hidden">Examples</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('features')}
-              className={`focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                activeTab === 'features'
-                  ? 'bg-background text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              <Zap className="h-4 w-4" />
-              <span className="hidden sm:inline">Features</span>
-              <span className="sm:hidden">More</span>
-            </button>
-          </div>
-        </div>
-
+        <Tabs value={activeTab === 'finder' ? 'browse' : activeTab}
+          onValueChange={(value) => { if (value === 'browse' || value === 'examples' || value === 'features') setActiveTab(value); }}
+          className="min-h-0 flex-1 gap-0 overflow-hidden">
+          <TabsList aria-label="Guide topics" className="m-3 grid h-12 w-auto shrink-0 grid-cols-3 rounded-md">
+            <TabsTrigger value="browse" className="min-h-11 border-transparent">Browse</TabsTrigger>
+            <TabsTrigger value="examples" className="min-h-11 border-transparent">Examples</TabsTrigger>
+            <TabsTrigger value="features" className="min-h-11 border-transparent">Features</TabsTrigger>
+          </TabsList>
+          <TabsContent value={activeTab === 'finder' ? 'browse' : activeTab} className="min-h-0 flex flex-col overflow-hidden">
         {activeTab === 'finder' && (
           <div className="flex-1 min-h-0 overflow-y-auto">
             <button
@@ -965,7 +898,7 @@ export function DocumentGuideModal() {
 
         {activeTab === 'features' && (
           <div className="flex-1 min-h-0 overflow-y-auto">
-            <div className="p-6 space-y-2.5">
+            <div className="p-4 space-y-2.5">
               <p className="text-sm text-muted-foreground">
                 DonDocs does more than draft a single letter. Expand a feature for the quick steps, or pick “Walk me through it” for a guided tour of the real controls.
               </p>
@@ -989,6 +922,7 @@ export function DocumentGuideModal() {
                 const Icon = f.icon;
                 const isOpen = expandedFeature === f.title;
                 const isLearned = !!completed[f.key];
+                const available = !['enclosures', 'signature', 'classification'].includes(f.key) || sectionIds.includes(f.key);
                 return (
                   <div key={f.title} className="rounded-lg border bg-card/50 overflow-hidden">
                     <button
@@ -1038,11 +972,12 @@ export function DocumentGuideModal() {
                         </ol>
                         <button
                           type="button"
+                          disabled={!available}
                           onClick={() => handleShowMe(f.tour, f.key)}
                           className="focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
                         >
                           <MapPin className="h-3.5 w-3.5" />
-                          {f.tour.length > 1 ? 'Walk me through it' : 'Show me where'}
+                          {!available ? 'This walkthrough needs a correspondence format with this section' : f.tour.length > 1 ? 'Walk me through it' : 'Show me where'}
                         </button>
                       </div>
                     )}
@@ -1058,8 +993,8 @@ export function DocumentGuideModal() {
             {/* Group selection - show first if no group selected */}
             {!selectedGroup ? (
               <div className="flex-1 min-h-0 overflow-y-auto">
-                <div className="p-6 space-y-4">
-                  <div className="text-center pb-4">
+                <div className="p-4 space-y-4">
+                  <div className="text-left pb-1">
                     <h3 className="font-semibold text-lg">What are you looking for?</h3>
                     <p className="text-sm text-muted-foreground mt-1">
                       Choose a category to browse available types
@@ -1079,13 +1014,13 @@ export function DocumentGuideModal() {
                             setSelectedCategory(null);
                             setExpandedGuide(null);
                           }}
-                          className="focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 w-full text-left p-6 rounded-lg border-2 hover:border-primary hover:bg-accent/50 transition-[color,background-color,border-color] group"
+                          className="focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 w-full text-left p-4 rounded-md border hover:border-primary hover:bg-accent/50 transition-[color,background-color,border-color] group"
                         >
                           <div className="flex items-center gap-4">
-                            {(() => { const GI = GROUP_ICONS[group.id] ?? FileText; return <GI className="h-8 w-8 shrink-0 text-primary" aria-hidden="true" />; })()}
+                            {(() => { const GI = GROUP_ICONS[group.id] ?? FileText; return <GI className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden="true" />; })()}
                             <div className="flex-1">
                               <div className="flex items-center gap-2">
-                                <span className="text-xl font-semibold">{group.name}</span>
+                                <span className="text-base font-medium">{group.name}</span>
                                 <Badge variant="secondary">{count} types</Badge>
                               </div>
                               <p className="text-sm text-muted-foreground mt-1">
@@ -1217,17 +1152,8 @@ export function DocumentGuideModal() {
           </div>
         )}
 
-        {/* Footer with tip - only show on finder and browse tabs */}
-        {activeTab !== 'examples' && (
-          <div className="px-4 py-3 border-t bg-muted/30 shrink-0">
-            <div className="flex items-start gap-2 text-xs text-muted-foreground">
-              <Lightbulb className="h-4 w-4 text-amber-500 shrink-0 mt-0.5" />
-              <span>
-                <strong className="text-foreground">Tip:</strong> When in doubt, the Naval Letter format is appropriate for most official correspondence. Use Business Letter format only for external civilian recipients.
-              </span>
-            </div>
-          </div>
-        )}
+          </TabsContent>
+        </Tabs>
       </DialogContent>
     </Dialog>
   );

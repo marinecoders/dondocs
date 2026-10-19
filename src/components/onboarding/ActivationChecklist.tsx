@@ -58,7 +58,7 @@ interface ChecklistRow {
  * first_document/first_backup milestones, the 8 feature walkthroughs). Only the
  * launcher's own dismissed/celebrated lifecycle is persisted.
  */
-export function ActivationChecklist() {
+export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boolean }) {
   const completed = useOnboardingStore((s) => s.completed);
   const profiles = useProfileStore((s) => s.profiles);
   const backupStatus = useBackupStore((s) => s.status);
@@ -83,7 +83,7 @@ export function ActivationChecklist() {
   const profileDone = Object.keys(profiles).some((n) => !DEFAULT_PROFILE_NAMES.includes(n));
   const docDone = !!completed['first_document'];
   // A real backup, not a watched walkthrough: the first_backup milestone is set
-  // when "Back up everything" succeeds or auto-backup writes; a live connected
+  // when "Download workspace backup" succeeds or auto-backup writes; a live connected
   // mirror also counts (covers users who set it up before this row existed).
   const backupDone = !!completed['first_backup'] || backupStatus === 'connected';
   const learnedCount = POWER_KEYS.filter((k) => completed[k]).length;
@@ -102,13 +102,7 @@ export function ActivationChecklist() {
       title: 'Create your command profile',
       sub: 'Save your letterhead and signature once, reuse everywhere',
       done: profileDone,
-      // Deselect first so the modal opens in Create mode; otherwise the
-      // default profile selected on load would lock it into Edit mode and this
-      // step could never complete. Mirrors ProfileBar's create action.
-      action: () => {
-        useProfileStore.getState().selectProfile(null);
-        useUIStore.getState().setProfileModalOpen(true);
-      },
+      action: () => useUIStore.getState().openProfileEditor(null),
     },
     {
       glyph: FileText,
@@ -256,14 +250,14 @@ export function ActivationChecklist() {
   );
 
   // The first-run tour owns the screen.
-  if (tourActive) return null;
+  if (tourActive || (dialogOnly && !sheetOpen)) return null;
   // A finished celebration retires the launcher for good.
   if (celebrated) return null;
 
   // ── Mobile: bottom sheet, opened from the menu's "Getting started" ────────
   // No floating launcher (the Preview FAB owns the corner) and the `dismissed`
   // flag doesn't apply — the sheet only ever appears when explicitly opened.
-  if (isMobile) {
+  if (isMobile || dialogOnly) {
     return (
       <Dialog open={sheetOpen} onOpenChange={setSheetOpen}>
         <DialogContent

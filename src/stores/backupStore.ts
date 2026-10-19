@@ -15,13 +15,13 @@ import { debug } from '@/lib/debug';
  * file, so it's always the latest copy — drop it in a synced folder for
  * cross-machine backup, all without a server.
  *
- * The mirror is a full-account bundle (the same one "Back up everything"
+ * The mirror is a full-account bundle (the same one "Download workspace backup"
  * downloads): documents, profiles + signatures, snippets, user templates, the
  * live NAVMC form fields, and enclosure file bytes. A restore from this file
  * therefore brings back everything, not just documents.
  *
  * Chromium-desktop only. Elsewhere the status is 'unsupported' and the manual
- * "Back up everything" export remains the fallback. Browsers require a fresh
+ * "Download workspace backup" export remains the fallback. Browsers require a fresh
  * user gesture to re-grant write access after a full restart ('needs-permission').
  * 'error' = the file can't be written (moved/deleted/locked/disk-full) or the
  * account can't be read — surfaced instead of silently letting the mirror go

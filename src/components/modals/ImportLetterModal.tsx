@@ -141,16 +141,16 @@ export function ImportLetterModal() {
         </DialogHeader>
 
         {phase.kind === 'idle' && (
-          <label className="flex cursor-pointer flex-col items-center gap-2 rounded-md border-2 border-dashed border-border p-8 text-center transition-colors hover:border-primary/50 hover:bg-secondary/30">
+          <label className="focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 flex cursor-pointer flex-col items-center gap-2 rounded-md border-2 border-dashed border-border p-8 text-center transition-colors hover:border-primary/50 hover:bg-secondary/30">
             <FileUp className="h-6 w-6 text-muted-foreground" />
             <span className="text-sm font-medium">Choose a PDF or Word file to import</span>
             <span className="text-xs text-muted-foreground">
               Text-based PDF (.pdf) or Word (.docx) — a scanned image can&apos;t be read yet.
             </span>
             <input
-              type="file"
+              type="file" aria-label="Choose a PDF or Word file"
               accept=".pdf,application/pdf,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-              className="hidden"
+              className="sr-only"
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) void handleFile(file);

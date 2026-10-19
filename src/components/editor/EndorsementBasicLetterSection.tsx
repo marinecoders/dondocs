@@ -192,7 +192,7 @@ export function EndorsementBasicLetterSection() {
       <AccordionItem value="basic">
         <AccordionTrigger>Basic Letter</AccordionTrigger>
         <AccordionContent>
-          <div className="space-y-4 pt-2">
+          <div className="editor-field-groups pt-2">
             {/* Upload the basic letter's PDF — the UPLOAD affordance is new-page
                 only, since assembly puts the endorsement on its own page after
                 the letter (Ch 9). But an already-attached file always shows its
@@ -218,13 +218,13 @@ export function EndorsementBasicLetterSection() {
                   </button>
                 </div>
               ) : (
-                <label className="flex cursor-pointer items-center gap-2 rounded border border-dashed border-border p-2 transition-colors hover:bg-secondary/30">
+                <label className="focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 flex cursor-pointer items-center gap-2 rounded border border-dashed border-border p-2 transition-colors hover:bg-secondary/30">
                   <Upload className="h-4 w-4 text-muted-foreground" />
                   <span className="text-sm text-muted-foreground">Upload the letter you&apos;re endorsing (optional)</span>
                   <input
-                    type="file"
+                    type="file" aria-label="Upload basic letter PDF"
                     accept=".pdf,application/pdf"
-                    className="hidden"
+                    className="sr-only"
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) void handleBasicLetterFile(file);

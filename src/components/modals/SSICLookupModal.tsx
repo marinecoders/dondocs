@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Search, X, BookOpen, Loader2 } from 'lucide-react';
 import {
   Dialog,
@@ -9,14 +9,14 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { useLookupData } from '@/hooks/useLookupData';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { loadSsicCategories, type SSICCategory, type SSICCode } from '@/data/ssicCodes';
+import { loadSsicCategories, type SSICCode } from '@/data/ssicCodes';
 
 interface SSICLookupModalProps {
   open: boolean;
@@ -30,22 +30,11 @@ const MAX_SEARCH_RESULTS = 100;
 
 export function SSICLookupModal({ open, onOpenChange, onSelect }: SSICLookupModalProps) {
   const [search, setSearch] = useState('');
-  const [categories, setCategories] = useState<SSICCategory[]>([]);
-
-  // ssic.json is dynamically imported to keep it out of the main bundle, so
-  // pull it in when the modal opens. The loader caches, so reopening is free.
-  useEffect(() => {
-    if (!open) return;
-    let cancelled = false;
-    void loadSsicCategories().then((loaded) => {
-      if (!cancelled) setCategories(loaded);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [open]);
+  const lookup = useLookupData(open, loadSsicCategories);
+  const { data, status, retry } = lookup;
 
   const { filteredCategories, totalMatches } = useMemo(() => {
+    const categories = data ?? [];
     if (!search.trim()) {
       return { filteredCategories: categories, totalMatches: 0 };
     }
@@ -76,7 +65,7 @@ export function SSICLookupModal({ open, onOpenChange, onSelect }: SSICLookupModa
     });
 
     return { filteredCategories: capped, totalMatches: total };
-  }, [search, categories]);
+  }, [search, data]);
 
   // Searching must reveal its own hits — an accordion collapsed over a match is
   // indistinguishable from no match at all. Remounting on the matched set (the
@@ -91,12 +80,12 @@ export function SSICLookupModal({ open, onOpenChange, onSelect }: SSICLookupModa
   };
 
   const shown = filteredCategories.reduce((acc, cat) => acc + cat.codes.length, 0);
-  const loading = categories.length === 0;
+
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg max-h-[80vh]">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-lg h-[80dvh] flex flex-col overflow-hidden">
+        <DialogHeader className="shrink-0 pr-10 text-left">
           <DialogTitle className="flex items-center gap-2">
             <BookOpen className="h-5 w-5" />
             SSIC Code Reference
@@ -104,9 +93,11 @@ export function SSICLookupModal({ open, onOpenChange, onSelect }: SSICLookupModa
           <DialogDescription>Standard Subject Identification Codes</DialogDescription>
         </DialogHeader>
 
-        <div className="relative">
+        <div className="relative shrink-0">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
+            aria-label="Search SSIC codes"
+            disabled={status !== 'ready'}
             placeholder="Search by code or description…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -118,6 +109,7 @@ export function SSICLookupModal({ open, onOpenChange, onSelect }: SSICLookupModa
               variant="ghost"
               size="icon"
               className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
+              aria-label="Clear search"
               onClick={() => setSearch('')}
             >
               <X className="h-4 w-4" />
@@ -125,27 +117,39 @@ export function SSICLookupModal({ open, onOpenChange, onSelect }: SSICLookupModa
           )}
         </div>
 
-        <p className="text-sm text-muted-foreground">
+        {status === 'ready' && <p className="text-sm text-muted-foreground">
           {!search && 'Browse or search SSIC codes'}
           {search && totalMatches > shown && `Showing ${shown} of ${totalMatches} results — refine your search`}
           {search && totalMatches <= shown && `${totalMatches} result${totalMatches === 1 ? '' : 's'} found`}
-        </p>
+        </p>}
 
-        <ScrollArea className="h-[400px] pr-4">
-          {loading && (
+        <div className="min-h-0 flex-1 overflow-y-auto pr-2">
+          {status === 'loading' && (
             <div className="flex items-center justify-center gap-2 py-8 text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
               <span className="text-sm">Loading SSIC codes…</span>
             </div>
           )}
-          <Accordion
+          {status === 'error' && (
+            <div role="alert" className="text-center py-8">
+              <p>Couldn&apos;t load SSIC codes</p>
+              <p className="mt-1 text-sm text-muted-foreground">Check your connection and try again.</p>
+              <Button variant="outline" className="mt-3" onClick={retry}>Try again</Button>
+              {lookup.status === 'error' && <details className="mt-3 text-xs text-muted-foreground">
+                <summary className="cursor-pointer">Technical details</summary>
+                <p className="mt-2 break-words">{lookup.error}</p>
+              </details>}
+            </div>
+          )}
+          {status === 'ready' && <Accordion
+            staticLayout={false}
             key={matchedRanges || 'browse'}
             type="multiple"
             className="w-full"
             defaultValue={matchedRanges ? matchedRanges.split('|') : []}
           >
             {filteredCategories.map((category) => (
-              <AccordionItem key={category.range} value={category.range}>
+              <AccordionItem key={category.range} value={category.range} className="rounded-none border-0 border-b bg-transparent px-0 shadow-none backdrop-blur-none">
                 <AccordionTrigger className="hover:no-underline">
                   <div className="flex items-center gap-3">
                     <span className="font-mono text-sm text-muted-foreground">{category.range}</span>
@@ -180,18 +184,18 @@ export function SSICLookupModal({ open, onOpenChange, onSelect }: SSICLookupModa
                 </AccordionContent>
               </AccordionItem>
             ))}
-          </Accordion>
+          </Accordion>}
 
-          {filteredCategories.length === 0 && (
+          {status === 'ready' && filteredCategories.length === 0 && (
             <div className="text-center py-8 text-muted-foreground">
               <BookOpen className="h-12 w-12 mx-auto mb-3 opacity-50" />
               <p>No SSIC codes found matching "{search}"</p>
               <p className="text-sm mt-1">Try a different search term</p>
             </div>
           )}
-        </ScrollArea>
+        </div>
 
-        <div className="text-xs text-muted-foreground border-t pt-3">
+        <div className="shrink-0 text-xs text-muted-foreground border-t pt-3">
           Reference: SECNAV M-5210.2 (Department of the Navy Standard Subject Identification Codes)
         </div>
       </DialogContent>

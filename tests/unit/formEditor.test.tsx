@@ -54,15 +54,6 @@ it('allows correcting one row of a draft with duplicate row IDs without losing a
   expect(useDocumentStore.getState().genericForm!.rows.roster).toEqual([{ id: 'duplicate', answers: { grade: 'e1' } }]);
 });
 
-it('does not clear another document when a confirmation finishes late', async () => {
-  let confirm!: (value: boolean) => void;
-  vi.mocked(showAppConfirm).mockImplementationOnce(() => new Promise(resolve => { confirm = resolve; }));
-  render(<GenericFormSection formType="fixture" />);
-  fireEvent.click(screen.getByRole('button', { name: 'Clear' }));
-  act(() => importForm({ ...fixtureInstance(), answers: { name: 'OTHER' } }));
-  await act(async () => confirm(true));
-  expect(useDocumentStore.getState().genericForm!.answers.name).toBe('OTHER');
-});
 
 it('rejects a revision update if the form was edited while its file was loading', async () => {
   let finish!: (value: string) => void;

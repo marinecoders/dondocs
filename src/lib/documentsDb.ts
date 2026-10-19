@@ -385,6 +385,7 @@ export async function idbReadSnapshots(docId: string): Promise<DocSnapshot[]> {
   return rec?.value ?? [];
 }
 
+/** Best-effort compatibility read for existing background callers. */
 export async function idbGetSnapshots(docId: string, strict = false): Promise<DocSnapshot[]> {
   if (!hasIndexedDb) return [];
   try {

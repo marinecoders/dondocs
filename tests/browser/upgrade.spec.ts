@@ -49,7 +49,7 @@ async function readSaved(page: Page) {
 async function start(page: Page) {
   await page.addInitScript(() => localStorage.setItem('dondocs-welcome-shown', '3.0'));
   await page.goto(origin);
-  await page.locator('#subject').fill('UPGRADE BASELINE');
+  await page.locator('#subject:visible, #body-subject:visible').fill('UPGRADE BASELINE');
   await expect(async () => expect(JSON.stringify((await readSaved(page)).documents)).toContain('UPGRADE BASELINE')).toPass({ timeout: 15_000 });
   // Add a deterministic attachment to the old release's saved document.
   await page.evaluate(async () => {
@@ -69,7 +69,7 @@ async function start(page: Page) {
     await navigator.serviceWorker.ready;
   });
   await page.reload();
-  await expect(page.locator('#subject')).toHaveValue('UPGRADE BASELINE');
+  await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('UPGRADE BASELINE');
 }
 
 async function reloadDuringUpdate(page: Page) {
@@ -86,10 +86,10 @@ test('old release upgrades with two tabs, committed edits, attachment bytes, and
   await start(page);
   const other = await context.newPage();
   await other.goto(origin);
-  await expect(other.locator('#subject')).toHaveValue('UPGRADE BASELINE');
+  await expect(other.locator('#subject:visible, #body-subject:visible')).toHaveValue('UPGRADE BASELINE');
   const before = await readSaved(page);
   root = newBuild;
-  await page.locator('#subject').fill('EDIT JUST BEFORE UPGRADE');
+  await page.locator('#subject:visible, #body-subject:visible').fill('EDIT JUST BEFORE UPGRADE');
   await expect(async () => expect(JSON.stringify((await readSaved(page)).documents)).toContain('EDIT JUST BEFORE UPGRADE')).toPass({ timeout: 15_000 });
   // The old release must commit before navigation; it has no durable write journal.
   // Already-running legacy code cannot acquire a new release's update handler.
@@ -97,7 +97,7 @@ test('old release upgrades with two tabs, committed edits, attachment bytes, and
   await expect(async () => { await page.evaluate(async () => { const r = await navigator.serviceWorker.ready; await r.update(); }); }).toPass({ timeout: 15_000 });
   await expect(async () => expect(JSON.stringify((await readSaved(page)).documents)).toContain('EDIT JUST BEFORE UPGRADE')).toPass({ timeout: 15_000 });
   await reloadDuringUpdate(other);
-  await expect(other.locator('#subject')).toHaveValue('EDIT JUST BEFORE UPGRADE');
+  await expect(other.locator('#subject:visible, #body-subject:visible')).toHaveValue('EDIT JUST BEFORE UPGRADE');
   await expect(async () => expect((await readSaved(other)).attachments).toEqual(before.attachments)).toPass({ timeout: 15_000 });
   // Claim the newest build before going offline, then prove stored work opens.
   await expect(async () => { await page.evaluate(async () => { const r = await navigator.serviceWorker.ready; r.waiting?.postMessage({ type: 'SKIP_WAITING' }); }); }).toPass({ timeout: 15_000 });
@@ -108,16 +108,16 @@ test('old release upgrades with two tabs, committed edits, attachment bytes, and
   await expect(page.locator('script[type="module"]')).toHaveAttribute('src', newScript!);
   await context.setOffline(true);
   await reloadDuringUpdate(page);
-  await expect(page.locator('#subject')).toHaveValue('EDIT JUST BEFORE UPGRADE');
+  await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('EDIT JUST BEFORE UPGRADE');
   expect((await readSaved(page)).attachments).toEqual(before.attachments);
 });
 
 test('new release retains an edit across an immediate reload', async ({ page }) => {
   root = newBuild;
   await start(page);
-  await page.locator('#subject').fill('PENDING EDIT');
+  await page.locator('#subject:visible, #body-subject:visible').fill('PENDING EDIT');
   await page.reload();
-  await expect(page.locator('#subject')).toHaveValue('PENDING EDIT');
+  await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('PENDING EDIT');
 });
 
 test('recovers a failed write after a reload without losing attachment bytes', async ({ page }) => {
@@ -131,11 +131,11 @@ test('recovers a failed write after a reload without losing attachment bytes', a
       return put.apply(this, args);
     };
   });
-  await page.locator('#subject').fill('RETRY AFTER STORAGE FAILURE');
+  await page.locator('#subject:visible, #body-subject:visible').fill('RETRY AFTER STORAGE FAILURE');
   await expect(async () => expect(await page.evaluate(() => sessionStorage.getItem('dondocs-pending-writes'))).toContain('RETRY AFTER STORAGE FAILURE')).toPass({ timeout: 15_000 });
   expect(JSON.stringify((await readSaved(page)).documents)).not.toContain('RETRY AFTER STORAGE FAILURE');
   await page.reload();
-  await expect(page.locator('#subject')).toHaveValue('RETRY AFTER STORAGE FAILURE');
+  await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('RETRY AFTER STORAGE FAILURE');
   expect((await readSaved(page)).attachments).toEqual(before.attachments);
 });
 
@@ -144,29 +144,29 @@ test('three tabs preserve repeated conflicts and include each copy in a backup',
   await start(page);
   const other = await context.newPage();
   await other.goto(origin);
-  await expect(other.locator('#subject')).toHaveValue('UPGRADE BASELINE');
+  await expect(other.locator('#subject:visible, #body-subject:visible')).toHaveValue('UPGRADE BASELINE');
   const third = await context.newPage();
   await third.goto(origin);
-  await expect(third.locator('#subject')).toHaveValue('UPGRADE BASELINE');
-  await page.locator('#subject').fill('FIRST TAB EDIT');
+  await expect(third.locator('#subject:visible, #body-subject:visible')).toHaveValue('UPGRADE BASELINE');
+  await page.locator('#subject:visible, #body-subject:visible').fill('FIRST TAB EDIT');
   await expect(async () => expect(JSON.stringify((await readSaved(page)).documents)).toContain('FIRST TAB EDIT')).toPass({ timeout: 15_000 });
-  await other.locator('#subject').fill('SECOND TAB EDIT');
-  await other.getByRole('button', { name: 'Save', exact: true }).click();
+  await other.locator('#subject:visible, #body-subject:visible').fill('SECOND TAB EDIT');
+  await other.getByRole('button', { name: 'Document actions', exact: true }).click();
   await expect(other.getByRole('menuitem', { name: /Open recovered copies/ })).toBeVisible({ timeout: 15_000 });
   await other.getByRole('menuitem', { name: /Open recovered copies/ }).click();
-  await expect(other.locator('#subject')).toHaveValue('SECOND TAB EDIT');
+  await expect(other.locator('#subject:visible, #body-subject:visible')).toHaveValue('SECOND TAB EDIT');
   await expect(async () => {
     const documents = JSON.stringify((await readSaved(other)).documents);
     expect(documents).toContain('FIRST TAB EDIT');
     expect(documents).toContain('SECOND TAB EDIT');
   }).toPass({ timeout: 15_000 });
-  await third.locator('#subject').fill('THIRD TAB EDIT');
-  await third.getByRole('button', { name: 'Save', exact: true }).click();
+  await third.locator('#subject:visible, #body-subject:visible').fill('THIRD TAB EDIT');
+  await third.getByRole('button', { name: 'Document actions', exact: true }).click();
   await third.getByRole('menuitem', { name: /Open recovered copies/ }).click();
   await expect(async () => expect(JSON.stringify((await readSaved(third)).documents)).toContain('THIRD TAB EDIT')).toPass({ timeout: 15_000 });
-  await other.getByRole('button', { name: 'Save', exact: true }).click();
+  await other.getByRole('button', { name: 'Backup & restore', exact: true }).click();
   const downloading = other.waitForEvent('download');
-  await other.getByRole('menuitem', { name: 'Back up everything', exact: true }).click();
+  await other.getByRole('button', { name: 'Download workspace backup', exact: true }).click();
   const download = await downloading;
   const backup = JSON.parse(await readFile((await download.path())!, 'utf8'));
   const subjects = backup.documents.map((record: { session: { formData: { subject: string } } }) => record.session.formData.subject);
@@ -179,7 +179,7 @@ test('an uncontrolled first-install tab reloads after accepting an update', asyn
   root = newBuild;
   await page.addInitScript(() => localStorage.setItem('dondocs-welcome-shown', '3.0'));
   await page.goto(origin);
-  await page.locator('#subject').fill('FIRST INSTALL EDIT');
+  await page.locator('#subject:visible, #body-subject:visible').fill('FIRST INSTALL EDIT');
   await page.evaluate(async () => { await navigator.serviceWorker.ready; });
   expect(await page.evaluate(() => navigator.serviceWorker.controller)).toBeNull();
   // Keep the old worker in use so the next worker waits for explicit acceptance.
@@ -198,26 +198,26 @@ test('an uncontrolled first-install tab reloads after accepting an update', asyn
     });
     expect(status).toMatchObject({ controlled: true });
   }).toPass({ timeout: 15_000 });
-  await expect(page.locator('#subject')).toHaveValue('FIRST INSTALL EDIT');
+  await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('FIRST INSTALL EDIT');
 });
 
 
 test('restoring an older backup keeps another tab’s newer edit and restores attachments', async ({ page, context }) => {
   root = newBuild;
   await start(page);
-  await page.getByRole('button', { name: 'Save', exact: true }).click();
+  await page.getByRole('button', { name: 'Backup & restore', exact: true }).click();
   const downloading = page.waitForEvent('download');
-  await page.getByRole('menuitem', { name: 'Back up everything', exact: true }).click();
+  await page.getByRole('button', { name: 'Download workspace backup', exact: true }).click();
   const download = await downloading;
   const backupPath = (await download.path())!;
   const other = await context.newPage();
   await other.goto(origin);
-  await other.locator('#subject').fill('NEWER THAN BACKUP');
+  await other.locator('#subject:visible, #body-subject:visible').fill('NEWER THAN BACKUP');
   await expect(async () => expect(JSON.stringify((await readSaved(other)).documents)).toContain('NEWER THAN BACKUP')).toPass({ timeout: 15_000 });
-  await page.locator('input[type=file][accept=".json"]').nth(1).setInputFiles(backupPath);
-  await expect(page.locator('[aria-live=polite][aria-atomic=true]').filter({ hasText: /Restored 0 docs.*kept 1 newer/ })).toBeVisible();
+  await page.getByLabel('Backup file', { exact: true }).setInputFiles(backupPath);
+  await expect(page.getByRole('status').filter({ hasText: /Restored 0 docs.*kept 1 newer/ })).toBeVisible();
   await other.reload();
-  await expect(other.locator('#subject')).toHaveValue('NEWER THAN BACKUP');
+  await expect(other.locator('#subject:visible, #body-subject:visible')).toHaveValue('NEWER THAN BACKUP');
   expect((await readSaved(other)).attachments[0].bytes).toEqual([0, 1, 2, 254, 255]);
 });
 
@@ -237,10 +237,10 @@ test('waits for slow storage initialization before accepting edits', async ({ pa
     };
   });
   await page.goto(origin);
-  await expect(page.getByRole('status', { name: '' }).filter({ hasText: 'Opening your documents' })).toBeVisible();
-  await expect(page.locator('#subject')).toHaveCount(0);
-  await page.locator('#subject').fill('EDIT AFTER INITIALIZATION');
+  await expect(page.getByRole('status', { name: '' }).filter({ hasText: 'Opening workspace' })).toBeVisible();
+  await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveCount(0);
+  await page.locator('#subject:visible, #body-subject:visible').fill('EDIT AFTER INITIALIZATION');
   await expect(async () => expect(JSON.stringify((await readSaved(page)).documents)).toContain('EDIT AFTER INITIALIZATION')).toPass({ timeout: 15_000 });
   await page.reload();
-  await expect(page.locator('#subject')).toHaveValue('EDIT AFTER INITIALIZATION');
+  await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('EDIT AFTER INITIALIZATION');
 });

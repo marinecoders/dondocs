@@ -14,13 +14,47 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
-import type { Paragraph, DocumentData } from '@/types/document';
+import { useFormStore, type NavmcForm10274Data, type Navmc11811Data } from '@/stores/formStore';
+import type { DocumentData } from '@/types/document';
 
 export function FindReplaceModal() {
   // Individual selectors — modal only re-renders on its own flag changing.
   const findReplaceOpen = useUIStore((s) => s.findReplaceOpen);
   const setFindReplaceOpen = useUIStore((s) => s.setFindReplaceOpen);
-  const { formData, setField, paragraphs, updateParagraph } = useDocumentStore();
+  const { documentCategory, formType, formData, setField, paragraphs, updateParagraph } = useDocumentStore();
+  const { navmc10274, navmc11811, setNavmc10274Field, setNavmc11811Field } = useFormStore();
+
+  // Only expose text belonging to the active editor. Never mutate the dormant
+  // correspondence state while a NAVMC form is on screen.
+  const targets = useMemo(() => {
+    if (documentCategory === 'forms') {
+      const fields = formType === 'navmc_118_11' ? navmc11811 : navmc10274;
+      const update = (key: string, value: string) => {
+        if (formType === 'navmc_118_11') setNavmc11811Field(key as keyof Navmc11811Data, value);
+        else setNavmc10274Field(key as keyof NavmcForm10274Data, value);
+      };
+      const textFields = Object.entries(fields).flatMap(([key, value]) => typeof value === 'string'
+        ? [{ value, update: (next: string) => update(key, next) }] : []);
+      const signatures = fields.signatureBlocks.flatMap((block, index) => (['name', 'statement'] as const).map((key) => ({
+        value: block[key] ?? '',
+        update: (next: string) => {
+          const current = useFormStore.getState();
+          const active = formType === 'navmc_118_11' ? current.navmc11811 : current.navmc10274;
+          const blocks = active.signatureBlocks.map((item, i) => i === index ? { ...item, [key]: next } : item);
+          if (formType === 'navmc_118_11') setNavmc11811Field('signatureBlocks', blocks);
+          else setNavmc10274Field('signatureBlocks', blocks);
+        },
+      })));
+      return [...textFields, ...signatures];
+    }
+    const fields: (keyof DocumentData)[] = ['subject', 'from', 'to', 'via'];
+    return [
+      ...paragraphs.flatMap((paragraph, index) => (['text', 'header'] as const).map((key) => ({
+        value: paragraph[key] ?? '', update: (next: string) => updateParagraph(index, { [key]: next }),
+      }))),
+      ...fields.map((key) => ({ value: (formData[key] as string) || '', update: (next: string) => setField(key, next) })),
+    ];
+  }, [documentCategory, formType, navmc10274, navmc11811, setNavmc10274Field, setNavmc11811Field, paragraphs, formData, setField, updateParagraph]);
 
   const [findText, setFindText] = useState('');
   const [replaceText, setReplaceText] = useState('');
@@ -43,40 +77,13 @@ export function FindReplaceModal() {
     [caseSensitive]
   );
 
-  // Find all matches across paragraph bodies, paragraph headings, and form fields.
   const matches = useMemo(() => {
     if (!findText.trim()) return [];
+    return targets.flatMap((target) => positionsOf(target.value, findText).map((position) => ({ target, position })));
+  }, [findText, targets, positionsOf]);
 
-    const results: {
-      type: 'paragraph' | 'field';
-      index: number;
-      target?: 'text' | 'header';
-      field?: string;
-      positions: number[];
-    }[] = [];
-
-    // Search paragraph bodies and — the bug this fixes — their headings, which a
-    // find/replace-all used to skip entirely.
-    paragraphs.forEach((para: Paragraph, index: number) => {
-      const textPos = positionsOf(para.text, findText);
-      if (textPos.length > 0) results.push({ type: 'paragraph', index, target: 'text', positions: textPos });
-      const headerPos = para.header ? positionsOf(para.header, findText) : [];
-      if (headerPos.length > 0) results.push({ type: 'paragraph', index, target: 'header', positions: headerPos });
-    });
-
-    // Search key form fields
-    const fieldsToSearch: (keyof DocumentData)[] = ['subject', 'from', 'to', 'via'];
-    fieldsToSearch.forEach((field: keyof DocumentData) => {
-      const positions = positionsOf((formData[field] as string) || '', findText);
-      if (positions.length > 0) results.push({ type: 'field', index: -1, field: field as string, positions });
-    });
-
-    return results;
-  }, [findText, paragraphs, formData, positionsOf]);
-
-  const totalMatches = useMemo(() => {
-    return matches.reduce((sum, m) => sum + m.positions.length, 0);
-  }, [matches]);
+  const totalMatches = matches.length;
+  const activeMatchIndex = Math.min(currentMatchIndex, Math.max(0, totalMatches - 1));
 
   // Reset current match when search changes. The match index is also
   // mutated by user navigation (next/prev buttons), so it can't be
@@ -87,83 +94,39 @@ export function FindReplaceModal() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrentMatchIndex(0);
-  }, [findText, caseSensitive]);
+  }, [findText, caseSensitive, documentCategory, formType]);
 
   const handleFindNext = useCallback(() => {
     if (totalMatches === 0) return;
-    setCurrentMatchIndex((prev) => (prev + 1) % totalMatches);
-  }, [totalMatches]);
+    setCurrentMatchIndex((activeMatchIndex + 1) % totalMatches);
+  }, [totalMatches, activeMatchIndex]);
 
   const handleFindPrevious = useCallback(() => {
     if (totalMatches === 0) return;
-    setCurrentMatchIndex((prev) => (prev - 1 + totalMatches) % totalMatches);
-  }, [totalMatches]);
+    setCurrentMatchIndex((activeMatchIndex - 1 + totalMatches) % totalMatches);
+  }, [totalMatches, activeMatchIndex]);
 
   const handleReplace = useCallback(() => {
-    if (totalMatches === 0 || !findText.trim()) return;
-
-    // Find which match we're on
-    let matchCount = 0;
-    for (const match of matches) {
-      for (let i = 0; i < match.positions.length; i++) {
-        if (matchCount === currentMatchIndex) {
-          // Found the current match, replace it
-          if (match.type === 'paragraph') {
-            const para = paragraphs[match.index];
-            const pos = match.positions[i];
-            const src = match.target === 'header' ? para.header ?? '' : para.text;
-            const replaced = src.slice(0, pos) + replaceText + src.slice(pos + findText.length);
-            updateParagraph(match.index, match.target === 'header' ? { header: replaced } : { text: replaced });
-          } else if (match.field) {
-            const value = formData[match.field as keyof typeof formData] as string || '';
-            const pos = match.positions[i];
-            const newValue = value.slice(0, pos) + replaceText + value.slice(pos + findText.length);
-            setField(match.field as keyof typeof formData, newValue);
-          }
-          return;
-        }
-        matchCount++;
-      }
-    }
-    // `totalMatches` is derived from `matches` via useMemo so it's
-    // already covered by the `matches` dep, but exhaustive-deps wants
-    // it spelled out explicitly. It's a memoized number — re-listing
-    // it adds no extra invalidations.
-  }, [matches, totalMatches, currentMatchIndex, findText, replaceText, paragraphs, formData, updateParagraph, setField]);
+    const match = matches[activeMatchIndex];
+    if (!match) return;
+    const { target, position } = match;
+    target.update(target.value.slice(0, position) + replaceText + target.value.slice(position + findText.length));
+    setCurrentMatchIndex(activeMatchIndex);
+  }, [matches, activeMatchIndex, findText, replaceText]);
 
   const handleReplaceAll = useCallback(() => {
-    if (totalMatches === 0 || !findText.trim()) return;
-
-    const replaceIn = (src: string): string => {
-      if (caseSensitive) return src.split(findText).join(replaceText);
-      const regex = new RegExp(findText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-      return src.replace(regex, replaceText);
-    };
-
-    // Replace in paragraph bodies AND headings (headings were previously skipped).
-    paragraphs.forEach((para: Paragraph, index: number) => {
-      const patch: Partial<Paragraph> = {};
-      const newText = replaceIn(para.text);
-      if (newText !== para.text) patch.text = newText;
-      if (para.header) {
-        const newHeader = replaceIn(para.header);
-        if (newHeader !== para.header) patch.header = newHeader;
+    if (!findText.trim()) return;
+    for (const target of targets) {
+      // Replace from the end so offsets stay valid and replacement text is
+      // literal (including "$&"), rather than interpreted as regex syntax.
+      let next = target.value;
+      for (const position of positionsOf(target.value, findText).reverse()) {
+        next = next.slice(0, position) + replaceText + next.slice(position + findText.length);
       }
-      if (Object.keys(patch).length > 0) updateParagraph(index, patch);
-    });
-
-    // Replace in form fields
-    const fieldsToSearch: (keyof DocumentData)[] = ['subject', 'from', 'to', 'via'];
-    fieldsToSearch.forEach((field: keyof DocumentData) => {
-      const value = (formData[field] as string) || '';
-      const newValue = replaceIn(value);
-      if (newValue !== value) setField(field, newValue);
-    });
-    // Same as handleReplace above: `totalMatches` is derived from
-    // `matches` (via useMemo) so re-listing it is redundant but
-    // satisfies exhaustive-deps without changing invalidation
-    // behavior.
-  }, [totalMatches, findText, replaceText, caseSensitive, paragraphs, formData, updateParagraph, setField]);
+      if (next !== target.value) target.update(next);
+    }
+    setCurrentMatchIndex(0);
+  }, [targets, findText, replaceText, positionsOf]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -194,7 +157,7 @@ export function FindReplaceModal() {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Search className="h-5 w-5" />
-            Find & Replace
+            Find and replace
           </DialogTitle>
           <DialogDescription className="sr-only">
             Search the document body for text and optionally replace matches.
@@ -213,17 +176,17 @@ export function FindReplaceModal() {
                 placeholder="Search text…"
                 autoFocus
               />
-              <Button variant="outline" size="icon" onClick={handleFindPrevious} disabled={totalMatches === 0}>
+              <Button variant="outline" size="icon" aria-label="Previous match" onClick={handleFindPrevious} disabled={totalMatches === 0}>
                 <ChevronUp className="h-4 w-4" />
               </Button>
-              <Button variant="outline" size="icon" onClick={handleFindNext} disabled={totalMatches === 0}>
+              <Button variant="outline" size="icon" aria-label="Next match" onClick={handleFindNext} disabled={totalMatches === 0}>
                 <ChevronDown className="h-4 w-4" />
               </Button>
             </div>
             {findText && (
               <div className="flex items-center gap-2">
                 <Badge variant={totalMatches > 0 ? 'default' : 'secondary'}>
-                  {totalMatches > 0 ? `${currentMatchIndex + 1} of ${totalMatches}` : 'No matches'}
+                  {totalMatches > 0 ? `${activeMatchIndex + 1} of ${totalMatches}` : 'No matches'}
                 </Badge>
               </div>
             )}
@@ -265,7 +228,9 @@ export function FindReplaceModal() {
 
           {/* Help text */}
           <p className="text-xs text-muted-foreground">
-            Press Enter or F3 for next match, Shift+Enter for previous. Searches paragraph text and headings, plus the subject, from, to, and via fields.
+            Press Enter or F3 for next match, Shift+Enter for previous. {documentCategory === 'forms'
+              ? 'Searches the active form’s text fields and signatures.'
+              : 'Searches paragraph text and headings, plus the subject, from, to, and via fields.'}
           </p>
         </div>
       </DialogContent>
