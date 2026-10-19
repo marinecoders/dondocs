@@ -169,6 +169,8 @@ interface UIState {
   mobileDocsOpen: boolean;
   setMobileDocsOpen: (open: boolean) => void;
   // Version-history modal: the document id whose snapshots to show (null = closed).
+  trashOpen: boolean;
+  setTrashOpen: (open: boolean) => void;
   historyDocId: string | null;
   setHistoryDocId: (id: string | null) => void;
 
@@ -182,9 +184,9 @@ interface UIState {
   // In-flight persistence state, so the indicator can show "Saving…" and a real
   // "Couldn't save" instead of always claiming "Saved".
   saveWarning: string | null;
-  saveStatus: 'idle' | 'saving' | 'saved' | 'error';
+  saveStatus: 'idle' | 'pending' | 'saving' | 'saved' | 'error';
   markSaved: () => void;
-  setSaveStatus: (s: 'idle' | 'saving' | 'saved' | 'error') => void;
+  setSaveStatus: (s: 'idle' | 'pending' | 'saving' | 'saved' | 'error') => void;
   // Point the indicator at a specific time (a switched-in doc's last save) or
   // null (a brand-new, never-saved doc) so "Saved · …" reflects THIS document.
   setLastSavedAt: (ts: number | null) => void;
@@ -293,6 +295,8 @@ export const useUIStore = create<UIState>()(
       setMobilePreviewOpen: (open) => set({ mobilePreviewOpen: open }),
       mobileDocsOpen: false,
       setMobileDocsOpen: (open) => set({ mobileDocsOpen: open }),
+      trashOpen: false,
+      setTrashOpen: (open) => set({ trashOpen: open }),
       historyDocId: null,
       setHistoryDocId: (id) => set({ historyDocId: id }),
 

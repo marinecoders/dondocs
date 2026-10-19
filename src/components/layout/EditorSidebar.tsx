@@ -224,13 +224,14 @@ export function EditorSidebar() {
         </button>
         <button
           type="button"
-          onClick={newDocument}
+          onClick={() => newDocument()}
           aria-label="New document" title="New document"
           className="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
         >
           <Plus className="h-4 w-4" />
         </button>
-      </nav>
+        <button type="button" onClick={() => useUIStore.getState().setTrashOpen(true)} className="flex min-h-10 items-center gap-2 border-t border-border px-3 text-sm text-muted-foreground hover:bg-muted" aria-label="Trash"><Trash2 className="h-4 w-4" />{!collapsed && 'Trash'}</button>
+    </nav>
       {/* Still mounted while collapsed: dragging it back out is how you reopen. */}
       <SidebarResizer />
       </>
@@ -325,7 +326,7 @@ export function EditorSidebar() {
             <button
               ref={newBtnRef}
               type="button"
-              onClick={newDocument}
+              onClick={() => newDocument()}
               aria-label="New document"
               title="New document"
               className="inline-flex items-center gap-1 rounded-md border border-border bg-card px-2 py-1 text-xs text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-[3px] focus-visible:ring-ring/50"
@@ -416,7 +417,7 @@ export function EditorSidebar() {
                 <div className="mt-3 flex flex-col gap-1">
                   <button
                     type="button"
-                    onClick={newDocument}
+                    onClick={() => newDocument()}
                     className="rounded-md px-2.5 py-1.5 text-left text-sm text-foreground outline-none hover:bg-muted focus-visible:ring-[3px] focus-visible:ring-ring/50"
                   >
                     Start a naval letter
@@ -595,6 +596,7 @@ export function EditorSidebar() {
           )}
         </div>
       </div>
+      <button type="button" onClick={() => useUIStore.getState().setTrashOpen(true)} className="flex min-h-10 items-center gap-2 border-t border-border px-3 text-sm text-muted-foreground hover:bg-muted" aria-label="Trash"><Trash2 className="h-4 w-4" />{!collapsed && 'Trash'}</button>
     </nav>
     <SidebarResizer />
     </>

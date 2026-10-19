@@ -166,12 +166,14 @@ export async function idbRecoverDocument(before: StoredDocument, after: StoredDo
   return await idbWriteDocument(before, after, [], true) === 'committed';
 }
 
-export async function idbDeleteDocument(id: string): Promise<void> {
-  if (!hasIndexedDb) return;
+export async function idbDeleteDocument(id: string): Promise<boolean> {
+  if (!hasIndexedDb) return false;
   try {
     await run(DOCS_STORE, 'readwrite', (s) => s.delete(id));
+    return true;
   } catch (err) {
     debug.error('DocumentsDb', 'delete failed', err);
+    return false;
   }
 }
 

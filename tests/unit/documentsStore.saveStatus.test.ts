@@ -12,7 +12,7 @@ it('restores the committed status when an edit is reverted before autosave', asy
   useDocumentsStore.setState({ currentId: meta.id, docs: { status: { meta, session } }, baseline: session, hydrated: true });
   useDocumentStore.getState().setFormData({ subject: 'Temporary edit' });
   useDocumentStore.getState().setFormData({ subject: 'Saved' });
-  expect(useUIStore.getState().saveStatus).toBe('saving');
+  expect(useUIStore.getState().saveStatus).toBe('saved');
   useDocumentsStore.getState().syncCurrent();
   expect(useUIStore.getState().saveStatus).toBe('saved');
   expect(useUIStore.getState().lastSavedAt).toBe(42);

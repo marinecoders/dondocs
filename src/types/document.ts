@@ -15,6 +15,10 @@ export const FORM_TYPE_LABELS: Record<BuiltinFormType, string> = {
   navmc_118_11: 'NAVMC 118 (11) - Administrative Remarks (6105)',
 };
 
+export function formTypeLabel(type: FormType, title?: string): string {
+  return title ?? (Object.hasOwn(FORM_TYPE_LABELS, type) ? FORM_TYPE_LABELS[type as BuiltinFormType] : type);
+}
+
 export const FORM_TYPE_CATEGORIES: { category: string; types: BuiltinFormType[] }[] = [
   {
     category: 'Administrative',
@@ -663,6 +667,8 @@ export const DOC_TYPE_CHIP: Record<string, string> = {
 
 /** The Recents type chip for a doc type (falls back to a generic code). */
 export function docTypeChip(docType: string): string {
+  if (docType === 'navmc_10274') return 'AA';
+  if (docType === 'navmc_118_11') return '6105';
   return docType === 'form' ? 'FORM' : DOC_TYPE_CHIP[docType] ?? 'DOC';
 }
 

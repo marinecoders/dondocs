@@ -31,7 +31,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore, persistUnsavedEnclosures, replaceSessionState } from '@/stores/documentStore';
+import { useDocumentStore, getSerializedSession, loadSharedSession, persistUnsavedEnclosures, replaceSessionState } from '@/stores/documentStore';
 import { useFormStore, normalizeNavmc10274, normalizeNavmc11811 } from '@/stores/formStore';
 import { useDocumentsStore, openRecoveredCopies } from '@/stores/documentsStore';
 import { MAX_BACKUP_BYTES } from '@/lib/backupValidation';
@@ -343,39 +343,8 @@ export function Header({
 
   const handleSaveProgress = useCallback(() => {
     try {
-      const ds = useDocumentStore.getState();
-      if (ds.documentCategory === 'forms' && ds.genericForm) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({ genericForm: ds.genericForm }));
-        useDocumentsStore.getState().saveCurrent();
-        return;
-      }
-      const dataToSave = {
-        documentMode: ds.documentMode,
-        docType: ds.docType,
-        formData: ds.formData,
-        references: ds.references,
-        // Save enclosure metadata only, not the file data (too large for localStorage)
-        enclosures: ds.enclosures.map(encl => ({
-          title: encl.title,
-          pageStyle: encl.pageStyle,
-          hasCoverPage: encl.hasCoverPage,
-          coverPageDescription: encl.coverPageDescription,
-          hasFile: !!encl.file,
-          fileName: encl.file?.name,
-        })),
-        paragraphs: ds.paragraphs,
-        copyTos: ds.copyTos,
-        distributions: ds.distributions,
-        endItems: ds.endItems,
-        publicationTables: ds.publicationTables,
-        savedAt: new Date().toISOString(),
-      };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
-      // Also promote into Recents so an explicit Save shows in the sidebar list.
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(getSerializedSession()));
       useDocumentsStore.getState().saveCurrent();
-      // Correspondence: the ambient "Saved · <time>" indicator in the ProfileBar
-      // is the single source of truth. Built-in form drafts still use the legacy store.
-      if (ds.documentCategory === 'forms' && !ds.genericForm) flashSaveStatus("Form drafts aren't saved yet");
     } catch (err) {
       console.error('Failed to save progress:', err);
       flashSaveStatus('Save failed');
@@ -389,53 +358,9 @@ export function Header({
         // Preserve the open document before overwriting the live store, so the
         // loaded draft opens as its own Recents entry instead of clobbering it.
         useDocumentsStore.getState().syncCurrent();
-        const ds = useDocumentStore.getState();
         const data = JSON.parse(saved);
-        if (data.genericForm) { importForm(data.genericForm); flashSaveStatus('Loaded!'); return; }
-        replaceSessionState(() => {
-          // Saved drafts are correspondence-only; reset the category so the loaded
-          // doc is coherent and saveCurrent() can promote it to Recents.
-          ds.setDocumentCategory('correspondence');
-          ds.setDocumentMode?.(data.documentMode || 'compliant');
-          if (data.docType) {
-            ds.setDocType(data.docType);
-          }
-          if (data.formData) {
-            // Canonicalize unitAddress on read (see App.tsx for rationale).
-            const formData = data.formData.unitAddress
-              ? { ...data.formData, unitAddress: canonicalizeUnitAddress(data.formData.unitAddress) }
-              : data.formData;
-            ds.setFormData(formData);
-          }
-          // Restore the body and lists too; otherwise the loaded draft keeps the
-          // previously-open document's paragraphs/references/enclosures/copyTos.
-          // Enclosure file bytes aren't saved, so the user re-attaches PDFs.
-          ds.loadTemplate({
-            references: data.references || [],
-            enclosures: (data.enclosures || []).map((encl: {
-              title: string;
-              pageStyle?: string;
-              hasCoverPage?: boolean;
-              coverPageDescription?: string;
-            }) => ({
-              title: encl.title,
-              pageStyle: encl.pageStyle,
-              hasCoverPage: encl.hasCoverPage,
-              coverPageDescription: encl.coverPageDescription,
-              file: undefined,
-            })),
-            paragraphs: data.paragraphs || [],
-            copyTos: data.copyTos || [],
-          });
-          // loadTemplate doesn't cover distributions; set it explicitly so the
-          // loaded draft doesn't inherit the previously-open document's list.
-          useDocumentStore.setState({
-            distributions: data.distributions || [],
-            endItems: data.endItems || [],
-            publicationTables: data.publicationTables || {},
-          });
-          useDocumentsStore.getState().openLoadedAsNew();
-        });
+        loadSharedSession({ ...data, documentCategory: data.documentCategory ?? 'correspondence' });
+        useDocumentsStore.getState().openLoadedAsNew();
         flashSaveStatus('Loaded!');
       } else {
         flashSaveStatus('No saved data');

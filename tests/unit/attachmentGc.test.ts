@@ -248,15 +248,14 @@ describe('soft-delete undo window keeps attachments reachable', () => {
       session: doc('target', 'att_pending').session,
     };
     const keeper = { meta: { id: 'keeper', title: 'Keeper', docType: 'naval_letter', updatedAt: 2 }, session: doc('keeper').session };
-    await idbPutDocument(target as never);
+    await idbPutDocument({ id: 'target', ...target } as never);
     await idbPutAttachment(att('att_pending'));
     useDocumentsStore.setState({ docs: { target, keeper } as never, currentId: 'keeper' });
 
-    // Soft-delete: the IDB record and the in-memory entry are gone, held only in
-    // the pending-undo buffer.
+    // Soft-delete retains a durable Trash record and its attachments.
     useDocumentsStore.getState().remove('target');
-    await new Promise((r) => setTimeout(r, 5)); // let the eager idbDeleteDocument commit
-    expect((await idbGetAllDocuments())?.find((r) => r.id === 'target')).toBeUndefined();
+    await new Promise((r) => setTimeout(r, 5)); // let the Trash write commit
+    expect((await idbGetAllDocuments())?.find((r) => r.id === 'target')?.meta.deletedAt).toBeTypeOf('number');
     expect(useDocumentsStore.getState().docs.target).toBeUndefined();
 
     // The mark set STILL includes att_pending (via the pending-delete source),
