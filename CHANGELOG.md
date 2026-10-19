@@ -5,6 +5,13 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.180] — 2026-10-18
+
+### Changed
+
+- Adopt GNU AGPL version 3 only for DonDocs.
+- Include license notices and source references in web and companion distributions, and expose license and source links in About.
+
 ## [1.2.178] — 2026-10-17
 
 ### Changed

@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2026 Roberto Chiofalo.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * See LICENSE and THIRD_PARTY_LICENSES.md at the project root.
+ */
 // Imported into the generated service worker (see vite.config.ts
 // workbox.importScripts). Workbox's generateSW only cleans its OWN precache, so
 // runtime caches from earlier releases linger on returning clients until the

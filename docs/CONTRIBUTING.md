@@ -10,6 +10,7 @@ All contributions should be made to the Marine Coders organization repository, w
 
 ## Table of Contents
 
+- [Contribution licensing](#contribution-licensing)
 - [Code of Conduct](#code-of-conduct)
 - [Getting Started](#getting-started)
 - [Development Setup](#development-setup)
@@ -22,6 +23,17 @@ All contributions should be made to the Marine Coders organization repository, w
 - [Issue Guidelines](#issue-guidelines)
 
 ---
+
+## Contribution licensing
+
+Unless explicitly identified and agreed otherwise, contributions to DonDocs are
+submitted under GNU AGPL version 3 only (`AGPL-3.0-only`). Submit only material
+you have authority to contribute under those terms, and retain any third-party
+copyright and license notices. Identify separately licensed material in your PR.
+
+Contributors retain their copyright. Submitting a contribution does not assign
+copyright or grant a separate right to offer it under proprietary terms. Existing
+contributions retain permissions previously granted; see [licensing](LICENSING.md).
 
 ## Code of Conduct
 

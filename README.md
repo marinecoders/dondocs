@@ -1,6 +1,6 @@
 # DonDocs — Naval Correspondence & Form Generator
 
-[![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![AGPL v3 License](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
 [![SECNAV M-5216.5](https://img.shields.io/badge/SECNAV-M--5216.5-blue)](https://www.secnav.navy.mil/doni/SECNAV%20Manuals1/5216.5%20DON%20Correspondence%20Manual.pdf)
 [![MCO 5216.20B](https://img.shields.io/badge/MCO-5216.20B-red)](https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/899678/mco-521620/)
 [![NIST 800-171](https://img.shields.io/badge/NIST-800--171-green)](https://csrc.nist.gov/publications/detail/sp/800-171/rev-2/final)
@@ -684,7 +684,19 @@ A: If you're viewing in an in-app browser (Google App, Facebook, Instagram, etc.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Copyright (c) 2026 Roberto Chiofalo.
+
+DonDocs is free software: you can redistribute it and/or modify it under the
+GNU Affero General Public License, version 3 only (`AGPL-3.0-only`). See
+[LICENSE](LICENSE) for the full terms. DonDocs is distributed without any warranty,
+including the implied warranties of merchantability or fitness for a particular purpose.
+
+Third-party components retain their own licenses; see
+[THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
+
+See [licensing and source distribution](docs/LICENSING.md) for scope, generated
+output, and deployment requirements. The application's About dialog links to its
+source and license; built distributions also include `SOURCE.txt`.
 
 ---
 

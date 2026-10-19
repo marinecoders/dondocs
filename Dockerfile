@@ -31,6 +31,7 @@ RUN npm run build -- --base=$BASE_PATH
 
 # Production stage with Caddy
 FROM caddy:2-alpine
+LABEL org.opencontainers.image.licenses="AGPL-3.0-only"
 
 # Copy built files from builder
 COPY --from=builder /app/dist /usr/share/caddy

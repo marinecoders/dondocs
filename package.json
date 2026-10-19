@@ -1,7 +1,7 @@
 {
   "name": "dondocs",
   "private": true,
-  "version": "1.2.179",
+  "version": "1.2.180",
   "description": "Browser-based SECNAV M-5216.5 naval correspondence and forms generator.",
   "type": "module",
   "scripts": {
@@ -120,7 +120,7 @@
     "vitest": "^4.1.5",
     "workbox-window": "^7.0.0"
   },
-  "license": "MIT",
+  "license": "AGPL-3.0-only",
   "bin": {
     "dondocs-mcp": "dist-companion/companion/mcp.mjs"
   }

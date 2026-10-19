@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2026 Roberto Chiofalo.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * See LICENSE and THIRD_PARTY_LICENSES.md at the project root.
+ */
 /**
  * The letter card: what a host that renders MCP Apps shows in place of the
  * render result. It reads the file back through the `dondocs://files/{out}`
@@ -53,6 +58,17 @@ type Mode = 'inline' | 'fullscreen';
 // Declared here so the host offers only what the page can do, as the spec
 // requires; the host lists what it offers back in its context.
 const app = new App({ name: 'dondocs-letter', version: __APP_VERSION__ }, { availableDisplayModes: ['inline', 'fullscreen'] }, { autoResize: true });
+
+// MCP hosts open links through the bridge rather than iframe navigation.
+el<HTMLAnchorElement>('source-link').addEventListener('click', (event) => {
+  event.preventDefault();
+  const url = el<HTMLAnchorElement>('source-link').href;
+  const showSource = () => { status.textContent = `Source code: ${url}`; };
+  void app.openLink({ url }).then(
+    ({ isError }) => { if (isError) { showSource(); } },
+    showSource,
+  );
+});
 
 const applyTheme = (theme: string | undefined) => {
   if (theme === 'dark' || theme === 'light') { document.documentElement.dataset.theme = theme; }

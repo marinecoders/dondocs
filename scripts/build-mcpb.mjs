@@ -28,6 +28,9 @@ if (!existsSync(join(BUILT, 'companion', 'mcp.mjs'))) {
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(STAGE, { recursive: true });
 for (const dir of ['companion', 'lib', 'attachments']) { cpSync(join(BUILT, dir), join(STAGE, dir), { recursive: true }); }
+for (const file of ['LICENSE.txt', 'THIRD_PARTY_LICENSES.txt', 'LICENSING.txt', 'SOURCE.txt']) {
+  cpSync(join(BUILT, file), join(STAGE, file));
+}
 // The PNG is generated from public/icon.svg by the web build's prebuild step
 // and is not in git; make it here when it is missing.
 const ICON = join(ROOT, 'public', 'pwa-512.png');

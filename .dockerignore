@@ -13,6 +13,8 @@
 # Documentation
 README.md
 *.md
+!THIRD_PARTY_LICENSES.md
+!docs/LICENSING.md
 KNOWN_ISSUES.md
 
 # Development files
