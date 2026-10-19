@@ -1,3 +1,4 @@
+import { saveCheckpoint } from '@/lib/saveCheckpoint';
 import { showAppAlert } from '@/stores/alertStore';
 import { importForm } from '@/services/forms/documents';
 import { useState, useCallback, useRef, useEffect, type ChangeEvent, type ReactNode } from 'react';
@@ -31,7 +32,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore, getSerializedSession, loadSharedSession, persistUnsavedEnclosures, replaceSessionState } from '@/stores/documentStore';
+import { useDocumentStore, loadSharedSession, persistUnsavedEnclosures, replaceSessionState } from '@/stores/documentStore';
 import { useFormStore, normalizeNavmc10274, normalizeNavmc11811 } from '@/stores/formStore';
 import { useDocumentsStore, openRecoveredCopies } from '@/stores/documentsStore';
 import { MAX_BACKUP_BYTES } from '@/lib/backupValidation';
@@ -342,13 +343,7 @@ export function Header({
   const pdfOnly = !!DOC_TYPE_CONFIG[docType]?.pdfOnly;
 
   const handleSaveProgress = useCallback(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(getSerializedSession()));
-      useDocumentsStore.getState().saveCurrent();
-    } catch (err) {
-      console.error('Failed to save progress:', err);
-      flashSaveStatus('Save failed');
-    }
+    if (saveCheckpoint()) flashSaveStatus('Checkpoint saved in this browser');
   }, [flashSaveStatus]);
 
   const handleLoadProgress = useCallback(() => {
