@@ -1,3 +1,4 @@
+import { findSearchMatch, matchesSearch, type SearchField } from '@/lib/workspaceSearch';
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { createPortal } from 'react-dom';
 import { Search, SearchX, type LucideIcon } from 'lucide-react';
@@ -30,7 +31,8 @@ export interface CommandItem {
   icon: LucideIcon;
   hint?: string;
   kbd?: string;
-  onRun: () => void;
+  searchFields?: SearchField[];
+  onRun: (query: string) => void;
 }
 
 export interface CommandGroup {
@@ -87,9 +89,10 @@ export function CommandPalette({
           const onLabel = fuzzyMatch(it.label, q);
           const onHint = onLabel ? null : it.hint ? fuzzyMatch(it.hint, q) : null;
           const m = onLabel ?? onHint;
-          if (!m) return null;
+          const contentMatch = it.searchFields && matchesSearch([it.label, it.hint, ...it.searchFields.map(field => field.text)].join(' '), q);
+          if (!m && !contentMatch) return null;
           labelHits.set(it.id, onLabel ? onLabel.indices : []);
-          return { it, score: m.score };
+          return { it, score: m?.score ?? 0 };
         })
         .filter((x): x is { it: CommandItem; score: number } => x !== null);
       // Keep the authored order with no query; rank by match quality once typing.
@@ -107,7 +110,7 @@ export function CommandPalette({
   }, [clampedSel]);
 
   const run = (it?: CommandItem) => {
-    if (it) it.onRun();
+    if (it) it.onRun(q);
     onClose();
   };
 
@@ -225,9 +228,9 @@ export function CommandPalette({
                       <span className="flex-1 truncate text-sm">
                         <Highlighted text={it.label} indices={labelHits.get(it.id) ?? []} />
                       </span>
-                      {it.hint && (
+                      {(it.hint || it.searchFields) && (
                         <span className={cn('text-2xs', active ? 'text-current opacity-85' : 'text-muted-foreground')}>
-                          {it.hint}
+                          {findSearchMatch(it.searchFields ?? [], q)?.snippet ?? it.hint}
                         </span>
                       )}
                       {it.kbd && <Kbd active={active}>{it.kbd}</Kbd>}
