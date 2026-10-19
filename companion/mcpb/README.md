@@ -28,3 +28,9 @@ updating the extension, quit and reopen the app: it keeps the card it has
 already read for as long as it runs.
 
 Source and issues: https://github.com/marinecoders/dondocs
+
+## License and source
+
+DonDocs is licensed under GNU AGPL version 3 only (`AGPL-3.0-only`). See the
+bundled `LICENSE.txt`, `THIRD_PARTY_LICENSES.txt`, and
+`LICENSING.txt`. `SOURCE.txt` identifies the source for this build.

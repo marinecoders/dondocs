@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2026 Roberto Chiofalo.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * See LICENSE and THIRD_PARTY_LICENSES.md at the project root.
+ */
 /**
  * The DonDocs companion — a loopback HTTP endpoint an agent can call.
  *

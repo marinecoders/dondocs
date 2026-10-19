@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2026 Roberto Chiofalo.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * See LICENSE and THIRD_PARTY_LICENSES.md at the project root.
+ */
 // SPIKE — worker side. Runs the vendored SwiftLaTeX pdfTeX engine under Node.
 //
 // The engine is emscripten output built for a Web Worker: it assigns

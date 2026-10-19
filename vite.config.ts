@@ -6,6 +6,7 @@ import path from 'path'
 import fs from 'fs'
 import { execSync } from 'child_process'
 import type { Plugin } from 'vite'
+import { LICENSE_BANNER, licenseNotices } from './scripts/license-notices.ts'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Build-time version metadata (single source of truth)
@@ -219,6 +220,28 @@ export default defineConfig({
     tailwindcss(),
     texliveMiddleware(),
     versionMetaPlugin(),
+    {
+      name: 'dondocs-license-notices',
+      configureServer(server) {
+        const notices = licenseNotices(__dirname);
+        server.middlewares.use((req, res, next) => {
+          const pathname = req.url?.split('?')[0];
+          for (const [fileName, source] of Object.entries(notices)) {
+            if (pathname === `/${fileName}` || pathname === `${server.config.base}${fileName}`) {
+              res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+              res.end(source);
+              return;
+            }
+          }
+          next();
+        });
+      },
+      generateBundle() {
+        for (const [fileName, source] of Object.entries(licenseNotices(__dirname))) {
+          this.emitFile({ type: 'asset', fileName, source });
+        }
+      },
+    },
     VitePWA({
       registerType: 'prompt',
       // SW-1: do NOT precache lib/**/* — that injected the entire engine tree
@@ -290,7 +313,10 @@ export default defineConfig({
         // shell on new tabs/sessions (see issue #31 — stale PWA cache kept
         // users stuck on old versions). Hashed JS/CSS bundles are still
         // precached so offline + subsequent loads stay fast.
-        globPatterns: ['**/*.{js,css,ico,png,svg,woff,woff2}'],
+        globPatterns: [
+          '**/*.{js,css,ico,png,svg,woff,woff2}',
+          '{LICENSE,THIRD_PARTY_LICENSES,LICENSING,SOURCE}.txt',
+        ],
         // Keep form template pages and thumbnails OUT of the precache manifest.
         // A catalog of any size would sweep hundreds of entries and megabytes
         // into every offline install via the png glob; they runtime-cache on
@@ -496,6 +522,7 @@ export default defineConfig({
     outDir: 'dist',
     // Copy lib files to dist for production
     rollupOptions: {
+      output: { postBanner: LICENSE_BANNER },
       input: {
         main: path.resolve(__dirname, 'index.html'),
       },

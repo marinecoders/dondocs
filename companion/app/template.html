@@ -47,6 +47,10 @@
     .narrow { display: inline; }
   }
   .status { color: var(--muted); font-size: 12px; min-height: 1em; }
+  .legal { color: var(--muted); font-size: 12px; flex: none; }
+  .legal summary { cursor: pointer; }
+  .legal a { color: inherit; }
+  .legal pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 12rem; overflow: auto; }
 </style>
 </head>
 <body>
@@ -69,6 +73,7 @@
   <div class="status" id="status"></div>
   <div class="preview" id="preview"></div>
   <div class="stage" id="stage"></div>
+  <!-- license-notices -->
 </main>
 <!-- letter.js -->
 </body>

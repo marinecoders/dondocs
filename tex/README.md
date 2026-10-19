@@ -1088,3 +1088,10 @@ Per Ch 7, Figure 7-2:
 ### Congressional Correspondence
 Per Ch 2 ¶5b:
 - Send **blind copy** of final reply and substantive interim replies to Office of Legislative Affairs (OLA)
+
+## License
+
+DonDocs template code is distributed under GNU AGPL version 3 only
+(`AGPL-3.0-only`); see [LICENSE](../LICENSE) and
+[licensing and generated output](../docs/LICENSING.md). Separately licensed
+TeX packages, fonts, and other third-party materials retain their own licenses.

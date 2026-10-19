@@ -1,3 +1,7 @@
+-- Copyright (c) 2026 Roberto Chiofalo.
+-- SPDX-License-Identifier: AGPL-3.0-only
+-- See LICENSE and THIRD_PARTY_LICENSES.md at the project root.
+--
 -- dondocs.lua: Pandoc Lua filter for DOCX output
 -- Reads layout proportions from metadata (passed by pandoc-converter.ts)
 -- and applies them to table column widths for proper SECNAV M-5216.5 formatting.

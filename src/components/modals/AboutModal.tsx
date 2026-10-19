@@ -11,6 +11,7 @@ import { Shield, Zap, FileText, Lock, Plane, ExternalLink } from 'lucide-react';
 import { GithubIcon } from '@/components/icons/GithubIcon';
 import { useUIStore } from '@/stores/uiStore';
 import { APP_VERSION, GIT_SHA, formatBuildTime } from '@/lib/version';
+import { BASE_PATH } from '@/config/paths';
 
 export function AboutModal() {
   // Individual selectors so this modal only re-renders when its own flag
@@ -18,6 +19,7 @@ export function AboutModal() {
   // updates. Setters are stable from Zustand's `create()` callback.
   const aboutModalOpen = useUIStore((s) => s.aboutModalOpen);
   const setAboutModalOpen = useUIStore((s) => s.setAboutModalOpen);
+  const sourceRef = GIT_SHA && GIT_SHA !== 'dev' ? GIT_SHA : `v${APP_VERSION}`;
 
   return (
     <Dialog open={aboutModalOpen} onOpenChange={setAboutModalOpen}>
@@ -83,14 +85,31 @@ export function AboutModal() {
             </ul>
           </div>
 
-          <div className="pt-2 flex gap-2">
+          <div className="space-y-2 text-sm text-muted-foreground">
+            <p>Copyright © 2026 Roberto Chiofalo.</p>
+            <p>
+              DonDocs is free software under GNU AGPL version 3 only. You may
+              redistribute and modify it under that license. It comes without
+              warranty; see the license for details.
+            </p>
+          </div>
+
+          <div className="pt-2 flex flex-wrap gap-2">
             <Button
               variant="outline"
               size="sm"
-              onClick={() => window.open('https://github.com/marinecoders/dondocs', '_blank', 'noopener,noreferrer')}
+              onClick={() => window.open(`https://github.com/marinecoders/dondocs/tree/${sourceRef}`, '_blank', 'noopener,noreferrer')}
             >
               <GithubIcon className="h-4 w-4 mr-2" />
-              View on GitHub
+              Source code
+              <ExternalLink className="h-3 w-3 ml-1.5 opacity-50" />
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => window.open(`${BASE_PATH}LICENSE.txt`, '_blank', 'noopener,noreferrer')}
+            >
+              AGPL v3 license
               <ExternalLink className="h-3 w-3 ml-1.5 opacity-50" />
             </Button>
           </div>

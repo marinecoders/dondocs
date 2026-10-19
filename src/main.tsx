@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2026 Roberto Chiofalo.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * See LICENSE and THIRD_PARTY_LICENSES.md at the project root.
+ */
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'

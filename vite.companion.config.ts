@@ -11,11 +11,12 @@
  * and its CDN scan would trip on the SDK's bundled JSON-schema validator,
  * whose meta-schema ids name a public host as an identifier, not a fetch.
  */
-import { cpSync, mkdirSync, rmSync } from 'node:fs';
+import { cpSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import { builtinModules } from 'node:module';
 import pkg from './package.json' with { type: 'json' };
+import { LICENSE_BANNER, licenseNotices } from './scripts/license-notices.ts';
 
 const HERE = import.meta.dirname;
 const OUT = resolve(HERE, 'dist-companion');
@@ -40,7 +41,7 @@ export default defineConfig({
     rolldownOptions: {
       input: { mcp: resolve(HERE, 'companion/mcp.ts'), server: resolve(HERE, 'companion/server.ts') },
       external: [...builtinModules, ...builtinModules.map((m) => `node:${m}`)],
-      output: { entryFileNames: '[name].mjs', chunkFileNames: '[name]-[hash].mjs', banner: '#!/usr/bin/env node' },
+      output: { entryFileNames: '[name].mjs', chunkFileNames: '[name]-[hash].mjs', banner: `#!/usr/bin/env node\n${LICENSE_BANNER}` },
     },
   },
   plugins: [{
@@ -53,6 +54,9 @@ export default defineConfig({
         cpSync(resolve(HERE, 'public/lib', file), join(OUT, 'lib', file), { recursive: true });
       }
       cpSync(resolve(HERE, 'public/attachments'), join(OUT, 'attachments'), { recursive: true });
+      for (const [file, contents] of Object.entries(licenseNotices(HERE))) {
+        writeFileSync(join(OUT, file), contents);
+      }
     },
   }],
 });

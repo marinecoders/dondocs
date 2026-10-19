@@ -497,3 +497,10 @@ it behind a port the way `LatexEngine` was — its own project.
 
 If pandoc is absent, `GET /health` says so and DOCX requests fail cleanly. PDF is
 unaffected.
+
+## License
+
+The DonDocs companion is licensed under GNU AGPL version 3 only
+(`AGPL-3.0-only`); see [LICENSE](../LICENSE). Built distributions include the
+license texts and `SOURCE.txt`. The letter card offers License and source
+information directly. Third-party components retain their own licenses.
