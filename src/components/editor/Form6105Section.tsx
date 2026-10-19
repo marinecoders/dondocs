@@ -220,7 +220,7 @@ export function Form6105Section() {
 
       <Accordion type="multiple" className="space-y-2">
         {/* Header Section */}
-        <AccordionItem value="header" id="sec-header" data-section="header" className={sectionRule(activeId === 'header')}>
+        <AccordionItem value="header" id="sec-header" tabIndex={-1} data-section="header" className={sectionRule(activeId === 'header')}>
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">Header Information</span>
           </AccordionTrigger>
@@ -271,7 +271,7 @@ export function Form6105Section() {
         </AccordionItem>
 
         {/* Addressing Section */}
-        <AccordionItem value="addressing" id="sec-addressing" data-section="addressing" className={sectionRule(activeId === 'addressing')}>
+        <AccordionItem value="addressing" id="sec-addressing" tabIndex={-1} data-section="addressing" className={sectionRule(activeId === 'addressing')}>
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">Addressing</span>
           </AccordionTrigger>
@@ -374,7 +374,7 @@ export function Form6105Section() {
         </AccordionItem>
 
         {/* Content Section */}
-        <AccordionItem value="content" id="sec-content" data-section="content" className={sectionRule(activeId === 'content')}>
+        <AccordionItem value="content" id="sec-content" tabIndex={-1} data-section="content" className={sectionRule(activeId === 'content')}>
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">Counseling Content</span>
           </AccordionTrigger>
@@ -429,7 +429,7 @@ export function Form6105Section() {
             name signed 3 lines below the text (printed on the form itself); a
             counseling action typically adds the Marine's acknowledgement as a
             second block, and sometimes a witness as a third. */}
-        <AccordionItem value="signatures" id="sec-signatures" data-section="signatures" className={sectionRule(activeId === 'signatures')}>
+        <AccordionItem value="signatures" id="sec-signatures" tabIndex={-1} data-section="signatures" className={sectionRule(activeId === 'signatures')}>
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">Signatures</span>
           </AccordionTrigger>
@@ -555,7 +555,7 @@ export function Form6105Section() {
         </AccordionItem>
 
         {/* References Section */}
-        <AccordionItem value="references" id="sec-references" data-section="references" className={sectionRule(activeId === 'references')}>
+        <AccordionItem value="references" id="sec-references" tabIndex={-1} data-section="references" className={sectionRule(activeId === 'references')}>
           <AccordionTrigger className="hover:no-underline">
             <span className="font-medium">References & Distribution</span>
           </AccordionTrigger>

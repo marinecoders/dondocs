@@ -1,3 +1,4 @@
+import { sessionSearchFields, findSearchMatch } from '@/lib/workspaceSearch';
 import { saveCheckpoint } from '@/lib/saveCheckpoint';
 import { iTypeExportErrors } from '@/lib/iTypePreflight';
 import { loadFigureFiles } from '@/services/latex/figureAssets';
@@ -62,7 +63,7 @@ import { BackupNotice } from '@/components/BackupNotice';
 import { InstallNotice } from '@/components/InstallNotice';
 import { probeStorageHealth, requestPersistentStorage } from '@/lib/documentsDb';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore, rehydrateEnclosureFiles, type SerializedSession } from '@/stores/documentStore';
+import { useDocumentStore, getSerializedSession, rehydrateEnclosureFiles, type SerializedSession } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
 import { diagnosticText } from '@/services/forms/model';
 import { renderForm } from '@/services/forms/render';
@@ -1781,9 +1782,8 @@ ${texFiles['body.tex'] || '% No body content'}
     // Switch to a recent document — Recents are otherwise unreachable by keyboard.
     const recentDocs = Object.values(allDocs)
       .map((d) => d.meta)
-      .filter((m) => m.id !== currentDocId)
       .sort((a, b) => b.updatedAt - a.updatedAt)
-      .slice(0, 12);
+;
     if (recentDocs.length > 0) {
       groups.push({
         label: 'Switch to document',
@@ -1791,7 +1791,13 @@ ${texFiles['body.tex'] || '% No body content'}
           id: `switch-${m.id}`,
           label: m.title,
           icon: FileText,
-          onRun: () => useDocumentsStore.getState().switchTo(m.id),
+          searchFields: sessionSearchFields(m.id === currentDocId ? getSerializedSession() : allDocs[m.id].session),
+          onRun: (query) => {
+            const session = m.id === currentDocId ? getSerializedSession() : allDocs[m.id].session;
+            useDocumentsStore.getState().switchTo(m.id);
+            const match = findSearchMatch(sessionSearchFields(session), query);
+            if (match && match.field.sectionId !== 'type') useEditorOutlineStore.getState().requestJump(m.id, match.field.sectionId);
+          },
         })),
       });
     }

@@ -1,3 +1,4 @@
+import { useDocumentsStore } from '@/stores/documentsStore';
 import { useCallback, useEffect, useRef } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { AccordionStaticProvider } from '@/components/ui/accordion';
@@ -120,6 +121,17 @@ export function FormPanel() {
     useEditorOutlineStore.getState().registerJump(jumpTo);
     return () => useEditorOutlineStore.getState().registerJump(null);
   }, [jumpTo]);
+
+  const documentId = useDocumentsStore((s) => s.currentId);
+  const pendingJump = useEditorOutlineStore((s) => s.pendingJump);
+  useEffect(() => {
+    if (!pendingJump || pendingJump.documentId !== documentId) return;
+    const frame = requestAnimationFrame(() => {
+      jumpTo(pendingJump.sectionId);
+      useEditorOutlineStore.getState().clearPendingJump();
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [pendingJump, documentId, jumpTo]);
 
   return (
     <div className={`relative flex flex-col h-full bg-card overflow-hidden w-full ${!isMobile ? 'border-r border-border' : ''}`}>
