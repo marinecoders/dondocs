@@ -2,7 +2,6 @@ import { lazy, Suspense, useEffect } from 'react';
 import { Loader2, AlertCircle, Eye, Paperclip } from 'lucide-react';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
-import { ReadinessMeter } from './ReadinessMeter';
 
 // The in-app viewer (react-pdf + pdf.js) is its own chunk: the desktop shell
 // stays pdf.js-free until a preview actually exists. The warm-up effect below
@@ -19,14 +18,14 @@ interface PreviewPanelProps {
    *  signature (full quality), so the "encl. in download" note can stand down. */
   previewEnhanced?: boolean;
   error: string | null;
+  documentId?: string;
+  onDownloadPdf?: () => void;
 }
 
-export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, previewEnhanced = false, error }: PreviewPanelProps) {
-  // Individual selectors so this panel only re-renders when one of these
-  // four fields actually changes (not on any other UI-store update).
+export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, previewEnhanced = false, error, documentId, onDownloadPdf }: PreviewPanelProps) {
+  // Individual selectors avoid re-rendering for unrelated UI-store updates.
   const previewVisible = useUIStore((s) => s.previewVisible);
   const isMobile = useUIStore((s) => s.isMobile);
-  const setMobilePreviewOpen = useUIStore((s) => s.setMobilePreviewOpen);
   const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
   const enclosureCount = useDocumentStore((s) => s.enclosures.length);
   // The empty state told every user to fill in "the Subject and body", which a
@@ -44,83 +43,43 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
   // Filter out engine reset message - it's not a user-facing error
   const displayError = error === 'ENGINE_RESET_NEEDED' ? null : error;
 
-  // Mobile: show floating button
-  if (isMobile) {
-    return (
-      <button
-        className="fixed bottom-6 right-4 z-50 shadow-xl bg-primary text-primary-foreground px-5 py-3 rounded-full flex items-center gap-2 hover:bg-primary/90 transition-colors text-sm font-medium"
-        style={{ marginBottom: 'env(safe-area-inset-bottom, 0px)' }}
-        onClick={() => setMobilePreviewOpen(true)}
-        aria-label="Preview PDF"
-      >
-        <Eye className="h-5 w-5" aria-hidden="true" />
-        Preview PDF
-      </button>
-    );
-  }
+  // The document header opens the full-screen preview on mobile.
+  if (isMobile) return null;
 
-  // Desktop: if preview is hidden, render nothing (toggle is in Header now)
+  // Desktop: if preview is hidden, render nothing (toggle is in Header).
   if (!previewVisible) {
     return null;
   }
 
+  const previewLabel = <>
+    <span>Preview</span>
+    {isCompiling && <Loader2 className="h-3 w-3 animate-spin" aria-hidden="true" />}
+    {enclosureCount > 0 && !fullQualityPreview && !previewEnhanced && <span
+      className="inline-flex items-center gap-1 text-[11px]"
+      title="Enclosures are included in the downloaded PDF. The preview upgrades to show them once you pause."
+    ><Paperclip className="h-3 w-3" aria-hidden="true" /><span>{enclosureCount} encl.</span></span>}
+  </>;
+
   return (
-    <div className="flex flex-col bg-background h-full">
-      {/* Header */}
-      <div className="relative flex items-center justify-between px-4 py-2 border-b border-border bg-card flex-shrink-0">
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-medium">Preview</span>
-          {/* Aria-live region for compilation status - WCAG 4.1.3 */}
-          <div aria-live="polite" aria-atomic="true" className="sr-only">
-            {isWarmingUp
-              ? 'Warming up the typesetter, one-time setup…'
-              : isCompiling
-                ? 'Compiling document…'
-                : 'Compilation complete'}
-          </div>
-          {/* Compile state reads as a quiet label plus the slim sweep below —
-              motion communicates the state, not a spinner badge. */}
-          {isCompiling && (
-            <span className="text-xs text-muted-foreground whitespace-nowrap" aria-hidden="true">
-              {isWarmingUp ? 'Warming up…' : 'Compiling…'}
-            </span>
-          )}
-        </div>
-        <div className="flex items-center gap-3">
-          {/* Readiness ring — driven by the single documentCompleteness rule, so
-              it can't contradict the rail's section dots. */}
-          <ReadinessMeter />
-          {enclosureCount > 0 && !fullQualityPreview && !previewEnhanced && (
-            <div className="flex items-center gap-1 text-xs text-muted-foreground" title="Enclosures are included in the downloaded PDF. The preview upgrades to show them once you pause.">
-              <Paperclip className="h-3 w-3" />
-              <span className="tnum">{enclosureCount} encl. in download</span>
-            </div>
-          )}
-        </div>
-        {/* Indeterminate compile sweep — slim, scarlet, riding the header's
-            bottom edge. Transform-only (dd-progress) so a throttled animation
-            clock can't strand it mid-frame; dd-anim disables it under
-            prefers-reduced-motion (the "Compiling…" label still conveys state). */}
-        {isCompiling && (
-          <div className="absolute left-0 right-0 -bottom-px h-0.5 overflow-hidden" aria-hidden="true">
-            <div
-              className="dd-anim h-full w-1/4 bg-primary"
-              style={{ animation: 'dd-progress 1.1s cubic-bezier(0.4,0,0.2,1) infinite' }}
-            />
-          </div>
-        )}
+    <div className="workspace-preview relative flex h-full flex-col">
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {isWarmingUp ? 'Warming up the typesetter, one-time setup…' : isCompiling ? 'Compiling document…' : 'Compilation complete'}
       </div>
+      {!pdfUrl && <div className="flex h-12 shrink-0 items-center gap-2 px-4 text-xs text-muted-foreground">{previewLabel}</div>}
+      {isCompiling && <div className="pointer-events-none absolute inset-x-0 top-[46px] z-10 h-0.5 overflow-hidden" aria-hidden="true">
+        <div className="dd-anim h-full w-1/4 bg-primary" style={{ animation: 'dd-progress 1.1s cubic-bezier(0.4,0,0.2,1) infinite' }} />
+      </div>}
 
       {/* Content — a deeper mat so the document reads as paper resting on a
           surface (visible in the empty / loading / error states; the embedded
           PDF viewer supplies its own mat once a page is shown). */}
-      <div className="flex-1 relative bg-[color-mix(in_oklab,var(--muted)_60%,var(--background))]">
+      <div className="flex-1 min-h-0 relative">
         {/* Show PDF if available, with optional loading overlay */}
         {pdfUrl && (
           <>
             <Suspense fallback={null /* the mat behind is already painted */}>
               <div className="absolute inset-0" title="Document preview">
-                <PdfViewer pdfUrl={pdfUrl} />
+                <PdfViewer key={documentId} documentId={documentId} pdfUrl={pdfUrl} onDownloadPdf={onDownloadPdf} toolbarLabel={previewLabel} />
               </div>
             </Suspense>
             {/* While recompiling, the stale PDF stays visible and unobscured —
@@ -133,10 +92,9 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
                 visible indicator — see the auto-popup modal in App.tsx for
                 the one-shot attention-grabber that complements this banner. */}
             {displayError && !isCompiling && (
-              // top-9 clears the PdfViewer's own h-9 toolbar (PdfViewerToolbar.tsx)
-              // so the banner never buries the page/zoom/fit controls beneath it.
+              // Leave the unified toolbar reachable above stale-preview errors.
               <div
-                className="absolute top-9 inset-x-0 flex items-start gap-2 bg-destructive/10 border-b border-destructive/30 text-destructive px-3 py-2 text-xs"
+                className="absolute top-12 inset-x-0 flex items-start gap-2 bg-destructive/10 border-b border-destructive/30 text-destructive px-3 py-2 text-xs"
                 role="alert"
               >
                 <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" />

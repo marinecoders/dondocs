@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.186] — 2026-10-19
+
+### Changed
+- Keep previews tied to their document, recover failed renders, restore page position, and share the complete PDF export pipeline.
+
 ## [1.2.185] — 2026-10-19
 
 ### Changed

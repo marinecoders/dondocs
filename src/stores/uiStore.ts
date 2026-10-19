@@ -170,6 +170,8 @@ interface UIState {
   // Mobile-only Recents drawer (the desktop sidebar is hidden on small screens).
   mobileDocsOpen: boolean;
   setMobileDocsOpen: (open: boolean) => void;
+  documentPositions: Record<string, { top: number; section: string | null; previewPage?: number }> ;
+  rememberPreviewPage: (id: string, page: number) => void;
   // Version-history modal: the document id whose snapshots to show (null = closed).
   trashOpen: boolean;
   setTrashOpen: (open: boolean) => void;
@@ -299,6 +301,13 @@ export const useUIStore = create<UIState>()(
       setMobilePreviewOpen: (open) => set({ mobilePreviewOpen: open }),
       mobileDocsOpen: false,
       setMobileDocsOpen: (open) => set({ mobileDocsOpen: open }),
+      documentPositions: {},
+      rememberPreviewPage: (id, page) => set((s) => {
+        const positions = { ...s.documentPositions };
+        delete positions[id];
+        positions[id] = { ...(s.documentPositions[id] ?? { top: 0, section: null }), previewPage: Math.max(1, Math.floor(page)) };
+        return { documentPositions: Object.fromEntries(Object.entries(positions).slice(-200)) };
+      }),
       trashOpen: false,
       setTrashOpen: (open) => set({ trashOpen: open }),
       historyDocId: null,
@@ -355,6 +364,7 @@ export const useUIStore = create<UIState>()(
       // Guarded storage so a boot-time set() can't throw under blocked site data.
       storage: createJSONStorage(() => safeLocalStorage),
       partialize: (state) => ({
+        documentPositions: state.documentPositions,
         theme: state.theme,
         colorScheme: state.colorScheme,
         density: state.density,
