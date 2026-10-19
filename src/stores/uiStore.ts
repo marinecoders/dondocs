@@ -111,6 +111,8 @@ interface UIState {
   commandPaletteOpen: boolean;
   findReplaceOpen: boolean;
   templateLoaderOpen: boolean;
+  templateSearch: string;
+  setTemplateSearch: (query: string) => void;
   piiWarningOpen: boolean;
   structureWarningOpen: boolean;
   documentGuideOpen: boolean;
@@ -249,6 +251,8 @@ export const useUIStore = create<UIState>()(
       commandPaletteOpen: false,
       findReplaceOpen: false,
       templateLoaderOpen: false,
+      templateSearch: '',
+      setTemplateSearch: (templateSearch) => set({ templateSearch }),
       piiWarningOpen: false,
       structureWarningOpen: false,
       documentGuideOpen: false,

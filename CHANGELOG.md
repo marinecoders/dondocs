@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.184] — 2026-10-19
+
+### Changed
+- Review shared and imported drafts before opening them, preserve portable attachments, and retain share links when clipboard access fails.
+
 ## [1.2.183] — 2026-10-19
 
 ### Changed

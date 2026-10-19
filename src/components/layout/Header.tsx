@@ -1,6 +1,9 @@
+import { buildDraftFile, parseDraftFile, type ReviewedDraft } from '@/lib/draftFile';
+import { SessionPreview } from '@/components/SessionPreview';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { triggerDownload } from '@/lib/encoding';
 import { saveCheckpoint } from '@/lib/saveCheckpoint';
 import { showAppAlert } from '@/stores/alertStore';
-import { importForm } from '@/services/forms/documents';
 import { useState, useCallback, useRef, useEffect, type ChangeEvent, type ReactNode } from 'react';
 import { Moon, Sun, Download, FileText, Braces, RefreshCw, Bug, Save, RotateCcw, Shield, HelpCircle, Info, Layers, Search, Keyboard, Menu, FileDown, FileUp, ScrollText, SlidersHorizontal, Minimize2, Maximize2, Check, Settings, Undo2, Redo2, Eraser, Compass, PanelRight, PanelRightClose, Link2, FileInput, X, Zap, Loader2, Lightbulb, FolderOpen, Rocket, FolderSync, AlertTriangle, MonitorDown, Radio } from 'lucide-react';
 import { GithubIcon } from '@/components/icons/GithubIcon';
@@ -32,8 +35,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore, loadSharedSession, persistUnsavedEnclosures, replaceSessionState } from '@/stores/documentStore';
-import { useFormStore, normalizeNavmc10274, normalizeNavmc11811 } from '@/stores/formStore';
+import { useDocumentStore, loadSharedSession, persistUnsavedEnclosures } from '@/stores/documentStore';
 import { useDocumentsStore, openRecoveredCopies } from '@/stores/documentsStore';
 import { MAX_BACKUP_BYTES } from '@/lib/backupValidation';
 import { buildBackup, restoreBackup, summarizeRestore } from '@/lib/backup';
@@ -41,41 +43,13 @@ import { useBackupStore } from '@/stores/backupStore';
 import { useInstallStore } from '@/stores/installStore';
 import { promptInstall } from '@/hooks/useInstallPrompt';
 import { useHistoryStore } from '@/stores/historyStore';
-import { uint8ArrayToBase64, base64ToUint8Array, arrayBufferToUint8Array } from '@/lib/encoding';
 import { STORAGE_KEYS } from '@/lib/constants';
-import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { useLogStore } from '@/stores/logStore';
 import { useTourStore } from '@/stores/tourStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { safeReportUrl, BUG_REPORT_PRIVACY_NOTICE, BUG_REPORT_LOG_PROMPT } from '@/lib/bugReport';
-import { DOC_TYPE_CONFIG, type Paragraph } from '@/types/document';
-import { loadAttachment, persistAttachment } from '@/lib/attachments';
-
-// A figure's image lives in the attachments store. A draft file carries it as
-// base64, as it carries enclosure files, so the draft opens whole on another
-// machine; the bytes go back into the store on import and never into state.
-type DraftParagraph = Partial<Paragraph> & { text: string; figure?: NonNullable<Paragraph['figure']> & { data?: string } };
-
-async function embedFigureData(paragraphs: Paragraph[]): Promise<DraftParagraph[]> {
-  return Promise.all(paragraphs.map(async (p) => {
-    if (!p.figure?.fileRef) return p;
-    const bytes = await loadAttachment(p.figure.fileRef.id);
-    return bytes ? { ...p, figure: { ...p.figure, data: uint8ArrayToBase64(new Uint8Array(bytes)) } } : p;
-  }));
-}
-
-async function restoreFigureData(paragraphs: DraftParagraph[]): Promise<DraftParagraph[]> {
-  return Promise.all(paragraphs.map(async (p) => {
-    if (!p.figure?.data) return p;
-    const { data, ...figure } = p.figure;
-    const bytes = base64ToUint8Array(data);
-    const fileRef = await persistAttachment(
-      { name: figure.name ?? 'figure', size: bytes.length, type: figure.type ?? 'image/png' },
-      bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer,
-    );
-    return { ...p, figure: { ...figure, fileRef } };
-  }));
-}
+import { DOC_TYPE_CONFIG } from '@/types/document';
+import { persistAttachment } from '@/lib/attachments';
 
 interface HeaderProps {
   onDownloadPdf?: () => void;
@@ -285,6 +259,9 @@ export function Header({
       return false; // localStorage unavailable (private browsing)
     }
   });
+  const [reviewedDraft, setReviewedDraft] = useState<ReviewedDraft | null>(null);
+  const [openingDraft, setOpeningDraft] = useState(false);
+  const [draftError, setDraftError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const libraryInputRef = useRef<HTMLInputElement>(null);
 
@@ -350,21 +327,16 @@ export function Header({
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
-        // Preserve the open document before overwriting the live store, so the
-        // loaded draft opens as its own Recents entry instead of clobbering it.
-        useDocumentsStore.getState().syncCurrent();
-        const data = JSON.parse(saved);
-        loadSharedSession({ ...data, documentCategory: data.documentCategory ?? 'correspondence' });
-        useDocumentsStore.getState().openLoadedAsNew();
-        flashSaveStatus('Loaded!');
+        setReviewedDraft(parseDraftFile(JSON.parse(saved), true));
+        setDraftError('');
       } else {
-        flashSaveStatus('No saved data');
+        showAppAlert({ title: 'No saved checkpoint', message: 'There is no manually saved checkpoint to open. Your current document has not changed. Choose a document from the sidebar or import a draft file.' });
       }
     } catch (err) {
       console.error('Failed to load progress:', err);
-      flashSaveStatus('Load failed');
+      showAppAlert({ title: 'Could not open saved checkpoint', message: 'The saved checkpoint could not be read. Your current document has not changed. Try another draft or restore a backup.' });
     }
-  }, [flashSaveStatus]);
+  }, []);
 
   const handleReset = useCallback(() => {
     resetForm();
@@ -394,209 +366,56 @@ export function Header({
   // Export entire document state to a JSON file
   const handleExportDraft = useCallback(async () => {
     try {
-      const ds = useDocumentStore.getState();
-      if (ds.genericForm && ds.documentCategory === 'forms') {
-        const blob = new Blob([JSON.stringify({ version: '2.0', genericForm: ds.genericForm })], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a'); a.href = url; a.download = `${ds.formType}-draft.json`; a.click();
-        setTimeout(() => URL.revokeObjectURL(url), 1000);
-        flashSaveStatus('Exported!');
-        return;
-      }
-      const dataToExport = {
-        version: '1.0',
-        exportedAt: new Date().toISOString(),
-        documentMode: ds.documentMode,
-        documentCategory: ds.documentCategory,
-        docType: ds.docType,
-        formType: ds.formType,
-        formData: ds.formData,
-        references: ds.references,
-        // Include enclosure file data as base64 for full restoration
-        enclosures: ds.enclosures.map(encl => ({
-          title: encl.title,
-          pageStyle: encl.pageStyle,
-          hasCoverPage: encl.hasCoverPage,
-          coverPageDescription: encl.coverPageDescription,
-          file: encl.file ? {
-            name: encl.file.name,
-            size: encl.file.size,
-            // Convert ArrayBuffer to base64 for JSON serialization
-            data: uint8ArrayToBase64(arrayBufferToUint8Array(encl.file.data)),
-          } : null,
-        })),
-        paragraphs: await embedFigureData(ds.paragraphs),
-        copyTos: ds.copyTos,
-        distributions: ds.distributions,
-        endItems: ds.endItems,
-        publicationTables: ds.publicationTables,
-        // NAVMC form field data lives in a separate store; include it so a
-        // forms draft round-trips (Export is the only durable copy for forms).
-        forms: (() => {
-          const fs = useFormStore.getState();
-          return {
-            navmc10274: fs.navmc10274,
-            navmc11811: fs.navmc11811,
-            includeCoverPage: fs.includeCoverPage,
-          };
-        })(),
-      };
-
-      const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      const date = new Date().toISOString().split('T')[0];
-      a.download = `dondocs-draft-${date}.json`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-
+      const data = await buildDraftFile();
+      triggerDownload(new TextEncoder().encode(JSON.stringify(data, null, 2)), `dondocs-draft-${new Date().toISOString().split('T')[0]}.json`, 'application/json');
       flashSaveStatus('Exported!');
     } catch (err) {
-      console.error('Failed to export draft:', err);
-      flashSaveStatus('Export failed');
+      showAppAlert({ title: 'Could not export draft', message: err instanceof Error ? err.message : 'Export failed' });
     }
   }, [flashSaveStatus]);
 
-  // Import document state from a JSON file
-  const handleImportDraft = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+  const handleImportDraft = useCallback(async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      try {
-        const ds = useDocumentStore.getState();
-        const content = e.target?.result as string;
-        const data = JSON.parse(content);
-        if (data.genericForm) { importForm(data.genericForm); flashSaveStatus('Imported!'); return; }
-
-        // Validate it's a dondocs draft file
-        if (!data.version || !data.docType) {
-          throw new Error('Invalid draft file format');
-        }
-
-        const restoredParagraphs = await restoreFigureData(data.paragraphs ?? []);
-
-        // Preserve the currently-open document before overwriting the live
-        // store, so the import opens as its own Recents entry instead of
-        // clobbering (and then silently overwriting) the open doc — mirrors
-        // handleLoadProgress.
-        useDocumentsStore.getState().syncCurrent();
-
-        replaceSessionState(() => {
-          // Apply document mode
-          if (data.documentMode) {
-            ds.setDocumentMode?.(data.documentMode);
-          }
-
-          // Apply document category
-          if (data.documentCategory) {
-            ds.setDocumentCategory(data.documentCategory);
-          }
-
-          // Apply document type
-          if (data.docType) {
-            ds.setDocType(data.docType);
-          }
-
-          // Apply form type
-          if (data.formType) {
-            ds.setFormType(data.formType);
-          }
-
-          // Apply form data
-          if (data.formData) {
-            // Canonicalize unitAddress on read (see App.tsx for rationale).
-            const formData = data.formData.unitAddress
-              ? { ...data.formData, unitAddress: canonicalizeUnitAddress(data.formData.unitAddress) }
-              : data.formData;
-            ds.setFormData(formData);
-          }
-
-          // Use loadTemplate for bulk loading (handles references, enclosures, paragraphs, copyTos)
-          ds.loadTemplate({
-            references: data.references || [],
-            enclosures: data.enclosures?.map((encl: {
-              title: string;
-              pageStyle?: string;
-              hasCoverPage?: boolean;
-              coverPageDescription?: string;
-              file?: { name: string; size: number; data: string } | null;
-            }) => ({
-              title: encl.title,
-              pageStyle: encl.pageStyle,
-              hasCoverPage: encl.hasCoverPage,
-              coverPageDescription: encl.coverPageDescription,
-              file: encl.file ? {
-                name: encl.file.name,
-                size: encl.file.size,
-                // Convert base64 back to ArrayBuffer
-                data: base64ToUint8Array(encl.file.data).buffer as ArrayBuffer,
-              } : undefined,
-            })) || [],
-            paragraphs: restoredParagraphs.map((para) => ({
-              text: para.text,
-              level: para.level || 0,
-              header: para.header,
-              portionMarking: para.portionMarking,
-              tableKey: para.tableKey,
-              callout: para.callout,
-              procedure: para.procedure,
-              appendix: para.appendix,
-              figure: para.figure,
-            })),
-            copyTos: data.copyTos || [],
-          });
-          // loadTemplate doesn't cover distributions; restore it explicitly.
-          useDocumentStore.setState({
-            distributions: data.distributions || [],
-            endItems: data.endItems || [],
-            publicationTables: data.publicationTables || {},
-          });
-
-          // Restore NAVMC form field data (separate store). The single-buffer
-          // slices are replaced when present; the config-form dictionaries merge
-          // per-id (imported form wins its own key) so loading one form's draft
-          // never wipes other config forms already in progress.
-          if (data.forms) {
-            const f = data.forms as Partial<{
-              navmc10274: unknown; navmc11811: unknown; includeCoverPage: boolean;
-              configFormValues: Record<string, unknown>; configFormRows: Record<string, unknown>;
-            }>;
-            useFormStore.setState((s) => ({
-              navmc10274: f.navmc10274 ? normalizeNavmc10274(f.navmc10274 as Partial<typeof s.navmc10274>) : s.navmc10274,
-              navmc11811: f.navmc11811 ? normalizeNavmc11811(f.navmc11811 as Partial<typeof s.navmc11811>) : s.navmc11811,
-              includeCoverPage: f.includeCoverPage ?? s.includeCoverPage,
-              configFormValues: { ...s.configFormValues, ...(f.configFormValues as typeof s.configFormValues ?? {}) },
-              configFormRows: { ...s.configFormRows, ...(f.configFormRows as typeof s.configFormRows ?? {}) },
-            }));
-          }
-
-          // Register the import as its own Recents entry under a fresh id rather
-          // than overwriting the previously-open document.
-          useDocumentsStore.getState().openLoadedAsNew();
-
-        });
-
-        // The draft's enclosure bytes arrived inline; persist them to the
-        // attachments store so they survive a reload and a full backup, just
-        // like a file attached through the UI.
-        void persistUnsavedEnclosures();
-
-        flashSaveStatus('Imported!');
-      } catch (err) {
-        console.error('Failed to import draft:', err);
-        flashSaveStatus('Import failed');
-      }
-    };
-
-    reader.readAsText(file);
-    // Reset the input so the same file can be selected again
     event.target.value = '';
-  }, [flashSaveStatus]);
+    if (!file) return;
+    try {
+      setReviewedDraft(parseDraftFile(JSON.parse(await file.text())));
+      setDraftError('');
+    } catch {
+      showAppAlert({ title: 'Could not import draft', message: 'This file is not a valid DonDocs draft. Choose a JSON draft exported by DonDocs. Nothing was changed.' });
+    }
+  }, []);
+
+  const openReviewedDraft = async () => {
+    if (!reviewedDraft) return;
+    setOpeningDraft(true);
+    try {
+      const session = structuredClone(reviewedDraft.session);
+      for (const [index, file] of reviewedDraft.figures.entries()) {
+        if (file) {
+          const figure = session.paragraphs[index].figure!;
+          figure.fileRef = await persistAttachment({ name: file.name, size: file.size, type: figure.type ?? 'image/png' }, file.data);
+        }
+      }
+      if (reviewedDraft.basicLetter) {
+        const file = reviewedDraft.basicLetter;
+        session.formData.basicLetterFileRef = await persistAttachment({ name: file.name, size: file.size, type: 'application/pdf' }, file.data);
+      }
+      useDocumentsStore.getState().syncCurrent();
+      loadSharedSession(session);
+      useDocumentStore.setState((state) => ({
+        formData: reviewedDraft.basicLetter ? { ...state.formData, basicLetterFile: reviewedDraft.basicLetter } : state.formData,
+        enclosures: state.enclosures.map((enclosure, i) => ({ ...enclosure, file: reviewedDraft.files[i] ?? enclosure.file })),
+      }));
+      useDocumentsStore.getState().openLoadedAsNew();
+      await persistUnsavedEnclosures();
+      useDocumentsStore.getState().syncCurrent();
+      setReviewedDraft(null);
+      flashSaveStatus('Imported!');
+    } catch {
+      setDraftError('Could not finish opening the draft. Check browser storage and try again.');
+    } finally { setOpeningDraft(false); }
+  };
 
   // Whole-library backup: export/import EVERY saved document (not just the open
   // one) — a safety net against browser-storage eviction.
@@ -1274,6 +1093,15 @@ export function Header({
       </div>
 
       {/* Reset confirmation dialog */}
+      <Dialog open={!!reviewedDraft} onOpenChange={(open) => { if (!open && !openingDraft) setReviewedDraft(null); }}>
+        <DialogContent className="sm:max-w-lg max-h-[85dvh] overflow-y-auto">
+          <DialogHeader><DialogTitle>Review draft</DialogTitle><DialogDescription>Open a separate editable copy. Your current document stays in Recents.</DialogDescription></DialogHeader>
+          {reviewedDraft && <><SessionPreview session={reviewedDraft.session} /><p className="text-sm text-muted-foreground">{reviewedDraft.session.enclosures.filter((e, i) => e.fileRef || reviewedDraft.files[i]).length} attached files{reviewedDraft.basicLetter || reviewedDraft.session.formData.basicLetterFileRef ? ' and a basic letter' : ''} included.</p></>}
+          {draftError && <p role="alert" className="text-sm text-destructive">{draftError}</p>}
+          <DialogFooter><Button variant="outline" disabled={openingDraft} onClick={() => setReviewedDraft(null)}>Cancel</Button><Button disabled={openingDraft} onClick={() => void openReviewedDraft()}>{openingDraft ? 'Opening…' : 'Open as new document'}</Button></DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <AlertDialog open={showResetDialog} onOpenChange={setShowResetDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>

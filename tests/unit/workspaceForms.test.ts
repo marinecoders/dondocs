@@ -1,9 +1,11 @@
 import 'fake-indexeddb/auto';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { useDocumentsStore } from '@/stores/documentsStore';
-import { getSerializedSession, loadSharedSession, useDocumentStore } from '@/stores/documentStore';
+import { useDocumentsStore, searchableText } from '@/stores/documentsStore';
+import { getSerializedSession, getSerializedSessionForShare, loadSharedSession, useDocumentStore } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
 import { idbGetAllDocuments, idbGetSnapshots } from '@/lib/documentsDb';
+import { parseSharedSession } from '@/lib/sharedSession';
+import { encryptSharePayload, decryptSharePayload } from '@/lib/shareCrypto';
 
 describe('independent NAVMC documents', () => {
   beforeEach(() => {
@@ -28,6 +30,7 @@ describe('independent NAVMC documents', () => {
     registry.switchTo(first);
     expect(getSerializedSession().forms).toEqual(session.forms);
     expect(useDocumentsStore.getState().docs[first].meta.title).toBe('Original');
+    expect(searchableText(useDocumentsStore.getState().docs[copy.meta.id])).toContain('second');
     const stored = (await idbGetAllDocuments())!.find((d) => d.id === first)!;
     loadSharedSession(stored.session);
     expect(getSerializedSession().forms).toEqual(session.forms);
@@ -45,4 +48,28 @@ describe('independent NAVMC documents', () => {
     expect(useFormStore.getState().navmc10274.supplementalInfo).toBe('Keep this form');
   });
 
+  it('shares only the active form, without other draft content or images', async () => {
+    useDocumentStore.getState().setFormData({ subject: 'Unrelated private letter' });
+    useDocumentsStore.getState().newDocument('navmc_10274');
+    useFormStore.getState().setNavmc10274Field('natureOfAction', 'Recipient content');
+    useFormStore.getState().setNavmc10274Field('signatureBlocks', [{ name: 'Signer', statement: '', style: 'image', image: 'data:image/png;base64,abc' }]);
+    useFormStore.getState().setNavmc11811Field('remarksText', 'Unrelated private form');
+    const local = getSerializedSession();
+    const shared = getSerializedSessionForShare();
+    expect(JSON.stringify(shared)).not.toContain('Unrelated');
+    expect(shared.forms?.navmc10274?.signatureBlocks[0].image).toBeUndefined();
+    expect(local.forms?.navmc10274?.signatureBlocks[0].image).toBeDefined();
+    const encrypted = await encryptSharePayload(shared, 'test password');
+    await expect(decryptSharePayload(encrypted, 'wrong password')).rejects.toThrow();
+    const incoming = parseSharedSession(await decryptSharePayload(encrypted, 'test password'));
+    useDocumentsStore.getState().newDocument('navmc_10274');
+    loadSharedSession(incoming);
+    expect(useFormStore.getState().navmc10274.natureOfAction).toBe('Recipient content');
+  });
+
+  it('rejects incomplete form links before replacing any live fields', () => {
+    const invalid = { ...getSerializedSession(), documentCategory: 'forms', forms: undefined };
+    expect(() => parseSharedSession(invalid)).toThrow('missing the filled form');
+    expect(() => parseSharedSession({ paragraphs: 'bad' })).toThrow('supported DonDocs');
+  });
 });
