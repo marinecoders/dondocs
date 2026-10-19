@@ -22,6 +22,18 @@ const DOCS_STORE = 'documents';
 const APP_STORE = 'app'; // key/value store; currently just { key:'currentId', value }
 const ATTACHMENTS_STORE = 'attachments'; // enclosure file blobs, keyed by content-free id
 
+export async function putBatchOutput(id: string, data: Uint8Array): Promise<boolean> {
+  try { await run(APP_STORE, 'readwrite', (s) => s.put({ key: `batch:${id}`, value: data })); return true; }
+  catch { return false; }
+}
+export async function getBatchOutput(id: string): Promise<Uint8Array | null> {
+  try { return (await run<{ value: Uint8Array } | undefined>(APP_STORE, 'readonly', (s) => s.get(`batch:${id}`)))?.value ?? null; }
+  catch { return null; }
+}
+export async function deleteBatchOutput(id: string): Promise<void> {
+  try { await run(APP_STORE, 'readwrite', (s) => s.delete(`batch:${id}`)); } catch { /* retry on the next new job */ }
+}
+
 const hasIndexedDb = typeof indexedDB !== 'undefined';
 
 /** Whether a durable document store exists (false in private mode / blocked

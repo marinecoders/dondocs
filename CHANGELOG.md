@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.185] — 2026-10-19
+
+### Changed
+- Keep batch source documents and results with pause, resume, and retry controls.
+
 ## [1.2.184] — 2026-10-19
 
 ### Changed

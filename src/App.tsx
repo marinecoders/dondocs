@@ -1,3 +1,4 @@
+import { useBatchStore } from '@/stores/batchStore';
 import { sessionSearchFields, findSearchMatch } from '@/lib/workspaceSearch';
 import { saveCheckpoint } from '@/lib/saveCheckpoint';
 import { iTypeExportErrors } from '@/lib/iTypePreflight';
@@ -560,7 +561,9 @@ function App() {
     []
   );
 
+  const batchRunning = useBatchStore((s) => s.status === 'running');
   const compilePdf = useCallback(async () => {
+    if (useBatchStore.getState().status === 'running') return;
     if (!isReady) return;
     // Invalidate any pending idle upgrade and stamp this compile so a late idle
     // pass from a previous edit can't swap in a stale PDF.
@@ -714,7 +717,7 @@ function App() {
 
   // Debounced compilation on document changes
   useEffect(() => {
-    if (!isReady) return;
+    if (!isReady || batchRunning) return;
 
     if (compileTimeoutRef.current) {
       clearTimeout(compileTimeoutRef.current);
@@ -737,6 +740,7 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isReady,
+    batchRunning,
     docType,
     formData,
     references,

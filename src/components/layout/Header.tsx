@@ -1,3 +1,5 @@
+import { detectPlaceholders } from '@/lib/placeholders';
+import { useFormStore } from '@/stores/formStore';
 import { buildDraftFile, parseDraftFile, type ReviewedDraft } from '@/lib/draftFile';
 import { SessionPreview } from '@/components/SessionPreview';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
@@ -286,25 +288,17 @@ export function Header({
   // Does the document contain any {{VARIABLE}} placeholders? Reads via
   // getState() at click time, so the callback has no store dependencies.
   const hasVariables = useCallback(() => {
-    const variablePattern = /\{\{[A-Z0-9_]+\}\}/;
-    const { formData, paragraphs } = useDocumentStore.getState();
-
-    const fieldsToCheck = [
-      formData.subject,
-      formData.from,
-      formData.to,
-      formData.via,
-    ];
-
-    for (const field of fieldsToCheck) {
-      if (field && variablePattern.test(field)) return true;
+    const { documentCategory, formType, formData, paragraphs } = useDocumentStore.getState();
+    if (documentCategory === 'forms' && useDocumentStore.getState().genericForm) return false;
+    if (documentCategory === 'forms') {
+      const forms = useFormStore.getState();
+      const active = formType === 'navmc_118_11' ? forms.navmc11811 : forms.navmc10274;
+      return Object.values(active).some((value) => typeof value === 'string' && detectPlaceholders(value).length > 0)
+        || active.signatureBlocks.some((block) => detectPlaceholders(`${block.name} ${block.statement}`).length > 0);
     }
-
-    for (const para of paragraphs) {
-      if (variablePattern.test(para.text)) return true;
-    }
-
-    return false;
+    return [formData.subject, formData.from, formData.to, formData.via,
+      ...paragraphs.flatMap((paragraph) => [paragraph.text, paragraph.header ?? ''])]
+      .some((value) => detectPlaceholders(value ?? '').length > 0);
   }, []);
 
   // Handle download PDF - redirect to batch mode if variables detected
