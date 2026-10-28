@@ -30,6 +30,10 @@ concurrency:
 
 jobs:
   sync:
+    # GitHub withholds repo secrets from runs Dependabot triggers, so the
+    # script would fail on every dependency PR. It skips bot-authored items
+    # anyway; the human merge still syncs.
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
