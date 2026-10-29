@@ -289,9 +289,10 @@ function App() {
     parseShareUrl(window.location.href)
   );
 
-  // Captured at mount: the hash is cleared once the import modal closes, which
-  // can happen before the registry finishes hydrating.
-  const openedShareLinkRef = useRef(sharePayloadFromHash !== null);
+  // Someone who followed a share or companion link came for that document, not
+  // a welcome. Captured at mount: both hashes are cleared from the address bar,
+  // the share hash possibly before the registry finishes hydrating.
+  const arrivedByLinkRef = useRef(sharePayloadFromHash !== null);
 
   // If the URL had a share hash, open the import modal once on mount, after
   // render rather than during state init.
@@ -310,6 +311,7 @@ function App() {
   useEffect(() => {
     const payload = parseHandoffUrl(window.location.href);
     if (!payload) { return; }
+    arrivedByLinkRef.current = true;
     const u = window.location;
     window.history.replaceState(null, '', u.pathname + u.search);
     const session = decodeHandoff(payload);
@@ -393,7 +395,7 @@ function App() {
         if (applyHandoff()) return;
         if (resumed) return;
         seedFreshStart();
-        if (!cancelled && !openedShareLinkRef.current) showWelcomeOnFirstVisit();
+        if (!cancelled && !arrivedByLinkRef.current) showWelcomeOnFirstVisit();
       })
       // Hydration shouldn't reject (storage failures are caught internally), but
       // if it ever does, degrade to a usable seeded document instead of an

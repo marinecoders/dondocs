@@ -5,6 +5,8 @@
  */
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+// Before anything that persists state: it reads whether storage was empty.
+import '@/lib/firstVisit'
 import './index.css'
 import App from './App.tsx'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
