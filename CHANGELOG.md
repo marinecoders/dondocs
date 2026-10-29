@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.190] — 2026-10-29
+
+### Fixed
+- A focused field keeps its full focus border when the pointer is over it.
+
 ## [1.2.189] — 2026-10-29
 
 ### Fixed

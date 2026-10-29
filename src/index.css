@@ -615,7 +615,7 @@
   border-bottom-color: var(--border);
   border-radius: 4px;
 }
-.workspace-editor [data-field-surface] :is([data-slot="input"], [data-slot="textarea"], [data-slot="select-trigger"], select):hover:not(:disabled):not([aria-invalid="true"]):not(.border-destructive) {
+.workspace-editor [data-field-surface] :is([data-slot="input"], [data-slot="textarea"], [data-slot="select-trigger"], select):hover:not(:disabled):not(:focus-visible):not([aria-invalid="true"]):not(.border-destructive) {
   background: color-mix(in oklab, var(--muted) 35%, transparent);
   border-bottom-color: var(--muted-foreground);
 }
