@@ -465,7 +465,10 @@
 }
 
 
-.workspace-header [data-slot="button"] { font-size: 0.75rem; font-weight: 500; box-shadow: none; }
+/* Menu triggers carry their own data-slot, so name both. Keep the focus ring:
+   it is a box-shadow too. */
+.workspace-header :is([data-slot="button"], [data-slot="dropdown-menu-trigger"]) { font-size: 0.75rem; font-weight: 500; }
+.workspace-header :is([data-slot="button"], [data-slot="dropdown-menu-trigger"]):not(:focus-visible) { box-shadow: none; }
 /* Restore the original EGA watermark only in Classic's editor background. */
 :root[data-theme="classic"] .workspace-editor { position: relative; isolation: isolate; }
 :root[data-theme="classic"] .workspace-editor::before {
