@@ -13,6 +13,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { SaveStatus } from '@/components/SaveStatus';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { useBackupStore, type BackupStatus } from '@/stores/backupStore';
 import { useUIStore } from '@/stores/uiStore';
 
@@ -33,7 +34,7 @@ describe('SaveStatus', () => {
   it('says "Local only" for every backup status that leaves no external copy', () => {
     for (const s of ['off', 'unsupported', 'needs-permission', 'error'] as BackupStatus[]) {
       useBackupStore.setState({ status: s });
-      const { unmount } = render(<SaveStatus />);
+      const { unmount } = render(<TooltipProvider><SaveStatus /></TooltipProvider>);
       expect(screen.getByText('Local only'), `status "${s}" should admit it`).toBeTruthy();
       unmount();
     }
@@ -41,7 +42,7 @@ describe('SaveStatus', () => {
 
   it('says "Backed up" and drops "Local only" once the mirror has written', () => {
     useBackupStore.setState({ status: 'connected', lastBackupAt: Date.now() });
-    render(<SaveStatus />);
+    render(<TooltipProvider><SaveStatus /></TooltipProvider>);
     expect(screen.getByText('Backed up')).toBeTruthy();
     expect(screen.queryByText('Local only')).toBeNull();
   });
@@ -50,13 +51,13 @@ describe('SaveStatus', () => {
     // Transient: the next save mirrors. "Local only" here would be alarming and
     // about to be wrong, "Backed up" would be a promise no file is keeping.
     useBackupStore.setState({ status: 'connected', lastBackupAt: null });
-    render(<SaveStatus />);
+    render(<TooltipProvider><SaveStatus /></TooltipProvider>);
     expect(screen.queryByText('Local only')).toBeNull();
     expect(screen.queryByText('Backed up')).toBeNull();
   });
 
   it('offers one-click setup where the browser supports it', () => {
-    render(<SaveStatus />); // status: 'off'
+    render(<TooltipProvider><SaveStatus /></TooltipProvider>); // status: 'off'
     fireEvent.click(screen.getByRole('button', { name: /Local only/ }));
     expect(useBackupStore.getState().setupBackup).toHaveBeenCalledOnce();
   });
@@ -65,52 +66,52 @@ describe('SaveStatus', () => {
     // The strip that explains these is dismissible; this isn't. It shares the
     // store's mapping, so the two can never offer different answers.
     useBackupStore.setState({ status: 'needs-permission' });
-    const { rerender } = render(<SaveStatus />);
+    const { rerender } = render(<TooltipProvider><SaveStatus /></TooltipProvider>);
     fireEvent.click(screen.getByRole('button', { name: /Local only/ }));
     expect(useBackupStore.getState().reconnect).toHaveBeenCalledOnce();
     expect(useBackupStore.getState().setupBackup).not.toHaveBeenCalled();
 
     // A file that is really gone is the one case a new file fixes.
     useBackupStore.setState({ status: 'error', fileMissing: true });
-    rerender(<SaveStatus />);
+    rerender(<TooltipProvider><SaveStatus /></TooltipProvider>);
     fireEvent.click(screen.getByRole('button', { name: /Local only/ }));
     expect(useBackupStore.getState().setupBackup).toHaveBeenCalledOnce();
 
     // A write something else refused leaves the file good; re-picking is noise.
     useBackupStore.setState({ status: 'error', fileMissing: false });
-    rerender(<SaveStatus />);
+    rerender(<TooltipProvider><SaveStatus /></TooltipProvider>);
     fireEvent.click(screen.getByRole('button', { name: /Local only/ }));
     expect(useBackupStore.getState().writeNow).toHaveBeenCalledOnce();
     expect(useBackupStore.getState().setupBackup).toHaveBeenCalledOnce(); // still just the one
   });
 
-  it('explains the failure the same way the button repairs it', () => {
+  it('explains the failure the same way the button repairs it', async () => {
     // A tooltip saying "something is blocking access" above a button labelled
     // "choose a new backup file" tells the user two different stories about one
     // state. The hint has to follow the same fact the action does.
     useBackupStore.setState({ status: 'error', fileMissing: true });
-    const { rerender } = render(<SaveStatus />);
-    expect(screen.getByRole('button', { name: /choose a new backup file/i })).toBeTruthy();
-    expect(screen.getByTitle(/can't find its file/i)).toBeTruthy();
+    const { rerender } = render(<TooltipProvider><SaveStatus /></TooltipProvider>);
+    fireEvent.focus(screen.getByRole('button', { name: /choose a new backup file/i }));
+    expect((await screen.findByRole('tooltip')).textContent).toMatch(/can't find its file/i);
 
     useBackupStore.setState({ status: 'error', fileMissing: false });
-    rerender(<SaveStatus />);
+    rerender(<TooltipProvider><SaveStatus /></TooltipProvider>);
     expect(screen.getByRole('button', { name: /try backing up again/i })).toBeTruthy();
-    expect(screen.getByTitle(/blocking access/i)).toBeTruthy();
+    expect((await screen.findByRole('tooltip')).textContent).toMatch(/blocking access/i);
   });
 
   it('is plain text — not a dead button — where auto-backup is impossible', () => {
     // Safari/Firefox have no File System Access API. Advertising an action the
     // browser cannot perform is the failure mode the install banner avoids too.
     useBackupStore.setState({ status: 'unsupported' });
-    render(<SaveStatus />);
+    render(<TooltipProvider><SaveStatus /></TooltipProvider>);
     expect(screen.queryByRole('button', { name: /Local only/ })).toBeNull();
     expect(screen.getByTitle(/Download or Download workspace backup/)).toBeTruthy();
   });
 
   it('stays quiet until there is work to lose', () => {
     useUIStore.setState({ lastSavedAt: null });
-    const { container } = render(<SaveStatus />);
+    const { container } = render(<TooltipProvider><SaveStatus /></TooltipProvider>);
     expect(container.firstChild).toBeNull();
   });
 });

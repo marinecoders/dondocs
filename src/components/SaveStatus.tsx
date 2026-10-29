@@ -2,6 +2,7 @@ import { useEffect, useReducer } from 'react';
 import { Check, Loader2, AlertCircle, FolderSync, HardDrive } from 'lucide-react';
 import { useUIStore } from '@/stores/uiStore';
 import { backupAction, useBackupStore, type BackupStatus } from '@/stores/backupStore';
+import { IconTip } from '@/components/ui/icon-tip';
 
 function savedAgo(ts: number): string {
   const s = Math.floor((Date.now() - ts) / 1000);
@@ -110,18 +111,19 @@ export function SaveStatus({ className }: { className?: string }) {
         <span className="inline-flex items-center gap-1 whitespace-nowrap">
           <span aria-hidden>·</span>
           {fix ? (
-            <button
-              type="button"
-              onClick={() => void fix.run()}
-              // Keeps the visible text as the start of the name, so voice
-              // control still matches "click Local only".
-              aria-label={`Local only — ${fix.label}`}
-              title={localOnlyHint(backupStatus, fileMissing)}
-              className="inline-flex items-center gap-1 whitespace-nowrap rounded-sm underline decoration-dotted underline-offset-2 outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
-            >
-              <HardDrive className="hidden h-3 w-3 shrink-0 sm:block" aria-hidden />
-              Local only
-            </button>
+            <IconTip label={localOnlyHint(backupStatus, fileMissing)}>
+              <button
+                type="button"
+                onClick={() => void fix.run()}
+                // Keeps the visible text as the start of the name, so voice
+                // control still matches "click Local only".
+                aria-label={`Local only — ${fix.label}`}
+                className="inline-flex items-center gap-1 whitespace-nowrap rounded-sm underline decoration-dotted underline-offset-2 outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
+              >
+                <HardDrive className="hidden h-3 w-3 shrink-0 sm:block" aria-hidden />
+                Local only
+              </button>
+            </IconTip>
           ) : (
             <span className="inline-flex items-center gap-1 whitespace-nowrap" title={localOnlyHint(backupStatus, fileMissing)}>
               <HardDrive className="hidden h-3 w-3 shrink-0 sm:block" aria-hidden />
