@@ -7,6 +7,7 @@ import {
 import { TourButton } from '@/components/tour/TourButton';
 import { useTourStore, hasCompletedTour } from '@/stores/tourStore';
 import { useUIStore } from '@/stores/uiStore';
+import { getDeviceInfo } from '@/utils/device';
 // Script face for the "Marine Coders" sign-off. Self-hosted via @fontsource
 // (same-origin, no web-font CDN) to stay air-gap safe.
 import '@fontsource/damion/400.css';
@@ -26,6 +27,9 @@ const SERIF = 'Georgia, "Times New Roman", serif';
 const SIG_FONT = "'Damion', cursive";
 // Fixed issue date: the welcome letter is dated once, not on every visit.
 const ISSUE_DATE = '29 Dec 2025';
+// Set the first time the letter opens on its own. Earlier releases wrote it
+// only on "don't show again", so any value means this browser has seen it.
+const WELCOME_SEEN_KEY = 'dondocs-welcome-shown';
 
 export function WelcomeModal() {
   const open = useUIStore((state) => state.welcomeOpen);
@@ -153,5 +157,25 @@ export function WelcomeModal() {
 
 // Export helper to reset welcome modal (for settings/help menu)
 export function resetWelcomeModal() {
+  useUIStore.getState().setWelcomeOpen(true);
+}
+
+/**
+ * Greet a first-time visitor. App calls this only on a fresh start that didn't
+ * arrive through a share or companion link, so a recipient opening a document
+ * goes straight to it. The letter opens once per browser: someone who never
+ * saves a document still starts fresh next visit, and shouldn't be greeted again.
+ */
+export function showWelcomeOnFirstVisit() {
+  // In-app browsers get the browser-compatibility notice instead.
+  if (getDeviceInfo().isInAppBrowser) return;
+  try {
+    if (localStorage.getItem(WELCOME_SEEN_KEY)) return;
+    localStorage.setItem(WELCOME_SEEN_KEY, '1');
+  } catch {
+    // Blocked storage can't remember the letter was shown, so skip it rather
+    // than open it on every visit. Help still has it.
+    return;
+  }
   useUIStore.getState().setWelcomeOpen(true);
 }

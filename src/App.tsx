@@ -37,7 +37,7 @@ import { BatchModal } from '@/components/modals/BatchModal';
 import { FindReplaceModal } from '@/components/modals/FindReplaceModal';
 import { TemplateLoaderModal } from '@/components/modals/TemplateLoaderModal';
 import { DocumentGuideModal } from '@/components/modals/DocumentGuideModal';
-import { WelcomeModal } from '@/components/modals/WelcomeModal';
+import { WelcomeModal, showWelcomeOnFirstVisit } from '@/components/modals/WelcomeModal';
 import { TourOverlay } from '@/components/tour/TourOverlay';
 import { ActivationChecklist } from '@/components/onboarding/ActivationChecklist';
 import { useOnboardingStore } from '@/stores/onboardingStore';
@@ -289,6 +289,10 @@ function App() {
     parseShareUrl(window.location.href)
   );
 
+  // Captured at mount: the hash is cleared once the import modal closes, which
+  // can happen before the registry finishes hydrating.
+  const openedShareLinkRef = useRef(sharePayloadFromHash !== null);
+
   // If the URL had a share hash, open the import modal once on mount, after
   // render rather than during state init.
   useEffect(() => {
@@ -387,7 +391,9 @@ function App() {
       .init()
       .then((resumed) => {
         if (applyHandoff()) return;
-        if (!resumed) seedFreshStart();
+        if (resumed) return;
+        seedFreshStart();
+        if (!cancelled && !openedShareLinkRef.current) showWelcomeOnFirstVisit();
       })
       // Hydration shouldn't reject (storage failures are caught internally), but
       // if it ever does, degrade to a usable seeded document instead of an

@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.188] — 2026-10-29
+
+### Changed
+- Show the welcome letter again on a first visit. It opens once per browser and stays out of the way for anyone opening a share link, arriving from the companion, or using an in-app browser.
+
 ## [1.2.187] — 2026-10-19
 
 ### Changed
