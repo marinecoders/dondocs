@@ -65,6 +65,13 @@
     overflow: hidden;
   }
 
+  /* Tailwind 4's preflight leaves buttons on the default arrow, so nothing
+     signals that they can be clicked. Utilities like cursor-not-allowed still win. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+
   /* Scrollbars follow the active appearance. */
   * {
     scrollbar-width: thin;

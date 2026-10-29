@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.191] — 2026-10-29
+
+### Fixed
+- Buttons show the pointer cursor, so it's clear they can be clicked.
+
 ## [1.2.190] — 2026-10-29
 
 ### Fixed
