@@ -74,6 +74,21 @@ export const SL3_INVENTORY_GRID = {
     269, 269, 3053,
   ],
 } as const;
+// Final inventory-signature tables in the supplied Word templates (twips).
+export const SL3_CERTIFICATION_LAYOUT = {
+  portrait: {
+    rows: 20,
+    rowHeight: 518,
+    topRule: true,
+    grid: [2808, 360, 3057, 270, 2973],
+  },
+  landscape: {
+    rows: 12,
+    rowHeight: 576,
+    topRule: false,
+    grid: [4430, 554, 4800, 554, 4062],
+  },
+} as const;
 export const newSl3Component = (id: string): Sl3Component =>
   sl3Schema.shape.components.unwrap().element.parse({ id, category: 'ssri' });
 

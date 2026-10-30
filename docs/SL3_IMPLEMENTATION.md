@@ -25,7 +25,7 @@ The complete requirement matrix, source identities, exceptions and validation ar
 
 ## Acceptance and limits
 
-One saved SL-3 supports both orientations, six-row covers and overflow lists, fixed preface, notes or None, technical data, end-item illustration, SSRI, optional collateral, mandatory UURI, sequential inventory numbers, parent/component relationships, optional figure/model columns, twelve periodic cells, legends and inventory signature spaces. Unit of issue is recorded separately from unit of measure. Associated component TAMCNs require a covered primary TAMCN, positive ratio and configuration-source reference.
+One saved SL-3 supports both orientations, six-row covers and overflow lists, fixed preface, notes or None, technical data, end-item illustration, SSRI, optional collateral, mandatory UURI, sequential inventory numbers, parent/component relationships, optional figure/model columns, twelve periodic cells, legends and complete inventory-certification sheets: twenty writing rows in portrait and twelve in the widened layout, with the source captions and column geometry. Unit of issue is recorded separately from unit of measure. Associated component TAMCNs require a covered primary TAMCN, positive ratio and configuration-source reference.
 
 Missing component illustrations print Not Shown. Draft preview remains available; PDF export rejects incomplete or contradictory data and sheets that cannot fit. Authors can reduce rows per sheet for longer descriptions. Export prepares an unsigned authentication signature field for external signing and rejects by-direction authentication.
 

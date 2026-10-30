@@ -10,8 +10,36 @@ import { sl3Fixture } from "../_helpers/sl3Fixture";
 import { letterSchema } from "../../companion/letterSchema";
 import { validateLetter } from "../../companion/validateLetter";
 import { renderToFile } from "../../companion/renderToFile";
+import { expectSl3Certification } from "../_helpers/sl3Certification";
 
 describe("SL-3 production export", () => {
+  it.each(["portrait", "landscape"] as const)("renders the complete %s certification and locates authentication after cover overflow", async (orientation) => {
+    const root = await mkdtemp(join(tmpdir(), `dondocs-sl3-cert-${orientation}-`));
+    const input = companionSl3();
+    input.publication!.sl3!.orientation = orientation;
+    const endItem = input.publication!.endItems![0];
+    input.publication!.endItems = Array.from({ length: 7 }, (_, i) => ({ ...endItem, model: `MODEL-${i + 1}` }));
+    expect(validateLetter(input)).toEqual([]);
+    const result = await renderToFile(input, {}, root);
+    const bytes = await readFile(result.path);
+    const pdf = await PDFDocument.load(bytes);
+    await expectSl3Certification(bytes, pdf.getPageCount(), orientation);
+    const destinations = pdf.catalog
+      .lookup(PDFName.of("Names"), PDFDict)
+      .lookup(PDFName.of("Dests"), PDFDict)
+      .lookup(PDFName.of("Names"), PDFArray);
+    const certification = Array.from({ length: destinations.size() / 2 }, (_, i) => i * 2)
+      .find((i) => destinations.lookup(i, PDFString).decodeText() === "sl3.certification");
+    expect(certification).toBeDefined();
+    expect(destinations.lookup(certification! + 1, PDFArray).get(0)?.toString())
+      .toBe(pdf.getPages().at(-1)!.ref.toString());
+    const widget = pdf.getForm().getField("Signature1").acroField.getWidgets()[0];
+    expect(widget.P()?.toString()).toBe(pdf.getPage(2).ref.toString());
+    const pages = spawnSync("pdftotext", ["-layout", result.path, "-"], { encoding: "utf8" }).stdout.split("\f");
+    expect(pages[1]).toContain("T-2");
+    expect(pages[2]).toContain("OFFICIAL");
+    expect(pages.filter((page) => page.trim()).at(-1)).toContain("INVENTORY CERTIFICATION");
+  }, 60000);
   it("fits optional-column sheets and keeps the boundary parent with its first child", async () => {
     const root = await mkdtemp(join(tmpdir(), "dondocs-sl3-boundary-"));
     const input = companionSl3();
@@ -158,11 +186,15 @@ describe("SL-3 production export", () => {
     input.publication!.sl3 = undefined;
     expect(validateLetter(input).join(" ")).toContain("publication.sl3");
   });
-  it.each(["cui", "secret"] as const)(
-    "exports synthetic %s markings through the production engine",
-    async (level) => {
-      const root = await mkdtemp(join(tmpdir(), `dondocs-sl3-${level}-`));
+  it.each([
+    ["cui", "portrait"], ["cui", "landscape"],
+    ["secret", "portrait"], ["secret", "landscape"],
+  ] as const)(
+    "exports synthetic %s markings in %s through the production engine",
+    async (level, orientation) => {
+      const root = await mkdtemp(join(tmpdir(), `dondocs-sl3-${level}-${orientation}-`));
       const input = companionSl3();
+      input.publication!.sl3!.orientation = orientation;
       input.classification = {
         level,
         basis: "original",
@@ -180,6 +212,9 @@ describe("SL-3 production export", () => {
         level === "secret" ? "S" : "CUI";
       expect(validateLetter(input)).toEqual([]);
       const result = await renderToFile(input, {}, root);
+      const bytes = await readFile(result.path);
+      const pdf = await PDFDocument.load(bytes);
+      await expectSl3Certification(bytes, pdf.getPageCount(), orientation);
       const pages = spawnSync("pdftotext", ["-layout", result.path, "-"], {
         encoding: "utf8",
       })

@@ -4,6 +4,7 @@ import type { DocumentData, Paragraph } from '@/types/document';
 import {
   SL3_CATEGORIES,
   SL3_INVENTORY_GRID,
+  SL3_CERTIFICATION_LAYOUT,
   emptySl3,
   orderedSl3Components,
   sl3Depth,
@@ -394,9 +395,44 @@ export function generateSl3Body(store: Store): string {
       start = end;
     } while (start < categoryItems.length);
   }
+  const certification = SL3_CERTIFICATION_LAYOUT[data.orientation];
+  const grid = certification.grid.map((twips) => twips / 20);
+  const certificationWidth = grid.reduce((sum, width) => sum + width, 0);
+  const certificationColumns = [0, 2, 4]
+    .map(
+      (column, i) =>
+        `>{\\centering\\arraybackslash}p{${grid[column]}bp}` +
+        (i < 2 ? `@{\\hspace{${grid[column + 1]}bp}}` : ''),
+    )
+    .join('');
+  // Word's collapsed 0.5-point border adds to its minimum row height. Keep
+  // those measured line centers while applying the PDF standard's rule weight.
+  const rowPitch = certification.rowHeight / 20 + 0.5;
+  const gridHeight = certification.rows * rowPitch;
+  const rules: string[] = [];
+  for (let row = certification.topRule ? 0 : 1; row <= certification.rows; row++) {
+    let x = 0;
+    for (let column = 0; column < 5; column++) {
+      if (column % 2 === 0)
+        rules.push(
+          `\\put(${x.toFixed(4)},${(gridHeight - row * rowPitch).toFixed(4)}){\\line(1,0){${grid[column]}}}`,
+        );
+      x += grid[column];
+    }
+  }
   out.push(
-    heading('INVENTORY CERTIFICATION', 'sl3.certification') +
-      '\\vspace{24pt}\n\\begin{tabularx}{\\textwidth}{XXX}INVENTORIED BY & SUPERVISED BY & DATE\\tabularnewline\\vspace{24pt}\\hrulefill & \\hrulefill & \\hrulefill\\tabularnewline Signature of inventory preparer & Signature of inventory supervisor & Date inventory completed\\end{tabularx}\n',
+    // The signature table has its own centered source grid and page margins.
+    `\\slThreeInventoryLayout{0.5in}{0.5in}{${data.orientation === 'landscape' ? '11in' : '8.5in'}}{11in}\n`,
+    `\\slThreeCertification{${certificationWidth}bp}{` +
+      heading('INVENTORY CERTIFICATION', 'sl3.certification') +
+      '\\fontsize{10}{12}\\selectfont\\setlength{\\tabcolsep}{0pt}\\renewcommand{\\arraystretch}{1}\n' +
+      `\\begin{tabular}{@{}${certificationColumns}@{}}\n` +
+      '\\textbf{INVENTORIED BY} & \\textbf{SUPERVISED BY} & \\textbf{DATE}\\tabularnewline[6pt]\n' +
+      '\\textbf{(Signature of person conducting inventory)} & \\textbf{(Signature of person certifying/supervising inventory)} & \\textbf{(Date inventory completed)}\\tabularnewline[6pt]\\hline\n' +
+      '\\end{tabular}\\par\\vspace{12bp}\\nointerlineskip\\noindent\n' +
+      `\\setlength{\\unitlength}{1bp}\\linethickness{0.75bp}\\begin{picture}(${certificationWidth},${gridHeight})\n` +
+      rules.join('\n') +
+      '\\end{picture}}\n',
   );
   return out.join('');
 }

@@ -11,6 +11,7 @@ import {
 import { sl3Fixture } from '../_helpers/sl3Fixture';
 import { SL3_INVENTORY_GRID } from '@/data/techpub/sl3';
 import { sl3ExportErrors } from '@/lib/sl3Preflight';
+import { expectSl3Certification } from '../_helpers/sl3Certification';
 
 describeToolchainRequirement('sl3-render');
 describe.skipIf(!hasPdfToolchain)('SL-3 rendered publication', () => {
@@ -57,6 +58,10 @@ describe.skipIf(!hasPdfToolchain)('SL-3 rendered publication', () => {
         }
       }
       const pdf = await PDFDocument.load(result.pdfBytes!);
+      await expectSl3Certification(result.pdfBytes!, pdf.getPageCount(), orientation);
+      const certificationText = text.split('\f').filter((page) => page.trim()).at(-1)!;
+      expect(certificationText).toContain('INVENTORY CERTIFICATION');
+      expect(certificationText).toContain('certifying/supervising inventory)');
       expect(
         pdf
           .getPages()

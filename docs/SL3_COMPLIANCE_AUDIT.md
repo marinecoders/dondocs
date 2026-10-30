@@ -98,6 +98,14 @@ Service-specific clauses marked only `(A)`, `(F)` or `(N)` are not applied as Ma
 - **Conditional features not implemented:** dedicated critical-item symbols and effectivity/applicability-code authoring are not supported. Publications requiring these features need additional implementation and review.
 - **Human review still required:** official nomenclature/capitalization, no acronym misuse in titles, FEDLOG units, completeness, controlled markings, image rights/legibility and authorized signing. The editor cannot verify these against authoritative program records.
 
+## Inventory-certification reinspection
+
+The first audit missed a material template mismatch: the final inventory-certification sheet contained only one writing row, and cell-local vertical spacing put the first signature rule below the other two. The supplied portrait template has **20 writing rows** (21 bounding horizontal rule sets); the landscape template has **12 writing rows**, with bottom rules only. These are periodic inventory signatures, separate from the single front-matter publication-authentication field.
+
+Fixed: restore all rows, the verbatim captions, the source column widths/gaps and centered grid. The templates' measured line-center pitches are 26.4 bp and 29.3 bp respectively; PDF rules use the standard's 0.75-point weight. The portrait form's own symmetric margins center it independently of the inventory table. The entire form is measured and kept on one page; export refuses an over-height form instead of clipping or splitting it. The widened PDF selection retains its 11 × 11-inch media box. Paper-only blank-page instructions from the Word template are not inserted.
+
+Regression checks inspect actual PDF vectors for row counts, rule alignment, column coordinates, widths, pitch, weight and footer/banner clearance in both native and production engines. Production cases cover both layouts with an overflowing cover and synthetic CUI/SECRET markings. They also verify that the certification bookmark resolves to the final page and the authentication widget remains on its actual front-matter page. Template assets are versioned to v14 so existing installations fetch the matching certification macro.
+
 ## Validation evidence
 
 The audit adds tests for source-manual/unit-of-issue requirements, TAMCN association/ratio checks, prohibited by-direction signing, navigation page references and real PDF link destinations, exact table-column geometry, PDF landscape geometry, no cover number, control banners and cover-PCN clearance, and oversized-sheet refusal/recovery with a smaller row limit. The advertised Companion cross-product test now uses an SL-3 publication fixture instead of a letter fixture; this was the failing CI case.
@@ -108,12 +116,12 @@ Production text measurements place the unclassified running title at approximate
 
 Passing tests do not replace the open font/tailoring and sponsor-data requirements listed above. Local validation:
 
-- Unit/component and coverage run: 3,227 tests in 273 files passed; statement coverage 61.97%, with configured gates passing.
-- Full integration suite: 1,366 tests in 72 files passed during the audit; the final SL-3 render/export rerun passed all fifteen tests after the last layout corrections.
+- Unit/component and coverage run: 3,227 tests in 273 files passed; statement coverage 62.02%, with configured gates passing.
+- Full integration suite: 1,371 tests in 72 files passed. The final focused SL-3 native/production rerun passed all nineteen tests, including signature-grid geometry, certification destinations and authentication after cover overflow. PR checks report validation of the pushed commit.
 - Pairwise native LaTeX matrix: all twenty SL-3 combinations passed.
 - TypeScript, ESLint, production build, Companion build and generated-template synchronization passed.
 - Production PDF inspection verified actual page references/destinations, collapsed outline hierarchy, URI links, authentication widget placement and lower cover-banner clearance. CUI/SECRET fixtures contain synthetic information only.
-- Hosted upgrade inspection exposed a cache mismatch: the new generator could load the preceding SL-3 template from the service worker's cache-first store. The template script URL is advanced to v13 so existing installations fetch the matching macros. This is verified by reopening the existing synthetic branch-preview draft after deployment.
+- Hosted upgrade inspection exposed a cache mismatch: the new generator could load the preceding SL-3 template from the service worker's cache-first store. The template script URL is advanced to v14 so existing installations fetch the matching macros. This is verified by reopening the existing synthetic branch-preview draft after deployment.
 - Linux CI exposed a row-height defect in older `array` versions (also used by the production engine): an explicitly ended description paragraph gained an empty line when the outer p-column closed. Description text now uses a local paragraph box, retaining indentation without the extra line. The original boundary fixture is restored. The failing TeX files were reproduced and recompiled successfully with TeX Live 2023 in Ubuntu 24.04; the same sheet-height limit remains in force. Five valid rendered cases (wide, nested/optional, cover overflow, CUI and SECRET) also compile twice under that Linux toolchain. A production-engine regression now exports the full optional-column boundary fixture. Boundary assertions exclude the contents page, and independent tall-sheet refusal/recovery tests remain intact.
 
 CI status is live on PR #359. The previous compile-matrix failure was the generic-letter fixture used for SL-3; that case now uses the valid SL-3 publication fixture. The PR remains a draft because the material compliance exceptions above are unresolved.

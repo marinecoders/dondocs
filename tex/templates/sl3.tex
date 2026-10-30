@@ -124,6 +124,14 @@
   \dondocsReferenceLink{#1}{#2}%
 }
 \newsavebox{\slThreeRows}
+\newsavebox{\slThreeCertificationBox}
+\newcommand{\slThreeCertification}[2]{%
+  \sbox{\slThreeCertificationBox}{\begin{minipage}{#1}#2\end{minipage}}%
+  \ifdim\dimexpr\ht\slThreeCertificationBox+\dp\slThreeCertificationBox>\textheight
+    \PackageError{SL-3}{Inventory certification exceeds one page}{Shorten the running header so all signature rows fit.}%
+  \fi
+  \noindent\makebox[\linewidth][c]{\usebox{\slThreeCertificationBox}}\par
+}
 \newsavebox{\slThreeIdentifierBox}
 \newcommand{\slThreeIdentifier}[1]{%
   \sbox{\slThreeIdentifierBox}{#1}%
