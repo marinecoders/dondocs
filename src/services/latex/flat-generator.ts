@@ -405,6 +405,8 @@ function buildLetterhead(data: Partial<DocumentData>): string {
 /** Right-aligned SSIC/Serial/Date block using tabularX */
 function buildSSICBlock(data: Partial<DocumentData>, alignRight = true): string {
   const items: string[] = [];
+  // Heads the sender's symbols, as in the PDF (SECNAV M-5216.5 ¶7-2.3, App C ¶3.a).
+  if (data.inReplyTo) items.push('IN REPLY REFER TO');
   if (data.ssic) items.push(escapeTabular(data.ssic));
   // The originator's code shares this line with the serial, so compose the two
   // the way the PDF path does — otherwise Word and PDF disagree about the
@@ -422,7 +424,7 @@ function buildSSICBlock(data: Partial<DocumentData>, alignRight = true): string 
     // SSIC branch (75/25). As `l` this fell through to has_empty_first_column()
     // and was formatted as a *signature block* — an even 50/50 split that put
     // the SSIC, serial and date in the middle of the Word page instead of at
-    // the right margin. buildInReplyTo() below has always used `r`.
+    // the right margin.
     return `\\noindent
 \\begin{tabularx}{\\textwidth}{@{}Xr@{}}
 ${rows}
@@ -440,17 +442,6 @@ ${rows}
 \\end{tabular}
 
 \\vspace{12pt}
-`;
-}
-
-function buildInReplyTo(data: Partial<DocumentData>): string {
-  if (!data.inReplyTo || !data.inReplyToText) return '';
-  return `\\noindent
-\\begin{tabularx}{\\textwidth}{@{}Xr@{}}
- & In reply refer to: \\\\
- & ${escapeTabular(data.inReplyToText)} \\\\
-\\end{tabularx}
-
 `;
 }
 
@@ -1307,7 +1298,6 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
     content += buildEndorsementHeader(store.docType, data);
   }
 
-  content += buildInReplyTo(data);
   content += buildAddressBlock(data, config);
   content += buildReferences(store.references);
   content += buildEnclosures(

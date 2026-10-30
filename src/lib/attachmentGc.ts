@@ -98,17 +98,16 @@ export async function collectLiveAttachmentIds(): Promise<Set<string> | null> {
   const batchSource = useBatchStore.getState().source;
   if (batchSource) collectSessionRefs(batchSource, live);
 
-  // (a) registry documents — union of persisted (IDB) and in-memory, keyed by id
-  // so a doc present in both is visited once for its snapshot ring.
+  // (a) Mark BOTH versions of a document: another tab's saved attachment may
+  // differ from this tab's pending edit. Only deduplicate the history reads.
   const inMemory = Object.values(useDocumentsStore.getState().docs);
-  const sessionsById = new Map<string, SerializedSession>();
-  for (const doc of persisted) sessionsById.set(doc.id, doc.session);
-  for (const entry of inMemory) sessionsById.set(entry.meta.id, entry.session);
-
-  for (const [id, session] of sessionsById) {
-    collectSessionRefs(session, live);
+  for (const doc of persisted) collectSessionRefs(doc.session, live);
+  for (const entry of inMemory) collectSessionRefs(entry.session, live);
+  const ids = new Set([...persisted.map(doc => doc.id), ...inMemory.map(entry => entry.meta.id)]);
+  for (const id of ids) {
     // (b) the document's version-history snapshot ring.
-    const snaps = await idbGetSnapshots(id); // [] on read failure — best-effort per doc
+    const snaps = await idbGetSnapshots(id, true).catch(() => null);
+    if (snaps === null) return null;
     for (const snap of snaps) collectSessionRefs(snap.session, live);
   }
 

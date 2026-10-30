@@ -65,6 +65,29 @@ beforeEach(async () => {
 });
 
 describe('sweepOrphanedAttachments', () => {
+  it('keeps both persisted and in-memory references for the same document', async () => {
+    await idbPutDocument(doc('same', 'persisted'));
+    const memory = doc('same', 'memory');
+    useDocumentsStore.setState({ docs: { same: { meta: memory.meta, session: memory.session } } });
+    await idbPutAttachment(att('persisted'));
+    await idbPutAttachment(att('memory'));
+    expect(await sweepOrphanedAttachments()).toBe(0);
+    expect(await idbGetAttachment('persisted')).toBeTruthy();
+    expect(await idbGetAttachment('memory')).toBeTruthy();
+  });
+
+  it('does not delete attachments when version history cannot be read', async () => {
+    await idbPutDocument(doc('history'));
+    await idbAddSnapshot('history', { ts: 1, session: doc('history', 'history-only').session });
+    await idbPutAttachment(att('history-only'));
+    vi.spyOn(documentsDb, 'idbGetSnapshots').mockImplementation(async (_id, strict) => {
+      if (strict) throw new Error('History unreadable');
+      return [];
+    });
+    expect(await sweepOrphanedAttachments()).toBeNull();
+    expect(await idbGetAttachment('history-only')).toBeTruthy();
+  });
+
   it('deletes an unreferenced blob and keeps a referenced one', async () => {
     await idbPutDocument(doc('d1', 'att_keep'));
     await idbPutAttachment(att('att_keep'));

@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.204] — 2026-10-29
+
+### Fixed
+- "In reply refer to" prints the same way in the Word file as in the PDF.
+- Attachment cleanup keeps both saved and in-memory references, and preserves attachments when version history cannot be read.
+
 ## [1.2.203] — 2026-10-29
 
 ### Fixed
