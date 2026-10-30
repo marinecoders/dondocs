@@ -73,14 +73,14 @@ async function start(page: Page) {
 }
 
 async function reloadDuringUpdate(page: Page) {
-  // The app's readiness assertions below are the gate; waiting for every
-  // preview resource's load event can hang across a worker-triggered reload.
-  try { await page.reload({ waitUntil: 'domcontentloaded', timeout: 15_000 }); }
+  // A worker-triggered reload can replace this navigation after it commits.
+  // Gate readiness on the editor in the surviving document, not its load event.
+  try { await page.reload({ waitUntil: 'commit', timeout: 15_000 }); }
   catch (error) {
     // The worker's own reload may supersede the requested navigation.
-    if (!(error instanceof Error) || !/(?:ERR_ABORTED|NS_BINDING_ABORTED|Navigation canceled by policy check)/.test(error.message)) throw error;
-    await page.waitForLoadState('domcontentloaded', { timeout: 15_000 });
+    if (!(error instanceof Error) || !/(?:ERR_ABORTED|NS_BINDING_ABORTED|Navigation canceled by policy check|Frame load interrupted)/.test(error.message)) throw error;
   }
+  await expect(page.locator('#subject:visible, #body-subject:visible')).toBeVisible({ timeout: 15_000 });
 }
 
 test('old release upgrades with two tabs, committed edits, attachment bytes, and offline reload', async ({ page, context }) => {
