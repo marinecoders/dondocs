@@ -113,5 +113,6 @@ Passing tests do not replace the open font/tailoring and sponsor-data requiremen
 - Pairwise native LaTeX matrix: all twenty SL-3 combinations passed.
 - TypeScript, ESLint, production build, Companion build and generated-template synchronization passed.
 - Production PDF inspection verified actual page references/destinations, collapsed outline hierarchy, URI links, authentication widget placement and lower cover-banner clearance. CUI/SECRET fixtures contain synthetic information only.
+- Hosted upgrade inspection exposed a cache mismatch: the new generator could load the preceding SL-3 template from the service worker's cache-first store. The template script URL is advanced to v13 so existing installations fetch the matching macros. This is verified by reopening the existing synthetic branch-preview draft after deployment.
 
 CI status is live on PR #359. The previous compile-matrix failure was the generic-letter fixture used for SL-3; that case now uses the valid SL-3 publication fixture. The PR remains a draft because the material compliance exceptions above are unresolved.
