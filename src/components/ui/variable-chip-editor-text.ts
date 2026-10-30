@@ -101,16 +101,16 @@ export function lineToHtml(line: string, deps: VariableLookupDeps = {}): string 
  * HTML. Each `\n` becomes a separate `<p>` so TipTap preserves the
  * paragraph structure.
  *
- * Empty input is special-cased to `<p><br></p>` because TipTap won't
- * accept a fully-empty document (the editor stays in an "empty" state
- * until at least one paragraph node exists).
+ * Empty input still yields one paragraph node, which TipTap needs. Empty
+ * lines are bare `<p></p>`: a `<br>` would parse as a hardBreak, which
+ * `editorToText` saves as an extra `\n`.
  */
 export function textToEditorHtml(text: string, deps: VariableLookupDeps = {}): string {
-  if (!text) return '<p><br></p>';
+  if (!text) return '<p></p>';
 
   const lines = text.split('\n');
   return lines
-    .map((line) => `<p>${lineToHtml(line, deps) || '<br>'}</p>`)
+    .map((line) => `<p>${lineToHtml(line, deps)}</p>`)
     .join('');
 }
 

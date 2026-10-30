@@ -42,12 +42,6 @@ import {
  *     extension definition + suggestion plugin out of the React file —
  *     a heavier follow-up). Without it, `{{NAME}}` round-trips as the
  *     rendered "@Label" text rather than back to `{{NAME}}` syntax.
- *   - blank-line paragraphs in the middle of multi-paragraph input
- *     (TipTap parses `<p><br></p>` as a paragraph containing a
- *     hardBreak, which `editorToText` emits as an extra `\n`. This
- *     accumulates on save/load round trips — a real edge case but
- *     orthogonal to the `.trim()` regression we're protecting against
- *     and worth its own focused fix.)
  *
  * Underline is already in StarterKit, so we don't add it again
  * (avoids the "Duplicate extension names" warning).
@@ -105,9 +99,8 @@ describe('text round-trip — preserves leading whitespace (the #65 bug class)',
   });
 
   it('multi-paragraph block with adjacent indents survives (no blank line in middle)', () => {
-    // Blank-line-in-middle behavior is a separate bug class (TipTap's
-    // hardBreak handling). This test pins the case that's most common
-    // for SECNAV documents: consecutive sub-paragraphs with no blank.
+    // The case that's most common for SECNAV documents: consecutive
+    // sub-paragraphs with no blank line.
     const input = [
       '1. On 15 January 2025, you failed to achieve the minimum standards.',
       '   a. Pull-ups: 2 (minimum 4 required)',
@@ -123,6 +116,21 @@ describe('text round-trip — preserves leading whitespace (the #65 bug class)',
 
   it('empty input round-trips to empty string', () => {
     expect(runRoundTrip('')).toBe('');
+  });
+
+  it('a blank line in the middle round-trips unchanged', () => {
+    // `<p><br></p>` parsed as a hardBreak and came back as an extra `\n`,
+    // so blank lines grew on every save/load.
+    expect(runRoundTrip('a\n\nb')).toBe('a\n\nb');
+  });
+
+  it('text typed into an empty paragraph saves without a leading line break', () => {
+    // A new paragraph starts empty and the caret lands at its end. The old
+    // `<br>` sat before the caret, so the saved text began with `\n`.
+    const editor = makeEditor(textToEditorHtml(''));
+    editorsToCleanup.push(editor);
+    editor.chain().focus('end').insertContent('ALPHA').run();
+    expect(editorToText(editor)).toBe('ALPHA');
   });
 
   it('trailing whitespace IS stripped (intentional)', () => {
@@ -201,8 +209,8 @@ describe('lineToHtml — pure', () => {
 });
 
 describe('textToEditorHtml — pure', () => {
-  it('empty input → "<p><br></p>" (TipTap-friendly empty)', () => {
-    expect(textToEditorHtml('')).toBe('<p><br></p>');
+  it('empty input → one empty paragraph (TipTap-friendly empty)', () => {
+    expect(textToEditorHtml('')).toBe('<p></p>');
   });
 
   it('single line wraps in <p>', () => {
@@ -213,7 +221,7 @@ describe('textToEditorHtml — pure', () => {
     expect(textToEditorHtml('a\nb')).toBe('<p>a</p><p>b</p>');
   });
 
-  it('blank line becomes <p><br></p>', () => {
-    expect(textToEditorHtml('a\n\nb')).toBe('<p>a</p><p><br></p><p>b</p>');
+  it('blank line becomes an empty paragraph', () => {
+    expect(textToEditorHtml('a\n\nb')).toBe('<p>a</p><p></p><p>b</p>');
   });
 });
