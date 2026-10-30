@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.195] — 2026-10-29
+
+### Fixed
+- The storage notice's close button lines up with its text on wide screens.
+
 ## [1.2.194] — 2026-10-29
 
 ### Fixed
