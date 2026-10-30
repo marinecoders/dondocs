@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.200] — 2026-10-29
+
+### Changed
+- The paragraph editor's hint mentions Shift+Enter for a line break.
+
 ## [1.2.199] — 2026-10-29
 
 ### Fixed
