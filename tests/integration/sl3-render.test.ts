@@ -146,7 +146,10 @@ describe.skipIf(!hasPdfToolchain)('SL-3 rendered publication', () => {
     }).stdout.split('\f');
     const parentPage = pages.find((page) => page.includes('015:'))!;
     const firstSheet = pages.find(
-      (page) => page.includes('Table 1.') && page.includes('SUPPLY SYSTEM'),
+      (page) =>
+        page.includes('Table 1.') &&
+        page.includes('SUPPLY SYSTEM') &&
+        !page.includes('TABLE OF CONTENTS'),
     )!;
     expect(firstSheet).toBeDefined();
     expect(firstSheet).not.toContain('015:');
