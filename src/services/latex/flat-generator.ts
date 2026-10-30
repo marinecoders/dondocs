@@ -16,6 +16,7 @@
 
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, DocTypeConfig } from '@/types/document';
 import { composeSenderSymbol } from './senderSymbol';
+import { latexLineBreaks } from './escaper';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
 import { enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
@@ -153,6 +154,9 @@ function processText(text: string): string {
   });
 
   result = escapeBody(result);
+  // Pandoc drops the [\baselineskip] gap, so spell the blank line out as two
+  // breaks around a non-breaking space; an empty line between them would vanish.
+  result = latexLineBreaks(result).replace(/\\\\\[\\baselineskip\]/g, '\\\\ ~\\\\');
 
   // Convert rich text markers
   result = convertRichText(result);
