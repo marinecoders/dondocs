@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.196] — 2026-10-29
+
+### Fixed
+- The section picker matches the document type picker and its arrow no longer crowds the edge.
+
 ## [1.2.195] — 2026-10-29
 
 ### Fixed

@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { List, ChevronDown, SlidersHorizontal } from 'lucide-react';
+import { List, ChevronDown, ChevronsUpDown, SlidersHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuCheckboxItem } from '@/components/ui/dropdown-menu';
 import { useUIStore } from '@/stores/uiStore';
@@ -14,11 +14,15 @@ export function WorkspaceBar({ activeSection }: { activeSection: string }) {
   const pendingJump = useRef<string | null>(null);
   const active = sections.find((section) => section.id === activeSection);
   return <div className="workspace-contents flex shrink-0 items-center gap-2 px-4 sm:px-5 pt-3 pb-2">
-    {sections.length === 0 ? <span className="text-xs text-muted-foreground">Form sections</span> : showOutline && !mobile ? <span className="truncate text-xs text-muted-foreground">{active?.label}</span> : layout === 'focused' ? <select aria-label="Document section" value={activeSection}
-      onChange={(event) => useEditorOutlineStore.getState().jump(event.target.value)}
-      className="h-11 sm:h-9 min-w-0 max-w-[70%] rounded-md border border-border bg-card px-3 text-sm focus-visible:outline-2 focus-visible:outline-ring">
-      {sections.map((section) => <option key={section.id} value={section.id}>{section.label}</option>)}
-    </select> :
+    {sections.length === 0 ? <span className="text-xs text-muted-foreground">Form sections</span> : showOutline && !mobile ? <span className="truncate text-xs text-muted-foreground">{active?.label}</span> : layout === 'focused' ? <div className="relative inline-flex min-w-0 max-w-[70%]">
+      {/* Native for the platform picker on phones, drawn to match the correspondence-type picker. */}
+      <select aria-label="Document section" value={activeSection}
+        onChange={(event) => useEditorOutlineStore.getState().jump(event.target.value)}
+        className="h-11 sm:h-9 min-w-0 appearance-none truncate rounded-md border bg-background pl-3 pr-9 text-sm shadow-sm outline-none transition-[color,background-color,border-color,box-shadow] hover:bg-accent hover:text-accent-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 dark:border-input dark:bg-input/30">
+        {sections.map((section) => <option key={section.id} value={section.id}>{section.label}</option>)}
+      </select>
+      <ChevronsUpDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 opacity-50" aria-hidden />
+    </div> :
       <DropdownMenu>
         <DropdownMenuTrigger asChild><Button variant="ghost" className="h-11 sm:h-9 px-2 text-sm"><List className="h-4 w-4" />Contents<ChevronDown className="h-3 w-3 text-muted-foreground" /></Button></DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="w-64 max-h-[65dvh] overflow-y-auto" onCloseAutoFocus={(event) => {
