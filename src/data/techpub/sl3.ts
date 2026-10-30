@@ -15,6 +15,7 @@ export const sl3Schema = z.object({
   technicalData: z.string().default(''),
   technicalPortion: portion,
   sequencingNote: z.string().default(''),
+  sequencingPortion: portion,
   showFigureReference: z.boolean().default(false),
   showModel: z.boolean().default(false),
   endItemFigureId: z.string().default(''),
@@ -67,6 +68,11 @@ export function sl3Portions(data: Sl3Data): Paragraph[] {
       level: 0,
       portionMarking: data.technicalPortion,
     },
+    {
+      text: data.sequencingNote,
+      level: 0,
+      portionMarking: data.sequencingPortion,
+    },
     ...data.notes.map((note) => ({
       text: note.text,
       level: 0,
@@ -85,6 +91,18 @@ export function orderedSl3Components(data: Sl3Data): Sl3Component[] {
   return Object.keys(SL3_CATEGORIES).flatMap((category) =>
     data.components.filter((item) => item.category === category),
   );
+}
+
+/** Illustrations are numbered by their first use in the publication. */
+export function sl3FigureIds(data: Sl3Data): string[] {
+  return [
+    ...new Set(
+      [
+        data.endItemFigureId,
+        ...orderedSl3Components(data).map((item) => item.figureId),
+      ].filter(Boolean),
+    ),
+  ];
 }
 
 export function sl3GroupIds(id: string, items: Sl3Component[]): Set<string> {
@@ -138,7 +156,7 @@ export function assignSl3Parent(
   const item = items.find((p) => p.id === id);
   if (!item) return items;
   const group = sl3GroupIds(id, items);
-  if (group.has(parentId)) return items;
+  if (!canAssignSl3Parent(data, id, parentId)) return items;
   let target = items.find((p) => p.id === parentId);
   if (parentId && (!target || target.category !== item.category)) return items;
   if (!parentId) {
@@ -167,6 +185,30 @@ export function assignSl3Parent(
       .map((p) => (p.id === id ? { ...p, parentId } : p)),
   );
   return remaining;
+}
+
+export function canAssignSl3Parent(
+  data: Sl3Data,
+  id: string,
+  parentId: string,
+): boolean {
+  const items = orderedSl3Components(data);
+  const item = items.find((p) => p.id === id);
+  if (!item) return false;
+  const group = sl3GroupIds(id, items);
+  const parent = items.find((p) => p.id === parentId);
+  if (
+    parentId &&
+    (!parent || parent.category !== item.category || group.has(parentId))
+  )
+    return false;
+  const originalDepth = sl3Depth(item, items);
+  const height = Math.max(
+    ...items
+      .filter((p) => group.has(p.id))
+      .map((p) => sl3Depth(p, items) - originalDepth),
+  );
+  return (parent ? sl3Depth(parent, items) + 1 : 0) + height <= 2;
 }
 
 export function sl3Depth(

@@ -4,6 +4,7 @@ import {
   Sl3CoverSection,
   Sl3InventorySection,
   Sl3DetailsSection,
+  Sl3IllustrationsSection,
 } from '@/components/editor/Sl3Sections';
 import { useDocumentStore } from '@/stores/documentStore';
 import { sl3Fixture } from '../_helpers/sl3Fixture';
@@ -59,4 +60,52 @@ it('cleans component references when a special note is removed', () => {
   expect(
     useDocumentStore.getState().formData.sl3!.components[0].noteIds,
   ).toEqual([]);
+});
+
+it('keeps children under the surviving ancestor when a nested parent is removed', () => {
+  const data = structuredClone(useDocumentStore.getState().formData.sl3!);
+  data.components[1].parentId = data.components[0].id;
+  data.components[2].parentId = data.components[1].id;
+  useDocumentStore.getState().setField('sl3', data);
+  render(<Sl3InventorySection />);
+  fireEvent.click(screen.getByRole('button', { name: 'Remove item 2' }));
+  expect(useDocumentStore.getState().formData.sl3!.components[1]).toMatchObject(
+    {
+      id: 'component-2',
+      parentId: 'component-0',
+    },
+  );
+});
+
+it('labels figures in publication order even when they were uploaded in a different order', () => {
+  const data = structuredClone(useDocumentStore.getState().formData.sl3!);
+  data.endItemFigureId = 'end-item';
+  data.components[0].figureId = 'component';
+  useDocumentStore.getState().setField('sl3', data);
+  useDocumentStore.setState({
+    paragraphs: [
+      {
+        referenceId: 'component',
+        text: 'Component drawing',
+        level: 0,
+        figure: {},
+      },
+      {
+        referenceId: 'end-item',
+        text: 'End item drawing',
+        level: 0,
+        figure: {},
+      },
+    ],
+  });
+  render(<Sl3IllustrationsSection />);
+  expect(screen.getByLabelText('Figure 1 title')).toHaveValue(
+    'End item drawing',
+  );
+  expect(screen.getByLabelText('Figure 2 title')).toHaveValue(
+    'Component drawing',
+  );
+  expect(
+    screen.getByRole('option', { name: 'Figure 1: End item drawing' }),
+  ).toBeInTheDocument();
 });

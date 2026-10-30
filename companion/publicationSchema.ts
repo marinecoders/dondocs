@@ -55,4 +55,4 @@ export const publicationSchema = z.object({
   endItems: z.array(z.object({ nsn: z.string(), tamcn: z.string(), id: z.string(), model: z.string() }).strict()).optional(),
   tables: z.record(z.string(), z.array(row)).optional(),
   includeHyperlinks: z.boolean().optional(),
-}).strict().describe('Required for i_type PDF export. Supply subject as the long title and date as the effective date (d MMM yy). Use unit and signature for authentication.');
+}).strict().describe('Required for i_type and sl3 PDF export. Supply subject as the long title and date as the effective date (d MMM yy). Use unit and signature for authentication.');

@@ -31,10 +31,11 @@ Validation must exercise more than six end items, more than sixteen inventory ro
 
 ## Validation
 
-- Unit/component suite and coverage gate: 3,218 tests passed; statement coverage 61.2%.
+- Unit/component suite and coverage gate: 3,224 tests passed; statement coverage 61.88%.
 - Existing I-Type and new SL-3 rendering/production export checks passed. SL-3 cases include overflow, nested items at a sheet boundary, both optional columns, over-height rejection, image assets, PDF link destinations and signature placement.
 - The shared pairwise LaTeX matrix compiles twenty SL-3 combinations.
 - Typecheck, ESLint, production build and Companion build passed.
+- Component hierarchy checks cover nested parent removal, contiguous grandchild groups and whole-subtree nesting limits. Figure labels follow publication order; sequencing explanations carry portion markings, with defaults restored for older drafts.
 - Browser authoring verified at the branch's local preview, including the document picker and the demonstration inventory.
 
 The inventory retains the supplied logical column order and twelve periodic-inventory cells. Column proportions fit the renderer's portrait/landscape text areas while keeping identifiers intact; final layout and font acceptance remain publication-office review items. Program offices remain responsible for component data, technical accuracy, control markings, approval and signing.

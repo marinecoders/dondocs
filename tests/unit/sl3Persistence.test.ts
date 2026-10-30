@@ -12,7 +12,11 @@ import { validateBackupSession } from '@/lib/backupValidation';
 import { buildDraftFile, parseDraftFile } from '@/lib/draftFile';
 import { persistAttachment } from '@/lib/attachments';
 import { sessionSearchFields, findSearchMatch } from '@/lib/workspaceSearch';
-import { moveSl3Group } from '@/data/techpub/sl3';
+import {
+  moveSl3Group,
+  assignSl3Parent,
+  canAssignSl3Parent,
+} from '@/data/techpub/sl3';
 
 beforeEach(() => {
   useDocumentStore.getState().resetForm();
@@ -109,5 +113,29 @@ describe('SL-3 saved content', () => {
       'component-0',
       'component-1',
     ]);
+  });
+  it('prevents a parent assignment that would move its descendants beyond two nesting levels', () => {
+    const data = sl3Fixture(5).formData.sl3!;
+    data.components[1].parentId = data.components[0].id;
+    data.components[2].parentId = data.components[1].id;
+    data.components[4].parentId = data.components[3].id;
+    expect(
+      canAssignSl3Parent(data, data.components[3].id, data.components[1].id),
+    ).toBe(false);
+    expect(
+      assignSl3Parent(data, data.components[3].id, data.components[1].id),
+    ).toEqual(data.components);
+    expect(
+      canAssignSl3Parent(data, data.components[3].id, data.components[0].id),
+    ).toBe(true);
+  });
+  it('restores defaults for an older saved inventory without new optional fields', () => {
+    const saved = JSON.parse(JSON.stringify(getSerializedSession()));
+    delete saved.formData.sl3.sequencingPortion;
+    validateBackupSession(saved);
+    loadSharedSession(saved);
+    expect(useDocumentStore.getState().formData.sl3!.sequencingPortion).toBe(
+      'U',
+    );
   });
 });

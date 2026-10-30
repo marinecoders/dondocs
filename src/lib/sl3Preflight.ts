@@ -4,6 +4,7 @@ import {
   orderedSl3Components,
   sl3Depth,
   sl3Portions,
+  sl3GroupIds,
 } from '@/data/techpub/sl3';
 import type { DocumentData, EndItem, Paragraph } from '@/types/document';
 import { iTypeClassificationErrors } from './iTypeClassification';
@@ -193,25 +194,9 @@ export function sl3ExportErrors(store: {
       if (sl3Depth(item, items) > 2)
         errors.push(`${label}: use no more than two component nesting levels.`);
       // A subtree must be contiguous in the inventory, never separated by a sibling root.
-      const ancestors = new Set<string>();
-      let next = item;
-      while (next.parentId && !ancestors.has(next.parentId)) {
-        ancestors.add(next.parentId);
-        const parent = items.find((p) => p.id === next.parentId);
-        if (!parent) break;
-        next = parent;
-      }
+      const parentGroup = sl3GroupIds(item.parentId, items);
       for (let j = parentIndex + 1; parentIndex >= 0 && j < i; j++) {
-        const candidate = items[j];
-        let cursor = candidate;
-        const seen = new Set<string>();
-        while (cursor.parentId && !seen.has(cursor.id)) {
-          seen.add(cursor.id);
-          const parent = items.find((p) => p.id === cursor.parentId);
-          if (!parent) break;
-          cursor = parent;
-        }
-        if (cursor.id !== next.id) {
+        if (!parentGroup.has(items[j].id)) {
           errors.push(
             `${label}: keep components directly after their parent group.`,
           );

@@ -6,6 +6,7 @@ import {
   emptySl3,
   orderedSl3Components,
   sl3Depth,
+  sl3FigureIds,
   type Sl3Component,
 } from '@/data/techpub/sl3';
 import { SL3_PREFACE } from '@/data/techpub/sl3Preface';
@@ -32,13 +33,7 @@ export function generateSl3Body(store: Store): string {
     ]),
   );
   const mark = (portion = 'U') => (classified ? `(${portion}) ` : '');
-  const figureIds = [
-    ...new Set(
-      [data.endItemFigureId, ...items.map((item) => item.figureId)].filter(
-        Boolean,
-      ),
-    ),
-  ];
+  const figureIds = sl3FigureIds(data);
   const figureNumber = (id: string) => figureIds.indexOf(id) + 1;
   const anchored = new Set<string>();
   const figure = (id: string, numbers: number[] = []) => {
@@ -105,7 +100,8 @@ export function generateSl3Body(store: Store): string {
       `\\dondocsReferenceAnchor{sl3.note.${i + 19}}\\textbf{${i + 19}.} ${mark(note.portionMarking)}${paragraph(note.text)}`,
     ),
   );
-  if (data.sequencingNote) out.push(paragraph(data.sequencingNote));
+  if (data.sequencingNote)
+    out.push(paragraph(mark(data.sequencingPortion) + data.sequencingNote));
   if (data.showFigureReference || data.showModel)
     out.push(
       paragraph(

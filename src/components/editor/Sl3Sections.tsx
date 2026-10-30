@@ -16,7 +16,8 @@ import {
   moveSl3Group,
   assignSl3Parent,
   sl3GroupIds,
-  sl3Depth,
+  canAssignSl3Parent,
+  sl3FigureIds,
   type Sl3Data,
   type Sl3Component,
 } from '@/data/techpub/sl3';
@@ -91,6 +92,11 @@ function Portion({
       </select>
     </label>
   );
+}
+
+function figureLabel(data: Sl3Data, id: string | undefined, index: number) {
+  const number = sl3FigureIds(data).indexOf(id ?? '') + 1;
+  return number ? `Figure ${number}` : `Illustration ${index + 1} (unassigned)`;
 }
 
 export function Sl3CoverSection() {
@@ -208,6 +214,11 @@ export function Sl3DetailsSection() {
         value={data.sequencingNote}
         onChange={(sequencingNote) => update({ sequencingNote })}
         multiline
+      />
+      <Portion
+        label="Sequencing explanation portion marking"
+        value={data.sequencingPortion}
+        onChange={(sequencingPortion) => update({ sequencingPortion })}
       />
       <p className="text-sm text-muted-foreground">
         The standard preface prints automatically. Special Notes remains present
@@ -335,7 +346,9 @@ export function Sl3InventorySection() {
                     components: data.components
                       .filter((p) => p.id !== item.id)
                       .map((p) =>
-                        p.parentId === item.id ? { ...p, parentId: '' } : p,
+                        p.parentId === item.id
+                          ? { ...p, parentId: item.parentId }
+                          : p,
                       ),
                   })
                 }
@@ -423,9 +436,7 @@ export function Sl3InventorySection() {
               <option value="">Top-level item</option>
               {items
                 .slice(0, index)
-                .filter(
-                  (p) => p.category === item.category && sl3Depth(p, items) < 2,
-                )
+                .filter((p) => canAssignSl3Parent(data, item.id, p.id))
                 .map((p) => (
                   <option key={p.id} value={p.id}>
                     Item {items.indexOf(p) + 1}: {p.nomenclature}
@@ -444,7 +455,7 @@ export function Sl3InventorySection() {
               <option value="">Not Shown</option>
               {figures.map((p, i) => (
                 <option key={p.referenceId} value={p.referenceId}>
-                  Figure {i + 1}: {p.text}
+                  {figureLabel(data, p.referenceId, i)}: {p.text}
                 </option>
               ))}
             </select>
@@ -526,7 +537,7 @@ export function Sl3IllustrationsSection() {
           <option value="">Not Shown</option>
           {figures.map((p, i) => (
             <option value={p.referenceId} key={p.referenceId}>
-              Figure {i + 1}: {p.text}
+              {figureLabel(data, p.referenceId, i)}: {p.text}
             </option>
           ))}
         </select>
@@ -534,14 +545,14 @@ export function Sl3IllustrationsSection() {
       {figures.map((p, i) => (
         <div key={p.referenceId} className="space-y-2 rounded-md border p-3">
           <Field
-            label={`Figure ${i + 1} title`}
+            label={`${figureLabel(data, p.referenceId, i)} title`}
             value={p.text}
             onChange={(text) =>
               updateParagraph(paragraphs.indexOf(p), { text })
             }
           />
           <Portion
-            label={`Figure ${i + 1} portion marking`}
+            label={`${figureLabel(data, p.referenceId, i)} portion marking`}
             value={p.figure?.portionMarking ?? 'U'}
             onChange={(portionMarking) =>
               updateParagraph(paragraphs.indexOf(p), {
