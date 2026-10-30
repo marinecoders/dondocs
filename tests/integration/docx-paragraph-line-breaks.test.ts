@@ -42,8 +42,8 @@ async function wordParagraphs(paragraphs: { text: string; level: number }[]): Pr
 }
 
 describe.skipIf(!pandocAvailable)('Word export — line breaks inside a paragraph', () => {
-  it('keeps a Shift+Enter break as a line break', async () => {
-    const paras = await wordParagraphs([{ text: 'line one\nline two', level: 0 }]);
+  it.each(['\n', '\r\n'])('keeps a line break with %j line endings', async (newline) => {
+    const paras = await wordParagraphs([{ text: `${newline}line one${newline}line two${newline}`, level: 0 }]);
     expect(paras.find(p => p.includes('line one'))).toMatch(/^1\.\s+line one⏎line two$/);
   }, 120_000);
 

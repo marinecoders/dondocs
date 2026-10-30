@@ -358,6 +358,7 @@ export function highlightPlaceholders(text: string): string {
  */
 export function latexLineBreaks(text: string): string {
   return text
+    .replace(/\r\n?/g, '\n')
     .replace(/^\n+|\n+$/g, '')
     .replace(/\n+/g, run => run.length > 1 ? '\\\\[\\baselineskip]\n' : '\\\\\n')
     // A line break whose next line opens with `[` is read as `\\`'s optional
