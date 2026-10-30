@@ -338,6 +338,40 @@ export function highlightPlaceholders(text: string): string {
 }
 
 /**
+ * Convert newlines to LaTeX line breaks so input line breaks appear in the
+ * PDF and the Word export alike.
+ *
+ * Blank lines need special care: naively converting each `\n` to `\\`
+ * turns a pasted blank line (`\n\n`) into a source line containing ONLY
+ * `\\` — and main.tex sets `\raggedright` (standard for naval
+ * correspondence), under which a standalone `\\` is a fatal
+ * `! LaTeX Error: There's no line here to end.` (verified by bisecting a
+ * failing fixture down to exactly that line, then reproducing with
+ * article + \raggedright). So:
+ *   - leading/trailing newline runs are trimmed (a `\\` butted against
+ *     the paragraph edges adds nothing and risks the same error), and
+ *   - interior blank-line runs become `\\[\baselineskip]` — one line
+ *     break plus one blank line's worth of space, preserving the visual
+ *     gap the user typed while never emitting a standalone `\\`
+ *     (raggedright-safe, verified by compile).
+ * Replace newline runs in one pass so literal user text is never a sentinel.
+ */
+export function latexLineBreaks(text: string): string {
+  return text
+    .replace(/\r\n?/g, '\n')
+    .replace(/^\n+|\n+$/g, '')
+    .replace(/\n+/g, run => run.length > 1 ? '\\\\[\\baselineskip]\n' : '\\\\\n')
+    // A line break whose next line opens with `[` is read as `\\`'s optional
+    // vertical-space argument, so the user's bracket is swallowed and the
+    // compile dies on "Missing number, treated as zero". The default body
+    // placeholder starts with `[`, so pressing Enter above it was enough.
+    // `{}` ends the optional-argument scan. The `\\[\baselineskip]` emitted
+    // just above keeps its argument — its bracket is on the same line as its
+    // `\\`, so this pattern cannot match it.
+    .replace(/\\\\\n\[/g, '\\\\\n{}[');
+}
+
+/**
  * Escape LaTeX and convert rich text markers
  */
 export function processBodyText(text: string): string {
@@ -406,36 +440,7 @@ export function processBodyText(text: string): string {
   // conversion, which only touches `*` / `_` markers.
   result = applyLatexSymbolFallback(result);
 
-  // Convert newlines to LaTeX line breaks so input line breaks appear in PDF.
-  //
-  // Blank lines need special care: naively converting each `\n` to `\\`
-  // turns a pasted blank line (`\n\n`) into a source line containing ONLY
-  // `\\` — and main.tex sets `\raggedright` (standard for naval
-  // correspondence), under which a standalone `\\` is a fatal
-  // `! LaTeX Error: There's no line here to end.` (verified by bisecting a
-  // failing fixture down to exactly that line, then reproducing with
-  // article + \raggedright). So:
-  //   - leading/trailing newline runs are trimmed (a `\\` butted against
-  //     the paragraph edges adds nothing and risks the same error), and
-  //   - interior blank-line runs become `\\[\baselineskip]` — one line
-  //     break plus one blank line's worth of space, preserving the visual
-  //     gap the user typed while never emitting a standalone `\\`
-  //     (raggedright-safe, verified by compile).
-  // The sentinel keeps the single-`\n` pass from re-matching the newline
-  // that the blank-line replacement itself emits.
-  result = result
-    .replace(/^\n+|\n+$/g, '')
-    .replace(/\n{2,}/g, 'ZZZBLANKLINEZZZ')
-    .replace(/\n/g, '\\\\\n')
-    .replace(/ZZZBLANKLINEZZZ/g, '\\\\[\\baselineskip]\n')
-    // A line break whose next line opens with `[` is read as `\\`'s optional
-    // vertical-space argument, so the user's bracket is swallowed and the
-    // compile dies on "Missing number, treated as zero". The default body
-    // placeholder starts with `[`, so pressing Enter above it was enough.
-    // `{}` ends the optional-argument scan. The `\\[\baselineskip]` emitted
-    // just above keeps its argument — its bracket is on the same line as its
-    // `\\`, so this pattern cannot match it.
-    .replace(/\\\\\n\[/g, '\\\\\n{}[');
+  result = latexLineBreaks(result);
 
   // Then convert rich text markers
   result = convertRichTextToLatex(result);
