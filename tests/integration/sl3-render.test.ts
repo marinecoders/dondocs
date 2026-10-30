@@ -119,11 +119,6 @@ describe.skipIf(!hasPdfToolchain)('SL-3 rendered publication', () => {
     const data = store.formData.sl3!;
     data.showModel = true;
     data.showFigureReference = true;
-    // Keep the first sheet physically within the source grid on both TeX
-    // distributions. This case isolates the logical row boundary; tall-sheet
-    // rejection and recovery have a separate rendered test below.
-    for (let i = 0; i < 14; i++)
-      data.components[i].nomenclature = `COMPONENT, ${i + 1}`;
     data.notes = [
       {
         id: 'special',

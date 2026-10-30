@@ -6,11 +6,34 @@ import { join } from "node:path";
 import { PDFDocument, PDFName, PDFDict, PDFArray, PDFString } from "pdf-lib";
 import { spawnSync } from "node:child_process";
 import { companionSl3 } from "../_helpers/companionSl3";
+import { sl3Fixture } from "../_helpers/sl3Fixture";
 import { letterSchema } from "../../companion/letterSchema";
 import { validateLetter } from "../../companion/validateLetter";
 import { renderToFile } from "../../companion/renderToFile";
 
 describe("SL-3 production export", () => {
+  it("fits optional-column sheets and keeps the boundary parent with its first child", async () => {
+    const root = await mkdtemp(join(tmpdir(), "dondocs-sl3-boundary-"));
+    const input = companionSl3();
+    const data = sl3Fixture(20).formData.sl3!;
+    data.showModel = true;
+    data.showFigureReference = true;
+    data.components[14].description =
+      "A demonstration assembly with a removable handle.";
+    data.components[15].parentId = data.components[14].id;
+    data.components[15].quantity = "4";
+    data.components[15].model = "TRAINING";
+    input.publication!.sl3 = data;
+    expect(validateLetter(input)).toEqual([]);
+    const result = await renderToFile(input, {}, root);
+    const pages = spawnSync("pdftotext", ["-layout", result.path, "-"], {
+      encoding: "utf8",
+    }).stdout.split("\f");
+    const parentPage = pages.find((page) => page.includes("015:"))!;
+    expect(parentPage).toBeDefined();
+    expect(parentPage).toContain("016;");
+    expect(parentPage).toContain("4 - COMPONENT");
+  }, 60000);
   it("validates and exports with illustrations, working destinations and front authentication", async () => {
     const root = await mkdtemp(join(tmpdir(), "dondocs-sl3-export-"));
     const input = companionSl3();
