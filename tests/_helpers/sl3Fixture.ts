@@ -27,6 +27,7 @@ export function sl3Fixture(count = 3) {
     exportRestricted: false,
     sl3: {
       ...emptySl3(),
+      sourceManual: 'TM 12345A-10 (synthetic training manual)',
       technicalData:
         'Training tool kit. Weight: 5 pounds. For demonstration only.',
       components: Array.from({ length: count }, (_, i) => ({

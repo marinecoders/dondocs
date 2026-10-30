@@ -12,7 +12,10 @@ export const SL3_CATEGORIES = {
 
 export const sl3Schema = z.object({
   orientation: z.enum(['portrait', 'landscape']).default('portrait'),
+  rowsPerSheet: z.number().int().min(4).max(16).default(16),
   technicalData: z.string().default(''),
+  sourceManual: z.string().default(''),
+  configurationReference: z.string().default(''),
   technicalPortion: portion,
   sequencingNote: z.string().default(''),
   sequencingPortion: portion,
@@ -43,6 +46,9 @@ export const sl3Schema = z.object({
         partNumber: z.string().default(''),
         cage: z.string().default(''),
         unit: z.string().default('EA'),
+        unitOfIssue: z.string().default('EA'),
+        primaryTamcn: z.string().default(''),
+        configurationRatio: z.string().default(''),
         quantity: z.string().default(''),
         model: z.string().default(''),
         figureReference: z.string().default(''),
@@ -57,6 +63,17 @@ export const sl3Schema = z.object({
 export type Sl3Data = z.infer<typeof sl3Schema>;
 export type Sl3Component = Sl3Data['components'][number];
 export const emptySl3 = (): Sl3Data => sl3Schema.parse({});
+// Word table-grid widths in twentieths of a point, from the supplied templates.
+export const SL3_INVENTORY_GRID = {
+  portrait: [
+    545, 1397, 2821, 360, 533, 187, 187, 187, 187, 187, 187, 187, 187, 187, 187,
+    187, 207, 1932,
+  ],
+  landscape: [
+    593, 1539, 4901, 360, 540, 269, 269, 269, 269, 269, 269, 269, 269, 269, 269,
+    269, 269, 3053,
+  ],
+} as const;
 export const newSl3Component = (id: string): Sl3Component =>
   sl3Schema.shape.components.unwrap().element.parse({ id, category: 'ssri' });
 

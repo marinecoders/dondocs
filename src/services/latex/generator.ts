@@ -124,6 +124,7 @@ ${(() => {
   const docDate = isMOAMode ? data.seniorDate : data.date;
   // A publication prints its date in full ("30 April 2025"); a letter as stored.
   const printedDate = isTechnicalPublication(store.docType) ? formatPublicationDate(docDate || '') : docDate;
+  const publicationDate = store.docType === 'sl3' ? printedDate?.toUpperCase() : printedDate;
 
   // For business letters and executive correspondence, set BusinessDate,
   // BusinessRecipientAddress, etc. Both use the same template address/salutation pattern.
@@ -163,7 +164,7 @@ ${(() => {
   const senderSymbol = composeSenderSymbol(data.officeCode, serial);
   tex += `\\setSSIC{${config.ssic ? escapeLatex(ssic) : ''}}
 \\setSerial{${config.ssic ? escapeLatex(senderSymbol) : ''}}
-\\setDocumentDate{${escapeLatex(printedDate)}}
+\\setDocumentDate{${escapeLatex(publicationDate)}}
 ${isBusinessLetter ? `\\setBusinessDate{${escapeLatex(docDate)}}` : '% Not a business letter'}
 
 ${data.inReplyTo ? '\\enableInReplyReferTo' : '% No In Reply Refer To'}
@@ -306,7 +307,7 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     // document uses. Derived from the same date so the two cannot disagree.
     const signed = parseDate(data.date || '', 'd MMM yy', new Date());
     const coverDate = isValidDate(signed) ? formatDate(signed, 'MMMM yyyy').toUpperCase() : '';
-    tex += `\\setCoverDate{${escapeLatex(store.docType === 'sl3' ? formatPublicationDate(data.date || '') : coverDate)}}\n`;
+    tex += `\\setCoverDate{${escapeLatex(store.docType === 'sl3' ? formatPublicationDate(data.date || '').toUpperCase() : coverDate)}}\n`;
     tex += `\\setShortTitle{${escapeLatex(data.shortTitle || '')}}\n`;
     tex += `\\setPCN{${escapeLatex(data.pcn || '')}}\n`;
     tex += `\\setSupersedure{${escapeLatex(data.supersedure || '')}}\n`;

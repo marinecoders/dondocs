@@ -20,6 +20,53 @@ describe('SL-3 document authoring', () => {
   it('accepts an SL-3 without applying MI section or short-title rules', () => {
     expect(publicationExportErrors(sl3Fixture())).toEqual([]);
   });
+  it('rejects authentication by direction through either the flag or signature title', () => {
+    const s = sl3Fixture();
+    s.formData.byDirection = true;
+    expect(sl3ExportErrors(s).join('\n')).toContain(
+      'cannot be signed by direction',
+    );
+    s.formData.byDirection = false;
+    s.formData.sigTitle = 'By direction';
+    expect(sl3ExportErrors(s).join('\n')).toContain(
+      'cannot be signed by direction',
+    );
+  });
+  it('requires the source manual and unit of issue separately from unit of measure', () => {
+    const s = sl3Fixture();
+    s.formData.sl3!.sourceManual = '';
+    s.formData.sl3!.components[0].unitOfIssue = '';
+    const errors = sl3ExportErrors(s).join('\n');
+    expect(errors).toContain('source technical manual');
+    expect(errors).toContain('unit of issue');
+  });
+  it('requires traceable primary TAMCN associations and a positive configuration ratio', () => {
+    const s = sl3Fixture();
+    const item = s.formData.sl3!.components[0];
+    item.tamcn = 'B12345G';
+    expect(sl3ExportErrors(s).join('\n')).toContain(
+      'TFSMS configuration source',
+    );
+    s.formData.sl3!.configurationReference =
+      'Synthetic configuration record, 30 October 2026';
+    item.primaryTamcn = 'A12345G';
+    item.configurationRatio = '1:0';
+    expect(sl3ExportErrors(s).join('\n')).toContain(
+      'primary-to-component configuration ratio',
+    );
+    item.configurationRatio = '1:2';
+    expect(sl3ExportErrors(s)).toEqual([]);
+    const body = generateSl3Body(s);
+    expect(body).toContain('Primary TAMCN A12345G; ratio 1:2');
+    item.primaryTamcn = 'C12345G';
+    expect(sl3ExportErrors(s).join('\n')).toContain(
+      'primary end item TAMCN on the cover',
+    );
+    item.tamcn = '';
+    expect(sl3ExportErrors(s).join('\n')).toContain(
+      'associated component TAMCN',
+    );
+  });
   it('rejects orphaned and noncontiguous components', () => {
     const s = sl3Fixture();
     s.formData.sl3!.components[2].parentId = 'missing';

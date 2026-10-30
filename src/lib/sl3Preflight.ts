@@ -85,6 +85,10 @@ export function sl3ExportErrors(store: {
     );
   if (d.signatureType !== 'digital')
     errors.push('Select a digital signature for SL-3 authentication.');
+  if (d.byDirection || /\bby\s+direction\b/i.test(d.sigTitle ?? ''))
+    errors.push(
+      'SL-3 authentication cannot be signed by direction (MCO 5215.17D, paragraph 4.b(4)(f)).',
+    );
   errors.push(
     ...iTypeClassificationErrors(d, [
       ...store.paragraphs,
@@ -148,6 +152,19 @@ export function sl3ExportErrors(store: {
     errors.push('Complete or remove empty end item entries.');
   if (unfilled(data.technicalData))
     errors.push('Enter the end item technical data.');
+  if (unfilled(data.sourceManual))
+    errors.push(
+      'Identify the source technical manual for this standalone SL-3 extract.',
+    );
+  if (
+    data.components.some(
+      (item) => item.tamcn || item.primaryTamcn || item.configurationRatio,
+    ) &&
+    unfilled(data.configurationReference)
+  )
+    errors.push(
+      'Identify the TFSMS configuration source for the TAMCN associations and ratios.',
+    );
   if (!data.components.length) errors.push('Add the SL-3 components.');
   const items = orderedSl3Components(data);
   const ids = new Set<string>();
@@ -165,7 +182,13 @@ export function sl3ExportErrors(store: {
     if (unfilled(item.nomenclature))
       errors.push(`${label}: enter the official nomenclature.`);
     if (!item.unit.trim()) errors.push(`${label}: enter the unit of measure.`);
-    if (!/^\d+(?:\.\d+)?$/.test(item.quantity) || Number(item.quantity) <= 0)
+    if (!item.unitOfIssue.trim())
+      errors.push(`${label}: enter the unit of issue.`);
+    if (
+      !/^\d+(?:\.\d+)?$/.test(item.quantity) ||
+      !Number.isFinite(Number(item.quantity)) ||
+      Number(item.quantity) <= 0
+    )
       errors.push(`${label}: enter a positive quantity.`);
     if (item.nsn && !/^(\d{4}-\d{2}-\d{3}-\d{4}|\d{13})$/.test(item.nsn))
       errors.push(
@@ -173,6 +196,35 @@ export function sl3ExportErrors(store: {
       );
     if (item.tamcn && !/^[A-Z]\d{5}[A-Z]$/.test(item.tamcn))
       errors.push(`${label}: enter a valid seven-position TAMCN.`);
+    const hasAssociation = !!(
+      item.tamcn ||
+      item.primaryTamcn ||
+      item.configurationRatio
+    );
+    if (hasAssociation && !item.tamcn)
+      errors.push(`${label}: enter the associated component TAMCN.`);
+    if (
+      hasAssociation &&
+      (!item.primaryTamcn ||
+        !(store.endItems ?? []).some(
+          (endItem) => endItem.tamcn === item.primaryTamcn,
+        ))
+    )
+      errors.push(
+        `${label}: associate its TAMCN with a primary end item TAMCN on the cover.`,
+      );
+    if (
+      hasAssociation &&
+      (!/^\d+:\d+$/.test(item.configurationRatio) ||
+        item.configurationRatio
+          .split(':')
+          .some(
+            (value) => !Number.isFinite(Number(value)) || Number(value) <= 0,
+          ))
+    )
+      errors.push(
+        `${label}: enter the approved primary-to-component configuration ratio, such as 1:2.`,
+      );
     if (item.idNumber && !/^\d{5}[A-HJ-NP-Z]$/.test(item.idNumber))
       errors.push(`${label}: enter a valid assigned ID number.`);
     if (item.cage && !/^[A-Z0-9]{5}$/i.test(item.cage))

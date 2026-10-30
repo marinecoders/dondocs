@@ -7,46 +7,122 @@
 \renewcommand{\printDistribution}{}
 \renewcommand{\printCopyTo}{}
 \renewcommand{\printAppendedEndorsement}{}
-\renewcommand{\dondocsRunningTitle}{\makebox[\textwidth]{\fontsize{10}{12}\selectfont\ShortTitle\hfill\DocumentDate}}
-\renewcommand{\dondocsPageNumber}{\makebox[\textwidth][c]{\fontsize{10}{12}\selectfont\thepage}}
+% The bundled hyperref shim emits HTML specials rather than PDF URI actions.
+\renewcommand{\href}[2]{\dondocsExternalLink{#1}{#2}}
+\newcommand{\slThreeLeft}{\dimexpr1in+\hoffset+\oddsidemargin\relax}
+\newcommand{\slThreeHeaderTop}{\ifClassificationEnabled56bp\else36bp\fi}
+\renewcommand{\dondocsRunningTitle}{%
+  \begin{textblock*}{\textwidth}(\slThreeLeft,\slThreeHeaderTop)\raggedleft{\fontsize{10}{12}\selectfont\bfseries\ShortTitle}\end{textblock*}}
+\renewcommand{\dondocsPageNumber}{%
+  % Account for the paragraph strut so the visible footer ends at 36bp.
+  \begin{textblock*}{\textwidth}[0,1](\slThreeLeft,\dimexpr\paperheight-38.1bp\relax)\raggedleft{\fontsize{10}{12}\selectfont\bfseries\thepage}\end{textblock*}}
 \renewcommand{\placeClassificationMarkings}{%
   \ifClassificationEnabled
-    \begin{textblock*}{\paperwidth}(0in,0.3in)\centering\ClassificationMarking\end{textblock*}%
-    \begin{textblock*}{\paperwidth}(0in,\dimexpr\paperheight-0.3in\relax)\centering\ClassificationMarking\end{textblock*}%
+    \begin{textblock*}{\paperwidth}(0in,0.5in)\centering{\fontsize{14}{16}\selectfont\bfseries\ClassificationMarking}\end{textblock*}%
+    \begin{textblock*}{\paperwidth}(0in,\dimexpr\paperheight-0.7in\relax)\centering{\fontsize{14}{16}\selectfont\bfseries\ClassificationMarking}\end{textblock*}%
   \fi
 }
 % Measure the multi-line inventory header before assigning its text area.
 \newcommand{\slThreeInventoryHeader}{\parbox{\textwidth}{\fontsize{10}{12}\selectfont
-  \makebox[\textwidth]{\ShortTitle\hfill Marine Corps Stocklist\hfill\ShortTitle}\par
+  \makebox[\textwidth]{\textbf{\ShortTitle}\hfill Marine Corps Stocklist\hfill\textbf{\ShortTitle}}\par
   DATE OF PUBLICATION: \DocumentDate\par
   END ITEM NOMENCLATURE: \Nomenclature\hfill SERIAL NUMBER: \underline{\hspace{0.8in}}}}
 \newsavebox{\slThreeHeaderBox}
+\newcommand{\slThreePlaceInventoryHeader}{%
+  \begin{textblock*}{\textwidth}(\slThreeLeft,\slThreeHeaderTop)\slThreeInventoryHeader\end{textblock*}}
 \newdimen\slThreeHeadHeight
-\newcommand{\slThreeInventoryLayout}[3]{%
+\newcommand{\slThreeInventoryLayout}[4]{%
   % newgeometry restores the original paper dimensions; specify its layout
   % dimensions on both passes, then restore paper dimensions for banners.
-  \newgeometry{layoutwidth=#2,layoutheight=#3,left=#1,right=#1,top=1.3in,bottom=0.7in,headheight=40pt,headsep=12pt,footskip=0.35in}%
+  \newgeometry{layoutwidth=#3,layoutheight=#4,left=#1,right=#2,top=1.3in,bottom=0.85in,headheight=40pt,headsep=12pt,footskip=0.35in}%
   \sbox{\slThreeHeaderBox}{\slThreeInventoryHeader}%
   % The production engine's older fancyhdr adds a line strut to its box.
   \slThreeHeadHeight=\dimexpr\ht\slThreeHeaderBox+\dp\slThreeHeaderBox+14pt\relax
-  \newgeometry{layoutwidth=#2,layoutheight=#3,left=#1,right=#1,top=\dimexpr\slThreeHeadHeight+0.75in\relax,bottom=0.7in,headheight=\slThreeHeadHeight,headsep=12pt,footskip=0.35in}%
-  \paperwidth=#2\paperheight=#3
+  \newgeometry{layoutwidth=#3,layoutheight=#4,left=#1,right=#2,top=\dimexpr\slThreeHeadHeight+0.75in\relax,bottom=0.85in,headheight=\slThreeHeadHeight,headsep=12pt,footskip=0.35in}%
+  \paperwidth=#3\paperheight=#4
 }
 \newcommand{\slThreeLandscape}{%
   \clearpage
-  \pdfpagewidth=11in\pdfpageheight=8.5in
-  \paperwidth=11in\paperheight=8.5in
-  \slThreeInventoryLayout{0.5in}{11in}{8.5in}%
+  % MIL-STD-38784C 4.7.9.5: PDF tables widen the page to its height.
+  \pdfpagewidth=11in\pdfpageheight=11in
+  \slThreeInventoryLayout{0.5in}{0.6291667in}{11in}{11in}%
 }
-\newcommand{\slThreePortraitInventory}{\slThreeInventoryLayout{1in}{8.5in}{11in}}
+\newcommand{\slThreePortraitInventory}{\slThreeInventoryLayout{1in}{0.6583333in}{8.5in}{11in}}
 \fancypagestyle{slthreeinventory}{%
   \fancyhf{}%
-  \fancyhead[C]{\placeClassificationMarkings\slThreeInventoryHeader}%
+  \fancyhead[C]{\placeClassificationMarkings\slThreePlaceInventoryHeader}%
   \fancyfoot[C]{\dondocsPageNumber}%
   \renewcommand{\headrulewidth}{0pt}\renewcommand{\footrulewidth}{0pt}%
 }
 \let\slThreeMeasureCoverHead\dondocsMeasureCoverHead
-\renewcommand{\dondocsMeasureCoverHead}{\slThreeMeasureCoverHead\addtolength{\headheight}{14pt}}
+\renewcommand{\dondocsMeasureCoverHead}{\slThreeMeasureCoverHead\addtolength{\headheight}{18pt}}
+% A title page is unnumbered; PCN remains 12 point on that page only.
+\let\slThreeCoverFooter\printCoverFooter
+\patchcmd{\slThreeCoverFooter}{PCN \PCN}{\fontsize{12}{12}\selectfont PCN \PCN}{}{\PackageError{SL-3}{Cannot format cover PCN}{Check the shared cover footer.}}
+\renewcommand{\printCoverFooter}{\begingroup
+  \renewcommand{\thepage}{}%
+  \renewcommand{\footnotesize}{\fontsize{10}{12}\selectfont}%
+  \let\slThreePCN\PCN
+  \renewcommand{\PCN}{{\fontsize{12}{12}\selectfont\slThreePCN}}%
+  \begin{minipage}[b]{\textwidth}\slThreeCoverFooter
+    \ifClassificationEnabled\par\vspace{30pt}\fi
+  \end{minipage}\endgroup}
+\let\slThreeCoverLines\dondocsCoverBannerLines
+\renewcommand{\dondocsCoverBannerLines}[1]{\begingroup
+  \renewcommand{\footnotesize}{\fontsize{10}{12}\selectfont}%
+  \let\slThreeShortTitle\ShortTitle
+  \renewcommand{\ShortTitle}{\textbf{\slThreeShortTitle}}%
+  \slThreeCoverLines{#1}\endgroup}
+\renewcommand{\printCoverBanner}{%
+  \placeClassificationMarkings
+  \begin{textblock*}{\textwidth}(\slThreeLeft,\slThreeHeaderTop)
+    \fontsize{10}{12}\selectfont\centering
+    \makebox[\textwidth]{\CoverDate\hfill\textbf{\ShortTitle}}\\
+    U.S. MARINE CORPS \MakeUppercase{\PublicationTypeName}\\
+    \ifNotEmpty{\SubjectLine}{\MakeUppercase{\SubjectLine}}%
+  \end{textblock*}%
+  \phantom{\parbox{\textwidth}{\dondocsCoverBannerLines{\strut}}}%
+}
+\let\slThreeAuthentication\printAddressBlock
+\renewcommand{\printAddressBlock}{\pagenumbering{roman}\slThreeAuthentication}
+\let\slThreeEndItemOverflow\printEndItemOverflowTable
+\renewcommand{\printEndItemOverflowTable}{\renewcommand{\thepage}{T-\arabic{page}}\slThreeEndItemOverflow}
+\let\slThreeBookmark\dondocsBookmark
+\renewcommand{\dondocsBookmark}[3]{%
+  \ifstrequal{#3}{itype.cover}{\slThreeBookmark{#1}{TITLE PAGE}{#3}}{%
+    \ifstrequal{#3}{itype.authentication}{\slThreeBookmark{#1}{AUTHENTICATION}{#3}}{\slThreeBookmark{#1}{#2}{#3}}}%
+  \label{#3}}
+\newcommand{\slThreeOutlineLink}[2]{\begingroup
+  \pdfstringdef\dondocsBookmarkTitle{#1}%
+  \pdfoutline goto name {#2} count 0 {\dondocsBookmarkTitle}%
+  \endgroup}
+% Read the page field from both the legacy nameref and modern hyperref labels.
+% The bundled hyperref stub does not implement the starred pageref command.
+\def\slThreeLabelPage#1#2#3\slThreeStop{#2}
+\newcommand{\slThreePageReference}[1]{%
+  \ifcsname r@#1\endcsname
+    \expandafter\expandafter\expandafter\slThreeLabelPage\csname r@#1\endcsname\slThreeStop
+  \else ?\fi}
+\newenvironment{slThreeNote}{\begin{list}{}{\setlength{\leftmargin}{5ex}\setlength{\rightmargin}{5ex}}\item[]}{\end{list}}
+\newsavebox{\slThreeNoteBox}
+\newcommand{\slThreeFixedNote}[1]{%
+  \sbox{\slThreeNoteBox}{\begin{minipage}{\linewidth}\begin{center}\textbf{NOTE}\end{center}\begin{slThreeNote}#1\end{slThreeNote}\end{minipage}}%
+  \dondocsNeedspace{\dimexpr\ht\slThreeNoteBox+\dp\slThreeNoteBox+6pt\relax}%
+  \noindent\usebox{\slThreeNoteBox}\par\vspace{6pt}%
+}
+\newsavebox{\slThreeFigureBox}
+\newcommand{\slThreeFigureBlock}[1]{%
+  \sbox{\slThreeFigureBox}{\begin{minipage}{\linewidth}#1\end{minipage}}%
+  \dondocsNeedspace{\dimexpr\ht\slThreeFigureBox+\dp\slThreeFigureBox\relax}%
+  \noindent\usebox{\slThreeFigureBox}\par
+}
+\newcommand{\slThreeNavigationTitle}[2]{%
+  \sbox{\dondocsReferenceBox}{#2}%
+  \ifdim\wd\dondocsReferenceBox>\dimexpr\linewidth-0.6in\relax
+    \PackageError{SL-3}{Navigation title exceeds one line}{Shorten the figure title so its navigation entry and page number fit.}%
+  \fi
+  \dondocsReferenceLink{#1}{#2}%
+}
 \newsavebox{\slThreeRows}
 \newsavebox{\slThreeIdentifierBox}
 \newcommand{\slThreeIdentifier}[1]{%
@@ -60,5 +136,11 @@
   \sbox{\slThreeRows}{\begin{tabular}{#1}#2\end{tabular}}%
   \ifdim\dimexpr\ht\slThreeRows+\dp\slThreeRows>\dimexpr\textheight-100pt\relax
     \PackageError{SL-3}{An inventory row or parent-component group exceeds one page}{Shorten its description or divide the component group.}%
+  \fi
+}
+\newcommand{\slThreeCheckSheet}[2]{%
+  \sbox{\slThreeRows}{\begin{tabular}{#1}#2\end{tabular}}%
+  \ifdim\dimexpr\ht\slThreeRows+\dp\slThreeRows>\dimexpr\textheight-60pt\relax
+    \PackageError{SL-3}{Inventory sheet exceeds one page}{Reduce the maximum inventory rows per sheet or shorten descriptions. Each inventory sheet must precede its illustrations.}%
   \fi
 }

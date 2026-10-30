@@ -207,7 +207,10 @@ export async function compileFixture(store: TestStore, extraFiles: Record<string
   // No-op for now; if individual fixtures need stubs, the matrix can
   // override them.
 
-  const { exitCode, log } = await runPdflatex(workDir, 'main.tex');
+  let { exitCode, log } = await runPdflatex(workDir, 'main.tex');
+  if (exitCode === 0 && store.docType === 'sl3') {
+    ({ exitCode, log } = await runPdflatex(workDir, 'main.tex'));
+  }
   const ok = exitCode === 0;
   const errors = parseLatexErrors(log);
   const logTail = tail(log, 60);

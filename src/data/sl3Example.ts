@@ -29,6 +29,7 @@ export const sl3Example: ExampleDocument = {
     fontSize: '10pt',
     sl3: {
       ...emptySl3(),
+      sourceManual: 'TM 12345A-10 (synthetic training manual)',
       technicalData:
         'Demonstration tool kit. Dimensions: 12 by 8 by 6 inches. Weight: 5 pounds. Replace this example with approved equipment data.',
       notes: [

@@ -90,6 +90,8 @@ export function sessionSearchFields(session: SerializedSession): SearchField[] {
   if (session.docType === 'sl3') {
     add('sl3-cover', session.endItems);
     add('sl3-details', session.formData.sl3?.technicalData);
+    add('sl3-details', session.formData.sl3?.sourceManual);
+    add('sl3-details', session.formData.sl3?.configurationReference);
     add('sl3-details', session.formData.sl3?.notes);
     add('sl3-details', session.formData.sl3?.sequencingNote);
     add('sl3-inventory', session.formData.sl3?.components);

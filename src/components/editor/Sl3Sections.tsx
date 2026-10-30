@@ -109,6 +109,10 @@ export function Sl3CoverSection() {
     ['nomenclature', 'End item nomenclature'],
     ['date', 'Publication date (d MMM yy)'],
     ['publicationSigningDate', 'Signing date (YYYY-MM-DD)'],
+    [
+      'publicationClosedDates',
+      'Office closure dates (YYYY-MM-DD, separated by commas)',
+    ],
     ['unitLine1', 'Issuing command'],
     ['unitLine2', 'Command line 2'],
     ['unitAddress', 'Command address'],
@@ -123,6 +127,10 @@ export function Sl3CoverSection() {
         SL-3 components inventory publication · MCO 5215.17D and the supplied
         MARCORSYSCOM template.
       </p>
+      <p className="text-xs text-muted-foreground">
+        Authentication requires a Program Manager or higher authority. Export
+        prepares an unsigned digital signature field for certificate signing.
+      </p>
       <label className="block space-y-1 text-sm">
         Inventory layout
         <select
@@ -135,6 +143,25 @@ export function Sl3CoverSection() {
         >
           <option value="portrait">Portrait</option>
           <option value="landscape">Landscape</option>
+        </select>
+      </label>
+      <p className="text-xs text-muted-foreground">
+        Landscape PDF inventory pages widen to 11 by 11 inches under
+        MIL-STD-38784C.
+      </p>
+      <label className="block space-y-1 text-sm">
+        Maximum inventory rows per sheet
+        <select
+          aria-label="Maximum inventory rows per sheet"
+          className="w-full rounded-md border bg-background p-2"
+          value={data.rowsPerSheet}
+          onChange={(e) => update({ rowsPerSheet: Number(e.target.value) })}
+        >
+          {Array.from({ length: 13 }, (_, i) => i + 4).map((rows) => (
+            <option key={rows} value={rows}>
+              {rows}
+            </option>
+          ))}
         </select>
       </label>
       {fields.map(([key, label]) => (
@@ -198,6 +225,18 @@ export function Sl3DetailsSection() {
   const { data, update } = useSl3();
   return (
     <div className="space-y-4">
+      <Field
+        label="Source technical manual"
+        value={data.sourceManual}
+        onChange={(sourceManual) => update({ sourceManual })}
+      />
+      <Field
+        label="TFSMS configuration source (for TAMCN associations)"
+        value={data.configurationReference}
+        onChange={(configurationReference) =>
+          update({ configurationReference })
+        }
+      />
       <Field
         label="Technical data"
         value={data.technicalData}
@@ -410,6 +449,12 @@ export function Sl3InventorySection() {
                 ['partNumber', 'Part number'],
                 ['cage', 'CAGE'],
                 ['unit', 'Unit of measure'],
+                ['unitOfIssue', 'Unit of issue'],
+                ['primaryTamcn', 'Associated primary TAMCN'],
+                [
+                  'configurationRatio',
+                  'Configuration ratio (primary:component)',
+                ],
                 ['quantity', 'Quantity'],
               ] as const
             ).map(([key, label]) => (

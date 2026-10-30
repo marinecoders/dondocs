@@ -1,41 +1,38 @@
 # SL-3 components lists
 
-Branch: `feature/sl3-components-list`. One PR: `feat(techpub): add SL-3 components lists`.
+Branch: `feature/sl3-components-list`. PR: `feat(techpub): add SL-3 components lists` (#359).
 
 ## Sources and decisions
 
-- MCO 5215.17D, enclosure (1), chapter 1, Components List (SL-3), and chapter 2: publication purpose, identification and PCN. Chapter 1, paragraph 1.b(3)(a), printed pages 1-2–1-3, calls for component identification, TAMCN associations, quantities and ratios; components retain optional TAMCN/ID fields alongside their quantities. The order is retained in `docs/MCO 5215.17D.pdf`.
-- Supplied MARCORSYSCOM portrait and landscape SL-3 templates: fixed preface, cover and front authentication, inventory columns, 16-row maximum (including category/other rows), nested components and illustrations.
-- MIL-STD-38784C: applicable PDF formatting, hyperlinks, bookmarks, continued tables and illustrations. PDF output adds no blank pages or paper-only blank-page labels.
-- MCO 4400.201, volume 3, section 0214 supplies the supporting component responsibility policy. Verify applicable changes before adding policy-derived restrictions.
-- Preserve the supplied cover and front authentication layout. Reuse I-Type cover mechanisms without carrying its MI-only content or 12-point body requirement into SL-3.
-- The supplied portrait instructions start the preface at iii; the landscape instructions say i. Use iii consistently, with cover/authentication preceding the preface. Physical overflow pages are not additional logical front-matter numbers. Record this discrepancy for publication-office review.
-- The existing renderer uses a Times-compatible font. This change does not establish a distributable Times New Roman license or publication-office approval.
-- The current ALPS-HDBK-004 handbook has not been obtained. Do not invent rules attributed to it.
+- MCO 5215.17D, enclosure (1), chapter 1, paragraph 1.c(3)(a), establishes the standalone components list, component identification, TAMCN associations and configuration quantities/ratios. Chapter 2 supplies publication identification and PCN rules. The order is retained in `docs/MCO 5215.17D.pdf`.
+- Supplied MARCORSYSCOM portrait and landscape SL-3 templates establish fixed preface text, cover/authentication, inventory columns, sixteen-row maximum including category headings, nesting and illustrations.
+- MIL-STD-38784C is retained in `docs/MIL-STD-38784C.pdf`. Applicable PDF rules supply navigation lists, linked references/bookmarks, right-edge numbering, sequential Roman front matter and widened 11 × 11-inch inventory pages for the landscape selection.
+- Cover is unnumbered; an end-item continuation is T-2; authentication starts at i. TOC, navigation lists, preface and technical data follow sequentially. The preface begins at iv for a fixture with one-page authentication, TOC and combined illustration/table lists; longer content can change that page reference.
+- Preserve source table grids for the seven-column inventory. Optional columns have no supplied grid and require tailoring review. No approved tailoring or current ALPS-HDBK-004 was supplied.
+- Production embeds Nimbus Roman rather than Times New Roman. This is a material unresolved compliance gap. Installed system fonts do not establish browser support or redistribution rights.
+
+The complete requirement matrix, source identities, exceptions and validation are in [SL3_COMPLIANCE_AUDIT.md](SL3_COMPLIANCE_AUDIT.md). This MVP is not certified as 100% compliant or approved for enterprise publication release.
 
 ## Implementation
 
 - [x] Register SL-3 in the document picker, guide and starter templates.
-- [x] Add structured component, special-note and illustration authoring.
-- [x] Render the complete portrait publication, then landscape inventory pages.
-- [x] Apply shared publication marking/date checks and SL-3-specific checks.
-- [x] Preserve data and attachments across saved documents, recovery, history, backups and portable drafts.
+- [x] Add structured components, notes, figures, source-manual provenance and configuration associations.
+- [x] Render complete publications with portrait or widened inventory pages.
+- [x] Apply shared marking/date checks and SL-3-specific hierarchy, quantity, source and signing checks.
+- [x] Preserve data/assets through saved documents, recovery, history, backups and portable drafts.
 - [x] Add Companion/MCP PDF generation through the same renderer and checks.
-- [x] Verify actual PDFs, browser authoring, type switching and I-Type regressions.
+- [x] Inspect actual PDFs, browser authoring, type switching and I-Type regressions.
 
-## Acceptance
+## Acceptance and limits
 
-One saved SL-3 supports both orientations, six-row covers and overflow lists, fixed preface text, special notes (or None), technical data, the end-item illustration, SSRI, optional collateral materiel, mandatory UURI, sequential inventory numbering, parent/component relationships, optional figure/model columns, inventory legends and inventory signature spaces. Missing illustrations print Not Shown. Export rejects incomplete/contradictory content; preview remains available during drafting. PDF export prepares an authentication signature field for external signing.
+One saved SL-3 supports both orientations, six-row covers and overflow lists, fixed preface, notes or None, technical data, end-item illustration, SSRI, optional collateral, mandatory UURI, sequential inventory numbers, parent/component relationships, optional figure/model columns, twelve periodic cells, legends and inventory signature spaces. Unit of issue is recorded separately from unit of measure. Associated component TAMCNs require a covered primary TAMCN, positive ratio and configuration-source reference.
 
-Validation must exercise more than six end items, more than sixteen inventory rows, nested components at page boundaries, long descriptions, asset recovery, missing files, notes and both layouts. Source-only assertions do not replace rendered PDF inspection. Word export, certificate signing, SL-4 and a full TM/IETM remain outside this PR.
+Missing component illustrations print Not Shown. Draft preview remains available; PDF export rejects incomplete or contradictory data and sheets that cannot fit. Authors can reduce rows per sheet for longer descriptions. Export prepares an unsigned authentication signature field for external signing and rejects by-direction authentication.
+
+Validation exercises more than six end items, more than sixteen inventory rows, nested items at sheet boundaries, optional columns, long descriptions, asset recovery, missing files, control markings and both layouts. Real PDF tests inspect page references, link destinations, outline hierarchy, signature placement and physical table geometry. Source assertions alone do not establish compliance.
+
+Word export, actual certificate signing, SL-4, full TM/IETM, revision/change packages and formal source-data delivery are outside this MVP. Program offices must verify source completeness, technical accuracy, official identifiers/units, marking determinations, artwork and signing authority. Enterprise software approval is a rollout dependency, not a gate to this MVP work.
 
 ## Validation
 
-- Unit/component suite and coverage gate: 3,224 tests passed; statement coverage 61.88%.
-- Existing I-Type and new SL-3 rendering/production export checks passed. SL-3 cases include overflow, nested items at a sheet boundary, both optional columns, over-height rejection, image assets, PDF link destinations and signature placement.
-- The shared pairwise LaTeX matrix compiles twenty SL-3 combinations.
-- Typecheck, ESLint, production build and Companion build passed.
-- Component hierarchy checks cover nested parent removal, contiguous grandchild groups and whole-subtree nesting limits. Figure labels follow publication order; sequencing explanations carry portion markings, with defaults restored for older drafts.
-- Browser authoring verified at the branch's local preview, including the document picker and the demonstration inventory.
-
-The inventory retains the supplied logical column order and twelve periodic-inventory cells. Column proportions fit the renderer's portrait/landscape text areas while keeping identifiers intact; final layout and font acceptance remain publication-office review items. Program offices remain responsible for component data, technical accuracy, control markings, approval and signing.
+See the audit report for the final local test results and the PR checks for validation of the pushed commit. The full unit/coverage suite, integration suite, twenty SL-3 matrix cases, typecheck, ESLint, production build and Companion build are exercised. Browser checks use synthetic example content only.
