@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.205] — 2026-10-29
+
+### Changed
+- "In reply refer to" no longer asks for a reference that was never printed.
+
 ## [1.2.204] — 2026-10-29
 
 ### Fixed
