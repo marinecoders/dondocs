@@ -187,7 +187,7 @@ function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) =>
 
         <div className="pt-4 border-t space-y-2">
           {/* Same switch as the type picker: the draft keeps its content. */}
-          {isCorrespondence && bestGuide && (
+          {isCorrespondence && bestGuide && DOC_TYPE_CONFIG[a.docType] && (
             <Button
               className="w-full"
               disabled={a.docType === currentType}

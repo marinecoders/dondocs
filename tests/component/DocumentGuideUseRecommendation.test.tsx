@@ -35,6 +35,24 @@ describe('document guide recommendation', () => {
     expect(useUIStore.getState().documentGuideOpen).toBe(false);
   });
 
+  it('does not offer to apply a NAVMC form as a correspondence type', async () => {
+    const user = userEvent.setup();
+    render(<DocumentGuideModal />);
+    await user.click(screen.getByRole('button', { name: /Answer a few questions/ }));
+    await user.click(screen.getByRole('button', { name: /Marine Corps personnel/ }));
+    await user.click(screen.getByRole('button', { name: /Make a service-record entry/ }));
+    expect(screen.getByText('Recommended Document Types')).toBeVisible();
+    expect(screen.queryByRole('button', { name: /for this document/ })).toBeNull();
+    expect(useDocumentStore.getState().docType).toBe('naval_letter');
+  });
+
+  it('does not switch an open form through the correspondence picker', async () => {
+    useDocumentStore.getState().setDocumentCategory('forms');
+    await answerForABusinessLetter();
+    expect(screen.queryByRole('button', { name: /for this document/ })).toBeNull();
+    expect(useDocumentStore.getState().documentCategory).toBe('forms');
+  });
+
   it('says so when the draft already uses the best match', async () => {
     useDocumentStore.getState().setDocType('business_letter');
     await answerForABusinessLetter();
