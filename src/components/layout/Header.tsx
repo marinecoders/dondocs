@@ -314,9 +314,9 @@ export function Header({
           ><PanelLeft aria-hidden="true" className="h-4 w-4 shrink-0" /></Button>
         </HeaderTip> : null}
         <DraftIdentity />
-        <Button variant="ghost" size="sm" className="hidden sm:inline-flex h-8 px-3" onClick={() => setShareModal('share')}>Share</Button>
+        <Button variant="ghost" size="sm" className="hidden sm:inline-flex h-8 px-3.5" onClick={() => setShareModal('share')}>Share</Button>
         <Button variant="ghost" size="sm"
-          className="h-10 sm:h-8 px-2 sm:px-3 border border-transparent data-[active=true]:border-primary/20 data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:hover:bg-primary/15"
+          className="h-10 sm:h-8 px-2 sm:px-3.5 sm:has-[>svg]:px-3.5 border border-transparent data-[active=true]:border-primary/20 data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:hover:bg-primary/15"
           aria-label="Preview" aria-pressed={isMobile ? undefined : previewOpen}
           aria-haspopup={isMobile ? 'dialog' : undefined} aria-expanded={isMobile ? previewOpen : undefined}
           data-active={previewOpen}
@@ -325,7 +325,7 @@ export function Header({
           {/* Download dropdown - always visible but compact on smaller screens */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button data-tour="download" aria-label="Download" variant="default" size="sm" className="h-10 sm:h-8 px-3">
+              <Button data-tour="download" aria-label="Download" variant="default" size="sm" className="h-10 sm:h-8 px-3 sm:has-[>svg]:px-3.5">
                 <Download className="h-4 w-4 sm:hidden" />
                 <span className="hidden sm:inline">Download</span>
               </Button>

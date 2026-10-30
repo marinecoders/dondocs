@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.207] — 2026-10-29
+
+### Changed
+- Share, Preview and Download have a little more room inside their hover highlight.
+
 ## [1.2.206] — 2026-10-29
 
 ### Fixed
