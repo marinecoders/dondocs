@@ -11,6 +11,6 @@ export function exampleSession(example: ExampleDocument): SerializedSession {
     paragraphs: structuredClone(example.paragraphs),
     references: structuredClone(example.references ?? []),
     copyTos: structuredClone(example.copyTos ?? []),
-    enclosures: [], distributions: [], endItems: [], publicationTables: {}, timestamp: Date.now(),
+    enclosures: [], distributions: [], endItems: structuredClone(example.endItems ?? []), publicationTables: {}, timestamp: Date.now(),
   };
 }

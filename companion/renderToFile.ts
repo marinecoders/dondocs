@@ -1,3 +1,4 @@
+import { isTechnicalPublication } from '../src/lib/publicationPreflight';
 /**
  * Render one document and put it on disk.
  *
@@ -67,7 +68,7 @@ export async function renderToFile(
   defaults: CompanionDefaults,
   root: string,
 ): Promise<RenderedFile> {
-  if (input.docType === 'i_type') {
+  if (isTechnicalPublication(input.docType)) {
     input = letterSchema.parse(input);
     const errors = validateLetter(input, defaults);
     if (errors.length) throw new Error(errors.join('\n'));

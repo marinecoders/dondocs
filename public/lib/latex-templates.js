@@ -5280,6 +5280,69 @@ const LATEX_TEMPLATES = {
     \\renewcommand{\\footrulewidth}{0pt}%
 }
 `,
+  'tex/templates/sl3.tex': `
+% SL-3: MCO 5215.17D and supplied MARCORSYSCOM components-list template.
+% Cover and authentication are shared with I-Type; body and inventory differ.
+\\input{i_type}
+\\RecordingInstructionfalse
+\\renewcommand{\\printEnclosureList}{}
+\\renewcommand{\\printReferences}{}
+\\renewcommand{\\printDistribution}{}
+\\renewcommand{\\printCopyTo}{}
+\\renewcommand{\\printAppendedEndorsement}{}
+\\renewcommand{\\dondocsRunningTitle}{\\makebox[\\textwidth]{\\fontsize{10}{12}\\selectfont\\ShortTitle\\hfill\\DocumentDate}}
+\\renewcommand{\\dondocsPageNumber}{\\makebox[\\textwidth][c]{\\fontsize{10}{12}\\selectfont\\thepage}}
+\\renewcommand{\\placeClassificationMarkings}{%
+  \\ifClassificationEnabled
+    \\begin{textblock*}{\\paperwidth}(0in,0.3in)\\centering\\ClassificationMarking\\end{textblock*}%
+    \\begin{textblock*}{\\paperwidth}(0in,\\dimexpr\\paperheight-0.3in\\relax)\\centering\\ClassificationMarking\\end{textblock*}%
+  \\fi
+}
+% Measure the multi-line inventory header before assigning its text area.
+\\newcommand{\\slThreeInventoryHeader}{\\parbox{\\textwidth}{\\fontsize{10}{12}\\selectfont
+  \\makebox[\\textwidth]{\\ShortTitle\\hfill Marine Corps Stocklist\\hfill\\ShortTitle}\\par
+  DATE OF PUBLICATION: \\DocumentDate\\par
+  END ITEM NOMENCLATURE: \\Nomenclature\\hfill SERIAL NUMBER: \\underline{\\hspace{0.8in}}}}
+\\newsavebox{\\slThreeHeaderBox}
+\\newdimen\\slThreeHeadHeight
+\\newcommand{\\slThreeInventoryLayout}[1]{%
+  \\newgeometry{left=#1,right=#1,top=1.3in,bottom=0.7in,headheight=40pt,headsep=12pt,footskip=0.35in}%
+  \\sbox{\\slThreeHeaderBox}{\\slThreeInventoryHeader}%
+  % The production engine's older fancyhdr adds a line strut to its box.
+  \\slThreeHeadHeight=\\dimexpr\\ht\\slThreeHeaderBox+\\dp\\slThreeHeaderBox+14pt\\relax
+  \\newgeometry{left=#1,right=#1,top=\\dimexpr\\slThreeHeadHeight+0.75in\\relax,bottom=0.7in,headheight=\\slThreeHeadHeight,headsep=12pt,footskip=0.35in}%
+}
+\\newcommand{\\slThreeLandscape}{%
+  \\clearpage
+  \\pdfpagewidth=11in\\pdfpageheight=8.5in
+  \\paperwidth=11in\\paperheight=8.5in
+  \\slThreeInventoryLayout{0.5in}%
+}
+\\newcommand{\\slThreePortraitInventory}{\\slThreeInventoryLayout{1in}}
+\\fancypagestyle{slthreeinventory}{%
+  \\fancyhf{}%
+  \\fancyhead[C]{\\placeClassificationMarkings\\slThreeInventoryHeader}%
+  \\fancyfoot[C]{\\dondocsPageNumber}%
+  \\renewcommand{\\headrulewidth}{0pt}\\renewcommand{\\footrulewidth}{0pt}%
+}
+\\let\\slThreeMeasureCoverHead\\dondocsMeasureCoverHead
+\\renewcommand{\\dondocsMeasureCoverHead}{\\slThreeMeasureCoverHead\\addtolength{\\headheight}{14pt}}
+\\newsavebox{\\slThreeRows}
+\\newsavebox{\\slThreeIdentifierBox}
+\\newcommand{\\slThreeIdentifier}[1]{%
+  \\sbox{\\slThreeIdentifierBox}{#1}%
+  \\ifdim\\wd\\slThreeIdentifierBox>\\dimexpr\\linewidth-\\leftskip\\relax
+    \\PackageError{SL-3}{An inventory identifier exceeds its column}{Check the identifier or use the landscape layout.}%
+  \\fi
+  \\usebox{\\slThreeIdentifierBox}%
+}
+\\newcommand{\\slThreeCheckRows}[2]{%
+  \\sbox{\\slThreeRows}{\\begin{tabular}{#1}#2\\end{tabular}}%
+  \\ifdim\\dimexpr\\ht\\slThreeRows+\\dp\\slThreeRows>\\dimexpr\\textheight-100pt\\relax
+    \\PackageError{SL-3}{An inventory row or parent-component group exceeds one page}{Shorten its description or divide the component group.}%
+  \\fi
+}
+`,
   'tex/templates/standard_letter.tex': `
 %=============================================================================
 %

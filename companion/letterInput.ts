@@ -1,3 +1,4 @@
+import { isTechnicalPublication } from '../src/lib/publicationPreflight';
 /**
  * What a caller can ask for, and how it becomes a generator store.
  *
@@ -258,14 +259,14 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       ...partyFields(input),
 
       fontFamily: 'times',
-      fontSize: '12pt',
+      fontSize: input.docType === 'sl3' ? '10pt' : '12pt',
       includeHyperlinks: input.publication?.includeHyperlinks ?? false,
       showSubjectOnContinuation: true,
       classificationBasis: input.classification?.basis,
       ...publicationFields(input),
     },
 
-    paragraphs: input.docType === 'i_type' ? publicationParagraphs(input) :
+    paragraphs: isTechnicalPublication(input.docType) ? publicationParagraphs(input) :
       (input.paragraphs?.length ? input.paragraphs : [{ text: '', level: 0 }])
         .map((p) => ({ ...p, level: p.level ?? 0 })) as Paragraph[],
     endItems: input.publication?.endItems ?? [],
@@ -277,7 +278,7 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       title: r.title,
       ...(r.url ? { url: r.url } : {}),
     })),
-    enclosures: input.docType === 'i_type' ? publicationEnclosures(input) : (input.enclosures ?? []).map((e) => ({ title: e.title })),
+    enclosures: isTechnicalPublication(input.docType) ? publicationEnclosures(input) : (input.enclosures ?? []).map((e) => ({ title: e.title })),
     copyTos: (input.copyTo ?? []).map((text) => ({ text })),
     distributions: (input.distribution ?? []).map((text) => ({ text })),
   };

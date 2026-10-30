@@ -36,6 +36,7 @@ export const QUESTIONS: Record<string, Question> = {
       { label: 'A headquarters memorandum (HqDON / OSD)', value: 'headquarters', help: 'Standard, Action, or Information Memorandum under Chapter 12.' },
       { label: 'A Marine Corps personnel / service-record form', value: 'usmc_form', help: 'Page 11 (NAVMC 118(11)) or an administrative-action form. Marine Corps only.' },
       { label: 'A record of a counseling, event, or decision for the file', value: 'record', help: 'No one receives it — it just goes in the file.' },
+      { label: 'An equipment components inventory (SL-3)', value: 'components', help: 'Components, accessories, illustrations and inventory sheets for an end item.' },
       { label: 'A technical publication directing work on fielded equipment', value: 'techpub', help: 'A Modification, Supply, Technical, or Lubrication Instruction (MI/SI/TI/LI), issued under a PCN.' },
     ],
   },
@@ -205,6 +206,10 @@ export function getRecommendations(answers: Record<string, string>): FinderResul
 
   // R1a — Technical publications. Not correspondence: an I-Type is a directive
   // to the fleet, authenticated on its front matter, under MIL-STD-38784C.
+  if (category === 'components') {
+    add('sl3', 'high', 'Per MCO 5215.17D: an SL-3 lists the components and accessories needed to inventory an end item.');
+    return top3();
+  }
   if (category === 'techpub') {
     add('i_type', 'high', 'Per MIL-STD-38784C: an I-Type instruction (MI/SI/TI/LI) directs a modification, supply, technical, or lubrication action on fielded equipment');
     return top3();

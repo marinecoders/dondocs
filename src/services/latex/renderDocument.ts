@@ -128,7 +128,7 @@ async function runCompile(
   const result = await engine.compileLaTeX();
 
   if (result.status === 0 && result.pdf) {
-    return typeof files['document.tex'] === 'string' && files['document.tex'].includes('\\setDocumentType{i_type}')
+    return typeof files['document.tex'] === 'string' && /\\setDocumentType\{(?:i_type|sl3)\}/.test(files['document.tex'])
       ? resolvePublicationDestinations(result.pdf) : result.pdf;
   }
   throw new LatexCompileError(result.status, result.log ?? '');

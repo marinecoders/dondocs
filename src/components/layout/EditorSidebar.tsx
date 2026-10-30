@@ -102,7 +102,7 @@ export function EditorSidebar() {
   const docErrorSignature = useDocumentStore((s) =>
     !validationVisible || isFormsMode
       ? ''
-      : ERROR_BEARING_IDS.filter((id) => getSectionError(id, s.formData, s.paragraphs, config)).join(',')
+      : ERROR_BEARING_IDS.filter((id) => getSectionError(id, s.formData, s.paragraphs, config, s.endItems)).join(',')
   );
   const formErrorSignature = useFormStore((s) => {
     if (!validationVisible || !isFormsMode) return '';

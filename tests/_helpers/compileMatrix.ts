@@ -57,6 +57,7 @@ export const ALL_DOC_TYPES = [
   'action_memorandum',
   'information_memorandum',
   'i_type',
+  'sl3',
 ] as const;
 
 export type DocType = typeof ALL_DOC_TYPES[number];

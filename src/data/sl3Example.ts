@@ -1,0 +1,90 @@
+import { emptySl3, newSl3Component } from './techpub/sl3';
+import type { ExampleDocument } from './exampleDocuments';
+
+export const sl3Example: ExampleDocument = {
+  id: 'sl3-example',
+  name: 'SL-3 Components List',
+  category: 'Technical Publications',
+  docType: 'sl3',
+  description: 'Demonstration tool kit with components and a nested assembly',
+  formData: {
+    unitLine1: 'EXAMPLE COMMAND',
+    unitLine2: 'TRAINING PROGRAM OFFICE',
+    unitAddress: 'EXAMPLE ADDRESS',
+    subject: 'COMPONENTS LIST FOR TRAINING TOOL KIT',
+    nomenclature: 'TOOL KIT, TRAINING',
+    shortTitle: 'SL-3-12345A',
+    pcn: '123 123450 00',
+    date: '30 Oct 26',
+    publicationSigningDate: '2026-10-30',
+    controllingOffice: 'Training Program Office',
+    pocEmail: 'example@example.com',
+    signatureType: 'digital',
+    sigFirst: 'Jane',
+    sigLast: 'Example',
+    sigTitle: 'Program Manager',
+    classLevel: 'unclassified',
+    cuiDistStatement: 'A',
+    fontFamily: 'times',
+    fontSize: '10pt',
+    sl3: {
+      ...emptySl3(),
+      technicalData:
+        'Demonstration tool kit. Dimensions: 12 by 8 by 6 inches. Weight: 5 pounds. Replace this example with approved equipment data.',
+      notes: [
+        {
+          id: 'demonstration',
+          text: 'Demonstration data only. Identifiers, quantities and nomenclature require program-office review.',
+          portionMarking: 'U',
+        },
+      ],
+      components: [
+        {
+          ...newSl3Component('adapter'),
+          nomenclature: 'ADAPTER, Training',
+          partNumber: 'DEMO-001',
+          cage: 'TEST1',
+          quantity: '1',
+        },
+        {
+          ...newSl3Component('case'),
+          nomenclature: 'CASE, Carrying',
+          partNumber: 'DEMO-002',
+          cage: 'TEST1',
+          quantity: '1',
+        },
+        {
+          ...newSl3Component('handle'),
+          nomenclature: 'HANDLE, Carrying Case',
+          parentId: 'case',
+          partNumber: 'DEMO-003',
+          cage: 'TEST1',
+          quantity: '1',
+        },
+        {
+          ...newSl3Component('tool'),
+          nomenclature: 'TOOL, Training',
+          partNumber: 'DEMO-004',
+          cage: 'TEST1',
+          quantity: '2',
+          serialized: true,
+          noteIds: ['demonstration'],
+        },
+        {
+          ...newSl3Component('manual'),
+          category: 'uuri',
+          nomenclature: 'MANUAL, Operator',
+          partNumber: 'DEMO-005',
+          cage: 'TEST1',
+          quantity: '1',
+        },
+      ],
+    },
+  },
+  endItems: [
+    { nsn: '', tamcn: 'A12345G', id: '12345A', model: 'DEMONSTRATION' },
+  ],
+  paragraphs: [],
+  references: [],
+  copyTos: [],
+};

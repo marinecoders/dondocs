@@ -1,3 +1,4 @@
+import { sl3Schema } from '../src/data/techpub/sl3';
 import * as z from 'zod';
 import { PUBLICATION_SECTIONS } from '../src/data/techpub/sections';
 import { I_TYPE_TABLES } from '../src/data/techpub/tables';
@@ -39,7 +40,8 @@ const row = z.object({
 }).strict();
 
 export const publicationSchema = z.object({
-  type: z.enum(['MI', 'TI', 'SI', 'LI']),
+  type: z.enum(['MI', 'TI', 'SI', 'LI', 'SL3']),
+  sl3: sl3Schema.optional().describe('SL-3 inventory content, required when type is SL3.'),
   shortTitle: z.string(), pcn: z.string(), nomenclature: z.string(), controllingOffice: z.string(),
   signingDate: z.string().describe('Planned or actual signing date as YYYY-MM-DD.'),
   closedDates: z.string().optional().describe('Office closure dates as YYYY-MM-DD, separated by commas.'),

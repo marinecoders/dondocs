@@ -1,3 +1,6 @@
+import type { DocumentData, EndItem } from '@/types/document';
+import { sl3ExportErrors } from '@/lib/sl3Preflight';
+import { Sl3CoverSection, Sl3DetailsSection, Sl3InventorySection, Sl3IllustrationsSection } from '@/components/editor/Sl3Sections';
 import { Users, ClipboardList } from 'lucide-react';
 import { formErrorSections } from '@/services/forms/model';
 import { useMemo, type ReactNode } from 'react';
@@ -72,6 +75,14 @@ export function useEditorSections(): {
  * an export attempt, gated on uiStore.validationVisible.
  */
 interface SectionErrorInput {
+  sl3?: DocumentData['sl3'];
+  shortTitle?: string;
+  pcn?: string;
+  nomenclature?: string;
+  date?: string;
+  publicationSigningDate?: string;
+  controllingOffice?: string;
+  pocEmail?: string;
   unitLine1?: string;
   from?: string;
   to?: string;
@@ -87,15 +98,17 @@ interface SectionErrorInput {
  * Keep in lockstep with the cases in getSectionError below.
  */
 export const ERROR_BEARING_IDS = [
-  'letterhead', 'addressing', 'body', 'signature', 'executive', 'joint_memo',
+  'letterhead', 'addressing', 'body', 'signature', 'executive', 'joint_memo', 'sl3-cover',
 ] as const;
 
 export function getSectionError(
   id: string,
   formData: SectionErrorInput,
   paragraphs: { text?: string }[],
-  config: DocTypeConfig
+  config: DocTypeConfig,
+  endItems: EndItem[] = [],
 ): boolean {
+  if (id === 'sl3-cover') return config === DOC_TYPE_CONFIG.sl3 && sl3ExportErrors({ docType: 'sl3', formData, paragraphs: paragraphs as import('@/types/document').Paragraph[], endItems }).length > 0;
   switch (id) {
     case 'letterhead':
       // Don't flag a missing letterhead when the doc type allows plain paper
@@ -253,6 +266,7 @@ export function useDocumentCompleteness(): DocumentCompleteness {
   const { sections, config, isFormsMode, formType } = useEditorSections();
   const formData = useDocumentStore((s) => s.formData);
   const paragraphs = useDocumentStore((s) => s.paragraphs);
+  const endItems = useDocumentStore((s) => s.endItems);
   const navmc10274 = useFormStore((s) => s.navmc10274);
   const navmc11811 = useFormStore((s) => s.navmc11811);
   // Config-driven forms carry `required` on the fields the author marked
@@ -278,8 +292,8 @@ export function useDocumentCompleteness(): DocumentCompleteness {
       return completenessFrom([], () => false);
     }
     const required = ids.filter((id) => (ERROR_BEARING_IDS as readonly string[]).includes(id));
-    return completenessFrom(required, (id) => getSectionError(id, formData, paragraphs, config));
-  }, [idKey, isFormsMode, formType, navmc10274, navmc11811, formData, paragraphs, config, instance]);
+    return completenessFrom(required, (id) => getSectionError(id, formData, paragraphs, config, endItems));
+  }, [idKey, isFormsMode, formType, navmc10274, navmc11811, formData, paragraphs, config, instance, endItems]);
 }
 
 export function renderEditorSection(id: string, config: DocTypeConfig): ReactNode {
@@ -290,6 +304,10 @@ export function renderEditorSection(id: string, config: DocTypeConfig): ReactNod
       return <AddressingSection config={config} />;
     case 'basic':
       return <EndorsementBasicLetterSection />;
+    case 'sl3-cover': return <Sl3CoverSection />;
+    case 'sl3-details': return <Sl3DetailsSection />;
+    case 'sl3-inventory': return <Sl3InventorySection />;
+    case 'sl3-figures': return <Sl3IllustrationsSection />;
     case 'cover':
       return <ITypeCoverSection />;
     case 'tables':

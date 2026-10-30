@@ -9,6 +9,14 @@ export async function prepareBatchCorrespondence(session: SerializedSession, val
   for (const [key, value] of Object.entries(formData)) {
     if (typeof value === 'string') Object.assign(formData, { [key]: replacePlaceholders(value, values) });
   }
+  if (formData.sl3) {
+    const replace = (value: string) => replacePlaceholders(value, values);
+    const sl3 = formData.sl3;
+    formData.sl3 = { ...sl3, technicalData: replace(sl3.technicalData), sequencingNote: replace(sl3.sequencingNote),
+      notes: sl3.notes.map((note) => ({ ...note, text: replace(note.text) })),
+      components: sl3.components.map((item) => ({ ...item, nomenclature: replace(item.nomenclature), description: replace(item.description),
+        nsn: replace(item.nsn), tamcn: replace(item.tamcn), idNumber: replace(item.idNumber), partNumber: replace(item.partNumber), cage: replace(item.cage), unit: replace(item.unit), quantity: replace(item.quantity), model: replace(item.model), figureReference: replace(item.figureReference) })) };
+  }
   const file = async (ref: NonNullable<Enclosure['fileRef']>) => {
     const data = await loadAttachment(ref.id);
     if (!data) throw new Error(`Attached file “${ref.name}” is missing. Reattach it and start a new batch.`);
