@@ -73,13 +73,19 @@ async function start(page: Page) {
 }
 
 async function reloadDuringUpdate(page: Page) {
-  // A worker-triggered reload can replace this navigation after it commits.
-  // Gate readiness on the editor in the surviving document, not its load event.
-  try { await page.reload({ waitUntil: 'commit', timeout: 15_000 }); }
+  // The worker can supersede a Playwright navigation request. Trigger a real
+  // reload, then require a new document rather than that request's completion.
+  let previousDocument = 0;
+  await expect(async () => {
+    previousDocument = await page.evaluate(() => performance.timeOrigin);
+  }).toPass({ timeout: 15_000 });
+  try { await page.evaluate(() => window.location.reload()); }
   catch (error) {
-    // The worker's own reload may supersede the requested navigation.
-    if (!(error instanceof Error) || !/(?:ERR_ABORTED|NS_BINDING_ABORTED|Navigation canceled by policy check|Frame load interrupted)/.test(error.message)) throw error;
+    if (!(error instanceof Error) || !/Execution context was destroyed/.test(error.message)) throw error;
   }
+  await expect(async () => {
+    expect(await page.evaluate(() => performance.timeOrigin)).not.toBe(previousDocument);
+  }).toPass({ timeout: 15_000 });
   await expect(page.locator('#subject:visible, #body-subject:visible')).toBeVisible({ timeout: 15_000 });
 }
 
