@@ -307,16 +307,9 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                     onCheckedChange={(checked) => setField('inReplyTo', checked === true)}
                   />
                   <Label htmlFor="inReplyTo" className="cursor-pointer">
-                    In Reply Refer To
+                    In reply refer to
                   </Label>
                 </div>
-                {formData.inReplyTo && (
-                  <Input
-                    value={formData.inReplyToText || ''}
-                    onChange={(e) => setField('inReplyToText', e.target.value)}
-                    placeholder="Reference letter/document (e.g., CO ltr 5216 Ser 001 of 1 Jan 25)"
-                  />
-                )}
               </div>
               </>
             )}
