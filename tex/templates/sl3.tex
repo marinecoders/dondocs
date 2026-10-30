@@ -22,20 +22,23 @@
   END ITEM NOMENCLATURE: \Nomenclature\hfill SERIAL NUMBER: \underline{\hspace{0.8in}}}}
 \newsavebox{\slThreeHeaderBox}
 \newdimen\slThreeHeadHeight
-\newcommand{\slThreeInventoryLayout}[1]{%
-  \newgeometry{left=#1,right=#1,top=1.3in,bottom=0.7in,headheight=40pt,headsep=12pt,footskip=0.35in}%
+\newcommand{\slThreeInventoryLayout}[3]{%
+  % newgeometry restores the original paper dimensions; specify its layout
+  % dimensions on both passes, then restore paper dimensions for banners.
+  \newgeometry{layoutwidth=#2,layoutheight=#3,left=#1,right=#1,top=1.3in,bottom=0.7in,headheight=40pt,headsep=12pt,footskip=0.35in}%
   \sbox{\slThreeHeaderBox}{\slThreeInventoryHeader}%
   % The production engine's older fancyhdr adds a line strut to its box.
   \slThreeHeadHeight=\dimexpr\ht\slThreeHeaderBox+\dp\slThreeHeaderBox+14pt\relax
-  \newgeometry{left=#1,right=#1,top=\dimexpr\slThreeHeadHeight+0.75in\relax,bottom=0.7in,headheight=\slThreeHeadHeight,headsep=12pt,footskip=0.35in}%
+  \newgeometry{layoutwidth=#2,layoutheight=#3,left=#1,right=#1,top=\dimexpr\slThreeHeadHeight+0.75in\relax,bottom=0.7in,headheight=\slThreeHeadHeight,headsep=12pt,footskip=0.35in}%
+  \paperwidth=#2\paperheight=#3
 }
 \newcommand{\slThreeLandscape}{%
   \clearpage
   \pdfpagewidth=11in\pdfpageheight=8.5in
   \paperwidth=11in\paperheight=8.5in
-  \slThreeInventoryLayout{0.5in}%
+  \slThreeInventoryLayout{0.5in}{11in}{8.5in}%
 }
-\newcommand{\slThreePortraitInventory}{\slThreeInventoryLayout{1in}}
+\newcommand{\slThreePortraitInventory}{\slThreeInventoryLayout{1in}{8.5in}{11in}}
 \fancypagestyle{slthreeinventory}{%
   \fancyhf{}%
   \fancyhead[C]{\placeClassificationMarkings\slThreeInventoryHeader}%

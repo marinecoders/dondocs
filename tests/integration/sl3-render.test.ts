@@ -43,6 +43,27 @@ describe.skipIf(!hasPdfToolchain)('SL-3 rendered publication', () => {
       expect(text.split('\f').filter((p) => p.trim()).length).toBe(
         pdf.getPageCount(),
       );
+      // Check the first compile, as the live preview does not guarantee a
+      // second pass to repair longtable's merged header widths.
+      const boxes = spawnSync('pdftotext', ['-bbox', path, '-'], {
+        encoding: 'utf8',
+      }).stdout;
+      const inventoryPage = boxes
+        .split('</page>')
+        .find((page) => page.includes('>PERIODIC</word>'))!;
+      const wordX = (word: string) =>
+        Number(
+          inventoryPage.match(
+            new RegExp(`<word xMin="([0-9.]+)"[^>]*>${word}</word>`),
+          )![1],
+        );
+      expect(wordX('NSN')).toBeCloseTo(wordX('5120-01-542-7445'), 1);
+      // A landscape page must use its wider text area as well as a rotated
+      // media box; geometry can otherwise silently restore portrait sizing.
+      expect(wordX('NSN')).toBeGreaterThan(
+        orientation === 'landscape' ? 70 : 95,
+      );
+      expect(wordX('NSN')).toBeLessThan(orientation === 'landscape' ? 85 : 105);
     }, 60000);
 
   it('previews an empty draft without requiring export-ready content', async () => {

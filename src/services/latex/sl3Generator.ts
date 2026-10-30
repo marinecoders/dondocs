@@ -249,7 +249,14 @@ export function generateSl3Body(store: Store): string {
       const header = headers
         .map((h, i) =>
           i === 5
-            ? `\\multicolumn{12}{|p{\\dimexpr${(logical[5] / total).toFixed(6)}\\dondocsTableWidth+22\\tabcolsep+11\\arrayrulewidth\\relax}|}{\\textbf{6}\\par PERIODIC INVENTORY (See paragraph 8 in Preface.)}`
+            ? // Single-column spans establish every physical width on the first
+              // LaTeX pass. A 12-column span makes longtable inflate its last cell
+              // until a later pass, which the live preview does not guarantee.
+              Array.from(
+                { length: 12 },
+                (_, cell) =>
+                  `\\multicolumn{1}{${cell === 0 ? '|' : ''}p{\\dimexpr${width[5 + cell]}\\dondocsTableWidth${cell < 11 ? '+\\arrayrulewidth' : ''}\\relax}${cell === 11 ? '|' : ''}}{${cell === 0 ? `\\makebox[0pt][l]{\\parbox[t]{\\dimexpr${(logical[5] / total).toFixed(6)}\\dondocsTableWidth+22\\tabcolsep+11\\arrayrulewidth\\relax}{\\raggedright\\textbf{6}\\par PERIODIC INVENTORY (See paragraph 8 in Preface.)}}` : ''}}`,
+              ).join(' & ')
             : `\\textbf{${i + 1}}\\par ${h}`,
         )
         .join(' & ');
