@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.189] — 2026-10-29
+
+### Fixed
+- Header buttons now share one text size, and keyboard focus shows on Share, Preview, History and Batch.
+
 ## [1.2.188] — 2026-10-29
 
 ### Changed
