@@ -276,7 +276,7 @@ export function generateSl3Body(store: Store): string {
     // Keep the paragraph's indentation local without ending the outer cell's
     // paragraph. Older array versions add an empty line to an already-ended
     // p-column paragraph, inflating both measured and rendered row heights.
-    const desc = `\\parbox[t]{\\linewidth}{\\leftskip=${indent}in\\hangindent=${depth === 0 ? '0.1' : '0.18'}in\\hangafter=1 ${identification}\\par}`;
+    const desc = `\\parbox[t]{\\linewidth}{\\raggedright\\leftskip=${indent}in\\hangindent=${depth === 0 ? '0.1' : '0.18'}in\\hangafter=1 ${identification}\\par}`;
     return [
       item.figureId
         ? `\\dondocsReferenceLink{sl3.figure.${figureNumber(item.figureId)}}{${number}}`
