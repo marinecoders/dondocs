@@ -51,6 +51,14 @@ describe('empty search', () => {
   });
 });
 
+it('does not describe an empty command scope as unsaved work', async () => {
+  const user = userEvent.setup();
+  render(<CommandPalette open onClose={vi.fn()} groups={[]} />);
+  await user.click(screen.getByRole('button', { name: 'Sections' }));
+  expect(screen.getByText('No results in sections.')).toBeVisible();
+  expect(screen.queryByText(/No saved/)).toBeNull();
+});
+
 describe('expanded workspace search', () => {
   it('groups preview fields under one heading per section while preserving matched navigation', async () => {
     const user = userEvent.setup();
