@@ -430,7 +430,7 @@ export function Header({
               {recoveryCount > 0 && <DropdownMenuItem onClick={() => {
                 void openRecoveredCopies().catch(error => showAppAlert({ title: 'Recovery failed', message: String(error) }));
               }}>Open recovered copies ({recoveryCount})</DropdownMenuItem>}
-              <DropdownMenuItem onClick={() => setShowClearFieldsDialog(true)} className="text-warning">
+              <DropdownMenuItem onClick={() => setShowClearFieldsDialog(true)} variant="destructive">
                 <Eraser className="h-4 w-4 mr-2" />
                 {isFormsMode ? 'Clear form fields…' : 'Clear content (keep letterhead)…'}
               </DropdownMenuItem>
