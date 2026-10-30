@@ -719,6 +719,10 @@ export function VariableChipEditor({
     return unregister;
   }, []);
 
+  // Set by Escape: the next Tab moves focus instead of indenting, so keyboard
+  // users can leave a paragraph (WCAG 2.1.2).
+  const tabReleasedRef = useRef(false);
+
   // Latest block-nav handlers, read inside the (created-once) editor keydown
   // handler so it never closes over stale callbacks.
   const blockHandlersRef = useRef({
@@ -812,6 +816,12 @@ export function VariableChipEditor({
       handleKeyDown(view, event) {
         const bh = blockHandlersRef.current;
         if (bh.blockMode) {
+          if (event.key === 'Escape') {
+            tabReleasedRef.current = true;
+            return false;
+          }
+          const tabReleased = tabReleasedRef.current;
+          if (!['Shift', 'Control', 'Alt', 'Meta'].includes(event.key)) tabReleasedRef.current = false;
           // Enter (no Shift) → new block, UNLESS the @-variable menu is open, in
           // which case Enter belongs to the menu (pick the highlighted variable).
           if (event.key === 'Enter' && !event.shiftKey) {
@@ -826,13 +836,13 @@ export function VariableChipEditor({
           // through to the browser's native focus move instead of swallowing it,
           // otherwise the editor becomes a keyboard trap (WCAG 2.1.2).
           if (event.key === 'Tab' && !event.shiftKey) {
-            if (!bh.onIndentBlock) return false;
+            if (!bh.onIndentBlock || tabReleased) return false;
             event.preventDefault();
             bh.onIndentBlock();
             return true;
           }
           if (event.key === 'Tab' && event.shiftKey) {
-            if (!bh.onOutdentBlock) return false;
+            if (!bh.onOutdentBlock || tabReleased) return false;
             event.preventDefault();
             bh.onOutdentBlock();
             return true;

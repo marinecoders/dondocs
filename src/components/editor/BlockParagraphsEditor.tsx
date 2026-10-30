@@ -767,7 +767,7 @@ export function BlockParagraphsEditor() {
 
       </div>
       <div className="mt-5 flex flex-wrap items-center justify-between gap-2 border-t border-border pt-4 text-[11px] text-muted-foreground">
-        <span>Enter adds a paragraph · Tab indents · @ inserts a variable</span>
+        <span>Enter adds a paragraph · Tab indents · Esc then Tab moves on · @ inserts a variable</span>
         <span className="tnum">
           {paragraphs.length} {paragraphs.length === 1 ? 'paragraph' : 'paragraphs'} · {totalWords} words
         </span>

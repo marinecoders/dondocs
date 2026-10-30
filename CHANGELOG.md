@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.199] — 2026-10-29
+
+### Fixed
+- Keyboard users can leave a paragraph: press Esc, then Tab.
+
 ## [1.2.198] — 2026-10-29
 
 ### Fixed
