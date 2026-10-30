@@ -354,15 +354,12 @@ export function highlightPlaceholders(text: string): string {
  *     break plus one blank line's worth of space, preserving the visual
  *     gap the user typed while never emitting a standalone `\\`
  *     (raggedright-safe, verified by compile).
- * The sentinel keeps the single-`\n` pass from re-matching the newline
- * that the blank-line replacement itself emits.
+ * Replace newline runs in one pass so literal user text is never a sentinel.
  */
 export function latexLineBreaks(text: string): string {
   return text
     .replace(/^\n+|\n+$/g, '')
-    .replace(/\n{2,}/g, 'ZZZBLANKLINEZZZ')
-    .replace(/\n/g, '\\\\\n')
-    .replace(/ZZZBLANKLINEZZZ/g, '\\\\[\\baselineskip]\n')
+    .replace(/\n+/g, run => run.length > 1 ? '\\\\[\\baselineskip]\n' : '\\\\\n')
     // A line break whose next line opens with `[` is read as `\\`'s optional
     // vertical-space argument, so the user's bracket is swallowed and the
     // compile dies on "Missing number, treated as zero". The default body
