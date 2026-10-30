@@ -22,6 +22,7 @@ async function answerForABusinessLetter() {
 describe('document guide recommendation', () => {
   beforeEach(() => {
     useDocumentStore.getState().resetForm();
+    useDocumentStore.getState().setDocumentCategory('correspondence');
     useDocumentStore.getState().setDocType('naval_letter');
     useUIStore.setState({ documentGuideOpen: true, documentGuideTab: 'browse' });
   });
