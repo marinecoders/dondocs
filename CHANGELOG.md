@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.208] — 2026-10-29
+
+### Added
+- The Document Guide can switch the open document to the type it recommends.
+
 ## [1.2.207] — 2026-10-29
 
 ### Changed

@@ -61,6 +61,8 @@ import {
 function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) => void }) {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [order, setOrder] = useState<string[]>([]);
+  const currentType = useDocumentStore((s) => s.docType);
+  const isCorrespondence = useDocumentStore((s) => s.documentCategory === 'correspondence');
 
   const question = getNextQuestion(answers);
   const showResults = question === null && order.length > 0;
@@ -95,6 +97,7 @@ function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) =>
     );
     const [a, b] = recommendations;
     const showCompare = b && DOC_DIFFERENTIATORS[a.docType] && DOC_DIFFERENTIATORS[b.docType];
+    const bestGuide = a && DOCUMENT_TYPE_GUIDES.find((g) => g.id === a.docType);
 
     return (
       <div className="p-4 space-y-4">
@@ -182,7 +185,20 @@ function DocumentFinder({ onSelectGuide }: { onSelectGuide: (guideId: string) =>
           </div>
         )}
 
-        <div className="pt-4 border-t">
+        <div className="pt-4 border-t space-y-2">
+          {/* Same switch as the type picker: the draft keeps its content. */}
+          {isCorrespondence && bestGuide && DOC_TYPE_CONFIG[a.docType] && (
+            <Button
+              className="w-full"
+              disabled={a.docType === currentType}
+              onClick={() => {
+                useDocumentStore.getState().setDocType(a.docType);
+                useUIStore.getState().setDocumentGuideOpen(false);
+              }}
+            >
+              {a.docType === currentType ? `This document already uses ${bestGuide.name}` : `Use ${bestGuide.name} for this document`}
+            </Button>
+          )}
           <Button variant="outline" onClick={handleReset} className="w-full">
             <RotateCcw className="h-4 w-4 mr-2" />
             Start over
