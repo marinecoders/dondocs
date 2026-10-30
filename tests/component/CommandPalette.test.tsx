@@ -37,6 +37,20 @@ describe('workspace search navigation', () => {
   });
 });
 
+describe('empty search', () => {
+  it('explains an empty saved-work scope instead of reporting no results for nothing', async () => {
+    const user = userEvent.setup();
+    render(<CommandPalette open onClose={vi.fn()} groups={[
+      { label: 'Settings', scope: 'Settings', items: [{ id: 'settings', label: 'Appearance', icon: Settings, onRun: vi.fn() }] },
+    ]} />);
+    await user.click(screen.getByRole('button', { name: 'Forms' }));
+    expect(screen.getByText('No saved forms yet.')).toBeVisible();
+    expect(screen.queryByText(/No results for/)).toBeNull();
+    await user.type(screen.getByRole('combobox'), 'leave');
+    expect(screen.getByText('No results for “leave” in forms.')).toBeVisible();
+  });
+});
+
 describe('expanded workspace search', () => {
   it('groups preview fields under one heading per section while preserving matched navigation', async () => {
     const user = userEvent.setup();

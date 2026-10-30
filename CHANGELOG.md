@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.203] — 2026-10-29
+
+### Fixed
+- Empty Documents and Forms tabs in search explain that saved work appears there.
+
 ## [1.2.202] — 2026-10-29
 
 ### Changed

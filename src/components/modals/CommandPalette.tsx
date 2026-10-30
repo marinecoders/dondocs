@@ -111,8 +111,14 @@ export function CommandPalette({ open, onClose, groups, presentation = 'dialog' 
   const results = <div id={listboxId} role="listbox" aria-label="Commands" onMouseMove={() => { pointerMoved.current = true; }} className={cn('min-h-0 overflow-y-auto', workspace ? 'flex-1 px-3 sm:px-5 py-3' : 'max-h-[min(55dvh,440px)] p-1.5')}>
     {!flat.length ? <div className="flex min-h-40 flex-col items-center justify-center gap-2 px-3 py-8 text-center">
       <SearchX className="h-6 w-6 text-muted-foreground" aria-hidden="true" />
-      <p className="text-sm text-muted-foreground">No results for “{query}” in {scope.toLowerCase()}.</p>
-      <p className="text-xs text-muted-foreground">Try fewer words or another scope. Deleted drafts are in Trash.</p>
+      {/* Only Documents and Forms can be empty with no query: they list saved work. */}
+      {q ? <>
+        <p className="text-sm text-muted-foreground">No results for “{query}” in {scope.toLowerCase()}.</p>
+        <p className="text-xs text-muted-foreground">Try fewer words or another scope. Deleted drafts are in Trash.</p>
+      </> : <>
+        <p className="text-sm text-muted-foreground">No saved {scope.toLowerCase()} yet.</p>
+        <p className="text-xs text-muted-foreground">{scope} you work on appear here. Deleted drafts are in Trash.</p>
+      </>}
     </div> : filtered.map((group) => <div key={group.label} className="mb-3" role="group" aria-label={group.label}>
       <div aria-hidden="true" className="px-2.5 pb-2 pt-2 text-xs font-medium text-muted-foreground">{group.label}</div>
       {group.items.map(({ item, match }) => {
