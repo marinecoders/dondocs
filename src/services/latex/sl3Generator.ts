@@ -3,7 +3,7 @@ import { sl3Portions } from '@/data/techpub/sl3';
 import type { DocumentData, Paragraph } from '@/types/document';
 import {
   SL3_CATEGORIES,
-  SL3_INVENTORY_GRID,
+  sl3InventoryGeometry,
   SL3_CERTIFICATION_LAYOUT,
   emptySl3,
   orderedSl3Components,
@@ -11,12 +11,13 @@ import {
   sl3FigureIds,
   type Sl3Component,
 } from '@/data/techpub/sl3';
-import { SL3_PREFACE } from '@/data/techpub/sl3Preface';
+import { SL3_ABBREVIATIONS, SL3_PREFACE } from '@/data/techpub/sl3Preface';
 import { escapeLatex } from './escaper';
 import { figureFile } from '@/lib/figures';
 
 type Store = { formData: Partial<DocumentData>; paragraphs: Paragraph[] };
 const text = (s: string) => escapeLatex(s).replace(/\r?\n/g, '\\par ');
+const optionalText = (s: string) => Array.from(s).map(text).join('\\allowbreak ');
 const paragraph = (s: string) => `${text(s)}\\par\\vspace{6pt}\n`;
 const fixedPrefaceText = (s: string) =>
   text(s).replaceAll(
@@ -45,7 +46,7 @@ export function generateSl3Body(store: Store): string {
   const figureTitle = (id: string) =>
     figures.find((p) => p.referenceId === id)?.text ?? '';
   const entry = (title: string, destination: string, indent = false) =>
-    `${indent ? '\\hspace*{0.2in}' : ''}\\slThreeNavigationTitle{${destination}}{${text(title)}}\\nobreak\\dotfill\\dondocsReferenceLink{${destination}}{\\slThreePageReference{${destination}}}\\par\n`;
+    `\\slThreeNavigationEntry{${destination}}{${text(title)}}{${indent ? '0.2in' : '0in'}}\n`;
   const heading = (title: string, destination: string, children = 0) =>
     `\\dondocsBookmark{${-children}}{${title}}{${destination}}\\begin{center}{\\fontsize{14}{16}\\selectfont\\textbf{${title}}}\\end{center}\\vspace{12pt}\n`;
   const prefaceTitles = SL3_PREFACE.filter((p) => !p.note).map(
@@ -84,8 +85,8 @@ export function generateSl3Body(store: Store): string {
       : `\\dondocsReferenceAnchor{sl3.figure.${n}}\\label{sl3.figure.${n}}`;
     anchored.add(id);
     return (
-      `\\slThreeFigureBlock{${anchor}\\begin{center}${mark(p.figure.portionMarking)}\\par\\includegraphics[width=\\textwidth,height=4.3in,keepaspectratio]{${file}}\\par\\vspace{18pt}\n` +
-      `\\textbf{${mark(p.portionMarking)}Figure ${n}.\\quad ${text(p.text)}}\\par\\vspace{6pt}\n${numbers.length ? 'Item ' + numbers.join(', ') : ''}\\end{center}}\n`
+      `\\slThreeFigureBlock{${anchor}\\begin{center}${mark(p.figure.portionMarking)}\\par\\includegraphics[width=\\textwidth,height=4.3in,keepaspectratio]{${file}}\\par\n${numbers.length ? numbers.join(', ') + '\\par\n' : ''}\\vspace{18pt}\n` +
+      `\\textbf{${mark(p.portionMarking)}Figure ${n}.\\quad ${text(p.text)}}\\par\\vspace{6pt}\n\\end{center}}\n`
     );
   };
   const out = [
@@ -99,6 +100,7 @@ export function generateSl3Body(store: Store): string {
       entry(`${i + 1}. ${title}`, `sl3.preface.${i + 1}`, true),
     ),
     entry('18. SPECIAL NOTES', 'sl3.notes', true),
+    entry('ABBREVIATIONS', 'sl3.abbreviations'),
     entry('TECHNICAL DATA', 'sl3.technical'),
     entry('Table 1. Components Inventory', 'sl3.inventory'),
     ...Object.keys(SL3_CATEGORIES)
@@ -147,37 +149,36 @@ export function generateSl3Body(store: Store): string {
     );
     out.push(mark() + fixedPrefaceText(p.text) + '\\par\\vspace{6pt}\n');
   }
-  out.push(
-    `\\dondocsNeedspace{36pt}\\dondocsBookmark{${-data.notes.length}}{18. SPECIAL NOTES}{sl3.notes}\\textbf{18. SPECIAL NOTES}\\par\\vspace{6pt}\n`,
-  );
-  if (
-    !data.notes.length &&
-    !data.sequencingNote &&
-    !data.showFigureReference &&
-    !data.showModel
-  )
-    out.push(paragraph('None.'));
-  data.notes.forEach((note, i) =>
-    out.push(
-      `\\dondocsNeedspace{24pt}\\dondocsBookmark{0}{${i + 19}. ${text(note.text)}}{sl3.note.${i + 19}}\\textbf{${i + 19}.} ${mark(note.portionMarking)}${paragraph(note.text)}`,
-    ),
-  );
+  const notes = [...data.notes];
   if (data.sequencingNote)
-    out.push(paragraph(mark(data.sequencingPortion) + data.sequencingNote));
+    notes.push({
+      id: 'sequence',
+      text: data.sequencingNote,
+      portionMarking: data.sequencingPortion,
+    });
   if (data.showFigureReference || data.showModel)
-    out.push(
-      paragraph(
-        'Inventory columns are renumbered to include ' +
-          [
-            data.showFigureReference ? 'Figure Key / Reference Designator' : '',
-            data.showModel ? 'Model Number' : '',
-          ]
-            .filter(Boolean)
-            .join(' and ') +
-          '.',
-      ),
-    );
+    notes.push({
+      id: 'columns',
+      text: 'Inventory columns are renumbered to include ' +
+        [
+          data.showFigureReference ? 'Figure Key / Reference Designator' : '',
+          data.showModel ? 'Model Number' : '',
+        ].filter(Boolean).join(' and ') +
+        `. Fielding Plan: ${data.fieldingPlanReference}.`,
+      portionMarking: data.technicalPortion,
+    });
   out.push(
+    `\\dondocsNeedspace{36pt}\\dondocsBookmark{${-notes.length}}{18. SPECIAL NOTES}{sl3.notes}\\textbf{18. SPECIAL NOTES}\\par\\vspace{6pt}\n`,
+  );
+  if (!notes.length) out.push(paragraph('None.'));
+  notes.forEach((note, i) => out.push(
+    `\\dondocsNeedspace{24pt}\\dondocsBookmark{0}{${i + 19}. ${text(note.text)}}{sl3.note.${i + 19}}\\textbf{${i + 19}.} ${mark(note.portionMarking)}${paragraph(note.text)}`,
+  ));
+  out.push(
+    '\\clearpage' + heading('ABBREVIATIONS', 'sl3.abbreviations'),
+    '\\begin{longtable}{@{}p{0.9in}p{\\dimexpr\\textwidth-0.9in-2\\tabcolsep\\relax}@{}}\n',
+    ...SL3_ABBREVIATIONS.map(([short, full]) => `${text(short)} & ${text(full)}\\tabularnewline\n`),
+    '\\end{longtable}\n',
     '\\clearpage' + heading('TECHNICAL DATA', 'sl3.technical'),
     paragraph(
       mark(data.technicalPortion) +
@@ -197,32 +198,17 @@ export function generateSl3Body(store: Store): string {
   );
   out.push(figure(data.endItemFigureId));
   out.push('\\clearpage\n');
-  if (data.orientation === 'landscape') out.push('\\slThreeLandscape\n');
-  else out.push('\\slThreePortraitInventory\n');
+  const geometry = sl3InventoryGeometry(data);
+  out.push(`\\slThreeInventoryLayout{${geometry.left}bp}{${geometry.right}bp}{${geometry.pageWidth}bp}{11in}\n`);
+  out.push(`\\pdfpagewidth=${geometry.pageWidth}bp\\pdfpageheight=11in\n`);
   out.push('\\pagestyle{slthreeinventory}\n');
   out.push('\\pagenumbering{arabic}\\fontsize{9}{11}\\selectfont\n');
   const optional = [
     data.showFigureReference ? 'Fig Key / Ref Des' : '',
-    data.showModel ? 'Model' : '',
+    data.showModel ? 'Model Number' : '',
   ].filter(Boolean);
-  // Seven logical columns; Periodic Inventory contains twelve writing cells.
-  const sourceGrid = SL3_INVENTORY_GRID[data.orientation];
-  const base = [...sourceGrid].map((twips) => twips / 20);
-  const logical = [
-    ...base.slice(0, 5),
-    base.slice(5, 17).reduce((a, b) => a + b, 0),
-    base[17],
-  ];
-  // Optional columns have no grid in the supplied templates. Preserve the NSN
-  // and writing-cell widths; take their space from the description/remarks.
-  logical[2] -= optional.length * 25.2;
-  logical[6] -= optional.length * 25.2;
-  logical.push(...optional.map(() => 50.4));
-  const weights = [
-    ...logical.slice(0, 5),
-    ...base.slice(5, 17),
-    ...logical.slice(6),
-  ];
+  const weights = geometry.widths;
+  const periodicWidth = weights.slice(5, 17).reduce((a, b) => a + b, 0);
   const width = weights.map(
     (weight, i) =>
       `\\dimexpr${weight.toFixed(4)}bp-2\\tabcolsep-${i === weights.length - 1 ? '2' : '1'}\\arrayrulewidth\\relax`,
@@ -239,7 +225,7 @@ export function generateSl3Body(store: Store): string {
     'Item No.',
     'NSN',
     'Item Identification',
-    'U/M',
+    'U/\\newline M',
     'Qty in Unit',
     'Periodic Inventory',
     'Using Unit Remarks',
@@ -256,7 +242,7 @@ export function generateSl3Body(store: Store): string {
       .map((n) => `\\dondocsReferenceLink{sl3.note.${n}}{${n}}`)
       .join(', ');
     const identification =
-      `${mark(item.portionMarking)}${depth ? text(item.quantity) + ' - ' : ''}${text(item.nomenclature)}${item.description ? ': ' + text(item.description) : ''}` +
+      `${mark(item.portionMarking)}${depth ? text(item.quantity) + ' - ' : ''}${text(item.nomenclature)}${item.description ? ':\\hspace{2\\fontdimen2\\font}' + text(item.description) : ''}` +
       (refs
         ? `; (See Special Note${notes.length > 1 ? 's' : ''} ${refs}.)`
         : '') +
@@ -289,8 +275,8 @@ export function generateSl3Body(store: Store): string {
       ...Array.from({ length: 12 }, () => ''),
       item.serialized ? '*Serial No.' : '',
       ...[
-        data.showFigureReference ? text(item.figureReference) : undefined,
-        data.showModel ? text(item.model) : undefined,
+        data.showFigureReference ? optionalText(item.figureReference) : undefined,
+        data.showModel ? optionalText(item.model) : undefined,
       ].filter((v) => v !== undefined),
     ].join(' & ');
   };
@@ -342,9 +328,9 @@ export function generateSl3Body(store: Store): string {
               Array.from(
                 { length: 12 },
                 (_, cell) =>
-                  `\\multicolumn{1}{${cell === 0 ? '|' : ''}p{\\dimexpr${width[5 + cell]}${cell < 11 ? '+\\arrayrulewidth' : ''}\\relax}${cell === 11 ? '|' : ''}}{${cell === 0 ? `\\makebox[0pt][l]{\\parbox[t]{\\dimexpr${logical[5].toFixed(4)}bp-2\\tabcolsep-\\arrayrulewidth\\relax}{\\raggedright\\textbf{6}\\par Periodic Inventory (See paragraph \\dondocsReferenceLink{sl3.preface.8}{8} in Preface.)}}` : ''}}`,
+                  `\\multicolumn{1}{${cell === 0 ? '|' : ''}p{\\dimexpr${width[5 + cell]}${cell < 11 ? '+\\arrayrulewidth' : ''}\\relax}${cell === 11 ? '|' : ''}}{${cell === 0 ? `\\makebox[0pt][l]{\\parbox[t]{\\dimexpr${periodicWidth.toFixed(4)}bp-2\\tabcolsep-\\arrayrulewidth\\relax}{\\raggedright\\textbf{6}\\par Periodic Inventory (See paragraph \\dondocsReferenceLink{sl3.preface.8}{8} in Preface.)}}` : ''}}`,
               ).join(' & ')
-            : `\\textbf{${i + 1}}\\par ${h}`,
+            : `\\textbf{${i + 1}}\\par ${i >= 7 && weights[18] < 30 ? `\\slThreeOptionalHeading{${h}}` : h}`,
         )
         .join(' & ');
       const categoryRow =
@@ -424,7 +410,7 @@ export function generateSl3Body(store: Store): string {
     // The signature table has its own centered source grid and page margins.
     `\\slThreeInventoryLayout{0.5in}{0.5in}{${data.orientation === 'landscape' ? '11in' : '8.5in'}}{11in}\n`,
     `\\slThreeCertification{${certificationWidth}bp}{` +
-      heading('INVENTORY CERTIFICATION', 'sl3.certification') +
+      '\\dondocsBookmark{0}{INVENTORY CERTIFICATION}{sl3.certification}\n' +
       '\\fontsize{10}{12}\\selectfont\\setlength{\\tabcolsep}{0pt}\\renewcommand{\\arraystretch}{1}\n' +
       `\\begin{tabular}{@{}${certificationColumns}@{}}\n` +
       '\\textbf{INVENTORIED BY} & \\textbf{SUPERVISED BY} & \\textbf{DATE}\\tabularnewline[6pt]\n' +

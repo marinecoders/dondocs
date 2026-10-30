@@ -19,6 +19,7 @@ export function sl3Fixture(count = 3) {
     signatureType: 'digital',
     sigFirst: 'Jane',
     sigLast: 'Example',
+    sigTitle: 'Program Manager',
     unitLine1: 'EXAMPLE COMMAND',
     controllingOffice: 'Example Program Office',
     pocEmail: 'example@example.com',

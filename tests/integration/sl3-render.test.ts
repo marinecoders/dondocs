@@ -60,7 +60,9 @@ describe.skipIf(!hasPdfToolchain)('SL-3 rendered publication', () => {
       const pdf = await PDFDocument.load(result.pdfBytes!);
       await expectSl3Certification(result.pdfBytes!, pdf.getPageCount(), orientation);
       const certificationText = text.split('\f').filter((page) => page.trim()).at(-1)!;
-      expect(certificationText).toContain('INVENTORY CERTIFICATION');
+      expect(certificationText).not.toContain('INVENTORY CERTIFICATION');
+      expect(certificationText).not.toContain('Marine Corps Stocklist');
+      expect(certificationText.match(/SL-3-12345A/g)).toHaveLength(1);
       expect(certificationText).toContain('certifying/supervising inventory)');
       expect(
         pdf
@@ -122,6 +124,7 @@ describe.skipIf(!hasPdfToolchain)('SL-3 rendered publication', () => {
   it('keeps the first component with its parent at the row limit and retains notes and optional columns', async () => {
     const store = sl3Fixture(20);
     const data = store.formData.sl3!;
+    data.fieldingPlanReference = "Synthetic Fielding Plan, 30 October 2026";
     data.showModel = true;
     data.showFigureReference = true;
     data.notes = [

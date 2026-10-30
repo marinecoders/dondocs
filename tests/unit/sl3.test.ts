@@ -4,6 +4,7 @@ import { sl3ExportErrors } from '@/lib/sl3Preflight';
 import { DOC_TYPE_CONFIG, DOC_TYPE_CATEGORIES } from '@/types/document';
 import { getEditorSections } from '@/lib/editorSections';
 import { publicationExportErrors } from '@/lib/publicationPreflight';
+import { SL3_INVENTORY_GRID, sl3InventoryGeometry } from '@/data/techpub/sl3';
 import { generateSl3Body } from '@/services/latex/sl3Generator';
 
 describe('SL-3 document authoring', () => {
@@ -19,6 +20,12 @@ describe('SL-3 document authoring', () => {
   });
   it('accepts an SL-3 without applying MI section or short-title rules', () => {
     expect(publicationExportErrors(sl3Fixture())).toEqual([]);
+  });
+  it('requires the authentication address and authority title', () => {
+    const store = sl3Fixture();
+    store.formData.unitAddress = '';
+    store.formData.sigTitle = '';
+    expect(sl3ExportErrors(store)).toEqual(expect.arrayContaining(['Command address is required.', 'Signing authority title is required.']));
   });
   it('rejects authentication by direction through either the flag or signature title', () => {
     const s = sl3Fixture();
@@ -66,6 +73,22 @@ describe('SL-3 document authoring', () => {
     expect(sl3ExportErrors(s).join('\n')).toContain(
       'associated component TAMCN',
     );
+  });
+  it('requires a Fielding Plan reference for the optional columns', () => {
+    const store = sl3Fixture();
+    store.formData.sl3!.showModel = true;
+    expect(sl3ExportErrors(store).join(' ')).toContain('Fielding Plan');
+    store.formData.sl3!.fieldingPlanReference = 'Training Fielding Plan';
+    expect(sl3ExportErrors(store)).toEqual([]);
+    expect(generateSl3Body(store)).toContain('Fielding Plan: Training Fielding Plan');
+  });
+  it.each(['portrait', 'landscape'] as const)('preserves every %s source cell when optional columns are added', (orientation) => {
+    for (const [showModel, showFigureReference] of [[false, true], [true, false], [true, true]]) {
+      const geometry = sl3InventoryGeometry({ orientation, showModel, showFigureReference });
+      expect(geometry.widths.slice(0, 18)).toEqual(SL3_INVENTORY_GRID[orientation].map((value) => value / 20));
+      expect(geometry.left).toBeGreaterThanOrEqual(18);
+      expect(geometry.right).toBeGreaterThanOrEqual(18 - 0.001);
+    }
   });
   it('rejects orphaned and noncontiguous components', () => {
     const s = sl3Fixture();

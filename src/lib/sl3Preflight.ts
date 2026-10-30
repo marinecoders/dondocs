@@ -39,6 +39,8 @@ export function sl3ExportErrors(store: {
     nomenclature: 'End item nomenclature',
     subject: 'Long title',
     unitLine1: 'Issuing command',
+    unitAddress: 'Command address',
+    sigTitle: 'Signing authority title',
     sigLast: 'Signatory',
     controllingOffice: 'Controlling office',
     pocEmail: 'Program office email',
@@ -165,6 +167,8 @@ export function sl3ExportErrors(store: {
     errors.push(
       'Identify the TFSMS configuration source for the TAMCN associations and ratios.',
     );
+  if ((data.showFigureReference || data.showModel) && unfilled(data.fieldingPlanReference))
+    errors.push('Identify the Fielding Plan authorizing the optional inventory columns.');
   if (!data.components.length) errors.push('Add the SL-3 components.');
   const items = orderedSl3Components(data);
   const ids = new Set<string>();

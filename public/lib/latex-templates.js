@@ -5307,9 +5307,9 @@ const LATEX_TEMPLATES = {
 }
 % Measure the multi-line inventory header before assigning its text area.
 \\newcommand{\\slThreeInventoryHeader}{\\parbox{\\textwidth}{\\fontsize{10}{12}\\selectfont
-  \\makebox[\\textwidth]{\\textbf{\\ShortTitle}\\hfill Marine Corps Stocklist\\hfill\\textbf{\\ShortTitle}}\\par
-  DATE OF PUBLICATION: \\DocumentDate\\par
-  END ITEM NOMENCLATURE: \\Nomenclature\\hfill SERIAL NUMBER: \\underline{\\hspace{0.8in}}}}
+  \\makebox[\\textwidth]{\\DocumentDate\\hfill\\textbf{\\ShortTitle}}\\par
+  \\noindent\\parbox[t]{\\dimexpr\\textwidth-2.4in\\relax}{\\textbf{END ITEM NOMENCLATURE:} \\Nomenclature}%
+  \\hfill\\parbox[t]{2.3in}{\\raggedleft\\textbf{SERIAL NUMBER:} \\underline{\\hspace{0.8in}}}}}
 \\newsavebox{\\slThreeHeaderBox}
 \\newcommand{\\slThreePlaceInventoryHeader}{%
   \\begin{textblock*}{\\textwidth}(\\slThreeLeft,\\slThreeHeaderTop)\\slThreeInventoryHeader\\end{textblock*}}
@@ -5321,7 +5321,7 @@ const LATEX_TEMPLATES = {
   \\sbox{\\slThreeHeaderBox}{\\slThreeInventoryHeader}%
   % The production engine's older fancyhdr adds a line strut to its box.
   \\slThreeHeadHeight=\\dimexpr\\ht\\slThreeHeaderBox+\\dp\\slThreeHeaderBox+14pt\\relax
-  \\newgeometry{layoutwidth=#3,layoutheight=#4,left=#1,right=#2,top=\\dimexpr\\slThreeHeadHeight+0.75in\\relax,bottom=0.85in,headheight=\\slThreeHeadHeight,headsep=12pt,footskip=0.35in}%
+  \\newgeometry{layoutwidth=#3,layoutheight=#4,left=#1,right=#2,top=\\dimexpr\\slThreeHeaderTop+\\ht\\slThreeHeaderBox+\\dp\\slThreeHeaderBox+12pt\\relax,bottom=0.85in,headheight=\\slThreeHeadHeight,headsep=12pt,footskip=0.35in}%
   \\paperwidth=#3\\paperheight=#4
 }
 \\newcommand{\\slThreeLandscape}{%
@@ -5399,13 +5399,14 @@ const LATEX_TEMPLATES = {
   \\dondocsNeedspace{\\dimexpr\\ht\\slThreeFigureBox+\\dp\\slThreeFigureBox\\relax}%
   \\noindent\\usebox{\\slThreeFigureBox}\\par
 }
-\\newcommand{\\slThreeNavigationTitle}[2]{%
-  \\sbox{\\dondocsReferenceBox}{#2}%
-  \\ifdim\\wd\\dondocsReferenceBox>\\dimexpr\\linewidth-0.6in\\relax
-    \\PackageError{SL-3}{Navigation title exceeds one line}{Shorten the figure title so its navigation entry and page number fit.}%
-  \\fi
-  \\dondocsReferenceLink{#1}{#2}%
+% The page number has a reserved column so long titles wrap without collision.
+\\newcommand{\\slThreeNavigationEntry}[3]{%
+  \\noindent\\hspace*{#3}\\parbox[t]{\\dimexpr\\linewidth-#3-0.45in\\relax}{\\raggedright\\leavevmode\\pdfstartlink attr{/Border [0 0 0]} goto name {#1}\\textcolor{blue}{#2}\\pdfendlink\\nobreak\\dotfill}%
+  \\hfill\\makebox[0.4in][r]{\\dondocsReferenceLink{#1}{\\slThreePageReference{#1}}}\\par
 }
+% Optional columns use only the spare PDF margin area. Rotate their headings
+% when both columns are needed in the wide source grid; retain readable type.
+\\newcommand{\\slThreeOptionalHeading}[1]{\\rotatebox{90}{\\strut #1}}
 \\newsavebox{\\slThreeRows}
 \\newsavebox{\\slThreeCertificationBox}
 \\newcommand{\\slThreeCertification}[2]{%

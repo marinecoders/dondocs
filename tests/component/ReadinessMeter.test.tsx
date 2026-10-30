@@ -67,6 +67,12 @@ describe('ReadinessMeter — driven by the single completeness rule', () => {
     renderMeter();
     expect(screen.getByText('Compliant mode')).toBeTruthy();
   });
+  it('does not claim SL-3 compliance when required fields are complete', () => {
+    useDocumentStore.setState({ docType: 'sl3' });
+    renderMeter();
+    expect(screen.getByText('SL-3 preview')).toBeInTheDocument();
+    expect(screen.queryByText('Compliant mode')).not.toBeInTheDocument();
+  });
   it('routes generic form errors to sections and includes invalid optional answers', () => {
     const instance = fixtureInstance();
     instance.answers.name = '';

@@ -18,6 +18,7 @@ import { useDocumentCompleteness } from './editorSections';
 export function ReadinessMeter() {
   const { ratio, isReady, complete, required, missing } = useDocumentCompleteness();
   const isGenericForm = useDocumentStore(s => s.documentCategory === 'forms' && !!s.genericForm);
+  const isSl3 = useDocumentStore((s) => s.docType === 'sl3');
   const documentMode = useDocumentStore((s) => s.documentMode);
   const jump = useEditorOutlineStore((s) => s.jump);
 
@@ -85,10 +86,10 @@ export function ReadinessMeter() {
       {documentMode === 'compliant' && !isGenericForm && (
         <span
           className="hidden items-center gap-1 rounded-full border border-border px-1.5 py-0.5 text-2xs font-medium text-muted-foreground md:inline-flex"
-          title="Built to the SECNAV M-5216.5 / MCO 5216.19A compliant format"
+          title={isSl3 ? "SL-3 template preview. Font and source-template exceptions remain; this is not a compliance certification." : "Built to the SECNAV M-5216.5 / MCO 5216.19A compliant format"}
         >
           <ShieldCheck className="h-3 w-3" aria-hidden="true" />
-          Compliant mode
+          {isSl3 ? 'SL-3 preview' : 'Compliant mode'}
         </span>
       )}
 

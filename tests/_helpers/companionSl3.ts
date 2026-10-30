@@ -9,8 +9,8 @@ export function companionSl3(): LetterInput {
     subject: d.subject,
     date: d.date,
     pocEmail: d.pocEmail,
-    unit: { name: d.unitLine1 },
-    signature: { first: 'Jane', last: 'Example' },
+    unit: { name: d.unitLine1, address: d.unitAddress },
+    signature: { first: 'Jane', last: 'Example', title: 'Program Manager' },
     publication: {
       type: 'SL3',
       shortTitle: d.shortTitle!,

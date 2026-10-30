@@ -16,6 +16,7 @@ export const sl3Schema = z.object({
   technicalData: z.string().default(''),
   sourceManual: z.string().default(''),
   configurationReference: z.string().default(''),
+  fieldingPlanReference: z.string().default(''),
   technicalPortion: portion,
   sequencingNote: z.string().default(''),
   sequencingPortion: portion,
@@ -257,4 +258,31 @@ export function sl3Depth(
     item = parent;
   }
   return depth;
+}
+
+/** Add optional columns without narrowing any of the supplied writing cells. */
+export function sl3InventoryGeometry(
+  data: Pick<Sl3Data, 'orientation' | 'showModel' | 'showFigureReference'>,
+) {
+  const source = SL3_INVENTORY_GRID[data.orientation].map((twips) => twips / 20);
+  const count = Number(data.showModel) + Number(data.showFigureReference);
+  const pageWidth = data.orientation === 'landscape' ? 792 : 612;
+  const baseWidth = source.reduce((sum, width) => sum + width, 0);
+  // Table II permits symmetric quarter-inch margins for PDF output.
+  const optionalWidth = count
+    ? Math.min(50.4, (pageWidth - 36 - baseWidth) / count)
+    : 0;
+  const widths = [
+    ...source,
+    ...Array.from({ length: count }, () => optionalWidth),
+  ];
+  const left = count
+    ? (pageWidth - baseWidth - count * optionalWidth) / 2
+    : data.orientation === 'landscape' ? 36 : 72;
+  return {
+    widths,
+    left,
+    right: pageWidth - left - widths.reduce((sum, width) => sum + width, 0),
+    pageWidth,
+  };
 }

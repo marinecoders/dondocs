@@ -38,12 +38,14 @@ describe("SL-3 production export", () => {
     const pages = spawnSync("pdftotext", ["-layout", result.path, "-"], { encoding: "utf8" }).stdout.split("\f");
     expect(pages[1]).toContain("T-2");
     expect(pages[2]).toContain("OFFICIAL");
-    expect(pages.filter((page) => page.trim()).at(-1)).toContain("INVENTORY CERTIFICATION");
+    expect(pages.filter((page) => page.trim()).at(-1)).toContain("INVENTORIED BY");
+    expect(pages.filter((page) => page.trim()).at(-1)).not.toContain("INVENTORY CERTIFICATION");
   }, 60000);
   it("fits optional-column sheets and keeps the boundary parent with its first child", async () => {
     const root = await mkdtemp(join(tmpdir(), "dondocs-sl3-boundary-"));
     const input = companionSl3();
     const data = sl3Fixture(20).formData.sl3!;
+    data.fieldingPlanReference = "Synthetic Fielding Plan, 30 October 2026";
     data.showModel = true;
     data.showFigureReference = true;
     data.components[14].description =
@@ -174,9 +176,18 @@ describe("SL-3 production export", () => {
       ),
     ).toBe(true);
     input.paragraphs![0].text = "Overlong synthetic figure title ".repeat(20);
-    await expect(renderToFile(input, {}, root)).rejects.toThrow(
-      "Navigation title exceeds one line",
-    );
+    const wrapped = await renderToFile(input, {}, root);
+    const wrappedPages = spawnSync("pdftotext", ["-layout", wrapped.path, "-"], { encoding: "utf8" }).stdout.split("\f");
+    expect(wrappedPages.find((page) => page.includes("LIST OF ILLUSTRATIONS") && !page.includes("TABLE OF CONTENTS")))
+      .toContain("Overlong synthetic figure title");
+    expect(wrappedPages.join(" ")).not.toContain("??");
+    const wrappedBoxes = spawnSync("pdftotext", ["-bbox", wrapped.path, "-"], { encoding: "utf8" }).stdout;
+    const illustrationList = wrappedBoxes.split("</page>").find((page) =>
+      page.includes(">ILLUSTRATIONS</word>") && !page.includes(">CONTENTS</word>"))!;
+    const rightEdges = [...illustrationList.matchAll(/xMax="([0-9.]+)"/g)].map((match) => Number(match[1]));
+    expect(Math.max(...rightEdges)).toBeLessThanOrEqual(540.5);
+    const titleLines = [...illustrationList.matchAll(/yMin="([0-9.]+)"[^>]*>Overlong<\/word>/g)].map((match) => match[1]);
+    expect(new Set(titleLines).size).toBeGreaterThan(1);
   }, 60000);
   it("rejects DOCX and incomplete SL-3 data before rendering", () => {
     const input = companionSl3();

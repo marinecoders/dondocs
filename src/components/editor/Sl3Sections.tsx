@@ -131,6 +131,10 @@ export function Sl3CoverSection() {
         Authentication requires a Program Manager or higher authority. Export
         prepares an unsigned digital signature field for certificate signing.
       </p>
+      <p className="text-xs text-muted-foreground">
+        This MVP embeds Nimbus Roman. The supplied template requires Times New
+        Roman; font compliance and source-template exceptions remain unresolved.
+      </p>
       <label className="block space-y-1 text-sm">
         Inventory layout
         <select
@@ -352,6 +356,13 @@ export function Sl3InventorySection() {
             : 'Include figure key / reference designator column'}
         </label>
       ))}
+      {(data.showModel || data.showFigureReference) && (
+        <Field
+          label="Fielding Plan for optional columns"
+          value={data.fieldingPlanReference}
+          onChange={(fieldingPlanReference) => update({ fieldingPlanReference })}
+        />
+      )}
       {items.map((item, index) => (
         <div key={item.id} className="space-y-3 rounded-md border p-3">
           <div className="flex items-center justify-between">
