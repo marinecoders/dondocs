@@ -16,7 +16,7 @@ function DraftName({ title }: { title: string }) {
     className="min-w-0 w-full rounded border border-input bg-background px-2 py-1 text-sm focus-visible:outline-2 focus-visible:outline-ring"
     onChange={(e) => setName(e.target.value)} onBlur={save}
     onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur(); if (e.key === 'Escape') { setName(title); setEditing(false); } }} />
-    : <button type="button" className="max-w-full truncate rounded text-left text-sm font-medium hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring" title="Rename draft (does not change the printed subject)" onClick={() => { setName(title); setEditing(true); }}>{title}</button>;
+    : <button type="button" className="-mx-1.5 max-w-full truncate rounded px-1.5 text-left text-sm font-medium hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring" title="Rename draft (does not change the printed subject)" onClick={() => { setName(title); setEditing(true); }}>{title}</button>;
 }
 
 export function DraftIdentity() {
