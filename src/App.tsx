@@ -37,7 +37,7 @@ import { BatchModal } from '@/components/modals/BatchModal';
 import { FindReplaceModal } from '@/components/modals/FindReplaceModal';
 import { TemplateLoaderModal } from '@/components/modals/TemplateLoaderModal';
 import { DocumentGuideModal } from '@/components/modals/DocumentGuideModal';
-import { WelcomeModal } from '@/components/modals/WelcomeModal';
+import { WelcomeModal, showWelcomeOnFirstVisit } from '@/components/modals/WelcomeModal';
 import { TourOverlay } from '@/components/tour/TourOverlay';
 import { ActivationChecklist } from '@/components/onboarding/ActivationChecklist';
 import { useOnboardingStore } from '@/stores/onboardingStore';
@@ -289,6 +289,11 @@ function App() {
     parseShareUrl(window.location.href)
   );
 
+  // Someone who followed a share or companion link came for that document, not
+  // a welcome. Captured at mount: both hashes are cleared from the address bar,
+  // the share hash possibly before the registry finishes hydrating.
+  const arrivedByLinkRef = useRef(sharePayloadFromHash !== null);
+
   // If the URL had a share hash, open the import modal once on mount, after
   // render rather than during state init.
   useEffect(() => {
@@ -306,6 +311,7 @@ function App() {
   useEffect(() => {
     const payload = parseHandoffUrl(window.location.href);
     if (!payload) { return; }
+    arrivedByLinkRef.current = true;
     const u = window.location;
     window.history.replaceState(null, '', u.pathname + u.search);
     const session = decodeHandoff(payload);
@@ -387,7 +393,9 @@ function App() {
       .init()
       .then((resumed) => {
         if (applyHandoff()) return;
-        if (!resumed) seedFreshStart();
+        if (resumed) return;
+        seedFreshStart();
+        if (!cancelled && !arrivedByLinkRef.current) showWelcomeOnFirstVisit();
       })
       // Hydration shouldn't reject (storage failures are caught internally), but
       // if it ever does, degrade to a usable seeded document instead of an

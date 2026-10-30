@@ -7,6 +7,8 @@ import {
 import { TourButton } from '@/components/tour/TourButton';
 import { useTourStore, hasCompletedTour } from '@/stores/tourStore';
 import { useUIStore } from '@/stores/uiStore';
+import { getDeviceInfo } from '@/utils/device';
+import { isFirstVisit } from '@/lib/firstVisit';
 // Script face for the "Marine Coders" sign-off. Self-hosted via @fontsource
 // (same-origin, no web-font CDN) to stay air-gap safe.
 import '@fontsource/damion/400.css';
@@ -153,5 +155,18 @@ export function WelcomeModal() {
 
 // Export helper to reset welcome modal (for settings/help menu)
 export function resetWelcomeModal() {
+  useUIStore.getState().setWelcomeOpen(true);
+}
+
+/**
+ * Greet a first-time visitor. App calls this only on a fresh start that didn't
+ * arrive through a share or companion link, so a recipient opening a document
+ * goes straight to it. It opens only when this browser had never used DonDocs
+ * before this load, so nobody who has been here before sees it unasked.
+ */
+export function showWelcomeOnFirstVisit() {
+  if (!isFirstVisit()) return;
+  // In-app browsers get the browser-compatibility notice instead.
+  if (getDeviceInfo().isInAppBrowser) return;
   useUIStore.getState().setWelcomeOpen(true);
 }
