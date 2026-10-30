@@ -119,6 +119,11 @@ describe.skipIf(!hasPdfToolchain)('SL-3 rendered publication', () => {
     const data = store.formData.sl3!;
     data.showModel = true;
     data.showFigureReference = true;
+    // Keep the first sheet physically within the source grid on both TeX
+    // distributions. This case isolates the logical row boundary; tall-sheet
+    // rejection and recovery have a separate rendered test below.
+    for (let i = 0; i < 14; i++)
+      data.components[i].nomenclature = `COMPONENT, ${i + 1}`;
     data.notes = [
       {
         id: 'special',
@@ -140,6 +145,11 @@ describe.skipIf(!hasPdfToolchain)('SL-3 rendered publication', () => {
       encoding: 'utf8',
     }).stdout.split('\f');
     const parentPage = pages.find((page) => page.includes('015:'))!;
+    const firstSheet = pages.find(
+      (page) => page.includes('Table 1.') && page.includes('SUPPLY SYSTEM'),
+    )!;
+    expect(firstSheet).toBeDefined();
+    expect(firstSheet).not.toContain('015:');
     expect(parentPage).toContain('016;');
     expect(parentPage).toContain('4 - COMPONENT');
     expect(pages.join(' ')).toContain(
