@@ -523,7 +523,7 @@ const LATEX_TEMPLATES = {
 %-----------------------------------------------------------------------------
 % In Reply Refer To (Optional)
 %-----------------------------------------------------------------------------
-% SECNAV M-5216.5 App C, Para 1.a: "IN REPLY REFER TO" in small caps
+% SECNAV M-5216.5 App C, Para 3.a: "IN REPLY REFER TO" in 5 point capitals
 % Printed above the sender's symbols block (SSIC/Serial/Date)
 
 \\newif\\ifInReplyEnabled
@@ -4629,7 +4629,7 @@ const LATEX_TEMPLATES = {
     % \\hfill pushes the block right; {l} left-aligns content within it.
     \\hfill
     \\begin{tabular}[t]{@{}l@{}}
-        % Optional "IN REPLY REFER TO" line per SECNAV M-5216.5 App C, Para 1.a
+        % Optional "IN REPLY REFER TO" line per SECNAV M-5216.5 App C, Para 3.a
         \\ifInReplyEnabled
             {\\fontsize{5pt}{6pt}\\selectfont IN REPLY REFER TO}\\\\
         \\fi
@@ -5324,7 +5324,7 @@ const LATEX_TEMPLATES = {
     % \\hfill pushes the block right; {l} left-aligns content within it.
     \\hfill
     \\begin{tabular}[t]{@{}l@{}}
-        % Optional "IN REPLY REFER TO" line per SECNAV M-5216.5 App C, Para 1.a
+        % Optional "IN REPLY REFER TO" line per SECNAV M-5216.5 App C, Para 3.a
         \\ifInReplyEnabled
             {\\fontsize{5pt}{6pt}\\selectfont IN REPLY REFER TO}\\\\
         \\fi
