@@ -12,7 +12,7 @@ let workerRevision = '';
 test.beforeEach(() => { workerRevision = ''; });
 const oldBuild = process.env.UPGRADE_OLD_BUILD;
 const newBuild = resolve('dist');
-const mime: Record<string, string> = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.wasm': 'application/wasm', '.pdf': 'application/pdf' };
+const mime: Record<string, string> = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.wasm': 'application/wasm', '.pdf': 'application/pdf' };
 
 test.beforeAll(async () => {
   if (!oldBuild) throw new Error('Set UPGRADE_OLD_BUILD to a production build of the release being upgraded');
@@ -73,11 +73,13 @@ async function start(page: Page) {
 }
 
 async function reloadDuringUpdate(page: Page) {
-  try { await page.reload(); }
+  // The app's readiness assertions below are the gate; waiting for every
+  // preview resource's load event can hang across a worker-triggered reload.
+  try { await page.reload({ waitUntil: 'domcontentloaded', timeout: 15_000 }); }
   catch (error) {
     // The worker's own reload may supersede the requested navigation.
-    if (!(error instanceof Error) || !/(?:ERR_ABORTED|NS_BINDING_ABORTED)/.test(error.message)) throw error;
-    await page.waitForLoadState('domcontentloaded');
+    if (!(error instanceof Error) || !/(?:ERR_ABORTED|NS_BINDING_ABORTED|Navigation canceled by policy check)/.test(error.message)) throw error;
+    await page.waitForLoadState('domcontentloaded', { timeout: 15_000 });
   }
 }
 
