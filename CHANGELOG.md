@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.197] — 2026-10-29
+
+### Fixed
+- New paragraphs start on their first line instead of one line down, and no longer save a hidden line break.
+
 ## [1.2.196] — 2026-10-29
 
 ### Fixed
