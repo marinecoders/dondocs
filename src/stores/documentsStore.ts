@@ -409,6 +409,9 @@ export async function flushDocumentWrites(): Promise<void> {
 }
 
 async function flushPendingDocumentWrites(): Promise<void> {
+  // Hydration publishes the saved ID before init loads its session. Saving in
+  // that gap would overwrite the saved document with the blank starter.
+  if (initPromise) await initPromise;
   if (lastWriteFailed(FORMS_PERSIST_KEY)) {
     useFormStore.setState({});
     if (lastWriteFailed(FORMS_PERSIST_KEY)) throw new Error('Your form changes could not be saved. Download a backup before updating.');
@@ -603,6 +606,7 @@ export async function openRecoveredCopies(): Promise<void> {
 
 // Shared hydration promise so concurrent init() calls read the registry once.
 let hydratePromise: Promise<void> | null = null;
+let initPromise: Promise<boolean> | null = null;
 function ensureHydrated(
   set: (partial: Partial<DocumentsState>) => void,
   get: () => DocumentsState
@@ -827,7 +831,8 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     set({ baseline: session });
   },
 
-  init: async () => {
+  init: () => {
+    if (initPromise) return initPromise;
     // Two tabs booting simultaneously on a user's FIRST post-upgrade load would
     // each fold the legacy session blob into its own newId() — a duplicate
     // document. The Web Locks API serializes init across tabs: the loser waits,
@@ -837,13 +842,16 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       await ensureHydrated(set, get);
       return initAfterHydration(set, get);
     };
-    if (typeof navigator !== 'undefined' && navigator.locks?.request) {
-      return navigator.locks.request('dondocs-init', run);
-    }
-    return run();
+    initPromise = (typeof navigator !== 'undefined' && navigator.locks?.request
+      ? navigator.locks.request('dondocs-init', run)
+      : run()).finally(() => { initPromise = null; });
+    return initPromise;
   },
 
   syncCurrent: (source) => {
+    // pagehide and debounced saves must also leave the starter alone until the
+    // persisted session has been loaded, not just read out of IndexedDB.
+    if (initPromise) return;
     const { currentId, docs, baseline } = get();
     if (!currentId || get().trash[currentId]) return;
     const session = source ? serializeSession(source) : getSerializedSession();

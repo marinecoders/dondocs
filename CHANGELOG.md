@@ -9,6 +9,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ### Fixed
 - New paragraphs start on their first line instead of one line down, and no longer save a hidden line break.
+- Update and page-close saves wait for the saved document to finish loading, preventing the blank starter from overwriting it.
 
 ## [1.2.196] — 2026-10-29
 
