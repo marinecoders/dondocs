@@ -459,7 +459,7 @@ const BlockRow = memo(function BlockRow({
               title="Add heading"
               className="paragraph-action-label h-6 rounded-md px-1.5 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground"
             >
-              + heading
+              + Heading
             </button>
           )}
           {/* The eight tables MIL-STD-38784C fixes for an I-Type. A table is
