@@ -150,8 +150,9 @@ export function Sl3CoverSection() {
         </select>
       </label>
       <p className="text-xs text-muted-foreground">
-        Landscape PDF inventory pages widen to 11 by 11 inches under
-        MIL-STD-38784C.
+        Cover and front matter remain portrait. The selected layout applies to
+        inventory and certification pages. Landscape PDF pages widen to 11 by
+        11 inches under MIL-STD-38784C.
       </p>
       <label className="block space-y-1 text-sm">
         Maximum inventory rows per sheet

@@ -2,6 +2,9 @@ import { describe, it, expect } from 'vitest';
 import fc from 'fast-check';
 import {
   computePageLayout,
+  computeDocumentLayout,
+  pageScrollAnchor,
+  scrollTopForPageAnchor,
   contentHeight,
   visibleRange,
   currentPage,
@@ -137,5 +140,64 @@ describe('clampScrollTop / rescaleScrollTop', () => {
 
   it('degenerate old height rescales to the top', () => {
     expect(rescaleScrollTop(500, 400, 0, 2000)).toBe(0);
+  });
+});
+
+describe('mixed-size PDF geometry', () => {
+  it('keeps one physical scale for portrait, square and rotated landscape pages', () => {
+    const pages = computeDocumentLayout(
+      [
+        { width: 612, height: 792 },
+        { width: 792, height: 792 },
+        { width: 792, height: 612 },
+      ],
+      600,
+      16,
+      24,
+    );
+    expect(pages[0].width).toBeCloseTo((600 * 612) / 792, 5);
+    expect(pages[0].height).toBe(600);
+    expect(pages[1].width).toBe(600);
+    expect(pages[1].height).toBe(600);
+    expect(pages[2].width).toBe(600);
+    expect(pages[2].height).toBeCloseTo((600 * 612) / 792, 5);
+  });
+  it('retains the same page and fractional position across an orientation change', () => {
+    const portrait = Array.from({ length: 13 }, () => ({
+      width: 612,
+      height: 792,
+    }));
+    const wide = portrait.map((p, i) =>
+      i < 8 ? p : { width: 792, height: 792 },
+    );
+    const before = computeDocumentLayout(portrait, 600, 16, 24);
+    const after = computeDocumentLayout(wide, 600, 16, 24);
+    const top = before[8].top + before[8].height * 0.4 - 200;
+    const anchor = pageScrollAnchor(top, 400, before);
+    expect(anchor.page).toBe(9);
+    expect(anchor.fraction).toBeCloseTo(0.4, 5);
+    const restored = scrollTopForPageAnchor(anchor, 400, after);
+    expect(restored).not.toBeCloseTo(top, 1);
+    expect(pageScrollAnchor(restored, 400, after).page).toBe(anchor.page);
+    expect(pageScrollAnchor(restored, 400, after).fraction).toBeCloseTo(
+      anchor.fraction,
+      5,
+    );
+    expect(scrollTopForPageAnchor(anchor, 400, [])).toBe(0);
+  });
+  it('clamps a removed page to the remaining document', () => {
+    const layout = computeDocumentLayout(
+      [{ width: 612, height: 792 }],
+      600,
+      16,
+      24,
+    );
+    const top = scrollTopForPageAnchor(
+      { page: 13, fraction: 0.5 },
+      400,
+      layout,
+    );
+    expect(pageScrollAnchor(top, 400, layout).page).toBe(1);
+    expect(top).toBeGreaterThanOrEqual(0);
   });
 });

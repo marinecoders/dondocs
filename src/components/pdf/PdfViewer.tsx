@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 // Side effect: sets the single pdf.js workerSrc for the whole app.
 import { getDprCap } from './pdfConfig';
 import { usePdfDocumentSwap, type DocSlot } from './usePdfDocumentSwap';
+import type { PdfScrollAnchor } from './pdfMath';
 import { usePdfZoom } from './usePdfZoom';
 import { useFullscreen } from './useFullscreen';
 import { PdfPageLayer, type PdfPageLayerHandle } from './PdfPageLayer';
@@ -29,14 +30,14 @@ export interface PdfViewerProps {
  * and the mobile preview modal. Pages render as paper floating on the app's
  * mat with a slim design-language toolbar, and recompiled documents swap in
  * place: the outgoing document stays visible while the incoming one
- * pre-renders in a hidden layer at the same geometry, then the old layer
+ * pre-renders in a hidden layer at its resolved geometry, then the old layer
  * crossfades away on top of the new one. No white flash, no scroll jump.
  *
  * Layer lifecycle on a recompile (URL change):
  *   1. active layer (gen N) keeps rendering; a hidden layer (gen N+1) mounts,
- *      loads the new blob, and paints the pages around the current scrollTop.
- *   2. on ready (or a 1.2s safety timeout) the active scrollTop is copied to
- *      the hidden layer, the swap machine promotes gen N+1, and — because both
+ *      loads the new blob, and paints the pages around the current page.
+ *   2. on ready (or a 1.2s safety timeout) the page position is restored in
+ *      the incoming geometry, the swap machine promotes gen N+1, and — because both
  *      layers are keyed by generation — React preserves the freshly painted
  *      instance as the new active layer.
  *   3. the old gen N layer sticks around ~180ms with a fade-out class (skipped
@@ -63,6 +64,7 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true, do
   // staged — the hidden layer pre-renders around it. Captured in an effect
   // (refs are off-limits during render).
   const [stagedScrollTop, setStagedScrollTop] = useState(0);
+  const [stagedAnchor, setStagedAnchor] = useState<PdfScrollAnchor | null>(null);
   // Thumbnail rail: preference persists; the toggle only exists on 2+ page
   // documents, so a single-page letter never shows (or pays for) the rail.
   const thumbsOpen = useUIStore((s) => s.pdfThumbnailsOpen);
@@ -81,12 +83,15 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true, do
   );
   const fullscreen = useFullscreen(rootRef);
 
-  // Promotion hand-off: copy the active layer's scroll position onto the
-  // incoming layer, start the old layer's fade, THEN promote.
+  // Restore the same page and fractional position in the incoming geometry,
+  // then promote. Pixel offsets do not survive paper-size changes.
   const handleIncomingReady = useCallback(
     (gen: number) => {
-      const scrollTop = activeLayerRef.current?.getScrollTop() ?? 0;
-      incomingLayerRef.current?.setScrollTop(scrollTop);
+      const position = activeLayerRef.current?.getScrollAnchor();
+      if (position) {
+        setStagedAnchor(position);
+        incomingLayerRef.current?.restoreScrollAnchor(position);
+      }
       if (!reducedMotion && state.active) {
         setFadingSlot(state.active);
         if (fadeTimerRef.current) clearTimeout(fadeTimerRef.current);
@@ -108,6 +113,7 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true, do
   useEffect(() => {
     if (incomingGen !== null) {
       setStagedScrollTop(activeLayerRef.current?.getScrollTop() ?? 0);
+      setStagedAnchor(activeLayerRef.current?.getScrollAnchor() ?? null);
     }
   }, [incomingGen]);
 
@@ -321,6 +327,7 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true, do
               dprCap={dprCap}
               visible
               initialPage={state.active.gen === 1 ? initialPage : 1}
+              initialAnchor={state.active.gen === 1 ? null : stagedAnchor}
               thumbPortalTarget={thumbTarget}
               currentPage={pageInView}
               onDocMeta={handleDocMeta}
@@ -338,6 +345,7 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true, do
               dprCap={dprCap}
               visible={false}
               initialScrollTop={stagedScrollTop}
+              initialAnchor={stagedAnchor}
               onDocMeta={handleDocMeta}
               onLoaded={onIncomingLoaded}
               onReady={handleIncomingReady}
