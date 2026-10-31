@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Plus, Trash2, ArrowUp, ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useDocumentStore } from '@/stores/documentStore';
 import { persistAttachment, newAttachmentId } from '@/lib/attachments';
@@ -22,6 +21,7 @@ import {
   type Sl3Component,
 } from '@/data/techpub/sl3';
 import { sl3ExportErrors } from '@/lib/sl3Preflight';
+import { Sl3DateFields } from './Sl3DateFields';
 
 function useSl3() {
   const stored = useDocumentStore((s) => s.formData.sl3);
@@ -38,24 +38,28 @@ function Field({
   value,
   onChange,
   multiline = false,
+  placeholder,
 }: {
   label: string;
   value: string;
   onChange: (value: string) => void;
   multiline?: boolean;
+  placeholder?: string;
 }) {
   return (
-    <label className="block space-y-1 text-sm">
-      <span>{label}</span>
+    <label className="block min-w-0 space-y-2 text-sm">
+      <span className="font-medium">{label}</span>
       {multiline ? (
         <Textarea
           aria-label={label}
+          placeholder={placeholder}
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />
       ) : (
         <Input
           aria-label={label}
+          placeholder={placeholder}
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />
@@ -74,7 +78,7 @@ function Portion({
   onChange: (value: (typeof SL3_PORTIONS)[number]) => void;
 }) {
   return (
-    <label className="block space-y-1 text-sm">
+    <label className="block min-w-0 space-y-2 text-sm">
       {label}
       <select
         aria-label={label}
@@ -99,129 +103,123 @@ function figureLabel(data: Sl3Data, id: string | undefined, index: number) {
   return number ? `Figure ${number}` : `Illustration ${index + 1} (unassigned)`;
 }
 
+function EditorGroup({ title, description, children }: {
+  title: string;
+  description?: string;
+  children: ReactNode;
+}) {
+  return (
+    <fieldset className="min-w-0 space-y-4 border-t pt-5">
+      <legend className="pr-3 text-sm font-semibold">{title}</legend>
+      {description && <p className="text-xs leading-relaxed text-muted-foreground">{description}</p>}
+      {children}
+    </fieldset>
+  );
+}
+
 export function Sl3CoverSection() {
   const store = useDocumentStore();
   const { data, update } = useSl3();
-  const fields = [
-    ['shortTitle', 'Short title'],
-    ['pcn', 'PCN'],
-    ['subject', 'Long title'],
-    ['nomenclature', 'End item nomenclature'],
-    ['date', 'Publication date (d MMM yy)'],
-    ['publicationSigningDate', 'Signing date (YYYY-MM-DD)'],
-    [
-      'publicationClosedDates',
-      'Office closure dates (YYYY-MM-DD, separated by commas)',
-    ],
-    ['unitLine1', 'Issuing command'],
-    ['unitLine2', 'Command line 2'],
-    ['unitAddress', 'Command address'],
-    ['controllingOffice', 'Controlling office'],
-    ['pocEmail', 'Program office email'],
-    ['supersedure', 'Supersedure notice'],
-  ] as const;
   const errors = sl3ExportErrors(store);
   return (
-    <div className="space-y-4">
-      <p className="text-sm text-muted-foreground">
-        SL-3 components inventory publication · MCO 5215.17D and the supplied
-        MARCORSYSCOM template.
+    <div className="sl3-editor space-y-7">
+      <p className="text-sm leading-relaxed text-muted-foreground">
+        Build your SL-3 components inventory publication. Changes are saved as you edit.
       </p>
-      <p className="text-xs text-muted-foreground">
-        Authentication requires a Program Manager or higher authority. Export
-        prepares an unsigned digital signature field for certificate signing.
-      </p>
-      <p className="text-xs text-muted-foreground">
-        This MVP embeds Nimbus Roman. The supplied template requires Times New
-        Roman; font compliance and source-template exceptions remain unresolved.
-      </p>
-      <label className="block space-y-1 text-sm">
-        Inventory layout
-        <select
-          aria-label="Inventory layout"
-          className="w-full rounded-md border bg-background p-2"
-          value={data.orientation}
-          onChange={(e) =>
-            update({ orientation: e.target.value as Sl3Data['orientation'] })
-          }
-        >
-          <option value="portrait">Portrait</option>
-          <option value="landscape">Landscape</option>
-        </select>
-      </label>
-      <p className="text-xs text-muted-foreground">
-        Cover and front matter remain portrait. The selected layout applies to
-        inventory and certification pages. Landscape PDF pages widen to 11 by
-        11 inches under MIL-STD-38784C.
-      </p>
-      <label className="block space-y-1 text-sm">
-        Maximum inventory rows per sheet
-        <select
-          aria-label="Maximum inventory rows per sheet"
-          className="w-full rounded-md border bg-background p-2"
-          value={data.rowsPerSheet}
-          onChange={(e) => update({ rowsPerSheet: Number(e.target.value) })}
-        >
-          {Array.from({ length: 13 }, (_, i) => i + 4).map((rows) => (
-            <option key={rows} value={rows}>
-              {rows}
-            </option>
-          ))}
-        </select>
-      </label>
-      {fields.map(([key, label]) => (
-        <Field
-          key={key}
-          label={label}
-          value={String(store.formData[key] ?? '')}
-          onChange={(v) => store.setField(key, v)}
-        />
-      ))}
-      <Label>End items</Label>
-      <p className="text-xs text-muted-foreground">
-        Six cover rows are retained. Longer lists continue after the cover.
-      </p>
-      {store.endItems.map((item, i) => (
-        <div key={i} className="space-y-2 rounded-md border p-3">
-          {(['nsn', 'tamcn', 'id', 'model'] as const).map((key) => (
-            <Field
-              key={key}
-              label={`End item ${i + 1} ${key.toUpperCase()}`}
-              value={item[key]}
-              onChange={(v) => store.updateEndItem(i, { [key]: v })}
-            />
-          ))}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => store.removeEndItem(i)}
-          >
-            Remove end item
-          </Button>
+      <EditorGroup title="Publication identity">
+        <div className="sl3-field-grid">
+          <Field label="Short title" value={store.formData.shortTitle ?? ''}
+            placeholder="SL-3-12345A" onChange={(v) => store.setField('shortTitle', v)} />
+          <Field label="PCN" value={store.formData.pcn ?? ''}
+            placeholder="123 123450 00" onChange={(v) => store.setField('pcn', v)} />
         </div>
-      ))}
-      <Button variant="outline" onClick={store.addEndItem}>
-        <Plus className="mr-2 h-4 w-4" />
-        Add end item
-      </Button>
-      <label className="flex items-center gap-2 text-sm">
-        <input
-          type="checkbox"
-          checked={!!store.formData.exportRestricted}
-          onChange={(e) => store.setField('exportRestricted', e.target.checked)}
-        />
-        Export-controlled technical data
-      </label>
-      {errors.length > 0 && (
-        <details className="rounded-md border p-3 text-sm">
-          <summary>{errors.length} items to complete before export</summary>
-          <ul className="list-disc space-y-1 pl-5 pt-2">
-            {errors.map((error) => (
-              <li key={error}>{error}</li>
-            ))}
-          </ul>
+        <Field label="Long title" value={store.formData.subject ?? ''}
+          placeholder="COMPONENTS LIST FOR…" onChange={(v) => store.setField('subject', v)} multiline />
+        <Field label="End item nomenclature" value={store.formData.nomenclature ?? ''}
+          onChange={(v) => store.setField('nomenclature', v)} />
+      </EditorGroup>
+      <EditorGroup title="Publication dates">
+        <Sl3DateFields />
+      </EditorGroup>
+      <EditorGroup title="Issuing command and contact">
+        {([
+          ['unitLine1', 'Issuing command'],
+          ['unitLine2', 'Command line 2'],
+          ['unitAddress', 'Command address'],
+          ['controllingOffice', 'Controlling office'],
+          ['pocEmail', 'Program office email'],
+        ] as const).map(([key, label]) => (
+          <Field key={key} label={label} value={String(store.formData[key] ?? '')}
+            onChange={(v) => store.setField(key, v)} />
+        ))}
+        <Field label="Supersedure notice" value={store.formData.supersedure ?? ''}
+          onChange={(v) => store.setField('supersedure', v)} multiline />
+      </EditorGroup>
+      <EditorGroup title="End items" description="Six cover rows are retained. Longer lists continue after the cover.">
+        {store.endItems.map((item, i) => (
+          <div key={i} className="space-y-4 rounded-lg border p-4">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-sm font-medium">End item {i + 1}</span>
+              <Button variant="ghost" size="sm" onClick={() => store.removeEndItem(i)}>
+                <Trash2 className="mr-2 size-3.5" />Remove end item
+              </Button>
+            </div>
+            <div className="sl3-field-grid">
+              {(['nsn', 'tamcn', 'id', 'model'] as const).map((key) => (
+                <Field key={key} label={`End item ${i + 1} ${key.toUpperCase()}`}
+                  value={item[key]} onChange={(v) => store.updateEndItem(i, { [key]: v })} />
+              ))}
+            </div>
+          </div>
+        ))}
+        <Button variant="outline" onClick={store.addEndItem}>
+          <Plus className="mr-2 h-4 w-4" />Add end item
+        </Button>
+      </EditorGroup>
+      <EditorGroup title="Inventory pages" description="Cover and front matter remain portrait. This layout applies to inventory and certification pages. Landscape PDF pages widen to 11 by 11 inches under MIL-STD-38784C.">
+        <div className="sl3-field-grid">
+          <label className="block min-w-0 space-y-2 text-sm">
+            <span className="font-medium">Inventory layout</span>
+            <select aria-label="Inventory layout" className="w-full rounded-md border bg-background p-2"
+              value={data.orientation} onChange={(e) => update({ orientation: e.target.value as Sl3Data['orientation'] })}>
+              <option value="portrait">Portrait</option>
+              <option value="landscape">Landscape</option>
+            </select>
+          </label>
+          <label className="block min-w-0 space-y-2 text-sm">
+            <span className="font-medium">Maximum inventory rows per sheet</span>
+            <select aria-label="Maximum inventory rows per sheet" className="w-full rounded-md border bg-background p-2"
+              value={data.rowsPerSheet} onChange={(e) => update({ rowsPerSheet: Number(e.target.value) })}>
+              {Array.from({ length: 13 }, (_, i) => i + 4).map((rows) => <option key={rows} value={rows}>{rows}</option>)}
+            </select>
+          </label>
+        </div>
+      </EditorGroup>
+      <EditorGroup title="Release and review">
+        <label className="flex items-center gap-2 text-sm">
+          <input type="checkbox" checked={!!store.formData.exportRestricted}
+            onChange={(e) => store.setField('exportRestricted', e.target.checked)} />
+          Export-controlled technical data
+        </label>
+        <p className="text-xs leading-relaxed text-muted-foreground">
+          Authentication requires a Program Manager or higher authority. Export prepares an unsigned digital signature field for certificate signing.
+        </p>
+        <details className="text-xs leading-relaxed text-muted-foreground">
+          <summary className="cursor-pointer font-medium">Governing references and MVP limitations</summary>
+          <div className="space-y-2 pt-2">
+            <p>MCO 5215.17D and the supplied MARCORSYSCOM template govern this publication.</p>
+            <p>This MVP embeds Nimbus Roman. The supplied template requires Times New Roman; font compliance and source-template exceptions remain unresolved.</p>
+          </div>
         </details>
-      )}
+        {errors.length > 0 && (
+          <details className="rounded-md border p-3 text-sm">
+            <summary className="cursor-pointer font-medium">{errors.length} {errors.length === 1 ? 'item' : 'items'} to complete before export</summary>
+            <ul className="list-disc space-y-1 pl-5 pt-2">
+              {errors.map((error) => <li key={error}>{error}</li>)}
+            </ul>
+          </details>
+        )}
+      </EditorGroup>
     </div>
   );
 }
@@ -229,7 +227,7 @@ export function Sl3CoverSection() {
 export function Sl3DetailsSection() {
   const { data, update } = useSl3();
   return (
-    <div className="space-y-4">
+    <div className="sl3-editor space-y-5">
       <Field
         label="Source technical manual"
         value={data.sourceManual}
@@ -418,7 +416,7 @@ export function Sl3InventorySection() {
       ),
     });
   return (
-    <div className="space-y-4">
+    <div className="sl3-editor space-y-5">
       <p className="text-sm text-muted-foreground">
         Item numbers follow category and row order. Leave NSN blank when
         unassigned. Component quantities print with their identification;
@@ -445,8 +443,11 @@ export function Sl3InventorySection() {
           }
         />
       )}
+      <p className="text-xs leading-relaxed text-muted-foreground">
+        Define abbreviations and symbols in Technical data and notes. Definitions apply to the entire publication.
+      </p>
       {items.map((item, index) => (
-        <div key={item.id} className="space-y-3 rounded-md border p-3">
+        <div key={item.id} className="space-y-4 rounded-lg border p-4">
           <div className="flex items-center justify-between">
             <strong className="text-sm">Item {index + 1}</strong>
             <div className="flex gap-1">
@@ -489,7 +490,7 @@ export function Sl3InventorySection() {
               </Button>
             </div>
           </div>
-          <label className="block space-y-1 text-sm">
+          <label className="block min-w-0 space-y-2 text-sm">
             Responsibility category
             <select
               aria-label={`Item ${index + 1} responsibility category`}
@@ -533,7 +534,7 @@ export function Sl3InventorySection() {
             onChange={(v) => patch(item.id, { description: v })}
             multiline
           />
-          <div className="grid grid-cols-2 gap-3">
+          <div className="sl3-field-grid">
             {(
               [
                 ['nsn', 'NSN'],
@@ -559,7 +560,7 @@ export function Sl3InventorySection() {
               />
             ))}
           </div>
-          <label className="block space-y-1 text-sm">
+          <label className="block min-w-0 space-y-2 text-sm">
             Component of
             <select
               aria-label={`Item ${index + 1} parent`}
@@ -582,7 +583,7 @@ export function Sl3InventorySection() {
                 ))}
             </select>
           </label>
-          <label className="block space-y-1 text-sm">
+          <label className="block min-w-0 space-y-2 text-sm">
             Illustration
             <select
               aria-label={`Item ${index + 1} illustration`}
@@ -620,85 +621,6 @@ export function Sl3InventorySection() {
             />
             Serialized item
           </label>
-          <fieldset className="space-y-3 rounded-md border p-3">
-            <legend className="px-1 text-sm font-medium">
-              Abbreviations, symbols, and applicability codes
-            </legend>
-            <p className="text-sm text-muted-foreground">
-              Standard terms are defined automatically. Define every additional
-              term or symbol used in your publication here; the list prints
-              alphabetically.
-            </p>
-            {(data.definitions ?? []).map((definition, i) => (
-              <div key={definition.id} className="space-y-2 border-b pb-3">
-                <Field
-                  label={`Term ${i + 1}`}
-                  value={definition.term}
-                  onChange={(term) =>
-                    update({
-                      definitions: data.definitions.map((d) =>
-                        d.id === definition.id ? { ...d, term } : d,
-                      ),
-                    })
-                  }
-                />
-                <Field
-                  label={`Meaning ${i + 1}`}
-                  value={definition.meaning}
-                  onChange={(meaning) =>
-                    update({
-                      definitions: data.definitions.map((d) =>
-                        d.id === definition.id ? { ...d, meaning } : d,
-                      ),
-                    })
-                  }
-                  multiline
-                />
-                <Portion
-                  label={`Definition ${i + 1} portion marking`}
-                  value={definition.portionMarking}
-                  onChange={(portionMarking) =>
-                    update({
-                      definitions: data.definitions.map((d) =>
-                        d.id === definition.id ? { ...d, portionMarking } : d,
-                      ),
-                    })
-                  }
-                />
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() =>
-                    update({
-                      definitions: data.definitions.filter(
-                        (d) => d.id !== definition.id,
-                      ),
-                    })
-                  }
-                >
-                  Remove definition
-                </Button>
-              </div>
-            ))}
-            <Button
-              variant="outline"
-              onClick={() =>
-                update({
-                  definitions: [
-                    ...(data.definitions ?? []),
-                    {
-                      id: newAttachmentId(),
-                      term: '',
-                      meaning: '',
-                      portionMarking: 'U',
-                    },
-                  ],
-                })
-              }
-            >
-              Add definition
-            </Button>
-          </fieldset>
           {data.notes.map((note, i) => (
             <label key={note.id} className="flex items-center gap-2 text-sm">
               <input
@@ -754,8 +676,8 @@ export function Sl3IllustrationsSection() {
     });
   };
   return (
-    <div className="space-y-4">
-      <label className="block space-y-1 text-sm">
+    <div className="sl3-editor space-y-5">
+      <label className="block min-w-0 space-y-2 text-sm">
         End item illustration
         <select
           aria-label="End item illustration"
@@ -853,7 +775,7 @@ export function Sl3IllustrationsSection() {
               }}
             />
           </label>
-          <label className="block space-y-1 text-sm">
+          <label className="block min-w-0 space-y-2 text-sm">
             Illustration lettering review
             <select
               className="w-full rounded-md border bg-background p-2"

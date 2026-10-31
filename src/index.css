@@ -616,6 +616,30 @@
 .editor-field-groups > :not(:last-child) { margin-block-end: var(--density-space-4); }
 .editor-section-groups > :not(:last-child) { margin-block-end: var(--density-space-6); }
 
+/* SL-3 groups respond to the actual editing pane, including split preview. */
+.sl3-editor { container-type: inline-size; }
+.sl3-field-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+@container (min-width: 28rem) {
+  .sl3-field-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.sl3-editor fieldset { min-width: 0; }
+.sl3-editor legend { max-width: 100%; overflow-wrap: anywhere; }
+.workspace-editor [data-field-surface] .sl3-date-control [data-slot="input"]:not([aria-invalid="true"]):not(.border-destructive) {
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--card);
+  font-variant-numeric: tabular-nums;
+}
+.workspace-editor [data-field-surface] .sl3-date-control [data-slot="input"]:focus-visible:not([aria-invalid="true"]):not(.border-destructive) {
+  border-color: var(--ring);
+}
+.sl3-date-control [data-slot="popover-trigger"] {
+  width: 42px;
+  border-left: 1px solid var(--border);
+  border-radius: 0 6px 6px 0;
+}
+
 .workspace-editor [data-field-surface] :is([data-slot="input"], [data-slot="textarea"], [data-slot="select-trigger"], select):not([aria-invalid="true"]):not(.border-destructive) {
   background: transparent;
   border-color: transparent;

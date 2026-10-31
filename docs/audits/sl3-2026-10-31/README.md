@@ -33,3 +33,17 @@ npx vitest run --config vitest.integration.config.ts tests/integration/sl3-fille
 All 24 focused tests pass, including the five new populated/overflow cases. Lint, application build and both Companion builds also pass. `filled-layout-verification.json` records the measured distances and synthetic output identities. The PNGs show extended completed certification sheets in both orientations and the extended authentication page.
 
 This spacing verification supplements the [full checklist](../../SL3_DOCUMENT_CHECKLIST.md) and [prior fix verification](../sl3-2026-10-30/FIX_VERIFICATION.md). It does not change their unresolved source/delivery/profile requirements or the user's font-family exclusion.
+
+## Editing controls verification
+
+The SL-3 publication editor now groups identity, dates, command/contact, end items, inventory layout and release review. Publication and signing dates have calendar buttons and retain military and ISO storage formats respectively. Office closures support multiple calendar selections and typed comma-separated dates. An explicit action applies the calculated last working day; changing the signing date does not silently overwrite the publication date. Invalid ISO days remain visible for correction rather than rolling into the next month.
+
+The shared calendar's month arrows now remain beside the heading and accept pointer input. Global definition authoring remains in Technical data and notes, rather than repeating inside every component card. Field grids follow the editing pane's width and become one column in a narrow split view.
+
+Live browser checks exercised month navigation, date selection, manual entry and blur, closure selection/deselection, Escape dismissal, the calculated-date action and saved values after reload. A 336-pixel editing pane displayed one-column fields without horizontal page overflow; the normal 522-pixel pane displayed paired fields. The original synthetic dates and 40% preview width were restored after testing.
+
+- [Calendar and grouped fields](ui-editor-calendar.png)
+- [Multiple office closures and working-day guidance](ui-closure-calendar.png)
+- [Narrow-pane calendar](ui-editor-narrow.png)
+
+All 3,247 unit/component tests passed with coverage thresholds satisfied, including seven new date/editor regressions. Lint, TypeScript and the production application build passed. These UI changes preserve the existing publication data and export layout rules.
