@@ -1,4 +1,4 @@
-import { useId } from 'react';
+import { useId, useRef } from 'react';
 import { BookOpen, FolderSync, Trash2, Compass, ListChecks, Bug, MessageSquare, Code, FileText, Activity, ShieldCheck, Download, ChevronRight, ArrowUpRight, type LucideIcon } from 'lucide-react';
 import { useTourStore } from '@/stores/tourStore';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -42,9 +42,15 @@ function HelpRow({ icon: Icon, label, description, onClick, href }: {
 export function HelpModal() {
   const installed = useInstallStore((s) => s.isInstalled);
   const open = useUIStore((s) => s.helpOpen);
-  const navigate = (action: () => void) => { useUIStore.getState().setHelpOpen(false); action(); };
+  const pendingTool = useRef<(() => void) | null>(null);
+  const navigate = (action: () => void) => { pendingTool.current = action; useUIStore.getState().setHelpOpen(false); };
   return <Dialog open={open} onOpenChange={(value) => useUIStore.getState().setHelpOpen(value)}>
-    <DialogContent className="flex h-[min(40rem,85dvh)] flex-col gap-0 overflow-hidden p-0 sm:max-w-xl">
+    <DialogContent className="flex h-[min(40rem,85dvh)] flex-col gap-0 overflow-hidden p-0 sm:max-w-xl" onCloseAutoFocus={() => {
+      const run = pendingTool.current;
+      pendingTool.current = null;
+      // Restore focus to Help's launcher before the next dialog captures it.
+      if (run) queueMicrotask(run);
+    }}>
       <DialogHeader className="shrink-0 px-5 pt-5 pb-4 pr-14 text-left sm:px-6 sm:pr-14">
         <DialogTitle>Help</DialogTitle>
         <DialogDescription>Guidance and support for your workspace.</DialogDescription>

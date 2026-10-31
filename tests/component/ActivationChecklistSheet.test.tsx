@@ -60,6 +60,9 @@ describe('ActivationChecklist — mobile bottom sheet', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     await userEvent.click(screen.getByLabelText(/get set up/i));
     expect(screen.getByRole('dialog', { name: 'Getting started checklist' })).toHaveTextContent('Take the guided tour');
+    expect(screen.getByRole('button', { name: /Take the guided tour/ })).toHaveFocus();
+    await userEvent.keyboard('{Escape}');
+    expect(screen.getByLabelText(/get set up/i)).toHaveFocus();
   });
 
   it('celebrated retires the desktop launcher', () => {
@@ -68,6 +71,16 @@ describe('ActivationChecklist — mobile bottom sheet', () => {
     render(<ActivationChecklist />);
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     expect(screen.queryByLabelText(/get set up/i)).not.toBeInTheDocument();
+  });
+
+  it('lets Escape close Help when the floating card is already open', async () => {
+    const user = userEvent.setup();
+    useUIStore.setState({ isMobile: false });
+    render(<><button onClick={() => useUIStore.getState().setHelpOpen(true)}>Open Help</button><HelpModal /><ActivationChecklist /></>);
+    await user.click(screen.getByLabelText(/get set up/i));
+    await user.click(screen.getByRole('button', { name: 'Open Help' }));
+    await user.keyboard('{Escape}');
+    expect(screen.queryByRole('dialog', { name: 'Help' })).not.toBeInTheDocument();
   });
 
   it.each([

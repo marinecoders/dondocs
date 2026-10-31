@@ -10,7 +10,7 @@ export function ProgressRing({ size, done, total }: { size: number; done: number
   const complete = done >= total;
   return (
     <span
-      className="relative inline-flex items-center justify-center"
+      className="relative inline-flex shrink-0 items-center justify-center"
       style={{ width: size, height: size }}
     >
       <svg viewBox="0 0 36 36" width={size} height={size} className="-rotate-90" aria-hidden="true">
