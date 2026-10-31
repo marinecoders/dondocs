@@ -3,6 +3,7 @@ import {
   useCallback,
   useEffect,
   useImperativeHandle,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -12,7 +13,11 @@ import { Document, Page } from 'react-pdf';
 import { cn } from '@/lib/utils';
 import { HARDENED_PDF_OPTIONS } from './pdfConfig';
 import {
-  computePageLayout,
+  computeDocumentLayout,
+  pageScrollAnchor,
+  scrollTopForPageAnchor,
+  type PdfPageSize,
+  type PdfScrollAnchor,
   contentHeight,
   visibleRange,
   currentPage as currentPageAt,
@@ -29,6 +34,8 @@ export interface PdfPageLayerHandle {
   getScrollTop: () => number;
   setScrollTop: (v: number) => void;
   scrollToPage: (index: number, smooth: boolean) => void;
+  getScrollAnchor: () => PdfScrollAnchor;
+  restoreScrollAnchor: (anchor: PdfScrollAnchor) => void;
 }
 
 interface PdfPageLayerProps {
@@ -43,6 +50,7 @@ interface PdfPageLayerProps {
    *  is looking at are the ones pre-rendered before promotion. */
   initialScrollTop?: number;
   initialPage?: number;
+  initialAnchor?: PdfScrollAnchor | null;
   /** Fade the layer out (promotion crossfade). */
   fadingOut?: boolean;
   /** Where the thumbnail rail lives (a sibling column). Thumbnails portal out
@@ -67,12 +75,21 @@ interface PdfPageLayerProps {
  * the viewer inside iOS's canvas memory budget.
  */
 export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(function PdfPageLayer(
-  { url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, initialPage = 1, fadingOut = false, thumbPortalTarget, currentPage, onDocMeta, onPageInView, onLoaded, onReady, onFailed },
+  { url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, initialPage = 1, initialAnchor, fadingOut = false, thumbPortalTarget, currentPage, onDocMeta, onPageInView, onLoaded, onReady, onFailed },
   ref
 ) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [numPages, setNumPages] = useState(0);
-  const [aspects, setAspects] = useState<number[]>([]);
+  const [sizes, setSizes] = useState<PdfPageSize[]>([]);
+  const aspects = sizes.map((size) => size.width / size.height);
+  const loadSequence = useRef(0);
+  useEffect(
+    () => () => {
+      loadSequence.current++;
+    },
+    [],
+  );
+
   const [scrollTop, setScrollTop] = useState(initialScrollTop);
   const rafRef = useRef<number | null>(null);
   const restoredPage = useRef(false);
@@ -80,28 +97,36 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
   // reports ready. Mutated as onRenderSuccess fires; null = not tracking.
   const pendingRenderRef = useRef<Set<number> | null>(null);
 
-  const layout: PageLayout[] = useMemo(() => {
-    if (numPages === 0) return [];
-    const filled = Array.from({ length: numPages }, (_, i) => aspects[i] ?? DEFAULT_PAGE_ASPECT);
-    return computePageLayout(filled, pageWidth, PAGE_GAP, LAYER_PAD);
-  }, [numPages, aspects, pageWidth]);
+  const layout = useMemo(
+    () => computeDocumentLayout(sizes, pageWidth, PAGE_GAP, LAYER_PAD),
+    [sizes, pageWidth],
+  );
 
   // Viewport height is measured state (refs must not be read during render);
   // 800 is a safe pre-measure default — it only widens the first window.
   const [viewportHeight, setViewportHeight] = useState(800);
+  const [viewportWidth, setViewportWidth] = useState(Infinity);
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    setViewportHeight(el.clientHeight);
+    const measure = () => {
+      setViewportHeight(el.clientHeight);
+      setViewportWidth(el.clientWidth);
+    };
+    measure();
     if (typeof ResizeObserver === 'undefined') return;
-    const ro = new ResizeObserver(() => setViewportHeight(el.clientHeight));
+    const ro = new ResizeObserver(measure);
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
 
   // Render window: the visible layer follows its own scroll; the hidden layer
   // pre-renders around the scroll position it will be promoted at.
-  const anchor = visible ? scrollTop : initialScrollTop;
+  const anchor = visible
+    ? scrollTop
+    : initialAnchor
+      ? scrollTopForPageAnchor(initialAnchor, viewportHeight, layout)
+      : initialScrollTop;
   const [first, last] = useMemo(
     () => visibleRange(anchor, viewportHeight, layout, visible ? viewportHeight : 0),
     [anchor, viewportHeight, layout, visible]
@@ -138,12 +163,32 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
   useEffect(() => {
     if (!visible || !layout.length || restoredPage.current) return;
     restoredPage.current = true;
-    if (initialPage > 1) {
+    if (initialAnchor) {
+      const top = scrollTopForPageAnchor(
+        initialAnchor,
+        viewportHeight,
+        layout,
+      );
+      const el = containerRef.current;
+      if (el) {
+        el.scrollTop = top;
+        setScrollTop(el.scrollTop);
+      }
+      onPageInView?.(currentPageAt(top, viewportHeight, layout));
+    } else if (initialPage > 1) {
       const page = Math.min(initialPage, layout.length);
       scrollToPage(page - 1, false);
       onPageInView?.(page);
     }
-  }, [visible, layout.length, initialPage, scrollToPage, onPageInView]);
+  }, [
+    visible,
+    layout,
+    initialPage,
+    initialAnchor,
+    viewportHeight,
+    scrollToPage,
+    onPageInView,
+  ]);
 
   useImperativeHandle(
     ref,
@@ -155,9 +200,47 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
         el.scrollTop = clampScrollTop(v, el.scrollHeight, el.clientHeight);
       },
       scrollToPage,
+      getScrollAnchor: () =>
+        pageScrollAnchor(
+          containerRef.current?.scrollTop ?? 0,
+          containerRef.current?.clientHeight ?? viewportHeight,
+          layout,
+        ),
+      restoreScrollAnchor: (position: PdfScrollAnchor) => {
+        const el = containerRef.current;
+        if (!el) return;
+        el.scrollTop = scrollTopForPageAnchor(
+          position,
+          el.clientHeight,
+          layout,
+        );
+        setScrollTop(el.scrollTop);
+      },
     }),
-    [scrollToPage]
+    [scrollToPage, layout, viewportHeight],
   );
+
+  const previousLayout = useRef<readonly PageLayout[]>([]);
+  useLayoutEffect(() => {
+    const previous = previousLayout.current;
+    previousLayout.current = layout;
+    const el = containerRef.current;
+    if (
+      !visible ||
+      !el ||
+      !previous.length ||
+      !layout.length ||
+      previous === layout
+    )
+      return;
+    const position = pageScrollAnchor(
+      el.scrollTop,
+      el.clientHeight,
+      previous,
+    );
+    el.scrollTop = scrollTopForPageAnchor(position, el.clientHeight, layout);
+    setScrollTop(el.scrollTop);
+  }, [layout, visible]);
 
   const handleScroll = useCallback(() => {
     if (!visible) return;
@@ -215,36 +298,43 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
         loading={null}
         error={null}
         onLoadSuccess={(doc) => {
-          setNumPages(doc.numPages);
-          onLoaded?.(gen);
-          // Resolve real aspect ratios (fast post-parse); placeholders use the
-          // US-Letter default meanwhile, which is exact for this app's output.
+          const sequence = ++loadSequence.current;
+          // Resolve dimensions before rendering/restoring: a temporary Letter
+          // stack otherwise paints the wrong window for wide inventory pages.
           void Promise.all(
             Array.from({ length: doc.numPages }, (_, i) =>
               doc
                 .getPage(i + 1)
-                .then((p) => {
-                  const vp = p.getViewport({ scale: 1 });
-                  return vp.width / vp.height;
+                .then((page) => {
+                  const viewport = page.getViewport({ scale: 1 });
+                  return { width: viewport.width, height: viewport.height };
                 })
-                .catch(() => DEFAULT_PAGE_ASPECT)
-            )
-          ).then((resolved) => setAspects(resolved));
-          void doc
-            .getPage(1)
-            .then((p) => {
-              const vp = p.getViewport({ scale: 1 });
-              onDocMeta?.(gen, { numPages: doc.numPages, baseWidth: vp.width, baseAspect: vp.width / vp.height });
-            })
-            .catch(() =>
-              onDocMeta?.(gen, { numPages: doc.numPages, baseWidth: pageWidth, baseAspect: DEFAULT_PAGE_ASPECT })
+                .catch(() => ({ width: 612, height: 792 })),
+            ),
+          ).then((resolved) => {
+            if (sequence !== loadSequence.current) return;
+            setSizes(resolved);
+            setNumPages(doc.numPages);
+            const baseWidth = Math.max(
+              1,
+              ...resolved.map((size) => size.width),
             );
-          if (visible) onPageInView?.(1);
+            const baseHeight = Math.max(
+              1,
+              ...resolved.map((size) => size.height),
+            );
+            onDocMeta?.(gen, {
+              numPages: doc.numPages,
+              baseWidth,
+              baseAspect: baseWidth / baseHeight,
+            });
+            onLoaded?.(gen);
+          });
         }}
         onLoadError={() => onFailed?.(gen)}
         onSourceError={() => onFailed?.(gen)}
       >
-        <div className="relative" style={{ height: contentHeight(layout, LAYER_PAD) }}>
+        <div data-pdf-stack className="relative" style={{ height: contentHeight(layout, LAYER_PAD), minWidth: pageWidth + (pageWidth > viewportWidth ? LAYER_PAD * 2 : 0) }}>
           {layout.map((p, i) => {
             const inWindow = i >= first && i <= last;
             return (
@@ -255,12 +345,12 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
               >
                 <div
                   className="bg-white shadow-md ring-1 ring-black/5 dark:ring-white/10"
-                  style={{ width: pageWidth, height: p.height }}
+                  style={{ width: p.width, height: p.height }}
                 >
                   {inWindow && (
                     <Page
                       pageNumber={i + 1}
-                      width={pageWidth}
+                      width={p.width}
                       devicePixelRatio={dprCap}
                       canvasBackground="#ffffff"
                       renderTextLayer={false}

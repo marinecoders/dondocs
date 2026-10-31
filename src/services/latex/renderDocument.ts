@@ -125,10 +125,15 @@ async function runCompile(
   }
 
   engine.setEngineMainFile(LATEX.MAIN_FILE);
-  const result = await engine.compileLaTeX();
+  let result = await engine.compileLaTeX();
+  // SL-3 navigation lists print page references, which must be resolved from
+  // this document's first pass rather than a previous draft's auxiliary data.
+  if (result.status === 0 && typeof files['document.tex'] === 'string' && /\\setDocumentType\{sl3\}/.test(files['document.tex'])) {
+    result = await engine.compileLaTeX();
+  }
 
   if (result.status === 0 && result.pdf) {
-    return typeof files['document.tex'] === 'string' && files['document.tex'].includes('\\setDocumentType{i_type}')
+    return typeof files['document.tex'] === 'string' && /\\setDocumentType\{(?:i_type|sl3)\}/.test(files['document.tex'])
       ? resolvePublicationDestinations(result.pdf) : result.pdf;
   }
   throw new LatexCompileError(result.status, result.log ?? '');

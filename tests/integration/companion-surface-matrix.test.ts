@@ -19,6 +19,7 @@ import { loadDefaults } from '../../companion/defaults';
 import type { CompanionDefaults } from '../../companion/letterInput';
 import { renderToFile } from '../../companion/renderToFile';
 import { companionPublication } from '../_helpers/companionPublication';
+import { companionSl3 } from '../_helpers/companionSl3';
 import { DOC_TYPES, FORMATS, formatsFor } from '../../companion/validateLetter';
 
 /** DOCX needs pandoc; PDF does not. Skipping is honest, silence is not. */
@@ -57,7 +58,7 @@ describe('the advertised surface', () => {
     }
 
     const file = await renderToFile(
-      docType === 'i_type' ? companionPublication() : {
+      docType === 'i_type' ? companionPublication() : docType === 'sl3' ? companionSl3() : {
         docType,
         format: format as 'pdf' | 'docx',
         out: `${docType}.${format}`,

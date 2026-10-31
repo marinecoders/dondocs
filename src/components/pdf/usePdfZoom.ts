@@ -78,7 +78,9 @@ export function usePdfZoom(
     (dir: 1 | -1) => {
       setMode((prev) => {
         const base = basePageCssWidth ?? fitWidth;
-        const current = widthFor(prev) / base;
+        // A rounded pixel width can sit just below its zoom stop (871/792
+        // versus 1.1), trapping subsequent clicks at the same stop.
+        const current = prev.kind === 'manual' ? prev.scale : widthFor(prev) / base;
         return { kind: 'manual', scale: nextZoomStep(current, dir) };
       });
     },

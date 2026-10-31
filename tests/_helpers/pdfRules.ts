@@ -2,7 +2,7 @@ import { getDocument, OPS, Util } from 'pdfjs-dist/legacy/build/pdf.mjs';
 
 /** Axis-aligned stroked rules in PDF coordinates, deduplicated by geometry. */
 export async function pdfRules(bytes: Uint8Array, pageNumber: number) {
-  const pdf = await getDocument({ data: bytes.slice(), useSystemFonts: false }).promise;
+  const pdf = await getDocument({ data: new Uint8Array(bytes), useSystemFonts: false }).promise;
   try {
     const ops = await (await pdf.getPage(pageNumber)).getOperatorList();
     let state = { matrix: [1, 0, 0, 1, 0, 0], width: 1 };

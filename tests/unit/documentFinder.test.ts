@@ -103,7 +103,7 @@ describe('document finder — result invariants', () => {
     // High-confidence picks must justify themselves with doctrine; the medium
     // "alternative" reasons are phrased as guidance ("Use X instead if …").
     for (const r of everyResult.filter((x) => x.confidence === 'high')) {
-      expect(r.reason).toMatch(/^Per (Ch \d+|MCO P1070\.12K|MIL-STD-38784C):/);
+      expect(r.reason).toMatch(/^Per (Ch \d+|MCO P1070\.12K|MCO 5215\.17D|MIL-STD-38784C):/);
     }
   });
 });

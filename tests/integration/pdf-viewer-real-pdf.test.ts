@@ -24,9 +24,10 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { compileFixture } from '../_helpers/compileLatex';
+import { sl3Fixture } from '../_helpers/sl3Fixture';
 import { buildBaseline } from '../_helpers/compileMatrix';
 import {
-  computePageLayout,
+  computeDocumentLayout,
   visibleRange,
   currentPage,
   DEFAULT_PAGE_ASPECT,
@@ -62,6 +63,26 @@ async function parseWithViewerPdfjs(pdfBytes: Uint8Array) {
 }
 
 describe('PDF viewer × real compiled documents', () => {
+  it.skipIf(!pdflatexAvailable)('preserves physical portrait/wide geometry in a real SL-3 PDF', async () => {
+    const store = sl3Fixture();
+    store.formData.sl3!.orientation = 'landscape';
+    const result = await compileFixture(store);
+    expect(result.ok, result.errors.join('\n') || result.logTail).toBe(true);
+    const doc = await parseWithViewerPdfjs(result.pdfBytes!);
+    try {
+      const sizes = await Promise.all(Array.from({length: doc.numPages}, async (_, i) => {
+        const viewport = (await doc.getPage(i + 1)).getViewport({scale: 1});
+        return {width: viewport.width, height: viewport.height};
+      }));
+      const firstWide = sizes.findIndex((s) => s.width === 792);
+      expect(firstWide).toBeGreaterThan(1);
+      const layout = computeDocumentLayout(sizes, 600, 16, 24);
+      expect(layout[0].width / layout[firstWide].width).toBeCloseTo(612 / 792, 5);
+      expect(layout[0].height).toBeCloseTo(layout[firstWide].height, 5);
+      expect(layout[firstWide].height).toBeCloseTo(layout[firstWide].width, 5);
+    } finally { await doc.destroy(); }
+  }, 30000);
+
   it.skipIf(!pdflatexAvailable)(
     'a real naval letter opens in the shipped pdf.js with the geometry the viewer assumes',
     async () => {
@@ -109,15 +130,14 @@ describe('PDF viewer × real compiled documents', () => {
       const doc = await parseWithViewerPdfjs(result.pdfBytes!);
       expect(doc.numPages).toBeGreaterThanOrEqual(2);
 
-      // Real per-page aspects → the viewer's layout, exactly as PdfPageLayer
-      // computes it after onLoadSuccess.
-      const aspects: number[] = [];
+      // Use the same resolved page dimensions and common scale as PdfPageLayer.
+      const sizes: {width: number; height: number}[] = [];
       for (let i = 1; i <= doc.numPages; i++) {
         const vp = (await doc.getPage(i)).getViewport({ scale: 1 });
-        aspects.push(vp.width / vp.height);
+        sizes.push({width: vp.width, height: vp.height});
       }
       const pageWidth = 600;
-      const layout = computePageLayout(aspects, pageWidth, 16, 24);
+      const layout = computeDocumentLayout(sizes, pageWidth, 16, 24);
       expect(layout).toHaveLength(doc.numPages);
       // Pages stack strictly downward with positive heights.
       for (let i = 0; i < layout.length; i++) {

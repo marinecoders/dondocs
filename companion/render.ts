@@ -6,7 +6,7 @@
  * shared with the app. What is here is the host-specific part — start the
  * engine, read the assets off disk.
  */
-import { iTypeExportErrors } from '../src/lib/iTypePreflight';
+import { publicationExportErrors, isTechnicalPublication } from '../src/lib/publicationPreflight';
 import { loadFigureFiles } from '../src/services/latex/figureAssets';
 import { assemblePublicationPdf } from './publicationPdf';
 import { attachment } from './publicationInput';
@@ -36,7 +36,7 @@ export async function renderPdf(
   { signal }: { signal?: AbortSignal } = {},
 ): Promise<Uint8Array> {
   const store = toStore(input, defaults);
-  const errors = iTypeExportErrors(store);
+  const errors = publicationExportErrors(store);
   if (errors.length) throw new Error(errors.join('\n'));
   const engine = await createNodeEngine();
   // Abort disposes the engine, which rejects the compile in flight; nothing
@@ -48,11 +48,11 @@ export async function renderPdf(
     prepareEngine(engine, await loadAssets());
     const generated = generateAllLatexFiles(store);
     const files: Record<string, string | Uint8Array> = { ...generated.texFiles };
-    if (input.docType === 'i_type') {
+    if (isTechnicalPublication(input.docType)) {
       await loadFigureFiles(files, generated.figures, async (id) => Buffer.from(attachment(input, id).dataBase64, 'base64'));
     }
     const pdf = await compileDocument(engine, files);
-    return input.docType === 'i_type' ? await assemblePublicationPdf(pdf, generated, store) : pdf;
+    return isTechnicalPublication(input.docType) ? await assemblePublicationPdf(pdf, generated, store) : pdf;
   } catch (err) {
     // Here rather than in each transport: neither front door should have to know
     // what TeX is. `needsReset` keeps its sentinel — that one is matched, not read.

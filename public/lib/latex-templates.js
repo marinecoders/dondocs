@@ -2675,6 +2675,7 @@ const LATEX_TEMPLATES = {
 
 \\newsavebox{\\dondocsCoverBody}
 \\newsavebox{\\dondocsCoverNotices}
+\\newcommand{\\dondocsNomenclatureFont}{\\large\\bfseries}
 \\newsavebox{\\dondocsNomenclatureBox}
 \\newdimen\\dondocsCoverAvailable
 \\newcommand{\\dondocsBuildCoverBody}{%
@@ -2691,7 +2692,7 @@ const LATEX_TEMPLATES = {
         }%
         \\par\\vspace{24pt}%
         \\setbox\\dondocsNomenclatureBox=\\vbox{\\hsize=\\textwidth\\centering
-            \\large\\bfseries\\MakeUppercase{\\Nomenclature}\\par
+            \\dondocsNomenclatureFont\\MakeUppercase{\\Nomenclature}\\par
             \\ifnum\\prevgraf>2\\relax
                 \\errmessage{I-Type nomenclature exceeds two lines. Shorten it or move detail into the end item table}%
             \\fi}%
@@ -2778,8 +2779,9 @@ const LATEX_TEMPLATES = {
 % Recording the completion of a modification applies to MIs alone. The spacing
 % above OFFICIAL is the same whether or not it appears.
 
+\\newcommand{\\dondocsAuthenticationFont}{\\fontsize{12}{12}\\selectfont}
 \\newcommand{\\printAddressBlock}{%
-    \\begingroup\\fontsize{12}{12}\\selectfont
+    \\begingroup\\dondocsAuthenticationFont
     \\thispagestyle{authpage}%
     \\dondocsBookmark{0}{Authentication}{itype.authentication}
     {\\centering\\MakeUppercase{\\UnitName}\\par
@@ -5278,6 +5280,242 @@ const LATEX_TEMPLATES = {
     \\fancyfoot[C]{\\thepage}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
+}
+`,
+  'tex/templates/sl3.tex': `
+% SL-3: MCO 5215.17D and supplied MARCORSYSCOM components-list template.
+% Cover and authentication are shared with I-Type; body and inventory differ.
+\\input{i_type}
+\\RecordingInstructionfalse
+\\renewcommand{\\printEnclosureList}{}
+\\renewcommand{\\printReferences}{}
+\\renewcommand{\\printDistribution}{}
+\\renewcommand{\\printCopyTo}{}
+\\renewcommand{\\printAppendedEndorsement}{}
+% The bundled hyperref shim emits HTML specials rather than PDF URI actions.
+\\renewcommand{\\href}[2]{\\dondocsExternalLink{#1}{#2}}
+\\newcommand{\\slThreeLeft}{\\dimexpr1in+\\hoffset+\\oddsidemargin\\relax}
+\\newcommand{\\slThreeHeaderTop}{\\ifClassificationEnabled56bp\\else36bp\\fi}
+\\renewcommand{\\dondocsRunningTitle}{%
+  \\begin{textblock*}{\\textwidth}(\\slThreeLeft,\\slThreeHeaderTop){\\fontsize{10}{12}\\selectfont\\makebox[\\textwidth]{\\DocumentDate\\hfill\\textbf{\\ShortTitle}}}\\end{textblock*}}
+\\renewcommand{\\dondocsPageNumber}{%
+  % Account for the paragraph strut so the visible footer ends at 36bp.
+  \\begin{textblock*}{\\textwidth}[0,1](\\slThreeLeft,\\dimexpr\\paperheight-38.1bp\\relax)\\raggedleft{\\fontsize{10}{12}\\selectfont\\bfseries\\thepage}\\end{textblock*}}
+\\renewcommand{\\placeClassificationMarkings}{%
+  \\ifClassificationEnabled
+    \\begin{textblock*}{\\paperwidth}(0in,0.5in)\\centering{\\fontsize{14}{16}\\selectfont\\bfseries\\slThreeControlMarking}\\end{textblock*}%
+    \\begin{textblock*}{\\paperwidth}(0in,\\dimexpr\\paperheight-0.7in\\relax)\\centering{\\fontsize{14}{16}\\selectfont\\bfseries\\slThreeControlMarking}\\end{textblock*}%
+  \\fi
+}
+% Include the author's dissemination control on every CUI banner.
+\\newcommand{\\slThreeControlMarking}{\\ClassificationMarking\\ifCUIEnabled\\ifNotEmpty{\\CUIDissemination}{//\\CUIDissemination}\\fi}
+% Measure the multi-line inventory header before assigning its text area.
+\\newcommand{\\slThreeInventoryHeader}{\\parbox{\\textwidth}{\\fontsize{10}{12}\\selectfont
+  \\makebox[\\textwidth]{\\DocumentDate\\hfill\\textbf{\\ShortTitle}}\\par
+  \\noindent\\parbox[t]{\\dimexpr\\textwidth-2.4in\\relax}{\\textbf{END ITEM NOMENCLATURE:} \\Nomenclature}%
+  \\hfill\\parbox[t]{2.3in}{\\raggedleft\\textbf{SERIAL NUMBER:} \\underline{\\hspace{0.8in}}}}}
+\\newsavebox{\\slThreeHeaderBox}
+\\newcommand{\\slThreePlaceInventoryHeader}{%
+  \\begin{textblock*}{\\textwidth}(\\slThreeLeft,\\slThreeHeaderTop)\\slThreeInventoryHeader\\end{textblock*}}
+\\newdimen\\slThreeHeadHeight
+\\newcommand{\\slThreeInventoryLayout}[4]{%
+  % newgeometry restores the original paper dimensions; specify its layout
+  % dimensions on both passes, then restore paper dimensions for banners.
+  \\newgeometry{layoutwidth=#3,layoutheight=#4,left=#1,right=#2,top=1.3in,bottom=0.85in,headheight=40pt,headsep=12pt,footskip=0.35in}%
+  \\sbox{\\slThreeHeaderBox}{\\slThreeInventoryHeader}%
+  % The production engine's older fancyhdr adds a line strut to its box.
+  \\slThreeHeadHeight=\\dimexpr\\ht\\slThreeHeaderBox+\\dp\\slThreeHeaderBox+14pt\\relax
+  \\newgeometry{layoutwidth=#3,layoutheight=#4,left=#1,right=#2,top=\\dimexpr\\slThreeHeaderTop+\\ht\\slThreeHeaderBox+\\dp\\slThreeHeaderBox+12pt\\relax,bottom=0.85in,headheight=\\slThreeHeadHeight,headsep=12pt,footskip=0.35in}%
+  \\paperwidth=#3\\paperheight=#4
+}
+\\newcommand{\\slThreeLandscape}{%
+  \\clearpage
+  % MIL-STD-38784C 4.7.9.5: PDF tables widen the page to its height.
+  \\pdfpagewidth=11in\\pdfpageheight=11in
+  \\slThreeInventoryLayout{0.5in}{0.6291667in}{11in}{11in}%
+}
+\\newcommand{\\slThreePortraitInventory}{\\slThreeInventoryLayout{1in}{0.6583333in}{8.5in}{11in}}
+\\fancypagestyle{slthreeinventory}{%
+  \\fancyhf{}%
+  \\fancyhead[C]{\\placeClassificationMarkings\\slThreePlaceInventoryHeader}%
+  \\fancyfoot[C]{\\dondocsPageNumber}%
+  \\renewcommand{\\headrulewidth}{0pt}\\renewcommand{\\footrulewidth}{0pt}%
+}
+% Source cover: bold titles, 2.25-point separators and borderless end-item rows.
+\\renewcommand{\\dondocsCoverBannerLines}[1]{\\begingroup
+  \\fontsize{10}{12}\\selectfont\\centering
+  \\makebox[\\textwidth]{\\textbf{\\CoverDate}\\hfill\\textbf{\\ShortTitle}}\\\\[11bp]
+  \\textbf{U.S. MARINE CORPS \\MakeUppercase{\\PublicationTypeName}}\\par
+  \\vspace{3bp}\\hrule height2.25bp\\relax\\vspace{14.27bp}
+  \\ifNotEmpty{\\SubjectLine}{%
+    \\setbox\\dondocsTitleBox=\\vbox{\\hsize=\\textwidth\\centering\\bfseries
+      \\MakeUppercase{\\SubjectLine}\\par
+      \\ifnum\\prevgraf>4\\relax
+        \\PackageError{SL-3}{Long title exceeds four lines}{Shorten the publication title.}%
+      \\fi}%
+    \\usebox{\\dondocsTitleBox}\\par}%
+  \\endgroup}
+\\let\\slThreeMeasureCoverHead\\dondocsMeasureCoverHead
+\\renewcommand{\\dondocsMeasureCoverHead}{%
+  \\slThreeMeasureCoverHead\\addtolength{\\headheight}{27.2bp}%
+  \\ifClassificationEnabled\\addtolength{\\headheight}{20bp}\\fi}
+% A title page is unnumbered; PCN remains bold 12 point on that page only.
+\\let\\slThreeCoverFooter\\printCoverFooter
+\\patchcmd{\\slThreeCoverFooter}{PCN \\PCN}{\\fontsize{12}{12}\\selectfont\\bfseries PCN \\PCN}{}{\\PackageError{SL-3}{Cannot format cover PCN}{Check the shared cover footer.}}
+\\patchcmd{\\slThreeCoverFooter}{\\raggedleft\\ifNotEmpty{\\PCN}}{\\hrule height2.25bp\\relax\\vspace{2bp}\\raggedleft\\ifNotEmpty{\\PCN}}{}{\\PackageError{SL-3}{Cannot place cover separator}{Check the shared cover footer.}}
+\\patchcmd{\\slThreeCoverFooter}{Distribution Statement: \\CUIDistStatement}{Distribution/Dissemination Control: \\CUIDissemination}{}{\\PackageError{SL-3}{Cannot format CUI designation}{Check the shared cover footer.}}
+\\patchcmd{\\slThreeCoverFooter}{WARNING:}{\\textbf{WARNING:}}{}{\\PackageError{SL-3}{Cannot format export warning}{Check the shared cover footer.}}
+\\renewcommand{\\printCoverFooter}{\\begingroup
+  \\renewcommand{\\thepage}{}%
+  \\renewcommand{\\footnotesize}{\\fontsize{10}{12}\\selectfont}%
+  \\let\\slThreePCN\\PCN
+  \\renewcommand{\\PCN}{{\\fontsize{12}{12}\\selectfont\\slThreePCN}}%
+  \\begin{minipage}[b]{\\textwidth}\\slThreeCoverFooter\\par\\vspace*{10bp}%
+    \\ifClassificationEnabled\\par\\vspace{30pt}\\fi
+  \\end{minipage}\\endgroup}
+\\renewcommand{\\printCoverBanner}{%
+  \\placeClassificationMarkings
+  \\begin{textblock*}{\\textwidth}(\\slThreeLeft,\\dimexpr\\slThreeHeaderTop+9.2bp\\relax)
+    \\dondocsCoverBannerLines{}%
+  \\end{textblock*}%
+  \\phantom{\\parbox{\\textwidth}{\\dondocsCoverBannerLines{}}}%
+}
+% The four source columns measure 3083/2078/1882/2549 twips. Center their
+% full physical width for PDF, retaining the six unruled writing/data rows.
+\\newcommand{\\slThreeCoverBoxhead}{\\textbf{\\uline{NSN}} & \\textbf{\\uline{TAMCN}} & \\textbf{\\uline{ID}} & \\textbf{\\uline{MODEL}}}
+\\renewcommand{\\printEndItemTable}[1]{\\begingroup
+  \\renewcommand{\\arraystretch}{1.2}\\setlength{\\tabcolsep}{5.4bp}%
+  \\makebox[\\textwidth][c]{\\begin{tabular}{p{143.35bp}p{93.1bp}p{83.3bp}p{116.65bp}}
+    \\slThreeCoverBoxhead\\tabularnewline
+    #1\\tabularnewline
+  \\end{tabular}}\\endgroup}
+\\patchcmd{\\dondocsBuildCoverBody}{\\multicolumn{4}{|c|}}{\\multicolumn{4}{c}}{}{\\PackageError{SL-3}{Cannot format cover continuation}{Check the shared cover body.}}
+\\patchcmd{\\dondocsBuildCoverBody}{\\par\\vspace{24pt}}{\\par\\vspace{36.8pt}}{}{\\PackageError{SL-3}{Cannot position cover nomenclature}{Check the shared cover body.}}
+\\patchcmd{\\dondocsBuildCoverBody}{\\vspace{24pt}}{\\vspace{10.33pt}}{}{\\PackageError{SL-3}{Cannot position cover end items}{Check the shared cover body.}}
+\\renewcommand{\\printEndItemOverflowTable}{\\begingroup
+  \\renewcommand{\\arraystretch}{1.2}\\setlength{\\tabcolsep}{5.4bp}%
+  \\setlength{\\LTleft}{\\fill}\\setlength{\\LTright}{\\fill}%
+  \\setlength{\\LTpre}{0pt}\\setlength{\\LTpost}{0pt}%
+  \\begin{longtable}{p{143.35bp}p{93.1bp}p{83.3bp}p{116.65bp}}
+    \\slThreeCoverBoxhead\\tabularnewline\\endfirsthead
+    \\slThreeCoverBoxhead\\tabularnewline\\endhead
+    \\endfoot\\endlastfoot
+    \\EndItemOverflowRows\\tabularnewline
+  \\end{longtable}\\endgroup}
+\\renewcommand{\\dondocsNomenclatureFont}{\\fontsize{10}{12}\\selectfont\\bfseries}
+\\renewcommand{\\dondocsAuthenticationFont}{\\fontsize{10}{12}\\selectfont}
+\\let\\slThreeAuthentication\\printAddressBlock
+\\newcount\\slThreeAuthenticationStart
+\\renewcommand{\\printAddressBlock}{%
+  \\pagenumbering{roman}\\slThreeAuthenticationStart=\\value{page}%
+  \\slThreeAuthentication
+  % The shared authentication macro ends with one mandatory page break.
+  \\ifnum\\value{page}>\\numexpr\\slThreeAuthenticationStart+1\\relax
+    \\PackageError{SL-3}{Authentication exceeds one page}{Shorten the command address, signatory title, or controlling office. The source authentication must remain on one page.}%
+  \\fi}
+
+\\let\\slThreeEndItemOverflow\\printEndItemOverflowTable
+\\renewcommand{\\printEndItemOverflowTable}{\\renewcommand{\\thepage}{T-\\arabic{page}}\\slThreeEndItemOverflow}
+\\let\\slThreeBookmark\\dondocsBookmark
+\\renewcommand{\\dondocsBookmark}[3]{%
+  \\ifstrequal{#3}{itype.cover}{\\slThreeBookmark{#1}{TITLE PAGE}{#3}}{%
+    \\ifstrequal{#3}{itype.authentication}{\\slThreeBookmark{#1}{AUTHENTICATION}{#3}}{\\slThreeBookmark{#1}{#2}{#3}}}%
+  \\label{#3}}
+\\newcommand{\\slThreeOutlineLink}[2]{\\begingroup
+  \\pdfstringdef\\dondocsBookmarkTitle{#1}%
+  \\pdfoutline goto name {#2} count 0 {\\dondocsBookmarkTitle}%
+  \\endgroup}
+% Read the page field from both the legacy nameref and modern hyperref labels.
+% The bundled hyperref stub does not implement the starred pageref command.
+\\def\\slThreeLabelPage#1#2#3\\slThreeStop{#2}
+\\newcommand{\\slThreePageReference}[1]{%
+  \\ifcsname r@#1\\endcsname
+    \\expandafter\\expandafter\\expandafter\\slThreeLabelPage\\csname r@#1\\endcsname\\slThreeStop
+  \\else ?\\fi}
+% Measure the actual marked terms; cap their column and preserve a clear gutter.
+\\newdimen\\slThreeDefinitionWidth
+\\newsavebox{\\slThreeDefinitionWordBox}
+\\newsavebox{\\slThreeDefinitionRowBox}
+\\newcommand{\\slThreeMeasureDefinition}[1]{%
+  \\sbox{\\slThreeDefinitionWordBox}{#1}%
+  \\ifdim\\wd\\slThreeDefinitionWordBox>\\slThreeDefinitionWidth
+    \\slThreeDefinitionWidth=\\dimexpr\\wd\\slThreeDefinitionWordBox+2pt\\relax
+  \\fi}
+\\newcommand{\\slThreeDefinitionWord}[2]{%
+  \\sbox{\\slThreeDefinitionWordBox}{#1}%
+  \\ifdim\\wd\\slThreeDefinitionWordBox>\\linewidth #2\\else #1\\fi}
+\\newcommand{\\slThreeCheckDefinition}[2]{%
+  \\sbox{\\slThreeDefinitionRowBox}{\\begin{tabular}{#1}#2\\tabularnewline\\end{tabular}}%
+  \\ifdim\\dimexpr\\ht\\slThreeDefinitionRowBox+\\dp\\slThreeDefinitionRowBox>\\dimexpr\\textheight-36pt\\relax
+    \\PackageError{SL-3}{An abbreviation definition exceeds one page}{Shorten the definition or move detailed explanation into technical data.}%
+  \\fi}
+\\newenvironment{slThreeNote}{\\begin{list}{}{\\setlength{\\leftmargin}{5ex}\\setlength{\\rightmargin}{5ex}}\\item[]}{\\end{list}}
+\\newsavebox{\\slThreeNoteBox}
+\\newcommand{\\slThreeFixedNote}[1]{%
+  \\sbox{\\slThreeNoteBox}{\\begin{minipage}{\\linewidth}\\begin{center}\\textbf{NOTE}\\end{center}\\begin{slThreeNote}#1\\end{slThreeNote}\\end{minipage}}%
+  \\dondocsNeedspace{\\dimexpr\\ht\\slThreeNoteBox+\\dp\\slThreeNoteBox+6pt\\relax}%
+  \\noindent\\usebox{\\slThreeNoteBox}\\par\\vspace{6pt}%
+}
+\\newsavebox{\\slThreeArtworkBox}
+\\newsavebox{\\slThreeArtworkLabelBox}
+\\newcommand{\\slThreeArtworkLabel}[3]{%
+  \\sbox{\\slThreeArtworkLabelBox}{{\\fontsize{9}{11}\\selectfont #3}}%
+  \\ifdim\\dimexpr\\wd\\slThreeArtworkBox*#1/1000-\\wd\\slThreeArtworkLabelBox/2<0pt
+    \\PackageError{SL-3}{Illustration label crosses the left edge}{Move or shorten the label.}\\fi
+  \\ifdim\\dimexpr\\wd\\slThreeArtworkBox*#1/1000+\\wd\\slThreeArtworkLabelBox/2>\\wd\\slThreeArtworkBox
+    \\PackageError{SL-3}{Illustration label crosses the right edge}{Move or shorten the label.}\\fi
+  \\ifdim\\dimexpr\\ht\\slThreeArtworkBox*#2/1000+\\ht\\slThreeArtworkLabelBox>\\ht\\slThreeArtworkBox
+    \\PackageError{SL-3}{Illustration label crosses the top edge}{Move the label.}\\fi
+  \\ifdim\\dimexpr\\ht\\slThreeArtworkBox*#2/1000-\\dp\\slThreeArtworkLabelBox<0pt
+    \\PackageError{SL-3}{Illustration label crosses the bottom edge}{Move the label.}\\fi
+  \\rlap{\\kern\\dimexpr\\wd\\slThreeArtworkBox*#1/1000\\relax\\raisebox{\\dimexpr\\ht\\slThreeArtworkBox*#2/1000\\relax}{\\makebox[0pt][c]{\\usebox{\\slThreeArtworkLabelBox}}}}%
+}
+\\newcommand{\\slThreeArtwork}[2]{%
+  \\sbox{\\slThreeArtworkBox}{\\includegraphics[width=\\textwidth,height=4.3in,keepaspectratio]{#1}}%
+  \\leavevmode\\rlap{\\usebox{\\slThreeArtworkBox}}#2\\phantom{\\usebox{\\slThreeArtworkBox}}%
+}
+\\newsavebox{\\slThreeFigureBox}
+\\newcommand{\\slThreeFigureBlock}[1]{%
+  \\sbox{\\slThreeFigureBox}{\\begin{minipage}{\\linewidth}#1\\end{minipage}}%
+  \\dondocsNeedspace{\\dimexpr\\ht\\slThreeFigureBox+\\dp\\slThreeFigureBox\\relax}%
+  \\noindent\\usebox{\\slThreeFigureBox}\\par
+}
+% The page number has a reserved column so long titles wrap without collision.
+\\newcommand{\\slThreeNavigationEntry}[3]{%
+  \\noindent\\hspace*{#3}\\parbox[t]{\\dimexpr\\linewidth-#3-0.45in\\relax}{\\raggedright\\leavevmode\\pdfstartlink attr{/Border [0 0 0]} goto name {#1}\\textcolor{blue}{#2}\\pdfendlink\\nobreak\\dotfill}%
+  \\hfill\\makebox[0.4in][r]{\\dondocsReferenceLink{#1}{\\slThreePageReference{#1}}}\\par
+}
+% Optional columns use only the spare PDF margin area. Rotate their headings
+% when both columns are needed in the wide source grid; retain readable type.
+\\newcommand{\\slThreeOptionalHeading}[1]{\\par\\vspace{3pt}\\noindent\\rotatebox{90}{\\strut #1}}
+\\newsavebox{\\slThreeRows}
+\\newsavebox{\\slThreeCertificationBox}
+\\newcommand{\\slThreeCertification}[2]{%
+  \\sbox{\\slThreeCertificationBox}{\\begin{minipage}{#1}#2\\end{minipage}}%
+  \\ifdim\\dimexpr\\ht\\slThreeCertificationBox+\\dp\\slThreeCertificationBox>\\textheight
+    \\PackageError{SL-3}{Inventory certification exceeds one page}{Shorten the running header so all signature rows fit.}%
+  \\fi
+  \\noindent\\makebox[\\linewidth][c]{\\usebox{\\slThreeCertificationBox}}\\par
+}
+\\newsavebox{\\slThreeIdentifierBox}
+\\newcommand{\\slThreeIdentifier}[1]{%
+  \\sbox{\\slThreeIdentifierBox}{#1}%
+  \\ifdim\\wd\\slThreeIdentifierBox>\\dimexpr\\linewidth-\\leftskip\\relax
+    \\PackageError{SL-3}{An inventory identifier exceeds its column}{Check the identifier or use the landscape layout.}%
+  \\fi
+  \\usebox{\\slThreeIdentifierBox}%
+}
+\\newcommand{\\slThreeCheckRows}[2]{%
+  \\sbox{\\slThreeRows}{\\begin{tabular}{#1}#2\\end{tabular}}%
+  \\ifdim\\dimexpr\\ht\\slThreeRows+\\dp\\slThreeRows>\\dimexpr\\textheight-100pt\\relax
+    \\PackageError{SL-3}{An inventory row or parent-component group exceeds one page}{Shorten its description or divide the component group.}%
+  \\fi
+}
+\\newcommand{\\slThreeCheckSheet}[2]{%
+  \\sbox{\\slThreeRows}{\\begin{tabular}{#1}#2\\end{tabular}}%
+  \\ifdim\\dimexpr\\ht\\slThreeRows+\\dp\\slThreeRows>\\dimexpr\\textheight-60pt\\relax
+    \\PackageError{SL-3}{Inventory sheet exceeds one page}{Reduce the maximum inventory rows per sheet or shorten descriptions. Each inventory sheet must precede its illustrations.}%
+  \\fi
 }
 `,
   'tex/templates/standard_letter.tex': `

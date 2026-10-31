@@ -12,7 +12,7 @@ const target: Paragraph = { level: 0, header: 'Inspection', text: 'Inspect the b
 const reference: Paragraph = { level: 0, header: 'Purpose', text: `See {{PUBREF_P_${id}}}.` };
 
 describe('publication references', () => {
-  it.each(Object.keys(DOC_TYPE_CONFIG).filter(type => type !== 'i_type'))(
+  it.each(Object.keys(DOC_TYPE_CONFIG).filter(type => type !== 'i_type' && type !== 'sl3'))(
     'does not emit publication tables or footnotes for %s after a format switch', (docType) => {
       const paragraphs = [{ ...target, tableKey: 'materielRequired', tableFootnotes: [{ id: '1', text: 'Publication-only note.' }] }];
       const tables = { materielRequired: [{ values: { description: 'PUBLICATION-ONLY-ITEM' } }] };

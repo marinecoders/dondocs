@@ -42,6 +42,7 @@ const routes: Record<string, string> = {
   action_memorandum: 'executive classification body copyto distribution signature',
   information_memorandum: 'executive classification body copyto distribution',
   i_type: 'cover classification body tables enclosures signature',
+  sl3: 'sl3-cover classification sl3-details sl3-inventory sl3-figures signature',
   navmc_10274: 'header addressing content signatures references',
   navmc_118_11: 'marine content signatures',
 };

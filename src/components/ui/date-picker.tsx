@@ -20,13 +20,19 @@ const MILITARY_DATE_FORMAT = "d MMM yy"
 // Per SECNAV M-5216.5 Ch 11 - Business letters use spelled format
 const SPELLED_DATE_FORMAT = "MMMM d, yyyy"
 
-export type DateFormatType = 'military' | 'spelled'
+export type DateFormatType = 'military' | 'spelled' | 'iso'
 
 // Try to parse various date formats and return a Date object
 function parseFlexibleDate(dateString: string): Date | null {
   if (!dateString || !dateString.trim()) return null
 
   const trimmed = dateString.trim()
+
+  // Do not let native Date parsing roll an invalid ISO day into the next month.
+  if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+    const parsed = parse(trimmed, 'yyyy-MM-dd', new Date())
+    return isValid(parsed) ? parsed : null
+  }
 
   // Common formats to try
   const formats = [
@@ -67,12 +73,12 @@ function parseFlexibleDate(dateString: string): Date | null {
 
 // Format a Date to the specified format
 function formatDate(date: Date, dateFormat: DateFormatType): string {
-  return format(date, dateFormat === 'spelled' ? SPELLED_DATE_FORMAT : MILITARY_DATE_FORMAT)
+  return format(date, dateFormat === 'iso' ? 'yyyy-MM-dd' : dateFormat === 'spelled' ? SPELLED_DATE_FORMAT : MILITARY_DATE_FORMAT)
 }
 
 // Get placeholder for date format
 function getPlaceholder(dateFormat: DateFormatType): string {
-  return dateFormat === 'spelled' ? 'January 4, 2026' : '15 Dec 24'
+  return dateFormat === 'iso' ? 'YYYY-MM-DD' : dateFormat === 'spelled' ? 'January 4, 2026' : '15 Dec 24'
 }
 
 interface DatePickerProps {
@@ -82,6 +88,8 @@ interface DatePickerProps {
   className?: string
   id?: string
   dateFormat?: DateFormatType
+  calendarLabel?: string
+  'aria-describedby'?: string
 }
 
 export function DatePicker({
@@ -91,6 +99,8 @@ export function DatePicker({
   className,
   id,
   dateFormat = 'military',
+  calendarLabel = 'Open calendar',
+  'aria-describedby': describedBy,
 }: DatePickerProps) {
   // Use format-appropriate placeholder if not provided
   const displayPlaceholder = placeholder || getPlaceholder(dateFormat)
@@ -158,6 +168,7 @@ export function DatePicker({
       <div className={cn("relative", className)}>
         <Input
           id={id}
+          aria-describedby={describedBy}
           value={inputValue}
           onChange={handleInputChange}
           onBlur={handleInputBlur}
@@ -167,7 +178,7 @@ export function DatePicker({
         />
         <PopoverTrigger asChild>
           <Button
-            aria-label="Open calendar"
+            aria-label={calendarLabel}
             variant="ghost"
             size="icon"
             className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
@@ -177,14 +188,16 @@ export function DatePicker({
           </Button>
         </PopoverTrigger>
       </div>
-      <PopoverContent className="w-auto p-0" align="end">
+      {/* Closing calendars must not retain hit targets during an exit animation. */}
+      {open && <PopoverContent className="w-auto p-0" align="end">
         <Calendar
+          autoFocus
           mode="single"
           selected={selectedDate || undefined}
           onSelect={handleSelect}
           defaultMonth={selectedDate || new Date()}
         />
-      </PopoverContent>
+      </PopoverContent>}
     </Popover>
   )
 }

@@ -1,0 +1,37 @@
+[
+  {
+    "file": "email.text",
+    "bytes": 972,
+    "sha256": "05491d919a30ec1f300444f82b07c62fe251e7f4d627575a44f5f6aaa4398614"
+  },
+  {
+    "file": "1. SL-3 Portrait Template.docx",
+    "bytes": 746550,
+    "sha256": "8ec25d4f99206950f7bd632ca7915a4544e373267e9fcceee0ecc299ea656d32"
+  },
+  {
+    "file": "1. SL-3 Landscape Template.docx",
+    "bytes": 773288,
+    "sha256": "ae526dd97e462d8ffa2074b1781996efedb0c40d62253e9c86c811740b683764"
+  },
+  {
+    "file": "1. TM_IETM Cover-Signature Page Template.docx",
+    "bytes": 380214,
+    "sha256": "4306a38d26141afa2dfc04c0c90bc450dabd98c8120125068c4c0b0151329aff"
+  },
+  {
+    "file": "MIL STD 38784C - General Format for Tech Manuals.pdf",
+    "bytes": 5597522,
+    "sha256": "b2279d7e24a12c6f7136c8c93546af4e15240db99639845da07f55206ab225a0"
+  },
+  {
+    "file": "MCO 5215.17D.pdf",
+    "bytes": 354778,
+    "sha256": "d46d5110ca86b23ec38572e71c74902bd2d709045ded0818fd7319f64ef66730"
+  },
+  {
+    "file": "MIL-STD-38784C.pdf",
+    "bytes": 5597522,
+    "sha256": "b2279d7e24a12c6f7136c8c93546af4e15240db99639845da07f55206ab225a0"
+  }
+]

@@ -1,3 +1,4 @@
+import { sl3Schema } from '@/data/techpub/sl3';
 import { z } from 'zod';
 import { parseFormInstance } from '@/services/forms/model';
 import type { SerializedSession } from '@/stores/documentStore';
@@ -32,6 +33,7 @@ export function parseSharedSession(value: unknown): SerializedSession {
   const result = schema.safeParse(value);
   if (!result.success) throw new Error('This link does not contain a supported DonDocs document.');
   const s = result.data;
+  if (s.formData.sl3 !== undefined) s.formData.sl3 = sl3Schema.parse(s.formData.sl3);
   if (s.genericForm) {
     const instance = parseFormInstance(s.genericForm);
     if (s.documentCategory !== 'forms' || s.formType !== instance.definition.formId) throw new Error('The form definition does not match this document.');

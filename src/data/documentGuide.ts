@@ -10,6 +10,12 @@ export interface DocumentTypeGuide {
 }
 
 export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
+  { id: 'sl3', name: 'SL-3 Components List', category: 'Technical Publications',
+    summary: 'Lists equipment components and accessories with illustrations and inventory sheets.',
+    whenToUse: ['Publish the components inventory for an end item, kit or system'],
+    keyFeatures: ['SSRI, collateral materiel and UURI', 'Portrait or landscape inventory sheets', 'Special notes and illustrations', 'Authentication and PDF export'],
+    commonExamples: ['Equipment components inventory', 'Tool kit components list'],
+    reference: 'MCO 5215.17D; MIL-STD-38784C; supplied MARCORSYSCOM SL-3 template' },
   // LETTERS
   {
     id: 'naval_letter',

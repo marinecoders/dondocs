@@ -1,0 +1,770 @@
+{
+  "baseline_commit": "2399c0121bf6179f1d4bde1d5ad74570db3124f0",
+  "scope": "Generated PDF text bounds and visual review; synthetic inputs. Raster artwork content is outside this text-run test.",
+  "cases": [
+    {
+      "orientation": "landscape",
+      "stress": true,
+      "pages": 16,
+      "commarcorsyscom_to_definition_gap_bp": 75.9947,
+      "text_collisions_in_checked_pdf": 0,
+      "pdf_sha256": "3e540cd7e11ed52b58f771297ae92c8e9920b5879a3de5527aaa6cd7ef6f0e6f",
+      "input": {
+        "docType": "sl3",
+        "subject": "COMPONENTS LIST FOR TRAINING TOOL KIT",
+        "date": "30 Oct 26",
+        "pocEmail": "example@example.com",
+        "unit": {
+          "name": "MARINE CORPS TRAINING EQUIPMENT AND MAINTENANCE PROGRAM OFFICE",
+          "address": "1234 SYNTHETIC TRAINING AVENUE, QUANTICO VA 22134-5678"
+        },
+        "signature": {
+          "first": "Alexandria-Margaret",
+          "middle": "C",
+          "last": "Montgomery-Worthington",
+          "title": "Program Manager, Training Equipment and Expeditionary Maintenance Systems"
+        },
+        "publication": {
+          "type": "SL3",
+          "shortTitle": "SL-3-12345A",
+          "pcn": "123 123450 00",
+          "nomenclature": "TOOL KIT, PRECISION DIAGNOSTIC EQUIPMENT WITH PORTABLE INTERFACE AND PROTECTIVE TRANSIT CASES",
+          "controllingOffice": "Example Program Office",
+          "signingDate": "2026-10-30",
+          "distribution": {
+            "statement": "D",
+            "reason": "Software Documentation",
+            "date": "2026-10-30"
+          },
+          "endItems": [
+            {
+              "nsn": "5120-01-542-7445",
+              "tamcn": "A12345G",
+              "id": "12345A",
+              "model": "TRAINING MODEL 1"
+            },
+            {
+              "nsn": "5120-01-542-7445",
+              "tamcn": "A12345G",
+              "id": "12345A",
+              "model": "TRAINING MODEL 2"
+            },
+            {
+              "nsn": "5120-01-542-7445",
+              "tamcn": "A12345G",
+              "id": "12345A",
+              "model": "TRAINING MODEL 3"
+            },
+            {
+              "nsn": "5120-01-542-7445",
+              "tamcn": "A12345G",
+              "id": "12345A",
+              "model": "TRAINING MODEL 4"
+            },
+            {
+              "nsn": "5120-01-542-7445",
+              "tamcn": "A12345G",
+              "id": "12345A",
+              "model": "TRAINING MODEL 5"
+            },
+            {
+              "nsn": "5120-01-542-7445",
+              "tamcn": "A12345G",
+              "id": "12345A",
+              "model": "TRAINING MODEL 6"
+            },
+            {
+              "nsn": "5120-01-542-7445",
+              "tamcn": "A12345G",
+              "id": "12345A",
+              "model": "TRAINING MODEL 7"
+            }
+          ],
+          "sl3": {
+            "orientation": "landscape",
+            "rowsPerSheet": 16,
+            "technicalData": "Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. ",
+            "sourceManual": "TM 12345A-10 (synthetic training manual)",
+            "configurationReference": "",
+            "fieldingPlanReference": "Synthetic Fielding Plan, 30 October 2026",
+            "technicalPortion": "U",
+            "sequencingNote": "",
+            "sequencingPortion": "U",
+            "showFigureReference": true,
+            "showModel": true,
+            "endItemFigureId": "",
+            "definitions": [
+              {
+                "id": "long",
+                "term": "ZZWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+                "meaning": "A synthetic long code. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. ",
+                "portionMarking": "S"
+              },
+              {
+                "id": "token",
+                "term": "ZZTOKEN",
+                "meaning": "A long source identifier: MEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENT",
+                "portionMarking": "U"
+              },
+              {
+                "id": "symbol",
+                "term": "ZZ Symbol & Applicability",
+                "meaning": "The synthetic symbol applies only to the demonstration configuration.",
+                "portionMarking": "U"
+              }
+            ],
+            "artwork": [
+              {
+                "figureId": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "lettering": "labels",
+                "labels": [
+                  {
+                    "id": "inlet",
+                    "text": "VALVE INLET",
+                    "x": 25,
+                    "y": 65
+                  },
+                  {
+                    "id": "outlet",
+                    "text": "VALVE OUTLET",
+                    "x": 75,
+                    "y": 65
+                  }
+                ]
+              }
+            ],
+            "notes": [
+              {
+                "id": "note",
+                "text": "This demonstration note exercises normal wrapping and linked references. This demonstration note exercises normal wrapping and linked references. This demonstration note exercises normal wrapping and linked references. This demonstration note exercises normal wrapping and linked references. This demonstration note exercises normal wrapping and linked references. This demonstration note exercises normal wrapping and linked references. This demonstration note exercises normal wrapping and linked references. This demonstration note exercises normal wrapping and linked references. ",
+                "portionMarking": "U"
+              }
+            ],
+            "components": [
+              {
+                "id": "component-0",
+                "portionMarking": "U",
+                "category": "ssri",
+                "parentId": "",
+                "nomenclature": "COMPONENT, Training 001",
+                "description": "A synthetic removable maintenance assembly with a protective storage sleeve and calibrated steel adapter.",
+                "nsn": "5120-01-542-7445",
+                "tamcn": "",
+                "idNumber": "",
+                "partNumber": "",
+                "cage": "",
+                "unit": "EA",
+                "unitOfIssue": "EA",
+                "primaryTamcn": "",
+                "configurationRatio": "",
+                "quantity": "1",
+                "model": "TRAINING-MODEL-2026",
+                "figureReference": "REFERENCE-DESIGNATOR-01",
+                "figureId": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "noteIds": [
+                  "note"
+                ],
+                "serialized": false
+              },
+              {
+                "id": "component-1",
+                "portionMarking": "U",
+                "category": "ssri",
+                "parentId": "",
+                "nomenclature": "COMPONENT, Training 002",
+                "description": "A synthetic removable maintenance assembly with a protective storage sleeve and calibrated steel adapter.",
+                "nsn": "5120-01-542-7445",
+                "tamcn": "",
+                "idNumber": "",
+                "partNumber": "",
+                "cage": "",
+                "unit": "EA",
+                "unitOfIssue": "EA",
+                "primaryTamcn": "",
+                "configurationRatio": "",
+                "quantity": "1",
+                "model": "TRAINING-MODEL-2026",
+                "figureReference": "REFERENCE-DESIGNATOR-01",
+                "figureId": "",
+                "noteIds": [
+                  "note"
+                ],
+                "serialized": false
+              },
+              {
+                "id": "component-2",
+                "portionMarking": "U",
+                "category": "ssri",
+                "parentId": "",
+                "nomenclature": "COMPONENT, Training 003",
+                "description": "A synthetic removable maintenance assembly with a protective storage sleeve and calibrated steel adapter.",
+                "nsn": "5120-01-542-7445",
+                "tamcn": "",
+                "idNumber": "",
+                "partNumber": "",
+                "cage": "",
+                "unit": "EA",
+                "unitOfIssue": "EA",
+                "primaryTamcn": "",
+                "configurationRatio": "",
+                "quantity": "1",
+                "model": "TRAINING-MODEL-2026",
+                "figureReference": "REFERENCE-DESIGNATOR-01",
+                "figureId": "",
+                "noteIds": [
+                  "note"
+                ],
+                "serialized": false
+              }
+            ]
+          }
+        },
+        "paragraphs": [
+          {
+            "referenceId": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "portionMarking": "U",
+            "text": "Synthetic training illustration with a longer caption that exercises wrapping inside the available page width",
+            "figure": {
+              "fileId": "drawing",
+              "portionMarking": "U"
+            }
+          }
+        ],
+        "classification": {
+          "level": "secret",
+          "basis": "original",
+          "classifiedBy": "Synthetic reviewer, Example Office",
+          "reason": "1.4(a)",
+          "declassifyOn": "20361031"
+        },
+        "attachments": [
+          {
+            "id": "drawing",
+            "name": "drawing.png",
+            "mimeType": "image/png",
+            "dataBase64": "iVBORw0KGgoAAAANSUhEUgAABLAAAAJYCAIAAAD9hIhNAAAACXBIWXMAAAPoAAAD6AG1e1JrAAANSUlEQVR4nO3XMQEAAAiAMPuX1hgebAl4mQUAACBpvgMAAAD4YQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAAbNMBhW13C5g17egAAAAASUVORK5CYII="
+          }
+        ]
+      }
+    },
+    {
+      "orientation": "portrait",
+      "stress": true,
+      "pages": 16,
+      "commarcorsyscom_to_definition_gap_bp": 75.9947,
+      "text_collisions_in_checked_pdf": 0,
+      "pdf_sha256": "3575f1e7011b889d0278b2c0fb8c7faba62cd7c06a6dd568b53be4bff8f73a67",
+      "input": {
+        "docType": "sl3",
+        "subject": "COMPONENTS LIST FOR TRAINING TOOL KIT",
+        "date": "30 Oct 26",
+        "pocEmail": "example@example.com",
+        "unit": {
+          "name": "MARINE CORPS TRAINING EQUIPMENT AND MAINTENANCE PROGRAM OFFICE",
+          "address": "1234 SYNTHETIC TRAINING AVENUE, QUANTICO VA 22134-5678"
+        },
+        "signature": {
+          "first": "Alexandria-Margaret",
+          "middle": "C",
+          "last": "Montgomery-Worthington",
+          "title": "Program Manager, Training Equipment and Expeditionary Maintenance Systems"
+        },
+        "publication": {
+          "type": "SL3",
+          "shortTitle": "SL-3-12345A",
+          "pcn": "123 123450 00",
+          "nomenclature": "TOOL KIT, PRECISION DIAGNOSTIC EQUIPMENT WITH PORTABLE INTERFACE AND PROTECTIVE TRANSIT CASES",
+          "controllingOffice": "Example Program Office",
+          "signingDate": "2026-10-30",
+          "distribution": {
+            "statement": "D",
+            "reason": "Software Documentation",
+            "date": "2026-10-30"
+          },
+          "endItems": [
+            {
+              "nsn": "5120-01-542-7445",
+              "tamcn": "A12345G",
+              "id": "12345A",
+              "model": "TRAINING MODEL 1"
+            },
+            {
+              "nsn": "5120-01-542-7445",
+              "tamcn": "A12345G",
+              "id": "12345A",
+              "model": "TRAINING MODEL 2"
+            },
+            {
+              "nsn": "5120-01-542-7445",
+              "tamcn": "A12345G",
+              "id": "12345A",
+              "model": "TRAINING MODEL 3"
+            },
+            {
+              "nsn": "5120-01-542-7445",
+              "tamcn": "A12345G",
+              "id": "12345A",
+              "model": "TRAINING MODEL 4"
+            },
+            {
+              "nsn": "5120-01-542-7445",
+              "tamcn": "A12345G",
+              "id": "12345A",
+              "model": "TRAINING MODEL 5"
+            },
+            {
+              "nsn": "5120-01-542-7445",
+              "tamcn": "A12345G",
+              "id": "12345A",
+              "model": "TRAINING MODEL 6"
+            },
+            {
+              "nsn": "5120-01-542-7445",
+              "tamcn": "A12345G",
+              "id": "12345A",
+              "model": "TRAINING MODEL 7"
+            }
+          ],
+          "sl3": {
+            "orientation": "portrait",
+            "rowsPerSheet": 16,
+            "technicalData": "Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. Synthetic equipment dimensions and operating characteristics remain subject to source review. ",
+            "sourceManual": "TM 12345A-10 (synthetic training manual)",
+            "configurationReference": "",
+            "fieldingPlanReference": "Synthetic Fielding Plan, 30 October 2026",
+            "technicalPortion": "U",
+            "sequencingNote": "",
+            "sequencingPortion": "U",
+            "showFigureReference": true,
+            "showModel": true,
+            "endItemFigureId": "",
+            "definitions": [
+              {
+                "id": "long",
+                "term": "ZZWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+                "meaning": "A synthetic long code. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. Wide identifiers need room to wrap without touching adjacent text. ",
+                "portionMarking": "S"
+              },
+              {
+                "id": "token",
+                "term": "ZZTOKEN",
+                "meaning": "A long source identifier: MEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENTMEASUREMENT",
+                "portionMarking": "U"
+              },
+              {
+                "id": "symbol",
+                "term": "ZZ Symbol & Applicability",
+                "meaning": "The synthetic symbol applies only to the demonstration configuration.",
+                "portionMarking": "U"
+              }
+            ],
+            "artwork": [
+              {
+                "figureId": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "lettering": "labels",
+                "labels": [
+                  {
+                    "id": "inlet",
+                    "text": "VALVE INLET",
+                    "x": 25,
+                    "y": 65
+                  },
+                  {
+                    "id": "outlet",
+                    "text": "VALVE OUTLET",
+                    "x": 75,
+                    "y": 65
+                  }
+                ]
+              }
+            ],
+            "notes": [
+              {
+                "id": "note",
+                "text": "This demonstration note exercises normal wrapping and linked references. This demonstration note exercises normal wrapping and linked references. This demonstration note exercises normal wrapping and linked references. This demonstration note exercises normal wrapping and linked references. This demonstration note exercises normal wrapping and linked references. This demonstration note exercises normal wrapping and linked references. This demonstration note exercises normal wrapping and linked references. This demonstration note exercises normal wrapping and linked references. ",
+                "portionMarking": "U"
+              }
+            ],
+            "components": [
+              {
+                "id": "component-0",
+                "portionMarking": "U",
+                "category": "ssri",
+                "parentId": "",
+                "nomenclature": "COMPONENT, Training 001",
+                "description": "A synthetic removable maintenance assembly with a protective storage sleeve and calibrated steel adapter.",
+                "nsn": "5120-01-542-7445",
+                "tamcn": "",
+                "idNumber": "",
+                "partNumber": "",
+                "cage": "",
+                "unit": "EA",
+                "unitOfIssue": "EA",
+                "primaryTamcn": "",
+                "configurationRatio": "",
+                "quantity": "1",
+                "model": "TRAINING-MODEL-2026",
+                "figureReference": "REFERENCE-DESIGNATOR-01",
+                "figureId": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "noteIds": [
+                  "note"
+                ],
+                "serialized": false
+              },
+              {
+                "id": "component-1",
+                "portionMarking": "U",
+                "category": "ssri",
+                "parentId": "",
+                "nomenclature": "COMPONENT, Training 002",
+                "description": "A synthetic removable maintenance assembly with a protective storage sleeve and calibrated steel adapter.",
+                "nsn": "5120-01-542-7445",
+                "tamcn": "",
+                "idNumber": "",
+                "partNumber": "",
+                "cage": "",
+                "unit": "EA",
+                "unitOfIssue": "EA",
+                "primaryTamcn": "",
+                "configurationRatio": "",
+                "quantity": "1",
+                "model": "TRAINING-MODEL-2026",
+                "figureReference": "REFERENCE-DESIGNATOR-01",
+                "figureId": "",
+                "noteIds": [
+                  "note"
+                ],
+                "serialized": false
+              },
+              {
+                "id": "component-2",
+                "portionMarking": "U",
+                "category": "ssri",
+                "parentId": "",
+                "nomenclature": "COMPONENT, Training 003",
+                "description": "A synthetic removable maintenance assembly with a protective storage sleeve and calibrated steel adapter.",
+                "nsn": "5120-01-542-7445",
+                "tamcn": "",
+                "idNumber": "",
+                "partNumber": "",
+                "cage": "",
+                "unit": "EA",
+                "unitOfIssue": "EA",
+                "primaryTamcn": "",
+                "configurationRatio": "",
+                "quantity": "1",
+                "model": "TRAINING-MODEL-2026",
+                "figureReference": "REFERENCE-DESIGNATOR-01",
+                "figureId": "",
+                "noteIds": [
+                  "note"
+                ],
+                "serialized": false
+              }
+            ]
+          }
+        },
+        "paragraphs": [
+          {
+            "referenceId": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "portionMarking": "U",
+            "text": "Synthetic training illustration with a longer caption that exercises wrapping inside the available page width",
+            "figure": {
+              "fileId": "drawing",
+              "portionMarking": "U"
+            }
+          }
+        ],
+        "classification": {
+          "level": "secret",
+          "basis": "original",
+          "classifiedBy": "Synthetic reviewer, Example Office",
+          "reason": "1.4(a)",
+          "declassifyOn": "20361031"
+        },
+        "attachments": [
+          {
+            "id": "drawing",
+            "name": "drawing.png",
+            "mimeType": "image/png",
+            "dataBase64": "iVBORw0KGgoAAAANSUhEUgAABLAAAAJYCAIAAAD9hIhNAAAACXBIWXMAAAPoAAAD6AG1e1JrAAANSUlEQVR4nO3XMQEAAAiAMPuX1hgebAl4mQUAACBpvgMAAAD4YQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAARBlCAACAKEMIAAAQZQgBAACiDCEAAECUIQQAAIgyhAAAAFGGEAAAIMoQAgAAbNMBhW13C5g17egAAAAASUVORK5CYII="
+          }
+        ]
+      }
+    },
+    {
+      "orientation": "landscape",
+      "stress": false,
+      "pages": 13,
+      "commarcorsyscom_to_definition_gap_bp": 13.9476,
+      "text_collisions_in_checked_pdf": 0,
+      "pdf_sha256": "818ec3918eaf4c93f555933020f3d192894129c0868d4cd8b4668a84f62acf58",
+      "input": {
+        "docType": "sl3",
+        "subject": "COMPONENTS LIST FOR TRAINING TOOL KIT",
+        "date": "30 Oct 26",
+        "pocEmail": "example@example.com",
+        "unit": {
+          "name": "EXAMPLE COMMAND",
+          "address": "PSC BOX 20123, CAMP LEJEUNE, NC 28542-0123"
+        },
+        "signature": {
+          "first": "Jane",
+          "last": "Example",
+          "title": "Program Manager"
+        },
+        "publication": {
+          "type": "SL3",
+          "shortTitle": "SL-3-12345A",
+          "pcn": "123 123450 00",
+          "nomenclature": "TOOL KIT, TRAINING",
+          "controllingOffice": "Example Program Office",
+          "signingDate": "2026-10-30",
+          "distribution": {
+            "statement": "A"
+          },
+          "endItems": [
+            {
+              "nsn": "5120-01-542-7445",
+              "tamcn": "A12345G",
+              "id": "12345A",
+              "model": "TRAINING"
+            }
+          ],
+          "sl3": {
+            "orientation": "landscape",
+            "rowsPerSheet": 16,
+            "technicalData": "Training tool kit. Weight: 5 pounds. For demonstration only.",
+            "sourceManual": "TM 12345A-10 (synthetic training manual)",
+            "configurationReference": "",
+            "fieldingPlanReference": "",
+            "technicalPortion": "U",
+            "sequencingNote": "",
+            "sequencingPortion": "U",
+            "showFigureReference": false,
+            "showModel": false,
+            "endItemFigureId": "",
+            "definitions": [],
+            "artwork": [],
+            "notes": [],
+            "components": [
+              {
+                "id": "component-0",
+                "portionMarking": "U",
+                "category": "ssri",
+                "parentId": "",
+                "nomenclature": "COMPONENT, Training 001",
+                "description": "",
+                "nsn": "5120-01-542-7445",
+                "tamcn": "",
+                "idNumber": "",
+                "partNumber": "",
+                "cage": "",
+                "unit": "EA",
+                "unitOfIssue": "EA",
+                "primaryTamcn": "",
+                "configurationRatio": "",
+                "quantity": "1",
+                "model": "",
+                "figureReference": "",
+                "figureId": "",
+                "noteIds": [],
+                "serialized": false
+              },
+              {
+                "id": "component-1",
+                "portionMarking": "U",
+                "category": "ssri",
+                "parentId": "",
+                "nomenclature": "COMPONENT, Training 002",
+                "description": "",
+                "nsn": "5120-01-542-7445",
+                "tamcn": "",
+                "idNumber": "",
+                "partNumber": "",
+                "cage": "",
+                "unit": "EA",
+                "unitOfIssue": "EA",
+                "primaryTamcn": "",
+                "configurationRatio": "",
+                "quantity": "1",
+                "model": "",
+                "figureReference": "",
+                "figureId": "",
+                "noteIds": [],
+                "serialized": false
+              },
+              {
+                "id": "component-2",
+                "portionMarking": "U",
+                "category": "ssri",
+                "parentId": "",
+                "nomenclature": "COMPONENT, Training 003",
+                "description": "",
+                "nsn": "5120-01-542-7445",
+                "tamcn": "",
+                "idNumber": "",
+                "partNumber": "",
+                "cage": "",
+                "unit": "EA",
+                "unitOfIssue": "EA",
+                "primaryTamcn": "",
+                "configurationRatio": "",
+                "quantity": "1",
+                "model": "",
+                "figureReference": "",
+                "figureId": "",
+                "noteIds": [],
+                "serialized": false
+              }
+            ]
+          }
+        },
+        "paragraphs": []
+      }
+    },
+    {
+      "orientation": "portrait",
+      "stress": false,
+      "pages": 13,
+      "commarcorsyscom_to_definition_gap_bp": 13.9476,
+      "text_collisions_in_checked_pdf": 0,
+      "pdf_sha256": "da92ca60d512363eca585c3f34ca82d7d488e9b8c461db2d22e2fdb16faca1c9",
+      "input": {
+        "docType": "sl3",
+        "subject": "COMPONENTS LIST FOR TRAINING TOOL KIT",
+        "date": "30 Oct 26",
+        "pocEmail": "example@example.com",
+        "unit": {
+          "name": "EXAMPLE COMMAND",
+          "address": "PSC BOX 20123, CAMP LEJEUNE, NC 28542-0123"
+        },
+        "signature": {
+          "first": "Jane",
+          "last": "Example",
+          "title": "Program Manager"
+        },
+        "publication": {
+          "type": "SL3",
+          "shortTitle": "SL-3-12345A",
+          "pcn": "123 123450 00",
+          "nomenclature": "TOOL KIT, TRAINING",
+          "controllingOffice": "Example Program Office",
+          "signingDate": "2026-10-30",
+          "distribution": {
+            "statement": "A"
+          },
+          "endItems": [
+            {
+              "nsn": "5120-01-542-7445",
+              "tamcn": "A12345G",
+              "id": "12345A",
+              "model": "TRAINING"
+            }
+          ],
+          "sl3": {
+            "orientation": "portrait",
+            "rowsPerSheet": 16,
+            "technicalData": "Training tool kit. Weight: 5 pounds. For demonstration only.",
+            "sourceManual": "TM 12345A-10 (synthetic training manual)",
+            "configurationReference": "",
+            "fieldingPlanReference": "",
+            "technicalPortion": "U",
+            "sequencingNote": "",
+            "sequencingPortion": "U",
+            "showFigureReference": false,
+            "showModel": false,
+            "endItemFigureId": "",
+            "definitions": [],
+            "artwork": [],
+            "notes": [],
+            "components": [
+              {
+                "id": "component-0",
+                "portionMarking": "U",
+                "category": "ssri",
+                "parentId": "",
+                "nomenclature": "COMPONENT, Training 001",
+                "description": "",
+                "nsn": "5120-01-542-7445",
+                "tamcn": "",
+                "idNumber": "",
+                "partNumber": "",
+                "cage": "",
+                "unit": "EA",
+                "unitOfIssue": "EA",
+                "primaryTamcn": "",
+                "configurationRatio": "",
+                "quantity": "1",
+                "model": "",
+                "figureReference": "",
+                "figureId": "",
+                "noteIds": [],
+                "serialized": false
+              },
+              {
+                "id": "component-1",
+                "portionMarking": "U",
+                "category": "ssri",
+                "parentId": "",
+                "nomenclature": "COMPONENT, Training 002",
+                "description": "",
+                "nsn": "5120-01-542-7445",
+                "tamcn": "",
+                "idNumber": "",
+                "partNumber": "",
+                "cage": "",
+                "unit": "EA",
+                "unitOfIssue": "EA",
+                "primaryTamcn": "",
+                "configurationRatio": "",
+                "quantity": "1",
+                "model": "",
+                "figureReference": "",
+                "figureId": "",
+                "noteIds": [],
+                "serialized": false
+              },
+              {
+                "id": "component-2",
+                "portionMarking": "U",
+                "category": "ssri",
+                "parentId": "",
+                "nomenclature": "COMPONENT, Training 003",
+                "description": "",
+                "nsn": "5120-01-542-7445",
+                "tamcn": "",
+                "idNumber": "",
+                "partNumber": "",
+                "cage": "",
+                "unit": "EA",
+                "unitOfIssue": "EA",
+                "primaryTamcn": "",
+                "configurationRatio": "",
+                "quantity": "1",
+                "model": "",
+                "figureReference": "",
+                "figureId": "",
+                "noteIds": [],
+                "serialized": false
+              }
+            ]
+          }
+        },
+        "paragraphs": []
+      }
+    }
+  ],
+  "regressions": {
+    "focused_layout_tests_passed": 30,
+    "collision_cases_passed": 6,
+    "unit_component_tests_passed": 3240,
+    "oversized_definition": "refused with a layout error"
+  },
+  "source_sha256": {
+    "src/services/latex/sl3Generator.ts": "8432be73e4bec5fcf9add543c51c60e30f5224e6a21fb4c1e6c0ef7a18d28c45",
+    "tex/templates/sl3.tex": "d5c58114da230c2527eb617f6979aaba3cd3bb007a4e657da55b2a38a8364fa0",
+    "tests/_helpers/pdfTextLayout.ts": "f6a6e84e54637b319a0837d81e14a19ec9463d479cabd2adc12bcc005cc6a981",
+    "tests/integration/sl3-text-layout.test.ts": "fbbf2d7d9b452e26fef4f4a32a4bc80d82af1f55fb6f7e15b909bce069c220aa"
+  }
+}

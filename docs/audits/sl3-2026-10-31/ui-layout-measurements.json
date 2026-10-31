@@ -1,0 +1,104 @@
+{
+  "before": {
+    "clientWidth": 505,
+    "page": "8",
+    "pages": [
+      {
+        "height": 606,
+        "page": "6",
+        "top": -1038.84375,
+        "width": 468.453125
+      },
+      {
+        "height": 606,
+        "page": "7",
+        "top": -416.609375,
+        "width": 468.453125
+      },
+      {
+        "height": 606,
+        "page": "8",
+        "top": 205.625,
+        "width": 468.453125
+      },
+      {
+        "height": 606,
+        "page": "9",
+        "top": 827.859375,
+        "width": 468.453125
+      },
+      {
+        "height": 606,
+        "page": "10",
+        "top": 1450.09375,
+        "width": 468.453125
+      },
+      {
+        "height": 606,
+        "page": "11",
+        "top": 2072.328125,
+        "width": 468.453125
+      }
+    ],
+    "scrollWidth": 505,
+    "selected": "portrait"
+  },
+  "after": {
+    "clientWidth": 505,
+    "page": "8",
+    "pages": [
+      {
+        "height": 468,
+        "page": "5",
+        "top": -1140.1875,
+        "width": 361.984375
+      },
+      {
+        "height": 468,
+        "page": "6",
+        "top": -655.734375,
+        "width": 361.984375
+      },
+      {
+        "height": 468,
+        "page": "7",
+        "top": -171.28125,
+        "width": 361.984375
+      },
+      {
+        "height": 468,
+        "page": "8",
+        "top": 313.171875,
+        "width": 361.984375
+      },
+      {
+        "height": 468,
+        "page": "9",
+        "top": 797.625,
+        "width": 468.453125
+      },
+      {
+        "height": 468,
+        "page": "10",
+        "top": 1282.078125,
+        "width": 468.453125
+      },
+      {
+        "height": 468,
+        "page": "11",
+        "top": 1766.53125,
+        "width": 468.453125
+      }
+    ],
+    "scrollWidth": 505,
+    "selected": "landscape"
+  },
+  "manualZoom": {
+    "clientWidth": 505,
+    "pageLeft": 656.546875,
+    "scrollLeft": 0,
+    "scrollWidth": 761,
+    "stackWidth": 761,
+    "viewportLeft": 632.546875
+  }
+}

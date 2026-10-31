@@ -33,6 +33,8 @@ export function getEditorSections(config: DocTypeConfig, docType: string): Edito
     ];
   }
 
+  if (docType === 'sl3') return [{ id: 'sl3-cover', label: 'Publication details', icon: BookMarked }, classification, { id: 'sl3-details', label: 'Technical data and notes', icon: BookOpen }, { id: 'sl3-inventory', label: 'Components inventory', icon: Table }, { id: 'sl3-figures', label: 'Illustrations', icon: BookOpen }, signature];
+
   if (docType === 'i_type') return [{ id: 'cover', label: 'Cover', icon: BookMarked }, classification, body, { id: 'tables', label: 'Tables', icon: Table }, enclosures, signature];
 
   switch (config.uiMode) {

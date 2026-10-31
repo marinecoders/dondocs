@@ -9,11 +9,11 @@ import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 vi.mock('react-pdf', async () => {
   const React = await import('react');
   const PAGE_ASPECT = 8.5 / 11;
-  const makeDoc = (numPages: number) => ({
-    numPages,
+  const makeDoc = (file: string) => ({
+    numPages: file.includes("mixed") ? 13 : 2,
     getPage: (n: number) =>
       Promise.resolve({
-        getViewport: ({ scale }: { scale: number }) => ({ width: 612 * scale, height: (612 / PAGE_ASPECT) * scale }),
+        getViewport: ({ scale }: { scale: number }) => ({ width: (file.includes("wide") && n >= 9 ? 792 : 612) * scale, height: (612 / PAGE_ASPECT) * scale }),
         void: n,
       }),
   });
@@ -22,7 +22,7 @@ vi.mock('react-pdf', async () => {
     React.useEffect(() => {
       let alive = true;
       // Two pages for every doc; async like the real parser.
-      void Promise.resolve().then(() => alive && onLoadSuccess?.(makeDoc(2)));
+      void Promise.resolve().then(() => alive && onLoadSuccess?.(makeDoc(file)));
       return () => {
         alive = false;
       };
@@ -261,4 +261,119 @@ describe('PdfViewer', () => {
       expect(Number(container.querySelector('[data-testid="page:1"]')!.getAttribute('data-width'))).toBe(before);
     });
   });
+});
+
+it('renders wider inventory paper and preserves its page across portrait/wide swaps', async () => {
+  const height = vi
+    .spyOn(HTMLElement.prototype, 'clientHeight', 'get')
+    .mockReturnValue(400);
+  const width = vi
+    .spyOn(HTMLElement.prototype, 'clientWidth', 'get')
+    .mockReturnValue(900);
+  const scrolling = vi
+    .spyOn(Element.prototype, 'scrollTo')
+    .mockImplementation(function (
+      this: Element,
+      options: ScrollToOptions | number,
+    ) {
+      if (typeof options === 'object') this.scrollTop = options.top ?? 0;
+      fireEvent.scroll(this);
+    });
+  try {
+    useUIStore.getState().setPdfThumbnailsOpen(false);
+    useUIStore.getState().rememberPreviewPage('mixed-paper', 9);
+    const { container, rerender, unmount } = render(
+      <TooltipProvider>
+        <PdfViewer documentId="mixed-paper" pdfUrl="blob:mixed-portrait" />
+      </TooltipProvider>,
+    );
+    await waitFor(() =>
+      expect(screen.getByLabelText('Page number')).toHaveValue('9'),
+    );
+    await waitFor(() =>
+      expect(
+        container.querySelector(
+          '[data-pdf-layer="active"] [data-testid="page:9"]',
+        ),
+      ).toBeTruthy(),
+    );
+    const oldTop = container.querySelector(
+      '[data-pdf-layer="active"]',
+    )!.scrollTop;
+    rerender(
+      <TooltipProvider>
+        <PdfViewer documentId="mixed-paper" pdfUrl="blob:mixed-wide" />
+      </TooltipProvider>,
+    );
+    await waitFor(() =>
+      expect(
+        container.querySelector(
+          '[data-pdf-layer="active"] [data-testid="doc:blob:mixed-wide"]',
+        ),
+      ).toBeTruthy(),
+    );
+    await waitFor(() =>
+      expect(screen.getByLabelText('Page number')).toHaveValue('9'),
+    );
+    const active = container.querySelector('[data-pdf-layer="active"]')!;
+    expect(active.scrollTop).not.toBeCloseTo(oldTop, 1);
+    const narrow = active.querySelector('[data-testid="page:8"]')!;
+    const wide = active.querySelector('[data-testid="page:9"]')!;
+    expect(
+      Number(narrow.getAttribute('data-width')) /
+        Number(wide.getAttribute('data-width')),
+    ).toBeCloseTo(612 / 792, 5);
+    fireEvent.click(screen.getByLabelText('Fit page'));
+    await waitFor(() =>
+      expect(
+        Number(
+          active
+            .querySelector('[data-testid="page:9"]')!
+            .getAttribute('data-width'),
+        ),
+      ).toBeCloseTo(352, 1),
+    );
+    expect(screen.getByLabelText('Page number')).toHaveValue('9');
+    fireEvent.click(screen.getByLabelText('Fit width'));
+    await waitFor(() =>
+      expect(
+        Number(
+          active
+            .querySelector('[data-testid="page:9"]')!
+            .getAttribute('data-width'),
+        ),
+      ).toBeCloseTo(852, 1),
+    );
+    fireEvent.click(screen.getByLabelText('Zoom in'));
+    fireEvent.click(screen.getByLabelText('Zoom in'));
+    await waitFor(() => {
+      const rendered = Number(active.querySelector('[data-testid="page:9"]')!.getAttribute('data-width'));
+      expect(rendered).toBeGreaterThan(900);
+      expect(Number.parseFloat((active.querySelector('[data-pdf-stack]') as HTMLElement).style.minWidth)).toBeCloseTo(rendered + 48, 1);
+    });
+    fireEvent.click(screen.getByLabelText('Fit width'));
+    rerender(
+      <TooltipProvider>
+        <PdfViewer
+          documentId="mixed-paper"
+          pdfUrl="blob:mixed-portrait-again"
+        />
+      </TooltipProvider>,
+    );
+    await waitFor(() =>
+      expect(
+        container.querySelector(
+          '[data-pdf-layer="active"] [data-testid="doc:blob:mixed-portrait-again"]',
+        ),
+      ).toBeTruthy(),
+    );
+    await waitFor(() =>
+      expect(screen.getByLabelText('Page number')).toHaveValue('9'),
+    );
+    unmount();
+  } finally {
+    scrolling.mockRestore();
+    height.mockRestore();
+    width.mockRestore();
+  }
 });
