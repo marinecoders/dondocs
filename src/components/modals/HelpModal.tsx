@@ -1,7 +1,6 @@
 import { useId } from 'react';
 import { BookOpen, FolderSync, Trash2, Compass, ListChecks, Bug, MessageSquare, Code, FileText, Activity, ShieldCheck, Download, ChevronRight, ArrowUpRight, type LucideIcon } from 'lucide-react';
 import { useTourStore } from '@/stores/tourStore';
-import { useOnboardingStore } from '@/stores/onboardingStore';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -41,7 +40,6 @@ function HelpRow({ icon: Icon, label, description, onClick, href }: {
 }
 
 export function HelpModal() {
-  const checklistCelebrated = useOnboardingStore((s) => s.checklistCelebrated);
   const installed = useInstallStore((s) => s.isInstalled);
   const open = useUIStore((s) => s.helpOpen);
   const navigate = (action: () => void) => { useUIStore.getState().setHelpOpen(false); action(); };
@@ -69,7 +67,7 @@ export function HelpModal() {
           <HelpRow icon={FolderSync} label="Backup & restore" description="Keep an external copy of your workspace." onClick={() => navigate(() => useUIStore.getState().setSettingsOpen(true, 'backup'))} />
           <HelpRow icon={Trash2} label="Recover deleted drafts" description="Find and restore documents in Trash." onClick={() => navigate(() => useUIStore.getState().setTrashOpen(true))} />
           <div className="mx-3 my-2 border-t border-border" />
-          {!checklistCelebrated && <HelpRow icon={ListChecks} label="Getting started" onClick={() => navigate(() => useUIStore.getState().setChecklistSheetOpen(true))} />}
+          <HelpRow icon={ListChecks} label="Getting started" onClick={() => navigate(() => useUIStore.getState().setChecklistSheetOpen(true))} />
           <HelpRow icon={Compass} label="Take optional tour" onClick={() => navigate(() => useTourStore.getState().start())} />
           <div className="mx-3 mt-3 space-y-2 border-t border-border pt-4 text-xs leading-relaxed text-muted-foreground">
             <p><span className="font-medium text-foreground">Editing views.</span> Use View to choose Full document or One section. In Full document, Contents jumps to a section.</p>
