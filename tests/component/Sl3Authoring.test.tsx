@@ -55,7 +55,7 @@ it('cleans component references when a special note is removed', () => {
   data.components[0].noteIds = ['note'];
   s.setField('sl3', data);
   render(<Sl3DetailsSection />);
-  fireEvent.click(screen.getByRole('button', { name: 'Remove note' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Remove special note 19' }));
   expect(useDocumentStore.getState().formData.sl3!.notes).toEqual([]);
   expect(
     useDocumentStore.getState().formData.sl3!.components[0].noteIds,
@@ -126,7 +126,7 @@ it('authors custom definitions with their portion markings', () => {
     meaning: 'Synthetic term',
     portionMarking: 'U',
   });
-  fireEvent.click(screen.getByRole('button', { name: 'Remove definition' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Remove definition 1' }));
   expect(useDocumentStore.getState().formData.sl3!.definitions).toEqual([]);
 });
 
@@ -146,11 +146,11 @@ it('requires review before adding searchable artwork labels', () => {
     screen.getByLabelText('Illustration 1 (unassigned) lettering review'),
     { target: { value: 'labels' } },
   );
-  fireEvent.click(screen.getByRole('button', { name: 'Add searchable label' }));
-  fireEvent.change(screen.getByLabelText('Label 1 text'), {
+  fireEvent.click(screen.getByRole('button', { name: 'Add searchable label to Illustration 1 (unassigned)' }));
+  fireEvent.change(screen.getByLabelText('Illustration 1 (unassigned) label 1 text'), {
     target: { value: 'VALVE INLET' },
   });
-  fireEvent.change(screen.getByLabelText('Label 1 horizontal center percent'), {
+  fireEvent.change(screen.getByLabelText('Illustration 1 (unassigned) label 1 horizontal center percent'), {
     target: { value: '40' },
   });
   expect(useDocumentStore.getState().formData.sl3!.artwork[0]).toMatchObject({

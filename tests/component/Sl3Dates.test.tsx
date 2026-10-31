@@ -82,3 +82,25 @@ it('keeps global definitions out of individual inventory cards', () => {
   expect(screen.queryByRole('button', { name: 'Add definition' })).not.toBeInTheDocument();
   expect(screen.getByText(/Definitions apply to the entire publication/)).toBeInTheDocument();
 });
+
+it('opens on the selected day and supports choosing a date with the keyboard', async () => {
+  const user = userEvent.setup();
+  render(<Sl3DateFields />);
+  const trigger = screen.getByRole('button', { name: 'Choose publication date' });
+  await user.click(trigger);
+  expect(screen.getByRole('button', { name: /Friday, October 30th, 2026/ })).toHaveFocus();
+  await user.keyboard('{ArrowLeft}{Enter}');
+  expect(useDocumentStore.getState().formData.date).toBe('29 Oct 26');
+  expect(trigger).toHaveFocus();
+});
+
+it('removes the calendar immediately even when an exit animation would retain its hit area', async () => {
+  const user = userEvent.setup();
+  render(<><style>{`@keyframes calendar-exit { from { opacity: 1; } to { opacity: 0; } }
+    [data-slot="popover-content"][data-state="closed"] { animation-name: calendar-exit; animation-duration: 200ms; }`}</style><Sl3DateFields /></>);
+  await user.click(screen.getByRole('button', { name: 'Choose publication date' }));
+  await user.keyboard('{ArrowLeft}{Enter}');
+  expect(screen.queryByRole('button', { name: 'Go to the Previous Month' })).not.toBeInTheDocument();
+  await user.click(screen.getByRole('button', { name: 'Use 30 Oct 26 for publication' }));
+  expect(useDocumentStore.getState().formData.date).toBe('30 Oct 26');
+});

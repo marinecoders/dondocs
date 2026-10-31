@@ -89,6 +89,23 @@ describe('SL-3 document authoring', () => {
       'Fielding Plan: Training Fielding Plan',
     );
   });
+  it('accepts the order’s five-position TAMCN example without inventing suffixes', () => {
+    const s = sl3Fixture();
+    s.endItems[0].tamcn = 'B2565';
+    const item = s.formData.sl3!.components[0];
+    item.tamcn = 'B2483';
+    item.primaryTamcn = 'B2565';
+    item.configurationRatio = '1:1';
+    s.formData.sl3!.configurationReference = 'MCO example used only for validation';
+    expect(sl3ExportErrors(s)).toEqual([]);
+    expect(generateSl3Body(s)).toContain('Primary TAMCN B2565; ratio 1:1');
+    s.endItems[0].tamcn = 'B25657G';
+    expect(sl3ExportErrors(s)).toEqual([]);
+    item.primaryTamcn = 'B25658G';
+    expect(sl3ExportErrors(s).join('\n')).toContain('primary end item TAMCN');
+    item.tamcn = 'BAD';
+    expect(sl3ExportErrors(s).join('\n')).toContain('assigned five-position TAMCN');
+  });
   it.each(['portrait', 'landscape'] as const)(
     'preserves every %s source cell when optional columns are added',
     (orientation) => {

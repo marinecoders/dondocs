@@ -1,0 +1,57 @@
+[
+  {
+    "file": "complete-portrait.pdf",
+    "sha256": "64a5b0ca51c627392d231e4d2818c7a2907a3453392c4f578631c30d40ce553e",
+    "pages": 21,
+    "pageSizes": [
+      "612x792"
+    ],
+    "collisions": [],
+    "outside": [],
+    "textBoxes": 880,
+    "signaturePage": 2,
+    "signatureBounds": {
+      "x": 70,
+      "y": 281.677,
+      "width": 144,
+      "height": 36
+    },
+    "finalPageSize": [
+      612,
+      792
+    ],
+    "writingRules": 63,
+    "captionPages": [
+      9,
+      11
+    ]
+  },
+  {
+    "file": "complete-landscape.pdf",
+    "sha256": "5d23aa66225744299d95e92b9f263d60a6b135e7b0756b26ab3a1a2d0a291c8f",
+    "pages": 21,
+    "pageSizes": [
+      "612x792",
+      "792x792"
+    ],
+    "collisions": [],
+    "outside": [],
+    "textBoxes": 840,
+    "signaturePage": 2,
+    "signatureBounds": {
+      "x": 70,
+      "y": 281.677,
+      "width": 144,
+      "height": 36
+    },
+    "finalPageSize": [
+      792,
+      792
+    ],
+    "writingRules": 36,
+    "captionPages": [
+      9,
+      11
+    ]
+  }
+]

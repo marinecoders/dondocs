@@ -1,0 +1,110 @@
+[
+  {
+    "width": "narrow",
+    "section": "sl3-cover",
+    "fieldCount": 21,
+    "horizontalOverflow": false,
+    "outside": [],
+    "paneWidth": 375.59375,
+    "unnamed": 0
+  },
+  {
+    "width": "narrow",
+    "section": "classification",
+    "fieldCount": 3,
+    "horizontalOverflow": false,
+    "outside": [],
+    "paneWidth": 375.59375,
+    "unnamed": 0
+  },
+  {
+    "width": "narrow",
+    "section": "sl3-details",
+    "fieldCount": 9,
+    "horizontalOverflow": false,
+    "outside": [],
+    "paneWidth": 375.59375,
+    "unnamed": 0
+  },
+  {
+    "width": "narrow",
+    "section": "sl3-inventory",
+    "fieldCount": 93,
+    "horizontalOverflow": false,
+    "outside": [],
+    "paneWidth": 375.59375,
+    "unnamed": 0
+  },
+  {
+    "width": "narrow",
+    "section": "sl3-figures",
+    "fieldCount": 2,
+    "horizontalOverflow": false,
+    "outside": [],
+    "paneWidth": 375.59375,
+    "unnamed": 0
+  },
+  {
+    "width": "narrow",
+    "section": "signature",
+    "fieldCount": 6,
+    "horizontalOverflow": false,
+    "outside": [],
+    "paneWidth": 375.59375,
+    "unnamed": 0
+  },
+  {
+    "width": "normal",
+    "section": "sl3-cover",
+    "fieldCount": 21,
+    "horizontalOverflow": false,
+    "outside": [],
+    "paneWidth": 563.40625,
+    "unnamed": 0
+  },
+  {
+    "width": "normal",
+    "section": "classification",
+    "fieldCount": 3,
+    "horizontalOverflow": false,
+    "outside": [],
+    "paneWidth": 563.40625,
+    "unnamed": 0
+  },
+  {
+    "width": "normal",
+    "section": "sl3-details",
+    "fieldCount": 9,
+    "horizontalOverflow": false,
+    "outside": [],
+    "paneWidth": 563.40625,
+    "unnamed": 0
+  },
+  {
+    "width": "normal",
+    "section": "sl3-inventory",
+    "fieldCount": 93,
+    "horizontalOverflow": false,
+    "outside": [],
+    "paneWidth": 563.40625,
+    "unnamed": 0
+  },
+  {
+    "width": "normal",
+    "section": "sl3-figures",
+    "fieldCount": 2,
+    "horizontalOverflow": false,
+    "outside": [],
+    "paneWidth": 563.40625,
+    "unnamed": 0
+  },
+  {
+    "width": "normal",
+    "section": "signature",
+    "fieldCount": 6,
+    "horizontalOverflow": false,
+    "outside": [],
+    "paneWidth": 563.40625,
+    "unnamed": 0
+  }
+]

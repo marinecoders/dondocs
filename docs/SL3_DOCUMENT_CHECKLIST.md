@@ -30,6 +30,8 @@ The [31 October completed-field check](audits/sl3-2026-10-31/README.md) verifies
 
 The [generated-text collision check](audits/sl3-2026-10-31/TEXT_LAYOUT_VERIFICATION.md) corrects the fixed COMMARCORSYSCOM column overlap and tests whole-document text bounds with long definitions, headers, optional inventory fields, notes and illustrations in both layouts.
 
+The [final section-by-section review](audits/sl3-2026-10-31/README.md#final-section-by-section-review) compares fresh rendered source forms and complete publications, fixes the cover frame/borderless rows and preface sideheads, accepts the order’s TAMCN bases, and checks all six editor sections. The counts below now reflect current row dispositions; the historical baseline JSON is retained unchanged.
+
 ## Findings excluding font family
 
 | ID | Disposition | Finding and evidence | Required action |
@@ -81,14 +83,14 @@ Inventory: **648 entries**, including **299 numbered clauses/definitions in sect
 | Disposition | Entries |
 | --- | ---: |
 | AUTHOR | 176 |
-| CONDITIONAL | 122 |
-| CONFLICT | 27 |
+| CONDITIONAL | 121 |
+| CONFLICT | 21 |
 | EXCLUDED | 2 |
 | INFO | 81 |
 | N/A | 84 |
-| OPEN | 18 |
-| PARTIAL | 11 |
-| VERIFIED | 127 |
+| OPEN | 0 |
+| PARTIAL | 23 |
+| VERIFIED | 140 |
 
 
 ## Document release checklist
@@ -102,7 +104,7 @@ Inventory: **648 entries**, including **299 numbered clauses/definitions in sect
 | DOC-005 | [ ] Verify assigned short title, long title, PCN, ID/FSC/SSIC choice and every covered model against the assignment record. | AUTHOR | MCO ch2 2.a-b; 4.a; template 23,26,37 | Syntax checks cannot establish assignment. Do not treat synthetic identifiers as approved. |
 | DOC-006 | [ ] Verify all NSNs, Federal names/descriptions, part numbers, CAGEs, units of issue and units of measure against source records. | AUTHOR | MCO ch1 1.c(3)(a); template 90-94 | Structured fields exist; no FEDLOG/WEBFLIS extract was supplied. |
 | DOC-007 | [ ] Verify primary equipment, associated SSRI/UURI TAMCNs, quantities and ratios against the approved TFSMS baseline. | AUTHOR | MCO ch1 1.c(3)(a)3 | Association/reference/positive-ratio checks exist; actual configuration is unverified. |
-| DOC-008 | [ ] Resolve five-position TAMCN bases in the order versus the full identifier required by validation; do not invent suffixes. | CONDITIONAL | MCO ch1 1.c(3)(a)3 example | Component/cover validators accept only a letter, five digits and a letter; source example uses B2565/B2483/B0040/B2566. |
+| DOC-008 | [x] Accept the order’s five-position TAMCN bases without inventing suffixes, and retain assigned seven-position identifiers. | VERIFIED | MCO ch1 1.c(3)(a)3 example | Final production/component tests accept B2565 with B2483 and its 1:1 ratio. A base can match its covered full identifier; two different full identifiers remain distinct. I-Type validation is unchanged. |
 | DOC-009 | [ ] Verify signing authority and any actual delegation, including the Product Manager deviation noted in figure 16. | AUTHOR | MCO 4.b(4)(f),4.b(5)(c); MIL figure 16 PDF81 | The standard's example mentions a 21 March 2024 endorsed deviation; that is not proof of an individual delegation. Both SL-3 controls include Product Manager. |
 | DOC-010 | [x] Prevent by-direction authentication. | VERIFIED | MCO 4.b(4)(f) | sl3ExportErrors rejects both the flag and title text; regression covered. |
 | DOC-011 | [x] Require authentication command address, printed signatory and authority title. | VERIFIED | Template 43-50 | Preflight rejects missing address/name/title; ordinary values remain subject to author review. |
@@ -111,11 +113,11 @@ Inventory: **648 entries**, including **299 numbered clauses/definitions in sect
 | DOC-014 | [ ] Confirm release date is the last working day in the signing/authorization month, including actual office closures. | AUTHOR | MCO ch2 3; MIL 4.9.1.15; template 24,45 | Date logic includes holidays and supplied closures; actual office calendar must be verified. |
 | DOC-015 | [x] Print day, full uppercase month and four-digit year, without a leading zero. | VERIFIED | MIL 4.9.1.15 | Fresh output prints 30 OCTOBER 2026; date formatter inspected. |
 | DOC-016 | [x] Print the cover short title once, bold and at the right edge; date at the left. | VERIFIED | MIL 4.7.2.1.2; template 23-24 | Rendered covers inspected in both layouts. |
-| DOC-017 | [x] Center the uppercase long title and reject titles exceeding four lines. | VERIFIED | Template 26 | Measured cover guard in shared template; covered by existing export tests. |
+| DOC-017 | [x] Center the uppercase bold long title and reject titles exceeding four lines. | VERIFIED | Template 26; active source cover header | Final source comparison restores bold cover titles and the 2.25-point cover separators; actual PDF/vector regressions verify the frame. |
 | DOC-018 | [ ] Remove acronyms from the long title and verify it matches the PCN request. | AUTHOR | Template 26 | Uppercasing is automatic; acronym meaning and authorized title are not checked. |
 | DOC-019 | [x] Keep the Marine Corps seal at two inches by two inches. | VERIFIED | Template 39; MIL 4.9.1.5 | Shared cover uses a fixed two-inch image box. |
 | DOC-020 | [x] Keep cover nomenclature within two lines. | VERIFIED | Template 40 | Measured cover guard; source wording still needs author verification. |
-| DOC-021 | [x] Use NSN, TAMCN, ID and MODEL cover columns with six body rows, retaining unused rows. | VERIFIED | Template 41 | Source structure and current six-row output inspected. |
+| DOC-021 | [x] Use the four source cover columns with six borderless body rows and underlined headings, retaining unused rows. | VERIFIED | Template 41; active cover table grid | Final review removes the inherited I-Type rules. Source widths 3083/2078/1882/2549 twips are retained and centered for PDF; overflow is borderless too. |
 | DOC-022 | [x] For seven or more end items, show See Next Page and move all entries to the continuation. | VERIFIED | Template 41 | Production/native overflow tests inspect all seven entries and authentication location. |
 | DOC-023 | [x] Leave the title page unnumbered and label a cover continuation T-2. | VERIFIED | MIL 4.7.4.1.2.1 | Fresh PDF text and overflow regression inspected. |
 | DOC-024 | [ ] Select the controlling office's actual distribution determination and date/reason, completing every fill-in. | AUTHOR | MIL 4.9.1.10; template 30-32 | A-F text and fill-in validation exist; selection is a government program-office decision. |
@@ -132,7 +134,7 @@ Inventory: **648 entries**, including **299 numbered clauses/definitions in sect
 | DOC-035 | [x] Put each required LOI/LOT entry in figure/table order with number, title, page and destination. | VERIFIED | MIL 4.9.8-9 | Production illustrated fixture and destination tests inspected; LOT follows LOI, or starts a new page without LOI. |
 | DOC-036 | [x] Wrap long navigation titles within the available width and keep page numbers separate. | VERIFIED | MIL 4.9.7-9; Table II | Latest regression checks actual word right edges and multiple title lines in the production PDF. |
 | DOC-037 | [x] Start the preface on a new page and retain all nineteen fixed narrative/note blocks. | VERIFIED | MIL 4.9.10; template 53 | All nineteen word sequences match both source templates; PDF layout inspected. |
-| DOC-038 | [x] Use ten-point preface text with bold paragraph numbers. | VERIFIED | Template 53 | Template/generator sizes checked; font family is excluded from this pass. |
+| DOC-038 | [x] Use ten-point preface text with bold numbers and underlined source sideheads. | VERIFIED | Template 53; MIL 4.7.11.5.1.2 | Final PDF tests verify the underlining and source 18-point number field; Column references remain regular weight. All 19 fixed narrative/note blocks match both sources and the actual PDF text. |
 | DOC-039 | [ ] Record sequential Roman front matter instead of silently claiming the source's fixed i/iii/v numbering is retained. | CONFLICT | MIL 4.7.4.1.2.5; template 54,71 | Sources disagree with each other and with extra required navigation pages. Current output uses sequential Roman pages. |
 | DOC-040 | [x] Retain the source publication date in preface/technical-data running headers, or record an authorized layout decision. | VERIFIED | Active portrait header5/6/8/10; wide header9/10/11/13 | F05: source date restored at left, title retained at right; actual export text and rendered pages inspected. |
 | DOC-041 | [x] Keep SPECIAL NOTES present; print None when there are no author or automatic notes. | VERIFIED | Template 56-57 | Generator and empty-note output inspected. |
@@ -144,7 +146,7 @@ Inventory: **648 entries**, including **299 numbered clauses/definitions in sect
 | DOC-047 | [ ] Verify technical characteristics, units/conversions, instrument readings and source TM citations. | AUTHOR | MIL 4.6,4.8.1a-f,m | Free text is supported; actual engineering records and authorized publication list were not supplied. |
 | DOC-048 | [ ] Use the end-item nomenclature for the end-item figure title and principal-word title capitalization. | AUTHOR | Template 68-70; source end-item illustration page | A title field exists; arbitrary supplied titles are not checked against nomenclature. |
 | DOC-049 | [x] Place figures below the associated inventory sheet and numbers immediately below the image. | VERIFIED | Template 78,107-109 | Generator and fresh illustrated output inspected; Not Shown precedes missing-image item numbers. |
-| DOC-050 | [x] Center figure captions below images; use ten-point front-matter and nine-point inventory captions. | VERIFIED | Template 69,104; MIL 4.7.10.1 | Block placement and current size selection inspected; font family excluded. |
+| DOC-050 | [x] Center figure captions below images; retain ten-point front-matter and nine-point inventory captions. | VERIFIED | Template 69,104; MIL 4.7.10.1; Table I | Actual painted-image/text bounds are checked. The PDF uses the standard’s nominal 18-point caption spacer; the Word instruction’s two blank lines is an explicitly recorded profile difference. Table I permits type-size tolerances; final reproducible-copy requirements remain part of delivery review. |
 | DOC-051 | [ ] Check figure titles are concise, principal-word capitals and have no trailing period. | AUTHOR | MIL 4.7.10.1; template 70,105 | Free text permits incorrect casing/punctuation; inspect actual captions before release. |
 | DOC-052 | [ ] Ensure all lettering inside illustrations is searchable, including raster artwork containing text. | PARTIAL | MIL 4.11.1.1 PDF | F03: explicit artwork review gates export; positioned visible labels are searchable. Actual artwork completeness and accuracy require author review; no automatic OCR claim. |
 | DOC-053 | [ ] Inspect artwork lettering at final size, line quality, leader lines, legends, color authorization and rights. | AUTHOR | MIL 4.11.1-17; Table I | No actual equipment artwork supplied; accepting a PNG/JPEG/PDF does not establish these properties. |
@@ -180,7 +182,7 @@ Inventory: **648 entries**, including **299 numbered clauses/definitions in sect
 | DOC-083 | [x] Keep INVENTORIED BY, SUPERVISED BY and DATE captions above the complete grid without the invented large title. | VERIFIED | Source final certification tables | Current source comparison and rendered forms inspected. |
 | DOC-084 | [ ] Complete and sign inventory entries when inventories occur; generated blank lines are not completed inventory records. | AUTHOR | Source certification captions | Form is intentionally blank for periodic use. |
 | DOC-085 | [x] Link bookmarks to real destinations and collapse groups while retaining hierarchy/order. | VERIFIED | MIL 4.10-4.10.4 | Fresh nineteen-case rerun checks destinations, outlines and actual authentication/certification pages. |
-| DOC-086 | [ ] Reconcile the certification bookmark/TOC title with a source form that has column captions but no printed section title. | CONFLICT | MIL 4.10; source certification page | Current semantic label is INVENTORY CERTIFICATION; the source body does not print that title. |
+| DOC-086 | [x] Use the printed INVENTORIED BY caption for the certification TOC/bookmark destination. | VERIFIED | MIL 4.10; source certification page | Fresh rendered publications retain the exact printed caption and working destination, without adding the invented INVENTORY CERTIFICATION heading. |
 | DOC-087 | [ ] Check widow/orphan control, note association, page breaks and conservation of space on the actual completed publication. | AUTHOR | MIL 5.3.2 | Global penalties and block guards exist; a finite synthetic suite is not proof for every entered document. |
 | DOC-088 | [ ] Resolve the brief-manual profile for publications of twenty pages or fewer, including first-page treatment and THE END. | CONDITIONAL | MIL 5.6 including PDF carryover | F08: fresh complete cases are 12-14 pages; current cover/final-sheet structure follows the supplied SL-3 template. Earlier paper-only exclusion was incorrect. |
 | DOC-089 | [ ] Agree RDC/PTM/FRC deliverables and any authorized exceptions; a browser draft is not an approved deliverable profile. | CONDITIONAL | MIL 5.1-5.3; 6.2bf | No acquisition deliverable decision supplied. Do not call default deliverables waived because this is an MVP. |

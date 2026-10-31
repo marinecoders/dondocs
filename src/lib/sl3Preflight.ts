@@ -61,6 +61,7 @@ export function sl3ExportErrors(store: {
       pcn: d.pcn,
       endItems: store.endItems ?? [],
       majorItems: [],
+      allowTamcnBase: true,
     }).map((f) => f.message),
   );
   if (!isValid(parse(d.date?.trim() ?? '', 'd MMM yy', new Date())))
@@ -204,8 +205,8 @@ export function sl3ExportErrors(store: {
       errors.push(
         `${label}: enter a valid NSN or leave it blank when unassigned.`,
       );
-    if (item.tamcn && !/^[A-Z]\d{5}[A-Z]$/.test(item.tamcn))
-      errors.push(`${label}: enter a valid seven-position TAMCN.`);
+    if (item.tamcn && !/^(?:[A-Z]\d{4}|[A-Z]\d{5}[A-Z])$/.test(item.tamcn))
+      errors.push(`${label}: enter an assigned five-position TAMCN base or seven-position identifier.`);
     const hasAssociation = !!(
       item.tamcn ||
       item.primaryTamcn ||
@@ -217,7 +218,12 @@ export function sl3ExportErrors(store: {
       hasAssociation &&
       (!item.primaryTamcn ||
         !(store.endItems ?? []).some(
-          (endItem) => endItem.tamcn === item.primaryTamcn,
+          (endItem) => endItem.tamcn === item.primaryTamcn || (
+            // A base may identify the assigned full identifier, without inventing
+            // its remaining positions. Two distinct full identifiers stay distinct.
+            (/^[A-Z]\d{4}$/.test(item.primaryTamcn) || /^[A-Z]\d{4}$/.test(endItem.tamcn)) &&
+            endItem.tamcn.slice(0, 5) === item.primaryTamcn.slice(0, 5)
+          ),
         ))
     )
       errors.push(

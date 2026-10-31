@@ -1,4 +1,5 @@
 import { format, isValid, parseISO } from 'date-fns';
+import { useState } from 'react';
 import { CalendarIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -12,6 +13,7 @@ import { useDocumentStore } from '@/stores/documentStore';
 const validISO = (value: string) => /^\d{4}-\d{2}-\d{2}$/.test(value) && isValid(parseISO(value));
 
 export function Sl3DateFields() {
+  const [closuresOpen, setClosuresOpen] = useState(false);
   const { date = '', publicationSigningDate = '', publicationClosedDates = '' } = useDocumentStore((s) => s.formData);
   const setField = useDocumentStore((s) => s.setField);
   const closures = publicationClosedDates.split(/[\s,;]+/).filter(Boolean);
@@ -50,7 +52,7 @@ export function Sl3DateFields() {
       )}
       <div className="space-y-2">
         <Label className="text-sm" htmlFor="sl3-closure-dates">Office closure dates</Label>
-        <Popover>
+        <Popover open={closuresOpen} onOpenChange={setClosuresOpen}>
           <div className="sl3-date-control relative">
             <Input id="sl3-closure-dates" value={publicationClosedDates}
               onChange={(e) => setField('publicationClosedDates', e.target.value)}
@@ -64,19 +66,19 @@ export function Sl3DateFields() {
               </Button>
             </PopoverTrigger>
           </div>
-          <PopoverContent className="w-auto p-0" align="end">
+          {closuresOpen && <PopoverContent className="w-auto p-0" align="end">
             <div className="border-b px-4 py-3 text-sm">
               <p className="font-medium">Office closures</p>
               <p className="text-xs text-muted-foreground">Select dates. Select again to remove.</p>
             </div>
-            <Calendar mode="multiple" selected={selectedClosures}
+            <Calendar autoFocus mode="multiple" selected={selectedClosures}
               defaultMonth={signed ?? selectedClosures[0] ?? new Date()}
               onSelect={(dates) => setField('publicationClosedDates', [
                 ...(dates ?? []).map((d) => format(d, 'yyyy-MM-dd')).sort(),
                 // Retain invalid typed entries so calendar edits cannot hide errors.
                 ...closures.filter((value) => !validISO(value)),
               ].join(', '))} />
-          </PopoverContent>
+          </PopoverContent>}
         </Popover>
         <p id="sl3-closure-guidance" className="text-xs leading-relaxed text-muted-foreground">
           Optional. Pick multiple dates in the calendar, or enter dates separated by commas.

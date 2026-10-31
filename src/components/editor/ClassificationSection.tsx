@@ -252,7 +252,7 @@ export function ClassificationSection() {
                 value={classLevel}
                 onValueChange={(v) => setField('classLevel', v)}
               >
-                <SelectTrigger>
+                <SelectTrigger id="classLevel">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -389,7 +389,7 @@ export function ClassificationSection() {
                     value={formData.cuiCategory || ''}
                     onValueChange={(v) => setField('cuiCategory', v)}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger id="customCuiCategory">
                       <SelectValue placeholder="Select category…" />
                     </SelectTrigger>
                     <SelectContent>
@@ -547,7 +547,7 @@ export function ClassificationSection() {
                     value={formData.cuiCategory || ''}
                     onValueChange={(v) => setField('cuiCategory', v)}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger id="cuiCategory">
                       <SelectValue placeholder="Select category…" />
                     </SelectTrigger>
                     <SelectContent>

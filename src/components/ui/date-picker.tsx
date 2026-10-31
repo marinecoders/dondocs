@@ -188,14 +188,16 @@ export function DatePicker({
           </Button>
         </PopoverTrigger>
       </div>
-      <PopoverContent className="w-auto p-0" align="end">
+      {/* Closing calendars must not retain hit targets during an exit animation. */}
+      {open && <PopoverContent className="w-auto p-0" align="end">
         <Calendar
+          autoFocus
           mode="single"
           selected={selectedDate || undefined}
           onSelect={handleSelect}
           defaultMonth={selectedDate || new Date()}
         />
-      </PopoverContent>
+      </PopoverContent>}
     </Popover>
   )
 }

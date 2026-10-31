@@ -22,6 +22,8 @@ import {
 } from '@/data/techpub/sl3';
 import { sl3ExportErrors } from '@/lib/sl3Preflight';
 import { Sl3DateFields } from './Sl3DateFields';
+import { sl3ErrorSection } from '@/lib/sl3EditorErrors';
+import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 
 function useSl3() {
   const stored = useDocumentStore((s) => s.formData.sl3);
@@ -119,6 +121,7 @@ function EditorGroup({ title, description, children }: {
 
 export function Sl3CoverSection() {
   const store = useDocumentStore();
+  const jump = useEditorOutlineStore((s) => s.jump);
   const { data, update } = useSl3();
   const errors = sl3ExportErrors(store);
   return (
@@ -160,7 +163,7 @@ export function Sl3CoverSection() {
           <div key={i} className="space-y-4 rounded-lg border p-4">
             <div className="flex items-center justify-between gap-2">
               <span className="text-sm font-medium">End item {i + 1}</span>
-              <Button variant="ghost" size="sm" onClick={() => store.removeEndItem(i)}>
+              <Button variant="ghost" size="sm" aria-label={`Remove end item ${i + 1}`} onClick={() => store.removeEndItem(i)}>
                 <Trash2 className="mr-2 size-3.5" />Remove end item
               </Button>
             </div>
@@ -215,7 +218,10 @@ export function Sl3CoverSection() {
           <details className="rounded-md border p-3 text-sm">
             <summary className="cursor-pointer font-medium">{errors.length} {errors.length === 1 ? 'item' : 'items'} to complete before export</summary>
             <ul className="list-disc space-y-1 pl-5 pt-2">
-              {errors.map((error) => <li key={error}>{error}</li>)}
+              {errors.map((error) => <li key={error}>
+                <button type="button" className="text-left underline decoration-muted-foreground/50 underline-offset-4 hover:text-primary focus-visible:outline-2 focus-visible:outline-ring"
+                  onClick={() => jump(sl3ErrorSection(error))}>{error}</button>
+              </li>)}
             </ul>
           </details>
         )}
@@ -314,6 +320,7 @@ export function Sl3DetailsSection() {
             <Button
               variant="ghost"
               size="sm"
+              aria-label={`Remove definition ${i + 1}`}
               onClick={() =>
                 update({
                   definitions: data.definitions.filter(
@@ -373,6 +380,7 @@ export function Sl3DetailsSection() {
           <Button
             variant="ghost"
             size="sm"
+            aria-label={`Remove special note ${i + 19}`}
             onClick={() =>
               update({
                 notes: data.notes.filter((n) => n.id !== note.id),
@@ -409,6 +417,15 @@ export function Sl3InventorySection() {
   const { data, update } = useSl3();
   const figures = useDocumentStore((s) => s.paragraphs).filter((p) => p.figure);
   const items = orderedSl3Components(data);
+  const siblingGroups = new Map<string, string[]>();
+  for (const item of items) {
+    const key = JSON.stringify([item.category, item.parentId]);
+    siblingGroups.set(key, [...(siblingGroups.get(key) ?? []), item.id]);
+  }
+  const canMove = (item: Sl3Component, direction: -1 | 1) => {
+    const siblings = siblingGroups.get(JSON.stringify([item.category, item.parentId]))!;
+    return !!siblings[siblings.indexOf(item.id) + direction];
+  };
   const patch = (id: string, changes: Partial<Sl3Component>) =>
     update({
       components: data.components.map((item) =>
@@ -457,6 +474,7 @@ export function Sl3InventorySection() {
                   variant="ghost"
                   size="icon"
                   aria-label={`Move item ${index + 1} ${direction < 0 ? 'up' : 'down'}`}
+                  disabled={!canMove(item, direction)}
                   onClick={() =>
                     update({
                       components: moveSl3Group(data, item.id, direction),
@@ -616,6 +634,7 @@ export function Sl3InventorySection() {
           <label className="flex items-center gap-2 text-sm">
             <input
               type="checkbox"
+              aria-label={`Item ${index + 1} serialized`}
               checked={item.serialized}
               onChange={(e) => patch(item.id, { serialized: e.target.checked })}
             />
@@ -625,6 +644,7 @@ export function Sl3InventorySection() {
             <label key={note.id} className="flex items-center gap-2 text-sm">
               <input
                 type="checkbox"
+                aria-label={`Item ${index + 1} see special note ${i + 19}`}
                 checked={item.noteIds.includes(note.id)}
                 onChange={(e) =>
                   patch(item.id, {
@@ -694,7 +714,8 @@ export function Sl3IllustrationsSection() {
         </select>
       </label>
       {figures.map((p, i) => (
-        <div key={p.referenceId} className="space-y-2 rounded-md border p-3">
+        <fieldset key={p.referenceId} className="space-y-4 rounded-lg border p-4">
+          <legend className="px-1 text-sm font-medium">{figureLabel(data, p.referenceId, i)}</legend>
           <Field
             label={`${figureLabel(data, p.referenceId, i)} title`}
             value={p.text}
@@ -720,6 +741,7 @@ export function Sl3IllustrationsSection() {
             <input
               className="mt-2 block w-full text-sm"
               type="file"
+              aria-label={`Choose illustration for ${figureLabel(data, p.referenceId, i)}`}
               accept="image/png,image/jpeg,application/pdf"
               onChange={async (e) => {
                 const file = e.target.files?.[0];
@@ -822,7 +844,7 @@ export function Sl3IllustrationsSection() {
               ).map((label, j) => (
                 <div key={label.id} className="space-y-2 border-b pb-2">
                   <Field
-                    label={`Label ${j + 1} text`}
+                    label={`${figureLabel(data, p.referenceId, i)} label ${j + 1} text`}
                     value={label.text}
                     onChange={(text) =>
                       setArtwork(p.referenceId!, {
@@ -840,7 +862,7 @@ export function Sl3IllustrationsSection() {
                         ? 'Horizontal center (%)'
                         : 'Baseline from bottom (%)'}
                       <Input
-                        aria-label={`Label ${j + 1} ${axis === 'x' ? 'horizontal center' : 'baseline'} percent`}
+                        aria-label={`${figureLabel(data, p.referenceId, i)} label ${j + 1} ${axis === 'x' ? 'horizontal center' : 'baseline'} percent`}
                         type="number"
                         min={0}
                         max={100}
@@ -863,6 +885,7 @@ export function Sl3IllustrationsSection() {
                   <Button
                     variant="ghost"
                     size="sm"
+                    aria-label={`Remove label ${j + 1} from ${figureLabel(data, p.referenceId, i)}`}
                     onClick={() =>
                       setArtwork(p.referenceId!, {
                         labels: data.artwork
@@ -877,6 +900,7 @@ export function Sl3IllustrationsSection() {
               ))}
               <Button
                 variant="outline"
+                aria-label={`Add searchable label to ${figureLabel(data, p.referenceId, i)}`}
                 onClick={() =>
                   setArtwork(p.referenceId!, {
                     labels: [
@@ -894,6 +918,7 @@ export function Sl3IllustrationsSection() {
           <Button
             variant="ghost"
             size="sm"
+            aria-label={`Remove ${figureLabel(data, p.referenceId, i)}`}
             onClick={() => {
               useDocumentStore.setState({
                 paragraphs: paragraphs.filter(
@@ -918,7 +943,7 @@ export function Sl3IllustrationsSection() {
           >
             Remove illustration
           </Button>
-        </div>
+        </fieldset>
       ))}
       {error && (
         <p role="alert" className="text-sm text-destructive">

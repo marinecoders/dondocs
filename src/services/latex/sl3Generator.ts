@@ -33,11 +33,21 @@ const definitionText = (s: string) =>
     )
     .join('');
 const paragraph = (s: string) => `${text(s)}\\par\\vspace{6pt}\n`;
-const fixedPrefaceText = (s: string) =>
-  text(s).replaceAll(
+const fixedPrefaceText = (s: string, heading = false) => {
+  let value = text(s);
+  const end = s.indexOf('.  ');
+  if (heading && end > 0) {
+    const title = s.slice(0, end);
+    const column = title.indexOf(' (Column ');
+    const styled = column < 0 ? `\\textbf{${text(title)}}`
+      : `\\textbf{${text(title.slice(0, column))}}${text(title.slice(column))}`;
+    value = `\\uline{${styled}}.\\hspace{2\\fontdimen2\\font}${text(s.slice(end + 3))}`;
+  }
+  return value.replaceAll(
     'https://app.mcboss.usmc.mil/suite/sites/publications',
     '\\dondocsExternalLink{https://app.mcboss.usmc.mil/suite/sites/publications}{https://app.mcboss.usmc.mil/suite/sites/publications}',
   );
+};
 
 export function generateSl3Body(store: Store): string {
   const data = store.formData.sl3 ?? emptySl3();
@@ -169,9 +179,9 @@ export function generateSl3Body(store: Store): string {
       continue;
     }
     out.push(
-      `\\dondocsNeedspace{24pt}\\dondocsBookmark{0}{${count + 1}. ${text(prefaceTitles[count])}}{sl3.preface.${count + 1}}\\textbf{${++count}.} `,
+      `\\dondocsNeedspace{24pt}\\dondocsBookmark{0}{${count + 1}. ${text(prefaceTitles[count])}}{sl3.preface.${count + 1}}\\makebox[18bp][l]{\\textbf{${++count}.}}`,
     );
-    out.push(mark() + fixedPrefaceText(p.text) + '\\par\\vspace{6pt}\n');
+    out.push(mark() + fixedPrefaceText(p.text, true) + '\\par\\vspace{6pt}\n');
   }
   const notes = [...data.notes];
   if (data.sequencingNote)
@@ -195,12 +205,12 @@ export function generateSl3Body(store: Store): string {
       portionMarking: data.technicalPortion,
     });
   out.push(
-    `\\dondocsNeedspace{36pt}\\dondocsBookmark{${-notes.length}}{18. SPECIAL NOTES}{sl3.notes}\\textbf{18. SPECIAL NOTES}\\par\\vspace{6pt}\n`,
+    `\\dondocsNeedspace{36pt}\\dondocsBookmark{${-notes.length}}{18. SPECIAL NOTES}{sl3.notes}\\makebox[18bp][l]{\\textbf{18.}}\\textbf{SPECIAL NOTES}\\par\\vspace{6pt}\n`,
   );
   if (!notes.length) out.push(paragraph('None.'));
   notes.forEach((note, i) =>
     out.push(
-      `\\dondocsNeedspace{24pt}\\dondocsBookmark{0}{${i + 19}. ${text(note.text)}}{sl3.note.${i + 19}}\\textbf{${i + 19}.} ${mark(note.portionMarking)}${paragraph(note.text)}`,
+      `\\dondocsNeedspace{24pt}\\dondocsBookmark{0}{${i + 19}. ${text(note.text)}}{sl3.note.${i + 19}}\\makebox[18bp][l]{\\textbf{${i + 19}.}}${mark(note.portionMarking)}${paragraph(note.text)}`,
     ),
   );
   const definitions = sl3Definitions(data.definitions);

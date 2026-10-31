@@ -15,7 +15,7 @@ import { IconTip } from '@/components/ui/icon-tip';
 import { SectionRail } from './SectionRail';
 import { SidebarResizer } from './SidebarResizer';
 import { SidebarSplitter } from './SidebarSplitter';
-import { getSectionError, getFormSectionError, useEditorSections, ERROR_BEARING_IDS } from './editorSections';
+import { missingEditorSections, getFormSectionError, useEditorSections, errorBearingIds } from './editorSections';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
 import { useDocumentsStore, searchableText, type DocumentMeta } from '@/stores/documentsStore';
@@ -102,7 +102,7 @@ export function EditorSidebar() {
   const docErrorSignature = useDocumentStore((s) =>
     !validationVisible || isFormsMode
       ? ''
-      : ERROR_BEARING_IDS.filter((id) => getSectionError(id, s.formData, s.paragraphs, config, s.endItems)).join(',')
+      : missingEditorSections(errorBearingIds(config), s.formData, s.paragraphs, config, s.endItems).join(',')
   );
   const formErrorSignature = useFormStore((s) => {
     if (!validationVisible || !isFormsMode) return '';

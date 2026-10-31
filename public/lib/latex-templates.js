@@ -5341,36 +5341,67 @@ const LATEX_TEMPLATES = {
   \\fancyfoot[C]{\\dondocsPageNumber}%
   \\renewcommand{\\headrulewidth}{0pt}\\renewcommand{\\footrulewidth}{0pt}%
 }
+% Source cover: bold titles, 2.25-point separators and borderless end-item rows.
+\\renewcommand{\\dondocsCoverBannerLines}[1]{\\begingroup
+  \\fontsize{10}{12}\\selectfont\\centering
+  \\makebox[\\textwidth]{\\textbf{\\CoverDate}\\hfill\\textbf{\\ShortTitle}}\\\\[11bp]
+  \\textbf{U.S. MARINE CORPS \\MakeUppercase{\\PublicationTypeName}}\\par
+  \\vspace{3bp}\\hrule height2.25bp\\relax\\vspace{14.27bp}
+  \\ifNotEmpty{\\SubjectLine}{%
+    \\setbox\\dondocsTitleBox=\\vbox{\\hsize=\\textwidth\\centering\\bfseries
+      \\MakeUppercase{\\SubjectLine}\\par
+      \\ifnum\\prevgraf>4\\relax
+        \\PackageError{SL-3}{Long title exceeds four lines}{Shorten the publication title.}%
+      \\fi}%
+    \\usebox{\\dondocsTitleBox}\\par}%
+  \\endgroup}
 \\let\\slThreeMeasureCoverHead\\dondocsMeasureCoverHead
-\\renewcommand{\\dondocsMeasureCoverHead}{\\slThreeMeasureCoverHead\\addtolength{\\headheight}{18pt}}
-% A title page is unnumbered; PCN remains 12 point on that page only.
+\\renewcommand{\\dondocsMeasureCoverHead}{%
+  \\slThreeMeasureCoverHead\\addtolength{\\headheight}{27.2bp}%
+  \\ifClassificationEnabled\\addtolength{\\headheight}{20bp}\\fi}
+% A title page is unnumbered; PCN remains bold 12 point on that page only.
 \\let\\slThreeCoverFooter\\printCoverFooter
-\\patchcmd{\\slThreeCoverFooter}{PCN \\PCN}{\\fontsize{12}{12}\\selectfont PCN \\PCN}{}{\\PackageError{SL-3}{Cannot format cover PCN}{Check the shared cover footer.}}
+\\patchcmd{\\slThreeCoverFooter}{PCN \\PCN}{\\fontsize{12}{12}\\selectfont\\bfseries PCN \\PCN}{}{\\PackageError{SL-3}{Cannot format cover PCN}{Check the shared cover footer.}}
+\\patchcmd{\\slThreeCoverFooter}{\\raggedleft\\ifNotEmpty{\\PCN}}{\\hrule height2.25bp\\relax\\vspace{2bp}\\raggedleft\\ifNotEmpty{\\PCN}}{}{\\PackageError{SL-3}{Cannot place cover separator}{Check the shared cover footer.}}
 \\patchcmd{\\slThreeCoverFooter}{Distribution Statement: \\CUIDistStatement}{Distribution/Dissemination Control: \\CUIDissemination}{}{\\PackageError{SL-3}{Cannot format CUI designation}{Check the shared cover footer.}}
+\\patchcmd{\\slThreeCoverFooter}{WARNING:}{\\textbf{WARNING:}}{}{\\PackageError{SL-3}{Cannot format export warning}{Check the shared cover footer.}}
 \\renewcommand{\\printCoverFooter}{\\begingroup
   \\renewcommand{\\thepage}{}%
   \\renewcommand{\\footnotesize}{\\fontsize{10}{12}\\selectfont}%
   \\let\\slThreePCN\\PCN
   \\renewcommand{\\PCN}{{\\fontsize{12}{12}\\selectfont\\slThreePCN}}%
-  \\begin{minipage}[b]{\\textwidth}\\slThreeCoverFooter
+  \\begin{minipage}[b]{\\textwidth}\\slThreeCoverFooter\\par\\vspace*{10bp}%
     \\ifClassificationEnabled\\par\\vspace{30pt}\\fi
   \\end{minipage}\\endgroup}
-\\let\\slThreeCoverLines\\dondocsCoverBannerLines
-\\renewcommand{\\dondocsCoverBannerLines}[1]{\\begingroup
-  \\renewcommand{\\footnotesize}{\\fontsize{10}{12}\\selectfont}%
-  \\let\\slThreeShortTitle\\ShortTitle
-  \\renewcommand{\\ShortTitle}{\\textbf{\\slThreeShortTitle}}%
-  \\slThreeCoverLines{#1}\\endgroup}
 \\renewcommand{\\printCoverBanner}{%
   \\placeClassificationMarkings
-  \\begin{textblock*}{\\textwidth}(\\slThreeLeft,\\slThreeHeaderTop)
-    \\fontsize{10}{12}\\selectfont\\centering
-    \\makebox[\\textwidth]{\\CoverDate\\hfill\\textbf{\\ShortTitle}}\\\\
-    U.S. MARINE CORPS \\MakeUppercase{\\PublicationTypeName}\\\\
-    \\ifNotEmpty{\\SubjectLine}{\\MakeUppercase{\\SubjectLine}}%
+  \\begin{textblock*}{\\textwidth}(\\slThreeLeft,\\dimexpr\\slThreeHeaderTop+9.2bp\\relax)
+    \\dondocsCoverBannerLines{}%
   \\end{textblock*}%
-  \\phantom{\\parbox{\\textwidth}{\\dondocsCoverBannerLines{\\strut}}}%
+  \\phantom{\\parbox{\\textwidth}{\\dondocsCoverBannerLines{}}}%
 }
+% The four source columns measure 3083/2078/1882/2549 twips. Center their
+% full physical width for PDF, retaining the six unruled writing/data rows.
+\\newcommand{\\slThreeCoverBoxhead}{\\textbf{\\uline{NSN}} & \\textbf{\\uline{TAMCN}} & \\textbf{\\uline{ID}} & \\textbf{\\uline{MODEL}}}
+\\renewcommand{\\printEndItemTable}[1]{\\begingroup
+  \\renewcommand{\\arraystretch}{1.2}\\setlength{\\tabcolsep}{5.4bp}%
+  \\makebox[\\textwidth][c]{\\begin{tabular}{p{143.35bp}p{93.1bp}p{83.3bp}p{116.65bp}}
+    \\slThreeCoverBoxhead\\tabularnewline
+    #1\\tabularnewline
+  \\end{tabular}}\\endgroup}
+\\patchcmd{\\dondocsBuildCoverBody}{\\multicolumn{4}{|c|}}{\\multicolumn{4}{c}}{}{\\PackageError{SL-3}{Cannot format cover continuation}{Check the shared cover body.}}
+\\patchcmd{\\dondocsBuildCoverBody}{\\par\\vspace{24pt}}{\\par\\vspace{36.8pt}}{}{\\PackageError{SL-3}{Cannot position cover nomenclature}{Check the shared cover body.}}
+\\patchcmd{\\dondocsBuildCoverBody}{\\vspace{24pt}}{\\vspace{10.33pt}}{}{\\PackageError{SL-3}{Cannot position cover end items}{Check the shared cover body.}}
+\\renewcommand{\\printEndItemOverflowTable}{\\begingroup
+  \\renewcommand{\\arraystretch}{1.2}\\setlength{\\tabcolsep}{5.4bp}%
+  \\setlength{\\LTleft}{\\fill}\\setlength{\\LTright}{\\fill}%
+  \\setlength{\\LTpre}{0pt}\\setlength{\\LTpost}{0pt}%
+  \\begin{longtable}{p{143.35bp}p{93.1bp}p{83.3bp}p{116.65bp}}
+    \\slThreeCoverBoxhead\\tabularnewline\\endfirsthead
+    \\slThreeCoverBoxhead\\tabularnewline\\endhead
+    \\endfoot\\endlastfoot
+    \\EndItemOverflowRows\\tabularnewline
+  \\end{longtable}\\endgroup}
 \\renewcommand{\\dondocsNomenclatureFont}{\\fontsize{10}{12}\\selectfont\\bfseries}
 \\renewcommand{\\dondocsAuthenticationFont}{\\fontsize{10}{12}\\selectfont}
 \\let\\slThreeAuthentication\\printAddressBlock

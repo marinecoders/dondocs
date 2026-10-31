@@ -618,9 +618,13 @@
 
 /* SL-3 groups respond to the actual editing pane, including split preview. */
 .sl3-editor { container-type: inline-size; }
-.sl3-field-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+.sl3-field-grid { display: grid; grid-template-columns: minmax(0, 1fr); align-items: end; gap: 16px; }
+.sl3-signatory-name-grid { display: grid; grid-template-columns: minmax(0, 1fr) 6rem; align-items: end; gap: 16px; }
+.sl3-signatory-name-grid > :last-child { grid-column: 1 / -1; }
 @container (min-width: 28rem) {
   .sl3-field-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sl3-signatory-name-grid { grid-template-columns: minmax(0, 1fr) 6rem minmax(0, 1fr); }
+  .sl3-signatory-name-grid > :last-child { grid-column: auto; }
 }
 .sl3-editor fieldset { min-width: 0; }
 .sl3-editor legend { max-width: 100%; overflow-wrap: anywhere; }

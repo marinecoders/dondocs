@@ -291,14 +291,13 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     const items = store.endItems ?? [];
     const overflow = items.length > END_ITEM_ROWS;
     const shown = overflow ? [] : items.slice(0, END_ITEM_ROWS);
-    // Each row is ruled, as in the source table -- six visibly distinct rows
-    // whether or not they carry an end item.
+    // SL-3 reserves six borderless source rows; the existing I-Type keeps its rules.
     const rows = Array.from({ length: END_ITEM_ROWS }, (_, i) => {
       const item = shown[i];
       return item
         ? [item.nsn, item.tamcn, item.id, item.model].map((v) => escapeLatex(v || '')).join(' & ')
         : ' & & & ';
-    }).join(' \\\\ \\hline ');
+    }).join(store.docType === 'sl3' ? ' \\\\ ' : ' \\\\ \\hline ');
     tex += `\\setNomenclature{${escapeLatex(data.nomenclature || '')}}\n`;
     tex += `\\setEndItemRows{${rows}}\n`;
     tex += overflow ? '\\EndItemOverflowtrue\n' : '\\EndItemOverflowfalse\n';
@@ -326,7 +325,11 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     tex += `\\setAttachmentList{${attachments.join('\\par\\noindent ')}}\n`;
     tex += `\\setControllingOffice{${escapeLatex(data.controllingOffice || '')}}\n`;
     tex += data.exportRestricted ? '\\ExportRestrictedtrue\n' : '\\ExportRestrictedfalse\n';
-    tex += `\\def\\ITypeDestructionNotice{${escapeLatex(iTypeDestructionNotice(data, store.paragraphs))}}\n`;
+    const destruction = iTypeDestructionNotice(data, store.paragraphs);
+    const noticeText = (value: string, label: string) => store.docType === 'sl3' && value.startsWith(label)
+      ? `\\textbf{\\uline{${escapeLatex(label)}}}${escapeLatex(value.slice(label.length))}`
+      : escapeLatex(value);
+    tex += `\\def\\ITypeDestructionNotice{${noticeText(destruction, 'DESTRUCTION NOTICE:')}}\n`;
     // The distribution statement prints in full on the cover: letter, text,
     // the reason and date of determination, and the office requests go to.
     const determined = parseDate(data.distDate || '', 'yyyy-MM-dd', new Date());
@@ -335,7 +338,7 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
       date: isValidDate(determined) ? formatDate(determined, 'd MMMM yyyy') : '',
       office: data.controllingOffice,
     });
-    tex += `\\setDistStatementFull{${escapeLatex(dist)}}\n`;
+    tex += `\\setDistStatementFull{${noticeText(dist, 'DISTRIBUTION STATEMENT')}}\n`;
     // When the cover defers, every end item is listed on its back -- there is
     // no six-row cap there, and no blank rows to keep.
     {
