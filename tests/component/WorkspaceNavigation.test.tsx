@@ -7,6 +7,8 @@ import { MobileRecents } from '@/components/layout/MobileRecents';
 import { Header } from '@/components/layout/Header';
 import { HelpModal } from '@/components/modals/HelpModal';
 import { SettingsModal } from '@/components/modals/SettingsModal';
+import { ActivationChecklist } from '@/components/onboarding/ActivationChecklist';
+import { TemplateLoaderModal } from '@/components/modals/TemplateLoaderModal';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
@@ -73,6 +75,30 @@ it.each(['Take optional tour', 'Getting started'])('keeps %s available in Help w
   expect(useUIStore.getState().helpOpen).toBe(false);
   if (label === 'Getting started') expect(useUIStore.getState().checklistSheetOpen).toBe(true);
   else expect(useTourStore.getState().active).toBe(true);
+});
+
+it.each([false, true])('returns checklist and template focus to the workspace launcher on mobile=%s', async (mobile) => {
+  const user = userEvent.setup();
+  useUIStore.setState({ isMobile: mobile, mobileDocsOpen: false, templateLoaderOpen: false });
+  useOnboardingStore.setState({ completed: {}, checklistDismissed: true, checklistCelebrated: false });
+  render(<TooltipProvider><Header />{mobile ? <MobileRecents /> : <EditorSidebar />}<HelpModal /><ActivationChecklist /><TemplateLoaderModal /></TooltipProvider>);
+  const launcher = screen.getByRole('button', { name: mobile ? 'Open workspace' : 'Help' });
+  const openChecklist = async () => {
+    await user.click(launcher);
+    if (mobile) await user.click(screen.getByRole('button', { name: 'Help' }));
+    await user.click(screen.getByRole('button', { name: 'Getting started' }));
+    expect(await screen.findByRole('dialog', { name: /Getting started/ })).toBeVisible();
+  };
+
+  await openChecklist();
+  await user.keyboard('{Escape}');
+  await waitFor(() => expect(launcher).toHaveFocus());
+
+  await openChecklist();
+  await user.click(screen.getByRole('button', { name: /Build your first document/ }));
+  await waitFor(() => expect(screen.getByRole('dialog', { name: /Load template/ })).toContainElement(document.activeElement as HTMLElement));
+  await user.keyboard('{Escape}');
+  await waitFor(() => expect(launcher).toHaveFocus());
 });
 
 it('distinguishes individual draft files from the whole workspace backup', async () => {
