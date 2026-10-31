@@ -25,7 +25,12 @@ describe('SL-3 document authoring', () => {
     const store = sl3Fixture();
     store.formData.unitAddress = '';
     store.formData.sigTitle = '';
-    expect(sl3ExportErrors(store)).toEqual(expect.arrayContaining(['Command address is required.', 'Signing authority title is required.']));
+    expect(sl3ExportErrors(store)).toEqual(
+      expect.arrayContaining([
+        'Command address is required.',
+        'Signing authority title is required.',
+      ]),
+    );
   });
   it('rejects authentication by direction through either the flag or signature title', () => {
     const s = sl3Fixture();
@@ -80,16 +85,31 @@ describe('SL-3 document authoring', () => {
     expect(sl3ExportErrors(store).join(' ')).toContain('Fielding Plan');
     store.formData.sl3!.fieldingPlanReference = 'Training Fielding Plan';
     expect(sl3ExportErrors(store)).toEqual([]);
-    expect(generateSl3Body(store)).toContain('Fielding Plan: Training Fielding Plan');
+    expect(generateSl3Body(store)).toContain(
+      'Fielding Plan: Training Fielding Plan',
+    );
   });
-  it.each(['portrait', 'landscape'] as const)('preserves every %s source cell when optional columns are added', (orientation) => {
-    for (const [showModel, showFigureReference] of [[false, true], [true, false], [true, true]]) {
-      const geometry = sl3InventoryGeometry({ orientation, showModel, showFigureReference });
-      expect(geometry.widths.slice(0, 18)).toEqual(SL3_INVENTORY_GRID[orientation].map((value) => value / 20));
-      expect(geometry.left).toBeGreaterThanOrEqual(18);
-      expect(geometry.right).toBeGreaterThanOrEqual(18 - 0.001);
-    }
-  });
+  it.each(['portrait', 'landscape'] as const)(
+    'preserves every %s source cell when optional columns are added',
+    (orientation) => {
+      for (const [showModel, showFigureReference] of [
+        [false, true],
+        [true, false],
+        [true, true],
+      ]) {
+        const geometry = sl3InventoryGeometry({
+          orientation,
+          showModel,
+          showFigureReference,
+        });
+        expect(geometry.widths.slice(0, 18)).toEqual(
+          SL3_INVENTORY_GRID[orientation].map((value) => value / 20),
+        );
+        expect(geometry.left).toBeGreaterThanOrEqual(18);
+        expect(geometry.right).toBeGreaterThanOrEqual(18 - 0.001);
+      }
+    },
+  );
   it('rejects orphaned and noncontiguous components', () => {
     const s = sl3Fixture();
     s.formData.sl3!.components[2].parentId = 'missing';
@@ -138,5 +158,62 @@ describe('SL-3 document authoring', () => {
     const errors = sl3ExportErrors(s).join('\n');
     expect(errors).toContain('special note is missing');
     expect(errors).toContain('illustration is missing');
+  });
+});
+
+describe('SL-3 audit export safeguards', () => {
+  it('requires an explicit lettering review and complete positioned labels', () => {
+    const s = sl3Fixture();
+    const figureId = 'drawing';
+    s.formData.sl3!.endItemFigureId = figureId;
+    s.paragraphs = [
+      {
+        referenceId: figureId,
+        level: 0,
+        text: 'Training artwork',
+        figure: {
+          fileRef: {
+            id: 'file',
+            name: 'drawing.png',
+            type: 'image/png',
+            size: 100,
+          },
+        },
+      },
+    ];
+    expect(sl3ExportErrors(s).join(' ')).toContain('Review the lettering');
+    s.formData.sl3!.artwork = [{ figureId, lettering: 'none', labels: [] }];
+    expect(sl3ExportErrors(s)).toEqual([]);
+    s.formData.sl3!.artwork[0].lettering = 'labels';
+    expect(sl3ExportErrors(s).join(' ')).toContain(
+      'single line of searchable text',
+    );
+    s.formData.sl3!.artwork[0].labels = [
+      { id: 'label', text: 'VALVE INLET', x: 50, y: 50 },
+    ];
+    expect(sl3ExportErrors(s)).toEqual([]);
+    s.formData.sl3!.artwork[0].labels[0].x = 101;
+    expect(sl3ExportErrors(s).join(' ')).toContain('inventory data is invalid');
+  });
+  it('rejects conflicting and incomplete custom definitions and derives their classification', () => {
+    const s = sl3Fixture();
+    s.formData.sl3!.definitions = [
+      {
+        id: 'term',
+        term: 'PAE',
+        meaning: 'Different meaning',
+        portionMarking: 'U',
+      },
+    ];
+    expect(sl3ExportErrors(s).join(' ')).toContain(
+      'conflicts with a standard definition',
+    );
+    s.formData.sl3!.definitions[0].term = 'ZED';
+    s.formData.sl3!.definitions[0].meaning = '';
+    expect(sl3ExportErrors(s).join(' ')).toContain('empty abbreviation');
+    s.formData.sl3!.definitions[0].meaning = 'Synthetic custom definition';
+    expect(sl3ExportErrors(s)).toEqual([]);
+    s.formData.sl3!.definitions[0].portionMarking = 'S';
+    expect(sl3ExportErrors(s).join(' ')).toContain('highest component');
   });
 });

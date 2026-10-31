@@ -2675,6 +2675,7 @@ const LATEX_TEMPLATES = {
 
 \\newsavebox{\\dondocsCoverBody}
 \\newsavebox{\\dondocsCoverNotices}
+\\newcommand{\\dondocsNomenclatureFont}{\\large\\bfseries}
 \\newsavebox{\\dondocsNomenclatureBox}
 \\newdimen\\dondocsCoverAvailable
 \\newcommand{\\dondocsBuildCoverBody}{%
@@ -2691,7 +2692,7 @@ const LATEX_TEMPLATES = {
         }%
         \\par\\vspace{24pt}%
         \\setbox\\dondocsNomenclatureBox=\\vbox{\\hsize=\\textwidth\\centering
-            \\large\\bfseries\\MakeUppercase{\\Nomenclature}\\par
+            \\dondocsNomenclatureFont\\MakeUppercase{\\Nomenclature}\\par
             \\ifnum\\prevgraf>2\\relax
                 \\errmessage{I-Type nomenclature exceeds two lines. Shorten it or move detail into the end item table}%
             \\fi}%
@@ -2778,8 +2779,9 @@ const LATEX_TEMPLATES = {
 % Recording the completion of a modification applies to MIs alone. The spacing
 % above OFFICIAL is the same whether or not it appears.
 
+\\newcommand{\\dondocsAuthenticationFont}{\\fontsize{12}{12}\\selectfont}
 \\newcommand{\\printAddressBlock}{%
-    \\begingroup\\fontsize{12}{12}\\selectfont
+    \\begingroup\\dondocsAuthenticationFont
     \\thispagestyle{authpage}%
     \\dondocsBookmark{0}{Authentication}{itype.authentication}
     {\\centering\\MakeUppercase{\\UnitName}\\par
@@ -5295,16 +5297,18 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\slThreeLeft}{\\dimexpr1in+\\hoffset+\\oddsidemargin\\relax}
 \\newcommand{\\slThreeHeaderTop}{\\ifClassificationEnabled56bp\\else36bp\\fi}
 \\renewcommand{\\dondocsRunningTitle}{%
-  \\begin{textblock*}{\\textwidth}(\\slThreeLeft,\\slThreeHeaderTop)\\raggedleft{\\fontsize{10}{12}\\selectfont\\bfseries\\ShortTitle}\\end{textblock*}}
+  \\begin{textblock*}{\\textwidth}(\\slThreeLeft,\\slThreeHeaderTop){\\fontsize{10}{12}\\selectfont\\makebox[\\textwidth]{\\DocumentDate\\hfill\\textbf{\\ShortTitle}}}\\end{textblock*}}
 \\renewcommand{\\dondocsPageNumber}{%
   % Account for the paragraph strut so the visible footer ends at 36bp.
   \\begin{textblock*}{\\textwidth}[0,1](\\slThreeLeft,\\dimexpr\\paperheight-38.1bp\\relax)\\raggedleft{\\fontsize{10}{12}\\selectfont\\bfseries\\thepage}\\end{textblock*}}
 \\renewcommand{\\placeClassificationMarkings}{%
   \\ifClassificationEnabled
-    \\begin{textblock*}{\\paperwidth}(0in,0.5in)\\centering{\\fontsize{14}{16}\\selectfont\\bfseries\\ClassificationMarking}\\end{textblock*}%
-    \\begin{textblock*}{\\paperwidth}(0in,\\dimexpr\\paperheight-0.7in\\relax)\\centering{\\fontsize{14}{16}\\selectfont\\bfseries\\ClassificationMarking}\\end{textblock*}%
+    \\begin{textblock*}{\\paperwidth}(0in,0.5in)\\centering{\\fontsize{14}{16}\\selectfont\\bfseries\\slThreeControlMarking}\\end{textblock*}%
+    \\begin{textblock*}{\\paperwidth}(0in,\\dimexpr\\paperheight-0.7in\\relax)\\centering{\\fontsize{14}{16}\\selectfont\\bfseries\\slThreeControlMarking}\\end{textblock*}%
   \\fi
 }
+% Include the author's dissemination control on every CUI banner.
+\\newcommand{\\slThreeControlMarking}{\\ClassificationMarking\\ifCUIEnabled\\ifNotEmpty{\\CUIDissemination}{//\\CUIDissemination}\\fi}
 % Measure the multi-line inventory header before assigning its text area.
 \\newcommand{\\slThreeInventoryHeader}{\\parbox{\\textwidth}{\\fontsize{10}{12}\\selectfont
   \\makebox[\\textwidth]{\\DocumentDate\\hfill\\textbf{\\ShortTitle}}\\par
@@ -5342,6 +5346,7 @@ const LATEX_TEMPLATES = {
 % A title page is unnumbered; PCN remains 12 point on that page only.
 \\let\\slThreeCoverFooter\\printCoverFooter
 \\patchcmd{\\slThreeCoverFooter}{PCN \\PCN}{\\fontsize{12}{12}\\selectfont PCN \\PCN}{}{\\PackageError{SL-3}{Cannot format cover PCN}{Check the shared cover footer.}}
+\\patchcmd{\\slThreeCoverFooter}{Distribution Statement: \\CUIDistStatement}{Distribution/Dissemination Control: \\CUIDissemination}{}{\\PackageError{SL-3}{Cannot format CUI designation}{Check the shared cover footer.}}
 \\renewcommand{\\printCoverFooter}{\\begingroup
   \\renewcommand{\\thepage}{}%
   \\renewcommand{\\footnotesize}{\\fontsize{10}{12}\\selectfont}%
@@ -5366,6 +5371,8 @@ const LATEX_TEMPLATES = {
   \\end{textblock*}%
   \\phantom{\\parbox{\\textwidth}{\\dondocsCoverBannerLines{\\strut}}}%
 }
+\\renewcommand{\\dondocsNomenclatureFont}{\\fontsize{10}{12}\\selectfont\\bfseries}
+\\renewcommand{\\dondocsAuthenticationFont}{\\fontsize{10}{12}\\selectfont}
 \\let\\slThreeAuthentication\\printAddressBlock
 \\renewcommand{\\printAddressBlock}{\\pagenumbering{roman}\\slThreeAuthentication}
 \\let\\slThreeEndItemOverflow\\printEndItemOverflowTable
@@ -5392,6 +5399,24 @@ const LATEX_TEMPLATES = {
   \\sbox{\\slThreeNoteBox}{\\begin{minipage}{\\linewidth}\\begin{center}\\textbf{NOTE}\\end{center}\\begin{slThreeNote}#1\\end{slThreeNote}\\end{minipage}}%
   \\dondocsNeedspace{\\dimexpr\\ht\\slThreeNoteBox+\\dp\\slThreeNoteBox+6pt\\relax}%
   \\noindent\\usebox{\\slThreeNoteBox}\\par\\vspace{6pt}%
+}
+\\newsavebox{\\slThreeArtworkBox}
+\\newsavebox{\\slThreeArtworkLabelBox}
+\\newcommand{\\slThreeArtworkLabel}[3]{%
+  \\sbox{\\slThreeArtworkLabelBox}{{\\fontsize{9}{11}\\selectfont #3}}%
+  \\ifdim\\dimexpr\\wd\\slThreeArtworkBox*#1/1000-\\wd\\slThreeArtworkLabelBox/2<0pt
+    \\PackageError{SL-3}{Illustration label crosses the left edge}{Move or shorten the label.}\\fi
+  \\ifdim\\dimexpr\\wd\\slThreeArtworkBox*#1/1000+\\wd\\slThreeArtworkLabelBox/2>\\wd\\slThreeArtworkBox
+    \\PackageError{SL-3}{Illustration label crosses the right edge}{Move or shorten the label.}\\fi
+  \\ifdim\\dimexpr\\ht\\slThreeArtworkBox*#2/1000+\\ht\\slThreeArtworkLabelBox>\\ht\\slThreeArtworkBox
+    \\PackageError{SL-3}{Illustration label crosses the top edge}{Move the label.}\\fi
+  \\ifdim\\dimexpr\\ht\\slThreeArtworkBox*#2/1000-\\dp\\slThreeArtworkLabelBox<0pt
+    \\PackageError{SL-3}{Illustration label crosses the bottom edge}{Move the label.}\\fi
+  \\rlap{\\kern\\dimexpr\\wd\\slThreeArtworkBox*#1/1000\\relax\\raisebox{\\dimexpr\\ht\\slThreeArtworkBox*#2/1000\\relax}{\\makebox[0pt][c]{\\usebox{\\slThreeArtworkLabelBox}}}}%
+}
+\\newcommand{\\slThreeArtwork}[2]{%
+  \\sbox{\\slThreeArtworkBox}{\\includegraphics[width=\\textwidth,height=4.3in,keepaspectratio]{#1}}%
+  \\leavevmode\\rlap{\\usebox{\\slThreeArtworkBox}}#2\\phantom{\\usebox{\\slThreeArtworkBox}}%
 }
 \\newsavebox{\\slThreeFigureBox}
 \\newcommand{\\slThreeFigureBlock}[1]{%

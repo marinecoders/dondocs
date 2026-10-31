@@ -1,3 +1,4 @@
+import { SL3_ABBREVIATIONS } from '@/data/techpub/sl3Preface';
 import { parse, isValid, parseISO } from 'date-fns';
 import {
   sl3Schema,
@@ -167,8 +168,13 @@ export function sl3ExportErrors(store: {
     errors.push(
       'Identify the TFSMS configuration source for the TAMCN associations and ratios.',
     );
-  if ((data.showFigureReference || data.showModel) && unfilled(data.fieldingPlanReference))
-    errors.push('Identify the Fielding Plan authorizing the optional inventory columns.');
+  if (
+    (data.showFigureReference || data.showModel) &&
+    unfilled(data.fieldingPlanReference)
+  )
+    errors.push(
+      'Identify the Fielding Plan authorizing the optional inventory columns.',
+    );
   if (!data.components.length) errors.push('Add the SL-3 components.');
   const items = orderedSl3Components(data);
   const ids = new Set<string>();
@@ -300,6 +306,40 @@ export function sl3ExportErrors(store: {
       );
   if (data.endItemFigureId && !figureIds.has(data.endItemFigureId))
     errors.push('The end item illustration is missing.');
+  const terms = new Set(SL3_ABBREVIATIONS.map(([term]) => term.toUpperCase()));
+  for (const definition of data.definitions) {
+    const key = definition.term.trim().toUpperCase();
+    if (!key || unfilled(definition.meaning))
+      errors.push(
+        'Complete or remove empty abbreviation, symbol, or applicability definitions.',
+      );
+    if (terms.has(key))
+      errors.push(
+        `Definition "${definition.term}" is duplicated or conflicts with a standard definition.`,
+      );
+    terms.add(key);
+  }
+  for (const id of usedFigures) {
+    const review = data.artwork.find((a) => a.figureId === id);
+    if (!review)
+      errors.push(
+        'Review the lettering in every illustration. Confirm text-free artwork or add all lettering as searchable labels.',
+      );
+    else if (
+      review.lettering === 'labels' &&
+      (!review.labels.length ||
+        review.labels.some(
+          (label) => unfilled(label.text) || /[\r\n]/.test(label.text),
+        ))
+    )
+      errors.push(
+        'Provide every illustration label as a complete, single line of searchable text.',
+      );
+    else if (review.lettering === 'none' && review.labels.length)
+      errors.push('Choose searchable labels for an illustration with labels.');
+  }
+  if (new Set(data.artwork.map((a) => a.figureId)).size !== data.artwork.length)
+    errors.push('Each illustration must have only one lettering review.');
   if (data.notes.some((note) => unfilled(note.text)))
     errors.push('Complete or remove empty special notes.');
   errors.push(

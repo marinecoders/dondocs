@@ -9,7 +9,7 @@ import {
   describeToolchainRequirement,
 } from '../_helpers/pdfToolchain';
 import { sl3Fixture } from '../_helpers/sl3Fixture';
-import { SL3_INVENTORY_GRID } from '@/data/techpub/sl3';
+import { SL3_INVENTORY_GRID, sl3InventoryGeometry } from '@/data/techpub/sl3';
 import { sl3ExportErrors } from '@/lib/sl3Preflight';
 import { expectSl3Certification } from '../_helpers/sl3Certification';
 
@@ -101,12 +101,10 @@ describe.skipIf(!hasPdfToolchain)('SL-3 rendered publication', () => {
         SL3_INVENTORY_GRID[orientation][2] / 20,
         1,
       );
-      // A landscape page must use its wider text area as well as a rotated
-      // media box; geometry can otherwise silently restore portrait sizing.
-      expect(wordX('NSN')).toBeGreaterThan(
-        orientation === 'landscape' ? 65 : 95,
-      );
-      expect(wordX('NSN')).toBeLessThan(orientation === 'landscape' ? 70 : 105);
+      const geometry = sl3InventoryGeometry(store.formData.sl3!);
+      expect(geometry.left).toBeCloseTo(geometry.right, 6);
+      // First NSN cell starts after the source item-number column and rule/padding.
+      expect(wordX('NSN')).toBeCloseTo(geometry.left + geometry.widths[0] + 1, 1);
     }, 60000);
 
   it('previews an empty draft without requiring export-ready content', async () => {

@@ -38,3 +38,8 @@ Word export, actual certificate signing, SL-4, full TM/IETM, revision/change pac
 See the audit report for the final local test results and the PR checks for validation of the pushed commit. The full unit/coverage suite, integration suite, twenty SL-3 matrix cases, typecheck, ESLint, production build and Companion build are exercised. Browser checks use synthetic example content only.
 
 The re-audit removes the invented certification title and duplicate running heading, keeps the serial-number rule beside its label, and measures the header before placing the form. Navigation entries wrap with real PDF links. Authentication requires a mailing address and authority title. The UI identifies this as an SL-3 preview and states the embedded-font exception.
+
+
+## Subsequent audit corrections
+
+The [fix verification record](audits/sl3-2026-10-30/FIX_VERIFICATION.md) documents dissemination preservation, wrapping underlined links, restored dates, source point sizes, caption spacing, complete/custom definitions, searchable illustration labels, centered PDF grids and continued-table rules. The [full checklist](SL3_DOCUMENT_CHECKLIST.md) retains unresolved delivery/profile/source conflicts and actual program responsibilities. Custom definitions are in Technical data and notes; lettering review and visible label placement are in Illustrations. Replacing artwork invalidates its previous review.

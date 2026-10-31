@@ -11,11 +11,15 @@ from pypdf import PdfReader
 root = Path(sys.argv[1])
 cases = [
     "portrait", "landscape", "continuation", "controlled", "raster-text",
-    "restricted-unclassified", "export-controlled",
+    "restricted-unclassified", "export-controlled", "searchable-labels",
 ]
 rows = []
 for name in cases:
     path = root / (name + ".pdf")
+    if not path.exists():
+        validation = json.loads((root / 'fixture-validation.json').read_text())
+        rows.append({'fixture': name, 'export_rejected': True, 'errors': next(r['errors'] for r in validation if r['name'] == name)})
+        continue
     pages = subprocess.check_output(
         ["pdftotext", "-layout", str(path), "-"], text=True,
     ).split("\f")
@@ -52,6 +56,8 @@ for name in cases:
         "toc_link_annotations": sum(a.get("/Subtype") == "/Link" for a in annotations),
         "toc_rule_x_ranges": rules,
         "authentication_size_counts": auth_sizes.most_common(3),
+        "toc_title_underline_count": sum(rule['left'] < 200 and rule['right'] - rule['left'] > 20 for rule in rules),
+        "CUI_control_on_every_page": all('CUI//NOFORN' in page for page in pages) if name in ('controlled', 'export-controlled') else None,
         "missing_static_glossary_terms": [
             term for term in ["PAE", "PPO", "DCI"]
             if term in text and term not in abbreviations

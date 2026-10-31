@@ -82,19 +82,40 @@ export const SL3_PREFACE = [
 export const SL3_ABBREVIATIONS = [
   ['C', 'Complete (inventory legend); Confidential (portion marking)'],
   ['CAGE', 'Commercial and Government Entity'],
+  ['CMC', 'Commandant of the Marine Corps'],
+  ['COMMARCORSYSCOM', 'Commander, Marine Corps Systems Command'],
+  ['CTI', 'Controlled Technical Information'],
   ['CUI', 'Controlled Unclassified Information'],
+  ['DC', 'District of Columbia'],
+  ['DCI', 'Deputy Commandant for Information'],
+  ['EA', 'Each (unit code)'],
   ['EDO', 'Electronic Distribution Only'],
+  ['Fig', 'Figure'],
+  ['EXPT', 'Export Controlled'],
   ['FOUO', 'For Official Use Only'],
-  ['I', 'Incomplete (inventory legend)'],
+  ['I', 'Incomplete (inventory legend); Intelligence (message addressee)'],
   ['ID', 'Identification'],
   ['KBA', 'Knowledge Base Article'],
+  ['L', 'Installations and Logistics (message addressee)'],
   ['M', 'Missing (inventory legend)'],
+  ['MC', 'Marine Corps'],
   ['MCO', 'Marine Corps Order'],
+  ['No.', 'Number'],
+  ['NOFORN', 'Not Releasable to Foreign Nationals'],
   ['NSN', 'National Stock Number'],
+  ['PAE', 'Portfolio Acquisition Executive'],
   ['PCN', 'Publication Control Number'],
+  ['PdM', 'Product Manager'],
+  ['PEO', 'Program Executive Officer'],
   ['PM', 'Program Manager'],
   ['PN', 'Part Number'],
+  ['POC', 'Point of Contact'],
+  ['PPO', 'Plans, Policies, and Operations'],
+  ['Qty', 'Quantity'],
+  ['Ref Des', 'Reference Designator'],
   ['S', 'Serviceable (inventory legend); Secret (portion marking)'],
+  ['SCI', 'Sensitive Compartmented Information'],
+  ['SD', 'Safety Division'],
   ['SL', 'Stock List'],
   ['SSRI', 'Supply System Responsibility Items'],
   ['TAMCN', 'Table of Authorized Materiel Control Number'],
@@ -103,9 +124,34 @@ export const SL3_ABBREVIATIONS = [
   ['TM', 'Technical Manual'],
   ['TS', 'Top Secret'],
   ['U', 'Unserviceable (inventory legend); Unclassified (portion marking)'],
+  ['U.S.', 'United States'],
   ['U/I', 'Unit of Issue'],
   ['U/M', 'Unit of Measure'],
   ['UM', 'User Manual'],
   ['USMC', 'United States Marine Corps'],
   ['UURI', 'Using Unit Responsibility Items'],
+  ['VA', 'Virginia'],
 ] as const;
+
+/** Core meanings cannot be silently overwritten by an author definition. */
+export function sl3Definitions(
+  custom: readonly {
+    term: string;
+    meaning: string;
+    portionMarking: string;
+  }[] = [],
+) {
+  return [
+    ...SL3_ABBREVIATIONS.map(([term, meaning]) => ({
+      term,
+      meaning,
+      portionMarking: 'U',
+    })),
+    ...custom,
+  ].sort((a, b) =>
+    a.term
+      .trim()
+      .toUpperCase()
+      .localeCompare(b.term.trim().toUpperCase(), 'en'),
+  );
+}

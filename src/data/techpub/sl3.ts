@@ -23,6 +23,35 @@ export const sl3Schema = z.object({
   showFigureReference: z.boolean().default(false),
   showModel: z.boolean().default(false),
   endItemFigureId: z.string().default(''),
+  definitions: z
+    .array(
+      z.object({
+        id: z.string().min(1),
+        term: z.string(),
+        meaning: z.string(),
+        portionMarking: portion,
+      }),
+    )
+    .default([]),
+  artwork: z
+    .array(
+      z.object({
+        figureId: z.string().min(1),
+        // Review is explicit: a raster image is never assumed to be text-free.
+        lettering: z.enum(['none', 'labels']),
+        labels: z
+          .array(
+            z.object({
+              id: z.string().min(1),
+              text: z.string().max(100),
+              x: z.number().finite().min(0).max(100),
+              y: z.number().finite().min(0).max(100),
+            }),
+          )
+          .default([]),
+      }),
+    )
+    .default([]),
   notes: z
     .array(
       z.object({
@@ -106,6 +135,11 @@ export function sl3Portions(data: Sl3Data): Paragraph[] {
       level: 0,
       portionMarking: data.sequencingPortion,
     },
+    ...(data.definitions ?? []).map((definition) => ({
+      text: definition.term + ' ' + definition.meaning,
+      level: 0,
+      portionMarking: definition.portionMarking,
+    })),
     ...data.notes.map((note) => ({
       text: note.text,
       level: 0,
@@ -264,7 +298,9 @@ export function sl3Depth(
 export function sl3InventoryGeometry(
   data: Pick<Sl3Data, 'orientation' | 'showModel' | 'showFigureReference'>,
 ) {
-  const source = SL3_INVENTORY_GRID[data.orientation].map((twips) => twips / 20);
+  const source = SL3_INVENTORY_GRID[data.orientation].map(
+    (twips) => twips / 20,
+  );
   const count = Number(data.showModel) + Number(data.showFigureReference);
   const pageWidth = data.orientation === 'landscape' ? 792 : 612;
   const baseWidth = source.reduce((sum, width) => sum + width, 0);
@@ -276,9 +312,7 @@ export function sl3InventoryGeometry(
     ...source,
     ...Array.from({ length: count }, () => optionalWidth),
   ];
-  const left = count
-    ? (pageWidth - baseWidth - count * optionalWidth) / 2
-    : data.orientation === 'landscape' ? 36 : 72;
+  const left = (pageWidth - baseWidth - count * optionalWidth) / 2;
   return {
     widths,
     left,

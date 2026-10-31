@@ -29,6 +29,25 @@ beforeEach(() => {
 
 describe('SL-3 saved content', () => {
   it('round-trips inventory through saved sessions, shared text and backup validation', () => {
+    const state = useDocumentStore.getState();
+    state.setField('sl3', {
+      ...state.formData.sl3!,
+      definitions: [
+        {
+          id: 'definition',
+          term: 'ZED',
+          meaning: 'Synthetic custom term',
+          portionMarking: 'U',
+        },
+      ],
+      artwork: [
+        {
+          figureId: 'drawing',
+          lettering: 'labels',
+          labels: [{ id: 'label', text: 'VALVE INLET', x: 50, y: 50 }],
+        },
+      ],
+    });
     const original = getSerializedSession();
     const saved = JSON.parse(JSON.stringify(original));
     expect(() => validateBackupSession(saved)).not.toThrow();

@@ -93,6 +93,8 @@ export function sessionSearchFields(session: SerializedSession): SearchField[] {
     add('sl3-details', session.formData.sl3?.sourceManual);
     add('sl3-details', session.formData.sl3?.configurationReference);
     add('sl3-details', session.formData.sl3?.notes);
+    add('sl3-details', session.formData.sl3?.definitions);
+    add('sl3-figures', session.formData.sl3?.artwork);
     add('sl3-details', session.formData.sl3?.sequencingNote);
     add('sl3-inventory', session.formData.sl3?.components);
     add('sl3-figures', session.paragraphs.filter((p) => p.figure));

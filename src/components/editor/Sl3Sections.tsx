@@ -267,6 +267,85 @@ export function Sl3DetailsSection() {
         The standard preface prints automatically. Special Notes remains present
         and prints None when empty.
       </p>
+      <fieldset className="space-y-3 rounded-md border p-3">
+        <legend className="px-1 text-sm font-medium">
+          Abbreviations, symbols, and applicability codes
+        </legend>
+        <p className="text-sm text-muted-foreground">
+          Standard terms are defined automatically. Define every additional term
+          or symbol used in your publication here; the list prints
+          alphabetically.
+        </p>
+        {(data.definitions ?? []).map((definition, i) => (
+          <div key={definition.id} className="space-y-2 border-b pb-3">
+            <Field
+              label={`Term ${i + 1}`}
+              value={definition.term}
+              onChange={(term) =>
+                update({
+                  definitions: data.definitions.map((d) =>
+                    d.id === definition.id ? { ...d, term } : d,
+                  ),
+                })
+              }
+            />
+            <Field
+              label={`Meaning ${i + 1}`}
+              value={definition.meaning}
+              onChange={(meaning) =>
+                update({
+                  definitions: data.definitions.map((d) =>
+                    d.id === definition.id ? { ...d, meaning } : d,
+                  ),
+                })
+              }
+              multiline
+            />
+            <Portion
+              label={`Definition ${i + 1} portion marking`}
+              value={definition.portionMarking}
+              onChange={(portionMarking) =>
+                update({
+                  definitions: data.definitions.map((d) =>
+                    d.id === definition.id ? { ...d, portionMarking } : d,
+                  ),
+                })
+              }
+            />
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() =>
+                update({
+                  definitions: data.definitions.filter(
+                    (d) => d.id !== definition.id,
+                  ),
+                })
+              }
+            >
+              Remove definition
+            </Button>
+          </div>
+        ))}
+        <Button
+          variant="outline"
+          onClick={() =>
+            update({
+              definitions: [
+                ...(data.definitions ?? []),
+                {
+                  id: newAttachmentId(),
+                  term: '',
+                  meaning: '',
+                  portionMarking: 'U',
+                },
+              ],
+            })
+          }
+        >
+          Add definition
+        </Button>
+      </fieldset>
       {data.notes.map((note, i) => (
         <div className="space-y-2 rounded-md border p-3" key={note.id}>
           <Field
@@ -360,7 +439,9 @@ export function Sl3InventorySection() {
         <Field
           label="Fielding Plan for optional columns"
           value={data.fieldingPlanReference}
-          onChange={(fieldingPlanReference) => update({ fieldingPlanReference })}
+          onChange={(fieldingPlanReference) =>
+            update({ fieldingPlanReference })
+          }
         />
       )}
       {items.map((item, index) => (
@@ -538,6 +619,85 @@ export function Sl3InventorySection() {
             />
             Serialized item
           </label>
+          <fieldset className="space-y-3 rounded-md border p-3">
+            <legend className="px-1 text-sm font-medium">
+              Abbreviations, symbols, and applicability codes
+            </legend>
+            <p className="text-sm text-muted-foreground">
+              Standard terms are defined automatically. Define every additional
+              term or symbol used in your publication here; the list prints
+              alphabetically.
+            </p>
+            {(data.definitions ?? []).map((definition, i) => (
+              <div key={definition.id} className="space-y-2 border-b pb-3">
+                <Field
+                  label={`Term ${i + 1}`}
+                  value={definition.term}
+                  onChange={(term) =>
+                    update({
+                      definitions: data.definitions.map((d) =>
+                        d.id === definition.id ? { ...d, term } : d,
+                      ),
+                    })
+                  }
+                />
+                <Field
+                  label={`Meaning ${i + 1}`}
+                  value={definition.meaning}
+                  onChange={(meaning) =>
+                    update({
+                      definitions: data.definitions.map((d) =>
+                        d.id === definition.id ? { ...d, meaning } : d,
+                      ),
+                    })
+                  }
+                  multiline
+                />
+                <Portion
+                  label={`Definition ${i + 1} portion marking`}
+                  value={definition.portionMarking}
+                  onChange={(portionMarking) =>
+                    update({
+                      definitions: data.definitions.map((d) =>
+                        d.id === definition.id ? { ...d, portionMarking } : d,
+                      ),
+                    })
+                  }
+                />
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() =>
+                    update({
+                      definitions: data.definitions.filter(
+                        (d) => d.id !== definition.id,
+                      ),
+                    })
+                  }
+                >
+                  Remove definition
+                </Button>
+              </div>
+            ))}
+            <Button
+              variant="outline"
+              onClick={() =>
+                update({
+                  definitions: [
+                    ...(data.definitions ?? []),
+                    {
+                      id: newAttachmentId(),
+                      term: '',
+                      meaning: '',
+                      portionMarking: 'U',
+                    },
+                  ],
+                })
+              }
+            >
+              Add definition
+            </Button>
+          </fieldset>
           {data.notes.map((note, i) => (
             <label key={note.id} className="flex items-center gap-2 text-sm">
               <input
@@ -580,6 +740,18 @@ export function Sl3IllustrationsSection() {
   const { data, update } = useSl3();
   const [error, setError] = useState('');
   const figures = paragraphs.filter((p) => p.figure);
+  const setArtwork = (
+    figureId: string,
+    patch: Partial<Sl3Data['artwork'][number]>,
+  ) => {
+    const existing = data.artwork?.find((a) => a.figureId === figureId);
+    update({
+      artwork: [
+        ...(data.artwork ?? []).filter((a) => a.figureId !== figureId),
+        { figureId, lettering: 'none', labels: [], ...existing, ...patch },
+      ],
+    });
+  };
   return (
     <div className="space-y-4">
       <label className="block space-y-1 text-sm">
@@ -662,6 +834,13 @@ export function Sl3IllustrationsSection() {
                         type: file.type,
                       },
                     });
+                  if (current.formData.sl3)
+                    current.setField('sl3', {
+                      ...current.formData.sl3,
+                      artwork: (current.formData.sl3.artwork ?? []).filter(
+                        (a) => a.figureId !== p.referenceId,
+                      ),
+                    });
                   setError('');
                 } catch (cause) {
                   setError(
@@ -673,6 +852,122 @@ export function Sl3IllustrationsSection() {
               }}
             />
           </label>
+          <label className="block space-y-1 text-sm">
+            Illustration lettering review
+            <select
+              className="w-full rounded-md border bg-background p-2"
+              aria-label={`${figureLabel(data, p.referenceId, i)} lettering review`}
+              value={
+                data.artwork?.find((a) => a.figureId === p.referenceId)
+                  ?.lettering ?? ''
+              }
+              onChange={(e) => {
+                if (!e.target.value)
+                  update({
+                    artwork: (data.artwork ?? []).filter(
+                      (a) => a.figureId !== p.referenceId,
+                    ),
+                  });
+                else
+                  setArtwork(p.referenceId!, {
+                    lettering: e.target.value as 'none' | 'labels',
+                    ...(e.target.value === 'none' ? { labels: [] } : {}),
+                  });
+              }}
+            >
+              <option value="">Review required</option>
+              <option value="none">
+                I confirm the artwork contains no lettering
+              </option>
+              <option value="labels">
+                I removed baked-in lettering; add all labels as searchable text
+              </option>
+            </select>
+          </label>
+          {data.artwork?.find((a) => a.figureId === p.referenceId)
+            ?.lettering === 'labels' && (
+            <div className="space-y-2 rounded border p-3">
+              <p className="text-xs text-muted-foreground">
+                Labels print as visible, searchable text over the artwork.
+                Position each label by its horizontal center and baseline
+                height, in percent of the image. Supply artwork without baked-in
+                lettering and check all labels against the preview.
+              </p>
+              {(
+                data.artwork.find((a) => a.figureId === p.referenceId)
+                  ?.labels ?? []
+              ).map((label, j) => (
+                <div key={label.id} className="space-y-2 border-b pb-2">
+                  <Field
+                    label={`Label ${j + 1} text`}
+                    value={label.text}
+                    onChange={(text) =>
+                      setArtwork(p.referenceId!, {
+                        labels: data.artwork
+                          .find((a) => a.figureId === p.referenceId)!
+                          .labels.map((l) =>
+                            l.id === label.id ? { ...l, text } : l,
+                          ),
+                      })
+                    }
+                  />
+                  {(['x', 'y'] as const).map((axis) => (
+                    <label key={axis} className="block text-sm">
+                      {axis === 'x'
+                        ? 'Horizontal center (%)'
+                        : 'Baseline from bottom (%)'}
+                      <Input
+                        aria-label={`Label ${j + 1} ${axis === 'x' ? 'horizontal center' : 'baseline'} percent`}
+                        type="number"
+                        min={0}
+                        max={100}
+                        step={0.1}
+                        value={label[axis]}
+                        onChange={(e) =>
+                          setArtwork(p.referenceId!, {
+                            labels: data.artwork
+                              .find((a) => a.figureId === p.referenceId)!
+                              .labels.map((l) =>
+                                l.id === label.id
+                                  ? { ...l, [axis]: Number(e.target.value) }
+                                  : l,
+                              ),
+                          })
+                        }
+                      />
+                    </label>
+                  ))}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() =>
+                      setArtwork(p.referenceId!, {
+                        labels: data.artwork
+                          .find((a) => a.figureId === p.referenceId)!
+                          .labels.filter((l) => l.id !== label.id),
+                      })
+                    }
+                  >
+                    Remove label
+                  </Button>
+                </div>
+              ))}
+              <Button
+                variant="outline"
+                onClick={() =>
+                  setArtwork(p.referenceId!, {
+                    labels: [
+                      ...(data.artwork.find((a) => a.figureId === p.referenceId)
+                        ?.labels ?? []),
+                      { id: newAttachmentId(), text: '', x: 50, y: 50 },
+                    ],
+                  })
+                }
+              >
+                Add searchable label
+              </Button>
+            </div>
+          )}
           <Button
             variant="ghost"
             size="sm"
@@ -683,6 +978,9 @@ export function Sl3IllustrationsSection() {
                 ),
               });
               update({
+                artwork: (data.artwork ?? []).filter(
+                  (a) => a.figureId !== p.referenceId,
+                ),
                 endItemFigureId:
                   data.endItemFigureId === p.referenceId
                     ? ''

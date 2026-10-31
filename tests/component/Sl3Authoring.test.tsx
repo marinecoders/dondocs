@@ -109,3 +109,60 @@ it('labels figures in publication order even when they were uploaded in a differ
     screen.getByRole('option', { name: 'Figure 1: End item drawing' }),
   ).toBeInTheDocument();
 });
+
+it('authors custom definitions with their portion markings', () => {
+  render(<Sl3DetailsSection />);
+  fireEvent.click(screen.getByRole('button', { name: 'Add definition' }));
+  fireEvent.change(screen.getByLabelText('Term 1'), {
+    target: { value: 'ZED' },
+  });
+  fireEvent.change(screen.getByLabelText('Meaning 1'), {
+    target: { value: 'Synthetic term' },
+  });
+  expect(
+    useDocumentStore.getState().formData.sl3!.definitions[0],
+  ).toMatchObject({
+    term: 'ZED',
+    meaning: 'Synthetic term',
+    portionMarking: 'U',
+  });
+  fireEvent.click(screen.getByRole('button', { name: 'Remove definition' }));
+  expect(useDocumentStore.getState().formData.sl3!.definitions).toEqual([]);
+});
+
+it('requires review before adding searchable artwork labels', () => {
+  useDocumentStore.setState({
+    paragraphs: [
+      {
+        referenceId: 'drawing',
+        level: 0,
+        text: 'Training artwork',
+        figure: {},
+      },
+    ],
+  });
+  render(<Sl3IllustrationsSection />);
+  fireEvent.change(
+    screen.getByLabelText('Illustration 1 (unassigned) lettering review'),
+    { target: { value: 'labels' } },
+  );
+  fireEvent.click(screen.getByRole('button', { name: 'Add searchable label' }));
+  fireEvent.change(screen.getByLabelText('Label 1 text'), {
+    target: { value: 'VALVE INLET' },
+  });
+  fireEvent.change(screen.getByLabelText('Label 1 horizontal center percent'), {
+    target: { value: '40' },
+  });
+  expect(useDocumentStore.getState().formData.sl3!.artwork[0]).toMatchObject({
+    figureId: 'drawing',
+    lettering: 'labels',
+    labels: [{ text: 'VALVE INLET', x: 40, y: 50 }],
+  });
+  fireEvent.change(
+    screen.getByLabelText('Illustration 1 (unassigned) lettering review'),
+    { target: { value: 'none' } },
+  );
+  expect(useDocumentStore.getState().formData.sl3!.artwork[0].labels).toEqual(
+    [],
+  );
+});

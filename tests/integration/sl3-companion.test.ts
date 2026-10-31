@@ -10,6 +10,8 @@ import { sl3Fixture } from "../_helpers/sl3Fixture";
 import { letterSchema } from "../../companion/letterSchema";
 import { validateLetter } from "../../companion/validateLetter";
 import { renderToFile } from "../../companion/renderToFile";
+import { expectSl3SourceTypography, expectVisibleSl3Label } from "../_helpers/sl3Corrections";
+import { pdfRules } from "../_helpers/pdfRules";
 import { expectSl3Certification } from "../_helpers/sl3Certification";
 
 describe("SL-3 production export", () => {
@@ -63,6 +65,16 @@ describe("SL-3 production export", () => {
     expect(parentPage).toBeDefined();
     expect(parentPage).toContain("016;");
     expect(parentPage).toContain("4 - COMPONENT");
+    const bytes = await readFile(result.path);
+    const inventoryPages = pages.map((p, i) => p.includes("Periodic Inventory") ? i + 1 : 0).filter(Boolean);
+    expect(inventoryPages.length).toBeGreaterThan(1);
+    for (const [index, number] of inventoryPages.entries()) {
+      const rules = await pdfRules(bytes, number);
+      const vertical = rules.filter((r) => Math.abs(r.right - r.left) < .01 && r.top - r.bottom > 8);
+      const bottom = Math.min(...vertical.map((r) => r.bottom));
+      const closing = rules.some((r) => r.right - r.left > 400 && Math.abs(r.bottom - bottom) < 1);
+      expect(closing).toBe(index === inventoryPages.length - 1);
+    }
   }, 60000);
   it("validates and exports with illustrations, working destinations and front authentication", async () => {
     const root = await mkdtemp(join(tmpdir(), "dondocs-sl3-export-"));
@@ -82,6 +94,8 @@ describe("SL-3 production export", () => {
       },
     ];
     input.publication!.sl3!.components[0].noteIds = ["note"];
+    input.publication!.sl3!.artwork = [{ figureId: id, lettering: "labels", labels: [{ id: "inlet", text: "VALVE INLET", x: 50, y: 50 }] }];
+    input.publication!.sl3!.definitions = [{ id: "custom", term: "ZED", meaning: "Synthetic custom term", portionMarking: "U" }];
     input.paragraphs = [
       {
         text: "Training illustration",
@@ -95,14 +109,16 @@ describe("SL-3 production export", () => {
         name: "drawing.png",
         mimeType: "image/png",
         dataBase64: (
-          await readFile("public/attachments/usmc-seal.png")
+          await (await import("sharp")).default({ create: { width: 1200, height: 600, channels: 3, background: "white" } }).png().toBuffer()
         ).toString("base64"),
       },
     ];
     expect(letterSchema.safeParse(input).success).toBe(true);
     expect(validateLetter(input)).toEqual([]);
     const result = await renderToFile(input, {}, root);
-    const pdf = await PDFDocument.load(await readFile(result.path));
+    const exportedBytes = await readFile(result.path);
+    await expectSl3SourceTypography(exportedBytes);
+    const pdf = await PDFDocument.load(exportedBytes);
     const signature = pdf
       .getForm()
       .getField("Signature1")
@@ -175,6 +191,15 @@ describe("SL-3 production export", () => {
         (action) => action.get(PDFName.of("S"))?.toString() === "/URI",
       ),
     ).toBe(true);
+    expect(pages.join(" ")).toContain("VALVE INLET");
+    await expectVisibleSl3Label(exportedBytes, pages.findIndex((p) => p.includes("VALVE INLET")) + 1);
+    expect(pages.join(" ")).toContain("Synthetic custom term");
+    expect(pages.join(" ")).toContain("Portfolio Acquisition Executive");
+    const boxes = spawnSync("pdftotext", ["-bbox", result.path, "-"], { encoding: "utf8" }).stdout;
+    const illustration = boxes.split("</page>").find((page) => page.includes(">VALVE</word>"))!;
+    const gap = illustration.match(/xMax="([\d.]+)"[^>]*>1\.<\/word>\s*<word xMin="([\d.]+)"[^>]*>Training<\/word>/);
+    expect(gap).not.toBeNull();
+    expect(Number(gap![2]) - Number(gap![1])).toBeCloseTo(4.9813, 1);
     input.paragraphs![0].text = "Overlong synthetic figure title ".repeat(20);
     const wrapped = await renderToFile(input, {}, root);
     const wrappedPages = spawnSync("pdftotext", ["-layout", wrapped.path, "-"], { encoding: "utf8" }).stdout.split("\f");
@@ -188,6 +213,8 @@ describe("SL-3 production export", () => {
     expect(Math.max(...rightEdges)).toBeLessThanOrEqual(540.5);
     const titleLines = [...illustrationList.matchAll(/yMin="([0-9.]+)"[^>]*>Overlong<\/word>/g)].map((match) => match[1]);
     expect(new Set(titleLines).size).toBeGreaterThan(1);
+    input.publication!.sl3!.artwork[0].labels[0].x = 0;
+    await expect(renderToFile(input, {}, root)).rejects.toThrow("Illustration label crosses the left edge");
   }, 60000);
   it("rejects DOCX and incomplete SL-3 data before rendering", () => {
     const input = companionSl3();
@@ -212,7 +239,7 @@ describe("SL-3 production export", () => {
         classifiedBy: "Synthetic reviewer, Example Program Office",
         reason: "1.4(a)",
         declassifyOn: "20361030",
-        cui: { controlledBy: "EXAMPLE COMMAND", category: "CTI" },
+        cui: { controlledBy: "EXAMPLE COMMAND", category: "CTI", dissemination: "NOFORN" },
       };
       input.publication!.distribution = {
         statement: "D",
@@ -235,6 +262,10 @@ describe("SL-3 production export", () => {
         expect(
           page.split(level === "secret" ? "SECRET" : "CUI").length - 1,
         ).toBeGreaterThanOrEqual(2);
+      if (level === "cui") {
+        expect(pages[0]).toContain("Distribution/Dissemination Control: NOFORN");
+        for (const page of pages) expect(page).toContain("CUI//NOFORN");
+      }
       expect(pages[0]).toContain("DESTRUCTION NOTICE");
       expect(pages.join(" ")).not.toContain("??");
       const coverBounds = spawnSync(

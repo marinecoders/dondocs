@@ -115,6 +115,7 @@
 
 \newsavebox{\dondocsCoverBody}
 \newsavebox{\dondocsCoverNotices}
+\newcommand{\dondocsNomenclatureFont}{\large\bfseries}
 \newsavebox{\dondocsNomenclatureBox}
 \newdimen\dondocsCoverAvailable
 \newcommand{\dondocsBuildCoverBody}{%
@@ -131,7 +132,7 @@
         }%
         \par\vspace{24pt}%
         \setbox\dondocsNomenclatureBox=\vbox{\hsize=\textwidth\centering
-            \large\bfseries\MakeUppercase{\Nomenclature}\par
+            \dondocsNomenclatureFont\MakeUppercase{\Nomenclature}\par
             \ifnum\prevgraf>2\relax
                 \errmessage{I-Type nomenclature exceeds two lines. Shorten it or move detail into the end item table}%
             \fi}%
@@ -218,8 +219,9 @@
 % Recording the completion of a modification applies to MIs alone. The spacing
 % above OFFICIAL is the same whether or not it appears.
 
+\newcommand{\dondocsAuthenticationFont}{\fontsize{12}{12}\selectfont}
 \newcommand{\printAddressBlock}{%
-    \begingroup\fontsize{12}{12}\selectfont
+    \begingroup\dondocsAuthenticationFont
     \thispagestyle{authpage}%
     \dondocsBookmark{0}{Authentication}{itype.authentication}
     {\centering\MakeUppercase{\UnitName}\par

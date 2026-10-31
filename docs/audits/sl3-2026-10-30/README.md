@@ -1,3 +1,5 @@
+Current implementation corrections and proof are recorded in [FIX_VERIFICATION.md](FIX_VERIFICATION.md), `fix-verification.json` and `verified/`. The following description of defects and original observations refers to the historical baseline, not the corrected output.
+
 # SL-3 audit evidence
 
 The [document checklist](../../SL3_DOCUMENT_CHECKLIST.md) records the audit of code baseline `51ba175d`, excluding Times New Roman font-family embedding. No application code was changed by this audit package. All fixtures are synthetic.
@@ -12,7 +14,7 @@ From the repository root, with its installed development dependencies:
 npx vite-node --config vitest.integration.config.ts docs/audits/sl3-2026-10-30/reproduce.mts
 ```
 
-The command prints a temporary output directory. It contains all seven PDFs, their exact synthetic inputs and validation results. No real publication is read or overwritten. Inspect that directory with Poppler and Python (`pdfplumber`, `pypdf`):
+The command prints a temporary output directory. It exercises eight inputs: seven PDFs, their exact synthetic inputs and validation results, plus the intentionally rejected unreviewed raster. No real publication is read or overwritten. Inspect that directory with Poppler and Python (`pdfplumber`, `pypdf`):
 
 ```sh
 python3 docs/audits/sl3-2026-10-30/verify.py /absolute/path/printed-by-the-command
