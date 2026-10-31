@@ -11,7 +11,7 @@ Branch: `feature/sl3-components-list`. PR: `feat(techpub): add SL-3 components l
 - Preserve all original inventory cell widths, including when optional columns are added. Additional columns use available PDF margin space and require a Fielding Plan reference; narrow headings rotate and values wrap. No approved tailoring or current ALPS-HDBK-004 was supplied.
 - Production embeds Nimbus Roman rather than Times New Roman. This is a material unresolved compliance gap. Installed system fonts do not establish browser support or redistribution rights.
 
-The complete requirement matrix, source identities, exceptions and validation are in [SL3_COMPLIANCE_AUDIT.md](SL3_COMPLIANCE_AUDIT.md). This MVP is not certified as 100% compliant or approved for enterprise publication release.
+The current [full document checklist](SL3_DOCUMENT_CHECKLIST.md) contains the later requirement-by-requirement audit, including non-font gaps. Earlier implementation history, source identities and validation are in [SL3_COMPLIANCE_AUDIT.md](SL3_COMPLIANCE_AUDIT.md). This MVP is not certified as 100% compliant or approved for enterprise publication release.
 
 ## Implementation
 
