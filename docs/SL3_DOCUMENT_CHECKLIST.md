@@ -28,6 +28,8 @@ See [fix verification](audits/sl3-2026-10-30/FIX_VERIFICATION.md) and its reprod
 
 The [31 October completed-field check](audits/sl3-2026-10-31/README.md) verifies the source-specific separator/top-border spacing and populates all certification rows with synthetic names/ranks and dates. It also checks extended headers, cover continuation, authentication/signature-field clearance and refusal of authentication overflow. The close portrait top rule is a border above twenty full-height writing spaces.
 
+The [generated-text collision check](audits/sl3-2026-10-31/TEXT_LAYOUT_VERIFICATION.md) corrects the fixed COMMARCORSYSCOM column overlap and tests whole-document text bounds with long definitions, headers, optional inventory fields, notes and illustrations in both layouts.
+
 ## Findings excluding font family
 
 | ID | Disposition | Finding and evidence | Required action |

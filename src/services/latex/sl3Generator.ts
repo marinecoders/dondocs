@@ -19,6 +19,19 @@ type Store = { formData: Partial<DocumentData>; paragraphs: Paragraph[] };
 const text = (s: string) => escapeLatex(s).replace(/\r?\n/g, '\\par ');
 const optionalText = (s: string) =>
   Array.from(s).map(text).join('\\allowbreak ');
+// Keep ordinary words intact; only an oversized token needs extra break points.
+const definitionText = (s: string) =>
+  s
+    .split(/(\s+)/)
+    .filter(Boolean)
+    .map((token) =>
+      /^\s+$/.test(token)
+        ? /[\r\n]/.test(token)
+          ? '\\par\n'
+          : '\n'
+        : `\\slThreeDefinitionWord{${text(token)}}{${optionalText(token).replaceAll('\\allowbreak ', '\\allowbreak\n')}}`,
+    )
+    .join('');
 const paragraph = (s: string) => `${text(s)}\\par\\vspace{6pt}\n`;
 const fixedPrefaceText = (s: string) =>
   text(s).replaceAll(
@@ -190,12 +203,25 @@ export function generateSl3Body(store: Store): string {
       `\\dondocsNeedspace{24pt}\\dondocsBookmark{0}{${i + 19}. ${text(note.text)}}{sl3.note.${i + 19}}\\textbf{${i + 19}.} ${mark(note.portionMarking)}${paragraph(note.text)}`,
     ),
   );
+  const definitions = sl3Definitions(data.definitions);
+  const definitionColumns =
+    '@{}>{\\raggedright\\arraybackslash}p{\\slThreeDefinitionWidth}@{\\hspace{12pt}}>{\\raggedright\\arraybackslash}p{\\dimexpr\\textwidth-\\slThreeDefinitionWidth-12pt\\relax}@{}';
   out.push(
     '\\clearpage' + heading('ABBREVIATIONS', 'sl3.abbreviations'),
-    '\\begin{longtable}{@{}p{0.9in}p{\\dimexpr\\textwidth-0.9in-2\\tabcolsep\\relax}@{}}\n',
-    ...sl3Definitions(data.definitions).map(
+    '\\slThreeDefinitionWidth=1in\n',
+    ...definitions.map(
+      ({ term, portionMarking }) =>
+        `\\slThreeMeasureDefinition{${mark(portionMarking)}${text(term)}}\n`,
+    ),
+    '\\ifdim\\slThreeDefinitionWidth>0.4\\textwidth\\slThreeDefinitionWidth=0.4\\textwidth\\fi\n',
+    ...definitions.map(
       ({ term, meaning, portionMarking }) =>
-        `${mark(portionMarking)}${text(term)} & ${text(meaning)}\\tabularnewline\n`,
+        `\\slThreeCheckDefinition{${definitionColumns}}{${definitionText(mark(portionMarking) + term)} & ${definitionText(meaning)}}\n`,
+    ),
+    `\\begin{longtable}{${definitionColumns}}\\endfirsthead\n\\multicolumn{2}{@{}l}{\\textbf{ABBREVIATIONS - Continued}}\\tabularnewline[6pt]\\endhead\n`,
+    ...definitions.map(
+      ({ term, meaning, portionMarking }) =>
+        `${definitionText(mark(portionMarking) + term)} & ${definitionText(meaning)}\\tabularnewline[2pt]\n`,
     ),
     '\\end{longtable}\n',
     '\\clearpage' + heading('TECHNICAL DATA', 'sl3.technical'),

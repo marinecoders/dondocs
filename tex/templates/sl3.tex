@@ -116,6 +116,23 @@
   \ifcsname r@#1\endcsname
     \expandafter\expandafter\expandafter\slThreeLabelPage\csname r@#1\endcsname\slThreeStop
   \else ?\fi}
+% Measure the actual marked terms; cap their column and preserve a clear gutter.
+\newdimen\slThreeDefinitionWidth
+\newsavebox{\slThreeDefinitionWordBox}
+\newsavebox{\slThreeDefinitionRowBox}
+\newcommand{\slThreeMeasureDefinition}[1]{%
+  \sbox{\slThreeDefinitionWordBox}{#1}%
+  \ifdim\wd\slThreeDefinitionWordBox>\slThreeDefinitionWidth
+    \slThreeDefinitionWidth=\dimexpr\wd\slThreeDefinitionWordBox+2pt\relax
+  \fi}
+\newcommand{\slThreeDefinitionWord}[2]{%
+  \sbox{\slThreeDefinitionWordBox}{#1}%
+  \ifdim\wd\slThreeDefinitionWordBox>\linewidth #2\else #1\fi}
+\newcommand{\slThreeCheckDefinition}[2]{%
+  \sbox{\slThreeDefinitionRowBox}{\begin{tabular}{#1}#2\tabularnewline\end{tabular}}%
+  \ifdim\dimexpr\ht\slThreeDefinitionRowBox+\dp\slThreeDefinitionRowBox>\dimexpr\textheight-36pt\relax
+    \PackageError{SL-3}{An abbreviation definition exceeds one page}{Shorten the definition or move detailed explanation into technical data.}%
+  \fi}
 \newenvironment{slThreeNote}{\begin{list}{}{\setlength{\leftmargin}{5ex}\setlength{\rightmargin}{5ex}}\item[]}{\end{list}}
 \newsavebox{\slThreeNoteBox}
 \newcommand{\slThreeFixedNote}[1]{%
@@ -154,7 +171,7 @@
 }
 % Optional columns use only the spare PDF margin area. Rotate their headings
 % when both columns are needed in the wide source grid; retain readable type.
-\newcommand{\slThreeOptionalHeading}[1]{\rotatebox{90}{\strut #1}}
+\newcommand{\slThreeOptionalHeading}[1]{\par\vspace{3pt}\noindent\rotatebox{90}{\strut #1}}
 \newsavebox{\slThreeRows}
 \newsavebox{\slThreeCertificationBox}
 \newcommand{\slThreeCertification}[2]{%

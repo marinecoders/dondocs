@@ -47,3 +47,5 @@ The [fix verification record](audits/sl3-2026-10-30/FIX_VERIFICATION.md) documen
 The [completed-field spacing verification](audits/sl3-2026-10-31/README.md) distinguishes the portrait grid top border from writing baselines, matches source-specific separator gaps and tests populated rows and extended metadata. Authentication that exceeds one page is refused rather than exported across pages.
 
 The [UI preview verification](audits/sl3-2026-10-31/PREVIEW_VERIFICATION.md) covers mixed portrait/wide paper at a common physical scale, preserved page position across layout changes and working fit/manual zoom.
+
+The [text collision verification](audits/sl3-2026-10-31/TEXT_LAYOUT_VERIFICATION.md) fixes the abbreviation-column overlap with measured widths, a fixed gutter and safe token wrapping. It also checks all generated pages with long entries, optional inventory columns, notes, labels and captions.
