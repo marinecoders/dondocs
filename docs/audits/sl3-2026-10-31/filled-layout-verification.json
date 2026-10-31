@@ -1,0 +1,50 @@
+{
+  "baseline_commit": "b32a69ab82fe0d86bcb9253cbae6cfaec59b91dd",
+  "scope": "Synthetic completed-row QA copies, not application form fields or actual certificate signatures.",
+  "source_portrait_header_gap_bp": 13.25,
+  "source_landscape_header_to_first_writing_rule_bp": 41.2,
+  "cases": [
+    {
+      "orientation": "landscape",
+      "extended_fields": true,
+      "pages": 14,
+      "separator_to_first_rule_bp": 41.199,
+      "writing_pitch_bp": 29.3,
+      "writing_rows": 12,
+      "populated_names_and_dates": true,
+      "pdf_sha256": "fd03d25f3ece751e6c6963be71e6a5f26e8f859c7b45c971c45f17578d40f1da"
+    },
+    {
+      "orientation": "portrait",
+      "extended_fields": true,
+      "pages": 14,
+      "separator_to_first_rule_bp": 13.25,
+      "writing_pitch_bp": 26.4,
+      "writing_rows": 20,
+      "populated_names_and_dates": true,
+      "pdf_sha256": "c9ece2a007866d3a8e2ddaf4a5a3455d75b7f0b4f7413948947f2dce69232510"
+    },
+    {
+      "orientation": "landscape",
+      "extended_fields": false,
+      "pages": 12,
+      "separator_to_first_rule_bp": 41.2,
+      "writing_pitch_bp": 29.3,
+      "writing_rows": 12,
+      "populated_names_and_dates": true,
+      "pdf_sha256": "9c06ce7ef0a76f423d1c18e3e7f1810f1d7cc983f941cf388420c34a18e70e9f"
+    },
+    {
+      "orientation": "portrait",
+      "extended_fields": false,
+      "pages": 12,
+      "separator_to_first_rule_bp": 13.25,
+      "writing_pitch_bp": 26.4,
+      "writing_rows": 20,
+      "populated_names_and_dates": true,
+      "pdf_sha256": "a0d1ca69352bb91045eb75ffe21994afc9815133cbd59ef438e95e49046c8be6"
+    }
+  ],
+  "focused_regressions_passed": 24,
+  "authentication_overflow": "rejected by production renderer"
+}

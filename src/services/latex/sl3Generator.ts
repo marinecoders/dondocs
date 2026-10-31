@@ -415,6 +415,8 @@ export function generateSl3Body(store: Store): string {
         (i < 2 ? `@{\\hspace{${grid[column + 1]}bp}}` : ''),
     )
     .join('');
+  // The portrait row-zero rule is the table's top border, not a writing line.
+  // Twenty full-height writing spaces follow it.
   // Word's collapsed 0.5-point border adds to its minimum row height. Keep
   // those measured line centers while applying the PDF standard's rule weight.
   const rowPitch = certification.rowHeight / 20 + 0.5;
@@ -443,7 +445,7 @@ export function generateSl3Body(store: Store): string {
       `\\begin{tabular}{@{}${certificationColumns}@{}}\n` +
       '\\textbf{INVENTORIED BY} & \\textbf{SUPERVISED BY} & \\textbf{DATE}\\tabularnewline[6pt]\n' +
       '\\textbf{(Signature of person conducting inventory)} & \\textbf{(Signature of person certifying/supervising inventory)} & \\textbf{(Date inventory completed)}\\tabularnewline[6pt]\\hline\n' +
-      '\\end{tabular}\\par\\vspace{12bp}\\nointerlineskip\\noindent\n' +
+      `\\end{tabular}\\par\\vspace{\\dimexpr${certification.headerGap}bp-\\arrayrulewidth/2\\relax}\\nointerlineskip\\noindent\n` +
       `\\setlength{\\unitlength}{1bp}\\linethickness{0.75bp}\\begin{picture}(${certificationWidth},${gridHeight})\n` +
       rules.join('\n') +
       '\\end{picture}}\n',

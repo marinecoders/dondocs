@@ -26,6 +26,8 @@ The subsequent implementation pass fixes F01-F05, F09, F12 and F13 and applies t
 
 See [fix verification](audits/sl3-2026-10-30/FIX_VERIFICATION.md) and its reproducible observations. The original `checklist-evidence.json` is the historical baseline snapshot; rows below carry the updated dispositions. “Fixed” describes the software defect, not certification of arbitrary program data or authorization to publish.
 
+The [31 October completed-field check](audits/sl3-2026-10-31/README.md) verifies the source-specific separator/top-border spacing and populates all certification rows with synthetic names/ranks and dates. It also checks extended headers, cover continuation, authentication/signature-field clearance and refusal of authentication overflow. The close portrait top rule is a border above twenty full-height writing spaces.
+
 ## Findings excluding font family
 
 | ID | Disposition | Finding and evidence | Required action |

@@ -110,12 +110,14 @@ export const SL3_CERTIFICATION_LAYOUT = {
     rows: 20,
     rowHeight: 518,
     topRule: true,
+    headerGap: 13.25,
     grid: [2808, 360, 3057, 270, 2973],
   },
   landscape: {
     rows: 12,
     rowHeight: 576,
     topRule: false,
+    headerGap: 11.9,
     grid: [4430, 554, 4800, 554, 4062],
   },
 } as const;

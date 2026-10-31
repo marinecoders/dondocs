@@ -89,7 +89,15 @@
 \renewcommand{\dondocsNomenclatureFont}{\fontsize{10}{12}\selectfont\bfseries}
 \renewcommand{\dondocsAuthenticationFont}{\fontsize{10}{12}\selectfont}
 \let\slThreeAuthentication\printAddressBlock
-\renewcommand{\printAddressBlock}{\pagenumbering{roman}\slThreeAuthentication}
+\newcount\slThreeAuthenticationStart
+\renewcommand{\printAddressBlock}{%
+  \pagenumbering{roman}\slThreeAuthenticationStart=\value{page}%
+  \slThreeAuthentication
+  % The shared authentication macro ends with one mandatory page break.
+  \ifnum\value{page}>\numexpr\slThreeAuthenticationStart+1\relax
+    \PackageError{SL-3}{Authentication exceeds one page}{Shorten the command address, signatory title, or controlling office. The source authentication must remain on one page.}%
+  \fi}
+
 \let\slThreeEndItemOverflow\printEndItemOverflowTable
 \renewcommand{\printEndItemOverflowTable}{\renewcommand{\thepage}{T-\arabic{page}}\slThreeEndItemOverflow}
 \let\slThreeBookmark\dondocsBookmark
