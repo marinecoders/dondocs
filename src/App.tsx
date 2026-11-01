@@ -2081,7 +2081,7 @@ ${texFiles['body.tex'] || '% No body content'}
       <DocumentGuideModal />
       <WelcomeModal />
       <TourOverlay />
-      <ActivationChecklist dialogOnly />
+      <ActivationChecklist />
       <PIIWarningModal
         detectionResult={piiDetectionResult}
         onCancel={handleCancelPIIDownload}
