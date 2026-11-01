@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.0] — 2026-11-01
+
+### Changed
+- Restore Getting started with a compact checklist, a collapse control, and a Hide setup menu.
+
+### Fixed
+- Keep walkthrough targets visible and keyboard navigation usable across desktop and mobile.
+- Keep Getting started available from Help after dismissal or completion.
+
 ## [1.2.208] — 2026-10-29
 
 ### Added
