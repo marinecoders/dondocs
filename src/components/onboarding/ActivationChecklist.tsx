@@ -1,26 +1,26 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import {
   ChevronDown,
-  X,
-  ArrowRight,
+  Ellipsis,
+  EyeOff,
   PartyPopper,
-  GraduationCap,
-  UserPlus,
-  FileText,
-  FolderSync,
-  MonitorDown,
-  Compass,
+  Circle,
   CheckCircle2,
-  type LucideIcon,
 } from 'lucide-react';
 import { TourButton } from '@/components/tour/TourButton';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { ProgressRing } from './ProgressRing';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { useProfileStore } from '@/stores/profileStore';
@@ -39,18 +39,17 @@ const prefersReducedMotion = () =>
   typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
 interface ChecklistRow {
-  glyph: LucideIcon;
   title: string;
   sub: string;
   done: boolean;
-  /** Shown in place of the arrow while incomplete (e.g. the features tally). */
+  /** Feature walkthrough tally while incomplete. */
   badge?: string;
   action: () => void;
 }
 
 /**
  * Floating getting-started checklist. A collapsed pill (progress ring + "Get set
- * up") expands into a card tracking the five onboarding steps; finishing all five
+ * up") expands into a card tracking setup steps; finishing them all
  * fires a one-off celebration and retires the launcher. Dismissible and re-openable
  * from Help. Hidden while the product tour runs.
  *
@@ -58,7 +57,8 @@ interface ChecklistRow {
  * first_document/first_backup milestones, the 8 feature walkthroughs). Only the
  * launcher's own dismissed/celebrated lifecycle is persisted.
  */
-export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boolean }) {
+export function ActivationChecklist() {
+  const descriptionPrefix = useId();
   const completed = useOnboardingStore((s) => s.completed);
   const profiles = useProfileStore((s) => s.profiles);
   const backupStatus = useBackupStore((s) => s.status);
@@ -91,28 +91,24 @@ export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boole
 
   const rows: ChecklistRow[] = [
     {
-      glyph: GraduationCap,
       title: 'Take the guided tour',
       sub: 'A 60-second look around the editor',
       done: tourDone,
       action: () => useTourStore.getState().start(),
     },
     {
-      glyph: UserPlus,
       title: 'Create your command profile',
       sub: 'Save your letterhead and signature once, reuse everywhere',
       done: profileDone,
       action: () => useUIStore.getState().openProfileEditor(null),
     },
     {
-      glyph: FileText,
       title: 'Build your first document',
       sub: 'Pick a template and export a PDF',
       done: docDone,
       action: () => useUIStore.getState().setTemplateLoaderOpen(true),
     },
     {
-      glyph: FolderSync,
       title: 'Back up your work',
       sub: 'One file with everything — restore it on any machine',
       done: backupDone,
@@ -130,7 +126,6 @@ export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boole
     ...(isInstalled || isInstallRelevant(canInstall, isInstalled)
       ? [
           {
-            glyph: MonitorDown,
             title: 'Install the app',
             sub: 'One-tap offline access from its own icon',
             done: isInstalled,
@@ -139,7 +134,6 @@ export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boole
         ]
       : []),
     {
-      glyph: Compass,
       title: 'Explore the power features',
       sub: 'Batch, sharing, classification, and more',
       done: featuresDone,
@@ -158,6 +152,66 @@ export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boole
   const pillRef = useRef<HTMLButtonElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const wasOpen = useRef(false);
+  const pendingTool = useRef<(() => void) | null>(null);
+
+  const collapse = (fromSheet: boolean) => {
+    if (fromSheet) setSheetOpen(false);
+    else setOpen(false);
+  };
+  const hide = () => {
+    setOpen(false);
+    setSheetOpen(false);
+    setDismissed(true);
+  };
+
+  const renderHeader = (fromSheet: boolean) => (
+    <div className="flex shrink-0 items-center gap-1 px-4 pt-2.5 pb-2">
+      <div className="flex min-h-9 min-w-0 flex-1 items-center justify-between gap-2">
+        {fromSheet ? (
+          <DialogTitle className="text-[13px] font-medium">Getting started</DialogTitle>
+        ) : (
+          <h3 className="text-[13px] font-medium">Getting started</h3>
+        )}
+        <span className="shrink-0 text-xs tabular-nums text-muted-foreground">{done} of {total}</span>
+      </div>
+      <DropdownMenu modal={false}>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            type="button"
+            aria-label="Setup options"
+            title="Setup options"
+            className="getting-started-control h-8 w-8 text-muted-foreground"
+          >
+            <Ellipsis aria-hidden="true" className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" sideOffset={6} collisionPadding={12} className="min-w-[180px] rounded-xl p-1.5">
+          <DropdownMenuItem onSelect={hide} className="getting-started-control min-h-8 rounded-md text-[13px]">
+            <EyeOff aria-hidden="true" className="h-4 w-4" />
+            Hide setup
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <Button
+        variant="ghost"
+        size="icon"
+        type="button"
+        onClick={() => collapse(fromSheet)}
+        aria-label="Collapse checklist"
+        title="Collapse setup"
+        className="getting-started-control -mr-2 h-8 w-8 text-muted-foreground"
+      >
+        <ChevronDown aria-hidden="true" className="h-4 w-4" />
+      </Button>
+      {fromSheet && (
+        <DialogDescription className="sr-only">
+          {done === total ? 'Squared away' : `${done} of ${total} done`}
+        </DialogDescription>
+      )}
+    </div>
+  );
 
   // Celebration is derived: shown while every step is done but checklistCelebrated
   // hasn't been set. The effect retires it after a beat; "Start drafting" at once.
@@ -169,8 +223,8 @@ export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boole
   }, [showCelebration, setCelebrated]);
 
   // On open, focus the first actionable row, or the card itself when every row is
-  // done (a disabled button can't take focus). Escape collapses, handled at the
-  // window in capture phase so it works wherever focus landed.
+  // done (a disabled button can't take focus). Escape collapses while focus is
+  // in the card, leaving other dialogs free to handle their own Escape key.
   useEffect(() => {
     if (open) {
       const card = cardRef.current;
@@ -178,7 +232,7 @@ export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boole
       (firstEnabled ?? card)?.focus();
       wasOpen.current = true;
       const onKey = (e: KeyboardEvent) => {
-        if (e.key !== 'Escape') return;
+        if (e.key !== 'Escape' || !cardRef.current?.contains(e.target as Node)) return;
         e.stopPropagation();
         setOpen(false);
       };
@@ -194,19 +248,24 @@ export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boole
   }, [open]);
 
   // Shared row list — identical rows on the desktop card and the mobile sheet;
-  // only the close-on-navigate callback differs.
-  const renderRows = (onNavigate: () => void) => (
-    <ul className="p-1.5">
-      {rows.map((row) => {
-        const Glyph = row.glyph;
+  // only the close-on-navigate behavior differs.
+  const renderRows = (fromSheet: boolean) => (
+    <ul className="min-h-0 overflow-y-auto px-2 pb-3">
+      {rows.map((row, index) => {
+        const descriptionId = `${descriptionPrefix}-${index}`;
         return (
           <li key={row.title}>
             <button
               type="button"
               disabled={row.done}
               onClick={() => {
-                row.action();
-                onNavigate();
+                if (fromSheet) {
+                  pendingTool.current = row.action;
+                  setSheetOpen(false);
+                } else {
+                  setOpen(false);
+                  row.action();
+                }
               }}
               aria-label={
                 row.done
@@ -215,33 +274,26 @@ export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boole
                     ? `${row.title} — ${row.badge.replace('/', ' of ')} learned`
                     : `${row.title} — not started`
               }
-              className={`group flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left transition-colors ${
+              aria-describedby={row.done ? undefined : descriptionId}
+              title={row.done ? undefined : row.sub}
+              className={`getting-started-control flex w-full items-center gap-2.5 rounded-md px-2 text-left outline-none transition-colors focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:ring-inset ${isMobile ? 'min-h-11 py-2.5' : 'min-h-8 py-1.5'} ${
                 row.done ? 'cursor-default' : 'hover:bg-muted/60'
               }`}
             >
               {row.done ? (
-                <CheckCircle2 className="h-5 w-5 shrink-0 text-success" />
+                <CheckCircle2 aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
               ) : (
-                <Glyph className="h-5 w-5 shrink-0 text-muted-foreground" />
+                <Circle aria-hidden="true" strokeWidth={1.25} className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
               )}
-              <div className="min-w-0 flex-1">
-                <div
-                  className={`text-sm font-medium leading-snug ${
-                    row.done ? 'text-muted-foreground line-through' : 'text-foreground'
-                  }`}
-                >
-                  {row.title}
-                </div>
-                {!row.done && <div className="text-xs text-muted-foreground">{row.sub}</div>}
-              </div>
-              {!row.done &&
-                (row.badge ? (
-                  <span className="shrink-0 rounded-full bg-muted px-1.5 py-0.5 text-2xs font-medium tabular-nums text-muted-foreground">
-                    {row.badge}
-                  </span>
-                ) : (
-                  <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
-                ))}
+              <span
+                className={`min-w-0 flex-1 text-[13px] font-normal leading-5 ${
+                  row.done ? 'text-muted-foreground line-through' : 'text-foreground'
+                }`}
+              >
+                {row.title}
+              </span>
+              {!row.done && <span id={descriptionId} className="sr-only">{row.sub}</span>}
+              {!row.done && row.badge && <span className="shrink-0 text-xs tabular-nums text-muted-foreground">{row.badge}</span>}
             </button>
           </li>
         );
@@ -250,19 +302,25 @@ export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boole
   );
 
   // The first-run tour owns the screen.
-  if (tourActive || (dialogOnly && !sheetOpen)) return null;
-  // A finished celebration retires the launcher for good.
-  if (celebrated) return null;
+  if (tourActive) return null;
+  // Retire the launcher after completion, but allow reopening from Help.
+  if (celebrated && !sheetOpen) return null;
 
-  // ── Mobile: bottom sheet, opened from the menu's "Getting started" ────────
-  // No floating launcher (the Preview FAB owns the corner) and the `dismissed`
-  // flag doesn't apply — the sheet only ever appears when explicitly opened.
-  if (isMobile || dialogOnly) {
+  // Mobile uses a sheet; Help opens the same sheet on any screen size.
+  // Explicitly opening it bypasses the desktop launcher's dismissed flag.
+  if (isMobile || sheetOpen) {
     return (
       <Dialog open={sheetOpen} onOpenChange={setSheetOpen}>
         <DialogContent
-          className="top-auto bottom-0 left-0 translate-x-0 translate-y-0 w-full max-w-full sm:max-w-full rounded-b-none rounded-t-2xl border-x-0 border-b-0 p-0 gap-0"
-          style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+          data-getting-started
+          showCloseButton={showCelebration}
+          className={`flex flex-col overflow-hidden rounded-2xl p-0 gap-0 sm:max-w-[300px] ${isMobile ? 'top-auto bottom-0 left-0 translate-x-0 translate-y-0 max-w-full sm:max-w-full rounded-b-none border-x-0 border-b-0' : ''}`}
+          style={isMobile ? { paddingBottom: 'env(safe-area-inset-bottom, 0px)' } : undefined}
+          onCloseAutoFocus={() => {
+            const run = pendingTool.current;
+            pendingTool.current = null;
+            if (run) queueMicrotask(run);
+          }}
         >
           {showCelebration ? (
             <div className="p-6 text-center">
@@ -274,7 +332,7 @@ export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boole
                 Everything&apos;s in order — time to draft.
               </DialogDescription>
               <TourButton
-                className="mt-4"
+                className="getting-started-control mt-4"
                 onClick={() => {
                   setCelebrated(true);
                   setSheetOpen(false);
@@ -285,22 +343,14 @@ export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boole
             </div>
           ) : (
             <>
-              <DialogHeader className="px-4 pt-4 pb-1 text-left">
-                <DialogTitle className="flex items-center gap-2.5 text-sm font-semibold">
-                  <ProgressRing size={26} done={done} total={total} />
-                  Getting started
-                </DialogTitle>
-                <DialogDescription className="text-xs text-muted-foreground">
-                  {done === total ? 'Squared away' : `${done} of ${total} done`}
-                </DialogDescription>
-              </DialogHeader>
-              <div className="mx-4 mb-1 h-1 overflow-hidden rounded-full bg-muted">
+              {renderHeader(true)}
+              <div role="progressbar" aria-label="Setup progress" aria-valuemin={0} aria-valuemax={total} aria-valuenow={done} className="mx-4 mb-3 h-1.5 shrink-0 overflow-hidden rounded-full bg-muted-foreground/20">
                 <div
                   className="h-full rounded-full bg-primary transition-[width] duration-500 ease-out motion-reduce:transition-none"
                   style={{ width: `${(done / total) * 100}%` }}
                 />
               </div>
-              {renderRows(() => setSheetOpen(false))}
+              {renderRows(true)}
             </>
           )}
         </DialogContent>
@@ -313,18 +363,11 @@ export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boole
   if (dismissed && !celebrated) return null;
 
   const reduce = prefersReducedMotion();
-  // The open effect handles focus; these just flip state.
-  const collapse = () => setOpen(false);
-  const hide = () => {
-    setOpen(false);
-    setDismissed(true);
-  };
-
   // z-40: above page content but below Radix modals (z-50), so a modal a row
   // opens covers the pill rather than floating over the dim.
   const anchor = 'fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 origin-bottom-right';
   const cardChrome =
-    'w-[340px] max-w-[calc(100vw-2.5rem)] rounded-xl border border-border bg-popover text-popover-foreground shadow-elevated overflow-hidden';
+    'flex max-h-[calc(100dvh-3rem)] w-[300px] max-w-[calc(100vw-2.5rem)] flex-col rounded-2xl border border-border bg-popover text-popover-foreground overflow-hidden';
   const cardMotion = reduce ? '' : 'animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-2 duration-200 ease-out';
 
   // ── Celebration ──────────────────────────────────────────────────────────
@@ -347,7 +390,7 @@ export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boole
             <p className="sr-only" role="status" aria-live="polite">
               All steps complete. DonDocs is ready.
             </p>
-            <TourButton className="mt-4" onClick={() => setCelebrated(true)}>
+            <TourButton className="getting-started-control mt-4" onClick={() => setCelebrated(true)}>
               Start drafting
             </TourButton>
           </div>
@@ -369,7 +412,7 @@ export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boole
           aria-haspopup="dialog"
           className="inline-flex h-11 items-center gap-2.5 rounded-full border border-border bg-popover pl-1.5 pr-3.5 text-popover-foreground shadow-elevated outline-none transition-[transform,border-color] duration-150 hover:-translate-y-px hover:border-primary/40 active:scale-[0.97] focus-visible:ring-[3px] focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none max-sm:w-11 max-sm:justify-center max-sm:px-0"
         >
-          <ProgressRing size={28} done={done} total={total} />
+          <ProgressRing size={36} done={done} total={total} />
           <span className="hidden text-[13px] font-medium leading-none sm:inline">Get set up</span>
         </button>
       </div>
@@ -387,34 +430,10 @@ export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boole
         aria-label="Getting started checklist"
       >
         {/* Header */}
-        <div className="flex items-center gap-2 px-4 pt-3.5 pb-2">
-          <ProgressRing size={26} done={done} total={total} />
-          <div className="min-w-0 flex-1">
-            <div className="text-sm font-semibold leading-tight">Getting started</div>
-            <div className="text-xs text-muted-foreground">
-              {done === total ? 'Squared away' : `${done} of ${total} done`}
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={collapse}
-            aria-label="Collapse checklist"
-            className="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
-          >
-            <ChevronDown className="h-4 w-4" />
-          </button>
-          <button
-            type="button"
-            onClick={hide}
-            aria-label="Hide getting-started checklist"
-            className="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
+        {renderHeader(false)}
 
         {/* Macro progress rail */}
-        <div className="mx-4 mb-1 h-1 overflow-hidden rounded-full bg-muted">
+        <div role="progressbar" aria-label="Setup progress" aria-valuemin={0} aria-valuemax={total} aria-valuenow={done} className="mx-4 mb-3 h-1.5 shrink-0 overflow-hidden rounded-full bg-muted-foreground/20">
           <div
             className="h-full rounded-full bg-primary transition-[width] duration-500 ease-out motion-reduce:transition-none"
             style={{ width: `${(done / total) * 100}%` }}
@@ -423,12 +442,8 @@ export function ActivationChecklist({ dialogOnly = false }: { dialogOnly?: boole
         <p className="sr-only" role="status" aria-live="polite">{`${done} of ${total} steps complete`}</p>
 
         {/* Items */}
-        {renderRows(() => setOpen(false))}
+        {renderRows(false)}
 
-        {/* Footer */}
-        <div className="border-t border-border px-4 py-2.5">
-          <p className="text-2xs text-muted-foreground">Reopen anytime from the Help menu.</p>
-        </div>
       </div>
     </div>
   );

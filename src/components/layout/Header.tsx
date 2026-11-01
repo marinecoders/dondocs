@@ -310,7 +310,10 @@ export function Header({
         {isMobile ? <HeaderTip label="Open workspace">
           <Button variant="ghost" className="workspace-sidebar-toggle shrink-0 gap-0 overflow-hidden"
             data-tour="workspace-menu" aria-label="Open workspace" aria-expanded={mobileDocsOpen}
-            aria-haspopup="dialog" onClick={() => useUIStore.getState().setMobileDocsOpen(true)}
+            aria-haspopup="dialog" onClick={(event) => {
+              event.currentTarget.focus();
+              useUIStore.getState().setMobileDocsOpen(true);
+            }}
           ><PanelLeft aria-hidden="true" className="h-4 w-4 shrink-0" /></Button>
         </HeaderTip> : null}
         <DraftIdentity />
