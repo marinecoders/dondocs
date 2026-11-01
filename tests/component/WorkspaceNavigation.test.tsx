@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { beforeEach, expect, it, vi } from 'vitest';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { EditorSidebar } from '@/components/layout/EditorSidebar';
 import { MobileRecents } from '@/components/layout/MobileRecents';
@@ -15,6 +15,8 @@ import { useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { useTourStore } from '@/stores/tourStore';
+import { TourOverlay } from '@/components/tour/TourOverlay';
+import { TOUR_STEPS } from '@/components/tour/tourSteps';
 
 beforeEach(() => {
   useUIStore.setState({ isMobile: false, sidebarCollapsed: false, sidebarOutlineVisible: false,
@@ -31,6 +33,25 @@ const destinations = [
   ['Settings', { settingsOpen: true, settingsSection: 'appearance' }],
   ['Help', { helpOpen: true }],
 ] as const;
+
+it('closes the tutorial Documents menu on Back, Next, and Exit so it cannot cover the next target', async () => {
+  const user = userEvent.setup();
+  useUIStore.setState({ isMobile: true, mobileDocsOpen: false });
+  render(<TooltipProvider><Header /><MobileRecents /><TourOverlay /></TooltipProvider>);
+  act(() => useTourStore.getState().startSteps(TOUR_STEPS.slice(1, 4)));
+  await user.click(screen.getByRole('button', { name: 'Next' }));
+  expect(screen.getByRole('dialog', { name: 'Documents' })).toBeVisible();
+  await user.click(screen.getByRole('button', { name: 'Back' }));
+  await waitFor(() => expect(screen.queryByRole('dialog', { name: 'Documents' })).not.toBeInTheDocument());
+  await user.click(screen.getByRole('button', { name: 'Next' }));
+  expect(screen.getByRole('dialog', { name: 'Documents' })).toBeVisible();
+  await user.click(screen.getByRole('button', { name: 'Next' }));
+  await waitFor(() => expect(screen.queryByRole('dialog', { name: 'Documents' })).not.toBeInTheDocument());
+  await user.click(screen.getByRole('button', { name: 'Back' }));
+  expect(screen.getByRole('dialog', { name: 'Documents' })).toBeVisible();
+  await user.keyboard('{Escape}');
+  await waitFor(() => expect(screen.queryByRole('dialog', { name: 'Documents' })).not.toBeInTheDocument());
+});
 
 it.each(destinations.flatMap(([label, expected]) => [false, true].map((mobile) => ({ label, expected, mobile }))))('opens $label consistently on mobile=$mobile', async ({ label, expected, mobile }) => {
   useUIStore.setState({ isMobile: mobile });

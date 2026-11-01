@@ -36,7 +36,7 @@ function BackupPreferences() {
     });
   };
   return <div className="space-y-3">
-    <p className="text-sm text-muted-foreground">
+    <p data-tour={backup.status === 'unsupported' ? 'backup-auto' : undefined} className="text-sm text-muted-foreground">
       {backup.status === 'connected' ? `Auto-backup file: ${backup.fileName ?? 'Connected'}.`
         : backup.status === 'needs-permission' ? 'Auto-backup needs permission to write to your file again.'
         : backup.status === 'error' ? 'Auto-backup could not write your latest changes. Your backup may be out of date.'

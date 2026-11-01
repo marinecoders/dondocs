@@ -7,6 +7,17 @@ export function revealTourSection(id: string): void {
   useEditorOutlineStore.getState().jump(id);
 }
 
+/** Reveal the Templates navigation control in either workspace layout. */
+export function revealTemplates(): void | (() => void) {
+  const ui = useUIStore.getState();
+  ui.setCommandPaletteOpen(false);
+  if (ui.isMobile) {
+    ui.setMobileDocsOpen(true);
+    return () => useUIStore.getState().setMobileDocsOpen(false);
+  }
+  else if (ui.sidebarCollapsed) ui.toggleSidebar();
+}
+
 /**
  * Steps for the guided product tour.
  *
@@ -25,9 +36,10 @@ export interface TourStep {
    * Optional side-effect run when this step becomes active — e.g. open the
    * modal or expand the section the target lives in, so a guided walkthrough
    * can spotlight a control that is not yet on screen. Must be idempotent: it
-   * re-runs when the user navigates back to the step.
+   * re-runs when the user navigates back to the step. May return cleanup for
+   * temporary navigation surfaces when leaving the step in either direction.
    */
-  action?: () => void;
+  action?: () => void | (() => void);
 }
 
 export const TOUR_STEPS: TourStep[] = [
@@ -44,16 +56,13 @@ export const TOUR_STEPS: TourStep[] = [
   {
     target: '[data-tour="templates"]',
     title: 'Or start from a template',
-    action: () => {
-      const ui = useUIStore.getState();
-      if (ui.isMobile) ui.setMobileDocsOpen(true);
-      else if (ui.sidebarCollapsed) ui.toggleSidebar();
-    },
+    action: revealTemplates,
     body: 'Load a ready-made document for common formats instead of starting from a blank page.',
   },
   {
     target: '[data-tour="download"]',
     title: 'Export when ready',
+    action: () => useUIStore.getState().setMobileDocsOpen(false),
     body: 'Generate a print-ready PDF, or Word for supported correspondence formats. Document generation runs in your browser.',
   },
   {

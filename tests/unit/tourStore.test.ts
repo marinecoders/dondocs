@@ -9,7 +9,8 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { useTourStore, hasCompletedTour } from '@/stores/tourStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
-import { TOUR_STEPS, visibleTourSteps, type TourStep } from '@/components/tour/tourSteps';
+import { TOUR_STEPS, revealTemplates, visibleTourSteps, type TourStep } from '@/components/tour/tourSteps';
+import { useUIStore } from '@/stores/uiStore';
 
 // jsdom does no layout, so getClientRects() is always empty. Mount a stand-in
 // element for each selector and stub getClientRects so visibleTourSteps sees it
@@ -73,7 +74,7 @@ describe('tourStore', () => {
     expect(steps).toHaveLength(TOUR_STEPS.length - 2);
     expect(steps.some((s) => s.target === '[data-tour="workspace-menu"]')).toBe(false);
     // Templates can reveal their sidebar target; type selection is always in the top bar.
-    expect(steps.filter((s) => s.action).map((s) => s.target)).toEqual(['[data-tour="templates"]']);
+    expect(steps.filter((s) => s.action).map((s) => s.target)).toEqual(['[data-tour="templates"]', '[data-tour="download"]']);
   });
 
   it('startSteps() spotlights ad-hoc steps without marking the first-run tour seen', () => {
@@ -124,6 +125,24 @@ describe('tourStore', () => {
     useTourStore.getState().startSteps(SPOTLIGHT); // no completionKey
     useTourStore.getState().next(); // single step -> finishes
     expect(useOnboardingStore.getState().completed).toEqual({});
+  });
+});
+
+describe('walkthrough workspace navigation', () => {
+  it.each([false, true])('reveals Templates on mobile=%s without changing the other layout preference', (mobile) => {
+    useUIStore.setState({ isMobile: mobile, sidebarCollapsed: true, mobileDocsOpen: false, commandPaletteOpen: true });
+    revealTemplates();
+    expect(useUIStore.getState()).toMatchObject({
+      mobileDocsOpen: mobile,
+      sidebarCollapsed: mobile,
+      commandPaletteOpen: false,
+    });
+  });
+
+  it('closes the mobile Documents menu before spotlighting Download', () => {
+    useUIStore.setState({ isMobile: true, mobileDocsOpen: true });
+    TOUR_STEPS.find((step) => step.target === '[data-tour="download"]')?.action?.();
+    expect(useUIStore.getState().mobileDocsOpen).toBe(false);
   });
 });
 

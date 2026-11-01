@@ -4,6 +4,7 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { FormPanel } from '@/components/layout/FormPanel';
 import { Header } from '@/components/layout/Header';
+import { DocumentGuideModal } from '@/components/modals/DocumentGuideModal';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore, getSerializedSession, getSerializedSessionForShare } from '@/stores/documentStore';
@@ -22,6 +23,13 @@ beforeEach(() => {
   importForm(fixtureInstance());
 });
 afterEach(() => vi.unstubAllGlobals());
+
+it('explains why the batch walkthrough is unavailable for a packaged form', async () => {
+  useUIStore.setState({ documentGuideOpen: true, documentGuideTab: 'features' });
+  render(<TooltipProvider><DocumentGuideModal /></TooltipProvider>);
+  await userEvent.click(screen.getByRole('button', { name: /Batch generation.*Toolbar/ }));
+  expect(screen.getByRole('button', { name: 'Batch generation supports correspondence and the two built-in NAVMC forms' })).toBeDisabled();
+});
 
 it('edits a pinned form in both workspace views without exposing a second type picker', async () => {
   render(<TooltipProvider><FormPanel /></TooltipProvider>);

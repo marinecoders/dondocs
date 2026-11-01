@@ -5,11 +5,16 @@ import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { XIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { useTourStore } from "@/stores/tourStore"
 
 function Dialog({
+  modal = true,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Root>) {
-  return <DialogPrimitive.Root data-slot="dialog" {...props} />
+  const tourActive = useTourStore((state) => state.active)
+  // A walkthrough can open a dialog to spotlight its controls. The tour owns
+  // focus and the scrim until it ends; the dialog must not hide or trap it.
+  return <DialogPrimitive.Root data-slot="dialog" modal={modal && !tourActive} {...props} />
 }
 
 function DialogTrigger({
@@ -58,6 +63,7 @@ function DialogContent({
 }) {
   const returnFocus = React.useRef<HTMLElement | null>(null)
   const returnMenuTrigger = React.useRef<HTMLElement | null>(null)
+  const tourActive = useTourStore((state) => state.active)
   return (
     <DialogPortal data-slot="dialog-portal">
       <DialogOverlay />
@@ -68,7 +74,15 @@ function DialogContent({
           className
         )}
         {...props}
+        onInteractOutside={(event) => {
+          if (tourActive) event.preventDefault()
+          else props.onInteractOutside?.(event)
+        }}
         onOpenAutoFocus={(event) => {
+          if (tourActive) {
+            event.preventDefault()
+            return
+          }
           // Store-controlled dialogs have no Radix DialogTrigger. Remember the
           // launching control, including a menu's trigger if its item unmounts.
           const active = document.activeElement
@@ -81,6 +95,10 @@ function DialogContent({
         }}
         onCloseAutoFocus={(event) => {
           onCloseAutoFocus?.(event)
+          if (tourActive) {
+            event.preventDefault()
+            return
+          }
           if (event.defaultPrevented) return
           const target = returnFocus.current?.isConnected ? returnFocus.current : returnMenuTrigger.current
           const nextDialog = document.querySelector('[data-slot="dialog-content"][data-state="open"]')

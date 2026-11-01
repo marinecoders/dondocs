@@ -13,6 +13,7 @@ import { useFormStore } from '@/stores/formStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useTourStore } from '@/stores/tourStore';
 import { TOUR_STEPS } from '@/components/tour/tourSteps';
+import { TourOverlay } from '@/components/tour/TourOverlay';
 import { useUIStore } from '@/stores/uiStore';
 import { EXAMPLE_DOCUMENTS } from '@/data/exampleDocuments';
 import { DOC_TYPE_LABELS } from '@/types/document';
@@ -118,7 +119,7 @@ it.each(['correspondence', 'navmc_10274', 'navmc_118_11'] as const)('opens guide
 it.each(['enclosures', 'signature', 'classification'])('reveals the hidden %s section for an optional walkthrough', async (section) => {
   useDocumentStore.setState({ documentCategory: 'correspondence', docType: 'naval_letter' });
   useUIStore.setState({ documentGuideOpen: true, documentGuideTab: 'features' });
-  render(<TooltipProvider><FormPanel /><DocumentGuideModal /></TooltipProvider>);
+  render(<TooltipProvider><FormPanel /><DocumentGuideModal /><TourOverlay /></TooltipProvider>);
   const feature = section === 'enclosures' ? /^Enclosures/ : section === 'signature' ? /^Signature Signature/ : /^Classification & portion marks/;
   fireEvent.click(screen.getByRole('button', { name: feature }));
   fireEvent.click(screen.getByRole('button', { name: 'Walk me through it' }));
@@ -126,7 +127,15 @@ it.each(['enclosures', 'signature', 'classification'])('reveals the hidden %s se
   act(() => useTourStore.getState().steps[0].action?.());
   expect(document.getElementById(`sec-${section}`)).toBeVisible();
   expect(document.getElementById('sec-body')).not.toBeVisible();
+  await act(async () => { await new Promise<void>((resolve) => requestAnimationFrame(() => resolve())); });
+  expect(screen.getByRole('region', { name: 'Product tour' })).toContainElement(document.activeElement as HTMLElement);
   act(() => useTourStore.getState().end());
+});
+
+it('still focuses an editor section when navigation is not part of a tour', async () => {
+  render(<TooltipProvider><FormPanel /></TooltipProvider>);
+  act(() => useEditorOutlineStore.getState().jump('signature'));
+  await waitFor(() => expect(document.getElementById('sec-signature')).toHaveFocus());
 });
 
 it('does not offer a letter-only enclosure walkthrough while a form is open', () => {

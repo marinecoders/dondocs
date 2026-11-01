@@ -585,13 +585,15 @@
 /* Keep inline headings quiet at rest and identifiable when keyboard-focused. */
 .paragraph-heading:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
 
-/* Keep getting-started controls usable on touch screens. */
+/* Keep walkthrough navigation and its close control usable on touch screens. */
 @media (max-width: 1023px), (any-pointer: coarse) {
+  .tour-control,
   .getting-started-control,
   [data-getting-started] [data-slot="dialog-close"] {
     min-height: 44px;
     min-width: 44px;
   }
+  .tour-heading { min-height: 36px; }
 }
 
 /* Keep paragraph commands direct, with room for touch and narrow editors. */
