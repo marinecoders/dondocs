@@ -40,7 +40,7 @@ import { useDocumentsStore } from '@/stores/documentsStore';
 import { exampleSession } from '@/lib/exampleSession';
 import { useTourStore } from '@/stores/tourStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
-import { revealTourSection, type TourStep } from '@/components/tour/tourSteps';
+import { revealTemplates, revealTourSection, type TourStep } from '@/components/tour/tourSteps';
 import { DOCUMENT_TYPE_GUIDES, GUIDE_CATEGORIES, GUIDE_GROUPS, type DocumentTypeGuide } from '@/data/documentGuide';
 import { EXAMPLE_DOCUMENTS, EXAMPLE_CATEGORIES, type ExampleDocument } from '@/data/exampleDocuments';
 import { getEditorSections } from '@/lib/editorSections';
@@ -507,7 +507,10 @@ const openProfileModal = () => {
 };
 const openShareModal = () => useUIStore.getState().setShareModal('share');
 const closeShareModal = () => useUIStore.getState().setShareModal(null);
-const openTemplateLoader = () => useUIStore.getState().setTemplateLoaderOpen(true);
+const openTemplateLoader = () => {
+  useUIStore.getState().setMobileDocsOpen(false);
+  useUIStore.getState().setTemplateLoaderOpen(true);
+};
 const closeTemplateLoader = () => useUIStore.getState().setTemplateLoaderOpen(false);
 // The Save dropdown is store-controlled (Header refuses dismissals while a tour
 // runs), so a walkthrough can hold it open and spotlight the items inside it.
@@ -628,7 +631,7 @@ const POWER_FEATURES: PowerFeature[] = [
         target: '[data-tour="templates"]',
         title: 'Open Templates',
         body: 'Pick a document type, then open Templates to start from a ready-made document instead of a blank page.',
-        action: () => { closeTemplateLoader(); revealTourSection('type'); },
+        action: () => { closeTemplateLoader(); return revealTemplates(); },
       },
       {
         target: '[data-tour="template-search"]',
@@ -801,8 +804,8 @@ const POWER_FEATURES: PowerFeature[] = [
       },
       {
         target: '[data-tour="backup-auto"]',
-        title: 'Set it and forget it',
-        body: 'On desktop Chrome or Edge, auto-backup mirrors your workspace to a file of your choosing after every save — drop it in a synced folder and it is always current.',
+        title: 'Automatic file backups',
+        body: 'Desktop Chrome and Edge can keep a backup file current after every save. If this browser reports that automatic backup is unavailable, use Download workspace backup instead.',
         action: openBackupSettings,
       },
     ],
@@ -823,6 +826,7 @@ export function DocumentGuideModal() {
   const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
   const completed = useOnboardingStore((s) => s.completed);
   const category = useDocumentStore((s) => s.documentCategory);
+  const isGenericForm = useDocumentStore((s) => s.documentCategory === 'forms' && !!s.genericForm);
   const docType = useDocumentStore((s) => s.docType);
   const sectionIds = category === 'forms' ? [] : getEditorSections(DOC_TYPE_CONFIG[docType] ?? DOC_TYPE_CONFIG.naval_letter, docType).map((s) => s.id);
   const learnedCount = POWER_FEATURES.filter((f) => completed[f.key]).length;
@@ -938,7 +942,12 @@ export function DocumentGuideModal() {
                 const Icon = f.icon;
                 const isOpen = expandedFeature === f.title;
                 const isLearned = !!completed[f.key];
-                const available = !['enclosures', 'signature', 'classification'].includes(f.key) || sectionIds.includes(f.key);
+                const unavailableReason = f.key === 'batch' && isGenericForm
+                  ? 'Batch generation supports correspondence and the two built-in NAVMC forms'
+                  : ['enclosures', 'signature', 'classification'].includes(f.key) && !sectionIds.includes(f.key)
+                    ? 'This walkthrough needs a correspondence format with this section'
+                    : null;
+                const available = unavailableReason === null;
                 return (
                   <div key={f.title} className="rounded-lg border bg-card/50 overflow-hidden">
                     <button
@@ -993,7 +1002,7 @@ export function DocumentGuideModal() {
                           className="focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
                         >
                           <MapPin className="h-3.5 w-3.5" />
-                          {!available ? 'This walkthrough needs a correspondence format with this section' : f.tour.length > 1 ? 'Walk me through it' : 'Show me where'}
+                          {unavailableReason ?? (f.tour.length > 1 ? 'Walk me through it' : 'Show me where')}
                         </button>
                       </div>
                     )}

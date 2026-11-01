@@ -17,6 +17,13 @@ beforeEach(() => {
 });
 
 describe('workspace settings and help', () => {
+  it('gives the backup walkthrough a visible explanation when auto-backup is unsupported', () => {
+    useUIStore.getState().setSettingsOpen(true, 'backup');
+    render(<SettingsModal />);
+    expect(screen.getByText(/Automatic file backup is unavailable/)).toHaveAttribute('data-tour', 'backup-auto');
+    expect(screen.queryByRole('button', { name: 'Choose auto-backup file' })).not.toBeInTheDocument();
+  });
+
   it('offers exactly three appearances and persists the choice', async () => {
     useUIStore.getState().setTheme('classic');
     useUIStore.getState().setSettingsOpen(true);

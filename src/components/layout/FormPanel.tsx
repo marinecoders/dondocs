@@ -12,6 +12,7 @@ import { SectionShell } from './SectionShell';
 import { renderEditorSection, useEditorSections } from './editorSections';
 import { useUIStore } from '@/stores/uiStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
+import { useTourStore } from '@/stores/tourStore';
 import { EditorSectionContext } from './EditorSectionContext';
 
 export function FormPanel() {
@@ -51,7 +52,8 @@ function FocusedEditor({ documentId }: { documentId: string | null }) {
     // Also focus an already selected section when it is chosen again.
     requestAnimationFrame(() => {
       const target = scrollWrapRef.current?.querySelector<HTMLElement>(`#sec-${id}`);
-      target?.focus({ preventScroll: true });
+      // Walkthroughs reveal sections without taking focus from their controls.
+      if (!useTourStore.getState().active) target?.focus({ preventScroll: true });
       if (scrollMode || pageScroll) target?.scrollIntoView({ block: 'start' });
     });
   }, [sections, scrollMode, pageScroll]);
@@ -79,7 +81,7 @@ function FocusedEditor({ documentId }: { documentId: string | null }) {
     previousMode.current = scrollMode;
     saved.current = undefined;
     if (focusSection.current) {
-      root.querySelector<HTMLElement>(`#sec-${active}`)?.focus({ preventScroll: true });
+      if (!useTourStore.getState().active) root.querySelector<HTMLElement>(`#sec-${active}`)?.focus({ preventScroll: true });
       focusSection.current = false;
     }
     return () => { if (restoreFrame !== undefined) cancelAnimationFrame(restoreFrame); };

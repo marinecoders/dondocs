@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import { useTourStore } from '@/stores/tourStore';
 import { TourButton } from './TourButton';
+import { Button } from '@/components/ui/button';
 
 interface Rect {
   top: number;
@@ -100,7 +101,7 @@ export function TourOverlay() {
 
     // A step may need to open the surface its target lives in (e.g. the Batch
     // modal) before the element exists. Run that side-effect first.
-    step.action?.();
+    const cleanupAction = step.action?.();
 
     // Re-query the selector every tick rather than hold an element reference: the
     // surface underneath can open and close, so this catches a freshly-mounted
@@ -127,12 +128,23 @@ export function TourOverlay() {
       // full card height stays free below. Keeps the card off the spotlight on
       // short/landscape displays.
       const vh = window.innerHeight;
+      // Nested editor and dialog scrollers can clip a target even when its
+      // rectangle is inside the browser window (especially in short layouts).
+      let visibleTop = 0;
+      let visibleBottom = vh;
+      for (let parent = el.parentElement; parent; parent = parent.parentElement) {
+        if (/auto|scroll|hidden|clip/.test(getComputedStyle(parent).overflowY)) {
+          const bounds = parent.getBoundingClientRect();
+          visibleTop = Math.max(visibleTop, bounds.top);
+          visibleBottom = Math.min(visibleBottom, bounds.bottom);
+        }
+      }
       const block: ScrollLogicalPosition =
         vh >= r.height + 2 * CARD_H_EST + 3 * GAP ? 'center' : 'start';
       if (scrolled !== el) {
         scrolled = el;
         el.scrollIntoView({ block, inline: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
-      } else if (r.top < -1 || r.bottom > vh + 1) {
+      } else if (r.top < visibleTop - 1 || r.bottom > visibleBottom + 1) {
         // The target was clipped (e.g. a section expanded and pushed it
         // off-screen). Re-anchor instantly, but only on real clipping so a
         // top-parked target isn't re-scrolled.
@@ -157,6 +169,7 @@ export function TourOverlay() {
       window.clearInterval(poll);
       window.removeEventListener('scroll', measure, true);
       window.removeEventListener('resize', measure);
+      cleanupAction?.();
     };
   }, [active, stepIndex, step]);
 
@@ -170,8 +183,20 @@ export function TourOverlay() {
     }
     cardRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
-      // Only Escape; typing and arrows flow to the focused field, and navigation
-      // is via the on-card Back/Next.
+      // Keep Tab within the active walkthrough, including when a spotlighted
+      // dialog has temporarily yielded its own focus trap to the tour.
+      if (e.key === 'Tab') {
+        const buttons = Array.from(cardRef.current?.querySelectorAll<HTMLButtonElement>('button:not([disabled])') ?? []);
+        if (buttons.length === 0) return;
+        const current = buttons.indexOf(document.activeElement as HTMLButtonElement);
+        const nextIndex = e.shiftKey
+          ? (current <= 0 ? buttons.length - 1 : current - 1)
+          : (current + 1) % buttons.length;
+        e.preventDefault();
+        e.stopPropagation();
+        buttons[nextIndex].focus();
+        return;
+      }
       if (e.key !== 'Escape') return;
       // Capture-phase + stop so a spotlighted Radix dialog doesn't also handle
       // Escape and close itself, stranding the walkthrough.
@@ -261,14 +286,16 @@ export function TourOverlay() {
         style={cardStyle}
       >
         {/* Exit, in the corner so it stays clear of the controls. */}
-        <button
+        <Button
+          variant="ghost"
+          size="icon"
           type="button"
           onClick={end}
           aria-label="Exit tour"
-          className="absolute top-2 right-2 inline-flex h-6 w-6 items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          className="tour-control absolute top-2 right-2 h-8 w-8 text-muted-foreground"
         >
           <X className="h-4 w-4" />
-        </button>
+        </Button>
         {/* Announce each step to screen readers: the card element is reused
             across steps (never remounts), so this region's text updates in
             place and a polite live region reads the new step. The visual dots
@@ -278,7 +305,7 @@ export function TourOverlay() {
             ? step.title
             : `Step ${stepIndex + 1} of ${steps.length}: ${step.title}`}
         </p>
-        <h3 className="shrink-0 text-sm font-semibold mb-1 pr-6">{step.title}</h3>
+        <h3 className="tour-heading shrink-0 text-sm font-semibold mb-1 pr-12">{step.title}</h3>
         {/* Only the body scrolls when the card is capped to a tight gap; the
             title and controls stay pinned so Back/Next are always in the box. */}
         <div ref={bodyRef} className="min-h-0 flex-1 overflow-y-auto">
@@ -311,11 +338,11 @@ export function TourOverlay() {
           )}
           <div className="flex shrink-0 gap-2">
             {stepIndex > 0 && (
-              <TourButton variant="ghost" onClick={prev}>
+              <TourButton className="tour-control" variant="ghost" onClick={prev}>
                 Back
               </TourButton>
             )}
-            <TourButton arrow={!isSingle && !isLast ? 'next' : undefined} onClick={next}>
+            <TourButton className="tour-control" arrow={!isSingle && !isLast ? 'next' : undefined} onClick={next}>
               {isSingle ? 'Got it' : isLast ? 'Done' : 'Next'}
             </TourButton>
           </div>
