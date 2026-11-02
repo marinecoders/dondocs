@@ -378,8 +378,8 @@ jobs:
           path: sbom.cdx.json
           retention-days: 90
 
-  browser-install:
-    name: browser install (${{ matrix.group }})
+  browser-flows:
+    name: browser flows (${{ matrix.group }})
     runs-on: ubuntu-latest
     timeout-minutes: 15
     strategy:
@@ -404,12 +404,12 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps ${{ matrix.browsers }}
       - run: npm run build
-      - name: verify install controls
-        run: npm run test:install -- ${{ matrix.projects }}
+      - name: verify install and downloads
+        run: npm run test:browser -- ${{ matrix.projects }}
       - uses: actions/upload-artifact@v7
         if: failure()
         with:
-          name: browser-install-${{ matrix.group }}-failure
+          name: browser-flows-${{ matrix.group }}-failure
           path: |
             playwright-report/
             test-results/

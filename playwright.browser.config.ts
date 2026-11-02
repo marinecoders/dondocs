@@ -1,10 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
 import base from './playwright.config';
 
-// Keep install checks independent of the two-build upgrade harness.
+// Keep application browser checks independent of the two-build upgrade harness.
 export default defineConfig({
   ...base,
-  testMatch: 'install.spec.ts',
+  testMatch: ['install.spec.ts', 'downloads.spec.ts'],
   timeout: 30_000,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
