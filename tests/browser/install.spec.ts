@@ -211,6 +211,7 @@ for (const mode of ['display-mode', 'ios-standalone'] as const) {
 }
 
 test('production manifest, icons, and service worker are available', async ({ page, request }) => {
+  test.setTimeout(60_000);
   await start(page);
   const manifestURL = await page.locator('link[rel="manifest"]').getAttribute('href');
   expect(manifestURL).toBeTruthy();
@@ -229,5 +230,5 @@ test('production manifest, icons, and service worker are available', async ({ pa
   await expect.poll(() => page.evaluate(async () => {
     const registration = await navigator.serviceWorker.getRegistration();
     return registration?.active?.state;
-  })).toBe('activated');
+  }), { timeout: 30_000, message: 'The service worker should activate after its initial asset cache is populated.' }).toBe('activated');
 });

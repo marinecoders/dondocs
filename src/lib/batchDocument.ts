@@ -10,6 +10,16 @@ export async function prepareBatchCorrespondence(session: SerializedSession, val
   for (const [key, value] of Object.entries(formData)) {
     if (typeof value === 'string') Object.assign(formData, { [key]: replacePlaceholders(value, values) });
   }
+  if (formData.manualFrontMatter) {
+    const replace = (value: unknown): unknown => typeof value === 'string' ? replacePlaceholders(value, values)
+      : Array.isArray(value) ? value.map(replace)
+      : value && typeof value === 'object' ? Object.fromEntries(Object.entries(value).map(([key, v]) => [key, key === 'rowId' ? v : replace(v)])) : value;
+    formData.manualFrontMatter = replace(formData.manualFrontMatter) as typeof formData.manualFrontMatter;
+  }
+  if (session.docType === 'tm_ietm_front_matter') return {
+    docType: session.docType, formData, enclosures: [], endItems: [], publicationTables: {},
+    paragraphs: [], references: [], copyTos: [], distributions: [],
+  };
   if (formData.sl3) {
     const replace = (value: string) => replacePlaceholders(value, values);
     const sl3 = formData.sl3;

@@ -14,7 +14,7 @@ import { renderResult, templateListResult, templateResult, unitLookupResult } fr
 describe('the published result schemas', () => {
   it('accept every bundled template, in full and as a summary', () => {
     for (const template of LETTER_TEMPLATES) {
-      expect(templateResult.safeParse(template).success, template.id).toBe(true);
+      expect(templateResult.parse(template), template.id).toEqual(template);
     }
     const summaries = LETTER_TEMPLATES.map(({ id, name, category, description }) => ({ id, name, category, description }));
     expect(templateListResult.safeParse({ templates: summaries }).success).toBe(true);

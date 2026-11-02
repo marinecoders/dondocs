@@ -1,4 +1,7 @@
 import type { DocumentData, EndItem } from '@/types/document';
+import { MANUAL_SECTION_IDS } from '@/data/techpub/manualFrontMatter';
+import { manualFrontMatterFindings } from '@/lib/manualFrontMatterValidation';
+import { ManualFrontMatterSection } from '@/components/editor/ManualFrontMatterSections';
 import { sl3ExportErrors } from '@/lib/sl3Preflight';
 import { sl4ExportErrors, sl4ErrorSection, SL4_SECTION_IDS } from '@/lib/sl4Preflight';
 import { Sl4CoverSection, Sl4PrefaceSection, Sl4CagesSection, Sl4PartsSection, Sl4IllustrationsSection, Sl4IndexesSection, Sl4RevisionsSection } from '@/components/editor/Sl4Sections';
@@ -79,6 +82,7 @@ export function useEditorSections(): {
  * an export attempt, gated on uiStore.validationVisible.
  */
 interface SectionErrorInput {
+  manualFrontMatter?: DocumentData['manualFrontMatter'];
   sl3?: DocumentData['sl3'];
   sl4?: DocumentData['sl4'];
   shortTitle?: string;
@@ -107,12 +111,17 @@ export const ERROR_BEARING_IDS = [
 ] as const;
 
 export function errorBearingIds(config: DocTypeConfig): readonly string[] {
+  if (config === DOC_TYPE_CONFIG.tm_ietm_front_matter) return MANUAL_SECTION_IDS;
   if (config === DOC_TYPE_CONFIG.sl4) return SL4_SECTION_IDS;
   return config === DOC_TYPE_CONFIG.sl3 ? SL3_ERROR_BEARING_IDS : ERROR_BEARING_IDS;
 }
 
 /** Run the complete SL-3 preflight once per update, rather than once per section. */
 export function missingEditorSections(ids: readonly string[], formData: SectionErrorInput, paragraphs: { text?: string }[], config: DocTypeConfig, endItems: EndItem[] = []): string[] {
+  if (config === DOC_TYPE_CONFIG.tm_ietm_front_matter) {
+    const missing = new Set(manualFrontMatterFindings({ docType: 'tm_ietm_front_matter', formData }).map(finding => finding.section));
+    return ids.filter(id => missing.has(id as typeof MANUAL_SECTION_IDS[number]));
+  }
   if (config === DOC_TYPE_CONFIG.sl4) {
     const missing = new Set(sl4ExportErrors({ docType: 'sl4', formData, paragraphs: paragraphs as import('@/types/document').Paragraph[], endItems }).map(sl4ErrorSection));
     return ids.filter((id) => missing.has(id));
@@ -133,6 +142,7 @@ export function getSectionError(
   config: DocTypeConfig,
   endItems: EndItem[] = [],
 ): boolean {
+  if (config === DOC_TYPE_CONFIG.tm_ietm_front_matter) return manualFrontMatterFindings({ docType: 'tm_ietm_front_matter', formData }).some(finding => finding.section === id);
   if (config === DOC_TYPE_CONFIG.sl4) return sl4ExportErrors({ docType: 'sl4', formData, paragraphs: paragraphs as import('@/types/document').Paragraph[], endItems }).some((message) => sl4ErrorSection(message) === id);
   if (config === DOC_TYPE_CONFIG.sl3) return sl3ExportErrors({
     docType: 'sl3', formData, paragraphs: paragraphs as import('@/types/document').Paragraph[], endItems,
@@ -327,6 +337,10 @@ export function useDocumentCompleteness(): DocumentCompleteness {
 
 export function renderEditorSection(id: string, config: DocTypeConfig): ReactNode {
   switch (id) {
+    case 'manual-publication':
+    case 'manual-items':
+    case 'manual-notices':
+    case 'manual-authentication': return <ManualFrontMatterSection section={id} />;
     case 'sl4-cover': return <Sl4CoverSection />;
     case 'sl4-preface': return <Sl4PrefaceSection />;
     case 'sl4-cages': return <Sl4CagesSection />;

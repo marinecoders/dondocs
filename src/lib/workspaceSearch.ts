@@ -76,6 +76,14 @@ export function sessionSearchFields(session: SerializedSession): SearchField[] {
     }
     return fields;
   }
+  if (session.docType === 'tm_ietm_front_matter') {
+    const d = session.formData, m = d.manualFrontMatter;
+    add('manual-publication', [d.shortTitle, d.pcn, d.subject, d.nomenclature, d.date, d.publicationSigningDate, m?.subtype, m?.maintenanceLevel, m?.subtitle, m?.volume, m?.volumes, m?.shortTitleApproval]);
+    add('manual-items', m?.endItems);
+    add('manual-notices', [d.classLevel, d.cuiDistStatement, d.distReason, d.distDate, d.cuiControlledBy, d.cuiCategory, d.cuiDissemination, d.pocEmail, d.supersedure, m?.supplementNotice, m?.volumeNotice, m?.copyrightCredit, m?.governmentRights]);
+    add('manual-authentication', [d.unitLine1, d.unitLine2, d.unitAddress, d.sigFirst, d.sigMiddle, d.sigLast, d.sigTitle, d.controllingOffice, m?.contentContact, m?.authorityReference]);
+    return fields;
+  }
   const heading = ['moa', 'joint', 'joint_memo', 'executive', 'addressing', 'cover', 'sl3-cover', 'sl4-cover'].find((id) => labels.has(id))!;
   for (const [key, value] of Object.entries(session.formData ?? {})) {
     if (typeof value !== 'string') continue;

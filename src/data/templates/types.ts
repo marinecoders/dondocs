@@ -1,3 +1,4 @@
+import type { ManualFrontMatter } from '@/data/techpub/manualFrontMatter';
 import type { PublicationSection } from '@/data/techpub/sections';
 export interface TemplateParagraph {
   publicationSection?: PublicationSection;
@@ -18,6 +19,7 @@ export interface TemplateReference {
 }
 
 export interface LetterTemplate {
+  manualFrontMatter?: ManualFrontMatter;
   id: string;
   name: string;
   category: string;

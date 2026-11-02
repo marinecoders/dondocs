@@ -103,7 +103,7 @@ const INSTRUCTIONS = `DonDocs renders SECNAV M-5216.5 correspondence, I-Type ins
   + 'or find one with dondocs_unit_lookup. When that resource holds no unit or signature, offer to settle them once with dondocs_save_defaults before writing the first letter. '
   + 'Give the From and To lines: letters, endorsements and memoranda print the labels even when they are empty. '
   + `To start from a template, call dondocs_template_get with one of ${TEMPLATE_IDS.join(', ')}, or read dondocs://templates/{id}; dondocs_template_list describes them. `
-  + 'I-Type (MI/TI/SI/LI), SL-3 and SL-4 require publication metadata and PDF format; they have no From/To lines. Supply attachments as base64 with IDs used by figures and enclosures. '
+  + 'I-Type (MI/TI/SI/LI), SL-3 and SL-4 require publication metadata; TM/IETM front matter uses manualFrontMatter metadata. All require PDF format; they have no From/To lines. Supply attachments as base64 with IDs used by figures and enclosures. '
   + 'Call dondocs_letter once the facts are in hand rather than drafting in chat first; '
   + 'show the user the file as its result says, and revise by calling dondocs_letter again with the out it reports.';
 
@@ -284,7 +284,7 @@ const handle = serveStdio(() => {
   // user picks a type or a template without knowing the ids.
   server.registerPrompt('draft_letter', {
     title: 'Draft a document',
-    description: 'Draft correspondence, an I-Type instruction or an SL-3/SL-4 publication, optionally from a bundled template, and render it with dondocs_letter.',
+    description: 'Draft correspondence, an I-Type or SL-3/SL-4 publication, or TM/IETM front matter, optionally from a bundled template, and render it with dondocs_letter.',
     argsSchema: optionalArgs(z.object({
       docType: completable(
         z.enum(DOC_TYPES as [string, ...string[]]).describe('Document type; defaults to the template\'s own.'),
@@ -310,7 +310,7 @@ const handle = serveStdio(() => {
         ? ['Ask me for the endorsement ordinal (FIRST, SECOND ...) and the identification of the letter being endorsed, and pass them as endorsement.ordinal and endorsement.basicLetterId; the render is refused without them.']
         : []),
       isTechnicalPublication(type ?? '')
-        ? 'Use publication.type MI, TI, SI or LI for I-Type; SL3 for SL-3 with publication.sl3; SL4 for SL-4 with publication.sl4. The same publication checks as the web editor apply before PDF export.'
+        ? type === 'tm_ietm_front_matter' ? 'Use manualFrontMatter for the publication subtype, identifiers, equipment end items, dates, release markings and authentication. Leave publication and correspondence paragraphs absent. Export as PDF.' : 'Use publication.type MI, TI, SI or LI for I-Type; SL3 for SL-3 with publication.sl3; SL4 for SL-4 with publication.sl4. The same publication checks as the web editor apply before PDF export.'
         : `Render with dondocs_letter${type ? ` using docType "${type}"` : ''}; its result says how to show me the file.`,
     ].join(' ');
     return {
@@ -332,7 +332,7 @@ const handle = serveStdio(() => {
     description: 'Return the complete document template for an ID; dondocs_template_list describes each. '
       + 'Use it as a starting draft: ask the user for bracketed placeholders and missing correspondence details. '
       + 'Interpret each placeholder in context, preserve supplied facts, and never invent missing information. '
-      + 'Pass completed fields to dondocs_letter; omit template metadata (id, name, category, description). For I-Type, move publicationType into publication.type. For SL-3, set publication.type to SL3 and complete publication.sl3. Complete the other publication fields and select PDF. '
+      + 'Pass completed fields to dondocs_letter; omit template metadata (id, name, category, description). For I-Type, move publicationType into publication.type. For SL-3, set publication.type to SL3 and complete publication.sl3. For SL-4, set publication.type to SL4 and complete publication.sl4. For TM/IETM front matter, use manualFrontMatter instead of publication, with no correspondence paragraphs. Complete the appropriate publication fields and select PDF. '
       + 'An endorsement template also needs endorsement.ordinal and endorsement.basicLetterId.',
     inputSchema: z.object({ id: z.enum(TEMPLATE_IDS).describe('Template ID.') }).strict(),
     outputSchema: templateResult,
@@ -401,7 +401,7 @@ const handle = serveStdio(() => {
     {
       title: 'Write a document',
       description:
-        'Render SECNAV M-5216.5 correspondence, every letter, memorandum, endorsement and agreement type the app defines (see the docType enum), to a PDF or DOCX file. I-Type MI/TI/SI/LI and SL-3/SL-4 publications support PDF only, with required publication metadata and the web editor’s export checks. '
+        'Render SECNAV M-5216.5 correspondence, every letter, memorandum, endorsement and agreement type the app defines (see the docType enum), to a PDF or DOCX file. I-Type MI/TI/SI/LI and SL-3/SL-4 publications require publication metadata; TM/IETM front matter requires manualFrontMatter metadata. All support PDF only and use the web editor’s export checks. '
         + 'Formatting, letterhead, seal, paragraph numbering and the signature block are handled for you; supply content only. '
         + 'Returns the path to the written file, not the document itself; the result says how to show the file to the user. '
         + `Files are written under ${ROOT}. `

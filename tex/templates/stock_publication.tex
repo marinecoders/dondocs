@@ -1,5 +1,9 @@
 % Shared stock-list cover, authentication, navigation and illustration primitives.
 \newcommand{\stockPCNFont}{\fontsize{12}{12}\selectfont}
+\newcommand{\stockNoticeFont}{\fontsize{10}{12}\selectfont}
+\newcommand{\stockPreNotices}{}
+\newcommand{\stockPostNotices}{}
+\newcommand{\stockAuthenticationNumbering}{roman}
 % Cover and authentication are shared with I-Type; body and inventory differ.
 \input{i_type}
 \RecordingInstructionfalse
@@ -77,16 +81,17 @@
   \ifClassificationEnabled\addtolength{\headheight}{20bp}\fi}
 % A title page is unnumbered; PCN remains bold 12 point on that page only.
 \let\slThreeCoverFooter\printCoverFooter
+\patchcmd{\slThreeCoverFooter}{\ifNotEmpty{\DistStatementFull}}{\stockPreNotices\ifNotEmpty{\DistStatementFull}}{}{\PackageError{Stock list}{Cannot place cover notices}{Check the shared cover footer.}}
 \patchcmd{\slThreeCoverFooter}{PCN \PCN}{\stockPCNFont\bfseries PCN \PCN}{}{\PackageError{Stock list}{Cannot format cover PCN}{Check the shared cover footer.}}
 % Keep the complete cover body within Table II's nine-inch reproduction depth.
 % Growing the gap above the fixed PCN separator raises the notices, while
 % retaining the original seal, cover data and PCN positions.
-\patchcmd{\slThreeCoverFooter}{\raggedleft\ifNotEmpty{\PCN}}{\vspace{24bp}\hrule height2.25bp\relax\vspace{2bp}\raggedleft\ifNotEmpty{\PCN}}{}{\PackageError{Stock list}{Cannot place cover separator}{Check the shared cover footer.}}
+\patchcmd{\slThreeCoverFooter}{\raggedleft\ifNotEmpty{\PCN}}{\stockPostNotices\vspace{24bp}\hrule height2.25bp\relax\vspace{2bp}\raggedleft\ifNotEmpty{\PCN}}{}{\PackageError{Stock list}{Cannot place cover separator}{Check the shared cover footer.}}
 \patchcmd{\slThreeCoverFooter}{Distribution Statement: \CUIDistStatement}{Distribution/Dissemination Control: \CUIDissemination}{}{\PackageError{Stock list}{Cannot format CUI designation}{Check the shared cover footer.}}
 \patchcmd{\slThreeCoverFooter}{WARNING:}{\textbf{WARNING:}}{}{\PackageError{Stock list}{Cannot format export warning}{Check the shared cover footer.}}
 \renewcommand{\printCoverFooter}{\begingroup
   \renewcommand{\thepage}{}%
-  \renewcommand{\footnotesize}{\fontsize{10}{12}\selectfont}%
+  \renewcommand{\footnotesize}{\stockNoticeFont}%
   \let\slThreePCN\PCN
   \renewcommand{\PCN}{{\stockPCNFont\slThreePCN}}%
   \begin{minipage}[b]{\textwidth}\slThreeCoverFooter\par\vspace*{10bp}%
@@ -102,8 +107,9 @@
 % The four source columns measure 3083/2078/1882/2549 twips. Center their
 % full physical width for PDF, retaining the six unruled writing/data rows.
 \newcommand{\slThreeCoverBoxhead}{\textbf{\uline{NSN}} & \textbf{\uline{TAMCN}} & \textbf{\uline{ID}} & \textbf{\uline{MODEL}}}
+\newcommand{\stockEndItemRowStretch}{1.2}
 \renewcommand{\printEndItemTable}[1]{\begingroup
-  \renewcommand{\arraystretch}{1.2}\setlength{\tabcolsep}{5.4bp}%
+  \renewcommand{\arraystretch}{\stockEndItemRowStretch}\setlength{\tabcolsep}{5.4bp}%
   \makebox[\textwidth][c]{\begin{tabular}{p{143.35bp}p{93.1bp}p{83.3bp}p{116.65bp}}
     \slThreeCoverBoxhead\tabularnewline
     #1\tabularnewline
@@ -126,7 +132,7 @@
 \let\slThreeAuthentication\printAddressBlock
 \newcount\slThreeAuthenticationStart
 \renewcommand{\printAddressBlock}{%
-  \pagenumbering{roman}\slThreeAuthenticationStart=\value{page}%
+  \pagenumbering{\stockAuthenticationNumbering}\slThreeAuthenticationStart=\value{page}%
   \slThreeAuthentication
   % The shared authentication macro ends with one mandatory page break.
   \ifnum\value{page}>\numexpr\slThreeAuthenticationStart+1\relax

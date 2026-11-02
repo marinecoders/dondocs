@@ -149,6 +149,7 @@
   \end{minipage}}%
 }
 
+\newcommand{\dondocsCompactCover}{}
 \newcommand{\printDateAndTitle}{%
     % The cover's header is much taller than the other pages', and LaTeX sets
     % the text block below the header, so this page's block ends that much
@@ -181,6 +182,10 @@
     \ifdim\dimexpr\ht\dondocsCoverBody+\dp\dondocsCoverBody+\ht\dondocsCoverNotices+\dp\dondocsCoverNotices>\dondocsCoverAvailable
       \EndItemOverflowtrue
       \dondocsBuildCoverBody
+    \fi
+    \ifdim\dimexpr\ht\dondocsCoverBody+\dp\dondocsCoverBody+\ht\dondocsCoverNotices+\dp\dondocsCoverNotices>\dondocsCoverAvailable
+      \dondocsCompactCover
+      \sbox{\dondocsCoverNotices}{\printCoverFooter}%
     \fi
     \ifdim\dimexpr\ht\dondocsCoverBody+\dp\dondocsCoverBody+\ht\dondocsCoverNotices+\dp\dondocsCoverNotices>\dondocsCoverAvailable
       \PackageError{I-Type}{Cover content exceeds one page; shorten the title or notices}{Mandatory notices and PCN must remain on the cover.}
@@ -222,14 +227,21 @@
 \newcommand{\dondocsAuthenticationFont}{\fontsize{12}{12}\selectfont}
 \newcommand{\dondocsAuthenticationOpening}{This \PublicationTypeName\ifNotEmpty{\ShortTitle}{, \ShortTitle,} is
               authenticated for Marine Corps use and is effective upon receipt.}
+\newcommand{\dondocsAuthenticationService}{}
+\newcommand{\dondocsAuthenticationContact}{For concerns/issues with the content/procedures contact Equipment
+              Specialist or designated Program Office representative\ifNotEmpty{\POCEmail}{, \POCEmail}.}
+\newcommand{\dondocsAuthenticationExtra}{}
+\newcommand{\dondocsAuthenticationIssuer}{{\centering\MakeUppercase{\UnitName}\par
+    \optionalLine{\UnitLineTwo}%
+    \optionalLine{\UnitLineThree}%
+    \optionalLine{\UnitLineFour}\par}%
+}
 \newcommand{\printAddressBlock}{%
     \begingroup\dondocsAuthenticationFont
     \thispagestyle{authpage}%
     \dondocsBookmark{0}{Authentication}{itype.authentication}
-    {\centering\MakeUppercase{\UnitName}\par
-    \optionalLine{\UnitLineTwo}%
-    \optionalLine{\UnitLineThree}%
-    \optionalLine{\UnitLineFour}\par}%
+    \dondocsAuthenticationService
+    \dondocsAuthenticationIssuer
     \par\vspace{12pt}%
     {\raggedleft\DocumentDate\par}
     \par\vspace{12pt}%
@@ -273,8 +285,8 @@
                         addressed by the KBA.
               \end{enumerate}
 
-        \item For concerns/issues with the content/procedures contact Equipment
-              Specialist or designated Program Office representative\ifNotEmpty{\POCEmail}{, \POCEmail}.
+        \item \dondocsAuthenticationContact
+        \dondocsAuthenticationExtra
 
         \ifRecordingInstruction
             \item GCSS-MC Recording. Ensure appropriate records are updated in

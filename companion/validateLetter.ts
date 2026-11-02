@@ -1,3 +1,6 @@
+import { MANUAL_DOC_TYPE } from '../src/data/techpub/manualFrontMatter';
+import { manualFrontMatterErrors } from '../src/lib/manualFrontMatterValidation';
+import { manualFrontMatterInputSchema } from './manualFrontMatterInput';
 /**
  * What makes a letter request renderable, independent of how it arrived.
  *
@@ -90,6 +93,22 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
     problems.push('nothing to render: supply at least a subject or one paragraph');
   }
 
+  if (body.docType === MANUAL_DOC_TYPE) {
+    if (body.format === 'docx') problems.push('TM/IETM front matter supports PDF only.');
+    if (!body.date?.trim()) problems.push('TM/IETM front matter requires an explicit publication date.');
+    const parsed = manualFrontMatterInputSchema.safeParse(body.manualFrontMatter);
+    if (!parsed.success) problems.push('Supply valid manualFrontMatter metadata, including a supported subtype.');
+    if (body.paragraphs?.length || body.enclosures?.length || body.references?.length || body.copyTo?.length || body.distribution?.length || body.publication || body.attachments?.length)
+      problems.push('TM/IETM front matter uses its structured metadata, without body paragraphs, references, enclosures or I-Type tables.');
+    if (body.classification?.cui?.distStatement && parsed.success && body.classification.cui.distStatement !== parsed.data.distribution.statement)
+      problems.push('Classification and manual distribution statements must agree.');
+    if (!problems.length) {
+      try { problems.push(...manualFrontMatterErrors(toStore(body as LetterInput, defaults))); }
+      catch (error) { problems.push(error instanceof Error ? error.message : String(error)); }
+    }
+    return problems;
+  }
+  if (body.manualFrontMatter) problems.push('Manual front-matter metadata requires docType tm_ietm_front_matter.');
   if (isTechnicalPublication(body.docType ?? '')) {
     const label = body.docType === 'sl4' ? 'SL-4' : body.docType === 'sl3' ? 'SL-3' : 'I-Type';
     if (body.format === 'docx') problems.push(`${label} export supports PDF only.`);

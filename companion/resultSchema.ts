@@ -1,4 +1,5 @@
 import { PUBLICATION_SECTIONS, type PublicationSection } from '../src/data/techpub/sections';
+import { manualFrontMatterSchema } from '../src/data/techpub/manualFrontMatter';
 /**
  * What each MCP tool returns, as a schema.
  *
@@ -35,6 +36,7 @@ export const templateResult = templateSummary.extend({
     publicationSection: z.enum(Object.keys(PUBLICATION_SECTIONS) as [PublicationSection, ...PublicationSection[]]).optional(),
   })),
   publicationType: z.enum(['MI', 'SI', 'TI', 'LI']).optional(),
+  manualFrontMatter: manualFrontMatterSchema.optional(),
   references: z.array(z.object({ letter: z.string(), title: z.string(), url: z.string().optional() })).optional(),
   ssic: z.string().optional(),
 }) satisfies z.ZodType<LetterTemplate>;

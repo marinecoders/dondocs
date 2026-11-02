@@ -261,7 +261,7 @@ export function correspondenceFilename(ext: string, session?: SerializedSession)
       .replace(/^-+|-+$/g, '')
       .slice(0, 50)
       .replace(/-+$/, '') || 'correspondence';
-  const stockList = s.docType === 'sl3' || s.docType === 'sl4';
+  const stockList = s.docType === 'sl3' || s.docType === 'sl4' || s.docType === 'tm_ietm_front_matter';
   const identifier = (stockList ? s.formData?.shortTitle : s.formData?.ssic)?.trim() ?? '';
   const safeIdentifier = stockList ? identifier.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') : identifier;
   const prefix = safeIdentifier && !isPlaceholder(identifier) ? `${safeIdentifier}-` : '';

@@ -42,6 +42,7 @@ const routes: Record<string, string> = {
   standard_memorandum: 'executive classification body copyto distribution signature',
   action_memorandum: 'executive classification body copyto distribution signature',
   information_memorandum: 'executive classification body copyto distribution',
+  tm_ietm_front_matter: 'manual-publication manual-items manual-notices manual-authentication',
   i_type: 'cover classification body tables enclosures signature',
   sl4: 'sl4-cover classification sl4-preface sl4-cages sl4-parts sl4-figures sl4-indexes sl4-revisions signature',
   sl3: 'sl3-cover classification sl3-details sl3-inventory sl3-figures signature',

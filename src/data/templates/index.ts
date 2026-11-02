@@ -1,3 +1,4 @@
+import { emptyManualFrontMatter } from '@/data/techpub/manualFrontMatter';
 import type { LetterTemplate } from './types';
 
 // Personnel
@@ -36,6 +37,9 @@ import { letterOfInstructionOps } from './operations';
 import { modificationInstruction, supplyInstruction, technicalInstruction, lubricationInstruction, sl3ComponentsList, sl4RepairPartsList } from './technical';
 
 export const LETTER_TEMPLATES: LetterTemplate[] = [
+  { id: 'tm-ietm-cover-signature', name: 'TM/IETM Cover and Signature Pages', category: 'Technical Publications',
+    description: 'Cover, end-item continuation and authentication pages for a technical publication',
+    docType: 'tm_ietm_front_matter', subject: '', paragraphs: [], manualFrontMatter: emptyManualFrontMatter() },
   // Personnel
   pftWaiver,
   humanitarianTransfer,

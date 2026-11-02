@@ -1673,6 +1673,7 @@ function buildInfoMemorandumLayout(store: DocumentStore, config: DocTypeConfig):
  * constructs that pandoc can convert to DOCX.
  */
 export function generateFlatLatex(store: DocumentStore): string {
+  if (store.docType === 'tm_ietm_front_matter') throw new Error('TM/IETM front matter supports PDF only.');
   const data = store.formData;
   const config = DOC_TYPE_CONFIG[store.docType] || DOC_TYPE_CONFIG.naval_letter;
 
