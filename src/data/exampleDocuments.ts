@@ -1,4 +1,5 @@
-import type { Reference, Paragraph, CopyTo } from '@/types/document';
+import { sl3Example } from './sl3Example';
+import type { Reference, Paragraph, CopyTo, DocumentData, EndItem } from '@/types/document';
 
 export interface ExampleDocument {
   id: string;
@@ -6,7 +7,8 @@ export interface ExampleDocument {
   description: string;
   category: string;
   docType: string;
-  formData: Record<string, string | boolean>;
+  formData: Partial<DocumentData>;
+  endItems?: EndItem[];
   references: Reference[];
   paragraphs: Paragraph[];
   copyTos: CopyTo[];
@@ -584,10 +586,12 @@ export const EXAMPLE_DOCUMENTS: ExampleDocument[] = [
     ],
     copyTos: [],
   },
+  sl3Example,
 ];
 
 // Group examples by category for easy display
 export const EXAMPLE_CATEGORIES = [
+  { category: 'Technical Publications', description: 'Equipment publications and components inventories' },
   { category: 'Letters', description: 'Official correspondence formats' },
   { category: 'Memoranda', description: 'Internal memorandum formats' },
   { category: 'Agreements', description: 'MOA/MOU between commands' },

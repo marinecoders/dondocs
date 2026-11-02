@@ -76,16 +76,28 @@ export function sessionSearchFields(session: SerializedSession): SearchField[] {
     }
     return fields;
   }
-  const heading = ['moa', 'joint', 'joint_memo', 'executive', 'addressing', 'cover'].find((id) => labels.has(id))!;
+  const heading = ['moa', 'joint', 'joint_memo', 'executive', 'addressing', 'cover', 'sl3-cover'].find((id) => labels.has(id))!;
   for (const [key, value] of Object.entries(session.formData ?? {})) {
     if (typeof value !== 'string') continue;
     const section = /^(class|cui|customClassification|derivedFrom|declassifyOn|pocEmail)/i.test(key) ? 'classification'
-      : /^(department|unit|seal|letterhead|inReplyTo)/.test(key) ? (labels.has('cover') ? 'cover' : 'letterhead')
+      : /^(department|unit|seal|letterhead|inReplyTo)/.test(key) ? (labels.has('sl3-cover') ? 'sl3-cover' : labels.has('cover') ? 'cover' : 'letterhead')
         : /^(sig|byDirection|officeCode|complimentaryClose|endorsement(Sig|Body|From|To|Date|Serial))/.test(key) ? (labels.has('signature') ? 'signature' : heading)
           : /^(basicLetter|endorsementOrdinal)/.test(key) ? 'basic'
             : /^(font|page|starting|docType)/.test(key) ? 'type'
               : key === 'body' ? 'body' : heading;
     add(section, formatCorrespondenceField(key, value));
+  }
+  if (session.docType === 'sl3') {
+    add('sl3-cover', session.endItems);
+    add('sl3-details', session.formData.sl3?.technicalData);
+    add('sl3-details', session.formData.sl3?.sourceManual);
+    add('sl3-details', session.formData.sl3?.configurationReference);
+    add('sl3-details', session.formData.sl3?.notes);
+    add('sl3-details', session.formData.sl3?.definitions);
+    add('sl3-figures', session.formData.sl3?.artwork);
+    add('sl3-details', session.formData.sl3?.sequencingNote);
+    add('sl3-inventory', session.formData.sl3?.components);
+    add('sl3-figures', session.paragraphs.filter((p) => p.figure));
   }
   add('body', session.paragraphs);
   add('cover', session.endItems);

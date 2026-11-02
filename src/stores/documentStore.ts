@@ -1,3 +1,4 @@
+import { sl3Schema } from '@/data/techpub/sl3';
 import { parseFormInstance, type FormInstance } from '@/services/forms/model';
 import { withoutTableFootnote } from '@/lib/tableFootnotes';
 import { create } from 'zustand';
@@ -254,8 +255,9 @@ const DEFAULT_REFERENCES = EXAMPLE_REFERENCES;
 const DEFAULT_PARAGRAPHS = EXAMPLE_PARAGRAPHS;
 
 function publicationFont(docType: string, mode: DocumentMode, data: Partial<DocumentData>): Partial<DocumentData> {
-  return docType === 'i_type' && mode === 'compliant'
-    ? { ...data, fontFamily: 'times', fontSize: '12pt' } : data;
+  if (data.sl3 !== undefined) data = { ...data, sl3: sl3Schema.parse(data.sl3) };
+  return (docType === 'i_type' || docType === 'sl3') && mode === 'compliant'
+    ? { ...data, fontFamily: 'times', fontSize: docType === 'sl3' ? '10pt' : '12pt' } : data;
 }
 
 export const useDocumentStore = create<DocumentState>((set, get) => ({
@@ -370,9 +372,9 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       formData.miUrgency = 'normal';
       formData.miCompletionDate = '';
     }
-    if (state.docType === 'i_type' && state.documentMode === 'compliant') {
+    if ((state.docType === 'i_type' || state.docType === 'sl3') && state.documentMode === 'compliant') {
       formData.fontFamily = 'times';
-      formData.fontSize = '12pt';
+      formData.fontSize = state.docType === 'sl3' ? '10pt' : '12pt';
     }
     // The start letter shifts every reference after it, so re-letter in the
     // same commit — otherwise the rows keep the previous sequence on screen.

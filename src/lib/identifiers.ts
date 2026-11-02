@@ -23,6 +23,7 @@ export interface IdentifierFinding {
 const PCN = /^\d{3} ?\d{6} ?\d{2}$/;
 const SHORT_TITLE = /^(MI|SI|TI|LI) (?:\d{5}[A-HJ-NP-Z]?|\d{4})-\d{2}\/\d+$/;
 const TAMCN = /^[A-Z]\d{5}[A-Z]$/;
+const TAMCN_BASE = /^[A-Z]\d{4}$/;
 const ID_NO = /^\d{5}[A-HJ-NP-Z]$/;
 const NSN = /^(\d{4}-\d{2}-\d{3}-\d{4}|\d{13})$/;
 
@@ -34,6 +35,8 @@ export function validateIdentifiers(input: {
   publicationType?: string;
   endItems: EndItem[];
   majorItems: PublicationTableRow[];
+  /** SL-3 configuration associations in MCO 5215.17D use five-position bases. */
+  allowTamcnBase?: boolean;
 }): IdentifierFinding[] {
   const findings: IdentifierFinding[] = [];
   const pcn = (input.pcn ?? '').trim();
@@ -56,8 +59,10 @@ export function validateIdentifiers(input: {
     items.map((i) => i[key].trim()).filter((v) => v && !re.test(v));
   const nsn = bad('nsn', NSN);
   if (nsn.length) findings.push(warn(`An NSN is thirteen digits, as 5895-01-520-4360: ${nsn.join(', ')}.`));
-  const tamcn = bad('tamcn', TAMCN);
-  if (tamcn.length) findings.push(warn(`A TAMCN is seven positions, as A02557G: ${tamcn.join(', ')}.`));
+  const tamcn = bad('tamcn', TAMCN).filter((value) => !input.allowTamcnBase || !TAMCN_BASE.test(value));
+  if (tamcn.length) findings.push(warn(input.allowTamcnBase
+    ? `Enter an assigned TAMCN base, as B2565, or seven-position identifier, as A02557G: ${tamcn.join(', ')}.`
+    : `A TAMCN is seven positions, as A02557G: ${tamcn.join(', ')}.`));
   const id = bad('id', ID_NO);
   if (id.length) findings.push(warn(`An I.D. number is five digits and a letter other than I or O, as 11031A: ${id.join(', ')}.`));
   return findings;

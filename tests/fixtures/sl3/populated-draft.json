@@ -1,0 +1,522 @@
+{
+  "version": "1.1",
+  "documentMode": "compliant",
+  "documentCategory": "correspondence",
+  "docType": "sl3",
+  "formType": "navmc_10274",
+  "endItems": [
+    {
+      "nsn": "5120-99-000-0001",
+      "tamcn": "B2565",
+      "id": "54321A",
+      "model": "SFTK-101A"
+    },
+    {
+      "nsn": "5120-99-000-0002",
+      "tamcn": "B2566",
+      "id": "54322A",
+      "model": "SFTK-102A"
+    },
+    {
+      "nsn": "5120-99-000-0003",
+      "tamcn": "B2567",
+      "id": "54323A",
+      "model": "SFTK-103A"
+    },
+    {
+      "nsn": "5120-99-000-0004",
+      "tamcn": "B2568",
+      "id": "54324A",
+      "model": "SFTK-104A"
+    },
+    {
+      "nsn": "5120-99-000-0005",
+      "tamcn": "B2569",
+      "id": "54325A",
+      "model": "SFTK-105A"
+    },
+    {
+      "nsn": "5120-99-000-0006",
+      "tamcn": "B2570",
+      "id": "54326A",
+      "model": "SFTK-106A"
+    },
+    {
+      "nsn": "5120-99-000-0007",
+      "tamcn": "B2571",
+      "id": "54327A",
+      "model": "SFTK-107A"
+    }
+  ],
+  "publicationTables": {},
+  "formData": {
+    "fontSize": "10pt",
+    "fontFamily": "times",
+    "pageNumbering": "none",
+    "department": "usmc",
+    "unitLine1": "SYNTHETIC TRAINING SYSTEMS COMMAND",
+    "unitLine2": "FICTIONAL EQUIPMENT PROGRAM OFFICE",
+    "unitAddress": "100 EXAMPLE AVENUE, SAMPLE CITY, VA 00000",
+    "sealType": "dow",
+    "letterheadColor": "blue",
+    "date": "29 Oct 26",
+    "subject": "COMPONENTS LIST FOR SYNTHETIC FIELD TRAINING KIT",
+    "sigFirst": "Alexandra",
+    "sigMiddle": "M.",
+    "sigLast": "Sampleton",
+    "sigTitle": "Program Manager, Synthetic Field Equipment",
+    "byDirection": false,
+    "classLevel": "unclassified",
+    "pocEmail": "sl3-review@example.com",
+    "shortTitle": "SL-3-54321A",
+    "pcn": "123 543210 00",
+    "nomenclature": "TRAINING KIT, FIELD, SYNTHETIC",
+    "controllingOffice": "Synthetic Field Equipment Program Office",
+    "supersedure": "Supersedes SL-3-54321A dated 31 October 2025. Fictional publication for layout review only.",
+    "publicationSigningDate": "2026-10-28",
+    "publicationClosedDates": "2026-10-30",
+    "sl3": {
+      "orientation": "portrait",
+      "rowsPerSheet": 4,
+      "technicalData": "FICTIONAL TRAINING PUBLICATION - NOT FOR OPERATIONAL USE. The Synthetic Field Training Kit (SFTK) is a nonfunctional demonstration assembly. Packed dimensions: 24 by 18 by 12 inches. Packed mass: 32 pounds. Nominal supply: 24 volts direct current (VDC); no energized components are supplied. The Quick Disconnect Interface (QDI) links the training indicator to the case. Applicability code A1 identifies the baseline model; A2 identifies the alternate housing. All identifiers, quantities, configuration records and approval references in this sample are fabricated.",
+      "sourceManual": "TM 54321A-10, Synthetic Field Training Kit, 28 October 2026 (fictional)",
+      "configurationReference": "Synthetic configuration record SFTK-2026-010, revision 3, 28 October 2026; fabricated for software review.",
+      "fieldingPlanReference": "Synthetic Fielding Plan SFTK-FP-003, revision 2, 28 October 2026; model and reference-designator columns authorized for this fictional review.",
+      "technicalPortion": "U",
+      "sequencingNote": "Items are arranged by functional assembly, followed by collateral material and using-unit items. Children remain immediately below their parent assembly. This fictional sequence exercises subordinate component indentation and multiple responsibility categories.",
+      "sequencingPortion": "U",
+      "showFigureReference": true,
+      "showModel": true,
+      "endItemFigureId": "att_caff7a68c6d76713506cb476bdd0bcb2",
+      "definitions": [
+        {
+          "id": "att_9cd607cff55388eea3486d78dea91df5",
+          "term": "SFTK",
+          "meaning": "Synthetic Field Training Kit - a fictional equipment assembly for testing completed publication layout.",
+          "portionMarking": "U"
+        },
+        {
+          "id": "att_ab09e86f349e5fc96d14219787829efd",
+          "term": "QDI",
+          "meaning": "Quick Disconnect Interface - a simulated mechanical interface connecting the training indicator module to its carrying case without tools.",
+          "portionMarking": "U"
+        },
+        {
+          "id": "att_87c22e5d6af19fcdf6bc33c63febbce0",
+          "term": "VDC",
+          "meaning": "Volts direct current.",
+          "portionMarking": "U"
+        },
+        {
+          "id": "att_e597ad0f8d8a17ec87d59d46dcb33e2e",
+          "term": "A1",
+          "meaning": "Applicability code for the baseline synthetic training-kit configuration.",
+          "portionMarking": "U"
+        },
+        {
+          "id": "att_d5a74e12f2ac2a2c0de46e770bfeebd6",
+          "term": "A2",
+          "meaning": "Applicability code for the alternate synthetic housing configuration.",
+          "portionMarking": "U"
+        }
+      ],
+      "artwork": [
+        {
+          "figureId": "att_caff7a68c6d76713506cb476bdd0bcb2",
+          "lettering": "labels",
+          "labels": [
+            {
+              "id": "att_ce1db49754eed26505ef964b1386fec4",
+              "text": "FICTIONAL TRAINING KIT",
+              "x": 50,
+              "y": 90
+            },
+            {
+              "id": "att_66971cbf83e652eb5b6030548cae1eba",
+              "text": "INERT DEMONSTRATION",
+              "x": 50,
+              "y": 8
+            }
+          ]
+        },
+        {
+          "figureId": "att_34792c5a8e48c072fddcd09ed115b358",
+          "lettering": "labels",
+          "labels": [
+            {
+              "id": "att_d133998681ed4ce2693782764e57d182",
+              "text": "TRAINING INDICATOR",
+              "x": 50,
+              "y": 90
+            },
+            {
+              "id": "att_aeeba7199dcf08feeea38955a3e67e71",
+              "text": "NO OPERATING FUNCTION",
+              "x": 50,
+              "y": 8
+            }
+          ]
+        }
+      ],
+      "notes": [
+        {
+          "id": "att_c0a7c4ffe02ac586ba9fe889dcdd3aa0",
+          "text": "Inventory the complete parent assembly and each subordinate component together. All training parts are inert; this sample does not authorize equipment operation or substitute for an approved technical manual.",
+          "portionMarking": "U"
+        },
+        {
+          "id": "att_3f487581bad4e7ca39072d913a542ab5",
+          "text": "For applicability A2, substitute the alternate housing listed in the synthetic Fielding Plan. Preserve the recorded parent-to-child association and reconcile serial numbers before signing the inventory record.",
+          "portionMarking": "U"
+        }
+      ],
+      "components": [
+        {
+          "id": "att_d68ed26369e3ba1d864468e997873488",
+          "portionMarking": "U",
+          "category": "ssri",
+          "parentId": "",
+          "nomenclature": "CASE, Carrying Assembly",
+          "description": "Inert training component; applicability A1.",
+          "nsn": "5120-99-100-0001",
+          "tamcn": "C4001",
+          "idNumber": "54401A",
+          "partNumber": "SFTK-26-001",
+          "cage": "SYN01",
+          "unit": "EA",
+          "unitOfIssue": "EA",
+          "primaryTamcn": "B2565",
+          "configurationRatio": "1:1",
+          "quantity": "1",
+          "model": "SFTK-101A",
+          "figureReference": "A1",
+          "figureId": "",
+          "noteIds": [
+            "att_c0a7c4ffe02ac586ba9fe889dcdd3aa0"
+          ],
+          "serialized": true
+        },
+        {
+          "id": "att_ddcab8dd97b14d9f04b56fe8e37ed919",
+          "portionMarking": "U",
+          "category": "ssri",
+          "parentId": "att_d68ed26369e3ba1d864468e997873488",
+          "nomenclature": "FRAME, Internal Support",
+          "description": "Inert training component; applicability A2.",
+          "nsn": "5120-99-100-0002",
+          "tamcn": "C4002",
+          "idNumber": "54402A",
+          "partNumber": "SFTK-26-002",
+          "cage": "SYN01",
+          "unit": "EA",
+          "unitOfIssue": "EA",
+          "primaryTamcn": "B2565",
+          "configurationRatio": "1:1",
+          "quantity": "1",
+          "model": "SFTK-100A",
+          "figureReference": "A2",
+          "figureId": "",
+          "noteIds": [
+            "att_3f487581bad4e7ca39072d913a542ab5"
+          ],
+          "serialized": false
+        },
+        {
+          "id": "att_14981b2dae75bdb5862b27230c287947",
+          "portionMarking": "U",
+          "category": "ssri",
+          "parentId": "att_ddcab8dd97b14d9f04b56fe8e37ed919",
+          "nomenclature": "HANDLE, Frame Lifting",
+          "description": "Inert training component; applicability A1.",
+          "nsn": "5120-99-100-0003",
+          "tamcn": "C4003",
+          "idNumber": "54403A",
+          "partNumber": "SFTK-26-003",
+          "cage": "SYN01",
+          "unit": "EA",
+          "unitOfIssue": "EA",
+          "primaryTamcn": "B2565",
+          "configurationRatio": "1:1",
+          "quantity": "1",
+          "model": "SFTK-101A",
+          "figureReference": "A3",
+          "figureId": "",
+          "noteIds": [
+            "att_c0a7c4ffe02ac586ba9fe889dcdd3aa0"
+          ],
+          "serialized": false
+        },
+        {
+          "id": "att_8c082567d9173544cc0d10496e132c69",
+          "portionMarking": "U",
+          "category": "ssri",
+          "parentId": "",
+          "nomenclature": "ADAPTER, Quick Disconnect",
+          "description": "Inert training component; applicability A2.",
+          "nsn": "5120-99-100-0004",
+          "tamcn": "C4004",
+          "idNumber": "54404A",
+          "partNumber": "SFTK-26-004",
+          "cage": "SYN01",
+          "unit": "EA",
+          "unitOfIssue": "EA",
+          "primaryTamcn": "B2565",
+          "configurationRatio": "1:2",
+          "quantity": "2",
+          "model": "SFTK-100A",
+          "figureReference": "A4",
+          "figureId": "",
+          "noteIds": [
+            "att_3f487581bad4e7ca39072d913a542ab5"
+          ],
+          "serialized": false
+        },
+        {
+          "id": "att_d0969b9c86591b26042237b87f28c2f1",
+          "portionMarking": "U",
+          "category": "ssri",
+          "parentId": "",
+          "nomenclature": "CABLE, Training Interconnect",
+          "description": "Inert training component; applicability A1.",
+          "nsn": "5120-99-100-0005",
+          "tamcn": "C4005",
+          "idNumber": "54405A",
+          "partNumber": "SFTK-26-005",
+          "cage": "SYN01",
+          "unit": "EA",
+          "unitOfIssue": "EA",
+          "primaryTamcn": "B2565",
+          "configurationRatio": "1:1",
+          "quantity": "1",
+          "model": "SFTK-101A",
+          "figureReference": "A5",
+          "figureId": "",
+          "noteIds": [
+            "att_c0a7c4ffe02ac586ba9fe889dcdd3aa0"
+          ],
+          "serialized": false
+        },
+        {
+          "id": "att_9fb0bce76861ee48853886efba41a1ae",
+          "portionMarking": "U",
+          "category": "ssri",
+          "parentId": "",
+          "nomenclature": "INDICATOR, Training Module",
+          "description": "Inert training component; applicability A2.",
+          "nsn": "5120-99-100-0006",
+          "tamcn": "C4006",
+          "idNumber": "54406A",
+          "partNumber": "SFTK-26-006",
+          "cage": "SYN01",
+          "unit": "EA",
+          "unitOfIssue": "EA",
+          "primaryTamcn": "B2565",
+          "configurationRatio": "1:1",
+          "quantity": "1",
+          "model": "SFTK-100A",
+          "figureReference": "A6",
+          "figureId": "att_34792c5a8e48c072fddcd09ed115b358",
+          "noteIds": [
+            "att_3f487581bad4e7ca39072d913a542ab5"
+          ],
+          "serialized": true
+        },
+        {
+          "id": "att_e9bf50a73dc5f52b3b06ee069536a755",
+          "portionMarking": "U",
+          "category": "ssri",
+          "parentId": "",
+          "nomenclature": "BATTERY, Inert Demonstrator",
+          "description": "Inert training component; applicability A1.",
+          "nsn": "5120-99-100-0007",
+          "tamcn": "C4007",
+          "idNumber": "54407A",
+          "partNumber": "SFTK-26-007",
+          "cage": "SYN01",
+          "unit": "EA",
+          "unitOfIssue": "EA",
+          "primaryTamcn": "B2565",
+          "configurationRatio": "1:1",
+          "quantity": "1",
+          "model": "SFTK-101A",
+          "figureReference": "A7",
+          "figureId": "",
+          "noteIds": [
+            "att_c0a7c4ffe02ac586ba9fe889dcdd3aa0"
+          ],
+          "serialized": false
+        },
+        {
+          "id": "att_9d8843c99ba5bfe25bc5082567fa797f",
+          "portionMarking": "U",
+          "category": "ssri",
+          "parentId": "",
+          "nomenclature": "TOOL, Assembly Training",
+          "description": "Inert training component; applicability A2.",
+          "nsn": "5120-99-100-0008",
+          "tamcn": "C4008",
+          "idNumber": "54408A",
+          "partNumber": "SFTK-26-008",
+          "cage": "SYN01",
+          "unit": "EA",
+          "unitOfIssue": "EA",
+          "primaryTamcn": "B2565",
+          "configurationRatio": "1:1",
+          "quantity": "1",
+          "model": "SFTK-100A",
+          "figureReference": "A8",
+          "figureId": "",
+          "noteIds": [
+            "att_3f487581bad4e7ca39072d913a542ab5"
+          ],
+          "serialized": false
+        },
+        {
+          "id": "att_6731b61f9c95c4c0886bff4897ce6ebf",
+          "portionMarking": "U",
+          "category": "collateral",
+          "parentId": "",
+          "nomenclature": "MANUAL, Training Reference",
+          "description": "Inert training component; applicability A1.",
+          "nsn": "5120-99-100-0009",
+          "tamcn": "C4009",
+          "idNumber": "54409A",
+          "partNumber": "SFTK-26-009",
+          "cage": "SYN01",
+          "unit": "EA",
+          "unitOfIssue": "EA",
+          "primaryTamcn": "B2565",
+          "configurationRatio": "1:1",
+          "quantity": "1",
+          "model": "SFTK-101A",
+          "figureReference": "A9",
+          "figureId": "",
+          "noteIds": [
+            "att_c0a7c4ffe02ac586ba9fe889dcdd3aa0"
+          ],
+          "serialized": false
+        },
+        {
+          "id": "att_511b4c64c4767bd48d117f1034f354d8",
+          "portionMarking": "U",
+          "category": "collateral",
+          "parentId": "",
+          "nomenclature": "POUCH, Accessory Storage",
+          "description": "Inert training component; applicability A2.",
+          "nsn": "5120-99-100-0010",
+          "tamcn": "C4010",
+          "idNumber": "54410A",
+          "partNumber": "SFTK-26-010",
+          "cage": "SYN01",
+          "unit": "EA",
+          "unitOfIssue": "EA",
+          "primaryTamcn": "B2565",
+          "configurationRatio": "1:1",
+          "quantity": "1",
+          "model": "SFTK-100A",
+          "figureReference": "A10",
+          "figureId": "",
+          "noteIds": [
+            "att_3f487581bad4e7ca39072d913a542ab5"
+          ],
+          "serialized": false
+        },
+        {
+          "id": "att_02725162d4b2105ae2538baa47b839c8",
+          "portionMarking": "U",
+          "category": "uuri",
+          "parentId": "",
+          "nomenclature": "CLOTH, Cleaning Training",
+          "description": "Inert training component; applicability A1.",
+          "nsn": "5120-99-100-0011",
+          "tamcn": "C4011",
+          "idNumber": "54411A",
+          "partNumber": "SFTK-26-011",
+          "cage": "SYN01",
+          "unit": "EA",
+          "unitOfIssue": "EA",
+          "primaryTamcn": "B2565",
+          "configurationRatio": "1:1",
+          "quantity": "1",
+          "model": "SFTK-101A",
+          "figureReference": "A11",
+          "figureId": "",
+          "noteIds": [
+            "att_c0a7c4ffe02ac586ba9fe889dcdd3aa0"
+          ],
+          "serialized": false
+        },
+        {
+          "id": "att_29ae6a755c44b01aba9428cfd9202e28",
+          "portionMarking": "U",
+          "category": "uuri",
+          "parentId": "",
+          "nomenclature": "TAG, Inventory Identification",
+          "description": "Inert training component; applicability A2.",
+          "nsn": "5120-99-100-0012",
+          "tamcn": "C4012",
+          "idNumber": "54412A",
+          "partNumber": "SFTK-26-012",
+          "cage": "SYN01",
+          "unit": "EA",
+          "unitOfIssue": "EA",
+          "primaryTamcn": "B2565",
+          "configurationRatio": "1:1",
+          "quantity": "1",
+          "model": "SFTK-100A",
+          "figureReference": "A12",
+          "figureId": "",
+          "noteIds": [
+            "att_3f487581bad4e7ca39072d913a542ab5"
+          ],
+          "serialized": false
+        }
+      ]
+    },
+    "cuiDistStatement": "B",
+    "distReason": "Test and Evaluation",
+    "signatureType": "digital",
+    "distDate": "2026-10-28"
+  },
+  "references": [],
+  "enclosures": [],
+  "paragraphs": [
+    {
+      "referenceId": "att_caff7a68c6d76713506cb476bdd0bcb2",
+      "text": "Synthetic Field Training Kit",
+      "level": 0,
+      "portionMarking": "U",
+      "figure": {
+        "portionMarking": "U",
+        "name": "synthetic-kit.png",
+        "type": "image/png",
+        "data": "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Zz0imVOYsKTzzz9/4iJz6NAhbxAAAMjOiy++OPEes27dulmPRwEUJixp48aNExea9rfoAAAA5Oaee+6ZeI/ZtGnTrMejAAoTljQ/Pz9xobnhhhu8QQAAIDtbt26deI/ZuXPnrMejAAoTlvT0009PXGjWrl3bnDp1ylsEAACycfLkyea8886beI955plnZj0iBVCYsKQTJ040q1atmrjY7N+/31sEAACy8eijj068v7R3m/fff3/WI1IAhQnLsnnz5okLzvXXX+8tAgAARfxznC1btsx6PAqhMGFZHnrooYkLzjnnnNO88cYb3iQAADBzr7/++uIdZdL95eGHH571iBRCYcKyHD9+vFmzZs3ERWfHjh3eJAAAMHPbt2+feG9ZvXp1c+zYsVmPSCEUJizbtm3bJi485557bvPmm296mwAAwMwcOXJksRSZdG+58cYb/emwbAoTlm1hYWHiwtN+vvOd73ibAADAzNxyyy3RO8tzzz3nT4dlU5jQyaZNmyYuPitWrFgsVQAAAFI7ePDg4p1k0n3l6quv9odCJwoTOml/X3mssb3yyiub06dPe6sAAEAy7R3kiiuuiN5V/vSnP/kToROFCZ1t3LgxuhDdfvvt3ioAAJDMj370o+gdZfPmzf406ExhQmevvPJK9Nd0nX322c2vfvUrbxYAABjcr3/968U7yKT7ydzcXPPyyy/7k6AzhQln5Mc//nG0wV27dm1z6NAhbxcAABjMSy+91Hzyk5+M3k1+8pOf+BPgjChMOCPvvfdes379+ujCdOGFFzavvfaaNwwAAEzd3/72t+aCCy6I3kkuvvjixbsLnAmFCWfswIED0X+a034uvfTSxYUMAABgWto7RnvXiN1FVq5cufibc+BMKUzo5ec//3l0kWo/69ata1588UVvGgAA6O3w4cPNRRddtOQ9ZO/evd42vShM6OWjjz5qvv71ry+5WLU/06T9YUwAAABnqv3lEkv9zJL2s23btsW7CvShMKG3kydPLvmrhv/123N27NjRfPDBB946AACwbB9++GGza9euZsWKFUveOzZt2rR4R4G+FCZMxdGjR5vLL798ycWr/Vx55ZXN888/780DAABLWlhYaK644opl3TW+9KUvNceOHfNWmQqFCVPz1ltvLbs0aZvhW2+9tTly5Ig/AQAA4L/eL2655ZZl/a2Sf5Ul7f8PTIvChKn/TZPl/POcf31WrVrV3HTTTc1f//pXfxIAAEDz+uuvL/5T/tWrVy/7XtH+Mxx/s4RpU5gwde2/F1zOD4L990/764m3bt3aPPbYY/69IQAAjPAO8eijjy7eCdq7QZe7RPsDXk+dOjXrR6BCChMG0f5E6rvvvrvzYtd+zjvvvOa6665r9uzZs/jriP2QWAAAqEt7xm/P+u2Zvz37f+ITn+h8b1i5cuXirw7223AYisKEQR04cKBZv35958Xv3z9zc3PNpZde2lxzzTXNt771rWb79u3N/Px8s3v3bh/vQAZkQAZkQAZkQAZkQAYyz0B7dm/P8O1Zvj3TX3LJJYtn/D53hIsvvrg5ePCg2xyDUpgwuBMnTiz+CrC2Ae6zKPp4BzIgAzIgAzIgAzIgAzIw7gy0RUv7803effddNzkGpzAhmcOHDy/+MKZZL7I+3oEMyIAMyIAMyIAMyIAMlJeBzZs3N3/5y1/c4EhGYUJyzz777OIPc5r1guvjHciADMiADMiADMiADMhA/hnYsGFD89RTT7m5kZzChJn585//3Nx4442dfl2Yj3cgAzIgAzIgAzIgAzIgA/VnYM2aNYt3hYWFBTc2ZkZhwswdP3682bdvX3P11Vc3q1atmvni7OMdyIAMyIAMyIAMyIAMyED6DLR3gS1btjQPP/ywn1FCFhQmZPcDYp955pnmjjvuWPx5J5/97GdtVg4sMiADMiADMiADMiADMlBhBtatW7d45t+5c+fiHeD999+f9XUEPkZhQvaOHTvWPP/8883+/fubX/7yl83999///7+ezMc7kAEZkAEZkAEZkAEZkIG8M9Ce3dszfHuWb8/07a8Dbs/4kDuFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAAAQUJgAAAAABBQmAAAAAAGFCQAAAEBAYQIAAADQfNz/AWyB9oEc9mTYAAAAAElFTkSuQmCC"
+      }
+    },
+    {
+      "referenceId": "att_34792c5a8e48c072fddcd09ed115b358",
+      "text": "Synthetic Training Indicator Module",
+      "level": 0,
+      "portionMarking": "U",
+      "figure": {
+        "portionMarking": "U",
+        "name": "synthetic-module.png",
+        "type": "image/png",
+        "data": "iVBORw0KGgoAAAANSUhEUgAABEwAAAKKCAYAAAAnYM4pAAAACXBIWXMAAAsTAAALEwEAmpwYAAAgAElEQVR4nOzd+ZNV5YE38PdvEUGWBrWiqTguSEbBIGomlpqZRKQStEYFMzWucQmNG8G9phRBk0JQYk1U3Ms4IaaSsLriVvPLqIkgmxM1KktE+nnrufOaN3Pic/t29z19zrnP51N1qlCg7+ln4X7vt+895/8EAAAAAP6X//O//xMAAAAAhQkAAABAgcIEAAAAoEBhAgAAAFCgMAEAAAAoUJgAAAAAFChMAAAAAAoUJgAAAAAFChMAAACAAoUJAAAAQIHCBAAAAKBAYQIAAABQoDABAAAAKFCYAAAAABQoTAAAAAAKFCYAAAAABQoTAAAAgAKFCQAAAECBwgQAAACgQGECAAAAUKAwAQAAAChQmAAAAAAUKEwAAAAAChQmAAAAAAUKEwAAAIAChQkAAABAgcIEAAAAoEBhAgAAAFCgMAEAAAAoUJgAAAAAFChMAAAAAAoUJgAAAAAFChMAAACAAoUJAAAAQIHCBAAAAKBAYQIAAABQoDABAAAAKFCYAAAAABQoTAAAAAAKFCYAAAAABQoTAAAAgAKFCQAAAECBwgQAAACgQGECAAAAUKAwAQAAAChQmAAAAAAUKEwAAAAAChQmAAAAAAUKEwAAAIAChQkAAABAgcIEAAAAoEBhAgAAAFCgMAEAAAAoUJgAAAAAFChMAAAAAAoUJgAAAAAFChMAAACAAoUJAAAAQIHCBAAAAKBAYQIAAABQoDABAAAAKFCYAAAAABQoTAAAAAAKFCYAAAAABQoTAAAAgAKFCQAAAIDCBAAAAKA97zABAAAAKFCYAAAAABQoTAAAAAAKFCYAAAAABQoTAAAAgAKFCQAAAECBwgQAAACgQGECAAAAUKAwAQAAAChQmAAAAAAUKEwAAAAAChQmAAAAAAUKEwAAAIAChQkAAABAgcIEAAAAoEBhAgAAAFCgMAEAAAAoUJgAAAAAFChMAAAAAAoUJgAAAAAFChMAAACAAoUJAAAAQIHCBAAAAKBAYQIAAABQoDABAAAAKFCYAAAAABQoTAAAAAAKFCYAAAAABQoTAAAAgAKFCQAAAECBwgQAAACgQGECAAAAUKAwAQAAAChQmAAAAAAUKEwAAAAAChQmAAAAAAUKEwAAAIAChQkAAABAgcIEAAAAoEBhAgAAAFCgMAEAAAAoUJgAAAAAFChMAAAAAAoUJgAAAAAFChMAAACAAoUJAAAAQIHCBAAAAKBAYQIAAABQoDABAAAAKFCYAAAAABQoTAAAAAAKFCYAAAAABQoTAAAAgAKFCQAAAECBwgQAAACgQGECAAAAUKAwAQAAAChQmAAAAAAUKEwAAAAAChQmAAAAAAUKEwAAAIAChQkAAABAgcIEAAAAoEBhAgAAAFCgMAEAAAAoUJgAAAAAKEwAAAAA2vMOEwAAAIAChQkAAABAgcIEAAAAoEBhAgAAAFCgMAEAAAAoUJgAAAAAFChMAAAAAAoUJgAAAAAFChMAAACAAoUJAAAAQIHCBAAAAKBAYQIAAABQoDABAAAAKFCYAAAAABQoTAAAAAAKFCYAAAAABQoToDTvvfdeWLt2bfj5z38eVqxYEZYuXeowBtaANWANWAPWgDUwojUQM8VDDz3Uyhjbtm2T5IDSKEyArnnttdfCkiVLwuzZs0NfX1846KCDHMbAGrAGrAFrwBqwBkpdAzFznHPOOeHuu+8Or7/+umQHdI3CBBiRnTt3hjvvvDOccMIJArFAbA1YA9aANWANWAOVr4ETTzyxlU127dol5QEjojABhmXLli3h6quvDuPHj688GDmMgTVgDVgD1oA1YA0U18CECRPCj370o7B161ZpDxgWhQkwJHv37g133HFHK4QIp8KpNWANWAPWgDVgDdR9DYwbNy4sXLgw7N69W+oDhkRhAnTshRdeCFOnTq08+DiMgTVgDVgD1oA1YA0MdQ0cf/zx4aWXXpL8gI4pTIBBDQwMhOXLl7d+QiOgCqjWgDVgDVgD1oA10NQ1MHbs2NY7ZQ8cOCABAoNSmABtffbZZ+Giiy4a9lXrTznllNbf7+/vD4sXL3YYA2vAGrAGrAFrwBoY0RqImSJmi5gxJk2aNKyM8oMf/KCVcQDaUZgASfGzvvEWwUMJINOmTQu333576y2vn3/+udEFAEqzf//+8OKLL4bbbrttyB8bjrcidl0ToB2FCfCl4k9dhlKWxNCxYcOG1sd3AABGW8wg69evH3J+8U4TIEVhAvyN+Lne+fPndxQ0TjrppLBp0yajCADUxsaNG8OMGTM6/niOH/gAX0ZhAvyNJUuWDBouDj744HDrrbe23goLAFA3MaPcdNNNYcyYMYPmmmXLllV9ukANKUyAv7l1cLyCfLtQMXny5PCb3/zGyAEAtffcc8+1LkTfLtvEOwG65TBQpDAB/mLv3r2DXjDtK1/5Snj99deNGgDQGK+++morw7TLOMcff3zYt29f1acK1IjCBPiL+BGbwd5ZoiwBAJrotddeG/SdJnfccUfVpwnUiMIEaNmyZUsYP35822uW+BgOAND0j+fETJPKOxMmTAjvvfde1acJ1ITCBGi5+uqr2/7EJb77BACg6eKFYNtlnv7+/qpPEagJhQkQduzY0fqJSrtbB7sbDgDQC2KmmT59ett3mezatavq0wRqQGEChDvvvLPtT1o2bdpklACAnrFx48a22WfJkiVVnyJQAwoTIJxwwgnJwDBnzhwjBAD0nO9+97vJ/BPfgQKgMIHMxdvstfsJy4YNG6o+RQCArlu3bl3bDPTmm28adcicwgQyd9dddyWDwtSpU8PAwEDVpwgA0HUx48Ssk8pBy5YtM+qQOYUJZG727NnJoHD77bdXfXoAAKWJdwH0sWQgRWECmf9kpa+vLxkUXnrppapPEQCgNM8//3wyB02ZMsU7bSFzChPI2LZt25IhIRYpbiUMAPSyzz77LEycODGZh3bs2FH1KQIVUphAxtauXZsMCKecckrVpwcAULpZs2a5+D3wpRQmkLGHH344GRB+8IMfVH16AAClmz9/fjIPrV692gxAxhQmkLEVK1YkA8LChQurPj0AgNItWLAgmYdWrlxpBiBjChPIWLtbCt9yyy1Vnx4AQOluvvnmZB5asmSJGYCMKUwgY3fccUcyIMTfAwDodfIQkKIwgYwJCABA7uQhIEVhAhkTEACA3MlDQIrCBDImIAAAuZOHgBSFCWRMQAAAcicPASkKE8iYgAAA5E4eAlIUJpAxAQEAyJ08BKQoTCBjAgIAkDt5CEhRmEDGBAQAIHfyEJCiMIGMCQgAQO7kISBFYQIZExAAgNzJQ0CKwgQyJiAAALmTh4AUhQlkTEAAAHInDwEpChPImIAAAOROHgJSFCaQMQEBAMidPASkKEwgYwICAJA7eQhIUZhAxgQEACB38hCQojCBjAkIAEDu5CEgRWECGRMQAIDcyUNAisIEMiYgAAC5k4eAFIUJZExAAAByJw8BKQoTyJiAAADkTh4CUhQmkDEBAQDInTwEpChMIGMCAgCQO3kISFGYQMYEBAAgd/IQkKIwgYwJCABA7uQhIEVhAhkTEACA3MlDQIrCBDImIAAAuZOHgBSFCWRMQAAAcicPASkKE8iYgAAA5E4eAlIUJpAxAQEAyJ08BKQoTCBjAgIAkDt5CEhRmEDGBAQAIHfyEJCiMIGMCQgAQO7kISBFYQIZExAAgNzJQ0CKwgQyJiAAALmTh4AUhQlkTEAAAHInDwEpChPImIAAAOROHgJSFCaQMQEBAMidPASkKEwgYwICAJA7eQhIUZhAxgQEACB38hCQojCBjAkI0Pv27dsXNm3aFB577LHw05/+NCxdutRhDKyBUVoDcc/Fvff888+39iL1JA8BKQoTyJiAAL3rl7/8ZTj//PNDX19fOOiggxzGwBqoeA3EvXjBBReENWvWVP3PAwXyEJCiMIGMCQjQe1555ZVwxhlneHGsILEGarwG4h7dvHlz1f9c8P/IQ0CKwgQyJiBAb3nwwQfDuHHjKn8x6DAG1sDga2Ds2LHhvvvuq/qfDeQhoA2FCWRMYQK944YbbvAiVVFhDTRwDSxatKjqfz6yJw8BKQoTyJiAkKeBgYGwdevW8PLLL4e1a9eGp59+Ojz88MNhxYoVf7lQYfx1/H/x9+KfiX82/p34d6mflStXVv6iz2EMrIHhr4FVq1ZV/c9I1uQhIEVhAhkTEHrfu+++27pDw6233hrmz58fTj755DBx4sRhh/r4d2fNmtX6WvFrPv74463HoNprlvgYjrJCWdHsNRD38Guvveaf0orIQ0CKwgQyJiD0nvfff7/1rpArr7wyTJ06ddTC/te+9rUwb9681jU04jtRGD2dXOB10qRJ4bzzzmt9bGfx4sUOY2ANjNIaiHsu7r24Bwfbp9/+9rf901kReQhIUZhAxgSE3rBt27Zw9913h5NOOqnyn5J+ccRziR/t2b59e9XD09Pi7UnbzcOYMWPCjTfeGP70pz9VfaqQtbgHr7/++taebLdnn3vuuapPNUvyEJCiMIGMCQjNtXfv3tY7SebOndu600LVBUnqOPjgg1vvgIjvPPn000+rHraec/7557ctS+LHsYD6ePTRR9uWJhdeeGHVp5gleQhIUZhAxgSE5tmxY0frLd59fX2VlyFDPeI5x3PfuXNn1cPYE/bt29d2HcR3lgD1c91117X9dzLubUaXPASkKEwgYwJCc8TrgixcuHBEF2yty3HIIYeEiy++OLzzzjtVD2ujbdq0KTnG8XoJPoYD9fTRRx+1/bf8hRdeqPoUsyMPASkKE8iYgNCM65PEcqHbH7uZMmVKOO2008Ls2bNbF2u97LLLQn9//18uVBh/Hf9f/L2zzz679WcnT57c9btCXHLJJa3vkaGLdyhKjW28yCRQX/HjlKn9++STT1Z9etmRh4AUhQlkTECor/3794dly5aN+KM38bPyM2bMCAsWLAirVq0KGzZsaH2sZ7ji312/fn3ra8WvGb/2SIuT+D3ec889re+ZzsUxS43pokWLDCXUWPzIXGr/3nvvvVWfXnbkISBFYQIZExDqaePGjWH69OnDLiCOPfbY1m2F408p422GyxYfIz5WfMxjjjlm2Ocdy5f4vdMZ+xeay/6tF/MBpChMIGMCQr18/PHHrY/fDHbbyS87Dj300HDFFVe0rmsxMDBQ2fcQHzuWHpdffnnrnIbzjpg4Bp988kll30NT2L/QXPZvvZgPIEVhAhkTEOrj9ddfD8cff/yQC4azzjqr9e6OeJvhuonnFM/tzDPPHPL3NW3atPDGG29U/S3Umv0LzWX/1ov5AFIUJpAxAaEeHnzwwTB+/PghFQpnnHFGWLNmTWiKeNeHeJHDobx7Jo7J8uXLK33HTJ3Zv9Bc9m+9mA8gRWECGRMQqv8Izvnnnz+koiTe/eS1114LTfXqq6+2vTvElx0XXnihj+h8CfsXmsv+rRfzAaQoTCBjAkJ1du3aFWbNmtVxaTB16tTw61//OvSKdevWhRNPPHFIF4Tdvn171addK/YvNJf9Wy/mA0hRmEDGBIRqvPvuu61rdHRSFIwbNy4sXrw47Nu3L/SaeI2TuAYnTJjQ0Vgcd9xx4a233qr6tGvD/oXmsn/rxXwAKQoTyJiAMPrix2mOOOKIjgqCb37zm+Gdd94Jve7tt98Op512WkdjcuSRRzb6I0ndZP9Cc9m/9WI+gBSFCWRMQBhd69evD319fYOWAvHCqNdee2347LPPQi7+/Oc/h/7+/o4uChvHMI5l7uxfaC77t17MB5CiMIGMCQijJ74ropOyZMqUKeHpp58OufrlL38ZDj/88EHHadKkSeHll18OObN/obns33oxH0CKwgQyJiCM3kdOOvkYTrwIary+Se7iGPz93//9oOMVxzSOba7sX2gu+7dezAeQojCBjAkI5duxY0frYqWDvfiP1/D44x//OApn1AwffvhhOP300wcdt6OPPjps27Yt5Mj+heayf+vFfAApChPImIBQro8//jh84xvfGPRF/+zZs8Pu3btLPpvmiWMSx2aw8Zs5c2ZrrHNj/0Jz2b/1Yj6AFIUJZExAKNf5558/6Iv9Cy+8MKuLuw5VHJs4RoON4wUXXBByY/9Cc9m/9WI+gBSFCWRMQCjPfffdN+iL/O985zutu8PQ3v79+8OcOXMGHc+VK1dmNZT2LzSX/Vsv5gNIUZhAxgSEcrz++uth/PjxbV/cf/Ob3/QxnCHYs2fPoNc0iWMexz4X9i80l/1bL+YDSFGYQMYEhO779NNPB73Dy7Rp08L7779fwqP3tg8++KB1J6F2Y3v88cdncz0T+xeay/6tF/MBpChMIGMCQvddfPHFbV/QH3744WHLli0lPHI+txw+7LDD2o7xJZdcEnJg/0Jz2b/1Yj6AFIUJZExA6K7nn38+jBkzJvlCPv7es88+2+VHzc+vfvWrQcd5w4YNodfZv9Bc9m+9mA8gRWECGRMQuufzzz8f9BbC1113XRcfMW8LFy5sO9YzZsxoXSy2l9m/0Fz2b72YDyBFYQIZExC6Z+nSpW1fwJ922mluH9xFsQwZ7CKw99xzT+hl9i80l/1bL+YDSFGYQMYEhO547733Ql9fX/KF+4QJE8I777zTpUfjC2+//XbbuxHFOdm2bVvPDpj9C81l/9aL+QBSFCaQMQFhdC70GseZctx+++1tx/7SSy/t2aG3f6G57N96MR9AisIEMiYgdOfdJePGjWt7m9t9+/Z14ZH4Mnv37g1Tp05Njn+cm169K5H9C81l/9aL+QBSFCaQMQFh5K666qq273B47rnnuvAotPOb3/ym7Rz86Ec/6skBtH+huezfejEfQIrCBDImIIzMjh072l5D47zzzuvSTDGY73//+22vIbNz586eG0T7F5rL/q0X8wGkKEwgYwLCyFx//fVt39nw6quvdmmmGMzmzZvbzsWiRYt6bhDtX2gu+7dezAeQojCBjAkIw7d79+62d8aZM2dOF2eKTsyePTs5H5MnT27NWS+xf6G57N96MR9AisIEMiYgDN8jjzzS9h0Nzz//fBdnik5s3Lix7ZysXr26pwbS/oXmsn/rxXwAKQoTyJiAMHzf/e53ky/MzzrrrC7OEkNx5plnJuclvgOll9i/0Fz2b72YDyBFYQIZExCGf7HXsWPHJl+YP/XUU12eKTr1xBNPJOfl4IMPDtu3b++ZwbR/obns33oxH0CKwgQyJiAMz5IlS5IvyqdMmRL27t3b5ZmiU3HsDz300OT8LFu2rGcG0/6F5rJ/68V8ACkKE8iYgDA8J510UvIF+RVXXNHlWWKoLr/88uT8zJw5s2cG1P6F5rJ/68V8ACkKE8iYgDC8j+O0u7Dopk2bSpgphmLDhg1t5yjOYS+wf6G57N96MR9AisIEMiYgDF2800rqhfixxx4bBgYGSpgphuLAgQPh6KOPTs7TY4891hMDav9Cc9m/9WI+gBSFCWRMQBi6yy67LPlC/MorryxhlhiO+NGo1Dz98Ic/7IlBtX+huezfejEfQIrCBDImIAzdcccdl3wh/uSTT5YwSwxHfBdJap6mTp3aE4Nq/0Jz2b/1Yj6AFIUJZExAGJo//OEPyRfhY8aMCbt27SppphiqnTt3tuYkNV9btmxp/KDav9Bc9m+9mA8gRWECGRMQuveuhRkzZpQ0SwzX9OnTk/P1xBNPNH5g7V9oLvu3XswHkKIwgYwJCENz6623Jl+AL1iwoKRZYriuueaa5HzdfvvtjR9Y+xeay/6tF/MBpChMIGMCwtDMmzcv+QJ81apVJc0Sw7Vy5crkfF100UWNH1j7F5rL/q0X8wGkKEwgYwLC0MycOTP5Anzjxo0lzRLDtW7duuR8zZo1q/EDa/9Cc9m/9WI+gBSFCWRMQOjcgQMHwqRJk5IvwONFRqmX7du3J+err68vDAwMhCazf6G57N96MR9AisIEMiYgdG7r1q3JF9+TJ09u/IvvXhTnJBYjqXmLhUqT2b/QXPZvvZgPIEVhAhkTEDr38ssvJ194n3rqqSXOEiMRP3qTmrdXXnml0YNr/0Jz2b/1Yj6AFIUJZExA6Nxvf/vb5AvvOXPmlDhLjMTZZ5+dnLe1a9c2enDtX2gu+7dezAeQojCBjAkInXvmmWeSL7wvvPDCEmeJkfjnf/7n5Lw9++yzjR5c+xeay/6tF/MBpChMIGMCQucefvjh5AvvSy+9tMRZYiQuvvji5LytXr260YNr/0Jz2b/1Yj6AFIUJZExA6NyKFSuSL7z7+/tLnCVGYsGCBcl5W7lyZaMH1/6F5rJ/68V8ACkKE8iYgNC5u+66K/nC+5ZbbilxlhiJm2++OTlvS5YsafTg2r/QXPZvvZgPIEVhAhkTEDqnMGkmhQlQR55/68V8ACkKE8iYgNA5H8lpJh/JAerI82+9mA8gRWECGRMQOueir83koq9AHXn+rRfzAaQoTCBjAkLn3Fa4mdxWGKgjz7/1Yj6AFIUJZExA6Nxvf/vb5MVD58yZU+IsMRJnn312ct7Wrl3b6MG1f6G57N96MR9AisIEMiYgdO7ll19OvvA+9dRTS5wlRmLWrFnJeXvllVcaPbj2LzSX/Vsv5gNIUZhAxgSEzm3dujX5wnvy5MlhYGCgxJliOOKc9PX1Jedt+/btjR5Y+xeay/6tF/MBpChMIGMCQucOHDgQJk2alHzxvXPnzhJniuGIhUhqvmKR0vSSy/6F5rJ/68V8ACkKE8iYgDA0M2fOTL4A37BhQ0mzxHDFa5Sk5it+VKfp7F9oLvu3XswHkKIwgYwJCEMzb9685AvwVatWlTRLDNfKlSuT83XRRRc1fmDtX2gu+7dezAeQojCBjAkIQ3PbbbclX4AvWLCgpFliuK655prkfMW133T2LzSX/Vsv5gNIUZhAxgSEoXnssceSL8BnzJhR0iwxXNOnT0/O1xNPPNH4gbV/obns33oxH0CKwgQyJiAMzbvvvpt8AT5mzJiwa9eukmaKoYoX4Y1zkpqvLVu2NH5Q7V9oLvu3XswHkKIwgYwJCEN33HHHJV+EP/nkkyXMEt1+N9DUqVN7YlDtX2gu+7dezAeQojCBjAkIQ3fZZZclX4hfeeWVJcwSw3HFFVck5+mHP/xhTwyq/QvNZf/Wi/kAUhQmkDEBYegeffTR5AvxY445JgwMDJQwUwzFgQMHwtFHH52cp8cff7wnBtT+heayf+vFfAApChPImIAwdDt27Ei+EI/Hxo0bS5gphmLDhg1t5yjOYS+wf6G57N96MR9AisIEMiYgDM9JJ52UfDEePwpCfT82NXPmzJ6ZHvsXmsv+rRfzAaQoTCBjAsLw3H333ckX5FOmTAl79uzp8kzRqb1794ZDDz00OT/33HNPzwym/QvNZf/Wi/kAUhQmkDEBYXjiRzrGjh2bfFH+1FNPdXmm6NQTTzyRnJeDDz44bN++vWcG0/6F5rJ/68V8ACkKE8iYgDB8Z599dvKF+ZlnntnFWWIozjjjjOS8zJ49u6cG0/6F5rJ/68V8ACkKE8iYgDB8jzzySNsLi27atKmLM0Un4gV3281JvMNRL7F/obns33oxH0CKwgQyJiAM3+7du0NfX1/yxfk555zTxZlipO/6mTx5cmvOeon9C81l/9aL+QBSFCaQMQFhZG644Ya272h49dVXuzRTDGbz5s1t52LRokU9N4j2LzSX/Vsv5gNIUZhAxgSEkV/8dcKECckX6XPnzu3STDGY733ve8l5iHO0c+fOnhtE+xeay/6tF/MBpChMIGMCwshdffXVbd/Z8Ktf/aoLj0I7v/nNb9rOwYIFC3pyAO1faC77t17MB5CiMIGMCQgj995774Vx48YlX6wfe+yxYc+ePV14JL7M3r17w9SpU5PjH+dmy5YtPTl49i80l/1bL+YDSFGYQMYEhO645JJL2r7D4bbbbuvSI1F06623th37yy+/vGcHzf6F5rJ/68V8ACkKE8iYgNAd27Zta3vHnPHjx4e33367S4/GF956663W2La7M8727dt7dsDsX2gu+7dezAeQojCBjAkI3bNs2bK273Q49dRTw5///OcuPmLe4ljGMW035vfee2/oZfYvNJf9Wy/mA0hRmEDGBITu+fzzz8PMmTPbvoBfuHBhFx8xb/39/W3HesaMGWH//v2hl8VCKPX933jjjVWfHtDG9ddfn9y/P/nJT4zdKJOHgBSFCWRMQOiu559/PowZM6btC/lf/OIXXX7U/DzzzDNtxzjOwcaNG0Ove/zxx5NjcO6551Z9ekAb3//+95P798knnzR2o0weAlIUJpAxAWH0LwB72GGHhXfffbeER87DH/7wh9YYthvjSy+9NORg06ZNyTGYNGlS+NOf/lT1KQJf4qOPPgoTJ05M7t8XXnjBuI0yeQhIUZhAxgSE7tu9e3c44YQT2r6gnzZtWnj//fdLePTe9sEHH3Q0th9//HHIwb59+9pebPiGG26o+hSBL3Httde2vVi1612NPnkISFGYQMYEhHL853/+Z9ufHsbjtNNOC59++mlJZ9B74lgNdpHXeMecN954I+TkggsuaPvRpEcffbTqUwT+yurVq9t+dHPevHnGqwLyEJCiMIGMCQjlWbFiRdsX9/H4zne+4yeJHYgXb50zZ86g4/nAAw+E3KxZs2bQ67lcd911rY8AANWJezC+s2Sw61w999xzpqkC8hCQojCBjAkI5brwwgsHfZEf/8xnn31W8pk0Vxybdu+i8FPZEM4888xBxye+4yleCDbemWPp0qUOY2AN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"
+      }
+    }
+  ],
+  "copyTos": [
+    {
+      "text": "G-3/5"
+    },
+    {
+      "text": "G-4"
+    },
+    {
+      "text": "Regimental S-3"
+    }
+  ],
+  "distributions": [],
+  "timestamp": 0
+}

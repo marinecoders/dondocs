@@ -304,7 +304,7 @@ export default defineConfig({
         importScripts: ['sw-cleanup.js'],
         // Increase limit for large JS bundles (SwiftLaTeX is ~9MB)
         maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10MB
-        // SW-2: the app loads latex-templates.js?v=11 and swiftlatexpdftex.js?v=6;
+        // SW-2: the app loads versioned template and engine scripts;
         // without this, precache lookups miss on the ?v= param and offline
         // engine init fails despite the asset being cached.
         ignoreURLParametersMatching: [/^v$/],

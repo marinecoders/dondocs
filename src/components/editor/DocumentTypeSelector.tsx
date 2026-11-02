@@ -16,7 +16,7 @@ export function DocumentTypeSelector() {
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
   const isCompliant = documentMode === 'compliant';
   const isCorrespondence = documentCategory === 'correspondence';
-  const isPublication = isCorrespondence && docType === 'i_type';
+  const isPublication = isCorrespondence && (docType === 'i_type' || docType === 'sl3');
 
   return (
     <div className="space-y-density-4">
@@ -41,7 +41,7 @@ export function DocumentTypeSelector() {
           <p className="text-xs text-muted-foreground">
             {isCompliant
               ? isPublication
-                ? 'Formats I-Type publications for compliance with MIL-DTL-28999D(MC) and MIL-STD-38784C.'
+                ? docType === 'sl3' ? 'Formats SL-3 components lists using MCO 5215.17D, MIL-STD-38784C and the supplied template.' : 'Formats I-Type publications for compliance with MIL-DTL-28999D(MC) and MIL-STD-38784C.'
                 : 'Strictly adheres to SECNAV M-5216.5 formatting requirements.'
               : 'Customize fonts and formatting to your preferences.'}
           </p>

@@ -480,7 +480,7 @@ export function Header({
       <Dialog open={!!reviewedDraft} onOpenChange={(open) => { if (!open && !openingDraft) setReviewedDraft(null); }}>
         <DialogContent className="sm:max-w-lg max-h-[85dvh] overflow-y-auto">
           <DialogHeader><DialogTitle>Review draft</DialogTitle><DialogDescription>Open a separate editable copy. Your current document stays in Recents.</DialogDescription></DialogHeader>
-          {reviewedDraft && <><SessionPreview session={reviewedDraft.session} /><p className="text-sm text-muted-foreground">{reviewedDraft.session.enclosures.filter((e, i) => e.fileRef || reviewedDraft.files[i]).length} attached files{reviewedDraft.basicLetter || reviewedDraft.session.formData.basicLetterFileRef ? ' and a basic letter' : ''} included.</p></>}
+          {reviewedDraft && <><SessionPreview session={reviewedDraft.session} /><p className="text-sm text-muted-foreground">{reviewedDraft.session.enclosures.filter((e, i) => e.fileRef || reviewedDraft.files[i]).length} enclosure files and {reviewedDraft.session.paragraphs.filter((p, i) => p.figure?.fileRef || reviewedDraft.figures[i]).length} illustrations{reviewedDraft.basicLetter || reviewedDraft.session.formData.basicLetterFileRef ? ' and a basic letter' : ''} included.</p></>}
           {draftError && <p role="alert" className="text-sm text-destructive">{draftError}</p>}
           <DialogFooter><Button variant="outline" disabled={openingDraft} onClick={() => setReviewedDraft(null)}>Cancel</Button><Button disabled={openingDraft} onClick={() => void openReviewedDraft()}>{openingDraft ? 'Opening…' : 'Open as new document'}</Button></DialogFooter>
         </DialogContent>

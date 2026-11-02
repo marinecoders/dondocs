@@ -1,7 +1,7 @@
 import { saveCheckpoint } from '@/lib/saveCheckpoint';
 import { usePageScrollLayout } from '@/hooks/usePageScrollLayout';
 import { applyTheme, THEMES } from '@/lib/appearance';
-import { iTypeExportErrors } from '@/lib/iTypePreflight';
+import { publicationExportErrors, isTechnicalPublication } from '@/lib/publicationPreflight';
 import { loadFigureFiles } from '@/services/latex/figureAssets';
 import { publicationMarking } from '@/lib/publicationMarking';
 import { useEffect, useCallback, useMemo, useState, useRef, lazy, Suspense } from 'react';
@@ -804,7 +804,7 @@ function App() {
     await rehydrateEnclosureFiles();
     // Snapshot fresh state at download time via getState().
     const currentStore = useDocumentStore.getState();
-    const errors = iTypeExportErrors(currentStore);
+    const errors = publicationExportErrors(currentStore);
     if (errors.length) throw new Error(errors.join('\n'));
     const generated = generateAllLatexFiles(currentStore);
     const { texFiles, signatureImage, figures } = generated;
@@ -823,7 +823,7 @@ function App() {
       onProgress?.({ kind: 'pdf-merging-enclosures' });
       const finished = await finishCorrespondencePdf(pdfBytes, currentStore.docType, currentStore.formData, generated, currentStore.paragraphs);
       pdfBytes = finished.pdfBytes;
-      if (currentStore.docType === 'i_type' && finished.errors.length) throw new Error(finished.errors.map((e) => e.error).join('\n'));
+      if (isTechnicalPublication(currentStore.docType) && finished.errors.length) throw new Error(finished.errors.map((e) => e.error).join('\n'));
       if (finished.errors.length) {
         setEnclosureErrors(finished.errors);
         setShowEnclosureErrors(true);
@@ -1005,7 +1005,7 @@ function App() {
     if (!pendingDownloadRef.current) return false;
 
     const currentStore = useDocumentStore.getState();
-    const errors = iTypeExportErrors(currentStore);
+    const errors = publicationExportErrors(currentStore);
     if (errors.length) throw new Error(errors.join('\n'));
     const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls, figures } = generateAllLatexFiles(currentStore);
 
@@ -1037,7 +1037,7 @@ function App() {
         lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
         if (mergeResult.hasErrors) exportErrors.push(...mergeResult.errors);
       }
-      if (currentStore.docType === 'i_type' && exportErrors.length) throw new Error(exportErrors.map((e) => e.error).join('\n'));
+      if (isTechnicalPublication(currentStore.docType) && exportErrors.length) throw new Error(exportErrors.map((e) => e.error).join('\n'));
       // Track export errors for user notification (PII download context)
       if (exportErrors.length > 0) {
         setEnclosureErrors(exportErrors);
@@ -1326,9 +1326,9 @@ function App() {
       return;
     }
 
-    const publicationErrors = iTypeExportErrors(useDocumentStore.getState());
+    const publicationErrors = publicationExportErrors(useDocumentStore.getState());
     if (publicationErrors.length) {
-      setDownloadProgress({ kind: 'error', target: 'pdf', title: 'Complete the I-Type before export',
+      setDownloadProgress({ kind: 'error', target: 'pdf', title: 'Complete the publication before export',
         message: publicationErrors.join('\n'), retryable: false, reportable: false });
       return;
     }
@@ -1341,7 +1341,7 @@ function App() {
     if (structureAckRef.current) {
       structureAckRef.current = false;
     } else {
-      const structure = validateParagraphStructure(useDocumentStore.getState().paragraphs);
+      const structure = useDocumentStore.getState().docType === 'sl3' ? [] : validateParagraphStructure(useDocumentStore.getState().paragraphs);
       if (structure.length > 0) {
         pendingStructureExportRef.current = 'pdf';
         setStructureFindings(structure);
@@ -1466,7 +1466,7 @@ ${texFiles['body.tex'] || '% No body content'}
     if (structureAckRef.current) {
       structureAckRef.current = false;
     } else {
-      const structure = validateParagraphStructure(useDocumentStore.getState().paragraphs);
+      const structure = useDocumentStore.getState().docType === 'sl3' ? [] : validateParagraphStructure(useDocumentStore.getState().paragraphs);
       if (structure.length > 0) {
         pendingStructureExportRef.current = 'docx';
         setStructureFindings(structure);
