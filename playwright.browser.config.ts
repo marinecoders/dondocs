@@ -8,6 +8,7 @@ export default defineConfig({
   timeout: 30_000,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
+  failOnFlakyTests: !!process.env.CI,
   use: { ...base.use, baseURL: 'http://127.0.0.1:4173', reducedMotion: 'reduce' },
   projects: [
     { name: 'chromium', use: { browserName: 'chromium' } },

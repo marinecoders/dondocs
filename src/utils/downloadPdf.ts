@@ -59,26 +59,31 @@ function openViaDataUrlInNewWindow(blob: Blob, filename: string, prepared?: Wind
         resolve(false);
         return;
       }
-      const target = prepared && !prepared.closed ? prepared : window.open('', '_blank');
-      if (!target) {
-        void downloadViaDataUrl(new Blob([blob], { type: 'application/octet-stream' }), filename).then(resolve);
-        return;
+      try {
+        const target = prepared && !prepared.closed ? prepared : window.open('', '_blank');
+        if (!target) {
+          void downloadViaDataUrl(new Blob([blob], { type: 'application/octet-stream' }), filename).then(resolve);
+          return;
+        }
+        target.opener = null;
+        const doc = target.document;
+        doc.title = filename;
+        doc.body.style.margin = '0';
+        const save = doc.createElement('a');
+        save.textContent = 'Download PDF';
+        save.download = filename;
+        save.href = dataUrl.replace('data:application/pdf;', 'data:application/octet-stream;');
+        save.style.cssText = 'display:block;padding:14px;font:16px system-ui';
+        const preview = doc.createElement('iframe');
+        preview.title = filename;
+        preview.src = dataUrl;
+        preview.style.cssText = 'display:block;width:100%;height:calc(100vh - 48px);border:0';
+        doc.body.replaceChildren(save, preview);
+        resolve(true);
+      } catch {
+        // The prepared tab may have navigated to another origin meanwhile.
+        resolve(false);
       }
-      target.opener = null;
-      const doc = target.document;
-      doc.title = filename;
-      doc.body.style.margin = '0';
-      const save = doc.createElement('a');
-      save.textContent = 'Download PDF';
-      save.download = filename;
-      save.href = dataUrl.replace('data:application/pdf;', 'data:application/octet-stream;');
-      save.style.cssText = 'display:block;padding:14px;font:16px system-ui';
-      const preview = doc.createElement('iframe');
-      preview.title = filename;
-      preview.src = dataUrl;
-      preview.style.cssText = 'display:block;width:100%;height:calc(100vh - 48px);border:0';
-      doc.body.replaceChildren(save, preview);
-      resolve(true);
     };
     reader.onerror = function() {
       prepared?.close();
@@ -207,13 +212,17 @@ export async function downloadPdfBlob(
 /** Open the iOS PDF tab during the click, before compilation uses activation. */
 export function preOpenWindowForIOS(): Window | null {
   if (getPdfDownloadStrategy() !== 'data-url-window') return null;
-  const target = window.open('', '_blank');
-  if (target) {
-    target.opener = null;
-    target.document.title = 'Preparing PDF';
-    target.document.body.textContent = 'Preparing your PDF…';
+  try {
+    const target = window.open('', '_blank');
+    if (target) {
+      target.opener = null;
+      target.document.title = 'Preparing PDF';
+      target.document.body.textContent = 'Preparing your PDF…';
+    }
+    return target;
+  } catch {
+    return null;
   }
-  return target;
 }
 
 // Re-export device utilities for convenience

@@ -100,6 +100,24 @@ describe('PDF delivery', () => {
     expect(window.location.href).toBe(originalLocation);
   });
 
+  it('downloads the file if the prepared tab navigated away during compilation', async () => {
+    device(chromeIOS);
+    const target = {
+      closed: false,
+      get document() { throw new DOMException('Cross-origin tab', 'SecurityError'); },
+    } as unknown as Window;
+    expect(await downloadPdfBlob(new Blob([payload]), filename, target)).toBe(true);
+    expect(links).toHaveLength(1);
+    expect(links[0].name).toBe(filename);
+    expect(new Uint8Array(await blobs.get(links[0].href)!.arrayBuffer())).toEqual(payload);
+  }, 1000);
+
+  it('continues without a prepared tab when browser policy rejects window.open', () => {
+    device(chromeIOS);
+    vi.spyOn(window, 'open').mockImplementation(() => { throw new DOMException('Blocked', 'SecurityError'); });
+    expect(preOpenWindowForIOS()).toBeNull();
+  });
+
   it.each([['Android', android], ['iOS Chrome', chromeIOS]])('%s falls back to a file download when FileReader fails', async (_name, ua) => {
     device(ua);
     const open = vi.spyOn(window, 'open').mockReturnValue(null);
