@@ -110,7 +110,7 @@ describe('PDF delivery', () => {
     expect(links).toHaveLength(1);
     expect(links[0].name).toBe(filename);
     expect(new Uint8Array(await blobs.get(links[0].href)!.arrayBuffer())).toEqual(payload);
-  }, 1000);
+  });
 
   it('continues without a prepared tab when browser policy rejects window.open', () => {
     device(chromeIOS);
