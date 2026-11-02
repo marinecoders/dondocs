@@ -29,7 +29,8 @@
     "form-package": "vite-node --config vitest.config.ts scripts/form-package.mts",
     "form-coverage": "vite-node --config vitest.config.ts scripts/form-coverage.mts",
     "stamp-quality": "vite-node --config vitest.config.ts scripts/stamp-quality.mts",
-    "test:upgrade": "playwright test"
+    "test:upgrade": "playwright test",
+    "test:install": "playwright test --config playwright.install.config.ts"
   },
   "overrides": {
     "serialize-javascript": "^7.0.5",

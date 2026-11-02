@@ -11,6 +11,7 @@ tests/
 ├── combinatorial/  the pairwise matrix builder, unit-tested
 ├── cartesian/      the full-matrix harness (`run.ts`, its own workflow, not a vitest suite)
 ├── integration/    compiles real documents and drives the companion end to end
+├── browser/        Playwright tests against production builds (install and upgrades)
 └── _helpers/       fixtures shared across the suites
 ```
 
@@ -19,6 +20,9 @@ real toolchain and drives the companion over HTTP and MCP; run it with
 `npm run test:integration` after installing xelatex, pandoc and poppler
 (`pdftotext`). Where a tool is missing the affected cases skip locally and
 fail in CI, so a dropped dependency cannot turn into a green run.
+
+Browser checks run separately from Vitest. See [browser/README.md](browser/README.md)
+for the install coverage, commands, and native-device verification checklist.
 
 ## Layout philosophy
 

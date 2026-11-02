@@ -6,7 +6,8 @@
  *
  *  - in-app browser (FB/IG/etc.) → escape to a real browser first
  *  - iOS Safari                  → Share → Add to Home Screen → Add
- *  - iOS Chrome/Firefox          → installs only from Safari; open there
+ *  - iOS Chrome                  → Share → Add to Home Screen → Add
+ *  - other iOS browsers          → use Safari if the share action is missing
  *  - Android Chromium            → browser menu → "Add to Home screen"
  *  - desktop Chromium            → install icon in the address bar / menu
  *  - macOS Safari                → File → Add to Dock
@@ -77,11 +78,11 @@ export function InstallAppModal() {
         ]}
       />
     );
-  } else if (d.isIOS && d.isRealSafari) {
+  } else if (d.isIOS && (d.isRealSafari || d.isChromeIOS)) {
     body = (
       <Steps
         items={[
-          <>Tap the <strong>Share</strong> button <ShareGlyph /> in Safari&apos;s toolbar.</>,
+          <>Tap the <strong>Share</strong> button <ShareGlyph /> in {d.isChromeIOS ? 'Chrome' : 'Safari'}&apos;s toolbar.</>,
           <>Scroll down and tap <strong>Add to Home Screen</strong>.</>,
           <>Tap <strong>Add</strong>. DonDocs opens full-screen from its own icon, ready offline.</>,
         ]}
@@ -91,7 +92,8 @@ export function InstallAppModal() {
     body = (
       <div className="space-y-3">
         <p className="text-sm">
-          On iPhone and iPad, apps install from <strong>Safari</strong> only.
+          Look for <strong>Add to Home Screen</strong> in your browser&apos;s share menu.
+          If it isn&apos;t available, open this page in <strong>Safari</strong> and follow these steps.
         </p>
         <Steps
           items={[
