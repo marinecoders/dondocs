@@ -7,7 +7,7 @@ export function publicationFields(input: LetterInput): Partial<DocumentData> {
   if (!isTechnicalPublication(input.docType) || !input.publication) return {};
   const p = input.publication;
   return {
-    publicationType: p.type === 'SL3' ? undefined : p.type, sl3: p.sl3, shortTitle: p.shortTitle, pcn: p.pcn,
+    publicationType: p.type === 'SL3' || p.type === 'SL4' ? undefined : p.type, sl4: p.sl4, sl3: p.sl3, shortTitle: p.shortTitle, pcn: p.pcn,
     nomenclature: p.nomenclature, controllingOffice: p.controllingOffice,
     publicationSigningDate: p.signingDate, publicationClosedDates: p.closedDates ?? '',
     miUrgency: p.urgency ?? 'normal', miCompletionDate: p.completionDate ?? '',
@@ -47,10 +47,14 @@ export function publicationEnclosures(input: LetterInput): Enclosure[] {
 
 export function publicationInputErrors(input: LetterInput): string[] {
   const errors: string[] = [];
+  if (input.docType === 'sl4' && (input.publication?.type !== 'SL4' || !input.publication.sl4)) errors.push('SL-4 requires publication.type SL4 and publication.sl4 parts data.');
+  if (input.docType !== 'sl4' && input.publication?.sl4) errors.push('SL-4 parts data requires docType sl4.');
+  if (input.docType !== 'sl3' && input.publication?.sl3) errors.push('SL-3 inventory data requires docType sl3.');
+  if (input.docType === 'sl4' && (input.publication?.urgency || input.publication?.completionDate || input.publication?.tables || input.enclosures?.length || input.paragraphs?.some((p) => !p.figure))) errors.push('SL-4 uses structured parts data and figure paragraphs, not I-Type content.');
   if (input.docType === 'sl3' && (input.publication?.type !== 'SL3' || !input.publication.sl3)) errors.push('SL-3 requires publication.type SL3 and publication.sl3 inventory data.');
   if (input.docType === 'i_type' && input.publication?.sl3) errors.push('SL-3 inventory data requires docType sl3.');
   if (input.docType === 'sl3' && (input.publication?.urgency || input.publication?.completionDate)) errors.push('SL-3 does not use MI urgency or completion dates.');
-  if (input.docType === 'i_type' && input.publication?.type === 'SL3') errors.push('I-Type requires publication.type MI, SI, TI or LI.');
+  if (input.docType === 'i_type' && ['SL3', 'SL4'].includes(input.publication?.type ?? '')) errors.push('I-Type requires publication.type MI, SI, TI or LI.');
   if (input.docType === 'sl3' && (input.publication?.tables || input.enclosures?.length || input.paragraphs?.some((p) => !p.figure))) errors.push('SL-3 uses structured inventory data and figure paragraphs, not I-Type tables, body paragraphs or enclosures.');
   for (const [index, paragraph] of (input.paragraphs ?? []).entries()) {
     const blocks = [paragraph.figure, paragraph.callout, paragraph.procedure, paragraph.appendix, paragraph.tableKey];

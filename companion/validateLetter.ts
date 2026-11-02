@@ -91,7 +91,7 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
   }
 
   if (isTechnicalPublication(body.docType ?? '')) {
-    const label = body.docType === 'sl3' ? 'SL-3' : 'I-Type';
+    const label = body.docType === 'sl4' ? 'SL-4' : body.docType === 'sl3' ? 'SL-3' : 'I-Type';
     if (body.format === 'docx') problems.push(`${label} export supports PDF only.`);
     if (!body.publication) problems.push(`${label} export requires publication metadata.`);
     if (body.classification?.cui?.distStatement && body.publication
@@ -106,7 +106,7 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
     }
   } else if (body.publication || body.attachments?.length || (Array.isArray(body.enclosures) && body.enclosures.some((e) => e?.fileId))
     || (Array.isArray(body.paragraphs) && body.paragraphs.some((p) => p?.figure || p?.tableKey || p?.publicationSection || p?.callout || p?.procedure || p?.appendix))) {
-    problems.push('Publication fields and attachments require docType i_type or sl3.');
+    problems.push('Publication fields and attachments require docType i_type, sl3 or sl4.');
   }
   return problems;
 }

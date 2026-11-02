@@ -208,7 +208,7 @@ export async function compileFixture(store: TestStore, extraFiles: Record<string
   // override them.
 
   let { exitCode, log } = await runPdflatex(workDir, 'main.tex');
-  if (exitCode === 0 && store.docType === 'sl3') {
+  if (exitCode === 0 && ['sl3', 'sl4'].includes(store.docType)) {
     ({ exitCode, log } = await runPdflatex(workDir, 'main.tex'));
   }
   const ok = exitCode === 0;

@@ -247,7 +247,7 @@ export function searchableText(entry: DocumentEntry): string {
 }
 
 /**
- * A human, safe download filename for the current correspondence document:
+ * A human, safe download filename for the current document:
  *  an optional SSIC prefix + a slug of the derived title, so a letter downloads
  *  as `5216-request-for-special-liberty.pdf` instead of `correspondence.pdf`.
  *  NAVMC forms build their own names; this brings correspondence to parity.
@@ -259,9 +259,12 @@ export function correspondenceFilename(ext: string, session?: SerializedSession)
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/^-+|-+$/g, '')
-      .slice(0, 50) || 'correspondence';
-  const ssic = (s.formData?.ssic ?? '').trim();
-  const prefix = ssic && !isPlaceholder(ssic) ? `${ssic}-` : '';
+      .slice(0, 50)
+      .replace(/-+$/, '') || 'correspondence';
+  const stockList = s.docType === 'sl3' || s.docType === 'sl4';
+  const identifier = (stockList ? s.formData?.shortTitle : s.formData?.ssic)?.trim() ?? '';
+  const safeIdentifier = stockList ? identifier.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') : identifier;
+  const prefix = safeIdentifier && !isPlaceholder(identifier) ? `${safeIdentifier}-` : '';
   return `${prefix}${slug}.${ext}`;
 }
 

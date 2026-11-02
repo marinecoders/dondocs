@@ -220,6 +220,8 @@
 % above OFFICIAL is the same whether or not it appears.
 
 \newcommand{\dondocsAuthenticationFont}{\fontsize{12}{12}\selectfont}
+\newcommand{\dondocsAuthenticationOpening}{This \PublicationTypeName\ifNotEmpty{\ShortTitle}{, \ShortTitle,} is
+              authenticated for Marine Corps use and is effective upon receipt.}
 \newcommand{\printAddressBlock}{%
     \begingroup\dondocsAuthenticationFont
     \thispagestyle{authpage}%
@@ -237,8 +239,7 @@
         % The template's "appropriate publication" is the type AND its number
         % ("Technical Manual, TM #####X-##/#,"), so the short title rides
         % inside the sentence rather than only in the header.
-        \item This \PublicationTypeName\ifNotEmpty{\ShortTitle}{, \ShortTitle,} is
-              authenticated for Marine Corps use and is effective upon receipt.
+        \item \dondocsAuthenticationOpening
 
         \item Per MCO 5100.34\_, Commanders, Commanding Officers, and
               Officers-In-Charge shall identify and report situations that

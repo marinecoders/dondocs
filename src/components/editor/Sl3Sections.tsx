@@ -1,8 +1,11 @@
-import { useState, type ReactNode } from 'react';
+import { emptySl4 } from '@/data/techpub/sl4';
+import { sl4ExportErrors, sl4ErrorSection } from '@/lib/sl4Preflight';
+import { useState } from 'react';
 import { Plus, Trash2, ArrowUp, ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useDocumentsStore } from '@/stores/documentsStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { persistAttachment, newAttachmentId } from '@/lib/attachments';
 import { prepareFigureUpload } from '@/lib/prepareFigureUpload';
@@ -25,15 +28,30 @@ import {
 import { sl3ExportErrors } from '@/lib/sl3Preflight';
 import { Sl3DateFields } from './Sl3DateFields';
 import { sl3ErrorSection } from '@/lib/sl3EditorErrors';
+import { StockPublicationGroup as EditorGroup } from './StockPublicationGroup';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 
-function useSl3() {
-  const stored = useDocumentStore((s) => s.formData.sl3);
+function useSl3(publication: 'sl3' | 'sl4' = 'sl3') {
+  const stored = useDocumentStore((s) => s.formData[publication]);
   const setField = useDocumentStore((s) => s.setField);
-  const data = stored ?? emptySl3();
+  // Adapt only the shared cover/artwork surface; SL-4 rows remain SL-4 data.
+  const sl4 = publication === 'sl4' ? stored as import('@/data/techpub/sl4').Sl4Data | undefined : undefined;
+  const data: Sl3Data = publication === 'sl4' ? { ...emptySl3(), orientation: 'landscape',
+    endItemFigureId: sl4?.endItemFigureId ?? '', artwork: sl4?.artwork ?? [],
+    components: (sl4?.rows ?? []).flatMap((row) => row.kind === 'part' ? [{ ...newSl3Component(row.id), figureId: row.figureId }] : []),
+  } : stored as Sl3Data ?? emptySl3();
   return {
     data,
-    update: (patch: Partial<Sl3Data>) => setField('sl3', { ...data, ...patch }),
+    update: (patch: Partial<Sl3Data>) => {
+      if (publication === 'sl3') { setField('sl3', { ...data, ...patch }); return; }
+      const current = useDocumentStore.getState().formData.sl4 ?? emptySl4();
+      setField('sl4', { ...current,
+        ...(patch.artwork !== undefined ? { artwork: patch.artwork } : {}),
+        ...(patch.endItemFigureId !== undefined ? { endItemFigureId: patch.endItemFigureId } : {}),
+        ...(patch.components !== undefined ? { rows: current.rows.map((row) => row.kind === 'part'
+          ? { ...row, figureId: patch.components!.find((part) => part.id === row.id)?.figureId ?? row.figureId } : row) } : {}),
+      });
+    },
   };
 }
 
@@ -43,12 +61,14 @@ function Field({
   onChange,
   multiline = false,
   placeholder,
+  maxLength,
 }: {
   label: string;
   value: string;
   onChange: (value: string) => void;
   multiline?: boolean;
   placeholder?: string;
+  maxLength?: number;
 }) {
   return (
     <label className="block min-w-0 space-y-2 text-sm">
@@ -57,6 +77,7 @@ function Field({
         <Textarea
           aria-label={label}
           placeholder={placeholder}
+          maxLength={maxLength}
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />
@@ -64,6 +85,7 @@ function Field({
         <Input
           aria-label={label}
           placeholder={placeholder}
+          maxLength={maxLength}
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />
@@ -107,39 +129,26 @@ function figureLabel(data: Sl3Data, id: string | undefined, index: number) {
   return number ? `Figure ${number}` : `Illustration ${index + 1} (unassigned)`;
 }
 
-function EditorGroup({ title, description, children }: {
-  title: string;
-  description?: string;
-  children: ReactNode;
-}) {
-  return (
-    <fieldset className="min-w-0 space-y-4 border-t pt-5">
-      <legend className="pr-3 text-sm font-semibold">{title}</legend>
-      {description && <p className="text-xs leading-relaxed text-muted-foreground">{description}</p>}
-      {children}
-    </fieldset>
-  );
-}
-
-export function Sl3CoverSection() {
+export function Sl3CoverSection({ publication = 'sl3' }: { publication?: 'sl3' | 'sl4' } = {}) {
   const store = useDocumentStore();
   const jump = useEditorOutlineStore((s) => s.jump);
-  const { data, update } = useSl3();
-  const errors = sl3ExportErrors(store);
+  const { data, update } = useSl3(publication);
+  const errors = publication === 'sl4' ? sl4ExportErrors(store) : sl3ExportErrors(store);
+  const label = publication === 'sl4' ? 'SL-4' : 'SL-3';
   return (
     <div className="sl3-editor space-y-7">
       <p className="text-sm leading-relaxed text-muted-foreground">
-        Build your SL-3 components inventory publication. Changes are saved as you edit.
+        Build your {label} {publication === 'sl4' ? 'repair parts' : 'components inventory'} publication. Changes are saved as you edit.
       </p>
       <EditorGroup title="Publication identity">
         <div className="sl3-field-grid">
           <Field label="Short title" value={store.formData.shortTitle ?? ''}
-            placeholder="SL-3-12345A" onChange={(v) => store.setField('shortTitle', v)} />
+            placeholder={`${label}-12345A`} onChange={(v) => store.setField('shortTitle', v)} />
           <Field label="PCN" value={store.formData.pcn ?? ''}
             placeholder="123 123450 00" onChange={(v) => store.setField('pcn', v)} />
         </div>
         <Field label="Long title" value={store.formData.subject ?? ''}
-          placeholder="COMPONENTS LIST FOR…" onChange={(v) => store.setField('subject', v)} multiline />
+          placeholder={publication === 'sl4' ? 'REPAIR PARTS LIST FOR…' : 'COMPONENTS LIST FOR…'} onChange={(v) => store.setField('subject', v)} multiline />
         <Field label="End item nomenclature" value={store.formData.nomenclature ?? ''}
           onChange={(v) => store.setField('nomenclature', v)} />
       </EditorGroup>
@@ -155,7 +164,7 @@ export function Sl3CoverSection() {
           ['pocEmail', 'Program office email'],
         ] as const).map(([key, label]) => (
           <Field key={key} label={label} value={String(store.formData[key] ?? '')}
-            onChange={(v) => store.setField(key, v)} />
+            onChange={(v) => store.setField(key, v)} multiline={key === 'unitAddress'} />
         ))}
         <Field label="Supersedure notice" value={store.formData.supersedure ?? ''}
           onChange={(v) => store.setField('supersedure', v)} multiline />
@@ -181,6 +190,7 @@ export function Sl3CoverSection() {
           <Plus className="mr-2 h-4 w-4" />Add end item
         </Button>
       </EditorGroup>
+      {publication === 'sl3' && (
       <EditorGroup title="Inventory pages" description="Cover and front matter remain portrait. This layout applies to inventory and certification pages. Landscape PDF pages widen to 11 by 11 inches under MIL-STD-38784C.">
         <div className="sl3-field-grid">
           <label className="block min-w-0 space-y-2 text-sm">
@@ -200,6 +210,7 @@ export function Sl3CoverSection() {
           </label>
         </div>
       </EditorGroup>
+      )}
       <EditorGroup title="Release and review">
         <label className="flex items-center gap-2 text-sm">
           <input type="checkbox" checked={!!store.formData.exportRestricted}
@@ -212,7 +223,7 @@ export function Sl3CoverSection() {
         <details className="text-xs leading-relaxed text-muted-foreground">
           <summary className="cursor-pointer font-medium">Governing references</summary>
           <div className="space-y-2 pt-2">
-            <p>SL-3 authoring follows MCO 5215.17D, MIL-STD-38784C and the supplied MARCORSYSCOM templates.</p>
+            <p>{publication === 'sl4' ? 'SL-4 references: MCO 5215.17D and MIL-STD-38784C.' : 'SL-3 authoring follows MCO 5215.17D, MIL-STD-38784C and the supplied MARCORSYSCOM templates.'}</p>
           </div>
         </details>
         {errors.length > 0 && (
@@ -221,7 +232,7 @@ export function Sl3CoverSection() {
             <ul className="list-disc space-y-1 pl-5 pt-2">
               {errors.map((error) => <li key={error}>
                 <button type="button" className="text-left underline decoration-muted-foreground/50 underline-offset-4 hover:text-primary focus-visible:outline-2 focus-visible:outline-ring"
-                  onClick={() => jump(sl3ErrorSection(error))}>{error}</button>
+                  onClick={() => jump(publication === 'sl4' ? sl4ErrorSection(error) : sl3ErrorSection(error))}>{error}</button>
               </li>)}
             </ul>
           </details>
@@ -678,13 +689,15 @@ export function Sl3InventorySection() {
   );
 }
 
-export function Sl3IllustrationsSection() {
+export function Sl3IllustrationsSection({ publication = 'sl3' }: { publication?: 'sl3' | 'sl4' } = {}) {
   const paragraphs = useDocumentStore((s) => s.paragraphs);
   const updateParagraph = useDocumentStore((s) => s.updateParagraph);
-  const { data, update } = useSl3();
+  const { data, update } = useSl3(publication);
   const [error, setError] = useState('');
   const figures = paragraphs.filter((p) => p.figure);
-  const layout = sl3IllustrationLayout(data);
+  const layout = publication === 'sl4'
+    ? { imageWidth: (792 - 2 * 67) / 72, imageHeight: 4.3 }
+    : sl3IllustrationLayout(data);
   const setArtwork = (
     figureId: string,
     patch: Partial<Sl3Data['artwork'][number]>,
@@ -699,7 +712,7 @@ export function Sl3IllustrationsSection() {
   };
   return (
     <div className="sl3-editor space-y-5">
-      <label className="block min-w-0 space-y-2 text-sm">
+      {publication === 'sl3' && <label className="block min-w-0 space-y-2 text-sm">
         <span className="font-medium">Item illustrations per page</span>
         <select aria-label="Item illustrations per page" className="w-full rounded-md border bg-background p-2"
           value={data.illustrationsPerPage ?? 4}
@@ -713,7 +726,7 @@ export function Sl3IllustrationsSection() {
         </select>
         <p className="text-xs text-muted-foreground">Item numbers and captions stay with each image. Long captions may use another page. Choose a larger layout when fine details or labels need more room.</p>
         <p className="text-xs text-muted-foreground">Each grid follows its inventory sheet. Increase the inventory row limit in Publication details to group more items.</p>
-      </label>
+      </label>}
       <label className="block min-w-0 space-y-2 text-sm">
         End item illustration
         <select
@@ -763,6 +776,8 @@ export function Sl3IllustrationsSection() {
               onChange={async (e) => {
                 const file = e.target.files?.[0];
                 if (!file) return;
+                const documentId = useDocumentsStore.getState().currentId;
+                const sourceFileId = p.figure?.fileRef?.id;
                 try {
                   const { bytes: buffer, type, width, height } = await prepareFigureUpload(file);
                   const fileRef = await persistAttachment(
@@ -777,8 +792,8 @@ export function Sl3IllustrationsSection() {
                   const index = current.paragraphs.findIndex(
                     (entry) => entry.referenceId === p.referenceId,
                   );
-                  if (index >= 0)
-                    current.updateParagraph(index, {
+                  if (current.docType !== publication || useDocumentsStore.getState().currentId !== documentId || index < 0 || current.paragraphs[index].figure?.fileRef?.id !== sourceFileId) return;
+                  current.updateParagraph(index, {
                       figure: {
                         ...current.paragraphs[index].figure,
                         fileRef,
@@ -788,10 +803,10 @@ export function Sl3IllustrationsSection() {
                         height,
                       },
                     });
-                  if (current.formData.sl3)
-                    current.setField('sl3', {
-                      ...current.formData.sl3,
-                      artwork: (current.formData.sl3.artwork ?? []).filter(
+                  if (current.formData[publication])
+                    current.setField(publication, {
+                      ...current.formData[publication]!,
+                      artwork: (current.formData[publication]!.artwork ?? []).filter(
                         (a) => a.figureId !== p.referenceId,
                       ),
                     });
@@ -866,6 +881,7 @@ export function Sl3IllustrationsSection() {
                   <Field
                     label={`${figureLabel(data, p.referenceId, i)} label ${j + 1} text`}
                     value={label.text}
+                    maxLength={100}
                     onChange={(text) =>
                       setArtwork(p.referenceId!, {
                         labels: data.artwork

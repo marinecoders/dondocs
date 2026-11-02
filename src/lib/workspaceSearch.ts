@@ -76,16 +76,25 @@ export function sessionSearchFields(session: SerializedSession): SearchField[] {
     }
     return fields;
   }
-  const heading = ['moa', 'joint', 'joint_memo', 'executive', 'addressing', 'cover', 'sl3-cover'].find((id) => labels.has(id))!;
+  const heading = ['moa', 'joint', 'joint_memo', 'executive', 'addressing', 'cover', 'sl3-cover', 'sl4-cover'].find((id) => labels.has(id))!;
   for (const [key, value] of Object.entries(session.formData ?? {})) {
     if (typeof value !== 'string') continue;
     const section = /^(class|cui|customClassification|derivedFrom|declassifyOn|pocEmail)/i.test(key) ? 'classification'
-      : /^(department|unit|seal|letterhead|inReplyTo)/.test(key) ? (labels.has('sl3-cover') ? 'sl3-cover' : labels.has('cover') ? 'cover' : 'letterhead')
+      : /^(department|unit|seal|letterhead|inReplyTo)/.test(key) ? (labels.has('sl4-cover') ? 'sl4-cover' : labels.has('sl3-cover') ? 'sl3-cover' : labels.has('cover') ? 'cover' : 'letterhead')
         : /^(sig|byDirection|officeCode|complimentaryClose|endorsement(Sig|Body|From|To|Date|Serial))/.test(key) ? (labels.has('signature') ? 'signature' : heading)
           : /^(basicLetter|endorsementOrdinal)/.test(key) ? 'basic'
             : /^(font|page|starting|docType)/.test(key) ? 'type'
               : key === 'body' ? 'body' : heading;
     add(section, formatCorrespondenceField(key, value));
+  }
+  if (session.docType === 'sl4') {
+    add('sl4-cover', session.endItems);
+    add('sl4-preface', [session.formData.sl4?.sourceManual, session.formData.sl4?.standaloneRationale, session.formData.sl4?.cutoffDate, session.formData.sl4?.notes, session.formData.sl4?.definitions]);
+    add('sl4-cages', session.formData.sl4?.cages);
+    add('sl4-parts', session.formData.sl4?.rows);
+    add('sl4-figures', session.paragraphs.filter((p) => p.figure));
+    add('sl4-indexes', session.formData.sl4?.circuitIndex);
+    add('sl4-revisions', session.formData.sl4?.revisions);
   }
   if (session.docType === 'sl3') {
     add('sl3-cover', session.endItems);

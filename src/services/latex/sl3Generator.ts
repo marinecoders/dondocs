@@ -16,24 +16,12 @@ import {
 import { sl3Definitions, SL3_PREFACE } from '@/data/techpub/sl3Preface';
 import { escapeLatex } from './escaper';
 import { figureFile } from '@/lib/figures';
+import { stockDefinitionText as definitionText } from './stockPublicationHelpers';
 
 type Store = { formData: Partial<DocumentData>; paragraphs: Paragraph[] };
 const text = (s: string) => escapeLatex(s).replace(/\r?\n/g, '\\par ');
 const optionalText = (s: string) =>
   Array.from(s).map(text).join('\\allowbreak ');
-// Keep ordinary words intact; only an oversized token needs extra break points.
-const definitionText = (s: string) =>
-  s
-    .split(/(\s+)/)
-    .filter(Boolean)
-    .map((token) =>
-      /^\s+$/.test(token)
-        ? /[\r\n]/.test(token)
-          ? '\\par\n'
-          : '\n'
-        : `\\slThreeDefinitionWord{${text(token)}}{${optionalText(token).replaceAll('\\allowbreak ', '\\allowbreak\n')}}`,
-    )
-    .join('');
 const paragraph = (s: string) => `${text(s)}\\par\\vspace{6pt}\n`;
 const endSentence = (value: string) => {
   const trimmed = value.trim();

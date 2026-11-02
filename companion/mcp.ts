@@ -98,12 +98,12 @@ let defaults = await loadDefaults();
 // single tool description can say. Every call is a model turn, so the
 // template ids are here and the render is asked for early: a letter from the
 // user's own words is one call, from a template two.
-const INSTRUCTIONS = `DonDocs renders SECNAV M-5216.5 correspondence, I-Type instructions and SL-3 components lists with dondocs_letter; files are written under ${ROOT}. `
+const INSTRUCTIONS = `DonDocs renders SECNAV M-5216.5 correspondence, I-Type instructions, SL-3 components lists and SL-4 repair parts lists with dondocs_letter; files are written under ${ROOT}. `
   + 'Settle the originating unit first: omit unit to use the machine defaults (read dondocs://defaults to see them), '
   + 'or find one with dondocs_unit_lookup. When that resource holds no unit or signature, offer to settle them once with dondocs_save_defaults before writing the first letter. '
   + 'Give the From and To lines: letters, endorsements and memoranda print the labels even when they are empty. '
   + `To start from a template, call dondocs_template_get with one of ${TEMPLATE_IDS.join(', ')}, or read dondocs://templates/{id}; dondocs_template_list describes them. `
-  + 'I-Type (MI/TI/SI/LI) and SL-3 require publication metadata and PDF format; they have no From/To lines. Supply attachments as base64 with IDs used by figures and enclosures. '
+  + 'I-Type (MI/TI/SI/LI), SL-3 and SL-4 require publication metadata and PDF format; they have no From/To lines. Supply attachments as base64 with IDs used by figures and enclosures. '
   + 'Call dondocs_letter once the facts are in hand rather than drafting in chat first; '
   + 'show the user the file as its result says, and revise by calling dondocs_letter again with the out it reports.';
 
@@ -284,7 +284,7 @@ const handle = serveStdio(() => {
   // user picks a type or a template without knowing the ids.
   server.registerPrompt('draft_letter', {
     title: 'Draft a document',
-    description: 'Draft correspondence, an I-Type instruction or an SL-3 publication, optionally from a bundled template, and render it with dondocs_letter.',
+    description: 'Draft correspondence, an I-Type instruction or an SL-3/SL-4 publication, optionally from a bundled template, and render it with dondocs_letter.',
     argsSchema: optionalArgs(z.object({
       docType: completable(
         z.enum(DOC_TYPES as [string, ...string[]]).describe('Document type; defaults to the template\'s own.'),
@@ -310,7 +310,7 @@ const handle = serveStdio(() => {
         ? ['Ask me for the endorsement ordinal (FIRST, SECOND ...) and the identification of the letter being endorsed, and pass them as endorsement.ordinal and endorsement.basicLetterId; the render is refused without them.']
         : []),
       isTechnicalPublication(type ?? '')
-        ? 'Use publication.type MI, TI, SI or LI for I-Type; SL3 for SL-3, with inventory content in publication.sl3. The same publication checks as the web editor apply before PDF export.'
+        ? 'Use publication.type MI, TI, SI or LI for I-Type; SL3 for SL-3 with publication.sl3; SL4 for SL-4 with publication.sl4. The same publication checks as the web editor apply before PDF export.'
         : `Render with dondocs_letter${type ? ` using docType "${type}"` : ''}; its result says how to show me the file.`,
     ].join(' ');
     return {
@@ -401,7 +401,7 @@ const handle = serveStdio(() => {
     {
       title: 'Write a document',
       description:
-        'Render SECNAV M-5216.5 correspondence, every letter, memorandum, endorsement and agreement type the app defines (see the docType enum), to a PDF or DOCX file. I-Type MI/TI/SI/LI and SL-3 publications support PDF only, with required publication metadata and the web editor’s export checks. '
+        'Render SECNAV M-5216.5 correspondence, every letter, memorandum, endorsement and agreement type the app defines (see the docType enum), to a PDF or DOCX file. I-Type MI/TI/SI/LI and SL-3/SL-4 publications support PDF only, with required publication metadata and the web editor’s export checks. '
         + 'Formatting, letterhead, seal, paragraph numbering and the signature block are handled for you; supply content only. '
         + 'Returns the path to the written file, not the document itself; the result says how to show the file to the user. '
         + `Files are written under ${ROOT}. `

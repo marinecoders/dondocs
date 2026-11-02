@@ -259,7 +259,7 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       ...partyFields(input),
 
       fontFamily: 'times',
-      fontSize: input.docType === 'sl3' ? '10pt' : '12pt',
+      fontSize: ['sl3', 'sl4'].includes(input.docType) ? '10pt' : '12pt',
       includeHyperlinks: input.publication?.includeHyperlinks ?? false,
       showSubjectOnContinuation: true,
       classificationBasis: input.classification?.basis,

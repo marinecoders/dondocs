@@ -1,5 +1,7 @@
 import type { DocumentData, EndItem } from '@/types/document';
 import { sl3ExportErrors } from '@/lib/sl3Preflight';
+import { sl4ExportErrors, sl4ErrorSection, SL4_SECTION_IDS } from '@/lib/sl4Preflight';
+import { Sl4CoverSection, Sl4PrefaceSection, Sl4CagesSection, Sl4PartsSection, Sl4IllustrationsSection, Sl4IndexesSection, Sl4RevisionsSection } from '@/components/editor/Sl4Sections';
 import { sl3ErrorSection, SL3_ERROR_BEARING_IDS } from '@/lib/sl3EditorErrors';
 import { Sl3CoverSection, Sl3DetailsSection, Sl3InventorySection, Sl3IllustrationsSection } from '@/components/editor/Sl3Sections';
 import { Users, ClipboardList } from 'lucide-react';
@@ -78,6 +80,7 @@ export function useEditorSections(): {
  */
 interface SectionErrorInput {
   sl3?: DocumentData['sl3'];
+  sl4?: DocumentData['sl4'];
   shortTitle?: string;
   pcn?: string;
   nomenclature?: string;
@@ -104,11 +107,16 @@ export const ERROR_BEARING_IDS = [
 ] as const;
 
 export function errorBearingIds(config: DocTypeConfig): readonly string[] {
+  if (config === DOC_TYPE_CONFIG.sl4) return SL4_SECTION_IDS;
   return config === DOC_TYPE_CONFIG.sl3 ? SL3_ERROR_BEARING_IDS : ERROR_BEARING_IDS;
 }
 
 /** Run the complete SL-3 preflight once per update, rather than once per section. */
 export function missingEditorSections(ids: readonly string[], formData: SectionErrorInput, paragraphs: { text?: string }[], config: DocTypeConfig, endItems: EndItem[] = []): string[] {
+  if (config === DOC_TYPE_CONFIG.sl4) {
+    const missing = new Set(sl4ExportErrors({ docType: 'sl4', formData, paragraphs: paragraphs as import('@/types/document').Paragraph[], endItems }).map(sl4ErrorSection));
+    return ids.filter((id) => missing.has(id));
+  }
   if (config === DOC_TYPE_CONFIG.sl3) {
     const missing = new Set(sl3ExportErrors({
       docType: 'sl3', formData, paragraphs: paragraphs as import('@/types/document').Paragraph[], endItems,
@@ -125,6 +133,7 @@ export function getSectionError(
   config: DocTypeConfig,
   endItems: EndItem[] = [],
 ): boolean {
+  if (config === DOC_TYPE_CONFIG.sl4) return sl4ExportErrors({ docType: 'sl4', formData, paragraphs: paragraphs as import('@/types/document').Paragraph[], endItems }).some((message) => sl4ErrorSection(message) === id);
   if (config === DOC_TYPE_CONFIG.sl3) return sl3ExportErrors({
     docType: 'sl3', formData, paragraphs: paragraphs as import('@/types/document').Paragraph[], endItems,
   }).some((message) => sl3ErrorSection(message) === id);
@@ -318,6 +327,13 @@ export function useDocumentCompleteness(): DocumentCompleteness {
 
 export function renderEditorSection(id: string, config: DocTypeConfig): ReactNode {
   switch (id) {
+    case 'sl4-cover': return <Sl4CoverSection />;
+    case 'sl4-preface': return <Sl4PrefaceSection />;
+    case 'sl4-cages': return <Sl4CagesSection />;
+    case 'sl4-parts': return <Sl4PartsSection />;
+    case 'sl4-figures': return <Sl4IllustrationsSection />;
+    case 'sl4-indexes': return <Sl4IndexesSection />;
+    case 'sl4-revisions': return <Sl4RevisionsSection />;
     case 'letterhead':
       return <LetterheadSection />;
     case 'addressing':
@@ -351,6 +367,7 @@ export function renderEditorSection(id: string, config: DocTypeConfig): ReactNod
     case 'distribution':
       return <DistributionManager />;
     case 'signature':
+      if (config === DOC_TYPE_CONFIG.sl4) return <Sl3SignatureSection publication="SL-4" />;
       return config === DOC_TYPE_CONFIG.sl3
         ? <Sl3SignatureSection />
         : <SignatureSection config={config} />;

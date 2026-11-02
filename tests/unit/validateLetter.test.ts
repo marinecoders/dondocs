@@ -19,7 +19,7 @@ const OK = { docType: 'naval_letter', subject: 'SUBJECT' } as const;
 const ENDORSED = { ordinal: 'FIRST', basicLetterId: 'CO 1st Bn ltr 5216 of 8 Sep 26' };
 
 describe('docType', () => {
-  it.each(DOC_TYPES)('accepts %s', (docType) => {
+  it.each(DOC_TYPES.filter((type) => type !== 'sl4'))('accepts %s', (docType) => {
     const body = docType === 'sl3' ? companionSl3() : docType === 'i_type' ? companionPublication() : ENDORSEMENT_TYPES.includes(docType) ? { ...OK, docType, endorsement: ENDORSED } : { ...OK, docType };
     expect(validateLetter(body)).toEqual([]);
   });

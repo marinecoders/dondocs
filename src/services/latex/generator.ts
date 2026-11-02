@@ -1,3 +1,5 @@
+import { generateSl4Body } from './sl4Generator';
+import { sl4Portions } from '@/data/techpub/sl4';
 import { sl3Portions } from '@/data/techpub/sl3';
 import { generateSl3Body } from './sl3Generator';
 import { isTechnicalPublication } from '@/lib/publicationPreflight';
@@ -124,7 +126,7 @@ ${(() => {
   const docDate = isMOAMode ? data.seniorDate : data.date;
   // A publication prints its date in full ("30 April 2025"); a letter as stored.
   const printedDate = isTechnicalPublication(store.docType) ? formatPublicationDate(docDate || '') : docDate;
-  const publicationDate = store.docType === 'sl3' ? printedDate?.toUpperCase() : printedDate;
+  const publicationDate = ['sl3', 'sl4'].includes(store.docType) ? printedDate?.toUpperCase() : printedDate;
 
   // For business letters and executive correspondence, set BusinessDate,
   // BusinessRecipientAddress, etc. Both use the same template address/salutation pattern.
@@ -297,7 +299,8 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
       return item
         ? [item.nsn, item.tamcn, item.id, item.model].map((v) => escapeLatex(v || '')).join(' & ')
         : ' & & & ';
-    }).join(store.docType === 'sl3' ? ' \\\\ ' : ' \\\\ \\hline ');
+    }).join(['sl3', 'sl4'].includes(store.docType) ? ' \\\\ ' : ' \\\\ \\hline ');
+    if (store.docType === 'sl4') tex += `\\def\\slFourTamcns{${[...new Set(items.map((item) => item.tamcn).filter(Boolean))].map(escapeLatex).join(', ')}}\n`;
     tex += `\\setNomenclature{${escapeLatex(data.nomenclature || '')}}\n`;
     tex += `\\setEndItemRows{${rows}}\n`;
     tex += overflow ? '\\EndItemOverflowtrue\n' : '\\EndItemOverflowfalse\n';
@@ -306,14 +309,14 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     // document uses. Derived from the same date so the two cannot disagree.
     const signed = parseDate(data.date || '', 'd MMM yy', new Date());
     const coverDate = isValidDate(signed) ? formatDate(signed, 'MMMM yyyy').toUpperCase() : '';
-    tex += `\\setCoverDate{${escapeLatex(store.docType === 'sl3' ? formatPublicationDate(data.date || '').toUpperCase() : coverDate)}}\n`;
+    tex += `\\setCoverDate{${escapeLatex(['sl3', 'sl4'].includes(store.docType) ? formatPublicationDate(data.date || '').toUpperCase() : coverDate)}}\n`;
     tex += `\\setShortTitle{${escapeLatex(data.shortTitle || '')}}\n`;
     tex += `\\setPCN{${escapeLatex(data.pcn || '')}}\n`;
     tex += `\\setSupersedure{${escapeLatex(data.supersedure || '')}}\n`;
-    tex += `\\setTimeCompliance{${escapeLatex((store.docType === 'sl3' ? '' : ((data.publicationType ?? 'MI') === 'MI' ? data.miUrgency || 'normal' : 'normal')).toUpperCase())}}\n`;
+    tex += `\\setTimeCompliance{${escapeLatex((['sl3', 'sl4'].includes(store.docType) ? '' : ((data.publicationType ?? 'MI') === 'MI' ? data.miUrgency || 'normal' : 'normal')).toUpperCase())}}\n`;
     // The type names itself on the cover and the authentication page; only a
     // modification asks the unit to record its completion.
-    tex += `\\setPublicationTypeName{${escapeLatex(store.docType === 'sl3' ? 'Components Stock List SL-3' : publicationTypeName(data.publicationType))}}\n`;
+    tex += `\\setPublicationTypeName{${escapeLatex(store.docType === 'sl4' ? 'Components Stock List SL-4' : store.docType === 'sl3' ? 'Components Stock List SL-3' : publicationTypeName(data.publicationType))}}\n`;
     tex += store.docType === 'i_type' && (data.publicationType ?? 'MI') === 'MI' ? '\\RecordingInstructiontrue\n' : '\\RecordingInstructionfalse\n';
     // Appendices and enclosures are listed under DISTRIBUTION on the
     // authentication page, lettered as \startAppendix letters them.
@@ -326,7 +329,7 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     tex += `\\setControllingOffice{${escapeLatex(data.controllingOffice || '')}}\n`;
     tex += data.exportRestricted ? '\\ExportRestrictedtrue\n' : '\\ExportRestrictedfalse\n';
     const destruction = iTypeDestructionNotice(data, store.paragraphs);
-    const noticeText = (value: string, label: string) => store.docType === 'sl3' && value.startsWith(label)
+    const noticeText = (value: string, label: string) => ['sl3', 'sl4'].includes(store.docType) && value.startsWith(label)
       ? `\\textbf{\\uline{${escapeLatex(label)}}}${escapeLatex(value.slice(label.length))}`
       : escapeLatex(value);
     tex += `\\def\\ITypeDestructionNotice{${noticeText(destruction, 'DESTRUCTION NOTICE:')}}\n`;
@@ -968,6 +971,7 @@ ${body}\\par
 }
 
 export function generateBodyTex(store: DocumentStore): string {
+  if (store.docType === 'sl4') return generateSl4Body(store);
   if (store.docType === 'sl3') return generateSl3Body(store);
   if (store.docType === 'i_type' && (store.formData.publicationType ?? 'MI') === 'MI') {
     store = { ...store, paragraphs: withTimeCompliance(store.paragraphs, store.formData.miUrgency ?? 'normal', store.formData.miCompletionDate) };
@@ -1307,6 +1311,10 @@ export interface GeneratedFiles {
 }
 
 export function generateAllLatexFiles(store: DocumentStore): GeneratedFiles {
+  // A format switch retains correspondence data for switching back, but those
+  // attachments and address lists are not part of an SL-4 publication.
+  if (store.docType === 'sl4') store = { ...store, paragraphs: store.paragraphs.filter((paragraph) => paragraph.figure), enclosures: [], references: [], copyTos: [], distributions: [] };
+  if (store.docType === 'sl4' && store.formData.sl4) store = { ...store, paragraphs: [...store.paragraphs, ...sl4Portions(store.formData.sl4, store.paragraphs)] };
   if (store.docType === 'sl3' && store.formData.sl3) store = { ...store, paragraphs: [...store.paragraphs, ...sl3Portions(store.formData.sl3)] };
   // Files are written to root level to match \input{} paths in latex-templates.js
   const texFiles: Record<string, string> = {

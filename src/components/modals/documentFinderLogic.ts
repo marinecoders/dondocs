@@ -37,6 +37,7 @@ export const QUESTIONS: Record<string, Question> = {
       { label: 'A Marine Corps personnel / service-record form', value: 'usmc_form', help: 'Page 11 (NAVMC 118(11)) or an administrative-action form. Marine Corps only.' },
       { label: 'A record of a counseling, event, or decision for the file', value: 'record', help: 'No one receives it — it just goes in the file.' },
       { label: 'An equipment components inventory (SL-3)', value: 'components', help: 'Components, accessories, illustrations and inventory sheets for an end item.' },
+      { label: 'An equipment repair parts list (SL-4)', value: 'repair_parts', help: 'Parts in breakdown order with illustrations and ordering cross-references.' },
       { label: 'A technical publication directing work on fielded equipment', value: 'techpub', help: 'A Modification, Supply, Technical, or Lubrication Instruction (MI/SI/TI/LI), issued under a PCN.' },
     ],
   },
@@ -208,6 +209,10 @@ export function getRecommendations(answers: Record<string, string>): FinderResul
   // to the fleet, authenticated on its front matter, under MIL-STD-38784C.
   if (category === 'components') {
     add('sl3', 'high', 'Per MCO 5215.17D: an SL-3 lists the components and accessories needed to inventory an end item.');
+    return top3();
+  }
+  if (category === 'repair_parts') {
+    add('sl4', 'high', 'Per MCO 5215.17D: use an SL-4 for repair parts when the maintenance manual does not already include the list.');
     return top3();
   }
   if (category === 'techpub') {

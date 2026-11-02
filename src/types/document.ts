@@ -1,5 +1,6 @@
 import type { PublicationSection } from '@/data/techpub/sections';
 import type { Sl3Data } from '@/data/techpub/sl3';
+import type { Sl4Data } from '@/data/techpub/sl4';
 export type DocumentMode = 'compliant' | 'custom';
 
 // Top-level document category: correspondence (letters, memos, etc.) or forms (6105, Page 11, etc.)
@@ -194,6 +195,7 @@ export interface DocumentData {
   nomenclature?: string;
   /** SL-3 inventory content; shared publication metadata remains above. */
   sl3?: Sl3Data;
+  sl4?: Sl4Data;
   /** Which I-Type this is; defaults to a Modification Instruction. */
   publicationType?: 'MI' | 'SI' | 'TI' | 'LI';
   /** The office that controls the publication; closes the signature block
@@ -609,6 +611,14 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
       authority: 'MCO 5215.17D / MIL-STD-38784C', ref: 'SL-3' },
     compliance: DEFAULT_COMPLIANCE,
   },
+  sl4: {
+    letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false,
+    signature: 'full', uiMode: 'memo', showSignatureRankTitle: true, topSpacing: '1in',
+    pdfOnly: true,
+    regulations: { fontSize: '10pt', fontSizeOptions: ['10pt'], fontFamily: 'times', fontFamilyRequired: true,
+      authority: 'MCO 5215.17D / MIL-STD-38784C', ref: 'SL-4' },
+    compliance: DEFAULT_COMPLIANCE,
+  },
   i_type: {
     letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false,
     signature: 'full', uiMode: 'memo', showSignatureRankTitle: true, topSpacing: '1in',
@@ -646,6 +656,7 @@ export const DOC_TYPE_LABELS: Record<string, string> = {
   information_memorandum: 'Information Memorandum',
   i_type: 'I-Type Instruction (MI/SI/TI/LI)',
   sl3: 'SL-3 Components List',
+  sl4: 'SL-4 Repair Parts List',
 };
 
 /**
@@ -676,6 +687,7 @@ export const DOC_TYPE_CHIP: Record<string, string> = {
   information_memorandum: 'MEMO',
   i_type: 'I-TYPE',
   sl3: 'SL-3',
+  sl4: 'SL-4',
 };
 
 /** The Recents type chip for a doc type (falls back to a generic code). */
@@ -709,6 +721,6 @@ export const DOC_TYPE_CATEGORIES: { category: string; types: string[] }[] = [
   },
   {
     category: 'Technical Publications',
-    types: ['i_type', 'sl3'],
+    types: ['i_type', 'sl3', 'sl4'],
   },
 ];
