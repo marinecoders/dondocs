@@ -9,7 +9,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { useTourStore, hasCompletedTour } from '@/stores/tourStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
-import { TOUR_STEPS, revealTemplates, visibleTourSteps, type TourStep } from '@/components/tour/tourSteps';
+import { TOUR_STEPS, revealSettingsNavigation, revealTemplates, visibleTourSteps, type TourStep } from '@/components/tour/tourSteps';
 import { useUIStore } from '@/stores/uiStore';
 
 // jsdom does no layout, so getClientRects() is always empty. Mount a stand-in
@@ -63,7 +63,7 @@ describe('tourStore', () => {
   });
 
   it('start() drops steps whose target is absent from the current layout', () => {
-    // Mount every target except the workspace menu, which anchors both settings/help steps.
+    // Action steps reveal their own targets; Help requires a visible workspace launcher.
     mountTargets(
       TOUR_STEPS.map((s) => s.target).filter(
         (t): t is string => !!t && t !== '[data-tour="workspace-menu"]'
@@ -71,10 +71,11 @@ describe('tourStore', () => {
     );
     useTourStore.getState().start();
     const steps = useTourStore.getState().steps;
-    expect(steps).toHaveLength(TOUR_STEPS.length - 2);
+    expect(steps).toHaveLength(TOUR_STEPS.length - 1);
     expect(steps.some((s) => s.target === '[data-tour="workspace-menu"]')).toBe(false);
-    // Templates can reveal their sidebar target; type selection is always in the top bar.
-    expect(steps.filter((s) => s.action).map((s) => s.target)).toEqual(['[data-tour="templates"]', '[data-tour="download"]']);
+    expect(steps.filter((s) => s.action).map((s) => s.title)).toEqual([
+      'Or start from a template', 'Export when ready', 'Download workspace backup', 'Make it yours',
+    ]);
   });
 
   it('startSteps() spotlights ad-hoc steps without marking the first-run tour seen', () => {
@@ -129,6 +130,16 @@ describe('tourStore', () => {
 });
 
 describe('walkthrough workspace navigation', () => {
+  it.each([false, true])('reveals Settings navigation on mobile=%s without leaving a covering menu', (mobile) => {
+    useUIStore.setState({ isMobile: mobile, sidebarCollapsed: true, mobileDocsOpen: true, commandPaletteOpen: true });
+    revealSettingsNavigation();
+    expect(useUIStore.getState()).toMatchObject({
+      mobileDocsOpen: !mobile,
+      sidebarCollapsed: mobile,
+      commandPaletteOpen: false,
+    });
+  });
+
   it.each([false, true])('reveals Templates on mobile=%s without changing the other layout preference', (mobile) => {
     useUIStore.setState({ isMobile: mobile, sidebarCollapsed: true, mobileDocsOpen: false, commandPaletteOpen: true });
     revealTemplates();

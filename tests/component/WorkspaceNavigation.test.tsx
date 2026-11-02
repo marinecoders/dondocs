@@ -28,7 +28,6 @@ beforeEach(() => {
 });
 const destinations = [
   ['Profiles', { profileManagerOpen: true }],
-  ['Backup & restore', { settingsOpen: true, settingsSection: 'backup' }],
   ['Trash', { trashOpen: true }],
   ['Settings', { settingsOpen: true, settingsSection: 'appearance' }],
   ['Help', { helpOpen: true }],
@@ -62,6 +61,35 @@ it.each(destinations.flatMap(([label, expected]) => [false, true].map((mobile) =
   await userEvent.click(button);
   expect(useUIStore.getState()).toMatchObject(expected);
   if (mobile) expect(useUIStore.getState().mobileDocsOpen).toBe(false);
+});
+
+it.each([false, true])('keeps backup controls reachable through Settings on mobile=%s', async (mobile) => {
+  useUIStore.setState({ isMobile: mobile });
+  render(<TooltipProvider>
+    {mobile ? <MobileRecents /> : <EditorSidebar />}
+    <SettingsModal />
+  </TooltipProvider>);
+  expect(screen.queryByRole('button', { name: 'Backup & restore' })).not.toBeInTheDocument();
+  await userEvent.click(screen.getByRole('button', { name: 'Settings' }));
+  expect(await screen.findByRole('dialog', { name: 'Settings' })).toBeVisible();
+  expect(screen.getByRole('radio', { checked: true })).toHaveFocus();
+  expect(screen.getByRole('heading', { name: 'Backup & restore' })).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'Download workspace backup' })).toBeEnabled();
+  expect(screen.getByRole('button', { name: 'Restore from backup' })).toBeEnabled();
+  if (mobile) expect(screen.queryByRole('dialog', { name: 'Documents' })).not.toBeInTheDocument();
+});
+
+it.each([false, true])('points the backup tour at Settings navigation on mobile=%s', async (mobile) => {
+  useUIStore.setState({ isMobile: mobile, sidebarCollapsed: true });
+  render(<TooltipProvider><Header />{mobile ? <MobileRecents /> : <EditorSidebar />}<TourOverlay /></TooltipProvider>);
+  const backupStep = TOUR_STEPS.find((step) => step.title === 'Download workspace backup')!;
+  act(() => useTourStore.getState().startSteps([backupStep]));
+  const launcher = screen.getByRole('button', { name: mobile ? 'Open workspace' : 'Settings' });
+  expect(document.querySelector(backupStep.target!)).toBe(launcher);
+  if (mobile) expect(screen.queryByRole('dialog', { name: 'Documents' })).not.toBeInTheDocument();
+  else expect(useUIStore.getState().sidebarCollapsed).toBe(false);
+  await userEvent.keyboard('{Escape}');
+  expect(useTourStore.getState().active).toBe(false);
 });
 
 it('keeps Tools focused on editing, with Batch and Preview still directly available', async () => {

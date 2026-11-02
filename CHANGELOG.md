@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.214] — 2026-11-02
+
+### Changed
+- Settings is the single workspace navigation entry for preferences and backups.
+- Corrects the backup tour spotlight on desktop and mobile.
+
 ## [1.2.212] — 2026-11-02
 
 ### Fixed

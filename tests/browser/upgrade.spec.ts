@@ -172,7 +172,7 @@ test('three tabs preserve repeated conflicts and include each copy in a backup',
   await third.getByRole('button', { name: 'Document actions', exact: true }).click();
   await third.getByRole('menuitem', { name: /Open recovered copies/ }).click();
   await expect(async () => expect(JSON.stringify((await readSaved(third)).documents)).toContain('THIRD TAB EDIT')).toPass({ timeout: 15_000 });
-  await other.getByRole('button', { name: 'Backup & restore', exact: true }).click();
+  await other.getByRole('button', { name: 'Settings', exact: true }).click();
   const downloading = other.waitForEvent('download');
   await other.getByRole('button', { name: 'Download workspace backup', exact: true }).click();
   const download = await downloading;
@@ -213,7 +213,7 @@ test('an uncontrolled first-install tab reloads after accepting an update', asyn
 test('restoring an older backup keeps another tab’s newer edit and restores attachments', async ({ page, context }) => {
   root = newBuild;
   await start(page);
-  await page.getByRole('button', { name: 'Backup & restore', exact: true }).click();
+  await page.getByRole('button', { name: 'Settings', exact: true }).click();
   const downloading = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Download workspace backup', exact: true }).click();
   const download = await downloading;
