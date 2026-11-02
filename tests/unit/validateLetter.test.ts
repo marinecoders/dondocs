@@ -1,3 +1,4 @@
+import { companionSl3 } from '../_helpers/companionSl3';
 /**
  * The rules both transports enforce.
  *
@@ -19,7 +20,7 @@ const ENDORSED = { ordinal: 'FIRST', basicLetterId: 'CO 1st Bn ltr 5216 of 8 Sep
 
 describe('docType', () => {
   it.each(DOC_TYPES)('accepts %s', (docType) => {
-    const body = docType === 'i_type' ? companionPublication() : ENDORSEMENT_TYPES.includes(docType) ? { ...OK, docType, endorsement: ENDORSED } : { ...OK, docType };
+    const body = docType === 'sl3' ? companionSl3() : docType === 'i_type' ? companionPublication() : ENDORSEMENT_TYPES.includes(docType) ? { ...OK, docType, endorsement: ENDORSED } : { ...OK, docType };
     expect(validateLetter(body)).toEqual([]);
   });
 

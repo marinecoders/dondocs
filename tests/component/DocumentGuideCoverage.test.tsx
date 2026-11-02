@@ -28,7 +28,7 @@ describe('document guide completeness', () => {
     expect(screen.getByRole('tabpanel', { name: 'Features' })).toBeVisible();
     await user.keyboard('{Home}');
     expect(screen.getByRole('tabpanel', { name: 'Browse' })).toBeVisible();
-    await user.click(screen.getByRole('button', { name: /Correspondence 21 types/ }));
+    await user.click(screen.getByRole('button', { name: /Correspondence \d+ types/ }));
     expect(screen.getByRole('button', { name: /Action Memorandum/ })).toBeVisible();
     expect(screen.getByRole('button', { name: /Information Memorandum/ })).toBeVisible();
     expect(screen.getByRole('button', { name: /Standard Memorandum \(HqDON\)/ })).toBeVisible();

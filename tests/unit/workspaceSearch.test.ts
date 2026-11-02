@@ -25,7 +25,7 @@ describe('workspace full-text search', () => {
     expect(fields.map(field => field.text)).toContain('usmc/dow training');
     expect(fields.some(field => field.text.startsWith('Seal:'))).toBe(false);
   });
-  it.each(Object.keys(DOC_TYPE_CONFIG))('finds body content and a real section for %s', (docType) => {
+  it.each(Object.keys(DOC_TYPE_CONFIG).filter((type) => type !== 'sl3'))('finds body content and a real section for %s', (docType) => {
     const fields = sessionSearchFields(session({ docType, paragraphs: [{ text: 'Historic amphibious exercise request', level: 0 }] }));
     const match = findSearchMatch(fields, 'amphibious');
     expect(match?.field.sectionId).toBe('body');

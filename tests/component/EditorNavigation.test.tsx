@@ -63,7 +63,8 @@ it.each(Object.entries(DOC_TYPE_CONFIG))('renders every %s section in the shared
     if (section.id === 'body') expect(mounted).not.toHaveAttribute('data-field-surface');
     else expect(mounted).toHaveAttribute('data-field-surface', 'true');
   }
-  expect(screen.getByRole('textbox', { name: 'Paragraph 1' })).toHaveTextContent('Keep this paragraph.');
+  if (docType === 'sl3') expect(screen.getByRole('textbox', { name: 'Short title' })).toBeVisible();
+  else expect(screen.getByRole('textbox', { name: 'Paragraph 1' })).toHaveTextContent('Keep this paragraph.');
 });
 
 it('shows one type selector and optional section jumping in Full document', async () => {

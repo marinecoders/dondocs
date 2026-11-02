@@ -45,6 +45,7 @@ describe('ClassificationSection distribution fill-ins', () => {
     await expand();
     expect(await screen.findByRole('combobox', { name: 'Reason for restriction' })).toBeTruthy();
     fireEvent.change(screen.getByLabelText('Date of determination'), { target: { value: '2024-12-01' } });
+    fireEvent.blur(screen.getByLabelText('Date of determination'));
     expect(useDocumentStore.getState().formData.distDate).toBe('2024-12-01');
     expect(screen.getByText(/Distribution Statement D still needs/)).toBeTruthy();
   });
