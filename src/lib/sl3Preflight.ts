@@ -1,23 +1,10 @@
 import { SL3_ABBREVIATIONS } from '@/data/techpub/sl3Preface';
-import { parse, isValid, parseISO } from 'date-fns';
-import {
-  sl3Schema,
-  orderedSl3Components,
-  sl3Depth,
-  sl3Portions,
-  sl3GroupIds,
-} from '@/data/techpub/sl3';
+import { sl3Schema, orderedSl3Components, sl3Depth, sl3Portions, sl3GroupIds } from '@/data/techpub/sl3';
 import type { DocumentData, EndItem, Paragraph } from '@/types/document';
-import { iTypeClassificationErrors } from './iTypeClassification';
-import {
-  validateDistributionFillIns,
-  validateReasonForStatement,
-} from './classificationValidation';
-import { validatePublicationDate } from './publicationDate';
-import { validateIdentifiers } from './identifiers';
 import { validateFigures } from './figures';
 import { unfilled } from './requiredField';
-import { deriveOverallClassLevel } from './overallClassification';
+import { stockPublicationErrors } from './stockPublicationPreflight';
+import { stockPublicationPrompt } from './stockPublicationText';
 
 export function sl3ExportErrors(store: {
   docType: string;
@@ -26,7 +13,6 @@ export function sl3ExportErrors(store: {
   endItems?: EndItem[];
 }): string[] {
   if (store.docType !== 'sl3') return [];
-  const errors: string[] = [];
   const d = store.formData;
   const parsed = sl3Schema.safeParse(d.sl3 ?? {});
   if (!parsed.success)
@@ -34,126 +20,7 @@ export function sl3ExportErrors(store: {
       'The SL-3 inventory data is invalid. Restore a valid draft before export.',
     ];
   const data = parsed.data;
-  for (const [key, label] of Object.entries({
-    shortTitle: 'Short title',
-    pcn: 'PCN',
-    nomenclature: 'End item nomenclature',
-    subject: 'Long title',
-    unitLine1: 'Issuing command',
-    unitAddress: 'Command address',
-    sigTitle: 'Signing authority title',
-    sigLast: 'Signatory',
-    controllingOffice: 'Controlling office',
-    pocEmail: 'Program office email',
-  })) {
-    if (unfilled(String(d[key as keyof DocumentData] ?? '')))
-      errors.push(`${label} is required.`);
-  }
-  if (
-    d.shortTitle &&
-    !/^SL-3[- ]\d{4,5}[A-HJ-NP-Z]?(?:[-/][A-Z0-9]+)*$/i.test(
-      d.shortTitle.trim(),
-    )
-  )
-    errors.push('Enter the assigned SL-3 short title, as SL-3-12345A.');
-  errors.push(
-    ...validateIdentifiers({
-      pcn: d.pcn,
-      endItems: store.endItems ?? [],
-      majorItems: [],
-      allowTamcnBase: true,
-    }).map((f) => f.message),
-  );
-  if (!isValid(parse(d.date?.trim() ?? '', 'd MMM yy', new Date())))
-    errors.push('Enter a valid publication date.');
-  if (
-    d.cuiDistStatement &&
-    d.cuiDistStatement !== 'A' &&
-    !isValid(parseISO(d.distDate ?? ''))
-  )
-    errors.push('Enter a valid distribution determination date.');
-  if (d.pocEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.pocEmail))
-    errors.push('Enter a valid program office email.');
-  errors.push(
-    ...validatePublicationDate(
-      d.date ?? '',
-      d.publicationSigningDate,
-      d.publicationClosedDates,
-    ).map((f) => f.message),
-  );
-  if (!d.publicationSigningDate)
-    errors.push('Enter the planned or actual signing date.');
-  if (d.fontFamily !== 'times' || d.fontSize !== '10pt')
-    errors.push(
-      'SL-3 requires Times-compatible text at the template sizes (10-point preface, 9-point inventory).',
-    );
-  if (d.signatureType !== 'digital')
-    errors.push('Select a digital signature for SL-3 authentication.');
-  if (d.byDirection || /\bby\s+direction\b/i.test(d.sigTitle ?? ''))
-    errors.push(
-      'SL-3 authentication cannot be signed by direction (MCO 5215.17D, paragraph 4.b(4)(f)).',
-    );
-  errors.push(
-    ...iTypeClassificationErrors(d, [
-      ...store.paragraphs,
-      ...sl3Portions(data),
-    ]).map((error) => error.replaceAll('I-Type', 'SL-3')),
-  );
-  if (!/^[A-F]$/.test(d.cuiDistStatement ?? ''))
-    errors.push('Select Distribution Statement A, B, C, D, E or F.');
-  errors.push(
-    ...validateDistributionFillIns(d.cuiDistStatement, {
-      reason: d.distReason,
-      date: d.distDate,
-      office: d.controllingOffice,
-    }).map((f) => f.message),
-  );
-  errors.push(
-    ...validateReasonForStatement(d.cuiDistStatement, d.distReason).map(
-      (f) => f.message,
-    ),
-  );
-  const level = deriveOverallClassLevel(d.classLevel, [
-    ...store.paragraphs,
-    ...sl3Portions(data),
-  ]);
-  if (level !== deriveOverallClassLevel(d.classLevel, store.paragraphs))
-    errors.push(
-      'Set the document classification to cover the highest component, note or technical-data marking.',
-    );
-  if (
-    d.cuiDistStatement === 'A' &&
-    (!['unclassified', 'custom'].includes(level) || d.exportRestricted)
-  )
-    errors.push(
-      'Distribution Statement A conflicts with the selected control markings.',
-    );
-  if (d.distReason === 'Export Controlled' && !d.exportRestricted)
-    errors.push(
-      'Include the export-control warning for Export Controlled information.',
-    );
-  if (
-    d.exportRestricted &&
-    (!['B', 'C', 'D', 'E'].includes(d.cuiDistStatement ?? '') ||
-      d.distReason !== 'Export Controlled')
-  )
-    errors.push(
-      'Export-controlled information requires Statement B, C, D or E with the reason Export Controlled.',
-    );
-  if (
-    level === 'cui' &&
-    (!d.cuiControlledBy?.trim() ||
-      !d.cuiCategory?.trim() ||
-      !d.pocEmail?.trim())
-  )
-    errors.push('Complete the CUI designation block.');
-  if (!store.endItems?.length) errors.push('Add at least one end item.');
-  if (
-    store.endItems?.some(
-      (item) => !Object.values(item).some((value) => value.trim()),
-    )
-  )
-    errors.push('Complete or remove empty end item entries.');
+  const errors = stockPublicationErrors(store, 'sl3', sl3Portions(data));
   if (unfilled(data.technicalData))
     errors.push('Enter the end item technical data.');
   if (unfilled(data.sourceManual))
@@ -354,7 +221,7 @@ export function sl3ExportErrors(store: {
       .map((f) => f.message),
   );
   if (
-    /\[[A-Za-z][^\]\n]{1,250}\]|\{\{[^}]+\}\}|INSERT NOMENCLATURE/i.test(
+    stockPublicationPrompt(
       JSON.stringify({
         ...data,
         subject: d.subject,

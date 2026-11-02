@@ -1341,7 +1341,7 @@ function App() {
     if (structureAckRef.current) {
       structureAckRef.current = false;
     } else {
-      const structure = useDocumentStore.getState().docType === 'sl3' ? [] : validateParagraphStructure(useDocumentStore.getState().paragraphs);
+      const structure = ['sl3', 'sl4'].includes(useDocumentStore.getState().docType) ? [] : validateParagraphStructure(useDocumentStore.getState().paragraphs);
       if (structure.length > 0) {
         pendingStructureExportRef.current = 'pdf';
         setStructureFindings(structure);
@@ -1466,7 +1466,7 @@ ${texFiles['body.tex'] || '% No body content'}
     if (structureAckRef.current) {
       structureAckRef.current = false;
     } else {
-      const structure = useDocumentStore.getState().docType === 'sl3' ? [] : validateParagraphStructure(useDocumentStore.getState().paragraphs);
+      const structure = ['sl3', 'sl4'].includes(useDocumentStore.getState().docType) ? [] : validateParagraphStructure(useDocumentStore.getState().paragraphs);
       if (structure.length > 0) {
         pendingStructureExportRef.current = 'docx';
         setStructureFindings(structure);

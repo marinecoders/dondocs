@@ -1,0 +1,88 @@
+import { describe, it, expect } from 'vitest';
+import { writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { PDFDocument } from 'pdf-lib';
+import { compileFixture } from '../_helpers/compileLatex';
+import { sl4Fixture, sl4Artwork } from '../_helpers/sl4Fixture';
+import { sl4ExportErrors } from '@/lib/sl4Preflight';
+import { newSl4Part } from '@/data/techpub/sl4';
+import { figureFile } from '@/lib/figures';
+import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfToolchain';
+
+describeToolchainRequirement('sl4-render');
+describe.skipIf(!hasPdfToolchain)('SL-4 rendered repair parts list', () => {
+  it('renders all publication sections and SL-4 authentication', async () => {
+    const store = sl4Fixture();
+    expect(sl4ExportErrors(store)).toEqual([]);
+    const result = await compileFixture(store, await sl4Artwork());
+    expect(result.ok, result.errors.join('\n') + result.logTail).toBe(true);
+    const path = join(result.workDir, 'sl4.pdf');
+    writeFileSync(path, result.pdfBytes!);
+    const text = spawnSync('pdftotext', ['-layout', path, '-'], { encoding: 'utf8' }).stdout;
+    for (const expected of ['RECORD OF CHANGES', 'PREFACE', 'PART I', 'PART II', 'PART III', 'PART IV', 'PART V', 'TRAIN-RES']) expect(text).toContain(expected);
+    expect(text).toContain('Marine Corps Components Repair Parts List');
+    expect(text).not.toContain('Periodic Inventory');
+    expect(text).not.toContain('INVENTORIED BY');
+    expect(text).not.toContain('GCSS-MC Recording');
+    expect(text).not.toContain('xxxxxX');
+    expect(text).not.toContain('??');
+    const pdf = await PDFDocument.load(result.pdfBytes!);
+    expect(pdf.getPages().some((page) => page.getWidth() === 792 && page.getHeight() === 792)).toBe(true);
+  }, 60000);
+  it('retains more than eighteen parts and overflows the two-panel indexes', async () => {
+    const store = sl4Fixture();
+    for (let i = 0; i < 115; i++) store.formData.sl4!.rows.push({ ...newSl4Part(`part-${i}`), nomenclature: `PART, Training ${i}`, cage: 'ZZ999', partNumber: `P${String(i).padStart(4, '0')}`, maintenancePart: true, quantityPerApplication: '1', quantityPerEquipment: '1' });
+    store.endItems = Array.from({ length: 7 }, (_, i) => ({ ...store.endItems[0], model: `OVERFLOW-${i + 1}` }));
+    const result = await compileFixture(store, await sl4Artwork());
+    expect(result.ok, result.errors.join('\n') + result.logTail).toBe(true);
+    const path = join(result.workDir, 'continued.pdf'); writeFileSync(path, result.pdfBytes!);
+    const text = spawnSync('pdftotext', ['-layout', path, '-'], { encoding: 'utf8' }).stdout;
+    for (const value of ['OVERFLOW-7', 'P0114', 'Continued', 'See Next Page']) expect(text).toContain(value);
+    expect(text).not.toContain('??');
+  }, 60000);
+  it('refuses oversized cells and searchable labels outside the artwork', async () => {
+    const store = sl4Fixture();
+    Object.assign(store.formData.sl4!.rows[2], { description: 'Very long fictional equipment description. '.repeat(500) });
+    const oversized = await compileFixture(store, await sl4Artwork());
+    expect(oversized.ok).toBe(false);
+    expect(oversized.errors.join(' ')).toContain('exceeds one page');
+    const headings = sl4Fixture();
+    Object.assign(headings.formData.sl4!.rows[0], { text: 'Very long fictional major-combination heading. '.repeat(500) });
+    const heading = await compileFixture(headings, await sl4Artwork());
+    expect(heading.ok).toBe(false);
+    expect(heading.errors.join(' ')).toContain('exceeds one page');
+    const labels = sl4Fixture();
+    labels.formData.sl4!.artwork[0] = { figureId: labels.formData.sl4!.endItemFigureId, lettering: 'labels', labels: [{ id: 'label', text: 'LABEL OUTSIDE ARTWORK', x: 0, y: 50 }] };
+    const clipped = await compileFixture(labels, await sl4Artwork());
+    expect(clipped.ok).toBe(false);
+    expect(clipped.errors.join(' ')).toContain('crosses the left edge');
+  }, 60000);
+  it('omits Part V and its navigation when the excessive-quantity omission is recorded', async () => {
+    const store = sl4Fixture();
+    store.formData.sl4!.circuitIndex = { mode: 'omitted_excessive', reason: 'Fictional excessive-quantity omission.' };
+    const result = await compileFixture(store, await sl4Artwork());
+    expect(result.ok, result.errors.join('\n') + result.logTail).toBe(true);
+    const path = join(result.workDir, 'omitted.pdf'); writeFileSync(path, result.pdfBytes!);
+    const text = spawnSync('pdftotext', ['-layout', path, '-'], { encoding: 'utf8' }).stdout;
+    expect(text).toContain('Fictional excessive-quantity omission.');
+    expect(text).not.toContain('sl4.part.5');
+    expect(text).not.toContain('Table 5.');
+  }, 60000);
+  it('refuses an illustration whose complete caption would extend past the page', async () => {
+    const store = sl4Fixture();
+    const drawing = structuredClone(store.paragraphs[0]);
+    drawing.referenceId = 'component-drawing';
+    drawing.text = 'Extended fictional component illustration caption. '.repeat(100);
+    store.paragraphs.push(drawing);
+    const part = store.formData.sl4!.rows.find(row => row.kind === 'part')!;
+    if (part.kind === 'part') part.figureId = drawing.referenceId;
+    store.formData.sl4!.artwork.push({ figureId: drawing.referenceId, lettering: 'none', labels: [] });
+    expect(sl4ExportErrors(store)).toEqual([]);
+    const assets = await sl4Artwork();
+    assets[figureFile(2, drawing.figure!.type, drawing.figure!.name, drawing.figure!.fileRef!.id)] = Object.values(assets)[0];
+    const result = await compileFixture(store, assets);
+    expect(result.ok).toBe(false);
+    expect(result.errors.join(' ')).toContain('too tall for one page');
+  }, 60000);
+});

@@ -2,6 +2,7 @@ import type { SerializedSession } from '@/stores/documentStore';
 import type { Enclosure } from '@/types/document';
 import { loadAttachment } from './attachments';
 import { replacePlaceholders } from './placeholders';
+import { mapSl4Text } from './sl4Editing';
 
 /** Resolve the frozen job's files without reading or mutating the active editor. */
 export async function prepareBatchCorrespondence(session: SerializedSession, values: Record<string, string>) {
@@ -17,6 +18,7 @@ export async function prepareBatchCorrespondence(session: SerializedSession, val
       components: sl3.components.map((item) => ({ ...item, nomenclature: replace(item.nomenclature), description: replace(item.description),
         nsn: replace(item.nsn), tamcn: replace(item.tamcn), idNumber: replace(item.idNumber), partNumber: replace(item.partNumber), cage: replace(item.cage), unit: replace(item.unit), quantity: replace(item.quantity), model: replace(item.model), figureReference: replace(item.figureReference) })) };
   }
+  if (formData.sl4) formData.sl4 = mapSl4Text(formData.sl4, (value) => replacePlaceholders(value, values));
   const file = async (ref: NonNullable<Enclosure['fileRef']>) => {
     const data = await loadAttachment(ref.id);
     if (!data) throw new Error(`Attached file “${ref.name}” is missing. Reattach it and start a new batch.`);

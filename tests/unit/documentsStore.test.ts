@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isMeaningful, deriveTitle, sameContent, profileFormPatch, importShouldReplace, searchableText, type DocumentEntry } from '@/stores/documentsStore';
+import { isMeaningful, deriveTitle, sameContent, profileFormPatch, importShouldReplace, searchableText, correspondenceFilename, type DocumentEntry } from '@/stores/documentsStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import { docTypeChip, type Profile } from '@/types/document';
 
@@ -21,6 +21,22 @@ function mkSession(o: Partial<SerializedSession> = {}): SerializedSession {
     ...o,
   } as SerializedSession;
 }
+
+describe('download filenames', () => {
+  it.each(['sl3', 'sl4'] as const)('uses the %s short title instead of a hidden correspondence SSIC', docType => {
+    const session = mkSession({ docType, formData: { shortTitle: `${docType.toUpperCase()}-12345A`, ssic: '1000', subject: 'Training equipment' } });
+    expect(correspondenceFilename('pdf', session)).toBe(`${docType}-12345a-training-equipment.pdf`);
+    session.formData.shortTitle = '';
+    expect(correspondenceFilename('tex', session)).toBe('training-equipment.tex');
+    session.formData.subject = `${'a'.repeat(49)} b`;
+    expect(correspondenceFilename('pdf', session)).toBe(`${'a'.repeat(49)}.pdf`);
+  });
+
+  it('keeps the SSIC prefix for correspondence', () => {
+    expect(correspondenceFilename('pdf', mkSession({ formData: { ssic: '5216', subject: 'Request for leave' } })))
+      .toBe('5216-request-for-leave.pdf');
+  });
+});
 
 describe('isMeaningful — keeps blank starter docs out of Recents', () => {
   it('a blank starter (placeholder subject + placeholder paragraph) is NOT meaningful', () => {

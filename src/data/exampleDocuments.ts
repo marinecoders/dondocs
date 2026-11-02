@@ -1,3 +1,4 @@
+import { sl4PublicationExample } from './sl4Example';
 import { sl3Example } from './sl3Example';
 import type { Reference, Paragraph, CopyTo, DocumentData, EndItem } from '@/types/document';
 
@@ -587,6 +588,7 @@ export const EXAMPLE_DOCUMENTS: ExampleDocument[] = [
     copyTos: [],
   },
   sl3Example,
+  sl4PublicationExample,
 ];
 
 // Group examples by category for easy display

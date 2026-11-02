@@ -1,0 +1,1611 @@
+{
+  "version": "1.1",
+  "documentMode": "compliant",
+  "documentCategory": "correspondence",
+  "docType": "sl4",
+  "formType": "navmc_10274",
+  "endItems": [
+    {
+      "nsn": "5895-00-000-0100",
+      "tamcn": "A12345G",
+      "id": "12345A",
+      "model": "TCB-100A"
+    }
+  ],
+  "publicationTables": {},
+  "formData": {
+    "docType": "i_type",
+    "fontSize": "10pt",
+    "fontFamily": "times",
+    "pageNumbering": "none",
+    "ssic": "1000",
+    "serial": "0123",
+    "date": "30 Oct 26",
+    "department": "usmc",
+    "unitLine1": "EXAMPLE TRAINING SYSTEMS COMMAND",
+    "unitLine2": "TRAINING PUBLICATIONS OFFICE",
+    "unitAddress": "100 DEMONSTRATION WAY\nEXAMPLE CITY, VA 00000",
+    "sealType": "dow",
+    "letterheadColor": "blue",
+    "from": "Commanding Officer, 1st Battalion, 6th Marines",
+    "to": "Commanding General, II Marine Expeditionary Force",
+    "via": "",
+    "subject": "TRAINING EXAMPLE - REPAIR PARTS LIST FOR ELECTRONIC CONTROL BOX",
+    "sigFirst": "Example",
+    "sigMiddle": "",
+    "sigLast": "Signatory",
+    "sigRank": "Lieutenant Colonel",
+    "sigTitle": "Program Manager",
+    "officeCode": "S-3",
+    "byDirection": false,
+    "byDirectionAuthority": "",
+    "classLevel": "unclassified",
+    "customClassification": "",
+    "pocEmail": "training@example.com",
+    "includeHyperlinks": false,
+    "showSubjectOnContinuation": false,
+    "inReplyTo": false,
+    "inReplyToText": "",
+    "salutation": "Dear Sir or Madam:",
+    "complimentaryClose": "Sincerely,",
+    "shortTitle": "SL-4-12345A",
+    "pcn": "123 123450 00",
+    "nomenclature": "CONTROL BOX, ELECTRONIC TRAINING",
+    "publicationSigningDate": "2026-10-30",
+    "signatureType": "digital",
+    "controllingOffice": "Electronic Training Systems Program Office",
+    "cuiDistStatement": "A",
+    "exportRestricted": false,
+    "sl4": {
+      "sourceManual": "TM TCB-100A-23, Electronic Training Control Box Maintenance Manual, 1 September 2026 (fictional).",
+      "standaloneRationale": "The fictional maintenance manual contains maintenance procedures but no repair parts list. This standalone training SL-4 provides one illustrated ordering reference for the TCB-100A configuration.",
+      "cutoffDate": "2026-10-29",
+      "contextPortion": "U",
+      "definitions": [
+        {
+          "id": "def-pcb",
+          "term": "PCB",
+          "meaning": "Printed circuit board.",
+          "portionMarking": "U"
+        },
+        {
+          "id": "def-tcb",
+          "term": "TCB",
+          "meaning": "Training control box; the fictional end item used in this filled example.",
+          "portionMarking": "U"
+        },
+        {
+          "id": "def-led",
+          "term": "LED",
+          "meaning": "Light emitting diode.",
+          "portionMarking": "U"
+        }
+      ],
+      "artwork": [
+        {
+          "figureId": "00000000000000000000000000000001",
+          "lettering": "labels",
+          "labels": [
+            {
+              "id": "enclosure",
+              "text": "Enclosure",
+              "x": 92,
+              "y": 85
+            },
+            {
+              "id": "controls",
+              "text": "Operator controls",
+              "x": 15,
+              "y": 85
+            },
+            {
+              "id": "ports",
+              "text": "External connectors",
+              "x": 48,
+              "y": 10
+            }
+          ]
+        },
+        {
+          "figureId": "00000000000000000000000000000002",
+          "lettering": "labels",
+          "labels": [
+            {
+              "id": "f2-label-0",
+              "text": "1",
+              "x": 15,
+              "y": 66.032
+            },
+            {
+              "id": "f2-label-1",
+              "text": "2",
+              "x": 38.333,
+              "y": 66.032
+            },
+            {
+              "id": "f2-label-2",
+              "text": "3",
+              "x": 61.667,
+              "y": 66.032
+            },
+            {
+              "id": "f2-label-3",
+              "text": "4",
+              "x": 85,
+              "y": 66.032
+            },
+            {
+              "id": "f2-label-4",
+              "text": "5",
+              "x": 15,
+              "y": 35.873
+            },
+            {
+              "id": "f2-label-5",
+              "text": "6",
+              "x": 38.333,
+              "y": 35.873
+            },
+            {
+              "id": "f2-label-6",
+              "text": "7",
+              "x": 61.667,
+              "y": 35.873
+            },
+            {
+              "id": "f2-label-7",
+              "text": "8",
+              "x": 85,
+              "y": 35.873
+            },
+            {
+              "id": "f2-label-8",
+              "text": "9",
+              "x": 15,
+              "y": 5.714
+            },
+            {
+              "id": "f2-label-9",
+              "text": "10",
+              "x": 38.333,
+              "y": 5.714
+            }
+          ]
+        },
+        {
+          "figureId": "00000000000000000000000000000003",
+          "lettering": "labels",
+          "labels": [
+            {
+              "id": "f3-label-0",
+              "text": "11 / A1",
+              "x": 15,
+              "y": 73.571
+            },
+            {
+              "id": "f3-label-1",
+              "text": "12 / A1A1",
+              "x": 38.333,
+              "y": 73.571
+            },
+            {
+              "id": "f3-label-2",
+              "text": "13 / U1",
+              "x": 61.667,
+              "y": 73.571
+            },
+            {
+              "id": "f3-label-3",
+              "text": "14 / U2",
+              "x": 85,
+              "y": 73.571
+            },
+            {
+              "id": "f3-label-4",
+              "text": "15 / R1",
+              "x": 15,
+              "y": 50.952
+            },
+            {
+              "id": "f3-label-5",
+              "text": "16 / R2",
+              "x": 38.333,
+              "y": 50.952
+            },
+            {
+              "id": "f3-label-6",
+              "text": "17 / R3",
+              "x": 61.667,
+              "y": 50.952
+            },
+            {
+              "id": "f3-label-7",
+              "text": "18 / C1-C2",
+              "x": 85,
+              "y": 50.952
+            },
+            {
+              "id": "f3-label-8",
+              "text": "19 / C3-C6",
+              "x": 15,
+              "y": 28.333
+            },
+            {
+              "id": "f3-label-9",
+              "text": "20 / CR1",
+              "x": 38.333,
+              "y": 28.333
+            },
+            {
+              "id": "f3-label-10",
+              "text": "21 / Q1",
+              "x": 61.667,
+              "y": 28.333
+            },
+            {
+              "id": "f3-label-11",
+              "text": "22 / Y1",
+              "x": 85,
+              "y": 28.333
+            },
+            {
+              "id": "f3-label-12",
+              "text": "23 / F1",
+              "x": 15,
+              "y": 5.714
+            },
+            {
+              "id": "f3-label-13",
+              "text": "24 / XF1",
+              "x": 38.333,
+              "y": 5.714
+            }
+          ]
+        },
+        {
+          "figureId": "00000000000000000000000000000004",
+          "lettering": "labels",
+          "labels": [
+            {
+              "id": "f4-label-0",
+              "text": "25 / A2",
+              "x": 15,
+              "y": 73.571
+            },
+            {
+              "id": "f4-label-1",
+              "text": "26",
+              "x": 38.333,
+              "y": 73.571
+            },
+            {
+              "id": "f4-label-2",
+              "text": "27 / S1",
+              "x": 61.667,
+              "y": 73.571
+            },
+            {
+              "id": "f4-label-3",
+              "text": "28 / S2",
+              "x": 85,
+              "y": 73.571
+            },
+            {
+              "id": "f4-label-4",
+              "text": "29 / DS1-DS2",
+              "x": 15,
+              "y": 50.952
+            },
+            {
+              "id": "f4-label-5",
+              "text": "30 / J1",
+              "x": 38.333,
+              "y": 50.952
+            },
+            {
+              "id": "f4-label-6",
+              "text": "31 / J2",
+              "x": 61.667,
+              "y": 50.952
+            },
+            {
+              "id": "f4-label-7",
+              "text": "32 / MP1",
+              "x": 85,
+              "y": 50.952
+            },
+            {
+              "id": "f4-label-8",
+              "text": "33 / R4",
+              "x": 15,
+              "y": 28.333
+            },
+            {
+              "id": "f4-label-9",
+              "text": "34 / W1",
+              "x": 38.333,
+              "y": 28.333
+            },
+            {
+              "id": "f4-label-10",
+              "text": "35",
+              "x": 61.667,
+              "y": 28.333
+            },
+            {
+              "id": "f4-label-11",
+              "text": "36",
+              "x": 85,
+              "y": 28.333
+            },
+            {
+              "id": "f4-label-12",
+              "text": "37",
+              "x": 15,
+              "y": 5.714
+            },
+            {
+              "id": "f4-label-13",
+              "text": "38",
+              "x": 38.333,
+              "y": 5.714
+            },
+            {
+              "id": "f4-label-14",
+              "text": "39",
+              "x": 61.667,
+              "y": 5.714
+            },
+            {
+              "id": "f4-label-15",
+              "text": "40",
+              "x": 85,
+              "y": 5.714
+            }
+          ]
+        },
+        {
+          "figureId": "00000000000000000000000000000005",
+          "lettering": "labels",
+          "labels": [
+            {
+              "id": "f5-label-0",
+              "text": "41",
+              "x": 26.667,
+              "y": 50.952
+            },
+            {
+              "id": "f5-label-1",
+              "text": "42",
+              "x": 73.333,
+              "y": 50.952
+            },
+            {
+              "id": "f5-label-2",
+              "text": "43",
+              "x": 26.667,
+              "y": 5.714
+            },
+            {
+              "id": "f5-label-3",
+              "text": "44",
+              "x": 73.333,
+              "y": 5.714
+            }
+          ]
+        }
+      ],
+      "rowsPerSheet": 18,
+      "indexRowsPerPanel": 25,
+      "endItemFigureId": "00000000000000000000000000000001",
+      "circuitIndex": {
+        "mode": "include",
+        "reason": ""
+      },
+      "cages": [
+        {
+          "id": "entity-1",
+          "code": "ZZ901",
+          "name": "Example Training Systems",
+          "address": "100 Demonstration Way, Example City, VA 00000; fictional integration office.",
+          "portionMarking": "U"
+        },
+        {
+          "id": "entity-2",
+          "code": "ZZ902",
+          "name": "Example Circuit Components",
+          "address": "200 Training Avenue, Sample City, MD 00000; fictional electronics supplier.",
+          "portionMarking": "U"
+        },
+        {
+          "id": "entity-3",
+          "code": "ZZ903",
+          "name": "Example Mechanical Products",
+          "address": "300 Model Road, Training City, NC 00000; fictional hardware supplier.",
+          "portionMarking": "U"
+        }
+      ],
+      "notes": [
+        {
+          "id": "note-1",
+          "text": "TRAINING EXAMPLE ONLY. All equipment, stock numbers, CAGE entries, part numbers, SMR assignments, quantities and revision history in this document are fictional. Do not use this publication to requisition parts or maintain operational equipment.",
+          "portionMarking": "U"
+        },
+        {
+          "id": "note-2",
+          "text": "This example applies to model TCB-100A, training configuration A. Source: TM TCB-100A-23, 1 September 2026. That fictional manual has no repair parts listing; this standalone SL-4 supplies the illustrated ordering reference. No alternate configuration is represented.",
+          "portionMarking": "U"
+        },
+        {
+          "id": "note-3",
+          "text": "Blank NSN cells mean no NSN is assigned in this training dataset. Those parts appear in Part II. The ZZ901, ZZ902 and ZZ903 directory entries identify fictional suppliers only.",
+          "portionMarking": "U"
+        },
+        {
+          "id": "note-4",
+          "text": "SMR code PAOZZ is used as illustrative author-entered data. It is not an approved coding determination. A real publication requires verification against the applicable SECNAVINST 4410.23 revision and equipment maintenance concept.",
+          "portionMarking": "U"
+        },
+        {
+          "id": "note-5",
+          "text": "Consolidated equipment quantities include installed parts and the field spares kit. Item 5 totals 14 screws, item 6 totals 10 washers, item 7 totals 10 nuts, item 8 totals 2 gaskets and item 23 totals 3 fuses. Repeated S/A entries intentionally leave the equipment-total cell blank.",
+          "portionMarking": "U"
+        },
+        {
+          "id": "note-6",
+          "text": "Cable is listed in feet (FT); all other repair parts are listed each (EA), except raw sheet stock (SH). Item 3 is fabricated from item 45. Item 34 is assembled from items 35 and 36. Raw sheet stock is not illustrated.",
+          "portionMarking": "U"
+        },
+        {
+          "id": "note-7",
+          "text": "Figure labels identify Part I item numbers; electronic labels also show circuit symbols. The drawings are schematic training illustrations without dimensions. They are not manufacturing, installation or wiring instructions.",
+          "portionMarking": "U"
+        },
+        {
+          "id": "note-8",
+          "text": "MAN marks the example mandatory replacement selections for the gasket and fuse. ECO marks the example economic replacement selections for the two load resistors. Blank indicator cells mean the selection does not apply to that occurrence.",
+          "portionMarking": "U"
+        }
+      ],
+      "revisions": [
+        {
+          "id": "revision-a",
+          "revision": "A",
+          "date": "2026-10-30",
+          "description": "Fictional training revision: completed the illustrated chassis, controller, panel, harness and field spares breakdown; reconciled Parts II-V.",
+          "enteredBy": "Training Publications Office",
+          "portionMarking": "U"
+        }
+      ],
+      "rows": [
+        {
+          "kind": "heading",
+          "id": "heading",
+          "text": "TCB-100A - TRAINING CONFIGURATION A",
+          "majorCombination": true,
+          "portionMarking": "U"
+        },
+        {
+          "kind": "part",
+          "id": "item-1",
+          "portionMarking": "U",
+          "parentId": "",
+          "nomenclature": "CONTROL BOX, Electronic training",
+          "description": "Complete end item, 24 VDC demonstration configuration.",
+          "smr": "PAOZZ",
+          "nsn": "5895-00-000-0001",
+          "cage": "ZZ901",
+          "partNumber": "TCB-001",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "",
+          "maintenancePart": false,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000002",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-2",
+          "portionMarking": "U",
+          "parentId": "item-1",
+          "nomenclature": "CHASSIS ASSEMBLY",
+          "description": "Base, brackets, cover, seal and board supports.",
+          "smr": "PAOZZ",
+          "nsn": "",
+          "cage": "ZZ901",
+          "partNumber": "TCB-002",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000002",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-3",
+          "portionMarking": "U",
+          "parentId": "item-2",
+          "nomenclature": "BASEPLATE, Chassis",
+          "description": "Aluminum plate; training fabrication relationship only.",
+          "smr": "PAOZZ",
+          "nsn": "",
+          "cage": "ZZ903",
+          "partNumber": "TCB-003",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "relationship": {
+            "kind": "fabricated_from",
+            "itemIds": [
+              "item-45"
+            ]
+          },
+          "figureId": "00000000000000000000000000000002",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-4",
+          "portionMarking": "U",
+          "parentId": "item-2",
+          "nomenclature": "BRACKET, Mounting",
+          "description": "Right angle mounting bracket, two locations.",
+          "smr": "PAOZZ",
+          "nsn": "5340-00-000-0004",
+          "cage": "ZZ903",
+          "partNumber": "TCB-004",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "2",
+          "quantityPerEquipment": "2",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000002",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-5",
+          "portionMarking": "U",
+          "parentId": "item-2",
+          "nomenclature": "SCREW, Machine, pan head",
+          "description": "M4 x 12 mm, chassis installation.",
+          "smr": "PAOZZ",
+          "nsn": "5305-00-000-0005",
+          "cage": "ZZ903",
+          "partNumber": "TCB-005",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "4",
+          "quantityPerEquipment": "14",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000002",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-6",
+          "portionMarking": "U",
+          "parentId": "item-2",
+          "nomenclature": "WASHER, Flat",
+          "description": "M4 clearance washer, chassis installation.",
+          "smr": "PAOZZ",
+          "nsn": "5310-00-000-0006",
+          "cage": "ZZ903",
+          "partNumber": "TCB-006",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "4",
+          "quantityPerEquipment": "10",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000002",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-7",
+          "portionMarking": "U",
+          "parentId": "item-2",
+          "nomenclature": "NUT, Self locking",
+          "description": "M4 prevailing torque nut, chassis installation.",
+          "smr": "PAOZZ",
+          "nsn": "5310-00-000-0007",
+          "cage": "ZZ903",
+          "partNumber": "TCB-007",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "4",
+          "quantityPerEquipment": "10",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000002",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-8",
+          "portionMarking": "U",
+          "parentId": "item-2",
+          "nomenclature": "GASKET, Cover",
+          "description": "Perimeter cover seal; replace after removal.",
+          "smr": "PAOZZ",
+          "nsn": "5330-00-000-0008",
+          "cage": "ZZ903",
+          "partNumber": "TCB-008",
+          "mandatoryReplacement": true,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "2",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000002",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-9",
+          "portionMarking": "U",
+          "parentId": "item-2",
+          "nomenclature": "COVER, Chassis",
+          "description": "Removable top cover with mounting holes.",
+          "smr": "PAOZZ",
+          "nsn": "",
+          "cage": "ZZ903",
+          "partNumber": "TCB-009",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000002",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-10",
+          "portionMarking": "U",
+          "parentId": "item-2",
+          "nomenclature": "STANDOFF, Circuit board",
+          "description": "Hexagonal spacer, 20 mm nominal length.",
+          "smr": "PAOZZ",
+          "nsn": "5340-00-000-0010",
+          "cage": "ZZ903",
+          "partNumber": "TCB-010",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "4",
+          "quantityPerEquipment": "4",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000002",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-11",
+          "portionMarking": "U",
+          "parentId": "item-1",
+          "nomenclature": "CONTROLLER ASSEMBLY",
+          "description": "Main board and separately mounted fuse protection.",
+          "smr": "PAOZZ",
+          "nsn": "",
+          "cage": "ZZ901",
+          "partNumber": "TCB-011",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000003",
+          "circuitSymbols": [
+            "A1"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-12",
+          "portionMarking": "U",
+          "parentId": "item-11",
+          "nomenclature": "BOARD, Printed circuit",
+          "description": "Populated controller board, configuration A.",
+          "smr": "PAOZZ",
+          "nsn": "5998-00-000-0012",
+          "cage": "ZZ902",
+          "partNumber": "TCB-012",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000003",
+          "circuitSymbols": [
+            "A1A1"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-13",
+          "portionMarking": "U",
+          "parentId": "item-12",
+          "nomenclature": "MICROCIRCUIT, Processor",
+          "description": "Demonstration processor, dual inline package.",
+          "smr": "PAOZZ",
+          "nsn": "5962-00-000-0013",
+          "cage": "ZZ902",
+          "partNumber": "TCB-013",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000003",
+          "circuitSymbols": [
+            "U1"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-14",
+          "portionMarking": "U",
+          "parentId": "item-12",
+          "nomenclature": "MICROCIRCUIT, Regulator",
+          "description": "Low voltage supply regulator.",
+          "smr": "PAOZZ",
+          "nsn": "5962-00-000-0014",
+          "cage": "ZZ902",
+          "partNumber": "TCB-014",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000003",
+          "circuitSymbols": [
+            "U2"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-15",
+          "portionMarking": "U",
+          "parentId": "item-12",
+          "nomenclature": "RESISTOR, Fixed load",
+          "description": "100 ohm, 2 watt demonstration load.",
+          "smr": "PAOZZ",
+          "nsn": "5905-00-000-0015",
+          "cage": "ZZ902",
+          "partNumber": "TCB-015",
+          "mandatoryReplacement": false,
+          "economicReplacement": true,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "2",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000003",
+          "circuitSymbols": [
+            "R1"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-16",
+          "portionMarking": "U",
+          "parentId": "item-12",
+          "nomenclature": "RESISTOR, Fixed load",
+          "description": "Second installation of the load resistor.",
+          "smr": "PAOZZ",
+          "nsn": "5905-00-000-0015",
+          "cage": "ZZ902",
+          "partNumber": "TCB-015",
+          "mandatoryReplacement": false,
+          "economicReplacement": true,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "",
+          "maintenancePart": true,
+          "isKit": false,
+          "relationship": {
+            "kind": "same_as",
+            "itemIds": [
+              "item-15"
+            ]
+          },
+          "figureId": "00000000000000000000000000000003",
+          "circuitSymbols": [
+            "R2"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-17",
+          "portionMarking": "U",
+          "parentId": "item-12",
+          "nomenclature": "RESISTOR, Fixed timing",
+          "description": "10 kilohm, quarter watt timing resistor.",
+          "smr": "PAOZZ",
+          "nsn": "5905-00-000-0017",
+          "cage": "ZZ902",
+          "partNumber": "TCB-017",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000003",
+          "circuitSymbols": [
+            "R3"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-18",
+          "portionMarking": "U",
+          "parentId": "item-12",
+          "nomenclature": "CAPACITOR, Filter",
+          "description": "47 microfarad, two board locations.",
+          "smr": "PAOZZ",
+          "nsn": "5910-00-000-0018",
+          "cage": "ZZ902",
+          "partNumber": "TCB-018",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "2",
+          "quantityPerEquipment": "2",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000003",
+          "circuitSymbols": [
+            "C1",
+            "C2"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-19",
+          "portionMarking": "U",
+          "parentId": "item-12",
+          "nomenclature": "CAPACITOR, Decoupling",
+          "description": "0.1 microfarad, four board locations.",
+          "smr": "PAOZZ",
+          "nsn": "5910-00-000-0019",
+          "cage": "ZZ902",
+          "partNumber": "TCB-019",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "4",
+          "quantityPerEquipment": "4",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000003",
+          "circuitSymbols": [
+            "C3",
+            "C4",
+            "C5",
+            "C6"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-20",
+          "portionMarking": "U",
+          "parentId": "item-12",
+          "nomenclature": "DIODE, Protection",
+          "description": "Input transient protection device.",
+          "smr": "PAOZZ",
+          "nsn": "5961-00-000-0020",
+          "cage": "ZZ902",
+          "partNumber": "TCB-020",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000003",
+          "circuitSymbols": [
+            "CR1"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-21",
+          "portionMarking": "U",
+          "parentId": "item-12",
+          "nomenclature": "TRANSISTOR, Switching",
+          "description": "Three lead output switching device.",
+          "smr": "PAOZZ",
+          "nsn": "5961-00-000-0021",
+          "cage": "ZZ902",
+          "partNumber": "TCB-021",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000003",
+          "circuitSymbols": [
+            "Q1"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-22",
+          "portionMarking": "U",
+          "parentId": "item-12",
+          "nomenclature": "CRYSTAL, Frequency control",
+          "description": "8 megahertz demonstration clock reference.",
+          "smr": "PAOZZ",
+          "nsn": "5955-00-000-0022",
+          "cage": "ZZ902",
+          "partNumber": "TCB-022",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000003",
+          "circuitSymbols": [
+            "Y1"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-23",
+          "portionMarking": "U",
+          "parentId": "item-11",
+          "nomenclature": "FUSE, Cartridge",
+          "description": "1 ampere fuse; one installed and two spares.",
+          "smr": "PAOZZ",
+          "nsn": "5920-00-000-0023",
+          "cage": "ZZ902",
+          "partNumber": "TCB-023",
+          "mandatoryReplacement": true,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "3",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000003",
+          "circuitSymbols": [
+            "F1"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-24",
+          "portionMarking": "U",
+          "parentId": "item-11",
+          "nomenclature": "HOLDER, Fuse",
+          "description": "Panel mounted cartridge fuse holder.",
+          "smr": "PAOZZ",
+          "nsn": "5920-00-000-0024",
+          "cage": "ZZ902",
+          "partNumber": "TCB-024",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000003",
+          "circuitSymbols": [
+            "XF1"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-25",
+          "portionMarking": "U",
+          "parentId": "item-1",
+          "nomenclature": "PANEL ASSEMBLY, Operator",
+          "description": "Controls, indicators, connectors and wiring harness.",
+          "smr": "PAOZZ",
+          "nsn": "",
+          "cage": "ZZ901",
+          "partNumber": "TCB-025",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000004",
+          "circuitSymbols": [
+            "A2"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-26",
+          "portionMarking": "U",
+          "parentId": "item-25",
+          "nomenclature": "PANEL, Faceplate",
+          "description": "Drilled faceplate for configuration A controls.",
+          "smr": "PAOZZ",
+          "nsn": "",
+          "cage": "ZZ903",
+          "partNumber": "TCB-026",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000004",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-27",
+          "portionMarking": "U",
+          "parentId": "item-25",
+          "nomenclature": "SWITCH, Toggle",
+          "description": "Two position power switch.",
+          "smr": "PAOZZ",
+          "nsn": "5930-00-000-0027",
+          "cage": "ZZ902",
+          "partNumber": "TCB-027",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000004",
+          "circuitSymbols": [
+            "S1"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-28",
+          "portionMarking": "U",
+          "parentId": "item-25",
+          "nomenclature": "SWITCH, Push button",
+          "description": "Momentary demonstration reset switch.",
+          "smr": "PAOZZ",
+          "nsn": "5930-00-000-0028",
+          "cage": "ZZ902",
+          "partNumber": "TCB-028",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000004",
+          "circuitSymbols": [
+            "S2"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-29",
+          "portionMarking": "U",
+          "parentId": "item-25",
+          "nomenclature": "INDICATOR, Light emitting diode",
+          "description": "Two status indicator locations.",
+          "smr": "PAOZZ",
+          "nsn": "",
+          "cage": "ZZ902",
+          "partNumber": "TCB-029",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "2",
+          "quantityPerEquipment": "2",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000004",
+          "circuitSymbols": [
+            "DS1",
+            "DS2"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-30",
+          "portionMarking": "U",
+          "parentId": "item-25",
+          "nomenclature": "CONNECTOR, Receptacle, power",
+          "description": "Two row input power connector.",
+          "smr": "PAOZZ",
+          "nsn": "5935-00-000-0030",
+          "cage": "ZZ902",
+          "partNumber": "TCB-030",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000004",
+          "circuitSymbols": [
+            "J1"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-31",
+          "portionMarking": "U",
+          "parentId": "item-25",
+          "nomenclature": "CONNECTOR, Receptacle, signal",
+          "description": "Two row demonstration signal connector.",
+          "smr": "PAOZZ",
+          "nsn": "5935-00-000-0031",
+          "cage": "ZZ902",
+          "partNumber": "TCB-031",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000004",
+          "circuitSymbols": [
+            "J2"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-32",
+          "portionMarking": "U",
+          "parentId": "item-25",
+          "nomenclature": "KNOB, Control",
+          "description": "Rotary control knob with position index.",
+          "smr": "PAOZZ",
+          "nsn": "5355-00-000-0032",
+          "cage": "ZZ903",
+          "partNumber": "TCB-032",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000004",
+          "circuitSymbols": [
+            "MP1"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-33",
+          "portionMarking": "U",
+          "parentId": "item-25",
+          "nomenclature": "POTENTIOMETER, Rotary",
+          "description": "10 kilohm operator level adjustment.",
+          "smr": "PAOZZ",
+          "nsn": "5905-00-000-0033",
+          "cage": "ZZ902",
+          "partNumber": "TCB-033",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000004",
+          "circuitSymbols": [
+            "R4"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-34",
+          "portionMarking": "U",
+          "parentId": "item-25",
+          "nomenclature": "HARNESS ASSEMBLY, Wiring",
+          "description": "Bench training harness; no wiring instructions implied.",
+          "smr": "PAOZZ",
+          "nsn": "",
+          "cage": "ZZ901",
+          "partNumber": "TCB-034",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "relationship": {
+            "kind": "assembled_from",
+            "itemIds": [
+              "item-35",
+              "item-36"
+            ]
+          },
+          "figureId": "00000000000000000000000000000004",
+          "circuitSymbols": [
+            "W1"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "item-35",
+          "portionMarking": "U",
+          "parentId": "item-34",
+          "nomenclature": "CABLE, Multiconductor",
+          "description": "Three feet per harness, cut to training length.",
+          "smr": "PAOZZ",
+          "nsn": "",
+          "cage": "ZZ902",
+          "partNumber": "TCB-035",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "FT",
+          "quantityPerApplication": "3",
+          "quantityPerEquipment": "3",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000004",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-36",
+          "portionMarking": "U",
+          "parentId": "item-34",
+          "nomenclature": "TERMINAL, Crimp",
+          "description": "Six terminations per harness.",
+          "smr": "PAOZZ",
+          "nsn": "5940-00-000-0036",
+          "cage": "ZZ902",
+          "partNumber": "TCB-036",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "6",
+          "quantityPerEquipment": "6",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000004",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-37",
+          "portionMarking": "U",
+          "parentId": "item-25",
+          "nomenclature": "SCREW, Machine, pan head",
+          "description": "Panel installation, six locations.",
+          "smr": "PAOZZ",
+          "nsn": "5305-00-000-0005",
+          "cage": "ZZ903",
+          "partNumber": "TCB-005",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "6",
+          "quantityPerEquipment": "",
+          "maintenancePart": true,
+          "isKit": false,
+          "relationship": {
+            "kind": "same_as",
+            "itemIds": [
+              "item-5"
+            ]
+          },
+          "figureId": "00000000000000000000000000000004",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-38",
+          "portionMarking": "U",
+          "parentId": "item-25",
+          "nomenclature": "WASHER, Flat",
+          "description": "Panel installation, six locations.",
+          "smr": "PAOZZ",
+          "nsn": "5310-00-000-0006",
+          "cage": "ZZ903",
+          "partNumber": "TCB-006",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "6",
+          "quantityPerEquipment": "",
+          "maintenancePart": true,
+          "isKit": false,
+          "relationship": {
+            "kind": "same_as",
+            "itemIds": [
+              "item-6"
+            ]
+          },
+          "figureId": "00000000000000000000000000000004",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-39",
+          "portionMarking": "U",
+          "parentId": "item-25",
+          "nomenclature": "NUT, Self locking",
+          "description": "Panel installation, six locations.",
+          "smr": "PAOZZ",
+          "nsn": "5310-00-000-0007",
+          "cage": "ZZ903",
+          "partNumber": "TCB-007",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "6",
+          "quantityPerEquipment": "",
+          "maintenancePart": true,
+          "isKit": false,
+          "relationship": {
+            "kind": "same_as",
+            "itemIds": [
+              "item-7"
+            ]
+          },
+          "figureId": "00000000000000000000000000000004",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-40",
+          "portionMarking": "U",
+          "parentId": "item-25",
+          "nomenclature": "LABEL, Identification",
+          "description": "Fictional model and training configuration plate.",
+          "smr": "PAOZZ",
+          "nsn": "",
+          "cage": "ZZ901",
+          "partNumber": "TCB-040",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "00000000000000000000000000000004",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-41",
+          "portionMarking": "U",
+          "parentId": "",
+          "nomenclature": "KIT, Field spares",
+          "description": "One spares kit supplied per training end item.",
+          "smr": "PAOZZ",
+          "nsn": "",
+          "cage": "ZZ901",
+          "partNumber": "TCB-041",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "",
+          "maintenancePart": false,
+          "isKit": true,
+          "figureId": "00000000000000000000000000000005",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-42",
+          "portionMarking": "U",
+          "parentId": "item-41",
+          "nomenclature": "FUSE, Cartridge",
+          "description": "Two spare fuses supplied in the kit.",
+          "smr": "PAOZZ",
+          "nsn": "5920-00-000-0023",
+          "cage": "ZZ902",
+          "partNumber": "TCB-023",
+          "mandatoryReplacement": true,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "2",
+          "quantityPerEquipment": "",
+          "maintenancePart": true,
+          "isKit": false,
+          "relationship": {
+            "kind": "same_as",
+            "itemIds": [
+              "item-23"
+            ]
+          },
+          "figureId": "00000000000000000000000000000005",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-43",
+          "portionMarking": "U",
+          "parentId": "item-41",
+          "nomenclature": "GASKET, Cover",
+          "description": "One spare perimeter seal supplied in the kit.",
+          "smr": "PAOZZ",
+          "nsn": "5330-00-000-0008",
+          "cage": "ZZ903",
+          "partNumber": "TCB-008",
+          "mandatoryReplacement": true,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "",
+          "maintenancePart": true,
+          "isKit": false,
+          "relationship": {
+            "kind": "same_as",
+            "itemIds": [
+              "item-8"
+            ]
+          },
+          "figureId": "00000000000000000000000000000005",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-44",
+          "portionMarking": "U",
+          "parentId": "item-41",
+          "nomenclature": "SCREW, Machine, pan head",
+          "description": "Four spare screws supplied in the kit.",
+          "smr": "PAOZZ",
+          "nsn": "5305-00-000-0005",
+          "cage": "ZZ903",
+          "partNumber": "TCB-005",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "4",
+          "quantityPerEquipment": "",
+          "maintenancePart": true,
+          "isKit": false,
+          "relationship": {
+            "kind": "same_as",
+            "itemIds": [
+              "item-5"
+            ]
+          },
+          "figureId": "00000000000000000000000000000005",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "item-45",
+          "portionMarking": "U",
+          "parentId": "",
+          "nomenclature": "SHEET, Aluminum",
+          "description": "Raw training stock used for baseplate fabrication.",
+          "smr": "PAOZZ",
+          "nsn": "9535-00-000-0045",
+          "cage": "ZZ903",
+          "partNumber": "TCB-045",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "SH",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "maintenancePart": true,
+          "isKit": false,
+          "figureId": "",
+          "circuitSymbols": []
+        }
+      ]
+    },
+    "unitLine3": "",
+    "supersedure": "Supersedes SL-4-12345A dated 1 September 2026 (fictional training issue)."
+  },
+  "references": [],
+  "enclosures": [],
+  "paragraphs": [
+    {
+      "referenceId": "00000000000000000000000000000001",
+      "level": 0,
+      "text": "Control Box, Electronic Training",
+      "portionMarking": "U",
+      "figure": {
+        "name": "figure-1.pdf",
+        "type": "application/pdf",
+        "portionMarking": "U",
+        "data": "JVBERi0xLjMKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSCj4+CmVuZG9iagoyIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GMSAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjMgMCBvYmoKPDwKL0NvbnRlbnRzIDcgMCBSIC9NZWRpYUJveCBbIDAgMCA2MDAgNDIwIF0gL1BhcmVudCA2IDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago0IDAgb2JqCjw8Ci9QYWdlTW9kZSAvVXNlTm9uZSAvUGFnZXMgNiAwIFIgL1R5cGUgL0NhdGFsb2cKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL0F1dGhvciAoYW5vbnltb3VzKSAvQ3JlYXRpb25EYXRlIChEOjIwMjYxMTAxMTMxMjIyLTA4JzAwJykgL0NyZWF0b3IgKGFub255bW91cykgL0tleXdvcmRzICgpIC9Nb2REYXRlIChEOjIwMjYxMTAxMTMxMjIyLTA4JzAwJykgL1Byb2R1Y2VyIChSZXBvcnRMYWIgUERGIExpYnJhcnkgLSBcKG9wZW5zb3VyY2VcKSkgCiAgL1N1YmplY3QgKHVuc3BlY2lmaWVkKSAvVGl0bGUgKEZpY3Rpb25hbCB0cmFpbmluZyBjb250cm9sIGJveCAtIGV4dGVybmFsIHZpZXcpIC9UcmFwcGVkIC9GYWxzZQo+PgplbmRvYmoKNiAwIG9iago8PAovQ291bnQgMSAvS2lkcyBbIDMgMCBSIF0gL1R5cGUgL1BhZ2VzCj4+CmVuZG9iago3IDAgb2JqCjw8Ci9GaWx0ZXIgWyAvQVNDSUk4NURlY29kZSAvRmxhdGVEZWNvZGUgXSAvTGVuZ3RoIDY1NQo+PgpzdHJlYW0KR2FyVk00KVM6WCUuJipEVCZCRzdVWCpdWCxaUW5vJTJNT3NGY2UkJiVuVD8/IkNgM2A7NnVlP0AkVnFQV0lPLjNULmJfNSVzW3UmSi06cWpKOHRvWElfdGhMNjI0WUooIlY3NSI7WC8oJ0U3b11wW1ZHcS1HQCtuXTcuakxIa145NlgxNUc1RDhwYFYwcElaI29gQSdzIz0iKlxFdCtlS19lVzp0Klc7Y0AzO1Awc0ZnMDNgPWc2Oj5mPUdGZjcnTVU3QlRIMj1hbTlCOiVXTkxOWzpkWkVYOk8zQWpsYTIwQENYYm5sUzVuLEFhcT0tR2UyQVFncEk1J2JDbzJII14wQT0vcGgrJSJpOF5FU1kidF1hWkpqXUVWSjtXQl5nJyplVyw1Qmg6W3FoQXRDIzdeVSMwUU0tcS0kWzQ3bVZKcVtfcjFWOGBtPTxHNmBiS2s0XGdOSTVbTmU1dXBaWkM+XipFQmJZLEVZQnViQiwrUDdoR21NYDgjV10rbidBZ002UW5PR01Nb0lIKnNGKlJjXVdBY1EuKHE0L09pWUlXOEFnLClSTEY4PlwyTCRbSU0zUl8ucyJdPkpUU2spTzVHNCpUbEAwck1RbDhvczBealkiZWAmMWYpTmtMa1IlX18nLWhwPmJSX0NtQDxIVzhQUyQ8bFklTHJlSiU1ZVFwKltZLj4wRlYqaWQwNVxMbi4xcEpAJmtIYkhaL0ZtSGZgXz0xSUBtK1U+WG1bVVhkTGsoO0gmIjIsW1o3dGBFJHRIOWFtTEcwRUhdQmpedTo9RkEiO0BIXDxIOFMxLXI0WFxUM0VXO3IsR3VEM3JzX2BlaysrPFFBRnRoOkhXLWViMz1CcXVeUHMvPmB+PmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDgKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDYxIDAwMDAwIG4gCjAwMDAwMDAwOTIgMDAwMDAgbiAKMDAwMDAwMDE5OSAwMDAwMCBuIAowMDAwMDAwMzkyIDAwMDAwIG4gCjAwMDAwMDA0NjAgMDAwMDAgbiAKMDAwMDAwMDc1OSAwMDAwMCBuIAowMDAwMDAwODE4IDAwMDAwIG4gCnRyYWlsZXIKPDwKL0lEIApbPDhmNGRjNjI2NjM0OTM0Y2M2NWFiNmI0OTkxMDFkZTQ5Pjw4ZjRkYzYyNjYzNDkzNGNjNjVhYjZiNDk5MTAxZGU0OT5dCiUgUmVwb3J0TGFiIGdlbmVyYXRlZCBQREYgZG9jdW1lbnQgLS0gZGlnZXN0IChvcGVuc291cmNlKQoKL0luZm8gNSAwIFIKL1Jvb3QgNCAwIFIKL1NpemUgOAo+PgpzdGFydHhyZWYKMTU2MwolJUVPRgo="
+      }
+    },
+    {
+      "referenceId": "00000000000000000000000000000002",
+      "level": 0,
+      "text": "Chassis Assembly and Mechanical Components",
+      "portionMarking": "U",
+      "figure": {
+        "name": "figure-2.pdf",
+        "type": "application/pdf",
+        "portionMarking": "U",
+        "data": "JVBERi0xLjMKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSCj4+CmVuZG9iagoyIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GMSAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjMgMCBvYmoKPDwKL0NvbnRlbnRzIDcgMCBSIC9NZWRpYUJveCBbIDAgMCA2MDAgNDIwIF0gL1BhcmVudCA2IDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago0IDAgb2JqCjw8Ci9QYWdlTW9kZSAvVXNlTm9uZSAvUGFnZXMgNiAwIFIgL1R5cGUgL0NhdGFsb2cKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL0F1dGhvciAoYW5vbnltb3VzKSAvQ3JlYXRpb25EYXRlIChEOjIwMjYxMTAxMTMxMjIyLTA4JzAwJykgL0NyZWF0b3IgKGFub255bW91cykgL0tleXdvcmRzICgpIC9Nb2REYXRlIChEOjIwMjYxMTAxMTMxMjIyLTA4JzAwJykgL1Byb2R1Y2VyIChSZXBvcnRMYWIgUERGIExpYnJhcnkgLSBcKG9wZW5zb3VyY2VcKSkgCiAgL1N1YmplY3QgKHVuc3BlY2lmaWVkKSAvVGl0bGUgKEZpY3Rpb25hbCB0cmFpbmluZyBpbGx1c3RyYXRpb24gMikgL1RyYXBwZWQgL0ZhbHNlCj4+CmVuZG9iago2IDAgb2JqCjw8Ci9Db3VudCAxIC9LaWRzIFsgMyAwIFIgXSAvVHlwZSAvUGFnZXMKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0ZpbHRlciBbIC9BU0NJSTg1RGVjb2RlIC9GbGF0ZURlY29kZSBdIC9MZW5ndGggMTc2NQo+PgpzdHJlYW0KR2Fyb0Q5cC1QRiUjNE0pJDtTcjYhXnNAaFEqXFVjRiteSCYyPC4rYFxVSzUsSGcsRyY8VzNQIzY0XkZnUiUyZENBSC4rLTQ4OFctcXM9bzdgOXVZLTgrRFEraiVvRjBqI0R0b24rYy5BR0NlZmhPbUwvOVFjL2siXCw1TGRILjd1I0Q8MEhKa2VgVVNvUUFNRThHYWYtTyRTKDAlQ0QqKTsrRUBSWUc2aTthOUBUMFRoNExtPW8iNEZhaUJYUlZkJSpGZzdMbVprPmJDZzBWNFc9W0gjXDguQGB0cyo4ISJAamUzKFJwLStENz5AWT08UDxfIy1Hbjo1bWE6IVAhSkgxNzsiUypaSCtIUkJAITxOOSdmYSZ1L2drNyRKLW4nJVctPlNrcSY4aFNpWiJRQ1IkZVVwWzYkb15bUW5uTjArPkVVaiNbaV41IixjRm5uaiFkVE9WXF10J0w8R2Q7PDM5UExhIksjSmdjNCFnVEVOSUlbLyk7IkE8Y0AwI2olODw0NzBoaWVZQUVxYzckLTdhW0xpPkJyTSwyJ0lRMENySi9Ab1koJU9qP29WKz4mQTlSWFhtW2MyPVo1QUxhIksjSmdjNCFaRDVKQzcxX21vOl1zVnU7PiguUV1IcFluSFJQRVEkLSU2YDBVQCc7QmIvaz5RPSpHUlRuIlNlbXRoKzA6QmE6bi9UKmg5KkNWInRKZ2cyQSwpQEchLCExWkU6XXNZViJbcnRrJjduWUFecVtONTZlS2hjTSo4dW1tVipBWzk7QjtzMXQhR0xrOk1bXmZWOFJKN2MwQ0ItNkVRcWRWK1FORDQjSWZOWm51SjVublQxJk9bNCFPVz9rMy4iV2w8SmctIXBMcEVwVVViLlJwMyxWQyNWYnM2QU5NPTFjT25PPT1ocFNIW2oxYjNcMWhzYFAkOzxWdStIPGg+IUNfL0dIKFlHO2E6IWtKTUJJZkMuLlRWODckLzkiNW5sVkxnVEYpcWljMVgkPUtlaE1JTj1wMTgraiUnZDMzNylSTShXdUBOVkdWTlJJQUtnWlUhWGQxcXFzRCNtOEVtazJVWUc6Z0ApQ1klIXJmaUNCQl5CPy1ucGM6ZS9hJE5fZ0MjLyw5ajdncWgza1syNT5HYkI4cENMO046Oy5ERGZPTl1iJGFUMiViNEJDKFoqWz46VilFOE84IStbVDpiLDMobkxPailwM3VoP2cvWEBRYXRjWydJJkhaKWMsbDwoVFk3I2VINzNRPztsY0NpVlhfY0pMcFtHazxeJFY+bSlqSkEnbTQoaj9QVVE3Y2ZdO3FSNDJoYTxRcSwtUyEyMTkpRzU8SUUoY1pSbzpcQ0BhNz88QFMkVkZBOmpUNFdgRllCK0QxL3NHVEphTm8ub0A2aVlEaD5ESEoqTEpwKDtYX29WKnJJPnNfZzhccUlYV0Y7XTRIa101OTwzJTcndG9lcyEqQV4tZzMxXCwzVW1CcDw3Qi45SFhFcHJdPiUmdVI4IU5rSF5mLEZvbkNhSklNRmJZOC9YcU9UYCpgIkZLNjVlMiRRQEFUVGxlOlFDcEJLZHIqRXM4T2wwLWdpWkU6bnRXJ1pFZj4lLVYoIidvUjJVVkVmYmgtNSgoSy0hZ2wrYCxbZDNkaC1IIT5EVWw/Wz9zR2wiPkVdQE1JOiwiJnNBNmxKKSpXYllbWypnKD4nOXEncyJhPTtQLl9qNktZIilVK1hlZyJXXTpXMW4wXW1CUElvP20pR2hnZmddQS9IYjllYVNcYStlcjlrbyFJR04hVjZROlxmNkVjUVgsIU8jQ0dVXDFJblN1NycnYyluVjU6QkNIQUw0MF1xMEI7KGlpYz9rPCcxR09aVj1lR1tCRVUpVjY8ZVdsdENrQUNmZFFSVj1vRmg5SXBrU1MpO2hCaW5sUG9DWW8vXG0jIyJHNiI/UUBAXyxAIUZVb01BU2w5ZlxnZ2hvZi0yPkVRSl4nb0slWGQ2Rl9jcVs0ZGZeZDleRydoOCphRj9xUG82RFIqWFdjVFo+MjNZQUhWZls/QiFaWSZlXnApX3BMW0tgTGZgb2BCXVhCXT5Sbi9wPGNxRyU4T3UnWSZcLCNtQXN0OFhKW0RFOl5iZEE1MGNQIW5fIzwvW1tFVlNROG1ROj45SmhMQG5ecElDKjVnWkFDVmxbVzxwaGFtTF1Db1U5SldETU0lYV4zSVlmKSYqcVQpMTVNJkRsXSFuNGowX2VMdCRnVVloLnI3K2VqRD9JKCw7Jj1CRkNgLUtfV0s/VmYqViI0Yz07XSE+LlkndCJgOEs9cVNzWyZeLE84QEUjSlJLaUMpKDxXLnAuS2x1clwxPEZ1cldiVzgxOEZ+PmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDgKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDYxIDAwMDAwIG4gCjAwMDAwMDAwOTIgMDAwMDAgbiAKMDAwMDAwMDE5OSAwMDAwMCBuIAowMDAwMDAwMzkyIDAwMDAwIG4gCjAwMDAwMDA0NjAgMDAwMDAgbiAKMDAwMDAwMDc0NiAwMDAwMCBuIAowMDAwMDAwODA1IDAwMDAwIG4gCnRyYWlsZXIKPDwKL0lEIApbPGMwNDgyY2M4MmE2Mzk5YjkxNjYwMzZhMWFmNjkwZTNkPjxjMDQ4MmNjODJhNjM5OWI5MTY2MDM2YTFhZjY5MGUzZD5dCiUgUmVwb3J0TGFiIGdlbmVyYXRlZCBQREYgZG9jdW1lbnQgLS0gZGlnZXN0IChvcGVuc291cmNlKQoKL0luZm8gNSAwIFIKL1Jvb3QgNCAwIFIKL1NpemUgOAo+PgpzdGFydHhyZWYKMjY2MQolJUVPRgo="
+      }
+    },
+    {
+      "referenceId": "00000000000000000000000000000003",
+      "level": 0,
+      "text": "Controller Assembly and Circuit Components",
+      "portionMarking": "U",
+      "figure": {
+        "name": "figure-3.pdf",
+        "type": "application/pdf",
+        "portionMarking": "U",
+        "data": "JVBERi0xLjMKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSCj4+CmVuZG9iagoyIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GMSAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjMgMCBvYmoKPDwKL0NvbnRlbnRzIDcgMCBSIC9NZWRpYUJveCBbIDAgMCA2MDAgNDIwIF0gL1BhcmVudCA2IDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago0IDAgb2JqCjw8Ci9QYWdlTW9kZSAvVXNlTm9uZSAvUGFnZXMgNiAwIFIgL1R5cGUgL0NhdGFsb2cKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL0F1dGhvciAoYW5vbnltb3VzKSAvQ3JlYXRpb25EYXRlIChEOjIwMjYxMTAxMTMxMjIyLTA4JzAwJykgL0NyZWF0b3IgKGFub255bW91cykgL0tleXdvcmRzICgpIC9Nb2REYXRlIChEOjIwMjYxMTAxMTMxMjIyLTA4JzAwJykgL1Byb2R1Y2VyIChSZXBvcnRMYWIgUERGIExpYnJhcnkgLSBcKG9wZW5zb3VyY2VcKSkgCiAgL1N1YmplY3QgKHVuc3BlY2lmaWVkKSAvVGl0bGUgKEZpY3Rpb25hbCB0cmFpbmluZyBpbGx1c3RyYXRpb24gMykgL1RyYXBwZWQgL0ZhbHNlCj4+CmVuZG9iago2IDAgb2JqCjw8Ci9Db3VudCAxIC9LaWRzIFsgMyAwIFIgXSAvVHlwZSAvUGFnZXMKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0ZpbHRlciBbIC9BU0NJSTg1RGVjb2RlIC9GbGF0ZURlY29kZSBdIC9MZW5ndGggMTc2MQo+PgpzdHJlYW0KR2FyVlE5OS8/cyUsQ15vNSFkNmNPamw5U1pIPWZnIyhwSE9JWiYjX3JEOyIhLTF0WE0iNTlTXFBtRThVLWVzZF4iVC8paF5ALEVZZ3FXYi5tTFxoL0opO0Vhbyk3VTBxbVJbIVg1PGteNU9Ua0FNV0lrK25EcCgycXFvMFY1SGdcXCQkWE9RaEw+MlFdXWRJWlFmazQyJEw9N11AJzFhTFxoXyRyUUNLOz06OXNYNFg2dTU7LypZNDIpK2Q6TSRiZTVwWW9DcycsVjxBMWY8Y3VFO2EsJD9abWhuSVI1UDRiTVZJMiZSbGtRWUJwNUdoIytPVTE2Vj1ETDRXXiU4YEtsLUdlTnNWRFRIUj5MU2t1TFJaXHJKIW9DPWxfLlZKUUg7LWRwJSQjJUwocF9FOUsrK0Blc1EuKW9mXk9nbjxyOjVWTT9ATV9CYktEUTY/YSZwOCU5YD9aYHFKLzZwYikpM1YwUkBAIVhvI19LXjFyTURockRTM09Fa0szT0VlaT1XQGc/MVFdVFdgJlFGMUgwOGAkaklJT0BPZSFgQkU/bVsqXUAnWV4iZ0FfPEpJbiNUOylaWDMiPmkvUSI+bmhHVUM5VkUzWileQ048WWN0MT01U1hiPFg2NDluNFBxOW4zRWJJbTQ2LG9oakIlZyFvXUpjRT9wciUpVWNQJ3BzYVNpZ0ssaiYyJGpGVF0tKCRWKWhSYSwuYk8vRyxycy0qZTNzTWpdPjNsWk1ZKCsoJUJCZ0lYMWJOZGs8QWhOLiwxbjdlWU5maXVvQ2ZSdU5QWTJGY0Q0VUwiIl1Ibz4uaiRmcldhVT8qP2VGZj5EWENpazBiPTI7ImVwbSdyQjo7PSs0JE1rTSxiOSkxWXE7cCdZMD5FSHBANWBsOm07TkthVmtZaHBAaWc5S2B1K09PZm0qXV8zZDpjaWczTjpfZjZwPTJEZF5UJiFFIjhDRyRbQFcpMGt1OCQxUiQ2JDFJcjxoW1trdEh0KGVCLy9TLSNOM2xDKWM2TThwXydAbWNjQzYtJXFvZ25SYCtZZDJTWDRubyVwZkhINSdSLGszSHRUZmEmOjMrb1NQZiZBPG5hQlU6NiVYcU5CaiYyUDo7QFQ8X3NkPSEkT2lCQktgSkdfZDRKb1pFay81ZCkvUiJGPjFSJmE3Vzk4ImBBLSplPkBRSDQ1K0lrVjs7a1R1V2hITEU7KT5BIWFYUmJXNFo7Rl1vQnMiRFEsTENzO05bZV81NWtTSVMpYWBLQUt0bC8nRzBFS1cxTD4jQUtfViQ5PVlVUXIlTS0tTmRiUGhGZmowQ2VGcmpSI3E7aEcyKFsvTCxVKCkvaXAmIjBEKVpZOGhpbG9aRWp0VExYYllKSz5oWCJGPjFSJmE3VzlhLlVKLiplUExVSDQ1K0lrVjs5ZTQoVz9YJl5QQm5dIVlKPmhHMVYhbT9EQlNSXlxMIlpTLmg6MUBwS0tFaUInT2RlN2s0QDI4SDg9ViIzYWVQIztPZzosW0FXK09DcGo5Xk4uKW9lMmNUR0RRT0xzU0lsI2ArcUA4QmkoZFQiI28kIUs1OF9WTHVCbz42KjVgRVNIViJnRy0zVk1idG42RixMVydtYk0/alpDQTw/WWB1bVdUOyVnYSJsJDgnby9aMSI7ZlZDRVVDYXRdTVwwR1hEX1lfXGp0MWNDLl47WiM0X0IuP0gnM1gkYjo/MVtHRWcpdWk+R01pKyRiJ2pjbE1qImc3MXBFJGQzMGdYMUlQbFk4MkxJLkFyVFssMGRUbTNZW1xsNGVKOUUqVk9wN10+cCc0J0YyRmpKWjYsbW10VUA1SzptTSwzOGtZPSRgZS1BUl1qZyJgQ2VQU044WCNiXjZwZnEwVF5OK3Ftb3M1VWk0MGg9W29STCYlQVVsJTxGNCtEUVJoYWIjbj5GMFlxRCUsQlpMJVtJOmJnbi1LIUYiY0FxbURIKkFhSi9SKCRoODhnOkQzdUBQOXQkJmYjW0wkPyQ9bzRZKDJNSEAlZkhkN1tOSWFjUEtwRUZrcCcwIidpMzNmWDh0M0M3O0VeRipvM2ltRUVnJUdfOz1jZV4pbE9NLjVkYzFBJ3BVVz89bG5mUUclWDhyJTZIP14zYmcrISUnZG5SdGEnYmdVa1w5N1BmPiNEOTtLMm81XjInUVdyVzRJODUmbzZfPSNpY1RePWhpQShFUyRYQ0FWYGcoXytBZFtDKmo2Q0tATSVdWjlDXHF1W01ZUjltYEEkbWZXKDVkJjs+VzZVaDFuSlJfWzhrLS0yaUxQPiRtW1hwP1BQK2RrNW1pIVc/ZCplOmFmODkza1RgUW5gYS1hTjlQP15BXEIiJzYqIn4+ZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgOAowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwNjEgMDAwMDAgbiAKMDAwMDAwMDA5MiAwMDAwMCBuIAowMDAwMDAwMTk5IDAwMDAwIG4gCjAwMDAwMDAzOTIgMDAwMDAgbiAKMDAwMDAwMDQ2MCAwMDAwMCBuIAowMDAwMDAwNzQ2IDAwMDAwIG4gCjAwMDAwMDA4MDUgMDAwMDAgbiAKdHJhaWxlcgo8PAovSUQgCls8NjcyZjYxYzI1MGZkZWFmNzIyZDIzMmRmZGQ3MzBmNjY+PDY3MmY2MWMyNTBmZGVhZjcyMmQyMzJkZmRkNzMwZjY2Pl0KJSBSZXBvcnRMYWIgZ2VuZXJhdGVkIFBERiBkb2N1bWVudCAtLSBkaWdlc3QgKG9wZW5zb3VyY2UpCgovSW5mbyA1IDAgUgovUm9vdCA0IDAgUgovU2l6ZSA4Cj4+CnN0YXJ0eHJlZgoyNjU3CiUlRU9GCg=="
+      }
+    },
+    {
+      "referenceId": "00000000000000000000000000000004",
+      "level": 0,
+      "text": "Operator Panel and Wiring Harness",
+      "portionMarking": "U",
+      "figure": {
+        "name": "figure-4.pdf",
+        "type": "application/pdf",
+        "portionMarking": "U",
+        "data": "JVBERi0xLjMKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSCj4+CmVuZG9iagoyIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GMSAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjMgMCBvYmoKPDwKL0NvbnRlbnRzIDcgMCBSIC9NZWRpYUJveCBbIDAgMCA2MDAgNDIwIF0gL1BhcmVudCA2IDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago0IDAgb2JqCjw8Ci9QYWdlTW9kZSAvVXNlTm9uZSAvUGFnZXMgNiAwIFIgL1R5cGUgL0NhdGFsb2cKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL0F1dGhvciAoYW5vbnltb3VzKSAvQ3JlYXRpb25EYXRlIChEOjIwMjYxMTAxMTMxMjIyLTA4JzAwJykgL0NyZWF0b3IgKGFub255bW91cykgL0tleXdvcmRzICgpIC9Nb2REYXRlIChEOjIwMjYxMTAxMTMxMjIyLTA4JzAwJykgL1Byb2R1Y2VyIChSZXBvcnRMYWIgUERGIExpYnJhcnkgLSBcKG9wZW5zb3VyY2VcKSkgCiAgL1N1YmplY3QgKHVuc3BlY2lmaWVkKSAvVGl0bGUgKEZpY3Rpb25hbCB0cmFpbmluZyBpbGx1c3RyYXRpb24gNCkgL1RyYXBwZWQgL0ZhbHNlCj4+CmVuZG9iago2IDAgb2JqCjw8Ci9Db3VudCAxIC9LaWRzIFsgMyAwIFIgXSAvVHlwZSAvUGFnZXMKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0ZpbHRlciBbIC9BU0NJSTg1RGVjb2RlIC9GbGF0ZURlY29kZSBdIC9MZW5ndGggMjgzNQo+PgpzdHJlYW0KR2FyVz02J0NaOSU+RiFGLlRoNigjYHRGTmw9SDJfbUxIZ2tkSHJtNixoaWgyIUN1UVo/LkM1PyQnJTRsbjhGZ2AqLk1dJXM4ITVhbiVaYHNyZktPaWlSYFFHLlNnQWNyWWJfMW9tKGxZaHJpPF5ATmBmaCU0VDpuPlBSWyVfblNCYklWSzNoaV0tbk1fWHQzOz4sXnNfWXVEY1dbJi5wUV4tNzVtbCpcbFVpRUovIUJOXGlQcm04XnBbdDtRcFJfZFY9TlxYRC9KNmQ4PUk9OE90XE1FOSU5XEQyXy9ROSlPIUxbdD5uZGgvJEFiJyVQRGpfImhqaVU3YiNOcHRdYlZbWm8lMlE/PmtsPUdnY1tnOj1tU0dlUGltLC9cRFVCXmdxX1AwcC11MSJUNDhNNEdKNnImRj0scFU0bF1uNUg6cDVDVXJoNVs+P0BNNSVVUitqSGpWc0JcWz5SdHUyST5uaGU+KSVWZj5wUDlFPk5UYjNmI2ouITFvbmc9MEB0WzpvZ1JKUyQsJDloUU5QUXInUlktXiUwYCk4JEFSbCFQU0N1MC1AbipmI3BROlVMKkc0azNNPUpnVkI1Slk7OU5ta043LlQlXF10MD9kRXRMXGpbOmxtKkdJYFRyXFFKSUomLnQhUFMla1k4azdIZWdqN29UTyVaNHInTitaXiY2SSk3a15XRGkoRzhGQzdUWmBoIS5nMT4nSGRHSjQ7Ji9bLTZnQy9PJEdiKWBqSSdMLChvWnJKYHEhYkQ5ZyEuM2RYSWMiUTEvVGlSQiIzK1lWO1JZVERIbHRZYClEKTw6ZClaTDtSTlFaMDsrKkcsMi1oaDdYbCYpJFIhUzQ7MyYjYDE2NCxgb0tnaihIYXIkMmEmcCIrPDVlPGg/Ik9tR0tgVWc6RD1EIylcbWRSMElNTVtKcVBiIUwwKT4icEwsUFQ+MDFbQTJVOEZYcSlVRyMoLmA5V0BjSl04R24kSyEzTWk+QWIoO1NgIltMMiEzIVsqLkg0UWhOOjU7TDBaT0BTXmE5KztHTkYxRkRrWyg3MmVLY2w4ZG8zSyUxJiU3Y2heZDZJcVpyRU9YJSdnUjhDbkBga3JaMiEuPykyMTlXXUAyVzN0MU4xM0pQTk5ZMVtlbFBWazNca0RNNlciOEluKTBUWCo4Z01WM2ZCbkluJEJnUkwlKlhxRDVnVGhLbyEmNUtCKnNDTFNqVGUpL1pFSjhbY2dhbiY2QjJnTitEcSdQJGhPRGpdOydDXF9mRGFNMiZgQVtoVEtSQiFIUnQsR0pIa1onRl5jKkZvalM6LlxSbG9TXUkrKyFsIy8xdU5CJFdDPGhzQy9Oakk6Xj03X1tSSWMrbDhiXik/Yi8oWixYSzFcL2VeRFsqci9vP0c/OCI1ZiZiWmZkZy9EdFxRN28kJmklIkZMT09QMzVLUlFUU1ZBXicmZmlxMydvNl5tQC9qNkdFKk85PkhtVTA2dDg3SSoodCtqQGQ6VE89dG1uIkZTPl8tMC5dUF4nNDlJakJGYighZG9waD5FRWIoXic0PEpjYU5vM2lxWEFOPkApW2JuMURfakdlT0BWKD0wSDRoWkEwNW5oJEdPIVBaUEUvXWJFNnBmPzxXT2Awbz8vK0JbNERhaEFUcGY/SFs0bDZUb1g2M11MRGdoL1hecGJORmxNNEs9PjxVbCRIbjRdZ2FMP0swKCYxaFVbaidfcHEhKjReP2lAJktZVmksVmFrTjkiZiZVW0JCUFJaUidBQW5mWFUvZjxoVVtAZ1ZPK0NrQ2VcU1lvIVRtTDIwaUM+ZzcjaC5LWE40R0NCQF8oW2wna11sIitXMz44LF9aXVdES1Y6Iz1IU1tPLzQ5VHJsR2tSX1tNOEQsIlxaSEorYiZlcUNJWURlZkRZUElFRUNYVS9mPEJQWzFJLUVvQFE+OCxfWmxBS1FfXignbHJjYU5yNGs0cHByZ09PMzBePFE3ZF5wZVUnJUpkRktoWmVISW5uanQ6IjI8JU9EOTAwZWhoSE5Ka00oTipvNl9NSkQoaVUzSGw7YWNrS0NaLTReVVttJSImcmdaS0tFSFFUXFxGXkFSITZebUMwOkhiS285ZyUvZTliSjlJLDA3MURBSStlKyZqTkIzaiFkazFJTVdaTSo9JDBoVV4maVpjcTI0PmNeZk5YKjYsKXBMLyY1NUpZQltiX0kpWVtsaj1BI0lPS1dvQyFkcXVZKCQka3VeKWN1bGpQKWlUJVhibk9nUT9DWl4pZCNtY2FPIzZtZU0lZWdMIz1pbkVuPCtIYkxOcUcwZFdCaFtZI3FvJ04jZSNKVCRjbUR1YmBeL11ZMFwkWzs2QHUzdVFqNSRwJG5vUD8zZ2olOUdTZV5NKDpqbyklYyg2Oz83XzxJWFsnXzI5aiNTSCFtT2JgKik6PjFeY1EtYVhicjYoXl1EPjM+UUUrKHNbXVEza0NrIihcaFg9WDFtV1s/ZWhFIk1VSzReSXBLPDg1OEMzdDk5a2ozTlRaZXIwR1pNY0QsWkQyQDpDcURhQk5UJlA+cVdLNFFbVl1vQUZeJlZjZD1BJHEiOCQ5Q2Y3dDBcQTEsQSFpdFEzRCMxLTBNLkRULmJDZ1YjXz9fOUYmND5FVTpGZiJKQjQxUzZIZiklVj5tMXAmWitrRj8uXS4wIzpZYXNeIk1fcWxmMjpQZC9sdSM4OmVsUS47XTsqbUtGW0wmc1EqdUpqJC9aKzFtLG1cTnMuMUQlazF1P2s+UCg7KkRPTjtnTkFXO2lbOyE+SmE4TFVZODRPW0kpYCRrWHBtTCJIakhsKGY6VlFXJSJsOGBcaz4rTiZocSFtWWhlbW5jLV9HVEhJUClPVyZkQy90TVk5WjliSlE8cWhQVmdbWC5AIXBpZFBkSlgiREcjbUVFJj8/MjxVQ3BRSTZvaGxfLmFiS2NfXTQ3aEVHPSs3ZFdvNGg+am1zTVkhWkckXlMmcks6QClzRis/QjxRUHVUVDt0NVknKnRWJDhtYGBfMzIyQkRHP09sL0RrXzRqKiNVX0c+W0pYP2FVKCElKDJPJ2BbTyJHQ11RKClvUC1MWyIpNGoiPFBTNkBZYjk1PkdzL3FtamVwNCorQkRGWlo/WiVXaCJYSTBIXS4jXFNHZmopSCRjTD9VYllcSmFfai4zJGhPJ2AuLTVpO04rNyNZPj4uTGdWTmU/UWFITkgyJVhabTg8RFYmXCF0REFCTCdrQUxGQ2JramVkaSg0LzBtO2FsS1VtakpwZEVlYSNgaUEzS2QnWTFrQl9yY2Q6NylFQjFKO2tpWmVGP2c0KSFtZWsxRjAjKnRUazQ3OUtCOiRwbFQzWFhRSHVcdCZvJlxyWVhVNG4mVT5gV10qOVdWVWFVYUZcb1gyXVcoJEhcbjVJcEInTF5aMCRecVJOcjM5TDUwRTEtVUVYLydAblg2dEJgKWU6Z2JuU2NcJ1s8RUdhT1wsL2Q6Y01NMyxvazVeTm9ULFZGWS50K0chK3JuP0wtPVU5aS4mJk9mQD0vayIqdUI9PVwrMXFKKD9yZS08MTQlUS5JV1hbLjdoZWxOdVcqNi5ITWlOSk9PQ1Q/QShhMC40KDpFallUNzFEPFNxRT0wNkU7MC5eP0FJaC4wWi9JVVYob2wkci5PKUIiXi1iJiUnbmIiI0NGbjJeWV1ySjlyaExxJHFDaWc9MU51X19SbSNDKmI5bm4ybCdacSdmaE1gV203ZVZpdGtaVDpRMiNoRW06PV4uXzhQXz4kaWw3Nj5bJSRyclhZN2k2Mn4+ZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgOAowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwNjEgMDAwMDAgbiAKMDAwMDAwMDA5MiAwMDAwMCBuIAowMDAwMDAwMTk5IDAwMDAwIG4gCjAwMDAwMDAzOTIgMDAwMDAgbiAKMDAwMDAwMDQ2MCAwMDAwMCBuIAowMDAwMDAwNzQ2IDAwMDAwIG4gCjAwMDAwMDA4MDUgMDAwMDAgbiAKdHJhaWxlcgo8PAovSUQgCls8ODlhZmJhZmJmYjNjMTk1Mjk1ZTdhYWJkNzc2ODNhMjc+PDg5YWZiYWZiZmIzYzE5NTI5NWU3YWFiZDc3NjgzYTI3Pl0KJSBSZXBvcnRMYWIgZ2VuZXJhdGVkIFBERiBkb2N1bWVudCAtLSBkaWdlc3QgKG9wZW5zb3VyY2UpCgovSW5mbyA1IDAgUgovUm9vdCA0IDAgUgovU2l6ZSA4Cj4+CnN0YXJ0eHJlZgozNzMxCiUlRU9GCg=="
+      }
+    },
+    {
+      "referenceId": "00000000000000000000000000000005",
+      "level": 0,
+      "text": "Field Spares Kit",
+      "portionMarking": "U",
+      "figure": {
+        "name": "figure-5.pdf",
+        "type": "application/pdf",
+        "portionMarking": "U",
+        "data": "JVBERi0xLjMKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSCj4+CmVuZG9iagoyIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GMSAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjMgMCBvYmoKPDwKL0NvbnRlbnRzIDcgMCBSIC9NZWRpYUJveCBbIDAgMCA2MDAgNDIwIF0gL1BhcmVudCA2IDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago0IDAgb2JqCjw8Ci9QYWdlTW9kZSAvVXNlTm9uZSAvUGFnZXMgNiAwIFIgL1R5cGUgL0NhdGFsb2cKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL0F1dGhvciAoYW5vbnltb3VzKSAvQ3JlYXRpb25EYXRlIChEOjIwMjYxMTAxMTMxMjIyLTA4JzAwJykgL0NyZWF0b3IgKGFub255bW91cykgL0tleXdvcmRzICgpIC9Nb2REYXRlIChEOjIwMjYxMTAxMTMxMjIyLTA4JzAwJykgL1Byb2R1Y2VyIChSZXBvcnRMYWIgUERGIExpYnJhcnkgLSBcKG9wZW5zb3VyY2VcKSkgCiAgL1N1YmplY3QgKHVuc3BlY2lmaWVkKSAvVGl0bGUgKEZpY3Rpb25hbCB0cmFpbmluZyBpbGx1c3RyYXRpb24gNSkgL1RyYXBwZWQgL0ZhbHNlCj4+CmVuZG9iago2IDAgb2JqCjw8Ci9Db3VudCAxIC9LaWRzIFsgMyAwIFIgXSAvVHlwZSAvUGFnZXMKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0ZpbHRlciBbIC9BU0NJSTg1RGVjb2RlIC9GbGF0ZURlY29kZSBdIC9MZW5ndGggNTcwCj4+CnN0cmVhbQpHYXImPDNIPz8hJSpcTVNdTzRENSxcTkxVYilWdXA1Pl5gOlAoUUwmcW82SE5WNWJda2RxQ1JCKi8jXylbLS5Bb246JCMhOkJWclFyPDVrYkslaCloZ3FscUlKK3MmXyNdc1huKGEwXmpwQlNGTTpKZDhoX0dnOkRZZTUyYClBaXBiXktpU0oxIXNqKjwuX04nTydtIzdKTFxSRDxVJTtkTUA+Sk46X2RWRkQ3dGsubz0vTzElNmcqX2dUWWFwNktdcDBmUTlxTTtkUCptVjRtXnElc1E3UipWNjxuQXA6MD1pbS1NKEJzOjxVYThHM3RPSl1AcDFZO21ibVRgOTw7PDQlNj0pQWRDUmI6UVZTbUFIa0ctcnNVZm5RJyg2bm9YYmwpOzNfPz1CRTdoOVUzK2ZtMzhVOi4lcTBRPGJTRWciIVpFQjpKPSw3UFBqZGwib2MtazFTLFtRb2RpYGFhSGlRTCpUcjhdQ3MkPyJBcWlTNilvXyFXRExYPVpKcSoxY0g4Ky5oS0ZKdSpFNSxXRyhTbmlraWgxVlVbOSM1XGYmMTMtbXQ0OEBeOlFBJFY5ZD1LUnVmPk1sOV42JU06bUllajNBSDYxZ0RoZXBCcSNhR0tfN1IrO0leKlQ6K2NPKWJ0aWZjXU9JTmhuX3MoIV5TXm1RLDVGXGlbYUFISF8hVTkuMykzOypEOCdua1guSik+TTRsXzhoT3JLOSR0RCMrbWU7JTZlV1YqZGkscEtPOE1iJUpnfj5lbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA4CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDA2MSAwMDAwMCBuIAowMDAwMDAwMDkyIDAwMDAwIG4gCjAwMDAwMDAxOTkgMDAwMDAgbiAKMDAwMDAwMDM5MiAwMDAwMCBuIAowMDAwMDAwNDYwIDAwMDAwIG4gCjAwMDAwMDA3NDYgMDAwMDAgbiAKMDAwMDAwMDgwNSAwMDAwMCBuIAp0cmFpbGVyCjw8Ci9JRCAKWzw5MWRmYzg2ZGU2N2I1N2RmZWJlZDlmNGQ1MDYzY2NjNj48OTFkZmM4NmRlNjdiNTdkZmViZWQ5ZjRkNTA2M2NjYzY+XQolIFJlcG9ydExhYiBnZW5lcmF0ZWQgUERGIGRvY3VtZW50IC0tIGRpZ2VzdCAob3BlbnNvdXJjZSkKCi9JbmZvIDUgMCBSCi9Sb290IDQgMCBSCi9TaXplIDgKPj4Kc3RhcnR4cmVmCjE0NjUKJSVFT0YK"
+      }
+    }
+  ],
+  "copyTos": [],
+  "distributions": [],
+  "timestamp": 1793567782929
+}

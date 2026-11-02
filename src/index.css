@@ -630,6 +630,7 @@
 /* SL-3 groups respond to the actual editing pane, including split preview. */
 .sl3-editor { container-type: inline-size; }
 .sl3-field-grid { display: grid; grid-template-columns: minmax(0, 1fr); align-items: end; gap: 16px; }
+.sl4-editor .sl3-field-grid { align-items: start; }
 .sl3-signatory-name-grid { display: grid; grid-template-columns: minmax(0, 1fr) 6rem; align-items: end; gap: 16px; }
 .sl3-signatory-name-grid > :last-child { grid-column: 1 / -1; }
 @container (min-width: 28rem) {

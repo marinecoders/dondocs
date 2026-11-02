@@ -67,10 +67,10 @@ describe('ReadinessMeter — driven by the single completeness rule', () => {
     renderMeter();
     expect(screen.getByText('Compliant mode')).toBeTruthy();
   });
-  it('shows the SL-3 preview label for components lists', () => {
-    useDocumentStore.setState({ docType: 'sl3' });
+  it.each(['sl3', 'sl4'])('shows the %s preview label for stock lists', (docType) => {
+    useDocumentStore.setState({ docType });
     renderMeter();
-    expect(screen.getByText('SL-3 preview')).toBeInTheDocument();
+    expect(screen.getByText(`${docType === 'sl4' ? 'SL-4' : 'SL-3'} preview`)).toBeInTheDocument();
     expect(screen.queryByText('Compliant mode')).not.toBeInTheDocument();
   });
   it('routes generic form errors to sections and includes invalid optional answers', () => {

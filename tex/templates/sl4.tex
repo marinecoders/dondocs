@@ -1,0 +1,15 @@
+% Dedicated SL-4 body, with the common stock-list cover/authentication frame.
+\input{stock_publication}
+\renewcommand{\stockPCNFont}{\fontsize{10}{12}\selectfont}
+\renewcommand{\dondocsAuthenticationOpening}{Marine Corps Components Repair Parts List, \ShortTitle, TAMCN \slFourTamcns\ is effective upon receipt.}
+\newcommand{\slFourLayout}[2]{%
+  \newgeometry{layoutwidth=#1,layoutheight=11in,left=#2,right=#2,top=1in,bottom=0.85in,headheight=16pt,headsep=12pt,footskip=0.35in}%
+  \paperwidth=#1\paperheight=11in\pdfpagewidth=#1\pdfpageheight=11in
+}
+\newsavebox{\slFourTableBox}
+\newcommand{\slFourCheckTable}[2]{%
+  \sbox{\slFourTableBox}{\begin{tabular}{#1}#2\end{tabular}}%
+  \ifdim\dimexpr\ht\slFourTableBox+\dp\slFourTableBox>\dimexpr\textheight-50pt\relax
+    \PackageError{SL-4}{Parts or index sheet exceeds one page}{Reduce rows per sheet or shorten the entry.}%
+  \fi
+}
