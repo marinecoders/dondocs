@@ -18,6 +18,16 @@ export function revealTemplates(): void | (() => void) {
   else if (ui.sidebarCollapsed) ui.toggleSidebar();
 }
 
+/** Reveal Settings on desktop or its workspace launcher on mobile. */
+export function revealSettingsNavigation(): void {
+  const ui = useUIStore.getState();
+  ui.setCommandPaletteOpen(false);
+  if (ui.isMobile) ui.setMobileDocsOpen(false);
+  else if (ui.sidebarCollapsed) ui.toggleSidebar();
+}
+
+const SETTINGS_TARGET = '[data-tour="settings"], [data-tour="workspace-menu"][aria-haspopup="dialog"]';
+
 /**
  * Steps for the guided product tour.
  *
@@ -71,13 +81,15 @@ export const TOUR_STEPS: TourStep[] = [
     body: 'Your draft autosaves in this browser; use Document actions to save a checkpoint, export a draft file, or create a password-protected share snapshot. A share link excludes attachments.',
   },
   {
-    target: '[data-tour="save"]',
+    target: SETTINGS_TARGET,
     title: 'Download workspace backup',
-    body: 'Choose Backup & restore in this menu or the sidebar to open Settings. Download your entire workspace or restore a backup there. On desktop Chrome or Edge, auto-backup can keep a file current after every save.',
+    action: revealSettingsNavigation,
+    body: 'Open Settings in the sidebar, or open the workspace and choose Settings on mobile. Scroll to Backup & restore to download your entire workspace or restore a backup. On desktop Chrome or Edge, auto-backup can keep a file current after every save.',
   },
   {
-    target: '[data-tour="workspace-menu"]',
+    target: SETTINGS_TARGET,
     title: 'Make it yours',
+    action: revealSettingsNavigation,
     body: 'Open Settings in the sidebar, or the Documents menu on mobile, for Light, Dark, Classic, spacing, preview preferences, and backups.',
   },
   {
