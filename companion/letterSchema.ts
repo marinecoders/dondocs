@@ -1,3 +1,4 @@
+import { manualFrontMatterInputSchema } from './manualFrontMatterInput';
 /**
  * The request shape, defined once.
  *
@@ -123,6 +124,7 @@ export const letterSchema = z.object({
     .describe('Defaults to today in the format the type prescribes: "8 Aug 26" for letters and memoranda, "August 8, 2026" for business and executive correspondence. Match that form if you supply one.'),
   originatorCode: z.string().optional(),
 
+  manualFrontMatter: manualFrontMatterInputSchema.optional(),
   publication: publicationSchema.optional(),
   attachments: z.array(attachmentSchema).max(32).optional().describe('Publication figure and enclosure files, referenced by ID.'),
   paragraphs: z.array(paragraph).optional(),

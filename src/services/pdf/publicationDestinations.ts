@@ -2,7 +2,7 @@ import { PDFArray, PDFHexString, PDFDict, PDFDocument, PDFName, PDFNumber, PDFSt
 
 /** SwiftLaTeX writes named destinations at page 1. Resolve publication anchors
  * from their page annotations before signing or appending enclosures. */
-export async function resolvePublicationDestinations(bytes: Uint8Array): Promise<Uint8Array> {
+export async function resolvePublicationDestinations(bytes: Uint8Array, manualFrontMatter = false): Promise<Uint8Array> {
   const pdf = await PDFDocument.load(bytes);
   const anchors = new Map<string, PDFArray>();
   for (const page of pdf.getPages()) {
@@ -12,7 +12,7 @@ export async function resolvePublicationDestinations(bytes: Uint8Array): Promise
       const annotation = annotations.lookup(i);
       if (!(annotation instanceof PDFDict)) continue;
       const name = annotation.lookup(PDFName.of('NM'));
-      if (!(name instanceof PDFString) || !/^(?:itype|sl3|sl4)\./.test(name.decodeText())) continue;
+      if (!(name instanceof PDFString) || !/^(?:itype|sl3|sl4|manual)\./.test(name.decodeText())) continue;
       const rect = annotation.lookup(PDFName.of('Rect'), PDFArray);
       const x = rect.lookup(0, PDFNumber).asNumber();
       const y = rect.lookup(3, PDFNumber).asNumber();
@@ -20,7 +20,8 @@ export async function resolvePublicationDestinations(bytes: Uint8Array): Promise
       annotations.remove(i);
     }
   }
-  if (!anchors.size) return bytes;
+  if (manualFrontMatter) pdf.catalog.set(PDFName.of('PageLabels'), pdf.context.obj({ Nums: [0, { S: 'D', P: PDFString.of('T-'), St: 1 }, pdf.getPageCount() - 1, { S: 'D', St: 1 }] }));
+  if (!anchors.size) return manualFrontMatter ? pdf.save() : bytes;
   let names = pdf.catalog.lookup(PDFName.of('Names'));
   if (!(names instanceof PDFDict)) {
     names = pdf.context.obj({});

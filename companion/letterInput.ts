@@ -16,6 +16,7 @@ import type * as z from 'zod';
 import type { letterSchema, paragraph } from './letterSchema';
 import type { Paragraph } from '../src/types/document';
 import { publicationFields, publicationParagraphs, publicationEnclosures } from './publicationInput';
+import { manualFrontMatterFields } from './manualFrontMatterInput';
 import { format } from 'date-fns';
 import { canonicalizeUnitAddress } from '../src/lib/unitAddress';
 import { DOC_TYPE_CONFIG } from '../src/types/document';
@@ -264,9 +265,10 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       showSubjectOnContinuation: true,
       classificationBasis: input.classification?.basis,
       ...publicationFields(input),
+      ...manualFrontMatterFields(input),
     },
 
-    paragraphs: isTechnicalPublication(input.docType) ? publicationParagraphs(input) :
+    paragraphs: input.docType === 'tm_ietm_front_matter' ? [] : isTechnicalPublication(input.docType) ? publicationParagraphs(input) :
       (input.paragraphs?.length ? input.paragraphs : [{ text: '', level: 0 }])
         .map((p) => ({ ...p, level: p.level ?? 0 })) as Paragraph[],
     endItems: input.publication?.endItems ?? [],
@@ -278,7 +280,7 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       title: r.title,
       ...(r.url ? { url: r.url } : {}),
     })),
-    enclosures: isTechnicalPublication(input.docType) ? publicationEnclosures(input) : (input.enclosures ?? []).map((e) => ({ title: e.title })),
+    enclosures: input.docType === 'tm_ietm_front_matter' ? [] : isTechnicalPublication(input.docType) ? publicationEnclosures(input) : (input.enclosures ?? []).map((e) => ({ title: e.title })),
     copyTos: (input.copyTo ?? []).map((text) => ({ text })),
     distributions: (input.distribution ?? []).map((text) => ({ text })),
   };

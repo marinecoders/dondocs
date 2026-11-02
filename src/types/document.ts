@@ -1,4 +1,5 @@
 import type { PublicationSection } from '@/data/techpub/sections';
+import type { ManualFrontMatter } from '@/data/techpub/manualFrontMatter';
 import type { Sl3Data } from '@/data/techpub/sl3';
 import type { Sl4Data } from '@/data/techpub/sl4';
 export type DocumentMode = 'compliant' | 'custom';
@@ -151,6 +152,7 @@ export interface Profile {
 }
 
 export interface DocumentData {
+  manualFrontMatter?: ManualFrontMatter;
   publicationSigningDate?: string;
   publicationClosedDates?: string;
   // Document type
@@ -619,6 +621,13 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
       authority: 'MCO 5215.17D / MIL-STD-38784C', ref: 'SL-4' },
     compliance: DEFAULT_COMPLIANCE,
   },
+  tm_ietm_front_matter: {
+    letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false,
+    signature: 'full', uiMode: 'memo', showSignatureRankTitle: true, topSpacing: '1in', pdfOnly: true,
+    regulations: { fontSize: '10pt', fontSizeOptions: ['10pt'], fontFamily: 'times', fontFamilyRequired: true,
+      authority: 'MCO 5215.17D / MIL-STD-38784C', ref: '§4.9.1' },
+    compliance: DEFAULT_COMPLIANCE,
+  },
   i_type: {
     letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false,
     signature: 'full', uiMode: 'memo', showSignatureRankTitle: true, topSpacing: '1in',
@@ -654,6 +663,7 @@ export const DOC_TYPE_LABELS: Record<string, string> = {
   standard_memorandum: 'Standard Memorandum (HqDON)',
   action_memorandum: 'Action Memorandum',
   information_memorandum: 'Information Memorandum',
+  tm_ietm_front_matter: 'TM/IETM Cover and Signature Pages',
   i_type: 'I-Type Instruction (MI/SI/TI/LI)',
   sl3: 'SL-3 Components List',
   sl4: 'SL-4 Repair Parts List',
@@ -686,6 +696,7 @@ export const DOC_TYPE_CHIP: Record<string, string> = {
   action_memorandum: 'MEMO',
   information_memorandum: 'MEMO',
   i_type: 'I-TYPE',
+  tm_ietm_front_matter: 'TM/IETM',
   sl3: 'SL-3',
   sl4: 'SL-4',
 };
@@ -721,6 +732,6 @@ export const DOC_TYPE_CATEGORIES: { category: string; types: string[] }[] = [
   },
   {
     category: 'Technical Publications',
-    types: ['i_type', 'sl3', 'sl4'],
+    types: ['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter'],
   },
 ];

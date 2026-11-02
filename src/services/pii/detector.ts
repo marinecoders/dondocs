@@ -236,6 +236,7 @@ function findEmails(text: string, field: string): PIIFinding[] {
 }
 
 interface DocumentStore {
+  docType?: string;
   formData: Record<string, unknown>;
   paragraphs: Array<{ text: string; header?: string }>;
   copyTos: Array<{ text: string }>;
@@ -295,6 +296,16 @@ export function detectPII(documentStore: DocumentStore): PIIDetectionResult {
     if (typeof value === 'string' && value.trim()) {
       findings.push(...findEmails(value, `Form: ${fieldName}`));
     }
+  }
+
+  if (documentStore.docType === 'tm_ietm_front_matter') {
+    const scan = (value: unknown, path: string) => {
+      if (typeof value === 'string') findings.push(...scanText(value, path));
+      else if (Array.isArray(value)) value.forEach((v, i) => scan(v, `${path} ${i + 1}`));
+      else if (value && typeof value === 'object') for (const [key, v] of Object.entries(value)) if (!['rowId', 'subtype', 'service', 'dfarClause'].includes(key)) scan(v, `${path}: ${key}`);
+    };
+    scan(documentStore.formData.manualFrontMatter, 'Manual front matter');
+    for (const key of ['shortTitle', 'nomenclature', 'supersedure', 'controllingOffice', 'cuiControlledBy', 'cuiCategory', 'cuiDissemination']) scan(documentStore.formData[key], key);
   }
 
   // Scan paragraphs (document body - highest risk area), including their headings.

@@ -18,6 +18,7 @@ import { spawnSync } from 'node:child_process';
 import { loadDefaults } from '../../companion/defaults';
 import type { CompanionDefaults } from '../../companion/letterInput';
 import { renderToFile } from '../../companion/renderToFile';
+import { manualRequest } from '../_helpers/manualPacket';
 import { companionPublication } from '../_helpers/companionPublication';
 import { companionSl3 } from '../_helpers/companionSl3';
 import { populatedSl4Input } from '../_helpers/populatedSl4';
@@ -59,7 +60,7 @@ describe('the advertised surface', () => {
     }
 
     const file = await renderToFile(
-      docType === 'i_type' ? companionPublication() : docType === 'sl3' ? companionSl3() : docType === 'sl4' ? await populatedSl4Input() : {
+      docType === 'tm_ietm_front_matter' ? manualRequest() : docType === 'i_type' ? companionPublication() : docType === 'sl3' ? companionSl3() : docType === 'sl4' ? await populatedSl4Input() : {
         docType,
         format: format as 'pdf' | 'docx',
         out: `${docType}.${format}`,

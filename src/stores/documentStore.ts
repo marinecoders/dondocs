@@ -1,3 +1,4 @@
+import { manualFrontMatterSchema } from '@/data/techpub/manualFrontMatter';
 import { sl4Schema } from '@/data/techpub/sl4';
 import { sl3Schema } from '@/data/techpub/sl3';
 import { parseFormInstance, type FormInstance } from '@/services/forms/model';
@@ -256,6 +257,8 @@ const DEFAULT_REFERENCES = EXAMPLE_REFERENCES;
 const DEFAULT_PARAGRAPHS = EXAMPLE_PARAGRAPHS;
 
 function publicationFont(docType: string, mode: DocumentMode, data: Partial<DocumentData>): Partial<DocumentData> {
+  if (data.manualFrontMatter !== undefined) data = { ...data, manualFrontMatter: manualFrontMatterSchema.parse(data.manualFrontMatter) };
+  if (docType === 'tm_ietm_front_matter') return { ...data, fontFamily: 'times', fontSize: '10pt', signatureType: 'digital' };
   if (data.sl3 !== undefined) data = { ...data, sl3: sl3Schema.parse(data.sl3) };
   if (data.sl4 !== undefined) data = { ...data, sl4: sl4Schema.parse(data.sl4) };
   return (['i_type', 'sl3', 'sl4'].includes(docType)) && mode === 'compliant'
@@ -312,6 +315,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
         documentMode: mode,
         formData: {
           ...state.formData,
+          ...(state.docType === 'tm_ietm_front_matter' ? { signatureType: 'digital' as const } : {}),
           fontSize: newFontSize,
           fontFamily: newFontFamily,
         },
@@ -345,6 +349,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
         formData: {
           ...state.formData,
           docType: type,
+          ...(type === 'tm_ietm_front_matter' ? { signatureType: 'digital' as const } : {}),
           fontSize: newFontSize,
           fontFamily: newFontFamily,
           date: convertedDate,
@@ -359,7 +364,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     }
     return {
       docType: type,
-      formData: { ...state.formData, docType: type },
+      formData: publicationFont(type, state.documentMode, { ...state.formData, docType: type }),
       references: reLetterReferences(
         state.references,
         referenceStartIndex(type, state.formData.startingReferenceLetter)
@@ -388,6 +393,11 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
           referenceStartIndex(state.docType, formData.startingReferenceLetter)
         ),
       };
+    }
+    if (state.docType === 'tm_ietm_front_matter') {
+      formData.fontFamily = 'times';
+      formData.fontSize = '10pt';
+      formData.signatureType = 'digital';
     }
     return { formData };
   }),

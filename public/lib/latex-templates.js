@@ -2709,6 +2709,7 @@ const LATEX_TEMPLATES = {
   \\end{minipage}}%
 }
 
+\\newcommand{\\dondocsCompactCover}{}
 \\newcommand{\\printDateAndTitle}{%
     % The cover's header is much taller than the other pages', and LaTeX sets
     % the text block below the header, so this page's block ends that much
@@ -2741,6 +2742,10 @@ const LATEX_TEMPLATES = {
     \\ifdim\\dimexpr\\ht\\dondocsCoverBody+\\dp\\dondocsCoverBody+\\ht\\dondocsCoverNotices+\\dp\\dondocsCoverNotices>\\dondocsCoverAvailable
       \\EndItemOverflowtrue
       \\dondocsBuildCoverBody
+    \\fi
+    \\ifdim\\dimexpr\\ht\\dondocsCoverBody+\\dp\\dondocsCoverBody+\\ht\\dondocsCoverNotices+\\dp\\dondocsCoverNotices>\\dondocsCoverAvailable
+      \\dondocsCompactCover
+      \\sbox{\\dondocsCoverNotices}{\\printCoverFooter}%
     \\fi
     \\ifdim\\dimexpr\\ht\\dondocsCoverBody+\\dp\\dondocsCoverBody+\\ht\\dondocsCoverNotices+\\dp\\dondocsCoverNotices>\\dondocsCoverAvailable
       \\PackageError{I-Type}{Cover content exceeds one page; shorten the title or notices}{Mandatory notices and PCN must remain on the cover.}
@@ -2782,14 +2787,21 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\dondocsAuthenticationFont}{\\fontsize{12}{12}\\selectfont}
 \\newcommand{\\dondocsAuthenticationOpening}{This \\PublicationTypeName\\ifNotEmpty{\\ShortTitle}{, \\ShortTitle,} is
               authenticated for Marine Corps use and is effective upon receipt.}
+\\newcommand{\\dondocsAuthenticationService}{}
+\\newcommand{\\dondocsAuthenticationContact}{For concerns/issues with the content/procedures contact Equipment
+              Specialist or designated Program Office representative\\ifNotEmpty{\\POCEmail}{, \\POCEmail}.}
+\\newcommand{\\dondocsAuthenticationExtra}{}
+\\newcommand{\\dondocsAuthenticationIssuer}{{\\centering\\MakeUppercase{\\UnitName}\\par
+    \\optionalLine{\\UnitLineTwo}%
+    \\optionalLine{\\UnitLineThree}%
+    \\optionalLine{\\UnitLineFour}\\par}%
+}
 \\newcommand{\\printAddressBlock}{%
     \\begingroup\\dondocsAuthenticationFont
     \\thispagestyle{authpage}%
     \\dondocsBookmark{0}{Authentication}{itype.authentication}
-    {\\centering\\MakeUppercase{\\UnitName}\\par
-    \\optionalLine{\\UnitLineTwo}%
-    \\optionalLine{\\UnitLineThree}%
-    \\optionalLine{\\UnitLineFour}\\par}%
+    \\dondocsAuthenticationService
+    \\dondocsAuthenticationIssuer
     \\par\\vspace{12pt}%
     {\\raggedleft\\DocumentDate\\par}
     \\par\\vspace{12pt}%
@@ -2833,8 +2845,8 @@ const LATEX_TEMPLATES = {
                         addressed by the KBA.
               \\end{enumerate}
 
-        \\item For concerns/issues with the content/procedures contact Equipment
-              Specialist or designated Program Office representative\\ifNotEmpty{\\POCEmail}{, \\POCEmail}.
+        \\item \\dondocsAuthenticationContact
+        \\dondocsAuthenticationExtra
 
         \\ifRecordingInstruction
             \\item GCSS-MC Recording. Ensure appropriate records are updated in
@@ -5676,6 +5688,10 @@ const LATEX_TEMPLATES = {
   'tex/templates/stock_publication.tex': `
 % Shared stock-list cover, authentication, navigation and illustration primitives.
 \\newcommand{\\stockPCNFont}{\\fontsize{12}{12}\\selectfont}
+\\newcommand{\\stockNoticeFont}{\\fontsize{10}{12}\\selectfont}
+\\newcommand{\\stockPreNotices}{}
+\\newcommand{\\stockPostNotices}{}
+\\newcommand{\\stockAuthenticationNumbering}{roman}
 % Cover and authentication are shared with I-Type; body and inventory differ.
 \\input{i_type}
 \\RecordingInstructionfalse
@@ -5753,16 +5769,17 @@ const LATEX_TEMPLATES = {
   \\ifClassificationEnabled\\addtolength{\\headheight}{20bp}\\fi}
 % A title page is unnumbered; PCN remains bold 12 point on that page only.
 \\let\\slThreeCoverFooter\\printCoverFooter
+\\patchcmd{\\slThreeCoverFooter}{\\ifNotEmpty{\\DistStatementFull}}{\\stockPreNotices\\ifNotEmpty{\\DistStatementFull}}{}{\\PackageError{Stock list}{Cannot place cover notices}{Check the shared cover footer.}}
 \\patchcmd{\\slThreeCoverFooter}{PCN \\PCN}{\\stockPCNFont\\bfseries PCN \\PCN}{}{\\PackageError{Stock list}{Cannot format cover PCN}{Check the shared cover footer.}}
 % Keep the complete cover body within Table II's nine-inch reproduction depth.
 % Growing the gap above the fixed PCN separator raises the notices, while
 % retaining the original seal, cover data and PCN positions.
-\\patchcmd{\\slThreeCoverFooter}{\\raggedleft\\ifNotEmpty{\\PCN}}{\\vspace{24bp}\\hrule height2.25bp\\relax\\vspace{2bp}\\raggedleft\\ifNotEmpty{\\PCN}}{}{\\PackageError{Stock list}{Cannot place cover separator}{Check the shared cover footer.}}
+\\patchcmd{\\slThreeCoverFooter}{\\raggedleft\\ifNotEmpty{\\PCN}}{\\stockPostNotices\\vspace{24bp}\\hrule height2.25bp\\relax\\vspace{2bp}\\raggedleft\\ifNotEmpty{\\PCN}}{}{\\PackageError{Stock list}{Cannot place cover separator}{Check the shared cover footer.}}
 \\patchcmd{\\slThreeCoverFooter}{Distribution Statement: \\CUIDistStatement}{Distribution/Dissemination Control: \\CUIDissemination}{}{\\PackageError{Stock list}{Cannot format CUI designation}{Check the shared cover footer.}}
 \\patchcmd{\\slThreeCoverFooter}{WARNING:}{\\textbf{WARNING:}}{}{\\PackageError{Stock list}{Cannot format export warning}{Check the shared cover footer.}}
 \\renewcommand{\\printCoverFooter}{\\begingroup
   \\renewcommand{\\thepage}{}%
-  \\renewcommand{\\footnotesize}{\\fontsize{10}{12}\\selectfont}%
+  \\renewcommand{\\footnotesize}{\\stockNoticeFont}%
   \\let\\slThreePCN\\PCN
   \\renewcommand{\\PCN}{{\\stockPCNFont\\slThreePCN}}%
   \\begin{minipage}[b]{\\textwidth}\\slThreeCoverFooter\\par\\vspace*{10bp}%
@@ -5778,8 +5795,9 @@ const LATEX_TEMPLATES = {
 % The four source columns measure 3083/2078/1882/2549 twips. Center their
 % full physical width for PDF, retaining the six unruled writing/data rows.
 \\newcommand{\\slThreeCoverBoxhead}{\\textbf{\\uline{NSN}} & \\textbf{\\uline{TAMCN}} & \\textbf{\\uline{ID}} & \\textbf{\\uline{MODEL}}}
+\\newcommand{\\stockEndItemRowStretch}{1.2}
 \\renewcommand{\\printEndItemTable}[1]{\\begingroup
-  \\renewcommand{\\arraystretch}{1.2}\\setlength{\\tabcolsep}{5.4bp}%
+  \\renewcommand{\\arraystretch}{\\stockEndItemRowStretch}\\setlength{\\tabcolsep}{5.4bp}%
   \\makebox[\\textwidth][c]{\\begin{tabular}{p{143.35bp}p{93.1bp}p{83.3bp}p{116.65bp}}
     \\slThreeCoverBoxhead\\tabularnewline
     #1\\tabularnewline
@@ -5802,7 +5820,7 @@ const LATEX_TEMPLATES = {
 \\let\\slThreeAuthentication\\printAddressBlock
 \\newcount\\slThreeAuthenticationStart
 \\renewcommand{\\printAddressBlock}{%
-  \\pagenumbering{roman}\\slThreeAuthenticationStart=\\value{page}%
+  \\pagenumbering{\\stockAuthenticationNumbering}\\slThreeAuthenticationStart=\\value{page}%
   \\slThreeAuthentication
   % The shared authentication macro ends with one mandatory page break.
   \\ifnum\\value{page}>\\numexpr\\slThreeAuthenticationStart+1\\relax
@@ -5942,6 +5960,116 @@ const LATEX_TEMPLATES = {
     \\PackageError{Stock list}{Inventory sheet exceeds one page}{Reduce the maximum inventory rows per sheet or shorten descriptions. Each inventory sheet must precede its illustrations.}%
   \\fi
 }
+`,
+  'tex/templates/tm_ietm_front_matter.tex': `
+\\input{stock_publication}
+% Keep width measurement out of MakeUppercase's expansion pass.
+\\DeclareRobustCommand{\\manualTextWord}[2]{\\slThreeDefinitionWord{#1}{#2}}
+\\patchcmd{\\slThreeCoverFooter}{\\printPOCLine}{POC: \\ManualCUIContact}{}{\\PackageError{TM/IETM}{Cannot format CUI contact}{Check the shared designation block.}}
+\\patchcmd{\\slThreeCoverFooter}{Controlled by: \\CUIControlledBy\\ifNotEmpty{\\ControllingOffice}{, \\ControllingOffice}}{Controlled by: United States Marine Corps\\\\ Controlled by: \\ManualControlOffice}{}{\\PackageError{TM/IETM}{Cannot format controlling organizations}{Check the shared designation block.}}
+\\newif\\ifManualCover\\ManualCovertrue
+\\let\\manualPrintCover\\printDateAndTitle
+\\renewcommand{\\printDateAndTitle}{\\manualPrintCover\\ManualCoverfalse}
+\\newcommand{\\manualBannerFont}{\\fontsize{14}{16}\\selectfont\\ifManualCover\\ifnum\\value{page}=1\\relax\\fontsize{24}{28}\\selectfont\\fi\\fi}
+\\newdimen\\manualBannerFooterOffset
+\\renewcommand{\\stockPCNFont}{\\fontsize{10}{12}\\selectfont}
+\\renewcommand{\\stockNoticeFont}{\\fontsize{8}{10}\\selectfont}
+\\renewcommand{\\stockPreNotices}{\\ManualPreNotices}
+\\renewcommand{\\stockPostNotices}{\\ManualPostNotices}
+\\renewcommand{\\stockAuthenticationNumbering}{arabic}
+\\patchcmd{\\slThreeCoverFooter}{\\stockPCNFont\\bfseries PCN \\PCN}{{\\fontsize{18}{21}\\selectfont\\bfseries\\CoverDate\\par}\\vspace{3bp}\\stockPCNFont\\bfseries PCN \\PCN}{}{\\PackageError{TM/IETM}{Cannot place cover date}{Check the shared cover footer.}}
+\\patchcmd{\\slThreeCoverFooter}{\\hrule height2.25bp}{\\hrule height1bp}{}{\\PackageError{TM/IETM}{Cannot format cover separator}{Check the shared cover footer.}}
+
+\\newsavebox{\\manualIdentificationBox}
+\\newcommand{\\manualIdentification}[2]{%
+  \\sbox{\\manualIdentificationBox}{#2}%
+  \\ifdim\\wd\\manualIdentificationBox>\\textwidth
+    \\PackageError{TM/IETM}{#1 exceeds cover width}{Check the assigned identifier against the supported cover format.}%
+  \\fi
+  \\usebox{\\manualIdentificationBox}%
+}
+\\renewcommand{\\dondocsCoverBannerLines}[1]{\\begingroup\\centering
+  {\\raggedleft\\fontsize{24}{28}\\selectfont\\bfseries\\manualIdentification{Publication number}{\\ShortTitle}\\par}
+  \\ifNotEmpty{\\ManualVolume}{{\\raggedleft\\fontsize{14}{17}\\selectfont\\bfseries\\manualIdentification{Volume identification}{\\ManualVolume}\\par}}
+  \\vspace{6bp}
+  {\\fontsize{14}{17}\\selectfont\\bfseries U.S. MARINE CORPS \\ManualCoverHeading\\par}
+  \\vspace{4bp}\\hrule height1bp\\relax\\vspace{10bp}
+  \\ifNotEmpty{\\ManualCoverKind}{{\\fontsize{14}{17}\\selectfont\\bfseries\\ManualCoverKind\\par}}
+  \\ifNotEmpty{\\SubjectLine}{%
+    \\setbox\\dondocsTitleBox=\\vbox{\\hsize=\\textwidth\\centering\\fontsize{14}{17}\\selectfont\\bfseries
+      \\MakeUppercase{\\SubjectLine}\\par
+      \\ifnum\\prevgraf>4\\relax\\PackageError{TM/IETM}{Long title exceeds four lines}{Shorten the publication title.}\\fi}%
+    \\usebox{\\dondocsTitleBox}\\par}
+  \\ifNotEmpty{\\ManualMaintenance}{{\\fontsize{14}{17}\\selectfont\\bfseries\\MakeUppercase{\\ManualMaintenance}\\par}}
+\\endgroup}
+\\renewcommand{\\dondocsMeasureCoverHead}{%
+  \\slThreeMeasureCoverHead\\addtolength{\\headheight}{10bp}%
+  \\ifClassificationEnabled\\addtolength{\\headheight}{24bp}\\fi}
+\\newsavebox{\\manualBannerBox}
+\\renewcommand{\\placeClassificationMarkings}{%
+  \\ifClassificationEnabled
+    \\sbox{\\manualBannerBox}{{\\manualBannerFont\\bfseries\\slThreeControlMarking}}%
+    % Align both banner sizes with Table I's 36bp footer margin.
+    \\manualBannerFooterOffset=48.5bp
+    \\ifManualCover\\ifnum\\value{page}=1\\relax\\manualBannerFooterOffset=57.6bp\\fi\\fi
+    \\ifdim\\wd\\manualBannerBox>\\dimexpr\\paperwidth-72bp\\relax
+      \\PackageError{TM/IETM}{Control banner exceeds page width}{Shorten or correct the dissemination controls.}%
+    \\fi
+    \\begin{textblock*}{\\paperwidth}(0in,0.5in)\\centering{\\manualBannerFont\\bfseries\\slThreeControlMarking}\\end{textblock*}%
+    \\begin{textblock*}{\\paperwidth}(0in,\\dimexpr\\paperheight-\\manualBannerFooterOffset\\relax)\\centering{\\manualBannerFont\\bfseries\\slThreeControlMarking}\\end{textblock*}%
+  \\fi}
+\\renewcommand{\\dondocsRunningTitle}{%
+  \\begin{textblock*}{\\textwidth}(\\slThreeLeft,\\slThreeHeaderTop)\\raggedleft\\fontsize{10}{12}\\selectfont\\bfseries
+    \\ShortTitle\\par\\ifNotEmpty{\\ManualVolume}{\\ManualVolume\\par}\\end{textblock*}}
+\\renewcommand{\\dondocsNomenclatureFont}{\\fontsize{18}{21}\\selectfont\\bfseries}
+\\renewcommand{\\dondocsBuildCoverBody}{%
+  \\sbox{\\dondocsCoverBody}{\\begin{minipage}{\\textwidth}\\centering
+    \\setbox\\dondocsNomenclatureBox=\\vbox{\\hsize=\\textwidth\\centering\\dondocsNomenclatureFont
+      \\MakeUppercase{\\Nomenclature}\\par
+      \\ifnum\\prevgraf>2\\relax\\PackageError{TM/IETM}{Nomenclature exceeds two lines}{Shorten the equipment prime title.}\\fi}%
+    \\usebox{\\dondocsNomenclatureBox}\\par
+    \\ifNotEmpty{\\ManualSubtitle}{{\\fontsize{14}{17}\\selectfont\\bfseries\\MakeUppercase{\\ManualSubtitle}\\par}}
+    \\vspace{12bp}\\includegraphics[width=2in,height=2in,keepaspectratio]{attachments/usmc-seal.png}\\par\\vspace{12bp}
+    {\\fontsize{10}{12}\\selectfont
+      \\ifEndItemOverflow
+        \\printEndItemTable{\\multicolumn{4}{c}{\\dondocsReferenceLink{manual.items}{See Next Page}}}%
+      \\else\\printEndItemTable{\\EndItemRows}\\fi}
+  \\end{minipage}}}
+% MIL-STD-38784C 4.9.1.12/13 permit these notices on T-2 when needed.
+\\newif\\ifManualDeferredNotices\\ManualDeferredNoticesfalse
+\\newcommand{\\ManualContinuationNotices}{}
+\\renewcommand{\\dondocsCompactCover}{%
+  \\ifNotEmpty{\\ITypeDestructionNotice}{\\ManualDeferredNoticestrue}%
+  \\ifNotEmpty{\\ManualPostNotices}{\\ManualDeferredNoticestrue}%
+  \\ifManualDeferredNotices
+    \\let\\manualDeferredDestruction\\ITypeDestructionNotice
+    \\renewcommand{\\ManualContinuationNotices}{%
+      \\ifNotEmpty{\\manualDeferredDestruction}{\\noindent\\manualDeferredDestruction\\par\\vspace{6bp}}%
+      \\ManualPostNotices}%
+    \\renewcommand{\\stockPostNotices}{%
+      \\noindent\\ifNotEmptyElse{\\manualDeferredDestruction}{Destruction notice\\ifNotEmpty{\\ManualPostNotices}{ and copyright/government-rights statements}}{Copyright and government-rights statements}: \\dondocsReferenceLink{manual.items}{see T-2}.\\par
+      \\vspace{6bp}}%
+    \\def\\ITypeDestructionNotice{}%
+  \\fi}
+\\newsavebox{\\manualContinuationNoticesBox}
+\\newsavebox{\\manualItemsBox}
+\\renewcommand{\\printEndItemOverflowTable}{%
+  \\renewcommand{\\thepage}{T-\\arabic{page}}%
+  \\dondocsBookmark{0}{END-ITEM CONTINUATION}{manual.items}\\dondocsReferenceAnchor{manual.items}%
+  \\begingroup\\fontsize{10}{12}\\selectfont\\renewcommand{\\stockEndItemRowStretch}{1}%
+  \\sbox{\\manualItemsBox}{\\printEndItemTable{\\EndItemOverflowRows}}%
+  \\sbox{\\manualContinuationNoticesBox}{\\begin{minipage}{\\textwidth}\\stockNoticeFont\\ManualContinuationNotices\\end{minipage}}%
+  \\ifdim\\dimexpr\\ht\\manualItemsBox+\\dp\\manualItemsBox+\\ht\\manualContinuationNoticesBox+\\dp\\manualContinuationNoticesBox+12bp>\\dimexpr\\textheight-12pt\\relax
+    \\PackageError{TM/IETM}{End-item continuation exceeds one page}{Shorten wrapped equipment identifiers and models.}%
+  \\fi
+  \\noindent\\makebox[\\textwidth][c]{\\usebox{\\manualItemsBox}}\\par
+  \\ifManualDeferredNotices\\vspace{12bp}\\noindent\\usebox{\\manualContinuationNoticesBox}\\par\\fi
+  \\endgroup}
+\\renewcommand{\\dondocsAuthenticationIssuer}{{\\centering\\ManualIssuer\\par}}
+\\renewcommand{\\dondocsAuthenticationService}{{\\centering\\bfseries\\ManualService\\par}}
+\\renewcommand{\\dondocsAuthenticationOpening}{This \\ManualAuthenticationType, \\ManualNumberPrefix\\ShortTitle, is authenticated for Marine Corps use and is effective upon receipt.}
+\\renewcommand{\\dondocsAuthenticationContact}{For concerns/issues with the content/procedures contact Equipment Specialist or designated Program Office representative \\ManualContentContact.}
+\\renewcommand{\\dondocsAuthenticationExtra}{\\ifNotEmpty{\\ManualContractClause}{\\item DFAR \\ManualContractClause\\ was incorporated into the acquisition contract; therefore, a separate copyright release letter is not required for this publication.}}
 `,
 };
 

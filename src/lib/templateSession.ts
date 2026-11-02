@@ -10,6 +10,7 @@ export function templateSession(template: LetterTemplate, profile: Partial<Docum
     documentMode: 'compliant', documentCategory: 'correspondence', docType: template.docType, formType: 'navmc_10274',
     formData: { fontSize: '12pt', fontFamily: 'times', pageNumbering: 'none', ...profile, docType: template.docType,
       ...(template.publicationType ? { publicationType: template.publicationType } : {}),
+      ...(template.manualFrontMatter ? { manualFrontMatter: structuredClone(template.manualFrontMatter), signatureType: 'digital' as const, fontSize: '10pt' } : {}),
       ...(template.docType === 'sl4' ? { sl4: emptySl4(), signatureType: 'digital' as const, fontSize: '10pt' } : {}),
       ...(template.docType === 'sl3' ? { sl3: emptySl3(), signatureType: 'digital' as const, fontSize: '10pt' } : {}),
       subject: template.subject, ...(template.ssic ? { ssic: template.ssic } : {}) },

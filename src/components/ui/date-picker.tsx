@@ -90,6 +90,7 @@ interface DatePickerProps {
   dateFormat?: DateFormatType
   calendarLabel?: string
   'aria-describedby'?: string
+  'aria-invalid'?: boolean
 }
 
 export function DatePicker({
@@ -101,6 +102,7 @@ export function DatePicker({
   dateFormat = 'military',
   calendarLabel = 'Open calendar',
   'aria-describedby': describedBy,
+  'aria-invalid': invalid,
 }: DatePickerProps) {
   // Use format-appropriate placeholder if not provided
   const displayPlaceholder = placeholder || getPlaceholder(dateFormat)
@@ -169,6 +171,7 @@ export function DatePicker({
         <Input
           id={id}
           aria-describedby={describedBy}
+          aria-invalid={invalid}
           value={inputValue}
           onChange={handleInputChange}
           onBlur={handleInputBlur}

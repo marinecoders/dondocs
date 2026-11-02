@@ -44,6 +44,13 @@ export function getEditorSections(config: DocTypeConfig, docType: string): Edito
     { id: 'sl4-revisions', label: 'Record of changes', icon: ClipboardList }, signature,
   ];
 
+  if (docType === 'tm_ietm_front_matter') return [
+    { id: 'manual-publication', label: 'Publication', icon: BookMarked },
+    { id: 'manual-items', label: 'End items', icon: Table },
+    { id: 'manual-notices', label: 'Markings and notices', icon: Shield },
+    { id: 'manual-authentication', label: 'Authentication', icon: PenLine },
+  ];
+
   if (docType === 'i_type') return [{ id: 'cover', label: 'Cover', icon: BookMarked }, classification, body, { id: 'tables', label: 'Tables', icon: Table }, enclosures, signature];
 
   switch (config.uiMode) {

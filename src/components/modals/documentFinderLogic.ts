@@ -38,6 +38,7 @@ export const QUESTIONS: Record<string, Question> = {
       { label: 'A record of a counseling, event, or decision for the file', value: 'record', help: 'No one receives it — it just goes in the file.' },
       { label: 'An equipment components inventory (SL-3)', value: 'components', help: 'Components, accessories, illustrations and inventory sheets for an end item.' },
       { label: 'An equipment repair parts list (SL-4)', value: 'repair_parts', help: 'Parts in breakdown order with illustrations and ordering cross-references.' },
+      { label: 'Technical manual cover and authentication pages (TM / IETM)', value: 'manual', help: 'Front matter for a technical manual or related publication.' },
       { label: 'A technical publication directing work on fielded equipment', value: 'techpub', help: 'A Modification, Supply, Technical, or Lubrication Instruction (MI/SI/TI/LI), issued under a PCN.' },
     ],
   },
@@ -213,6 +214,10 @@ export function getRecommendations(answers: Record<string, string>): FinderResul
   }
   if (category === 'repair_parts') {
     add('sl4', 'high', 'Per MCO 5215.17D: use an SL-4 for repair parts when the maintenance manual does not already include the list.');
+    return top3();
+  }
+  if (category === 'manual') {
+    add('tm_ietm_front_matter', 'high', 'Per MCO 5215.17D: prepare cover and authentication pages for a technical manual or related publication.');
     return top3();
   }
   if (category === 'techpub') {

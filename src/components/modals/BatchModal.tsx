@@ -1,5 +1,6 @@
+import { MANUAL_DOC_TYPE } from '@/data/techpub/manualFrontMatter';
 import { DOC_TYPE_LABELS, formTypeLabel } from '@/types/document';
-import { iTypeExportErrors } from '@/lib/iTypePreflight';
+import { publicationExportErrors } from '@/lib/publicationPreflight';
 import { loadFigureFiles } from '@/services/latex/figureAssets';
 import { loadAttachment } from '@/lib/attachments';
 import { prepareBatchCorrespondence } from '@/lib/batchDocument';
@@ -344,6 +345,11 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
       if (formData.subject) allText.push(formData.subject);
       if (formData.serial) allText.push(formData.serial);
 
+      if ((source ?? getSerializedSession()).docType === MANUAL_DOC_TYPE) {
+        for (const [key, value] of Object.entries(formData)) if (typeof value === 'string' && !['to', 'from', 'via', 'subject', 'serial'].includes(key)) allText.push(value);
+        if (formData.manualFrontMatter) allText.push(JSON.stringify(formData.manualFrontMatter));
+      }
+
       // Paragraphs
       paragraphs.forEach((p) => allText.push(p.text));
 
@@ -437,7 +443,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
     // Correspondence mode: use LaTeX compilation, retrying on ENGINE_RESET_NEEDED
     const modifiedStore = await createModifiedStore(values);
-    const errors = iTypeExportErrors(modifiedStore);
+    const errors = publicationExportErrors(modifiedStore);
     if (errors.length) throw new Error(errors.join('\n'));
     const generated = generateAllLatexFiles(modifiedStore);
     const files: Record<string, string | Uint8Array> = { ...generated.texFiles };

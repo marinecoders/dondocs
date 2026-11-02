@@ -10,6 +10,11 @@ export interface DocumentTypeGuide {
 }
 
 export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
+  { id: 'tm_ietm_front_matter', name: 'TM / IETM Cover and Signature Pages', category: 'Technical Publications',
+    summary: 'Publication covers and authentication pages for technical manuals and related publications.',
+    whenToUse: ['Prepare the front matter for a TM, IETM, user manual, supplement, COTS manual, QRG or RPSTL'],
+    keyFeatures: ['Eight publication types', 'End-item continuation page', 'Publication notices', 'Digital authentication'],
+    commonExamples: ['Equipment technical manual cover', 'IETM authentication pages'], reference: 'MCO 5215.17D / MIL-STD-38784C; supplied TM/IETM template' },
   { id: 'sl4', name: 'SL-4 Repair Parts List', category: 'Technical Publications',
     summary: 'Repair parts in top-down order with illustrations and generated cross-references.',
     whenToUse: ['When the maintenance manual does not already include the repair parts list'],

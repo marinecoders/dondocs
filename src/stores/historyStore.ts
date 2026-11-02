@@ -58,7 +58,7 @@ function cloneSnapshot(snapshot: DocumentSnapshot): DocumentSnapshot {
     formType: snapshot.formType,
     forms: snapshot.forms ? structuredClone(snapshot.forms) : undefined,
     docType: snapshot.docType,
-    formData: { ...snapshot.formData, ...(snapshot.formData.sl4 ? { sl4: structuredClone(snapshot.formData.sl4) } : {}), ...(snapshot.formData.sl3 ? { sl3: structuredClone(snapshot.formData.sl3) } : {}) },
+    formData: { ...snapshot.formData, ...(snapshot.formData.manualFrontMatter ? { manualFrontMatter: structuredClone(snapshot.formData.manualFrontMatter) } : {}), ...(snapshot.formData.sl4 ? { sl4: structuredClone(snapshot.formData.sl4) } : {}), ...(snapshot.formData.sl3 ? { sl3: structuredClone(snapshot.formData.sl3) } : {}) },
     references: snapshot.references.map(r => ({ ...r })),
     // Immutable file buffers can be shared by reference across undo states.
     enclosures: snapshot.enclosures.map(e => ({ ...e })),

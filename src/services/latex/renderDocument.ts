@@ -133,8 +133,8 @@ async function runCompile(
   }
 
   if (result.status === 0 && result.pdf) {
-    return typeof files['document.tex'] === 'string' && /\\setDocumentType\{(?:i_type|sl3|sl4)\}/.test(files['document.tex'])
-      ? resolvePublicationDestinations(result.pdf) : result.pdf;
+    return typeof files['document.tex'] === 'string' && /\\setDocumentType\{(?:i_type|sl3|sl4|tm_ietm_front_matter)\}/.test(files['document.tex'])
+      ? resolvePublicationDestinations(result.pdf, files['document.tex'].includes('\\setDocumentType{tm_ietm_front_matter}')) : result.pdf;
   }
   throw new LatexCompileError(result.status, result.log ?? '');
 }

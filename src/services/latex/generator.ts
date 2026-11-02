@@ -1,4 +1,7 @@
 import { generateSl4Body } from './sl4Generator';
+import { stockDefinitionText } from './stockPublicationHelpers';
+import { generateManualFrontMatterData, manualPlainText } from './manualFrontMatterGenerator';
+import { emptyManualFrontMatter } from '@/data/techpub/manualFrontMatter';
 import { sl4Portions } from '@/data/techpub/sl4';
 import { sl3Portions } from '@/data/techpub/sl3';
 import { generateSl3Body } from './sl3Generator';
@@ -126,7 +129,7 @@ ${(() => {
   const docDate = isMOAMode ? data.seniorDate : data.date;
   // A publication prints its date in full ("30 April 2025"); a letter as stored.
   const printedDate = isTechnicalPublication(store.docType) ? formatPublicationDate(docDate || '') : docDate;
-  const publicationDate = ['sl3', 'sl4'].includes(store.docType) ? printedDate?.toUpperCase() : printedDate;
+  const publicationDate = ['sl3', 'sl4', 'tm_ietm_front_matter'].includes(store.docType) ? printedDate?.toUpperCase() : printedDate;
 
   // For business letters and executive correspondence, set BusinessDate,
   // BusinessRecipientAddress, etc. Both use the same template address/salutation pattern.
@@ -291,15 +294,16 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
   // seventh item moves the whole list to the back of the cover page.
   if (isTechnicalPublication(store.docType)) {
     const items = store.endItems ?? [];
+    const endItemText = store.docType === 'tm_ietm_front_matter' ? stockDefinitionText : escapeLatex;
     const overflow = items.length > END_ITEM_ROWS;
     const shown = overflow ? [] : items.slice(0, END_ITEM_ROWS);
     // SL-3 reserves six borderless source rows; the existing I-Type keeps its rules.
     const rows = Array.from({ length: END_ITEM_ROWS }, (_, i) => {
       const item = shown[i];
       return item
-        ? [item.nsn, item.tamcn, item.id, item.model].map((v) => escapeLatex(v || '')).join(' & ')
+        ? [item.nsn, item.tamcn, item.id, item.model].map((v) => endItemText(v || '')).join(' & ')
         : ' & & & ';
-    }).join(['sl3', 'sl4'].includes(store.docType) ? ' \\\\ ' : ' \\\\ \\hline ');
+    }).join(['sl3', 'sl4', 'tm_ietm_front_matter'].includes(store.docType) ? ' \\\\ ' : ' \\\\ \\hline ');
     if (store.docType === 'sl4') tex += `\\def\\slFourTamcns{${[...new Set(items.map((item) => item.tamcn).filter(Boolean))].map(escapeLatex).join(', ')}}\n`;
     tex += `\\setNomenclature{${escapeLatex(data.nomenclature || '')}}\n`;
     tex += `\\setEndItemRows{${rows}}\n`;
@@ -309,11 +313,11 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     // document uses. Derived from the same date so the two cannot disagree.
     const signed = parseDate(data.date || '', 'd MMM yy', new Date());
     const coverDate = isValidDate(signed) ? formatDate(signed, 'MMMM yyyy').toUpperCase() : '';
-    tex += `\\setCoverDate{${escapeLatex(['sl3', 'sl4'].includes(store.docType) ? formatPublicationDate(data.date || '').toUpperCase() : coverDate)}}\n`;
+    tex += `\\setCoverDate{${escapeLatex(['sl3', 'sl4', 'tm_ietm_front_matter'].includes(store.docType) ? formatPublicationDate(data.date || '').toUpperCase() : coverDate)}}\n`;
     tex += `\\setShortTitle{${escapeLatex(data.shortTitle || '')}}\n`;
     tex += `\\setPCN{${escapeLatex(data.pcn || '')}}\n`;
     tex += `\\setSupersedure{${escapeLatex(data.supersedure || '')}}\n`;
-    tex += `\\setTimeCompliance{${escapeLatex((['sl3', 'sl4'].includes(store.docType) ? '' : ((data.publicationType ?? 'MI') === 'MI' ? data.miUrgency || 'normal' : 'normal')).toUpperCase())}}\n`;
+    tex += `\\setTimeCompliance{${escapeLatex((['sl3', 'sl4', 'tm_ietm_front_matter'].includes(store.docType) ? '' : ((data.publicationType ?? 'MI') === 'MI' ? data.miUrgency || 'normal' : 'normal')).toUpperCase())}}\n`;
     // The type names itself on the cover and the authentication page; only a
     // modification asks the unit to record its completion.
     tex += `\\setPublicationTypeName{${escapeLatex(store.docType === 'sl4' ? 'Components Stock List SL-4' : store.docType === 'sl3' ? 'Components Stock List SL-3' : publicationTypeName(data.publicationType))}}\n`;
@@ -329,7 +333,7 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     tex += `\\setControllingOffice{${escapeLatex(data.controllingOffice || '')}}\n`;
     tex += data.exportRestricted ? '\\ExportRestrictedtrue\n' : '\\ExportRestrictedfalse\n';
     const destruction = iTypeDestructionNotice(data, store.paragraphs);
-    const noticeText = (value: string, label: string) => ['sl3', 'sl4'].includes(store.docType) && value.startsWith(label)
+    const noticeText = (value: string, label: string) => ['sl3', 'sl4', 'tm_ietm_front_matter'].includes(store.docType) && value.startsWith(label)
       ? `\\textbf{\\uline{${escapeLatex(label)}}}${escapeLatex(value.slice(label.length))}`
       : escapeLatex(value);
     tex += `\\def\\ITypeDestructionNotice{${noticeText(destruction, 'DESTRUCTION NOTICE:')}}\n`;
@@ -347,13 +351,14 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     {
       const all = items
         .map((item) =>
-          [item.nsn, item.tamcn, item.id, item.model].map((v) => escapeLatex(v || '')).join(' & ')
+          [item.nsn, item.tamcn, item.id, item.model].map((v) => endItemText(v || '')).join(' & ')
         )
         .join(' \\\\ ');
       tex += `\\setEndItemOverflowRows{${all}}\n`;
     }
   }
 
+  if (store.docType === 'tm_ietm_front_matter') tex += generateManualFrontMatterData(data);
   return tex;
 }
 
@@ -407,6 +412,7 @@ function capitalizeWord(word: string | undefined): string {
 
 export function generateSignatoryTex(store: DocumentStore): string {
   const data = store.formData;
+  const signatureText = (value?: string) => store.docType === 'tm_ietm_front_matter' ? manualPlainText(value ?? '') : escapeLatex(value);
   const config = DOC_TYPE_CONFIG[store.docType] || DOC_TYPE_CONFIG.naval_letter;
 
   // Check if this is a dual-signature document (MOA/MOU)
@@ -494,10 +500,10 @@ export function generateSignatoryTex(store: DocumentStore): string {
     {${escapeLatex(middleName)}}
     {${escapeLatex(lastName)}}
     {${escapeLatex(data.sigRank)}}
-    {${escapeLatex(data.sigTitle)}}
+    {${signatureText(data.sigTitle)}}
 
-\\setSignatoryName{${escapeLatex(fullName)}}
-\\setSignatoryAbbrev{${escapeLatex(abbrevName)}}
+\\setSignatoryName{${signatureText(fullName)}}
+\\setSignatoryAbbrev{${signatureText(abbrevName)}}
 
 ${byDirectionTex}
 
@@ -971,6 +977,7 @@ ${body}\\par
 }
 
 export function generateBodyTex(store: DocumentStore): string {
+  if (store.docType === 'tm_ietm_front_matter') return '';
   if (store.docType === 'sl4') return generateSl4Body(store);
   if (store.docType === 'sl3') return generateSl3Body(store);
   if (store.docType === 'i_type' && (store.formData.publicationType ?? 'MI') === 'MI') {
@@ -1311,6 +1318,10 @@ export interface GeneratedFiles {
 }
 
 export function generateAllLatexFiles(store: DocumentStore): GeneratedFiles {
+  if (store.docType === 'tm_ietm_front_matter') store = {
+    ...store, endItems: (store.formData.manualFrontMatter ?? emptyManualFrontMatter()).endItems,
+    paragraphs: [], enclosures: [], references: [], copyTos: [], distributions: [],
+  };
   // A format switch retains correspondence data for switching back, but those
   // attachments and address lists are not part of an SL-4 publication.
   if (store.docType === 'sl4') store = { ...store, paragraphs: store.paragraphs.filter((paragraph) => paragraph.figure), enclosures: [], references: [], copyTos: [], distributions: [] };
