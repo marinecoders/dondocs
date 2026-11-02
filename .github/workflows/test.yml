@@ -378,6 +378,43 @@ jobs:
           path: sbom.cdx.json
           retention-days: 90
 
+  browser-flows:
+    name: browser flows (${{ matrix.group }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - group: chromium
+            browsers: chromium chrome msedge
+            projects: --project=chromium --project=chrome --project=msedge --project=mobile-chrome
+          - group: firefox
+            browsers: firefox
+            projects: --project=firefox
+          - group: webkit
+            browsers: webkit
+            projects: --project=webkit --project=mobile-safari --project=ipad-safari --project=mobile-chrome-ios
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps ${{ matrix.browsers }}
+      - run: npm run build
+      - name: verify install and downloads
+        run: npm run test:browser -- ${{ matrix.projects }}
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: browser-flows-${{ matrix.group }}-failure
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
+
   browser-upgrade:
     name: browser upgrade
     if: github.event_name == 'pull_request'

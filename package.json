@@ -1,7 +1,7 @@
 {
   "name": "dondocs",
   "private": true,
-  "version": "1.2.211",
+  "version": "1.2.212",
   "description": "Browser-based SECNAV M-5216.5 naval correspondence and forms generator.",
   "type": "module",
   "scripts": {
@@ -29,7 +29,10 @@
     "form-package": "vite-node --config vitest.config.ts scripts/form-package.mts",
     "form-coverage": "vite-node --config vitest.config.ts scripts/form-coverage.mts",
     "stamp-quality": "vite-node --config vitest.config.ts scripts/stamp-quality.mts",
-    "test:upgrade": "playwright test"
+    "test:upgrade": "playwright test",
+    "test:browser": "playwright test --config playwright.browser.config.ts",
+    "test:install": "npm run test:browser -- install.spec.ts",
+    "test:downloads": "npm run test:browser -- downloads.spec.ts"
   },
   "overrides": {
     "serialize-javascript": "^7.0.5",

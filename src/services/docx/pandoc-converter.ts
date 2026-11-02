@@ -58,6 +58,7 @@ type PandocLoaderEvent =
 // Singleton: lazily loaded pandoc module
 let pandocModule: PandocModule | null = null;
 let loadPromise: Promise<PandocModule> | null = null;
+let failedModuleLoads = 0;
 
 // Cached support files
 let referenceDocxBlob: Blob | null = null;
@@ -69,12 +70,20 @@ async function loadPandocModule(): Promise<PandocModule> {
   // build time — air-gap safe, no CDN). It lives in public/ and must NOT go
   // through Vite's transform pipeline.
   // We construct a full absolute URL so the browser loads it directly.
-  const moduleUrl = new URL(`${BASE_PATH}lib/pandoc/pandoc.js`, window.location.origin).href;
+  const moduleUrl = new URL(`${BASE_PATH}lib/pandoc/pandoc.js`, window.location.origin);
+  // Browsers cache a rejected module evaluation, including a failed top-level
+  // WASM fetch. A fresh URL lets an explicit retry evaluate the loader again.
+  if (failedModuleLoads) moduleUrl.searchParams.set('retry', String(failedModuleLoads));
   debug.log('DOCX', `Loading pandoc WASM module from ${moduleUrl}`);
   debug.time('DOCX:loadPandocModule');
-  const mod = await import(/* @vite-ignore */ moduleUrl);
-  debug.timeEnd('DOCX:loadPandocModule');
-  return mod as PandocModule;
+  try {
+    const mod = await import(/* @vite-ignore */ moduleUrl.href);
+    debug.timeEnd('DOCX:loadPandocModule');
+    return mod as PandocModule;
+  } catch (error) {
+    failedModuleLoads += 1;
+    throw error;
+  }
 }
 
 async function fetchSupportFile(filename: string): Promise<Blob> {
@@ -151,6 +160,12 @@ async function ensureLoaded(
         debug.timeEnd('DOCX:ensureLoaded');
         debug.log('DOCX', 'Pandoc WASM ready');
         return mod;
+      } catch (error) {
+        // A transient support-file failure must not poison every later export
+        // in this tab. Let Retry (or the first export after a failed idle
+        // prefetch) fetch the missing resources again.
+        loadPromise = null;
+        throw error;
       } finally {
         cleanup();
       }

@@ -44,49 +44,49 @@ function downloadViaDataUrl(blob: Blob, filename: string): Promise<boolean> {
 }
 
 /**
- * Open PDF via FileReader -> Data URL -> window.open
- * 
- * WHY: Chrome iOS doesn't support blob URL downloads, but CAN open
- * data URLs. User sees the PDF and can use share button to save.
- * 
- * Falls back to location.href if popup is blocked.
+ * Show a PDF in a prepared tab on iOS Chrome/Firefox. Top-level data URL
+ * navigation is blocked by modern browsers; embedding it in a document keeps
+ * the PDF preview available and gives the user an explicit file download link.
+ * If popups are blocked, fall back to a download without navigating the editor.
  */
-function openViaDataUrlInNewWindow(blob: Blob, filename: string): Promise<boolean> {
+function openViaDataUrlInNewWindow(blob: Blob, filename: string, prepared?: Window | null): Promise<boolean> {
   return new Promise((resolve) => {
     const reader = new FileReader();
-    reader.onloadend = function() {
-      const dataUrl = reader.result as string;
-      console.log('[downloadPdf] Data URL created, length:', dataUrl.length);
-      
-      // Try method 1: window.open
-      const newWindow = window.open(dataUrl, '_blank');
-      if (newWindow) {
-        console.log('[downloadPdf] window.open succeeded');
-        resolve(true);
+    reader.onload = function() {
+      const dataUrl = reader.result;
+      if (typeof dataUrl !== 'string') {
+        prepared?.close();
+        resolve(false);
         return;
       }
-      
-      console.log('[downloadPdf] window.open failed/blocked, trying anchor with data URL');
-      
-      // Try method 2: anchor tag with data URL
-      const a = document.createElement('a');
-      a.href = dataUrl;
-      a.download = filename;
-      a.target = '_blank';
-      a.rel = 'noopener';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      
-      // Try method 3: location.href as last resort
-      setTimeout(() => {
-        console.log('[downloadPdf] Trying location.href as final fallback');
-        window.location.href = dataUrl;
-      }, 500);
-      
-      resolve(true);
+      try {
+        const target = prepared && !prepared.closed ? prepared : window.open('', '_blank');
+        if (!target) {
+          void downloadViaDataUrl(new Blob([blob], { type: 'application/octet-stream' }), filename).then(resolve);
+          return;
+        }
+        target.opener = null;
+        const doc = target.document;
+        doc.title = filename;
+        doc.body.style.margin = '0';
+        const save = doc.createElement('a');
+        save.textContent = 'Download PDF';
+        save.download = filename;
+        save.href = dataUrl.replace('data:application/pdf;', 'data:application/octet-stream;');
+        save.style.cssText = 'display:block;padding:14px;font:16px system-ui';
+        const preview = doc.createElement('iframe');
+        preview.title = filename;
+        preview.src = dataUrl;
+        preview.style.cssText = 'display:block;width:100%;height:calc(100vh - 48px);border:0';
+        doc.body.replaceChildren(save, preview);
+        resolve(true);
+      } catch {
+        // The prepared tab may have navigated to another origin meanwhile.
+        resolve(false);
+      }
     };
     reader.onerror = function() {
+      prepared?.close();
       console.error('[downloadPdf] FileReader failed');
       resolve(false);
     };
@@ -121,18 +121,16 @@ function downloadViaBlobAnchor(blob: Blob, filename: string): void {
  * 
  * @param blob - The PDF blob to download
  * @param filename - The filename for the download (default: 'correspondence.pdf')
- * @param preOpenedWindow - Optional pre-opened window (legacy, no longer used)
+ * @param preOpenedWindow - iOS PDF tab opened synchronously from the user gesture
  */
 export async function downloadPdfBlob(
   blob: Blob,
   filename: string = 'correspondence.pdf',
   preOpenedWindow?: Window | null
 ): Promise<boolean> {
-  // Close any pre-opened window (legacy support)
-  if (preOpenedWindow) preOpenedWindow.close();
-  
   const device = getDeviceInfo();
   const strategy = getPdfDownloadStrategy(device);
+  if (strategy !== 'data-url-window') preOpenedWindow?.close();
   
   // Log for debugging
   console.log('[downloadPdf] UA:', device.userAgent);
@@ -177,7 +175,7 @@ export async function downloadPdfBlob(
       // Chrome iOS, Firefox iOS: Use FileReader + data URL + window.open
       console.log('[downloadPdf] Using data URL + window.open approach');
       const pdfBlob = new Blob([blob], { type: 'application/pdf' });
-      const success = await openViaDataUrlInNewWindow(pdfBlob, filename);
+      const success = await openViaDataUrlInNewWindow(pdfBlob, filename, preOpenedWindow);
       
       if (!success) {
         // Fallback to blob anchor (probably won't work but try anyway)
@@ -211,14 +209,20 @@ export async function downloadPdfBlob(
   }
 }
 
-/**
- * Pre-opens a window for iOS browsers to avoid popup blocker
- * 
- * DEPRECATED: No longer needed - all strategies now work without pre-opening.
- * Kept for backwards compatibility.
- */
+/** Open the iOS PDF tab during the click, before compilation uses activation. */
 export function preOpenWindowForIOS(): Window | null {
-  return null;
+  if (getPdfDownloadStrategy() !== 'data-url-window') return null;
+  try {
+    const target = window.open('', '_blank');
+    if (target) {
+      target.opener = null;
+      target.document.title = 'Preparing PDF';
+      target.document.body.textContent = 'Preparing your PDF…';
+    }
+    return target;
+  } catch {
+    return null;
+  }
 }
 
 // Re-export device utilities for convenience

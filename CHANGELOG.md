@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.212] — 2026-11-02
+
+### Fixed
+- Recover Word export retries and keep iOS PDF downloads usable.
+- Correct iOS Chrome install instructions and restore Help button focus.
+
+### Added
+- Browser tests for installation and PDF, Word, LaTeX, and draft downloads.
+
 ## [1.2.209] — 2026-11-01
 
 ### Fixed

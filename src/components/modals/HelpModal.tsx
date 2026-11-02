@@ -36,7 +36,12 @@ function HelpRow({ icon: Icon, label, description, onClick, href }: {
   </>;
   return href
     ? <a className={className} href={href} target="_blank" rel="noopener noreferrer" aria-label={`${label} (opens in a new tab)`} aria-describedby={description ? descriptionId : undefined}>{content}</a>
-    : <button type="button" className={className} onClick={onClick} aria-label={label} aria-describedby={description ? descriptionId : undefined}>{content}</button>;
+    : <button type="button" className={className} onClick={event => {
+      // Safari does not focus buttons on pointer activation. Capture the
+      // launcher before a tool opens so its dialog can restore focus here.
+      event.currentTarget.focus();
+      onClick?.();
+    }} aria-label={label} aria-describedby={description ? descriptionId : undefined}>{content}</button>;
 }
 
 export function HelpModal() {
