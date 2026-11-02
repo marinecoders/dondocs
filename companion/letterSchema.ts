@@ -124,7 +124,7 @@ export const letterSchema = z.object({
   originatorCode: z.string().optional(),
 
   publication: publicationSchema.optional(),
-  attachments: z.array(attachmentSchema).max(32).optional().describe('I-Type figure and enclosure files, referenced by ID.'),
+  attachments: z.array(attachmentSchema).max(32).optional().describe('Publication figure and enclosure files, referenced by ID.'),
   paragraphs: z.array(paragraph).optional(),
   references: z.array(z.object({
     letter: z.string().regex(/^[a-z]{1,2}$/).optional().describe('One or two lowercase letters. Assigned a, b … in order when omitted.'),

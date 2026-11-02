@@ -9,14 +9,14 @@
  * Transport-specific concerns stay out — the HTTP contract version belongs to
  * HTTP, and MCP gets argument types from its published schema.
  */
-import { iTypeExportErrors } from '../src/lib/iTypePreflight';
+import { publicationExportErrors, isTechnicalPublication } from '../src/lib/publicationPreflight';
 import { publicationInputErrors } from './publicationInput';
 import { TEMPLATE_FOR, toStore, type CompanionDefaults, type LetterInput } from './letterInput';
 import { DOC_TYPE_CONFIG } from '../src/types/document';
 
 export const DOC_TYPES = [...Object.keys(DOC_TYPE_CONFIG), ...Object.keys(TEMPLATE_FOR)];
 export const FORMATS = ['pdf', 'docx'];
-export const formatsFor = (docType: string): string[] => docType === 'i_type' ? ['pdf'] : FORMATS;
+export const formatsFor = (docType: string): string[] => isTechnicalPublication(docType) ? ['pdf'] : FORMATS;
 /** The levels the generator marks; anything else renders unmarked. */
 export const CLASSIFICATION_LEVELS = ['unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci'];
 /** Paragraph portion marks, placed in the .tex as given, so nothing else may pass. */
@@ -90,9 +90,10 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
     problems.push('nothing to render: supply at least a subject or one paragraph');
   }
 
-  if (body.docType === 'i_type') {
-    if (body.format === 'docx') problems.push('I-Type export supports PDF only.');
-    if (!body.publication) problems.push('I-Type export requires publication metadata.');
+  if (isTechnicalPublication(body.docType ?? '')) {
+    const label = body.docType === 'sl3' ? 'SL-3' : 'I-Type';
+    if (body.format === 'docx') problems.push(`${label} export supports PDF only.`);
+    if (!body.publication) problems.push(`${label} export requires publication metadata.`);
     if (body.classification?.cui?.distStatement && body.publication
       && body.classification.cui.distStatement !== body.publication.distribution.statement) {
       problems.push('Classification and publication distribution statements must agree.');
@@ -100,12 +101,12 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
     if (!problems.length) {
       try {
         const input = body as LetterInput;
-        problems.push(...publicationInputErrors(input), ...iTypeExportErrors(toStore(input, defaults)));
+        problems.push(...publicationInputErrors(input), ...publicationExportErrors(toStore(input, defaults)));
       } catch (error) { problems.push(error instanceof Error ? error.message : String(error)); }
     }
   } else if (body.publication || body.attachments?.length || (Array.isArray(body.enclosures) && body.enclosures.some((e) => e?.fileId))
     || (Array.isArray(body.paragraphs) && body.paragraphs.some((p) => p?.figure || p?.tableKey || p?.publicationSection || p?.callout || p?.procedure || p?.appendix))) {
-    problems.push('Publication fields and attachments require docType i_type.');
+    problems.push('Publication fields and attachments require docType i_type or sl3.');
   }
   return problems;
 }

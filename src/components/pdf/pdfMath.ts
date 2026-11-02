@@ -142,3 +142,70 @@ export function rescaleScrollTop(
   const newCenter = ratio * newContentHeight;
   return Math.max(0, newCenter - viewportHeight / 2);
 }
+
+export interface PdfPageSize {
+  width: number;
+  height: number;
+}
+export interface PdfScrollAnchor {
+  page: number;
+  fraction: number;
+}
+
+/** One physical scale across mixed paper sizes; the widest page fits the mat. */
+export function computeDocumentLayout(
+  sizes: readonly PdfPageSize[],
+  widestWidth: number,
+  gap: number,
+  pad: number,
+): (PageLayout & { width: number })[] {
+  const maxWidth = Math.max(1, ...sizes.map((s) => s.width));
+  const scale = widestWidth / maxWidth;
+  let top = pad;
+  return sizes.map((size) => {
+    const page = {
+      top,
+      width: size.width * scale,
+      height: size.height * scale,
+    };
+    top += page.height + gap;
+    return page;
+  });
+}
+
+/** Keep the same place on the same page when page sizes or zoom change. */
+export function pageScrollAnchor(
+  scrollTop: number,
+  viewportHeight: number,
+  layout: readonly PageLayout[],
+): PdfScrollAnchor {
+  const page = currentPage(scrollTop, viewportHeight, layout);
+  const band = layout[page - 1];
+  return {
+    page,
+    fraction: band
+      ? Math.max(
+          0,
+          Math.min(
+            1,
+            (scrollTop + viewportHeight / 2 - band.top) / band.height,
+          ),
+        )
+      : 0,
+  };
+}
+
+export function scrollTopForPageAnchor(
+  anchor: PdfScrollAnchor,
+  viewportHeight: number,
+  layout: readonly PageLayout[],
+): number {
+  if (!layout.length) return 0;
+  const band =
+    layout[Math.max(0, Math.min(layout.length - 1, anchor.page - 1))];
+  return clampScrollTop(
+    band.top + anchor.fraction * band.height - viewportHeight / 2,
+    contentHeight(layout, layout[0].top),
+    viewportHeight,
+  );
+}

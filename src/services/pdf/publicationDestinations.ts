@@ -12,7 +12,7 @@ export async function resolvePublicationDestinations(bytes: Uint8Array): Promise
       const annotation = annotations.lookup(i);
       if (!(annotation instanceof PDFDict)) continue;
       const name = annotation.lookup(PDFName.of('NM'));
-      if (!(name instanceof PDFString) || !name.decodeText().startsWith('itype.')) continue;
+      if (!(name instanceof PDFString) || !/^(?:itype|sl3)\./.test(name.decodeText())) continue;
       const rect = annotation.lookup(PDFName.of('Rect'), PDFArray);
       const x = rect.lookup(0, PDFNumber).asNumber();
       const y = rect.lookup(3, PDFNumber).asNumber();

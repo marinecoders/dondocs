@@ -1,3 +1,7 @@
+import type { DocumentData, EndItem } from '@/types/document';
+import { sl3ExportErrors } from '@/lib/sl3Preflight';
+import { sl3ErrorSection, SL3_ERROR_BEARING_IDS } from '@/lib/sl3EditorErrors';
+import { Sl3CoverSection, Sl3DetailsSection, Sl3InventorySection, Sl3IllustrationsSection } from '@/components/editor/Sl3Sections';
 import { Users, ClipboardList } from 'lucide-react';
 import { formErrorSections } from '@/services/forms/model';
 import { useMemo, type ReactNode } from 'react';
@@ -11,6 +15,7 @@ import { ITypeCoverSection } from '@/components/editor/ITypeCoverSection';
 import { PublicationTablesSection } from '@/components/editor/PublicationTablesSection';
 import { ClassificationSection } from '@/components/editor/ClassificationSection';
 import { SignatureSection } from '@/components/editor/SignatureSection';
+import { Sl3SignatureSection } from '@/components/editor/Sl3SignatureSection';
 import { ReferencesManager } from '@/components/editor/ReferencesManager';
 import { EnclosuresManager } from '@/components/editor/EnclosuresManager';
 import { BlockParagraphsEditor } from '@/components/editor/BlockParagraphsEditor';
@@ -72,6 +77,14 @@ export function useEditorSections(): {
  * an export attempt, gated on uiStore.validationVisible.
  */
 interface SectionErrorInput {
+  sl3?: DocumentData['sl3'];
+  shortTitle?: string;
+  pcn?: string;
+  nomenclature?: string;
+  date?: string;
+  publicationSigningDate?: string;
+  controllingOffice?: string;
+  pocEmail?: string;
   unitLine1?: string;
   from?: string;
   to?: string;
@@ -87,15 +100,34 @@ interface SectionErrorInput {
  * Keep in lockstep with the cases in getSectionError below.
  */
 export const ERROR_BEARING_IDS = [
-  'letterhead', 'addressing', 'body', 'signature', 'executive', 'joint_memo',
+  'letterhead', 'addressing', 'body', 'signature', 'executive', 'joint_memo', 'sl3-cover',
 ] as const;
+
+export function errorBearingIds(config: DocTypeConfig): readonly string[] {
+  return config === DOC_TYPE_CONFIG.sl3 ? SL3_ERROR_BEARING_IDS : ERROR_BEARING_IDS;
+}
+
+/** Run the complete SL-3 preflight once per update, rather than once per section. */
+export function missingEditorSections(ids: readonly string[], formData: SectionErrorInput, paragraphs: { text?: string }[], config: DocTypeConfig, endItems: EndItem[] = []): string[] {
+  if (config === DOC_TYPE_CONFIG.sl3) {
+    const missing = new Set(sl3ExportErrors({
+      docType: 'sl3', formData, paragraphs: paragraphs as import('@/types/document').Paragraph[], endItems,
+    }).map(sl3ErrorSection));
+    return ids.filter((id) => missing.has(id));
+  }
+  return ids.filter((id) => getSectionError(id, formData, paragraphs, config, endItems));
+}
 
 export function getSectionError(
   id: string,
   formData: SectionErrorInput,
   paragraphs: { text?: string }[],
-  config: DocTypeConfig
+  config: DocTypeConfig,
+  endItems: EndItem[] = [],
 ): boolean {
+  if (config === DOC_TYPE_CONFIG.sl3) return sl3ExportErrors({
+    docType: 'sl3', formData, paragraphs: paragraphs as import('@/types/document').Paragraph[], endItems,
+  }).some((message) => sl3ErrorSection(message) === id);
   switch (id) {
     case 'letterhead':
       // Don't flag a missing letterhead when the doc type allows plain paper
@@ -253,6 +285,7 @@ export function useDocumentCompleteness(): DocumentCompleteness {
   const { sections, config, isFormsMode, formType } = useEditorSections();
   const formData = useDocumentStore((s) => s.formData);
   const paragraphs = useDocumentStore((s) => s.paragraphs);
+  const endItems = useDocumentStore((s) => s.endItems);
   const navmc10274 = useFormStore((s) => s.navmc10274);
   const navmc11811 = useFormStore((s) => s.navmc11811);
   // Config-driven forms carry `required` on the fields the author marked
@@ -277,9 +310,10 @@ export function useDocumentCompleteness(): DocumentCompleteness {
       }
       return completenessFrom([], () => false);
     }
-    const required = ids.filter((id) => (ERROR_BEARING_IDS as readonly string[]).includes(id));
-    return completenessFrom(required, (id) => getSectionError(id, formData, paragraphs, config));
-  }, [idKey, isFormsMode, formType, navmc10274, navmc11811, formData, paragraphs, config, instance]);
+    const required = ids.filter((id) => errorBearingIds(config).includes(id));
+    const missing = new Set(missingEditorSections(required, formData, paragraphs, config, endItems));
+    return completenessFrom(required, (id) => missing.has(id));
+  }, [idKey, isFormsMode, formType, navmc10274, navmc11811, formData, paragraphs, config, instance, endItems]);
 }
 
 export function renderEditorSection(id: string, config: DocTypeConfig): ReactNode {
@@ -290,6 +324,10 @@ export function renderEditorSection(id: string, config: DocTypeConfig): ReactNod
       return <AddressingSection config={config} />;
     case 'basic':
       return <EndorsementBasicLetterSection />;
+    case 'sl3-cover': return <Sl3CoverSection />;
+    case 'sl3-details': return <Sl3DetailsSection />;
+    case 'sl3-inventory': return <Sl3InventorySection />;
+    case 'sl3-figures': return <Sl3IllustrationsSection />;
     case 'cover':
       return <ITypeCoverSection />;
     case 'tables':
@@ -313,7 +351,9 @@ export function renderEditorSection(id: string, config: DocTypeConfig): ReactNod
     case 'distribution':
       return <DistributionManager />;
     case 'signature':
-      return <SignatureSection config={config} />;
+      return config === DOC_TYPE_CONFIG.sl3
+        ? <Sl3SignatureSection />
+        : <SignatureSection config={config} />;
     case 'moa':
       return <MOASection />;
     case 'joint':

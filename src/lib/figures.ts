@@ -17,8 +17,8 @@ const PRINT_HEIGHT_IN = 5;
 /** Below this an image prints visibly soft; line art and photographs alike. */
 const MIN_DPI = 150;
 
-export function printedDpi(width: number, height: number): number {
-  const printedWidth = Math.min(PRINT_WIDTH_IN, PRINT_HEIGHT_IN * (width / height));
+export function printedDpi(width: number, height: number, maxWidth = PRINT_WIDTH_IN, maxHeight = PRINT_HEIGHT_IN): number {
+  const printedWidth = Math.min(maxWidth, maxHeight * (width / height));
   return width / printedWidth;
 }
 

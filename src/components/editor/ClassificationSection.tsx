@@ -1,4 +1,5 @@
 import { Input } from '@/components/ui/input';
+import { DatePicker } from '@/components/ui/date-picker';
 import { Label } from '@/components/ui/label';
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from '@/components/ui/select';
@@ -119,7 +120,7 @@ export function ClassificationSection() {
   // Distribution restrictions and classification are separate determinations.
   const docType = useDocumentStore((s) => s.docType);
   const distributionFindings = useMemo(
-    () => (docType === 'i_type'
+    () => ((docType === 'i_type' || docType === 'sl3')
       ? [
           ...validateDistributionStatement(classLevel, formData.cuiDistStatement),
           ...validateDistributionFillIns(formData.cuiDistStatement, {
@@ -195,7 +196,7 @@ export function ClassificationSection() {
   // statement on its cover, at any classification. Gating the control on CUI
   // left an unclassified Statement A publication -- the commonest kind -- with
   // no way to set one, and its cover printed no statement at all.
-  const isPublication = docType === 'i_type';
+  const isPublication = (docType === 'i_type' || docType === 'sl3');
 
   // Both POC-email inputs bind the same field and only one shows at a time, so
   // one validity check covers both. Flag a non-empty value that isn't a basic
@@ -252,7 +253,7 @@ export function ClassificationSection() {
                 value={classLevel}
                 onValueChange={(v) => setField('classLevel', v)}
               >
-                <SelectTrigger>
+                <SelectTrigger id="classLevel">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -389,7 +390,7 @@ export function ClassificationSection() {
                     value={formData.cuiCategory || ''}
                     onValueChange={(v) => setField('cuiCategory', v)}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger id="customCuiCategory">
                       <SelectValue placeholder="Select category…" />
                     </SelectTrigger>
                     <SelectContent>
@@ -515,11 +516,12 @@ export function ClassificationSection() {
                 {['B', 'C', 'D', 'E', 'F'].includes(formData.cuiDistStatement || '') && (
                   <div className="space-y-2">
                     <Label htmlFor="distDate">Date of determination</Label>
-                    <Input
+                    <DatePicker
                       id="distDate"
-                      type="date"
+                      dateFormat="iso"
+                      calendarLabel="Choose distribution determination date"
                       value={formData.distDate || ''}
-                      onChange={(e) => setField('distDate', e.target.value)}
+                      onChange={(value) => setField('distDate', value)}
                     />
                   </div>
                 )}
@@ -547,7 +549,7 @@ export function ClassificationSection() {
                     value={formData.cuiCategory || ''}
                     onValueChange={(v) => setField('cuiCategory', v)}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger id="cuiCategory">
                       <SelectValue placeholder="Select category…" />
                     </SelectTrigger>
                     <SelectContent>
