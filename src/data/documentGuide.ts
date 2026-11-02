@@ -10,6 +10,11 @@ export interface DocumentTypeGuide {
 }
 
 export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
+  { id: 'sl4', name: 'SL-4 Repair Parts List', category: 'Technical Publications',
+    summary: 'Repair parts in top-down order with illustrations and generated cross-references.',
+    whenToUse: ['When the maintenance manual does not already include the repair parts list'],
+    keyFeatures: ['SMR, NSN, CAGE and parts records', 'Generated Parts II–V', 'Illustrations and authentication'],
+    commonExamples: ['Equipment repair parts list'], reference: 'MCO 5215.17D / MIL-STD-38784C' },
   { id: 'sl3', name: 'SL-3 Components List', category: 'Technical Publications',
     summary: 'Lists equipment components and accessories with illustrations and inventory sheets.',
     whenToUse: ['Publish the components inventory for an end item, kit or system'],

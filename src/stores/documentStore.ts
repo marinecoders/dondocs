@@ -1,3 +1,4 @@
+import { sl4Schema } from '@/data/techpub/sl4';
 import { sl3Schema } from '@/data/techpub/sl3';
 import { parseFormInstance, type FormInstance } from '@/services/forms/model';
 import { withoutTableFootnote } from '@/lib/tableFootnotes';
@@ -256,8 +257,9 @@ const DEFAULT_PARAGRAPHS = EXAMPLE_PARAGRAPHS;
 
 function publicationFont(docType: string, mode: DocumentMode, data: Partial<DocumentData>): Partial<DocumentData> {
   if (data.sl3 !== undefined) data = { ...data, sl3: sl3Schema.parse(data.sl3) };
-  return (docType === 'i_type' || docType === 'sl3') && mode === 'compliant'
-    ? { ...data, fontFamily: 'times', fontSize: docType === 'sl3' ? '10pt' : '12pt' } : data;
+  if (data.sl4 !== undefined) data = { ...data, sl4: sl4Schema.parse(data.sl4) };
+  return (['i_type', 'sl3', 'sl4'].includes(docType)) && mode === 'compliant'
+    ? { ...data, fontFamily: 'times', fontSize: ['sl3', 'sl4'].includes(docType) ? '10pt' : '12pt' } : data;
 }
 
 export const useDocumentStore = create<DocumentState>((set, get) => ({
@@ -372,9 +374,9 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       formData.miUrgency = 'normal';
       formData.miCompletionDate = '';
     }
-    if ((state.docType === 'i_type' || state.docType === 'sl3') && state.documentMode === 'compliant') {
+    if ((['i_type', 'sl3', 'sl4'].includes(state.docType)) && state.documentMode === 'compliant') {
       formData.fontFamily = 'times';
-      formData.fontSize = state.docType === 'sl3' ? '10pt' : '12pt';
+      formData.fontSize = ['sl3', 'sl4'].includes(state.docType) ? '10pt' : '12pt';
     }
     // The start letter shifts every reference after it, so re-letter in the
     // same commit — otherwise the rows keep the previous sequence on screen.

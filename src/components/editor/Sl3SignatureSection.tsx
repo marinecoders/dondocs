@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { useDocumentStore } from '@/stores/documentStore';
 
 /** The source authentication prints a name, authority title and program office. */
-export function Sl3SignatureSection() {
+export function Sl3SignatureSection({ publication = 'SL-3' }: { publication?: string } = {}) {
   const { formData, setField } = useDocumentStore();
   const needsDigital = formData.signatureType !== 'digital' || formData.byDirection;
   const byDirectionTitle = /\bby\s+direction\b/i.test(formData.sigTitle ?? '');
@@ -68,7 +68,7 @@ export function Sl3SignatureSection() {
                 setField('signatureType', 'digital');
                 setField('byDirection', false);
                 setField('signatureImage', undefined);
-              }}>Use SL-3 authentication</Button>
+              }}>Use {publication} authentication</Button>
             </div>
           )}
         </div>

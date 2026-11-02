@@ -1,3 +1,4 @@
+import { sl4Schema } from '../src/data/techpub/sl4';
 import { sl3Schema } from '../src/data/techpub/sl3';
 import * as z from 'zod';
 import { PUBLICATION_SECTIONS } from '../src/data/techpub/sections';
@@ -40,7 +41,8 @@ const row = z.object({
 }).strict();
 
 export const publicationSchema = z.object({
-  type: z.enum(['MI', 'TI', 'SI', 'LI', 'SL3']),
+  type: z.enum(['MI', 'TI', 'SI', 'LI', 'SL3', 'SL4']),
+  sl4: sl4Schema.optional().describe('SL-4 parts content, required when type is SL4.'),
   sl3: sl3Schema.optional().describe('SL-3 inventory content, required when type is SL3.'),
   shortTitle: z.string(), pcn: z.string(), nomenclature: z.string(), controllingOffice: z.string(),
   signingDate: z.string().describe('Planned or actual signing date as YYYY-MM-DD.'),
@@ -55,4 +57,4 @@ export const publicationSchema = z.object({
   endItems: z.array(z.object({ nsn: z.string(), tamcn: z.string(), id: z.string(), model: z.string() }).strict()).optional(),
   tables: z.record(z.string(), z.array(row)).optional(),
   includeHyperlinks: z.boolean().optional(),
-}).strict().describe('Required for i_type and sl3 PDF export. Supply subject as the long title and date as the effective date (d MMM yy). Use unit and signature for authentication.');
+}).strict().describe('Required for i_type, sl3 and sl4 PDF export. Supply subject as the long title and date as the effective date (d MMM yy). Use unit and signature for authentication.');

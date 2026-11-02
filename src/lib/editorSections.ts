@@ -34,6 +34,15 @@ export function getEditorSections(config: DocTypeConfig, docType: string): Edito
   }
 
   if (docType === 'sl3') return [{ id: 'sl3-cover', label: 'Publication details', icon: BookMarked }, classification, { id: 'sl3-details', label: 'Technical data and notes', icon: BookOpen }, { id: 'sl3-inventory', label: 'Components inventory', icon: Table }, { id: 'sl3-figures', label: 'Illustrations', icon: BookOpen }, signature];
+  if (docType === 'sl4') return [
+    { id: 'sl4-cover', label: 'Publication details', icon: BookMarked }, classification,
+    { id: 'sl4-preface', label: 'Preface and notes', icon: BookOpen },
+    { id: 'sl4-cages', label: 'CAGE directory', icon: Building2 },
+    { id: 'sl4-parts', label: 'Repair parts', icon: Table },
+    { id: 'sl4-figures', label: 'Illustrations', icon: BookOpen },
+    { id: 'sl4-indexes', label: 'Cross-references', icon: List },
+    { id: 'sl4-revisions', label: 'Record of changes', icon: ClipboardList }, signature,
+  ];
 
   if (docType === 'i_type') return [{ id: 'cover', label: 'Cover', icon: BookMarked }, classification, body, { id: 'tables', label: 'Tables', icon: Table }, enclosures, signature];
 
