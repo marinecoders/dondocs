@@ -11,3 +11,5 @@
 declare const __APP_VERSION__: string;
 declare const __GIT_SHA__: string;
 declare const __BUILD_TIME__: string;
+/** Content hash of the browser's bundled LaTeX templates. */
+declare const __LATEX_TEMPLATES_REVISION__: string;

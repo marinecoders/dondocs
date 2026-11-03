@@ -2,6 +2,8 @@ import { test, expect, type Page } from '@playwright/test';
 import { createServer, type Server } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { resolve, extname, sep } from 'node:path';
+import { createHash } from 'node:crypto';
+import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 
 // Two real production builds share an origin, storage, and service-worker scope.
 // No application modules or mocked service workers are injected into the page.
@@ -118,6 +120,138 @@ test('old release upgrades with two tabs, committed edits, attachment bytes, and
   await reloadDuringUpdate(page);
   await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('EDIT JUST BEFORE UPGRADE');
   expect((await readSaved(page)).attachments).toEqual(before.attachments);
+});
+
+test('upgraded browser bypasses cached pre-TM templates and compiles TM/IETM online and offline', async ({ page, context }) => {
+  root = resolve(oldBuild!);
+  // Install the previous release's real worker without loading app scripts.
+  await page.goto(`${origin}/holding.html`);
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.register('/sw.js');
+    await navigator.serviceWorker.ready;
+  });
+  await page.reload();
+  expect(await page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
+  // Keep the old worker in use while the new application loads.
+  const legacyTab = await context.newPage();
+  await legacyTab.goto(`${origin}/holding.html`);
+
+  // Retain a valid legacy bundle under the URL users already cached. Removing
+  // this one template keeps the regression effective even when the PR base
+  // already supports TM/IETM. The service worker and renderer are unmodified.
+  const source = await readFile(resolve(newBuild, 'lib/latex-templates.js'), 'utf8');
+  const legacySource = `${source}\ndelete window.LATEX_TEMPLATES['tex/templates/tm_ietm_front_matter.tex'];\n`;
+  await page.evaluate(async source => {
+    const cache = await caches.open('engine-core-cache-v1');
+    await cache.put('/lib/latex-templates.js?rev=26', new Response(source, { headers: { 'Content-Type': 'text/javascript' } }));
+  }, legacySource);
+  // Prove the old worker serves the stale entry before switching releases.
+  expect(await page.evaluate(async () => (await fetch('/lib/latex-templates.js?rev=26')).text())).toBe(legacySource);
+
+  root = newBuild;
+  const revision = createHash('sha256').update(source).digest('hex');
+  // The old worker must also fetch the fresh URL successfully before it is
+  // replaced. Keep this on the holding page so app-driven update reloads
+  // cannot race the draft import or its PDF download.
+  const oldWorkerHash = await page.evaluate(async revision => {
+    const response = await fetch(`/lib/latex-templates.js?rev=${revision}`);
+    const hash = await crypto.subtle.digest('SHA-256', await response.arrayBuffer());
+    return [...new Uint8Array(hash)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+  }, revision);
+  expect(oldWorkerHash).toBe(revision);
+  await page.evaluate(async () => {
+    const registration = await navigator.serviceWorker.register('/sw.js');
+    await registration.update();
+    const worker = registration.installing ?? registration.waiting ?? registration.active;
+    if (!worker) throw new Error('Updated service worker is unavailable');
+    await new Promise<void>((resolve, reject) => {
+      const check = () => {
+        if (worker.state === 'installed') worker.postMessage({ type: 'SKIP_WAITING' });
+        if (worker.state === 'activated') resolve();
+        if (worker.state === 'redundant') reject(new Error('Updated service worker failed to activate'));
+      };
+      worker.addEventListener('statechange', check);
+      check();
+    });
+  });
+  await page.reload();
+  await legacyTab.close();
+  await page.addInitScript(() => localStorage.setItem('dondocs-welcome-shown', '3.0'));
+  await page.goto(origin);
+  await expect(page.locator(`script[src="/lib/latex-templates.js?rev=${revision}"]`)).toBeAttached({ timeout: 30_000 });
+  await expect.poll(() => page.evaluate(() => Boolean((window as unknown as { LATEX_TEMPLATES?: Record<string, string> }).LATEX_TEMPLATES?.['tex/templates/tm_ietm_front_matter.tex']))).toBe(true);
+
+  // Import through the public UI, then verify real SwiftLaTeX download bytes.
+  // All identifiers and contact details below are fictional test data.
+  const draft = {
+    documentMode: 'compliant', documentCategory: 'correspondence', docType: 'tm_ietm_front_matter',
+    paragraphs: [], references: [], enclosures: [], copyTos: [],
+    formData: {
+      docType: 'tm_ietm_front_matter', subject: 'PORTABLE TEST EQUIPMENT', nomenclature: 'CONTROLLER, Portable Test',
+      shortTitle: 'TM 00000A-10/1', pcn: '00000000000', date: '30 Oct 26', publicationSigningDate: '2026-10-30',
+      fontSize: '10pt', fontFamily: 'times', signatureType: 'digital', classLevel: 'unclassified', cuiDistStatement: 'A',
+      unitLine1: 'TEST PROGRAM OFFICE', unitLine2: '', unitAddress: '123 Example Road\nQuantico, VA 22134',
+      sigFirst: 'A.', sigLast: 'SAMPLE', sigTitle: 'Program Manager', controllingOffice: 'Test Program Office', byDirection: false,
+      manualFrontMatter: {
+        subtype: 'ietm', authorityBasis: 'pm_or_above', rightsAssessment: 'not_required',
+        contentContact: 'Test Program Office, sample@example.usmc.mil.',
+        endItems: [{ rowId: 'cache-test', nsn: '', tamcn: '', id: 'TEST-001', model: 'MODEL-1' }],
+      },
+    },
+  };
+  await page.getByLabel('Import draft file', { exact: true }).setInputFiles({ name: 'manual.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+
+  async function downloadManual() {
+    await expect(page.locator('.workspace-preview [title="Document preview"]').first()).toBeAttached({ timeout: 60_000 });
+    await expect(page.locator('.workspace-preview [aria-live="polite"]')).toHaveText('Compilation complete', { timeout: 60_000 });
+    await expect(page.locator('.workspace-preview').getByText('of 2', { exact: true })).toBeAttached({ timeout: 60_000 });
+    const downloading = page.waitForEvent('download');
+    await page.getByRole('button', { name: 'Download', exact: true }).click();
+    await page.getByRole('menuitem', { name: /^Download PDF(?:\s|$)/ }).click();
+    const download = await downloading;
+    expect(await download.failure()).toBeNull();
+    const bytes = await readFile((await download.path())!);
+    expect(bytes.subarray(0, 5).toString()).toBe('%PDF-');
+    const pdf = await getDocument({ data: new Uint8Array(bytes), useSystemFonts: false }).promise;
+    try {
+      expect(pdf.numPages).toBe(2);
+      const text = await (await pdf.getPage(1)).getTextContent();
+      expect(text.items.map(item => 'str' in item ? item.str : '').join(' ')).toContain('INTERACTIVE ELECTRONIC TECHNICAL MANUAL');
+    } finally { await pdf.destroy(); }
+  }
+  const preview = page.getByRole('button', { name: 'Preview', exact: true });
+  if (await preview.getAttribute('aria-pressed') !== 'true') await preview.click();
+  await downloadManual();
+
+  // Warm caches must also support the next offline load with a fresh engine.
+  await page.reload();
+  // Cache the new shell online before disconnecting.
+  await expect(page.locator('.workspace-preview [title="Document preview"]').first()).toBeAttached({ timeout: 60_000 });
+  await page.context().setOffline(true);
+  await page.reload();
+  await downloadManual();
+});
+
+test('production worker serves content-versioned templates on first offline use', async ({ page, context }) => {
+  root = newBuild;
+  // Install without running the app, so no template runtime cache is warmed.
+  await page.goto(`${origin}/holding.html`);
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.register('/sw.js');
+    await navigator.serviceWorker.ready;
+  });
+  await page.reload();
+  expect(await page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
+  const source = await readFile(resolve(newBuild, 'lib/latex-templates.js'));
+  const revision = createHash('sha256').update(source).digest('hex');
+  await context.setOffline(true);
+  const result = await page.evaluate(async revision => {
+    const response = await fetch(`/lib/latex-templates.js?rev=${revision}`);
+    const hash = await crypto.subtle.digest('SHA-256', await response.arrayBuffer());
+    return { status: response.status, hash: [...new Uint8Array(hash)].map(byte => byte.toString(16).padStart(2, '0')).join('') };
+  }, revision);
+  expect(result).toEqual({ status: 200, hash: revision });
 });
 
 test('new release retains an edit across an immediate reload', async ({ page }) => {

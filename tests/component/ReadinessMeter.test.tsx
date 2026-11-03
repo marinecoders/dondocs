@@ -67,11 +67,17 @@ describe('ReadinessMeter — driven by the single completeness rule', () => {
     renderMeter();
     expect(screen.getByText('Compliant mode')).toBeTruthy();
   });
-  it.each(['sl3', 'sl4'])('shows the %s preview label for stock lists', (docType) => {
+  it.each([
+    ['i_type', 'I-TYPE'],
+    ['sl3', 'SL-3'],
+    ['sl4', 'SL-4'],
+    ['tm_ietm_front_matter', 'TM/IETM'],
+  ])('shows Compliant mode for %s', (docType, label) => {
     useDocumentStore.setState({ docType });
     renderMeter();
-    expect(screen.getByText(`${docType === 'sl4' ? 'SL-4' : 'SL-3'} preview`)).toBeInTheDocument();
-    expect(screen.queryByText('Compliant mode')).not.toBeInTheDocument();
+    expect(screen.getByText('Compliant mode')).toBeInTheDocument();
+    expect(screen.queryByText(label)).not.toBeInTheDocument();
+    expect(screen.queryByText(`${label} preview`)).not.toBeInTheDocument();
   });
   it('routes generic form errors to sections and includes invalid optional answers', () => {
     const instance = fixtureInstance();

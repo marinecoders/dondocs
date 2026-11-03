@@ -5,6 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 import path from 'path'
 import fs from 'fs'
 import { execSync } from 'child_process'
+import { createHash } from 'node:crypto'
 import type { Plugin } from 'vite'
 import { LICENSE_BANNER, licenseNotices } from './scripts/license-notices.ts'
 
@@ -28,6 +29,12 @@ const GIT_SHA = (() => {
   }
 })();
 const BUILD_TIME = new Date().toISOString();
+// A template change must also change its CacheFirst URL, including for clients
+// still controlled by an older service worker. `rev` is deliberately distinct
+// from `v`, which older precache routes ignore.
+const LATEX_TEMPLATES_REVISION = createHash('sha256')
+  .update(fs.readFileSync(path.resolve(__dirname, 'public/lib/latex-templates.js')))
+  .digest('hex');
 
 // The vendored pandoc-wasm release (from the manifest scripts/vendor-assets.mjs
 // wrote at prebuild). The pandoc runtime cache is named after it, so bumping
@@ -214,6 +221,7 @@ export default defineConfig({
     __APP_VERSION__: JSON.stringify(APP_VERSION),
     __GIT_SHA__: JSON.stringify(GIT_SHA),
     __BUILD_TIME__: JSON.stringify(BUILD_TIME),
+    __LATEX_TEMPLATES_REVISION__: JSON.stringify(LATEX_TEMPLATES_REVISION),
   },
   plugins: [
     react(),
@@ -329,6 +337,9 @@ export default defineConfig({
         // Use timestamp-based revision to ensure fresh fetch after deployment
         additionalManifestEntries: [
           { url: '/tex/null', revision: '2026-02-23' },
+          // Precache the exact URL the app loads. The unversioned glob entry
+          // cannot satisfy ?rev= offline, before any runtime cache is warmed.
+          { url: `lib/latex-templates.js?rev=${LATEX_TEMPLATES_REVISION}`, revision: null },
         ],
         // Cache TeX Live files for offline use
         runtimeCaching: [

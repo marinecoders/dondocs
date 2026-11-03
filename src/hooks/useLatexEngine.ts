@@ -105,9 +105,9 @@ export function useLatexEngine() {
 
       // Load templates and packages
       await Promise.all([
-        // Older service workers strip `v` during precache lookup. A distinct
-        // key also bypasses their stale template when new app code loads.
-        loadScript('/lib/latex-templates.js?rev=26'),
+        // Derived from the bundle bytes at build time: template edits cannot
+        // silently reuse an older browser's CacheFirst entry.
+        loadScript(`/lib/latex-templates.js?rev=${__LATEX_TEMPLATES_REVISION__}`),
         // Versioned like the templates: the service worker keeps lib/ scripts
         // cache-first, so a bundle that gains a package needs a new URL or an
         // installed browser compiles against the old one.
