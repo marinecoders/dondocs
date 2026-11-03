@@ -3,12 +3,23 @@ import type { Enclosure } from '@/types/document';
 import { loadAttachment } from './attachments';
 import { replacePlaceholders } from './placeholders';
 import { mapSl4Text } from './sl4Editing';
+import { ENDORSEMENT_TEXT_FIELDS } from './appendedEndorsement';
 
 /** Resolve the frozen job's files without reading or mutating the active editor. */
 export async function prepareBatchCorrespondence(session: SerializedSession, values: Record<string, string>) {
   const formData = { ...session.formData };
   for (const [key, value] of Object.entries(formData)) {
     if (typeof value === 'string') Object.assign(formData, { [key]: replacePlaceholders(value, values) });
+  }
+  if (formData.additionalEndorsements) {
+    formData.additionalEndorsements = formData.additionalEndorsements.map((entry) => {
+      const next = { ...entry };
+      for (const field of ENDORSEMENT_TEXT_FIELDS) {
+        const text = entry[field];
+        if (typeof text === 'string') next[field] = replacePlaceholders(text, values);
+      }
+      return next;
+    });
   }
   if (formData.manualFrontMatter) {
     const replace = (value: unknown): unknown => typeof value === 'string' ? replacePlaceholders(value, values)
@@ -17,7 +28,7 @@ export async function prepareBatchCorrespondence(session: SerializedSession, val
     formData.manualFrontMatter = replace(formData.manualFrontMatter) as typeof formData.manualFrontMatter;
   }
   if (session.docType === 'tm_ietm_front_matter') return {
-    docType: session.docType, formData, enclosures: [], endItems: [], publicationTables: {},
+    docType: session.docType, documentMode: session.documentMode, formData, enclosures: [], endItems: [], publicationTables: {},
     paragraphs: [], references: [], copyTos: [], distributions: [],
   };
   if (formData.sl3) {
@@ -41,7 +52,7 @@ export async function prepareBatchCorrespondence(session: SerializedSession, val
     file: enclosure.fileRef ? await file(enclosure.fileRef) : undefined,
   })));
   return {
-    docType: session.docType, formData, enclosures,
+    docType: session.docType, documentMode: session.documentMode, formData, enclosures,
     endItems: session.endItems ?? [], publicationTables: session.publicationTables ?? {},
     paragraphs: session.paragraphs.map((p) => ({ ...p, text: replacePlaceholders(p.text, values), header: p.header ? replacePlaceholders(p.header, values) : undefined })),
     references: session.references.map((r) => ({ ...r, title: replacePlaceholders(r.title, values), url: r.url ? replacePlaceholders(r.url, values) : undefined })),

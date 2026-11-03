@@ -2,6 +2,8 @@ import type { PublicationSection } from '@/data/techpub/sections';
 import type { ManualFrontMatter } from '@/data/techpub/manualFrontMatter';
 import type { Sl3Data } from '@/data/techpub/sl3';
 import type { Sl4Data } from '@/data/techpub/sl4';
+import type { AdditionalEndorsement } from '@/lib/appendedEndorsement';
+
 export type DocumentMode = 'compliant' | 'custom';
 
 // Top-level document category: correspondence (letters, memos, etc.) or forms (6105, Page 11, etc.)
@@ -271,6 +273,7 @@ export interface DocumentData {
   // signer rather than reusing the letter's. Addressees default to inverting
   // the letter. See src/lib/appendedEndorsement.ts.
   appendEndorsement?: boolean;
+  additionalEndorsements?: AdditionalEndorsement[];
   endorsementFrom?: string;
   endorsementTo?: string;
   /** One paragraph per line; numbered like any endorsement body. */

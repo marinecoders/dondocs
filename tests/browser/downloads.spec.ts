@@ -155,6 +155,61 @@ test('Word export runs Pandoc WASM and downloads a valid DOCX with editor conten
   await expect(page.getByRole('dialog')).toHaveCount(0, { timeout: 10_000 });
 });
 
+test('additional endorsements and bottom page numbers reach both downloaded formats', async ({ page }, testInfo) => {
+  await start(page);
+  await page.getByRole('combobox', { name: 'Document section', exact: true }).selectOption('signature');
+  const enabled = page.getByRole('checkbox', { name: 'Add an acknowledgement endorsement' });
+  await enabled.check();
+  await page.getByRole('region', { name: 'First endorsement', exact: true })
+    .getByLabel('Endorsement text').fill('First acknowledgement retained.\nFirst endorsement verified.');
+  await page.getByRole('button', { name: 'Add another endorsement', exact: true }).click();
+  await page.getByRole('region', { name: 'New endorsement', exact: true })
+    .getByLabel('Endorsement text').fill('Second approval retained.\nSecond endorsement verified.');
+  const second = page.getByRole('region', { name: 'SECOND endorsement', exact: true });
+  await second.getByRole('textbox', { name: /signer last name/i }).fill('REVIEWER');
+
+  const wordPending = page.waitForEvent('download');
+  await chooseExport(page, 'Download Word (.docx)');
+  const zip = await JSZip.loadAsync(await downloadBytes(await wordPending), { checkCRC32: true });
+  const xml = await zip.file('word/document.xml')!.async('string');
+  for (const text of ['FIRST ENDORSEMENT', 'SECOND ENDORSEMENT', 'First acknowledgement retained.', 'Second approval retained.', 'REVIEWER', 'DonDocsAckStartFIRST']) expect(xml).toContain(text);
+  expect(xml).toContain('<w:keepNext/>');
+  expect(await zip.file('word/footer1.xml')!.async('string')).not.toContain(' PAGE ');
+  expect(await zip.file('word/footer2.xml')!.async('string')).toContain(' PAGE ');
+
+  const downloadPdf = await preparePdfExport(page);
+  let pdfBytes: Uint8Array;
+  if (testInfo.project.name === 'mobile-chrome-ios') {
+    const pending = page.waitForEvent('popup');
+    await downloadPdf();
+    const popup = await pending;
+    const frame = popup.locator('iframe');
+    await expect(frame).toHaveAttribute('src', /^data:application\/pdf;base64,/, { timeout: 30_000 });
+    await expectPdf(Buffer.from((await frame.getAttribute('src'))!.split(',')[1], 'base64'),
+      ['FIRST ENDORSEMENT', 'SECOND ENDORSEMENT', 'Second approval retained.']);
+    const saving = popup.waitForEvent('download');
+    await popup.getByRole('link', { name: 'Download PDF', exact: true }).click();
+    pdfBytes = await downloadBytes(await saving);
+    await popup.close();
+  } else {
+    const pending = page.waitForEvent('download');
+    await downloadPdf();
+    pdfBytes = await downloadBytes(await pending);
+  }
+  const pdf = await getDocument({ data: new Uint8Array(pdfBytes), useSystemFonts: false }).promise;
+  try {
+    expect(pdf.numPages).toBe(2);
+    const first = await (await pdf.getPage(1)).getTextContent();
+    const second = await (await pdf.getPage(2)).getTextContent();
+    expect(first.items.map(item => 'str' in item ? item.str : '').join(' ')).toContain('FIRST ENDORSEMENT');
+    expect(second.items.map(item => 'str' in item ? item.str : '').join(' ')).toContain('SECOND ENDORSEMENT');
+    expect(second.items.some(item => 'str' in item && item.str.trim() === '2' && item.transform[5] < 60)).toBe(true);
+    expect(first.items.some(item => 'str' in item && item.str.trim() === '1' && item.transform[5] < 60)).toBe(false);
+  } finally {
+    await pdf.destroy();
+  }
+});
+
 test('PDF startup error offers Retry and recovers once the engine is ready', async ({ page, isMobile }) => {
   test.skip(isMobile, 'The desktop preview exposes engine readiness behind the error dialog');
   let release!: () => void;
@@ -179,7 +234,7 @@ test('PDF startup error offers Retry and recovers once the engine is ready', asy
 for (const resource of ['reference.docx', 'pandoc.wasm.manifest.json']) {
   test(`Word download failure is visible and Retry recovers after ${resource}`, async ({ page }) => {
     let unavailable = true;
-    await page.route(`**/lib/pandoc/${resource}`, async route => {
+    await page.route(url => url.pathname.endsWith(`/lib/pandoc/${resource}`), async route => {
       if (unavailable) await route.fulfill({ status: 503, body: 'Temporarily unavailable' });
       else await route.continue();
     });

@@ -182,6 +182,13 @@ describe('getPIITypeSeverity — policy table', () => {
 describe('detectPII — fields carried into share/export', () => {
   const base = { formData: {} as Record<string, unknown>, paragraphs: [], copyTos: [], references: [] };
 
+  it('scans the original and additional endorsements carried in the saved document', () => {
+    expect(detectPII({ ...base, formData: { endorsementBody: 'SSN 123-45-6789' } }).summary.ssn).toBeGreaterThan(0);
+    expect(detectPII({ ...base, formData: {
+      additionalEndorsements: [{ id: 'second', endorsementBody: 'SSN 123-45-6789' }],
+    } }).summary.ssn).toBeGreaterThan(0);
+  });
+
   it('scans paragraph headings, not just body text', () => {
     const out = detectPII({ ...base, paragraphs: [{ text: 'ok', header: 'SSN 123-45-6789' }] });
     expect(out.found).toBe(true);

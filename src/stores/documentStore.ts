@@ -200,7 +200,7 @@ const EXAMPLE_FORM_DATA: Partial<DocumentData> = {
   docType: 'naval_letter',
   fontSize: '12pt',
   fontFamily: 'times',
-  pageNumbering: 'none',
+  pageNumbering: 'simple',
   // Letterhead - Example unit info for demo
   department: 'usmc',
   unitLine1: '1ST BATTALION, 6TH MARINES',
@@ -744,7 +744,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
           customClassification: '',
           pocEmail: '',
           // Other settings
-          pageNumbering: 'none',
+          pageNumbering: 'simple',
           includeHyperlinks: false,
           underlineSubject: false,
           includeEndorsementSubject: false,
@@ -784,7 +784,17 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     });
     useUIStore.getState().setValidationVisible(false);
     set((state) => {
-      const formData = publicationFont(state.docType, state.documentMode, { ...state.formData, ...data.formData });
+      const formData = publicationFont(state.docType, state.documentMode, {
+        ...state.formData,
+        ...(data.formData ? {
+          appendEndorsement: false,
+          endorsementFrom: undefined, endorsementTo: undefined, endorsementBody: undefined,
+          endorsementSigFirst: undefined, endorsementSigMiddle: undefined, endorsementSigLast: undefined,
+          endorsementSerial: undefined, endorsementDate: undefined,
+          ...data.formData,
+          additionalEndorsements: data.formData.additionalEndorsements ?? [],
+        } : {}),
+      });
       // A template describes a document; it never carries an uploaded basic
       // letter. Without this, spreading the old formData stapled the previous
       // document's letter onto whatever loads next. Keyed on the REF, not the

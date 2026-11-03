@@ -20,12 +20,11 @@ import { composeSenderSymbol } from './senderSymbol';
 import { latexLineBreaks } from './escaper';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
-import { enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
+import { composeBasicLetterId, enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
 import { paragraphMark, delimitParagraphMark, isUnderlinedLevel } from './paragraphLabel';
 import { subparagraphIndentIn, ancestorLabelsPerParagraph, type LabelFont } from './subparagraphIndent';
 import {
-  resolveAppendedEndorsement,
-  appendedEndorsementSigner,
+  resolveAppendedEndorsements,
 } from '@/lib/appendedEndorsement';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
 import { formatViaLines } from '@/lib/viaLines';
@@ -33,6 +32,7 @@ import { deriveOverallClassLevel } from '@/lib/overallClassification';
 
 interface DocumentStore {
   docType: string;
+  documentMode?: import('@/types/document').DocumentMode;
   formData: Partial<DocumentData>;
   references: Reference[];
   enclosures: Enclosure[];
@@ -301,6 +301,14 @@ function buildPreamble(data: Partial<DocumentData>): string {
 \\usepackage{graphicx}
 \\usepackage{setspace}
 \\usepackage{xcolor}
+% Keep Word layout markers inert when this intermediate file is compiled as TeX.
+% Deferring definitions preserves them for pandoc's raw-command Lua filter.
+\\AtBeginDocument{%
+\\providecommand{\\dondocsackstart}{}%
+\\providecommand{\\dondocsacktail}[1]{}%
+\\providecommand{\\dondocsacksignature}[1]{}%
+\\providecommand{\\dondocsacksignaturespace}{\\vspace{3\\baselineskip}}%
+}
 ${getFontPackage(fontFamily)}
 ${colorDef}
 \\singlespacing
@@ -714,17 +722,16 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFo
  * the same page, so a change here needs the same change there.
  */
 function buildAppendedEndorsement(store: DocumentStore): string {
-  const ack = resolveAppendedEndorsement(store.docType, store.formData);
-  if (!ack) return '';
+  return resolveAppendedEndorsements(store.docType, store.formData).map((ack) => {
 
   // \mbox{} protects the label from pandoc's list-marker detection, exactly as
   // the main body does — without it pandoc consumed the digit and the DOCX
   // rendered a bare "." where the PDF showed "1.".
   const body = ack.paragraphs
-    .map((text, i) => `\\noindent \\mbox{${i + 1}.}~~${escapeFlat(text)}\n\n`)
+    .map((text, i) => `\\noindent ${i === Math.max(0, ack.paragraphs.length - 2) ? `\\dondocsacktail{${ack.ordinal}}` : ''}\\mbox{${i + 1}.}~~${escapeFlat(text)}\n\n`)
     .join('');
 
-  const signer = appendedEndorsementSigner(store.formData);
+  const signer = ack.signer;
 
   // Ch 9 para 2.1a: the endorsement line sits below the date line, which the
   // same-page omission list does not cover (Fig 9-1 shows it). Serial is
@@ -737,12 +744,12 @@ function buildAppendedEndorsement(store: DocumentStore): string {
   // 3.25in. These are the idioms the letter's own date and signature use, and
   // the ones this file's header prescribes ("tabularX{Xr} for right-aligned
   // content"). The 0.5pt rule matches the DOCX endorsement divider below.
-  const dateRows = [ack.serial, ack.date]
+  const dateRows = [store.formData.ssic, ack.serial, ack.date]
     .filter(Boolean)
     .map((row) => ` & ${escapeTabular(row)} \\\\`)
     .join('\n');
 
-  return `\\vspace{24pt}
+  return `${ack.ordinal !== 'FIRST' ? `\\newpage\n\n${buildLetterhead(store.formData)}\n` : '\\vspace{24pt}\n\n\\dondocsackstart\n'}
 \\noindent
 \\rule{\\textwidth}{0.5pt}
 
@@ -753,7 +760,7 @@ ${dateRows}
 \\end{tabularx}
 
 \\vspace{12pt}
-\\noindent FIRST ENDORSEMENT
+\\noindent ${escapeFlat(ack.ordinal)} ENDORSEMENT\\newline on ${escapeFlat(composeBasicLetterId(store))}
 
 \\vspace{12pt}
 \\noindent
@@ -763,13 +770,20 @@ To:\\hspace{6\\fontdimen2\\font} & ${escapeTabular(ack.to)} \\\\
 \\end{tabular}
 
 \\vspace{12pt}
-${body}\\vspace{48pt}
+\\noindent
+\\begin{tabular}{@{}l@{}p{5.75in}@{}}
+Subj:\\hspace{3\\fontdimen2\\font} & ${escapeTabular(store.formData.subject?.toUpperCase())} \\\\
+\\end{tabular}
+
+\\vspace{12pt}
+${body}\\dondocsacksignaturespace
 \\noindent
 \\begin{tabularx}{\\textwidth}{@{}X@{}l@{}}
- & ${escapeTabular(signer)} \\\\
+ & \\dondocsacksignature{${ack.ordinal}}${escapeTabular(signer)} \\\\
 \\end{tabularx}
 
 `;
+  }).join('\n');
 }
 
 /** Single signature block positioned in right half using tabularX */

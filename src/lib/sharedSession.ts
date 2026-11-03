@@ -1,4 +1,5 @@
 import { sl4Schema } from '@/data/techpub/sl4';
+import { additionalEndorsementsSchema } from './endorsementValidation';
 import { sl3Schema } from '@/data/techpub/sl3';
 import { z } from 'zod';
 import { parseFormInstance } from '@/services/forms/model';
@@ -34,6 +35,7 @@ export function parseSharedSession(value: unknown): SerializedSession {
   const result = schema.safeParse(value);
   if (!result.success) throw new Error('This link does not contain a supported DonDocs document.');
   const s = result.data;
+  if (s.formData.additionalEndorsements !== undefined) s.formData.additionalEndorsements = additionalEndorsementsSchema.parse(s.formData.additionalEndorsements);
   if (s.formData.sl3 !== undefined) s.formData.sl3 = sl3Schema.parse(s.formData.sl3);
   if (s.formData.sl4 !== undefined) s.formData.sl4 = sl4Schema.parse(s.formData.sl4);
   if (s.genericForm) {

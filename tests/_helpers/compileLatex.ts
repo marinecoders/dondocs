@@ -42,6 +42,7 @@ const REPO_ROOT = join(__dirname, '..', '..');
 
 export interface TestStore {
   docType: string;
+  documentMode?: import('@/types/document').DocumentMode;
   formData: Partial<DocumentData>;
   references: Reference[];
   enclosures: Enclosure[];

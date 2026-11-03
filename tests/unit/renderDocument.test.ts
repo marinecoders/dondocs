@@ -35,6 +35,12 @@ function fakeEngine(result?: Partial<CompileResult>) {
   return { engine, calls };
 }
 
+it('resolves custom page totals with a second compile of the current draft', async () => {
+  const { engine, calls } = fakeEngine();
+  await compileDocument(engine, { 'document.tex': '\\setDocumentType{naval_letter}\n\\setPageNumberStyle{xofy}' });
+  expect(calls.filter((call) => call.op === 'compile')).toHaveLength(2);
+});
+
 describe('prepareEngine', () => {
   it('creates every folder before it writes anything', () => {
     const { engine, calls } = fakeEngine();

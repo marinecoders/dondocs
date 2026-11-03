@@ -1,5 +1,6 @@
 import { showAppAlert } from '@/stores/alertStore';
 import { sessionSearchFields } from '@/lib/workspaceSearch';
+import { ENDORSEMENT_TEXT_FIELDS, endorsementTexts, hasEndorsementContent } from '@/lib/appendedEndorsement';
 import { create } from 'zustand';
 import { compressedParse } from '@/lib/compressedStorage';
 import { DOC_TYPE_LABELS, formTypeLabel, type FormType, type DocumentCategory } from '@/types/document';
@@ -165,6 +166,7 @@ export function isMeaningful(s: SerializedSession): boolean {
   if (s.documentCategory === 'forms') return !!s.forms;
   const subj = (s.formData?.subject ?? '').trim();
   if (subj !== '' && !isPlaceholder(subj)) return true;
+  if (endorsementTexts(s.formData ?? {}).some((text) => text.trim() !== '' && !isPlaceholder(text.trim()))) return true;
   return (
     s.paragraphs?.some((p) => {
       const t = (p.text ?? '').trim();
@@ -190,6 +192,10 @@ function contentFingerprint(s: SerializedSession): string {
     // Classification is content the user sets, and it drives portion markings.
     fd.classLevel ?? '',
     fd.customClassification ?? '',
+    fd.appendEndorsement ?? false,
+    ENDORSEMENT_TEXT_FIELDS.map((field) => fd[field] ?? ''),
+    (fd.additionalEndorsements ?? []).filter(hasEndorsementContent)
+      .map((entry) => ENDORSEMENT_TEXT_FIELDS.map((field) => entry[field] ?? '')),
     // Per-paragraph: body text + heading, plus indent level and portion marking
     // (a paragraph reworked only by marking/indent is still real work).
     (s.paragraphs ?? []).map((p) => [p.text ?? '', p.header ?? '', p.level ?? 0, p.portionMarking ?? '']),

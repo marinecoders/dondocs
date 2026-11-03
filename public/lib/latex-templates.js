@@ -124,6 +124,7 @@ const LATEX_TEMPLATES = {
 
 \\usepackage{fancyhdr}
 \\usepackage{lastpage}
+\\usepackage{refcount}
 
 %-----------------------------------------------------------------------------
 % Page Numbering Style Configuration
@@ -155,9 +156,9 @@ const LATEX_TEMPLATES = {
     }{%
         \\ifthenelse{\\equal{\\PageNumberStyle}{simple}}{%
             % Simple style: no number on page 1, then 2, 3, 4...
-            \\ifnum\\value{page}>1
-                \\thepage
-            \\fi
+            \\ifthenelse{\\equal{\\DocumentType}{new_page_endorsement}}{\\thepage}{%
+                \\ifnum\\value{page}>1 \\thepage\\fi
+            }%
         }{%
             % X of Y style (default)
             \\@ifundefined{r@LastPage}{%
@@ -165,7 +166,7 @@ const LATEX_TEMPLATES = {
                 \\thepage
             }{%
                 % LastPage defined - show "X of Y"
-                \\thepage\\ of \\pageref{LastPage}%
+                \\thepage\\ of \\getpagerefnumber{LastPage}%
             }%
         }%
     }%
@@ -934,57 +935,89 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\AckSignature}{}
 \\newcommand{\\AckSerial}{}
 \\newcommand{\\AckDate}{}
+\\newcommand{\\AppendedEndorsements}{}
 \\newcommand{\\setAppendedEndorsement}[6]{%
-    \\renewcommand{\\AckFrom}{#1}%
-    \\renewcommand{\\AckTo}{#2}%
-    \\renewcommand{\\AckBody}{#3}%
-    \\renewcommand{\\AckSignature}{#4}%
-    \\renewcommand{\\AckSerial}{#5}%
-    \\renewcommand{\\AckDate}{#6}%
+    \\addAppendedEndorsement{FIRST}{#1}{#2}{#3}{#4}{#5}{#6}%
+}
+\\newcommand{\\addAppendedEndorsement}[7]{%
+    \\gappto{\\AppendedEndorsements}{\\renderAppendedEndorsement{#1}{#2}{#3}{#4}{#5}{#6}{#7}}%
 }
 
-\\newcommand{\\printAppendedEndorsement}{%
+\\newcommand{\\AckBasicLetterID}{}
+\\newcommand{\\setAppendedEndorsementBasicLetter}[1]{\\renewcommand{\\AckBasicLetterID}{#1}}
+\\newsavebox{\\AckSamePageBox}
+\\newcommand{\\printAppendedEndorsement}{\\AppendedEndorsements}
+\\newcommand{\\printAckDate}[1]{%
+    \\noindent\\hfill\\begin{tabular}[t]{@{}l@{}}%
+        \\ifnum#1=1 \\DocumentSSIC\\\\\\fi
+        \\ifdefempty{\\AckSerial}{}{\\AckSerial\\\\}%
+        \\AckDate
+    \\end{tabular}\\par\\vspace{12pt}%
+}
+\\newcommand{\\printAckAddresses}{%
+    \\noindent\\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}%
+        From:\\hspace{2\\fontdimen2\\font} & \\AckFrom\\tabularnewline
+        To:\\hspace{6\\fontdimen2\\font} & \\AckTo
+    \\end{tabular}\\par\\vspace{12pt}%
+}
+\\newcommand{\\printAckBodyAndSignature}{%
+    % Minipages reset paragraph alignment. Keep wrapped acknowledgement text
+    % left-aligned so justification cannot stretch or shrink its word spaces.
+    {\\raggedright\\clubpenalty=10000\\widowpenalty=10000\\AckBody\\par}%
+    \\nopagebreak[4]\\vspace{3\\baselineskip}\\nopagebreak[4]%
+    \\noindent\\hspace*{3.25in}\\AckSignature\\par
+}
+\\newsavebox{\\AckHeadingBox}
+\\newcommand{\\printAckHeading}[1]{%
+    \\sbox{\\AckHeadingBox}{#1 ENDORSEMENT on \\AckBasicLetterID}%
+    \\noindent #1 ENDORSEMENT%
+    \\ifdim\\wd\\AckHeadingBox>\\textwidth\\par\\noindent\\else\\space\\fi
+    on \\AckBasicLetterID\\par\\vspace{12pt}%
+}
+\\newcommand{\\printAckNewPage}[1]{%
+    \\clearpage
+    \\printLetterhead
+    \\vspace*{0.5in}%
+    \\printAckDate{1}%
+    \\printAckHeading{#1}%
+    \\printAckAddresses
+    \\noindent\\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}%
+        Subj:\\hspace{3\\fontdimen2\\font} & \\SubjectLine
+    \\end{tabular}\\par\\vspace{12pt}%
+    % Long endorsements must remain breakable; a page-sized minipage clips
+    % both paragraphs and the signature outside the printable page.
+    \\printAckBodyAndSignature
+}
+\\newcommand{\\renderAppendedEndorsement}[7]{%
+    \\begingroup
+    \\renewcommand{\\AckFrom}{#2}%
+    \\renewcommand{\\AckTo}{#3}%
+    \\renewcommand{\\AckBody}{#4}%
+    \\renewcommand{\\AckSignature}{#5}%
+    \\renewcommand{\\AckSerial}{#6}%
+    \\renewcommand{\\AckDate}{#7}%
     \\ifdefempty{\\AckFrom}{}{%
-        \\vspace{24pt}%
-        % Ch 9 para 1 allows a same-page endorsement only when the whole of it
-        % fits on the signature page -- "If not, use a new-page endorsement." A
-        % minipage cannot be broken, so an endorsement that does not fit moves
-        % whole rather than stranding the appointee's signature on the next
-        % page. It cannot make an over-long endorsement conform (that needs a
-        % new-page endorsement, which is its own doc type), but it does keep the
-        % signature with the block it belongs to.
-        \\noindent\\begin{minipage}{\\textwidth}%
-        \\noindent\\rule{\\textwidth}{0.4pt}\\par
-        \\vspace{12pt}%
-        % Ch 9 para 2.1a starts the endorsement line "on the second line below the
-        % date line". A same-page endorsement may omit the SSIC, subject and the
-        % basic letter's ID symbols — the date line is not on that list, and
-        % Fig 9-1 shows it. The serial is optional: an appointee endorsing back
-        % is not assigning one. Both stay blank for hand-dating at signature.
-        \\hfill
-        \\begin{tabular}[t]{@{}l@{}}
-            \\ifdefempty{\\AckSerial}{}{%
-                \\AckSerial\\\\
-            }%
-            \\AckDate
-        \\end{tabular}\\par
-        \\vspace{12pt}%
-        \\noindent FIRST ENDORSEMENT\\par
-        \\vspace{12pt}%
-        % Colon spacing matches the basic letter's From/To block: two spaces
-        % after "From:" (Ch 7 para 6c), six after "To:" (Ch 7 para 7b).
-        \\noindent
-        \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}
-            From:\\hspace{2\\fontdimen2\\font} & \\AckFrom\\tabularnewline
-            To:\\hspace{6\\fontdimen2\\font} & \\AckTo
-        \\end{tabular}\\par
-        \\vspace{12pt}%
-        \\AckBody
-        % 4 lines below the last paragraph, matching the basic signature block.
-        \\vspace{48pt}%
-        \\noindent\\hspace*{3.25in}\\AckSignature\\par
-        \\end{minipage}%
+        \\par
+        \\ifstrequal{#1}{FIRST}{%
+            % Preserve the one-sheet acknowledgement when it fits. Otherwise
+            % use a new-page heading with all the basic letter identifiers.
+            \\sbox{\\AckSamePageBox}{\\begin{minipage}{\\textwidth}%
+                \\noindent\\rule{\\textwidth}{0.4pt}\\par\\vspace{12pt}%
+                \\printAckDate{0}%
+                \\noindent #1 ENDORSEMENT\\par\\vspace{12pt}%
+                \\printAckAddresses
+                \\printAckBodyAndSignature
+            \\end{minipage}}%
+            \\dimen0=\\dimexpr\\pagegoal-\\pagetotal\\relax
+            \\ifdim\\dimen0>\\textheight \\dimen0=\\textheight\\fi
+            \\ifdim\\dimexpr\\ht\\AckSamePageBox+\\dp\\AckSamePageBox+24pt\\relax>\\dimen0
+                \\printAckNewPage{#1}%
+            \\else
+                \\vspace{24pt}\\noindent\\usebox{\\AckSamePageBox}\\par
+            \\fi
+        }{\\printAckNewPage{#1}}%
     }%
+    \\endgroup
 }
 
 % setSignatureImage: If non-empty, redefine SignatureImage so \\ifx check works
@@ -1869,7 +1902,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
     \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\thepage}%
+    \\fancyfoot[C]{\\smartPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -2060,7 +2093,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{}% No page number on first page
+    \\fancyfoot[C]{\\smartPageNumber}% No page number on first page
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -2073,7 +2106,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
     \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\thepage}% Page number centered
+    \\fancyfoot[C]{\\smartPageNumber}% Page number centered
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -2241,7 +2274,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{}%  % No page number on first page
+    \\fancyfoot[C]{\\smartPageNumber}%  % No page number on first page
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -2250,7 +2283,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
     \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\thepage}%
+    \\fancyfoot[C]{\\smartPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -2387,7 +2420,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{}% No page number on first page
+    \\fancyfoot[C]{\\smartPageNumber}% No page number on first page
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -2400,7 +2433,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
     \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\thepage}% Page number centered
+    \\fancyfoot[C]{\\smartPageNumber}% Page number centered
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -2545,7 +2578,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{}%  % No page number on first page
+    \\fancyfoot[C]{\\smartPageNumber}%  % No page number on first page
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -2558,7 +2591,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
     \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\thepage}%
+    \\fancyfoot[C]{\\smartPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -3235,7 +3268,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
     \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\thepage}%
+    \\fancyfoot[C]{\\smartPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -3428,7 +3461,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{}%  % No page number on first page
+    \\fancyfoot[C]{\\smartPageNumber}%  % No page number on first page
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -3437,7 +3470,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
     \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\thepage}%
+    \\fancyfoot[C]{\\smartPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -3625,7 +3658,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{}%  % No page number on first page
+    \\fancyfoot[C]{\\smartPageNumber}%  % No page number on first page
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -3634,7 +3667,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
     \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\thepage}%
+    \\fancyfoot[C]{\\smartPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -3787,7 +3820,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{}%  % No page number on first page
+    \\fancyfoot[C]{\\smartPageNumber}%  % No page number on first page
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -3796,7 +3829,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
     \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\thepage}%
+    \\fancyfoot[C]{\\smartPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -3938,7 +3971,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{}%  % No page number on first page
+    \\fancyfoot[C]{\\smartPageNumber}%  % No page number on first page
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -3947,7 +3980,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
     \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\thepage}%
+    \\fancyfoot[C]{\\smartPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -4065,7 +4098,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{}%  % No page number on first page
+    \\fancyfoot[C]{\\smartPageNumber}%  % No page number on first page
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -4074,7 +4107,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
     \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\thepage}%
+    \\fancyfoot[C]{\\smartPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -4240,7 +4273,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{}%  % No page number on first page
+    \\fancyfoot[C]{\\smartPageNumber}%  % No page number on first page
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -4249,7 +4282,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
     \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\thepage}%
+    \\fancyfoot[C]{\\smartPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -4413,7 +4446,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{}%  % No page number on first page
+    \\fancyfoot[C]{\\smartPageNumber}%  % No page number on first page
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -4422,7 +4455,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
     \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\thepage}%
+    \\fancyfoot[C]{\\smartPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -4608,7 +4641,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{}%  % No page number on first page
+    \\fancyfoot[C]{\\smartPageNumber}%  % No page number on first page
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -4617,7 +4650,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
     \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\thepage}%
+    \\fancyfoot[C]{\\smartPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -4775,7 +4808,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{}%  % No page number on first page
+    \\fancyfoot[C]{\\smartPageNumber}%  % No page number on first page
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -4784,7 +4817,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
     \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\thepage}%  % Just the number, no "of X"
+    \\fancyfoot[C]{\\smartPageNumber}%  % Just the number, no "of X"
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -4956,7 +4989,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{\\thepage}%
+    \\fancyfoot[C]{\\smartPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -4965,7 +4998,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
     \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\thepage}%
+    \\fancyfoot[C]{\\smartPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -5114,7 +5147,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{}%  % No page number on first page
+    \\fancyfoot[C]{\\smartPageNumber}%  % No page number on first page
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -5123,7 +5156,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
     \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\thepage}%
+    \\fancyfoot[C]{\\smartPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -5298,7 +5331,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{}%
+    \\fancyfoot[C]{\\smartPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -5306,7 +5339,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{\\thepage}%
+    \\fancyfoot[C]{\\smartPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -5517,7 +5550,7 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{}%  % No page number on first page
+    \\fancyfoot[C]{\\smartPageNumber}%  % No page number on first page
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -5526,7 +5559,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
     \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\thepage}%  % Just the number, no "of X"
+    \\fancyfoot[C]{\\smartPageNumber}%  % Just the number, no "of X"
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
@@ -5698,7 +5731,7 @@ const LATEX_TEMPLATES = {
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
     \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\thepage}%
+    \\fancyfoot[C]{\\smartPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }

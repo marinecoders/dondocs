@@ -4,6 +4,7 @@ import { publicationExportErrors } from '@/lib/publicationPreflight';
 import { loadFigureFiles } from '@/services/latex/figureAssets';
 import { loadAttachment } from '@/lib/attachments';
 import { prepareBatchCorrespondence } from '@/lib/batchDocument';
+import { endorsementTexts } from '@/lib/appendedEndorsement';
 import { finishCorrespondencePdf } from '@/services/pdf/finishCorrespondencePdf';
 import { memo, useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { Plus, Trash2, Download, AlertCircle, FileText, Variable, CheckCircle, XCircle, Copy, Lightbulb, Eye, Loader2, Settings, ArrowRight } from 'lucide-react';
@@ -344,6 +345,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
       if (formData.via) allText.push(formData.via);
       if (formData.subject) allText.push(formData.subject);
       if (formData.serial) allText.push(formData.serial);
+      if (formData.appendEndorsement) allText.push(...endorsementTexts(formData));
 
       if ((source ?? getSerializedSession()).docType === MANUAL_DOC_TYPE) {
         for (const [key, value] of Object.entries(formData)) if (typeof value === 'string' && !['to', 'from', 'via', 'subject', 'serial'].includes(key)) allText.push(value);

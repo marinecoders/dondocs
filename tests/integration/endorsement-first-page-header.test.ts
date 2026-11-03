@@ -52,6 +52,7 @@ async function pageText(pdf: Uint8Array, page: number): Promise<string> {
 
 function endorsementStore() {
   const store = buildBaseline('new_page_endorsement');
+  store.documentMode = 'compliant';
   store.formData.subject = 'OPERATIONAL READINESS REPORT';
   // The setting the field user had on — it is what puts Subj: in the header.
   store.formData.showSubjectOnContinuation = true;

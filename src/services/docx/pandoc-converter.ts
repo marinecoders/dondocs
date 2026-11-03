@@ -86,8 +86,12 @@ async function loadPandocModule(): Promise<PandocModule> {
   }
 }
 
+export function pandocSupportFileUrl(filename: string, buildTime = __BUILD_TIME__): string {
+  return `${BASE_PATH}lib/pandoc/${filename}?v=${encodeURIComponent(buildTime)}`;
+}
+
 async function fetchSupportFile(filename: string): Promise<Blob> {
-  const url = `${BASE_PATH}lib/pandoc/${filename}`;
+  const url = pandocSupportFileUrl(filename);
   debug.verbose('DOCX', `Fetching support file: ${url}`);
   const response = await fetch(url);
   if (!response.ok) {
@@ -457,6 +461,7 @@ function perfectLetterheadCentering(xml: string, textWidthTwips: number): Letter
  * was already at the edge of readable; eight would not be.
  */
 export interface DocxConversionOptions {
+  docType?: string;
   sealType?: string;
   letterheadColor?: string;
   fontFamily?: string;
@@ -465,7 +470,7 @@ export interface DocxConversionOptions {
   customClassification?: string;
   /** Repeat "Subj:" at the top of pages 2+ — SECNAV M-5216.5 ¶7-16. */
   showSubjectOnContinuation?: boolean;
-  /** 'none' | 'simple' | 'x-of-y'; anything but 'none' numbers pages 2+ (¶7-17). */
+  /** 'none' | 'simple' | 'xofy'; custom totals include the first page. */
   pageNumbering?: string;
   /**
    * First page's number. Above 1 means this document continues an earlier one's
@@ -527,12 +532,15 @@ function continuationSubjectParagraph(line: string, spaceBefore: number): string
  * falls out of this living in the *default* footer while page 1 uses the
  * `first` one.
  */
-function pageNumberParagraph(): string {
+function pageNumberParagraph(style?: string): string {
+  const total = style === 'xofy'
+    ? '<w:r><w:t xml:space="preserve"> of </w:t></w:r><w:fldSimple w:instr="PAGEREF DonDocsLastPage"><w:r><w:t>1</w:t></w:r></w:fldSimple>'
+    : '';
   return '<w:p><w:pPr><w:jc w:val="center"/></w:pPr>'
     + '<w:r><w:fldChar w:fldCharType="begin"/></w:r>'
     + '<w:r><w:instrText xml:space="preserve"> PAGE </w:instrText></w:r>'
     + '<w:r><w:fldChar w:fldCharType="separate"/></w:r>'
-    + '<w:r><w:fldChar w:fldCharType="end"/></w:r></w:p>';
+    + '<w:r><w:fldChar w:fldCharType="end"/></w:r>' + total + '</w:p>';
 }
 
 /** An empty paragraph — one blank line, and what Word needs a part to contain. */
@@ -588,9 +596,10 @@ function planHeadersAndFooters(
   wantsPageNumbers: boolean,
   numberFirstPage: boolean,
   fontSizePt: number,
+  pageNumbering?: string,
 ): HeaderFooterParts {
   const marked = marking ? [markingParagraph(marking)] : [];
-  const number = wantsPageNumbers ? [pageNumberParagraph()] : [];
+  const number = wantsPageNumbers ? [pageNumberParagraph(pageNumbering)] : [];
   return {
     firstHeader: [...marked],
     // ¶7-17 leaves a letter's first page unnumbered, but an endorsement's
@@ -676,6 +685,8 @@ export interface PageFurniture {
   startPage: number;
   /** Body font size in points — sets the line height the subject spaces against. */
   fontSizePt: number;
+  numberFirstPage?: boolean;
+  pageNumbering?: string;
 }
 
 /**
@@ -693,6 +704,15 @@ export async function applyPageFurniture(
   xml: string,
   furniture: PageFurniture,
 ): Promise<string> {
+  if (furniture.pageNumbering === 'xofy') {
+    const ids = [...xml.matchAll(/<w:bookmarkStart\b[^>]*w:id="(\d+)"/g)].map((match) => Number(match[1]));
+    const id = Math.max(0, ...ids) + 1;
+    const end = xml.lastIndexOf('</w:p>');
+    if (end !== -1) xml = xml.slice(0, end)
+      + `<w:bookmarkStart w:id="${id}" w:name="DonDocsLastPage"/><w:bookmarkEnd w:id="${id}"/>` + xml.slice(end);
+    const settings = await zip.file('word/settings.xml')?.async('string');
+    if (settings) zip.file('word/settings.xml', settings.replace('</w:settings>', '<w:updateFields w:val="true"/></w:settings>'));
+  }
   return injectHeadersAndFooters(
     zip,
     xml,
@@ -700,8 +720,9 @@ export async function applyPageFurniture(
       furniture.marking,
       furniture.continuationSubject,
       furniture.wantsPageNumbers,
-      furniture.startPage > 1,
+      furniture.startPage > 1 || !!furniture.numberFirstPage,
       furniture.fontSizePt,
+      furniture.pageNumbering,
     ),
     furniture.startPage,
   );
@@ -995,9 +1016,10 @@ export function applyIndentMarkers(xml: string): string {
   return xml;
 }
 
-async function postProcessDocx(
+export async function postProcessDocx(
   docxBlob: Blob,
   {
+    docType,
     fontFamily = 'times',
     fontSize = '12pt',
     letterheadColor,
@@ -1012,7 +1034,7 @@ async function postProcessDocx(
   debug.time('DOCX:postProcess');
   debug.verbose('DOCX', `Options: font=${fontFamily}, size=${fontSize}, color=${letterheadColor}, class=${classLevel}`);
 
-  const zip = await JSZip.loadAsync(docxBlob);
+  const zip = await JSZip.loadAsync(await docxBlob.arrayBuffer());
   const docFile = zip.file('word/document.xml');
   if (!docFile) {
     debug.warn('DOCX', 'No word/document.xml found in DOCX — skipping post-processing');
@@ -1248,6 +1270,21 @@ async function postProcessDocx(
   debug.verbose('DOCX', 'Step 6a: Converting indent markers to w:ind');
   xml = applyIndentMarkers(xml);
 
+  // Keep the first acknowledgement together when it fits, including its header.
+  // Additional endorsements keep their last two body paragraphs with the signer.
+  // Word can split an oversized group; widow control retains two text lines.
+  let endorsementTail = false;
+  xml = xml.replace(/<w:p(?:\s[^>]*)?>[\s\S]*?<\/w:p>/g, (paragraph) => {
+    if (paragraph.includes('w:name="DonDocsAckStartFIRST')) endorsementTail = true;
+    if (paragraph.includes('w:name="DonDocsAckTail')) endorsementTail = true;
+    if (paragraph.includes('w:name="DonDocsAckSignature')) endorsementTail = false;
+    if (!endorsementTail) return paragraph;
+    const properties = '<w:keepNext/><w:widowControl/>';
+    return paragraph.includes('<w:pPr>')
+      ? paragraph.replace(/<w:pPr>(<w:pStyle\b[^>]*\/>)?/, (_, style = '') => `<w:pPr>${style}${properties}`)
+      : paragraph.replace(/(<w:p(?:\s[^>]*)?>)/, `$1<w:pPr>${properties}</w:pPr>`);
+  });
+
   // --- 6b. Page header and footer ---
   // Three separate things share one mechanism: the classification marking (every
   // page), the repeated subject line (¶7-16, pages 2+) and the page number
@@ -1256,6 +1293,13 @@ async function postProcessDocx(
   const classMarking = getClassificationMarking(classLevel, customClassification);
   const continuationSubject = showSubjectOnContinuation ? extractSubjectFromDocument(xml) : '';
   const wantsPageNumbers = !!pageNumbering && pageNumbering !== 'none';
+  // LibreOffice applies a restart on an opening table to the table rather
+  // than the page's PAGE field. Anchor it to a nearly zero-height paragraph
+  // so continued letterhead documents print their opening number as well.
+  if (startingPageNumber && startingPageNumber > 1) {
+    xml = xml.replace(/(<w:body>\s*)(?=<w:tbl\b)/,
+      '$1<w:p><w:pPr><w:spacing w:before="0" w:after="0" w:line="1" w:lineRule="exact"/></w:pPr></w:p>');
+  }
   debug.verbose(
     'DOCX',
     `Step 6b: marking="${classMarking || 'none'}" continuationSubj="${continuationSubject || 'none'}" pageNumbers=${wantsPageNumbers}`,
@@ -1266,6 +1310,8 @@ async function postProcessDocx(
       continuationSubject,
       wantsPageNumbers,
       startPage: Math.max(1, Math.trunc(startingPageNumber || 1)),
+      numberFirstPage: docType === 'new_page_endorsement' || pageNumbering === 'xofy',
+      pageNumbering,
       fontSizePt: parseInt(fontSize, 10) || 12,
     });
   }
