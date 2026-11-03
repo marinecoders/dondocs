@@ -180,7 +180,7 @@
 \fancypagestyle{firstpage}{%
     \fancyhf{}%
     \fancyhead[C]{\placeClassificationMarkings}%
-    \fancyfoot[C]{}%  % No page number on first page
+    \fancyfoot[C]{\smartPageNumber}%  % No page number on first page
     \renewcommand{\headrulewidth}{0pt}%
     \renewcommand{\footrulewidth}{0pt}%
 }
@@ -189,7 +189,7 @@
     \fancyhf{}%
     \fancyhead[C]{\placeClassificationMarkings}%
     \fancyhead[L]{\printContinuationSubject}%
-    \fancyfoot[C]{\thepage}%
+    \fancyfoot[C]{\smartPageNumber}%
     \renewcommand{\headrulewidth}{0pt}%
     \renewcommand{\footrulewidth}{0pt}%
 }

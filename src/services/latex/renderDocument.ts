@@ -126,9 +126,9 @@ async function runCompile(
 
   engine.setEngineMainFile(LATEX.MAIN_FILE);
   let result = await engine.compileLaTeX();
-  // Stock-list navigation lists print page references, which must be resolved from
-  // this document's first pass rather than a previous draft's auxiliary data.
-  if (result.status === 0 && typeof files['document.tex'] === 'string' && /\\setDocumentType\{(?:sl3|sl4)\}/.test(files['document.tex'])) {
+  // Resolve stock-list page references and custom page totals from this draft,
+  // rather than auxiliary data left behind by the previous draft.
+  if (result.status === 0 && typeof files['document.tex'] === 'string' && (/\\setDocumentType\{(?:sl3|sl4)\}/.test(files['document.tex']) || files['document.tex'].includes('\\setPageNumberStyle{xofy}'))) {
     result = await engine.compileLaTeX();
   }
 

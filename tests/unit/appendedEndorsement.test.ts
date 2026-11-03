@@ -128,7 +128,7 @@ describe('both generators emit the acknowledgement', () => {
 
   it('PDF generator sets the macro main.tex renders', () => {
     const tex = generateSignatoryTex(store);
-    expect(tex).toContain('\\setAppendedEndorsement');
+    expect(tex).toContain('\\addAppendedEndorsement');
     expect(tex).toContain('Sergeant J. A. DOE, USMC');
     expect(tex).toMatch(/read and understand/);
   });
@@ -166,6 +166,6 @@ describe('both generators emit the acknowledgement', () => {
       formData: { ...base, appendEndorsement: false, docType: 'naval_letter' },
     } as never;
     expect(generateFlatLatex(plain)).not.toContain('FIRST ENDORSEMENT');
-    expect(generateSignatoryTex(plain)).not.toContain('\\setAppendedEndorsement');
+    expect(generateSignatoryTex(plain)).not.toContain('\\addAppendedEndorsement');
   });
 });

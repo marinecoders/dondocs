@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isMeaningful, deriveTitle, sameContent, profileFormPatch, importShouldReplace, searchableText, correspondenceFilename, type DocumentEntry } from '@/stores/documentsStore';
+import { isMeaningful, hasContentDrift, deriveTitle, sameContent, profileFormPatch, importShouldReplace, searchableText, correspondenceFilename, type DocumentEntry } from '@/stores/documentsStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import { docTypeChip, type Profile } from '@/types/document';
 
@@ -39,6 +39,13 @@ describe('download filenames', () => {
 });
 
 describe('isMeaningful — keeps blank starter docs out of Recents', () => {
+  it('retains drafts whose only authored content is an additional endorsement', () => {
+    const baseline = mkSession();
+    const draft = mkSession({ formData: { additionalEndorsements: [{ id: 'second', endorsementBody: 'Approved for the training event.' }] } });
+    expect(hasContentDrift(baseline, draft)).toBe(true);
+    expect(isMeaningful(draft)).toBe(true);
+    expect(hasContentDrift(baseline, mkSession({ formData: { additionalEndorsements: [{ id: 'empty' }] } }))).toBe(false);
+  });
   it('a blank starter (placeholder subject + placeholder paragraph) is NOT meaningful', () => {
     const s = mkSession({
       formData: { subject: '[SUBJECT]' },

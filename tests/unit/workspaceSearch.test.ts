@@ -11,6 +11,14 @@ const session = (patch: Partial<SerializedSession> = {}): SerializedSession => (
 });
 
 describe('workspace full-text search', () => {
+  it('finds additional endorsement content in the signature section without indexing row IDs', () => {
+    const fields = sessionSearchFields(session({ formData: { additionalEndorsements: [
+      { id: 'private-row-id', endorsementBody: 'Approved for amphibious training.', endorsementSigLast: 'REVIEWER' },
+    ] } }));
+    expect(findSearchMatch(fields, 'amphibious')?.field.sectionId).toBe('signature');
+    expect(findSearchMatch(fields, 'reviewer')?.field.sectionId).toBe('signature');
+    expect(findSearchMatch(fields, 'private-row-id')).toBeUndefined();
+  });
   it.each(['naval_letter', 'i_type'])('shows readable letterhead choices and retains search destinations for %s', (docType) => {
     const fields = sessionSearchFields(session({ docType, formData: { department: 'usmc', sealType: 'dow' } }));
     const sectionId = docType === 'i_type' ? 'cover' : 'letterhead';

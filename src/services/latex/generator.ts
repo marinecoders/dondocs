@@ -1,4 +1,5 @@
 import { jointSignatories, signatureAuthorityLine, signaturePosition, supportsActingSignature } from '@/lib/signingAuthority';
+import { resolvePageNumbering } from '@/lib/pageNumbering';
 import { generateSl4Body } from './sl4Generator';
 import { stockDefinitionText } from './stockPublicationHelpers';
 import { generateManualFrontMatterData, manualPlainText } from './manualFrontMatterGenerator';
@@ -22,7 +23,7 @@ import { figureFile } from '@/lib/figures';
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, EndItem, PublicationTableRow, CalloutKind, FileRef } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
-import { enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
+import { composeBasicLetterId, enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
 import { calculateLabels } from './paragraphLabels';
 import { subparagraphIndentIn, ancestorLabelsPerParagraph, type LabelFont } from './subparagraphIndent';
 import { safeUrl } from '@/lib/url-safety';
@@ -31,12 +32,12 @@ import { formatViaLines } from '@/lib/viaLines';
 import { parse as parseDate, isValid as isValidDate, format as formatDate } from 'date-fns';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
 import {
-  resolveAppendedEndorsement,
-  appendedEndorsementSigner,
+  resolveAppendedEndorsements,
 } from '@/lib/appendedEndorsement';
 
 interface DocumentStore {
   docType: string;
+  documentMode?: import('@/types/document').DocumentMode;
   formData: Partial<DocumentData>;
   references: Reference[];
   /** Technical publication cover rows; absent for correspondence. */
@@ -111,7 +112,7 @@ export function generateDocumentTex(store: DocumentStore): string {
 \\setDocumentType{${store.docType}}
 \\setFontSize{${data.fontSize || '12pt'}}
 \\setFontFamily{${data.fontFamily || 'times'}}
-\\setPageNumberStyle{${data.pageNumbering || 'none'}}
+\\setPageNumberStyle{${resolvePageNumbering(store.docType, store.documentMode, data.pageNumbering)}}
 ${(() => {
   // Gated to endorsement types like the reference/enclosure continuations —
   // a leftover value must never offset another doc type's own sequence.
@@ -455,24 +456,23 @@ export function generateSignatoryTex(store: DocumentStore): string {
   // The appointee's acknowledgement, if this letter carries one. Body is
   // pre-numbered here because \setAppendedEndorsement takes it as one argument;
   // main.tex's \printAppendedEndorsement renders nothing when From is empty.
-  let appendedEndorsementTex = '';
-  const ack = resolveAppendedEndorsement(store.docType, data);
-  if (ack) {
-    // Label spacing matches generateBodyTex's `${label}  ${text}` exactly. The
-    // acknowledgement sits on the same sheet as the letter it answers, so its
-    // "1." must align with the letter's "1."; \hspace here put the text 2.3pt
-    // further right than the body above it.
-    const body = ack.paragraphs
-      .map((text, i) => `\\noindent ${i + 1}.~~${escapeLatex(text)}\\par\\vspace{12pt}`)
-      .join('');
-    appendedEndorsementTex = `\\setAppendedEndorsement
+  const appendedEndorsementTex = resolveAppendedEndorsements(store.docType, data).map((ack) => {
+    const body = ack.paragraphs.map((text, i) => {
+      // Keep the last two paragraphs linked. Widow control in the template
+      // also keeps two lines when a long final paragraph crosses a page.
+      const keepNext = i === ack.paragraphs.length - 2 ? '\\nopagebreak[4]' : '';
+      const gap = i < ack.paragraphs.length - 1 ? `${keepNext}\\vspace{12pt}` : '';
+      return `\\noindent ${i + 1}.~~${escapeLatex(text)}\\par${gap}`;
+    }).join('');
+    return `\\addAppendedEndorsement
+    {${escapeLatex(ack.ordinal)}}
     {${escapeLatex(ack.from)}}
     {${escapeLatex(ack.to)}}
     {${body}}
-    {${escapeLatex(appendedEndorsementSigner(data))}}
+    {${escapeLatex(ack.signer)}}
     {${escapeLatex(ack.serial)}}
     {${escapeLatex(ack.date)}}`;
-  }
+  }).join('\n');
 
   // Set signature type and image
   // signatureType: 'none' = just typed name, 'image' = uploaded signature, 'digital' = empty field for CAC signing
@@ -507,6 +507,7 @@ export function generateSignatoryTex(store: DocumentStore): string {
 ${byDirectionTex}
 ${actingTitleTex}
 
+${appendedEndorsementTex ? `\\setAppendedEndorsementBasicLetter{${escapeLatex(composeBasicLetterId(store))}}` : ''}
 ${appendedEndorsementTex}
 
 ${signatureConfigTex}

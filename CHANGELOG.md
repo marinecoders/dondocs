@@ -5,6 +5,17 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.218] — 2026-11-03
+
+### Added
+- Additional endorsement blocks for naval and standard letters, with independent text, signers, dates, serials and addressees.
+- Bottom-center page numbering controls for PDF and Word exports, including continued numbering and custom page totals.
+
+### Fixed
+- Keep endorsement text and signatures together across page boundaries, including first acknowledgements in Word.
+- Preserve endorsement-only drafts, search results and batch variables, and validate endorsement rows in shared links and backups.
+- Print continued page numbers correctly in Word documents that begin with a letterhead table.
+
 ## [1.2.217] — 2026-11-03
 
 ### Added

@@ -289,6 +289,21 @@ export function detectPII(documentStore: DocumentStore): PIIDetectionResult {
     }
   }
 
+  // Endorsements travel with saved/shared letters, including hidden blocks.
+  const endorsementFields = [
+    'endorsementFrom', 'endorsementTo', 'endorsementBody', 'endorsementSigFirst',
+    'endorsementSigMiddle', 'endorsementSigLast', 'endorsementSerial', 'endorsementDate',
+  ];
+  const endorsements = [documentStore.formData, ...(Array.isArray(documentStore.formData.additionalEndorsements)
+    ? documentStore.formData.additionalEndorsements : [])];
+  endorsements.forEach((entry: unknown, index) => {
+    if (!entry || typeof entry !== 'object') return;
+    for (const field of endorsementFields) {
+      const value = (entry as Record<string, unknown>)[field];
+      if (typeof value === 'string') findings.push(...scanText(value, `Endorsement ${index + 1}: ${field}`));
+    }
+  });
+
   // Scan email fields specifically
   const emailFields = ['pocEmail', 'classifiedPocEmail'];
   for (const fieldName of emailFields) {

@@ -1,3 +1,4 @@
+import { resolvePageNumbering, usesSecnavLetterNumbering } from '@/lib/pageNumbering';
 import { Shield, Settings2 } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -137,6 +138,25 @@ export function DocumentTypeSelector() {
             </div>
           </>
         )}
+
+        {!isPublication && <div className="space-y-2">
+          <Label htmlFor="pageNumbering">Page numbering</Label>
+          <Select value={resolvePageNumbering(docType, documentMode, formData.pageNumbering)}
+            disabled={isCompliant && usesSecnavLetterNumbering(docType)}
+            onValueChange={(value) => setField('pageNumbering', value)}>
+            <SelectTrigger id="pageNumbering" className="w-full"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="none">None</SelectItem>
+              <SelectItem value="simple">Page number</SelectItem>
+              <SelectItem value="xofy">Page X of Y</SelectItem>
+            </SelectContent>
+          </Select>
+          <p className="text-xs text-muted-foreground">
+            {isCompliant && usesSecnavLetterNumbering(docType)
+              ? 'SECNAV numbering is automatic: the basic letter’s first page is unnumbered; later pages and new-page endorsements continue the sequence.'
+              : 'Numbers appear at the bottom center. Page number leaves the basic letter’s first page unnumbered; endorsements continue its sequence.'}
+          </p>
+        </div>}
 
       </div>
       )}

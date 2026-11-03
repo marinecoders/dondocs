@@ -2,6 +2,7 @@ import type { Answer, AnswerField } from '@/services/forms/model';
 import type { SerializedSession } from '@/stores/documentStore';
 import { DOC_TYPE_CONFIG, DOC_TYPE_LABELS, formTypeLabel } from '@/types/document';
 import { getEditorSections, getFormSections } from './editorSections';
+import { canAppendEndorsement } from './appendedEndorsement';
 
 function formatAnswer(value: Answer | undefined, field: AnswerField): string {
   if (value === undefined) return '';
@@ -104,6 +105,7 @@ export function sessionSearchFields(session: SerializedSession): SearchField[] {
     add('sl4-indexes', session.formData.sl4?.circuitIndex);
     add('sl4-revisions', session.formData.sl4?.revisions);
   }
+  if (canAppendEndorsement(session.docType)) add('signature', session.formData.additionalEndorsements);
   if (session.docType === 'sl3') {
     add('sl3-cover', session.endItems);
     add('sl3-details', session.formData.sl3?.technicalData);

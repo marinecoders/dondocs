@@ -1,4 +1,5 @@
 import { sl4Schema } from '@/data/techpub/sl4';
+import { additionalEndorsementsSchema } from './endorsementValidation';
 import { sl3Schema } from '@/data/techpub/sl3';
 import { parseFormInstance } from '@/services/forms/model';
 
@@ -17,6 +18,7 @@ export function validateBackupSession(value: unknown) {
   for (const key of ['formData', 'publicationTables']) if (data[key] !== undefined) object(data[key], key);
   for (const key of ['enclosures', 'paragraphs', 'references', 'endItems', 'copyTos', 'distributions']) if (data[key] !== undefined && !Array.isArray(data[key])) throw new Error(`Invalid session.${key}`);
   const formData = data.formData as RecordValue | undefined;
+  if (formData?.additionalEndorsements !== undefined) additionalEndorsementsSchema.parse(formData.additionalEndorsements);
   if (formData?.sl3 !== undefined) sl3Schema.parse(formData.sl3);
   if (formData?.sl4 !== undefined) sl4Schema.parse(formData.sl4);
   if (data.genericForm) {

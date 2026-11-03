@@ -1,3 +1,4 @@
+import { resolvePageNumbering } from '@/lib/pageNumbering';
 import { saveCheckpoint } from '@/lib/saveCheckpoint';
 import { usePageScrollLayout } from '@/hooks/usePageScrollLayout';
 import { applyTheme, THEMES } from '@/lib/appearance';
@@ -196,6 +197,7 @@ function App() {
   // the slices that should invalidate the debounced compile; other setter calls
   // no longer wake App. compilePdf reads the full store via getState() at call time.
   const docType = useDocumentStore((s) => s.docType);
+  const documentMode = useDocumentStore((s) => s.documentMode);
   const currentDocId = useDocumentsStore((s) => s.currentId);
   const formData = useDocumentStore((s) => s.formData);
   const references = useDocumentStore((s) => s.references);
@@ -668,6 +670,7 @@ function App() {
     documentCategory,
     batchRunning,
     docType,
+    documentMode,
     formData,
     references,
     enclosures,
@@ -979,7 +982,8 @@ function App() {
         classLevel: currentStore.formData.classLevel,
         customClassification: currentStore.formData.customClassification,
         showSubjectOnContinuation: currentStore.formData.showSubjectOnContinuation,
-        pageNumbering: currentStore.formData.pageNumbering,
+        docType: currentStore.docType,
+        pageNumbering: resolvePageNumbering(currentStore.docType, currentStore.documentMode, currentStore.formData.pageNumbering),
         startingPageNumber: pageStartNumber(
           currentStore.docType,
           currentStore.formData.startingPageNumber,

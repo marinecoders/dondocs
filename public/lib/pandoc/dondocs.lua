@@ -304,6 +304,19 @@ local function handle_raw_block(el)
 
   local text = el.text
 
+  if text:match("^\\dondocsackstart%s*$") then
+    return pandoc.RawBlock("openxml", '<w:p><w:pPr><w:spacing w:before="0" w:after="0" w:line="1" w:lineRule="exact"/></w:pPr><w:bookmarkStart w:id="100001" w:name="DonDocsAckStartFIRST"/><w:bookmarkEnd w:id="100001"/></w:p>')
+  end
+
+  if text:match("^\\newpage%s*$") then
+    return pandoc.RawBlock("openxml", '<w:p><w:r><w:br w:type="page"/></w:r></w:p>')
+  end
+  if text:match("^\\dondocsacksignaturespace%s*$") then
+    -- Three blank lines; the next text baseline is the fourth line below.
+    -- The spacing paragraph itself contributes one point.
+    return spacing_para(math.floor(fontSizePt * 20 * 1.15 * 3) - 20)
+  end
+
   -- 1 baselineskip in twips at current font size
   local blskip = fontSizePt * 20
 
@@ -388,6 +401,16 @@ local function handle_raw_inline(el)
   if el.format ~= "latex" then return nil end
 
   local text = el.text
+
+  local tail = text:match("^\\dondocsacktail%{(%u+)%}$")
+  local signature = text:match("^\\dondocsacksignature%{(%u+)%}$")
+  if tail or signature then
+    local name = (tail and "DonDocsAckTail" or "DonDocsAckSignature") .. (tail or signature)
+    -- Unique within this document, separate from pandoc's own bookmark IDs.
+    local ordinals = {FIRST=1, SECOND=2, THIRD=3, FOURTH=4, FIFTH=5, SIXTH=6, SEVENTH=7, EIGHTH=8, NINTH=9, TENTH=10}
+    local id = 100000 + ordinals[tail or signature] * 2 + (signature and 1 or 0)
+    return pandoc.RawInline("openxml", '<w:bookmarkStart w:id="' .. id .. '" w:name="' .. name .. '"/><w:bookmarkEnd w:id="' .. id .. '"/>')
+  end
 
   -- \mbox{content} → just the content as plain text
   local mbox_content = text:match("^\\mbox%{(.-)%}$")

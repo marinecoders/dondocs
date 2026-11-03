@@ -63,6 +63,13 @@ const makeStore = (docType: string) => ({
     endorsementSigLast: 'DOE',
     endorsementSerial: 'Ser 1710/024',
     endorsementDate: '3 Feb 25',
+    additionalEndorsements: [{
+      id: 'second-endorsement',
+      endorsementFrom: 'Second Endorser', endorsementTo: 'Final Approver',
+      endorsementBody: 'Reviewed and forwarded for final approval.',
+      endorsementSigFirst: 'Jane', endorsementSigMiddle: 'B', endorsementSigLast: 'LEE',
+      endorsementDate: '4 Feb 25', endorsementSerial: 'Ser 5216/025',
+    }],
   },
   references: [],
   enclosures: [],
@@ -124,6 +131,13 @@ describe('appended acknowledgement — PDF ⇿ DOCX', () => {
       ['second paragraph', 'I hereby assume the duties and responsibilities as the MSG Representative.'],
       ['endorsement date', '3 Feb 25'],
       ['endorsement serial', 'Ser 1710/024'],
+      ['second endorsement line', 'SECOND ENDORSEMENT'],
+      ['second endorser', 'Second Endorser'],
+      ['second addressee', 'Final Approver'],
+      ['second endorsement body', 'Reviewed and forwarded for final approval.'],
+      ['second signer', 'J. B. LEE'],
+      ['second date', '4 Feb 25'],
+      ['second serial', 'Ser 5216/025'],
     ] as const) {
       expect(pdf, `PDF is missing the ${label}`).toContain(needle);
       expect(docx, `DOCX is missing the ${label}`).toContain(needle);
