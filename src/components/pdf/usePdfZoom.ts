@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { nextZoomStep, DEFAULT_PAGE_ASPECT } from './pdfMath';
+import { useUIStore } from '@/stores/uiStore';
+import { nextZoomStep, DEFAULT_PAGE_ASPECT, type ZoomMode } from './pdfMath';
 
 /**
  * Zoom state for the viewer. Fit-width is the resting mode: the page tracks
@@ -9,8 +10,6 @@ import { nextZoomStep, DEFAULT_PAGE_ASPECT } from './pdfMath';
  * Stepping the zoom converts the current *effective* scale into the nearest
  * discrete stop and switches to manual; either fit button returns to tracking.
  */
-
-export type ZoomMode = { kind: 'fit-width' } | { kind: 'fit-page' } | { kind: 'manual'; scale: number };
 
 /** Horizontal padding of the mat around the page, per side. */
 export const MAT_PAD = 24;
@@ -28,7 +27,11 @@ export function usePdfZoom(
   basePageCssWidth: number | null,
   basePageAspect: number | null
 ) {
-  const [mode, setMode] = useState<ZoomMode>({ kind: 'fit-width' });
+  // A preview can unmount while switching documents/forms or closing the
+  // mobile modal. Keep the user's choice with the other preview preferences;
+  // only the container measurements belong to this viewer instance.
+  const mode = useUIStore((s) => s.pdfZoomMode);
+  const setMode = useUIStore((s) => s.setPdfZoomMode);
   const [box, setBox] = useState({ width: 0, height: 0 });
   const rafRef = useRef<number | null>(null);
 
@@ -84,11 +87,11 @@ export function usePdfZoom(
         return { kind: 'manual', scale: nextZoomStep(current, dir) };
       });
     },
-    [basePageCssWidth, fitWidth, widthFor]
+    [basePageCssWidth, fitWidth, widthFor, setMode]
   );
 
-  const zoomFitWidth = useCallback(() => setMode({ kind: 'fit-width' }), []);
-  const zoomFitPage = useCallback(() => setMode({ kind: 'fit-page' }), []);
+  const zoomFitWidth = useCallback(() => setMode({ kind: 'fit-width' }), [setMode]);
+  const zoomFitPage = useCallback(() => setMode({ kind: 'fit-page' }), [setMode]);
 
   return { mode, pageWidth, effectiveScale, zoomStep, zoomFitWidth, zoomFitPage };
 }

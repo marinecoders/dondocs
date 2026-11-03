@@ -49,10 +49,14 @@ function getInitialVerbosity(): Verbosity {
   }
 
   // 2. Check localStorage (persistent)
-  if (typeof localStorage !== 'undefined') {
-    const stored = localStorage.getItem('DONDOCS_DEBUG');
-    if (stored === '2') return 2;
-    if (stored === '1' || stored === 'true') return 1;
+  try {
+    if (typeof localStorage !== 'undefined') {
+      const stored = localStorage.getItem('DONDOCS_DEBUG');
+      if (stored === '2') return 2;
+      if (stored === '1' || stored === 'true') return 1;
+    }
+  } catch {
+    // Accessing localStorage itself can throw when the browser blocks site data.
   }
 
   // 3. Check if in development mode — default to basic
@@ -232,7 +236,11 @@ export const debug = {
     config.verbosity = v;
     const labels = ['Silent (0)', 'Basic (1)', 'Verbose (2)'];
     const colors = ['#6b7280', '#10b981', '#f59e0b'];
-    localStorage.setItem('DONDOCS_DEBUG', String(v));
+    try {
+      localStorage.setItem('DONDOCS_DEBUG', String(v));
+    } catch {
+      // Keep the session's verbosity even when preferences cannot be saved.
+    }
     console.log(
       `%c🔧 DONDOCS Verbosity: ${labels[v]}`,
       `color: ${colors[v]}; font-weight: bold; font-size: 14px;`
