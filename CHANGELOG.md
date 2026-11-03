@@ -5,6 +5,16 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.215] — 2026-11-02
+
+### Fixed
+- Refresh browser LaTeX templates automatically when their contents change, fixing missing TM/IETM templates after an upgrade.
+- Precache the versioned template URL so it is available on first offline use.
+- Show Compliant mode consistently in the editor status badge, including I-Type, SL-3, SL-4, and TM/IETM documents.
+
+### Added
+- Browser regression coverage for cached legacy templates and TM/IETM PDF compilation after upgrading, including offline reload.
+
 ## [1.2.214] — 2026-11-02
 
 ### Changed

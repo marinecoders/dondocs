@@ -32,6 +32,12 @@ URL cleanup, FileReader errors, and blocked or unavailable popup tabs. Existing
 upgrade tests cover backup/restore with attachment bytes; the compile matrix
 covers document formats and layouts.
 
+The upgrade suite also retains a legacy template bundle missing TM/IETM in the
+real service-worker cache, then requires the new build to download a readable
+TM/IETM PDF online and after an offline reload.
+It also verifies that the content-versioned template URL works on first offline
+use without warming the runtime cache.
+
 ## Run
 
 ```sh

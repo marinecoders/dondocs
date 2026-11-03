@@ -3,7 +3,6 @@ import { Check, ShieldCheck } from 'lucide-react';
 import { IconTip } from '@/components/ui/icon-tip';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
-import { DOC_TYPE_CHIP } from '@/types/document';
 import { useDocumentCompleteness } from './editorSections';
 
 /**
@@ -19,8 +18,6 @@ import { useDocumentCompleteness } from './editorSections';
 export function ReadinessMeter() {
   const { ratio, isReady, complete, required, missing } = useDocumentCompleteness();
   const isGenericForm = useDocumentStore(s => s.documentCategory === 'forms' && !!s.genericForm);
-  const docType = useDocumentStore((s) => s.docType);
-  const publicationPreview = ['sl3', 'sl4', 'tm_ietm_front_matter'].includes(docType) ? `${DOC_TYPE_CHIP[docType]} preview` : '';
   const documentMode = useDocumentStore((s) => s.documentMode);
   const jump = useEditorOutlineStore((s) => s.jump);
 
@@ -88,10 +85,10 @@ export function ReadinessMeter() {
       {documentMode === 'compliant' && !isGenericForm && (
         <span
           className="hidden items-center gap-1 rounded-full border border-border px-1.5 py-0.5 text-2xs font-medium text-muted-foreground md:inline-flex"
-          title={publicationPreview || "Built to the SECNAV M-5216.5 / MCO 5216.19A compliant format"}
+          title="Uses the compliant format for the selected document type"
         >
           <ShieldCheck className="h-3 w-3" aria-hidden="true" />
-          {publicationPreview || 'Compliant mode'}
+          Compliant mode
         </span>
       )}
 
