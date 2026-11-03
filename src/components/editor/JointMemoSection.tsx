@@ -1,3 +1,5 @@
+import { ActingCheckbox } from './SigningCapacityField';
+import { jointSignatories } from '@/lib/signingAuthority';
 import { EditorGuidance } from './EditorGuidance';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -16,6 +18,7 @@ import { unfilled } from '@/lib/requiredField';
 
 export function JointMemoSection() {
   const { formData, setField } = useDocumentStore();
+  const signers = jointSignatories(formData, true);
   const validationVisible = useUIStore((s) => s.validationVisible);
 
   return (
@@ -108,7 +111,7 @@ export function JointMemoSection() {
                 <Label htmlFor="jointMemoSeniorSigName">Full Name</Label>
                 <Input
                   id="jointMemoSeniorSigName"
-                  value={formData.jointMemoSeniorSigName || ''}
+                  value={signers.seniorName}
                   onChange={(e) => setField('jointMemoSeniorSigName', e.target.value)}
                   placeholder="J. A. SMITH"
                   className="uppercase"
@@ -119,12 +122,14 @@ export function JointMemoSection() {
                 <Label htmlFor="jointMemoSeniorSigTitle">Title</Label>
                 <Textarea
                   id="jointMemoSeniorSigTitle"
-                  value={formData.jointMemoSeniorSigTitle || ''}
+                  value={signers.seniorTitle}
                   onChange={(e) => setField('jointMemoSeniorSigTitle', e.target.value)}
                   placeholder="Lieutenant General, U.S. Marine Corps"
                   rows={2}
                 />
               </div>
+              <ActingCheckbox id="seniorActing" checked={formData.seniorActing}
+                onCheckedChange={(checked) => setField('seniorActing', checked)} />
             </div>
           </AccordionContent>
         </AccordionItem>
@@ -155,7 +160,7 @@ export function JointMemoSection() {
                 <Label htmlFor="jointMemoJuniorSigName">Full Name</Label>
                 <Input
                   id="jointMemoJuniorSigName"
-                  value={formData.jointMemoJuniorSigName || ''}
+                  value={signers.juniorName}
                   onChange={(e) => setField('jointMemoJuniorSigName', e.target.value)}
                   placeholder="T. R. JONES"
                   className="uppercase"
@@ -166,12 +171,14 @@ export function JointMemoSection() {
                 <Label htmlFor="jointMemoJuniorSigTitle">Title</Label>
                 <Textarea
                   id="jointMemoJuniorSigTitle"
-                  value={formData.jointMemoJuniorSigTitle || ''}
+                  value={signers.juniorTitle}
                   onChange={(e) => setField('jointMemoJuniorSigTitle', e.target.value)}
                   placeholder="Lieutenant General, U.S. Marine Corps"
                   rows={2}
                 />
               </div>
+              <ActingCheckbox id="juniorActing" checked={formData.juniorActing}
+                onCheckedChange={(checked) => setField('juniorActing', checked)} />
             </div>
           </AccordionContent>
         </AccordionItem>

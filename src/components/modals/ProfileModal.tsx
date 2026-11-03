@@ -1,3 +1,4 @@
+import { SigningCapacityField } from '@/components/editor/SigningCapacityField';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { X, Building2, BookOpen, Upload, FileImage } from 'lucide-react';
 import { FILE_LIMITS } from '@/lib/constants';
@@ -81,6 +82,8 @@ const EMPTY_PROFILE: Profile = {
   sigLast: '',
   sigRank: '',
   sigTitle: '',
+  acting: false,
+  actingTitle: '',
   byDirection: false,
   byDirectionAuthority: '',
   cuiControlledBy: '',
@@ -168,6 +171,8 @@ export function ProfileModal() {
           sigLast: formData.sigLast || '',
           sigRank: formData.sigRank || '',
           sigTitle: formData.sigTitle || '',
+          acting: formData.acting || false,
+          actingTitle: formData.actingTitle || '',
           byDirection: formData.byDirection || false,
           byDirectionAuthority: formData.byDirectionAuthority || '',
           cuiControlledBy: formData.cuiControlledBy || '',
@@ -606,30 +611,11 @@ export function ProfileModal() {
                   </div>
                 </div>
 
-                {/* By Direction */}
+                {/* Signing capacity */}
                 <div className="space-y-3 mt-4">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="byDirection"
-                      checked={formState.byDirection || false}
-                      onCheckedChange={(checked) => updateField('byDirection', !!checked)}
-                    />
-                    <Label htmlFor="byDirection" className="font-normal">
-                      By direction of...
-                    </Label>
-                  </div>
-
-                  {formState.byDirection && (
-                    <div className="space-y-2 ml-6">
-                      <Label htmlFor="byDirectionAuthority">Authority</Label>
-                      <Input
-                        id="byDirectionAuthority"
-                        value={formState.byDirectionAuthority || ''}
-                        onChange={(e) => updateField('byDirectionAuthority', e.target.value)}
-                        placeholder="the Commanding Officer"
-                      />
-                    </div>
-                  )}
+                  <SigningCapacityField id="profile-signingCapacity" value={formState}
+                    onChange={(patch) => setFormState((current) => ({ ...current, ...patch }))}
+                    showActingTitle />
                 </div>
 
                 {/* Signature Image Upload */}

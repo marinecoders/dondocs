@@ -131,6 +131,8 @@
         \ifdefempty{\SignatoryAbbrev}{%
             \ifdefempty{\SignatoryName}{}{\MakeUppercase{\SignatoryName}\\}%
         }{\SignatoryAbbrev\\}%
+        % Optional title when acting for an official who signs by title
+        \optionalLine{\ActingTitle}%
         % Optional: By direction authority line (e.g., "By direction")
         \optionalField{\ByDirection}%
     \end{minipage}

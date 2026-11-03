@@ -911,6 +911,10 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\ByDirection}{}
 \\newcommand{\\setByDirection}[1]{\\renewcommand{\\ByDirection}{#1}}
 
+% Title of a temporarily replaced official on an otherwise name-only signature.
+\\newcommand{\\ActingTitle}{}
+\\newcommand{\\setActingTitle}[1]{\\renewcommand{\\ActingTitle}{#1}}
+
 %=============================================================================
 % APPENDED ACKNOWLEDGEMENT ENDORSEMENT
 %=============================================================================
@@ -2200,6 +2204,8 @@ const LATEX_TEMPLATES = {
         \\fi
         % Required: Name only (abbreviated format preferred)
         \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
+        % Optional title when acting for an official who signs by title
+        \\optionalLine{\\ActingTitle}%
         % Optional: By direction authority line
         \\optionalField{\\ByDirection}%
     \\end{minipage}%
@@ -3763,6 +3769,8 @@ const LATEX_TEMPLATES = {
         \\fi
         % Required: Name only (abbreviated format preferred)
         \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
+        % Optional title when acting for an official who signs by title
+        \\optionalLine{\\ActingTitle}%
         % Optional: By direction authority line
         \\optionalField{\\ByDirection}%
     \\end{minipage}
@@ -4748,6 +4756,8 @@ const LATEX_TEMPLATES = {
         \\ifdefempty{\\SignatoryAbbrev}{%
             \\ifdefempty{\\SignatoryName}{}{\\MakeUppercase{\\SignatoryName}\\\\}%
         }{\\SignatoryAbbrev\\\\}%
+        % Optional title when acting for an official who signs by title
+        \\optionalLine{\\ActingTitle}%
         % Optional: By direction authority line (e.g., "By direction")
         \\optionalField{\\ByDirection}%
     \\end{minipage}
@@ -4918,6 +4928,8 @@ const LATEX_TEMPLATES = {
         \\fi
         % Required: Name only (abbreviated format preferred)
         \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
+        % Optional title when acting for an official who signs by title
+        \\optionalLine{\\ActingTitle}%
         % Optional: By direction authority line
         \\optionalField{\\ByDirection}%
     \\end{minipage}
@@ -5076,6 +5088,8 @@ const LATEX_TEMPLATES = {
         \\fi
         % Required: Name only (abbreviated format preferred)
         \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
+        % Optional title when acting for an official who signs by title
+        \\optionalLine{\\ActingTitle}%
         % Optional: By direction authority line
         \\optionalField{\\ByDirection}%
     \\end{minipage}
@@ -5260,6 +5274,8 @@ const LATEX_TEMPLATES = {
         \\fi
         % Required: Name only (abbreviated format preferred)
         \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
+        % Optional title when acting for an official who signs by title
+        \\optionalLine{\\ActingTitle}%
         % Optional: By direction authority line
         \\optionalField{\\ByDirection}%
     \\end{minipage}
@@ -5482,6 +5498,8 @@ const LATEX_TEMPLATES = {
         \\ifdefempty{\\SignatoryAbbrev}{%
             \\ifdefempty{\\SignatoryName}{}{\\MakeUppercase{\\SignatoryName}\\\\}%
         }{\\SignatoryAbbrev\\\\}%
+        % Optional title when acting for an official who signs by title
+        \\optionalLine{\\ActingTitle}%
         % Optional: By direction authority line
         \\optionalField{\\ByDirection}%
     \\end{minipage}

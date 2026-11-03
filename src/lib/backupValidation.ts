@@ -47,7 +47,8 @@ export function validateBackup(data: RecordValue): void {
     if (profiles.selectedProfile !== undefined && profiles.selectedProfile !== null && typeof profiles.selectedProfile !== 'string') throw new Error('Invalid selected profile');
     for (const value of Object.values(records)) {
       const profile = object(value, 'profile');
-      strings(profile, ['department', 'unitLine1', 'unitLine2', 'unitAddress', 'ssic', 'from', 'sigFirst', 'sigMiddle', 'sigLast', 'sigRank', 'sigTitle', 'officeCode', 'byDirectionAuthority', 'cuiControlledBy', 'pocEmail', 'signatureType'], 'profile');
+      strings(profile, ['department', 'unitLine1', 'unitLine2', 'unitAddress', 'ssic', 'from', 'sigFirst', 'sigMiddle', 'sigLast', 'sigRank', 'sigTitle', 'officeCode', 'actingTitle', 'byDirectionAuthority', 'cuiControlledBy', 'pocEmail', 'signatureType'], 'profile');
+      if (profile.acting !== undefined && typeof profile.acting !== 'boolean') throw new Error('Invalid profile.acting');
       if (profile.byDirection !== undefined && typeof profile.byDirection !== 'boolean') throw new Error('Invalid profile.byDirection');
       if (profile.signatureImage !== undefined && profile.signatureImage !== null) {
         const image = object(profile.signatureImage, 'signature image');

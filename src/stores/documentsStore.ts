@@ -331,7 +331,9 @@ export function profileFormPatch(profile: Profile) {
           sigLast: profile.sigLast,
           sigRank: profile.sigRank,
           sigTitle: profile.sigTitle,
-          byDirection: profile.byDirection,
+          acting: profile.acting || false,
+          actingTitle: profile.actingTitle || '',
+          byDirection: !profile.acting && profile.byDirection,
           byDirectionAuthority: profile.byDirectionAuthority,
           signatureImage: profile.signatureImage,
         }

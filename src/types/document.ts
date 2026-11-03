@@ -145,6 +145,8 @@ export interface Profile {
   officeCode?: string;
   byDirection?: boolean;
   byDirectionAuthority?: string;
+  acting?: boolean;
+  actingTitle?: string;
   cuiControlledBy?: string;
   pocEmail?: string;
   signatureImage?: SignatureImage;
@@ -254,6 +256,11 @@ export interface DocumentData {
   officeCode: string;
   byDirection: boolean;
   byDirectionAuthority: string;
+  acting?: boolean;
+  actingTitle?: string;
+  /** Each party independently signs in an acting capacity on dual-signature documents. */
+  seniorActing?: boolean;
+  juniorActing?: boolean;
   signatureImage?: SignatureImage;
   signatureType?: SignatureType;
 
